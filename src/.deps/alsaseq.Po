@@ -1,1 +1,0 @@
-alsaseq.o alsaseq.o: alsaseq.c
