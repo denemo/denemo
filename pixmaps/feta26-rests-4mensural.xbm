@@ -1,0 +1,4 @@
+#define feta26_rests_4mensural_width 8
+#define feta26_rests_4mensural_height 10
+static unsigned char feta26_rests_4mensural_bits[] = {
+  0xc0, 0xf0, 0xfc, 0xcf, 0xc3, 0xf0, 0xfc, 0xcf, 0xc2, 0xc0, };

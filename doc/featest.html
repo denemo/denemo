@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title></title><meta name="generator" content="DocBook XSL Stylesheets V1.64.1" /></head><body><div class="article" lang="en" xml:lang="en"><div class="titlepage"><div></div><div></div><hr /></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="section"><a href="#id2426990">Introduction</a></span></dt><dt><span class="section"><a href="#id2429089">Getting to Know the Denemo Interface</a></span></dt><dt><span class="section"><a href="#id2429258"></a></span></dt><dt><span class="section"><a href="#id2429262">Using Denemo</a></span></dt><dd><dl><dt><span class="section"><a href="#id2429265"></a></span></dt><dt><span class="section"><a href="#id2429285">Simple note entry</a></span></dt><dt><span class="section"><a href="#id2430096">Publishing</a></span></dt><dt><span class="section"><a href="#id2430102">Advanced Features</a></span></dt></dl></dd><dt><span class="section"><a href="#customizigdenemo">Customizing Denemo</a></span></dt><dt><span class="section"><a href="#id2430179">Working With Lilypond Files</a></span></dt><dt><span class="section"><a href="#id2430187">Music Analysis with denemo</a></span></dt><dt><span class="section"><a href="#id2430195">Appendix I</a></span></dt><dt><span class="appendix"><a href="#id2430201">A. Keymaps</a></span></dt></dl></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2426990"></a>Introduction</h2></div><div><h3 class="subtitle">Why Use Denemo</h3></div></div><div></div></div><p>GNU Denemo is a graphical music notation program. http://www.gnu.org/software/denem/denemo.html
+and http://denemo.sourceforge.net/. It is 
+  </p><p>Denemo is intended to be used in conjunction with GNU Lilypond
+http://www.lilypond.org, but is adaptable to other computer-music-related purposes as well. </p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2429089"></a>Getting to Know the Denemo Interface</h2></div></div><div></div></div><p>
+
+</p><div class="mediaobject"><img src="./denemomain.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./filemenu.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./staffmenu.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./clefmenu.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./keymenu.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./timemenu.png" /></div><p>
+This menu permits you to add staves above or below the default staff.
+
+</p><div class="mediaobject"><img src="./othermenu.png" /></div><p>
+
+</p><div class="mediaobject"><img src="./displaymenu.png" /></div><p>
+
+
+</p><div class="mediaobject"><img src="./navigationmenu.png" /></div><p>
+
+
+</p><div class="mediaobject"><img src="./playbackmenu.png" /></div><p>
+
+
+</p><div class="mediaobject"><img src="./helpmenu.png" /></div><p>
+
+
+
+
+</p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2429258"></a></h2></div></div><div></div></div><p></p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2429262"></a>Using Denemo</h2></div></div><div></div></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id2429265"></a></h3></div></div><div></div></div><p>The primary way to interact with Denemo is with the keyboard. Denemo is extremely keyboard centric, this permits the user to acheive touch type control of musical editing. In graphical music editing there are at least two demensions - up and down and right and left, additionally note values need to be changed.
+
+Denemo adopts a unique note entry system using lilypond notes and vim shortcuts. These keyboard shortcuts permit rapid note entry. If you prefer a different keyboard shortcut scheme, denemo is fully customizable. (see <a href="#custom">customize</a> (Input via MIDI keyboard is planned for later versions of denemo. </p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id2429285"></a>Simple note entry</h3></div></div><div></div></div><p><b>Brief Remarks. </b>Lilypond will permit touch typing of notation once the basic keyboard movements have been learned.  
+</p><p><b>Setting up a score. </b>To start a new notation project the procedure is as follows </p><div class="itemizedlist"><ul type="disc"><li><p> Open the File menu and click on New. You can create a score from scratch or choose one of the many templates that come with Denemo.</p></li><li><p>Next from the File menu Choose Header. In the Header dialog box fill in the Composer, Title and Subtitles fields and click Ok.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>If you are setting up a Custom score see xxx.</p></div></li><li><p>Next setup your Clef, Key signiture, and Time Signiture:</p><div class="itemizedlist"><ul type="circle"><li><p>Go to the <span class="guimenu">Clef</span> menu and click <span class="guimenuitem">Set initial Clef</span>. Choose the Clef you want from the drop down list and click <span class="guimenuitem">OK</span></p></li><li><p>Next open the  <span class="guimenu">Key</span>Menu and click <span class="guimenuitem">Set initial Key Signiture</span> Choose the key signiture you want from the drop down list and click the select the proper choice for major or minor key. Click <span class="guimenuitem">OK</span> </p></li><li><p>Now open the  <span class="guimenu">Time </span>menu and click <span class="guimenuitem">Set initial Time Signiture</span> Type the time signiture into the fractional text boxes and either check or uncheck apply to all staffs as needed and then click <span class="guimenuitem">OK</span>. </p></li></ul></div><p>  </p></li></ul></div><p>  </p><p><b>Setting up a Custom Score. </b>While Denemo comes with a variety of templates to choose from, you may need to create a custom score configuration. The procedure is fairly easy:</p><div class="itemizedlist"><ul type="disc"><li><p>Using either the<span class="guimenu">Staff</span> menu or keyboard shortcuts add as many staves as you need. From the  <span class="guimenu">Staff</span> choose <span class="guilabel">Add New Staff After Current Staff</span> or type <span><b class="command">ctrl+shift+S</b></span> If you need to add staff before the current one type <span><b class="command">ctrl+shift+A</b></span>. </p></li></ul></div><p><b>Adding pitches. </b>The best way to understand the note entry in denemo is to compare note entry in lilypond and movement keys in Vim to those in Denemo.This can be seen in the following table.
+
+
+
+</p><div class="table"><a id="id2429446"></a><p class="title"><b>Table 1. Denemo, Lilypond,and Vim Movement keys</b></p><table summary="Denemo, Lilypond,and Vim Movement keys" border="1"><colgroup><col /><col /><col /><col /></colgroup><thead><tr><th> Keyboard combo</th><th>Lilypond Useage </th><th> Vim Usage </th><th> Denemo Usage </th></tr></thead><tbody><tr><td> H left arrow</td><td>n/a</td><td> Move the cursor to the left</td><td>Move the cursor to the left</td></tr><tr><td> J down ''</td><td>n/a</td><td> Move the cursor down one line</td><td>Move the cursor down one note </td></tr><tr><td> K up ''</td><td>n/a</td><td> Move the cursor up  one line</td><td>Move the cursor up one note </td></tr><tr><td> L right  ''</td><td>n/a</td><td> Move the cursor to the right</td><td>Move the cursor to the right </td></tr><tr><td> ctrl+H  left '' </td><td>n/a</td><td> Move the cursor to the left one paragraph</td><td>Move the cursor to the beginning of the measure</td></tr><tr><td> ctrl+J down ''</td><td>n/a</td><td> Move the cursor down one paragrah</td><td>Move the cursor to the next staff </td></tr><tr><td> ctrl+K up ''</td><td>n/a</td><td> Move the cursor up  one line</td><td>Move the cursor up one note </td></tr><tr><td> ctrl+L right ''</td><td>n/a</td><td> Move the cursor to the right one paragrah</td><td> move the cursor to the beginning of the next
+  measure</td></tr><tr><td> m </td><td>n/a</td><td> Add a new measure to all staves at the current cursor position</td><td>Move the cursor up one note </td></tr><tr><td> M </td><td>n/a</td><td> Add a new measure to all staves at the  end of the score.</td><td>Move the cursor up one note </td></tr><tr><td> Home</td><td>n/a</td><td>move cursor to first measure of piece.</td><td>Move the cursor up one note </td></tr><tr><td>End </td><td>n/a</td><td> move cursor to last measure of piece.</td><td>Move the cursor up one note </td></tr><tr><td> a </td><td> the note a</td><td> n/a</td><td> jump to nearest a  </td></tr><tr><td> b </td><td> the note b</td><td> n/a</td><td> jump to nearest b  </td></tr><tr><td> c </td><td> the note c</td><td> n/a</td><td> jump to nearest c  </td></tr><tr><td> d </td><td> the note d</td><td> n/a</td><td> jump to nearest d  </td></tr><tr><td> e </td><td> the note e</td><td> n/a</td><td> jump to nearest e  </td></tr><tr><td> f </td><td> the note f</td><td> n/a</td><td> jump to nearest f </td></tr><tr><td> g </td><td> the note g</td><td> n/a</td><td> jump down one octave  </td></tr><tr><td> , (comma) </td><td> make note octave below current</td><td> n/a</td><td> jump up  one octave</td></tr><tr><td> ' (apostrephe) </td><td> make note octave above current</td><td> n/a</td><td> </td></tr><tr><td> </td><td> </td><td> </td><td> </td></tr></tbody></table></div><p>
+
+These keys permit you to move quickly up and down the staff or to jump to a specific note. This can be acheived a number of ways, depending on what is most comfortable for you.
+</p><div class="example"><a id="id2429772"></a><p class="title"><b>Example 1. </b></p><div class="mediaobject" align="center"><img src="fig1.png" align="middle" width="NaN" /></div><p>Lets look at example 1. We see a c major scale and a chord spread over two octaves. If we type a c we will jump to the nearest c, if it is up an octave type a comma , if it is down an octave type an apostrephe '. Once we have reached middle c, we can start moving the cursor up note by note using the k key and then down note by note usng the k key. Alternetly we could type the note names to jump to the right note. This hold true for the notes of a chord or arpeggio, we jump to the note typing the note name and adjust the octave with the comman and apostrophe.</p></div><p>
+
+
+</p><p><b>Rhythm Entry. </b>Note values are entered using the numberpad or the number keys.</p><div class="table"><a id="id2429805"></a><p class="title"><b>Table 2. </b></p><table summary="" border="1"><colgroup><col /><col /></colgroup><thead><tr><th>Shortcut key</th><th>Action</th></tr></thead><tbody><tr><td>0 or ` </td><td>insert a whole note at the current cursor position.</td></tr><tr><td>1</td><td>insert a half note at the current cursor position </td></tr><tr><td>2 or SPACE BAR</td><td>insert a quarter note at the current cursor position</td></tr><tr><td>3</td><td> insert an eighth note at the current cursor position</td></tr><tr><td>4</td><td> insert a 16th  note at the current cursor position</td></tr><tr><td>5</td><td> insert a 32nd  note at the current cursor position</td></tr><tr><td>4</td><td> insert a 64th  note at the current cursor position</td></tr><tr><td>. period</td><td> insert a dot to the previous note</td></tr><tr><td>shift+. period</td><td> remove dot to the note a  cursor position</td></tr></tbody></table></div><p><b>Entering Rests. </b>
+ Rests are entered two ways:
+</p><div class="orderedlist"><ol type="1"><li><p>By using alt with the note value keyboard shortcuts</p></li><li><p>By typing escape Esc to changes into rest entry mode</p></li></ol></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>That is, if your windowmanager isn't set to trap that key
+combination. If this is the case, you can probably disable it for
+Denemo. For example, with WindowMaker one would right-click on
+Denemo's title bar and navigate to the Window Attributes-&gt;Advanced
+Options-&gt;Don't Bind Keyboard Shortcuts option. For Gnome or KDE consult your documentation.</p></div><p><b>Chord Entry. </b>To enter a chord choose a pitch and a rythm for your base note. Next move the cursor to the next chord tone and hit enter to add the note. To toggle chord tones on and off or to switch them to rests use Enter to add tones or convert a rest to a chord tone,and  Shift+Enter to remove tones/switch to rests.</p><p>To alter the pitch chromatically, type the plus sign to sharpen the note at the cursor by one half-step and the minus sign to flatten the current note by a half step..
+
+
+</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p> Entering a chord when you are already at the end of the measure
+(the cursor turns red when this happens) may cause your next note
+to be added to the _beginning_ of the next measure, or even implicitly
+create a next measure if one didn't already exist.</p></div><p>
+
+</p><p><b>Editing. </b>To edit quickly in Denemo use the following keyboard shortcuts:
+
+</p><div class="table"><a id="id2429961"></a><p class="title"><b>Table 3. </b></p><table summary="" border="1"><colgroup><col /><col /><col /></colgroup><thead><tr><th>command</th><th>function</th><th>comments</th></tr></thead><tbody><tr><td> m </td><td> Add a new measure to all staves at the current cursor position</td><td> </td></tr><tr><td> M </td><td> Add a new measure to all staves at the  end of the score.</td><td> </td></tr><tr><td> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr><tr><td>Control-Space</td><td>set a markpoint at the cursor</td><td> </td></tr><tr><td>Control-C</td><td>Copy selection to the Clipboard but leave the area selected</td><td> </td></tr><tr><td>Control-X</td><td> Copy the area between the markpoint and the current
+  cursor location to the paste buffer and clear the selection</td><td> </td></tr><tr><td>Control-V</td><td>Paste the buffer at the current cursor position</td><td> </td></tr></tbody></table></div><p>
+
+Copying, cutting and pasting:Control-Space: set a markpoint at the cursor
+Control-C: Copy the area between the markpoint and the current
+  cursor location to the paste buffer.
+Control-X: The same as above, but clear the selection after
+  doing this.
+Control-V: Paste the buffer at the current cursor position.</p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>the behavior of cut-and-paste is a little bit idiosyncratic.
+Play around with it a little bit to get the hang of it. The intention
+is for it to behave in a manner that's reasonable, and easy to correct
+if that isn't exactly what you would have liked Denemo to do. For
+example, paste will not add new measures to the score unless the paste
+operation conflicts with music that has already been entered; cut will
+delete measures if every staff is in the selection, but otherwise it
+will simply clear them, and so on. Here is where adding a number to the l key would be nice, I could 4 l to select 4 notes or 4 cntrl l to select 4 measures etc. I tried this and it is more than idiosyn.. it annoys me. I would like to see a mouse select here as and option and a clearer way to deselect.
+</p></div><p><b>Adding dynamics and phrasing marks. </b></p><p><b>Midi playback. </b>Denemo has the ability to sound your chords
+through /dev/sequencer as you enter them. It accomplishes this by
+opening /dev/sequencer and holding it open as long as your still
+entering notes; if you pause, a timeout will elapse and /dev/sequencer
+will be closed down until you start note-entry again. This is
+intentional; it is there to facilitate the use of an external midi
+player for full-score playback or to have multiple instances of Denemo
+running at once. Sometimes, though (particularly if you have a fast
+machine), Denemo may hold open /dev/sequencer for long enough that it
+interferes with an invocation of playmidi. If this happens, simply be
+patient and try again.</p><p>The above holds true if you are not using alsa for midi playback if you are using alsa for midi playback you will need to either use timidity or if your soundcard has midi capabilities load a soundfont.</p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id2430096"></a>Publishing</h3></div></div><div></div></div><p></p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h3 class="title"><a id="id2430102"></a>Advanced Features</h3></div></div><div></div></div><p>This section will explain how to enter advanced rhthms, chords polyphony etc</p><p><b>Display Command. </b>Control-Shift-left: Decrease the minimum display width of all
+  measures by 10 pixels
+Control-Shift-right: Increase the same by 10 pixels
+Control-Shift-up: Decrease vertical space alloted to each staff by 10 pixels
+Control-Shift-down: Increase vertical space alloted to each staff by 10 pixels</p><p><b>Adding Tuplets. </b>Tuplets in denemo work like those in Lilypond, where tuplets are treated as a fraction with the top (numerator) signify the amount of notes normally displayed and the denominator the amount of notes to be displayed instead.
+Here will go more details and examples for the lilypond docs and letters for the lilypond group.
+Control-0, Control-1, or Control-2 to bring up a dialog that allows
+  you to specify what coefficient you want to use for your
+  tuplets. (e.g., "Times 2/3").
+Control-3 through Control-7: Inserts a tuplet group with a common
+  coefficient.
+</p><p><b>Changing Stem direction. </b>S: insert a stemboth directive
++: stemdown-&gt;stemboth, or stemboth-&gt;stemup
+-: stemup-&gt;stemboth, or stemboth-&gt;stemdown</p><p><b>Figured Bass Entry. </b>Under the menu item Other-&gt;Insert/Edit Figured Bass is a dialog to
+enter figures for editing figured basses in the LilyPond output. This
+is currently only useful when editing a LilyPond file with a figured
+bass in the score (it can be an empty skeleton, see 
+examples/figuredBassTemplate.ly). It is also possible to use the lilypond
+text window to edit directly (see README.lilypond)</p></div></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="customizigdenemo"></a>Customizing Denemo</h2></div></div><div></div></div><p>This section will detail custom keyboard shorkcuts, adjusting audio setting, and other tkeaks to denemo</p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2430179"></a>Working With Lilypond Files</h2></div></div><div></div></div><p>This section will describe Denemo's Lilypond mode.</p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2430187"></a>Music Analysis with denemo</h2></div></div><div></div></div><p>This section will explain denemo's musical analysis abilitlies</p></div><div class="section" lang="en" xml:lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="id2430195"></a>Appendix I</h2></div><div><h3 class="subtitle"></h3></div></div><div></div></div><p></p></div><div class="appendix" lang="en" xml:lang="en"><h2 class="title" style="clear: both"><a id="id2430201"></a>A. Keymaps</h2><div class="table"><a id="id2430204"></a><p class="title"><b>Table A.1. </b></p><table summary="" border="1"><colgroup><col /><col /><col /><col /></colgroup><thead><tr><th> </th><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr></thead><tbody><tr><td> </td><td class="auto-generated"> </td><td class="auto-generated"> </td><td class="auto-generated"> </td></tr></tbody></table></div></div></div></body></html>

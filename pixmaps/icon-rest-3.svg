@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="32.000000pt"
+   height="32.000000pt"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/jens/java/workspace/denemo/pixmaps"
+   sodipodi:docname="icon-rest-3.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="19.491526"
+     inkscape:cx="15.167120"
+     inkscape:cy="16.240635"
+     inkscape:current-layer="svg1"
+     showborder="true"
+     showgrid="true"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     gridtolerance="1.0000000pt"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1150"
+     inkscape:window-height="816"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:grid-points="false"
+     inkscape:grid-bbox="true"
+     gridempspacing="4" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <path
+     d="M 17.056627,31.057312 L 19.032435,25.400722 C 20.154401,22.254325 21.110879,19.578650 21.157940,19.454776 L 21.793875,17.698019 L 22.329531,16.290898 C 22.624142,15.516981 22.836228,14.855153 22.800836,14.820168 C 22.765443,14.785184 22.006756,14.956481 21.114864,15.200828 C 20.046652,15.493482 18.939834,15.657202 17.871621,15.680567 C 16.425474,15.712199 16.152513,15.664350 15.349098,15.238377 C 14.247719,14.654422 13.771001,14.159622 13.292167,13.103424 C 12.702936,11.803718 12.856677,10.583435 13.763533,9.3620590 C 14.351130,8.5706687 15.755468,7.8781990 16.772820,7.8781990 C 18.570151,7.8781990 19.409033,8.6059981 20.055817,10.726469 C 20.572720,12.421131 21.009677,13.006526 21.619576,12.821458 C 22.224459,12.637912 23.106482,11.919132 23.859018,10.996491 C 24.959924,9.6467290 25.141556,9.4998210 25.709459,9.4998210 C 26.093612,9.4998210 26.250000,9.5866100 26.250000,9.7997990 C 26.250000,10.062976 24.389282,16.902084 24.143223,17.543306 L 23.659890,19.319641 L 21.988099,25.085406 C 21.068612,28.256577 20.313549,30.911983 20.310180,30.986307 C 19.939124,31.746978 19.237100,32.535644 18.363317,32.498754 C 17.425522,32.459161 16.893639,32.285981 17.056627,31.057312 z "
+     id="path1494"
+     sodipodi:nodetypes="ccccccccccccccccccccczc" />
+</svg>

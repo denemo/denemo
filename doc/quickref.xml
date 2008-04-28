@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<article><title></title><table><title>Denemo Quick Reference Card</title><tgroup  cols="4" ><thead><colspec></colspec><row><entry>Key combo</entry><entry>Movement</entry><entry>Command</entry><entry>Action</entry></row></thead>
+<tbody>
+<row><entry>a</entry><entry>move cursor to nearest a</entry><entry>y</entry><entry>enter a whole note at cursor</entry></row>
+<row><entry>b</entry><entry>move cursor to nearest b</entry><entry>u</entry><entry>enter a half note at cursor</entry></row>
+<row><entry>c</entry><entry>move cursor to nearest c</entry><entry>space</entry><entry>enter a quarter note at cursor</entry></row>
+<row><entry>d</entry><entry>move cursor to nearest d</entry><entry>i</entry><entry>enter an eigth note at cursor</entry></row>
+<row><entry>e</entry><entry>move cursor to nearest e</entry><entry>o</entry><entry>enter a sixteenth note at cursor</entry></row>
+<row><entry>f</entry><entry>move cursor to nearest f</entry><entry>p</entry><entry>enter a thirty-second note at cursor</entry></row>
+<row><entry>g</entry><entry>move cursor to nearest g</entry><entry>ctrl + 7</entry><entry>enter a sixty-fourth note at cursor</entry></row>
+<row><entry></entry><entry></entry><entry>.</entry><entry>Insert dot</entry></row>
+<row><entry>h</entry><entry>Move left</entry><entry>+</entry><entry>Raise note a half step</entry></row>
+<row><entry>l</entry><entry>Move right</entry><entry>-</entry><entry>lower note a half step</entry></row>
+
+<row><entry>k</entry><entry>Move up</entry><entry>=</entry><entry>Toggle tie</entry></row>
+
+<row><entry>j</entry><entry>Move down</entry><entry>r</entry><entry>toggle rest mode</entry></row>
+
+<row><entry>'</entry><entry>move up an octave</entry><entry>ctrl+t</entry><entry>Set initial time signiture</entry></row>
+
+<row><entry>,</entry><entry>move down an octave</entry><entry>ctrl+shift+t</entry><entry>Change time signiture</entry></row>
+
+<row><entry>cntrl+j</entry><entry>Jump to next staff</entry><entry>alt+k</entry><entry>Set initial key signiture</entry></row>
+
+<row><entry>cntrl+k</entry><entry>Jump to previous staff</entry><entry>shift+k</entry><entry>Change key signiture</entry></row>
+<row><entry>shift+G</entry><entry>Jump to specific measure</entry><entry>shift +2 (at)</entry><entry>insert an articulation</entry></row>
+<row><entry>0 (zero)</entry><entry>Jump to beginning of piece</entry><entry>ctrl+c</entry><entry>Set initial clef</entry></row>
+
+<row><entry>$</entry><entry>Jump to end of piece</entry><entry>shift+c</entry><entry>Change Clef</entry></row>
+
+<row><entry>ctrl+j</entry><entry>Jump to next score</entry><entry>ctrl + shift + P</entry><entry>Open Staff properties dialog</entry></row>
+
+<row><entry>ctrl+k</entry><entry>Jump to previous score</entry><entry>ctrl + shift + S</entry><entry>Add a new staff before this</entry></row>
+
+<row><entry>ctrl+h</entry><entry>move back one measure</entry><entry>ctrl + shift + S</entry><entry>Add a new staff after this</entry></row>
+
+<row><entry>ctrl + l</entry><entry>move forward one measure</entry><entry>shift + V</entry><entry>Add a voice</entry></row>
+
+<row><entry></entry><entry></entry><entry>m</entry><entry>add a measure</entry></row>
+
+<row><entry> | ( pipe )</entry><entry>insert a barline</entry><entry>shift +m</entry><entry>append a measure</entry></row>
+
+<row><entry>n</entry><entry>toggle blank mode</entry><entry>ctrl+x</entry><entry>delete a measure</entry></row>
+
+<row><entry>2</entry><entry>add duplet</entry><entry>(</entry><entry> Insert begin slur</entry></row>
+<row><entry>3</entry><entry>add triplet</entry><entry>)</entry><entry>Insert  end slur</entry></row>
+
+<row><entry>4</entry><entry>add quartuple</entry><entry>ctrl +t
+Enter</entry><entry>Insert chord tone</entry></row>
+
+<row><entry>5</entry><entry>add pentuplet</entry><entry>shift + Enter</entry><entry>Delete chord tone</entry></row>
+<row><entry>6</entry><entry>add sextuplet</entry><entry>Shift + S</entry><entry>Set Mark</entry></row>
+
+<row><entry>7</entry><entry>add septuplet</entry><entry>ctrl + alt + s</entry><entry>Unset Mark</entry></row>
+
+<row><entry>8</entry><entry>add octuplet</entry><entry>alt + space</entry><entry>Play midi</entry></row>
+<row><entry>9</entry><entry>add nineuplet</entry><entry>~</entry><entry>insert a turn</entry></row>
+<row><entry>less than</entry><entry>begin cresendo</entry><entry>shift + underscore</entry><entry>Insert tenuto</entry></row>
+<row><entry>greater than</entry><entry>end cresendo</entry><entry>alt + .</entry><entry>insert staccato</entry></row>
+<row><entry>x or Delete</entry><entry>Delete note or object</entry><entry>w</entry><entry>insert mordent</entry></row>
+<row><entry>alt+shift + greater than</entry><entry>Insert Accent</entry><entry>shift + !</entry><entry>insert fermata</entry></row>
+<row><entry>ctrl+shift+R</entry><entry>Insert a trill </entry><entry>ctrl+shift+G</entry><entry>Insert Grace notes</entry></row>
+</tbody></tgroup></table></article>

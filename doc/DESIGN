@@ -1,0 +1,28 @@
+SIMPLICITY OF FEATURES
+
+Denemo doesn't attempt to be a full featured, wysiwyg notation editor.
+Editing that can best be done in Lilypond code will be left to LilyPond.
+
+There is no advantage to a GUI environment for adding playing directions,
+fine-tuning beams, adjusting a staff's relative position, and so on.
+like that. In fact, it seems that there's a distinct disadvantage to
+GUIfying these operations: pushing such features to the frontend burdens
+ the interface, making the GUI tool harder to use. 
+(this is the case with graphic editors such as Finale).
+ASCII text is a much better to handle this kind of complexity.
+
+Denemo by design is only half the score preparation chain, final tweaks are done in the backend,
+currently LIlypond and ABC, but eventually many other ASCII notation formats will follow.
+
+
+Denemo will nonetheless contain many functions and features. To keep the large amount of commands clear and provide ease of use, Denemo uses modes. 
+
+The primary way of interacting with Denemo is through the computer keyboard. Nearly all functions in Denemo are accessible through keybindings.
+
+Denemo will also permit the inputting of notation with a midi keyboard as well.
+
+
+The combination of modes and Denemos keyboard emphasis, as well as the need to learn Lilypond make the learning curve for Lilypond greater than other notation editors. The longer learning curve is traded off by the higher quality published output and the much greater flexibility that the combination of Denemo and LIlypond give. 
+
+
+The effort taken to learn Denemo is well worth the results.

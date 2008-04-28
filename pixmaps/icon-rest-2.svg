@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="32.000000pt"
+   height="32.000000pt"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/jens/java/workspace/denemo/pixmaps"
+   sodipodi:docname="icon-rest-2.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="19.491526"
+     inkscape:cx="15.167120"
+     inkscape:cy="15.919788"
+     inkscape:current-layer="svg1"
+     showborder="true"
+     showgrid="true"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     gridtolerance="1.0000000pt"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1150"
+     inkscape:window-height="816"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:grid-points="true"
+     inkscape:grid-bbox="true"
+     gridempspacing="4" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     d="M 17.805292,35.868760 C 17.595961,35.589893 17.173057,34.964521 16.865505,34.479045 L 16.306321,33.596362 L 15.668199,32.368280 L 15.239719,31.315381 C 14.300404,29.007216 14.099441,26.831941 14.727320,25.769030 C 15.058555,25.208291 16.051451,24.692770 16.800197,24.692770 C 17.097757,24.692770 17.881781,24.831022 18.542473,25.000000 C 19.203165,25.168976 19.769958,25.281002 19.802013,25.248946 C 19.834068,25.216892 19.301450,24.526001 18.618417,23.713635 L 17.376538,22.236606 L 16.341554,21.008524 L 15.829746,20.381199 C 14.813076,19.135059 14.627143,18.799065 14.627143,18.208004 C 14.627143,17.364539 15.171438,16.644688 17.117331,14.914639 C 18.048272,14.086960 18.994356,13.133451 19.219742,12.795728 C 19.649547,12.151698 20.000000,11.424489 20.000000,11.176648 L 20.145835,9.6487690 L 20.050475,9.1498612 C 19.887057,8.2948897 19.414782,7.4472247 18.384243,6.1592092 C 17.837589,5.4759763 17.390327,4.8226406 17.390327,4.7073518 C 17.390327,4.3557584 17.851269,3.8153810 18.151179,3.8153810 C 18.473567,3.8153810 19.184889,4.5661002 21.687211,7.5472571 L 23.451177,9.6487690 L 24.601774,11.030360 L 25.294336,11.880640 C 26.080114,12.845363 26.193977,13.528849 25.703036,14.333896 C 25.547541,14.588873 24.510964,15.654035 23.399528,16.700920 C 21.393502,18.590443 20.819618,19.372644 20.548856,20.586372 L 20.454682,21.008524 L 20.537286,22.313362 L 20.591661,22.696234 C 20.696816,23.436653 21.288584,24.324428 23.282920,26.733677 C 24.390171,28.071285 25.317740,29.260938 25.344187,29.377350 C 25.418359,29.703832 25.110298,30.171702 24.761021,30.263039 C 24.555623,30.316752 24.175302,30.158754 23.664945,29.807690 C 22.572534,29.056244 21.356991,28.658639 20.076755,28.633993 C 18.205206,28.597965 17.543837,29.313295 17.543837,31.373571 L 17.543837,32.368280 C 17.543837,32.368280 17.515398,33.476942 18.246578,34.944231 C 18.856351,36.167885 18.535080,36.840972 17.805292,35.868760 z "
+     id="path1451"
+     sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccc" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+</svg>

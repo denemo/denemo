@@ -1,0 +1,71 @@
+2006-01-19  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* gettext.m4: Upgrade to gettext-0.14.4.
+	* glibc2.m4: New file, from gettext-0.14.4.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
+2005-04-08  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: Upgrade to gettext-0.14.3.
+	* gettext.m4: Upgrade to gettext-0.14.3.
+	* glibc2.m4: New file, from gettext-0.14.3.
+	* glibc21.m4: Upgrade to gettext-0.14.3.
+	* iconv.m4: Upgrade to gettext-0.14.3.
+	* intdiv0.m4: Upgrade to gettext-0.14.3.
+	* intmax.m4: Upgrade to gettext-0.14.3.
+	* inttypes.m4: Upgrade to gettext-0.14.3.
+	* inttypes_h.m4: Upgrade to gettext-0.14.3.
+	* inttypes-pri.m4: Upgrade to gettext-0.14.3.
+	* isc-posix.m4: Upgrade to gettext-0.14.3.
+	* lcmessage.m4: Upgrade to gettext-0.14.3.
+	* lib-ld.m4: Upgrade to gettext-0.14.3.
+	* lib-link.m4: Upgrade to gettext-0.14.3.
+	* lib-prefix.m4: Upgrade to gettext-0.14.3.
+	* longdouble.m4: Upgrade to gettext-0.14.3.
+	* longlong.m4: Upgrade to gettext-0.14.3.
+	* nls.m4: Upgrade to gettext-0.14.3.
+	* po.m4: Upgrade to gettext-0.14.3.
+	* printf-posix.m4: Upgrade to gettext-0.14.3.
+	* progtest.m4: Upgrade to gettext-0.14.3.
+	* signed.m4: Upgrade to gettext-0.14.3.
+	* size_max.m4: Upgrade to gettext-0.14.3.
+	* stdint_h.m4: Upgrade to gettext-0.14.3.
+	* uintmax_t.m4: Upgrade to gettext-0.14.3.
+	* ulonglong.m4: Upgrade to gettext-0.14.3.
+	* wchar_t.m4: Upgrade to gettext-0.14.3.
+	* wint_t.m4: Upgrade to gettext-0.14.3.
+	* xsize.m4: Upgrade to gettext-0.14.3.
+	* Makefile.am (EXTRA_DIST): Add the new files.
+
+2005-02-10  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* codeset.m4: New file, from gettext-0.14.1.
+	* gettext.m4: New file, from gettext-0.14.1.
+	* glibc21.m4: New file, from gettext-0.14.1.
+	* iconv.m4: New file, from gettext-0.14.1.
+	* intdiv0.m4: New file, from gettext-0.14.1.
+	* intmax.m4: New file, from gettext-0.14.1.
+	* inttypes.m4: New file, from gettext-0.14.1.
+	* inttypes_h.m4: New file, from gettext-0.14.1.
+	* inttypes-pri.m4: New file, from gettext-0.14.1.
+	* isc-posix.m4: New file, from gettext-0.14.1.
+	* lcmessage.m4: New file, from gettext-0.14.1.
+	* lib-ld.m4: New file, from gettext-0.14.1.
+	* lib-link.m4: New file, from gettext-0.14.1.
+	* lib-prefix.m4: New file, from gettext-0.14.1.
+	* longdouble.m4: New file, from gettext-0.14.1.
+	* longlong.m4: New file, from gettext-0.14.1.
+	* nls.m4: New file, from gettext-0.14.1.
+	* po.m4: New file, from gettext-0.14.1.
+	* printf-posix.m4: New file, from gettext-0.14.1.
+	* progtest.m4: New file, from gettext-0.14.1.
+	* signed.m4: New file, from gettext-0.14.1.
+	* size_max.m4: New file, from gettext-0.14.1.
+	* stdint_h.m4: New file, from gettext-0.14.1.
+	* uintmax_t.m4: New file, from gettext-0.14.1.
+	* ulonglong.m4: New file, from gettext-0.14.1.
+	* wchar_t.m4: New file, from gettext-0.14.1.
+	* wint_t.m4: New file, from gettext-0.14.1.
+	* xsize.m4: New file, from gettext-0.14.1.
+	* Makefile.am: New file.
+

@@ -1,0 +1,2114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="./docbook-complete.css" type="text/css"?>
+<article>
+  <articleinfo>
+    <title></title>
+
+    <legalnotice>
+      <para>This Manual is released under the Creative Commons License, this
+      manual may be quoted, and freely distributed as long as credit is given
+      in written form to denemo.sourceforge.net. If it is placed on a web page
+      a link to the denemo site should also appear.</para>
+    </legalnotice>
+
+    <copyright>
+      <year>2007</year>
+
+      <holder>Denemo Project</holder>
+    </copyright>
+
+    <author>
+      <firstname>Aaron</firstname>
+
+      <surname>Mehl</surname>
+
+      <email>aamehl@actcom.net.il</email>
+    </author>
+    <author>
+      <firstname>Richard</firstname>
+
+      <surname>Shann</surname>
+
+      <email>Richard.Shann**at**virgin.com</email>
+    </author>
+
+    <productname>Denemo <productnumber>0.76</productnumber></productname>
+
+    <releaseinfo>001</releaseinfo>
+  </articleinfo>
+
+  <sect1>
+    <title>Introduction</title>
+
+    <para>Denemo lets you create musical scores. You can type music in using the keyboard 
+    or play it in using a microphone. You can edit your music - the display shows you the measures you
+    are working on - and you can playback selected bits to check how it sounds. 
+    You can preview and print the score or parts to the highest standards used in the music publishing industry 
+    - thanks to the Lilypond typesetting program.</para>
+    <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview</para>
+  </sect1>
+
+  <sect1>
+    <title>Obtaining and Installing Denemo</title>
+
+    <para>Denemo is available from a variety of sources for different
+    distributions. The latest stable release (tar.gz and RPM formats) is
+    available for download from <ulink
+    url="http://prdownloads.sourceforge.net/denemo"></ulink>. You can install
+    Denemo from the Debian unstable repositories, using the command apt-get
+    install denemo. Builds for Macintosh are available from the Gnu-Darwin
+    project. The Denemo development branch can be downloaded using anonymous
+    CVS.</para>
+
+    <sect2>
+      <title>Dependencies</title>
+
+      <para>To build Denemo from CVS or a source package, the following
+      dependent packages should be installed first. Remember to install the
+      development packages as well (check your distribution for the specific
+      package name):<note>
+          <title>For Debian Users</title>
+
+          <para>Type <command>apt-cache showsrc denemo</command> at a command
+          line to determine what are the package names for Denemo
+          dependencies. Type <command>apt-get build-dep denemo</command> to
+          build the dependent files or use apt-get to install the packages
+          individually by copying and pasting there names to the command
+          line.</para>
+        </note></para>
+
+      <itemizedlist>
+        <listitem>
+          <para></para>
+        </listitem>
+
+        <listitem>
+          <para>g++ 2.95 or higher</para>
+        </listitem>
+
+        <listitem>
+          <para>flex 2.5.4a or higher</para>
+        </listitem>
+
+        <listitem>
+          <para>bison 1.35 or higher</para>
+        </listitem>
+
+        <listitem>
+          <para>cdbs</para>
+        </listitem>
+
+        <listitem>
+          <para>gettext</para>
+        </listitem>
+
+        <listitem>
+          <para>libgtk1.2-dev</para>
+        </listitem>
+
+        <listitem>
+          <para>libgtk2.0-dev</para>
+        </listitem>
+
+        <listitem>
+          <para>gtk+ 2</para>
+        </listitem>
+
+        <listitem>
+          <para>libglib2.0-dev</para>
+        </listitem>
+
+        <listitem>
+          <para>libxml2</para>
+        </listitem>
+
+        <listitem>
+          <para>libxml2-dev</para>
+        </listitem>
+
+        <listitem>
+          <para>LilyPond 2.4</para>
+        </listitem>
+
+        <listitem>
+          <para>autoconf 2.59 or higher</para>
+        </listitem>
+
+        <listitem>
+          <para>automake1.7</para>
+        </listitem>
+
+        <listitem>
+          <para>libaubio</para>
+        </listitem>
+
+        <listitem>
+          <para>libportaudio</para>
+        </listitem>
+
+
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Optional Includes</title>
+
+      <para>Denemo uses other applications for  playback and printing. You may need to install the following applications, and edit the preferences menu to tell Denemo which you want it to use.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>C Sound (optional)</para>
+        </listitem>
+
+        <listitem>
+          <para>A PDF viewer (ghostview, evince etc)</para>
+        </listitem>
+
+        <listitem>
+          <para>A midi player such as timidity</para>
+        </listitem>
+      </itemizedlist>
+    </sect2>
+
+    <sect2>
+      <title>Installing Denemo from Source Code</title>
+
+      <para>Denemo is available in a variety of formats. The current stable
+      release is available either as source code or in binary format. The
+      Development branch of Denemo is available as a CVS source tree.</para>
+
+      <procedure>
+        <title>To install from source code:</title>
+
+        <step>
+          <para>Open a terminal window.</para>
+        </step>
+
+        <step>
+          <para>Change directories to the directory to which you downloaded
+          the Denemo source package.</para>
+        </step>
+
+        <step>
+          <para>Uncompress the source package using standard Linux tools (tar
+          and gunzip).</para>
+        </step>
+
+        <step>
+          <para>Change directories to the uncompressed directory.</para>
+        </step>
+      </procedure>
+
+      <procedure>
+        <title>Generating a Configure Script</title>
+
+        <para>CVS does not come with a Configure script; generate one by
+        typing and pressing Enter after each line:</para>
+
+        <step>
+          <para>aclocal</para>
+        </step>
+
+        <step>
+          <para>libtoolize --force</para>
+        </step>
+
+        <step>
+          <para>./autogen.sh</para>
+        </step>
+      </procedure>
+
+      <sect3>
+        <title>Generating a Configure Script</title>
+
+        <procedure>
+          <title>To compile from source, press Enter after each line:</title>
+
+          <step>
+            <para>./configure.</para>
+          </step>
+
+          <step>
+            <para>make.</para>
+          </step>
+
+          <step>
+            <para>make install.</para>
+          </step>
+
+          <step>
+            <para>If you are not logged in as root user, type su and your root
+            password, or alternately type sudo and your user password.</para>
+          </step>
+        </procedure>
+      </sect3>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Getting Started</title>
+
+    <para>Denemo is usually used via the keyboard or playing in via a musical instrument. The mouse however has its uses. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a keybinding for the menu item.</para>
+
+    <subtitle>The Denemo Interface</subtitle>
+
+    <figure>
+      <title>Main Window</title>
+
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/denemomain.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+<para>
+A set of action-based menus can also be shown in addition to the object-based menu shown here. These menus can be used directly or for enquiring/setting keyboard shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus to show.
+</para>
+    <para>The main menu bar has menus for overall control of the program. It
+    contains the following menus:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>File</para>
+      </listitem>
+
+      <listitem>
+        <para>Edit</para>
+      </listitem>
+
+      <listitem>
+        <para>View</para>
+      </listitem>
+
+      
+
+      <listitem>
+        <para>Mode</para>
+      </listitem>
+
+ 
+
+ 
+
+      <listitem>
+        <para>Playback</para>
+      </listitem>
+
+      <listitem>
+        <para>Help</para>
+      </listitem>
+    </itemizedlist>
+
+    <sect2>
+      <title>File</title>
+
+      <para>Use the <guimenu>File</guimenu> menu to perform global operations.
+      The File menu contains the following Menu Items:</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>New</entry>
+
+              <entry>Create score from scratch.</entry>
+            </row>
+
+            <row>
+              <entry>Open</entry>
+
+              <entry>Open an existing <productname>Denemo</productname>
+              file.</entry>
+            </row>
+            <row>
+              <entry>Add Staffs</entry>
+              <entry>Open an existing <productname>Denemo</productname>
+              file and append the staffs from the (first) movement of it to the staffs in the current movement.</entry>
+            </row>
+            <row>
+              <entry>Add Movements</entry>
+              <entry>Open an existing <productname>Denemo</productname>
+              file and append the movements from it to the current score.</entry>
+            </row>
+
+            <row>
+              <entry>Open Recent</entry>
+
+              <entry>Open a file recently edited.</entry>
+            </row>
+
+            <row>
+              <entry>Open Standard Template</entry>
+
+              <entry>Create score from a stock template.</entry>
+            </row>
+
+            <row>
+              <entry>Open Custom Template</entry>
+
+              <entry>Create score from a template you have saved.</entry>
+            </row>
+
+            <row>
+              <entry>New Window</entry>
+
+              <entry>Open another instance of
+              <productname>Denemo</productname>.</entry>
+            </row>
+
+
+            <row>
+              <entry>Open in New Window</entry>
+
+              <entry>Open an existing <productname>Denemo</productname> file
+              in a new window so that both can be used at once.</entry>
+            </row>
+
+            <row>
+              <entry>Save</entry>
+
+              <entry>Save the current file.</entry>
+            </row>
+
+            <row>
+              <entry>Save As</entry>
+
+              <entry>Save the current file with a new name.</entry>
+            </row>
+
+            <row>
+              <entry>Save Parts</entry>
+
+              <entry>Saves a set of parts (staves) in LilyPond format.</entry>
+            </row>
+
+            <row>
+              <entry>Export PDF</entry>
+
+              <entry>Run LilyPond on the current file to create a PDF.</entry>
+            </row>
+
+            <row>
+              <entry>Print</entry>
+
+              <entry>Displays the score in a pdf view, from which it can be printed.</entry>
+            </row>
+            <row>
+              <entry>Print Current Part</entry>
+
+              <entry>Displays one part taken from the score in a pdf view, from which it can be printed.</entry>
+            </row>
+            <row>
+              <entry>Score Wizard</entry>
+
+              <entry>Open a<guilabel> Score Setup Wizard.</guilabel></entry>
+            </row>
+
+            <row>
+              <entry>Close</entry>
+
+              <entry>Close the current file but keep
+              <productname>Denemo</productname> open.</entry>
+            </row>
+
+            <row>
+              <entry>Quit</entry>
+
+              <entry>Close the current file and exit
+              <productname>Denemo</productname>.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>Edit</title>
+
+      <para>Use the <guimenu>Edit</guimenu> menu to access common editing
+      commands.</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Undo</entry>
+
+              <entry>Undo the pitch and rhythm just added.</entry>
+            </row>
+
+            <row>
+              <entry>Redo</entry>
+
+              <entry>Redo the pitch and rhythm just added.</entry>
+            </row>
+
+            <row>
+              <entry>Select</entry>
+
+              <entry>Menu items for selecting music in the score.</entry>
+            </row>
+
+
+            <row>
+              <entry>Cut</entry>
+
+              <entry>Copy the selected notation to the clipboard and delete
+              the selection.</entry>
+            </row>
+
+            <row>
+              <entry>Copy</entry>
+
+              <entry>Copy the selected notation to the clipboard.</entry>
+            </row>
+
+            <row>
+              <entry>Paste</entry>
+
+              <entry>Paste the copied notation at the cursor point.</entry>
+            </row>
+
+            <row>
+              <entry>Score Properties</entry>
+
+              <entry>Add header information for titles etc. for score and header information for the current movement.</entry>
+            </row>
+
+            <row>
+              <entry>Preferences</entry>
+
+              <entry>Set external programs (LilyPond, PDF viewer etc.), autosave interval etc.</entry>
+            </row>
+
+            <row>
+              <entry>Keyboard Setup</entry>
+
+              <entry>Quick settings checkbox – one touch setting of keypresses. Save shortcuts. Extra keyindings for duplicate keybindings only.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>View</title>
+
+      <para>Use the <guimenu>View</guimenu> menu to toggle toolbars and
+      palettes used for entering notation with the mouse.</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Rhythms and Overlays</entry>
+
+              <entry>Allows custom rhythm patterns and microphone overlay</entry>
+            </row>
+
+
+
+
+            <row>
+              <entry>Note and Rest Entry</entry>
+
+              <entry>Notes and rests buttons – the highlighted button is current duration – click a button to enter a note/rest</entry>
+            </row>
+
+            <row>
+              <entry>Articulation Palette</entry>
+
+              <entry>A palette of expression marks to apply to notes.</entry>
+            </row>
+
+            <row>
+              <entry>Menu of Actions</entry>
+
+              <entry>Menu of all the Denemo commands listed under type of Action</entry>
+            </row>
+
+            <row>
+              <entry>Menu of Objects</entry>
+
+              <entry>Menu of all the Denemo commands listed under type of object</entry>
+            </row>
+
+
+            <row>
+              <entry>Show LilyPond</entry>
+
+              <entry>Pops up a window for customizing the LilyPond</entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+
+
+    <sect2>
+      <title>Mode</title>
+
+      <para>Use the<guimenu> Mode</guimenu> menu to switch modes or choose to use modelessly. The different modes are useful for different ways or phases of work.</para>
+    <para>  With the standard keybindings the modes work like this:</para>
+
+        <itemizedlist>
+
+
+	  <listitem>
+	         <para>No Mode.  This mode is for those who want to set up the keys to have single functions. The Actions Toolbar can be used to choose menu items to bind the keyboard keys to. The cursor is green in this mode. This mode gives easy access via the menus for the actions that do not change with modes.
+		 </para>
+          </listitem>
+
+	  <listitem>
+	         <para>Insert Mode. In this mode the keys 0,1,2... select the prevailing duration (whole-note, half-note ...) while the Note name keys A,B,C ... insert a note of that name in the prevailing duration. The octave is the one nearest the cursor. The cursor is green in this mode. This mode is good for entering single line music.
+		 </para>
+          </listitem>
+
+	  <listitem>
+	         <para>Edit Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the current cursor position, while the Note name keys A,B,C ... change the note at the cursor to A,B,C.... The cursor is purple. This mode is good for editing music already entered and for entering pure rhythms (all notes on the same pitch, for overlaying pitches via microphone later). You can also enter music in this mode - you type the duration key (which inserts a note) and then the Note name key, which edits it to the one you want.
+		 </para>
+          </listitem>
+
+	  <listitem>
+	         <para>Classic Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the cursor position, while the Note name keys A,B,C ... move the cursor. The cursor is green. This mode is good for entering music with chords (Enter is the standard keybinding for this).
+		 </para>
+          </listitem>
+       
+       
+       </itemizedlist>
+
+      
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>No Mode</entry>
+
+              <entry>Switch Note/Rest menu to actions that are the same regardless of mode.</entry>
+            </row>
+            <row>
+              <entry>Insert</entry>
+
+              <entry>Switch to insert mode.</entry>
+            </row>
+            <row>
+              <entry>Edit</entry>
+
+              <entry>Switch to Edit mode.</entry>
+            </row>
+
+            <row>
+              <entry>Classic</entry>
+
+              <entry>Switch to the original denemo mode.</entry>
+            </row>
+
+            <row>
+              <entry>Note</entry>
+
+              <entry>Switch to entering notes.</entry>
+            </row>
+
+            <row>
+              <entry>Non Printing Rests</entry>
+
+              <entry>Switch to entering rests which just occupy space and time but will not appear in the score.</entry>
+            </row>
+
+
+            <row>
+              <entry>Rest</entry>
+
+              <entry>Switch to entering rests.</entry>
+            </row>
+           <row>
+              <entry>Rhythm</entry>
+
+              <entry>Switch to entering rhythms (durations) only. A beep is sounded whenever a measure is filled.</entry>
+            </row>
+
+            <row>
+              <entry>Toggle Edit</entry>
+
+              <entry>Toggle between current mode and Edit mode.</entry>
+            </row>
+
+            <row>
+              <entry>Toggle Rest</entry>
+
+              <entry>Toggle between entering notes and entering rests.</entry>
+            </row>
+
+            <row>
+              <entry>Toggle Rhythm</entry>
+
+              <entry>Toggle between entering notes and entering rhythms (durations).</entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+   
+
+
+
+    
+   
+    <sect2>
+      <title>Playback</title>
+
+      <para>Use the Playback menu to start playback of your score. Denemo lets
+      you hear your score, using an external MIDI player, or Csound.</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Play</entry>
+
+              <entry>Plays the selected measures or starting from the current measure</entry>
+            </row>
+           <row>
+              <entry>Stop</entry>
+
+              <entry>Stops the playback</entry>
+            </row>
+
+            <row>
+              <entry>Play Using Csound</entry>
+
+              <entry>Play this score (Csound) using .orc file specified in
+              <guisubmenu>Playback Properties</guisubmenu>.</entry>
+            </row>
+
+            <row>
+              <entry>Playback Properties</entry>
+
+              <entry>Set playback tempo, select an .orc file for Csound
+              playback</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>Help</title>
+
+      <para>Use the Help menu to get help using Denemo.</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Help</entry>
+
+              <entry>Launch a browser to view this manual.</entry>
+            </row>
+
+            <row>
+              <entry>About</entry>
+
+              <entry>View Denemo version information.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+
+    <sect2>
+      <title>Toolbar</title>
+
+      <para>Use the Toolbar to access common Denemo commands quickly. The Tool
+      Bar contains the following icons:</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Icon</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/open.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Opens the Open File dialog box.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/save.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Saves the current file</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/print.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs LilyPond to convert the current file to PDF and
+              sends it to the printer for printing</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/undo.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Undoes the last action. (Currently Undo only works for
+              adding notes)</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/redo.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Redoes the previous undo action. (Currently Redo only
+              works for adding notes).</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/cut.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Cuts the current selection to the clipboard.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/copy.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Copies the selected notation to the clipboard.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/paste.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Pastes the current clipboard item at the cursor
+              position.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/gotobegin.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Jumps to the first measure of the movement.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/gotoend.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Jumps to the last measure of the movement.</entry>
+            </row>
+
+            <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/playmidi.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Plays the current piece using MIDI</entry>
+            </row>
+           <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/stopmidi.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Stops the MIDI playback</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+  </sect1>
+
+  <sect2>
+      <title>Object Menus</title>
+
+      <para>The object menus give you actions (such as insert, delete ...) ordered by the objects (notes, staffs, measures ...) that they act on.</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Menu Item</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Notes/Rests</entry>
+
+              <entry>The Menu Items depend on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set keybindings – it would be too slow to use them for actually entering notes/rests.</entry>
+            </row>
+
+            <row>
+              <entry>Expression Marks</entry>
+              <entry>Insert/remove dynamics, slurs trills etc.</entry>
+            </row>
+            <row>
+              <entry>Chord</entry>
+              <entry>Insert/remove notes from a chord.</entry>
+            </row>
+            <row>
+              <entry>Measure</entry>
+              <entry>Insert/remove navigate measures .</entry>
+            </row>
+            <row>
+              <entry>Tuplets</entry>
+              <entry>Insert/remove triplets and other tuplets.</entry>
+            </row>
+            <row>
+              <entry>Staffs/Voices</entry>
+              <entry>Insert/remove, navigate, swap, change the properties of staffs or voices</entry>
+            </row>
+            <row>
+              <entry>Movements</entry>
+              <entry>Insert/remove navigate, change the properties of movements.</entry>
+            </row>
+            <row>
+              <entry>Clef</entry>
+              <entry>Insert change or set the initial clef.</entry>
+            </row>
+            <row>
+              <entry>Key</entry>
+              <entry>Insert a change or set the initial key.</entry>
+            </row>
+            <row>
+              <entry>Time signature</entry>
+              <entry>Insert a change or set the initial time signature.</entry>
+            </row>
+            <row>
+              <entry>Cursor</entry>
+              <entry>Navigation of the cursor.</entry>
+            </row>
+            <row>
+              <entry>Bookmarks</entry>
+              <entry>Create/delete or move to bookmarked positions in the current movement.</entry>
+            </row>
+            <row>
+              <entry>Other</entry>
+              <entry>Enter lyrics, chord symbols, figured basses or LilyPond directives. Clear overlays.</entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+      </informaltable>
+    </sect2>
+  <sect1>
+    <title>Movements</title>
+
+    <para>
+Each Denemo file represents a piece of music which may consist of several “movements”, interspersed with headings. These might be different songs in a song book, or literally the movements in a classical sonata, or any other pieces of music that you want to print out in a book form with titles, page numbering and so on.
+    </para>
+
+    <para>
+In the score properties dialog things that affect the whole piece can be set, as well as the titles of the current movement. These titles can be left blank for subsequent movements if they are not to be printed. In the movement properties dialog there you can set a LilyPond directive to cause a page break before the movement (see LilyPond docs, but briefly #f is no page break and #t (true) is page break). You can include any other directives here to apply to the movement as a whole. In the score properties dialog you can include directives to apply to all the movements.
+    </para>
+
+         <note>
+            <para>When a file is loaded it opens with the final movement set as the current movement.</para>
+          </note>
+  </sect1>
+ <sect1>
+    <title>LilyPond Editing</title>
+
+    <para>
+	The Edit->Show LilyPond menu item allows you to edit the LilyPond with your edits kept inside the Denemo file, so that you can continue to edit the notes in Denemo.
+   </para>
+   <para>
+With version 0.7.8 we have a new approach to editing the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e.g. Piano music) with the music still editable from within Denemo.
+  </para>
+   <para>
+This can be used without knowing the LilyPond language (provided a suitable template file exists). Alternatively, tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
+  </para>
+   <para>
+Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it.
+The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions.
+Several custom scoreblocks can be kept, and by making the one desired visible, the same Denemo file can be used to print a full score or parts or several voices to a staff or even a piano reduction. The custom scoreblocks can be are named using the comment on the first line (see the template Piano.denemo for an example).
+  </para>
+   <para>
+The various Voices/Staffs for the different Movements are separated by buttons. These are labeled by enumerating the movements and staffs in order, so the first voice in the first movement has a button labelled
+"Notes for MvmntIVoiceI" and so on. Within these music blocks you can insert arbitrary LilyPond text between notes,
+and these appear as LilyPond directives in the main Denemo window. The main window also moves the cursor to correspond with where you are editing. (It should of course move the cursor immediately you click on a point in the music, but, as yet, it only moves the cusor when you press a key just before the note name - one of the arrow keys will do).
+  </para>
+   <para>
+The two windows are kept in sync, so you can move back and forth between editing textually and editing in Denemo.
+   </para>
+   <para>
+Right clicking this window gives a Print command that operates on the visible LilyPond text in the window. The normal Denemo Print commands are still operative - if you Print a single part then this alters the standard scoreblock. If you use the File->Print command then it prints the first custom scoreblock (or the standard scoreblock if you do not have any custom scoreblocks).
+  </para>
+   <note>
+Bugs:
+Clicking (as opposed to using the arrow keys) in the LilyPond text does not move the cursor in the Denemo window.
+Moving the text cursor in a lyric (etc.) does not move the Denemo cursor, so you cannot easily see where in the music it comes.
+Inserting LilyPond text after last note of a movement has to be done in Denemo.
+When you delete a LilyPond directive textually you have to move the cursor to start re-inserting it.
+The Denemo status bar is not always updated.
+The text before the Staff, and before the music is not yet editable.
+LilyPond text cannot yet be attached to the notes inside chords.
+LilyPond notes cannot be parsed back in (would be useful for importing music from arbitrary LilyPond files).
+LilyPond inserts at notes can only be completely deleted in the Denemo window - inserts are not merged.
+No warning given when extra staffs (etc) are added to a score with custom scoreblock
+   </note>
+  </sect1>
+
+  <sect1>
+    <title>Rhythms and Overlays</title>
+
+    <para>The Rhythms and Overlays toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice).</para>
+ <para>Also on this toolbar is the Microphone option, which allows you to enter pitches acoustically. This can be much quicker than using the keyboard since the note octave and accidental are all given just by playing the note. If you are able to play a musical instrument then this will probably be much faster for you than typing note names, octave shifts and accidentals at the computer keyboard.</para>
+<para>When you select the Microphone the Pitch Recognition window pops up. While the mouse pointer is inside the score drawing area the score is sensitive to pitches heard via the microphone input. The background colour of the score changes to show that the notes will be entered into the score. Music is entered into the measure which holds the cursor.</para>
+<para>There are two ways of using the pitch entry. The button marked Insert causes notes to be entered into the current measure in the prevailing rhythm - the mode is set to Insert for this. The button marked Overlays overlays the notes already present with the pitches you sound. There is a third button, marked Tuning, which is a state-of-the art musical instrument tuner.</para>
+<para>Use the enharmonic shift to select whether Bb or A# should be entered when you enter the given pitch - you can usefully go as far as B# and Fb.</para>
+<para>Use the transpose control to shift up or down by octaves.</para>
+ <para>Most of the other settings would require study of the Aubio documentation to understand, but the one marked threshold may be useful to make the detection less sensitive to ambient noises.</para>
+<para>More importantly, move your microphone closer or further from your instrument to get reliable detection. Too close and you get double detections, too far and you get missed ones. To check for good detection open a piece of music, set Overlay mode and put the cursor in the first measure and play the piece in – the notes should all turn blue if you have perfect detection. It is worth while getting perfect detection – more than one or two miss-detects per piece of music and you may want to use the Insert rather than the Overlay method.</para>
+  </sect1>
+
+  <sect1>
+    <title>Understanding Modes</title>
+
+    <para>Modes in Denemo are optional. Denemo has a large number of actions (functions) that it can execute for you, and these are to be found in the View-\>Objects Menu (grouped by objects such as note, measure, clef etc. Some of these functions do different things in different modes. For example the key A is usually bound to a function that moves the cursor to the nearest note A, or inserts a note A, or changes the current note to an A, all depending on which mode is chosen. (There are also entry modes, in rest entry mode instead of a note a rest would be inserted). </para>
+ <para>If you dislike modal programs, you will set your keybindings to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
+<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, while in Rhythm entry a beep is sounded whenever a measure has the correct number of beats – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
+  </sect1>
+
+  <sect1>
+
+    <sect2>
+      <title>Basic Use</title>
+
+      <subtitle>Introduction</subtitle>
+      <para>
+      Denemo allows you to explore all the actions  (insert/delete/edit/navigate...) using the Objects menu. So inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
+<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected.
+</note>
+      </para>
+      <para>Denemo offers several ways of entering music: typing at the keyboard, playing in acoustically using a microphone or choosing items from the menu system. </para>
+      <para>Using the menus for everything would be very slow, but next to each menu item is the keypress that you can use instead. If there is no keypress shown, and you want to use that item often, then right click on the menu item and you can set a key combination for that menu action. Right clicking is also useful for getting a description of what the menu action is. </para>
+      <para> Typing at the keyboard can be very fast, if you forget which keypress you need you can consult the menu system to find out. This method is good for touch typists.
+      </para>
+
+      <para role="persom">For entering a lot of already written-out music, playing the music in via a microphone can offer the fastest and most musical method. </para>
+      <para>One way to do this is to choose Rhythm entry mode and enter the music as pure rhythm, ignoring the note names. As you complete each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
+      <para>Once you have entered the rhythms you click on the button marked  microphone and, placing the cursor in the first measure, play the notes into a microphone plugged into the mic input of your soundcard. The microphone button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
+
+      <para>Another method of playing music in doesn't involve entering the rhythm separately. For this click on Rhythm the Microphone button and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
+
+      <para>The old Denemo keymaps are still active, but precedence is given to the keybindings that appear beside the actions in the menus. (see <xref linkend="customizingDenemo" />). (Input via
+      MIDI keyboard is planned for later versions of Denemo.) Denemo also
+      provides language specific keymaps for a few langauages.</para>
+
+      <sect3 id="scoresetup">
+        <title>Score Setup</title>
+
+	<para>Denemo provides different ways to set up scores: <itemizedlist>
+            <listitem>
+              <para>Use a Template</para>
+            </listitem>
+
+            <listitem>
+              <para>Use shortcut keys to add staves and set attributes</para>
+            </listitem>
+
+            <listitem>
+              <para>Use the Setup Wizard</para>
+            </listitem>
+
+            <listitem>
+              <para>Use Menus</para>
+            </listitem>
+ </itemizedlist></para>
+        <sect4>
+          <title>Using Templates to Setup Scores</title>
+
+          <para>Denemo comes with a few preinstalled templates.
+          You can also design your own templates as well.</para>
+
+          <procedure>
+            <step>
+              <para>Navigate to <guimenu>File</guimenu>, <guisubmenu>New From
+              Template</guisubmenu>, The <interface>Open</interface> dialog
+              box appears.</para>
+            </step>
+
+            <step>
+              <para>Double click on a template name from the list of
+              templates. The dialog box closes and the template appears.
+              Alternately type @NewfromTemplate@, the <guisubmenu>New From
+              Template </guisubmenu> dialog box appears. Double click on a
+              template name from the list of templates. The dialog box closes
+              and the template appears.</para>
+            </step>
+          </procedure>
+
+          <note>
+            <para>Adjust the clef, key and time signatures as needed.</para>
+          </note>
+        </sect4>
+
+        <sect4>
+          <title>Using Shortcuts to Setup Scores</title>
+
+          <para>Inserting attributes with shortcut keys is an effective way to
+          quickly customize a template.</para>
+
+          <procedure>
+            <step>
+              <para>Navigate to the Staff you want to change an attribute
+              using one of these shortcuts:<itemizedlist>
+                  <listitem>
+                    <para>Type @StaffDown@ to move down one staff</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>Type @StaffUp@ to move up one staff</para>
+                  </listitem>
+                </itemizedlist></para>
+            </step>
+          </procedure>
+        </sect4>
+
+        <sect4>
+          <title>Using Templates to Setup Scores</title>
+
+          <para>Denemo Comes with a wide range of prebuilt templates for
+          standard vocal and instrumental scores. If you have a custom score
+          setup you use over and over create a score layout using the Setup
+          Wizard and save it as a template.</para>
+
+          <procedure>
+            <step>
+              <para>Click on File&gt;New From Template, The <interfacename>
+              Open</interfacename> Dialog box appears displaying the currently
+              available Templates.</para>
+            </step>
+
+            <step>
+              <para>Double click on the template name in the righthand pane.
+              The template loads in the Main Denemo Window.<note>
+                  <para>The currently active staff will be black. All other
+                  staves will be yellow, until they are active.</para>
+                </note></para>
+            </step>
+          </procedure>
+        </sect4>
+ </sect3>
+ </sect2>
+<sect2 revision="0.75" id="thedriverseat"><title>Using the Denemo Classic Mode</title><para>This section describes how to use the original note entry mode to enter music from the keyboard.</para>
+<para>Lets look at <xref linkend="thedriverseat"></xref>. We see a c major scale and an arpeggio spread over two octaves. Type the letter 'c', the cursor jumps to the nearest c, (if it is in the wrong octave, type a comma [to go down] , or an apostrophe [to go up]) .  We have reached middle c, we could start moving the cursor up note by note using the k key and then down note by note using the k key. A faster method however is to type the letter name of each note and  moves the cursor to the exact pitch. This holds true for the notes of a chord or arpeggio, we jump to the note by typing the note name and adjust the octave with the command and apostrophe. This works if within an octave. <note><para>Often you will want to enter notes that jump a large interval. To speed up note entry in such circumstances help Denemo determine the direction by moving one step in that direction using the j or k keys. If you have entered a note on middle c and want to enter a b one octave higher, hit the k key before entering the note. Another solution to big leaps would be to first type an apostrophe or comma  to get into the intended octave and only then type the note name.</para></note></para></sect2>
+
+<sect2 revision="0.75"><title>Rhythm Entry in Classic Mode</title><para>Now that we have an idea how to move around the staff we are ready to add note values. Note values are entered using the right hand.   shows the rhythm entry keys as <acronym>YHJKLOP  </acronym>. This yields the following: <emphasis>Y</emphasis>= a whole note, <emphasis>H</emphasis> = a half note, <emphasis>J</emphasis> = an quarter note,<emphasis>K</emphasis>= a eigth note,<emphasis> L</emphasis> = a 16th note,  <emphasis>O</emphasis> = a 32nd note, and <emphasis>P</emphasis> = a sixty fourth.  
+</para>
+
+</sect2>
+
+<sect2 revision="0.70"><title>Accidentals in Classic Mode</title><figure id="accidentals"><title>Accidentals</title><mediaobject><imageobject><imagedata fileref="images/accidentals.png" align="center" scale="70%" ></imagedata></imageobject></mediaobject></figure><para>Accidentals are added using the plus and minus keys on the keyboard. Double sharps and flats are added with additional pluses and  minuses as needed in any particular key signature.</para><para><xref linkend="accidentals"></xref> shows a chromatic scale starting on middle C and ending on middle C. To add accidentals while typing new notes do the following:</para>
+<procedure>
+
+  <step><para>Enter a middle C eighth note (type c and then i, if you need to adjust the octave use the command and apostrophe)</para></step>
+  <step><para>Enter another middle C eighth note, this time type the plus sign<command> (+)</command> immediately afterwards, a C sharp appears</para></step>
+  <step><para>Enter a D eighth note (type d and then i)</para></step>
+  <step><para>Enter a D sharp eighth note (type d and then i and then +)</para></step>
+  <step><para>Continue adding notes until you have an exact copy of the first two measures of <xref linkend="accidentals"></xref>.</para></step>
+  <step><para>To add flats enter the b eighth note in measure 3 then type a dash <command>(-)</command> a b flat appears.</para></step>
+  <step><para>Continue adding flats until you have and exact copy of measures three and four.</para></step>
+
+
+
+</procedure>
+<para>To add accidentals to existing notation do the following:</para>
+
+<procedure>
+
+  <step><para>Navigate to the note you want to alter using the h,j,k,l motion keys. <note><para>You don't have to be on the exact pitch to add an accidental but make sure to be on the note you want to alter.</para></note></para></step>
+  <step><para>Type a <command>+</command> to alter the pitch up a half step and a <command>-</command> to alter the pitch down a half step.
+
+  <note><para>This will produce alterations based on the pitch of the original note. So that a f sharp will become a f double sharp and an e flat will become an e.</para></note></para></step>
+  
+</procedure>
+
+<note><para>For those familiar with LilyPond, Denemo handles accidentals in a more intuitive fashion. LilyPond requires you to explicitly name each note with an accidental even if it is part of the key signature, Denemo only requires an alteration if the accidental is part of the key signature, and it keeps the alteration for the entire measure. </para></note></sect2>
+
+<sect2 revision="0.75" id="chordsenter"><title>Chord Entry in Classic Mode</title><para>To enter a chord choose a pitch and a rhythm for your base note. 
+Next move the cursor to the next chord tone using the letter name for each note or the j and k keys, hit enter to add the note. To make chord entry easier there is a key binding also for the left hand (Ctrl t)as well. Type Enter to toggle chord tones on and off. This add tones or converts rests to a chord tones. Shift Enter removes tones and switches them to rests.</para>
+
+
+
+<figure id="chords"><title>Chords</title><mediaobject><imageobject><imagedata fileref="images/fig3.png" align="center" scale="70%"></imagedata></imageobject></mediaobject></figure>
+
+<para><xref linkend="chords"></xref> three contains a series of chords. To enter chords:</para> <procedure>
+
+<step><para> Create a new file and save it to a convient location.</para></step>
+
+
+
+
+<step><para> Navigate to the E above middle C.  (type the alphabetical note names or the hjkl movement keys).</para></step>
+
+<step><para>Type an<command> a</command>and <command>u</command>, a half note g appears.</para></step>
+<step><para> Move the cursor to the<command> g</command> one line above and type <command>Enter</command> or <command>Ctrl t</command>. Use <command>Enter</command> when you are adding chord tones with the alphabetic note names, and use <command>Ctrl t</command> when using the<command> h</command>,<command>j</command>,<command>k</command>,<command>l</command>, navigation keys.</para></step>
+<step><para>Experiment moving the cursor to each additional chord tone in the first chord with the <command> h</command>,<command>j</command>,<command>k</command>,<command>l</command>, navigation keys.</para></step>
+
+<step><para>Type <command>Ctrl t</command> to add chord tones.<command> Shift Control</command> will delete chord tones if a wrong note is added accidently.</para></step>
+<step><para> Continue creating chords until <xref linkend="chords"></xref>  has been copied.</para></step></procedure>
+<note><para>To alter  chord tones chromatically, type the plus sign to sharpen the note at the cursor by one half-step and the minus sign to flatten the current note by a half step in the same manner you sharpen or flatten any pitch in Denemo</para></note>
+
+
+<note><para> Entering a chord when you are already at the end of the measure
+(the cursor turns red when this happens) may cause your next note
+to be added to the beginning of the next measure, or even 
+create a next measure if one didn't already exist.</para></note>
+</sect2>
+
+
+
+    <sect2 revision="0.76">
+      <title>Note and Rest Entry Toolbar</title>
+
+      <para>This toolbar can be used to enter notes using the mouse. It also shows what the prevailing duration is, that is what duration of note will be inserted when you press a note name key.</para>
+    </sect2>
+
+    <sect2>
+      <title>Chord Entry</title>
+
+      <para>The standard keybinding for entering notes in a chord is the Enter (aka Return) key. This enters the note at the cursor position making a chord out of the current note/chord. This works in Edit and Insert mode. In Classic mode it works on preceding note as you are appending notes.</para>
+    </sect2>
+
+    <sect2>
+      <title></title>
+
+      <para></para>
+    </sect2>
+
+    <sect2>
+      <title>Inserting LilyPond Directives</title>
+
+      <para><productname>Denemo</productname> allow you to insert LilyPond directives in between notes and at the start of each staff. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful). Choose Other-\>LilyPond directive and enter the lilypond required. (e.g. \transpose c d { will start transposing up a tone, use another LilyPond directive "}" to stop the transposing).<productname>Denemo</productname> does not understand these directives, but the PDF file will show them. Things like beaming and much, much more can be controlled this way.
+      <table>
+          <title>Dynamics and Phrasing</title>
+
+          <tgroup cols="6">
+            <thead>
+              <row>
+                <entry>Mark</entry>
+
+                <entry>Name</entry>
+
+                <entry>Shortcut</entry>
+
+                <entry>Marks</entry>
+
+                <entry>Name</entry>
+
+                <entry>Shortcut</entry>
+              </row>
+            </thead>
+
+            <tbody>
+              <row>
+                <entry>p</entry>
+
+                <entry>Piano</entry>
+
+                <entry></entry>
+
+                <entry><graphic align="center" fileref="images/accent.png" /></entry>
+
+                <entry>accent</entry>
+
+                <entry>@ToggleAccent@</entry>
+              </row>
+
+              <row>
+                <entry>pp</entry>
+
+                <entry>Pianissimo</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/acciaccatura.png" /></entry>
+
+                <entry>acciaccatura</entry>
+
+                <entry>Use a LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry>ppp</entry>
+
+                <entry>Pianississimo</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/appoggiatura.png" /></entry>
+
+                <entry>appoggiatura</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry>mf</entry>
+
+                <entry>Mezzo Forte</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/arpeggio.png" /></entry>
+
+                <entry>arpeggio</entry>
+
+                <entry>@ToggleArpeggio@</entry>
+              </row>
+
+              <row>
+                <entry>f</entry>
+
+                <entry>Forte</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/downbow.png" /></entry>
+
+                <entry>downbow</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry>ff</entry>
+
+                <entry>Fortissimo</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/downmordent.png" /></entry>
+
+                <entry>downmordent</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry>fff</entry>
+
+                <entry>Fortissatissimo</entry>
+
+                <entry>na</entry>
+
+                <entry><graphic align="center"
+                fileref="images/downprall.png" /></entry>
+
+                <entry>downprall</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry>sfz</entry>
+
+                <entry>Sfortzando</entry>
+
+                <entry>@ToggleSforzato@</entry>
+
+                <entry><graphic align="center"
+                fileref="images/fermata.png" /></entry>
+
+                <entry>fermata</entry>
+
+                <entry>Shift Asterisk *</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/flageolet.png" /></entry>
+
+                <entry>flageolet</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/glissando.png" /></entry>
+
+                <entry>glissando</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/lheel.png" /></entry>
+
+                <entry>lheel</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/lineprall.png" /></entry>
+
+                <entry>lineprall</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/longfermata.png" /></entry>
+
+                <entry>longfermata</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center" fileref="images/ltoe.png" /></entry>
+
+                <entry>ltoe</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/rheel.png" /></entry>
+
+                <entry>rheel</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/marcato.png" /></entry>
+
+                <entry>marcato</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/rtoe.png" /></entry>
+
+                <entry>rtoe</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/mordent.png" /></entry>
+
+                <entry>mordent</entry>
+
+                <entry>@ToggleMordent@</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/shortfermata.png" /></entry>
+
+                <entry>shortfermata</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center" fileref="images/open.png" /></entry>
+
+                <entry>open</entry>
+
+                <entry></entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/signumcongruentime.png" /></entry>
+
+                <entry>signumcongruentime</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/portato.png" /></entry>
+
+                <entry>portato</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/staccato.png" /></entry>
+
+                <entry>staccato</entry>
+
+                <entry>@ToggleStaccato@</entry>
+
+                <entry><graphic align="center" fileref="images/prall.png" /></entry>
+
+                <entry>@TogglePrall@</entry>
+
+                <entry></entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/stacctissiimo.png " /></entry>
+
+                <entry>stacctissiimo</entry>
+
+                <entry>Ctrl Alt . period</entry>
+
+                <entry><graphic align="center"
+                fileref="images/pralldown.png" /></entry>
+
+                <entry>pralldown</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/stopped.png" /></entry>
+
+                <entry>stopped</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/prallmordent.png" /></entry>
+
+                <entry>prallmordent</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/tenuto.png" /></entry>
+
+                <entry>tenuto</entry>
+
+                <entry>@ToggleTenuto@</entry>
+
+                <entry><graphic align="center"
+                fileref="images/prallprall.png" /></entry>
+
+                <entry>@TogglePrallPrall@</entry>
+
+                <entry></entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/thumb.png" /></entry>
+
+                <entry>thumb</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/prallup.png" /></entry>
+
+                <entry>prallup</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/trill.png" /></entry>
+
+                <entry>trill</entry>
+
+                <entry>@ToggleTrill@</entry>
+
+                <entry><graphic align="center"
+                fileref="images/reverseturn.png" /></entry>
+
+                <entry>reverseturn</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/turn.png" /></entry>
+
+                <entry>@ToggleTurn@</entry>
+
+                <entry>@ToggleTurn@e</entry>
+
+                <entry><graphic align="center"
+                fileref="images/upprall.png" /></entry>
+
+                <entry>@ToggleUpprall@</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center" fileref="images/upbow.png" /></entry>
+
+                <entry>upbow</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic align="center"
+                fileref="images/verylongfermata.png" /></entry>
+
+                <entry>verylongfermata</entry>
+
+                <entry>Use LilyPond directive</entry>
+              </row>
+
+              <row>
+                <entry><graphic align="center"
+                fileref="images/upmordent.png" /></entry>
+
+                <entry>upmordent</entry>
+
+                <entry>Use LilyPond directive</entry>
+
+                <entry><graphic fileref="images/" /></entry>
+
+                <entry>@ToggleBeginSlur@</entry>
+
+                <entry></entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table></para>
+
+      <para>To add an expression to notation as you type, just enter the note
+      pitch and duration you want and immediately afterwards the expression you want from the menu Expression Marks. As always, you can assign shortcuts to expression marks you frequently use. To add expressions
+      after you have already added notes, position the cursor at the note you want to add an expression
+      to. You won't need to be exactly on the note to add expressions
+      especially at the end of a bar.</para>
+
+      <example id="expressions">
+        <title></title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/expressions.png" />
+          </imageobject>
+        </mediaobject>
+      </example>
+    </sect2>
+  </sect1>
+
+  <sect1 revision="0.75">
+    <title>Adding Expressions</title>
+
+    <para>Look at <xref linkend="expressions" />, we see a short musical
+    expression. Lets add the expressions:</para>
+
+    <procedure>
+      <step>
+        <para>Using the keyboard shortcuts enter the low b. (the b on the
+        keyboard and a space)</para>
+      </step>
+
+      <step>
+        <para>Type the g (the g on the keyboard and a space)</para>
+      </step>
+
+      <step>
+        <para>Type an a <command>w</command>, a mordent above the g. <note>
+            <para><productname>Denemo</productname> won't place expressions
+            optimally, don't worry it will display correctly in the final
+            published output.</para>
+          </note></para>
+      </step>
+
+      <step>
+        <para>Type the second g the same way you did in the previous
+        step.</para>
+      </step>
+
+      <step>
+        <para>Type the a and g eighth notes (using the a and g keys with the i
+        key)</para>
+      </step>
+
+      <step>
+        <para>Type two a quarter notes (the a key and a space)</para>
+      </step>
+
+      <step>
+        <para>Type Ctrl Shift R, a trill appears above the a.</para>
+      </step>
+
+      <step>
+        <para>Type an a quarter note.</para>
+      </step>
+
+      <step>
+        <para>Type a tilde <command>~</command>, a turn appears above the
+        final a quarter note.</para>
+      </step>
+
+      <step>
+        <para>Type the final b and c eighth notes.</para>
+      </step>
+    </procedure>
+
+ 
+  </sect1>
+
+  <sect1>
+    <title>Repeats</title>
+
+    <para>To add Repeats to scores using
+    <productname>Denemo</productname>:</para>
+
+    <procedure>
+      <step>
+        <para>Repeat barlines can be added using Other-\>Insert/Edit LilyPond, the LilyPond directive \bar ":|" adds an end repeat, for example. See LilyPond docs for further examples, or explore the templates.</para>
+      </step>
+
+
+    </procedure>
+  </sect1>
+
+ 
+<sect1 revision="0.75" id="playing"><title id="xg">Score Playback</title><para></para>
+<sect2 revision="0.75" id="midi"><title id="xh">Midi</title><para></para><formalpara><title>Midi playback</title>
+
+<para>
+When you click on the Play item of the toobar the current movement is played starting from the measure with the cursor in it. If there is a selection then the measures containing the selection are played, otherwise play continues until you click stop or the movement ends.
+
+</para>
+<para>While playing, the music scrolls automatically so that you can watch and either bookmark or stop the music if you hear something you want to re-visit. You can make corrections to the synchronism by using the measure forwards or backwards keypresses (usually bound to Ctrl right/left arrow). </para>
+<para>This automatic scrolling is turned off if you explicitly set the range of measures in the Playback->Playback Properties dialog</para>
+</formalpara>
+
+
+</sect2>
+
+<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using C sound. Denemo will play your file with a .orc file. In the C sound configuration dialog box make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo comes with a few demo .orc files which you will find in XXX. The C sound module of Denemo is currently under construction.
+ </para></sect2>
+</sect1>
+
+  <sect1 revision="0.75">
+    <title>Publishing</title>
+
+    <para>Creating scores with <productname>Denemo</productname> is quick and
+    easy. Click on Print, and in the PDF viewer choose print.
+    </para>
+
+ 
+  </sect1>
+
+  <sect1>
+    <title>Advanced Features</title>
+
+    <para>This section will explain how to enter advanced rhythms, chords
+    polyphony etc</para>
+
+    <formalpara>
+      <title>Display Command</title>
+
+      <para>Control-Shift-left: Decrease the minimum display width of all
+      measures by 10 pixels Control-Shift-right: Increase the same by 10
+      pixels Control-Shift-up: Decrease vertical space alloted to each staff
+      by 10 pixels Control-Shift-down: Increase vertical space alloted to each
+      staff by 10 pixels</para>
+    </formalpara>
+
+    <sect2>
+      <title>Entering Tuplets</title>
+<para>
+      Tuplets can be entered using the Tuplets menu on the Menu of Objects, or the old method described below
+</para>
+      <para>LilyPond treats tuplets as fractions with the top (numerator)
+      signifying the amount of notes normally displayed and the denominator
+      the amount of notes to be displayed instead. If this sounds confusing
+      for musicians raised on triplets, pentuplets etc., it is. So Denemo has
+      simplified this by permitting you to use the triplet name to lay them
+      down easily, it also lets you create custom tuplets if you so
+      desire.</para>
+
+      <table id="tuples">
+        <title></title>
+
+        <tgroup cols="4">
+          <thead>
+            <row>
+              <entry>Tuplet</entry>
+
+              <entry>Shortcut</entry>
+
+              <entry>Tuplet</entry>
+
+              <entry>Shortcut</entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>Duplet</entry>
+
+              <entry>2</entry>
+
+              <entry>Triplet</entry>
+
+              <entry>3</entry>
+            </row>
+
+            <row>
+              <entry>Quadruplet</entry>
+
+              <entry>4</entry>
+
+              <entry>Pentuplet</entry>
+
+              <entry>5</entry>
+            </row>
+
+            <row>
+              <entry>Sextuplet</entry>
+
+              <entry>6</entry>
+
+              <entry>Septuplet</entry>
+
+              <entry>7</entry>
+            </row>
+
+            <row>
+              <entry>Octuplet</entry>
+
+              <entry>8</entry>
+
+              <entry></entry>
+
+              <entry></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para><xref linkend="tuples" /> lists the keyboard shortcut for adding
+      tuplets in Denemo. To add tuplets do the following:</para>
+
+      <procedure>
+        <step>
+          <para>Place the cursor in the place you want to add the
+          tuplet.</para>
+        </step>
+
+        <step>
+          <para>Type the number corresponding to the tuplet you want to enter.
+          (For instance a 3 for a tuplet). The tuplet boundary markers "~" and "|" appear at the top of the staff. The cursor is placed between, which is where your triplet should go. Tuplets can be selected and made into custom rhythms for easier entry. See (out of date image) <xref
+          linkend="tupletmarkers" /></para>
+        </step>
+
+        <step>
+          <para>Enter the pitches and durations of the tuplet using the pitch
+          names (a, b, c, d, etc.) and the duration names (yuio space).</para>
+        </step>
+
+        <step>
+          <para>Next with the <command>l</command> key move the cursor after
+          the Tuplet End marker.</para>
+        </step>
+      </procedure>
+
+      <figure id="tupletmarkers">
+        <title>Tuplet Markers</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="images/tupletmarkers.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </sect2>
+
+    <sect2>
+      <title>Playing a Score</title>
+
+      <para></para>
+
+      <sect3 id="midi">
+        <title id="xh">Midi</title>
+
+        <para></para>
+
+        <formalpara>
+          <title>Midi playback</title>
+
+         
+        </formalpara>
+
+     
+
+        <para>Denemo uses external midi player to play back your score. You can choose which program to use as follows. Go to the <guimenu>Playback</guimenu> menu and
+        choose<guimenuitem>Playback Properties</guimenuitem> and Externals tab.  In the External Midi Player text box enter the
+        name of your midi player. Example 4 has Timidity entered, but it could
+        be any midi player of your choice. There is also a place to enter the name of your audio
+        player, but this is not tested in this release. To play your score go to
+        the<guimenu> Playback</guimenu> menu and click
+        <guimenuitem>Play</guimenuitem>.</para>
+      </sect3>
+
+      <sect3 id="csound">
+        <title>Csound</title>
+
+        <para>In addition to permitting midi playback, Denemo permits playback
+        using C sound. Denemo will play your file with a .orc file. In the C
+        sound configuration dialog box make sure the command: <command> csound
+        -d -W</command> is set. Next use the navigation box to choose your
+        .orc file. Denemo comes with a few demo .orc files which you will find
+        in XXX. The C sound module of Denemo is currently under
+        constructio.</para>
+      </sect3>
+    </sect2>
+<sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
+</para>
+
+
+<sect3><title>Commands</title><para>To edit quickly in Denemo use the following keyboard shortcuts:
+
+<table><title></title><tgroup cols="3" ><thead><colspec colnum="1" colsep="1" ></colspec><row><entry>Command</entry><entry>Function</entry><entry>Comment</entry></row></thead><tbody>
+
+<row><entry><command> m</command> </entry> <entry> Add a new measure to all staves at the current cursor position</entry> </row>
+<row><entry><command> M</command> </entry> <entry> Add a new measure to all staves at the  end of the score.</entry> </row>
+<row><entry><command> Ctrl shift A </command></entry><entry>Add a Staff after current Staff</entry> </row>
+<row><entry><command>Ctrl shift B</command></entry><entry>Add a Staff before current Staff</entry> </row>
+<row><entry><command>Ctrl shift x</command> or <command>Ctrl shift delete</command></entry><entry>Delete current Staff</entry> </row>
+<row><entry><command>Ctrl s</command></entry><entry>Set a mark point at the cursor</entry></row>
+
+
+<row><entry><command>Shift S</command></entry><entry>Set selection</entry><entry></entry></row>
+
+<row><entry><command>Alt Shift S</command></entry><entry>Cancel selection</entry></row>
+<row><entry><command> Ctrl C</command></entry><entry>Copy selection to the Clipboard but leave the area selected</entry></row>
+<row><entry><command> Ctrl X</command></entry><entry> Copy the area between the mark point and the current cursor location to the paste buffer and clear the selection</entry></row>
+<row><entry><command>Ctrl V</command></entry><entry>Paste the buffer at the current cursor position</entry></row>
+</tbody></tgroup></table>
+
+</para>
+
+
+<para>To perform common editing tasks the procedure is as follows:
+
+</para><procedure><step><para>Move the cursor to the beat within the measure you want to edit. </para></step>
+
+<step><para>Lasso the notes you want to edit: Type <command>Shift S</command> and use the <command>HJKL</command> keys to extend the lasso to include the notes you want to edit.</para></step>
+
+<step><para>Next type the command you want to perform, such as copy <command>Ctrl c</command> or cut <command>Ctrl x</command></para></step>
+
+<step><para>Deselect the notes by typing <command>Alt Ctrl S</command></para></step>
+
+<step><para>Navigate to the measure you want to paste the section in the clipboard and type <command>Ctrl v</command> to paste in the notes from the clipboard.</para></step>
+
+
+</procedure></sect3>
+</sect2>
+
+    <sect2 revision="0.76">
+      <title>Editing</title>
+
+      <para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.</para>
+
+      <para></para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title>Advanced Use</title>
+
+    <sect2 revision="0.70">
+      <title>Single Staff Polyphony</title>
+
+      <para></para>
+
+      <para>Denemo permits the use of mutiple staves for part work, as well as
+      enabling multiple voices on a single staff. To add voices to the current
+      staff do the following:<orderedlist>
+          <listitem>
+            <para>Go to the measure(s) where you want to add the second
+            voice</para>
+          </listitem>
+
+          <listitem>
+            <para>Use <guimenuitem>Add Voice to Current Staff item</guimenuitem>.Then open the staff properties. This 
+            dialog box will appear. <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="images/addvc2currentstaff.png" />
+                </imageobject>
+              </inlinemediaobject></para>
+          </listitem>
+
+          <listitem>
+            <para>If this is a different instrument than the other voice, open
+            the instrument drop down list and choose the appropriate
+            instrument. The default name for this voice should be ok.</para>
+          </listitem>
+
+          <listitem>
+            <para>Click Ok to close the dialog box.</para>
+          </listitem>
+
+          <listitem>
+            <para> To switch voices use StaffDown, StaffUp under staff menu.
+            or using the keyboard shortcut cntrl j((shift F)<note>
+                <para>The stem positioning positioning may not look correct in
+                the Denemo window, but it will look correct in the printed
+                output.</para>
+              </note></para>
+          </listitem>
+
+          <listitem>
+            <para>For every beat your voice is silent you need to add a null
+            note, which is achieved with the following sequence of key
+            strokes: 1. n puts you in null mode, 2. r toggles a rest 3. then
+            type the rest value you need to add, with the appropriate key
+            binding.</para>
+          </listitem>
+
+          <listitem>
+            <para>For the beats that contain notes just enter them as you
+            would normally see section x.<note>
+                <para>If you choose not to enter rests in null mode the visual
+                output will be the same but these notes will be heard during
+                midi playback of your score.</para>
+              </note></para>
+          </listitem>
+
+          <listitem>
+            <para>To leave the new voice and return to the previous one
+            type</para>
+          </listitem>
+
+          <listitem>
+            <para></para>
+          </listitem>
+        </orderedlist>.</para>
+    </sect2>
+
+
+    <sect2>
+      <title>Entering Vocal Music</title>
+
+      <para>Choose Other->Enter Lyrics. <note>you must provide a lyric for each note. </note>The Extend Syllable and Center check boxes are not documented, but you can use double hyphen “–“ and double underscore “__” respectively for these (as described in the LilyPond documentation for syllables and extenders).</para>
+    </sect2>
+
+    <sect2>
+      <title>Entering Figured Bass</title>
+
+      <para>To enter figures choose Other->Enter figured bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
+    </sect2>
+
+    <sect2 id="customizingDenemo">
+      <title>Adding Custom Key Bindings</title>
+
+      <para><productname>Denemo</productname> still comes with a number of premade
+      keyboard shortcut maps. However, the shortcuts attached to the menu items take precedence and are much easier to set. It is intended to replace this mechanism, possibly with a macro facility, at some future date.</para>
+    </sect2>
+  </sect1>
+
+  <sect1>
+    <title><productname>Denemo</productname> Commandline Options</title>
+
+    <para><productname>Denemo</productname> permits the batch conversion of
+    .denemo files into .ly files. The syntax is as follows "denemo -s
+    denemofilename. This has not been tested for this release.</para>
+  </sect1>
+
+  <sect1>
+    <title>Music Analysis with <productname>Denemo</productname></title>
+
+    <para>Plugin(s?) have been written for doing musical analysis. They are not documented here.</para>
+  </sect1>
+</article>

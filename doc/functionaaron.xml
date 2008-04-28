@@ -1,0 +1,1314 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<?xml-stylesheet href="./docbook-complete.css" type="text/css"?>
+<article>
+  <title/>
+  <section>
+    <title/>
+    <table>
+      <title>Denemo Function Table</title>
+      <tgroup cols="7">
+        <thead>
+          <row>
+     <entry>Function</entry> <entry>Function Name</entry> <entry>default binding</entry> <entry>LilyPond Binding</entry> <entry>Proposed Binding</entry> <entry>Comments</entry>
+            <entry>Similar Vim Binding if Any</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+	    <entry>Make a new document</entry>
+	    <entry>/File/New</entry>
+            <entry></entry>
+	    <entry></entry>
+            <entry>:</entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Create New window</entry>
+	    <entry>/File/NewWindow</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>cntl wn or :new</entry>
+	    <entry></entry><entry></entry>
+          </row>
+<row>
+            <entry>Create New from Template</entry>
+	    <entry>/File/NewWindow/From Template</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry>Aaron suggests adding this</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open existing Doc</entry>
+	    <entry>/File/Open</entry>
+            <entry>from command prompt denemo filename</entry>
+	    <entry></entry>
+            <entry>:</entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open existing Doc in new window</entry>
+	    <entry>/File/OpeninNewWindow</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+
+          </row>
+          <row>
+            <entry>Save Doc</entry>
+	    <entry>/File/Save</entry>
+             <entry></entry>
+            <entry></entry>
+	    <entry>ctrl+w</entry>
+            <entry></entry><entry>:w</entry>
+          </row>
+          <row>
+            <entry>Save to new name</entry>
+	    <entry>/File/SaveAs</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+shift+w</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Populate ly headers</entry>
+	    <entry>/File/SetHeaders</entry>
+             <entry></entry>
+	      <entry></entry>
+            <entry></entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Print</entry>
+	    <entry>/File/Print</entry>
+            <entry></entry>
+             <entry></entry>
+            <entry></entry>
+            <entry></entry><entry>Aaron suggest this should actually call printer and print a ps</entry>
+          </row>
+          <row>
+            <entry>Close current Doc</entry>
+	    <entry>/File/Close</entry>
+            <entry></entry>
+	    <entry></entry>
+            <entry></entry>
+            <entry>This function doen't currently work</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Exit Denemo</entry>
+	    <entry>/FIle/Quit</entry>
+            <entry></entry>
+	    <entry></entry>
+            <entry>q</entry>
+            <entry>Aaron suggests that menu item should be called Exit</entry><entry></entry>
+          </row>
+<row>
+            <entry>Undo</entry>
+	    <entry>/Edit/Undo</entry>
+           <entry></entry>
+	    <entry></entry>
+            <entry>shift+u</entry>
+            <entry></entry><entry>y</entry>
+          </row>
+<row>
+            <entry>Redo</entry>
+	    <entry>/Edit/Redo</entry>
+           <entry></entry>
+	    <entry></entry>
+            <entry>ctrl+u</entry>
+            <entry></entry><entry>y</entry>
+          </row>
+          <row>
+            <entry>Copy</entry>
+	    <entry>/Edit/Copy</entry>
+           <entry></entry>
+	    <entry></entry>
+            <entry>cntrl c</entry>
+            <entry></entry><entry>y</entry>
+          </row>
+          <row>
+            <entry>Cut</entry>
+	    <entry>Edit/Cut</entry>
+            <entry></entry>
+	    <entry></entry>
+            <entry>x</entry>
+            <entry></entry><entry>x or dd</entry>
+          </row>
+          <row>
+            <entry>Paste</entry>
+	    <entry>/Edit/Paste</entry>
+           <entry></entry>
+	    <entry></entry>
+            <entry>ctrl v</entry>
+            <entry></entry><entry>p</entry>
+          </row>
+          <row>
+            <entry>Copy Selection to Clipboard</entry>
+	    <entry>/Edit/SaveSelection</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl c</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Preferences Dialog</entry>
+	    <entry>/Edit/Preferences</entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+shift+p</entry>
+	    <entry>There needs to be a keybinding for each item</entry><entry></entry>
+          </row>
+<row>
+            <entry>Set midi player</entry>
+	    <entry>/Edit/Preferences</entry>
+             <entry></entry>
+	    <entry></entry>
+            <entry></entry>
+            <entry></entry><entry></entry>
+          </row>
+<row>
+            <entry>Set audio player</entry>
+	    <entry>/Edit/Preferences</entry>
+             <entry></entry>
+	    <entry></entry>
+            <entry></entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Keyboard dialog box</entry>
+	    <entry>/Edit/Keyboard</entry>
+             <entry></entry>
+	    <entry></entry>
+            <entry></entry>
+            <entry>It would be nice to have the ability to customize keybindings on the fly </entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Load Plugins dialog box</entry>
+	    <entry>/Edit/LoadPlugins</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>UnLoad Plugins</entry>
+	    <entry>/Edit/UnloadPlugins</entry>
+             <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add a new Staff After Current Staff</entry>
+	    <entry>/Staff/AddNewStaffAfterCurrentStaff</entry>
+             <entry></entry>
+	    <entry></entry>
+            <entry>cntrl+shift+a</entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add a new Staff Before Current Staff</entry>
+            <entry>/Staff/AddNewStaffBeforeCurrentStaff</entry>
+             <entry></entry>
+	    <entry></entry>
+            <entry>cntrl+shift+s</entry>
+            <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add a new Staff Before all Staves</entry>
+            <entry>/Staff/AddNewStaffinLastPosition</entry>
+             <entry></entry>
+	    <entry></entry>
+	    <entry>alt+shift+s</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add a new Staff After all Staves</entry>
+            <entry>/Staff/AddNewStaffinInitialPosition</entry>
+             <entry></entry>
+	    <entry></entry>
+	    <entry>alt+shift+a</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add voice to Current Staff</entry>
+            <entry>/Staff/AddVoicetoCurrentStaff</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add Lyric Staff</entry>
+            <entry>/Staff/AddLyricStaff</entry>
+             <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry>What is this? Maybe this could be used as a way to add lyrics under the notes. This is a shortcoming of lilypond which it would be nice to overcome.</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add Figured Bass Staff</entry>
+            <entry>/Staff/AddFiguredBassStaff</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Staff Properties dialog box</entry>
+            <entry>/Staff/StaffProperties</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+shift+p</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Set Initial Clef Dialog box</entry>
+            <entry>/Clef/SetInitialClef</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+c</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Change Clef Dialog box</entry>
+            <entry>/Clef/InsertClefChange</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+	    <entry>shift+c</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Set Initial Key Signiture Dialog box</entry>
+            <entry>/Key/SetInitiaKeySignature</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+k</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Change Clef Dialog box</entry>
+            <entry>/Key/InsertKeySignatureChange</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>shift+</entry>
+	    <entry></entry><entry></entry>
+	   
+          </row>
+          <row>
+            <entry>Open Set Initial Time Signiture Dialog box</entry>
+            <entry>/Time/SetInitialTimeSignature</entry>
+           <entry></entry>
+	    <entry></entry>
+	    <entry>t</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Change Time Signiture Dialog box</entry>
+            <entry>/Time/InsertTimeSignatureChange</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>shift+t</entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open the Change Notehead Dialog Box</entry>
+            <entry>/Other/ChangeNotehead</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+            <entry>Create a harmonic or drum notehead</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open Insert Stemming Direction</entry>
+            <entry>/Other/InsertStemmingDirective</entry>
+           <entry></entry>
+	    <entry>\stemUp
+\stem Down
+\stemboth</entry>
+	    <entry></entry>
+            <entry>What is this</entry><entry></entry>
+          </row>
+          <row>
+            <entry>Add lyrics</entry>
+            <entry>/Other/InsertLyric</entry>
+           <entry></entry>
+	    <entry></entry>
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Change Lyrics</entry>
+            <entry>/Other/EditLyric</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry></entry>
+            <entry>Opens the Insert Lyrics dialog box</entry><entry></entry>
+          </row>
+
+
+          <row>
+            <entry>Open dynamic dialoc box</entry>
+            <entry>/Other/InsertDynamic</entry>
+           <entry></entry>
+	    <entry></entry>
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+          <entry>Insert a lilypond directive not found in Denemo into the Score</entry>
+            <entry>/Other/InsertLilyDirective</entry>
+          
+	    <entry></entry>
+	    <entry></entry> 
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open insert an articulation mark dialog box</entry>
+            <entry>/Other/InsertArticulation/General</entry>
+           
+	    <entry></entry>
+	    <entry></entry> 
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open bowing mark dialog box</entry>
+            <entry>/Other/InsertArticulation/String</entry>
+            
+	    <entry></entry>
+	    <entry>\downbow \upbow</entry> 
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+             <entry>Open Insert Organ pedalings etc</entry>
+            <entry>/Other/InsertArticulation/Organ</entry>
+           <entry></entry>
+	    <entry>\lheel \rheel \ltoe \rtoe 
+
+</entry>
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Insert a Barline</entry>
+            <entry>/Other/InsertBarline</entry>
+            
+            <entry></entry>
+	    <entry></entry> 
+	    <entry>|</entry>
+            <entry></entry><entry></entry>
+          </row>
+<row>
+            <entry>Delete a Barline</entry>
+            <entry>/Other/InsertBarline</entry>
+            
+            <entry></entry>
+	    <entry>\bar "|" c
+	   \bar ""
+	   \bar "|:"
+	   \bar "||"
+	   \bar ":|"
+	   \bar ".|"
+	   \bar ".|."
+	   \bar ":|:"
+	   \bar "|."
+	   \bar ":"</entry> 
+	    <entry></entry>
+            <entry></entry><entry></entry>
+          </row>
+
+          <row>
+            <entry>Open change measure width dialog box</entry>
+            <entry>/Display/ChangeMeasureWidth</entry>
+           <entry></entry>
+	    <entry></entry>
+	    <entry>shift+w</entry> 
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+            <entry>Open change space between staffs dialog box</entry>
+            <entry>/Display/ChangeSpaceBetweenStaff</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrk+w</entry> 
+	    <entry></entry><entry></entry>
+          </row>
+          <row>
+           <entry>Jump to a specific measure</entry>
+            <entry>/Navigation/GoToMeasure</entry>
+            <entry></entry>
+	    <entry></entry>
+	    <entry>ctrl+g</entry> 
+	    <entry></entry><entry>GG with number</entry>
+          </row>
+          <row>
+	    <entry>Display Number of Measures in Piece</entry>
+            <entry></entry>
+            <entry></entry> 
+	    <entry></entry>
+            <entry></entry>
+            <entry></entry><entry>ctrl+G</entry>
+          </row>
+<row>
+           <entry>Jump to beginning of piece</entry>
+            <entry>/Navigation/ToBeginningofScore</entry>
+            <entry></entry> 
+	    <entry></entry>
+            <entry>0</entry>
+            <entry></entry><entry>{</entry>
+          </row>
+          <row>
+             <entry>Jump to end of piece</entry>
+            <entry>/Navigation/ToEndofScore</entry>
+            <entry></entry>
+	    <entry></entry>
+            <entry>$</entry>
+            <entry></entry><entry>}</entry>
+          </row>
+	  <row>
+	     <entry>Jump to next Score system</entry>
+	     <entry>/Navigation/ToNextScore</entry>
+	     <entry>ctrl+j</entry>
+	    <entry></entry> 
+	    <entry></entry> <entry></entry><entry>ctrl F next r ctrl b previous</entry>
+	  </row>
+ <row>
+	     <entry>Go to postion before the Navigate Command</entry>
+	     <entry></entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> <entry>Idea Taken from Vim</entry><entry>``</entry>
+	  </row>
+	  <row>
+	      <entry>Play this score with midi player</entry> 
+	     <entry>/Playback/Play</entry>
+	      <entry></entry><entry></entry>
+	     <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Play this score with Csound .orc file</entry> 
+	     <entry>/Playback/PlayCSound</entry>
+	    <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	    
+	    
+	  </row>
+	  <row>
+	     <entry>Open Playback properties dialog box</entry> 
+	     <entry>/Playback/Properties</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+ <row>
+	     <entry>Select which voice of score to play</entry> 
+	     <entry>/Playback/Properties</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+ <row>
+	     <entry>Select playback starting and stopping measures</entry> 
+	     <entry>/Playback/Properties</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+
+ <row>
+	     <entry>Set tempo for score playback</entry> 
+	     <entry>/Playback/Properties</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+
+
+
+<row>
+	     <entry>Stop currently playing score</entry> 
+	     <entry>/Playback/Stop</entry>
+	     
+	   <entry>Stop currently playing score</entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+<row>
+	     <entry>Pause currently playing score</entry> 
+	     <entry>/Playback/Pause</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	  </row>
+<row>
+	     <entry>Play from beginning of current score</entry> 
+	     <entry>/Playback/Playtop</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry>
+	    
+	  </row>
+<row>
+	     <entry>play from close to end of current score</entry> 
+	     <entry>/Playback/Playend</entry>
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	    <entry>If such a function is implemented a number would delimit the amount of measures/beats from the end to start.</entry><entry></entry>
+	  </row>
+<row>
+	      <entry>display Denemo licence and develper info</entry>
+	     <entry>/Help/about/</entry>
+	     
+	     <entry></entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	     <entry>Licence Info</entry><entry></entry>
+	  </row>
+
+	  <row>
+	    <entry>Display context sensitive help</entry>
+	     <entry>Context Sensitive Help</entry>
+	       <entry></entry> 
+	     <entry></entry>  
+	     <entry></entry> 
+	     <entry>The F1 help needs creating</entry><entry></entry>
+	  </row>
+ <row>
+	     <entry>Open the Online help index</entry>
+	     <entry>/Help/Index</entry>
+	     <entry></entry>
+	     <entry></entry><entry></entry>
+	     <entry>The online help needs writing</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor left</entry>
+	     <entry>CursorLeft</entry>
+	     <entry>Left, h, Shift+H, KP_Left</entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor down</entry>
+	     <entry>CursorDown</entry>
+	     <entry>Down, j, Shift+J, KP_Down</entry>
+	    <entry></entry> 
+	    <entry></entry> 
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor up</entry>
+	     <entry>CursorUp</entry>
+	     <entry>Up, k, Shift+K, KP_Up</entry>
+	    <entry></entry> 
+	    <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor right</entry>
+	     <entry>CursorRight</entry>
+	     <entry>Right, l, Shift+L, KP_Right</entry>
+	     <entry></entry> 
+	    <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+<row>
+	     <entry>Move cursor right</entry>
+	     <entry>CursorRight</entry>
+	     <entry>Right, l, Shift+L, KP_Right</entry>
+	     <entry></entry> 
+	    <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+
+
+	  <row>
+	     <entry>Move cursor to first note of measure</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>(</entry> 
+	
+	  </row>
+<row>
+	     <entry>Move cursor to last  note of measure</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>)</entry> 
+	
+	  </row>
+<row>
+	     <entry>Move cursor to beginning of section(double bars or markers)</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>{</entry> 
+	
+	  </row>
+
+<row>
+	     <entry>Move cursor to end of section(double bars or markers)</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>}</entry> 
+	
+	  </row>
+<row>
+	     <entry>Move cursor to beginning of Piece</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>0</entry> 
+	
+	  </row>
+<row>
+	     <entry>Move cursor to end of piece</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry> 
+	    <entry></entry> 
+	    <entry>Aaron suggests adding</entry><entry>$</entry> 
+	
+	  </row>
+	  <row>
+	     <entry>Move cursor to the staff below</entry>
+	     <entry>StaffDown</entry>
+	     <entry>Ctrl+Down, Ctrl+j</entry>
+	      <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry><entry></entry> 
+	  </row>
+	  <row>
+	     <entry>Move cursor to the first staff</entry>
+	     <entry>FirstStaff</entry>
+	      <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry> 
+	     <entry>Reed suggests to create it</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to the last staff</entry>
+	     <entry>LastStaff</entry>
+	      <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry> 
+	     <entry>Reed suggests to create it</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor left one measure </entry>
+	     <entry>MeasureLeft</entry>
+	     <entry>Ctrl+Left, Ctrl+h</entry>
+	      <entry></entry> 
+	    <entry></entry> 
+	    <entry></entry> <entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor a measure on right</entry>
+	     <entry>MeasureRight</entry>
+	     <entry>Ctrl+Right, Ctrl+l</entry>
+	     <entry></entry> 
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to neaserest A</entry>
+	     <entry>ToNearestA</entry>
+	     <entry>a, Shift+A, A</entry>
+	     <entry></entry>
+	    <entry>a</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest B</entry>
+	     <entry>ToNearestB</entry>
+	     <entry>b, Shift+B, B</entry>
+	     <entry></entry>
+	    <entry>b</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest C</entry>
+	     <entry>ToNearestC</entry>
+	     <entry>c, Shift+C, C</entry>
+	    <entry></entry>
+	    <entry>c</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest D</entry>
+	     <entry>ToNearestD</entry>
+	     <entry>d, Shift+D, D</entry>
+	     <entry></entry>
+	    <entry>d</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest E</entry>
+	     <entry>ToNearestE</entry>
+	     <entry>e, Shift+E, E</entry>
+	     <entry>e</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest F</entry>
+	     <entry>ToNearestF</entry>
+	     <entry>f, Shift+F, F</entry>
+	    <entry>f</entry>
+	    <entry></entry>
+	     <entry>s</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor to nearest G</entry>
+	     <entry>ToNearestG</entry>
+	     <entry>g, Shift+G, G</entry>
+	     <entry>g</entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor an octave up</entry>
+	     <entry>OctaveUp</entry>
+	     <entry>apostrophe</entry>
+	     <entry></entry>
+	    <entry>same</entry>
+	    <entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Move cursor an octave down</entry>
+	     <entry>OctaveDown</entry>
+	     <entry>comma</entry>
+	     <entry></entry>
+	    <entry>same</entry>
+	    <entry></entry><entry></entry><entry></entry>
+	  </row>
+
+<row>
+	     <entry>Move to next lyric word</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry>Aaron suggests adding this</entry><entry></entry>
+	  </row>
+
+	  <row>
+	     <entry>Insert a whole note</entry>
+	     <entry>InsertWholeNote</entry>
+	     <entry>0, KP_0, grave</entry>
+	     <entry>1</entry>
+	     <entry>y</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert an half note</entry>
+	     <entry>InsertHalfNote</entry>
+	     <entry>1, KP_1</entry>
+	     <entry>2</entry>
+	     <entry>u</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert a quarter note</entry>
+	     <entry>InsertQuarterNote</entry>
+	     <entry>2, KP_2, space</entry>
+	     <entry>4</entry>
+	     <entry>space</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert an eighth note</entry>
+	     <entry>InstertEighthNote</entry>
+	     <entry>3, KP_3</entry>
+	     <entry>8</entry>
+	     <entry>i</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert a sixteenth note</entry>
+	     <entry>InsertSixteenthNote</entry>
+	     <entry>4, KP_4</entry>
+	     <entry>16</entry>
+	     <entry>o</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert a thirtysecond note</entry>
+	     <entry>InsertThirtysecondNote</entry>
+	     <entry>5, KP_5</entry>
+	     <entry>32</entry>
+	     <entry>p</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert a sixtyfourth note</entry>
+	     <entry>InsertsixtyfourthNote</entry>
+	     <entry>6, KP_6</entry>
+	     <entry>64</entry>
+	     <entry>8</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Add dot</entry>
+	     <entry>AddDot</entry>
+	     <entry>period</entry>
+	    <entry>period</entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Remove dot</entry>
+	     <entry>RemoveDot</entry>
+	     <entry>Shift+greater</entry>
+	     <entry></entry>
+	    <entry></entry>
+	    <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to whole note</entry>
+	     <entry>ChangeToWholeNote</entry>
+	     <entry>Shift+asciitilde, Shift+KP_Insert</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to half note</entry>
+	     <entry>ChangeToHalfNote</entry>
+	     <entry>Shift+exclam, Shift+KP_End</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to quarter note</entry>
+	     <entry>ChangeToQuarterNote</entry>
+	     <entry>Shift+at, Shift+KP_Down</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to eighth note</entry>
+	     <entry>ChangeToEighthNote</entry>
+	     <entry>Shift+numbersign, Shift+KP_Next</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to sixteenth note</entry>
+	     <entry>ChangeToSixteenthNote</entry>
+	     <entry>Shift+dollar, Shift+KP_Left</entry>
+	     <entry></entry>
+	     <entry></entry><entry>Reed's suggests</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to thirtysecond note</entry>
+	     <entry>ChangeToThirtysecondNote</entry>
+	     <entry>Shift+percent, Shift+KP_Begin</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Change to sixtyfourth note</entry>
+	     <entry>ChangeToSixtyfourthNote</entry>
+	     <entry>Shift+asciicircum, Shift+KP_Right</entry>
+	     <entry></entry> <entry></entry>
+	     <entry></entry><entry></entry> 
+	  </row>
+	  <row>
+	     <entry>Toggle rest mode</entry>
+	     <entry>ToggleRestMode</entry>
+	     <entry>Escape</entry>
+	    <entry></entry>
+	    <entry>r</entry>
+	    <entry>just more natural to use r for rest, plus I would like the esc key to clear the modes</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert whole rest</entry>
+	     <entry>InsertWholeRest</entry>
+	     <entry>Alt+0, Alt+KP_0, Alt+grave</entry>
+	     <entry>ry</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert half rest</entry>
+	     <entry>InsertHalfRest</entry>
+	     <entry>Alt+1, Alt+KP_1</entry>
+	     <entry>ru</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert quarter rest</entry>
+	     <entry>InsertQuarterRest</entry>
+	     <entry>Alt+2, Alt+KP_2, Alt+space </entry>
+	     <entry>rspace</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert eighth rest</entry>
+	     <entry>InsertEighthRest</entry>
+	     <entry>Alt+3, Alt+KP_3</entry>
+	     <entry>ri</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert sixteenth rest</entry>
+	     <entry>InsertSixteenthRest</entry>
+	     <entry>Alt+4, Alt+KP_4</entry>
+	     <entry>ro</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert thirtysecond rest</entry>
+	     <entry>InsertThirtysecondRest</entry>
+	     <entry>Alt+5, Alt+KP_5</entry>
+	     <entry>rp</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert sixtyfourth rest</entry>
+	     <entry>InsertSixtyfourthRest</entry>
+	     <entry>Alt+6, Alt+KP_6</entry>
+	     <entry>r8</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert arbitrary tuplet</entry>
+	     <entry>InsertArbitraryTuplet</entry>
+	     <entry>Ctrl+0, Ctrl+1, Ctrl+2, Ctrl+3, Ctrl+5, Ctrl+6, Ctrl+7,
+	     Ctrl+9, Ctrl+KP_0, Ctrl+KP_1, Ctrl+KP_2, Ctrl+KP_3, Ctrl+KP_5,
+	     Ctrl+KP_6, Ctrl+KP_7, Ctrl+KP_9, Shift+F6</entry>
+	     <entry/><entry>na</entry>
+	     <entry>explain arbitray? I deleted these bindings these shortcuts have to be fixed</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert 2/3 tuplet</entry>
+	     <entry>Insert2/3Tuplet</entry>
+	   <entry></entry><entry>3</entry><entry></entry>
+	     <entry>triplets</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert 4/5 tuplet</entry>
+	     <entry>Insert4/5Tuplet</entry>
+	   <entry>5</entry><entry></entry><entry></entry>
+	     <entry>pentuplets</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert 4/6 tuplet</entry>
+	     <entry>Insert4/6Tuplet</entry>
+	      <entry></entry><entry>6</entry><entry></entry>
+	     <entry>sextuplets</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert 4/7 or 8/7 tuplet</entry>
+	     <entry>Insert4/7Or8/7Tuplet</entry>
+	      <entry></entry><entry>7</entry><entry></entry><entry></entry>
+	     <entry>septuplets</entry>
+	  </row>
+	  <row>
+	     <entry>Insert 8/9 Tuplet</entry>
+	     <entry>Insert8/9Tuplet</entry>
+	     <entry></entry><entry>9</entry><entry></entry><entry></entry>
+	     <entry>hextuplets</entry>
+	  </row>
+	  <row>
+	     <entry>Add a tone in a chord</entry>
+	     <entry>AddTone</entry>
+	     <entry>Return, KP_Enter</entry>
+	    <entry></entry><entry>Return, ctrl + t</entry><entry>For quick chord entry there needs to be a shortcut for each hand. This lets the right hand use h and l keys when needed.</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Remove a tone from a chord</entry>
+	     <entry>RemoveTone</entry>
+	     <entry>Shift+Return, Shift+KP_Enter</entry>
+	    <entry></entry><entry>Shift+Return, </entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Raise a note by semitones</entry>
+	     <entry>Sharpen</entry>
+	     <entry>Shift+plus, KP_Add, Shift+KP_Add</entry>
+	    <entry>is</entry><entry>plus</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Lower a note by semitones</entry>
+	     <entry>Flatten</entry>
+	     <entry>minus, KP_Subtract</entry>
+	     <entry>es</entry><entry>minus</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle tie</entry>
+	     <entry>ToggleTie</entry>
+	     <entry>equal</entry>
+	     <entry>~ tilde</entry><entry>equal</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete object</entry>
+	     <entry>DeleteObject</entry>
+	     <entry>x, Delete</entry>
+	     <entry></entry><entry>x</entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete previous object</entry>
+	     <entry>DeletePreviousObject</entry>
+	     <entry>Shift+X, BackSpace</entry>
+	    <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Insert a measure</entry>
+	     <entry>InsertMeasure</entry>
+	     <entry>m</entry>
+	    <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Append a measure</entry>
+	     <entry>AppendMeasure</entry>
+	     <entry>Shift+M</entry>
+	     <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Shrink measures</entry>
+	     <entry>ShrinkMeasures</entry>
+	     <entry>Ctrl+Shift+Left, Ctrl+Shift+KP_4</entry>
+	     <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Widen measures</entry>
+	     <entry>WidenMeasures</entry>
+	     <entry>Ctrl+Shift+Right, Ctrl+Shift+KP_6</entry>
+	      <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete a measure</entry>
+	     <entry>DeleteMeasure</entry>
+	     <entry>Ctrl+Delete, Ctrl+x</entry>
+	     <entry></entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete Staff</entry>
+	     <entry>DeleteStaff</entry>
+	     <entry>Ctrl+Shift+Delete, Ctrl+Shift+X</entry>
+	     <entry></entry><entry></entry>
+	     <entry>Should be added to Staff menu</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete staff before current staff</entry>
+	     <entry>DeleteStaffBeforeCurrentStaff</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	     <entry>Is it already existing? Should be added to Staff menu</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Delete staff after current staff</entry>
+	     <entry>DeleteStaffAfterCurrentStaff</entry>
+	      <entry></entry><entry></entry><entry></entry>
+	     <entry>Is it already existing? Should be added to Staff menu</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Shorter staffs</entry>
+	     <entry>ShorterStaffs</entry>
+	     <entry>Ctrl+Shift+Up, Ctrl+Shift+KP_8</entry>
+	     <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Taller staffs</entry>
+	     <entry>TallerSatffs</entry>
+	     <entry>Ctrl+Shift+Down, Ctrl+Shift+KP_2</entry>
+	      <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Open selection tool</entry> 
+	     <entry>SetMark</entry>
+	     <entry>Ctrl+space</entry>
+	      <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Close selection tool</entry>
+	     <entry>UnsetMark</entry>
+	     <entry>Ctrl+Shift+space</entry>
+	      <entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle begin slur</entry>
+	     <entry>ToggleBeginSlur</entry>
+	     <entry></entry>
+	      <entry>Shift+parentleft not the LP version see manual -(</entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle end slur</entry>
+	     <entry>ToggleEndSlur</entry>
+	     <entry></entry>
+	     <entry>Shift+parentright not the LP version see manual -)</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle accent</entry>
+	     <entry>ToggleAccent</entry>
+	    <entry>-> -^</entry>
+	     <entry></entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle fermata</entry>
+	     <entry>ToggleFermata</entry>
+	     <entry>Shift+asterisk</entry>
+	      <entry>\fermata</entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle staccato</entry>
+	     <entry>ToggleStaccato</entry>
+	   <entry></entry>
+	     <entry>-.</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle staccatissimo</entry>
+	     <entry>ToggleStaccatissimo</entry>
+	   <entry></entry><entry></entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle tenuto</entry>
+	     <entry>ToggleTenuto</entry>
+	    <entry></entry>
+	     <entry>--</entry><entry></entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle trill</entry>
+	     <entry>ToggleTrill</entry>
+	    <entry>\tr</entry><entry></entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle turn</entry>
+	     <entry>ToggleTurn</entry>
+	    <entry></entry>
+	     <entry></entry><entry></entry>
+	     <entry>\turn</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle mordent</entry>
+	     <entry>ToggleMordent</entry>
+	     <entry></entry>
+	     <entry>\mordent</entry><entry>w</entry>
+	     <entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Play Local</entry>
+	     <entry>PlayLocal</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	     <entry>What is this?</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Force caution</entry>
+	     <entry>ForceCaution</entry>
+	   <entry></entry><entry></entry><entry></entry>
+	     <entry>what is this? I am guessing force a cautionary accidental</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Toggle blank mode</entry>
+	     <entry>ToggleBlankMode</entry>
+	     <entry></entry>
+	     <entry></entry> <entry></entry>
+	     <entry>Reed suggests to change cursor's color (blue)</entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Stem down</entry>
+	     <entry>StemDown</entry>
+	     <entry></entry><entry>\stem Down</entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Stem up</entry>
+	     <entry>StemUp</entry>
+	     <entry></entry><entry>\stem Up</entry><entry></entry><entry></entry><entry></entry>
+	  </row>
+	  <row>
+	     <entry>Set grace</entry>
+	     <entry>SetGrace</entry>
+	     	     <entry></entry><entry>\acciaccatura { } \appoggiatura</entry><entry></entry><entry></entry><entry></entry>
+
+	  </row>
+	  <row><entry>Transpose current selection</entry>
+	     <entry></entry>
+	     <entry></entry>
+	     <entry>A missing function, which is needed.</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	  </row>
+	  
+<row><entry>Insert begin manual beam</entry>
+	     <entry></entry>
+	     <entry>[</entry>
+	     <entry>A missing function, which is needed.</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	  </row>
+	  
+<row><entry>Insert end  manual beam</entry>
+	     <entry></entry>
+	     <entry>]</entry>
+	     <entry>A missing function, which is needed.</entry>
+	     <entry></entry><entry></entry><entry></entry>
+	  </row>
+<row><entry>Chord mode</entry>
+ <entry></entry>
+ <entry></entry>
+ <entry>c7 em7</entry>
+ <entry></entry>
+ <entry>Lilypond has a chord mode where you enter a chord name and it prints the chord</entry>
+ <entry></entry>
+</row>
+<row><entry>Visual mode</entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry>currently you select with sift space</entry>
+ <entry>an-select note ac-select chords am-select measure ap-select pharse ab-select block aB() {}</entry>
+</row>
+
+<row><entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+</row>
+<row><entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+</row>
+<row><entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+ <entry></entry>
+</row>
+
+	  
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+</article>

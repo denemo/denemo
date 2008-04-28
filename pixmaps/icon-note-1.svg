@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="32.000000pt"
+   height="32.000000pt"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/jens/java/workspace/denemo/pixmaps"
+   sodipodi:docname="icon-note-1.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="19.491526"
+     inkscape:cx="15.167120"
+     inkscape:cy="16.240635"
+     inkscape:current-layer="svg1"
+     showborder="true"
+     showgrid="true"
+     gridspacingy="1.0000000pt"
+     gridspacingx="1.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     gridtolerance="1.0000000pt"
+     showguides="true"
+     inkscape:guide-bbox="false"
+     inkscape:window-width="1150"
+     inkscape:window-height="816"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:grid-points="true"
+     inkscape:grid-bbox="true"
+     gridempspacing="4" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <path
+     d="M 16.838647,36.033667 C 15.976094,35.735688 15.652580,35.222944 15.664654,34.172982 C 15.673341,33.417566 16.021461,32.210028 16.432997,31.507793 C 16.774676,30.924763 17.521639,30.277786 18.217347,29.962292 C 19.740464,29.271578 22.065053,28.938747 23.129225,29.259015 L 23.530183,29.379685 L 23.530183,16.564843 L 23.530183,3.7500000 L 24.005032,3.7500000 L 24.479880,3.7500000 L 24.456857,17.799652 L 24.433835,31.849304 L 24.188682,32.580832 C 24.053850,32.983173 23.831974,33.509298 23.695627,33.750000 C 23.332806,34.390507 22.601680,35.040587 21.871981,35.371496 C 20.270237,36.097866 17.919630,36.407106 16.838647,36.033667 z M 18.298720,35.070486 C 19.222252,34.708646 22.234600,32.743866 22.976804,32.019241 C 23.504667,31.503883 23.618539,31.151589 23.414837,30.664061 C 23.269795,30.316928 22.903409,30.085029 22.500000,30.085029 C 21.913688,30.085029 20.317093,30.964652 18.273684,32.413462 C 16.748775,33.494647 16.424043,33.933154 16.647307,34.609656 C 16.766859,34.971903 17.164412,35.247969 17.567191,35.248438 C 17.719274,35.248616 18.048462,35.168537 18.298720,35.070486 z "
+     id="path1227" />
+</svg>

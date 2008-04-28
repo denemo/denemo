@@ -1,0 +1,77 @@
+<?xml version="1.0" ?> 
+<Instruments>
+	<InstrumentType name="Woodwinds">
+		<Instrument name="Flute" transposing="0" staffType="single" clef="treble" midiName="flute"/>
+		<Instrument name="Clarinet in Bb" transposing="-2" staffType="single" clef="treble" midiName="clarinet"/>
+		<Instrument name="Soprano Recorder" transposing="12" staffType="single" clef="treble" midiName="recorder"/>
+		<Instrument name="Alto Recorder" transposing="5" staffType="single" clef="treble" midiName="recorder"/>
+		<Instrument name="Tenor Recorder" transposing="0" staffType="single" clef="treble" midiName="recorder"/>
+		<Instrument name="Oboe" transposing="0" staffType="single" clef="treble" midiName="oboe"/>
+		<Instrument name="Oboe d'Amore" transposing="-2" staffType="single" clef="treble" midiName="oboe"/>
+		<Instrument name="English Horn" transposing="-7" staffType="single" clef="treble" midiName="english horn"/>
+		<Instrument name="Piccolo" transposing="12" staffType="single" clef="treble" midiName="piccolo"/>
+		<Instrument name="Alto Flute" transposing="-5" staffType="single" clef="treble" midiName="flute"/>
+		<Instrument name="Bass Flute" transposing="-12" staffType="single" clef="treble" midiName="flute"/>
+		<Instrument name="Bassoon" transposing="0" staffType="single" clef="bass" midiName="bassoon"/>
+		<Instrument name="Contrabassoon" transposing="-12" staffType="single" clef="bass" midiName="bassoon"/>
+		<Instrument name="Soprano Saxophone" transposing="-2" staffType="single" clef="treble" midiName="soprano sax"/>
+		<Instrument name="Alto Saxophone" transposing="-9" staffType="single" clef="treble" midiName="alto sax"/>
+		<Instrument name="Tenor Saxophone" transposing="-21" staffType="single" clef="bass" midiName="tenor sax"/>
+		<Instrument name="Baritone Saxophone" transposing="-21" staffType="single" clef="bass" midiName="baritone sax"/>
+	</InstrumentType>
+	<InstrumentType name="Brass">
+		<Instrument name="Horn in F" transposing="-7" staffType="single" clef="treble" midiName="french horn"/>
+		<Instrument name="Trumpet in Bb" transposing="-2" staffType="single" clef="treble" midiName="trumpet"/>
+		<Instrument name="Trumpet in C" transposing="0" staffType="single" clef="treble" midiName="trumpet"/>
+		<Instrument name="Trombone" transposing="0" staffType="single" clef="bass" midiName="trombone"/>
+		<Instrument name="Tuba" transposing="0" staffType="single" clef="bass" midiName="tuba"/>
+	</InstrumentType>
+	<InstrumentType name="Pitched Percussion">
+		<Instrument name="Timpani" transposing="0" staffType="single" clef="bass" midiName="timpani"/>
+		<Instrument name="Xylophone" transposing="12" staffType="single" clef="treble" midiName="xylophone"/>
+		<Instrument name="Marimba" transposing="12" staffType="single" clef="treble" midiName="marimba"/>
+		<Instrument name="Vibraphone" transposing="0" staffType="single" clef="treble" midiName="vibraphone"/>
+		<Instrument name="Bells" transposing="0" staffType="single" clef="treble" midiName="tubular bells"/>
+		<Instrument name="Glockenspiel" transposing="24" staffType="single" clef="treble" midiName="glockenspiel"/>
+	</InstrumentType>
+	<InstrumentType name="Plucked Strings">
+		<Instrument name="Mandolin" staffType="single" clef="treble" midiName="acoustic guitar (steel)"/>
+		<Instrument name="Banjo" staffType="single" clef="treble" midiName="banjo"/>
+		<Instrument name="Classical Guitar" transposing="-12" staffType="single" clef="treble" midiName="acoustic guitar (nylon)"/>
+		<Instrument name="Jazz Guitar" transposing="-12" staffType="single" clef="treble" midiName="electric guitar (jazz)"/>
+		<Instrument name="Bass" transposing="-12" staffType="single" clef="bass" midiName="acoustic bass"/>
+		<Instrument name="Electric Bass" transposing="-12" staffType="single" clef="bass" midiName="electric bass (finger)"/>
+		<Instrument name="Harp" staffType="piano" midiName="harp"/>
+	</InstrumentType>
+	<InstrumentType name="Keyboards">
+		<Instrument name="Piano" staffType="piano" midiName="acoustic grand"/>
+		<Instrument name="Harpsichord" staffType="piano" midiName="harpsichord"/>
+		<Instrument name="Celesta" staffType="piano" transposing="12" midiName="celesta"/>
+		<Instrument name="Church Organ" staffType="organ" midiName="church organ"/>
+		<Instrument name="Accordion" staffType="single" clef="treble" midiName="accordion"/>
+	</InstrumentType>
+	<InstrumentType name="Vocals">
+		<Instrument name="Soprano" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Mezzosoprano" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Alto" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Tenor" staffType="single" clef="G_8" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Bass" staffType="single" clef="bass" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="SA-TB mixed choir" staffType="SA-TB mixed choir" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Voice" staffType="single" clef="treble" midiName="voice oohs" hasLyrics="true"/>
+		<Instrument name="Soprano I" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Soprano II" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Alto I" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Alto II" staffType="single" clef="treble" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Tenor I" staffType="single" clef="G_8" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Tenor II" staffType="single" clef="G_8" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Bass I" staffType="single" clef="bass" midiName="choir aahs" hasLyrics="true"/>
+		<Instrument name="Bass II" staffType="single" clef="bass" midiName="choir aahs" hasLyrics="true"/>
+	</InstrumentType>
+	<InstrumentType name="Strings">
+		<Instrument name="Violin" staffType="single" clef="treble" midiName="violin"/>
+		<Instrument name="Viola" staffType="single" clef="alto" midiName="viola"/>
+		<Instrument name="Cello" staffType="single" clef="bass" midiName="cello"/>
+		<Instrument name="Contrabass" transposing="-12" staffType="single" clef="bass" midiName="contrabass"/>
+		<Instrument name="String ensemble" staffType="single" clef="treble" midiName="string ensemble 1"/>
+	</InstrumentType>
+</Instruments>

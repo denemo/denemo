@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<article><title>Quick Start</title><para>This document is intended to be used as tip of the day material, but can also me read alone for enterprising people.</para>
+<section><title>Welcome</title><para>If this your first time opening Denemo, you will notice its sparce interface. The reason for this is because Denemo uses keyboard shortcuts for most operations. To view the available keybindings available go to the help menu and open the appropriate keybinding chart.</para><remark>Click Next to read more!</remark></section>
+
+<section><title>First Steps</title><para>To start a new score you have three options:<orderedlist>
+<listitem><para>Go to the File Menu, choose NEW and configure your score manually using menus or keyboard shortcuts.</para></listitem>
+<listitem><para>Go to the File Menu, choose New from Template, choose a template and customize it to your needs.</para></listitem>
+<listitem><para>Go to the File Menu, choose the Score Setup wizard and use it to set up your score</para></listitem>
+
+
+
+</orderedlist>
+
+
+
+</para><remark>Click Next to read more!</remark></section>
+<section><title>Entering Notes</title><para>To Enter Notes in Denemo, ignore those tool pallets, you will only get sore hands that way. For your chosen keybinding schema (currently available are Default, Speedy and language specific ones) practice entering notes until it becomes easy to do. As an example I will choose the Speedy keybindings: To enter note names, type the letter name of each note (a,b,c,d,e,f,g),to switch octaves use the apostrephe and comma keys just like in Lilypond. To sharpen or flatten notes use the plus + and minus - keys. To enter note durations, type:<command> y</command> for a whole note,<command> u</command> for a half note,<command>Space bar</command>  for a quarter note, <command>i</command> for an eigth note, <command>o</command> for a sixteenth note, and <command>p</command> for a thirtysecond note.(yuiop) Check the chart for your keybinding configuration in the help menu. </para><remark>Click Next to read more!</remark></section>
+
+<section><title></title><para><tip><para>Don't expect to do every editing operation inside Denemo much work has been left to Denemo's powerful backend Lilypond www.lilypond.org, especially formatting issues.</para></tip></para></section>
+
+<section><title>Navigation</title><para>Getting around in denemo is similar to navigation in VIM, the hjkl keys move you around the staff, h moves the cursor to the left, j moves the cursor down, k moves the cursor up, and l moves the cursor to the right. To move a measure at a time add the control keys to the h and l keys. To move up and down a staff add control to the j and k keys. </para></section>
+</article>

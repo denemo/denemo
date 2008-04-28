@@ -1,0 +1,134 @@
+A NEW APPROACH
+
+In the original design (the text is below, 
+starting at SIMPLICITY OF FEATURES) the
+intention was to support limited re-import of lilypond files.
+With this version of denemo, a route to fairly general import
+of lilypond files is being trialled. As Matt pointed out, you
+cannot support everything in lilypond without writing an interactive
+version of lilypond (complete with scheme interpreter, tex etc done on
+the fly). But we don't need that. What we need is to visualize the
+notes as we put them in and edit them - there are a lot of them and it
+is difficult for musicians to "read" music that is just written as text.
+But we still want to return to editing after adding lily directives - we
+want to be able to interpret more or less any lilypond file so that we
+can play with putting voices on a stave, adding fingerings to some favorite
+score produced by someone else etc.
+To support this, the lilypond lexer/parser has been migrated to generate the
+denemo scoreinfo structure, while keeping the original text of the file with
+the notes that may be edited. In addition to denemo's graphical window a 
+text is opened to allow direct editing of the lilypond text. At present there
+is no incremental parser, but in practice reloading the whole file seems
+adequate (it would be nice to return to the same object after reload, though,
+insofaras this has a meaning).
+This design works broadly as follows. The parse tree generated is a list
+except where assignments are made, where the thing assigned to is a branch
+off the list. The items in the list are a generalization of the mudelaitem
+structure, which has been expanded to include a field giving the string from
+the input file that gave rise to the item.
+After creating this list, it is traversed: the \context statements give
+rise to the creation of new denemo "staff" structures and any music lists
+found within the context are split into measures at the '|'s and attached
+to the "staff" structure.
+The original parse tree remains valid however - what was a single list of
+musical items becomes a branch to a list of measures containing the original
+pieces of musical item list. This means it is still possible to traverse the
+tree and write out the original text.This is what is done when the file is 
+saved - there is no re-interpretation of the notes which have not been changed
+- the original text is just writen out again. When a new musical item is inserted, it
+has no string associated and a standardized lilypond syntax is generated for
+that item (using the routines of the old exportmudela code, which remains in
+use for music written from scratch or imported from elsewhere).
+Many benefits flow from this approach - to give just one example you can
+define a key in one place and then use it in several - see examples/simple.ly
+To change the key you just edit the one definition. There follows a corresponding
+limitations. For example, it no longer makes sense to introduce another 
+staff in the staff list of the score - where in the lilypond file should 
+the definition go? - what should it be called? Sure, you could cope with all 
+this graphically, but (unlike the notes) this is just one-off stuff better 
+done by cutting and pasting a staff definition textually. 
+So the basic design decision is that everything at the staff level and above 
+is just used by denemo to let you get at the mudelaobjects, while
+the mudelaobjects are actually *in* the original parse tree and will be output
+when that is traversed. Without a clear cut division like this you would be left
+with a mess when it came to writing the file out - which bits of the scoreinfo 
+structure came from the original file and which have been added, and so on.
+There are some wrinkles arising from grafting a new design on in this way.
+Barlines are implicit in denemo - in the present implementation the textual
+barlines can easily get notes inserted after them, they perhaps would be better
+explicitly represented and given widths etc like other items. The '~' sign for
+a tie does not come attached to its note in the lilypond parse, while in denemo
+it is an attribute of the note before it. The handling of context (current
+duration, and once we allow \relative music, current octave) is tricky, duration
+is handled ok except at measure boundaries where you have to do it by hand.
+Finally, there is a lot of the parser that hasn't had any rules written for it
+yet, so don't expect any old lilypond file to get through it yet.
+
+
+SIMPLICITY OF FEATURES
+
+You'll notice that denemo doesn't have hooks for many of Lilypond's
+features. (In fact, providing hooks for all of them would be
+practically impossible without writing something at least as
+complicated as Lilypond itself.) So, to use these specific Lilypond
+features, the user will have to go into the mudela files denemo
+produces and alter them directly, without denemo as a go-between.
+
+Why is the user forced to do these things manually? Well, mainly, it
+just doesn't seem that there's much advantage to a GUI environment for
+putting playing directions directly into the music, fine-tuning the
+way the music is beamed, putting multiple independent voices onto the
+same staff, adjusting a staff's relative position, and other things
+like that. In fact, it seems that there's a distinct disadvantage to
+GUIfying these operations: pushing such features to the frontend will
+burden the interface and make GUI tool harder to use. (I can say from
+personal experience that this has definitely happened to Finale.) It's
+just much better to handle this kind of complexity with the precision
+and well-defined-ness of plain ASCII text.
+
+I will admit that this manner of doing things will present challenges
+to novice users. Users should find the effort to be worthwhile,
+though. And it's not really _that_ difficult to learn how to use GNU
+lilypond; it's still easier than, say, learning C plus its gtk+
+bindings. :)
+
+
+THOUGHTS ON THE RE-IMPORTATION OF MUDELA AND HOW DENEMO WILL SUPPORT IT
+
+I want users to be able to use Denemo in two ways:
+
+1) Denemo is used for the initial phases of score creation only. Later
+changes in the work are made directly to the mudela that Denemo has
+produced and no longer with Denemo. This work can involve drastic
+changes to the mudela or more simple changes.
+
+2) Both Denemo and direct mudela editing are used throughout the whole
+process of score creation; the first editing session is done with
+Denemo, but thereafter, Denemo sessions can alternate with
+direct-mudela-editing sessions.
+
+This latter way of using Denemo is best enabled (at least that I've
+thought of) by giving Denemo the ability to reload exported mudela and
+re-export it without losing any information. If a user wants to, I
+can't stop them from making radical changes to the mudela that Denemo
+produces that would prevent Denemo from re-exporting successfully. I
+do want it to handle moderate changes gracefully, though, especially
+when the user specifically designates a new block of mudela that
+should be maintained as-is.
+
+This is what the lilydirective data type in datastructures.h is
+for. When Denemo loads mudela, any items which are specifically
+designated as non-intelligible to Denemo will be retained as
+lilydirectives and then written out again when the file is
+saved. (Users will also have to be able to add, remove, and edit
+lilydirectives within Denemo; otherwise Denemo would not be able to
+deal with the deletion of a section of music containing Lilydirectives
+on its edges sanely.)
+
+Lilypond itself will not, however, treat mudela designated as a
+lilydirective any differently. How? Lilydirective denemo will be put
+on its own line, and it will have a different amount/kind of
+whitespace in front of it.
+
+The mudela parser works now - expect to see this in a release fairly
+soon.

@@ -1,0 +1,131 @@
+This document describes Denemo's Development Roadmap 
+ Version 0.75
+Reorganization of Menus
+Added a recent files submenu in File
+Added bookmarks
+Fixed memory issues
+Total reworking of Csound playback
+Updated user manual
+Created a strict C branch of Denemo code.
+moved keymap to xml format
+fixed import of midi files
+Added paper setup dialog
+Added Getting started section to user manual
+Added Direct keybindings for all attributes: Key signitures, clefs, time signitures
+A New clearer DESIGN document
+importmidi fixed
+exportmidi fixed
+midi import + export tempo function fixed
+playback uses export midi by default
+playbackprefs playing seperate staves and measures ranges properly
+
+Version 0.76
+
+exportmidi transposes instruments if it needs to transposed.
+piano, orgran staff context actually does something useful.
+scorewizard
+
+Version 0.8
+
+Alsa Support
+Tip of the day dialog box- with tips being added over the next few versions. 
+Mode support 
+Automated Staff spacing
+Addin enter key support for dialogs
+finish xml keymap conversion-with headers and relaxng schema
+
+Version 0.85
+Scrolling playback
+keyboard dialog finalized(either migrate to new one or delete new one)
+Add playback controls to guis with keybindings for play stop pause etc.
+complete recent file function - with user configurable settings for how many files to save in history
+
+Version 0.9
+
+make a relaxng schema from the dtd.
+Complete undo's for all functions
+Support for chromatic note entry
+begin creation of qa system and scenerios 
+
+Version 0.95
+documentation included in the configure/make/make install procedure.
+
+
+Version 1.0
+
+Score Creation Wizard completed including transposing instrument setup
+Lilypond Import - including automated sync with lilypond dev versions.
+Midi format 0+2 Import
+XPM's replaced by SVG's
+Basic Text Editor Support
+API completed. documentation for implementing/adding new features
+code optimization done
+Transposition fully functioning
+finish qa scenes etc. and have a functioning qa system
+midi keyboard imput
+begin implementing better chord entry - chord mode
+begin export to lilypond chord mode
+begin gui reorganization
+playback icons on gui for alsa play and csound play
+icons on gui for New New from temlate, Score setup wizard, a toglle buttor nor the notation toolbare and articulation pallette
+
+Version 1.5
+
+Windows port
+chord mode completed
+finish export to lilypond chord mode
+begin work on infastructure for ports to win/mac/freebsd/other?
+add wide range of templatesbegin implementing vim keybindings with numbers
+denemo will start with cursor at last edit point
+implement a way to prepend accidentals as well as the curor direction (up/down)
+begin implementing extending of modes: lyric, chord, midi, text etc.
+longa breve 128th notes added
+
+Version 2.0
+
+MusicXML/Guido/ Support begin conversion
+Scripting Support
+documentation in workflow-new code will trigger the need for documentation about it doxygen>docbook.
+start creating an announcement publicity system for denemo. A release triggers certain actions etc.
+finish vim keybindings
+add missing dynamics hairpins etc
+all functions should have a keybinding
+support for multimovements in one denemo file
+tempo setting for score display as well as playback
+display of measure numbers
+add a repeat last operation function
+
+Version 2.5
+
+create a universal build system - like klik or aap or like lilypond does
+make transposition dialog clearer and create transpose plugin/function to permit transposing of selections staves etc.
+finer grained bookmarks down to the note level
+keybindings for the currently selected keymap should be displayed on the menu next to its function
+finish modes qa modes
+man page
+
+Version 3.0
+
+finish gui reorganization
+cm conversion
+Denemo as a front end for editing other ascii formats (with text editor etc) to be deceided what formats to support.
+add GM patch numbers/programs/drums etc
+begin implementing polyphony mode (with layers?)
+page view
+score groups on the fly creation and the ability to hide other staves.
+finer grained navigation sections, staff nuber, marked motifs etc.
+
+version 3.5
+convertors completed
+support for other file formats completed
+able to save snippets/motivs for reuse and manipulation(transpose etc)
+graphical enhancements to denemo (piano brackets etc piano cross staff notation...)
+begin macro and scripting support (recording macros and scripting language python??)
+
+version 4.0
+
+on the fly keybinding changes like in gimp
+repeats both visual and midi
+begin interactive tutorial plugin (touch typing music notation tutorial)
+support for other xml backends.
+search and search and replace function and dialog (also support to do search and replace without the gui)

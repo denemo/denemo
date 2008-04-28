@@ -1,0 +1,24 @@
+/Makefile.am/1.4/Mon Jul  9 01:52:11 2007//
+/chunks.c/1.1/Mon Jul  9 01:52:11 2007//
+/clt.c/1.1/Mon Jul  9 01:52:11 2007//
+/error.c/1.1/Mon Jul  9 01:52:11 2007//
+/exportniff.c/1.1/Mon Jul  9 01:52:11 2007//
+/exportniff.h/1.3/Mon Jul  9 01:52:11 2007//
+/fcc.c/1.1/Mon Jul  9 01:52:11 2007//
+/inherit.c/1.1/Mon Jul  9 01:52:11 2007//
+/names.c/1.1/Mon Jul  9 01:52:11 2007//
+/nfile.c/1.1/Mon Jul  9 01:52:11 2007//
+/niffexporter.c/1.1/Mon Jul  9 01:52:11 2007//
+/parse.c/1.1/Mon Jul  9 01:52:11 2007//
+/register.c/1.1/Mon Jul  9 01:52:11 2007//
+/rfile.c/1.1/Mon Jul  9 01:52:11 2007//
+/rwbytes.c/1.1/Mon Jul  9 01:52:11 2007//
+/rwniff.c/1.1/Mon Jul  9 01:52:11 2007//
+/rwtypes.c/1.1/Mon Jul  9 01:52:11 2007//
+/stbl.c/1.1/Mon Jul  9 01:52:11 2007//
+/stdcriff.c/1.1/Mon Jul  9 01:52:11 2007//
+/storenif.c/1.1/Mon Jul  9 01:52:11 2007//
+/table.c/1.1/Mon Jul  9 01:52:11 2007//
+/tags.c/1.1/Mon Jul  9 01:52:11 2007//
+/tcbtable.c/1.1/Mon Jul  9 01:52:11 2007//
+D

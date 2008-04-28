@@ -1,0 +1,88 @@
+***************
+*** 89,99 ****
+   * Enumeration for Denemo's input mode
+   */
+  typedef enum input_mode {
+-   INPUTNORMAL,
+-   INPUTREST,
+-   INPUTBLANK,
+-   REPLACE,
+-   TRAVERSE
+  }input_mode;
+  
+  /**
+--- 89,103 ----
+   * Enumeration for Denemo's input mode
+   */
+  typedef enum input_mode {
++ #define MODE_MASK (~(INPUTCLASSIC|INPUTEDIT|INPUTINSERT))
++   INPUTCLASSIC = 1<<0, /* classic mode */
++   INPUTEDIT = 1<<1, /* edit mode */
++   INPUTINSERT = 1<<2, /* insert mode */
++ #define ENTRY_TYPE_MASK (~(INPUTNORMAL|INPUTREST|INPUTBLANK))
++   INPUTNORMAL = 1<<3, /* entry type notes */
++   INPUTREST = 1<<4, /* entry type rests */
++   INPUTBLANK = 1<<5,/* entry type non-printing rests */
++   TRAVERSE = 1<<6 /* read-only */
+  }input_mode;
+  
+  /**
+***************
+*** 269,276 ****
+    gboolean lilyentrystyle;  
+    gboolean createclones; 
+    gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
+-   gboolean notation_palette; /**< This switch makes the notation pallete visable */
+-   gboolean rhythm_palette; /**< This option makes the rhythm pallete visable */
+    gboolean saveparts; /**< Automatically save parts*/
+    gboolean autosave; /**< Auto save data */
+    gint autosave_timeout; 
+--- 273,280 ----
+    gboolean lilyentrystyle;  
+    gboolean createclones; 
+    gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
++   gboolean notation_palette; /**< This switch makes the duration toolbar visable */
++   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
+    gboolean saveparts; /**< Automatically save parts*/
+    gboolean autosave; /**< Auto save data */
+    gint autosave_timeout; 
+***************
+*** 312,324 ****
+  
+  }LilypondHeaderInfo;
+  
+- typedef enum 
+- {
+-   RSM_OFF = 0,
+-   RSM_OVERLAY = 1<<0,
+-   RSM_RHYTHM = 1<<1
+-   
+- } RhythmicSubmode;
+  
+  typedef enum 
+  {
+--- 316,321 ----
+  
+  }LilypondHeaderInfo;
+  
+  
+  typedef enum 
+  {
+***************
+*** 464,471 ****
+     * operation */
+    gint curmeasure_stem_directive;
+   
+-   /* support for INPUTNORMAL sub mode RHYTMIC */
+-   RhythmicSubmode rhythmicsubmode;
+    GList *rhythms;/**< list of RhythmPattern s */
+    GList *currhythm; /**< currently in use element of rhythms */
+    GList *rstep; /**< step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
+--- 461,467 ----
+     * operation */
+    gint curmeasure_stem_directive;
+   
++   /* support for rhythm patterns */
+    GList *rhythms;/**< list of RhythmPattern s */
+    GList *currhythm; /**< currently in use element of rhythms */
+    GList *rstep; /**< step within RhythmPattern->rsteps, the current element of the current rhythm pattern */

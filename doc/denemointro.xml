@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book><title>What the heck is Denemo?</title><article>
+<section><title></title>
+ <para  role="persom">GNU Denemo is a modal, graphical music notation program. (<ulink url="http://Denemo.sourceforge.net"></ulink>). Denemo is a quick clean editor without all the clutter and eye candy of other editors. It places emphasis on your computer's keyboard for inputting notation.(input via midi keyboard is planned for a later release) </para><para>Speed is in fact where Denemo excels, with a choice of multiple key binding files it is easy to make Denemo perform to your individual needs. By making notation entry touch type-able Denemo saves your hands from the mouse fatigue associated with common notation packages. To get the most out of Denemo it is recommended that you do the  LilyPond tutorials <ulink url="http://www.LilyPond.org"></ulink> and the VIM tutorial.<ulink url="http://www.vim.org"></ulink>  (At the command line type #vimtutor)</para>
+
+ <section><title>Relationship to LilyPond</title><para></para>
+   <para>Denemo is intended to be used in conjunction with GNU LilyPond (<ulink url="http://www.LilyPond.org"></ulink>), but is adaptable to other computer-music-related purposes as well such as musical analysis. Denemo tries to output LilyPond code for stable releases, but not necessarily  the current version. The principle is to stay close enough to permit the use of the LilyPond 'convert-ly' script. Denemo can additionally be used to output <emphasis>ABC</emphasis>music notation files.</para>
+</section>
+<section><title>Modes</title><para>Denemo is a modal editor, reminecent of Vim. This means that Demeno uses modes to accomplish various tasks. Currently Denemo sports the following modes:<emphasis> Default</emphasis>,<emphasis> Blank</emphasis>, <emphasis> Replace</emphasis> and <emphasis> Insert</emphasis> modes. Default note entry mode is where you will do most of your notating, such as adding notes and rests. Blank mode permits easy entry of polyphony as described in <xref linkend="polyphony"></xref>. Replace mode is an easy way to correct your work and will be described in detail in <xref linkend="editing"></xref>.<note><para>To return to default note entry mode just hit the escape key.</para></note></para></section>
+
+ <section id="templates"><title>Templates</title><para>Denemo comes with a variety of templates for many of the common ensemble types. To start notating from a Template navigate to the File menu and choose Open Template. The Choose Template dialog box will open. You will see categories of Templates to choose from. Click on your desired category and choose the template you desire. You most likely will need to adjust the time and key signatures to your needs. See <xref linkend="clefkeytim"></xref> for more details.</para></section>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</book>

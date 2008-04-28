@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet href="./docbook-complete.css" type="text/css"?>
+
+<article><title>Speedly Keymap</title><table><title>Key bindings</title><tgroup  cols="4"><thead><row><entry>Action</entry><entry>Keycombo</entry><entry>Action</entry><entry>Keycombo</entry></row></thead>
+<tbody>
+  <row><entry>Cursor Left</entry><entry>Shift h H Left KP_Left </entry><entry>
+CursorDown</entry><entry>j Down  </entry>
+
+  </row>
+<row> <entry>Cursor Up</entry><entry>k Up  </entry> <entry>Cursor Right</entry><entry> l Right </entry></row>
+
+<row><entry>Staff Up</entry><entry> UpCtrl</entry><entry></entry><entry></entry> </row>
+
+<row><entry>Staff Down </entry><entry>Ctrl j Ctrl  Down</entry><entry>Measure Left</entry><entry>Ctrl Left Ctrl h</entry> </row>
+<row><entry>Measure Right</entry><entry>Ctrl Right Ctrl l</entry> 
+<entry>To NearestA</entry><entry> a</entry> </row>
+<row><entry>To NearestB</entry><entry> b </entry>
+<entry>To NearestC</entry><entry> c</entry> </row>
+<row><entry>To NearestD</entry><entry> d</entry> 
+<entry>To NearestE</entry><entry> e</entry> </row>
+<row><entry>To NearestF</entry><entry> f </entry>
+<entry>To NearestG</entry><entry> g</entry> </row>
+<row><entry>Octave Up</entry><entry> apostrophe </entry>
+<entry>Octave Down </entry><entry> comma</entry> </row>
+<row><entry>Insert Whole Note</entry><entry> y</entry> 
+<entry>Insert Half Note</entry><entry> u </entry></row>
+<row><entry>Insert Quarter Note</entry><entry> space </entry>
+<entry>Insert Eighth Note</entry><entry> i</entry> </row>
+<row><entry>Insert Sixteenth Note </entry><entry>o</entry>
+<entry>Insert Thirtysecond Note</entry><entry> p</entry> </row>
+<row><entry>Insert Sixtyfourth Note</entry><entry>Ctrl 8</entry> 
+<entry>Toggle Rest Mode</entry><entry> r</entry></row> 
+<row><entry>Toggle Blank Mode</entry><entry> n</entry> 
+<entry>Insert Whole Rest</entry><entry>Alt y</entry> </row>
+<row><entry>Insert Half Rest</entry><entry>Alt u </entry>
+<entry>Insert Quarter Rest</entry><entry>Alt 2 </entry> </row>
+<row><entry>Insert Eighth Rest</entry><entry>Alt i </entry>
+<entry>Insert Sixteenth Rest</entry><entry>Alt o</entry> </row>
+<row><entry>Insert Thirtysecond Rest</entry><entry>Alt p </entry>
+<entry>Insert Sixtyfourth Rest</entry><entry>Alt 6 </entry> </row>
+<row><entry>Insert Arbitrary Tuplet</entry><entry> 0Ctrl 1Ctrl 2Ctrl KP_0Ctrl KP_1Ctrl KP_2Ctrl KP_3Ctrl 3Ctrl KP_5Ctrl 5Ctrl 6Ctrl KP_6Ctrl KP_7Ctrl 7Ctrl 9Ctrl KP_9Ctrl F6Shift </entry>
+<entry>Insert 2/3 Tuplet</entry><entry> 3</entry> </row>
+<row><entry>Insert 4/5 Tuplet</entry><entry> 5</entry> 
+<entry>Insert 4/6 Tuplet</entry><entry> 6</entry> </row>
+<row><entry>Insert 4/7 Or 8/7 Tuplet</entry><entry> 7</entry> 
+<entry>Insert 8/9 Tuplet</entry><entry> 9</entry> </row>
+<row><entry>Add Chord Tone</entry><entry> Return Shift T</entry> 
+<entry>Remove Chord Tone</entry><entry>Shift Return </entry></row>
+<row><entry>Sharpen</entry><entry> plus</entry> 
+<entry>Flatten</entry><entry> minus</entry> </row>
+<row><entry>StemDown</entry><entry>Shift minus</entry> <entry>Stem Up</entry><entry>Shift  plus </entry> </row>
+<row><entry>Change To Whole Note</entry><entry>Shift  KP_Insert</entry>
+<entry>Change To Half Note</entry><entry>Shift  exclam </entry></row> 
+<row><entry>Change To Quarter Note</entry><entry>Shift  KP_Down</entry>
+<entry>Change To Eighth Note</entry><entry>Shift  numbersign Shift KP_Page_Down</entry> </row>
+<row><entry>Change To Sixteenth Note</entry><entry>Shift  KP_Left</entry>
+<entry>Change To Thirtysecond Note</entry><entry> percentShift KP_BeginShift</entry></row> 
+<row><entry>ChangeToSixtyfourthNote</entry><entry> asciicircumShift KP_RightShift </entry>
+<entry>AddDot </entry><entry>period</entry></row> 
+<row><entry>Remove Dot</entry> <entry></entry>
+<entry>Toggle Tie</entry><entry> equal</entry> </row>
+<row><entry>Delete Object</entry><entry> x Delete </entry>
+<entry>Delete Previous Object</entry><entry>Shift  X BackSpace</entry> </row>
+<row><entry>Insert Measure</entry><entry> m</entry> 
+<entry>Append Measure</entry><entry>Shift M</entry> </row>
+<row><entry>Delete Measure</entry><entry>Ctrl Delete Ctrl x</entry> 
+<entry>Shrink Measures</entry><entry>CtrlShift  Left</entry></row> 
+<row><entry>Widen Measures</entry><entry>CtrlShift Right </entry> 
+<entry>Delete Staff </entry><entry></entry></row>
+<row><entry>ShorterStaffs</entry><entry>CtrlShift  Up </entry>
+<entry>TallerStaffs</entry><entry>CtrlShift  Down</entry></row> 
+<row><entry>SetMark</entry><entry> s</entry>
+<entry>Unset Mark</entry><entry>Shift S</entry> </row>
+<row><entry>Toggle Begin Slur</entry><entry>Shift parenleft</entry> 
+<entry>Toggle End Slur</entry><entry>Shift parenright</entry> </row>
+<row><entry>Toggle Start Crescendo</entry><entry>Shift  less</entry>
+<entry>Toggle End Crescendo</entry><entry>Shift greater</entry></row> 
+<row><entry>Toggle Start Diminuendo </entry><entry></entry>
+<entry>Toggle End Diminuendo</entry><entry></entry> </row>
+<row><entry>Toggle Accent</entry><entry> greater(9) </entry>
+<entry>Toggle Fermata</entry><entry>Shift asterisk</entry> </row>
+<row><entry>Toggle Staccato</entry><entry>Alt  period</entry>
+<entry>Toggle Tenuto</entry><entry>Shift underscore</entry> </row>
+<row><entry>Toggle Trill</entry><entry>CtrlShift R</entry> 
+<entry>Toggle Turn</entry><entry>Shift asciitilde</entry> </row>
+<row><entry>Toggle Mordent</entry><entry> w </entry>
+<entry>Toggle Staccatissimo</entry> <entry></entry></row>
+<row><entry>Toggle Coda</entry> <entry></entry>
+<entry>Toggle Flageolet</entry><entry></entry> </row>
+<row><entry>Toggle Open</entry> <entry></entry>
+<entry>Toggle Prall Mordent</entry><entry></entry> </row>
+<row><entry>Toggle PrallPrall </entry><entry></entry>
+<entry>Toggle Prall</entry><entry></entry> </row>
+<row><entry>Toggle ReverseTurn </entry><entry></entry>
+<entry>Toggle Segno</entry><entry></entry> </row>
+<row><entry>Toggle Sforzato</entry><entry></entry> 
+<entry>Toggle Stopped</entry><entry></entry></row> 
+<row><entry>Toggle Thumb</entry> <entry></entry>
+<entry>Toggle Upprall</entry><entry></entry> </row>
+<row><entry>Toggle Arpeggio</entry> <entry></entry>
+<entry>Set Grace</entry><entry>CtrlShift G</entry> </row>
+<row><entry>Play Local</entry> <entry>CtrlShift space</entry>
+<entry>Force Caution</entry><entry></entry> </row>
+<row><entry>Change Pitch</entry><entry></entry> 
+<entry>Double Bar</entry> <entry>|</entry></row>
+<row><entry>End Bar </entry><entry></entry>
+<entry>Open Repeat</entry><entry></entry></row> 
+<row><entry>Close Repeat</entry> <entry></entry>
+<entry>Open Close Repeat</entry><entry></entry></row> 
+<row><entry>New</entry><entry></entry><entry> New from Template </entry><entry></entry></row>
+<row><entry>New Window </entry><entry></entry>
+<entry>Open </entry><entry></entry></row>
+<row><entry>Open in New Window</entry><entry> (null) </entry>
+<entry>Save </entry><entry>Ctrl s</entry></row>
+<row><entry>SaveAs </entry><entry></entry>
+<entry>ExportPDF </entry><entry></entry></row>
+<row><entry>Print</entry> <entry>Ctrl  p</entry>
+<entry>Close </entry><entry></entry></row>
+<row><entry>Quit </entry><entry></entry>
+<entry>Edit </entry><entry></entry></row>
+<row><entry>Undo </entry><entry></entry>
+<entry>Redo </entry><entry></entry></row>
+<row><entry>Copy Cut </entry><entry></entry>
+<entry>Paste </entry><entry></entry></row>
+<row><entry>Score properties</entry><entry></entry> 
+<entry>Save Selection </entry><entry></entry></row>
+<row><entry>Preferences </entry><entry></entry>
+<entry>Open Old Keyboard dialog </entry><entry></entry></row> 
+<row><entry>Load Plugins </entry><entry></entry>
+<entry>Unload Plugins </entry><entry></entry></row> 
+<row><entry>List Plugins </entry><entry></entry>
+<entry>List Available Plugins  </entry><entry></entry></row>
+<row><entry>Mode  </entry><entry></entry>
+<entry>Insert</entry><entry></entry></row> 
+<row><entry>Replace  </entry><entry></entry>
+<entry>Default </entry><entry></entry></row>
+ 
+<row><entry>Add Staff Before Current Staff</entry><entry></entry> 
+<entry>Add Staff After Current Staff </entry><entry></entry></row>
+<row><entry>Add in Initial Position... </entry><entry></entry> 
+<entry>Add in Last Position... </entry><entry></entry></row>
+<row><entry>Delete Staff Before  </entry><entry></entry> 
+<entry>Delete Staff</entry><entry>CtrlShift  Delete CtrlShift X</entry></row>
+<row><entry>Delete Staff After </entry><entry></entry> 
+<entry>Add Voice to Current Staff... </entry><entry></entry></row>
+<row><entry>Add Lyric Staff...  </entry><entry></entry> 
+<entry>Add Figured Bass Staff... </entry><entry></entry></row>
+<row><entry>Staff Properties  </entry><entry></entry> 
+
+<entry>SetClef </entry><entry></entry></row>
+<row><entry>Insert Clef Change </entry><entry></entry>
+
+<entry>Initial Key</entry><entry>Ctrl  k</entry></row>
+<row><entry>Insert Key Change</entry><entry>Shift K </entry>
+<entry>Time Signature </entry><entry></entry></row>
+<row><entry>Initial Time Signature</entry><entry>Ctrl t</entry> 
+<entry>Insert Time Signature Change</entry><entry>CtrlShift  T</entry></row>
+
+<row><entry> Insert Stem Directive</entry><entry></entry>  
+<entry>Insert Lyric</entry> <entry></entry></row>
+<row><entry>Edit Lyric </entry><entry></entry> 
+<entry>Edit Figured Bass </entry> <entry></entry></row>
+<row><entry>Insert Dynamic </entry><entry></entry> 
+<entry>Insert Lilypond Directive </entry> <entry></entry></row>
+<row><entry>Insert Barline  </entry><entry></entry>
+
+<entry>Go To Measure... </entry> <entry></entry></row>
+<row><entry>Go To Beginning </entry><entry></entry>
+<entry>Go To End  </entry> <entry></entry></row>
+<row><entry>Go To Next Score </entry><entry></entry>
+
+<entry>Play  </entry> <entry></entry></row>
+<row><entry>Play using CSound...  </entry><entry></entry>
+<entry>Playback Properties </entry> <entry></entry></row>
+
+<row><entry>Help  </entry><entry></entry>
+<entry>About </entry> <entry></entry></row>
+</tbody></tgroup> </table>
+</article>

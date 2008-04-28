@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   width="32.000000pt"
+   height="32.000000pt"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.40"
+   sodipodi:docbase="/home/jens/music-icons"
+   sodipodi:docname="turn.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="19.647764"
+     inkscape:cx="16.250172"
+     inkscape:cy="15.831973"
+     inkscape:current-layer="svg1"
+     showborder="true"
+     showgrid="true"
+     gridspacingy="2.0000000pt"
+     gridspacingx="2.0000000pt"
+     gridoriginy="0.0000000pt"
+     gridoriginx="0.0000000pt"
+     gridtolerance="2.0000000pt"
+     showguides="true"
+     inkscape:guide-bbox="false"
+     inkscape:window-width="1150"
+     inkscape:window-height="816"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <path
+     d="M 8.7513981,28.438124 C 6.1924694,27.806013 4.2515178,25.915928 3.2688901,23.099296 C 2.6253508,21.254636 2.7531492,18.435468 3.5561916,16.761570 C 4.4335741,14.932714 5.4643420,13.875630 7.2073769,13.017167 C 9.2530498,12.009652 11.071846,11.693713 12.893718,12.029406 C 15.410316,12.493108 17.502547,13.826947 22.161122,17.937560 C 25.244612,20.658358 26.874878,21.902730 28.384287,22.687661 C 29.396512,23.214044 29.813903,23.302243 31.318095,23.307608 C 32.767414,23.312777 33.177057,23.235958 33.678333,22.865000 C 34.717246,22.096175 35.250434,21.109895 35.250434,19.956960 C 35.250434,19.068601 35.140295,18.794563 34.497132,18.082659 C 34.082816,17.624062 33.457896,17.130407 33.108417,16.985648 C 32.515023,16.739856 32.435445,16.767087 31.905056,17.397417 C 31.126517,18.322657 30.309550,18.700670 29.088451,18.700670 C 27.172442,18.700670 25.809482,17.244722 25.809482,15.197992 C 25.809482,13.305995 27.635630,11.966020 30.208107,11.970409 C 32.881210,11.974969 35.071275,13.507108 36.393133,16.297367 C 37.029833,17.641353 37.074254,17.889047 37.074254,20.095356 C 37.074254,22.267112 37.024368,22.557336 36.449553,23.729643 C 34.805087,27.083457 31.056259,28.987832 27.334417,28.360062 C 24.602242,27.899221 22.647072,26.681819 17.871218,22.467720 C 14.787729,19.746922 13.157461,18.502550 11.648053,17.717620 C 10.635830,17.191237 10.218437,17.103038 8.7142454,17.097673 C 7.2649264,17.092504 6.8552835,17.169323 6.3540073,17.540281 C 5.3150945,18.309105 4.7819068,19.295385 4.7819068,20.448320 C 4.7819068,21.336679 4.8920458,21.610717 5.5352083,22.322621 C 5.9495243,22.781219 6.5744463,23.274874 6.9239239,23.419633 C 7.5173178,23.665425 7.5968964,23.638194 8.1272846,23.007864 C 8.9058231,22.082623 9.7227897,21.704610 10.943888,21.704610 C 12.859898,21.704610 14.222859,23.160559 14.222859,25.207288 C 14.222859,26.353036 13.563532,27.278243 12.280645,27.932724 C 11.451715,28.355612 9.5309038,28.630678 8.7513981,28.438124 z "
+     id="path1833" />
+</svg>

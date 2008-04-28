@@ -1,0 +1,15 @@
+html:  
+	xsltproc --output  denemo-manual.html --stringparam  admon.graphics 1 --stringparam html.stylesheet  denemo.css /usr/share/xml/docbook/stylesheet/nwalsh/xhtml/docbook.xsl  denemomanual.xml
+
+chunk:
+	xsltproc --output  manualoutchunk.html --stringparam  admon.graphics 1  --stringparam html.stylesheet  denemo.css /usr/share/xml/docbook/stylesheet/nwalsh/xhtml/chunk.xsl denemomanual.xml
+
+pdf:   
+	xsltproc  --output  denemo-manual.fo  --stringparam  fop.extensions 	./mycustomfils.xsl 	denemomanual.xml
+	fop.sh  -fo  manualout.fo  -pdf  manualout.pdf
+	acroread  manualout.pdf
+075
+	xsltproc --output denemo-manual.html --stringparam  admon.graphics 1 --stringparam html.stylesheet  denemo.css --stringparam profile.revision "0.75" /usr/share/xml/docbook/stylesheet/nwalsh/xhtml/profile-docbook.xsl denemomanual.xml
+
+076	
+	xsltproc --output denemo-manual.html --stringparam  admon.graphics 1 --stringparam html.stylesheet  denemo.css --stringparam profile.revision "0.76" /usr/share/xml/docbook/stylesheet/nwalsh/xhtml/profile-docbook.xsl denemomanual.xml

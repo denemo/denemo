@@ -1,0 +1,32 @@
+html {  }
+
+body {margin:1em;}
+
+.note { background-color: #FFFF99 ;
+  border: 1px solid #006600 ;
+  padding:2px;
+  margin:12px;
+position:relative;
+left:11px;
+  }
+
+.tip { background-color: #FFFF99 ;
+  border: 1px solid blue ;
+   position:relative;
+left:11px;
+  
+   }
+  
+  .tip > para {
+  
+   padding:14px;
+
+  
+  }
+
+table { 
+	border:solid thin black; 
+				}
+td {	border:solid thin black; }
+th {background:#D9D9D9;
+border:solid thin black; }

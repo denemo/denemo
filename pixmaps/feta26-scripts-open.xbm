@@ -1,0 +1,4 @@
+#define feta26_scripts_open_width 8
+#define feta26_scripts_open_height 10
+static char feta26_scripts_open_bits[] = {
+  0x3c, 0x66, 0xc3, 0xc3, 0xc3, 0xc3, 0xc3, 0xc3, 0x66, 0x3c, };

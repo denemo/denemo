@@ -1,0 +1,4 @@
+#define feta26_dots_dot_width 4
+#define feta26_dots_dot_height 4
+static unsigned char feta26_dots_dot_bits[] = {
+  0x06, 0x0f, 0x0f, 0x06, };

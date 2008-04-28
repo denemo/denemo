@@ -1,0 +1,4 @@
+#define feta26_noteheads_ledgerending_width 10
+#define feta26_noteheads_ledgerending_height 2
+static unsigned char feta26_noteheads_ledgerending_bits[] = {
+  0x1f, 0x00, 0x00, 0x00, };

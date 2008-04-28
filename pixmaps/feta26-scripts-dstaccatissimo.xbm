@@ -1,0 +1,4 @@
+#define feta26_scripts_dstaccatissimo_width 4
+#define feta26_scripts_dstaccatissimo_height 9
+static char feta26_scripts_dstaccatissimo_bits[] = {
+  0x06, 0x06, 0x06, 0x06, 0x06, 0x0f, 0x0f, 0x0f, 0x06, };

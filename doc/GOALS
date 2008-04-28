@@ -1,0 +1,36 @@
+This project is tied very strongly to Lilypond, the GNU music
+typesetter (http://www.cs.uu.nl/people/hanwen/lilypond/) and its
+mudela file format. Even so, the program has been written with
+flexibility in mind should anyone want to extend it to deal with other
+file formats.
+
+So, Lilypond is a reasonably full-featured music typesetting package;
+what's the particular advantage to making this GUI shell for dealing
+with it?
+
+Well, this is what it is for me: I find it a mite difficult to compose
+or arrange with emacs. I mean, Mozart wouldn't have had a problem with
+it, but I'm not that talented -- it's very, very helpful to me if I
+can actually see the music that I'm developing as it gets
+developed. Not on the large scale -- no GUI notation program that I
+know of really lets you see enough of the score at once to plan things
+in the large -- but it's certainly very useful for tinkering with
+lines and voicings and what instrument gets what and so on.
+
+GUI notation tools are also pretty good for entering music quickly if
+you have a midi keyboard; just plunk down the notes on the midi
+keyboard with the right hand and enter durations with the left. (Of
+course, I don't have a midi keyboard myself, but from what I
+understand this feature allows one to enter a part quite rapidly.)
+
+Programs like Finale, for all of their faults, are still pretty good
+at letting the user do things like that.
+
+So, that's what this program sets out to do: to let you develop your
+musical thoughts in a graphical environment.
+
+And it'll let you use a keyboard for note entry once I find someone
+else to write that module or someone sets me up with a donated midi
+keyboard. :)
+
+
