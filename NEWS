@@ -1,0 +1,300 @@
+10 April 2006 0.7.5
+  Moved back to Plain C for future releases
+  Reimplementation of keymaps so they are now XML based
+  Midi import 
+  Lilypond Export Updates
+  Reimplementation of rc files so that they are now XML
+  Removal of Blank rest modes
+  Crash Recovery
+  Lots of memory leak fixes
+  Help Manual now available
+  Revised CSound export
+  Revised Print functionality
+  Blank notes are now displayed in Yellow to aid in viewing the score
+  Keybindings for inserting Time Signatures, Key Signatures and Clefs
+
+30 October 2005 0.7.4
+  Help Documentation 
+  Support for exporting to Lilypond 2.6
+  All ornaments/articulations added
+  Replace Mode
+  Basic Redo/Undo Functionality for individual objects
+  More Templates available
+  Export to PDF (via lilypond processing) Courtesy of Jens Askengren
+  
+  
+3 April 2005 0.7.3beta2
+  Revised Menu's (GTK 2.6 based)
+
+10 February 2005  0.7.3beta1
+  Score Templates
+  Additional Keymaps 
+  Revised Menu's
+  Additional Staff functions
+
+23 March 2003: 0.7.0
+  First C++ realese
+  Features plugins for the first time. Although the API 
+  still has to be finalised.
+  Optional use of gtk2
+  Added support for Figured Bass courtesy of Richard Shann
+  Automated Testing again courtesy of Richard Shann
+  MDI interface.
+  Cautionary Accidentals, Alasdair Anderson
+  Cloned chords when tieing a note.
+  Graceful Exit when denemo fails, saves current scores so work is 
+  not lost
+
+22 November 2002: 0.6.1
+  Fixed Lilypond parser for >1.4.x Lilypond syntax
+  Various other small fixes
+     
+29 May 2002: 0.6.0
+  Added Basic Support for Lyrics
+  Added Invisible Notes
+  File I/O dialogs now remeber the last Directory 
+  (courtesy of Damian Marques Lluch)
+  Midi Instrument Selection is easier and /dev/sequencer
+  selection for Alsa playback(courtesy of goto <harpy@lily.freemail.ne.jp>)
+  Added CSound Score file exporter and Optional  CSound playback
+  Reimplementation of Dynamics
+		       
+		         
+13 November 2001: 0.5.7
+  Basic Printing Support
+  Various bug fixes
+  Probably the Last Straight Forward C release 
+			       
+3 July 2000: 0.5.6
+  Support for Hairpins (incomplete/buggy)
+  Supports GNU Lilypond >v1.3.146 (Input parser requires some work).
+  XML File Format supported (courtesy of Eric Galluzzo)
+  Midi File Output supported (courtesy of Per Andersson)
+  Support for additional instrument specific articulations.
+  Internationalization of Denemo (Translations still required).
+  Supports Mouse positioning of cursor.
+  
+
+12 Nov 2000: 0.5.5
+  Improved positioning code.
+  Support for keyboard customization.
+  Preliminary support for multinote slurs.
+  Support for staccato, fermata, accent, tenuto, turn, trill, mordent,
+    and staccatissimo markings.
+  Denemo now understands that the score window may not be enough
+    to show all staffs; the cursor will scroll the score up and down
+    if necessary.
+  Horizontal and vertical scrollbars now track and control the part of
+    the score being displayed.
+
+10 Aug 2000: 0.5.4
+  Support for Mudela header information (title, composer, etc.)
+    (patch courtesy of Laurent Martelli)
+  Denemo keeps track of the present file name and allows you to do
+    save it off without specifying the filename again (this can
+    be done instead with Save As.)
+  Remodalized dialogs that had been made non-modal.
+  The graphics are now done with bitmaps rather than pixmaps.
+    (initial work done by Laurent Martelli)
+  Support for multiple voices within a single staff.
+  Support for tuplets.
+  Denemo now explicitly states that key changes are major
+    (patch courtesy of Mark Burton.)
+  denemo.spec file now allows for easy building of binary RPM files
+    (patch courtesy of Sourav Mandel.)
+  Support for stemming directives -- a very important component
+    of support for multiple voices on a single staff.
+  Support for dynamics.
+  Support for changing the notehead type of a tone (still a little
+    buggy/incomplete.)
+
+22 Apr 2000: 0.5.3
+  Denemo now has selection, cut, copy, and paste operations.
+  Separate preferences dialog, and the settings made therein persist
+    through the use of configuration files.
+  Option for having Denemo immediately output what notes and chords
+    sound like as you enter them. (patch courtesy Brian Delaney)
+  Sanified dialog boxes - all have titles and hitting enter in a text
+    entry always does a reasonable thing.
+  Created a dialog for navigating directly to a measure by entering its
+    number.
+  Applied patch from Roy Rankin, other miscellaneous bugfixes.
+
+4 Apr 2000: 0.5.2
+  Denemo is now an official part of the GNU project.
+  Support for changing the key, clef, and time signature mid-staff. This
+    support is highly complete; when you enter a such an item, the program
+    does everything that you'd expect it to, including saving the change
+    and reloading it correctly.
+  Key signature indicators (both midstream changes and indicators of
+    the context at the leftmost measure) now take up an appropriate
+    amount of space rather than a hard-coded amount.
+  A tie connecting two notes that are not identical is treated by the mudela
+     importation and exportation routines as a slur.
+
+26 Mar 2000: 0.5.1
+  Added tearoffs to the menus.
+  MIDI instrument now in staff properties.
+  Cleaned up and reorganized keyresponses.c.
+  One can now change the duration of an existing chord with shift-duration
+    indicator.
+  Denemo will ask you to confirm if your actions will destroy a score
+    that hasn't yet been saved.
+  Help->List Keybindings exists; Help->About now does something.
+  Other miscellaneous bugfixes and improvements.
+
+21 Mar 2000: 0.5.0
+  Denemo can now load the mudela files it produces. Thus, in a sense,
+    mudela can now be considered one of Denemo's native file formats.
+  Support for tenor and soprano clefs.
+  Support for MIDI playback. (It accomplishes this by exporting mudela,
+    invoking lilypond -m, and then invoking an external MIDI player of
+    the user's choice.)
+  Miscellaneous bugfixes.
+
+1 Mar 2000: 0.3.5
+  The load function largely works. It smears out chords into arpeggios
+    right now and doesn't quite deal with empty measures correctly, but
+    expect this to be fixed in relatively short order.
+  Support for G_8 clef courtesy of Roy Rankin.
+  Supports tied notes and chords.
+  Display of accidentals is now much smarter.
+  Denemo now allots space to score items more intelligently -
+    it allows them to have leading space (e.g., for accidentals) and
+    a mudelaitem's minpixelsalloted field now accurately reflects how
+    much space it'll take up.
+
+23 Feb 2000: 0.3.4
+  Denemo now beams music in a somewhat intelligent manner rather than
+    drawing all notes separately.
+
+19 Feb 2000: 0.3.3
+  I split off the note-width-allocation algorithm into a separate function.
+    As a result of this, the main drawing loop now resembles what it was
+    in Denemo-0.1.x.
+  Denemo now caches the x and y values of score objects rather than
+    recalculating them each run through the drawing loop.
+  A few other refinements that make for cleaner, faster code.
+
+14 Feb 2000: 0.3.2
+  Rewrote sections of code to avoid all use of extern global variables.
+  Incorporated Ron Steinke's patch that improved the key signature dialog.
+    Also fixed the control-K bug he'd noticed.
+  Added support/distinction between major and minor keys.
+
+7 Feb 2000: 0.3.1
+  Added more staff properties (including a staff name, which is
+    displayed on the score) as well as a dialog box for setting them.
+  Added functions for measure deletion and staff deletion.
+  Similarly, the user may now add new measures in the middle of the piece
+    rather than just the end.
+  If the user enters too many notes to the last measure of a piece,
+    Denemo will now automatically add an extra measure.
+  Simplified some internals and fixed a bug in the drawing mechanism.
+  Added support for dotted notes and rests.
+  Wrote the export-to-mudela function, which produces fully
+    typesettable mudela (tested against Lilypond 1.2.17uu1.)
+
+3 Feb 2000: 0.3.0
+  New homepage and download area at http://denemo.sourceforge.net/
+  I've abandoned the fixed-measure width paradigm and rewritten the main
+    drawing loop such that the basic elements being drawn are the measures,
+    not the staves.
+  Sixtyfourth notes are thus no longer piled on top of each other, and
+    measures expand to accomodate them when necessary.
+  Nonetheless, simultaneous music correctly lines up vertically. (It no longer
+    handles multiple simultaneous time signatures, though, and will require
+    some fixing before it does again.)
+  Other results of this: the measures expand when asked to hold too many beats,
+    and the "red" indicators from 0.1.2 now work perfectly.
+  Some new stuff from Adam Tee, though his save patch is being kept separate,
+    at least for now.
+
+24 Jan 2000: 0.1.2
+  Control-left and Control-right will now move the cursor around
+    measure-by-measure
+  Denemo calculates the number of measures it can fit in the display
+    and displays only those measures
+  Space between staves is now user-settable
+  New commands to insert a staff first in the list or last
+  Dialogs now open at the position of the mouse
+  The cursor is now color-coded! A green cursor indicates it should be
+    fine to add a note at the current cursor position; red indicates that
+    you're off the end of the measure. (Not yet perfect.)
+  Likewise, if you add too many notes to a measure, a red exclamation point'll
+    now be painted at the beginning of the measure. (Also not yet perfect.)
+  Adjacent tones in a chord are now staggered left-right when they're
+    painted rather than being painted on top of each other.
+  Moving the cursor "off" of the displayed part of the score now causes
+    Denemo to adjust the part of the score displayed.
+  Measure numbers are now displayed along the top of the current staff.
+  A double-bar-line is now shown at the end of the piece.
+  Some internal code-cleanups.
+  Gave up on the "all measures are the same width" design principle, though
+    the implementation still reflects it.
+
+16 Jan 2000: 0.1.1
+  Adding staffs now works in a more intelligent manner -- the clef, key, and
+    time signature are set to be the same as the current staff.
+  Support for setting and changing the time signature
+  Support for user-adjustment of the width (in pixels) allotted to paint
+    each measure. (It is the same fixed number for all measures being
+    displayed.)
+
+12 Jan 2000: 0.1.0
+   I've decided that Denemo now does enough stuff that I can stop numbering
+     releases in the 0.0.x's.
+   From here on in, the versioning will be conventionalized a bit: an odd
+     number in the minor version number will indicate a release is unstable,
+     an even number, stable. Don't expect to see a stable release number until
+     0.6.0 or thereabouts, though. :)
+   Support for block chords. This includes viewing, modifying, and deleting
+     them.
+   Ledger lines for notes off of the staff are now displayed. Likewise when
+     the cursor is off of the staff.
+
+6 Jan 2000: 0.0.7
+   Ability to deal with multiple staves
+   Support for setting and changing a staff's initial clef via a dialog box
+   Support for accidentals
+   Support for setting and changing the key signature via a dialog box
+   Note entry is now sensitive to the key signature and to accidentals from
+     earlier in the measure
+
+16 Dec 1999: 0.0.6
+   Did autoconf/automake stuff
+   As such, there's a new file in the distribution called ChangeLog; I guess
+     I'll be putting a lot of this stuff there too.
+   Broke up draw.c into many files, each of them smaller.
+
+11 Dec 1999: 0.0.5
+   Put in many of the hooks for working on scores with multiple staffs
+   Changed pixmaps such that they are held statically within the
+     functions that draw them
+   Put in many of the necessary hooks for key signatures, time signatures,
+     and changes therein
+   Came up with a new design concept for dealing w/ key, time, and clef
+     changes; see DESIGN for details
+   Made the Makefile much sleeker. :)
+
+19 Nov 1999: 0.0.4
+   Added support for rests
+   Reorganized code
+   Adjusted the pixmap code such that the xpm files are #include'ed and then
+    within the program by way of the create_from_xpm_d functions. This has
+    some advantages.
+
+18 Oct 1999: 0.0.3
+   Added support for different note durations
+   The pixmaps are now Lilypond pixmaps (produced by mf-to-xpms with a
+    moderate amount of hand-tuning)
+   As a consequence of that, note stems are now written separately from
+   noteheads
+
+5 Oct 1999: 0.0.2
+   Added multimeasure support
+   Added (a mostly non-functional) menubar
+   Cleaned up keyresponses.c
+
+27 Sep 1999: 0.0.1
+   Initial release

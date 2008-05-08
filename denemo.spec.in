@@ -1,0 +1,64 @@
+%define name  @PACKAGE@
+%define ver      @VERSION@
+%define rel 1
+%define prefix  /usr
+%define pkgdatadir %{prefix}/share/@PACKAGE@
+%define sysconfdir %{prefix}/etc/
+
+Summary: Graphical music notation program
+Name: %{name}
+Version: %ver
+Release: %rel
+Copyright: GPL
+Group: Applications/Multimedia
+Source: %{name}-%{version}.tar.gz
+URL: http://denemo.sourceforge.net/
+Vendor: (none)
+Prefix: %{prefix} 
+BuildRoot: /var/tmp/%{name}-%{ver}-%{rel}-rpm-buildroot
+
+%description
+Denemo is a graphical music notation program written in C with
+gtk+. As of April 2000, it is an official part of the GNU project
+(http://www.gnu.org/)
+
+It is intended to be used in conjunction with GNU Lilypond
+(http://www.cs.uu.nl/hanwen/lilypond/), but is adaptable to other
+computer-music-related purposes as well. 
+
+%prep
+%setup
+
+%build
+./configure --prefix=%{prefix}
+%__make
+
+%install
+%__make DESTDIR=${RPM_BUILD_ROOT} install
+
+%clean
+if [ -O "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" -a "$RPM_BUILD_ROOT" !=
+"$HOME" ]; then
+  echo "Deleting build root $RPM_BUILD_ROOT"
+  rm -rf "$RPM_BUILD_ROOT"
+fi
+rm -rf ${RPM_BUILD_DIR}/%{name}-%{ver}
+
+%files
+%defattr(-,root,root)
+%doc README TODO NEWS AUTHORS COPYING ChangeLog DESIGN GOALS
+%config %{sysconfdir}/denemo.conf
+%config %{sysconfdir}/denemo.keymaprc
+%config %{pkgdatadir}/english.keymaprc
+%config %{pkgdatadir}/french.keymaprc
+%config %{pkgdatadir}/speedy.keymaprc
+
+%{prefix}/bin/denemo
+
+%changelog
+* Fri Dec 14 2001 Adam Tee <ajtee@ajtee.uklinux.net>
+-Update for 0.5.8
+* Sun Nov 12 2000 Matt Hiller <mhiller@pacbell.net>
+- Update for 0.5.5
+* Wed Jun 21 2000 Sourav K. Mandal <smandal@mit.edu>
+- Initial release of RPM package
