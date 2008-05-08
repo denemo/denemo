@@ -35,7 +35,9 @@
   objnode *currentobject;
   extern int errcount;
 
+  static void yy_setscore (DenemoGUI *gui);
   static DenemoScore *frogsi;
+  static DenemoGUI *froggui;
 
   extern int yylex (void);
   int yyerror (char *);
@@ -212,7 +214,7 @@ staffsym:STAFF
 {
 
   frogsi->currentstaffnum++;
-  newstaff (frogsi, ADDFROMLOAD, DENEMO_NONE);
+  newstaff (froggui, ADDFROMLOAD, DENEMO_NONE);
   frogsi->currentstaff = g_list_last (frogsi->thescore);
   n = 1;
   currentbar = 1;
@@ -818,7 +820,7 @@ position_in_half_lines:NUM
 ;
 
 %%int
-froginput (char *filename, DenemoScore *si)
+froginput (char *filename, DenemoGUI *gui)
 {
   extern FILE *yyin;
 #ifdef YYDEBUG
@@ -832,7 +834,7 @@ froginput (char *filename, DenemoScore *si)
   else
     {
       fprintf (stderr, "In FROGINPUT");
-      yy_setscore (si);
+      yy_setscore (gui);
       while (!feof (yyin))
 	{
 	  yyparse ();
@@ -1113,9 +1115,10 @@ newdynamic (gchar * type)
 
 /* Set global Parser structure equal to the main scoreinfo structure */
 void
-yy_setscore (DenemoScore *si)
+yy_setscore (DenemoGUI *gui)
 {
-  frogsi = si;
+  frogsi = gui->si;
+  froggui = gui;
   free_score (frogsi);
   frogsi->currentstaffnum = 0;
 

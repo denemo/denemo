@@ -405,6 +405,8 @@
 	<menuitem action="DeleteAfter"/>
       </menu> 
              <menuitem action="SwapStaffs"/>
+ <menuitem action="SplitVoices"/>
+ <menuitem action="JoinVoices"/>
        <menuitem action="StaffUp"/>
        <menuitem action="StaffDown"/> 
     <menuitem action="AddVoice"/>

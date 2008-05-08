@@ -2342,15 +2342,16 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoScore * si)
+parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
 {
+  DenemoScore *si = gui->si;
   xmlNodePtr childElem;
   /*  gchar *id; */
 
   /* Create the staff structure. */
 
   si->currentstaffnum++;
-  newstaff (si, ADDFROMLOAD, DENEMO_NONE);
+  newstaff (gui, ADDFROMLOAD, DENEMO_NONE);
   si->currentstaff = g_list_last (si->thescore);
   si->currentmeasurenum = 1;
 
@@ -2388,9 +2389,10 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoScore * si)
  * @return 0 on success ,-1 on failure
  */
 static gint
-parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoScore * si,
+parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
 	    gint * staffnoPtr, ImportType type)
 {
+  DenemoScore *si = gui->si;
   xmlNodePtr childElem, voiceElem;
 
 
@@ -2419,7 +2421,7 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoScore * si,
   {
     if (ELEM_NAME_EQ (voiceElem, "voice") && (voiceElem->ns == ns))
       {
-	if (parseVoice (voiceElem, ns, si) != 0)
+	if (parseVoice (voiceElem, ns, gui) != 0)
 	  return -1;
       }
     else
@@ -2450,7 +2452,7 @@ static gint   parseMovement(xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI *gui, I
      gui->movements = g_list_append(gui->movements, gui->si);
    si->currentstaffnum = 0;
    sPrevStaffElem = NULL;
-   ret = parseScore (childElem, ns, gui->si, &staffno, type);
+   ret = parseScore (childElem, ns, gui, &staffno, type);
    sPrevStaffElem = NULL;
    gui->si->currentstaffnum = staffno;
    updatescoreinfo (gui);
@@ -2603,7 +2605,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       ret =  parseMovement(rootElem, ns, gui, type);
       break;
     case REPLACE_SCORE:
-      free_score (gui->si);
+      free_score (gui);
       if(gui->movements)
 	g_list_free(gui->movements);/*FIXME free all the other si */
       gui->movements = NULL;

@@ -15,7 +15,7 @@ enum newstaffcallbackaction
 };
 
 struct newstaffinfotopass {
-  DenemoScore *si;
+  DenemoGUI *gui;
   DenemoStaff *staff;
   guint addat;
 };
@@ -35,9 +35,9 @@ objnode *firstobjnodeinstaff (staffnode *thestaff);
 
 void setcurrentprimarystaff (DenemoScore *si);
 
-void newstaff (DenemoScore *si, enum newstaffcallbackaction action, DenemoContext context); /* default context shall be DENEMO_NONE */
+void newstaff (DenemoGUI *gui, enum newstaffcallbackaction action, DenemoContext context); /* default context shall be DENEMO_NONE */
 
-gboolean deletestaff (DenemoScore *si);
+void deletestaff (DenemoGUI *gui, gboolean interactive);
 
 void beamsandstemdirswholestaff (DenemoStaff *thestaff);
 
@@ -60,5 +60,9 @@ void dnm_newstaffchords(GtkAction *action, DenemoGUI *gui);
 void dnm_newstaffvoice(GtkAction *action, DenemoGUI *gui);
 
 void newstafflast(GtkAction *action, DenemoGUI *gui);
+
+gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui);
+
+gboolean confirm_deletestaff_custom_scoreblock(DenemoGUI *gui);
 
 #endif /* __STAFFOPS_H__ */

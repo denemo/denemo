@@ -26,4 +26,6 @@ void toggle_lily_visible_cb (GtkAction *action, DenemoGUI *gui);
 void custom_lily_cb (GtkAction *action, DenemoGUI *gui);
 
 void delete_lily_cb (GtkAction *action, DenemoGUI *gui);
+void set_lily_error(gint line, gint column, DenemoGUI *gui);
+void highlight_lily_error(DenemoGUI *gui);
 #endif

@@ -13,7 +13,7 @@ void new_empty_score(DenemoGUI * gui);
 void new_score(DenemoGUI * gui);
 void init_score (DenemoScore *si, DenemoGUI * gui);
 
-void free_score (DenemoScore *si);
+void free_score (DenemoGUI *gui);
 void next_movement (GtkAction * action, DenemoGUI * gui);
 void prev_movement (GtkAction * action, DenemoGUI * gui);
 void insert_movement_before (GtkAction * action, DenemoGUI *gui);

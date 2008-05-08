@@ -313,6 +313,8 @@ measureright (DenemoGUI * gui)
 gboolean
 swapmovements (GtkAction *action, DenemoGUI * gui)
 {
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   GList *this = g_list_find( gui->movements, gui->si);
   if(this->prev) {
     GList * prev = this->prev;
@@ -329,7 +331,7 @@ swapmovements (GtkAction *action, DenemoGUI * gui)
     prev->next = next;
     prev->prev = this;
     gchar *str = g_strdup_printf("This movement is now number %d in the score", 1+g_list_index(gui->movements, gui->si));
-    warningdialog(str);//FIXME use an informative not a warning
+    infodialog(str);
     g_free(str);
   } else
     warningdialog("There is no previous movement to swap with");
@@ -341,6 +343,8 @@ swapmovements (GtkAction *action, DenemoGUI * gui)
 gboolean
 swapstaffs (GtkAction *action, DenemoGUI * gui)
 {
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       gpointer *temp;
@@ -355,6 +359,62 @@ swapstaffs (GtkAction *action, DenemoGUI * gui)
       score_status(gui, TRUE);
       return TRUE;
     }
+  else
+    warningdialog("There is no previous staff to swap with");
+  return FALSE;
+}
+
+/**
+ * 
+ *
+ */
+gboolean
+splitstaffs (GtkAction *action, DenemoGUI * gui)
+{
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
+  if (gui->si->currentstaff && gui->si->currentstaff->next)
+    {
+      DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
+      DenemoStaff *nextstaff = (DenemoStaff *)gui->si->currentstaff->next->data;
+      if((thestaff->voicenumber==1) && (nextstaff->voicenumber!=1))
+	nextstaff->voicenumber=1;
+      else
+	warningdialog("There is no voice below this one on this staff");
+      setcurrentprimarystaff (gui->si);
+      setcurrents (gui->si);
+      move_viewport_up (gui);
+      score_status(gui, TRUE);
+      return TRUE;
+    }
+  else
+    warningdialog("There is no voice to split from");
+  return FALSE;
+}
+
+
+/**
+ * 
+ *
+ */
+gboolean
+joinstaffs (GtkAction *action, DenemoGUI * gui)
+{
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
+  if (gui->si->currentstaff && gui->si->currentstaff->prev)
+    {
+      DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
+      DenemoStaff *prevstaff = (DenemoStaff *)gui->si->currentstaff->prev->data;
+      thestaff->voicenumber=2;
+      setcurrentprimarystaff (gui->si);
+      setcurrents (gui->si);
+      move_viewport_up (gui);
+      score_status(gui, TRUE);
+      return TRUE;
+    }
+  else
+    warningdialog("There is no staff above to move this staff into");
   return FALSE;
 }
 
@@ -678,19 +738,23 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   
   /* Now actually create the chord */
   mudela_obj_new = newchord (duration, 0, 0);
+
+#if 0
   if ( (mode & INPUTBLANK) && (rest != TRUE))
     {
       addtone (mudela_obj_new, si->cursor_y,
 	       si->cursoraccs[si->staffletter_y], si->cursorclef);
       mudela_obj_new->isinvisible = TRUE;
     }
-  else if ((mode & INPUTNORMAL) && (rest != TRUE))
+  else
+#else
+    if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
 	     si->cursorclef);
+#endif
 
-
-
-
+  if (mode & INPUTBLANK)
+    mudela_obj_new->isinvisible = TRUE;
 
   if (si->is_grace_mode)
     ((chord *) mudela_obj_new->object)->is_grace = TRUE;
@@ -1067,11 +1131,7 @@ delete_staff_before (GtkAction * action, DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;
   if (staffup(gui)) {
-    deletestaff (si);
-      setcurrents (si);
-      find_xes_in_all_measures (si);
-      si->markstaffnum = 0;
-    displayhelper (gui);
+    deletestaff (gui, TRUE);
   }
 }
 
@@ -1086,11 +1146,7 @@ delete_staff_after (GtkAction * action, DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;
   if (staffdown(gui)) {
-    deletestaff (si);
-      setcurrents (si);
-      find_xes_in_all_measures (si);
-      si->markstaffnum = 0; 
-    displayhelper (gui);
+    deletestaff (gui, TRUE);
   }
 }
 
@@ -1104,11 +1160,7 @@ void
 delete_staff_current (GtkAction * action, DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;
-  deletestaff (si);
-      setcurrents (si);
-      find_xes_in_all_measures (si);
-      si->markstaffnum = 0;
-  displayhelper (gui);
+  deletestaff (gui, TRUE);
 }
 
 
@@ -1142,7 +1194,6 @@ void deletemeasureallstaffs(DenemoGUI * gui)
   setcurrents (si);
   score_status(gui, TRUE);
   si->markstaffnum = 0;
-  
   isoffleftside (gui);
   displayhelper(gui);
 }
@@ -1181,10 +1232,12 @@ dnm_deletemeasure (DenemoScore * si)
 static void
 remove_object (measurenode * cur_measure, objnode * cur_objnode)
 {
-  cur_measure->data = g_list_remove_link ((objnode *) cur_measure->data,
+  if(cur_measure->data) {
+    cur_measure->data = g_list_remove_link ((objnode *) cur_measure->data,
 					  cur_objnode);
-  freeobject ((DenemoObject *) cur_objnode->data);
-  g_list_free_1 (cur_objnode);
+    freeobject ((DenemoObject *) cur_objnode->data);
+    g_list_free_1 (cur_objnode);
+  }
 }
 
 
@@ -1305,8 +1358,10 @@ dnm_deleteobject (DenemoScore * si)
 	    {
 	      curmeasure = g_list_nth (firstmeasurenode (curstaff),
 				       si->currentmeasurenum - 1);
-	      remove_object (curmeasure, (objnode *) curmeasure->data);
-	      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+	      if(curmeasure){
+		remove_object (curmeasure, (objnode *) curmeasure->data);
+		beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+	      }
 	    }
 	  reset_cursor_stats (si);
 	  find_xes_in_all_measures (si);

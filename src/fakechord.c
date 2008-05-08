@@ -15,7 +15,7 @@
 struct callbackdata
 {
   DenemoGUI *gui;
-  GtkWidget *entry;
+  gchar *string;
 };
 /**
  * Allocate new fakechord structure from the heap
@@ -137,7 +137,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
   if (si->currentobject != NULL) {
 	  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
 	    (DenemoObject *) si->currentobject->data : NULL;
-	  gchar *fakechord = (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->entry));
+	  gchar *fakechord = cbdata->string;
 	  separate_fakechord_elements(fakechord, curObj);
 	  do
 	    {
@@ -166,57 +166,36 @@ insertfakechord (GtkWidget * widget, gpointer data)
 void
 fakechord_insert (GtkAction * action, DenemoGUI * gui)
 {
-  GtkWidget *dialog;
-  GtkWidget *entry;
-  GtkWidget *label;
+  
+  gchar *string;
+  gchar *PreValue = NULL;
   GString *temp = g_string_new("");
-
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
-  dialog = gtk_dialog_new_with_buttons (_("Insert/Edit Fake Chord"),
-					GTK_WINDOW (gui->window),
-					(GtkDialogFlags) (GTK_DIALOG_MODAL |
-							  GTK_DIALOG_DESTROY_WITH_PARENT),
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					NULL);
-
-
-  label = gtk_label_new (_("Give Chords followed by Enter key"));
-
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-
-  entry = gtk_entry_new ();
-  cbdata.gui = gui;
-  cbdata.entry = entry;
-  
+ 
   if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->fakechord)
 	{
 		temp = g_string_append(temp, (((GString *) ((chord *) curObj->object)->fakechord)->str));
 		if (((chord *) curObj->object)->fakechord_extension != NULL)
 			temp = g_string_append(temp, (((GString *) ((chord *) curObj->object)->fakechord_extension)->str));
-		//printf("\n temp == %s\n",temp->str);
-		gtk_entry_set_text (GTK_ENTRY (entry), ((GString *) temp)->str);	
+		PreValue = temp->str;
 	}
 	
- 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
-		      TRUE, TRUE, 0);
-  gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_widget_grab_focus (entry);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show_all (dialog);
 
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+
+  string = string_dialog_entry(gui, "Insert/Edit Fake Chord", "Give Chords followed by Enter key", PreValue);
+
+  cbdata.gui = gui;
+  cbdata.string = string;
+  
+  if (string)
     {
       insertfakechord (NULL, &cbdata);
       ((DenemoStaff*)si->currentstaff->data)->hasfakechords=TRUE;
       displayhelper (gui);
     }
-  gtk_widget_destroy (dialog);
+  g_string_free(temp, TRUE);
+  g_free(string);
 }

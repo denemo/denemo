@@ -257,14 +257,15 @@ set_properties (struct callbackdata *cbdata)
 #ifdef DEBUG
 	g_printf("Staff Transposition %d\n", staffstruct->transposition);
 #endif
-	score_status(cbdata->gui, TRUE);
+	//	if(cbdata->gui) must update changecount
+	  score_status(cbdata->gui, TRUE);
 }
 
 /**
  * Create Dialog to allow the user to set the staffs parameters
  * 
- * @param action Gtk Action event
- * @param callback_data pointer either the newstaffinfotopass structure or the scoreinfo struture
+ * @param action Gtk Action event or NULL if called programatically
+ * @param callback_data pointer either the newstaffinfotopass structure or (if action) the DenemoGUI structure
  * @return success or failure 
  */
 gboolean
@@ -303,12 +304,18 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
       gui = (DenemoGUI *) callback_data;
       si = gui->si;
       staffstruct = (DenemoStaff *) si->currentstaff->data;
+      if(action && staffstruct->custom_prolog && staffstruct->custom_prolog->len) {
+	warningdialog("This staff has a custom prolog.\n"
+		      "You will need to make your edits in the LilyPond window\n"
+		      "to see them in the print-out.");
+      }
     }
   else
     {
       struct newstaffinfotopass *cbdata1 =
 	(struct newstaffinfotopass *) callback_data;
       /* si =  cbdata1->si; */
+      gui = cbdata1->gui;
       staffstruct = cbdata1->staff;
       callback_action = cbdata1->addat;
     }

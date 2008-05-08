@@ -12,6 +12,6 @@ printpart_cb(GtkAction *action, DenemoGUI *gui);
 gchar *
 get_printfile_pathbasename(void);
 void
-run_lilypond_and_viewer(gchar *basename);
+run_lilypond_and_viewer(gchar *basename, DenemoGUI *gui);
 
 #endif /*PRINT_H*/	

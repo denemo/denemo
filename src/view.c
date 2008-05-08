@@ -198,7 +198,8 @@ void free_gui(DenemoGUI *gui)
 {
   GList *g;
   for(g=gui->movements;g;g=g->next) {
-    free_score(g->data);
+    gui->si = g->data;
+    free_score(gui);
   }
   g_list_free(gui->movements);
   gui->movements = NULL;
@@ -1109,6 +1110,10 @@ GtkActionEntry menu_entries[] = {
   {"MovementMenu", NULL, N_("Movements"),NULL,N_("Movements in a score")},
   {"SwapStaffs", NULL, N_("Swap Staffs"), NULL, N_("Swap this staff with the one higher up)"),
    G_CALLBACK (swapstaffs)},
+  {"SplitVoices", NULL, N_("Split Voice off"), NULL, N_("Split off the next voice as a separate staff"),
+   G_CALLBACK (splitstaffs)},
+  {"JoinVoices", NULL, N_("Merge as Voice"), NULL, N_("Merge this staff as a voice on the previous staff"),
+   G_CALLBACK (joinstaffs)},
   {"SwapMovements", NULL, N_("Swap Movements"), NULL, N_("Swap this movement with the one before)"),
    G_CALLBACK (swapmovements)},
   {"VoiceUp", NULL, N_("Voice Up"), NULL, N_("Go to the higher numbered voice\n(or staff if highest voice number on staff)"),

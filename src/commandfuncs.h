@@ -38,6 +38,11 @@ measureright (DenemoGUI  *gui);
 gboolean
 swapstaffs (GtkAction *action, DenemoGUI  *gui);
 gboolean
+splitstaffs (GtkAction *action, DenemoGUI  *gui);
+gboolean
+joinstaffs (GtkAction *action, DenemoGUI  *gui);
+
+gboolean
 swapmovements (GtkAction *action, DenemoGUI  *gui);
 
 gboolean

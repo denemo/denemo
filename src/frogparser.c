@@ -190,7 +190,9 @@
   objnode *currentobject;
   extern int errcount;
 
+  static void yy_setscore (DenemoGUI *gui);
   static DenemoScore *frogsi;
+  static DenemoGUI *froggui;
 
   extern int yylex (void);
   int yyerror (char *);
@@ -232,7 +234,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 61 "./frogparser.y"
+#line 63 "./frogparser.y"
 {
   gfloat f;
   char string[FROG_MAX_TOKEN_STRING];
@@ -254,7 +256,7 @@ typedef union YYSTYPE
   struct p_hairpin t_hairpin;
 }
 /* Line 187 of yacc.c.  */
-#line 258 "frogparser.tab.c"
+#line 260 "frogparser.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -264,7 +266,7 @@ typedef union YYSTYPE
 
 
 /* Copy the second part of user declarations.  */
-#line 150 "./frogparser.y"
+#line 152 "./frogparser.y"
 
   DenemoStaff *thestaffstruct = NULL;
   
@@ -283,7 +285,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 287 "frogparser.tab.c"
+#line 289 "frogparser.tab.c"
 
 #ifdef short
 # undef short
@@ -601,16 +603,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   168,   168,   170,   177,   182,   184,   185,   185,   187,
-     194,   201,   211,   229,   244,   244,   246,   280,   287,   294,
-     294,   320,   324,   325,   326,   337,   338,   339,   366,   375,
-     396,   431,   433,   441,   449,   462,   469,   476,   483,   488,
-     494,   501,   510,   521,   522,   523,   524,   528,   529,   530,
-     531,   535,   541,   549,   562,   569,   576,   583,   589,   596,
-     604,   609,   614,   621,   628,   637,   644,   651,   658,   679,
-     702,   712,   721,   726,   727,   728,   731,   734,   737,   738,
-     741,   742,   745,   745,   747,   747,   754,   761,   768,   775,
-     782,   787,   794,   799,   806,   813
+       0,   170,   170,   172,   179,   184,   186,   187,   187,   189,
+     196,   203,   213,   231,   246,   246,   248,   282,   289,   296,
+     296,   322,   326,   327,   328,   339,   340,   341,   368,   377,
+     398,   433,   435,   443,   451,   464,   471,   478,   485,   490,
+     496,   503,   512,   523,   524,   525,   526,   530,   531,   532,
+     533,   537,   543,   551,   564,   571,   578,   585,   591,   598,
+     606,   611,   616,   623,   630,   639,   646,   653,   660,   681,
+     704,   714,   723,   728,   729,   730,   733,   736,   739,   740,
+     743,   744,   747,   747,   749,   749,   756,   763,   770,   777,
+     784,   789,   796,   801,   808,   815
 };
 #endif
 
@@ -1617,35 +1619,35 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 171 "./frogparser.y"
+#line 173 "./frogparser.y"
     {
   fprintf (stderr, "Found %c \n", (yyvsp[(1) - (1)]. character ));
 ;}
     break;
 
   case 4:
-#line 178 "./frogparser.y"
+#line 180 "./frogparser.y"
     {
  
 ;}
     break;
 
   case 9:
-#line 188 "./frogparser.y"
+#line 190 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 10:
-#line 195 "./frogparser.y"
+#line 197 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 11:
-#line 202 "./frogparser.y"
+#line 204 "./frogparser.y"
     {
 
   /*p_newstaff(frogsi, &$2); */
@@ -1653,11 +1655,11 @@ yyreduce:
     break;
 
   case 12:
-#line 212 "./frogparser.y"
+#line 214 "./frogparser.y"
     {
 
   frogsi->currentstaffnum++;
-  newstaff (frogsi, ADDFROMLOAD, DENEMO_NONE);
+  newstaff (froggui, ADDFROMLOAD, DENEMO_NONE);
   frogsi->currentstaff = g_list_last (frogsi->thescore);
   n = 1;
   currentbar = 1;
@@ -1671,7 +1673,7 @@ yyreduce:
     break;
 
   case 13:
-#line 230 "./frogparser.y"
+#line 232 "./frogparser.y"
     {
 
   g_string_assign (((DenemoStaff *) frogsi->currentstaff->data)->lily_name, (yyvsp[(1) - (4)]. string ));
@@ -1686,7 +1688,7 @@ yyreduce:
     break;
 
   case 16:
-#line 247 "./frogparser.y"
+#line 249 "./frogparser.y"
     {
  
   if (n != (yyvsp[(1) - (3)]. number ))
@@ -1720,21 +1722,21 @@ yyreduce:
     break;
 
   case 17:
-#line 281 "./frogparser.y"
+#line 283 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 18:
-#line 288 "./frogparser.y"
+#line 290 "./frogparser.y"
     {
   (yyval. f ) = (yyvsp[(1) - (1)]. f );
 ;}
     break;
 
   case 20:
-#line 295 "./frogparser.y"
+#line 297 "./frogparser.y"
     {
 
   DenemoObject *obj = (DenemoObject *)
@@ -1763,19 +1765,19 @@ yyreduce:
     break;
 
   case 21:
-#line 321 "./frogparser.y"
+#line 323 "./frogparser.y"
     {
   newclef ((yyvsp[(1) - (1)]. string ));
 ;}
     break;
 
   case 23:
-#line 325 "./frogparser.y"
+#line 327 "./frogparser.y"
     { ;}
     break;
 
   case 24:
-#line 327 "./frogparser.y"
+#line 329 "./frogparser.y"
     {
   GString *dynamic = g_string_new((yyvsp[(1) - (1)]. string ));
   DenemoObject *obj = (DenemoObject *)
@@ -1788,7 +1790,7 @@ yyreduce:
     break;
 
   case 27:
-#line 340 "./frogparser.y"
+#line 342 "./frogparser.y"
     {
   DenemoObject *obj = (DenemoObject *)
     (frogsi->currentobject ? frogsi->currentobject->data : NULL);
@@ -1817,7 +1819,7 @@ yyreduce:
     break;
 
   case 28:
-#line 367 "./frogparser.y"
+#line 369 "./frogparser.y"
     {
   (yyval. t_position ).xoff = (yyvsp[(1) - (3)]. f );
   (yyval. t_position ).yoff = (yyvsp[(3) - (3)]. f );
@@ -1826,7 +1828,7 @@ yyreduce:
     break;
 
   case 29:
-#line 376 "./frogparser.y"
+#line 378 "./frogparser.y"
     {
   if (currentbeat == beatnum && n == currentbar)
     {
@@ -1849,7 +1851,7 @@ yyreduce:
     break;
 
   case 30:
-#line 397 "./frogparser.y"
+#line 399 "./frogparser.y"
     {
   
   gint duration = 0;
@@ -1886,7 +1888,7 @@ yyreduce:
     break;
 
   case 32:
-#line 434 "./frogparser.y"
+#line 436 "./frogparser.y"
     {
 
   (yyval. t_rest ).rest = (yyvsp[(1) - (2)]. character );
@@ -1896,7 +1898,7 @@ yyreduce:
     break;
 
   case 33:
-#line 442 "./frogparser.y"
+#line 444 "./frogparser.y"
     {
   (yyval. t_rest ).rest = (yyvsp[(1) - (1)]. character );
   (yyval. t_rest ).dots = 0;
@@ -1904,7 +1906,7 @@ yyreduce:
     break;
 
   case 34:
-#line 450 "./frogparser.y"
+#line 452 "./frogparser.y"
     {
   (yyval. t_note ).t_option = NULL;
   (yyval. t_note ).t_pitch = (yyvsp[(1) - (4)]. t_pitch );
@@ -1917,7 +1919,7 @@ yyreduce:
     break;
 
   case 35:
-#line 463 "./frogparser.y"
+#line 465 "./frogparser.y"
     {
   strcpy ((yyval. t_pitch ).notename, (yyvsp[(1) - (2)]. string ));
   (yyval. t_pitch ).octave = (yyvsp[(2) - (2)]. number );
@@ -1926,41 +1928,41 @@ yyreduce:
     break;
 
   case 36:
-#line 470 "./frogparser.y"
+#line 472 "./frogparser.y"
     {
   (yyval. t_pitch ).number_of_lines = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 37:
-#line 477 "./frogparser.y"
+#line 479 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 38:
-#line 484 "./frogparser.y"
+#line 486 "./frogparser.y"
     {
   strcpy ((yyval. string ), (yyvsp[(1) - (1)]. string ));
 ;}
     break;
 
   case 39:
-#line 489 "./frogparser.y"
+#line 491 "./frogparser.y"
     {
 ;}
     break;
 
   case 40:
-#line 495 "./frogparser.y"
+#line 497 "./frogparser.y"
     {
   strcpy ((yyval. string ), (yyvsp[(1) - (1)]. string ));
 ;}
     break;
 
   case 41:
-#line 501 "./frogparser.y"
+#line 503 "./frogparser.y"
     {
   (yyval. t_option ) = (struct p_noteoption *)g_malloc(sizeof( struct p_noteoption));
   (yyval. t_option )->next = NULL;
@@ -1973,7 +1975,7 @@ yyreduce:
     break;
 
   case 42:
-#line 511 "./frogparser.y"
+#line 513 "./frogparser.y"
     {
   optionlist *nitem = createoption((yyvsp[(2) - (3)]. t_modifier ));
   strcpy((yyval. t_option )->type,(yyvsp[(2) - (3)]. t_modifier ).type);
@@ -1985,22 +1987,22 @@ yyreduce:
     break;
 
   case 43:
-#line 521 "./frogparser.y"
+#line 523 "./frogparser.y"
     {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
     break;
 
   case 44:
-#line 522 "./frogparser.y"
+#line 524 "./frogparser.y"
     {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
     break;
 
   case 45:
-#line 523 "./frogparser.y"
+#line 525 "./frogparser.y"
     { strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string ));;}
     break;
 
   case 46:
-#line 524 "./frogparser.y"
+#line 526 "./frogparser.y"
     {  
   strcpy((yyval. t_modifier ).type,"dots");
   (yyval. t_modifier ).dots = (yyvsp[(1) - (1)]. number );
@@ -2008,27 +2010,27 @@ yyreduce:
     break;
 
   case 47:
-#line 528 "./frogparser.y"
-    {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
-    break;
-
-  case 48:
-#line 529 "./frogparser.y"
-    {  (yyval. t_modifier ).gracenote = (yyvsp[(1) - (1)]. t_grace ); ;}
-    break;
-
-  case 49:
 #line 530 "./frogparser.y"
     {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
     break;
 
-  case 50:
+  case 48:
 #line 531 "./frogparser.y"
+    {  (yyval. t_modifier ).gracenote = (yyvsp[(1) - (1)]. t_grace ); ;}
+    break;
+
+  case 49:
+#line 532 "./frogparser.y"
+    {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
+    break;
+
+  case 50:
+#line 533 "./frogparser.y"
     {  strcpy ((yyval. t_modifier ).type, (yyvsp[(1) - (1)]. string )); ;}
     break;
 
   case 51:
-#line 536 "./frogparser.y"
+#line 538 "./frogparser.y"
     {
   strcpy ((yyval. string ), (yyvsp[(1) - (1)]. string ));
 
@@ -2036,7 +2038,7 @@ yyreduce:
     break;
 
   case 52:
-#line 542 "./frogparser.y"
+#line 544 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 
@@ -2044,7 +2046,7 @@ yyreduce:
     break;
 
   case 53:
-#line 550 "./frogparser.y"
+#line 552 "./frogparser.y"
     {
   (yyval. t_grace ).t_pitch = (yyvsp[(1) - (6)]. t_pitch );
   strcpy ((yyval. t_grace ).stemdir, (yyvsp[(2) - (6)]. string ));
@@ -2057,7 +2059,7 @@ yyreduce:
     break;
 
   case 54:
-#line 563 "./frogparser.y"
+#line 565 "./frogparser.y"
     {
   strcpy ((yyval. t_graceoption ).type, (yyvsp[(1) - (2)]. string ));
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2066,7 +2068,7 @@ yyreduce:
     break;
 
   case 55:
-#line 570 "./frogparser.y"
+#line 572 "./frogparser.y"
     {
   strcpy ((yyval. t_graceoption ).type, (yyvsp[(1) - (2)]. string ));
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2075,7 +2077,7 @@ yyreduce:
     break;
 
   case 56:
-#line 577 "./frogparser.y"
+#line 579 "./frogparser.y"
     {
   strcpy ((yyval. t_graceoption ).type, (yyvsp[(1) - (2)]. string ));
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2084,7 +2086,7 @@ yyreduce:
     break;
 
   case 57:
-#line 584 "./frogparser.y"
+#line 586 "./frogparser.y"
     {
   (yyval. t_graceoption ).dots = (yyvsp[(1) - (2)]. number );
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2092,7 +2094,7 @@ yyreduce:
     break;
 
   case 58:
-#line 590 "./frogparser.y"
+#line 592 "./frogparser.y"
     {
   strcpy ((yyval. t_graceoption ).type, (yyvsp[(1) - (2)]. string ));
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2101,7 +2103,7 @@ yyreduce:
     break;
 
   case 59:
-#line 597 "./frogparser.y"
+#line 599 "./frogparser.y"
     {
   strcpy ((yyval. t_graceoption ).type, (yyvsp[(1) - (2)]. string ));
   (yyval. t_graceoption ).t_position = (yyvsp[(2) - (2)]. t_position );
@@ -2109,28 +2111,28 @@ yyreduce:
     break;
 
   case 60:
-#line 605 "./frogparser.y"
+#line 607 "./frogparser.y"
     {
   (yyval. t_beamd ).type = (yyvsp[(1) - (1)]. t_beamtype );
 ;}
     break;
 
   case 61:
-#line 610 "./frogparser.y"
+#line 612 "./frogparser.y"
     {
   strcpy ((yyval. t_beamd ).direction, (yyvsp[(1) - (1)]. string ));
 ;}
     break;
 
   case 62:
-#line 615 "./frogparser.y"
+#line 617 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 63:
-#line 622 "./frogparser.y"
+#line 624 "./frogparser.y"
     {
   strcpy ((yyval. t_beamtype ).btype, (yyvsp[(1) - (2)]. string ));
   strcpy ((yyval. t_beamtype ).direction, (yyvsp[(2) - (2)]. string ));
@@ -2139,7 +2141,7 @@ yyreduce:
     break;
 
   case 64:
-#line 629 "./frogparser.y"
+#line 631 "./frogparser.y"
     {
   strcpy ((yyval. t_beamtype ).btype, (yyvsp[(1) - (2)]. string ));
   strcpy ((yyval. t_beamtype ).direction, (yyvsp[(2) - (2)]. string ));
@@ -2148,28 +2150,28 @@ yyreduce:
     break;
 
   case 65:
-#line 638 "./frogparser.y"
+#line 640 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 66:
-#line 645 "./frogparser.y"
+#line 647 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 67:
-#line 652 "./frogparser.y"
+#line 654 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 68:
-#line 659 "./frogparser.y"
+#line 661 "./frogparser.y"
     {
 
   objnode *theobj = firstobjnode (frogsi->currentmeasure);
@@ -2192,7 +2194,7 @@ yyreduce:
     break;
 
   case 69:
-#line 680 "./frogparser.y"
+#line 682 "./frogparser.y"
     {
 
   objnode *theobj = firstobjnode (frogsi->currentmeasure);
@@ -2215,7 +2217,7 @@ yyreduce:
     break;
 
   case 70:
-#line 703 "./frogparser.y"
+#line 705 "./frogparser.y"
     {
   (yyval. t_tupops ).numerator = (yyvsp[(1) - (2)]. number );
   (yyval. t_tupops ).denominator = (yyvsp[(2) - (2)]. number );
@@ -2223,7 +2225,7 @@ yyreduce:
     break;
 
   case 71:
-#line 713 "./frogparser.y"
+#line 715 "./frogparser.y"
     {
   strcpy ((yyval. t_slur ).string, (yyvsp[(1) - (3)]. string ));
   (yyval. t_slur ).t_position = (yyvsp[(2) - (3)]. t_position );
@@ -2234,124 +2236,124 @@ yyreduce:
     break;
 
   case 72:
-#line 722 "./frogparser.y"
+#line 724 "./frogparser.y"
     {
   strcpy ((yyval. t_hairpin ).string, (yyvsp[(1) - (1)]. string ));
 ;}
     break;
 
   case 74:
-#line 727 "./frogparser.y"
+#line 729 "./frogparser.y"
     { ;}
     break;
 
   case 75:
-#line 728 "./frogparser.y"
+#line 730 "./frogparser.y"
     { newkeysigobj ((yyvsp[(1) - (1)]. string )); ;}
     break;
 
   case 76:
-#line 731 "./frogparser.y"
+#line 733 "./frogparser.y"
     { ;}
     break;
 
   case 77:
-#line 734 "./frogparser.y"
+#line 736 "./frogparser.y"
     { ;}
     break;
 
   case 78:
-#line 737 "./frogparser.y"
+#line 739 "./frogparser.y"
     { ;}
     break;
 
   case 79:
-#line 738 "./frogparser.y"
+#line 740 "./frogparser.y"
     { ;}
     break;
 
   case 80:
-#line 741 "./frogparser.y"
+#line 743 "./frogparser.y"
     { ;}
     break;
 
   case 81:
-#line 742 "./frogparser.y"
+#line 744 "./frogparser.y"
     { ;}
     break;
 
   case 85:
-#line 748 "./frogparser.y"
+#line 750 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 86:
-#line 755 "./frogparser.y"
+#line 757 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 87:
-#line 762 "./frogparser.y"
+#line 764 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 88:
-#line 769 "./frogparser.y"
+#line 771 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 89:
-#line 776 "./frogparser.y"
+#line 778 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 90:
-#line 783 "./frogparser.y"
+#line 785 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (3)]. number );
 ;}
     break;
 
   case 91:
-#line 788 "./frogparser.y"
+#line 790 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
     break;
 
   case 92:
-#line 795 "./frogparser.y"
+#line 797 "./frogparser.y"
     {
   newtimesig ((yyvsp[(1) - (3)]. number ), (yyvsp[(3) - (3)]. number ));
 ;}
     break;
 
   case 93:
-#line 800 "./frogparser.y"
+#line 802 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 94:
-#line 807 "./frogparser.y"
+#line 809 "./frogparser.y"
     {
 
 ;}
     break;
 
   case 95:
-#line 814 "./frogparser.y"
+#line 816 "./frogparser.y"
     {
   (yyval. number ) = (yyvsp[(1) - (1)]. number );
 ;}
@@ -2359,7 +2361,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 2363 "frogparser.tab.c"
+#line 2365 "frogparser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2573,9 +2575,9 @@ yyreturn:
 }
 
 
-#line 820 "./frogparser.y"
+#line 822 "./frogparser.y"
 int
-froginput (char *filename, DenemoScore *si)
+froginput (char *filename, DenemoGUI *gui)
 {
   extern FILE *yyin;
 #ifdef YYDEBUG
@@ -2589,7 +2591,7 @@ froginput (char *filename, DenemoScore *si)
   else
     {
       fprintf (stderr, "In FROGINPUT");
-      yy_setscore (si);
+      yy_setscore (gui);
       while (!feof (yyin))
 	{
 	  yyparse ();
@@ -2870,10 +2872,11 @@ newdynamic (gchar * type)
 
 /* Set global Parser structure equal to the main scoreinfo structure */
 void
-yy_setscore (DenemoScore *si)
+yy_setscore (DenemoGUI *gui)
 {
-  frogsi = si;
-  free_score (frogsi);
+  frogsi = gui->si;
+  froggui = gui;
+  free_score (gui);
   frogsi->currentstaffnum = 0;
 
 }

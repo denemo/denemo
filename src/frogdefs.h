@@ -77,6 +77,7 @@ struct p_note
   float duration;
 };
 
+
 struct p_staff
 {
   int numoflines;
@@ -110,8 +111,8 @@ struct p_hairpin
   char string[15];
 };
 
-void yy_setscore (DenemoScore *si);
-int froginput (char *filename, DenemoScore *si);
-void p_newstaff (DenemoScore *si, struct p_staff *staff);
-void changeofkey (char *keyname);
+
+int froginput (char *filename, DenemoGUI *gui);
+
+
 #endif

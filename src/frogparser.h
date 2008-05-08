@@ -118,7 +118,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 61 "./frogparser.y"
+#line 63 "./frogparser.y"
 {
   gfloat f;
   char string[FROG_MAX_TOKEN_STRING];

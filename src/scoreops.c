@@ -34,7 +34,7 @@ void
 new_score (DenemoGUI *gui)
 {
   new_empty_score(gui);
-  newstaff (gui->si, INITIAL, DENEMO_NONE);
+  newstaff (gui, INITIAL, DENEMO_NONE);
 }
 
 
@@ -70,11 +70,13 @@ insert_movement_after(GtkAction * action, DenemoGUI *gui) {
 
 void
 delete_movement(GtkAction * action, DenemoGUI *gui) {
+  if(!confirm_deletestaff_custom_scoreblock(gui))
+    return;
   GString *primary = g_string_new(""), *secondary = g_string_new("");
   if(gui->movements==NULL || (g_list_length(gui->movements)==1)) {
     g_string_assign(primary, N_("This is the only movement"));
     g_string_assign(secondary, N_("Delete it and start over?"));
-    if(confirm(gui, primary->str, secondary->str)) {
+    if(confirm(primary->str, secondary->str)) {
       gchar *name = g_strdup(gui->filename->str);
       deletescore (NULL, gui);
       g_string_assign(gui->filename, name);
@@ -84,8 +86,8 @@ delete_movement(GtkAction * action, DenemoGUI *gui) {
     gint num = g_list_index(gui->movements, gui->si);
     g_string_printf(primary,N_("This is movement #%d, entitled %s"), num+1, gui->si->headerinfo.piece->str);
     g_string_assign(secondary,N_("Delete entire movement?"));
-    if( confirm(gui, primary->str, secondary->str)) {
-      free_score(gui->si);
+    if( confirm(primary->str, secondary->str)) {
+      free_score(gui);
       DenemoScore *si= gui->si;
       GList *g = g_list_find(gui->movements, si)->next;
       if(g==NULL)
@@ -293,13 +295,14 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   //gui->movements = g_list_append(gui->movements, si);
 }
 
-static delete_all_staffs(DenemoScore * si) {
+static delete_all_staffs(DenemoGUI * gui) {
+  DenemoScore *si=gui->si;
   gint i;
   for (i = g_list_length (si->thescore); i>0; i--)
     {
       si->currentstaffnum = i;
       si->currentstaff = g_list_nth (si->thescore, i - 1);
-      deletestaff (si);
+      deletestaff (gui, FALSE);
     }
 }
 
@@ -309,10 +312,10 @@ static delete_all_staffs(DenemoScore * si) {
  * @param si pointer to the scoreinfo structure to free
  */
 void
-free_score (DenemoScore * si)
+free_score (DenemoGUI * gui)
 {
-  delete_all_staffs(si);
-#define  HEADER(field)   g_string_free(si->headerinfo.field, TRUE)
+  delete_all_staffs(gui);
+#define  HEADER(field)   g_string_free(gui->si->headerinfo.field, TRUE)
   HEADER(title);
   HEADER(subtitle);
   HEADER(poet);
@@ -332,7 +335,7 @@ free_score (DenemoScore * si)
   HEADER(extra);
 #undef HEADER
 
-  g_queue_free (si->undodata);
-  g_queue_free (si->redodata);
+  g_queue_free (gui->si->undodata);
+  g_queue_free (gui->si->redodata);
 }
 

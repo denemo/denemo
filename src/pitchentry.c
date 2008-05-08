@@ -750,7 +750,7 @@ int stop_pitch_recognition(void) {
 static stop_pitch_recognition_callback(GtkWidget *unused, DenemoGUI *gui){
 GtkWidget * widget = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar/TogglePitchRecognition");
  PR_window=NULL;
- gtk_toggle_tool_button_set_active (widget,  FALSE);
+ gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON(widget),  FALSE);
  clear_tone_store(NULL, gui);
 }
 

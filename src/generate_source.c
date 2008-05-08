@@ -41,7 +41,7 @@ char *catname[9] = {N_("Navigation"),
 
 struct name_and_function
 {
-  unsigned menu;
+  unsigned category;
   /** Command name */
 
   char *menu_label;
@@ -56,19 +56,19 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorDown"), "cursordown"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorUp"), "cursorup"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorRight"), "cursorright"},
-  {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("StaffUp"), "staffup"},
-  {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("StaffDown"), "staffdown"},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff above",	N_("StaffUp"), "staffup"},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff below",	N_("StaffDown"), "staffdown"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("MeasureLeft"), "measureleft"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("MeasureRight"), "measureright"},
-  {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("A"), "go_to_A_key"},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Move the cursor to A",	N_("A"), "go_to_A_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("B"), "go_to_B_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("C"), "go_to_C_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("D"), "go_to_D_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("E"), "go_to_E_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("F"), "go_to_F_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("G"), "go_to_G_key"},
-  {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("OctaveUp"), "octave_up_key"},
-  {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("OctaveDown"), "octave_down_key"},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key"},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key"},
 
   {KBD_CATEGORY_NOTE_ENTRY,  "\"MUSIC_FONT(\"0\")\"", "Insert whole-note",	N_("WholeNote"), "insert_chord_0key"},
   {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"1\")\"", "Insert half-note",	N_("HalfNote"), "insert_chord_1key"},
@@ -120,7 +120,8 @@ struct name_and_function unmenued_commands[] = {
 
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("InsertMeasure"), "insert_measure_key"},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasure"), "append_measure_key"},
-  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("DeleteMeasure"), "deletemeasure"},
+  {KBD_CATEGORY_MEASURE, NULL, "Delete the current measure in this staff, leaving the staff short",	N_("DeleteMeasure"), "deletemeasure"},
+  {KBD_CATEGORY_MEASURE, NULL, "Delete the current measure in all staffs",	N_("DeleteMeasureAllStaffs"), "deletemeasureallstaffs"},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("ShrinkMeasures"), "adjust_measure_less_width_key"},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("WidenMeasures"), "adjust_measure_more_width_key"},
 
@@ -227,11 +228,11 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_STAFF, NULL, "No Tooltip yet",	N_("SetInitialAflatmin"), "setkeysigaflatmin"},
 
 
-  {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("SetMark"), "set_mark"},
-  {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("UnsetMark"), "unset_mark"},
+  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("SetMark"), "set_mark"},
+  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("UnsetMark"), "unset_mark"},
 
-  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleBeginSlur"), "toggle_begin_slur"},
-  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndSlur"), "toggle_end_slur"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "Insert/delete begin slur on this note",	N_("ToggleBeginSlur"), "toggle_begin_slur"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "Insert/delete end slur on this note",	N_("ToggleEndSlur"), "toggle_end_slur"},
 
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleStartCrescendo"), "toggle_start_crescendo"},
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleEndCrescendo"), "toggle_end_crescendo"},
@@ -263,15 +264,15 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleArpeggio"), "add_arpeggio"},
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("SetGrace"), "set_grace"},
 
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary"},
 
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("ChangePitch"), "change_pitch"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("DoubleBar"), "insert_doublebar"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("EndBar"), "insert_endbar"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("OpenRepeat"), "insert_openrepeat"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("CloseRepeat"), "insert_closerepeat"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("DoubleBar"), "insert_doublebar"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("EndBar"), "insert_endbar"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenRepeat"), "insert_openrepeat"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("CloseRepeat"), "insert_closerepeat"},
+  {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern"},
   {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("NextRhythm"), "nextrhythm"},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMesauresToScore"), "append_measure_score"}
 
@@ -287,7 +288,7 @@ struct name_and_function unmenued_commands[] = {
 #define ii unmenued_commands[i].menu_label
 #define ti unmenued_commands[i].tooltip
 #define fi unmenued_commands[i].function
-#define mi unmenued_commands[i].menu
+#define mi unmenued_commands[i].category
 int main() {
   FILE *callbacks, *entries, *xml;
   callbacks = fopen("callbacks.h", "w");
@@ -309,7 +310,7 @@ int main() {
   for(i=0;i<n_unmenued_commands;i++) {
     fprintf(callbacks, "/*%s %s*/\n",ni, fi);
     fprintf(callbacks, "static void %s_cb (GtkAction *a, DenemoGUI *gui) {\n"
-	   "%s (gui);\ndisplayhelper (gui);\n}\n", fi, fi);
+	   "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, mi==KBD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
     fprintf(entries,
   "{\"%s\", NULL, N_(\"%s\"), NULL,"
    "N_(\"%s\"),"
@@ -325,11 +326,12 @@ int main() {
     /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
     fprintf(callbacks, 
 "static void InsertRest%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
-"  make_singleton_rhythm(gui, (gpointer)insert_chord_%dkey);\n"
+"  highlight_rest(gui, %d);\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTREST;\n"
 "  insert_chord_%dkey(gui);\n"
 "  gui->mode = mode;\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 "}\n"
 
@@ -343,15 +345,17 @@ int main() {
 "  gui->mode = mode;\n"
 "  if(appending)\n"
 "    cursorright(gui);\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 "}\n"
 
 "void InsertDur%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
-"  make_singleton_rhythm(gui, (gpointer)insert_chord_%dkey);\n"
+"  highlight_duration(gui, %d);\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
 "  insert_chord_%dkey(gui);\n"
 "  gui->mode = mode;\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 "}\n"
 
@@ -373,12 +377,13 @@ int main() {
     fprintf(callbacks, 
 	    "static void Dur%d  (GtkWidget *w, DenemoGUI *gui) {\n"
 	    " if(gui->mode&INPUTINSERT)\n"
-	    "   make_singleton_rhythm(gui, (gpointer)insert_chord_%dkey);\n"
+	    "   highlight_duration(gui, %d);\n"
 	    " else \n"
 	    " if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n"
 	    "   ChangeDur%d (w, gui);\n"
 	    "else {\n"
 	    " insert_chord_%dkey(gui);\n"
+	    "  score_status(gui, TRUE);\n"
 	    " displayhelper(gui);\n"
 	    " }\n"
 	    "}\n", i , i, i, i);
@@ -442,6 +447,7 @@ int main() {
 "  gui->mode = mode;\n"
 "  if(appending)\n"
 "    cursorright(gui);\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 "}\n", i, i);
   }
@@ -453,6 +459,7 @@ int main() {
 "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
 "  go_to_%c_key(gui);\n"
 "  gui->mode = mode;\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 	    "}\n", i, i);
   }

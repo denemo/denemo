@@ -1,3 +1,33 @@
+
+2008-05-06 <rshann>
+	keymaps/denemo.keymaprc src/keyresponses.c warn that the code is being phased out.
+2008-05-06 <jjbenham>
+	util.c util.h created new function string_dialog_entry for text entry
+	dialog box.
+	lilydirectives.c, figure.c, fakechord.c changed code to use new function.
+2008-05-04 <rshann>
+	exportlilypond.c Fix for lilypond window refresh in presence of lyrics, chord symbols or figures.
+2008-05-03 <rshann>
+	scoreprops.c: fix return value of abandon fn.
+2008-05-02 <rshann>
+	commandfuncs.c avoid coredump when multiple timesignatures (present in different voices) are deleted.
+	denemoui.xml, commandfuncs.c,h split and join voices.
+	gcs.c make the yellow colour less bright (so that it stands out better against the white background).
+	commandfuncs.c fix non-printing rest mode to enter only rests.
+	importxml.c remove the special treatment of empty measures - there seems to be no reason for this.
+        exportlilypond.c, print.c capture error output from LilyPond and highlight text window to suit.
+	exportlilypond.c,import/exportxml.c allow editing of prolog to each staff, store and retrieve staff prolog.
+	exportlilypond.c allow deletion of custom blocks/inserts by deleting content, whitespace ignored.
+	enable finding the current object in the LilyText window.
+	include/denemo/denemo_types.h create a field for custom prologs for staffs
+	staffpropdialog.c warn if custom prolog when changing properties of a staff
+	staffops.c,h initialize the staff prolog. Warn of custom scoreblocks if interactive. Set changecount on deleting.
+	commandfuncs.c deletestaff takes boolean to determine whether it is interactive or not.
+	importxml.c scoreops.c, staffpropdialog.c change to passing DenemoGUI for newstaff, deletestaff
+	file.c frog* use gui not si.
+	pitchentry.c avoid compiler warning.
+	scoreops.c fix wrong call to confirm(), potential fatal error.
+	frog* keep up-to-date;
 2008-04-20 <rshann>
         staffpropdialog.c register changes in status
 	scorewizard.c avoid overflow of gchar*, reduce debug printout, register change count changes

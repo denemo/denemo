@@ -92,7 +92,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	  //problem is it is not creating staves for multiple instruments
 	  {
 	    wdata->gui->si->currentstaffnum++;
-	    newstaff ((DenemoScore *) wdata->gui->si, 
+	    newstaff (wdata->gui, 
 		      ADDFROMLOAD, DENEMO_NONE);
 	    
 	    printf("\nlocation b before switch currentstaffnum = %i\n", 
@@ -128,7 +128,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	      (numstaffsforinstrument == 2) || (wdata->currentstaffnumber > 1))
 	    {
 	      wdata->gui->si->currentstaffnum++;
-	      newstaff ((DenemoScore *) wdata->gui->si, ADDFROMLOAD, 
+	      newstaff (wdata->gui, ADDFROMLOAD, 
 			DENEMO_NONE);
 	      printf("\ninside case 2 first if currentstaffnum = %i\n", 
 		     wdata->gui->si->currentstaffnum); 
@@ -199,7 +199,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	if (wdata->staffnumber != 1)
 	  {
 	    wdata->gui->si->currentstaffnum++;
-	    newstaff ((DenemoScore *) wdata->gui->si, 
+	    newstaff (wdata->gui, 
 		      ADDFROMLOAD, DENEMO_NONE);
 	    update_vscrollbar(wdata->gui);
 	    wdata->gui->si->currentstaff = 

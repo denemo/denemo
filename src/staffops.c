@@ -174,9 +174,10 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
  * @return none
  */
 void
-newstaff (DenemoScore * si, enum newstaffcallbackaction action,
+newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	  DenemoContext context)
 {
+  DenemoScore *si = gui->si;
   g_assert (si != NULL);
   /* What gets added */
   gint ret = -1;
@@ -273,6 +274,7 @@ newstaff (DenemoScore * si, enum newstaffcallbackaction action,
   thestaffstruct->measures = themeasures;
   thestaffstruct->denemo_name = g_string_new (NULL);
   thestaffstruct->lily_name = g_string_new (NULL);
+  thestaffstruct->custom_prolog = NULL;
   thestaffstruct->context = context;
   if (action == NEWVOICE)
     g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"),
@@ -313,7 +315,7 @@ newstaff (DenemoScore * si, enum newstaffcallbackaction action,
       addat = 1;
       break;
     }
-
+  itp.gui = gui;
   itp.staff = thestaffstruct;
   itp.addat = addat;
   if (action != INITIAL && action != ADDFROMLOAD)
@@ -361,24 +363,42 @@ newstaff (DenemoScore * si, enum newstaffcallbackaction action,
   //si->haschanged = TRUE;
 }
 
-/**
- * Remove the si->currentstaff from the score si and resets si->currentstaff
- * @param si the scoreinfo structure
 
- * @return TRUE if a staff was deleted
+gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui) {
+  if(gui->custom_scoreblocks)
+    return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to make this change show in the print-out. Proceed?");
+  return TRUE;
+}
+
+gboolean confirm_deletestaff_custom_scoreblock(DenemoGUI *gui) {
+  if(gui->custom_scoreblocks)
+    return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to delete any reference to the deleted staff(s) in the scoreblock. Proceed?");
+  return TRUE;
+}
+
+
+/**
+ * Remove the gui->si->currentstaff from the piece gui and reset si->currentstaff
+ * if only one staff, inserts a new empty one
+ * if interactive checks for custom_scoreblock
+ * if a staff is deleted, updates the changecount
+ * @param gui the DenemoGUI structure
+ * @return nothing
  */
-gboolean
-deletestaff (DenemoScore * si)
+void
+deletestaff (DenemoGUI * gui, gboolean interactive)
 {
-  gboolean ret=FALSE;
+  DenemoScore *si = gui->si;
+  if(interactive && !confirm_deletestaff_custom_scoreblock(gui))
+    return;
   if(si->currentstaff==NULL)
-    return ret;
+    return;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
-  g_string_free (curstaffstruct->denemo_name, FALSE);
+  g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
   g_free (curstaffstruct);
@@ -386,10 +406,11 @@ deletestaff (DenemoScore * si)
     si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease
   si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
   if(si->thescore==NULL) {
-    ret = FALSE;
-    newstaff (si, INITIAL, DENEMO_NONE);
+    newstaff (gui, INITIAL, DENEMO_NONE);
   }
   si->currentstaff = g_list_nth (si->thescore, si->currentstaffnum - 1);
+
+
   if (isprimary) // we deleted the primary, so the next one must become the primary
     {
       ((DenemoStaff *) si->currentstaff->data)->voicenumber = 1;
@@ -397,7 +418,15 @@ deletestaff (DenemoScore * si)
     } else {
       setcurrentprimarystaff (si);
     }
-  return ret;
+
+  //FIXME none of this works to get the current measure stem direction correct
+      setcurrents (si);
+      find_xes_in_all_measures (si);
+      beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+      si->markstaffnum = 0;
+      displayhelper (gui);
+  score_status(gui,TRUE);
+  return;
 }	
 
 /**
@@ -488,6 +517,8 @@ fixnoteheights (DenemoStaff * thestaff)
   beamsandstemdirswholestaff (thestaff);
 }
 
+
+
 /**
  * Callback function to insert a staff in the initial position
  * @param action a Gtk Action
@@ -511,9 +542,10 @@ newstaffinitial (GtkAction * action, DenemoGUI * gui)
 void
 newstaffbefore (GtkAction * action, DenemoGUI * gui)
 {
-  //  g_print ("New Staff before: score info %X\n", data);
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   tohome(NULL, gui);
-  newstaff (gui->si, BEFORE, DENEMO_NONE);
+  newstaff (gui, BEFORE, DENEMO_NONE);
   if(gui->si->currentstaffnum>= gui->si->top_staff)
     gui->si->top_staff++;
   gui->si->currentstaffnum++;
@@ -535,8 +567,10 @@ newstaffbefore (GtkAction * action, DenemoGUI * gui)
 void
 dnm_newstaffafter (GtkAction * action, DenemoGUI * gui)
 {
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   tohome(NULL, gui);
-  newstaff (gui->si, AFTER, DENEMO_NONE);
+  newstaff (gui, AFTER, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   staffdown (gui);
@@ -566,7 +600,7 @@ newstafflast (GtkAction * action, DenemoGUI * gui)
 void
 dnm_newstaffvoice (GtkAction * action, DenemoGUI * gui)
 {
-  newstaff (gui->si, NEWVOICE, DENEMO_NONE);
+  newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   setcurrents(gui->si);//staffdown (gui);
@@ -582,7 +616,7 @@ dnm_newstaffvoice (GtkAction * action, DenemoGUI * gui)
 void
 newstafflyric (GtkAction * action, DenemoGUI * gui)
 {
-  newstaff (gui->si, LYRICSTAFF, DENEMO_NONE);
+  newstaff (gui, LYRICSTAFF, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   staffdown (gui);
@@ -599,7 +633,7 @@ newstafflyric (GtkAction * action, DenemoGUI * gui)
 void
 dnm_newstafffigured (GtkAction * action, DenemoGUI * gui)
 {
-  newstaff (gui->si, FIGURESTAFF, DENEMO_NONE);
+  newstaff (gui, FIGURESTAFF, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   staffdown (gui);
@@ -618,7 +652,7 @@ void
 dnm_newstaffchords (GtkAction * action, DenemoGUI * gui)
 {
   printf("\n ok I am going to add chords to the staff now\n");
-  newstaff (gui->si, CHORDSTAFF, DENEMO_NONE);
+  newstaff (gui, CHORDSTAFF, DENEMO_NONE);
   //set_bottom_staff (gui);
   update_vscrollbar (gui);
   //staffdown (gui);

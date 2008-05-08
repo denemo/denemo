@@ -1316,6 +1316,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 	  if (emptyMeasure)
 	    {
+#if 0
 	      curElem =
 		xmlNewChild (measureElem, ns, (xmlChar *) "rest", NULL);
 	      xmlSetProp (curElem, (xmlChar *) "show", (xmlChar *) "false");
@@ -1326,6 +1327,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		if(strcmp(filename->str, gui->autosavename->str))
 		warningdialog("Empty measure - putting a non-printing rest into it");
 	      warning_given = TRUE;
+#endif
 	    }
 	}			/* end for each measure in voice */
 

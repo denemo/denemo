@@ -169,7 +169,7 @@ readtrack (FILE * fp, midicallback *mididata)
   if (mididata->trackplus != 0)
     {
       si->currentstaffnum++;
-      newstaff (si, ADDFROMLOAD, DENEMO_NONE);
+      newstaff (mididata->gui, ADDFROMLOAD, DENEMO_NONE);
       si->currentstaff = g_list_last (si->thescore);
       mididata->lastoff = 0;
       si->cursor_x = 0;

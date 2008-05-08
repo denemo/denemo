@@ -27,12 +27,29 @@
 #include "utils.h"
 
 
+/* truncate epoint after 20 lines replacing the last three chars in that case with dots */
+static void truncate_lines(gchar *epoint) {
+  gint i;
+  for(i=0;i<20 && *epoint;i++) {
+    while (*epoint && *epoint!='\n')
+      epoint++;
+    if(*epoint)
+      epoint++;
+  }
+  if(epoint)
+    *epoint-- = '\0';
+  /* replace last three chars with ... This is always possible if epoint is not NULL */
+  if(*epoint)
+    for(i=3;i>0;i--)
+      *epoint-- = '.';
+}
 /* Run the LilyPond interpreter on the file (filename).ly
  * putting the PDF output in (filename).pdf
  * start an external PDF viewer on that file.
+ * parse first LilyPond error and position the cursor in gui->textview on it
  */
 void
-run_lilypond_and_viewer(gchar *filename) {
+run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
   gchar *printfile = g_strconcat (filename, ".pdf", NULL);
   FILE *fp = fopen(printfile, "w");
@@ -90,16 +107,49 @@ run_lilypond_and_viewer(gchar *filename) {
     NULL
   };
 
+  gchar *output=NULL, *errors=NULL;
+
+
   g_spawn_sync (locatedotdenemo (),		/* dir */
 		argv, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
-		NULL,		/* stdout */
-		NULL,		/* stderr */
+		&output,		/* stdout */
+		&errors,		/* stderr */
 		NULL, &err);
+  gchar *filename_colon = g_strdup_printf("%s%s",lilyfile,":");
+  //g_print("filename_colon = %s\n", filename_colon);
+  gchar *epoint = NULL;
+  if(errors) 
+    epoint = g_strstr_len (errors,strlen(errors), filename_colon);
 
+  if(epoint) {
+    gint line, column;
+    gint cnv = sscanf(epoint+strlen(filename_colon), "%d:%d", &line, &column);
+    truncate_lines(epoint);/* truncate epoint if it has too many lines */
+    if(cnv==2) {
+      line--;/* make this 0 based */
+      if(line >= gtk_text_buffer_get_line_count(gui->textbuffer))
+	warningdialog("Spurious line number"), line = 0;
+      /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
+      /*     warningdialog(errmsg); */
+      infodialog(epoint);
+      if(gui->textbuffer) {
+	set_lily_error(line+1, column, gui);
+      } 
+    }
+    else {
+      set_lily_error(0, 0, gui);
+      warningdialog(epoint);
+    }
+  } else
+    set_lily_error(0, 0, gui);/* line 0 meaning no line */
+  highlight_lily_error(gui);
+  g_free(filename_colon);
   if (err != NULL)
     {
+      if(errors)
+	infodialog(errors);
       warningdialog("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation");
       g_warning ("%s", err->message);
       g_error_free (err);
@@ -135,7 +185,8 @@ run_lilypond_and_viewer(gchar *filename) {
 		 G_SPAWN_SEARCH_PATH, /* search in path for executable */
 		 NULL,	/* child setup func */
 		 NULL,		/* user data */		
-		 NULL, &err);
+		 NULL, /* FIXME &printpid see g_spawn_close_pid(&printpid) */
+		 &err);
   
 
   if (err != NULL)
@@ -189,7 +240,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
     export_lilypond_part (lilyfile, gui, si->start, si->end, all_movements);
   else
     exportlilypond (lilyfile, gui, 0, 0, all_movements);
-  run_lilypond_and_viewer(filename);
+  run_lilypond_and_viewer(filename, gui);
   g_free(lilyfile);
 }
 

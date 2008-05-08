@@ -27,7 +27,12 @@ cell_edited (GtkCellRendererText * cellrenderertext,
   gtk_list_store_set (GTK_LIST_STORE (model), &iter, COL_VALUE, new_text, -1);
   gtk_tree_path_free (path);
 }
-
+static  
+gboolean abandon_editprops_custom_scoreblock(DenemoGUI *gui) {
+  if(gui->custom_scoreblocks)
+    return confirm("Custom LilyPond Score Block", "You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\nIt might be easier to edit your custom scoreblock directly. Abandon?");
+  return FALSE;
+}
 
 /**
  * Create and run a modal score properties dialog.
@@ -35,6 +40,8 @@ cell_edited (GtkCellRendererText * cellrenderertext,
 void
 score_properties_dialog (GtkAction * action, DenemoGUI * gui)
 {
+  if(abandon_editprops_custom_scoreblock(gui))
+    return;
   GtkWidget *dialog;
   GtkWidget *notebook;
   GtkWidget *scrolled_window;
@@ -214,6 +221,8 @@ ASSIGN(markup_after);
 ASSIGN(extra); 
 }
 
+
+
 /**
  * Creates a dialog for setting properties of current movement gui->si
  *
@@ -221,10 +230,11 @@ ASSIGN(extra);
 void
 movement_props_dialog (GtkAction * action, DenemoGUI * gui)
 {
+if(abandon_editprops_custom_scoreblock(gui))
+    return;
+
   GtkWidget *dialog;
-
   GtkWidget *label;
-
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
   cbdata.gui = gui;

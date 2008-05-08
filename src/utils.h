@@ -92,6 +92,8 @@ freeit (gpointer data, gpointer user_data);
 
 void
 warningdialog(gchar *msg);
+void
+infodialog(gchar *msg);
 
 
 
@@ -116,4 +118,9 @@ gboolean
 confirm (gchar *primary, gchar *secondary);
 void 
 nullify_gstring (GString **s);
+
+gchar *
+string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue);
+	
+
 #endif /* UTILS_H */

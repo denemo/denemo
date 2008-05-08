@@ -40,7 +40,7 @@ GdkGC *greengc;
 GdkGC *redgc;
 GdkGC *bluegc;
 GdkGC *purplegc;
-GdkGC *yellowgc;
+GdkGC *yellow3gc;
 
 #define autocolor(color) color##gc = colorhelper (window, #color, "white")
 
@@ -58,7 +58,7 @@ gcs_init (GdkWindow * window)
   autocolor (red);
   autocolor (blue);
   autocolor (purple);
-  autocolor (yellow);
+  autocolor (yellow3);
 }
 
 /**
@@ -130,5 +130,5 @@ gcs_purplegc ()
 GdkGC *
 gcs_yellowgc ()
 {
-  return yellowgc;
+  return yellow3gc;
 }

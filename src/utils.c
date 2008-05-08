@@ -22,7 +22,7 @@
 #endif
 
 /**
- * Displays warning to screen
+ * Pops up a warning dialog and blocks until it is dismissed
  *  @param msg warning message to display
  * @return none
  */
@@ -37,6 +37,22 @@ warningdialog (gchar * msg)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
+}
+
+/**
+ * Displays information message to screen, not blocking.
+ * User can destroy window when no longer needed.
+ * @param msg message to display
+ * @return none
+ */
+void
+infodialog (gchar * msg)
+{
+  GtkWidget *dialog;
+  dialog = gtk_message_dialog_new (NULL,
+				   GTK_DIALOG_DESTROY_WITH_PARENT,
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, msg);
+  gtk_widget_show_all(dialog);
 }
 
 
@@ -648,4 +664,59 @@ void nullify_gstring (GString **s) {
   if(*s)
     g_string_free(*s, TRUE);
 *s = NULL;
+}
+
+/**
+ * This is a dialog box that has a text entry box and ok/cancel buttons
+ * if PreValue is not defined it should be set to NULL.
+ * This function returns gchar * on Ok and NUll if canceled.
+ * The returned value will need to be freed to avoid memory leak.
+ *
+ */
+
+gchar *
+string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue)
+{
+ 	GtkWidget *dialog;
+	GtkWidget *entry;
+	GtkWidget *label;
+	gchar *entry_string;
+	GString *string;
+	entry = gtk_entry_new ();
+
+	dialog = gtk_dialog_new_with_buttons (_(wlabel),
+                                        GTK_WINDOW (gui->window),
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+
+	label = gtk_label_new (_(direction));
+  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
+		                        TRUE, TRUE, 0);
+
+	if (PreValue != NULL) {
+            gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
+        }
+  
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
+		                        TRUE, TRUE, 0);
+    	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
+      	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+        gtk_widget_grab_focus (entry);
+  	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+	gtk_widget_show_all (dialog);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
+		entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+		string = g_string_new(entry_string);
+		gtk_widget_destroy (dialog);
+		return g_string_free(string, FALSE);
+	}
+	else {  
+		gtk_widget_destroy (dialog);
+		return NULL;
+	}
 }

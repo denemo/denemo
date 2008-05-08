@@ -22,7 +22,7 @@
 struct callbackdata
 {
   DenemoGUI *gui;
-  GtkWidget *entry;
+  GtkWidget *string;
 };
 
 /**
@@ -59,8 +59,7 @@ insertdirective (GtkWidget * widget, gpointer data)
   note *curnote;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
-  gchar *directivestring =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->entry));
+  gchar *directivestring = (gchar *) cbdata->string;
   if (curObj && curObj->type == LILYDIRECTIVE)
     ((lilydirective *) curObj->object)->directive = g_string_new(directivestring);//FIXME memory leak of old directive
   else
@@ -79,65 +78,33 @@ insertdirective (GtkWidget * widget, gpointer data)
 void
 lily_directive (GtkAction * action, DenemoGUI *gui)
 {
-//  int i;
+  gchar *string;
+  gchar *PreValue = NULL;
   DenemoScore * si = gui->si;
   static struct callbackdata cbdata;
-  GtkWidget *dialog;
-  GtkWidget *entry;
-  GtkWidget *okbutton;
-  GtkWidget *cancelbutton;
-  GtkWidget *label;
+  
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
-  dialog = gtk_dialog_new ();
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Insert LilyDirective"));
-
-  label = gtk_label_new (_("Insert Lilydirective:"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-  gtk_widget_show (label);
-
-  entry = gtk_entry_new ();
-
- if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
+  
+  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
-		gtk_entry_set_text (GTK_ENTRY (entry),
-		((GString *) ((lilydirective *) curObj->object)->directive)->str);
+		PreValue = ((GString *) ((lilydirective *) curObj->object)->directive)->str;
 	}
- note *curnote = findnote(curObj, gui->si->cursor_y);
- if(curnote && curnote->directive)
-   gtk_entry_set_text (GTK_ENTRY (entry), curnote->directive->str);
+  note *curnote = findnote(curObj, gui->si->cursor_y);
+  
+  if(curnote && curnote->directive)
+   	PreValue = curnote->directive->str;
 
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry,
-		      TRUE, TRUE, 0);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NONE);/* FIXME re-write this dialog to use
-									      the conventional response ids */
-  gtk_entry_set_activates_default(GTK_ENTRY (entry), TRUE);
-  gtk_widget_show (entry);
-
-
-
-  okbutton = gtk_button_new_with_label (_("OK"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area), okbutton,
-		      TRUE, TRUE, 0);
+  string = string_dialog_entry(gui, "Insert LilyDirective", "Insert Lilydirective followed by Enter key", PreValue);
+  
   cbdata.gui = gui;
-  cbdata.entry = entry;
-  gtk_signal_connect (GTK_OBJECT (okbutton), "clicked",
-		      GTK_SIGNAL_FUNC (insertdirective), &cbdata);
-  gtk_signal_connect_object (GTK_OBJECT (okbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (okbutton);
+  cbdata.string = string;
 
-  cancelbutton = gtk_button_new_with_label (_("Cancel"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->action_area),
-		      cancelbutton, TRUE, TRUE, 0);
-  gtk_signal_connect_object (GTK_OBJECT (cancelbutton), "clicked",
-			     GTK_SIGNAL_FUNC (gtk_widget_destroy),
-			     GTK_OBJECT (dialog));
-  gtk_widget_show (cancelbutton);
-  gtk_widget_grab_focus (entry);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
+  if (string){ 
+    insertdirective (NULL, &cbdata);
+    displayhelper (gui);
+  }
+
+  g_free(string);
+
 }

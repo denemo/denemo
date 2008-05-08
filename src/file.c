@@ -241,7 +241,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	   strcmp (filename + strlen (filename) - 5, ".midi") == 0)
     result = importMidi (filename, gui);
   else if (strcmp (filename + strlen (filename) - 4, ".jtf") == 0)
-    result = froginput (filename, gui->si);
+    result = froginput (filename, gui);
   if (result == 0)
     {
       if(!template) {// not a template
@@ -526,6 +526,8 @@ file_open_with_check (GtkAction * action, DenemoGUI * gui)
  */
 void
 file_add_movements(GtkAction * action, DenemoGUI * gui){
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   file_open(gui, FALSE, ADD_MOVEMENTS);
   score_status(gui, TRUE);
 }
@@ -535,6 +537,8 @@ file_add_movements(GtkAction * action, DenemoGUI * gui){
  */
 void
 file_add_staffs(GtkAction * action, DenemoGUI * gui){
+  if(!confirm_insertstaff_custom_scoreblock(gui))
+    return;
   file_open(gui, FALSE, ADD_STAFFS);
   score_status(gui, TRUE);
 }
