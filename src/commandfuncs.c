@@ -738,22 +738,10 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   
   /* Now actually create the chord */
   mudela_obj_new = newchord (duration, 0, 0);
-
-#if 0
-  if ( (mode & INPUTBLANK) && (rest != TRUE))
-    {
-      addtone (mudela_obj_new, si->cursor_y,
-	       si->cursoraccs[si->staffletter_y], si->cursorclef);
-      mudela_obj_new->isinvisible = TRUE;
-    }
-  else
-#else
-    if ((mode & INPUTNORMAL) && (rest != TRUE))
+  if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
 	     si->cursorclef);
-#endif
-
-  if (mode & INPUTBLANK)
+  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK))
     mudela_obj_new->isinvisible = TRUE;
 
   if (si->is_grace_mode)

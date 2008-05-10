@@ -1,4 +1,8 @@
 
+2008-05-08 <rshann>
+	in non-printing rests mode, take a rest input as a non-printing rest.
+2008-05-07 <rshann>
+	utils.c fix spurious free
 2008-05-06 <rshann>
 	keymaps/denemo.keymaprc src/keyresponses.c warn that the code is being phased out.
 2008-05-06 <jjbenham>
