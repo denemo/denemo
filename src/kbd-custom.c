@@ -28,11 +28,32 @@
 #include "utils.h"
 #include "playback.h"
 #include "keyboard.h"
+ 
 
 static void
 load_keymap_file_named (keymap * the_keymap, gchar *keymapfile, gchar *fallback);
 
 struct name_action_and_function *denemo_commands;
+
+/* Returns the state of the event after removing the modifiers consummed by the
+ * system and unwanted modifiers. Use this before doing anything based on the
+ * (keyval, state) pair in an event handler.
+ */
+guint
+dnm_sanitize_key_state(GdkEventKey *event)
+{
+    guint ret = event->state;
+    GdkModifierType consumed;
+    /* We want to ignore irrelevant modifiers like ScrollLock */
+
+    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
+        event->state, event->group, NULL, NULL, NULL, &consumed);
+    /* removing consumed modifiers from ret */
+    ret &= ~consumed;
+    /* removing other unwanted modifiers from event->state */
+    ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
+    return ret;
+}
 
 
 gint denemo_commands_size;

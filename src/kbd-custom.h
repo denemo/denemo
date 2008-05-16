@@ -55,6 +55,9 @@ extern gint n_menu_items;
 #define KBD_CATEGORY_PLAYBACK		N_("Playback")
 #define KBD_CATEGORY_OTHER		N_("Other")
 
+guint
+dnm_sanitize_key_event(GdkEventKey *event);
+
 /**
  * List of all categories.
  * This list also defines the order of the

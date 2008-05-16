@@ -7,12 +7,12 @@
     <legalnotice>
       <para>This Manual is released under the Creative Commons License, this
       manual may be quoted, and freely distributed as long as credit is given
-      in written form to denemo.sourceforge.net. If it is placed on a web page
+      in written form to http://www.gnu.org/software/denemo/ savannah.gnu.org/projects/denemo If it is placed on a web page
       a link to the denemo site should also appear.</para>
     </legalnotice>
 
     <copyright>
-      <year>2007</year>
+      <year>2008</year>
 
       <holder>Denemo Project</holder>
     </copyright>
@@ -32,9 +32,9 @@
       <email>Richard.Shann**at**virgin.com</email>
     </author>
 
-    <productname>Denemo <productnumber>0.76</productnumber></productname>
+    <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>001</releaseinfo>
+    <releaseinfo>0.7.9</releaseinfo>
   </articleinfo>
 
   <sect1>
@@ -52,9 +52,9 @@
     <title>Obtaining and Installing Denemo</title>
 
     <para>Denemo is available from a variety of sources for different
-    distributions. The latest stable release (tar.gz and RPM formats) is
+    distributions. The latest stable release (tar.gz and .deb formats) is
     available for download from <ulink
-    url="http://prdownloads.sourceforge.net/denemo"></ulink>. You can install
+    url="http://download.savannah.gnu.org/releases/denemo/"></ulink>. You can install
     Denemo from the Debian unstable repositories, using the command apt-get
     install denemo. Builds for Macintosh are available from the Gnu-Darwin
     project. The Denemo development branch can be downloaded using anonymous
@@ -1019,18 +1019,24 @@ This can be used without knowing the LilyPond language (provided a suitable temp
    <para>
 Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it.
 The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions.
+Right clicking on the text gives a menu for moving the cursor to the LilyPond text for the current Denemo object. Moving the cursor causes the Denemo window cursor to move in synchronism.
+  </para>
+   <para>
 Several custom scoreblocks can be kept, and by making the one desired visible, the same Denemo file can be used to print a full score or parts or several voices to a staff or even a piano reduction. The custom scoreblocks can be are named using the comment on the first line (see the template Piano.denemo for an example).
   </para>
    <para>
-The various Voices/Staffs for the different Movements are separated by buttons. These are labeled by enumerating the movements and staffs in order, so the first voice in the first movement has a button labelled
+The various Voices/Staffs for the different Movements are separated by buttons. These are labelled by enumerating the movements and staffs in order, so the first voice in the first movement has a button labelled
 "Notes for MvmntIVoiceI" and so on. Within these music blocks you can insert arbitrary LilyPond text between notes,
-and these appear as LilyPond directives in the main Denemo window. The main window also moves the cursor to correspond with where you are editing. (It should of course move the cursor immediately you click on a point in the music, but, as yet, it only moves the cusor when you press a key just before the note name - one of the arrow keys will do).
+and these appear as LilyPond directives in the main Denemo window. The main window also moves the cursor to correspond with where you are editing. (It should of course move the cursor immediately you click on a point in the music, but, as yet, it only moves the cursor when you press a key just before the note name - one of the arrow keys will do).
+  </para>
+In addition you can edit the prologs of the staffs, and these are stored with the  Denemo file, so specific tweaks can be kept with the notes.
+   <para>
   </para>
    <para>
 The two windows are kept in sync, so you can move back and forth between editing textually and editing in Denemo.
    </para>
    <para>
-Right clicking this window gives a Print command that operates on the visible LilyPond text in the window. The normal Denemo Print commands are still operative - if you Print a single part then this alters the standard scoreblock. If you use the File->Print command then it prints the first custom scoreblock (or the standard scoreblock if you do not have any custom scoreblocks).
+Right clicking this window gives a menu including a Print command that operates on the visible LilyPond text in the window. The normal Denemo Print commands are still operative - if you Print a single part then this alters the standard scoreblock. If you use the File->Print command then it prints the first custom scoreblock (or the standard scoreblock if you do not have any custom scoreblocks).
   </para>
    <note>
 Bugs:
@@ -1038,12 +1044,8 @@ Clicking (as opposed to using the arrow keys) in the LilyPond text does not move
 Moving the text cursor in a lyric (etc.) does not move the Denemo cursor, so you cannot easily see where in the music it comes.
 Inserting LilyPond text after last note of a movement has to be done in Denemo.
 When you delete a LilyPond directive textually you have to move the cursor to start re-inserting it.
-The Denemo status bar is not always updated.
-The text before the Staff, and before the music is not yet editable.
-LilyPond text cannot yet be attached to the notes inside chords.
 LilyPond notes cannot be parsed back in (would be useful for importing music from arbitrary LilyPond files).
 LilyPond inserts at notes can only be completely deleted in the Denemo window - inserts are not merged.
-No warning given when extra staffs (etc) are added to a score with custom scoreblock
    </note>
   </sect1>
 
@@ -1279,7 +1281,22 @@ create a next measure if one didn't already exist.</para></note>
     <sect2>
       <title>Inserting LilyPond Directives</title>
 
-      <para><productname>Denemo</productname> allow you to insert LilyPond directives in between notes and at the start of each staff. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful). Choose Other-\>LilyPond directive and enter the lilypond required. (e.g. \transpose c d { will start transposing up a tone, use another LilyPond directive "}" to stop the transposing).<productname>Denemo</productname> does not understand these directives, but the PDF file will show them. Things like beaming and much, much more can be controlled this way.
+      <para><productname>Denemo</productname> allow you to insert LilyPond directives in between notes, after the individual notes of a chord and at the start of each staff. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful).
+</para> 
+<para>
+To put a LilyPond directive on an individual note of a chord, put the cursor on that note and invoke 
+</para> 
+<step>
+Other->Insert/Edit LilyPond
+</step> 
+<para> 
+To put a LilyPond directive between chords, start with the cursor on a line or space that is not in the chord, and invoke the same command
+<note>
+There is currently no indicator that a directive is on an individual note of a chord – it can be seen in the LilyPond text view, however.
+</note>
+</para>
+<para>
+Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g. \transpose c d { will start transposing up a tone, use another LilyPond directive "}" to stop the transposing).<productname>Denemo</productname> does not understand these directives, but the PDF file will show them. Things like beaming and much, much more can be controlled this way. Note that these directives can also be added or edited in the LilyPond text window (see view->Show LilyPond)
       <table>
           <title>Dynamics and Phrasing</title>
 

@@ -1898,11 +1898,32 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	      g_warning("Ignoring the old-style string %s\nAdd this in LilyPond window if required\n", temp);
 	    g_free(temp);
 	  }
-	else if (ELEM_NAME_EQ (childElem, "custom-prolog"))
+	else if (ELEM_NAME_EQ (childElem, "staff-prolog"))
 	  {
 	    gchar *temp = 
 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->custom_prolog = (temp?g_string_new(temp):NULL);
+	    curStaff->staff_prolog = (temp?g_string_new(temp):NULL);
+	    g_free (temp);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog"))
+	  {
+	    gchar *temp = 
+	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+	    curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL);
+	    g_free (temp);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "figures-prolog"))
+	  {
+	    gchar *temp = 
+	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+	    curStaff->figures_prolog = (temp?g_string_new(temp):NULL);
+	    g_free (temp);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "fakechords-prolog"))
+	  {
+	    gchar *temp = 
+	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+	    curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL);
 	    g_free (temp);
 	  }
 	else

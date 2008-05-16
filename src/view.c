@@ -63,16 +63,32 @@ void write_status(DenemoGUI *gui) {
   if(gui->si->currentobject && gui->si->currentobject->data ) {
     DenemoObject *curObj = gui->si->currentobject->data;
     switch(curObj->type) {
-    case CHORD:
-      selection = g_strdup_printf("Note/rest %s%s%s%s%s%s%s%s",((chord *) curObj->object)->slur_begin_p?", begin slur":"",
-				  ((chord *) curObj->object)->slur_end_p?", end slur":"",
-				  ((chord *) curObj->object)->is_tied?", tied":"",
-				  ((chord *) curObj->object)->crescendo_begin_p?", begin cresc.":"",
-				  ((chord *) curObj->object)->crescendo_end_p?", end cresc.":"",
-				  ((chord *) curObj->object)->diminuendo_begin_p?", begin dim.":"",
-				  ((chord *) curObj->object)->diminuendo_end_p?", end dim.":"",
-				  ((chord *) curObj->object)->is_grace?", grace note":""
+    case CHORD: {
+      chord *thechord =  ((chord *) curObj->object);
+      selection = g_strdup_printf("%s%s%s%s%s%s%s%s",
+				  thechord->notes?
+				  (g_list_length(thechord->notes)>1?"Chord ":"Note "):"Rest ",				  
+				  thechord->slur_begin_p?", begin slur":"",
+				  thechord->slur_end_p?", end slur":"",
+				  thechord->is_tied?", tied":"",
+				  thechord->crescendo_begin_p?", begin cresc.":"",
+				  thechord->crescendo_end_p?", end cresc.":"",
+				  thechord->diminuendo_begin_p?", begin dim.":"",
+				  thechord->diminuendo_end_p?", end dim.":"",
+				  thechord->is_grace?", grace note":""
 				  );
+      if(thechord->notes){
+	GList *g;
+	for(g= thechord->notes;g;g=g->next) {
+	  note *thenote = (note *) g->data;
+	  if(thenote->directive && thenote->directive->len) {
+	    gchar *old = selection;
+	    selection = g_strdup_printf("%s: %.50s",selection, thenote->directive->str);
+	    g_free(old);
+	  }
+	}
+      }
+    }
       break;
 
     case TUPOPEN:
@@ -123,7 +139,7 @@ void write_status(DenemoGUI *gui) {
       break;
 
     case LILYDIRECTIVE:
-      selection = g_strdup_printf("Lily directive: %s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
+      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
       break;
     case FAKECHORD:
       selection = g_strdup_printf("Fakechord"   );
@@ -719,19 +735,22 @@ static gint
 capture_accel_for_action (GtkWidget * widget, GdkEventKey *event, GtkAction *action) {
   const gchar * accel_path = gtk_action_get_accel_path (action);
   guint modifiers;
-  modifiers = gtk_accelerator_get_default_mod_mask ();
+  guint state = dnm_sanitize_key_state(event) &
+        gtk_accelerator_get_default_mod_mask ();
+  if(!gtk_accelerator_valid (event->keyval, state)) {
+    g_print("Invalid accel\n");
+    return TRUE;   
+  }
 
-  if(!gtk_accelerator_valid (event->keyval, event->state & modifiers))
-    return TRUE;
   gtk_accel_map_change_entry (accel_path,
 			      event->keyval,
-			      event->state & modifiers, TRUE);
+			      state, TRUE);
   Denemo.accelerator_status |= ACCELS_MAY_HAVE_CHANGED;/* accelerators may have changed */
   
   GtkAccelKey key;
   gboolean has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
   //g_print("vals %x %x, %x, %x\n", key.accel_key, event->keyval, key.accel_mods, (event->state & modifiers));
-  if(key.accel_key!=event->keyval || key.accel_mods!=(event->state & modifiers)) 
+  if(key.accel_key!=event->keyval || key.accel_mods!=(state)) 
     if(confirm("Special Key", "Unfortunately, you have to re-start the application to get this keybinding to take effect.\nAlso avoid having another action sharing the same keypress.\nDo you want to proceed?")) {
       FILE *fp;
       gchar * dotdenemo = (gchar*)locatedotdenemo ();
@@ -741,7 +760,7 @@ capture_accel_for_action (GtkWidget * widget, GdkEventKey *event, GtkAction *act
 	if(fp) {
 	  fprintf(fp, "(gtk_accel_path \"%s\" \"%s\")\n", 
 		  accel_path, 
-		  gtk_accelerator_name (event->keyval, event->state & modifiers));
+		  gtk_accelerator_name (event->keyval, state));
 	  fclose(fp);
 	  Denemo.accelerator_status |= EXTRA_ACCELS_ACTIVE; /* extra.accels is active and must not be deleted on save */
 	}

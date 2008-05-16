@@ -1,72 +1,39 @@
+- Tuplets need to reflect the speedy keyboard shortcuts
+  (added Sun May 15 20:06:49 2005, incomplete, priority high)
 
-New Additions (these need to be sorted into pressing etc.)
-taken from develop list.
+- The customize keybindings section needs to be written
+  (added Sun May 15 20:07:07 2005, incomplete, priority high)
 
-/* My code 1 -5 1=top priority 5=least pressing*/
-I am sure there are more todos on the dev list, but this is a start I hope.
-new
-DONE - 1 - a way to add clefs without the gui and keybindings like shift+c & for 
-adding a treble clef nd shift @ for a bass clef and shift ^ for an alto clef
-etc.
-1 - create a way to keep up with lilypond automatically/semiautomatically 
-so that the convert-ly isn't needed.
-DONE - 1 - a way to change/add time signiture without gui and keybindings
-DONE - 1 - a way to add keysig without the gui
-2 - scrolling playback with cursor moving karoke style
-DONE - 1 - Add the lilypond version line to output lilypond file
-1- update dtd to include items in comments, can this be converted to an rnc?
+- Once the gui has stabaliezed to write a short overview of the gui for the "Getting to know the Denemo interface" section
+  (added Sun May 15 19:58:48 2005, incomplete, priority medium)
 
+- When I can build a new cvs and check the template dialog I will expand the Templates section
+  (added Sun May 15 20:00:29 2005, incomplete, priority medium)
 
+- Rewrite the  Accidentals section so that it has them actually add Accidentals in a step by step manner.
+  (added Sun May 15 20:01:23 2005, incomplete, priority medium)
 
-Started
+- The entire chord section needs rewriting to reflect the speedy shortcuts keybindings and to be more logical.
+  (added Sun May 15 20:01:48 2005, incomplete, priority medium)
 
-Undo?s and Redo?s
-Need to implemnet for all editing tasks
+- The Editing sections needs a section on replace mode as well as disscussion of editing besides copy and paste.
+  (added Sun May 15 20:02:16 2005, incomplete, priority medium)
 
+- The expression section needs some paragraphs about adding the expressions in the chart and a graphic to accompiany it.
+  (added Sun May 15 20:02:40 2005, incomplete, priority medium)
 
-Documentation   )
-	Manual needs to sync with development
-	doxygen and docbook api docs and use this to implement new features to auto update manual
-	add documentation to the make system so that html/pdfs are created automatically
-	popup tip of the day help)	Aaron
-Templates           )
-		implement all the lilypond base templates and templates from finale/sibelius
+- The Repeat section needs writing
+  (added Sun May 15 20:02:56 2005, incomplete, priority medium)
 
+- Assuming Timidity is the preffered playback method the Midi section needs to be rewritten.
+  (added Sun May 15 20:03:09 2005, incomplete, priority medium)
 
-BARLINES	(drawing issues)
+- Publishing needs new screen captures for everything.
+  (added Sun May 15 20:06:22 2005, incomplete, priority medium)
 
+- If there isn't a Lilypond mode then the Working with lilypond files section needs to be deleted. If not it needs to be made active.
+  (added Sun May 15 20:07:31 2005, incomplete, priority medium)
 
+- When I can get the cvs to make with the analysis plugin and niff
+  (added Sun May 15 20:07:48 2005, incomplete, priority medium)
 
-Outstanding
-
-1.	Up to date lilypond output	e.g.  	lilypond chord mode
-						lilypond version in o/p
-
-DONE - 1.	adding key sigs using keybindings	)	also include changing
-DONE - 1.	adding times sigs using keybindings	)
-
-
-2.	scrolling playback
-2.	create repeat last function(s) option
-2.	visual mode to go to next  measure/section etc.
-2.	jumpto functions ? section end etc. (partial implementation)
-2.	vim style number modifiers for navigation
-STARTED -2.	score features ? score groups and book marks
-2.	Denemo?s API
-WHAT IS the STATUS? - 2.	score traversal functions ? moving between staffs goto first/last etc.
-
-
-3.	permit macro?s/scripting
-3.	Midi note entry    (plugin)
-3.	menus to display the shortcut key
-3.	on-the-fly changing of keybindings
-
-
-4.	beginning brackets ? piano scores etc
-4.	dynamics below staff?s
-
-5.	display number of measures
-5.	midi instrument selection improve
-5.	lilypond mode to work in tandem with real text editor
-5.	Tutorial Plugins
-5.	User definable directory for manual

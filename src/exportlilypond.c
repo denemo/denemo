@@ -155,7 +155,12 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
     gui->anchors = g_list_prepend(gui->anchors, objanc);
 
   if(name) {
-    GtkWidget *button = gtk_button_new_with_label(name);
+    GtkWidget *button = gtk_button_new ();
+    char *markup = g_markup_printf_escaped ("<tt>%s</tt>", name);//monospace label to get serifs
+    GtkWidget *label = gtk_label_new ("");
+    gtk_label_set_markup (GTK_LABEL (label), markup);
+    g_free (markup);
+    gtk_container_add (GTK_CONTAINER(button), label);
     gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
     g_object_set_data(G_OBJECT(button), "anchor", (gpointer)objanc);
     g_signal_connect (G_OBJECT (button), "button-press-event",
@@ -1165,8 +1170,11 @@ outputHeader (GString *str, DenemoGUI * gui)
   g_string_append_printf (str, "#(set-global-staff-size %d)\n", gui->lilycontrol.fontsize);
   g_string_append_printf (str, "#(set-default-paper-size \"%s\")\n",
 			  gui->lilycontrol.papersize->str);
-  g_string_append_printf (str, "\n\n");
-
+  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
+    g_string_append_printf (str, "\n\\header{\n");
+    g_string_append_printf(str, TAB"tagline = \"%s\"\n", ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str);
+    g_string_append_printf(str,"}\n");
+  }
 }
 
 /**
@@ -1242,8 +1250,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
 
   /* output staff prolog */
-  if(curstaffstruct->custom_prolog && curstaffstruct->custom_prolog->len) {
-    insert_editable(&curstaffstruct->custom_prolog, curstaffstruct->custom_prolog->str, &iter, invisibility, gui);
+  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {
+    insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
   } else {
     if(curstaffstruct->voicenumber == 1)
       g_string_append_printf(str, "%s%s =\\context Voice=%s%s %s {\n", prefix,
@@ -1264,7 +1272,6 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_append_printf(str, ""TAB"\\time %d/%d\n", curstaffstruct->stime1,
 			   curstaffstruct->stime2);
 
-
     /* Determine the key signature */
 
     determinekey (curstaffstruct->skey_isminor ?
@@ -1284,15 +1291,11 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
     /* OUPUT TO BUFFER HERE */
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-    insert_editable(&curstaffstruct->custom_prolog, str->str, &iter,  invisibility, gui);
+    insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
   } /* standard staff-prolog */
 
   /* end of output staff-prolog */
 
-
-
-
- 
   g_string_assign(str,"");
  
   curmeasurenum = 0;
@@ -1325,25 +1328,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
       g_string_assign(str,"");
 
-#if 0
-      //FIXME duplicated code
-      if(curmeasure->data==NULL) {
-	{
-	  GString *endstr = g_string_new("");
-	  g_string_append_printf(endstr, "s1*%d/%d ", cur_stime1, cur_stime2);
-	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-	  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
-	  g_string_free(endstr,TRUE);
-	  prevduration = 0;
-	}
-      }
-#endif
-
       for (objnum=1, curobjnode = (objnode *) curmeasure->data; /* curobjnode NULL checked at end */;
 	   curobjnode = curobjnode->next, objnum++)
 	{
-
-
 	  if(curobjnode) {
 	  curobj = (DenemoObject *) curobjnode->data;
 	  if (curobj->type==CHORD||curobj->type==PARTIAL)
@@ -1351,8 +1338,6 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if( (curobj->type==LILYDIRECTIVE) &&
 	      (((lilydirective *) curobj->object)->directive->len==0))
 	    continue;
-
-
 	  //put in an invisible ineditable anchor to mark the start of the object
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);
@@ -1374,19 +1359,16 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 				 &cur_stime1, &cur_stime2);
 	  }// if curobjnode
 
-	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {
-	    //at end of measure
+	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
 	    if (empty_measure)
 	      {
 		g_string_append_printf(endstr, "s1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
 		prevduration = 0;
 	      }
-
-
 	    if(figures->len)
 	      g_string_append(figures, "\n");
 	    if(fakechords->len)
@@ -1398,7 +1380,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      else
 		g_string_append_printf(endstr, " \\bar \"|.\"\n");
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, invisibility,NULL);
 	    //g_string_assign(endstr,"");
 	  }   //if end of measure
 
@@ -1415,8 +1397,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      
 	      if (curstaffstruct->hasfakechords)
 		output_fakechord(si, fakechords, pchord);
-	    }
 	    /* end of lyrics, figures and chord symbols*/
+	    }
 	  }
 	  if(curobjnode==NULL || curobjnode->next==NULL)
 	    break;//we want to go through once for empty measures
@@ -1431,45 +1413,64 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility,NULL);
   
 
   if (lyrics->len)
     {  
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
       GString *temp = g_string_new("");
-      
-      g_string_printf(temp, "%s%sLyrics = \\lyricmode { \n", prefix,
-		      curstaffstruct->lily_name->str);
-      g_string_append_printf(temp, "%s \n}\n", lyrics->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
+      /* output lyrics prolog */
+      if(curstaffstruct->lyrics_prolog && curstaffstruct->lyrics_prolog->len) {
+	insert_editable(&curstaffstruct->lyrics_prolog, curstaffstruct->lyrics_prolog->str, &iter, invisibility, gui);
+      } else {	
+	g_string_printf(temp, "%s%sLyrics = \\lyricmode { \n", prefix,
+			curstaffstruct->lily_name->str);
+	insert_editable(&curstaffstruct->lyrics_prolog, temp->str, &iter,  invisibility, gui);
+      }
+      g_string_printf(temp, "%s \n}\n", lyrics->str);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
     }
   g_string_free(lyrics_name, TRUE);
 
   if (figures->len)
     {
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, figures_name->str));
       GString *temp = g_string_new("");
-      g_string_printf(temp,  "%s%sBassFiguresLine = \\figuremode {\n"
-		      "\\set figuredBassAlterationDirection = #1\n"
-		      "\\set figuredBassPlusDirection = #1\n"
-		      "\\override FiguredBass.BassFigure "
-		      "#'font-size = #-2\n",prefix, curstaffstruct->lily_name->str);
-      g_string_append_printf(temp, "%s \n}\n", figures->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, figures_name->str));
+      /* output figures prolog */
+      if(curstaffstruct->figures_prolog && curstaffstruct->figures_prolog->len) {
+	insert_editable(&curstaffstruct->figures_prolog, curstaffstruct->figures_prolog->str, &iter, invisibility, gui);
+      } else {
+	g_string_printf(temp,  "%s%sBassFiguresLine = \\figuremode {\n"
+			"\\set figuredBassAlterationDirection = #1\n"
+			"\\set figuredBassPlusDirection = #1\n"
+			"\\override FiguredBass.BassFigure "
+			"#'font-size = #-2\n",prefix, curstaffstruct->lily_name->str);
+	insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
+      }
+      g_string_printf(temp, "%s \n}\n", figures->str);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
     }
+  g_string_free(figures_name, TRUE);
 
   if (fakechords->len)
     {
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, fakechords_name->str));
       GString *temp = g_string_new("");
-      g_string_append_printf(temp, "%s%sFakeChordLine ="TAB"\\new ChordNames \\chordmode{\n", prefix, curstaffstruct->lily_name->str);
-      g_string_append_printf(temp, "%s \n}\n", fakechords->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, ((movement_count>0) && (voice_count>0))?NULL:"invisible",NULL);
+      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, fakechords_name->str));
+      /* output fakechords prolog */
+      if(curstaffstruct->fakechords_prolog && curstaffstruct->fakechords_prolog->len) {
+	insert_editable(&curstaffstruct->fakechords_prolog, curstaffstruct->fakechords_prolog->str, &iter, invisibility, gui);
+      } else {
+	g_string_append_printf(temp, "%s%sFakeChordLine ="TAB"\\new ChordNames \\chordmode{\n", prefix, curstaffstruct->lily_name->str);
+	insert_editable(&curstaffstruct->fakechords_prolog, temp->str, &iter,  invisibility, gui);
+      }
+      g_string_printf(temp, "%s \n}\n", fakechords->str);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
     }
+  g_string_free(fakechords_name, TRUE);
 
   g_string_free(str, TRUE);
   g_string_free(lyrics, TRUE);
@@ -1841,7 +1842,7 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
       HEADER(head);
       HEADER(copyright);
       HEADER(footer);
-      HEADER(tagline);
+
       if(si->headerinfo.extra->len)
 	g_string_append_printf(scoreblock, ""TAB"%s\n",si->headerinfo.extra->str );
      
@@ -1889,8 +1890,16 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
   seconds -= time.tv_sec;
   g_print("time diff = %ld\n", seconds);
 #endif
-  gtk_text_buffer_set_modified (gui->textbuffer, FALSE);
+
+{
+  GtkTextIter startiter, enditer;
+  gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
+  gtk_text_buffer_get_end_iter (gui->textbuffer, &enditer);
+  gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "monospace", &startiter, &enditer);
 }
+
+  gtk_text_buffer_set_modified (gui->textbuffer, FALSE);
+} /* output_score_to_buffer */
 
 
 
@@ -2174,18 +2183,23 @@ void create_lilywindow(DenemoGUI *gui) {
   gtk_text_tag_table_add (tagtable, t);
 
   t = gtk_text_tag_new(HIGHLIGHT);
-  g_object_set(G_OBJECT(t),  "background", "green", NULL);
+  g_object_set(G_OBJECT(t),  "background", "light gray", NULL);
   gtk_text_tag_table_add (tagtable, t);
 
   t = gtk_text_tag_new(ERRORTEXT);
-  g_object_set(G_OBJECT(t),  "background", "red", NULL);
+  g_object_set(G_OBJECT(t),  "background", "pink", NULL);
   gtk_text_tag_table_add (tagtable, t);
 
 
   t = gtk_text_tag_new("bold");
-  g_object_set(G_OBJECT(t), "weight", PANGO_WEIGHT_BOLD, NULL);
+  g_object_set(G_OBJECT(t), "weight", PANGO_WEIGHT_BOLD, "family", "monospace", NULL);
   gtk_text_tag_table_add (tagtable, t);
 
+  t = gtk_text_tag_new("monospace");
+  g_object_set(G_OBJECT(t), "family", "monospace", NULL);
+  gtk_text_tag_table_add (tagtable, t);
+
+  
   gui->textbuffer = gtk_text_buffer_new(tagtable);
   gtk_text_view_set_buffer (GTK_TEXT_VIEW(gui->textview), gui->textbuffer);
   gui->lilysync = G_MAXUINT;//buffer not yet up to date

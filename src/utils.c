@@ -684,7 +684,7 @@ string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *Pre
 	GString *string;
 	entry = gtk_entry_new ();
 
-	dialog = gtk_dialog_new_with_buttons (_(wlabel),
+	dialog = gtk_dialog_new_with_buttons (wlabel,
                                         GTK_WINDOW (gui->window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -692,7 +692,7 @@ string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *Pre
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
 
-	label = gtk_label_new (_(direction));
+	label = gtk_label_new (direction);
   	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 		                        TRUE, TRUE, 0);
 

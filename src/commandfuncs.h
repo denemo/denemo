@@ -127,7 +127,7 @@ toggle_start_diminuendo (DenemoGUI *gui);
 void
 toggle_end_diminuendo (DenemoGUI *gui);
 
-void nextmeasure(DenemoScore  *si, gboolean all);
+void insertion_point (DenemoScore  *si);
 
 void
 caution (DenemoScore  *si);

@@ -36,11 +36,9 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event,
 #endif
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
-
   if ((ki = lookup_keybinding (Denemo.prefs.the_keymap, event->keyval,
-			       event->state)))
+			       dnm_sanitize_key_state(event))))
     {
-
       /* in insert mode when a duration use the singleton rhythm pattern that
 	 is just this one duration */
       if(gui->mode&INPUTINSERT) {
@@ -494,7 +492,7 @@ insert_triplet (DenemoGUI * gui)
 void
 start_triplet (DenemoGUI * gui)
 {
-  nextmeasure (gui->si, FALSE);
+  insertion_point (gui->si);
   object_insert (gui, newtupopen(2,3));
 }
 void
@@ -617,7 +615,7 @@ tie_notes_key (DenemoGUI * gui)
   if (curmudelaobj && curmudelaobj->type == CHORD &&
       ((chord *) curmudelaobj->object)->notes)
     {
-      nextmeasure (gui->si, FALSE);
+      insertion_point (gui->si);
       object_insert (gui, dnm_clone_object (curmudelaobj));
       ((chord *) curmudelaobj->object)->is_tied = TRUE;
     }

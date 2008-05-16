@@ -250,8 +250,8 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->volume = n;
   staffstruct->context =
     setcontext (gtk_entry_get_text (GTK_ENTRY (cbdata->contexts)));
-  if(staffstruct->custom_prolog) g_string_free(staffstruct->custom_prolog, TRUE);
-  staffstruct->custom_prolog =
+  if(staffstruct->staff_prolog) g_string_free(staffstruct->staff_prolog, TRUE);
+  staffstruct->staff_prolog =
     g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->lilybefore)));
 
 #ifdef DEBUG
@@ -304,8 +304,8 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
       gui = (DenemoGUI *) callback_data;
       si = gui->si;
       staffstruct = (DenemoStaff *) si->currentstaff->data;
-      if(action && staffstruct->custom_prolog && staffstruct->custom_prolog->len) {
-	warningdialog("This staff has a custom prolog.\n"
+      if(action && staffstruct->staff_prolog && staffstruct->staff_prolog->len) {
+	warningdialog("This staff has a custom prolog for the staff.\n"
 		      "You will need to make your edits in the LilyPond window\n"
 		      "to see them in the print-out.");
       }
@@ -516,7 +516,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   lilybefore = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%s", staffstruct->custom_prolog?staffstruct->custom_prolog->str:"");
+  g_string_sprintf (entrycontent, "%s", staffstruct->staff_prolog?staffstruct->staff_prolog->str:"");
   gtk_entry_set_text (GTK_ENTRY (lilybefore), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), lilybefore, 3, 4, 6, 7,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),

@@ -217,7 +217,10 @@ typedef struct
   GList *tone_store; /**< list of pitches and durations used a source for
 			the notes in this staff
 			the data are tone* */
-  GString *custom_prolog;/**< Customised version of the LilyPond prolog defining the music of this staff */
+  GString *staff_prolog;/**< Customised version of the LilyPond prolog defining the music of this staff */
+  GString *lyrics_prolog;/**< Customised version of the LilyPond prolog defining the lyrics of this staff */
+  GString *figures_prolog;/**< Customised version of the LilyPond prolog defining the figured bass of this staff */
+  GString *fakechords_prolog;/**< Customised version of the LilyPond prolog defining the chord symbols of this staff */
 }DenemoStaff;
 
 /* The ->data part of each staffnode points to a staff structure */

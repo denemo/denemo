@@ -614,7 +614,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       do {
 	if(g) {
 	  for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	    nextmeasure (gui->si, TRUE);	
+	    insertion_point (gui->si);	
 	    gui->si->cursoroffend = FALSE;
 	    ((GtkFunction)h->data)(gui);
 	    displayhelper(gui);
@@ -645,7 +645,7 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
     do {
       if(g) {
 	for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	  nextmeasure (gui->si, TRUE);
+	  insertion_point (gui->si);
 	  gui->si->cursoroffend = FALSE;
 	  if(!code_is_a_duration(modifier_code(h->data)))
 	    cursorleft(gui);
@@ -663,22 +663,18 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
 }
 
 /**
- * badly named and incorrectly described (below)
- * this is really a "find_or_create_insertion_point" function
- * that is, if the current measure is full it moves into the next one provided it is empty
- * (or creates a new one and moves into it)
- * if it is not full, or if the next measure is not empty it does nothing.
- * param ALL add any extra measure to all staffs if the current staff has a full set of measures
-old misleading comment:
- * Goto the next measure 
- * Goto the next measure in the score.  A new measure will
- * be created if required
- * @param si pointer to the scoreinfo structure
- * @param all apply to all staffs or not
+ * insertion_point()
+ * chooses/creates a good insertion point.
+ * if the cursor is at the end of a full measure:
+ *      creates a new measure and makes it the current one.
+ * if the cursor is at the end of a full measure before an empty measure:
+ *      it makes that empty measure current. 
+ * 
  */
 void
-nextmeasure (DenemoScore * si, gboolean all /*=TRUE */ )
+insertion_point (DenemoScore * si)
 {
+
   gboolean next_measure;
 
   /* First, check to see if the insertion'll cause the cursor to
@@ -693,12 +689,12 @@ nextmeasure (DenemoScore * si, gboolean all /*=TRUE */ )
     {
       if (!si->currentmeasure->next)
 	{
-
+	  gboolean all = TRUE;//add to all measures
 	  g_debug ("Appending a new measure\n");
 
 	  /* Add a measure and make it currentmeasure */
 	  if(!(all && si->currentstaff && si->currentstaff && g_list_length(((DenemoStaff *) si->currentstaff->data)->measures) == g_list_length(si->measurewidths)))
-	    all = FALSE; // add only to current staff if it is short
+	    all = FALSE; // add only to current staff if it is shorter than some other staff
 	  si->currentmeasure =
 	    dnm_addmeasures (si, si->currentmeasurenum, 1, all);
 	}
@@ -734,7 +730,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
     changeduration(si, duration);
     return;
   }
-  nextmeasure (si, FALSE);
+  insertion_point (si);
   
   /* Now actually create the chord */
   mudela_obj_new = newchord (duration, 0, 0);
@@ -771,7 +767,7 @@ dnm_inserttuplet (DenemoGUI * gui, tuplet_type type)
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
 
-  nextmeasure (si, FALSE);
+  insertion_point (si);
   switch (type)
     {
     case DUPLET:
@@ -818,7 +814,7 @@ insertgrace (DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
-  nextmeasure (si, FALSE);
+  insertion_point (si);
 
 
   mudela_obj_new = newgracestart ();

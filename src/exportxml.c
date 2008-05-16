@@ -677,9 +677,18 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords",
 			  curStaffStruct->hasfakechords);
 	  
-	  if(curStaffStruct->custom_prolog && curStaffStruct->custom_prolog->len)
-	     xmlNewChild (curElem, ns, (xmlChar *) "custom-prolog",
-		       (xmlChar *) curStaffStruct->custom_prolog->str);
+	  if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
+	     xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
+		       (xmlChar *) curStaffStruct->staff_prolog->str);
+	  if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)
+	     xmlNewChild (curElem, ns, (xmlChar *) "lyrics-prolog",
+		       (xmlChar *) curStaffStruct->lyrics_prolog->str);
+	  if(curStaffStruct->figures_prolog && curStaffStruct->figures_prolog->len)
+	     xmlNewChild (curElem, ns, (xmlChar *) "figures-prolog",
+		       (xmlChar *) curStaffStruct->figures_prolog->str);
+	  if(curStaffStruct->fakechords_prolog && curStaffStruct->fakechords_prolog->len)
+	     xmlNewChild (curElem, ns, (xmlChar *) "fakechords-prolog",
+		       (xmlChar *) curStaffStruct->fakechords_prolog->str);
 	}
     }
 

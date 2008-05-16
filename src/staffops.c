@@ -274,7 +274,11 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   thestaffstruct->measures = themeasures;
   thestaffstruct->denemo_name = g_string_new (NULL);
   thestaffstruct->lily_name = g_string_new (NULL);
-  thestaffstruct->custom_prolog = NULL;
+
+  thestaffstruct->staff_prolog = NULL;
+  thestaffstruct->lyrics_prolog = NULL;
+  thestaffstruct->figures_prolog = NULL;
+  thestaffstruct->fakechords_prolog = NULL;
   thestaffstruct->context = context;
   if (action == NEWVOICE)
     g_string_sprintf (thestaffstruct->denemo_name, _("poly voice %d"),

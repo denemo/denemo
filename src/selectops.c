@@ -401,7 +401,7 @@ pastefrombuffer (DenemoGUI * gui)
 	      
 	      g_debug ("offend %d start of next note %d\n", 
 		       si->cursoroffend, clonedobject->starttick);
-	      nextmeasure (si, FALSE);
+	      insertion_point (si);
 	      object_insert(gui, clonedobject);
 	      /*	      curmeasure->data =
 	      g_list_insert ((objnode *) curmeasure->data, clonedobject,
