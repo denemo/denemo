@@ -912,8 +912,9 @@ displayhelper (DenemoGUI * gui)
  */
 
 void
-incrementenshift (DenemoScore * si, gint direction)
+incrementenshift (DenemoGUI * gui, gint direction)
 {
+  DenemoScore *si = gui->si;
   declarecurmudelaobj;
   int prognum;
   DenemoStaff *curstaffstruct;
@@ -941,6 +942,7 @@ incrementenshift (DenemoScore * si, gint direction)
       data->staffnum = si->currentstaffnum;
       data->action = ACTION_CHANGE;
       update_undo_info (si, data);
+      score_status(gui, TRUE);
     }
 }
 /**

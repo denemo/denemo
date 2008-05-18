@@ -76,7 +76,7 @@ void
 tonechange (DenemoScore  *si, gboolean remove);
 
 void
-incrementenshift (DenemoScore  *si, gint direction);
+incrementenshift (DenemoGUI  *gui, gint direction);
 
 void
 change_stem_directive (DenemoScore *si, enum stemdirections amount);

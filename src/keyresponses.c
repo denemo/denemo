@@ -590,7 +590,7 @@ sharpen_key (DenemoGUI * gui)
   if (curmudelaobj && curmudelaobj->type == STEMDIRECTIVE)
     change_stem_directive (gui->si, DENEMO_STEMUP);
   else
-    incrementenshift (gui->si, 1);
+    incrementenshift (gui, 1);
 }
 
 void
@@ -602,7 +602,7 @@ flatten_key (DenemoGUI * gui)
   if (curmudelaobj && curmudelaobj->type == STEMDIRECTIVE)
     change_stem_directive (gui->si, DENEMO_STEMDOWN);
   else
-    incrementenshift (gui->si, -1);
+    incrementenshift (gui, -1);
 }
 /* insert a duplicate note and tie to it */
 void
