@@ -2567,7 +2567,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     switch(type) {
     case ADD_STAFFS:
       FOREACH_CHILD_ELEM(childElem, rootElem){
-	if (ELEM_NAME_EQ (childElem, "lilycontrol") ||ELEM_NAME_EQ (childElem, "custom_scoreblock") ){
+	if (ELEM_NAME_EQ (childElem, "lilycontrol") 
+	    || ELEM_NAME_EQ (childElem, "custom_scoreblock")
+	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")){
 	  continue;
 	} else
 	ret |=  parseMovement(childElem, ns, gui, type);
@@ -2577,7 +2579,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       break;
     case ADD_MOVEMENTS:
       FOREACH_CHILD_ELEM(childElem, rootElem){
-	if (ELEM_NAME_EQ (childElem, "lilycontrol") ||ELEM_NAME_EQ (childElem, "custom_scoreblock")){
+	if (ELEM_NAME_EQ (childElem, "lilycontrol") 
+	    || ELEM_NAME_EQ (childElem, "custom_scoreblock")
+	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")){
 	  continue;/* do not change the header when adding movements parseScoreInfo(childElem, ns, gui);*/
 	} else {
 	  new_empty_score(gui);
@@ -2588,28 +2592,36 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       break;
     case REPLACE_SCORE:
       free_gui(gui);
-      
+      /* this is dependent on the order of elements, which is not strictly correct */
       FOREACH_CHILD_ELEM(childElem, rootElem){
 	if (ELEM_NAME_EQ (childElem, "lilycontrol")){
 	  parseSetupInfo(childElem, ns, gui);
 	} else
 	if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
-	   {
 	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 						  childElem->
 						  xmlChildrenNode, 1);
 	    if (tmp != NULL)
 	      {
-		gui->custom_scoreblocks = g_list_append(gui->custom_scoreblocks, g_string_new(tmp));
+		DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
+		sb->scoreblock = g_string_new(tmp);
+		gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
 		g_free (tmp);
 	      }
-	  }
-	}
-
-	else {
-	  new_empty_score(gui);
-	  ret |=  parseMovement(childElem, ns, gui, type);
-	}
+	  } else
+	    if (ELEM_NAME_EQ (childElem, "visible_scoreblock")){
+	      {
+		if (gui->custom_scoreblocks)
+		  {
+		    DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
+		    sb->visible = TRUE;g_print("One visible\n");
+		  }
+	      }
+	    }
+	    else {
+	      new_empty_score(gui);
+	      ret |=  parseMovement(childElem, ns, gui, type);
+	    }
       }
       break;
     default:

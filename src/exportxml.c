@@ -579,9 +579,11 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
  newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  gui->lilycontrol.fontsize);
  newXMLIntChild (parentElem, ns, (xmlChar *) "orientation",  gui->lilycontrol.orientation);
    GList *custom;
-  for(custom=gui->custom_scoreblocks;custom;custom=custom->next) 
-   xmlNewChild (scoreElem, ns, "custom_scoreblock", (xmlChar *)((GString*)custom->data)->str);
-   
+   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
+     xmlNewChild (scoreElem, ns, "custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
+     if(((DenemoScoreblock*)custom->data)->visible)
+       xmlNewChild (scoreElem, ns, "visible_scoreblock", NULL);
+   }
   GList *g;
   for(g=gui->movements;g;g=g->next) {
     DenemoScore *si = g->data;

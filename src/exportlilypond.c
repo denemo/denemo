@@ -25,6 +25,9 @@
 #include "objops.h"
 
 
+#define ENTER_NOTIFY_EVENT "focus-in-event"
+
+
 #define TARGET "target"
 #define MUSIC "music"
 #define START "start"
@@ -844,15 +847,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		    else
 		      for (; octave; octave--)
 			g_string_append_printf (ret, "\'");
-#if 0
 
-		    /*contrary to what I wrote in denemo.h showaccidental is not to do with
-		      cautionary accidentals - there does not appear to be anything for these
-		      this code will result in forcing lilypond to show every accidental that
-		      denemo thinks should be shown */
-		    if (curnote->showaccidental)
-		      g_string_append_printf (ret, "!");
-#endif
 
 		    outputret;
 		    if(curnote->directive ) {
@@ -1110,13 +1105,14 @@ static void insert_music_section(DenemoGUI *gui, gchar *name) {
 }
 
 /* create and insertion point and button for the next scoreblock */
-static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *name, GString**target) {
+static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *name, DenemoScoreblock *sb) {
+  GString** target = sb?&sb->scoreblock:NULL;
   GtkTextChildAnchor *anchor;
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert (gui->textbuffer, &iter, "\n", -1);
   (void)gtk_text_iter_backward_char(&iter);
-  if(target && *target) {// custom scoreblock
+  if(sb && *target) {// custom scoreblock
     if((*target)->len && *(*target)->str=='%'){
       gint maxlength= 50;
       gchar *v = g_malloc0(maxlength*sizeof(gchar));
@@ -1128,10 +1124,10 @@ static GtkTextChildAnchor * insert_scoreblock_section(DenemoGUI *gui, gchar *nam
     } else {
       anchor = insert_section(target, name, name, &iter, gui);
     }
-    g_object_set_data(G_OBJECT(anchor), CUSTOM,(gpointer) TRUE);
+    g_object_set_data(G_OBJECT(anchor), CUSTOM,(gpointer) sb);
   } else {//standard scoreblock
     anchor = insert_section(target, name, name, &iter, gui); 
-    g_object_set_data(G_OBJECT(anchor), STANDARD_SCOREBLOCK,(gpointer) TRUE);
+    g_object_set_data(G_OBJECT(anchor), STANDARD_SCOREBLOCK,(gpointer) 1);
   }
   return anchor;
 }
@@ -1188,7 +1184,7 @@ outputHeader (GString *str, DenemoGUI * gui)
  */
 static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
-	     gint start, gint end, gchar *prefix, gint movement_count, gint voice_count)
+	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count)
 {
   gint cur_stime1 = curstaffstruct->stime1;
   gint cur_stime2 = curstaffstruct->stime2;
@@ -1216,7 +1212,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   /* a button and mark for the music of this staff */
   gchar *invisibility =  ((movement_count>0) && (voice_count>0))?NULL:"invisible";/* tag to control visibility */
 
-  GString *voice_name = g_string_new(prefix);
+  GString *voice_name = g_string_new(movement);
   g_string_prepend(voice_name, "Notes for ");
   g_string_append_printf(voice_name, " Voice %d",/* ABS*/(voice_count));
   //g_print("making %s\n", voice_name->str);
@@ -1225,7 +1221,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);//FIXME remove this mark at the end of the output of this staff...
   
   /* a button and mark for the lyrics of this staff */
-  GString *lyrics_name = g_string_new(prefix);
+  GString *lyrics_name = g_string_new(movement);
   if(curstaffstruct->haslyrics) {
     g_string_prepend(lyrics_name, "Lyrics for ");
     g_string_append_printf(lyrics_name, " Voice %d", voice_count);
@@ -1233,14 +1229,14 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   }
 
   /* a button and mark for the figures of this staff */
-  GString *figures_name = g_string_new(prefix);
+  GString *figures_name = g_string_new(movement);
   if(curstaffstruct->hasfigures) {
     g_string_prepend(figures_name, "Figured Bass for ");
     g_string_append_printf(figures_name, " Voice %d", voice_count);
     insert_music_section(gui, figures_name->str);
   }
   /* a button and mark for the chord symbols of this staff */
-  GString *fakechords_name = g_string_new(prefix);
+  GString *fakechords_name = g_string_new(movement);
   if(curstaffstruct->hasfakechords) {
     g_string_prepend(fakechords_name, "Chord symbols for ");
     g_string_append_printf(fakechords_name, " Voice %d", voice_count);
@@ -1250,46 +1246,38 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
 
   /* output staff prolog */
-  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {
+  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {/* custom staff-prolog */
     insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
   } else {
-    if(curstaffstruct->voicenumber == 1)
-      g_string_append_printf(str, "%s%s =\\context Voice=%s%s %s {\n", prefix,
-			     curstaffstruct->lily_name->str,prefix,
-			     curstaffstruct->lily_name->str,  gui->lilycontrol.lilypond->str);
-    else
-      g_string_append_printf(str, "%s%s = {\n",
-			     prefix, curstaffstruct->lily_name->str);
-    if (curstaffstruct->no_of_lines != 5)
-      g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
-			     curstaffstruct->no_of_lines);
 
-    /* The midi instrument */
-    g_string_append_printf(str, ""TAB"\\set Staff.midiInstrument = \"%s\"\n",
-			   curstaffstruct->midi_instrument->str);
 
     /* Time signature */
-    g_string_append_printf(str, ""TAB"\\time %d/%d\n", curstaffstruct->stime1,
+    g_string_append_printf(str, "\n"TAB"%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->stime1,
 			   curstaffstruct->stime2);
-
     /* Determine the key signature */
-
+    gchar *clefname;
+    /* clef name */
+    gchar *keyname;
+    /* key signature name */
     determinekey (curstaffstruct->skey_isminor ?
 		  curstaffstruct->skey + 3 : curstaffstruct->skey, &keyname);
-    g_string_append_printf(str, ""TAB"\\key %s", keyname);
+    g_string_append_printf(str, ""TAB"%s%sKeySig = \\key %s", movement, voice, keyname);
     if (curstaffstruct->skey_isminor)
-      g_string_append_printf(str, " \\minor");
+      g_string_append_printf(str, " \\minor\n");
     else
-      g_string_append_printf(str, " \\major");
-    g_string_append_printf(str, "\n");
-
+      g_string_append_printf(str, " \\major\n");
     /* Determine the clef */
-
     determineclef (curstaffstruct->sclef, &clefname);
-    g_string_append_printf(str, ""TAB"\\clef %s\n", clefname);
+    g_string_append_printf(str, ""TAB"%s%sClef = \\clef %s\n", movement, voice, clefname);
+    g_string_append_printf(str, ""TAB"%s%sProlog = {\\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+			    movement, voice, movement, voice, movement, voice, movement, voice);
 
-
-    /* OUPUT TO BUFFER HERE */
+    if(curstaffstruct->haslyrics)
+      g_string_append_printf(str, "%s%s = \\context Voice = %s%s{\n",
+			     movement, voice, movement, voice);  
+      else
+    g_string_append_printf(str, "%s%s = {\n",
+			   movement, voice);    
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
     insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
   } /* standard staff-prolog */
@@ -1409,7 +1397,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     } /* for each staff */
   
   // str is empty again now FIXME
-  g_string_append_printf(str, "}\n");
+  g_string_append_printf(str, "}\n%s%sMusic = {\\%s%sProlog \\%s%s}\n",
+			 movement, voice, movement, voice, movement, voice);
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
@@ -1424,8 +1413,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       if(curstaffstruct->lyrics_prolog && curstaffstruct->lyrics_prolog->len) {
 	insert_editable(&curstaffstruct->lyrics_prolog, curstaffstruct->lyrics_prolog->str, &iter, invisibility, gui);
       } else {	
-	g_string_printf(temp, "%s%sLyrics = \\lyricmode { \n", prefix,
-			curstaffstruct->lily_name->str);
+	g_string_printf(temp, "%s%sLyrics = \\lyricmode { \n", movement,
+			voice);
 	insert_editable(&curstaffstruct->lyrics_prolog, temp->str, &iter,  invisibility, gui);
       }
       g_string_printf(temp, "%s \n}\n", lyrics->str);
@@ -1446,7 +1435,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			"\\set figuredBassAlterationDirection = #1\n"
 			"\\set figuredBassPlusDirection = #1\n"
 			"\\override FiguredBass.BassFigure "
-			"#'font-size = #-2\n",prefix, curstaffstruct->lily_name->str);
+			"#'font-size = #-2\n",movement, voice);
 	insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
       }
       g_string_printf(temp, "%s \n}\n", figures->str);
@@ -1463,10 +1452,11 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       if(curstaffstruct->fakechords_prolog && curstaffstruct->fakechords_prolog->len) {
 	insert_editable(&curstaffstruct->fakechords_prolog, curstaffstruct->fakechords_prolog->str, &iter, invisibility, gui);
       } else {
-	g_string_append_printf(temp, "%s%sFakeChordLine ="TAB"\\new ChordNames \\chordmode{\n", prefix, curstaffstruct->lily_name->str);
+	//g_string_append_printf(temp, "%s%sChordsProlog ="TAB"\n", movement, voice);
+	g_string_append_printf(temp, "%s%sChords = \\new ChordNames \\chordmode {\n", movement, voice);
 	insert_editable(&curstaffstruct->fakechords_prolog, temp->str, &iter,  invisibility, gui);
       }
-      g_string_printf(temp, "%s \n}\n", fakechords->str);
+      g_string_printf(temp, "%s \n}\n"/* another definition here */, fakechords->str);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
     }
@@ -1476,8 +1466,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_free(lyrics, TRUE);
   g_string_free(figures, TRUE);
   g_string_free(fakechords, TRUE);
-}
+} /* OutputStaff */
 
+/* Merge back any modified LilyPond text into the Denemo Score */
 void merge_lily_strings (DenemoGUI *gui) {
   //g_print("Merge...\n");
   GList *g;
@@ -1550,15 +1541,13 @@ void delete_lily_cb (GtkAction *action, DenemoGUI *gui) {
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
-  //g_print("before lengths %d and %d\n", g_list_length(gui->custom_scoreblocks), g_list_length(gui->anchors));
-  gpointer *target = g_object_get_data(G_OBJECT(anchor), TARGET);
+  gpointer sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
   //g_print("retrieving %p %p\n",anchor, target);
   gui->anchors = g_list_remove(gui->anchors, anchor);
-  gui->custom_scoreblocks = g_list_remove(gui->custom_scoreblocks, *target);
+  gui->custom_scoreblocks = g_list_remove(gui->custom_scoreblocks, sb);
 
 
   gtk_text_buffer_delete(gui->textbuffer, &start, &end);
-  g_print("lengths %d and %d\n", g_list_length(gui->custom_scoreblocks), g_list_length(gui->anchors));
 }
 static gboolean print_lily_cb (GtkWidget *item, DenemoGUI *gui){
   gchar *filename = get_printfile_pathbasename();
@@ -1574,17 +1563,26 @@ static gboolean print_lily_cb (GtkWidget *item, DenemoGUI *gui){
     run_lilypond_and_viewer(filename, gui);
   }
 }
+
+/* create a new custom scoreblock from the text of the one passed in lilystart */
 void custom_lily_cb (GtkAction *action, DenemoGUI *gui) {
+
   GtkTextChildAnchor *anchor = gui->lilystart;
   merge_lily_strings(gui);
   if(g_object_get_data(G_OBJECT(anchor),STANDARD_SCOREBLOCK)){
+    GtkTextIter start;
+    gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
+    GtkTextTag *tag = gtk_text_tag_table_lookup(tagtable, "invisible");
+    (void)gtk_text_iter_forward_char(&start);
+    if(gtk_text_iter_has_tag(&start,tag)) {
+      warningdialog("The scoreblock is hidden,\nso you will have an empty custom scoreblock to start with");
+    }
     gchar *lily = get_text(gui, anchor);
-    GString *scoreblock = g_string_new(lily);
-    g_print("Length=%d\n", g_list_length(gui->anchors));
-    anchor = insert_scoreblock_section(gui, NULL, &scoreblock);
-    gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, scoreblock);
-    //gui->anchors = g_list_prepend(gui->anchors, anchor);
-    g_print("afterLength=%d\n", g_list_length(gui->anchors));
+    DenemoScoreblock *sb = g_malloc0(sizeof(DenemoScoreblock));
+    sb->scoreblock= g_string_new(lily);
+    sb->visible = TRUE;
+    anchor = insert_scoreblock_section(gui, NULL, sb);
+    gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
     g_object_set_data(G_OBJECT(anchor),ORIGINAL, lily);
     gui->changecount++;
     set_title_bar(gui);
@@ -1595,6 +1593,7 @@ void custom_lily_cb (GtkAction *action, DenemoGUI *gui) {
     //gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
     gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
 			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
+    
   }
   else
     refresh_lily_cb(action, gui);
@@ -1603,6 +1602,7 @@ void custom_lily_cb (GtkAction *action, DenemoGUI *gui) {
 void toggle_lily_visible_cb (GtkAction *action, DenemoGUI *gui) {
   GtkTextIter start, end;
   GtkTextChildAnchor *anchor = gui->lilystart;
+  DenemoScoreblock *sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
   (void)gtk_text_iter_forward_char(&start);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
@@ -1611,11 +1611,17 @@ void toggle_lily_visible_cb (GtkAction *action, DenemoGUI *gui) {
 
   GtkTextTag *tag = gtk_text_tag_table_lookup(tagtable, "invisible");
   /*   GtkTextTag *systemtag = gtk_text_tag_table_lookup(tagtable, "system_invisible"); */
-  if(gtk_text_iter_has_tag(&start,tag))
+  if(gtk_text_iter_has_tag(&start,tag)) {
+    if(sb)
+      sb->visible = TRUE;
     gtk_text_buffer_remove_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
-  else
+  }
+  else {
+    if(sb)
+      sb->visible = FALSE;
     gtk_text_buffer_apply_tag_by_name (gui->textbuffer,  "invisible", &start, &end);
-
+  }
+  g_print("visible %d\n", sb?sb->visible:-1);
 }
   
 static void  place_cursor_cb(GtkAction *action, DenemoGUI *gui) {
@@ -1736,9 +1742,10 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
   GList *custom;
   for(custom=gui->custom_scoreblocks;custom;custom=custom->next) 
     if(custom->data){
-      insert_scoreblock_section(gui, "custom scoreblock", (GString**)&custom->data);
+      DenemoScoreblock *sb = (DenemoScoreblock *)custom->data;
+      insert_scoreblock_section(gui, "custom scoreblock", sb);
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, "custom scoreblock"));
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ((GString*)custom->data)->str, -1, "bold", (partname==NULL && custom==gui->custom_scoreblocks)?NULL:"invisible", NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, (sb->scoreblock)->str, -1, "bold", sb->visible?NULL:"invisible", NULL);
     }
 
 
@@ -1766,51 +1773,60 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	g_string_append_printf (scoreblock, "\\markup {%s}\n", si->headerinfo.markup_before->str);
    
       //standard score block
-      g_string_append_printf (scoreblock, "\\score {\n<< \n");
+      g_string_append_printf (scoreblock, "\\score {\n%s<< \n", gui->lilycontrol.lilypond->str);
     }
  
     for (curstaff = si->thescore, voice_count=1; curstaff; curstaff = curstaff->next, voice_count++)
       {
 	gint visible_part=1;/* 1 for visible -1 for invisible */ 
 	curstaffstruct = (DenemoStaff *) curstaff->data;
+	GString *voice_name = g_string_new("");
+	GString *name = g_string_new("");
+	g_string_printf(name, "Voice%d", voice_count);
+	set_lily_name (name, voice_name);
+	g_string_free(name, TRUE);
+
 	if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
 	  visible_part=-1;
 
-	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, movement_count*visible_movement, voice_count*visible_part);
-
+	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part);
+	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
 	if(visible_movement==1 && (visible_part==1)) {    
-	  if((curstaffstruct->voicenumber==1 && curstaff->prev) ||
-	     (curstaff->next==NULL) && ((DenemoStaff *) curstaff->data)->voicenumber==1)
-	    if (((curstaffstruct->context == DENEMO_NONE) && context) || 
-		((curstaffstruct->context != curcontext) && context))
-	      {
-		g_string_append_printf(scoreblock, ""TAB">>\n");
-		context = FALSE;
-	      }
-	  if (!context)
-	    if (curstaffstruct->voicenumber == 1)
-	      {
-		gchar *tmpcontext;
-		determinestaffcontext (curstaffstruct->context, &tmpcontext);
-		g_string_append_printf(scoreblock, ""TAB"%s <<\n ",tmpcontext);
-		context = TRUE;
-		curcontext = curstaffstruct->context;
-	      }
+
+
+
 	  if (curstaffstruct->hasfakechords)
-	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context ChordNames \\%s%sFakeChordLine\n", movement_name->str, curstaffstruct->lily_name->str);
+	    g_string_append_printf(scoreblock, ""TAB""TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
+				   movement_name->str, voice_name->str);
+	  GString *str = g_string_new("");
+	  if(curstaffstruct->voicenumber == 1)
+	    g_string_append_printf(str, "\\new Staff << {\n");
+    else
+      g_string_append_printf(str, "\\new Voice {\n");
+    if (curstaffstruct->no_of_lines != 5)
+      g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
+			     curstaffstruct->no_of_lines);
+
+    const gchar *endofblock;
+    if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
+      endofblock = "";
+    else
+      endofblock = ">>";
+
 	  if (curstaffstruct->voicenumber != 2)
 	    {
-	      g_string_append_printf(scoreblock, ""TAB""TAB"\\%s%s\n", movement_name->str,curstaffstruct->lily_name->str);
+	    
+	      g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%sMusic\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	      if (curstaffstruct->haslyrics)
 		g_string_append_printf(scoreblock, 
 				       "\n"TAB""TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
-				       movement_name->str, curstaffstruct->lily_name->str, movement_name->str,curstaffstruct->lily_name->str);
+				       movement_name->str, voice_name->str, movement_name->str, voice_name->str);
 	    }
-	  else if (curstaffstruct->voicenumber == 2 )
-	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context Voice \\%s%s\n", movement_name->str, curstaffstruct->lily_name->str);
+	  else if (curstaffstruct->voicenumber == 2)
+	    g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%s\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	  if (curstaffstruct->hasfigures)
-	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, curstaffstruct->lily_name->str);
+	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
        
 	}
       }/*end for staff loop */  
@@ -2208,11 +2224,11 @@ void create_lilywindow(DenemoGUI *gui) {
   if(has_signal)     
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->window), G_CALLBACK (lily_save), gui);//FIXME is it blocked?
   else {
-    g_signal_connect (G_OBJECT (gui->window), "enter-notify-event",
+    g_signal_connect (G_OBJECT (gui->window), ENTER_NOTIFY_EVENT ,
 		      G_CALLBACK (lily_save), gui);
     g_object_set_data(G_OBJECT (gui->window),"has signal", (gpointer)TRUE);
   }
-  g_signal_connect (G_OBJECT (gui->textwindow), "enter-notify-event",
+  g_signal_connect (G_OBJECT (gui->textwindow), ENTER_NOTIFY_EVENT,
 		    G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
   //g_signal_handlers_block_by_func (gui->window, G_CALLBACK (lily_save), gui);

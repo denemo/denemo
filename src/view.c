@@ -222,7 +222,7 @@ void free_gui(DenemoGUI *gui)
   if(gui->custom_scoreblocks) {
     GList *custom;
     for(custom=gui->custom_scoreblocks;custom;custom=custom->next) {
-      g_string_free((GString*)custom->data, TRUE);
+      g_string_free((GString*)(((DenemoScoreblock*)custom->data)->scoreblock), TRUE);
     }
     g_list_free(gui->custom_scoreblocks);
     gui->custom_scoreblocks=NULL;

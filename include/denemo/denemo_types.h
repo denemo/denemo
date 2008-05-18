@@ -415,8 +415,12 @@ typedef struct DenemoLilyControl
   gboolean orientation;
   GString *lilypond; /**< Lilypond directive for all music in the movements */
 	
-}DenemoLilyControl;
+} DenemoLilyControl;
 
+typedef struct DenemoScoreblock {
+  GString *scoreblock;/**< text of the scoreblock */
+  gboolean visible;/**< Whether the scoreblock should be used by default */
+} DenemoScoreblock;
 
 /** 
  * The (singleton) root object for the program
@@ -580,7 +584,7 @@ typedef struct DenemoGUI
   GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
   DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this gui */
   DenemoLilyControl lilycontrol; /**< Control of the LilyPond output for whole musical score */
-  GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are GString * */
+  GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
   GString *custom_prolog; /**< Customized text for LilyPond output, replaces standard prolog */
   gpointer lilystart, lilyend; /**<range of lilytext  */
   GString **target; /**< pointer to target string for modification in lilytext  */
