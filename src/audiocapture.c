@@ -42,7 +42,9 @@
 #include <math.h>
 #include <audio.h>
 #include <portaudio.h>
-/*#define PA_VERSION_19 1*/
+#ifdef paNonInterleaved
+#define PA_VERSION_19 1
+#endif
 /* #define SAMPLE_RATE  (17932) /* Test failure to open with this value. */
 #define SAMPLE_RATE  DENEMO_SAMPLE_RATE
 #define NUM_SECONDS     (10)
