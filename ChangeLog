@@ -1,4 +1,6 @@
-2008-05-18 <rshann>
+2008-05-21 <rshann>
+	view.c prevent crash on qutting with pitch recog window open.
+2008-05-21 <rshann>
 	exportlilypond.c, include/denemo_types.h, staffpropdialog.c, import/exportxml.c fix context stuff
 	audiocapture.c incorporate portaudio V19 code.
 2008-05-17 <rshann>

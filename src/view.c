@@ -202,7 +202,7 @@ close_gui (DenemoGUI *gui)
   }
  if(g_list_length(Denemo.guis)==1)  
    storeWindowState (gui);
-  stop_pitch_recognition();
+ //stop_pitch_recognition();
   free_gui(gui);
   Denemo.guis = g_list_remove (Denemo.guis, gui);
   gtk_widget_destroy (gui->window);
@@ -242,7 +242,7 @@ static void
 closewrapper ()
 {
   GList *display = NULL;
-  stop_pitch_recognition();
+  //stop_pitch_recognition();
   if(Denemo.accelerator_status&ACCELS_CHANGED) {
     if(confirm("You have changed the keyboard accelerators","Do you want to save the changes?"))
       save_accels();
