@@ -184,37 +184,7 @@ determineClef (gint type, gchar ** clefName)
     }
 }
 
-/**
- * Determine the staff context as it should
- * be written to the XML file
- */
-static gchar *
-determinestaffcontext (DenemoContext context)
-{
-  gchar *tmp;
-  switch (context)
-    {
-    case DENEMO_NONE:
-      tmp = "Staff";
-      break;
 
-    case DENEMO_PIANO:
-      tmp = "PianoStaff";
-      break;
-
-    case DENEMO_GROUP:
-      tmp = "StaffGroup";
-      break;
-
-    case DENEMO_CHOIR:
-      tmp = "ChoirStaff";
-      break;
-    default:
-      tmp = "";
-      break;
-    }
-  return tmp;
-}
 
 /**
  * Determine the duration as it should be written to the XML file.  duration
@@ -665,9 +635,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_channel",
 	               curStaffStruct->midi_channel);
 	  
-	  xmlNewChild (curElem, ns, (xmlChar *) "context",
-		       (xmlChar *) determinestaffcontext (curStaffStruct->
-							  context));
+
+#define PUTCHILD(A,B) if(curStaffStruct->context & A) xmlNewChild (curElem, ns, (xmlChar *) "context", B);
+          PUTCHILD(DENEMO_PIANO_START, PIANO_START_STRING);
+          PUTCHILD(DENEMO_PIANO_END, PIANO_END_STRING);
+          PUTCHILD(DENEMO_CHOIR_START, CHOIR_START_STRING);
+          PUTCHILD(DENEMO_CHOIR_END, CHOIR_END_STRING);
+          PUTCHILD(DENEMO_GROUP_START, GROUP_START_STRING);
+          PUTCHILD(DENEMO_GROUP_END, GROUP_END_STRING);
+#undef PUTCHILD
 	  newXMLIntChild (curElem, ns, (xmlChar *) "space_above",
 			  curStaffStruct->space_above);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "space_below",

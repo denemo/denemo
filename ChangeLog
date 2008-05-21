@@ -1,3 +1,6 @@
+2008-05-18 <rshann>
+	exportlilypond.c, include/denemo_types.h, staffpropdialog.c, import/exportxml.c fix context stuff
+	audiocapture.c incorporate portaudio V19 code.
 2008-05-17 <rshann>
 	commandfuncs.c,h keyresponses.c update changecount after sharpening or flattening.
 2008-05-17 <rshann>

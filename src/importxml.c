@@ -184,22 +184,39 @@ getXMLChild (xmlNodePtr parentElem, gchar * childElemName, xmlNsPtr childNs)
 static DenemoContext
 lookupContext (gchar * string)
 {
-  if (!strcmp (string, "Staff"))
+  static gboolean pianostaff=FALSE, groupstaff=FALSE, choirstaff=FALSE;
+  if (!strcmp (string, "PianoStaff"))//for backwards compatibility only
     {
-      return DENEMO_NONE;
+      pianostaff = !pianostaff;
+      if(pianostaff)
+	return DENEMO_PIANO_START;
+      else
+	return DENEMO_PIANO_END;
     }
-  else if (!strcmp (string, "PianoStaff"))
+  else if (!strcmp (string, "ChoirStaff"))//for backwards compatibility only
     {
-      return DENEMO_PIANO;
+      choirstaff = !choirstaff;
+      if(choirstaff)
+	return DENEMO_CHOIR_START;
+      else
+	return DENEMO_CHOIR_END;
     }
-  else if (!strcmp (string, "ChoirStaff"))
+  else if (!strcmp (string, "GroupStaff"))//for backwards compatibility only
     {
-      return DENEMO_CHOIR;
+      groupstaff = !groupstaff;
+      if(groupstaff)
+	return DENEMO_GROUP_START;
+      else
+	return DENEMO_GROUP_END;
     }
-  else if (!strcmp (string, "StaffGroup"))
-    {
-      return DENEMO_GROUP;
-    }
+#define LOOKUP(A,B)  else if (!strcmp (string, A)) {return B;}
+LOOKUP(PIANO_START_STRING,DENEMO_PIANO_START)
+LOOKUP(PIANO_END_STRING,DENEMO_PIANO_END)
+LOOKUP(CHOIR_START_STRING,DENEMO_CHOIR_START)
+LOOKUP(CHOIR_END_STRING,DENEMO_CHOIR_END)
+LOOKUP(GROUP_START_STRING,DENEMO_GROUP_START)
+LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
+#undef LOOKUP
   else
     {
       return DENEMO_NONE;
@@ -1887,9 +1904,11 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	    gchar *temp = NULL;
 	    temp = (gchar *) xmlNodeListGetString
 	      (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->context = lookupContext (temp);
+	    curStaff->context |= lookupContext (temp);
 	    g_free (temp);
 	  }
+
+
 	else if (ELEM_NAME_EQ (childElem, "lilybefore"))
 	  {
 	    gchar *temp = (gchar *) xmlNodeListGetString

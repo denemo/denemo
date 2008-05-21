@@ -23,7 +23,7 @@
 #include "print.h"
 #include "scoreops.h"
 #include "objops.h"
-
+#include "xmldefs.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 
@@ -181,32 +181,6 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
 /* a separator for groups of figured bass figures on one note
    this could be a user preference thingy */
 
-/**
- * Output the lilypond repsentation of the 
- * given staff context
- */
-static void
-determinestaffcontext (gint number, gchar ** contextname)
-{
-  switch (number)
-    {
-    case DENEMO_NONE:
-      *contextname = "";
-      break;
-
-    case DENEMO_PIANO:
-      *contextname = "\\new PianoStaff";
-      break;
-
-    case DENEMO_GROUP:
-      *contextname = "\\new StaffGroup";
-      break;
-
-    case DENEMO_CHOIR:
-      *contextname = "\\new ChoirStaff";
-      break;
-    }
-}
 
 /**
  * Output the lilypond representation of the given keysignature 
@@ -1793,13 +1767,19 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
 	if(visible_movement==1 && (visible_part==1)) {    
-
-
-
 	  if (curstaffstruct->hasfakechords)
 	    g_string_append_printf(scoreblock, ""TAB""TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
 				   movement_name->str, voice_name->str);
 	  GString *str = g_string_new("");
+
+
+	  if (curstaffstruct->context & DENEMO_CHOIR_START)
+	    g_string_append_printf(str, "\\new ChoirStaff << \n");
+	  if (curstaffstruct->context & DENEMO_GROUP_START)
+	    g_string_append_printf(str, "\\new StaffGroup << \n");
+	  if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
+	    g_string_append_printf(str, "\\new PianoStaff << \n");
+
 	  if(curstaffstruct->voicenumber == 1)
 	    g_string_append_printf(str, "\\new Staff << {\n");
     else
@@ -1827,6 +1807,18 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	    g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%s\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	  if (curstaffstruct->hasfigures)
 	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
+
+
+
+
+	    if(curstaffstruct->context & DENEMO_PIANO_END)
+	      g_string_append_printf(scoreblock, ">>\n\n");
+	    if(curstaffstruct->context & DENEMO_CHOIR_END)
+	      g_string_append_printf(scoreblock, ">>\n\n");
+	    if(curstaffstruct->context & DENEMO_GROUP_END)
+	      g_string_append_printf(scoreblock, ">>\n\n");
+	  
+
        
 	}
       }/*end for staff loop */  

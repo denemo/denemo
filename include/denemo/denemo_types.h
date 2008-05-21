@@ -135,21 +135,23 @@ typedef struct
   /* Mudelaobjunion u; has become a pointer*/
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
   gboolean isinvisible; /**< If  TRUE it will be rendered white and will not be seen. If it is set FALSE then it will be drawn normally. */
-}DenemoObject;
+} DenemoObject;
 
 
 /**
- * Enumeration for a staffs context. 
- * Currently only four to chose from,  may change if Lilypond 
- * adds any more
+ * Control of LilyPond context
+ * Allows for e.g.  Piano context within staff group context by using bit fields
  */
 typedef enum 
 {
-  DENEMO_NONE=1,
-  DENEMO_PIANO,
-  DENEMO_GROUP,
-  DENEMO_CHOIR
-}DenemoContext;
+  DENEMO_NONE = 0,
+  DENEMO_PIANO_START =  1<<0,
+  DENEMO_PIANO_END = 1<<1,
+  DENEMO_GROUP_START = 1<<2,
+  DENEMO_GROUP_END = 1<<3,
+  DENEMO_CHOIR_START = 1<<4,
+  DENEMO_CHOIR_END = 1<<5
+} DenemoContext;
 
 
 /**

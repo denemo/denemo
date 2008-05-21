@@ -1006,37 +1006,69 @@ In the score properties dialog things that affect the whole piece can be set, as
   </sect1>
  <sect1>
     <title>LilyPond Editing</title>
-
-    <para>
-	The Edit->Show LilyPond menu item allows you to edit the LilyPond with your edits kept inside the Denemo file, so that you can continue to edit the notes in Denemo.
-   </para>
+<sect2>
+     <title>Introduction</title>
+ 
    <para>
-With version 0.7.8 we have a new approach to editing the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e.g. Piano music) with the music still editable from within Denemo.
+From version 0.7.8 we have the ability to edit the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e.g. multiple verses for songs) with the music still editable from within Denemo.
   </para>
    <para>
 This can be used without knowing the LilyPond language (provided a suitable template file exists). Alternatively, tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
   </para>
-   <para>
-Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it.
-The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions.
-Right clicking on the text gives a menu for moving the cursor to the LilyPond text for the current Denemo object. Moving the cursor causes the Denemo window cursor to move in synchronism.
-  </para>
-   <para>
-Several custom scoreblocks can be kept, and by making the one desired visible, the same Denemo file can be used to print a full score or parts or several voices to a staff or even a piano reduction. The custom scoreblocks can be are named using the comment on the first line (see the template Piano.denemo for an example).
-  </para>
-   <para>
-The various Voices/Staffs for the different Movements are separated by buttons. These are labelled by enumerating the movements and staffs in order, so the first voice in the first movement has a button labelled
-"Notes for MvmntIVoiceI" and so on. Within these music blocks you can insert arbitrary LilyPond text between notes,
-and these appear as LilyPond directives in the main Denemo window. The main window also moves the cursor to correspond with where you are editing. (It should of course move the cursor immediately you click on a point in the music, but, as yet, it only moves the cursor when you press a key just before the note name - one of the arrow keys will do).
-  </para>
-In addition you can edit the prologs of the staffs, and these are stored with the  Denemo file, so specific tweaks can be kept with the notes.
-   <para>
-  </para>
-   <para>
+</sect2>
+<sect2>
+     <title>Using the LilyPond Window</title>
+    <para>
+Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it. The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions. The text in bold can be altered and the alterations are kept in the Denemo file.
+ </para>
+
+    <para>
 The two windows are kept in sync, so you can move back and forth between editing textually and editing in Denemo.
    </para>
    <para>
-Right clicking this window gives a menu including a Print command that operates on the visible LilyPond text in the window. The normal Denemo Print commands are still operative - if you Print a single part then this alters the standard scoreblock. If you use the File->Print command then it prints the first custom scoreblock (or the standard scoreblock if you do not have any custom scoreblocks).
+Right clicking on the text gives a menu for actions on the LilyPond text. There is one for moving the cursor to the LilyPond text for the current Denemo object. Moving the cursor in the text window with the arrow keys causes the Denemo window cursor to move in synchronism.
+  </para>
+   <para>
+This menu also includes a Print command that operates on the visible LilyPond text in the window.  This means you can open specific custom score blocks and print from them, or even make a temporary edit for just one print. If you save the program while a choice of custom scoreblocks is open then these are remembered. So when you reload and hit Print those score blocks will be printed.</para>
+
+</sect2>
+<sect2>
+     <title>Detail</title>
+   <para>
+Several custom scoreblocks can be kept, and by making the one(s) desired visible, the same Denemo file can be used to print a variety of things from the same music input. For example, a full score or a set of parts, or several voices on group of staffs or even a piano reduction. The custom scoreblocks can be are named using the comment on the first line (see the template Piano.denemo for an example).
+  </para>
+
+   <para>
+The various Voices/Staffs for the different Movements are separated by buttons. These are labelled by enumerating the movements and staffs in order, so the first voice in the first movement has the music defined as
+"MvmntIVoiceIMusic" and so on. Within these music blocks you can insert arbitrary LilyPond text between notes, (the insertion points are marked by grey blocks)
+and the text inserted will appear as a LilyPond directives in the main Denemo window. 
+ </para>
+
+   <para>The main Denemo window also moves its cursor to correspond with where you are editing. (It should of course move the cursor immediately you click on a point in the music, but, as yet, it only moves the cursor when you press a key just before the note name - one of the arrow keys will do).
+  </para>
+
+
+ 
+   <para>
+Custom score blocks are created by right-clicking on the Standard score block and selecting create custom score block. You can cut and paste another score block, or start from the text of the standard one. If you print a single part from all movements, you get the standard scoreblock for this and can add it to your custom score block so that a single print command prints, e.g. both a full score and parts. Using the \book {} block you can put these into separate files (stored in the folder .denemo in your home folder).
+</para>
+  <para>
+The music defined by MvmntIVoiceIMusic is then used in the score blocks at the end of the LilyPond window, by the expression \MvmntIVoiceIMusic. This means that the same music can be output in several different ways, so that the same Denemo file can contain custom score blocks to output the music as a Piano Score with several voices or separate parts, for example.
+  </para>
+  <para>
+The definitions for MvmntIVoiceIMusic actually look like this
+<itemizedlist>
+<listitem>
+MvmntIVoiceIProlog = {\MvmntIVoiceITimeSig \MvmntIVoiceIKeySig \MvmntIVoiceIClef}
+</listitem>
+<listitem>
+MvmntIVoiceIMusic = {\MvmntIVoiceIProlog \MvmntIVoiceI}
+</listitem>
+</itemizedlist>
+Where \MvmntIVoiceI is the actual block of notes you have written, while the other definitions hold the time signature, clef etc. By using these, you can print the same music with different clefs, still maintaining the ability to edit the notes in Denemo.
+  </para>
+
+   <para>Note that the normal Denemo Print commands are still operate as they do if you never look at the LilyPond window. What happens is that if you select the Print Current Part menu item then this creates a tailored standard scoreblock for that part. However, if you use the File->Print command then it prints the first custom scoreblock that is open (visible) (or the standard scoreblock if you do not have any custom scoreblocks).
   </para>
    <note>
 Bugs:
@@ -1047,6 +1079,7 @@ When you delete a LilyPond directive textually you have to move the cursor to st
 LilyPond notes cannot be parsed back in (would be useful for importing music from arbitrary LilyPond files).
 LilyPond inserts at notes can only be completely deleted in the Denemo window - inserts are not merged.
    </note>
+</sect2>
   </sect1>
 
   <sect1>
@@ -2024,7 +2057,17 @@ When you click on the Play item of the toobar the current movement is played sta
 
   <sect1>
     <title>Advanced Use</title>
+   <sect2 revision="0.70">
+      <title>Piano Staffs, Orchestral Scores etc</title>
 
+      <para>
+Piano staffs, and staff groups can be created using the context field of the score->properties dialog. You can set a piano staff within a staff group by setting successively the StartPiano and StartGroup contexts on a single staff, or more generally setting StartPiano, EndPiano on adjacent staffs within a staff group.
+<note>
+It is possible to set silly combinations – some will not print anything. Check that you have a Start and End staff for each type and that they are not miss-matched.
+</note>
+
+</para>
+</sect2>
     <sect2 revision="0.70">
       <title>Single Staff Polyphony</title>
 
@@ -2098,7 +2141,7 @@ When you click on the Play item of the toobar the current movement is played sta
     <sect2>
       <title>Entering Vocal Music</title>
 
-      <para>Choose Other->Enter Lyrics. <note>you must provide a lyric for each note. </note>The Extend Syllable and Center check boxes are not documented, but you can use double hyphen “–“ and double underscore “__” respectively for these (as described in the LilyPond documentation for syllables and extenders).</para>
+      <para>Choose Other->Enter Lyrics. <note>you must provide a lyric for each note. </note>The Extend Syllable and Center check boxes are not documented, but you can use double hyphen “–“ and double underscore “__” respectively for these (as described in the LilyPond documentation for syllables and extenders). You can also cut and paste lyrics into a specially written lyricmode block in the LilyPond window and use a custom score block to place it under the music. In this way multiple verses are possible.</para>
     </sect2>
 
     <sect2>

@@ -95,8 +95,8 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	    newstaff (wdata->gui, 
 		      ADDFROMLOAD, DENEMO_NONE);
 	    
-	    printf("\nlocation b before switch currentstaffnum = %i\n", 
-		   wdata->gui->si->currentstaffnum);
+/* 	    printf("\nlocation b before switch currentstaffnum = %i\n",  */
+/* 		   wdata->gui->si->currentstaffnum); */
 	    update_vscrollbar (wdata->gui);
 	    //staffdown(wdata->gui);
 	    displayhelper(wdata->gui);
@@ -148,16 +148,10 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	      (DenemoStaff *) wdata->gui->si->currentstaff->data;
 	    dnm_setinitialclef(wdata->gui->si, curstaffstruct, 
 			       DENEMO_TREBLE_CLEF);
-	    curstaffstruct->context = DENEMO_PIANO;
-#if 0	    
-	    g_string_assign(temp, instrument);
-	    gchar *pianobasslh = "rh";
-	    g_string_append(temp,pianobasslh);
-	    //strcpy(curstaffstruct->denemo_name->str, temp->str);
-	    g_string_assign(curstaffstruct->denemo_name, temp->str);
-#else
+	    curstaffstruct->context = DENEMO_PIANO_START;
+
 	    g_string_printf(curstaffstruct->denemo_name, "%s%s", instrument_name, "rh");
-#endif
+
 
 	    set_lily_name (curstaffstruct->denemo_name,
 			   curstaffstruct->lily_name);
@@ -173,16 +167,10 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 /* 		   wdata->gui->si->currentstaffnum); */
 	    dnm_setinitialclef(wdata->gui->si, curstaffstruct, 
 			       DENEMO_BASS_CLEF);
-	    curstaffstruct->context = DENEMO_PIANO;
-#if 0	    
-	    g_string_assign(temp, instrument);
-	    gchar *pianobasslh = "rh";
-	    g_string_append(temp,pianobasslh);
-	    //strcpy(curstaffstruct->denemo_name->str, temp->str);
-	    g_string_assign(curstaffstruct->denemo_name, temp->str);
-#else
+	    curstaffstruct->context = DENEMO_PIANO_END;
+
 	    g_string_printf(curstaffstruct->denemo_name, "%s%s", instrument_name, "lh");
-#endif
+
 
 	    set_lily_name (curstaffstruct->denemo_name,
 			   curstaffstruct->lily_name);
@@ -191,7 +179,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	  }
 	  numstaffsforinstrument++;
 	}
-	wdata->staffnumber--;
+	wdata->staffnumber--;//FIXME should be a for loop
 	break;
       }
     case 3:

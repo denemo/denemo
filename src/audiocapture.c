@@ -42,7 +42,7 @@
 #include <math.h>
 #include <audio.h>
 #include <portaudio.h>
-
+/*#define PA_VERSION_19 1*/
 /* #define SAMPLE_RATE  (17932) /* Test failure to open with this value. */
 #define SAMPLE_RATE  DENEMO_SAMPLE_RATE
 #define NUM_SECONDS     (10)
@@ -74,7 +74,15 @@ static int tuning = 0;/* copy data for instrument tuning routines */
 
 static int recordCallback(	void *inputBuffer, void *outputBuffer,
 						unsigned long framesPerBuffer,
-				        PaTimestamp outTime, void *userData )
+#ifndef PA_VERSION_19
+
+				        PaTimestamp outTime, 
+#else
+				        PaStreamCallbackTimeInfo outTime, 
+					PaStreamCallbackFlags status,
+#endif
+					void *userData )
+
 {
 
 	SAMPLE *rptr = (SAMPLE*)inputBuffer;
@@ -134,6 +142,10 @@ return 0 for success
 int pa_main(AubioCallback *fn)
 {
 	static PortAudioStream *stream;
+#ifdef PA_VERSION_19
+	PaStreamParameters  inputParameters,
+                           outputParameters;
+#endif
 	PaError    err;
 
 	int        i;
@@ -155,11 +167,6 @@ int pa_main(AubioCallback *fn)
 	aubio_routine = fn;
 	err = Pa_Initialize();
 	if( err != paNoError ) goto error;   
-
-
-
-
-
 	data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
 	data.frameIndex = 0;
 	data.samplesPerFrame = 1;/*mono */
@@ -168,13 +175,24 @@ int pa_main(AubioCallback *fn)
 	numBytes = numSamples * sizeof(float);
 	data.recordedSamples = (float *) malloc( numBytes );//FIXME multiple inits, memory leak...
 
-
+#ifdef PA_VERSION_19
+       inputParameters.device = Pa_GetDefaultInputDevice(); /* default input device */
+       if (inputParameters.device == paNoDevice) {
+    	        fprintf(stderr,"Error: No default input device.\n");
+    	        goto error;
+   	}
+       inputParameters.channelCount = 1;                    /* mono input */
+       inputParameters.sampleFormat = PA_SAMPLE_TYPE;
+       inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultLowInputLatency;
+       inputParameters.hostApiSpecificStreamInfo = NULL;
+#endif
 
     
 	 
 /* Record some audio. -------------------------------------------- */
 	err = Pa_OpenStream(
 				&stream,
+#ifndef PA_VERSION_19
 				Pa_GetDefaultInputDeviceID(),
 				1,               /* mono input */
 				PA_SAMPLE_TYPE,
@@ -186,6 +204,12 @@ int pa_main(AubioCallback *fn)
 				SAMPLE_RATE,
 				1024,            /* frames per buffer */
 				0,               /* number of buffers, if zero then use default minimum */
+#else
+				&inputParameters,
+				NULL,		/* output parameters */
+				SAMPLE_RATE,
+				1024,            /* frames per buffer */
+#endif
 				paClipOff,  /* we won't output out of range samples so don't bother clipping them */
 				recordCallback,
 				NULL );

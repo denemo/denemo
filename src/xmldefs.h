@@ -15,5 +15,13 @@
 
 /* The namespace in which built-in Denemo XML elements reside */
 #define DENEMO_XML_NAMESPACE "http://denemo.sourceforge.net/xmlns/Denemo"
+/* some strings useful elsewhere */
+#define    NONE_STRING "None"
+#define    PIANO_START_STRING "PianoContextStart"
+#define    PIANO_END_STRING "PianoContextEnd"
+#define    CHOIR_START_STRING "ChoirContextStart"
+#define    CHOIR_END_STRING "ChoirContextEnd"
+#define    GROUP_START_STRING "StaffGroupStart"
+#define    GROUP_END_STRING "StaffGroupEnd"
 
 #endif

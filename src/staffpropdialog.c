@@ -15,7 +15,7 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <string.h>
-
+#include "xmldefs.h"
 /**
  * List of midi instrument names
  * 
@@ -152,16 +152,38 @@ static gchar *instruments[128] = {
 };
 
 
+static const gchar *context_strings[] = {
+  NONE_STRING,
+  PIANO_START_STRING,
+  PIANO_END_STRING,
+  CHOIR_START_STRING,
+  CHOIR_END_STRING,
+  GROUP_START_STRING,
+  GROUP_END_STRING,
+  NULL
+};
+
+
+
 
 /**
- *  List of Lilypond Staff Contexts
+ *  return GString with contexts contained in the passed DenemoContext
+ *  caller must free the string.
  */
-static gchar *contexts[4] = {
-  "None",
-  "PianoContext",
-  "ChoirContext",
-  "StaffGroup"
-};
+static GString *context_string (DenemoContext c) {
+
+  GString *s = g_string_new("");
+#define  APPEND(A,B)  if(c & A) g_string_append_printf(s, ":%s", B)
+  APPEND(DENEMO_PIANO_START, PIANO_START_STRING);
+  APPEND(DENEMO_PIANO_END, PIANO_END_STRING);
+  APPEND(DENEMO_CHOIR_START, CHOIR_START_STRING);
+  APPEND(DENEMO_CHOIR_END, CHOIR_END_STRING);
+  APPEND(DENEMO_GROUP_START, GROUP_START_STRING);
+  APPEND(DENEMO_GROUP_END, GROUP_END_STRING);
+  if(s->len==0)
+    g_string_append(s, NONE_STRING);
+  return s;
+}
 
 /**
  * Callback data used for setting the staffs properties
@@ -192,20 +214,26 @@ struct callbackdata
  * Convert Context string to denemocontext 
  * 
  * @param string the context string
- * @return denemocontext of the string 
+ * @return denemocontext of the string or -1 if not passed string is not set to a context
  */
-static DenemoContext
+static gint
 setcontext (const gchar * string)
 {
-  if (!strcmp ("PianoContext", string))
-    return DENEMO_PIANO;
-  else if (!strcmp ("ChoirContext", string))
-    return DENEMO_CHOIR;
-  else if (!strcmp ("StaffGroup", string))
-    return DENEMO_GROUP;
-
-
-  return DENEMO_NONE;
+  if (!strcmp (NONE_STRING, string))
+    return DENEMO_NONE;
+  if (!strcmp (PIANO_START_STRING, string))
+    return DENEMO_PIANO_START;
+  if (!strcmp (PIANO_END_STRING, string))
+    return DENEMO_PIANO_END;
+  if (!strcmp (CHOIR_START_STRING, string))
+    return DENEMO_CHOIR_START;
+  if (!strcmp (CHOIR_END_STRING, string))
+    return DENEMO_CHOIR_END;
+  if (!strcmp (GROUP_START_STRING, string))
+    return DENEMO_GROUP_START;
+  if (!strcmp (GROUP_END_STRING, string))
+    return DENEMO_GROUP_END;
+  return -1;
 }
 
 /**
@@ -248,9 +276,16 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->pos_in_half_lines = n;
   if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->volume)))))
     staffstruct->volume = n;
+  DenemoContext old = staffstruct->context;
   staffstruct->context =
     setcontext (gtk_entry_get_text (GTK_ENTRY (cbdata->contexts)));
-  if(staffstruct->staff_prolog) g_string_free(staffstruct->staff_prolog, TRUE);
+  if(staffstruct->context==-1)
+    staffstruct->context=old;
+  else
+    if(staffstruct->context != DENEMO_NONE)
+      staffstruct->context |= old;//Allow more than one context to start/end, reset using DENEMO_NONE (0)
+  if(staffstruct->staff_prolog) 
+    g_string_free(staffstruct->staff_prolog, TRUE);
   staffstruct->staff_prolog =
     g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->lilybefore)));
 
@@ -531,16 +566,17 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   context = gtk_combo_new ();
   if (!context_list)
     {
-      int i;
-      for (i = 0; i < 4; i++)
+      int i=0;
+      while (context_strings[i++])
 	{
-	  context_list = g_list_append (context_list, contexts[i]);
+	  context_list = g_list_append (context_list, (gpointer) (context_strings[i]?context_strings[i]:"None"));
 	}
     }
   gtk_combo_set_popdown_strings (GTK_COMBO (context), context_list);
-
+  GString *s = context_string(staffstruct->context);
   gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (context)->entry),
-		      contexts[staffstruct->context - 1]);
+		      s->str);
+  g_string_free(s, TRUE);
   gtk_table_attach (GTK_TABLE (table), context, 1, 2, 6, 7,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
