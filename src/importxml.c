@@ -184,6 +184,8 @@ getXMLChild (xmlNodePtr parentElem, gchar * childElemName, xmlNsPtr childNs)
 static DenemoContext
 lookupContext (gchar * string)
 {
+  if(string == NULL)
+    return 0;
   static gboolean pianostaff=FALSE, groupstaff=FALSE, choirstaff=FALSE;
   if (!strcmp (string, "PianoStaff"))//for backwards compatibility only
     {
