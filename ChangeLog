@@ -1,3 +1,5 @@
+2008-05-22 <rshann>
+	audiocapture.c fixes for V19
 2008-05-21 <rshann>
 	view.c prevent crash on qutting with pitch recog window open.
 2008-05-21 <rshann>
