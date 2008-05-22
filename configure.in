@@ -258,4 +258,5 @@ AC_OUTPUT(
   doc/templates/misc/Makefile
   doc/templates/orchestral/Makefile
   doc/templates/strings/Makefile
+  examples/Makefile
 ])
