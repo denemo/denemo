@@ -1,5 +1,5 @@
 SUBDIRS = m4 doc include keymaps plugins pixmaps po src \
-	  fonts 
+	  fonts examples 
 
 
 dist_pkgdata_DATA = denemo.conf denemorc.xml

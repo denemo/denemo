@@ -1,5 +1,9 @@
 2008-05-22 <rshann>
 	audiocapture.c fixes for V19
+2008-05-22 <jjbenham> 
+	makefile.am added examples to SUBDIRS
+	configure.in added examples/makefile
+	examples/makefile.am added makefile to install examples
 2008-05-21 <rshann>
 	view.c prevent crash on qutting with pitch recog window open.
 2008-05-21 <rshann>
