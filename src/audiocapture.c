@@ -74,13 +74,13 @@ static int tuning = 0;/* copy data for instrument tuning routines */
 */
 
 
-static int recordCallback(	void *inputBuffer, void *outputBuffer,
+static int recordCallback(const	void *inputBuffer,const void *outputBuffer,
 						unsigned long framesPerBuffer,
 #ifndef PA_VERSION_19
 
 				        PaTimestamp outTime, 
 #else
-				        PaStreamCallbackTimeInfo outTime, 
+				        PaStreamCallbackTimeInfo* outTime, 
 					PaStreamCallbackFlags status,
 #endif
 					void *userData )
@@ -143,8 +143,10 @@ return 0 for success
 
 int pa_main(AubioCallback *fn)
 {
+#ifndef PA_VERSION_19
 	static PortAudioStream *stream;
-#ifdef PA_VERSION_19
+#else
+	static PaStream *stream;
 	PaStreamParameters  inputParameters,
                            outputParameters;
 #endif
