@@ -1,4 +1,6 @@
 2008-05-22 <rshann>
+	importxml.c fix for NULL context string stored.
+2008-05-22 <rshann>
 	audiocapture.c fixes for V19
 2008-05-22 <jjbenham> 
 	makefile.am added examples to SUBDIRS
