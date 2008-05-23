@@ -65,7 +65,8 @@ LIBS="$LIBS $LIBAUBIO_LIBS"
 
 dnl PKG_CHECK_MODULES(PORTAUDIO, portaudio >= 18)
 dnl CFLAGS="$CFLAGS $PORTAUDIO_CFLAGS"
-LIBS="$LIBS -lportaudio"
+LIBS="$LIBS libportaudio.a"
+#LIBS="$LIBS -lportaudio"
 
 
 AM_PATH_XML2(
@@ -249,14 +250,10 @@ AC_OUTPUT(
   keymaps/Makefile
   po/Makefile.in
   fonts/Makefile
-  doc/templates/Makefile
-  doc/templates/brass/Makefile
-  doc/templates/band/Makefile
-  doc/templates/church/Makefile
-  doc/templates/educational/Makefile
-  doc/templates/jazz/Makefile
-  doc/templates/misc/Makefile
-  doc/templates/orchestral/Makefile
-  doc/templates/strings/Makefile
   examples/Makefile
+  templates/Makefile
+  templates/band/Makefile
+  templates/chamber/Makefile
+  templates/choral/Makefile
+  templates/jazz/Makefile
 ])
