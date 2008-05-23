@@ -11,6 +11,7 @@
            <menuitem action="Stub"/>
 	</menu>
       <menuitem action="OpenTemplate"/>
+      <menuitem action="OpenExample"/>
       <menuitem action="OpenMyTemplate"/>
       <menuitem action="NewWindow"/>
       <menuitem action="OpenNewWindow"/>

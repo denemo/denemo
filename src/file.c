@@ -106,6 +106,7 @@ struct callbackdata
 /* directory last used for saving */
 static gchar *file_selection_path = NULL;
 static gchar *system_template_path = NULL;
+static gchar *system_example_path = NULL;
 static gchar *local_template_path = NULL;
 static gchar *default_template_path = NULL;
 
@@ -428,21 +429,37 @@ init_local_path(void) {
 	}
 }
 
+typedef enum {
+  LOCAL,
+  SYSTEM,
+  EXAMPLE
+} TemplateType;
+
 /*
  * Sets the file_selection_path to the templates directory and 
  * calls file_open to create the file selection dialog
- * LOCAL whether to use the local templates or systemwide ones
+ * LOCAL whether to use the local templates or systemwide templates or examples
  * does nothing if unable to access templates
  */
 static void
-template_open (DenemoGUI * gui, gboolean local)
+template_open (DenemoGUI * gui, TemplateType local)
 {
-  if(local) {
+  if(local==LOCAL) {
     if(local_template_path==NULL) {
       init_local_path();
     }
     default_template_path = local_template_path;   
-  } else { 
+  } else if(local==EXAMPLE){
+    if(system_example_path==NULL) {
+      system_example_path = g_build_filename (get_data_dir (), "examples", NULL);
+      GDir *denemo_path = g_dir_open(system_example_path, 0, NULL);
+      if(denemo_path == NULL) {
+	warningdialog ("No examples directory in installation");
+	system_example_path = NULL;
+      }
+    }
+    default_template_path = system_example_path;
+  } else{ 
     if(system_template_path==NULL) {
       system_template_path = g_build_filename (get_data_dir (), "templates", NULL);
       GDir *denemo_path = g_dir_open(system_template_path, 0, NULL);
@@ -471,12 +488,30 @@ system_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
     {
       if (confirmbox (gui))
 	{
-	  template_open (gui, FALSE);
+	  template_open (gui, SYSTEM);
 	}
     }
   else
     {
-      template_open (gui, FALSE);
+      template_open (gui, SYSTEM);
+    }
+}
+
+/*
+ * Open system template file callback function 
+ */
+void
+system_example_open_with_check (GtkAction * action, DenemoGUI * gui) {
+  if (gui->changecount)
+    {
+      if (confirmbox (gui))
+	{
+	  template_open (gui, EXAMPLE);
+	}
+    }
+  else
+    {
+      template_open (gui, EXAMPLE);
     }
 }
 /*
@@ -488,12 +523,12 @@ local_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
     {
       if (confirmbox (gui))
 	{
-	  template_open (gui, TRUE);
+	  template_open (gui, LOCAL);
 	}
     }
   else
     {
-      template_open (gui, TRUE);
+      template_open (gui, LOCAL);
     }
 }
 

@@ -24,6 +24,8 @@ file_add_movements (GtkAction *action, DenemoGUI *gui);
 
 void
 system_template_open_with_check (GtkAction *action, DenemoGUI *gui);
+void
+system_example_open_with_check (GtkAction *action, DenemoGUI *gui);
 
 void
 local_template_open_with_check (GtkAction *action, DenemoGUI *gui);
