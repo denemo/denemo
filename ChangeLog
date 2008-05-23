@@ -1,6 +1,8 @@
 2008-05-23 <rshann>
 	file.c,h view.c denemoui.xml added Gallery of examples.
 2008-05-23 <jjbenham>
+	added Richard's example files to git and Makefile.am 
+2008-05-23 <jjbenham>
 	added Makefile.am in the following directories under templates: 
 	band chamber choral jazz
 	added templates/Makefile.am
