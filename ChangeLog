@@ -1,3 +1,10 @@
+2008-05-23 <jjbenham>
+	added Makefile.am in the following directories under templates: 
+	band chamber choral jazz
+	added templates/Makefile.am
+	added templates to SUBDIRS in Makefile.am
+	configure.in added templates/makefile, commented out
+	doc/templates/*/Makefiles
 2008-05-22 <rshann>
 	templates direcory containing jazz, band, choral and chamber subdirectories with templates added.
 2008-05-22 <rshann>
