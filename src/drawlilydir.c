@@ -23,14 +23,19 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   PangoLayout *layout = pango_layout_new (context);
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
 
+  if(*(((lilydirective *) theobj->object)->directive->str) == '%')
+								     pango_layout_set_text (layout,
+			   ((lilydirective *) theobj->object)->directive->str+1,
+			   -1);
   // just use letter 'l' as indicator of lilydirective */
+  else
   pango_layout_set_text (layout,
 			 "l"/*	 ((lilydirective *) theobj->object)->directive->str*/,
 			 -1);
   pango_layout_set_font_description (layout, desc);
   pango_font_description_free (desc);
 
-  gdk_draw_layout (pixmap, gc, xx, y - 4, layout);
+  gdk_draw_layout (pixmap, gc, xx, y - 20, layout);
 
 
 

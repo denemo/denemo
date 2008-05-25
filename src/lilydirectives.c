@@ -22,7 +22,7 @@
 struct callbackdata
 {
   DenemoGUI *gui;
-  GtkWidget *string;
+  gchar *string;
 };
 
 /**
@@ -59,16 +59,24 @@ insertdirective (GtkWidget * widget, gpointer data)
   note *curnote;
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
-  gchar *directivestring = (gchar *) cbdata->string;
+  gchar *directivestring = cbdata->string;
   if (curObj && curObj->type == LILYDIRECTIVE)
-    ((lilydirective *) curObj->object)->directive = g_string_new(directivestring);//FIXME memory leak of old directive
+    g_string_assign(((lilydirective *) curObj->object)->directive, directivestring);
   else
     if((curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
-      curnote->directive = g_string_new(directivestring);//FIXME memory leak of old directive
+       g_string_assign(curnote->directive, directivestring);
       score_status(gui, TRUE);
     }
-    else    
-      object_insert (gui, lily_directive_new (directivestring)), displayhelper(gui);
+    else {  
+      DenemoObject *lily = lily_directive_new (directivestring);
+	object_insert (gui, lily);
+	if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
+	lilydirective *lilyobj = (lilydirective *) lily->object;
+	g_string_append(lilyobj->directive,"\n");
+	}
+      displayhelper(gui);
+    }
+  
 }
 
 /**

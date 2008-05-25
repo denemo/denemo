@@ -362,6 +362,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   else // is INITIAL or ADDFROMLOAD
     {
       insert_staff (si, thestaffstruct, action, addat);
+      si->leftmeasurenum = 1;
     }
 
   //si->haschanged = TRUE;
