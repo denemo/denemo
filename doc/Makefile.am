@@ -1,6 +1,6 @@
 ##DOC
 
-SUBDIRS = templates transformations images 
+SUBDIRS = transformations images 
 docdir = $(datadir)/${PACKAGE}/manual
 dist_doc_DATA = denemo-manual.html
 imagesdir = $(datadir)/${PACKAGE}/manual/images
