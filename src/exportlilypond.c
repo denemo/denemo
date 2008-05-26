@@ -1248,7 +1248,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
     if(curstaffstruct->haslyrics)
       g_string_append_printf(str, "%s%s = \\context Voice = %s%s{\n",
-			     movement, voice, movement, voice);  
+			     movement, voice, movement, voice);  //FIXME is this best done here?
       else
     g_string_append_printf(str, "%s%s = {\n",
 			   movement, voice);    
@@ -2000,8 +2000,9 @@ export_lilypond_parts (char *filename, DenemoGUI *gui, gint start, gint end)
     g_free (staff_filename);
 }
 
-/* move this to view.c once 0.7.8 is out - hmm where do we keep tagtable??? */
+/* callback on destroying lilypond window */
 static gboolean lilywindow_destroyed(GtkObject *object, DenemoGUI *gui) {
+  merge_lily_strings (gui);
   GtkWidget * toggle = gtk_ui_manager_get_widget (gui->ui_manager,
 						  "/MainMenu/ViewMenu/ToggleLilyText");
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle),
