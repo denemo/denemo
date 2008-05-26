@@ -3,19 +3,24 @@ Introduction:
 GNU Denemo is a graphical music notation program written in C with
 gtk+. It is an official part of the GNU project (http://www.gnu.org/),
 and its homepages are http://www.gnu.org/software/denemo/denemo.html
-and http://denemo.sourceforge.net/
+
+
+
+This package requires you to run ./autogen.sh first.
+If you have portaudio version 18 you will need to set
+
+export PORTAUDIO_CFLAGS=-I/usr/include/
+export PORTAUDIO_LIBS="-L/usr/lib -lportaudio"
+
+(or usr/local/... if your package is there) before running autogen.sh
+
+
+
+
 
 Denemo is intended to be used in conjunction with GNU Lilypond
-(http://www.cs.uu.nl/hanwen/lilypond/), but is adaptable to other
-computer-music-related purposes as well. (In fact, one of the reasons
-Adam Tee is involved in the project is his desire to extend Denemo for
-use in music analysis.)
+(http://www.lilypond.org)
 
-On the design of Denemo: please consult the DESIGN file in the
-distribution for all the details. Do so especially before you make
-suggestions that change the way the interface works - much
-deliberation went into many of the features and approaches that you
-see.
 
 
 Credit to others where it's due:
@@ -33,6 +38,7 @@ ftp://ftp.cs.uu.nl/pub/GNU/LilyPond/v1.2/
 System requirements:
 
 * gtk+ and glib versions 2.0 or better, including the development libraries
+* portaudio, libaubio, libxml2
 * a C compiler
 
 
@@ -40,17 +46,18 @@ Recommended:
 
 * GNU Lilypond (for typesetting and for MIDI playback)
 * an external MIDI player (for MIDI playback)
-* flex (for hacking the lexers)
-* bison (for hacking the parsers) 
+
 
 (note that this program has only been tested on one or more of the
 following systems: i386 Red Hat Linux 6.2, i386 Mandrake Linux 6.1,
-and i386 Debian GNU/Linux 2.1 with updated gtk+ and glib. I'd imagine
-it should work under other UN*X OSes as well; no guarantees on Win32,
-though you're welcome to hack my code to get it running.)
+and i386 Debian GNU/Linux Etch. I'd imagine
+it should work under other UN*X OSes as well;  A Win32 build is available 
+- see the mailing lists)
 
 
 Actually using the darn program:
+
+See the manual for up-to-date information - below is largely historical.
 
 The primary way to interact with Denemo is with the keyboard (and
 eventually with a MIDI keyboard as well.) Though there are plans to
