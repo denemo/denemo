@@ -273,6 +273,7 @@ typedef struct lyric
 typedef struct lilydirective
 {
   GString *directive;
+  gboolean locked;/**< If true the directive cannot be deleted easily */
 }
 lilydirective;
 

@@ -1286,6 +1286,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
 				     (xmlChar *) ((lilydirective *) curObj->object)->
 				     directive->str);
+		  xmlSetProp (objElem, (xmlChar *) "locked",
+			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
 
 		  break;
 		case BARLINE:

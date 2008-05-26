@@ -22,20 +22,20 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
     gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
   PangoLayout *layout = pango_layout_new (context);
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
-
-  if(*(((lilydirective *) theobj->object)->directive->str) == '%')
-								     pango_layout_set_text (layout,
+  gchar first = *(((lilydirective *) theobj->object)->directive->str);
+  if( first == '%' || first == '^' || first == '_' )//display comments, and markup above and below
+    pango_layout_set_text (layout,
 			   ((lilydirective *) theobj->object)->directive->str+1,
 			   -1);
-  // just use letter 'l' as indicator of lilydirective */
+  // just use letters 'L' as indicator of general lilydirective */
   else
   pango_layout_set_text (layout,
-			 "l"/*	 ((lilydirective *) theobj->object)->directive->str*/,
+			 "L"/*	 ((lilydirective *) theobj->object)->directive->str*/,
 			 -1);
   pango_layout_set_font_description (layout, desc);
   pango_font_description_free (desc);
 
-  gdk_draw_layout (pixmap, gc, xx, y - 20, layout);
+  gdk_draw_layout (pixmap, gc, xx, y+(first=='_'?STAFF_HEIGHT+20:-20), layout);
 
 
 

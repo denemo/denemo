@@ -667,16 +667,26 @@ void nullify_gstring (GString **s) {
 }
 
 /**
- * This is a dialog box that has a text entry box and ok/cancel buttons
- * if PreValue is not defined it should be set to NULL.
- * This function returns gchar * on Ok and NUll if canceled.
- * The returned value will need to be freed to avoid memory leak.
+ * Pops up a dialog box that has a text entry box and ok/cancel buttons
+ * title is a title for the box.
+ * initial_value is for the text entry box, or NULL if none.
+ * instruction is a prompt for the user.
+ * Returns a new value on Ok and NULL if cancelled.
+ * The returned value should be freed by the caller.
  *
  */
 
 gchar *
-string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue)
+string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value)
 {
+  string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
+}
+
+/* as string_dialog_entry() but with extra widget */
+gchar *
+string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue, GtkWidget *widget)
+{
+
  	GtkWidget *dialog;
 	GtkWidget *entry;
 	GtkWidget *label;
@@ -695,7 +705,9 @@ string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *Pre
 	label = gtk_label_new (direction);
   	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 		                        TRUE, TRUE, 0);
-
+	if(widget)
+	  	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), widget,
+		                        TRUE, TRUE, 0);
 	if (PreValue != NULL) {
             gtk_entry_set_text (GTK_ENTRY (entry), (gchar *) PreValue);
         }
@@ -719,4 +731,5 @@ string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *Pre
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
+
 }

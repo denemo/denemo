@@ -120,7 +120,11 @@ void
 nullify_gstring (GString **s);
 
 gchar *
-string_dialog_entry (DenemoGUI *gui, gchar *wlabel, gchar *direction, gchar *PreValue);
+string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value);
+
+gchar *
+string_dialog_entry_with_widget (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value, GtkWidget *extra_widget);
+
 	
 
 #endif /* UTILS_H */

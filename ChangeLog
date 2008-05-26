@@ -1,3 +1,19 @@
+2008-05-26 <rshann>
+	drawlilydir.c show markup
+	include/denemo/denemo_objects.h commandfuncs.c lilydirectives.c import/exportxml.c introduce a lock for lilypond inserts
+	examples/* lock the lilypond inserts of the examples.
+	utils.c generalize the dialog routine.
+2008-05-26 <rshann>
+	exportlilypond.c save LilyPond on window destroy.
+2008-05-25 <rshann>
+	examples/Cues.denemo examples/Makefile.am,in
+2008-05-25 <rshann>
+	added denemorc.xml po/Makefile.in denemo.conf
+2008-05-25 <rshann>
+        staffops.c prevent crash on deleting only staff when leftmost measure is not start of measures.
+	drawlilydir.c staffops.c allow comment lilydirectives to show.
+2008-05-24 <rshann>
+	examples/Makefile.am Ossia.denemo added example
 2008-05-23 <rshann>
 	file.c,h view.c denemoui.xml added Gallery of examples.
 2008-05-23 <jjbenham>

@@ -1292,6 +1292,10 @@ dnm_deleteobject (DenemoScore * si)
     }
   }
 
+  if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
+    if(!confirm("This LilyPond insert is locked","Really delete it?"))
+      return;
+
 
   if (si->undo_redo_mode == UNDO)
     {

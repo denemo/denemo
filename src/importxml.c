@@ -1332,11 +1332,15 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
 {
   gchar *directive = (gchar *) xmlNodeListGetString (LilyDirectiveElem->doc,
-                     LilyDirectiveElem->
-                     xmlChildrenNode,
-                     1);
-
-  return lily_directive_new (directive);
+						     LilyDirectiveElem->
+						     xmlChildrenNode,
+						     1);
+  gchar *locked = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "locked");
+  DenemoObject *curobj = lily_directive_new (directive);
+  if(locked)
+    ((lilydirective*)curobj->object)->locked = !strcmp (locked, "true");
+  g_free(locked);
+  return curobj;
 }
 
 

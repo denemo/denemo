@@ -23,6 +23,7 @@ struct callbackdata
 {
   DenemoGUI *gui;
   gchar *string;
+  gboolean locked;
 };
 
 /**
@@ -56,29 +57,34 @@ insertdirective (GtkWidget * widget, gpointer data)
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoGUI* gui = cbdata->gui;
   DenemoScore *si = gui->si;
-  note *curnote;
+  note *curnote;/* a note in a chord */
+  lilydirective *lilyobj=NULL; /* a lily directive object */
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   gchar *directivestring = cbdata->string;
   if (curObj && curObj->type == LILYDIRECTIVE)
-    g_string_assign(((lilydirective *) curObj->object)->directive, directivestring);
+    g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directivestring);
   else
     if((curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
-       g_string_assign(curnote->directive, directivestring);
+      g_string_assign(curnote->directive, directivestring);
       score_status(gui, TRUE);
     }
     else {  
       DenemoObject *lily = lily_directive_new (directivestring);
-	object_insert (gui, lily);
-	if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
-	lilydirective *lilyobj = (lilydirective *) lily->object;
+      object_insert (gui, lily);
+      if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
+	lilyobj = (lilydirective *) lily->object;
 	g_string_append(lilyobj->directive,"\n");
-	}
+      }
       displayhelper(gui);
     }
-  
+  if(lilyobj)
+    lilyobj->locked = cbdata->locked;
 }
-
+static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
+  g_print("Called with %d\n", *locked);
+  *locked = !*locked;
+}
 /**
  * Lilypond directive.  Allows user to insert a lilypond directive 
  * to the score at the current cursor position
@@ -93,17 +99,23 @@ lily_directive (GtkAction * action, DenemoGUI *gui)
   
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
-  
+  lilydirective *lilyobj=NULL;
   if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
-		PreValue = ((GString *) ((lilydirective *) curObj->object)->directive)->str;
+		PreValue = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
+		cbdata.locked = lilyobj->locked;
 	}
   note *curnote = findnote(curObj, gui->si->cursor_y);
-  
   if(curnote && curnote->directive)
    	PreValue = curnote->directive->str;
-
-  string = string_dialog_entry(gui, "Insert LilyDirective", "Insert Lilydirective followed by Enter key", PreValue);
+  GtkToggleButton *button = NULL;
+  if(lilyobj) {
+    button = gtk_check_button_new_with_label("locked");
+    g_signal_connect(button, "toggled",  G_CALLBACK (toggle_locked), &cbdata.locked);
+    if(cbdata.locked)
+      gtk_toggle_button_set_active (button, cbdata.locked);
+  }
+  string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", PreValue, button);
   
   cbdata.gui = gui;
   cbdata.string = string;
