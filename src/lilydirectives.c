@@ -57,7 +57,7 @@ insertdirective (GtkWidget * widget, gpointer data)
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoGUI* gui = cbdata->gui;
   DenemoScore *si = gui->si;
-  note *curnote;/* a note in a chord */
+  note *curnote=NULL;/* a note in a chord */
   lilydirective *lilyobj=NULL; /* a lily directive object */
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
@@ -82,7 +82,7 @@ insertdirective (GtkWidget * widget, gpointer data)
     lilyobj->locked = cbdata->locked;
 }
 static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
-  g_print("Called with %d\n", *locked);
+  //g_print("Called with %d\n", *locked);
   *locked = !*locked;
 }
 /**
@@ -93,29 +93,30 @@ void
 lily_directive (GtkAction * action, DenemoGUI *gui)
 {
   gchar *string;
-  gchar *PreValue = NULL;
+  gchar *current = NULL;
   DenemoScore * si = gui->si;
   static struct callbackdata cbdata;
   
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   lilydirective *lilyobj=NULL;
+  cbdata.locked = FALSE;
   if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
-		PreValue = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
+		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
 		cbdata.locked = lilyobj->locked;
 	}
   note *curnote = findnote(curObj, gui->si->cursor_y);
   if(curnote && curnote->directive)
-   	PreValue = curnote->directive->str;
+   	current = curnote->directive->str;
   GtkToggleButton *button = NULL;
-  if(lilyobj) {
+  if(!curnote) {
     button = gtk_check_button_new_with_label("locked");
     g_signal_connect(button, "toggled",  G_CALLBACK (toggle_locked), &cbdata.locked);
     if(cbdata.locked)
-      gtk_toggle_button_set_active (button, cbdata.locked);
+      gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
   }
-  string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", PreValue, button);
+  string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, button);
   
   cbdata.gui = gui;
   cbdata.string = string;
