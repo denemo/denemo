@@ -350,6 +350,11 @@ A set of action-based menus can also be shown in addition to the object-based me
 
               <entry>Create score from a stock template.</entry>
             </row>
+            <row>
+              <entry>Open from Gallery</entry>
+
+              <entry>Create score from an example in the Gallery.</entry>
+            </row>
 
             <row>
               <entry>Open Custom Template</entry>
@@ -581,7 +586,7 @@ A set of action-based menus can also be shown in addition to the object-based me
 
 
 	  <listitem>
-	         <para>No Mode.  This mode is for those who want to set up the keys to have single functions. The Actions Toolbar can be used to choose menu items to bind the keyboard keys to. The cursor is green in this mode. This mode gives easy access via the menus for the actions that do not change with modes.
+	         <para>No Mode. No standard keypresses are defined – you will need to assign keys yourself. You will need to define separate keypresses to insert the notes, change the notes, move the cursor to a note, change the prevailing duration, etc. This mode is for those who want to set up the keys to have single functions. The Actions Toolbar can be used to choose menu items to bind the keyboard keys to. The cursor is green in this mode. This mode gives easy access via the menus for the actions that do not change with modes.
 		 </para>
           </listitem>
 
@@ -1010,10 +1015,10 @@ In the score properties dialog things that affect the whole piece can be set, as
      <title>Introduction</title>
  
    <para>
-From version 0.7.8 we have the ability to edit the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e.g. multiple verses for songs) with the music still editable from within Denemo.
+From version 0.7.8 we have the ability to edit the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e.g. multiple verses for songs) with the music still editable from within Denemo. The gallery of examples and the standard templates contain examples which you can use.
   </para>
    <para>
-This can be used without knowing the LilyPond language (provided a suitable template file exists). Alternatively, tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
+These can be used without knowing the LilyPond language (provided a suitable template or example file exists). Alternatively, with a general idea of how a LilyPond file works tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing of the notes within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
   </para>
 </sect2>
 <sect2>
@@ -1323,10 +1328,10 @@ To put a LilyPond directive on an individual note of a chord, put the cursor on 
 Other->Insert/Edit LilyPond
 </step> 
 <para> 
-To put a LilyPond directive between chords, start with the cursor on a line or space that is not in the chord, and invoke the same command
-<note>
-There is currently no indicator that a directive is on an individual note of a chord – it can be seen in the LilyPond text view, however.
-</note>
+To put a LilyPond directive between chords, start with the cursor on a line or space that is not in the chord, and invoke the same command. Such a LilyPond insert can be locked, which means you will be warned if you try to delete it while you are deleting notes.
+</para>
+<para>
+When you have inserted a LilyPond directive between two notes or chords an “L” is printed at that point above the staff. If the LilyPond inserted is text to be printed above staff the notation ^text can be used. Denemo will show this text above the staff. Likewise, _text will cause text to be printed under the staff. If you wish to annotate your music use %text, which Denemo will print, but LilyPond will not (a newline character is automatically inserted for you to ensure this happens).
 </para>
 <para>
 Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g. \transpose c d { will start transposing up a tone, use another LilyPond directive "}" to stop the transposing).<productname>Denemo</productname> does not understand these directives, but the PDF file will show them. Things like beaming and much, much more can be controlled this way. Note that these directives can also be added or edited in the LilyPond text window (see view->Show LilyPond)
@@ -2046,13 +2051,7 @@ When you click on the Play item of the toobar the current movement is played sta
 </procedure></sect3>
 </sect2>
 
-    <sect2 revision="0.76">
-      <title>Editing</title>
 
-      <para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.</para>
-
-      <para></para>
-    </sect2>
   </sect1>
 
   <sect1>
