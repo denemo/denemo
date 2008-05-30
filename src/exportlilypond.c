@@ -1057,6 +1057,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       }
 
 
+
+    outputret;
+  }//not a LilyPond directive
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
 
@@ -1065,8 +1068,6 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
     *pcur_stime1 = cur_stime1;
     *pcur_stime2 = cur_stime2;
 
-    outputret;
-  }//not a LilyPond directive
 }
 
 /* create and insertion point and button for the next piece of music */
@@ -1747,7 +1748,7 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	g_string_append_printf (scoreblock, "\\markup {%s}\n", si->headerinfo.markup_before->str);
    
       //standard score block
-      g_string_append_printf (scoreblock, "\\score {\n%s<< \n", gui->lilycontrol.lilypond->str);
+      g_string_append_printf (scoreblock, "\\score {\n<<%s <<\n", gui->lilycontrol.lilypond->str);
     }
  
     for (curstaff = si->thescore, voice_count=1; curstaff; curstaff = curstaff->next, voice_count++)
@@ -1829,7 +1830,7 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	g_string_append_printf(scoreblock, ""TAB">> \n");
      
       g_string_append_printf(scoreblock,
-			     ">>\n"
+			     ">>\n>>\n"
 			     ""TAB"\\layout {\n"
 			     ""TAB"}\n");
      
