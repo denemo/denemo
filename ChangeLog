@@ -1,3 +1,8 @@
+2008-05-31 <rshann>
+	exportlilypond.c turn off the s1* output for empty measures when they contain LilyPond inserts. Tidy code.
+2008-05-30 <rshann>
+	exportlilypond.c fix bug in resetting durations after lilypond insert.
+	examples/Makefile.in,am MultiMeasureRests.denemo
 2008-05-26 <rshann>
 	drawlilydir.c show markup
 	include/denemo/denemo_objects.h commandfuncs.c lilydirectives.c import/exportxml.c introduce a lock for lilypond inserts

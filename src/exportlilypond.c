@@ -752,8 +752,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (ret, ".");
 	      }
 	    outputret;
-	  }
-	else
+	  } 
+	else /* there are notes */
 	  {
 	    GList *tmpornament;
 	    if (!curobj->isinvisible)
@@ -834,8 +834,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 		if (pchord->notes->next ||  ((note *) (pchord->notes)->data)->directive) //multi-note chord
 		  g_string_append_printf (ret, ">");
-	      } //if not invisible
-	    else //invisible
+	      } //end of note(s) that is(are) not invisible
+	    else //invisible note
 	      {
 		g_string_append_printf (ret, "s");
 	      }
@@ -941,7 +941,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    if (pchord->is_tied)
 	      g_string_append_printf (ret, " ~");
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
-	  }			/* End code for dealing with chord */
+	  } /* End of else chord with note(s) */
 	break;
       case CLEF:
 	determineclef (((clef *) curobj->object)->type, &clefname);
@@ -1296,7 +1296,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	{
 	  if(curobjnode) {
 	  curobj = (DenemoObject *) curobjnode->data;
-	  if (curobj->type==CHORD||curobj->type==PARTIAL)
+	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
 	    empty_measure=FALSE; 
 	  if( (curobj->type==LILYDIRECTIVE) &&
 	      (((lilydirective *) curobj->object)->directive->len==0))
@@ -1324,7 +1324,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
-	    if (empty_measure)
+	    if (empty_measure)// measure has nothing to use up the duration, tell lilypond to move on
 	      {
 		g_string_append_printf(endstr, "s1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
