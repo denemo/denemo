@@ -72,7 +72,7 @@ struct infotopass
   gint tickspermeasure;
   gint wholenotewidth;
   gint objnum;
-  gint measurenum;
+  gint measurenum;//would need measurenum_adj to allow control of numbering after pickup etc...
   gint staffnum;
   gint top_y;
   gint y;
@@ -89,6 +89,9 @@ struct infotopass
   gint space_above;
   gint highy;/*(return) the highest y value drawn*/
   gint lowy;/*(return) the lowest y value drawn*/
+  gint in_highy; // FIXME these are passed in so that highy, lowy do not need to be passed back
+  gint in_lowy;
+  gboolean mark;//whether the region is selected
 };
 
 /**
@@ -108,7 +111,20 @@ draw_object (objnode * curobj, gint x, gint y,
 {
   static GdkGC *blackgc = NULL;
   static GdkGC *redgc = NULL;
-  //static GdkGC *greengc = NULL;
+  static GdkGC *greengc = NULL;
+  static gboolean init=FALSE;
+  static GdkColor white, black, blue, green;
+  if(!init) {
+    gdk_color_parse ("white", &white);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
+    gdk_color_parse ("black", &black);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
+    gdk_color_parse ("blue", &blue);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &blue, TRUE, TRUE);
+    gdk_color_parse ("green", &green);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &green, TRUE, TRUE);
+    init = TRUE;
+  }
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
@@ -120,6 +136,8 @@ draw_object (objnode * curobj, gint x, gint y,
 
   if (!redgc)
     redgc = gcs_redgc ();
+  if (!greengc)
+    greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
 
   if (si->currentobject == curobj)
@@ -129,20 +147,16 @@ draw_object (objnode * curobj, gint x, gint y,
 	memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
     }
 
-  /* Now actually draw it */
   {
-    GdkColor thecolor;
-    const char *color = (mudelaitem->isinvisible) ? "white" : "black";
-
+    
+    GdkColor *thecolor;
     if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
-      color = "blue";
-
-
-    gdk_color_parse (color, &thecolor);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &thecolor, TRUE,
-			      TRUE);
-    gdk_gc_set_foreground (blackgc, &thecolor);
+      thecolor = &green;
+    else
+      thecolor =/* (mudelaitem->isinvisible) ? &white :*/ itp->mark?&blue:&black;
+    gdk_gc_set_foreground (blackgc, thecolor);
   }
+
 
   switch (mudelaitem->type)
     {
@@ -163,7 +177,7 @@ draw_object (objnode * curobj, gint x, gint y,
 	{
 	  draw_chord (gui->pixmap, itp->gc, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
-		      itp->curaccs);
+		      itp->curaccs, itp->mark);
 	  if((((chord *) mudelaitem->object)->highesty) < itp->highy)
 	    itp->highy  = ((chord *) mudelaitem->object)->highesty;
 
@@ -185,7 +199,7 @@ draw_object (objnode * curobj, gint x, gint y,
 	{
 	  draw_chord (gui->pixmap, itp->gc, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
-		      itp->curaccs);
+		      itp->curaccs, itp->mark);
 	}
 
       if (((chord *) mudelaitem->object)->lyric)
@@ -264,9 +278,10 @@ draw_object (objnode * curobj, gint x, gint y,
 		       x + mudelaitem->x, y, mudelaitem);
       break;
     case LILYDIRECTIVE:
+      // if(si->markstaffnum) not available
       draw_lily_dir(gui->pixmap, itp->gc,
 		       gtk_style_get_font (itp->widget->style),
-		       x + mudelaitem->x, y, mudelaitem);
+		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
       break;
     case CLEF:
       draw_clef (gui->pixmap, itp->gc, x + mudelaitem->x, y,
@@ -369,17 +384,13 @@ draw_object (objnode * curobj, gint x, gint y,
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted
       + EXTRAFORSELECTRECT;
 
+
+
+  gdk_gc_set_foreground (blackgc, &black);
+    
   /* And give a return value and we're done */
-  if (mudelaitem->isinvisible)
-    {
-      GdkColor thecolor;
-      gdk_color_parse ("black", &thecolor);
-      gdk_colormap_alloc_color (gdk_colormap_get_system (), &thecolor, TRUE,
-				TRUE);
-      gdk_gc_set_foreground (blackgc, &thecolor);
-    }
   return (mudelaitem->starttickofnextnote > itp->tickspermeasure);
-}
+} /* draw_object */
 
 /**
  * Draws a single measure within a staff. 
@@ -480,12 +491,34 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
       else
 	itp->markx2 = x;
     }
-  /* Paint the red exclamation point, if necessary */
 
+
+
+  gboolean not_marked = (!si->markstaffnum) ||
+    (si->firststaffmarked >itp->staffnum) || 
+    (si->laststaffmarked < itp->staffnum) ||
+    (si->firstmeasuremarked > itp->measurenum) ||
+    (si->lastmeasuremarked < itp->measurenum);
+
+  gboolean definitely_marked = (!not_marked) &&
+    (si->firstmeasuremarked < itp->measurenum) &&
+    (si->lastmeasuremarked > itp->measurenum);
+  gboolean in_firstmeas = (si->firstmeasuremarked == itp->measurenum);
+  gboolean in_lastmeas = (si->lastmeasuremarked == itp->measurenum);
   /* Draw each mudelaitem */
-  for (itp->objnum = 0; curobj; curobj = curobj->next, itp->objnum++)
+  for (itp->objnum = 0; curobj; curobj = curobj->next, itp->objnum++) {
+    itp->mark =  (definitely_marked) || 
+      ((!not_marked) && ((in_firstmeas && !in_lastmeas &&
+			 (si->firstobjmarked <= itp->objnum)) ||
+		       (in_lastmeas && !in_firstmeas &&
+		        (si->lastobjmarked >= itp->objnum)) ||
+			 (in_lastmeas && in_firstmeas && 
+			  (si->firstobjmarked <= itp->objnum) && 
+			  (si->lastobjmarked >= itp->objnum)))
+       );
     offend = draw_object (curobj, x, y, gui, itp);
-
+  }
+  /* Paint the red exclamation point, if necessary */
   if (offend)
     drawbitmapinverse (gui->pixmap, redgc, redexclaim,
 		       x, y - 8 - REDEXCL_HEIGHT,
@@ -509,7 +542,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   PangoLayout *layout;
   PangoFontDescription *desc;
   static GdkGC *blackgc;
-  static GdkGC *yellowgc;
+  static GdkGC *graygc;
 
   DenemoScore *si = gui->si;
   gint x, i;
@@ -521,12 +554,12 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   if (!blackgc)
     {
       blackgc = gcs_blackgc ();
-      yellowgc = gcs_slategraygc ();
+      graygc = gcs_slategraygc ();
     }
   if ((DenemoStaff *) si->currentstaff->data == curstaffstruct)
     gc = blackgc;
   else
-    gc = yellowgc;
+    gc = graygc;
 
   draw_clef (gui->pixmap, gc, LEFT_MARGIN, y,
 	     itp->clef = curstaffstruct->leftmost_clefcontext);
@@ -626,6 +659,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
   itp.haslyrics = FALSE;
+
+
+  
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
 	curstaff = g_list_nth (si->thescore, si->top_staff - 1),
@@ -641,8 +677,10 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       itp.y = y;
       gint highy = ((DenemoStaff *) curstaff->data)->space_above;
       gint lowy =  ((DenemoStaff *) curstaff->data)->space_below;
+
+      itp.in_highy = highy, itp.in_lowy = lowy;
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
-      if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE)
+      if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
 	((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
       if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
 	((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
@@ -716,7 +754,7 @@ scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event,
   /* Clear the backing pixmap */
   if(pitch_entry_active(gui)) {
     gdk_draw_rectangle (gui->pixmap,
-			gcs_yellowgc(),
+			gcs_slategraygc(),
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);

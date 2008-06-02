@@ -266,7 +266,7 @@ draw_ledgers (GdkPixmap * pixmap, GdkGC * gc,
  */
 void
 draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
-	    gint mwidth, gint * accs)
+	    gint mwidth, gint * accs, gboolean selected)
 {
 
   static GdkBitmap *upstems[SMALLESTDURATION + 1] =
@@ -312,11 +312,13 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       graceflags[1] = bitmaphelper (NULL, feta26_flags_dgrace);
 
     }
+
+#if 0
   if (thechord.is_highlighted)
     gc = gcs_bluegc ();
-
+#endif
   if (mudelaitem->isinvisible)
-    gc = gcs_yellowgc ();
+    gc = selected?gcs_bluegc():gcs_yellowgc ();
 
   if (!thechord.notes)		/* We have a rest here */
     draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);

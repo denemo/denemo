@@ -2639,7 +2639,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 		if (gui->custom_scoreblocks)
 		  {
 		    DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
-		    sb->visible = TRUE;g_print("One visible\n");
+		    sb->visible = TRUE;
 		  }
 	      }
 	    }

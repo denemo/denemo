@@ -187,56 +187,15 @@ get_placement_from_coordinates (struct placement_info *pi,
 
 
 /**
- * Mouse button press callback 
+ * Mouse motion callback 
  *
  */
 gint
-scorearea_button_press (GtkWidget * widget, GdkEventButton * event,
-			gpointer data)
+scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event,
+			  DenemoGUI *gui)
 {
-  struct placement_info pi;
-  DenemoGUI *gui = (DenemoGUI *) data;
-  if (event->y < 0)
-    get_placement_from_coordinates (&pi, event->x, 0, gui->si);
-  else
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
-  if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
-	 
-    gui->si->currentstaffnum = pi.staff_number;
-    gui->si->currentstaff = pi.the_staff;
-    gui->si->currentmeasurenum = pi.measure_number;
-    gui->si->currentmeasure = pi.the_measure;
-    gui->si->currentobject = pi.the_obj;
-    gui->si->cursor_x = pi.cursor_x;
-    gui->si->cursor_appending
-      =
-      (gui->si->cursor_x ==
-       (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
-    set_cursor_y_from_click (gui, event->y);
-
-      if(gui->si->markstaffnum)
-	unset_mark(gui);
-      else
-	set_mark(gui);
-      write_status(gui);
-      /* Redraw to reset si->cursorclef.  FIXME the design, or lack of it*/
-      gtk_widget_queue_draw (gui->scorearea);     
-  }
-  return TRUE;
-}
-
-/**
- * Mouse button release callback 
- *
- */
-gint
-scorearea_button_release (GtkWidget * widget, GdkEventButton * event,
-			  gpointer data)
-{
-  struct placement_info pi;
-  DenemoGUI *gui = (DenemoGUI *) data;
-  if(!(gui->mode&INPUTCLASSIC)) {
     if (gui->si->markstaffnum){
+      struct placement_info pi; 
       if (event->y < 0)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
       else
@@ -261,7 +220,60 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event,
 	gtk_widget_queue_draw (gui->scorearea);
       }
     }
+
+}
+
+
+/**
+ * Mouse button press callback 
+ *
+ */
+gint
+scorearea_button_press (GtkWidget * widget, GdkEventButton * event,
+			DenemoGUI *gui)
+{
+  struct placement_info pi;
+  
+  if (event->y < 0)
+    get_placement_from_coordinates (&pi, event->x, 0, gui->si);
+  else
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+  if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
+	 
+    gui->si->currentstaffnum = pi.staff_number;
+    gui->si->currentstaff = pi.the_staff;
+    gui->si->currentmeasurenum = pi.measure_number;
+    gui->si->currentmeasure = pi.the_measure;
+    gui->si->currentobject = pi.the_obj;
+    gui->si->cursor_x = pi.cursor_x;
+    gui->si->cursor_appending
+      =
+      (gui->si->cursor_x ==
+       (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
+    set_cursor_y_from_click (gui, event->y);
+
+      if(gui->si->markstaffnum)
+	unset_mark(gui);
+      else
+	set_mark(gui);
+      write_status(gui);
+      /* Redraw to reset si->cursorclef.  FIXME the design, or lack of it*/
+      gtk_widget_queue_draw (gui->scorearea);  
+      g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
+  return TRUE;
+}
+
+
+/**
+ * Mouse button release callback 
+ *
+ */
+gint
+scorearea_button_release (GtkWidget * widget, GdkEventButton * event,
+			  DenemoGUI *gui)
+{
+  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   return TRUE;
 }
 

@@ -16,5 +16,5 @@ void
 draw_selection (GdkPixmap * pixmap, GdkGC * gc, gint x1, gint y1,
 		gint x2, gint y2)
 {
-  gdk_draw_rectangle (pixmap, gc, FALSE, x1, y1, x2 - x1, y2 - y1);
+  gdk_draw_rectangle (pixmap, gc, FALSE, x1-5, y1-20, x2 - x1, y2 - y1+40);
 }

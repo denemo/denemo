@@ -1,3 +1,11 @@
+	mousing.c,h view.c allow dragging to select. Remove deprecated functions
+	drawselection.c move the selection rectangle over to the left
+	drawnotes.c remove reference to unused is_highlighted field.
+	gcs.c,h improve colors.
+	importxml.c remove debug output
+	draw.c, drawlilydir.c drawingprims.h mark selected objects blue; make overlayed pitches green, background gray,
+	colour lilypond inserts green.
+	importxml.c remove debug output
 2008-05-31 <rshann>
 	exportlilypond.c turn off the s1* output for empty measures when they contain LilyPond inserts. Tidy code.
 2008-05-30 <rshann>

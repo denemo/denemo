@@ -26,7 +26,7 @@ draw_ledgers (GdkPixmap *pixmap, GdkGC *gc,
 
 void
 draw_chord (GdkPixmap *pixmap, GdkGC *gc,
-	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs);
+	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs, gboolean selected);
 void
 draw_tuplet (GdkPixmap *pixmap, GdkGC *gc,
 	     objnode *curobj, gint xx, gint y, gint mwidth, gint *accs);
@@ -68,7 +68,7 @@ draw_dynamic(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
 
 void
 draw_lily_dir(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
-	      gint xx, gint y, DenemoObject *theobj);
+	      gint xx, gint y, gint highy, gint lowy, DenemoObject *theobj, gboolean selected);
 
 void
 draw_gracebracket (GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,

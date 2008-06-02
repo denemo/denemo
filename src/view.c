@@ -1962,15 +1962,23 @@ get_data_dir (),
 		      TRUE, 0);
   GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
   gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "expose_event",
-		      GTK_SIGNAL_FUNC (scorearea_expose_event), gui);
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "configure_event",
-		      GTK_SIGNAL_FUNC (scorearea_configure_event), gui);
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "button_release_event",
-		      GTK_SIGNAL_FUNC (scorearea_button_release), gui);
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "button_press_event",
-		      GTK_SIGNAL_FUNC (scorearea_button_press), gui);
+  g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
+		      G_CALLBACK (scorearea_expose_event), gui);
+  g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
+		      G_CALLBACK (scorearea_configure_event), gui);
+
+
+  g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
+		      G_CALLBACK (scorearea_button_release), gui);
+
+  g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
+		      G_CALLBACK (scorearea_motion_notify), gui);
+
+  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
+  g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
+		      G_CALLBACK (scorearea_button_press), gui);
   gtk_widget_set_events (gui->scorearea, (GDK_EXPOSURE_MASK
+					  | GDK_POINTER_MOTION_MASK
 					  | GDK_LEAVE_NOTIFY_MASK
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));

@@ -22,3 +22,6 @@ GdkGC *gcs_bluegc ();
 GdkGC *gcs_purplegc ();
 
 GdkGC *gcs_yellowgc ();
+
+GdkGC *gcs_slategraygc ();
+

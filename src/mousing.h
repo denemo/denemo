@@ -6,6 +6,8 @@
 */
 
 gint
-scorearea_button_release (GtkWidget *widget, GdkEventButton *event, gpointer data);
+scorearea_button_release (GtkWidget *widget, GdkEventButton *event, DenemoGUI *gui);
 gint
-scorearea_button_press (GtkWidget *widget, GdkEventButton *event, gpointer data);
+scorearea_button_press (GtkWidget *widget, GdkEventButton *event, DenemoGUI *gui);
+gint
+scorearea_motion_notify (GtkWidget *widget, GdkEventButton *event, DenemoGUI *gui);
