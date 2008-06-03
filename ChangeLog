@@ -1,3 +1,7 @@
+2008-06-03 <rshann>
+	lilydirectives.c fix string creation error
+	examples/ add CautionaryAccidental.denemo and ReminderAccidental.denemo
+2008-06-02 <rshann>
 	mousing.c,h view.c allow dragging to select. Remove deprecated functions
 	drawselection.c move the selection rectangle over to the left
 	drawnotes.c remove reference to unused is_highlighted field.

@@ -66,7 +66,10 @@ insertdirective (GtkWidget * widget, gpointer data)
     g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directivestring);
   else
     if((curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
-      g_string_assign(curnote->directive, directivestring);
+      if(curnote->directive)
+	g_string_assign(curnote->directive, directivestring);
+      else
+	curnote->directive = g_string_new(directivestring);
       score_status(gui, TRUE);
     }
     else {  
@@ -87,7 +90,9 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
 }
 /**
  * Lilypond directive.  Allows user to insert a lilypond directive 
- * to the score at the current cursor position
+ * before the current cursor position
+ * or (if the cursor is on a note) attach one to the note, 
+ * or edit the current lilypond directive
  */
 void
 lily_directive (GtkAction * action, DenemoGUI *gui)
@@ -128,4 +133,40 @@ lily_directive (GtkAction * action, DenemoGUI *gui)
 
   g_free(string);
 
+}
+
+#if 0
+void
+rehearsal_mark (GtkAction * action, DenemoGUI *gui)
+{
+DenemoObject *lily = lily_directive_new (" \\mark \\default ");
+ object_insert (gui, lily);
+ if (!gui->si->cursor_appending){
+   gui->si->cursor_x--;
+   gui->si->currentobject = g_list_nth ((objnode *) gui->si->currentmeasure->data, gui->si->cursor_x);
+ }
+ lily_directive (action, gui);
+}
+#endif
+
+
+void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui);
+void
+myactivate (GtkAction * action, DenemoGUI *gui)
+{
+  // the proxy list is NULL until the menu item is first called...
+  //BUT if you first activate it with right button ....
+
+  GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
+   for(;h;h=h->next) {
+     attach_set_accel_callback(h->data, action, gui);
+   }
+  gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "lilypond");
+DenemoObject *lily = lily_directive_new (text);
+ object_insert (gui, lily);
+ if (!gui->si->cursor_appending){
+   gui->si->cursor_x--;
+   gui->si->currentobject = g_list_nth ((objnode *) gui->si->currentmeasure->data, gui->si->cursor_x);
+ }
+ lily_directive (action, gui);
 }
