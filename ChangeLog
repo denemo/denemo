@@ -1,3 +1,6 @@
+2008-06-04 <rshann>
+	measureops.c showaccidental if note postfixed with ! or ?
+	lilydirectives.c,h view.c denemoui.xml introduce separate menu items for postfix LilyPond and insert LilyPond.
 2008-06-03 <rshann>
 	lilydirectives.c fix string creation error
 	examples/ add SuggestedAccidental.denemo CautionaryAccidental.denemo and ReminderAccidental.denemo

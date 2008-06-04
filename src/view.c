@@ -815,6 +815,8 @@ typedef struct accel_cb {
 } accel_cb;
 
 
+
+
 /*
   help_and_set_accels display the tooltip for the action passed in INFO
   and allow change to the accelerator for that action.
@@ -905,6 +907,24 @@ static gboolean help_and_set_accels (GtkWidget      *widget,
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
   }
+
+#if 0
+  /*********** add to menu button *****/
+The problem with doing this is we have no way of finding out the path to the current
+  menu item
+e.g.  "/ObjectMenu/NoteProperties/InsertNote"
+, only the accelpath 
+"<Actions>/MenuActions/MyName"
+to the action.
+
+  button = gtk_button_new_with_label("Add to this menu");
+
+  g_signal_connect (G_OBJECT (button), "clicked",
+			    G_CALLBACK (add_to_menu), (gpointer)info);
+
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
+		      TRUE, TRUE, 0);
+ #endif 
 
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
@@ -1020,6 +1040,52 @@ delete_rhythm_cb (GtkAction * action, DenemoGUI * gui)
 }
 
 
+
+
+/*
+ * connect a callback for setting accelerators
+ * note: despite appearances this function is not itself a callback, 
+ * hence the name does not end in _cb
+ */
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+static 
+#endif
+void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui) {
+  accel_cb *info = g_malloc0(sizeof(accel_cb));
+  info->gui = gui;
+  info->action = action;
+  g_signal_connect(data, "button-press-event", G_CALLBACK (help_and_set_accels), info);
+}
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+/* add a new menu item dynamically */
+static void add_favorite(GtkAction *action, DenemoGUI *gui) {
+  GtkAction *myaction = gtk_action_new("MyName","My Label","My Tooltip",NULL);
+  GtkActionGroup *action_group;
+  GList *groups = gtk_ui_manager_get_action_groups (gui->ui_manager);
+  action_group = GTK_ACTION_GROUP(groups->data); 
+  GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (gui->ui_manager);
+  gtk_action_group_add_action(action_group, myaction);
+  g_object_set_data(G_OBJECT(myaction), "lilypond", "\\mark \\default %ok\n");
+  g_signal_connect (G_OBJECT (myaction), "activate",
+		    G_CALLBACK (myactivate), gui); 
+
+  gtk_action_set_accel_group (myaction, accel_group);
+  gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/MyName");
+  gtk_ui_manager_add_ui(gui->ui_manager,gtk_ui_manager_new_merge_id(gui->ui_manager), 
+#if 0
+"/ObjectMenu/NoteProperties/InsertNote", 
+#else
+			"/ObjectMenu/Favorites",
+
+#endif
+"MyName", "MyName", GTK_UI_MANAGER_AUTO, FALSE);
+  GSList *h = gtk_action_get_proxies (myaction);//FIXME this can't be needed what is a proxy?
+   for(;h;h=h->next) {
+     attach_set_accel_callback(h->data, myaction, gui);
+   }
+  return;
+}
+#endif /* ifdef DENEMO_DYNAMIC_MENU_ITEMS */
 static void dummy(void) {
   return;
 }
@@ -1197,7 +1263,9 @@ GtkActionEntry menu_entries[] = {
   {"InsertDynamic", NULL, N_("Insert Dynamic"), NULL, N_("Inserts a dynamic marking at the cursor position"),
    G_CALLBACK (insert_dynamic)},
   {"InsertLilyDirective", NULL, N_("Insert/Edit Lilypond"), NULL,  N_("Insert or edit a directive in the Lilypond music\ntypesetting language. This can be used for extra spacing,\ntransposing or almost anything.\nSee Lilypond documentation."),
-     G_CALLBACK (lily_directive)}, 
+     G_CALLBACK (lily_directive_insert)},
+  {"InsertLilyPostfix", NULL, N_("Postfix LilyPond to Note"), NULL,  N_("Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more.\nSee Lilypond documentation."),
+     G_CALLBACK (lily_directive_postfix)},
   {"InsertBarline", NULL, N_("Insert Barline"), NULL, N_("Inserts specialized barline at the cursor position\nMostly not working"),
    G_CALLBACK (insert_barline)},
   {"NavigationMenu", NULL, N_("Navigation")},
@@ -1315,9 +1383,13 @@ GtkActionEntry menu_entries[] = {
 
   {"ExpressionMarks", NULL, N_("Expression Marks"), NULL, N_("Dynamics, staccato, slurs, ties and other expressive marks")},
   {"Ornaments", NULL, N_("Ornaments"), NULL, N_("grace notes etc")},
- {"Other", NULL, N_("Other"), NULL, N_("Lyrics, chord symbols, figured basses etc")},
-
- {"Tuplets", NULL, N_("Tuplets"), NULL, N_("Enterning riplets and other tuplets")},
+  {"Other", NULL, N_("Other"), NULL, N_("Lyrics, chord symbols, figured basses etc")},
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+  {"Favorites", NULL, N_("Favorites"), NULL, N_("Customized LilyPond inserts\n.Store often-used inserts here labelled with what they do")},
+  {"AddFavorite", NULL, N_("Add Favorite"), NULL,
+   N_("Add a custom LilyPond insert to favorites menu (or other!)"),   G_CALLBACK (add_favorite)},
+#endif
+  {"Tuplets", NULL, N_("Tuplets"), NULL, N_("Enterning riplets and other tuplets")},
 
 
 #include "entries.h"
@@ -1790,6 +1862,8 @@ static void use_markup(GtkWidget *widget)
  }
 }
 
+
+
 /**
  * Creates a new DenemoGUI structure representing a toplevel window to control one musical score. 
  * ThisDenemoGUI* gui is appended to the global list Denemo.guis.
@@ -1874,7 +1948,17 @@ newview (void)
 				      INPUTNORMAL/* initial value */, 
 				      G_CALLBACK(change_entry_type), gui);
 
-  
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+  //GtkAction *favorites =  gtk_action_new("Favorites","Favorites","LilyPond inserts often needed",NULL);
+  //gtk_action_group_add_action(action_group, favorites);
+
+  GtkAction *myaction = gtk_action_new("My Name","My Label","My Tooltip",NULL);
+  gtk_action_group_add_action(action_group, myaction);
+
+  g_object_set_data(G_OBJECT(myaction), "lilypond", "\\mark \\default\n");
+  g_signal_connect (G_OBJECT (myaction), "activate",
+		    G_CALLBACK (myactivate), gui); 
+#endif
 
   ui_manager = gtk_ui_manager_new ();
   gui->ui_manager = ui_manager;
@@ -1905,6 +1989,16 @@ get_data_dir (),
       exit (EXIT_FAILURE);
     }
   g_free (data_dir);
+
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+  gtk_action_set_accel_group (myaction, accel_group);
+  gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/My Name");
+  //gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu", "Favorites", "Favorites", GTK_UI_MANAGER_MENU, FALSE);
+
+  gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu/Favorites",
+                                             "My Name", "My Name", GTK_UI_MANAGER_AUTO, FALSE);
+
+#endif
 
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   gui->menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
@@ -2072,12 +2166,8 @@ GList *g = gtk_action_group_list_actions(action_group);
    GSList *h = gtk_action_get_proxies (g->data);
    //gchar * path = g_strdup(gtk_action_get_accel_path (g->data));
    for(;h;h=h->next) {
-     accel_cb *info = g_malloc0(sizeof(accel_cb));
-     info->gui = gui;
-     info->action = g->data;
-     //gint type = gtk_image_menu_item_get_type ();
-     //FIXME These are all GtkImageMenuItems, but those that are for menus need a different callback here as they cannot have accelerators
-     g_signal_connect(h->data, "button-press-event", G_CALLBACK (help_and_set_accels), info);
+     attach_set_accel_callback(h->data, g->data, gui);
+
    }
 }
 

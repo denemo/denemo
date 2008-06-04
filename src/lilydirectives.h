@@ -11,8 +11,13 @@
 
 #include <denemo/denemo.h>
 
-void insertdirective(GtkWidget *widget, gpointer data);
-void lily_directive(GtkAction *action, gpointer callback_data);
 
+void
+lily_directive_postfix (GtkAction * action, DenemoGUI *gui);
+void
+lily_directive_insert (GtkAction * action, DenemoGUI *gui);
 
+#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+void myactivate (GtkAction * action, DenemoGUI *gui);
+#endif
 #endif

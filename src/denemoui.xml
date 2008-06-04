@@ -487,13 +487,17 @@
 	   <menuitem action="DeleteBookmarks"/>
 	</menu>
 
-
-
+ <!-- #ifdef DENEMO_DYNAMIC_MENU_ITEMS
+    <menu action="Favorites">
+	       <menuitem action="AddFavorite"/>
+    </menu>
+ -->
     <menu action="Other">
 	  <menuitem action="EditLyric"/>
 	  <menuitem action="EditChords"/>
 	  <menuitem action="EditFiguredBass"/>
           <menuitem action="InsertLilyDirective"/>
+          <menuitem action="InsertLilyPostfix"/>
           <menuitem action="ClearOverlay"/>
 	  
     </menu>
@@ -638,6 +642,7 @@
 	  <menuitem action="InsertDynamic"/>
 	  <menuitem action="InsertBarline"/>
 	  <menuitem action="InsertLilyDirective"/>
+	  <menuitem action="InsertLilyPostfix"/>
           <menuitem action="AddStaffs"/>
           <menuitem action="AddMovements"/>
      </menu> 

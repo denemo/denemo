@@ -1726,7 +1726,7 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
       pitch and duration you want and immediately afterwards the expression you want from the menu Expression Marks. As always, you can assign shortcuts to expression marks you frequently use. To add expressions
       after you have already added notes, position the cursor at the note you want to add an expression
       to. You won't need to be exactly on the note to add expressions
-      especially at the end of a bar.</para>
+      especially at the end of a measure.</para>
 
       <example id="expressions">
         <title></title>
