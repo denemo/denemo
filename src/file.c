@@ -48,6 +48,7 @@ typedef enum
 { DENEMO_FORMAT = 0,
   DNM_FORMAT,
   MUDELA_FORMAT,
+  PNG_FORMAT,
   ABC_FORMAT,
   JTF_FORMAT,
   MIDI_FORMAT,
@@ -81,6 +82,7 @@ static struct FileFormatData supported_export_file_formats[] = {
   {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
   {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
+  {"*.png", N_("png image format (*.png)"), ".png"},
   {"*.abc", N_("ABC (*.abc)"), ".abc"},
   {"*.jtf", N_("Unnamed file format (*.jtf)"), ".jtf"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
@@ -373,6 +375,12 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	    exportlilypond (file, gui, 0, 0, 1);
 	    break;
 	  };
+	case PNG_FORMAT:
+	  {
+	    gui->lilycontrol.excerpt = TRUE;
+            exportlilypond (file, gui, 0, 0, 1);
+	    break;
+	  }
 	case ABC_FORMAT:
 	  {
 	    exportabc (file, gui, 0, 0);

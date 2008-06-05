@@ -27,6 +27,7 @@
       <separator/> 
       <menuitem action="Print"/>
       <menuitem action="PrintPreview"/>
+      <menuitem action="PrintExcerptPreview"/>
       <menuitem action="PrintPart"/>
       <separator/>
       <menuitem action="Close"/>

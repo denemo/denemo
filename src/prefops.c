@@ -78,6 +78,7 @@ initprefs ()
   ret->browser = g_string_new ("firefox");
   ret->csoundorcfile = g_string_new ("");
   ret->pdfviewer = g_string_new ("xpdf");
+  ret->imageviewer = g_string_new ("eog");
   ret->texteditor = g_string_new ("xedit");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
@@ -239,7 +240,17 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }
 
 	}
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "imageviewer"))
+	{
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  if(tmp)
+	    {
+	      prefs->imageviewer =
+		g_string_assign (prefs->imageviewer, (gchar *) tmp);
+	      xmlFree (tmp);
+	    }
 
+	}
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "texteditor"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -525,6 +536,9 @@ writeXMLPrefs (DenemoPrefs * prefs)
   if (prefs->pdfviewer)
     xmlNewChild (child, NULL, (xmlChar *) "pdfviewer",
 		 (xmlChar *) prefs->pdfviewer->str);
+  if (prefs->imageviewer)
+    xmlNewChild (child, NULL, (xmlChar *) "imageviewer",
+		 (xmlChar *) prefs->imageviewer->str);
   if (prefs->texteditor)
     xmlNewChild (child, NULL, (xmlChar *) "texteditor",
 		 (xmlChar *) prefs->texteditor->str);

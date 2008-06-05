@@ -1148,6 +1148,8 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (scorewizard)},
   {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Preview"), NULL, "Displays the final finished score in your pdf viewer",
    G_CALLBACK (printpreview_cb)},
+  {"PrintExcerptPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Excerpt"), NULL, "Displays a musical excerpt in your image viewer",
+   G_CALLBACK (PrintExcerptPreview_cb)},
   {"Print", GTK_STOCK_PRINT, N_("Print"), NULL, "Displays the final finished score in a pdf viewer\nFrom this you can print the file using the print command of the viewer",
    G_CALLBACK (printall_cb)},
   {"PrintPart", GTK_STOCK_PRINT, N_("Print current part"), NULL, "Displays the final finished score for the current part (that is current staff) in a pdf viewer\nFrom this you can print the file using the print command of the viewer",

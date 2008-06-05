@@ -296,6 +296,7 @@ typedef struct DenemoPrefs
   GString *csoundorcfile; /**< Path to .orc file used for csound playback */
   gboolean rtcs; /**< Real time csound */
   GString *pdfviewer; /**< PDF viewer */
+  GString *imageviewer; /**< Image Viewer */
   GString *texteditor; /**< texteditor for editing scripts and lilypond files */
   GString *denemopath; /**< path were denemo files are saved */
   GQueue *history; /**< Queue to contain recently opened files */
@@ -415,6 +416,7 @@ typedef struct DenemoLilyControl
   gint fontsize;
   GString *lilyversion;
   gboolean orientation;
+  gboolean excerpt;
   GString *lilypond; /**< Lilypond directive for all music in the movements */
 	
 } DenemoLilyControl;

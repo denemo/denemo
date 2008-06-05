@@ -1,3 +1,13 @@
+2008-06-05 <jjbenham>
+	file.c added .png as supported export file type
+	exportlilypond.c added support for png export
+	denemo_types.h function DenemoLilyControl added member
+	gboolean excerpt
+	prefops.c added support for variable
+	imageviewer as a preference
+	view.c added to menu print excerpt
+	denemo.xml added PrintExcerptPrieview in menu
+
 2008-06-04 <rshann>
 	measureops.c showaccidental if note postfixed with ! or ?
 	lilydirectives.c,h view.c denemoui.xml introduce separate menu items for postfix LilyPond and insert LilyPond.
