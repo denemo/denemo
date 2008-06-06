@@ -1266,9 +1266,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
  
   curmeasurenum = 0;
   curmeasure = curstaffstruct->measures;
+  last = g_list_length (curmeasure);
+  if(end)
+    last = MIN(end,last);
 
-  if (!end)
-    last = g_list_length (curmeasure);
 
   /* Now each measure */
   if (start)
