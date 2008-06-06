@@ -8,6 +8,8 @@ printall_cb(GtkAction *action, DenemoGUI *gui);
 void
 printpreview_cb(GtkAction *action, DenemoGUI *gui);
 void
+PrintExcerptPreview_cb(GtkAction *action, DenemoGUI *gui);
+void
 printpart_cb(GtkAction *action, DenemoGUI *gui);
 gchar *
 get_printfile_pathbasename(void);

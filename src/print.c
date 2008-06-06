@@ -51,7 +51,12 @@ static void truncate_lines(gchar *epoint) {
 void
 run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
-  gchar *printfile = g_strconcat (filename, ".pdf", NULL);
+  gchar **printfile;
+  if (gui->lilycontrol.excerpt == TRUE)
+	printfile = g_strconcat (filename, ".png", NULL);
+  else
+  	printfile = g_strconcat (filename, ".pdf", NULL);
+  
   FILE *fp = fopen(printfile, "w");
   if(fp)
     fclose(fp);
@@ -66,6 +71,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
 /*   gchar *convert = g_build_filename(dirname, "convert-ly.py");// FIXME memory leaks */
 
 #else
+
   gchar *convert = "convert-ly";
 
   gchar *conv_argv[] = {
@@ -94,24 +100,40 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       err = NULL;
     }
 #endif
+  //pointer to pointer that changes according to *argv[]
 
-
-
-
-  gchar *argv[] = {
-    Denemo.prefs.lilypath->str,
-    "--pdf",
-    "-o",
-    filename,
-    lilyfile,
-    NULL
-  };
+  gchar **arguments;
+  if (gui->lilycontrol.excerpt == TRUE){
+	  gchar *argv[] = {
+		    Denemo.prefs.lilypath->str,
+		    "--png",
+		    "-b",
+		    "eps", 
+		    "-o",
+		    filename,
+		    lilyfile,
+		    NULL
+	  };
+	  arguments = argv;
+  }
+  else {
+	  gchar *argv[] = {
+		   
+		    Denemo.prefs.lilypath->str,
+		    "--pdf",
+		    "-o",
+		    filename,
+		    lilyfile,
+		    NULL
+	  };
+	  arguments = argv;
+  }
 
   gchar *output=NULL, *errors=NULL;
 
 
   g_spawn_sync (locatedotdenemo (),		/* dir */
-		argv, NULL,	/* env */
+		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
 		NULL,		/* user data */
 		&output,		/* stdout */
@@ -171,17 +193,29 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
     return;
   }
     
-
+  //gchar **arguments;
   //g_print("using %s\n", printfile);
-  gchar *args[] = {
-    Denemo.prefs.pdfviewer->str,
-    printfile,
-    NULL
-  };
+  if (gui->lilycontrol.excerpt == TRUE){
+  	  gchar *args[] = {
+	    Denemo.prefs.imageviewer->str,
+	    printfile,
+	    NULL
+	  };
+	  arguments = args;
+  }
+  else {
+	  gchar *args[] = {
+	    Denemo.prefs.pdfviewer->str,
+	    printfile,
+	    NULL
+	  };
+	  arguments = args;  
+  }
+
 
   GPid printpid;//ignored
   g_spawn_async (locatedotdenemo (),		/* dir */
-		 args, NULL,	/* env */
+		 arguments, NULL,	/* env */
 		 G_SPAWN_SEARCH_PATH, /* search in path for executable */
 		 NULL,	/* child setup func */
 		 NULL,		/* user data */		
@@ -197,6 +231,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       g_error_free (err);
       err = NULL;
     }
+  gui->lilycontrol.excerpt = FALSE;
   g_free(printfile);
 }
 
@@ -268,3 +303,9 @@ void
 printpreview_cb (GtkAction * action, DenemoGUI * gui) {
   print(gui, FALSE, TRUE);
 }
+void
+PrintExcerptPreview_cb (GtkAction * action, DenemoGUI * gui) {
+  gui->lilycontrol.excerpt = TRUE;
+  print(gui, FALSE, FALSE);
+}
+
