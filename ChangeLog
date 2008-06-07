@@ -1,19 +1,9 @@
-<<<<<<< HEAD:ChangeLog
-2008-06-06 <jjbenha>
+2008-06-06 <jjbenham>
 	file.c, removed .jtf support
 	removed frogio.c/h frogdefs.h frogparser.h frogparser.y frogparser.c \
 	src/exportcsound.c src/Makefile.am, src/selectops.c removed reference to above files
 	src/exportcsound.c added function durationtofloat that used to be in
 	frogio.h
-
-=======
->>>>>>> master:ChangeLog
-
-<<<<<<< HEAD:ChangeLog
-=======
-2008-06-04 <rshann>
-	print.c,h view.c, exportlilypond.c add support for printing excerpt from selection. Make function names more uniform.
->>>>>>> master:ChangeLog
 2008-06-05 <jjbenham>
 	file.c added .png as supported export file type
 	exportlilypond.c added support for png export
@@ -23,6 +13,8 @@
 	imageviewer as a preference
 	view.c added to menu print excerpt
 	denemoui.xml added PrintExcerptPreview in menu
+2008-06-04 <rshann>
+	print.c,h view.c, exportlilypond.c add support for printing excerpt from selection. Make function names more uniform.
 2008-06-04 <rshann>
 	examples Upbeat.denemo added.
 2008-06-04 <rshann>
