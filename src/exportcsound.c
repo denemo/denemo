@@ -7,9 +7,112 @@
  * (c) 2002 Adam Tee
  */
 
-#include "frogio.h"
 #include "exportcsound.h"
 #include "utils.h"
+
+
+/**
+ * Convert Denemo duration into a floating point
+ * equivalent for the frog file format
+ */
+gfloat
+durationtofloat (gint duration, gint dots)
+{
+  gfloat value = 0;
+  switch (duration)
+    {
+    case 0:
+      value = 4.0;
+      break;
+    case 1:
+      value = 2.0;
+      break;
+    case 2:
+      value = 1.0;
+      break;
+    case 3:
+      value = 0.5;
+      break;
+    case 4:
+      value = 0.25;
+      break;
+    case 5:
+      value = 0.125;
+      break;
+    case 6:
+      value = 0.0625;
+      break;
+    default:
+      value = 0.0;
+      break;
+    }
+
+
+  switch (dots)
+    {
+    case 0:
+      break;
+    case 1:
+      value = value + (value / 2);
+      break;
+    case 2:
+      value = value + (value / 2) + (value / 4);
+      break;
+    case 3:
+      value = value + (value / 2) + (value / 4) + (value / 8);
+      break;
+    case 4:
+      value = value + (value / 2) + (value / 4) + (value / 8) + (value / 16);
+      break;
+    }
+
+  return value;
+}
+
+/**
+ * Convert Denemo offset/pitch to the correct octave spec 
+ * for the Frog file format
+ */
+int
+pitchtooctave (gint pitch)
+{
+  int octave = 4;
+  /*fprintf (stderr, "%d\n", pitch); */
+  if (pitch <= 27 && pitch >= 21)
+    {
+      octave = 7;
+    }
+  else if (pitch <= 20 && pitch >= 14)
+    {
+      octave = 6;
+    }
+  else if (pitch <= 13 && pitch >= 7)
+    {
+      octave = 5;
+    }
+  else if (pitch <= 6 && pitch >= 0)
+    {
+      octave = 4;
+    }
+  else if (pitch <= -1 && pitch >= -7)
+    {
+      octave = 3;
+    }
+  else if (pitch <= -8 && pitch >= -14)
+    {
+      octave = 2;
+    }
+  else if (pitch <= -15 && pitch >= -21)
+    {
+      octave = 1;
+    }
+  else if (pitch <= -22 && pitch >= -28)
+    {
+      octave = 0;
+    }
+
+  return octave;
+}
 
 /**
  * Determine the current pitches name

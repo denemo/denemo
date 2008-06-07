@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include "commandfuncs.h"
+#include "pitchentry.h"
 #include "calculatepositions.h"
 #include "chordops.h"
 #include "contexts.h"
@@ -27,6 +28,7 @@
 #include "prefops.h"
 #include "keyresponses.h"
 #include "view.h"
+
 /**
  * Macro to get the current DenemoObject
  */

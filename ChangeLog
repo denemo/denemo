@@ -1,3 +1,11 @@
+2008-06-06 <jjbenha>
+	file.c, removed .jtf support
+	removed frogio.c/h frogdefs.h frogparser.h frogparser.y frogparser.c \
+	src/exportcsound.c src/Makefile.am, src/selectops.c removed reference to above files
+	src/exportcsound.c added function durationtofloat that used to be in
+	frogio.h
+
+
 2008-06-05 <jjbenham>
 	file.c added .png as supported export file type
 	exportlilypond.c added support for png export

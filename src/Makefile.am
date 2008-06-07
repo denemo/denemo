@@ -5,7 +5,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
-	exportpdf.c exportxml.c file.c frogio.c gcs.c \
+	exportpdf.c exportxml.c file.c gcs.c \
 	headerdialog.c hairpin.c \
 	help.c importxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
@@ -18,24 +18,23 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c frogparser.c \
-	froglexer.c	accwidths.h \
+	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c 
+	accwidths.h \
 	articulations.h calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
 	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
 	drawingprims.h lyparser.h \
-	exportabc.h exportlilypond.h  exportxml.h file.h frogio.h \
-	frogdefs.h gcs.h \
+	exportabc.h exportlilypond.h  exportxml.h file.h \
+	gcs.h \
 	figure.h barline.h view.h hairpin.h  help.h importxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h lyparserfuncs.h \
 	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
-	objops.h frogparser.h \
-	playbackprops.h plugin.h prefops.h processstaffname.h \
+	objops.h playbackprops.h plugin.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
 	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
 	exportxml.h \
-	xmldefs.h exportmidi.h instrumentname.h  frogparser.h print.h \
+	xmldefs.h exportmidi.h instrumentname.h print.h \
 	exportcsound.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
 	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
@@ -45,7 +44,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h
-EXTRA_DIST = frogparser.y froglexer.l lylexer.l lyparser.y
+EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -57,14 +56,6 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 denemo_LDADD = $(INTLLIBS) 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
-frogparser.c frogpparser.h: frogparser.y
-	bison -d -pfrog $(srcdir)/frogparser.y 
-	mv frogparser.tab.c frogparser.c
-	mv frogparser.tab.h frogparser.h
-
-froglexer.c: froglexer.l
-	flex -Pfrog  -o$(srcdir)/froglexer.c $(srcdir)/froglexer.l  
-
 lyparser.c lyparser.h: lyparser.y
 	bison -d -ply $(srcdir)/lyparser.y 
 	mv lyparser.tab.c lyparser.c
@@ -73,7 +64,5 @@ lyparser.c lyparser.h: lyparser.y
 lylexer.c: lylexer.l
 	flex -Ply  -o$(srcdir)/lylexer.c $(srcdir)/lylexer.l  
 
-MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h \
-frogparser.c frogparser.h 
-
+MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h 
 noinst_HEADERS = parseinstruments.h keyboard.h 

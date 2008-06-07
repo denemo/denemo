@@ -14,8 +14,6 @@
 #include "exportabc.h"
 #include "exportlilypond.h"
 #include "file.h"
-#include "frogio.h"
-#include "frogdefs.h"
 #include "moveviewport.h"
 #include "staffops.h"
 #include "scoreops.h"
@@ -50,7 +48,6 @@ typedef enum
   MUDELA_FORMAT,
   PNG_FORMAT,
   ABC_FORMAT,
-  JTF_FORMAT,
   MIDI_FORMAT,
   JTF_POLY_FORMAT,
   CSOUND_FORMAT
@@ -84,9 +81,7 @@ static struct FileFormatData supported_export_file_formats[] = {
   {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
   {"*.png", N_("png image format (*.png)"), ".png"},
   {"*.abc", N_("ABC (*.abc)"), ".abc"},
-  {"*.jtf", N_("Unnamed file format (*.jtf)"), ".jtf"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.jtf", N_("Unnamed file format (*.jtf) Poly"), ".jtf"},
   {"*.sco", N_("CSound Score File (*.sco)"), ".sco"}
 };
 
@@ -243,8 +238,6 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
   else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
 	   strcmp (filename + strlen (filename) - 5, ".midi") == 0)
     result = importMidi (filename, gui);
-  else if (strcmp (filename + strlen (filename) - 4, ".jtf") == 0)
-    result = froginput (filename, gui);
   if (result == 0)
     {
       if(!template) {// not a template
@@ -384,11 +377,6 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	case ABC_FORMAT:
 	  {
 	    exportabc (file, gui, 0, 0);
-	    break;
-	  };
-	case JTF_FORMAT:
-	  {
-	    filesave (file, si, 0, 0, 0);
 	    break;
 	  };
 	case MIDI_FORMAT:
@@ -728,16 +716,6 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
       case ABC_FORMAT:
 	{
 	  exportabc (gui->filename->str, gui, 0, 0);
-	  break;
-	};
-      case JTF_POLY_FORMAT:
-	{
-	  filesave (gui->filename->str, si, 0, 0, 1);
-	  break;
-	};
-      case JTF_FORMAT:
-	{
-	  filesave (gui->filename->str, si, 0, 0, 0);
 	  break;
 	};
       case MIDI_FORMAT:
