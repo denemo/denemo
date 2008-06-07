@@ -203,7 +203,33 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c 
+	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c \
+	accwidths.h \
+	articulations.h calculatepositions.h changenotehead.h \
+	 chordops.h commandfuncs.h \
+	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
+	drawingprims.h lyparser.h \
+	exportabc.h exportlilypond.h  exportxml.h file.h \
+	gcs.h \
+	figure.h barline.h view.h hairpin.h  help.h importxml.h importmidi.h \
+	kbd-custom.h kbd-interface.h graceops.h \
+	keyresponses.h lyparserfuncs.h \
+	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
+	objops.h \
+	playbackprops.h plugin.h prefops.h processstaffname.h \
+	redefs.h scoreops.h \
+	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
+	exportxml.h \
+	xmldefs.h exportmidi.h instrumentname.h  print.h \
+	exportcsound.h \
+	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
+	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
+	external.h scorewizard.h fakechord.h \
+	parseinstruments.c parseinstruments.h keyboard.c \
+	midiseq.h alsaseq.h alsaseq.c \
+	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
+	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
+	callbacks.h entries.h
 
 EXTRA_DIST = lylexer.l lyparser.y
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -217,6 +243,7 @@ denemo_LDADD = $(INTLLIBS)
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h 
+
 noinst_HEADERS = parseinstruments.h keyboard.h 
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -255,7 +282,12 @@ am_denemo_OBJECTS = articulations.$(OBJEXT) calculatepositions.$(OBJEXT) \
 	tupletops.$(OBJEXT) utils.$(OBJEXT) graceops.$(OBJEXT) \
 	runsilent.$(OBJEXT) drawgrace.$(OBJEXT) print.$(OBJEXT) \
 	exportcsound.$(OBJEXT) lyparser.$(OBJEXT) lylexer.$(OBJEXT) \
-	lyparserfuncs.$(OBJEXT)
+	lyparserfuncs.$(OBJEXT) binreloc.$(OBJEXT) \
+	alsaplayback.$(OBJEXT) bookmarks.$(OBJEXT) \
+	scorewizard.$(OBJEXT) parseinstruments.$(OBJEXT) \
+	keyboard.$(OBJEXT) alsaseq.$(OBJEXT) pitchentry.$(OBJEXT) \
+	pitchrecog.$(OBJEXT) audiocapture.$(OBJEXT) \
+	drawlilydir.$(OBJEXT) lilydirectives.$(OBJEXT)
 denemo_OBJECTS = $(am_denemo_OBJECTS)
 denemo_DEPENDENCIES =
 denemo_LDFLAGS =
@@ -263,8 +295,10 @@ denemo_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/articulations.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/barline.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/alsaplayback.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/alsaseq.Po ./$(DEPDIR)/articulations.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/audiocapture.Po ./$(DEPDIR)/barline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/binreloc.Po ./$(DEPDIR)/bookmarks.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/calculatepositions.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/changenotehead.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/chordops.Po ./$(DEPDIR)/clefdialog.Po \
@@ -276,8 +310,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/drawdynamic.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drawfakechord.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drawfigure.Po ./$(DEPDIR)/drawgrace.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drawkey.Po ./$(DEPDIR)/drawlyric.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/drawnotes.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drawkey.Po ./$(DEPDIR)/drawlilydir.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/drawlyric.Po ./$(DEPDIR)/drawnotes.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drawselection.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drawstemdir.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/drawtimesig.Po \
@@ -295,21 +329,25 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/instrumentname.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd-custom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/kbd-interface.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/keyresponses.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/keysigdialog.Po ./$(DEPDIR)/lylexer.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/lyparser.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/keyboard.Po ./$(DEPDIR)/keyresponses.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/keysigdialog.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/lilydirectives.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/lylexer.Po ./$(DEPDIR)/lyparser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/lyparserfuncs.Po ./$(DEPDIR)/lyric.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/main.Po ./$(DEPDIR)/measureops.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/midi.Po ./$(DEPDIR)/mousing.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/moveviewport.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mwidthdialog.Po ./$(DEPDIR)/objops.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/parseinstruments.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/pitchentry.Po ./$(DEPDIR)/pitchrecog.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/playback.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/playbackprops.Po ./$(DEPDIR)/plugin.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/prefdialog.Po ./$(DEPDIR)/prefops.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/print.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/processstaffname.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/runsilent.Po ./$(DEPDIR)/scoreops.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/scoreprops.Po ./$(DEPDIR)/selectops.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/scoreprops.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/scorewizard.Po ./$(DEPDIR)/selectops.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/slurs.Po ./$(DEPDIR)/staffops.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/staffpropdialog.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/timedialog.Po \
@@ -380,8 +418,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alsaplayback.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alsaseq.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/articulations.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audiocapture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/barline.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/binreloc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bookmarks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/calculatepositions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/changenotehead.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/chordops.Po@am__quote@
@@ -399,6 +442,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawfigure.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawgrace.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawkey.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawlilydir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawlyric.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawnotes.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/drawselection.Po@am__quote@
@@ -426,8 +470,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/instrumentname.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd-custom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd-interface.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyresponses.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keysigdialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lilydirectives.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lylexer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lyparser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lyparserfuncs.Po@am__quote@
@@ -439,6 +485,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/moveviewport.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mwidthdialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/objops.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parseinstruments.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pitchentry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pitchrecog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playback.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playbackprops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plugin.Po@am__quote@
@@ -449,6 +498,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/runsilent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scoreops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scoreprops.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scorewizard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/selectops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/slurs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/staffops.Po@am__quote@
@@ -698,31 +748,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-dist_pkgdataDATA \
 	uninstall-am uninstall-binPROGRAMS uninstall-dist_pkgdataDATA \
 	uninstall-info-am
 
-	accwidths.h \
-	articulations.h calculatepositions.h changenotehead.h \
-	 chordops.h commandfuncs.h \
-	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
-	drawingprims.h lyparser.h \
-	exportabc.h exportlilypond.h  exportxml.h file.h \
-	gcs.h \
-	figure.h barline.h view.h hairpin.h  help.h importxml.h importmidi.h \
-	kbd-custom.h kbd-interface.h graceops.h \
-	keyresponses.h lyparserfuncs.h \
-	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
-	objops.h playbackprops.h plugin.h prefops.h processstaffname.h \
-	redefs.h scoreops.h \
-	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
-	exportxml.h \
-	xmldefs.h exportmidi.h instrumentname.h print.h \
-	exportcsound.h \
-	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
-	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
-	external.h scorewizard.h fakechord.h \
-	parseinstruments.c parseinstruments.h keyboard.c \
-	midiseq.h alsaseq.h alsaseq.c \
-	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
-	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
-	callbacks.h entries.h
 
 lyparser.c lyparser.h: lyparser.y
 	bison -d -ply $(srcdir)/lyparser.y 

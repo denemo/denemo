@@ -51,13 +51,13 @@ AUTOMAKE = ${SHELL} /home/jjbenham/src/denemo.git/denemo/missing --run automake-
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1   -I/usr/include/aubio  
+CFLAGS = -I/usr/include/gtk-2.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng12 -I/usr/include/pixman-1   -I/usr/include/aubio   -DDEBUG -g
 CPP = gcc -E
 CPPFLAGS =  -I/usr/include/libxml2
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2
+CXXFLAGS = -g -O2 -DDEBUG -g
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DENEMO_BUILD_DOC_FALSE = 
@@ -203,7 +203,33 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c 
+	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c \
+	accwidths.h \
+	articulations.h calculatepositions.h changenotehead.h \
+	 chordops.h commandfuncs.h \
+	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
+	drawingprims.h lyparser.h \
+	exportabc.h exportlilypond.h  exportxml.h file.h \
+	gcs.h \
+	figure.h barline.h view.h hairpin.h  help.h importxml.h importmidi.h \
+	kbd-custom.h kbd-interface.h graceops.h \
+	keyresponses.h lyparserfuncs.h \
+	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
+	objops.h \
+	playbackprops.h plugin.h prefops.h processstaffname.h \
+	redefs.h scoreops.h \
+	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
+	exportxml.h \
+	xmldefs.h exportmidi.h instrumentname.h  print.h \
+	exportcsound.h \
+	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
+	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
+	external.h scorewizard.h fakechord.h \
+	parseinstruments.c parseinstruments.h keyboard.c \
+	midiseq.h alsaseq.h alsaseq.c \
+	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
+	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
+	callbacks.h entries.h
 
 EXTRA_DIST = lylexer.l lyparser.y
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -217,6 +243,7 @@ denemo_LDADD = $(INTLLIBS)
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h 
+
 noinst_HEADERS = parseinstruments.h keyboard.h 
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -255,7 +282,12 @@ am_denemo_OBJECTS = articulations.$(OBJEXT) calculatepositions.$(OBJEXT) \
 	tupletops.$(OBJEXT) utils.$(OBJEXT) graceops.$(OBJEXT) \
 	runsilent.$(OBJEXT) drawgrace.$(OBJEXT) print.$(OBJEXT) \
 	exportcsound.$(OBJEXT) lyparser.$(OBJEXT) lylexer.$(OBJEXT) \
-	lyparserfuncs.$(OBJEXT)
+	lyparserfuncs.$(OBJEXT) binreloc.$(OBJEXT) \
+	alsaplayback.$(OBJEXT) bookmarks.$(OBJEXT) \
+	scorewizard.$(OBJEXT) parseinstruments.$(OBJEXT) \
+	keyboard.$(OBJEXT) alsaseq.$(OBJEXT) pitchentry.$(OBJEXT) \
+	pitchrecog.$(OBJEXT) audiocapture.$(OBJEXT) \
+	drawlilydir.$(OBJEXT) lilydirectives.$(OBJEXT)
 denemo_OBJECTS = $(am_denemo_OBJECTS)
 denemo_DEPENDENCIES =
 denemo_LDFLAGS =
@@ -263,8 +295,10 @@ denemo_LDFLAGS =
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-DEP_FILES = ./$(DEPDIR)/articulations.Po \
-	./$(DEPDIR)/barline.Po \
+DEP_FILES = ./$(DEPDIR)/alsaplayback.Po \
+	./$(DEPDIR)/alsaseq.Po ./$(DEPDIR)/articulations.Po \
+	./$(DEPDIR)/audiocapture.Po ./$(DEPDIR)/barline.Po \
+	./$(DEPDIR)/binreloc.Po ./$(DEPDIR)/bookmarks.Po \
 	./$(DEPDIR)/calculatepositions.Po \
 	./$(DEPDIR)/changenotehead.Po \
 	./$(DEPDIR)/chordops.Po ./$(DEPDIR)/clefdialog.Po \
@@ -276,8 +310,8 @@ DEP_FILES = ./$(DEPDIR)/articulations.Po \
 	./$(DEPDIR)/drawdynamic.Po \
 	./$(DEPDIR)/drawfakechord.Po \
 	./$(DEPDIR)/drawfigure.Po ./$(DEPDIR)/drawgrace.Po \
-	./$(DEPDIR)/drawkey.Po ./$(DEPDIR)/drawlyric.Po \
-	./$(DEPDIR)/drawnotes.Po \
+	./$(DEPDIR)/drawkey.Po ./$(DEPDIR)/drawlilydir.Po \
+	./$(DEPDIR)/drawlyric.Po ./$(DEPDIR)/drawnotes.Po \
 	./$(DEPDIR)/drawselection.Po \
 	./$(DEPDIR)/drawstemdir.Po \
 	./$(DEPDIR)/drawtimesig.Po \
@@ -295,21 +329,25 @@ DEP_FILES = ./$(DEPDIR)/articulations.Po \
 	./$(DEPDIR)/instrumentname.Po \
 	./$(DEPDIR)/kbd-custom.Po \
 	./$(DEPDIR)/kbd-interface.Po \
-	./$(DEPDIR)/keyresponses.Po \
-	./$(DEPDIR)/keysigdialog.Po ./$(DEPDIR)/lylexer.Po \
-	./$(DEPDIR)/lyparser.Po \
+	./$(DEPDIR)/keyboard.Po ./$(DEPDIR)/keyresponses.Po \
+	./$(DEPDIR)/keysigdialog.Po \
+	./$(DEPDIR)/lilydirectives.Po \
+	./$(DEPDIR)/lylexer.Po ./$(DEPDIR)/lyparser.Po \
 	./$(DEPDIR)/lyparserfuncs.Po ./$(DEPDIR)/lyric.Po \
 	./$(DEPDIR)/main.Po ./$(DEPDIR)/measureops.Po \
 	./$(DEPDIR)/midi.Po ./$(DEPDIR)/mousing.Po \
 	./$(DEPDIR)/moveviewport.Po \
 	./$(DEPDIR)/mwidthdialog.Po ./$(DEPDIR)/objops.Po \
+	./$(DEPDIR)/parseinstruments.Po \
+	./$(DEPDIR)/pitchentry.Po ./$(DEPDIR)/pitchrecog.Po \
 	./$(DEPDIR)/playback.Po \
 	./$(DEPDIR)/playbackprops.Po ./$(DEPDIR)/plugin.Po \
 	./$(DEPDIR)/prefdialog.Po ./$(DEPDIR)/prefops.Po \
 	./$(DEPDIR)/print.Po \
 	./$(DEPDIR)/processstaffname.Po \
 	./$(DEPDIR)/runsilent.Po ./$(DEPDIR)/scoreops.Po \
-	./$(DEPDIR)/scoreprops.Po ./$(DEPDIR)/selectops.Po \
+	./$(DEPDIR)/scoreprops.Po \
+	./$(DEPDIR)/scorewizard.Po ./$(DEPDIR)/selectops.Po \
 	./$(DEPDIR)/slurs.Po ./$(DEPDIR)/staffops.Po \
 	./$(DEPDIR)/staffpropdialog.Po \
 	./$(DEPDIR)/timedialog.Po \
@@ -380,8 +418,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/alsaplayback.Po
+include ./$(DEPDIR)/alsaseq.Po
 include ./$(DEPDIR)/articulations.Po
+include ./$(DEPDIR)/audiocapture.Po
 include ./$(DEPDIR)/barline.Po
+include ./$(DEPDIR)/binreloc.Po
+include ./$(DEPDIR)/bookmarks.Po
 include ./$(DEPDIR)/calculatepositions.Po
 include ./$(DEPDIR)/changenotehead.Po
 include ./$(DEPDIR)/chordops.Po
@@ -399,6 +442,7 @@ include ./$(DEPDIR)/drawfakechord.Po
 include ./$(DEPDIR)/drawfigure.Po
 include ./$(DEPDIR)/drawgrace.Po
 include ./$(DEPDIR)/drawkey.Po
+include ./$(DEPDIR)/drawlilydir.Po
 include ./$(DEPDIR)/drawlyric.Po
 include ./$(DEPDIR)/drawnotes.Po
 include ./$(DEPDIR)/drawselection.Po
@@ -426,8 +470,10 @@ include ./$(DEPDIR)/importxml.Po
 include ./$(DEPDIR)/instrumentname.Po
 include ./$(DEPDIR)/kbd-custom.Po
 include ./$(DEPDIR)/kbd-interface.Po
+include ./$(DEPDIR)/keyboard.Po
 include ./$(DEPDIR)/keyresponses.Po
 include ./$(DEPDIR)/keysigdialog.Po
+include ./$(DEPDIR)/lilydirectives.Po
 include ./$(DEPDIR)/lylexer.Po
 include ./$(DEPDIR)/lyparser.Po
 include ./$(DEPDIR)/lyparserfuncs.Po
@@ -439,6 +485,9 @@ include ./$(DEPDIR)/mousing.Po
 include ./$(DEPDIR)/moveviewport.Po
 include ./$(DEPDIR)/mwidthdialog.Po
 include ./$(DEPDIR)/objops.Po
+include ./$(DEPDIR)/parseinstruments.Po
+include ./$(DEPDIR)/pitchentry.Po
+include ./$(DEPDIR)/pitchrecog.Po
 include ./$(DEPDIR)/playback.Po
 include ./$(DEPDIR)/playbackprops.Po
 include ./$(DEPDIR)/plugin.Po
@@ -449,6 +498,7 @@ include ./$(DEPDIR)/processstaffname.Po
 include ./$(DEPDIR)/runsilent.Po
 include ./$(DEPDIR)/scoreops.Po
 include ./$(DEPDIR)/scoreprops.Po
+include ./$(DEPDIR)/scorewizard.Po
 include ./$(DEPDIR)/selectops.Po
 include ./$(DEPDIR)/slurs.Po
 include ./$(DEPDIR)/staffops.Po
@@ -698,31 +748,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-dist_pkgdataDATA \
 	uninstall-am uninstall-binPROGRAMS uninstall-dist_pkgdataDATA \
 	uninstall-info-am
 
-	accwidths.h \
-	articulations.h calculatepositions.h changenotehead.h \
-	 chordops.h commandfuncs.h \
-	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
-	drawingprims.h lyparser.h \
-	exportabc.h exportlilypond.h  exportxml.h file.h \
-	gcs.h \
-	figure.h barline.h view.h hairpin.h  help.h importxml.h importmidi.h \
-	kbd-custom.h kbd-interface.h graceops.h \
-	keyresponses.h lyparserfuncs.h \
-	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
-	objops.h playbackprops.h plugin.h prefops.h processstaffname.h \
-	redefs.h scoreops.h \
-	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
-	exportxml.h \
-	xmldefs.h exportmidi.h instrumentname.h print.h \
-	exportcsound.h \
-	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
-	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
-	external.h scorewizard.h fakechord.h \
-	parseinstruments.c parseinstruments.h keyboard.c \
-	midiseq.h alsaseq.h alsaseq.c \
-	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
-	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
-	callbacks.h entries.h
 
 lyparser.c lyparser.h: lyparser.y
 	bison -d -ply $(srcdir)/lyparser.y 

@@ -51,7 +51,7 @@ static void truncate_lines(gchar *epoint) {
 void
 run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
-  gchar **printfile;
+  gchar *printfile;
   if (gui->lilycontrol.excerpt == TRUE)
 	printfile = g_strconcat (filename, ".png", NULL);
   else
@@ -231,7 +231,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       g_error_free (err);
       err = NULL;
     }
-  gui->lilycontrol.excerpt = FALSE;
+
   g_free(printfile);
 }
 
@@ -274,7 +274,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
   if(part_only)
     export_lilypond_part (lilyfile, gui, si->start, si->end, all_movements);
   else
-    exportlilypond (lilyfile, gui, 0, 0, all_movements);
+    exportlilypond (lilyfile, gui,  si->start, si->end, all_movements);
   run_lilypond_and_viewer(filename, gui);
   g_free(lilyfile);
 }
@@ -285,7 +285,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
  */
 
 void
-PrintRageDialog(DenemoGUI * gui){
+printrangedialog(DenemoGUI * gui){
 	GtkWidget *dialog;
 	GtkWidget *table;
 	GtkWidget *label;
@@ -481,9 +481,22 @@ printpreview_cb (GtkAction * action, DenemoGUI * gui) {
   print(gui, FALSE, TRUE);
 }
 void
-PrintExcerptPreview_cb (GtkAction * action, DenemoGUI * gui) {
+printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
   gui->lilycontrol.excerpt = TRUE;
-  PrintRageDialog(gui);
+  if(gui->si->markstaffnum) {
+    gui->si->start = gui->si->firstmeasuremarked;
+    gui->si->end = gui->si->lastmeasuremarked;
+  } else {
+#ifdef DIALOG
+    /* Dialog here!!!!!!!!!!! */
+#else
+    gui->si->start = 0;
+    gui->si->end = 0;
+#endif
+  }
   print(gui, FALSE, FALSE);
+  gui->lilycontrol.excerpt = FALSE;
+  gui->si->start = 0;
+  gui->si->end = 0;
 }
 

@@ -49,7 +49,6 @@ typedef enum
   PNG_FORMAT,
   ABC_FORMAT,
   MIDI_FORMAT,
-  JTF_POLY_FORMAT,
   CSOUND_FORMAT
 }
 FileFormatNames;
@@ -382,11 +381,6 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	case MIDI_FORMAT:
 	  {
 	    exportmidi (file, si, 0, 0);
-	    break;
-	  };
-	case JTF_POLY_FORMAT:
-	  {
-	    filesave (file, si, 0, 0, 1);
 	    break;
 	  };
 	case CSOUND_FORMAT:

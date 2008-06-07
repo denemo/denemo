@@ -18,7 +18,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c 
+	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c \
 	accwidths.h \
 	articulations.h calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
@@ -30,11 +30,12 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h lyparserfuncs.h \
 	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
-	objops.h playbackprops.h plugin.h prefops.h processstaffname.h \
+	objops.h \
+	playbackprops.h plugin.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
 	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
 	exportxml.h \
-	xmldefs.h exportmidi.h instrumentname.h print.h \
+	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	exportcsound.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
 	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
@@ -65,4 +66,5 @@ lylexer.c: lylexer.l
 	flex -Ply  -o$(srcdir)/lylexer.c $(srcdir)/lylexer.l  
 
 MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h 
+
 noinst_HEADERS = parseinstruments.h keyboard.h 
