@@ -286,175 +286,68 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 
 void
 printrangedialog(DenemoGUI * gui){
-	GtkWidget *dialog;
-	GtkWidget *table;
-	GtkWidget *label;
-	GtkWidget *hbox;
-	GtkWidget *from_measure;
-	GtkWidget *to_measure;
-	GtkWidget *print_measure;
-	GtkWidget *print_entire_piece;
-	GtkWidget *print_all_staves;
-	GtkWidget *print_only;
-	GtkWidget *staves;
-	staffnode *n;
+  GtkWidget *dialog;
+  GtkWidget *table;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  GtkWidget *from_measure;
+  GtkWidget *to_measure;
+  GtkWidget *print_measure;
+  GtkWidget *print_entire_piece;
+  GtkWidget *print_all_staves;
+  GtkWidget *print_only;
+  GtkWidget *staves;
+  staffnode *n;
 
-	dialog = gtk_dialog_new_with_buttons (_("Print Excerpt Range"),
-		 GTK_WINDOW (gui->window),
-		 (GtkDialogFlags) (GTK_DIALOG_MODAL |
-		      GTK_DIALOG_DESTROY_WITH_PARENT),
-		 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+  dialog = gtk_dialog_new_with_buttons (_("Print Excerpt Range"),
+	 GTK_WINDOW (gui->window),
+	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
+	      GTK_DIALOG_DESTROY_WITH_PARENT),
+	 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
 
-	hbox = gtk_hbox_new (FALSE, 8);
-	//table = gtk_table_new (8, 2, FALSE);
-/*
-  	print_entire_piece = gtk_radio_button_new_with_label (NULL, _("Print from cursor to end"));
-  	gtk_table_attach (GTK_TABLE (table), print_entire_piece, 0, 1, 0, 1,
-		                        (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0,
-					                    0);
-*/
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
 
-	print_measure = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON
-		       (print_entire_piece),
-		       _("Print measure"));
-	gtk_box_pack_start (GTK_BOX (hbox), print_measure, FALSE, FALSE, 0);
-/*
   gint max_measure =
-    g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
+  g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
 
+  label = gtk_label_new (_("Print from Measure"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+ 
   from_measure =
-    gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
+  gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), from_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure),
 			     (gdouble) gui->si->start);
 
   label = gtk_label_new (_("to"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 
   to_measure =
-    gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
+  gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure),
 			     (gdouble) gui->si->end);
 
-  if (gui->si->start == 0)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (print_entire_piece),
-				    TRUE);
-      gtk_widget_set_sensitive (from_measure, FALSE);
-      gtk_widget_set_sensitive (to_measure, FALSE);
-    }
-  else
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (print_measure), TRUE);
-    }
-
-
-  label = gtk_label_new (_("<b>Print Staves</b>"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 2, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-
-  // spacer
-  label = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (label, 12, -1);
-
-  print_all_staves =
-    gtk_radio_button_new_with_label (NULL, _("Print all staves"));
-  gtk_table_attach (GTK_TABLE (table), print_all_staves, 1, 2, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0,
-		    0);
-  // spacer
-  label = gtk_label_new ("");
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 7, 8,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_size_request (label, 12, -1);
-
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_table_attach (GTK_TABLE (table), hbox, 1, 2, 7, 8,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-  print_only =
-    gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON
-						 (print_all_staves),
-						 _("Print only"));
-  gtk_box_pack_start (GTK_BOX (hbox), print_only, FALSE, FALSE, 0);
-
-  staves = gtk_combo_box_new_text ();
-  gtk_box_pack_start (GTK_BOX (hbox), staves, TRUE, TRUE, 0);
-  for (n = gui->si->thescore; n != NULL; n = g_list_next (n))
-    {
-      gchar *staff_label = NULL;
-      DenemoStaff *s = (DenemoStaff *) n->data;
-      if (s->staff_name != NULL)
-	{
-	  staff_label = s->staff_name->str;
-	}
-      else if (s->denemo_name != NULL)
-	{
-	  staff_label = s->denemo_name->str;
-	}
-
-      if (staff_label == NULL)
-	{
-	  staff_label = _("Unnamed staff");
-	}
-      gtk_combo_box_append_text (GTK_COMBO_BOX (staves), staff_label);
-    }
-  if (gui->si->stafftoplay == 0)
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (print_all_staves),
-				    TRUE);
-      gtk_widget_set_sensitive (staves, FALSE);
-      gtk_combo_box_set_active (GTK_COMBO_BOX (staves), 0);
-    }
-  else
-    {
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (print_only), TRUE);
-      gtk_combo_box_set_active (GTK_COMBO_BOX (staves),
-				gui->si->stafftoplay - 1);
-    }
-  */
+  gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (print_measure)))
-	{
-	  //gui->si->start =
-	   // gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
-	  //gui->si->end =
-	   // gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
-	}
-      else
-	{
-
-	  //gui->si->start = 0;
-	  //gui->si->end = 0;
-	}
-
-      if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (print_only)))
-	{
-	  //gui->si->stafftoplay =
-	    //1 + gtk_combo_box_get_active (GTK_COMBO_BOX (staves));
-	}
-      else
-	{
-	  //gui->si->stafftoplay = 0;
-	}
+      gui->si->start =
+	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
+      gui->si->end =
+	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
+    }
+  else 
+    {
+      gui->si->start = gui->si->end = 0;
     }
   gtk_widget_destroy (dialog);
-
 }
 
 
@@ -487,14 +380,10 @@ printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
     gui->si->start = gui->si->firstmeasuremarked;
     gui->si->end = gui->si->lastmeasuremarked;
   } else {
-#ifdef DIALOG
-    /* Dialog here!!!!!!!!!!! */
-#else
-    gui->si->start = 0;
-    gui->si->end = 0;
-#endif
+    printrangedialog(gui);
   }
-  print(gui, FALSE, FALSE);
+  if ((gui->si->start == gui->si->end == 0))
+  	print(gui, FALSE, FALSE);
   gui->lilycontrol.excerpt = FALSE;
   gui->si->start = 0;
   gui->si->end = 0;
