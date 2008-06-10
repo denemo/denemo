@@ -1,4 +1,8 @@
 2008-06-08 <jjbenham>
+	removed exportpdf.* files. 
+	src/Makefile.am removed reference to exportpdf.*
+	print.* added functions that were in exportpdf.* and consolidated some 
+2008-06-08 <jjbenham>
 	print.c added pop-up dialog for printing excerpts
 2008-06-06 <jjbenham>
 	file.c, removed .jtf support

@@ -190,7 +190,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
-	exportpdf.c exportxml.c file.c gcs.c \
+	exportxml.c file.c gcs.c \
 	headerdialog.c hairpin.c \
 	help.c importxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
@@ -222,7 +222,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	exportcsound.h \
-	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
+	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
 	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
 	external.h scorewizard.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
@@ -262,21 +262,21 @@ am_denemo_OBJECTS = articulations.$(OBJEXT) calculatepositions.$(OBJEXT) \
 	drawstemdir.$(OBJEXT) drawtimesig.$(OBJEXT) \
 	drawtuplets.$(OBJEXT) drawlyric.$(OBJEXT) dynamic.$(OBJEXT) \
 	drawfigure.$(OBJEXT) exportabc.$(OBJEXT) \
-	exportlilypond.$(OBJEXT) exportpdf.$(OBJEXT) \
-	exportxml.$(OBJEXT) file.$(OBJEXT) gcs.$(OBJEXT) \
-	headerdialog.$(OBJEXT) hairpin.$(OBJEXT) help.$(OBJEXT) \
-	importxml.$(OBJEXT) importmidi.$(OBJEXT) kbd-custom.$(OBJEXT) \
-	kbd-interface.$(OBJEXT) keyresponses.$(OBJEXT) \
-	keysigdialog.$(OBJEXT) figure.$(OBJEXT) main.$(OBJEXT) \
-	measureops.$(OBJEXT) midi.$(OBJEXT) moveviewport.$(OBJEXT) \
-	mousing.$(OBJEXT) barline.$(OBJEXT) view.$(OBJEXT) \
-	mwidthdialog.$(OBJEXT) objops.$(OBJEXT) exportmidi.$(OBJEXT) \
-	instrumentname.$(OBJEXT) external.$(OBJEXT) playback.$(OBJEXT) \
-	drawfakechord.$(OBJEXT) fakechord.$(OBJEXT) \
-	playbackprops.$(OBJEXT) plugin.$(OBJEXT) prefdialog.$(OBJEXT) \
-	prefops.$(OBJEXT) processstaffname.$(OBJEXT) \
-	csoundplayback.$(OBJEXT) lyric.$(OBJEXT) scoreops.$(OBJEXT) \
-	scoreprops.$(OBJEXT) selectops.$(OBJEXT) staffops.$(OBJEXT) \
+	exportlilypond.$(OBJEXT) exportxml.$(OBJEXT) file.$(OBJEXT) \
+	gcs.$(OBJEXT) headerdialog.$(OBJEXT) hairpin.$(OBJEXT) \
+	help.$(OBJEXT) importxml.$(OBJEXT) importmidi.$(OBJEXT) \
+	kbd-custom.$(OBJEXT) kbd-interface.$(OBJEXT) \
+	keyresponses.$(OBJEXT) keysigdialog.$(OBJEXT) figure.$(OBJEXT) \
+	main.$(OBJEXT) measureops.$(OBJEXT) midi.$(OBJEXT) \
+	moveviewport.$(OBJEXT) mousing.$(OBJEXT) barline.$(OBJEXT) \
+	view.$(OBJEXT) mwidthdialog.$(OBJEXT) objops.$(OBJEXT) \
+	exportmidi.$(OBJEXT) instrumentname.$(OBJEXT) \
+	external.$(OBJEXT) playback.$(OBJEXT) drawfakechord.$(OBJEXT) \
+	fakechord.$(OBJEXT) playbackprops.$(OBJEXT) plugin.$(OBJEXT) \
+	prefdialog.$(OBJEXT) prefops.$(OBJEXT) \
+	processstaffname.$(OBJEXT) csoundplayback.$(OBJEXT) \
+	lyric.$(OBJEXT) scoreops.$(OBJEXT) scoreprops.$(OBJEXT) \
+	selectops.$(OBJEXT) staffops.$(OBJEXT) \
 	staffpropdialog.$(OBJEXT) drawbarline.$(OBJEXT) slurs.$(OBJEXT) \
 	timedialog.$(OBJEXT) tomeasuredialog.$(OBJEXT) \
 	tupletops.$(OBJEXT) utils.$(OBJEXT) graceops.$(OBJEXT) \
@@ -319,13 +319,13 @@ DEP_FILES = ./$(DEPDIR)/alsaplayback.Po \
 	./$(DEPDIR)/exportabc.Po \
 	./$(DEPDIR)/exportcsound.Po \
 	./$(DEPDIR)/exportlilypond.Po \
-	./$(DEPDIR)/exportmidi.Po ./$(DEPDIR)/exportpdf.Po \
-	./$(DEPDIR)/exportxml.Po ./$(DEPDIR)/external.Po \
-	./$(DEPDIR)/fakechord.Po ./$(DEPDIR)/figure.Po \
-	./$(DEPDIR)/file.Po ./$(DEPDIR)/gcs.Po \
-	./$(DEPDIR)/graceops.Po ./$(DEPDIR)/hairpin.Po \
-	./$(DEPDIR)/headerdialog.Po ./$(DEPDIR)/help.Po \
-	./$(DEPDIR)/importmidi.Po ./$(DEPDIR)/importxml.Po \
+	./$(DEPDIR)/exportmidi.Po ./$(DEPDIR)/exportxml.Po \
+	./$(DEPDIR)/external.Po ./$(DEPDIR)/fakechord.Po \
+	./$(DEPDIR)/figure.Po ./$(DEPDIR)/file.Po \
+	./$(DEPDIR)/gcs.Po ./$(DEPDIR)/graceops.Po \
+	./$(DEPDIR)/hairpin.Po ./$(DEPDIR)/headerdialog.Po \
+	./$(DEPDIR)/help.Po ./$(DEPDIR)/importmidi.Po \
+	./$(DEPDIR)/importxml.Po \
 	./$(DEPDIR)/instrumentname.Po \
 	./$(DEPDIR)/kbd-custom.Po \
 	./$(DEPDIR)/kbd-interface.Po \
@@ -454,7 +454,6 @@ include ./$(DEPDIR)/exportabc.Po
 include ./$(DEPDIR)/exportcsound.Po
 include ./$(DEPDIR)/exportlilypond.Po
 include ./$(DEPDIR)/exportmidi.Po
-include ./$(DEPDIR)/exportpdf.Po
 include ./$(DEPDIR)/exportxml.Po
 include ./$(DEPDIR)/external.Po
 include ./$(DEPDIR)/fakechord.Po
