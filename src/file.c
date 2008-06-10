@@ -364,13 +364,14 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	  };
 	case MUDELA_FORMAT:
 	  {
-	    exportlilypond (file, gui, 0, 0, 1);
+	    gui->si->markstaffnum = 0;
+	    exportlilypond (file, gui, TRUE);
 	    break;
 	  };
 	case PNG_FORMAT:
 	  {
 	    gui->lilycontrol.excerpt = TRUE;
-            exportlilypond (file, gui, 0, 0, 1);
+            exportlilypond (file, gui, TRUE);
 	    break;
 	  }
 	case ABC_FORMAT:
@@ -394,7 +395,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	
 	/*export parts as lilypond files*/
 	if(Denemo.prefs.saveparts)
-		export_lilypond_parts(file,gui,0,0);
+		export_lilypond_parts(file,gui);
 	if(gui->lilysync==gui->changecount)
 	  gui->lilysync = 0;//still in sync
 	gui->changecount = 0;
@@ -704,7 +705,8 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
 	};
       case MUDELA_FORMAT:
 	{
-	  exportlilypond (gui->filename->str, gui, 0, 0, 1);
+	  gui->lilycontrol.excerpt = TRUE;
+	  exportlilypond (gui->filename->str, gui, TRUE);
 	  break;
 	};
       case ABC_FORMAT:
@@ -731,7 +733,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
       };
    /*Save parts as lilypond files*/   
    if(Denemo.prefs.saveparts)
-	export_lilypond_parts(gui->filename->str,gui,0,0);
+	export_lilypond_parts(gui->filename->str,gui);
   
   denemo_warning (gui, guess_file_format (gui->filename->str));
   if(gui->lilysync==gui->changecount)
@@ -987,5 +989,5 @@ file_savepartswrapper (GtkAction * action, DenemoGUI * gui)
       file_saveas (gui, FALSE);
     }
 
-  export_lilypond_parts (gui->filename->str, gui, 0, 0);
+  export_lilypond_parts (gui->filename->str, gui);
 }

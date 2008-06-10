@@ -322,9 +322,9 @@ denemo_signal_handler (int sig)
       g_debug ("si is %p", gui);
       gchar *filename = g_build_filename(locatedotdenemo (), 
                                          "crashrecovery.denemo", NULL);
-
+      gui->si->markstaffnum = 0;
       if (gui->si->lily_file)
-        exportlilypond (filename, gui, 0, 0, 1);
+        exportlilypond (filename, gui, TRUE);
       else
         exportXML (filename, gui, 0, 0);
 
@@ -342,8 +342,9 @@ denemo_signal_handler (int sig)
           sprintf (t, "%d", i);
           strncat (filename, t, strlen (t));
           strcat (filename, ".denemo");
+	  gui->si->markstaffnum = 0;
           if (gui->si->lily_file)
-            exportlilypond (filename, gui, 0, 0, 1);
+            exportlilypond (filename, gui, TRUE);
           else
             exportXML (filename, gui, 0, 0);
           i++;
@@ -464,7 +465,7 @@ COPYING for details.\n\n");
 
   /* gtk initialization */
   gtk_init (&argc, &argv);
-  load_accels();
+  //load_accels();
   register_stock_items ();
 
   newview ();

@@ -1,358 +1,471 @@
- <!-- 	WARNING! this file is for the old keybinding system which is being phased out -->
 <?xml version="1.0"?>
 <Denemo>
   <keymap>
-    <title>Default Keymap</title>
-    <author>Adam Tee</author>
+    <title>The Default Keymap</title>
+    <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>CursorLeft</action>
-        <bind>h</bind>
-        <bind>Shift+H</bind>
-        <bind>Left</bind>
-        <bind>KP_Left</bind>
-      </row>
-      <row>
-        <action>CursorDown</action>
-        <bind>Down</bind>
-        <bind>j</bind>
-        <bind>Shift+J</bind>
-        <bind>KP_Down</bind>
-      </row>
-      <row>
-        <action>CursorUp</action>
-        <bind>Up</bind>
-        <bind>KP_Up</bind>
-        <bind>k</bind>
-        <bind>Shift+K</bind>
-      </row>
-      <row>
-        <action>CursorRight</action>
-        <bind>Right</bind>
-        <bind>KP_Right</bind>
-        <bind>l</bind>
-        <bind>Shift+L</bind>
-        <bind>L</bind>
-      </row>
-      <row>
-        <action>StaffUp</action>
-        <bind>Ctrl+Up</bind>
-        <bind>Ctrl+k</bind>
-      </row>
-      <row>
-        <action>StaffDown</action>
-        <bind>Ctrl+j</bind>
-        <bind>Ctrl+Down</bind>
-      </row>
-      <row>
-        <action>MeasureLeft</action>
-        <bind>Ctrl+Left</bind>
-        <bind>Ctrl+h</bind>
-      </row>
-      <row>
-        <action>MeasureRight</action>
-        <bind>Ctrl+Right</bind>
-        <bind>Ctrl+l</bind>
-      </row>
-      <row>
-        <action>ToNearestA</action>
-        <bind>a</bind>
-	<bind>Shift+A</bind>
-        <bind>A</bind>
-      </row>
-      <row>
-        <action>ToNearestB</action>
-        <bind>b</bind>
-        <bind>Shift+B</bind>
-        <bind>B</bind>
-      </row>
-      <row>
-        <action>ToNearestC</action>
-        <bind>c</bind>
-        <bind>Shift+C</bind>
-        <bind>C</bind>
-      </row>
-      <row>
-        <action>ToNearestD</action>
-        <bind>d</bind>
-        <bind>Shift+D</bind>
-        <bind>D</bind>
-      </row>
-      <row>
-        <action>ToNearestE</action>
-        <bind>e</bind>
-        <bind>Shift+E</bind>
-        <bind>E</bind>
-      </row>
-      <row>
-        <action>ToNearestF</action>
-        <bind>f</bind>
-        <bind>Shift+F</bind>
-        <bind>F</bind>
-      </row>
-      <row>
-        <action>ToNearestG</action>
-        <bind>g</bind>
-        <bind>Shift+G</bind>
-        <bind>G</bind>
-      </row>
-      <row>
-        <action>OctaveUp</action>
-        <bind>apostrophe</bind>
-      </row>
-      <row>
-        <action>OctaveDown</action>
-        <bind>comma</bind>
-      </row>
-      <row>
-        <action>InsertWholeNote</action>
-        <bind>grave</bind>
+        <action>0</action>
         <bind>0</bind>
-        <bind>KP_0</bind>
       </row>
       <row>
-        <action>InsertHalfNote</action>
+        <action>1</action>
         <bind>1</bind>
-        <bind>KP_1</bind>
       </row>
       <row>
-        <action>InsertQuarterNote</action>
+        <action>2</action>
         <bind>2</bind>
-        <bind>space</bind>
-        <bind>KP_2</bind>
       </row>
       <row>
-        <action>InsertEighthNote</action>
+        <action>3</action>
         <bind>3</bind>
-        <bind>KP_3</bind>
       </row>
       <row>
-        <action>InsertSixteenthNote</action>
+        <action>4</action>
         <bind>4</bind>
-        <bind>KP_4</bind>
       </row>
       <row>
-        <action>InsertThirtysecondNote</action>
+        <action>5</action>
         <bind>5</bind>
-        <bind>KP_5</bind>
       </row>
       <row>
-        <action>InsertSixtyfourthNote</action>
+        <action>6</action>
         <bind>6</bind>
-        <bind>KP_6</bind>
       </row>
       <row>
-        <action>InsertBlankWholeNote</action>
+        <action>A</action>
+        <bind>A</bind>
+        <bind>Shift+A</bind>
+        <bind>a</bind>
       </row>
       <row>
-        <action>InsertBlankHalfNote</action>
+        <action>About</action>
       </row>
       <row>
-        <action>InsertBlankQuarterNote</action>
+        <action>AddAfter</action>
       </row>
       <row>
-        <action>InsertBlankEighthNote</action>
+        <action>AddBefore</action>
       </row>
       <row>
-        <action>InsertBlankSixteenthNote</action>
+        <action>AddBookmark</action>
       </row>
       <row>
-        <action>InsertBlankThirtysecondNote</action>
-      </row>
-      <row>
-        <action>InsertBlankSixtyfourthNote</action>
-      </row>
-      <row>
-        <action>ToggleRestMode</action>
-      </row>
-      <row>
-        <action>ToggleBlankMode</action>
-      </row>
-      <row>
-        <action>InsertWholeRest</action>
-        <bind>Alt+grave</bind>
-        <bind>Alt+0</bind>
-        <bind>Alt+KP_0</bind>
-      </row>
-      <row>
-        <action>InsertHalfRest</action>
-        <bind>Alt+1</bind>
-        <bind>Alt+KP_1</bind>
-      </row>
-      <row>
-        <action>InsertQuarterRest</action>
-        <bind>Alt+2</bind>
-        <bind>Alt+space</bind>
-        <bind>Alt+KP_2</bind>
-      </row>
-      <row>
-        <action>InsertEighthRest</action>
-        <bind>Alt+3</bind>
-        <bind>Alt+KP_3</bind>
-      </row>
-      <row>
-        <action>InsertSixteenthRest</action>
-        <bind>Alt+4</bind>
-        <bind>Alt+KP_4</bind>
-      </row>
-      <row>
-        <action>InsertThirtysecondRest</action>
-        <bind>Alt+5</bind>
-        <bind>Alt+KP_5</bind>
-      </row>
-      <row>
-        <action>InsertSixtyfourthRest</action>
-        <bind>Alt+6</bind>
-        <bind>Alt+KP_6</bind>
-      </row>
-      <row>
-        <action>InsertDuplet</action>
-	<bind>Ctrl+0</bind>
-        <bind>Ctrl+KP_0</bind>
-      </row>
-      <row>
-        <action>InsertTriplet</action>
-	<bind>Ctrl+1</bind>
-       	<bind>Ctrl+KP_1</bind>
-      </row>
-      <row>
-        <action>InsertQuadtuplet</action>
- 	<bind>Ctrl+2</bind>
- 	<bind>Ctrl+KP_2</bind>
-      </row>
-      <row>
-        <action>InsertQuintuplet</action>
-  	<bind>Ctrl+KP_3</bind>
-        <bind>Ctrl+3</bind>    
-      </row>
-      <row>
-        <action>InsertSextuplet</action>
-	<bind>Ctrl+KP_5</bind>
-        <bind>Ctrl+5</bind>
-      </row>
-      <row>
-        <action>InsertSeptuplet</action>
- 	<bind>Ctrl+6</bind>
-        <bind>Ctrl+KP_6</bind>
-      </row>
-      <row>
-        <action>AddTone</action>
-        <bind>Return</bind>
-        <bind>KP_Enter</bind>
-      </row>
-      <row>
-        <action>RemoveTone</action>
-        <bind>Shift+Return</bind>
-        <bind>Shift+KP_Enter</bind>
-        <bind>KP_Add</bind>
-        <bind>Shift+KP_Add</bind>
-      </row>
-      <row>
-        <action>Sharpen/StemDown</action>
-        <bind>Shift+plus</bind>
-      </row>
-      <row>
-        <action>Flatten/StemUp</action>
-        <bind>minus</bind>
+        <action>AddChords</action>
       </row>
       <row>
         <action>AddDot</action>
         <bind>period</bind>
       </row>
       <row>
-        <action>RemoveDot</action>
-        <bind>Shift+greater</bind>
+        <action>AddFiguredBass</action>
       </row>
       <row>
-        <action>ToggleTie</action>
+        <action>AddInitial</action>
       </row>
       <row>
-        <action>DeleteObject</action>
-        <bind>x</bind>
-        <bind>Delete</bind>
+        <action>AddLast</action>
       </row>
       <row>
-        <action>DeletePreviousObject</action>
-        <bind>Shift+X</bind>
-        <bind>BackSpace</bind>
+        <action>AddLyric</action>
       </row>
       <row>
-        <action>InsertMeasure</action>
-        <bind>m</bind>
+        <action>AddMovements</action>
+      </row>
+      <row>
+        <action>AddStaffs</action>
+      </row>
+      <row>
+        <action>AddTone</action>
+        <bind>KP_Enter</bind>
+        <bind>Return</bind>
+      </row>
+      <row>
+        <action>AddVoice</action>
+      </row>
+      <row>
+        <action>AllOther</action>
       </row>
       <row>
         <action>AppendMeasure</action>
         <bind>Shift+M</bind>
       </row>
       <row>
+        <action>AppendMesauresToScore</action>
+      </row>
+      <row>
+        <action>Articulation</action>
+      </row>
+      <row>
+        <action>B</action>
+        <bind>B</bind>
+        <bind>Shift+B</bind>
+        <bind>b</bind>
+      </row>
+      <row>
+        <action>Blank</action>
+      </row>
+      <row>
+        <action>Bookmarks</action>
+      </row>
+      <row>
+        <action>C</action>
+        <bind>C</bind>
+        <bind>Shift+C</bind>
+        <bind>c</bind>
+      </row>
+      <row>
+        <action>Change</action>
+      </row>
+      <row>
+        <action>Change0</action>
+      </row>
+      <row>
+        <action>Change1</action>
+      </row>
+      <row>
+        <action>Change2</action>
+      </row>
+      <row>
+        <action>Change3</action>
+      </row>
+      <row>
+        <action>Change4</action>
+      </row>
+      <row>
+        <action>Change5</action>
+      </row>
+      <row>
+        <action>Change6</action>
+      </row>
+      <row>
+        <action>ChangeDuration</action>
+      </row>
+      <row>
+        <action>ChangeNote</action>
+      </row>
+      <row>
+        <action>ChangeNotehead</action>
+      </row>
+      <row>
+        <action>ChangePitch</action>
+      </row>
+      <row>
+        <action>ChangeRest</action>
+      </row>
+      <row>
+        <action>ChangeRest0</action>
+      </row>
+      <row>
+        <action>ChangeRest1</action>
+      </row>
+      <row>
+        <action>ChangeRest2</action>
+      </row>
+      <row>
+        <action>ChangeRest3</action>
+      </row>
+      <row>
+        <action>ChangeRest4</action>
+      </row>
+      <row>
+        <action>ChangeRest5</action>
+      </row>
+      <row>
+        <action>ChangeRest6</action>
+      </row>
+      <row>
+        <action>ChangeToA</action>
+      </row>
+      <row>
+        <action>ChangeToB</action>
+      </row>
+      <row>
+        <action>ChangeToC</action>
+      </row>
+      <row>
+        <action>ChangeToD</action>
+      </row>
+      <row>
+        <action>ChangeToE</action>
+      </row>
+      <row>
+        <action>ChangeToF</action>
+      </row>
+      <row>
+        <action>ChangeToG</action>
+      </row>
+      <row>
+        <action>ChordMenu</action>
+      </row>
+      <row>
+        <action>ClassicMode</action>
+      </row>
+      <row>
+        <action>ClassicModeNote</action>
+      </row>
+      <row>
+        <action>ClearOverlay</action>
+      </row>
+      <row>
+        <action>Clef</action>
+      </row>
+      <row>
+        <action>ClefMenu</action>
+      </row>
+      <row>
+        <action>Close</action>
+      </row>
+      <row>
+        <action>CloseRepeat</action>
+      </row>
+      <row>
+        <action>ConfigureScore</action>
+      </row>
+      <row>
+        <action>Copy</action>
+      </row>
+      <row>
+        <action>CreateRhythm</action>
+      </row>
+      <row>
+        <action>Cursor</action>
+      </row>
+      <row>
+        <action>CursorDown</action>
+        <bind>KP_Down</bind>
+        <bind>Shift+J</bind>
+        <bind>j</bind>
+        <bind>Down</bind>
+      </row>
+      <row>
+        <action>CursorLeft</action>
+        <bind>KP_Left</bind>
+        <bind>Left</bind>
+        <bind>Shift+H</bind>
+        <bind>h</bind>
+      </row>
+      <row>
+        <action>CursorRight</action>
+        <bind>L</bind>
+        <bind>Shift+L</bind>
+        <bind>l</bind>
+        <bind>KP_Right</bind>
+        <bind>Right</bind>
+      </row>
+      <row>
+        <action>CursorUp</action>
+        <bind>Shift+K</bind>
+        <bind>k</bind>
+        <bind>KP_Up</bind>
+        <bind>Up</bind>
+      </row>
+      <row>
+        <action>Cut</action>
+      </row>
+      <row>
+        <action>D</action>
+        <bind>D</bind>
+        <bind>Shift+D</bind>
+        <bind>d</bind>
+      </row>
+      <row>
+        <action>Delete</action>
+      </row>
+      <row>
+        <action>DeleteAfter</action>
+      </row>
+      <row>
+        <action>DeleteBefore</action>
+      </row>
+      <row>
+        <action>DeleteBookmarks</action>
+      </row>
+      <row>
         <action>DeleteMeasure</action>
-        <bind>Ctrl+Delete</bind>
-        <bind>Ctrl+x</bind>
+        <bind>Control+x</bind>
+        <bind>Control+Delete</bind>
       </row>
       <row>
-        <action>ShrinkMeasures</action>
-        <bind>Ctrl+Shift+Left</bind>
-        <bind>Ctrl+Shift+KP_4</bind>
+        <action>DeleteMeasureAllStaffs</action>
       </row>
       <row>
-        <action>WidenMeasures</action>
-        <bind>Ctrl+Shift+Right</bind>
-        <bind>Ctrl+Shift+KP_6</bind>
+        <action>DeleteMovement</action>
+      </row>
+      <row>
+        <action>DeleteObject</action>
+        <bind>Delete</bind>
+        <bind>x</bind>
+      </row>
+      <row>
+        <action>DeletePreviousObject</action>
+        <bind>BackSpace</bind>
+        <bind>Shift+X</bind>
+      </row>
+      <row>
+        <action>DeleteRhythm</action>
       </row>
       <row>
         <action>DeleteStaff</action>
+        <bind>Shift+Control+X</bind>
+        <bind>Shift+Control+Delete</bind>
       </row>
       <row>
-        <action>ShorterStaffs</action>
-        <bind>Ctrl+Shift+Up</bind>
-        <bind>Ctrl+Shift+KP_8</bind>
+        <action>DoubleBar</action>
       </row>
       <row>
-        <action>TallerStaffs</action>
-        <bind>Ctrl+Shift+Down</bind>
-        <bind>Ctrl+Shift+KP_2</bind>
+        <action>E</action>
+        <bind>E</bind>
+        <bind>Shift+E</bind>
+        <bind>e</bind>
       </row>
       <row>
-        <action>InsertTrebleClef</action>
+        <action>Edit</action>
       </row>
       <row>
-        <action>InsertBassClef</action>
+        <action>EditChords</action>
       </row>
       <row>
-        <action>Insertg8clef</action>
+        <action>EditDuration</action>
       </row>
       <row>
-        <action>InsertAltoClef</action>
+        <action>EditFiguredBass</action>
       </row>
       <row>
-        <action>InsertTenorClef</action>
+        <action>EditLyric</action>
       </row>
       <row>
-        <action>InsertSopranoClef</action>
+        <action>EditMenu</action>
       </row>
       <row>
-        <action>SetInitialTrebleClef</action>
+        <action>EditMode</action>
       </row>
       <row>
-        <action>SetInitialBassClef</action>
+        <action>EditModeNote</action>
       </row>
       <row>
-        <action>SetInitialg8clef</action>
+        <action>EditNote</action>
       </row>
       <row>
-        <action>SetInitialAltoClef</action>
+        <action>EighthNote</action>
+        <bind>KP_3</bind>
       </row>
       <row>
-        <action>SetInitialTenorClef</action>
+        <action>InsertEighthRest</action>
+        <bind>Alt+KP_3</bind>
+        <bind>Alt+3</bind>
       </row>
       <row>
-        <action>SetInitialSopranoClef</action>
+        <action>EndBar</action>
+      </row>
+      <row>
+        <action>EndTuplet</action>
+      </row>
+      <row>
+        <action>EntryMenu</action>
+      </row>
+      <row>
+        <action>ExportPDF</action>
+      </row>
+      <row>
+        <action>ExpressionMarks</action>
+      </row>
+      <row>
+        <action>ExtendSelect</action>
+      </row>
+      <row>
+        <action>F</action>
+        <bind>F</bind>
+        <bind>Shift+F</bind>
+        <bind>f</bind>
+      </row>
+      <row>
+        <action>FileMenu</action>
+      </row>
+      <row>
+        <action>Flatten/StemUp</action>
+        <bind>minus</bind>
+      </row>
+      <row>
+        <action>ForceCaution</action>
+      </row>
+      <row>
+        <action>G</action>
+        <bind>G</bind>
+        <bind>Shift+G</bind>
+        <bind>g</bind>
+      </row>
+      <row>
+        <action>GoToBeginning</action>
+      </row>
+      <row>
+        <action>GoToEnd</action>
+      </row>
+      <row>
+        <action>GoToMeasure</action>
+      </row>
+      <row>
+        <action>GotoBookmark</action>
+      </row>
+      <row>
+        <action>HalfNote</action>
+        <bind>KP_1</bind>
+      </row>
+      <row>
+        <action>InsertHalfRest</action>
+        <bind>Alt+KP_1</bind>
+        <bind>Alt+1</bind>
+      </row>
+      <row>
+        <action>Help</action>
+      </row>
+      <row>
+        <action>HelpMenu</action>
+      </row>
+      <row>
+        <action>InitialClef</action>
+      </row>
+      <row>
+        <action>InitialKey</action>
+      </row>
+      <row>
+        <action>InitialTimeSig</action>
+      </row>
+      <row>
+        <action>Insert</action>
+      </row>
+      <row>
+        <action>Insert0</action>
+      </row>
+      <row>
+        <action>Insert1</action>
+      </row>
+      <row>
+        <action>Insert128Time</action>
+      </row>
+      <row>
+        <action>Insert2</action>
       </row>
       <row>
         <action>Insert22Time</action>
       </row>
       <row>
+        <action>Insert24Time</action>
+      </row>
+      <row>
+        <action>Insert3</action>
+      </row>
+      <row>
         <action>Insert32Time</action>
+      </row>
+      <row>
+        <action>Insert34Time</action>
+      </row>
+      <row>
+        <action>Insert38Time</action>
+      </row>
+      <row>
+        <action>Insert4</action>
       </row>
       <row>
         <action>Insert42Time</action>
@@ -361,31 +474,531 @@
         <action>Insert44Time</action>
       </row>
       <row>
-        <action>Insert34Time</action>
+        <action>Insert5</action>
       </row>
       <row>
-        <action>Insert24Time</action>
+        <action>Insert6</action>
       </row>
       <row>
         <action>Insert64Time</action>
       </row>
       <row>
-        <action>Insert38Time</action>
-      </row>
-      <row>
         <action>Insert68Time</action>
-      </row>
-      <row>
-        <action>Insert128Time</action>
       </row>
       <row>
         <action>Insert98Time</action>
       </row>
       <row>
+        <action>InsertA</action>
+      </row>
+      <row>
+        <action>InsertASharpmin</action>
+      </row>
+      <row>
+        <action>InsertAflatmaj</action>
+      </row>
+      <row>
+        <action>InsertAflatmin</action>
+      </row>
+      <row>
+        <action>InsertAltoClef</action>
+      </row>
+      <row>
+        <action>InsertAmaj</action>
+      </row>
+      <row>
+        <action>InsertAmin</action>
+      </row>
+      <row>
+        <action>InsertB</action>
+      </row>
+      <row>
+        <action>InsertBarline</action>
+      </row>
+      <row>
+        <action>InsertBassClef</action>
+      </row>
+      <row>
+        <action>InsertBflatmaj</action>
+      </row>
+      <row>
+        <action>InsertBflatmin</action>
+      </row>
+      <row>
+        <action>InsertBlankEighthNote</action>
+      </row>
+      <row>
+        <action>InsertBlankHalfNote</action>
+      </row>
+      <row>
+        <action>InsertBlankQuarterNote</action>
+      </row>
+      <row>
+        <action>InsertBlankSixteenthNote</action>
+      </row>
+      <row>
+        <action>InsertBlankSixtyfourthNote</action>
+      </row>
+      <row>
+        <action>InsertBlankThirtysecondNote</action>
+      </row>
+      <row>
+        <action>InsertBlankWholeNote</action>
+      </row>
+      <row>
+        <action>InsertBmaj</action>
+      </row>
+      <row>
+        <action>InsertBmin</action>
+      </row>
+      <row>
+        <action>InsertC</action>
+      </row>
+      <row>
+        <action>InsertCSharpmaj</action>
+      </row>
+      <row>
+        <action>InsertCSharpmin</action>
+      </row>
+      <row>
+        <action>InsertCflatmaj</action>
+      </row>
+      <row>
+        <action>InsertClef</action>
+      </row>
+      <row>
+        <action>InsertCmaj</action>
+      </row>
+      <row>
+        <action>InsertCmin</action>
+      </row>
+      <row>
+        <action>InsertD</action>
+      </row>
+      <row>
+        <action>InsertDSharpmin</action>
+      </row>
+      <row>
+        <action>InsertDflatmaj</action>
+      </row>
+      <row>
+        <action>InsertDmaj</action>
+      </row>
+      <row>
+        <action>InsertDmin</action>
+      </row>
+      <row>
+        <action>InsertDuplet</action>
+        <bind>Control+KP_0</bind>
+        <bind>Control+0</bind>
+      </row>
+      <row>
+        <action>InsertDuration</action>
+      </row>
+      <row>
+        <action>InsertDynamic</action>
+      </row>
+      <row>
+        <action>InsertE</action>
+      </row>
+      <row>
+        <action>InsertEflatmaj</action>
+      </row>
+      <row>
+        <action>InsertEflatmin</action>
+      </row>
+      <row>
+        <action>InsertEmaj</action>
+      </row>
+      <row>
+        <action>InsertEmin</action>
+      </row>
+      <row>
+        <action>InsertF</action>
+      </row>
+      <row>
+        <action>InsertFSharpmaj</action>
+      </row>
+      <row>
+        <action>InsertFSharpmin</action>
+      </row>
+      <row>
+        <action>InsertFmaj</action>
+      </row>
+      <row>
+        <action>InsertFmin</action>
+      </row>
+      <row>
+        <action>InsertG</action>
+      </row>
+      <row>
+        <action>InsertGSharpmin</action>
+      </row>
+      <row>
+        <action>InsertGflatmaj</action>
+      </row>
+      <row>
+        <action>InsertGmaj</action>
+      </row>
+      <row>
+        <action>InsertGmin</action>
+      </row>
+      <row>
+        <action>InsertKey</action>
+      </row>
+      <row>
+        <action>InsertLilyDirective</action>
+      </row>
+      <row>
+        <action>InsertLilyPostfix</action>
+      </row>
+      <row>
+        <action>InsertMeasure</action>
+        <bind>m</bind>
+      </row>
+      <row>
+        <action>InsertMenu</action>
+      </row>
+      <row>
+        <action>InsertMode</action>
+      </row>
+      <row>
+        <action>InsertModeNote</action>
+      </row>
+      <row>
+        <action>InsertMovement</action>
+      </row>
+      <row>
+        <action>InsertMovementAfter</action>
+      </row>
+      <row>
+        <action>InsertMovementBefore</action>
+      </row>
+      <row>
+        <action>InsertNote</action>
+      </row>
+      <row>
+        <action>InsertQuadtuplet</action>
+        <bind>Control+KP_2</bind>
+        <bind>Control+2</bind>
+      </row>
+      <row>
+        <action>InsertQuintuplet</action>
+        <bind>Control+3</bind>
+        <bind>Control+KP_3</bind>
+      </row>
+      <row>
+        <action>InsertRest0</action>
+      </row>
+      <row>
+        <action>InsertRest1</action>
+      </row>
+      <row>
+        <action>InsertRest2</action>
+      </row>
+      <row>
+        <action>InsertRest3</action>
+      </row>
+      <row>
+        <action>InsertRest4</action>
+      </row>
+      <row>
+        <action>InsertRest5</action>
+      </row>
+      <row>
+        <action>InsertRest6</action>
+      </row>
+      <row>
+        <action>InsertRhythm</action>
+      </row>
+      <row>
+        <action>InsertSeptuplet</action>
+        <bind>Control+KP_6</bind>
+        <bind>Control+6</bind>
+      </row>
+      <row>
+        <action>InsertSextuplet</action>
+        <bind>Control+5</bind>
+        <bind>Control+KP_5</bind>
+      </row>
+      <row>
+        <action>InsertSopranoClef</action>
+      </row>
+      <row>
+        <action>InsertStaff</action>
+      </row>
+      <row>
+        <action>InsertStem</action>
+      </row>
+      <row>
+        <action>InsertTenorClef</action>
+      </row>
+      <row>
+        <action>InsertTiedNote</action>
+      </row>
+      <row>
+        <action>InsertTimeSig</action>
+      </row>
+      <row>
+        <action>InsertTrebleClef</action>
+      </row>
+      <row>
+        <action>InsertTriplet</action>
+        <bind>Control+KP_1</bind>
+        <bind>Control+1</bind>
+      </row>
+      <row>
+        <action>Insertg8clef</action>
+      </row>
+      <row>
+        <action>JoinVoices</action>
+      </row>
+      <row>
+        <action>Key</action>
+      </row>
+      <row>
+        <action>KeyBindings</action>
+      </row>
+      <row>
+        <action>Keyboard</action>
+      </row>
+      <row>
+        <action>ListAvailablePlugins</action>
+      </row>
+      <row>
+        <action>ListPlugins</action>
+      </row>
+      <row>
+        <action>LoadPlugins</action>
+      </row>
+      <row>
+        <action>Lyrics</action>
+      </row>
+      <row>
+        <action>Measure</action>
+      </row>
+      <row>
+        <action>MeasureLeft</action>
+        <bind>Control+h</bind>
+        <bind>Control+Left</bind>
+      </row>
+      <row>
+        <action>MeasureMenu</action>
+      </row>
+      <row>
+        <action>MeasureRight</action>
+        <bind>Control+l</bind>
+        <bind>Control+Right</bind>
+      </row>
+      <row>
+        <action>Modeless</action>
+      </row>
+      <row>
+        <action>MovementMenu</action>
+      </row>
+      <row>
+        <action>MovementProps</action>
+      </row>
+      <row>
+        <action>Navigation</action>
+      </row>
+      <row>
+        <action>NavigationMenu</action>
+      </row>
+      <row>
+        <action>New</action>
+      </row>
+      <row>
+        <action>NewWindow</action>
+      </row>
+      <row>
+        <action>NextBookmark</action>
+      </row>
+      <row>
+        <action>NextMovement</action>
+      </row>
+      <row>
+        <action>NextRhythm</action>
+      </row>
+      <row>
+        <action>Note</action>
+      </row>
+      <row>
+        <action>Note entry</action>
+      </row>
+      <row>
+        <action>NoteProperties</action>
+      </row>
+      <row>
+        <action>OctaveDown</action>
+        <bind>comma</bind>
+      </row>
+      <row>
+        <action>OctaveUp</action>
+        <bind>apostrophe</bind>
+      </row>
+      <row>
+        <action>Open</action>
+      </row>
+      <row>
+        <action>OpenCloseRepeat</action>
+      </row>
+      <row>
+        <action>OpenExample</action>
+      </row>
+      <row>
+        <action>OpenMyTemplate</action>
+      </row>
+      <row>
+        <action>OpenNewWindow</action>
+      </row>
+      <row>
+        <action>OpenRecent</action>
+      </row>
+      <row>
+        <action>OpenRepeat</action>
+      </row>
+      <row>
+        <action>OpenTemplate</action>
+      </row>
+      <row>
+        <action>Ornaments</action>
+      </row>
+      <row>
+        <action>Other</action>
+      </row>
+      <row>
+        <action>Paste</action>
+      </row>
+      <row>
+        <action>Play</action>
+      </row>
+      <row>
+        <action>PlayCSound</action>
+      </row>
+      <row>
+        <action>Playback</action>
+      </row>
+      <row>
+        <action>PlaybackMenu</action>
+      </row>
+      <row>
+        <action>PlaybackProperties</action>
+      </row>
+      <row>
+        <action>Preferences</action>
+      </row>
+      <row>
+        <action>PrevBookmark</action>
+      </row>
+      <row>
+        <action>PreviousMovement</action>
+      </row>
+      <row>
+        <action>Print</action>
+      </row>
+      <row>
+        <action>PrintExcerptPreview</action>
+      </row>
+      <row>
+        <action>PrintPart</action>
+      </row>
+      <row>
+        <action>PrintPreview</action>
+      </row>
+      <row>
+        <action>QuarterNote</action>
+        <bind>KP_2</bind>
+        <bind>space</bind>
+      </row>
+      <row>
+        <action>InsertQuarterRest</action>
+        <bind>Alt+KP_2</bind>
+        <bind>Alt+space</bind>
+        <bind>Alt+2</bind>
+      </row>
+      <row>
+        <action>QuickEdits</action>
+      </row>
+      <row>
+        <action>Quit</action>
+      </row>
+      <row>
+        <action>ReadOnly</action>
+      </row>
+      <row>
+        <action>Redo</action>
+      </row>
+      <row>
+        <action>RemoveDot</action>
+        <bind>Shift+greater</bind>
+      </row>
+      <row>
+        <action>RemoveTone</action>
+        <bind>Shift+KP_Add</bind>
+        <bind>KP_Add</bind>
+        <bind>Shift+KP_Enter</bind>
+        <bind>Shift+Return</bind>
+      </row>
+      <row>
+        <action>Rest</action>
+      </row>
+      <row>
+        <action>Rest entry</action>
+      </row>
+      <row>
+        <action>RestEntry</action>
+      </row>
+      <row>
+        <action>Rhythm</action>
+      </row>
+      <row>
+        <action>Save</action>
+      </row>
+      <row>
+        <action>SaveAccels</action>
+      </row>
+      <row>
+        <action>SaveAs</action>
+      </row>
+      <row>
+        <action>SaveParts</action>
+      </row>
+      <row>
+        <action>SaveSelection</action>
+      </row>
+      <row>
+        <action>SaveTemplate</action>
+      </row>
+      <row>
+        <action>ScoreProperties</action>
+      </row>
+      <row>
+        <action>Select</action>
+      </row>
+      <row>
+        <action>SelectDuration</action>
+      </row>
+      <row>
+        <action>SelectNote</action>
+      </row>
+      <row>
+        <action>Set128Time</action>
+      </row>
+      <row>
         <action>Set22Time</action>
       </row>
       <row>
+        <action>Set24Time</action>
+      </row>
+      <row>
         <action>Set32Time</action>
+      </row>
+      <row>
+        <action>Set34Time</action>
+      </row>
+      <row>
+        <action>Set38Time</action>
       </row>
       <row>
         <action>Set42Time</action>
@@ -394,269 +1007,281 @@
         <action>Set44Time</action>
       </row>
       <row>
-        <action>Set34Time</action>
-      </row>
-      <row>
-        <action>Set24Time</action>
-      </row>
-      <row>
         <action>Set64Time</action>
-      </row>
-      <row>
-        <action>Set38Time</action>
       </row>
       <row>
         <action>Set68Time</action>
       </row>
       <row>
-        <action>Set128Time</action>
-      </row>
-      <row>
         <action>Set98Time</action>
       </row>
       <row>
-        <action>InsertCmaj</action>
-      </row>
-      <row>
-        <action>InsertGmaj</action>
-      </row>
-      <row>
-        <action>InsertDmaj</action>
-      </row>
-      <row>
-        <action>InsertAmaj</action>
-      </row>
-      <row>
-        <action>InsertEmaj</action>
-      </row>
-      <row>
-        <action>InsertBmaj</action>
-      </row>
-      <row>
-        <action>InsertFSharpmaj</action>
-      </row>
-      <row>
-        <action>InsertCSharpmaj</action>
-      </row>
-      <row>
-        <action>InsertFmaj</action>
-      </row>
-      <row>
-        <action>InsertBflatmaj</action>
-      </row>
-      <row>
-        <action>InsertEflatmaj</action>
-      </row>
-      <row>
-        <action>InsertAflatmaj</action>
-      </row>
-      <row>
-        <action>InsertDflatmaj</action>
-      </row>
-      <row>
-        <action>InsertGflatmaj</action>
-      </row>
-      <row>
-        <action>InsertCflatmaj</action>
-      </row>
-      <row>
-        <action>InsertAmin</action>
-      </row>
-      <row>
-        <action>InsertEmin</action>
-      </row>
-      <row>
-        <action>InsertBmin</action>
-      </row>
-      <row>
-        <action>InsertFSharpmin</action>
-      </row>
-      <row>
-        <action>InsertCSharpmin</action>
-      </row>
-      <row>
-        <action>InsertGSharpmin</action>
-      </row>
-      <row>
-        <action>InsertDSharpmin</action>
-      </row>
-      <row>
-        <action>InsertASharpmin</action>
-      </row>
-      <row>
-        <action>InsertDmin</action>
-      </row>
-      <row>
-        <action>InsertGmin</action>
-      </row>
-      <row>
-        <action>InsertCmin</action>
-      </row>
-      <row>
-        <action>InsertFmin</action>
-      </row>
-      <row>
-        <action>InsertBflatmin</action>
-      </row>
-      <row>
-        <action>InsertEflatmin</action>
-      </row>
-      <row>
-        <action>InsertAflatmin</action>
-      </row>
-      <row>
-        <action>SetInitialCmaj</action>
-      </row>
-      <row>
-        <action>SetInitialGmaj</action>
-      </row>
-      <row>
-        <action>SetInitialDmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAmaj</action>
-      </row>
-      <row>
-        <action>SetInitialEmaj</action>
-      </row>
-      <row>
-        <action>SetInitialBmaj</action>
-      </row>
-      <row>
-        <action>SetInitialFSharpmaj</action>
-      </row>
-      <row>
-        <action>SetInitialCSharpmaj</action>
-      </row>
-      <row>
-        <action>SetInitialFmaj</action>
-      </row>
-      <row>
-        <action>SetInitialBflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialEflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialDflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialGflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialCflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAmin</action>
-      </row>
-      <row>
-        <action>SetInitialEmin</action>
-      </row>
-      <row>
-        <action>SetInitialBmin</action>
-      </row>
-      <row>
-        <action>SetInitialFSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialCSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialGSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialDSharpmin</action>
+        <action>SetGrace</action>
       </row>
       <row>
         <action>SetInitialASharpmin</action>
       </row>
       <row>
-        <action>SetInitialDmin</action>
-      </row>
-      <row>
-        <action>SetInitialGmin</action>
-      </row>
-      <row>
-        <action>SetInitialCmin</action>
-      </row>
-      <row>
-        <action>SetInitialFmin</action>
-      </row>
-      <row>
-        <action>SetInitialBflatmin</action>
-      </row>
-      <row>
-        <action>SetInitialEflatmin</action>
+        <action>SetInitialAflatmaj</action>
       </row>
       <row>
         <action>SetInitialAflatmin</action>
       </row>
       <row>
-        <action>SetMark</action>
-        <bind>Ctrl+space</bind>
+        <action>SetInitialAltoClef</action>
       </row>
       <row>
-        <action>UnsetMark</action>
-        <bind>Ctrl+Shift+space</bind>
+        <action>SetInitialAmaj</action>
+      </row>
+      <row>
+        <action>SetInitialAmin</action>
+      </row>
+      <row>
+        <action>SetInitialBassClef</action>
+      </row>
+      <row>
+        <action>SetInitialBflatmaj</action>
+      </row>
+      <row>
+        <action>SetInitialBflatmin</action>
+      </row>
+      <row>
+        <action>SetInitialBmaj</action>
+      </row>
+      <row>
+        <action>SetInitialBmin</action>
+      </row>
+      <row>
+        <action>SetInitialCSharpmaj</action>
+      </row>
+      <row>
+        <action>SetInitialCSharpmin</action>
+      </row>
+      <row>
+        <action>SetInitialCflatmaj</action>
+      </row>
+      <row>
+        <action>SetInitialCmaj</action>
+      </row>
+      <row>
+        <action>SetInitialCmin</action>
+      </row>
+      <row>
+        <action>SetInitialDSharpmin</action>
+      </row>
+      <row>
+        <action>SetInitialDflatmaj</action>
+      </row>
+      <row>
+        <action>SetInitialDmaj</action>
+      </row>
+      <row>
+        <action>SetInitialDmin</action>
+      </row>
+      <row>
+        <action>SetInitialEflatmaj</action>
+      </row>
+      <row>
+        <action>SetInitialEflatmin</action>
+      </row>
+      <row>
+        <action>SetInitialEmaj</action>
+      </row>
+      <row>
+        <action>SetInitialEmin</action>
+      </row>
+      <row>
+        <action>SetInitialFSharpmaj</action>
+      </row>
+      <row>
+        <action>SetInitialFSharpmin</action>
+      </row>
+      <row>
+        <action>SetInitialFmaj</action>
+      </row>
+      <row>
+        <action>SetInitialFmin</action>
+      </row>
+      <row>
+        <action>SetInitialGSharpmin</action>
+      </row>
+      <row>
+        <action>SetInitialGflatmaj</action>
+      </row>
+      <row>
+        <action>SetInitialGmaj</action>
+      </row>
+      <row>
+        <action>SetInitialGmin</action>
+      </row>
+      <row>
+        <action>SetInitialSopranoClef</action>
+      </row>
+      <row>
+        <action>SetInitialTenorClef</action>
+      </row>
+      <row>
+        <action>SetInitialTrebleClef</action>
+      </row>
+      <row>
+        <action>SetInitialg8clef</action>
+      </row>
+      <row>
+        <action>SetMark</action>
+        <bind>Control+space</bind>
+      </row>
+      <row>
+        <action>Sharpen/StemDown</action>
+        <bind>Shift+plus</bind>
+      </row>
+      <row>
+        <action>ShorterStaffs</action>
+        <bind>Shift+Control+KP_8</bind>
+        <bind>Shift+Control+Up</bind>
+      </row>
+      <row>
+        <action>ShrinkMeasures</action>
+        <bind>Shift+Control+KP_4</bind>
+        <bind>Shift+Control+Left</bind>
+      </row>
+      <row>
+        <action>SixteenthNote</action>
+        <bind>KP_4</bind>
+      </row>
+      <row>
+        <action>InsertSixteenthRest</action>
+        <bind>Alt+KP_4</bind>
+        <bind>Alt+4</bind>
+      </row>
+      <row>
+        <action>SixtyfourthNote</action>
+        <bind>KP_6</bind>
+      </row>
+      <row>
+        <action>InsertSixtyfourthRest</action>
+        <bind>Alt+KP_6</bind>
+        <bind>Alt+6</bind>
+      </row>
+      <row>
+        <action>SplitVoices</action>
+      </row>
+      <row>
+        <action>Staff</action>
+      </row>
+      <row>
+        <action>StaffDown</action>
+        <bind>Control+Down</bind>
+        <bind>Control+j</bind>
+      </row>
+      <row>
+        <action>StaffMenu</action>
+      </row>
+      <row>
+        <action>StaffProperties</action>
+      </row>
+      <row>
+        <action>StaffUp</action>
+        <bind>Control+k</bind>
+        <bind>Control+Up</bind>
+      </row>
+      <row>
+        <action>StartTriplet</action>
+      </row>
+      <row>
+        <action>Stop</action>
+      </row>
+      <row>
+        <action>Stub</action>
+      </row>
+      <row>
+        <action>SwapMovements</action>
+      </row>
+      <row>
+        <action>SwapStaffs</action>
+      </row>
+      <row>
+        <action>TallerStaffs</action>
+        <bind>Shift+Control+KP_2</bind>
+        <bind>Shift+Control+Down</bind>
+      </row>
+      <row>
+        <action>ThirtysecondNote</action>
+        <bind>KP_5</bind>
+      </row>
+      <row>
+        <action>InsertThirtysecondRest</action>
+        <bind>Alt+KP_5</bind>
+        <bind>Alt+5</bind>
+      </row>
+      <row>
+        <action>TimeSig</action>
+      </row>
+      <row>
+        <action>ToggleAccent</action>
+      </row>
+      <row>
+        <action>ToggleActionMenu</action>
+      </row>
+      <row>
+        <action>ToggleArpeggio</action>
+      </row>
+      <row>
+        <action>ToggleArticulationPalette</action>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
         <bind>Shift+parenleft</bind>
       </row>
       <row>
-        <action>ToggleEndSlur</action>
-      </row>
-      <row>
-        <action>ToggleStartCrescendo</action>
-      </row>
-      <row>
-        <action>ToggleEndCrescendo</action>
-      </row>
-      <row>
-        <action>ToggleStartDiminuendo</action>
-      </row>
-      <row>
-        <action>ToggleEndDiminuendo</action>
-      </row>
-      <row>
-        <action>ToggleAccent</action>
-      </row>
-      <row>
-        <action>ToggleFermata</action>
-        <bind>Shift+asterisk</bind>
-      </row>
-      <row>
-        <action>ToggleStaccato</action>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
-      </row>
-      <row>
-        <action>ToggleTrill</action>
-      </row>
-      <row>
-        <action>ToggleTurn</action>
-      </row>
-      <row>
-        <action>ToggleMordent</action>
-      </row>
-      <row>
-        <action>ToggleStaccatissimo</action>
+        <action>ToggleBlankMode</action>
       </row>
       <row>
         <action>ToggleCoda</action>
         <bind>Shift+parenright</bind>
       </row>
       <row>
+        <action>ToggleEdit</action>
+        <bind>Insert</bind>
+      </row>
+      <row>
+        <action>ToggleEndCrescendo</action>
+      </row>
+      <row>
+        <action>ToggleEndDiminuendo</action>
+      </row>
+      <row>
+        <action>ToggleEndSlur</action>
+      </row>
+      <row>
+        <action>ToggleEntryToolbar</action>
+      </row>
+      <row>
+        <action>ToggleFermata</action>
+        <bind>Shift+asterisk</bind>
+      </row>
+      <row>
         <action>ToggleFlageolet</action>
         <bind>Shift+bar</bind>
       </row>
       <row>
+        <action>ToggleLilyText</action>
+      </row>
+      <row>
+        <action>ToggleMordent</action>
+      </row>
+      <row>
+        <action>ToggleObjectMenu</action>
+      </row>
+      <row>
         <action>ToggleOpen</action>
         <bind>backslash</bind>
+      </row>
+      <row>
+        <action>TogglePitchRecognition</action>
+      </row>
+      <row>
+        <action>TogglePrall</action>
+        <bind>Shift+Control+bar</bind>
       </row>
       <row>
         <action>TogglePrallMordent</action>
@@ -667,12 +1292,21 @@
         <bind>Shift+Z</bind>
       </row>
       <row>
-        <action>TogglePrall</action>
-        <bind>Ctrl+Shift+bar</bind>
+        <action>ToggleRest</action>
+        <bind>r</bind>
+      </row>
+      <row>
+        <action>ToggleRestMode</action>
       </row>
       <row>
         <action>ToggleReverseTurn</action>
-        <bind>Ctrl+backslash</bind>
+        <bind>Control+backslash</bind>
+      </row>
+      <row>
+        <action>ToggleRhythm</action>
+      </row>
+      <row>
+        <action>ToggleRhythmToolbar</action>
       </row>
       <row>
         <action>ToggleSegno</action>
@@ -682,325 +1316,78 @@
         <action>ToggleSforzato</action>
       </row>
       <row>
+        <action>ToggleStaccatissimo</action>
+      </row>
+      <row>
+        <action>ToggleStaccato</action>
+      </row>
+      <row>
+        <action>ToggleStartCrescendo</action>
+      </row>
+      <row>
+        <action>ToggleStartDiminuendo</action>
+      </row>
+      <row>
         <action>ToggleStopped</action>
-        <bind>Alt+Shift+bar</bind>
+        <bind>Shift+Alt+bar</bind>
+      </row>
+      <row>
+        <action>ToggleTenuto</action>
       </row>
       <row>
         <action>ToggleThumb</action>
-        <bind>Ctrl+z</bind>
+        <bind>Control+z</bind>
+      </row>
+      <row>
+        <action>InsertTiedNote</action>
+      </row>
+      <row>
+        <action>ToggleTrill</action>
+      </row>
+      <row>
+        <action>ToggleTurn</action>
       </row>
       <row>
         <action>ToggleUpprall</action>
-        <bind>Ctrl+Shift+Z</bind>
+        <bind>Shift+Control+Z</bind>
       </row>
       <row>
-        <action>ToggleArpeggio</action>
-      </row>
-      <row>
-        <action>SetGrace</action>
-      </row>
-      <row>
-        <action>PlayLocal</action>
-      </row>
-      <row>
-        <action>ForceCaution</action>
-      </row>
-      <row>
-        <action>ChangePitch</action>
-      </row>
-      <row>
-        <action>DoubleBar</action>
-      </row>
-      <row>
-        <action>EndBar</action>
-      </row>
-      <row>
-        <action>OpenRepeat</action>
-      </row>
-      <row>
-        <action>CloseRepeat</action>
-      </row>
-      <row>
-        <action>OpenCloseRepeat</action>
-      </row>
-      <row>
-        <action>File</action>
-      </row>
-      <row>
-        <action>New</action>
-      </row>
-      <row>
-        <action>NewfromTemplate</action>
-      </row>
-      <row>
-        <action>NewWindow</action>
-      </row>
-      <row>
-        <action>Open</action>
-      </row>
-      <row>
-        <action>OpeninNewWindow</action>
-      </row>
-      <row>
-        <action>Save</action>
-      </row>
-      <row>
-        <action>SaveAs</action>
-      </row>
-      <row>
-        <action>ExportPDF</action>
-      </row>
-      <row>
-        <action>ScoreConfiguration</action>
-      </row>
-      <row>
-        <action>Print</action>
-      </row>
-      <row>
-        <action>Close</action>
-      </row>
-      <row>
-        <action>Quit</action>
-      </row>
-      <row>
-        <action>Edit</action>
+        <action>Tuplets</action>
       </row>
       <row>
         <action>Undo</action>
       </row>
       <row>
-        <action>Redo</action>
-      </row>
-      <row>
-        <action>Copy</action>
-      </row>
-      <row>
-        <action>Cut</action>
-      </row>
-      <row>
-        <action>Paste</action>
-      </row>
-      <row>
-        <action>Scoreproperties</action>
-      </row>
-      <row>
-        <action>SaveSelection</action>
-      </row>
-      <row>
-        <action>Preferences</action>
-      </row>
-      <row>
-        <action>OldKeyboarddialog</action>
-      </row>
-      <row>
-        <action>LoadPlugins</action>
-      </row>
-      <row>
         <action>UnloadPlugins</action>
       </row>
       <row>
-        <action>ListPlugins</action>
+        <action>UnsetMark</action>
+        <bind>Shift+Control+space</bind>
       </row>
       <row>
-        <action>ListAvailablePlugins</action>
+        <action>ViewMenu</action>
       </row>
       <row>
-        <action>View</action>
+        <action>VoiceDown</action>
       </row>
       <row>
-        <action>Mode</action>
+        <action>VoiceUp</action>
       </row>
       <row>
-        <action>Insert</action>
+        <action>WholeNote</action>
+        <bind>KP_0</bind>
+        <bind>grave</bind>
       </row>
       <row>
-        <action>Replace</action>
+        <action>InsertWholeRest</action>
+        <bind>Alt+KP_0</bind>
+        <bind>Alt+0</bind>
+        <bind>Alt+grave</bind>
       </row>
       <row>
-        <action>Blank</action>
-      </row>
-      <row>
-        <action>Rest</action>
-      </row>
-      <row>
-        <action>Default</action>
-      </row>
-      <row>
-        <action>Staff</action>
-      </row>
-      <row>
-        <action>AddBeforeCurrentStaff...</action>
-      </row>
-      <row>
-        <action>AddAfterCurrentStaff...</action>
-      </row>
-      <row>
-        <action>AddinInitialPosition...</action>
-      </row>
-      <row>
-        <action>AddinLastPosition...</action>
-      </row>
-      <row>
-        <action>DeleteStaffBefore</action>
-      </row>
-      <row>
-        <action>DeleteStaff</action>
-        <bind>Ctrl+Shift+Delete</bind>
-        <bind>Ctrl+Shift+X</bind>
-      </row>
-      <row>
-        <action>DeleteStaffAfter</action>
-      </row>
-      <row>
-        <action>AddVoicetoCurrentStaff...</action>
-      </row>
-      <row>
-        <action>AddLyricStaff...</action>
-      </row>
-      <row>
-        <action>AddFiguredBassStaff...</action>
-      </row>
-      <row>
-        <action>StaffProperties</action>
-      </row>
-      <row>
-        <action>Insert</action>
-      </row>
-      <row>
-        <action>Clef</action>
-      </row>
-      <row>
-        <action>SetClef</action>
-      </row>
-      <row>
-        <action>InsertClefChange</action>
-      </row>
-      <row>
-        <action>Key</action>
-      </row>
-      <row>
-        <action>InitialKey</action>
-      </row>
-      <row>
-        <action>InsertKeyChange</action>
-      </row>
-      <row>
-        <action>TimeSignature</action>
-      </row>
-      <row>
-        <action>InitialTimeSignature</action>
-      </row>
-      <row>
-        <action>InsertTimeSignatureChange</action>
-      </row>
-      <row>
-        <action>Notehead</action>
-      </row>
-      <row>
-        <action>InsertStemDirective</action>
-      </row>
-      <row>
-        <action>Lyrics</action>
-      </row>
-      <row>
-        <action>InsertLyric</action>
-      </row>
-      <row>
-        <action>EditLyric</action>
-      </row>
-      <row>
-        <action>EditFiguredBass</action>
-      </row>
-      <row>
-        <action>InsertDynamic</action>
-      </row>
-      <row>
-        <action>InsertBarline</action>
-        <bind/>
-      </row>
-      <row>
-        <action>Navigation</action>
-      </row>
-      <row>
-        <action>GoToMeasure...</action>
-      </row>
-      <row>
-        <action>GoToBeginning</action>
-      </row>
-      <row>
-        <action>GoToEnd</action>
-      </row>
-      <row>
-        <action>GoToNextScore</action>
-      </row>
-      <row>
-        <action>Playback</action>
-      </row>
-      <row>
-        <action>Play</action>
-      </row>
-      <row>
-        <action>PlayusingAlsa</action>
-      </row>
-      <row>
-        <action>PlayusingCSound...</action>
-      </row>
-      <row>
-        <action>PlaybackProperties</action>
-      </row>
-      <row>
-        <action>Help</action>
-      </row>
-      <row>
-        <action>Help</action>
-      </row>
-      <row>
-        <action>About</action>
-      </row>
-      <row>
-        <action>Bookmarks</action>
-      </row>
-      <row>
-        <action>AddBookmark</action>
-      </row>
-      <row>
-        <action>GotoBookmark</action>
-      </row>
-      <row>
-        <action></action>
-      </row>
-      <row>
-        <action>OpenRecent</action>
-      </row>
-      <row>
-        <action>Fullnote</action>
-      </row>
-      <row>
-        <action>Halfnote</action>
-      </row>
-      <row>
-        <action>Quarternote</action>
-      </row>
-      <row>
-        <action>Eightnote</action>
-      </row>
-      <row>
-        <action>Sixteenthnote</action>
-      </row>
-      <row>
-        <action>Fullrest</action>
-      </row>
-      <row>
-        <action>Halfrest</action>
-      </row>
-      <row>
-        <action>Quarterrest</action>
-      </row>
-      <row>
-        <action>Eightrest</action>
-      </row>
-      <row>
-        <action>Sixteenthrest</action>
+        <action>WidenMeasures</action>
+        <bind>Shift+Control+KP_6</bind>
+        <bind>Shift+Control+Right</bind>
       </row>
     </map>
   </keymap>

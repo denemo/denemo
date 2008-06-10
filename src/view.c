@@ -727,48 +727,33 @@ staffnode *curstaff;
     }
 }
 
+typedef enum shortcut_mod {
+  SHORTCUT_NOCHANGE,
+  SHORTCUT_ADD,
+  SHORTCUT_DELETE
+} shortcut_mod;
 
+typedef struct set_accels_cb_data {
+  GtkAccelKey *key;
+  GtkButton *prop_button;
+  shortcut_mod changed;
+  gint keyval;
+  gint modifiers;
+  gint idx;
+} set_accels_cb_data;
 
 /* define accelerator
  */
 static gint
-capture_accel_for_action (GtkWidget * widget, GdkEventKey *event, GtkAction *action) {
-  const gchar * accel_path = gtk_action_get_accel_path (action);
-  guint modifiers;
-  guint state = dnm_sanitize_key_state(event) &
-        gtk_accelerator_get_default_mod_mask ();
-  if(!gtk_accelerator_valid (event->keyval, state)) {
-    g_print("Invalid accel\n");
-    return TRUE;   
-  }
-
-  gtk_accel_map_change_entry (accel_path,
-			      event->keyval,
-			      state, TRUE);
-  Denemo.accelerator_status |= ACCELS_MAY_HAVE_CHANGED;/* accelerators may have changed */
-  
-  GtkAccelKey key;
-  gboolean has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
-  //g_print("vals %x %x, %x, %x\n", key.accel_key, event->keyval, key.accel_mods, (event->state & modifiers));
-  if(key.accel_key!=event->keyval || key.accel_mods!=(state)) 
-    if(confirm("Special Key", "Unfortunately, you have to re-start the application to get this keybinding to take effect.\nAlso avoid having another action sharing the same keypress.\nDo you want to proceed?")) {
-      FILE *fp;
-      gchar * dotdenemo = (gchar*)locatedotdenemo ();
-      gchar *filename = dotdenemo?g_build_filename(locatedotdenemo(), EXTRA_ACCELS, NULL):NULL;
-      if(filename) {
-	fp = fopen(filename,"a");
-	if(fp) {
-	  fprintf(fp, "(gtk_accel_path \"%s\" \"%s\")\n", 
-		  accel_path, 
-		  gtk_accelerator_name (event->keyval, state));
-	  fclose(fp);
-	  Denemo.accelerator_status |= EXTRA_ACCELS_ACTIVE; /* extra.accels is active and must not be deleted on save */
-	}
-      }
-      
-    }
-  gchar *accel_label = has_accel?gtk_accelerator_name (key.accel_key, key.accel_mods):"No shortcut";
-  gtk_button_set_label(GTK_BUTTON(widget), g_strdup_printf("shortcut [%s] %d %d",accel_label, key.accel_key, key.accel_mods));
+capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
+        set_accels_cb_data * cb_data) {
+  cb_data->modifiers = dnm_sanitize_key_state(event);
+  cb_data->keyval = event->keyval;
+  gchar *accel_label = dnm_accelerator_name (event->keyval, cb_data->modifiers);
+  gtk_button_set_label(GTK_BUTTON(widget), g_strdup_printf("%s [%s] %d %d",
+              N_("shortcut"), accel_label, event->keyval, cb_data->modifiers));
+  //FIXME memory leak
+  //g_free(accel_label); what is the free for g_new???
 
   return TRUE;/* stop other handlers being processed */
 }
@@ -793,18 +778,27 @@ save_accels (void) {
       Denemo.accelerator_status = EXTRA_ACCELS_ACTIVE;
 }
 
-static void
-accept_keypress(GtkButton *button, GtkAction *action){
-  gtk_button_set_label(button, "Press the key combination desired");
+static gboolean
+accept_keypress(GtkButton *button, set_accels_cb_data *cb_data){
+  gtk_button_set_label(button, N_("Press the key combination desired"));
+  cb_data->changed = SHORTCUT_ADD;
+  // set cb_data->sigid =  and kill the signal when activated.
   g_signal_connect (GTK_OBJECT (button), "key_press_event",
-		    G_CALLBACK (capture_accel_for_action), action);
+		    G_CALLBACK (capture_accel_for_action), cb_data);
+  return TRUE;
 }
 
-static void
-delete_accel(GtkButton *button, gchar *accel_path) {
-  gtk_accel_map_change_entry (accel_path, 0, 0, TRUE);
-  Denemo.accelerator_status |= ACCELS_CHANGED;/* accelerators changed */
-  gtk_button_set_label(button, "Press OK to confirm delete of shortcut");
+static gboolean
+delete_accel(GtkButton *button, set_accels_cb_data *cb_data) {
+  gtk_button_set_label(button, N_("Press the shortcut key that you wish to delete"));
+  cb_data->changed = SHORTCUT_DELETE;
+  g_signal_connect (GTK_OBJECT (button), "key_press_event",
+		    G_CALLBACK (capture_accel_for_action), cb_data);
+  //GtkButton *prop_button = cb_data->prop_button;
+  //g_free(accel_label); what is the free for g_new???
+  //gtk_button_set_label(prop_button, N_("An accel will be deleted"));
+  return TRUE;/* stop other handlers being processed */
+
 }
 
 
@@ -816,19 +810,24 @@ typedef struct accel_cb {
 
 
 
-
+static void
+catnames(gchar *name, GString *str) {
+  if(str)
+    g_string_append_printf(str, "%s\n", name);
+}
 /*
-  help_and_set_accels display the tooltip for the action passed in INFO
-  and allow change to the accelerator for that action.
+  help_and_set_shortcuts display the tooltip for the action passed in INFO
+  and allow change to the shortcuts for that action.
 
 */
-static gboolean help_and_set_accels (GtkWidget      *widget,
+static 	void show_type(GtkWidget *widget, gchar *message);
+static gboolean help_and_set_shortcuts (GtkWidget      *widget,
 			  GdkEventButton *event,
 			  accel_cb *info)
 {
   GtkAction *action = info->action;
   DenemoGUI *gui = info->gui;
-
+  keymap *the_keymap = Denemo.prefs.standard_keymap;
   if( event->button != 3)
     return FALSE;
   GtkWidget *dialog;
@@ -836,11 +835,19 @@ static gboolean help_and_set_accels (GtkWidget      *widget,
   GtkWidget *label;
   GtkWidget *button;
   const gchar * accel_path = gtk_action_get_accel_path (action);
-  GtkAccelKey key;
-  gboolean has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
-  gchar *accel_label;
-  accel_label = has_accel?gtk_accelerator_get_label (key.accel_key, key.accel_mods):"";
-  has_accel = accel_label && *accel_label;
+  // g_print("%s\n", accel_path);
+  set_accels_cb_data cb_data;
+  gboolean has_accel;
+  const gchar *func_name = gtk_action_get_name(action);
+
+
+gint idx =  
+  lookup_index_from_name (the_keymap,func_name );
+ GString *str = g_string_new(""); 
+ if(idx>=0)
+   keymap_foreach_command_binding (the_keymap, idx,
+				   catnames, str);
+  has_accel = *(str->str);
   dialog = gtk_dialog_new_with_buttons (_("About this function"),
 					NULL /*GTK_WINDOW (gui->window)*/,
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
@@ -851,32 +858,38 @@ static gboolean help_and_set_accels (GtkWidget      *widget,
   gchar *tooltip;
   g_object_get (action, "tooltip", &tooltip, NULL); 
   gboolean has_tooltip = tooltip && *tooltip;
-  const gchar *func_name = gtk_action_get_name(action);
 
   
   label = gtk_label_new ("");
-
-  gchar *format = g_strdup_printf("%s<span background=\"yellow\" size=\"large\">%s</span>",
-				  N_("Help for this menu item:\n"), 
-				  has_tooltip?tooltip:func_name);
+  gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
+  gchar *format = g_strdup_printf("%s : %s\n<span background=\"yellow\" size=\"large\">%s</span>",
+				  N_("Help for this menu item"),
+                  func_name,
+				  has_tooltip?tooltip:"");
   gtk_label_set_markup (GTK_LABEL (label), format);
   g_free(format);
   g_free(tooltip);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
 		      TRUE, TRUE, 0);
-  gchar *shortcut=g_strdup_printf("%s %s\n%s",
-				  has_accel?"Current shortcut: ":"",
-				  has_accel?accel_label:"Curently no shortcut",
-				  has_accel?"Change keyboard shortcut":"Create keyboard shortcut" );
-  button = gtk_button_new_with_label(shortcut);
+  gchar *shortcut=g_strdup_printf("%s %s",
+				  has_accel?N_("Current shortcuts:\n"):"",
+				  has_accel?str->str:N_("Currently no shortcut"));
+  label = gtk_label_new(shortcut);
   g_free(shortcut);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
+		      TRUE, TRUE, 0);
+  
+  button = gtk_button_new_with_label( N_("Add shortcut"));
 
+  cb_data.idx = idx;
+  
+  cb_data.prop_button = GTK_BUTTON(button);
+  cb_data.changed = SHORTCUT_NOCHANGE;
   g_signal_connect (G_OBJECT (button), "clicked",
-			    G_CALLBACK (accept_keypress), action);
+			    G_CALLBACK (accept_keypress), &cb_data);
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
-
 
   button = gtk_toggle_button_new();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
@@ -898,15 +911,13 @@ static gboolean help_and_set_accels (GtkWidget      *widget,
 
 
   /*********** delete shortcut button *****/
-  if(has_accel) {
-  button = gtk_button_new_with_label("Delete this shortcut");
+  button = gtk_button_new_with_label(N_("Delete the shortcut (not implemented yet)"));
 
   g_signal_connect (G_OBJECT (button), "clicked",
-			    G_CALLBACK (delete_accel), (gpointer)accel_path);
+			    G_CALLBACK (delete_accel), &cb_data);
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
-  }
 
 #if 0
   /*********** add to menu button *****/
@@ -925,31 +936,40 @@ to the action.
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
  #endif 
-
-
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-
-
-
-
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
   gtk_widget_show_all (dialog);
 
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      Denemo.accelerator_status |= ACCELS_CHANGED;// trying to load the EXTRA_ACCELS here does not work...
-    } else {/* cancel */
-
-      if(has_accel)
-	gtk_accel_map_change_entry (accel_path, key.accel_key, key.accel_mods , TRUE);
-      else
-	gtk_accel_map_change_entry (accel_path, 0, 0, TRUE);
-/* note:	gtk_action_disconnect_accelerator(action); this does not remove the accel, just makes it unusable */
-    }
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+    const gchar * accel_path = gtk_action_get_accel_path (action);
+    GtkAccelKey key;
+    gboolean has_accel;
+      switch (cb_data.changed) {
+      case SHORTCUT_DELETE:
+	remove_keybinding (the_keymap, cb_data.keyval, cb_data.modifiers);
+	has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
+	if(has_accel && key.accel_key==cb_data.keyval && key.accel_mods==cb_data.modifiers)
+	  gtk_accel_map_change_entry (accel_path, 0, 0, TRUE);
+	Denemo.accelerator_status |= ACCELS_CHANGED; //use this to warn on exit if keymap not saved
+	break;
+      case SHORTCUT_ADD:
+	//g_print("Added");
+	add_keybinding_from_idx(the_keymap, cb_data.keyval, cb_data.modifiers,
+			  idx);
+	has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
+	if( (!has_accel) || key.accel_key!=cb_data.keyval || key.accel_mods!=cb_data.modifiers)
+	  warningdialog("The shortcut is set, but will not show next to the label");
+	Denemo.accelerator_status |= ACCELS_CHANGED; //use this to warn on exit if keymap not saved
+	
+	break;
+      default: //g_print("Cancelled")
+	;
+      }
+  }
 
   gtk_widget_destroy (dialog);
-  return TRUE;			 
+  return FALSE;			 
 }
 
 
@@ -1043,19 +1063,21 @@ delete_rhythm_cb (GtkAction * action, DenemoGUI * gui)
 
 
 /*
- * connect a callback for setting accelerators
- * note: despite appearances this function is not itself a callback, 
- * hence the name does not end in _cb
+ * workaround for glib<2.10
  */
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
+static
+void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
+  g_object_set_data(widget, "action", action);
+}
+
 static 
-#endif
 void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui) {
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
-  g_signal_connect(data, "button-press-event", G_CALLBACK (help_and_set_accels), info);
+  g_signal_connect(data, "button-press-event", G_CALLBACK (help_and_set_shortcuts), info);
 }
+
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
 /* add a new menu item dynamically */
 static void add_favorite(GtkAction *action, DenemoGUI *gui) {
@@ -1182,17 +1204,17 @@ GtkActionEntry menu_entries[] = {
 
 
   {"KeyBindings", NULL, N_("Keyboard Setup"), NULL, "Set actions to take in response to keypresses"},
-  {"SaveAccels", GTK_STOCK_SAVE, N_("Save Shortcuts"), NULL, "Save the keyboard shortcuts\n(but not any extra keybings)",
-   G_CALLBACK (save_accels)},
-  {"Keyboard", NULL, N_("Extra Keybindings"), NULL, "View, change and save extra keyboard bindings\nThese are being replaced with the shortcuts that appear next to menu items,\nwhich take precedence in case of conflicts",
-   G_CALLBACK (configure_keyboard_dialog_OLD)},
+  {"SaveAccels", GTK_STOCK_SAVE, N_("Save Shortcuts"), NULL, "Save the keyboard shortcuts as the default",
+   G_CALLBACK (save_standard_keymap_file_wrapper)},
+  {"Keyboard", NULL, N_("Manage Keybindings"), NULL, "View, change and save keyboard shortcuts\n",
+   G_CALLBACK (configure_keyboard_dialog)},
   {"LoadPlugins", NULL, N_("Load Plugins"), NULL, "Load Plugins",
    G_CALLBACK (load_plugin)},
   {"UnloadPlugins", NULL, N_("Unload Plugins"), NULL, "Unload Plugins",
    G_CALLBACK (unloadplugins)},
   {"ListPlugins", NULL, N_("List Plugins"), NULL, "List the loaded plugins",
    G_CALLBACK (list_loaded_plugins)},
-  {"ListAvailPlugins", NULL, N_("List Available Plugins"), NULL,
+  {"ListAvailablePlugins", NULL, N_("List Available Plugins"), NULL,
    "List the available plugins", G_CALLBACK (list_available_plugins)},
   {"ViewMenu", NULL, N_("View")},
   {"EntryMenu", NULL, N_("Mode")},
@@ -1300,7 +1322,7 @@ GtkActionEntry menu_entries[] = {
   {"PlayCSound", GTK_STOCK_MEDIA_PLAY, N_("Play using CSound..."), NULL,
    N_("Play using CSound..."),
    G_CALLBACK (dnm_csoundplayback)},
-  {"Properties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL, N_("Allows you to specify properties used in playing back (midi and csound)"),
+  {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL, N_("Allows you to specify properties used in playing back (midi and csound)"),
    G_CALLBACK (playback_properties_change)},
   {"HelpMenu", NULL, N_("_Help")},
   {"Help", NULL, N_("Help"), NULL, N_("Opens a browser on the user manual"), 
@@ -1419,7 +1441,7 @@ GtkWidget *mode_menu_bar(DenemoGUI *gui) {
  */
 static void
 change_mode (GtkRadioAction * action, GtkRadioAction * current, DenemoGUI * gui) {
-gint val = gtk_radio_action_get_current_value (action);
+gint val = gtk_radio_action_get_current_value (current);
  GtkWidget *menubar = mode_menu_bar(gui);
  if(menubar)
    gtk_widget_hide(menubar);
@@ -1449,7 +1471,7 @@ static void   activate_action(gchar *path, DenemoGUI * gui) {
 static void
 change_entry_type (GtkRadioAction * action, GtkRadioAction * current, DenemoGUI * gui) {
   
-gint val = gtk_radio_action_get_current_value (action);
+gint val = gtk_radio_action_get_current_value (current);
  switch(val) {
 #define SET_MODE(m)  (gui->mode=((gui->mode&ENTRY_TYPE_MASK)|m))
  case INPUTREST:
@@ -1578,7 +1600,7 @@ toggle_pitch_recognition (GtkAction * action, DenemoGUI * gui) {
 
 /**
  *  Function to toggle whether rhythm toolbar is visible 
- *  switches keymap to Rhythm.keymaprc when toolbar is on back to standard when off.
+ *  (no longer switches keymap to Rhythm.keymaprc when toolbar is on back to standard when off.)
  *  
  */
 static void
@@ -1648,6 +1670,8 @@ toggle_quick_edits (GtkAction * action, DenemoGUI * gui)
     gtk_settings_set_long_property(settings, "gtk-can-change-accels", set = !set, ".gtkrc:0");
   if(set)
     Denemo.accelerator_status |= ACCELS_MAY_HAVE_CHANGED;// we can't detect if they actually are
+  //TODO now we can, by adding a status on the keymap, for the time being, left
+  //unchanged
   // g_print("edits are %d\n",set);
 }
 
@@ -1867,6 +1891,27 @@ static void use_markup(GtkWidget *widget)
 
 
 /**
+ * Key snooper function. This function intercepts all key events before they are
+ * passed to other functions for further processing. We use it to override some
+ * default behaviour of gtk accel management so as to maintain a consistent
+ * keymap.
+ */
+gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
+        gpointer func_data)
+{
+    keymap *the_keymap = (keymap *) func_data;
+    //no special processing for key release events
+    if (event->type == GDK_KEY_RELEASE)
+        return FALSE;
+    //if the grab_widget is a menu, the event could be a quick edit
+    if (GTK_IS_MENU (grab_widget)) {
+        return keymap_accel_quick_edit_snooper(grab_widget, event, the_keymap);
+    }
+    //else we let the event be processed by other functions
+    return FALSE;
+}
+
+/**
  * Creates a new DenemoGUI structure representing a toplevel window to control one musical score. 
  * ThisDenemoGUI* gui is appended to the global list Denemo.guis.
  * A single movement (DenemoScore) is instantiated in the gui.
@@ -1931,7 +1976,7 @@ newview (void)
   /* This also sets gui as the  callback data for all the functions in the
    * menubar, which is precisely what we want. */
   gtk_action_group_add_actions (action_group, menu_entries,
-				G_N_ELEMENTS (menu_entries), gui);
+  			G_N_ELEMENTS (menu_entries), gui);
 
   gtk_action_group_add_toggle_actions (action_group,
 				       toggle_menu_entries,
@@ -2126,7 +2171,21 @@ get_data_dir (),
   /* Similarly, the keymap should be initialized after the
      only once si->window is shown, as it may pop up an advisory
      dialog. */
-  Denemo.prefs.standard_keymap = Denemo.prefs.the_keymap = init_keymap ();
+  Denemo.prefs.standard_keymap = Denemo.prefs.the_keymap = allocate_keymap (
+          action_group, "<Actions>/MenuActions");
+  register_entry_commands(Denemo.prefs.the_keymap, menu_entries, n_menu_items,
+          KeymapEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, toggle_menu_entries,
+          G_N_ELEMENTS (toggle_menu_entries), KeymapToggleEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, mode_menu_entries,
+          G_N_ELEMENTS (mode_menu_entries), KeymapRadioEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
+          G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
+  end_command_registration(Denemo.prefs.the_keymap);
+  load_standard_keymap_file(Denemo.prefs.the_keymap);
+ 
+  gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
+  
   Denemo.guis = g_list_append (Denemo.guis, gui);
   populate_opened_recent (gui);
 
@@ -2146,7 +2205,7 @@ get_data_dir (),
   if (Denemo.prefs.rhythm_palette) {
     GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar");
     if (GTK_WIDGET_VISIBLE (widget))
-      g_print("hiding tool bar\n"), gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
+      gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
     widget = gtk_ui_manager_get_widget (gui->ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
     g_signal_emit_by_name(widget, "activate", NULL, gui);
     //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
@@ -2160,40 +2219,27 @@ get_data_dir (),
  
 
   /*
-Accelerators are handled by the GTK+ accelerator map. All actions are assigned an accelerator path (which normally has the form <Actions>/group-name/action-name) and a shortcut is associated with this accelerator path. All menuitems and toolitems take on this accelerator path. The GTK+ accelerator map code makes sure that the correct shortcut is displayed next to the menu item.
-The next loop goes through the actions and connects a signal to help_and_set_accels.
+The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
+FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
   */
 GList *g = gtk_action_group_list_actions(action_group);
  for(;g;g=g->next) {
    GSList *h = gtk_action_get_proxies (g->data);
-   //gchar * path = g_strdup(gtk_action_get_accel_path (g->data));
    for(;h;h=h->next) {
+#ifdef GTK_MINOR_VERSION <10
+     attach_action_to_widget(h->data, g->data, gui);
+#endif
      attach_set_accel_callback(h->data, g->data, gui);
-
    }
 }
 
   use_markup(main_vbox);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.
 Really we should change the default for the class.*/
-
-
-
-
   action_group = gtk_action_group_new ("LilyActions");
   gtk_action_group_add_actions (action_group, lily_menus,
 				G_N_ELEMENTS (lily_menus), gui);
   gtk_ui_manager_insert_action_group (ui_manager, action_group, 1);
-
-
-
-
-
-
-
-
-
-
  //  g_print("Turning on the modes\n");
 
  gui->mode = INPUTINSERT | INPUTNORMAL;

@@ -15,48 +15,33 @@
 #define MASK_FILTER(state) state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK \
 				    | GDK_MOD1_MASK)
 
-struct name_and_function
+typedef struct _keyboard_dialog_data
 {
-  /** Category (GUI) */
-  gchar *category;
-
-  /** Command name */
-  gchar *name;
-
-  GtkFunction function;
-};
-
-struct name_action_and_function
-{
-  /** command name */
-  gchar *name;
-
-  gint callback_action;
-  union func_union func;
-};
-
-extern struct name_and_function unmenued_commands[];
-extern gint unmenued_commands_length;
-
-extern struct name_action_and_function *denemo_commands;
-extern gint denemo_commands_size;
-
-extern GtkItemFactoryEntry menu_items[];
-extern GtkActionEntry menu_entries[];
-extern gint n_menu_items;
-
-#define KBD_CATEGORY_NAVIGATION		N_("Navigation")
-#define KBD_CATEGORY_NOTE_ENTRY		N_("Note entry")
-#define KBD_CATEGORY_REST_ENTRY		N_("Rest entry")
-#define KBD_CATEGORY_ARTICULATION	N_("Articulation")
-#define KBD_CATEGORY_EDIT		N_("Edit")
-#define KBD_CATEGORY_MEASURE		N_("Measure")
-#define KBD_CATEGORY_STAFF		N_("Staff")
-#define KBD_CATEGORY_PLAYBACK		N_("Playback")
-#define KBD_CATEGORY_OTHER		N_("Other")
+	GtkButton *addbutton;
+	GtkButton *delbutton;
+	GtkButton *lookbutton;
+	GtkStatusbar *statusbar;
+	guint context_id;
+	GtkTreeView *command_view;
+	GtkTreeView *binding_view;
+	keymap *the_keymap;
+	gulong handler_key_press;
+	gulong handler_focus_out;
+	gint command_idx;
+} keyboard_dialog_data;
 
 guint
 dnm_sanitize_key_event(GdkEventKey *event);
+
+//adapted from gtk because we want to allow uppercase accelerator through
+//A, instead of <Shift>a
+//we need this to be consistent with other modified values.
+void dnm_accelerator_parse(const gchar *accelerator,
+		guint *accelerator_key,
+		GdkModifierType *accelerator_mods);
+
+gchar *dnm_accelerator_name(guint accelerator_key,
+		GdkModifierType accelerator_mods);
 
 /**
  * List of all categories.
@@ -71,26 +56,83 @@ configure_keyboard (gpointer callback_data, guint callback_action,
 		    GtkWidget *widget);
 
 keymap *
-init_keymap ();
-
-keymap *
-create_keymap (const gchar *filename);
+allocate_keymap (GtkActionGroup *action_group, const gchar *accel_path_prefix);
 
 void
-clear_keymap (keymap *the_keymap);
-
-KeybindingInfo *
-lookup_keybinding (keymap *the_keymap, gint keyval, gint state);
-
-GList*
-lookup_keybinding_by_name(keymap* keymap, const gchar* name);
+free_keymap(keymap *the_keymap);
 
 void
-remove_keybinding (keymap *the_keymap, gint keyval, gint state);
+register_entry_commands(keymap * the_keymap, gpointer entries, guint n,
+		KeymapCommandType type);
+
+void
+end_command_registration(keymap *the_keymap);
+
+//keymap *
+//create_keymap (const gchar *filename);
+
+
+
+void
+keymap_clear_bindings (keymap *the_keymap);
+
+guint
+keymap_size (keymap *the_keymap);
+
+void
+keymap_foreach_command_binding (keymap *the_keymap, guint command_idx,
+		GFunc func, gpointer user_data);
+
+//-1 if the binding is not found
+gint
+lookup_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
+
+//-1 if the binding is not found
+gint
+lookup_keybinding_from_string (keymap *the_keymap, const gchar *binding_name);
+
+//GList*
+//lookup_keybindings_from_name(keymap* keymap, const gchar* name);
+
+//GList*
+//lookup_keybindings_by_idx(keymap* keymap, guint idx);
+
+gint 
+lookup_index_from_name (keymap * keymap, const gchar *command_name);
+
+const gchar *
+lookup_name_from_idx(keymap *keymap, guint command_idx);
+
+//const gchar *
+//lookup_label_from_name(keymap *keymap, const gchar *command_name);
+
+void
+remove_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
+
+void
+remove_keybinding_from_string (keymap *the_keymap, const gchar *binding);
 
 gint
-add_keybinding (keymap *the_keymap, gint keyval, gint state,
-		gint command_number);
+add_keybinding_from_idx (keymap * the_keymap, gint keyval,
+        GdkModifierType state, guint command_idx);
+gint
+add_keybinding_from_name (keymap *the_keymap, gint keyval,
+        GdkModifierType state, const gchar *command_name);
+
+gint
+keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
+		GdkModifierType modifiers);
+
+gint
+keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
+		gpointer func_data);
+
+gboolean
+execute_callback_from_idx(keymap *the_keymap, guint command_idx,
+		DenemoGUI *gui);
+
+void
+dump_command_info(keymap *the_keymap, gint command_idx);
 
 void
 load_keymap_dialog (GtkWidget *Widget, keymap *the_keymap);
@@ -102,9 +144,6 @@ load_standard_keymap_file_wrapper (GtkWidget *widget,
 void
 load_standard_keymap_file (keymap *the_keymap);
 
-gboolean
-load_keymap_file (gchar *filename, keymap *the_keymap);
-
 void
 save_keymap_dialog (GtkWidget *widget, keymap *the_keymap);
 
@@ -113,13 +152,22 @@ save_standard_keymap_file_wrapper (GtkWidget *widget,
 				  DenemoGUI *gui);
 
 void
-save_standard_keymap_file (keymap *the_keymap);
-
-void
-save_keymap_file (gchar *filename, keymap *the_keymap);
+save_standard_keymap_file (GtkWidget *widget, keymap *the_keymap);
 
 void
 set_state(gint state, gchar **value);
 
+GtkWidget *
+keymap_get_command_view(keymap *the_keymap);
+
+GtkWidget *
+keymap_get_binding_view();
+
+gboolean
+keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
+		GtkTreeModel *model,
+		GtkTreePath *path,
+		gboolean path_currently_selected,
+		gpointer data);
 
 #endif

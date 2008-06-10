@@ -238,37 +238,32 @@ typedef struct staff_info
 }
 staff_info;
 
-
-/**
- * Union for the two types of keypress related functions
- */
-union func_union
+typedef enum
 {
-  GtkFunction nocallback;  /**< Not associated with a menued item */
-  GActionCallback callback; /**< Associated with a menued item */
-};
-
-/**
- * This structure is what's stored in the keymap data structure, both
- * in the array and in the hash tables.  Note that some redundant
- * information is stored in either case, but either one structure or
- * the other will need or find it useful to have each piece of information. 
- */
-typedef struct KeybindingInfo
-{
-  gint keyval;
-  gint state;
-  gint command_number;
-  gint callback_action;
-  union func_union func;
-}KeybindingInfo;
+	KeymapEntry,
+	KeymapToggleEntry,
+	KeymapRadioEntry
+}KeymapCommandType;
 
 typedef struct DenemoKeymap
 {
-  GList **commands;
-  GHashTable *quick_lookup_hashes;
-}keymap;
+  //command information store
+  GtkListStore *commands; // ListStore for the commands
 
+  //reference for easy access
+  GHashTable *idx_from_name; //hashtable linking the name of a command to
+							 //its index in the ListStore (values are guint *)
+
+  GHashTable *idx_from_keystring; //hashtable linking the string representing
+                                  //a keypress to the index of its command
+								  //The keystring is the output of
+								  //gtk_accelerator_name()
+  
+  //additional information
+  GtkActionGroup *action_group; //reference to the action group containing
+								//all the ActionEntryS of the keymap
+  const gchar *accel_path_prefix;
+}keymap;
 
 #define MAX_HISTORY 10
 /**

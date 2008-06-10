@@ -1,3 +1,7 @@
+2008-06-10 <rshann>
+	exportlilypond.c commandfuncs.c print.c make print obey selection
+	view.c	kbd-custom.c, keyresponse.c keyboard.c kbd-interface.c,h
+	include/denemo/denemo_types.h Updated keybinding code from JRR
 2008-06-08 <jjbenham>
 	print.c added pop-up dialog for printing excerpts
 2008-06-06 <jjbenham>

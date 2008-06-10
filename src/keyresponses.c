@@ -20,12 +20,13 @@
  * keypress event callback 
  * looks up the key press and executes the correct function
  */
+
 int
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event,
 			  gpointer data)
 {
   DenemoGUI *gui = (DenemoGUI *) data;
-  KeybindingInfo *ki;
+  keymap *the_keymap = Denemo.prefs.the_keymap;
 #if 0
   if (gui->textview && GTK_WIDGET_IS_SENSITIVE (gui->textview))
     {
@@ -36,52 +37,19 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event,
 #endif
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
-  if ((ki = lookup_keybinding (Denemo.prefs.the_keymap, event->keyval,
-			       dnm_sanitize_key_state(event))))
-    {
-      /* in insert mode when a duration use the singleton rhythm pattern that
-	 is just this one duration */
-      if(gui->mode&INPUTINSERT) {
-	if(ki->func.nocallback == (gpointer)insert_chord_0key) {
-	  highlight_duration(gui, 0);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_1key) {
-	  highlight_duration(gui, 1);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_2key) {
-	  highlight_duration(gui, 2);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_3key) {
-	  highlight_duration(gui, 3);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_4key) {
-	  highlight_duration(gui, 4);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_5key) {
-	  highlight_duration(gui, 5);
-	  return 0;
-	}
-	if(ki->func.nocallback == (gpointer)insert_chord_6key) {
-	  highlight_duration(gui, 6);
-	  return 0;
-	}
-
-	  }
-      
-
-      if (ki->callback_action == -1)
-	ki->func.nocallback (gui);
-      else
-	ki->func.callback (NULL, gui);
-      displayhelper (gui);
-      gtk_widget_draw (gui->scorearea, NULL);
-      return 1;
-    }
+  gint command_idx = lookup_keybinding (the_keymap, event->keyval,
+			       dnm_sanitize_key_state(event));
+  if (command_idx != -1) {
+      const gchar *command_name =
+          lookup_name_from_idx (the_keymap, command_idx);
+      if (execute_callback_from_idx(the_keymap, command_idx, gui)) {
+          displayhelper (gui);
+          gtk_widget_draw (gui->scorearea, NULL);
+          return 1;
+      } else {
+          g_warning("No callback for action %s", command_name);
+      }
+  }
   return 0;
 }
 

@@ -272,12 +272,13 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   remove (lilyfile);
   if(part_only)
-    export_lilypond_part (lilyfile, gui, si->start, si->end, all_movements);
+    export_lilypond_part (lilyfile, gui, all_movements);
   else
-    exportlilypond (lilyfile, gui,  si->start, si->end, all_movements);
+    exportlilypond (lilyfile, gui,  all_movements);
   run_lilypond_and_viewer(filename, gui);
   g_free(lilyfile);
 }
+
 
 /** 
  * Dialog function used to select measure range 
@@ -319,7 +320,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), from_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_measure),
-			     (gdouble) gui->si->start);
+			     (gdouble) gui->si->firstmeasuremarked);
 
   label = gtk_label_new (_("to"));
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
@@ -329,7 +330,7 @@ printrangedialog(DenemoGUI * gui){
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure),
-			     (gdouble) gui->si->end);
+			     (gdouble) gui->si->lastmeasuremarked);
 
   gtk_widget_show (hbox);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -338,15 +339,19 @@ printrangedialog(DenemoGUI * gui){
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      gui->si->start =
+      gui->si->firstmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
-      gui->si->end =
+      gui->si->lastmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
     }
   else 
     {
-      gui->si->start = gui->si->end = 0;
+      gui->si->firstmeasuremarked = gui->si->lastmeasuremarked = 0;
     }
+  if(gui->si->firstmeasuremarked) {
+    gui->si->markstaffnum = gui->si->firststaffmarked = 1;
+    gui->si->laststaffmarked = g_list_length(gui->si->thescore);
+  }
   gtk_widget_destroy (dialog);
 }
 
@@ -362,6 +367,10 @@ printall_cb (GtkAction * action, DenemoGUI * gui) {
 /* callback to print current part (staff) of score */
 void
 printpart_cb (GtkAction * action, DenemoGUI * gui) {
+  if(gui->si->markstaffnum)
+    if(confirm("A range of music is selected","Print whole file?")){
+      gui->si->markstaffnum=0;
+    }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
     print(gui, TRUE, TRUE);
@@ -371,21 +380,23 @@ printpart_cb (GtkAction * action, DenemoGUI * gui) {
 }
 void
 printpreview_cb (GtkAction * action, DenemoGUI * gui) {
+  if(gui->si->markstaffnum)
+    if(confirm("A range of music is selected","Print whole file?")){
+      gui->si->markstaffnum=0;
+    }
   print(gui, FALSE, TRUE);
 }
 void
 printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
   gui->lilycontrol.excerpt = TRUE;
   if(gui->si->markstaffnum) {
-    gui->si->start = gui->si->firstmeasuremarked;
-    gui->si->end = gui->si->lastmeasuremarked;
+
   } else {
     printrangedialog(gui);
+
   }
-  if ((gui->si->start == gui->si->end == 0))
-  	print(gui, FALSE, FALSE);
+  print(gui, FALSE, FALSE);
   gui->lilycontrol.excerpt = FALSE;
-  gui->si->start = 0;
-  gui->si->end = 0;
+
 }
 

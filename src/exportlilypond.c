@@ -49,7 +49,7 @@
 #define TAB "        "
 
 static void
-output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movements, gchar * partname);
+output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname);
 static GtkTextTagTable *tagtable;
 
 void
@@ -1137,7 +1137,7 @@ outputHeader (GString *str, DenemoGUI * gui)
   g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
 
   /* print \paper block setting printing of all headers */
-  g_string_append_printf (str, "\\paper {printallheaders = ##t }\n");
+  g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
 
 
 
@@ -1178,7 +1178,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gint curmeasurenum;// count of measures printed
   gint measurenum; //count of measures from start of staff starting at 1
   gint objnum;//count of objects in measure starting at 1
-  gint last = 0;
+
   GString *str = g_string_new("");
   GString * lyrics = g_string_new("");
   GString * figures = g_string_new("");
@@ -1266,16 +1266,16 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
  
   curmeasurenum = 0;
   curmeasure = curstaffstruct->measures;
-  last = g_list_length (curmeasure);
-  if(end)
-    last = MIN(end,last);
+  if(!end)
+    end = g_list_length (curmeasure);
+
 
 
   /* Now each measure */
   if (start)
     curmeasure = g_list_nth (curmeasure, start - 1);
 
-  for (measurenum = MAX (start, 1); curmeasure && measurenum <= last;
+  for (measurenum = MAX (start, 1); curmeasure && measurenum <= end;
        curmeasure = curmeasure->next, measurenum++)
     {
       gboolean lilydirective_now = FALSE;
@@ -1294,10 +1294,18 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
       g_string_assign(str,"");
-
-      for (objnum=1, curobjnode = (objnode *) curmeasure->data; /* curobjnode NULL checked at end */;
+      gint firstobj=1, lastobj= G_MAXINT;
+      if(start && gui->si->firstobjmarked) {//firstobjmarked==0 means not set
+	firstobj = 1+MIN( gui->si->firstobjmarked, gui->si->lastobjmarked);
+	lastobj =  1+MAX( gui->si->firstobjmarked, gui->si->lastobjmarked);
+      }
+      //g_print("First last, %d %d %d\n", firstobj, lastobj, start);
+      for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
 	   curobjnode = curobjnode->next, objnum++)
 	{
+
+	  if(objnum>=firstobj && objnum<=lastobj) {
+
 	  if(curobjnode) {
 	  curobj = (DenemoObject *) curobjnode->data;
 	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
@@ -1367,6 +1375,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    /* end of lyrics, figures and chord symbols*/
 	    }
 	  }
+	  }//in obj range
 	  if(curobjnode==NULL || curobjnode->next==NULL)
 	    break;//we want to go through once for empty measures
 	} /* For each object in the measure */
@@ -1445,7 +1454,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_free(lyrics, TRUE);
   g_string_free(figures, TRUE);
   g_string_free(fakechords, TRUE);
-} /* OutputStaff */
+} /* outputStaff */
 
 /* Merge back any modified LilyPond text into the Denemo Score */
 void merge_lily_strings (DenemoGUI *gui) {
@@ -1503,14 +1512,14 @@ void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, cursor);
   gint offset = gtk_text_iter_get_offset (&iter);
   //  g_print("Offset %d for %p\n", offset, gui->textbuffer);
-  output_score_to_buffer (gui, 0, 0, TRUE, NULL);
+  output_score_to_buffer (gui, TRUE, NULL);
   gtk_text_buffer_get_iter_at_offset (gui->textbuffer, &iter, offset);
   gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
   // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
 gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
 			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
   } else 
-    output_score_to_buffer (gui, 0, 0, TRUE, NULL);
+    output_score_to_buffer (gui, TRUE, NULL);
 }
 
 
@@ -1634,7 +1643,7 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
 
 
 static void
-output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movements, gchar * partname)
+output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
   static gchar* last_namespec="";/* to check if the scoreblocks to make visible are different */
 
@@ -1764,10 +1773,16 @@ output_score_to_buffer (DenemoGUI *gui, gint start, gint end, gboolean all_movem
 	g_string_printf(name, "Voice%d", voice_count);
 	set_lily_name (name, voice_name);
 	g_string_free(name, TRUE);
-
-	if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
-	  visible_part=-1;
-
+	gint start = 0, end = 0;
+	if(gui->si->markstaffnum) {
+	  if(!(voice_count>=gui->si->firststaffmarked && voice_count<=gui->si->laststaffmarked))
+	    visible_part=-1;
+	  start = gui->si->firstmeasuremarked;
+	  end = gui->si->lastmeasuremarked;
+	} else {
+	  if(partname &&strcmp(curstaffstruct->lily_name->str, partname))
+	    visible_part=-1;
+	}
 	outputStaff (gui, si, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count*visible_movement, voice_count*visible_part);
 	//FIXME amalgamate movement and voice names below here...
 	/* output score block */
@@ -1927,11 +1942,11 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
  * identifiers placed suitably. 
  */
 static void
-export_lilypond (gchar * thefilename, DenemoGUI *gui, gint start, gint end, gboolean all_movements, gchar * partname)
+export_lilypond (gchar * thefilename, DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
   GtkTextIter startiter, enditer;
 
-  output_score_to_buffer (gui, start, end, all_movements, partname);
+  output_score_to_buffer (gui, all_movements, partname);
   GString *filename = g_string_new (thefilename);
   if(filename) {
     gtk_text_buffer_get_start_iter (gui->textbuffer, &startiter);
@@ -1957,8 +1972,8 @@ export_lilypond (gchar * thefilename, DenemoGUI *gui, gint start, gint end, gboo
 }
 
 void
-exportlilypond (gchar * thefilename, DenemoGUI *gui, gint start, gint end, gboolean all_movements) {
-  export_lilypond(thefilename, gui, start, end, all_movements, NULL);
+exportlilypond (gchar * thefilename, DenemoGUI *gui, gboolean all_movements) {
+  export_lilypond(thefilename, gui, all_movements, NULL);
 }
 
 
@@ -1968,14 +1983,14 @@ exportlilypond (gchar * thefilename, DenemoGUI *gui, gint start, gint end, gbool
 /* output lilypond for the current staff
  */
 void
-export_lilypond_part (char *filename,  DenemoGUI *gui, gint start, gint end, gboolean all_movements)
+export_lilypond_part (char *filename,  DenemoGUI *gui, gboolean all_movements)
 {
-  export_lilypond (filename, gui, start, end, all_movements, ((DenemoStaff*)gui->si->currentstaff->data)->lily_name->str);
+  export_lilypond (filename, gui, all_movements, ((DenemoStaff*)gui->si->currentstaff->data)->lily_name->str);
 }
 /* output lilypond for each part into a separate file
  */
 void
-export_lilypond_parts (char *filename, DenemoGUI *gui, gint start, gint end)
+export_lilypond_parts (char *filename, DenemoGUI *gui)
 {
   FILE *fp;
   gchar *staff_filename;
@@ -1997,7 +2012,7 @@ export_lilypond_parts (char *filename, DenemoGUI *gui, gint start, gint end)
       }
       staff_filename = g_strconcat(filename, "_", curstaffstruct->lily_name->str, ".ly", NULL);
       *c = '.';
-      export_lilypond (staff_filename, gui, start, end, FALSE,  ((DenemoStaff*)curstaff->data)->lily_name->str);
+      export_lilypond (staff_filename, gui, FALSE,  ((DenemoStaff*)curstaff->data)->lily_name->str);
       
     }
 
@@ -2039,7 +2054,7 @@ lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
     g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_unblock_by_func (G_OBJECT (gui->window), G_CALLBACK (lily_save), gui);
   if(gui->lilysync!=gui->changecount)
-    refresh_lily_cb (NULL, gui);// was output_score_to_buffer (gui, 0, 0, TRUE, NULL);
+    refresh_lily_cb (NULL, gui);
   return FALSE;
 }
 

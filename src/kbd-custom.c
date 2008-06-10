@@ -28,14 +28,32 @@
 #include "utils.h"
 #include "playback.h"
 #include "keyboard.h"
- 
+
+#if GTK_MINOR_VERSION < 10
+//Hmm, should we define these as 0, so that they don't mask anything in gtk 2.8
+#define  GDK_SUPER_MASK ( 1 << 26)
+#define  GDK_HYPER_MASK  (1 << 27)
+#define  GDK_META_MASK   (1 << 28)
+#endif
+
+//index of columns in the keymap command list store
+enum {
+    COL_TYPE = 0,
+    COL_ENTRY,
+    COL_BINDINGS,
+    N_COLUMNS
+};
+
+typedef struct _command_row {
+    KeymapCommandType type;
+    gpointer entry;
+    GtkListStore *bindings;
+}command_row;
 
 static void
 load_keymap_file_named (keymap * the_keymap, gchar *keymapfile, gchar *fallback);
 
-struct name_action_and_function *denemo_commands;
-
-/* Returns the state of the event after removing the modifiers consummed by the
+/* Returns the state of the event after removing the modifiers consumed by the
  * system and unwanted modifiers. Use this before doing anything based on the
  * (keyval, state) pair in an event handler.
  */
@@ -55,331 +73,372 @@ dnm_sanitize_key_state(GdkEventKey *event)
     return ret;
 }
 
+static inline gboolean
+is_alt (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'a' || string[1] == 'A') &&
+	  (string[2] == 'l' || string[2] == 'L') &&
+	  (string[3] == 't' || string[3] == 'T') &&
+	  (string[4] == '>'));
+}
 
-gint denemo_commands_size;
+static inline gboolean
+is_ctl (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'c' || string[1] == 'C') &&
+	  (string[2] == 't' || string[2] == 'T') &&
+	  (string[3] == 'l' || string[3] == 'L') &&
+	  (string[4] == '>'));
+}
 
-gchar *kbd_categories[] = {
-  KBD_CATEGORY_NAVIGATION,
-  KBD_CATEGORY_EDIT,
-  KBD_CATEGORY_NOTE_ENTRY,
-  KBD_CATEGORY_REST_ENTRY,
-  KBD_CATEGORY_MEASURE,
-  KBD_CATEGORY_STAFF,
-  KBD_CATEGORY_ARTICULATION,
-  KBD_CATEGORY_PLAYBACK,
-  KBD_CATEGORY_OTHER
-};
+static inline gboolean
+is_modx (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'm' || string[1] == 'M') &&
+	  (string[2] == 'o' || string[2] == 'O') &&
+	  (string[3] == 'd' || string[3] == 'D') &&
+	  (string[4] >= '1' && string[4] <= '5') &&
+	  (string[5] == '>'));
+}
 
-gint kbd_categories_length = G_N_ELEMENTS (kbd_categories);
+static inline gboolean
+is_ctrl (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'c' || string[1] == 'C') &&
+	  (string[2] == 't' || string[2] == 'T') &&
+	  (string[3] == 'r' || string[3] == 'R') &&
+	  (string[4] == 'l' || string[4] == 'L') &&
+	  (string[5] == '>'));
+}
 
-struct name_and_function unmenued_commands[] = {
-  {KBD_CATEGORY_NAVIGATION, N_("CursorLeft"), (GtkFunction) cursorleft},
-  {KBD_CATEGORY_NAVIGATION, N_("CursorDown"), (GtkFunction) cursordown},
-  {KBD_CATEGORY_NAVIGATION, N_("CursorUp"), (GtkFunction) cursorup},
-  {KBD_CATEGORY_NAVIGATION, N_("CursorRight"), (GtkFunction) cursorright},
-  {KBD_CATEGORY_NAVIGATION, N_("StaffUp"), (GtkFunction) staffup},
-  {KBD_CATEGORY_NAVIGATION, N_("StaffDown"), (GtkFunction) staffdown},
-  {KBD_CATEGORY_NAVIGATION, N_("MeasureLeft"), (GtkFunction) measureleft},
-  {KBD_CATEGORY_NAVIGATION, N_("MeasureRight"), (GtkFunction) measureright},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestA"), (GtkFunction) go_to_A_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestB"), (GtkFunction) go_to_B_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestC"), (GtkFunction) go_to_C_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestD"), (GtkFunction) go_to_D_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestE"), (GtkFunction) go_to_E_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestF"), (GtkFunction) go_to_F_key},
-  {KBD_CATEGORY_NAVIGATION, N_("ToNearestG"), (GtkFunction) go_to_G_key},
-  {KBD_CATEGORY_NAVIGATION, N_("OctaveUp"), (GtkFunction) octave_up_key},
-  {KBD_CATEGORY_NAVIGATION, N_("OctaveDown"), (GtkFunction) octave_down_key},
+static inline gboolean
+is_shft (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 's' || string[1] == 'S') &&
+	  (string[2] == 'h' || string[2] == 'H') &&
+	  (string[3] == 'f' || string[3] == 'F') &&
+	  (string[4] == 't' || string[4] == 'T') &&
+	  (string[5] == '>'));
+}
 
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertWholeNote"),
-   (GtkFunction) insert_chord_0key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertHalfNote"),
-   (GtkFunction) insert_chord_1key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertQuarterNote"),
-   (GtkFunction) insert_chord_2key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertEighthNote"),
-   (GtkFunction) insert_chord_3key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertSixteenthNote"),
-   (GtkFunction) insert_chord_4key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertThirtysecondNote"),
-   (GtkFunction) insert_chord_5key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertSixtyfourthNote"),
-   (GtkFunction) insert_chord_6key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankWholeNote"),
-   (GtkFunction) insert_blankchord_0key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankHalfNote"),
-   (GtkFunction) insert_blankchord_1key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankQuarterNote"),
-   (GtkFunction) insert_blankchord_2key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankEighthNote"),
-   (GtkFunction) insert_blankchord_3key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankSixteenthNote"),
-   (GtkFunction) insert_blankchord_4key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankThirtysecondNote"),
-   (GtkFunction) insert_blankchord_5key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertBlankSixtyfourthNote"),
-   (GtkFunction) insert_blankchord_6key},
-  {KBD_CATEGORY_EDIT, N_("ToggleRestMode"), (GtkFunction) rest_toggle_key},
-  {KBD_CATEGORY_EDIT, N_("ToggleBlankMode"), (GtkFunction) toggle_blank},
+static inline gboolean
+is_shift (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 's' || string[1] == 'S') &&
+	  (string[2] == 'h' || string[2] == 'H') &&
+	  (string[3] == 'i' || string[3] == 'I') &&
+	  (string[4] == 'f' || string[4] == 'F') &&
+	  (string[5] == 't' || string[5] == 'T') &&
+	  (string[6] == '>'));
+}
 
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertWholeRest"),
-   (GtkFunction) insert_rest_0key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertHalfRest"),
-   (GtkFunction) insert_rest_1key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertQuarterRest"),
-   (GtkFunction) insert_rest_2key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertEighthRest"),
-   (GtkFunction) insert_rest_3key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertSixteenthRest"),
-   (GtkFunction) insert_rest_4key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertThirtysecondRest"),
-   (GtkFunction) insert_rest_5key},
-  {KBD_CATEGORY_REST_ENTRY, N_("InsertSixtyfourthRest"),
-   (GtkFunction) insert_rest_6key},
+static inline gboolean
+is_control (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'c' || string[1] == 'C') &&
+	  (string[2] == 'o' || string[2] == 'O') &&
+	  (string[3] == 'n' || string[3] == 'N') &&
+	  (string[4] == 't' || string[4] == 'T') &&
+	  (string[5] == 'r' || string[5] == 'R') &&
+	  (string[6] == 'o' || string[6] == 'O') &&
+	  (string[7] == 'l' || string[7] == 'L') &&
+	  (string[8] == '>'));
+}
 
+static inline gboolean
+is_release (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'r' || string[1] == 'R') &&
+	  (string[2] == 'e' || string[2] == 'E') &&
+	  (string[3] == 'l' || string[3] == 'L') &&
+	  (string[4] == 'e' || string[4] == 'E') &&
+	  (string[5] == 'a' || string[5] == 'A') &&
+	  (string[6] == 's' || string[6] == 'S') &&
+	  (string[7] == 'e' || string[7] == 'E') &&
+	  (string[8] == '>'));
+}
 
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertDuplet"), (GtkFunction) insert_duplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertTriplet"),
-   (GtkFunction) insert_triplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("StartTriplet"),
-   (GtkFunction) start_triplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("EndTuplet"),
-   (GtkFunction) end_tuplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertQuadtuplet"),
-   (GtkFunction) insert_quadtuplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertQuintuplet"),
-   (GtkFunction) insert_quintuplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertSextuplet"),
-   (GtkFunction) insert_sextuplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("InsertSeptuplet"),
-   (GtkFunction) insert_septuplet},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("AddTone"), (GtkFunction) add_tone_key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("RemoveTone"), (GtkFunction) remove_tone_key},
+static inline gboolean
+is_meta (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'm' || string[1] == 'M') &&
+	  (string[2] == 'e' || string[2] == 'E') &&
+	  (string[3] == 't' || string[3] == 'T') &&
+	  (string[4] == 'a' || string[4] == 'A') &&
+	  (string[5] == '>'));
+}
 
-  {KBD_CATEGORY_NOTE_ENTRY, N_("Sharpen/StemDown"),
-   (GtkFunction) sharpen_key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("Flatten/StemUp"), (GtkFunction) flatten_key},
+static inline gboolean
+is_super (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 's' || string[1] == 'S') &&
+	  (string[2] == 'u' || string[2] == 'U') &&
+	  (string[3] == 'p' || string[3] == 'P') &&
+	  (string[4] == 'e' || string[4] == 'E') &&
+	  (string[5] == 'r' || string[5] == 'R') &&
+	  (string[6] == '>'));
+}
 
-  {KBD_CATEGORY_NOTE_ENTRY, N_("AddDot"), (GtkFunction) add_dot_key},
-  {KBD_CATEGORY_NOTE_ENTRY, N_("RemoveDot"), (GtkFunction) remove_dot_key},
+static inline gboolean
+is_hyper (const gchar *string)
+{
+  return ((string[0] == '<') &&
+	  (string[1] == 'h' || string[1] == 'H') &&
+	  (string[2] == 'y' || string[2] == 'Y') &&
+	  (string[3] == 'p' || string[3] == 'P') &&
+	  (string[4] == 'e' || string[4] == 'E') &&
+	  (string[5] == 'r' || string[5] == 'R') &&
+	  (string[6] == '>'));
+}
 
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleTie"), (GtkFunction) tie_notes_key},
+void
+dnm_accelerator_parse (const gchar     *accelerator,
+		       guint           *accelerator_key,
+		       GdkModifierType *accelerator_mods)
+{
+  guint keyval;
+  GdkModifierType mods;
+  gint len;
+  
+  if (accelerator_key)
+    *accelerator_key = 0;
+  if (accelerator_mods)
+    *accelerator_mods = 0;
+  g_return_if_fail (accelerator != NULL);
+  
+  keyval = 0;
+  mods = 0;
+  len = strlen (accelerator);
+  while (len)
+    {
+      if (*accelerator == '<')
+	{
+	  if (len >= 9 && is_release (accelerator))
+	    {
+	      accelerator += 9;
+	      len -= 9;
+	      mods |= GDK_RELEASE_MASK;
+	    }
+	  else if (len >= 9 && is_control (accelerator))
+	    {
+	      accelerator += 9;
+	      len -= 9;
+	      mods |= GDK_CONTROL_MASK;
+	    }
+	  else if (len >= 7 && is_shift (accelerator))
+	    {
+	      accelerator += 7;
+	      len -= 7;
+	      mods |= GDK_SHIFT_MASK;
+	    }
+	  else if (len >= 6 && is_shft (accelerator))
+	    {
+	      accelerator += 6;
+	      len -= 6;
+	      mods |= GDK_SHIFT_MASK;
+	    }
+	  else if (len >= 6 && is_ctrl (accelerator))
+	    {
+	      accelerator += 6;
+	      len -= 6;
+	      mods |= GDK_CONTROL_MASK;
+	    }
+	  else if (len >= 6 && is_modx (accelerator))
+	    {
+	      static const guint mod_vals[] = {
+		GDK_MOD1_MASK, GDK_MOD2_MASK, GDK_MOD3_MASK,
+		GDK_MOD4_MASK, GDK_MOD5_MASK
+	      };
 
-  {KBD_CATEGORY_EDIT, N_("DeleteObject"), (GtkFunction) deleteobject},
-  {KBD_CATEGORY_EDIT, N_("DeletePreviousObject"),
-   (GtkFunction) deletepreviousobject},
+	      len -= 6;
+	      accelerator += 4;
+	      mods |= mod_vals[*accelerator - '1'];
+	      accelerator += 2;
+	    }
+	  else if (len >= 5 && is_ctl (accelerator))
+	    {
+	      accelerator += 5;
+	      len -= 5;
+	      mods |= GDK_CONTROL_MASK;
+	    }
+	  else if (len >= 5 && is_alt (accelerator))
+	    {
+	      accelerator += 5;
+	      len -= 5;
+	      mods |= GDK_MOD1_MASK;
+	    }
+          else if (len >= 6 && is_meta (accelerator))
+	    {
+	      accelerator += 6;
+	      len -= 6;
+	      mods |= GDK_META_MASK;
+	    }
+          else if (len >= 7 && is_hyper (accelerator))
+	    {
+	      accelerator += 7;
+	      len -= 7;
+	      mods |= GDK_HYPER_MASK;
+	    }
+          else if (len >= 7 && is_super (accelerator))
+	    {
+	      accelerator += 7;
+	      len -= 7;
+	      mods |= GDK_SUPER_MASK;
+	    }
+	  else
+	    {
+	      gchar last_ch;
+	      
+	      last_ch = *accelerator;
+	      while (last_ch && last_ch != '>')
+		{
+		  last_ch = *accelerator;
+		  accelerator += 1;
+		  len -= 1;
+		}
+	    }
+	}
+      else
+	{
+	  keyval = gdk_keyval_from_name (accelerator);
+	  accelerator += len;
+	  len -= len;
+	}
+    }
+  
+  if (accelerator_key)
+  //The line we modify, so that uppercase letter are processed as we want
+  //  *accelerator_key = gdk_keyval_to_lower (keyval);
+    *accelerator_key = keyval;
+  if (accelerator_mods)
+    *accelerator_mods = mods;
+}
 
-  {KBD_CATEGORY_MEASURE, N_("InsertMeasure"),
-   (GtkFunction) insert_measure_key},
-  {KBD_CATEGORY_MEASURE, N_("AppendMeasure"),
-   (GtkFunction) append_measure_key},
-  {KBD_CATEGORY_MEASURE, N_("DeleteMeasure"), (GtkFunction) deletemeasure},
-  {KBD_CATEGORY_MEASURE, N_("ShrinkMeasures"),
-   (GtkFunction) adjust_measure_less_width_key},
-  {KBD_CATEGORY_MEASURE, N_("WidenMeasures"),
-   (GtkFunction) adjust_measure_more_width_key},
+gchar*
+dnm_accelerator_name (guint           accelerator_key,
+		      GdkModifierType accelerator_mods)
+{
+  static const gchar text_release[] = "<Release>";
+  static const gchar text_shift[] = "<Shift>";
+  static const gchar text_control[] = "<Control>";
+  static const gchar text_mod1[] = "<Alt>";
+  static const gchar text_mod2[] = "<Mod2>";
+  static const gchar text_mod3[] = "<Mod3>";
+  static const gchar text_mod4[] = "<Mod4>";
+  static const gchar text_mod5[] = "<Mod5>";
+  static const gchar text_meta[] = "<Meta>";
+  static const gchar text_super[] = "<Super>";
+  static const gchar text_hyper[] = "<Hyper>";
+  guint l;
+  gchar *keyval_name;
+  gchar *accelerator;
 
-  {KBD_CATEGORY_STAFF, N_("ShorterStaffs"),
-   (GtkFunction) adjust_staff_less_height_key},
-  {KBD_CATEGORY_STAFF, N_("TallerStaffs"),
-   (GtkFunction) adjust_staff_more_height_key},
+  accelerator_mods &= GDK_MODIFIER_MASK;
 
-  {KBD_CATEGORY_STAFF, N_("InsertTrebleClef"), (GtkFunction) newcleftreble},
-  {KBD_CATEGORY_STAFF, N_("InsertBassClef"), (GtkFunction) newclefbass},
-  {KBD_CATEGORY_STAFF, N_("Insertg8clef"), (GtkFunction) newclefg8},
-  {KBD_CATEGORY_STAFF, N_("InsertAltoClef"), (GtkFunction) newclefalto},
-  {KBD_CATEGORY_STAFF, N_("InsertTenorClef"), (GtkFunction) newcleftenor},
-  {KBD_CATEGORY_STAFF, N_("InsertSopranoClef"), (GtkFunction) newclefsoprano},
+  //The line we modify, so that uppercase letter are processed as we want
+  //keyval_name = gdk_keyval_name (gdk_keyval_to_lower (accelerator_key));
+  keyval_name = gdk_keyval_name (accelerator_key);
+  if (!keyval_name)
+    keyval_name = "";
 
-  {KBD_CATEGORY_STAFF, N_("SetInitialTrebleClef"),
-   (GtkFunction) setcleftreble},
-  {KBD_CATEGORY_STAFF, N_("SetInitialBassClef"), (GtkFunction) setclefbass},
-  {KBD_CATEGORY_STAFF, N_("SetInitialg8clef"), (GtkFunction) setclefg8},
-  {KBD_CATEGORY_STAFF, N_("SetInitialAltoClef"), (GtkFunction) setclefalto},
-  {KBD_CATEGORY_STAFF, N_("SetInitialTenorClef"), (GtkFunction) setcleftenor},
-  {KBD_CATEGORY_STAFF, N_("SetInitialSopranoClef"),
-   (GtkFunction) setclefsoprano},
+  l = 0;
+  if (accelerator_mods & GDK_RELEASE_MASK)
+    l += sizeof (text_release) - 1;
+  if (accelerator_mods & GDK_SHIFT_MASK)
+    l += sizeof (text_shift) - 1;
+  if (accelerator_mods & GDK_CONTROL_MASK)
+    l += sizeof (text_control) - 1;
+  if (accelerator_mods & GDK_MOD1_MASK)
+    l += sizeof (text_mod1) - 1;
+  if (accelerator_mods & GDK_MOD2_MASK)
+    l += sizeof (text_mod2) - 1;
+  if (accelerator_mods & GDK_MOD3_MASK)
+    l += sizeof (text_mod3) - 1;
+  if (accelerator_mods & GDK_MOD4_MASK)
+    l += sizeof (text_mod4) - 1;
+  if (accelerator_mods & GDK_MOD5_MASK)
+    l += sizeof (text_mod5) - 1;
+  l += strlen (keyval_name);
+  if (accelerator_mods & GDK_META_MASK)
+    l += sizeof (text_meta) - 1;
+  if (accelerator_mods & GDK_HYPER_MASK)
+    l += sizeof (text_hyper) - 1;
+  if (accelerator_mods & GDK_SUPER_MASK)
+    l += sizeof (text_super) - 1;
 
-  {KBD_CATEGORY_STAFF, N_("Insert22Time"), (GtkFunction) newtimesig22},
-  {KBD_CATEGORY_STAFF, N_("Insert32Time"), (GtkFunction) newtimesig32},
-  {KBD_CATEGORY_STAFF, N_("Insert42Time"), (GtkFunction) newtimesig42},
-  {KBD_CATEGORY_STAFF, N_("Insert44Time"), (GtkFunction) newtimesig44},
-  {KBD_CATEGORY_STAFF, N_("Insert34Time"), (GtkFunction) newtimesig34},
-  {KBD_CATEGORY_STAFF, N_("Insert24Time"), (GtkFunction) newtimesig24},
-  {KBD_CATEGORY_STAFF, N_("Insert64Time"), (GtkFunction) newtimesig64},
-  {KBD_CATEGORY_STAFF, N_("Insert38Time"), (GtkFunction) newtimesig38},
-  {KBD_CATEGORY_STAFF, N_("Insert68Time"), (GtkFunction) newtimesig68},
-  {KBD_CATEGORY_STAFF, N_("Insert128Time"), (GtkFunction) newtimesig128},
-  {KBD_CATEGORY_STAFF, N_("Insert98Time"), (GtkFunction) newtimesig98},
-  {KBD_CATEGORY_STAFF, N_("Set22Time"), (GtkFunction) settimesig22},
-  {KBD_CATEGORY_STAFF, N_("Set32Time"), (GtkFunction) settimesig32},
-  {KBD_CATEGORY_STAFF, N_("Set42Time"), (GtkFunction) settimesig42},
-  {KBD_CATEGORY_STAFF, N_("Set44Time"), (GtkFunction) settimesig44},
-  {KBD_CATEGORY_STAFF, N_("Set34Time"), (GtkFunction) settimesig34},
-  {KBD_CATEGORY_STAFF, N_("Set24Time"), (GtkFunction) settimesig24},
-  {KBD_CATEGORY_STAFF, N_("Set64Time"), (GtkFunction) settimesig64},
-  {KBD_CATEGORY_STAFF, N_("Set38Time"), (GtkFunction) settimesig38},
-  {KBD_CATEGORY_STAFF, N_("Set68Time"), (GtkFunction) settimesig68},
-  {KBD_CATEGORY_STAFF, N_("Set128Time"), (GtkFunction) settimesig128},
-  {KBD_CATEGORY_STAFF, N_("Set98Time"), (GtkFunction) settimesig98},
-  {KBD_CATEGORY_STAFF, N_("InsertCmaj"), (GtkFunction) newkeysigcmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertGmaj"), (GtkFunction) newkeysiggmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertDmaj"), (GtkFunction) newkeysigdmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertAmaj"), (GtkFunction) newkeysigamaj},
-  {KBD_CATEGORY_STAFF, N_("InsertEmaj"), (GtkFunction) newkeysigemaj},
-  {KBD_CATEGORY_STAFF, N_("InsertBmaj"), (GtkFunction) newkeysigbmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertFSharpmaj"),
-   (GtkFunction) newkeysigfsharpmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertCSharpmaj"),
-   (GtkFunction) newkeysigcsharpmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertFmaj"), (GtkFunction) newkeysigfmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertBflatmaj"), (GtkFunction) newkeysigbflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertEflatmaj"), (GtkFunction) newkeysigeflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertAflatmaj"), (GtkFunction) newkeysigaflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertDflatmaj"), (GtkFunction) newkeysigdflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertGflatmaj"), (GtkFunction) newkeysiggflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertCflatmaj"), (GtkFunction) newkeysigcflatmaj},
-  {KBD_CATEGORY_STAFF, N_("InsertAmin"), (GtkFunction) newkeysigamin},
-  {KBD_CATEGORY_STAFF, N_("InsertEmin"), (GtkFunction) newkeysigemin},
-  {KBD_CATEGORY_STAFF, N_("InsertBmin"), (GtkFunction) newkeysigbmin},
-  {KBD_CATEGORY_STAFF, N_("InsertFSharpmin"),
-   (GtkFunction) newkeysigfsharpmin},
-  {KBD_CATEGORY_STAFF, N_("InsertCSharpmin"),
-   (GtkFunction) newkeysigcsharpmin},
-  {KBD_CATEGORY_STAFF, N_("InsertGSharpmin"),
-   (GtkFunction) newkeysiggsharpmin},
-  {KBD_CATEGORY_STAFF, N_("InsertDSharpmin"),
-   (GtkFunction) newkeysigdsharpmin},
-  {KBD_CATEGORY_STAFF, N_("InsertASharpmin"),
-   (GtkFunction) newkeysigasharpmin},
-  {KBD_CATEGORY_STAFF, N_("InsertDmin"), (GtkFunction) newkeysigdmin},
-  {KBD_CATEGORY_STAFF, N_("InsertGmin"), (GtkFunction) newkeysiggmin},
-  {KBD_CATEGORY_STAFF, N_("InsertCmin"), (GtkFunction) newkeysigcmin},
-  {KBD_CATEGORY_STAFF, N_("InsertFmin"), (GtkFunction) newkeysigfmin},
-  {KBD_CATEGORY_STAFF, N_("InsertBflatmin"), (GtkFunction) newkeysigbflatmin},
-  {KBD_CATEGORY_STAFF, N_("InsertEflatmin"), (GtkFunction) newkeysigeflatmin},
-  {KBD_CATEGORY_STAFF, N_("InsertAflatmin"), (GtkFunction) newkeysigaflatmin},
+  accelerator = g_new (gchar, l + 1);
 
-  //Functions to Set Initial Key Sig
-  {KBD_CATEGORY_STAFF, N_("SetInitialCmaj"), (GtkFunction) setkeysigcmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialGmaj"), (GtkFunction) setkeysiggmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialDmaj"), (GtkFunction) setkeysigdmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialAmaj"), (GtkFunction) setkeysigamaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialEmaj"), (GtkFunction) setkeysigemaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialBmaj"), (GtkFunction) setkeysigbmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialFSharpmaj"),
-   (GtkFunction) setkeysigfsharpmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialCSharpmaj"),
-   (GtkFunction) setkeysigcsharpmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialFmaj"), (GtkFunction) setkeysigfmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialBflatmaj"),
-   (GtkFunction) setkeysigbflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialEflatmaj"),
-   (GtkFunction) setkeysigeflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialAflatmaj"),
-   (GtkFunction) setkeysigaflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialDflatmaj"),
-   (GtkFunction) setkeysigdflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialGflatmaj"),
-   (GtkFunction) setkeysiggflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialCflatmaj"),
-   (GtkFunction) setkeysigcflatmaj},
-  {KBD_CATEGORY_STAFF, N_("SetInitialAmin"), (GtkFunction) setkeysigamin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialEmin"), (GtkFunction) setkeysigemin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialBmin"), (GtkFunction) setkeysigbmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialFSharpmin"),
-   (GtkFunction) setkeysigfsharpmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialCSharpmin"),
-   (GtkFunction) setkeysigcsharpmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialGSharpmin"),
-   (GtkFunction) setkeysiggsharpmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialDSharpmin"),
-   (GtkFunction) setkeysigdsharpmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialASharpmin"),
-   (GtkFunction) setkeysigasharpmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialDmin"), (GtkFunction) setkeysigdmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialGmin"), (GtkFunction) setkeysiggmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialCmin"), (GtkFunction) setkeysigcmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialFmin"), (GtkFunction) setkeysigfmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialBflatmin"),
-   (GtkFunction) setkeysigbflatmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialEflatmin"),
-   (GtkFunction) setkeysigeflatmin},
-  {KBD_CATEGORY_STAFF, N_("SetInitialAflatmin"),
-   (GtkFunction) setkeysigaflatmin},
+  l = 0;
+  accelerator[l] = 0;
+  if (accelerator_mods & GDK_RELEASE_MASK)
+    {
+      strcpy (accelerator + l, text_release);
+      l += sizeof (text_release) - 1;
+    }
+  if (accelerator_mods & GDK_SHIFT_MASK)
+    {
+      strcpy (accelerator + l, text_shift);
+      l += sizeof (text_shift) - 1;
+    }
+  if (accelerator_mods & GDK_CONTROL_MASK)
+    {
+      strcpy (accelerator + l, text_control);
+      l += sizeof (text_control) - 1;
+    }
+  if (accelerator_mods & GDK_MOD1_MASK)
+    {
+      strcpy (accelerator + l, text_mod1);
+      l += sizeof (text_mod1) - 1;
+    }
+  if (accelerator_mods & GDK_MOD2_MASK)
+    {
+      strcpy (accelerator + l, text_mod2);
+      l += sizeof (text_mod2) - 1;
+    }
+  if (accelerator_mods & GDK_MOD3_MASK)
+    {
+      strcpy (accelerator + l, text_mod3);
+      l += sizeof (text_mod3) - 1;
+    }
+  if (accelerator_mods & GDK_MOD4_MASK)
+    {
+      strcpy (accelerator + l, text_mod4);
+      l += sizeof (text_mod4) - 1;
+    }
+  if (accelerator_mods & GDK_MOD5_MASK)
+    {
+      strcpy (accelerator + l, text_mod5);
+      l += sizeof (text_mod5) - 1;
+    }
+  if (accelerator_mods & GDK_META_MASK)
+    {
+      strcpy (accelerator + l, text_meta);
+      l += sizeof (text_meta) - 1;
+    }
+  if (accelerator_mods & GDK_HYPER_MASK)
+    {
+      strcpy (accelerator + l, text_hyper);
+      l += sizeof (text_hyper) - 1;
+    }
+  if (accelerator_mods & GDK_SUPER_MASK)
+    {
+      strcpy (accelerator + l, text_super);
+      l += sizeof (text_super) - 1;
+    }
+  strcpy (accelerator + l, keyval_name);
 
-
-  {KBD_CATEGORY_EDIT, N_("SetMark"), (GtkFunction) set_mark},
-  {KBD_CATEGORY_EDIT, N_("UnsetMark"), (GtkFunction) unset_mark},
-
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleBeginSlur"),
-   (GtkFunction) toggle_begin_slur},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleEndSlur"),
-   (GtkFunction) toggle_end_slur},
-
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleStartCrescendo"),
-   (GtkFunction) toggle_start_crescendo},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleEndCrescendo"),
-   (GtkFunction) toggle_end_crescendo},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleStartDiminuendo"),
-   (GtkFunction) toggle_start_diminuendo},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleEndDiminuendo"),
-   (GtkFunction) toggle_end_diminuendo},
-
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleAccent"), (GtkFunction) add_accent},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleFermata"), (GtkFunction) add_fermata},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleStaccato"),
-   (GtkFunction) add_staccato},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleTenuto"), (GtkFunction) add_tenuto},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleTrill"), (GtkFunction) add_trill},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleTurn"), (GtkFunction) add_turn},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleMordent"), (GtkFunction) add_mordent},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleStaccatissimo"),
-   (GtkFunction) add_staccatissimo},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleCoda"), (GtkFunction) add_coda},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleFlageolet"),
-   (GtkFunction) add_flageolet},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleOpen"), (GtkFunction) add_open},
-  {KBD_CATEGORY_ARTICULATION, N_("TogglePrallMordent"),
-   (GtkFunction) add_prallmordent},
-  {KBD_CATEGORY_ARTICULATION, N_("TogglePrallPrall"),
-   (GtkFunction) add_prallprall},
-  {KBD_CATEGORY_ARTICULATION, N_("TogglePrall"), (GtkFunction) add_prall},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleReverseTurn"),
-   (GtkFunction) add_reverseturn},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleSegno"), (GtkFunction) add_segno},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleSforzato"),
-   (GtkFunction) add_sforzato},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleStopped"), (GtkFunction) add_stopped},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleThumb"), (GtkFunction) add_thumb},
-  /*{KBD_CATEGORY_ARTICULATION, N_("ToggleTrillElement"), (GtkFunction) add_trillelement},
-     {KBD_CATEGORY_ARTICULATION, N_("ToggleTrill_Element"), (GtkFunction) add_trill_element}, */
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleUpprall"), (GtkFunction) add_upprall},
-  {KBD_CATEGORY_ARTICULATION, N_("ToggleArpeggio"),
-   (GtkFunction) add_arpeggio},
-  {KBD_CATEGORY_ARTICULATION, N_("SetGrace"), (GtkFunction) set_grace},
-
-  {KBD_CATEGORY_PLAYBACK, N_("PlayLocal"), (GtkFunction) playback_local},
-
-  {KBD_CATEGORY_OTHER, N_("ForceCaution"), (GtkFunction) force_cautionary},
-
-  {KBD_CATEGORY_NOTE_ENTRY, N_("ChangePitch"), (GtkFunction) change_pitch},
-  {KBD_CATEGORY_OTHER, N_("DoubleBar"), (GtkFunction) insert_doublebar},
-  {KBD_CATEGORY_OTHER, N_("EndBar"), (GtkFunction) insert_endbar},
-  {KBD_CATEGORY_OTHER, N_("OpenRepeat"), (GtkFunction) insert_openrepeat},
-  {KBD_CATEGORY_OTHER, N_("CloseRepeat"), (GtkFunction) insert_closerepeat},
-  {KBD_CATEGORY_OTHER, N_("OpenCloseRepeat"),
-   (GtkFunction) insert_opencloserepeat},
-  {KBD_CATEGORY_OTHER, N_("InsertRhythm"),
-   (GtkFunction) insert_rhythm_pattern},
-  {KBD_CATEGORY_OTHER, N_("NextRhythm"),
-   (GtkFunction) nextrhythm},
-  {KBD_CATEGORY_MEASURE, N_("AppendMesauresToScore"),
-   (GtkFunction) append_measure_score}
-
-
-};
-gint unmenued_commands_length = G_N_ELEMENTS (unmenued_commands);
+  return accelerator;
+}
 
 /**
  * Warns user about old keymap file
@@ -445,78 +504,185 @@ no_map_dialog ()
   gtk_widget_destroy (dialog);
 }
 
-
-static keymap *allocate_keymap() {
+/*
+ * Allocates a keymap.
+ * action_group is the action group that contains the action of the keymap,
+ * accel_path_prefix is the prefix of the accel_path of these actions.
+ */
+keymap *allocate_keymap(GtkActionGroup *action_group,
+        const gchar *accel_path_prefix) {
   keymap *the_keymap = (keymap *) g_malloc (sizeof (keymap));
-  gint i;
-  gint n_unmenued_commands = (sizeof (unmenued_commands)
-			      / sizeof (struct name_and_function));
-  gchar *hold, **split;
-
-  /* Allocate more than the necessary space for denemo_commands to start.  */
-  denemo_commands = (struct name_action_and_function *)
-    g_malloc (sizeof (struct name_action_and_function)
-	      * (n_unmenued_commands + n_menu_items));
-  for (i = 0; i < n_unmenued_commands; i++)
-    {
-      denemo_commands[i].name = unmenued_commands[i].name;
-      denemo_commands[i].callback_action = -1;
-      denemo_commands[i].func.nocallback = unmenued_commands[i].function;
-    }
-  denemo_commands_size = n_unmenued_commands;
-  // TODO
-  // Change this to use the GtkActionEntry data rather
-  // than the GtkItemFactoryEntry
-
-  for (i = 0; i < n_menu_items; i++)
-    {
-      if (menu_entries[i].name)
-	{
-	  /* The trickery with the strings eliminates spaces and underscores
-	     from the command names as they appear in the keymap file and
-	     in the keyboard customization interface.  */
-	  hold = g_strdup (_(menu_entries[i].label));
-	  hold = g_strdelimit (hold, " ", '_');
-	  split = g_strsplit (hold, "_", 0);
-	  g_free (hold);
-	  denemo_commands[denemo_commands_size].name =
-	    g_strjoinv (NULL, split);
-	  g_strfreev (split);
-	  denemo_commands[denemo_commands_size].callback_action = 0;
-	  denemo_commands[denemo_commands_size].func.callback
-	    = G_ACTIONCALLBACK (menu_entries[i].callback);
-	  denemo_commands_size++;
-	}
-    }
-  /* Now it's safe to shrink denemo_commands.  */
-  denemo_commands =
-    (struct name_action_and_function *) g_realloc (denemo_commands,
-						   (sizeof
-						    (struct
-						     name_action_and_function)
-						    * denemo_commands_size));
-
-  the_keymap->commands =
-    (GList **) g_malloc (sizeof (GList *) * denemo_commands_size);
-  the_keymap->quick_lookup_hashes = g_hash_table_new (NULL, NULL);
-  for (i = 0; i < denemo_commands_size; i++)
-    the_keymap->commands[i] = NULL;
-
+  the_keymap->action_group = action_group;
+  the_keymap->accel_path_prefix = g_strdup(accel_path_prefix);
+  //empty list store of commands
+  //3 columns :
+  //- type of action, a KeymapCommandType
+  //- pointer to an action entry, gpointer
+  //- pointer to a list store for storing the bindings of a command
+  the_keymap->commands = gtk_list_store_new(N_COLUMNS,
+          G_TYPE_INT,
+          G_TYPE_POINTER,
+          GTK_TYPE_LIST_STORE);
+  
+  //empty index reference
+  the_keymap->idx_from_name =
+      g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+  the_keymap->idx_from_keystring =
+      g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free); 
   return the_keymap;
 }
 
-
 /**
- * Create and Initialise a keymap structure
- * from user's standard keymap file (or system standard keymap file if none).
- *  @return The newly created keymap
+ * Utility function for free_keymap
  */
-keymap *
-init_keymap ()
+static void
+free_element (gpointer value, gpointer user_data)
 {
-  keymap *the_keymap = allocate_keymap();
-  load_standard_keymap_file (the_keymap);
-  return the_keymap;
+  g_free(value);
+}
+
+void
+free_keymap(keymap *the_keymap)
+{
+    g_object_unref(the_keymap->commands);
+    g_hash_table_destroy(the_keymap->idx_from_name);
+    g_hash_table_destroy(the_keymap->idx_from_keystring);
+    g_free((gchar *)the_keymap->accel_path_prefix); 
+}
+
+void
+register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
+        KeymapCommandType type)
+{
+    guint i;
+    guint *value;
+    const gchar *name;
+    gpointer entry;
+    GtkTreeIter iter;
+    GtkListStore *bindings;
+
+    for (i = 0; i < n; i++) {
+        //get the index of the new row
+        value = (guint *) g_malloc(sizeof(guint));
+        *value = gtk_tree_model_iter_n_children(
+                GTK_TREE_MODEL(the_keymap->commands), NULL);
+        
+        //add a new row
+        gtk_list_store_append(the_keymap->commands, &iter);
+        
+        //get information specific to the KeymapCommandType
+        switch (type) {
+            case KeymapEntry:
+                entry = (GtkActionEntry *) entries + i;
+                name = ((GtkActionEntry *) entry)->name;
+                break;
+            case KeymapToggleEntry:
+                entry = (GtkToggleActionEntry *) entries + i;
+                name = ((GtkToggleActionEntry *) entry)->name;
+                break;
+            case KeymapRadioEntry:
+                entry = (GtkRadioActionEntry *) entries + i;
+                name = ((GtkRadioActionEntry *) entry)->name;
+                break;
+            default:
+                return;
+        }
+        //allocate a new bindings list store
+        bindings = gtk_list_store_new(1, G_TYPE_STRING);
+#if DEBUG
+        //This code is only relevant to developpers, to check that no action
+        //entry masks another. Users cannot add actions.
+        gint idx = lookup_index_from_name(the_keymap, name);
+        if (idx != -1) {
+            g_warning("Command %s is inserted more than once, aborting...\n",
+                    name);
+            exit(2); //FIXME dirty
+        }
+#endif
+        //insert the information in the list store
+        gtk_list_store_set(the_keymap->commands, &iter,
+                COL_TYPE, type,
+                COL_ENTRY, entry,
+                COL_BINDINGS, bindings,
+                -1);
+        //insert the command name in the index reference
+        g_hash_table_insert(the_keymap->idx_from_name,
+                g_strdup(name), value);
+
+        //drop the reference to the bindings list store, so that it is freed
+        //with the command list store
+        g_object_unref(bindings);
+
+#if DEBUG
+        g_print("Inserting command %s -> %d\n", name, *value);
+#endif
+    }
+}
+
+static gint
+command_iter_sort(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
+        gpointer user_data)
+{
+  GtkTreeIter *iters[2];
+  KeymapCommandType type;
+  gpointer entry;
+  const gchar *names[2];
+  gint i;
+  iters[0] = a; iters[1] = b;
+  for (i = 0; i < 2; i++) {
+      gtk_tree_model_get(model, iters[i],
+              COL_TYPE, &type, COL_ENTRY, &entry, -1);
+      switch (type) {
+          case KeymapEntry:
+              names[i] = ((GtkActionEntry *) entry)->name;
+              break;
+          case KeymapToggleEntry:
+              names[i] = ((GtkToggleActionEntry *) entry)->name;
+              break;
+          case KeymapRadioEntry:
+              names[i] = ((GtkRadioActionEntry *) entry)->name;
+              break;
+          default:
+              names[i] = NULL;
+              break;
+      }
+  }
+  return strcmp(names[0], names[1]);
+}
+
+void
+end_command_registration(keymap *the_keymap)
+{
+  gint i, n;
+  guint *value;
+  const gchar *command_name;
+  GtkTreeModel *model = GTK_TREE_MODEL(the_keymap->commands);
+  GtkTreeSortable *sortable = GTK_TREE_SORTABLE(the_keymap->commands);
+  n = gtk_tree_model_iter_n_children(model, NULL);
+  gtk_tree_sortable_set_sort_func(sortable, 0, command_iter_sort, NULL, NULL);
+  gtk_tree_sortable_set_sort_column_id(sortable, 0, GTK_SORT_ASCENDING);
+  for (i = 0; i < n; i++) {
+      command_name = lookup_name_from_idx(the_keymap, i);
+      value = (guint *) g_hash_table_lookup(the_keymap->idx_from_name,
+              command_name);
+      *value = i;
+  }
+}
+
+//False if command_idx is an invalid index, true otherwise
+static gboolean
+keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
+{
+    GtkTreeModel *model = GTK_TREE_MODEL(the_keymap->commands);
+    GtkTreeIter iter;
+    if (!gtk_tree_model_iter_nth_child(model, &iter, NULL, command_idx))
+        return FALSE;
+    gtk_tree_model_get(model, &iter,
+            COL_TYPE, &row->type,
+            COL_ENTRY, &row->entry,
+            COL_BINDINGS, &row->bindings,
+            -1);
+    return TRUE;
 }
 
 /**
@@ -524,6 +690,7 @@ init_keymap ()
  * located in user standard place (or system standard place if none there).
  *  @return The newly created keymap
  */
+/*
 keymap *
 create_keymap (const gchar *filename)
 {
@@ -539,202 +706,641 @@ create_keymap (const gchar *filename)
   g_free(systemwide);
   return the_keymap;
 }
+*/
 
-
-/**
- * Utility function for clear_keymap 
- */
 static gboolean
-remove_it (gpointer key, gpointer value, gpointer user_data)
+keymap_clear_bindings_in_row(GtkTreeModel *model, GtkTreePath *path,
+        GtkTreeIter *iter, gpointer data)
 {
-  return TRUE;
+    GtkListStore *bindings;
+    gtk_tree_model_get(model, iter, COL_BINDINGS, &bindings, -1);
+    gtk_list_store_clear(bindings);
+    g_object_unref(bindings);
+    return FALSE;
 }
 
 /**
- * Utility function for clear_keymap 
- */
-static void
-clear_hashtable (gpointer key, gpointer value, gpointer user_data)
-{
-  g_hash_table_destroy ((GHashTable *) value);
-}
-
-/**
- * Clears the keymap of all entries
+ * Clears the keymap of all entries. Leaves  the content of commands and
+ * idx_from_name untouched, removes the content of bindings and
+ * idx_from_keystring
  *
  */
 void
-clear_keymap (keymap * the_keymap)
+keymap_clear_bindings (keymap * the_keymap)
 {
-  gint i;
-
-  for (i = 0; i < denemo_commands_size; i++)
-    if (the_keymap->commands[i])
-      {
-	g_list_foreach (the_keymap->commands[i], freeit, NULL);
-	g_list_free (the_keymap->commands[i]);
-	the_keymap->commands[i] = NULL;
-      }
-  g_hash_table_foreach (the_keymap->quick_lookup_hashes,
-			(GHFunc) clear_hashtable, NULL);
-  g_hash_table_foreach_remove (the_keymap->quick_lookup_hashes,
-			       remove_it, NULL);
+  gtk_tree_model_foreach(GTK_TREE_MODEL(the_keymap->commands),
+          keymap_clear_bindings_in_row, NULL);
+  g_hash_table_remove_all (the_keymap->idx_from_keystring);
 }
 
+/*
+ * Returns the number of commands in the keymap
+ */
+guint
+keymap_size (keymap *the_keymap)
+{
+    return gtk_tree_model_iter_n_children(GTK_TREE_MODEL(the_keymap->commands),
+            NULL);
+}
+
+/*
+ * executes function fun on all bindings attached to a command. The arguments
+ * passed to the function are the value of the current binding and the
+ * additionnal user data
+ */
+void
+keymap_foreach_command_binding (keymap *the_keymap, guint command_idx,
+        GFunc func, gpointer user_data)
+{
+    command_row row;
+    gchar *binding;
+    GtkTreeIter iter;
+    GtkListStore *bindings;
+    GtkTreeModel *model_bind;
+    if(!keymap_get_command_row(the_keymap, &row, command_idx))
+      return;
+    //get the first list element, if the list is empty returns
+    model_bind = GTK_TREE_MODEL(row.bindings);
+    if (!gtk_tree_model_get_iter_first(model_bind, &iter))
+      return;
+    //walk through the list and execute func on the binding
+    do {
+        //retrieve the binding
+        gtk_tree_model_get(model_bind, &iter, 0, &binding, -1);
+        //execute func
+        func (binding, user_data);
+        //free the binding
+        g_free(binding);
+    } while (gtk_tree_model_iter_next(model_bind, &iter));
+    //unref bindings
+    g_object_unref(row.bindings);
+}
 /**
  *  Search through keybindings for a specific binding
  *
  */
-KeybindingInfo *
-lookup_keybinding (keymap * the_keymap, gint keyval, gint state)
+gint
+lookup_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
 {
-  GHashTable *quick_lookup_hash;
+  gint res;
+  gchar *name = dnm_accelerator_name(keyval, state);
+  res = lookup_keybinding_from_string(the_keymap, name);
+  g_free(name);
+  return res;
+}
 
-  if ((quick_lookup_hash
-       = (GHashTable *) g_hash_table_lookup (the_keymap->quick_lookup_hashes,
-					     GINT_TO_POINTER (MASK_FILTER
-							      (state)))))
-    return (KeybindingInfo *) g_hash_table_lookup (quick_lookup_hash,
-						   GINT_TO_POINTER (keyval));
+gint
+lookup_keybinding_from_string (keymap * the_keymap,
+        const gchar *binding_name)
+{
+  gpointer *value = g_hash_table_lookup (the_keymap->idx_from_keystring,
+          binding_name);
+  if (value)
+    return *((guint *)value);
   else
-    return NULL;
+    return -1;
 }
 
 /**
  * Look up a key binding by name.
  * FIXME: This is inefficent. The keybinding structures needs a rework to be more usefull and robust.
  *
+ * deprecated and not reimplemented, developper should use
+ * keymap_foreach_command_bindings
+ * 
  * @param keymap
  * @param name
  * @returns the list of keybinding, or NULL if not found
  */
+/*
 GList *
-lookup_keybinding_by_name (keymap * keymap, const gchar * name)
+lookup_keybindings_by_name (keymap * keymap, const gchar * name)
 {
-  int i;
-  int idx = -1;
-
-  for (i = 0; i < denemo_commands_size; i++)
-    {
-      if (strcmp (denemo_commands[i].name, name) == 0)
-	{
-	  idx = i;
-	  break;
-	}
-    }
-
-  if (idx == -1)
-    {
-      g_warning ("Could not find keybinding '%s'\n", name);
+  gpointer value = g_hash_table_lookup(keymap->idx_from_name, name);
+  if (value)
+      return lookup_keybindings_by_idx(keymap, *(guint *)value);
+  else {
+      g_warning ("Could not find command '%s'\n", name);
       return NULL;
-    }
-
-  return keymap->commands[idx];
+  }
 }
 
+GList *
+lookup_keybindings_by_idx (keymap * keymap, guint idx)
+{
+  return g_array_index(keymap->bindings, GList *, idx);
+}
+*/
+
 /**
- * Removes a keybinding from the keymap.  Note that it will not delete
- * a second-level hashtable from the_keymap if its size shrinks to 0.
- * Even though this mightn't be a bad idea, it doesn't really hurt to
- * keep them around either. 
+ * Look up for a command index.
+ *
+ * @param keymap
+ * @param name
  */
+gint 
+lookup_index_from_name (keymap * keymap, const gchar *command_name)
+{
+  gpointer value = g_hash_table_lookup(keymap->idx_from_name, command_name);
+  if (value)
+      return *(guint *) value;
+  else
+      return -1;
+}
+
+//do not free the result
+//returns NULL if not found
+const gchar *
+lookup_name_from_idx (keymap * keymap, guint command_idx)
+{
+  const gchar *res = NULL;
+  command_row row;
+  
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  switch (row.type) {
+      case KeymapEntry:
+          res = ((GtkActionEntry *) row.entry)->name;
+          break;
+      case KeymapToggleEntry:
+          res = ((GtkToggleActionEntry *) row.entry)->name;
+          break;
+      case KeymapRadioEntry:
+          res = ((GtkRadioActionEntry *) row.entry)->name;
+          break;
+      default:
+          res = NULL;
+          break;
+  }
+  g_object_unref(row.bindings);
+  return res;
+}
+
+//returns the accel, "" if no accel defined. free the result
+static gchar *
+keymap_get_accel(keymap *the_keymap, guint command_idx)
+{
+  command_row row;
+  GtkTreeModel *model_bind;
+  GtkTreeIter iter;
+  gchar *res;
+  
+  if (!keymap_get_command_row(the_keymap, &row, command_idx))
+      return g_strdup("");
+  model_bind = GTK_TREE_MODEL(row.bindings);
+  if (!gtk_tree_model_get_iter_first(model_bind, &iter)) {
+      g_object_unref(row.bindings);
+      return g_strdup("");
+  }
+  gtk_tree_model_get(model_bind, &iter, 0, &res, -1);
+  g_object_unref(row.bindings);
+  return res;
+}
+
+//do not free the result
+/* deprecated for the time being, may not be useful
+const gchar *
+lookup_label_from_name (keymap *keymap, const gchar *command_name)
+{
+  const gchar *res = NULL;
+  KeymapCommand kc;
+  guint command_idx = lookup_index_from_name(keymap, command_name);
+  if (command_idx == -1)
+      return res;
+  kc = g_array_index(keymap->commands, KeymapCommand, command_idx);
+  switch (kc.type) {
+      case KeymapEntry:
+          res = ((GtkActionEntry *) kc.pointer)->label;
+          break;
+      case KeymapToggleEntry:
+          res = ((GtkToggleActionEntry *) kc.pointer)->label;
+          break;
+      case KeymapRadioEntry:
+          res = ((GtkRadioActionEntry *) kc.pointer)->label;
+          break;
+  }
+  return res;
+}
+*/
 
 static void
-remove_keybinding_helper (keymap * the_keymap,
-			  GHashTable * quick_lookup_hash, KeybindingInfo * ki)
+delAccelKey_from_idx(keymap *the_keymap, guint command_idx)
 {
-  g_hash_table_remove (quick_lookup_hash, GINT_TO_POINTER (ki->keyval));
-  the_keymap->commands[ki->command_number]
-    = g_list_remove (the_keymap->commands[ki->command_number], ki);
-  g_free (ki);
+  gchar *accel_path = g_strconcat(the_keymap->accel_path_prefix, "/",
+          lookup_name_from_idx(the_keymap, command_idx), NULL);
+  GtkAccelKey key;
+  if (gtk_accel_map_lookup_entry(accel_path, &key) &&
+          !(key.accel_key == 0 && key.accel_mods == 0)) {
+      gtk_accel_map_change_entry(accel_path, 0, 0, TRUE);
+  }
+  g_free(accel_path);
 }
 
-/**
- * Removes a keybinding from the_keymap.  Wraps the helper function
- * more than anything else.  Note that there is a little bit of code
- * duplication between this and add_keybinding, though it's more
- * spread out in the latter. 
- */
+static void
+setAccelKey_from_idx (keymap *the_keymap, guint command_idx)
+{
+  gboolean found;
+  command_row row;
+  GtkTreeModel *model_bind;
+  GtkTreeIter iter;
+  gchar *accel_binding, *command_name;
+  gchar *accel_path;
+  guint accel_key;
+  GdkModifierType modifiers;
+ 
+  if (!keymap_get_command_row(the_keymap, &row, command_idx))
+      return;
+  model_bind = GTK_TREE_MODEL(row.bindings);
+ 
+  found = FALSE;
+  if (!gtk_tree_model_get_iter_first(model_bind, &iter)) {
+      //TODO remove the accel if the list is empty
+      delAccelKey_from_idx(the_keymap, command_idx);
+      g_object_unref(row.bindings);
+      return;
+  }
+  do {
+      gtk_tree_model_get(model_bind, &iter, 0, &accel_binding, -1);
+      dnm_accelerator_parse(accel_binding, &accel_key, &modifiers);
+      g_free(accel_binding);
+      if (gtk_accelerator_valid(accel_key, modifiers)) {
+          found = TRUE;
+          break; // if found = TRUE, accel_key and modifiers are set to the
+          //good values
+      }
+  } while (gtk_tree_model_iter_next(model_bind, &iter));
+  accel_path = g_strconcat(the_keymap->accel_path_prefix, "/",
+          lookup_name_from_idx(the_keymap, command_idx), NULL);
+  if (found) {
+      gtk_accel_map_change_entry(accel_path, accel_key, modifiers, TRUE);
+  } else {
+      delAccelKey_from_idx(the_keymap, command_idx);
+      //TODO remove the current accel
+  }
+  g_free(accel_path); 
+  g_object_unref(row.bindings);
+}
+
+static void
+remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
+        const gchar *binding)
+{
+  gboolean found = FALSE;
+  gchar *cur_binding;
+  command_row row;
+  GtkTreeIter iter;
+  if (!keymap_get_command_row(the_keymap, &row, command_idx))
+      return;
+  GtkTreeModel *model_bind = GTK_TREE_MODEL(row.bindings);
+  if (!gtk_tree_model_get_iter_first(model_bind, &iter)) {
+      g_object_unref(row.bindings);
+      return;
+  }
+  do {
+      gtk_tree_model_get(model_bind, &iter, 0, &cur_binding, -1);
+      if (!strcmp(binding, cur_binding)) {
+          found = TRUE;
+          break;
+      }
+      g_free(cur_binding);
+  } while (gtk_tree_model_iter_next(model_bind, &iter));
+ 
+  if (found) {
+      gtk_list_store_remove(row.bindings, &iter);
+      setAccelKey_from_idx(the_keymap, command_idx);
+  }
+  g_object_unref(row.bindings);
+}
 
 void
-remove_keybinding (keymap * the_keymap, gint keyval, gint state)
+remove_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
 {
-  GHashTable *quick_lookup_hash;
-  KeybindingInfo *ki;
-
-  if ((quick_lookup_hash
-       = (GHashTable *) g_hash_table_lookup (the_keymap->quick_lookup_hashes,
-					     GINT_TO_POINTER (state)))
-      && (ki =
-	  (KeybindingInfo *) g_hash_table_lookup (quick_lookup_hash,
-						  GINT_TO_POINTER (keyval))))
-    remove_keybinding_helper (the_keymap, quick_lookup_hash, ki);
+  gchar *name = dnm_accelerator_name(keyval, state);
+  remove_keybinding_from_string(the_keymap, name);
+  g_free(name);
 }
 
+void
+remove_keybinding_from_string (keymap * the_keymap, const gchar *binding)
+{
+  gint *value;
+  value = (gint *) g_hash_table_lookup(the_keymap->idx_from_keystring, binding);
+  if (value) {
+      remove_keybinding_bindings_helper(the_keymap, *value, binding);
+      g_hash_table_remove(the_keymap->idx_from_keystring, binding);
+  }
+}
+
+/*
+ * Insert a binding to the bindings of command_idx.
+ * if position = 0, insert as first binding, if position = -1 insert as last
+ * binding, if position has another value, do not insert
+ */
+static void
+add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
+        const gchar *binding, gint position)
+{
+  command_row row;
+  GtkTreeIter iter;
+  
+  if (!keymap_get_command_row(the_keymap, &row, command_idx))
+      return;
+  GtkTreeModel *model_bind = GTK_TREE_MODEL(row.bindings);
+  
+  if (position == 0)
+      gtk_list_store_prepend(row.bindings, &iter);
+  else if (position == -1)
+      gtk_list_store_append(row.bindings, &iter);
+  else {
+    g_object_unref(row.bindings);
+    return;
+  }
+         
+  gtk_list_store_set(row.bindings, &iter, 0, binding, -1);
+  
+  g_object_unref(row.bindings);
+}
+
+gint
+add_keybinding_from_name(keymap * the_keymap, gint keyval,
+        GdkModifierType state, const gchar *command_name) 
+{
+  gpointer value;
+  guint command_idx;
+  value = g_hash_table_lookup(the_keymap->idx_from_name, command_name);
+  if (!value) {
+      g_warning("add_keybinding: %s, command does not exist");
+      return -1;
+  }
+  command_idx = *(guint *) value;
+  return add_keybinding_from_idx(the_keymap, keyval, state, command_idx);
+}
+    
 /**
- * Adds a keybinding from the_keymap.  If the key was already bound,
+ * Adds a keybinding to the_keymap.  If the key was already bound,
  * this function removes the old binding and replaces it, returning
  * the number of the command this keybinding was attached to. Otherwise
  * returns -1. 
  */
 gint
-add_keybinding (keymap * the_keymap, gint keyval, gint state,
-		gint command_number)
+add_keybinding_from_idx (keymap * the_keymap, gint keyval,
+        GdkModifierType state, guint command_idx)
 {
-  KeybindingInfo *new_ki = (KeybindingInfo *)
-    g_malloc (sizeof (KeybindingInfo));
-  KeybindingInfo *ki_to_delete = NULL;
-  GHashTable *quick_lookup_hash;
-  gint ret = -1;
+  guint *new_idx;
+  gint old_command_idx;
+  gpointer value;
+  gchar *kb_name;
+  gboolean flag_update_accel;
+  
+  kb_name = dnm_accelerator_name(keyval, state);
+  old_command_idx = lookup_keybinding(the_keymap, keyval, state);
+  
+  //if the keybinding was previously used, remove it from bindings
+  if (old_command_idx != -1)
+      remove_keybinding_bindings_helper(the_keymap, old_command_idx, kb_name);
+  
+  //add the keybinding to the binding on idx_command
+  add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, 0);
 
-  state = MASK_FILTER (state);
+  //update the accel key of the command
+  setAccelKey_from_idx(the_keymap, command_idx);
+  
+  //add or modify an entry in idx_from_keystring
+  new_idx = (guint *) g_malloc(sizeof(guint));
+  *new_idx = command_idx;
+  g_hash_table_insert(the_keymap->idx_from_keystring, g_strdup(kb_name),
+          new_idx);
+  
+  g_free(kb_name);
+  return old_command_idx;
+}
 
-  /* Initialize the info structure for the new keybinding */
+//helper for the keymap update function
+//old_command_idx : the command that had the binding before the accel change
+//new_command_idx : the command whose accel is changed
+//old_accel : the accel of new_command before the accel change
+//new_accel : the current accel of new_command
+//return 1 if the accel was changed, 0 otherwise
+static gint
+keymap_update_accel_helper(keymap *the_keymap, gint old_command_idx,
+        gint new_command_idx, const gchar *old_accel, const gchar *new_accel)
+{
+    //if the old_accel is equal to the new_accel, don't do anything
+    if (!strcmp(old_accel, new_accel))
+        return 0;
 
-  new_ki->keyval = keyval;
-  new_ki->state = state;
-  new_ki->command_number = command_number;
-  new_ki->callback_action = denemo_commands[command_number].callback_action;
-  new_ki->func = denemo_commands[command_number].func;
-  /* works for either case of the union - nifty, no?  */
+    //remove new_accel from the bindings of old_command
+    if (old_command_idx != -1)
+      remove_keybinding_bindings_helper(the_keymap, old_command_idx, new_accel);
+        
+    //prepend new_accel to the bindings of new_command
+    add_keybinding_bindings_helper(the_keymap, new_command_idx, new_accel, 0);
 
-  /* Set quick_lookup_hash correctly, adding it to
-     the_keymap->quick_lookup hashes if necessary. Also, if this key
-     already has a binding, remove that binding. */
-  if ((quick_lookup_hash
-       = (GHashTable *) g_hash_table_lookup (the_keymap->quick_lookup_hashes,
-					     GINT_TO_POINTER (state))))
-    {
-      /* Okay, there are commands with this set of bucky bits */
-      if ((ki_to_delete
-	   =
-	   (KeybindingInfo *) g_hash_table_lookup (quick_lookup_hash,
-						   GINT_TO_POINTER (keyval))))
-	{
-	  /* lo and behold, the command is already in the keymap.
-	     Remove it before proceeding.  */
-	  ret = ki_to_delete->command_number;
-	  remove_keybinding_helper (the_keymap, quick_lookup_hash,
-				    ki_to_delete);
-	}
+    //if old_command != -1 and != new_command set accel
+    if (old_command_idx != -1 && old_command_idx != new_command_idx)
+        setAccelKey_from_idx(the_keymap, old_command_idx);
+        
+    //if new command != -1 set accel
+    if (new_command_idx != -1)
+        setAccelKey_from_idx(the_keymap, new_command_idx);
+        
+    //if old_command != new_command modify idx_from_keystring
+    if (old_command_idx != new_command_idx) {
+        guint * value = (guint *) g_hash_table_lookup(
+                the_keymap->idx_from_keystring, new_accel);
+        if (value)
+            *value = new_command_idx;
+        else {
+            value = (guint *) g_malloc(sizeof(guint));
+            *value = new_command_idx;
+            g_hash_table_insert(the_keymap->idx_from_keystring,
+                    g_strdup(new_accel), value);
+        }
+        
     }
-  else
-    {
-      /* We need to create an appropriate quick_lookup_hash.  */
-      quick_lookup_hash = g_hash_table_new (NULL, NULL);
-      g_hash_table_insert (the_keymap->quick_lookup_hashes,
-			   GINT_TO_POINTER (state), quick_lookup_hash);
-    }
+    return 1;
+}
 
-  /* We now know where the structures need to go, so let's put
-     them there.  */
+//we have to reproduce this function here since it is static in gtkmenu.c
+static void
+stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
+{
+  if (menu->navigation_region) {
+    gdk_region_destroy (menu->navigation_region);
+    menu->navigation_region = NULL;
+  }
+  if (menu->navigation_timeout) {
+    g_source_remove (menu->navigation_timeout);
+    menu->navigation_timeout = 0;
+  }
+}
 
-  g_hash_table_insert (quick_lookup_hash, GINT_TO_POINTER (keyval), new_ki);
-  the_keymap->commands[command_number]
-    = g_list_append (the_keymap->commands[command_number], new_ki);
-  //if(ki_to_delete)
-  //       g_free(ki_to_delete);
-  return ret;
+//call this function after the function supposed to update the accel of action
+//to (keyval, modifiers)
+//returns 1 if the accelerator of action is equal to (keyval, modifiers) (ie
+//the change was successful, 0 otherwise
+gint
+keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
+        GdkModifierType modifiers)
+{
+  gint res;
+  GList *tmp;
+  GtkAccelKey accel_key;
+  gchar *new_command_old_accel;
+  gchar *new_command_new_accel;
+  const gchar *new_command_path;
+  gint old_command_idx = lookup_keybinding(the_keymap, keyval, modifiers);
+  gint new_command_idx = lookup_index_from_name(the_keymap,
+          gtk_action_get_name(action));
+#ifdef DEBUG
+  g_print("Bindings before accel update\n");
+  dump_command_info(the_keymap, old_command_idx);
+  dump_command_info(the_keymap, new_command_idx);
+#endif
+  new_command_old_accel = keymap_get_accel(the_keymap, new_command_idx);
+  new_command_path = gtk_action_get_accel_path(action);
+  gtk_accel_map_lookup_entry(new_command_path, &accel_key);
+  new_command_new_accel = dnm_accelerator_name(accel_key.accel_key,
+          accel_key.accel_mods);
+  //if the accel of new_command has changed clean the keymap
+  res = keymap_update_accel_helper(the_keymap, old_command_idx, new_command_idx,
+             new_command_old_accel, new_command_new_accel);
+#ifdef DEBUG
+  g_print("Bindings after accel update\n");
+  dump_command_info(the_keymap, old_command_idx);
+  dump_command_info(the_keymap, new_command_idx);
+#endif
+  g_free(new_command_old_accel);
+  g_free(new_command_new_accel);
+  return res;
+}
+
+gint
+keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
+		gpointer func_data)
+{
+  guint keyval;
+  GdkModifierType modifiers;
+  GtkAction *action;
+  keymap *the_keymap = (keymap *) func_data;
+  GtkMenu *menu = GTK_MENU(grab_widget);
+  GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
+  GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
+  //check if this a quick edit
+  //first try to handle the event with the key_press handler of the parent
+  //class (this allows navigation in the menu to take precedence over
+  //the quick edit), 
+  //We're just doing here in advance what would be done by
+  //gtk_menu_key_press
+  stolen_gtk_menu_stop_navigating_submenu (menu);
+  if (GTK_WIDGET_CLASS (parent_class)->key_press_event (grab_widget,
+              event)) {
+      //This was some navigation command in the submenu, and it was
+      //performed, no need to process further
+      return TRUE;
+  }
+  //TODO here could be added some check to see if we allow the quick edit
+  //for exemple, one could suppress quick edits if the new accel is
+  //already the keybind of another function.
+  keyval = event->keyval;
+  modifiers = dnm_sanitize_key_state(event);
+  //TODO this may be evil since active_menu_item is not available in the
+  //doc of GTK. It is accessible all the same, and we NEED it
+  action = 
+#if GTK_MINOR_VERSION <10
+    g_object_get_data(GTK_MENU_SHELL(menu)->active_menu_item, "action");
+#else
+  gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
+#endif
+  //If this menu item has no action, we give up
+  if (!action)
+    return TRUE;
+  //Now perform the menu key press handler.
+  GTK_WIDGET_CLASS (menu_class)->key_press_event (grab_widget, event);
+  //Set the accelerator in the keymap
+  keymap_update_accel(the_keymap, action, keyval, modifiers);
+  
+  return TRUE;
+}
+
+static gint
+findActionGroupByName(gconstpointer a, gconstpointer b)
+{
+    GtkActionGroup *action_group = GTK_ACTION_GROUP(a);
+    const gchar * searched_name = (const gchar *) b;
+    return strcmp(gtk_action_group_get_name(action_group), b);
+}
+
+gboolean
+execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
+{
+  gboolean res = TRUE;
+  const gchar *command_name;
+  GtkAction *action;
+  gpointer f;
+
+  command_name = lookup_name_from_idx(the_keymap, command_idx);
+  action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+#if DEBUG
+  //check for the existence of a callback, enables to detect action entries
+  //where the callback is lacking
+  command_row row;
+  if (!keymap_get_command_row(the_keymap, &row, command_idx))
+      return FALSE;
+  g_object_unref(row.bindings);
+  switch (row.type) {
+      case KeymapEntry:
+          f = (((GtkActionEntry *) row.entry)->callback);
+          if (!f) {
+            res = FALSE;
+          }
+          break;
+      case KeymapToggleEntry:
+          f = (((GtkToggleActionEntry *) row.entry)->callback);
+          if (f) {
+            res = FALSE;
+          }
+          break;
+      case KeymapRadioEntry:
+          //Since the callback is added once for all radio entries at the time
+          //they are included in the action group, we do not
+          //perform a check here
+          break;
+  }
+#endif
+  gtk_action_activate(action);
+  return res;
+}
+
+//prints info on the data of the keymap relative to a command
+void
+dump_command_info (keymap *the_keymap, gint command_idx)
+{
+  gchar *cur_binding;
+  command_row row;
+  GtkTreeIter iter;
+  GtkTreeModel *model_bind;
+  
+  if (command_idx == -1) {
+      g_print("no command\n");
+      return;
+  }
+  g_print ("command %s (%d)\nBindings:\n",
+          lookup_name_from_idx(the_keymap, command_idx), command_idx);
+  if(!keymap_get_command_row(the_keymap, &row, command_idx))
+      return;
+  model_bind = GTK_TREE_MODEL(row.bindings);
+  if(!gtk_tree_model_get_iter_first(model_bind, &iter)) {
+      g_object_unref(row.bindings);
+      return;
+  }
+  do {
+    gtk_tree_model_get(model_bind, &iter, 0, &cur_binding, -1);
+    g_print("\t%s (%d)\n", cur_binding,
+            lookup_keybinding_from_string(the_keymap, cur_binding));
+    g_free(cur_binding);
+  } while (gtk_tree_model_iter_next(model_bind, &iter));
+  g_object_unref(row.bindings);
 }
 
 struct callbackdata
@@ -773,7 +1379,7 @@ void
 load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
   GtkWidget *filesel;
-  static struct callbackdata cbdata;
+  static struct callbackdata cbdata;//FIXME static????
   static gchar *dotdenemo = NULL;
 
   if (!dotdenemo)
@@ -820,47 +1426,30 @@ load_standard_keymap_file_wrapper (GtkWidget * widget, keymap * the_keymap)
  */
 static void
 load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) {
-/* 
-  The plan:
+/*
+  The old plan:
      Load local file as xml 
   OR load local file as text and warn
   OR load system file as xml
   OR load system file as text (and warn?)
   OR warn
+  We deprecate the text keymap format.
 */
 
   g_print ("Trying local file %s as xml...", localrc);
   if (load_xml_keymap (localrc, the_keymap) == -1)
     {
-      g_print ("..no. As pre-0.7.5...");
-      if (load_keymap_file (localrc, the_keymap) == FALSE)
-	{
 	  g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
 	  if (load_xml_keymap (systemwide, the_keymap) == -1)
 	    {
-	      g_print ("..no. As pre-0.7.5...");
-	      if (load_keymap_file (systemwide, the_keymap) == FALSE)
-		{
 		  g_print ("..no.\nNo useful keymaps found.\n");
 		  no_map_dialog ();
 		}
-	      else
-		{
-		  g_print ("..ok.\n");
-		  old_keymap_dialog ();
-		}
-	    }
 	  else
 	    g_print ("..ok.\n");
 	}
-      else
-	{
-	  g_print ("..ok.\n");
-	  old_keymap_dialog ();
-	}
-    }
   else
-    g_print ("..ok.\n");
+      g_print ("..ok.\n");
 }
 
 /**
@@ -874,7 +1463,7 @@ load_standard_keymap_file (keymap * the_keymap)
   const gchar *dotdenemo = locatedotdenemo ();
   gchar *systemwide = g_build_filename (get_data_dir (), "denemo.keymaprc",
                                         NULL);
-  g_print ("systemwide = %s\n", systemwide);
+  //g_print ("systemwide = %s\n", systemwide);
   if(dotdenemo)
     localrc = g_build_filename (dotdenemo, "keymaprc", NULL);
   load_keymap_file_named (the_keymap, localrc, systemwide);
@@ -915,76 +1504,6 @@ static GScannerConfig scanner_config_template = {
 };
 
 /**
- * This function loads a keymap file from file filename 
- * param FILENAME is full pathname of file to be loaded
- * return TRUE on success
- */
-gboolean
-load_keymap_file (gchar * filename, keymap * the_keymap)
-{
-  gint fd, keyval, state = 0, result;
-  static GScanner *scanner = NULL;
-  if(filename==NULL)
-    return FALSE;
-  if (!scanner)
-    {
-      int i;
-
-      /* Create the scanner */
-      scanner = g_scanner_new (&scanner_config_template);
-      g_scanner_freeze_symbol_table (scanner);
-      for (i = 0; i < denemo_commands_size; i++)
-	g_scanner_add_symbol (scanner, _(denemo_commands[i].name),
-			      GINT_TO_POINTER (i + G_TOKEN_LAST));
-      g_scanner_thaw_symbol_table (scanner);
-    }
-
-  if ((fd = open (filename, O_RDONLY)) == -1)
-    {
-      g_warning (_("load_keymap_file : error opening %s : %s"), filename,
-		 g_strerror (errno));
-      return FALSE;
-    }
-
-  clear_keymap (the_keymap);
-  g_scanner_input_file (scanner, fd);
-
-  while ((result = g_scanner_get_next_token (scanner)) != G_TOKEN_EOF)
-    {
-      if (G_TOKEN_LAST <= result
-	  && result < G_TOKEN_LAST + denemo_commands_size)
-	/* We have a token for a named command type */
-	while (g_scanner_peek_next_token (scanner) == G_TOKEN_STRING)
-	  {
-	    g_scanner_get_next_token (scanner);
-	    keyval = gdk_keyval_from_name (scanner->value.v_string);
-	    if (g_scanner_peek_next_token (scanner) == G_TOKEN_LEFT_PAREN)
-	      {
-		g_scanner_get_next_token (scanner);
-		if (g_scanner_get_next_token (scanner) == G_TOKEN_STRING)
-		  state = atoi (scanner->value.v_string);
-		if (g_scanner_peek_next_token (scanner)
-		    == G_TOKEN_RIGHT_PAREN)
-		  g_scanner_get_next_token (scanner);
-	      }
-	    else
-	      state = 0;
-	    /* Okay. We've determined the keyval & event for this
-	       keybinding, add it to the keymap, and overwrite what
-	       the binding previously did.  */
-	    add_keybinding (the_keymap, keyval, state, result - G_TOKEN_LAST);
-	  }
-      else
-	{
-	  g_warning (_("Unexpected token %s found in keymap file %s\n"),
-		     scanner->value.v_string, filename);
-	}
-    }
-  close (fd);
-  return TRUE;
-}
-
-/**
  * Callback for saving the keymap to a given file
  *
  */
@@ -1006,7 +1525,7 @@ void
 save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
   GtkWidget *filesel;
-  static gchar *dotdenemo = NULL;
+  static gchar *dotdenemo = NULL;//FIXME static????
   static struct callbackdata cbdata;
 
   if (!dotdenemo)
@@ -1045,7 +1564,7 @@ save_standard_keymap_file_wrapper (GtkWidget * widget, DenemoGUI *gui)
     return;
   }
     
-  save_standard_keymap_file (the_keymap);
+  save_standard_keymap_file (widget, the_keymap);
 }
 
 /**
@@ -1053,7 +1572,7 @@ save_standard_keymap_file_wrapper (GtkWidget * widget, DenemoGUI *gui)
  *
  */
 void
-save_standard_keymap_file (keymap * the_keymap)
+save_standard_keymap_file (GtkWidget *widget, keymap * the_keymap)
 {
   gchar *localrc = NULL;
   const gchar *dotdenemo = locatedotdenemo ();
@@ -1062,43 +1581,6 @@ save_standard_keymap_file (keymap * the_keymap)
   save_xml_keymap (localrc, the_keymap);
   g_free(localrc);
 }
-
-/**
- * g_list_foreach function invoked by save keymap file
- */
-static void
-write_keybinding_info (KeybindingInfo * ki, FILE * fp)
-{
-  fprintf (fp, "%s", gdk_keyval_name (ki->keyval));
-  if (ki->state)
-    fprintf (fp, "(%d)", ki->state);
-  fprintf (fp, " ");
-}
-
-/**
- * This function saves the keymap to file filename 
- */
-void
-save_keymap_file (gchar * filename, keymap * the_keymap)
-{
-  FILE *fp;
-  gint i;
-
-  if ((fp = fopen (filename, "w")))
-    {
-      for (i = 0; i < denemo_commands_size; i++)
-	{
-	  fprintf (fp, "%s ", denemo_commands[i].name);
-	  g_list_foreach (the_keymap->commands[i],
-			  (GFunc) write_keybinding_info, fp);
-	  fprintf (fp, "\n");
-	}
-      fclose (fp);
-    }
-  else
-    g_warning (_("unable to write keymap file to %s\n"), filename);
-}
-
 
 /**
  * This function gets the caller a string useful for display
@@ -1130,4 +1612,212 @@ set_state (gint state, gchar ** value)
       *value = "Alt+Ctrl+Shift+";
       break;
     }
+}
+
+static void
+command_name_data_function (GtkTreeViewColumn *col,
+                            GtkCellRenderer   *renderer,
+                            GtkTreeModel      *model,
+                            GtkTreeIter       *iter,
+                            gpointer           user_data)
+{
+    KeymapCommandType type;
+    gpointer entry;
+    const gchar *name;
+    gtk_tree_model_get(model, iter,
+            COL_TYPE, &type,
+            COL_ENTRY, &entry,
+            -1);
+    switch (type) {
+        case KeymapEntry:
+            name = (((GtkActionEntry *) entry)->name);
+            break;
+        case KeymapToggleEntry:
+            name = (((GtkToggleActionEntry *) entry)->name);
+            break;
+        case KeymapRadioEntry:
+            name = (((GtkRadioActionEntry *) entry)->name);
+            break;
+    }
+    g_object_set(renderer, "text", name, NULL);
+}
+
+static gboolean
+search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
+        GtkTreeIter *iter, gpointer search_data)
+{
+  KeymapCommandType type;
+  gpointer entry;
+  const gchar *name;
+  gboolean res;
+  gchar *name_trunk;
+  gtk_tree_model_get(model, iter,
+          COL_TYPE, &type,
+          COL_ENTRY, &entry,
+          -1);
+  switch (type) {
+      case KeymapEntry:
+          name = (((GtkActionEntry *) entry)->name);
+          break;
+      case KeymapToggleEntry:
+          name = (((GtkToggleActionEntry *) entry)->name);
+          break;
+      case KeymapRadioEntry:
+          name = (((GtkRadioActionEntry *) entry)->name);
+          break;
+  }
+  name_trunk = g_strndup(name, strlen(key));
+  res = strcmp(name_trunk, key) == 0;
+  g_free(name_trunk);
+  return !res;
+}
+
+GtkWidget *
+keymap_get_command_view(keymap *the_keymap)
+{
+  GtkScrolledWindow *res2;
+  GtkTreeView *res;
+  GtkTreeViewColumn *col;
+  GtkCellRenderer *renderer;
+  GtkTreeSelection *selection;
+  GtkTreeIter iter;
+  GtkTreeModel *model;
+
+  model = GTK_TREE_MODEL(the_keymap->commands);
+  //setting up the tree view
+  res = GTK_TREE_VIEW(gtk_tree_view_new());
+  gtk_tree_view_set_model(res, model);
+  
+  col = gtk_tree_view_column_new();
+  gtk_tree_view_column_set_title(col, N_("Commands"));
+  gtk_tree_view_append_column(res, col);
+
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_column_pack_start(col, renderer, TRUE);
+  gtk_tree_view_column_set_cell_data_func(col, renderer,
+          command_name_data_function, NULL, NULL);
+ 
+  selection = gtk_tree_view_get_selection(res);
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
+
+  gtk_tree_view_set_search_equal_func(res, search_equal_func, NULL, NULL);
+  gtk_tree_view_set_enable_search(res, TRUE);
+  
+  //setting up the scrolledwindow
+  res2 = GTK_SCROLLED_WINDOW(gtk_scrolled_window_new(NULL, NULL));
+  gtk_container_add(GTK_CONTAINER(res2), GTK_WIDGET(res));
+  gtk_scrolled_window_set_policy(res2, GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+
+  //FIXME adapt so that 10~15 rows are visible
+  gtk_widget_set_size_request(GTK_WIDGET(res2), -1, 300);
+  
+  return GTK_WIDGET(res2);
+}
+
+void row_inserted_handler(GtkTreeModel *model, GtkTreePath *arg1,
+        GtkTreeIter *arg2, gpointer user_data)
+{
+    keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+    //g_print("insert\n");
+    if (cbdata->command_idx != -1)
+        setAccelKey_from_idx(cbdata->the_keymap, cbdata->command_idx);
+}
+
+void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
+        gpointer user_data)
+{
+    keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+    //g_print("delete\n");
+    if (cbdata->command_idx != -1)
+        setAccelKey_from_idx(cbdata->the_keymap, cbdata->command_idx);
+}
+
+gboolean
+keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
+        GtkTreeModel *model,
+        GtkTreePath *path,
+        gboolean path_currently_selected,
+        gpointer data)
+{
+  GtkTreeView *binding_view;
+  GtkListStore *bindings;
+  GtkTreeIter iter;
+  GtkTreeModel *command_model;
+  GtkTreeModel *old_binding_model;
+  gint *array;
+  keyboard_dialog_data *cbdata = (keyboard_dialog_data *)data;
+
+  //if the same command is selected again, we do nothing
+  if (path_currently_selected)
+      return TRUE;
+  
+  //getting the binding_view
+  binding_view = cbdata->binding_view;
+
+  //disconnecting signals of the old binding view
+  old_binding_model = gtk_tree_view_get_model(binding_view);
+  if (old_binding_model) {
+    //g_signal_handlers_disconnect_by_func(old_binding_model,
+    //        row_inserted_handler, data);
+    g_signal_handlers_disconnect_by_func(old_binding_model,
+            row_deleted_handler, data);
+  }
+  
+  //getting the new model
+  gtk_tree_model_get_iter(model, &iter, path);
+  gtk_tree_model_get(model, &iter, COL_BINDINGS, &bindings, -1);
+
+  //getting the new command_idx
+  array = gtk_tree_path_get_indices(path);
+  cbdata->command_idx = array[0];
+  
+  //setting the model and releasing our reference
+  gtk_tree_view_set_model(binding_view, GTK_TREE_MODEL(bindings));
+  //g_signal_connect(bindings, "row-inserted", row_inserted_handler, data);
+  g_signal_connect(bindings, "row-deleted", G_CALLBACK(row_deleted_handler),
+          data);
+  g_object_unref(bindings);
+    
+  //perform the selection
+  return TRUE;
+}
+
+GtkWidget *
+keymap_get_binding_view()
+{
+  GtkScrolledWindow *res2;
+  GtkTreeView *res;
+  GtkTreeViewColumn *col;
+  GtkCellRenderer *renderer;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  GtkTreeSelection *selection;
+
+  //setting up the tree view
+  res = GTK_TREE_VIEW(gtk_tree_view_new());
+  
+  col = gtk_tree_view_column_new();
+  gtk_tree_view_column_set_title(col, N_("Bindings"));
+  gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
+  gtk_tree_view_append_column(res, col);
+
+  renderer = gtk_cell_renderer_text_new();
+  gtk_tree_view_column_pack_start(col, renderer, TRUE);
+  gtk_tree_view_column_add_attribute(col, renderer, "text", 0);
+  
+  selection = gtk_tree_view_get_selection(res);
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+
+  gtk_tree_view_set_enable_search(res, FALSE);
+
+  gtk_tree_view_set_reorderable(res, TRUE);
+  //setting up the scrolledwindow
+  res2 = GTK_SCROLLED_WINDOW(gtk_scrolled_window_new(NULL, NULL));
+  gtk_container_add(GTK_CONTAINER(res2), GTK_WIDGET(res));
+  gtk_scrolled_window_set_policy(res2, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+  //FIXME adapt so that 10~15 rows are visible
+  gtk_widget_set_size_request(GTK_WIDGET(res2), -1, 300);
+  
+  return GTK_WIDGET(res2);
 }

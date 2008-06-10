@@ -139,7 +139,7 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   while(!ok);
 
   /* generate the lilypond file */
-  exportlilypond (mudelafile, gui, gui->si->start, gui->si->end, TRUE);
+  exportlilypond (mudelafile, gui, TRUE);
 
   /* generate the pdf file */
   gchar *argv[] =

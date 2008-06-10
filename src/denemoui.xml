@@ -96,7 +96,7 @@
       <menuitem action="Stop"/>
 	<!--		<menuitem action="PlayALSA"/> -->
       <menuitem action="PlayCSound"/>
-      <menuitem action="Properties"/>
+      <menuitem action="PlaybackProperties"/>
     </menu>
     <menu action="HelpMenu">
       <menuitem action="Help"/>

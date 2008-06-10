@@ -10,11 +10,10 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
-void exportlilypond (gchar * thefilename,  DenemoGUI *gui, gint start,
-		   gint end, gboolean all_movements);
+void exportlilypond (gchar * thefilename,  DenemoGUI *gui, gboolean all_movements);
 
-void export_lilypond_parts(char *filename, DenemoGUI *gui, gint start, gint end);
-void export_lilypond_part(char *filename, DenemoGUI *gui, gint start, gint end, gboolean all_movements);
+void export_lilypond_parts(char *filename, DenemoGUI *gui);
+void export_lilypond_part(char *filename, DenemoGUI *gui, gboolean all_movements);
 
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/

@@ -1661,7 +1661,7 @@ auto_save_document_timeout (DenemoGUI *gui)
   //g_print ("Auto save file name %s\n", gui->autosavename->str);
   if (si->lily_file)
     {
-      exportlilypond (gui->autosavename->str, gui, 0, 0, 1);
+      exportlilypond (gui->autosavename->str, gui, TRUE);
     }
   else
     {
