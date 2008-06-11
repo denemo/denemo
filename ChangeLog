@@ -1,4 +1,7 @@
 2008-06-11 <rshann>
+	Fix problem with KP_Enter. You have to coordinate standard.accels with
+	denemo.keymaprc. TODO do not load standard.accels if a local keymaprc is used.
+2008-06-11 <rshann>
 	Fix spurious accelerator labels, enable labels on AddTone and the CursorXXX actions to show, Make sure
 	backspace and del show as accelerators. All this just for the default out of the box situation.
 	Remove spurious warning on delete shortcut button.

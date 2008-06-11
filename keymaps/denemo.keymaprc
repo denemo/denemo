@@ -77,7 +77,7 @@
       </row>
       <row>
         <action>AddTone</action>
-        <bind>KP_Enter</bind>
+
         <bind>Return</bind>
       </row>
       <row>
@@ -698,6 +698,7 @@
       </row>
       <row>
         <action>InsertRhythm</action>
+        <bind>KP_Enter</bind>
       </row>
       <row>
         <action>InsertSeptuplet</action>
