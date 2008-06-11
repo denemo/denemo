@@ -234,6 +234,8 @@
 ; (gtk_accel_path "<Actions>/MenuActions/Print" "")
 ; (gtk_accel_path "<Actions>/MenuActions/InsertGflatmaj" "")
 (gtk_accel_path "<Actions>/MenuActions/OpenTemplate" "<Control>t")
+(gtk_accel_path "<Actions>/MenuActions/OpenExample" "")
+
 ; (gtk_accel_path "<Actions>/MenuActions/InitialClef" "")
 (gtk_accel_path "<Actions>/MenuActions/InsertSextuplet" "<Control>4")
 ; (gtk_accel_path "<Actions>/MenuActions/Keyboard" "")

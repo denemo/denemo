@@ -234,34 +234,26 @@
       <row>
         <action>CursorDown</action>
         <bind>KP_Down</bind>
-        <bind>Shift+J</bind>
-        <bind>j</bind>
         <bind>Down</bind>
       </row>
       <row>
         <action>CursorLeft</action>
         <bind>KP_Left</bind>
         <bind>Left</bind>
-        <bind>Shift+H</bind>
-        <bind>h</bind>
       </row>
       <row>
         <action>CursorRight</action>
-        <bind>L</bind>
-        <bind>Shift+L</bind>
-        <bind>l</bind>
         <bind>KP_Right</bind>
         <bind>Right</bind>
       </row>
       <row>
         <action>CursorUp</action>
-        <bind>Shift+K</bind>
-        <bind>k</bind>
         <bind>KP_Up</bind>
         <bind>Up</bind>
       </row>
       <row>
         <action>Cut</action>
+        <bind>Control+x</bind>
       </row>
       <row>
         <action>D</action>
@@ -283,7 +275,6 @@
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <bind>Control+x</bind>
         <bind>Control+Delete</bind>
       </row>
       <row>
@@ -295,19 +286,16 @@
       <row>
         <action>DeleteObject</action>
         <bind>Delete</bind>
-        <bind>x</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
         <bind>BackSpace</bind>
-        <bind>Shift+X</bind>
       </row>
       <row>
         <action>DeleteRhythm</action>
       </row>
       <row>
         <action>DeleteStaff</action>
-        <bind>Shift+Control+X</bind>
         <bind>Shift+Control+Delete</bind>
       </row>
       <row>

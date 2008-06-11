@@ -1103,7 +1103,8 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, 0);
 
   //update the accel key of the command
-  setAccelKey_from_idx(the_keymap, command_idx);
+ if(gtk_accelerator_valid (keyval, state))
+   setAccelKey_from_idx(the_keymap, command_idx);
   
   //add or modify an entry in idx_from_keystring
   new_idx = (guint *) g_malloc(sizeof(guint));

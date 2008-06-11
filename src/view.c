@@ -911,7 +911,7 @@ gint idx =
 
 
   /*********** delete shortcut button *****/
-  button = gtk_button_new_with_label(N_("Delete the shortcut (not implemented yet)"));
+  button = gtk_button_new_with_label(N_("Delete a shortcut"));
 
   g_signal_connect (G_OBJECT (button), "clicked",
 			    G_CALLBACK (delete_accel), &cb_data);
