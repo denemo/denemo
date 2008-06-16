@@ -43,6 +43,47 @@ static void truncate_lines(gchar *epoint) {
     for(i=3;i>0;i--)
       *epoint-- = '.';
 }
+/***
+ * Run the command line convert-ly to get the lilypond output 
+ * current with the version running on the users computer
+ *
+ */
+
+void convert_ly(gchar *lilyfile){
+  GError *err = NULL;
+#ifdef G_OS_WIN32
+/*   gchar *dirname = g_path_get_dirname (Denemo.prefs.lilypath->str ); */
+/*   gchar *convert = g_build_filename(dirname, "convert-ly.py");// FIXME memory leaks */
+
+#else
+/** This convert stuff could be made a seperate function **/
+  gchar *convert = "convert-ly";
+
+  gchar *conv_argv[] = {
+    convert,
+    "-e",
+    lilyfile,
+    NULL
+  };
+
+  g_spawn_sync (locatedotdenemo (),		/* dir */
+		conv_argv, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		NULL,		/* stdout */
+		NULL,		/* stderr */
+		NULL, &err);
+
+  if (err != NULL)
+    {
+      warningdialog("Could not execute lilypond's convert-ly program - check lilypond installation or just ignore");
+      g_warning ("%s", err->message);
+      g_error_free (err);
+      err = NULL;
+    }
+#endif
+}
+ 
 /* Run the LilyPond interpreter on the file (filename).ly
  * putting the PDF output in (filename).pdf
  * start an external PDF viewer on that file.
@@ -66,40 +107,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
     return;
   }
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-#ifdef G_OS_WIN32
-/*   gchar *dirname = g_path_get_dirname (Denemo.prefs.lilypath->str ); */
-/*   gchar *convert = g_build_filename(dirname, "convert-ly.py");// FIXME memory leaks */
-
-#else
-
-  gchar *convert = "convert-ly";
-
-  gchar *conv_argv[] = {
-    convert,
-    "-e",
-    lilyfile,
-    NULL
-  };
-
-/* (denemo:29198): GLib-WARNING **: In call to g_spawn_sync(), exit status of a child process was requested but SIGCHLD action was set to SIG_IGN and ECHILD was received by waitpid(), so exit status can't be returned. This is a bug in the program calling g_spawn_sync(); either don't request the exit status, or don't set the SIGCHLD action. 
- FIXED*/
-
-  g_spawn_sync (locatedotdenemo (),		/* dir */
-		conv_argv, NULL,	/* env */
-		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
-		NULL,		/* user data */
-		NULL,		/* stdout */
-		NULL,		/* stderr */
-		NULL, &err);
-
-  if (err != NULL)
-    {
-      warningdialog("Could not execute lilypond's convert-ly program - check lilypond installation or just ignore");
-      g_warning ("%s", err->message);
-      g_error_free (err);
-      err = NULL;
-    }
-#endif
+  convert_ly(lilyfile);
   //pointer to pointer that changes according to *argv[]
 
   gchar **arguments;
@@ -117,9 +125,9 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
 	  arguments = argv;
   }
   else {
+
 	  gchar *argv[] = {
-		   
-		    Denemo.prefs.lilypath->str,
+	       	    Denemo.prefs.lilypath->str,
 		    "--pdf",
 		    "-o",
 		    filename,
@@ -128,10 +136,8 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
 	  };
 	  arguments = argv;
   }
-
+    
   gchar *output=NULL, *errors=NULL;
-
-
   g_spawn_sync (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
@@ -284,21 +290,14 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
  *
  */
 
-void
+gboolean
 printrangedialog(DenemoGUI * gui){
   GtkWidget *dialog;
-  GtkWidget *table;
   GtkWidget *label;
   GtkWidget *hbox;
   GtkWidget *from_measure;
   GtkWidget *to_measure;
-  GtkWidget *print_measure;
-  GtkWidget *print_entire_piece;
-  GtkWidget *print_all_staves;
-  GtkWidget *print_only;
-  GtkWidget *staves;
-  staffnode *n;
-
+  
   dialog = gtk_dialog_new_with_buttons (_("Print Excerpt Range"),
 	 GTK_WINDOW (gui->window),
 	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
@@ -342,12 +341,15 @@ printrangedialog(DenemoGUI * gui){
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
       gui->si->end =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
+      gtk_widget_destroy (dialog);
+      return 1;
+
     }
   else 
     {
-      gui->si->start = gui->si->end = 0;
+      gtk_widget_destroy (dialog);
+      return 0;
     }
-  gtk_widget_destroy (dialog);
 }
 
 
@@ -379,11 +381,11 @@ printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
   if(gui->si->markstaffnum) {
     gui->si->start = gui->si->firstmeasuremarked;
     gui->si->end = gui->si->lastmeasuremarked;
+    	print(gui, FALSE, FALSE);
   } else {
-    printrangedialog(gui);
+    if (printrangedialog(gui))
+	print(gui, FALSE, FALSE);
   }
-  if ((gui->si->start == gui->si->end == 0))
-  	print(gui, FALSE, FALSE);
   gui->lilycontrol.excerpt = FALSE;
   gui->si->start = 0;
   gui->si->end = 0;
@@ -462,6 +464,7 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
 
   /* look for lilypond */
   gchar *lilypath = g_find_program_in_path (Denemo.prefs.lilypath->str);
+  /*** this can replaced with a utility ****/
   if (lilypath == NULL)
     {
       /* show a warning dialog */
@@ -526,13 +529,15 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
       mudelafile,
       NULL
     };
-  g_spawn_sync (tmpdir,         /* dir */
-                argv, NULL,     /* env */
-                G_SPAWN_SEARCH_PATH, NULL,      /* child setup func */
-                NULL,           /* user data */
-                NULL,           /* stdout */
-                NULL,           /* stderr */
-                &exit_status, &err);
+
+  gchar *output=NULL, *errors=NULL;
+  g_spawn_sync (locatedotdenemo (),		/* dir */
+		argv, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		&output,		/* stdout */
+		&errors,		/* stderr */
+		NULL, &err);
 
   if (err != NULL)
     {
