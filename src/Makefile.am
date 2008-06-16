@@ -5,7 +5,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawaccidentals.c drawclefs.c drawcursor.c drawkey.c drawdynamic.c \
 	drawnotes.c drawselection.c drawstemdir.c drawtimesig.c drawtuplets.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
-	exportpdf.c exportxml.c file.c gcs.c \
+	exportxml.c file.c gcs.c \
 	headerdialog.c hairpin.c \
 	help.c importxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
@@ -37,7 +37,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	exportcsound.h \
-	lyric.h playback.h runsilent.h binreloc.c  binreloc.h exportpdf.h \
+	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
 	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
 	external.h scorewizard.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \

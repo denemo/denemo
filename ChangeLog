@@ -1,3 +1,8 @@
+2008-06-16 <jjbenham>
+	removed src/exportpdf.* and moved doc/*.png to doc/images
+	doc/Makefile.am removed png reference
+	doc/images/Makefile.am referenced png's for installation
+	print.c began code consolidation
 2008-06-11 <rshann>
 	Fix problem with KP_Enter. You have to coordinate standard.accels with
 	denemo.keymaprc. TODO do not load standard.accels if a local keymaprc is used.
@@ -10,6 +15,10 @@
 	exportlilypond.c commandfuncs.c print.c make print obey selection
 	view.c	kbd-custom.c, keyresponse.c keyboard.c kbd-interface.c,h
 	include/denemo/denemo_types.h Updated keybinding code from JRR
+2008-06-08 <jjbenham>
+	removed exportpdf.* files. 
+	src/Makefile.am removed reference to exportpdf.*
+	print.* added functions that were in exportpdf.* and consolidated some 
 2008-06-08 <jjbenham>
 	print.c added pop-up dialog for printing excerpts
 2008-06-06 <jjbenham>

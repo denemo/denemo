@@ -20,7 +20,7 @@ VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
-top_builddir = ../..
+top_builddir = ..
 
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 INSTALL = @INSTALL@
@@ -152,7 +152,7 @@ build_os = @build_os@
 build_vendor = @build_vendor@
 datadir = @datadir@
 datarootdir = @datarootdir@
-docdir = @docdir@
+docdir = $(datadir)/${PACKAGE}/manual
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
 host = @host@
@@ -182,151 +182,32 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
-imagedir = $(datadir)/${PACKAGE}/manual/images
-dist_image_DATA = 4fo2denemo.png          clefmenu.png            lpmode.png \
-4for2abc.png            main.png \
-4for2abcps.png          denemomain.png          navigationmenu.png \
-4for2ly.png             displaymenu.png         orchestraltemplate5.png \
-4for2new-page1.png      educationtemplate3.png  othermenu1.png \
-4for2new-page2.png      fig1.png                playbackmenu.png \
-4for2touchedly.png      fig2.png                polyphony.png \
-addvc2currentstaff.png  fig3.png                setpreferences.png \
-bandtemplate.png        filemenu.png            staffmenu.png \
-choraltemplate1.png     generaltemplate4.png    tablituretemplate6.png \
-churchtemplate2.png     keymenu.png             timemenu.png \
-gotobegin.png		gotoend.png		stopmidi.png \
-4fo2denemo.png \
-4for2abc.png \
-4for2abcps.png \
-4for2ly.png \
-4for2new-page1.png \
-4for2new-page2.png \
-4for2touchedly.png \
-accent.png \
-acciaccatura.png \
-accidentals.png \
-addvc2currentstaff.png \
-appoggiatura.png \
-arpeggio.png \
-articulations.png \
-bandtemplate.png \
-blank.png \
-caution.png \
-Changeclefdialog.png \
-changeinitialclef.png \
-choraltemplate1.png \
-chord.png \
-churchtemplate2.png \
-clefmenu.png \
-coda.png \
-copy.png \
-cut.png \
-denemomain.png \
-displaymenu.png \
-downbow.png \
-downmordent.png \
-downprall.png \
-draft.png \
-educationtemplate3.png \
-expressions.png \
-fermata.png \
-fig1.png \
-fig3.png \
-filemenu.png \
-flageolet.png \
-generaltemplate4.png \
-glissando.png \
-grace.png \
-home.png \
-important.png \
-initalkeydialog.png \
-keymenu.png \
-lheel.png \
-lineprall.png \
-longfermata.png \
-lpmode.png \
-ltoe.png \
-marcato.png \
-mark1.png \
-mordent.png \
-navigationmenu.png \
-next.png \
-note-page1.png \
-note.png \
-open.png \
-orchestraltemplate5.png \
-othermenu1.png \
-paste.png \
-playbackmenu.png \
-playmidi.png \
-polyphony.png \
-portato.png \
-pralldown.png \
-prallmordent.png \
-prall.png \
-prallprall.png \
-prallup.png \
-prev.png \
-print.png \
-redo.png \
-rests.png \
-reverseturn.png \
-rheel.png \
-rtoe.png \
-save.png \
-secondending.png \
-segno.png \
-selectingkey.png \
-setpreferences.png \
-settimesigniture.png \
-shortfermata.png \
-signumcongruentime.png \
-simplemelody.png \
-simplerepeat.png \
-staccatissimo.png \
-staccato.png \
-stacctissiimo.png \
-staffmenu.png \
-stopped.png \
-tablituretemplate6.png \
-tenuto.png \
-thumb.png \
-timemenu.png \
-tip.png \
-toc-blank.png \
-toc-minus.png \
-toc-plus.png \
-tremolo1.png \
-tremolo2.png \
-tremolo3.png \
-trill.png \
-tupletmarkers.png \
-turn.png \
-undo.png \
-upbeat.png \
-upbow.png \
-upmordent.png \
-up.png \
-upprall.png \
-varcoda.png \
-verylongfermata.png \
-warning.png 
 
-subdir = doc/images
+SUBDIRS = transformations images 
+dist_doc_DATA = denemo-manual.html
+imagesdir = $(datadir)/${PACKAGE}/manual/images
+subdir = doc
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 DIST_SOURCES =
-DATA = $(dist_image_DATA)
+DATA = $(dist_doc_DATA)
 
-DIST_COMMON = $(dist_image_DATA) $(srcdir)/Makefile.in Makefile.am
-all: all-am
+
+RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
+	ps-recursive install-info-recursive uninstall-info-recursive \
+	all-recursive install-data-recursive install-exec-recursive \
+	installdirs-recursive install-recursive uninstall-recursive \
+	check-recursive installcheck-recursive
+DIST_COMMON = $(dist_doc_DATA) $(srcdir)/Makefile.in Makefile.am TODO
+DIST_SUBDIRS = $(SUBDIRS)
+all: all-recursive
 
 .SUFFIXES:
 $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu  doc/images/Makefile
+	  $(AUTOMAKE) --gnu  doc/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 
@@ -339,33 +220,151 @@ clean-libtool:
 distclean-libtool:
 	-rm -f libtool
 uninstall-info-am:
-dist_imageDATA_INSTALL = $(INSTALL_DATA)
-install-dist_imageDATA: $(dist_image_DATA)
+dist_docDATA_INSTALL = $(INSTALL_DATA)
+install-dist_docDATA: $(dist_doc_DATA)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(imagedir)
-	@list='$(dist_image_DATA)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	@list='$(dist_doc_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(dist_imageDATA_INSTALL) $$d$$p $(DESTDIR)$(imagedir)/$$f"; \
-	  $(dist_imageDATA_INSTALL) $$d$$p $(DESTDIR)$(imagedir)/$$f; \
+	  echo " $(dist_docDATA_INSTALL) $$d$$p $(DESTDIR)$(docdir)/$$f"; \
+	  $(dist_docDATA_INSTALL) $$d$$p $(DESTDIR)$(docdir)/$$f; \
 	done
 
-uninstall-dist_imageDATA:
+uninstall-dist_docDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dist_image_DATA)'; for p in $$list; do \
+	@list='$(dist_doc_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(imagedir)/$$f"; \
-	  rm -f $(DESTDIR)$(imagedir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(docdir)/$$f"; \
+	  rm -f $(DESTDIR)$(docdir)/$$f; \
 	done
+
+# This directory's subdirectories are mostly independent; you can cd
+# into them and run `make' without going through this Makefile.
+# To change the values of `make' variables: instead of editing Makefiles,
+# (1) if the variable is set in `config.status', edit `config.status'
+#     (which will cause the Makefiles to be regenerated when you run `make');
+# (2) otherwise, pass the desired values on the `make' command line.
+$(RECURSIVE_TARGETS):
+	@set fnord $$MAKEFLAGS; amf=$$2; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+mostlyclean-recursive clean-recursive distclean-recursive \
+maintainer-clean-recursive:
+	@set fnord $$MAKEFLAGS; amf=$$2; \
+	dot_seen=no; \
+	case "$@" in \
+	  distclean-* | maintainer-clean-*) list='$(DIST_SUBDIRS)' ;; \
+	  *) list='$(SUBDIRS)' ;; \
+	esac; \
+	rev=''; for subdir in $$list; do \
+	  if test "$$subdir" = "."; then :; else \
+	    rev="$$subdir $$rev"; \
+	  fi; \
+	done; \
+	rev="$$rev ."; \
+	target=`echo $@ | sed s/-recursive//`; \
+	for subdir in $$rev; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	   || case "$$amf" in *=*) exit 1;; *k*) fail=yes;; *) exit 1;; esac; \
+	done && test -z "$$fail"
+tags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) tags); \
+	done
+ctags-recursive:
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  test "$$subdir" = . || (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) ctags); \
+	done
+
+ETAGS = etags
+ETAGSFLAGS =
+
+CTAGS = ctags
+CTAGSFLAGS =
+
 tags: TAGS
-TAGS:
+
+ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
+	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	mkid -fID $$unique
+
+TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	if (etags --etags-include --version) >/dev/null 2>&1; then \
+	  include_option=--etags-include; \
+	else \
+	  include_option=--include; \
+	fi; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test -f $$subdir/TAGS && \
+	      tags="$$tags $$include_option=$$here/$$subdir/TAGS"; \
+	  fi; \
+	done; \
+	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(ETAGS_ARGS)$$tags$$unique" \
+	  || $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
+	     $$tags $$unique
 
 ctags: CTAGS
-CTAGS:
+CTAGS: ctags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
+		$(TAGS_FILES) $(LISP)
+	tags=; \
+	here=`pwd`; \
+	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
+	unique=`for i in $$list; do \
+	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+	  done | \
+	  $(AWK) '    { files[$$0] = 1; } \
+	       END { for (i in files) print i; }'`; \
+	test -z "$(CTAGS_ARGS)$$tags$$unique" \
+	  || $(CTAGS) $(CTAGSFLAGS) $(AM_CTAGSFLAGS) $(CTAGS_ARGS) \
+	     $$tags $$unique
 
+GTAGS:
+	here=`$(am__cd) $(top_builddir) && pwd` \
+	  && cd $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) $$here
+
+distclean-tags:
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
-top_distdir = ../..
+top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
@@ -395,21 +394,35 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  if test "$$subdir" = .; then :; else \
+	    test -d $(distdir)/$$subdir \
+	    || mkdir $(distdir)/$$subdir \
+	    || exit 1; \
+	    (cd $$subdir && \
+	      $(MAKE) $(AM_MAKEFLAGS) \
+	        top_distdir="$(top_distdir)" \
+	        distdir=../$(distdir)/$$subdir \
+	        distdir) \
+	      || exit 1; \
+	  fi; \
+	done
 check-am: all-am
-check: check-am
+check: check-recursive
 all-am: Makefile $(DATA)
+installdirs: installdirs-recursive
+installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
 
-installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(imagedir)
-install: install-am
-install-exec: install-exec-am
-install-data: install-data-am
-uninstall: uninstall-am
+install: install-recursive
+install-exec: install-exec-recursive
+install-data: install-data-recursive
+uninstall: uninstall-recursive
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 
-installcheck: installcheck-am
+installcheck: installcheck-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) INSTALL_PROGRAM="$(INSTALL_STRIP_PROGRAM)" \
 	  install_sh_PROGRAM="$(INSTALL_STRIP_PROGRAM)" INSTALL_STRIP_FLAG=-s \
@@ -425,61 +438,71 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+clean: clean-recursive
 
 clean-am: clean-generic clean-libtool mostlyclean-am
 
-distclean: distclean-am
+distclean: distclean-recursive
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-libtool
+distclean-am: clean-am distclean-generic distclean-libtool \
+	distclean-tags
 
-dvi: dvi-am
+dvi: dvi-recursive
 
 dvi-am:
 
-info: info-am
+info: info-recursive
 
 info-am:
 
-install-data-am: install-dist_imageDATA
+install-data-am: install-dist_docDATA
 
 install-exec-am:
 
-install-info: install-info-am
+install-info: install-info-recursive
 
 install-man:
 
 installcheck-am:
 
-maintainer-clean: maintainer-clean-am
+maintainer-clean: maintainer-clean-recursive
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
-mostlyclean: mostlyclean-am
+mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-generic mostlyclean-libtool
 
-pdf: pdf-am
+pdf: pdf-recursive
 
 pdf-am:
 
-ps: ps-am
+ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-dist_imageDATA uninstall-info-am
+uninstall-am: uninstall-dist_docDATA uninstall-info-am
 
-.PHONY: all all-am check check-am clean clean-generic clean-libtool \
-	distclean distclean-generic distclean-libtool distdir dvi \
-	dvi-am info info-am install install-am install-data \
-	install-data-am install-dist_imageDATA install-exec \
-	install-exec-am install-info install-info-am install-man \
+uninstall-info: uninstall-info-recursive
+
+.PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am check check-am clean \
+	clean-generic clean-libtool clean-recursive ctags \
+	ctags-recursive distclean distclean-generic distclean-libtool \
+	distclean-recursive distclean-tags distdir dvi dvi-am \
+	dvi-recursive info info-am info-recursive install install-am \
+	install-data install-data-am install-data-recursive \
+	install-dist_docDATA install-exec install-exec-am \
+	install-exec-recursive install-info install-info-am \
+	install-info-recursive install-man install-recursive \
 	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-am uninstall-dist_imageDATA \
-	uninstall-info-am
+	installdirs-am installdirs-recursive maintainer-clean \
+	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
+	mostlyclean-generic mostlyclean-libtool mostlyclean-recursive \
+	pdf pdf-am pdf-recursive ps ps-am ps-recursive tags \
+	tags-recursive uninstall uninstall-am uninstall-dist_docDATA \
+	uninstall-info-am uninstall-info-recursive uninstall-recursive
 
+#dist_images_DATA = 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
