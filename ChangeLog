@@ -1,4 +1,6 @@
 2008-06-19 <rshann>
+	view.c update labels on poaching a shortcut from another menu item
+2008-06-19 <rshann>
 	view.c, kbd-custom.c, keyboard.c
 	Discontinue setting of gtk accelerators in favour of scorearea_keypress() based shortcuts. Display all shortcuts with on menus. Still not fixed is deletion of old shortcuts from labels.
 2008-06-16 <jjbenham>
