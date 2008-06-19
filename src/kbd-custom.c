@@ -719,6 +719,7 @@ keymap_clear_bindings_in_row(GtkTreeModel *model, GtkTreePath *path,
     return FALSE;
 }
 
+
 static void
 catname(gchar *name, GString *str, gchar *separator) {
   if(str)
@@ -1025,6 +1026,19 @@ remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
       gtk_list_store_remove(row.bindings, &iter);
       setAccelKey_from_idx(the_keymap, command_idx);
   }
+
+#if 1
+  //FIXME duplicated code
+  gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
+  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+  GString *str=g_string_new("");
+  gint idx = lookup_index_from_name(the_keymap,
+				    gtk_action_get_name(action));
+  keymap_foreach_command_binding (the_keymap, command_idx, (GFunc)listname, str);
+  //g_print("updating with %s\n", str->str);
+  update_labels_for_action(action, str->str);
+  g_string_free(str, TRUE);
+#endif
   g_object_unref(row.bindings);
 }
 
@@ -1130,6 +1144,7 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   
   g_free(kb_name);
 
+#if 1
   gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
   GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
   GString *str=g_string_new("");
@@ -1139,6 +1154,7 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   //g_print("updating with %s\n", str->str);
   update_labels_for_action(action, str->str);
   g_string_free(str, TRUE);
+#endif
 
 
   return old_command_idx;
@@ -1291,14 +1307,15 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   //unset the accel - it doesn't seem to work not setting in the first place
   const gchar * accel_path = gtk_action_get_accel_path (action);
   gtk_accel_map_change_entry(accel_path, 0, 0, TRUE);
+#if 1
   GString *str=g_string_new("");
   gint idx = lookup_index_from_name(the_keymap,
 				    gtk_action_get_name(action));
   keymap_foreach_command_binding (the_keymap, idx, (GFunc)listname, str);
   update_labels_for_action(action, str->str);
-  //g_print("and updating with %s\n", str->str);
+g_print("and updating with %s\n", str->str);
   g_string_free(str, TRUE);
-
+#endif
   return TRUE;
 }
 
