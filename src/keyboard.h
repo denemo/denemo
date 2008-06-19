@@ -22,5 +22,5 @@
 
 gint load_xml_keymap(gchar *filename, keymap *the_keymap);
 gint save_xml_keymap(gchar *filename, keymap *the_keymap);
-
+gint parse_paths (gchar * filename, DenemoGUI *gui);
 #endif //KEYBOARDH

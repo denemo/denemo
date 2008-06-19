@@ -1,9 +1,4 @@
 /* keyresponses.c
- * WARNING! this file is for the old keybinding system which is being phased out
- * the accelerators defined on the menu items take precedence over the scorearea_keypress_event () function
- * and are only being kept to provide alternative keybindings for the accelerators.
- * switching station for processing user keypresses
- *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller
  */

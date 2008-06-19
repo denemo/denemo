@@ -719,6 +719,22 @@ keymap_clear_bindings_in_row(GtkTreeModel *model, GtkTreePath *path,
     return FALSE;
 }
 
+static void
+catname(gchar *name, GString *str, gchar *separator) {
+  if(str)
+    g_string_append_printf(str, "%s%s", name, separator);
+}
+
+static void
+newlinename(gchar *name, GString *str) {
+ catname(name, str, "\n");
+}
+static void
+listname(gchar *name, GString *str) {
+  catname(name, str, " ");
+}
+
+
 /**
  * Clears the keymap of all entries. Leaves  the content of commands and
  * idx_from_name untouched, removes the content of bindings and
@@ -972,7 +988,7 @@ setAccelKey_from_idx (keymap *the_keymap, guint command_idx)
   accel_path = g_strconcat(the_keymap->accel_path_prefix, "/",
           lookup_name_from_idx(the_keymap, command_idx), NULL);
   if (found) {
-      gtk_accel_map_change_entry(accel_path, accel_key, modifiers, TRUE);
+    //no longer use accels gtk_accel_map_change_entry(accel_path, accel_key, modifiers, TRUE);
   } else {
       delAccelKey_from_idx(the_keymap, command_idx);
       //TODO remove the current accel
@@ -1113,6 +1129,18 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
           new_idx);
   
   g_free(kb_name);
+
+  gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
+  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+  GString *str=g_string_new("");
+  gint idx = lookup_index_from_name(the_keymap,
+				    gtk_action_get_name(action));
+  keymap_foreach_command_binding (the_keymap, command_idx, (GFunc)listname, str);
+  //g_print("updating with %s\n", str->str);
+  update_labels_for_action(action, str->str);
+  g_string_free(str, TRUE);
+
+
   return old_command_idx;
 }
 
@@ -1249,7 +1277,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   //doc of GTK. It is accessible all the same, and we NEED it
   action = 
 #if GTK_MINOR_VERSION <10
-    g_object_get_data(GTK_MENU_SHELL(menu)->active_menu_item, "action");
+    g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
 #else
   gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
 #endif
@@ -1260,7 +1288,17 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   GTK_WIDGET_CLASS (menu_class)->key_press_event (grab_widget, event);
   //Set the accelerator in the keymap
   keymap_update_accel(the_keymap, action, keyval, modifiers);
-  
+  //unset the accel - it doesn't seem to work not setting in the first place
+  const gchar * accel_path = gtk_action_get_accel_path (action);
+  gtk_accel_map_change_entry(accel_path, 0, 0, TRUE);
+  GString *str=g_string_new("");
+  gint idx = lookup_index_from_name(the_keymap,
+				    gtk_action_get_name(action));
+  keymap_foreach_command_binding (the_keymap, idx, (GFunc)listname, str);
+  update_labels_for_action(action, str->str);
+  //g_print("and updating with %s\n", str->str);
+  g_string_free(str, TRUE);
+
   return TRUE;
 }
 

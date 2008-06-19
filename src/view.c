@@ -740,6 +740,7 @@ typedef struct set_accels_cb_data {
   gint keyval;
   gint modifiers;
   gint idx;
+  gchar *path;
 } set_accels_cb_data;
 
 /* define accelerator
@@ -809,12 +810,50 @@ typedef struct accel_cb {
 } accel_cb;
 
 
+void
+update_labels_for_action(GtkAction *action, gchar *shortcut_names) {
+  GSList *h = gtk_action_get_proxies (action);
+  for(;h;h=h->next) {
+    GtkWidget *widget = h->data;
+    GtkWidget *child = (GtkWidget *)gtk_bin_get_child(GTK_BIN(widget));
+    if(GTK_IS_BUTTON(child)) {
+      child = gtk_bin_get_child(GTK_BIN(child));
+    }
+//FIXME others?? toolitem ...
+    if(GTK_IS_LABEL(child)) {
+	gchar *base;
+	g_object_get(action, "label", &base, NULL);
+	gchar *c;
+	for(c=shortcut_names;*c;c++) {
+	  if(*c=='<') *c = ' ';
+	  if(*c=='>') *c = '-';
+	}
+	
+	gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, shortcut_names);
+	//g_print("have %s and %s\n", base, markup);
+	gtk_label_set_markup(GTK_LABEL(child), markup);
+	g_free(markup);
+	g_free(base);
+    }
+  }
+}
 
 static void
-catnames(gchar *name, GString *str) {
+catname(gchar *name, GString *str, gchar *separator) {
   if(str)
-    g_string_append_printf(str, "%s\n", name);
+    g_string_append_printf(str, "%s%s", name, separator);
 }
+
+static void
+newlinename(gchar *name, GString *str) {
+ catname(name, str, "\n");
+}
+static void
+listname(gchar *name, GString *str) {
+  catname(name, str, " ");
+}
+
+
 /*
   help_and_set_shortcuts display the tooltip for the action passed in INFO
   and allow change to the shortcuts for that action.
@@ -830,6 +869,10 @@ static gboolean help_and_set_shortcuts (GtkWidget      *widget,
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   if( event->button != 3)
     return FALSE;
+  //show_type(widget, "The type is ");
+  //g_print("path name %s %s\n", widget->name, widget->parent->name);
+  //g_print("The path is %s %p\n", g_object_get_data(widget, "menupath"), widget);
+
   GtkWidget *dialog;
   
   GtkWidget *label;
@@ -846,7 +889,7 @@ gint idx =
  GString *str = g_string_new(""); 
  if(idx>=0)
    keymap_foreach_command_binding (the_keymap, idx,
-				   catnames, str);
+				    (GFunc)newlinename, str);
   has_accel = *(str->str);
   dialog = gtk_dialog_new_with_buttons (_("About this function"),
 					NULL /*GTK_WINDOW (gui->window)*/,
@@ -882,7 +925,6 @@ gint idx =
   button = gtk_button_new_with_label( N_("Add shortcut"));
 
   cb_data.idx = idx;
-  
   cb_data.prop_button = GTK_BUTTON(button);
   cb_data.changed = SHORTCUT_NOCHANGE;
   g_signal_connect (G_OBJECT (button), "clicked",
@@ -907,35 +949,13 @@ gint idx =
 
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
-
-
-
   /*********** delete shortcut button *****/
   button = gtk_button_new_with_label(N_("Delete a shortcut"));
 
   g_signal_connect (G_OBJECT (button), "clicked",
 			    G_CALLBACK (delete_accel), &cb_data);
-
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
 		      TRUE, TRUE, 0);
-
-#if 0
-  /*********** add to menu button *****/
-The problem with doing this is we have no way of finding out the path to the current
-  menu item
-e.g.  "/ObjectMenu/NoteProperties/InsertNote"
-, only the accelpath 
-"<Actions>/MenuActions/MyName"
-to the action.
-
-  button = gtk_button_new_with_label("Add to this menu");
-
-  g_signal_connect (G_OBJECT (button), "clicked",
-			    G_CALLBACK (add_to_menu), (gpointer)info);
-
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
-		      TRUE, TRUE, 0);
- #endif 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
@@ -956,18 +976,17 @@ to the action.
       case SHORTCUT_ADD:
 	//g_print("Added");
 	add_keybinding_from_idx(the_keymap, cb_data.keyval, cb_data.modifiers,
-			  idx);
-	has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
-	if( (!has_accel) || key.accel_key!=cb_data.keyval || key.accel_mods!=cb_data.modifiers)
-	  warningdialog("The shortcut is set, but will not show next to the label");
+				idx);
+	g_string_assign(str, "");
+	keymap_foreach_command_binding (the_keymap, idx, (GFunc)listname, str);
+	update_labels_for_action(action, str->str);
 	Denemo.accelerator_status |= ACCELS_CHANGED; //use this to warn on exit if keymap not saved
-	
 	break;
       default: //g_print("Cancelled")
 	;
       }
   }
-
+  g_string_free(str, TRUE);
   gtk_widget_destroy (dialog);
   return FALSE;			 
 }
@@ -1061,50 +1080,61 @@ delete_rhythm_cb (GtkAction * action, DenemoGUI * gui)
 
 
 
-
 /*
  * workaround for glib<2.10
  */
 static
 void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
-  g_object_set_data(widget, "action", action);
+  g_object_set_data(G_OBJECT(widget), "action", action);
 }
 
-static 
-void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui) {
+
+void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, gchar *path, DenemoGUI *gui) {
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
-  g_signal_connect(data, "button-press-event", G_CALLBACK (help_and_set_shortcuts), info);
+  g_signal_connect(widget, "button-press-event", G_CALLBACK (help_and_set_shortcuts), info);
 }
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
+
 /* add a new menu item dynamically */
 static void add_favorite(GtkAction *action, DenemoGUI *gui) {
-  GtkAction *myaction = gtk_action_new("MyName","My Label","My Tooltip",NULL);
+  gchar *myname, *mylabel, *mylily, *mytooltip, *myposition;
+  myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
+  //FIXME check for name clashes
+  mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
+  mylily = string_dialog_entry (gui, "Create a new menu item", "Give LilyPond to insert: ", "%any LilyPond you like");
+  mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
+   myposition = string_dialog_entry (gui, "Create a new menu item", "Say where in the menu systeme you want it placed: ", "/ObjectMenu/Favorites");
+  GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
   GtkActionGroup *action_group;
   GList *groups = gtk_ui_manager_get_action_groups (gui->ui_manager);
   action_group = GTK_ACTION_GROUP(groups->data); 
   GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (gui->ui_manager);
   gtk_action_group_add_action(action_group, myaction);
-  g_object_set_data(G_OBJECT(myaction), "lilypond", "\\mark \\default %ok\n");
+  g_object_set_data(G_OBJECT(myaction), "lilypond", mylily);
   g_signal_connect (G_OBJECT (myaction), "activate",
 		    G_CALLBACK (myactivate), gui); 
-
   gtk_action_set_accel_group (myaction, accel_group);
-  gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/MyName");
+  gchar *accelpath = g_strdup_printf("%s%s", "<Actions>/MenuActions/", myname);
+  gtk_action_set_accel_path (myaction, accelpath);
+  g_free(accelpath);
   gtk_ui_manager_add_ui(gui->ui_manager,gtk_ui_manager_new_merge_id(gui->ui_manager), 
-#if 0
-"/ObjectMenu/NoteProperties/InsertNote", 
-#else
-			"/ObjectMenu/Favorites",
-
-#endif
-"MyName", "MyName", GTK_UI_MANAGER_AUTO, FALSE);
-  GSList *h = gtk_action_get_proxies (myaction);//FIXME this can't be needed what is a proxy?
+			myposition,
+			myname, myname, GTK_UI_MANAGER_AUTO, FALSE);
+  GSList *h = gtk_action_get_proxies (myaction);//what is a proxy? any widget that callbacks the action
    for(;h;h=h->next) {
-     attach_set_accel_callback(h->data, myaction, gui);
+     attach_set_accel_callback(h->data, myaction, myposition, gui);
    }
+   GtkActionEntry *menu_entry = g_malloc0(sizeof(GtkActionEntry));
+   menu_entry->name = myname;
+   menu_entry->label = mylabel;
+   menu_entry->tooltip =  mytooltip;
+   menu_entry->callback = G_CALLBACK (myactivate);
+   register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
+          KeymapEntry);
+  end_command_registration(Denemo.prefs.the_keymap);
   return;
 }
 #endif /* ifdef DENEMO_DYNAMIC_MENU_ITEMS */
@@ -1278,7 +1308,7 @@ GtkActionEntry menu_entries[] = {
   {"InsertStem", NULL, N_("Insert Stem Directive"), NULL, N_("Inserts a stem neutral tag.\\nClick on this tag and use Sharpen/StemDown etc commands to change stem direction"),
    G_CALLBACK (stem_directive_insert)},
   {"Lyrics", NULL, N_("_Lyrics")},
-  {"EditLyric", NULL, N_("Insert/Edit Lyric"), NULL, N_("Add a lyric to current note\nBeware that all previous notes must have lyrics before printing"),
+  {"EditLyric", NULL, N_("Insert/Edit Lyric"), NULL, N_("Add a lyric to current note\nBeware: all previous notes must have lyrics for printing correctly"),
    G_CALLBACK (lyric_insert)},
   {"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), NULL, N_("Add a bass figure to the current note\nUse | sign to split the duration of a note so as to have multiple figures on one note.\nSee Lilypond docs for other notation"),
    G_CALLBACK (figure_insert)},
@@ -1386,8 +1416,7 @@ GtkActionEntry menu_entries[] = {
 
 
   {"MeasureMenu", NULL, N_("Measure"),NULL, N_("Measures:\nadding, deleting, navigating etc")},
-  {"GoToMeasure", NULL, N_("Go To Measure..."), NULL, N_(""),
-   G_CALLBACK (tomeasurenum)},
+
   {"Insert", NULL, N_("Insert"),NULL, N_("Inserting notes, measures staffs keysigs etc")},
 
   {"InsertStaff", NULL, N_("Insert"),NULL, N_("Insert a Staff relative to current staff")},
@@ -1408,6 +1437,9 @@ GtkActionEntry menu_entries[] = {
   {"ExpressionMarks", NULL, N_("Expression Marks"), NULL, N_("Dynamics, staccato, slurs, ties and other expressive marks")},
   {"Ornaments", NULL, N_("Ornaments"), NULL, N_("grace notes etc")},
   {"Other", NULL, N_("Other"), NULL, N_("Lyrics, chord symbols, figured basses etc")},
+  {"Others", NULL, N_("Others"), NULL, N_("Less used actions")},
+
+
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
   {"Favorites", NULL, N_("Favorites"), NULL, N_("Customized LilyPond inserts\n.Store often-used inserts here labelled with what they do")},
   {"AddFavorite", NULL, N_("Add Favorite"), NULL,
@@ -1847,7 +1879,7 @@ addhistorymenuitem (gchar *filename, DenemoGUI *newgui)
 static void
 populate_opened_recent (DenemoGUI * gui)
 {
-  g_queue_foreach (Denemo.prefs.history, addhistorymenuitem, gui);
+  g_queue_foreach (Denemo.prefs.history, (GFunc)addhistorymenuitem, gui);
 }
 
 static 	void show_type(GtkWidget *widget, gchar *message) {
@@ -2226,12 +2258,22 @@ GList *g = gtk_action_group_list_actions(action_group);
  for(;g;g=g->next) {
    GSList *h = gtk_action_get_proxies (g->data);
    for(;h;h=h->next) {
-#ifdef GTK_MINOR_VERSION <10
+     //g_print("!%p\t", h->data);
+#if (GTK_MINOR_VERSION <10)
      attach_action_to_widget(h->data, g->data, gui);
 #endif
-     attach_set_accel_callback(h->data, g->data, gui);
+     attach_set_accel_callback(h->data, g->data,"", gui);
    }
-}
+ }
+
+
+  data_dir = g_build_filename (
+#ifndef USE_LOCAL_DENEMOUI
+get_data_dir (),
+#endif
+ "denemoui.xml", NULL);
+  parse_paths(data_dir, gui);
+
 
   use_markup(main_vbox);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.

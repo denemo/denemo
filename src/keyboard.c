@@ -285,8 +285,8 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
 					     NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "keymap", NULL);
 
-  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "Test");
-  xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "Adam Tee");
+  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Keymap");
+  xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
 
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
 
@@ -306,6 +306,95 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
 
   xmlSaveFormatFile (filename, doc, 1);
 
+  xmlFreeDoc (doc);
+  return ret;
+}
+
+static 	void show_type(GtkWidget *widget, gchar *message) {
+    g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
+  }
+
+static gint
+parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
+  for ( rootElem = rootElem->xmlChildrenNode;rootElem; rootElem = rootElem->next)
+    {
+      if(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "menubar") ||
+	 0 == xmlStrcmp (rootElem->name, (const xmlChar *) "menu") ||
+	 0 == xmlStrcmp (rootElem->name, (const xmlChar *) "menubar") ||
+	 0 == xmlStrcmp (rootElem->name, (const xmlChar *) "toolbar"))
+	/* ignoring popup menus */ {
+	gchar *name = (gchar *) xmlGetProp (rootElem, (xmlChar *) "name");
+	if(name==NULL)
+	  name = (gchar *) xmlGetProp (rootElem, (xmlChar *) "action");
+	
+	if(name) {
+	  gchar *str = g_strdup_printf("%s%s%s", path, "/", name);
+	  GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, str); 
+	  if(widget) {
+	    g_object_set_data(G_OBJECT(widget), "menupath", str);
+	    //show_type(widget, "The type is ");
+	    //g_print("set %p %s\n",widget, str);
+	    parseMenu(rootElem, str, gui);
+	  }
+	  else
+	    g_warning("no object for %s\n", str);
+	}
+
+      }
+      if(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "menuitem")) {
+	gchar *name = (gchar *) xmlGetProp (rootElem, (xmlChar *) "action");
+       if(name) {
+	  gchar *str = g_strdup_printf("%s%s%s", path, "/", name);
+	  GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, str);
+	  g_free(str);
+	  //show_type(widget, "The type is ");
+	  //g_print("set %p %s\n",widget, path);
+	  if(widget) {
+	    g_object_set_data(G_OBJECT(widget), "menupath", g_strdup(path));
+	  }
+       }
+      }
+    }
+  return 0;
+}
+
+/* returns 0 on success
+ * negative on failure
+ */
+gint
+parse_paths (gchar * filename, DenemoGUI *gui)
+{
+  gint ret = -1;
+  xmlDocPtr doc;
+  //xmlNsPtr ns;
+  xmlNodePtr rootElem;
+  if(filename==NULL)
+    return ret;
+  doc = xmlParseFile (filename);
+
+  if (doc == NULL)
+    {
+      g_warning ("Could not read XML file %s", filename);
+      return ret;
+    }
+
+  rootElem = xmlDocGetRootElement (doc);
+  if (rootElem == NULL)
+    {
+      g_warning ("Empty Document\n");
+      xmlFreeDoc (doc);
+      return ret;
+    }
+  g_print ("RootElem %s\n", rootElem->name);
+  if (xmlStrcmp (rootElem->name, (const xmlChar *) "ui"))
+    {
+      g_warning ("Document has wrong type\n");
+      xmlFreeDoc (doc);
+      return ret;
+    }
+  gchar *path="";
+  parseMenu(rootElem, path, gui);
+  ret = 0;
   xmlFreeDoc (doc);
   return ret;
 }

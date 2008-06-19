@@ -143,7 +143,7 @@
 <menuitem action="Insert6"/>
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
-	     <!--    <menuitem action="InsertRhythm"/>	  should implement -->
+	      <menuitem action="InsertRhythm"/>	  <!--   should implement????? -->
 	    </menu>	 
 	   <menu action="ChangeDuration">
 
@@ -627,10 +627,7 @@
 		  <menuitem action="ToggleArpeggio"/>
 		  <menuitem action="SetGrace"/>
 		</menu>
-		 <menu action="MovementMenu">
-		     <menuitem action="InsertMovementBefore"/>
-		     	<menuitem action="InsertMovementAfter"/>
-		 </menu>
+		 
 
           </menu>
 
@@ -856,7 +853,7 @@ start of "all other" menu
 </menu>
 <menu action="Playback">
 </menu>
-<menu action="Other">
+<menu action="Others">
 <menuitem action="ForceCaution"/>
 <menuitem action="DoubleBar"/>
 <menuitem action="EndBar"/>

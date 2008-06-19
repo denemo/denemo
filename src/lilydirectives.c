@@ -199,6 +199,6 @@ DenemoObject *lily = lily_directive_new (text);
    gui->si->cursor_x--;
    gui->si->currentobject = g_list_nth ((objnode *) gui->si->currentmeasure->data, gui->si->cursor_x);
  }
- lily_directive (action, gui);
+ lily_directive_insert (action, gui);
 }
 #endif
