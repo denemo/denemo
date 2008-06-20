@@ -24,6 +24,7 @@ typedef struct _keyboard_dialog_data
 	guint context_id;
 	GtkTreeView *command_view;
 	GtkTreeView *binding_view;
+	GtkTextView *text_view;
 	keymap *the_keymap;
 	gulong handler_key_press;
 	gulong handler_focus_out;
@@ -138,21 +139,23 @@ void
 load_keymap_dialog (GtkWidget *Widget, keymap *the_keymap);
 
 void
-load_standard_keymap_file_wrapper (GtkWidget *widget,
+load_default_keymap_file_wrapper (GtkWidget *widget,
 				   keymap *the_keymap);
 
 void
-load_standard_keymap_file (keymap *the_keymap);
+load_default_keymap_file (keymap *the_keymap);
 
+void
+load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap);
 void
 save_keymap_dialog (GtkWidget *widget, keymap *the_keymap);
 
 void
-save_standard_keymap_file_wrapper (GtkWidget *widget,
+save_default_keymap_file_wrapper (GtkWidget *widget,
 				  DenemoGUI *gui);
 
 void
-save_standard_keymap_file (GtkWidget *widget, keymap *the_keymap);
+save_default_keymap_file (GtkWidget *widget, keymap *the_keymap);
 
 void
 set_state(gint state, gchar **value);

@@ -175,6 +175,13 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
 void
 configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
 {
+    configure_keyboard_dialog_init_idx (action, gui, -1);
+}
+
+void
+configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
+        gint command_idx)
+{ 
   GtkWidget *dialog;
   GtkWidget *vbox;
   GtkWidget *table;
@@ -197,10 +204,14 @@ configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
   GtkWidget *binding_view;
   GtkWidget *command_tree_view;
   GtkWidget *binding_tree_view;
+  GtkWidget *text_view;
+  GtkWidget *scrolled_text_view;
   GtkListStore *list_store = NULL;
   GtkCellRenderer *renderer;
   GtkTreeSelection *selection;
   GtkTreeIter iter;
+  GtkTreeModel *model;
+  GtkTreePath *path;
   gint i;
   guint context_id;
   keyboard_dialog_data cbdata;
@@ -229,24 +240,24 @@ configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
   gtk_table_set_row_spacings (GTK_TABLE (table), 8);
   gtk_table_set_col_spacings (GTK_TABLE (table), 8);
   
-  button_save = gtk_button_new_with_label (_("Save to Default Keymap File"));
+  button_save = gtk_button_new_with_label (_("Save as Default Keymap"));
   gtk_table_attach (GTK_TABLE (table), button_save, 0, 1, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
   
   button_save_as =
-    gtk_button_new_with_label (_("Save As Alternate Keymap File"));
+    gtk_button_new_with_label (_("Save as a Custom Keymap"));
   gtk_table_attach (GTK_TABLE (table), button_save_as, 1, 2, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-  button_load = gtk_button_new_with_label (_("Load Default Keymap File"));
+  button_load = gtk_button_new_with_label (_("Load a Standard Keymap"));
   gtk_table_attach (GTK_TABLE (table), button_load, 0, 1, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   button_load_from =
-    gtk_button_new_with_label (_("Load Alternate Keymap File"));
+    gtk_button_new_with_label (_("Load a Custom Keymap"));
   gtk_table_attach (GTK_TABLE (table), button_load_from, 1, 2, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
@@ -279,7 +290,13 @@ configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
   gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
-  
+  text_view = gtk_text_view_new();
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
+  scrolled_text_view = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled_text_view), text_view);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_text_view),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start (GTK_BOX (vbox), scrolled_text_view, TRUE, TRUE, 0);
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
   gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
@@ -292,15 +309,24 @@ configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
   cbdata.context_id = context_id;
   cbdata.command_view = GTK_TREE_VIEW(command_tree_view);
   cbdata.binding_view = GTK_TREE_VIEW(binding_tree_view);
+  cbdata.text_view = GTK_TEXT_VIEW(text_view);
   cbdata.the_keymap = Denemo.prefs.the_keymap;
   cbdata.command_idx = -1;
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(command_tree_view));
   gtk_tree_selection_set_select_function(selection,
           keymap_change_binding_view_on_command_selection, &cbdata, NULL);
-  //selecting the first command
-  gtk_tree_model_get_iter_first(gtk_tree_view_get_model(
-              GTK_TREE_VIEW(command_tree_view)), &iter);
+
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(command_tree_view));
+  if (command_idx == -1) {
+    //selecting the first command
+    gtk_tree_model_get_iter_first(model, &iter);
+  } else {
+    gtk_tree_model_iter_nth_child(model, &iter, NULL, command_idx);
+    path = gtk_tree_model_get_path(model, &iter);
+    gtk_tree_view_scroll_to_cell(command_tree_view, path, NULL, FALSE, 0, 0);
+    gtk_tree_path_free(path);
+  }
   gtk_tree_selection_select_iter(selection, &iter);
 
 /*
@@ -424,11 +450,16 @@ configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
           G_CALLBACK(kbd_interface_del_binding), &cbdata);
   
   g_signal_connect (GTK_OBJECT (button_save), "clicked",
-		      G_CALLBACK(save_standard_keymap_file), cbdata.the_keymap);
+		      G_CALLBACK(save_default_keymap_file), cbdata.the_keymap);
   g_signal_connect (GTK_OBJECT (button_save_as), "clicked",
 		      G_CALLBACK(save_keymap_dialog), cbdata.the_keymap);
   g_signal_connect (GTK_OBJECT (button_load), "clicked",
-		      G_CALLBACK(load_standard_keymap_file_wrapper), cbdata.the_keymap);
+		      G_CALLBACK(load_system_keymap_dialog), cbdata.the_keymap);
+
+  //  g_signal_connect (GTK_OBJECT (button_load_standard_default), "clicked",
+  //		      G_CALLBACK(load_default_keymap_file_wrapper), cbdata.the_keymap);
+
+
   g_signal_connect (GTK_OBJECT (button_load_from), "clicked",
 		      G_CALLBACK(load_keymap_dialog), cbdata.the_keymap);
 

@@ -838,20 +838,6 @@ update_labels_for_action(GtkAction *action, gchar *shortcut_names) {
   }
 }
 
-static void
-catname(gchar *name, GString *str, gchar *separator) {
-  if(str)
-    g_string_append_printf(str, "%s%s", name, separator);
-}
-
-static void
-newlinename(gchar *name, GString *str) {
- catname(name, str, "\n");
-}
-static void
-listname(gchar *name, GString *str) {
-  catname(name, str, " ");
-}
 
 
 /*
@@ -860,6 +846,7 @@ listname(gchar *name, GString *str) {
 
 */
 static 	void show_type(GtkWidget *widget, gchar *message);
+
 static gboolean help_and_set_shortcuts (GtkWidget      *widget,
 			  GdkEventButton *event,
 			  accel_cb *info)
@@ -867,131 +854,15 @@ static gboolean help_and_set_shortcuts (GtkWidget      *widget,
   GtkAction *action = info->action;
   DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.prefs.standard_keymap;
-  if( event->button != 3)
-    return FALSE;
-  //show_type(widget, "The type is ");
-  //g_print("path name %s %s\n", widget->name, widget->parent->name);
-  //g_print("The path is %s %p\n", g_object_get_data(widget, "menupath"), widget);
-
-  GtkWidget *dialog;
-  
-  GtkWidget *label;
-  GtkWidget *button;
-  const gchar * accel_path = gtk_action_get_accel_path (action);
-  // g_print("%s\n", accel_path);
-  set_accels_cb_data cb_data;
-  gboolean has_accel;
   const gchar *func_name = gtk_action_get_name(action);
-
-
-gint idx =  
-  lookup_index_from_name (the_keymap,func_name );
- GString *str = g_string_new(""); 
- if(idx>=0)
-   keymap_foreach_command_binding (the_keymap, idx,
-				    (GFunc)newlinename, str);
-  has_accel = *(str->str);
-  dialog = gtk_dialog_new_with_buttons (_("About this function"),
-					NULL /*GTK_WINDOW (gui->window)*/,
-					(GtkDialogFlags) (GTK_DIALOG_MODAL |
-							  GTK_DIALOG_DESTROY_WITH_PARENT),
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-					NULL);
-  gchar *tooltip;
-  g_object_get (action, "tooltip", &tooltip, NULL); 
-  gboolean has_tooltip = tooltip && *tooltip;
-
-  
-  label = gtk_label_new ("");
-  gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
-  gchar *format = g_strdup_printf("%s : %s\n<span background=\"yellow\" size=\"large\">%s</span>",
-				  N_("Help for this menu item"),
-                  func_name,
-				  has_tooltip?tooltip:"");
-  gtk_label_set_markup (GTK_LABEL (label), format);
-  g_free(format);
-  g_free(tooltip);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-  gchar *shortcut=g_strdup_printf("%s %s",
-				  has_accel?N_("Current shortcuts:\n"):"",
-				  has_accel?str->str:N_("Currently no shortcut"));
-  label = gtk_label_new(shortcut);
-  g_free(shortcut);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-  
-  button = gtk_button_new_with_label( N_("Add shortcut"));
-
-  cb_data.idx = idx;
-  cb_data.prop_button = GTK_BUTTON(button);
-  cb_data.changed = SHORTCUT_NOCHANGE;
-  g_signal_connect (G_OBJECT (button), "clicked",
-			    G_CALLBACK (accept_keypress), &cb_data);
-
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
-		      TRUE, TRUE, 0);
-
-  button = gtk_toggle_button_new();
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
-		      TRUE, TRUE, 0);
-  GtkAction *a = gtk_ui_manager_get_action (gui->ui_manager, 
-					       "/MainMenu/EditMenu/KeyBindings/QuickEdits");
-  gtk_action_connect_proxy (a, button);
-
-  /*********** save button *****/
-
-  button = gtk_button_new();
-  a = gtk_ui_manager_get_action (gui->ui_manager, 
-					       "/MainMenu/EditMenu/KeyBindings/SaveAccels");
-  gtk_action_connect_proxy (a, button);
-
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
-		      TRUE, TRUE, 0);
-  /*********** delete shortcut button *****/
-  button = gtk_button_new_with_label(N_("Delete a shortcut"));
-
-  g_signal_connect (G_OBJECT (button), "clicked",
-			    G_CALLBACK (delete_accel), &cb_data);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), button,
-		      TRUE, TRUE, 0);
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show_all (dialog);
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-    const gchar * accel_path = gtk_action_get_accel_path (action);
-    GtkAccelKey key;
-    gboolean has_accel;
-      switch (cb_data.changed) {
-      case SHORTCUT_DELETE:
-	remove_keybinding (the_keymap, cb_data.keyval, cb_data.modifiers);
-	has_accel =  gtk_accel_map_lookup_entry (accel_path, &key);
-	if(has_accel && key.accel_key==cb_data.keyval && key.accel_mods==cb_data.modifiers)
-	  gtk_accel_map_change_entry (accel_path, 0, 0, TRUE);
-	Denemo.accelerator_status |= ACCELS_CHANGED; //use this to warn on exit if keymap not saved
-	break;
-      case SHORTCUT_ADD:
-	//g_print("Added");
-	add_keybinding_from_idx(the_keymap, cb_data.keyval, cb_data.modifiers,
-				idx);
-	g_string_assign(str, "");
-	keymap_foreach_command_binding (the_keymap, idx, (GFunc)listname, str);
-	update_labels_for_action(action, str->str);
-	Denemo.accelerator_status |= ACCELS_CHANGED; //use this to warn on exit if keymap not saved
-	break;
-      default: //g_print("Cancelled")
-	;
-      }
-  }
-  g_string_free(str, TRUE);
-  gtk_widget_destroy (dialog);
-  return FALSE;			 
+  gint idx = lookup_index_from_name (the_keymap, func_name);
+  if (event->button != 3)
+    return FALSE;
+  if (idx == -1)
+    return TRUE;
+  configure_keyboard_dialog_init_idx (action, gui, idx);
+  return FALSE;
 }
-
-
 
 
 static void	  color_rhythm_button(RhythmPattern *r, const gchar *color) {
@@ -1235,7 +1106,7 @@ GtkActionEntry menu_entries[] = {
 
   {"KeyBindings", NULL, N_("Keyboard Setup"), NULL, "Set actions to take in response to keypresses"},
   {"SaveAccels", GTK_STOCK_SAVE, N_("Save Shortcuts"), NULL, "Save the keyboard shortcuts as the default",
-   G_CALLBACK (save_standard_keymap_file_wrapper)},
+   G_CALLBACK (save_default_keymap_file_wrapper)},
   {"Keyboard", NULL, N_("Manage Keybindings"), NULL, "View, change and save keyboard shortcuts\n",
    G_CALLBACK (configure_keyboard_dialog)},
   {"LoadPlugins", NULL, N_("Load Plugins"), NULL, "Load Plugins",
@@ -2214,7 +2085,7 @@ get_data_dir (),
   register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
           G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
   end_command_registration(Denemo.prefs.the_keymap);
-  load_standard_keymap_file(Denemo.prefs.the_keymap);
+  load_default_keymap_file(Denemo.prefs.the_keymap);
  
   gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
   

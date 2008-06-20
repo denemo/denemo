@@ -1415,15 +1415,8 @@ load_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
 {
   gchar *name = (gchar *)
     gtk_file_selection_get_filename (GTK_FILE_SELECTION (cbdata->filesel));
-#if 0
-  /* if(strcmp (name + strlen (name) - 4, ".xml") == 0) */
-  load_xml_keymap (name, cbdata->the_keymap);
-/*  else
-  	load_keymap_file(name, cbdata->the_keymap);
-  */
-#else
-  load_keymap_file_named(cbdata->the_keymap, NULL, name);
-#endif
+  if(g_file_test (name, G_FILE_TEST_EXISTS))
+     load_keymap_file_named(cbdata->the_keymap, NULL, name);
 }
 
 /**
@@ -1432,16 +1425,12 @@ load_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
  */
 
 void
-load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location)
 {
   GtkWidget *filesel;
-  static struct callbackdata cbdata;//FIXME static????
-  static gchar *dotdenemo = NULL;
-
-  if (!dotdenemo)
-    dotdenemo = g_strconcat (locatedotdenemo (), "/", NULL);//FIXME G_DIR_SEPARATOR or g_build_filename
+  static struct callbackdata cbdata;//FIXME why static????
   filesel = gtk_file_selection_new (_("Load keymap"));
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), dotdenemo);
+  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (load_keymap_from_dialog),
 		      &cbdata);
@@ -1461,59 +1450,74 @@ load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
   gtk_widget_show (filesel);
 }
 
+void
+load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+{
+  gchar *dotdenemo = g_strdup_printf("%s%c", locatedotdenemo(),G_DIR_SEPARATOR);
+  if(dotdenemo)
+    load_keymap_dialog_location (widget, the_keymap, dotdenemo);
+  else
+    warningdialog("Cannot access your local .denemo");
+  g_free(dotdenemo);
+}
+
+void
+load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+{
+  gchar *systemwide = g_strdup_printf("%s%c", get_data_dir (), G_DIR_SEPARATOR);
+  if(systemwide)
+    load_keymap_dialog_location (widget, the_keymap, systemwide);
+  else
+    warningdialog("Installation error");
+  g_free(systemwide);
+}
+
+
 /**
  * Wrapper function to load keymap file
  * 
  */
 void
-load_standard_keymap_file_wrapper (GtkWidget * widget, keymap * the_keymap)
+load_default_keymap_file_wrapper (GtkWidget * widget, keymap * the_keymap)
 {
-  load_standard_keymap_file (the_keymap);
+  load_default_keymap_file (the_keymap);
 
 }
 
 /*
- * load_keymap_file_named: load a keymap file of the given name from one
- * of the two paths: the keymap file can be in xml or text format
- * param THE_KEYMAP must point to allocated memory for keymap.
- * param LOCALRC file to load (full path) or NULL
- * param SYSTEMWIDE fallback file (full path)
+ * load_keymap_file_named: load a keymap file localrc, or if it fails, systemwide
 
  */
 static void
 load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) {
-/*
-  The old plan:
-     Load local file as xml 
-  OR load local file as text and warn
-  OR load system file as xml
-  OR load system file as text (and warn?)
-  OR warn
-  We deprecate the text keymap format.
-*/
-
-  g_print ("Trying local file %s as xml...", localrc);
-  if (load_xml_keymap (localrc, the_keymap) == -1)
-    {
-	  g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
-	  if (load_xml_keymap (systemwide, the_keymap) == -1)
-	    {
-		  g_print ("..no.\nNo useful keymaps found.\n");
-		  no_map_dialog ();
-		}
-	  else
-	    g_print ("..ok.\n");
-	}
-  else
+  if(localrc) {
+    g_print ("Trying local file %s as xml...", localrc);
+    if (load_xml_keymap (localrc, the_keymap) == -1)
+      {
+	g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
+	if (load_xml_keymap (systemwide, the_keymap) == -1)
+	  {
+	    g_print ("..no.\nNo useful keymaps found.\n");
+	    no_map_dialog ();
+	  }
+	else
+	  g_print ("..ok.\n");
+      }
+    else
       g_print ("..ok.\n");
+  }
+  else {
+    if (load_xml_keymap (systemwide, the_keymap) == -1)
+      warningdialog("Could not load keymap file selected");
+  }
 }
 
 /**
- * Load the either the local keymap 
- * or the global keymap of the standard name
+ * Load the either the local default keymap 
+ * or (if that doesn't load) the global default keymap
  */
 void
-load_standard_keymap_file (keymap * the_keymap)
+load_default_keymap_file (keymap * the_keymap)
 {
   gchar *localrc = NULL;
   const gchar *dotdenemo = locatedotdenemo ();
@@ -1612,23 +1616,18 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
  *
  */
 void
-save_standard_keymap_file_wrapper (GtkWidget * widget, DenemoGUI *gui)
+save_default_keymap_file_wrapper (GtkWidget * widget, DenemoGUI *gui)
 {
-  keymap * the_keymap = Denemo.prefs.the_keymap;
-  if(the_keymap != Denemo.prefs.standard_keymap) {
-    warningdialog("You are trying to overwrite your standard keymap with one designed for a particular mode.\nUse \"Save as Alternate Keymap File\" for this if you really mean it\n");
-    return;
-  }
-    
-  save_standard_keymap_file (widget, the_keymap);
+  keymap * the_keymap = Denemo.prefs.the_keymap;  
+  save_default_keymap_file (widget, the_keymap);
 }
 
 /**
- * Saves the keymap to the standard keymap file
+ * Saves the keymap as the user's default keymap
  *
  */
 void
-save_standard_keymap_file (GtkWidget *widget, keymap * the_keymap)
+save_default_keymap_file (GtkWidget *widget, keymap * the_keymap)
 {
   gchar *localrc = NULL;
   const gchar *dotdenemo = locatedotdenemo ();
@@ -1800,7 +1799,11 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   GtkTreeIter iter;
   GtkTreeModel *command_model;
   GtkTreeModel *old_binding_model;
+  GtkTextBuffer *text_buffer;
+  KeymapCommandType type;
+  gpointer entry;
   gint *array;
+  const gchar *tooltip;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *)data;
 
   //if the same command is selected again, we do nothing
@@ -1821,8 +1824,10 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   
   //getting the new model
   gtk_tree_model_get_iter(model, &iter, path);
-  gtk_tree_model_get(model, &iter, COL_BINDINGS, &bindings, -1);
-
+  gtk_tree_model_get(model, &iter,
+          COL_TYPE, &type,
+          COL_ENTRY, &entry,
+          COL_BINDINGS, &bindings, -1);
   //getting the new command_idx
   array = gtk_tree_path_get_indices(path);
   cbdata->command_idx = array[0];
@@ -1833,7 +1838,25 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   g_signal_connect(bindings, "row-deleted", G_CALLBACK(row_deleted_handler),
           data);
   g_object_unref(bindings);
-    
+  //changing the tooltip
+  text_buffer = gtk_text_view_get_buffer(cbdata->text_view);
+  switch (type) {
+      case KeymapEntry:
+          tooltip = ((GtkActionEntry *) entry)->tooltip;
+          break;
+      case KeymapToggleEntry:
+          tooltip = ((GtkToggleActionEntry *) entry)->tooltip;
+          break;
+      case KeymapRadioEntry:
+          tooltip = ((GtkRadioActionEntry *) entry)->tooltip;
+          break;
+  }
+  if(tooltip){
+    gchar *plain;
+    pango_parse_markup (tooltip,-1,0,NULL, &plain, 0, NULL);
+                                             
+    gtk_text_buffer_set_text(text_buffer, plain, -1);
+  }
   //perform the selection
   return TRUE;
 }
