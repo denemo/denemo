@@ -30,7 +30,7 @@ about (GtkAction * action, gpointer callback_data)
 				 _("The GNU graphical score editor"));
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (dialog), VERSION);
   gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (dialog),
-				"http://savannah.gnu.org/cvs/?group=denemo");
+				"http://denemo.org");
   gtk_about_dialog_set_website_label (GTK_ABOUT_DIALOG (dialog),
 				      _("Denemo website"));
   gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog),

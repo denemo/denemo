@@ -1,4 +1,7 @@
 2008-06-19 <rshann>
+	keymaps/Makefile.am kbd-custom.c make keymaps a separate directory in share/denemo and in ~/.denemo
+	help.c update website reference
+2008-06-19 <rshann>
 	kbd-custom.c update labels on poaching a shortcut from another menu item
 	standard.accels, used only to clear accels. denemo.keymaprc revised to provide simple startup
 2008-06-19 <rshann>

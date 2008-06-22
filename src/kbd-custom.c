@@ -36,6 +36,7 @@
 #define  GDK_META_MASK   (1 << 28)
 #endif
 
+#define DEFAULT_KEYMAP "Default.keymap"
 //index of columns in the keymap command list store
 enum {
     COL_TYPE = 0,
@@ -685,28 +686,7 @@ keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
     return TRUE;
 }
 
-/**
- * Create and Initialise a keymap structure from keymap file of name FILENAME
- * located in user standard place (or system standard place if none there).
- *  @return The newly created keymap
- */
-/*
-keymap *
-create_keymap (const gchar *filename)
-{
-  gchar *localrc = NULL;
-  const gchar *dotdenemo = locatedotdenemo ();
-  gchar *systemwide = g_build_filename (get_data_dir (), filename,
-                                        NULL);
-  keymap *the_keymap = allocate_keymap();
-  if(dotdenemo)
-    localrc = g_build_filename (dotdenemo, filename, NULL);
-  load_keymap_file_named (the_keymap, localrc, systemwide);
-  g_free(localrc);
-  g_free(systemwide);
-  return the_keymap;
-}
-*/
+
 
 static gboolean
 keymap_clear_bindings_in_row(GtkTreeModel *model, GtkTreePath *path,
@@ -1399,6 +1379,40 @@ dump_command_info (keymap *the_keymap, gint command_idx)
   g_object_unref(row.bindings);
 }
 
+
+
+
+/**
+ * This checks to see if there's a .denemo/keymaps directory in the user's
+ * home directory, tries to create one if there isn't, and returns the
+ * path to it
+ *
+ */
+
+const gchar *
+locatekeymapdir ()
+{
+  static gchar *keymapdir = NULL;
+
+  gboolean err;
+  if (!keymapdir)
+    {
+      keymapdir = g_build_filename (locatedotdenemo(), "keymaps", NULL);
+    }
+  err = g_mkdir_with_parents(keymapdir, 0770);
+  if(err) {
+    warningdialog("Could not create .denemo/keymaps for your keymaps");
+    g_free(keymapdir);
+    keymapdir = NULL;
+  }
+
+  return keymapdir;
+}
+
+
+
+
+
 struct callbackdata
 {
   keymap *the_keymap;
@@ -1453,18 +1467,19 @@ load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *loc
 void
 load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
-  gchar *dotdenemo = g_strdup_printf("%s%c", locatedotdenemo(),G_DIR_SEPARATOR);
-  if(dotdenemo)
-    load_keymap_dialog_location (widget, the_keymap, dotdenemo);
+  gchar *keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
+  if(keymapdir)
+    load_keymap_dialog_location (widget, the_keymap, keymapdir);
   else
     warningdialog("Cannot access your local .denemo");
-  g_free(dotdenemo);
+  g_free(keymapdir);
 }
 
 void
 load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
-  gchar *systemwide = g_strdup_printf("%s%c", get_data_dir (), G_DIR_SEPARATOR);
+  gchar *systemwide = g_build_filename (get_data_dir (), "keymaps", DEFAULT_KEYMAP,
+                                        NULL);
   if(systemwide)
     load_keymap_dialog_location (widget, the_keymap, systemwide);
   else
@@ -1490,6 +1505,9 @@ load_default_keymap_file_wrapper (GtkWidget * widget, keymap * the_keymap)
  */
 static void
 load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) {
+
+  // keymap_clear_bindings (the_keymap); this doesn't prevent keybindings hanging around???
+
   if(localrc) {
     g_print ("Trying local file %s as xml...", localrc);
     if (load_xml_keymap (localrc, the_keymap) == -1)
@@ -1520,12 +1538,12 @@ void
 load_default_keymap_file (keymap * the_keymap)
 {
   gchar *localrc = NULL;
-  const gchar *dotdenemo = locatedotdenemo ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "denemo.keymaprc",
+  const gchar *keymapdir = locatekeymapdir ();
+  gchar *systemwide = g_build_filename (get_data_dir (), "keymaps", DEFAULT_KEYMAP,
                                         NULL);
   //g_print ("systemwide = %s\n", systemwide);
-  if(dotdenemo)
-    localrc = g_build_filename (dotdenemo, "keymaprc", NULL);
+  if(keymapdir)
+    localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
   load_keymap_file_named (the_keymap, localrc, systemwide);
   g_free(localrc);
   g_free(systemwide);
@@ -1585,13 +1603,13 @@ void
 save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
   GtkWidget *filesel;
-  static gchar *dotdenemo = NULL;//FIXME static????
+  static gchar *keymapdir = NULL;//FIXME static????
   static struct callbackdata cbdata;
 
-  if (!dotdenemo)
-    dotdenemo = g_strconcat (locatedotdenemo (), "/", NULL);
+  if (!keymapdir)
+    keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
   filesel = gtk_file_selection_new (_("Save keymap"));
-  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), dotdenemo);
+  gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), keymapdir);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (save_keymap_from_dialog),
 		      &cbdata);
@@ -1630,9 +1648,9 @@ void
 save_default_keymap_file (GtkWidget *widget, keymap * the_keymap)
 {
   gchar *localrc = NULL;
-  const gchar *dotdenemo = locatedotdenemo ();
-  if(dotdenemo)
-    localrc = g_build_filename (dotdenemo, "keymaprc", NULL);
+  const gchar *keymapdir = locatekeymapdir ();
+  if(keymapdir)
+    localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
   save_xml_keymap (localrc, the_keymap);
   g_free(localrc);
 }
