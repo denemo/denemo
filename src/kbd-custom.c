@@ -674,6 +674,10 @@ end_command_registration(keymap *the_keymap)
 static gboolean
 keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
 {
+  if (!the_keymap) {
+    warningdialog("This should not happen...");
+    return NULL;
+  }
     GtkTreeModel *model = GTK_TREE_MODEL(the_keymap->commands);
     GtkTreeIter iter;
     if (!gtk_tree_model_iter_nth_child(model, &iter, NULL, command_idx))
@@ -852,7 +856,6 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
 {
   const gchar *res = NULL;
   command_row row;
-  
   if (!keymap_get_command_row(keymap, &row, command_idx))
       return NULL;
   switch (row.type) {
