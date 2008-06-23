@@ -1877,6 +1877,7 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
     pango_parse_markup (tooltip,-1,0,NULL, &plain, 0, NULL);
                                              
     gtk_text_buffer_set_text(text_buffer, plain, -1);
+    g_free(plain);
   }
   //perform the selection
   return TRUE;
