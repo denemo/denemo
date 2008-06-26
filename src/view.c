@@ -856,6 +856,7 @@ static gboolean help_and_set_shortcuts (GtkWidget      *widget,
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   const gchar *func_name = gtk_action_get_name(action);
   gint idx = lookup_index_from_name (the_keymap, func_name);
+  //g_print("event button %d, idx %d for %s\n", event->button, idx, func_name);
   if (event->button != 3)
     return FALSE;
   if (idx == -1)
@@ -1187,9 +1188,9 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (fakechord_insert)},
   {"InsertDynamic", NULL, N_("Insert Dynamic"), NULL, N_("Inserts a dynamic marking at the cursor position"),
    G_CALLBACK (insert_dynamic)},
-  {"InsertLilyDirective", NULL, N_("Insert/Edit Lilypond"), NULL,  N_("Insert or edit a directive in the Lilypond music\ntypesetting language. This can be used for extra spacing,\ntransposing or almost anything.\nSee Lilypond documentation."),
+  {"InsertLilyDirective", NULL, N_("Insert/Edit Lilypond"), NULL,  N_("Insert or edit a directive in the LilyPond music typesetting language.\n This can be used for extra spacing, transposing or almost anything.\nSee LilyPond documentation for ideas."),
      G_CALLBACK (lily_directive_insert)},
-  {"InsertLilyPostfix", NULL, N_("Postfix LilyPond to Note"), NULL,  N_("Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more.\nSee Lilypond documentation."),
+  {"InsertLilyPostfix", NULL, N_("Postfix LilyPond to Note"), NULL,  N_("Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more.\nSee LilyPond documentation."),
      G_CALLBACK (lily_directive_postfix)},
   {"InsertBarline", NULL, N_("Insert Barline"), NULL, N_("Inserts specialized barline at the cursor position\nMostly not working"),
    G_CALLBACK (insert_barline)},
@@ -1278,7 +1279,7 @@ GtkActionEntry menu_entries[] = {
 
   {"EditModeNote", NULL, N_("Notes/Rests"),NULL, N_("Appending, Changing and deleting notes")},
   {"EditNote", NULL, N_("Change the note to ..."),NULL, N_("Changing the note at the cursor to the nearest ...")/*,  if you put a callback here, it gets called on moving onto the menu item G_CALLBACK (...) */},
-  {"EditDuration", NULL, N_("Change duration to ..."),NULL, N_("Changing the duration of note at the cursor")},
+  {"EditDuration", NULL, N_("Insert/Change duration to ..."),NULL, N_("Changing the duration of note at the cursor")},
 
   {"Cursor", NULL, N_("Cursor"),NULL, N_("Moving the cursor")},
 
