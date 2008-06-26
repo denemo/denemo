@@ -1,3 +1,5 @@
+2008-06-26 <rshann> view.c commandfuncs.c commandfuncs.h implement staffup/down properly.
+	kbd-custom.c clear old bindings on loading new.
 2008-06-26 <rshann>  view.c Improve label on the duration menu in Edit mode
 2008-06-26 <rshann>  Makefile.am corrected install
 2008-06-26 <rshann>
