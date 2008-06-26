@@ -1,3 +1,7 @@
+2008-06-26 <rshann>  view.c Improve label on the duration menu in Edit mode
+2008-06-26 <rshann>  Makefile.am corrected install
+2008-06-26 <rshann>
+	keymaps/NumericKeypad.keymap, Makefile.am added old ones removed
 2008-06-19 <rshann>
 	keymaps/Makefile.am kbd-custom.c make keymaps a separate directory in share/denemo and in ~/.denemo
 	help.c update website reference
