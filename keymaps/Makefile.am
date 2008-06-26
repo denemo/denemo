@@ -1,4 +1,3 @@
 keymapsdir = $(datadir)/${PACKAGE}/keymaps
-dist_pkgdata_DATA = Default.keymap NumericKeypad.keymap standard.accels
-
+dist_keymaps_DATA = Default.keymap NumericKeypad.keymap standard.accels
 
