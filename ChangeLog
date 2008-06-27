@@ -1,3 +1,6 @@
+2008-06-27 <rshann>
+	  keymaps get rid of duplicate & non-existant actions.
+	  kbd-custom.c avoid exit in case of error in Debug code.
 2008-06-27 <rshann> Fixes from JRR -Do not set modifier keys as keybindings when using quick edits
            src/kbd-custom.c  
            src/kbd-custom.h  

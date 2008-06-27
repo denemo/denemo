@@ -610,7 +610,7 @@ register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
         if (idx != -1) {
             g_warning("Command %s is inserted more than once, aborting...\n",
                     name);
-            exit(2); //FIXME dirty
+            // exit(2);FIXME dirty
         }
 #endif
         //insert the information in the list store

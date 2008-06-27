@@ -56,9 +56,6 @@
         <bind>period</bind>
       </row>
       <row>
-        <action>AddFavorite</action>
-      </row>
-      <row>
         <action>AddFiguredBass</action>
       </row>
       <row>
@@ -358,9 +355,6 @@
       <row>
         <action>F</action>
         <bind>f</bind>
-      </row>
-      <row>
-        <action>Favorites</action>
       </row>
       <row>
         <action>FileMenu</action>
@@ -943,9 +937,6 @@
       </row>
       <row>
         <action>Rest</action>
-      </row>
-      <row>
-        <action>Rest entry</action>
       </row>
       <row>
         <action>Rest entry</action>
