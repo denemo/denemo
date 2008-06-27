@@ -670,13 +670,14 @@ end_command_registration(keymap *the_keymap)
   }
 }
 
-//False if command_idx is an invalid index, true otherwise
+//False if command_idx is an invalid index or keymap is null, true otherwise
+//TODO keymap should not be NULL
 static gboolean
 keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
 {
   if (!the_keymap) {
     warningdialog("This should not happen...");
-    return NULL;
+    return FALSE;
   }
     GtkTreeModel *model = GTK_TREE_MODEL(the_keymap->commands);
     GtkTreeIter iter;
@@ -877,6 +878,7 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
 }
 
 //returns the accel, "" if no accel defined. free the result
+//the accel is the first keybinding of the list
 static gchar *
 keymap_get_accel(keymap *the_keymap, guint command_idx)
 {
@@ -924,61 +926,43 @@ lookup_label_from_name (keymap *keymap, const gchar *command_name)
 */
 
 static void
-delAccelKey_from_idx(keymap *the_keymap, guint command_idx)
+update_accel_labels(keymap *the_keymap, guint command_idx)
 {
-  gchar *accel_path = g_strconcat(the_keymap->accel_path_prefix, "/",
-          lookup_name_from_idx(the_keymap, command_idx), NULL);
-  GtkAccelKey key;
-  if (gtk_accel_map_lookup_entry(accel_path, &key) &&
-          !(key.accel_key == 0 && key.accel_mods == 0)) {
-      gtk_accel_map_change_entry(accel_path, 0, 0, TRUE);
+  const gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
+  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+  //Getting the accel
+  GString *str=g_string_new("");
+  //TODO don't use all the bindings as accels
+  keymap_foreach_command_binding (the_keymap, command_idx,
+          (GFunc)listname, str);
+  //Prepare the new label
+  gchar *base;
+  //FIXME use translate_dnm_to_gtk
+  g_object_get(action, "label", &base, NULL);
+  gchar *c;
+  for(c=str->str;*c;c++) {
+      if(*c=='<') *c = ' ';
+      if(*c=='>') *c = '-';
   }
-  g_free(accel_path);
-}
 
-static void
-setAccelKey_from_idx (keymap *the_keymap, guint command_idx)
-{
-  gboolean found;
-  command_row row;
-  GtkTreeModel *model_bind;
-  GtkTreeIter iter;
-  gchar *accel_binding, *command_name;
-  gchar *accel_path;
-  guint accel_key;
-  GdkModifierType modifiers;
- 
-  if (!keymap_get_command_row(the_keymap, &row, command_idx))
-      return;
-  model_bind = GTK_TREE_MODEL(row.bindings);
- 
-  found = FALSE;
-  if (!gtk_tree_model_get_iter_first(model_bind, &iter)) {
-      //TODO remove the accel if the list is empty
-      delAccelKey_from_idx(the_keymap, command_idx);
-      g_object_unref(row.bindings);
-      return;
-  }
-  do {
-      gtk_tree_model_get(model_bind, &iter, 0, &accel_binding, -1);
-      dnm_accelerator_parse(accel_binding, &accel_key, &modifiers);
-      g_free(accel_binding);
-      if (gtk_accelerator_valid(accel_key, modifiers)) {
-          found = TRUE;
-          break; // if found = TRUE, accel_key and modifiers are set to the
-          //good values
+  gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
+  //For all widgets proxying the action, change the label
+  GSList *h = gtk_action_get_proxies (action);
+  for(;h;h=h->next) {
+      GtkWidget *widget = h->data;
+      GtkWidget *child = (GtkWidget *)gtk_bin_get_child(GTK_BIN(widget));
+      if(GTK_IS_BUTTON(child)) {
+          child = gtk_bin_get_child(GTK_BIN(child));
       }
-  } while (gtk_tree_model_iter_next(model_bind, &iter));
-  accel_path = g_strconcat(the_keymap->accel_path_prefix, "/",
-          lookup_name_from_idx(the_keymap, command_idx), NULL);
-  if (found) {
-    //no longer use accels gtk_accel_map_change_entry(accel_path, accel_key, modifiers, TRUE);
-  } else {
-      delAccelKey_from_idx(the_keymap, command_idx);
-      //TODO remove the current accel
+      //FIXME others?? toolitem ...
+      if(GTK_IS_LABEL(child)) {
+          gtk_label_set_markup(GTK_LABEL(child), markup);
+      }
   }
-  g_free(accel_path); 
-  g_object_unref(row.bindings);
+  //free allocated strings                                 
+  g_free(markup);
+  g_free(base);
+  g_string_free(str, TRUE);
 }
 
 static void
@@ -1007,21 +991,8 @@ remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
  
   if (found) {
       gtk_list_store_remove(row.bindings, &iter);
-      setAccelKey_from_idx(the_keymap, command_idx);
   }
 
-#if 1
-  //FIXME duplicated code
-  gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
-  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
-  GString *str=g_string_new("");
-  gint idx = lookup_index_from_name(the_keymap,
-				    gtk_action_get_name(action));
-  keymap_foreach_command_binding (the_keymap, command_idx, (GFunc)listname, str);
-  //g_print("updating with %s\n", str->str);
-  update_labels_for_action(action, str->str);
-  g_string_free(str, TRUE);
-#endif
   g_object_unref(row.bindings);
 }
 
@@ -1040,18 +1011,17 @@ remove_keybinding_from_string (keymap * the_keymap, const gchar *binding)
   value = (gint *) g_hash_table_lookup(the_keymap->idx_from_keystring, binding);
   if (value) {
       remove_keybinding_bindings_helper(the_keymap, *value, binding);
+      update_accel_labels(the_keymap, *value);
       g_hash_table_remove(the_keymap->idx_from_keystring, binding);
   }
 }
 
 /*
  * Insert a binding to the bindings of command_idx.
- * if position = 0, insert as first binding, if position = -1 insert as last
- * binding, if position has another value, do not insert
  */
 static void
 add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
-        const gchar *binding, gint position)
+        const gchar *binding, KbdPosition pos)
 {
   command_row row;
   GtkTreeIter iter;
@@ -1060,9 +1030,9 @@ add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
       return;
   GtkTreeModel *model_bind = GTK_TREE_MODEL(row.bindings);
   
-  if (position == 0)
+  if (pos == POS_FIRST)
       gtk_list_store_prepend(row.bindings, &iter);
-  else if (position == -1)
+  else if (pos == POS_LAST)
       gtk_list_store_append(row.bindings, &iter);
   else {
     g_object_unref(row.bindings);
@@ -1076,7 +1046,7 @@ add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
 
 gint
 add_keybinding_from_name(keymap * the_keymap, gint keyval,
-        GdkModifierType state, const gchar *command_name) 
+        GdkModifierType state, const gchar *command_name, KbdPosition pos) 
 {
   gpointer value;
   guint command_idx;
@@ -1086,7 +1056,7 @@ add_keybinding_from_name(keymap * the_keymap, gint keyval,
       return -1;
   }
   command_idx = *(guint *) value;
-  return add_keybinding_from_idx(the_keymap, keyval, state, command_idx);
+  return add_keybinding_from_idx(the_keymap, keyval, state, command_idx, pos);
 }
     
 /**
@@ -1097,7 +1067,7 @@ add_keybinding_from_name(keymap * the_keymap, gint keyval,
  */
 gint
 add_keybinding_from_idx (keymap * the_keymap, gint keyval,
-        GdkModifierType state, guint command_idx)
+        GdkModifierType state, guint command_idx, KbdPosition pos)
 {
   guint *new_idx;
   gint old_command_idx;
@@ -1108,17 +1078,19 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   kb_name = dnm_accelerator_name(keyval, state);
   old_command_idx = lookup_keybinding(the_keymap, keyval, state);
   
-  //if the keybinding was previously used, remove it from bindings
-  if (old_command_idx != -1)
+  //if the keybinding was previously used, remove it from bindings and update
+  //its accels
+  if (old_command_idx != -1) {
       remove_keybinding_bindings_helper(the_keymap, old_command_idx, kb_name);
-  
-  //add the keybinding to the binding on idx_command
-  add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, 0);
+      update_accel_labels(the_keymap, old_command_idx);
+  }  
 
-  //update the accel key of the command
- if(gtk_accelerator_valid (keyval, state))
-   setAccelKey_from_idx(the_keymap, command_idx);
-  
+  //add the keybinding to the binding on idx_command
+   add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, pos);
+
+  //update the accel labels of the command
+  update_accel_labels(the_keymap, command_idx);
+
   //add or modify an entry in idx_from_keystring
   new_idx = (guint *) g_malloc(sizeof(guint));
   *new_idx = command_idx;
@@ -1126,20 +1098,6 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
           new_idx);
   
   g_free(kb_name);
-
-#if 1
-  gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
-  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
-  GString *str=g_string_new("");
-  gint idx = lookup_index_from_name(the_keymap,
-				    gtk_action_get_name(action));
-  keymap_foreach_command_binding (the_keymap, command_idx, (GFunc)listname, str);
-  //g_print("updating with %s\n", str->str);
-  update_labels_for_action(action, str->str);
-  g_string_free(str, TRUE);
-#endif
-
-
   return old_command_idx;
 }
 
@@ -1149,6 +1107,8 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
 //old_accel : the accel of new_command before the accel change
 //new_accel : the current accel of new_command
 //return 1 if the accel was changed, 0 otherwise
+//DEPRECATED we do not use gtk accels anymore
+/*
 static gint
 keymap_update_accel_helper(keymap *the_keymap, gint old_command_idx,
         gint new_command_idx, const gchar *old_accel, const gchar *new_accel)
@@ -1188,7 +1148,7 @@ keymap_update_accel_helper(keymap *the_keymap, gint old_command_idx,
     }
     return 1;
 }
-
+*/
 //we have to reproduce this function here since it is static in gtkmenu.c
 static void
 stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
@@ -1207,6 +1167,8 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
 //to (keyval, modifiers)
 //returns 1 if the accelerator of action is equal to (keyval, modifiers) (ie
 //the change was successful, 0 otherwise
+//DEPRECATED we do not use gtk accels anymore
+/*
 gint
 keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
         GdkModifierType modifiers)
@@ -1242,7 +1204,7 @@ keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
   g_free(new_command_new_accel);
   return res;
 }
-
+*/
 gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 		gpointer func_data)
@@ -1258,8 +1220,6 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   //first try to handle the event with the key_press handler of the parent
   //class (this allows navigation in the menu to take precedence over
   //the quick edit), 
-  //We're just doing here in advance what would be done by
-  //gtk_menu_key_press
   stolen_gtk_menu_stop_navigating_submenu (menu);
   if (GTK_WIDGET_CLASS (parent_class)->key_press_event (grab_widget,
               event)) {
@@ -1280,25 +1240,13 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 #else
   gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
 #endif
-  //If this menu item has no action, we give up
-  if (!action)
+  gint idx = lookup_index_from_name(the_keymap, gtk_action_get_name(action));
+  //If this menu item has no action or the action is not registered in the
+  //keymap, we give up
+  if (!action || idx == -1)
     return TRUE;
-  //Now perform the menu key press handler.
-  GTK_WIDGET_CLASS (menu_class)->key_press_event (grab_widget, event);
-  //Set the accelerator in the keymap
-  keymap_update_accel(the_keymap, action, keyval, modifiers);
-  //unset the accel - it doesn't seem to work not setting in the first place
-  const gchar * accel_path = gtk_action_get_accel_path (action);
-  gtk_accel_map_change_entry(accel_path, 0, 0, TRUE);
-#if 1
-  GString *str=g_string_new("");
-  gint idx = lookup_index_from_name(the_keymap,
-				    gtk_action_get_name(action));
-  keymap_foreach_command_binding (the_keymap, idx, (GFunc)listname, str);
-  update_labels_for_action(action, str->str);
-g_print("and updating with %s\n", str->str);
-  g_string_free(str, TRUE);
-#endif
+  //Add the keybinding
+  add_keybinding_from_idx(the_keymap, keyval, modifiers, idx, POS_FIRST);
   return TRUE;
 }
 
@@ -1796,7 +1744,7 @@ void row_inserted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("insert\n");
     if (cbdata->command_idx != -1)
-        setAccelKey_from_idx(cbdata->the_keymap, cbdata->command_idx);
+        update_accel_labels(cbdata->the_keymap, cbdata->command_idx);
 }
 
 void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
@@ -1805,7 +1753,18 @@ void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("delete\n");
     if (cbdata->command_idx != -1)
-        setAccelKey_from_idx(cbdata->the_keymap, cbdata->command_idx);
+        update_accel_labels(cbdata->the_keymap, cbdata->command_idx);
+}
+
+//Performs cleanup on the keymap when a command view is closed
+void
+keymap_cleanup_command_view(keyboard_dialog_data *data)
+{
+    GtkTreeModel *model;
+    model = gtk_tree_view_get_model(data->binding_view);
+    if (model) {
+        g_signal_handlers_disconnect_by_func(model, row_deleted_handler, data);
+    }  
 }
 
 gboolean

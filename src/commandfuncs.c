@@ -7,7 +7,6 @@
 
 #include <string.h>
 #include "commandfuncs.h"
-#include "pitchentry.h"
 #include "calculatepositions.h"
 #include "chordops.h"
 #include "contexts.h"
@@ -28,7 +27,6 @@
 #include "prefops.h"
 #include "keyresponses.h"
 #include "view.h"
-
 /**
  * Macro to get the current DenemoObject
  */
@@ -421,7 +419,26 @@ joinstaffs (GtkAction *action, DenemoGUI * gui)
 }
 
 
-
+/**
+ * Move si->currentstaff up an one voice, return TRUE if successful
+ *
+ */
+gboolean
+voiceup (DenemoGUI * gui)
+{
+  if(!gui->si->currentstaff)
+    return FALSE;
+  if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
+      gui->si->currentstaffnum--;
+      gui->si->currentstaff = gui->si->currentstaff->prev;
+      setcurrentprimarystaff (gui->si);
+      setcurrents (gui->si);
+      move_viewport_down (gui);
+      return TRUE;
+    } else
+      warningdialog("This is the first voice");
+  return FALSE;
+}
 
 /**
  * Move si->currentstaff up an one staff/voice, return TRUE if successful
@@ -430,7 +447,11 @@ joinstaffs (GtkAction *action, DenemoGUI * gui)
 gboolean
 staffup (DenemoGUI * gui)
 {
-  if (gui->si->currentstaff && gui->si->currentstaff->prev)
+  if(!gui->si->currentstaff)
+    return FALSE;
+  while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
+    voiceup(gui);
+  if (gui->si->currentstaff->prev)
     {
       gui->si->currentstaffnum--;
       gui->si->currentstaff = gui->si->currentstaff->prev;
@@ -438,7 +459,8 @@ staffup (DenemoGUI * gui)
       setcurrents (gui->si);
       move_viewport_up (gui);
       return TRUE;
-    }
+    }else
+      warningdialog("This is the first staff");
   return FALSE;
 }
 
@@ -448,8 +470,32 @@ staffup (DenemoGUI * gui)
  *
  */
 gboolean
+voicedown (DenemoGUI * gui)
+{
+  if(!gui->si->currentstaff)
+    return FALSE;
+  if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
+      gui->si->currentstaffnum++;
+      gui->si->currentstaff = gui->si->currentstaff->next;
+      setcurrentprimarystaff (gui->si);
+      setcurrents (gui->si);
+      move_viewport_down (gui);
+      return TRUE;
+    } else
+      warningdialog("This is the last voice");
+  return FALSE;
+}
+/**
+ * Move si->currentstaff down an one staff/voice, return TRUE if successful
+ *
+ */
+gboolean
 staffdown (DenemoGUI * gui)
 {
+  if(!gui->si->currentstaff)
+    return FALSE;
+  while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2)
+    voicedown(gui);
   if (gui->si->currentstaff->next)
     {
       gui->si->currentstaffnum++;
@@ -457,8 +503,11 @@ staffdown (DenemoGUI * gui)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_down (gui);
-    }
+    }else
+      warningdialog("This is the last staff");
 }
+
+
 
 /**
  * move the cursor one position to the left

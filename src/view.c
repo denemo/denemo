@@ -810,36 +810,6 @@ typedef struct accel_cb {
 } accel_cb;
 
 
-void
-update_labels_for_action(GtkAction *action, gchar *shortcut_names) {
-  GSList *h = gtk_action_get_proxies (action);
-  for(;h;h=h->next) {
-    GtkWidget *widget = h->data;
-    GtkWidget *child = (GtkWidget *)gtk_bin_get_child(GTK_BIN(widget));
-    if(GTK_IS_BUTTON(child)) {
-      child = gtk_bin_get_child(GTK_BIN(child));
-    }
-//FIXME others?? toolitem ...
-    if(GTK_IS_LABEL(child)) {
-	gchar *base;
-	g_object_get(action, "label", &base, NULL);
-	gchar *c;
-	for(c=shortcut_names;*c;c++) {
-	  if(*c=='<') *c = ' ';
-	  if(*c=='>') *c = '-';
-	}
-	
-	gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, shortcut_names);
-	//g_print("have %s and %s\n", base, markup);
-	gtk_label_set_markup(GTK_LABEL(child), markup);
-	g_free(markup);
-	g_free(base);
-    }
-  }
-}
-
-
-
 /*
   help_and_set_shortcuts display the tooltip for the action passed in INFO
   and allow change to the shortcuts for that action.

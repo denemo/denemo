@@ -158,7 +158,7 @@ parseBinding (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 #endif
 		    if (command_number != -1)
 		        add_keybinding_from_idx (the_keymap, keyval, state,
-                        command_number);
+                        command_number, POS_LAST);
 		  
 		    g_free (gtk_binding);
           } else {

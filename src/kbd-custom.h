@@ -113,12 +113,17 @@ remove_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
 void
 remove_keybinding_from_string (keymap *the_keymap, const gchar *binding);
 
+typedef enum {
+	POS_FIRST = 0,
+	POS_LAST
+} KbdPosition;
+
 gint
 add_keybinding_from_idx (keymap * the_keymap, gint keyval,
-        GdkModifierType state, guint command_idx);
+        GdkModifierType state, guint command_idx, KbdPosition pos);
 gint
 add_keybinding_from_name (keymap *the_keymap, gint keyval,
-        GdkModifierType state, const gchar *command_name);
+        GdkModifierType state, const gchar *command_name, KbdPosition pos);
 
 gint
 keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
@@ -165,6 +170,9 @@ keymap_get_command_view(keymap *the_keymap);
 
 GtkWidget *
 keymap_get_binding_view();
+
+void
+keymap_cleanup_command_view(keyboard_dialog_data *data);
 
 gboolean
 keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,

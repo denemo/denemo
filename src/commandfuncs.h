@@ -51,6 +51,12 @@ staffup (DenemoGUI  *gui);
 gboolean
 staffdown (DenemoGUI  *si);
 
+gboolean
+voiceup (DenemoGUI  *si);
+
+gboolean
+voicedown (DenemoGUI  *si);
+
 void
 cursorleft (DenemoGUI  *gui);
 

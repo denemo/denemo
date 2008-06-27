@@ -257,7 +257,7 @@ typedef struct DenemoKeymap
   GHashTable *idx_from_keystring; //hashtable linking the string representing
                                   //a keypress to the index of its command
 								  //The keystring is the output of
-								  //gtk_accelerator_name()
+								  //dnm_accelerator_name()
   
   //additional information
   GtkActionGroup *action_group; //reference to the action group containing

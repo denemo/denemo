@@ -465,7 +465,7 @@ COPYING for details.\n\n");
 
   /* gtk initialization */
   gtk_init (&argc, &argv);
-  load_accels();
+  //load_accels();
   register_stock_items ();
 
   newview ();

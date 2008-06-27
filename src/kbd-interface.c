@@ -64,7 +64,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   gtk_tree_path_free(path);
   //set the new binding
   add_keybinding_from_idx(cbdata->the_keymap, event->keyval, modifiers,
-          command_idx);
+          command_idx, POS_LAST);
   //TODO? advertize on the status bar the fact a keybinding was stolen
   //clean the GUI
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
@@ -170,12 +170,6 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
   gtk_tree_model_get(model, &iter, 0, &binding, -1);
   remove_keybinding_from_string(cbdata->the_keymap, binding);
   g_free(binding);
-}
-
-void
-configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
-{
-    configure_keyboard_dialog_init_idx (action, gui, -1);
 }
 
 void
@@ -466,5 +460,15 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   gtk_widget_show_all (dialog);
   gtk_dialog_run (GTK_DIALOG (dialog));
+  //When closing the dialog remove the signals that were associated to the
+  //dialog
+  keymap_cleanup_command_view(&cbdata);
   gtk_widget_destroy (dialog);
 }
+
+void
+configure_keyboard_dialog (GtkAction * action, DenemoGUI * gui)
+{
+    configure_keyboard_dialog_init_idx (action, gui, -1);
+}
+
