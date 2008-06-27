@@ -1013,6 +1013,14 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
 static void dummy(void) {
   return;
 }
+static void voiceup_cb(GtkAction *action, DenemoGUI *gui) {
+  voiceup(gui);
+  displayhelper(gui);
+}
+static void voicedown_cb(GtkAction *action, DenemoGUI *gui) {
+  voicedown(gui);
+  displayhelper(gui);
+}
 /**
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
@@ -1131,9 +1139,9 @@ GtkActionEntry menu_entries[] = {
   {"SwapMovements", NULL, N_("Swap Movements"), NULL, N_("Swap this movement with the one before)"),
    G_CALLBACK (swapmovements)},
   {"VoiceUp", NULL, N_("Voice Up"), NULL, N_("Go to the higher numbered voice\n(or staff if highest voice number on staff)"),
-   G_CALLBACK (staffup_cb)},
-  {"VoiceDown", NULL, N_("Voice Down"), NULL, N_("Go to the lower numbered voice\n(or staff if lowest voice number on staff)"),
-   G_CALLBACK (staffdown_cb)},
+   G_CALLBACK (voiceup_cb)},
+  {"VoiceDown", NULL, N_("Voice Down"), NULL, N_("Go to the lower numbered voice on this staff"),
+   G_CALLBACK (voicedown_cb)},
   {"AddBefore", NULL, N_("Add Before Current Staff..."), NULL, "Inserts a new staff before the current staff",
    G_CALLBACK (newstaffbefore)},
   {"AddAfter", NULL, N_("Add After Current Staff..."), NULL, "Inserts/Adds a new staff after the current staff",
@@ -1279,7 +1287,7 @@ GtkActionEntry menu_entries[] = {
 
   {"EditModeNote", NULL, N_("Notes/Rests"),NULL, N_("Appending, Changing and deleting notes")},
   {"EditNote", NULL, N_("Change the note to ..."),NULL, N_("Changing the note at the cursor to the nearest ...")/*,  if you put a callback here, it gets called on moving onto the menu item G_CALLBACK (...) */},
-  {"EditDuration", NULL, N_("Insert/Change duration to ..."),NULL, N_("Changing the duration of note at the cursor")},
+  {"EditDuration", NULL, N_("Change/Append duration"),NULL, N_("Changing the duration of note at the cursor\nor appending a note of the given duration")},
 
   {"Cursor", NULL, N_("Cursor"),NULL, N_("Moving the cursor")},
 

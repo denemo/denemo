@@ -1,3 +1,4 @@
+2008-06-26 <rshann> view.c functions for voiceup/down. Refine label on edit change duration.
 2008-06-26 <jjbenham> 
 	keymaps/Makefile.am fixed the installation of keymaps
 2008-06-26 <rshann> view.c commandfuncs.c commandfuncs.h implement staffup/down properly.
