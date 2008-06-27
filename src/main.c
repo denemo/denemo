@@ -88,33 +88,7 @@ static const GtkStockItem denemo_stock_items[] = {
   {"denemo-upprall", N_("Upprall"), (GdkModifierType) 0, 0, NULL},
   {"denemo-arpeggio", N_("Arpeggio"), (GdkModifierType) 0, 0, NULL}
 };
-static void
-load_accels () {
-#define STANDARD_ACCELS "standard.accels"
-  gchar * dotdenemo = locatedotdenemo ();
-  gchar *filename = dotdenemo?g_build_filename(locatedotdenemo(), STANDARD_ACCELS, NULL):NULL;
-  gchar *systemwide = g_build_filename (get_data_dir (), STANDARD_ACCELS, NULL);
-#undef STANDARD_ACCELS
-  if(filename) {
-    if(g_file_test(filename,  G_FILE_TEST_EXISTS))
-      gtk_accel_map_load (filename);
-    else {
-      gtk_accel_map_load (systemwide);
-      //gtk_accel_map_save (filename);
-    }
-  } else
-    gtk_accel_map_load (systemwide);
-   if(filename) 
-     g_free(filename);
 
-   filename = dotdenemo?g_build_filename(locatedotdenemo(), EXTRA_ACCELS, NULL):NULL;
-   if(filename) {
-     if(g_file_test(filename,  G_FILE_TEST_EXISTS))
-       gtk_accel_map_load (filename);
-   }
-   if(filename) 
-     g_free(filename);
-}
 static void
 register_stock_icon (GtkIconFactory * icon_factory, const gchar * stock_id,
                      const gchar * file)
@@ -142,6 +116,20 @@ register_stock_icon (GtkIconFactory * icon_factory, const gchar * stock_id,
     gtk_icon_factory_add (icon_factory, stock_id, icon_set);
     g_free (path);
   } 
+  //FIXME  path may leak
+}
+
+// removes the accel of a standard stock item. We use this because we want to
+// handle all the keybindings in denemo's keymap.
+static void
+remove_accel_from_stock(const gchar *stock_id)
+{
+    GtkStockItem stock;
+    if (gtk_stock_lookup(stock_id, &stock)) {
+        stock.keyval = 0;
+        stock.modifier = 0;
+        gtk_stock_add(&stock, 1);
+    }
 }
 
 static void
@@ -149,10 +137,11 @@ register_stock_items ()
 {
   GtkIconFactory *icon_factory;
 
-  /* Load stock items (icons) */
+  /* Load stock items that denemo defines*/
   gtk_stock_add_static (denemo_stock_items,
                         G_N_ELEMENTS (denemo_stock_items));
 
+  /* Load stock icons for the new stock items*/
   icon_factory = gtk_icon_factory_new ();
   gtk_icon_factory_add_default (icon_factory);
   register_stock_icon (icon_factory, "denemo-staccato", "staccato.svg");
@@ -213,6 +202,19 @@ register_stock_items ()
                        "feta26-scripts-upprall.xbm");
   register_stock_icon (icon_factory, "denemo-arpeggio",
                        "feta26-scripts-arpeggio.xbm");
+
+  //remove accelerators from some gtk standard stock items
+  remove_accel_from_stock(GTK_STOCK_NEW);
+  remove_accel_from_stock(GTK_STOCK_OPEN);
+  remove_accel_from_stock(GTK_STOCK_SAVE);
+  remove_accel_from_stock(GTK_STOCK_CLOSE);
+  remove_accel_from_stock(GTK_STOCK_QUIT);
+  remove_accel_from_stock(GTK_STOCK_CUT);
+  remove_accel_from_stock(GTK_STOCK_COPY);
+  remove_accel_from_stock(GTK_STOCK_PASTE);
+  remove_accel_from_stock(GTK_STOCK_GOTO_FIRST);
+  remove_accel_from_stock(GTK_STOCK_GOTO_LAST);
+
   g_object_unref (icon_factory);
 }
 
@@ -465,7 +467,6 @@ COPYING for details.\n\n");
 
   /* gtk initialization */
   gtk_init (&argc, &argv);
-  //load_accels();
   register_stock_items ();
 
   newview ();

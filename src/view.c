@@ -996,13 +996,13 @@ static void voicedown_cb(GtkAction *action, DenemoGUI *gui) {
  */
 GtkActionEntry menu_entries[] = {
   {"FileMenu", NULL, N_("_File"),NULL, N_("Creating, saving, loading, displaying and printing musical scores")},
-  {"New", GTK_STOCK_NEW/* the GTK_STOCK_NEW causes an accelerator to be assigned*/, N_("New"), NULL, "Start a new musical score",
+  {"New", GTK_STOCK_NEW, N_("New"), NULL, "Start a new musical score",
    G_CALLBACK (file_newwrapper)},
 
   {"Open", GTK_STOCK_OPEN, N_("Open"), NULL, "Open a file containing a music score for editing",
    G_CALLBACK (file_open_with_check)},
 
-  {"AddStaffs",GTK_STOCK_OPEN, N_("Add Staffs"), NULL, "Add staffs from a Denemo file",
+  {"AddStaffs", GTK_STOCK_OPEN, N_("Add Staffs"), NULL, "Add staffs from a Denemo file",
    G_CALLBACK (file_add_staffs)},
 
   {"AddMovements", GTK_STOCK_OPEN, N_("Add Movements"), NULL, "Add movements from a Denemo file",
@@ -1023,10 +1023,10 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (file_savewrapper)},
   {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), NULL, "Save the score under a new name",
    G_CALLBACK (file_saveaswrapper)},
-  {"OpenTemplate",GTK_STOCK_OPEN , N_("Open standard template"), NULL,
+  {"OpenTemplate", GTK_STOCK_OPEN, N_("Open standard template"), NULL,
    "Start a new score from a built-in template file\n",
    G_CALLBACK (system_template_open_with_check)},
-  {"OpenExample",GTK_STOCK_OPEN , N_("Open from Gallery"), NULL,
+  {"OpenExample", GTK_STOCK_OPEN, N_("Open from Gallery"), NULL,
    "Start a new score from a built-in example\n",
    G_CALLBACK (system_example_open_with_check)},
   {"OpenMyTemplate", GTK_STOCK_OPEN, N_("Open custom template"), NULL,

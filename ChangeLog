@@ -1,13 +1,13 @@
-2008-06-26 <rshann> Fixes from JRR - Remove the accel code from kbd-custom.c
+2008-06-27 <rshann> Fixes from JRR - load_accels is not needed anymore and as such is removed.
+           Welcome in a gtk-accel free denemo! src/main.c src/view.c
+2008-06-27 <rshann> Fixes from JRR - Remove the accel code from kbd-custom.c
           - Move update_accel_labels from view.c to kbd-custom.c
            Some code factorization is also performed.
            - Remove load_accels from main.c
            This breaks again the accel behaviour of action using stock items, but it is
            the way to go. Next commit will fix this
            - Fix bug N°1 of RS mail on denemo-devel@gnu.org (Three Bugs, 22/06/2008)
-	   
-
-2008-06-26 <rshann> view.c commandfuncs.[ch] functions for voiceup/down. Refine label on edit change duration.
+2008-06-27 <rshann> view.c commandfuncs.[ch] functions for voiceup/down. Refine label on edit change duration.
 2008-06-26 <jjbenham> 
 	keymaps/Makefile.am fixed the installation of keymaps
 2008-06-26 <rshann> view.c commandfuncs.c commandfuncs.h implement staffup/down properly.
