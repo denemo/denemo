@@ -1,3 +1,8 @@
+2008-06-27 <rshann> Fixes from JRR -
+	  Mnemonics for some menus and buttons were stealing keybindings.
+          Mnemonics associated to standard gtk stock items are removed through
+          clean_stock_items (was remove_accel_from_stock)
+          Mnemonics in menubars are remove by removing '_' from their labels
 2008-06-27 <rshann> Fixes from JRR - load_accels is not needed anymore and as such is removed.
            Welcome in a gtk-accel free denemo! src/main.c src/view.c
 2008-06-27 <rshann> Fixes from JRR - Remove the accel code from kbd-custom.c

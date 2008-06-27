@@ -121,14 +121,34 @@ register_stock_icon (GtkIconFactory * icon_factory, const gchar * stock_id,
 
 // removes the accel of a standard stock item. We use this because we want to
 // handle all the keybindings in denemo's keymap.
+// Also, removes the _ in the label of the accel so that no mnemonic is defined
 static void
-remove_accel_from_stock(const gchar *stock_id)
+clean_stock_item(const gchar *stock_id)
 {
+    gint i, j;
     GtkStockItem stock;
+    gchar *label;
     if (gtk_stock_lookup(stock_id, &stock)) {
+        label = g_strdup(stock.label);
+        if (stock.label != NULL) {
+            i = 0;
+            j = 0;
+            while (stock.label[i]) {
+                if (stock.label[i] == '_')
+                    i++;
+                else {
+                    label[j] = stock.label[i];
+                    i++;
+                    j++;
+                }
+            }
+            label[j] = '\0';
+        }
+        stock.label = label;
         stock.keyval = 0;
         stock.modifier = 0;
         gtk_stock_add(&stock, 1);
+        g_free(label);
     }
 }
 
@@ -204,16 +224,19 @@ register_stock_items ()
                        "feta26-scripts-arpeggio.xbm");
 
   //remove accelerators from some gtk standard stock items
-  remove_accel_from_stock(GTK_STOCK_NEW);
-  remove_accel_from_stock(GTK_STOCK_OPEN);
-  remove_accel_from_stock(GTK_STOCK_SAVE);
-  remove_accel_from_stock(GTK_STOCK_CLOSE);
-  remove_accel_from_stock(GTK_STOCK_QUIT);
-  remove_accel_from_stock(GTK_STOCK_CUT);
-  remove_accel_from_stock(GTK_STOCK_COPY);
-  remove_accel_from_stock(GTK_STOCK_PASTE);
-  remove_accel_from_stock(GTK_STOCK_GOTO_FIRST);
-  remove_accel_from_stock(GTK_STOCK_GOTO_LAST);
+  clean_stock_item(GTK_STOCK_NEW);
+  clean_stock_item(GTK_STOCK_OPEN);
+  clean_stock_item(GTK_STOCK_SAVE);
+  clean_stock_item(GTK_STOCK_CLOSE);
+  clean_stock_item(GTK_STOCK_QUIT);
+  clean_stock_item(GTK_STOCK_CUT);
+  clean_stock_item(GTK_STOCK_COPY);
+  clean_stock_item(GTK_STOCK_PASTE);
+  clean_stock_item(GTK_STOCK_GOTO_FIRST);
+  clean_stock_item(GTK_STOCK_GOTO_LAST);
+  clean_stock_item(GTK_STOCK_ADD);
+  clean_stock_item(GTK_STOCK_REMOVE);
+  clean_stock_item(GTK_STOCK_FIND);
 
   g_object_unref (icon_factory);
 }

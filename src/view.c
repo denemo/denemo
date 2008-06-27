@@ -995,7 +995,7 @@ static void voicedown_cb(GtkAction *action, DenemoGUI *gui) {
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
 GtkActionEntry menu_entries[] = {
-  {"FileMenu", NULL, N_("_File"),NULL, N_("Creating, saving, loading, displaying and printing musical scores")},
+  {"FileMenu", NULL, N_("File"),NULL, N_("Creating, saving, loading, displaying and printing musical scores")},
   {"New", GTK_STOCK_NEW, N_("New"), NULL, "Start a new musical score",
    G_CALLBACK (file_newwrapper)},
 
@@ -1060,7 +1060,7 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (close_gui_with_check)},
   {"Quit", GTK_STOCK_QUIT, N_("Quit"), NULL, "Quit the Denemo program",
    G_CALLBACK (closewrapper)},
-  {"EditMenu", NULL, N_("_Edit")},
+  {"EditMenu", NULL, N_("Edit")},
   {"Undo", GTK_STOCK_UNDO, N_("Undo"), NULL, "Undo",
    G_CALLBACK (undowrapper)},
   {"Redo", GTK_STOCK_REDO, N_("Redo"), NULL, "Redo",
@@ -1142,7 +1142,7 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (clef_change_initial)},
   {"InsertClef", NULL, N_("Insert Clef Change"), NULL, N_("Insert a change of clef at the cursor"),
    G_CALLBACK (clef_change_insert)},
-  {"Key", NULL, N_("_Key"), NULL, N_("insert change key signature or set the initial key")},
+  {"Key", NULL, N_("Key"), NULL, N_("insert change key signature or set the initial key")},
   {"InitialKey", NULL, N_("Initial Key"), NULL,  N_("Set the initial key signature of the current staff"),
    G_CALLBACK (key_change_initial)},
   {"InsertKey", NULL, N_("Insert Key Change"), NULL,  N_("Insert a key change at the cursor position"),
@@ -1204,7 +1204,7 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (dnm_csoundplayback)},
   {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL, N_("Allows you to specify properties used in playing back (midi and csound)"),
    G_CALLBACK (playback_properties_change)},
-  {"HelpMenu", NULL, N_("_Help")},
+  {"HelpMenu", NULL, N_("Help")},
   {"Help", NULL, N_("Help"), NULL, N_("Opens a browser on the user manual"), 
    G_CALLBACK (browse_manual)},
   {"About", NULL, N_("About"), NULL, N_("Gives the version number etc of this program"),
