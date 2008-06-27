@@ -2053,8 +2053,11 @@ lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
   if(gui->textwindow)
     g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_unblock_by_func (G_OBJECT (gui->window), G_CALLBACK (lily_save), gui);
-  if(gui->lilysync!=gui->changecount)
+  
+  if( gui->si->markstaffnum || (gui->lilysync!=gui->changecount)) {
+    gui->si->markstaffnum =  0;//remove selection, else we will only see that bit in LilyText   
     refresh_lily_cb (NULL, gui);
+  }
   return FALSE;
 }
 
