@@ -74,6 +74,19 @@ dnm_sanitize_key_state(GdkEventKey *event)
     return ret;
 }
 
+/*
+ * Returns True if the key event is just a modifier key, False otherwise
+ * TODO look for a gdk function doing that properly
+ */
+gboolean
+isModifier(GdkEventKey *event)
+{
+    /* This check for modifier values on the event may not be right,
+       if the contents of gdkkeysyms.h are OS-dependent. I don't believe
+       they are. */
+    return event->keyval >= GDK_Shift_L && event->keyval <= GDK_Hyper_R;
+}
+
 static inline gboolean
 is_alt (const gchar *string)
 {
@@ -1227,6 +1240,9 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
       //performed, no need to process further
       return TRUE;
   }
+  //If the KeyEvent is only a modifier, stop processing here
+  if (isModifier(event))
+      return TRUE;
   //TODO here could be added some check to see if we allow the quick edit
   //for exemple, one could suppress quick edits if the new accel is
   //already the keybind of another function.

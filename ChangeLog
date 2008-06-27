@@ -1,3 +1,8 @@
+2008-06-27 <rshann> Fixes from JRR -Do not set modifier keys as keybindings when using quick edits
+           src/kbd-custom.c  
+           src/kbd-custom.h  
+           src/kbd-interface.c
+	
 2008-06-27 <rshann> Fixes from JRR -
 	  Mnemonics for some menus and buttons were stealing keybindings.
           Mnemonics associated to standard gtk stock items are removed through

@@ -17,19 +17,6 @@
 #include "kbd-custom.h"
 #include "prefops.h"
 
-/*
- * Returns True if the key event is just a modifier key, False otherwise
- * TODO look for a gdk function doing that properly
- */
-static gboolean
-isModifier(GdkEventKey *event)
-{
-  /* This check for modifier values on the event may not be right,
-     if the contents of gdkkeysyms.h are OS-dependent. I don't believe
-     they are. */
-  return event->keyval >= GDK_Shift_L && event->keyval <= GDK_Hyper_R;
-}
-
 static void
 validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
 {

@@ -34,6 +34,9 @@ typedef struct _keyboard_dialog_data
 guint
 dnm_sanitize_key_event(GdkEventKey *event);
 
+gboolean
+isModifier(GdkEventKey *event);
+
 //adapted from gtk because we want to allow uppercase accelerator through
 //A, instead of <Shift>a
 //we need this to be consistent with other modified values.
