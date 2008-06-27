@@ -12,6 +12,8 @@
            This breaks again the accel behaviour of action using stock items, but it is
            the way to go. Next commit will fix this
            - Fix bug N°1 of RS mail on denemo-devel@gnu.org (Three Bugs, 22/06/2008)
+2008-06-27 <rshann> Makefile.am remove standard.accels
+	
 2008-06-27 <rshann> view.c commandfuncs.[ch] functions for voiceup/down. Refine label on edit change duration.
 2008-06-26 <jjbenham> 
 	keymaps/Makefile.am fixed the installation of keymaps
