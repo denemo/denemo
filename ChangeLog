@@ -1,3 +1,7 @@
+2008-06-28 <rshann>
+	   add Metronome.denemo to examples Makefile.am
+2008-06-27 <rshann>
+	   add RehearsalMarks.denemo to examples Makefile.am
 2008-06-27 <rshann>
 	   exportlilypond.c avoid showing only selection in LilyPond text when focus-in.
 2008-06-27 <rshann>
