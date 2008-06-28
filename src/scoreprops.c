@@ -186,8 +186,8 @@ struct callbackdata
   GtkWidget *footer;	  
   GtkWidget *tagline;	  
 
-  GtkWidget *markup_before; 
-  GtkWidget *markup_after;  
+  GtkWidget *lilypond_before; 
+  GtkWidget *lilypond_after;  
   GtkWidget *extra;  
 };
 
@@ -216,8 +216,8 @@ ASSIGN(head);
 ASSIGN(copyright);	  
 ASSIGN(footer);	  
 ASSIGN(tagline);	  
-ASSIGN(markup_before); 
-ASSIGN(markup_after);  
+ASSIGN(lilypond_before); 
+ASSIGN(lilypond_after);  
 ASSIGN(extra); 
 }
 
@@ -286,8 +286,8 @@ GtkWidget *frame2;
   ACCESS(footer);	  
   ACCESS(tagline);	  
 
-  ACCESS(markup_before); 
-  ACCESS(markup_after);  
+  ACCESS(lilypond_before); 
+  ACCESS(lilypond_after);  
   ACCESS(extra);  
 
 

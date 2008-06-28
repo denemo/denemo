@@ -323,9 +323,9 @@ typedef struct LilypondHeaderFields
   GString *footer;
   GString *tagline;
   GString *extra;
-  /* markup before and after each movement */
-  GString *markup_before;
-  GString *markup_after;
+  /* lilypond before and after each \score block     */
+  GString *lilypond_before;
+  GString *lilypond_after;
 }LilypondHeaderFields;
 
 

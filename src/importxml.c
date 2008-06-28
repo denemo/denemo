@@ -1796,7 +1796,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 						      xmlChildrenNode, 1);
 	    if (markup_before != NULL)
 	      {
-		g_string_assign (si->headerinfo.markup_before, markup_before);
+		g_string_assign (si->headerinfo.lilypond_before, markup_before);
 		g_free (markup_before);
 	      }
 	  }
@@ -1807,7 +1807,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 						      xmlChildrenNode, 1);
 	    if (markup_after != NULL)
 	      {
-		g_string_assign (si->headerinfo.markup_after, markup_after);
+		g_string_assign (si->headerinfo.lilypond_after, markup_after);
 		g_free (markup_after);
 	      }
 	  }

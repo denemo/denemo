@@ -273,7 +273,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("CloseRepeat"), "insert_closerepeat"},
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern"},
-  {KBD_CATEGORY_OTHER, NULL, "No Tooltip yet",	N_("NextRhythm"), "nextrhythm"},
+  {KBD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm"},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMesauresToScore"), "append_measure_score"}
 
 
@@ -302,11 +302,7 @@ int main() {
   int i,j;
   int n_unmenued_commands = (sizeof (unmenued_commands)
 			   / sizeof (struct name_and_function));
-  fprintf(entries,  "{\"AllOther\", NULL, N_(\"All other actions\")},\n");
-   for(j=0;j<9;j++){
-  fprintf(entries,  "{\"%s\", NULL, N_(\"%s\")},\n", catname[j], catname[j]);
 
-   }
   for(i=0;i<n_unmenued_commands;i++) {
     fprintf(callbacks, "/*%s %s*/\n",ni, fi);
     fprintf(callbacks, "static void %s_cb (GtkAction *a, DenemoGUI *gui) {\n"

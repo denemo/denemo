@@ -1757,8 +1757,8 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     if(visible_movement==1) {
 
       /* Any markup before the score block */
-      if(si->headerinfo.markup_before->len)
-	g_string_append_printf (scoreblock, "\\markup {%s}\n", si->headerinfo.markup_before->str);
+      if(si->headerinfo.lilypond_before->len)
+	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
    
       //standard score block
       g_string_append_printf (scoreblock, "\\score {\n<<%s <<\n", gui->lilycontrol.lilypond->str);
@@ -1881,8 +1881,8 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
  
 
       /* any markup after score block */
-      if(si->headerinfo.markup_after->len)
-	g_string_append_printf(scoreblock, "\\markup {%s}\n", si->headerinfo.markup_after->str);
+      if(si->headerinfo.lilypond_after->len)
+	g_string_append_printf(scoreblock, "%s\n", si->headerinfo.lilypond_after->str);
 
 
       // Put this standard scoreblock in the textbuffer

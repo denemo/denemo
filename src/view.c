@@ -1236,8 +1236,6 @@ GtkActionEntry menu_entries[] = {
    N_("Clear the list of pitches that overlay the notes"),   G_CALLBACK (clear_overlay)},
 
   /* Rhythm entry */
-  {"NextRhythm", NULL, N_("Next rhythm"), NULL,
-   N_("Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern"),   G_CALLBACK (nextrhythm_cb)},
   {"CreateRhythm", NULL, N_("Create a rhythm"), NULL,
    N_("Copy selection as a rhythm pattern\nfor notes to follow as they are entered"),
    G_CALLBACK (create_rhythm_cb)},
@@ -1251,8 +1249,20 @@ GtkActionEntry menu_entries[] = {
   ,
   {"InsertModeNote", NULL, N_("Notes/Rests"),NULL, N_("Actions for notes:\ninserting, deleting etc")},
   {"InsertNote", NULL, N_("Insert note"),NULL, N_("Inserting the note ...")},
-  {"Rest entry", NULL, N_("Insert rest"),NULL, N_("Inserting the rest ...")},
 
+  {"AllOther", NULL, N_("All other actions"), NULL, N_("Anything not previously covered")},
+
+  {("Navigation"), NULL, N_("Navigation"), NULL, N_("Moving around the piece")},
+  {("Note entry"), NULL, N_("Note entry"), NULL, N_("Entering notes")},
+  {("Rest entry"), NULL, N_("Rest entry"), NULL, N_("Entering rests")},
+  {("Articulation"), NULL, N_("Articulation"), NULL, N_("Various expressive marks")},
+  {("Edit"), NULL, N_("Edit"), NULL, N_("Editing")},		
+  {("Measure"), NULL, N_("Measure"), NULL, N_("Manipulating measures")},	
+  {("Staff"), NULL, N_("Staff"), NULL, N_("Commands for staffs")},		
+  {("Playback"), NULL, N_("Playback"), NULL, N_("Playing the music through midi file")},		
+
+
+  
   {"SelectDuration", NULL, N_("Prevailing duration"),NULL, N_("Changing the prevailing duration\nor rhythm pattern")},
 
   {"EditModeNote", NULL, N_("Notes/Rests"),NULL, N_("Appending, Changing and deleting notes")},
