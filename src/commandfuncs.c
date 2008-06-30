@@ -347,17 +347,21 @@ swapstaffs (GtkAction *action, DenemoGUI * gui)
     return;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
-      gpointer *temp;
+      DenemoStaff *temp;
       temp = gui->si->currentstaff->data;
-      gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
-      gui->si->currentstaff->prev->data = temp;
-      gui->si->currentstaffnum--;
-      gui->si->currentstaff = gui->si->currentstaff->prev;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
-      move_viewport_up (gui);
-      score_status(gui, TRUE);
-      return TRUE;
+      if(temp->context==DENEMO_NONE ||
+	confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
+	  
+	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
+	  gui->si->currentstaff->prev->data = temp;
+	  gui->si->currentstaffnum--;
+	  gui->si->currentstaff = gui->si->currentstaff->prev;
+	  setcurrentprimarystaff (gui->si);
+	  setcurrents (gui->si);
+	  move_viewport_up (gui);
+	  score_status(gui, TRUE);
+	  return TRUE;
+	}
     }
   else
     warningdialog("There is no previous staff to swap with");

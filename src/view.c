@@ -1100,7 +1100,7 @@ GtkActionEntry menu_entries[] = {
   {"EntryMenu", NULL, N_("Mode")},
   {"StaffMenu", NULL, N_("Staffs/Voices")},
   {"MovementMenu", NULL, N_("Movements"),NULL,N_("Movements in a score")},
-  {"SwapStaffs", NULL, N_("Swap Staffs"), NULL, N_("Swap this staff with the one higher up)"),
+  {"SwapStaffs", NULL, N_("Swap Staffs/Voices"), NULL, N_("Swap this staff with the one higher up\nNote this actually swaps voices."),
    G_CALLBACK (swapstaffs)},
   {"SplitVoices", NULL, N_("Split Voice off"), NULL, N_("Split off the next voice as a separate staff"),
    G_CALLBACK (splitstaffs)},

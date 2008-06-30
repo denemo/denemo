@@ -1,3 +1,5 @@
+2008-06-30 <rshann>
+	   commandfuncs.c warn if context set when swapping staffs. view.c document behaviour of swap staffs.
 2008-06-28 <rshann>
            generate_source.c entries.h callbacks.h, view.c fix duplicate menu_entries.
 	   exportlilypond.c change semantics of markup
