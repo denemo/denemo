@@ -259,10 +259,8 @@ typedef struct DenemoKeymap
 								  //The keystring is the output of
 								  //dnm_accelerator_name()
   
-  //additional information
-  GtkActionGroup *action_group; //reference to the action group containing
-								//all the ActionEntryS of the keymap
-  const gchar *accel_path_prefix;
+  //additional information to be able to retrieve actions from command names
+  gchar *action_group_name;
 }keymap;
 
 #define MAX_HISTORY 10

@@ -1803,6 +1803,37 @@ gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
     return FALSE;
 }
 
+/* 
+ * create and populate the action group containing actions handled by the keymap
+ * allocate the keymap
+ */
+void init_keymap()
+{
+     
+  //TODO we initialize the keymap before the first windowin shown because it has
+  //to be once and for all. Does it break something in regards of the next
+  //comment?
+  /* Similarly, the keymap should be initialized after the
+     only once si->window is shown, as it may pop up an advisory
+     dialog. */
+  Denemo.prefs.standard_keymap = allocate_keymap ("MenuActions");
+  Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap; 
+  register_entry_commands(Denemo.prefs.the_keymap, menu_entries, n_menu_items,
+          KeymapEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, toggle_menu_entries,
+          G_N_ELEMENTS (toggle_menu_entries), KeymapToggleEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, mode_menu_entries,
+          G_N_ELEMENTS (mode_menu_entries), KeymapRadioEntry);
+  register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
+          G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
+  end_command_registration(Denemo.prefs.the_keymap);
+  load_default_keymap_file(Denemo.prefs.the_keymap);
+ 
+  gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
+}
+
+
+
 /**
  * Creates a new DenemoGUI structure representing a toplevel window to control one musical score. 
  * ThisDenemoGUI* gui is appended to the global list Denemo.guis.
@@ -1822,13 +1853,6 @@ newview (void)
   GError *error;
   GtkWidget *widget;
   gchar *data_dir;
-
-  /* Initialize preferences */
-  initprefs ();
-
-
-
-  readHistory ();
 
   gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
   gui->lilycontrol.fontsize = 16;
@@ -1862,7 +1886,6 @@ newview (void)
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (gui->window), main_vbox);
   gtk_widget_show (main_vbox);
-
 
   action_group = gtk_action_group_new ("MenuActions");
   /* This also sets gui as the  callback data for all the functions in the
@@ -1903,9 +1926,13 @@ newview (void)
   gui->ui_manager = ui_manager;
   gtk_ui_manager_set_add_tearoffs (gui->ui_manager, TRUE);
   gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-  accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-  gtk_window_add_accel_group (GTK_WINDOW (gui->window), accel_group);
+  //We do not use accel_group anymore TODO delete the next 2 lines
+  //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+  //gtk_window_add_accel_group (GTK_WINDOW (gui->window), accel_group);
 
+  /* TODO Lily_menu actions are handled differently for the time being
+   * What are these actions?
+   */
   GtkActionEntry lily_menus[] = {
     {"LilyToggleShow", NULL, N_("Show/Hide"),NULL, N_("Toggle visibility of section"),G_CALLBACK (toggle_lily_visible_cb)},
     {"LilyCreateCustom", NULL, N_("Create Custom Version"),NULL, N_("Create a custom version of this block"),G_CALLBACK (custom_lily_cb)},
@@ -1930,8 +1957,9 @@ get_data_dir (),
   g_free (data_dir);
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
-  gtk_action_set_accel_group (myaction, accel_group);
-  gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/My Name");
+  //We do not use accel_group anymore TODO delete the next 2 lines
+  //gtk_action_set_accel_group (myaction, accel_group);
+  //gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/My Name");
   //gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu", "Favorites", "Favorites", GTK_UI_MANAGER_MENU, FALSE);
 
   gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu/Favorites",
@@ -2060,24 +2088,6 @@ get_data_dir (),
   /* Now that the window's shown, initialize the gcs */
   gcs_init (gui->window->window);
 
-  /* Similarly, the keymap should be initialized after the
-     only once si->window is shown, as it may pop up an advisory
-     dialog. */
-  Denemo.prefs.standard_keymap = Denemo.prefs.the_keymap = allocate_keymap (
-          action_group, "<Actions>/MenuActions");
-  register_entry_commands(Denemo.prefs.the_keymap, menu_entries, n_menu_items,
-          KeymapEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, toggle_menu_entries,
-          G_N_ELEMENTS (toggle_menu_entries), KeymapToggleEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, mode_menu_entries,
-          G_N_ELEMENTS (mode_menu_entries), KeymapRadioEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
-          G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
-  end_command_registration(Denemo.prefs.the_keymap);
-  load_default_keymap_file(Denemo.prefs.the_keymap);
- 
-  gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
-  
   Denemo.guis = g_list_append (Denemo.guis, gui);
   populate_opened_recent (gui);
 
@@ -2118,11 +2128,10 @@ GList *g = gtk_action_group_list_actions(action_group);
  for(;g;g=g->next) {
    GSList *h = gtk_action_get_proxies (g->data);
    for(;h;h=h->next) {
-     //g_print("!%p\t", h->data);
 #if (GTK_MINOR_VERSION <10)
-     attach_action_to_widget(h->data, g->data, gui);
+        attach_action_to_widget(h->data, g->data, gui);
 #endif
-     attach_set_accel_callback(h->data, g->data,"", gui);
+        attach_set_accel_callback(h->data, g->data,"", gui);
    }
  }
 

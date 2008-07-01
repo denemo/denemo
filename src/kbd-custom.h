@@ -60,7 +60,7 @@ configure_keyboard (gpointer callback_data, guint callback_action,
 		    GtkWidget *widget);
 
 keymap *
-allocate_keymap (GtkActionGroup *action_group, const gchar *accel_path_prefix);
+allocate_keymap (const gchar *action_group_name);
 
 void
 free_keymap(keymap *the_keymap);
@@ -106,6 +106,9 @@ lookup_index_from_name (keymap * keymap, const gchar *command_name);
 
 const gchar *
 lookup_name_from_idx(keymap *keymap, guint command_idx);
+
+const gchar *
+lookup_label_from_idx(keymap *keymap, guint command_idx);
 
 //const gchar *
 //lookup_label_from_name(keymap *keymap, const gchar *command_name);

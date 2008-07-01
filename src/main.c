@@ -490,8 +490,18 @@ COPYING for details.\n\n");
 
   /* gtk initialization */
   gtk_init (&argc, &argv);
+  /* adapt stock items to denemo */
   register_stock_items ();
-
+  /* Following calls were made previously in newview. However I think they are
+   * global, and should be done once and for all when the application opens
+   */
+  /* Initialize preferences */
+  initprefs();
+  /* read history file */
+  readHistory();
+  /* Set up the keymap */
+  init_keymap();
+  /* create the first window */
   newview ();
 
 

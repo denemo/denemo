@@ -520,14 +520,13 @@ no_map_dialog ()
 
 /*
  * Allocates a keymap.
- * action_group is the action group that contains the action of the keymap,
- * accel_path_prefix is the prefix of the accel_path of these actions.
+ * action_group_name is the name of the group of actions for the commands
+ * of the keymap.
  */
-keymap *allocate_keymap(GtkActionGroup *action_group,
-        const gchar *accel_path_prefix) {
+keymap *allocate_keymap(const gchar *action_group_name)
+{
   keymap *the_keymap = (keymap *) g_malloc (sizeof (keymap));
-  the_keymap->action_group = action_group;
-  the_keymap->accel_path_prefix = g_strdup(accel_path_prefix);
+  the_keymap->action_group_name = g_strdup(action_group_name);
   //empty list store of commands
   //3 columns :
   //- type of action, a KeymapCommandType
@@ -561,7 +560,7 @@ free_keymap(keymap *the_keymap)
     g_object_unref(the_keymap->commands);
     g_hash_table_destroy(the_keymap->idx_from_name);
     g_hash_table_destroy(the_keymap->idx_from_keystring);
-    g_free((gchar *)the_keymap->accel_path_prefix); 
+    g_free(the_keymap->action_group_name); 
 }
 
 void
@@ -890,6 +889,33 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
   return res;
 }
 
+//do not free the result
+//returns NULL if not found
+const gchar *
+lookup_label_from_idx (keymap * keymap, guint command_idx)
+{
+  const gchar *res = NULL;
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  switch (row.type) {
+      case KeymapEntry:
+          res = ((GtkActionEntry *) row.entry)->label;
+          break;
+      case KeymapToggleEntry:
+          res = ((GtkToggleActionEntry *) row.entry)->label;
+          break;
+      case KeymapRadioEntry:
+          res = ((GtkRadioActionEntry *) row.entry)->label;
+          break;
+      default:
+          res = NULL;
+          break;
+  }
+  g_object_unref(row.bindings);
+  return res;
+}
+
 //returns the accel, "" if no accel defined. free the result
 //the accel is the first keybinding of the list
 static gchar *
@@ -912,38 +938,37 @@ keymap_get_accel(keymap *the_keymap, guint command_idx)
   return res;
 }
 
-//do not free the result
-/* deprecated for the time being, may not be useful
-const gchar *
-lookup_label_from_name (keymap *keymap, const gchar *command_name)
+static gint
+findActionGroupByName(gconstpointer a, gconstpointer b)
 {
-  const gchar *res = NULL;
-  KeymapCommand kc;
-  guint command_idx = lookup_index_from_name(keymap, command_name);
-  if (command_idx == -1)
-      return res;
-  kc = g_array_index(keymap->commands, KeymapCommand, command_idx);
-  switch (kc.type) {
-      case KeymapEntry:
-          res = ((GtkActionEntry *) kc.pointer)->label;
-          break;
-      case KeymapToggleEntry:
-          res = ((GtkToggleActionEntry *) kc.pointer)->label;
-          break;
-      case KeymapRadioEntry:
-          res = ((GtkRadioActionEntry *) kc.pointer)->label;
-          break;
-  }
-  return res;
+    GtkActionGroup *action_group = GTK_ACTION_GROUP(a);
+    const gchar * searched_name = (const gchar *) b;
+    return strcmp(gtk_action_group_get_name(action_group), b);
 }
-*/
 
+static GtkActionGroup *
+get_action_group(keymap *the_keymap, DenemoGUI *gui)
+{
+  GList *keymap_action_group, *action_group_list;
+  action_group_list = gtk_ui_manager_get_action_groups(gui->ui_manager);
+  keymap_action_group = g_list_find_custom(action_group_list,
+          the_keymap->action_group_name, findActionGroupByName);
+  return GTK_ACTION_GROUP(keymap_action_group->data);
+}
+
+/* Updates the label of the widgets proxying an action with the bindings
+ * present in the keymap. Updates the labels in all the guis open in the app
+ * (case of multiple windows)
+ */
 static void
 update_accel_labels(keymap *the_keymap, guint command_idx)
 {
-  const gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
-  GtkAction *action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+  GtkAction *action;
+  GtkActionGroup *action_group;
+  GList *guis;
+  DenemoGUI *gui;
   //Getting the accel
+  const gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
   GString *str=g_string_new("");
   //TODO don't use all the bindings as accels
   keymap_foreach_command_binding (the_keymap, command_idx,
@@ -951,7 +976,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   //Prepare the new label
   gchar *base;
   //FIXME use translate_dnm_to_gtk
-  g_object_get(action, "label", &base, NULL);
+  base = lookup_label_from_idx(the_keymap, command_idx);
   gchar *c;
   for(c=str->str;*c;c++) {
       if(*c=='<') *c = ' ';
@@ -959,22 +984,28 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   }
 
   gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
-  //For all widgets proxying the action, change the label
-  GSList *h = gtk_action_get_proxies (action);
-  for(;h;h=h->next) {
-      GtkWidget *widget = h->data;
-      GtkWidget *child = (GtkWidget *)gtk_bin_get_child(GTK_BIN(widget));
-      if(GTK_IS_BUTTON(child)) {
-          child = gtk_bin_get_child(GTK_BIN(child));
-      }
-      //FIXME others?? toolitem ...
-      if(GTK_IS_LABEL(child)) {
-          gtk_label_set_markup(GTK_LABEL(child), markup);
+
+  //For all guis
+  for (guis = Denemo.guis; guis; guis = guis->next) {
+      gui = (DenemoGUI *) (guis->data);
+      action_group = get_action_group(the_keymap, gui);
+      action = gtk_action_group_get_action(action_group, command_name);
+      //For all widgets proxying the action, change the label
+      GSList *h = gtk_action_get_proxies (action);
+      for(;h;h=h->next) {
+          GtkWidget *widget = h->data;
+          GtkWidget *child = (GtkWidget *)gtk_bin_get_child(GTK_BIN(widget));
+          if(GTK_IS_BUTTON(child)) {
+              child = gtk_bin_get_child(GTK_BIN(child));
+          }
+          //FIXME others?? toolitem ...
+          if(GTK_IS_LABEL(child)) {
+              gtk_label_set_markup(GTK_LABEL(child), markup);
+          }
       }
   }
   //free allocated strings                                 
   g_free(markup);
-  g_free(base);
   g_string_free(str, TRUE);
 }
 
@@ -1266,24 +1297,18 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   return TRUE;
 }
 
-static gint
-findActionGroupByName(gconstpointer a, gconstpointer b)
-{
-    GtkActionGroup *action_group = GTK_ACTION_GROUP(a);
-    const gchar * searched_name = (const gchar *) b;
-    return strcmp(gtk_action_group_get_name(action_group), b);
-}
-
 gboolean
 execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
 {
   gboolean res = TRUE;
   const gchar *command_name;
   GtkAction *action;
+  GtkActionGroup *action_group;
   gpointer f;
 
   command_name = lookup_name_from_idx(the_keymap, command_idx);
-  action = gtk_action_group_get_action(the_keymap->action_group, command_name);
+  action_group = get_action_group(the_keymap, gui);
+  action = gtk_action_group_get_action(action_group, command_name);
 #if DEBUG
   //check for the existence of a callback, enables to detect action entries
   //where the callback is lacking
