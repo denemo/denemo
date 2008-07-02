@@ -26,6 +26,35 @@
 #include "exportlilypond.h"
 #include "utils.h"
 
+/*** 
+ * make sure lilypond is in the path defined in the preferences
+ */
+gboolean 
+check_lilypond_path (DenemoGUI * gui){
+  
+  gchar *lilypath = g_find_program_in_path (Denemo.prefs.lilypath->str);
+  if (lilypath == NULL)
+    {
+      /* show a warning dialog */
+      GtkWidget *dialog =
+        gtk_message_dialog_new (GTK_WINDOW (gui->window),
+                                GTK_DIALOG_DESTROY_WITH_PARENT,
+                                GTK_MESSAGE_WARNING,
+                                GTK_BUTTONS_OK,
+                                _("Could not find %s"),
+                                Denemo.prefs.lilypath->str);
+      gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+                                                _("Please edit lilypond path "
+                                                  "in the preferences."));
+      gtk_dialog_run (GTK_DIALOG (dialog));
+
+      /* free the memory and return */
+      gtk_widget_destroy (dialog);
+      return 0;
+    }
+  else
+      return 1;
+}
 
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -56,7 +85,6 @@ void convert_ly(gchar *lilyfile){
 /*   gchar *convert = g_build_filename(dirname, "convert-ly.py");// FIXME memory leaks */
 
 #else
-/** This convert stuff could be made a seperate function **/
   gchar *convert = "convert-ly";
 
   gchar *conv_argv[] = {
@@ -83,68 +111,10 @@ void convert_ly(gchar *lilyfile){
     }
 #endif
 }
- 
-/* Run the LilyPond interpreter on the file (filename).ly
- * putting the PDF output in (filename).pdf
- * start an external PDF viewer on that file.
- * parse first LilyPond error and position the cursor in gui->textview on it
- */
+
 void
-run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
-  GError *err = NULL;
-  gchar *printfile;
-  if (gui->lilycontrol.excerpt == TRUE)
-	printfile = g_strconcat (filename, ".png", NULL);
-  else
-  	printfile = g_strconcat (filename, ".pdf", NULL);
-  
-  FILE *fp = fopen(printfile, "w");
-  if(fp)
-    fclose(fp);
-  else {
-    //FIXME use filename in message
-    warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
-    return;
-  }
-  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-  convert_ly(lilyfile);
-  //pointer to pointer that changes according to *argv[]
+process_lilypond_errors(gchar *lilyfile, DenemoGUI *gui, gchar *errors, gchar *output, GError *err){
 
-  gchar **arguments;
-  if (gui->lilycontrol.excerpt == TRUE){
-	  gchar *argv[] = {
-		    Denemo.prefs.lilypath->str,
-		    "--png",
-		    "-b",
-		    "eps", 
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
-  }
-  else {
-
-	  gchar *argv[] = {
-	       	    Denemo.prefs.lilypath->str,
-		    "--pdf",
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
-  }
-    
-  gchar *output=NULL, *errors=NULL;
-  g_spawn_sync (locatedotdenemo (),		/* dir */
-		arguments, NULL,	/* env */
-		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
-		NULL,		/* user data */
-		&output,		/* stdout */
-		&errors,		/* stderr */
-		NULL, &err);
   gchar *filename_colon = g_strdup_printf("%s%s",lilyfile,":");
   //g_print("filename_colon = %s\n", filename_colon);
   gchar *epoint = NULL;
@@ -184,23 +154,29 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       err = NULL;
     }
 
+}
 
-  if((fp=fopen(printfile, "r"))) {
-    if(getc(fp)==EOF) {
-      g_warning ("Failed to read %s", (gchar *) printfile);
-      warningdialog("Cannot make score, probably errors in lilypond output");
-      fclose(fp);
-      return;
-    }
-  } else
-  {
-    g_warning ("Failed to find %s", (gchar *) printfile);
-    warningdialog("Could not create a pdf - check permissions");
+void
+open_viewer(gchar *filename, DenemoGUI *gui){
+  GError *err = NULL;
+  gchar *printfile;
+  gchar **arguments;
+
+  if (gui->lilycontrol.excerpt == TRUE)
+	printfile = g_strconcat (filename, ".png", NULL);
+  else
+  	printfile = g_strconcat (filename, ".pdf", NULL);
+  
+  FILE *fp = fopen(printfile, "r");
+  if(fp)
+    fclose(fp);
+  else {
+    //FIXME use filename in message
+    //warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
+    g_warning ("Failed to find %s, check permissions", (gchar *) printfile);
     return;
   }
     
-  //gchar **arguments;
-  //g_print("using %s\n", printfile);
   if (gui->lilycontrol.excerpt == TRUE){
   	  gchar *args[] = {
 	    Denemo.prefs.imageviewer->str,
@@ -218,7 +194,6 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
 	  arguments = args;  
   }
 
-
   GPid printpid;//ignored
   g_spawn_async (locatedotdenemo (),		/* dir */
 		 arguments, NULL,	/* env */
@@ -228,17 +203,74 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
 		 NULL, /* FIXME &printpid see g_spawn_close_pid(&printpid) */
 		 &err);
   
-
   if (err != NULL)
     {
       g_warning ("Failed to find %s", Denemo.prefs.pdfviewer->str);
       warningdialog("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
       g_warning ("%s", err->message);
-      g_error_free (err);
       err = NULL;
+      g_error_free (err);
     }
 
   g_free(printfile);
+
+}
+
+void
+run_lilypond(gchar *filename, DenemoGUI *gui){
+  GError *err = NULL;
+  gchar **arguments;
+  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
+  convert_ly(lilyfile);
+
+  if (gui->lilycontrol.excerpt == TRUE){
+	  gchar *argv[] = {
+		    Denemo.prefs.lilypath->str,
+		    "--png",
+		    "-b",
+		    "eps", 
+		    "-o",
+		    filename,
+		    lilyfile,
+		    NULL
+	  };
+	  arguments = argv;
+  }
+  else {
+
+	  gchar *argv[] = {
+	       	    Denemo.prefs.lilypath->str,
+		    "--pdf",
+		    "-o",
+		    filename,
+		    lilyfile,
+		    NULL
+	  };
+	  arguments = argv;
+  }
+    
+  gchar *output=NULL, *errors=NULL;
+  g_spawn_sync (locatedotdenemo (),		/* dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		&output,		/* stdout */
+		&errors,		/* stderr */
+		NULL, &err);
+  
+  process_lilypond_errors(lilyfile, gui, errors, output, err); 
+}
+
+/* Run the LilyPond interpreter on the file (filename).ly
+ * putting the PDF output in (filename).pdf
+ * start an external PDF viewer on that file.
+ * parse first LilyPond error and position the cursor in gui->textview on it
+ */
+void
+run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
+  
+  run_lilypond(filename, gui);
+  open_viewer(filename, gui);
 }
 
 /* returns the base name (~/.denemo/denemoprint usually) used as a base
@@ -352,6 +384,7 @@ printrangedialog(DenemoGUI * gui){
     gui->si->markstaffnum = gui->si->firststaffmarked = 1;
     gui->si->laststaffmarked = g_list_length(gui->si->thescore);
   }
+  
   gtk_widget_destroy (dialog);
 }
 
@@ -389,13 +422,10 @@ printpreview_cb (GtkAction * action, DenemoGUI * gui) {
 void
 printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
   gui->lilycontrol.excerpt = TRUE;
-  if(gui->si->markstaffnum) {
-  
-  } else {
-    printrangedialog(gui);
-
-  }
-  print(gui, FALSE, FALSE);
+  if(!gui->si->markstaffnum) //If no selection has been made 
+    printrangedialog(gui);  //Launch a dialog to get selection
+  if(gui->si->firstmeasuremarked)
+    print(gui, FALSE, FALSE);
   gui->lilycontrol.excerpt = FALSE;
 
 }
@@ -472,28 +502,7 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   gboolean ok;
 
   /* look for lilypond */
-  gchar *lilypath = g_find_program_in_path (Denemo.prefs.lilypath->str);
-  /*** this can replaced with a utility ****/
-  if (lilypath == NULL)
-    {
-      /* show a warning dialog */
-      GtkWidget *dialog =
-        gtk_message_dialog_new (GTK_WINDOW (gui->window),
-                                GTK_DIALOG_DESTROY_WITH_PARENT,
-                                GTK_MESSAGE_WARNING,
-                                GTK_BUTTONS_OK,
-                                _("Could not find %s"),
-                                Denemo.prefs.lilypath->str);
-      gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-                                                _("Please edit lilypond path "
-                                                  "in the preferences."));
-      gtk_dialog_run (GTK_DIALOG (dialog));
-
-      /* free the memory and return */
-      gtk_widget_destroy (dialog);
-      return;
-    }
-
+  check_lilypond_path(gui);
   /* create a temp (and not existing) filepath in .denemo folder */
   do
     {
@@ -529,26 +538,9 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   exportlilypond (mudelafile, gui, TRUE);
 
   /* generate the pdf file */
-  gchar *argv[] =
-    {
-      Denemo.prefs.lilypath->str,
-      "--pdf",
-      "-o",
-      tmpfile,
-      mudelafile,
-      NULL
-    };
-
-  gchar *output=NULL, *errors=NULL;
-  g_spawn_sync (locatedotdenemo (),		/* dir */
-		argv, NULL,	/* env */
-		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
-		NULL,		/* user data */
-		&output,		/* stdout */
-		&errors,		/* stderr */
-		NULL, &err);
-
-  if (err != NULL)
+  run_lilypond(tmpfile, gui);
+    
+  if (0)//(err != NULL)
     {
       g_warning ("%s", err->message);
       g_error_free (err);
