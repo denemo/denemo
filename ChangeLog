@@ -1,3 +1,5 @@
+2008-07-02 <rshann>
+	   file.c do not offer to load lilypond. (You can still try though).
 2008-06-30 <rshann>
 	   commandfuncs.c warn if context set when swapping staffs. view.c document behaviour of swap staffs.
 2008-06-28 <rshann>
