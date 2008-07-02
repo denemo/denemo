@@ -399,6 +399,13 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   if(si->currentstaff==NULL)
     return;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
+
+  gboolean give_info=FALSE;//give info about removing matching context
+  if(interactive && (curstaffstruct->context!=DENEMO_NONE) &&
+     (!confirm("A context is set on this staff", "You will need to alter/delete the matching staff; Proceed?")))
+    return;
+  if(interactive &&  (curstaffstruct->context!=DENEMO_NONE))
+    give_info = TRUE;
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
@@ -431,6 +438,8 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
       si->markstaffnum = 0;
       displayhelper (gui);
   score_status(gui,TRUE);
+  if(give_info)
+    infodialog ("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts.");
   return;
 }	
 
