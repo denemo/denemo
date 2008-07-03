@@ -435,8 +435,10 @@ void NewFindChordTones(GList *list, midicallback *mididata){
 				mididata->chordnotes = g_list_append(mididata->chordnotes, (int *) ((nstack *) list->data)->pitch);			
 			//mididata->chordnotes = g_list_concat(mididata->chordnotes, list);
 	}
+#ifdef DEBUG
 	else 
 		g_printf("\nNo other chord notes\n");	
+#endif
 }
 
 nstack *glist_to_note (GList *tmp) {
