@@ -81,7 +81,7 @@ importMidi (gchar * filename, DenemoGUI * gui)
     
   g_list_foreach(mididata->final_list, addnote, mididata);
   g_free(mididata);
-  ret = 1;
+  ret = 0;
   return ret;
 }
 
