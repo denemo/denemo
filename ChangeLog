@@ -1,3 +1,6 @@
+2008-07-03 <jjbenham>
+	   importmidi.c importMidi now returns 0 on success. It was returning 1 on
+	   Success. 
 2008-07-02 <rshann>
 	   staffops.c Warn about deleting one of a pair of staffs with context set.
 2008-07-02 <rshann>
