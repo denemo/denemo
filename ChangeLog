@@ -1,4 +1,8 @@
 2008-07-05 <rshann>
+	   main.c view.c position init_keymap() so that it can access all widgets. This is just my own
+	   fix as I seem to have checked in the other fixes for multiple windows by mistake & this stops
+	   git being broken for display of keybindings on menu items.
+2008-07-05 <rshann>
 	   audiocapture.c improve test for portaudio >V18
 2008-07-03 <jjbenham>
 	   importmidi.c importMidi now returns 0 on success. It was returning 1 on

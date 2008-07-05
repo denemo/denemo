@@ -1809,13 +1809,14 @@ gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
  */
 void init_keymap()
 {
-     
+  static gboolean initialized = FALSE;
   //TODO we initialize the keymap before the first windowin shown because it has
   //to be once and for all. Does it break something in regards of the next
   //comment?
   /* Similarly, the keymap should be initialized after the
      only once si->window is shown, as it may pop up an advisory
      dialog. */
+  if(!initialized) {
   Denemo.prefs.standard_keymap = allocate_keymap ("MenuActions");
   Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap; 
   register_entry_commands(Denemo.prefs.the_keymap, menu_entries, n_menu_items,
@@ -1827,9 +1828,11 @@ void init_keymap()
   register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
           G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
   end_command_registration(Denemo.prefs.the_keymap);
+  }
   load_default_keymap_file(Denemo.prefs.the_keymap);
- 
-  gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
+  if(!initialized)
+    gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
+  initialized = TRUE;
 }
 
 
@@ -2087,8 +2090,10 @@ get_data_dir (),
 
   /* Now that the window's shown, initialize the gcs */
   gcs_init (gui->window->window);
-
   Denemo.guis = g_list_append (Denemo.guis, gui);
+  /* Set up the keymap if not already set up and adds labels to widgets of this gui */
+  init_keymap();
+
   populate_opened_recent (gui);
 
   if (Denemo.prefs.autosave) {
