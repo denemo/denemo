@@ -1,3 +1,5 @@
+2008-07-05 <rshann>
+	   audiocapture.c improve test for portaudio >V18
 2008-07-03 <jjbenham>
 	   importmidi.c importMidi now returns 0 on success. It was returning 1 on
 	   Success. 
