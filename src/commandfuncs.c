@@ -1459,6 +1459,16 @@ insertclone (DenemoGUI *gui)
     object_insert (gui, dnm_clone_object (curmudelaobj));
 }
 
+
+void tolastobject (DenemoGUI *gui)
+{
+  while (gui->si->currentobject && (gui->si->currentobject->next))
+    {
+      gui->si->currentobject = gui->si->currentobject->next;
+      gui->si->cursor_x++;
+    }
+}
+
 /**
  * Move cursor to the end of the score 
  * @param action - Gtk Action event 
@@ -1472,6 +1482,8 @@ toend (GtkAction * action, DenemoGUI * gui)
     gui->si->rightmeasurenum =
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
+  tolastobject(gui);
+  cursorright(gui);
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
