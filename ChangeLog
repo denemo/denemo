@@ -1,3 +1,5 @@
+2008-07-08 <jjbenham>
+	   importmidi.c/h importmidi now puts notes on correct staves
 2008-07-05 <rshann>
 	   commandfuncs.c make toend() function really go to the end of the movement. (See Nils wishlist item).
 2008-07-05 <rshann>
