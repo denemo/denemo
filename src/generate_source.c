@@ -305,7 +305,8 @@ int main() {
 
   for(i=0;i<n_unmenued_commands;i++) {
     fprintf(callbacks, "/*%s %s*/\n",ni, fi);
-    fprintf(callbacks, "static void %s_cb (GtkAction *a, DenemoGUI *gui) {\n"
+    fprintf(callbacks, "static void %s_cb (GtkAction *a) {\n"
+	    "  DenemoGUI *gui = Denemo.gui;\n"
 	   "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, mi==KBD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
     fprintf(entries,
   "{\"%s\", NULL, N_(\"%s\"), NULL,"
@@ -321,7 +322,8 @@ int main() {
   for(i=0;i<7;i++) {
     /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
     fprintf(callbacks, 
-"static void InsertRest%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"static void InsertRest%d(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  highlight_rest(gui, %d);\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTREST;\n"
@@ -331,7 +333,8 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"static void ChangeRest%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"static void ChangeRest%d(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
 "  if(appending)\n"
@@ -345,7 +348,8 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"void InsertDur%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"void InsertDur%d(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  highlight_duration(gui, %d);\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
@@ -355,7 +359,8 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"static void ChangeDur%d(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"static void ChangeDur%d(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
 "  if(appending)\n"
@@ -371,12 +376,13 @@ int main() {
 
     /* callbacks for mode sensitive  duration actions, Dur0,1,2 ... */
     fprintf(callbacks, 
-	    "static void Dur%d  (GtkWidget *w, DenemoGUI *gui) {\n"
+	    "static void Dur%d  (GtkWidget *w) {\n"
+	    "  DenemoGUI *gui = Denemo.gui;\n"
 	    " if(gui->mode&INPUTINSERT)\n"
 	    "   highlight_duration(gui, %d);\n"
 	    " else \n"
 	    " if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n"
-	    "   ChangeDur%d (w, gui);\n"
+	    "   ChangeDur%d (w);\n"
 	    "else {\n"
 	    " insert_chord_%dkey(gui);\n"
 	    "  score_status(gui, TRUE);\n"
@@ -433,7 +439,8 @@ int main() {
 
   for(i='A';i<='G';i++) {
     fprintf(callbacks,
-"static void ChangeTo%c(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"static void ChangeTo%c(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
 "  if(appending)\n"
 "    cursorleft(gui); \n"
@@ -450,7 +457,8 @@ int main() {
   for(i='A';i<='G';i++) {
 
     fprintf(callbacks,
-"static void Insert%c(GtkWidget *menuitem, DenemoGUI *gui){\n"
+"static void Insert%c(GtkWidget *menuitem){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
 "  go_to_%c_key(gui);\n"

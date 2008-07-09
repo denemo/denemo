@@ -191,9 +191,9 @@ get_placement_from_coordinates (struct placement_info *pi,
  *
  */
 gint
-scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event,
-			  DenemoGUI *gui)
+scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
+  DenemoGUI *gui = Denemo.gui;
     if (gui->si->markstaffnum){
       struct placement_info pi; 
       if (event->y < 0)
@@ -229,9 +229,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event,
  *
  */
 gint
-scorearea_button_press (GtkWidget * widget, GdkEventButton * event,
-			DenemoGUI *gui)
+scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
+DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   
   if (event->y < 0)
@@ -270,9 +270,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event,
  *
  */
 gint
-scorearea_button_release (GtkWidget * widget, GdkEventButton * event,
-			  DenemoGUI *gui)
+scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
+DenemoGUI *gui = Denemo.gui;
   g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   return TRUE;
 }

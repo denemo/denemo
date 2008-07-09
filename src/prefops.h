@@ -20,5 +20,6 @@ GList* get_plugins_list(GList *plugins);
 gint writeXMLPrefs( DenemoPrefs *prefs);
 void writeHistory(void);
 gint readHistory(void);
-
+void storeWindowState (void);
+void loadWindowState (void);
 #endif

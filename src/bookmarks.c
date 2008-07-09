@@ -33,8 +33,9 @@ findbookmark (DenemoGUI * gui, gint bmbar, gint bmstaff)
  *  Uses the current measure and staff
  */
 void
-addbookmark (GtkAction * action, DenemoGUI * gui)
+addbookmark (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   g_assert (gui != NULL);
   DenemoScore *si = gui->si;
   Bookmark *bm = (Bookmark *) g_malloc0 (sizeof (Bookmark));
@@ -50,8 +51,9 @@ addbookmark (GtkAction * action, DenemoGUI * gui)
 
 
 void
-deletebookmarks (GtkAction * action, DenemoGUI * gui)
+deletebookmarks (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GList *g;
   DenemoScore *si = gui->si;
   for(g=si->bookmarks;g;g=g->next) {
@@ -60,8 +62,9 @@ deletebookmarks (GtkAction * action, DenemoGUI * gui)
   si->bookmarks = NULL;
 }
 void
-nextbookmark (GtkAction * action, DenemoGUI * gui)
+nextbookmark (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
  if(gui->si->bookmarks){
    GList *g = g_list_nth(gui->si->bookmarks, gui->si->currentbookmark+1);
    if(g == NULL) {
@@ -75,8 +78,9 @@ nextbookmark (GtkAction * action, DenemoGUI * gui)
  }
 }
 void
-prevbookmark (GtkAction * action, DenemoGUI * gui)
+prevbookmark (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
  if(gui->si->bookmarks){
    GList *g = g_list_nth(gui->si->bookmarks, gui->si->currentbookmark-1);
    if(g == NULL) {
@@ -95,8 +99,9 @@ prevbookmark (GtkAction * action, DenemoGUI * gui)
  *
  */
 void
-gotobookmark (GtkAction * action, DenemoGUI * gui)
+gotobookmark (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   g_assert (gui != NULL);
   if(gui->si->bookmarks==NULL) {
     warningdialog("No bookmarks are present in this movement");
@@ -106,7 +111,7 @@ gotobookmark (GtkAction * action, DenemoGUI * gui)
   GtkWidget *combobox;
   GList *strings = NULL, *tmp;
   dialog = gtk_dialog_new_with_buttons (_("Goto Bookmark"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

@@ -12,7 +12,6 @@
 
 void insertnotehead(DenemoScore *si,gchar *noteheadstring);
 gint texttohead(gchar *text);
-void set_notehead
-(GtkAction *acton, DenemoGUI *gui);
+void set_notehead (GtkAction *acton);
 
 #endif

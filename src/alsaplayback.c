@@ -50,9 +50,9 @@ close_seq ()
 
 
 void
-alsaplayback (GtkAction * action, DenemoGUI * gui)
+alsaplayback (GtkAction * action)
 {
-
+  DenemoGUI *gui = Denemo.gui;
 
   snd_seq_event_t ev;
 

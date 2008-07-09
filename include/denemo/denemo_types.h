@@ -419,18 +419,6 @@ typedef struct DenemoScoreblock {
   gboolean visible;/**< Whether the scoreblock should be used by default */
 } DenemoScoreblock;
 
-/** 
- * The (singleton) root object for the program
- *
- */
-struct DenemoRoot
-{
-  GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
-		  simultaneously open */
-  DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
-  gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
-  gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
-}  Denemo; /**< The root object. */
 
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
@@ -541,33 +529,22 @@ typedef struct DenemoScore
  */
 typedef struct DenemoGUI
 {
-  /* window state */
-  gint width;
-  gint height;
-  gboolean maximized;
+
   /* Fields used fairly directly for drawing */
-  GtkWidget *window;
+  GtkWidget *page;
   GtkWidget *scorearea;
   GdkPixmap *pixmap;
   GtkObject *vadjustment;
   GtkWidget *vscrollbar;
   GtkObject *hadjustment;
   GtkWidget *hscrollbar;
-  GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
-  GtkWidget *ClassicModeMenu;/**< Menu to give the note editing facilities in Classic mode */
-  GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */
-  GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
-  GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
 
-
-  GtkWidget *statusbar;
-  gint status_context_id;
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   GtkTextView *textview; /**< LilyPond output text view */
-
+  gchar *namespec;/**< A spec of which parts/movements to print */
   
-  GtkUIManager *ui_manager;  /**< UI manager */
+
   GList *plugins;
   gint plugincounter;
 
@@ -599,7 +576,7 @@ typedef struct DenemoGUI
   GList *rhythms;/**< list of RhythmPattern s */
   GList *currhythm; /**< currently in use element of rhythms */
   GList *rstep; /**< step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
-  struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar of this GUI */
+
   struct RhythmPattern *prevailing_rhythm; /**< one of singleton_rhythms used for entering notes */
 }DenemoGUI;
 
@@ -612,7 +589,6 @@ typedef struct RhythmPattern
 {
   GList *rsteps; /**< the data are RhythmElements */
   GtkToolButton *button; /**< the button on the rhythm toolbar which invokes this rhythm */
-  DenemoGUI *gui;
 } RhythmPattern;
 
 
@@ -640,3 +616,32 @@ struct cs_callback
 };
 
 static gchar* ext_pidfiles[] = {"midiplayer.pid", "csoundplayer.pid", NULL};
+
+/** 
+ * The (singleton) root object for the program
+ *
+ */
+struct DenemoRoot
+{
+  /* window state */
+  gint width;
+  gint height;
+  gboolean maximized;
+  GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
+		  simultaneously open */
+  DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
+  gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
+  gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
+  GtkUIManager *ui_manager;  /**< UI manager */
+  GtkWidget *window;
+  DenemoGUI *gui; /**< The current gui */
+  GtkWidget *notebook;/**< contains the gui.page widgets */
+  GtkWidget *statusbar;
+  gint status_context_id;
+  GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
+  GtkWidget *ClassicModeMenu;/**< Menu to give the note editing facilities in Classic mode */
+  GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */
+  GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
+  GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
+  struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
+}  Denemo; /**< The root object. */

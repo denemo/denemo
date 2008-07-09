@@ -36,14 +36,14 @@ measureright (DenemoGUI  *gui);
 
 
 gboolean
-swapstaffs (GtkAction *action, DenemoGUI  *gui);
+swapstaffs (GtkAction *action);
 gboolean
-splitstaffs (GtkAction *action, DenemoGUI  *gui);
+splitstaffs (GtkAction *action);
 gboolean
-joinstaffs (GtkAction *action, DenemoGUI  *gui);
+joinstaffs (GtkAction *action);
 
 gboolean
-swapmovements (GtkAction *action, DenemoGUI  *gui);
+swapmovements (GtkAction *action);
 
 gboolean
 staffup (DenemoGUI  *gui);
@@ -98,10 +98,10 @@ void
 insertclone (DenemoGUI  *gui);
 
 void
-toend (GtkAction *action, DenemoGUI  *gui);
+toend (GtkAction *action);
 
 void
-tohome (GtkAction *action, DenemoGUI  *gui);
+tohome (GtkAction *action);
 
 
 void
@@ -111,7 +111,7 @@ void
 object_insert (DenemoGUI  *gui, DenemoObject *mudela_obj_new);
 
 void
-stem_directive_insert (GtkAction *action, DenemoGUI *gui);
+stem_directive_insert (GtkAction *action);
 
 void
 toggle_begin_slur (DenemoGUI *gui);
@@ -144,9 +144,9 @@ gboolean auto_save_document_timeout(DenemoGUI *gui);
 
 
 
-void delete_staff_current(GtkAction *action,DenemoGUI *gui);
-void delete_staff_before(GtkAction *action, DenemoGUI *gui);
-void delete_staff_after(GtkAction *action, DenemoGUI *gui);
+void delete_staff_current(GtkAction *action);
+void delete_staff_before(GtkAction *action);
+void delete_staff_after(GtkAction *action);
 
 void
 appendmeasurestoentirescore(DenemoScore *si, gint number);

@@ -84,9 +84,9 @@ set_preferences (struct callbackdata *cbdata)
 
 
 void
-playback_properties_change (GtkAction * action, DenemoGUI * gui)
+playback_properties_change (GtkAction * action)
 {
-
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *table;
@@ -114,7 +114,7 @@ playback_properties_change (GtkAction * action, DenemoGUI * gui)
   static struct cs_callback csdata;	/* for csound file selection */
 
   dialog = gtk_dialog_new_with_buttons (_("Playback properties"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

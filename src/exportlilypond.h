@@ -18,13 +18,13 @@ void export_lilypond_part(char *filename, DenemoGUI *gui, gboolean all_movements
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/
 gchar *generate_lily (objnode *obj);
-void create_lilywindow(DenemoGUI *gui);
 
-void toggle_lily_visible_cb (GtkAction *action, DenemoGUI *gui);
 
-void custom_lily_cb (GtkAction *action, DenemoGUI *gui);
+void toggle_lily_visible_cb (GtkAction *action);
 
-void delete_lily_cb (GtkAction *action, DenemoGUI *gui);
+void custom_lily_cb (GtkAction *action);
+
+void delete_lily_cb (GtkAction *action);
 void set_lily_error(gint line, gint column, DenemoGUI *gui);
 void highlight_lily_error(DenemoGUI *gui);
 #endif

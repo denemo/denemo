@@ -336,7 +336,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 
   if (action)
     {
-      gui = (DenemoGUI *) callback_data;
+      gui = Denemo.gui;
       si = gui->si;
       staffstruct = (DenemoStaff *) si->currentstaff->data;
       if(action && staffstruct->staff_prolog && staffstruct->staff_prolog->len) {

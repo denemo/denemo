@@ -11,33 +11,33 @@
 gboolean confirmbox (DenemoGUI *gui);
 
 void 
-file_savepartswrapper(GtkAction *action, DenemoGUI *gui);
+file_savepartswrapper(GtkAction *action);
 
 void
-file_open_with_check (GtkAction *action, DenemoGUI *gui);
+file_open_with_check (GtkAction *action);
 
 void
-file_add_staffs (GtkAction *action, DenemoGUI *gui);
+file_add_staffs (GtkAction *action);
 
 void
-file_add_movements (GtkAction *action, DenemoGUI *gui);
+file_add_movements (GtkAction *action);
 
 void
-system_template_open_with_check (GtkAction *action, DenemoGUI *gui);
+system_template_open_with_check (GtkAction *action);
 void
-system_example_open_with_check (GtkAction *action, DenemoGUI *gui);
+system_example_open_with_check (GtkAction *action);
 
 void
-local_template_open_with_check (GtkAction *action, DenemoGUI *gui);
+local_template_open_with_check (GtkAction *action);
 
 void
-file_savewrapper (GtkAction *action, DenemoGUI *gui);
+file_savewrapper (GtkAction *action);
 
 void
-file_saveaswrapper (GtkAction *action, DenemoGUI *gui);
+file_saveaswrapper (GtkAction *action);
 
 void
-file_newwrapper (GtkAction *action, DenemoGUI *gui);
+file_newwrapper (GtkAction *action);
 
 gint
 open_for_real (gchar *filename, DenemoGUI *gui, gboolean as_template, ImportType type);
@@ -51,7 +51,7 @@ void
 file_saveas (DenemoGUI *gui, gboolean as_template);
 
 void
-template_save (GtkAction * action, DenemoGUI * gui);
+template_save (GtkAction * action);
 
 void
 reload_lily_file (GtkWidget * widget, gpointer data);

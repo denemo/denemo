@@ -17,10 +17,9 @@
  */
 
 int
-scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event,
-			  gpointer data)
+scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  DenemoGUI *gui = (DenemoGUI *) data;
+  DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.prefs.the_keymap;
 #if 0
   if (gui->textview && GTK_WIDGET_IS_SENSITIVE (gui->textview))
@@ -233,7 +232,7 @@ default_mode (DenemoGUI * gui)
 {
   gui->mode ^= TRAVERSE;
   if(gui->mode & TRAVERSE)
-    gtk_statusbar_push (GTK_STATUSBAR (gui->statusbar), gui->status_context_id,
+    gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 			"Read Only");
   g_print ("Mode %d\n", gui->mode);
   displayhelper (gui);
@@ -249,7 +248,7 @@ default_mode (DenemoGUI * gui)
 void
 rest_toggle_key (DenemoGUI * gui)
 {
-GtkAction *mode = gtk_ui_manager_get_action (gui->ui_manager, "/MainMenu/EntryMenu/Rest");
+GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EntryMenu/Rest");
   gtk_action_activate(mode);
 
 }
@@ -261,7 +260,7 @@ GtkAction *mode = gtk_ui_manager_get_action (gui->ui_manager, "/MainMenu/EntryMe
 void
 toggle_blank (DenemoGUI * gui)
 {
-GtkAction *mode = gtk_ui_manager_get_action (gui->ui_manager, "/MainMenu/EntryMenu/Blank");
+GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EntryMenu/Blank");
   gtk_action_activate(mode);
 }
 

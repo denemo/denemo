@@ -43,7 +43,7 @@ NO WARRANTY; see the file COPYING for details."));
 
 
   gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (dialog), authors);
-  gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(gui->window));
+  gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_dialog_run(GTK_DIALOG(dialog));
   gtk_widget_destroy(dialog);
 }
@@ -54,8 +54,9 @@ NO WARRANTY; see the file COPYING for details."));
  * uses the given web browser to display the manual
  */
 void
-browse_manual (GtkAction * action, DenemoGUI * gui)
+browse_manual (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   gboolean retval;
   GError *error = NULL;
 
@@ -70,7 +71,7 @@ browse_manual (GtkAction * action, DenemoGUI * gui)
     {
       /* show a warning dialog */
       GtkWidget *dialog =
-        gtk_message_dialog_new (GTK_WINDOW (gui->window),
+        gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_WARNING,
                                 GTK_BUTTONS_OK,

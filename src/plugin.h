@@ -13,11 +13,11 @@
 void
 init_plugins(DenemoGUI *gui);
 void 
-load_plugin(GtkAction *action, DenemoGUI *gui);
-void list_loaded_plugins(GtkAction *action, DenemoGUI *gui);
-void list_available_plugins(GtkAction *action, DenemoGUI *gui);
-void unloadplugins(GtkAction *action, DenemoGUI *gui);
-void denemo_plugin_init (const gchar * name, DenemoGUI *gui);
-gint denemo_plugin_cleanup(const gchar *name, DenemoGUI *gui);
+load_plugin(GtkAction *action);
+void list_loaded_plugins(GtkAction *action);
+void list_available_plugins(GtkAction *action);
+void unloadplugins(GtkAction *action);
+void denemo_plugin_init (const gchar * name, DenemoGUI * gui);
+gint denemo_plugin_cleanup(const gchar *name, DenemoGUI * gui);
 char *stripname (char *d_name);
 #endif /* _PLUGIN_H */

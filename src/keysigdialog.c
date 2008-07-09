@@ -285,8 +285,9 @@ modedialog (GtkWidget * widget, struct modedata *mdata)
  *  calls key_change with the INSERT argument
  */
 void
-key_change_insert (GtkAction * action, DenemoGUI * gui)
+key_change_insert (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   key_change (gui, INSERT);
 }
 
@@ -295,8 +296,9 @@ key_change_insert (GtkAction * action, DenemoGUI * gui)
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
-key_change_initial (GtkAction * action, DenemoGUI * gui)
+key_change_initial (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   key_change (gui, CHANGEINITIAL);
 }
 
@@ -354,7 +356,7 @@ key_change (DenemoGUI * gui, actiontype action)
 */
   /* GUI setup */
   dialog = gtk_dialog_new_with_buttons (_("Key Signature Change"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) 
 					(GTK_DIALOG_MODAL |
 					 GTK_DIALOG_DESTROY_WITH_PARENT),

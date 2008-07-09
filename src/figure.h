@@ -12,7 +12,7 @@
 void 
 insertfigure(GtkWidget *widget, gpointer data);
 void 
-figure_insert(GtkAction *action, DenemoGUI *gui);
+figure_insert(GtkAction *action);
 DenemoObject *
 newfigure (gint baseduration, gint numdots, gchar *figs);
 

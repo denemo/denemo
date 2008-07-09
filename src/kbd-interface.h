@@ -8,10 +8,9 @@
 #define KBDINTERFACE_H
 
 void
-configure_keyboard_dialog (GtkAction *action ,DenemoGUI *gui);
+configure_keyboard_dialog (GtkAction *action);
 
-void
-configure_keyboard_dialog_OLD (GtkAction *action, DenemoGUI *gui);
+
 
 
 #endif

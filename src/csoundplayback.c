@@ -39,8 +39,9 @@ void selorcfile (GtkWidget * widget, gpointer data);
  */
 
 void
-csoundplayback (GtkAction * action, DenemoGUI * gui)
+csoundplayback (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
 #ifdef G_OS_WIN32
   g_print ("csound playback is currently not working on windows...\n");
 #else /* not G_OS_WIN32 */
@@ -133,9 +134,9 @@ csoundplayback (GtkAction * action, DenemoGUI * gui)
 }
 
 void
-dnm_csoundplayback (GtkAction * action, DenemoGUI * gui)
+dnm_csoundplayback (GtkAction * action)
 {
-	csoundplayback (action, gui);	
+	csoundplayback (action);	
 }
 /**
  * Select the csound orchestra to use during playback

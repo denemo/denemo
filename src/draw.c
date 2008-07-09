@@ -39,9 +39,9 @@
  * the display, and returns 
  */
 gint
-scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event,
-			   DenemoGUI * gui)
+scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
+  DenemoGUI *gui = Denemo.gui;
   /* Create a new backing pixmap of the appropriate size */
   if (gui->pixmap)
     gdk_pixmap_unref (gui->pixmap);
@@ -746,10 +746,10 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
  */
 
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event,
-			gpointer data)
+scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
-  DenemoGUI *gui = (DenemoGUI *) data;
+
+DenemoGUI *gui = Denemo.gui;
   do{
   /* Clear the backing pixmap */
   if(pitch_entry_active(gui)) {

@@ -64,8 +64,9 @@ insert_it (GtkWidget * widget, gpointer data)
 
 
 void
-insert_dynamic (GtkAction * action, DenemoGUI * gui)
+insert_dynamic (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   int i;
   static struct callbackdata cbdata;
   GtkWidget *dialog;

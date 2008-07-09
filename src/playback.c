@@ -55,8 +55,9 @@ static gint kill_timer(void){
  * if action==NULL stop the playback
  */
 void
-ext_midi_playback (GtkAction * action, DenemoGUI * gui)
+ext_midi_playback (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   FILE *fp;
   int got, ok;
   GError *err = NULL;
@@ -77,7 +78,7 @@ ext_midi_playback (GtkAction * action, DenemoGUI * gui)
     {
       /* show a warning dialog */
       GtkWidget *dialog =
-        gtk_message_dialog_new (GTK_WINDOW (gui->window),
+        gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_WARNING,
                                 GTK_BUTTONS_OK,
@@ -174,8 +175,8 @@ ext_midi_playback (GtkAction * action, DenemoGUI * gui)
 }
 
 
-void stop_midi_playback (GtkAction * action, DenemoGUI * gui) {
-  ext_midi_playback (NULL, gui);
+void stop_midi_playback (GtkAction * action) {
+  ext_midi_playback (action);
   kill_timer();
 }
 

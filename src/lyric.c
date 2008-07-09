@@ -98,8 +98,9 @@ insertlyric (gpointer data)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-lyric_insert (GtkAction * action, DenemoGUI * gui)
+lyric_insert (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *entry;
   GtkWidget *label;
@@ -114,7 +115,7 @@ lyric_insert (GtkAction * action, DenemoGUI * gui)
   DenemoObject *curObj = (DenemoObject *)
     (si->currentobject ? si->currentobject->data : NULL);
   dialog = gtk_dialog_new_with_buttons (_("Insert Lyric"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

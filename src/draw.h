@@ -9,15 +9,8 @@
 #include <denemo/denemo.h> 
 
 gint
-scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event,
-			    DenemoGUI *si);
+scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event);
 
 gint
-scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event,
-			gpointer data);
+scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event);
 
-void
-draw_measures (GtkWidget * widget, DenemoGUI *si);
-
-void
-display_string (gchar *str,  DenemoGUI *si);

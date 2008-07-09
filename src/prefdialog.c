@@ -148,8 +148,9 @@ set_preferences (struct callbackdata *cbdata)
 }
 
 void
-preferences_change (GtkAction * action, DenemoGUI * gui)
+preferences_change (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *table;
@@ -180,7 +181,7 @@ preferences_change (GtkAction * action, DenemoGUI * gui)
   g_assert (gui != NULL);
 
   dialog = gtk_dialog_new_with_buttons (_("Preferences - Denemo"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

@@ -614,8 +614,8 @@ void  set_title_bar(DenemoGUI *gui) {
     title = gui->filename->str;
   else
     title = "(Untitled)";
-  title = g_strdup_printf("Denemo - %s%c", title, gui->changecount?'*':' ');   
-  gtk_window_set_title (GTK_WINDOW (gui->window), title);
+  title = g_strdup_printf("Denemo - %s%c", title, gui->changecount?'*':' ');  
+  gtk_notebook_set_tab_label_text (Denemo.notebook, gui->page, title); 
   g_free(title);
 }
 
@@ -695,7 +695,7 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 	entry = gtk_entry_new ();
 
 	dialog = gtk_dialog_new_with_buttons (wlabel,
-                                        GTK_WINDOW (gui->window),
+                                        GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
                                                        GTK_DIALOG_DESTROY_WITH_PARENT),
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

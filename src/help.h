@@ -5,9 +5,8 @@
  * (c) 2000-2005 Matthew Hiller
  */
 
-void about (GtkAction *action, gpointer callback_data);
+void about (GtkAction *action);
 
-void keybindings (gpointer callback_data,
-		  guint callback_action, GtkWidget * widget);
+
 void
-browse_manual (GtkAction * action, gpointer data);
+browse_manual (GtkAction * action);

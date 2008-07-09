@@ -38,8 +38,9 @@ gboolean abandon_editprops_custom_scoreblock(DenemoGUI *gui) {
  * Create and run a modal score properties dialog.
  */
 void
-score_properties_dialog (GtkAction * action, DenemoGUI * gui)
+score_properties_dialog (GtkAction *Action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if(abandon_editprops_custom_scoreblock(gui))
     return;
   GtkWidget *dialog;
@@ -59,7 +60,7 @@ score_properties_dialog (GtkAction * action, DenemoGUI * gui)
   g_assert (si != NULL);
 
   dialog = gtk_dialog_new_with_buttons (_("Score properties"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -228,8 +229,9 @@ ASSIGN(extra);
  *
  */
 void
-movement_props_dialog (GtkAction * action, DenemoGUI * gui)
+movement_props_dialog (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
 if(abandon_editprops_custom_scoreblock(gui))
     return;
 
@@ -239,7 +241,7 @@ if(abandon_editprops_custom_scoreblock(gui))
   static struct callbackdata cbdata;
   cbdata.gui = gui;
   dialog = gtk_dialog_new_with_buttons (_("Edit Properties of Movement"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

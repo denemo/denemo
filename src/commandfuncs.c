@@ -311,8 +311,9 @@ measureright (DenemoGUI * gui)
  *
  */
 gboolean
-swapmovements (GtkAction *action, DenemoGUI * gui)
+swapmovements (GtkAction *action)
 {
+  DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   GList *this = g_list_find( gui->movements, gui->si);
@@ -341,8 +342,9 @@ swapmovements (GtkAction *action, DenemoGUI * gui)
  *
  */
 gboolean
-swapstaffs (GtkAction *action, DenemoGUI * gui)
+swapstaffs (GtkAction *action)
 {
+  DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
@@ -373,8 +375,9 @@ swapstaffs (GtkAction *action, DenemoGUI * gui)
  *
  */
 gboolean
-splitstaffs (GtkAction *action, DenemoGUI * gui)
+splitstaffs (GtkAction *action)
 {
+  DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   if (gui->si->currentstaff && gui->si->currentstaff->next)
@@ -402,8 +405,9 @@ splitstaffs (GtkAction *action, DenemoGUI * gui)
  *
  */
 gboolean
-joinstaffs (GtkAction *action, DenemoGUI * gui)
+joinstaffs (GtkAction *action)
 {
+  DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
@@ -1168,8 +1172,9 @@ appendmeasurestoentirescore (DenemoScore * si, gint number)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_before (GtkAction * action, DenemoGUI * gui)
+delete_staff_before (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   if (staffup(gui)) {
     deletestaff (gui, TRUE);
@@ -1183,8 +1188,9 @@ delete_staff_before (GtkAction * action, DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_after (GtkAction * action, DenemoGUI * gui)
+delete_staff_after (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   if (staffdown(gui)) {
     deletestaff (gui, TRUE);
@@ -1198,8 +1204,9 @@ delete_staff_after (GtkAction * action, DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_current (GtkAction * action, DenemoGUI * gui)
+delete_staff_current (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   deletestaff (gui, TRUE);
 }
@@ -1476,8 +1483,9 @@ void tolastobject (DenemoGUI *gui)
  * @return none
  */
 void
-toend (GtkAction * action, DenemoGUI * gui)
+toend (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum =
     gui->si->rightmeasurenum =
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
@@ -1496,8 +1504,9 @@ toend (GtkAction * action, DenemoGUI * gui)
  * @return none
 */
 void
-tohome (GtkAction * action, DenemoGUI * gui)
+tohome (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
   set_rightmeasurenum (gui->si);
   setcurrents (gui->si);
@@ -1517,8 +1526,9 @@ tohome (GtkAction * action, DenemoGUI * gui)
  * @return none
  */
 void
-stem_directive_insert (GtkAction * action, DenemoGUI * gui)
+stem_directive_insert (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   object_insert (gui, dnm_stem_directive_new (DENEMO_STEMBOTH));
   /* This sets beams and stem directions in the measure, but that's
    * not sufficient */

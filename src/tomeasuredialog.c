@@ -18,8 +18,9 @@
 #include "utils.h"
 
 void
-tomeasurenum (GtkAction * action, DenemoGUI * gui)
+tomeasurenum (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *box;
@@ -27,7 +28,7 @@ tomeasurenum (GtkAction * action, DenemoGUI * gui)
   static gint last_measure = 1;
 
   dialog = gtk_dialog_new_with_buttons (_("Go to measure"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

@@ -5,7 +5,7 @@
 #ifdef HAVEALSA
 
 #include <alsa/asoundlib.h>
-void alsaplayback(GtkAction *action, DenemoGUI *gui);
+void alsaplayback(GtkAction *action);
 int open_seq();
 int close_seq();
 #endif

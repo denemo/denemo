@@ -13,11 +13,11 @@
 
 
 void
-lily_directive_postfix (GtkAction * action, DenemoGUI *gui);
+lily_directive_postfix (GtkAction * action);
 void
-lily_directive_insert (GtkAction * action, DenemoGUI *gui);
+lily_directive_insert (GtkAction * action);
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
-void myactivate (GtkAction * action, DenemoGUI *gui);
+void myactivate (GtkAction * action);
 #endif
 #endif

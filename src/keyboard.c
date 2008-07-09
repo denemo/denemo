@@ -329,7 +329,7 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
 	
 	if(name) {
 	  gchar *str = g_strdup_printf("%s%s%s", path, "/", name);
-	  GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, str); 
+	  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str); 
 	  if(widget) {
 	    g_object_set_data(G_OBJECT(widget), "menupath", str);
 	    //show_type(widget, "The type is ");
@@ -345,7 +345,7 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
 	gchar *name = (gchar *) xmlGetProp (rootElem, (xmlChar *) "action");
        if(name) {
 	  gchar *str = g_strdup_printf("%s%s%s", path, "/", name);
-	  GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, str);
+	  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str);
 	  g_free(str);
 	  //show_type(widget, "The type is ");
 	  //g_print("set %p %s\n",widget, path);
