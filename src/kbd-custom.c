@@ -960,7 +960,7 @@ get_action_group(keymap *the_keymap, DenemoGUI *gui)
  * present in the keymap. Updates the labels in all the guis open in the app
  * (case of multiple windows)
  */
-static void
+void
 update_accel_labels(keymap *the_keymap, guint command_idx)
 {
   GtkAction *action;

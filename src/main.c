@@ -499,7 +499,9 @@ COPYING for details.\n\n");
   initprefs();
   /* read history file */
   readHistory();
-
+  /* Set up the keymap */
+  init_keymap();
+  
   /* create the first window */
   newview ();
 

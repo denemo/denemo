@@ -187,4 +187,6 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
 		gboolean path_currently_selected,
 		gpointer data);
 
+void
+update_accel_labels(keymap *the_keymap, guint command_idx);
 #endif
