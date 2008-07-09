@@ -18,7 +18,8 @@ typedef struct nstack
 	gint pitch;
    	gint measure;
      	gint timeon;
-     	gint duration;  
+     	gint duration; 
+        gint staffnum;	
 }nstack;
 
 typedef struct midicallback
@@ -35,6 +36,7 @@ typedef struct midicallback
 	gint lastoff;
 	gint trackplus;
 	gint key;
+	gint track;
 }midicallback;
 
 typedef struct harmonic
