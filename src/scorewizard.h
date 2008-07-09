@@ -114,7 +114,7 @@ typedef struct wizarddata
 
 
 
-void scorewizard(GtkAction *action, DenemoGUI *gui);
+void scorewizard(GtkAction *action);
 void setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui);
 void applyheader_settings(headersetupcb *hsetup, DenemoGUI *gui);
 papersetupcb *papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook); /* isnotebook should defaults to TRUE */

@@ -183,8 +183,8 @@ static temperament *PR_temperament; /* the currently used temperament */
 static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman};
 
 static void switch_back_to_main_window(void) {
-  if(PR_gui)
-    gtk_window_present(GTK_WINDOW(PR_gui->window));
+
+    gtk_window_present(GTK_WINDOW(Denemo.window));
 }
 
 
@@ -486,7 +486,8 @@ static void clear_tone_store(GtkButton *button, DenemoGUI *gui) {
   if(PR_gui)
     switch_back_to_main_window();
 }
-void clear_overlay(GtkAction *action, DenemoGUI *gui) {
+void clear_overlay(GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   clear_tone_store(NULL, gui);
 }
 
@@ -750,7 +751,7 @@ int stop_pitch_recognition(void) {
 static gboolean stop_pitch_recognition_callback(GtkWidget *unused, DenemoGUI *gui){
 if(PR_gui==NULL)
     return FALSE;
-GtkWidget * widget = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar/TogglePitchRecognition");
+GtkWidget * widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar/TogglePitchRecognition");
  PR_window=NULL;
  gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON(widget),  FALSE);
  clear_tone_store(NULL, gui);
@@ -789,7 +790,7 @@ static void change_timer_rate(GtkSpinButton *widget, DenemoGUI *gui){
   // toggle PR_insert to show where the notes detected should go, and start correct entry mode
 static void toggle_insert(GtkButton *button, DenemoGUI *gui) {
   GtkAction *action;
-  action = gtk_ui_manager_get_action (gui->ui_manager, PR_insert?"/MainMenu/EntryMenu/EditMode": "/MainMenu/EntryMenu/InsertMode");
+  action = gtk_ui_manager_get_action (Denemo.ui_manager, PR_insert?"/MainMenu/EntryMenu/EditMode": "/MainMenu/EntryMenu/InsertMode");
   gtk_action_activate(action);
   PR_insert = !PR_insert;
   switch_back_to_main_window();

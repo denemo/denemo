@@ -474,7 +474,8 @@ template_open (DenemoGUI * gui, TemplateType local)
  * Open system template file callback function 
  */
 void
-system_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
+system_template_open_with_check (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
       if (confirmbox (gui))
@@ -492,7 +493,8 @@ system_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
  * Open system template file callback function 
  */
 void
-system_example_open_with_check (GtkAction * action, DenemoGUI * gui) {
+system_example_open_with_check (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
       if (confirmbox (gui))
@@ -509,7 +511,8 @@ system_example_open_with_check (GtkAction * action, DenemoGUI * gui) {
  * Open local template file callback function 
  */
 void
-local_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
+local_template_open_with_check (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
       if (confirmbox (gui))
@@ -530,8 +533,9 @@ local_template_open_with_check (GtkAction * action, DenemoGUI * gui) {
  * otherwise opens the file
  */
 void
-file_open_with_check (GtkAction * action, DenemoGUI * gui)
+file_open_with_check (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
       if (confirmbox (gui))
@@ -551,7 +555,8 @@ file_open_with_check (GtkAction * action, DenemoGUI * gui)
  * 
  */
 void
-file_add_movements(GtkAction * action, DenemoGUI * gui){
+file_add_movements(GtkAction * action){
+  DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   file_open(gui, FALSE, ADD_MOVEMENTS);
@@ -562,7 +567,8 @@ file_add_movements(GtkAction * action, DenemoGUI * gui){
  * 
  */
 void
-file_add_staffs(GtkAction * action, DenemoGUI * gui){
+file_add_staffs(GtkAction * action){
+  DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
   file_open(gui, FALSE, ADD_STAFFS);
@@ -605,7 +611,7 @@ file_open (DenemoGUI * gui, gboolean template, ImportType type)
   int i;
 
   file_selection = gtk_file_chooser_dialog_new (_("Open"),
-						GTK_WINDOW (gui->window),
+						GTK_WINDOW (Denemo.window),
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						GTK_STOCK_CANCEL,
 						GTK_RESPONSE_REJECT,
@@ -652,8 +658,9 @@ file_open (DenemoGUI * gui, gboolean template, ImportType type)
  * saved.
  */
 void
-file_saveaswrapper (GtkAction * action, DenemoGUI * gui)
+file_saveaswrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   file_saveas (gui, FALSE);
 }
 
@@ -661,8 +668,9 @@ file_saveaswrapper (GtkAction * action, DenemoGUI * gui)
  * Wrapper function to save the current file as template
  */
 void
-template_save (GtkAction * action, DenemoGUI * gui)
+template_save (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   init_local_path();
   default_template_path = local_template_path;
   file_saveas (gui, TRUE);
@@ -677,8 +685,9 @@ template_save (GtkAction * action, DenemoGUI * gui)
  *
  */
 void
-file_savewrapper (GtkAction * action, DenemoGUI * gui)
+file_savewrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   file_save (NULL, gui);
 }
 
@@ -760,7 +769,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
 
 
   file_selection = gtk_file_chooser_dialog_new (_("Save As"),
-						GTK_WINDOW (gui->window),
+						GTK_WINDOW (Denemo.window),
 						GTK_FILE_CHOOSER_ACTION_SAVE,
 						GTK_STOCK_CANCEL,
 						GTK_RESPONSE_REJECT,
@@ -826,7 +835,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
 
 
 	  if (replace_existing_file_dialog
-	      (file_name, GTK_WINDOW (gui->window), format_id))
+	      (file_name, GTK_WINDOW (Denemo.window), format_id))
 	    {
 	      filesel_save (gui, file_name, format_id, template);
 	      close = TRUE;
@@ -849,8 +858,9 @@ file_saveas (DenemoGUI * gui, gboolean template)
  *
  */
 void
-file_newwrapper (GtkAction * action, DenemoGUI * gui)
+file_newwrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
       if (confirmbox (gui))
@@ -982,8 +992,9 @@ replace_existing_file_dialog (const gchar * filename,
  * Save parts to individual files
  */
 void
-file_savepartswrapper (GtkAction * action, DenemoGUI * gui)
+file_savepartswrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if (gui->filename->len==0)
     {
       file_saveas (gui, FALSE);

@@ -50,7 +50,7 @@ DenemoObject * dnm_newchord (gint baseduration, gint numdots, int tied);
 measurenode * dnm_addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all);
 /* create one DenemoObject of type not known to denemo otherwise 
 *  no object is associated. */
-void dnm_csoundplayback (GtkAction * action, DenemoGUI * gui);
+void dnm_csoundplayback (GtkAction * action);
 void dnm_chooseorcfile (GtkWidget * widget, struct cs_callback *data);
 
 gchar *

@@ -188,13 +188,13 @@ set_articulation (gchar * string, DenemoObject * obj)
  * @return none
  */
 static void
-insert_artic_cb (GtkWidget * widget, DenemoGUI * si)
+insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
 {
   DenemoObject *mudelaobj;
   gchar *tmp;
   gchar *articulation;
 
-  g_assert (si != NULL);
+  g_assert (gui != NULL);
 
   tmp =
     g_strdup ((gchar *)
@@ -217,15 +217,15 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * si)
     }
 
   mudelaobj = (DenemoObject *)
-    (si->si->currentobject ? si->si->currentobject->data : NULL);
+    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
 
   if (mudelaobj)
     {
       set_articulation (articulation, mudelaobj);
     }
 
-  gtk_widget_queue_draw (si->scorearea);
-  gtk_widget_grab_focus (si->window);
+  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_grab_focus (Denemo.window);
   g_free (tmp);
 }
 
@@ -411,7 +411,7 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
 
   if (gui->articulation_palette)
     {
-      toggle_palette = gtk_ui_manager_get_widget (gui->ui_manager,
+      toggle_palette = gtk_ui_manager_get_widget (Denemo.ui_manager,
 						  "/MainMenu/ViewMenu/ToggleArticulationPalette");
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle_palette),
 				      FALSE);
@@ -426,8 +426,9 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
  * @return none
  */
 void
-toggle_articulation_palette (GtkAction * action, DenemoGUI * gui)
+toggle_articulation_palette (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *window;
   GtkWidget *vbox;
 
@@ -456,7 +457,7 @@ toggle_articulation_palette (GtkAction * action, DenemoGUI * gui)
   gtk_window_set_title (GTK_WINDOW (window), _("Articulation"));
   gtk_window_set_focus_on_map (GTK_WINDOW (window), FALSE);
   //GTK_WIDGET_UNSET_FLAGS(window, GTK_CAN_FOCUS);
-  gtk_window_set_transient_for (GTK_WINDOW (window), GTK_WINDOW (gui->window));
+  gtk_window_set_transient_for (GTK_WINDOW (window), GTK_WINDOW (Denemo.window));
   gtk_window_set_type_hint (GTK_WINDOW (window),
 			    GDK_WINDOW_TYPE_HINT_UTILITY);
   gtk_window_set_resizable (GTK_WINDOW (window), FALSE);

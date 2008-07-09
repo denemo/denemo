@@ -950,7 +950,7 @@ static GtkActionGroup *
 get_action_group(keymap *the_keymap, DenemoGUI *gui)
 {
   GList *keymap_action_group, *action_group_list;
-  action_group_list = gtk_ui_manager_get_action_groups(gui->ui_manager);
+  action_group_list = gtk_ui_manager_get_action_groups(Denemo.ui_manager);
   keymap_action_group = g_list_find_custom(action_group_list,
           the_keymap->action_group_name, findActionGroupByName);
   return GTK_ACTION_GROUP(keymap_action_group->data);
@@ -985,9 +985,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
 
   gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
 
-  //For all guis
-  for (guis = Denemo.guis; guis; guis = guis->next) {
-      gui = (DenemoGUI *) (guis->data);
+  gui = Denemo.gui;
       action_group = get_action_group(the_keymap, gui);
       action = gtk_action_group_get_action(action_group, command_name);
       //For all widgets proxying the action, change the label
@@ -1003,7 +1001,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
               gtk_label_set_markup(GTK_LABEL(child), markup);
           }
       }
-  }
+
   //free allocated strings                                 
   g_free(markup);
   g_string_free(str, TRUE);

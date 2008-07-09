@@ -18,8 +18,7 @@
 #include "objops.h"
 
 
-int scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event,
-			       gpointer data);
+int scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event);
 
 void adjust_measure_less_width_key (DenemoGUI *gui);
 void adjust_measure_more_width_key (DenemoGUI *gui);

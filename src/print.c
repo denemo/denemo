@@ -37,7 +37,7 @@ check_lilypond_path (DenemoGUI * gui){
     {
       /* show a warning dialog */
       GtkWidget *dialog =
-        gtk_message_dialog_new (GTK_WINDOW (gui->window),
+        gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
                                 GTK_DIALOG_DESTROY_WITH_PARENT,
                                 GTK_MESSAGE_WARNING,
                                 GTK_BUTTONS_OK,
@@ -332,7 +332,7 @@ printrangedialog(DenemoGUI * gui){
   GtkWidget *to_measure;
   
   dialog = gtk_dialog_new_with_buttons (_("Print Excerpt Range"),
-	 GTK_WINDOW (gui->window),
+	 GTK_WINDOW (Denemo.window),
 	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
 	      GTK_DIALOG_DESTROY_WITH_PARENT),
 	 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -391,7 +391,8 @@ printrangedialog(DenemoGUI * gui){
 
 /* callback to print whole of score */
 void
-printall_cb (GtkAction * action, DenemoGUI * gui) {
+printall_cb (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   gchar *str = g_strdup_printf("No direct printing yet\nWe will run the PDF viewer program %s so you can use its print command.\nYou can change the PDF viewer using \nEdit->Preferences->Externals->Pdf viewer.", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
   g_free(str);
@@ -399,7 +400,8 @@ printall_cb (GtkAction * action, DenemoGUI * gui) {
 }
 /* callback to print current part (staff) of score */
 void
-printpart_cb (GtkAction * action, DenemoGUI * gui) {
+printpart_cb (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
@@ -412,7 +414,8 @@ printpart_cb (GtkAction * action, DenemoGUI * gui) {
   
 }
 void
-printpreview_cb (GtkAction * action, DenemoGUI * gui) {
+printpreview_cb (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
@@ -420,7 +423,8 @@ printpreview_cb (GtkAction * action, DenemoGUI * gui) {
   print(gui, FALSE, TRUE);
 }
 void
-printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
+printexcerptpreview_cb (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   gui->lilycontrol.excerpt = TRUE;
   if(!gui->si->markstaffnum) //If no selection has been made 
     printrangedialog(gui);  //Launch a dialog to get selection
@@ -428,54 +432,6 @@ printexcerptpreview_cb (GtkAction * action, DenemoGUI * gui) {
     print(gui, FALSE, FALSE);
   gui->lilycontrol.excerpt = FALSE;
 
-}
-
-/**
- * Export pdf callback prompts for filename
- *
- */
-
-void
-export_pdf_action (GtkAction * action, DenemoGUI * gui)
-{
-
-  GtkWidget *file_selection;
-
-  file_selection = gtk_file_chooser_dialog_new (_("Export PDF"),
-						GTK_WINDOW (gui->window),
-						GTK_FILE_CHOOSER_ACTION_SAVE,
-						GTK_STOCK_CANCEL,
-						GTK_RESPONSE_REJECT,
-						GTK_STOCK_SAVE,
-						GTK_RESPONSE_ACCEPT, NULL);
-
-  gtk_widget_show_all (file_selection);
-  gboolean close = FALSE;
-  do
-    {
-
-      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
-	{
-	  gchar *filename =
-	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
-
-	  if (replace_existing_file_dialog
-	      (filename, GTK_WINDOW (gui->window), -1))
-	    {
-	      export_pdf (filename, gui);
-	      close = TRUE;
-	    }
-	  g_free (filename);
-	}
-      else
-	{
-	  close = TRUE;
-	}
-
-    }
-  while (!close);
-
-  gtk_widget_destroy (file_selection);
 }
 
 /**
@@ -487,7 +443,7 @@ export_pdf_action (GtkAction * action, DenemoGUI * gui)
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
-void
+static void
 export_pdf (const gchar * filename, DenemoGUI * gui)
 {
   const gchar *tmpdir = locatedotdenemo ();
@@ -573,3 +529,53 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   g_free (psfile);
   g_free (pdffile);
 }
+
+
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+
+void
+export_pdf_action (GtkAction * action)
+{
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *file_selection;
+
+  file_selection = gtk_file_chooser_dialog_new (_("Export PDF"),
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+
+  gtk_widget_show_all (file_selection);
+  gboolean close = FALSE;
+  do
+    {
+
+      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+	{
+	  gchar *filename =
+	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+
+	  if (replace_existing_file_dialog
+	      (filename, GTK_WINDOW (Denemo.window), -1))
+	    {
+	      export_pdf (filename, gui);
+	      close = TRUE;
+	    }
+	  g_free (filename);
+	}
+      else
+	{
+	  close = TRUE;
+	}
+
+    }
+  while (!close);
+
+  gtk_widget_destroy (file_selection);
+}
+

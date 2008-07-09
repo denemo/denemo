@@ -205,7 +205,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   command_tree_view = gtk_bin_get_child(GTK_BIN(command_view));
   
   dialog = gtk_dialog_new_with_buttons (_("Keyboard shortcuts"),
-					GTK_WINDOW (gui->window),
+					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
 					GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,

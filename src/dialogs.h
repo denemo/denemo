@@ -18,14 +18,14 @@ typedef enum actiontype
 { CHANGEINITIAL, INSERT } 
 actiontype;
 
-void clef_change_initial(GtkAction *action, DenemoGUI *gui);
-void clef_change_insert(GtkAction *action, DenemoGUI *gui);
+void clef_change_initial(GtkAction *action);
+void clef_change_insert(GtkAction *action);
 
-void key_change_initial(GtkAction *action, DenemoGUI *gui);
-void key_change_insert(GtkAction *action, DenemoGUI *gui);
+void key_change_initial(GtkAction *action);
+void key_change_insert(GtkAction *action);
 
-void timesig_change_initial(GtkAction *action,DenemoGUI *gui);
-void timesig_change_insert(GtkAction *action, DenemoGUI *gui);
+void timesig_change_initial(GtkAction *action);
+void timesig_change_insert(GtkAction *action);
 
 void
 clef_change (DenemoGUI *gui,actiontype action);
@@ -46,27 +46,27 @@ score_staffspace_change (GtkAction *action, gpointer callback_data);
 
 
 gboolean
-staff_properties_change (GtkAction *action, gpointer callback_data);
+staff_properties_change (GtkAction *action, gpointer callback_data /* FIXME sometimes used */);
 
 
 
 void
-playback_properties_change (GtkAction *action, gpointer callback_data);
+playback_properties_change (GtkAction *action);
 
 
 
 void
-tomeasurenum (GtkAction *action, DenemoGUI *gui);
+tomeasurenum (GtkAction *action);
 
 void
-preferences_change (GtkAction *action, DenemoGUI *gui);
+preferences_change (GtkAction *action);
 
 void
-header_change (GtkAction *action, DenemoGUI *gui);
+header_change (GtkAction *action);
 
 void
-score_properties_dialog(GtkAction *action, DenemoGUI *gui);
+score_properties_dialog(GtkAction *action);
 
-void export_pdf_action (GtkAction *action, DenemoGUI *gui);
+void export_pdf_action (GtkAction *action);
 
 #endif /* __DIALOGS_H__ */

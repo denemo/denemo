@@ -42,12 +42,12 @@ typedef enum
 } AccelStatus;
 
 
-static void toggle_edit_mode (GtkAction * action, DenemoGUI *gui);
-static void toggle_rest_mode (GtkAction * action, DenemoGUI *gui);
-static void toggle_rhythm_mode (GtkAction * action, DenemoGUI *gui);
+static void toggle_edit_mode (GtkAction * action);
+static void toggle_rest_mode (GtkAction * action);
+static void toggle_rhythm_mode (GtkAction * action);
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
-static gboolean close_gui_with_check (GtkAction * action, DenemoGUI * gui);
+static gboolean close_gui_with_check (GtkAction * action);
 #include "callbacks.h" /* callback functions for the originally unmenued commands */
 
 
@@ -163,8 +163,8 @@ void write_status(DenemoGUI *gui) {
   status = g_strdup_printf("%s: %s", status, selection);
 
   g_free(selection);
-  gtk_statusbar_pop(GTK_STATUSBAR (gui->statusbar), gui->status_context_id);
-  gtk_statusbar_push(GTK_STATUSBAR (gui->statusbar), gui->status_context_id,
+  gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+  gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 		     status);
   g_free(status);
 
@@ -188,7 +188,7 @@ quit (void)
 
 
 /**
- * Close the movement
+ * Close the movement gui, releasing its memory and removing it from the list
  * Do not close the sequencer
  */
 static void
@@ -200,12 +200,12 @@ close_gui (DenemoGUI *gui)
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
- if(g_list_length(Denemo.guis)==1)  
-   storeWindowState (gui);
+
+  storeWindowState ();
  //stop_pitch_recognition();
   free_gui(gui);
   Denemo.guis = g_list_remove (Denemo.guis, gui);
-  gtk_widget_destroy (gui->window);
+  gtk_widget_destroy (gui->page);
   g_free (gui);
 }
 
@@ -253,8 +253,9 @@ closewrapper ()
   for (display = Denemo.guis; display != NULL;
        display = g_list_next (display))
     {
-     DenemoGUI *gui = (DenemoGUI *) display->data;
-     if(close_gui_with_check (NULL, gui) == FALSE)
+     
+     Denemo.gui = (DenemoGUI *) display->data;
+     if(close_gui_with_check (NULL) == FALSE)
        break;
   }
 }
@@ -266,9 +267,10 @@ closewrapper ()
  */
 
 static gboolean
-delete_callback (GtkWidget * widget, GdkEvent * event, DenemoGUI *gui)
+delete_callback (GtkWidget * widget, GdkEvent * event)
 {
-  close_gui_with_check (NULL, gui);
+
+  close_gui_with_check (NULL);
   return TRUE;
 }
 
@@ -280,22 +282,21 @@ delete_callback (GtkWidget * widget, GdkEvent * event, DenemoGUI *gui)
 static void
 openinnew (void)
 {
-  DenemoGUI *gui;
   newview ();
-  gui = (DenemoGUI *) g_list_last (Denemo.guis)->data;
-  file_open_with_check (NULL, gui);
+  file_open_with_check (NULL);
 }
 
 
 /**
  * Close callback 
- * if user confirms close the passed in gui
+ * if user confirms close the current gui
  * if it is the last close the application.
  * return FALSE if gui was not closed, else TRUE
  */
 static gboolean
-close_gui_with_check (GtkAction * action, DenemoGUI * gui)
+close_gui_with_check (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if ((!gui->changecount) || (gui->changecount && confirmbox (gui)))
     close_gui (gui);
   else 
@@ -304,26 +305,32 @@ close_gui_with_check (GtkAction * action, DenemoGUI * gui)
     quit (); 
     writeHistory ();
     ext_quit (); /* clean players pidfiles (see external.c) */
+  } else {
+    Denemo.gui = Denemo.guis->data;
+    g_print("Setting the first piece as your score\n");
+    gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
   }
+    
   return TRUE;
 }
 
 
 static void
 singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
-#define CURRP ((RhythmPattern *)r->gui->currhythm->data)
-  if(r->gui->currhythm && CURRP)
+  DenemoGUI *gui = Denemo.gui;
+#define CURRP ((RhythmPattern *)gui->currhythm->data)
+  if(gui->currhythm && CURRP)
     unhighlight_rhythm(CURRP);
-  r->gui->currhythm = NULL;
+  gui->currhythm = NULL;
 
-  r->gui->rstep = r->rsteps;
-#define g (r->gui->rstep)
-#define MODE (r->gui->mode)
-  unhighlight_rhythm(r->gui->prevailing_rhythm);
-  r->gui->prevailing_rhythm = r;
+  gui->rstep = r->rsteps;
+#define g (gui->rstep)
+#define MODE (gui->mode)
+  unhighlight_rhythm(gui->prevailing_rhythm);
+  gui->prevailing_rhythm = r;
   highlight_rhythm(r);
   /*   if((MODE&INPUTEDIT)) */
-  ((GtkFunction)(((RhythmElement*)g->data)->functions->data))(r->gui), displayhelper(r->gui); 
+  ((GtkFunction)(((RhythmElement*)g->data)->functions->data))(gui), displayhelper(gui); 
 #undef CURRP
 #undef g
 #undef MODE
@@ -335,17 +342,18 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
  */
 void
 select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
-#define CURRP ((RhythmPattern *)r->gui->currhythm->data)
-  if(r->gui->currhythm && CURRP)
+  DenemoGUI *gui = Denemo.gui;
+#define CURRP ((RhythmPattern *)gui->currhythm->data)
+  if(gui->currhythm && CURRP)
     unhighlight_rhythm(CURRP);
   else
-    if(r->gui->rstep)
-      unhighlight_rhythm(((RhythmElement*)r->gui->rstep->data)->rhythm_pattern);
+    if(gui->rstep)
+      unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
 
-  r->gui->currhythm = g_list_find(r->gui->rhythms, r);
-  r->gui->rstep = r->rsteps;
-#define g (r->gui->rstep)
-#define MODE (r->gui->mode)
+  gui->currhythm = g_list_find(gui->rhythms, r);
+  gui->rstep = r->rsteps;
+#define g (gui->rstep)
+#define MODE (gui->mode)
   if(((RhythmElement*)g->data)->icon) {
     GtkWidget *label = LABEL(CURRP->button);
     //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
@@ -357,7 +365,7 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   }
   highlight_rhythm(CURRP);
   if((MODE&INPUTEDIT))
-    insert_rhythm_pattern(r->gui);
+    insert_rhythm_pattern(gui);
 #undef CURRP
 #undef g
 #undef MODE
@@ -452,18 +460,27 @@ static gchar *add_to_pattern(gchar **p, gchar c) {
 
 
 
-/* create a rhythm pattern from the current selection
-   the rhythm is put in gui->
-   a button is created in "/RhythmToolbar"
-
-   and the pattern is added to gui->rhythms 
-   with the first step of it put in    gui->rstep
-
-   something similar could be done to place the buttons in /EntryToolbar
+/* create_rhythm_cb
+   This is overloaded for use as a callback (ACTION is a GtkAction) and
+   as a call to set up the "singleton rhythms", 
+   (rhythm patterns that are just one note or rest, used for
+   ordinary note entry).
+   if ACTION is a GtkAction*
+        create a rhythm pattern from the current selection
+        the rhythm is put in gui->
+        a button is created in "/RhythmToolbar"
+        and the pattern is added to gui->rhythms 
+         with the first step of it put in gui->rstep
+   if ACTION is one of the insert_chord_xkey insert_rest_xkey)
+   functions
+        a button is created in the /EntryToolbar (if not alread present)
+   
 
 */
-static void create_rhythm_cb (gpointer action, DenemoGUI *gui)     {
-  gboolean singleton = FALSE;
+static void create_rhythm_cb (gpointer action)     {
+  DenemoGUI *gui = Denemo.gui;
+  gboolean singleton = FALSE;// set TRUE if action is one of the insert_... functions.
+  gboolean already_done = FALSE;// a singleton which has already been installed globally
   gboolean default_rhythm = FALSE;
   DenemoScore * si= gui->si;
   RhythmPattern *r = (RhythmPattern*)g_malloc0(sizeof(RhythmPattern));
@@ -497,31 +514,41 @@ static void create_rhythm_cb (gpointer action, DenemoGUI *gui)     {
       pattern = g_strdup("w");
     if(action ==  (gpointer)insert_rest_6key)
       pattern = g_strdup("x");
-    if(pattern) {
-      gui->singleton_rhythms[*pattern] = r;
-    singleton=TRUE;
+    if(pattern) {/* if we already have it globally we don't need it again
+		    note we never delete the singleton rhythms */
+      if(Denemo.singleton_rhythms[*pattern]) {
+	g_free(r);
+	r = Denemo.singleton_rhythms[*pattern];
+	already_done = TRUE;
+      }
+      else {
+	Denemo.singleton_rhythms[*pattern] = r;
+	already_done = FALSE;
+      }
+      singleton=TRUE;
     }
   else
     pattern = g_strdup_printf("");
-
-  r->gui = gui;
-  GtkToolButton *button = (GtkToolButton *)gtk_tool_button_new(NULL, NULL);
-  GtkWidget *label = gtk_label_new(NULL);
-  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-  GtkWidget *ev = gtk_event_box_new();
-  gtk_container_add (GTK_CONTAINER(ev), label);
-  gtk_tool_button_set_label_widget (button, ev);
-  //gtk_event_box_set_above_child (ev, TRUE);
-  r->button = button;
+    GtkToolButton *button;
+    GtkWidget *label;
+    if(!already_done){
+      button = (GtkToolButton *)gtk_tool_button_new(NULL, NULL);
+      label = gtk_label_new(NULL);
+      gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+      GtkWidget *ev = gtk_event_box_new();
+      gtk_container_add (GTK_CONTAINER(ev), label);
+      gtk_tool_button_set_label_widget (button, ev);
+      //gtk_event_box_set_above_child (ev, TRUE);
+      r->button = button;
+    }
   if(!singleton) {
-staffnode *curstaff;
- measurenode *curmeasure;
-  gint i = si->firststaffmarked;
-  curstaff = g_list_nth (si->thescore, i - 1);
-  
-  if(curstaff && i <= si->laststaffmarked)
-    {int j,k;
-    objnode *curobj;
+    staffnode *curstaff;
+    measurenode *curmeasure;
+    gint i = si->firststaffmarked;
+    curstaff = g_list_nth (si->thescore, i - 1);
+    if(curstaff && i <= si->laststaffmarked) {
+      int j,k;
+      objnode *curobj;
       /* Measure loop.  */
       for (j = si->firstmeasuremarked, k = si->firstobjmarked,
 	     curmeasure = g_list_nth (firstmeasurenode (curstaff), j - 1);
@@ -636,7 +663,7 @@ staffnode *curstaff;
 	      //g_print("Number of rhythms %d\n", g_list_length(r->rsteps));
 	    } /* End object loop */	 
 	} /* End measure loop */
-    } 
+    }//looking at selection
   if(strlen(pattern)==0) { // nothing useful selected
       warningdialog("No selection to create a rhythm pattern from\nSee Edit->Select menu for selecting notes/rests");
       gtk_widget_destroy(GTK_WIDGET(r->button));
@@ -644,25 +671,23 @@ staffnode *curstaff;
       g_free(r);
       return;
     }
-
   } else { // singleton
-
-
-    append_rhythm(r, action);
+    if(!already_done) 
+      append_rhythm(r, action);
   }
-
-  gchar *labelstr;
-  if(pattern) {
-    labelstr = music_font(pattern);
+  if(!already_done) {
+    gchar *labelstr;
+    if(pattern) {
+      labelstr = music_font(pattern);
+    }
+    else
+      return;  //FIXME memory leak of r - well pattern is never NULL
+    //g_print("rsteps is %p entry is %s, %s\n", r->rsteps, pattern, labelstr);
+    label = LABEL(r->button);
+    gtk_label_set_markup(GTK_LABEL(label), labelstr);
+    g_free(labelstr);
   }
-  else
-    return;  //FIXME memory leak of r - well pattern is never NULL
-  //g_print("rsteps is %p entry is %s, %s\n", r->rsteps, pattern, labelstr);
-  label = LABEL(r->button);
-  gtk_label_set_markup(GTK_LABEL(label), labelstr);
-  g_free(labelstr);
-
-
+  
   if(!singleton) {
     /* fill the r->rsteps with icons for each step, singletons have NULL icon */
     GList *g;  
@@ -682,11 +707,12 @@ staffnode *curstaff;
       //g_print("el->icon = %s step %d pattern %s\n", el->icon, i, pattern);
     }
   }
-  if(r->rsteps) {
-    /* make the list circular */
-    r->rsteps->prev = g_list_last(r->rsteps);
-    g_list_last(r->rsteps)->next = r->rsteps;
-  }
+  if(!already_done)
+    if(r->rsteps) {
+      /* make the list circular */
+      r->rsteps->prev = g_list_last(r->rsteps);
+      g_list_last(r->rsteps)->next = r->rsteps;
+    }
   if(r->rsteps==NULL)
     {
       gtk_widget_destroy(GTK_WIDGET(button));
@@ -694,24 +720,23 @@ staffnode *curstaff;
       r = NULL;
     } else 	{
       if(singleton) {
-	GtkWidget *toolbar = gtk_ui_manager_get_widget (gui->ui_manager, "/EntryToolBar");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
-	gtk_widget_show_all(GTK_WIDGET(button));
-	/* gui->rstep = r->rsteps; */
-	g_signal_connect (G_OBJECT (button), "clicked",
+	if(!already_done) {//When creating first gui only
+	  GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
+	  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
+	  gtk_widget_show_all(GTK_WIDGET(button));
+	  /* gui->rstep = r->rsteps; */
+	  g_signal_connect (G_OBJECT (button), "clicked",
 			  G_CALLBACK (singleton_callback), (gpointer)r);
-	unhighlight_rhythm(r);
-
+	  unhighlight_rhythm(r);
+	}
 	if(default_rhythm){
 	  gui->prevailing_rhythm = r;
 	  gui->rstep = r->rsteps;
 	  highlight_rhythm(r);
-	  default_rhythm = FALSE;
-	}
-
-
-      } else {
-	GtkWidget *toolbar = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar");
+	  //g_print("prevailing rhythm is %p\n",r);
+	}	
+      } else {//not singleton
+	GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
 	gtk_widget_show_all(GTK_WIDGET(button));
 	gui->rstep = r->rsteps;
@@ -864,9 +889,9 @@ void	highlight_rest(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
-      gui->rstep = gui->singleton_rhythms['r'+dur]->rsteps;
+      gui->rstep = Denemo.singleton_rhythms['r'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
-      gui->prevailing_rhythm = gui->singleton_rhythms['r'+dur];
+      gui->prevailing_rhythm = Denemo.singleton_rhythms['r'+dur];
       highlight_rhythm(gui->prevailing_rhythm);
 
 }
@@ -878,9 +903,9 @@ void	highlight_duration(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
-      gui->rstep =  gui->singleton_rhythms['0'+dur]->rsteps;
+      gui->rstep =  Denemo.singleton_rhythms['0'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
-      gui->prevailing_rhythm = gui->singleton_rhythms['0'+dur];
+      gui->prevailing_rhythm = Denemo.singleton_rhythms['0'+dur];
       highlight_rhythm(gui->prevailing_rhythm);
 }
 
@@ -890,9 +915,9 @@ void	highlight_duration(DenemoGUI *gui, gint dur) {
  * 
  */
 static void
-delete_rhythm_cb (GtkAction * action, DenemoGUI * gui)
+delete_rhythm_cb (GtkAction * action)
 {
-
+  DenemoGUI *gui = Denemo.gui;
   if(gui->mode&(INPUTEDIT) == 0)
     return;
   if(gui->currhythm==NULL)
@@ -951,9 +976,9 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
    myposition = string_dialog_entry (gui, "Create a new menu item", "Say where in the menu systeme you want it placed: ", "/ObjectMenu/Favorites");
   GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
   GtkActionGroup *action_group;
-  GList *groups = gtk_ui_manager_get_action_groups (gui->ui_manager);
+  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
   action_group = GTK_ACTION_GROUP(groups->data); 
-  GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (gui->ui_manager);
+  GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (Denemo.ui_manager);
   gtk_action_group_add_action(action_group, myaction);
   g_object_set_data(G_OBJECT(myaction), "lilypond", mylily);
   g_signal_connect (G_OBJECT (myaction), "activate",
@@ -962,7 +987,7 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
   gchar *accelpath = g_strdup_printf("%s%s", "<Actions>/MenuActions/", myname);
   gtk_action_set_accel_path (myaction, accelpath);
   g_free(accelpath);
-  gtk_ui_manager_add_ui(gui->ui_manager,gtk_ui_manager_new_merge_id(gui->ui_manager), 
+  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 			myposition,
 			myname, myname, GTK_UI_MANAGER_AUTO, FALSE);
   GSList *h = gtk_action_get_proxies (myaction);//what is a proxy? any widget that callbacks the action
@@ -983,11 +1008,13 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
 static void dummy(void) {
   return;
 }
-static void voiceup_cb(GtkAction *action, DenemoGUI *gui) {
+static void voiceup_cb(GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   voiceup(gui);
   displayhelper(gui);
 }
-static void voicedown_cb(GtkAction *action, DenemoGUI *gui) {
+static void voicedown_cb(GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   voicedown(gui);
   displayhelper(gui);
 }
@@ -1128,12 +1155,8 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (delete_staff_after)},
   {"AddVoice", NULL, N_("Add Voice to Current Staff"), NULL, "Adds a new voice(part) to the current staff\nIt can be difficult at present to switch between the voices\nAlso do they print out properly?",
    G_CALLBACK (dnm_newstaffvoice)},
-  {"AddLyric", NULL, N_("Add Lyric Staff..."), NULL, NULL,
-   G_CALLBACK (newstafflyric)},
-  {"AddFiguredBass", NULL, N_("Add Figured Bass Staff..."), NULL, "Not known to be useful",
-   G_CALLBACK (dnm_newstafffigured)},
-  {"AddChords", NULL, N_("Add Chords to Staff..."), NULL,  N_("Add Chords to Staff\nNot sure what this does"),
-   G_CALLBACK (dnm_newstaffchords)},
+
+
   {"StaffProperties", GTK_STOCK_PROPERTIES, N_("Properties"), NULL,"Change the properties of the current staff", 
    G_CALLBACK (staff_properties_change)},
   {"InsertMenu", NULL, N_("Insert")},
@@ -1316,15 +1339,15 @@ GtkActionEntry menu_entries[] = {
 //Get number of menu entries
 gint n_menu_items = G_N_ELEMENTS (menu_entries);
 
-
-GtkWidget *mode_menu_bar(DenemoGUI *gui) {
-  if(gui->mode&INPUTEDIT)
-    return gui->EditModeMenu;
-  if(gui->mode&INPUTINSERT)
-    return gui->InsertModeMenu;
-  if(gui->mode&INPUTCLASSIC)
-    return gui->ClassicModeMenu;
-  return gui->ModelessMenu;
+static
+GtkWidget *get_edit_menu_for_mode(gint mode) {
+  if(mode&INPUTEDIT)
+    return Denemo.EditModeMenu;
+  if(mode&INPUTINSERT)
+    return Denemo.InsertModeMenu;
+  if(mode&INPUTCLASSIC)
+    return Denemo.ClassicModeMenu;
+  return Denemo.ModelessMenu;
 }
 
 /**
@@ -1332,24 +1355,25 @@ GtkWidget *mode_menu_bar(DenemoGUI *gui) {
  *
  */
 static void
-change_mode (GtkRadioAction * action, GtkRadioAction * current, DenemoGUI * gui) {
+change_mode (GtkRadioAction * action, GtkRadioAction * current) {
+  DenemoGUI *gui = Denemo.gui;
 gint val = gtk_radio_action_get_current_value (current);
- GtkWidget *menubar = mode_menu_bar(gui);
- if(menubar)
-   gtk_widget_hide(menubar);
+ GtkWidget *menu = get_edit_menu_for_mode(gui->mode);
+ if(menu)
+   gtk_widget_hide(menu);
  gui->mode=((gui->mode&MODE_MASK)|val);
- menubar = mode_menu_bar(gui);
- if(menubar)
-   gtk_widget_show(menubar);
+ menu = get_edit_menu_for_mode(gui->mode);
+ if(menu)
+   gtk_widget_show(menu);
  write_status(gui);
  
 }
 
 
-static void   activate_action(gchar *path, DenemoGUI * gui) {
+static void   activate_action(gchar *path) {
    GtkAction *a;
 /*    g_warning("activating\n"); */
-   a = gtk_ui_manager_get_action (gui->ui_manager, path);
+   a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
    if(a)
    gtk_action_activate(a);
    else 
@@ -1361,27 +1385,27 @@ static void   activate_action(gchar *path, DenemoGUI * gui) {
  *
  */
 static void
-change_entry_type (GtkRadioAction * action, GtkRadioAction * current, DenemoGUI * gui) {
-  
+change_entry_type (GtkRadioAction * action, GtkRadioAction * current) {
+  DenemoGUI *gui = Denemo.gui;
 gint val = gtk_radio_action_get_current_value (current);
  switch(val) {
 #define SET_MODE(m)  (gui->mode=((gui->mode&ENTRY_TYPE_MASK)|m))
  case INPUTREST:
    SET_MODE(INPUTREST);
-   activate_action("/MainMenu/EntryMenu/ClassicMode", gui);
+   activate_action("/MainMenu/EntryMenu/ClassicMode");
 
    break;
  case INPUTNORMAL:
    SET_MODE(INPUTNORMAL);
-   activate_action( "/MainMenu/EntryMenu/InsertMode", gui);
+   activate_action( "/MainMenu/EntryMenu/InsertMode");
    break;
  case INPUTBLANK:
    SET_MODE(INPUTBLANK);
-   activate_action( "/MainMenu/EntryMenu/ClassicMode", gui);
+   activate_action( "/MainMenu/EntryMenu/ClassicMode");
    break;
  case INPUTRHYTHM|INPUTNORMAL:
    SET_MODE(INPUTRHYTHM|INPUTNORMAL);
-   activate_action( "/MainMenu/EntryMenu/EditMode", gui);
+   activate_action( "/MainMenu/EntryMenu/EditMode");
    break;
  }
 #undef SET_MODE
@@ -1391,63 +1415,66 @@ write_status(gui);
 }
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
-static void toggle_edit_mode (GtkAction * action, DenemoGUI *gui){
+static void toggle_edit_mode (GtkAction * action){
+  DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTINSERT;
   if(gui->mode&INPUTEDIT){
     switch(mode & ~MODE_MASK ) {
     case INPUTINSERT:
-      activate_action( "/MainMenu/EntryMenu/InsertMode", gui);
+      activate_action( "/MainMenu/EntryMenu/InsertMode");
       break;
     case INPUTCLASSIC:
-      activate_action( "/MainMenu/EntryMenu/ClassicMode", gui);
+      activate_action( "/MainMenu/EntryMenu/ClassicMode");
       break;
     case 0:
-      activate_action( "/MainMenu/EntryMenu/Modeless", gui);
+      activate_action( "/MainMenu/EntryMenu/Modeless");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back
-    activate_action( "/MainMenu/EntryMenu/EditMode", gui);
+    activate_action( "/MainMenu/EntryMenu/EditMode");
   }
 }
 
 /* callback: if rest entry make note entry and vv */
-static void toggle_rest_mode (GtkAction * action, DenemoGUI *gui){
+static void toggle_rest_mode (GtkAction * action){
+  DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTNORMAL;
   if(gui->mode&INPUTREST){
     switch(mode & ~ENTRY_TYPE_MASK ) {
     case INPUTNORMAL:
-      activate_action( "/MainMenu/EntryMenu/Note", gui);
+      activate_action( "/MainMenu/EntryMenu/Note");
       break;
     case INPUTBLANK:
-      activate_action( "/MainMenu/EntryMenu/Blank", gui);
+      activate_action( "/MainMenu/EntryMenu/Blank");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back
-    activate_action( "/MainMenu/EntryMenu/Rest", gui);
+    activate_action( "/MainMenu/EntryMenu/Rest");
   }
 }
 
 
 /* callback: if rhythm entry make note entry and vv */
-static void toggle_rhythm_mode (GtkAction * action, DenemoGUI *gui){
+static void toggle_rhythm_mode (GtkAction * action){
+  DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTNORMAL;
   if(gui->mode&INPUTRHYTHM){
     switch(mode & ~ENTRY_TYPE_MASK ) {
     case INPUTNORMAL:
-      activate_action( "/MainMenu/EntryMenu/Note", gui);
+      activate_action( "/MainMenu/EntryMenu/Note");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back, breaks with multi gui FIXME
-    activate_action( "/MainMenu/EntryMenu/Rhythm", gui);
+    activate_action( "/MainMenu/EntryMenu/Rhythm");
   }
 }
 
@@ -1456,11 +1483,12 @@ static void toggle_rhythm_mode (GtkAction * action, DenemoGUI *gui){
  *  the text if needed
  */
 static void
-toggle_lilytext (GtkAction * action, DenemoGUI * gui) {
+toggle_lilytext (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
  if(!gui->textview)
    refresh_lily_cb(action, gui);
  if(!GTK_WIDGET_VISIBLE(gui->textwindow))
-   gtk_widget_show_all(gui->textwindow);
+   gtk_widget_show/*_all*/(gui->textwindow);
  else
    gtk_widget_hide(gui->textwindow);
 }
@@ -1470,7 +1498,8 @@ toggle_lilytext (GtkAction * action, DenemoGUI * gui) {
  *
  */
 static void
-toggle_pitch_recognition (GtkAction * action, DenemoGUI * gui) {
+toggle_pitch_recognition (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
   if(!gui->pitch_recognition) {
     if(setup_pitch_recognition(gui))  
       {/*FIXME error */
@@ -1484,7 +1513,7 @@ toggle_pitch_recognition (GtkAction * action, DenemoGUI * gui) {
     stop_pitch_recognition();
   } else {
     start_pitch_recognition(gui);// FIXME different guis
-    activate_action( "/MainMenu/EntryMenu/Note", gui); 
+    activate_action( "/MainMenu/EntryMenu/Note"); 
   }
   gui->pitch_recognition =  !gui->pitch_recognition;
 }
@@ -1500,7 +1529,7 @@ toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
 {
   static keymap *rhythm_keymap;// special keymap in rhythm submode
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar");
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
  // g_print("Callback for %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget)));
   if (GTK_WIDGET_VISIBLE (widget))
     {
@@ -1519,8 +1548,8 @@ toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
 #endif
       gtk_widget_show (widget);
       /* make sure we are in Insert and Note for rhythm toolbar */
-      activate_action( "/MainMenu/EntryMenu/Note", gui);
-      activate_action( "/MainMenu/EntryMenu/InsertMode", gui);
+      activate_action( "/MainMenu/EntryMenu/Note");
+      activate_action( "/MainMenu/EntryMenu/InsertMode");
     }
 }
 
@@ -1534,7 +1563,7 @@ static void
 toggle_entry_toolbar (GtkAction * action, DenemoGUI * gui)
 {
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (gui->ui_manager, "/EntryToolBar");
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
   if(!widget) return;// internal error - out of step with menu_entries...
   if (GTK_WIDGET_VISIBLE (widget))
     {
@@ -1577,7 +1606,7 @@ static void
 toggle_action_menu (GtkAction * action, DenemoGUI * gui)
 {
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (gui->ui_manager, "/ActionMenu");
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ActionMenu");
   if(!widget) return;// internal error - out of step with menu_entries...
   if (GTK_WIDGET_VISIBLE (widget))
     {
@@ -1601,7 +1630,7 @@ static void
 toggle_object_menu (GtkAction * action, DenemoGUI * gui)
 {
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (gui->ui_manager, "/ObjectMenu");
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu");
   if(!widget) return;// internal error - out of step with menu_entries...
   if (GTK_WIDGET_VISIBLE (widget))
     {
@@ -1717,7 +1746,7 @@ addhistorymenuitem (gchar *filename, DenemoGUI *newgui)
       continue; /* either newgui is NULL and we do the gui, or its not and
 		   it matches, so we do it */
     GtkWidget *item =
-      gtk_ui_manager_get_widget (gui->ui_manager,
+      gtk_ui_manager_get_widget (Denemo.ui_manager,
 				 "/MainMenu/FileMenu/OpenRecent/Stub");
     GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
     
@@ -1836,82 +1865,99 @@ void init_keymap()
 }
 
 
+static void
+switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
+g_print("switching pagenum %d\n",pagenum);
+// hmm, on arrival Denemo.gui is already set to the new gui when you are doing new window.
+  DenemoGUI *gui = Denemo.gui;
+  if(gui==NULL)
+    return;
+  gboolean lily_on=FALSE;
 
-/**
- * Creates a new DenemoGUI structure representing a toplevel window to control one musical score. 
- * ThisDenemoGUI* gui is appended to the global list Denemo.guis.
- * A single movement (DenemoScore) is instantiated in the gui.
- * 
- */
-void
-newview (void)
-{
-  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow))
+    lily_on = TRUE;
 
+
+  GList *g = g_list_nth(Denemo.guis, pagenum);
+  if(g) {
+    unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
+    g_print("Switching from %p to %p\n", Denemo.gui, g->data);
+    Denemo.gui = gui = (DenemoGUI*)(g->data);
+
+    g_print("Booleans %d %d %d\n", gui->textview,  gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow), lily_on);
+
+    g_print("1Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
+    if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow) && !lily_on)
+      gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText"),
+				    TRUE);
+    g_print("2Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
+    if(lily_on && !(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow)))
+      gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText"),
+			    FALSE);
+
+    g_print("3Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
+    highlight_rhythm(Denemo.gui->prevailing_rhythm);
+  }
+  else
+    g_warning("got a switch page, but there is no such page in Denemo.guis\n");
+  g_print("switched to gui %p\n\n",Denemo.gui);
+
+}
+
+
+
+static void
+create_window(void) {
   DenemoPrefs *prefs;
-  GtkWidget *main_vbox, *menubar, *score_and_scroll_hbox, *toolbar, *hbox;
+  GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
   GtkActionGroup *action_group;
   GtkUIManager *ui_manager;
   GtkAccelGroup *accel_group;
   GError *error;
   GtkWidget *widget;
   gchar *data_dir;
-
-  gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
-  gui->lilycontrol.fontsize = 16;
-  gui->lilycontrol.lilyversion = g_string_new (LILYPOND_VERSION);
-  gui->lilycontrol.orientation = TRUE;	//portrait
-  gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");
-
-  /* create the first movement */
-  new_score (gui);
-
-  gui->movements = g_list_append(NULL, gui->si);
-  gui->pixmap = NULL;
-
-  /* Initialize the GUI */
-
-  gui->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  set_title_bar(gui);
-  loadWindowState(gui);
-
+  Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
+  loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
   data_dir = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
 #else
-  data_dir = g_strconcat (get_data_dir (), "/../icons/denemo.png", NULL);
+  data_dir = g_strconcat (get_data_dir (), "/../icons/denemo.png", NULL);//FIXME installed in wrong place
 #endif
   gtk_window_set_default_icon_from_file (data_dir, NULL);
   g_free (data_dir);
 
-  gtk_window_set_resizable (GTK_WINDOW (gui->window), TRUE);
+  gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
-  gtk_container_add (GTK_CONTAINER (gui->window), main_vbox);
+  gtk_container_add (GTK_CONTAINER (Denemo.window), main_vbox);
   gtk_widget_show (main_vbox);
 
   action_group = gtk_action_group_new ("MenuActions");
-  /* This also sets gui as the  callback data for all the functions in the
-   * menubar, which is precisely what we want. */
+  /* This also sets current Denemo.gui as the  callback data for all the functions in the
+   * menubar, which is not needed since we have only one set of actions for all
+   the guis. We will always act on Denemo.gui anyway.*/
   gtk_action_group_add_actions (action_group, menu_entries,
-  			G_N_ELEMENTS (menu_entries), gui);
+  			G_N_ELEMENTS (menu_entries),  Denemo.gui);
 
   gtk_action_group_add_toggle_actions (action_group,
 				       toggle_menu_entries,
 				       G_N_ELEMENTS (toggle_menu_entries),
-				       gui);
+				       Denemo.gui);
   gtk_action_group_add_radio_actions (action_group,
 				       mode_menu_entries,
 				       G_N_ELEMENTS (mode_menu_entries),
 				      INPUTINSERT/* initial value */, 
-				      G_CALLBACK(change_mode), gui);
+				      G_CALLBACK(change_mode),  Denemo.gui);
 
 
   gtk_action_group_add_radio_actions (action_group,
 				       type_menu_entries,
 				       G_N_ELEMENTS (type_menu_entries),
 				      INPUTNORMAL/* initial value */, 
-				      G_CALLBACK(change_entry_type), gui);
+				      G_CALLBACK(change_entry_type),  Denemo.gui);
+
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
   //GtkAction *favorites =  gtk_action_new("Favorites","Favorites","LilyPond inserts often needed",NULL);
@@ -1922,16 +1968,16 @@ newview (void)
 
   g_object_set_data(G_OBJECT(myaction), "lilypond", "\\mark \\default\n");
   g_signal_connect (G_OBJECT (myaction), "activate",
-		    G_CALLBACK (myactivate), gui); 
+		    G_CALLBACK (myactivate), Denemo.gui); 
 #endif
 
   ui_manager = gtk_ui_manager_new ();
-  gui->ui_manager = ui_manager;
-  gtk_ui_manager_set_add_tearoffs (gui->ui_manager, TRUE);
+  Denemo.ui_manager = ui_manager;
+  gtk_ui_manager_set_add_tearoffs (Denemo.ui_manager, TRUE);
   gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
   //We do not use accel_group anymore TODO delete the next 2 lines
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-  //gtk_window_add_accel_group (GTK_WINDOW (gui->window), accel_group);
+  //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
   /* TODO Lily_menu actions are handled differently for the time being
    * What are these actions?
@@ -1971,9 +2017,9 @@ get_data_dir (),
 #endif
 
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
-  gui->menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");
-  gtk_box_pack_start (GTK_BOX (main_vbox), gui->menubar, FALSE, TRUE, 0);
-  gtk_widget_show (gui->menubar);
+  Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");// this triggers Lily... missing action
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.menubar, FALSE, TRUE, 0);
+  gtk_widget_show (Denemo.menubar);
 
 
 
@@ -2010,43 +2056,173 @@ get_data_dir (),
     gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, TRUE, 0);
   }
 
-  score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
+  Denemo.notebook = gtk_notebook_new ();
+  gtk_widget_show (Denemo.notebook);
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
+
+
+  Denemo.statusbar = gtk_statusbar_new ();
+  hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), Denemo.statusbar, TRUE, TRUE, 5);
+  gtk_widget_show (Denemo.statusbar);
+  Denemo.status_context_id =
+    gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
+  gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
+		      "Denemo");
+
+  gtk_widget_show (hbox);
+
+
+  gtk_widget_show(Denemo.window);
+  /* Now that the window is shown, initialize the gcs */
+  gcs_init (Denemo.window->window);
+
+  /* Set up the keymap if not already set up and adds labels to widgets of this gui */
+  init_keymap();
+  if (Denemo.prefs.autosave) {
+    if(Denemo.autosaveid) {
+      warningdialog("No autosave on new gui");
+    }
+    else {
+      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
+					 (GSourceFunc) auto_save_document_timeout, Denemo.gui);
+    }
+  }
+
+  /* we have to do this properly, because it introduces a keymap - no longer true */
+  if (Denemo.prefs.rhythm_palette) {
+    GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+    if (GTK_WIDGET_VISIBLE (widget))
+      gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
+    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
+    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
+    //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
+    }
+  // A cheap way of doing activating this toolbar, note it is called variously notation toolbar, duration toolbar and EntryToolBar FIXME
+  if (!Denemo.prefs.notation_palette)
+    {
+      //g_print ("Notation palette %d\n", Denemo.prefs.notation_palette);
+      toggle_entry_toolbar (NULL, Denemo.gui);
+    }
+ 
+
+  /*
+The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
+FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
+  */
+GList *g = gtk_action_group_list_actions(action_group);
+ for(;g;g=g->next) {
+   GSList *h = gtk_action_get_proxies (g->data);
+   for(;h;h=h->next) {
+#if (GTK_MINOR_VERSION <10)
+        attach_action_to_widget(h->data, g->data, Denemo.gui);
+#endif
+        attach_set_accel_callback(h->data, g->data,"", Denemo.gui);
+   }
+ }
+
+
+  data_dir = g_build_filename (
+#ifndef USE_LOCAL_DENEMOUI
+get_data_dir (),
+#endif
+ "denemoui.xml", NULL);
+  parse_paths(data_dir, Denemo.gui);
+
+
+  use_markup(Denemo.window);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
+FIXME labels in toolitems are not correct until you do NewWindow.
+Really we should change the default for the class.*/
+  action_group = gtk_action_group_new ("LilyActions");
+  gtk_action_group_add_actions (action_group, lily_menus,
+				G_N_ELEMENTS (lily_menus), Denemo.gui);
+  gtk_ui_manager_insert_action_group (ui_manager, action_group, 1);
+ //  g_print("Turning on the modes\n");
+
+
+ //write_status(Denemo.gui);
+ Denemo.InsertModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/InsertModeNote");
+ Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/EditModeNote");
+ Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/ClassicModeNote");
+ Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NoteProperties");
+ gtk_widget_show (Denemo.InsertModeMenu);
+ gtk_widget_hide (Denemo.EditModeMenu);
+ gtk_widget_hide (Denemo.ClassicModeMenu);
+ gtk_widget_hide (Denemo.ModelessMenu);
+ gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
+ gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
+
+#ifdef G_OS_WIN32
+ toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
+ gtk_widget_show (toolbar);
+#endif
+
+ {GtkToggleAction *action;
+ action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleObjectMenu");
+ gtk_toggle_action_set_active (action, TRUE);
+ toggle_object_menu (NULL, Denemo.gui);
+ }
+  g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+}   /* create window */
+
+/**
+ * Creates a new DenemoGUI structure represented by a tab in a notebook to control one musical score
+ * of possibly several movements. 
+ * This DenemoGUI* gui is appended to the global list Denemo.guis.
+ * A single movement (DenemoScore) is instantiated in the gui.
+ * 
+ */
+void
+newview (void)
+{
+  if(Denemo.guis==NULL)
+    create_window();
+  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  Denemo.guis = g_list_append (Denemo.guis, gui);
+
+#if 0
+  if(Denemo.gui) {
+  if(Denemo.gui->textview && GTK_WIDGET_VISIBLE(Denemo.gui->textwindow)) {
+    g_print("turning off for %p\n", gui);
+    activate_action( "/MainMenu/ViewMenu/ToggleLilyText");
+  }
+
+  }
+#endif
+  Denemo.gui = NULL;
+  // Denemo.gui = gui; must do this after switching to page, so after creating page
+  gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
+  gui->lilycontrol.fontsize = 16;
+  gui->lilycontrol.lilyversion = g_string_new (LILYPOND_VERSION);
+  gui->lilycontrol.orientation = TRUE;	//portrait
+  gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");
+
+
+  gui->pixmap = NULL;
+
+  /* Initialize the GUI */
+
+  //create the tab for this gui
+  GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+
+  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), main_vbox, NULL);
+  gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+Denemo.gui = gui;
+  set_title_bar(gui);
+  gtk_widget_show (main_vbox);
+  GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
 		      0);
   gtk_widget_show (score_and_scroll_hbox);
-  gtk_grab_remove(toolbar);
+  //gtk_grab_remove(toolbar);  ?????????
   gui->scorearea = gtk_drawing_area_new ();
-  
 
-/*  gtk_window_set_default_size (GTK_WINDOW (gui->window), INITIAL_WIDTH,
-			       INITIAL_HEIGHT); */
 
 
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,
-		      TRUE, 0);
-  GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
-  gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
-  g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), gui);
-  g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
-		      G_CALLBACK (scorearea_configure_event), gui);
-
-
-  g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
-		      G_CALLBACK (scorearea_button_release), gui);
-
-  g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
-		      G_CALLBACK (scorearea_motion_notify), gui);
-
-  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
-  g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
-		      G_CALLBACK (scorearea_button_press), gui);
-  gtk_widget_set_events (gui->scorearea, (GDK_EXPOSURE_MASK
-					  | GDK_POINTER_MOTION_MASK
-					  | GDK_LEAVE_NOTIFY_MASK
-					  | GDK_BUTTON_PRESS_MASK
-					  | GDK_BUTTON_RELEASE_MASK));
-	
+		      TRUE, 0);// with this, the scoreare_expose_event is called
   gtk_widget_show (gui->scorearea);
 
   gui->vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
@@ -2065,142 +2241,84 @@ get_data_dir (),
   gtk_box_pack_start (GTK_BOX (main_vbox), gui->hscrollbar, FALSE, TRUE, 0);
   gtk_widget_show (gui->hscrollbar);
 
-  hbox = gtk_hbox_new (FALSE, 1);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_widget_show (hbox);
 
 
-  gui->statusbar = gtk_statusbar_new ();
-  gtk_box_pack_start (GTK_BOX (hbox), gui->statusbar, TRUE, TRUE, 5);
-  gtk_widget_show (gui->statusbar);
-  gui->status_context_id =
-    gtk_statusbar_get_context_id (GTK_STATUSBAR (gui->statusbar), "Denemo");
-  gtk_statusbar_push (GTK_STATUSBAR (gui->statusbar), gui->status_context_id,
-		      "Denemo");
+  //FIXME populate_opened_recent (gui);
+
+  /* create the first movement now because showing the window causes it to try to draw the scorearea
+   which it cannot do before there is a score. */
+  new_score (gui);
+  gui->movements = g_list_append(NULL, gui->si);
+ 
+
+  gtk_widget_show (gui->page);
+  gtk_widget_grab_focus (gui->scorearea);
 
 
 
-  gtk_signal_connect (GTK_OBJECT (gui->window), "delete_event",
+ create_rhythm_cb((gpointer)insert_chord_0key); 
+ create_rhythm_cb((gpointer)insert_chord_1key);   
+ create_rhythm_cb((gpointer)insert_chord_2key);   
+ create_rhythm_cb((gpointer)insert_chord_3key);   
+ create_rhythm_cb((gpointer)insert_chord_4key);   
+ create_rhythm_cb((gpointer)insert_chord_5key); 
+ create_rhythm_cb((gpointer)insert_chord_6key);   
+
+
+ create_rhythm_cb((gpointer)insert_rest_0key); 
+ create_rhythm_cb((gpointer)insert_rest_1key);   
+ create_rhythm_cb((gpointer)insert_rest_2key);   
+ create_rhythm_cb((gpointer)insert_rest_3key);   
+ create_rhythm_cb((gpointer)insert_rest_4key);   
+ create_rhythm_cb((gpointer)insert_rest_5key); 
+ create_rhythm_cb((gpointer)insert_rest_6key);   
+
+
+  if (Denemo.prefs.articulation_palette)
+    toggle_articulation_palette (NULL);
+  Denemo.gui->mode = INPUTINSERT | INPUTNORMAL;
+
+  // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
+  //gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+
+
+  GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
+  gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
+  g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
+		      G_CALLBACK (scorearea_expose_event), gui);
+  g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
+		      G_CALLBACK (scorearea_configure_event), gui);
+
+
+  g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
+		      G_CALLBACK (scorearea_button_release), gui);
+
+  g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
+		      G_CALLBACK (scorearea_motion_notify), gui);
+
+  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
+  g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
+		      G_CALLBACK (scorearea_button_press), gui);
+  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
 		      (GtkSignalFunc) delete_callback, gui);
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_press_event",
 		      (GtkSignalFunc) scorearea_keypress_event, gui);
- 
-  gtk_widget_show (gui->window);
-  gtk_widget_grab_focus (gui->scorearea);
-
-  /* Now that the window's shown, initialize the gcs */
-  gcs_init (gui->window->window);
-  Denemo.guis = g_list_append (Denemo.guis, gui);
-  /* Set up the keymap if not already set up and adds labels to widgets of this gui */
-  init_keymap();
-
-  populate_opened_recent (gui);
-
-  if (Denemo.prefs.autosave) {
-    if(Denemo.autosaveid) {
-      warningdialog("No autosave on new gui");
-    }
-    else {
-      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
-					 (GSourceFunc) auto_save_document_timeout, gui);
-    }
-  }
-  if (Denemo.prefs.articulation_palette)
-    toggle_articulation_palette (NULL, gui);
-
-  /* we have to do this properly, because it introduces a keymap */
-  if (Denemo.prefs.rhythm_palette) {
-    GtkWidget *widget = gtk_ui_manager_get_widget (gui->ui_manager, "/RhythmToolBar");
-    if (GTK_WIDGET_VISIBLE (widget))
-      gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
-    widget = gtk_ui_manager_get_widget (gui->ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
-    g_signal_emit_by_name(widget, "activate", NULL, gui);
-    //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
-    }
-  // A cheap way of doing activating this toolbar, note it is called variously notation toolbar, duration toolbar and EntryToolBar FIXME
-  if (!Denemo.prefs.notation_palette)
-    {
-      //g_print ("Notation palette %d\n", Denemo.prefs.notation_palette);
-      toggle_entry_toolbar (NULL, gui);
-    }
- 
-
-  /*
-The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
-FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
-  */
-GList *g = gtk_action_group_list_actions(action_group);
- for(;g;g=g->next) {
-   GSList *h = gtk_action_get_proxies (g->data);
-   for(;h;h=h->next) {
-#if (GTK_MINOR_VERSION <10)
-        attach_action_to_widget(h->data, g->data, gui);
-#endif
-        attach_set_accel_callback(h->data, g->data,"", gui);
-   }
- }
 
 
-  data_dir = g_build_filename (
-#ifndef USE_LOCAL_DENEMOUI
-get_data_dir (),
-#endif
- "denemoui.xml", NULL);
-  parse_paths(data_dir, gui);
 
 
-  use_markup(main_vbox);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
-FIXME labels in toolitems are not correct until you do NewWindow.
-Really we should change the default for the class.*/
-  action_group = gtk_action_group_new ("LilyActions");
-  gtk_action_group_add_actions (action_group, lily_menus,
-				G_N_ELEMENTS (lily_menus), gui);
-  gtk_ui_manager_insert_action_group (ui_manager, action_group, 1);
- //  g_print("Turning on the modes\n");
-
- gui->mode = INPUTINSERT | INPUTNORMAL;
- write_status(gui);
- gui->InsertModeMenu = gtk_ui_manager_get_widget (gui->ui_manager, "/ObjectMenu/InsertModeNote");
- gui->EditModeMenu = gtk_ui_manager_get_widget (gui->ui_manager, "/ObjectMenu/EditModeNote");
- gui->ClassicModeMenu = gtk_ui_manager_get_widget (gui->ui_manager, "/ObjectMenu/ClassicModeNote");
- gui->ModelessMenu = gtk_ui_manager_get_widget (gui->ui_manager, "/ObjectMenu/NoteProperties");
- gtk_widget_show (gui->InsertModeMenu);
- gtk_widget_hide (gui->EditModeMenu);
- gtk_widget_hide (gui->ClassicModeMenu);
- gtk_widget_hide (gui->ModelessMenu);
- gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
- gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
-
- create_rhythm_cb((gpointer)insert_chord_0key, gui); 
- create_rhythm_cb((gpointer)insert_chord_1key, gui);   
- create_rhythm_cb((gpointer)insert_chord_2key, gui);   
- create_rhythm_cb((gpointer)insert_chord_3key, gui);   
- create_rhythm_cb((gpointer)insert_chord_4key, gui);   
- create_rhythm_cb((gpointer)insert_chord_5key, gui); 
- create_rhythm_cb((gpointer)insert_chord_6key, gui);   
+  gtk_widget_add_events/*gtk_widget_set_events*/ (gui->scorearea, (GDK_EXPOSURE_MASK
+					  | GDK_POINTER_MOTION_MASK
+					  | GDK_LEAVE_NOTIFY_MASK
+					  | GDK_BUTTON_PRESS_MASK
+					  | GDK_BUTTON_RELEASE_MASK));
 
 
- create_rhythm_cb((gpointer)insert_rest_0key, gui); 
- create_rhythm_cb((gpointer)insert_rest_1key, gui);   
- create_rhythm_cb((gpointer)insert_rest_2key, gui);   
- create_rhythm_cb((gpointer)insert_rest_3key, gui);   
- create_rhythm_cb((gpointer)insert_rest_4key, gui);   
- create_rhythm_cb((gpointer)insert_rest_5key, gui); 
- create_rhythm_cb((gpointer)insert_rest_6key, gui);   
 
-#ifdef G_OS_WIN32
- toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
- gtk_widget_show (toolbar);
-#endif
 
- {GtkToggleAction *action;
- action = (GtkToggleAction *)gtk_ui_manager_get_action (gui->ui_manager, "/MainMenu/ViewMenu/ToggleObjectMenu");
- gtk_toggle_action_set_active (action, TRUE);
- toggle_object_menu (NULL, gui);
- }
- g_free (error);
-#if 0
- create_lilywindow(gui);
- refresh_lily_cb(NULL, gui);
-#endif
+
+
 }

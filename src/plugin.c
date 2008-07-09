@@ -26,8 +26,9 @@
 
 
 void
-load_plugin (GtkAction * action, DenemoGUI * gui)
+load_plugin (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   g_print ("In Load Plugin\n");
 
   if (gui)
@@ -44,7 +45,7 @@ load_plugin (GtkAction * action, DenemoGUI * gui)
  *
  */
 void
-list_available_plugins (GtkAction * action, DenemoGUI * gui)
+list_available_plugins (GtkAction * action)
 {
 
 }
@@ -55,8 +56,9 @@ list_available_plugins (GtkAction * action, DenemoGUI * gui)
  * List loaded plugins 
  */
 void
-list_loaded_plugins (GtkAction * action, DenemoGUI * gui)
+list_loaded_plugins (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkTreeStore *tree_store;
   GtkWidget *tree;
@@ -208,8 +210,9 @@ denemo_plugin_cleanup (const gchar * name, DenemoGUI * gui)
  *
  */
 void
-unloadplugins (GtkAction * action, DenemoGUI * gui)
+unloadplugins (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GList *temp = NULL;
 
   for (temp = gui->plugins; temp; temp = temp->next)

@@ -469,8 +469,9 @@ unset_mark (DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-copywrapper (GtkAction * action, DenemoGUI * gui)
+copywrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   copytobuffer (gui->si);
 }
 
@@ -482,8 +483,9 @@ copywrapper (GtkAction * action, DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure 
  */
 void
-cutwrapper (GtkAction * action, DenemoGUI * gui)
+cutwrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   cuttobuffer (gui->si);
   displayhelper (gui);
 }
@@ -496,8 +498,9 @@ cutwrapper (GtkAction * action, DenemoGUI * gui)
  * @param action pointer to the GtkAction event
  */
 void
-pastewrapper (GtkAction * action, DenemoGUI * gui)
+pastewrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   pastefrombuffer (gui);
   score_status(gui, TRUE);
   displayhelper (gui);
@@ -512,8 +515,9 @@ pastewrapper (GtkAction * action, DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-saveselwrapper (GtkAction * action, DenemoGUI * gui)
+saveselwrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   saveselection (gui->si);
 }
 
@@ -615,8 +619,9 @@ calcmarkboundaries (DenemoScore * si)
  * widget - unused
  */
 void
-undowrapper (GtkAction * action, DenemoGUI * gui)
+undowrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   undo (gui);
   displayhelper (gui);
 }
@@ -631,8 +636,9 @@ undowrapper (GtkAction * action, DenemoGUI * gui)
  * widget - unused
  */
 void
-redowrapper (GtkAction * action, DenemoGUI * gui)
+redowrapper (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   redo (gui);
   displayhelper (gui);
 }
@@ -640,7 +646,7 @@ redowrapper (GtkAction * action, DenemoGUI * gui)
 
 /**
  * undo
- * Self explanitary - undo's the previous command
+ * Self explantory - undo's the previous command
  *
  * Input
  * scoreinfo - score data

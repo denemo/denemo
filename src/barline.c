@@ -58,8 +58,9 @@ barlinefromname (gchar * thetext)
  * @return none
  */
 void
-insert_barline (GtkAction * action, DenemoGUI * gui)
+insert_barline (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *combobox;

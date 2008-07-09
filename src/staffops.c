@@ -540,11 +540,12 @@ fixnoteheights (DenemoStaff * thestaff)
  * @return none
  */
 void
-newstaffinitial (GtkAction * action, DenemoGUI * gui)
+newstaffinitial (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->prev)
     staffup(gui);
-  newstaffbefore (action, gui);
+  newstaffbefore (action);
 }
 
 /**
@@ -554,11 +555,12 @@ newstaffinitial (GtkAction * action, DenemoGUI * gui)
  * @return none
  */
 void
-newstaffbefore (GtkAction * action, DenemoGUI * gui)
+newstaffbefore (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
-  tohome(NULL, gui);
+  tohome(NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
   if(gui->si->currentstaffnum>= gui->si->top_staff)
     gui->si->top_staff++;
@@ -579,11 +581,12 @@ newstaffbefore (GtkAction * action, DenemoGUI * gui)
  * @return none
  */
 void
-dnm_newstaffafter (GtkAction * action, DenemoGUI * gui)
+dnm_newstaffafter (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
-  tohome(NULL, gui);
+  tohome(NULL);
   newstaff (gui, AFTER, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
@@ -598,11 +601,12 @@ dnm_newstaffafter (GtkAction * action, DenemoGUI * gui)
  * @return none
  */
 void
-newstafflast (GtkAction * action, DenemoGUI * gui)
+newstafflast (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->next)
     staffdown(gui);
-  dnm_newstaffafter(action, gui);
+  dnm_newstaffafter(action);
 }
 
 /**
@@ -612,65 +616,13 @@ newstafflast (GtkAction * action, DenemoGUI * gui)
  * @return none
  */
 void
-dnm_newstaffvoice (GtkAction * action, DenemoGUI * gui)
+dnm_newstaffvoice (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   setcurrents(gui->si);//staffdown (gui);
   displayhelper (gui);
 }
-
-/**
- * Callback function to create a lyric staff below the current staff
- * @param action a Gtk Action
- * @param gui the DenemoGUI structure
- * @return none
- */
-void
-newstafflyric (GtkAction * action, DenemoGUI * gui)
-{
-  newstaff (gui, LYRICSTAFF, DENEMO_NONE);
-  set_bottom_staff (gui);
-  update_vscrollbar (gui);
-  staffdown (gui);
-  displayhelper (gui);
-}
-
-
-/**
- * Callback function to insert a figured bass staff after the current staff
- * @param action a Gtk Action
- * @param gui the DenemoGUI structure
- * @return none
- */
-void
-dnm_newstafffigured (GtkAction * action, DenemoGUI * gui)
-{
-  newstaff (gui, FIGURESTAFF, DENEMO_NONE);
-  set_bottom_staff (gui);
-  update_vscrollbar (gui);
-  staffdown (gui);
-  displayhelper (gui);
-}
-
-
-/*
- * Callback function to insert chords above the current staff
- * @param action a Gtk Action
- * @param gui the DenemoGUI structure
- * @return none
- */
-
-void
-dnm_newstaffchords (GtkAction * action, DenemoGUI * gui)
-{
-  printf("\n ok I am going to add chords to the staff now\n");
-  newstaff (gui, CHORDSTAFF, DENEMO_NONE);
-  //set_bottom_staff (gui);
-  update_vscrollbar (gui);
-  //staffdown (gui);
-  displayhelper (gui);
-}
-
 

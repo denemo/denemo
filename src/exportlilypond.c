@@ -26,7 +26,9 @@
 #include "xmldefs.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
+#define LEAVE_NOTIFY_EVENT "focus-out-event"
 
+#define SIGNAL_WIDGET gui->textwindow /* Denemo.window */
 
 #define TARGET "target"
 #define MUSIC "music"
@@ -48,6 +50,8 @@
 
 #define TAB "        "
 
+static void 
+create_lilywindow(DenemoGUI *gui);
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname);
 static GtkTextTagTable *tagtable;
@@ -110,12 +114,12 @@ static gboolean popup_menu(GtkButton *button,GdkEvent *event, DenemoGUI *gui) {
   GtkTextChildAnchor *anchor = g_object_get_data(G_OBJECT(button), "anchor");
   GtkWidget *menu;
   if(g_object_get_data(G_OBJECT(anchor), STANDARD_SCOREBLOCK))
-    menu = gtk_ui_manager_get_widget (gui->ui_manager, "/LilyScoreblockMenu");
+    menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyScoreblockMenu");
   else {
     if(g_object_get_data(G_OBJECT(anchor), CUSTOM))
-      menu = gtk_ui_manager_get_widget (gui->ui_manager, "/LilyCustomScoreblockMenu");
+      menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyCustomScoreblockMenu");
     else
-      menu = gtk_ui_manager_get_widget (gui->ui_manager, "/LilyMenu");
+      menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/LilyMenu");
   }
 
 
@@ -1505,6 +1509,12 @@ void merge_lily_strings (DenemoGUI *gui) {
 void merge_lily_cb (GtkAction *action, DenemoGUI *gui) {
   merge_lily_strings(gui);
 }
+
+/* if there is not yet a textbuffer for the passed gui, it creates and populates one,
+   if there is it finds the offset of the current point in the buffer, refreshes it from 
+   the Denemo data and then repositions the cursor at that offset. The refresh is subject to
+   conditions (see output_score_to_buffer()).
+*/
 void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
   if(gui->textbuffer) {
   GtkTextIter iter;
@@ -1516,14 +1526,15 @@ void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
   gtk_text_buffer_get_iter_at_offset (gui->textbuffer, &iter, offset);
   gtk_text_buffer_place_cursor(gui->textbuffer, &iter);
   // gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui->textview), gtk_text_buffer_get_insert(gui->textbuffer));
-gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
+  gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview), 
 			      gtk_text_buffer_get_insert(gui->textbuffer), 0.0, TRUE, 0.5, 0.5);
   } else 
     output_score_to_buffer (gui, TRUE, NULL);
 }
 
 
-void delete_lily_cb (GtkAction *action, DenemoGUI *gui) {
+void delete_lily_cb (GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   GtkTextChildAnchor *anchor = gui->lilystart;
   GtkTextIter start, end;
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
@@ -1553,8 +1564,8 @@ static gboolean print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 }
 
 /* create a new custom scoreblock from the text of the one passed in lilystart */
-void custom_lily_cb (GtkAction *action, DenemoGUI *gui) {
-
+void custom_lily_cb (GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   GtkTextChildAnchor *anchor = gui->lilystart;
   merge_lily_strings(gui);
   if(g_object_get_data(G_OBJECT(anchor),STANDARD_SCOREBLOCK)){
@@ -1587,7 +1598,8 @@ void custom_lily_cb (GtkAction *action, DenemoGUI *gui) {
     refresh_lily_cb(action, gui);
 }
 
-void toggle_lily_visible_cb (GtkAction *action, DenemoGUI *gui) {
+void toggle_lily_visible_cb (GtkAction *action) {
+  DenemoGUI *gui = Denemo.gui;
   GtkTextIter start, end;
   GtkTextChildAnchor *anchor = gui->lilystart;
   DenemoScoreblock *sb = g_object_get_data(G_OBJECT(anchor), CUSTOM);
@@ -1638,14 +1650,16 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
- *if gui->lilysync is up to date with changecount on entry does nothing
+ *if gui->lilysync is up to date with changecount on entry does nothing unless
+ *the set of score blocks will be different from the last call
+ * this namespec is not otherwise used FIXME
  */
 
 
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
-  static gchar* last_namespec="";/* to check if the scoreblocks to make visible are different */
+  gchar *last_namespec=gui->namespec?gui->namespec:g_strdup_printf("");/* to check if the scoreblocks to make visible are different */
 
   gchar *namespec;
   gchar *movementname;
@@ -1672,9 +1686,13 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
   if(gui->textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(last_namespec, namespec)) {
+    g_free(namespec);
+    gui->namespec = namespec;
     //g_print("changecount=%d and lilysync= %d\n", gui->changecount, gui->lilysync);
     return;
   }
+  g_free(namespec);
+  gui->namespec = namespec;
   //g_print("actually refreshing %d %d", gui->lilysync, gui->changecount);
   gui->lilysync = gui->changecount;
   if(gui->textbuffer)
@@ -2023,7 +2041,7 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
 /* callback on destroying lilypond window */
 static gboolean lilywindow_destroyed(GtkObject *object, DenemoGUI *gui) {
   merge_lily_strings (gui);
-  GtkWidget * toggle = gtk_ui_manager_get_widget (gui->ui_manager,
+  GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
 						  "/MainMenu/ViewMenu/ToggleLilyText");
   gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle),
 				  FALSE);
@@ -2039,7 +2057,8 @@ lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui);
 
 static gboolean 
 lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  g_signal_handlers_block_by_func (gui->window, G_CALLBACK (lily_save), gui);
+  g_print("Consider Save ... %d %d", gui->lilysync, gui->changecount);
+  g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
   if(gui->textwindow) {
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
     merge_lily_strings(gui);
@@ -2049,10 +2068,10 @@ lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
 }
 static gboolean 
 lily_refresh(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
-  //g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
+  g_print("Consider Refresh ... %d %d", gui->lilysync, gui->changecount);
   if(gui->textwindow)
     g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
-  g_signal_handlers_unblock_by_func (G_OBJECT (gui->window), G_CALLBACK (lily_save), gui);
+  g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);
   
   if( gui->si->markstaffnum || (gui->lilysync!=gui->changecount)) {
     gui->si->markstaffnum =  0;//remove selection, else we will only see that bit in LilyText   
@@ -2167,9 +2186,10 @@ static lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
   }//if cursor is at anchor
   return FALSE;//let the normal handler have the keypress
 }
-void create_lilywindow(DenemoGUI *gui) {
+static void create_lilywindow(DenemoGUI *gui) {
   gui->textwindow = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_default_size (GTK_WINDOW (gui->textwindow), 400, 600);
+  //gtk_window_set_position (GTK_WINDOW (gui->textwindow), GTK_WIN_POS_NONE);
+  gtk_window_set_default_size (GTK_WINDOW (gui->textwindow), 800, 600);
   gtk_window_set_title(GTK_WINDOW (gui->textwindow), "LilyPond Text - Denemo");
   g_signal_connect (G_OBJECT (gui->textwindow), "destroy",
 		    G_CALLBACK (lilywindow_destroyed), gui); 
@@ -2184,7 +2204,7 @@ void create_lilywindow(DenemoGUI *gui) {
 				  GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (vpaned), sw);
   gtk_container_add (GTK_CONTAINER (sw), view);
-
+  gtk_widget_show_all(vpaned);
 
   GtkTextIter iter;
   tagtable =  (GtkTextTagTable *)gtk_text_tag_table_new();
@@ -2200,7 +2220,7 @@ void create_lilywindow(DenemoGUI *gui) {
 
 
 
-  /*   g_object_set_data(G_OBJECT (gui->window),"enter-signal", (gpointer)id); */
+  /*   g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"enter-signal", (gpointer)id); */
   GtkTextTag *t;
   t = gtk_text_tag_new("invisible");
   g_object_set(G_OBJECT(t),  "invisible", TRUE, NULL);
@@ -2236,17 +2256,17 @@ void create_lilywindow(DenemoGUI *gui) {
   gtk_text_view_set_buffer (GTK_TEXT_VIEW(gui->textview), gui->textbuffer);
   gui->lilysync = G_MAXUINT;//buffer not yet up to date
 
-  gboolean has_signal = (gboolean)g_object_get_data(G_OBJECT (gui->window),"has signal");
+  gboolean has_signal = (gboolean)g_object_get_data(G_OBJECT (SIGNAL_WIDGET),"has signal");
   if(has_signal)     
-    g_signal_handlers_unblock_by_func (G_OBJECT (gui->window), G_CALLBACK (lily_save), gui);//FIXME is it blocked?
+    g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);//FIXME is it blocked?
   else {
-    g_signal_connect (G_OBJECT (gui->window), ENTER_NOTIFY_EVENT ,
+    g_signal_connect (G_OBJECT (SIGNAL_WIDGET), LEAVE_NOTIFY_EVENT ,
 		      G_CALLBACK (lily_save), gui);
-    g_object_set_data(G_OBJECT (gui->window),"has signal", (gpointer)TRUE);
+    g_object_set_data(G_OBJECT (SIGNAL_WIDGET),"has signal", (gpointer)TRUE);
   }
   g_signal_connect (G_OBJECT (gui->textwindow), ENTER_NOTIFY_EVENT,
 		    G_CALLBACK (lily_refresh), gui);
   g_signal_handlers_block_by_func(gui->textwindow, G_CALLBACK (lily_refresh), gui);
-  //g_signal_handlers_block_by_func (gui->window, G_CALLBACK (lily_save), gui);
+  //g_signal_handlers_block_by_func (SIGNAL_WIDGET, G_CALLBACK (lily_save), gui);
 
 }

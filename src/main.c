@@ -574,7 +574,7 @@ COPYING for details.\n\n");
               g_remove (name);
               break;
             case GTK_RESPONSE_CANCEL:
-              gui->window = NULL;
+              Denemo.window = NULL;
               result = importXML (name, gui, REPLACE_SCORE);
               if (result != -1)
                 file_saveas (gui, FALSE);

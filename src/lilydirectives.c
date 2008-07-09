@@ -148,8 +148,9 @@ lily_directive (DenemoGUI *gui, gboolean attach)
  * or edit the current lilypond directive
  */
 void
-lily_directive_insert (GtkAction * action, DenemoGUI *gui)
+lily_directive_insert (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   lily_directive (gui, FALSE);
 }
 
@@ -159,8 +160,9 @@ lily_directive_insert (GtkAction * action, DenemoGUI *gui)
  * or edit the current lilypond directive
  */
 void
-lily_directive_postfix (GtkAction * action, DenemoGUI *gui)
+lily_directive_postfix (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   lily_directive (gui, TRUE);
 }
 
@@ -168,8 +170,9 @@ lily_directive_postfix (GtkAction * action, DenemoGUI *gui)
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
 void
-rehearsal_mark (GtkAction * action, DenemoGUI *gui)
+rehearsal_mark (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
 DenemoObject *lily = lily_directive_new (" \\mark \\default ");
  object_insert (gui, lily);
  if (!gui->si->cursor_appending){
@@ -183,8 +186,9 @@ DenemoObject *lily = lily_directive_new (" \\mark \\default ");
 
 void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui);
 void
-myactivate (GtkAction * action, DenemoGUI *gui)
+myactivate (GtkAction * action)
 {
+  DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
 
