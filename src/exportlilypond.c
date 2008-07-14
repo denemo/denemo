@@ -1348,7 +1348,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      g_string_append(figures, "\n");
 	    if(fakechords->len)
 	      g_string_append(fakechords, "\n");
-	    if(curobj->type!=LILYDIRECTIVE) /* if it ends in a lilydirective, the user may want to choose their own
+	    if(curobj == NULL || curobj->type != LILYDIRECTIVE) /* if it ends in a lilydirective, the user may want to choose their own
 					       barline style, let them */
 	      if (curmeasure->next)
 		g_string_append_printf(endstr, "|\n");
