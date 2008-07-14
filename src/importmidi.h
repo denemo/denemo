@@ -15,11 +15,11 @@ typedef struct notetype
 
 typedef struct nstack 
 {
-	gint pitch;
-   	gint measure;
-     	gint timeon;
-     	gint duration; 
-        gint staffnum;	
+	gint *pitch;
+   	gint *measure;
+     	gint *timeon;
+     	gint *duration; 
+        gint *staffnum;	
 }nstack;
 
 typedef struct midicallback
@@ -67,9 +67,9 @@ void dotrackname(FILE* fp, midicallback *mididata, gint x);
 
 void doinstrname(FILE* fp, midicallback *mididata, gint x);
 
-void donoteon(midicallback *mididata, gint pitchon, gint attack, gint timeon);
+void donoteon(midicallback *mididata, gint *pitchon, gint *attack, gint *timeon);
 
-void donoteoff(midicallback *mididata, gint pitchoff, gint timeoff);
+void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
 
 void restcheck(GList *tmp, midicallback *mididata);
 
