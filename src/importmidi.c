@@ -412,13 +412,40 @@ void findchordtones(GList *list, midicallback *mididata){
 	gint *c_staffnum = ((nstack *) mididata->currentnote->data)->staffnum;
 	gint *c_duration = ((nstack *) mididata->currentnote->data)->duration;
 	gint *c_pitch = ((nstack *) mididata->currentnote->data)->pitch;
-
-	if ((l_timeon == c_timeon) /*check for notes that belong in the chord*/
+        //1 2	
+	if ((int) l_timeon <= (int) c_timeon < ((int) l_timeon + (int) l_duration)){
+	  if ((l_timeon == c_timeon) /*check for notes that belong in the chord*/
 		&& (l_duration == c_duration)
 		&& (l_staffnum == c_staffnum)
 		&& (l_pitch != c_pitch)){
-				mididata->chordnotes = g_list_append(mididata->chordnotes, (int *) l_pitch);			     }
+				mididata->chordnotes = g_list_append(mididata->chordnotes, (int *) l_pitch);
+	  	printf("\n!!! Chord Tone !!!\n");
+	  }
+	  else if (((gint) l_timeon == (gint) c_timeon)
+			 && (l_pitch != c_pitch) 
+			 && ((gint) l_duration != (gint) c_duration)) 
+            printf("\n!!! possible voice !!!\n");
+	  else if (((gint) l_timeon < (gint) c_timeon)
+			 && ((((int) l_timeon + (int) l_duration) > (int) c_timeon)))
+		  printf("\n!!! possible voice !!!\n");
+	}
+
 }
+
+void findvoicesandchords(GList *list, midicallback *mididata){
+	/*list*/
+	gint *l_timeon = ((nstack *) list->data)->timeon;
+	gint *l_staffnum = ((nstack *) list->data)->staffnum;
+	gint *l_duration = ((nstack *) list->data)->duration;
+	gint *l_pitch = ((nstack *) list->data)->pitch;
+	/*current note*/
+	gint *c_timeon = ((nstack *) mididata->currentnote->data)->timeon;
+	gint *c_staffnum = ((nstack *) mididata->currentnote->data)->staffnum;
+	gint *c_duration = ((nstack *) mididata->currentnote->data)->duration;
+	gint *c_pitch = ((nstack *) mididata->currentnote->data)->pitch;
+	//0 3 / 1 4
+}
+
 
 /**
  * Process note off command
