@@ -4,12 +4,11 @@
  * (c) 2003-2005 AJAnderson
  *
  */
-
-#include <denemo/denemo.h>
-#include "importmidi.h"
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <denemo/denemo.h>
+#include "importmidi.h"
 
 /* 	TODO
  *  
@@ -81,7 +80,6 @@ importMidi (gchar * filename, DenemoGUI * gui)
     
   g_list_foreach(mididata->final_list, (GFunc) addnote, mididata);
   g_free(mididata);
-  ret = 0;
   return ret;
 }
 
@@ -300,9 +298,7 @@ dotimesig (FILE * fp, midicallback *mididata)
   curstaffstruct->stime1 = readBytes (fp, 1);
   curstaffstruct->stime2 = (gint) pow (2, (readBytes (fp, 1)));
 
-
   mididata->barlength = mididata->PPQN * 4 * curstaffstruct->stime1 / curstaffstruct->stime2;
-
   readBytes (fp, 2);		/*skip last two characters */
 }
 
@@ -326,8 +322,6 @@ dokeysig (FILE * fp, midicallback *mididata)
   curstaffstruct->skey = key;
   curstaffstruct->skey_isminor = isminor;
   dnm_setinitialkeysig (curstaffstruct, key, isminor);
-
-
 }
 
 void
@@ -354,7 +348,6 @@ dotrackname (FILE * fp, midicallback *mididata, gint x)
   g_string_free (temp, FALSE);
 }
 
-
 void
 doinstrname (FILE * fp,  midicallback *mididata, gint x)
 {
@@ -366,7 +359,6 @@ doinstrname (FILE * fp,  midicallback *mididata, gint x)
   curstaffstruct->midi_instrument->str = g_strdup(temp->str);
   g_string_free (temp, FALSE);
 }
-
 
 static nstack *
 stack (gint *pitch, gint *timeon, gint *duration, gint *measure, gint *staffnum)
@@ -399,6 +391,7 @@ donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
 #endif
     }
 }
+
 gint CompareNotes(GList *tmp, gint *pitchoff)
 {
         if ((((nstack *) &tmp->data)->pitch == pitchoff) &&
@@ -408,16 +401,51 @@ gint CompareNotes(GList *tmp, gint *pitchoff)
                return 1;
 }
 
-void NewFindChordTones(GList *list, midicallback *mididata){
-	if ((((nstack *) list->data)->timeon == ((nstack *) mididata->currentnote->data)->timeon) 
-		&& (((nstack *) list->data)->duration == ((nstack *) mididata->currentnote->data)->duration)
-		&& (((nstack *) list->data)->staffnum == ((nstack *) mididata->currentnote->data)->staffnum)
-		&& (((nstack *) list->data)->pitch != ((nstack *) mididata->currentnote->data)->pitch)){
-				mididata->chordnotes = g_list_append(mididata->chordnotes, (int *) ((nstack *) list->data)->pitch);			
+void findchordtones(GList *list, midicallback *mididata){
+	/*list*/
+	gint *l_timeon = ((nstack *) list->data)->timeon;
+	gint *l_staffnum = ((nstack *) list->data)->staffnum;
+	gint *l_duration = ((nstack *) list->data)->duration;
+	gint *l_pitch = ((nstack *) list->data)->pitch;
+	/*current note*/
+	gint *c_timeon = ((nstack *) mididata->currentnote->data)->timeon;
+	gint *c_staffnum = ((nstack *) mididata->currentnote->data)->staffnum;
+	gint *c_duration = ((nstack *) mididata->currentnote->data)->duration;
+	gint *c_pitch = ((nstack *) mididata->currentnote->data)->pitch;
+        //1 2	
+	if ((int) l_timeon <= (int) c_timeon < ((int) l_timeon + (int) l_duration)){
+	  if ((l_timeon == c_timeon) /*check for notes that belong in the chord*/
+		&& (l_duration == c_duration)
+		&& (l_staffnum == c_staffnum)
+		&& (l_pitch != c_pitch)){
+				mididata->chordnotes = g_list_append(mididata->chordnotes, (int *) l_pitch);
+	  	printf("\n!!! Chord Tone !!!\n");
+	  }
+	  else if (((gint) l_timeon == (gint) c_timeon)
+			 && (l_pitch != c_pitch) 
+			 && ((gint) l_duration != (gint) c_duration)) 
+            printf("\n!!! possible voice !!!\n");
+	  else if (((gint) l_timeon < (gint) c_timeon)
+			 && ((((int) l_timeon + (int) l_duration) > (int) c_timeon)))
+		  printf("\n!!! possible voice !!!\n");
 	}
-	else 
-		g_printf("\nNo other chord notes\n");	
+
 }
+
+void findvoicesandchords(GList *list, midicallback *mididata){
+	/*list*/
+	gint *l_timeon = ((nstack *) list->data)->timeon;
+	gint *l_staffnum = ((nstack *) list->data)->staffnum;
+	gint *l_duration = ((nstack *) list->data)->duration;
+	gint *l_pitch = ((nstack *) list->data)->pitch;
+	/*current note*/
+	gint *c_timeon = ((nstack *) mididata->currentnote->data)->timeon;
+	gint *c_staffnum = ((nstack *) mididata->currentnote->data)->staffnum;
+	gint *c_duration = ((nstack *) mididata->currentnote->data)->duration;
+	gint *c_pitch = ((nstack *) mididata->currentnote->data)->pitch;
+	//0 3 / 1 4
+}
+
 
 /**
  * Process note off command
@@ -463,9 +491,9 @@ void ProcessNoteList(GList *list, midicallback *mididata) {
 	
 	/* call function to return a list of chord tones */
 	mididata->currentnote = g_list_copy(list);
-	g_list_foreach(mididata->final_list, (GFunc) NewFindChordTones, mididata);
+	g_list_foreach(mididata->final_list, (GFunc) findchordtones, mididata);
 
-	if ((track + 1) > currentstaffnum) /*if not first track */
+	if ((track + 1) > currentstaffnum) /*if not first track add track */
 	  {
 	      si->currentstaffnum++;
 	      si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
@@ -564,7 +592,7 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
   gint dsq = (8 * endnote) / PPQN;
   
   switch (dsq)
-    {
+  {
     case 1:			/*demi-semi-quaver */
       {
 	notetype = 5;
@@ -667,18 +695,11 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
 	notetype = 0;
 	break;
       }
-      /*default:
-         {
-         notetype = 2;
-         tied = endnote - PPQN;
-         break;
-         }  */
-    }
+  }
   gnotetype.notetype = notetype;
   gnotetype.tied = tied;
   return gnotetype;
 }
-
 
 /* all this stuff is just checking 
  * to see if we need to add a new measure 
