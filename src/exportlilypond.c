@@ -1132,14 +1132,24 @@ outputHeader (GString *str, DenemoGUI * gui)
   if (gui->lilycontrol.excerpt == TRUE)
     g_string_append_printf (str, "\\include \"lilypond-book-preamble.ly\" \n\n");
 
-  g_string_append_printf (str, "%%http://www.gnu.org/software/denemo/\n\n");
+  g_string_append_printf (str, "%%http://www.denemo.org\n\n");
   /*Print out lilypond syntax version */
   g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
 
   /* print \paper block setting printing of all headers */
-  g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
-
-
+  if (gui->lilycontrol.excerpt == TRUE){
+    g_string_append_printf (str, "\\paper { \n");
+    g_string_append_printf (str, "\tprintallheaders = ##f\n");
+    g_string_append_printf (str, "\t#(define dump-extents #t)\n"); 
+    g_string_append_printf (str, "\tindent = 0\\mm \n");
+    g_string_append_printf (str, "\tline-width = 160\\mm - 2.0 * 0.4\\in \n");
+    g_string_append_printf (str, "\tragged-right = ##t \n");
+    g_string_append_printf (str, "\tforce-assignment = #\"\" \n");
+    g_string_append_printf (str, "\tline-width = #(- line-width (* mm  3.000000)) \n");
+    g_string_append_printf (str, "}\n");
+  }
+  else
+    g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
 
   g_string_append_printf (str, "#(set-global-staff-size %d)\n", gui->lilycontrol.fontsize);
   g_string_append_printf (str, "#(set-default-paper-size \"%s\")\n",
@@ -1159,7 +1169,7 @@ outputHeader (GString *str, DenemoGUI * gui)
  * implemented FIXME).
  * Any lyrics, chord symbols and figured basses are put in separate sections.
  * 
- */
+*/
 static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count)
