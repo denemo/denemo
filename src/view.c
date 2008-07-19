@@ -1138,7 +1138,7 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (staff_properties_change)},
   {"InsertMenu", NULL, N_("Insert")},
   {"Clef", NULL, N_("_Clef")},
-  {"InitialClef", NULL, N_("Initial Clef"), NULL, "Change the initial clef of the current staff",
+  {"InitialClef", NULL, N_("Initial Clef"), NULL, N_("Change the initial clef of the current staff"),
    G_CALLBACK (clef_change_initial)},
   {"InsertClef", NULL, N_("Insert Clef Change"), NULL, N_("Insert a change of clef at the cursor"),
    G_CALLBACK (clef_change_insert)},
