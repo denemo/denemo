@@ -1,3 +1,6 @@
+2008-07-17 <rshann>
+	   view.c more internationalization fixes, and minor improvements to tooltips.
+	   denemoui.xml apply RR's fix for order of menu items.
 2008-07-17 <jjbenham> 
 	   exportlilypond.c prints out more info in /paper properties on music
 	   excerpt
