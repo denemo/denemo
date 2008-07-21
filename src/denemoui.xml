@@ -437,9 +437,9 @@
 
 
 
-    <menu action="ClefMenu"> 	   
-	<menuitem action="InitialClef"/>
-	<menuitem action="InsertClef"/>	
+    <menu action="ClefMenu">
+        <menuitem action="InitialClef"/>
+        <menuitem action="InsertClef"/>
     </menu>
 
     <menu action="Key">
