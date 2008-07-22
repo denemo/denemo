@@ -677,7 +677,7 @@ score_body:
 		$$ = g_list_append(NULL, $1.id);
 	}
 	| score_body lilypond_header 	{
-	lyerror ("parser should have caught this");
+	    // lyerror ("parser should have caught this score header");
 		/*intercept this at lexical level*/	
 	}
 	| score_body output_def {
@@ -710,11 +710,11 @@ music_output_def_body:
 	}
 	| PAPER '{' 	{
 		/* caught by lexer - does not occur*/
-		lyerror ("parser should have caught this");
+		lyerror ("parser should have caught this-paper");
 	}
 	| LAYOUT '{' {
 		/* caught by lexer - does not occur*/
-		lyerror ("parser should have caught this");
+		lyerror ("parser should have caught this - layout");
 	}
 	| music_output_def_body error {
 		lyerror("music_output_def_body error");
@@ -2977,6 +2977,11 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  parser_error_message = NULL;
 	  /* free_score (si); CHANGE THIS TO FREE ALL THE si in 
 	     si->thefile->currentDenemoScore list... */
+
+
+	  // Calling init_score here would cause piece in header to set to "Movement 2"
+  	  si->measurewidths = NULL;
+	  si->thescore = NULL;
 	  
 
 	  /* in case we are re-entering via reload after error */
@@ -2989,6 +2994,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	    {
 	      lyparse ();
  if (parser_error_message) { 
+	fprintf(stderr,"%s\n",  parser_error_message);
 	warningdialog("Unable to cope with this file");
 	return -1;
 }
@@ -2997,6 +3003,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	    {
 	      GList *score = findtok (lily_file, SCORE);
 	      if (score)
+	      {
 		if (create_score_from_lily (si, br (score)) == 0)
 		  {
 		    GList *top;
@@ -3027,6 +3034,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 #endif
 		    attach_trailing_white_space (top);
 		    si->lily_file = top;
+	      	    si->lily_file = NULL; // stop lilypond file edit restrictions- RRR
 		    fixup_measure_widths_and_contexts (si);
 #ifdef LILYEDIT
 		    /* write out the text to editable display */
@@ -3092,6 +3100,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 		    parser_error_linenum, parser_error_message);
 		return(1);
 	    }
+	  }
 
 	}
       reset_initial_lexer_state ();
