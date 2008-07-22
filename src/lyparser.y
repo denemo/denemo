@@ -228,6 +228,8 @@ of the parse stack onto the heap. */
 %token <gstr> staffcontext voicecontext lyricscontext figuredbasscontext
 %token endcontext
 
+%token<gstr> LILYDIRECTIVE_TOKEN
+
 
 %token<gstr> MUSICMODE
 %token<gstr> TONEOPTION
@@ -861,6 +863,14 @@ LATER_MESSAGE(@$.first_line);
 
 Simple_music:
 	event_chord		{ $$ = $1; }
+	| LILYDIRECTIVE_TOKEN {
+		DenemoObject *mud = lily_directive_new ($1.user_string);		
+		$$ = g_list_append(NULL,mud);
+	}
+	| LILYDIRECTIVE_TOKEN STRING_ {
+		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string));	
+		$$ = g_list_append(NULL,mud);
+	}
 	| OUTPUTPROPERTY embedded_scm embedded_scm '=' embedded_scm	{
 LATER_MESSAGE(@$.first_line);
 #ifdef LATER
@@ -2993,11 +3003,12 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  while (!feof (lyin))
 	    {
 	      lyparse ();
- if (parser_error_message) { 
-	fprintf(stderr,"%s\n",  parser_error_message);
-	warningdialog("Unable to cope with this file");
-	return -1;
-}
+	 	if (parser_error_message) { 
+			fprintf(stderr,"%s\n",  parser_error_message);
+			warningdialog("Unable to cope with this file");
+ 			new_score (gui);
+			return -1;
+		}
 	    }
 	  if (parser_error_message == NULL)
 	    {
@@ -3029,7 +3040,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 		    n->user_string = g_strdup ("");	
 		    top = g_list_append (NULL, n);
 		    /* simplify the tree into TEXT and DENEMO_MEASURES nodes */
-#ifdef LILYEDIT
+#ifdef LILYDIT
 		    lily_write_out (top, lily_file, TO_NODE);	
 #endif
 		    attach_trailing_white_space (top);
