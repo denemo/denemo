@@ -1132,24 +1132,14 @@ outputHeader (GString *str, DenemoGUI * gui)
   if (gui->lilycontrol.excerpt == TRUE)
     g_string_append_printf (str, "\\include \"lilypond-book-preamble.ly\" \n\n");
 
-  g_string_append_printf (str, "%%http://www.denemo.org\n\n");
+  g_string_append_printf (str, "%%http://www.gnu.org/software/denemo/\n\n");
   /*Print out lilypond syntax version */
   g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
 
   /* print \paper block setting printing of all headers */
-  if (gui->lilycontrol.excerpt == TRUE){
-    g_string_append_printf (str, "\\paper { \n");
-    g_string_append_printf (str, "\tprintallheaders = ##f\n");
-    g_string_append_printf (str, "\t#(define dump-extents #t)\n"); 
-    g_string_append_printf (str, "\tindent = 0\\mm \n");
-    g_string_append_printf (str, "\tline-width = 160\\mm - 2.0 * 0.4\\in \n");
-    g_string_append_printf (str, "\tragged-right = ##t \n");
-    g_string_append_printf (str, "\tforce-assignment = #\"\" \n");
-    g_string_append_printf (str, "\tline-width = #(- line-width (* mm  3.000000)) \n");
-    g_string_append_printf (str, "}\n");
-  }
-  else
-    g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
+  g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
+
+
 
   g_string_append_printf (str, "#(set-global-staff-size %d)\n", gui->lilycontrol.fontsize);
   g_string_append_printf (str, "#(set-default-paper-size \"%s\")\n",
@@ -1169,7 +1159,7 @@ outputHeader (GString *str, DenemoGUI * gui)
  * implemented FIXME).
  * Any lyrics, chord symbols and figured basses are put in separate sections.
  * 
-*/
+ */
 static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count)
@@ -1238,6 +1228,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
   } else {
 
+    /* The midi instrument */
+    g_string_append_printf(str, "\n"TAB"%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
 
     /* Time signature */
     g_string_append_printf(str, "\n"TAB"%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->stime1,
@@ -1257,13 +1249,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     /* Determine the clef */
     determineclef (curstaffstruct->sclef, &clefname);
     g_string_append_printf(str, ""TAB"%s%sClef = \\clef %s\n", movement, voice, clefname);
-    g_string_append_printf(str, ""TAB"%s%sProlog = {\\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-			    movement, voice, movement, voice, movement, voice, movement, voice);
+    g_string_append_printf(str, ""TAB"%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+			    movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
 
-    if(curstaffstruct->haslyrics)
-      g_string_append_printf(str, "%s%s = \\context Voice = %s%s{\n",
-			     movement, voice, movement, voice);  //FIXME is this best done here?
-      else
     g_string_append_printf(str, "%s%s = {\n",
 			   movement, voice);    
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
@@ -1358,7 +1346,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      g_string_append(figures, "\n");
 	    if(fakechords->len)
 	      g_string_append(fakechords, "\n");
-	    if(curobj == NULL || curobj->type != LILYDIRECTIVE) /* if it ends in a lilydirective, the user may want to choose their own
+	    if(curobj == NULL || curobj->type!=LILYDIRECTIVE) /* if it ends in a lilydirective, the user may want to choose their own
 					       barline style, let them */
 	      if (curmeasure->next)
 		g_string_append_printf(endstr, "|\n");
@@ -1395,8 +1383,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     } /* for each staff */
   
   // str is empty again now FIXME
-  g_string_append_printf(str, "}\n%s%sMusic = {\\%s%sProlog \\%s%s}\n",
-			 movement, voice, movement, voice, movement, voice);
+  g_string_append_printf(str, "}\n%s%sMusic = \\context Voice = %s%s {\\%s%sProlog \\%s%s}\n",
+			 movement, voice,  voice, movement, movement, voice, movement, voice);
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
@@ -1829,9 +1817,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    
 	      g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%sMusic\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	      if (curstaffstruct->haslyrics)
+	      {
 		g_string_append_printf(scoreblock, 
-				       "\n"TAB""TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
-				       movement_name->str, voice_name->str, movement_name->str, voice_name->str);
+				"\n"TAB""TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
+				voice_name->str, movement_name->str, 
+				movement_name->str, voice_name->str);
+	      }
 	    }
 	  else if (curstaffstruct->voicenumber == 2)
 	    g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%s\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
