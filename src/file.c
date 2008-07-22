@@ -68,7 +68,7 @@ struct FileFormatData
 static struct FileFormatData supported_import_file_formats[] = {
   {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  /*  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},*/
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
   {"*.midi", N_("Midi (*.midi)"), ".midi"}
 };
