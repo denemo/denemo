@@ -536,11 +536,13 @@ file_open_with_check (GtkAction * action, DenemoGUI * gui)
     {
       if (confirmbox (gui))
 	{
+	  deletescore (NULL, gui);
 	  file_open (gui, FALSE, REPLACE_SCORE);
 	}
     }
   else
     {
+      deletescore (NULL, gui);
       file_open (gui, FALSE, REPLACE_SCORE);
     }
 }
@@ -855,12 +857,12 @@ file_newwrapper (GtkAction * action, DenemoGUI * gui)
     {
       if (confirmbox (gui))
 	{
-	  deletescore (NULL, gui);
+	  deletescore(NULL, gui);
 	}
     }
   else
     {
-      deletescore (NULL, gui);
+      deletescore(NULL, gui);
     };
 }
 
