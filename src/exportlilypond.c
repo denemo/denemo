@@ -1383,8 +1383,11 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     } /* for each staff */
   
   // str is empty again now FIXME
-  g_string_append_printf(str, "}\n%s%sMusic = \\context Voice = %s%s {\\%s%sProlog \\%s%s}\n",
+  g_string_append_printf(str, "}\n");
+  g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s {\\%s%sProlog \\%s%s}\n",
 			 movement, voice,  voice, movement, movement, voice, movement, voice);
+  g_string_append_printf(str, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
+			 movement, voice, movement, voice, movement, voice);
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
@@ -1815,7 +1818,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  if (curstaffstruct->voicenumber != 2)
 	    {
 	    
-	      g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%sMusic\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
+	      g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%sMusicVoice\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	      if (curstaffstruct->haslyrics)
 	      {
 		g_string_append_printf(scoreblock, 
