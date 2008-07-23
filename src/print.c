@@ -223,31 +223,29 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   convert_ly(lilyfile);
-
-  if (gui->lilycontrol.excerpt == TRUE){
-	  gchar *argv[] = {
-		    Denemo.prefs.lilypath->str,
-		    "--png",
-		    "-b",
-		    "eps", 
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
+  gchar *png[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps", 
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  gchar *pdf[] = {
+    Denemo.prefs.lilypath->str,
+    "--pdf",
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  if (gui->lilycontrol.excerpt){	  
+	  arguments = png;
   }
   else {
-
-	  gchar *argv[] = {
-	       	    Denemo.prefs.lilypath->str,
-		    "--pdf",
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
+	  arguments = pdf;
   }
     
   gchar *output=NULL, *errors=NULL;
