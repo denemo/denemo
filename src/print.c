@@ -174,6 +174,7 @@ open_viewer(gchar *filename, DenemoGUI *gui){
     //FIXME use filename in message
     //warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
     g_warning ("Failed to find %s, check permissions", (gchar *) printfile);
+    g_free(printfile);
     return;
   }
     
@@ -268,7 +269,16 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
  */
 void
 run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
-  
+  /* remove old output files to avoid confusion */
+  gchar *printfile;
+  if (gui->lilycontrol.excerpt == TRUE)
+    printfile = g_strconcat (filename, ".png", NULL);
+  else
+    printfile = g_strconcat (filename, ".pdf", NULL);
+  FILE *fp = fopen(printfile, "w");
+  if(fp)
+    fclose(fp);
+  g_free(printfile);
   run_lilypond(filename, gui);
   open_viewer(filename, gui);
 }
