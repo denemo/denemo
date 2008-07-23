@@ -1688,6 +1688,7 @@ openrecent (GtkWidget * widget, gpointer data)
   // g_print ("actioned\n");
   if (!cdata->gui->changecount || (cdata->gui->changecount && confirmbox (cdata->gui)))
     {
+      deletescore(NULL, cdata->gui);
       if(open_for_real (cdata->filename, cdata->gui, FALSE, FALSE))
 	{
 	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", cdata->filename);
