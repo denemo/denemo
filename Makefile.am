@@ -1,4 +1,4 @@
-SUBDIRS = m4 doc include keymaps plugins pixmaps po src \
+SUBDIRS = m4 doc include keymaps pixmaps po src \
 	  fonts examples templates 
 
 
