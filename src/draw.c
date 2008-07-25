@@ -234,10 +234,13 @@ draw_object (objnode * curobj, gint x, gint y,
 	{
 	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
 	    {
+#if 0
+	      //this is only the visible part of the cresc, the start may be off screen
 	      ((chord *) mudelaitem->object)->crescendo_end_p = FALSE;
 	      warningdialog
 		("Crescendo end without a corresponding start\n"
 		 "removing the crescendo end");
+#endif
 	    }
 	  draw_hairpin (gui->pixmap, itp->gc, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 1);
@@ -246,10 +249,13 @@ draw_object (objnode * curobj, gint x, gint y,
 	{
 	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
 	    {
+#if 0
+	      //this is only the visible part of the dim, the start may be off screen
 	      ((chord *) mudelaitem->object)->diminuendo_end_p = FALSE;
 	      warningdialog
 		("Diminuendo end without a corresponding start\n"
 		 "removing the diminuendo end");
+#endif
 	    }
 	  draw_hairpin (gui->pixmap, itp->gc, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 0);
