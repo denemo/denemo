@@ -269,8 +269,7 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->space_below = n;
   if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->numlinesentry)))))
     staffstruct->no_of_lines = n;
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->transposeentry)))))
-    staffstruct->transposition = n;
+  staffstruct->transposition = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->transposeentry)));
   if ((n =
        atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->posinhalflinesentry)))))
     staffstruct->pos_in_half_lines = n;
