@@ -400,7 +400,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   gtk_widget_show (label);
 
   aboveentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->space_above);
+  g_string_sprintf (entrycontent, "%d", staffstruct->space_above);
   gtk_entry_set_text (GTK_ENTRY (aboveentry), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), aboveentry, 1, 2, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -414,7 +414,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   belowentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->space_below);
+  g_string_sprintf (entrycontent, "%d", staffstruct->space_below);
   gtk_entry_set_text (GTK_ENTRY (belowentry), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), belowentry, 1, 2, 2, 3,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -427,7 +427,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   numlinesentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->no_of_lines);
+  g_string_sprintf (entrycontent, "%d", staffstruct->no_of_lines);
   gtk_entry_set_text (GTK_ENTRY (numlinesentry), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), numlinesentry, 3, 4, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -440,9 +440,9 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   transposeentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->transposition);
+  g_string_sprintf (entrycontent, "%d", staffstruct->transposition);
 #ifdef DEBUG
-	g_printf("Staff Transposition %i\n", staffstruct->transposition);
+	g_printf("Staff Transposition %d\n", staffstruct->transposition);
 #endif
   gtk_entry_set_text (GTK_ENTRY (transposeentry), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), transposeentry, 3, 4, 1, 2,
@@ -456,7 +456,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   posinhalflinesentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->pos_in_half_lines);
+  g_string_sprintf (entrycontent, "%d", staffstruct->pos_in_half_lines);
   gtk_entry_set_text (GTK_ENTRY (posinhalflinesentry), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), posinhalflinesentry,
 		    3, 4, 2, 3, (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -492,7 +492,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   volume = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->volume);
+  g_string_sprintf (entrycontent, "%d", staffstruct->volume);
   gtk_entry_set_text (GTK_ENTRY (volume), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), volume, 3, 4, 3, 4,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -522,7 +522,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   gtk_widget_show (label);
   
   midi_channel = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->midi_channel);
+  g_string_sprintf (entrycontent, "%d", staffstruct->midi_channel);
   gtk_entry_set_text (GTK_ENTRY (midi_channel), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), midi_channel, 1, 2, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
@@ -536,7 +536,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   gtk_widget_show (label);
   
   midi_prognum = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%i", staffstruct->midi_prognum);
+  g_string_sprintf (entrycontent, "%d", staffstruct->midi_prognum);
   gtk_entry_set_text (GTK_ENTRY (midi_prognum), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), midi_prognum, 3, 4, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
