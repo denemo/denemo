@@ -2,22 +2,20 @@
 %define ver      @VERSION@
 %define rel 1
 %define prefix  /usr
-%define pkgdatadir %{prefix}/share/
+%define pkgdatadir %{prefix}/share/@PACKAGE@
+%define sysconfdir %{prefix}/etc/
 
 Summary: Graphical music notation program
 Name: %{name}
 Version: %ver
 Release: %rel
-License: GPLv2
+Copyright: GPL
 Group: Applications/Multimedia
 Source: %{name}-%{version}.tar.gz
 URL: http://denemo.sourceforge.net/
 Vendor: (none)
 Prefix: %{prefix} 
 BuildRoot: /var/tmp/%{name}-%{ver}-%{rel}-rpm-buildroot
-
-BuildRequires: portaudio-devel aubio-devel gtk2-devel
-Requires: portaudio aubio gtk2
 
 %description
 Denemo is a graphical music notation program written in C with
@@ -32,7 +30,6 @@ computer-music-related purposes as well.
 %setup
 
 %build
-./autogen.sh
 ./configure --prefix=%{prefix}
 %__make
 
@@ -40,21 +37,28 @@ computer-music-related purposes as well.
 %__make DESTDIR=${RPM_BUILD_ROOT} install
 
 %clean
+if [ -O "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" -a "$RPM_BUILD_ROOT" !=
+"$HOME" ]; then
+  echo "Deleting build root $RPM_BUILD_ROOT"
+  rm -rf "$RPM_BUILD_ROOT"
+fi
 rm -rf ${RPM_BUILD_DIR}/%{name}-%{ver}
 
 %files
 %defattr(-,root,root)
-%{pkgdatadir}
-%{_includedir}/denemo
+%doc README TODO NEWS AUTHORS COPYING ChangeLog DESIGN GOALS
+%config %{sysconfdir}/denemo.conf
+%config %{sysconfdir}/denemo.keymaprc
+%config %{pkgdatadir}/english.keymaprc
+%config %{pkgdatadir}/french.keymaprc
+%config %{pkgdatadir}/speedy.keymaprc
+
 %{prefix}/bin/denemo
 
 %changelog
-* Fri Jul 25 2008 Roy Rankin <rrankin@ihug.com.au>
--Update for 0.7.9 and Fedora 8
 * Fri Dec 14 2001 Adam Tee <ajtee@ajtee.uklinux.net>
 -Update for 0.5.8
 * Sun Nov 12 2000 Matt Hiller <mhiller@pacbell.net>
 - Update for 0.5.5
 * Wed Jun 21 2000 Sourav K. Mandal <smandal@mit.edu>
 - Initial release of RPM package
-
