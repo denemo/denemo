@@ -15,12 +15,10 @@
      ../src/exportabc.c \
      ../src/exportcsound.c \
      ../src/exportlilypond.c \
-     ../src/exportpdf.c \
      ../src/external.c \
      ../src/fakechord.c \
      ../src/figure.c \
      ../src/file.c \
-     ../src/frogio.c \
      ../src/headerdialog.c \
      ../src/help.c \
      ../src/kbd-custom.c \

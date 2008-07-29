@@ -21,12 +21,10 @@ src/exportabc.c
 src/exportcsound.c
 #src/exportmudela.c
 src/exportlilypond.c
-src/exportpdf.c
 src/external.c
 src/fakechord.c
 src/figure.c
 src/file.c
-src/frogio.c
 # src/frogparser.c # is it a generated parser?
 src/headerdialog.c
 src/help.c
