@@ -184,11 +184,6 @@ msgstr "%sというファイルは既に存在します。"
 msgid "Do you want to replace it?"
 msgstr "上書きしますか？"
 
-#: src/frogio.c:37 src/frogio.c:105
-#, c-format
-msgid "Cannot open file %s"
-msgstr "%sというファイルを開けません"
-
 #: src/headerdialog.c:63
 msgid "Title"
 msgstr "曲名"
