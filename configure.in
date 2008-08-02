@@ -219,11 +219,14 @@ else
   denemo_plugin_dir="${prefix}/lib/${PACKAGE}"
 fi
  
-if test "${sysconfdir}" == ${prefix}/etc; then
-  sysconfdir=/etc
-else
-  sysconfdir=$sysconfdir
-fi  
+dnl
+dnl Force sysconfdir=/etc if no --sysconfdir=xxx passed
+dnl
+if test $sysconfdir = $\{prefix\}/etc; then
+  sysconfdir=/etc/${PACKAGE}
+else 
+  sysconfdir=$sysconfdir/${PACKAGE}    
+fi
 AC_SUBST(sysconfdir)
 
 AC_DEFINE_UNQUOTED(
