@@ -1,8 +1,9 @@
-SUBDIRS = m4 doc include keymaps pixmaps po src \
+SUBDIRS = m4 doc keymaps pixmaps po src \
 	  fonts examples templates 
 
 
-dist_pkgdata_DATA = denemo.conf denemorc.xml
+dist_DATA = denemo.conf denemorc.xml
+distdir = $(sysconfdir)/denemo
 
 EXTRA_DIST = mkinstalldirs  doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond README.lilypond

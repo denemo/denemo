@@ -2,7 +2,6 @@
 %define ver      @VERSION@
 %define rel 1
 %define prefix  /usr
-%define pkgdatadir %{prefix}/share/
 
 Summary: Graphical music notation program
 Name: %{name}
@@ -10,13 +9,12 @@ Version: %ver
 Release: %rel
 License: GPLv2
 Group: Applications/Multimedia
-Source: %{name}-%{version}.tar.gz
-URL: http://denemo.sourceforge.net/
-Vendor: (none)
-Prefix: %{prefix} 
-BuildRoot: /var/tmp/%{name}-%{ver}-%{rel}-rpm-buildroot
+Source: http://download.savannah.gnu.org/releases/denemo/%{name}-%{version}.tar.gz
+URL: http://www.denemo.org/
+BuildRoot: %{_tmppath}/%{name}-%{ver}-%{rel}-rpm-buildroot
 
 BuildRequires: portaudio-devel aubio-devel gtk2-devel
+BuildRequires: gettext
 Requires: portaudio aubio gtk2
 
 %description
@@ -29,24 +27,34 @@ It is intended to be used in conjunction with GNU Lilypond
 computer-music-related purposes as well. 
 
 %prep
-%setup
+%setup -q
 
 %build
 ./autogen.sh
-./configure --prefix=%{prefix}
-%__make
+%configure 
+make %{?_smp_mflags}
 
 %install
-%__make DESTDIR=${RPM_BUILD_ROOT} install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+desktop-file-install --vendor="fedora"               \
+--dir=${RPM_BUILD_ROOT}%{_datadir}/applications         \
+denemo.desktop
+%find_lang %{name}
 
 %clean
-rm -rf ${RPM_BUILD_DIR}/%{name}-%{ver}
+rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
-%{pkgdatadir}
-%{_includedir}/denemo
-%{prefix}/bin/denemo
+%dir %{_sysconfdir}/denemo
+%config(noreplace) %{_sysconfdir}/denemo/denemo.conf
+%{_datadir}/denemo
+%{_datadir}/icons/denemo.png
+%{_datadir}/fonts/truetype/denemo
+%{_datadir}/applications/denemo.desktop
+%{_bindir}/denemo
+%doc COPYING README README.lilypond ChangeLog 
 
 %changelog
 * Fri Jul 25 2008 Roy Rankin <rrankin@ihug.com.au>
@@ -57,4 +65,3 @@ rm -rf ${RPM_BUILD_DIR}/%{name}-%{ver}
 - Update for 0.5.5
 * Wed Jun 21 2000 Sourav K. Mandal <smandal@mit.edu>
 - Initial release of RPM package
-

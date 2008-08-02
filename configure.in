@@ -243,8 +243,6 @@ AC_OUTPUT(
   Makefile 
   denemo.spec
   src/Makefile 
-  include/Makefile
-  include/denemo/Makefile 
   pixmaps/Makefile 
   doc/Makefile
   doc/transformations/Makefile
