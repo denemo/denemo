@@ -218,6 +218,14 @@ if test "x${prefix}" = xNONE; then
 else
   denemo_plugin_dir="${prefix}/lib/${PACKAGE}"
 fi
+ 
+if test "${sysconfdir}" == ${prefix}/etc; then
+  sysconfdir=/etc
+else
+  sysconfdir=$sysconfdir
+fi  
+AC_SUBST(sysconfdir)
+
 AC_DEFINE_UNQUOTED(
   PACKAGE_PLUGIN_DIR, "$denemo_plugin_dir", [set plugin dir])
 
