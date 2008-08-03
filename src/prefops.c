@@ -64,7 +64,7 @@ locatedotdenemo ()
 void
 initprefs ()
 {
-  gchar *systemwide = g_build_filename (get_data_dir (), "denemo.conf", NULL);
+  gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
   DenemoPrefs *ret = &Denemo.prefs;
   gchar * dotdenemo = locatedotdenemo ();
   gchar *localrc = dotdenemo?g_build_filename (dotdenemo, "denemorc", NULL):NULL;

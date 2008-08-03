@@ -105,6 +105,7 @@ headerfields(GtkWidget *dialog, GtkListStore *list_store,
 
 void initdir ();
 const gchar *get_data_dir ();
+const gchar *get_conf_dir ();
 const gchar *get_plugin_dir ();
 const gchar *get_locale_dir ();
 
