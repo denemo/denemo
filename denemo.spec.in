@@ -14,8 +14,9 @@ URL: http://www.denemo.org/
 BuildRoot: %{_tmppath}/%{name}-%{ver}-%{rel}-rpm-buildroot
 
 BuildRequires: portaudio-devel aubio-devel gtk2-devel
-BuildRequires: gettext
-Requires: portaudio aubio gtk2
+BuildRequires: gettext libxml2-devel fftw-devel desktop-file-utils
+Requires: portaudio aubio gtk2 libxml2 fftw
+
 
 %description
 Denemo is a graphical music notation program written in C with
@@ -30,16 +31,16 @@ computer-music-related purposes as well.
 %setup -q
 
 %build
-./autogen.sh
 %configure 
 make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-desktop-file-install --vendor="fedora"               \
+rm -rf $RPM_BUILD_ROOT/%{prefix}/include
+desktop-file-install --vendor=""               \
 --dir=${RPM_BUILD_ROOT}%{_datadir}/applications         \
-denemo.desktop
+%{buildroot}/%{_datadir}/applications/denemo.desktop
 %find_lang %{name}
 
 %clean
@@ -57,6 +58,9 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING README README.lilypond ChangeLog 
 
 %changelog
+* Sun Aug  3 2008 Roy Rankin <rrankin@ihug.com.au>
+-Additional BuildRequires from Mock testing, 
+ fixed desktop-file-install usage
 * Fri Jul 25 2008 Roy Rankin <rrankin@ihug.com.au>
 -Update for 0.7.9 and Fedora 8
 * Fri Dec 14 2001 Adam Tee <ajtee@ajtee.uklinux.net>
