@@ -1,11 +1,11 @@
-SUBDIRS = m4 doc include keymaps plugins pixmaps po src \
+SUBDIRS = m4 doc keymaps pixmaps po src \
 	  fonts examples templates 
 
 
-dist_pkgdata_DATA = denemo.conf denemorc.xml
+dist_sysconf_DATA = denemo.conf 
 
-EXTRA_DIST = config.rpath  mkinstalldirs  DESIGN GOALS @PACKAGE@.spec.in  \
-	     DESIGN.lilypond README.lilypond
+EXTRA_DIST = mkinstalldirs  doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
+	     doc/DESIGN.lilypond README.lilypond include
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \

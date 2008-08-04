@@ -542,6 +542,23 @@ get_data_dir ()
 }
 
 const gchar *
+get_conf_dir ()
+{
+  static gchar *confdir = NULL;
+  if (confdir == NULL)
+  {
+#ifdef G_OS_WIN32
+  gchar *rootdir = g_win32_get_package_installation_directory (NULL,  NULL);
+  confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
+  g_free (rootdir);
+#else /* not G_OS_WIN32 */
+  confdir = gbr_find_etc_dir(SYSCONFDIR);
+#endif /* not G_OS_WIN32 */
+  }
+  return confdir;
+}
+
+const gchar *
 get_plugin_dir ()
 {
   static gchar *plugindir = NULL;

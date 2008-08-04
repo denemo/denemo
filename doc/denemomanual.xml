@@ -7,7 +7,7 @@
     <legalnotice>
       <para>This Manual is released under the Creative Commons License, this
       manual may be quoted, and freely distributed as long as credit is given
-      in written form to http://www.gnu.org/software/denemo/ savannah.gnu.org/projects/denemo If it is placed on a web page
+      in written form to http://www.denemo.org. If it is placed on a web page
       a link to the denemo site should also appear.</para>
     </legalnotice>
 
@@ -45,8 +45,14 @@
     are working on - and you can playback selected bits to check how it sounds. 
     You can preview and print the score or parts to the highest standards used in the music publishing industry 
     - thanks to the Lilypond typesetting program.</para>
-    <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview</para>
-  </sect1>
+    <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview.</para>
+	    <para>Anonymous Git checkout:</para>
+
+	    <para>git clone git://git.savannah.gnu.org/denemo.git</para>
+    
+	    <para>Anonymous CVS checkout:</para> 
+	    <para>cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master</para>
+ 
 
   <sect1>
     <title>Obtaining and Installing Denemo</title>
@@ -58,8 +64,8 @@
     Denemo from the Debian unstable repositories, using the command apt-get
     install denemo. Builds for Macintosh are available from the Gnu-Darwin
     project. The Denemo development branch can be downloaded using anonymous
-    CVS.</para>
-
+    CVS or GIT.</para>
+  </sect1>
     <sect2>
       <title>Dependencies</title>
 
@@ -79,10 +85,6 @@
 
       <itemizedlist>
         <listitem>
-          <para></para>
-        </listitem>
-
-        <listitem>
           <para>g++ 2.95 or higher</para>
         </listitem>
 
@@ -100,10 +102,6 @@
 
         <listitem>
           <para>gettext</para>
-        </listitem>
-
-        <listitem>
-          <para>libgtk1.2-dev</para>
         </listitem>
 
         <listitem>
@@ -157,7 +155,7 @@
 
       <itemizedlist>
         <listitem>
-          <para>C Sound (optional)</para>
+          <para>csound (optional, www.csounds.com)</para>
         </listitem>
 
         <listitem>
@@ -167,6 +165,10 @@
         <listitem>
           <para>A midi player such as timidity</para>
         </listitem>
+	<listitem>
+          <para>An image viewer such as EOG</para>
+        </listitem>
+
       </itemizedlist>
     </sect2>
 
@@ -175,7 +177,7 @@
 
       <para>Denemo is available in a variety of formats. The current stable
       release is available either as source code or in binary format. The
-      Development branch of Denemo is available as a CVS source tree.</para>
+      Development branch of Denemo is available as a GIT source tree.</para>
 
       <procedure>
         <title>To install from source code:</title>
@@ -202,16 +204,8 @@
       <procedure>
         <title>Generating a Configure Script</title>
 
-        <para>CVS does not come with a Configure script; generate one by
-        typing and pressing Enter after each line:</para>
-
-        <step>
-          <para>aclocal</para>
-        </step>
-
-        <step>
-          <para>libtoolize --force</para>
-        </step>
+        <para>Git does not come with a Configure script; generate one by
+        typing and pressing Enter after the line:</para>
 
         <step>
           <para>./autogen.sh</para>
@@ -219,7 +213,6 @@
       </procedure>
 
       <sect3>
-        <title>Generating a Configure Script</title>
 
         <procedure>
           <title>To compile from source, press Enter after each line:</title>
@@ -406,7 +399,13 @@ A set of action-based menus can also be shown in addition to the object-based me
 
               <entry>Displays the score in a pdf view, from which it can be printed.</entry>
             </row>
-            <row>
+	    <row>
+              <entry>Print excerpt</entry>
+
+              <entry>Displays only the selection in image viewer, from which it can be saved.</entry>
+            </row>
+
+	    <row>
               <entry>Print Current Part</entry>
 
               <entry>Displays one part taken from the score in a pdf view, from which it can be printed.</entry>
@@ -791,7 +790,26 @@ A set of action-based menus can also be shown in addition to the object-based me
           </thead>
 
           <tbody>
-            <row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/new.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Creates a new document.</entry>
+            </row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/scorewizard.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Creates a new document using the score wizard.</entry>
+            </row>
+	    
+	    <row>
               <entry><mediaobject>
                   <imageobject>
                     <imagedata fileref="images/open.png" />
@@ -1170,10 +1188,13 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
             <step>
               <para>Double click on a template name from the list of
               templates. The dialog box closes and the template appears.
-              Alternately type @NewfromTemplate@, the <guisubmenu>New From
+	      <!-- Alternately type @NewfromTemplate@, the <guisubmenu>New From
               Template </guisubmenu> dialog box appears. Double click on a
               template name from the list of templates. The dialog box closes
-              and the template appears.</para>
+	      and the template appears. 
+	      -->
+            </para>
+
             </step>
           </procedure>
 
@@ -1193,11 +1214,13 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
               <para>Navigate to the Staff you want to change an attribute
               using one of these shortcuts:<itemizedlist>
                   <listitem>
-                    <para>Type @StaffDown@ to move down one staff</para>
+			  <!--  <para>Type @StaffDown@ to move down one staff</para> -->
+			  <para>Select Staffs/Voices-\>StaffDown to move down one staff</para>
                   </listitem>
 
                   <listitem>
-                    <para>Type @StaffUp@ to move up one staff</para>
+			  <!-- <para>Type @StaffUp@ to move up one staff</para> -->
+			  <para>Select Staffs/Voices-\>StaffUp to move up one staff</para>
                   </listitem>
                 </itemizedlist></para>
             </step>
@@ -1214,7 +1237,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 
           <procedure>
             <step>
-              <para>Click on File&gt;New From Template, The <interfacename>
+		    <para>Click on File-\>New From Template, The <interfacename>
               Open</interfacename> Dialog box appears displaying the currently
               available Templates.</para>
             </step>
@@ -1231,9 +1254,9 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
  </sect3>
  </sect2>
 <sect2 revision="0.75" id="thedriverseat"><title>Using the Denemo Classic Mode</title><para>This section describes how to use the original note entry mode to enter music from the keyboard.</para>
-<para>Lets look at <xref linkend="thedriverseat"></xref>. We see a c major scale and an arpeggio spread over two octaves. Type the letter 'c', the cursor jumps to the nearest c, (if it is in the wrong octave, type a comma [to go down] , or an apostrophe [to go up]) .  We have reached middle c, we could start moving the cursor up note by note using the k key and then down note by note using the k key. A faster method however is to type the letter name of each note and  moves the cursor to the exact pitch. This holds true for the notes of a chord or arpeggio, we jump to the note by typing the note name and adjust the octave with the command and apostrophe. This works if within an octave. <note><para>Often you will want to enter notes that jump a large interval. To speed up note entry in such circumstances help Denemo determine the direction by moving one step in that direction using the j or k keys. If you have entered a note on middle c and want to enter a b one octave higher, hit the k key before entering the note. Another solution to big leaps would be to first type an apostrophe or comma  to get into the intended octave and only then type the note name.</para></note></para></sect2>
+<para>Lets look at <xref linkend="thedriverseat"></xref>. We see a c major scale and an arpeggio spread over two octaves. Type the letter 'c', the cursor jumps to the nearest c, (if it is in the wrong octave, type a comma [to go down] , or an apostrophe [to go up]) .  We have reached middle c, we could start moving the cursor up note by note using the k key and then down note by note using the k key. A faster method however is to type the letter name of each note and  moves the cursor to the exact pitch. This holds true for the notes of a chord or arpeggio, we jump to the note by typing the note name and adjust the octave with the command and apostrophe. This works if within an octave. <note><para>Often you will want to enter notes that jump a large interval. To speed up note entry in such circumstances help Denemo determine the direction by moving one step in that direction using the left or right keys. If you have entered a note on middle c and want to enter a b one octave higher, hit the k key before entering the note. Another solution to big leaps would be to first type an apostrophe or comma  to get into the intended octave and only then type the note name.</para></note></para></sect2>
 
-<sect2 revision="0.75"><title>Rhythm Entry in Classic Mode</title><para>Now that we have an idea how to move around the staff we are ready to add note values. Note values are entered using the right hand.   shows the rhythm entry keys as <acronym>YHJKLOP  </acronym>. This yields the following: <emphasis>Y</emphasis>= a whole note, <emphasis>H</emphasis> = a half note, <emphasis>J</emphasis> = an quarter note,<emphasis>K</emphasis>= a eigth note,<emphasis> L</emphasis> = a 16th note,  <emphasis>O</emphasis> = a 32nd note, and <emphasis>P</emphasis> = a sixty fourth.  
+<sect2 revision="0.75"><title>Rhythm Entry in Classic Mode</title><para>Now that we have an idea how to move around the staff we are ready to add note values. Note values are entered using the right hand.   shows the rhythm entry keys as <acronym>0,1,2,3,4,5,6  </acronym>. This yields the following: <emphasis>0</emphasis>= a whole note, <emphasis>1</emphasis> = a half note, <emphasis>2</emphasis> = an quarter note,<emphasis>3</emphasis>= a eigth note,<emphasis>4</emphasis> = a 16th note,  <emphasis>5</emphasis> = a 32nd note, and <emphasis>6</emphasis> = a sixty fourth.  
 </para>
 
 </sect2>
@@ -1241,10 +1264,10 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 <sect2 revision="0.70"><title>Accidentals in Classic Mode</title><figure id="accidentals"><title>Accidentals</title><mediaobject><imageobject><imagedata fileref="images/accidentals.png" align="center" scale="70%" ></imagedata></imageobject></mediaobject></figure><para>Accidentals are added using the plus and minus keys on the keyboard. Double sharps and flats are added with additional pluses and  minuses as needed in any particular key signature.</para><para><xref linkend="accidentals"></xref> shows a chromatic scale starting on middle C and ending on middle C. To add accidentals while typing new notes do the following:</para>
 <procedure>
 
-  <step><para>Enter a middle C eighth note (type c and then i, if you need to adjust the octave use the command and apostrophe)</para></step>
+  <step><para>Enter a middle C eighth note (type c and then the keybinding of the rhythmic value, if you need to adjust the octave use the command and apostrophe)</para></step>
   <step><para>Enter another middle C eighth note, this time type the plus sign<command> (+)</command> immediately afterwards, a C sharp appears</para></step>
-  <step><para>Enter a D eighth note (type d and then i)</para></step>
-  <step><para>Enter a D sharp eighth note (type d and then i and then +)</para></step>
+  <step><para>Enter a D eighth note (type d followed by its rhythmic keybinding)</para></step>
+  <step><para>Enter a D sharp eighth note (type d and its rhythmic keybinding and then +)</para></step>
   <step><para>Continue adding notes until you have an exact copy of the first two measures of <xref linkend="accidentals"></xref>.</para></step>
   <step><para>To add flats enter the b eighth note in measure 3 then type a dash <command>(-)</command> a b flat appears.</para></step>
   <step><para>Continue adding flats until you have and exact copy of measures three and four.</para></step>
@@ -1256,7 +1279,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 
 <procedure>
 
-  <step><para>Navigate to the note you want to alter using the h,j,k,l motion keys. <note><para>You don't have to be on the exact pitch to add an accidental but make sure to be on the note you want to alter.</para></note></para></step>
+  <step><para>Navigate to the note you want to alter using the arrow keys (or your custom keybindings). <note><para>You don't have to be on the exact pitch to add an accidental but make sure to be on the note you want to alter.</para></note></para></step>
   <step><para>Type a <command>+</command> to alter the pitch up a half step and a <command>-</command> to alter the pitch down a half step.
 
   <note><para>This will produce alterations based on the pitch of the original note. So that a f sharp will become a f double sharp and an e flat will become an e.</para></note></para></step>
@@ -1266,7 +1289,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 <note><para>For those familiar with LilyPond, Denemo handles accidentals in a more intuitive fashion. LilyPond requires you to explicitly name each note with an accidental even if it is part of the key signature, Denemo only requires an alteration if the accidental is part of the key signature, and it keeps the alteration for the entire measure. </para></note></sect2>
 
 <sect2 revision="0.75" id="chordsenter"><title>Chord Entry in Classic Mode</title><para>To enter a chord choose a pitch and a rhythm for your base note. 
-Next move the cursor to the next chord tone using the letter name for each note or the j and k keys, hit enter to add the note. To make chord entry easier there is a key binding also for the left hand (Ctrl t)as well. Type Enter to toggle chord tones on and off. This add tones or converts rests to a chord tones. Shift Enter removes tones and switches them to rests.</para>
+Next move the cursor to the next chord tone using the letter name for each note or the up and down keys, hit enter to add the note. To make chord entry easier there is a key binding also for the left hand (Ctrl t)as well. Type Enter to toggle chord tones on and off. This add tones or converts rests to a chord tones. Shift Enter removes tones and switches them to rests.</para>
 
 
 
@@ -1279,14 +1302,13 @@ Next move the cursor to the next chord tone using the letter name for each note 
 
 
 
-<step><para> Navigate to the E above middle C.  (type the alphabetical note names or the hjkl movement keys).</para></step>
+<step><para> Navigate to the E above middle C.  (type the alphabetical note names or the arrow keys).</para></step>
 
-<step><para>Type an<command> a</command>and <command>u</command>, a half note g appears.</para></step>
-<step><para> Move the cursor to the<command> g</command> one line above and type <command>Enter</command> or <command>Ctrl t</command>. Use <command>Enter</command> when you are adding chord tones with the alphabetic note names, and use <command>Ctrl t</command> when using the<command> h</command>,<command>j</command>,<command>k</command>,<command>l</command>, navigation keys.</para></step>
-<step><para>Experiment moving the cursor to each additional chord tone in the first chord with the <command> h</command>,<command>j</command>,<command>k</command>,<command>l</command>, navigation keys.</para></step>
+<step><para>Type an<command> a </command> and <command>1</command>, a half note g appears.</para></step>
+<step><para> Move the cursor to the<command> g</command> one line above and type <command>Enter</command>.</para></step> 
 
-<step><para>Type <command>Ctrl t</command> to add chord tones.<command> Shift Control</command> will delete chord tones if a wrong note is added accidently.</para></step>
-<step><para> Continue creating chords until <xref linkend="chords"></xref>  has been copied.</para></step></procedure>
+</procedure>
+
 <note><para>To alter  chord tones chromatically, type the plus sign to sharpen the note at the cursor by one half-step and the minus sign to flatten the current note by a half step in the same manner you sharpen or flatten any pitch in Denemo</para></note>
 
 
@@ -1757,7 +1779,7 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
       </step>
 
       <step>
-        <para>Type an a <command>w</command>, a mordent above the g. <note>
+        <para>Type in your keybinding for a inserting a mordent, a mordent above the g. <note>
             <para><productname>Denemo</productname> won't place expressions
             optimally, don't worry it will display correctly in the final
             published output.</para>
@@ -1770,24 +1792,24 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
       </step>
 
       <step>
-        <para>Type the a and g eighth notes (using the a and g keys with the i
-        key)</para>
+        <para>Type the a and g eighth notes </para>
       </step>
 
       <step>
-        <para>Type two a quarter notes (the a key and a space)</para>
+        <para>Type two a quarter notes </para>
       </step>
 
       <step>
-        <para>Type Ctrl Shift R, a trill appears above the a.</para>
+        <para>Type in your keybinding for inserting trills, a trill will appears above the a.</para>
       </step>
 
       <step>
         <para>Type an a quarter note.</para>
       </step>
 
+
       <step>
-        <para>Type a tilde <command>~</command>, a turn appears above the
+        <para>Type a tilde keybinding, a turn appears above the
         final a quarter note.</para>
       </step>
 
@@ -1795,7 +1817,29 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
         <para>Type the final b and c eighth notes.</para>
       </step>
     </procedure>
+    <procedure> 
+      <title>Adding Expressions using the Articulation palette</title>
+      
+      
+      <example id="expressions_palette">
+        <title></title>
 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/expressions_palette.png" />
+          </imageobject>
+        </mediaobject>
+      </example>
+
+      <para>Look at <xref linkend="expressions_palette" />, we see a dialog with 
+	          expression symbols. Lets add the expressions to our notes:</para>
+      <step>
+        <para>Add the notes to the staff as documented in the last section</para>
+      </step>
+      <step>
+	      <para>Click on the note that will have the expression assigned to it then click on the desired expression in the expression palette. This will place the expression symbol above or below then note. </para>
+      </step>
+  </procedure> 
  
   </sect1>
 
@@ -1818,8 +1862,8 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
 <sect1 revision="0.75" id="playing"><title id="xg">Score Playback</title><para></para>
 <sect2 revision="0.75" id="midi"><title id="xh">Midi</title><para></para><formalpara><title>Midi playback</title>
 
-<para>
-When you click on the Play item of the toobar the current movement is played starting from the measure with the cursor in it. If there is a selection then the measures containing the selection are played, otherwise play continues until you click stop or the movement ends.
+		<para>
+			Denemo uses external midi player to play back your score. You can choose which program to use as follows. Go to the Playback menu and choosePlayback Properties and Externals tab. In the External Midi Player text box enter the name of your midi player. When you click on the Play item of the toobar the current movement is played starting from the measure with the cursor in it. If there is a selection then the measures containing the selection are played, otherwise play continues until you click stop or the movement ends.
 
 </para>
 <para>While playing, the music scrolls automatically so that you can watch and either bookmark or stop the music if you hear something you want to re-visit. You can make corrections to the synchronism by using the measure forwards or backwards keypresses (usually bound to Ctrl right/left arrow). </para>
@@ -1829,7 +1873,7 @@ When you click on the Play item of the toobar the current movement is played sta
 
 </sect2>
 
-<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using C sound. Denemo will play your file with a .orc file. In the C sound configuration dialog box make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo comes with a few demo .orc files which you will find in XXX. The C sound module of Denemo is currently under construction.
+<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using csound. Denemo will play your file with a .orc file. In the playback properties make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo will soon come with a few demo .orc files which you will find in XXX. The csound module of Denemo is currently under construction.
  </para></sect2>
 </sect1>
 
@@ -1949,7 +1993,7 @@ When you click on the Play item of the toobar the current movement is played sta
 
         <step>
           <para>Enter the pitches and durations of the tuplet using the pitch
-          names (a, b, c, d, etc.) and the duration names (yuio space).</para>
+          names (a, b, c, d, etc.) and the duration keybindings.</para>
         </step>
 
         <step>
@@ -1969,46 +2013,7 @@ When you click on the Play item of the toobar the current movement is played sta
       </figure>
     </sect2>
 
-    <sect2>
-      <title>Playing a Score</title>
-
-      <para></para>
-
-      <sect3 id="midi">
-        <title id="xh">Midi</title>
-
-        <para></para>
-
-        <formalpara>
-          <title>Midi playback</title>
-
-         
-        </formalpara>
-
-     
-
-        <para>Denemo uses external midi player to play back your score. You can choose which program to use as follows. Go to the <guimenu>Playback</guimenu> menu and
-        choose<guimenuitem>Playback Properties</guimenuitem> and Externals tab.  In the External Midi Player text box enter the
-        name of your midi player. Example 4 has Timidity entered, but it could
-        be any midi player of your choice. There is also a place to enter the name of your audio
-        player, but this is not tested in this release. To play your score go to
-        the<guimenu> Playback</guimenu> menu and click
-        <guimenuitem>Play</guimenuitem>.</para>
-      </sect3>
-
-      <sect3 id="csound">
-        <title>Csound</title>
-
-        <para>In addition to permitting midi playback, Denemo permits playback
-        using C sound. Denemo will play your file with a .orc file. In the C
-        sound configuration dialog box make sure the command: <command> csound
-        -d -W</command> is set. Next use the navigation box to choose your
-        .orc file. Denemo comes with a few demo .orc files which you will find
-        in XXX. The C sound module of Denemo is currently under
-        constructio.</para>
-      </sect3>
-    </sect2>
-<sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
+  <sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
 </para>
 
 
@@ -2017,16 +2022,8 @@ When you click on the Play item of the toobar the current movement is played sta
 <table><title></title><tgroup cols="3" ><thead><colspec colnum="1" colsep="1" ></colspec><row><entry>Command</entry><entry>Function</entry><entry>Comment</entry></row></thead><tbody>
 
 <row><entry><command> m</command> </entry> <entry> Add a new measure to all staves at the current cursor position</entry> </row>
-<row><entry><command> M</command> </entry> <entry> Add a new measure to all staves at the  end of the score.</entry> </row>
-<row><entry><command> Ctrl shift A </command></entry><entry>Add a Staff after current Staff</entry> </row>
-<row><entry><command>Ctrl shift B</command></entry><entry>Add a Staff before current Staff</entry> </row>
-<row><entry><command>Ctrl shift x</command> or <command>Ctrl shift delete</command></entry><entry>Delete current Staff</entry> </row>
-<row><entry><command>Ctrl s</command></entry><entry>Set a mark point at the cursor</entry></row>
-
-
-<row><entry><command>Shift S</command></entry><entry>Set selection</entry><entry></entry></row>
-
-<row><entry><command>Alt Shift S</command></entry><entry>Cancel selection</entry></row>
+<row><entry><command> Ctrl up </command></entry><entry>Switch to the staff above the current staff</entry> </row>
+<row><entry><command>Ctrl down</command></entry><entry>Switch to the staff below the current staff</entry> </row>
 <row><entry><command> Ctrl C</command></entry><entry>Copy selection to the Clipboard but leave the area selected</entry></row>
 <row><entry><command> Ctrl X</command></entry><entry> Copy the area between the mark point and the current cursor location to the paste buffer and clear the selection</entry></row>
 <row><entry><command>Ctrl V</command></entry><entry>Paste the buffer at the current cursor position</entry></row>
@@ -2039,11 +2036,10 @@ When you click on the Play item of the toobar the current movement is played sta
 
 </para><procedure><step><para>Move the cursor to the beat within the measure you want to edit. </para></step>
 
-<step><para>Lasso the notes you want to edit: Type <command>Shift S</command> and use the <command>HJKL</command> keys to extend the lasso to include the notes you want to edit.</para></step>
+<step><para>Lasso the notes you want to edit: Select the section with the left mouse button or use the selection keybinds in combination with the navagation keybindings to increase or decrease size of selection.</para></step>
 
 <step><para>Next type the command you want to perform, such as copy <command>Ctrl c</command> or cut <command>Ctrl x</command></para></step>
 
-<step><para>Deselect the notes by typing <command>Alt Ctrl S</command></para></step>
 
 <step><para>Navigate to the measure you want to paste the section in the clipboard and type <command>Ctrl v</command> to paste in the notes from the clipboard.</para></step>
 
@@ -2100,8 +2096,8 @@ It is possible to set silly combinations – some will not print anything. Check
           </listitem>
 
           <listitem>
-            <para> To switch voices use StaffDown, StaffUp under staff menu.
-            or using the keyboard shortcut cntrl j((shift F)<note>
+            <para> To switch voices use VoiceDown, VoiceUp under staff menu.
+            or using the keyboard shortcuts <note>
                 <para>The stem positioning positioning may not look correct in
                 the Denemo window, but it will look correct in the printed
                 output.</para>
@@ -2129,10 +2125,6 @@ It is possible to set silly combinations – some will not print anything. Check
             <para>To leave the new voice and return to the previous one
             type</para>
           </listitem>
-
-          <listitem>
-            <para></para>
-          </listitem>
         </orderedlist>.</para>
     </sect2>
 
@@ -2146,7 +2138,13 @@ It is possible to set silly combinations – some will not print anything. Check
     <sect2>
       <title>Entering Figured Bass</title>
 
-      <para>To enter figures choose Other->Enter figured bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
+      <para>To enter figures choose Other->Insert/Enter figured bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
+    </sect2>
+    
+    <sect2>
+      <title>Entering Chord Symbols</title>
+
+      <para>To enter chord symbols choose Other->Insert/Enter chord symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
     </sect2>
 
     <sect2 id="customizingDenemo">
@@ -2165,9 +2163,4 @@ It is possible to set silly combinations – some will not print anything. Check
     denemofilename. This has not been tested for this release.</para>
   </sect1>
 
-  <sect1>
-    <title>Music Analysis with <productname>Denemo</productname></title>
-
-    <para>Plugin(s?) have been written for doing musical analysis. They are not documented here.</para>
-  </sect1>
 </article>

@@ -438,8 +438,8 @@
 
 
     <menu action="ClefMenu">
-        <menuitem action="InsertClef"/>	 	   
         <menuitem action="InitialClef"/>
+        <menuitem action="InsertClef"/>
     </menu>
 
     <menu action="Key">

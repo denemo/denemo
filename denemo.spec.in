@@ -2,20 +2,21 @@
 %define ver      @VERSION@
 %define rel 1
 %define prefix  /usr
-%define pkgdatadir %{prefix}/share/@PACKAGE@
-%define sysconfdir %{prefix}/etc/
 
 Summary: Graphical music notation program
 Name: %{name}
 Version: %ver
 Release: %rel
-Copyright: GPL
+License: GPLv2
 Group: Applications/Multimedia
-Source: %{name}-%{version}.tar.gz
-URL: http://denemo.sourceforge.net/
-Vendor: (none)
-Prefix: %{prefix} 
-BuildRoot: /var/tmp/%{name}-%{ver}-%{rel}-rpm-buildroot
+Source: http://download.savannah.gnu.org/releases/denemo/%{name}-%{version}.tar.gz
+URL: http://www.denemo.org/
+BuildRoot: %{_tmppath}/%{name}-%{ver}-%{rel}-rpm-buildroot
+
+BuildRequires: portaudio-devel aubio-devel gtk2-devel
+BuildRequires: gettext libxml2-devel fftw-devel desktop-file-utils
+Requires: portaudio aubio gtk2 libxml2 fftw
+
 
 %description
 Denemo is a graphical music notation program written in C with
@@ -27,35 +28,41 @@ It is intended to be used in conjunction with GNU Lilypond
 computer-music-related purposes as well. 
 
 %prep
-%setup
+%setup -q
 
 %build
-./configure --prefix=%{prefix}
-%__make
+%configure 
+make %{?_smp_mflags}
 
 %install
-%__make DESTDIR=${RPM_BUILD_ROOT} install
+rm -rf $RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT/%{prefix}/include
+desktop-file-install --vendor=""               \
+--dir=${RPM_BUILD_ROOT}%{_datadir}/applications         \
+%{buildroot}/%{_datadir}/applications/denemo.desktop
+%find_lang %{name}
 
 %clean
-if [ -O "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != "/" -a "$RPM_BUILD_ROOT" !=
-"$HOME" ]; then
-  echo "Deleting build root $RPM_BUILD_ROOT"
-  rm -rf "$RPM_BUILD_ROOT"
-fi
-rm -rf ${RPM_BUILD_DIR}/%{name}-%{ver}
+rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
-%doc README TODO NEWS AUTHORS COPYING ChangeLog DESIGN GOALS
-%config %{sysconfdir}/denemo.conf
-%config %{sysconfdir}/denemo.keymaprc
-%config %{pkgdatadir}/english.keymaprc
-%config %{pkgdatadir}/french.keymaprc
-%config %{pkgdatadir}/speedy.keymaprc
-
-%{prefix}/bin/denemo
+%dir %{_sysconfdir}/denemo
+%config(noreplace) %{_sysconfdir}/denemo/denemo.conf
+%{_datadir}/denemo
+%{_datadir}/icons/denemo.png
+%{_datadir}/fonts/truetype/denemo
+%{_datadir}/applications/denemo.desktop
+%{_bindir}/denemo
+%doc COPYING README README.lilypond ChangeLog 
 
 %changelog
+* Sun Aug  3 2008 Roy Rankin <rrankin@ihug.com.au>
+-Additional BuildRequires from Mock testing, 
+ fixed desktop-file-install usage
+* Fri Jul 25 2008 Roy Rankin <rrankin@ihug.com.au>
+-Update for 0.7.9 and Fedora 8
 * Fri Dec 14 2001 Adam Tee <ajtee@ajtee.uklinux.net>
 -Update for 0.5.8
 * Sun Nov 12 2000 Matt Hiller <mhiller@pacbell.net>

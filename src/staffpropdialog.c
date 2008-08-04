@@ -269,8 +269,7 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->space_below = n;
   if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->numlinesentry)))))
     staffstruct->no_of_lines = n;
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->transposeentry)))) >= 0)
-    staffstruct->transposition = n;
+  staffstruct->transposition = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->transposeentry)));
   if ((n =
        atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->posinhalflinesentry)))))
     staffstruct->pos_in_half_lines = n;
@@ -380,7 +379,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		      TRUE, TRUE, 0);
 
   label = gtk_label_new (_("Staff name:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
@@ -394,7 +393,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   gtk_widget_show (nameentry);
 
   label = gtk_label_new (_("Space above:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
@@ -409,6 +408,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   gtk_widget_show (aboveentry);
 
   label = gtk_label_new (_("Space below:"));
+  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);

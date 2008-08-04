@@ -591,12 +591,18 @@ scan_escaped_word (gchar * str)
 	}
 #endif
     }
+#if 0
   parser_error (g_strdup_printf
 		("scan escaped word: Unknown escaped string: `\\%s'", str),
 		yylineno);
 
   lylval.gstr.gstr = g_string_new (yytext);
   RETURN (STRING_);
+#else
+  lylval.gstr.gstr = g_string_new (yytext);
+  RETURN (LILYDIRECTIVE_TOKEN);
+#endif
+
 }
 
 /* scan_bare_word takes a string and if in chords or notes it tries to 
@@ -634,6 +640,7 @@ scan_bare_word (gchar * str)
 #endif
   lylval.gstr.gstr = g_string_new (yytext);
   RETURN (STRING_);
+
 }
 
 gboolean

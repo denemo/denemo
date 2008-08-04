@@ -2,7 +2,7 @@ Introduction:
 
 GNU Denemo is a graphical music notation program written in C with
 gtk+. It is an official part of the GNU project (http://www.gnu.org/),
-and its homepages are http://www.gnu.org/software/denemo/denemo.html
+and its homepages are http://www.denemo.org
 
 
 
@@ -266,7 +266,7 @@ whatever.
 
 Contributing and contacting the denemo-devel mailing list:
 
-The list address is denemo-devel AT lists.sourceforge.net
+The list address is denemo-devel AT gnu.org
 
 Your input and suggestions on how to make this program better is very
 much encouraged, though be sure to read DESIGN before you make a

@@ -490,6 +490,7 @@ findvoice (GString *name, DenemoScore * si)
 	  {			/* no voice here yet */
 	    curstaffstruct->lily_name = name;
 	    curstaffstruct->voicenumber = 1;
+	    set_denemo_name (name, staffstruct (staffctx)->denemo_name);
 	    return TRUE;
 	  }
 	while (g_string_equal
@@ -608,6 +609,9 @@ generate_chords_and_sequentials (DenemoScore * si, GList * g)
 {
   GList *chordnode;
 
+#ifdef DEBUG
+  g_print ("%s called\n", __FUNCTION__);
+#endif
   for (chordnode = br (g); chordnode; chordnode = chordnode->next)
     {
       if (ntype (chordnode) == SIMULTANEOUS)
@@ -625,6 +629,9 @@ generate_chords_and_sequentials (DenemoScore * si, GList * g)
 	     in between link in the create_score(br(chordnode) */
 	  GList *ret;
 	  GList *temp = br (chordnode);
+#ifdef DEBUG
+	  g_print ("%s Case SEQUENTIAL temp type %d\n", __FUNCTION__, ntype (temp));
+#endif
 	  generate_chords_and_sequentials (si, chordnode);
 	  u_str (temp) = g_strconcat (u_str (chordnode), u_str (temp), NULL);
 	  (chordnode->prev)->next = NULL;
@@ -636,17 +643,29 @@ generate_chords_and_sequentials (DenemoScore * si, GList * g)
 	  ret = g_list_concat (temp, chordnode->next);
 	  /* FIXME memory leak of chordnode itself */
 	}
+      else if (ntype (chordnode) == MUSIC_IDENTIFIER)
+	{
+	  GList *temp = ((nodeid*)(chordnode)->data)->id;
+	  if (ntype (temp) == SEQUENTIAL)
+	      generate_chords_and_sequentials (si, temp);
+        }
     }
+#ifdef DEBUG
+    g_print ("%s exit\n", __FUNCTION__);
+#endif
 }
 
 
 
-/* RECURSIVE: perform the guts of end_of_first_measure() qv, going inside
+/* RECURSIVE: perform the guts of break_into_measures, going inside
    MUSIC_IDENTIFIERS - assume such a thing does not cross a tuplet or grace */
 static GList *
-recursive_end_of_first_measure (GList * theobjs, gint * ptime1, gint * ptime2,
-				gint * pticks_so_far, gint * ptickspermeasure,
-				gint * pnumerator, gint * pdenominator)
+recursive_end_of_measure (
+		DenemoScore * si,
+		GList * theobjs, DenemoStaff * staff,
+		GList ** current_measure, GList * measures_list,
+		gint * pticks_so_far, gint * ptickspermeasure,
+		gint * pnumerator, gint * pdenominator)
 {
 
   objnode *curobjnode;
@@ -658,12 +677,24 @@ recursive_end_of_first_measure (GList * theobjs, gint * ptime1, gint * ptime2,
   for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
+
+#ifdef DEBUG
+fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION__, 
+		theobj->type, *pticks_so_far, *ptickspermeasure,
+		theobj->user_string);
+#endif
+
       theobj->starttick =
 	*pticks_so_far + (basic_ticks_in_tuplet_group * *pnumerator
 			  / *pdenominator) + basic_ticks_in_grace_group;
 
       switch (theobj->type)
 	{
+	case voicecontext:
+	  create_score(si, curobjnode);
+  	  return measures_list;
+	  break;
+
 	case PARTIAL:
 	case CHORD:
 
@@ -719,23 +750,22 @@ recursive_end_of_first_measure (GList * theobjs, gint * ptime1, gint * ptime2,
 	  basic_ticks_in_grace_group = 0;
 	  break;
 	case TIMESIG:
-	  *ptime1 = ((timesig *) theobj->object)->time1;
-	  *ptime2 = ((timesig *) theobj->object)->time2;
-	  *ptickspermeasure = *ptime1 * WHOLE_NUMTICKS / *ptime2;
+	  staff->stime1 = ((timesig *) theobj->object)->time1;
+	  staff->stime2 = ((timesig *) theobj->object)->time2;
+	  *ptickspermeasure = staff->stime1 * WHOLE_NUMTICKS / staff->stime2;
 	  break;
 	case MUSIC_IDENTIFIER:
 	  {
-	    GList *ret =
-	      recursive_end_of_first_measure ((((nodeid *) (curobjnode)->
-						data)->id), ptime1, ptime2,
-					      pticks_so_far, ptickspermeasure,
-					      pnumerator, pdenominator);
-	    if (ret)
-	      {
-		g_warning ("Measure finishes inside a music_identifier\n");
-		return ret;
-		     /** bar finished inside the MUSIC_IDENTIFIER */
-	      }
+	    GList *next = ((nodeid *) (curobjnode)-> data)->id;
+	    if (ntype (next) == SEQUENTIAL)
+		next = br (next);
+	        measures_list = recursive_end_of_measure (
+		si, 
+		next, staff,
+		current_measure, measures_list,
+		pticks_so_far, ptickspermeasure,
+		pnumerator, pdenominator
+		);
 	  }
 	  break;
 
@@ -744,85 +774,80 @@ recursive_end_of_first_measure (GList * theobjs, gint * ptime1, gint * ptime2,
 			// generally true. The issue is duration, dot(s) used
 			// by denemo cannot describe full measure skip 
 			// durations in some time signatures such as 5/4. 
-	  return curobjnode;
+	  *pticks_so_far = *ptickspermeasure;
 	  break;
 
 	default:
 	  break;
 	}
 
+      if (theobj->type != MUSIC_IDENTIFIER)
+      {
+      *current_measure = g_list_append ( *current_measure, theobj);
+
       theobj->starttickofnextnote =
 	*pticks_so_far + (basic_ticks_in_tuplet_group * *pnumerator
 			  / *pdenominator) + basic_ticks_in_grace_group;
       if (*pticks_so_far >= *ptickspermeasure)
-	break;
+      {
+	GList *g;
+
+	if (measures_list)
+		staff->nummeasures++;
+
+	measures_list = g_list_append (measures_list, *current_measure);
+
+#ifdef DEBUG
+	g_print ("%s: measure %d\n", __FUNCTION__, staff->nummeasures);
+	for (g = *current_measure; g; g = g->next)
+	    g_print ("\ttype= %d %s\n",  ntype(g), ((nodegeneric *) g->data)->user_string);
+#endif
+
+
+	*current_measure = NULL;
+	*pticks_so_far = 0;
+      }
+      }
+    }
+    if (*pticks_so_far > 0)
+    {
+	if (measures_list)
+		staff->nummeasures++;
+
+	measures_list = g_list_append (measures_list, *current_measure);
+	*current_measure = NULL;
     }
 
-  return curobjnode;
+  return measures_list;
 }
 
-/* return the node in g at which one measure is complete in terms
-   of ticks. On entering, assume timesig of (*ptime1) / (*ptime2), any
-   change in the timesig changes these.
-   If end of measure, or incomplete measure return NULL
-   This function has been ripped off of settickvalsinmeasure() in
-   measureops.cpp, it side-effects the ticks fields of the objs in
-   the list, in the same manner as will that function when called.
-*/
-static GList *
-end_of_first_measure (GList * theobjs, gint * ptime1, gint * ptime2)
-{
-  gint numerator = 1, denominator = 1;	/* varies if in tuplet etc */
-  gint ticks_so_far = 0;
-  gint tickspermeasure = *ptime1 * WHOLE_NUMTICKS / *ptime2;
-  return recursive_end_of_first_measure (theobjs, ptime1, ptime2,
-					 &ticks_so_far, &tickspermeasure,
-					 &numerator, &denominator);
-
-
-}
 
 /*  attach the measures in BRANCH to the MEASURES_LIST, by counting ticks 
  * return the measures list built up */
 static GList *
-break_into_measures (GList * branch, DenemoStaff * staff)
+break_into_measures (DenemoScore * si, GList * branch, DenemoStaff * staff)
 {
   GList * measures_list = staff->measures;
-  GList *barline;
-  GList *rest;
-  gint time1 = staff->stime1; 
-  gint time2 = staff->stime2;
-  barline = end_of_first_measure (branch, &time1, &time2);
-  if (barline)
-    {
-      rest = barline->next;
-      if (rest)
-	rest->prev = NULL;
-      barline->next = NULL;
-    }
-  else
-    rest = NULL;
-  measures_list = g_list_append (measures_list, branch);
-  while (rest && ntype(rest) != BAR)
-    {
-      barline = end_of_first_measure (rest, &time1, &time2);
-      if (barline)
-	{
-	  measures_list = g_list_append (measures_list, rest);
-	  staff->nummeasures++;
-	  rest = barline->next;
-	  if (rest)
-	    rest->prev = NULL;
-	  barline->next = NULL;
-	}
-      else
-	{
-	  measures_list = g_list_append (measures_list, rest);
-	  staff->nummeasures++;
-	  rest = NULL;
+  GList * current_measure = NULL;
+  gint numerator = 1, denominator = 1;  /* varies if in tuplet etc */
+  gint ticks_so_far = 0;
+  gint tickspermeasure = staff->stime1 * WHOLE_NUMTICKS / staff->stime2;
 
-	}
-    }
+
+#ifdef DEBUG
+    g_print ("enter %s, type of branch %d\n",  __FUNCTION__, ntype(branch));
+#endif
+    measures_list = recursive_end_of_measure (
+		si,
+		branch, staff, 
+		&current_measure, measures_list, 
+		&ticks_so_far, &tickspermeasure,
+		&numerator, &denominator
+		);
+
+#ifdef DEBUG
+  g_print ("exit %s return measures_list=%p\n", __FUNCTION__, measures_list);
+#endif
   return measures_list;
 }
 
@@ -961,6 +986,7 @@ process_lyricsto (DenemoScore * si, GList * top)
       get_lyric (br (top), &meas, NULL);
 }
 
+
 /* create_score: Recursively traverse the GList TOP which represents a 
    score block of the input lily file. Create denemo structures to enable 
    it to be edited graphically
@@ -990,7 +1016,8 @@ create_score (DenemoScore * si, GList * top)
   for (g = top; g; (g = g->next))
     {
 #if DEBUG
-      g_print ("Handling: node type = %d string = %s\t",
+      g_print ("Handling: node type = %s(%d) string = %s\n",
+	       lookup_type(((nodegeneric *) g->data)->type),
 	       ((nodegeneric *) g->data)->type,
 	       ((nodegeneric *) g->data)->user_string);
 #endif
@@ -1002,6 +1029,10 @@ create_score (DenemoScore * si, GList * top)
 	  GString *staffname = gstr (g) ? gstr (g) : g_string_new ("");
 	  findstaff (staffname, si);	/*sets si->currentstaffnum */
 	  staffctx = si->currentstaff;
+#ifdef DEBUG
+	  g_print ("%s:staffcontext staffname -%s- staffctx=%p\n",
+		__FUNCTION__, staffname->str, staffctx);
+#endif
 	  if (!staffctx)
 	    {
 	      si->currentstaff = si->thescore;
@@ -1032,9 +1063,23 @@ create_score (DenemoScore * si, GList * top)
 	  ; // for GString
           GString *name = gstr(g) ? gstr (g) : g_string_new ("");
 
+	  {
+	      char *mvt;
+     	      if ((mvt = strstr(name->str, "Mvmnt")))
+	      {
+		*mvt = 0;
+	      }
+	  }
 
+
+#ifdef DEBUG
+	  g_print ("%s:voicecontext name %s\n", __FUNCTION__, name->str);
+#endif
 	  if (!findvoice (name, si))
 	    {
+#ifdef DEBUG	      
+	      g_print ("\tvoicecontext name not found,  create new staff\n");
+#endif
 	      anewstaff (si, staffstruct (staffctx)->staff_name, name);
 	      si->currentmeasurenum = 1;
 	      voicectx = si->currentstaff;
@@ -1058,6 +1103,7 @@ create_score (DenemoScore * si, GList * top)
 	  if (create_score (si, id (g)))
 	    return -1;
 	  break;
+
 	case SIMULTANEOUS:
 	  if (create_score (si, br (g)))
 	    return -1;
@@ -1098,20 +1144,34 @@ create_score (DenemoScore * si, GList * top)
 	  curstaffstruct = staffstruct (voicectx);
 	  if (ntype (g) == SEQUENTIAL)
 	    {
-	      generate_chords_and_sequentials (si, g);
+/*
+	      if (ntype (br (g)) == MUSIC_IDENTIFIER)
+                {
+	  	  if (create_score (si, ((nodeid*)(g)->data)->id))
+	    	      return -1;
+	        }
+	      else
+*/
+	      {
+		  GList * music;
+	          generate_chords_and_sequentials (si, g);
 
-	      curstaffstruct->measures =
-		break_into_measures (br (g), curstaffstruct);
-	      br (g) = (GList *) & (curstaffstruct->measures);
-	      /* nasty - we store the address
-	         of the GList* pointer. This is so that if
-	         editing in denemo adds a new bar at the beginning we
-	         will not find ourselves pointing to the second bar. Or,
-	         worse if the first bar got deleted. We are not yet tackling 
-	         the case where the staff gets deleted. We should probably 
-	         store the name and prevent that
-	         being changed uncontrollably */
-	      ntype (g) = DENEMO_MEASURES;
+		  music = break_into_measures (si, br (g), curstaffstruct);
+		  if (music)
+		    {
+	      		curstaffstruct->measures = music;
+		         br (g) = (GList *) & (curstaffstruct->measures);
+		         /* nasty - we store the address
+		           of the GList* pointer. This is so that if
+		           editing in denemo adds a new bar at the beginning we
+		           will not find ourselves pointing to the second bar. 
+			   Or, worse if the first bar got deleted. 
+			   We are not yet tackling the case where the staff 
+			   gets deleted. We should probably store the name 
+			   and prevent that being changed uncontrollably */
+		         ntype (g) = DENEMO_MEASURES;
+		    }
+	      }
 	    }
 	  else
 	    {			/* these measures are already in another staff */

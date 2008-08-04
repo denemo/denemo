@@ -68,7 +68,7 @@ struct FileFormatData
 static struct FileFormatData supported_import_file_formats[] = {
   {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
-  /*  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},*/
+  {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
   {"*.midi", N_("Midi (*.midi)"), ".midi"}
 };
@@ -540,11 +540,13 @@ file_open_with_check (GtkAction * action)
     {
       if (confirmbox (gui))
 	{
+	  deletescore (NULL, gui);
 	  file_open (gui, FALSE, REPLACE_SCORE);
 	}
     }
   else
     {
+      deletescore (NULL, gui);
       file_open (gui, FALSE, REPLACE_SCORE);
     }
 }
@@ -865,12 +867,12 @@ file_newwrapper (GtkAction * action)
     {
       if (confirmbox (gui))
 	{
-	  deletescore (NULL, gui);
+	  deletescore(NULL, gui);
 	}
     }
   else
     {
-      deletescore (NULL, gui);
+      deletescore(NULL, gui);
     };
 }
 

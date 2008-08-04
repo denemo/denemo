@@ -174,6 +174,7 @@ open_viewer(gchar *filename, DenemoGUI *gui){
     //FIXME use filename in message
     //warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
     g_warning ("Failed to find %s, check permissions", (gchar *) printfile);
+    g_free(printfile);
     return;
   }
     
@@ -222,31 +223,29 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   convert_ly(lilyfile);
-
-  if (gui->lilycontrol.excerpt == TRUE){
-	  gchar *argv[] = {
-		    Denemo.prefs.lilypath->str,
-		    "--png",
-		    "-b",
-		    "eps", 
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
+  gchar *png[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps", 
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  gchar *pdf[] = {
+    Denemo.prefs.lilypath->str,
+    "--pdf",
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  if (gui->lilycontrol.excerpt){	  
+	  arguments = png;
   }
   else {
-
-	  gchar *argv[] = {
-	       	    Denemo.prefs.lilypath->str,
-		    "--pdf",
-		    "-o",
-		    filename,
-		    lilyfile,
-		    NULL
-	  };
-	  arguments = argv;
+	  arguments = pdf;
   }
     
   gchar *output=NULL, *errors=NULL;
@@ -268,7 +267,16 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
  */
 void
 run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
-  
+  /* remove old output files to avoid confusion */
+  gchar *printfile;
+  if (gui->lilycontrol.excerpt == TRUE)
+    printfile = g_strconcat (filename, ".png", NULL);
+  else
+    printfile = g_strconcat (filename, ".pdf", NULL);
+  FILE *fp = fopen(printfile, "w");
+  if(fp)
+    fclose(fp);
+  g_free(printfile);
   run_lilypond(filename, gui);
   open_viewer(filename, gui);
 }

@@ -228,6 +228,8 @@ of the parse stack onto the heap. */
 %token <gstr> staffcontext voicecontext lyricscontext figuredbasscontext
 %token endcontext
 
+%token<gstr> LILYDIRECTIVE_TOKEN
+
 
 %token<gstr> MUSICMODE
 %token<gstr> TONEOPTION
@@ -453,16 +455,15 @@ prec levels in different prods */
 lilypond:	/* empty */
 	| lilypond toplevel_expression { 
 		if(lily_file)  {
-		 	GList *ret;
-			ret = g_list_concat (lily_file, $2);
+		  lily_file = g_list_concat (lily_file, $2);
+//list_tree("In parser toplevel", lily_file);
 		} else {
 		lily_file = $2;
 		}
 	}
 	| lilypond assignment { 
 		if(lily_file)  {
-		 	GList *ret;
-			ret = g_list_concat(lily_file, $2);
+		 	 lily_file= g_list_concat(lily_file, $2);
 		} else {
 		lily_file = $2;
 		}
@@ -677,14 +678,17 @@ score_body:
 		$$ = g_list_append(NULL, $1.id);
 	}
 	| score_body lilypond_header 	{
+	$$ = $1;
 	lyerror ("parser should have caught this");
 		/*intercept this at lexical level*/	
 	}
 	| score_body output_def {
-	//lyerror ("parser should have caught this");
+	$$ = $1;
+	lyerror ("parser should have caught this");
 		/*intercept this at lexical level*/
 	}
 	| score_body error {
+	$$ = $1;
 	lyerror("score_body error");
 	}
 	;
@@ -710,11 +714,11 @@ music_output_def_body:
 	}
 	| PAPER '{' 	{
 		/* caught by lexer - does not occur*/
-		lyerror ("parser should have caught this");
+		lyerror ("parser should have caught this-paper");
 	}
 	| LAYOUT '{' {
 		/* caught by lexer - does not occur*/
-		lyerror ("parser should have caught this");
+		lyerror ("parser should have caught this - layout");
 	}
 	| music_output_def_body error {
 		lyerror("music_output_def_body error");
@@ -861,6 +865,14 @@ LATER_MESSAGE(@$.first_line);
 
 Simple_music:
 	event_chord		{ $$ = $1; }
+	| LILYDIRECTIVE_TOKEN {
+		DenemoObject *mud = lily_directive_new ($1.user_string);		
+		$$ = g_list_append(NULL,mud);
+	}
+	| LILYDIRECTIVE_TOKEN STRING_ {
+		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string));	
+		$$ = g_list_append(NULL,mud);
+	}
 	| OUTPUTPROPERTY embedded_scm embedded_scm '=' embedded_scm	{
 LATER_MESSAGE(@$.first_line);
 #ifdef LATER
@@ -2962,6 +2974,8 @@ lyinput (gchar * filename, DenemoGUI *gui)
   init_crescendo_state();
   DenemoScore *si = gui->si;
 
+ init_score (si, gui);
+//	si->thescore = NULL;
   while (1)
     {				/* keep trying to open the file */
       if ((lyin = fopen (filename, "r")) == NULL)
@@ -2977,7 +2991,12 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  parser_error_message = NULL;
 	  /* free_score (si); CHANGE THIS TO FREE ALL THE si in 
 	     si->thefile->currentDenemoScore list... */
-	  
+
+#if 0
+	  // Calling init_score here would cause piece in header to set to "Movement 2"
+  	  si->measurewidths = NULL;
+	  si->thescore = NULL;
+#endif	  
 
 	  /* in case we are re-entering via reload after error */
 	  lyrestart (lyin);	
@@ -2988,100 +3007,30 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  while (!feof (lyin))
 	    {
 	      lyparse ();
- if (parser_error_message) { 
-	warningdialog("Unable to cope with this file");
-	return -1;
-}
 	    }
-	  if (parser_error_message == NULL)
+	 if(1)
 	    {
 	      GList *score = findtok (lily_file, SCORE);
 	      if (score)
 		if (create_score_from_lily (si, br (score)) == 0)
 		  {
 		    GList *top;
-		    nodemin *n = (nodemin *) g_malloc0 (sizeof (nodemin));
 		    score_prop_from_lily(gui);
-
+		    fixup_measure_widths_and_contexts (si);
 		    while (score && score->next)
 		      {
 			score = findtok (score->next, SCORE);
 			if (score)
 			  {
+	                    insert_movement_after(NULL);
 			    DenemoScore *nextsi =
-			      (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
+			      Denemo.gui->si;
 			    init_score (nextsi, gui);
-			    create_score_from_lily (nextsi, br (score));
-			    score_block_list =
-			      g_list_append (score_block_list, nextsi);
+		 	    create_score_from_lily (nextsi, br (score));
+		            fixup_measure_widths_and_contexts (nextsi);
+			    
 			  }
 		      }
-
-		    n->type = TEXT;
-		    /* must be g_free-able pointer */
-		    n->user_string = g_strdup ("");	
-		    top = g_list_append (NULL, n);
-		    /* simplify the tree into TEXT and DENEMO_MEASURES nodes */
-#ifdef LILYEDIT
-		    lily_write_out (top, lily_file, TO_NODE);	
-#endif
-		    attach_trailing_white_space (top);
-		    si->lily_file = top;
-		    fixup_measure_widths_and_contexts (si);
-#ifdef LILYEDIT
-		    /* write out the text to editable display */
-		    create_text_display (gui);	
-#if GTK_MAJOR_VERSION > 1
-/* so that the following toggle starts the scorearea display */
-		    gtk_widget_hide (si->scorearea);	
-		    toggle_top_node (NULL, gui);
-/* present denemo's graphical window first */
-		    gtk_window_present ((GtkWindow *) gui->window);	
-#endif
-
-		    if (g_list_length (score_block_list) > 0)
-		      {
-			GList *g;
-			DenemoScore *nextsi;
-			for (g = score_block_list; g; g = g->next)
-			  {
-			    nextsi = (DenemoScore *) g->data;
-			    fixup_measure_widths_and_contexts (nextsi);
-			    nextsi->window = si->window;
-			    nextsi->scorearea = si->scorearea;
-			    nextsi->pixmap = si->pixmap;
-			    nextsi->vadjustment = si->vadjustment;
-			    nextsi->vscrollbar = si->vscrollbar;
-			    nextsi->hadjustment = si->hadjustment;
-			    nextsi->hscrollbar = si->hscrollbar;
-			    nextsi->menubar = si->menubar;
-			    nextsi->textbuffer = si->textbuffer;
-			    nextsi->textwindow = si->textwindow;
-			    nextsi->textview = si->textview;
-			    nextsi->musicdatabutton = si->musicdatabutton;
-			    nextsi->sigid = si->sigid;
-			    nextsi->curlilynode = si->curlilynode;
-			    nextsi->lily_file = si->lily_file;
-			    nextsi->prefs = si->prefs;
-/* certain fields are not really score specific - they are file specific - share these */
-
-			   
-/* but we have no way of sharing has_changed yet FIXmME */
-
-			  }
-
-			/* append a copy of the score block si (the one that the display is hardwired to)
-			   to the list of score_blocks, so that the display can be cycled around by copying
-			   from score_block_list to si  */
-			nextsi = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
-			memcpy (nextsi, si, sizeof (DenemoScore));
-			score_block_list =
-			  g_list_append (score_block_list, nextsi);
-			si->scoreblocks = score_block_list;
-		      }
-
-#endif // LILYEDIT
-
 
 		    return 0;
 		  }

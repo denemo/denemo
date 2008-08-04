@@ -36,7 +36,7 @@ about (GtkAction * action, gpointer callback_data)
   gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog),
 				_
 				("(c) 1999 - 2008 Matthew Hiller, Adam Tee, and others.\n\n\
-http://www.gnu.org/software/denemo/denemo.html\n\n\
+http://www.denemo.org\n\n\
 This program is licensed under the terms of the GNU\n\
 General Public License and is provided with absolutely\n\
 NO WARRANTY; see the file COPYING for details."));
