@@ -193,8 +193,8 @@ set_key (DenemoScore * si, struct twoints t)
       curstaffstruct->skey = t.a;
       curstaffstruct->skey_isminor = FALSE;
     }
-   dnm_setinitialkeysig (curstaffstruct, curstaffstruct->skey, curstaffstruct->skey_isminor);
-  //initkeyaccs (curstaffstruct->skeyaccs, curstaffstruct->skey);
+  //dnm_setinitialkeysig (curstaffstruct, curstaffstruct->skey, curstaffstruct->skey_isminor);
+  initkeyaccs (curstaffstruct->skeyaccs, curstaffstruct->skey);
 }
 
 void
@@ -420,10 +420,15 @@ lookup_type (gint type)
 	return the_par_tab[i].str;	/*very inefficient! */
     }
 
-  return "Unknown";
+  return g_strdup_printf("%d", type);
 }
 
-
+static gchar *
+lookup_type_of_node (GList *node) {
+  if(!node)
+    return "NULL pointer";
+  return lookup_type(ntype(node));
+}
 
 /* sets si->currentstaff to the first staff in si->thescore with lily_name 
  *  NAME or NULL if none.
@@ -603,7 +608,16 @@ generate_chord (GList * chordnode)
  */
 
 static int create_score (DenemoScore * si, GList * top);
+void
+list_tree(gchar *message, GList * top);
 
+/* generate_chords_and_sequentials
+	PARAM g is a node with a branch, 
+	the branch is traversed and any 
+	sequential music is inserted in the branch
+	any simultaneous music is formed into a chord
+	any music identifiers were not being handled.
+ */
 static void
 generate_chords_and_sequentials (DenemoScore * si, GList * g)
 {
@@ -640,7 +654,9 @@ generate_chords_and_sequentials (DenemoScore * si, GList * g)
 	  u_str (temp) =
 	    g_strconcat (u_str (temp), u_post_str (chordnode), NULL);
 	  chordnode->prev = NULL;
-	  ret = g_list_concat (temp, chordnode->next);
+	  //g_print("Concatenating lists\n");
+	  br (chordnode) = g_list_concat (temp, chordnode->next);
+	  
 	  /* FIXME memory leak of chordnode itself */
 	}
       else if (ntype (chordnode) == MUSIC_IDENTIFIER)
@@ -777,6 +793,9 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	  *pticks_so_far = *ptickspermeasure;
 	  break;
 
+	case LILYDIRECTIVE:
+	  //g_print("Passing LilyPond insert %s thru\n", ((lilydirective *) theobj->object)->directive->str);
+	  break;
 	default:
 	  break;
 	}
@@ -949,7 +968,7 @@ get_lyric (GList * glyric, measurenode **meas, objnode *curobjnode)
 	  break;
 
 	default:
-	  g_warning("get_lyric unexpected lyric type %d", ntype (glyric));
+	  g_warning("get_lyric unexpected lyric type %s", lookup_type(ntype (glyric)));
 	  return FALSE;
 	  break;
 
@@ -998,27 +1017,15 @@ create_score (DenemoScore * si, GList * top)
 
   DenemoStaff *curstaffstruct;
 #if DEBUG
-
   char *name;
-  g_print
-    ("The parse tree from this node downwards looks"
-     " like this\n*************************************\n");
-  for (g = top; g; g = g->next)
-    {
-      g_print ("node type = %s(%d) string = %s\n",
-	       lookup_type(((nodegeneric *) g->data)->type),
-	       ((nodegeneric *) g->data)->type,
-	       ((nodegeneric *) g->data)->user_string);
-    }
-  g_print ("\n*************************************\n");
+  list_tree("From create_score ",top); 
 #endif
 
   for (g = top; g; (g = g->next))
     {
 #if DEBUG
-      g_print ("Handling: node type = %s(%d) string = %s\n",
+      g_print ("Handling: node type = %s string = %s\t",
 	       lookup_type(((nodegeneric *) g->data)->type),
-	       ((nodegeneric *) g->data)->type,
 	       ((nodegeneric *) g->data)->user_string);
 #endif
       switch (ntype (g))
@@ -1062,15 +1069,6 @@ create_score (DenemoScore * si, GList * top)
 	case voicecontext:
 	  ; // for GString
           GString *name = gstr(g) ? gstr (g) : g_string_new ("");
-
-	  {
-	      char *mvt;
-     	      if ((mvt = strstr(name->str, "Mvmnt")))
-	      {
-		*mvt = 0;
-	      }
-	  }
-
 
 #ifdef DEBUG
 	  g_print ("%s:voicecontext name %s\n", __FUNCTION__, name->str);
@@ -1186,6 +1184,9 @@ create_score (DenemoScore * si, GList * top)
 	  break;
 
 	default:
+#if DEBUG
+	  g_print("create score ignores type %s\n", lookup_type(ntype(g)));
+#endif
 	  break;
 		}
     }
@@ -1193,6 +1194,7 @@ create_score (DenemoScore * si, GList * top)
 
 }
 
+/* returns 0 on success */
 int
 create_score_from_lily (DenemoScore * si, GList * top)
 {
@@ -1331,8 +1333,8 @@ set_post_events (DenemoObject *mud, gchar *usr_str, GList *g)
 			break;
 
 
-		default: g_warning ("type %d not processed in set_post_events", 
-				ntype (g));
+		default: g_warning ("type %s not processed in set_post_events", 
+				lookup_type(ntype (g)));
 			break;
 		}
 	    g = g->next;
@@ -1445,8 +1447,8 @@ node_text_next (GtkWidget * win, gpointer data)
       si->curlilynode = si->curlilynode->next;
     }
 #if DEBUG
-  g_print ("next node has node type = %d string = %s\n",
-	   ntype (si->curlilynode), u_str (si->curlilynode));
+  g_print ("next node has node type = %s string = %s\n",
+	   lookup_type(ntype (si->curlilynode)), u_str (si->curlilynode));
 #endif
   lily_text_change (si);
 }
@@ -1469,8 +1471,8 @@ node_text_previous (GtkWidget * win, gpointer data)
     }
 
 #if DEBUG
-  g_print ("next node has node type = %d string = %s\n",
-	   ntype (si->curlilynode), u_str (si->curlilynode));
+  g_print ("next node has node type = %s string = %s\n",
+	   lookup_type(ntype (si->curlilynode)), u_str (si->curlilynode));
 #endif
   lily_text_change (si);
 }

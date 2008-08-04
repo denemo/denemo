@@ -1438,10 +1438,12 @@ LATER_MESSAGE(@$.first_line);
 	$$ = g_list_append(NULL, n); /* this node used to be used by denemo to split the glist into measures */
 	}
 	| BAR STRING_  	{
-			MALLOC_NODE(n, $1);
+	                 DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string, NULL));
+		         $$ = g_list_append(NULL,mud);
 
-		  n->user_string = g_strconcat($1.user_string, $2.user_string, NULL);/* FIXME memory leaks */
-		  $$ = g_list_append(NULL, n);
+			//MALLOC_NODE(n, $1);
+		  //n->user_string = g_strconcat($1.user_string, $2.user_string, NULL);/* FIXME memory leaks */
+		 // $$ = g_list_append(NULL, n);
 	}
 	| PARTIAL_ duration_length  	{
 	//	g_warning ("\\partial not currently supported");
@@ -2974,7 +2976,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
   init_crescendo_state();
   DenemoScore *si = gui->si;
 
- init_score (si, gui);
+ //init_score (si, gui);
 //	si->thescore = NULL;
   while (1)
     {				/* keep trying to open the file */
@@ -2992,7 +2994,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  /* free_score (si); CHANGE THIS TO FREE ALL THE si in 
 	     si->thefile->currentDenemoScore list... */
 
-#if 0
+#if 1
 	  // Calling init_score here would cause piece in header to set to "Movement 2"
   	  si->measurewidths = NULL;
 	  si->thescore = NULL;

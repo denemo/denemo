@@ -500,7 +500,7 @@ COPYING for details.\n\n");
   /* read history file */
   readHistory();
   /* Set up the keymap */
-  init_keymap();
+  //init_keymap();
   
   /* create the first window */
   newview ();

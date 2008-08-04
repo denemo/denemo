@@ -631,9 +631,12 @@ void  set_title_bar(DenemoGUI *gui) {
     title = gui->filename->str;
   else
     title = "(Untitled)";
-  title = g_strdup_printf("Denemo - %s%c", title, gui->changecount?'*':' ');  
-  gtk_notebook_set_tab_label_text (Denemo.notebook, gui->page, title); 
+  title = g_strdup_printf("Denemo - %s%c", title, gui->changecount?'*':' ');
+  gtk_window_set_title (GTK_WINDOW (Denemo.window), title); 
+  gchar *base = g_path_get_basename (title);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK(Denemo.notebook), gui->page, base); 
   g_free(title);
+  g_free(base);
 }
 
 void score_status(DenemoGUI *gui, gboolean change) {

@@ -204,8 +204,9 @@ close_gui (DenemoGUI *gui)
   storeWindowState ();
  //stop_pitch_recognition();
   free_gui(gui);
-  Denemo.guis = g_list_remove (Denemo.guis, gui);
+  
   gtk_widget_destroy (gui->page);
+  Denemo.guis = g_list_remove (Denemo.guis, gui);//FIXME ?? or in the destroy callback??
   g_free (gui);
 }
 
@@ -1040,13 +1041,10 @@ GtkActionEntry menu_entries[] = {
 
 
 
-  {"OpenNewWindow", GTK_STOCK_OPEN, N_("Open in New Window"), NULL,
-    N_("Open a file containing a music score for editing\nThe score will open in a separate window"), G_CALLBACK (openinnew)},
+  {"OpenNewWindow", GTK_STOCK_OPEN, N_("Open in New Tab"), NULL,
+   N_("Open a file containing a music score for editing\nThe score will open in a separate working area (tab)"), G_CALLBACK (openinnew)},
 
-
-
-
-  {"Save", GTK_STOCK_SAVE, N_("Save"), NULL,  N_("Save the score"),
+  {"Save", GTK_STOCK_SAVE, N_("Save"), NULL, "Save the score",
    G_CALLBACK (file_savewrapper)},
   {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), NULL,  N_("Save the score under a new name"),
    G_CALLBACK (file_saveaswrapper)},
@@ -1062,7 +1060,7 @@ GtkActionEntry menu_entries[] = {
 
   {"SaveTemplate", GTK_STOCK_SAVE_AS, N_("Template save"), NULL,  N_("Save the score as a template\nfor re-use as a starting point for new scores"),
    G_CALLBACK (template_save)},
-  {"NewWindow", NULL, N_("New Window"), NULL,  N_("Create a new window with an empty score in it"),
+  {"NewWindow", NULL, N_("New Tab"), NULL, N_("Create working area (tab) with an empty score in it"),
    G_CALLBACK (newview)},
   {"InsertMovementBefore", NULL, N_("Add Before Current Movement"), NULL,  N_("Insert a new movement before the current one"),
    G_CALLBACK (insert_movement_before)},
@@ -1709,16 +1707,15 @@ struct cbdata
  * opens the selected file
  */
 static void
-openrecent (GtkWidget * widget, gpointer data)
+openrecent (GtkWidget * widget, gchar *filename)
 {
-  struct cbdata *cdata = (struct cbdata *) data;
-  // g_print ("actioned\n");
-  if (!cdata->gui->changecount || (cdata->gui->changecount && confirmbox (cdata->gui)))
+  DenemoGUI *gui = Denemo.gui;
+  if (!gui->changecount || (gui->changecount && confirmbox (gui)))
     {
-      deletescore(NULL, cdata->gui);
-      if(open_for_real (cdata->filename, cdata->gui, FALSE, FALSE))
+      deletescore(NULL, gui);
+      if(open_for_real (filename, gui, FALSE, FALSE))
 	{
-	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", cdata->filename);
+	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
 	  warningdialog(warning);
 	  g_free(warning);
 	}
@@ -1727,37 +1724,23 @@ openrecent (GtkWidget * widget, gpointer data)
 
  
 /**
- * Add history entry to the History menu, create a menu item for it in the passed DenemoGUI
- * newgui
- * or in all the guis in NULL passed for newgui
- *
+ * Add history entry to the History menu, create a menu item for it
  */
 void
-addhistorymenuitem (gchar *filename, DenemoGUI *newgui)
+addhistorymenuitem (gchar *filename)
 {
   GList *g;
   if(!g_file_test(filename,  G_FILE_TEST_EXISTS))
     return;
-  gchar *tmpstring = g_path_get_basename ((gchar *) filename);
-  for(g=Denemo.guis;g;g=g->next) {
-    DenemoGUI *gui = (DenemoGUI *)g->data;
-    if(newgui && newgui!=gui)
-      continue; /* either newgui is NULL and we do the gui, or its not and
-		   it matches, so we do it */
-    GtkWidget *item =
-      gtk_ui_manager_get_widget (Denemo.ui_manager,
-				 "/MainMenu/FileMenu/OpenRecent/Stub");
-    GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
-    
-    item = gtk_menu_item_new_with_label (tmpstring);
-    gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 0);
-    struct cbdata *cdata = (struct cbdata *) g_malloc0 (sizeof (struct cbdata));
-    cdata->gui = gui;
-    cdata->filename = g_strdup(filename);
-    g_signal_connect (item, "activate", G_CALLBACK (openrecent), cdata);
-    gtk_widget_show (item);
-  }
-  g_free (tmpstring);
+  GtkWidget *item =
+    gtk_ui_manager_get_widget (Denemo.ui_manager,
+			       "/MainMenu/FileMenu/OpenRecent/Stub");
+  GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
+  
+  item = gtk_menu_item_new_with_label (filename);
+  gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 0);
+  g_signal_connect (item, "activate", G_CALLBACK (openrecent), g_strdup(filename));
+  gtk_widget_show (item);
 }
 
 /**
@@ -1765,9 +1748,9 @@ addhistorymenuitem (gchar *filename, DenemoGUI *newgui)
  * with elements read from the denemohistory file
  */
 static void
-populate_opened_recent (DenemoGUI * gui)
+populate_opened_recent (void)
 {
-  g_queue_foreach (Denemo.prefs.history, (GFunc)addhistorymenuitem, gui);
+  g_queue_foreach (Denemo.prefs.history, (GFunc)addhistorymenuitem, NULL);
 }
 
 static 	void show_type(GtkWidget *widget, gchar *message) {
@@ -1867,34 +1850,36 @@ g_print("switching pagenum %d\n",pagenum);
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return;
+  GList *g = g_list_nth(Denemo.guis, pagenum);
+  if(g==NULL) {
+    g_warning("got a switch page, but there is no such page in Denemo.guis\n");
+    return;
+  }
+  DenemoGUI *newgui = g->data;
+  if(gui==newgui)
+    return;
   gboolean lily_on=FALSE;
 
   if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow))
     lily_on = TRUE;
 
 
-  GList *g = g_list_nth(Denemo.guis, pagenum);
-  if(g) {
+  
+   {
     unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
     g_print("Switching from %p to %p\n", Denemo.gui, g->data);
     Denemo.gui = gui = (DenemoGUI*)(g->data);
 
     g_print("Booleans %d %d %d\n", gui->textview,  gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow), lily_on);
-
-    g_print("1Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
     if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow) && !lily_on)
-      gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText"),
+      gtk_toggle_action_set_active (GTK_TOGGLE_ACTION(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")),
 				    TRUE);
-    g_print("2Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
     if(lily_on && !(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow)))
-      gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText"),
+      gtk_toggle_action_set_active (GTK_TOGGLE_ACTION(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")),
 			    FALSE);
-
-    g_print("3Active is %d\n", gtk_toggle_action_get_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")));
     highlight_rhythm(Denemo.gui->prevailing_rhythm);
   }
-  else
-    g_warning("got a switch page, but there is no such page in Denemo.guis\n");
+
   g_print("switched to gui %p\n\n",Denemo.gui);
 
 }
@@ -1920,6 +1905,8 @@ create_window(void) {
   data_dir = g_strconcat (get_data_dir (), "/../icons/denemo.png", NULL);//FIXME installed in wrong place
 #endif
   gtk_window_set_default_icon_from_file (data_dir, NULL);
+  gtk_signal_connect (GTK_OBJECT (Denemo.window), "delete_event",
+		      (GtkSignalFunc) delete_callback, NULL);
   g_free (data_dir);
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
@@ -2068,22 +2055,10 @@ get_data_dir (),
 
   gtk_widget_show (hbox);
 
-
+  populate_opened_recent ();
   gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
-
-  /* Set up the keymap if not already set up and adds labels to widgets of this gui */
-  init_keymap();
-  if (Denemo.prefs.autosave) {
-    if(Denemo.autosaveid) {
-      warningdialog("No autosave on new gui");
-    }
-    else {
-      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
-					 (GSourceFunc) auto_save_document_timeout, Denemo.gui);
-    }
-  }
 
   /* we have to do this properly, because it introduces a keymap - no longer true */
   if (Denemo.prefs.rhythm_palette) {
@@ -2101,29 +2076,7 @@ get_data_dir (),
       toggle_entry_toolbar (NULL, Denemo.gui);
     }
  
-
-  /*
-The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
-Furthermore, it updates the label of the widgets proxying the action so that accelerators are also displayed.
-FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
-  */
-GList *g = gtk_action_group_list_actions(action_group);
- for(;g;g=g->next) {
-   GSList *h = gtk_action_get_proxies (g->data);
-   for(;h;h=h->next) {
-#if (GTK_MINOR_VERSION <10)
-        attach_action_to_widget(h->data, g->data, Denemo.gui);
-#endif
-        attach_set_accel_callback(h->data, g->data,"", Denemo.gui);
-        command_idx = lookup_index_from_name(the_keymap,
-                gtk_action_get_name(g->data));
-        if (command_idx != -1) {
-            update_accel_labels(the_keymap, command_idx);
-        }
-   }
- }
-
-
+ 
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),
@@ -2283,7 +2236,7 @@ Denemo.gui = gui;
   Denemo.gui->mode = INPUTINSERT | INPUTNORMAL;
 
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
-  //gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
 
 
   GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
@@ -2303,8 +2256,8 @@ Denemo.gui = gui;
   g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
 		      G_CALLBACK (scorearea_button_press), gui);
-  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
-		      (GtkSignalFunc) delete_callback, gui);
+  //  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
+  //		      (GtkSignalFunc) delete_callback, gui);
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_press_event",
 		      (GtkSignalFunc) scorearea_keypress_event, gui);
 
@@ -2317,6 +2270,51 @@ Denemo.gui = gui;
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 
+
+
+  /* Set up the keymap if not already set up*/
+ {static gboolean initialized = FALSE;
+ g_print("init %d for %p\n", initialized, Denemo.gui);
+ if(!initialized) {
+   init_keymap();
+   /*
+     The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
+     Furthermore, it updates the label of the widgets proxying the action so that accelerators are also displayed.
+     FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
+   */
+   GtkActionGroup *action_group;
+   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+   action_group = GTK_ACTION_GROUP(groups->data); 
+   GList *g = gtk_action_group_list_actions(action_group);
+   for(;g;g=g->next) {
+     gint command_idx;
+     keymap *the_keymap = Denemo.prefs.the_keymap;
+     GSList *h = gtk_action_get_proxies (g->data);
+     for(;h;h=h->next) {
+#if (GTK_MINOR_VERSION <10)
+       attach_action_to_widget(h->data, g->data, Denemo.gui);
+#endif
+       attach_set_accel_callback(h->data, g->data,"", Denemo.gui);
+       command_idx = lookup_index_from_name(the_keymap,
+					    gtk_action_get_name(g->data));
+       if (command_idx != -1) {
+	 update_accel_labels(the_keymap, command_idx);
+       }
+     }
+   }
+   initialized = TRUE;
+ }
+ if (Denemo.prefs.autosave) {
+   if(Denemo.autosaveid) {
+     warningdialog("No autosave on new gui");
+   }
+   else {
+     Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
+					(GSourceFunc) auto_save_document_timeout, Denemo.gui);
+   }
+ }
+
+ }
 
 
 

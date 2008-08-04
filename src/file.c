@@ -202,7 +202,7 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
 	  if (data)
 	    g_free (data);
 	}
-      addhistorymenuitem (filename, NULL);// NULL means add menuitem for all guis
+      addhistorymenuitem (filename);
       g_queue_push_tail (Denemo.prefs.history, g_strdup(gui->filename->str));
     }
 }
