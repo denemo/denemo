@@ -1018,7 +1018,7 @@ create_score (DenemoScore * si, GList * top)
   DenemoStaff *curstaffstruct;
 #if DEBUG
   char *name;
-  list_tree("From create_score ",top); 
+  //list_tree("From create_score ",top); 
 #endif
 
   for (g = top; g; (g = g->next))
