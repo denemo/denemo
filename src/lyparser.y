@@ -2164,32 +2164,12 @@ simple_element:
 	$$ = g_list_append(NULL,mud); 
 	}
 	| MULTI_MEASURE_REST optional_notemode_duration  	{
-LATER_MESSAGE(@$.first_line);
-#ifdef LATER
-		Input i = THIS->pop_spot ();
+	/* treat as skip for the moment */
+	DenemoObject *mud = newchord( $2.t1.a, $2.t1.b,0);
+	mud->type = SKIPNAME;
+	mud->user_string = g_strconcat($1.user_string, $2.user_string, NULL);
+	$$ = g_list_append(NULL,mud); 
 
-		Skip_req * sk = new Skip_req;
-		sk->set_mus_property ("duration", $2);
-		Span_req *sp1 = new Span_req;
-		Span_req *sp2 = new Span_req;
-		sp1-> set_span_dir ( START);
-		sp2-> set_span_dir ( STOP);
-		SCM r = scm_makfrom0str ("rest");
-		sp1->set_mus_property ("span-type", r);
-		sp2->set_mus_property ("span-type", r);
-
-		Request_chord * rqc1 = new Request_chord (SCM_EOL);
-		rqc1->set_mus_property ("elements", scm_list_n (sp1, SCM_UNDEFINED));
-		Request_chord * rqc2 = new Request_chord (SCM_EOL);
-		rqc2->set_mus_property ("elements", scm_list_n (sk, SCM_UNDEFINED));
-		Request_chord * rqc3 = new Request_chord (SCM_EOL);
-		rqc3->set_mus_property ("elements", scm_list_n (sp2, SCM_UNDEFINED));
-
-		SCM ms = scm_list_n (rqc1, rqc2, rqc3, SCM_UNDEFINED);
-
-		$$ = new Sequential_music (SCM_EOL);
-		$$->set_mus_property ("elements", ms);
-#endif
 	}
 	| STRING_ optional_notemode_duration 	{
 		DenemoObject *mud = newlyric($2.t1.a, $2.t1.b, $1.gstr->str);

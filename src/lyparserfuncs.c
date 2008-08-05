@@ -1005,6 +1005,53 @@ process_lyricsto (DenemoScore * si, GList * top)
       get_lyric (br (top), &meas, NULL);
 }
 
+void
+list_tree(gchar *message, GList * top) {
+  GList *g;
+  g_print("<<<<<<<<<<<<<<<<Begin %s\n",message);
+  for (g = top; g; g = g->next)
+    {
+      nodegeneric *node =  (nodegeneric *) g->data;
+      g_print ("node type = %s(%d) string = %s\n",
+	       lookup_type(node->type),
+	       node->type,
+	       node->user_string);
+      switch(node->type) {
+      case MUSIC_IDENTIFIER:
+	if(br(g)) {
+	  g_print("***************");
+	  //list_tree("Music Identfier found", br(g));
+	  g_print("____________");
+	}
+	else
+	  g_warning("No branch");
+	break;
+      case SEQUENTIAL:
+	if(br(g)) {
+	  g_print("***************");
+	  //list_tree("Sequential found", br(g));
+	  g_print("____________");
+	}
+	else
+	  g_warning("No branch");
+	break;
+      case SIMULTANEOUS:
+	if(br(g)) {
+	  g_print("***************");
+	  //list_tree("Simultaneous found", br(g));
+	  g_print("____________");
+	}
+	else
+	  g_warning("No branch");
+	break;
+      case CHORD:
+	  g_print("*************** Chord *************");
+	  break;
+      }
+      
+    }
+  g_print(">>>>>>>>>>>>>>>>>>>>>End %s\n",message);
+}
 
 /* create_score: Recursively traverse the GList TOP which represents a 
    score block of the input lily file. Create denemo structures to enable 
@@ -1018,7 +1065,7 @@ create_score (DenemoScore * si, GList * top)
   DenemoStaff *curstaffstruct;
 #if DEBUG
   char *name;
-  //list_tree("From create_score ",top); 
+  list_tree("From create_score ",top); 
 #endif
 
   for (g = top; g; (g = g->next))

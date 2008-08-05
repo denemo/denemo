@@ -1338,9 +1338,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
-	    if (empty_measure)// measure has nothing to use up the duration, tell lilypond to move on
+	    if (empty_measure)// measure has nothing to use up the duration, assume whole measure rest
 	      {
-		g_string_append_printf(endstr, "s1*%d/%d ", cur_stime1, cur_stime2);
+		g_string_append_printf(endstr, "R1*%d/%d ", cur_stime1, cur_stime2);
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
