@@ -997,6 +997,29 @@ LATER_MESSAGE(@$.first_line);
 					   &endcontextnode);	  
 		/* FIXME memory leak $2 $3 $4 */
 	}
+	| NEWCONTEXT string '=' string Music {
+		MALLOC_NODE(n1, $1);
+ 		((nodegstr*)n1)->gstr = $4.gstr;
+		if(!strcmp("Staff",$2.gstr->str)) 
+		   n1->type = staffcontext;
+		else if(!strcmp("Voice",$2.gstr->str)) 
+		   n1->type = voicecontext;
+		else if(!strcmp("Lyrics",$2.gstr->str)) 
+		   n1->type = lyricscontext;
+		else if(!strcmp("FiguredBass",$2.gstr->str)) 
+		   n1->type = figuredbasscontext;
+		else 
+		   n1->type = TEXT;/*ignore other contexts at present */
+		n1->user_string = g_strconcat($1.user_string, $2.user_string, 
+					      "=", $4.user_string, 
+					      NULL);	
+		if (n1->type == TEXT)
+			$$ = g_list_prepend($5, n1);
+		else
+			$$ = g_list_append(g_list_prepend($5, n1), 
+					   &endcontextnode);	  
+		/* FIXME memory leak $2 $3 $4 */
+	}
 	| NEWCONTEXT STRING_ Music	{
 		MALLOC_NODE (n1, $1);
 		if(!strcmp("Staff",$2.gstr->str)) 
