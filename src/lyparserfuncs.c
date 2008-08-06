@@ -87,7 +87,12 @@ set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
   measurenode *firstmeasure = curstaffstruct->measures;
   DenemoObject *obj;
   curstaffstruct->context = DENEMO_NONE;
-  g_assert (firstmeasure);
+  if(firstmeasure==NULL) {
+    warningdialog("Unable to load this file - quitting");
+    //curstaffstruct->measures = g_list_append(NULL, NULL);
+    // return;
+    g_assert (firstmeasure);
+  }
   if ((obj = first_context (firstmeasure, CLEF)))
     {
       curstaffstruct->sclef = ((clef *) obj->object)->type;
@@ -808,11 +813,14 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	*pticks_so_far + (basic_ticks_in_tuplet_group * *pnumerator
 			  / *pdenominator) + basic_ticks_in_grace_group;
       // check if this measure is finished 
+
+#if 0
       if(curobjnode->next && 
 	 (DenemoObject *) curobjnode->next->data &&
 	 ((DenemoObject *) curobjnode->next->data)->type==LILYDIRECTIVE) {// include any LILYDIRECTIVEs in the measure
 	;//go on to include it in this measure
       } else
+#endif
 	if (*pticks_so_far >= *ptickspermeasure)
 	  {
 	    GList *g;
@@ -834,11 +842,13 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	  }// enough for this measure
       }// Not music_ident
     }// for each object
-  if (*pticks_so_far > 0)
+  g_print("At the end of for each object with %d %d\n", *pticks_so_far>0, *current_measure);
+  if (*pticks_so_far>0
+      && *current_measure
+)
     {
       if (measures_list)
 	staff->nummeasures++;
-      
       measures_list = g_list_append (measures_list, *current_measure);
       *current_measure = NULL;
     }
