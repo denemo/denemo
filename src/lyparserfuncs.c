@@ -814,7 +814,7 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 			  / *pdenominator) + basic_ticks_in_grace_group;
       // check if this measure is finished 
 
-#if 0
+#if 1
       if(curobjnode->next && 
 	 (DenemoObject *) curobjnode->next->data &&
 	 ((DenemoObject *) curobjnode->next->data)->type==LILYDIRECTIVE) {// include any LILYDIRECTIVEs in the measure
@@ -842,7 +842,7 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	  }// enough for this measure
       }// Not music_ident
     }// for each object
-  g_print("At the end of for each object with %d %d\n", *pticks_so_far>0, *current_measure);
+  // g_print("At the end of for each object with %d %d\n", *pticks_so_far>0, *current_measure);
   if (*pticks_so_far>0
       && *current_measure
 )
