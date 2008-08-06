@@ -1009,30 +1009,30 @@ static const yytype_uint16 yyrline[] =
      497,   500,   503,   510,   514,   523,   529,   533,   539,   542,
      552,   561,   576,   611,   614,   617,   620,   623,   626,   630,
      633,   640,   647,   654,   662,   673,   677,   680,   685,   690,
-     701,   711,   715,   719,   723,   729,   732,   738,   752,   755,
-     771,   777,   778,   785,   788,   800,   822,   830,   842,   851,
-     867,   868,   872,   876,   902,   912,   921,   928,   949,   965,
-     976,   999,  1021,  1034,  1037,  1040,  1043,  1055,  1068,  1073,
-    1072,  1082,  1081,  1090,  1089,  1105,  1104,  1114,  1113,  1121,
-    1124,  1127,  1133,  1148,  1153,  1177,  1195,  1212,  1219,  1226,
-    1232,  1239,  1246,  1253,  1260,  1271,  1273,  1275,  1278,  1282,
-    1289,  1292,  1298,  1309,  1312,  1316,  1328,  1329,  1335,  1345,
-    1374,  1389,  1395,  1398,  1413,  1428,  1436,  1440,  1448,  1457,
-    1463,  1469,  1475,  1476,  1480,  1483,  1486,  1490,  1496,  1503,
-    1513,  1524,  1532,  1540,  1555,  1559,  1567,  1581,  1584,  1594,
-    1597,  1603,  1613,  1616,  1622,  1623,  1624,  1625,  1630,  1634,
-    1642,  1646,  1654,  1661,  1669,  1684,  1690,  1698,  1711,  1714,
-    1720,  1733,  1747,  1758,  1769,  1772,  1777,  1782,  1788,  1792,
-    1796,  1800,  1804,  1808,  1812,  1824,  1829,  1845,  1850,  1865,
-    1871,  1877,  1883,  1889,  1895,  1901,  1910,  1911,  1912,  1917,
-    1923,  1926,  1935,  1938,  1943,  1953,  1964,  1978,  1983,  1993,
-    2009,  2010,  2019,  2020,  2033,  2036,  2103,  2104,  2110,  2152,
-    2159,  2166,  2174,  2181,  2193,  2196,  2201,  2210,  2216,  2225,
-    2228,  2237,  2243,  2250,  2256,  2265,  2271,  2280,  2286,  2292,
-    2303,  2314,  2326,  2343,  2349,  2355,  2359,  2365,  2371,  2380,
-    2383,  2389,  2394,  2400,  2406,  2412,  2418,  2424,  2430,  2436,
-    2446,  2449,  2455,  2469,  2476,  2479,  2485,  2495,  2496,  2509,
-    2510
+     701,   712,   716,   720,   724,   730,   733,   739,   753,   756,
+     772,   778,   779,   786,   789,   801,   823,   831,   843,   852,
+     868,   869,   873,   877,   903,   913,   922,   929,   950,   966,
+     977,  1000,  1022,  1035,  1038,  1041,  1044,  1056,  1069,  1074,
+    1073,  1083,  1082,  1091,  1090,  1106,  1105,  1115,  1114,  1122,
+    1125,  1128,  1134,  1149,  1154,  1178,  1196,  1213,  1220,  1227,
+    1233,  1240,  1247,  1254,  1261,  1272,  1274,  1276,  1279,  1283,
+    1290,  1293,  1299,  1310,  1313,  1317,  1329,  1330,  1336,  1346,
+    1375,  1390,  1396,  1399,  1403,  1407,  1415,  1419,  1427,  1436,
+    1442,  1448,  1454,  1455,  1459,  1462,  1465,  1470,  1475,  1482,
+    1492,  1503,  1511,  1519,  1534,  1538,  1546,  1560,  1563,  1573,
+    1576,  1582,  1592,  1595,  1601,  1602,  1603,  1604,  1609,  1613,
+    1621,  1625,  1633,  1640,  1648,  1663,  1669,  1677,  1690,  1693,
+    1699,  1712,  1726,  1737,  1748,  1751,  1756,  1761,  1767,  1771,
+    1775,  1779,  1783,  1787,  1791,  1803,  1808,  1824,  1829,  1844,
+    1850,  1856,  1862,  1868,  1874,  1880,  1889,  1890,  1891,  1896,
+    1902,  1905,  1914,  1917,  1922,  1932,  1943,  1957,  1962,  1972,
+    1988,  1989,  1998,  1999,  2012,  2015,  2082,  2083,  2089,  2131,
+    2138,  2145,  2153,  2160,  2172,  2175,  2180,  2189,  2195,  2204,
+    2207,  2216,  2222,  2229,  2235,  2244,  2250,  2259,  2265,  2271,
+    2282,  2293,  2305,  2322,  2328,  2334,  2338,  2344,  2350,  2359,
+    2362,  2368,  2373,  2379,  2385,  2391,  2397,  2403,  2409,  2415,
+    2425,  2428,  2434,  2448,  2455,  2458,  2464,  2474,  2475,  2488,
+    2489
 };
 #endif
 
@@ -2868,15 +2868,16 @@ all objects can be unprotected as soon as they're here.
   case 40:
 #line 701 "./lyparser.y"
     {
-		MALLOC_NODE(n2, (yyvsp[(2) - (2)].generic))
-		(yyval.scm) = g_list_append((yyvsp[(1) - (2)].scm), n2);
-
+	//	MALLOC_NODE(n2, $2)
+	//	$$ = g_list_append($1, n2);
+	(yyval.scm) = NULL;
+		
 /*		THIS-> lexer_-> scopes_.pop ();*/
 	;}
     break;
 
   case 41:
-#line 711 "./lyparser.y"
+#line 712 "./lyparser.y"
     {
 		set_identifier("midi_tempo", typed_glist ((yyvsp[(3) - (3)].scm), STRING_IDENTIFIER));
 		(yyval.scm) = (yyvsp[(3) - (3)].scm);
@@ -2884,7 +2885,7 @@ all objects can be unprotected as soon as they're here.
     break;
 
   case 42:
-#line 715 "./lyparser.y"
+#line 716 "./lyparser.y"
     {
 		/* caught by lexer - does not occur*/
 		lyerror ("parser should have caught this-paper");
@@ -2892,7 +2893,7 @@ all objects can be unprotected as soon as they're here.
     break;
 
   case 43:
-#line 719 "./lyparser.y"
+#line 720 "./lyparser.y"
     {
 		/* caught by lexer - does not occur*/
 		lyerror ("parser should have caught this - layout");
@@ -2900,28 +2901,28 @@ all objects can be unprotected as soon as they're here.
     break;
 
   case 44:
-#line 723 "./lyparser.y"
+#line 724 "./lyparser.y"
     {
 		lyerror("music_output_def_body error");
 		;}
     break;
 
   case 45:
-#line 729 "./lyparser.y"
+#line 730 "./lyparser.y"
     {
 		(yyval.scm) = NULL;
 	;}
     break;
 
   case 46:
-#line 732 "./lyparser.y"
+#line 733 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 47:
-#line 738 "./lyparser.y"
+#line 739 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(4) - (4)].i));
 	((nodei*)n)->i = (yyvsp[(4) - (4)].i).i;
@@ -2930,14 +2931,14 @@ all objects can be unprotected as soon as they're here.
     break;
 
   case 48:
-#line 752 "./lyparser.y"
+#line 753 "./lyparser.y"
     {
 		(yyval.scm) = NULL;
 	;}
     break;
 
   case 49:
-#line 755 "./lyparser.y"
+#line 756 "./lyparser.y"
     {
 		if((yyvsp[(1) - (2)].scm)) 
 		{
@@ -2952,27 +2953,27 @@ g_print("building up a music list now from %s to %s\n", u_str((yyvsp[(1) - (2)].
     break;
 
   case 50:
-#line 771 "./lyparser.y"
+#line 772 "./lyparser.y"
     {
 	;}
     break;
 
   case 52:
-#line 779 "./lyparser.y"
+#line 780 "./lyparser.y"
     {
 			(yyval.scm) = (yyvsp[(1) - (1)].scm);
 		;}
     break;
 
   case 53:
-#line 785 "./lyparser.y"
+#line 786 "./lyparser.y"
     {
 			(yyval.scm) = NULL;
 	;}
     break;
 
   case 54:
-#line 788 "./lyparser.y"
+#line 789 "./lyparser.y"
     {
 		GList* ret;
 		MALLOC_NODE(n1, (yyvsp[(1) - (4)].generic));
@@ -2985,7 +2986,7 @@ g_print("building up a music list now from %s to %s\n", u_str((yyvsp[(1) - (2)].
     break;
 
   case 55:
-#line 801 "./lyparser.y"
+#line 802 "./lyparser.y"
     {
 	GList* ret;
 	MALLOC_NODE(n1, (yyvsp[(1) - (5)].generic));
@@ -3007,7 +3008,7 @@ g_print("building up a music list now from %s to %s\n", u_str((yyvsp[(1) - (2)].
     break;
 
   case 56:
-#line 822 "./lyparser.y"
+#line 823 "./lyparser.y"
     {
 		MALLOC_NODE(n1, (yyvsp[(1) - (4)].generic));
 		n1->user_string = g_strconcat((yyvsp[(1) - (4)].generic).user_string, "{", NULL);
@@ -3019,7 +3020,7 @@ g_print("building up a music list now from %s to %s\n", u_str((yyvsp[(1) - (2)].
     break;
 
   case 57:
-#line 830 "./lyparser.y"
+#line 831 "./lyparser.y"
     {
 		MALLOC_NODE(n1, (yyvsp[(1) - (3)].generic));
 		n1->user_string = "{";	
@@ -3032,7 +3033,7 @@ g_print("building up a music list now from %s to %s\n", u_str((yyvsp[(1) - (2)].
     break;
 
   case 58:
-#line 842 "./lyparser.y"
+#line 843 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3045,7 +3046,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 59:
-#line 851 "./lyparser.y"
+#line 852 "./lyparser.y"
     {
 	/* we don't try to disambiguate chords on one stave from 
 	   notes one to a staff here
@@ -3062,12 +3063,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 60:
-#line 867 "./lyparser.y"
+#line 868 "./lyparser.y"
     { (yyval.scm) = (yyvsp[(1) - (1)].scm); ;}
     break;
 
   case 61:
-#line 868 "./lyparser.y"
+#line 869 "./lyparser.y"
     {
 		DenemoObject *mud = lily_directive_new ((yyvsp[(1) - (1)].gstr).user_string);		
 		(yyval.scm) = g_list_append(NULL,mud);
@@ -3075,7 +3076,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 62:
-#line 872 "./lyparser.y"
+#line 873 "./lyparser.y"
     {
 		DenemoObject *mud = lily_directive_new (g_strconcat((yyvsp[(1) - (2)].gstr).user_string, (yyvsp[(2) - (2)].gstr).user_string));	
 		(yyval.scm) = g_list_append(NULL,mud);
@@ -3083,7 +3084,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 63:
-#line 876 "./lyparser.y"
+#line 877 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3113,7 +3114,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 64:
-#line 902 "./lyparser.y"
+#line 903 "./lyparser.y"
     { /* this may be ok now ... */
 		/* has to be big enough	for DenemoObject access 
 		   eg when writing start_ticks in break into measures... */
@@ -3127,7 +3128,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 65:
-#line 912 "./lyparser.y"
+#line 913 "./lyparser.y"
     {
 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
@@ -3140,14 +3141,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 66:
-#line 921 "./lyparser.y"
+#line 922 "./lyparser.y"
     {
 	LATER_MESSAGE((yyloc).first_line);
 	;}
     break;
 
   case 67:
-#line 928 "./lyparser.y"
+#line 929 "./lyparser.y"
     {
 		MALLOC_NODE (n1, (yyvsp[(1) - (3)].minimal));
 		if(!strcmp("Staff",(yyvsp[(2) - (3)].gstr).gstr->str)) 
@@ -3172,7 +3173,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 68:
-#line 949 "./lyparser.y"
+#line 950 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3192,7 +3193,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 69:
-#line 965 "./lyparser.y"
+#line 966 "./lyparser.y"
     {
 	DenemoObject *start, *end;
 	start = newgracestart();
@@ -3207,7 +3208,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 70:
-#line 976 "./lyparser.y"
+#line 977 "./lyparser.y"
     {
 		MALLOC_NODE(n1, (yyvsp[(1) - (5)].minimal));
  		((nodegstr*)n1)->gstr = (yyvsp[(4) - (5)].gstr).gstr;
@@ -3234,7 +3235,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 71:
-#line 999 "./lyparser.y"
+#line 1000 "./lyparser.y"
     {
 		MALLOC_NODE (n1, (yyvsp[(1) - (3)].generic));
 		if(!strcmp("Staff",(yyvsp[(2) - (3)].gstr).gstr->str)) 
@@ -3260,7 +3261,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 72:
-#line 1023 "./lyparser.y"
+#line 1024 "./lyparser.y"
     {DenemoObject *tupopen, *tupclose;
 		tupopen = newtupopen ((yyvsp[(2) - (3)].t).t.a, (yyvsp[(2) - (3)].t).t.b);
 		tupclose = newtupclose ();
@@ -3275,28 +3276,28 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 73:
-#line 1034 "./lyparser.y"
+#line 1035 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 74:
-#line 1037 "./lyparser.y"
+#line 1038 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 75:
-#line 1040 "./lyparser.y"
+#line 1041 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 76:
-#line 1043 "./lyparser.y"
+#line 1044 "./lyparser.y"
     {
 
  		/* could we try to display transposed?? later FIXME */
@@ -3312,7 +3313,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 77:
-#line 1055 "./lyparser.y"
+#line 1056 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3329,7 +3330,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 78:
-#line 1068 "./lyparser.y"
+#line 1069 "./lyparser.y"
     {
 		u_str((yyvsp[(2) - (3)].scm)) = g_strconcat((yyvsp[(1) - (3)].generic).user_string, u_str((yyvsp[(2) - (3)].scm)), NULL);
 		(yyval.scm) = g_list_concat((yyvsp[(2) - (3)].scm), (yyvsp[(3) - (3)].scm));
@@ -3337,12 +3338,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 79:
-#line 1073 "./lyparser.y"
+#line 1074 "./lyparser.y"
     { push_note_state (); ;}
     break;
 
   case 80:
-#line 1076 "./lyparser.y"
+#line 1077 "./lyparser.y"
     { 
 		MALLOC_NODE(n1, (yyvsp[(1) - (3)].generic));
 		(yyval.scm) = g_list_prepend((yyvsp[(3) - (3)].scm), n1);
@@ -3351,12 +3352,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 81:
-#line 1082 "./lyparser.y"
+#line 1083 "./lyparser.y"
     { push_figuredbass_state (); ;}
     break;
 
   case 82:
-#line 1084 "./lyparser.y"
+#line 1085 "./lyparser.y"
     {
 		MALLOC_NODE(n1, (yyvsp[(1) - (3)].generic));
 		(yyval.scm) = g_list_prepend((yyvsp[(3) - (3)].scm), n1);
@@ -3365,12 +3366,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 83:
-#line 1090 "./lyparser.y"
+#line 1091 "./lyparser.y"
     { push_chord_state (); ;}
     break;
 
   case 84:
-#line 1092 "./lyparser.y"
+#line 1093 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3386,12 +3387,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 85:
-#line 1105 "./lyparser.y"
+#line 1106 "./lyparser.y"
     { push_lyric_state (); ;}
     break;
 
   case 86:
-#line 1107 "./lyparser.y"
+#line 1108 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 		MALLOC_NODE(n, (yyvsp[(1) - (3)].generic))
@@ -3401,12 +3402,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 87:
-#line 1114 "./lyparser.y"
+#line 1115 "./lyparser.y"
     { push_lyric_state (); ;}
     break;
 
   case 88:
-#line 1116 "./lyparser.y"
+#line 1117 "./lyparser.y"
     {
 		MALLOC_NODE(n, (yyvsp[(1) - (3)].generic))
 		(yyval.scm) = g_list_prepend((yyvsp[(3) - (3)].scm), n);
@@ -3415,28 +3416,28 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 89:
-#line 1121 "./lyparser.y"
+#line 1122 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 90:
-#line 1124 "./lyparser.y"
+#line 1125 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 91:
-#line 1127 "./lyparser.y"
+#line 1128 "./lyparser.y"
     { 
 		(yyval.scm) = (yyvsp[(1) - (1)].scm); 
 	;}
     break;
 
   case 92:
-#line 1133 "./lyparser.y"
+#line 1134 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (3)].generic))
 	g_warning("\\relative not yet handled - do not edit graphically");
@@ -3452,7 +3453,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 93:
-#line 1148 "./lyparser.y"
+#line 1149 "./lyparser.y"
     {
 		MALLOC_NODE(n, (yyvsp[(1) - (3)].generic));
 		((nodeglist*)n)->branch = g_list_append(g_list_append(NULL, g_list_append(NULL, (yyvsp[(2) - (3)].scm))), g_list_append(NULL, (yyvsp[(3) - (3)].scm))); /* ADDLYRICS is a branch containing two GLists */
@@ -3461,7 +3462,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 94:
-#line 1153 "./lyparser.y"
+#line 1154 "./lyparser.y"
     {
 	    	GList *g;
 		MALLOC_NODE(n, (yyvsp[(1) - (3)].generic));
@@ -3486,7 +3487,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 95:
-#line 1177 "./lyparser.y"
+#line 1178 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3505,7 +3506,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 96:
-#line 1195 "./lyparser.y"
+#line 1196 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3523,7 +3524,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 97:
-#line 1212 "./lyparser.y"
+#line 1213 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (6)].generic))
 	 n->user_string = g_strconcat((yyvsp[(1) - (6)].generic).user_string, (yyvsp[(2) - (6)].gstr).user_string, 
@@ -3534,7 +3535,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 98:
-#line 1219 "./lyparser.y"
+#line 1220 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (5)].generic))
 	 n->user_string = g_strconcat((yyvsp[(1) - (5)].generic).user_string, (yyvsp[(2) - (5)].gstr).user_string, 
@@ -3545,7 +3546,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 99:
-#line 1226 "./lyparser.y"
+#line 1227 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (6)].generic))
 	n->user_string = g_strconcat((yyvsp[(1) - (6)].generic).user_string, (yyvsp[(2) - (6)].gstr).user_string, 
@@ -3555,7 +3556,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 100:
-#line 1232 "./lyparser.y"
+#line 1233 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (6)].generic))
 	n->user_string = g_strconcat((yyvsp[(1) - (6)].generic).user_string, (yyvsp[(2) - (6)].gstr).user_string, 
@@ -3566,7 +3567,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 101:
-#line 1239 "./lyparser.y"
+#line 1240 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (6)].generic));
 	n->user_string = g_strconcat((yyvsp[(1) - (6)].generic).user_string, (yyvsp[(2) - (6)].gstr).user_string, 
@@ -3577,7 +3578,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 102:
-#line 1246 "./lyparser.y"
+#line 1247 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (5)].generic));
 	n->user_string = g_strconcat((yyvsp[(1) - (5)].generic).user_string, (yyvsp[(2) - (5)].gstr).user_string, 
@@ -3588,7 +3589,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 103:
-#line 1253 "./lyparser.y"
+#line 1254 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (3)].generic));
 	n->user_string = g_strconcat((yyvsp[(1) - (3)].generic).user_string, (yyvsp[(2) - (3)].gstr).user_string, 
@@ -3598,7 +3599,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 104:
-#line 1260 "./lyparser.y"
+#line 1261 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (6)].generic));
 	n->user_string = g_strconcat((yyvsp[(1) - (6)].generic).user_string, (yyvsp[(2) - (6)].gstr).user_string, 
@@ -3609,24 +3610,24 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 105:
-#line 1271 "./lyparser.y"
+#line 1272 "./lyparser.y"
     { MALLOC_NODE(n, (yyvsp[(1) - (1)].gstr));(yyval.scm) = g_list_append (NULL, n); 
 			/*FIXME copy value */;}
     break;
 
   case 106:
-#line 1273 "./lyparser.y"
+#line 1274 "./lyparser.y"
     { MALLOC_NODE(n, (yyvsp[(1) - (1)].i));(yyval.scm) = g_list_append (NULL, n);
 			  /*FIXME copy value */ ;}
     break;
 
   case 107:
-#line 1275 "./lyparser.y"
+#line 1276 "./lyparser.y"
     { (yyval.scm) = (yyvsp[(1) - (1)].scm); ;}
     break;
 
   case 109:
-#line 1282 "./lyparser.y"
+#line 1283 "./lyparser.y"
     {
 /* things like start cresc, simple_element end cresc */
 
@@ -3637,21 +3638,21 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 110:
-#line 1289 "./lyparser.y"
+#line 1290 "./lyparser.y"
     {
 	(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 111:
-#line 1292 "./lyparser.y"
+#line 1293 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 112:
-#line 1299 "./lyparser.y"
+#line 1300 "./lyparser.y"
     {
 	    GList *firstchord = br ((yyvsp[(1) - (3)].scm));
 	    if (firstchord && firstchord->data)
@@ -3662,7 +3663,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 115:
-#line 1317 "./lyparser.y"
+#line 1318 "./lyparser.y"
     {
 	    nodegeneric*n1 = (nodegeneric*)g_malloc0(sizeof(nodegeneric));
 	    n1->user_string = "<";	
@@ -3674,19 +3675,19 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 116:
-#line 1328 "./lyparser.y"
+#line 1329 "./lyparser.y"
     { (yyval.scm) = NULL; ;}
     break;
 
   case 117:
-#line 1329 "./lyparser.y"
+#line 1330 "./lyparser.y"
     {
 		(yyval.scm) = g_list_concat ((yyvsp[(1) - (2)].scm), (yyvsp[(2) - (2)].scm));
 	;}
     break;
 
   case 118:
-#line 1335 "./lyparser.y"
+#line 1336 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3696,7 +3697,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 119:
-#line 1345 "./lyparser.y"
+#line 1346 "./lyparser.y"
     {
 		DenemoObject *mud = newchord ( 0, 0, 0);
 
@@ -3729,7 +3730,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 120:
-#line 1374 "./lyparser.y"
+#line 1375 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3748,59 +3749,37 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 121:
-#line 1389 "./lyparser.y"
+#line 1390 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
         ;}
     break;
 
   case 122:
-#line 1395 "./lyparser.y"
+#line 1396 "./lyparser.y"
     {
 	(yyval.scm) = (yyvsp[(1) - (1)].scm);
 ;}
     break;
 
   case 123:
-#line 1398 "./lyparser.y"
+#line 1399 "./lyparser.y"
     {
-LATER_MESSAGE((yyloc).first_line);
-#ifdef LATER
-
-		Span_req *l = new Span_req;
-		l->set_span_dir (START);
-		l->set_mus_property ("span-type", scm_makfrom0str ("ligature"));
-		l->set_spot (THIS->here_input ());
-
-		(yyval.scm) = new Request_chord (SCM_EOL);
-		(yyval.scm)->set_mus_property ("elements", gh_cons (l, SCM_EOL));
-  	  scm_gc_unprotect_object (l->self_scm ());
-		(yyval.scm)->set_spot (THIS->here_input ());
-#endif
+	DenemoObject *mud = lily_directive_new ("[");	
+		(yyval.scm) = g_list_append(NULL,mud);
 	;}
     break;
 
   case 124:
-#line 1413 "./lyparser.y"
+#line 1403 "./lyparser.y"
     {
-LATER_MESSAGE((yyloc).first_line);
-#ifdef LATER
-
-		Span_req *l = new Span_req;
-		l->set_span_dir (STOP);
-		l->set_mus_property ("span-type", scm_makfrom0str ("ligature"));
-		l->set_spot (THIS->here_input ());
-
-		(yyval.scm) = new Request_chord (SCM_EOL);
-		(yyval.scm)->set_mus_property ("elements", gh_cons (l, SCM_EOL));
-		(yyval.scm)->set_spot (THIS->here_input ());
-	  scm_gc_unprotect_object (l->self_scm ());
-#endif
+	DenemoObject *mud = lily_directive_new ("]");	
+		(yyval.scm) = g_list_append(NULL,mud);
 	;}
     break;
 
   case 125:
-#line 1428 "./lyparser.y"
+#line 1407 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3812,7 +3791,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 126:
-#line 1436 "./lyparser.y"
+#line 1415 "./lyparser.y"
     {
 	MALLOC_NODE(n, (yyvsp[(1) - (1)].generic));
 	(yyval.scm) = g_list_append(NULL, n); /* this node used to be used by denemo to split the glist into measures */
@@ -3820,7 +3799,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 127:
-#line 1440 "./lyparser.y"
+#line 1419 "./lyparser.y"
     {
 	                 DenemoObject *mud = lily_directive_new (g_strconcat((yyvsp[(1) - (2)].generic).user_string, (yyvsp[(2) - (2)].gstr).user_string, NULL));
 		         (yyval.scm) = g_list_append(NULL,mud);
@@ -3832,7 +3811,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 128:
-#line 1448 "./lyparser.y"
+#line 1427 "./lyparser.y"
     {
 	//	g_warning ("\\partial not currently supported");
 		DenemoObject *mud = newchord( (yyvsp[(2) - (2)].f).t1.a, (yyvsp[(2) - (2)].f).t1.b,0);
@@ -3845,7 +3824,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 129:
-#line 1457 "./lyparser.y"
+#line 1436 "./lyparser.y"
     {
   		DenemoObject *mud = dnm_newclefobj (cleftypefromname((yyvsp[(2) - (2)].gstr).gstr->str));
 		mud->user_string = g_strconcat((yyvsp[(1) - (2)].generic).user_string, (yyvsp[(2) - (2)].gstr).user_string,NULL);
@@ -3855,7 +3834,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 130:
-#line 1463 "./lyparser.y"
+#line 1442 "./lyparser.y"
     {
   		DenemoObject *mud = dnm_newtimesigobj ((yyvsp[(2) - (2)].t).t.a, (yyvsp[(2) - (2)].t).t.b);
 		mud->user_string = g_strconcat((yyvsp[(1) - (2)].generic).user_string, (yyvsp[(2) - (2)].t).user_string,NULL);
@@ -3865,56 +3844,56 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 131:
-#line 1469 "./lyparser.y"
+#line 1448 "./lyparser.y"
     { /* ignore */
 		(yyval.scm) = NULL;
 	;}
     break;
 
   case 132:
-#line 1475 "./lyparser.y"
+#line 1454 "./lyparser.y"
     { (yyval.scm) = (yyvsp[(1) - (1)].scm); ;}
     break;
 
   case 133:
-#line 1476 "./lyparser.y"
+#line 1455 "./lyparser.y"
     { (yyval.scm) = (yyvsp[(1) - (1)].scm); ;}
     break;
 
   case 134:
-#line 1480 "./lyparser.y"
+#line 1459 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 135:
-#line 1483 "./lyparser.y"
+#line 1462 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 136:
-#line 1486 "./lyparser.y"
+#line 1465 "./lyparser.y"
     {
-	MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
-	(yyval.scm) = g_list_append(NULL, n);/* FIXME denemo should know about this */
+	DenemoObject *mud = lily_directive_new ("[");	
+		(yyval.scm) = g_list_append(NULL,mud);
+
 	;}
     break;
 
   case 137:
-#line 1490 "./lyparser.y"
-    {	
-	MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
-	(yyval.scm) = g_list_append(NULL, n);/* FIXME denemo should know about this */
-
+#line 1470 "./lyparser.y"
+    {
+	DenemoObject *mud = lily_directive_new ("]");	
+		(yyval.scm) = g_list_append(NULL,mud);	
 
 	;}
     break;
 
   case 138:
-#line 1496 "./lyparser.y"
+#line 1475 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3925,7 +3904,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 139:
-#line 1503 "./lyparser.y"
+#line 1482 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3936,7 +3915,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 140:
-#line 1513 "./lyparser.y"
+#line 1492 "./lyparser.y"
     { /*TODO: junkme */
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3951,7 +3930,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 141:
-#line 1524 "./lyparser.y"
+#line 1503 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3963,7 +3942,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 142:
-#line 1532 "./lyparser.y"
+#line 1511 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -3975,7 +3954,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 143:
-#line 1540 "./lyparser.y"
+#line 1519 "./lyparser.y"
     {
 	/* denemo doesn't want to know? */
 	MALLOC_NODE(n, (yyvsp[(1) - (2)].generic))
@@ -3994,7 +3973,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 144:
-#line 1555 "./lyparser.y"
+#line 1534 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 //		$$ = $1;
@@ -4002,7 +3981,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 145:
-#line 1559 "./lyparser.y"
+#line 1538 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4014,7 +3993,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 146:
-#line 1567 "./lyparser.y"
+#line 1546 "./lyparser.y"
     {
 		gchar *keyname = keytoname((yyvsp[(2) - (3)].t).t.a, (yyvsp[(2) - (3)].t).t.b);
 		DenemoObject *mud;
@@ -4029,14 +4008,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 147:
-#line 1581 "./lyparser.y"
+#line 1560 "./lyparser.y"
     {
 	(yyval.scm) = NULL;
 	;}
     break;
 
   case 148:
-#line 1584 "./lyparser.y"
+#line 1563 "./lyparser.y"
     {
 		if((yyvsp[(1) - (2)].scm)) {
 			(yyval.scm) = g_list_concat((yyvsp[(1) - (2)].scm), (yyvsp[(2) - (2)].scm));
@@ -4047,14 +4026,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 149:
-#line 1594 "./lyparser.y"
+#line 1573 "./lyparser.y"
     {
                 (yyval.scm) = (yyvsp[(1) - (1)].scm);
         ;}
     break;
 
   case 150:
-#line 1597 "./lyparser.y"
+#line 1576 "./lyparser.y"
     {
 	   /* script_dir is an integer saying whether up down or centred
 	      denemo doesn't understand this yet */
@@ -4064,7 +4043,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 151:
-#line 1603 "./lyparser.y"
+#line 1582 "./lyparser.y"
     {
 	   /* script_dir is an integer saying whether up down or centred
 	      denemo doesn't understand this yet */
@@ -4074,41 +4053,41 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 152:
-#line 1613 "./lyparser.y"
+#line 1592 "./lyparser.y"
     {
                 (yyval.scm) = (yyvsp[(1) - (1)].scm);
         ;}
     break;
 
   case 153:
-#line 1616 "./lyparser.y"
+#line 1595 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
         ;}
     break;
 
   case 154:
-#line 1622 "./lyparser.y"
+#line 1601 "./lyparser.y"
     {  ;}
     break;
 
   case 155:
-#line 1623 "./lyparser.y"
+#line 1602 "./lyparser.y"
     { (yyval.i).i = 0; ;}
     break;
 
   case 156:
-#line 1624 "./lyparser.y"
+#line 1603 "./lyparser.y"
     { (yyval.i) = (yyvsp[(2) - (2)].i); ;}
     break;
 
   case 157:
-#line 1625 "./lyparser.y"
+#line 1604 "./lyparser.y"
     { (yyval.i) = (yyvsp[(2) - (2)].i); ;}
     break;
 
   case 158:
-#line 1630 "./lyparser.y"
+#line 1609 "./lyparser.y"
     {
 		(yyvsp[(1) - (1)].i).i = 1;
 		(yyval.i) = (yyvsp[(1) - (1)].i);
@@ -4116,7 +4095,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 159:
-#line 1634 "./lyparser.y"
+#line 1613 "./lyparser.y"
     {
 		(yyvsp[(1) - (2)].i).i ++;
 		(yyvsp[(1) - (2)].i).user_string = g_strconcat((yyvsp[(1) - (2)].i).user_string,(yyvsp[(2) - (2)].i).user_string, NULL);/*FIXME memory leak */
@@ -4125,7 +4104,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 160:
-#line 1642 "./lyparser.y"
+#line 1621 "./lyparser.y"
     {
 		(yyvsp[(1) - (1)].i).i = 1;
 		(yyval.i) = (yyvsp[(1) - (1)].i);	
@@ -4133,7 +4112,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 161:
-#line 1646 "./lyparser.y"
+#line 1625 "./lyparser.y"
     {
 		(yyvsp[(1) - (2)].i).i ++ ;
 		(yyvsp[(1) - (2)].i).user_string = g_strconcat((yyvsp[(1) - (2)].i).user_string,(yyvsp[(2) - (2)].i).user_string, NULL);/*FIXME memory leak */
@@ -4142,7 +4121,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 162:
-#line 1654 "./lyparser.y"
+#line 1633 "./lyparser.y"
     {
 		char notename = 'a' + (yyvsp[(1) - (1)].t).t.a;
 		int enshift = (yyvsp[(1) - (1)].t).t.b;
@@ -4153,7 +4132,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 163:
-#line 1661 "./lyparser.y"
+#line 1640 "./lyparser.y"
     {
 		char notename = 'a' + (yyvsp[(1) - (2)].t).t.a;
 		int enshift = (yyvsp[(1) - (2)].t).t.b;
@@ -4165,7 +4144,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 164:
-#line 1669 "./lyparser.y"
+#line 1648 "./lyparser.y"
     {
 		char notename = 'a' + (yyvsp[(1) - (2)].t).t.a;
 		int enshift = (yyvsp[(1) - (2)].t).t.b;
@@ -4177,7 +4156,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 165:
-#line 1684 "./lyparser.y"
+#line 1663 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4187,7 +4166,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 166:
-#line 1690 "./lyparser.y"
+#line 1669 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4199,7 +4178,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 167:
-#line 1698 "./lyparser.y"
+#line 1677 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4213,21 +4192,21 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 168:
-#line 1711 "./lyparser.y"
+#line 1690 "./lyparser.y"
     {
 		(yyval.n) = (yyvsp[(1) - (1)].n);
 	;}
     break;
 
   case 169:
-#line 1714 "./lyparser.y"
+#line 1693 "./lyparser.y"
     {
 		(yyval.n) = (yyvsp[(1) - (1)].n);
 	;}
     break;
 
   case 170:
-#line 1720 "./lyparser.y"
+#line 1699 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4241,7 +4220,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 171:
-#line 1733 "./lyparser.y"
+#line 1712 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4256,7 +4235,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 172:
-#line 1747 "./lyparser.y"
+#line 1726 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4268,7 +4247,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 173:
-#line 1758 "./lyparser.y"
+#line 1737 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4280,14 +4259,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 174:
-#line 1769 "./lyparser.y"
+#line 1748 "./lyparser.y"
     {
               (yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 175:
-#line 1772 "./lyparser.y"
+#line 1751 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].gstr));
 	    ((nodegstr*)n)->gstr = (yyvsp[(1) - (1)].gstr).gstr;
@@ -4296,7 +4275,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 176:
-#line 1777 "./lyparser.y"
+#line 1756 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].gstr));
 	    ((nodegstr*)n)->gstr = (yyvsp[(1) - (1)].gstr).gstr;
@@ -4305,14 +4284,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 177:
-#line 1782 "./lyparser.y"
+#line 1761 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 	;}
     break;
 
   case 178:
-#line 1788 "./lyparser.y"
+#line 1767 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4320,7 +4299,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 179:
-#line 1792 "./lyparser.y"
+#line 1771 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4328,7 +4307,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 180:
-#line 1796 "./lyparser.y"
+#line 1775 "./lyparser.y"
     {	/* tie */
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4336,7 +4315,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 181:
-#line 1800 "./lyparser.y"
+#line 1779 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4344,7 +4323,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 182:
-#line 1804 "./lyparser.y"
+#line 1783 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4352,7 +4331,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 183:
-#line 1808 "./lyparser.y"
+#line 1787 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].generic))
             (yyval.scm) = g_list_append(NULL, n);
@@ -4360,7 +4339,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 184:
-#line 1812 "./lyparser.y"
+#line 1791 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4373,14 +4352,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 185:
-#line 1824 "./lyparser.y"
+#line 1803 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 	;}
     break;
 
   case 186:
-#line 1829 "./lyparser.y"
+#line 1808 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4393,7 +4372,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 187:
-#line 1845 "./lyparser.y"
+#line 1824 "./lyparser.y"
     {
 	    MALLOC_NODE(n, (yyvsp[(1) - (1)].gstr));
 	    ((nodegstr*)n)->gstr = (yyvsp[(1) - (1)].gstr).gstr;
@@ -4402,7 +4381,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 188:
-#line 1850 "./lyparser.y"
+#line 1829 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4418,7 +4397,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 189:
-#line 1865 "./lyparser.y"
+#line 1844 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4428,7 +4407,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 190:
-#line 1871 "./lyparser.y"
+#line 1850 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4438,7 +4417,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 191:
-#line 1877 "./lyparser.y"
+#line 1856 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4448,7 +4427,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 192:
-#line 1883 "./lyparser.y"
+#line 1862 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4458,7 +4437,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 193:
-#line 1889 "./lyparser.y"
+#line 1868 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4468,7 +4447,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 194:
-#line 1895 "./lyparser.y"
+#line 1874 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4478,7 +4457,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 195:
-#line 1901 "./lyparser.y"
+#line 1880 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4488,36 +4467,36 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 196:
-#line 1910 "./lyparser.y"
+#line 1889 "./lyparser.y"
     { /* $$ = DOWN; */ ;}
     break;
 
   case 197:
-#line 1911 "./lyparser.y"
+#line 1890 "./lyparser.y"
     {  /* $$ = UP; */ ;}
     break;
 
   case 198:
-#line 1912 "./lyparser.y"
+#line 1891 "./lyparser.y"
     {  /* $$ = CENTER; */ ;}
     break;
 
   case 199:
-#line 1917 "./lyparser.y"
+#line 1896 "./lyparser.y"
     {
 		(yyval.n) = (yyvsp[(1) - (1)].n);
 	;}
     break;
 
   case 200:
-#line 1923 "./lyparser.y"
+#line 1902 "./lyparser.y"
     {
 	(yyval.f) = (yyvsp[(1) - (1)].f);
 	;}
     break;
 
   case 201:
-#line 1926 "./lyparser.y"
+#line 1905 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4527,14 +4506,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 202:
-#line 1935 "./lyparser.y"
+#line 1914 "./lyparser.y"
     {
 	(yyval.f) = default_duration_;
 	;}
     break;
 
   case 203:
-#line 1938 "./lyparser.y"
+#line 1917 "./lyparser.y"
     {
 		(yyval.f) = (yyvsp[(1) - (1)].f);
 		 default_duration_.t1.a = (yyvsp[(1) - (1)].f).t1.a;
@@ -4543,7 +4522,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 204:
-#line 1943 "./lyparser.y"
+#line 1922 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4554,7 +4533,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 205:
-#line 1953 "./lyparser.y"
+#line 1932 "./lyparser.y"
     {
 		int l = 0;
 		if (!is_duration_b ((yyvsp[(1) - (2)].i).i))
@@ -4569,7 +4548,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 206:
-#line 1964 "./lyparser.y"
+#line 1943 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4581,7 +4560,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 207:
-#line 1978 "./lyparser.y"
+#line 1957 "./lyparser.y"
     { /* note 4 integers are used for these */
 		(yyvsp[(1) - (1)].f).t2.a = 1;
 		(yyvsp[(1) - (1)].f).t2.b = 1;
@@ -4590,7 +4569,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 208:
-#line 1983 "./lyparser.y"
+#line 1962 "./lyparser.y"
     {/* note 4 integers are used for these */
 	stradd((yyvsp[(1) - (3)].f),(yyvsp[(2) - (3)].generic));	
 	stradd((yyvsp[(1) - (3)].f),(yyvsp[(3) - (3)].i));
@@ -4604,7 +4583,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 209:
-#line 1993 "./lyparser.y"
+#line 1972 "./lyparser.y"
     {/* note 4 integers are used for these */
 	stradd((yyvsp[(1) - (3)].f),(yyvsp[(2) - (3)].generic));	
 	stradd((yyvsp[(1) - (3)].f),(yyvsp[(3) - (3)].t));
@@ -4621,12 +4600,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 210:
-#line 2009 "./lyparser.y"
+#line 1988 "./lyparser.y"
     { (yyval.t) = (yyvsp[(1) - (1)].t); ;}
     break;
 
   case 211:
-#line 2010 "./lyparser.y"
+#line 1989 "./lyparser.y"
     {
 
 		(yyval.t).user_string =  g_strconcat((yyvsp[(1) - (3)].i).user_string, (yyvsp[(2) - (3)].generic).user_string, (yyvsp[(3) - (3)].i).user_string, NULL);
@@ -4636,12 +4615,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 212:
-#line 2019 "./lyparser.y"
+#line 1998 "./lyparser.y"
     { (yyval.i).i = 0; ;}
     break;
 
   case 213:
-#line 2020 "./lyparser.y"
+#line 1999 "./lyparser.y"
     { 
 		if((yyvsp[(1) - (2)].i).i == 0){
 			(yyval.i).i = 1;
@@ -4655,14 +4634,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 214:
-#line 2033 "./lyparser.y"
+#line 2012 "./lyparser.y"
     {
 		(yyval.i).i = 0;
 	;}
     break;
 
   case 215:
-#line 2036 "./lyparser.y"
+#line 2015 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4674,17 +4653,17 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 216:
-#line 2103 "./lyparser.y"
+#line 2082 "./lyparser.y"
     { (yyval.i).i = 0; ;}
     break;
 
   case 217:
-#line 2104 "./lyparser.y"
+#line 2083 "./lyparser.y"
     { (yyval.i).i = 1; ;}
     break;
 
   case 218:
-#line 2110 "./lyparser.y"
+#line 2089 "./lyparser.y"
     {
 		/* pitch is a node* with union a denemo note, 
 		   exclamations and questions are nodei,
@@ -4730,7 +4709,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 219:
-#line 2152 "./lyparser.y"
+#line 2131 "./lyparser.y"
     {
 	/* denemo wants a chord with no notes */
 	DenemoObject *mud = newchord( (yyvsp[(2) - (2)].f).t1.a, (yyvsp[(2) - (2)].f).t1.b,0);
@@ -4741,7 +4720,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 220:
-#line 2159 "./lyparser.y"
+#line 2138 "./lyparser.y"
     {
 	/* denemo wants a chord with no notes */
 	DenemoObject *mud = newchord( (yyvsp[(2) - (2)].f).t1.a, (yyvsp[(2) - (2)].f).t1.b,0);
@@ -4752,7 +4731,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 221:
-#line 2166 "./lyparser.y"
+#line 2145 "./lyparser.y"
     {
 	/* treat as skip for the moment */
 	DenemoObject *mud = newchord( (yyvsp[(2) - (2)].f).t1.a, (yyvsp[(2) - (2)].f).t1.b,0);
@@ -4764,7 +4743,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 222:
-#line 2174 "./lyparser.y"
+#line 2153 "./lyparser.y"
     {
 		DenemoObject *mud = newlyric((yyvsp[(2) - (2)].f).t1.a, (yyvsp[(2) - (2)].f).t1.b, (yyvsp[(1) - (2)].gstr).gstr->str);
 		mud->user_string = (yyvsp[(1) - (2)].gstr).user_string;
@@ -4775,7 +4754,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 223:
-#line 2181 "./lyparser.y"
+#line 2160 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4789,7 +4768,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 226:
-#line 2201 "./lyparser.y"
+#line 2180 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4800,7 +4779,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 227:
-#line 2210 "./lyparser.y"
+#line 2189 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4810,7 +4789,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 228:
-#line 2216 "./lyparser.y"
+#line 2195 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4820,14 +4799,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 229:
-#line 2225 "./lyparser.y"
+#line 2204 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(1) - (1)].scm);
 	;}
     break;
 
   case 230:
-#line 2228 "./lyparser.y"
+#line 2207 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4837,7 +4816,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 231:
-#line 2237 "./lyparser.y"
+#line 2216 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4847,14 +4826,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 232:
-#line 2243 "./lyparser.y"
+#line 2222 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(2) - (2)].scm);
 	;}
     break;
 
   case 233:
-#line 2250 "./lyparser.y"
+#line 2229 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4864,7 +4843,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 234:
-#line 2256 "./lyparser.y"
+#line 2235 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4874,7 +4853,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 235:
-#line 2265 "./lyparser.y"
+#line 2244 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4884,7 +4863,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 236:
-#line 2271 "./lyparser.y"
+#line 2250 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4894,7 +4873,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 237:
-#line 2280 "./lyparser.y"
+#line 2259 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4904,7 +4883,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 238:
-#line 2286 "./lyparser.y"
+#line 2265 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4914,7 +4893,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 239:
-#line 2292 "./lyparser.y"
+#line 2271 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4926,7 +4905,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 240:
-#line 2303 "./lyparser.y"
+#line 2282 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4941,7 +4920,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 241:
-#line 2314 "./lyparser.y"
+#line 2293 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4957,7 +4936,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 242:
-#line 2326 "./lyparser.y"
+#line 2305 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4972,7 +4951,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 243:
-#line 2343 "./lyparser.y"
+#line 2322 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4982,7 +4961,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 244:
-#line 2349 "./lyparser.y"
+#line 2328 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -4992,7 +4971,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 246:
-#line 2359 "./lyparser.y"
+#line 2338 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5002,7 +4981,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 247:
-#line 2365 "./lyparser.y"
+#line 2344 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5012,7 +4991,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 248:
-#line 2371 "./lyparser.y"
+#line 2350 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5022,14 +5001,14 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 249:
-#line 2380 "./lyparser.y"
+#line 2359 "./lyparser.y"
     {
 		(yyval.scm) = (yyvsp[(2) - (3)].scm);
 	;}
     break;
 
   case 250:
-#line 2383 "./lyparser.y"
+#line 2362 "./lyparser.y"
     { /* %prec UNARY_MINUS */
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5039,7 +5018,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 252:
-#line 2394 "./lyparser.y"
+#line 2373 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5049,7 +5028,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 253:
-#line 2400 "./lyparser.y"
+#line 2379 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5059,7 +5038,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 254:
-#line 2406 "./lyparser.y"
+#line 2385 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5069,7 +5048,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 255:
-#line 2412 "./lyparser.y"
+#line 2391 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5079,7 +5058,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 256:
-#line 2418 "./lyparser.y"
+#line 2397 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5089,7 +5068,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 257:
-#line 2424 "./lyparser.y"
+#line 2403 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5099,7 +5078,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 258:
-#line 2430 "./lyparser.y"
+#line 2409 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5109,7 +5088,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 259:
-#line 2436 "./lyparser.y"
+#line 2415 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5119,21 +5098,21 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 260:
-#line 2446 "./lyparser.y"
+#line 2425 "./lyparser.y"
     {
 			(yyval.i) = (yyvsp[(1) - (1)].i);
 	;}
     break;
 
   case 261:
-#line 2449 "./lyparser.y"
+#line 2428 "./lyparser.y"
     {
 		(yyval.i) = (yyvsp[(1) - (1)].i);
 	;}
     break;
 
   case 262:
-#line 2455 "./lyparser.y"
+#line 2434 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5151,21 +5130,21 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 263:
-#line 2469 "./lyparser.y"
+#line 2448 "./lyparser.y"
     {
 		(yyval.i).i = -(yyvsp[(2) - (2)].i).i;
 	;}
     break;
 
   case 264:
-#line 2476 "./lyparser.y"
+#line 2455 "./lyparser.y"
     {
 		(yyval.gstr) = (yyvsp[(1) - (1)].gstr);
 	;}
     break;
 
   case 265:
-#line 2479 "./lyparser.y"
+#line 2458 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5175,7 +5154,7 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 266:
-#line 2485 "./lyparser.y"
+#line 2464 "./lyparser.y"
     {
 LATER_MESSAGE((yyloc).first_line);
 #ifdef LATER
@@ -5185,12 +5164,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 267:
-#line 2495 "./lyparser.y"
+#line 2474 "./lyparser.y"
     { (yyval.i).i = 0; ;}
     break;
 
   case 268:
-#line 2496 "./lyparser.y"
+#line 2475 "./lyparser.y"
     { 
 	if((yyvsp[(1) - (2)].i).i == 0){
 			(yyval.i).i = 1;
@@ -5204,12 +5183,12 @@ LATER_MESSAGE((yyloc).first_line);
     break;
 
   case 269:
-#line 2509 "./lyparser.y"
+#line 2488 "./lyparser.y"
     { (yyval.i).i = 0; ;}
     break;
 
   case 270:
-#line 2510 "./lyparser.y"
+#line 2489 "./lyparser.y"
     { 
 		if((yyvsp[(1) - (2)].i).i == 0){
 			(yyval.i).i = 1;
@@ -5224,7 +5203,7 @@ LATER_MESSAGE((yyloc).first_line);
 
 
 /* Line 1267 of yacc.c.  */
-#line 5228 "lyparser.tab.c"
+#line 5207 "lyparser.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -5444,7 +5423,7 @@ yyreturn:
 }
 
 
-#line 2523 "./lyparser.y"
+#line 2502 "./lyparser.y"
 
 
 #if GTK_MAJOR_VERSION <= 1

@@ -196,7 +196,9 @@ IGNORE_BLOCK   "\\paper"|"\\layout"
 		pop_state ();
 	}
 	<<EOF>> 	{
-		g_error ("EOF found inside a comment");
+		//g_error ("EOF found inside a comment");
+	UNDO_YY_USER_ACTION;	
+		pop_state ();
 		/* if (! close_input ()) 
 		  yyterminate (); can't move this, since it actually rets a YY_NULL */
 	}

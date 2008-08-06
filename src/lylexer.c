@@ -1252,7 +1252,9 @@ YY_RULE_SETUP
 case YY_STATE_EOF(longcomment):
 #line 198 "./lylexer.l"
 {
-		g_error ("EOF found inside a comment");
+		//g_error ("EOF found inside a comment");
+	UNDO_YY_USER_ACTION;	
+		pop_state ();
 		/* if (! close_input ()) 
 		  yyterminate (); can't move this, since it actually rets a YY_NULL */
 	}
@@ -1262,14 +1264,14 @@ case YY_STATE_EOF(longcomment):
 case 12:
 /* rule 12 can match eol */
 YY_RULE_SETUP
-#line 205 "./lylexer.l"
+#line 207 "./lylexer.l"
 {
     		UNDO_YY_USER_ACTION;
 	}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 208 "./lylexer.l"
+#line 210 "./lylexer.l"
 {
 		UNDO_YY_USER_ACTION;
 		open_brace_count++;
@@ -1277,7 +1279,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 212 "./lylexer.l"
+#line 214 "./lylexer.l"
 {
 	if (--open_brace_count ==  0) {
 		UNDO_YY_USER_ACTION;
@@ -1292,14 +1294,14 @@ YY_RULE_SETUP
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 224 "./lylexer.l"
+#line 226 "./lylexer.l"
 {
     		UNDO_YY_USER_ACTION;
 	}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 227 "./lylexer.l"
+#line 229 "./lylexer.l"
 {
 		UNDO_YY_USER_ACTION;
 		open_paren_count++;
@@ -1307,7 +1309,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 231 "./lylexer.l"
+#line 233 "./lylexer.l"
 {
 
 	if (--open_paren_count ==  0) {
@@ -1323,7 +1325,7 @@ YY_RULE_SETUP
 
 case 18:
 YY_RULE_SETUP
-#line 244 "./lylexer.l"
+#line 246 "./lylexer.l"
 {
 	if (!main_input_b_)
 	{
@@ -1336,7 +1338,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 254 "./lylexer.l"
+#line 256 "./lylexer.l"
 {
 	 /* ignore include files */
 	UNDO_YY_USER_ACTION;
@@ -1346,7 +1348,7 @@ YY_RULE_SETUP
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 259 "./lylexer.l"
+#line 261 "./lylexer.l"
 { /* got the include file name */
 	UNDO_YY_USER_ACTION;
 	pop_state ();
@@ -1355,7 +1357,7 @@ YY_RULE_SETUP
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 263 "./lylexer.l"
+#line 265 "./lylexer.l"
 { /* got the include identifier */
  	UNDO_YY_USER_ACTION;
 }
@@ -1363,35 +1365,35 @@ YY_RULE_SETUP
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 266 "./lylexer.l"
+#line 268 "./lylexer.l"
 { // backup rule
 	parser_error ("Missing end quote", lylineno);
 }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 269 "./lylexer.l"
+#line 271 "./lylexer.l"
 {
 	RETURN (RESTNAME);
 }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 272 "./lylexer.l"
+#line 274 "./lylexer.l"
 {
 	RETURN (SKIPNAME);
 }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 275 "./lylexer.l"
+#line 277 "./lylexer.l"
 {
 	RETURN (MULTI_MEASURE_REST);
 }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 278 "./lylexer.l"
+#line 280 "./lylexer.l"
 {
 	remove_from_input(lytext);
 }
@@ -1399,7 +1401,7 @@ YY_RULE_SETUP
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 282 "./lylexer.l"
+#line 284 "./lylexer.l"
 {
 	*(lytext+strlen(lytext)-1) = '\0';
 	return scan_escaped_word (lytext + 2);
@@ -1408,7 +1410,7 @@ YY_RULE_SETUP
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 286 "./lylexer.l"
+#line 288 "./lylexer.l"
 {
 	*(lytext+strlen(lytext)-1) = '\0';
 	return scan_bare_word (lytext + 1);
@@ -1416,7 +1418,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 290 "./lylexer.l"
+#line 292 "./lylexer.l"
 { // backup rule
 	g_error ("white expected");
 	exit (1);
@@ -1424,7 +1426,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 294 "./lylexer.l"
+#line 296 "./lylexer.l"
 { // backup rule
 	g_error ("white expected");
 	exit (1);
@@ -1432,7 +1434,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 299 "./lylexer.l"
+#line 301 "./lylexer.l"
 {	
 	UNDO_YY_USER_ACTION;
 	yy_push_state (scheme);
@@ -1441,7 +1443,7 @@ YY_RULE_SETUP
 
 case 32:
 YY_RULE_SETUP
-#line 305 "./lylexer.l"
+#line 307 "./lylexer.l"
 {
 	UNDO_YY_USER_ACTION; 	
 	}
@@ -1449,7 +1451,7 @@ YY_RULE_SETUP
 case 33:
 /* rule 33 can match eol */
 YY_RULE_SETUP
-#line 308 "./lylexer.l"
+#line 310 "./lylexer.l"
 {
 	pop_state();
 	RETURN (SCM_T);
@@ -1457,7 +1459,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 312 "./lylexer.l"
+#line 314 "./lylexer.l"
 {
 		UNDO_YY_USER_ACTION;
 		open_paren_count = 1;
@@ -1468,14 +1470,14 @@ YY_RULE_SETUP
 
 case 35:
 YY_RULE_SETUP
-#line 320 "./lylexer.l"
+#line 322 "./lylexer.l"
 {
                 return DOUBLE_ANGLE_OPEN;
         }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 323 "./lylexer.l"
+#line 325 "./lylexer.l"
 {
                 return DOUBLE_ANGLE_CLOSE;
         }
@@ -1484,21 +1486,21 @@ YY_RULE_SETUP
 
 case 37:
 YY_RULE_SETUP
-#line 329 "./lylexer.l"
+#line 331 "./lylexer.l"
 {
 		RETURN (FIGURE_SPACE);
 	}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 332 "./lylexer.l"
+#line 334 "./lylexer.l"
 {
 		RETURN (FIGURE_CLOSE);
 	}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 335 "./lylexer.l"
+#line 337 "./lylexer.l"
 {
 		RETURN (FIGURE_OPEN);
 	}
@@ -1507,21 +1509,21 @@ YY_RULE_SETUP
 
 case 40:
 YY_RULE_SETUP
-#line 340 "./lylexer.l"
+#line 342 "./lylexer.l"
 {
 		return scan_bare_word (YYText ());
 	}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 344 "./lylexer.l"
+#line 346 "./lylexer.l"
 {
 		return scan_escaped_word (YYText () + 1); 
 	}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 347 "./lylexer.l"
+#line 349 "./lylexer.l"
 {
 		scan_fraction(lytext, &lylval.t.t);
 		RETURN (FRACTION);
@@ -1529,7 +1531,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 352 "./lylexer.l"
+#line 354 "./lylexer.l"
 {
 		lylval.i.i = atoi (YYText ());
 		RETURN (DIGIT);
@@ -1537,7 +1539,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 356 "./lylexer.l"
+#line 358 "./lylexer.l"
 {
 		lylval.i.i = atoi (YYText ());
 		RETURN (UNSIGNED);
@@ -1545,7 +1547,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 361 "./lylexer.l"
+#line 363 "./lylexer.l"
 {
 		start_quote ();
 	}
@@ -1553,7 +1555,7 @@ YY_RULE_SETUP
 
 case 46:
 YY_RULE_SETUP
-#line 366 "./lylexer.l"
+#line 368 "./lylexer.l"
 {
 	start_quote ();
 	
@@ -1562,7 +1564,7 @@ YY_RULE_SETUP
 
 case 47:
 YY_RULE_SETUP
-#line 371 "./lylexer.l"
+#line 373 "./lylexer.l"
 {
 		g_string_append_c (quoted_string, escaped_char (*(lytext+1)));
 	}
@@ -1570,14 +1572,14 @@ YY_RULE_SETUP
 case 48:
 /* rule 48 can match eol */
 YY_RULE_SETUP
-#line 374 "./lylexer.l"
+#line 376 "./lylexer.l"
 {
 		g_string_append (quoted_string, lytext);
 	}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 377 "./lylexer.l"
+#line 379 "./lylexer.l"
 {
 		end_quote();
 		RETURN (STRING_);
@@ -1585,7 +1587,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 381 "./lylexer.l"
+#line 383 "./lylexer.l"
 {
 		g_string_append (quoted_string, lytext);
 	}
@@ -1594,14 +1596,14 @@ YY_RULE_SETUP
 
 case 51:
 YY_RULE_SETUP
-#line 387 "./lylexer.l"
+#line 389 "./lylexer.l"
 {
 		start_quote ();
 	}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 390 "./lylexer.l"
+#line 392 "./lylexer.l"
 {
 		scan_fraction(lytext, &lylval.t.t);
 		RETURN (FRACTION);
@@ -1609,7 +1611,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 394 "./lylexer.l"
+#line 396 "./lylexer.l"
 {
 		lylval.i.i = atoi (YYText ());
 		RETURN (UNSIGNED);
@@ -1617,14 +1619,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 398 "./lylexer.l"
+#line 400 "./lylexer.l"
 {
 		return scan_escaped_word (YYText () + 1);
 	}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 401 "./lylexer.l"
+#line 403 "./lylexer.l"
 {
 		
 		if (!strcmp(lytext, "__"))
@@ -1637,7 +1639,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 410 "./lylexer.l"
+#line 412 "./lylexer.l"
 {
 		RETURN (*lytext);
 	}
@@ -1646,21 +1648,21 @@ YY_RULE_SETUP
 
 case 57:
 YY_RULE_SETUP
-#line 415 "./lylexer.l"
+#line 417 "./lylexer.l"
 {
 		return scan_bare_word (YYText ());
 	}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 418 "./lylexer.l"
+#line 420 "./lylexer.l"
 {
 		return scan_escaped_word (YYText () + 1);
 	}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 421 "./lylexer.l"
+#line 423 "./lylexer.l"
 {
 		scan_fraction(lytext, &lylval.t.t);
 		RETURN (FRACTION);
@@ -1668,7 +1670,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 425 "./lylexer.l"
+#line 427 "./lylexer.l"
 {
 		lylval.i.i = atoi (YYText ());
 		RETURN (UNSIGNED);
@@ -1676,42 +1678,42 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 429 "./lylexer.l"
+#line 431 "./lylexer.l"
 {
 		start_quote ();
 	}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 432 "./lylexer.l"
+#line 434 "./lylexer.l"
 {
 		RETURN (CHORD_MINUS);
 	}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 435 "./lylexer.l"
+#line 437 "./lylexer.l"
 {
 		RETURN (CHORD_COLON);
 	}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 438 "./lylexer.l"
+#line 440 "./lylexer.l"
 {
 		RETURN (CHORD_BASS);
 	}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 441 "./lylexer.l"
+#line 443 "./lylexer.l"
 {
 		RETURN (CHORD_CARET);
 	}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 444 "./lylexer.l"
+#line 446 "./lylexer.l"
 {
 		RETURN (*lytext);
 	}
@@ -1728,7 +1730,7 @@ case YY_STATE_EOF(quote):
 case YY_STATE_EOF(body):
 case YY_STATE_EOF(parens):
 case YY_STATE_EOF(scheme):
-#line 449 "./lylexer.l"
+#line 451 "./lylexer.l"
 {
 	set_trailing_white_space(input_text);
 	g_free(input_text);input_text=NULL;/* note that YY_USER_ACTION has not been run */
@@ -1737,21 +1739,21 @@ case YY_STATE_EOF(scheme):
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 456 "./lylexer.l"
+#line 458 "./lylexer.l"
 {
 	return scan_bare_word (YYText ());
 }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 459 "./lylexer.l"
+#line 461 "./lylexer.l"
 {
 	return scan_escaped_word (YYText () + 1);
 }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 462 "./lylexer.l"
+#line 464 "./lylexer.l"
 {
 	double r;
 	int cnv=sscanf (YYText (), "%lf", &r);
@@ -1762,7 +1764,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 470 "./lylexer.l"
+#line 472 "./lylexer.l"
 {
 	lylval.i.i = atoi (YYText ());
 	RETURN (UNSIGNED);
@@ -1770,7 +1772,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 475 "./lylexer.l"
+#line 477 "./lylexer.l"
 {
 
 	RETURN (*lytext);
@@ -1778,7 +1780,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 479 "./lylexer.l"
+#line 481 "./lylexer.l"
 {
 	char c = YYText ()[0];
 
@@ -1787,14 +1789,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 485 "./lylexer.l"
+#line 487 "./lylexer.l"
 {
 	RETURN (*lytext);
 }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 489 "./lylexer.l"
+#line 491 "./lylexer.l"
 {
     char c= *(lytext+1);
 
@@ -1824,7 +1826,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 516 "./lylexer.l"
+#line 518 "./lylexer.l"
 {
 	g_error("invalid character: `%c'", *lytext);
 	RETURN (*lytext);
@@ -1832,10 +1834,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 521 "./lylexer.l"
+#line 523 "./lylexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1839 "./lylexer.c"
+#line 1841 "./lylexer.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2874,7 +2876,7 @@ void lyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 521 "./lylexer.l"
+#line 523 "./lylexer.l"
 
 
 void

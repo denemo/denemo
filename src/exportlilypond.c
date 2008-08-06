@@ -1118,7 +1118,8 @@ static gchar *get_text(DenemoGUI *gui, GtkTextChildAnchor *anchor) {
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &start, anchor);
   GtkTextChildAnchor *endanc = g_object_get_data(G_OBJECT(anchor), "end");
   gtk_text_buffer_get_iter_at_child_anchor(gui->textbuffer, &end, endanc);
-  return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, FALSE);
+  return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, FALSE/* get only visible text */);
+  // return gtk_text_buffer_get_text (gui->textbuffer, &start, &end, TRUE/* ignore invisibility*/);
 }
 
 /**

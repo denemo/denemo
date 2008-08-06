@@ -699,9 +699,10 @@ score_body:
 */
 output_def:
 	music_output_def_body '}' {
-		MALLOC_NODE(n2, $2)
-		$$ = g_list_append($1, n2);
-
+	//	MALLOC_NODE(n2, $2)
+	//	$$ = g_list_append($1, n2);
+	$$ = NULL;
+		
 /*		THIS-> lexer_-> scopes_.pop ();*/
 	}
 	;
@@ -1396,34 +1397,12 @@ command_element:
 	$$ = $1;
 }	
 	| E_LEFTSQUARE {
-LATER_MESSAGE(@$.first_line);
-#ifdef LATER
-
-		Span_req *l = new Span_req;
-		l->set_span_dir (START);
-		l->set_mus_property ("span-type", scm_makfrom0str ("ligature"));
-		l->set_spot (THIS->here_input ());
-
-		$$ = new Request_chord (SCM_EOL);
-		$$->set_mus_property ("elements", gh_cons (l, SCM_EOL));
-  	  scm_gc_unprotect_object (l->self_scm ());
-		$$->set_spot (THIS->here_input ());
-#endif
+	DenemoObject *mud = lily_directive_new ("[");	
+		$$ = g_list_append(NULL,mud);
 	}
 	| E_RIGHTSQUARE {
-LATER_MESSAGE(@$.first_line);
-#ifdef LATER
-
-		Span_req *l = new Span_req;
-		l->set_span_dir (STOP);
-		l->set_mus_property ("span-type", scm_makfrom0str ("ligature"));
-		l->set_spot (THIS->here_input ());
-
-		$$ = new Request_chord (SCM_EOL);
-		$$->set_mus_property ("elements", gh_cons (l, SCM_EOL));
-		$$->set_spot (THIS->here_input ());
-	  scm_gc_unprotect_object (l->self_scm ());
-#endif
+	DenemoObject *mud = lily_directive_new ("]");	
+		$$ = g_list_append(NULL,mud);
 	}
 	| E_BACKSLASH {
 LATER_MESSAGE(@$.first_line);
@@ -1484,13 +1463,13 @@ shorthand_command_req:
 		$$ = $1;
 	}
 	| '['		{
-	MALLOC_NODE(n, $1)
-	$$ = g_list_append(NULL, n);/* FIXME denemo should know about this */
-	}
-	| ']'		{	
-	MALLOC_NODE(n, $1)
-	$$ = g_list_append(NULL, n);/* FIXME denemo should know about this */
+	DenemoObject *mud = lily_directive_new ("[");	
+		$$ = g_list_append(NULL,mud);
 
+	}
+	| ']'		{
+	DenemoObject *mud = lily_directive_new ("]");	
+		$$ = g_list_append(NULL,mud);	
 
 	}
 	| BREATHE {

@@ -798,7 +798,7 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	  break;
 	default:
 	  break;
-	}
+	}// switch obj type
 
       if (theobj->type != MUSIC_IDENTIFIER)
       {
@@ -807,36 +807,42 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
       theobj->starttickofnextnote =
 	*pticks_so_far + (basic_ticks_in_tuplet_group * *pnumerator
 			  / *pdenominator) + basic_ticks_in_grace_group;
-      if (*pticks_so_far >= *ptickspermeasure)
-      {
-	GList *g;
-
-	if (measures_list)
-		staff->nummeasures++;
-
-	measures_list = g_list_append (measures_list, *current_measure);
-
+      // check if this measure is finished 
+      if(curobjnode->next && 
+	 (DenemoObject *) curobjnode->next->data &&
+	 ((DenemoObject *) curobjnode->next->data)->type==LILYDIRECTIVE) {// include any LILYDIRECTIVEs in the measure
+	;//go on to include it in this measure
+      } else
+	if (*pticks_so_far >= *ptickspermeasure)
+	  {
+	    GList *g;
+	    
+	    if (measures_list)
+	      staff->nummeasures++;
+	    
+	    measures_list = g_list_append (measures_list, *current_measure);
+	    
 #ifdef DEBUG
-	g_print ("%s: measure %d\n", __FUNCTION__, staff->nummeasures);
-	for (g = *current_measure; g; g = g->next)
-	    g_print ("\ttype= %d %s\n",  ntype(g), ((nodegeneric *) g->data)->user_string);
+	    g_print ("%s: measure %d\n", __FUNCTION__, staff->nummeasures);
+	    for (g = *current_measure; g; g = g->next)
+	      g_print ("\ttype= %d %s\n",  ntype(g), ((nodegeneric *) g->data)->user_string);
 #endif
-
-
-	*current_measure = NULL;
-	*pticks_so_far = 0;
-      }
-      }
-    }
-    if (*pticks_so_far > 0)
+	    
+	    
+	    *current_measure = NULL;
+	    *pticks_so_far = 0;
+	  }// enough for this measure
+      }// Not music_ident
+    }// for each object
+  if (*pticks_so_far > 0)
     {
-	if (measures_list)
-		staff->nummeasures++;
-
-	measures_list = g_list_append (measures_list, *current_measure);
-	*current_measure = NULL;
+      if (measures_list)
+	staff->nummeasures++;
+      
+      measures_list = g_list_append (measures_list, *current_measure);
+      *current_measure = NULL;
     }
-
+  
   return measures_list;
 }
 
