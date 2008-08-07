@@ -53,7 +53,7 @@ setcurrentobject (DenemoScore * si, gint cursorpos)
 
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				  cursorpos);
-  g_assert (si->currentobject != NULL);
+  //g_assert (si->currentobject != NULL);
 }
 
 /**
