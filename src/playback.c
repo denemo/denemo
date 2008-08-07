@@ -176,7 +176,7 @@ ext_midi_playback (GtkAction * action)
 
 
 void stop_midi_playback (GtkAction * action) {
-  ext_midi_playback (action);
+  ext_midi_playback (NULL);
   kill_timer();
 }
 
