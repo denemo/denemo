@@ -10,6 +10,13 @@
 #include "exportcsound.h"
 #include "utils.h"
 
+/**
+ * TODO
+ *
+ * pitch2char is kind of pointless
+ * duration2time function needs to be evaluated
+ * perform stacatto
+ */
 
 /**
  * Convert Denemo duration into a floating point
@@ -218,8 +225,6 @@ pitchtopch (gchar pitch, int enshift, int octave)
     pch += 10.00;
   else if (octave == 7)
     pch += 11.00;
-
-
 
   return pch;
 }

@@ -19,6 +19,7 @@
 #include "midiseq.h"
 #include "pitchentry.h"
 #include "exportlilypond.h"
+#include "transpose.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
@@ -1153,6 +1154,9 @@ GtkActionEntry menu_entries[] = {
    G_CALLBACK (delete_staff_after)},
   {"AddVoice", NULL, N_("Add Voice to Current Staff"), NULL,  N_("Adds a new voice(part) to the current staff\nIt is tricky to switch between the voices\nSuggest to use merge staffs"),
    G_CALLBACK (dnm_newstaffvoice)},
+  {"TransposeStaff", NULL, N_("Transpose the Current Staff"), NULL,  N_("Transpose the current staff\n"),
+   G_CALLBACK (staff_transposition)},
+
   {"StaffProperties", GTK_STOCK_PROPERTIES, N_("Properties"), NULL,"Change the properties of the current staff", 
    G_CALLBACK (staff_properties_change)},
   {"InsertMenu", NULL, N_("Insert")},

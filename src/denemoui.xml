@@ -413,7 +413,8 @@
        <menuitem action="StaffDown"/> 
     <menuitem action="AddVoice"/>
            <menuitem action="VoiceUp"/>
-       <menuitem action="VoiceDown"/> 
+	   <menuitem action="VoiceDown"/> 
+    <menuitem action="TransposeStaff"/>
     <menuitem action="StaffProperties"/>
     </menu>
 
