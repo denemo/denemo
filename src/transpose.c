@@ -1,29 +1,11 @@
 #include "exportcsound.h"
 #include "utils.h"
 
-void print_note(GList *cnote, DenemoGUI *gui){
-	//printf("\n note = %i\n",((int) ((chord *) note)->notes));
-	int *znote = (int *) ((chord *) cnote)->notes;
-	znote = (int *) 2;
-	score_status(gui, TRUE);
-	displayhelper(gui);
-
-	//look at shiftpitch() in chordops.c
-}
-/**
- *  * Set the accidental of note closest to mid_c_offset in
- *   * the currentchord accidental = -2 ... +2 for double flat to double sharp
- *    */
-void
-changenote (DenemoObject * thechord, gint transpose)
-{
-  GList *tnode;                 /* note node to inflect */
-  note *tone;
-  tnode = ((GList *) ((chord *) thechord->object)->notes)->data;
-	  //findclosest (((chord *) thechord->object)->notes, mid_c_offset);
-  if (tnode){
-    tone = (note *) tnode->data;
-    tone->mid_c_offset += transpose;						    }
+void change_note(GList *notes, int amount){
+	GList *tnode = notes;
+	note *cur_tone = (note *) tnode;
+	cur_tone->mid_c_offset += amount;
+	printf("\n note = %i\n",(int) cur_tone->mid_c_offset);
 }
 
 void transpose_entire_piece(DenemoGUI *gui){
@@ -35,16 +17,14 @@ void transpose_entire_piece(DenemoGUI *gui){
   for (curstaff = gui->si->thescore, i = 1; curstaff;
   		curstaff = curstaff->next, i++){
     curstaffstruct = (DenemoStaff *) curstaff->data;
-    transpose_staff (gui->si, i);
+    //transpose_staff (gui, i);
   }
 }
 	
-void transpose_staff (DenemoGUI *gui, gint amount)
-{
+void transpose_staff (DenemoGUI *gui, gint amount){
   staffnode *curstaff = NULL;
   curstaff = gui->si->thescore;
   DenemoStaff *curstaffstruct = (DenemoStaff *) curstaff->data;
-  //DenemoStaff *curstaffstruct;
 
   measurenode *curmeasure;
   objnode *curobj;
@@ -61,10 +41,9 @@ void transpose_staff (DenemoGUI *gui, gint amount)
 	  note *newnote = NULL;
 	  if (mudelaitem->type == CHORD)
 	    {
-		//(int) ((note *) node->data)->mid_c_offset
-		//(int) (note *) ((chord *) node)->notes->data
 	      node = ((chord *) mudelaitem->object)->notes;
-		g_list_foreach(node,print_note,gui);
+		g_list_foreach(node, (GFunc )change_note, (int *) amount);
+
 	    }
 	}
     }
@@ -94,16 +73,10 @@ new_transpose_staff_dialog(DenemoGUI *gui){
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
   {
   }
-  else
   // gtk_widget_destroy (dialog);
-  
-  transpose_staff (gui, 2);
 }
 
-
-
-gboolean
-staff_transposition (GtkAction * action){
+gboolean staff_transposition (GtkAction * action){
   DenemoGUI *gui = Denemo.gui;
   gchar *transpose_amount_char = string_dialog_entry(gui, "Transpose Staff", "place and integer amount to transpose the staff notes", NULL);
   if (transpose_amount_char){
@@ -112,6 +85,9 @@ staff_transposition (GtkAction * action){
     g_free(transpose_amount_char);
   }
   //transpose_staff_dialog(gui);
+  score_status(gui, TRUE);
+  displayhelper(gui);
   return TRUE;
 }
+
 
