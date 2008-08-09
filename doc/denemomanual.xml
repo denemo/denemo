@@ -41,7 +41,7 @@
     <title>Introduction</title>
 
     <para>Denemo lets you create musical scores. You can type music in using the keyboard 
-    or play it in using a microphone. You can edit your music - the display shows you the measures you
+    or play it in using the microphone input. You can edit your music - the display shows you the measures you
     are working on - and you can playback selected bits to check how it sounds. 
     You can preview and print the score or parts to the highest standards used in the music publishing industry 
     - thanks to the Lilypond typesetting program.</para>
@@ -595,7 +595,7 @@ A set of action-based menus can also be shown in addition to the object-based me
           </listitem>
 
 	  <listitem>
-	         <para>Edit Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the current cursor position, while the Note name keys A,B,C ... change the note at the cursor to A,B,C.... The cursor is purple. This mode is good for editing music already entered and for entering pure rhythms (all notes on the same pitch, for overlaying pitches via microphone later). You can also enter music in this mode - you type the duration key (which inserts a note) and then the Note name key, which edits it to the one you want.
+	         <para>Edit Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the current cursor position, while the Note name keys A,B,C ... change the note at the cursor to A,B,C.... The cursor is purple. This mode is good for editing music already entered and for entering pure rhythms (all notes on the same pitch, for overlaying pitches via microphone input later). You can also enter music in this mode - you type the duration key (which inserts a note) and then the Note name key, which edits it to the one you want.
 		 </para>
           </listitem>
 
@@ -1107,15 +1107,30 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 
   <sect1>
     <title>Rhythms and Overlays</title>
+    <para>The Rhythms and Overlays toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the mode->Rhythm Mode option for this, so that you get a bell to confirm when you have completed a measure.</para>
+ <para>Also on this toolbar is the Microphone option, which allows you to enter pitches via the mic in port on your soundcard. If you have entered your piece of music as pure rhythm you can overlay with the pitches using this option.
+</para>
 
-    <para>The Rhythms and Overlays toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice).</para>
- <para>Also on this toolbar is the Microphone option, which allows you to enter pitches acoustically. This can be much quicker than using the keyboard since the note octave and accidental are all given just by playing the note. If you are able to play a musical instrument then this will probably be much faster for you than typing note names, octave shifts and accidentals at the computer keyboard.</para>
-<para>When you select the Microphone the Pitch Recognition window pops up. While the mouse pointer is inside the score drawing area the score is sensitive to pitches heard via the microphone input. The background colour of the score changes to show that the notes will be entered into the score. Music is entered into the measure which holds the cursor.</para>
-<para>There are two ways of using the pitch entry. The button marked Insert causes notes to be entered into the current measure in the prevailing rhythm - the mode is set to Insert for this. The button marked Overlays overlays the notes already present with the pitches you sound. There is a third button, marked Tuning, which is a state-of-the art musical instrument tuner.</para>
+  </sect1>
+  <sect1>
+    <title>Playing Notes into Denemo</title>
+
+<para>
+Denemo can listen for, and detect the pitch of notes on the mic input of the computer; it doesn't attempt to guess the rhythm - such systems do not work well - but you will find that playing the notes in time will help you to play them in, as well as make playing them in a musical experience rather than a chore.
+</para>
+
+ <para>Playing the notes in can be much quicker than using the keyboard since the note octave and accidental are all given just by playing the note. If you are able to play a musical instrument then this will probably be much faster for you than typing note names, octave shifts and accidentals at the computer keyboard.</para>
+
+<para>When you select the Microphone on the Rhythms and Overlays Toolbar the Pitch Recognition window pops up. While the mouse pointer is inside the score drawing area the score is sensitive to pitches heard via the microphone input. The background colour of the score changes to show that the notes will be entered into the score. </para>
+<para>There are two ways of using the pitch entry - Overlay mode (default) and Insert mode. The button marked Insert causes notes to be entered into the current measure in the prevailing rhythm - the mode is set to Insert for this. The button marked Overlays overlays the notes already present with the pitches you sound. There is a third button, marked Tuning, which is a state-of-the art musical instrument tuner.</para>
+<para>
+Music is entered into the measure which holds the cursor. If you are overlaying a rhythm already entered, then the first un-overlayed note in the measure is overlayed by the note detected. You can delete the overlay using the regular delete keys, or clear them altogether if you want to start over in a measure. If you are in Insert mode then the notes detected will be inserted at the cursor position.
+</para>
 <para>Use the enharmonic shift to select whether Bb or A# should be entered when you enter the given pitch - you can usefully go as far as B# and Fb.</para>
 <para>Use the transpose control to shift up or down by octaves.</para>
- <para>Most of the other settings would require study of the Aubio documentation to understand, but the one marked threshold may be useful to make the detection less sensitive to ambient noises.</para>
-<para>More importantly, move your microphone closer or further from your instrument to get reliable detection. Too close and you get double detections, too far and you get missed ones. To check for good detection open a piece of music, set Overlay mode and put the cursor in the first measure and play the piece in – the notes should all turn blue if you have perfect detection. It is worth while getting perfect detection – more than one or two miss-detects per piece of music and you may want to use the Insert rather than the Overlay method.</para>
+ <para>Most of the other settings would require study of the Aubio documentation to understand, but the one marked threshold may be useful to make the detection less sensitive to ambient noises if using a microphone with an acoustic instrument.</para>
+<para> The best set-up is to plug the headphones-out socket of an electronic keyboard into the mic input, and choose a piano setting on the electronic keyboard.</para>
+<para> If you don't have any musical instrument that you can plug directly into the mic in, then you can use an acoustic instrument with a microphone, in which case move your microphone closer or further from your instrument to get reliable detection. Too close and you get double detections, too far and you get missed ones. To check for good detection open a piece of music, set Overlay mode and put the cursor in the first measure and play the piece in – the notes should all turn blue if you have perfect detection. It is worth while getting perfect detection – more than one or two miss-detects per piece of music and you may want to use the Insert rather than the Overlay method.</para>
   </sect1>
 
   <sect1>
