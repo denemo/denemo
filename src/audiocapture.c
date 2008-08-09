@@ -340,6 +340,7 @@ static float *autocorr2;
 
   float db =  level2db(avg_abs);
   gotSound = gotSound && (db > BACKGROUND_DB);
+
   if (gotSound) 
  {
 #define INTERVAL (1) /*(2)*/
@@ -355,13 +356,17 @@ static float *autocorr2;
      return -1.0;
    double bestpeak_freq2 = m_sample_rate / bestpeak_x;
    int pitch=-1;
+   
    if( db > BACKGROUND_DB+6)
      { 
        pitch=(int)(Freq2Pitch(bestpeak_freq2)+0.5); // note found this time 
      } // loud enough
+   else
+     return -4.0;
    if(pitch>0) {
      return bestpeak_freq2;
    }
+   return -3.0;
  }// if gotPitch
   return -2.0;
 }

@@ -597,7 +597,7 @@ static void display_pitch(double note, DenemoGUI *gui) {
 
 static gint measure_pitch_accurately (DenemoGUI *gui) {
   double note = determine_frequency();
-
+  //g_print("returned %f\n", note);
   if(note>0.0) display_pitch(note, gui);
 
   return TRUE;
