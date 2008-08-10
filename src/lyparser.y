@@ -410,7 +410,7 @@ of the parse stack onto the heap. */
 %type <scm>  post_events
 %type <scm>  note_chord_element
 %type <scm> gen_text_def
-%type <scm> full_markup
+%type <generic> full_markup
 %type <n>   steno_pitch pitch absolute_pitch
 %type <n>   explicit_pitch steno_tonic_pitch
 
@@ -710,8 +710,9 @@ output_def:
 
 music_output_def_body:
 	MIDI '{' tempo_optional	{
-		set_identifier("midi_tempo", typed_glist ($3, STRING_IDENTIFIER));
-		$$ = $3;
+	   //     $$ = NULL;
+	//	set_identifier("midi_tempo", typed_glist ($3, STRING_IDENTIFIER));
+	//	$$ = $3;
 	}
 	| PAPER '{' 	{
 		/* caught by lexer - does not occur*/
@@ -1824,18 +1825,14 @@ LATER_MESSAGE(@$.first_line);
 
 full_markup:
 	MARKUP {
-LATER_MESSAGE(@$.first_line);
+	$$ = $1;
 	}
 	;
 gen_text_def:
         full_markup {
-LATER_MESSAGE(@$.first_line);
-#ifdef LATER
-                Music *t = MY_MAKE_MUSIC ("TextScriptEvent");
-                t->set_property ("text", $1);
-                t->set_spot (@$);
-                $$ = t;
-#endif
+
+	DenemoObject *mud = lily_directive_new ($1.user_string);	
+		$$ = g_list_append(NULL,mud);
         }
 /* JAN
 	DYNAMICMARK {
