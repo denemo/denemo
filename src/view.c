@@ -197,7 +197,7 @@ close_gui (DenemoGUI *gui)
 {
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
-      warningdialog("Auto save being turned off");
+      g_print("Auto save being turned off");
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
@@ -1491,6 +1491,7 @@ toggle_lilytext (GtkAction * action) {
    gtk_widget_show/*_all*/(gui->textwindow);
  else
    gtk_widget_hide(gui->textwindow);
+ //g_print("toggling lily window");
 }
 
 /**
@@ -1849,8 +1850,7 @@ void init_keymap()
 
 static void
 switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
-g_print("switching pagenum %d\n",pagenum);
-// hmm, on arrival Denemo.gui is already set to the new gui when you are doing new window.
+  //g_print("switching pagenum %d\n",pagenum);
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return;
@@ -1861,35 +1861,60 @@ g_print("switching pagenum %d\n",pagenum);
   }
   DenemoGUI *newgui = g->data;
   if(gui==newgui)
-    return;
-  gboolean lily_on=FALSE;
+    return;//on arrival Denemo.gui is already set to the new gui when you are doing new window
 
-  if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow))
-    lily_on = TRUE;
-
-
-  
-   {
-    unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
-    g_print("Switching from %p to %p\n", Denemo.gui, g->data);
-    Denemo.gui = gui = (DenemoGUI*)(g->data);
-
-    g_print("Booleans %d %d %d\n", gui->textview,  gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow), lily_on);
-    if(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow) && !lily_on)
-      gtk_toggle_action_set_active (GTK_TOGGLE_ACTION(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")),
-				    TRUE);
-    if(lily_on && !(gui->textview && GTK_WIDGET_VISIBLE(gui->textwindow)))
-      gtk_toggle_action_set_active (GTK_TOGGLE_ACTION(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText")),
-			    FALSE);
-    highlight_rhythm(Denemo.gui->prevailing_rhythm);
+  /* turn off the LilyPond window if it is on
+   it would be nice to keep a record of whether it was open for re-opening
+   on return to this tab FIXME*/
+  {
+    GtkWidget *widget;
+    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText");
+    if(gtk_check_menu_item_get_active(widget))
+      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
   }
+  unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
+  Denemo.gui = gui = (DenemoGUI*)(g->data);
 
-  g_print("switched to gui %p\n\n",Denemo.gui);
+  switch(gui->mode & ~MODE_MASK ) {
+    case INPUTINSERT:
+      activate_action( "/MainMenu/EntryMenu/InsertMode");
+      break;
+    case INPUTEDIT:
+      activate_action( "/MainMenu/EntryMenu/EditMode");
+      break;
+    case INPUTCLASSIC:
+      activate_action( "/MainMenu/EntryMenu/ClassicMode");
+      break;
+    case 0:
+      activate_action( "/MainMenu/EntryMenu/Modeless");
+      break;
+    default:
+      ;
+    }
+
+  switch(gui->mode & ~ENTRY_TYPE_MASK ) {
+    case INPUTNORMAL:
+      activate_action( "/MainMenu/EntryMenu/Note");
+      break;
+    case INPUTBLANK:
+      activate_action( "/MainMenu/EntryMenu/Blank");
+      break;
+    case INPUTREST:
+      activate_action( "/MainMenu/EntryMenu/Rest");
+      break;
+    case INPUTRHYTHM:
+      activate_action( "/MainMenu/EntryMenu/Rhythm");
+      break;
+    default:
+      ;
+    }
+
+  highlight_rhythm(Denemo.gui->prevailing_rhythm);
 
 }
 
-
-
+/* create_window() creates the toplevel window and all the menus - it only
+   called once per invocation of Denemo */
 static void
 create_window(void) {
   DenemoPrefs *prefs;
@@ -2139,15 +2164,7 @@ newview (void)
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   Denemo.guis = g_list_append (Denemo.guis, gui);
 
-#if 0
-  if(Denemo.gui) {
-  if(Denemo.gui->textview && GTK_WIDGET_VISIBLE(Denemo.gui->textwindow)) {
-    g_print("turning off for %p\n", gui);
-    activate_action( "/MainMenu/ViewMenu/ToggleLilyText");
-  }
 
-  }
-#endif
   Denemo.gui = NULL;
   // Denemo.gui = gui; must do this after switching to page, so after creating page
   gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
@@ -2310,7 +2327,7 @@ Denemo.gui = gui;
  }
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {
-     warningdialog("No autosave on new gui");
+     g_print("No autosave on new gui");
    }
    else {
      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
