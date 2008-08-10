@@ -1862,7 +1862,6 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
   DenemoGUI *newgui = g->data;
   if(gui==newgui)
     return;//on arrival Denemo.gui is already set to the new gui when you are doing new window
-
   /* turn off the LilyPond window if it is on
    it would be nice to keep a record of whether it was open for re-opening
    on return to this tab FIXME*/
@@ -2068,6 +2067,8 @@ get_data_dir (),
   }
 
   Denemo.notebook = gtk_notebook_new ();
+  gtk_notebook_set_show_tabs (Denemo.notebook, FALSE);//only show when more than one
+  //gtk_notebook_popup_enable (Denemo.notebook);?? doesn't work...
   gtk_widget_show (Denemo.notebook);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
 
@@ -2185,6 +2186,8 @@ newview (void)
   gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
 Denemo.gui = gui;
+ if(pagenum)
+   gtk_notebook_set_show_tabs (Denemo.notebook, TRUE);
   set_title_bar(gui);
   gtk_widget_show (main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
