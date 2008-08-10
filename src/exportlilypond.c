@@ -1466,7 +1466,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 void merge_lily_strings (DenemoGUI *gui) {
   //g_print("Merge...\n");
   GList *g;
-  write_status(gui);
+  if(gui==Denemo.gui)
+    write_status(gui);
   if(!gtk_text_buffer_get_modified(gui->textbuffer)) {
     // g_print("not modified\n");
     return;
@@ -2046,10 +2047,12 @@ export_lilypond_parts (char *filename, DenemoGUI *gui)
 /* callback on destroying lilypond window */
 static gboolean lilywindow_destroyed(GtkObject *object, DenemoGUI *gui) {
   merge_lily_strings (gui);
-  GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
+  if(gui==Denemo.gui){
+    GtkWidget * toggle = gtk_ui_manager_get_widget (Denemo.ui_manager,
 						  "/MainMenu/ViewMenu/ToggleLilyText");
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle),
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (toggle),
 				  FALSE);
+  }
   gui->textwindow = NULL;
   gui->textview = NULL;
   gui->lilysync = G_MAXUINT;
