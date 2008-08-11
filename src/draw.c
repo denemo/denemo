@@ -610,7 +610,8 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   while (itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
-
+      if(itp->measurenum == si->rightmeasurenum+1)
+	itp->gc = gcs_slategraygc ();
       draw_measure (itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
