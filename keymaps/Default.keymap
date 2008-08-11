@@ -207,6 +207,7 @@
       </row>
       <row>
         <action>Close</action>
+        <bind>Control+w</bind>
       </row>
       <row>
         <action>CloseRepeat</action>
@@ -789,9 +790,6 @@
         <action>NextRhythm</action>
       </row>
       <row>
-        <action>NextRhythm</action>
-      </row>
-      <row>
         <action>Note</action>
       </row>
       <row>
@@ -835,9 +833,6 @@
       </row>
       <row>
         <action>Ornaments</action>
-      </row>
-      <row>
-        <action>Other</action>
       </row>
       <row>
         <action>Other</action>
