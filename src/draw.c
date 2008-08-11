@@ -607,7 +607,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
     g_list_nth (curstaffstruct->measures, itp->measurenum - 1);
   itp->mwidthiterator = g_list_nth (si->measurewidths, itp->measurenum - 1);
   itp->gc = gc;
-  while (itp->measurenum <= si->rightmeasurenum
+  while (itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
 
