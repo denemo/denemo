@@ -761,7 +761,7 @@ DenemoGUI *gui = Denemo.gui;
   /* Clear the backing pixmap */
   if(pitch_entry_active(gui)) {
     gdk_draw_rectangle (gui->pixmap,
-			gcs_slategraygc(),
+			gcs_graygc(),
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);
