@@ -44,9 +44,11 @@ score_staffspace_change (GtkAction *action, gpointer callback_data);
 
 
 
-
 gboolean
 staff_properties_change (GtkAction *action, gpointer callback_data /* FIXME sometimes used */);
+void 
+staff_properties_change_cb (GtkAction * action);
+
 
 
 
