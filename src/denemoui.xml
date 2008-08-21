@@ -71,6 +71,7 @@
       <menuitem action="ToggleActionMenu"/>
       <menuitem action="ToggleObjectMenu"/>
       <menuitem action="ToggleLilyText"/>
+      <menuitem action="ToggleScript"/>
     </menu>
     <menu action="EntryMenu">
       <menuitem action="Modeless"/>
