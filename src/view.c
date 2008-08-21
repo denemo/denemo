@@ -20,11 +20,26 @@
 #include "pitchentry.h"
 #include "exportlilypond.h"
 #include "transpose.h"
+#include "print.h"
+#include "kbd-custom.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
 
-
+static void
+closewrapper (GtkAction *action);
+static void
+openinnew (GtkAction *action);
+static void 
+create_rhythm_cb (GtkAction* action);
+static void
+delete_rhythm_cb (GtkAction * action);
+static void
+toggle_edit_mode (GtkAction * action);
+static void
+toggle_rest_mode (GtkAction * action);
+static void
+toggle_rhythm_mode (GtkAction * action);
 
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
@@ -43,14 +58,45 @@ typedef enum
 } AccelStatus;
 
 
-static void toggle_edit_mode (GtkAction * action);
-static void toggle_rest_mode (GtkAction * action);
-static void toggle_rhythm_mode (GtkAction * action);
+
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
-static gboolean close_gui_with_check (GtkAction * action);
-#include "callbacks.h" /* callback functions for the originally unmenued commands */
 
+#include "callbacks.h" /* callback functions for the originally unmenued commands */
+#include <libguile.h> 
+#include "scheme_cb.h"
+
+
+#ifdef TRIAL_SCHEME
+/* trial */
+void denemoy(char *action_name) {
+  g_print("doing %s\n", action_name);
+  g_print("====================== %p %p\n", &Denemo, Denemo.ui_manager); 
+  activate_action(action_name);
+}
+SCM scheme_denemoy(SCM val) {
+  gint len;
+  char *str = (char*)gh_scm2newstr(val, &len);
+  denemoy(str);//free(str);
+  return SCM_EOL;
+}
+#endif
+
+int inner_main(void){
+#include "scheme.h"
+#ifdef TRIAL_SCHEME
+  scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
+#endif
+  gtk_main();
+  return 0;
+}
+//#include <guile/gh.h>
+int call_out_to_guile(char *script) {
+  // char * SCM_STRING_CHARS (SCM x)
+  // SCM val = scm_take_locale_string(script); this will free script
+  // SCM val = scm_from_locale_string(script);
+  (void)scm_c_eval_string(script);
+}
 
 /****************
  * write the status bar
@@ -241,7 +287,7 @@ void free_gui(DenemoGUI *gui)
 *
 */
 static void
-closewrapper ()
+closewrapper (GtkAction *action)
 {
   GList *display = NULL;
   //stop_pitch_recognition();
@@ -282,9 +328,9 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * Creates new view then opens file in the view
  */
 static void
-openinnew (void)
+openinnew (GtkAction *action)
 {
-  newview ();
+  newview (NULL);
   file_open_with_check (NULL);
 }
 
@@ -295,7 +341,7 @@ openinnew (void)
  * if it is the last close the application.
  * return FALSE if gui was not closed, else TRUE
  */
-static gboolean
+gboolean
 close_gui_with_check (GtkAction * action)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -479,7 +525,8 @@ static gchar *add_to_pattern(gchar **p, gchar c) {
    
 
 */
-static void create_rhythm_cb (gpointer action)     {
+static void 
+create_rhythm_cb (GtkAction* action)     {
   DenemoGUI *gui = Denemo.gui;
   gboolean singleton = FALSE;// set TRUE if action is one of the insert_... functions.
   gboolean already_done = FALSE;// a singleton which has already been installed globally
@@ -837,30 +884,93 @@ typedef struct accel_cb {
 } accel_cb;
 
 
+static void configure_keyboard_idx (GtkWidget*w, gint idx) {
+  DenemoGUI *gui = Denemo.gui;
+  configure_keyboard_dialog_init_idx (NULL, gui, idx);
+}
+
+static void toggleRecording (GtkWidget*w, gboolean *record) {
+  g_print("Recording was %d\n", *record);
+  *record = !*record;
+}
+static void executeScript(GtkWidget*w) {
+  GtkTextIter startiter, enditer;
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
+  gtk_text_buffer_get_start_iter (buffer, &startiter);
+  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+  gchar *text = gtk_text_buffer_get_text(buffer, &startiter, &enditer, FALSE);
+  g_print("Calling script %s\n", text);
+ call_out_to_guile(text);
+ g_free(text);
+}
+
+
 /*
-  help_and_set_shortcuts display the tooltip for the action passed in INFO
-  and allow change to the shortcuts for that action.
+  menu_click:
+  intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
+  Left click runs default action, after recording the item in a scheme script if recording.
+  Rigth click offers pop-up menu for setting shortcuts etc
 
 */
 static 	void show_type(GtkWidget *widget, gchar *message);
 
-static gboolean help_and_set_shortcuts (GtkWidget      *widget,
+static void append_scheme_call(gchar *func) {
+  GtkTextIter enditer;
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
+  //gtk_text_buffer_set_text(buffer,"",-1);
+  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+  gchar *text = g_strdup_printf("(%s)\n",func);//prefix dnm_!!!!!!!
+  gtk_text_buffer_insert(buffer, &enditer, text, -1);
+  g_print("Added %s\n", text);
+  g_free(text); 
+}
+
+static gboolean menu_click (GtkWidget      *widget,
 			  GdkEventButton *event,
 			  accel_cb *info)
 {
+
   GtkAction *action = info->action;
   DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   const gchar *func_name = gtk_action_get_name(action);
+
   gint idx = lookup_index_from_name (the_keymap, func_name);
+  if (event->button != 3) //Not right click
+    if(Denemo.ScriptRecording)
+      if(idx_has_callback(the_keymap, idx, gui)){	
+	append_scheme_call((gchar*)func_name);
+	//return TRUE;
+      }
   //g_print("event button %d, idx %d for %s\n", event->button, idx, func_name);
   if (event->button != 3)
     return FALSE;
   if (idx == -1)
     return TRUE;
-  configure_keyboard_dialog_init_idx (action, gui, idx);
+  GtkWidget *menu = gtk_menu_new();
+  GtkWidget *item = gtk_menu_item_new_with_label("Edit/Create Shortcut");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+
+  item = gtk_check_menu_item_new_with_label("Recording Script");
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "toggled", G_CALLBACK(toggleRecording), &Denemo.ScriptRecording);
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+
+
+  item = gtk_menu_item_new_with_label("Execute Script");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate", G_CALLBACK(executeScript), NULL);
+
+
+  gtk_widget_show_all(menu);
+  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+
+  // configure_keyboard_dialog_init_idx (action, gui, idx);
   return FALSE;
 }
+
 
 
 static void	  color_rhythm_button(RhythmPattern *r, const gchar *color) {
@@ -962,7 +1072,7 @@ void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, gchar *pa
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
-  g_signal_connect(widget, "button-press-event", G_CALLBACK (help_and_set_shortcuts), info);
+  g_signal_connect(widget, "button-press-event", G_CALLBACK (menu_click), info);
 }
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
@@ -1007,7 +1117,13 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
   return;
 }
 #endif /* ifdef DENEMO_DYNAMIC_MENU_ITEMS */
+extern int call_out_to_guile(char *script);
 static void dummy(void) {
+#ifdef TRIAL_SCHEME
+  //call_out_to_guile("(CursorRight)(CursorRight)(CursorRight)\n");
+  g_print("calling guile with %p %p\n", &Denemo, Denemo.ui_manager);
+  call_out_to_guile("(denemoy \"/MainMenu/EntryMenu/Rest\")\n");
+#endif
   return;
 }
 static void voiceup_cb(GtkAction *action) {
@@ -1024,317 +1140,10 @@ static void voicedown_cb(GtkAction *action) {
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */
 GtkActionEntry menu_entries[] = {
-  {"FileMenu", NULL, N_("File"),NULL, N_("Creating, saving, loading, displaying and printing musical scores")},
-  {"New", GTK_STOCK_NEW, N_("New"), NULL,  N_("Start a new musical score"),
-   G_CALLBACK (file_newwrapper)},
-
-  {"Open", GTK_STOCK_OPEN, N_("Open"), NULL,  N_("Open a file containing a music score for editing"),
-   G_CALLBACK (file_open_with_check)},
-
-  {"AddStaffs", GTK_STOCK_OPEN, N_("Add Staffs"), NULL,  N_("Add staffs from a Denemo file"),
-   G_CALLBACK (file_add_staffs)},
-
-  {"AddMovements", GTK_STOCK_OPEN, N_("Add Movements"), NULL,  N_("Add movements from a Denemo file"),
-   G_CALLBACK (file_add_movements)},
-
-  {"MovementProps", GTK_STOCK_PROPERTIES, N_("Movement Properties"), NULL,  N_("Change properties of this movement"),
-   G_CALLBACK (movement_props_dialog)},
-
-
-
-  {"OpenNewWindow", GTK_STOCK_OPEN, N_("Open in New Tab"), NULL,
-   N_("Open a file containing a music score for editing\nThe score will open in a separate working area (tab)"), G_CALLBACK (openinnew)},
-
-  {"Save", GTK_STOCK_SAVE, N_("Save"), NULL, "Save the score",
-   G_CALLBACK (file_savewrapper)},
-  {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), NULL,  N_("Save the score under a new name"),
-   G_CALLBACK (file_saveaswrapper)},
-  {"OpenTemplate", GTK_STOCK_OPEN, N_("Open standard template"), NULL,
-    N_("Start a new score from a built-in template file\n"),
-   G_CALLBACK (system_template_open_with_check)},
-  {"OpenExample", GTK_STOCK_OPEN, N_("Open from Gallery"), NULL,
-    N_("Start a new score from a built-in example\n"),
-   G_CALLBACK (system_example_open_with_check)},
-  {"OpenMyTemplate", GTK_STOCK_OPEN, N_("Open custom template"), NULL,
-    N_("Start a new score from one of your own template files\n"),
-   G_CALLBACK (local_template_open_with_check)},
-
-  {"SaveTemplate", GTK_STOCK_SAVE_AS, N_("Template save"), NULL,  N_("Save the score as a template\nfor re-use as a starting point for new scores"),
-   G_CALLBACK (template_save)},
-  {"NewWindow", NULL, N_("New Tab"), NULL, N_("Create working area (tab) with an empty score in it"),
-   G_CALLBACK (newview)},
-  {"InsertMovementBefore", NULL, N_("Add Before Current Movement"), NULL,  N_("Insert a new movement before the current one"),
-   G_CALLBACK (insert_movement_before)},
-  {"InsertMovementAfter", NULL, N_("Add After Current Movement"), NULL,  N_("Insert a new movement after the current one"),
-   G_CALLBACK (insert_movement_after)},
-  {"SaveParts", GTK_STOCK_SAVE_AS, N_("Save Parts"), NULL,  N_("Save Parts: each staff becomes\na file in lilypond format"),
-   G_CALLBACK (file_savepartswrapper)},
-  {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), NULL,  N_("Export the score as a PDF document file"),
-   G_CALLBACK (export_pdf_action)},
-  {"ConfigureScore", GTK_STOCK_PROPERTIES, N_("Score Wizard"), NULL,
-    N_("Start up a wizard to create a new score\nThis allows you to set various properties of the score"),
-   G_CALLBACK (scorewizard)},
-  {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Preview"), NULL,  N_("Displays the final finished score in your pdf viewer"),
-   G_CALLBACK (printpreview_cb)},
-  {"PrintExcerptPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Excerpt"), NULL,  N_("Displays a musical excerpt in your image viewer"),
-   G_CALLBACK (printexcerptpreview_cb)},
-  {"Print", GTK_STOCK_PRINT, N_("Print"), NULL,  N_("Displays the final finished score in a pdf viewer\nFrom this you can print the file using the print command of the viewer"),
-   G_CALLBACK (printall_cb)},
-  {"PrintPart", GTK_STOCK_PRINT, N_("Print current part"), NULL,  N_("Displays the final finished score for the current part (that is current staff) in a pdf viewer\nFrom this you can print the file using the print command of the viewer"),
-   G_CALLBACK (printpart_cb)},
-  {"Close", GTK_STOCK_CLOSE, N_("Close"), NULL,  N_("Close the current score\nOther windows will stay open"),
-   G_CALLBACK (close_gui_with_check)},
-  {"Quit", GTK_STOCK_QUIT, N_("Quit"), NULL,  N_("Quit the Denemo program"),
-   G_CALLBACK (closewrapper)},
-  {"EditMenu", NULL, N_("Edit")},
-  {"Undo", GTK_STOCK_UNDO, N_("Undo"), NULL,  N_("Undo"),
-   G_CALLBACK (undowrapper)},
-  {"Redo", GTK_STOCK_REDO, N_("Redo"), NULL,  N_("Redo"),
-   G_CALLBACK (redowrapper)},
-
-  {"Select", NULL, N_("Select"),NULL, N_("Selecting stretches of notes")},
-  {"ExtendSelect", NULL, N_("Extend selection"),NULL, N_("Extend the selection")},
-
-  {"Copy", GTK_STOCK_COPY, N_("Copy"), NULL,  N_("Copy"),
-   G_CALLBACK (copywrapper)},
-  {"Cut", GTK_STOCK_CUT, N_("Cut"), NULL,  N_("Cut"),
-   G_CALLBACK (cutwrapper)},
-  {"Paste", GTK_STOCK_PASTE, N_("Paste"), NULL,  N_("Paste the selected music"),
-   G_CALLBACK (pastewrapper)},
-  {"ScoreProperties", GTK_STOCK_PROPERTIES, N_("Score properties"), NULL, N_("Change some of the properties of the current score\nThis will start up a dialog window"),
-   G_CALLBACK (score_properties_dialog)},
-  {"SaveSelection", NULL, N_("Save Selection"), NULL,  N_("Save the selected music/nNot sure if this is working"),
-   G_CALLBACK (saveselwrapper)},
-  {"Preferences", GTK_STOCK_PREFERENCES, N_("Preferences"), NULL,  N_("Set and save your preferences for how Denemo operates on startup\nEdit .denemo/denemorc for missing ones"), 
-   G_CALLBACK (preferences_change)},
-
-
-  {"KeyBindings", NULL, N_("Keyboard Setup"), NULL,  N_("Set actions to take in response to keypresses")},
-  {"SaveAccels", GTK_STOCK_SAVE, N_("Save Shortcuts"), NULL,  N_("Save the keyboard shortcuts as the default"),
-   G_CALLBACK (save_default_keymap_file_wrapper)},
-  {"Keyboard", NULL, N_("Manage Keybindings"), NULL,  N_("View, change and save keyboard shortcuts\n"),
-   G_CALLBACK (configure_keyboard_dialog)},
-  {"LoadPlugins", NULL, N_("Load Plugins"), NULL, "Load Plugins",
-   G_CALLBACK (load_plugin)},
-  {"UnloadPlugins", NULL, N_("Unload Plugins"), NULL, "Unload Plugins",
-   G_CALLBACK (unloadplugins)},
-  {"ListPlugins", NULL, N_("List Plugins"), NULL, "List the loaded plugins",
-   G_CALLBACK (list_loaded_plugins)},
-  {"ListAvailablePlugins", NULL, N_("List Available Plugins"), NULL,
-   "List the available plugins", G_CALLBACK (list_available_plugins)},
-  {"ViewMenu", NULL, N_("View")},
-  {"EntryMenu", NULL, N_("Mode")},
-  {"StaffMenu", NULL, N_("Staffs/Voices")},
-  {"MovementMenu", NULL, N_("Movements"),NULL,N_("Movements in a score")},
-  {"SwapStaffs", NULL, N_("Swap Staffs/Voices"), NULL, N_("Swap this staff with the one higher up\nNote this actually swaps voices."),
-   G_CALLBACK (swapstaffs)},
-  {"SplitVoices", NULL, N_("Split Voice off"), NULL, N_("Split off the next voice as a separate staff"),
-   G_CALLBACK (splitstaffs)},
-  {"JoinVoices", NULL, N_("Merge as Voice"), NULL, N_("Merge this staff as a voice on the previous staff"),
-   G_CALLBACK (joinstaffs)},
-  {"SwapMovements", NULL, N_("Swap Movements"), NULL, N_("Swap this movement with the one before)"),
-   G_CALLBACK (swapmovements)},
-  {"VoiceUp", NULL, N_("Voice Up"), NULL, N_("Go to the higher numbered voice\n(or staff if highest voice number on staff)"),
-   G_CALLBACK (voiceup_cb)},
-  {"VoiceDown", NULL, N_("Voice Down"), NULL, N_("Go to the lower numbered voice on this staff"),
-   G_CALLBACK (voicedown_cb)},
-  {"AddBefore", NULL, N_("Add Before Current Staff..."), NULL,  N_("Inserts a new staff before the current staff"),
-   G_CALLBACK (newstaffbefore)},
-  {"AddAfter", NULL, N_("Add After Current Staff..."), NULL,  N_("Inserts/Adds a new staff after the current staff"),
-   G_CALLBACK (dnm_newstaffafter)},
-  {"AddInitial", NULL, N_("Add in Initial Position..."), NULL,  N_("Inserts a new staff at the top of the score"),
-   G_CALLBACK (newstaffinitial)},
-  {"AddLast", NULL, N_("Add in Last Position..."), NULL,  N_("Inserts a new staff at the end of the score"),
-   G_CALLBACK (newstafflast)},
-  {"DeleteBefore", NULL, N_("Delete Staff Before"), NULL,   N_("Deletes the staff before the current staff"),
-   G_CALLBACK (delete_staff_before)},
-  {"DeleteStaff", NULL, N_("Delete Staff"), NULL,  N_("Deletes the current staff"),
-   G_CALLBACK (delete_staff_current)},
-  {"DeleteAfter", NULL, N_("Delete Staff After"), NULL,  N_("Deletes the staff after the current staff"),
-   G_CALLBACK (delete_staff_after)},
-  {"AddVoice", NULL, N_("Add Voice to Current Staff"), NULL,  N_("Adds a new voice(part) to the current staff\nIt is tricky to switch between the voices\nSuggest to use merge staffs"),
-   G_CALLBACK (dnm_newstaffvoice)},
-  {"TransposeStaff", NULL, N_("Transpose the Current Staff"), NULL,  N_("Transpose the current staff\n"),
-   G_CALLBACK (staff_transposition)},
-
-  {"StaffProperties", GTK_STOCK_PROPERTIES, N_("Properties"), NULL,"Change the properties of the current staff", 
-   G_CALLBACK (staff_properties_change)},
-  {"InsertMenu", NULL, N_("Insert")},
-  {"Clef", NULL, N_("_Clef")},
-  {"InitialClef", NULL, N_("Initial Clef"), NULL,  N_("Change the initial clef of the current staff"),
-   G_CALLBACK (clef_change_initial)},
-  {"InsertClef", NULL, N_("Insert Clef Change"), NULL, N_("Insert a change of clef at the cursor"),
-   G_CALLBACK (clef_change_insert)},
-  {"Key", NULL, N_("Key"), NULL, N_("insert change key signature or set the initial key")},
-  {"InitialKey", NULL, N_("Initial Key"), NULL,  N_("Set the initial key signature of the current staff"),
-   G_CALLBACK (key_change_initial)},
-  {"InsertKey", NULL, N_("Insert Key Change"), NULL,  N_("Insert a key change at the cursor position"),
-   G_CALLBACK (key_change_insert)},
-  {"TimeSig", NULL, N_("Time Signature"), NULL, N_("Manage the time signature changes and initial value")},
-  {"InitialTimeSig", NULL, N_("Initial Time Signature"), NULL, N_("Set the initial time signature of the current staff"),
-   G_CALLBACK (timesig_change_initial)},
-  {"InsertTimeSig", NULL, N_("Insert/Edit Time Signature Change"), NULL,  N_("Edit/Insert a time signature change for the current measure"),
-   G_CALLBACK (timesig_change_insert)},
-  /* {"OtherMenu", NULL, N_("_Other")}, */
-  {"ChangeNotehead", NULL, N_("_Notehead"), NULL, N_("Change the type of notehead for the current note"),
-   G_CALLBACK (set_notehead)},
-  {"InsertStem", NULL, N_("Insert Stem Directive"), NULL, N_("Inserts a stem neutral tag.\\nClick on this tag and use Sharpen/StemDown etc commands to change stem direction"),
-   G_CALLBACK (stem_directive_insert)},
-  {"Lyrics", NULL, N_("_Lyrics")},
-  {"EditLyric", NULL, N_("Insert/Edit Lyric"), NULL, N_("Add a lyric to current note\nBeware: all previous notes must have lyrics for printing correctly"),
-   G_CALLBACK (lyric_insert)},
-  {"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), NULL, N_("Add a bass figure to the current note\nUse | sign to split the duration of a note so as to have multiple figures on one note.\nSee Lilypond docs for other notation"),
-   G_CALLBACK (figure_insert)},
-  {"EditChords", NULL, N_("Insert/Edit Chord Symbols"), NULL, N_("Allows chord symbols to be added to the current note\nE.G.cis:dim7 for c-sharp diminished 7th.\nSee Lilypond docs for notation"),
-   G_CALLBACK (fakechord_insert)},
-  {"InsertDynamic", NULL, N_("Insert Dynamic"), NULL, N_("Inserts a dynamic marking at the cursor position"),
-   G_CALLBACK (insert_dynamic)},
-  {"InsertLilyDirective", NULL, N_("Insert/Edit Lilypond"), NULL,  N_("Insert or edit a directive in the LilyPond music typesetting language.\n This can be used for extra spacing, transposing or almost anything.\nSee LilyPond documentation for ideas."),
-     G_CALLBACK (lily_directive_insert)},
-  {"InsertLilyPostfix", NULL, N_("Postfix LilyPond to Note"), NULL,  N_("Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more.\nSee LilyPond documentation."),
-     G_CALLBACK (lily_directive_postfix)},
-  {"InsertBarline", NULL, N_("Insert Barline"), NULL, N_("Inserts specialized barline at the cursor position\nMostly not working"),
-   G_CALLBACK (insert_barline)},
-  {"NavigationMenu", NULL, N_("Navigation")},
-  {"GoToMeasure", NULL, N_("Go To Measure..."), NULL, N_("Opens a dialog for going to a numbered measure"),
-   G_CALLBACK (tomeasurenum)},
-  {"GoToBeginning", GTK_STOCK_GOTO_FIRST, N_("Go To Beginning"), NULL,
-   N_("Go To Beginning"),
-   G_CALLBACK (tohome)},
-  {"GoToEnd", GTK_STOCK_GOTO_LAST, N_("Go To End"), NULL, N_("Go To End"),
-   G_CALLBACK (toend)},
-  {"NextMovement", NULL, N_("Go To Next Movement"), NULL, N_("Go to the next movement"),
-   G_CALLBACK (next_movement)},
-  {"PreviousMovement", NULL, N_("Go To Previous Movement"), NULL, N_("Go to the previous movement"),
-   G_CALLBACK (prev_movement)},
-  {"DeleteMovement", NULL, N_("Delete Movement"), NULL, N_("Delete the current movement"),
-   G_CALLBACK (delete_movement)},
-  {"DeleteBookmarks", NULL, N_("Delete Bookmarks"), NULL, N_("Delete all bookmarks in current movement"),
-   G_CALLBACK (deletebookmarks)},
-  {"PlaybackMenu", NULL, N_("Playback")},
-  {"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), NULL, N_("Play"),
-   G_CALLBACK (ext_midi_playback)},
-  {"Stop", GTK_STOCK_MEDIA_STOP, N_("Stop"), NULL, N_("Stop"),
-   G_CALLBACK (stop_midi_playback)},
-
-#ifdef HAVEALSA
-  {"PlayALSA", NULL, N_("Play using Alsa"), NULL, NULL,
-   G_CALLBACK (alsaplayback)},
-
-#endif
-  {"PlayCSound", GTK_STOCK_MEDIA_PLAY, N_("Play using CSound..."), NULL,
-   N_("Play using CSound..."),
-   G_CALLBACK (dnm_csoundplayback)},
-  {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL, N_("Allows you to specify properties used in playing back (midi and csound)"),
-   G_CALLBACK (playback_properties_change)},
-  {"HelpMenu", NULL, N_("Help")},
-  {"Help", NULL, N_("Help"), NULL, N_("Opens a browser on the user manual"), 
-   G_CALLBACK (browse_manual)},
-  {"About", NULL, N_("About"), NULL, N_("Gives the version number etc of this program"),
-   G_CALLBACK (about)},
-  {"Bookmarks", NULL, N_("Bookmarks")},
-  {"AddBookmark", NULL, N_("Add Bookmark"), NULL, N_("Bookmark the current cursor position"),
-   G_CALLBACK (addbookmark)},
-  {"GotoBookmark", NULL, N_("Goto Bookmark"), NULL, N_("Go to a bookmarked point in the score"),
-   G_CALLBACK (gotobookmark)},
-  {"NextBookmark", NULL, N_("Next Bookmark"), NULL, N_("Go to the next bookmarked point in the list"),
-   G_CALLBACK (nextbookmark)},
-  {"PrevBookmark", NULL, N_("Previous Bookmark"), NULL, N_("Go to the previous bookmarked point in the list"),
-   G_CALLBACK (prevbookmark)},
-
-
-
-
-  {"Stub",  NULL, N_(" "), NULL, N_("Does nothing"), G_CALLBACK (dummy)},
-  {"OpenRecent", GTK_STOCK_OPEN, N_("Open Recent")},
-
-  {"ToggleEdit", NULL, N_("Toggle Edit"), NULL,
-   N_("Toggle between current mode and edit mode"),   G_CALLBACK (toggle_edit_mode)},
-  {"ToggleRest", NULL, N_("Toggle Rest"), NULL,
-   N_("Toggle between note entry and rest entry"),   G_CALLBACK (toggle_rest_mode)},
-  {"ToggleRhythm", NULL, N_("Toggle Rhythm"), NULL,
-   N_("Toggle between note entry and rhythm entry"),   G_CALLBACK (toggle_rhythm_mode)},
-
-  {"ClearOverlay", NULL, N_("Clear Overlay"), NULL,
-   N_("Clear the list of pitches that overlay the notes"),   G_CALLBACK (clear_overlay)},
-
-  /* Rhythm entry */
-  {"CreateRhythm", NULL, N_("Create a rhythm"), NULL,
-   N_("Copy selection as a rhythm pattern\nfor notes to follow as they are entered"),
-   G_CALLBACK (create_rhythm_cb)},
-  {"DeleteRhythm", NULL, N_("Delete Rhythm"), NULL,
-   N_("Delete the selected rhythm pattern"),
-   G_CALLBACK (delete_rhythm_cb)}
-
-  ,
-  {"ClassicModeNote", NULL, N_("Notes/Rests"),NULL, N_("Moving the cursor and inserting notes or rests there")},
-  {"SelectNote", NULL, N_("Select note"),NULL, N_("Moving the cursor to the nearest ...")} 
-  ,
-  {"InsertModeNote", NULL, N_("Notes/Rests"),NULL, N_("Actions for notes:\ninserting, deleting etc")},
-  {"InsertNote", NULL, N_("Insert note"),NULL, N_("Inserting the note ...")},
-
-  {"AllOther", NULL, N_("All other actions"), NULL, N_("Anything not previously covered")},
-
-  {("Navigation"), NULL, N_("Navigation"), NULL, N_("Moving around the piece")},
-  {("Note entry"), NULL, N_("Note entry"), NULL, N_("Entering notes")},
-  {("Rest entry"), NULL, N_("Rest entry"), NULL, N_("Entering rests")},
-  {("Articulation"), NULL, N_("Articulation"), NULL, N_("Various expressive marks")},
-  {("Edit"), NULL, N_("Edit"), NULL, N_("Editing")},		
-  {("Measure"), NULL, N_("Measure"), NULL, N_("Manipulating measures")},	
-  {("Staff"), NULL, N_("Staff"), NULL, N_("Commands for staffs")},		
-  {("Playback"), NULL, N_("Playback"), NULL, N_("Playing the music through midi file")},		
-
-
-  
-  {"SelectDuration", NULL, N_("Prevailing duration"),NULL, N_("Changing the prevailing duration\nor rhythm pattern")},
-
-  {"EditModeNote", NULL, N_("Notes/Rests"),NULL, N_("Appending, Changing and deleting notes")},
-  {"EditNote", NULL, N_("Change the note to ..."),NULL, N_("Changing the note at the cursor to the nearest ...")/*,  if you put a callback here, it gets called on moving onto the menu item G_CALLBACK (...) */},
-  {"EditDuration", NULL, N_("Change/Append duration"),NULL, N_("Changing the duration of note at the cursor\nor appending a note of the given duration")},
-
-  {"Cursor", NULL, N_("Cursor"),NULL, N_("Moving the cursor")},
-
-  {"ClefMenu", NULL, N_("Clef"),NULL, N_("Insert/change clef\nSet initial clef")},
-  {"ChordMenu", NULL, N_("Chord"),NULL, N_("Adding notes to make chords")},
-
-
-  {"MeasureMenu", NULL, N_("Measure"),NULL, N_("Measures:\nadding, deleting, navigating etc")},
-
-  {"Insert", NULL, N_("Insert"),NULL, N_("Inserting notes, measures staffs keysigs etc")},
-
-  {"InsertStaff", NULL, N_("Insert"),NULL, N_("Insert a Staff relative to current staff")},
-  {"InsertMovement", NULL, N_("Insert"),NULL, N_("Insert a Movement relative to current movement")},
-
-
-  {"InsertDuration", NULL, N_("Insert Duration"),NULL, N_("Inserting notes of a given duration")},
-
-  {"Change", NULL, N_("Change"),NULL, N_("Changing properties of notes, measures staffs keysigs etc")},
-  {"NoteProperties", NULL, N_("Notes/Rests"), NULL, N_("Modeless actions on notes/rests")},
-  {"RestEntry", NULL, N_("Rest"), NULL, N_("Modeless entry of rests")},
-  {"ChangeNote", NULL, N_("Change note to"),NULL, N_("Changing the note at the cursor to the nearest ...")},
-  {"ChangeDuration", NULL, N_("Change duration to"),NULL, N_("Changes the duration of the current note")},
-
-
-  {"ChangeRest", NULL, N_("Change rest to"),NULL, N_("Changes the duration of the current rest")},
-
-  {"ExpressionMarks", NULL, N_("Expression Marks"), NULL, N_("Dynamics, staccato, slurs, ties and other expressive marks")},
-  {"Ornaments", NULL, N_("Ornaments"), NULL, N_("grace notes etc")},
-  {"Other", NULL, N_("Other"), NULL, N_("Lyrics, chord symbols, figured basses etc")},
-  {"Others", NULL, N_("Others"), NULL, N_("Less used actions")},
-
-
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
-  {"Favorites", NULL, N_("Favorites"), NULL, N_("Customized LilyPond inserts\n.Store often-used inserts here labelled with what they do")},
-  {"AddFavorite", NULL, N_("Add Favorite"), NULL,
-   N_("Add a custom LilyPond insert to favorites menu (or other!)"),   G_CALLBACK (add_favorite)},
-#endif
-  {"Tuplets", NULL, N_("Tuplets"), NULL, N_("Entering triplets and other tuplets")},
-
-
 #include "entries.h"
-  {"Delete", NULL, N_("Delete"),NULL, N_("Deleting notes, measures staffs keysigs etc")}
+  {"Stub",  NULL, N_(" "), NULL, N_("Does nothing"), G_CALLBACK (dummy)}
 
-};
+  };
 
 //Get number of menu entries
 gint n_menu_items = G_N_ELEMENTS (menu_entries);
@@ -1372,7 +1181,6 @@ gint val = gtk_radio_action_get_current_value (current);
 
 static void   activate_action(gchar *path) {
    GtkAction *a;
-/*    g_warning("activating\n"); */
    a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
    if(a)
    gtk_action_activate(a);
@@ -1868,7 +1676,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
   {
     GtkWidget *widget;
     widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLilyText");
-    if(gtk_check_menu_item_get_active(widget))
+    if(gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM (widget)))
       gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (widget), FALSE);
   }
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
@@ -1938,7 +1746,7 @@ create_window(void) {
   g_free (data_dir);
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
-
+  Denemo.ScriptView = gtk_text_view_new();
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (Denemo.window), main_vbox);
@@ -1950,7 +1758,6 @@ create_window(void) {
    the guis. We will always act on Denemo.gui anyway.*/
   gtk_action_group_add_actions (action_group, menu_entries,
   			G_N_ELEMENTS (menu_entries),  Denemo.gui);
-
   gtk_action_group_add_toggle_actions (action_group,
 				       toggle_menu_entries,
 				       G_N_ELEMENTS (toggle_menu_entries),
@@ -1997,7 +1804,6 @@ create_window(void) {
     {"LilyCreateCustom", NULL, N_("Create Custom Version"),NULL, N_("Create a custom version of this block"),G_CALLBACK (custom_lily_cb)},
     {"LilyDelete", NULL, N_("Delete Block"),NULL, N_("Delete this block"),G_CALLBACK (delete_lily_cb)}
   };
-
 
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
@@ -2067,7 +1873,7 @@ get_data_dir (),
   }
 
   Denemo.notebook = gtk_notebook_new ();
-  gtk_notebook_set_show_tabs (Denemo.notebook, FALSE);//only show when more than one
+  gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), FALSE);//only show when more than one
   //gtk_notebook_popup_enable (Denemo.notebook);?? doesn't work...
   gtk_widget_show (Denemo.notebook);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
@@ -2158,7 +1964,7 @@ Really we should change the default for the class.*/
  * 
  */
 void
-newview (void)
+newview (GtkAction *action)
 {
   if(Denemo.guis==NULL)
     create_window();
@@ -2187,7 +1993,7 @@ newview (void)
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
 Denemo.gui = gui;
  if(pagenum)
-   gtk_notebook_set_show_tabs (Denemo.notebook, TRUE);
+   gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);
   gtk_widget_show (main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
@@ -2302,7 +2108,7 @@ Denemo.gui = gui;
  if(!initialized) {
    init_keymap();
    /*
-     The next loop goes through the actions and connects a signal to help_and_set_shortcuts. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
+     The next loop goes through the actions and connects a signal to menu_click. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
      Furthermore, it updates the label of the widgets proxying the action so that accelerators are also displayed.
      FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
    */
@@ -2345,3 +2151,4 @@ Denemo.gui = gui;
 
 
 }
+

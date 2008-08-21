@@ -45,7 +45,8 @@
 #define EXTRA_ACCELS "extra.accels"
 
 void init_keymap(void);
-void newview(void);
+void newview(GtkAction*);
+
 void free_gui(DenemoGUI *gui);/* frees all movement data from gui, leaving gui interface intact */
 void addhistorymenuitem(gchar *filename);
 
@@ -62,5 +63,7 @@ void	  unhighlight_rhythm(RhythmPattern *r);
 void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
 void      write_status(DenemoGUI *gui);
+
+int inner_main(void);
 
 #endif
