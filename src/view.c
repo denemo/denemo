@@ -1303,6 +1303,21 @@ toggle_lilytext (GtkAction * action) {
 }
 
 /**
+ *  Function to toggle the visibility of the Scheme text window. 
+ */
+static void
+toggle_scheme (GtkAction * action) {
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *textwindow = gtk_widget_get_toplevel(Denemo.ScriptView);
+ if(!GTK_WIDGET_VISIBLE(textwindow))
+   gtk_widget_show_all(textwindow);
+ else
+   gtk_widget_hide_all(textwindow);
+ g_print("toggling scheme window");
+}
+
+
+/**
  *  Function to toggle entry of notes by pitch recognition off/on 
  *
  */
@@ -1472,6 +1487,9 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   ,
   {"ToggleLilyText", NULL, N_("Show LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
    G_CALLBACK (toggle_lilytext), FALSE}
+  ,
+  {"ToggleScript", NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
+   G_CALLBACK (toggle_scheme), FALSE}
   ,
   {"TogglePitchRecognition", NULL, N_("Microphone"), NULL, N_("Enable pitch entry from microphone"),
    G_CALLBACK (toggle_pitch_recognition), FALSE}
@@ -1747,6 +1765,23 @@ create_window(void) {
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
   Denemo.ScriptView = gtk_text_view_new();
+  GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
+  //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
+  g_signal_connect(w, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (w), main_vbox);
+  
+  w = gtk_button_new_with_label("Execute Script");
+  g_signal_connect(w, "clicked",  G_CALLBACK(executeScript), NULL);
+  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
+
+  
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
+
+
+
+
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (Denemo.window), main_vbox);
