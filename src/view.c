@@ -1302,6 +1302,7 @@ toggle_lilytext (GtkAction * action) {
  //g_print("toggling lily window");
 }
 
+
 /**
  *  Function to toggle the visibility of the Scheme text window. 
  */
@@ -1313,7 +1314,12 @@ toggle_scheme (GtkAction * action) {
    gtk_widget_show_all(textwindow);
  else
    gtk_widget_hide_all(textwindow);
- g_print("toggling scheme window");
+ // g_print("toggling scheme window");
+}
+static gint
+hide_scheme (GtkAction * action, GdkEvent*event,  GtkWidget *w) {
+  activate_action("/MainMenu/ViewMenu/ToggleScript");
+  return TRUE;
 }
 
 
@@ -1768,7 +1774,7 @@ create_window(void) {
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
   //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
-  g_signal_connect(w, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
+  g_signal_connect(w, "delete-event", G_CALLBACK(hide_scheme/*gtk_widget_hide_on_delete*/), w);
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (w), main_vbox);
   
