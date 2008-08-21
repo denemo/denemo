@@ -332,14 +332,14 @@ remove_tone_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*Sharpen/StemDown sharpen_key*/
+/*SharpenOrStemDown sharpen_key*/
 static void sharpen_key_cb (GtkAction *a) {
   DenemoGUI *gui = Denemo.gui;
 sharpen_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*Flatten/StemUp flatten_key*/
+/*FlattenOrStemUp flatten_key*/
 static void flatten_key_cb (GtkAction *a) {
   DenemoGUI *gui = Denemo.gui;
 flatten_key (gui);
