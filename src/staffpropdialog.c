@@ -295,6 +295,9 @@ set_properties (struct callbackdata *cbdata)
 	  score_status(cbdata->gui, TRUE);
 }
 
+void staff_properties_change_cb (GtkAction * action) {
+ (void) staff_properties_change(NULL, NULL);
+}
 /**
  * Create Dialog to allow the user to set the staffs parameters
  * 
