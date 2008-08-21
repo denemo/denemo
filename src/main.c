@@ -391,6 +391,10 @@ debug_handler (const gchar *log_domain, GLogLevelFlags log_level,
 #endif
 }
 
+
+
+
+
 /**
  * Main function
  *
@@ -503,7 +507,7 @@ COPYING for details.\n\n");
   //init_keymap();
   
   /* create the first window */
-  newview ();
+  newview (NULL);
 
 
   /* audio initialization */
@@ -609,8 +613,7 @@ COPYING for details.\n\n");
 
 
   /* Now launch into the main gtk event loop and we're all set */
-  gtk_main ();
-  g_free (gui);
+    scm_boot_guile (argc, argv, inner_main, NULL);
   return 0;
 }
 
