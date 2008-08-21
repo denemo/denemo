@@ -11,6 +11,7 @@
 
 
 #include <stdio.h>
+
 #define N_
 
 #define KBD_CATEGORY_NAVIGATION		0
@@ -21,7 +22,9 @@
 #define KBD_CATEGORY_MEASURE		5
 #define KBD_CATEGORY_STAFF		6
 #define KBD_CATEGORY_PLAYBACK		7
-#define KBD_CATEGORY_OTHER		8     
+#define KBD_CATEGORY_OTHER		8
+/* does not require a wrapper to the callback */     
+#define KBD_CATEGORY_DIRECT		9     
 
 char *catname[9] = {N_("Navigation"),	
 		   N_("Note entry"),	
@@ -43,11 +46,12 @@ struct name_and_function
 {
   unsigned category;
   /** Command name */
-
-  char *menu_label;
+  char *icon;
+  //char *menu_label;
   char *tooltip;
   char *name;
   char* function;
+char *menu_label;
 };
 
 
@@ -70,13 +74,13 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key"},
   {KBD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key"},
 
-  {KBD_CATEGORY_NOTE_ENTRY,  "\"MUSIC_FONT(\"0\")\"", "Insert whole-note",	N_("WholeNote"), "insert_chord_0key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"1\")\"", "Insert half-note",	N_("HalfNote"), "insert_chord_1key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"2\")\"", "Insert quarter-note",	N_("QuarterNote"), "insert_chord_2key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"3\")\"", "Insert eighth-note",	N_("EighthNote"), "insert_chord_3key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"4\")\"", "Insert sixteenth-note",	N_("SixteenthNote"), "insert_chord_4key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"5\")\"", "Insert thirty-second-note",	N_("ThirtysecondNote"), "insert_chord_5key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "\"MUSIC_FONT(\"6\")\"", "Insert sixty-fourth-note",	N_("SixtyfourthNote"), "insert_chord_6key"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "Insert whole-note",	N_("WholeNote"), "insert_chord_0key", "\"MUSIC_FONT(\"0\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL , "Insert half-note",	N_("HalfNote"), "insert_chord_1key", "\"MUSIC_FONT(\"1\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL, "Insert quarter-note",	N_("QuarterNote"), "insert_chord_2key", "\"MUSIC_FONT(\"2\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL, "Insert eighth-note",	N_("EighthNote"), "insert_chord_3key", "\"MUSIC_FONT(\"3\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL, "Insert sixteenth-note",	N_("SixteenthNote"), "insert_chord_4key", "\"MUSIC_FONT(\"4\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL, "Insert thirty-second-note",	N_("ThirtysecondNote"), "insert_chord_5key", "\"MUSIC_FONT(\"5\")\""},
+  {KBD_CATEGORY_NOTE_ENTRY,NULL , "Insert sixty-fourth-note",	N_("SixtyfourthNote"), "insert_chord_6key", "\"MUSIC_FONT(\"6\")\""},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankWholeNote"), "insert_blankchord_0key"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankHalfNote"), "insert_blankchord_1key"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankQuarterNote"), "insert_blankchord_2key"},
@@ -87,13 +91,13 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleRestMode"), "rest_toggle_key"},
   {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleBlankMode"), "toggle_blank"},
 
-  {KBD_CATEGORY_REST_ENTRY, "\"MUSIC_FONT(\"r\")\"", "Insert whole-note rest",  N_("InsertWholeRest"), "insert_rest_0key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"s\")\"", "Insert half-note rest",	N_("InsertHalfRest"), "insert_rest_1key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"t\")\"", "Insert quarter-note rest",	N_("InsertQuarterRest"), "insert_rest_2key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"u\")\"", "Insert eighth-note rest",	N_("InsertEighthRest"), "insert_rest_3key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"v\")\"", "Insert sixteenth-note rest",	N_("InsertSixteenthRest"), "insert_rest_4key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"w\")\"", "Insert thirty-second note rest",	N_("InsertThirtysecondRest"), "insert_rest_5key"},
-  {KBD_CATEGORY_REST_ENTRY,  "\"MUSIC_FONT(\"x\")\"", "Insert sixty-fourth note rest",	N_("InsertSixtyfourthRest"), "insert_rest_6key"},
+  {KBD_CATEGORY_REST_ENTRY, NULL, "Insert whole-note rest",  N_("InsertWholeRest"), "insert_rest_0key","\"MUSIC_FONT(\"r\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert half-note rest",	N_("InsertHalfRest"), "insert_rest_1key","\"MUSIC_FONT(\"s\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert quarter-note rest",	N_("InsertQuarterRest"), "insert_rest_2key","\"MUSIC_FONT(\"t\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert eighth-note rest",	N_("InsertEighthRest"), "insert_rest_3key","\"MUSIC_FONT(\"u\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert sixteenth-note rest",	N_("InsertSixteenthRest"), "insert_rest_4key","\"MUSIC_FONT(\"v\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert thirty-second note rest",	N_("InsertThirtysecondRest"), "insert_rest_5key","\"MUSIC_FONT(\"w\")\""},
+  {KBD_CATEGORY_REST_ENTRY,  NULL, "Insert sixty-fourth note rest",	N_("InsertSixtyfourthRest"), "insert_rest_6key","\"MUSIC_FONT(\"x\")\""},
 
 
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertDuplet"), "insert_duplet"},
@@ -104,16 +108,16 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertQuintuplet"), "insert_quintuplet"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSextuplet"), "insert_sextuplet"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertSeptuplet"), "insert_septuplet"},
-  {KBD_CATEGORY_NOTE_ENTRY, "Add note", "Add a note to the current chord\\nThe cursor position determines which note to add",	N_("AddTone"), "add_tone_key"},
-  {KBD_CATEGORY_NOTE_ENTRY, "Remove note", "Remove a note from the current chord",	N_("RemoveTone"), "remove_tone_key"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "Add a note to the current chord\\nThe cursor position determines which note to add",	N_("AddTone"), "add_tone_key","Add note"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "Remove a note from the current chord",	N_("RemoveTone"), "remove_tone_key","Remove note"},
 
-  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Sharpen/StemDown"), "sharpen_key"},
-  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Flatten/StemUp"), "flatten_key"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("SharpenOrStemDown"), "sharpen_key", "SharpenOrStemDown"},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("FlattenOrStemUp"), "flatten_key", "FlattenOrStemUp"},
 
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("AddDot"), "add_dot_key"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("RemoveDot"), "remove_dot_key"},
 
-  {KBD_CATEGORY_ARTICULATION, "Tied note", "Inserts a duplicate of the current note, tied",	N_("InsertTiedNote"), "tie_notes_key"},
+  {KBD_CATEGORY_ARTICULATION,  NULL, "Inserts a duplicate of the current note, tied",	N_("InsertTiedNote"), "tie_notes_key","Tied note"},
 
   {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("DeleteObject"), "deleteobject"},
   {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("DeletePreviousObject"), "deletepreviousobject"},
@@ -274,9 +278,169 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern"},
   {KBD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm"},
-  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMesauresToScore"), "append_measure_score"}
+  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMesauresToScore"), "append_measure_score"},
+  
+  /* from view.c menu_entries[]  */
+  {KBD_CATEGORY_DIRECT, NULL, "Creating, saving, loading, displaying and printing musical scores", N_("FileMenu"), NULL, "File"},
+  {KBD_CATEGORY_DIRECT, NULL, "Creating, saving places in musical scores", N_("Bookmarks"), NULL, "Bookmarks"},
+  {KBD_CATEGORY_DIRECT, NULL, "Different keyboard entry modes", N_("EntryMenu"), NULL, "Mode"},  {KBD_CATEGORY_DIRECT, NULL, "General editing commands", N_("EditMenu"), NULL, "Edit"}, 
+ {KBD_CATEGORY_DIRECT, NULL, "Control which tools are to be shown", N_("ViewMenu"), NULL, "View"}, 
+
+  {KBD_CATEGORY_DIRECT, NULL, "Staffs and voices", N_("StaffMenu"), NULL,"Staffs/Voices"},
+  {KBD_CATEGORY_DIRECT, NULL, "Movements in a score", N_("MovementMenu"), NULL,"Movements"},
+  {KBD_CATEGORY_DIRECT, NULL, "Help with denemo", N_("HelpMenu"), NULL, "Help"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Playing the music through midi file", N_("PlaybackMenu"), NULL, "Playback"}, 
 
 
+
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_NEW", "Start a new musical score", N_("New"), "file_newwrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing", N_("Open"), "file_open_with_check"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add staffs from a Denemo file", N_("AddStaffs"), "file_add_staffs"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Add movements from a Denemo file", N_("AddMovements"), "file_add_movements"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change properties of this movement", N_("MovementProps"), "movement_props_dialog"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open a file containing a music score for editing in a separate working area (tab", N_("OpenNewWindow"), "openinnew"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the score", N_("Save"), "file_savewrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save the score under a new name", N_("SaveAs"), "file_saveaswrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from a built-in template file", N_("OpenTemplate"), "system_template_open_with_check"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from a built-in example", N_("OpenExample"), "system_example_open_with_check"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Start a new score from one of your own template files", N_("OpenMyTemplate"), "local_template_open_with_check"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save the score as a template for re-use as a starting point for new scores", N_("SaveTemplate"), "template_save"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Create working area (tab with an empty score in it)", N_("NewWindow"), "newview", "New Tab"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a new movement before the current one", N_("InsertMovementBefore"), "insert_movement_before"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a new movement after the current one", N_("InsertMovementAfter"), "insert_movement_after"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save Parts: each staff becomes a file in lilypond format", N_("SaveParts"), "file_savepartswrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action"},
+
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Start up a wizard to create a new score. This allows you to set various properties of the score", N_("ConfigureScore"), "scorewizard"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays the final finished score in your pdf viewer", N_("PrintPreview"), "printpreview_cb"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PRINT_PREVIEW", "Displays a musical excerpt in your image viewer", N_("PrintExcerptPreview"), "printexcerptpreview_cb"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer", N_("Print"), "printall_cb"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score for the current part (that is current staff", N_("PrintPart"), "printpart_cb"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_CLOSE", "Close the current score. Other windows will stay open", N_("Close"), "close_gui_with_check"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_QUIT", "Quit the Denemo program", N_("Quit"), "closewrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undo", N_("Undo"), "undowrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_REDO", "Redo", N_("Redo"), "redowrapper"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Selecting stretches of notes", N_("Select"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Extend the selection", N_("ExtendSelect"), NULL}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_COPY", "Copy", N_("Copy"), "copywrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_CUT", "Cut", N_("Cut"), "cutwrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste the selected music", N_("Paste"), "pastewrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change some of the properties of the current score. This will start up a dialog window", N_("ScoreProperties"), "score_properties_dialog"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Save the selected music. Not sure if this is working", N_("SaveSelection"), "saveselwrapper"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PREFERENCES", "Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones", N_("Preferences"), "preferences_change"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Set actions to take in response to keypresses", N_("KeyBindings"), NULL, "Keyboard Setup"},
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the keyboard shortcuts as the default", N_("SaveAccels"), "save_default_keymap_file_wrapper", "Save Keyboard Shortcuts"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "View, change and save keyboard shortcuts", "Keyboard", "configure_keyboard_dialog", "Manage Keyboard Shortcuts"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Load Plugins", N_("LoadPlugins"), "load_plugin"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Unload Plugins", N_("UnloadPlugins"), "unloadplugins"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "List the loaded plugins", N_("ListPlugins"), "list_loaded_plugins"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "List the available plugins", N_("ListAvailablePlugins"), "list_available_plugins"}, 
+
+  {KBD_CATEGORY_DIRECT, NULL, "Swap this staff with the one higher up. Note this actually swaps voices.", N_("SwapStaffs"), "swapstaffs"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Split off the next voice as a separate staff", N_("SplitVoices"), "splitstaffs"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Merge this staff as a voice on the previous staff", N_("JoinVoices"), "joinstaffs"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Swap this movement with the one before", N_("SwapMovements"), "swapmovements"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the higher numbered voice (or staff if highest voice number on staff", N_("VoiceUp"),
+    "voiceup"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the lower numbered voice on this staff", N_("VoiceDown"), "voicedown"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a new staff before the current staff", N_("AddBefore"), "newstaffbefore"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts/Adds a new staff after the current staff", N_("AddAfter"), "dnm_newstaffafter"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a new staff at the top of the score", N_("AddInitial"), "newstaffinitial"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a new staff at the end of the score", N_("AddLast"), "newstafflast"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Deletes the staff before the current staff", N_("DeleteBefore"), "delete_staff_before"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Deletes the current staff", N_("DeleteStaff"), "delete_staff_current"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Deletes the staff after the current staff", N_("DeleteAfter"), "delete_staff_after"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs", "AddVoice", "dnm_newstaffvoice"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Transpose the current staff", N_("TransposeStaff"), "staff_transposition"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change the properties of the current staff", N_("StaffProperties"), "staff_properties_change_cb"},
+  {KBD_CATEGORY_DIRECT, NULL, "Insert", N_("InsertMenu"), NULL},  
+  {KBD_CATEGORY_DIRECT, NULL, "Clef", N_("Clef"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Change the initial clef of the current staff", N_("InitialClef"), "clef_change_initial"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a change of clef at the cursor", N_("InsertClef"), "clef_change_insert"}, 
+
+
+  {KBD_CATEGORY_DIRECT, NULL, "insert change key signature or set the initial key", N_("Key"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Set the initial key signature of the current staff", N_("InitialKey"), "key_change_initial"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a key change at the cursor position", N_("InsertKey"), "key_change_insert"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Manage the time signature changes and initial value", N_("TimeSig"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Set the initial time signature of the current staff", N_("InitialTimeSig"), "timesig_change_initial"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Edit/Insert a time signature change for the current measure", N_("InsertTimeSig"), "timesig_change_insert"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Change the type of notehead for the current note", N_("ChangeNotehead"), "set_notehead"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a stem neutral tag. Click on this tag and use Sharpen/StemDown etc commands to change stem direction", N_("InsertStem"), "stem_directive_insert"},
+  {KBD_CATEGORY_DIRECT, NULL, "Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly", "EditLyric", "lyric_insert", "Insert/Edit Lyric"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation", N_("EditFiguredBass"), "figure_insert", "Insert/Edit Figured Bass"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a dynamic marking at the cursor position", N_("InsertDynamic"), "insert_dynamic"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.", N_("InsertLilyDirective"), "lily_directive_insert"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("InsertLilyPostfix"), "lily_directive_postfix"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Getting around the score", N_("NavigationMenu"), NULL, "Navigation"},
+  {KBD_CATEGORY_DIRECT, NULL, "Opens a dialog for going to a numbered measure", N_("GoToMeasure"), "tomeasurenum", "Go to Measure"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Go To Beginning", N_("GoToBeginning"), "tohome","Go To Beginning"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST", "Go To End", N_("GoToEnd"), "toend",  "Go To End"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the next movement", N_("NextMovement"), "next_movement"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the previous movement", N_("PreviousMovement"), "prev_movement"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Delete the current movement", N_("DeleteMovement"), "delete_movement"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Delete all bookmarks in current movement", N_("DeleteBookmarks"), "deletebookmarks"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play", N_("Play"), "ext_midi_playback"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback"}, 
+
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play using CSound...", N_("PlayCSound"), "dnm_csoundplayback"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi and csound", N_("PlaybackProperties"), "playback_properties_change"}, 
+
+  {KBD_CATEGORY_DIRECT, NULL, "Opens a browser on the user manual", N_("Help"), "browse_manual"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Gives the version number etc of this program", N_("About"), "about"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Bookmark the current cursor position", N_("AddBookmark"), "addbookmark", "Add Bookmark"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to a bookmarked point in the score", N_("GotoBookmark"), "gotobookmark"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the next bookmarked point in the list", N_("NextBookmark"), "nextbookmark"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the previous bookmarked point in the list", N_("PrevBookmark"), "prevbookmark"}, 
+ 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode"},
+  {KBD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rhythm entry", N_("ToggleRhythm"),  "toggle_rhythm_mode"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Clear the list of pitches that overlay the notes", N_("ClearOverlay"),  "clear_overlay"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Copy selection as a rhythm pattern for notes to follow as they are entered", N_("CreateRhythm"), "create_rhythm_cb"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Delete the selected rhythm pattern", N_("DeleteRhythm"), "delete_rhythm_cb"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor and inserting notes or rests there", N_("ClassicModeNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor to the nearest ...", N_("SelectNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Actions for notes: inserting, deleting, etc.", N_("InsertModeNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Anything not previously covered", N_("AllOther"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Entering notes", N_("Note entry"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Entering rests", N_("Rest entry"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Various expressive marks", N_("Articulation"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Editing", N_("Edit"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Manipulating measures", N_("Measure"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Commands for staffs", N_("Staff"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Playing the music through midi file", N_("Playback"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changing the prevailing duration or rhythm pattern", N_("SelectDuration"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Appending, Changing, and deleting notes", N_("EditModeNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("EditNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changing the duration of note at the cursor or appending a note of the given duration", N_("EditDuration"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor", N_("Cursor"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert/change clef Set initial clef", N_("ClefMenu"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordMenu"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Measures: adding, deleting, navigating etc", N_("MeasureMenu"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserting notes, measures, staffs, keysigs etc", N_("Insert"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a Staff relative to current staff", N_("InsertStaff"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Insert a Movement relative to current movement", N_("InsertMovement"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserting notes of a given duration", N_("InsertDuration"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changing properties of notes, measures, staffs, keysigs etc", N_("Change"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("NoteProperties"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Modeless entry of rests", N_("RestEntry"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Changes the duration of the current rest", N_("ChangeRest"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "grace notes etc", N_("Ornaments"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Lyrics, chord symbols, figured basses etc", N_("Other"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Less used actions", N_("Others"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Customized LilyPond inserts. Store often-used inserts here labelled with what they do", N_("Favorites"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Add a custom LilyPond insert to favorites menu", N_("AddFavorite"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Entering triplets and other tuplets", N_("Tuplets"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Deleting notes, measures staffs keysigs etc", N_("Delete"), NULL}, 
 };
 
 
@@ -285,16 +449,19 @@ struct name_and_function unmenued_commands[] = {
 
 
 #define ni unmenued_commands[i].name
-#define ii unmenued_commands[i].menu_label
+#define ii unmenued_commands[i].icon
+#define ml unmenued_commands[i].menu_label
 #define ti unmenued_commands[i].tooltip
 #define fi unmenued_commands[i].function
 #define mi unmenued_commands[i].category
 int main() {
-  FILE *callbacks, *entries, *xml;
+  FILE *callbacks, *entries, *xml, *scheme, *scheme_cb;
+  scheme_cb = fopen("scheme_cb.h", "w");
+  scheme = fopen("scheme.h", "w");
   callbacks = fopen("callbacks.h", "w");
   entries =  fopen("entries.h", "w");
   xml = fopen("xml.fragment", "w");
-  if(!callbacks || !entries || !xml)
+  if(!callbacks || !entries || !xml || !scheme || !scheme_cb)
     return -1;
   fprintf(callbacks, "/******** generated automatically from generate_source. See generate_source.c */\n");
   fprintf(entries, "/******** generated automatically from generate_source. See generate_source.c */\n");
@@ -304,15 +471,35 @@ int main() {
 			   / sizeof (struct name_and_function));
 
   for(i=0;i<n_unmenued_commands;i++) {
-    fprintf(callbacks, "/*%s %s*/\n",ni, fi);
-    fprintf(callbacks, "static void %s_cb (GtkAction *a) {\n"
-	    "  DenemoGUI *gui = Denemo.gui;\n"
-	   "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, mi==KBD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
-    fprintf(entries,
-  "{\"%s\", NULL, N_(\"%s\"), NULL,"
-   "N_(\"%s\"),"
-	    "G_CALLBACK (%s_cb)},\n",
-	    ni, ii?ii:ni, ti?ti:ni,fi);
+    if (fi != NULL)
+      if(mi!=KBD_CATEGORY_DIRECT) {
+      fprintf(callbacks, "/*%s %s*/\n",ni, fi);
+      fprintf(callbacks, "static void %s_cb (GtkAction *a) {\n"
+	      "  DenemoGUI *gui = Denemo.gui;\n"
+	      "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, mi==KBD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
+
+      }
+    if (fi != NULL) {
+      fprintf(scheme, "/*%s %s*/\n",ni, fi);
+      fprintf(scheme, "scm_c_define_gsubr (\"%s\", 0, 0, 0, scheme_%s);\n", ni, ni);
+
+      fprintf(scheme_cb, "SCM scheme_%s (void) {\n%s%s (NULL);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
+
+
+    }
+
+
+    if (fi != NULL)
+      fprintf(entries,
+	      "{\"%s\", %s, N_(\"%s\"), NULL,"
+	      "N_(\"%s\"),"
+	      "G_CALLBACK (%s%s)},\n",
+	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni,fi,  (mi==KBD_CATEGORY_DIRECT)?"":"_cb");
+    else
+     fprintf(entries,
+	      "{\"%s\", %s, N_(\"%s\"), NULL,"
+	      "N_(\"%s\")},\n",
+	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni);
   }
 
   /* generate source for duration callbacks - these were intercepted when
