@@ -143,6 +143,10 @@ gboolean
 execute_callback_from_idx(keymap *the_keymap, guint command_idx,
 		DenemoGUI *gui);
 
+gboolean
+idx_has_callback (keymap *the_keymap, guint command_idx,
+		DenemoGUI *gui);
+
 void
 dump_command_info(keymap *the_keymap, gint command_idx);
 
@@ -162,8 +166,7 @@ void
 save_keymap_dialog (GtkWidget *widget, keymap *the_keymap);
 
 void
-save_default_keymap_file_wrapper (GtkWidget *widget,
-				  DenemoGUI *gui);
+save_default_keymap_file_wrapper (GtkAction *action);
 
 void
 save_default_keymap_file (GtkWidget *widget, keymap *the_keymap);

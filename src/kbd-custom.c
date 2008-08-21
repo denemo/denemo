@@ -1294,22 +1294,18 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   add_keybinding_from_idx(the_keymap, keyval, modifiers, idx, POS_FIRST);
   return TRUE;
 }
-
 gboolean
-execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
+idx_has_callback(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
 {
   gboolean res = TRUE;
   const gchar *command_name;
   GtkAction *action;
   GtkActionGroup *action_group;
   gpointer f;
-
   command_name = lookup_name_from_idx(the_keymap, command_idx);
   action_group = get_action_group(the_keymap, gui);
   action = gtk_action_group_get_action(action_group, command_name);
-#if DEBUG
   //check for the existence of a callback, enables to detect action entries
-  //where the callback is lacking
   command_row row;
   if (!keymap_get_command_row(the_keymap, &row, command_idx))
       return FALSE;
@@ -1333,6 +1329,22 @@ execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
           //perform a check here
           break;
   }
+
+  return res;
+}
+
+gboolean
+execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
+{
+  gboolean res = TRUE;
+  const gchar *command_name;
+  GtkAction *action;
+  GtkActionGroup *action_group;
+  command_name = lookup_name_from_idx(the_keymap, command_idx);
+  action_group = get_action_group(the_keymap, gui);
+  action = gtk_action_group_get_action(action_group, command_name);
+#if DEBUG
+  res = idx_has_callback(the_keymap, command_idx, gui);
 #endif
   gtk_action_activate(action);
   return res;
@@ -1624,10 +1636,10 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
  *
  */
 void
-save_default_keymap_file_wrapper (GtkWidget * widget, DenemoGUI *gui)
+save_default_keymap_file_wrapper (GtkAction * action)
 {
   keymap * the_keymap = Denemo.prefs.the_keymap;  
-  save_default_keymap_file (widget, the_keymap);
+  save_default_keymap_file (NULL, the_keymap);
 }
 
 /**
