@@ -128,8 +128,8 @@
 <menuitem action="ChangeToE"/>
 <menuitem action="ChangeToF"/>
 <menuitem action="ChangeToG"/>
-	   <menuitem action="Sharpen/StemDown"/>
-	   <menuitem action="Flatten/StemUp"/>
+	   <menuitem action="SharpenOrStemDown"/>
+	   <menuitem action="FlattenOrStemUp"/>
 
            </menu>
 	   <menu action="InsertDuration">
@@ -224,8 +224,8 @@
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
 
-	   <menuitem action="Sharpen/StemDown"/>
-	   <menuitem action="Flatten/StemUp"/>
+	   <menuitem action="SharpenOrStemDown"/>
+	   <menuitem action="FlattenOrStemUp"/>
            <menuitem action="ChangeNotehead"/>
            <menuitem action="InsertStem"/>
 	  <menuitem action="CreateRhythm"/>
@@ -273,8 +273,8 @@
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
 
-	   <menuitem action="Sharpen/StemDown"/>
-	   <menuitem action="Flatten/StemUp"/>
+	   <menuitem action="SharpenOrStemDown"/>
+	   <menuitem action="FlattenOrStemUp"/>
            <menuitem action="ChangeNotehead"/>
            <menuitem action="InsertStem"/>	   
      </menu>
@@ -319,8 +319,8 @@
 	    <menuitem action="DeleteObject"/>
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
-	   <menuitem action="Sharpen/StemDown"/>
-	   <menuitem action="Flatten/StemUp"/>
+	   <menuitem action="SharpenOrStemDown"/>
+	   <menuitem action="FlattenOrStemUp"/>
            <menuitem action="ChangeNotehead"/>
            <menuitem action="InsertStem"/>	  
      </menu>
@@ -533,8 +533,8 @@
 	     <menuitem action="Change5"/>
 	     <menuitem action="Change6"/>
            </menu>
-	   <menuitem action="Sharpen/StemDown"/>
-	   <menuitem action="Flatten/StemUp"/>
+	   <menuitem action="SharpenOrStemDown"/>
+	   <menuitem action="FlattenOrStemUp"/>
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
            <menuitem action="ChangeNotehead"/>	
@@ -720,8 +720,8 @@ start of "all other" menu
 <menuitem action="InsertSeptuplet"/>
 <menuitem action="AddTone"/>
 <menuitem action="RemoveTone"/>
-<menuitem action="Sharpen/StemDown"/>
-<menuitem action="Flatten/StemUp"/>
+<menuitem action="SharpenOrStemDown"/>
+<menuitem action="FlattenOrStemUp"/>
 <menuitem action="AddDot"/>
 <menuitem action="RemoveDot"/>
 <menuitem action="ChangePitch"/>
