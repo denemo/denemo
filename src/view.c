@@ -1771,6 +1771,12 @@ create_window(void) {
   g_signal_connect(w, "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (w), main_vbox);
+  
+  w = gtk_button_new_with_label("Execute Script");
+  g_signal_connect(w, "clicked",  G_CALLBACK(executeScript), NULL);
+  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
+
+  
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
 
 
