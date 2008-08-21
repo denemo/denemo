@@ -644,4 +644,6 @@ struct DenemoRoot
   GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
   GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
   struct RhythmPattern *singleton_rhythms[256]; /**< rhythm patterns for the EntryToolbar */
+  gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
+  GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
 }  Denemo; /**< The root object. */
