@@ -245,41 +245,33 @@ static note *new_note(gint mid_c_offset, gint enshift, gint dclef) {
 }
 /** 
  * Add note to the current chord
- * The note will not get added if it is
+ * The note *will* get added if it is
  * present already
- * return note added or NULL if not added
+ * return note added
  */
 note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
-  note *newnote = NULL;
-#if 0
-  if (!g_list_find_custom
-      (((chord *) thechord->object)->notes, GINT_TO_POINTER (mid_c_offset),
-       findcomparefunc))
-#endif
-    {
-      /* A-ha! The note isn't already in the chord */
-      newnote = new_note(mid_c_offset, enshift, dclef);
+  note *newnote  = new_note(mid_c_offset, enshift, dclef);
       
-      ((chord *) thechord->object)->notes =
-	g_list_insert_sorted (((chord *) thechord->object)->notes, newnote,
-			      insertcomparefunc);
-      if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
-	{
-	  ((chord *) thechord->object)->highestpitch = mid_c_offset;
-	  ((chord *) thechord->object)->highesty =
-	    calculateheight (mid_c_offset, dclef);
-	}
-      if (mid_c_offset < ((chord *) thechord->object)->lowestpitch)
-	{
-	  ((chord *) thechord->object)->lowestpitch = mid_c_offset;
-	  ((chord *) thechord->object)->lowesty =
-	    calculateheight (mid_c_offset, dclef);
-	}
-      ((chord *) thechord->object)->sum_mid_c_offset += mid_c_offset;
-      ((chord *) thechord->object)->numnotes++;
+  ((chord *) thechord->object)->notes =
+    g_list_insert_sorted (((chord *) thechord->object)->notes, newnote,
+			  insertcomparefunc);
+  if (mid_c_offset > ((chord *) thechord->object)->highestpitch)
+    {
+      ((chord *) thechord->object)->highestpitch = mid_c_offset;
+      ((chord *) thechord->object)->highesty =
+	calculateheight (mid_c_offset, dclef);
     }
+  if (mid_c_offset < ((chord *) thechord->object)->lowestpitch)
+    {
+      ((chord *) thechord->object)->lowestpitch = mid_c_offset;
+      ((chord *) thechord->object)->lowesty =
+	calculateheight (mid_c_offset, dclef);
+    }
+  ((chord *) thechord->object)->sum_mid_c_offset += mid_c_offset;
+  ((chord *) thechord->object)->numnotes++;
+    
   return newnote;
 }
 
