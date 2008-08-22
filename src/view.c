@@ -49,6 +49,7 @@ toggle_rhythm_mode (GtkAction * action);
 
 extern midi_seq *sq;		/* global denemo sequencer FIXME: should not be global */
 
+static void   activate_action(gchar *path);
 typedef enum 
 {
   ACCELS_LOADED = 0x0,
@@ -62,9 +63,58 @@ typedef enum
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
 
-#include "callbacks.h" /* callback functions for the originally unmenued commands */
+#include "callbacks.h" /* callback functions menuitems that can be called by scheme */
 #include <libguile.h> 
 #include "scheme_cb.h"
+
+
+#define MODELESS_STRING "Modeless"
+#define CLASSICMODE_STRING "ClassicMode"
+#define INSERTMODE_STRING "InsertMode"
+#define EDITMODE_STRING "EditMode"
+#define NOTE_E_STRING "Note"
+#define REST_E_STRING "Rest"
+#define BLANK_E_STRING "Blank"
+#define RHYTHM_E_STRING "Rhythm"
+#define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
+#define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
+#define ToggleActionMenu_STRING  "ToggleActionMenu"
+#define ToggleObjectMenu_STRING  "ToggleObjectMenu"
+#define ToggleLilyText_STRING  "ToggleLilyText"
+#define ToggleScript_STRING  "ToggleScript"
+#define TogglePitchRecognition_STRING  "TogglePitchRecognition"
+#define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
+#define QuickEdits_STRING  "QuickEdits"
+#define ReadOnly_STRING  "ReadOnly"
+
+#define FN_DEF(X) X##_CB(void) {\
+activate_action("/MainMenu/EntryMenu/"X##_STRING);}
+
+ FN_DEF(MODELESS);
+ FN_DEF(CLASSICMODE);
+ FN_DEF(INSERTMODE);
+ FN_DEF(EDITMODE);
+ FN_DEF(NOTE_E);
+ FN_DEF(REST_E);
+ FN_DEF(BLANK_E);
+ FN_DEF(RHYTHM_E);
+
+//void MODELESS_CB(void) {
+//      activate_action( "/MainMenu/EntryMenu/"MODELESS_STRING);
+//}
+
+typedef struct cb_string_pairs  { gpointer p; gchar *str;} cb_string_pairs;
+cb_string_pairs activatable_commands[] = {
+  {MODELESS_CB, MODELESS_STRING},
+  {CLASSICMODE_CB, CLASSICMODE_STRING},
+  {INSERTMODE_CB, INSERTMODE_STRING},
+  {EDITMODE_CB, EDITMODE_STRING},
+  {NOTE_E_CB, NOTE_E_STRING},
+  {REST_E_CB, REST_E_STRING},
+  {BLANK_E_CB, BLANK_E_STRING},
+  {RHYTHM_E_CB, RHYTHM_E_STRING}
+
+};
 
 
 #ifdef TRIAL_SCHEME
@@ -82,8 +132,15 @@ SCM scheme_denemoy(SCM val) {
 }
 #endif
 
+
 int inner_main(void){
+  /* create scheme identifiers for all the menuitem callbacks that are not check/radio items */
 #include "scheme.h"
+  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++)
+  scm_c_define_gsubr (activatable_commands[i].str, 0, 0, 0, activatable_commands[i].p);
+
 #ifdef TRIAL_SCHEME
   scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
 #endif
@@ -1479,34 +1536,34 @@ toggle_object_menu (GtkAction * action, DenemoGUI * gui)
  * Toggle entries for the menus
  */
 GtkToggleActionEntry toggle_menu_entries[] = {
-  {"ToggleRhythmToolbar", NULL, N_("Rhythms and Overlays"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Rhythms and Overlays"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), FALSE}
   ,
-  {"ToggleEntryToolbar", NULL, N_("Note and rest entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
+  {ToggleEntryToolbar_STRING, NULL, N_("Note and rest entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), FALSE}
   ,
-  {"ToggleActionMenu", NULL, N_("Menu of actions"), NULL, N_("Show/hide a menu which is arranged by actions\nThe actions are independent of any mode set"),
+  {ToggleActionMenu_STRING, NULL, N_("Menu of actions"), NULL, N_("Show/hide a menu which is arranged by actions\nThe actions are independent of any mode set"),
    G_CALLBACK (toggle_action_menu), FALSE}
   ,
-  {"ToggleObjectMenu", NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
+  {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), FALSE}
   ,
-  {"ToggleLilyText", NULL, N_("Show LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
+  {ToggleLilyText_STRING, NULL, N_("Show LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
    G_CALLBACK (toggle_lilytext), FALSE}
   ,
-  {"ToggleScript", NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
+  {ToggleScript_STRING, NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
-  {"TogglePitchRecognition", NULL, N_("Microphone"), NULL, N_("Enable pitch entry from microphone"),
+  {TogglePitchRecognition_STRING, NULL, N_("Microphone"), NULL, N_("Enable pitch entry from microphone"),
    G_CALLBACK (toggle_pitch_recognition), FALSE}
   ,
-  {"ToggleArticulationPalette", NULL, N_("_Articulation Palette"), NULL, NULL,
+  {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
-  {"QuickEdits", NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
+  {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
    G_CALLBACK (toggle_quick_edits), FALSE},
 
 
-  {"ReadOnly", NULL, N_("Read Only"), NULL, "Make score read only\nNot working",
+  {ReadOnly_STRING, NULL, N_("Read Only"), NULL, "Make score read only\nNot working",
    G_CALLBACK (default_mode), FALSE}
 };
 
@@ -1514,22 +1571,22 @@ GtkToggleActionEntry toggle_menu_entries[] = {
  * Radio entries for the modes and entry types
  */
 static GtkRadioActionEntry mode_menu_entries[] = {
-  {"Modeless", NULL, N_("No mode"), NULL, "Access all editing functions without change of mode",
+  {MODELESS_STRING, NULL, N_("No mode"), NULL, "Access all editing functions without change of mode",
    0},
-  {"ClassicMode", NULL, N_("Classic"), NULL, "The original Denemo note entry mode\nUseful for entering notes into chords\nUse the note names to move the cursor\nUse the durations to insert notes",
+  {CLASSICMODE_STRING, NULL, N_("Classic"), NULL, "The original Denemo note entry mode\nUseful for entering notes into chords\nUse the note names to move the cursor\nUse the durations to insert notes",
    INPUTCLASSIC},
-  {"InsertMode", NULL, N_("Insert"), NULL, N_("Mode for inserting notes into the score at the cursor position\nUses prevailing duration/rhythm\nUse the durations to set the prevailing duration\nUse the note names to insert the note"),
+  {INSERTMODE_STRING, NULL, N_("Insert"), NULL, N_("Mode for inserting notes into the score at the cursor position\nUses prevailing duration/rhythm\nUse the durations to set the prevailing duration\nUse the note names to insert the note"),
    INPUTINSERT},
-  {"EditMode", NULL, N_("Edit"), NULL, N_("Mode for changing the note at cursor (name, duration)\nand to enter notes by duration (rhythms)\nUse the durations to insert notes"),
+  {EDITMODE_STRING, NULL, N_("Edit"), NULL, N_("Mode for changing the note at cursor (name, duration)\nand to enter notes by duration (rhythms)\nUse the durations to insert notes"),
    INPUTEDIT}
 };
 
 
 static GtkRadioActionEntry type_menu_entries[] = {
-  {"Note", NULL, N_("Note"), NULL,  N_("Normal (note) entry"), INPUTNORMAL},
-  {"Rest", NULL, N_("Rest"), NULL,  N_("Entering rests not notes"), INPUTREST},
-  {"Blank", NULL, N_("Non printing rests"), NULL,  N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK},
-  {"Rhythm", NULL, N_("Rhythm"), NULL, N_("Mode for pure rhythyms"),
+  {NOTE_E_STRING, NULL, N_("Note"), NULL,  N_("Normal (note) entry"), INPUTNORMAL},
+  {REST_E_STRING, NULL, N_("Rest"), NULL,  N_("Entering rests not notes"), INPUTREST},
+  {BLANK_E_STRING, NULL, N_("Non printing rests"), NULL,  N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK},
+  {RHYTHM_E_STRING, NULL, N_("Rhythm"), NULL, N_("Mode for pure rhythyms"),
    INPUTRHYTHM|INPUTNORMAL}
 };
 
