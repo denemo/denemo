@@ -253,10 +253,11 @@ note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
   note *newnote = NULL;
-
+#if 0
   if (!g_list_find_custom
       (((chord *) thechord->object)->notes, GINT_TO_POINTER (mid_c_offset),
        findcomparefunc))
+#endif
     {
       /* A-ha! The note isn't already in the chord */
       newnote = new_note(mid_c_offset, enshift, dclef);
