@@ -23,8 +23,11 @@
 #define KBD_CATEGORY_STAFF		6
 #define KBD_CATEGORY_PLAYBACK		7
 #define KBD_CATEGORY_OTHER		8
-/* does not require a wrapper to the callback */     
-#define KBD_CATEGORY_DIRECT		9     
+
+ 
+#define KBD_CATEGORY_DIRECT		0x100    /* does not require a wrapper to the callback */    
+
+
 
 char *catname[9] = {N_("Navigation"),	
 		   N_("Note entry"),	
@@ -51,7 +54,8 @@ struct name_and_function
   char *tooltip;
   char *name;
   char* function;
-char *menu_label;
+  char *menu_label;
+  char *initial_setting;/*of radio/check items */
 };
 
 
@@ -421,7 +425,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Changing the duration of note at the cursor or appending a note of the given duration", N_("EditDuration"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor", N_("Cursor"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Insert/change clef Set initial clef", N_("ClefMenu"), NULL}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordMenu"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordMenu"), NULL, "Chords"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Measures: adding, deleting, navigating etc", N_("MeasureMenu"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Inserting notes, measures, staffs, keysigs etc", N_("Insert"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Insert a Staff relative to current staff", N_("InsertStaff"), NULL}, 
@@ -433,7 +437,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changes the duration of the current rest", N_("ChangeRest"), NULL}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL, "Expression Marks"}, 
   {KBD_CATEGORY_DIRECT, NULL, "grace notes etc", N_("Ornaments"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Lyrics, chord symbols, figured basses etc", N_("Other"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Less used actions", N_("Others"), NULL}, 
@@ -441,6 +445,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Add a custom LilyPond insert to favorites menu", N_("AddFavorite"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Entering triplets and other tuplets", N_("Tuplets"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Deleting notes, measures staffs keysigs etc", N_("Delete"), NULL}, 
+
 };
 
 
