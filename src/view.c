@@ -68,6 +68,69 @@ static void save_accels (void);
 #include "scheme_cb.h"
 
 
+static  GList *known_paths;//All the menu paths known to Denemo
+static gchar * menu_paths[] = {
+  "/MainMenu/FileMenu/",
+  "/MainMenu/EntryMenu",
+  "/MainMenu/EditMenu/",
+  "/MainMenu/ViewMenu/",
+  "/MainMenu/EntryMenu/",
+  "/MainMenu/PlaybackMenu/",
+  "/MainMenu/HelpMenu/",
+  "/ObjectMenu/NoteProperties/",
+  "/ObjectMenu/NoteProperties/InsertNote/",
+  "/ObjectMenu/NoteProperties/ChangeNote/",
+  "/ObjectMenu/NoteProperties/ChangeDuration/",
+  /* Rest entry has a space is that ok?? FIXME omit for the moment */
+  "/ObjectMenu/NoteProperties/Delete/",
+
+
+  "/ObjectMenu/EditModeNote/",
+  "/ObjectMenu/EditModeNote/EditNote/",
+  "/ObjectMenu/EditModeNote/EditDuration",
+  /* Rest entry has a space is that ok?? FIXME omit for the moment */
+  //more 
+
+  //ClassicMode omitted
+
+
+  "/ObjectMenu/InsertModeNote/",
+  "/ObjectMenu/InsertModeNote/InsertNote/",
+
+  "/ObjectMenu/InsertModeNote/SelectDuration/",
+  /* Rest entry has a space is that ok?? FIXME omit for the moment */
+
+  "/ObjectMenu/InsertModeNote/Delete/",
+
+
+  "/ObjectMenu/ExpressionMarks/",
+  "/ObjectMenu/ExpressionMarks/Ornaments/",
+
+  "/ObjectMenu/ChordMenu/",
+  "/ObjectMenu/MeasureMenu/",
+  "/ObjectMenu/Tuplets/",
+  "/ObjectMenu/StaffMenu/",
+  "/ObjectMenu/StaffMenu/Delete/",
+
+  "/ObjectMenu/MovementMenu/",
+  "/ObjectMenu/MovementMenu/InsertMovement/",
+
+  "/ObjectMenu/ClefMenu/",
+  "/ObjectMenu/Key/",
+  "/ObjectMenu/TimeSig/",
+  "/ObjectMenu/Cursor/",
+  "/ObjectMenu/Bookmarks/",
+  "/ObjectMenu/Other/"
+
+
+  //ActionMenu omitted FIXME
+  //AllOther omitted FIXME
+
+  //more....
+};
+
+
+
 #define MODELESS_STRING "Modeless"
 #define CLASSICMODE_STRING "ClassicMode"
 #define INSERTMODE_STRING "InsertMode"
@@ -134,10 +197,18 @@ SCM scheme_denemoy(SCM val) {
 
 
 int inner_main(void){
+
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(menu_paths);i++){
+    known_paths = g_list_append(known_paths, menu_paths[i]);
+  }
+
+
+
   /* create scheme identifiers for all the menuitem callbacks that are not check/radio items */
 #include "scheme.h"
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
-  gint i;
+
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++)
   scm_c_define_gsubr (activatable_commands[i].str, 0, 0, 0, activatable_commands[i].p);
 
@@ -274,6 +345,19 @@ void write_status(DenemoGUI *gui) {
 
   gtk_widget_queue_draw (gui->scorearea);
 }
+
+GString *get_widget_path(GtkWidget *widget) {
+  const gchar * name;
+  GString *str = g_string_new("/");
+  for(widget = gtk_widget_get_parent(widget);widget;widget = gtk_widget_get_parent(widget)){
+    name = gtk_widget_get_name(widget);  
+    g_string_prepend(str, name);
+    g_string_prepend_c(str,'/');
+  }
+  g_print("String is %s\n", str->str);
+  return str;
+}
+
 
 
 
@@ -939,6 +1023,7 @@ typedef struct accel_cb {
   DenemoGUI *gui;
   GtkAction *action;
 } accel_cb;
+static 	void show_type(GtkWidget *widget, gchar *message);
 
 
 static void configure_keyboard_idx (GtkWidget*w, gint idx) {
@@ -950,15 +1035,82 @@ static void toggleRecording (GtkWidget*w, gboolean *record) {
   g_print("Recording was %d\n", *record);
   *record = !*record;
 }
-static void executeScript(GtkWidget*w) {
+
+/* returns newly allocated string containing current Scheme in the ScriptView
+ caller must free
+*/
+static gchar *getSchemeText(void) {
   GtkTextIter startiter, enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
   gtk_text_buffer_get_start_iter (buffer, &startiter);
   gtk_text_buffer_get_end_iter (buffer,  &enditer);
-  gchar *text = gtk_text_buffer_get_text(buffer, &startiter, &enditer, FALSE);
+  return gtk_text_buffer_get_text(buffer, &startiter, &enditer, FALSE);
+
+}
+static void executeScript(GtkWidget*w) {
+  gchar *text = getSchemeText();
   g_print("Calling script %s\n", text);
- call_out_to_guile(text);
- g_free(text);
+  call_out_to_guile(text);
+  g_free(text);
+}
+
+
+void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
+void
+activate_script (GtkAction * action)
+{
+  DenemoGUI *gui = Denemo.gui;
+  // the proxy list is NULL until the menu item is first called...
+  //BUT if you first activate it with right button ....
+
+  GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
+   for(;h;h=h->next) {
+     attach_set_accel_callback(h->data, action, gui);
+   }
+  gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
+  g_print("Executing %s\n", text);
+  (void)scm_c_eval_string(text);
+}
+
+static void insertScript(GtkWidget *widget, gchar *myposition) {
+  DenemoGUI *gui = Denemo.gui;
+  gchar *myname, *mylabel, *myscheme, *mytooltip;
+  myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
+  //FIXME check for name clashes
+  mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
+  // myscheme = string_dialog_entry (gui, "Create a new menu item", "Give Scheme to insert: ", "%any scheme you like");
+  mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
+  //myposition = string_dialog_entry (gui, "Create a new menu item", "Say where in the menu systeme you want it placed: ", "/ObjectMenu/Favorites");
+  GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
+  GtkActionGroup *action_group;
+  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+  action_group = GTK_ACTION_GROUP(groups->data); 
+  GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (Denemo.ui_manager);
+  gtk_action_group_add_action(action_group, myaction);
+  myscheme = getSchemeText();
+  g_object_set_data(G_OBJECT(myaction), "scheme", myscheme);
+  g_signal_connect (G_OBJECT (myaction), "activate",
+		    G_CALLBACK (activate_script), gui); //FIXME I notice this is also connected to the widget??? see below.
+  gtk_action_set_accel_group (myaction, accel_group);
+  gchar *accelpath = g_strdup_printf("%s%s", "<Actions>/MenuActions/", myname);
+  gtk_action_set_accel_path (myaction, accelpath);
+  g_free(accelpath);
+  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+			myposition,
+			myname, myname, GTK_UI_MANAGER_AUTO, FALSE);
+  GSList *h = gtk_action_get_proxies (myaction);//what is a proxy? any widget that callbacks the action
+   for(;h;h=h->next) {
+     attach_set_accel_callback(h->data, myaction, gui);
+   }
+   GtkActionEntry *menu_entry = g_malloc0(sizeof(GtkActionEntry));
+   menu_entry->name = myname;
+   menu_entry->label = mylabel;
+   menu_entry->tooltip =  mytooltip;
+   menu_entry->callback = G_CALLBACK (activate_script);
+   register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
+          KeymapEntry);
+  end_command_registration(Denemo.prefs.the_keymap);
+  return;
 }
 
 
@@ -969,7 +1121,6 @@ static void executeScript(GtkWidget*w) {
   Rigth click offers pop-up menu for setting shortcuts etc
 
 */
-static 	void show_type(GtkWidget *widget, gchar *message);
 
 static void append_scheme_call(gchar *func) {
   GtkTextIter enditer;
@@ -991,7 +1142,7 @@ static gboolean menu_click (GtkWidget      *widget,
   DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   const gchar *func_name = gtk_action_get_name(action);
-
+  g_print("widget name %s\n", gtk_widget_get_name(widget));
   gint idx = lookup_index_from_name (the_keymap, func_name);
   if (event->button != 3) //Not right click
     if(Denemo.ScriptRecording)
@@ -1004,6 +1155,8 @@ static gboolean menu_click (GtkWidget      *widget,
     return FALSE;
   if (idx == -1)
     return TRUE;
+  //  if(!idx_has_callback(the_keymap, idx, gui))
+
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item = gtk_menu_item_new_with_label("Edit/Create Shortcut");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -1020,6 +1173,21 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate", G_CALLBACK(executeScript), NULL);
 
+  item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  //GString *gstr = get_widget_path(widget);
+  GList *g;
+  GtkWidget *w = NULL;
+  const gchar *name = gtk_widget_get_name(widget);
+  for (g = known_paths;g;g=g->next) {
+    gchar *this = g_strdup_printf("%s%s", g->data, name);
+    w = gtk_ui_manager_get_widget(Denemo.ui_manager, this);
+    //g_print("menu %s is %d\n", this, w!=0);
+    if(w) break;
+  }
+  
+  g_signal_connect(item, "activate", G_CALLBACK(insertScript),w?g->data:"/MainMenu");
+  //g_string_free(gstr, TRUE);
 
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
@@ -1125,7 +1293,7 @@ void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *
 }
 
 
-void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, gchar *path, DenemoGUI *gui) {
+void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
@@ -1157,11 +1325,11 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
   gtk_action_set_accel_path (myaction, accelpath);
   g_free(accelpath);
   gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-			myposition,
+		myposition,
 			myname, myname, GTK_UI_MANAGER_AUTO, FALSE);
   GSList *h = gtk_action_get_proxies (myaction);//what is a proxy? any widget that callbacks the action
    for(;h;h=h->next) {
-     attach_set_accel_callback(h->data, myaction, myposition, gui);
+     attach_set_accel_callback(h->data, myaction, gui);
    }
    GtkActionEntry *menu_entry = g_malloc0(sizeof(GtkActionEntry));
    menu_entry->name = myname;
@@ -2222,7 +2390,8 @@ Denemo.gui = gui;
 #if (GTK_MINOR_VERSION <10)
        attach_action_to_widget(h->data, g->data, Denemo.gui);
 #endif
-       attach_set_accel_callback(h->data, g->data,"", Denemo.gui);
+       attach_set_accel_callback(h->data, g->data, Denemo.gui);
+       //g_print("widget name %s parents %s\n", gtk_widget_get_name(h->data), get_widget_path(h->data)->str);
        command_idx = lookup_index_from_name(the_keymap,
 					    gtk_action_get_name(g->data));
        if (command_idx != -1) {
