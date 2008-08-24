@@ -1334,6 +1334,12 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
 }
 
 
+
+GtkAction *action_of_name(keymap *the_keymap, gchar *command_name) { 
+  GtkActionGroup *action_group = get_action_group(the_keymap);
+  return gtk_action_group_get_action(action_group, command_name);
+}
+
 gboolean
 execute_callback_from_idx(keymap *the_keymap, guint command_idx)
 {
@@ -1345,10 +1351,7 @@ gboolean
 execute_callback_from_name(keymap *the_keymap, const gchar* command_name)
 {
   gboolean res = TRUE;
-  GtkAction *action;
-  GtkActionGroup *action_group;
-  action_group = get_action_group(the_keymap);
-  action = gtk_action_group_get_action(action_group, command_name);
+  GtkAction *action = action_of_name(the_keymap, command_name);
 #if DEBUG
   res = idx_has_callback(the_keymap, command_idx);
 #endif

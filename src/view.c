@@ -199,6 +199,20 @@ static install_scm_function(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 0, 0, 0, callback);
 
 }
+static install_scm_function_with_param(gchar *name, gpointer callback) {
+scm_c_define_gsubr (name, 1, 0, 0, callback);
+
+}
+
+static void scheme_requests_action (SCM paction)
+{
+  GtkAction *action = scm_num2int(paction, 0, 0);
+  //g_print("Action is %p\n", action);
+  gtk_action_activate(action);
+}
+
+
+
 int inner_main(void){
 
   gint i;
@@ -212,9 +226,12 @@ int inner_main(void){
 #include "scheme.h"
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
 
-  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++)
-    install_scm_function(activatable_commands[i].str, activatable_commands[i].p);
-    // scm_c_define_gsubr (activatable_commands[i].str, 0, 0, 0, activatable_commands[i].p);
+  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
+    install_scm_function (activatable_commands[i].str, (gpointer)activatable_commands[i].p);
+  }
+  /* install the basic scheme function for calling Denemo actions */
+  install_scm_function_with_param ("denemo", scheme_requests_action);
+
 
 #ifdef TRIAL_SCHEME
   scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
@@ -1073,16 +1090,13 @@ activate_script (GtkAction * action)
     }
     
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
-    g_print("Executing %s\n", text);
+    // g_print("Executing %s\n", text);
     (void)scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
 }
-static void activate_script1 (void)
-{
-  activate_script (NULL);
-}
+
 
 static void insertScript(GtkWidget *widget, gchar *myposition) {
   DenemoGUI *gui = Denemo.gui;
@@ -1101,6 +1115,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   gtk_action_group_add_action(action_group, myaction);
   myscheme = getSchemeText();
   g_object_set_data(G_OBJECT(myaction), "scheme", myscheme);
+
   g_signal_connect (G_OBJECT (myaction), "activate",
 		    G_CALLBACK (activate_script), gui); //FIXME I notice this is also connected to the widget??? see below.
   gtk_action_set_accel_group (myaction, accel_group);
@@ -1122,7 +1137,8 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
    register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
           KeymapEntry);
   end_command_registration(Denemo.prefs.the_keymap);
-  install_scm_function(myname, activate_script1);
+  // g_print("evaluating scheme %s\n", g_strdup_printf("(define dnm_%s %d)\n", myname, myaction));
+  (void)scm_c_eval_string(g_strdup_printf("(define dnm_%s %d)\n", myname, myaction));
   return;
 }
 
@@ -1133,9 +1149,9 @@ static void append_scheme_call(gchar *func) {
   GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
   //gtk_text_buffer_set_text(buffer,"",-1);
   gtk_text_buffer_get_end_iter (buffer,  &enditer);
-  gchar *text = g_strdup_printf("(%s)\n",func);//prefix dnm_!!!!!!!
+  gchar *text = g_strdup_printf("(denemo dnm_%s)\n",func);//prefix dnm_!!!!!!!
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
-  g_print("Added %s\n", text);
+  //g_print("Added %s\n", text);
   g_free(text); 
 }
 
@@ -1310,7 +1326,7 @@ void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
-  g_signal_connect(widget, "button-press-event", G_CALLBACK (menu_click), info);
+  g_signal_connect(widget, "button-release-event", G_CALLBACK (menu_click), info);
 }
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS

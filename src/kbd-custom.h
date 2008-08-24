@@ -139,6 +139,9 @@ gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 		gpointer func_data);
 
+GtkAction *
+action_of_name(keymap *the_keymap, gchar *command_name);
+
 gboolean
 execute_callback_from_idx(keymap *the_keymap, guint command_idx);
 gboolean

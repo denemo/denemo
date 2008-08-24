@@ -1,582 +1,1165 @@
+gchar *text;
 /*CursorLeft cursorleft*/
-install_scm_function ("CursorLeft", scheme_CursorLeft);
+text = g_strdup_printf("(define dnm_CursorLeft %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CursorLeft"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*CursorDown cursordown*/
-install_scm_function ("CursorDown", scheme_CursorDown);
+text = g_strdup_printf("(define dnm_CursorDown %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CursorDown"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*CursorUp cursorup*/
-install_scm_function ("CursorUp", scheme_CursorUp);
+text = g_strdup_printf("(define dnm_CursorUp %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CursorUp"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*CursorRight cursorright*/
-install_scm_function ("CursorRight", scheme_CursorRight);
+text = g_strdup_printf("(define dnm_CursorRight %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CursorRight"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*StaffUp staffup*/
-install_scm_function ("StaffUp", scheme_StaffUp);
+text = g_strdup_printf("(define dnm_StaffUp %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "StaffUp"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*StaffDown staffdown*/
-install_scm_function ("StaffDown", scheme_StaffDown);
+text = g_strdup_printf("(define dnm_StaffDown %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "StaffDown"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*MeasureLeft measureleft*/
-install_scm_function ("MeasureLeft", scheme_MeasureLeft);
+text = g_strdup_printf("(define dnm_MeasureLeft %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "MeasureLeft"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*MeasureRight measureright*/
-install_scm_function ("MeasureRight", scheme_MeasureRight);
+text = g_strdup_printf("(define dnm_MeasureRight %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "MeasureRight"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*A go_to_A_key*/
-install_scm_function ("A", scheme_A);
+text = g_strdup_printf("(define dnm_A %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "A"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*B go_to_B_key*/
-install_scm_function ("B", scheme_B);
+text = g_strdup_printf("(define dnm_B %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "B"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*C go_to_C_key*/
-install_scm_function ("C", scheme_C);
+text = g_strdup_printf("(define dnm_C %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "C"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*D go_to_D_key*/
-install_scm_function ("D", scheme_D);
+text = g_strdup_printf("(define dnm_D %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "D"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*E go_to_E_key*/
-install_scm_function ("E", scheme_E);
+text = g_strdup_printf("(define dnm_E %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "E"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*F go_to_F_key*/
-install_scm_function ("F", scheme_F);
+text = g_strdup_printf("(define dnm_F %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "F"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*G go_to_G_key*/
-install_scm_function ("G", scheme_G);
+text = g_strdup_printf("(define dnm_G %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "G"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OctaveUp octave_up_key*/
-install_scm_function ("OctaveUp", scheme_OctaveUp);
+text = g_strdup_printf("(define dnm_OctaveUp %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OctaveUp"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OctaveDown octave_down_key*/
-install_scm_function ("OctaveDown", scheme_OctaveDown);
+text = g_strdup_printf("(define dnm_OctaveDown %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OctaveDown"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*WholeNote insert_chord_0key*/
-install_scm_function ("WholeNote", scheme_WholeNote);
+text = g_strdup_printf("(define dnm_WholeNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "WholeNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*HalfNote insert_chord_1key*/
-install_scm_function ("HalfNote", scheme_HalfNote);
+text = g_strdup_printf("(define dnm_HalfNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "HalfNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*QuarterNote insert_chord_2key*/
-install_scm_function ("QuarterNote", scheme_QuarterNote);
+text = g_strdup_printf("(define dnm_QuarterNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "QuarterNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EighthNote insert_chord_3key*/
-install_scm_function ("EighthNote", scheme_EighthNote);
+text = g_strdup_printf("(define dnm_EighthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EighthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SixteenthNote insert_chord_4key*/
-install_scm_function ("SixteenthNote", scheme_SixteenthNote);
+text = g_strdup_printf("(define dnm_SixteenthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SixteenthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ThirtysecondNote insert_chord_5key*/
-install_scm_function ("ThirtysecondNote", scheme_ThirtysecondNote);
+text = g_strdup_printf("(define dnm_ThirtysecondNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ThirtysecondNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SixtyfourthNote insert_chord_6key*/
-install_scm_function ("SixtyfourthNote", scheme_SixtyfourthNote);
+text = g_strdup_printf("(define dnm_SixtyfourthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SixtyfourthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankWholeNote insert_blankchord_0key*/
-install_scm_function ("InsertBlankWholeNote", scheme_InsertBlankWholeNote);
+text = g_strdup_printf("(define dnm_InsertBlankWholeNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankWholeNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankHalfNote insert_blankchord_1key*/
-install_scm_function ("InsertBlankHalfNote", scheme_InsertBlankHalfNote);
+text = g_strdup_printf("(define dnm_InsertBlankHalfNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankHalfNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankQuarterNote insert_blankchord_2key*/
-install_scm_function ("InsertBlankQuarterNote", scheme_InsertBlankQuarterNote);
+text = g_strdup_printf("(define dnm_InsertBlankQuarterNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankQuarterNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankEighthNote insert_blankchord_3key*/
-install_scm_function ("InsertBlankEighthNote", scheme_InsertBlankEighthNote);
+text = g_strdup_printf("(define dnm_InsertBlankEighthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankEighthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankSixteenthNote insert_blankchord_4key*/
-install_scm_function ("InsertBlankSixteenthNote", scheme_InsertBlankSixteenthNote);
+text = g_strdup_printf("(define dnm_InsertBlankSixteenthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankSixteenthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankThirtysecondNote insert_blankchord_5key*/
-install_scm_function ("InsertBlankThirtysecondNote", scheme_InsertBlankThirtysecondNote);
+text = g_strdup_printf("(define dnm_InsertBlankThirtysecondNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankThirtysecondNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBlankSixtyfourthNote insert_blankchord_6key*/
-install_scm_function ("InsertBlankSixtyfourthNote", scheme_InsertBlankSixtyfourthNote);
+text = g_strdup_printf("(define dnm_InsertBlankSixtyfourthNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBlankSixtyfourthNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleRestMode rest_toggle_key*/
-install_scm_function ("ToggleRestMode", scheme_ToggleRestMode);
+text = g_strdup_printf("(define dnm_ToggleRestMode %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleRestMode"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleBlankMode toggle_blank*/
-install_scm_function ("ToggleBlankMode", scheme_ToggleBlankMode);
+text = g_strdup_printf("(define dnm_ToggleBlankMode %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleBlankMode"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertWholeRest insert_rest_0key*/
-install_scm_function ("InsertWholeRest", scheme_InsertWholeRest);
+text = g_strdup_printf("(define dnm_InsertWholeRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertWholeRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertHalfRest insert_rest_1key*/
-install_scm_function ("InsertHalfRest", scheme_InsertHalfRest);
+text = g_strdup_printf("(define dnm_InsertHalfRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertHalfRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertQuarterRest insert_rest_2key*/
-install_scm_function ("InsertQuarterRest", scheme_InsertQuarterRest);
+text = g_strdup_printf("(define dnm_InsertQuarterRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertQuarterRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertEighthRest insert_rest_3key*/
-install_scm_function ("InsertEighthRest", scheme_InsertEighthRest);
+text = g_strdup_printf("(define dnm_InsertEighthRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertEighthRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertSixteenthRest insert_rest_4key*/
-install_scm_function ("InsertSixteenthRest", scheme_InsertSixteenthRest);
+text = g_strdup_printf("(define dnm_InsertSixteenthRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSixteenthRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertThirtysecondRest insert_rest_5key*/
-install_scm_function ("InsertThirtysecondRest", scheme_InsertThirtysecondRest);
+text = g_strdup_printf("(define dnm_InsertThirtysecondRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertThirtysecondRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertSixtyfourthRest insert_rest_6key*/
-install_scm_function ("InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
+text = g_strdup_printf("(define dnm_InsertSixtyfourthRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSixtyfourthRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDuplet insert_duplet*/
-install_scm_function ("InsertDuplet", scheme_InsertDuplet);
+text = g_strdup_printf("(define dnm_InsertDuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertTriplet insert_triplet*/
-install_scm_function ("InsertTriplet", scheme_InsertTriplet);
+text = g_strdup_printf("(define dnm_InsertTriplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertTriplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*StartTriplet start_triplet*/
-install_scm_function ("StartTriplet", scheme_StartTriplet);
+text = g_strdup_printf("(define dnm_StartTriplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "StartTriplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EndTuplet end_tuplet*/
-install_scm_function ("EndTuplet", scheme_EndTuplet);
+text = g_strdup_printf("(define dnm_EndTuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EndTuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertQuadtuplet insert_quadtuplet*/
-install_scm_function ("InsertQuadtuplet", scheme_InsertQuadtuplet);
+text = g_strdup_printf("(define dnm_InsertQuadtuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertQuadtuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertQuintuplet insert_quintuplet*/
-install_scm_function ("InsertQuintuplet", scheme_InsertQuintuplet);
+text = g_strdup_printf("(define dnm_InsertQuintuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertQuintuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertSextuplet insert_sextuplet*/
-install_scm_function ("InsertSextuplet", scheme_InsertSextuplet);
+text = g_strdup_printf("(define dnm_InsertSextuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSextuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertSeptuplet insert_septuplet*/
-install_scm_function ("InsertSeptuplet", scheme_InsertSeptuplet);
+text = g_strdup_printf("(define dnm_InsertSeptuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSeptuplet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddTone add_tone_key*/
-install_scm_function ("AddTone", scheme_AddTone);
+text = g_strdup_printf("(define dnm_AddTone %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddTone"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*RemoveTone remove_tone_key*/
-install_scm_function ("RemoveTone", scheme_RemoveTone);
+text = g_strdup_printf("(define dnm_RemoveTone %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "RemoveTone"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SharpenOrStemDown sharpen_key*/
-install_scm_function ("SharpenOrStemDown", scheme_SharpenOrStemDown);
+text = g_strdup_printf("(define dnm_SharpenOrStemDown %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SharpenOrStemDown"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*FlattenOrStemUp flatten_key*/
-install_scm_function ("FlattenOrStemUp", scheme_FlattenOrStemUp);
+text = g_strdup_printf("(define dnm_FlattenOrStemUp %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "FlattenOrStemUp"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddDot add_dot_key*/
-install_scm_function ("AddDot", scheme_AddDot);
+text = g_strdup_printf("(define dnm_AddDot %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddDot"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*RemoveDot remove_dot_key*/
-install_scm_function ("RemoveDot", scheme_RemoveDot);
+text = g_strdup_printf("(define dnm_RemoveDot %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "RemoveDot"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertTiedNote tie_notes_key*/
-install_scm_function ("InsertTiedNote", scheme_InsertTiedNote);
+text = g_strdup_printf("(define dnm_InsertTiedNote %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertTiedNote"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteObject deleteobject*/
-install_scm_function ("DeleteObject", scheme_DeleteObject);
+text = g_strdup_printf("(define dnm_DeleteObject %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteObject"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeletePreviousObject deletepreviousobject*/
-install_scm_function ("DeletePreviousObject", scheme_DeletePreviousObject);
+text = g_strdup_printf("(define dnm_DeletePreviousObject %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeletePreviousObject"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertMeasure insert_measure_key*/
-install_scm_function ("InsertMeasure", scheme_InsertMeasure);
+text = g_strdup_printf("(define dnm_InsertMeasure %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertMeasure"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AppendMeasure append_measure_key*/
-install_scm_function ("AppendMeasure", scheme_AppendMeasure);
+text = g_strdup_printf("(define dnm_AppendMeasure %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AppendMeasure"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteMeasure deletemeasure*/
-install_scm_function ("DeleteMeasure", scheme_DeleteMeasure);
+text = g_strdup_printf("(define dnm_DeleteMeasure %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteMeasure"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteMeasureAllStaffs deletemeasureallstaffs*/
-install_scm_function ("DeleteMeasureAllStaffs", scheme_DeleteMeasureAllStaffs);
+text = g_strdup_printf("(define dnm_DeleteMeasureAllStaffs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteMeasureAllStaffs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ShrinkMeasures adjust_measure_less_width_key*/
-install_scm_function ("ShrinkMeasures", scheme_ShrinkMeasures);
+text = g_strdup_printf("(define dnm_ShrinkMeasures %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ShrinkMeasures"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*WidenMeasures adjust_measure_more_width_key*/
-install_scm_function ("WidenMeasures", scheme_WidenMeasures);
+text = g_strdup_printf("(define dnm_WidenMeasures %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "WidenMeasures"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ShorterStaffs adjust_staff_less_height_key*/
-install_scm_function ("ShorterStaffs", scheme_ShorterStaffs);
+text = g_strdup_printf("(define dnm_ShorterStaffs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ShorterStaffs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*TallerStaffs adjust_staff_more_height_key*/
-install_scm_function ("TallerStaffs", scheme_TallerStaffs);
+text = g_strdup_printf("(define dnm_TallerStaffs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "TallerStaffs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertTrebleClef newcleftreble*/
-install_scm_function ("InsertTrebleClef", scheme_InsertTrebleClef);
+text = g_strdup_printf("(define dnm_InsertTrebleClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertTrebleClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBassClef newclefbass*/
-install_scm_function ("InsertBassClef", scheme_InsertBassClef);
+text = g_strdup_printf("(define dnm_InsertBassClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBassClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insertg8clef newclefg8*/
-install_scm_function ("Insertg8clef", scheme_Insertg8clef);
+text = g_strdup_printf("(define dnm_Insertg8clef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insertg8clef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertAltoClef newclefalto*/
-install_scm_function ("InsertAltoClef", scheme_InsertAltoClef);
+text = g_strdup_printf("(define dnm_InsertAltoClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertAltoClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertTenorClef newcleftenor*/
-install_scm_function ("InsertTenorClef", scheme_InsertTenorClef);
+text = g_strdup_printf("(define dnm_InsertTenorClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertTenorClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertSopranoClef newclefsoprano*/
-install_scm_function ("InsertSopranoClef", scheme_InsertSopranoClef);
+text = g_strdup_printf("(define dnm_InsertSopranoClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSopranoClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialTrebleClef setcleftreble*/
-install_scm_function ("SetInitialTrebleClef", scheme_SetInitialTrebleClef);
+text = g_strdup_printf("(define dnm_SetInitialTrebleClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialTrebleClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialBassClef setclefbass*/
-install_scm_function ("SetInitialBassClef", scheme_SetInitialBassClef);
+text = g_strdup_printf("(define dnm_SetInitialBassClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialBassClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialg8clef setclefg8*/
-install_scm_function ("SetInitialg8clef", scheme_SetInitialg8clef);
+text = g_strdup_printf("(define dnm_SetInitialg8clef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialg8clef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialAltoClef setclefalto*/
-install_scm_function ("SetInitialAltoClef", scheme_SetInitialAltoClef);
+text = g_strdup_printf("(define dnm_SetInitialAltoClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialAltoClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialTenorClef setcleftenor*/
-install_scm_function ("SetInitialTenorClef", scheme_SetInitialTenorClef);
+text = g_strdup_printf("(define dnm_SetInitialTenorClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialTenorClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialSopranoClef setclefsoprano*/
-install_scm_function ("SetInitialSopranoClef", scheme_SetInitialSopranoClef);
+text = g_strdup_printf("(define dnm_SetInitialSopranoClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialSopranoClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert22Time newtimesig22*/
-install_scm_function ("Insert22Time", scheme_Insert22Time);
+text = g_strdup_printf("(define dnm_Insert22Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert22Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert32Time newtimesig32*/
-install_scm_function ("Insert32Time", scheme_Insert32Time);
+text = g_strdup_printf("(define dnm_Insert32Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert32Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert42Time newtimesig42*/
-install_scm_function ("Insert42Time", scheme_Insert42Time);
+text = g_strdup_printf("(define dnm_Insert42Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert42Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert44Time newtimesig44*/
-install_scm_function ("Insert44Time", scheme_Insert44Time);
+text = g_strdup_printf("(define dnm_Insert44Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert44Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert34Time newtimesig34*/
-install_scm_function ("Insert34Time", scheme_Insert34Time);
+text = g_strdup_printf("(define dnm_Insert34Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert34Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert24Time newtimesig24*/
-install_scm_function ("Insert24Time", scheme_Insert24Time);
+text = g_strdup_printf("(define dnm_Insert24Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert24Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert64Time newtimesig64*/
-install_scm_function ("Insert64Time", scheme_Insert64Time);
+text = g_strdup_printf("(define dnm_Insert64Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert64Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert38Time newtimesig38*/
-install_scm_function ("Insert38Time", scheme_Insert38Time);
+text = g_strdup_printf("(define dnm_Insert38Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert38Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert68Time newtimesig68*/
-install_scm_function ("Insert68Time", scheme_Insert68Time);
+text = g_strdup_printf("(define dnm_Insert68Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert68Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert128Time newtimesig128*/
-install_scm_function ("Insert128Time", scheme_Insert128Time);
+text = g_strdup_printf("(define dnm_Insert128Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert128Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Insert98Time newtimesig98*/
-install_scm_function ("Insert98Time", scheme_Insert98Time);
+text = g_strdup_printf("(define dnm_Insert98Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Insert98Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set22Time settimesig22*/
-install_scm_function ("Set22Time", scheme_Set22Time);
+text = g_strdup_printf("(define dnm_Set22Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set22Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set32Time settimesig32*/
-install_scm_function ("Set32Time", scheme_Set32Time);
+text = g_strdup_printf("(define dnm_Set32Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set32Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set42Time settimesig42*/
-install_scm_function ("Set42Time", scheme_Set42Time);
+text = g_strdup_printf("(define dnm_Set42Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set42Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set44Time settimesig44*/
-install_scm_function ("Set44Time", scheme_Set44Time);
+text = g_strdup_printf("(define dnm_Set44Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set44Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set34Time settimesig34*/
-install_scm_function ("Set34Time", scheme_Set34Time);
+text = g_strdup_printf("(define dnm_Set34Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set34Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set24Time settimesig24*/
-install_scm_function ("Set24Time", scheme_Set24Time);
+text = g_strdup_printf("(define dnm_Set24Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set24Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set64Time settimesig64*/
-install_scm_function ("Set64Time", scheme_Set64Time);
+text = g_strdup_printf("(define dnm_Set64Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set64Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set38Time settimesig38*/
-install_scm_function ("Set38Time", scheme_Set38Time);
+text = g_strdup_printf("(define dnm_Set38Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set38Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set68Time settimesig68*/
-install_scm_function ("Set68Time", scheme_Set68Time);
+text = g_strdup_printf("(define dnm_Set68Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set68Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set128Time settimesig128*/
-install_scm_function ("Set128Time", scheme_Set128Time);
+text = g_strdup_printf("(define dnm_Set128Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set128Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Set98Time settimesig98*/
-install_scm_function ("Set98Time", scheme_Set98Time);
+text = g_strdup_printf("(define dnm_Set98Time %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Set98Time"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertCmaj newkeysigcmaj*/
-install_scm_function ("InsertCmaj", scheme_InsertCmaj);
+text = g_strdup_printf("(define dnm_InsertCmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertCmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertGmaj newkeysiggmaj*/
-install_scm_function ("InsertGmaj", scheme_InsertGmaj);
+text = g_strdup_printf("(define dnm_InsertGmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertGmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDmaj newkeysigdmaj*/
-install_scm_function ("InsertDmaj", scheme_InsertDmaj);
+text = g_strdup_printf("(define dnm_InsertDmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertAmaj newkeysigamaj*/
-install_scm_function ("InsertAmaj", scheme_InsertAmaj);
+text = g_strdup_printf("(define dnm_InsertAmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertAmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertEmaj newkeysigemaj*/
-install_scm_function ("InsertEmaj", scheme_InsertEmaj);
+text = g_strdup_printf("(define dnm_InsertEmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertEmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBmaj newkeysigbmaj*/
-install_scm_function ("InsertBmaj", scheme_InsertBmaj);
+text = g_strdup_printf("(define dnm_InsertBmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertFSharpmaj newkeysigfsharpmaj*/
-install_scm_function ("InsertFSharpmaj", scheme_InsertFSharpmaj);
+text = g_strdup_printf("(define dnm_InsertFSharpmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertFSharpmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertCSharpmaj newkeysigcsharpmaj*/
-install_scm_function ("InsertCSharpmaj", scheme_InsertCSharpmaj);
+text = g_strdup_printf("(define dnm_InsertCSharpmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertCSharpmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertFmaj newkeysigfmaj*/
-install_scm_function ("InsertFmaj", scheme_InsertFmaj);
+text = g_strdup_printf("(define dnm_InsertFmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertFmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBflatmaj newkeysigbflatmaj*/
-install_scm_function ("InsertBflatmaj", scheme_InsertBflatmaj);
+text = g_strdup_printf("(define dnm_InsertBflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertEflatmaj newkeysigeflatmaj*/
-install_scm_function ("InsertEflatmaj", scheme_InsertEflatmaj);
+text = g_strdup_printf("(define dnm_InsertEflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertEflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertAflatmaj newkeysigaflatmaj*/
-install_scm_function ("InsertAflatmaj", scheme_InsertAflatmaj);
+text = g_strdup_printf("(define dnm_InsertAflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertAflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDflatmaj newkeysigdflatmaj*/
-install_scm_function ("InsertDflatmaj", scheme_InsertDflatmaj);
+text = g_strdup_printf("(define dnm_InsertDflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertGflatmaj newkeysiggflatmaj*/
-install_scm_function ("InsertGflatmaj", scheme_InsertGflatmaj);
+text = g_strdup_printf("(define dnm_InsertGflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertGflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertCflatmaj newkeysigcflatmaj*/
-install_scm_function ("InsertCflatmaj", scheme_InsertCflatmaj);
+text = g_strdup_printf("(define dnm_InsertCflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertCflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertAmin newkeysigamin*/
-install_scm_function ("InsertAmin", scheme_InsertAmin);
+text = g_strdup_printf("(define dnm_InsertAmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertAmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertEmin newkeysigemin*/
-install_scm_function ("InsertEmin", scheme_InsertEmin);
+text = g_strdup_printf("(define dnm_InsertEmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertEmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBmin newkeysigbmin*/
-install_scm_function ("InsertBmin", scheme_InsertBmin);
+text = g_strdup_printf("(define dnm_InsertBmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertFSharpmin newkeysigfsharpmin*/
-install_scm_function ("InsertFSharpmin", scheme_InsertFSharpmin);
+text = g_strdup_printf("(define dnm_InsertFSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertFSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertCSharpmin newkeysigcsharpmin*/
-install_scm_function ("InsertCSharpmin", scheme_InsertCSharpmin);
+text = g_strdup_printf("(define dnm_InsertCSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertCSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertGSharpmin newkeysiggsharpmin*/
-install_scm_function ("InsertGSharpmin", scheme_InsertGSharpmin);
+text = g_strdup_printf("(define dnm_InsertGSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertGSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDSharpmin newkeysigdsharpmin*/
-install_scm_function ("InsertDSharpmin", scheme_InsertDSharpmin);
+text = g_strdup_printf("(define dnm_InsertDSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertASharpmin newkeysigasharpmin*/
-install_scm_function ("InsertASharpmin", scheme_InsertASharpmin);
+text = g_strdup_printf("(define dnm_InsertASharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertASharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDmin newkeysigdmin*/
-install_scm_function ("InsertDmin", scheme_InsertDmin);
+text = g_strdup_printf("(define dnm_InsertDmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertGmin newkeysiggmin*/
-install_scm_function ("InsertGmin", scheme_InsertGmin);
+text = g_strdup_printf("(define dnm_InsertGmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertGmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertCmin newkeysigcmin*/
-install_scm_function ("InsertCmin", scheme_InsertCmin);
+text = g_strdup_printf("(define dnm_InsertCmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertCmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertFmin newkeysigfmin*/
-install_scm_function ("InsertFmin", scheme_InsertFmin);
+text = g_strdup_printf("(define dnm_InsertFmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertFmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBflatmin newkeysigbflatmin*/
-install_scm_function ("InsertBflatmin", scheme_InsertBflatmin);
+text = g_strdup_printf("(define dnm_InsertBflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertEflatmin newkeysigeflatmin*/
-install_scm_function ("InsertEflatmin", scheme_InsertEflatmin);
+text = g_strdup_printf("(define dnm_InsertEflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertEflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertAflatmin newkeysigaflatmin*/
-install_scm_function ("InsertAflatmin", scheme_InsertAflatmin);
+text = g_strdup_printf("(define dnm_InsertAflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertAflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialCmaj setkeysigcmaj*/
-install_scm_function ("SetInitialCmaj", scheme_SetInitialCmaj);
+text = g_strdup_printf("(define dnm_SetInitialCmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialCmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialGmaj setkeysiggmaj*/
-install_scm_function ("SetInitialGmaj", scheme_SetInitialGmaj);
+text = g_strdup_printf("(define dnm_SetInitialGmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialGmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialDmaj setkeysigdmaj*/
-install_scm_function ("SetInitialDmaj", scheme_SetInitialDmaj);
+text = g_strdup_printf("(define dnm_SetInitialDmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialDmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialAmaj setkeysigamaj*/
-install_scm_function ("SetInitialAmaj", scheme_SetInitialAmaj);
+text = g_strdup_printf("(define dnm_SetInitialAmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialAmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialEmaj setkeysigemaj*/
-install_scm_function ("SetInitialEmaj", scheme_SetInitialEmaj);
+text = g_strdup_printf("(define dnm_SetInitialEmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialEmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialBmaj setkeysigbmaj*/
-install_scm_function ("SetInitialBmaj", scheme_SetInitialBmaj);
+text = g_strdup_printf("(define dnm_SetInitialBmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialBmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialFSharpmaj setkeysigfsharpmaj*/
-install_scm_function ("SetInitialFSharpmaj", scheme_SetInitialFSharpmaj);
+text = g_strdup_printf("(define dnm_SetInitialFSharpmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialFSharpmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialCSharpmaj setkeysigcsharpmaj*/
-install_scm_function ("SetInitialCSharpmaj", scheme_SetInitialCSharpmaj);
+text = g_strdup_printf("(define dnm_SetInitialCSharpmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialCSharpmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialFmaj setkeysigfmaj*/
-install_scm_function ("SetInitialFmaj", scheme_SetInitialFmaj);
+text = g_strdup_printf("(define dnm_SetInitialFmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialFmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialBflatmaj setkeysigbflatmaj*/
-install_scm_function ("SetInitialBflatmaj", scheme_SetInitialBflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialBflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialBflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialEflatmaj setkeysigeflatmaj*/
-install_scm_function ("SetInitialEflatmaj", scheme_SetInitialEflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialEflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialEflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialAflatmaj setkeysigaflatmaj*/
-install_scm_function ("SetInitialAflatmaj", scheme_SetInitialAflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialAflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialAflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialDflatmaj setkeysigdflatmaj*/
-install_scm_function ("SetInitialDflatmaj", scheme_SetInitialDflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialDflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialDflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialGflatmaj setkeysiggflatmaj*/
-install_scm_function ("SetInitialGflatmaj", scheme_SetInitialGflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialGflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialGflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialCflatmaj setkeysigcflatmaj*/
-install_scm_function ("SetInitialCflatmaj", scheme_SetInitialCflatmaj);
+text = g_strdup_printf("(define dnm_SetInitialCflatmaj %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialCflatmaj"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialAmin setkeysigamin*/
-install_scm_function ("SetInitialAmin", scheme_SetInitialAmin);
+text = g_strdup_printf("(define dnm_SetInitialAmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialAmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialEmin setkeysigemin*/
-install_scm_function ("SetInitialEmin", scheme_SetInitialEmin);
+text = g_strdup_printf("(define dnm_SetInitialEmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialEmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialBmin setkeysigbmin*/
-install_scm_function ("SetInitialBmin", scheme_SetInitialBmin);
+text = g_strdup_printf("(define dnm_SetInitialBmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialBmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialFSharpmin setkeysigfsharpmin*/
-install_scm_function ("SetInitialFSharpmin", scheme_SetInitialFSharpmin);
+text = g_strdup_printf("(define dnm_SetInitialFSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialFSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialCSharpmin setkeysigcsharpmin*/
-install_scm_function ("SetInitialCSharpmin", scheme_SetInitialCSharpmin);
+text = g_strdup_printf("(define dnm_SetInitialCSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialCSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialGSharpmin setkeysiggsharpmin*/
-install_scm_function ("SetInitialGSharpmin", scheme_SetInitialGSharpmin);
+text = g_strdup_printf("(define dnm_SetInitialGSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialGSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialDSharpmin setkeysigdsharpmin*/
-install_scm_function ("SetInitialDSharpmin", scheme_SetInitialDSharpmin);
+text = g_strdup_printf("(define dnm_SetInitialDSharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialDSharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialASharpmin setkeysigasharpmin*/
-install_scm_function ("SetInitialASharpmin", scheme_SetInitialASharpmin);
+text = g_strdup_printf("(define dnm_SetInitialASharpmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialASharpmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialDmin setkeysigdmin*/
-install_scm_function ("SetInitialDmin", scheme_SetInitialDmin);
+text = g_strdup_printf("(define dnm_SetInitialDmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialDmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialGmin setkeysiggmin*/
-install_scm_function ("SetInitialGmin", scheme_SetInitialGmin);
+text = g_strdup_printf("(define dnm_SetInitialGmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialGmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialCmin setkeysigcmin*/
-install_scm_function ("SetInitialCmin", scheme_SetInitialCmin);
+text = g_strdup_printf("(define dnm_SetInitialCmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialCmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialFmin setkeysigfmin*/
-install_scm_function ("SetInitialFmin", scheme_SetInitialFmin);
+text = g_strdup_printf("(define dnm_SetInitialFmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialFmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialBflatmin setkeysigbflatmin*/
-install_scm_function ("SetInitialBflatmin", scheme_SetInitialBflatmin);
+text = g_strdup_printf("(define dnm_SetInitialBflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialBflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialEflatmin setkeysigeflatmin*/
-install_scm_function ("SetInitialEflatmin", scheme_SetInitialEflatmin);
+text = g_strdup_printf("(define dnm_SetInitialEflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialEflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetInitialAflatmin setkeysigaflatmin*/
-install_scm_function ("SetInitialAflatmin", scheme_SetInitialAflatmin);
+text = g_strdup_printf("(define dnm_SetInitialAflatmin %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetInitialAflatmin"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetMark set_mark*/
-install_scm_function ("SetMark", scheme_SetMark);
+text = g_strdup_printf("(define dnm_SetMark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetMark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*UnsetMark unset_mark*/
-install_scm_function ("UnsetMark", scheme_UnsetMark);
+text = g_strdup_printf("(define dnm_UnsetMark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "UnsetMark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleBeginSlur toggle_begin_slur*/
-install_scm_function ("ToggleBeginSlur", scheme_ToggleBeginSlur);
+text = g_strdup_printf("(define dnm_ToggleBeginSlur %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleBeginSlur"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleEndSlur toggle_end_slur*/
-install_scm_function ("ToggleEndSlur", scheme_ToggleEndSlur);
+text = g_strdup_printf("(define dnm_ToggleEndSlur %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleEndSlur"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleStartCrescendo toggle_start_crescendo*/
-install_scm_function ("ToggleStartCrescendo", scheme_ToggleStartCrescendo);
+text = g_strdup_printf("(define dnm_ToggleStartCrescendo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleStartCrescendo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleEndCrescendo toggle_end_crescendo*/
-install_scm_function ("ToggleEndCrescendo", scheme_ToggleEndCrescendo);
+text = g_strdup_printf("(define dnm_ToggleEndCrescendo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleEndCrescendo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleStartDiminuendo toggle_start_diminuendo*/
-install_scm_function ("ToggleStartDiminuendo", scheme_ToggleStartDiminuendo);
+text = g_strdup_printf("(define dnm_ToggleStartDiminuendo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleStartDiminuendo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleEndDiminuendo toggle_end_diminuendo*/
-install_scm_function ("ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
+text = g_strdup_printf("(define dnm_ToggleEndDiminuendo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleEndDiminuendo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleAccent add_accent*/
-install_scm_function ("ToggleAccent", scheme_ToggleAccent);
+text = g_strdup_printf("(define dnm_ToggleAccent %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleAccent"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleFermata add_fermata*/
-install_scm_function ("ToggleFermata", scheme_ToggleFermata);
+text = g_strdup_printf("(define dnm_ToggleFermata %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleFermata"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleStaccato add_staccato*/
-install_scm_function ("ToggleStaccato", scheme_ToggleStaccato);
+text = g_strdup_printf("(define dnm_ToggleStaccato %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleStaccato"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleTenuto add_tenuto*/
-install_scm_function ("ToggleTenuto", scheme_ToggleTenuto);
+text = g_strdup_printf("(define dnm_ToggleTenuto %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleTenuto"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleTrill add_trill*/
-install_scm_function ("ToggleTrill", scheme_ToggleTrill);
+text = g_strdup_printf("(define dnm_ToggleTrill %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleTrill"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleTurn add_turn*/
-install_scm_function ("ToggleTurn", scheme_ToggleTurn);
+text = g_strdup_printf("(define dnm_ToggleTurn %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleTurn"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleMordent add_mordent*/
-install_scm_function ("ToggleMordent", scheme_ToggleMordent);
+text = g_strdup_printf("(define dnm_ToggleMordent %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleMordent"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleStaccatissimo add_staccatissimo*/
-install_scm_function ("ToggleStaccatissimo", scheme_ToggleStaccatissimo);
+text = g_strdup_printf("(define dnm_ToggleStaccatissimo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleStaccatissimo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleCoda add_coda*/
-install_scm_function ("ToggleCoda", scheme_ToggleCoda);
+text = g_strdup_printf("(define dnm_ToggleCoda %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleCoda"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleFlageolet add_flageolet*/
-install_scm_function ("ToggleFlageolet", scheme_ToggleFlageolet);
+text = g_strdup_printf("(define dnm_ToggleFlageolet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleFlageolet"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleOpen add_open*/
-install_scm_function ("ToggleOpen", scheme_ToggleOpen);
+text = g_strdup_printf("(define dnm_ToggleOpen %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleOpen"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*TogglePrallMordent add_prallmordent*/
-install_scm_function ("TogglePrallMordent", scheme_TogglePrallMordent);
+text = g_strdup_printf("(define dnm_TogglePrallMordent %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "TogglePrallMordent"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*TogglePrallPrall add_prallprall*/
-install_scm_function ("TogglePrallPrall", scheme_TogglePrallPrall);
+text = g_strdup_printf("(define dnm_TogglePrallPrall %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "TogglePrallPrall"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*TogglePrall add_prall*/
-install_scm_function ("TogglePrall", scheme_TogglePrall);
+text = g_strdup_printf("(define dnm_TogglePrall %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "TogglePrall"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleReverseTurn add_reverseturn*/
-install_scm_function ("ToggleReverseTurn", scheme_ToggleReverseTurn);
+text = g_strdup_printf("(define dnm_ToggleReverseTurn %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleReverseTurn"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleSegno add_segno*/
-install_scm_function ("ToggleSegno", scheme_ToggleSegno);
+text = g_strdup_printf("(define dnm_ToggleSegno %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleSegno"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleSforzato add_sforzato*/
-install_scm_function ("ToggleSforzato", scheme_ToggleSforzato);
+text = g_strdup_printf("(define dnm_ToggleSforzato %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleSforzato"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleStopped add_stopped*/
-install_scm_function ("ToggleStopped", scheme_ToggleStopped);
+text = g_strdup_printf("(define dnm_ToggleStopped %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleStopped"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleThumb add_thumb*/
-install_scm_function ("ToggleThumb", scheme_ToggleThumb);
+text = g_strdup_printf("(define dnm_ToggleThumb %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleThumb"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleUpprall add_upprall*/
-install_scm_function ("ToggleUpprall", scheme_ToggleUpprall);
+text = g_strdup_printf("(define dnm_ToggleUpprall %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleUpprall"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleArpeggio add_arpeggio*/
-install_scm_function ("ToggleArpeggio", scheme_ToggleArpeggio);
+text = g_strdup_printf("(define dnm_ToggleArpeggio %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleArpeggio"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SetGrace set_grace*/
-install_scm_function ("SetGrace", scheme_SetGrace);
+text = g_strdup_printf("(define dnm_SetGrace %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SetGrace"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ForceCaution force_cautionary*/
-install_scm_function ("ForceCaution", scheme_ForceCaution);
+text = g_strdup_printf("(define dnm_ForceCaution %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ForceCaution"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ChangePitch change_pitch*/
-install_scm_function ("ChangePitch", scheme_ChangePitch);
+text = g_strdup_printf("(define dnm_ChangePitch %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ChangePitch"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DoubleBar insert_doublebar*/
-install_scm_function ("DoubleBar", scheme_DoubleBar);
+text = g_strdup_printf("(define dnm_DoubleBar %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DoubleBar"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EndBar insert_endbar*/
-install_scm_function ("EndBar", scheme_EndBar);
+text = g_strdup_printf("(define dnm_EndBar %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EndBar"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenRepeat insert_openrepeat*/
-install_scm_function ("OpenRepeat", scheme_OpenRepeat);
+text = g_strdup_printf("(define dnm_OpenRepeat %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenRepeat"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*CloseRepeat insert_closerepeat*/
-install_scm_function ("CloseRepeat", scheme_CloseRepeat);
+text = g_strdup_printf("(define dnm_CloseRepeat %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CloseRepeat"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenCloseRepeat insert_opencloserepeat*/
-install_scm_function ("OpenCloseRepeat", scheme_OpenCloseRepeat);
+text = g_strdup_printf("(define dnm_OpenCloseRepeat %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenCloseRepeat"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertRhythm insert_rhythm_pattern*/
-install_scm_function ("InsertRhythm", scheme_InsertRhythm);
+text = g_strdup_printf("(define dnm_InsertRhythm %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertRhythm"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*NextRhythm nextrhythm*/
-install_scm_function ("NextRhythm", scheme_NextRhythm);
+text = g_strdup_printf("(define dnm_NextRhythm %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "NextRhythm"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AppendMesauresToScore append_measure_score*/
-install_scm_function ("AppendMesauresToScore", scheme_AppendMesauresToScore);
+text = g_strdup_printf("(define dnm_AppendMesauresToScore %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AppendMesauresToScore"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*New file_newwrapper*/
-install_scm_function ("New", scheme_New);
+text = g_strdup_printf("(define dnm_New %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "New"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Open file_open_with_check*/
-install_scm_function ("Open", scheme_Open);
+text = g_strdup_printf("(define dnm_Open %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Open"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddStaffs file_add_staffs*/
-install_scm_function ("AddStaffs", scheme_AddStaffs);
+text = g_strdup_printf("(define dnm_AddStaffs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddStaffs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddMovements file_add_movements*/
-install_scm_function ("AddMovements", scheme_AddMovements);
+text = g_strdup_printf("(define dnm_AddMovements %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddMovements"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*MovementProps movement_props_dialog*/
-install_scm_function ("MovementProps", scheme_MovementProps);
+text = g_strdup_printf("(define dnm_MovementProps %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "MovementProps"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenNewWindow openinnew*/
-install_scm_function ("OpenNewWindow", scheme_OpenNewWindow);
+text = g_strdup_printf("(define dnm_OpenNewWindow %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenNewWindow"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Save file_savewrapper*/
-install_scm_function ("Save", scheme_Save);
+text = g_strdup_printf("(define dnm_Save %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Save"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SaveAs file_saveaswrapper*/
-install_scm_function ("SaveAs", scheme_SaveAs);
+text = g_strdup_printf("(define dnm_SaveAs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveAs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenTemplate system_template_open_with_check*/
-install_scm_function ("OpenTemplate", scheme_OpenTemplate);
+text = g_strdup_printf("(define dnm_OpenTemplate %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenTemplate"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenExample system_example_open_with_check*/
-install_scm_function ("OpenExample", scheme_OpenExample);
+text = g_strdup_printf("(define dnm_OpenExample %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenExample"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*OpenMyTemplate local_template_open_with_check*/
-install_scm_function ("OpenMyTemplate", scheme_OpenMyTemplate);
+text = g_strdup_printf("(define dnm_OpenMyTemplate %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "OpenMyTemplate"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SaveTemplate template_save*/
-install_scm_function ("SaveTemplate", scheme_SaveTemplate);
+text = g_strdup_printf("(define dnm_SaveTemplate %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveTemplate"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*NewWindow newview*/
-install_scm_function ("NewWindow", scheme_NewWindow);
+text = g_strdup_printf("(define dnm_NewWindow %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "NewWindow"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertMovementBefore insert_movement_before*/
-install_scm_function ("InsertMovementBefore", scheme_InsertMovementBefore);
+text = g_strdup_printf("(define dnm_InsertMovementBefore %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertMovementBefore"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertMovementAfter insert_movement_after*/
-install_scm_function ("InsertMovementAfter", scheme_InsertMovementAfter);
+text = g_strdup_printf("(define dnm_InsertMovementAfter %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertMovementAfter"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SaveParts file_savepartswrapper*/
-install_scm_function ("SaveParts", scheme_SaveParts);
+text = g_strdup_printf("(define dnm_SaveParts %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveParts"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ExportPDF export_pdf_action*/
-install_scm_function ("ExportPDF", scheme_ExportPDF);
+text = g_strdup_printf("(define dnm_ExportPDF %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ExportPDF"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ConfigureScore scorewizard*/
-install_scm_function ("ConfigureScore", scheme_ConfigureScore);
+text = g_strdup_printf("(define dnm_ConfigureScore %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ConfigureScore"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PrintPreview printpreview_cb*/
-install_scm_function ("PrintPreview", scheme_PrintPreview);
+text = g_strdup_printf("(define dnm_PrintPreview %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PrintPreview"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PrintExcerptPreview printexcerptpreview_cb*/
-install_scm_function ("PrintExcerptPreview", scheme_PrintExcerptPreview);
+text = g_strdup_printf("(define dnm_PrintExcerptPreview %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PrintExcerptPreview"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Print printall_cb*/
-install_scm_function ("Print", scheme_Print);
+text = g_strdup_printf("(define dnm_Print %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Print"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PrintPart printpart_cb*/
-install_scm_function ("PrintPart", scheme_PrintPart);
+text = g_strdup_printf("(define dnm_PrintPart %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PrintPart"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Close close_gui_with_check*/
-install_scm_function ("Close", scheme_Close);
+text = g_strdup_printf("(define dnm_Close %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Close"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Quit closewrapper*/
-install_scm_function ("Quit", scheme_Quit);
+text = g_strdup_printf("(define dnm_Quit %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Quit"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Undo undowrapper*/
-install_scm_function ("Undo", scheme_Undo);
+text = g_strdup_printf("(define dnm_Undo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Undo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Redo redowrapper*/
-install_scm_function ("Redo", scheme_Redo);
+text = g_strdup_printf("(define dnm_Redo %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Redo"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Copy copywrapper*/
-install_scm_function ("Copy", scheme_Copy);
+text = g_strdup_printf("(define dnm_Copy %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Copy"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Cut cutwrapper*/
-install_scm_function ("Cut", scheme_Cut);
+text = g_strdup_printf("(define dnm_Cut %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Cut"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Paste pastewrapper*/
-install_scm_function ("Paste", scheme_Paste);
+text = g_strdup_printf("(define dnm_Paste %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Paste"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ScoreProperties score_properties_dialog*/
-install_scm_function ("ScoreProperties", scheme_ScoreProperties);
+text = g_strdup_printf("(define dnm_ScoreProperties %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ScoreProperties"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SaveSelection saveselwrapper*/
-install_scm_function ("SaveSelection", scheme_SaveSelection);
+text = g_strdup_printf("(define dnm_SaveSelection %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveSelection"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Preferences preferences_change*/
-install_scm_function ("Preferences", scheme_Preferences);
+text = g_strdup_printf("(define dnm_Preferences %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Preferences"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SaveAccels save_default_keymap_file_wrapper*/
-install_scm_function ("SaveAccels", scheme_SaveAccels);
+text = g_strdup_printf("(define dnm_SaveAccels %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveAccels"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Keyboard configure_keyboard_dialog*/
-install_scm_function ("Keyboard", scheme_Keyboard);
+text = g_strdup_printf("(define dnm_Keyboard %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Keyboard"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*LoadPlugins load_plugin*/
-install_scm_function ("LoadPlugins", scheme_LoadPlugins);
+text = g_strdup_printf("(define dnm_LoadPlugins %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "LoadPlugins"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*UnloadPlugins unloadplugins*/
-install_scm_function ("UnloadPlugins", scheme_UnloadPlugins);
+text = g_strdup_printf("(define dnm_UnloadPlugins %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "UnloadPlugins"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ListPlugins list_loaded_plugins*/
-install_scm_function ("ListPlugins", scheme_ListPlugins);
+text = g_strdup_printf("(define dnm_ListPlugins %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ListPlugins"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ListAvailablePlugins list_available_plugins*/
-install_scm_function ("ListAvailablePlugins", scheme_ListAvailablePlugins);
+text = g_strdup_printf("(define dnm_ListAvailablePlugins %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ListAvailablePlugins"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SwapStaffs swapstaffs*/
-install_scm_function ("SwapStaffs", scheme_SwapStaffs);
+text = g_strdup_printf("(define dnm_SwapStaffs %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SwapStaffs"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SplitVoices splitstaffs*/
-install_scm_function ("SplitVoices", scheme_SplitVoices);
+text = g_strdup_printf("(define dnm_SplitVoices %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SplitVoices"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*JoinVoices joinstaffs*/
-install_scm_function ("JoinVoices", scheme_JoinVoices);
+text = g_strdup_printf("(define dnm_JoinVoices %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "JoinVoices"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*SwapMovements swapmovements*/
-install_scm_function ("SwapMovements", scheme_SwapMovements);
+text = g_strdup_printf("(define dnm_SwapMovements %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SwapMovements"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*VoiceUp voiceup*/
-install_scm_function ("VoiceUp", scheme_VoiceUp);
+text = g_strdup_printf("(define dnm_VoiceUp %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "VoiceUp"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*VoiceDown voicedown*/
-install_scm_function ("VoiceDown", scheme_VoiceDown);
+text = g_strdup_printf("(define dnm_VoiceDown %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "VoiceDown"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddBefore newstaffbefore*/
-install_scm_function ("AddBefore", scheme_AddBefore);
+text = g_strdup_printf("(define dnm_AddBefore %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddBefore"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddAfter dnm_newstaffafter*/
-install_scm_function ("AddAfter", scheme_AddAfter);
+text = g_strdup_printf("(define dnm_AddAfter %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddAfter"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddInitial newstaffinitial*/
-install_scm_function ("AddInitial", scheme_AddInitial);
+text = g_strdup_printf("(define dnm_AddInitial %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddInitial"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddLast newstafflast*/
-install_scm_function ("AddLast", scheme_AddLast);
+text = g_strdup_printf("(define dnm_AddLast %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddLast"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteBefore delete_staff_before*/
-install_scm_function ("DeleteBefore", scheme_DeleteBefore);
+text = g_strdup_printf("(define dnm_DeleteBefore %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteBefore"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteStaff delete_staff_current*/
-install_scm_function ("DeleteStaff", scheme_DeleteStaff);
+text = g_strdup_printf("(define dnm_DeleteStaff %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteStaff"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteAfter delete_staff_after*/
-install_scm_function ("DeleteAfter", scheme_DeleteAfter);
+text = g_strdup_printf("(define dnm_DeleteAfter %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteAfter"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddVoice dnm_newstaffvoice*/
-install_scm_function ("AddVoice", scheme_AddVoice);
+text = g_strdup_printf("(define dnm_AddVoice %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddVoice"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*TransposeStaff staff_transposition*/
-install_scm_function ("TransposeStaff", scheme_TransposeStaff);
+text = g_strdup_printf("(define dnm_TransposeStaff %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "TransposeStaff"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*StaffProperties staff_properties_change_cb*/
-install_scm_function ("StaffProperties", scheme_StaffProperties);
+text = g_strdup_printf("(define dnm_StaffProperties %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "StaffProperties"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InitialClef clef_change_initial*/
-install_scm_function ("InitialClef", scheme_InitialClef);
+text = g_strdup_printf("(define dnm_InitialClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InitialClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertClef clef_change_insert*/
-install_scm_function ("InsertClef", scheme_InsertClef);
+text = g_strdup_printf("(define dnm_InsertClef %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertClef"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InitialKey key_change_initial*/
-install_scm_function ("InitialKey", scheme_InitialKey);
+text = g_strdup_printf("(define dnm_InitialKey %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InitialKey"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertKey key_change_insert*/
-install_scm_function ("InsertKey", scheme_InsertKey);
+text = g_strdup_printf("(define dnm_InsertKey %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertKey"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InitialTimeSig timesig_change_initial*/
-install_scm_function ("InitialTimeSig", scheme_InitialTimeSig);
+text = g_strdup_printf("(define dnm_InitialTimeSig %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InitialTimeSig"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertTimeSig timesig_change_insert*/
-install_scm_function ("InsertTimeSig", scheme_InsertTimeSig);
+text = g_strdup_printf("(define dnm_InsertTimeSig %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertTimeSig"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ChangeNotehead set_notehead*/
-install_scm_function ("ChangeNotehead", scheme_ChangeNotehead);
+text = g_strdup_printf("(define dnm_ChangeNotehead %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ChangeNotehead"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertStem stem_directive_insert*/
-install_scm_function ("InsertStem", scheme_InsertStem);
+text = g_strdup_printf("(define dnm_InsertStem %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertStem"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EditLyric lyric_insert*/
-install_scm_function ("EditLyric", scheme_EditLyric);
+text = g_strdup_printf("(define dnm_EditLyric %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EditLyric"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EditFiguredBass figure_insert*/
-install_scm_function ("EditFiguredBass", scheme_EditFiguredBass);
+text = g_strdup_printf("(define dnm_EditFiguredBass %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EditFiguredBass"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*EditChords fakechord_insert*/
-install_scm_function ("EditChords", scheme_EditChords);
+text = g_strdup_printf("(define dnm_EditChords %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "EditChords"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertDynamic insert_dynamic*/
-install_scm_function ("InsertDynamic", scheme_InsertDynamic);
+text = g_strdup_printf("(define dnm_InsertDynamic %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertDynamic"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertLilyDirective lily_directive_insert*/
-install_scm_function ("InsertLilyDirective", scheme_InsertLilyDirective);
+text = g_strdup_printf("(define dnm_InsertLilyDirective %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertLilyDirective"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertLilyPostfix lily_directive_postfix*/
-install_scm_function ("InsertLilyPostfix", scheme_InsertLilyPostfix);
+text = g_strdup_printf("(define dnm_InsertLilyPostfix %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertLilyPostfix"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*InsertBarline insert_barline*/
-install_scm_function ("InsertBarline", scheme_InsertBarline);
+text = g_strdup_printf("(define dnm_InsertBarline %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertBarline"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*GoToMeasure tomeasurenum*/
-install_scm_function ("GoToMeasure", scheme_GoToMeasure);
+text = g_strdup_printf("(define dnm_GoToMeasure %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "GoToMeasure"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*GoToBeginning tohome*/
-install_scm_function ("GoToBeginning", scheme_GoToBeginning);
+text = g_strdup_printf("(define dnm_GoToBeginning %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "GoToBeginning"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*GoToEnd toend*/
-install_scm_function ("GoToEnd", scheme_GoToEnd);
+text = g_strdup_printf("(define dnm_GoToEnd %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "GoToEnd"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*NextMovement next_movement*/
-install_scm_function ("NextMovement", scheme_NextMovement);
+text = g_strdup_printf("(define dnm_NextMovement %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "NextMovement"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PreviousMovement prev_movement*/
-install_scm_function ("PreviousMovement", scheme_PreviousMovement);
+text = g_strdup_printf("(define dnm_PreviousMovement %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PreviousMovement"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteMovement delete_movement*/
-install_scm_function ("DeleteMovement", scheme_DeleteMovement);
+text = g_strdup_printf("(define dnm_DeleteMovement %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteMovement"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteBookmarks deletebookmarks*/
-install_scm_function ("DeleteBookmarks", scheme_DeleteBookmarks);
+text = g_strdup_printf("(define dnm_DeleteBookmarks %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteBookmarks"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Play ext_midi_playback*/
-install_scm_function ("Play", scheme_Play);
+text = g_strdup_printf("(define dnm_Play %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Play"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Stop stop_midi_playback*/
-install_scm_function ("Stop", scheme_Stop);
+text = g_strdup_printf("(define dnm_Stop %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Stop"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PlayCSound dnm_csoundplayback*/
-install_scm_function ("PlayCSound", scheme_PlayCSound);
+text = g_strdup_printf("(define dnm_PlayCSound %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PlayCSound"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PlaybackProperties playback_properties_change*/
-install_scm_function ("PlaybackProperties", scheme_PlaybackProperties);
+text = g_strdup_printf("(define dnm_PlaybackProperties %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PlaybackProperties"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*Help browse_manual*/
-install_scm_function ("Help", scheme_Help);
+text = g_strdup_printf("(define dnm_Help %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Help"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*About about*/
-install_scm_function ("About", scheme_About);
+text = g_strdup_printf("(define dnm_About %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "About"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddBookmark addbookmark*/
-install_scm_function ("AddBookmark", scheme_AddBookmark);
+text = g_strdup_printf("(define dnm_AddBookmark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddBookmark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*GotoBookmark gotobookmark*/
-install_scm_function ("GotoBookmark", scheme_GotoBookmark);
+text = g_strdup_printf("(define dnm_GotoBookmark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "GotoBookmark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*NextBookmark nextbookmark*/
-install_scm_function ("NextBookmark", scheme_NextBookmark);
+text = g_strdup_printf("(define dnm_NextBookmark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "NextBookmark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*PrevBookmark prevbookmark*/
-install_scm_function ("PrevBookmark", scheme_PrevBookmark);
+text = g_strdup_printf("(define dnm_PrevBookmark %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "PrevBookmark"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleEdit toggle_edit_mode*/
-install_scm_function ("ToggleEdit", scheme_ToggleEdit);
+text = g_strdup_printf("(define dnm_ToggleEdit %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleEdit"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleRest toggle_rest_mode*/
-install_scm_function ("ToggleRest", scheme_ToggleRest);
+text = g_strdup_printf("(define dnm_ToggleRest %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleRest"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ToggleRhythm toggle_rhythm_mode*/
-install_scm_function ("ToggleRhythm", scheme_ToggleRhythm);
+text = g_strdup_printf("(define dnm_ToggleRhythm %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ToggleRhythm"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*ClearOverlay clear_overlay*/
-install_scm_function ("ClearOverlay", scheme_ClearOverlay);
+text = g_strdup_printf("(define dnm_ClearOverlay %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "ClearOverlay"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*CreateRhythm create_rhythm_cb*/
-install_scm_function ("CreateRhythm", scheme_CreateRhythm);
+text = g_strdup_printf("(define dnm_CreateRhythm %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CreateRhythm"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*DeleteRhythm delete_rhythm_cb*/
-install_scm_function ("DeleteRhythm", scheme_DeleteRhythm);
+text = g_strdup_printf("(define dnm_DeleteRhythm %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "DeleteRhythm"));
+(void)scm_c_eval_string(text);
+g_free(text);

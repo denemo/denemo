@@ -475,6 +475,7 @@ int main() {
   int n_unmenued_commands = (sizeof (unmenued_commands)
 			   / sizeof (struct name_and_function));
 
+  fprintf(scheme, "gchar *text;\n");
   for(i=0;i<n_unmenued_commands;i++) {
     if (fi != NULL)
       if(mi!=KBD_CATEGORY_DIRECT) {
@@ -486,7 +487,9 @@ int main() {
       }
     if (fi != NULL) {
       fprintf(scheme, "/*%s %s*/\n",ni, fi);
-      fprintf(scheme, "install_scm_function (\"%s\", scheme_%s);\n", ni, ni);
+      //fprintf(scheme, "install_scm_function (\"%s\", scheme_%s);\n", ni, ni);
+      fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%s\"));\n", ni, ni);
+      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
 
       fprintf(scheme_cb, "SCM scheme_%s (void) {\n%s%s (NULL);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
 
