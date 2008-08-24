@@ -36,7 +36,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   if (command_idx != -1) {
       const gchar *command_name =
           lookup_name_from_idx (the_keymap, command_idx);
-      if (execute_callback_from_idx(the_keymap, command_idx, gui)) {
+      if (execute_callback_from_idx(the_keymap, command_idx)) {
           displayhelper (gui);
           gtk_widget_draw (gui->scorearea, NULL);
           return 1;

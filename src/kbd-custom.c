@@ -947,7 +947,7 @@ findActionGroupByName(gconstpointer a, gconstpointer b)
 }
 
 static GtkActionGroup *
-get_action_group(keymap *the_keymap, DenemoGUI *gui)
+get_action_group(keymap *the_keymap)
 {
   GList *keymap_action_group, *action_group_list;
   action_group_list = gtk_ui_manager_get_action_groups(Denemo.ui_manager);
@@ -974,7 +974,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   keymap_foreach_command_binding (the_keymap, command_idx,
           (GFunc)listname, str);
   //Prepare the new label
-  gchar *base;
+  const gchar *base;
   //FIXME use translate_dnm_to_gtk
   base = lookup_label_from_idx(the_keymap, command_idx);
   gchar *c;
@@ -986,7 +986,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
 
   gui = Denemo.gui;
-      action_group = get_action_group(the_keymap, gui);
+      action_group = get_action_group(the_keymap);
       action = gtk_action_group_get_action(action_group, command_name);
       //For all widgets proxying the action, change the label
       GSList *h = gtk_action_get_proxies (action);
@@ -1295,7 +1295,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   return TRUE;
 }
 gboolean
-idx_has_callback(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
+idx_has_callback(keymap *the_keymap, guint command_idx)
 {
   gboolean res = TRUE;
   const gchar *command_name;
@@ -1303,7 +1303,7 @@ idx_has_callback(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
   GtkActionGroup *action_group;
   gpointer f;
   command_name = lookup_name_from_idx(the_keymap, command_idx);
-  action_group = get_action_group(the_keymap, gui);
+  action_group = get_action_group(the_keymap);
   action = gtk_action_group_get_action(action_group, command_name);
   //check for the existence of a callback, enables to detect action entries
   command_row row;
@@ -1333,18 +1333,24 @@ idx_has_callback(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
   return res;
 }
 
+
 gboolean
-execute_callback_from_idx(keymap *the_keymap, guint command_idx, DenemoGUI *gui)
+execute_callback_from_idx(keymap *the_keymap, guint command_idx)
+{
+  const gchar *command_name;
+  command_name = lookup_name_from_idx(the_keymap, command_idx);
+  return execute_callback_from_name(the_keymap, command_name);
+}
+gboolean
+execute_callback_from_name(keymap *the_keymap, const gchar* command_name)
 {
   gboolean res = TRUE;
-  const gchar *command_name;
   GtkAction *action;
   GtkActionGroup *action_group;
-  command_name = lookup_name_from_idx(the_keymap, command_idx);
-  action_group = get_action_group(the_keymap, gui);
+  action_group = get_action_group(the_keymap);
   action = gtk_action_group_get_action(action_group, command_name);
 #if DEBUG
-  res = idx_has_callback(the_keymap, command_idx, gui);
+  res = idx_has_callback(the_keymap, command_idx);
 #endif
   gtk_action_activate(action);
   return res;

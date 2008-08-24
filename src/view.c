@@ -1152,14 +1152,14 @@ static gboolean menu_click (GtkWidget      *widget,
 {
 
   GtkAction *action = info->action;
-  DenemoGUI *gui = info->gui;
+  //DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   const gchar *func_name = gtk_action_get_name(action);
   g_print("widget name %s\n", gtk_widget_get_name(widget));
   gint idx = lookup_index_from_name (the_keymap, func_name);
   if (event->button != 3) //Not right click
     if(Denemo.ScriptRecording)
-      if(idx_has_callback(the_keymap, idx, gui)){	
+      if(idx_has_callback(the_keymap, idx)){	
 	append_scheme_call((gchar*)func_name);
 	//return TRUE;
       }
@@ -1168,7 +1168,7 @@ static gboolean menu_click (GtkWidget      *widget,
     return FALSE;
   if (idx == -1)
     return TRUE;
-  //  if(!idx_has_callback(the_keymap, idx, gui))
+  //  if(!idx_has_callback(the_keymap, idx))
 
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item = gtk_menu_item_new_with_label("Edit/Create Shortcut");

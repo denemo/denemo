@@ -140,12 +140,12 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 		gpointer func_data);
 
 gboolean
-execute_callback_from_idx(keymap *the_keymap, guint command_idx,
-		DenemoGUI *gui);
+execute_callback_from_idx(keymap *the_keymap, guint command_idx);
+gboolean
+execute_callback_from_name(keymap *the_keymap, const gchar* command_name);
 
 gboolean
-idx_has_callback (keymap *the_keymap, guint command_idx,
-		DenemoGUI *gui);
+idx_has_callback (keymap *the_keymap, guint command_idx);
 
 void
 dump_command_info(keymap *the_keymap, gint command_idx);
