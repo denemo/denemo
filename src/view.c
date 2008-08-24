@@ -195,7 +195,10 @@ SCM scheme_denemoy(SCM val) {
 }
 #endif
 
+static install_scm_function(gchar *name, gpointer callback) {
+scm_c_define_gsubr (name, 0, 0, 0, callback);
 
+}
 int inner_main(void){
 
   gint i;
@@ -210,7 +213,8 @@ int inner_main(void){
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
 
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++)
-  scm_c_define_gsubr (activatable_commands[i].str, 0, 0, 0, activatable_commands[i].p);
+    install_scm_function(activatable_commands[i].str, activatable_commands[i].p);
+    // scm_c_define_gsubr (activatable_commands[i].str, 0, 0, 0, activatable_commands[i].p);
 
 #ifdef TRIAL_SCHEME
   scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
@@ -1062,14 +1066,22 @@ activate_script (GtkAction * action)
   DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
-
-  GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
-   for(;h;h=h->next) {
-     attach_set_accel_callback(h->data, action, gui);
-   }
-  gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
-  g_print("Executing %s\n", text);
-  (void)scm_c_eval_string(text);
+  if(GTK_IS_ACTION(action)) {
+    GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
+    for(;h;h=h->next) {
+      attach_set_accel_callback(h->data, action, gui);
+    }
+    
+    gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
+    g_print("Executing %s\n", text);
+    (void)scm_c_eval_string(text);
+  }
+  else
+    warningdialog("Have no way of getting the script, sorry");
+}
+static void activate_script1 (void)
+{
+  activate_script (NULL);
 }
 
 static void insertScript(GtkWidget *widget, gchar *myposition) {
@@ -1110,17 +1122,11 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
    register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
           KeymapEntry);
   end_command_registration(Denemo.prefs.the_keymap);
+  install_scm_function(myname, activate_script1);
   return;
 }
 
 
-/*
-  menu_click:
-  intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
-  Left click runs default action, after recording the item in a scheme script if recording.
-  Rigth click offers pop-up menu for setting shortcuts etc
-
-*/
 
 static void append_scheme_call(gchar *func) {
   GtkTextIter enditer;
@@ -1133,6 +1139,13 @@ static void append_scheme_call(gchar *func) {
   g_free(text); 
 }
 
+/*
+  menu_click:
+  intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
+  Left click runs default action, after recording the item in a scheme script if recording.
+  Rigth click offers pop-up menu for setting shortcuts etc
+
+*/
 static gboolean menu_click (GtkWidget      *widget,
 			  GdkEventButton *event,
 			  accel_cb *info)

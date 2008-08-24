@@ -1,582 +1,582 @@
 /*CursorLeft cursorleft*/
-scm_c_define_gsubr ("CursorLeft", 0, 0, 0, scheme_CursorLeft);
+install_scm_function ("CursorLeft", scheme_CursorLeft);
 /*CursorDown cursordown*/
-scm_c_define_gsubr ("CursorDown", 0, 0, 0, scheme_CursorDown);
+install_scm_function ("CursorDown", scheme_CursorDown);
 /*CursorUp cursorup*/
-scm_c_define_gsubr ("CursorUp", 0, 0, 0, scheme_CursorUp);
+install_scm_function ("CursorUp", scheme_CursorUp);
 /*CursorRight cursorright*/
-scm_c_define_gsubr ("CursorRight", 0, 0, 0, scheme_CursorRight);
+install_scm_function ("CursorRight", scheme_CursorRight);
 /*StaffUp staffup*/
-scm_c_define_gsubr ("StaffUp", 0, 0, 0, scheme_StaffUp);
+install_scm_function ("StaffUp", scheme_StaffUp);
 /*StaffDown staffdown*/
-scm_c_define_gsubr ("StaffDown", 0, 0, 0, scheme_StaffDown);
+install_scm_function ("StaffDown", scheme_StaffDown);
 /*MeasureLeft measureleft*/
-scm_c_define_gsubr ("MeasureLeft", 0, 0, 0, scheme_MeasureLeft);
+install_scm_function ("MeasureLeft", scheme_MeasureLeft);
 /*MeasureRight measureright*/
-scm_c_define_gsubr ("MeasureRight", 0, 0, 0, scheme_MeasureRight);
+install_scm_function ("MeasureRight", scheme_MeasureRight);
 /*A go_to_A_key*/
-scm_c_define_gsubr ("A", 0, 0, 0, scheme_A);
+install_scm_function ("A", scheme_A);
 /*B go_to_B_key*/
-scm_c_define_gsubr ("B", 0, 0, 0, scheme_B);
+install_scm_function ("B", scheme_B);
 /*C go_to_C_key*/
-scm_c_define_gsubr ("C", 0, 0, 0, scheme_C);
+install_scm_function ("C", scheme_C);
 /*D go_to_D_key*/
-scm_c_define_gsubr ("D", 0, 0, 0, scheme_D);
+install_scm_function ("D", scheme_D);
 /*E go_to_E_key*/
-scm_c_define_gsubr ("E", 0, 0, 0, scheme_E);
+install_scm_function ("E", scheme_E);
 /*F go_to_F_key*/
-scm_c_define_gsubr ("F", 0, 0, 0, scheme_F);
+install_scm_function ("F", scheme_F);
 /*G go_to_G_key*/
-scm_c_define_gsubr ("G", 0, 0, 0, scheme_G);
+install_scm_function ("G", scheme_G);
 /*OctaveUp octave_up_key*/
-scm_c_define_gsubr ("OctaveUp", 0, 0, 0, scheme_OctaveUp);
+install_scm_function ("OctaveUp", scheme_OctaveUp);
 /*OctaveDown octave_down_key*/
-scm_c_define_gsubr ("OctaveDown", 0, 0, 0, scheme_OctaveDown);
+install_scm_function ("OctaveDown", scheme_OctaveDown);
 /*WholeNote insert_chord_0key*/
-scm_c_define_gsubr ("WholeNote", 0, 0, 0, scheme_WholeNote);
+install_scm_function ("WholeNote", scheme_WholeNote);
 /*HalfNote insert_chord_1key*/
-scm_c_define_gsubr ("HalfNote", 0, 0, 0, scheme_HalfNote);
+install_scm_function ("HalfNote", scheme_HalfNote);
 /*QuarterNote insert_chord_2key*/
-scm_c_define_gsubr ("QuarterNote", 0, 0, 0, scheme_QuarterNote);
+install_scm_function ("QuarterNote", scheme_QuarterNote);
 /*EighthNote insert_chord_3key*/
-scm_c_define_gsubr ("EighthNote", 0, 0, 0, scheme_EighthNote);
+install_scm_function ("EighthNote", scheme_EighthNote);
 /*SixteenthNote insert_chord_4key*/
-scm_c_define_gsubr ("SixteenthNote", 0, 0, 0, scheme_SixteenthNote);
+install_scm_function ("SixteenthNote", scheme_SixteenthNote);
 /*ThirtysecondNote insert_chord_5key*/
-scm_c_define_gsubr ("ThirtysecondNote", 0, 0, 0, scheme_ThirtysecondNote);
+install_scm_function ("ThirtysecondNote", scheme_ThirtysecondNote);
 /*SixtyfourthNote insert_chord_6key*/
-scm_c_define_gsubr ("SixtyfourthNote", 0, 0, 0, scheme_SixtyfourthNote);
+install_scm_function ("SixtyfourthNote", scheme_SixtyfourthNote);
 /*InsertBlankWholeNote insert_blankchord_0key*/
-scm_c_define_gsubr ("InsertBlankWholeNote", 0, 0, 0, scheme_InsertBlankWholeNote);
+install_scm_function ("InsertBlankWholeNote", scheme_InsertBlankWholeNote);
 /*InsertBlankHalfNote insert_blankchord_1key*/
-scm_c_define_gsubr ("InsertBlankHalfNote", 0, 0, 0, scheme_InsertBlankHalfNote);
+install_scm_function ("InsertBlankHalfNote", scheme_InsertBlankHalfNote);
 /*InsertBlankQuarterNote insert_blankchord_2key*/
-scm_c_define_gsubr ("InsertBlankQuarterNote", 0, 0, 0, scheme_InsertBlankQuarterNote);
+install_scm_function ("InsertBlankQuarterNote", scheme_InsertBlankQuarterNote);
 /*InsertBlankEighthNote insert_blankchord_3key*/
-scm_c_define_gsubr ("InsertBlankEighthNote", 0, 0, 0, scheme_InsertBlankEighthNote);
+install_scm_function ("InsertBlankEighthNote", scheme_InsertBlankEighthNote);
 /*InsertBlankSixteenthNote insert_blankchord_4key*/
-scm_c_define_gsubr ("InsertBlankSixteenthNote", 0, 0, 0, scheme_InsertBlankSixteenthNote);
+install_scm_function ("InsertBlankSixteenthNote", scheme_InsertBlankSixteenthNote);
 /*InsertBlankThirtysecondNote insert_blankchord_5key*/
-scm_c_define_gsubr ("InsertBlankThirtysecondNote", 0, 0, 0, scheme_InsertBlankThirtysecondNote);
+install_scm_function ("InsertBlankThirtysecondNote", scheme_InsertBlankThirtysecondNote);
 /*InsertBlankSixtyfourthNote insert_blankchord_6key*/
-scm_c_define_gsubr ("InsertBlankSixtyfourthNote", 0, 0, 0, scheme_InsertBlankSixtyfourthNote);
+install_scm_function ("InsertBlankSixtyfourthNote", scheme_InsertBlankSixtyfourthNote);
 /*ToggleRestMode rest_toggle_key*/
-scm_c_define_gsubr ("ToggleRestMode", 0, 0, 0, scheme_ToggleRestMode);
+install_scm_function ("ToggleRestMode", scheme_ToggleRestMode);
 /*ToggleBlankMode toggle_blank*/
-scm_c_define_gsubr ("ToggleBlankMode", 0, 0, 0, scheme_ToggleBlankMode);
+install_scm_function ("ToggleBlankMode", scheme_ToggleBlankMode);
 /*InsertWholeRest insert_rest_0key*/
-scm_c_define_gsubr ("InsertWholeRest", 0, 0, 0, scheme_InsertWholeRest);
+install_scm_function ("InsertWholeRest", scheme_InsertWholeRest);
 /*InsertHalfRest insert_rest_1key*/
-scm_c_define_gsubr ("InsertHalfRest", 0, 0, 0, scheme_InsertHalfRest);
+install_scm_function ("InsertHalfRest", scheme_InsertHalfRest);
 /*InsertQuarterRest insert_rest_2key*/
-scm_c_define_gsubr ("InsertQuarterRest", 0, 0, 0, scheme_InsertQuarterRest);
+install_scm_function ("InsertQuarterRest", scheme_InsertQuarterRest);
 /*InsertEighthRest insert_rest_3key*/
-scm_c_define_gsubr ("InsertEighthRest", 0, 0, 0, scheme_InsertEighthRest);
+install_scm_function ("InsertEighthRest", scheme_InsertEighthRest);
 /*InsertSixteenthRest insert_rest_4key*/
-scm_c_define_gsubr ("InsertSixteenthRest", 0, 0, 0, scheme_InsertSixteenthRest);
+install_scm_function ("InsertSixteenthRest", scheme_InsertSixteenthRest);
 /*InsertThirtysecondRest insert_rest_5key*/
-scm_c_define_gsubr ("InsertThirtysecondRest", 0, 0, 0, scheme_InsertThirtysecondRest);
+install_scm_function ("InsertThirtysecondRest", scheme_InsertThirtysecondRest);
 /*InsertSixtyfourthRest insert_rest_6key*/
-scm_c_define_gsubr ("InsertSixtyfourthRest", 0, 0, 0, scheme_InsertSixtyfourthRest);
+install_scm_function ("InsertSixtyfourthRest", scheme_InsertSixtyfourthRest);
 /*InsertDuplet insert_duplet*/
-scm_c_define_gsubr ("InsertDuplet", 0, 0, 0, scheme_InsertDuplet);
+install_scm_function ("InsertDuplet", scheme_InsertDuplet);
 /*InsertTriplet insert_triplet*/
-scm_c_define_gsubr ("InsertTriplet", 0, 0, 0, scheme_InsertTriplet);
+install_scm_function ("InsertTriplet", scheme_InsertTriplet);
 /*StartTriplet start_triplet*/
-scm_c_define_gsubr ("StartTriplet", 0, 0, 0, scheme_StartTriplet);
+install_scm_function ("StartTriplet", scheme_StartTriplet);
 /*EndTuplet end_tuplet*/
-scm_c_define_gsubr ("EndTuplet", 0, 0, 0, scheme_EndTuplet);
+install_scm_function ("EndTuplet", scheme_EndTuplet);
 /*InsertQuadtuplet insert_quadtuplet*/
-scm_c_define_gsubr ("InsertQuadtuplet", 0, 0, 0, scheme_InsertQuadtuplet);
+install_scm_function ("InsertQuadtuplet", scheme_InsertQuadtuplet);
 /*InsertQuintuplet insert_quintuplet*/
-scm_c_define_gsubr ("InsertQuintuplet", 0, 0, 0, scheme_InsertQuintuplet);
+install_scm_function ("InsertQuintuplet", scheme_InsertQuintuplet);
 /*InsertSextuplet insert_sextuplet*/
-scm_c_define_gsubr ("InsertSextuplet", 0, 0, 0, scheme_InsertSextuplet);
+install_scm_function ("InsertSextuplet", scheme_InsertSextuplet);
 /*InsertSeptuplet insert_septuplet*/
-scm_c_define_gsubr ("InsertSeptuplet", 0, 0, 0, scheme_InsertSeptuplet);
+install_scm_function ("InsertSeptuplet", scheme_InsertSeptuplet);
 /*AddTone add_tone_key*/
-scm_c_define_gsubr ("AddTone", 0, 0, 0, scheme_AddTone);
+install_scm_function ("AddTone", scheme_AddTone);
 /*RemoveTone remove_tone_key*/
-scm_c_define_gsubr ("RemoveTone", 0, 0, 0, scheme_RemoveTone);
+install_scm_function ("RemoveTone", scheme_RemoveTone);
 /*SharpenOrStemDown sharpen_key*/
-scm_c_define_gsubr ("SharpenOrStemDown", 0, 0, 0, scheme_SharpenOrStemDown);
+install_scm_function ("SharpenOrStemDown", scheme_SharpenOrStemDown);
 /*FlattenOrStemUp flatten_key*/
-scm_c_define_gsubr ("FlattenOrStemUp", 0, 0, 0, scheme_FlattenOrStemUp);
+install_scm_function ("FlattenOrStemUp", scheme_FlattenOrStemUp);
 /*AddDot add_dot_key*/
-scm_c_define_gsubr ("AddDot", 0, 0, 0, scheme_AddDot);
+install_scm_function ("AddDot", scheme_AddDot);
 /*RemoveDot remove_dot_key*/
-scm_c_define_gsubr ("RemoveDot", 0, 0, 0, scheme_RemoveDot);
+install_scm_function ("RemoveDot", scheme_RemoveDot);
 /*InsertTiedNote tie_notes_key*/
-scm_c_define_gsubr ("InsertTiedNote", 0, 0, 0, scheme_InsertTiedNote);
+install_scm_function ("InsertTiedNote", scheme_InsertTiedNote);
 /*DeleteObject deleteobject*/
-scm_c_define_gsubr ("DeleteObject", 0, 0, 0, scheme_DeleteObject);
+install_scm_function ("DeleteObject", scheme_DeleteObject);
 /*DeletePreviousObject deletepreviousobject*/
-scm_c_define_gsubr ("DeletePreviousObject", 0, 0, 0, scheme_DeletePreviousObject);
+install_scm_function ("DeletePreviousObject", scheme_DeletePreviousObject);
 /*InsertMeasure insert_measure_key*/
-scm_c_define_gsubr ("InsertMeasure", 0, 0, 0, scheme_InsertMeasure);
+install_scm_function ("InsertMeasure", scheme_InsertMeasure);
 /*AppendMeasure append_measure_key*/
-scm_c_define_gsubr ("AppendMeasure", 0, 0, 0, scheme_AppendMeasure);
+install_scm_function ("AppendMeasure", scheme_AppendMeasure);
 /*DeleteMeasure deletemeasure*/
-scm_c_define_gsubr ("DeleteMeasure", 0, 0, 0, scheme_DeleteMeasure);
+install_scm_function ("DeleteMeasure", scheme_DeleteMeasure);
 /*DeleteMeasureAllStaffs deletemeasureallstaffs*/
-scm_c_define_gsubr ("DeleteMeasureAllStaffs", 0, 0, 0, scheme_DeleteMeasureAllStaffs);
+install_scm_function ("DeleteMeasureAllStaffs", scheme_DeleteMeasureAllStaffs);
 /*ShrinkMeasures adjust_measure_less_width_key*/
-scm_c_define_gsubr ("ShrinkMeasures", 0, 0, 0, scheme_ShrinkMeasures);
+install_scm_function ("ShrinkMeasures", scheme_ShrinkMeasures);
 /*WidenMeasures adjust_measure_more_width_key*/
-scm_c_define_gsubr ("WidenMeasures", 0, 0, 0, scheme_WidenMeasures);
+install_scm_function ("WidenMeasures", scheme_WidenMeasures);
 /*ShorterStaffs adjust_staff_less_height_key*/
-scm_c_define_gsubr ("ShorterStaffs", 0, 0, 0, scheme_ShorterStaffs);
+install_scm_function ("ShorterStaffs", scheme_ShorterStaffs);
 /*TallerStaffs adjust_staff_more_height_key*/
-scm_c_define_gsubr ("TallerStaffs", 0, 0, 0, scheme_TallerStaffs);
+install_scm_function ("TallerStaffs", scheme_TallerStaffs);
 /*InsertTrebleClef newcleftreble*/
-scm_c_define_gsubr ("InsertTrebleClef", 0, 0, 0, scheme_InsertTrebleClef);
+install_scm_function ("InsertTrebleClef", scheme_InsertTrebleClef);
 /*InsertBassClef newclefbass*/
-scm_c_define_gsubr ("InsertBassClef", 0, 0, 0, scheme_InsertBassClef);
+install_scm_function ("InsertBassClef", scheme_InsertBassClef);
 /*Insertg8clef newclefg8*/
-scm_c_define_gsubr ("Insertg8clef", 0, 0, 0, scheme_Insertg8clef);
+install_scm_function ("Insertg8clef", scheme_Insertg8clef);
 /*InsertAltoClef newclefalto*/
-scm_c_define_gsubr ("InsertAltoClef", 0, 0, 0, scheme_InsertAltoClef);
+install_scm_function ("InsertAltoClef", scheme_InsertAltoClef);
 /*InsertTenorClef newcleftenor*/
-scm_c_define_gsubr ("InsertTenorClef", 0, 0, 0, scheme_InsertTenorClef);
+install_scm_function ("InsertTenorClef", scheme_InsertTenorClef);
 /*InsertSopranoClef newclefsoprano*/
-scm_c_define_gsubr ("InsertSopranoClef", 0, 0, 0, scheme_InsertSopranoClef);
+install_scm_function ("InsertSopranoClef", scheme_InsertSopranoClef);
 /*SetInitialTrebleClef setcleftreble*/
-scm_c_define_gsubr ("SetInitialTrebleClef", 0, 0, 0, scheme_SetInitialTrebleClef);
+install_scm_function ("SetInitialTrebleClef", scheme_SetInitialTrebleClef);
 /*SetInitialBassClef setclefbass*/
-scm_c_define_gsubr ("SetInitialBassClef", 0, 0, 0, scheme_SetInitialBassClef);
+install_scm_function ("SetInitialBassClef", scheme_SetInitialBassClef);
 /*SetInitialg8clef setclefg8*/
-scm_c_define_gsubr ("SetInitialg8clef", 0, 0, 0, scheme_SetInitialg8clef);
+install_scm_function ("SetInitialg8clef", scheme_SetInitialg8clef);
 /*SetInitialAltoClef setclefalto*/
-scm_c_define_gsubr ("SetInitialAltoClef", 0, 0, 0, scheme_SetInitialAltoClef);
+install_scm_function ("SetInitialAltoClef", scheme_SetInitialAltoClef);
 /*SetInitialTenorClef setcleftenor*/
-scm_c_define_gsubr ("SetInitialTenorClef", 0, 0, 0, scheme_SetInitialTenorClef);
+install_scm_function ("SetInitialTenorClef", scheme_SetInitialTenorClef);
 /*SetInitialSopranoClef setclefsoprano*/
-scm_c_define_gsubr ("SetInitialSopranoClef", 0, 0, 0, scheme_SetInitialSopranoClef);
+install_scm_function ("SetInitialSopranoClef", scheme_SetInitialSopranoClef);
 /*Insert22Time newtimesig22*/
-scm_c_define_gsubr ("Insert22Time", 0, 0, 0, scheme_Insert22Time);
+install_scm_function ("Insert22Time", scheme_Insert22Time);
 /*Insert32Time newtimesig32*/
-scm_c_define_gsubr ("Insert32Time", 0, 0, 0, scheme_Insert32Time);
+install_scm_function ("Insert32Time", scheme_Insert32Time);
 /*Insert42Time newtimesig42*/
-scm_c_define_gsubr ("Insert42Time", 0, 0, 0, scheme_Insert42Time);
+install_scm_function ("Insert42Time", scheme_Insert42Time);
 /*Insert44Time newtimesig44*/
-scm_c_define_gsubr ("Insert44Time", 0, 0, 0, scheme_Insert44Time);
+install_scm_function ("Insert44Time", scheme_Insert44Time);
 /*Insert34Time newtimesig34*/
-scm_c_define_gsubr ("Insert34Time", 0, 0, 0, scheme_Insert34Time);
+install_scm_function ("Insert34Time", scheme_Insert34Time);
 /*Insert24Time newtimesig24*/
-scm_c_define_gsubr ("Insert24Time", 0, 0, 0, scheme_Insert24Time);
+install_scm_function ("Insert24Time", scheme_Insert24Time);
 /*Insert64Time newtimesig64*/
-scm_c_define_gsubr ("Insert64Time", 0, 0, 0, scheme_Insert64Time);
+install_scm_function ("Insert64Time", scheme_Insert64Time);
 /*Insert38Time newtimesig38*/
-scm_c_define_gsubr ("Insert38Time", 0, 0, 0, scheme_Insert38Time);
+install_scm_function ("Insert38Time", scheme_Insert38Time);
 /*Insert68Time newtimesig68*/
-scm_c_define_gsubr ("Insert68Time", 0, 0, 0, scheme_Insert68Time);
+install_scm_function ("Insert68Time", scheme_Insert68Time);
 /*Insert128Time newtimesig128*/
-scm_c_define_gsubr ("Insert128Time", 0, 0, 0, scheme_Insert128Time);
+install_scm_function ("Insert128Time", scheme_Insert128Time);
 /*Insert98Time newtimesig98*/
-scm_c_define_gsubr ("Insert98Time", 0, 0, 0, scheme_Insert98Time);
+install_scm_function ("Insert98Time", scheme_Insert98Time);
 /*Set22Time settimesig22*/
-scm_c_define_gsubr ("Set22Time", 0, 0, 0, scheme_Set22Time);
+install_scm_function ("Set22Time", scheme_Set22Time);
 /*Set32Time settimesig32*/
-scm_c_define_gsubr ("Set32Time", 0, 0, 0, scheme_Set32Time);
+install_scm_function ("Set32Time", scheme_Set32Time);
 /*Set42Time settimesig42*/
-scm_c_define_gsubr ("Set42Time", 0, 0, 0, scheme_Set42Time);
+install_scm_function ("Set42Time", scheme_Set42Time);
 /*Set44Time settimesig44*/
-scm_c_define_gsubr ("Set44Time", 0, 0, 0, scheme_Set44Time);
+install_scm_function ("Set44Time", scheme_Set44Time);
 /*Set34Time settimesig34*/
-scm_c_define_gsubr ("Set34Time", 0, 0, 0, scheme_Set34Time);
+install_scm_function ("Set34Time", scheme_Set34Time);
 /*Set24Time settimesig24*/
-scm_c_define_gsubr ("Set24Time", 0, 0, 0, scheme_Set24Time);
+install_scm_function ("Set24Time", scheme_Set24Time);
 /*Set64Time settimesig64*/
-scm_c_define_gsubr ("Set64Time", 0, 0, 0, scheme_Set64Time);
+install_scm_function ("Set64Time", scheme_Set64Time);
 /*Set38Time settimesig38*/
-scm_c_define_gsubr ("Set38Time", 0, 0, 0, scheme_Set38Time);
+install_scm_function ("Set38Time", scheme_Set38Time);
 /*Set68Time settimesig68*/
-scm_c_define_gsubr ("Set68Time", 0, 0, 0, scheme_Set68Time);
+install_scm_function ("Set68Time", scheme_Set68Time);
 /*Set128Time settimesig128*/
-scm_c_define_gsubr ("Set128Time", 0, 0, 0, scheme_Set128Time);
+install_scm_function ("Set128Time", scheme_Set128Time);
 /*Set98Time settimesig98*/
-scm_c_define_gsubr ("Set98Time", 0, 0, 0, scheme_Set98Time);
+install_scm_function ("Set98Time", scheme_Set98Time);
 /*InsertCmaj newkeysigcmaj*/
-scm_c_define_gsubr ("InsertCmaj", 0, 0, 0, scheme_InsertCmaj);
+install_scm_function ("InsertCmaj", scheme_InsertCmaj);
 /*InsertGmaj newkeysiggmaj*/
-scm_c_define_gsubr ("InsertGmaj", 0, 0, 0, scheme_InsertGmaj);
+install_scm_function ("InsertGmaj", scheme_InsertGmaj);
 /*InsertDmaj newkeysigdmaj*/
-scm_c_define_gsubr ("InsertDmaj", 0, 0, 0, scheme_InsertDmaj);
+install_scm_function ("InsertDmaj", scheme_InsertDmaj);
 /*InsertAmaj newkeysigamaj*/
-scm_c_define_gsubr ("InsertAmaj", 0, 0, 0, scheme_InsertAmaj);
+install_scm_function ("InsertAmaj", scheme_InsertAmaj);
 /*InsertEmaj newkeysigemaj*/
-scm_c_define_gsubr ("InsertEmaj", 0, 0, 0, scheme_InsertEmaj);
+install_scm_function ("InsertEmaj", scheme_InsertEmaj);
 /*InsertBmaj newkeysigbmaj*/
-scm_c_define_gsubr ("InsertBmaj", 0, 0, 0, scheme_InsertBmaj);
+install_scm_function ("InsertBmaj", scheme_InsertBmaj);
 /*InsertFSharpmaj newkeysigfsharpmaj*/
-scm_c_define_gsubr ("InsertFSharpmaj", 0, 0, 0, scheme_InsertFSharpmaj);
+install_scm_function ("InsertFSharpmaj", scheme_InsertFSharpmaj);
 /*InsertCSharpmaj newkeysigcsharpmaj*/
-scm_c_define_gsubr ("InsertCSharpmaj", 0, 0, 0, scheme_InsertCSharpmaj);
+install_scm_function ("InsertCSharpmaj", scheme_InsertCSharpmaj);
 /*InsertFmaj newkeysigfmaj*/
-scm_c_define_gsubr ("InsertFmaj", 0, 0, 0, scheme_InsertFmaj);
+install_scm_function ("InsertFmaj", scheme_InsertFmaj);
 /*InsertBflatmaj newkeysigbflatmaj*/
-scm_c_define_gsubr ("InsertBflatmaj", 0, 0, 0, scheme_InsertBflatmaj);
+install_scm_function ("InsertBflatmaj", scheme_InsertBflatmaj);
 /*InsertEflatmaj newkeysigeflatmaj*/
-scm_c_define_gsubr ("InsertEflatmaj", 0, 0, 0, scheme_InsertEflatmaj);
+install_scm_function ("InsertEflatmaj", scheme_InsertEflatmaj);
 /*InsertAflatmaj newkeysigaflatmaj*/
-scm_c_define_gsubr ("InsertAflatmaj", 0, 0, 0, scheme_InsertAflatmaj);
+install_scm_function ("InsertAflatmaj", scheme_InsertAflatmaj);
 /*InsertDflatmaj newkeysigdflatmaj*/
-scm_c_define_gsubr ("InsertDflatmaj", 0, 0, 0, scheme_InsertDflatmaj);
+install_scm_function ("InsertDflatmaj", scheme_InsertDflatmaj);
 /*InsertGflatmaj newkeysiggflatmaj*/
-scm_c_define_gsubr ("InsertGflatmaj", 0, 0, 0, scheme_InsertGflatmaj);
+install_scm_function ("InsertGflatmaj", scheme_InsertGflatmaj);
 /*InsertCflatmaj newkeysigcflatmaj*/
-scm_c_define_gsubr ("InsertCflatmaj", 0, 0, 0, scheme_InsertCflatmaj);
+install_scm_function ("InsertCflatmaj", scheme_InsertCflatmaj);
 /*InsertAmin newkeysigamin*/
-scm_c_define_gsubr ("InsertAmin", 0, 0, 0, scheme_InsertAmin);
+install_scm_function ("InsertAmin", scheme_InsertAmin);
 /*InsertEmin newkeysigemin*/
-scm_c_define_gsubr ("InsertEmin", 0, 0, 0, scheme_InsertEmin);
+install_scm_function ("InsertEmin", scheme_InsertEmin);
 /*InsertBmin newkeysigbmin*/
-scm_c_define_gsubr ("InsertBmin", 0, 0, 0, scheme_InsertBmin);
+install_scm_function ("InsertBmin", scheme_InsertBmin);
 /*InsertFSharpmin newkeysigfsharpmin*/
-scm_c_define_gsubr ("InsertFSharpmin", 0, 0, 0, scheme_InsertFSharpmin);
+install_scm_function ("InsertFSharpmin", scheme_InsertFSharpmin);
 /*InsertCSharpmin newkeysigcsharpmin*/
-scm_c_define_gsubr ("InsertCSharpmin", 0, 0, 0, scheme_InsertCSharpmin);
+install_scm_function ("InsertCSharpmin", scheme_InsertCSharpmin);
 /*InsertGSharpmin newkeysiggsharpmin*/
-scm_c_define_gsubr ("InsertGSharpmin", 0, 0, 0, scheme_InsertGSharpmin);
+install_scm_function ("InsertGSharpmin", scheme_InsertGSharpmin);
 /*InsertDSharpmin newkeysigdsharpmin*/
-scm_c_define_gsubr ("InsertDSharpmin", 0, 0, 0, scheme_InsertDSharpmin);
+install_scm_function ("InsertDSharpmin", scheme_InsertDSharpmin);
 /*InsertASharpmin newkeysigasharpmin*/
-scm_c_define_gsubr ("InsertASharpmin", 0, 0, 0, scheme_InsertASharpmin);
+install_scm_function ("InsertASharpmin", scheme_InsertASharpmin);
 /*InsertDmin newkeysigdmin*/
-scm_c_define_gsubr ("InsertDmin", 0, 0, 0, scheme_InsertDmin);
+install_scm_function ("InsertDmin", scheme_InsertDmin);
 /*InsertGmin newkeysiggmin*/
-scm_c_define_gsubr ("InsertGmin", 0, 0, 0, scheme_InsertGmin);
+install_scm_function ("InsertGmin", scheme_InsertGmin);
 /*InsertCmin newkeysigcmin*/
-scm_c_define_gsubr ("InsertCmin", 0, 0, 0, scheme_InsertCmin);
+install_scm_function ("InsertCmin", scheme_InsertCmin);
 /*InsertFmin newkeysigfmin*/
-scm_c_define_gsubr ("InsertFmin", 0, 0, 0, scheme_InsertFmin);
+install_scm_function ("InsertFmin", scheme_InsertFmin);
 /*InsertBflatmin newkeysigbflatmin*/
-scm_c_define_gsubr ("InsertBflatmin", 0, 0, 0, scheme_InsertBflatmin);
+install_scm_function ("InsertBflatmin", scheme_InsertBflatmin);
 /*InsertEflatmin newkeysigeflatmin*/
-scm_c_define_gsubr ("InsertEflatmin", 0, 0, 0, scheme_InsertEflatmin);
+install_scm_function ("InsertEflatmin", scheme_InsertEflatmin);
 /*InsertAflatmin newkeysigaflatmin*/
-scm_c_define_gsubr ("InsertAflatmin", 0, 0, 0, scheme_InsertAflatmin);
+install_scm_function ("InsertAflatmin", scheme_InsertAflatmin);
 /*SetInitialCmaj setkeysigcmaj*/
-scm_c_define_gsubr ("SetInitialCmaj", 0, 0, 0, scheme_SetInitialCmaj);
+install_scm_function ("SetInitialCmaj", scheme_SetInitialCmaj);
 /*SetInitialGmaj setkeysiggmaj*/
-scm_c_define_gsubr ("SetInitialGmaj", 0, 0, 0, scheme_SetInitialGmaj);
+install_scm_function ("SetInitialGmaj", scheme_SetInitialGmaj);
 /*SetInitialDmaj setkeysigdmaj*/
-scm_c_define_gsubr ("SetInitialDmaj", 0, 0, 0, scheme_SetInitialDmaj);
+install_scm_function ("SetInitialDmaj", scheme_SetInitialDmaj);
 /*SetInitialAmaj setkeysigamaj*/
-scm_c_define_gsubr ("SetInitialAmaj", 0, 0, 0, scheme_SetInitialAmaj);
+install_scm_function ("SetInitialAmaj", scheme_SetInitialAmaj);
 /*SetInitialEmaj setkeysigemaj*/
-scm_c_define_gsubr ("SetInitialEmaj", 0, 0, 0, scheme_SetInitialEmaj);
+install_scm_function ("SetInitialEmaj", scheme_SetInitialEmaj);
 /*SetInitialBmaj setkeysigbmaj*/
-scm_c_define_gsubr ("SetInitialBmaj", 0, 0, 0, scheme_SetInitialBmaj);
+install_scm_function ("SetInitialBmaj", scheme_SetInitialBmaj);
 /*SetInitialFSharpmaj setkeysigfsharpmaj*/
-scm_c_define_gsubr ("SetInitialFSharpmaj", 0, 0, 0, scheme_SetInitialFSharpmaj);
+install_scm_function ("SetInitialFSharpmaj", scheme_SetInitialFSharpmaj);
 /*SetInitialCSharpmaj setkeysigcsharpmaj*/
-scm_c_define_gsubr ("SetInitialCSharpmaj", 0, 0, 0, scheme_SetInitialCSharpmaj);
+install_scm_function ("SetInitialCSharpmaj", scheme_SetInitialCSharpmaj);
 /*SetInitialFmaj setkeysigfmaj*/
-scm_c_define_gsubr ("SetInitialFmaj", 0, 0, 0, scheme_SetInitialFmaj);
+install_scm_function ("SetInitialFmaj", scheme_SetInitialFmaj);
 /*SetInitialBflatmaj setkeysigbflatmaj*/
-scm_c_define_gsubr ("SetInitialBflatmaj", 0, 0, 0, scheme_SetInitialBflatmaj);
+install_scm_function ("SetInitialBflatmaj", scheme_SetInitialBflatmaj);
 /*SetInitialEflatmaj setkeysigeflatmaj*/
-scm_c_define_gsubr ("SetInitialEflatmaj", 0, 0, 0, scheme_SetInitialEflatmaj);
+install_scm_function ("SetInitialEflatmaj", scheme_SetInitialEflatmaj);
 /*SetInitialAflatmaj setkeysigaflatmaj*/
-scm_c_define_gsubr ("SetInitialAflatmaj", 0, 0, 0, scheme_SetInitialAflatmaj);
+install_scm_function ("SetInitialAflatmaj", scheme_SetInitialAflatmaj);
 /*SetInitialDflatmaj setkeysigdflatmaj*/
-scm_c_define_gsubr ("SetInitialDflatmaj", 0, 0, 0, scheme_SetInitialDflatmaj);
+install_scm_function ("SetInitialDflatmaj", scheme_SetInitialDflatmaj);
 /*SetInitialGflatmaj setkeysiggflatmaj*/
-scm_c_define_gsubr ("SetInitialGflatmaj", 0, 0, 0, scheme_SetInitialGflatmaj);
+install_scm_function ("SetInitialGflatmaj", scheme_SetInitialGflatmaj);
 /*SetInitialCflatmaj setkeysigcflatmaj*/
-scm_c_define_gsubr ("SetInitialCflatmaj", 0, 0, 0, scheme_SetInitialCflatmaj);
+install_scm_function ("SetInitialCflatmaj", scheme_SetInitialCflatmaj);
 /*SetInitialAmin setkeysigamin*/
-scm_c_define_gsubr ("SetInitialAmin", 0, 0, 0, scheme_SetInitialAmin);
+install_scm_function ("SetInitialAmin", scheme_SetInitialAmin);
 /*SetInitialEmin setkeysigemin*/
-scm_c_define_gsubr ("SetInitialEmin", 0, 0, 0, scheme_SetInitialEmin);
+install_scm_function ("SetInitialEmin", scheme_SetInitialEmin);
 /*SetInitialBmin setkeysigbmin*/
-scm_c_define_gsubr ("SetInitialBmin", 0, 0, 0, scheme_SetInitialBmin);
+install_scm_function ("SetInitialBmin", scheme_SetInitialBmin);
 /*SetInitialFSharpmin setkeysigfsharpmin*/
-scm_c_define_gsubr ("SetInitialFSharpmin", 0, 0, 0, scheme_SetInitialFSharpmin);
+install_scm_function ("SetInitialFSharpmin", scheme_SetInitialFSharpmin);
 /*SetInitialCSharpmin setkeysigcsharpmin*/
-scm_c_define_gsubr ("SetInitialCSharpmin", 0, 0, 0, scheme_SetInitialCSharpmin);
+install_scm_function ("SetInitialCSharpmin", scheme_SetInitialCSharpmin);
 /*SetInitialGSharpmin setkeysiggsharpmin*/
-scm_c_define_gsubr ("SetInitialGSharpmin", 0, 0, 0, scheme_SetInitialGSharpmin);
+install_scm_function ("SetInitialGSharpmin", scheme_SetInitialGSharpmin);
 /*SetInitialDSharpmin setkeysigdsharpmin*/
-scm_c_define_gsubr ("SetInitialDSharpmin", 0, 0, 0, scheme_SetInitialDSharpmin);
+install_scm_function ("SetInitialDSharpmin", scheme_SetInitialDSharpmin);
 /*SetInitialASharpmin setkeysigasharpmin*/
-scm_c_define_gsubr ("SetInitialASharpmin", 0, 0, 0, scheme_SetInitialASharpmin);
+install_scm_function ("SetInitialASharpmin", scheme_SetInitialASharpmin);
 /*SetInitialDmin setkeysigdmin*/
-scm_c_define_gsubr ("SetInitialDmin", 0, 0, 0, scheme_SetInitialDmin);
+install_scm_function ("SetInitialDmin", scheme_SetInitialDmin);
 /*SetInitialGmin setkeysiggmin*/
-scm_c_define_gsubr ("SetInitialGmin", 0, 0, 0, scheme_SetInitialGmin);
+install_scm_function ("SetInitialGmin", scheme_SetInitialGmin);
 /*SetInitialCmin setkeysigcmin*/
-scm_c_define_gsubr ("SetInitialCmin", 0, 0, 0, scheme_SetInitialCmin);
+install_scm_function ("SetInitialCmin", scheme_SetInitialCmin);
 /*SetInitialFmin setkeysigfmin*/
-scm_c_define_gsubr ("SetInitialFmin", 0, 0, 0, scheme_SetInitialFmin);
+install_scm_function ("SetInitialFmin", scheme_SetInitialFmin);
 /*SetInitialBflatmin setkeysigbflatmin*/
-scm_c_define_gsubr ("SetInitialBflatmin", 0, 0, 0, scheme_SetInitialBflatmin);
+install_scm_function ("SetInitialBflatmin", scheme_SetInitialBflatmin);
 /*SetInitialEflatmin setkeysigeflatmin*/
-scm_c_define_gsubr ("SetInitialEflatmin", 0, 0, 0, scheme_SetInitialEflatmin);
+install_scm_function ("SetInitialEflatmin", scheme_SetInitialEflatmin);
 /*SetInitialAflatmin setkeysigaflatmin*/
-scm_c_define_gsubr ("SetInitialAflatmin", 0, 0, 0, scheme_SetInitialAflatmin);
+install_scm_function ("SetInitialAflatmin", scheme_SetInitialAflatmin);
 /*SetMark set_mark*/
-scm_c_define_gsubr ("SetMark", 0, 0, 0, scheme_SetMark);
+install_scm_function ("SetMark", scheme_SetMark);
 /*UnsetMark unset_mark*/
-scm_c_define_gsubr ("UnsetMark", 0, 0, 0, scheme_UnsetMark);
+install_scm_function ("UnsetMark", scheme_UnsetMark);
 /*ToggleBeginSlur toggle_begin_slur*/
-scm_c_define_gsubr ("ToggleBeginSlur", 0, 0, 0, scheme_ToggleBeginSlur);
+install_scm_function ("ToggleBeginSlur", scheme_ToggleBeginSlur);
 /*ToggleEndSlur toggle_end_slur*/
-scm_c_define_gsubr ("ToggleEndSlur", 0, 0, 0, scheme_ToggleEndSlur);
+install_scm_function ("ToggleEndSlur", scheme_ToggleEndSlur);
 /*ToggleStartCrescendo toggle_start_crescendo*/
-scm_c_define_gsubr ("ToggleStartCrescendo", 0, 0, 0, scheme_ToggleStartCrescendo);
+install_scm_function ("ToggleStartCrescendo", scheme_ToggleStartCrescendo);
 /*ToggleEndCrescendo toggle_end_crescendo*/
-scm_c_define_gsubr ("ToggleEndCrescendo", 0, 0, 0, scheme_ToggleEndCrescendo);
+install_scm_function ("ToggleEndCrescendo", scheme_ToggleEndCrescendo);
 /*ToggleStartDiminuendo toggle_start_diminuendo*/
-scm_c_define_gsubr ("ToggleStartDiminuendo", 0, 0, 0, scheme_ToggleStartDiminuendo);
+install_scm_function ("ToggleStartDiminuendo", scheme_ToggleStartDiminuendo);
 /*ToggleEndDiminuendo toggle_end_diminuendo*/
-scm_c_define_gsubr ("ToggleEndDiminuendo", 0, 0, 0, scheme_ToggleEndDiminuendo);
+install_scm_function ("ToggleEndDiminuendo", scheme_ToggleEndDiminuendo);
 /*ToggleAccent add_accent*/
-scm_c_define_gsubr ("ToggleAccent", 0, 0, 0, scheme_ToggleAccent);
+install_scm_function ("ToggleAccent", scheme_ToggleAccent);
 /*ToggleFermata add_fermata*/
-scm_c_define_gsubr ("ToggleFermata", 0, 0, 0, scheme_ToggleFermata);
+install_scm_function ("ToggleFermata", scheme_ToggleFermata);
 /*ToggleStaccato add_staccato*/
-scm_c_define_gsubr ("ToggleStaccato", 0, 0, 0, scheme_ToggleStaccato);
+install_scm_function ("ToggleStaccato", scheme_ToggleStaccato);
 /*ToggleTenuto add_tenuto*/
-scm_c_define_gsubr ("ToggleTenuto", 0, 0, 0, scheme_ToggleTenuto);
+install_scm_function ("ToggleTenuto", scheme_ToggleTenuto);
 /*ToggleTrill add_trill*/
-scm_c_define_gsubr ("ToggleTrill", 0, 0, 0, scheme_ToggleTrill);
+install_scm_function ("ToggleTrill", scheme_ToggleTrill);
 /*ToggleTurn add_turn*/
-scm_c_define_gsubr ("ToggleTurn", 0, 0, 0, scheme_ToggleTurn);
+install_scm_function ("ToggleTurn", scheme_ToggleTurn);
 /*ToggleMordent add_mordent*/
-scm_c_define_gsubr ("ToggleMordent", 0, 0, 0, scheme_ToggleMordent);
+install_scm_function ("ToggleMordent", scheme_ToggleMordent);
 /*ToggleStaccatissimo add_staccatissimo*/
-scm_c_define_gsubr ("ToggleStaccatissimo", 0, 0, 0, scheme_ToggleStaccatissimo);
+install_scm_function ("ToggleStaccatissimo", scheme_ToggleStaccatissimo);
 /*ToggleCoda add_coda*/
-scm_c_define_gsubr ("ToggleCoda", 0, 0, 0, scheme_ToggleCoda);
+install_scm_function ("ToggleCoda", scheme_ToggleCoda);
 /*ToggleFlageolet add_flageolet*/
-scm_c_define_gsubr ("ToggleFlageolet", 0, 0, 0, scheme_ToggleFlageolet);
+install_scm_function ("ToggleFlageolet", scheme_ToggleFlageolet);
 /*ToggleOpen add_open*/
-scm_c_define_gsubr ("ToggleOpen", 0, 0, 0, scheme_ToggleOpen);
+install_scm_function ("ToggleOpen", scheme_ToggleOpen);
 /*TogglePrallMordent add_prallmordent*/
-scm_c_define_gsubr ("TogglePrallMordent", 0, 0, 0, scheme_TogglePrallMordent);
+install_scm_function ("TogglePrallMordent", scheme_TogglePrallMordent);
 /*TogglePrallPrall add_prallprall*/
-scm_c_define_gsubr ("TogglePrallPrall", 0, 0, 0, scheme_TogglePrallPrall);
+install_scm_function ("TogglePrallPrall", scheme_TogglePrallPrall);
 /*TogglePrall add_prall*/
-scm_c_define_gsubr ("TogglePrall", 0, 0, 0, scheme_TogglePrall);
+install_scm_function ("TogglePrall", scheme_TogglePrall);
 /*ToggleReverseTurn add_reverseturn*/
-scm_c_define_gsubr ("ToggleReverseTurn", 0, 0, 0, scheme_ToggleReverseTurn);
+install_scm_function ("ToggleReverseTurn", scheme_ToggleReverseTurn);
 /*ToggleSegno add_segno*/
-scm_c_define_gsubr ("ToggleSegno", 0, 0, 0, scheme_ToggleSegno);
+install_scm_function ("ToggleSegno", scheme_ToggleSegno);
 /*ToggleSforzato add_sforzato*/
-scm_c_define_gsubr ("ToggleSforzato", 0, 0, 0, scheme_ToggleSforzato);
+install_scm_function ("ToggleSforzato", scheme_ToggleSforzato);
 /*ToggleStopped add_stopped*/
-scm_c_define_gsubr ("ToggleStopped", 0, 0, 0, scheme_ToggleStopped);
+install_scm_function ("ToggleStopped", scheme_ToggleStopped);
 /*ToggleThumb add_thumb*/
-scm_c_define_gsubr ("ToggleThumb", 0, 0, 0, scheme_ToggleThumb);
+install_scm_function ("ToggleThumb", scheme_ToggleThumb);
 /*ToggleUpprall add_upprall*/
-scm_c_define_gsubr ("ToggleUpprall", 0, 0, 0, scheme_ToggleUpprall);
+install_scm_function ("ToggleUpprall", scheme_ToggleUpprall);
 /*ToggleArpeggio add_arpeggio*/
-scm_c_define_gsubr ("ToggleArpeggio", 0, 0, 0, scheme_ToggleArpeggio);
+install_scm_function ("ToggleArpeggio", scheme_ToggleArpeggio);
 /*SetGrace set_grace*/
-scm_c_define_gsubr ("SetGrace", 0, 0, 0, scheme_SetGrace);
+install_scm_function ("SetGrace", scheme_SetGrace);
 /*ForceCaution force_cautionary*/
-scm_c_define_gsubr ("ForceCaution", 0, 0, 0, scheme_ForceCaution);
+install_scm_function ("ForceCaution", scheme_ForceCaution);
 /*ChangePitch change_pitch*/
-scm_c_define_gsubr ("ChangePitch", 0, 0, 0, scheme_ChangePitch);
+install_scm_function ("ChangePitch", scheme_ChangePitch);
 /*DoubleBar insert_doublebar*/
-scm_c_define_gsubr ("DoubleBar", 0, 0, 0, scheme_DoubleBar);
+install_scm_function ("DoubleBar", scheme_DoubleBar);
 /*EndBar insert_endbar*/
-scm_c_define_gsubr ("EndBar", 0, 0, 0, scheme_EndBar);
+install_scm_function ("EndBar", scheme_EndBar);
 /*OpenRepeat insert_openrepeat*/
-scm_c_define_gsubr ("OpenRepeat", 0, 0, 0, scheme_OpenRepeat);
+install_scm_function ("OpenRepeat", scheme_OpenRepeat);
 /*CloseRepeat insert_closerepeat*/
-scm_c_define_gsubr ("CloseRepeat", 0, 0, 0, scheme_CloseRepeat);
+install_scm_function ("CloseRepeat", scheme_CloseRepeat);
 /*OpenCloseRepeat insert_opencloserepeat*/
-scm_c_define_gsubr ("OpenCloseRepeat", 0, 0, 0, scheme_OpenCloseRepeat);
+install_scm_function ("OpenCloseRepeat", scheme_OpenCloseRepeat);
 /*InsertRhythm insert_rhythm_pattern*/
-scm_c_define_gsubr ("InsertRhythm", 0, 0, 0, scheme_InsertRhythm);
+install_scm_function ("InsertRhythm", scheme_InsertRhythm);
 /*NextRhythm nextrhythm*/
-scm_c_define_gsubr ("NextRhythm", 0, 0, 0, scheme_NextRhythm);
+install_scm_function ("NextRhythm", scheme_NextRhythm);
 /*AppendMesauresToScore append_measure_score*/
-scm_c_define_gsubr ("AppendMesauresToScore", 0, 0, 0, scheme_AppendMesauresToScore);
+install_scm_function ("AppendMesauresToScore", scheme_AppendMesauresToScore);
 /*New file_newwrapper*/
-scm_c_define_gsubr ("New", 0, 0, 0, scheme_New);
+install_scm_function ("New", scheme_New);
 /*Open file_open_with_check*/
-scm_c_define_gsubr ("Open", 0, 0, 0, scheme_Open);
+install_scm_function ("Open", scheme_Open);
 /*AddStaffs file_add_staffs*/
-scm_c_define_gsubr ("AddStaffs", 0, 0, 0, scheme_AddStaffs);
+install_scm_function ("AddStaffs", scheme_AddStaffs);
 /*AddMovements file_add_movements*/
-scm_c_define_gsubr ("AddMovements", 0, 0, 0, scheme_AddMovements);
+install_scm_function ("AddMovements", scheme_AddMovements);
 /*MovementProps movement_props_dialog*/
-scm_c_define_gsubr ("MovementProps", 0, 0, 0, scheme_MovementProps);
+install_scm_function ("MovementProps", scheme_MovementProps);
 /*OpenNewWindow openinnew*/
-scm_c_define_gsubr ("OpenNewWindow", 0, 0, 0, scheme_OpenNewWindow);
+install_scm_function ("OpenNewWindow", scheme_OpenNewWindow);
 /*Save file_savewrapper*/
-scm_c_define_gsubr ("Save", 0, 0, 0, scheme_Save);
+install_scm_function ("Save", scheme_Save);
 /*SaveAs file_saveaswrapper*/
-scm_c_define_gsubr ("SaveAs", 0, 0, 0, scheme_SaveAs);
+install_scm_function ("SaveAs", scheme_SaveAs);
 /*OpenTemplate system_template_open_with_check*/
-scm_c_define_gsubr ("OpenTemplate", 0, 0, 0, scheme_OpenTemplate);
+install_scm_function ("OpenTemplate", scheme_OpenTemplate);
 /*OpenExample system_example_open_with_check*/
-scm_c_define_gsubr ("OpenExample", 0, 0, 0, scheme_OpenExample);
+install_scm_function ("OpenExample", scheme_OpenExample);
 /*OpenMyTemplate local_template_open_with_check*/
-scm_c_define_gsubr ("OpenMyTemplate", 0, 0, 0, scheme_OpenMyTemplate);
+install_scm_function ("OpenMyTemplate", scheme_OpenMyTemplate);
 /*SaveTemplate template_save*/
-scm_c_define_gsubr ("SaveTemplate", 0, 0, 0, scheme_SaveTemplate);
+install_scm_function ("SaveTemplate", scheme_SaveTemplate);
 /*NewWindow newview*/
-scm_c_define_gsubr ("NewWindow", 0, 0, 0, scheme_NewWindow);
+install_scm_function ("NewWindow", scheme_NewWindow);
 /*InsertMovementBefore insert_movement_before*/
-scm_c_define_gsubr ("InsertMovementBefore", 0, 0, 0, scheme_InsertMovementBefore);
+install_scm_function ("InsertMovementBefore", scheme_InsertMovementBefore);
 /*InsertMovementAfter insert_movement_after*/
-scm_c_define_gsubr ("InsertMovementAfter", 0, 0, 0, scheme_InsertMovementAfter);
+install_scm_function ("InsertMovementAfter", scheme_InsertMovementAfter);
 /*SaveParts file_savepartswrapper*/
-scm_c_define_gsubr ("SaveParts", 0, 0, 0, scheme_SaveParts);
+install_scm_function ("SaveParts", scheme_SaveParts);
 /*ExportPDF export_pdf_action*/
-scm_c_define_gsubr ("ExportPDF", 0, 0, 0, scheme_ExportPDF);
+install_scm_function ("ExportPDF", scheme_ExportPDF);
 /*ConfigureScore scorewizard*/
-scm_c_define_gsubr ("ConfigureScore", 0, 0, 0, scheme_ConfigureScore);
+install_scm_function ("ConfigureScore", scheme_ConfigureScore);
 /*PrintPreview printpreview_cb*/
-scm_c_define_gsubr ("PrintPreview", 0, 0, 0, scheme_PrintPreview);
+install_scm_function ("PrintPreview", scheme_PrintPreview);
 /*PrintExcerptPreview printexcerptpreview_cb*/
-scm_c_define_gsubr ("PrintExcerptPreview", 0, 0, 0, scheme_PrintExcerptPreview);
+install_scm_function ("PrintExcerptPreview", scheme_PrintExcerptPreview);
 /*Print printall_cb*/
-scm_c_define_gsubr ("Print", 0, 0, 0, scheme_Print);
+install_scm_function ("Print", scheme_Print);
 /*PrintPart printpart_cb*/
-scm_c_define_gsubr ("PrintPart", 0, 0, 0, scheme_PrintPart);
+install_scm_function ("PrintPart", scheme_PrintPart);
 /*Close close_gui_with_check*/
-scm_c_define_gsubr ("Close", 0, 0, 0, scheme_Close);
+install_scm_function ("Close", scheme_Close);
 /*Quit closewrapper*/
-scm_c_define_gsubr ("Quit", 0, 0, 0, scheme_Quit);
+install_scm_function ("Quit", scheme_Quit);
 /*Undo undowrapper*/
-scm_c_define_gsubr ("Undo", 0, 0, 0, scheme_Undo);
+install_scm_function ("Undo", scheme_Undo);
 /*Redo redowrapper*/
-scm_c_define_gsubr ("Redo", 0, 0, 0, scheme_Redo);
+install_scm_function ("Redo", scheme_Redo);
 /*Copy copywrapper*/
-scm_c_define_gsubr ("Copy", 0, 0, 0, scheme_Copy);
+install_scm_function ("Copy", scheme_Copy);
 /*Cut cutwrapper*/
-scm_c_define_gsubr ("Cut", 0, 0, 0, scheme_Cut);
+install_scm_function ("Cut", scheme_Cut);
 /*Paste pastewrapper*/
-scm_c_define_gsubr ("Paste", 0, 0, 0, scheme_Paste);
+install_scm_function ("Paste", scheme_Paste);
 /*ScoreProperties score_properties_dialog*/
-scm_c_define_gsubr ("ScoreProperties", 0, 0, 0, scheme_ScoreProperties);
+install_scm_function ("ScoreProperties", scheme_ScoreProperties);
 /*SaveSelection saveselwrapper*/
-scm_c_define_gsubr ("SaveSelection", 0, 0, 0, scheme_SaveSelection);
+install_scm_function ("SaveSelection", scheme_SaveSelection);
 /*Preferences preferences_change*/
-scm_c_define_gsubr ("Preferences", 0, 0, 0, scheme_Preferences);
+install_scm_function ("Preferences", scheme_Preferences);
 /*SaveAccels save_default_keymap_file_wrapper*/
-scm_c_define_gsubr ("SaveAccels", 0, 0, 0, scheme_SaveAccels);
+install_scm_function ("SaveAccels", scheme_SaveAccels);
 /*Keyboard configure_keyboard_dialog*/
-scm_c_define_gsubr ("Keyboard", 0, 0, 0, scheme_Keyboard);
+install_scm_function ("Keyboard", scheme_Keyboard);
 /*LoadPlugins load_plugin*/
-scm_c_define_gsubr ("LoadPlugins", 0, 0, 0, scheme_LoadPlugins);
+install_scm_function ("LoadPlugins", scheme_LoadPlugins);
 /*UnloadPlugins unloadplugins*/
-scm_c_define_gsubr ("UnloadPlugins", 0, 0, 0, scheme_UnloadPlugins);
+install_scm_function ("UnloadPlugins", scheme_UnloadPlugins);
 /*ListPlugins list_loaded_plugins*/
-scm_c_define_gsubr ("ListPlugins", 0, 0, 0, scheme_ListPlugins);
+install_scm_function ("ListPlugins", scheme_ListPlugins);
 /*ListAvailablePlugins list_available_plugins*/
-scm_c_define_gsubr ("ListAvailablePlugins", 0, 0, 0, scheme_ListAvailablePlugins);
+install_scm_function ("ListAvailablePlugins", scheme_ListAvailablePlugins);
 /*SwapStaffs swapstaffs*/
-scm_c_define_gsubr ("SwapStaffs", 0, 0, 0, scheme_SwapStaffs);
+install_scm_function ("SwapStaffs", scheme_SwapStaffs);
 /*SplitVoices splitstaffs*/
-scm_c_define_gsubr ("SplitVoices", 0, 0, 0, scheme_SplitVoices);
+install_scm_function ("SplitVoices", scheme_SplitVoices);
 /*JoinVoices joinstaffs*/
-scm_c_define_gsubr ("JoinVoices", 0, 0, 0, scheme_JoinVoices);
+install_scm_function ("JoinVoices", scheme_JoinVoices);
 /*SwapMovements swapmovements*/
-scm_c_define_gsubr ("SwapMovements", 0, 0, 0, scheme_SwapMovements);
+install_scm_function ("SwapMovements", scheme_SwapMovements);
 /*VoiceUp voiceup*/
-scm_c_define_gsubr ("VoiceUp", 0, 0, 0, scheme_VoiceUp);
+install_scm_function ("VoiceUp", scheme_VoiceUp);
 /*VoiceDown voicedown*/
-scm_c_define_gsubr ("VoiceDown", 0, 0, 0, scheme_VoiceDown);
+install_scm_function ("VoiceDown", scheme_VoiceDown);
 /*AddBefore newstaffbefore*/
-scm_c_define_gsubr ("AddBefore", 0, 0, 0, scheme_AddBefore);
+install_scm_function ("AddBefore", scheme_AddBefore);
 /*AddAfter dnm_newstaffafter*/
-scm_c_define_gsubr ("AddAfter", 0, 0, 0, scheme_AddAfter);
+install_scm_function ("AddAfter", scheme_AddAfter);
 /*AddInitial newstaffinitial*/
-scm_c_define_gsubr ("AddInitial", 0, 0, 0, scheme_AddInitial);
+install_scm_function ("AddInitial", scheme_AddInitial);
 /*AddLast newstafflast*/
-scm_c_define_gsubr ("AddLast", 0, 0, 0, scheme_AddLast);
+install_scm_function ("AddLast", scheme_AddLast);
 /*DeleteBefore delete_staff_before*/
-scm_c_define_gsubr ("DeleteBefore", 0, 0, 0, scheme_DeleteBefore);
+install_scm_function ("DeleteBefore", scheme_DeleteBefore);
 /*DeleteStaff delete_staff_current*/
-scm_c_define_gsubr ("DeleteStaff", 0, 0, 0, scheme_DeleteStaff);
+install_scm_function ("DeleteStaff", scheme_DeleteStaff);
 /*DeleteAfter delete_staff_after*/
-scm_c_define_gsubr ("DeleteAfter", 0, 0, 0, scheme_DeleteAfter);
+install_scm_function ("DeleteAfter", scheme_DeleteAfter);
 /*AddVoice dnm_newstaffvoice*/
-scm_c_define_gsubr ("AddVoice", 0, 0, 0, scheme_AddVoice);
+install_scm_function ("AddVoice", scheme_AddVoice);
 /*TransposeStaff staff_transposition*/
-scm_c_define_gsubr ("TransposeStaff", 0, 0, 0, scheme_TransposeStaff);
+install_scm_function ("TransposeStaff", scheme_TransposeStaff);
 /*StaffProperties staff_properties_change_cb*/
-scm_c_define_gsubr ("StaffProperties", 0, 0, 0, scheme_StaffProperties);
+install_scm_function ("StaffProperties", scheme_StaffProperties);
 /*InitialClef clef_change_initial*/
-scm_c_define_gsubr ("InitialClef", 0, 0, 0, scheme_InitialClef);
+install_scm_function ("InitialClef", scheme_InitialClef);
 /*InsertClef clef_change_insert*/
-scm_c_define_gsubr ("InsertClef", 0, 0, 0, scheme_InsertClef);
+install_scm_function ("InsertClef", scheme_InsertClef);
 /*InitialKey key_change_initial*/
-scm_c_define_gsubr ("InitialKey", 0, 0, 0, scheme_InitialKey);
+install_scm_function ("InitialKey", scheme_InitialKey);
 /*InsertKey key_change_insert*/
-scm_c_define_gsubr ("InsertKey", 0, 0, 0, scheme_InsertKey);
+install_scm_function ("InsertKey", scheme_InsertKey);
 /*InitialTimeSig timesig_change_initial*/
-scm_c_define_gsubr ("InitialTimeSig", 0, 0, 0, scheme_InitialTimeSig);
+install_scm_function ("InitialTimeSig", scheme_InitialTimeSig);
 /*InsertTimeSig timesig_change_insert*/
-scm_c_define_gsubr ("InsertTimeSig", 0, 0, 0, scheme_InsertTimeSig);
+install_scm_function ("InsertTimeSig", scheme_InsertTimeSig);
 /*ChangeNotehead set_notehead*/
-scm_c_define_gsubr ("ChangeNotehead", 0, 0, 0, scheme_ChangeNotehead);
+install_scm_function ("ChangeNotehead", scheme_ChangeNotehead);
 /*InsertStem stem_directive_insert*/
-scm_c_define_gsubr ("InsertStem", 0, 0, 0, scheme_InsertStem);
+install_scm_function ("InsertStem", scheme_InsertStem);
 /*EditLyric lyric_insert*/
-scm_c_define_gsubr ("EditLyric", 0, 0, 0, scheme_EditLyric);
+install_scm_function ("EditLyric", scheme_EditLyric);
 /*EditFiguredBass figure_insert*/
-scm_c_define_gsubr ("EditFiguredBass", 0, 0, 0, scheme_EditFiguredBass);
+install_scm_function ("EditFiguredBass", scheme_EditFiguredBass);
 /*EditChords fakechord_insert*/
-scm_c_define_gsubr ("EditChords", 0, 0, 0, scheme_EditChords);
+install_scm_function ("EditChords", scheme_EditChords);
 /*InsertDynamic insert_dynamic*/
-scm_c_define_gsubr ("InsertDynamic", 0, 0, 0, scheme_InsertDynamic);
+install_scm_function ("InsertDynamic", scheme_InsertDynamic);
 /*InsertLilyDirective lily_directive_insert*/
-scm_c_define_gsubr ("InsertLilyDirective", 0, 0, 0, scheme_InsertLilyDirective);
+install_scm_function ("InsertLilyDirective", scheme_InsertLilyDirective);
 /*InsertLilyPostfix lily_directive_postfix*/
-scm_c_define_gsubr ("InsertLilyPostfix", 0, 0, 0, scheme_InsertLilyPostfix);
+install_scm_function ("InsertLilyPostfix", scheme_InsertLilyPostfix);
 /*InsertBarline insert_barline*/
-scm_c_define_gsubr ("InsertBarline", 0, 0, 0, scheme_InsertBarline);
+install_scm_function ("InsertBarline", scheme_InsertBarline);
 /*GoToMeasure tomeasurenum*/
-scm_c_define_gsubr ("GoToMeasure", 0, 0, 0, scheme_GoToMeasure);
+install_scm_function ("GoToMeasure", scheme_GoToMeasure);
 /*GoToBeginning tohome*/
-scm_c_define_gsubr ("GoToBeginning", 0, 0, 0, scheme_GoToBeginning);
+install_scm_function ("GoToBeginning", scheme_GoToBeginning);
 /*GoToEnd toend*/
-scm_c_define_gsubr ("GoToEnd", 0, 0, 0, scheme_GoToEnd);
+install_scm_function ("GoToEnd", scheme_GoToEnd);
 /*NextMovement next_movement*/
-scm_c_define_gsubr ("NextMovement", 0, 0, 0, scheme_NextMovement);
+install_scm_function ("NextMovement", scheme_NextMovement);
 /*PreviousMovement prev_movement*/
-scm_c_define_gsubr ("PreviousMovement", 0, 0, 0, scheme_PreviousMovement);
+install_scm_function ("PreviousMovement", scheme_PreviousMovement);
 /*DeleteMovement delete_movement*/
-scm_c_define_gsubr ("DeleteMovement", 0, 0, 0, scheme_DeleteMovement);
+install_scm_function ("DeleteMovement", scheme_DeleteMovement);
 /*DeleteBookmarks deletebookmarks*/
-scm_c_define_gsubr ("DeleteBookmarks", 0, 0, 0, scheme_DeleteBookmarks);
+install_scm_function ("DeleteBookmarks", scheme_DeleteBookmarks);
 /*Play ext_midi_playback*/
-scm_c_define_gsubr ("Play", 0, 0, 0, scheme_Play);
+install_scm_function ("Play", scheme_Play);
 /*Stop stop_midi_playback*/
-scm_c_define_gsubr ("Stop", 0, 0, 0, scheme_Stop);
+install_scm_function ("Stop", scheme_Stop);
 /*PlayCSound dnm_csoundplayback*/
-scm_c_define_gsubr ("PlayCSound", 0, 0, 0, scheme_PlayCSound);
+install_scm_function ("PlayCSound", scheme_PlayCSound);
 /*PlaybackProperties playback_properties_change*/
-scm_c_define_gsubr ("PlaybackProperties", 0, 0, 0, scheme_PlaybackProperties);
+install_scm_function ("PlaybackProperties", scheme_PlaybackProperties);
 /*Help browse_manual*/
-scm_c_define_gsubr ("Help", 0, 0, 0, scheme_Help);
+install_scm_function ("Help", scheme_Help);
 /*About about*/
-scm_c_define_gsubr ("About", 0, 0, 0, scheme_About);
+install_scm_function ("About", scheme_About);
 /*AddBookmark addbookmark*/
-scm_c_define_gsubr ("AddBookmark", 0, 0, 0, scheme_AddBookmark);
+install_scm_function ("AddBookmark", scheme_AddBookmark);
 /*GotoBookmark gotobookmark*/
-scm_c_define_gsubr ("GotoBookmark", 0, 0, 0, scheme_GotoBookmark);
+install_scm_function ("GotoBookmark", scheme_GotoBookmark);
 /*NextBookmark nextbookmark*/
-scm_c_define_gsubr ("NextBookmark", 0, 0, 0, scheme_NextBookmark);
+install_scm_function ("NextBookmark", scheme_NextBookmark);
 /*PrevBookmark prevbookmark*/
-scm_c_define_gsubr ("PrevBookmark", 0, 0, 0, scheme_PrevBookmark);
+install_scm_function ("PrevBookmark", scheme_PrevBookmark);
 /*ToggleEdit toggle_edit_mode*/
-scm_c_define_gsubr ("ToggleEdit", 0, 0, 0, scheme_ToggleEdit);
+install_scm_function ("ToggleEdit", scheme_ToggleEdit);
 /*ToggleRest toggle_rest_mode*/
-scm_c_define_gsubr ("ToggleRest", 0, 0, 0, scheme_ToggleRest);
+install_scm_function ("ToggleRest", scheme_ToggleRest);
 /*ToggleRhythm toggle_rhythm_mode*/
-scm_c_define_gsubr ("ToggleRhythm", 0, 0, 0, scheme_ToggleRhythm);
+install_scm_function ("ToggleRhythm", scheme_ToggleRhythm);
 /*ClearOverlay clear_overlay*/
-scm_c_define_gsubr ("ClearOverlay", 0, 0, 0, scheme_ClearOverlay);
+install_scm_function ("ClearOverlay", scheme_ClearOverlay);
 /*CreateRhythm create_rhythm_cb*/
-scm_c_define_gsubr ("CreateRhythm", 0, 0, 0, scheme_CreateRhythm);
+install_scm_function ("CreateRhythm", scheme_CreateRhythm);
 /*DeleteRhythm delete_rhythm_cb*/
-scm_c_define_gsubr ("DeleteRhythm", 0, 0, 0, scheme_DeleteRhythm);
+install_scm_function ("DeleteRhythm", scheme_DeleteRhythm);

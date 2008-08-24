@@ -486,7 +486,7 @@ int main() {
       }
     if (fi != NULL) {
       fprintf(scheme, "/*%s %s*/\n",ni, fi);
-      fprintf(scheme, "scm_c_define_gsubr (\"%s\", 0, 0, 0, scheme_%s);\n", ni, ni);
+      fprintf(scheme, "install_scm_function (\"%s\", scheme_%s);\n", ni, ni);
 
       fprintf(scheme_cb, "SCM scheme_%s (void) {\n%s%s (NULL);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
 
