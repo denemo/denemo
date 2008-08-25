@@ -37,18 +37,26 @@
 #endif
 
 #define DEFAULT_KEYMAP "Default.keymap"
-//index of columns in the keymap command list store
+//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_mammand_row !!!!!!!!!
 enum {
     COL_TYPE = 0,
-    COL_ENTRY,
+    COL_ACTION,
+    COL_NAME,
+    COL_LABEL,
+    COL_TOOLTIP,
+    COL_CALLBACK,
     COL_BINDINGS,
     N_COLUMNS
 };
 
-typedef struct _command_row {
-    KeymapCommandType type;
-    gpointer entry;
-    GtkListStore *bindings;
+typedef struct command_row {
+  KeymapCommandType type;
+  GtkAction *action;
+  gchar *name;
+  gchar *label;
+  gchar *tooltip;
+  gpointer callback;
+  GtkListStore *bindings;
 }command_row;
 
 static void
@@ -525,17 +533,22 @@ no_map_dialog ()
  */
 keymap *allocate_keymap(const gchar *action_group_name)
 {
+
   keymap *the_keymap = (keymap *) g_malloc (sizeof (keymap));
   the_keymap->action_group_name = g_strdup(action_group_name);
   //empty list store of commands
   //3 columns :
   //- type of action, a KeymapCommandType
-  //- pointer to an action entry, gpointer
+  //- pointedr to action, name, label, tooltip, callback
   //- pointer to a list store for storing the bindings of a command
   the_keymap->commands = gtk_list_store_new(N_COLUMNS,
-          G_TYPE_INT,
-          G_TYPE_POINTER,
-          GTK_TYPE_LIST_STORE);
+					    G_TYPE_INT,
+					    G_TYPE_POINTER,//action
+					    G_TYPE_POINTER,//name
+					    G_TYPE_POINTER,//label
+					    G_TYPE_POINTER,//tooltip
+					    G_TYPE_POINTER,//callback
+					    GTK_TYPE_LIST_STORE);
   
   //empty index reference
   the_keymap->idx_from_name =
@@ -564,17 +577,13 @@ free_keymap(keymap *the_keymap)
 }
 
 void
-register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
-        KeymapCommandType type)
+register_command(keymap *the_keymap, GtkAction *action, const gchar *name, const gchar *label, const gchar *tooltip, gpointer callback)
 {
     guint i;
     guint *value;
-    const gchar *name;
-    gpointer entry;
     GtkTreeIter iter;
     GtkListStore *bindings;
-
-    for (i = 0; i < n; i++) {
+    KeymapCommandType type;//We may need to use this to distinguish scheme scripts from built ins.
         //get the index of the new row
         value = (guint *) g_malloc(sizeof(guint));
         *value = gtk_tree_model_iter_n_children(
@@ -582,29 +591,13 @@ register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
         
         //add a new row
         gtk_list_store_append(the_keymap->commands, &iter);
-        
-        //get information specific to the KeymapCommandType
-        switch (type) {
-            case KeymapEntry:
-                entry = (GtkActionEntry *) entries + i;
-                name = ((GtkActionEntry *) entry)->name;
-                break;
-            case KeymapToggleEntry:
-                entry = (GtkToggleActionEntry *) entries + i;
-                name = ((GtkToggleActionEntry *) entry)->name;
-                break;
-            case KeymapRadioEntry:
-                entry = (GtkRadioActionEntry *) entries + i;
-                name = ((GtkRadioActionEntry *) entry)->name;
-                break;
-            default:
-                return;
-        }
+	//action = action_of_name(the_keymap, name);
+
         //allocate a new bindings list store
         bindings = gtk_list_store_new(1, G_TYPE_STRING);
 #if DEBUG
-        //This code is only relevant to developpers, to check that no action
-        //entry masks another. Users cannot add actions.
+        //This code is only relevant to developers, to check that no action
+        //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
         gint idx = lookup_index_from_name(the_keymap, name);
         if (idx != -1) {
             g_warning("Command %s is inserted more than once, aborting...\n",
@@ -615,7 +608,11 @@ register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
         //insert the information in the list store
         gtk_list_store_set(the_keymap->commands, &iter,
                 COL_TYPE, type,
-                COL_ENTRY, entry,
+                COL_ACTION, action,
+                COL_NAME, name,
+                COL_LABEL, label,
+                COL_TOOLTIP, tooltip,
+                COL_CALLBACK, callback,
                 COL_BINDINGS, bindings,
                 -1);
         //insert the command name in the index reference
@@ -626,11 +623,11 @@ register_entry_commands(keymap *the_keymap, gpointer entries, guint n,
         //with the command list store
         g_object_unref(bindings);
 
-#if DEBUG
-        g_print("Inserting command %s -> %d\n", name, *value);
+#if 1// DEBUG
+        g_print("Inserting command %s %s %s %p  -> %d\n", name, label, tooltip, callback, *value);
 #endif
-    }
 }
+
 
 static gint
 command_iter_sort(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
@@ -638,33 +635,23 @@ command_iter_sort(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
 {
   GtkTreeIter *iters[2];
   KeymapCommandType type;
-  gpointer entry;
+  gpointer action;
   const gchar *names[2];
   gint i;
   iters[0] = a; iters[1] = b;
   for (i = 0; i < 2; i++) {
       gtk_tree_model_get(model, iters[i],
-              COL_TYPE, &type, COL_ENTRY, &entry, -1);
-      switch (type) {
-          case KeymapEntry:
-              names[i] = ((GtkActionEntry *) entry)->name;
-              break;
-          case KeymapToggleEntry:
-              names[i] = ((GtkToggleActionEntry *) entry)->name;
-              break;
-          case KeymapRadioEntry:
-              names[i] = ((GtkRadioActionEntry *) entry)->name;
-              break;
-          default:
-              names[i] = NULL;
-              break;
-      }
+              COL_TYPE, &type, COL_ACTION, &action, -1);
+      
+              names[i] = gtk_action_get_name(action);
+            
+      
   }
   return strcmp(names[0], names[1]);
 }
 
 void
-end_command_registration(keymap *the_keymap)
+alphabeticalize_commands(keymap *the_keymap)
 {
   gint i, n;
   guint *value;
@@ -696,10 +683,14 @@ keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
     if (!gtk_tree_model_iter_nth_child(model, &iter, NULL, command_idx))
         return FALSE;
     gtk_tree_model_get(model, &iter,
-            COL_TYPE, &row->type,
-            COL_ENTRY, &row->entry,
-            COL_BINDINGS, &row->bindings,
-            -1);
+		       COL_TYPE, &row->type,
+		       COL_ACTION, &row->action,
+		       COL_NAME, &row->name,
+		       COL_LABEL, &row->label,
+		       COL_CALLBACK, &row->callback,
+		       COL_TOOLTIP, &row->tooltip,
+		       COL_BINDINGS, &row->bindings,
+		       -1);
     return TRUE;
 }
 
@@ -871,20 +862,7 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
   command_row row;
   if (!keymap_get_command_row(keymap, &row, command_idx))
       return NULL;
-  switch (row.type) {
-      case KeymapEntry:
-          res = ((GtkActionEntry *) row.entry)->name;
-          break;
-      case KeymapToggleEntry:
-          res = ((GtkToggleActionEntry *) row.entry)->name;
-          break;
-      case KeymapRadioEntry:
-          res = ((GtkRadioActionEntry *) row.entry)->name;
-          break;
-      default:
-          res = NULL;
-          break;
-  }
+  res = gtk_action_get_name(row.action);
   g_object_unref(row.bindings);
   return res;
 }
@@ -898,20 +876,8 @@ lookup_label_from_idx (keymap * keymap, guint command_idx)
   command_row row;
   if (!keymap_get_command_row(keymap, &row, command_idx))
       return NULL;
-  switch (row.type) {
-      case KeymapEntry:
-          res = ((GtkActionEntry *) row.entry)->label;
-          break;
-      case KeymapToggleEntry:
-          res = ((GtkToggleActionEntry *) row.entry)->label;
-          break;
-      case KeymapRadioEntry:
-          res = ((GtkRadioActionEntry *) row.entry)->label;
-          break;
-      default:
-          res = NULL;
-          break;
-  }
+  res = row.label;//FIXME label is a property g_object_get_prop...
+
   g_object_unref(row.bindings);
   return res;
 }
@@ -1297,39 +1263,14 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 gboolean
 idx_has_callback(keymap *the_keymap, guint command_idx)
 {
-  gboolean res = TRUE;
-  const gchar *command_name;
-  GtkAction *action;
-  GtkActionGroup *action_group;
-  gpointer f;
-  command_name = lookup_name_from_idx(the_keymap, command_idx);
-  action_group = get_action_group(the_keymap);
-  action = gtk_action_group_get_action(action_group, command_name);
-  //check for the existence of a callback, enables to detect action entries
+  if(command_idx==-1)
+    return FALSE;
+  gboolean res = TRUE; 
   command_row row;
   if (!keymap_get_command_row(the_keymap, &row, command_idx))
       return FALSE;
   g_object_unref(row.bindings);
-  switch (row.type) {
-      case KeymapEntry:
-          f = (((GtkActionEntry *) row.entry)->callback);
-          if (!f) {
-            res = FALSE;
-          }
-          break;
-      case KeymapToggleEntry:
-          f = (((GtkToggleActionEntry *) row.entry)->callback);
-          if (f) {
-            res = FALSE;
-          }
-          break;
-      case KeymapRadioEntry:
-          //Since the callback is added once for all radio entries at the time
-          //they are included in the action group, we do not
-          //perform a check here
-          break;
-  }
-
+  res = row.callback;
   return res;
 }
 
@@ -1706,23 +1647,14 @@ command_name_data_function (GtkTreeViewColumn *col,
                             gpointer           user_data)
 {
     KeymapCommandType type;
-    gpointer entry;
+    gpointer action;
     const gchar *name;
     gtk_tree_model_get(model, iter,
             COL_TYPE, &type,
-            COL_ENTRY, &entry,
+            COL_ACTION, &action,
             -1);
-    switch (type) {
-        case KeymapEntry:
-            name = (((GtkActionEntry *) entry)->name);
-            break;
-        case KeymapToggleEntry:
-            name = (((GtkToggleActionEntry *) entry)->name);
-            break;
-        case KeymapRadioEntry:
-            name = (((GtkRadioActionEntry *) entry)->name);
-            break;
-    }
+    name = gtk_action_get_name(action);
+   
     g_object_set(renderer, "text", name, NULL);
 }
 
@@ -1731,25 +1663,16 @@ search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
         GtkTreeIter *iter, gpointer search_data)
 {
   KeymapCommandType type;
-  gpointer entry;
+  gpointer action;
   const gchar *name;
   gboolean res;
   gchar *name_trunk;
   gtk_tree_model_get(model, iter,
           COL_TYPE, &type,
-          COL_ENTRY, &entry,
+          COL_ACTION, &action,
           -1);
-  switch (type) {
-      case KeymapEntry:
-          name = (((GtkActionEntry *) entry)->name);
-          break;
-      case KeymapToggleEntry:
-          name = (((GtkToggleActionEntry *) entry)->name);
-          break;
-      case KeymapRadioEntry:
-          name = (((GtkRadioActionEntry *) entry)->name);
-          break;
-  }
+  name = gtk_action_get_name(action);
+ 
   name_trunk = g_strndup(name, strlen(key));
   res = strcmp(name_trunk, key) == 0;
   g_free(name_trunk);
@@ -1841,7 +1764,7 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   GtkTreeModel *old_binding_model;
   GtkTextBuffer *text_buffer;
   KeymapCommandType type;
-  gpointer entry;
+  gpointer action;
   gint *array;
   const gchar *tooltip;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *)data;
@@ -1866,7 +1789,8 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_model_get(model, &iter,
           COL_TYPE, &type,
-          COL_ENTRY, &entry,
+          COL_ACTION, &action,
+         COL_TOOLTIP, &tooltip,
           COL_BINDINGS, &bindings, -1);
   //getting the new command_idx
   array = gtk_tree_path_get_indices(path);
@@ -1880,17 +1804,8 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
   g_object_unref(bindings);
   //changing the tooltip
   text_buffer = gtk_text_view_get_buffer(cbdata->text_view);
-  switch (type) {
-      case KeymapEntry:
-          tooltip = ((GtkActionEntry *) entry)->tooltip;
-          break;
-      case KeymapToggleEntry:
-          tooltip = ((GtkToggleActionEntry *) entry)->tooltip;
-          break;
-      case KeymapRadioEntry:
-          tooltip = ((GtkRadioActionEntry *) entry)->tooltip;
-          break;
-  }
+
+
   if(tooltip){
     gchar *plain;
     pango_parse_markup (tooltip,-1,0,NULL, &plain, 0, NULL);

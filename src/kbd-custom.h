@@ -66,11 +66,10 @@ void
 free_keymap(keymap *the_keymap);
 
 void
-register_entry_commands(keymap * the_keymap, gpointer entries, guint n,
-		KeymapCommandType type);
+register_command(keymap *the_keymap, GtkAction *action, const gchar *name, const gchar *label, const gchar *tooltip, gpointer callback);
 
 void
-end_command_registration(keymap *the_keymap);
+alphabeticalize_commands(keymap *the_keymap);
 
 //keymap *
 //create_keymap (const gchar *filename);

@@ -460,13 +460,14 @@ struct name_and_function unmenued_commands[] = {
 #define fi unmenued_commands[i].function
 #define mi unmenued_commands[i].category
 int main() {
-  FILE *callbacks, *entries, *xml, *scheme, *scheme_cb;
+  FILE *callbacks, *entries, *xml, *scheme, *scheme_cb, *register_commands;
   scheme_cb = fopen("scheme_cb.h", "w");
   scheme = fopen("scheme.h", "w");
   callbacks = fopen("callbacks.h", "w");
   entries =  fopen("entries.h", "w");
+  register_commands = fopen("register_commands.h", "w");
   xml = fopen("xml.fragment", "w");
-  if(!callbacks || !entries || !xml || !scheme || !scheme_cb)
+  if(!callbacks || !entries || !xml || !scheme || !scheme_cb || !register_commands)
     return -1;
   fprintf(callbacks, "/******** generated automatically from generate_source. See generate_source.c */\n");
   fprintf(entries, "/******** generated automatically from generate_source. See generate_source.c */\n");
@@ -488,12 +489,13 @@ int main() {
     if (fi != NULL) {
       fprintf(scheme, "/*%s %s*/\n",ni, fi);
       //fprintf(scheme, "install_scm_function (\"%s\", scheme_%s);\n", ni, ni);
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme call call the action.
       fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%s\"));\n", ni, ni);
       fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
 
       fprintf(scheme_cb, "SCM scheme_%s (void) {\n%s%s (NULL);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
 
-
+      fprintf(register_commands, "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
     }
 
 
@@ -661,6 +663,44 @@ int main() {
 "  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 	    "}\n", i, i);
+  }
+
+  for(i='A';i<='G';i++) {
+    fprintf(register_commands,
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"Insert%c\"), \"Insert%c\", \"Insert %c\",\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",  Insert%c);\n", i,i,i,i,i);
+
+  }
+
+  for(i='A';i<='G';i++) {
+    fprintf(register_commands,
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", N_(\"Change to %c\"),N_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
+
+  }
+
+  for(i=0;i<7;i++) {
+    /* registering commands for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
+    fprintf(register_commands, 
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", N_(MUSIC_FONT(\"%d\")), N_(\"In insert mode, changes prevailing rhythm to \"MUSIC_FONT(\"%d\")\"\\nIn edit mode changes the current note to \"MUSIC_FONT(\"%d\")\"\\n or appends a \"MUSIC_FONT(\"%d\")\" if no current note\\nIn classic mode inserts a \"MUSIC_FONT(\"%d\")\" at the cursor\"), Dur%d);\n", i, i, i, i, i, i, i, i);
+
+    fprintf(register_commands, 
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"Change%d\"), \"Change%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Change the current note to a \"MUSIC_FONT(\"%d\")), ChangeDur%d);\n", i, i, i, i, i);
+
+    fprintf(register_commands, 
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"Insert%d\"), \"Insert%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Insert a \"MUSIC_FONT(\"%d\")), InsertDur%d);\n", i, i, i, i, i);
+
+    fprintf(register_commands, 
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"InsertRest%d\"), \"InsertRest%d\",  N_(\"Insert a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Inserts a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), InsertRest%d);\n", i, i, i, i, i);
+
+    fprintf(register_commands, 
+	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  N_(\"Change a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Changes a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), ChangeRest%d);\n", i, i, i, i, i);
+
+      fprintf(scheme, "/*%d */\n", i);
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean it scheme call call the action.
+      fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%d %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%d\"));\n", i, i);
+      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
+      fprintf(scheme_cb, "SCM scheme_%d (void) {\nDur%d (NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+
   }
 
 

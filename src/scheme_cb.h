@@ -1162,3 +1162,31 @@ SCM scheme_DeleteRhythm (void) {
 delete_rhythm_cb (NULL);
 return SCM_EOL;
 }
+SCM scheme_0 (void) {
+Dur0 (NULL);
+return SCM_EOL;
+}
+SCM scheme_1 (void) {
+Dur1 (NULL);
+return SCM_EOL;
+}
+SCM scheme_2 (void) {
+Dur2 (NULL);
+return SCM_EOL;
+}
+SCM scheme_3 (void) {
+Dur3 (NULL);
+return SCM_EOL;
+}
+SCM scheme_4 (void) {
+Dur4 (NULL);
+return SCM_EOL;
+}
+SCM scheme_5 (void) {
+Dur5 (NULL);
+return SCM_EOL;
+}
+SCM scheme_6 (void) {
+Dur6 (NULL);
+return SCM_EOL;
+}

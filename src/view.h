@@ -44,7 +44,7 @@
 
 #define EXTRA_ACCELS "extra.accels"
 
-void init_keymap(void);
+
 void newview(GtkAction*);
 
 void free_gui(DenemoGUI *gui);/* frees all movement data from gui, leaving gui interface intact */

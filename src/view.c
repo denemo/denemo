@@ -1134,9 +1134,8 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
    menu_entry->label = mylabel;
    menu_entry->tooltip =  mytooltip;
    menu_entry->callback = G_CALLBACK (activate_script);
-   register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
-          KeymapEntry);
-  end_command_registration(Denemo.prefs.the_keymap);
+   register_command(Denemo.prefs.the_keymap, myaction, myname, mylabel, mytooltip, activate_script);
+   alphabeticalize_commands(Denemo.prefs.the_keymap);
   // g_print("evaluating scheme %s\n", g_strdup_printf("(define dnm_%s %d)\n", myname, myaction));
   (void)scm_c_eval_string(g_strdup_printf("(define dnm_%s %d)\n", myname, myaction));
   return;
@@ -1171,12 +1170,13 @@ static gboolean menu_click (GtkWidget      *widget,
   //DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.prefs.standard_keymap;
   const gchar *func_name = gtk_action_get_name(action);
-  g_print("widget name %s\n", gtk_widget_get_name(widget));
+  g_print("widget name %s action name %s\n", gtk_widget_get_name(widget), func_name);
   gint idx = lookup_index_from_name (the_keymap, func_name);
   if (event->button != 3) //Not right click
     if(Denemo.ScriptRecording)
-      if(idx_has_callback(the_keymap, idx)){	
-	append_scheme_call((gchar*)func_name);
+      if(idx_has_callback(the_keymap, idx)){
+	if(g_object_get_data(G_OBJECT(action), "scm"))	
+	   append_scheme_call((gchar*)func_name);
 	//return TRUE;
       }
   //g_print("event button %d, idx %d for %s\n", event->button, idx, func_name);
@@ -1214,8 +1214,9 @@ static gboolean menu_click (GtkWidget      *widget,
     //g_print("menu %s is %d\n", this, w!=0);
     if(w) break;
   }
-  
-  g_signal_connect(item, "activate", G_CALLBACK(insertScript),w?g->data:"/MainMenu");
+  //if(w==NULL) cannot do this - we are inside a dialog...
+  //  warningdialog("Unable to determine a place in the menu system - putting it in ObjectMenu/Other");
+  g_signal_connect(item, "activate", G_CALLBACK(insertScript),w?g->data:"/ObjectMenu/Other/");
   //g_string_free(gstr, TRUE);
 
   gtk_widget_show_all(menu);
@@ -1365,9 +1366,8 @@ static void add_favorite(GtkAction *action, DenemoGUI *gui) {
    menu_entry->label = mylabel;
    menu_entry->tooltip =  mytooltip;
    menu_entry->callback = G_CALLBACK (myactivate);
-   register_entry_commands(Denemo.prefs.the_keymap, menu_entry, 1,
-          KeymapEntry);
-  end_command_registration(Denemo.prefs.the_keymap);
+   register_command(Denemo.prefs.the_keymap, myaction, myname, mylabel, mytooltip, myactivate);
+  alphabeticalize_commands(Denemo.prefs.the_keymap);
   return;
 }
 #endif /* ifdef DENEMO_DYNAMIC_MENU_ITEMS */
@@ -1909,7 +1909,7 @@ gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
  * create and populate the action group containing actions handled by the keymap
  * allocate the keymap
  */
-void init_keymap()
+static void init_keymap(GtkActionGroup *action_group)
 {
   //TODO we initialize the keymap before the first windowin shown because it has
   //to be once and for all. Does it break something in regards of the next
@@ -1917,19 +1917,13 @@ void init_keymap()
   /* Similarly, the keymap should be initialized after the
      only once si->window is shown, as it may pop up an advisory
      dialog. */
-  Denemo.prefs.standard_keymap = allocate_keymap ("MenuActions");
-  Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap; 
-  register_entry_commands(Denemo.prefs.the_keymap, menu_entries, n_menu_items,
-          KeymapEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, toggle_menu_entries,
-          G_N_ELEMENTS (toggle_menu_entries), KeymapToggleEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, mode_menu_entries,
-          G_N_ELEMENTS (mode_menu_entries), KeymapRadioEntry);
-  register_entry_commands(Denemo.prefs.the_keymap, type_menu_entries,
-          G_N_ELEMENTS (type_menu_entries), KeymapRadioEntry);
-  end_command_registration(Denemo.prefs.the_keymap);
+  Denemo.prefs.standard_keymap = allocate_keymap ("MenuActions");//FIXME pass the action group directly.
+  Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap;
+
+#include "register_commands.h"
+
+  alphabeticalize_commands(Denemo.prefs.the_keymap);
   load_default_keymap_file(Denemo.prefs.the_keymap);
-    
   gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
 }
 
@@ -2000,7 +1994,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
 
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
-static void
+static GtkActionGroup*
 create_window(void) {
   DenemoPrefs *prefs;
   GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
@@ -2219,10 +2213,10 @@ get_data_dir (),
   use_markup(Denemo.window);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.
 Really we should change the default for the class.*/
-  action_group = gtk_action_group_new ("LilyActions");
-  gtk_action_group_add_actions (action_group, lily_menus,
+  GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
+  gtk_action_group_add_actions (lilyaction_group, lily_menus,
 				G_N_ELEMENTS (lily_menus), Denemo.gui);
-  gtk_ui_manager_insert_action_group (ui_manager, action_group, 1);
+  gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);
  //  g_print("Turning on the modes\n");
 
 
@@ -2249,6 +2243,9 @@ Really we should change the default for the class.*/
  toggle_object_menu (NULL, Denemo.gui);
  }
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+
+
+  return action_group;
 }   /* create window */
 
 /**
@@ -2261,8 +2258,9 @@ Really we should change the default for the class.*/
 void
 newview (GtkAction *action)
 {
+  GtkActionGroup *action_group;
   if(Denemo.guis==NULL)
-    create_window();
+    action_group = create_window();
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   Denemo.guis = g_list_append (Denemo.guis, gui);
 
@@ -2401,15 +2399,18 @@ Denemo.gui = gui;
  {static gboolean initialized = FALSE;
  g_print("init %d for %p\n", initialized, Denemo.gui);
  if(!initialized) {
-   init_keymap();
+
+   init_keymap(action_group);
    /*
      The next loop goes through the actions and connects a signal to menu_click. This allows the shortcuts to be modified/inspected on the menu item itself, by right-clicking. It also provides the help for the menuitem.
      Furthermore, it updates the label of the widgets proxying the action so that accelerators are also displayed.
      FIXME: it shouldn't allow shortcuts to be set on menus, only on menuitems (fix in the callback).
    */
+#if 0
    GtkActionGroup *action_group;
    GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
    action_group = GTK_ACTION_GROUP(groups->data); 
+#endif
    GList *g = gtk_action_group_list_actions(action_group);
    for(;g;g=g->next) {
      gint command_idx;

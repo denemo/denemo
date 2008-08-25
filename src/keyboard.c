@@ -2,7 +2,7 @@
 #include "kbd-custom.h"
 #include <string.h>
 
-extern struct name_action_and_function *denemo_commands;
+
 
 /*
  * translate a keybinding from the format used in denemo keymaprc file to the
