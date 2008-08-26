@@ -68,6 +68,9 @@ calculateheight (gint mid_c_offset, gint dclef);
 gint
 offsettonumber (gint n);
 
+gchar *
+mid_c_offsettolily (int mid_c_offset, int enshift)
+
 gchar
 mid_c_offsettoname (gint mid_c_offset);
 

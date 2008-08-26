@@ -284,7 +284,6 @@ setpixelmin (DenemoObject * theobj)
 }
 
 /**
- * Returns the height of a tone based on its mid_c_offset and the clef that it's in 
  * 
  * @param mid_c_offset the mid_c_offset of the the tone
  * @param dclef the clef of the current tone
@@ -336,7 +335,35 @@ offsettonumber (gint n)
      should operate on negative operands.  */
 }
 
+/**
+ * converts the int mid_c_offset to the lilypond name 
+ * returns a gchar * so it will have to be freed
+ * 0 returns "c", 1 returns "cis"
+ * The octave ",,, or '''" is also appended" 
+ */
 
+gchar *mid_c_offsettolily (int mid_c_offset, int enshift){
+  gint octave, k; 
+  GString *lilynote = g_string_new ("");
+
+  g_string_append_printf (lilynote, "%c",
+		    mid_c_offsettoname (mid_c_offset));
+  if (enshift < 0)
+  for (k = enshift; k; k++)
+  g_string_append_printf (lilynote, "es");
+  else
+  for (k = enshift; k; k--)
+  g_string_append_printf (lilynote, "is");
+  octave = mid_c_offsettooctave (mid_c_offset);
+  if (octave < 0)
+  for (; octave; octave++)
+  g_string_append_printf (lilynote, ",");
+  else
+  for (; octave; octave--)
+  g_string_append_printf (lilynote, "\'");
+
+  return g_string_free(lilynote, FALSE); 
+} 
 /**
  * converts the mid_c_offset to the correct letter name
  * @param mid_c_offset the mid_c_offset to convert

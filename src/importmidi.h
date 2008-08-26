@@ -10,6 +10,7 @@ AJAnderson
 typedef struct notetype
 {
 	gint notetype;
+	gint numofdots;
 	gint tied;
 }notetype;
 
