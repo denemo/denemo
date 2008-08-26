@@ -85,7 +85,8 @@ importMidi (gchar * filename, DenemoGUI * gui)
 
 DenemoObject * new_dnm_object(notetype length, gint tied){
 	DenemoObject *mudela_obj_new;
-	mudela_obj_new = dnm_newchord (length.notetype, 0, tied);
+	tied = (tied > 0) ? tied : length.tied;
+	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, tied);
 	return mudela_obj_new;
 }
 
@@ -588,42 +589,48 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
   notetype gnotetype;
   gint PPQN = mididata->PPQN;
   gint notetype = 2;
+  gint numofdots = 0;
   gint tied = 0;
   gint dsq = (8 * endnote) / PPQN;
-  
+  /* 
+   *replace this with an algorhthm for replacing this switch?
+   */
   switch (dsq)
   {
     case 1:			/*demi-semi-quaver */
       {
-	notetype = 5;
+	notetype = 5;		/*thirtysecond note*/
 	break;
       }
     case 2:			/*semi-quaver */
       {
-	notetype = 4;
+	notetype = 4;		/*sixteenth note*/
+	//numofdots = 1;
 	break;
       }
     case 3:			/*dotted semi-quaver */
       {
 	notetype = 4;
-	tied = PPQN / 8;
+	//numofdots = 1;
+	tied = PPQN / 8;	/*dotted sixteenth*/
 	break;
       }
     case 4:			/*quaver */
       {
-	notetype = 3;
+	notetype = 3;		/*eigth note*/
 	break;
       }
     case 5:			/*quaver tied demi */
       {
 	notetype = 3;
-	tied = PPQN / 8;
+	tied = PPQN / 8;	
 	break;
       }
     case 6:			/*quaver */
       {
 	notetype = 3;
-	tied = PPQN / 4;
+	//numofdots = 1;
+	tied = PPQN / 4;    /*dotted eigth*/
 	break;
       }
     case 7:			/*quaver */
@@ -634,7 +641,7 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
       }
     case 8:			/*crotchet */
       {
-	notetype = 2;
+	notetype = 2;		/*quarter note*/
 	break;
       }
     case 9:			/*crotchet */
@@ -657,8 +664,9 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
       }
     case 12:			/*crotchet */
       {
-	notetype = 2;
-	tied = PPQN / 2;
+	notetype = 2;	
+	//numofdots = 1;
+	tied = PPQN / 2;	/*dotted quarter*/
 	break;
       }
     case 13:			/*crotchet */
@@ -681,7 +689,14 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
       }
     case 16:			/*minim */
       {
-	notetype = 1;
+	notetype = 1;		/*half note*/
+	break;
+      }
+    case 24:
+      {
+	notetype = 1;		/*dotted half note*/
+	//numofdots = 1;
+	tied = PPQN;		
 	break;
       }
     case 30:
@@ -692,11 +707,19 @@ notetype ConvertLength(gint endnote, midicallback *mididata){
       }
     case 32:			/*semi-breve */
       {
-	notetype = 0;
+	notetype = 0;		/*whole note*/
+	break;
+      }
+    case 48:
+      {
+	notetype = 0;		/*dotted whole note*/
+	//numofdots = 1;
+	tied = PPQN * 2;
 	break;
       }
   }
   gnotetype.notetype = notetype;
+  gnotetype.numofdots = numofdots;
   gnotetype.tied = tied;
   return gnotetype;
 }
