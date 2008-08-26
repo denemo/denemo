@@ -623,7 +623,7 @@ register_command(keymap *the_keymap, GtkAction *action, const gchar *name, const
         //with the command list store
         g_object_unref(bindings);
 
-#if 1// DEBUG
+#if DEBUG
         g_print("Inserting command %s %s %s %p  -> %d\n", name, label, tooltip, callback, *value);
 #endif
 }
