@@ -69,7 +69,7 @@ gint
 offsettonumber (gint n);
 
 gchar *
-mid_c_offsettolily (int mid_c_offset, int enshift)
+mid_c_offsettolily (int mid_c_offset, int enshift);
 
 gchar
 mid_c_offsettoname (gint mid_c_offset);
