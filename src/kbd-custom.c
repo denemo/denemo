@@ -1293,9 +1293,6 @@ execute_callback_from_name(keymap *the_keymap, const gchar* command_name)
 {
   gboolean res = TRUE;
   GtkAction *action = action_of_name(the_keymap, command_name);
-#if DEBUG
-  res = idx_has_callback(the_keymap, command_idx);
-#endif
   gtk_action_activate(action);
   return res;
 }
