@@ -358,7 +358,9 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
   return 0;
 }
 
-/* returns 0 on success
+/* 
+ * attaches the menu hierarchy path to each menuitem widget in the passed file (denemoui.xml)
+ * returns 0 on success
  * negative on failure
  */
 gint

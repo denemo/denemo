@@ -2,7 +2,7 @@
  * Functions to create a top level Denemo window
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2003-2005  Adam Tee
+ * (c) 2003-2005  Adam Tee (c) 2007, 2008 Richard Shann
  * 
  */
 #include <string.h>
@@ -67,7 +67,7 @@ static void save_accels (void);
 #include <libguile.h> 
 #include "scheme_cb.h"
 
-
+#if 0
 static  GList *known_paths;//All the menu paths known to Denemo
 static gchar * menu_paths[] = {
   "/MainMenu/FileMenu/",
@@ -128,7 +128,7 @@ static gchar * menu_paths[] = {
 
   //more....
 };
-
+#endif
 
 
 #define MODELESS_STRING "Modeless"
@@ -214,12 +214,12 @@ static void scheme_requests_action (SCM paction)
 
 
 int inner_main(void){
-
   gint i;
+#if 0
   for(i=0;i<G_N_ELEMENTS(menu_paths);i++){
     known_paths = g_list_append(known_paths, menu_paths[i]);
   }
-
+#endif
 
 
   /* create scheme identifiers for all the menuitem callbacks that are not check/radio items */
@@ -1115,6 +1115,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   gtk_action_group_add_action(action_group, myaction);
   myscheme = getSchemeText();
   g_object_set_data(G_OBJECT(myaction), "scheme", myscheme);
+  g_object_set_data(G_OBJECT(myaction), "path", myposition);
 
   g_signal_connect (G_OBJECT (myaction), "activate",
 		    G_CALLBACK (activate_script), gui); //FIXME I notice this is also connected to the widget??? see below.
@@ -1204,6 +1205,9 @@ static gboolean menu_click (GtkWidget      *widget,
 
   item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+
+#if 0
   //GString *gstr = get_widget_path(widget);
   GList *g;
   GtkWidget *w = NULL;
@@ -1214,10 +1218,20 @@ static gboolean menu_click (GtkWidget      *widget,
     //g_print("menu %s is %d\n", this, w!=0);
     if(w) break;
   }
+
   //if(w==NULL) cannot do this - we are inside a dialog...
   //  warningdialog("Unable to determine a place in the menu system - putting it in ObjectMenu/Other");
   g_signal_connect(item, "activate", G_CALLBACK(insertScript),w?g->data:"/ObjectMenu/Other/");
   //g_string_free(gstr, TRUE);
+#else
+  g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
+  g_signal_connect(item, "activate", G_CALLBACK(insertScript),g_object_get_data(G_OBJECT(widget), "menupath"));
+
+
+#endif
+
+  
+
 
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
