@@ -55,7 +55,7 @@
       <menu action="KeyBindings">
         <menuitem action="QuickEdits"/>
         <menuitem action="SaveAccels"/>
-        <menuitem action="Keyboard"/>
+        <menuitem action="CommandManagement"/>
       </menu>
       <!--
       <menuitem action="LoadPlugins"/>
@@ -160,7 +160,7 @@
               <menuitem action="NextRhythm"/> 
            </menu>
 
-           <menu action="Rest entry">
+           <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
 	     <menuitem action="InsertQuarterRest"/>
@@ -210,7 +210,7 @@
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
 	  </menu>
-          <menu action="Rest entry">
+          <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
 	     <menuitem action="InsertQuarterRest"/>
@@ -259,7 +259,7 @@
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
 	 </menu>
-          <menu action="Rest entry">
+          <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
 	     <menuitem action="InsertQuarterRest"/>
@@ -305,7 +305,7 @@
 	    <menuitem action="RemoveDot"/>
 	    <menuitem action="NextRhythm"/>
 	  </menu>
-          <menu action="Rest entry">
+          <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
 	     <menuitem action="InsertQuarterRest"/>
@@ -366,8 +366,8 @@
      </menu>
 
      <menu action="ChordMenu">
-         <menuitem action="AddTone"/>
-         <menuitem action="RemoveTone"/>
+         <menuitem action="AddNoteToChord"/>
+         <menuitem action="RemoveNoteFromChord"/>
      </menu>
 
      <menu action="MeasureMenu">
@@ -490,11 +490,6 @@
 	   <menuitem action="DeleteBookmarks"/>
 	</menu>
 
- <!-- #ifdef DENEMO_DYNAMIC_MENU_ITEMS
-    <menu action="Favorites">
-	       <menuitem action="AddFavorite"/>
-    </menu>
- -->
     <menu action="Other">
 	  <menuitem action="EditLyric"/>
 	  <menuitem action="EditChords"/>
@@ -577,7 +572,7 @@
 	    <menuitem action="InsertRhythm"/>
 	  </menu>
 
-          <menu action="Rest entry">
+          <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
 	     <menuitem action="InsertQuarterRest"/>
@@ -696,7 +691,7 @@ start of "all other" menu
 
 <menu action="AllOther">
 
-<menu action="Note entry">
+<menu action="NoteEntry">
 <menuitem action="WholeNote"/>
 <menuitem action="HalfNote"/>
 <menuitem action="QuarterNote"/>
@@ -719,15 +714,15 @@ start of "all other" menu
 <menuitem action="InsertQuintuplet"/>
 <menuitem action="InsertSextuplet"/>
 <menuitem action="InsertSeptuplet"/>
-<menuitem action="AddTone"/>
-<menuitem action="RemoveTone"/>
+<menuitem action="AddNoteToChord"/>
+<menuitem action="RemoveNoteFromChord"/>
 <menuitem action="SharpenOrStemDown"/>
 <menuitem action="FlattenOrStemUp"/>
 <menuitem action="AddDot"/>
 <menuitem action="RemoveDot"/>
 <menuitem action="ChangePitch"/>
 </menu>
-<menu action="Rest entry">
+<menu action="RestEntry">
 <menuitem action="InsertWholeRest"/>
 <menuitem action="InsertHalfRest"/>
 <menuitem action="InsertQuarterRest"/>

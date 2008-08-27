@@ -318,14 +318,14 @@ insert_septuplet (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*AddTone add_tone_key*/
+/*AddNoteToChord add_tone_key*/
 static void add_tone_key_cb (GtkAction *a) {
   DenemoGUI *gui = Denemo.gui;
 add_tone_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*RemoveTone remove_tone_key*/
+/*RemoveNoteFromChord remove_tone_key*/
 static void remove_tone_key_cb (GtkAction *a) {
   DenemoGUI *gui = Denemo.gui;
 remove_tone_key (gui);

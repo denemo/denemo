@@ -239,14 +239,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "InsertSeptup
 text = g_strdup_printf("(define dnm_InsertSeptuplet %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "InsertSeptuplet"));
 (void)scm_c_eval_string(text);
 g_free(text);
-/*AddTone add_tone_key*/
-g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "AddTone")), "scm", (gpointer)1);
-text = g_strdup_printf("(define dnm_AddTone %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddTone"));
+/*AddNoteToChord add_tone_key*/
+g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "AddNoteToChord")), "scm", (gpointer)1);
+text = g_strdup_printf("(define dnm_AddNoteToChord %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "AddNoteToChord"));
 (void)scm_c_eval_string(text);
 g_free(text);
-/*RemoveTone remove_tone_key*/
-g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "RemoveTone")), "scm", (gpointer)1);
-text = g_strdup_printf("(define dnm_RemoveTone %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "RemoveTone"));
+/*RemoveNoteFromChord remove_tone_key*/
+g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "RemoveNoteFromChord")), "scm", (gpointer)1);
+text = g_strdup_printf("(define dnm_RemoveNoteFromChord %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "RemoveNoteFromChord"));
 (void)scm_c_eval_string(text);
 g_free(text);
 /*SharpenOrStemDown sharpen_key*/
@@ -1159,9 +1159,9 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "SaveAccels")
 text = g_strdup_printf("(define dnm_SaveAccels %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "SaveAccels"));
 (void)scm_c_eval_string(text);
 g_free(text);
-/*Keyboard configure_keyboard_dialog*/
-g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "Keyboard")), "scm", (gpointer)1);
-text = g_strdup_printf("(define dnm_Keyboard %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "Keyboard"));
+/*CommandManagement configure_keyboard_dialog*/
+g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, "CommandManagement")), "scm", (gpointer)1);
+text = g_strdup_printf("(define dnm_CommandManagement %d)\n", (int)action_of_name(Denemo.prefs.the_keymap, "CommandManagement"));
 (void)scm_c_eval_string(text);
 g_free(text);
 /*LoadPlugins load_plugin*/

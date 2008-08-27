@@ -190,11 +190,11 @@ SCM scheme_InsertSeptuplet (void) {
 insert_septuplet_cb (NULL);
 return SCM_EOL;
 }
-SCM scheme_AddTone (void) {
+SCM scheme_AddNoteToChord (void) {
 add_tone_key_cb (NULL);
 return SCM_EOL;
 }
-SCM scheme_RemoveTone (void) {
+SCM scheme_RemoveNoteFromChord (void) {
 remove_tone_key_cb (NULL);
 return SCM_EOL;
 }
@@ -926,7 +926,7 @@ SCM scheme_SaveAccels (void) {
 save_default_keymap_file_wrapper (NULL);
 return SCM_EOL;
 }
-SCM scheme_Keyboard (void) {
+SCM scheme_CommandManagement (void) {
 configure_keyboard_dialog (NULL);
 return SCM_EOL;
 }
