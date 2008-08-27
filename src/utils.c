@@ -369,10 +369,9 @@ gchar *mid_c_offsettolily (int mid_c_offset, int enshift){
  * @param mid_c_offset the mid_c_offset to convert
  * @return the character name of the mid_c_offset
  */
-gchar
-mid_c_offsettoname (gint mid_c_offset)
+gchar mid_c_offsettoname (gint mid_c_offset)
 {
-  int otn = offsettonumber (mid_c_offset);
+  gint otn = offsettonumber (mid_c_offset);
 
   return ((otn + 2) % 7) + 'a';
 }
@@ -385,8 +384,8 @@ void *note2lilynotename(struct note *noteobject, GString *ret){
 }
 
 void *note2lilyaccidental(struct note *noteobject, GString *ret){
-  int enshift = noteobject->enshift;
-
+  gint enshift = noteobject->enshift;
+  gint k;
   if (enshift < 0)
     for (k = enshift; k; k++)
       g_string_append_printf (ret, "es");
@@ -396,7 +395,7 @@ void *note2lilyaccidental(struct note *noteobject, GString *ret){
 }
 
 void *note2lilyoctave(struct note* noteobject, GString *ret){
-  int octave = mid_c_offsettooctave (mid_c_offset);
+  gint octave;//FIXME this is broken = mid_c_offsettooctave (mid_c_offset);
   if (octave < 0)
     for (; octave; octave++)
       g_string_append_printf (ret, ",");
