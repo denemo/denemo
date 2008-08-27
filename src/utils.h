@@ -129,6 +129,10 @@ string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *in
 gchar *
 string_dialog_entry_with_widget (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value, GtkWidget *extra_widget);
 
-	
+void *note2lilynotename(struct note *noteobject, GString *ret);
+void *note2lilyaccidental(struct note *noteobject, GString *ret);
+void *note2lilyoctave(struct note* noteobject, GString *ret);
+void *chord2lilyduration(struct chord *chordobject, GString *ret);
+void *chord2lilynumdots(struct chord *chordobject, GString *ret);	
 
 #endif /* UTILS_H */

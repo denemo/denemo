@@ -377,6 +377,44 @@ mid_c_offsettoname (gint mid_c_offset)
   return ((otn + 2) % 7) + 'a';
 }
 
+void *note2lilynotename(struct note *noteobject, GString *ret){
+  gint mid_c_offset = noteobject->mid_c_offset;
+
+  g_string_append_printf (ret, "%c",
+		    mid_c_offsettoname (mid_c_offset));
+}
+
+void *note2lilyaccidental(struct note *noteobject, GString *ret){
+  int enshift = noteobject->enshift;
+
+  if (enshift < 0)
+    for (k = enshift; k; k++)
+      g_string_append_printf (ret, "es");
+  else
+    for (k = enshift; k; k--)
+      g_string_append_printf (ret, "is");
+}
+
+void *note2lilyoctave(struct note* noteobject, GString *ret){
+  int octave = mid_c_offsettooctave (mid_c_offset);
+  if (octave < 0)
+    for (; octave; octave++)
+      g_string_append_printf (ret, ",");
+  else
+    for (; octave; octave--)
+      g_string_append_printf (ret, "\'"); 
+}
+
+void *chord2lilyduration(struct chord *chordobject, GString *ret){
+  int baseduration = chordobject->baseduration;
+  g_string_append_printf (ret, baseduration);
+}
+
+void *chord2lilynumdots(struct chord *chordobject, GString *ret){
+  int numdots = chordobject->numdots;
+  g_string_append_printf (ret, numdots);
+}
+
 /**
  * Calculate a pitches octave from the mid_c_offset
  * @param mid_c_offset the mid_c_offset to use
