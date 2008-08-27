@@ -1320,47 +1320,7 @@ void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI
   g_signal_connect(widget, "button-release-event", G_CALLBACK (menu_click), info);
 }
 
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
 
-/* add a new menu item dynamically */
-static void add_favorite(GtkAction *action, DenemoGUI *gui) {
-  gchar *myname, *mylabel, *mylily, *mytooltip, *myposition;
-  myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
-  //FIXME check for name clashes
-  mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
-  mylily = string_dialog_entry (gui, "Create a new menu item", "Give LilyPond to insert: ", "%any LilyPond you like");
-  mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
-   myposition = string_dialog_entry (gui, "Create a new menu item", "Say where in the menu systeme you want it placed: ", "/ObjectMenu/Favorites");
-  GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
-  GtkActionGroup *action_group;
-  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-  action_group = GTK_ACTION_GROUP(groups->data); 
-  GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (Denemo.ui_manager);
-  gtk_action_group_add_action(action_group, myaction);
-  g_object_set_data(G_OBJECT(myaction), "lilypond", mylily);
-  g_signal_connect (G_OBJECT (myaction), "activate",
-		    G_CALLBACK (myactivate), gui); 
-  gtk_action_set_accel_group (myaction, accel_group);
-  gchar *accelpath = g_strdup_printf("%s%s", "<Actions>/MenuActions/", myname);
-  gtk_action_set_accel_path (myaction, accelpath);
-  g_free(accelpath);
-  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-		myposition,
-			myname, myname, GTK_UI_MANAGER_AUTO, FALSE);
-  GSList *h = gtk_action_get_proxies (myaction);//what is a proxy? any widget that callbacks the action
-   for(;h;h=h->next) {
-     attach_set_accel_callback(h->data, myaction, gui);
-   }
-   GtkActionEntry *menu_entry = g_malloc0(sizeof(GtkActionEntry));
-   menu_entry->name = myname;
-   menu_entry->label = mylabel;
-   menu_entry->tooltip =  mytooltip;
-   menu_entry->callback = G_CALLBACK (myactivate);
-   register_command(Denemo.prefs.the_keymap, myaction, myname, mylabel, mytooltip, myactivate);
-  alphabeticalize_commands(Denemo.prefs.the_keymap);
-  return;
-}
-#endif /* ifdef DENEMO_DYNAMIC_MENU_ITEMS */
 extern int call_out_to_guile(char *script);
 static void dummy(void) {
 #ifdef TRIAL_SCHEME
@@ -1613,13 +1573,7 @@ toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
     }
   else
     {
-#if 0
-      if(rhythm_keymap==NULL){
-	rhythm_keymap = create_keymap ("Rhythm.keymaprc");
-	//printf("CREATED keymap\n");
-      }
-      Denemo.prefs.the_keymap = rhythm_keymap;
-#endif
+
       gtk_widget_show (widget);
       /* make sure we are in Insert and Note for rhythm toolbar */
       activate_action( "/MainMenu/EntryMenu/Note");
@@ -2055,17 +2009,7 @@ create_window(void) {
 				      G_CALLBACK(change_entry_type),  Denemo.gui);
 
 
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
-  //GtkAction *favorites =  gtk_action_new("Favorites","Favorites","LilyPond inserts often needed",NULL);
-  //gtk_action_group_add_action(action_group, favorites);
 
-  GtkAction *myaction = gtk_action_new("My Name","My Label","My Tooltip",NULL);
-  gtk_action_group_add_action(action_group, myaction);
-
-  g_object_set_data(G_OBJECT(myaction), "lilypond", "\\mark \\default\n");
-  g_signal_connect (G_OBJECT (myaction), "activate",
-		    G_CALLBACK (myactivate), Denemo.gui); 
-#endif
 
   ui_manager = gtk_ui_manager_new ();
   Denemo.ui_manager = ui_manager;
