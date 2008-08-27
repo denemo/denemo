@@ -1,5 +1,6 @@
 #include "keyboard.h"
 #include "kbd-custom.h"
+#include "view.h"
 #include <string.h>
 
 
@@ -100,19 +101,23 @@ get_state (gchar * key)
   return ret;
 }
 
+
+
 static void
-parseBinding (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
   cur = cur->xmlChildrenNode;
   gint command_number = -1;
   guint keyval = 0;
+  gboolean is_script = FALSE;
   GdkModifierType state = 0;
-
-  while (cur != NULL)
+  DenemoGUI *gui = Denemo.gui;
+  for ( ;cur; cur = cur->next)
     {
       //keyval variables
+      xmlChar *name, *menupath, *label, *tooltip, *scheme;
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action"))
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "command"))
 	{
 	  if (cur->xmlChildrenNode == NULL)
             {
@@ -120,25 +125,101 @@ parseBinding (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
             }
 	  else
 	    {
-	      xmlChar *tmp = 
+	      name = 
 		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 #ifdef DEBUG
-	      g_print ("Action %s\n", (gchar *) tmp);
+	      g_print ("Action %s\n", (gchar *) name);
 #endif /*DEBUG*/
-
-	      if (tmp)
-		{
-		  command_number = lookup_index_from_name (the_keymap, (gchar *) tmp);
-          if (command_number == -1) {
-              g_print("Action %s does not exist\n", (gchar *) tmp);
-          }
-		  xmlFree (tmp);
-		}
 	    }
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "bind"))
-	{
+	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
+	scheme = 
+		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	is_script = TRUE;
+      }
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
+	menupath = 
+		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      }
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "label")) {
+	label = 
+		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      }
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
+	tooltip = 
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	/* by convention this is the last of the fields defining a scheme script menu item */
+	if(is_script) {
+	  name = name?name:"NoName";
+	  label = label?label:"No label";
+	  menupath = menupath?menupath:"/MainMenu/Other";
+	  scheme = scheme?scheme:";;empty script\n";
+	  tooltip = tooltip?tooltip:"No indication what this done beyond the name and label :(";
+
+
+	  //FIXME duplicate code with view.c *************
+	  GtkAction *action = gtk_action_new(name,label,tooltip,NULL);
+	  GtkActionGroup *action_group;
+	  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+	  action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
+	  gtk_action_group_add_action(action_group, action);
+	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
+	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
+	  g_signal_connect (G_OBJECT (action), "activate",
+			    G_CALLBACK (activate_script), gui);
+	  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+				menupath,
+				name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	  GSList *h = gtk_action_get_proxies (action);//what is a proxy? any widget that callbacks the action
+	  for(;h;h=h->next) {
+	    attach_set_accel_callback(h->data, action, gui);
+	  }
+	  //g_print("registering %s\n", name);
+	  register_command(Denemo.prefs.the_keymap, action, name, label, tooltip, activate_script);
+	  //end duplicate code **************
 	  
+	 
+	}// is_script
+	// we are not as yet re-writing tooltips etc on builtin commands
+      }
+
+      
+    }
+ alphabeticalize_commands(Denemo.prefs.the_keymap);
+}
+
+
+static void
+parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+{
+  cur = cur->xmlChildrenNode;
+  gint command_number = -1;
+  guint keyval = 0;
+  gboolean is_script = FALSE;
+  GdkModifierType state = 0;
+  DenemoGUI *gui = Denemo.gui;
+  while (cur != NULL)
+    {
+      //keyval variables
+      xmlChar *name, *menupath, *label, *tooltip, *scheme;
+
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "command"))
+	{
+	  if (cur->xmlChildrenNode == NULL)
+            {
+              g_warning ("Empty children node found in keymap file\n");
+            }
+	  else
+	    {
+	      name = 
+		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+#ifdef DEBUG
+	      g_print ("Action %s\n", (gchar *) name);
+#endif /*DEBUG*/
+	    }
+	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "bind"))
+	{
+	  command_number = lookup_index_from_name (the_keymap, (gchar *) name);
+	  //g_print("Found bind node for action %s %d\n", name, command_number);
 	  if (cur->xmlChildrenNode == NULL)
             {
               g_warning ("Empty children node found in keymap file\n");
@@ -169,25 +250,26 @@ parseBinding (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	    }
 	}
       cur = cur->next;
-      
     }
-  
-}
+} // parseBindings
+
+
+
 
 static void
-parseRow (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
-  cur = cur->xmlChildrenNode;
-
-  while (cur != NULL)
+  xmlNodePtr ncur = cur->xmlChildrenNode;
+  int i;
+  for(i=0;i<2;i++)//Two passes, as all Commands have to be added before bindings
+  for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
     {
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "row"))
+      if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "builtin")) ||
+	  (0 == xmlStrcmp (ncur->name, (const xmlChar *) "script")))
 	{
-	  parseBinding (doc, cur, the_keymap);
+	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap);
 	}
-      cur = cur->next;
     }
-
 }
 
 static void
@@ -199,7 +281,7 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map"))
 	{
-	  parseRow (doc, cur, the_keymap);
+	  parseCommands (doc, cur, the_keymap);
 	}
       cur = cur->next;
     }
@@ -234,7 +316,7 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
       xmlFreeDoc (doc);
       return ret;
     }
-  g_print ("RootElem %s\n", rootElem->name);
+  //g_print ("RootElem %s\n", rootElem->name);
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
     {
       g_warning ("Document has wrong type\n");
@@ -247,7 +329,7 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 #ifdef DEBUG
       g_print ("RootElem %s\n", rootElem->name);
 #endif
-      if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))
+      if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands"))
 	{
 
 	  parseKeymap (doc, rootElem, the_keymap);
@@ -269,6 +351,7 @@ write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 #endif
   xmlNewTextChild (node, NULL, (xmlChar *) "bind", (xmlChar *) dnm_binding);
   g_free(dnm_binding);
+
 }
 
 gint
@@ -277,13 +360,12 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
   gint i, ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
-  xmlNodePtr parent, child;
-  const gchar *command_name;
+  xmlNodePtr parent, child, command;
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
 					     NULL);
-  child = xmlNewChild (parent, NULL, (xmlChar *) "keymap", NULL);
+  child = xmlNewChild (parent, NULL, (xmlChar *) "commands", NULL);
 
   xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Keymap");
   xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
@@ -292,16 +374,44 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
 
   for (i = 0; i < keymap_size(the_keymap); i++)
     {
-      command_name = lookup_name_from_idx(the_keymap, i);
-      child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-      xmlNewTextChild (child, NULL, (xmlChar *) "action",
-		       (xmlChar *) command_name);
+     
+      gpointer action = lookup_action_from_idx(the_keymap, i);
+      gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
+      if(scheme) 
+	child = xmlNewChild (parent, NULL, (xmlChar *) "script", NULL);
+      else
+	child = xmlNewChild (parent, NULL, (xmlChar *) "builtin", NULL);
+      
+      gchar *name = lookup_name_from_idx(the_keymap, i);
 #ifdef DEBUG
-      g_print ("%s \n", command_name);
-#endif
+      g_print ("%s \n", name);
+#endif	
+      xmlNewTextChild (child, NULL, (xmlChar *) "command",
+		       (xmlChar *) name);  
+      if(scheme) 	
+	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
+			 (xmlChar *) scheme);
+      
+      gchar *menupath = action?g_object_get_data(action, "menupath"):NULL;
+      if(menupath)
+	xmlNewTextChild (child, NULL, (xmlChar *) "menupath",
+			 (xmlChar *) menupath);
+      
+      gchar *label =   lookup_label_from_idx (the_keymap, i);
+      if(label)
+	xmlNewTextChild (child, NULL, (xmlChar *) "label",
+			 (xmlChar *) label);
+      
+      
+      gchar *tooltip = lookup_tooltip_from_idx (the_keymap, i);
+      if(tooltip)
+	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
+			 (xmlChar *) tooltip);
+      
+      
       keymap_foreach_command_binding (the_keymap, i,
-              (GFunc) write_xml_keybinding_info, child);
-
+				      (GFunc) write_xml_keybinding_info, child);
+      
     }
 
   xmlSaveFormatFile (filename, doc, 1);
@@ -387,7 +497,7 @@ parse_paths (gchar * filename, DenemoGUI *gui)
       xmlFreeDoc (doc);
       return ret;
     }
-  g_print ("RootElem %s\n", rootElem->name);
+  //g_print ("RootElem %s\n", rootElem->name);
   if (xmlStrcmp (rootElem->name, (const xmlChar *) "ui"))
     {
       g_warning ("Document has wrong type\n");

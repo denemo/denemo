@@ -65,5 +65,6 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 void      write_status(DenemoGUI *gui);
 
 int inner_main(void);
-
+void
+activate_script (GtkAction * action);
 #endif

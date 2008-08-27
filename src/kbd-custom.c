@@ -855,6 +855,18 @@ lookup_index_from_name (keymap * keymap, const gchar *command_name)
 
 //do not free the result
 //returns NULL if not found
+const GtkAction *
+lookup_action_from_idx (keymap * keymap, guint command_idx)
+{
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  g_object_unref(row.bindings);
+  return row.action;
+}
+
+//do not free the result
+//returns NULL if not found
 const gchar *
 lookup_name_from_idx (keymap * keymap, guint command_idx)
 {
@@ -866,6 +878,23 @@ lookup_name_from_idx (keymap * keymap, guint command_idx)
   g_object_unref(row.bindings);
   return res;
 }
+
+//do not free the result
+//returns NULL if not found
+const gchar *
+lookup_tooltip_from_idx (keymap * keymap, guint command_idx)
+{
+  const gchar *res = NULL;
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  res = row.tooltip;//FIXME label is a property g_object_get_prop...
+
+  g_object_unref(row.bindings);
+  return res;
+}
+
+
 
 //do not free the result
 //returns NULL if not found

@@ -1110,12 +1110,12 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
   GtkActionGroup *action_group;
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-  action_group = GTK_ACTION_GROUP(groups->data); 
+  action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
   GtkAccelGroup *accel_group = gtk_ui_manager_get_accel_group (Denemo.ui_manager);
   gtk_action_group_add_action(action_group, myaction);
   myscheme = getSchemeText();
   g_object_set_data(G_OBJECT(myaction), "scheme", myscheme);
-  g_object_set_data(G_OBJECT(myaction), "path", myposition);
+  g_object_set_data(G_OBJECT(myaction), "menupath", myposition);
 
   g_signal_connect (G_OBJECT (myaction), "activate",
 		    G_CALLBACK (activate_script), gui); //FIXME I notice this is also connected to the widget??? see below.
@@ -1130,11 +1130,6 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
    for(;h;h=h->next) {
      attach_set_accel_callback(h->data, myaction, gui);
    }
-   GtkActionEntry *menu_entry = g_malloc0(sizeof(GtkActionEntry));
-   menu_entry->name = myname;
-   menu_entry->label = mylabel;
-   menu_entry->tooltip =  mytooltip;
-   menu_entry->callback = G_CALLBACK (activate_script);
    register_command(Denemo.prefs.the_keymap, myaction, myname, mylabel, mytooltip, activate_script);
    alphabeticalize_commands(Denemo.prefs.the_keymap);
   // g_print("evaluating scheme %s\n", g_strdup_printf("(define dnm_%s %d)\n", myname, myaction));
@@ -1207,30 +1202,11 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
 
-#if 0
-  //GString *gstr = get_widget_path(widget);
-  GList *g;
-  GtkWidget *w = NULL;
-  const gchar *name = gtk_widget_get_name(widget);
-  for (g = known_paths;g;g=g->next) {
-    gchar *this = g_strdup_printf("%s%s", g->data, name);
-    w = gtk_ui_manager_get_widget(Denemo.ui_manager, this);
-    //g_print("menu %s is %d\n", this, w!=0);
-    if(w) break;
-  }
-
-  //if(w==NULL) cannot do this - we are inside a dialog...
-  //  warningdialog("Unable to determine a place in the menu system - putting it in ObjectMenu/Other");
-  g_signal_connect(item, "activate", G_CALLBACK(insertScript),w?g->data:"/ObjectMenu/Other/");
-  //g_string_free(gstr, TRUE);
-#else
-  g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
-  g_signal_connect(item, "activate", G_CALLBACK(insertScript),g_object_get_data(G_OBJECT(widget), "menupath"));
-
-
-#endif
-
-  
+  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// A built-in
+  if(!myposition)
+    myposition = g_object_get_data(G_OBJECT(action), "menupath");//A script
+  //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
+  g_signal_connect(item, "activate", G_CALLBACK(insertScript), myposition);
 
 
   gtk_widget_show_all(menu);

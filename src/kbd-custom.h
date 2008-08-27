@@ -109,6 +109,10 @@ lookup_name_from_idx(keymap *keymap, guint command_idx);
 const gchar *
 lookup_label_from_idx(keymap *keymap, guint command_idx);
 
+const gchar *
+lookup_tooltip_from_idx(keymap *keymap, guint command_idx);
+
+
 //const gchar *
 //lookup_label_from_name(keymap *keymap, const gchar *command_name);
 
