@@ -407,6 +407,13 @@ void *note2lilyoctave(struct note* noteobject, GString *ret){
 
 void *chord2lilyduration(struct chord *chordobject, GString *ret){
   int baseduration = chordobject->baseduration;
+  int numdots = chordobject->numdots;
+  g_string_append_printf (ret, baseduration);
+  g_string_append_printf (ret, numdots);
+}
+
+void *chord2lilybaseduration(struct chord *chordobject, GString *ret){
+  int baseduration = chordobject->baseduration;
   g_string_append_printf (ret, baseduration);
 }
 
