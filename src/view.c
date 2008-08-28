@@ -403,6 +403,7 @@ quit (void)
 static void
 close_gui (DenemoGUI *gui)
 {
+  stop_midi_playback (NULL);// if you do not do this, there is a timer moving the score on which will hang
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
