@@ -395,7 +395,8 @@ void *note2lilyaccidental(struct note *noteobject, GString *ret){
 }
 
 void *note2lilyoctave(struct note* noteobject, GString *ret){
-  gint octave;//FIXME this is broken = mid_c_offsettooctave (mid_c_offset);
+  gint mid_c_offset = noteobject->mid_c_offset;
+  gint octave = mid_c_offsettooctave (mid_c_offset);
   if (octave < 0)
     for (; octave; octave++)
       g_string_append_printf (ret, ",");
