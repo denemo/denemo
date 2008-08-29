@@ -18,7 +18,7 @@
 #include "utils.h"
 
 void
-tomeasurenum (GtkAction * action)
+tomeasurenum (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

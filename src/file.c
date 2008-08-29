@@ -474,7 +474,7 @@ template_open (DenemoGUI * gui, TemplateType local)
  * Open system template file callback function 
  */
 void
-system_template_open_with_check (GtkAction * action) {
+system_template_open_with_check (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
@@ -493,7 +493,7 @@ system_template_open_with_check (GtkAction * action) {
  * Open system template file callback function 
  */
 void
-system_example_open_with_check (GtkAction * action) {
+system_example_open_with_check (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
@@ -511,7 +511,7 @@ system_example_open_with_check (GtkAction * action) {
  * Open local template file callback function 
  */
 void
-local_template_open_with_check (GtkAction * action) {
+local_template_open_with_check (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
@@ -533,7 +533,7 @@ local_template_open_with_check (GtkAction * action) {
  * otherwise opens the file
  */
 void
-file_open_with_check (GtkAction * action)
+file_open_with_check (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
@@ -557,7 +557,7 @@ file_open_with_check (GtkAction * action)
  * 
  */
 void
-file_add_movements(GtkAction * action){
+file_add_movements(GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
@@ -569,7 +569,7 @@ file_add_movements(GtkAction * action){
  * 
  */
 void
-file_add_staffs(GtkAction * action){
+file_add_staffs(GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
@@ -660,7 +660,7 @@ file_open (DenemoGUI * gui, gboolean template, ImportType type)
  * saved.
  */
 void
-file_saveaswrapper (GtkAction * action)
+file_saveaswrapper (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   file_saveas (gui, FALSE);
@@ -670,7 +670,7 @@ file_saveaswrapper (GtkAction * action)
  * Wrapper function to save the current file as template
  */
 void
-template_save (GtkAction * action)
+template_save (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   init_local_path();
@@ -687,7 +687,7 @@ template_save (GtkAction * action)
  *
  */
 void
-file_savewrapper (GtkAction * action)
+file_savewrapper (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   file_save (NULL, gui);
@@ -860,7 +860,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
  *
  */
 void
-file_newwrapper (GtkAction * action)
+file_newwrapper (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
@@ -994,7 +994,7 @@ replace_existing_file_dialog (const gchar * filename,
  * Save parts to individual files
  */
 void
-file_savepartswrapper (GtkAction * action)
+file_savepartswrapper (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->filename->len==0)

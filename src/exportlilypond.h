@@ -20,11 +20,11 @@ void export_lilypond_part(char *filename, DenemoGUI *gui, gboolean all_movements
 gchar *generate_lily (objnode *obj);
 
 
-void toggle_lily_visible_cb (GtkAction *action);
+void toggle_lily_visible_cb (GtkAction *action, gpointer param);
 
-void custom_lily_cb (GtkAction *action);
+void custom_lily_cb (GtkAction *action, gpointer param);
 
-void delete_lily_cb (GtkAction *action);
+void delete_lily_cb (GtkAction *action, gpointer param);
 void set_lily_error(gint line, gint column, DenemoGUI *gui);
 void highlight_lily_error(DenemoGUI *gui);
 #endif

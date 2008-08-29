@@ -21,5 +21,5 @@ gint stop_pitch_recognition(void);
 void start_pitch_recognition(DenemoGUI *gui);
 gboolean pitch_recognition_system_active(void);
 gboolean delete_tone(DenemoScore *si, chord *thechord);
-void clear_overlay(GtkAction *action);
+void clear_overlay(GtkAction *action, gpointer param);
 #endif //PITCHENTRY_H

@@ -148,7 +148,7 @@ set_preferences (struct callbackdata *cbdata)
 }
 
 void
-preferences_change (GtkAction * action)
+preferences_change (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

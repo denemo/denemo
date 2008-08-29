@@ -50,7 +50,7 @@ close_seq ()
 
 
 void
-alsaplayback (GtkAction * action)
+alsaplayback (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 

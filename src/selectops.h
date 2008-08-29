@@ -34,13 +34,13 @@ void
 unset_mark (DenemoGUI *gui);
 
 void
-copywrapper (GtkAction *action);
+copywrapper (GtkAction *action, gpointer param);
 
 void
-cutwrapper (GtkAction *action);
+cutwrapper (GtkAction *action, gpointer param);
 
 void
-pastewrapper (GtkAction *action);
+pastewrapper (GtkAction *action, gpointer param);
 
 void
 mark_boundaries_helper (DenemoScore *si, gint mark_staff,
@@ -52,9 +52,9 @@ void
 calcmarkboundaries (DenemoScore *si);
 
 void
-saveselwrapper(GtkAction *action);
-void undowrapper(GtkAction *action);
-void redowrapper(GtkAction *action);
+saveselwrapper(GtkAction *action, gpointer param);
+void undowrapper(GtkAction *action, gpointer param);
+void redowrapper(GtkAction *action, gpointer param);
 void update_undo_info(DenemoScore *si, unre_data *undo);
 void update_redo_info(DenemoScore *si, unre_data *redo);
 #endif

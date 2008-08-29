@@ -112,6 +112,8 @@ lookup_label_from_idx(keymap *keymap, guint command_idx);
 const gchar *
 lookup_tooltip_from_idx(keymap *keymap, guint command_idx);
 
+gpointer
+lookup_callback_from_idx (keymap * keymap, guint command_idx);
 
 //const gchar *
 //lookup_label_from_name(keymap *keymap, const gchar *command_name);
@@ -172,7 +174,7 @@ void
 save_keymap_dialog (GtkWidget *widget, keymap *the_keymap);
 
 void
-save_default_keymap_file_wrapper (GtkAction *action);
+save_default_keymap_file_wrapper (GtkAction *action, gpointer param);
 
 void
 save_default_keymap_file (GtkWidget *widget, keymap *the_keymap);

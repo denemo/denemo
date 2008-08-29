@@ -426,7 +426,7 @@ hide_palette (GtkWidget * widget, GdkEvent * event, DenemoGUI * gui)
  * @return none
  */
 void
-toggle_articulation_palette (GtkAction * action)
+toggle_articulation_palette (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *window;

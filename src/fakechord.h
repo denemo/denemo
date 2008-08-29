@@ -9,6 +9,6 @@ void
 separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj);
 
 void 
-fakechord_insert(GtkAction *action);
+fakechord_insert(GtkAction *action, gpointer param);
 
 //#endif

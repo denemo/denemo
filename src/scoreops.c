@@ -61,18 +61,18 @@ new_movement(DenemoGUI *gui, gboolean before) {
 }
 
 void
-insert_movement_before(GtkAction * action) {
+insert_movement_before(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   new_movement(gui, TRUE);
 }
 void
-insert_movement_after(GtkAction * action) {
+insert_movement_after(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   new_movement(gui, FALSE);
 }
 
 void
-delete_movement(GtkAction * action) {
+delete_movement(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_deletestaff_custom_scoreblock(gui))
     return;
@@ -156,7 +156,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
  * @return none
 */
 void
-next_movement (GtkAction * action)
+next_movement (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *this = g_list_find( gui->movements, gui->si);
@@ -187,7 +187,7 @@ next_movement (GtkAction * action)
  * @return none
 */
 void
-prev_movement (GtkAction * action)
+prev_movement (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *this = g_list_find( gui->movements, gui->si);

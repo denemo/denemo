@@ -54,7 +54,7 @@ NO WARRANTY; see the file COPYING for details."));
  * uses the given web browser to display the manual
  */
 void
-browse_manual (GtkAction * action)
+browse_manual (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gboolean retval;

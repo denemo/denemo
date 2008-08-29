@@ -98,7 +98,7 @@ insertlyric (gpointer data)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-lyric_insert (GtkAction * action)
+lyric_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

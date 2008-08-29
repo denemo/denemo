@@ -104,7 +104,7 @@ insertfigure (GtkWidget * widget, gpointer data)
  *
  */
 void
-figure_insert (GtkAction * action)
+figure_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *string;

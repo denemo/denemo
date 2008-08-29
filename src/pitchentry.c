@@ -486,7 +486,7 @@ static void clear_tone_store(GtkButton *button, DenemoGUI *gui) {
   if(PR_gui)
     switch_back_to_main_window();
 }
-void clear_overlay(GtkAction *action) {
+void clear_overlay(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   clear_tone_store(NULL, gui);
 }

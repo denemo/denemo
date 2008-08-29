@@ -84,7 +84,7 @@ set_preferences (struct callbackdata *cbdata)
 
 
 void
-playback_properties_change (GtkAction * action)
+playback_properties_change (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;

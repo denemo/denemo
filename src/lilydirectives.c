@@ -95,7 +95,7 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
  * or edit the current lilypond directive
  */
 static void
-lily_directive (DenemoGUI *gui, gboolean attach)
+lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
 {
   gchar *string;
   gchar *current = NULL;
@@ -103,6 +103,7 @@ lily_directive (DenemoGUI *gui, gboolean attach)
   note *curnote = NULL;
   static struct callbackdata cbdata;
   
+  if(init==NULL) {
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   if(attach)
@@ -129,7 +130,9 @@ lily_directive (DenemoGUI *gui, gboolean attach)
       gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
   }
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
-  
+  } else
+    string = init;
+
   cbdata.gui = gui;
   cbdata.string = string;
 
@@ -148,10 +151,11 @@ lily_directive (DenemoGUI *gui, gboolean attach)
  * or edit the current lilypond directive
  */
 void
-lily_directive_insert (GtkAction * action)
+lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, FALSE);
+
+  lily_directive (gui, FALSE, action?NULL:param);
 }
 
 /**
@@ -160,17 +164,17 @@ lily_directive_insert (GtkAction * action)
  * or edit the current lilypond directive
  */
 void
-lily_directive_postfix (GtkAction * action)
+lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE);
+  lily_directive (gui, TRUE, action?NULL:param);
 }
 
 
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
 void
-rehearsal_mark (GtkAction * action)
+rehearsal_mark (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 DenemoObject *lily = lily_directive_new (" \\mark \\default ");
@@ -186,7 +190,7 @@ DenemoObject *lily = lily_directive_new (" \\mark \\default ");
 
 void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui);
 void
-myactivate (GtkAction * action)
+myactivate (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...

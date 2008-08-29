@@ -16,7 +16,7 @@ enum articulationcallbackaction
 void set_articulation(gchar *string, DenemoObject *obj);
 
 
-void toggle_articulation_palette (GtkAction *action);
+void toggle_articulation_palette (GtkAction *action, gpointer param);
 
 GList* insert_ornament_list(enum ornament orn, GList *list);
 #endif

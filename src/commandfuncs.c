@@ -311,7 +311,7 @@ measureright (DenemoGUI * gui)
  *
  */
 gboolean
-swapmovements (GtkAction *action)
+swapmovements (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
@@ -342,7 +342,7 @@ swapmovements (GtkAction *action)
  *
  */
 gboolean
-swapstaffs (GtkAction *action)
+swapstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
@@ -375,7 +375,7 @@ swapstaffs (GtkAction *action)
  *
  */
 gboolean
-splitstaffs (GtkAction *action)
+splitstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
@@ -405,7 +405,7 @@ splitstaffs (GtkAction *action)
  *
  */
 gboolean
-joinstaffs (GtkAction *action)
+joinstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
@@ -1172,7 +1172,7 @@ appendmeasurestoentirescore (DenemoScore * si, gint number)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_before (GtkAction * action)
+delete_staff_before (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -1188,7 +1188,7 @@ delete_staff_before (GtkAction * action)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_after (GtkAction * action)
+delete_staff_after (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -1204,7 +1204,7 @@ delete_staff_after (GtkAction * action)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-delete_staff_current (GtkAction * action)
+delete_staff_current (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -1483,7 +1483,7 @@ void tolastobject (DenemoGUI *gui)
  * @return none
  */
 void
-toend (GtkAction * action)
+toend (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum =
@@ -1504,7 +1504,7 @@ toend (GtkAction * action)
  * @return none
 */
 void
-tohome (GtkAction * action)
+tohome (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
@@ -1526,7 +1526,7 @@ tohome (GtkAction * action)
  * @return none
  */
 void
-stem_directive_insert (GtkAction * action)
+stem_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   object_insert (gui, dnm_stem_directive_new (DENEMO_STEMBOTH));

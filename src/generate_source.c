@@ -334,7 +334,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_PREFERENCES", "Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones", N_("Preferences"), "preferences_change"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Set actions to take in response to keypresses", N_("KeyBindings"), NULL, "Keyboard Setup"},
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the keyboard shortcuts as the default", N_("SaveAccels"), "save_default_keymap_file_wrapper", "Save Keyboard Shortcuts"}, 
-  {KBD_CATEGORY_DIRECT, NULL, "View, change and save keyboard shortcuts", "CommandManagement", "configure_keyboard_dialog", "Manage Commands and Shortcuts"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "View, change and save keyboard shortcuts", "CommandManagement", "configure_keyboard_dialog", "Manage  Shortcuts"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Load Plugins", N_("LoadPlugins"), "load_plugin"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Unload Plugins", N_("UnloadPlugins"), "unloadplugins"}, 
   {KBD_CATEGORY_DIRECT, NULL, "List the loaded plugins", N_("ListPlugins"), "list_loaded_plugins"}, 
@@ -345,8 +345,8 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Merge this staff as a voice on the previous staff", N_("JoinVoices"), "joinstaffs"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Swap this movement with the one before", N_("SwapMovements"), "swapmovements"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Go to the higher numbered voice (or staff if highest voice number on staff", N_("VoiceUp"),
-    "voiceup"}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Go to the lower numbered voice on this staff", N_("VoiceDown"), "voicedown"}, 
+    "voiceup_cb"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Go to the lower numbered voice on this staff", N_("VoiceDown"), "voicedown_cb"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Inserts a new staff before the current staff", N_("AddBefore"), "newstaffbefore"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Inserts/Adds a new staff after the current staff", N_("AddAfter"), "dnm_newstaffafter"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Inserts a new staff at the top of the score", N_("AddInitial"), "newstaffinitial"}, 
@@ -389,7 +389,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play", N_("Play"), "ext_midi_playback"}, 
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback"}, 
 
-  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play using CSound...", N_("PlayCSound"), "dnm_csoundplayback"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play using CSound...", N_("PlayCSound"), "csoundplayback"}, 
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi and csound", N_("PlaybackProperties"), "playback_properties_change"}, 
 
   {KBD_CATEGORY_DIRECT, NULL, "Opens a browser on the user manual", N_("Help"), "browse_manual"}, 
@@ -480,21 +480,21 @@ int main() {
     if (fi != NULL)
       if(mi!=KBD_CATEGORY_DIRECT) {
       fprintf(callbacks, "/*%s %s*/\n",ni, fi);
-      fprintf(callbacks, "static void %s_cb (GtkAction *a) {\n"
+      fprintf(callbacks, "static void %s_cb (GtkAction *action, gpointer param) {\n"
 	      "  DenemoGUI *gui = Denemo.gui;\n"
 	      "%s (gui);\ndisplayhelper (gui);\n%s}\n", fi, fi, mi==KBD_CATEGORY_NAVIGATION?"":"  score_status(gui, TRUE);\n");
 
       }
     if (fi != NULL) {
       fprintf(scheme, "/*%s %s*/\n",ni, fi);
-      //fprintf(scheme, "install_scm_function (\"%s\", scheme_%s);\n", ni, ni);
-      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme call call the action.
+      //if(mi==KBD_CATEGORY_DIRECT)
+	fprintf(scheme, "SCM scheme_%s(SCM optional);\ninstall_scm_function (\"d-%s\", scheme_%s);\n", ni, ni, ni);// for direct callback via (scheme_xxx)
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme can call the action.
       fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%s\"));\n", ni, ni);
-      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
-
-      fprintf(scheme_cb, "SCM scheme_%s (void) {\n%s%s (NULL);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
-
-      fprintf(register_commands, "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
+      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");// for callback via (denemo dnm_xxx)
+      //if(mi==KBD_CATEGORY_DIRECT)
+	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\n    int length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\n  }\n%s%s (NULL, str);\nreturn SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
+	fprintf(register_commands, "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
     }
 
 
@@ -518,7 +518,7 @@ int main() {
   for(i=0;i<7;i++) {
     /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
     fprintf(callbacks, 
-"static void InsertRest%d(GtkWidget *menuitem){\n"
+"static void InsertRest%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  highlight_rest(gui, %d);\n"
 "  gint mode = gui->mode;\n"
@@ -529,7 +529,7 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"static void ChangeRest%d(GtkWidget *menuitem){\n"
+"static void ChangeRest%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
@@ -544,7 +544,7 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"void InsertDur%d(GtkWidget *menuitem){\n"
+"void InsertDur%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  highlight_duration(gui, %d);\n"
 "  gint mode = gui->mode;\n"
@@ -555,7 +555,7 @@ int main() {
 "  displayhelper(gui);\n"
 "}\n"
 
-"static void ChangeDur%d(GtkWidget *menuitem){\n"
+"static void ChangeDur%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
@@ -572,13 +572,13 @@ int main() {
 
     /* callbacks for mode sensitive  duration actions, Dur0,1,2 ... */
     fprintf(callbacks, 
-	    "static void Dur%d  (GtkWidget *w) {\n"
+	    "static void Dur%d  (GtkAction *action, gpointer param) {\n"
 	    "  DenemoGUI *gui = Denemo.gui;\n"
 	    " if(gui->mode&INPUTINSERT)\n"
 	    "   highlight_duration(gui, %d);\n"
 	    " else \n"
 	    " if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n"
-	    "   ChangeDur%d (w);\n"
+	    "   ChangeDur%d (action, param);\n"
 	    "else {\n"
 	    " insert_chord_%dkey(gui);\n"
 	    "  score_status(gui, TRUE);\n"
@@ -635,7 +635,7 @@ int main() {
 
   for(i='A';i<='G';i++) {
     fprintf(callbacks,
-"static void ChangeTo%c(GtkWidget *menuitem){\n"
+"static void ChangeTo%c(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  gboolean appending = gui->si->cursor_appending;\n"
 "  if(appending)\n"
@@ -653,7 +653,7 @@ int main() {
   for(i='A';i<='G';i++) {
 
     fprintf(callbacks,
-"static void Insert%c(GtkWidget *menuitem){\n"
+"static void Insert%c(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
 "  gint mode = gui->mode;\n"
 "  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
@@ -673,6 +673,15 @@ int main() {
   for(i='A';i<='G';i++) {
     fprintf(register_commands,
 	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", N_(\"Change to %c\"),N_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
+
+
+      fprintf(scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (\"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+      fprintf(scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (\"d-Insert%c\", scheme_Insert%c);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+
 
   }
 
@@ -694,10 +703,24 @@ int main() {
 	    "register_command(Denemo.prefs.the_keymap, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  N_(\"Change a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Changes a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), ChangeRest%d);\n", i, i, i, i, i);
 
       fprintf(scheme, "/*%d */\n", i);
-      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean it scheme call call the action.
-      fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%d %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%d\"));\n", i, i);
-      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
-      fprintf(scheme_cb, "SCM scheme_%d (void) {\nDur%d (NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.prefs.the_keymap, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean it scheme can call the action.
+      //fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%d %%d)\\n\", (int)action_of_name(Denemo.prefs.the_keymap, \"%d\"));\n", i, i);
+      //fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
+      fprintf(scheme, "SCM scheme_%d(SCM optional);\ninstall_scm_function (\"d-%d\", scheme_%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_%d (SCM optional) {\nDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+      fprintf(scheme, "SCM scheme_InsertDur%d(SCM optional);\ninstall_scm_function (\"d-InsertDur%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_InsertDur%d (SCM optional) {\nInsertDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+      fprintf(scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (\"d-ChangeDur%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_ChangeDur%d (SCM optional) {\nChangeDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+
+      fprintf(scheme, "SCM scheme_InsertRest%d(SCM optional);\ninstall_scm_function (\"d-InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_InsertRest%d (SCM optional) {\nInsertRest%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
+
+      fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (\"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
 
   }

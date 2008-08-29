@@ -15,11 +15,11 @@
 
 #include <denemo/denemo.h>
 
-void addbookmark(GtkAction *action);
-void gotobookmark(GtkAction *action);
-void nextbookmark(GtkAction *action);
-void prevbookmark(GtkAction *action);
-void deletebookmarks(GtkAction *action);
+void addbookmark(GtkAction *action, gpointer param);
+void gotobookmark(GtkAction *action, gpointer param);
+void nextbookmark(GtkAction *action, gpointer param);
+void prevbookmark(GtkAction *action, gpointer param);
+void deletebookmarks(GtkAction *action, gpointer param);
 
 
 #endif

@@ -33,7 +33,7 @@ findbookmark (DenemoGUI * gui, gint bmbar, gint bmstaff)
  *  Uses the current measure and staff
  */
 void
-addbookmark (GtkAction * action)
+addbookmark (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   g_assert (gui != NULL);
@@ -51,7 +51,7 @@ addbookmark (GtkAction * action)
 
 
 void
-deletebookmarks (GtkAction * action)
+deletebookmarks (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *g;
@@ -62,7 +62,7 @@ deletebookmarks (GtkAction * action)
   si->bookmarks = NULL;
 }
 void
-nextbookmark (GtkAction * action)
+nextbookmark (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
  if(gui->si->bookmarks){
@@ -78,7 +78,7 @@ nextbookmark (GtkAction * action)
  }
 }
 void
-prevbookmark (GtkAction * action)
+prevbookmark (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
  if(gui->si->bookmarks){
@@ -99,7 +99,7 @@ prevbookmark (GtkAction * action)
  *
  */
 void
-gotobookmark (GtkAction * action)
+gotobookmark (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   g_assert (gui != NULL);

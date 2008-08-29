@@ -540,12 +540,12 @@ fixnoteheights (DenemoStaff * thestaff)
  * @return none
  */
 void
-newstaffinitial (GtkAction * action)
+newstaffinitial (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->prev)
     staffup(gui);
-  newstaffbefore (action);
+  newstaffbefore (action, NULL);
 }
 
 /**
@@ -555,12 +555,12 @@ newstaffinitial (GtkAction * action)
  * @return none
  */
 void
-newstaffbefore (GtkAction * action)
+newstaffbefore (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
-  tohome(NULL);
+  tohome(NULL, NULL);
   newstaff (gui, BEFORE, DENEMO_NONE);
   if(gui->si->currentstaffnum>= gui->si->top_staff)
     gui->si->top_staff++;
@@ -581,12 +581,12 @@ newstaffbefore (GtkAction * action)
  * @return none
  */
 void
-dnm_newstaffafter (GtkAction * action)
+dnm_newstaffafter (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
     return;
-  tohome(NULL);
+  tohome(NULL, NULL);
   newstaff (gui, AFTER, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
@@ -601,12 +601,12 @@ dnm_newstaffafter (GtkAction * action)
  * @return none
  */
 void
-newstafflast (GtkAction * action)
+newstafflast (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->next)
     staffdown(gui);
-  dnm_newstaffafter(action);
+  dnm_newstaffafter(action, param);
 }
 
 /**
@@ -616,7 +616,7 @@ newstafflast (GtkAction * action)
  * @return none
  */
 void
-dnm_newstaffvoice (GtkAction * action)
+dnm_newstaffvoice (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   newstaff (gui, NEWVOICE, DENEMO_NONE);

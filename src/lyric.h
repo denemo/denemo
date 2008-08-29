@@ -10,7 +10,7 @@
 #include <denemo/denemo.h>
 
 void insertlyric(gpointer data);
-void lyric_insert(GtkAction *action);
+void lyric_insert(GtkAction *action, gpointer param);
 DenemoObject *
 newlyric (gint baseduration, gint numdots, gchar *lys);
 
