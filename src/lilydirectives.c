@@ -95,7 +95,7 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
  * or edit the current lilypond directive
  */
 static void
-lily_directive (DenemoGUI *gui, gboolean attach)
+lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
 {
   gchar *string;
   gchar *current = NULL;
@@ -103,6 +103,7 @@ lily_directive (DenemoGUI *gui, gboolean attach)
   note *curnote = NULL;
   static struct callbackdata cbdata;
   
+  if(init==NULL) {
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   if(attach)
@@ -129,7 +130,9 @@ lily_directive (DenemoGUI *gui, gboolean attach)
       gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
   }
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
-  
+  } else
+    string = init;
+
   cbdata.gui = gui;
   cbdata.string = string;
 
@@ -151,7 +154,8 @@ void
 lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, FALSE);
+
+  lily_directive (gui, FALSE, action?NULL:param);
 }
 
 /**
@@ -163,7 +167,7 @@ void
 lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE);
+  lily_directive (gui, TRUE, action?NULL:param);
 }
 
 
