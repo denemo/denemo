@@ -45,16 +45,16 @@ void showwhichaccidentalswholestaff (DenemoStaff *thestaff);
 
 void fixnoteheights (DenemoStaff *thestaff);
 
-void newstaffinitial(GtkAction *action);
+void newstaffinitial(GtkAction *action, gpointer param);
 
-void newstaffbefore(GtkAction *action);
+void newstaffbefore(GtkAction *action, gpointer param);
 
-void dnm_newstaffafter(GtkAction *action);
+void dnm_newstaffafter(GtkAction *action, gpointer param);
 
 
-void dnm_newstaffvoice(GtkAction *action);
+void dnm_newstaffvoice(GtkAction *action, gpointer param);
 
-void newstafflast(GtkAction *action);
+void newstafflast(GtkAction *action, gpointer param);
 
 gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui);
 

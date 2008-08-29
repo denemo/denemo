@@ -148,7 +148,7 @@ lily_directive (DenemoGUI *gui, gboolean attach)
  * or edit the current lilypond directive
  */
 void
-lily_directive_insert (GtkAction * action)
+lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   lily_directive (gui, FALSE);
@@ -160,7 +160,7 @@ lily_directive_insert (GtkAction * action)
  * or edit the current lilypond directive
  */
 void
-lily_directive_postfix (GtkAction * action)
+lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   lily_directive (gui, TRUE);
@@ -170,7 +170,7 @@ lily_directive_postfix (GtkAction * action)
 
 #ifdef DENEMO_DYNAMIC_MENU_ITEMS
 void
-rehearsal_mark (GtkAction * action)
+rehearsal_mark (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 DenemoObject *lily = lily_directive_new (" \\mark \\default ");
@@ -186,7 +186,7 @@ DenemoObject *lily = lily_directive_new (" \\mark \\default ");
 
 void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui);
 void
-myactivate (GtkAction * action)
+myactivate (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...

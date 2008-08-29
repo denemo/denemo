@@ -38,7 +38,7 @@ gboolean abandon_editprops_custom_scoreblock(DenemoGUI *gui) {
  * Create and run a modal score properties dialog.
  */
 void
-score_properties_dialog (GtkAction *Action)
+score_properties_dialog (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if(abandon_editprops_custom_scoreblock(gui))
@@ -229,7 +229,7 @@ ASSIGN(extra);
  *
  */
 void
-movement_props_dialog (GtkAction * action)
+movement_props_dialog (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 if(abandon_editprops_custom_scoreblock(gui))

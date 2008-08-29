@@ -26,7 +26,7 @@
 
 
 void
-load_plugin (GtkAction * action)
+load_plugin (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   g_print ("In Load Plugin\n");
@@ -45,7 +45,7 @@ load_plugin (GtkAction * action)
  *
  */
 void
-list_available_plugins (GtkAction * action)
+list_available_plugins (GtkAction *action, gpointer param)
 {
 
 }
@@ -56,7 +56,7 @@ list_available_plugins (GtkAction * action)
  * List loaded plugins 
  */
 void
-list_loaded_plugins (GtkAction * action)
+list_loaded_plugins (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
@@ -210,7 +210,7 @@ denemo_plugin_cleanup (const gchar * name, DenemoGUI * gui)
  *
  */
 void
-unloadplugins (GtkAction * action)
+unloadplugins (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *temp = NULL;

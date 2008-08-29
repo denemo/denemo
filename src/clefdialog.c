@@ -45,7 +45,7 @@ static ClefInfo clef_info[] = {
  * calls clef change with the INSERT argument
  */
 void
-clef_change_insert (GtkAction * action)
+clef_change_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   clef_change (gui, INSERT);
@@ -56,7 +56,7 @@ clef_change_insert (GtkAction * action)
  * calls clef change with the CHANGEINITIAL argument
  */
 void
-clef_change_initial (GtkAction * action)
+clef_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   clef_change (gui, CHANGEINITIAL);

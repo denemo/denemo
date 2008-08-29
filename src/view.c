@@ -22,24 +22,25 @@
 #include "transpose.h"
 #include "print.h"
 #include "kbd-custom.h"
+#include "csoundplayback.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
 
 static void
-closewrapper (GtkAction *action);
+closewrapper (GtkAction *action, gpointer param);
 static void
-openinnew (GtkAction *action);
+openinnew (GtkAction *action, gpointer param);
 static void 
-create_rhythm_cb (GtkAction* action);
+create_rhythm_cb (GtkAction* action, gpointer param);
 static void
-delete_rhythm_cb (GtkAction * action);
+delete_rhythm_cb (GtkAction * action, gpointer param);
 static void
-toggle_edit_mode (GtkAction * action);
+toggle_edit_mode (GtkAction * action, gpointer param);
 static void
-toggle_rest_mode (GtkAction * action);
+toggle_rest_mode (GtkAction * action, gpointer param);
 static void
-toggle_rhythm_mode (GtkAction * action);
+toggle_rhythm_mode (GtkAction * action, gpointer param);
 
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
@@ -59,78 +60,20 @@ typedef enum
 } AccelStatus;
 
 
-
+static void voiceup_cb(GtkAction *action, gpointer param);
+static void voicedown_cb(GtkAction *action, gpointer param);
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
 
 #include "callbacks.h" /* callback functions menuitems that can be called by scheme */
-#include <libguile.h> 
+#include <libguile.h>
+#include <guile/gh.h>
+#if 1
+#include <guile/gh.h>
 #include "scheme_cb.h"
-
-#if 0
-static  GList *known_paths;//All the menu paths known to Denemo
-static gchar * menu_paths[] = {
-  "/MainMenu/FileMenu/",
-  "/MainMenu/EntryMenu",
-  "/MainMenu/EditMenu/",
-  "/MainMenu/ViewMenu/",
-  "/MainMenu/EntryMenu/",
-  "/MainMenu/PlaybackMenu/",
-  "/MainMenu/HelpMenu/",
-  "/ObjectMenu/NoteProperties/",
-  "/ObjectMenu/NoteProperties/InsertNote/",
-  "/ObjectMenu/NoteProperties/ChangeNote/",
-  "/ObjectMenu/NoteProperties/ChangeDuration/",
-  /* Rest entry has a space is that ok?? FIXME omit for the moment */
-  "/ObjectMenu/NoteProperties/Delete/",
-
-
-  "/ObjectMenu/EditModeNote/",
-  "/ObjectMenu/EditModeNote/EditNote/",
-  "/ObjectMenu/EditModeNote/EditDuration",
-  /* Rest entry has a space is that ok?? FIXME omit for the moment */
-  //more 
-
-  //ClassicMode omitted
-
-
-  "/ObjectMenu/InsertModeNote/",
-  "/ObjectMenu/InsertModeNote/InsertNote/",
-
-  "/ObjectMenu/InsertModeNote/SelectDuration/",
-  /* Rest entry has a space is that ok?? FIXME omit for the moment */
-
-  "/ObjectMenu/InsertModeNote/Delete/",
-
-
-  "/ObjectMenu/ExpressionMarks/",
-  "/ObjectMenu/ExpressionMarks/Ornaments/",
-
-  "/ObjectMenu/ChordMenu/",
-  "/ObjectMenu/MeasureMenu/",
-  "/ObjectMenu/Tuplets/",
-  "/ObjectMenu/StaffMenu/",
-  "/ObjectMenu/StaffMenu/Delete/",
-
-  "/ObjectMenu/MovementMenu/",
-  "/ObjectMenu/MovementMenu/InsertMovement/",
-
-  "/ObjectMenu/ClefMenu/",
-  "/ObjectMenu/Key/",
-  "/ObjectMenu/TimeSig/",
-  "/ObjectMenu/Cursor/",
-  "/ObjectMenu/Bookmarks/",
-  "/ObjectMenu/Other/"
-
-
-  //ActionMenu omitted FIXME
-  //AllOther omitted FIXME
-
-  //more....
-};
 #endif
 
-
+/***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
 #define CLASSICMODE_STRING "ClassicMode"
 #define INSERTMODE_STRING "InsertMode"
@@ -162,10 +105,6 @@ activate_action("/MainMenu/EntryMenu/"X##_STRING);}
  FN_DEF(BLANK_E);
  FN_DEF(RHYTHM_E);
 
-//void MODELESS_CB(void) {
-//      activate_action( "/MainMenu/EntryMenu/"MODELESS_STRING);
-//}
-
 typedef struct cb_string_pairs  { gpointer p; gchar *str;} cb_string_pairs;
 cb_string_pairs activatable_commands[] = {
   {MODELESS_CB, MODELESS_STRING},
@@ -179,6 +118,7 @@ cb_string_pairs activatable_commands[] = {
 
 };
 
+/***************** end of definitions to implement calling radio/check items from scheme *******************/
 
 #ifdef TRIAL_SCHEME
 /* trial */
@@ -196,39 +136,45 @@ SCM scheme_denemoy(SCM val) {
 #endif
 
 static install_scm_function(gchar *name, gpointer callback) {
-scm_c_define_gsubr (name, 0, 0, 0, callback);
+scm_c_define_gsubr (name, 0, 1, 0, callback);
 
 }
 static install_scm_function_with_param(gchar *name, gpointer callback) {
-scm_c_define_gsubr (name, 1, 0, 0, callback);
+scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
 
-static void scheme_requests_action (SCM paction)
+static void scheme_requests_action (SCM paction, SCM optional)
 {
   GtkAction *action = scm_num2int(paction, 0, 0);
   //g_print("Action is %p\n", action);
+  if(SCM_STRINGP(optional)){
+    int length;
+    char *str = gh_scm2newstr(optional, &length);
+    g_print("Got a string %s\n", str);
+  }
   gtk_action_activate(action);
 }
 
 
 
-int inner_main(void){
+int inner_main(int argc, char **argv){
   gint i;
-#if 0
-  for(i=0;i<G_N_ELEMENTS(menu_paths);i++){
-    known_paths = g_list_append(known_paths, menu_paths[i]);
+  GError *error = NULL;
+  /* create the first window */
+  newview (NULL, NULL);
+
+
+
+
+  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
+  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
+    install_scm_function (activatable_commands[i].str, (gpointer)activatable_commands[i].p);
   }
-#endif
 
 
   /* create scheme identifiers for all the menuitem callbacks that are not check/radio items */
 #include "scheme.h"
-  /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
-
-  for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (activatable_commands[i].str, (gpointer)activatable_commands[i].p);
-  }
   /* install the basic scheme function for calling Denemo actions */
   install_scm_function_with_param ("denemo", scheme_requests_action);
 
@@ -236,6 +182,96 @@ int inner_main(void){
 #ifdef TRIAL_SCHEME
   scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
 #endif
+
+
+
+#if 0
+
+
+  /* And open a file, if it was specified on the command line. Note
+   * that this had to be done after the window was created, otherwise
+   * there wouldn't have been a titlebar to set. Also note that
+   * a blank score is created whether or not a load was specified.
+   * This is done this way because the load could bomb out. */
+
+  GDir *dir=NULL;
+  gchar *filename;
+  error = NULL;
+  if(locatedotdenemo ()) {
+    dir = g_dir_open (locatedotdenemo (), 0, &error);
+    if (error)
+      {
+	g_print ("Cannot read .denemo directory %s\n", error->message);
+	g_error_free (error);
+      }
+  }
+  while (dir && (filename = (gchar *) g_dir_read_name (dir)) != NULL)
+    {
+      if (0 == strcmp ("crashrecovery.denemo", filename))
+        {
+          GtkWidget *dialog = 
+            gtk_dialog_new_with_buttons (NULL,
+                                         NULL,
+                                         GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_STOCK_YES,
+                                         GTK_RESPONSE_ACCEPT,
+                                         GTK_STOCK_SAVE_AS,
+                                         GTK_RESPONSE_CANCEL,
+                                         GTK_STOCK_DELETE,
+                                         GTK_RESPONSE_REJECT,
+                                         NULL);
+          GtkWidget *label =
+            gtk_label_new
+            ("\nDenemo crashed, The open file has been recovered\n"
+             "do you want to contiue editing your work?\n");
+          gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
+                             label);
+          gtk_widget_show_all (dialog);
+          gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+          g_debug ("Dialog result is %d\n", result);
+          gchar *name = g_build_filename(locatedotdenemo (),
+                                         filename, NULL);
+          switch (result)
+            {
+            case GTK_RESPONSE_ACCEPT:
+              openfile (name);
+              g_remove (name);
+              break;
+            case GTK_RESPONSE_CANCEL:
+              Denemo.window = NULL;
+              result = importXML (name, Denemo.gui, REPLACE_SCORE);
+              if (result != -1)
+                file_saveas (Denemo.gui, FALSE);
+              else
+                g_print ("Cannot open %s\n", name);
+              //g_free (gui);
+              g_remove (name);
+              break;
+            case GTK_RESPONSE_REJECT:
+              g_print ("Removing %s\n", name);
+              g_remove (name);
+              //g_free(name);
+              break;
+            }
+          gtk_widget_destroy (dialog);
+        }
+    }
+
+  if (dir)
+    g_dir_close (dir);
+  gint optind;
+  if (optind < argc)
+    {
+      if (openfile (argv[optind]) == -1)
+        {
+          g_print ("Attempt to read in file %s failed\n", argv[optind]);
+          return 1;
+        }
+    }
+
+#endif
+
+ /* Now launch into the main gtk event loop and we're all set */
   gtk_main();
   return 0;
 }
@@ -403,7 +439,7 @@ quit (void)
 static void
 close_gui (DenemoGUI *gui)
 {
-  stop_midi_playback (NULL);// if you do not do this, there is a timer moving the score on which will hang
+  stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");
@@ -450,7 +486,7 @@ void free_gui(DenemoGUI *gui)
 *
 */
 static void
-closewrapper (GtkAction *action)
+closewrapper (GtkAction *action, gpointer param)
 {
   GList *display = NULL;
   //stop_pitch_recognition();
@@ -490,11 +526,11 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * Open in New Window callback 
  * Creates new view then opens file in the view
  */
-static void
-openinnew (GtkAction *action)
+void
+openinnew (GtkAction *action, gpointer param)
 {
-  newview (NULL);
-  file_open_with_check (NULL);
+  newview (NULL, param);
+  file_open_with_check (NULL, param);
 }
 
 
@@ -505,7 +541,7 @@ openinnew (GtkAction *action)
  * return FALSE if gui was not closed, else TRUE
  */
 gboolean
-close_gui_with_check (GtkAction * action)
+close_gui_with_check (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if ((!gui->changecount) || (gui->changecount && confirmbox (gui)))
@@ -689,7 +725,7 @@ static gchar *add_to_pattern(gchar **p, gchar c) {
 
 */
 static void 
-create_rhythm_cb (GtkAction* action)     {
+create_rhythm_cb (GtkAction* action, gpointer param)     {
   DenemoGUI *gui = Denemo.gui;
   gboolean singleton = FALSE;// set TRUE if action is one of the insert_... functions.
   gboolean already_done = FALSE;// a singleton which has already been installed globally
@@ -1079,7 +1115,7 @@ static void executeScript(GtkWidget*w) {
 
 void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
 void
-activate_script (GtkAction * action)
+activate_script (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   // the proxy list is NULL until the menu item is first called...
@@ -1145,7 +1181,7 @@ static void append_scheme_call(gchar *func) {
   GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
   //gtk_text_buffer_set_text(buffer,"",-1);
   gtk_text_buffer_get_end_iter (buffer,  &enditer);
-  gchar *text = g_strdup_printf("(denemo dnm_%s)\n",func);//prefix dnm_!!!!!!!
+  gchar *text = g_strdup_printf("(d-%s)\n",func);//prefix dnm_!!!!!!!
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
   //g_print("Added %s\n", text);
   g_free(text); 
@@ -1169,6 +1205,7 @@ static gboolean menu_click (GtkWidget      *widget,
   const gchar *func_name = gtk_action_get_name(action);
   g_print("widget name %s action name %s\n", gtk_widget_get_name(widget), func_name);
   gint idx = lookup_index_from_name (the_keymap, func_name);
+  g_print("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3) //Not right click
     if(Denemo.ScriptRecording)
       if(idx_has_callback(the_keymap, idx)){
@@ -1176,7 +1213,7 @@ static gboolean menu_click (GtkWidget      *widget,
 	   append_scheme_call((gchar*)func_name);
 	//return TRUE;
       }
-  //g_print("event button %d, idx %d for %s\n", event->button, idx, func_name);
+
   if (event->button != 3)
     return FALSE;
   if (idx == -1)
@@ -1273,7 +1310,7 @@ void	highlight_duration(DenemoGUI *gui, gint dur) {
  * 
  */
 static void
-delete_rhythm_cb (GtkAction * action)
+delete_rhythm_cb (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if(gui->mode&(INPUTEDIT) == 0)
@@ -1331,12 +1368,12 @@ static void dummy(void) {
 #endif
   return;
 }
-static void voiceup_cb(GtkAction *action) {
+static void voiceup_cb(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   voiceup(gui);
   displayhelper(gui);
 }
-static void voicedown_cb(GtkAction *action) {
+static void voicedown_cb(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   voicedown(gui);
   displayhelper(gui);
@@ -1428,7 +1465,7 @@ write_status(gui);
 }
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
-static void toggle_edit_mode (GtkAction * action){
+static void toggle_edit_mode (GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTINSERT;
   if(gui->mode&INPUTEDIT){
@@ -1452,7 +1489,7 @@ static void toggle_edit_mode (GtkAction * action){
 }
 
 /* callback: if rest entry make note entry and vv */
-static void toggle_rest_mode (GtkAction * action){
+static void toggle_rest_mode (GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTNORMAL;
   if(gui->mode&INPUTREST){
@@ -1474,7 +1511,7 @@ static void toggle_rest_mode (GtkAction * action){
 
 
 /* callback: if rhythm entry make note entry and vv */
-static void toggle_rhythm_mode (GtkAction * action){
+static void toggle_rhythm_mode (GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   static gint mode=INPUTNORMAL;
   if(gui->mode&INPUTRHYTHM){
@@ -1496,7 +1533,7 @@ static void toggle_rhythm_mode (GtkAction * action){
  *  the text if needed
  */
 static void
-toggle_lilytext (GtkAction * action) {
+toggle_lilytext (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
  if(!gui->textview)
    refresh_lily_cb(action, gui);
@@ -1512,7 +1549,7 @@ toggle_lilytext (GtkAction * action) {
  *  Function to toggle the visibility of the Scheme text window. 
  */
 static void
-toggle_scheme (GtkAction * action) {
+toggle_scheme (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *textwindow = gtk_widget_get_toplevel(Denemo.ScriptView);
  if(!GTK_WIDGET_VISIBLE(textwindow))
@@ -1533,7 +1570,7 @@ hide_scheme (GtkAction * action, GdkEvent*event,  GtkWidget *w) {
  *
  */
 static void
-toggle_pitch_recognition (GtkAction * action) {
+toggle_pitch_recognition (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(!gui->pitch_recognition) {
     if(setup_pitch_recognition(gui))  
@@ -2191,7 +2228,7 @@ Really we should change the default for the class.*/
  * 
  */
 void
-newview (GtkAction *action)
+newview (GtkAction *action, gpointer param)
 {
   GtkActionGroup *action_group;
   if(Denemo.guis==NULL)
@@ -2271,26 +2308,26 @@ Denemo.gui = gui;
 
 
 
- create_rhythm_cb((gpointer)insert_chord_0key); 
- create_rhythm_cb((gpointer)insert_chord_1key);   
- create_rhythm_cb((gpointer)insert_chord_2key);   
- create_rhythm_cb((gpointer)insert_chord_3key);   
- create_rhythm_cb((gpointer)insert_chord_4key);   
- create_rhythm_cb((gpointer)insert_chord_5key); 
- create_rhythm_cb((gpointer)insert_chord_6key);   
+ create_rhythm_cb((gpointer)insert_chord_0key, NULL); 
+ create_rhythm_cb((gpointer)insert_chord_1key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_2key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_3key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_4key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_5key, NULL); 
+ create_rhythm_cb((gpointer)insert_chord_6key, NULL);   
 
 
- create_rhythm_cb((gpointer)insert_rest_0key); 
- create_rhythm_cb((gpointer)insert_rest_1key);   
- create_rhythm_cb((gpointer)insert_rest_2key);   
- create_rhythm_cb((gpointer)insert_rest_3key);   
- create_rhythm_cb((gpointer)insert_rest_4key);   
- create_rhythm_cb((gpointer)insert_rest_5key); 
- create_rhythm_cb((gpointer)insert_rest_6key);   
+ create_rhythm_cb((gpointer)insert_rest_0key, NULL); 
+ create_rhythm_cb((gpointer)insert_rest_1key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_2key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_3key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_4key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_5key, NULL); 
+ create_rhythm_cb((gpointer)insert_rest_6key, NULL);   
 
 
   if (Denemo.prefs.articulation_palette)
-    toggle_articulation_palette (NULL);
+    toggle_articulation_palette (NULL, NULL);
   Denemo.gui->mode = INPUTINSERT | INPUTNORMAL;
 
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
@@ -2383,4 +2420,5 @@ Denemo.gui = gui;
 
 
 }
+
 

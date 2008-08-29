@@ -8,7 +8,7 @@
 #define KBDINTERFACE_H
 
 void
-configure_keyboard_dialog (GtkAction *action);
+configure_keyboard_dialog (GtkAction *action, gpointer param);
 
 
 

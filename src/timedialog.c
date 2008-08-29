@@ -143,7 +143,7 @@ insert_timesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time1,
  * Calls timesig_change with the INSERT argument
  */
 void
-timesig_change_insert (GtkAction * action)
+timesig_change_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   timesig_change (gui, INSERT);
@@ -154,7 +154,7 @@ timesig_change_insert (GtkAction * action)
  * Calls timesig_change with the CHANGEINITIAL argument
  */
 void
-timesig_change_initial (GtkAction * action)
+timesig_change_initial (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   timesig_change (gui, CHANGEINITIAL);

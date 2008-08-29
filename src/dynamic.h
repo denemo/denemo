@@ -8,7 +8,7 @@
 
 
 void
-insert_dynamic (GtkAction *action);
+insert_dynamic (GtkAction *action, gpointer param);
 
 void
 insertdynamic (GtkWidget *widget, gpointer data);

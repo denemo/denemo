@@ -64,7 +64,7 @@ insert_it (GtkWidget * widget, gpointer data)
 
 
 void
-insert_dynamic (GtkAction * action)
+insert_dynamic (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   int i;

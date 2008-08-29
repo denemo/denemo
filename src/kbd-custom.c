@@ -867,6 +867,18 @@ lookup_action_from_idx (keymap * keymap, guint command_idx)
 
 //do not free the result
 //returns NULL if not found
+gpointer
+lookup_callback_from_idx (keymap * keymap, guint command_idx)
+{
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  g_object_unref(row.bindings);
+  return row.callback;
+}
+
+//do not free the result
+//returns NULL if not found
 const gchar *
 lookup_name_from_idx (keymap * keymap, guint command_idx)
 {
@@ -1612,7 +1624,7 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
  *
  */
 void
-save_default_keymap_file_wrapper (GtkAction * action)
+save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
 {
   keymap * the_keymap = Denemo.prefs.the_keymap;  
   save_default_keymap_file (NULL, the_keymap);

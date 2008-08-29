@@ -3003,7 +3003,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 			score = findtok (score->next, SCORE);
 			if (score)
 			  {
-	                    insert_movement_after(NULL);
+	                    insert_movement_after(NULL, NULL);
 			    DenemoScore *nextsi =
 			      Denemo.gui->si;
 			    init_score (nextsi, gui);

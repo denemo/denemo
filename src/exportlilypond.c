@@ -1536,7 +1536,7 @@ void refresh_lily_cb (GtkAction *action, DenemoGUI *gui) {
 }
 
 
-void delete_lily_cb (GtkAction *action) {
+void delete_lily_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextChildAnchor *anchor = gui->lilystart;
   GtkTextIter start, end;
@@ -1567,7 +1567,7 @@ static gboolean print_lily_cb (GtkWidget *item, DenemoGUI *gui){
 }
 
 /* create a new custom scoreblock from the text of the one passed in lilystart */
-void custom_lily_cb (GtkAction *action) {
+void custom_lily_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextChildAnchor *anchor = gui->lilystart;
   merge_lily_strings(gui);
@@ -1601,7 +1601,7 @@ void custom_lily_cb (GtkAction *action) {
     refresh_lily_cb(action, gui);
 }
 
-void toggle_lily_visible_cb (GtkAction *action) {
+void toggle_lily_visible_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   GtkTextIter start, end;
   GtkTextChildAnchor *anchor = gui->lilystart;

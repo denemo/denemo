@@ -5,7 +5,7 @@
 #ifdef HAVEALSA
 
 #include <alsa/asoundlib.h>
-void alsaplayback(GtkAction *action);
+void alsaplayback(GtkAction *action, gpointer param);
 int open_seq();
 int close_seq();
 #endif

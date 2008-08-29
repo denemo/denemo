@@ -5,8 +5,8 @@
  * (c) 2000-2005 Matthew Hiller
  */
 
-void about (GtkAction *action);
+void about (GtkAction *action, gpointer param);
 
 
 void
-browse_manual (GtkAction * action);
+browse_manual (GtkAction * action, gpointer param);

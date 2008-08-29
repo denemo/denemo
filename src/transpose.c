@@ -76,7 +76,7 @@ new_transpose_staff_dialog(DenemoGUI *gui){
   // gtk_widget_destroy (dialog);
 }
 
-gboolean staff_transposition (GtkAction * action){
+gboolean staff_transposition (GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gchar *transpose_amount_char = string_dialog_entry(gui, "Transpose Staff", "place and integer amount to transpose the staff notes", NULL);
   if (transpose_amount_char){

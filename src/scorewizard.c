@@ -1106,7 +1106,7 @@ void notebook_page(gpointer data)
  * Top-level function for score creation 
  *
  */
-void scorewizard(GtkAction *action)
+void scorewizard(GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)

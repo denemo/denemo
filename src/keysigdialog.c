@@ -285,7 +285,7 @@ modedialog (GtkWidget * widget, struct modedata *mdata)
  *  calls key_change with the INSERT argument
  */
 void
-key_change_insert (GtkAction * action)
+key_change_insert (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   key_change (gui, INSERT);
@@ -296,7 +296,7 @@ key_change_insert (GtkAction * action)
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
-key_change_initial (GtkAction * action)
+key_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   key_change (gui, CHANGEINITIAL);

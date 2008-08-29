@@ -469,7 +469,7 @@ unset_mark (DenemoGUI * gui)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-copywrapper (GtkAction * action)
+copywrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   copytobuffer (gui->si);
@@ -483,7 +483,7 @@ copywrapper (GtkAction * action)
  * @param gui pointer to the DenemoGUI structure 
  */
 void
-cutwrapper (GtkAction * action)
+cutwrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   cuttobuffer (gui->si);
@@ -498,7 +498,7 @@ cutwrapper (GtkAction * action)
  * @param action pointer to the GtkAction event
  */
 void
-pastewrapper (GtkAction * action)
+pastewrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   pastefrombuffer (gui);
@@ -515,7 +515,7 @@ pastewrapper (GtkAction * action)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-saveselwrapper (GtkAction * action)
+saveselwrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   saveselection (gui->si);
@@ -619,7 +619,7 @@ calcmarkboundaries (DenemoScore * si)
  * widget - unused
  */
 void
-undowrapper (GtkAction * action)
+undowrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   undo (gui);
@@ -636,7 +636,7 @@ undowrapper (GtkAction * action)
  * widget - unused
  */
 void
-redowrapper (GtkAction * action)
+redowrapper (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   redo (gui);

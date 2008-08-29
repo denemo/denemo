@@ -399,7 +399,7 @@ printrangedialog(DenemoGUI * gui){
 
 /* callback to print whole of score */
 void
-printall_cb (GtkAction * action) {
+printall_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   gchar *str = g_strdup_printf("No direct printing yet\nWe will run the PDF viewer program %s so you can use its print command.\nYou can change the PDF viewer using \nEdit->Preferences->Externals->Pdf viewer.", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
@@ -408,7 +408,7 @@ printall_cb (GtkAction * action) {
 }
 /* callback to print current part (staff) of score */
 void
-printpart_cb (GtkAction * action) {
+printpart_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
@@ -422,7 +422,7 @@ printpart_cb (GtkAction * action) {
   
 }
 void
-printpreview_cb (GtkAction * action) {
+printpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
@@ -431,7 +431,7 @@ printpreview_cb (GtkAction * action) {
   print(gui, FALSE, TRUE);
 }
 void
-printexcerptpreview_cb (GtkAction * action) {
+printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   gui->lilycontrol.excerpt = TRUE;
   if(!gui->si->markstaffnum) //If no selection has been made 
@@ -545,7 +545,7 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
  */
 
 void
-export_pdf_action (GtkAction * action)
+export_pdf_action (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *file_selection;

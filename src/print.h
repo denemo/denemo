@@ -4,18 +4,18 @@
 #include <denemo/denemo.h> 
 
 void
-printall_cb(GtkAction *action);
+printall_cb(GtkAction *action, gpointer param);
 void
-printpreview_cb(GtkAction *action);
+printpreview_cb(GtkAction *action, gpointer param);
 void
-printexcerptpreview_cb(GtkAction *action);
+printexcerptpreview_cb(GtkAction *action, gpointer param);
 void
-printpart_cb(GtkAction *action);
+printpart_cb(GtkAction *action, gpointer param);
 gchar *
 get_printfile_pathbasename(void);
 void
 run_lilypond_and_viewer(gchar *basename, DenemoGUI *gui);
-void export_pdf_action (GtkAction *action);
+void export_pdf_action (GtkAction *action, gpointer param);
 
 
 #endif /*PRINT_H*/	

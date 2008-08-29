@@ -55,7 +55,7 @@ static gint kill_timer(void){
  * if action==NULL stop the playback
  */
 void
-ext_midi_playback (GtkAction * action)
+ext_midi_playback (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   FILE *fp;
@@ -175,8 +175,8 @@ ext_midi_playback (GtkAction * action)
 }
 
 
-void stop_midi_playback (GtkAction * action) {
-  ext_midi_playback (NULL);
+void stop_midi_playback (GtkAction * action, gpointer param) {
+  ext_midi_playback (NULL, NULL);
   kill_timer();
 }
 

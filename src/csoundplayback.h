@@ -11,7 +11,7 @@ struct cs_callback
 	
 };
 */
-void csoundplayback(GtkAction *action);
+void csoundplayback(GtkAction *action, gpointer param);
 void chooseorcfile (GtkWidget * widget, struct cs_callback *data);
 
 #endif
