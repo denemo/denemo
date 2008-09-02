@@ -1140,10 +1140,14 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   gchar *myname, *mylabel, *myscheme, *mytooltip;
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
+  if(myname==NULL)
+    return;
   mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
-  // myscheme = string_dialog_entry (gui, "Create a new menu item", "Give Scheme to insert: ", "%any scheme you like");
+  if(mylabel==NULL)
+    return;
   mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
-  //myposition = string_dialog_entry (gui, "Create a new menu item", "Say where in the menu systeme you want it placed: ", "/ObjectMenu/Favorites");
+  if(mytooltip==NULL)
+    return;
   GtkAction *myaction = gtk_action_new(myname,mylabel,mytooltip,NULL);
   GtkActionGroup *action_group;
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
@@ -1251,7 +1255,7 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
 
   // configure_keyboard_dialog_init_idx (action, gui, idx);
-  return FALSE;
+  return TRUE;
 }
 
 
