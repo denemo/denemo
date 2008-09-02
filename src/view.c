@@ -2024,6 +2024,7 @@ create_window(void) {
   gtk_widget_show (main_vbox);
 
   action_group = gtk_action_group_new ("MenuActions");
+  gtk_action_group_set_translation_domain (action_group, NULL); 
   /* This also sets current Denemo.gui as the  callback data for all the functions in the
    * menubar, which is not needed since we have only one set of actions for all
    the guis. We will always act on Denemo.gui anyway.*/
@@ -2186,6 +2187,7 @@ get_data_dir (),
 FIXME labels in toolitems are not correct until you do NewWindow.
 Really we should change the default for the class.*/
   GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
+gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
   gtk_action_group_add_actions (lilyaction_group, lily_menus,
 				G_N_ELEMENTS (lily_menus), Denemo.gui);
   gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);

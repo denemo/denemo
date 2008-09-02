@@ -54,6 +54,6 @@ src/timedialog.c
 src/tomeasuredialog.c
 src/tupletops.c
 src/view.c
-
+src/entries.h
 plugins/midiinput/midiinput.c
 #plugins/niff/niffexporter.c
