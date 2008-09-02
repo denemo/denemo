@@ -331,7 +331,7 @@ preferences_change (GtkAction *action, gpointer param)
 		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
 
-  label = gtk_label_new (_("Text Edtior"));
+  label = gtk_label_new (_("Text Editor"));
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
 		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
