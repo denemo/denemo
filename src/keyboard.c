@@ -149,11 +149,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	/* by convention this is the last of the fields defining a scheme script menu item */
 	if(is_script) {
-	  name = name?name:"NoName";
-	  label = label?label:"No label";
-	  menupath = menupath?menupath:"/MainMenu/Other";
-	  scheme = scheme?scheme:";;empty script\n";
-	  tooltip = tooltip?tooltip:"No indication what this done beyond the name and label :(";
+	  name = name?name:(xmlChar*)"NoName";
+	  label = label?label:(xmlChar*)"No label";
+	  menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+	  scheme = scheme?scheme:(xmlChar*)";;empty script\n";
+	  tooltip = tooltip?tooltip:(xmlChar*)"No indication what this done beyond the name and label :(";
 
 
 	  //FIXME duplicate code with view.c *************
@@ -375,14 +375,14 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
   for (i = 0; i < keymap_size(the_keymap); i++)
     {
      
-      gpointer action = lookup_action_from_idx(the_keymap, i);
+      gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
       if(scheme) 
 	child = xmlNewChild (parent, NULL, (xmlChar *) "script", NULL);
       else
 	child = xmlNewChild (parent, NULL, (xmlChar *) "builtin", NULL);
       
-      gchar *name = lookup_name_from_idx(the_keymap, i);
+      gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
 #ifdef DEBUG
       g_print ("%s \n", name);
 #endif	
@@ -397,13 +397,13 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
 	xmlNewTextChild (child, NULL, (xmlChar *) "menupath",
 			 (xmlChar *) menupath);
       
-      gchar *label =   lookup_label_from_idx (the_keymap, i);
+      gchar *label =   (gchar*)lookup_label_from_idx (the_keymap, i);
       if(label)
 	xmlNewTextChild (child, NULL, (xmlChar *) "label",
 			 (xmlChar *) label);
       
       
-      gchar *tooltip = lookup_tooltip_from_idx (the_keymap, i);
+      gchar *tooltip = (gchar*)lookup_tooltip_from_idx (the_keymap, i);
       if(tooltip)
 	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
 			 (xmlChar *) tooltip);
@@ -424,6 +424,15 @@ static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
 
+
+static gint create_dir_for_menu(gchar *str) {
+  gchar *dotdenemo = (gchar*)locatedotdenemo ();
+  gchar *thismenu = g_build_filename (dotdenemo, "menus", str , NULL);
+    if(!g_file_test(thismenu, G_FILE_TEST_IS_DIR)) {
+      return g_mkdir_with_parents(thismenu, 0770);
+    }
+  return 0;
+}
 static gint
 parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
   for ( rootElem = rootElem->xmlChildrenNode;rootElem; rootElem = rootElem->next)
@@ -442,6 +451,7 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
 	  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str); 
 	  if(widget) {
 	    g_object_set_data(G_OBJECT(widget), "menupath", str);
+	    create_dir_for_menu(str);//FIXME we only need do this once for a given denemoui.xml
 	    //show_type(widget, "The type is ");
 	    //g_print("set %p %s\n",widget, str);
 	    parseMenu(rootElem, str, gui);
