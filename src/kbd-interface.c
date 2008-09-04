@@ -164,6 +164,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
         gint command_idx)
 { 
   GtkWidget *dialog;
+  GtkWidget *frame;
   GtkWidget *vbox;
   GtkWidget *table;
   GtkWidget *hseparator;
@@ -204,7 +205,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   command_view = GTK_WIDGET(keymap_get_command_view(Denemo.prefs.the_keymap));
   command_tree_view = gtk_bin_get_child(GTK_BIN(command_view));
   
-  dialog = gtk_dialog_new_with_buttons (_("Keyboard shortcuts"),
+  dialog = gtk_dialog_new_with_buttons (_("Command Manager"),
 					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |
 							  GTK_DIALOG_DESTROY_WITH_PARENT),
@@ -216,29 +217,47 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		      0);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
+
+  
+  frame= gtk_frame_new( "Help for Selected Command");
+  gtk_frame_set_shadow_type(frame, GTK_SHADOW_IN);
+  gtk_container_add (GTK_CONTAINER (vbox), frame);
+  text_view = gtk_text_view_new();
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
+  scrolled_text_view = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled_text_view), text_view);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_text_view),
+				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+  gtk_container_add (GTK_CONTAINER (frame), scrolled_text_view);
+
+  //  gtk_box_pack_start (GTK_BOX (vbox), scrolled_text_view, TRUE, TRUE, 0);
+
+
+
+
   table = gtk_table_new (2, 2, FALSE);
   gtk_box_pack_start (GTK_BOX (vbox), table, TRUE, TRUE, 0);
   gtk_table_set_row_spacings (GTK_TABLE (table), 8);
   gtk_table_set_col_spacings (GTK_TABLE (table), 8);
   
-  button_save = gtk_button_new_with_label (_("Save as Default Keymap"));
+  button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
   gtk_table_attach (GTK_TABLE (table), button_save, 0, 1, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
   
   button_save_as =
-    gtk_button_new_with_label (_("Save as a Custom Keymap"));
+    gtk_button_new_with_label (_("Save as a Custom Command Set"));
   gtk_table_attach (GTK_TABLE (table), button_save_as, 1, 2, 1, 2,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-  button_load = gtk_button_new_with_label (_("Load a Standard Keymap"));
+  button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
   gtk_table_attach (GTK_TABLE (table), button_load, 0, 1, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
 
   button_load_from =
-    gtk_button_new_with_label (_("Load a Custom Keymap"));
+    gtk_button_new_with_label (_("Load a Custom Command Set"));
   gtk_table_attach (GTK_TABLE (table), button_load_from, 1, 2, 0, 1,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
@@ -271,13 +290,6 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
-  text_view = gtk_text_view_new();
-  gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
-  scrolled_text_view = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_add(GTK_CONTAINER(scrolled_text_view), text_view);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled_text_view),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start (GTK_BOX (vbox), scrolled_text_view, TRUE, TRUE, 0);
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
   gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);

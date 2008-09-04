@@ -36,8 +36,8 @@
 #define  GDK_META_MASK   (1 << 28)
 #endif
 
-#define DEFAULT_KEYMAP "Default.keymap"
-//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_mammand_row !!!!!!!!!
+#define DEFAULT_KEYMAP "Default.cmdset"
+//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row !!!!!!!!!
 enum {
     COL_TYPE = 0,
     COL_ACTION,
@@ -653,6 +653,7 @@ command_iter_sort(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
 void
 alphabeticalize_commands(keymap *the_keymap)
 {
+  return;
   gint i, n;
   guint *value;
   const gchar *command_name;
@@ -665,7 +666,10 @@ alphabeticalize_commands(keymap *the_keymap)
       command_name = lookup_name_from_idx(the_keymap, i);
       value = (guint *) g_hash_table_lookup(the_keymap->idx_from_name,
               command_name);
-      *value = i;
+      if(value)
+	*value = i;
+      else
+	g_warning("Error in keymap read");
   }
 }
 
@@ -964,8 +968,7 @@ get_action_group(keymap *the_keymap)
 }
 
 /* Updates the label of the widgets proxying an action with the bindings
- * present in the keymap. Updates the labels in all the guis open in the app
- * (case of multiple windows)
+ * present in the keymap.
  */
 void
 update_accel_labels(keymap *the_keymap, guint command_idx)
@@ -1150,54 +1153,7 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   return old_command_idx;
 }
 
-//helper for the keymap update function
-//old_command_idx : the command that had the binding before the accel change
-//new_command_idx : the command whose accel is changed
-//old_accel : the accel of new_command before the accel change
-//new_accel : the current accel of new_command
-//return 1 if the accel was changed, 0 otherwise
-//DEPRECATED we do not use gtk accels anymore
-/*
-static gint
-keymap_update_accel_helper(keymap *the_keymap, gint old_command_idx,
-        gint new_command_idx, const gchar *old_accel, const gchar *new_accel)
-{
-    //if the old_accel is equal to the new_accel, don't do anything
-    if (!strcmp(old_accel, new_accel))
-        return 0;
 
-    //remove new_accel from the bindings of old_command
-    if (old_command_idx != -1)
-      remove_keybinding_bindings_helper(the_keymap, old_command_idx, new_accel);
-        
-    //prepend new_accel to the bindings of new_command
-    add_keybinding_bindings_helper(the_keymap, new_command_idx, new_accel, 0);
-
-    //if old_command != -1 and != new_command set accel
-    if (old_command_idx != -1 && old_command_idx != new_command_idx)
-        setAccelKey_from_idx(the_keymap, old_command_idx);
-        
-    //if new command != -1 set accel
-    if (new_command_idx != -1)
-        setAccelKey_from_idx(the_keymap, new_command_idx);
-        
-    //if old_command != new_command modify idx_from_keystring
-    if (old_command_idx != new_command_idx) {
-        guint * value = (guint *) g_hash_table_lookup(
-                the_keymap->idx_from_keystring, new_accel);
-        if (value)
-            *value = new_command_idx;
-        else {
-            value = (guint *) g_malloc(sizeof(guint));
-            *value = new_command_idx;
-            g_hash_table_insert(the_keymap->idx_from_keystring,
-                    g_strdup(new_accel), value);
-        }
-        
-    }
-    return 1;
-}
-*/
 //we have to reproduce this function here since it is static in gtkmenu.c
 static void
 stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
@@ -1212,48 +1168,7 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
   }
 }
 
-//call this function after the function supposed to update the accel of action
-//to (keyval, modifiers)
-//returns 1 if the accelerator of action is equal to (keyval, modifiers) (ie
-//the change was successful, 0 otherwise
-//DEPRECATED we do not use gtk accels anymore
-/*
-gint
-keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
-        GdkModifierType modifiers)
-{
-  gint res;
-  GList *tmp;
-  GtkAccelKey accel_key;
-  gchar *new_command_old_accel;
-  gchar *new_command_new_accel;
-  const gchar *new_command_path;
-  gint old_command_idx = lookup_keybinding(the_keymap, keyval, modifiers);
-  gint new_command_idx = lookup_index_from_name(the_keymap,
-          gtk_action_get_name(action));
-#ifdef DEBUG
-  g_print("Bindings before accel update\n");
-  dump_command_info(the_keymap, old_command_idx);
-  dump_command_info(the_keymap, new_command_idx);
-#endif
-  new_command_old_accel = keymap_get_accel(the_keymap, new_command_idx);
-  new_command_path = gtk_action_get_accel_path(action);
-  gtk_accel_map_lookup_entry(new_command_path, &accel_key);
-  new_command_new_accel = dnm_accelerator_name(accel_key.accel_key,
-          accel_key.accel_mods);
-  //if the accel of new_command has changed clean the keymap
-  res = keymap_update_accel_helper(the_keymap, old_command_idx, new_command_idx,
-             new_command_old_accel, new_command_new_accel);
-#ifdef DEBUG
-  g_print("Bindings after accel update\n");
-  dump_command_info(the_keymap, old_command_idx);
-  dump_command_info(the_keymap, new_command_idx);
-#endif
-  g_free(new_command_old_accel);
-  g_free(new_command_new_accel);
-  return res;
-}
-*/
+
 gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 		gpointer func_data)
@@ -1351,7 +1266,7 @@ dump_command_info (keymap *the_keymap, gint command_idx)
       g_print("no command\n");
       return;
   }
-  g_print ("command %s (%d)\nBindings:\n",
+  g_print ("command %s (%d)\nKeyboard Shortcuts:\n",
           lookup_name_from_idx(the_keymap, command_idx), command_idx);
   if(!keymap_get_command_row(the_keymap, &row, command_idx))
       return;
@@ -1387,11 +1302,11 @@ locatekeymapdir ()
   gboolean err;
   if (!keymapdir)
     {
-      keymapdir = g_build_filename (locatedotdenemo(), "keymaps", NULL);
+      keymapdir = g_build_filename (locatedotdenemo(), "actions", NULL);
     }
   err = g_mkdir_with_parents(keymapdir, 0770);
   if(err) {
-    warningdialog("Could not create .denemo/keymaps for your keymaps");
+    warningdialog("Could not create .denemo/actions for your customized commands");
     g_free(keymapdir);
     keymapdir = NULL;
   }
@@ -1433,7 +1348,7 @@ load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *loc
 {
   GtkWidget *filesel;
   static struct callbackdata cbdata;//FIXME why static????
-  filesel = gtk_file_selection_new (_("Load keymap"));
+  filesel = gtk_file_selection_new (_("Load Command Set"));
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (load_keymap_from_dialog),
@@ -1468,7 +1383,7 @@ load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 void
 load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 {
-  gchar *systemwide = g_build_filename (get_data_dir (), "keymaps", DEFAULT_KEYMAP,
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
                                         NULL);
   if(systemwide)
     load_keymap_dialog_location (widget, the_keymap, systemwide);
@@ -1529,7 +1444,7 @@ load_default_keymap_file (keymap * the_keymap)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "keymaps", DEFAULT_KEYMAP,
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
                                         NULL);
   //g_print ("systemwide = %s\n", systemwide);
   if(keymapdir)
@@ -1598,7 +1513,7 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 
   if (!keymapdir)
     keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
-  filesel = gtk_file_selection_new (_("Save keymap"));
+  filesel = gtk_file_selection_new (_("Save Command Set"));
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), keymapdir);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (save_keymap_from_dialog),

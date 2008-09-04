@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-
+static 	void show_type(GtkWidget *widget, gchar *message);
 /*
  * translate a keybinding from the format used in denemo keymaprc file to the
  * format understood by gtk_accelerator_parse. The output is an allocated string
@@ -101,8 +101,28 @@ get_state (gchar * key)
   return ret;
 }
 
-
-
+/* add ui elements for menupath if missing */
+static gint
+instantiate_menus(gchar *menupath) {
+  /* just add last one for the moment */
+  //g_print("Instantiate menus for %s\n", menupath);
+  gchar *up1 = g_path_get_dirname(menupath);
+  gchar *name=g_path_get_basename(menupath);
+  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, up1);
+  if(widget==NULL)
+    instantiate_menus(up1);
+  GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
+  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+  GtkActionGroup *action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
+  gtk_action_group_add_action(action_group, action);
+  g_object_set_data(G_OBJECT(action), "menupath", up1);
+  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+			up1,
+			name, name, GTK_UI_MANAGER_MENU, FALSE);
+  //g_print("Adding %s to %s\n", name, up1);
+  // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+  //show_type (widget, "for menupath widget is ");
+}
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
@@ -117,7 +137,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
       //keyval variables
       xmlChar *name, *menupath, *label, *tooltip, *scheme;
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "command"))
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action"))
 	{
 	  if (cur->xmlChildrenNode == NULL)
             {
@@ -152,6 +172,13 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  name = name?name:(xmlChar*)"NoName";
 	  label = label?label:(xmlChar*)"No label";
 	  menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+
+	  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+	  show_type (widget, "for menupath");
+	  if(widget==NULL)
+	    instantiate_menus(menupath);
+	  widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+	  show_type (widget, "after installing for menupath");
 	  scheme = scheme?scheme:(xmlChar*)";;empty script\n";
 	  tooltip = tooltip?tooltip:(xmlChar*)"No indication what this done beyond the name and label :(";
 
@@ -169,21 +196,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 				menupath,
 				name, name, GTK_UI_MANAGER_AUTO, FALSE);
-	  GSList *h = gtk_action_get_proxies (action);//what is a proxy? any widget that callbacks the action
-	  for(;h;h=h->next) {
-	    attach_set_accel_callback(h->data, action, gui);
-	  }
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.prefs.the_keymap, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
 	  
-	 
 	}// is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
       }
-
-      
-    }
+    } // for all nodes
  alphabeticalize_commands(Denemo.prefs.the_keymap);
 }
 
@@ -202,7 +222,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
       //keyval variables
       xmlChar *name, *menupath, *label, *tooltip, *scheme;
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "command"))
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action"))
 	{
 	  if (cur->xmlChildrenNode == NULL)
             {
@@ -239,7 +259,8 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 #endif
 		    if (command_number != -1)
 		        add_keybinding_from_idx (the_keymap, keyval, state,
-                        command_number, POS_LAST);
+						 command_number, POS_LAST);
+//FIXME PROBLEM, there are no proxies for the MyName command, even though we have just created it...
 		  
 		    g_free (gtk_binding);
           } else {
@@ -264,8 +285,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
   for(i=0;i<2;i++)//Two passes, as all Commands have to be added before bindings
   for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
     {
-      if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "builtin")) ||
-	  (0 == xmlStrcmp (ncur->name, (const xmlChar *) "script")))
+      if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
 	{
 	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap);
 	}
@@ -329,7 +349,9 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 #ifdef DEBUG
       g_print ("RootElem %s\n", rootElem->name);
 #endif
-      if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands"))
+      if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands")) ||
+	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */
+	  )
 	{
 
 	  parseKeymap (doc, rootElem, the_keymap);
@@ -377,16 +399,14 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
      
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
-      if(scheme) 
-	child = xmlNewChild (parent, NULL, (xmlChar *) "script", NULL);
-      else
-	child = xmlNewChild (parent, NULL, (xmlChar *) "builtin", NULL);
+      
+      child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
       
       gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
 #ifdef DEBUG
       g_print ("%s \n", name);
 #endif	
-      xmlNewTextChild (child, NULL, (xmlChar *) "command",
+      xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		       (xmlChar *) name);  
       if(scheme) 	
 	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
@@ -424,15 +444,19 @@ static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
 
-
+/* not used */
 static gint create_dir_for_menu(gchar *str) {
-  gchar *dotdenemo = (gchar*)locatedotdenemo ();
-  gchar *thismenu = g_build_filename (dotdenemo, "menus", str , NULL);
+  gchar *thismenu = g_build_filename (locatedotdenemo(), "actions", "menus", str , NULL);
     if(!g_file_test(thismenu, G_FILE_TEST_IS_DIR)) {
       return g_mkdir_with_parents(thismenu, 0770);
     }
   return 0;
 }
+
+
+/* parse an entry in denemoui.xml recursively
+   set menupath as attribute of widgets
+ */
 static gint
 parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
   for ( rootElem = rootElem->xmlChildrenNode;rootElem; rootElem = rootElem->next)
@@ -451,7 +475,7 @@ parseMenu(xmlNodePtr rootElem, gchar *path, DenemoGUI *gui ) {
 	  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str); 
 	  if(widget) {
 	    g_object_set_data(G_OBJECT(widget), "menupath", str);
-	    create_dir_for_menu(str);//FIXME we only need do this once for a given denemoui.xml
+	    // we do this in menu_click when needed create_dir_for_menu(str);//FIXME we only need do this once for a given denemoui.xml
 	    //show_type(widget, "The type is ");
 	    //g_print("set %p %s\n",widget, str);
 	    parseMenu(rootElem, str, gui);

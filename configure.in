@@ -264,7 +264,7 @@ AC_OUTPUT(
   doc/Makefile
   doc/transformations/Makefile
   doc/images/Makefile
-  keymaps/Makefile
+  actions/Makefile
   po/Makefile.in
   fonts/Makefile
   examples/Makefile
