@@ -106,7 +106,7 @@ void convert_ly(gchar *lilyfile){
     {
       warningdialog("Could not execute lilypond's convert-ly program - check lilypond installation or just ignore");
       g_warning ("%s", err->message);
-      g_error_free (err);
+      if(err) g_error_free (err);
       err = NULL;
     }
 #endif
@@ -150,7 +150,7 @@ process_lilypond_errors(gchar *lilyfile, DenemoGUI *gui, gchar *errors, gchar *o
 	infodialog(errors);
       warningdialog("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation");
       g_warning ("%s", err->message);
-      g_error_free (err);
+      if(err) g_error_free (err);
       err = NULL;
     }
 
@@ -210,7 +210,7 @@ open_viewer(gchar *filename, DenemoGUI *gui){
       warningdialog("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
       g_warning ("%s", err->message);
       err = NULL;
-      g_error_free (err);
+      if(err) g_error_free (err);
     }
 
   g_free(printfile);
@@ -507,7 +507,7 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   if (0)//(err != NULL)
     {
       g_warning ("%s", err->message);
-      g_error_free (err);
+      if(err) g_error_free (err);
       remove (mudelafile);
 
       g_free (tmpfile);
