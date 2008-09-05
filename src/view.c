@@ -136,14 +136,14 @@ SCM scheme_denemoy(SCM val) {
 #endif
 
 static install_scm_function(gchar *name, gpointer callback) {
-scm_c_define_gsubr (name, 0, 1, 0, callback);
+  scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
 
 }
 static install_scm_function_with_param(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
-
+#if 0
 static void scheme_requests_action (SCM paction, SCM optional)
 {
   GtkAction *action = scm_num2int(paction, 0, 0);
@@ -155,6 +155,119 @@ static void scheme_requests_action (SCM paction, SCM optional)
   }
   gtk_action_activate(action);
 }
+#endif
+
+SCM scheme_get_note_name (SCM optional) {
+    int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+  }
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return SCM_EOL;
+ else {
+   SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
+   return scm;
+ }
+   
+}
+
+gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
+  g_print("Mid c offset of %d\n", *x-'c');
+  gchar *c;
+  gint octave = -2;/* middle c is c'' */
+  gint accs = 0;
+
+  for(c = x+1;*c;c++){
+    if(*c=='i'&& *(c+1)=='s') {
+      accs++;
+      c++; ;
+    } else if(*c=='e'&& *(c+1)=='s') {
+      accs--;
+      c++;
+    } else {
+      *c==','?octave--:octave++;
+    }
+  }
+  *mid_c_offset = *x-'c' + 7*octave;
+  *enshift = accs;
+}
+
+SCM scheme_put_note_name (SCM optional) {
+
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return SCM_BOOL(FALSE);
+ else {
+    int length;
+   char *str=NULL;
+   if(SCM_STRINGP(optional)){
+     str = gh_scm2newstr(optional, &length);
+     gint mid_c_offset;
+     gint enshift;
+     name2mid_c_offset(str, &mid_c_offset, &enshift);
+     g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+     modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
+     //thenote->mid_c_offset = name2mid_c_offset(str);
+     displayhelper(Denemo.gui);
+   return SCM_BOOL(TRUE);
+  }
+ }
+ return SCM_BOOL(FALSE);  
+}
+
+/* shifts the note at the cursor by the number of diatonic steps passed in */
+SCM diatonic_shift (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return SCM_BOOL(FALSE);
+ else {
+    int length;
+   char *str=NULL;
+   if(SCM_STRINGP(optional)){
+     str = gh_scm2newstr(optional, &length);
+     gint shift;
+     sscanf(str, "%d", &shift);
+     
+     g_print("note shift %s ie %d\n", str, shift);
+     modify_note(thechord, thenote->mid_c_offset+shift, gui->si->curmeasureaccs[offsettonumber(thenote->mid_c_offset+shift)],  find_prevailing_clef(Denemo.gui->si));
+     //thenote->mid_c_offset = name2mid_c_offset(str);
+     displayhelper(Denemo.gui);
+   }
+ }
+ return SCM_BOOL(FALSE);  
+}
+
+
+/* goes to next note */
+SCM next_note (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(!Denemo.gui || !(Denemo.gui->si))
+    return SCM_BOOL(FALSE);
+  GList *this = Denemo.gui->si->currentobject;
+  cursorright (Denemo.gui);
+  if(this!= Denemo.gui->si->currentobject)
+    return SCM_BOOL(TRUE);
+  if(Denemo.gui->si->cursor_appending)
+    cursorright (Denemo.gui);
+  if(this!= Denemo.gui->si->currentobject)
+    return SCM_BOOL(TRUE);
+  return SCM_BOOL(FALSE);  
+}
+
 
 
 
@@ -173,12 +286,36 @@ int inner_main(int argc, char **argv){
   }
 
 
-  /* create scheme identifiers for all the menuitem callbacks that are not check/radio items */
+  /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
+   The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
+  not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
+  Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
+  */
 #include "scheme.h"
   /* install the basic scheme function for calling Denemo actions */
-  install_scm_function_with_param ("denemo", scheme_requests_action);
+  // install_scm_function_with_param ("denemo", scheme_requests_action);
 
 
+
+
+ /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
+
+  install_scm_function ("d-getNoteName",  scheme_get_note_name);
+  install_scm_function ("d-putNoteName",  scheme_put_note_name);
+  install_scm_function ("d-DiatonicShift", diatonic_shift);
+  install_scm_function ("d-NextNote", next_note);
+  // test with  (d-putNoteName "e,,") (d-CursorRight) 
+  // test with (d-DiatonicShift "3")  (d-CursorRight) 
+  // test with (d-DiatonicShift "3")  (d-NextNote)
+  /* test with 
+(define this-proc (lambda () 
+         (if (d-NextNote) 
+	      (begin (d-DiatonicShift "2") (this-proc)))))
+
+  (d-DiatonicShift "2")
+  (this-proc)
+
+*/
 #ifdef TRIAL_SCHEME
   scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
 #endif
@@ -280,7 +417,11 @@ int call_out_to_guile(char *script) {
   // char * SCM_STRING_CHARS (SCM x)
   // SCM val = scm_take_locale_string(script); this will free script
   // SCM val = scm_from_locale_string(script);
-  (void)scm_c_eval_string(script);
+  SCM val = scm_c_eval_string(script);
+  if(SCM_BOOLP(val)){
+    g_print("Got %d boolean back\n", !SCM_FALSEP(val));
+  } else
+    g_print("Bad return\n");
 }
 
 /****************
