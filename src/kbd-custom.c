@@ -1207,10 +1207,13 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 #else
   gtk_widget_get_action(GTK_MENU_SHELL(menu)->active_menu_item);
 #endif
+ //If this menu item has no action we give up
+  if (!action)
+    return TRUE;
   gint idx = lookup_index_from_name(the_keymap, gtk_action_get_name(action));
-  //If this menu item has no action or the action is not registered in the
+  //If this menu item  action is not registered in the
   //keymap, we give up
-  if (!action || idx == -1)
+  if (idx == -1)
     return TRUE;
   //Add the keybinding
   add_keybinding_from_idx(the_keymap, keyval, modifiers, idx, POS_FIRST);
