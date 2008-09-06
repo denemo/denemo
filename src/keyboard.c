@@ -126,6 +126,8 @@ instantiate_menus(gchar *menupath) {
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 {
+  xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
+  GList *menupaths = NULL;
   cur = cur->xmlChildrenNode;
   gint command_number = -1;
   guint keyval = 0;
@@ -134,35 +136,33 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
   DenemoGUI *gui = Denemo.gui;
   for ( ;cur; cur = cur->next)
     {
-      //keyval variables
-      xmlChar *name, *menupath, *label, *tooltip, *scheme;
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action"))
-	{
-	  if (cur->xmlChildrenNode == NULL)
-            {
-              g_warning ("Empty children node found in keymap file\n");
-            }
-	  else
-	    {
-	      name = 
-		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action")) {
+	if (cur->xmlChildrenNode == NULL)
+	  {
+	    g_warning ("Empty children node found in keymap file\n");
+	  }
+	else
+	  {
+	    name = 
+	      xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 #ifdef DEBUG
-	      g_print ("Action %s\n", (gchar *) name);
+	    g_print ("Action %s\n", (gchar *) name);
 #endif /*DEBUG*/
-	    }
-	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
+	  }
+      } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
 	scheme = 
-		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	is_script = TRUE;
       }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
 	menupath = 
-		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	menupaths = g_list_append(menupaths, menupath);
       }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "label")) {
 	label = 
-		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
       }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
 	tooltip = 
@@ -171,18 +171,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	if(is_script) {
 	  name = name?name:(xmlChar*)"NoName";
 	  label = label?label:(xmlChar*)"No label";
-	  menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
-
-	  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	  show_type (widget, "for menupath");
-	  if(widget==NULL)
-	    instantiate_menus(menupath);
-	  widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	  show_type (widget, "after installing for menupath");
 	  scheme = scheme?scheme:(xmlChar*)";;empty script\n";
 	  tooltip = tooltip?tooltip:(xmlChar*)"No indication what this done beyond the name and label :(";
-
-
+	  
+	  
 	  //FIXME duplicate code with view.c *************
 	  GtkAction *action = gtk_action_new(name,label,tooltip,NULL);
 	  GtkActionGroup *action_group;
@@ -193,19 +185,28 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
+
+	  GList *g;
+	  for(g=menupaths;g;g=g->next){
+	  menupath = g->data;
+	  menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+	  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+	  if(widget==NULL)
+	    instantiate_menus(menupath);
 	  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 				menupath,
 				name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	  }
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.prefs.the_keymap, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
 	  
 	}// is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
-      }
+      }// tooltip found, assumed last field
     } // for all nodes
- alphabeticalize_commands(Denemo.prefs.the_keymap);
-}
+  //alphabeticalize_commands(Denemo.prefs.the_keymap);
+}/* end of parseScripts */
 
 
 static void
@@ -306,7 +307,7 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
       cur = cur->next;
     }
 
-
+alphabeticalize_commands(Denemo.prefs.the_keymap);
 }
 
 /* returns 0 on success
