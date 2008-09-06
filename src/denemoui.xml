@@ -110,7 +110,7 @@
   
 
 <menubar name="ObjectMenu">
-     <menu action="NoteProperties"> <!-- modeless note object menu -->
+     <menu action="ModelessNote"> <!-- modeless note object menu -->
 
          <menu action="InsertNote">
 <menuitem action="InsertA"/>
@@ -509,7 +509,7 @@
 
  <menubar name="ActionMenu">
     <menu action="Change">
-         <menu action="NoteProperties">
+         <menu action="ModelessNote">
 	   <menu action="ChangeNote">
 	     <menuitem action="ChangeToA"/>
 	     <menuitem action="ChangeToB"/>
@@ -545,7 +545,7 @@
      </menu>
     
      <menu action="Insert">
-          <menu action="NoteProperties">
+          <menu action="ModelessNote">
 	    <menu action="InsertNote">
 	      <menuitem action="InsertA"/>
 	      <menuitem action="InsertB"/>
