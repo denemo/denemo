@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <commands>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Finger1</action>
+        <scheme>(d-InsertLilyPostfix "-4")
+</scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 4</label>
+        <tooltip>Inserts fingering for finger 4</tooltip>
+      </row>
+    </map>
+  </commands>
+</Denemo>
