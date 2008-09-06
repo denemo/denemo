@@ -194,7 +194,7 @@
       </row>
       <row>
         <action>ChangeToF</action>
-        <bind>z</bind>
+        <bind>Alt+f</bind>
       </row>
       <row>
         <action>ChangeToG</action>
