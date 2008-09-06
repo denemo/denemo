@@ -124,7 +124,7 @@ instantiate_menus(gchar *menupath) {
   //show_type (widget, "for menupath widget is ");
 }
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback)
 {
   xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
   GList *menupaths = NULL;
@@ -186,17 +186,30 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
 
-	  GList *g;
-	  for(g=menupaths;g;g=g->next){
-	  menupath = g->data;
-	  menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
-	  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	  if(widget==NULL)
-	    instantiate_menus(menupath);
-	  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				menupath,
-				name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	  if(menupath) {
+	    GList *g;
+	    for(g=menupaths;g;g=g->next){
+	      menupath = g->data;
+	      menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+	      if(widget==NULL)
+		instantiate_menus(menupath);
+	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+				    menupath,
+				    name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	    }
+
+	  } else if(fallback) {/* no path given, use fallback */
+	    menupath = fallback;
+	    GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+	    if(widget==NULL)
+	      instantiate_menus(menupath);
+	    gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+				  menupath,
+				  name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	    
 	  }
+
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.prefs.the_keymap, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
@@ -279,7 +292,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath)
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
@@ -288,13 +301,13 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
     {
       if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
 	{
-	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap);
+	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath);
 	}
     }
 }
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath)
 {
   cur = cur->xmlChildrenNode;
 
@@ -302,12 +315,26 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map"))
 	{
-	  parseCommands (doc, cur, the_keymap);
+	  parseCommands (doc, cur, the_keymap, menupath);
 	}
       cur = cur->next;
     }
 
 alphabeticalize_commands(Denemo.prefs.the_keymap);
+}
+
+/* if filename ends in /menus/.... hierarchy extract and return the tail
+   below menus/
+*/
+gchar *extract_menupath(gchar *filename) {
+  GString *str = g_string_new("");
+  gchar *base = g_strrstr(filename, "/menus");
+  if(base) {
+    base += strlen("/menus");
+    base = g_path_get_dirname(base);
+    g_print("got base as %s\n", base);
+  }
+  return base;
 }
 
 /* returns 0 on success
@@ -323,7 +350,7 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
   if(filename==NULL)
     return ret;
   doc = xmlParseFile (filename);
-
+  gchar *menupath = extract_menupath(filename);
   if (doc == NULL)
     {
       g_warning ("Could not read XML file %s", filename);
@@ -355,7 +382,7 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 	  )
 	{
 
-	  parseKeymap (doc, rootElem, the_keymap);
+	  parseKeymap (doc, rootElem, the_keymap, menupath);
 	}
       rootElem = rootElem->next;
     }

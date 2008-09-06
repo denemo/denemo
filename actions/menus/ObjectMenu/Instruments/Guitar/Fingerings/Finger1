@@ -8,7 +8,7 @@
         <action>Finger1</action>
         <scheme>(d-InsertLilyPostfix "-1")
 </scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+
         <label>Finger 1</label>
         <tooltip>Inserts fingering for finger 1</tooltip>
       </row>

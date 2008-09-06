@@ -5,10 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Finger1</action>
+        <action>Finger2</action>
         <scheme>(d-InsertLilyPostfix "-2")
 </scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+
         <label>Finger 2</label>
         <tooltip>Inserts fingering for finger 2</tooltip>
       </row>
