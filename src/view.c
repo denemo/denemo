@@ -2389,7 +2389,7 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
  Denemo.InsertModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/InsertModeNote");
  Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/EditModeNote");
  Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/ClassicModeNote");
- Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NoteProperties");
+ Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/ModelessNote");
  gtk_widget_show (Denemo.InsertModeMenu);
  gtk_widget_hide (Denemo.EditModeMenu);
  gtk_widget_hide (Denemo.ClassicModeMenu);
