@@ -333,7 +333,7 @@
 {"InsertMovement", NULL, N_("InsertMovement"), NULL,N_("Insert a Movement relative to current movement")},
 {"InsertDuration", NULL, N_("InsertDuration"), NULL,N_("Inserting notes of a given duration")},
 {"Change", NULL, N_("Change"), NULL,N_("Changing properties of notes, measures, staffs, keysigs etc")},
-{"NoteProperties", NULL, N_("NoteProperties"), NULL,N_("Modeless actions on notes/rests")},
+{"ModelessNote", NULL, N_("ModelessNote"), NULL,N_("Modeless actions on notes/rests")},
 {"RestEntry", NULL, N_("RestEntry"), NULL,N_("Modeless entry of rests")},
 {"ChangeNote", NULL, N_("ChangeNote"), NULL,N_("Changing the note at the cursor to the nearest ...")},
 {"ChangeDuration", NULL, N_("ChangeDuration"), NULL,N_("Changes the duration of the current note")},

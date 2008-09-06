@@ -431,7 +431,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Insert a Movement relative to current movement", N_("InsertMovement"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Inserting notes of a given duration", N_("InsertDuration"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changing properties of notes, measures, staffs, keysigs etc", N_("Change"), NULL}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("NoteProperties"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("ModelessNote"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Modeless entry of rests", N_("RestEntry"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL}, 
