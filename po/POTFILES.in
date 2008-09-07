@@ -44,7 +44,9 @@ src/playback.c
 src/playbackprops.c
 src/plugin.c
 src/prefdialog.c
+src/print.c
 src/prefops.c
+src/scoreops.c
 src/scoreprops.c
 src/scorewizard.c
 #src/staffheightdialog.c
@@ -52,6 +54,7 @@ src/staffops.c
 src/staffpropdialog.c
 src/timedialog.c
 src/tomeasuredialog.c
+src/transpose.c
 src/tupletops.c
 src/view.c
 src/entries.h
