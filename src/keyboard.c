@@ -124,7 +124,7 @@ instantiate_menus(gchar *menupath) {
   //show_type (widget, "for menupath widget is ");
 }
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
 {
   xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
   GList *menupaths = NULL;
@@ -153,6 +153,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
       } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
 	scheme = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	if(merge && scheme) {
+	  GtkTextIter enditer;
+	  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
+	  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+	  gchar *text = g_strdup_printf(";;;Scheme code for command %s\n%s",name,scheme);
+	  gtk_text_buffer_insert(buffer, &enditer, text, -1);
+	  g_free(text); 
+	}  
 	is_script = TRUE;
       }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
@@ -292,7 +300,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
@@ -301,13 +309,13 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
     {
       if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
 	{
-	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath);
+	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath, merge);
 	}
     }
 }
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
 {
   cur = cur->xmlChildrenNode;
 
@@ -315,7 +323,7 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map"))
 	{
-	  parseCommands (doc, cur, the_keymap, menupath);
+	  parseCommands (doc, cur, the_keymap, menupath, merge);
 	}
       cur = cur->next;
     }
@@ -392,7 +400,7 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 	    init_keymap(); 
 	    // g_print("Starting with a clean command set %p\n", Denemo.commands);
 	  }
-	  parseKeymap (doc, rootElem, Denemo.commands, menupath);
+	  parseKeymap (doc, rootElem, Denemo.commands, menupath, merge);
 
 	  //if(!merge)
 	  //  alphabeticalize_commands(Denemo.commands);
