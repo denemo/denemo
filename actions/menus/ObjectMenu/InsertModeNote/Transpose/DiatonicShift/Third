@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Denemo>
-  <commands>
+  <merge>
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
@@ -21,5 +21,5 @@
         <tooltip>Shifts all the notes from the current note up by two diatonic steps.</tooltip>
       </row>
     </map>
-  </commands>
+  </merge>
 </Denemo>

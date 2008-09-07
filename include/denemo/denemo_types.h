@@ -258,9 +258,6 @@ typedef struct DenemoKeymap
                                   //a keypress to the index of its command
 								  //The keystring is the output of
 								  //dnm_accelerator_name()
-  
-  //additional information to be able to retrieve actions from command names
-  gchar *action_group_name;
 }keymap;
 
 #define MAX_HISTORY 10
@@ -293,8 +290,7 @@ typedef struct DenemoPrefs
   GString *texteditor; /**< texteditor for editing scripts and lilypond files */
   GString *denemopath; /**< path were denemo files are saved */
   GQueue *history; /**< Queue to contain recently opened files */
-  keymap *the_keymap; /**< pointer to keymap data */
-  keymap *standard_keymap; /* keymap to switch back to after using a special keymap */
+
   GString *lilyversion; /**< Lilypoind Version */
 }DenemoPrefs;
 
@@ -627,6 +623,7 @@ struct DenemoRoot
   gint width;
   gint height;
   gboolean maximized;
+  keymap *commands; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
 		  simultaneously open */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
@@ -634,6 +631,7 @@ struct DenemoRoot
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */
   GtkWidget *window;
+  GtkActionGroup *action_group;/*< The action group for the actions that are Denemo commands */
   DenemoGUI *gui; /**< The current gui */
   GtkWidget *notebook;/**< contains the gui.page widgets */
   GtkWidget *statusbar;

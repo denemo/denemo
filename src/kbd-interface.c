@@ -202,7 +202,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   //command selection the the change of the model displayed by the binding view
   binding_view = keymap_get_binding_view();
   binding_tree_view = gtk_bin_get_child(GTK_BIN(binding_view));
-  command_view = GTK_WIDGET(keymap_get_command_view(Denemo.prefs.the_keymap));
+  command_view = GTK_WIDGET(keymap_get_command_view(Denemo.commands));
   command_tree_view = gtk_bin_get_child(GTK_BIN(command_view));
   
   dialog = gtk_dialog_new_with_buttons (_("Command Manager"),
@@ -303,7 +303,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.command_view = GTK_TREE_VIEW(command_tree_view);
   cbdata.binding_view = GTK_TREE_VIEW(binding_tree_view);
   cbdata.text_view = GTK_TEXT_VIEW(text_view);
-  cbdata.the_keymap = Denemo.prefs.the_keymap;
+  cbdata.the_keymap = Denemo.commands;
   cbdata.command_idx = -1;
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(command_tree_view));
@@ -422,7 +422,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.command = GTK_COMBO_BOX (command);
   cbdata.category = GTK_COMBO_BOX (category);
   cbdata.treeview = GTK_TREE_VIEW (treeview);
-  cbdata.thekeymap = Denemo.prefs.the_keymap;
+  cbdata.thekeymap = Denemo.commands;
   cbdata.dialog = GTK_DIALOG (dialog);
 
   g_signal_connect (category, "changed", G_CALLBACK (category_changed),

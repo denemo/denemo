@@ -462,36 +462,6 @@ dnm_accelerator_name (guint           accelerator_key,
   return accelerator;
 }
 
-/**
- * Warns user about old keymap file
- *
- */
-static void
-old_keymap_dialog ()
-{
-  GtkWidget *dialog;
-  dialog = gtk_message_dialog_new (NULL,
-				   (GtkDialogFlags)
-				   (GTK_DIALOG_MODAL |
-				    GTK_DIALOG_DESTROY_WITH_PARENT),
-				   GTK_MESSAGE_WARNING,
-				   GTK_BUTTONS_CLOSE,
-				   _("Old keymap file found"));
-
-
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
-					    _
-					    ("From version 0.7.5, Denemo uses an xml file to store its key bindings. "
-					     "I have found an old-style file, and am using that for now.\n\n"
-					     "If you won't want to use an old version of Denemo in future, "
-					     "please go to \"Edit,Set Keybindings\" and click \"OK and Save As Default\" "
-					     "in order to avoid seeing this message again.\n\n"
-					     "Thanks."));
-
-  gtk_widget_show_all (dialog);
-  gtk_dialog_run (GTK_DIALOG (dialog));
-  gtk_widget_destroy (dialog);
-}
 
 /**
  * Warns user that there was no keymap available to load  
@@ -513,13 +483,13 @@ no_map_dialog ()
 
   gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
 					    _
-					    ("No keymap file was found in either"
+					    ("No commands file was found in either"
 					     " the systemwide Denemo directory"
 					     " or in .denemo directory within your "
-					     "home directory. Please go to"
-					     " Edit/Set Keybindings to construct a custom "
+					     "home directory. This is an intallation error. You can use"
+					     " Edit/Command Management to construct a custom "
 					     "interface or to load one from"
-					     " an alternate keymap file."));
+					     " a commandset file."));
 
   gtk_widget_show_all (dialog);
   gtk_dialog_run (GTK_DIALOG (dialog));
@@ -531,11 +501,11 @@ no_map_dialog ()
  * action_group_name is the name of the group of actions for the commands
  * of the keymap.
  */
-keymap *allocate_keymap(const gchar *action_group_name)
+keymap *allocate_keymap(void)
 {
 
   keymap *the_keymap = (keymap *) g_malloc (sizeof (keymap));
-  the_keymap->action_group_name = g_strdup(action_group_name);
+
   //empty list store of commands
   //3 columns :
   //- type of action, a KeymapCommandType
@@ -573,7 +543,6 @@ free_keymap(keymap *the_keymap)
     g_object_unref(the_keymap->commands);
     g_hash_table_destroy(the_keymap->idx_from_name);
     g_hash_table_destroy(the_keymap->idx_from_keystring);
-    g_free(the_keymap->action_group_name); 
 }
 
 void
@@ -653,7 +622,8 @@ command_iter_sort(GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b,
 void
 alphabeticalize_commands(keymap *the_keymap)
 {
-  return;
+  // return;
+  g_print("alphabeticalizing the commands");
   gint i, n;
   guint *value;
   const gchar *command_name;
@@ -815,7 +785,7 @@ lookup_keybinding_from_string (keymap * the_keymap,
  * FIXME: This is inefficent. The keybinding structures needs a rework to be more usefull and robust.
  *
  * deprecated and not reimplemented, developper should use
- * keymap_foreach_command_bindings
+ * keymap_foreach_command_binding
  * 
  * @param keymap
  * @param name
@@ -957,15 +927,7 @@ findActionGroupByName(gconstpointer a, gconstpointer b)
     return strcmp(gtk_action_group_get_name(action_group), b);
 }
 
-static GtkActionGroup *
-get_action_group(keymap *the_keymap)
-{
-  GList *keymap_action_group, *action_group_list;
-  action_group_list = gtk_ui_manager_get_action_groups(Denemo.ui_manager);
-  keymap_action_group = g_list_find_custom(action_group_list,
-          the_keymap->action_group_name, findActionGroupByName);
-  return GTK_ACTION_GROUP(keymap_action_group->data);
-}
+
 
 /* Updates the label of the widgets proxying an action with the bindings
  * present in the keymap.
@@ -976,7 +938,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   GtkAction *action;
   GtkActionGroup *action_group;
   GList *guis;
-  DenemoGUI *gui;
+
   //Getting the accel
   const gchar *command_name = lookup_name_from_idx(the_keymap, command_idx);
   GString *str=g_string_new("");
@@ -995,9 +957,8 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
 
   gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
 
-  gui = Denemo.gui;
-      action_group = get_action_group(the_keymap);
-      action = gtk_action_group_get_action(action_group, command_name);
+
+      action = gtk_action_group_get_action(Denemo.action_group, command_name);
       //For all widgets proxying the action, change the label
       GSList *h = gtk_action_get_proxies (action);
       for(;h;h=h->next) {
@@ -1017,6 +978,11 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   g_string_free(str, TRUE);
 }
 
+void update_all_labels(keymap *the_keymap) {
+  gint command_idx, num = keymap_size(the_keymap);
+  for(command_idx=0;command_idx<num;command_idx++)
+    update_accel_labels(the_keymap, command_idx);
+}
 static void
 remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
         const gchar *binding)
@@ -1176,7 +1142,7 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
   guint keyval;
   GdkModifierType modifiers;
   GtkAction *action;
-  keymap *the_keymap = (keymap *) func_data;
+  keymap *the_keymap = Denemo.commands;
   GtkMenu *menu = GTK_MENU(grab_widget);
   GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
   GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
@@ -1236,8 +1202,8 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
 
 
 GtkAction *action_of_name(keymap *the_keymap, gchar *command_name) { 
-  GtkActionGroup *action_group = get_action_group(the_keymap);
-  return gtk_action_group_get_action(action_group, command_name);
+  // GtkActionGroup *action_group = get_action_group(the_keymap);
+  return gtk_action_group_get_action(Denemo.action_group, command_name);
 }
 
 gboolean
@@ -1544,7 +1510,7 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
 {
-  keymap * the_keymap = Denemo.prefs.the_keymap;  
+  keymap * the_keymap = Denemo.commands;  
   save_default_keymap_file (NULL, the_keymap);
 }
 

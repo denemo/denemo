@@ -211,14 +211,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  }
 
 	  //g_print("registering %s\n", name);
-	  register_command(Denemo.prefs.the_keymap, action, name, label, tooltip, activate_script);
+	  register_command(Denemo.commands, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
 	  
 	}// is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
       }// tooltip found, assumed last field
     } // for all nodes
-  //alphabeticalize_commands(Denemo.prefs.the_keymap);
+  //alphabeticalize_commands(Denemo.commands);
 }/* end of parseScripts */
 
 
@@ -320,7 +320,6 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath
       cur = cur->next;
     }
 
-alphabeticalize_commands(Denemo.prefs.the_keymap);
 }
 
 /* if filename ends in /menus/.... hierarchy extract and return the tail
@@ -332,10 +331,12 @@ gchar *extract_menupath(gchar *filename) {
   if(base) {
     base += strlen("/menus");
     base = g_path_get_dirname(base);
-    g_print("got base as %s\n", base);
+    //g_print("got base as %s\n", base);
   }
   return base;
 }
+
+
 
 /* returns 0 on success
  * negative on failure
@@ -344,6 +345,7 @@ gint
 load_xml_keymap (gchar * filename, keymap * the_keymap)
 {
   gint ret = -1;
+  gboolean merge = FALSE;//Whether to replace the keymap or merge with it
   xmlDocPtr doc;
   //xmlNsPtr ns;
   xmlNodePtr rootElem;
@@ -372,21 +374,34 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
       return ret;
     }
   rootElem = rootElem->xmlChildrenNode;
+
+
   while (rootElem != NULL)
     {
 #ifdef DEBUG
       g_print ("RootElem %s\n", rootElem->name);
 #endif
+
       if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands")) ||
-	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */
+	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */ ||
+	   (merge = (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge")))
 	  )
 	{
+	  if(!merge) {
+	    //g_print("Losing command set %p\n", Denemo.commands);
+	    init_keymap(); 
+	    // g_print("Starting with a clean command set %p\n", Denemo.commands);
+	  }
+	  parseKeymap (doc, rootElem, Denemo.commands, menupath);
 
-	  parseKeymap (doc, rootElem, the_keymap, menupath);
+	  //if(!merge)
+	  //  alphabeticalize_commands(Denemo.commands);
+	  update_all_labels(Denemo.commands);
+	  ret = 0;
 	}
       rootElem = rootElem->next;
     }
-  ret = 0;
+
   xmlFreeDoc (doc);
   return ret;
 }

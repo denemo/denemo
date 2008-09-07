@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Denemo>
-  <commands>
+  <merge>
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
@@ -13,5 +13,5 @@
         <tooltip>Inserts fingering for finger 4</tooltip>
       </row>
     </map>
-  </commands>
+  </merge>
 </Denemo>

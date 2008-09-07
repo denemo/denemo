@@ -60,7 +60,7 @@ configure_keyboard (gpointer callback_data, guint callback_action,
 		    GtkWidget *widget);
 
 keymap *
-allocate_keymap (const gchar *action_group_name);
+allocate_keymap (void);
 
 void
 free_keymap(keymap *the_keymap);

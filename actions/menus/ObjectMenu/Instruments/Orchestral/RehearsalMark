@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Denemo>
-  <commands>
+  <merge>
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
@@ -8,10 +8,10 @@
         <action>RehearsalMark</action>
         <scheme>(d-InsertLilyDirective " \\mark \\default")
 </scheme>
-        <menupath>/ObjectMenu/Instruments/Orchestral</menupath>
+
         <label>Insert Rehearsal Mark</label>
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>
     </map>
-  </commands>
+  </merge>
 </Denemo>

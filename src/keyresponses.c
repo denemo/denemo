@@ -20,7 +20,7 @@ int
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  keymap *the_keymap = Denemo.prefs.the_keymap;
+  keymap *the_keymap = Denemo.commands;
 #if 0
   if (gui->textview && GTK_WIDGET_IS_SENSITIVE (gui->textview))
     {

@@ -1327,7 +1327,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
     g_file_set_contents(filename, text, -1, NULL);
-    load_xml_keymap(filename, Denemo.prefs.the_keymap);
+    load_xml_keymap(filename, Denemo.commands);
   } else
     warningdialog("Operation cancelled");
   return;
@@ -1360,7 +1360,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
   GtkAction *action = info->action;
   //DenemoGUI *gui = info->gui;
-  keymap *the_keymap = Denemo.prefs.standard_keymap;
+  keymap *the_keymap = Denemo.commands;
   const gchar *func_name = gtk_action_get_name(action);
   //g_print("widget name %s action name %s\n", gtk_widget_get_name(widget), func_name);
 
@@ -1766,8 +1766,7 @@ toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
  // g_print("Callback for %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget)));
   if (GTK_WIDGET_VISIBLE (widget))
     {
-      if(Denemo.prefs.standard_keymap)
-	Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap;
+      
       gtk_widget_hide (widget);
     }
   else
@@ -2049,26 +2048,16 @@ gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 }
 
 /* 
- * create and populate the action group containing actions handled by the keymap
- * allocate the keymap
+ * create and populate the keymap - a register of all the Denemo commands with their shortcuts
  */
-static void init_keymap(GtkActionGroup *action_group)
+void init_keymap(void)
 {
-  //TODO we initialize the keymap before the first windowin shown because it has
-  //to be once and for all. Does it break something in regards of the next
-  //comment?
-  /* Similarly, the keymap should be initialized after the
-     only once si->window is shown, as it may pop up an advisory
-     dialog. */
-  Denemo.prefs.standard_keymap = allocate_keymap ("MenuActions");//FIXME pass the action group directly.
-  Denemo.prefs.the_keymap = Denemo.prefs.standard_keymap;
-
+  if(Denemo.commands)
+    free_keymap(Denemo.commands);
+  Denemo.commands = allocate_keymap ();
+  GtkActionGroup *action_group = Denemo.action_group;
 #include "register_commands.h"
-
-  alphabeticalize_commands(Denemo.prefs.the_keymap);
-  load_default_keymap_file(Denemo.prefs.the_keymap);
-  gtk_key_snooper_install(dnm_key_snooper, Denemo.prefs.the_keymap);
-}
+} 
 
 
 static void
@@ -2147,12 +2136,12 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
   int command_idx;
 
   attach_set_accel_callback(proxy, action, Denemo.gui);
-  if(Denemo.prefs.the_keymap==NULL)
+  if(Denemo.commands==NULL)
      return;
-  command_idx = lookup_index_from_name(Denemo.prefs.the_keymap,
+  command_idx = lookup_index_from_name(Denemo.commands,
 				       gtk_action_get_name(action));
   if (command_idx != -1) 
-    update_accel_labels(Denemo.prefs.the_keymap, command_idx);
+    update_accel_labels(Denemo.commands, command_idx);
 #if (GTK_MINOR_VERSION <10)
        attach_action_to_widget(proxy, action, Denemo.gui);
 #endif
@@ -2163,7 +2152,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
-static GtkActionGroup*
+static GtkActionGroup* //FIXME Denemo.action_group
 create_window(void) {
   DenemoPrefs *prefs;
   GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
@@ -2210,7 +2199,7 @@ create_window(void) {
   gtk_container_add (GTK_CONTAINER (Denemo.window), main_vbox);
   gtk_widget_show (main_vbox);
 
-  action_group = gtk_action_group_new ("MenuActions");
+  Denemo.action_group = action_group = gtk_action_group_new ("MenuActions");
   gtk_action_group_set_translation_domain (action_group, NULL); 
   /* This also sets current Denemo.gui as the  callback data for all the functions in the
    * menubar, which is not needed since we have only one set of actions for all
@@ -2564,7 +2553,10 @@ Denemo.gui = gui;
  {static gboolean initialized = FALSE;
  g_print("init %d for %p\n", initialized, Denemo.gui);
  if(!initialized) {
-   init_keymap(action_group);
+   // init_keymap();
+   //alphabeticalize_commands(Denemo.commands);
+  load_default_keymap_file(Denemo.commands);
+  gtk_key_snooper_install(dnm_key_snooper, Denemo.commands);//FIXME do not pass the keymap
    initialized = TRUE;
  }
  if (Denemo.prefs.autosave) {
