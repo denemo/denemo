@@ -1305,7 +1305,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   myscheme = getSchemeText();
   gchar *text = g_strdup_printf("<?xml version=\"1.0\"?>\n\
 <Denemo>\n\
-  <commands>\n\
+  <merge>\n\
     <title>A Denemo Keymap</title>\n\
     <author>AT, JRR, RTS</author>\n\
     <map>\n\
@@ -1317,7 +1317,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
         <tooltip>%s</tooltip>\n\
       </row>\n\
     </map>\n\
-  </commands>\n\
+  </merge>\n\
 </Denemo>\n", myname, myscheme, myposition, mylabel,mytooltip);
   //FIXME G_DIR_SEPARATOR in myposition
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", myposition, myname,  NULL);
