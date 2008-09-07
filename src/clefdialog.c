@@ -115,7 +115,7 @@ clef_change (DenemoGUI * gui, actiontype action)
     {
       gtk_list_store_append (list_store, &iter);
       gtk_list_store_set (list_store, &iter,
-			  COLUMN_NAME, clef_info[i].name,
+			  COLUMN_NAME, _(clef_info[i].name),
 			  COLUMN_ID, clef_info[i].clef, -1);
 
       if (clef_info[i].clef == curstaffstruct->sclef)

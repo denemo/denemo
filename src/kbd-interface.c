@@ -120,7 +120,7 @@ kbd_interface_add_binding(GtkButton *button, gpointer user_data)
   if (!gtk_tree_selection_get_selected(selection, NULL, NULL))
       return;
   gtk_statusbar_push(cbdata->statusbar, cbdata->context_id,
-          N_("Press a shortcut sequence"));
+          _("Press a shortcut sequence"));
   cbdata->handler_key_press = g_signal_connect(GTK_WIDGET(button),
           "key-press-event", G_CALLBACK(capture_add_binding), user_data);
   cbdata->handler_focus_out = g_signal_connect(GTK_WIDGET(button),
@@ -133,7 +133,7 @@ kbd_interface_look_binding(GtkButton *button, gpointer user_data)
   GtkTreeSelection *selection;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   gtk_statusbar_push(cbdata->statusbar, cbdata->context_id,
-          N_("Press a shortcut sequence"));
+          _("Press a shortcut sequence"));
   cbdata->handler_key_press = g_signal_connect(GTK_WIDGET(button),
           "key-press-event", G_CALLBACK(capture_look_binding), user_data);
   cbdata->handler_focus_out = g_signal_connect(GTK_WIDGET(button),

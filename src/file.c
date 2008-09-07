@@ -627,7 +627,7 @@ file_open (DenemoGUI * gui, gboolean template, ImportType type)
     {
       filter = gtk_file_filter_new ();
       gtk_file_filter_set_name (filter,
-				supported_import_file_formats[i].description);
+				_(supported_import_file_formats[i].description));
       gtk_file_filter_add_pattern (filter,
 				   supported_import_file_formats[i].
 				   filename_mask);
@@ -811,7 +811,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
 	  gtk_list_store_append (list_store, &iter);
 	  gtk_list_store_set (list_store, &iter,
 			      COLUMN_NAME,
-			      supported_export_file_formats[i].description,
+			      _(supported_export_file_formats[i].description),
 			      COLUMN_ID, i, -1);
 	}
 

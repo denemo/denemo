@@ -1618,7 +1618,7 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_set_model(res, model);
   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, N_("Commands"));
+  gtk_tree_view_column_set_title(col, _("Commands"));
   gtk_tree_view_append_column(res, col);
 
   renderer = gtk_cell_renderer_text_new();
@@ -1754,7 +1754,7 @@ keymap_get_binding_view()
   res = GTK_TREE_VIEW(gtk_tree_view_new());
   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, N_("Bindings"));
+  gtk_tree_view_column_set_title(col, _("Bindings"));
   gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
   gtk_tree_view_append_column(res, col);
 

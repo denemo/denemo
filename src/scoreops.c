@@ -78,8 +78,8 @@ delete_movement(GtkAction *action, gpointer param) {
     return;
   GString *primary = g_string_new(""), *secondary = g_string_new("");
   if(gui->movements==NULL || (g_list_length(gui->movements)==1)) {
-    g_string_assign(primary, N_("This is the only movement"));
-    g_string_assign(secondary, N_("Delete it and start over?"));
+    g_string_assign(primary, _("This is the only movement"));
+    g_string_assign(secondary, _("Delete it and start over?"));
     if(confirm(primary->str, secondary->str)) {
       gchar *name = g_strdup(gui->filename->str);
       deletescore (NULL, gui);
@@ -88,8 +88,8 @@ delete_movement(GtkAction *action, gpointer param) {
     }
   } else { // more than one movement
     gint num = g_list_index(gui->movements, gui->si);
-    g_string_printf(primary,N_("This is movement #%d, entitled %s"), num+1, gui->si->headerinfo.piece->str);
-    g_string_assign(secondary,N_("Delete entire movement?"));
+    g_string_printf(primary,_("This is movement #%d, entitled %s"), num+1, gui->si->headerinfo.piece->str);
+    g_string_assign(secondary,_("Delete entire movement?"));
     if( confirm(primary->str, secondary->str)) {
       free_score(gui);
       DenemoScore *si= gui->si;
@@ -113,18 +113,18 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
   GList *this = g_list_nth(gui->movements, movementnum-1);
 
   if(this==NULL){
-    warningdialog(N_("No such movement"));
+    warningdialog(_("No such movement"));
     return FALSE;
   }
   gui->si = this->data;
   if(!set_currentstaffnum (gui, staffnum))
     {
-      warningdialog(N_("No such voice"));
+      warningdialog(_("No such voice"));
       return FALSE;
     }
   if(!set_currentmeasurenum(gui, measurenum))
   {
-    warningdialog(N_("No such measure"));
+    warningdialog(_("No such measure"));
     return FALSE;
   }
   while(--objnum>0 && gui->si->currentobject->next) {
@@ -162,7 +162,7 @@ next_movement (GtkAction *action, gpointer param)
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->next;
   if(this==NULL){
-    warningdialog(N_("This is the last movement"));
+    warningdialog(_("This is the last movement"));
     return;
   }
   gui->si = this->data;
@@ -193,7 +193,7 @@ prev_movement (GtkAction *action, gpointer param)
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->prev;
   if(this==NULL){
-    warningdialog(N_("This is the first movement"));
+    warningdialog(_("This is the first movement"));
     return;
   }
   gui->si = this->data; 
