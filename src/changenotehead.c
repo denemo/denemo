@@ -80,7 +80,11 @@ set_notehead (GtkAction *action, gpointer param)
   GtkWidget *combo;
   gint i;
   static GList *list = NULL;
-
+  if(!action) {
+    insertnotehead (gui->si, param);
+    return;
+  }
+    
 
   if (!list)
     {

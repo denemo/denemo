@@ -1297,7 +1297,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
     return;
   if(confirm("Create a new menu item", "Do you want the new menu item in a submenu?"))
     {
-      submenu=  string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
+      submenu = string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
       if(submenu)
 	myposition = g_strdup_printf("%s/%s", myposition, submenu);//FIXME leak
     }
@@ -1321,6 +1321,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
 </Denemo>\n", myname, myscheme, myposition, mylabel,mytooltip);
   //FIXME G_DIR_SEPARATOR in myposition
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", myposition, myname,  NULL);
+  g_print("The filename built is %s from %s", filename, myposition);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS))  || (g_file_test(filename, G_FILE_TEST_EXISTS) &&
 						       confirm("Duplicate Name", "A command of this name is already available in your custom menus; Overwrite?"))) {
     gchar *dirpath = g_path_get_dirname(filename);

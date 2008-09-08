@@ -187,12 +187,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  GtkAction *action = gtk_action_new(name,label,tooltip,NULL);
 	  GtkActionGroup *action_group;
 	  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-	  action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
+	  action_group = Denemo.action_group; 
 	  gtk_action_group_add_action(action_group, action);
-	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
-	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
-	  g_signal_connect (G_OBJECT (action), "activate",
-			    G_CALLBACK (activate_script), gui);
 
 	  if(menupath) {
 	    GList *g;
@@ -217,6 +213,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 				  name, name, GTK_UI_MANAGER_AUTO, FALSE);
 	    
 	  }
+	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
+	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
+	  g_signal_connect (G_OBJECT (action), "activate",
+			    G_CALLBACK (activate_script), gui);
 
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.commands, action, name, label, tooltip, activate_script);
