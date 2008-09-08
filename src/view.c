@@ -41,7 +41,10 @@ static void
 toggle_rest_mode (GtkAction * action, gpointer param);
 static void
 toggle_rhythm_mode (GtkAction * action, gpointer param);
-
+static void
+morecommands (GtkAction *action, gpointer param);
+static void
+mycommands (GtkAction *action, gpointer param);
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
 
@@ -631,6 +634,46 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
   close_gui_with_check (NULL);
   return TRUE;
 }
+
+/**
+ * callback to load system extra commands
+ * 
+ */
+static void
+morecommands (GtkAction *action, gpointer param)
+{
+  static gchar *location=NULL;
+  if(location==NULL)
+    location = g_build_filename(get_data_dir(), "actions", "menus",NULL);
+  load_keymap_dialog_location (NULL, Denemo.commands, location);
+  if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, get_data_dir())) {
+    g_free(location);
+    location = g_strdup(Denemo.last_merged_command);
+  }
+    
+}
+
+/**
+ * callback to load local extra commands
+ * 
+ */
+static void
+mycommands (GtkAction *action, gpointer param)
+{
+  static gchar *location=NULL;
+  if(location==NULL)
+    location = g_build_filename(locatedotdenemo(), "actions", "menus",NULL);
+
+  if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, locatedotdenemo())) {
+    g_free(location);
+    location = g_strdup(Denemo.last_merged_command);
+  }
+  load_keymap_dialog_location (NULL, Denemo.commands, location);
+
+  //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  locatedotdenemo());
+
+}
+
 
 
 /**

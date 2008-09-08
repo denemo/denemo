@@ -99,6 +99,10 @@
       <menuitem action="PlayCSound"/>
       <menuitem action="PlaybackProperties"/>
     </menu>
+    <menu action="MoreMenu">
+      <menuitem action="MoreCommands"/>
+      <menuitem action="MyCommands"/>
+    </menu>
     <menu action="HelpMenu">
       <menuitem action="Help"/>
       <menuitem action="About"/>

@@ -359,6 +359,10 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
   xmlNodePtr rootElem;
   if(filename==NULL)
     return ret;
+  if(g_file_test(filename, G_FILE_TEST_IS_DIR)) {
+    warningdialog("There is no support for loading whole folders of commands yet, sorry");
+    return ret;
+  }
   doc = xmlParseFile (filename);
   gchar *menupath = extract_menupath(filename);
   if (doc == NULL)
@@ -401,7 +405,12 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 	    // g_print("Starting with a clean command set %p\n", Denemo.commands);
 	  }
 	  parseKeymap (doc, rootElem, Denemo.commands, menupath, merge);
+	  if(merge) {
+	    if(Denemo.last_merged_command)
+	      g_free(Denemo.last_merged_command);
+	    Denemo.last_merged_command = g_strdup(filename);
 
+	  }
 	  //if(!merge)
 	  //  alphabeticalize_commands(Denemo.commands);
 	  update_all_labels(Denemo.commands);

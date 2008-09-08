@@ -1308,8 +1308,8 @@ load_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
 }
 
 /**
- * Function for loading a keymap from an arbitrary place by way of
- * a user dialog.  Similar to file_open. called from kbd-interface.c:configure_keyboard_dialog_OLD
+ * Function for loading a keymap from location by way of
+ * a user dialog. 
  */
 
 void

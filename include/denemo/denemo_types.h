@@ -624,6 +624,7 @@ struct DenemoRoot
   gint height;
   gboolean maximized;
   keymap *commands; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
+  gchar *last_merged_command;/**<filename of last command merged into the menu system */
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
 		  simultaneously open */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */

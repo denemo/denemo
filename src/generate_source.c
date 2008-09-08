@@ -390,10 +390,18 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback"}, 
 
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play using CSound...", N_("PlayCSound"), "csoundplayback"}, 
-  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi and csound", N_("PlaybackProperties"), "playback_properties_change"}, 
+  {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Allows you to specify properties used in playing back (midi and csound", N_("PlaybackProperties"), "playback_properties_change", "Playback Properties"}, 
 
   {KBD_CATEGORY_DIRECT, NULL, "Opens a browser on the user manual", N_("Help"), "browse_manual"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Gives the version number etc of this program", N_("About"), "about"}, 
+
+
+  {KBD_CATEGORY_DIRECT, NULL, "Allows choosing extra commands/menu items from disk", N_("MoreMenu"), NULL, "More"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Allows choosing standard extra commands/menu items", N_("MoreCommands"), "morecommands", "More Commands"}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Allows choosing extra commands/menu items from your own collection of extras", N_("MyCommands"), "mycommands", "My Commands"}, 
+
+
+
   {KBD_CATEGORY_DIRECT, NULL, "Bookmark the current cursor position", N_("AddBookmark"), "addbookmark", "Add Bookmark"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Go to a bookmarked point in the score", N_("GotoBookmark"), "gotobookmark"}, 
   {KBD_CATEGORY_DIRECT, NULL, "Go to the next bookmarked point in the list", N_("NextBookmark"), "nextbookmark"}, 
@@ -409,7 +417,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor and inserting notes or rests there", N_("ClassicModeNote"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Moving the cursor to the nearest ...", N_("SelectNote"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Actions for notes: inserting, deleting, etc.", N_("InsertModeNote"), NULL}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL}, 
+  {KBD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Notes/Rests" }, 
   {KBD_CATEGORY_DIRECT, NULL, "Anything not previously covered", N_("AllOther"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL}, 
   {KBD_CATEGORY_DIRECT, NULL, "Entering notes", N_("NoteEntry"), NULL}, 

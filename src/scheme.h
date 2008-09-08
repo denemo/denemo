@@ -1966,6 +1966,20 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "About")), "scm", (gp
 text = g_strdup_printf("(define dnm_About %d)\n", (int)action_of_name(Denemo.commands, "About"));
 (void)scm_c_eval_string(text);
 g_free(text);
+/*MoreCommands morecommands*/
+SCM scheme_MoreCommands(SCM optional);
+install_scm_function ("d-MoreCommands", scheme_MoreCommands);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "MoreCommands")), "scm", (gpointer)1);
+text = g_strdup_printf("(define dnm_MoreCommands %d)\n", (int)action_of_name(Denemo.commands, "MoreCommands"));
+(void)scm_c_eval_string(text);
+g_free(text);
+/*MyCommands mycommands*/
+SCM scheme_MyCommands(SCM optional);
+install_scm_function ("d-MyCommands", scheme_MyCommands);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "MyCommands")), "scm", (gpointer)1);
+text = g_strdup_printf("(define dnm_MyCommands %d)\n", (int)action_of_name(Denemo.commands, "MyCommands"));
+(void)scm_c_eval_string(text);
+g_free(text);
 /*AddBookmark addbookmark*/
 SCM scheme_AddBookmark(SCM optional);
 install_scm_function ("d-AddBookmark", scheme_AddBookmark);

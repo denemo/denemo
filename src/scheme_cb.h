@@ -3089,6 +3089,28 @@ gstr = g_string_new_len(str, length);
 about (NULL, gstr);
 if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
+SCM scheme_MoreCommands (SCM optional) {
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+  }
+morecommands (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
+}
+SCM scheme_MyCommands (SCM optional) {
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+  }
+mycommands (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
+}
 SCM scheme_AddBookmark (SCM optional) {
 GString *gstr=NULL;
 int length;
