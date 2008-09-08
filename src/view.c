@@ -644,7 +644,7 @@ morecommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
   if(location==NULL)
-    location = g_build_filename(get_data_dir(), "actions", "menus",NULL);
+    location = g_build_filename(get_data_dir(), "actions", "menus", " ", NULL);
   load_keymap_dialog_location (NULL, Denemo.commands, location);
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, get_data_dir())) {
     g_free(location);
@@ -662,7 +662,7 @@ mycommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
   if(location==NULL)
-    location = g_build_filename(locatedotdenemo(), "actions", "menus",NULL);
+    location = g_build_filename(locatedotdenemo(), "actions", "menus", " ", NULL);
 
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, locatedotdenemo())) {
     g_free(location);
@@ -671,7 +671,6 @@ mycommands (GtkAction *action, gpointer param)
   load_keymap_dialog_location (NULL, Denemo.commands, location);
 
   //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  locatedotdenemo());
-
 }
 
 
