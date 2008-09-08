@@ -81,7 +81,7 @@ set_notehead (GtkAction *action, gpointer param)
   gint i;
   static GList *list = NULL;
   if(!action) {
-    insertnotehead (gui->si, param);
+    insertnotehead (gui->si, ((GString*)param)->str);
     return;
   }
     

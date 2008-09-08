@@ -1,2621 +1,3203 @@
 SCM scheme_CursorLeft (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-cursorleft_cb (NULL, str);
-return SCM_EOL;
+cursorleft_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CursorDown (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-cursordown_cb (NULL, str);
-return SCM_EOL;
+cursordown_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CursorUp (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-cursorup_cb (NULL, str);
-return SCM_EOL;
+cursorup_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CursorRight (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-cursorright_cb (NULL, str);
-return SCM_EOL;
+cursorright_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_StaffUp (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-staffup_cb (NULL, str);
-return SCM_EOL;
+staffup_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_StaffDown (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-staffdown_cb (NULL, str);
-return SCM_EOL;
+staffdown_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_MeasureLeft (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-measureleft_cb (NULL, str);
-return SCM_EOL;
+measureleft_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_MeasureRight (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-measureright_cb (NULL, str);
-return SCM_EOL;
+measureright_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_A (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_A_key_cb (NULL, str);
-return SCM_EOL;
+go_to_A_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_B (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_B_key_cb (NULL, str);
-return SCM_EOL;
+go_to_B_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_C (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_C_key_cb (NULL, str);
-return SCM_EOL;
+go_to_C_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_D (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_D_key_cb (NULL, str);
-return SCM_EOL;
+go_to_D_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_E (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_E_key_cb (NULL, str);
-return SCM_EOL;
+go_to_E_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_F (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_F_key_cb (NULL, str);
-return SCM_EOL;
+go_to_F_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_G (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-go_to_G_key_cb (NULL, str);
-return SCM_EOL;
+go_to_G_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OctaveUp (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-octave_up_key_cb (NULL, str);
-return SCM_EOL;
+octave_up_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OctaveDown (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-octave_down_key_cb (NULL, str);
-return SCM_EOL;
+octave_down_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_WholeNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_0key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_0key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_HalfNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_1key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_1key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_QuarterNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_2key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_2key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EighthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_3key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_3key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SixteenthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_4key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_4key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ThirtysecondNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_5key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_5key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SixtyfourthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_chord_6key_cb (NULL, str);
-return SCM_EOL;
+insert_chord_6key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankWholeNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_0key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_0key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankHalfNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_1key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_1key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankQuarterNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_2key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_2key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankEighthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_3key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_3key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankSixteenthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_4key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_4key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankThirtysecondNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_5key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_5key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBlankSixtyfourthNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_blankchord_6key_cb (NULL, str);
-return SCM_EOL;
+insert_blankchord_6key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleRestMode (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-rest_toggle_key_cb (NULL, str);
-return SCM_EOL;
+rest_toggle_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleBlankMode (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_blank_cb (NULL, str);
-return SCM_EOL;
+toggle_blank_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertWholeRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_0key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_0key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertHalfRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_1key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_1key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertQuarterRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_2key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_2key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertEighthRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_3key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_3key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertSixteenthRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_4key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_4key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertThirtysecondRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_5key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_5key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertSixtyfourthRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rest_6key_cb (NULL, str);
-return SCM_EOL;
+insert_rest_6key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_duplet_cb (NULL, str);
-return SCM_EOL;
+insert_duplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertTriplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_triplet_cb (NULL, str);
-return SCM_EOL;
+insert_triplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_StartTriplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-start_triplet_cb (NULL, str);
-return SCM_EOL;
+start_triplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EndTuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-end_tuplet_cb (NULL, str);
-return SCM_EOL;
+end_tuplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertQuadtuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_quadtuplet_cb (NULL, str);
-return SCM_EOL;
+insert_quadtuplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertQuintuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_quintuplet_cb (NULL, str);
-return SCM_EOL;
+insert_quintuplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertSextuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_sextuplet_cb (NULL, str);
-return SCM_EOL;
+insert_sextuplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertSeptuplet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_septuplet_cb (NULL, str);
-return SCM_EOL;
+insert_septuplet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddNoteToChord (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_tone_key_cb (NULL, str);
-return SCM_EOL;
+add_tone_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_RemoveNoteFromChord (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-remove_tone_key_cb (NULL, str);
-return SCM_EOL;
+remove_tone_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SharpenOrStemDown (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-sharpen_key_cb (NULL, str);
-return SCM_EOL;
+sharpen_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_FlattenOrStemUp (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-flatten_key_cb (NULL, str);
-return SCM_EOL;
+flatten_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddDot (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_dot_key_cb (NULL, str);
-return SCM_EOL;
+add_dot_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_RemoveDot (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-remove_dot_key_cb (NULL, str);
-return SCM_EOL;
+remove_dot_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertTiedNote (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-tie_notes_key_cb (NULL, str);
-return SCM_EOL;
+tie_notes_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteObject (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-deleteobject_cb (NULL, str);
-return SCM_EOL;
+deleteobject_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeletePreviousObject (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-deletepreviousobject_cb (NULL, str);
-return SCM_EOL;
+deletepreviousobject_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertMeasure (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_measure_key_cb (NULL, str);
-return SCM_EOL;
+insert_measure_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AppendMeasure (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-append_measure_key_cb (NULL, str);
-return SCM_EOL;
+append_measure_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteMeasure (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-deletemeasure_cb (NULL, str);
-return SCM_EOL;
+deletemeasure_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteMeasureAllStaffs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-deletemeasureallstaffs_cb (NULL, str);
-return SCM_EOL;
+deletemeasureallstaffs_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ShrinkMeasures (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-adjust_measure_less_width_key_cb (NULL, str);
-return SCM_EOL;
+adjust_measure_less_width_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_WidenMeasures (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-adjust_measure_more_width_key_cb (NULL, str);
-return SCM_EOL;
+adjust_measure_more_width_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ShorterStaffs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-adjust_staff_less_height_key_cb (NULL, str);
-return SCM_EOL;
+adjust_staff_less_height_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_TallerStaffs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-adjust_staff_more_height_key_cb (NULL, str);
-return SCM_EOL;
+adjust_staff_more_height_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertTrebleClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newcleftreble_cb (NULL, str);
-return SCM_EOL;
+newcleftreble_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBassClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newclefbass_cb (NULL, str);
-return SCM_EOL;
+newclefbass_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insertg8clef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newclefg8_cb (NULL, str);
-return SCM_EOL;
+newclefg8_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertAltoClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newclefalto_cb (NULL, str);
-return SCM_EOL;
+newclefalto_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertTenorClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newcleftenor_cb (NULL, str);
-return SCM_EOL;
+newcleftenor_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertSopranoClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newclefsoprano_cb (NULL, str);
-return SCM_EOL;
+newclefsoprano_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialTrebleClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setcleftreble_cb (NULL, str);
-return SCM_EOL;
+setcleftreble_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialBassClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setclefbass_cb (NULL, str);
-return SCM_EOL;
+setclefbass_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialg8clef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setclefg8_cb (NULL, str);
-return SCM_EOL;
+setclefg8_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialAltoClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setclefalto_cb (NULL, str);
-return SCM_EOL;
+setclefalto_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialTenorClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setcleftenor_cb (NULL, str);
-return SCM_EOL;
+setcleftenor_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialSopranoClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setclefsoprano_cb (NULL, str);
-return SCM_EOL;
+setclefsoprano_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert22Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig22_cb (NULL, str);
-return SCM_EOL;
+newtimesig22_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert32Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig32_cb (NULL, str);
-return SCM_EOL;
+newtimesig32_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert42Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig42_cb (NULL, str);
-return SCM_EOL;
+newtimesig42_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert44Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig44_cb (NULL, str);
-return SCM_EOL;
+newtimesig44_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert34Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig34_cb (NULL, str);
-return SCM_EOL;
+newtimesig34_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert24Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig24_cb (NULL, str);
-return SCM_EOL;
+newtimesig24_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert64Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig64_cb (NULL, str);
-return SCM_EOL;
+newtimesig64_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert38Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig38_cb (NULL, str);
-return SCM_EOL;
+newtimesig38_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert68Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig68_cb (NULL, str);
-return SCM_EOL;
+newtimesig68_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert128Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig128_cb (NULL, str);
-return SCM_EOL;
+newtimesig128_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Insert98Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newtimesig98_cb (NULL, str);
-return SCM_EOL;
+newtimesig98_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set22Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig22_cb (NULL, str);
-return SCM_EOL;
+settimesig22_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set32Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig32_cb (NULL, str);
-return SCM_EOL;
+settimesig32_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set42Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig42_cb (NULL, str);
-return SCM_EOL;
+settimesig42_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set44Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig44_cb (NULL, str);
-return SCM_EOL;
+settimesig44_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set34Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig34_cb (NULL, str);
-return SCM_EOL;
+settimesig34_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set24Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig24_cb (NULL, str);
-return SCM_EOL;
+settimesig24_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set64Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig64_cb (NULL, str);
-return SCM_EOL;
+settimesig64_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set38Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig38_cb (NULL, str);
-return SCM_EOL;
+settimesig38_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set68Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig68_cb (NULL, str);
-return SCM_EOL;
+settimesig68_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set128Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig128_cb (NULL, str);
-return SCM_EOL;
+settimesig128_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Set98Time (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-settimesig98_cb (NULL, str);
-return SCM_EOL;
+settimesig98_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertCmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigcmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigcmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertGmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysiggmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysiggmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigdmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigdmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertAmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigamaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigamaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertEmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigemaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigemaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigbmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigbmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertFSharpmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigfsharpmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigfsharpmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertCSharpmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigcsharpmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigcsharpmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertFmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigfmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigfmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigbflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigbflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertEflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigeflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigeflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertAflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigaflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigaflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigdflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigdflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertGflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysiggflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysiggflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertCflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigcflatmaj_cb (NULL, str);
-return SCM_EOL;
+newkeysigcflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertAmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigamin_cb (NULL, str);
-return SCM_EOL;
+newkeysigamin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertEmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigemin_cb (NULL, str);
-return SCM_EOL;
+newkeysigemin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigbmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigbmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertFSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigfsharpmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigfsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertCSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigcsharpmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigcsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertGSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysiggsharpmin_cb (NULL, str);
-return SCM_EOL;
+newkeysiggsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigdsharpmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigdsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertASharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigasharpmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigasharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigdmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigdmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertGmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysiggmin_cb (NULL, str);
-return SCM_EOL;
+newkeysiggmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertCmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigcmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigcmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertFmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigfmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigfmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigbflatmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigbflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertEflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigeflatmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigeflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertAflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newkeysigaflatmin_cb (NULL, str);
-return SCM_EOL;
+newkeysigaflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialCmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigcmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigcmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialGmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysiggmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysiggmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialDmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigdmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigdmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialAmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigamaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigamaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialEmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigemaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigemaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialBmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigbmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigbmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialFSharpmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigfsharpmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigfsharpmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialCSharpmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigcsharpmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigcsharpmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialFmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigfmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigfmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialBflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigbflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigbflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialEflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigeflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigeflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialAflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigaflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigaflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialDflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigdflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigdflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialGflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysiggflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysiggflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialCflatmaj (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigcflatmaj_cb (NULL, str);
-return SCM_EOL;
+setkeysigcflatmaj_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialAmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigamin_cb (NULL, str);
-return SCM_EOL;
+setkeysigamin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialEmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigemin_cb (NULL, str);
-return SCM_EOL;
+setkeysigemin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialBmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigbmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigbmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialFSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigfsharpmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigfsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialCSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigcsharpmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigcsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialGSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysiggsharpmin_cb (NULL, str);
-return SCM_EOL;
+setkeysiggsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialDSharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigdsharpmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigdsharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialASharpmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigasharpmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigasharpmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialDmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigdmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigdmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialGmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysiggmin_cb (NULL, str);
-return SCM_EOL;
+setkeysiggmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialCmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigcmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigcmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialFmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigfmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigfmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialBflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigbflatmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigbflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialEflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigeflatmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigeflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetInitialAflatmin (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-setkeysigaflatmin_cb (NULL, str);
-return SCM_EOL;
+setkeysigaflatmin_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetMark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-set_mark_cb (NULL, str);
-return SCM_EOL;
+set_mark_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_UnsetMark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-unset_mark_cb (NULL, str);
-return SCM_EOL;
+unset_mark_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleBeginSlur (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_begin_slur_cb (NULL, str);
-return SCM_EOL;
+toggle_begin_slur_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleEndSlur (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_end_slur_cb (NULL, str);
-return SCM_EOL;
+toggle_end_slur_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleStartCrescendo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_start_crescendo_cb (NULL, str);
-return SCM_EOL;
+toggle_start_crescendo_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleEndCrescendo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_end_crescendo_cb (NULL, str);
-return SCM_EOL;
+toggle_end_crescendo_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleStartDiminuendo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_start_diminuendo_cb (NULL, str);
-return SCM_EOL;
+toggle_start_diminuendo_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleEndDiminuendo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_end_diminuendo_cb (NULL, str);
-return SCM_EOL;
+toggle_end_diminuendo_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleAccent (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_accent_cb (NULL, str);
-return SCM_EOL;
+add_accent_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleFermata (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_fermata_cb (NULL, str);
-return SCM_EOL;
+add_fermata_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleStaccato (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_staccato_cb (NULL, str);
-return SCM_EOL;
+add_staccato_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleTenuto (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_tenuto_cb (NULL, str);
-return SCM_EOL;
+add_tenuto_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleTrill (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_trill_cb (NULL, str);
-return SCM_EOL;
+add_trill_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleTurn (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_turn_cb (NULL, str);
-return SCM_EOL;
+add_turn_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleMordent (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_mordent_cb (NULL, str);
-return SCM_EOL;
+add_mordent_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleStaccatissimo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_staccatissimo_cb (NULL, str);
-return SCM_EOL;
+add_staccatissimo_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleCoda (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_coda_cb (NULL, str);
-return SCM_EOL;
+add_coda_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleFlageolet (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_flageolet_cb (NULL, str);
-return SCM_EOL;
+add_flageolet_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleOpen (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_open_cb (NULL, str);
-return SCM_EOL;
+add_open_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_TogglePrallMordent (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_prallmordent_cb (NULL, str);
-return SCM_EOL;
+add_prallmordent_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_TogglePrallPrall (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_prallprall_cb (NULL, str);
-return SCM_EOL;
+add_prallprall_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_TogglePrall (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_prall_cb (NULL, str);
-return SCM_EOL;
+add_prall_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleReverseTurn (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_reverseturn_cb (NULL, str);
-return SCM_EOL;
+add_reverseturn_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleSegno (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_segno_cb (NULL, str);
-return SCM_EOL;
+add_segno_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleSforzato (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_sforzato_cb (NULL, str);
-return SCM_EOL;
+add_sforzato_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleStopped (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_stopped_cb (NULL, str);
-return SCM_EOL;
+add_stopped_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleThumb (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_thumb_cb (NULL, str);
-return SCM_EOL;
+add_thumb_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleUpprall (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_upprall_cb (NULL, str);
-return SCM_EOL;
+add_upprall_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleArpeggio (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-add_arpeggio_cb (NULL, str);
-return SCM_EOL;
+add_arpeggio_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SetGrace (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-set_grace_cb (NULL, str);
-return SCM_EOL;
+set_grace_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ForceCaution (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-force_cautionary_cb (NULL, str);
-return SCM_EOL;
+force_cautionary_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ChangePitch (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-change_pitch_cb (NULL, str);
-return SCM_EOL;
+change_pitch_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DoubleBar (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_doublebar_cb (NULL, str);
-return SCM_EOL;
+insert_doublebar_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EndBar (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_endbar_cb (NULL, str);
-return SCM_EOL;
+insert_endbar_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenRepeat (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_openrepeat_cb (NULL, str);
-return SCM_EOL;
+insert_openrepeat_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CloseRepeat (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_closerepeat_cb (NULL, str);
-return SCM_EOL;
+insert_closerepeat_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenCloseRepeat (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_opencloserepeat_cb (NULL, str);
-return SCM_EOL;
+insert_opencloserepeat_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertRhythm (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_rhythm_pattern_cb (NULL, str);
-return SCM_EOL;
+insert_rhythm_pattern_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_NextRhythm (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-nextrhythm_cb (NULL, str);
-return SCM_EOL;
+nextrhythm_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AppendMesauresToScore (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-append_measure_score_cb (NULL, str);
-return SCM_EOL;
+append_measure_score_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_New (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_newwrapper (NULL, str);
-return SCM_EOL;
+file_newwrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Open (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_open_with_check (NULL, str);
-return SCM_EOL;
+file_open_with_check (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddStaffs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_add_staffs (NULL, str);
-return SCM_EOL;
+file_add_staffs (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddMovements (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_add_movements (NULL, str);
-return SCM_EOL;
+file_add_movements (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_MovementProps (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-movement_props_dialog (NULL, str);
-return SCM_EOL;
+movement_props_dialog (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenNewWindow (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-openinnew (NULL, str);
-return SCM_EOL;
+openinnew (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Save (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_savewrapper (NULL, str);
-return SCM_EOL;
+file_savewrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SaveAs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_saveaswrapper (NULL, str);
-return SCM_EOL;
+file_saveaswrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenTemplate (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-system_template_open_with_check (NULL, str);
-return SCM_EOL;
+system_template_open_with_check (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenExample (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-system_example_open_with_check (NULL, str);
-return SCM_EOL;
+system_example_open_with_check (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_OpenMyTemplate (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-local_template_open_with_check (NULL, str);
-return SCM_EOL;
+local_template_open_with_check (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SaveTemplate (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-template_save (NULL, str);
-return SCM_EOL;
+template_save (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_NewWindow (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newview (NULL, str);
-return SCM_EOL;
+newview (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertMovementBefore (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_movement_before (NULL, str);
-return SCM_EOL;
+insert_movement_before (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertMovementAfter (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_movement_after (NULL, str);
-return SCM_EOL;
+insert_movement_after (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SaveParts (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-file_savepartswrapper (NULL, str);
-return SCM_EOL;
+file_savepartswrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ExportPDF (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-export_pdf_action (NULL, str);
-return SCM_EOL;
+export_pdf_action (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ConfigureScore (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-scorewizard (NULL, str);
-return SCM_EOL;
+scorewizard (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PrintPreview (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-printpreview_cb (NULL, str);
-return SCM_EOL;
+printpreview_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PrintExcerptPreview (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-printexcerptpreview_cb (NULL, str);
-return SCM_EOL;
+printexcerptpreview_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Print (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-printall_cb (NULL, str);
-return SCM_EOL;
+printall_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PrintPart (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-printpart_cb (NULL, str);
-return SCM_EOL;
+printpart_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Close (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-close_gui_with_check (NULL, str);
-return SCM_EOL;
+close_gui_with_check (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Quit (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-closewrapper (NULL, str);
-return SCM_EOL;
+closewrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Undo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-undowrapper (NULL, str);
-return SCM_EOL;
+undowrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Redo (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-redowrapper (NULL, str);
-return SCM_EOL;
+redowrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Copy (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-copywrapper (NULL, str);
-return SCM_EOL;
+copywrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Cut (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-cutwrapper (NULL, str);
-return SCM_EOL;
+cutwrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Paste (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-pastewrapper (NULL, str);
-return SCM_EOL;
+pastewrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ScoreProperties (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-score_properties_dialog (NULL, str);
-return SCM_EOL;
+score_properties_dialog (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SaveSelection (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-saveselwrapper (NULL, str);
-return SCM_EOL;
+saveselwrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Preferences (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-preferences_change (NULL, str);
-return SCM_EOL;
+preferences_change (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SaveAccels (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-save_default_keymap_file_wrapper (NULL, str);
-return SCM_EOL;
+save_default_keymap_file_wrapper (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CommandManagement (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-configure_keyboard_dialog (NULL, str);
-return SCM_EOL;
+configure_keyboard_dialog (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_LoadPlugins (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-load_plugin (NULL, str);
-return SCM_EOL;
+load_plugin (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_UnloadPlugins (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-unloadplugins (NULL, str);
-return SCM_EOL;
+unloadplugins (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ListPlugins (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-list_loaded_plugins (NULL, str);
-return SCM_EOL;
+list_loaded_plugins (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ListAvailablePlugins (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-list_available_plugins (NULL, str);
-return SCM_EOL;
+list_available_plugins (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SwapStaffs (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-swapstaffs (NULL, str);
-return SCM_EOL;
+swapstaffs (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SplitVoices (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-splitstaffs (NULL, str);
-return SCM_EOL;
+splitstaffs (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_JoinVoices (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-joinstaffs (NULL, str);
-return SCM_EOL;
+joinstaffs (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_SwapMovements (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-swapmovements (NULL, str);
-return SCM_EOL;
+swapmovements (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_VoiceUp (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-voiceup_cb (NULL, str);
-return SCM_EOL;
+voiceup_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_VoiceDown (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-voicedown_cb (NULL, str);
-return SCM_EOL;
+voicedown_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddBefore (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newstaffbefore (NULL, str);
-return SCM_EOL;
+newstaffbefore (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddAfter (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-dnm_newstaffafter (NULL, str);
-return SCM_EOL;
+dnm_newstaffafter (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddInitial (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newstaffinitial (NULL, str);
-return SCM_EOL;
+newstaffinitial (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddLast (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-newstafflast (NULL, str);
-return SCM_EOL;
+newstafflast (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteBefore (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-delete_staff_before (NULL, str);
-return SCM_EOL;
+delete_staff_before (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteStaff (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-delete_staff_current (NULL, str);
-return SCM_EOL;
+delete_staff_current (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteAfter (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-delete_staff_after (NULL, str);
-return SCM_EOL;
+delete_staff_after (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddVoice (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-dnm_newstaffvoice (NULL, str);
-return SCM_EOL;
+dnm_newstaffvoice (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_TransposeStaff (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-staff_transposition (NULL, str);
-return SCM_EOL;
+staff_transposition (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_StaffProperties (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-staff_properties_change_cb (NULL, str);
-return SCM_EOL;
+staff_properties_change_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InitialClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-clef_change_initial (NULL, str);
-return SCM_EOL;
+clef_change_initial (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertClef (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-clef_change_insert (NULL, str);
-return SCM_EOL;
+clef_change_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InitialKey (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-key_change_initial (NULL, str);
-return SCM_EOL;
+key_change_initial (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertKey (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-key_change_insert (NULL, str);
-return SCM_EOL;
+key_change_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InitialTimeSig (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-timesig_change_initial (NULL, str);
-return SCM_EOL;
+timesig_change_initial (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertTimeSig (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-timesig_change_insert (NULL, str);
-return SCM_EOL;
+timesig_change_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ChangeNotehead (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-set_notehead (NULL, str);
-return SCM_EOL;
+set_notehead (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertStem (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-stem_directive_insert (NULL, str);
-return SCM_EOL;
+stem_directive_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EditLyric (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-lyric_insert (NULL, str);
-return SCM_EOL;
+lyric_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EditFiguredBass (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-figure_insert (NULL, str);
-return SCM_EOL;
+figure_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_EditChords (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-fakechord_insert (NULL, str);
-return SCM_EOL;
+fakechord_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertDynamic (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_dynamic (NULL, str);
-return SCM_EOL;
+insert_dynamic (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertLilyDirective (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-lily_directive_insert (NULL, str);
-return SCM_EOL;
+lily_directive_insert (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertLilyPostfix (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-lily_directive_postfix (NULL, str);
-return SCM_EOL;
+lily_directive_postfix (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_InsertBarline (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-insert_barline (NULL, str);
-return SCM_EOL;
+insert_barline (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_GoToMeasure (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-tomeasurenum (NULL, str);
-return SCM_EOL;
+tomeasurenum (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_GoToBeginning (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-tohome (NULL, str);
-return SCM_EOL;
+tohome (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_GoToEnd (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toend (NULL, str);
-return SCM_EOL;
+toend (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_NextMovement (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-next_movement (NULL, str);
-return SCM_EOL;
+next_movement (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PreviousMovement (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-prev_movement (NULL, str);
-return SCM_EOL;
+prev_movement (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteMovement (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-delete_movement (NULL, str);
-return SCM_EOL;
+delete_movement (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteBookmarks (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-deletebookmarks (NULL, str);
-return SCM_EOL;
+deletebookmarks (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Play (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-ext_midi_playback (NULL, str);
-return SCM_EOL;
+ext_midi_playback (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Stop (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-stop_midi_playback (NULL, str);
-return SCM_EOL;
+stop_midi_playback (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PlayCSound (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-csoundplayback (NULL, str);
-return SCM_EOL;
+csoundplayback (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PlaybackProperties (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-playback_properties_change (NULL, str);
-return SCM_EOL;
+playback_properties_change (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_Help (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-browse_manual (NULL, str);
-return SCM_EOL;
+browse_manual (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_About (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-about (NULL, str);
-return SCM_EOL;
+about (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddBookmark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-addbookmark (NULL, str);
-return SCM_EOL;
+addbookmark (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_GotoBookmark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-gotobookmark (NULL, str);
-return SCM_EOL;
+gotobookmark (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_NextBookmark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-nextbookmark (NULL, str);
-return SCM_EOL;
+nextbookmark (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_PrevBookmark (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-prevbookmark (NULL, str);
-return SCM_EOL;
+prevbookmark (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleEdit (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_edit_mode (NULL, str);
-return SCM_EOL;
+toggle_edit_mode (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleRest (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_rest_mode (NULL, str);
-return SCM_EOL;
+toggle_rest_mode (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ToggleRhythm (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-toggle_rhythm_mode (NULL, str);
-return SCM_EOL;
+toggle_rhythm_mode (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ClearOverlay (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-clear_overlay (NULL, str);
-return SCM_EOL;
+clear_overlay (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_CreateRhythm (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-create_rhythm_cb (NULL, str);
-return SCM_EOL;
+create_rhythm_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_DeleteRhythm (SCM optional) {
-    int length;
+GString *gstr=NULL;
+int length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
   }
-delete_rhythm_cb (NULL, str);
-return SCM_EOL;
+delete_rhythm_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_ChangeToA (SCM optional) {
 ChangeToA (NULL, NULL);

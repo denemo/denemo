@@ -120,20 +120,6 @@ cb_string_pairs activatable_commands[] = {
 
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
-#ifdef TRIAL_SCHEME
-/* trial */
-void denemoy(char *action_name) {
-  g_print("doing %s\n", action_name);
-  g_print("====================== %p %p\n", &Denemo, Denemo.ui_manager); 
-  activate_action(action_name);
-}
-SCM scheme_denemoy(SCM val) {
-  gint len;
-  char *str = (char*)gh_scm2newstr(val, &len);
-  denemoy(str);//free(str);
-  return SCM_EOL;
-}
-#endif
 
 static install_scm_function(gchar *name, gpointer callback) {
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
@@ -143,19 +129,7 @@ static install_scm_function_with_param(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
-#if 0
-static void scheme_requests_action (SCM paction, SCM optional)
-{
-  GtkAction *action = scm_num2int(paction, 0, 0);
-  //g_print("Action is %p\n", action);
-  if(SCM_STRINGP(optional)){
-    int length;
-    char *str = gh_scm2newstr(optional, &length);
-    g_print("Got a string %s\n", str);
-  }
-  gtk_action_activate(action);
-}
-#endif
+
 
 SCM scheme_get_note_name (SCM optional) {
     int length;
@@ -316,10 +290,6 @@ int inner_main(int argc, char **argv){
   (this-proc)
 
 */
-#ifdef TRIAL_SCHEME
-  scm_c_define_gsubr ("denemoy", 1, 0, 0, scheme_denemoy);
-#endif
-
 
 
 #if 0
@@ -421,7 +391,7 @@ int call_out_to_guile(char *script) {
   if(SCM_BOOLP(val)){
     g_print("Got %d boolean back\n", !SCM_FALSEP(val));
   } else
-    g_print("Bad return\n");
+    g_print("No return boolean\n");
 }
 
 /****************

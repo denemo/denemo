@@ -131,7 +131,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   }
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
   } else
-    string = init;
+    string = g_strdup(init);
 
   cbdata.gui = gui;
   cbdata.string = string;
@@ -155,7 +155,7 @@ lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
 
-  lily_directive (gui, FALSE, action?NULL:param);
+  lily_directive (gui, FALSE, action?NULL: ((GString*)param)->str);
 }
 
 /**
@@ -167,46 +167,5 @@ void
 lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE, action?NULL:param);
+  lily_directive (gui, TRUE, action?NULL: ((GString*)param)->str);
 }
-
-
-
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
-void
-rehearsal_mark (GtkAction *action, gpointer param)
-{
-  DenemoGUI *gui = Denemo.gui;
-DenemoObject *lily = lily_directive_new (" \\mark \\default ");
- object_insert (gui, lily);
- if (!gui->si->cursor_appending){
-   gui->si->cursor_x--;
-   gui->si->currentobject = g_list_nth ((objnode *) gui->si->currentmeasure->data, gui->si->cursor_x);
- }
- lily_directive (action, gui);
-}
-
-
-
-void  attach_set_accel_callback (gpointer data, GtkAction *action, DenemoGUI *gui);
-void
-myactivate (GtkAction *action, gpointer param)
-{
-  DenemoGUI *gui = Denemo.gui;
-  // the proxy list is NULL until the menu item is first called...
-  //BUT if you first activate it with right button ....
-
-  GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
-   for(;h;h=h->next) {
-     attach_set_accel_callback(h->data, action, gui);
-   }
-  gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "lilypond");
-DenemoObject *lily = lily_directive_new (text);
- object_insert (gui, lily);
- if (!gui->si->cursor_appending){
-   gui->si->cursor_x--;
-   gui->si->currentobject = g_list_nth ((objnode *) gui->si->currentmeasure->data, gui->si->cursor_x);
- }
- lily_directive_insert (action, gui);
-}
-#endif
