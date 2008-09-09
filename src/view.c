@@ -132,6 +132,10 @@ static install_scm_function_with_param(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
+static install_scm_function3(gchar *name, gpointer callback) {
+scm_c_define_gsubr (name, 3, 0, 0, callback);
+
+}
 
 
 SCM scheme_get_note_name (SCM optional) {
@@ -154,19 +158,21 @@ str = gh_scm2newstr(optional, &length);
 }
 
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
+  gchar *title, *instruction, *initial_value;
+  gint length;
 if(SCM_STRINGP(label)){
-  title = gh_scm2newstr(optional, &length);
+  title = gh_scm2newstr(label, &length);
   }
  else title = "Input Required";
  if(SCM_STRINGP(prompt)){
-  instruction = gh_scm2newstr(optional, &length);
+  instruction = gh_scm2newstr(prompt, &length);
   }
  else instruction = "Give input: ";
 
  if(SCM_STRINGP(init)){
-  instruction = gh_scm2newstr(optional, &length);
+  instruction = gh_scm2newstr(init, &length);
   }
- else instruction = " ";
+ else instruction = " ";//FIXME mixed types of string, memory leaks
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
@@ -324,10 +330,10 @@ int inner_main(int argc, char **argv){
 
 
     install_scm_function3 ("d-getUserInput", scheme_get_user_input);
-  
+    process_command_line(argc, argv);
 #if 0
 
-
+    int process_command_line(int argc, char**argv) {
   /* And open a file, if it was specified on the command line. Note
    * that this had to be done after the window was created, otherwise
    * there wouldn't have been a titlebar to set. Also note that
@@ -408,7 +414,7 @@ int inner_main(int argc, char **argv){
           return 1;
         }
     }
-
+    }
 #endif
 
  /* Now launch into the main gtk event loop and we're all set */
