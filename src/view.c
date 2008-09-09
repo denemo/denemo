@@ -166,8 +166,11 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
     } else if(*c=='e'&& *(c+1)=='s') {
       accs--;
       c++;
-    } else {
-      *c==','?octave--:octave++;
+    } else if (
+      *c==',') {
+      octave--;
+    } else if (*c=='\'') {
+	octave++;
     }
   }
   *mid_c_offset = *x-'c' + 7*octave;
@@ -190,7 +193,7 @@ SCM scheme_put_note_name (SCM optional) {
      gint mid_c_offset;
      gint enshift;
      name2mid_c_offset(str, &mid_c_offset, &enshift);
-     g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+     //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
      //thenote->mid_c_offset = name2mid_c_offset(str);
      displayhelper(Denemo.gui);
