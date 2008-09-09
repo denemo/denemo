@@ -544,3 +544,86 @@ openfile (gchar * name)
   //si->readonly = TRUE;
   return result;
 }
+
+int process_command_line(int argc, char**argv) {
+  /* And open a file, if it was specified on the command line. Note
+   * that this had to be done after the window was created, otherwise
+   * there wouldn't have been a titlebar to set. Also note that
+   * a blank score is created whether or not a load was specified.
+   * This is done this way because the load could bomb out. */
+  return;
+  GDir *dir=NULL;
+  gchar *filename;
+  GError *error = NULL;
+  if(locatedotdenemo ()) {
+    dir = g_dir_open (locatedotdenemo (), 0, &error);
+    if (error)
+      {
+	g_print ("Cannot read .denemo directory %s\n", error->message);
+	g_error_free (error);
+      }
+  }
+  while (dir && (filename = (gchar *) g_dir_read_name (dir)) != NULL)
+    {
+      if (0 == strcmp ("crashrecovery.denemo", filename))
+        {
+          GtkWidget *dialog = 
+            gtk_dialog_new_with_buttons (NULL,
+                                         NULL,
+                                         GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_STOCK_YES,
+                                         GTK_RESPONSE_ACCEPT,
+                                         GTK_STOCK_SAVE_AS,
+                                         GTK_RESPONSE_CANCEL,
+                                         GTK_STOCK_DELETE,
+                                         GTK_RESPONSE_REJECT,
+                                         NULL);
+          GtkWidget *label =
+            gtk_label_new
+            ("\nDenemo crashed, The open file has been recovered\n"
+             "do you want to contiue editing your work?\n");
+          gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
+                             label);
+          gtk_widget_show_all (dialog);
+          gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+          g_debug ("Dialog result is %d\n", result);
+          gchar *name = g_build_filename(locatedotdenemo (),
+                                         filename, NULL);
+          switch (result)
+            {
+            case GTK_RESPONSE_ACCEPT:
+              openfile (name);
+              g_remove (name);
+              break;
+            case GTK_RESPONSE_CANCEL:
+              Denemo.window = NULL;
+              result = importXML (name, Denemo.gui, REPLACE_SCORE);
+              if (result != -1)
+                file_saveas (Denemo.gui, FALSE);
+              else
+                g_print ("Cannot open %s\n", name);
+              //g_free (gui);
+              g_remove (name);
+              break;
+            case GTK_RESPONSE_REJECT:
+              g_print ("Removing %s\n", name);
+              g_remove (name);
+              //g_free(name);
+              break;
+            }
+          gtk_widget_destroy (dialog);
+        }
+    }
+
+  if (dir)
+    g_dir_close (dir);
+  gint optind;
+  if (optind < argc)
+    {
+      if (openfile (argv[optind]) == -1)
+        {
+          g_print ("Attempt to read in file %s failed\n", argv[optind]);
+          return 1;
+        }
+    }
+}
