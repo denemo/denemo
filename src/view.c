@@ -259,9 +259,13 @@ int inner_main(int argc, char **argv){
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (activatable_commands[i].str, (gpointer)activatable_commands[i].p);
+    install_scm_function (g_strdup_printf("d-%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
   }
-
+  /* test with
+(d-EditMode)
+(d-2)
+(d-PutNoteName "cis''")
+*/
 
   /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
    The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
@@ -277,11 +281,11 @@ int inner_main(int argc, char **argv){
 
  /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
 
-  install_scm_function ("d-getNoteName",  scheme_get_note_name);
-  install_scm_function ("d-putNoteName",  scheme_put_note_name);
+  install_scm_function ("d-GetNoteName",  scheme_get_note_name);
+  install_scm_function ("d-PutNoteName",  scheme_put_note_name);
   install_scm_function ("d-DiatonicShift", diatonic_shift);
   install_scm_function ("d-NextNote", next_note);
-  // test with  (d-putNoteName "e,,") (d-CursorRight) 
+  // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-NextNote)
   /* test with 
