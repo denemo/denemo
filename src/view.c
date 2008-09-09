@@ -170,9 +170,9 @@ if(SCM_STRINGP(label)){
  else instruction = "Give input: ";
 
  if(SCM_STRINGP(init)){
-  instruction = gh_scm2newstr(init, &length);
+  initial_value = gh_scm2newstr(init, &length);
   }
- else instruction = " ";//FIXME mixed types of string, memory leaks
+ else initial_value = " ";//FIXME mixed types of string, memory leaks
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
@@ -332,7 +332,13 @@ int inner_main(void*closure, int argc, char **argv){
 
 
     install_scm_function3 ("d-getUserInput", scheme_get_user_input);
-    
+    /* test with
+       (d-getUserInput "Named Bookmark" "Give a name" "XXX")
+
+Then 
+     (define user-input (d-getUserInput "Named Bookmark" "Give a name" "XXX"))
+     (d-InsertLilyDirective (string-append "%" user-input))
+    */
 
     process_command_line(argc, argv);
  /* Now launch into the main gtk event loop and we're all set */
