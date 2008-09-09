@@ -57,7 +57,8 @@ struct _PluginData {
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */
 #if 0
   //use this to detect bad access to G_OBJECT
-#define g_object_get_data(a,b) (G_IS_OBJECT(a)? g_object_get_data(a,b):((gpointer)fprintf(stderr,"Bad G_OBJECT at %s line %d\n",__FILE__, __LINE__), NULL))
+#define g_object_set_data(a,b,c) (G_IS_OBJECT((a))? g_object_set_data((a),(b),(c)):((gpointer)fprintf(stderr,"Bad G_OBJECT at %s line %d\n",__FILE__, __LINE__), NULL))
+#define g_object_get_data(a,b) (G_IS_OBJECT(a)? g_object_get_data((a),(b)):((gpointer)fprintf(stderr,"Bad G_OBJECT at %s line %d\n",__FILE__, __LINE__), NULL))
 #define gtk_action_get_name(a) (GTK_IS_ACTION(a)? gtk_action_get_name(a):((gpointer)fprintf(stderr,"Bad GTK_ACTION at %s line %d\n",__FILE__, __LINE__), NULL))
 
 
