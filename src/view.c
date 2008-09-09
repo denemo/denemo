@@ -153,6 +153,27 @@ str = gh_scm2newstr(optional, &length);
    
 }
 
+SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
+if(SCM_STRINGP(label)){
+  title = gh_scm2newstr(optional, &length);
+  }
+ else title = "Input Required";
+ if(SCM_STRINGP(prompt)){
+  instruction = gh_scm2newstr(optional, &length);
+  }
+ else instruction = "Give input: ";
+
+ if(SCM_STRINGP(init)){
+  instruction = gh_scm2newstr(optional, &length);
+  }
+ else instruction = " ";
+ 
+ gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
+ SCM scm = scm_makfrom0str (ret);
+ return scm;
+}
+
+
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   g_print("Mid c offset of %d\n", *x-'c');
   gchar *c;
@@ -302,6 +323,8 @@ int inner_main(int argc, char **argv){
 */
 
 
+    install_scm_function3 ("d-getUserInput", scheme_get_user_input);
+  
 #if 0
 
 
