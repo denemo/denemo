@@ -5,14 +5,15 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BassDrum</action>
+        <action>HiHat</action>
         <scheme>
 		(d-EditMode)
 		(d-2)
-		(d-PutNoteName "f''")
+		(d-PutNoteName "g'''")
+		(d-ChangeNotehead "Cross")
 	</scheme>
-        <label>Bass Drum</label>
-        <tooltip>Insert Bass Drum note.</tooltip>
+        <label>Hi Hats</label>
+        <tooltip>Insert HiHat note.</tooltip>
       </row>
     </map>
   </merge>
