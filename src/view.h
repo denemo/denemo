@@ -64,7 +64,7 @@ void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
 void      write_status(DenemoGUI *gui);
 
-int inner_main(int argc, char **argv);
+int inner_main(void *closure, int argc, char **argv);
 void
 activate_script (GtkAction *action, gpointer param);
 #endif

@@ -402,9 +402,11 @@ debug_handler (const gchar *log_domain, GLogLevelFlags log_level,
 int
 main (int argc, char *argv[])
 {
-  gint opts;
+
   GError *error = NULL;
-  DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  /* gtk initialization */
+  gtk_init (&argc, &argv);
+  //DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
 
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
@@ -430,8 +432,40 @@ main (int argc, char *argv[])
   textdomain (PACKAGE);
 
 
+  g_print("Calling scm boot guile with %d and %p\n", argc, argv);
+ 
+    scm_boot_guile (argc, argv, inner_main, NULL);
+  return 0;
+}
+
+
+int
+openfile (gchar * name)
+{
+  GList *tmp = g_list_nth (Denemo.guis, 0);
+
+  DenemoGUI *gui = (DenemoGUI *) tmp->data;
+  gint result = open_for_real (name, gui, FALSE, FALSE);
+  //gui->si->readonly = FALSE;
+  //si->readonly = TRUE;
+  return result;
+}
+
+int process_command_line(int argc, char**argv) {
+  //return;
+  /* And open a file, if it was specified on the command line. Note
+   * that this had to be done after the window was created, otherwise
+   * there wouldn't have been a titlebar to set. Also note that
+   * a blank score is created whether or not a load was specified.
+   * This is done this way because the load could bomb out. */
+  g_print("Got back with with  %d and %p\n", argc, argv);
+
+  gint opts;
+  GDir *dir=NULL;
+  gchar *filename;
+  GError *error = NULL;
   /* parse command line and display help messages */
-  gchar *helptext = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
+  gchar *helptext  = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
 Usage: denemo [OPTION]... [FILE]\n\n\
 Run denemo, opening save file FILE\n\n\
@@ -443,7 +477,7 @@ Options:\n\
   -h,--help             print this help and exit\n\
   -s,--silent           lets just start with silent lilypond conversion\n\
   -v,--version          print version number and exit\n\n\n\
-Report bugs to bug-denemo@gnu.org\n"), NULL);
+Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
   gchar *copytext = _("\
 (c) 1999-2005 Matthew Hiller, Adam Tee, and others\n\n\n\
@@ -451,7 +485,8 @@ This program is provided with absolutely NO WARRANTY; see\n\
 the file COPYING for details.\n\n\
 This software may be redistributed and modified under the\n\
 terms of the GNU General Public License; again, see the file\n\
-COPYING for details.\n\n");
+COPYING for details.\n\n") ;
+
 
 #ifdef HAVE_GETOPT_H
   static struct option long_options[] = {
@@ -474,7 +509,7 @@ COPYING for details.\n\n");
       else if (opts == 's')
         {
           g_print (copytext);
-          silentconversion (argv[optind], gui);
+          silentconversion (argv[optind], Denemo.gui);
           exit (0);
         }
       else if (opts == 'v')
@@ -492,8 +527,7 @@ COPYING for details.\n\n");
   g_free (helptext);
 
 
-  /* gtk initialization */
-  gtk_init (&argc, &argv);
+
   /* adapt stock items to denemo */
   register_stock_items ();
   /* Following calls were made previously in newview. However I think they are
@@ -527,34 +561,6 @@ COPYING for details.\n\n");
 #endif
 
 
- 
-    scm_boot_guile (argc, argv, inner_main, NULL);
-  return 0;
-}
-
-
-int
-openfile (gchar * name)
-{
-  GList *tmp = g_list_nth (Denemo.guis, 0);
-
-  DenemoGUI *gui = (DenemoGUI *) tmp->data;
-  gint result = open_for_real (name, gui, FALSE, FALSE);
-  //gui->si->readonly = FALSE;
-  //si->readonly = TRUE;
-  return result;
-}
-
-int process_command_line(int argc, char**argv) {
-  /* And open a file, if it was specified on the command line. Note
-   * that this had to be done after the window was created, otherwise
-   * there wouldn't have been a titlebar to set. Also note that
-   * a blank score is created whether or not a load was specified.
-   * This is done this way because the load could bomb out. */
-  return;
-  GDir *dir=NULL;
-  gchar *filename;
-  GError *error = NULL;
   if(locatedotdenemo ()) {
     dir = g_dir_open (locatedotdenemo (), 0, &error);
     if (error)
@@ -617,7 +623,7 @@ int process_command_line(int argc, char**argv) {
 
   if (dir)
     g_dir_close (dir);
-  gint optind;
+
   if (optind < argc)
     {
       if (openfile (argv[optind]) == -1)
