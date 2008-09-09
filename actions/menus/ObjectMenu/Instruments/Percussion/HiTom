@@ -5,13 +5,13 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BassDrum</action>
+        <action>HiTom</action>
         <scheme>
 		(d-InsertF)
-		(d-PutNoteName "f''")
+		(d-PutNoteName "e''")
 	</scheme>
-        <label>Bass Drum</label>
-        <tooltip>Insert Bass Drum in the prevailing duration.</tooltip>
+        <label>Hi Tom</label>
+        <tooltip>Insert Hi Tom in the prevailing duration.</tooltip>
       </row>
     </map>
   </merge>

@@ -5,15 +5,14 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>HiHatFoot</action>
+        <action>RideBell</action>
         <scheme>
-
 		(d-InsertG)
-		(d-PutNoteName "d''")
-		(d-ChangeNotehead "Cross")
+		(d-PutNoteName "f''")
+		(d-ChangeNotehead "Diamond")
 	</scheme>
-        <label>Hi Hat with Foot</label>
-        <tooltip>Insert HiHat with foot in the prevailing duration.</tooltip>
+        <label>Ride Bell</label>
+        <tooltip>Insert Ride Bell in the prevailing duration.</tooltip>
       </row>
     </map>
   </merge>

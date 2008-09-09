@@ -7,7 +7,6 @@
       <row>
         <action>HiHatFoot</action>
         <scheme>
-
 		(d-InsertG)
 		(d-PutNoteName "d''")
 		(d-ChangeNotehead "Cross")
