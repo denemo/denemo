@@ -2156,15 +2156,16 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
   int command_idx;
 
   attach_set_accel_callback(proxy, action, Denemo.gui);
+#if (GTK_MINOR_VERSION <10)
+       attach_action_to_widget(proxy, action, Denemo.gui);
+#endif
   if(Denemo.commands==NULL)
      return;
   command_idx = lookup_index_from_name(Denemo.commands,
 				       gtk_action_get_name(action));
   if (command_idx != -1) 
     update_accel_labels(Denemo.commands, command_idx);
-#if (GTK_MINOR_VERSION <10)
-       attach_action_to_widget(proxy, action, Denemo.gui);
-#endif
+
 }
 
 

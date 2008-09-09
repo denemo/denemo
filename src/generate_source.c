@@ -498,8 +498,8 @@ int main() {
       //if(mi==KBD_CATEGORY_DIRECT)
 	fprintf(scheme, "SCM scheme_%s(SCM optional);\ninstall_scm_function (\"d-%s\", scheme_%s);\n", ni, ni, ni);// for direct callback via (scheme_xxx)
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme can call the action.
-      fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.commands, \"%s\"));\n", ni, ni);
-      fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");// for callback via (denemo dnm_xxx)
+      //fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.commands, \"%s\"));\n", ni, ni);
+      //fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");// for callback via (denemo dnm_xxx)
       //if(mi==KBD_CATEGORY_DIRECT)
 	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n%s%s (NULL, gstr);\nif(gstr) g_string_free(gstr, TRUE);return SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
 	fprintf(register_commands, "register_command(Denemo.commands, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
@@ -682,10 +682,10 @@ int main() {
     fprintf(register_commands,
 	    "register_command(Denemo.commands, gtk_action_group_get_action(action_group, \"ChangeTo%c\"), \"ChangeTo%c\", N_(\"Change to %c\"),N_(\"Changes note at cursor to nearest note %c\\nRhythm is unchanged\"),  ChangeTo%c);\n", i,i,i,i,i);
 
-
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"ChangeTo%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_ChangeTo%c(SCM optional);\ninstall_scm_function (\"d-ChangeTo%c\", scheme_ChangeTo%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeTo%c (SCM optional) {\nChangeTo%c (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
-
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"Insert%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (\"d-Insert%c\", scheme_Insert%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
@@ -711,22 +711,24 @@ int main() {
 	    "register_command(Denemo.commands, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  N_(\"Change a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Changes a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), ChangeRest%d);\n", i, i, i, i, i);
 
       fprintf(scheme, "/*%d */\n", i);
-      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean it scheme can call the action.
-      //fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%d %%d)\\n\", (int)action_of_name(Denemo.commands, \"%d\"));\n", i, i);
-      //fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+
       fprintf(scheme, "SCM scheme_%d(SCM optional);\ninstall_scm_function (\"d-%d\", scheme_%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_%d (SCM optional) {\nDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
-      fprintf(scheme, "SCM scheme_InsertDur%d(SCM optional);\ninstall_scm_function (\"d-InsertDur%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"Insert%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+      fprintf(scheme, "SCM scheme_InsertDur%d(SCM optional);\ninstall_scm_function (\"d-Insert%d\", scheme_InsertDur%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_InsertDur%d (SCM optional) {\nInsertDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
-      fprintf(scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (\"d-ChangeDur%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"Change%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+      fprintf(scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (\"d-Change%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeDur%d (SCM optional) {\nChangeDur%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
-
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"InsertRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_InsertRest%d(SCM optional);\ninstall_scm_function (\"d-InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_InsertRest%d (SCM optional) {\nInsertRest%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, \"ChangeRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (\"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_EOL;\n}\n", i,  i);
 
