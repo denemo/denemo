@@ -29,6 +29,8 @@
 
 static void
 closewrapper (GtkAction *action, gpointer param);
+static gboolean
+close_gui_with_check (GtkAction *action, gpointer param);
 static void
 openinnew (GtkAction *action, gpointer param);
 static void 
@@ -45,6 +47,8 @@ static void
 morecommands (GtkAction *action, gpointer param);
 static void
 mycommands (GtkAction *action, gpointer param);
+
+
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
 
@@ -96,7 +100,8 @@ static void save_accels (void);
 #define QuickEdits_STRING  "QuickEdits"
 #define ReadOnly_STRING  "ReadOnly"
 
-#define FN_DEF(X) X##_CB(void) {\
+
+#define FN_DEF(X) void X##_CB(void) {\
 activate_action("/MainMenu/EntryMenu/"X##_STRING);}
 
  FN_DEF(MODELESS);
@@ -124,15 +129,15 @@ cb_string_pairs activatable_commands[] = {
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
 
-static install_scm_function(gchar *name, gpointer callback) {
+static void install_scm_function(gchar *name, gpointer callback) {
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
 
 }
-static install_scm_function_with_param(gchar *name, gpointer callback) {
+static void install_scm_function_with_param(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
-static install_scm_function3(gchar *name, gpointer callback) {
+static void install_scm_function3(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
@@ -254,10 +259,13 @@ SCM diatonic_shift (SCM optional) {
  }
  return SCM_BOOL(FALSE);  
 }
-
+/* need to change this to next_chord,??????? does it go to next object????? exclude rests, and add a current_note to chords
+   for scheme scripts to iterate over the notes of a chord
+   This is next object!!!!!!!!!!!! FIXME!!!!!!!!!!!
+ */
 
 /* goes to next note */
-SCM next_note (SCM optional) {
+SCM next_object (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
@@ -274,17 +282,35 @@ SCM next_note (SCM optional) {
     return SCM_BOOL(TRUE);
   return SCM_BOOL(FALSE);  
 }
+SCM next_chord (SCM optional) {
+  return next_object(optional);
+}
+
+SCM next_note (SCM optional) {
+  return next_chord(optional);
+}
 
 
-
-
+int process_command_line(int argc, char**argv);//back in main
+/* Called from main for scheme initialization reasons.
+   calls back to finish command line processing
+*/
 int inner_main(void*closure, int argc, char **argv){
   g_print("Got inner main with  %d and %p\n", argc, argv);
 
   gint i;
   GError *error = NULL;
-  /* create the first window */
+  
+  register_stock_items ();
+  
+  /* Initialize preferences */
+  initprefs();
+  readHistory();
+  g_print("init prefs run");
+  /* create the first tab */
   newview (NULL, NULL);
+
+  /* read history file */
 
   g_print("still inner main with  %d and %p\n", argc, argv);
 
@@ -576,7 +602,7 @@ closewrapper (GtkAction *action, gpointer param)
     {
      
      Denemo.gui = (DenemoGUI *) display->data;
-     if(close_gui_with_check (NULL) == FALSE)
+     if(close_gui_with_check (NULL, NULL) == FALSE)
        break;
   }
 }
@@ -591,7 +617,7 @@ static gboolean
 delete_callback (GtkWidget * widget, GdkEvent * event)
 {
 
-  close_gui_with_check (NULL);
+  close_gui_with_check (NULL, NULL);
   return TRUE;
 }
 
@@ -2312,6 +2338,8 @@ get_data_dir (),
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
 
+
+#if 0
   /* we have to do this properly, because it introduces a keymap - no longer true */
   if (Denemo.prefs.rhythm_palette) {
     GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
@@ -2327,7 +2355,7 @@ get_data_dir (),
       //g_print ("Notation palette %d\n", Denemo.prefs.notation_palette);
       toggle_entry_toolbar (NULL, Denemo.gui);
     }
- 
+#endif
  
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
@@ -2372,7 +2400,7 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
  }
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
 
-
+  // this does nothing, it has not been added gtk_window_remove_accel_group   (Denemo.window, gtk_ui_manager_get_accel_group (Denemo.ui_manager));
   return action_group;
 }   /* create window */
 

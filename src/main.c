@@ -152,7 +152,7 @@ clean_stock_item(const gchar *stock_id)
     }
 }
 
-static void
+void
 register_stock_items ()
 {
   GtkIconFactory *icon_factory;
@@ -529,14 +529,14 @@ COPYING for details.\n\n") ;
 
 
   /* adapt stock items to denemo */
-  register_stock_items ();
+  //register_stock_items ();
   /* Following calls were made previously in newview. However I think they are
    * global, and should be done once and for all when the application opens
    */
   /* Initialize preferences */
-  initprefs();
+  //initprefs();
   /* read history file */
-  readHistory();
+  //readHistory();
   /* Set up the keymap */
   //init_keymap();
   
