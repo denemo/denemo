@@ -115,7 +115,8 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   cbdata.attach = attach;  
   lilydirective *lilyobj=NULL;
   cbdata.locked = FALSE;
-  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
+  /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "init" value to insert */
+  if ((init==NULL) && curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
 		cbdata.locked = lilyobj->locked;
