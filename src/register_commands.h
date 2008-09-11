@@ -48,8 +48,10 @@ register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Ins
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertSeptuplet"), "InsertSeptuplet", "InsertSeptuplet", "No Tooltip yet", insert_septuplet);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "AddNoteToChord"), "AddNoteToChord", "Add note", "Add a note to the current chord\nThe cursor position determines which note to add", add_tone_key);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "RemoveNoteFromChord"), "RemoveNoteFromChord", "Remove note", "Remove a note from the current chord", remove_tone_key);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "SharpenOrStemDown"), "SharpenOrStemDown", "SharpenOrStemDown", "No Tooltip yet", sharpen_key);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "FlattenOrStemUp"), "FlattenOrStemUp", "FlattenOrStemUp", "No Tooltip yet", flatten_key);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Sharpen"), "Sharpen", "Sharpen", "No Tooltip yet", sharpen_key);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Flatten"), "Flatten", "Flatten", "No Tooltip yet", flatten_key);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "StemUp"), "StemUp", "StemUp", "No Tooltip yet", stem_up);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "StemDown"), "StemDown", "StemDown", "No Tooltip yet", stem_down);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "AddDot"), "AddDot", "AddDot", "No Tooltip yet", add_dot_key);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "RemoveDot"), "RemoveDot", "RemoveDot", "No Tooltip yet", remove_dot_key);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertTiedNote"), "InsertTiedNote", "Tied note", "Inserts a duplicate of the current note, tied", tie_notes_key);
@@ -258,7 +260,7 @@ register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Ins
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InitialTimeSig"), "InitialTimeSig", "InitialTimeSig", "Set the initial time signature of the current staff", timesig_change_initial);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertTimeSig"), "InsertTimeSig", "InsertTimeSig", "Edit/Insert a time signature change for the current measure", timesig_change_insert);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ChangeNotehead"), "ChangeNotehead", "ChangeNotehead", "Change the type of notehead for the current note", set_notehead);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertStem"), "InsertStem", "InsertStem", "Inserts a stem neutral tag. Click on this tag and use Sharpen/StemDown etc commands to change stem direction", stem_directive_insert);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertStem"), "InsertStem", "InsertStem", "Inserts a stem neutral tag. Click on this tag and use Sharpen/StemUp etc commands to change stem direction", stem_directive_insert);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "EditLyric"), "EditLyric", "Insert/Edit Lyric", "Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly", lyric_insert);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "EditFiguredBass"), "EditFiguredBass", "Insert/Edit Figured Bass", "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation", figure_insert);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "EditChords"), "EditChords", "EditChords", "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", fakechord_insert);

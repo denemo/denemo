@@ -332,17 +332,31 @@ remove_tone_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*SharpenOrStemDown sharpen_key*/
+/*Sharpen sharpen_key*/
 static void sharpen_key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 sharpen_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*FlattenOrStemUp flatten_key*/
+/*Flatten flatten_key*/
 static void flatten_key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 flatten_key (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*StemUp stem_up*/
+static void stem_up_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+stem_up (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*StemDown stem_down*/
+static void stem_down_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+stem_down (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }

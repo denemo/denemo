@@ -554,7 +554,11 @@ sharpen_key (DenemoGUI * gui)
   else
     incrementenshift (gui, 1);
 }
-
+void
+stem_up (DenemoGUI * gui)
+{
+  sharpen_key(gui);
+}
 void
 flatten_key (DenemoGUI * gui)
 {
@@ -565,6 +569,11 @@ flatten_key (DenemoGUI * gui)
     change_stem_directive (gui->si, DENEMO_STEMDOWN);
   else
     incrementenshift (gui, -1);
+}
+void
+stem_down (DenemoGUI * gui)
+{
+  flatten_key(gui);
 }
 /* insert a duplicate note and tie to it */
 void

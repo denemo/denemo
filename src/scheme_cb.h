@@ -548,7 +548,7 @@ gstr = g_string_new_len(str, length);
 remove_tone_key_cb (NULL, gstr);
 if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
-SCM scheme_SharpenOrStemDown (SCM optional) {
+SCM scheme_Sharpen (SCM optional) {
 GString *gstr=NULL;
 int length;
    char *str=NULL;
@@ -559,7 +559,7 @@ gstr = g_string_new_len(str, length);
 sharpen_key_cb (NULL, gstr);
 if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
-SCM scheme_FlattenOrStemUp (SCM optional) {
+SCM scheme_Flatten (SCM optional) {
 GString *gstr=NULL;
 int length;
    char *str=NULL;
@@ -568,6 +568,28 @@ str = gh_scm2newstr(optional, &length);
 gstr = g_string_new_len(str, length);
   }
 flatten_key_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
+}
+SCM scheme_StemUp (SCM optional) {
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+  }
+stem_up_cb (NULL, gstr);
+if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
+}
+SCM scheme_StemDown (SCM optional) {
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+  }
+stem_down_cb (NULL, gstr);
 if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
 SCM scheme_AddDot (SCM optional) {

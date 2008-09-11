@@ -133,8 +133,10 @@
 <menuitem action="ChangeToE"/>
 <menuitem action="ChangeToF"/>
 <menuitem action="ChangeToG"/>
-	   <menuitem action="SharpenOrStemDown"/>
-	   <menuitem action="FlattenOrStemUp"/>
+<menuitem action="Sharpen"/>
+<menuitem action="Flatten"/>
+<menuitem action="StemDown"/>
+<menuitem action="StemUp"/>
 
            </menu>
 	   <menu action="InsertDuration">
@@ -181,8 +183,10 @@
 
            <menuitem action="InsertTiedNote"/>
            <menuitem action="ChangeNotehead"/>
-
- 	 
+           
+           <menuitem action="InsertStem"/>
+ 	 <menuitem action="StemDown"/>
+	 <menuitem action="StemUp"/>
      </menu>  <!-- end of modeless note object menu -->
 
 
@@ -229,13 +233,17 @@
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
 
-	   <menuitem action="SharpenOrStemDown"/>
-	   <menuitem action="FlattenOrStemUp"/>
+<menuitem action="Sharpen"/>
+<menuitem action="Flatten"/>
+
            <menuitem action="ChangeNotehead"/>
-           <menuitem action="InsertStem"/>
+
 	  <menuitem action="CreateRhythm"/>
           <menuitem action="InsertRhythm"/>
 	  <menuitem action="NextRhythm"/>
+           <menuitem action="InsertStem"/>
+<menuitem action="StemDown"/>
+<menuitem action="StemUp"/>
      </menu>
 
      <menu action="ClassicModeNote"> <!-- classic mode note object menu -->
@@ -278,10 +286,13 @@
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
 
-	   <menuitem action="SharpenOrStemDown"/>
-	   <menuitem action="FlattenOrStemUp"/>
+<menuitem action="Sharpen"/>
+<menuitem action="Flatten"/>
+
            <menuitem action="ChangeNotehead"/>
-           <menuitem action="InsertStem"/>	   
+           <menuitem action="InsertStem"/>
+<menuitem action="StemDown"/>
+<menuitem action="StemUp"/>	   
      </menu>
 
      <menu action="InsertModeNote"> <!-- insert mode note object menu -->
@@ -324,10 +335,13 @@
 	    <menuitem action="DeleteObject"/>
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
-	   <menuitem action="SharpenOrStemDown"/>
-	   <menuitem action="FlattenOrStemUp"/>
+<menuitem action="Sharpen"/>
+<menuitem action="Flatten"/>
+
            <menuitem action="ChangeNotehead"/>
-           <menuitem action="InsertStem"/>	  
+           <menuitem action="InsertStem"/>
+<menuitem action="StemDown"/>
+<menuitem action="StemUp"/>	  
      </menu>
      <menu action="ExpressionMarks">
 	<menuitem action="InsertDynamic"/>
@@ -535,12 +549,15 @@
 	     <menuitem action="Change5"/>
 	     <menuitem action="Change6"/>
            </menu>
-	   <menuitem action="SharpenOrStemDown"/>
-	   <menuitem action="FlattenOrStemUp"/>
+<menuitem action="Sharpen"/>
+<menuitem action="Flatten"/>
+
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
            <menuitem action="ChangeNotehead"/>	
-           <menuitem action="InsertStem"/>	
+           <menuitem action="InsertStem"/>
+<menuitem action="StemDown"/>
+<menuitem action="StemUp"/>	
  
          </menu>
 	 <menu action="StaffMenu">
@@ -590,7 +607,7 @@
 	  <menu action="Measure">
 	    <menuitem action="InsertMeasure"/>
 	    <menuitem action="AppendMeasure"/>
-	    <menuitem action="AppendMesauresToScore"/>
+	    <menuitem action="AppendMeasuresToScore"/>
 	  </menu>
 	  <menu action="ExpressionMarks">
 	  	<menuitem action="InsertDynamic"/>
@@ -722,10 +739,7 @@ start of "all other" menu
 <menuitem action="InsertSeptuplet"/>
 <menuitem action="AddNoteToChord"/>
 <menuitem action="RemoveNoteFromChord"/>
-<menuitem action="SharpenOrStemDown"/>
-<menuitem action="FlattenOrStemUp"/>
-<menuitem action="AddDot"/>
-<menuitem action="RemoveDot"/>
+
 <menuitem action="ChangePitch"/>
 </menu>
 <menu action="RestEntry">

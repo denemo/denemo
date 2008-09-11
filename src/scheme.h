@@ -199,14 +199,22 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "AddNoteToChord")), "
 SCM scheme_RemoveNoteFromChord(SCM optional);
 install_scm_function ("d-RemoveNoteFromChord", scheme_RemoveNoteFromChord);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "RemoveNoteFromChord")), "scm", (gpointer)1);
-/*SharpenOrStemDown sharpen_key*/
-SCM scheme_SharpenOrStemDown(SCM optional);
-install_scm_function ("d-SharpenOrStemDown", scheme_SharpenOrStemDown);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "SharpenOrStemDown")), "scm", (gpointer)1);
-/*FlattenOrStemUp flatten_key*/
-SCM scheme_FlattenOrStemUp(SCM optional);
-install_scm_function ("d-FlattenOrStemUp", scheme_FlattenOrStemUp);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "FlattenOrStemUp")), "scm", (gpointer)1);
+/*Sharpen sharpen_key*/
+SCM scheme_Sharpen(SCM optional);
+install_scm_function ("d-Sharpen", scheme_Sharpen);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "Sharpen")), "scm", (gpointer)1);
+/*Flatten flatten_key*/
+SCM scheme_Flatten(SCM optional);
+install_scm_function ("d-Flatten", scheme_Flatten);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "Flatten")), "scm", (gpointer)1);
+/*StemUp stem_up*/
+SCM scheme_StemUp(SCM optional);
+install_scm_function ("d-StemUp", scheme_StemUp);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "StemUp")), "scm", (gpointer)1);
+/*StemDown stem_down*/
+SCM scheme_StemDown(SCM optional);
+install_scm_function ("d-StemDown", scheme_StemDown);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "StemDown")), "scm", (gpointer)1);
 /*AddDot add_dot_key*/
 SCM scheme_AddDot(SCM optional);
 install_scm_function ("d-AddDot", scheme_AddDot);

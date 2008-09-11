@@ -78,6 +78,8 @@ void add_tone_key (DenemoGUI *gui);
 void remove_tone_key (DenemoGUI *gui);
 void deletepreviousobject(DenemoGUI *gui);
 void sharpen_key (DenemoGUI *gui);
+void stem_up (DenemoGUI *gui);
+void stem_down (DenemoGUI *gui);
 void flatten_key (DenemoGUI *gui);
 void tie_notes_key (DenemoGUI *gui);
 void add_dot_key (DenemoGUI *gui);
