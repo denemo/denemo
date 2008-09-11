@@ -375,6 +375,8 @@
      </menu>
 
      <menu action="MeasureMenu">
+       <menuitem action="MeasureLeft"/>
+       <menuitem action="MeasureRight"/>
 	   <menuitem action="GoToMeasure"/>
 	   	<separator/>
 	   <menuitem action="InsertMeasure"/>
@@ -746,13 +748,9 @@ start of "all other" menu
 <menuitem action="UnsetMark"/>
 </menu>
 <menu action="Measure">
-<menuitem action="InsertMeasure"/>
-<menuitem action="AppendMeasure"/>
-<menuitem action="DeleteMeasureAllStaffs"/>
-<menuitem action="DeleteMeasure"/>
+
 <menuitem action="ShrinkMeasures"/>
 <menuitem action="WidenMeasures"/>
-<menuitem action="AppendMesauresToScore"/>
 </menu>
 <menu action="Staff">
 <menuitem action="ShorterStaffs"/>

@@ -282,7 +282,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat"},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern"},
   {KBD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm"},
-  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMesauresToScore"), "append_measure_score"},
+  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasuresToScore"), "append_measure_score"},
   
   /* from view.c menu_entries[]  */
   {KBD_CATEGORY_DIRECT, NULL, "Creating, saving, loading, displaying and printing musical scores", N_("FileMenu"), NULL, "File"},

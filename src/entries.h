@@ -197,7 +197,7 @@
 {"OpenCloseRepeat", NULL, N_("OpenCloseRepeat"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_opencloserepeat_cb)},
 {"InsertRhythm", NULL, N_("InsertRhythm"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_rhythm_pattern_cb)},
 {"NextRhythm", NULL, N_("NextRhythm"), NULL,N_("Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern"),G_CALLBACK (nextrhythm_cb)},
-{"AppendMesauresToScore", NULL, N_("AppendMesauresToScore"), NULL,N_("No Tooltip yet"),G_CALLBACK (append_measure_score_cb)},
+{"AppendMeasuresToScore", NULL, N_("AppendMeasuresToScore"), NULL,N_("No Tooltip yet"),G_CALLBACK (append_measure_score_cb)},
 {"FileMenu", NULL, N_("File"), NULL,N_("Creating, saving, loading, displaying and printing musical scores")},
 {"Bookmarks", NULL, N_("Bookmarks"), NULL,N_("Creating, saving places in musical scores")},
 {"EntryMenu", NULL, N_("Mode"), NULL,N_("Different keyboard entry modes")},

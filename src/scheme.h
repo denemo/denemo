@@ -791,10 +791,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "InsertRhythm")), "sc
 SCM scheme_NextRhythm(SCM optional);
 install_scm_function ("d-NextRhythm", scheme_NextRhythm);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "NextRhythm")), "scm", (gpointer)1);
-/*AppendMesauresToScore append_measure_score*/
-SCM scheme_AppendMesauresToScore(SCM optional);
-install_scm_function ("d-AppendMesauresToScore", scheme_AppendMesauresToScore);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "AppendMesauresToScore")), "scm", (gpointer)1);
+/*AppendMeasuresToScore append_measure_score*/
+SCM scheme_AppendMeasuresToScore(SCM optional);
+install_scm_function ("d-AppendMeasuresToScore", scheme_AppendMeasuresToScore);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "AppendMeasuresToScore")), "scm", (gpointer)1);
 /*New file_newwrapper*/
 SCM scheme_New(SCM optional);
 install_scm_function ("d-New", scheme_New);

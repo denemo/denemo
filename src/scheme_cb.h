@@ -2176,7 +2176,7 @@ gstr = g_string_new_len(str, length);
 nextrhythm_cb (NULL, gstr);
 if(gstr) g_string_free(gstr, TRUE);return SCM_EOL;
 }
-SCM scheme_AppendMesauresToScore (SCM optional) {
+SCM scheme_AppendMeasuresToScore (SCM optional) {
 GString *gstr=NULL;
 int length;
    char *str=NULL;

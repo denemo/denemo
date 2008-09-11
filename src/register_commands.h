@@ -196,7 +196,7 @@ register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Clo
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "OpenCloseRepeat"), "OpenCloseRepeat", "OpenCloseRepeat", "No Tooltip yet", insert_opencloserepeat);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "InsertRhythm", "No Tooltip yet", insert_rhythm_pattern);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "NextRhythm"), "NextRhythm", "NextRhythm", "Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern", nextrhythm);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "AppendMesauresToScore"), "AppendMesauresToScore", "AppendMesauresToScore", "No Tooltip yet", append_measure_score);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "AppendMeasuresToScore"), "AppendMeasuresToScore", "AppendMeasuresToScore", "No Tooltip yet", append_measure_score);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "New"), "New", "New", "Start a new musical score", file_newwrapper);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Open"), "Open", "Open", "Open a file containing a music score for editing", file_open_with_check);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "AddStaffs"), "AddStaffs", "AddStaffs", "Add staffs from a Denemo file", file_add_staffs);
