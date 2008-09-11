@@ -47,8 +47,10 @@ static void
 morecommands (GtkAction *action, gpointer param);
 static void
 mycommands (GtkAction *action, gpointer param);
-
-
+static void
+create_window(void);
+static gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
+			    gpointer func_data);
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
 
@@ -296,7 +298,7 @@ int process_command_line(int argc, char**argv);//back in main
    calls back to finish command line processing
 */
 int inner_main(void*closure, int argc, char **argv){
-  g_print("Got inner main with  %d and %p\n", argc, argv);
+  //g_print("Got inner main with  %d and %p\n", argc, argv);
 
   gint i;
   GError *error = NULL;
@@ -307,13 +309,14 @@ int inner_main(void*closure, int argc, char **argv){
   initprefs();
   readHistory();
   g_print("init prefs run");
+  //create window system
+
+   create_window();
+
   /* create the first tab */
   newview (NULL, NULL);
-
-  /* read history file */
-
-  g_print("still inner main with  %d and %p\n", argc, argv);
-
+  load_default_keymap_file(Denemo.commands);
+  gtk_key_snooper_install(dnm_key_snooper, Denemo.commands);
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
@@ -1759,7 +1762,6 @@ toggle_pitch_recognition (GtkAction * action, gpointer param) {
 static void
 toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
 {
-  static keymap *rhythm_keymap;// special keymap in rhythm submode
   GtkWidget *widget;
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
  // g_print("Callback for %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget)));
@@ -2152,7 +2154,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
-static GtkActionGroup* //FIXME Denemo.action_group
+static void
 create_window(void) {
   DenemoPrefs *prefs;
   GtkWidget *main_vbox, *menubar, *toolbar, *hbox;
@@ -2414,9 +2416,9 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
 void
 newview (GtkAction *action, gpointer param)
 {
-  GtkActionGroup *action_group;
-  if(Denemo.guis==NULL)
-    action_group = create_window();
+  GtkActionGroup *action_group=Denemo.action_group;
+  //  if(Denemo.guis==NULL)
+  //    action_group = create_window();
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   Denemo.guis = g_list_append (Denemo.guis, gui);
 
@@ -2551,16 +2553,7 @@ Denemo.gui = gui;
 
 
 
-  /* Set up the keymap if not already set up*/
- {static gboolean initialized = FALSE;
- g_print("init %d for %p\n", initialized, Denemo.gui);
- if(!initialized) {
-   // init_keymap();
-   //alphabeticalize_commands(Denemo.commands);
-  load_default_keymap_file(Denemo.commands);
-  gtk_key_snooper_install(dnm_key_snooper, Denemo.commands);//FIXME do not pass the keymap
-   initialized = TRUE;
- }
+
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {
      g_print("No autosave on new gui");
@@ -2571,7 +2564,7 @@ Denemo.gui = gui;
    }
  }
 
- }
+ 
 
 
 

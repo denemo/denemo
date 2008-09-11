@@ -452,13 +452,6 @@ openfile (gchar * name)
 }
 
 int process_command_line(int argc, char**argv) {
-  //return;
-  /* And open a file, if it was specified on the command line. Note
-   * that this had to be done after the window was created, otherwise
-   * there wouldn't have been a titlebar to set. Also note that
-   * a blank score is created whether or not a load was specified.
-   * This is done this way because the load could bomb out. */
-  g_print("Got back with with  %d and %p\n", argc, argv);
 
   gint opts;
   GDir *dir=NULL;
@@ -623,6 +616,13 @@ COPYING for details.\n\n") ;
 
   if (dir)
     g_dir_close (dir);
+
+
+  /* Open a file, if it was specified on the command line. Note
+   * that this had to be done after the window was created, otherwise
+   * there wouldn't have been a titlebar to set. Also note that
+   * a blank score is created whether or not a load was specified.
+   * This is done this way because the load could bomb out. */
 
   if (optind < argc)
     {
