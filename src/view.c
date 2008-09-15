@@ -261,12 +261,11 @@ SCM diatonic_shift (SCM optional) {
  }
  return SCM_BOOL(FALSE);  
 }
-/* need to change this to next_chord,??????? does it go to next object????? exclude rests, and add a current_note to chords
-   for scheme scripts to iterate over the notes of a chord
-   This is next object!!!!!!!!!!!! FIXME!!!!!!!!!!!
- */
 
-/* goes to next note */
+/* moves currentobject to next object by calling cursorright.
+   Steps over barlines (i.e. cursor_appending).
+ returns TRUE if currentobject is different after than before doing cursorright
+*/
 SCM next_object (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
@@ -274,6 +273,8 @@ SCM next_object (SCM optional) {
   note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
     return SCM_BOOL(FALSE);
+  //  if(Denemo.gui->si->cursor_appending)
+  //   return SCM_BOOL(FALSE);
   GList *this = Denemo.gui->si->currentobject;
   cursorright (Denemo.gui);
   if(this!= Denemo.gui->si->currentobject)
@@ -285,10 +286,20 @@ SCM next_object (SCM optional) {
   return SCM_BOOL(FALSE);  
 }
 SCM next_chord (SCM optional) {
-  return next_object(optional);
+  SCM ret = next_object(optional);
+  if(SCM_FALSEP(ret))
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD)
+    return SCM_BOOL(TRUE);
+  else
+    return 
+      next_chord (optional);
 }
 
 SCM next_note (SCM optional) {
+  // there is a significant problem here. We have no way of iterating over the notes of a chord
+  // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
   return next_chord(optional);
 }
 
@@ -345,6 +356,8 @@ int inner_main(void*closure, int argc, char **argv){
   install_scm_function ("d-GetNoteName",  scheme_get_note_name);
   install_scm_function ("d-PutNoteName",  scheme_put_note_name);
   install_scm_function ("d-DiatonicShift", diatonic_shift);
+  install_scm_function ("d-NextObject", next_object);
+  install_scm_function ("d-NextChord", next_chord);
   install_scm_function ("d-NextNote", next_note);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
