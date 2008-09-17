@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ReadingNoteNames</action>
+        <scheme>(define shiftup
+  (lambda (n)
+    (if (> n 0) (begin
+	(d-CursorUp)
+	(shiftup (- n 1))))))
+
+(define shiftdown
+  (lambda (n)
+    (if (> n 0) (begin
+	(d-CursorDown)
+	(shiftdown (- n 1))))))
+
+
+;; it seems you have to define before you can set
+(define notewas #t)
+(define usernote #t)
+(define score 0)
+(define steps 0)
+(define span 8) ;; how many steps of the scale to test.
+(define runtest 
+  (lambda (n)
+    (if (> n 0) (begin
+		  (set! steps (+ 1 (random span)))
+		  (shiftup steps)
+		  (d-Insert2)
+		  (set! notewas (d-GetNoteName))
+		  ;;(d-InsertLilyDirective "%Your score so far: ")
+		  (d-InsertLilyDirective (string-append  "%Your score so far: " (object->string score)))
+		  (shiftdown steps)
+		  (set! usernote (d-getUserInput "Reading Test" "Give note name" "?"))
+		  (if (string? usernote)
+		      (begin
+		  (d-DeletePreviousObject)
+		  (if  (string=? notewas usernote)
+		       (begin
+		       (set! score (+ score 1))
+		       (d-ChangeNotehead "Diamond"))
+		       (begin
+		       (set! score (- score 1))
+		       (d-ChangeNotehead "Cross"))) 		 
+		  (runtest (- n 1))))))))
+
+(runtest 8)
+(d-InsertLilyDirective (string-append  "%Final Score: " (object->string score)))
+(d-AppendMeasure)
+(d-AppendMeasure)
+(d-MeasureRight)
+(d-MeasureRight)
+</scheme>
+        <menupath>/MainMenu/Educational/MusicReading</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
