@@ -147,10 +147,10 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 SCM scheme_get_note_name (SCM optional) {
     int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-  }
+    //char *str=NULL;
+   //if(SCM_STRINGP(optional)){
+   //str = gh_scm2newstr(optional, &length);
+   //  }
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  chord *thechord;
@@ -159,6 +159,25 @@ str = gh_scm2newstr(optional, &length);
    return SCM_EOL;
  else {
    SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
+   return scm;
+ }
+   
+}
+
+SCM scheme_get_note (SCM optional) {
+    int length;
+    //   char *str=NULL;
+    //if(SCM_STRINGP(optional)){
+    //str = gh_scm2newstr(optional, &length);
+    //  }
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return SCM_EOL;
+ else {
+   SCM scm = scm_makfrom0str (g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));//FIXME a dedicated function avoiding memory leak.
    return scm;
  }
    
@@ -354,6 +373,7 @@ int inner_main(void*closure, int argc, char **argv){
  /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
 
   install_scm_function ("d-GetNoteName",  scheme_get_note_name);
+  install_scm_function ("d-GetNote",  scheme_get_note);
   install_scm_function ("d-PutNoteName",  scheme_put_note_name);
   install_scm_function ("d-DiatonicShift", diatonic_shift);
   install_scm_function ("d-NextObject", next_object);
