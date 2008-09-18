@@ -6,7 +6,15 @@
     <map>
       <row>
         <action>ReadingNoteNames</action>
-        <scheme>(define shiftup
+        <scheme>
+;; tests note name recognition.
+
+;; set the random seed up using time of day
+     (let ((time (gettimeofday)))
+       (set! *random-state*
+             (seed->random-state (+ (car time)
+                                    (cdr time)))))
+(define shiftup
   (lambda (n)
     (if (> n 0) (begin
 	(d-CursorUp)
@@ -25,6 +33,7 @@
 (define score 0)
 (define steps 0)
 (define span 8) ;; how many steps of the scale to test.
+(define number-to-test 16) ;; how many notes to present for the test
 (define runtest 
   (lambda (n)
     (if (> n 0) (begin
@@ -48,12 +57,14 @@
 		       (d-ChangeNotehead "Cross"))) 		 
 		  (runtest (- n 1))))))))
 
-(runtest 8)
+(runtest number-to-test)
 (d-InsertLilyDirective (string-append  "%Final Score: " (object->string score)))
 (d-AppendMeasure)
 (d-AppendMeasure)
 (d-MeasureRight)
 (d-MeasureRight)
+
+
 </scheme>
         <menupath>/MainMenu/Educational/MusicReading</menupath>
         <label>Note Name Recognition</label>
