@@ -14,6 +14,8 @@
        (set! *random-state*
              (seed->random-state (+ (car time)
                                     (cdr time)))))
+
+;; utility functions to shift the cursor up or down by a number of diatonic steps
 (define shiftup
   (lambda (n)
     (if (> n 0) (begin
@@ -27,13 +29,13 @@
 	(shiftdown (- n 1))))))
 
 
-;; it seems you have to define before you can set
-(define notewas #t)
-(define usernote #t)
-(define score 0)
-(define steps 0)
-(define span 8) ;; how many steps of the scale to test.
-(define number-to-test 16) ;; how many notes to present for the test
+;; define the variables and constants used - should these be local?
+(define notewas #t) ;; the note displayed
+(define usernote #t) ;; the user's response to the note
+(define score 0)  ;; simple score (correct minus incorrect)
+(define steps 0)  ;; note for testing will be steps above the cursor
+(define span 8) ;; how many steps of the scale to test, starting from the cursor position.
+(define number-to-test 16) ;; how many notes to present for the test before giving a final score.
 (define runtest 
   (lambda (n)
     (if (> n 0) (begin
@@ -41,13 +43,12 @@
 		  (shiftup steps)
 		  (d-Insert2)
 		  (set! notewas (d-GetNoteName))
-		  ;;(d-InsertLilyDirective "%Your score so far: ")
 		  (d-InsertLilyDirective (string-append  "%Your score so far: " (object->string score)))
 		  (shiftdown steps)
 		  (set! usernote (d-getUserInput "Reading Test" "Give note name" "?"))
 		  (if (string? usernote)
 		      (begin
-		  (d-DeletePreviousObject)
+		  (d-DeletePreviousObject) ;; delete the prompt giving the old score
 		  (if  (string=? notewas usernote)
 		       (begin
 		       (set! score (+ score 1))
