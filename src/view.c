@@ -77,10 +77,9 @@ static void save_accels (void);
 #include "callbacks.h" /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
 #include <guile/gh.h>
-#if 1
-#include <guile/gh.h>
+
 #include "scheme_cb.h"
-#endif
+
 
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
@@ -204,6 +203,36 @@ if(SCM_STRINGP(label)){
  SCM scm = scm_makfrom0str (ret);
  return scm;
 }
+int TESTING=0;
+SCM scheme_get_char(void) {
+  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
+ GdkEventKey *event = gdk_display_get_event(display);
+#if 0
+ do{
+ while((event = gdk_display_get_event(display))) {
+   if(event->type==GDK_KEY_PRESS)
+     {
+       g_print ("Got the key %c\n", event->keyval);
+       SCM scm = gh_char2scm(event->keyval);
+       gdk_event_free(event);
+       return scm;
+     } else
+       gdk_display_put_event(display, event);
+   gdk_event_free(event);
+   g_print("iterating");
+   gtk_main_iteration_do(FALSE);
+ }
+ 
+ } while(event==NULL);
+#endif
+
+ gint keyval, state;
+ gboolean success = intercept_scorearea_keypress(&keyval, &state);
+ SCM scm = gh_char2scm(success?keyval:0);
+
+ return  scm;
+}
+
 
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
@@ -401,6 +430,10 @@ Then
      (define user-input (d-getUserInput "Named Bookmark" "Give a name" "XXX"))
      (d-InsertLilyDirective (string-append "%" user-input))
     */
+
+  install_scm_function ("d-GetChar", scheme_get_char);
+
+
 
     process_command_line(argc, argv);
  /* Now launch into the main gtk event loop and we're all set */

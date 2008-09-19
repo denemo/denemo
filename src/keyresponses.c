@@ -11,6 +11,26 @@
 #include "utils.h"
 #include "tupletops.h"
 #include "view.h"
+
+
+static GdkEventKey ** divert_key_event;/* Non null if key events are being intercepted by a function
+					* (which is running a gtk_mail_loop() for this reason).
+					* return TRUE if a key press successfully captured
+					* in which case the kyval, state pair are returned
+					*/
+gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
+  if(divert_key_event) {
+    warningdialog("Recursive key capture not possible!");/* we could make a stack of them instead ... */
+    return FALSE;
+  }
+  GdkEventKey *event;
+  divert_key_event = &event;
+  gtk_main();
+  divert_key_event = NULL;
+  *keyval = event->keyval;
+  *state = event->state;
+}
+
 /**
  * keypress event callback 
  * looks up the key press and executes the correct function
@@ -21,14 +41,12 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.commands;
-#if 0
-  if (gui->textview && GTK_WIDGET_IS_SENSITIVE (gui->textview))
-    {
-      /*    printf("Focus is on text window\n"); */
-      gtk_widget_queue_draw (gui->textview);
-      return 0;
-    }
-#endif
+  if(divert_key_event) {
+    dnm_sanitize_key_state(event);
+    *divert_key_event = event;
+    gtk_main_quit();
+    return 1;
+  }
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
   gint command_idx = lookup_keybinding (the_keymap, event->keyval,
