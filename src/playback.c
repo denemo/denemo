@@ -50,12 +50,15 @@ static gint kill_timer(void){
   kill_id = 0;
 }
 
+
+
+
 /* start or restart an external midi player
  * trying avoid multiple instances of it
- * if action==NULL stop the playback
+ * if start==FALSE stop the playback rather than start it
  */
-void
-ext_midi_playback (GtkAction * action, gpointer param)
+static void
+ext_midi_playback_control (gboolean start)
 {
   DenemoGUI *gui = Denemo.gui;
   FILE *fp;
@@ -116,7 +119,7 @@ ext_midi_playback (GtkAction * action, gpointer param)
       g_debug ("ext_midi: killing player %x\n", playerpid);
       kill_process (playerpid);
     }
-  if(action==NULL) {
+  if(!start) {
     fclose (fp);
     g_free (pidpath);
     return;
@@ -175,9 +178,19 @@ ext_midi_playback (GtkAction * action, gpointer param)
 }
 
 
+/* start or restart an external midi player
+ * trying avoid multiple instances of it
+ */
+void
+ext_midi_playback (GtkAction * action, gpointer param)
+{
+  ext_midi_playback_control (TRUE);
+
+}
+
 void stop_midi_playback (GtkAction * action, gpointer param) {
-  ext_midi_playback (NULL, NULL);
-  kill_timer();
+ ext_midi_playback_control (FALSE);
+ kill_timer();
 }
 
 
