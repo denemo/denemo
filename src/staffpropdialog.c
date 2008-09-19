@@ -296,7 +296,7 @@ set_properties (struct callbackdata *cbdata)
 }
 
 void staff_properties_change_cb (GtkAction *action, gpointer param) {
- (void) staff_properties_change(NULL, NULL);
+ (void) staff_properties_change(action, NULL);
 }
 /**
  * Create Dialog to allow the user to set the staffs parameters
