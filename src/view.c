@@ -174,7 +174,7 @@ SCM scheme_get_note (SCM optional) {
  chord *thechord;
  note *thenote;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return SCM_EOL;
+   return scm_makfrom0str ("");
  else {
    SCM scm = scm_makfrom0str (g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));//FIXME a dedicated function avoiding memory leak.
    return scm;
