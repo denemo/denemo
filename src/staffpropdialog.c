@@ -283,9 +283,9 @@ set_properties (struct callbackdata *cbdata)
   else
     if(staffstruct->context != DENEMO_NONE)
       staffstruct->context |= old;//Allow more than one context to start/end, reset using DENEMO_NONE (0)
-  if(staffstruct->staff_prolog) 
-    g_string_free(staffstruct->staff_prolog, TRUE);
-  staffstruct->staff_prolog =
+  if(staffstruct->staff_prolog_insert) 
+    g_string_free(staffstruct->staff_prolog_insert, TRUE);
+  staffstruct->staff_prolog_insert =
     g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->lilybefore)));
 
 #ifdef DEBUG
@@ -554,7 +554,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
   lilybefore = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%s", staffstruct->staff_prolog?staffstruct->staff_prolog->str:"");
+  g_string_sprintf (entrycontent, "%s", staffstruct->staff_prolog_insert?staffstruct->staff_prolog_insert->str:"");
   gtk_entry_set_text (GTK_ENTRY (lilybefore), entrycontent->str);
   gtk_table_attach (GTK_TABLE (table), lilybefore, 3, 4, 6, 7,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),

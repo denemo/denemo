@@ -658,6 +658,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	  if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
 	     xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
 		       (xmlChar *) curStaffStruct->staff_prolog->str);
+	  else
+	    if(curStaffStruct->staff_prolog_insert && curStaffStruct->staff_prolog_insert->len)
+	     xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog-insert",
+		       (xmlChar *) curStaffStruct->staff_prolog_insert->str);
 	  if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)
 	     xmlNewChild (curElem, ns, (xmlChar *) "lyrics-prolog",
 		       (xmlChar *) curStaffStruct->lyrics_prolog->str);

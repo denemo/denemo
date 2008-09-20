@@ -220,6 +220,7 @@ typedef struct
 			the notes in this staff
 			the data are tone* */
   GString *staff_prolog;/**< Customised version of the LilyPond prolog defining the music of this staff */
+  GString *staff_prolog_insert;/**< LilyPond text to insert into a standard LilyPond staff prolog*/
   GString *lyrics_prolog;/**< Customised version of the LilyPond prolog defining the lyrics of this staff */
   GString *figures_prolog;/**< Customised version of the LilyPond prolog defining the figured bass of this staff */
   GString *fakechords_prolog;/**< Customised version of the LilyPond prolog defining the chord symbols of this staff */

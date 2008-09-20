@@ -1232,10 +1232,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {/* custom staff-prolog */
     insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
   } else {
-
+    
     /* The midi instrument */
     g_string_append_printf(str, "\n"TAB"%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
-
+    
     /* Time signature */
     g_string_append_printf(str, "\n"TAB"%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->stime1,
 			   curstaffstruct->stime2);
@@ -1254,9 +1254,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     /* Determine the clef */
     determineclef (curstaffstruct->sclef, &clefname);
     g_string_append_printf(str, ""TAB"%s%sClef = \\clef %s\n", movement, voice, clefname);
-    g_string_append_printf(str, ""TAB"%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-			    movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
-
+    g_string_append_printf(str, ""TAB"%s%sProlog = %s {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+			   movement, voice,  (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"", movement, voice, movement, voice, movement, voice, movement, voice);
+    
     g_string_append_printf(str, "%s%s = {\n",
 			   movement, voice);    
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
