@@ -13,6 +13,7 @@
 #include "processstaffname.h"
 #include "staffops.h"
 #include "utils.h"
+#include "dialogs.h"
 #include <stdlib.h>
 #include <string.h>
 #include "xmldefs.h"
@@ -296,7 +297,22 @@ set_properties (struct callbackdata *cbdata)
 }
 
 void staff_properties_change_cb (GtkAction *action, gpointer param) {
+  if(action)
  (void) staff_properties_change(action, NULL);
+  else {
+    GString *values = (GString *)param;
+    gchar *str;
+    DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+    if( (str = g_strstr_len(values->str, values->len, "staff-prolog-insert"))) {
+      if(staff->staff_prolog_insert) 
+	g_string_free(staff->staff_prolog_insert, TRUE);
+      staff->staff_prolog_insert = g_string_new(str+strlen("staff-prolog-insert")+1);  
+    }
+    // others ....
+
+
+
+  }
 }
 /**
  * Create Dialog to allow the user to set the staffs parameters
