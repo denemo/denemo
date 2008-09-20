@@ -1254,8 +1254,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     /* Determine the clef */
     determineclef (curstaffstruct->sclef, &clefname);
     g_string_append_printf(str, ""TAB"%s%sClef = \\clef %s\n", movement, voice, clefname);
-    g_string_append_printf(str, ""TAB"%s%sProlog = %s {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-			   movement, voice,  (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"", movement, voice, movement, voice, movement, voice, movement, voice);
+    g_string_append_printf(str, ""TAB"%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+			   movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
     
     g_string_append_printf(str, "%s%s = {\n",
 			   movement, voice);    
@@ -1389,8 +1389,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   
   // str is empty again now FIXME
   g_string_append_printf(str, "}\n");
-  g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s {\\%s%sProlog \\%s%s}\n",
-			 movement, voice,  voice, movement, movement, voice, movement, voice);
+  g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s %s {\\%s%sProlog \\%s%s}\n",
+			 movement, voice,  voice, movement, 
+			 (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"",
+ movement, voice, movement, voice);
   g_string_append_printf(str, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			 movement, voice, movement, voice, movement, voice);
   
