@@ -55,6 +55,7 @@
       <menu action="KeyBindings">
         <menuitem action="QuickEdits"/>
         <menuitem action="SaveAccels"/>
+        <menuitem action="RecordScript"/>
         <menuitem action="CommandManagement"/>
       </menu>
       <!--
