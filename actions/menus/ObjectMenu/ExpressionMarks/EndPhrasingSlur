@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>EndPhrasingSlur</action>
+        <scheme>(d-InsertLilyDirective "\\)")
+</scheme>
+        <label>End Phrasing Slur</label>
+        <tooltip>Ends a phrasing slur (which can have slurs within it)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
