@@ -99,6 +99,7 @@ static void save_accels (void);
 #define TogglePitchRecognition_STRING  "TogglePitchRecognition"
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define QuickEdits_STRING  "QuickEdits"
+#define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
 
 
@@ -1302,6 +1303,10 @@ static void toggleRecording (GtkWidget*w, gboolean *record) {
   *record = !*record;
 }
 
+static void 
+toggle_record_script(GtkAction *action, gpointer param) {
+  Denemo.ScriptRecording = !Denemo.ScriptRecording;
+}
 /* returns newly allocated string containing current Scheme in the ScriptView
  caller must free
 */
@@ -1457,8 +1462,13 @@ static gboolean menu_click (GtkWidget      *widget,
 
   item = gtk_check_menu_item_new_with_label("Recording Script");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
+
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "toggled", G_CALLBACK(toggleRecording), &Denemo.ScriptRecording);
+
+
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
+
+
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
 
 
@@ -1967,6 +1977,8 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_articulation_palette), FALSE},
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
    G_CALLBACK (toggle_quick_edits), FALSE},
+  {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
+   G_CALLBACK (toggle_record_script), FALSE},
 
 
   {ReadOnly_STRING, NULL, N_("Read Only"), NULL, "Make score read only\nNot working",
@@ -2217,6 +2229,35 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 
 
 
+/*
+ create_scheme_window()
+ create a text window for scheme scripts
+
+*/
+
+  static void create_scheme_window(void) {
+  Denemo.ScriptView = gtk_text_view_new();
+  GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
+  //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
+  g_signal_connect(w, "delete-event", G_CALLBACK(hide_scheme/*gtk_widget_hide_on_delete*/), w);
+  GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (w), main_vbox);
+  
+  w = gtk_button_new_with_label("Execute Script");
+  g_signal_connect(w, "clicked",  G_CALLBACK(executeScript), NULL);
+  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
+
+  
+  GtkWidget *wid = gtk_check_button_new_with_label("Record Schem Script");
+  //GtkAction *action2 = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript");
+  //g_print("action %p", action2);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), wid);
+  gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
+
+
+  }
 
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
@@ -2244,20 +2285,10 @@ create_window(void) {
   g_free (data_dir);
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
-  Denemo.ScriptView = gtk_text_view_new();
-  GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
-  //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
-  g_signal_connect(w, "delete-event", G_CALLBACK(hide_scheme/*gtk_widget_hide_on_delete*/), w);
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (w), main_vbox);
-  
-  w = gtk_button_new_with_label("Execute Script");
-  g_signal_connect(w, "clicked",  G_CALLBACK(executeScript), NULL);
-  gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
 
-  
-  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
+  //create_scheme_window();
+
+
 
 
 
@@ -2400,6 +2431,8 @@ get_data_dir (),
 		      "Denemo");
 
   gtk_widget_show (hbox);
+
+create_scheme_window();
 
   populate_opened_recent ();
   gtk_widget_show(Denemo.window);
