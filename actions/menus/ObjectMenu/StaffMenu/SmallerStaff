@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>SmallerStaff</action>
-        <scheme>(d-StaffProperties "voice-prolog-insert=\\transpose c ees\0staff-prolog-insert=\\with {\n
+        <scheme>(d-StaffProperties "staff-prolog-insert=\\with {\n
    fontSize = #-3\n
     \\override StaffSymbol #'staff-space = #(magstep -3)\n
   }\n")</scheme>
