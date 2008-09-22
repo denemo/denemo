@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>RTS</author>
+    <map>
+      <row>
+        <action>SmallerStaff</action>
+        <scheme>(d-StaffProperties "voice-prolog-insert=\\transpose c ees\0staff-prolog-insert=\\with {\n
+   fontSize = #-3\n
+    \\override StaffSymbol #'staff-space = #(magstep -3)\n
+  }\n")</scheme>
+        <label>Smaller Staff</label>
+        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
