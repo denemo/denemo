@@ -1391,7 +1391,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_append_printf(str, "}\n");
   g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s %s {\\%s%sProlog \\%s%s}\n",
 			 movement, voice,  voice, movement, 
-			 (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"",
+			 (curstaffstruct->voice_prolog_insert && curstaffstruct->voice_prolog_insert->len)? curstaffstruct->voice_prolog_insert->str:"",
  movement, voice, movement, voice);
   g_string_append_printf(str, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			 movement, voice, movement, voice, movement, voice);
@@ -1814,29 +1814,29 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(scoreblock, ""TAB""TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
 				   movement_name->str, voice_name->str);
 	  GString *str = g_string_new("");
-
-
+	  
+	  gchar *staffprolinsert =  (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"";
 	  if (curstaffstruct->context & DENEMO_CHOIR_START)
-	    g_string_append_printf(str, "\\new ChoirStaff << \n");
+	    g_string_append_printf(str, "\\new ChoirStaff %s << \n", staffprolinsert);
 	  if (curstaffstruct->context & DENEMO_GROUP_START)
-	    g_string_append_printf(str, "\\new StaffGroup << \n");
+	    g_string_append_printf(str, "\\new StaffGroup %s << \n", staffprolinsert);
 	  if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	    g_string_append_printf(str, "\\new PianoStaff << \n");
+	    g_string_append_printf(str, "\\new PianoStaff %s << \n", staffprolinsert);
 
 	  if(curstaffstruct->voicenumber == 1)
-	    g_string_append_printf(str, "\\new Staff << {\n");
-    else
-      g_string_append_printf(str, "\\new Voice {\n");
-    if (curstaffstruct->no_of_lines != 5)
-      g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
-			     curstaffstruct->no_of_lines);
-
-    const gchar *endofblock;
-    if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
-      endofblock = "";
-    else
-      endofblock = ">>";
-
+	    g_string_append_printf(str, "\\new Staff %s << {\n", staffprolinsert);
+	  else
+	    g_string_append_printf(str, "\\new Voice {\n");
+	  if (curstaffstruct->no_of_lines != 5)
+	    g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
+				   curstaffstruct->no_of_lines);
+	  
+	  const gchar *endofblock;
+	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
+	    endofblock = "";
+	  else
+	    endofblock = ">>";
+	  
 	  if (curstaffstruct->voicenumber != 2)
 	    {
 	    

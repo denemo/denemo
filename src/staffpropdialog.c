@@ -206,7 +206,8 @@ struct callbackdata
   GtkWidget *posinhalflinesentry;
   GtkWidget *midientry;
   GtkWidget *contexts;
-  GtkWidget *lilybefore;
+  GtkWidget *staff_prolog;
+  GtkWidget *voice_prolog;
 
   
 };
@@ -287,7 +288,12 @@ set_properties (struct callbackdata *cbdata)
   if(staffstruct->staff_prolog_insert) 
     g_string_free(staffstruct->staff_prolog_insert, TRUE);
   staffstruct->staff_prolog_insert =
-    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->lilybefore)));
+    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->staff_prolog))); 
+
+  if(staffstruct->voice_prolog_insert) 
+    g_string_free(staffstruct->voice_prolog_insert, TRUE);
+  staffstruct->voice_prolog_insert =
+    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->voice_prolog))); 
 
 #ifdef DEBUG
 	g_printf("Staff Transposition %d\n", staffstruct->transposition);
@@ -303,15 +309,18 @@ void staff_properties_change_cb (GtkAction *action, gpointer param) {
     GString *values = (GString *)param;
     gchar *str;
     DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-    if( (str = g_strstr_len(values->str, values->len, "staff-prolog-insert"))) {
-      if(staff->staff_prolog_insert) 
-	g_string_free(staff->staff_prolog_insert, TRUE);
-      staff->staff_prolog_insert = g_string_new(str+strlen("staff-prolog-insert")+1);  
+#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
+      if(staff->b)\
+	g_string_free(staff->b, TRUE);\
+      staff->b = g_string_new(str+strlen(a)+1);\
     }
+    gint i;
+    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
+      SET_STRING("staff-prolog-insert", staff_prolog_insert); 
+      SET_STRING("voice-prolog-insert", voice_prolog_insert);
     // others ....
-
-
-
+    }
+#undef SET_STRING
   }
 }
 /**
@@ -343,7 +352,8 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   GtkWidget *midi_channel;
   GtkWidget *midi_prognum;
   GtkWidget *volume;
-  GtkWidget *lilybefore;
+  GtkWidget *staff_prolog;
+  GtkWidget *voice_prolog;
 
   GtkWidget *midicombo;
   GtkWidget *context;
@@ -390,7 +400,7 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
 
-  table = gtk_table_new (4, 8, FALSE);
+  table = gtk_table_new (5, 8, FALSE);
   gtk_container_set_border_width (GTK_CONTAINER (table), 12);
   gtk_table_set_row_spacings (GTK_TABLE (table), 8);
   gtk_table_set_col_spacings (GTK_TABLE (table), 8);
@@ -569,13 +579,20 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (label);
-  lilybefore = gtk_entry_new ();
+  staff_prolog = gtk_entry_new ();
   g_string_sprintf (entrycontent, "%s", staffstruct->staff_prolog_insert?staffstruct->staff_prolog_insert->str:"");
-  gtk_entry_set_text (GTK_ENTRY (lilybefore), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), lilybefore, 3, 4, 6, 7,
+  gtk_entry_set_text (GTK_ENTRY (staff_prolog), entrycontent->str);
+  gtk_table_attach (GTK_TABLE (table), staff_prolog, 3, 4, 6, 7,
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (lilybefore);
+  gtk_widget_show (staff_prolog);
+  voice_prolog = gtk_entry_new ();
+  g_string_sprintf (entrycontent, "%s", staffstruct->voice_prolog_insert?staffstruct->voice_prolog_insert->str:"");
+  gtk_entry_set_text (GTK_ENTRY (voice_prolog), entrycontent->str);
+  gtk_table_attach (GTK_TABLE (table), voice_prolog, 4, 5, 6, 7,
+		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		    (GtkAttachOptions) (0), 0, 0);
+  gtk_widget_show (staff_prolog);
 
   label = gtk_label_new (_("Context:"));
   gtk_table_attach (GTK_TABLE (table), label, 0, 1, 6, 7,
@@ -616,7 +633,8 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   cbdata.transposeentry = transposeentry;
   cbdata.posinhalflinesentry = posinhalflinesentry;
   cbdata.volume = volume;
-  cbdata.lilybefore = lilybefore;
+  cbdata.staff_prolog = staff_prolog;
+  cbdata.voice_prolog = voice_prolog;
 
   cbdata.midientry = GTK_COMBO (midicombo)->entry;
   cbdata.contexts = GTK_COMBO (context)->entry;
