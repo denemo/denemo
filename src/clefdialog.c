@@ -40,6 +40,15 @@ static ClefInfo clef_info[] = {
   {DENEMO_SOPRANO_CLEF, N_("Soprano")}
 };
 
+
+static enum clefs get_clef_from_name(gchar *name) {
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(clef_info);i++) {
+    if(!strcmp(name, clef_info[i].name))
+      return clef_info[i].clef;
+  }
+  return DENEMO_INVALID_CLEF;
+}
 /**
  * Callback to insert a clef change 
  * calls clef change with the INSERT argument
@@ -48,7 +57,15 @@ void
 clef_change_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  clef_change (gui, INSERT);
+  if(action)
+    clef_change (gui, INSERT);
+ else {
+   GString *values = (GString *)param;
+   enum clefs clef = get_clef_from_name(values->str);
+   if(clef!=DENEMO_INVALID_CLEF)
+     object_insert (gui, dnm_newclefobj (clef));
+   displayhelper (gui);
+ }
 }
 
 /**
@@ -59,7 +76,15 @@ void
 clef_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  clef_change (gui, CHANGEINITIAL);
+  if(action)
+    clef_change (gui, CHANGEINITIAL);
+  else {
+    GString *values = (GString *)param;
+    enum clefs clef = get_clef_from_name(values->str);
+   if(clef!=DENEMO_INVALID_CLEF)
+     dnm_setinitialclef (gui->si, gui->si->currentstaff->data, clef);
+   displayhelper (gui);
+  }
 }
 
 void
@@ -88,10 +113,7 @@ clef_change (DenemoGUI * gui, actiontype action)
   GtkCellRenderer *renderer;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   int i;
-  
-  if (gui->si->lily_file && action == CHANGEINITIAL)
-    return;		       /* no code for this yet - just edit textually */
-  
+   
   dialog = 
     gtk_dialog_new_with_buttons (((action == CHANGEINITIAL) ? 
 				  _("Set Clef") : _("Insert clef change")), 
