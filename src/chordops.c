@@ -282,6 +282,7 @@ void dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint
  * This function finds the node of the closest chord tone to n; in the
  * case of equally distant chord notes, it'll select the higher notes
  * of the two 
+ * returns NULL in the case of no notes
  */
 
 /* I don't think that I could have quite done this with a g_list_find_custom */
@@ -329,9 +330,10 @@ objnode *nearestnote (DenemoObject * thechord, gint mid_c_offset) {
 
 /**
  * Remove tone from current chord
- *
+ * return TRUE if a note is removed,
+ * false if chord is a rest.
  */
-void
+gboolean
 removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 {
   GList *tnode;			/* Tone node to remove */
@@ -353,8 +355,8 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 	else
 	  {
 	    ((chord *) thechord->object)->highestpitch = G_MININT;
-	    /* Had to take care of this somewhere */
-	    ((chord *) thechord->object)->is_tied = FALSE;
+	    /* Had to take care of this somewhere - perhaps not needed - when passing through an edit with no notes...
+	    ((chord *) thechord->object)->is_tied = FALSE; */
 	  }
       if (!tnode->prev)		/* That is, we're removing the lowest pitch */
 	if (tnode->next)
@@ -377,7 +379,15 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 	g_list_remove_link (((chord *) thechord->object)->notes, tnode);
       g_list_free_1 (tnode);
     }
+
+    return (gboolean)tnode;
 }
+
+//void
+//removeallnotes(DenemoObject * thechord) {
+//  while(removetone(thechord, 0, 0))
+//	;
+//}
 
 /**
  * Set the accidental of note closest to mid_c_offset in

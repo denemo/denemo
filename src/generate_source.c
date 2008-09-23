@@ -503,7 +503,7 @@ int main() {
       //fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.commands, \"%s\"));\n", ni, ni);
       //fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");// for callback via (denemo dnm_xxx)
       //if(mi==KBD_CATEGORY_DIRECT)
-	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n%s%s (NULL, gstr);\nif(gstr) g_string_free(gstr, TRUE);return SCM_EOL;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
+	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nSCM ret;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n%s%s (NULL, gstr);\nif(gstr) {\nret=scm_makfrom0str(gstr->str);} else\nret=scm_makfrom0str(\"\");\nif(gstr) g_string_free(gstr, TRUE);return ret;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
 	fprintf(register_commands, "register_command(Denemo.commands, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
     }
 

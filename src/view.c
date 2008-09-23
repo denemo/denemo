@@ -183,6 +183,29 @@ SCM scheme_get_note (SCM optional) {
    
 }
 
+
+SCM scheme_get_notes (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ SCM scm;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return scm_makfrom0str ("");
+ else {
+   GList *g;
+   GString *str = g_string_new("");
+   for(g=thechord->notes;g;g=g->next) {
+     thenote =  (note *) g->data;
+     gchar *name =  g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
+     str = g_string_insert_len (str, -1,/* at end */ name, 1+strlen(name)/*include the NULLs as delimiters for scheme */);
+   }
+   scm = gh_str2scm /*scm_from_locale_stringn */(str->str, str->len);
+   return scm;
+ } 
+}
+
+
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
   gchar *title, *instruction, *initial_value;
   gint length;
@@ -404,6 +427,8 @@ int inner_main(void*closure, int argc, char **argv){
 
   install_scm_function ("d-GetNoteName",  scheme_get_note_name);
   install_scm_function ("d-GetNote",  scheme_get_note);
+  install_scm_function ("d-GetNotes",  scheme_get_notes);
+
   install_scm_function ("d-PutNoteName",  scheme_put_note_name);
   install_scm_function ("d-DiatonicShift", diatonic_shift);
   install_scm_function ("d-NextObject", next_object);
@@ -447,10 +472,12 @@ int call_out_to_guile(char *script) {
   // SCM val = scm_take_locale_string(script); this will free script
   // SCM val = scm_from_locale_string(script);
   SCM val = scm_c_eval_string(script);
+#if 0
   if(SCM_BOOLP(val)){
     g_print("Got %d boolean back\n", !SCM_FALSEP(val));
   } else
     g_print("No return boolean\n");
+#endif
 }
 
 /****************

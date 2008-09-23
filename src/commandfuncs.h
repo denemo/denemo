@@ -78,7 +78,7 @@ setenshift (DenemoScore * si, gint enshift);
 void
 changeduration (DenemoScore  *si, gint duration);
 
-void
+gboolean
 tonechange (DenemoScore  *si, gboolean remove);
 
 void

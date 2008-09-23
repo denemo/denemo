@@ -506,17 +506,17 @@ insert_septuplet (DenemoGUI * gui)
 
 
 
-void
+gboolean
 add_tone_key (DenemoGUI * gui)
 {
-  tonechange (gui->si, FALSE);
+ return tonechange (gui->si, FALSE);
 
 }
 
-void
+gboolean
 remove_tone_key (DenemoGUI * gui)
 {
-  tonechange (gui->si, TRUE);
+  return tonechange (gui->si, TRUE);
 
 }
 

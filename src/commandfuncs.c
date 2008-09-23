@@ -913,18 +913,19 @@ changeduration (DenemoScore * si, gint duration)
  * @param si pointer to the scoreinfo structure
  * @param remove whether to remove note or not
  */
-void
+gboolean
 tonechange (DenemoScore * si, gboolean remove)
 {
   declarecurmudelaobj;
   int prognum;
+  gboolean ret = FALSE;
   DenemoStaff *curstaffstruct;
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       if (remove == TRUE)
-	removetone (curmudelaobj, si->cursor_y/*mid_c_offset*/, si->cursorclef/*dclef*/);
+	ret = removetone (curmudelaobj, si->cursor_y/*mid_c_offset*/, si->cursorclef/*dclef*/);
       else
-	addtone (curmudelaobj, si->cursor_y/* mid_c_offset*/,
+	ret = (gboolean)addtone (curmudelaobj, si->cursor_y/* mid_c_offset*/,
 		 si->cursoraccs[si->staffletter_y]/* enshift */, si->cursorclef /*dclef*/);
 
       if (curmudelaobj->user_string)
@@ -937,6 +938,7 @@ tonechange (DenemoScore * si, gboolean remove)
       /*playnotes (si->prefs->immediateplayback,
        *(chord *) curmudelaobj->object, prognum);*/
     }
+  return ret;
 }
 
 /**
