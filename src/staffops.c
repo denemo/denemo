@@ -332,7 +332,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	}
       else
 	{
-	  ret = staff_properties_change (NULL, &itp);
+	  ret = staff_properties_change (&itp);
 
 	  if (ret)
 	    {

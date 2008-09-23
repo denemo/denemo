@@ -304,7 +304,9 @@ set_properties (struct callbackdata *cbdata)
 
 void staff_properties_change_cb (GtkAction *action, gpointer param) {
   if(action)
- (void) staff_properties_change(action, NULL);
+    (void) staff_properties_change(NULL);
+  else if(param==NULL)
+    (void) staff_properties_change(NULL);
   else {
     GString *values = (GString *)param;
     gchar *str;
@@ -323,15 +325,17 @@ void staff_properties_change_cb (GtkAction *action, gpointer param) {
 #undef SET_STRING
   }
 }
+
+
 /**
  * Create Dialog to allow the user to set the staffs parameters
  * 
  * @param action Gtk Action event or NULL if called programatically
- * @param callback_data pointer either the newstaffinfotopass structure or (if action) the DenemoGUI structure
+ * @param callback_data if action==NULL this holds newstaffinfotopass structure otherwise unused.
  * @return success or failure 
  */
 gboolean
-staff_properties_change (GtkAction * action, gpointer callback_data)
+staff_properties_change (gpointer callback_data)
 {
   DenemoScore *si;
   DenemoGUI *gui;
@@ -362,12 +366,12 @@ staff_properties_change (GtkAction * action, gpointer callback_data)
   GList *context_list = NULL;
   static struct callbackdata cbdata;
 
-  if (action)
+  if (callback_data==NULL)
     {
       gui = Denemo.gui;
       si = gui->si;
       staffstruct = (DenemoStaff *) si->currentstaff->data;
-      if(action && staffstruct->staff_prolog && staffstruct->staff_prolog->len) {
+      if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) {
 	warningdialog("This staff has a custom prolog for the staff.\n"
 		      "You will need to make your edits in the LilyPond window\n"
 		      "to see them in the print-out.");
