@@ -57,7 +57,7 @@ void
 clef_change_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(action)
+  if(action || param==NULL)
     clef_change (gui, INSERT);
  else {
    GString *values = (GString *)param;
