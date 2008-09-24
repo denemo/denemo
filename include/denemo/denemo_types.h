@@ -14,6 +14,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
  */
 
+#ifndef DENEMOTYPES_H
+#define DENEMOTYPES_H
 
 #include "denemo_objects.h"
 #define EXT_MIDI 0
@@ -53,7 +55,7 @@ typedef enum
 
 typedef enum DenemoObjType
 {
-  CHORD,
+  CHORD=0,
   TUPOPEN,
   TUPCLOSE,
   CLEF,
@@ -70,8 +72,32 @@ typedef enum DenemoObjType
   FIGURE,
   LILYDIRECTIVE,
   FAKECHORD,
-  PARTIAL
+  PARTIAL /* WARNING when adding to this list, add also to the type names that follow
+	  *  keep the numeration ordered to allow access ny array index. */
 }DenemoObjType;
+static gchar *DenemoObjTypeNames[] =
+{
+  "CHORD",
+  "TUPOPEN",
+  "TUPCLOSE",
+  "CLEF",
+  "TIMESIG",
+  "KEYSIG",
+  "BARLINE",
+  "STEMDIRECTIVE",
+  "MEASUREBREAK",
+  "STAFFBREAK",
+  "DYNAMIC",
+  "GRACE_START",
+  "GRACE_END",
+  "LYRIC",
+  "FIGURE",
+  "LILYDIRECTIVE",
+  "FAKECHORD",
+  "PARTIAL"
+};
+#define DENEMO_OBJECT_TYPE_NAME(obj) (obj?((obj->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[obj->type]:NULL):NULL)
+
 
 /**
  * Enumeration for Tuplets type
@@ -648,3 +674,5 @@ struct DenemoRoot
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
   GtkWidget *ScriptView; /**< a GtkTextView containing a scheme script */
 }  Denemo; /**< The root object. */
+
+#endif

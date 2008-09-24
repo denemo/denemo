@@ -309,6 +309,15 @@ SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+SCM scheme_get_type (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
+   return scm_makfrom0str("None");
+ return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
+}
+
+
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM diatonic_shift (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
@@ -424,6 +433,8 @@ int inner_main(void*closure, int argc, char **argv){
 
 
  /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
+
+  install_scm_function ("d-GetType",  scheme_get_type);
 
   install_scm_function ("d-GetNoteName",  scheme_get_note_name);
   install_scm_function ("d-GetNote",  scheme_get_note);
