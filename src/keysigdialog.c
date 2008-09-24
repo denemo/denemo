@@ -309,11 +309,14 @@ key_from_string(GString *scheme_string, gint *tokey, gint *isminor) {
 /**
  * callback for inserting a keysig change
  *  calls key_change with the INSERT argument
+ * if called with action==NULL inserts the keychange from the GString param
+ * and returns the key in it
  */
 void
 key_change_insert (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if(action || param==NULL)
     key_change (gui, INSERT);
   else {
@@ -322,10 +325,29 @@ key_change_insert (GtkAction * action, gpointer param)
     gboolean valid = key_from_string(values, &tokey, &isminor);
     if(valid) {
       object_insert (gui, dnm_newkeyobj (tokey, isminor, 0));
-      showwhichaccidentalswholestaff (gui->si->currentstaff->
-				      data);
+      showwhichaccidentalswholestaff (gui->si->currentstaff->data);
       displayhelper (gui);
     }
+    gchar *key;
+    isminor=0;
+    gboolean number;
+    // FIXME try to find the previous keysig object, else return initial keysig
+    /* if currentobject is keysig change return the keysig */
+    DenemoObject *curobj = (DenemoObject *)Denemo.gui->si->currentobject->data;
+    if(curobj && curobj->type==KEYSIG){
+      isminor = ((keysig *)curobj->object)->isminor;
+      number = ((keysig *)curobj->object)->number + KEYNAME_ARRAY_OFFSET;
+    } else {
+      isminor = (curstaffstruct->skey_isminor == 1);
+      number = curstaffstruct->skey + KEYNAME_ARRAY_OFFSET;
+    }
+    /* return initial key */
+    if (isminor)
+      key = g_strdup_printf( "%s %s",minorkeys[number], "Minor");
+    else
+      key = g_strdup_printf( "%s %s",majorkeys[number], "Major");
+    g_string_assign(values, key);
+    g_free(key);
   }
 }
 
@@ -337,6 +359,7 @@ void
 key_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   if(action || param==NULL)
     key_change (gui, CHANGEINITIAL);
   else {
@@ -344,9 +367,18 @@ key_change_initial (GtkAction * action, gpointer param)
     gint tokey, isminor;
     gboolean valid = key_from_string(values, &tokey, &isminor);
     if(valid) {
-      dnm_setinitialkeysig (gui->si->currentstaff->data, tokey, isminor);
+      dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
       displayhelper (gui);
     }
+
+    gchar *key;
+    if (curstaffstruct->skey_isminor == 1)
+      key = g_strdup_printf( "%s %s",minorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET], "Minor");
+    else
+      key = g_strdup_printf( "%s %s",majorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET], "Major");
+    g_string_assign(values, key);
+    g_free(key);
+
   }
 }
 /**
