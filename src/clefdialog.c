@@ -76,7 +76,7 @@ void
 clef_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(action)
+  if(action || param==NULL)
     clef_change (gui, CHANGEINITIAL);
   else {
     GString *values = (GString *)param;
