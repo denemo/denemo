@@ -280,28 +280,75 @@ modedialog (GtkWidget * widget, struct modedata *mdata)
 
 }
 
+/* interprets the scheme_string to set key number and isminor value
+ */
+static gboolean
+key_from_string(GString *scheme_string, gint *tokey, gint *isminor) {
+
+  gchar *upper = g_ascii_strup(scheme_string->str, scheme_string->len);
+  gint UNSET = G_MININT;
+  gint length=0;
+  *isminor =  (g_strstr_len(upper, scheme_string->len, "MINOR"))?1:0;
+  g_print("upper %s, scheme %s\n", upper, scheme_string->str);
+  g_free(upper);
+  gchar **keystosearch = (*isminor?minorkeys:majorkeys);
+  gint i;
+  for(*tokey=UNSET, i=0;i<15;i++)
+    if(g_str_has_prefix( scheme_string->str, keystosearch[i])) {
+      if(strlen(keystosearch[i])>length){
+	*tokey = i - KEYNAME_ARRAY_OFFSET;
+	length = strlen(keystosearch[i]);
+      }
+    }
+
+
+  if(*tokey!=UNSET)
+    return TRUE;
+  return FALSE;
+}
 /**
- * Dummy callback for inserting a keysig change
+ * callback for inserting a keysig change
  *  calls key_change with the INSERT argument
  */
 void
 key_change_insert (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  key_change (gui, INSERT);
+  if(action || param==NULL)
+    key_change (gui, INSERT);
+  else {
+    GString *values = (GString *)param;
+    gint tokey, isminor;
+    gboolean valid = key_from_string(values, &tokey, &isminor);
+    if(valid) {
+      object_insert (gui, dnm_newkeyobj (tokey, isminor, 0));
+      showwhichaccidentalswholestaff (gui->si->currentstaff->
+				      data);
+      displayhelper (gui);
+    }
+  }
 }
 
 /**
- * Dummy callback for changing the initial keysig 
+ * callback for changing the initial keysig 
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
 key_change_initial (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  key_change (gui, CHANGEINITIAL);
+  if(action || param==NULL)
+    key_change (gui, CHANGEINITIAL);
+  else {
+    GString *values = (GString *)param;
+    gint tokey, isminor;
+    gboolean valid = key_from_string(values, &tokey, &isminor);
+    if(valid) {
+      dnm_setinitialkeysig (gui->si->currentstaff->data, tokey, isminor);
+      displayhelper (gui);
+    }
+  }
 }
-
 /**
  * Key sig change dialog
  * Allows user to select key from a drop down list
