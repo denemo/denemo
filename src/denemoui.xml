@@ -115,6 +115,8 @@
   
 
 <menubar name="ObjectMenu">
+
+     <menu action="NotesRests">
      <menu action="ModelessNote"> <!-- modeless note object menu -->
 
          <menu action="InsertNote">
@@ -126,6 +128,7 @@
 <menuitem action="InsertF"/>
 <menuitem action="InsertG"/>
          </menu>
+
 	   <menu action="ChangeNote">
 <menuitem action="ChangeToA"/>
 <menuitem action="ChangeToB"/>
@@ -176,19 +179,9 @@
 	     <menuitem action="InsertThirtysecondRest"/>
 	     <menuitem action="InsertSixtyfourthRest"/>
            </menu>
-	  <menu action="Delete">
-	    <menuitem action="Cut"/>
-	    <menuitem action="DeleteObject"/>
-	    <menuitem action="DeletePreviousObject"/>
-          </menu>
 
-           <menuitem action="InsertTiedNote"/>
-           <menuitem action="ChangeNotehead"/>
-           
-           <menuitem action="InsertStem"/>
- 	 <menuitem action="StemDown"/>
-	 <menuitem action="StemUp"/>
-     </menu>  <!-- end of modeless note object menu -->
+</menu> <!-- end of modeless note object menu -->
+
 
 
      <menu action="EditModeNote"> <!-- edit mode note object menu -->
@@ -208,13 +201,13 @@
          </menu>
 	  <menu action="EditDuration">
 
-<menuitem action="0"/>
-<menuitem action="1"/>
-<menuitem action="2"/>
-<menuitem action="3"/>
-<menuitem action="4"/>
-<menuitem action="5"/>
-<menuitem action="6"/>
+	  <menuitem action="0"/>
+	  <menuitem action="1"/>
+	  <menuitem action="2"/>
+	  <menuitem action="3"/>
+	  <menuitem action="4"/>
+	  <menuitem action="5"/>
+	  <menuitem action="6"/>
 
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
@@ -228,24 +221,8 @@
 	     <menuitem action="InsertThirtysecondRest"/>
 	     <menuitem action="InsertSixtyfourthRest"/>
           </menu>
-	  <menu action="Delete">
-	    <menuitem action="Cut"/>
-	    <menuitem action="DeleteObject"/>
-	    <menuitem action="DeletePreviousObject"/>
-          </menu>
-
-<menuitem action="Sharpen"/>
-<menuitem action="Flatten"/>
-
-           <menuitem action="ChangeNotehead"/>
-
-	  <menuitem action="CreateRhythm"/>
-          <menuitem action="InsertRhythm"/>
-	  <menuitem action="NextRhythm"/>
-           <menuitem action="InsertStem"/>
-<menuitem action="StemDown"/>
-<menuitem action="StemUp"/>
-     </menu>
+	  
+     </menu> <!-- end edit mode note object menu -->
 
      <menu action="ClassicModeNote"> <!-- classic mode note object menu -->
          <menu action="SelectNote">
@@ -281,21 +258,8 @@
 	     <menuitem action="InsertThirtysecondRest"/>
 	     <menuitem action="InsertSixtyfourthRest"/>
           </menu>
-	  <menu action="Delete">
-	    <menuitem action="Cut"/>
-	    <menuitem action="DeleteObject"/>
-	    <menuitem action="DeletePreviousObject"/>
-          </menu>
-
-<menuitem action="Sharpen"/>
-<menuitem action="Flatten"/>
-
-           <menuitem action="ChangeNotehead"/>
-           <menuitem action="InsertStem"/>
-<menuitem action="StemDown"/>
-<menuitem action="StemUp"/>	   
-     </menu>
-
+	  	   
+     </menu> <!-- end classic mode note object menu -->
      <menu action="InsertModeNote"> <!-- insert mode note object menu -->
 
          <menu action="InsertNote">	   
@@ -329,21 +293,23 @@
 	     <menuitem action="InsertSixteenthRest"/>
 	     <menuitem action="InsertThirtysecondRest"/>
 	     <menuitem action="InsertSixtyfourthRest"/>
-          </menu>
+          </menu>	  	  
+     </menu><!-- end insert mode note object menu -->
 
 	  <menu action="Delete">
 	    <menuitem action="Cut"/>
 	    <menuitem action="DeleteObject"/>
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
-<menuitem action="Sharpen"/>
-<menuitem action="Flatten"/>
 
+           <menuitem action="InsertTiedNote"/>
            <menuitem action="ChangeNotehead"/>
+           
            <menuitem action="InsertStem"/>
-<menuitem action="StemDown"/>
-<menuitem action="StemUp"/>	  
-     </menu>
+ 	 <menuitem action="StemDown"/>
+	 <menuitem action="StemUp"/>
+     </menu>  <!-- notes/rests object menu -->
+
      <menu action="ExpressionMarks">
 	<menuitem action="InsertDynamic"/>
 	<menuitem action="ToggleStartCrescendo"/>

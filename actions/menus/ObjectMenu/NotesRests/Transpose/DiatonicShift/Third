@@ -13,10 +13,6 @@
   (d-DiatonicShift "2")
   (this-proc)
 </scheme>
-        <menupath>/ObjectMenu/InsertModeNote/Transpose/DiatonicShift</menupath>
-        <menupath>/ObjectMenu/EditModeNote/Transpose/DiatonicShift</menupath>
-        <menupath>/ObjectMenu/ClassicModeNote/Transpose/DiatonicShift</menupath>
-        <menupath>/ObjectMenu/ModelessNote/Transpose/DiatonicShift</menupath>
         <label>Shift up a Third</label>
         <tooltip>Shifts all the notes from the current note up by two diatonic steps.</tooltip>
       </row>
