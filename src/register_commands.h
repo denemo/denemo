@@ -287,9 +287,9 @@ register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Add
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "GotoBookmark"), "GotoBookmark", "Goto Bookmarks", "Go to a bookmarked point in the score", gotobookmark);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "NextBookmark"), "NextBookmark", "Next Bookmark", "Go to the next bookmarked point in the list", nextbookmark);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "PrevBookmark"), "PrevBookmark", "Prev Bookmark", "Go to the previous bookmarked point in the list", prevbookmark);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleEdit"), "ToggleEdit", "Edit Mode", "Toggle between current mode and edit mode", toggle_edit_mode);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleRest"), "ToggleRest", "Rest Mode", "Toggle between note entry and rest entry", toggle_rest_mode);
-register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleRhythm"), "ToggleRhythm", "Rhythm Mode", "Toggle between note entry and rhythm entry", toggle_rhythm_mode);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleEdit"), "ToggleEdit", "Toggle Edit Mode", "Toggle between current mode and edit mode", toggle_edit_mode);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleRest"), "ToggleRest", "Toggle Rest Mode", "Toggle between note entry and rest entry", toggle_rest_mode);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ToggleRhythm"), "ToggleRhythm", "Toggle Rhythm Mode", "Toggle between note entry and rhythm entry", toggle_rhythm_mode);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "ClearOverlay"), "ClearOverlay", "Clear Overlay", "Clear the list of pitches that overlay the notes", clear_overlay);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "CreateRhythm"), "CreateRhythm", "Create Rhythm", "Copy selection as a rhythm pattern for notes to follow as they are entered", create_rhythm_cb);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "DeleteRhythm"), "DeleteRhythm", "Delete Rhythm", "Delete the selected rhythm pattern", delete_rhythm_cb);

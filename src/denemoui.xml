@@ -233,15 +233,7 @@
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
 	 </menu>
-          <menu action="RestEntry">
-             <menuitem action="InsertWholeRest"/>
-	     <menuitem action="InsertHalfRest"/>
-	     <menuitem action="InsertQuarterRest"/>
-	     <menuitem action="InsertEighthRest"/>
-	     <menuitem action="InsertSixteenthRest"/>
-	     <menuitem action="InsertThirtysecondRest"/>
-	     <menuitem action="InsertSixtyfourthRest"/>
-          </menu>
+         
 	  	   
      </menu> <!-- end classic mode note object menu -->
      <menu action="InsertModeNote"> <!-- insert mode note object menu -->
@@ -285,13 +277,17 @@
 	    <menuitem action="DeleteObject"/>
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
-
+<menu action="TiedNotes">
            <menuitem action="InsertTiedNote"/>
+</menu>
+<menu action="NoteheadControl">
            <menuitem action="ChangeNotehead"/>
-           
-           <menuitem action="InsertStem"/>
- 	 <menuitem action="StemDown"/>
-	 <menuitem action="StemUp"/>
+</menu>
+           <menu action="StemControl">
+	          <menuitem action="InsertStem"/>
+ 	          <menuitem action="StemDown"/>
+	          <menuitem action="StemUp"/>
+	   </menu>
      </menu>  <!-- notes/rests object menu -->
 
      <menu action="ExpressionMarks">
