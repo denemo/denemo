@@ -130,7 +130,7 @@ cb_string_pairs activatable_commands[] = {
 
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
-
+#define DENEMO_SCHEME_PREFIX "d-"
 static void install_scm_function(gchar *name, gpointer callback) {
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
 
@@ -227,33 +227,30 @@ if(SCM_STRINGP(label)){
  SCM scm = scm_makfrom0str (ret);
  return scm;
 }
-int TESTING=0;
+
 SCM scheme_get_char(void) {
   GdkDisplay *display = gtk_widget_get_display(Denemo.window);
  GdkEventKey *event = gdk_display_get_event(display);
-#if 0
- do{
- while((event = gdk_display_get_event(display))) {
-   if(event->type==GDK_KEY_PRESS)
-     {
-       g_print ("Got the key %c\n", event->keyval);
-       SCM scm = gh_char2scm(event->keyval);
-       gdk_event_free(event);
-       return scm;
-     } else
-       gdk_display_put_event(display, event);
-   gdk_event_free(event);
-   g_print("iterating");
-   gtk_main_iteration_do(FALSE);
- }
- 
- } while(event==NULL);
-#endif
-
  gint keyval, state;
  gboolean success = intercept_scorearea_keypress(&keyval, &state);
  SCM scm = gh_char2scm(success?keyval:0);
+ return  scm;
+}
 
+SCM scheme_get_command(void) {
+  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
+ GdkEventKey *event = gdk_display_get_event(display);
+ gint keyval, state;
+ GString *name=g_string_new("");
+ gboolean success = intercept_scorearea_keypress(&keyval, &state);
+ if(success) {
+   gint cmd = lookup_keybinding(Denemo.commands, keyval, state);
+   if(cmd!=-1)
+     name = g_string_append(name, lookup_name_from_idx (Denemo.commands, cmd));
+   name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
+  }
+ SCM scm = scm_makfrom0str (name->str);
+ g_string_free(name, TRUE);
  return  scm;
 }
 
@@ -412,7 +409,7 @@ int inner_main(void*closure, int argc, char **argv){
 
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
-    install_scm_function (g_strdup_printf("d-%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
+    install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
   }
   /* test with
 (d-EditMode)
@@ -434,17 +431,17 @@ int inner_main(void*closure, int argc, char **argv){
 
  /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
 
-  install_scm_function ("d-GetType",  scheme_get_type);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
-  install_scm_function ("d-GetNoteName",  scheme_get_note_name);
-  install_scm_function ("d-GetNote",  scheme_get_note);
-  install_scm_function ("d-GetNotes",  scheme_get_notes);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
 
-  install_scm_function ("d-PutNoteName",  scheme_put_note_name);
-  install_scm_function ("d-DiatonicShift", diatonic_shift);
-  install_scm_function ("d-NextObject", next_object);
-  install_scm_function ("d-NextChord", next_chord);
-  install_scm_function ("d-NextNote", next_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
+  install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", diatonic_shift);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", next_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", next_chord);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", next_note);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-NextNote)
@@ -459,7 +456,7 @@ int inner_main(void*closure, int argc, char **argv){
 */
 
 
-    install_scm_function3 ("d-getUserInput", scheme_get_user_input);
+    install_scm_function3 (DENEMO_SCHEME_PREFIX"getUserInput", scheme_get_user_input);
     /* test with
        (d-getUserInput "Named Bookmark" "Give a name" "XXX")
 
@@ -468,8 +465,25 @@ Then
      (d-InsertLilyDirective (string-append "%" user-input))
     */
 
-  install_scm_function ("d-GetChar", scheme_get_char);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
 
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+
+  /* test with
+
+
+  (define command (lambda ()
+            ((d-getUserInput "Tied Note Insert" "To use this function correctly you need to give a duration." "OK")
+	    )))
+     (define duration (d-GetCommand))
+     (cond ((equal? duration "d-3") (set! command d-Change3))
+           ((equal? duration "d-4") (set! command d-Change4))
+      )
+     (d-InsertTiedNote)
+     (command)
+
+    
+  */
 
 
     process_command_line(argc, argv);
