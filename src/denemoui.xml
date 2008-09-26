@@ -170,15 +170,7 @@
               <menuitem action="NextRhythm"/> 
            </menu>
 
-           <menu action="RestEntry">
-             <menuitem action="InsertWholeRest"/>
-	     <menuitem action="InsertHalfRest"/>
-	     <menuitem action="InsertQuarterRest"/>
-	     <menuitem action="InsertEighthRest"/>
-	     <menuitem action="InsertSixteenthRest"/>
-	     <menuitem action="InsertThirtysecondRest"/>
-	     <menuitem action="InsertSixtyfourthRest"/>
-           </menu>
+
 
 </menu> <!-- end of modeless note object menu -->
 
@@ -212,15 +204,7 @@
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
 	  </menu>
-          <menu action="RestEntry">
-             <menuitem action="InsertWholeRest"/>
-	     <menuitem action="InsertHalfRest"/>
-	     <menuitem action="InsertQuarterRest"/>
-	     <menuitem action="InsertEighthRest"/>
-	     <menuitem action="InsertSixteenthRest"/>
-	     <menuitem action="InsertThirtysecondRest"/>
-	     <menuitem action="InsertSixtyfourthRest"/>
-          </menu>
+
 	  
      </menu> <!-- end edit mode note object menu -->
 
@@ -285,6 +269,7 @@
 	    <menuitem action="RemoveDot"/>
 	    <menuitem action="NextRhythm"/>
 	  </menu>
+     </menu><!-- end insert mode note object menu -->
           <menu action="RestEntry">
              <menuitem action="InsertWholeRest"/>
 	     <menuitem action="InsertHalfRest"/>
@@ -294,7 +279,6 @@
 	     <menuitem action="InsertThirtysecondRest"/>
 	     <menuitem action="InsertSixtyfourthRest"/>
           </menu>	  	  
-     </menu><!-- end insert mode note object menu -->
 
 	  <menu action="Delete">
 	    <menuitem action="Cut"/>
