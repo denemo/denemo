@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>InsertTiedNoteDuration</action>
+        <scheme>(define command (lambda ()
+            (d-getUserInput "Tied Note Insert" "To use this function correctly you need to give a duration." "OK")
+	    ))
+   	  (define duration (d-GetCommand))
+   	  (cond
+		 ((equal? duration "d-0") (set! command d-Change0))
+		 ((equal? duration "d-1") (set! command d-Change1))
+		 ((equal? duration "d-2") (set! command d-Change2))
+		 ((equal? duration "d-3") (set! command d-Change3))
+        	 ((equal? duration "d-4") (set! command d-Change4))
+		 ((equal? duration "d-5") (set! command d-Change5))
+		 ((equal? duration "d-6") (set! command d-Change6))
+		 ((equal? duration "d-7") (set! command d-Change7))
+ 	     )
+  	   (d-InsertTiedNote)
+   	  (command)
+        </scheme>
+        <label>Attach Tied Note</label>
+        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
