@@ -28,7 +28,7 @@ gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
   gtk_main();
   divert_key_event = NULL;
   *keyval = event->keyval;
-  *state = event->state;
+  *state = dnm_sanitize_key_state(event);
 }
 
 /**
@@ -42,7 +42,6 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.commands;
   if(divert_key_event) {
-    dnm_sanitize_key_state(event);
     *divert_key_event = event;
     gtk_main_quit();
     return 1;
