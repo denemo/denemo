@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Tremolo</action>
+        <scheme>;;;Scheme code for command Tremolo  tremolo aka abbreviated notes
+(define command (lambda ()
+		 (d-WarningDialog "To use this function correctly you need to give a duration for the tremolo note length.")	
+	    ))
+
+   	  (define duration (d-GetCommand))
+          (define dur #f)
+   	  (cond
+		 ((equal? duration "d-3") (set! dur ":8"))
+		 ((equal? duration "d-4") (set! dur ":16"))
+		 ((equal? duration "d-5") (set! dur ":32"))
+		 ((equal? duration "d-6") (set! dur ":64"))
+		 ((equal? duration "d-7") (set! dur ":128"))
+ 	     )
+          (if (string? dur)
+   	  (d-InsertLilyDirective dur)
+	  (command))
+
+ 
+</scheme>
+        <label>Tremolo</label>
+        <tooltip>Inserts LilyPond directive to make preceding note tremolo.\nGive the duration of the subdivisions required using a duration key.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
