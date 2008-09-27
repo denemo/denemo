@@ -51,7 +51,10 @@ infodialog (gchar * msg)
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (NULL,
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
-				   GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, msg);
+				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, msg);
+ g_signal_connect_swapped (dialog, "response",
+                           G_CALLBACK (gtk_widget_destroy),
+                           dialog);
   gtk_widget_show_all(dialog);
 }
 
