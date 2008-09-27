@@ -1392,6 +1392,12 @@ static void executeScript(GtkWidget*w) {
   call_out_to_guile(text);
   g_free(text);
 }
+static void load_command_from_location(GtkWidget*w, gchar *location) {
+
+  gchar *filepath = g_build_filename (get_data_dir(), "actions", "menus", location, NULL);
+  g_print("Got location %s\n",filepath);
+  load_keymap_dialog_location (w, Denemo.commands, filepath);
+}
 
 
 void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
@@ -1550,6 +1556,16 @@ static gboolean menu_click (GtkWidget      *widget,
   //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
 
 
+  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
+  if(!myposition)
+    myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
+  //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
+
+  item = gtk_menu_item_new_with_label("More Commands for this Menu");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate", G_CALLBACK(load_command_from_location), (gpointer)myposition);
+
+
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
 
 
@@ -1566,10 +1582,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
   item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
-  if(!myposition)
-    myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
-  //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
+
   g_signal_connect(item, "activate", G_CALLBACK(insertScript), myposition);
 
 
