@@ -1544,21 +1544,25 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
 
-  item = gtk_check_menu_item_new_with_label("Recording Script");
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
-
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
+  //item = gtk_check_menu_item_new_with_label("Recording Script");
+  //gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
+  //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
 
 
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
 
 
-  item = gtk_menu_item_new_with_label("Execute Script");
+
+  item = gtk_check_menu_item_new_with_label("Show Current Script");
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate", G_CALLBACK(executeScript), NULL);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
+
+
+  //item = gtk_menu_item_new_with_label("Execute Current Script");
+  //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  //g_signal_connect(item, "activate", G_CALLBACK(executeScript), NULL);
 
   item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
