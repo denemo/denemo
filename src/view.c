@@ -1416,7 +1416,15 @@ activate_script (GtkAction *action, gpointer param)
 }
 
 
-
+/*pop up the help for passed command as info dialog
+ */
+static void popup_help(GtkWidget *widget, gint idx) {
+  gchar *tooltip = (gchar *)lookup_tooltip_from_idx (Denemo.commands, idx);
+  const gchar *name = lookup_name_from_idx (Denemo.commands, idx);
+  tooltip = g_strdup_printf("Command: %s\n\nInformation:\n%s", name,  tooltip);
+  infodialog (tooltip);
+  g_free(tooltip);
+  }
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
    given by the path myposition whose callback is the activate on the current scheme script.
@@ -1507,6 +1515,9 @@ static gboolean menu_click (GtkWidget      *widget,
 
   // GSList *h = gtk_action_get_proxies (action);
   //g_print("In menu click action is %p h is %p\n",action, h);
+
+
+
   gint idx = lookup_index_from_name (the_keymap, func_name);
   //g_print("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3) //Not right click
@@ -1521,10 +1532,15 @@ static gboolean menu_click (GtkWidget      *widget,
     return FALSE;
   if (idx == -1)
     return TRUE;
-  //  if(!idx_has_callback(the_keymap, idx))
+
 
   GtkWidget *menu = gtk_menu_new();
-  GtkWidget *item = gtk_menu_item_new_with_label("Edit/Create Shortcut");
+
+  GtkWidget *item = gtk_menu_item_new_with_label("What is this?");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "activate", G_CALLBACK(popup_help), (gpointer)idx);
+
+  item = gtk_menu_item_new_with_label("Edit/Create Shortcut");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
 
