@@ -55,7 +55,7 @@
 		       (set! score (- score 1))
 		       (d-ChangeNotehead "Cross"))) 		 
 		  (runtest (- n 1))))))))
- (d-getUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key." "OK")
+ (d-GetUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key." "OK")
 (runtest 8)
 (d-InsertLilyDirective (string-append  "%Final Score: " (object->string score)))
 (d-AppendMeasure)

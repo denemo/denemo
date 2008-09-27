@@ -7,7 +7,7 @@
       <row>
         <action>InsertTiedNoteDuration</action>
         <scheme>(define command (lambda ()
-            (d-getUserInput "Tied Note Insert" "To use this function correctly you need to give a duration." "OK")
+		 (d-WarningDialog "To use this function correctly you need to give a duration.")	
 	    ))
    	  (define duration (d-GetCommand))
    	  (cond

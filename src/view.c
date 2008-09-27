@@ -228,6 +228,21 @@ if(SCM_STRINGP(label)){
  return scm;
 }
 
+
+SCM scheme_warningdialog(SCM msg) {
+  gchar *title;
+  gint length;
+if(SCM_STRINGP(msg)){
+  title = gh_scm2newstr(msg, &length);
+  }
+ else title = "Script generated warning";
+ 
+ warningdialog (title);
+
+ return msg;
+}
+
+
 SCM scheme_get_char(void) {
   GdkDisplay *display = gtk_widget_get_display(Denemo.window);
  GdkEventKey *event = gdk_display_get_event(display);
@@ -456,15 +471,16 @@ int inner_main(void*closure, int argc, char **argv){
 */
 
 
-    install_scm_function3 (DENEMO_SCHEME_PREFIX"getUserInput", scheme_get_user_input);
+    install_scm_function3 (DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
     /* test with
-       (d-getUserInput "Named Bookmark" "Give a name" "XXX")
+       (d-GetUserInput "Named Bookmark" "Give a name" "XXX")
 
 Then 
      (define user-input (d-getUserInput "Named Bookmark" "Give a name" "XXX"))
      (d-InsertLilyDirective (string-append "%" user-input))
     */
 
+  install_scm_function (DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
@@ -473,8 +489,8 @@ Then
 
 
   (define command (lambda ()
-            ((d-getUserInput "Tied Note Insert" "To use this function correctly you need to give a duration." "OK")
-	    )))
+            (d-WarningDialog "To use this function correctly you need to give a duration.")
+	    ))
      (define duration (d-GetCommand))
      (cond ((equal? duration "d-3") (set! command d-Change3))
            ((equal? duration "d-4") (set! command d-Change4))
