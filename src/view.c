@@ -1392,11 +1392,11 @@ static void executeScript(GtkWidget*w) {
   call_out_to_guile(text);
   g_free(text);
 }
-static void load_command_from_location(GtkWidget*w, gchar *location) {
-
-  gchar *filepath = g_build_filename (get_data_dir(), "actions", "menus", location, NULL);
-  g_print("Got location %s\n",filepath);
-  load_keymap_dialog_location (w, Denemo.commands, filepath);
+static void load_command_from_location(GtkWidget*w, gchar *filepath) {
+  gchar *location = g_strdup_printf("%s%c", filepath, G_DIR_SEPARATOR);
+  g_print("Calling the file loader with %s\n",location);
+  load_keymap_dialog_location (w, Denemo.commands, location);
+  g_free(location);
 }
 
 
@@ -1561,15 +1561,17 @@ static gboolean menu_click (GtkWidget      *widget,
     myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
   //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
 
-  item = gtk_menu_item_new_with_label("More Commands for this Menu");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "activate", G_CALLBACK(load_command_from_location), (gpointer)myposition);
 
-
-  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
-
-
-
+  static gchar *filepath;// static so that we can free it next time we are here.
+  if(filepath)
+    g_free(filepath);
+  filepath = g_build_filename (get_data_dir(), "actions", "menus", myposition, NULL);
+  if(0==g_access(filepath, 4)) {
+    g_print("We can create a menu item for the path %s\n", filepath);
+    item = gtk_menu_item_new_with_label("More Commands for this Menu");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(item, "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
+  }
   item = gtk_check_menu_item_new_with_label("Show Current Script");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
