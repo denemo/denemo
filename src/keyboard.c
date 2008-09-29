@@ -217,7 +217,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
-
+	  if(merge) {
+	    gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
+	    infodialog(msg);
+	    g_free(msg);
+	  }
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.commands, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
