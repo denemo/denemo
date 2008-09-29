@@ -16,7 +16,7 @@ MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 
 install-data-hook:
 	cp -r actions  $(datadir)/${PACKAGE}/
-
+	chmod -R 755 $(datadir)/${PACKAGE}/actions
 dist-hook: @PACKAGE@.spec
 	cp $(srcdir)/@PACKAGE@.spec $(distdir)
 
