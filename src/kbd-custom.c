@@ -1116,6 +1116,7 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
           new_idx);
   
   g_free(kb_name);
+  Denemo.accelerator_status = TRUE;
   return old_command_idx;
 }
 

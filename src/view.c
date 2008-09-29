@@ -424,7 +424,7 @@ void inner_main(void*closure, int argc, char **argv){
   newview (NULL, NULL);
   load_default_keymap_file(Denemo.commands);
   gtk_key_snooper_install(dnm_key_snooper, Denemo.commands);
-
+ Denemo.accelerator_status = FALSE;
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
@@ -731,13 +731,10 @@ closewrapper (GtkAction *action, gpointer param)
 {
   GList *display = NULL;
   //stop_pitch_recognition();
-  if(Denemo.accelerator_status&ACCELS_CHANGED) {
-    if(confirm("You have changed the keyboard accelerators","Do you want to save the changes?"))
+  if(Denemo.accelerator_status) {
+    if(confirm("You have made changes to the commands you have","Do you want to save the changes?"))
       save_accels();
-  } else if(Denemo.accelerator_status&ACCELS_MAY_HAVE_CHANGED) {
-    if(confirm("You may have changed the keyboard accelerators","Do you want to save any changes?"))
-      save_accels();
-  }
+  } 
   for (display = Denemo.guis; display != NULL;
        display = g_list_next (display))
     {
@@ -1314,22 +1311,12 @@ capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
 
 static void
 save_accels (void) {
-  gchar *filename = g_build_filename(locatedotdenemo(),"standard.accels",NULL);
-  gtk_accel_map_save (filename);
-  g_free(filename);
-  if(!(Denemo.accelerator_status & EXTRA_ACCELS_ACTIVE))// truncate the EXTRA_ACCELS file
-    {
-      FILE *fp;
-      gchar * dotdenemo = (gchar*)locatedotdenemo ();
-      gchar *filename = dotdenemo?g_build_filename(locatedotdenemo(), EXTRA_ACCELS, NULL):NULL;
-      if(filename) {
-	fp = fopen(filename,"w");
-	fclose(fp);
-      }
-      g_free(filename);
-      Denemo.accelerator_status = ACCELS_LOADED;
-    } else
-      Denemo.accelerator_status = EXTRA_ACCELS_ACTIVE;
+
+  save_default_keymap_file (NULL, Denemo.commands);
+
+
+      Denemo.accelerator_status = FALSE;
+
 }
 
 static gboolean
@@ -1998,11 +1985,6 @@ toggle_quick_edits (GtkAction * action, DenemoGUI * gui)
     gtk_settings_get_for_screen(gdk_screen_get_default());
   if (settings)
     gtk_settings_set_long_property(settings, "gtk-can-change-accels", set = !set, ".gtkrc:0");
-  if(set)
-    Denemo.accelerator_status |= ACCELS_MAY_HAVE_CHANGED;// we can't detect if they actually are
-  //TODO now we can, by adding a status on the keymap, for the time being, left
-  //unchanged
-  // g_print("edits are %d\n",set);
 }
 
 
