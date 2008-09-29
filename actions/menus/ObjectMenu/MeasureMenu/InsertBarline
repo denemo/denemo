@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>RTS</author>
+    <map>
+      <row>
+        <action>InsertBarline</action>
+        <scheme>(d-CursorLeft)
+(d-SetMark)
+(d-MeasureLeft)
+(d-Cut)
+(d-InsertMeasure)
+(d-Paste)
+</scheme>
+        <label>Insert Barline</label>
+        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
