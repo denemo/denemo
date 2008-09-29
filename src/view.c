@@ -13,6 +13,7 @@
 #include "dialogs.h"
 #include "utils.h"
 #include <stdlib.h>
+#include <glib/gstdio.h>
 #include "scorewizard.h"
 #include "playback.h"
 #include "alsaplayback.h"
@@ -22,7 +23,9 @@
 #include "transpose.h"
 #include "print.h"
 #include "kbd-custom.h"
+#include "keyboard.h"
 #include "csoundplayback.h"
+#include "exportlilypond.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
@@ -245,7 +248,7 @@ if(SCM_STRINGP(msg)){
 
 SCM scheme_get_char(void) {
   GdkDisplay *display = gtk_widget_get_display(Denemo.window);
- GdkEventKey *event = gdk_display_get_event(display);
+ GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
  gint keyval, state;
  gboolean success = intercept_scorearea_keypress(&keyval, &state);
  SCM scm = gh_char2scm(success?keyval:0);
@@ -254,7 +257,7 @@ SCM scheme_get_char(void) {
 
 SCM scheme_get_command(void) {
   GdkDisplay *display = gtk_widget_get_display(Denemo.window);
- GdkEventKey *event = gdk_display_get_event(display);
+ GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
  gint keyval, state;
  GString *name=g_string_new("");
  gboolean success = intercept_scorearea_keypress(&keyval, &state);
@@ -401,13 +404,13 @@ int process_command_line(int argc, char**argv);//back in main
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
-int inner_main(void*closure, int argc, char **argv){
+void inner_main(void*closure, int argc, char **argv){
   //g_print("Got inner main with  %d and %p\n", argc, argv);
 
   gint i;
   GError *error = NULL;
   
-  register_stock_items ();
+
   
   /* Initialize preferences */
   initprefs();
@@ -505,7 +508,7 @@ Then
     process_command_line(argc, argv);
  /* Now launch into the main gtk event loop and we're all set */
   gtk_main();
-  return 0;
+
 }
 //#include <guile/gh.h>
 int call_out_to_guile(char *script) {
@@ -2603,9 +2606,6 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
  toggle_object_menu (NULL, Denemo.gui);
  }
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
-
-  // this does nothing, it has not been added gtk_window_remove_accel_group   (Denemo.window, gtk_ui_manager_get_accel_group (Denemo.ui_manager));
-  return action_group;
 }   /* create window */
 
 /**

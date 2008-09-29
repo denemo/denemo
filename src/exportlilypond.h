@@ -18,7 +18,7 @@ void export_lilypond_part(char *filename, DenemoGUI *gui, gboolean all_movements
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/
 gchar *generate_lily (objnode *obj);
-
+void refresh_lily_cb (GtkAction *action, DenemoGUI *gui);
 
 void toggle_lily_visible_cb (GtkAction *action, gpointer param);
 

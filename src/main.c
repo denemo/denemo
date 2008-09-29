@@ -36,7 +36,7 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 #include "midiseq.h"
-
+#include <libguile.h>
 struct DenemoRoot Denemo;
 midi_seq *sq;
 #include "view.h"
@@ -152,7 +152,7 @@ clean_stock_item(const gchar *stock_id)
     }
 }
 
-void
+static void
 register_stock_items ()
 {
   GtkIconFactory *icon_factory;
@@ -431,7 +431,7 @@ main (int argc, char *argv[])
   bind_textdomain_codeset (PACKAGE, "UTF-8");
   textdomain (PACKAGE);
 
-
+  register_stock_items ();
   g_print("Calling scm boot guile with %d and %p\n", argc, argv);
  
     scm_boot_guile (argc, argv, inner_main, NULL);

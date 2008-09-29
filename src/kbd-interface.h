@@ -10,7 +10,9 @@
 void
 configure_keyboard_dialog (GtkAction *action, gpointer param);
 
-
+void
+configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
+				    gint command_idx);
 
 
 #endif

@@ -157,7 +157,8 @@ idx_has_callback (keymap *the_keymap, guint command_idx);
 
 void
 dump_command_info(keymap *the_keymap, gint command_idx);
-
+guint
+dnm_sanitize_key_state(GdkEventKey *event);
 void
 load_keymap_dialog (GtkWidget *Widget, keymap *the_keymap);
 
@@ -172,7 +173,8 @@ void
 load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap);
 void
 save_keymap_dialog (GtkWidget *widget, keymap *the_keymap);
-
+void
+load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location);
 void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param);
 
