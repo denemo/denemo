@@ -1318,6 +1318,12 @@ load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *loc
   GtkWidget *filesel;
   static struct callbackdata cbdata;//FIXME why static????
   filesel = gtk_file_selection_new (_("Load Command Set"));
+
+  GtkFileSelection *test = filesel;
+
+
+
+
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (load_keymap_from_dialog),
