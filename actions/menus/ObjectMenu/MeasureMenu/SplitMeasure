@@ -5,7 +5,7 @@
     <author>RTS</author>
     <map>
       <row>
-        <action>InsertBarline</action>
+        <action>SplitMeasure</action>
         <scheme>(d-CursorLeft)
 (d-SetMark)
 (d-MeasureLeft)
@@ -13,7 +13,7 @@
 (d-InsertMeasure)
 (d-Paste)
 </scheme>
-        <label>Insert Barline</label>
+        <label>Split Measure</label>
         <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>
     </map>
