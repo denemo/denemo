@@ -1431,6 +1431,11 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
+  {gchar *c;// avoid whitespace
+  for(c=myname;*c;c++)
+    if(*c==' '||*c=='\t'||*c=='\n') 
+      *c='-';
+  }
   if(myname==NULL)
     return;
   mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
