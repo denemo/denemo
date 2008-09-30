@@ -1312,18 +1312,19 @@ load_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
  * Function for loading a keymap from location by way of
  * a user dialog. 
  */
-
+static 	void show_type(GtkWidget *widget, gchar *message) {
+    g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
+  }
 void
 load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location)
 {
   GtkWidget *filesel;
   static struct callbackdata cbdata;//FIXME why static????
   filesel = gtk_file_selection_new (_("Load Command Set"));
-
+#if 0
   GtkFileSelection *test = filesel;
-
-
-
+  show_type(test->selection_text, "dir list type is GtkTreeView selection_text  GtkLabel selection_entry is GtkEntry");
+#endif
 
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
