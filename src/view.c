@@ -1422,6 +1422,13 @@ static void popup_help(GtkWidget *widget, gint idx) {
   g_free(tooltip);
   }
 
+/* replace dangerous characters in command names */
+static void  subst_illegals(gchar *myname) {gchar *c;// avoid whitespace etc
+  for(c=myname;*c;c++)
+    if(*c==' '||*c=='\t'||*c=='\n'||*c==G_DIR_SEPARATOR) 
+      *c='-';
+  }
+
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
    given by the path myposition whose callback is the activate on the current scheme script.
 */
@@ -1431,26 +1438,26 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
-  {gchar *c;// avoid whitespace
-  for(c=myname;*c;c++)
-    if(*c==' '||*c=='\t'||*c=='\n') 
-      *c='-';
-  }
+
   if(myname==NULL)
     return;
+  subst_illegals(myname);
   mylabel = string_dialog_entry (gui, "Create a new menu item", "Give menu label: ", "My Label");
   if(mylabel==NULL)
     return;
+
   mytooltip = string_dialog_entry (gui, "Create a new menu item", "Give explanation of what it does: ", "Prints my special effect");
   if(mytooltip==NULL)
     return;
   if(confirm("Create a new menu item", "Do you want the new menu item in a submenu?"))
     {
       submenu = string_dialog_entry (gui, "Create a new menu item", "Give a label for the Sub-Menu", "Sub Menu Label");
-      if(submenu)
+      if(submenu) {
+	subst_illegals(submenu);
 	myposition = g_strdup_printf("%s/%s", myposition, submenu);//FIXME leak
+      }
     }
-
+  
   myscheme = getSchemeText();
   gchar *text = g_strdup_printf("<?xml version=\"1.0\"?>\n\
 <Denemo>\n\
