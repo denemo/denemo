@@ -1425,7 +1425,7 @@ static void popup_help(GtkWidget *widget, gint idx) {
 /* replace dangerous characters in command names */
 static void  subst_illegals(gchar *myname) {gchar *c;// avoid whitespace etc
   for(c=myname;*c;c++)
-    if(*c==' '||*c=='\t'||*c=='\n'||*c==G_DIR_SEPARATOR) 
+    if(*c==' '||*c=='\t'||*c=='\n'||*c=='/'||*c=='\\') 
       *c='-';
   }
 
