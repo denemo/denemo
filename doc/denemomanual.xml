@@ -34,7 +34,7 @@
 
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>0.7.9</releaseinfo>
+    <releaseinfo>0.8.0</releaseinfo>
   </articleinfo>
 
   <sect1>
@@ -285,6 +285,9 @@ A set of action-based menus can also be shown in addition to the object-based me
 
       <listitem>
         <para>Playback</para>
+      </listitem>
+      <listitem>
+        <para>More</para>
       </listitem>
 
       <listitem>
@@ -690,8 +693,10 @@ A set of action-based menus can also be shown in addition to the object-based me
     </sect2>
 
    
-
-
+    <sect2>
+      <title>More</title>
+       <para>Add commands to Denemo. Extra commands are available (those which not everyone will want) via this menu. More Commands gives commands shipped with Denemo, while My Commands gives ones that you have created locally. Note that the extra commands can also be loaded at the menu where you are looking for them (you right-click on a menu item, and if there are more commands for that menu the More Commands for this Menu item will show),</para>
+   </sect2>
 
     
    
@@ -956,7 +961,7 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Notes/Rests</entry>
 
-              <entry>The Menu Items depend on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set keybindings – it would be too slow to use them for actually entering notes/rests.</entry>
+              <entry>The first menu item in this menu depends on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set keybindings – it would be too slow to use them for actually entering notes/rests. I addition there are menu items for inserting rests, deleting, tied notes, setting the notehead style and stem direction </entry>
             </row>
 
             <row>
@@ -964,11 +969,11 @@ A set of action-based menus can also be shown in addition to the object-based me
               <entry>Insert/remove dynamics, slurs trills etc.</entry>
             </row>
             <row>
-              <entry>Chord</entry>
+              <entry>Chords</entry>
               <entry>Insert/remove notes from a chord.</entry>
             </row>
             <row>
-              <entry>Measure</entry>
+              <entry>Measures</entry>
               <entry>Insert/remove navigate measures .</entry>
             </row>
             <row>
@@ -984,20 +989,20 @@ A set of action-based menus can also be shown in addition to the object-based me
               <entry>Insert/remove navigate, change the properties of movements.</entry>
             </row>
             <row>
-              <entry>Clef</entry>
+              <entry>Clefs</entry>
               <entry>Insert change or set the initial clef.</entry>
             </row>
             <row>
-              <entry>Key</entry>
+              <entry>Keys</entry>
               <entry>Insert a change or set the initial key.</entry>
             </row>
             <row>
-              <entry>Time signature</entry>
+              <entry>Time Signatures</entry>
               <entry>Insert a change or set the initial time signature.</entry>
             </row>
             <row>
               <entry>Cursor</entry>
-              <entry>Navigation of the cursor.</entry>
+              <entry>Navigation of the (Denemo) cursor.</entry>
             </row>
             <row>
               <entry>Bookmarks</entry>
@@ -1027,6 +1032,110 @@ In the score properties dialog things that affect the whole piece can be set, as
             <para>When a file is loaded it opens with the final movement set as the current movement.</para>
           </note>
   </sect1>
+ <sect1>
+    <title>More Commands</title>
+<sect2>
+     <title>Adding More Features </title>
+   <para>
+It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard shortcut and keep the command in your default setup.
+  </para>
+</sect2>
+<sect2>
+     <title>Adding Your Own Features </title>
+   <para>
+You can also get Denemo to remember a frequently used sequence of actions - it can be installed in the menu system and given a keyboard shortcut just like any other command. </para>
+  <para> To do this you right-click and choose Show Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the little window that pops up set Recordin Scheme Script and then do the set of steps you wish Denemo to remember, <emphasis>using the menu items, not keyboard, for each step</emphasis>.
+  </para> 
+ <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Insert Script as Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
+
+ </para>  <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
+</sect2>
+<sect2>
+ <title>Writing Scheme Scripts </title>
+ <para>
+ If you are a programmer you will have guessed that you can edit the Scheme Script window to create any command you want. Even if you are not familiar with Scheme you may find that you can adapt other scripts to do what you want.
+ </para> 
+ <para>
+ A good example of this is a script to insert a particular LilyPond directive into the score. This is all that many scripts do: it is easy to see the piece of LilyPond in the Scheme Script window, and by changing it you can create a new command.
+ </para> 
+ <para>
+ For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Once you have loaded this command its script is appended to the Scheme Script window. Here you can see the part that says
+<itemizedlist>
+ <listitem>
+(d-InsertLilyDirective " \\mark \\default")
+</listitem>
+</itemizedlist>
+which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs, and then save as a new menu item.
+ </para>
+ 
+ <para> 
+ More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Management window) there are the following additional Scheme procedures defined.
+ </para>
+</sect2>
+<itemizedlist>
+<listitem>d-GetType returns a scheme string indicating the type of the current object
+</listitem>
+<listitem>d-GetNoteName returns  a scheme string, giving the note name a-g of the current note
+</listitem>
+<listitem>d-GetNote returns  a scheme string, the note name, accidental and octave of the current note (LilyPond notation)
+</listitem>
+<listitem>d-GetNotes returns  a scheme string, the notes of a chord separated by NULL characters
+</listitem>
+<listitem>d-PutNoteName takes a string argument, a note in LilyPond notation. Changes the note at the cursor. Not for use with multi-note chords.
+</listitem>
+<listitem>d-DiatonicShift Deprecated.
+</listitem>
+
+
+<listitem>d-NextObject moves cursor to next object, returning TRUE if current object has changed
+</listitem>
+<listitem>d-NextChord as next object, but skipping non-chord objects.
+</listitem>
+<listitem>d-NextNote Deprecated
+</listitem>
+
+
+<listitem>d-WarningDialog Pass a string argument to pop up a warning.
+</listitem>
+
+
+<listitem>d-GetChar returns a string representing a keypress from the user (blocks waiting for a keypress)
+</listitem>
+<listitem>d-GetCommand returns a string containing the command name for the user's keypress (blocks waiting for a keypress)
+</listitem>
+<listitem>d-GetUserInput takes three strings, displays and returns the user's response as a string.
+</listitem>
+</itemizedlist>
+
+  <para>
+  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a (NULL separated) string containing values is passed these will be used and no popup will occur. This feature is being rolled out, and currently works for
+<itemizedlist>
+<listitem>
+d-InsertLilyDirective pass string to be inserted
+</listitem>
+<listitem>
+d-InsertLilyPostfix
+</listitem>
+<listitem>
+d-StaffProperties   understands a couple of property=value settings
+</listitem>
+<listitem>
+d-InitialClef
+</listitem>
+<listitem>
+d-InsertClef
+</listitem>
+<listitem>
+d-InitialKey 
+</listitem>
+<listitem>
+d-InsertKey
+</listitem>
+</itemizedlist>
+  </para>
+  </sect1>
+
+
  <sect1>
     <title>LilyPond Editing</title>
 <sect2>
