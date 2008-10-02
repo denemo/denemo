@@ -25,9 +25,7 @@ struct callbackdata
   DenemoPrefs *prefs;
   GtkWidget *lilypathentry;
   GtkWidget *checkimmediateplayback;
-  GtkWidget *checklilystyle;
   GtkWidget *checkautosaveparts;
-  GtkWidget *checkclone;
   GtkWidget *checkautosave;
   GtkWidget *checknotationpalette;
   GtkWidget *checkrhythmpalette;
@@ -117,10 +115,6 @@ set_preferences (struct callbackdata *cbdata)
   prefs->immediateplayback =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 				  (cbdata->checkimmediateplayback));
-  prefs->lilyentrystyle =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checklilystyle));
-  prefs->createclones =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checkclone));
 
   prefs->autosave =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checkautosave));
@@ -153,13 +147,11 @@ preferences_change (GtkAction *action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   GtkWidget *dialog;
   GtkWidget *label;
-  GtkWidget *table;
+  GtkWidget *main_vbox;
   GtkWidget *lilypathentry;
   GtkWidget *browserentry;
   GtkWidget *checkimmediateplayback;
-  GtkWidget *checklilystyle;
-  GtkWidget	*checkautosaveparts;
-  GtkWidget *checkclone;
+  GtkWidget *checkautosaveparts;
   GtkWidget *checkautosave;
   GtkWidget *autosaveentry;
   GtkWidget *pdfviewer;
@@ -197,61 +189,36 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Note entry settings
    */
-  table = gtk_table_new (13, 2, FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  
 
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
 				   _("Entry"));
-
 
   checkimmediateplayback =
     gtk_check_button_new_with_label (_
 				     ("Play back entered notes immediately"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkimmediateplayback),
 				Denemo.prefs.immediateplayback);
-  gtk_table_attach (GTK_TABLE (table), checkimmediateplayback, 0, 2, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL), (GtkAttachOptions) (0), 0,
-		    0);
 
-  checklilystyle =
-    gtk_check_button_new_with_label (_("Use lilypond-style note entry"));
-  /* Comment that out when the feature is added */
-  gtk_widget_set_sensitive (checklilystyle, FALSE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checklilystyle),
-				Denemo.prefs.lilyentrystyle);
-  gtk_table_attach (GTK_TABLE (table), checklilystyle, 0, 2, 1, 2,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-
-  checkclone =
-    gtk_check_button_new_with_label (_("Clone chords when tying them"));
-  gtk_widget_set_sensitive (checkclone, FALSE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkclone),
-				Denemo.prefs.createclones);
-  gtk_table_attach (GTK_TABLE (table), checkclone, 0, 2, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), checkimmediateplayback, FALSE, TRUE, 0);
 
   checknotationpalette =
     gtk_check_button_new_with_label (_("Display durations toolbar"));
   gtk_widget_set_sensitive (checknotationpalette, TRUE);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checknotationpalette),
 				Denemo.prefs.notation_palette);
-  gtk_table_attach (GTK_TABLE (table), checknotationpalette, 0, 2, 4, 5,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+
+  gtk_box_pack_start (GTK_BOX (main_vbox), checknotationpalette      , FALSE, TRUE, 0);
+ 
 
   checkarticulationpalette =
     gtk_check_button_new_with_label (_("Display articulation palette"));
   gtk_widget_set_sensitive (checkarticulationpalette, TRUE);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkarticulationpalette),
 				Denemo.prefs.articulation_palette);
-  gtk_table_attach (GTK_TABLE (table), checkarticulationpalette, 0, 2, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), checkarticulationpalette   , FALSE, TRUE, 0);
 
 
   checkrhythmpalette =
@@ -259,18 +226,11 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_widget_set_sensitive (checkrhythmpalette, TRUE);
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkrhythmpalette),
 				Denemo.prefs.rhythm_palette);
-  gtk_table_attach (GTK_TABLE (table), checkrhythmpalette, 0, 2, 8, 9,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-
-
-
+  gtk_box_pack_start (GTK_BOX (main_vbox),checkrhythmpalette, FALSE, TRUE, 0);
 
 
   hbox = gtk_hbox_new (FALSE, 8);
-  gtk_table_attach (GTK_TABLE (table), hbox, 0, 2, 10, 11,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
 
   checkautosave = gtk_check_button_new_with_label (_("Autosave every"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkautosave),
@@ -290,70 +250,74 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   checkautosaveparts = gtk_check_button_new_with_label(_("Autosave Parts"));
-  gtk_widget_set_sensitive (checkarticulationpalette, FALSE);
-   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkautosaveparts),
+  gtk_widget_set_sensitive (checkautosaveparts, FALSE);
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkautosaveparts),
 				Denemo.prefs.saveparts);
-  gtk_table_attach(GTK_TABLE(table), checkautosaveparts, 0,2, 11,12,
-  				   (GtkAttachOptions) (GTK_FILL),
-  				   (GtkAttachOptions) (0), 0,0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), checkautosaveparts, FALSE, TRUE, 0);
+
+
+
   /*
    * External (Helper) Programs 
    */
-  table = gtk_table_new (4, 2, FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
+
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  
+
+
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
 				   _("Externals"));
 
+  
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
 
   label = gtk_label_new (_("Path to Lilypond:"));
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   lilypathentry = gtk_entry_new ();
   gtk_entry_set_text (GTK_ENTRY (lilypathentry), Denemo.prefs.lilypath->str);
-  gtk_table_attach (GTK_TABLE (table), lilypathentry, 1, 2, 0, 1,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), lilypathentry, TRUE, TRUE, 0);
 
 
+  hbox = gtk_hbox_new (FALSE, 8);
+  
   label = gtk_label_new (_("Pdf Viewer"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
   pdfviewer = gtk_entry_new ();
   gtk_entry_set_text (GTK_ENTRY (pdfviewer), Denemo.prefs.pdfviewer->str);
-  gtk_table_attach (GTK_TABLE (table), pdfviewer, 1, 2, 1, 2,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), pdfviewer, TRUE, TRUE, 0);
+
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_hbox_new (FALSE, 8);
+  
 
   label = gtk_label_new (_("Text Editor"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
 
   texteditor = gtk_entry_new ();
   gtk_entry_set_text (GTK_ENTRY (texteditor), Denemo.prefs.texteditor->str);
-  gtk_table_attach (GTK_TABLE (table), texteditor, 1, 2, 2, 3,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), texteditor, TRUE, TRUE, 0);
+
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
+  hbox = gtk_hbox_new (FALSE, 8);
+
 
 
   label = gtk_label_new (_("Default Save Path"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 3, 4,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+ 
 
   denemopath = gtk_entry_new ();
   if (Denemo.prefs.denemopath != NULL)
   	gtk_entry_set_text (GTK_ENTRY (denemopath), Denemo.prefs.denemopath->str);
-  gtk_table_attach (GTK_TABLE (table), denemopath, 1, 2, 3, 4,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), denemopath, TRUE, TRUE, 0);
+
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
+
 
 
   /*
@@ -430,38 +394,31 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Help settings
    */
-  table = gtk_table_new (1, 2, FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), table, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), table,
+
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
 				   _("Help Settings"));
 
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
 
   label = gtk_label_new (_("Help Browser:"));
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   browserentry = gtk_entry_new ();
   gtk_entry_set_text (GTK_ENTRY (browserentry), Denemo.prefs.browser->str);
-  gtk_table_attach (GTK_TABLE (table), browserentry, 1, 2, 0, 1,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-
-
+  gtk_box_pack_start (GTK_BOX (hbox), browserentry, TRUE, TRUE, 0);
 
   /* Set up the callback data */
   cbdata.prefs = &Denemo.prefs;
   cbdata.lilypathentry = lilypathentry;
   cbdata.checkimmediateplayback = checkimmediateplayback;
-  cbdata.checklilystyle = checklilystyle;
   cbdata.checkautosaveparts = checkautosaveparts;
   cbdata.checkarticulationpalette = checkarticulationpalette;
   cbdata.checknotationpalette = checknotationpalette;
   cbdata.checkrhythmpalette = checkrhythmpalette;
-  cbdata.checkclone = checkclone;
   cbdata.checkautosave = checkautosave;
   cbdata.autosaveentry = autosaveentry;
   cbdata.browserentry = browserentry;
