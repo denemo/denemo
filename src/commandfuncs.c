@@ -88,6 +88,13 @@ void nextrhythm(DenemoGUI *gui) {
 /**
  * Helper function for calculating the 
  * beam and stem direction
+ * I think it calculates the beam and stem directions for the si->currentmeasure
+ * on the assumption that si->curmeasureclef has been set to the appropriate value
+ * before the function is called. Likewise for 
+ * si->cursortime1/2 and si->curmeasure_stem_directive.
+ * the calculated values are stored in the objects in the measure - the fields set are:
+ * isstart/end_beamgroup, is_stemup, stemy, is_reversealigned. reversealign, minpixelsalloted, space_before
+ * si->curmeasureclef is also set: it is set to the value prevailing at the end of the measure.
  */
 void
 beamandstemdirhelper (DenemoScore * si)
