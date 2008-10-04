@@ -1,6 +1,6 @@
 /* mwidthdialog.cpp
  * a callback that creates a dialog box prompting the user to change the
- * staff height
+ * measure width - this is a denemo display-only thing(?)
 
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller */
