@@ -219,7 +219,7 @@
 {"SaveAs", GTK_STOCK_SAVE_AS, N_("Save As"), NULL,N_("Save the score under a new name"),G_CALLBACK (file_saveaswrapper)},
 {"OpenTemplate", GTK_STOCK_OPEN, N_("Open Template"), NULL,N_("Start a new score from a built-in template file"),G_CALLBACK (system_template_open_with_check)},
 {"OpenExample", GTK_STOCK_OPEN, N_("Open Example"), NULL,N_("Start a new score from a built-in example"),G_CALLBACK (system_example_open_with_check)},
-{"OpenMyTemplate", GTK_STOCK_OPEN, N_(""), NULL,N_("Start a new score from one of your own template files"),G_CALLBACK (local_template_open_with_check)},
+{"OpenMyTemplate", GTK_STOCK_OPEN, N_("Open custom template"), NULL,N_("Start a new score from one of your own template files"),G_CALLBACK (local_template_open_with_check)},
 {"SaveTemplate", GTK_STOCK_SAVE_AS, N_("Save Template"), NULL,N_("Save the score as a template for re-use as a starting point for new scores"),G_CALLBACK (template_save)},
 {"NewWindow", NULL, N_("New Tab"), NULL,N_("Create working area (tab with an empty score in it)"),G_CALLBACK (newview)},
 {"InsertMovementBefore", NULL, N_("Insert Movement Before"), NULL,N_("Insert a new movement before the current one"),G_CALLBACK (insert_movement_before)},
