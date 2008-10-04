@@ -213,10 +213,10 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	  (gui->si->cursor_x ==
 	   (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
 	
-	/* Quickly redraw to reset si->cursorclef.  */
-	gtk_widget_queue_draw (gui->scorearea);
+
 	set_cursor_y_from_click (gui, event->y);
 	calcmarkboundaries (gui->si);
+	/* redraw to show new cursor position  */
 	gtk_widget_queue_draw (gui->scorearea);
       }
     }
@@ -257,8 +257,8 @@ DenemoGUI *gui = Denemo.gui;
       else
 	set_mark(gui);
       write_status(gui);
-      /* Redraw to reset si->cursorclef.  FIXME the design, or lack of it*/
-      gtk_widget_queue_draw (gui->scorearea);  
+      /* Redraw to show new cursor position*/
+      gtk_widget_queue_draw (gui->scorearea);
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
   return TRUE;
