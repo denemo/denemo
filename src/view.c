@@ -641,7 +641,7 @@ void write_status(DenemoGUI *gui) {
 		     status);
   g_free(status);
 
-  gtk_widget_queue_draw (gui->scorearea);
+  //gtk_widget_queue_draw (gui->scorearea);
 }
 
 GString *get_widget_path(GtkWidget *widget) {
