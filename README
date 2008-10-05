@@ -40,7 +40,7 @@ System requirements:
 * gtk+ and glib versions 2.0 or better, including the development libraries
 * portaudio, libaubio, libxml2
 * a C compiler
-
+* guile-1.8
 
 Recommended:
 
