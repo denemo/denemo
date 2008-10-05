@@ -82,6 +82,8 @@ initprefs ()
   ret->texteditor = g_string_new ("xedit");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
+  ret->temperament = g_string_new("Equal");
+
   ret->immediateplayback = TRUE;
   ret->saveparts = FALSE;
   ret->rtcs = TRUE;
@@ -273,8 +275,18 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }
 
 	}
+#define READXMLENTRY(field)       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+	      prefs->field =\
+		g_string_assign (prefs->field, (gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}
 
-
+      READXMLENTRY(temperament)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "createclones"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -545,6 +557,13 @@ writeXMLPrefs (DenemoPrefs * prefs)
   if (prefs->denemopath)
     xmlNewChild (child, NULL, (xmlChar *) "denemopath",
 		 (xmlChar *) prefs->denemopath->str);
+#define WRITEXMLENTRY(field) \
+  if (prefs->field)\
+    xmlNewChild (child, NULL, (xmlChar *) #field,\
+		 (xmlChar *) prefs->field->str)
+
+  WRITEXMLENTRY(temperament);
+
   if (prefs->lilyversion)
     xmlNewChild (child, NULL, (xmlChar *) "lilyversion",
 		 (xmlChar *) prefs->lilyversion->str);

@@ -828,6 +828,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
   if(Denemo.guis==NULL) {
     quit (); 
     writeHistory ();
+    writeXMLPrefs(&Denemo.prefs);
     ext_quit (); /* clean players pidfiles (see external.c) */
   } else {
     Denemo.gui = Denemo.guis->data;

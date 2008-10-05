@@ -320,6 +320,7 @@ typedef struct DenemoPrefs
   GQueue *history; /**< Queue to contain recently opened files */
 
   GString *lilyversion; /**< Lilypoind Version */
+  GString *temperament; /**< Preferred temperament for tuning to */
 }DenemoPrefs;
 
 /**

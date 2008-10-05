@@ -35,6 +35,7 @@ struct callbackdata
   GtkWidget *pdfviewer;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
+  GtkWidget *temperament;
 };
 
 struct callbackdata1
@@ -111,6 +112,12 @@ set_preferences (struct callbackdata *cbdata)
 		   gtk_entry_get_text (GTK_ENTRY (cbdata->texteditor)));
   g_string_assign (prefs->denemopath,
                    gtk_entry_get_text (GTK_ENTRY (cbdata->denemopath)));
+
+#define ASSIGN(field) \
+  g_string_assign (prefs->field,\
+                   gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
+
+  ASSIGN(temperament);
 
   prefs->immediateplayback =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
@@ -194,7 +201,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Entry"));
+				   _("View"));
 
   checkimmediateplayback =
     gtk_check_button_new_with_label (_
@@ -256,6 +263,33 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (main_vbox), checkautosaveparts, FALSE, TRUE, 0);
 
 
+  /*
+   * Pitch Entry Parameters 
+   */
+
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  
+
+
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
+				   _("Pitch Entry"));
+
+  GtkWidget *entrywidget;
+
+#define TEXTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_entry_new ();\
+  gtk_entry_set_text (GTK_ENTRY (entrywidget), Denemo.prefs.field->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  cbdata.field = entrywidget;
+
+  TEXTENTRY("Temperament", temperament)
+
 
   /*
    * External (Helper) Programs 
@@ -305,12 +339,9 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
   hbox = gtk_hbox_new (FALSE, 8);
 
-
-
   label = gtk_label_new (_("Default Save Path"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
  
-
   denemopath = gtk_entry_new ();
   if (Denemo.prefs.denemopath != NULL)
   	gtk_entry_set_text (GTK_ENTRY (denemopath), Denemo.prefs.denemopath->str);

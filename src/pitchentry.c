@@ -93,7 +93,7 @@ Equal Temperament
 HARPSICHORD TUNING - A COURSE OUTLINE, by G.C. Klop, distributed by The Sunbury Press, P.O. Box 1778, Raleigh, NC 27602.
 #endif
 static temperament Equal = {
-  "Equal Temperament", 8,3,
+  "Equal", 8,3,
     { 
       {261.6, {0, 0}},
       {277.2, {0, 1}},
@@ -111,7 +111,7 @@ static temperament Equal = {
 };
 
 static temperament Lehman = {
-  "Lehman Temperament", 8,3,
+  "Lehman", 8,3,
     { 
       {262.37*1     , {0, 0}},
       {262.37*1.0590, {0, 1}},
@@ -261,12 +261,18 @@ static gchar * notenames(gpointer p) {
 /* returns an opaque id for the user's default temperament
  FIXME user prefs */
 static gpointer default_temperament() {
+  gint i;
+  for(i=0;i<G_N_ELEMENTS(temperaments);i++) {
+    if(!strcmp(Denemo.prefs.temperament->str, temperaments[i]->name))
+        return (gpointer) temperaments[i];
+  }
   return (gpointer) &Equal;
 }
 
 static void set_temperament(GtkMenuItem *item, temperament *t) {
   PR_temperament = t;
-  g_print("Temperament set to %p (cf %p %p)\n", PR_temperament, &Equal, &Meantone);
+  g_string_assign(Denemo.prefs.temperament, t->name);
+  //g_print("Temperament set to %p (cf %p %p)\n", PR_temperament, &Equal, &Meantone);
 }
 
 static void sharpen(GtkButton *button, GtkWidget *label) {
@@ -856,10 +862,11 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
 
 static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore *list_store) {
   GtkTreeIter iter;
-      gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
-      gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
-			  COLUMN_PTR, &PR_temperament, -1);
-  }
+  gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
+  gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
+		      COLUMN_PTR, &PR_temperament, -1);
+  g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
+}
 
 static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *hbox, *hbox2;
@@ -1150,7 +1157,9 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
       gtk_list_store_set (list_store, &iter,
 			  COLUMN_NAME, temperaments[i]->name,
 			  COLUMN_PTR, temperaments[i], -1);
-      if(i==0) 	  gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter); 
+
+      if(!strcmp(Denemo.prefs.temperament->str, temperaments[i]->name))
+	 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter); 
     }
   renderer = gtk_cell_renderer_text_new ();
   gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
