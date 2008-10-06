@@ -46,7 +46,7 @@ Recommended:
 
 * GNU Lilypond (for typesetting and for MIDI playback)
 * an external MIDI player (for MIDI playback)
-
+* csound software synthesizer (for playback)
 
 (note that this program has only been tested on one or more of the
 following systems: i386 Red Hat Linux 6.2, i386 Mandrake Linux 6.1,
@@ -55,7 +55,7 @@ it should work under other UN*X OSes as well;  A Win32 build is available
 - see the mailing lists)
 
 
-Actually using the darn program:
+vActually using the darn program:
 
 See the manual for up-to-date information - below is largely historical.
 
