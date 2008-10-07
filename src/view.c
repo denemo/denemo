@@ -251,7 +251,20 @@ SCM scheme_get_char(void) {
  GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
  gint keyval, state;
  gboolean success = intercept_scorearea_keypress(&keyval, &state);
- SCM scm = gh_char2scm(success?keyval:0);
+ gchar *str = g_strdup_printf("%c", success?keyval:0);
+ SCM scm = scm_makfrom0str (str);
+ g_free(str);
+ return  scm;
+}
+
+SCM scheme_get_keypress(void) {
+  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
+ GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
+ gint keyval=0, state=0;
+ (void) intercept_scorearea_keypress(&keyval, &state);
+ gchar *str = dnm_accelerator_name(keyval, state);
+ SCM scm = scm_makfrom0str (str);
+ g_free(str);
  return  scm;
 }
 
@@ -479,12 +492,13 @@ void inner_main(void*closure, int argc, char **argv){
        (d-GetUserInput "Named Bookmark" "Give a name" "XXX")
 
 Then 
-     (define user-input (d-getUserInput "Named Bookmark" "Give a name" "XXX"))
+     (define user-input (d-GetUserInput "Named Bookmark" "Give a name" "XXX"))
      (d-InsertLilyDirective (string-append "%" user-input))
     */
 
   install_scm_function (DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetKeypress", scheme_get_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
