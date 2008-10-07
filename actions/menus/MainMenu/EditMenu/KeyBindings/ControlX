@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ControlX</action>
+        <scheme>;;;;;;;;;;;;;; emacs commands
+(define command (lambda ()
+            (d-GetUserInput "Control-x" "Undefined combination." "OK")
+	    ))
+(define response (d-GetKeypress))
+(cond
+ ((equal? response "s") (set! command d-Save)))  	  
+(command)</scheme>
+        <menupath>/MainMenu/EditMenu/KeyBindings</menupath>
+        <label>Control-X ...</label>
+        <tooltip>Two character sequence: Control-X (keypress). This performs an action specified by second keypress.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
