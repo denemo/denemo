@@ -42,7 +42,7 @@
 		  ;;(d-InsertLilyDirective "%Your score so far: ")
 		  (d-InsertLilyDirective (string-append (string-append  "%Score: " (object->string score)) ". Name this note"))
 		  (shiftdown steps)
-		  (set! usernote (string (d-GetChar))
+		  (set! usernote d-GetChar)
 			)
 		  (if (string? usernote)
 		      (begin
