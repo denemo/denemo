@@ -58,6 +58,8 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 denemo_LDADD = $(INTLLIBS) 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
+
+
 lyparser.c lyparser.h: lyparser.y
 	bison -d -ply $(srcdir)/lyparser.y 
 	mv lyparser.tab.c lyparser.c
