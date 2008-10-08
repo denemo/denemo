@@ -2,8 +2,8 @@
 # Copyright (C) 2008 Free Software Foundation, Inc.
 # This file is distributed under the same license as the denemo package.
 # Stefan Osswald <stefan129@users.sourceforge.net>, 2008.
-# 
-# 
+#
+#
 #: src/entries.h:19 src/entries.h:20 src/entries.h:21 src/entries.h:22
 #: src/entries.h:23 src/entries.h:24 src/entries.h:25 src/entries.h:35
 #: src/entries.h:36 src/entries.h:37 src/entries.h:38 src/entries.h:39
@@ -12,13 +12,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Denemo 0.7.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-06 14:37+0200\n"
+"POT-Creation-Date: 2008-10-08 11:06-0500\n"
 "PO-Revision-Date: 2008-09-06 17:02+0200\n"
 "Last-Translator: Stefan Osswald <stefan129@users.sourceforge.net>\n"
 "Language-Team: German <none>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: src/articulations.c:292
 msgid "<b>General</b>"
@@ -40,7 +40,7 @@ msgstr "<b>Blechbläser</b>"
 msgid "<b>Woodwind</b>"
 msgstr "<b>Holzbläser</b>"
 
-#: src/articulations.c:457 src/entries.h:318
+#: src/articulations.c:457 src/entries.h:326
 msgid "Articulation"
 msgstr "Artikulation"
 
@@ -48,24 +48,24 @@ msgstr "Artikulation"
 msgid "Ordinary"
 msgstr "Normal"
 
-#: src/barline.c:38 src/barline.c:46 src/keyresponses.c:852
-#: src/keyresponses.c:876
+#: src/barline.c:38 src/barline.c:46 src/keyresponses.c:878
+#: src/keyresponses.c:902
 msgid "Double"
 msgstr "Doppelstrich"
 
-#: src/barline.c:40 src/keyresponses.c:858
+#: src/barline.c:40 src/keyresponses.c:884
 msgid "End"
 msgstr "Schlussstrich"
 
-#: src/barline.c:42 src/keyresponses.c:864
+#: src/barline.c:42 src/keyresponses.c:890
 msgid "Open Repeat"
 msgstr "Wiederholung Anfang"
 
-#: src/barline.c:44 src/keyresponses.c:870
+#: src/barline.c:44 src/keyresponses.c:896
 msgid "Close Repeat"
 msgstr "Wiederholung Ende"
 
-#: src/barline.c:75
+#: src/barline.c:75 src/entries.h:287
 msgid "Insert Barline"
 msgstr "Taktstrich einfügen"
 
@@ -101,11 +101,11 @@ msgstr ""
 msgid "Harmonic"
 msgstr ""
 
-#: src/changenotehead.c:94
+#: src/changenotehead.c:98
 msgid "Change Notehead"
 msgstr "Notenköpfe ändern"
 
-#: src/changenotehead.c:103
+#: src/changenotehead.c:107
 msgid "Select Notehead Type"
 msgstr "Notenkopf auswählen"
 
@@ -133,15 +133,15 @@ msgstr "Tenor"
 msgid "Soprano"
 msgstr "Sopran"
 
-#: src/clefdialog.c:97
+#: src/clefdialog.c:119
 msgid "Set Clef"
 msgstr "Schlüssel setzen"
 
-#: src/clefdialog.c:97
+#: src/clefdialog.c:119
 msgid "Insert clef change"
 msgstr "Schlüsselwechsel einfügen"
 
-#: src/clefdialog.c:107
+#: src/clefdialog.c:129
 msgid "Select desired clef"
 msgstr "Schlüssel auswählen"
 
@@ -174,7 +174,7 @@ msgstr "Hals nach unten"
 msgid "Times %d/%d"
 msgstr "Verhältnis %d/%d"
 
-#: src/drawtuplets.c:50
+#: src/drawtuplets.c:50 src/entries.h:45
 msgid "End Tuplet"
 msgstr "Tupel Ende"
 
@@ -255,7 +255,7 @@ msgstr "Änderungen an der Partitur %s wurden noch nicht gespeichert"
 msgid "Discard changes?"
 msgstr "Änderungen verwerfen?"
 
-#: src/file.c:615 src/main.c:84 src/entries.h:211
+#: src/file.c:615 src/main.c:84 src/entries.h:213
 msgid "Open"
 msgstr "Öffnen"
 
@@ -263,7 +263,7 @@ msgstr "Öffnen"
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/file.c:773
+#: src/file.c:773 src/entries.h:219
 msgid "Save As"
 msgstr "Speichern unter"
 
@@ -324,41 +324,17 @@ msgstr "Bitte passen Sie den ausgewählten Browser in den Einstellungen an."
 msgid "Could not execute specified web browser: %s\n"
 msgstr "Konnte den angegebenen Webbrowser nicht ausführen: %s\n"
 
-#: src/kbd-custom.c:479
-msgid "Old keymap file found"
-msgstr "Alte Tastenkombinationen-Datei gefunden"
-
-#: src/kbd-custom.c:484
-msgid ""
-"From version 0.7.5, Denemo uses an xml file to store its key bindings. I "
-"have found an old-style file, and am using that for now.\n"
-"\n"
-"If you won't want to use an old version of Denemo in future, please go to "
-"\"Edit,Set Keybindings\" and click \"OK and Save As Default\" in order to "
-"avoid seeing this message again.\n"
-"\n"
-"Thanks."
-msgstr ""
-"Ab Version 0.7.5 speichert Denemo die Tastenkombinationen in einer XML-Datei."
-"Ich habe eine Datei im alten Format gefunden und benutze diese jetzt.\n"
-"\n"
-"Falls Sie keine ältere Version von Denemo mehr benutzen, gehen Sie bitte zu"
-"\"Bearbeiten, Tastenkombinationen, Tastenkombinationen ändern\" und klicken "
-"Sieauf \"OK und als Standard speichern\" um diese Nachricht nicht mehr "
-"anzuzeigen.\n"
-"\n"
-"Danke."
-
-#: src/kbd-custom.c:511
+#: src/kbd-custom.c:481
 msgid "Keyboard shortcuts could not be found"
 msgstr "Tastenkombinationen nicht gefunden"
 
-#: src/kbd-custom.c:516
+#: src/kbd-custom.c:486
+#, fuzzy
 msgid ""
-"No keymap file was found in either the systemwide Denemo directory or in ."
-"denemo directory within your home directory. Please go to Edit/Set "
-"Keybindings to construct a custom interface or to load one from an alternate "
-"keymap file."
+"No commands file was found in either the systemwide Denemo directory or in ."
+"denemo directory within your home directory. This is an intallation error. "
+"You can use Edit/Command Management to construct a custom interface or to "
+"load one from a commandset file."
 msgstr ""
 "Es konnte keine Datei mit Tastenkombinationen gefunden werden im "
 "systemweiten Denemo-Verzeichnis und im Denemo-Verzeichnis in Ihrem home-"
@@ -366,19 +342,19 @@ msgstr ""
 "benutzerdefinierte Tastenkombinationen fest oder laden Sie "
 "Tastenkombinationen aus einer Datei."
 
-#: src/kbd-custom.c:1354
+#: src/kbd-custom.c:1323
 msgid "Load Command Set"
 msgstr "Lade Befehlsliste"
 
-#: src/kbd-custom.c:1519 src/entries.h:245
+#: src/kbd-custom.c:1493 src/entries.h:247
 msgid "Save Command Set"
 msgstr "Speichere Befehlsliste"
 
-#: src/kbd-custom.c:1655
+#: src/kbd-custom.c:1629
 msgid "Commands"
 msgstr "Befehle"
 
-#: src/kbd-custom.c:1791
+#: src/kbd-custom.c:1765
 msgid "Bindings"
 msgstr "Tastenkombinationen"
 
@@ -406,35 +382,35 @@ msgstr "Lade Standard-Befehlsliste"
 msgid "Load a Custom Command Set"
 msgstr "Lade benutzerdefinierte Befehlsliste"
 
-#: src/keysigdialog.c:358
+#: src/keysigdialog.c:437
 msgid "Key Signature Change"
 msgstr "Vorzeichenwechsel"
 
-#: src/keysigdialog.c:369
+#: src/keysigdialog.c:448
 msgid "Change initial key signature"
 msgstr "Anfangsvorzeichen ändern"
 
-#: src/keysigdialog.c:372
+#: src/keysigdialog.c:451
 msgid "Insert key signature change"
 msgstr "Vorzeichenwechsel einfügen"
 
-#: src/keysigdialog.c:374
+#: src/keysigdialog.c:453
 msgid "Select desired key signature"
 msgstr "Vorzeichen auswählen"
 
-#: src/keysigdialog.c:390 src/scorewizard.c:679
+#: src/keysigdialog.c:469 src/scorewizard.c:679
 msgid "Major"
 msgstr "Dur"
 
-#: src/keysigdialog.c:397 src/scorewizard.c:690
+#: src/keysigdialog.c:476 src/scorewizard.c:690
 msgid "Minor"
 msgstr "Moll"
 
-#: src/keysigdialog.c:405 src/scorewizard.c:700 src/entries.h:203
+#: src/keysigdialog.c:484 src/scorewizard.c:700 src/entries.h:205
 msgid "Mode"
 msgstr "Modus"
 
-#: src/keysigdialog.c:448
+#: src/keysigdialog.c:527
 msgid "Apply to all staves?"
 msgstr "Auf alle Notenzeilen anwenden?"
 
@@ -619,7 +595,7 @@ msgstr ""
 msgid "Parent: child exited magically, pid = %d\n"
 msgstr ""
 
-#: src/main.c:434 src/main.c:482
+#: src/main.c:461 src/main.c:510
 msgid ""
 "\n"
 "GNU Denemo version "
@@ -627,7 +603,7 @@ msgstr ""
 "\n"
 "GNU Denemo Version"
 
-#: src/main.c:435
+#: src/main.c:462
 msgid ""
 "Usage: denemo [OPTION]... [FILE]\n"
 "\n"
@@ -663,7 +639,7 @@ msgstr ""
 "\n"
 "Report bugs to bug-denemo@gnu.org\n"
 
-#: src/main.c:448
+#: src/main.c:475
 msgid ""
 "(c) 1999-2005 Matthew Hiller, Adam Tee, and others\n"
 "\n"
@@ -687,7 +663,7 @@ msgstr ""
 "COPYING for details.\n"
 "\n"
 
-#: src/main.c:489
+#: src/main.c:517
 msgid ""
 "\n"
 "GNU Denemo, a gtk+ frontend for GNU Lilypond\n"
@@ -737,12 +713,12 @@ msgstr "Minimale Taktbreite setzen"
 msgid "Enter width (in pixels) of measures:"
 msgstr "Taktbreite (in Pixeln) eingeben:"
 
-#: src/playback.c:85
+#: src/playback.c:88
 #, c-format
 msgid "Could not find %s program"
 msgstr "Konnte das Programm %s nicht finden"
 
-#: src/playback.c:88
+#: src/playback.c:91
 msgid "Please edit the chosen midi player in the preferences."
 msgstr "Bitte ändern Sie den ausgewählten Midi-Player in den Eigenschaften."
 
@@ -750,7 +726,7 @@ msgstr "Bitte ändern Sie den ausgewählten Midi-Player in den Eigenschaften."
 msgid "Playback properties"
 msgstr "Wiedergabe-Einstellungen"
 
-#: src/playbackprops.c:137 src/entries.h:209 src/entries.h:322
+#: src/playbackprops.c:137 src/entries.h:211 src/entries.h:330
 msgid "Playback"
 msgstr "Wiedergabe"
 
@@ -814,7 +790,7 @@ msgstr "Datei auswählen"
 msgid "playback after render"
 msgstr "nach dem Rendern abspielen"
 
-#: src/playbackprops.c:397 src/prefdialog.c:308
+#: src/playbackprops.c:397 src/prefdialog.c:304
 msgid "Externals"
 msgstr "Programme"
 
@@ -830,75 +806,72 @@ msgstr "Externes Audio-Programm:"
 msgid "Loaded Plugins"
 msgstr "Geladene Plugins"
 
-#: src/prefdialog.c:183
+#: src/prefdialog.c:182
 msgid "Preferences - Denemo"
 msgstr "Einstellungen - Denemo"
 
-#: src/prefdialog.c:207
-msgid "Entry"
-msgstr "Eingabe"
+#: src/prefdialog.c:204 src/entries.h:207
+msgid "View"
+msgstr "Ansicht"
 
-#: src/prefdialog.c:212
+#: src/prefdialog.c:208
 msgid "Play back entered notes immediately"
 msgstr "Noten bei Eingabe hörbar"
 
-#: src/prefdialog.c:220
-msgid "Use lilypond-style note entry"
-msgstr "Noteneingabe im Lilypond-Stil"
-
-#: src/prefdialog.c:230
-msgid "Clone chords when tying them"
-msgstr "Verdopple Akkorde beim Einfügen von Haltebögen"
-
-#: src/prefdialog.c:239
+#: src/prefdialog.c:215
 msgid "Display durations toolbar"
 msgstr "Notenlängen-Werkzeugleiste anzeigen"
 
-#: src/prefdialog.c:248
+#: src/prefdialog.c:224
 msgid "Display articulation palette"
 msgstr "Artikulations-Werkzeugleiste anzeigen"
 
-#: src/prefdialog.c:258
+#: src/prefdialog.c:232
 msgid "Display rhythm pattern toolbar"
 msgstr "Rhythmus-Werkzeugleiste anzeigen"
 
-#: src/prefdialog.c:275
+#: src/prefdialog.c:242
 msgid "Autosave every"
 msgstr "Automatisch speichern alle"
 
-#: src/prefdialog.c:286
+#: src/prefdialog.c:253
 msgid "minute(s)"
 msgstr "Minute(n)"
 
-#: src/prefdialog.c:292
+#: src/prefdialog.c:259
 msgid "Autosave Parts"
 msgstr "Stimmenauszüge automatisch speichern"
 
-#: src/prefdialog.c:311
+#: src/prefdialog.c:276
+#, fuzzy
+msgid "Pitch Entry"
+msgstr "Eingabe"
+
+#: src/prefdialog.c:310
 msgid "Path to Lilypond:"
 msgstr "Pfad zu Lilypond:"
 
-#: src/prefdialog.c:324
+#: src/prefdialog.c:320
 msgid "Pdf Viewer"
 msgstr "PDF-Anzeige"
 
-#: src/prefdialog.c:334
+#: src/prefdialog.c:331
 msgid "Text Editor"
 msgstr "Text-Editor"
 
-#: src/prefdialog.c:346
+#: src/prefdialog.c:342
 msgid "Default Save Path"
 msgstr "Standard-Pfad für \"Speichern unter\""
 
-#: src/prefdialog.c:366
+#: src/prefdialog.c:361
 msgid "Plugins"
 msgstr "Plugins"
 
-#: src/prefdialog.c:439
+#: src/prefdialog.c:433
 msgid "Help Settings"
 msgstr "Hilfe-Einstellungen"
 
-#: src/prefdialog.c:442
+#: src/prefdialog.c:438
 msgid "Help Browser:"
 msgstr "Browser für Hilfe:"
 
@@ -919,7 +892,7 @@ msgstr "Drucke Taktbereich"
 msgid "Print from Measure"
 msgstr "Drucke von Takt"
 
-#: src/print.c:553
+#: src/print.c:553 src/entries.h:228
 msgid "Export PDF"
 msgstr "Als PDF exportieren"
 
@@ -1118,59 +1091,59 @@ msgstr "Generalbass"
 msgid "voice %d"
 msgstr "Stimme %d"
 
-#: src/staffpropdialog.c:369
+#: src/staffpropdialog.c:399 src/entries.h:268
 msgid "Staff Properties"
 msgstr "Eigenschaften der Notenzeile"
 
-#: src/staffpropdialog.c:384
+#: src/staffpropdialog.c:414
 msgid "Staff name:"
 msgstr "Name der Notenzeile:"
 
-#: src/staffpropdialog.c:398
+#: src/staffpropdialog.c:428
 msgid "Space above:"
 msgstr "Abstand nach oben:"
 
-#: src/staffpropdialog.c:413
+#: src/staffpropdialog.c:443
 msgid "Space below:"
 msgstr "Abstand nach unten:"
 
-#: src/staffpropdialog.c:427
+#: src/staffpropdialog.c:457
 msgid "Number of lines:"
 msgstr "Anzahl Linien:"
 
-#: src/staffpropdialog.c:440
+#: src/staffpropdialog.c:470
 msgid "Transposition:"
 msgstr "Transposition:"
 
-#: src/staffpropdialog.c:456
+#: src/staffpropdialog.c:486
 msgid "Position in half-lines:"
 msgstr "Position in Halbtönen:"
 
-#: src/staffpropdialog.c:469
+#: src/staffpropdialog.c:499
 msgid "MIDI Instrument:"
 msgstr "MIDI-Instrument:"
 
-#: src/staffpropdialog.c:492
+#: src/staffpropdialog.c:522
 msgid "Volume:"
 msgstr "Lautstärke:"
 
-#: src/staffpropdialog.c:506
+#: src/staffpropdialog.c:536
 msgid "Override Midi Channel/Program"
 msgstr "Überschreibe Midi-Kanal/Programm"
 
-#: src/staffpropdialog.c:521
+#: src/staffpropdialog.c:551
 msgid "Channel:"
 msgstr "Kanal:"
 
-#: src/staffpropdialog.c:535
+#: src/staffpropdialog.c:565
 msgid "Program:"
 msgstr "Instrument:"
 
-#: src/staffpropdialog.c:551
+#: src/staffpropdialog.c:581
 msgid "Custom prolog:"
 msgstr "Benutzerdefinierter Prolog:"
 
-#: src/staffpropdialog.c:564
+#: src/staffpropdialog.c:601
 msgid "Context:"
 msgstr "Context:"
 
@@ -1202,31 +1175,31 @@ msgstr "Notenzeile transponieren"
 msgid "Customize tuplet multiplier"
 msgstr "Tupel-Verhältnis anpassen"
 
-#: src/view.c:1169
+#: src/view.c:1320
 msgid "shortcut"
 msgstr "Tastenkombination"
 
-#: src/view.c:1198
+#: src/view.c:1339
 msgid "Press the key combination desired"
 msgstr "Drücken Sie die gewünschte Tastenkombination"
 
-#: src/view.c:1208
+#: src/view.c:1349
 msgid "Press the shortcut key that you wish to delete"
 msgstr "Drücken Sie die Tastenkombination, die Sie löschen möchten"
 
-#: src/view.c:1547
+#: src/view.c:1745
 msgid " "
 msgstr "."
 
-#: src/view.c:1547
+#: src/view.c:1745
 msgid "Does nothing"
 msgstr "Tue nichts"
 
-#: src/view.c:1879
+#: src/view.c:2070
 msgid "Rhythms and Overlays"
 msgstr "Rhythmen"
 
-#: src/view.c:1879
+#: src/view.c:2070
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes using rhythm patterns and\n"
@@ -1235,11 +1208,11 @@ msgstr ""
 "Werkzeugleiste zur Eingabe von Noten mithilfe\n"
 "von Rhythmus-Mustern anzeigen/verbergen"
 
-#: src/view.c:1882
+#: src/view.c:2073
 msgid "Note and rest entry"
 msgstr "Noten und Pausen eingeben"
 
-#: src/view.c:1882
+#: src/view.c:2073
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
@@ -1247,11 +1220,11 @@ msgstr ""
 "Werkzeugleiste zur Eingabe von Noten und\n"
 "Pausen mit der Maus anzeigen/verbergen"
 
-#: src/view.c:1885
+#: src/view.c:2076
 msgid "Menu of actions"
 msgstr "Aktionsmenu"
 
-#: src/view.c:1885
+#: src/view.c:2076
 msgid ""
 "Show/hide a menu which is arranged by actions\n"
 "The actions are independent of any mode set"
@@ -1259,11 +1232,11 @@ msgstr ""
 "Werkzeugleiste mit Aktionen anzeigen/verbergen\n"
 "Die Aktionen sind unabhängig vom aktuellen Eingabemodus."
 
-#: src/view.c:1888
+#: src/view.c:2079
 msgid "Menu of objects"
 msgstr "Objektmenu"
 
-#: src/view.c:1888
+#: src/view.c:2079
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
@@ -1271,55 +1244,60 @@ msgstr ""
 "Werkzeugleiste mit Objekten anzeigen/verbergen\n"
 "Die verfügbaren Aktionen für Notenobjekte sind vom Eingabemodus abhängig"
 
-#: src/view.c:1891
+#: src/view.c:2082
 msgid "Show LilyPond"
 msgstr "Lilypond anzeigen"
 
-#: src/view.c:1891
+#: src/view.c:2082
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr "LilyPond-Fenster anzeigen/verbergen"
 
-#: src/view.c:1894
+#: src/view.c:2085
 msgid "Show Scheme Script"
 msgstr "Scheme-Skript anzeigen"
 
-#: src/view.c:1894
+#: src/view.c:2085
 msgid "Show scheme script window"
 msgstr "Zeigt das Scheme-Skript-Fenster an"
 
-#: src/view.c:1897
+#: src/view.c:2088
 msgid "Microphone"
 msgstr "Mikrofon"
 
-#: src/view.c:1897
+#: src/view.c:2088
 msgid "Enable pitch entry from microphone"
 msgstr "Eingabe der Tonhöhe über Mikrofon aktivieren"
 
-#: src/view.c:1900
+#: src/view.c:2091
 msgid "_Articulation Palette"
 msgstr "_Artikulationspalette"
 
-#: src/view.c:1902
+#: src/view.c:2093
 msgid "Allow Quick Shortcut Edits"
 msgstr "Schnelles Ändern der Tastenkombinationen erlauben"
 
-#: src/view.c:1906
+#: src/view.c:2095
+#, fuzzy
+msgid "Record Scheme Script"
+msgstr "Scheme-Skript anzeigen"
+
+#: src/view.c:2099
 msgid "Read Only"
 msgstr "Schreibgeschützt"
 
-#: src/view.c:1914
+#: src/view.c:2107
 msgid "No mode"
 msgstr "Kein Modus"
 
-#: src/view.c:1916
+#: src/view.c:2109
 msgid "Classic"
 msgstr "Klassisch"
 
-#: src/view.c:1918 src/entries.h:267 src/entries.h:331
+#: src/view.c:2111 src/entries.h:269 src/entries.h:318 src/entries.h:339
 msgid "Insert"
 msgstr "Einfügen"
 
-#: src/view.c:1918
+#: src/view.c:2111
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -1331,11 +1309,11 @@ msgstr ""
 "Benutzen Sie Tonlängen um die aktuelle Tonlänge zu setzen\n"
 "Geben Sie Notennamen ein um die Note einzufügen"
 
-#: src/view.c:1920 src/entries.h:204 src/entries.h:319
+#: src/view.c:2113 src/entries.h:206 src/entries.h:327 src/entries.h:332
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: src/view.c:1920
+#: src/view.c:2113
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
@@ -1345,27 +1323,27 @@ msgstr ""
 "und zur Eingabe von Noten nach Länge (Rhythmen)\n"
 "Benutzen Sie die Tonlängen um Noten einzufügen"
 
-#: src/view.c:1926
+#: src/view.c:2119
 msgid "Note"
 msgstr "Note"
 
-#: src/view.c:1926
+#: src/view.c:2119
 msgid "Normal (note) entry"
 msgstr "Normale Noteneingabe"
 
-#: src/view.c:1927
+#: src/view.c:2120
 msgid "Rest"
 msgstr "Pause"
 
-#: src/view.c:1927
+#: src/view.c:2120
 msgid "Entering rests not notes"
 msgstr "Pausen statt Noten eingeben"
 
-#: src/view.c:1928
+#: src/view.c:2121
 msgid "Non printing rests"
 msgstr "unsichtbare Pause"
 
-#: src/view.c:1928
+#: src/view.c:2121
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
@@ -1373,102 +1351,106 @@ msgstr ""
 "Erzeugt Pausen, die nicht angezeigt werden (nur Platz belegen)\n"
 "Benötigt zur Positionierung von polyphonen Stimmen"
 
-#: src/view.c:1929
+#: src/view.c:2122
 msgid "Rhythm"
 msgstr "Rhythmus"
 
-#: src/view.c:1929
+#: src/view.c:2122
 msgid "Mode for pure rhythyms"
 msgstr "Modus für reine Rhythmen"
 
-#: src/view.c:2256
+#: src/view.c:2459
 msgid "Show/Hide"
 msgstr "Anzeigen/Verbergen"
 
-#: src/view.c:2256
+#: src/view.c:2459
 msgid "Toggle visibility of section"
 msgstr "Schalte Sichtbarkeit des Abschnitts um"
 
-#: src/view.c:2257
+#: src/view.c:2460
 msgid "Create Custom Version"
 msgstr "Benutzerdefinierte Version erstellen"
 
-#: src/view.c:2257
+#: src/view.c:2460
 msgid "Create a custom version of this block"
 msgstr "Erstelle eine benutzerdefinierte Version dieses Blocks"
 
-#: src/view.c:2258
+#: src/view.c:2461
 msgid "Delete Block"
 msgstr "Block löschen"
 
-#: src/view.c:2258
+#: src/view.c:2461
 msgid "Delete this block"
 msgstr "Diesen Block löschen"
 
 #: src/entries.h:2
-msgid "CursorLeft"
+#, fuzzy
+msgid "Cursor Left"
 msgstr "Cursor nach links"
 
 #: src/entries.h:2 src/entries.h:3 src/entries.h:4 src/entries.h:5
-#: src/entries.h:8 src/entries.h:9 src/entries.h:11 src/entries.h:12
-#: src/entries.h:13 src/entries.h:14 src/entries.h:15 src/entries.h:16
-#: src/entries.h:26 src/entries.h:27 src/entries.h:28 src/entries.h:29
-#: src/entries.h:30 src/entries.h:31 src/entries.h:32 src/entries.h:33
-#: src/entries.h:34 src/entries.h:42 src/entries.h:43 src/entries.h:44
-#: src/entries.h:45 src/entries.h:46 src/entries.h:47 src/entries.h:48
-#: src/entries.h:49 src/entries.h:52 src/entries.h:53 src/entries.h:54
-#: src/entries.h:55 src/entries.h:57 src/entries.h:58 src/entries.h:59
-#: src/entries.h:60 src/entries.h:63 src/entries.h:64 src/entries.h:65
-#: src/entries.h:66 src/entries.h:67 src/entries.h:68 src/entries.h:69
-#: src/entries.h:70 src/entries.h:71 src/entries.h:72 src/entries.h:73
-#: src/entries.h:74 src/entries.h:75 src/entries.h:76 src/entries.h:77
-#: src/entries.h:78 src/entries.h:79 src/entries.h:80 src/entries.h:81
-#: src/entries.h:82 src/entries.h:83 src/entries.h:84 src/entries.h:85
-#: src/entries.h:86 src/entries.h:87 src/entries.h:88 src/entries.h:89
-#: src/entries.h:90 src/entries.h:91 src/entries.h:92 src/entries.h:93
-#: src/entries.h:94 src/entries.h:95 src/entries.h:96 src/entries.h:97
-#: src/entries.h:98 src/entries.h:99 src/entries.h:100 src/entries.h:101
-#: src/entries.h:102 src/entries.h:103 src/entries.h:104 src/entries.h:105
-#: src/entries.h:106 src/entries.h:107 src/entries.h:108 src/entries.h:109
-#: src/entries.h:110 src/entries.h:111 src/entries.h:112 src/entries.h:113
-#: src/entries.h:114 src/entries.h:115 src/entries.h:116 src/entries.h:117
-#: src/entries.h:118 src/entries.h:119 src/entries.h:120 src/entries.h:121
-#: src/entries.h:122 src/entries.h:123 src/entries.h:124 src/entries.h:125
-#: src/entries.h:126 src/entries.h:127 src/entries.h:128 src/entries.h:129
-#: src/entries.h:130 src/entries.h:131 src/entries.h:132 src/entries.h:133
-#: src/entries.h:134 src/entries.h:135 src/entries.h:136 src/entries.h:137
-#: src/entries.h:138 src/entries.h:139 src/entries.h:140 src/entries.h:141
-#: src/entries.h:142 src/entries.h:143 src/entries.h:144 src/entries.h:145
-#: src/entries.h:146 src/entries.h:147 src/entries.h:148 src/entries.h:149
-#: src/entries.h:150 src/entries.h:151 src/entries.h:152 src/entries.h:153
-#: src/entries.h:154 src/entries.h:155 src/entries.h:156 src/entries.h:157
-#: src/entries.h:158 src/entries.h:159 src/entries.h:160 src/entries.h:161
-#: src/entries.h:162 src/entries.h:165 src/entries.h:166 src/entries.h:167
-#: src/entries.h:168 src/entries.h:169 src/entries.h:170 src/entries.h:171
-#: src/entries.h:172 src/entries.h:173 src/entries.h:174 src/entries.h:175
-#: src/entries.h:176 src/entries.h:177 src/entries.h:178 src/entries.h:179
-#: src/entries.h:180 src/entries.h:181 src/entries.h:182 src/entries.h:183
-#: src/entries.h:184 src/entries.h:185 src/entries.h:186 src/entries.h:187
-#: src/entries.h:188 src/entries.h:189 src/entries.h:190 src/entries.h:191
-#: src/entries.h:192 src/entries.h:193 src/entries.h:194 src/entries.h:195
-#: src/entries.h:196 src/entries.h:197 src/entries.h:198 src/entries.h:200
+#: src/entries.h:8 src/entries.h:9 src/entries.h:26 src/entries.h:27
+#: src/entries.h:28 src/entries.h:29 src/entries.h:30 src/entries.h:31
+#: src/entries.h:32 src/entries.h:33 src/entries.h:34 src/entries.h:42
+#: src/entries.h:43 src/entries.h:44 src/entries.h:45 src/entries.h:46
+#: src/entries.h:47 src/entries.h:48 src/entries.h:49 src/entries.h:52
+#: src/entries.h:53 src/entries.h:54 src/entries.h:55 src/entries.h:56
+#: src/entries.h:57 src/entries.h:59 src/entries.h:60 src/entries.h:61
+#: src/entries.h:62 src/entries.h:65 src/entries.h:66 src/entries.h:67
+#: src/entries.h:68 src/entries.h:69 src/entries.h:70 src/entries.h:71
+#: src/entries.h:72 src/entries.h:73 src/entries.h:74 src/entries.h:75
+#: src/entries.h:76 src/entries.h:77 src/entries.h:78 src/entries.h:79
+#: src/entries.h:80 src/entries.h:81 src/entries.h:82 src/entries.h:83
+#: src/entries.h:84 src/entries.h:85 src/entries.h:86 src/entries.h:87
+#: src/entries.h:88 src/entries.h:89 src/entries.h:90 src/entries.h:91
+#: src/entries.h:92 src/entries.h:93 src/entries.h:94 src/entries.h:95
+#: src/entries.h:96 src/entries.h:97 src/entries.h:98 src/entries.h:99
+#: src/entries.h:100 src/entries.h:101 src/entries.h:102 src/entries.h:103
+#: src/entries.h:104 src/entries.h:105 src/entries.h:106 src/entries.h:107
+#: src/entries.h:108 src/entries.h:109 src/entries.h:110 src/entries.h:111
+#: src/entries.h:112 src/entries.h:113 src/entries.h:114 src/entries.h:115
+#: src/entries.h:116 src/entries.h:117 src/entries.h:118 src/entries.h:119
+#: src/entries.h:120 src/entries.h:121 src/entries.h:122 src/entries.h:123
+#: src/entries.h:124 src/entries.h:125 src/entries.h:126 src/entries.h:127
+#: src/entries.h:128 src/entries.h:129 src/entries.h:130 src/entries.h:131
+#: src/entries.h:132 src/entries.h:133 src/entries.h:134 src/entries.h:135
+#: src/entries.h:136 src/entries.h:137 src/entries.h:138 src/entries.h:139
+#: src/entries.h:140 src/entries.h:141 src/entries.h:142 src/entries.h:143
+#: src/entries.h:144 src/entries.h:145 src/entries.h:146 src/entries.h:147
+#: src/entries.h:148 src/entries.h:149 src/entries.h:150 src/entries.h:151
+#: src/entries.h:152 src/entries.h:153 src/entries.h:154 src/entries.h:155
+#: src/entries.h:156 src/entries.h:157 src/entries.h:158 src/entries.h:159
+#: src/entries.h:160 src/entries.h:161 src/entries.h:162 src/entries.h:163
+#: src/entries.h:164 src/entries.h:167 src/entries.h:168 src/entries.h:169
+#: src/entries.h:170 src/entries.h:171 src/entries.h:172 src/entries.h:173
+#: src/entries.h:174 src/entries.h:175 src/entries.h:176 src/entries.h:177
+#: src/entries.h:178 src/entries.h:179 src/entries.h:180 src/entries.h:181
+#: src/entries.h:182 src/entries.h:183 src/entries.h:184 src/entries.h:185
+#: src/entries.h:186 src/entries.h:187 src/entries.h:188 src/entries.h:189
+#: src/entries.h:190 src/entries.h:191 src/entries.h:192 src/entries.h:193
+#: src/entries.h:194 src/entries.h:195 src/entries.h:196 src/entries.h:197
+#: src/entries.h:198 src/entries.h:199 src/entries.h:200 src/entries.h:202
 msgid "No Tooltip yet"
 msgstr "Noch kein Tooltip"
 
 #: src/entries.h:3
-msgid "CursorDown"
+#, fuzzy
+msgid "Cursor Down"
 msgstr "Cursor nach unten"
 
 #: src/entries.h:4
-msgid "CursorUp"
+#, fuzzy
+msgid "Cursor Up"
 msgstr "Cursor nach oben"
 
 #: src/entries.h:5
-msgid "CursorRight"
+#, fuzzy
+msgid "Cursor Right"
 msgstr "Cursor nach rechts"
 
 #: src/entries.h:6
-msgid "StaffUp"
+#, fuzzy
+msgid "Staff Up"
 msgstr "Notenzeile nach oben"
 
 #: src/entries.h:6
@@ -1476,7 +1458,8 @@ msgid "Go to the staff above"
 msgstr "Gehe zum nächsten Satz"
 
 #: src/entries.h:7
-msgid "StaffDown"
+#, fuzzy
+msgid "Staff Down"
 msgstr "Notenzeile nach unten"
 
 #: src/entries.h:7
@@ -1484,11 +1467,13 @@ msgid "Go to the staff below"
 msgstr "Gehe zur Notenzeile darunter"
 
 #: src/entries.h:8
-msgid "MeasureLeft"
+#, fuzzy
+msgid "Measure Left"
 msgstr "Takt nach links"
 
 #: src/entries.h:9
-msgid "MeasureRight"
+#, fuzzy
+msgid "Measure Right"
 msgstr "Takt nach rechts"
 
 #: src/entries.h:10
@@ -1496,44 +1481,60 @@ msgid "A"
 msgstr "A"
 
 #: src/entries.h:10
-msgid "Move the cursor to A"
-msgstr "Cursor bewegen"
+msgid "Action for note A (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
 
 #: src/entries.h:11
 msgid "B"
 msgstr "H"
 
+#: src/entries.h:11
+msgid "Action for note B (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
+
 #: src/entries.h:12
 msgid "C"
 msgstr "C"
+
+#: src/entries.h:12
+msgid "Action for note C (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
 
 #: src/entries.h:13
 msgid "D"
 msgstr "D"
 
+#: src/entries.h:13
+msgid "Action for note D (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
+
 #: src/entries.h:14
 msgid "E"
 msgstr "E"
+
+#: src/entries.h:14
+msgid "Action for note E (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
 
 #: src/entries.h:15
 msgid "F"
 msgstr "F"
 
+#: src/entries.h:15
+msgid "Action for note F (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
+
 #: src/entries.h:16
 msgid "G"
 msgstr "G"
 
-#: src/entries.h:17
-msgid "OctaveUp"
-msgstr "Oktave nach oben"
+#: src/entries.h:16
+msgid "Action for note G (Insert, Edit or Move Cursor, depending on Mode)"
+msgstr ""
 
 #: src/entries.h:17
 msgid "Octave Up"
 msgstr "Oktave nach oben"
-
-#: src/entries.h:18
-msgid "OctaveDown"
-msgstr "Oktave nach unten"
 
 #: src/entries.h:18
 msgid "Octave Down"
@@ -1568,39 +1569,48 @@ msgid "Insert sixty-fourth-note"
 msgstr "Vierundsechzigstelnote einfügen"
 
 #: src/entries.h:26
-msgid "InsertBlankWholeNote"
+#, fuzzy
+msgid "Insert Blank Whole Note"
 msgstr "unsichtbare ganze Note einfügen"
 
 #: src/entries.h:27
-msgid "InsertBlankHalfNote"
+#, fuzzy
+msgid "Insert Blank Half Note"
 msgstr "unsichtbare halbe Note einfügen"
 
 #: src/entries.h:28
-msgid "InsertBlankQuarterNote"
+#, fuzzy
+msgid "Insert Blank Quarter Note"
 msgstr "unsichtbare Viertelnote einfügen"
 
 #: src/entries.h:29
-msgid "InsertBlankEighthNote"
+#, fuzzy
+msgid "Insert Blank Eigth Note"
 msgstr "unsichtbare Achtelnote einfügen"
 
 #: src/entries.h:30
-msgid "InsertBlankSixteenthNote"
+#, fuzzy
+msgid "Insert Blank Sixteenth Note"
 msgstr "unsichtbare Sechzehntelnote einfügen"
 
 #: src/entries.h:31
-msgid "InsertBlankThirtysecondNote"
+#, fuzzy
+msgid "Insert Blank Thirty Second Note"
 msgstr "unsichtbare Zweiunddreißigstelnote einfügen"
 
 #: src/entries.h:32
-msgid "InsertBlankSixtyfourthNote"
+#, fuzzy
+msgid "Insert Blank Sixty Forth Note"
 msgstr "unsichtbare Vierundsechzigstelnote einfügen"
 
-#: src/entries.h:33
-msgid "ToggleRestMode"
+#: src/entries.h:33 src/entries.h:311
+#, fuzzy
+msgid "Toggle Rest Mode"
 msgstr "Pausenmodus umschalten"
 
 #: src/entries.h:34
-msgid "ToggleBlankMode"
+#, fuzzy
+msgid "Toggle Blank Mode"
 msgstr "unsichtbaren Modus umschalten"
 
 #: src/entries.h:35
@@ -1632,35 +1642,38 @@ msgid "Insert sixty-fourth note rest"
 msgstr "Vierundsechzigstelpause einfügen"
 
 #: src/entries.h:42
-msgid "InsertDuplet"
+#, fuzzy
+msgid "Insert Duplet"
 msgstr "Duole einfügen"
 
 #: src/entries.h:43
-msgid "InsertTriplet"
+#, fuzzy
+msgid "Insert Triplet"
 msgstr "Triole einfügen"
 
 #: src/entries.h:44
-msgid "StartTriplet"
+#, fuzzy
+msgid "Start Triplet"
 msgstr "Triole beginnen"
 
-#: src/entries.h:45
-msgid "EndTuplet"
-msgstr "Triole beenden"
-
 #: src/entries.h:46
-msgid "InsertQuadtuplet"
+#, fuzzy
+msgid "Insert Quadtuplet"
 msgstr "Quartole einfügen"
 
 #: src/entries.h:47
-msgid "InsertQuintuplet"
+#, fuzzy
+msgid "Insert Quintuplet"
 msgstr "Quintole einfügen"
 
 #: src/entries.h:48
-msgid "InsertSextuplet"
+#, fuzzy
+msgid "Insert Sextuplet"
 msgstr "Sextole einfügen"
 
 #: src/entries.h:49
-msgid "InsertSeptuplet"
+#, fuzzy
+msgid "Insert Septuplet"
 msgstr "Septole einfügen"
 
 #: src/entries.h:50
@@ -1684,618 +1697,746 @@ msgid "Remove a note from the current chord"
 msgstr "Entfernt eine Note aus dem aktuellen Akkord"
 
 #: src/entries.h:52
-msgid "SharpenOrStemDown"
-msgstr "Erhöhen/Hals nach oben"
+msgid "Sharpen"
+msgstr ""
 
 #: src/entries.h:53
-msgid "FlattenOrStemUp"
+#, fuzzy
+msgid "Flatten"
 msgstr "Erniedrigen/Hals nach unten"
 
 #: src/entries.h:54
-msgid "AddDot"
-msgstr "Punkt hinzufügen"
+#, fuzzy
+msgid "StemUp"
+msgstr "Hals nach oben"
 
 #: src/entries.h:55
-msgid "RemoveDot"
-msgstr "Punkt entfernen"
+#, fuzzy
+msgid "StemDown"
+msgstr "Hals nach unten"
 
 #: src/entries.h:56
+#, fuzzy
+msgid "Add Dot"
+msgstr "Punkt hinzufügen"
+
+#: src/entries.h:57
+#, fuzzy
+msgid "Remove Dot"
+msgstr "Punkt entfernen"
+
+#: src/entries.h:58
 msgid "Tied note"
 msgstr "Gehaltene Note"
 
-#: src/entries.h:56
+#: src/entries.h:58
 msgid "Inserts a duplicate of the current note, tied"
 msgstr "Ändert die Länge der aktuellen Note"
 
-#: src/entries.h:57
-msgid "DeleteObject"
+#: src/entries.h:59
+#, fuzzy
+msgid "Delete Object"
 msgstr "Lösche Objekt"
 
-#: src/entries.h:58
-msgid "DeletePreviousObject"
+#: src/entries.h:60
+#, fuzzy
+msgid "Delete Previous Object"
 msgstr "Lösche vorhergehendes Objekt"
 
-#: src/entries.h:59
-msgid "InsertMeasure"
+#: src/entries.h:61
+#, fuzzy
+msgid "Insert Measure"
 msgstr "Takt einfügen"
 
-#: src/entries.h:60
-msgid "AppendMeasure"
+#: src/entries.h:62
+#, fuzzy
+msgid "Append Measure"
 msgstr "Takt anhängen"
 
-#: src/entries.h:61
-msgid "DeleteMeasure"
+#: src/entries.h:63
+#, fuzzy
+msgid "Delete Measure"
 msgstr "Takt löschen"
 
-#: src/entries.h:61
+#: src/entries.h:63
 msgid "Delete the current measure in this staff, leaving the staff short"
 msgstr "Löscht den aktuellen Takt aus dieser Notenzeile"
 
-#: src/entries.h:62
-msgid "DeleteMeasureAllStaffs"
+#: src/entries.h:64
+#, fuzzy
+msgid "Delete Measure All Staffs"
 msgstr "Takt in allen Notenzeilen löschen"
 
-#: src/entries.h:62
+#: src/entries.h:64
 msgid "Delete the current measure in all staffs"
 msgstr "Lösche den aktuellen Satz"
 
-#: src/entries.h:63
-msgid "ShrinkMeasures"
+#: src/entries.h:65
+#, fuzzy
+msgid "Shrink Measure"
 msgstr "Takte verschmälern"
 
-#: src/entries.h:64
-msgid "WidenMeasures"
+#: src/entries.h:66
+#, fuzzy
+msgid "Widen Measures"
 msgstr "Takte verbreitern"
 
-#: src/entries.h:65
-msgid "ShorterStaffs"
+#: src/entries.h:67
+#, fuzzy
+msgid "Shorter Staffs"
 msgstr "Kleinere Notenzeilen"
 
-#: src/entries.h:66
-msgid "TallerStaffs"
+#: src/entries.h:68
+#, fuzzy
+msgid "Taller Staffs"
 msgstr "Größere Notenzeilen"
 
-#: src/entries.h:67
-msgid "InsertTrebleClef"
+#: src/entries.h:69
+#, fuzzy
+msgid "New Treble Clef"
 msgstr "Violinschlüssel einfügen"
 
-#: src/entries.h:68
-msgid "InsertBassClef"
+#: src/entries.h:70
+#, fuzzy
+msgid "New Bass Clef"
 msgstr "Bassschlüssel einfügen"
 
-#: src/entries.h:69
-msgid "Insertg8clef"
-msgstr "g8-Schlüssel einfügen"
-
-#: src/entries.h:70
-msgid "InsertAltoClef"
-msgstr "Altschlüssel einfügen"
-
 #: src/entries.h:71
-msgid "InsertTenorClef"
-msgstr "Tenorschlüssel einfügen"
+#, fuzzy
+msgid "New G8 Clef"
+msgstr "Schlüssel setzen"
 
 #: src/entries.h:72
-msgid "InsertSopranoClef"
-msgstr "Sopranschlüssel einfügen"
+#, fuzzy
+msgid "New Alto Clef"
+msgstr "Schlüssel setzen"
 
 #: src/entries.h:73
-msgid "SetInitialTrebleClef"
-msgstr "Violinschlüssel am Anfang setzen"
+#, fuzzy
+msgid "New Tenor Clef"
+msgstr "Tenorschlüssel einfügen"
 
 #: src/entries.h:74
-msgid "SetInitialBassClef"
-msgstr "Bassschlüssel am Anfang setzen"
+#, fuzzy
+msgid "New Soprano Clef"
+msgstr "Sopranschlüssel einfügen"
 
 #: src/entries.h:75
-msgid "SetInitialg8clef"
-msgstr "g8-Schlüssel am Anfang setzen"
+#, fuzzy
+msgid "Set Treble Clef"
+msgstr "Violinschlüssel einfügen"
 
 #: src/entries.h:76
-msgid "SetInitialAltoClef"
-msgstr "Altschlüssel am Anfang setzen"
+#, fuzzy
+msgid "Set Bass Clef"
+msgstr "Schlüssel setzen"
 
 #: src/entries.h:77
-msgid "SetInitialTenorClef"
-msgstr "Tenorschlüssel am Anfang setzen"
+#, fuzzy
+msgid "Set G8 Clef"
+msgstr "Schlüssel setzen"
 
 #: src/entries.h:78
-msgid "SetInitialSopranoClef"
-msgstr "Sopranschlüssel am Anfang setzen"
+#, fuzzy
+msgid "Set Alto Clef"
+msgstr "Schlüssel setzen"
 
 #: src/entries.h:79
-msgid "Insert22Time"
-msgstr "2/2-Takt einfügen"
+#, fuzzy
+msgid "Set Tenor Clef"
+msgstr "Tenorschlüssel einfügen"
 
 #: src/entries.h:80
-msgid "Insert32Time"
-msgstr "3/2-Takt einfügen"
+#, fuzzy
+msgid "Set Soprano Clef"
+msgstr "Sopranschlüssel einfügen"
 
 #: src/entries.h:81
-msgid "Insert42Time"
-msgstr "4/2-Takt einfügen"
+#, fuzzy
+msgid "Insert 2/2 Time"
+msgstr "2/2-Takt einfügen"
 
 #: src/entries.h:82
-msgid "Insert44Time"
-msgstr "4/4-Takt einfügen"
+#, fuzzy
+msgid "Insert 3/2 Time"
+msgstr "3/2-Takt einfügen"
 
 #: src/entries.h:83
-msgid "Insert34Time"
-msgstr "3/4-Takt einfügen"
+#, fuzzy
+msgid "Insert 4/2 Time"
+msgstr "4/2-Takt einfügen"
 
 #: src/entries.h:84
-msgid "Insert24Time"
-msgstr "2/4-Takt einfügen"
+#, fuzzy
+msgid "Insert 4/4 Time"
+msgstr "4/4-Takt einfügen"
 
 #: src/entries.h:85
-msgid "Insert64Time"
-msgstr "6/4-Takt einfügen"
+#, fuzzy
+msgid "Insert 3/4 Time"
+msgstr "3/4-Takt einfügen"
 
 #: src/entries.h:86
-msgid "Insert38Time"
-msgstr "3/8-Takt einfügen"
+#, fuzzy
+msgid "Insert 2/4 Time"
+msgstr "2/4-Takt einfügen"
 
 #: src/entries.h:87
-msgid "Insert68Time"
-msgstr "6/8-Takt einfügen"
+#, fuzzy
+msgid "Insert 6/4 Time"
+msgstr "6/4-Takt einfügen"
 
 #: src/entries.h:88
-msgid "Insert128Time"
-msgstr "12/8-Takt einfügen"
+#, fuzzy
+msgid "Insert 3/8 Time"
+msgstr "3/8-Takt einfügen"
 
 #: src/entries.h:89
-msgid "Insert98Time"
-msgstr "9/8-Takt einfügen"
+#, fuzzy
+msgid "Insert 6/8 Time"
+msgstr "6/8-Takt einfügen"
 
 #: src/entries.h:90
-msgid "Set22Time"
-msgstr "2/2-Takt setzen"
+#, fuzzy
+msgid "Insert 12/8 Time"
+msgstr "12/8-Takt einfügen"
 
 #: src/entries.h:91
-msgid "Set32Time"
-msgstr "3/2-Takt setzen"
+#, fuzzy
+msgid "Insert 9/8 Time"
+msgstr "9/8-Takt einfügen"
 
 #: src/entries.h:92
-msgid "Set42Time"
-msgstr "4/2-Takt setzen"
+#, fuzzy
+msgid "Set 2/2 Time"
+msgstr "2/2-Takt setzen"
 
 #: src/entries.h:93
-msgid "Set44Time"
-msgstr "4/4-Takt setzen"
+#, fuzzy
+msgid "Set 3/2 Time"
+msgstr "3/2-Takt setzen"
 
 #: src/entries.h:94
-msgid "Set34Time"
-msgstr "3/4-Takt setzen"
+#, fuzzy
+msgid "Set 4/2 Time"
+msgstr "4/2-Takt setzen"
 
 #: src/entries.h:95
-msgid "Set24Time"
-msgstr "2/4-Takt setzen"
+#, fuzzy
+msgid "Set 4/4 Time"
+msgstr "4/4-Takt setzen"
 
 #: src/entries.h:96
-msgid "Set64Time"
-msgstr "6/4-Takt setzen"
+#, fuzzy
+msgid "Set 3/4 Time"
+msgstr "3/4-Takt setzen"
 
 #: src/entries.h:97
-msgid "Set38Time"
-msgstr "3/8-Takt setzen"
+#, fuzzy
+msgid "Set 2/4 Time"
+msgstr "2/4-Takt setzen"
 
 #: src/entries.h:98
-msgid "Set68Time"
-msgstr "6/8-Takt setzen"
+#, fuzzy
+msgid "Set 6/4 Time"
+msgstr "6/4-Takt setzen"
 
 #: src/entries.h:99
-msgid "Set128Time"
-msgstr "12/8-Takt setzen"
+#, fuzzy
+msgid "Set 3/8 Time"
+msgstr "3/8-Takt setzen"
 
 #: src/entries.h:100
-msgid "Set98Time"
-msgstr "9/8-Takt setzen"
+#, fuzzy
+msgid "Set 6/8 Time"
+msgstr "6/8-Takt setzen"
 
 #: src/entries.h:101
-msgid "InsertCmaj"
-msgstr "C-Dur einfügen"
+#, fuzzy
+msgid "Set 12/8 Time"
+msgstr "12/8-Takt setzen"
 
 #: src/entries.h:102
-msgid "InsertGmaj"
-msgstr "G-Dur einfügen"
+#, fuzzy
+msgid "Set 9/8 Time"
+msgstr "9/8-Takt setzen"
 
 #: src/entries.h:103
-msgid "InsertDmaj"
-msgstr "D-Dur einfügen"
+#, fuzzy
+msgid "Insert Cmaj"
+msgstr "C-Dur einfügen"
 
 #: src/entries.h:104
-msgid "InsertAmaj"
-msgstr "A-Dur einfügen"
+#, fuzzy
+msgid "Insert Gmaj"
+msgstr "G-Dur einfügen"
 
 #: src/entries.h:105
-msgid "InsertEmaj"
-msgstr "E-Dur einfügen"
+#, fuzzy
+msgid "Insert Dmaj"
+msgstr "D-Dur einfügen"
 
 #: src/entries.h:106
-msgid "InsertBmaj"
-msgstr "H-Dur einfügen"
+#, fuzzy
+msgid "Insert Amaj"
+msgstr "A-Dur einfügen"
 
 #: src/entries.h:107
-msgid "InsertFSharpmaj"
-msgstr "Fis-Dur einfügen"
+#, fuzzy
+msgid "Insert Emaj"
+msgstr "E-Dur einfügen"
 
 #: src/entries.h:108
-msgid "InsertCSharpmaj"
-msgstr "Cis-Dur einfügen"
+#, fuzzy
+msgid "Insert Bmaj"
+msgstr "H-Dur einfügen"
 
 #: src/entries.h:109
-msgid "InsertFmaj"
+#, fuzzy
+msgid "Insert F# Major"
 msgstr "F-Dur einfügen"
 
 #: src/entries.h:110
-msgid "InsertBflatmaj"
-msgstr "B-Dur einfügen"
+#, fuzzy
+msgid "Insert C# Major"
+msgstr "C-Dur einfügen"
 
 #: src/entries.h:111
-msgid "InsertEflatmaj"
-msgstr "Es-Dur einfügen"
+#, fuzzy
+msgid "Insert F Major"
+msgstr "F-Dur einfügen"
 
 #: src/entries.h:112
-msgid "InsertAflatmaj"
-msgstr "As-Dur einfügen"
+#, fuzzy
+msgid "Insert Bb Major"
+msgstr "H-Dur einfügen"
 
 #: src/entries.h:113
-msgid "InsertDflatmaj"
-msgstr "Des-Dur einfügen"
+#, fuzzy
+msgid "Insert Eb Major"
+msgstr "E-Dur einfügen"
 
 #: src/entries.h:114
-msgid "InsertGflatmaj"
-msgstr "Ges-Dur einfügen"
+#, fuzzy
+msgid "Insert Ab Major"
+msgstr "A-Dur einfügen"
 
 #: src/entries.h:115
-msgid "InsertCflatmaj"
-msgstr "Ces-Dur einfügen"
+#, fuzzy
+msgid "Insert Db Major"
+msgstr "D-Dur einfügen"
 
 #: src/entries.h:116
-msgid "InsertAmin"
-msgstr "a-moll einfügen"
+#, fuzzy
+msgid "Insert Gb Major"
+msgstr "G-Dur einfügen"
 
 #: src/entries.h:117
-msgid "InsertEmin"
-msgstr "e-moll einfügen"
+#, fuzzy
+msgid "Insert Cb Major"
+msgstr "C-Dur einfügen"
 
 #: src/entries.h:118
-msgid "InsertBmin"
-msgstr "h-moll einfügen"
+#, fuzzy
+msgid "Insert A Minor"
+msgstr "a-moll einfügen"
 
 #: src/entries.h:119
-msgid "InsertFSharpmin"
-msgstr "fis-moll einfügen"
+#, fuzzy
+msgid "Insert E Minor"
+msgstr "e-moll einfügen"
 
 #: src/entries.h:120
-msgid "InsertCSharpmin"
-msgstr "cis-moll einfügen"
+#, fuzzy
+msgid "Insert B Minor"
+msgstr "h-moll einfügen"
 
 #: src/entries.h:121
-msgid "InsertGSharpmin"
-msgstr "gis-moll einfügen"
+#, fuzzy
+msgid "Insert F# Minor"
+msgstr "f-moll einfügen"
 
 #: src/entries.h:122
-msgid "InsertDSharpmin"
-msgstr "dis-moll einfügen"
+#, fuzzy
+msgid "Insert C# Minor"
+msgstr "c-moll einfügen"
 
 #: src/entries.h:123
-msgid "InsertASharpmin"
-msgstr "ais-moll einfügen"
+#, fuzzy
+msgid "Insert G# Minor"
+msgstr "g-moll einfügen"
 
 #: src/entries.h:124
-msgid "InsertDmin"
+#, fuzzy
+msgid "Insert D# Minor"
 msgstr "d-moll einfügen"
 
 #: src/entries.h:125
-msgid "InsertGmin"
-msgstr "g-moll einfügen"
+#, fuzzy
+msgid "Insert A# Minor"
+msgstr "a-moll einfügen"
 
 #: src/entries.h:126
-msgid "InsertCmin"
-msgstr "c-moll einfügen"
+#, fuzzy
+msgid "Insert D Minor"
+msgstr "d-moll einfügen"
 
 #: src/entries.h:127
-msgid "InsertFmin"
-msgstr "f-moll einfügen"
+#, fuzzy
+msgid "Insert G Minor"
+msgstr "g-moll einfügen"
 
 #: src/entries.h:128
-msgid "InsertBflatmin"
-msgstr "b-moll einfügen"
+#, fuzzy
+msgid "Insert C Minor"
+msgstr "c-moll einfügen"
 
 #: src/entries.h:129
-msgid "InsertEflatmin"
-msgstr "es-moll einfügen"
+#, fuzzy
+msgid "Insert F Minor"
+msgstr "f-moll einfügen"
 
 #: src/entries.h:130
-msgid "InsertAflatmin"
-msgstr "as-moll einfügen"
+#, fuzzy
+msgid "Insert Bb Minor"
+msgstr "h-moll einfügen"
 
 #: src/entries.h:131
-msgid "SetInitialCmaj"
-msgstr "C-Dur am Anfang setzen"
+#, fuzzy
+msgid "Insert Eb Minor"
+msgstr "e-moll einfügen"
 
 #: src/entries.h:132
-msgid "SetInitialGmaj"
-msgstr "G-Dur am Anfang setzen"
+#, fuzzy
+msgid "Insert Ab Minor"
+msgstr "a-moll einfügen"
 
 #: src/entries.h:133
-msgid "SetInitialDmaj"
-msgstr "D-Dur am Anfang setzen"
+#, fuzzy
+msgid "Set Initial Keysig to C Major"
+msgstr "C-Dur am Anfang setzen"
 
 #: src/entries.h:134
-msgid "SetInitialAmaj"
-msgstr "A-Dur am Anfang setzen"
+#, fuzzy
+msgid "Set Initial Keysig to G Major"
+msgstr "G-Dur am Anfang setzen"
 
 #: src/entries.h:135
-msgid "SetInitialEmaj"
-msgstr "E-Dur am Anfang setzen"
+msgid "Set D Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:136
-msgid "SetInitialBmaj"
-msgstr "H-Dur am Anfang setzen"
+msgid "Set A Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:137
-msgid "SetInitialFSharpmaj"
-msgstr "Fis-Dur am Anfang setzen"
+msgid "Set E Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:138
-msgid "SetInitialCSharpmaj"
-msgstr "Cis-Dur am Anfang setzen"
+msgid "Set B Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:139
-msgid "SetInitialFmaj"
-msgstr "F-Dur am Anfang setzen"
+msgid "Set F# Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:140
-msgid "SetInitialBflatmaj"
-msgstr "B-Dur am Anfang setzen"
+msgid "Set C# Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:141
-msgid "SetInitialEflatmaj"
-msgstr "Es-Dur am Anfang setzen"
+msgid "Set F Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:142
-msgid "SetInitialAflatmaj"
-msgstr "As-Dur am Anfang setzen"
+msgid "Set Bb Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:143
-msgid "SetInitialDflatmaj"
-msgstr "Des-Dur am Anfang setzen"
+msgid "Set Eb Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:144
-msgid "SetInitialGflatmaj"
-msgstr "Ges-Dur am Anfang setzen"
+msgid "Set Ab Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:145
-msgid "SetInitialCflatmaj"
-msgstr "Ces-Dur am Anfang setzen"
+msgid "Set Db Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:146
-msgid "SetInitialAmin"
-msgstr "a-moll am Anfang setzen"
+msgid "Set Gb Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:147
-msgid "SetInitialEmin"
-msgstr "e-moll am Anfang setzen"
+msgid "Set Cb Major as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:148
-msgid "SetInitialBmin"
-msgstr "h-moll am Anfang setzen"
+msgid "Set A Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:149
-msgid "SetInitialFSharpmin"
-msgstr "fis-moll am Anfang setzen"
+msgid "Set E Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:150
-msgid "SetInitialCSharpmin"
-msgstr "cis-moll am Anfang setzen"
+msgid "Set B Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:151
-msgid "SetInitialGSharpmin"
-msgstr "gis-moll am Anfang setzen"
+msgid "Set F# Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:152
-msgid "SetInitialDSharpmin"
-msgstr "dis-moll am Anfang setzen"
+msgid "Set C# Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:153
-msgid "SetInitialASharpmin"
-msgstr "ais-moll am Anfang setzen"
+msgid "Set G# Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:154
-msgid "SetInitialDmin"
-msgstr "d-moll am Anfang setzen"
+msgid "Set D# Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:155
-msgid "SetInitialGmin"
-msgstr "g-moll am Anfang setzen"
+msgid "Set A# Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:156
-msgid "SetInitialCmin"
-msgstr "c-moll am Anfang setzen"
+msgid "Set D Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:157
-msgid "SetInitialFmin"
-msgstr "f-moll am Anfang setzen"
+msgid "Set G Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:158
-msgid "SetInitialBflatmin"
-msgstr "b-moll am Anfang setzen"
+msgid "Set C Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:159
-msgid "SetInitialEflatmin"
-msgstr "es-moll am Anfang setzen"
+msgid "Set F Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:160
-msgid "SetInitialAflatmin"
-msgstr "as-moll am Anfang setzen"
+msgid "Set Bb Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:161
-msgid "SetMark"
-msgstr "Markierung setzen"
+msgid "Set Eb Minor as Initial Keysig"
+msgstr ""
 
 #: src/entries.h:162
-msgid "UnsetMark"
+msgid "Set Ab Minor as Initial Keysig"
+msgstr ""
+
+#: src/entries.h:163
+#, fuzzy
+msgid "Set Mark"
+msgstr "Markierung setzen"
+
+#: src/entries.h:164
+#, fuzzy
+msgid "Unset Mark"
 msgstr "Markierung löschen"
 
-#: src/entries.h:163
-msgid "ToggleBeginSlur"
+#: src/entries.h:165
+#, fuzzy
+msgid "Begin Slur"
 msgstr "Phrasierungsbogen Anfang umschalten"
 
-#: src/entries.h:163
+#: src/entries.h:165
 msgid "Insert/delete begin slur on this note"
 msgstr "Anfang eines Bindebogens auf dieser Note einfügen/löschen"
 
-#: src/entries.h:164
-msgid "ToggleEndSlur"
+#: src/entries.h:166
+#, fuzzy
+msgid "End Slur"
 msgstr "Phrasierungsbogen Ende umschalten"
 
-#: src/entries.h:164
+#: src/entries.h:166
 msgid "Insert/delete end slur on this note"
 msgstr "Ende eines Bindebogens auf dieser Note einfügen/löschen"
 
-#: src/entries.h:165
-msgid "ToggleStartCrescendo"
+#: src/entries.h:167
+#, fuzzy
+msgid "Start Crescendo"
 msgstr "Crescendo Anfang umschalten"
 
-#: src/entries.h:166
-msgid "ToggleEndCrescendo"
+#: src/entries.h:168
+#, fuzzy
+msgid "End Crescendo"
 msgstr "Crescendo Ende umschalten"
 
-#: src/entries.h:167
-msgid "ToggleStartDiminuendo"
+#: src/entries.h:169
+#, fuzzy
+msgid "Start Diminuendo"
 msgstr "Diminuendo Anfang umschalten"
 
-#: src/entries.h:168
-msgid "ToggleEndDiminuendo"
+#: src/entries.h:170
+#, fuzzy
+msgid "End Diminuendo"
 msgstr "Diminuendo Ende umschalten"
 
-#: src/entries.h:169
-msgid "ToggleAccent"
-msgstr "Akzent umschalten"
-
-#: src/entries.h:170
-msgid "ToggleFermata"
-msgstr "Fermate umschalten"
-
 #: src/entries.h:171
-msgid "ToggleStaccato"
-msgstr "Staccato umschalten"
+#, fuzzy
+msgid "Add Accent"
+msgstr "Akzent"
 
 #: src/entries.h:172
-msgid "ToggleTenuto"
-msgstr "Tenuto umschalten"
+#, fuzzy
+msgid "Add Fermata"
+msgstr "Fermate"
 
 #: src/entries.h:173
-msgid "ToggleTrill"
-msgstr "Triller umschalten"
+#, fuzzy
+msgid "Add Staccato"
+msgstr "Staccato"
 
 #: src/entries.h:174
-msgid "ToggleTurn"
-msgstr "Doppelschlag umschalten"
+#, fuzzy
+msgid "Add Tenuto"
+msgstr "Tenuto"
 
 #: src/entries.h:175
-msgid "ToggleMordent"
-msgstr "Mordent umschalten"
+#, fuzzy
+msgid "Add Trill"
+msgstr "Triller"
 
 #: src/entries.h:176
-msgid "ToggleStaccatissimo"
-msgstr "Staccatissimo umschalten"
+#, fuzzy
+msgid "Add Turn"
+msgstr "Doppelschlag"
 
 #: src/entries.h:177
-msgid "ToggleCoda"
-msgstr "Coda umschalten"
+#, fuzzy
+msgid "Add Mordent"
+msgstr "Mordent"
 
 #: src/entries.h:178
-msgid "ToggleFlageolet"
-msgstr "Flageolet umschalten"
+#, fuzzy
+msgid "Add Staccatissimo"
+msgstr "Staccatissimo"
 
 #: src/entries.h:179
-msgid "ToggleOpen"
-msgstr "Offen umschalten"
+#, fuzzy
+msgid "Add Coda"
+msgstr "Coda"
 
 #: src/entries.h:180
-msgid "TogglePrallMordent"
-msgstr "Triller und Mordent umschalten"
+#, fuzzy
+msgid "Add Flageolet"
+msgstr "Flageolet"
 
 #: src/entries.h:181
-msgid "TogglePrallPrall"
-msgstr "Doppelpraller umschalten"
+#, fuzzy
+msgid "Add Open"
+msgstr "Öffnen"
 
 #: src/entries.h:182
-msgid "TogglePrall"
-msgstr "Pralltriller umschalten"
+#, fuzzy
+msgid "Add Prall Mordent"
+msgstr "Triller und Mordent"
 
 #: src/entries.h:183
-msgid "ToggleReverseTurn"
-msgstr "umgekehrten Doppelschlag umschalten"
+#, fuzzy
+msgid "Add Prall Prall"
+msgstr "Doppelpraller"
 
 #: src/entries.h:184
-msgid "ToggleSegno"
-msgstr "Segno umschalten"
+#, fuzzy
+msgid "Add Prall"
+msgstr "Pralltriller"
 
 #: src/entries.h:185
-msgid "ToggleSforzato"
-msgstr "Sforzato umschalten"
+#, fuzzy
+msgid "Add Reverse Turn"
+msgstr "umgekehrter Doppelschlag"
 
 #: src/entries.h:186
-msgid "ToggleStopped"
-msgstr "Gestopft umschalten"
+#, fuzzy
+msgid "Toggle Segno"
+msgstr "Segno umschalten"
 
 #: src/entries.h:187
-msgid "ToggleThumb"
-msgstr "Daumen umschalten"
+#, fuzzy
+msgid "Toggle Sforzato"
+msgstr "Sforzato umschalten"
 
 #: src/entries.h:188
-msgid "ToggleUpprall"
-msgstr "Doppelschlag und Triller umschalten"
+#, fuzzy
+msgid "Toggle Stopped"
+msgstr "Gestopft umschalten"
 
 #: src/entries.h:189
-msgid "ToggleArpeggio"
-msgstr "Arpeggio umschalten"
+#, fuzzy
+msgid "Toggle Thumb"
+msgstr "Daumen umschalten"
 
 #: src/entries.h:190
-msgid "SetGrace"
-msgstr "Vorschlag setzen"
+#, fuzzy
+msgid "Toggle Up Prall"
+msgstr "Doppelschlag und Triller umschalten"
 
 #: src/entries.h:191
-msgid "ForceCaution"
-msgstr "Vorzeichen erzwingen"
+#, fuzzy
+msgid "Add Apreggio"
+msgstr "Arpeggio"
 
 #: src/entries.h:192
-msgid "ChangePitch"
-msgstr "Tonhöhe ändern"
+#, fuzzy
+msgid "Set Grace"
+msgstr "Vorschlag setzen"
 
 #: src/entries.h:193
-msgid "DoubleBar"
-msgstr "Doppelstrich"
+#, fuzzy
+msgid "Force Cautionary Accidental"
+msgstr "Vorzeichen erzwingen"
 
 #: src/entries.h:194
-msgid "EndBar"
-msgstr "Schlussstrich"
+#, fuzzy
+msgid "Change Pitch"
+msgstr "Tonhöhe ändern"
 
 #: src/entries.h:195
-msgid "OpenRepeat"
-msgstr "Wiederholung Anfang"
+#, fuzzy
+msgid "Insert Double Bar"
+msgstr "Doppelstrich"
 
 #: src/entries.h:196
-msgid "CloseRepeat"
-msgstr "Wiederholung Ende"
+#, fuzzy
+msgid "Insert Endbar"
+msgstr "E einfügen"
 
 #: src/entries.h:197
-msgid "OpenCloseRepeat"
-msgstr "Wiederholung Ende und Anfang"
+#, fuzzy
+msgid "Insert Open Repeat"
+msgstr "Wiederholung Anfang"
 
 #: src/entries.h:198
-msgid "InsertRhythm"
+#, fuzzy
+msgid "Insert Close Repeat"
+msgstr "Wiederholung Ende"
+
+#: src/entries.h:199
+#, fuzzy
+msgid "Insert Open Close Repeat"
+msgstr "Wiederholung Ende und Anfang"
+
+#: src/entries.h:200
+#, fuzzy
+msgid "Insert Rhythm"
 msgstr "Rhythmus einfügen"
 
-#: src/entries.h:199
-msgid "NextRhythm"
+#: src/entries.h:201
+#, fuzzy
+msgid "Next Rhythm"
 msgstr "Nächster Rhythmus"
 
-#: src/entries.h:199
+#: src/entries.h:201
 msgid ""
 "Make next rhythm pattern\n"
 "the prevailing rhythm.\n"
@@ -2305,215 +2446,216 @@ msgstr ""
 "als aktuellen Rhythmus aus.\n"
 "Eingegebene Noten bekommen diesen Rhythmus"
 
-#: src/entries.h:200
-msgid "AppendMesauresToScore"
+#: src/entries.h:202
+#, fuzzy
+msgid "Append Measure To Score"
 msgstr "Takte am Ende einfügen"
 
-#: src/entries.h:201
+#: src/entries.h:203
 msgid "File"
 msgstr "Datei"
 
-#: src/entries.h:201
+#: src/entries.h:203
 msgid "Creating, saving, loading, displaying and printing musical scores"
 msgstr "Partituren erstellen, speichern, laden, anzeigen und drucken"
 
-#: src/entries.h:202
+#: src/entries.h:204
 msgid "Bookmarks"
 msgstr "Lesezeichen"
 
-#: src/entries.h:202
+#: src/entries.h:204
 msgid "Creating, saving places in musical scores"
 msgstr "Partituren erstellen, speichern, laden, anzeigen und drucken"
 
-#: src/entries.h:203
+#: src/entries.h:205
 msgid "Different keyboard entry modes"
 msgstr "Verschiedene Tastatur-Eingabemodi"
 
-#: src/entries.h:204
+#: src/entries.h:206
 msgid "General editing commands"
 msgstr "Allgemeine Bearbeitungsbefehle"
 
-#: src/entries.h:205
-msgid "View"
-msgstr "Ansicht"
-
-#: src/entries.h:205
+#: src/entries.h:207
 msgid "Control which tools are to be shown"
 msgstr "Legt fest, welche Werkzeuge angezeigt werden sollen"
 
-#: src/entries.h:206
+#: src/entries.h:208
 msgid "Staffs/Voices"
 msgstr "Notenzeilen/Stimmen"
 
-#: src/entries.h:206
+#: src/entries.h:208
 msgid "Staffs and voices"
 msgstr "Notenzeilen und Stimmen"
 
-#: src/entries.h:207
+#: src/entries.h:209
 msgid "Movements"
 msgstr "Sätze"
 
-#: src/entries.h:207
+#: src/entries.h:209
 msgid "Movements in a score"
 msgstr "Sätze in einer Partitur"
 
-#: src/entries.h:208 src/entries.h:298
+#: src/entries.h:210
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/entries.h:208
+#: src/entries.h:210
 msgid "Help with denemo"
 msgstr "Hilfe zu Denemo"
 
-#: src/entries.h:209 src/entries.h:322
+#: src/entries.h:211 src/entries.h:330
 msgid "Playing the music through midi file"
 msgstr "Spiele die Musik als Midi-Datei ab"
 
-#: src/entries.h:210
-msgid "New"
-msgstr "Neu"
+#: src/entries.h:212
+#, fuzzy
+msgid "New File"
+msgstr "Datei"
 
-#: src/entries.h:210
+#: src/entries.h:212
 msgid "Start a new musical score"
 msgstr "Neues Notenblatt erstellen"
 
-#: src/entries.h:211
+#: src/entries.h:213
 msgid "Open a file containing a music score for editing"
 msgstr "Öffnet eine Notendatei zum Bearbeiten"
 
-#: src/entries.h:212
-msgid "AddStaffs"
+#: src/entries.h:214
+#, fuzzy
+msgid "Add Staffs"
 msgstr "Notenzeilen einfügen"
 
-#: src/entries.h:212
+#: src/entries.h:214
 msgid "Add staffs from a Denemo file"
 msgstr "Fügt Notenzeilen aus einer Denemo-Datei ein"
 
-#: src/entries.h:213
-msgid "AddMovements"
+#: src/entries.h:215
+#, fuzzy
+msgid "Add Movement"
 msgstr "Sätze einfügen"
 
-#: src/entries.h:213
+#: src/entries.h:215
 msgid "Add movements from a Denemo file"
 msgstr "Füge Sätze aus einer Denemo-Datei ein"
 
-#: src/entries.h:214
-msgid "MovementProps"
-msgstr "Satz-Eigenschaften"
+#: src/entries.h:216
+#, fuzzy
+msgid "Change Properties"
+msgstr "Eigenschaften der Notenzeile"
 
-#: src/entries.h:214
+#: src/entries.h:216
 msgid "Change properties of this movement"
 msgstr "Eigenschaften des Satzes bearbeiten"
 
-#: src/entries.h:215
-msgid "OpenNewWindow"
-msgstr "In neuem Fenster öffnen"
+#: src/entries.h:217
+msgid "Open In New"
+msgstr ""
 
-#: src/entries.h:215
+#: src/entries.h:217
 msgid ""
 "Open a file containing a music score for editing in a separate working area "
 "(tab"
 msgstr ""
 "Öffnet eine Notendatei zum Bearbeiten in einem neuen Arbeitsbereich (Tab)"
 
-#: src/entries.h:216
+#: src/entries.h:218
 msgid "Save"
 msgstr "Speichern"
 
-#: src/entries.h:216
+#: src/entries.h:218
 msgid "Save the score"
 msgstr "Speichert das Notenblatt"
 
-#: src/entries.h:217
-msgid "SaveAs"
-msgstr "Speichern unter"
-
-#: src/entries.h:217
+#: src/entries.h:219
 msgid "Save the score under a new name"
 msgstr "Speichert das Notenblatt unter einem anderen Namen"
 
-#: src/entries.h:218
-msgid "OpenTemplate"
+#: src/entries.h:220
+#, fuzzy
+msgid "Open Template"
 msgstr "Öffne Vorlage"
 
-#: src/entries.h:218
+#: src/entries.h:220
 msgid "Start a new score from a built-in template file"
 msgstr "Neues Notenblatt aus Denemo-Vorlage erstellen"
 
-#: src/entries.h:219
-msgid "OpenExample"
+#: src/entries.h:221
+#, fuzzy
+msgid "Open Example"
 msgstr "Öffne Beispiel"
 
-#: src/entries.h:219
+#: src/entries.h:221
 msgid "Start a new score from a built-in example"
 msgstr "Neues Notenblatt aus Denemo-Beispiel erstellen"
 
-#: src/entries.h:220
-msgid "OpenMyTemplate"
-msgstr "Öffne eigene Vorlage"
+#: src/entries.h:222
+#, fuzzy
+msgid "Open custom template"
+msgstr "Öffne Vorlage"
 
-#: src/entries.h:220
+#: src/entries.h:222
 msgid "Start a new score from one of your own template files"
 msgstr "Neues Notenblatt aus eigener Vorlage erstellen"
 
-#: src/entries.h:221
-msgid "SaveTemplate"
+#: src/entries.h:223
+#, fuzzy
+msgid "Save Template"
 msgstr "Als Vorlage speichern"
 
-#: src/entries.h:221
+#: src/entries.h:223
 msgid ""
 "Save the score as a template for re-use as a starting point for new scores"
 msgstr ""
 "Speichert das Notenblatt als Vorlage, die als Ausgangspunkt für neue "
 "Notenblätter verwendet werden kann"
 
-#: src/entries.h:222
+#: src/entries.h:224
 msgid "New Tab"
 msgstr "Neuer Tab"
 
-#: src/entries.h:222
+#: src/entries.h:224
 msgid "Create working area (tab with an empty score in it)"
 msgstr "Erstellt einen Arbeitsbereich (Tab mit einem leerem Notenblatt)"
 
-#: src/entries.h:223
-msgid "InsertMovementBefore"
+#: src/entries.h:225
+#, fuzzy
+msgid "Insert Movement Before"
 msgstr "Satz davor einfügen"
 
-#: src/entries.h:223
+#: src/entries.h:225
 msgid "Insert a new movement before the current one"
 msgstr "Satz relativ zum aktuellen Satz einfügen"
 
-#: src/entries.h:224
-msgid "InsertMovementAfter"
+#: src/entries.h:226
+#, fuzzy
+msgid "Insert Movement After"
 msgstr "Satz danach einfügen"
 
-#: src/entries.h:224
+#: src/entries.h:226
 msgid "Insert a new movement after the current one"
 msgstr "Satz relativ zum aktuellen Satz einfügen"
 
-#: src/entries.h:225
-msgid "SaveParts"
+#: src/entries.h:227
+#, fuzzy
+msgid "Save Parts"
 msgstr "Stimmenauszug speichern"
 
-#: src/entries.h:225
+#: src/entries.h:227
 msgid "Save Parts: each staff becomes a file in lilypond format"
 msgstr ""
 "Speichere Stimmauszug: Jede Notenzeile wird in einer eigenen Lilypond-Datei "
 "gespeichert"
 
-#: src/entries.h:226
-msgid "ExportPDF"
-msgstr "Als PDF exportieren"
-
-#: src/entries.h:226
+#: src/entries.h:228
 msgid "Export the score as a PDF document file"
 msgstr "Exportiert das Notenblatt als PDF-Dokument"
 
-#: src/entries.h:227
-msgid "ConfigureScore"
-msgstr "Notenblatt einrichten"
+#: src/entries.h:229
+#, fuzzy
+msgid "Score Wizard"
+msgstr "Partitur-Kopfzeilen"
 
-#: src/entries.h:227
+#: src/entries.h:229
 msgid ""
 "Start up a wizard to create a new score. This allows you to set various "
 "properties of the score"
@@ -2522,27 +2664,29 @@ msgstr ""
 "Assistenten können verschiedene Eigenschaften des Notenblatts eingestellt "
 "werden"
 
-#: src/entries.h:228
-msgid "PrintPreview"
+#: src/entries.h:230
+#, fuzzy
+msgid "Print Preview"
 msgstr "Druckvorschau"
 
-#: src/entries.h:228
+#: src/entries.h:230
 msgid "Displays the final finished score in your pdf viewer"
 msgstr "Zeigt das fertige Notenblatt in Ihrem PDF-Betrachter an"
 
-#: src/entries.h:229
-msgid "PrintExcerptPreview"
-msgstr "Druckvorschau Taktbereich"
+#: src/entries.h:231
+#, fuzzy
+msgid "Print Excerpt"
+msgstr "Drucke Taktbereich"
 
-#: src/entries.h:229
+#: src/entries.h:231
 msgid "Displays a musical excerpt in your image viewer"
 msgstr "Zeigt einen Stimmauszug in Ihrem Bildbetrachter an"
 
-#: src/entries.h:230
+#: src/entries.h:232
 msgid "Print"
 msgstr "Drucken"
 
-#: src/entries.h:230
+#: src/entries.h:232
 msgid ""
 "Displays the final finished score in a pdf viewer. From this you can print "
 "the file using the print command of the viewer"
@@ -2550,76 +2694,80 @@ msgstr ""
 "Zeigt das fertige Notenblatt in einem PDF-Betrachter an. Sie können das "
 "Notenblatt dann mit dem Drucken-Befehl des Betrachters ausdrucken."
 
-#: src/entries.h:231
-msgid "PrintPart"
+#: src/entries.h:233
+#, fuzzy
+msgid "Print Part"
 msgstr "Drucke Abschnitt"
 
-#: src/entries.h:231
+#: src/entries.h:233
 msgid ""
 "Displays the final finished score for the current part (that is current staff"
 msgstr "Zeigt das fertige Notenblatt für die aktuelle Notenzeile an"
 
-#: src/entries.h:232
-msgid "Close"
-msgstr "Schließen"
+#: src/entries.h:234
+#, fuzzy
+msgid "Close Score"
+msgstr "Notenblatt einrichten"
 
-#: src/entries.h:232
+#: src/entries.h:234
 msgid "Close the current score. Other windows will stay open"
 msgstr "Schließt das aktuelle Notenblatt. Andere Fenster bleiben geöffnet."
 
-#: src/entries.h:233
+#: src/entries.h:235
 msgid "Quit"
 msgstr "Beenden"
 
-#: src/entries.h:233
+#: src/entries.h:235
 msgid "Quit the Denemo program"
 msgstr "Denemo beenden"
 
-#: src/entries.h:234
+#: src/entries.h:236
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: src/entries.h:235
+#: src/entries.h:237
 msgid "Redo"
 msgstr "Wiederherstellen"
 
-#: src/entries.h:236
+#: src/entries.h:238
 msgid "Select"
 msgstr "Auswählen"
 
-#: src/entries.h:236
+#: src/entries.h:238
 msgid "Selecting stretches of notes"
 msgstr "Notebereich auswählen"
 
-#: src/entries.h:237
-msgid "ExtendSelect"
+#: src/entries.h:239
+#, fuzzy
+msgid "Extend Selection"
 msgstr "Auswahl erweitern"
 
-#: src/entries.h:237
+#: src/entries.h:239
 msgid "Extend the selection"
 msgstr "Die Auswahl erweitern"
 
-#: src/entries.h:238
+#: src/entries.h:240
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/entries.h:239
+#: src/entries.h:241
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/entries.h:240
+#: src/entries.h:242
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/entries.h:240
+#: src/entries.h:242
 msgid "Paste the selected music"
 msgstr "Fügt die ausgewählten Noten ein"
 
-#: src/entries.h:241
-msgid "ScoreProperties"
+#: src/entries.h:243
+#, fuzzy
+msgid "Score Properties"
 msgstr "Eigenschaften der Partitur"
 
-#: src/entries.h:241
+#: src/entries.h:243
 msgid ""
 "Change some of the properties of the current score. This will start up a "
 "dialog window"
@@ -2627,19 +2775,21 @@ msgstr ""
 "Ändert einige der Eigenschaften des aktuellen Notenblatts. Dazu wird "
 "einDialogfenster angezeigt"
 
-#: src/entries.h:242
-msgid "SaveSelection"
+#: src/entries.h:244
+#, fuzzy
+msgid "Save Selection"
 msgstr "Auswahl speichern"
 
-#: src/entries.h:242
+#: src/entries.h:244
 msgid "Save the selected music. Not sure if this is working"
 msgstr "Speichere die markierten Noten. "
 
-#: src/entries.h:243
-msgid "Preferences"
+#: src/entries.h:245
+#, fuzzy
+msgid "Change Preferences"
 msgstr "Einstellungen"
 
-#: src/entries.h:243
+#: src/entries.h:245
 msgid ""
 "Set and save your preferences for how Denemo operates on startup. Edit ."
 "denemo/denemorc for missing ones"
@@ -2647,175 +2797,183 @@ msgstr ""
 "Legt das Verhalten von Denemo beim Starten fest. Bearbeiten Siefehlende "
 "Einstellungen in denemo/denemorc"
 
-#: src/entries.h:244
+#: src/entries.h:246
 msgid "Customize Commands, Shortcuts ..."
 msgstr "Befehle und Tastenkombinationen anpassen ..."
 
-#: src/entries.h:244
+#: src/entries.h:246
 msgid "Set actions to take in response to keypresses"
 msgstr ""
 "Legt die Aktionen fest, die beim Drücken von Tastenkombinationen ausgeführt "
 "werden sollen."
 
-#: src/entries.h:245
+#: src/entries.h:247
 msgid "Save the current commands and keyboard shortcuts as the default"
 msgstr "Speichert die aktuellen Befehle und Tastenkombinationen als Standard"
 
-#: src/entries.h:246
+#: src/entries.h:248
 msgid "Manage Command Set"
 msgstr "Befehlsliste bearbeiten"
 
-#: src/entries.h:246
+#: src/entries.h:248
 msgid "View help, change and save keyboard shortcuts"
 msgstr "Zeige Hilfe an, ändere und speichere Tastenkombinationen"
 
-#: src/entries.h:247
-msgid "LoadPlugins"
-msgstr "Plugins laden"
-
-#: src/entries.h:247
+#: src/entries.h:249
 msgid "Load Plugins"
 msgstr "Plugins laden"
 
-#: src/entries.h:248
-msgid "UnloadPlugins"
-msgstr "Plugins entladen"
-
-#: src/entries.h:248
+#: src/entries.h:250
 msgid "Unload Plugins"
 msgstr "Plugins entladen"
 
-#: src/entries.h:249
-msgid "ListPlugins"
+#: src/entries.h:251
+#, fuzzy
+msgid "List Plugins"
 msgstr "Plugins auflisten"
 
-#: src/entries.h:249
+#: src/entries.h:251
 msgid "List the loaded plugins"
 msgstr "Geladene Plugins anzeigen"
 
-#: src/entries.h:250
-msgid "ListAvailablePlugins"
+#: src/entries.h:252
+#, fuzzy
+msgid "List Available Pluigins"
 msgstr "Verfügbare Plugins auflisten"
 
-#: src/entries.h:250
+#: src/entries.h:252
 msgid "List the available plugins"
 msgstr "Verfügbare Plugins auflisten"
 
-#: src/entries.h:251
-msgid "SwapStaffs"
+#: src/entries.h:253
+#, fuzzy
+msgid "Swap Staffs"
 msgstr "Notenzeilen vertauschen"
 
-#: src/entries.h:251
+#: src/entries.h:253
 msgid ""
 "Swap this staff with the one higher up. Note this actually swaps voices."
 msgstr "Vertausche Notenzeile mit nächsthöheren)"
 
-#: src/entries.h:252
-msgid "SplitVoices"
+#: src/entries.h:254
+#, fuzzy
+msgid "Split Voices"
 msgstr "Stimmen aufteilen"
 
-#: src/entries.h:252
+#: src/entries.h:254
 msgid "Split off the next voice as a separate staff"
 msgstr "Verschiebe die nächste Stimme in eine eigene Notenzeile"
 
-#: src/entries.h:253
-msgid "JoinVoices"
+#: src/entries.h:255
+#, fuzzy
+msgid "Join Voices"
 msgstr "Stimmen verbinden"
 
-#: src/entries.h:253
+#: src/entries.h:255
 msgid "Merge this staff as a voice on the previous staff"
 msgstr "Füge diese Notenzeile als Stimme in der vorherigen Notenzeile ein"
 
-#: src/entries.h:254
-msgid "SwapMovements"
+#: src/entries.h:256
+#, fuzzy
+msgid "Swap Movements"
 msgstr "Sätze vertauschen"
 
-#: src/entries.h:254
+#: src/entries.h:256
 msgid "Swap this movement with the one before"
 msgstr "Vertausche diesen Satz mit dem vorhergehenden)"
 
-#: src/entries.h:255
-msgid "VoiceUp"
+#: src/entries.h:257
+#, fuzzy
+msgid "Voice Up"
 msgstr "Stimme nach oben"
 
-#: src/entries.h:255
+#: src/entries.h:257
 msgid ""
 "Go to the higher numbered voice (or staff if highest voice number on staff"
 msgstr ""
 "Gehe zur Stimme mit nächsthöherer Nummer\n"
 "(oder zur Notenzeile falls höchste Stimme ausgewählt)"
 
-#: src/entries.h:256
-msgid "VoiceDown"
+#: src/entries.h:258
+#, fuzzy
+msgid "Voice Down"
 msgstr "Stimme nach unten"
 
-#: src/entries.h:256
+#: src/entries.h:258
 msgid "Go to the lower numbered voice on this staff"
 msgstr ""
 "Gehe zur Stimme mit nächstniedrigeren Nummer\n"
 "(oder zur Notenzeile falls niedrigste Stimme ausgewählt)"
 
-#: src/entries.h:257
-msgid "AddBefore"
+#: src/entries.h:259
+#, fuzzy
+msgid "Add Staff Before"
 msgstr "davor"
 
-#: src/entries.h:257
+#: src/entries.h:259
 msgid "Inserts a new staff before the current staff"
 msgstr "Notenzeile relativ zur aktuellen Notenzeile einfügen"
 
-#: src/entries.h:258
-msgid "AddAfter"
+#: src/entries.h:260
+#, fuzzy
+msgid "Add Staff After"
 msgstr "danach"
 
-#: src/entries.h:258
+#: src/entries.h:260
 msgid "Inserts/Adds a new staff after the current staff"
 msgstr "Notenzeile relativ zur aktuellen Notenzeile einfügen"
 
-#: src/entries.h:259
-msgid "AddInitial"
+#: src/entries.h:261
+#, fuzzy
+msgid "Add Initial Staff"
 msgstr "am Anfang"
 
-#: src/entries.h:259
+#: src/entries.h:261
 msgid "Inserts a new staff at the top of the score"
 msgstr "Schlüsselwechsel an Cursorposition einfügen"
 
-#: src/entries.h:260
-msgid "AddLast"
-msgstr "am Ende"
+#: src/entries.h:262
+#, fuzzy
+msgid "Add Last Staff"
+msgstr "Notenzeilen einfügen"
 
-#: src/entries.h:260
+#: src/entries.h:262
 msgid "Inserts a new staff at the end of the score"
 msgstr "Schlüsselwechsel an Cursorposition einfügen"
 
-#: src/entries.h:261
-msgid "DeleteBefore"
+#: src/entries.h:263
+#, fuzzy
+msgid "Delete Staff Before"
 msgstr "Notenzeile darüber löschen"
 
-#: src/entries.h:261
+#: src/entries.h:263
 msgid "Deletes the staff before the current staff"
 msgstr "Setze die Vorzeichen für die aktuelle Notenzeile"
 
-#: src/entries.h:262
-msgid "DeleteStaff"
-msgstr "Notenzeile löschen"
+#: src/entries.h:264
+#, fuzzy
+msgid "Delete Current Staff"
+msgstr "Lösche den aktuellen Satz"
 
-#: src/entries.h:262
+#: src/entries.h:264
 msgid "Deletes the current staff"
 msgstr "Lösche den aktuellen Satz"
 
-#: src/entries.h:263
-msgid "DeleteAfter"
-msgstr "Notenzeile darunter löschen"
+#: src/entries.h:265
+#, fuzzy
+msgid "Delete Staff After"
+msgstr "Notenzeile löschen"
 
-#: src/entries.h:263
+#: src/entries.h:265
 msgid "Deletes the staff after the current staff"
 msgstr "Notenzeile relativ zur aktuellen Notenzeile einfügen"
 
-#: src/entries.h:264
-msgid "AddVoice"
+#: src/entries.h:266
+#, fuzzy
+msgid "Add Voice"
 msgstr "Stimme hinzufügen"
 
-#: src/entries.h:264
+#: src/entries.h:266
 msgid ""
 "Adds a new voice (part), to the current staff. It is tricky to switch "
 "between the voices. Suggest to use merge staffs"
@@ -2823,120 +2981,128 @@ msgstr ""
 "Fügt eine neue Stimme zur aktuellen Notenzeile hinzu. Das wechselnzwischen "
 "den Stimmen ist schwierig. Verwenden Sie \"Stimmen verbinden\""
 
-#: src/entries.h:265
-msgid "TransposeStaff"
+#: src/entries.h:267
+#, fuzzy
+msgid "Traspose Staff"
 msgstr "Notenzeile transponieren"
 
-#: src/entries.h:265
+#: src/entries.h:267
 msgid "Transpose the current staff"
 msgstr "Stimme zu aktueller Notenzeile hinzufügen"
 
-#: src/entries.h:266
-msgid "StaffProperties"
-msgstr "Eigenschaften der Notenzeile"
-
-#: src/entries.h:266
+#: src/entries.h:268
 msgid "Change the properties of the current staff"
 msgstr "Ändert die Länge der aktuellen Pause"
 
-#: src/entries.h:267
+#: src/entries.h:269
 msgid "InsertMenu"
 msgstr "Einfüge-Menü"
 
-#: src/entries.h:268
+#: src/entries.h:270
 msgid "Clef"
 msgstr "Schlüssel"
 
-#: src/entries.h:269
-msgid "InitialClef"
+#: src/entries.h:271
+#, fuzzy
+msgid "Initial Clef"
 msgstr "Schlüssel am Anfang"
 
-#: src/entries.h:269
+#: src/entries.h:271
 msgid "Change the initial clef of the current staff"
 msgstr "Setze die Vorzeichen für die aktuelle Notenzeile"
 
-#: src/entries.h:270
-msgid "InsertClef"
-msgstr "Schlüssel einfügen"
+#: src/entries.h:272
+#, fuzzy
+msgid "Clef Change"
+msgstr "Ändern"
 
-#: src/entries.h:270
+#: src/entries.h:272
 msgid "Insert a change of clef at the cursor"
 msgstr "Schlüsselwechsel an Cursorposition einfügen"
 
-#: src/entries.h:271
-msgid "Key"
+#: src/entries.h:273
+#, fuzzy
+msgid "Keys"
 msgstr "Tonart"
 
-#: src/entries.h:271
+#: src/entries.h:273
 msgid "insert change key signature or set the initial key"
 msgstr "Vorzeichenwechsel einfügen oder Anfangsvorzeichen setzen"
 
-#: src/entries.h:272
-msgid "InitialKey"
+#: src/entries.h:274
+#, fuzzy
+msgid "Initial Key"
 msgstr "Tonart am Anfang"
 
-#: src/entries.h:272
+#: src/entries.h:274
 msgid "Set the initial key signature of the current staff"
 msgstr "Setze die Vorzeichen für die aktuelle Notenzeile"
 
-#: src/entries.h:273
-msgid "InsertKey"
-msgstr "Tonartwechsel einfügen"
+#: src/entries.h:275
+#, fuzzy
+msgid "Insert Key Change"
+msgstr "Schlüsselwechsel einfügen"
 
-#: src/entries.h:273
+#: src/entries.h:275
 msgid "Insert a key change at the cursor position"
 msgstr "Tonartwechsel an der Cursorposition einfügen"
 
-#: src/entries.h:274
-msgid "TimeSig"
-msgstr "Taktart"
+#: src/entries.h:276
+#, fuzzy
+msgid "Time Signatures"
+msgstr "Taktart und Vorzeichen"
 
-#: src/entries.h:274
+#: src/entries.h:276
 msgid "Manage the time signature changes and initial value"
 msgstr "Taktartwechsel und Anfangstaktart verwalten"
 
-#: src/entries.h:275
-msgid "InitialTimeSig"
+#: src/entries.h:277
+#, fuzzy
+msgid "Inital Time Signature"
 msgstr "Taktart am Anfang"
 
-#: src/entries.h:275
+#: src/entries.h:277
 msgid "Set the initial time signature of the current staff"
 msgstr "Setze die Taktart für die aktuelle Notenzeile"
 
-#: src/entries.h:276
-msgid "InsertTimeSig"
+#: src/entries.h:278
+#, fuzzy
+msgid "Insert Time Signature"
 msgstr "Taktwechsel einfügen"
 
-#: src/entries.h:276
+#: src/entries.h:278
 msgid "Edit/Insert a time signature change for the current measure"
 msgstr "Taktwechsel für aktuellen Takt einfügen/bearbeiten"
 
-#: src/entries.h:277
-msgid "ChangeNotehead"
-msgstr "Notenkopf ändern"
+#: src/entries.h:279
+#, fuzzy
+msgid "Set Notehead"
+msgstr "Notenkopf auswählen"
 
-#: src/entries.h:277
+#: src/entries.h:279
 msgid "Change the type of notehead for the current note"
 msgstr "Art des Notenkopfs für die aktuelle Noten ändern"
 
-#: src/entries.h:278
-msgid "InsertStem"
-msgstr "Hals einfügen"
+#: src/entries.h:280
+#, fuzzy
+msgid "Stem Directive"
+msgstr "Lilypond-Befehl einfügen"
 
-#: src/entries.h:278
+#: src/entries.h:280
+#, fuzzy
 msgid ""
-"Inserts a stem neutral tag. Click on this tag and use Sharpen/StemDown etc "
+"Inserts a stem neutral tag. Click on this tag and use Sharpen/StemUp etc "
 "commands to change stem direction"
 msgstr ""
 "Fügt eine Notenhals-Marierung hinzu.\n"
 "Klicken Sie auf diese Markierung und benutzen Sie \"Erhöhen/Hals nach oben\" "
 "usw. um die Halsrichtung zu ändern"
 
-#: src/entries.h:279
+#: src/entries.h:281
 msgid "Insert/Edit Lyric"
 msgstr "Liedtexte einfügen/bearbeiten"
 
-#: src/entries.h:279
+#: src/entries.h:281
 msgid ""
 "Add a lyric to current note. Beware: all previous notes must have lyrics for "
 "printing correctly"
@@ -2945,11 +3111,11 @@ msgstr ""
 "Beachten Sie, dass alle vorhergehenden Noten vor dem Drucken ebenfalls "
 "Liedtexte haben müssen"
 
-#: src/entries.h:280
+#: src/entries.h:282
 msgid "Insert/Edit Figured Bass"
 msgstr "Generalbass einfügen/bearbeiten"
 
-#: src/entries.h:280
+#: src/entries.h:282
 msgid ""
 "Add a bass figure to the current note. Use | sign to split the duration of a "
 "note so as to have multiple figures on one note. See Lilypond docs for other "
@@ -2960,11 +3126,12 @@ msgstr ""
 "sodass mehrere Generalbasszeichen eingegeben werden können.\n"
 "Andere Notationen: Siehe Lilypond-Dokumentation"
 
-#: src/entries.h:281
-msgid "EditChords"
+#: src/entries.h:283
+#, fuzzy
+msgid "Edit Chords"
 msgstr "Akkorde bearbeiten"
 
-#: src/entries.h:281
+#: src/entries.h:283
 msgid ""
 "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-"
 "sharp diminished 7th. See Lilypond docs for notation"
@@ -2973,19 +3140,21 @@ msgstr ""
 "z.B. cis:dim7 für cis verminderter Septakkord\n"
 "Zur Notation siehe Lilypond-Dokumentation"
 
-#: src/entries.h:282
-msgid "InsertDynamic"
+#: src/entries.h:284
+#, fuzzy
+msgid "Insert Dynamics"
 msgstr "Lautstärkezeichen einfügen"
 
-#: src/entries.h:282
+#: src/entries.h:284
 msgid "Inserts a dynamic marking at the cursor position"
 msgstr "Fügt ein Dynamikzeichen an der Cursorposition ein"
 
-#: src/entries.h:283
-msgid "InsertLilyDirective"
-msgstr "Lilypond-Befehl einfügen"
+#: src/entries.h:285
+#, fuzzy
+msgid "Insert Lilypond"
+msgstr "Lilypond-Suffix einfügen"
 
-#: src/entries.h:283
+#: src/entries.h:285
 msgid ""
 "Insert or edit a directive in the LilyPond music typesetting language. This "
 "can be used for extra spacing, transposing or almost anything. See LilyPond "
@@ -2996,11 +3165,12 @@ msgstr ""
 "Transposition und anderes eingegeben werden.\n"
 "Siehe Lilypond-Dokumentation."
 
-#: src/entries.h:284
-msgid "InsertLilyPostfix"
-msgstr "Lilypond-Suffix einfügen"
+#: src/entries.h:286
+#, fuzzy
+msgid "Postfix Lilypond"
+msgstr "Pfad zu Lilypond:"
 
-#: src/entries.h:284
+#: src/entries.h:286
 msgid ""
 "Insert or edit a LilyPond text to be post-fixed to the current note. This "
 "can be used for guitar fingerings, cautionary accidentals and much more. See "
@@ -3011,460 +3181,535 @@ msgstr ""
 "Transposition und anderes eingegeben werden.\n"
 "Siehe Lilypond-Dokumentation."
 
-#: src/entries.h:285
-msgid "InsertBarline"
-msgstr "Taktstrich einfügen"
-
-#: src/entries.h:285
+#: src/entries.h:287
 msgid "Inserts specialized barline at the cursor position. Mostly not working"
 msgstr ""
 "Speziellen Taktstrich an der Cursorposition einfügen\n"
 "Funktioniert meist nicht"
 
-#: src/entries.h:286 src/entries.h:316
+#: src/entries.h:288 src/entries.h:324
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/entries.h:286
+#: src/entries.h:288
 msgid "Getting around the score"
 msgstr "Im Notenblatt bewegen"
 
-#: src/entries.h:287
+#: src/entries.h:289
 msgid "Go to Measure"
 msgstr "Gehe zu Takt"
 
-#: src/entries.h:287
+#: src/entries.h:289
 msgid "Opens a dialog for going to a numbered measure"
 msgstr "Öffnet ein Dialogfenster um zu einer Taktnummer zu springen"
 
-#: src/entries.h:288
+#: src/entries.h:290
 msgid "Go To Beginning"
 msgstr "Springe zum Anfang"
 
-#: src/entries.h:289
+#: src/entries.h:291
 msgid "Go To End"
 msgstr "Springe zum Ende"
 
-#: src/entries.h:290
-msgid "NextMovement"
+#: src/entries.h:292
+#, fuzzy
+msgid "Next Movement"
 msgstr "Nächster Satz"
 
-#: src/entries.h:290
+#: src/entries.h:292
 msgid "Go to the next movement"
 msgstr "Gehe zum nächsten Satz"
 
-#: src/entries.h:291
-msgid "PreviousMovement"
+#: src/entries.h:293
+#, fuzzy
+msgid "Previous Movement"
 msgstr "Vorhergehender Satz"
 
-#: src/entries.h:291
+#: src/entries.h:293
 msgid "Go to the previous movement"
 msgstr "Gehe zum vorhergehenden Satz"
 
-#: src/entries.h:292
-msgid "DeleteMovement"
+#: src/entries.h:294
+#, fuzzy
+msgid "Delete Movement"
 msgstr "Satz löschen"
 
-#: src/entries.h:292
+#: src/entries.h:294
 msgid "Delete the current movement"
 msgstr "Lösche den aktuellen Satz"
 
-#: src/entries.h:293
-msgid "DeleteBookmarks"
+#: src/entries.h:295
+#, fuzzy
+msgid "Delete Bookmarks"
 msgstr "Lesezeichen löschen"
 
-#: src/entries.h:293
+#: src/entries.h:295
 msgid "Delete all bookmarks in current movement"
 msgstr "Lösche alle Lesezeichen im aktuellen Satz"
 
-#: src/entries.h:294
+#: src/entries.h:296
 msgid "Play"
 msgstr "Abspielen"
 
-#: src/entries.h:295
+#: src/entries.h:297
 msgid "Stop"
 msgstr "Stopp"
 
-#: src/entries.h:296
-msgid "PlayCSound"
-msgstr "Mit CSound abspielen"
+#: src/entries.h:298
+#, fuzzy
+msgid "Csound Playback"
+msgstr "Wiedergabe"
 
-#: src/entries.h:296
+#: src/entries.h:298
 msgid "Play using CSound..."
 msgstr "Mit CSound abspielen..."
 
-#: src/entries.h:297
-msgid "PlaybackProperties"
+#: src/entries.h:299
+#, fuzzy
+msgid "Playback Properties"
 msgstr "Wiedergabeeinstellungen"
 
-#: src/entries.h:297
+#: src/entries.h:299
 msgid "Allows you to specify properties used in playing back (midi and csound"
 msgstr ""
 "Hier können Wiedergabeeinstellungen festgelegt werden (Midi und CSound)"
 
-#: src/entries.h:298
+#: src/entries.h:300
+msgid "Browse Manual"
+msgstr ""
+
+#: src/entries.h:300
 msgid "Opens a browser on the user manual"
 msgstr "Öffnet das Benutzerhandbuch im Browser"
 
-#: src/entries.h:299
+#: src/entries.h:301
 msgid "About"
 msgstr "Über Denemo"
 
-#: src/entries.h:299
+#: src/entries.h:301
 msgid "Gives the version number etc of this program"
 msgstr "Zeigt die Versionsnummer dieses Programms usw. an"
 
-#: src/entries.h:300
+#: src/entries.h:302
+#, fuzzy
+msgid "More"
+msgstr "Modus"
+
+#: src/entries.h:302
+msgid "Allows choosing extra commands/menu items from disk"
+msgstr ""
+
+#: src/entries.h:303
+#, fuzzy
+msgid "More Commands"
+msgstr "Befehle"
+
+#: src/entries.h:303
+msgid "Allows choosing standard extra commands/menu items"
+msgstr ""
+
+#: src/entries.h:304
+#, fuzzy
+msgid "My Commands"
+msgstr "Befehle"
+
+#: src/entries.h:304
+msgid ""
+"Allows choosing extra commands/menu items from your own collection of extras"
+msgstr ""
+
+#: src/entries.h:305
 msgid "Add Bookmark"
 msgstr "Lesezeichen hinzufügen"
 
-#: src/entries.h:300
+#: src/entries.h:305
 msgid "Bookmark the current cursor position"
 msgstr "Lesezeichen an Cursorposition einfügen"
 
-#: src/entries.h:301
-msgid "GotoBookmark"
+#: src/entries.h:306
+#, fuzzy
+msgid "Goto Bookmarks"
 msgstr "Zu Lesezeichen springen"
 
-#: src/entries.h:301
+#: src/entries.h:306
 msgid "Go to a bookmarked point in the score"
 msgstr "Zu einem Lesezeichen in der Partitur springen"
 
-#: src/entries.h:302
-msgid "NextBookmark"
+#: src/entries.h:307
+#, fuzzy
+msgid "Next Bookmark"
 msgstr "Nächstes Lesezeichen"
 
-#: src/entries.h:302
+#: src/entries.h:307
 msgid "Go to the next bookmarked point in the list"
 msgstr "Zu nächstem Lesezeichen in der Liste springen"
 
-#: src/entries.h:303
-msgid "PrevBookmark"
+#: src/entries.h:308
+#, fuzzy
+msgid "Prev Bookmark"
 msgstr "Vorheriges Lesezeichen"
 
-#: src/entries.h:303
+#: src/entries.h:308
 msgid "Go to the previous bookmarked point in the list"
 msgstr "Zu vorherigem Lesezeichen in der Liste springen"
 
-#: src/entries.h:304
-msgid "OpenRecent"
+#: src/entries.h:309
+#, fuzzy
+msgid "Open Recent"
 msgstr "Zuletzt geöffnete Dateien"
 
-#: src/entries.h:304
+#: src/entries.h:309
 msgid "Open previously used files"
 msgstr "Öffnet zuletzt benutze Dateien"
 
-#: src/entries.h:305
-msgid "ToggleEdit"
+#: src/entries.h:310
+#, fuzzy
+msgid "Toggle Edit Mode"
 msgstr "Eingabemodus umschalten"
 
-#: src/entries.h:305
+#: src/entries.h:310
 msgid "Toggle between current mode and edit mode"
 msgstr "Zwischen aktuellem Modus und Eingabemodus umschalten"
 
-#: src/entries.h:306
-msgid "ToggleRest"
-msgstr "Pauseneingabe umschalten"
-
-#: src/entries.h:306
+#: src/entries.h:311
 msgid "Toggle between note entry and rest entry"
 msgstr "Umschalten zwischen Noten- und Pausen-Eingabe"
 
-#: src/entries.h:307
-msgid "ToggleRhythm"
+#: src/entries.h:312
+#, fuzzy
+msgid "Toggle Rhythm Mode"
 msgstr "Rhythmuseingabe umschalten"
 
-#: src/entries.h:307
+#: src/entries.h:312
 msgid "Toggle between note entry and rhythm entry"
 msgstr "Zwischen Noten- und Rhythmus-Eingabe umschalten"
 
-#: src/entries.h:308
-msgid "ClearOverlay"
+#: src/entries.h:313
+#, fuzzy
+msgid "Clear Overlay"
 msgstr "Overlay löschen"
 
-#: src/entries.h:308
+#: src/entries.h:313
 msgid "Clear the list of pitches that overlay the notes"
 msgstr "Lösche die Liste der Tonhöhen, die den Noten zugeordnet ist"
 
-#: src/entries.h:309
-msgid "CreateRhythm"
+#: src/entries.h:314
+#, fuzzy
+msgid "Create Rhythm"
 msgstr "Neuer Rhythmus"
 
-#: src/entries.h:309
+#: src/entries.h:314
 msgid ""
 "Copy selection as a rhythm pattern for notes to follow as they are entered"
 msgstr ""
 "Kopiere Auswahl als Rhythmus-Muster und verwende diesen Rhythmus bei der "
 "Noteneingabe"
 
-#: src/entries.h:310
-msgid "DeleteRhythm"
+#: src/entries.h:315
+#, fuzzy
+msgid "Delete Rhythm"
 msgstr "Rhythmus löschen"
 
-#: src/entries.h:310
+#: src/entries.h:315
 msgid "Delete the selected rhythm pattern"
 msgstr "Löscht das angegebene Rhythmusmuster"
 
-#: src/entries.h:311
-msgid "ClassicModeNote"
+#: src/entries.h:316
+#, fuzzy
+msgid "Classic Mode"
 msgstr "Noten"
 
-#: src/entries.h:311
+#: src/entries.h:316
 msgid "Moving the cursor and inserting notes or rests there"
 msgstr "Bewege den Cursor und füge Noten oder Pausen dort ein"
 
-#: src/entries.h:312
-msgid "SelectNote"
+#: src/entries.h:317
+#, fuzzy
+msgid "Select Note"
 msgstr "Note auswählen"
 
-#: src/entries.h:312
+#: src/entries.h:317
 msgid "Moving the cursor to the nearest ..."
 msgstr "Bewege den Cursor zum nächsten ..."
 
-#: src/entries.h:313
-msgid "InsertModeNote"
-msgstr "Noten"
-
-#: src/entries.h:313
+#: src/entries.h:318
 msgid "Actions for notes: inserting, deleting, etc."
 msgstr ""
 "Aktionen für Noten:\n"
 "einfügen, löschen usw."
 
-#: src/entries.h:314
-msgid "InsertNote"
-msgstr "Note einfügen"
+#: src/entries.h:319
+msgid "Stem Direction"
+msgstr ""
 
-#: src/entries.h:314
+#: src/entries.h:319
+msgid "Actions to control the stem up/down"
+msgstr ""
+
+#: src/entries.h:320
+#, fuzzy
+msgid "Notehead Types"
+msgstr "Notenkopf auswählen"
+
+#: src/entries.h:320
+msgid "Different types of notehead"
+msgstr ""
+
+#: src/entries.h:321
+#, fuzzy
+msgid "Tied Notes"
+msgstr "Gehaltene Note"
+
+#: src/entries.h:321
+#, fuzzy
+msgid "Creating Tied Notes"
+msgstr "Note ändern"
+
+#: src/entries.h:322 src/entries.h:325
+#, fuzzy
+msgid "Note Entry"
+msgstr "Eingabe"
+
+#: src/entries.h:322
 msgid "Inserting the note ..."
 msgstr "Füge Note ein: ..."
 
-#: src/entries.h:315
-msgid "AllOther"
+#: src/entries.h:323 src/entries.h:352
+msgid "Other"
 msgstr "Andere"
 
-#: src/entries.h:315
+#: src/entries.h:323
 msgid "Anything not previously covered"
 msgstr "Sonstiges"
 
-#: src/entries.h:316
+#: src/entries.h:324
 msgid "Moving around the piece"
 msgstr "Cursor bewegen"
 
-#: src/entries.h:317
-msgid "NoteEntry"
-msgstr "Eingabe"
-
-#: src/entries.h:317
+#: src/entries.h:325
 msgid "Entering notes"
 msgstr "Pausen statt Noten eingeben"
 
-#: src/entries.h:318
+#: src/entries.h:326
 msgid "Various expressive marks"
 msgstr "Artikulationszeichen"
 
-#: src/entries.h:319
+#: src/entries.h:327
 msgid "Editing"
 msgstr "Bearbeiten"
 
-#: src/entries.h:320
+#: src/entries.h:328
 msgid "Measure"
 msgstr "Takt"
 
-#: src/entries.h:320
+#: src/entries.h:328
 msgid "Manipulating measures"
 msgstr "Takt abspielen"
 
-#: src/entries.h:321
+#: src/entries.h:329
 msgid "Staff"
 msgstr "Notenzeile"
 
-#: src/entries.h:321
+#: src/entries.h:329
 msgid "Commands for staffs"
 msgstr "Befehle für Notenzeilen"
 
-#: src/entries.h:323
-msgid "SelectDuration"
+#: src/entries.h:331
+#, fuzzy
+msgid "Select Duration"
 msgstr "Tonlänge auswählen"
 
-#: src/entries.h:323
+#: src/entries.h:331
 msgid "Changing the prevailing duration or rhythm pattern"
 msgstr ""
 "Ändere die aktuelle Tonlänge\n"
 "oder das Rhythmus-Muster"
 
-#: src/entries.h:324
-msgid "EditModeNote"
-msgstr "Noten"
-
-#: src/entries.h:324
+#: src/entries.h:332
 msgid "Appending, Changing, and deleting notes"
 msgstr "Noten hinzufügen, ändern und löschen"
 
-#: src/entries.h:325
-msgid "EditNote"
+#: src/entries.h:333
+#, fuzzy
+msgid "Edit Note"
 msgstr "Note bearbeiten"
 
-#: src/entries.h:325 src/entries.h:338
+#: src/entries.h:333 src/entries.h:347
 msgid "Changing the note at the cursor to the nearest ..."
 msgstr "Ändere die Note beim Cursur zum nächsten ..."
 
-#: src/entries.h:326
-msgid "EditDuration"
+#: src/entries.h:334
+#, fuzzy
+msgid "Edit Duration"
 msgstr "Tonlänge einfügen"
 
-#: src/entries.h:326
+#: src/entries.h:334
 msgid ""
 "Changing the duration of note at the cursor or appending a note of the given "
 "duration"
 msgstr "Ändere die Notenlänge der Note beim Cursor"
 
-#: src/entries.h:327
+#: src/entries.h:335
 msgid "Cursor"
 msgstr "Cursor"
 
-#: src/entries.h:327
+#: src/entries.h:335
 msgid "Moving the cursor"
 msgstr "Cursor bewegen"
 
-#: src/entries.h:328
-msgid "ClefMenu"
+#: src/entries.h:336
+#, fuzzy
+msgid "Clefs"
 msgstr "Schlüssel"
 
-#: src/entries.h:328
+#: src/entries.h:336
 msgid "Insert/change clef Set initial clef"
 msgstr ""
 "Schlüssel einfügen/ändern\n"
 "Anfangsschlüssel setzen"
 
-#: src/entries.h:329
+#: src/entries.h:337
 msgid "Chords"
 msgstr "Akkorde"
 
-#: src/entries.h:329
+#: src/entries.h:337
 msgid "Adding notes to make chords"
 msgstr "Fügt Noten zu Akkorden hinzu"
 
-#: src/entries.h:330
-msgid "MeasureMenu"
-msgstr "Takte"
+#: src/entries.h:338
+#, fuzzy
+msgid "Measures"
+msgstr "Takt"
 
-#: src/entries.h:330
+#: src/entries.h:338
 msgid "Measures: adding, deleting, navigating etc"
 msgstr ""
 "Takte:\n"
 "hinzufügen, löschen, navigieren usw."
 
-#: src/entries.h:331
+#: src/entries.h:339
 msgid "Inserting notes, measures, staffs, keysigs etc"
 msgstr "Noten, Takte, Zeilen, Vorzeichen usw. einfügen"
 
-#: src/entries.h:332
-msgid "InsertStaff"
+#: src/entries.h:340
+#, fuzzy
+msgid "Insert Staff"
 msgstr "Notenzeile einfügen"
 
-#: src/entries.h:332
+#: src/entries.h:340
 msgid "Insert a Staff relative to current staff"
 msgstr "Notenzeile relativ zur aktuellen Notenzeile einfügen"
 
-#: src/entries.h:333
-msgid "InsertMovement"
+#: src/entries.h:341
+#, fuzzy
+msgid "Insert Movement"
 msgstr "Satz einfügen"
 
-#: src/entries.h:333
+#: src/entries.h:341
 msgid "Insert a Movement relative to current movement"
 msgstr "Satz relativ zum aktuellen Satz einfügen"
 
-#: src/entries.h:334
-msgid "InsertDuration"
+#: src/entries.h:342
+#, fuzzy
+msgid "Insert Duration"
 msgstr "Tonlänge einfügen"
 
-#: src/entries.h:334
+#: src/entries.h:342
 msgid "Inserting notes of a given duration"
 msgstr "Füge Noten einer bestimmten Notenlänge ein"
 
-#: src/entries.h:335
+#: src/entries.h:343
 msgid "Change"
 msgstr "Ändern"
 
-#: src/entries.h:335
+#: src/entries.h:343
 msgid "Changing properties of notes, measures, staffs, keysigs etc"
 msgstr "Eigenschaften von Noten, Takten, Zeilen, Vorzeichen usw. ändern"
 
-#: src/entries.h:336
-msgid "NoteProperties"
-msgstr "Noten-Eigenschaften"
+#: src/entries.h:344
+#, fuzzy
+msgid "Notes/Durations"
+msgstr "Tonlänge einfügen"
 
-#: src/entries.h:336
+#: src/entries.h:344
 msgid "Modeless actions on notes/rests"
 msgstr "Modusunabhängige Aktionen für Noten und Pausen"
 
-#: src/entries.h:337
-msgid "RestEntry"
+#: src/entries.h:345
+msgid "Notes/Rests"
+msgstr ""
+
+#: src/entries.h:345
+#, fuzzy
+msgid "Actions for notes/rests"
+msgstr "Modusunabhängige Aktionen für Noten und Pausen"
+
+#: src/entries.h:346
+#, fuzzy
+msgid "Rest Entry"
 msgstr "Pausen-Eingabe"
 
-#: src/entries.h:337
+#: src/entries.h:346
 msgid "Modeless entry of rests"
 msgstr "Modusunabhängige Eingabe von Pausen"
 
-#: src/entries.h:338
-msgid "ChangeNote"
+#: src/entries.h:347
+#, fuzzy
+msgid "Change Note"
 msgstr "Note ändern"
 
-#: src/entries.h:339
-msgid "ChangeDuration"
+#: src/entries.h:348
+#, fuzzy
+msgid "Change Duration"
 msgstr "Notenlänge ändern"
 
-#: src/entries.h:339
+#: src/entries.h:348
 msgid "Changes the duration of the current note"
 msgstr "Ändert die Länge der aktuellen Note"
 
-#: src/entries.h:340
-msgid "ChangeRest"
+#: src/entries.h:349
+#, fuzzy
+msgid "Change Rest"
 msgstr "Pause ändern"
 
-#: src/entries.h:340
+#: src/entries.h:349
 msgid "Changes the duration of the current rest"
 msgstr "Ändert die Länge der aktuellen Pause"
 
-#: src/entries.h:341
+#: src/entries.h:350
 msgid "Expression Marks"
 msgstr "Artikulationszeichen"
 
-#: src/entries.h:341
+#: src/entries.h:350
 msgid "Dynamics, staccato, slurs, ties and other expressive marks"
 msgstr ""
 "Dynamik, Staccato, Phrasierungen, Bögen und andere Artikulationszeichen"
 
-#: src/entries.h:342
+#: src/entries.h:351
 msgid "Ornaments"
 msgstr "Verzierungen"
 
-#: src/entries.h:342
+#: src/entries.h:351
 msgid "grace notes etc"
 msgstr "Vorschläge usw."
 
-#: src/entries.h:343
-msgid "Other"
-msgstr "Andere"
-
-#: src/entries.h:343
+#: src/entries.h:352
 msgid "Lyrics, chord symbols, figured basses etc"
 msgstr "Liedtexte, Akkordsymbole, Generalbass usw."
 
-#: src/entries.h:344
+#: src/entries.h:353
 msgid "Others"
 msgstr "Andere"
 
-#: src/entries.h:344
+#: src/entries.h:353
 msgid "Less used actions"
 msgstr "Selten verwendete Aktionen"
 
-#: src/entries.h:345
+#: src/entries.h:354
 msgid "Favorites"
 msgstr "Favoriten"
 
-#: src/entries.h:345
+#: src/entries.h:354
 msgid ""
 "Customized LilyPond inserts. Store often-used inserts here labelled with "
 "what they do"
@@ -3472,65 +3717,66 @@ msgstr ""
 "Benutzerdefinierte LilyPond-Befehle. Speichern Sie oft benutzte Befehle hier "
 "und beschriften Sie diese mit ihrer Funktion"
 
-#: src/entries.h:346
-msgid "AddFavorite"
+#: src/entries.h:355
+#, fuzzy
+msgid "Add Favorite"
 msgstr "Zu Favoriten hinzufügen"
 
-#: src/entries.h:346
+#: src/entries.h:355
 msgid "Add a custom LilyPond insert to favorites menu"
 msgstr ""
 "Fügt einen benutzerdefinierten LilyPond-Befehl zum Favoriten-Menü hinzu"
 
-#: src/entries.h:347
+#: src/entries.h:356
 msgid "Tuplets"
 msgstr "Triolen usw."
 
-#: src/entries.h:347
+#: src/entries.h:356
 msgid "Entering triplets and other tuplets"
 msgstr "Duolen, Triolen, Quartolen usw. eingeben"
 
-#: src/entries.h:348
+#: src/entries.h:357
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/entries.h:348
+#: src/entries.h:357
 msgid "Deleting notes, measures staffs keysigs etc"
 msgstr "Noten, Takte, Zeilen, Vorzeichen usw. löschen"
 
-#: src/entries.h:349 src/entries.h:359 src/entries.h:369 src/entries.h:379
-#: src/entries.h:389 src/entries.h:399 src/entries.h:409
+#: src/entries.h:358 src/entries.h:368 src/entries.h:378 src/entries.h:388
+#: src/entries.h:398 src/entries.h:408 src/entries.h:418
 msgid "In insert mode, changes prevailing rhythm to "
 msgstr "Ändert den aktuellen Rhythmus im Einfügemodus zu "
 
-#: src/entries.h:351 src/entries.h:361 src/entries.h:371 src/entries.h:381
-#: src/entries.h:391 src/entries.h:401 src/entries.h:411
+#: src/entries.h:360 src/entries.h:370 src/entries.h:380 src/entries.h:390
+#: src/entries.h:400 src/entries.h:410 src/entries.h:420
 msgid "Change current note to a "
 msgstr "Note ändern zu ..."
 
-#: src/entries.h:353 src/entries.h:363 src/entries.h:373 src/entries.h:383
-#: src/entries.h:393 src/entries.h:403 src/entries.h:413
+#: src/entries.h:362 src/entries.h:372 src/entries.h:382 src/entries.h:392
+#: src/entries.h:402 src/entries.h:412 src/entries.h:422
 msgid "Change duration"
 msgstr "Notenlänge ändern zu"
 
-#: src/entries.h:353 src/entries.h:363 src/entries.h:373 src/entries.h:383
-#: src/entries.h:393 src/entries.h:403 src/entries.h:413
+#: src/entries.h:362 src/entries.h:372 src/entries.h:382 src/entries.h:392
+#: src/entries.h:402 src/entries.h:412 src/entries.h:422
 msgid "Change durtion of current rest"
 msgstr "Ändert die Länge der aktuellen Pause"
 
-#: src/entries.h:355 src/entries.h:357 src/entries.h:365 src/entries.h:367
-#: src/entries.h:375 src/entries.h:377 src/entries.h:385 src/entries.h:387
-#: src/entries.h:395 src/entries.h:397 src/entries.h:405 src/entries.h:407
-#: src/entries.h:415 src/entries.h:417
+#: src/entries.h:364 src/entries.h:366 src/entries.h:374 src/entries.h:376
+#: src/entries.h:384 src/entries.h:386 src/entries.h:394 src/entries.h:396
+#: src/entries.h:404 src/entries.h:406 src/entries.h:414 src/entries.h:416
+#: src/entries.h:424 src/entries.h:426
 msgid "Insert a "
 msgstr "Füge ein: "
 
-#: src/entries.h:355 src/entries.h:365 src/entries.h:375 src/entries.h:385
-#: src/entries.h:395 src/entries.h:405 src/entries.h:415
+#: src/entries.h:364 src/entries.h:374 src/entries.h:384 src/entries.h:394
+#: src/entries.h:404 src/entries.h:414 src/entries.h:424
 msgid "Inserts a "
 msgstr "Füge ein: "
 
-#: src/entries.h:357 src/entries.h:367 src/entries.h:377 src/entries.h:387
-#: src/entries.h:397 src/entries.h:407 src/entries.h:417
+#: src/entries.h:366 src/entries.h:376 src/entries.h:386 src/entries.h:396
+#: src/entries.h:406 src/entries.h:416 src/entries.h:426
 msgid ""
 "Inserts a rest at cursor position\n"
 "Sets prevailing rhythm to "
@@ -3538,11 +3784,11 @@ msgstr ""
 "Fügt eine Pause bei der Einfügemarke ein\n"
 "Setzt den aktuellen Rhythmus"
 
-#: src/entries.h:419
+#: src/entries.h:428
 msgid "Insert A"
 msgstr "A einfügen"
 
-#: src/entries.h:419
+#: src/entries.h:428
 msgid ""
 "Inserts note A before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3552,11 +3798,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:421
+#: src/entries.h:430
 msgid "Change current note to A"
 msgstr "Note ändern zu A"
 
-#: src/entries.h:421
+#: src/entries.h:430
 msgid ""
 "Changes current note to the A nearest cursor or (if no current note) inserts "
 "the note A\n"
@@ -3568,11 +3814,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:423
+#: src/entries.h:432
 msgid "Insert B"
 msgstr "H einfügen"
 
-#: src/entries.h:423
+#: src/entries.h:432
 msgid ""
 "Inserts note B before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3582,11 +3828,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:425
+#: src/entries.h:434
 msgid "Change current note to B"
 msgstr "Note ändern zu H"
 
-#: src/entries.h:425
+#: src/entries.h:434
 msgid ""
 "Changes current note to the B nearest cursor or (if no current note) inserts "
 "the note B\n"
@@ -3598,11 +3844,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:427
+#: src/entries.h:436
 msgid "Insert C"
 msgstr "C einfügen"
 
-#: src/entries.h:427
+#: src/entries.h:436
 msgid ""
 "Inserts note C before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3612,11 +3858,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:429
+#: src/entries.h:438
 msgid "Change current note to C"
 msgstr "Note ändern zu C"
 
-#: src/entries.h:429
+#: src/entries.h:438
 msgid ""
 "Changes current note to the C nearest cursor or (if no current note) inserts "
 "the note C\n"
@@ -3628,11 +3874,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:431
+#: src/entries.h:440
 msgid "Insert D"
 msgstr "D einfügen"
 
-#: src/entries.h:431
+#: src/entries.h:440
 msgid ""
 "Inserts note D before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3642,11 +3888,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:433
+#: src/entries.h:442
 msgid "Change current note to D"
 msgstr "Note ändern zu D"
 
-#: src/entries.h:433
+#: src/entries.h:442
 msgid ""
 "Changes current note to the D nearest cursor or (if no current note) inserts "
 "the note D\n"
@@ -3658,11 +3904,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:435
+#: src/entries.h:444
 msgid "Insert E"
 msgstr "E einfügen"
 
-#: src/entries.h:435
+#: src/entries.h:444
 msgid ""
 "Inserts note E before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3672,11 +3918,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:437
+#: src/entries.h:446
 msgid "Change current note to E"
 msgstr "Note ändern zu E"
 
-#: src/entries.h:437
+#: src/entries.h:446
 msgid ""
 "Changes current note to the E nearest cursor or (if no current note) inserts "
 "the note E\n"
@@ -3688,11 +3934,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:439
+#: src/entries.h:448
 msgid "Insert F"
 msgstr "F einfügen"
 
-#: src/entries.h:439
+#: src/entries.h:448
 msgid ""
 "Inserts note F before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3702,11 +3948,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:441
+#: src/entries.h:450
 msgid "Change current note to F"
 msgstr "Note ändern zu F"
 
-#: src/entries.h:441
+#: src/entries.h:450
 msgid ""
 "Changes current note to the F nearest cursor or (if no current note) inserts "
 "the note F\n"
@@ -3718,11 +3964,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:443
+#: src/entries.h:452
 msgid "Insert G"
 msgstr "G einfügen"
 
-#: src/entries.h:443
+#: src/entries.h:452
 msgid ""
 "Inserts note G before note at cursor\n"
 "Cursor determines which octave\n"
@@ -3732,11 +3978,11 @@ msgstr ""
 "Die Einfügemarke bestimmt die Oktave\n"
 "Die Note wird im ausgewählten Rhythmusmuster eingefügt"
 
-#: src/entries.h:445
+#: src/entries.h:454
 msgid "Change current note to G"
 msgstr "Note ändern zu ..."
 
-#: src/entries.h:445
+#: src/entries.h:454
 msgid ""
 "Changes current note to the G nearest cursor or (if no current note) inserts "
 "the note G\n"
@@ -3760,3 +4006,359 @@ msgstr "Pfad zum Midi-Gerät"
 msgid "Midi Step entry"
 msgstr "Schrittweise Midi-Eingabe"
 
+#~ msgid "Entry"
+#~ msgstr "Eingabe"
+
+#~ msgid "Old keymap file found"
+#~ msgstr "Alte Tastenkombinationen-Datei gefunden"
+
+#~ msgid ""
+#~ "From version 0.7.5, Denemo uses an xml file to store its key bindings. I "
+#~ "have found an old-style file, and am using that for now.\n"
+#~ "\n"
+#~ "If you won't want to use an old version of Denemo in future, please go to "
+#~ "\"Edit,Set Keybindings\" and click \"OK and Save As Default\" in order to "
+#~ "avoid seeing this message again.\n"
+#~ "\n"
+#~ "Thanks."
+#~ msgstr ""
+#~ "Ab Version 0.7.5 speichert Denemo die Tastenkombinationen in einer XML-"
+#~ "Datei.Ich habe eine Datei im alten Format gefunden und benutze diese "
+#~ "jetzt.\n"
+#~ "\n"
+#~ "Falls Sie keine ältere Version von Denemo mehr benutzen, gehen Sie bitte "
+#~ "zu\"Bearbeiten, Tastenkombinationen, Tastenkombinationen ändern\" und "
+#~ "klicken Sieauf \"OK und als Standard speichern\" um diese Nachricht nicht "
+#~ "mehr anzuzeigen.\n"
+#~ "\n"
+#~ "Danke."
+
+#~ msgid "Use lilypond-style note entry"
+#~ msgstr "Noteneingabe im Lilypond-Stil"
+
+#~ msgid "Clone chords when tying them"
+#~ msgstr "Verdopple Akkorde beim Einfügen von Haltebögen"
+
+#~ msgid "Move the cursor to A"
+#~ msgstr "Cursor bewegen"
+
+#~ msgid "OctaveUp"
+#~ msgstr "Oktave nach oben"
+
+#~ msgid "OctaveDown"
+#~ msgstr "Oktave nach unten"
+
+#~ msgid "EndTuplet"
+#~ msgstr "Triole beenden"
+
+#~ msgid "SharpenOrStemDown"
+#~ msgstr "Erhöhen/Hals nach oben"
+
+#~ msgid "Insertg8clef"
+#~ msgstr "g8-Schlüssel einfügen"
+
+#~ msgid "InsertAltoClef"
+#~ msgstr "Altschlüssel einfügen"
+
+#~ msgid "SetInitialTrebleClef"
+#~ msgstr "Violinschlüssel am Anfang setzen"
+
+#~ msgid "SetInitialBassClef"
+#~ msgstr "Bassschlüssel am Anfang setzen"
+
+#~ msgid "SetInitialg8clef"
+#~ msgstr "g8-Schlüssel am Anfang setzen"
+
+#~ msgid "SetInitialAltoClef"
+#~ msgstr "Altschlüssel am Anfang setzen"
+
+#~ msgid "SetInitialTenorClef"
+#~ msgstr "Tenorschlüssel am Anfang setzen"
+
+#~ msgid "SetInitialSopranoClef"
+#~ msgstr "Sopranschlüssel am Anfang setzen"
+
+#~ msgid "InsertFSharpmaj"
+#~ msgstr "Fis-Dur einfügen"
+
+#~ msgid "InsertCSharpmaj"
+#~ msgstr "Cis-Dur einfügen"
+
+#~ msgid "InsertBflatmaj"
+#~ msgstr "B-Dur einfügen"
+
+#~ msgid "InsertEflatmaj"
+#~ msgstr "Es-Dur einfügen"
+
+#~ msgid "InsertAflatmaj"
+#~ msgstr "As-Dur einfügen"
+
+#~ msgid "InsertDflatmaj"
+#~ msgstr "Des-Dur einfügen"
+
+#~ msgid "InsertGflatmaj"
+#~ msgstr "Ges-Dur einfügen"
+
+#~ msgid "InsertCflatmaj"
+#~ msgstr "Ces-Dur einfügen"
+
+#~ msgid "InsertFSharpmin"
+#~ msgstr "fis-moll einfügen"
+
+#~ msgid "InsertCSharpmin"
+#~ msgstr "cis-moll einfügen"
+
+#~ msgid "InsertGSharpmin"
+#~ msgstr "gis-moll einfügen"
+
+#~ msgid "InsertDSharpmin"
+#~ msgstr "dis-moll einfügen"
+
+#~ msgid "InsertASharpmin"
+#~ msgstr "ais-moll einfügen"
+
+#~ msgid "InsertBflatmin"
+#~ msgstr "b-moll einfügen"
+
+#~ msgid "InsertEflatmin"
+#~ msgstr "es-moll einfügen"
+
+#~ msgid "InsertAflatmin"
+#~ msgstr "as-moll einfügen"
+
+#~ msgid "SetInitialDmaj"
+#~ msgstr "D-Dur am Anfang setzen"
+
+#~ msgid "SetInitialAmaj"
+#~ msgstr "A-Dur am Anfang setzen"
+
+#~ msgid "SetInitialEmaj"
+#~ msgstr "E-Dur am Anfang setzen"
+
+#~ msgid "SetInitialBmaj"
+#~ msgstr "H-Dur am Anfang setzen"
+
+#~ msgid "SetInitialFSharpmaj"
+#~ msgstr "Fis-Dur am Anfang setzen"
+
+#~ msgid "SetInitialCSharpmaj"
+#~ msgstr "Cis-Dur am Anfang setzen"
+
+#~ msgid "SetInitialFmaj"
+#~ msgstr "F-Dur am Anfang setzen"
+
+#~ msgid "SetInitialBflatmaj"
+#~ msgstr "B-Dur am Anfang setzen"
+
+#~ msgid "SetInitialEflatmaj"
+#~ msgstr "Es-Dur am Anfang setzen"
+
+#~ msgid "SetInitialAflatmaj"
+#~ msgstr "As-Dur am Anfang setzen"
+
+#~ msgid "SetInitialDflatmaj"
+#~ msgstr "Des-Dur am Anfang setzen"
+
+#~ msgid "SetInitialGflatmaj"
+#~ msgstr "Ges-Dur am Anfang setzen"
+
+#~ msgid "SetInitialCflatmaj"
+#~ msgstr "Ces-Dur am Anfang setzen"
+
+#~ msgid "SetInitialAmin"
+#~ msgstr "a-moll am Anfang setzen"
+
+#~ msgid "SetInitialEmin"
+#~ msgstr "e-moll am Anfang setzen"
+
+#~ msgid "SetInitialBmin"
+#~ msgstr "h-moll am Anfang setzen"
+
+#~ msgid "SetInitialFSharpmin"
+#~ msgstr "fis-moll am Anfang setzen"
+
+#~ msgid "SetInitialCSharpmin"
+#~ msgstr "cis-moll am Anfang setzen"
+
+#~ msgid "SetInitialGSharpmin"
+#~ msgstr "gis-moll am Anfang setzen"
+
+#~ msgid "SetInitialDSharpmin"
+#~ msgstr "dis-moll am Anfang setzen"
+
+#~ msgid "SetInitialASharpmin"
+#~ msgstr "ais-moll am Anfang setzen"
+
+#~ msgid "SetInitialDmin"
+#~ msgstr "d-moll am Anfang setzen"
+
+#~ msgid "SetInitialGmin"
+#~ msgstr "g-moll am Anfang setzen"
+
+#~ msgid "SetInitialCmin"
+#~ msgstr "c-moll am Anfang setzen"
+
+#~ msgid "SetInitialFmin"
+#~ msgstr "f-moll am Anfang setzen"
+
+#~ msgid "SetInitialBflatmin"
+#~ msgstr "b-moll am Anfang setzen"
+
+#~ msgid "SetInitialEflatmin"
+#~ msgstr "es-moll am Anfang setzen"
+
+#~ msgid "SetInitialAflatmin"
+#~ msgstr "as-moll am Anfang setzen"
+
+#~ msgid "ToggleAccent"
+#~ msgstr "Akzent umschalten"
+
+#~ msgid "ToggleFermata"
+#~ msgstr "Fermate umschalten"
+
+#~ msgid "ToggleStaccato"
+#~ msgstr "Staccato umschalten"
+
+#~ msgid "ToggleTenuto"
+#~ msgstr "Tenuto umschalten"
+
+#~ msgid "ToggleTrill"
+#~ msgstr "Triller umschalten"
+
+#~ msgid "ToggleTurn"
+#~ msgstr "Doppelschlag umschalten"
+
+#~ msgid "ToggleMordent"
+#~ msgstr "Mordent umschalten"
+
+#~ msgid "ToggleStaccatissimo"
+#~ msgstr "Staccatissimo umschalten"
+
+#~ msgid "ToggleCoda"
+#~ msgstr "Coda umschalten"
+
+#~ msgid "ToggleFlageolet"
+#~ msgstr "Flageolet umschalten"
+
+#~ msgid "ToggleOpen"
+#~ msgstr "Offen umschalten"
+
+#~ msgid "TogglePrallMordent"
+#~ msgstr "Triller und Mordent umschalten"
+
+#~ msgid "TogglePrallPrall"
+#~ msgstr "Doppelpraller umschalten"
+
+#~ msgid "TogglePrall"
+#~ msgstr "Pralltriller umschalten"
+
+#~ msgid "ToggleReverseTurn"
+#~ msgstr "umgekehrten Doppelschlag umschalten"
+
+#~ msgid "ToggleArpeggio"
+#~ msgstr "Arpeggio umschalten"
+
+#~ msgid "EndBar"
+#~ msgstr "Schlussstrich"
+
+#~ msgid "OpenRepeat"
+#~ msgstr "Wiederholung Anfang"
+
+#~ msgid "CloseRepeat"
+#~ msgstr "Wiederholung Ende"
+
+#~ msgid "New"
+#~ msgstr "Neu"
+
+#~ msgid "MovementProps"
+#~ msgstr "Satz-Eigenschaften"
+
+#~ msgid "OpenNewWindow"
+#~ msgstr "In neuem Fenster öffnen"
+
+#~ msgid "SaveAs"
+#~ msgstr "Speichern unter"
+
+#~ msgid "OpenMyTemplate"
+#~ msgstr "Öffne eigene Vorlage"
+
+#~ msgid "ExportPDF"
+#~ msgstr "Als PDF exportieren"
+
+#~ msgid "PrintExcerptPreview"
+#~ msgstr "Druckvorschau Taktbereich"
+
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgid "LoadPlugins"
+#~ msgstr "Plugins laden"
+
+#~ msgid "UnloadPlugins"
+#~ msgstr "Plugins entladen"
+
+#~ msgid "AddLast"
+#~ msgstr "am Ende"
+
+#~ msgid "DeleteAfter"
+#~ msgstr "Notenzeile darunter löschen"
+
+#~ msgid "TransposeStaff"
+#~ msgstr "Notenzeile transponieren"
+
+#~ msgid "StaffProperties"
+#~ msgstr "Eigenschaften der Notenzeile"
+
+#~ msgid "InsertClef"
+#~ msgstr "Schlüssel einfügen"
+
+#~ msgid "InsertKey"
+#~ msgstr "Tonartwechsel einfügen"
+
+#~ msgid "TimeSig"
+#~ msgstr "Taktart"
+
+#~ msgid "InsertTimeSig"
+#~ msgstr "Taktwechsel einfügen"
+
+#~ msgid "ChangeNotehead"
+#~ msgstr "Notenkopf ändern"
+
+#~ msgid "InsertStem"
+#~ msgstr "Hals einfügen"
+
+#~ msgid "InsertDynamic"
+#~ msgstr "Lautstärkezeichen einfügen"
+
+#~ msgid "InsertBarline"
+#~ msgstr "Taktstrich einfügen"
+
+#~ msgid "PlayCSound"
+#~ msgstr "Mit CSound abspielen"
+
+#~ msgid "GotoBookmark"
+#~ msgstr "Zu Lesezeichen springen"
+
+#~ msgid "ToggleRest"
+#~ msgstr "Pauseneingabe umschalten"
+
+#~ msgid "InsertModeNote"
+#~ msgstr "Noten"
+
+#~ msgid "InsertNote"
+#~ msgstr "Note einfügen"
+
+#~ msgid "AllOther"
+#~ msgstr "Andere"
+
+#~ msgid "EditModeNote"
+#~ msgstr "Noten"
+
+#~ msgid "ClefMenu"
+#~ msgstr "Schlüssel"
+
+#~ msgid "MeasureMenu"
+#~ msgstr "Takte"
+
+#~ msgid "NoteProperties"
+#~ msgstr "Noten-Eigenschaften"
