@@ -608,3 +608,43 @@ parse_paths (gchar * filename, DenemoGUI *gui)
   xmlFreeDoc (doc);
   return ret;
 }
+
+
+
+gint
+save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip)
+{
+  xmlDocPtr doc;
+  //xmlNsPtr ns;
+  xmlNodePtr parent, child, command;
+
+  doc = xmlNewDoc ((xmlChar *) "1.0");
+  doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
+					     NULL);
+  child = xmlNewChild (parent, NULL, (xmlChar *) "merge", NULL);
+  
+  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Keymap");
+  xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
+  
+  parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
+  
+  child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
+  
+  
+  xmlNewTextChild (child, NULL, (xmlChar *) "action",
+		   (xmlChar *) myname);  
+  
+  xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
+		   (xmlChar *) myscheme);
+  
+  xmlNewTextChild (child, NULL, (xmlChar *) "label",
+		   (xmlChar *) mylabel);
+  
+  
+  xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
+		   (xmlChar *) mytooltip);      
+  xmlSaveFormatFile (filename, doc, 1);
+  
+  xmlFreeDoc (doc);
+  return 0;
+}

@@ -268,6 +268,14 @@ SCM scheme_get_keypress(void) {
  return  scm;
 }
 
+/* get last keypress that successfully invoked a command */
+SCM scheme_get_command_keypress(void) {
+ gchar *str = dnm_accelerator_name(Denemo.last_keyval, Denemo.last_keystate);
+ SCM scm = scm_makfrom0str (str);
+ g_free(str);
+ return  scm;
+}
+
 SCM scheme_get_command(void) {
   GdkDisplay *display = gtk_widget_get_display(Denemo.window);
  GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
@@ -499,6 +507,7 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetKeypress", scheme_get_keypress);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
@@ -1474,23 +1483,8 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
     }
   
   myscheme = getSchemeText();
-  gchar *text = g_strdup_printf("<?xml version=\"1.0\"?>\n\
-<Denemo>\n\
-  <merge>\n\
-    <title>A Denemo Keymap</title>\n\
-    <author>AT, JRR, RTS</author>\n\
-    <map>\n\
-      <row>\n\
-        <action>%s</action>\n\
-        <scheme>%s</scheme>\n\
-        <menupath>%s</menupath>\n\
-        <label>%s</label>\n\
-        <tooltip>%s</tooltip>\n\
-      </row>\n\
-    </map>\n\
-  </merge>\n\
-</Denemo>\n", myname, myscheme, myposition, mylabel,mytooltip);
-  //FIXME G_DIR_SEPARATOR in myposition
+
+  //FIXME G_DIR_SEPARATOR in myposition???
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", myposition, myname,  NULL);
   g_print("The filename built is %s from %s", filename, myposition);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS))  || (g_file_test(filename, G_FILE_TEST_EXISTS) &&
@@ -1498,7 +1492,8 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
     gchar *dirpath = g_path_get_dirname(filename);
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
-    g_file_set_contents(filename, text, -1, NULL);
+    //g_file_set_contents(filename, text, -1, NULL);
+    save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip);
     load_xml_keymap(filename, Denemo.commands);
   } else
     warningdialog("Operation cancelled");

@@ -18,6 +18,7 @@ static GdkEventKey ** divert_key_event;/* Non null if key events are being inter
 					* return TRUE if a key press successfully captured
 					* in which case the kyval, state pair are returned
 					*/
+
 gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
   if(divert_key_event) {
     warningdialog("Recursive key capture not possible!");/* we could make a stack of them instead ... */
@@ -29,6 +30,7 @@ gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
   divert_key_event = NULL;
   *keyval = event->keyval;
   *state = dnm_sanitize_key_state(event);
+  //g_object_unref(event);
 }
 
 /**
@@ -43,23 +45,28 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   keymap *the_keymap = Denemo.commands;
   if(divert_key_event && !isModifier(event)) {
     *divert_key_event = event;
+    //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
     return 1;
   }
+
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
   gint command_idx = lookup_keybinding (the_keymap, event->keyval,
 			       dnm_sanitize_key_state(event));
   if (command_idx != -1) {
-      const gchar *command_name =
-          lookup_name_from_idx (the_keymap, command_idx);
-      if (execute_callback_from_idx(the_keymap, command_idx)) {
-          displayhelper (gui);
-          gtk_widget_draw (gui->scorearea, NULL);
-          return 1;
-      } else {
-          g_warning("No callback for action %s", command_name);
-      }
+    const gchar *command_name =
+      lookup_name_from_idx (the_keymap, command_idx);
+    if (command_name) {
+      Denemo.last_keyval = event->keyval;
+      Denemo.last_keystate =  dnm_sanitize_key_state(event);
+      execute_callback_from_name(the_keymap, command_name);
+      displayhelper (gui);
+      gtk_widget_draw (gui->scorearea, NULL);   
+      return 1;
+    } else {
+      g_warning("No action %i has no name", command_idx);
+    }
   }
   return 0;
 }
