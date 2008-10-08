@@ -5,7 +5,8 @@ SUBDIRS = m4 doc actions pixmaps po src \
 dist_sysconf_DATA = denemo.conf 
 
 EXTRA_DIST = mkinstalldirs  actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
-	     doc/DESIGN.lilypond README.lilypond include actions
+	     doc/DESIGN.lilypond README.lilypond include actions \
+	     guile-1.8.pc
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \

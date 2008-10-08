@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: denemo 0.7.3beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-04 21:47-0500\n"
+"POT-Creation-Date: 2008-10-08 11:06-0500\n"
 "PO-Revision-Date: 2005-02-11 23:18+0000\n"
 "Last-Translator:  <adam@ajtee.plus.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -743,7 +743,7 @@ msgstr ""
 msgid "playback after render"
 msgstr ""
 
-#: src/playbackprops.c:397 src/prefdialog.c:270
+#: src/playbackprops.c:397 src/prefdialog.c:304
 msgid "Externals"
 msgstr ""
 
@@ -759,67 +759,71 @@ msgstr ""
 msgid "Loaded Plugins"
 msgstr ""
 
-#: src/prefdialog.c:175
+#: src/prefdialog.c:182
 msgid "Preferences - Denemo"
 msgstr ""
 
-#: src/prefdialog.c:197
-msgid "Entry"
-msgstr ""
-
-#: src/prefdialog.c:201
-msgid "Play back entered notes immediately"
+#: src/prefdialog.c:204 src/entries.h:207
+msgid "View"
 msgstr ""
 
 #: src/prefdialog.c:208
+msgid "Play back entered notes immediately"
+msgstr ""
+
+#: src/prefdialog.c:215
 msgid "Display durations toolbar"
 msgstr ""
 
-#: src/prefdialog.c:217
+#: src/prefdialog.c:224
 msgid "Display articulation palette"
 msgstr ""
 
-#: src/prefdialog.c:225
+#: src/prefdialog.c:232
 msgid "Display rhythm pattern toolbar"
 msgstr ""
 
-#: src/prefdialog.c:235
+#: src/prefdialog.c:242
 msgid "Autosave every"
 msgstr ""
 
-#: src/prefdialog.c:246
+#: src/prefdialog.c:253
 msgid "minute(s)"
 msgstr ""
 
-#: src/prefdialog.c:252
+#: src/prefdialog.c:259
 msgid "Autosave Parts"
 msgstr ""
 
 #: src/prefdialog.c:276
-msgid "Path to Lilypond:"
-msgstr ""
-
-#: src/prefdialog.c:286
-msgid "Pdf Viewer"
-msgstr ""
-
-#: src/prefdialog.c:297
-msgid "Text Editor"
+msgid "Pitch Entry"
 msgstr ""
 
 #: src/prefdialog.c:310
+msgid "Path to Lilypond:"
+msgstr ""
+
+#: src/prefdialog.c:320
+msgid "Pdf Viewer"
+msgstr ""
+
+#: src/prefdialog.c:331
+msgid "Text Editor"
+msgstr ""
+
+#: src/prefdialog.c:342
 msgid "Default Save Path"
 msgstr ""
 
-#: src/prefdialog.c:330
+#: src/prefdialog.c:361
 msgid "Plugins"
 msgstr ""
 
-#: src/prefdialog.c:402
+#: src/prefdialog.c:433
 msgid "Help Settings"
 msgstr ""
 
-#: src/prefdialog.c:407
+#: src/prefdialog.c:438
 msgid "Help Browser:"
 msgstr ""
 
@@ -1123,120 +1127,120 @@ msgstr ""
 msgid "Customize tuplet multiplier"
 msgstr ""
 
-#: src/view.c:1305
+#: src/view.c:1320
 msgid "shortcut"
 msgstr ""
 
-#: src/view.c:1324
+#: src/view.c:1339
 msgid "Press the key combination desired"
 msgstr ""
 
-#: src/view.c:1334
+#: src/view.c:1349
 msgid "Press the shortcut key that you wish to delete"
 msgstr ""
 
-#: src/view.c:1730
+#: src/view.c:1745
 msgid " "
 msgstr ""
 
-#: src/view.c:1730
+#: src/view.c:1745
 msgid "Does nothing"
 msgstr ""
 
-#: src/view.c:2055
+#: src/view.c:2070
 msgid "Rhythms and Overlays"
 msgstr ""
 
-#: src/view.c:2055
+#: src/view.c:2070
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes using rhythm patterns and\n"
 "to overlay these with pitches"
 msgstr ""
 
-#: src/view.c:2058
+#: src/view.c:2073
 msgid "Note and rest entry"
 msgstr ""
 
-#: src/view.c:2058
+#: src/view.c:2073
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to enter notes and rests using the mouse"
 msgstr ""
 
-#: src/view.c:2061
+#: src/view.c:2076
 msgid "Menu of actions"
 msgstr ""
 
-#: src/view.c:2061
+#: src/view.c:2076
 msgid ""
 "Show/hide a menu which is arranged by actions\n"
 "The actions are independent of any mode set"
 msgstr ""
 
-#: src/view.c:2064
+#: src/view.c:2079
 msgid "Menu of objects"
 msgstr ""
 
-#: src/view.c:2064
+#: src/view.c:2079
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
 msgstr ""
 
-#: src/view.c:2067
+#: src/view.c:2082
 msgid "Show LilyPond"
 msgstr ""
 
-#: src/view.c:2067
+#: src/view.c:2082
 msgid "Show/hide the LilyPond music typesetting language window"
 msgstr ""
 
-#: src/view.c:2070
+#: src/view.c:2085
 msgid "Show Scheme Script"
 msgstr ""
 
-#: src/view.c:2070
+#: src/view.c:2085
 msgid "Show scheme script window"
 msgstr ""
 
-#: src/view.c:2073
+#: src/view.c:2088
 msgid "Microphone"
 msgstr ""
 
-#: src/view.c:2073
+#: src/view.c:2088
 msgid "Enable pitch entry from microphone"
 msgstr ""
 
-#: src/view.c:2076
+#: src/view.c:2091
 msgid "_Articulation Palette"
 msgstr ""
 
-#: src/view.c:2078
+#: src/view.c:2093
 msgid "Allow Quick Shortcut Edits"
 msgstr ""
 
-#: src/view.c:2080
+#: src/view.c:2095
 msgid "Record Scheme Script"
 msgstr ""
 
-#: src/view.c:2084
+#: src/view.c:2099
 msgid "Read Only"
 msgstr ""
 
-#: src/view.c:2092
+#: src/view.c:2107
 msgid "No mode"
 msgstr ""
 
-#: src/view.c:2094
+#: src/view.c:2109
 msgid "Classic"
 msgstr ""
 
-#: src/view.c:2096 src/entries.h:269 src/entries.h:318 src/entries.h:339
+#: src/view.c:2111 src/entries.h:269 src/entries.h:318 src/entries.h:339
 msgid "Insert"
 msgstr ""
 
-#: src/view.c:2096
+#: src/view.c:2111
 msgid ""
 "Mode for inserting notes into the score at the cursor position\n"
 "Uses prevailing duration/rhythm\n"
@@ -1244,72 +1248,72 @@ msgid ""
 "Use the note names to insert the note"
 msgstr ""
 
-#: src/view.c:2098 src/entries.h:206 src/entries.h:327 src/entries.h:332
+#: src/view.c:2113 src/entries.h:206 src/entries.h:327 src/entries.h:332
 msgid "Edit"
 msgstr ""
 
-#: src/view.c:2098
+#: src/view.c:2113
 msgid ""
 "Mode for changing the note at cursor (name, duration)\n"
 "and to enter notes by duration (rhythms)\n"
 "Use the durations to insert notes"
 msgstr ""
 
-#: src/view.c:2104
+#: src/view.c:2119
 msgid "Note"
 msgstr ""
 
-#: src/view.c:2104
+#: src/view.c:2119
 msgid "Normal (note) entry"
 msgstr ""
 
-#: src/view.c:2105
+#: src/view.c:2120
 msgid "Rest"
 msgstr ""
 
-#: src/view.c:2105
+#: src/view.c:2120
 msgid "Entering rests not notes"
 msgstr ""
 
-#: src/view.c:2106
+#: src/view.c:2121
 msgid "Non printing rests"
 msgstr ""
 
-#: src/view.c:2106
+#: src/view.c:2121
 msgid ""
 "Enters rests which will not be printed (just take up space)\n"
 "Used for positioning polyphonic voice entries"
 msgstr ""
 
-#: src/view.c:2107
+#: src/view.c:2122
 msgid "Rhythm"
 msgstr ""
 
-#: src/view.c:2107
+#: src/view.c:2122
 msgid "Mode for pure rhythyms"
 msgstr ""
 
-#: src/view.c:2444
+#: src/view.c:2459
 msgid "Show/Hide"
 msgstr ""
 
-#: src/view.c:2444
+#: src/view.c:2459
 msgid "Toggle visibility of section"
 msgstr ""
 
-#: src/view.c:2445
+#: src/view.c:2460
 msgid "Create Custom Version"
 msgstr ""
 
-#: src/view.c:2445
+#: src/view.c:2460
 msgid "Create a custom version of this block"
 msgstr ""
 
-#: src/view.c:2446
+#: src/view.c:2461
 msgid "Delete Block"
 msgstr ""
 
-#: src/view.c:2446
+#: src/view.c:2461
 msgid "Delete this block"
 msgstr ""
 
@@ -2253,10 +2257,6 @@ msgstr ""
 
 #: src/entries.h:206
 msgid "General editing commands"
-msgstr ""
-
-#: src/entries.h:207
-msgid "View"
 msgstr ""
 
 #: src/entries.h:207
