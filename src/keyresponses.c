@@ -41,7 +41,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.commands;
-  if(divert_key_event) {
+  if(divert_key_event && !isModifier(event)) {
     *divert_key_event = event;
     gtk_main_quit();
     return 1;
