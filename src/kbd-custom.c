@@ -528,14 +528,6 @@ keymap *allocate_keymap(void)
   return the_keymap;
 }
 
-/**
- * Utility function for free_keymap
- */
-static void
-free_element (gpointer value, gpointer user_data)
-{
-  g_free(value);
-}
 
 void
 free_keymap(keymap *the_keymap)
@@ -1288,11 +1280,7 @@ locatekeymapdir ()
 
 
 
-struct callbackdata
-{
-  keymap *the_keymap;
-  GtkWidget *filesel;
-};
+
 
 /**
  * This function is a callback that is wrapper for
@@ -1300,12 +1288,12 @@ struct callbackdata
  *FIXME note that non xml file support has been commented out
  */
 void
-load_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
+load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
 {
   gchar *name = (gchar *)
-    gtk_file_selection_get_filename (GTK_FILE_SELECTION (cbdata->filesel));
+    gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
   if(g_file_test (name, G_FILE_TEST_EXISTS))
-     load_keymap_file_named(cbdata->the_keymap, NULL, name);
+     load_keymap_file_named(Denemo.commands, NULL, name);
 }
 
 /**
@@ -1319,7 +1307,6 @@ void
 load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location)
 {
   GtkWidget *filesel;
-  static struct callbackdata cbdata;//FIXME why static????
   filesel = gtk_file_selection_new (_("Load Command Set"));
 #if 0
   GtkFileSelection *test = filesel;
@@ -1329,7 +1316,7 @@ load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *loc
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), location);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (load_keymap_from_dialog),
-		      &cbdata);
+		      (gpointer)filesel);
   gtk_signal_connect_object (GTK_OBJECT
 			     (GTK_FILE_SELECTION (filesel)->ok_button),
 			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
@@ -1339,47 +1326,37 @@ load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *loc
 			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (filesel));
 
-  cbdata.the_keymap = the_keymap;
-  cbdata.filesel = filesel;
+
   gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
   gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);
   gtk_widget_show (filesel);
 }
 
 void
-load_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+load_keymap_dialog (GtkWidget * widget)
 {
   gchar *keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
   if(keymapdir)
-    load_keymap_dialog_location (widget, the_keymap, keymapdir);
+    load_keymap_dialog_location (widget, Denemo.commands, keymapdir);
   else
     warningdialog("Cannot access your local .denemo");
   g_free(keymapdir);
 }
 
 void
-load_system_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+load_system_keymap_dialog (GtkWidget * widget)
 {
   gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
                                         NULL);
   if(systemwide)
-    load_keymap_dialog_location (widget, the_keymap, systemwide);
+    load_keymap_dialog_location (widget, Denemo.commands, systemwide);
   else
     warningdialog("Installation error");
   g_free(systemwide);
 }
 
 
-/**
- * Wrapper function to load keymap file
- * 
- */
-void
-load_default_keymap_file_wrapper (GtkWidget * widget, keymap * the_keymap)
-{
-  load_default_keymap_file (the_keymap);
 
-}
 
 /*
  * load_keymap_file_named: load a keymap file localrc, or if it fails, systemwide
@@ -1468,12 +1445,12 @@ static GScannerConfig scanner_config_template = {
  *
  */
 void
-save_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
+save_keymap_from_dialog (GtkWidget * widget, GtkWidget * filesel)
 {
   save_xml_keymap ((gchar *)
 		   gtk_file_selection_get_filename (GTK_FILE_SELECTION
-						    (cbdata->filesel)),
-		   cbdata->the_keymap);
+						    (filesel)),
+		   Denemo.commands);
 
 }
 
@@ -1482,11 +1459,11 @@ save_keymap_from_dialog (GtkWidget * widget, struct callbackdata *cbdata)
  * a user dialog.  Similar to file_saveas. 
  */
 void
-save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
+save_keymap_dialog (GtkWidget * widget)
 {
   GtkWidget *filesel;
-  static gchar *keymapdir = NULL;//FIXME static????
-  static struct callbackdata cbdata;
+  static gchar *keymapdir = NULL;
+
 
   if (!keymapdir)
     keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
@@ -1494,7 +1471,7 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
   gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), keymapdir);
   gtk_signal_connect (GTK_OBJECT (GTK_FILE_SELECTION (filesel)->ok_button),
 		      "clicked", GTK_SIGNAL_FUNC (save_keymap_from_dialog),
-		      &cbdata);
+		      (gpointer)filesel);
   gtk_signal_connect_object (GTK_OBJECT
 			     (GTK_FILE_SELECTION (filesel)->ok_button),
 			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
@@ -1503,9 +1480,6 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 			     (GTK_FILE_SELECTION (filesel)->cancel_button),
 			     "clicked", GTK_SIGNAL_FUNC (gtk_widget_destroy),
 			     GTK_OBJECT (filesel));
-
-  cbdata.the_keymap = the_keymap;
-  cbdata.filesel = filesel;
   gtk_window_set_modal (GTK_WINDOW (filesel), TRUE);
   gtk_window_set_position (GTK_WINDOW (filesel), GTK_WIN_POS_MOUSE);
   gtk_widget_show (filesel);
@@ -1518,8 +1492,7 @@ save_keymap_dialog (GtkWidget * widget, keymap * the_keymap)
 void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
 {
-  keymap * the_keymap = Denemo.commands;  
-  save_default_keymap_file (NULL, the_keymap);
+  save_default_keymap_file (NULL);
 }
 
 /**
@@ -1527,13 +1500,13 @@ save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
  *
  */
 void
-save_default_keymap_file (GtkWidget *widget, keymap * the_keymap)
+save_default_keymap_file (GtkWidget *widget)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
   if(keymapdir)
     localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  save_xml_keymap (localrc, the_keymap);
+  save_xml_keymap (localrc, Denemo.commands);
   g_free(localrc);
 }
 
@@ -1657,7 +1630,7 @@ void row_inserted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("insert\n");
     if (cbdata->command_idx != -1)
-        update_accel_labels(cbdata->the_keymap, cbdata->command_idx);
+        update_accel_labels(Denemo.commands, cbdata->command_idx);
 }
 
 void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
@@ -1666,7 +1639,7 @@ void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("delete\n");
     if (cbdata->command_idx != -1)
-        update_accel_labels(cbdata->the_keymap, cbdata->command_idx);
+        update_accel_labels(Denemo.commands, cbdata->command_idx);
 }
 
 //Performs cleanup on the keymap when a command view is closed

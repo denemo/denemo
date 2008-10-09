@@ -1335,11 +1335,8 @@ capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
 
 static void
 save_accels (void) {
-
-  save_default_keymap_file (NULL, Denemo.commands);
-
-
-      Denemo.accelerator_status = FALSE;
+  save_default_keymap_file (NULL);
+  Denemo.accelerator_status = FALSE;
 
 }
 

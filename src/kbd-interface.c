@@ -50,7 +50,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   command_idx = array[0];
   gtk_tree_path_free(path);
   //set the new binding
-  add_keybinding_from_idx(cbdata->the_keymap, event->keyval, modifiers,
+  add_keybinding_from_idx(Denemo.commands, event->keyval, modifiers,
           command_idx, POS_LAST);
   //TODO? advertize on the status bar the fact a keybinding was stolen
   //clean the GUI
@@ -78,7 +78,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   modifiers = dnm_sanitize_key_state(event);
  
   //look for the keybinding
-  command_idx = lookup_keybinding(cbdata->the_keymap, event->keyval, modifiers);
+  command_idx = lookup_keybinding(Denemo.commands, event->keyval, modifiers);
   //if the binding is associated to a command 
   if (command_idx != -1) {
       model = gtk_tree_view_get_model(cbdata->command_view);
@@ -155,7 +155,7 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
       return;
   //else get the binding and remove it
   gtk_tree_model_get(model, &iter, 0, &binding, -1);
-  remove_keybinding_from_string(cbdata->the_keymap, binding);
+  remove_keybinding_from_string(Denemo.commands, binding);
   g_free(binding);
 }
 
@@ -303,7 +303,6 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.command_view = GTK_TREE_VIEW(command_tree_view);
   cbdata.binding_view = GTK_TREE_VIEW(binding_tree_view);
   cbdata.text_view = GTK_TEXT_VIEW(text_view);
-  cbdata.the_keymap = Denemo.commands;
   cbdata.command_idx = -1;
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(command_tree_view));
@@ -422,7 +421,6 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.command = GTK_COMBO_BOX (command);
   cbdata.category = GTK_COMBO_BOX (category);
   cbdata.treeview = GTK_TREE_VIEW (treeview);
-  cbdata.thekeymap = Denemo.commands;
   cbdata.dialog = GTK_DIALOG (dialog);
 
   g_signal_connect (category, "changed", G_CALLBACK (category_changed),
@@ -443,18 +441,16 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
           G_CALLBACK(kbd_interface_del_binding), &cbdata);
   
   g_signal_connect (GTK_OBJECT (button_save), "clicked",
-		      G_CALLBACK(save_default_keymap_file), cbdata.the_keymap);
+		      G_CALLBACK(save_default_keymap_file), NULL);
   g_signal_connect (GTK_OBJECT (button_save_as), "clicked",
-		      G_CALLBACK(save_keymap_dialog), cbdata.the_keymap);
+		      G_CALLBACK(save_keymap_dialog), NULL);
   g_signal_connect (GTK_OBJECT (button_load), "clicked",
-		      G_CALLBACK(load_system_keymap_dialog), cbdata.the_keymap);
+		      G_CALLBACK(load_system_keymap_dialog), NULL);
 
-  //  g_signal_connect (GTK_OBJECT (button_load_standard_default), "clicked",
-  //		      G_CALLBACK(load_default_keymap_file_wrapper), cbdata.the_keymap);
 
 
   g_signal_connect (GTK_OBJECT (button_load_from), "clicked",
-		      G_CALLBACK(load_keymap_dialog), cbdata.the_keymap);
+		      G_CALLBACK(load_keymap_dialog), NULL);
 
 
   gtk_widget_show_all (dialog);
