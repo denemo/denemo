@@ -189,7 +189,8 @@
            <menuitem action="InsertTiedNote"/>
 	   <menuitem action="OctaveUp"/>
            <menuitem action="OctaveDown"/>
-
+	   <menuitem action="Sharpen"/>
+	   <menuitem action="Flatten"/>
          </menu>
 	  <menu action="EditDuration">
 
@@ -232,6 +233,8 @@
 <menuitem action="6"/>
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
+	   <menuitem action="Sharpen"/>
+	   <menuitem action="Flatten"/>
 	 </menu>
          
 	  	   
@@ -247,6 +250,8 @@
 	   <menuitem action="F"/>
 	   <menuitem action="G"/>
           <menuitem action="InsertTiedNote"/>
+	   <menuitem action="Sharpen"/>
+	   <menuitem action="Flatten"/>
          </menu>
 
 	  <menu action="SelectDuration">
