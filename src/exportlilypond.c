@@ -1141,8 +1141,30 @@ outputHeader (GString *str, DenemoGUI * gui)
   /*Print out lilypond syntax version */
   g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
 
+  /* print \paper block settings for excerpt */
+  if (gui->lilycontrol.excerpt == TRUE){
+    g_string_append_printf (str, "\\paper {printallheaders = ##f\n");
+    g_string_append_printf (str, "\t#(define dump-extents #t)\n");
+    g_string_append_printf (str, "\tline-width = 160\\mm - 2.0 * 0.4\\in\n");
+    g_string_append_printf (str, "\tragged-right = ##t\n");
+    g_string_append_printf (str, "\tindent = 0\\mm\n");
+    g_string_append_printf (str, "\tforce-assignment = #\"\"\n");
+    g_string_append_printf (str, "\tline-width = #(- line-width (* mm  3.000000))\n");
+    g_string_append_printf (str, "}\n");
+  }
+  /*
+   * #(define dump-extents #t)
+   *   
+   *     line-width = 160\mm - 2.0 * 0.4\in
+   *       ragged-right = ##t
+   *         indent = 0\mm
+   *           force-assignment = #""
+   *             line-width = #(- line-width (* mm  3.000000))
+   */
+  /* print \paper block settings for standard piece */
+  else 
   /* print \paper block setting printing of all headers */
-  g_string_append_printf (str, "\\paper {printallheaders = ##%c }\n", gui->lilycontrol.excerpt?'f':'t');
+    g_string_append_printf (str, "\\paper {printallheaders = ##t}\n");
 
 
 
