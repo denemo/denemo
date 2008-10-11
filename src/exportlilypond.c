@@ -1152,15 +1152,6 @@ outputHeader (GString *str, DenemoGUI * gui)
     g_string_append_printf (str, "\tline-width = #(- line-width (* mm  3.000000))\n");
     g_string_append_printf (str, "}\n");
   }
-  /*
-   * #(define dump-extents #t)
-   *   
-   *     line-width = 160\mm - 2.0 * 0.4\in
-   *       ragged-right = ##t
-   *         indent = 0\mm
-   *           force-assignment = #""
-   *             line-width = #(- line-width (* mm  3.000000))
-   */
   /* print \paper block settings for standard piece */
   else 
   /* print \paper block setting printing of all headers */
