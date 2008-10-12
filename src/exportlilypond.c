@@ -747,11 +747,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    else
 	      {
 		g_string_append_printf (ret, "\\skip ");
-		/* only in this case do we explicitly
-		   note the duration */
+	
 		g_string_append_printf (ret, "%d", duration);
-		prevduration = duration;
-		prevnumdots = numdots;
+		prevduration = -1;
+		prevnumdots = -1;
 		for (j = 0; j < numdots; j++)
 		  g_string_append_printf (ret, ".");
 	      }
@@ -839,9 +838,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		if (pchord->notes->next ||  ((note *) (pchord->notes)->data)->directive) //multi-note chord
 		  g_string_append_printf (ret, ">");
 	      } //end of note(s) that is(are) not invisible
-	    else //invisible note
+	    else //invisible note - does this case exist??
 	      {
 		g_string_append_printf (ret, "s");
+		
 	      }
 	    if (duration != prevduration || numdots != prevnumdots)
 	      {
@@ -851,8 +851,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		prevnumdots = numdots;
 		for (j = 0; j < numdots; j++)
 		  g_string_append_printf (ret, ".");
-	      }
-
+	      }	    
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
 		dynamic_string = (GString *) pchord->dynamics->data;
@@ -1358,7 +1357,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
-		prevduration = 0;
+		prevduration = -1;
 	      }
 	    if(figures->len)
 	      g_string_append(figures, "\n");
