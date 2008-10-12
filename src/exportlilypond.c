@@ -1339,9 +1339,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if( (curobjnode==NULL) || (curobjnode->next==NULL)) {	//at end of measure
 	    GString *endstr = g_string_new("");
-	    if (empty_measure)// measure has nothing to use up the duration, assume whole measure rest
+	    if (empty_measure)// measure has nothing to use up the duration, assume whole measure rest for primary voice, skip for secondaries.
 	      {
-		g_string_append_printf(endstr, "R1*%d/%d ", cur_stime1, cur_stime2);
+		g_string_append_printf(endstr, "%c1*%d/%d ",(curstaffstruct->voicenumber == 1)?'R':'s', cur_stime1, cur_stime2);// either R1 or s1 for whole measure rest or skip
 		gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 		gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1,invisibility,NULL);
 		g_string_assign(endstr,"");
