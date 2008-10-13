@@ -369,6 +369,7 @@ swapstaffs (GtkAction *action, gpointer param)
 	  setcurrents (gui->si);
 	  move_viewport_up (gui);
 	  score_status(gui, TRUE);
+	  displayhelper(gui);
 	  return TRUE;
 	}
     }
@@ -399,6 +400,7 @@ splitstaffs (GtkAction *action, gpointer param)
       setcurrents (gui->si);
       move_viewport_up (gui);
       score_status(gui, TRUE);
+      displayhelper(gui);
       return TRUE;
     }
   else
@@ -426,6 +428,7 @@ joinstaffs (GtkAction *action, gpointer param)
       setcurrents (gui->si);
       move_viewport_up (gui);
       score_status(gui, TRUE);
+      displayhelper(gui);
       return TRUE;
     }
   else
