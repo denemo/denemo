@@ -33,7 +33,7 @@ warningdialog (gchar * msg)
 
   dialog = gtk_message_dialog_new (NULL,
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
-				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, msg);
+				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
@@ -742,9 +742,9 @@ confirm (gchar *primary, gchar *secondary)
 				    GTK_DIALOG_DESTROY_WITH_PARENT),
 				   GTK_MESSAGE_QUESTION,
 				   GTK_BUTTONS_YES_NO,
-				   primary);
+				   "%s", primary);
 
-  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
+  gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog), "%s",
 					    secondary);
   gtk_widget_show_all (dialog);
   r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES);
