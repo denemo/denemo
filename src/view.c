@@ -1389,7 +1389,7 @@ toggle_record_script(GtkAction *action, gpointer param) {
 /* returns newly allocated string containing current Scheme in the ScriptView
  caller must free
 */
-static gchar *getSchemeText(void) {
+gchar *getSchemeText(void) {
   GtkTextIter startiter, enditer;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
   gtk_text_buffer_get_start_iter (buffer, &startiter);
@@ -1397,7 +1397,29 @@ static gchar *getSchemeText(void) {
   return gtk_text_buffer_get_text(buffer, &startiter, &enditer, FALSE);
 
 }
-static void executeScript(GtkWidget*w) {
+
+gint getNumCharsSchemeText(void) {
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
+  return gtk_text_buffer_get_char_count  (buffer);
+}
+
+void deleteSchemeText(void) {
+  GtkTextIter startiter, enditer;
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
+  gtk_text_buffer_get_start_iter (buffer, &startiter);
+  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+    gtk_text_buffer_delete (buffer, &startiter, &enditer);
+}
+
+void appendSchemeText(gchar *text) {
+  GtkTextIter enditer;
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
+  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+  gtk_text_buffer_insert(buffer, &enditer, text, -1);
+}
+
+
+void executeScript(void) {
   gchar *text = getSchemeText();
   g_print("Calling script %s\n", text);
   call_out_to_guile(text);

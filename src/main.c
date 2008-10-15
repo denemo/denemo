@@ -630,6 +630,7 @@ COPYING for details.\n\n") ;
         {
           g_print ("Attempt to read in file %s failed\n", argv[optind]);
           return 1;
-        }
+        } else if(getNumCharsSchemeText())
+	  executeScript(); 
     }
 }

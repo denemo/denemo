@@ -16,8 +16,10 @@
 #include "tupletops.h"
 #include "xmldefs.h"
 #include "articulations.h"
+#include "view.h"
 #include <string.h>
-#include <glib.h>
+
+
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -2631,8 +2633,19 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       break;
     case REPLACE_SCORE:
       free_gui(gui);
+      deleteSchemeText();
       /* this is dependent on the order of elements, which is not strictly correct */
       FOREACH_CHILD_ELEM(childElem, rootElem){
+
+	if (ELEM_NAME_EQ (childElem, "scheme")) {
+	  gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+						  childElem->
+						  xmlChildrenNode, 1);
+	  if (tmp != NULL) {
+	    appendSchemeText(tmp);
+	    g_free (tmp);
+	  }
+	} else
 	if (ELEM_NAME_EQ (childElem, "lilycontrol")){
 	  parseSetupInfo(childElem, ns, gui);
 	} else

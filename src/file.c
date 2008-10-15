@@ -359,6 +359,11 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	case DENEMO_FORMAT:
 	case DNM_FORMAT:
 	  {
+	    // HERE examine Denemo.Script and if present ask it it should be saved, if not delete the script.
+	    gchar *text = getSchemeText();
+	    if(text && !confirm("You have a Script defined", "Use this script every time this file is opened?") ) {
+	      deleteSchemeText();
+	    }										 
 	    exportXML (file, gui, 0, 0);
 	    break;
 	  };

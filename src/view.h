@@ -64,7 +64,11 @@ void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
 void      write_status(DenemoGUI *gui);
 
-
+gchar *getSchemeText(void); 
+void deleteSchemeText(void);
+void appendSchemeText(gchar *text);
+void executeScript(void);
+gint getNumCharsSchemeText(void);
 void
 activate_script (GtkAction *action, gpointer param);
 void 
