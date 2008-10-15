@@ -604,6 +604,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	       (xmlChar *) si->headerinfo.lilypond_before->str);
   xmlNewChild (parentElem, ns, (xmlChar *) "markup_after",
 	       (xmlChar *) si->headerinfo.lilypond_after->str);
+  xmlNewChild (parentElem, ns, (xmlChar *) "layout_markup",
+	       (xmlChar *) si->headerinfo.layout->str);
 
   /* Output each (primary) staff, and store the IDs in a hash table. */
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);

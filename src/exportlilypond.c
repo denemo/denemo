@@ -1888,8 +1888,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
      
       g_string_append_printf(scoreblock,
 			     ">>\n>>\n"
-			     ""TAB"\\layout {\n"
-			     ""TAB"}\n");
+			     ""TAB"\\layout {\n");
+			      /* if any layout markup place it in the \layout block */
+			       if(si->headerinfo.layout->len)
+				 g_string_append_printf (scoreblock, ""TAB""TAB"%s\n", si->headerinfo.layout->str);
+
+      g_string_append_printf(scoreblock, ""TAB"}\n");
      
       /* \header block */
       g_string_append_printf(scoreblock, "\\header{\n");

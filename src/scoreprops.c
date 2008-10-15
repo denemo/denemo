@@ -189,6 +189,7 @@ struct callbackdata
 
   GtkWidget *lilypond_before; 
   GtkWidget *lilypond_after;  
+  GtkWidget *layout;
   GtkWidget *extra;  
 };
 
@@ -219,6 +220,7 @@ ASSIGN(footer);
 ASSIGN(tagline);	  
 ASSIGN(lilypond_before); 
 ASSIGN(lilypond_after);  
+ASSIGN(layout);
 ASSIGN(extra); 
 }
 
@@ -290,6 +292,7 @@ GtkWidget *frame2;
 
   ACCESS(lilypond_before); 
   ACCESS(lilypond_after);  
+  ACCESS(layout);
   ACCESS(extra);  
 
 
