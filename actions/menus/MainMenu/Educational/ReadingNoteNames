@@ -7,6 +7,8 @@
       <row>
         <action>ReadingNoteNames</action>
         <scheme>
+
+;;;Scheme code for command ReadingNoteNames
 ;; tests note name recognition.
 ;; set the random seed up using time of day
      (let ((time (gettimeofday)))
@@ -42,7 +44,7 @@
 		  ;;(d-InsertLilyDirective "%Your score so far: ")
 		  (d-InsertLilyDirective (string-append (string-append  "%Score: " (object->string score)) ". Name this note"))
 		  (shiftdown steps)
-		  (set! usernote d-GetChar)
+		  (set! usernote  (d-GetChar)
 			)
 		  (if (string? usernote)
 		      (begin
@@ -62,6 +64,7 @@
 (d-MeasureRight)
 (d-AppendMeasure)
 (d-MeasureRight)
+
 
 </scheme>
         <menupath>/MainMenu/Educational/MusicReading</menupath>
