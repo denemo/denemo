@@ -134,16 +134,25 @@ readBytes (FILE * fp, gint numb)
 gint
 readheader (FILE * fp, midicallback *mididata)
 {
-  gint discard;
-  printf ("\nHeader length confirmed as %d Bytes", readBytes (fp, 4));
-  printf ("\nMidi format is %d", readBytes (fp, 2));
-  discard = readBytes (fp, 2);
-  mididata->PPQN = readBytes (fp, 2);
+  gint header_length;
+  gint midi_format;
+  gint number_of_tracks;
+  gint PPQN;
+
+  header_length = readBytes (fp, 4);
+  midi_format = readBytes (fp, 2);
+  number_of_tracks = readBytes (fp, 2);
+  PPQN = readBytes (fp, 2);
+  mididata->PPQN = PPQN;
+
 #ifdef DEBUG
-  printf ("\nNo. of Tracks is %d", discard);
-  printf ("\nPPQN is %d", mididata->PPQN);
+  printf ("\nHeader length confirmed as %d Bytes", header_length);
+  printf ("\nMidi format is %d", midi_format);
+  printf ("\nNo. of Tracks is %d", number_of_tracks);
+  printf ("\nPPQN is %d", PPQN);
 #endif
-  return discard;
+  
+  return number_of_tracks;
 }
 
 /**
