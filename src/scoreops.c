@@ -271,6 +271,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->headerinfo.extra = g_string_new ("breakbefore = ##f");
   HEADER(lilypond_before);
   HEADER(lilypond_after);
+  HEADER(layout);
 #undef HEADER
   if(gui->filename==NULL) {
     gui->filename = g_string_new ("");
@@ -338,6 +339,7 @@ free_score (DenemoGUI * gui)
   HEADER(tagline);
   HEADER(lilypond_before);
   HEADER(lilypond_after);
+  HEADER(layout);
   HEADER(extra);
 #undef HEADER
 

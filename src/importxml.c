@@ -1585,7 +1585,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
   gint bpm;
   gchar *title, *subtitle, *composer, *poet, *meter, *arranger, *opus;
   gchar *instrument, *dedication, *piece, *head, *copyright, *footer,
-    *tagline, *mvmnt_header, *markup_before, *markup_after;
+    *tagline, *mvmnt_header, *markup_before, *markup_after, *layout_markup;
 
   FOREACH_CHILD_ELEM (childElem, scoreInfoElem)
   {
@@ -1811,6 +1811,17 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 	      {
 		g_string_assign (si->headerinfo.lilypond_after, markup_after);
 		g_free (markup_after);
+	      }
+	  }
+	else if (ELEM_NAME_EQ (childElem, "layout_markup"))
+	  {
+	    layout_markup = (gchar *) xmlNodeListGetString (childElem->doc,
+						      childElem->
+						      xmlChildrenNode, 1);
+	    if (layout_markup != NULL)
+	      {
+		g_string_assign (si->headerinfo.layout, layout_markup);
+		g_free (layout_markup);
 	      }
 	  }
 
