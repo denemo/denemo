@@ -1398,9 +1398,10 @@ gchar *getSchemeText(void) {
 
 }
 
+/* Return number of characters in Scheme script */
 gint getNumCharsSchemeText(void) {
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
-  return gtk_text_buffer_get_char_count  (buffer);
+  return gtk_text_buffer_get_char_count(buffer);
 }
 
 void deleteSchemeText(void) {
