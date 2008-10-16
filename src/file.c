@@ -324,10 +324,62 @@ create_filename (const gchar * file_name, gint *format_id)
   return (g_strconcat (file_name, FORMAT_EXTENSION (*format_id), NULL));
 }
 
+/* Save gui in the file in format format_id to the file filename (or gui->filename
+   if filename is NULL)
+   If there is a scheme script, offers to save that with the file.
+ */
+static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
+  gchar *file = filename? filename:gui->filename->str;
+  switch (format_id)
+    {
+    case DENEMO_FORMAT:
+    case DNM_FORMAT:
+      {
+	// HERE examine Denemo.Script and if present ask it it should be saved with the file, if not delete the script.
+	    
+	if(getNumCharsSchemeText())
+	  if(!confirm("You have a Script defined", "Use this script every time this file is opened?")) {
+	    deleteSchemeText();
+	  }										 
+	exportXML (file, gui, 0, 0);
+	break;
+      };
+    case MUDELA_FORMAT:
+      {
+	gui->si->markstaffnum = 0;
+	exportlilypond (file, gui, TRUE);
+	break;
+      };
+    case PNG_FORMAT:
+      {
+	gui->lilycontrol.excerpt = TRUE;
+	exportlilypond (file, gui, TRUE);
+	break;
+      }
+    case ABC_FORMAT:
+      {
+	exportabc (file, gui, 0, 0);
+	break;
+      };
+    case MIDI_FORMAT:
+      {
+	exportmidi (file, gui->si, 0, 0);
+	break;
+      };
+    case CSOUND_FORMAT:
+      {
+	exportcsound (file, gui->si, 0, 0);
+	break;
+      };
+    default:
+      break;
+    };
+	
+}
+
 /**
  * File save called by fileselsave callback
  * param file_name is full path to file possibly with extension
- * FIXME duplicate code with file_save
  */
 static void
 filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean template)
@@ -350,63 +402,20 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
     set_gui_filename (gui, file);
   }
   basename = g_path_get_basename (file);
-  /* we don't want to save scores under ".denemo",
-     ".jtf" and so on. do we? */
-  if (basename[0] != '.')
-    {
-      switch (format_id)
-	{
-	case DENEMO_FORMAT:
-	case DNM_FORMAT:
-	  {
-	    // HERE examine Denemo.Script and if present ask it it should be saved, if not delete the script.
-	    gchar *text = getSchemeText();
-	    if(text && !confirm("You have a Script defined", "Use this script every time this file is opened?") ) {
-	      deleteSchemeText();
-	    }										 
-	    exportXML (file, gui, 0, 0);
-	    break;
-	  };
-	case MUDELA_FORMAT:
-	  {
-	    gui->si->markstaffnum = 0;
-	    exportlilypond (file, gui, TRUE);
-	    break;
-	  };
-	case PNG_FORMAT:
-	  {
-	    gui->lilycontrol.excerpt = TRUE;
-            exportlilypond (file, gui, TRUE);
-	    break;
-	  }
-	case ABC_FORMAT:
-	  {
-	    exportabc (file, gui, 0, 0);
-	    break;
-	  };
-	case MIDI_FORMAT:
-	  {
-	    exportmidi (file, si, 0, 0);
-	    break;
-	  };
-	case CSOUND_FORMAT:
-	  {
-	    exportcsound (file, si, 0, 0);
-	    break;
-	  };
-	default:
-	  break;
-	};
-	
-	/*export parts as lilypond files*/
-	if(Denemo.prefs.saveparts)
-		export_lilypond_parts(file,gui);
-	if(gui->lilysync==gui->changecount)
-	  gui->lilysync = 0;//still in sync
-	gui->changecount = 0;
-	score_status(gui, FALSE);
 
-	si->readonly = FALSE;
+  if (basename[0] != '.') // avoids empty filename
+    {
+      save_in_format(format_id, gui, file);
+      
+      /*export parts as lilypond files*/
+      if(Denemo.prefs.saveparts)
+	export_lilypond_parts(file,gui);
+      if(gui->lilysync==gui->changecount)
+	gui->lilysync = 0;//still in sync
+      gui->changecount = 0;
+      score_status(gui, FALSE);
+      
+      si->readonly = FALSE;
     }
   g_free(basename);
   g_free(file);
@@ -699,8 +708,8 @@ file_savewrapper (GtkAction * action, gpointer param)
 }
 
 /**
- * Filters the filename based on its extension and calls
- * the relevant export function
+ * if gui->filename exists saves gui to the filename  based on its extension
+ * otherwise call saveas routine
  */
 void
 file_save (GtkWidget * widget, DenemoGUI * gui)
@@ -711,6 +720,8 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
     /* No filename's been given or is opened from template */
     file_saveas (gui, FALSE);
   else
+    save_in_format(guess_file_format (gui->filename->str), gui, NULL);
+#if 0
     switch (guess_file_format (gui->filename->str))
       {
       case DENEMO_FORMAT:
@@ -747,6 +758,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
 	  break;
 	};
       };
+#endif
    /*Save parts as lilypond files*/   
    if(Denemo.prefs.saveparts)
 	export_lilypond_parts(gui->filename->str,gui);
