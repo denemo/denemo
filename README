@@ -14,6 +14,9 @@ export PORTAUDIO_LIBS="-L/usr/lib -lportaudio"
 
 (or usr/local/... if your package is there) before running autogen.sh
 
+If you have guile < 1.8.5 you need to copy the guile-1.8.pc file into the direcetory where your system stores .pc files. You can find this out by typing in:
+locate *.pc
+The reason for this is that guile < 1.8.5 does not come with a pkg-config file (unless your distro provided one for you).
 
 
 
@@ -55,7 +58,7 @@ it should work under other UN*X OSes as well;  A Win32 build is available
 - see the mailing lists)
 
 
-vActually using the darn program:
+Actually using the darn program:
 
 See the manual for up-to-date information - below is largely historical.
 
