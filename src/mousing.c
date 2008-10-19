@@ -91,6 +91,7 @@ struct placement_info
   staffnode *the_staff;
   measurenode *the_measure;
   objnode *the_obj;
+  gboolean nextmeasure;
 };
 
 /* find which staff in si the height y lies in, return the staff number (not counting non-primary staffs ie voices) */
@@ -138,7 +139,9 @@ get_placement_from_coordinates (struct placement_info *pi,
       mwidthiterator = mwidthiterator->next;
       pi->measure_number++;
     }
-
+  pi->nextmeasure = (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)
+		     && pi->measure_number >= si->rightmeasurenum);
+    
   pi->the_staff = g_list_nth (si->thescore, pi->staff_number - 1);
   pi->the_measure
     = nth_measure_node_in_staff (pi->the_staff, pi->measure_number - 1);
@@ -213,9 +216,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	  (gui->si->cursor_x ==
 	   (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
 	
-
+	//if(pi.nextmeasure) FIXME, extending selection is tricky, needs at least a timer
+	//measureright(gui);
 	set_cursor_y_from_click (gui, event->y);
 	calcmarkboundaries (gui->si);
+
 	/* redraw to show new cursor position  */
 	gtk_widget_queue_draw (gui->scorearea);
       }
@@ -251,7 +256,8 @@ DenemoGUI *gui = Denemo.gui;
       (gui->si->cursor_x ==
        (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
     set_cursor_y_from_click (gui, event->y);
-
+      if(pi.nextmeasure)
+	measureright(gui);
       if(gui->si->markstaffnum)
 	unset_mark(gui);
       else
