@@ -45,7 +45,9 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	transpose.c transpose.h
+	transpose.c transpose.h \
+	scheme.h scheme_cb.h register_commands.h
+
 EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
