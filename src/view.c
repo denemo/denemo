@@ -6,6 +6,7 @@
  * 
  */
 #include <string.h>
+#include <math.h>
 #include "view.h"
 #include "bookmarks.h"
 #include "lyparserfuncs.h"
@@ -1472,6 +1473,15 @@ static void  subst_illegals(gchar *myname) {gchar *c;// avoid whitespace etc
     if(*c==' '||*c=='\t'||*c=='\n'||*c=='/'||*c=='\\') 
       *c='-';
   }
+typedef struct ModifierAction {
+  GtkAction *action;
+  gint modnum;/* GdkModifierType number 0...12 */
+  gboolean press;/* if this is for press or release */
+}  ModifierAction;
+
+static void toggleMouseAction(GtkWidget *widget, ModifierAction *info) {
+  (info->press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum] = ((info->press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum]==info->action)?NULL:info->action;
+}
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
    given by the path myposition whose callback is the activate on the current scheme script.
@@ -1532,6 +1542,46 @@ static void append_scheme_call(gchar *func) {
   //g_print("Added %s\n", text);
   g_free(text); 
 }
+
+static GString* modifier_name(gint mod) {
+  gint i;
+  GString *ret = g_string_new("");
+  static const gchar* names[]= {
+ "SHIFT"   ,
+  "CAPSLOCK"	   ,
+  "CONTROL" ,
+  "ALT"	   ,
+  "NUMLOCK"	 ,
+  "MOD3"	   ,
+  "MOD4"	   ,
+  "ALTGR"
+  };
+  for(i=0;i<DENEMO_NUMBER_MODIFIERS;i++)
+    if((1<<i)&mod)
+      g_string_append_printf(ret, "%s%s", ret->len?"-":"",names[i]);
+  g_string_append_printf(ret, "%s", ret->len?" ":"(Plain) ");
+  //g_print("Returning %s for mod %d\n", ret->str, mod);
+  return ret;
+
+}
+
+/* insert a menu item into menu to set mouse clicks with modifier to action on press/release */
+static void  insert_menu_item_for_mouse_click(GtkWidget *menu, ModifierAction *info)
+  {
+  GtkWidget *item;
+  GtkAction *action = info->action;
+  gboolean press = info->press;
+  GString *modname = modifier_name(info->modnum);
+  gchar *label = g_strdup_printf("%s%s%s%s", modname->str, "Mouse ",press?"Press":"Release"," Activates this Action");
+  g_string_free(modname, TRUE);
+  item = gtk_check_menu_item_new_with_label(label);
+  g_free(label);
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum]==action);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "toggled", G_CALLBACK(toggleMouseAction), info);
+  }
+
+
 
 /*
   menu_click:
@@ -1599,16 +1649,32 @@ static gboolean menu_click (GtkWidget      *widget,
     g_free(filepath);
   filepath = g_build_filename (get_data_dir(), "actions", "menus", myposition, NULL);
   if(0==g_access(filepath, 4)) {
-    g_print("We can create a menu item for the path %s\n", filepath);
+    //g_print("We can create a menu item for the path %s\n", filepath);
     item = gtk_menu_item_new_with_label("More Commands for this Menu");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }
+
+  /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label("Show Current Script");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
 
+
+
+
+  static ModifierAction pressinfo, releaseinfo;
+  releaseinfo.action = pressinfo.action = action;
+  releaseinfo.modnum = pressinfo.modnum = event->state&DENEMO_MODIFIER_MASK;
+  pressinfo.press = TRUE;
+  releaseinfo.press = FALSE;
+  /* a check item setting Mouse button press */
+  insert_menu_item_for_mouse_click(menu, &pressinfo);
+  /* a check item setting Mouse button release */
+  insert_menu_item_for_mouse_click(menu, &releaseinfo);
+
+  g_print("Pointers %p %p\n", &pressinfo, &releaseinfo);
 
   //item = gtk_menu_item_new_with_label("Execute Current Script");
   //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);

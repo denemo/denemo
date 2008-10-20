@@ -267,6 +267,22 @@ DenemoGUI *gui = Denemo.gui;
       gtk_widget_queue_draw (gui->scorearea);
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
+
+
+   {
+    gint modnum = event->state&DENEMO_MODIFIER_MASK;
+    if(Denemo.PressActions[modnum])
+      gtk_action_activate(Denemo.PressActions[modnum]);
+  }
+  //g_print("Mask %x ie %d\n", event->state&GDK_MODIFIER_MASK,event->state&GDK_MODIFIER_MASK?(int)log2(event->state&GDK_MODIFIER_MASK):-1 );
+/*   GDK_SHIFT_MASK    = 1 << 0,                 */
+/*   GDK_LOCK_MASK	    = 1 << 1, caps lock  */
+/*   GDK_CONTROL_MASK  = 1 << 2,                 */
+/*   GDK_MOD1_MASK	    = 1 << 3,   alt intercepted  on my system       */
+/*   GDK_MOD2_MASK	    = 1 << 4, num lock   */
+
+/*   GDK_MOD5_MASK	    = 1 << 5, Alt-Gr   */
+
   return TRUE;
 }
 
@@ -279,7 +295,12 @@ gint
 scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
-  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
+  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+   {
+    gint modnum = event->state&DENEMO_MODIFIER_MASK;
+    if(Denemo.ReleaseActions[modnum])
+      gtk_action_activate(Denemo.ReleaseActions[modnum]);
+  }  
   return TRUE;
 }
 
