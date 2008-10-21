@@ -748,7 +748,7 @@ keymap_foreach_command_binding (keymap *the_keymap, guint command_idx,
 }
 /**
  *  Search through keybindings for a specific binding
- *
+ *  return the command idx for the command that is bound to the keyval,state pair, or -1 if none
  */
 gint
 lookup_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
@@ -759,7 +759,7 @@ lookup_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
   g_free(name);
   return res;
 }
-
+/* looks up the command idx for the binding of name binding_name */
 gint
 lookup_keybinding_from_string (keymap * the_keymap,
         const gchar *binding_name)
@@ -1028,6 +1028,7 @@ remove_keybinding_from_string (keymap * the_keymap, const gchar *binding)
 
 /*
  * Insert a binding to the bindings of command_idx.
+ * pos indicates where in the list of bindings to insert this binding.
  */
 static void
 add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
@@ -1068,26 +1069,13 @@ add_keybinding_from_name(keymap * the_keymap, gint keyval,
   command_idx = *(guint *) value;
   return add_keybinding_from_idx(the_keymap, keyval, state, command_idx, pos);
 }
-    
-/**
- * Adds a keybinding to the_keymap.  If the key was already bound,
- * this function removes the old binding and replaces it, returning
- * the number of the command this keybinding was attached to. Otherwise
- * returns -1. 
- */
+ 
 gint
-add_keybinding_from_idx (keymap * the_keymap, gint keyval,
-        GdkModifierType state, guint command_idx, KbdPosition pos)
+add_named_binding_from_idx (keymap * the_keymap, gchar *kb_name,  guint command_idx, KbdPosition pos)
 {
   guint *new_idx;
   gint old_command_idx;
-  gpointer value;
-  gchar *kb_name;
-  gboolean flag_update_accel;
-  
-  kb_name = dnm_accelerator_name(keyval, state);
-  old_command_idx = lookup_keybinding(the_keymap, keyval, state);
-  
+  old_command_idx = lookup_keybinding_from_string(the_keymap, kb_name);//lookup_keybinding(the_keymap, keyval, state);  
   //if the keybinding was previously used, remove it from bindings and update
   //its accels
   if (old_command_idx != -1) {
@@ -1106,7 +1094,26 @@ add_keybinding_from_idx (keymap * the_keymap, gint keyval,
   *new_idx = command_idx;
   g_hash_table_insert(the_keymap->idx_from_keystring, g_strdup(kb_name),
           new_idx);
-  
+  return old_command_idx;
+}
+
+   
+/**
+ * Adds a keybinding to the_keymap.  If the key was already bound,
+ * this function removes the old binding and replaces it, returning
+ * the number of the command this keybinding was attached to. Otherwise
+ * returns -1. 
+ */
+gint
+add_keybinding_from_idx (keymap * the_keymap, gint keyval,
+        GdkModifierType state, guint command_idx, KbdPosition pos)
+{
+  gint old_command_idx;
+  gpointer value;
+  gchar *kb_name;
+  gboolean flag_update_accel;
+  kb_name = dnm_accelerator_name(keyval, state);
+  old_command_idx = add_named_binding_from_idx (the_keymap, kb_name, command_idx, pos);
   g_free(kb_name);
   Denemo.accelerator_status = TRUE;
   return old_command_idx;
