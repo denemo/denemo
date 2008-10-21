@@ -2088,11 +2088,7 @@ toggle_entry_toolbar (GtkAction * action, DenemoGUI * gui)
 static void
 toggle_quick_edits (GtkAction * action, DenemoGUI * gui)
 {
-  static gboolean set;
-  GtkSettings * settings =
-    gtk_settings_get_for_screen(gdk_screen_get_default());
-  if (settings)
-    gtk_settings_set_long_property(settings, "gtk-can-change-accels", set = !set, ".gtkrc:0");
+  Denemo.QuickShortcutEdits = !Denemo.QuickShortcutEdits;
 }
 
 
@@ -2315,7 +2311,7 @@ gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event,
     if (event->type == GDK_KEY_RELEASE)
         return FALSE;
     //if the grab_widget is a menu, the event could be a quick edit
-    if (GTK_IS_MENU (grab_widget)) {
+    if (Denemo.QuickShortcutEdits && GTK_IS_MENU (grab_widget)) {
         return keymap_accel_quick_edit_snooper(grab_widget, event, the_keymap);
     }
     //else we let the event be processed by other functions

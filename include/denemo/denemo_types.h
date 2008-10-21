@@ -674,6 +674,7 @@ struct DenemoRoot
   GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */
   GtkWidget *EditModeMenu;/**< Menu to give the note editing facilities in Edit mode */
   GtkWidget *ModelessMenu;/**< Menu to give the note editing facilities when used without modes */
+  gboolean QuickShortcutEdits;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
 #define DENEMO_NUMBER_MODIFIERS (8) /* built in to GDK for GdkModifierType */
 #define DENEMO_MODIFIER_MASK (255)
   GtkAction *PressActions[256];/**< Actions to take when pressing mouse with GDK_*_MASK modifiers */
