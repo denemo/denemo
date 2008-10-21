@@ -87,11 +87,11 @@ keymap_foreach_command_binding (keymap *the_keymap, guint command_idx,
 
 //-1 if the binding is not found
 gint
-lookup_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
+lookup_command_for_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
 
 //-1 if the binding is not found
 gint
-lookup_keybinding_from_string (keymap *the_keymap, const gchar *binding_name);
+lookup_command_for_keybinding_name (keymap *the_keymap, const gchar *binding_name);
 
 //GList*
 //lookup_keybindings_from_name(keymap* keymap, const gchar* name);
@@ -100,7 +100,7 @@ lookup_keybinding_from_string (keymap *the_keymap, const gchar *binding_name);
 //lookup_keybindings_by_idx(keymap* keymap, guint idx);
 
 gint 
-lookup_index_from_name (keymap * keymap, const gchar *command_name);
+lookup_command_from_name (keymap * keymap, const gchar *command_name);
 
 const gchar *
 lookup_name_from_idx(keymap *keymap, guint command_idx);
@@ -121,20 +121,22 @@ void
 remove_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
 
 void
-remove_keybinding_from_string (keymap *the_keymap, const gchar *binding);
+remove_keybinding_from_name (keymap *the_keymap, const gchar *binding);
 
 typedef enum {
 	POS_FIRST = 0,
 	POS_LAST
-} KbdPosition;
+} ListPosition;
 
 gint
-add_keybinding_from_idx (keymap * the_keymap, gint keyval,
-        GdkModifierType state, guint command_idx, KbdPosition pos);
+add_keybinding_to_idx (keymap * the_keymap, gint keyval,
+        GdkModifierType state, guint command_idx, ListPosition pos);
 gint
-add_keybinding_from_name (keymap *the_keymap, gint keyval,
-        GdkModifierType state, const gchar *command_name, KbdPosition pos);
-
+add_keybinding_to_named_command (keymap *the_keymap, gint keyval,
+        GdkModifierType state, const gchar *command_name, ListPosition pos);
+gint
+add_named_binding_to_idx (keymap * the_keymap, gchar *kb_name,
+			  guint command_idx, ListPosition pos);
 gint
 keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
 		GdkModifierType modifiers);
@@ -144,8 +146,10 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
 		gpointer func_data);
 
 GtkAction *
-action_of_name(keymap *the_keymap, gchar *command_name);
-
+lookup_action_from_name(keymap *the_keymap, gchar *command_name);
+#define action_of_name lookup_action_from_name
+const GtkAction *
+lookup_action_from_idx (keymap * keymap, guint command_idx);
 gboolean
 execute_callback_from_idx(keymap *the_keymap, guint command_idx);
 gboolean

@@ -264,7 +264,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	    }
 	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "bind"))
 	{
-	  command_number = lookup_index_from_name (the_keymap, (gchar *) name);
+	  command_number = lookup_command_from_name (the_keymap, (gchar *) name);
 	  //g_print("Found bind node for action %s %d\n", name, command_number);
 	  if (cur->xmlChildrenNode == NULL)
             {
@@ -276,15 +276,22 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	      if (tmp)
 		{
+
+
+#if 1
+		  if (command_number != -1)
+		    add_named_binding_to_idx (the_keymap, tmp, command_number, POS_LAST);
+
+#else
 		  gchar *gtk_binding = translate_binding_dnm_to_gtk((gchar *) tmp);
           if (gtk_binding) {
             dnm_accelerator_parse(gtk_binding, &keyval, &state);
-#ifdef DEBUG
+  #ifdef DEBUG
 		    g_print ("binding %s, keyval %d, state %d, Command Number %d\n",
                   gtk_binding, keyval, state, command_number);
-#endif
+  #endif
 		    if (command_number != -1)
-		        add_keybinding_from_idx (the_keymap, keyval, state,
+		        add_keybinding_to_idx (the_keymap, keyval, state,
 						 command_number, POS_LAST);
 //FIXME PROBLEM, there are no proxies for the MyName command, even though we have just created it...
 		  
@@ -292,6 +299,9 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
           } else {
               g_warning("Could not parse binding", (gchar *) tmp);
           }
+#endif
+
+
 		  xmlFree (tmp);
 		}
 	    }

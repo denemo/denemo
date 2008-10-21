@@ -284,7 +284,7 @@ SCM scheme_get_command(void) {
  GString *name=g_string_new("");
  gboolean success = intercept_scorearea_keypress(&keyval, &state);
  if(success) {
-   gint cmd = lookup_keybinding(Denemo.commands, keyval, state);
+   gint cmd = lookup_command_for_keybinding(Denemo.commands, keyval, state);
    if(cmd!=-1)
      name = g_string_append(name, lookup_name_from_idx (Denemo.commands, cmd));
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
@@ -1479,8 +1479,23 @@ typedef struct ModifierAction {
   gboolean press;/* if this is for press or release */
 }  ModifierAction;
 
+
 static void toggleMouseAction(GtkWidget *widget, ModifierAction *info) {
-  (info->press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum] = ((info->press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum]==info->action)?NULL:info->action;
+  GString *modname = modifier_name(info->modnum, info->press);
+  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
+  GtkAction *current_action=NULL;
+  if(command_idx >= 0)
+    current_action = lookup_action_from_idx(Denemo.commands, command_idx);
+
+  if(current_action==info->action)
+    remove_keybinding_from_name(Denemo.commands, modname->str);//by_name
+  else {
+    const gchar *name = gtk_action_get_name(info->action);
+    command_idx = lookup_command_from_name (Denemo.commands, name);
+    if(command_idx >= 0)
+      add_named_binding_to_idx (Denemo.commands,  modname->str, command_idx, POS_LAST);
+  }
+  g_string_free(modname, TRUE);
 }
 
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
@@ -1543,27 +1558,6 @@ static void append_scheme_call(gchar *func) {
   g_free(text); 
 }
 
-static GString* modifier_name(gint mod) {
-  gint i;
-  GString *ret = g_string_new("");
-  static const gchar* names[]= {
- "SHIFT"   ,
-  "CAPSLOCK"	   ,
-  "CONTROL" ,
-  "ALT"	   ,
-  "NUMLOCK"	 ,
-  "MOD3"	   ,
-  "MOD4"	   ,
-  "ALTGR"
-  };
-  for(i=0;i<DENEMO_NUMBER_MODIFIERS;i++)
-    if((1<<i)&mod)
-      g_string_append_printf(ret, "%s%s", ret->len?"-":"",names[i]);
-  g_string_append_printf(ret, "%s", ret->len?" ":"(Plain) ");
-  //g_print("Returning %s for mod %d\n", ret->str, mod);
-  return ret;
-
-}
 
 /* insert a menu item into menu to set mouse clicks with modifier to action on press/release */
 static void  insert_menu_item_for_mouse_click(GtkWidget *menu, ModifierAction *info)
@@ -1571,12 +1565,16 @@ static void  insert_menu_item_for_mouse_click(GtkWidget *menu, ModifierAction *i
   GtkWidget *item;
   GtkAction *action = info->action;
   gboolean press = info->press;
-  GString *modname = modifier_name(info->modnum);
-  gchar *label = g_strdup_printf("%s%s%s%s", modname->str, "Mouse ",press?"Press":"Release"," Activates this Action");
-  g_string_free(modname, TRUE);
+  GString *modname = modifier_name(info->modnum, press);
+  gchar *label = g_strdup_printf("%s%s%s",  "Mouse ",modname->str," Activates this Action");
   item = gtk_check_menu_item_new_with_label(label);
   g_free(label);
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), (press?Denemo.PressActions:Denemo.ReleaseActions)[info->modnum]==action);
+  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
+  GtkAction *current_action=NULL;
+  if(command_idx >= 0)
+    current_action = lookup_action_from_idx(Denemo.commands, command_idx);
+  g_string_free(modname, TRUE);
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), current_action==action);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "toggled", G_CALLBACK(toggleMouseAction), info);
   }
@@ -1606,7 +1604,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
 
 
-  gint idx = lookup_index_from_name (the_keymap, func_name);
+  gint idx = lookup_command_from_name (the_keymap, func_name);
   //g_print("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3) //Not right click
     if(Denemo.ScriptRecording)
@@ -1660,7 +1658,6 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
-
 
 
 
@@ -2412,7 +2409,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 #endif
   if(Denemo.commands==NULL)
      return;
-  command_idx = lookup_index_from_name(Denemo.commands,
+  command_idx = lookup_command_from_name(Denemo.commands,
 				       gtk_action_get_name(action));
   if (command_idx != -1) 
     update_accel_labels(Denemo.commands, command_idx);

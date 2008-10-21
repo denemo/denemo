@@ -751,17 +751,17 @@ keymap_foreach_command_binding (keymap *the_keymap, guint command_idx,
  *  return the command idx for the command that is bound to the keyval,state pair, or -1 if none
  */
 gint
-lookup_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
+lookup_command_for_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
 {
   gint res;
   gchar *name = dnm_accelerator_name(keyval, state);
-  res = lookup_keybinding_from_string(the_keymap, name);
+  res = lookup_command_for_keybinding_name(the_keymap, name);
   g_free(name);
   return res;
 }
 /* looks up the command idx for the binding of name binding_name */
 gint
-lookup_keybinding_from_string (keymap * the_keymap,
+lookup_command_for_keybinding_name (keymap * the_keymap,
         const gchar *binding_name)
 {
   gpointer *value = g_hash_table_lookup (the_keymap->idx_from_keystring,
@@ -772,36 +772,7 @@ lookup_keybinding_from_string (keymap * the_keymap,
     return -1;
 }
 
-/**
- * Look up a key binding by name.
- * FIXME: This is inefficent. The keybinding structures needs a rework to be more usefull and robust.
- *
- * deprecated and not reimplemented, developper should use
- * keymap_foreach_command_binding
- * 
- * @param keymap
- * @param name
- * @returns the list of keybinding, or NULL if not found
- */
-/*
-GList *
-lookup_keybindings_by_name (keymap * keymap, const gchar * name)
-{
-  gpointer value = g_hash_table_lookup(keymap->idx_from_name, name);
-  if (value)
-      return lookup_keybindings_by_idx(keymap, *(guint *)value);
-  else {
-      g_warning ("Could not find command '%s'\n", name);
-      return NULL;
-  }
-}
 
-GList *
-lookup_keybindings_by_idx (keymap * keymap, guint idx)
-{
-  return g_array_index(keymap->bindings, GList *, idx);
-}
-*/
 
 /**
  * Look up for a command index.
@@ -810,7 +781,7 @@ lookup_keybindings_by_idx (keymap * keymap, guint idx)
  * @param name
  */
 gint 
-lookup_index_from_name (keymap * keymap, const gchar *command_name)
+lookup_command_from_name (keymap * keymap, const gchar *command_name)
 {
   gpointer value = g_hash_table_lookup(keymap->idx_from_name, command_name);
   if (value)
@@ -1010,12 +981,12 @@ void
 remove_keybinding (keymap * the_keymap, gint keyval, GdkModifierType state)
 {
   gchar *name = dnm_accelerator_name(keyval, state);
-  remove_keybinding_from_string(the_keymap, name);
+  remove_keybinding_from_name(the_keymap, name);
   g_free(name);
 }
 
 void
-remove_keybinding_from_string (keymap * the_keymap, const gchar *binding)
+remove_keybinding_from_name (keymap * the_keymap, const gchar *binding)
 {
   gint *value;
   value = (gint *) g_hash_table_lookup(the_keymap->idx_from_keystring, binding);
@@ -1032,7 +1003,7 @@ remove_keybinding_from_string (keymap * the_keymap, const gchar *binding)
  */
 static void
 add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
-        const gchar *binding, KbdPosition pos)
+        const gchar *binding, ListPosition pos)
 {
   command_row row;
   GtkTreeIter iter;
@@ -1056,8 +1027,8 @@ add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
 }
 
 gint
-add_keybinding_from_name(keymap * the_keymap, gint keyval,
-        GdkModifierType state, const gchar *command_name, KbdPosition pos) 
+add_keybinding_to_named_command(keymap * the_keymap, gint keyval,
+        GdkModifierType state, const gchar *command_name, ListPosition pos) 
 {
   gpointer value;
   guint command_idx;
@@ -1067,15 +1038,15 @@ add_keybinding_from_name(keymap * the_keymap, gint keyval,
       return -1;
   }
   command_idx = *(guint *) value;
-  return add_keybinding_from_idx(the_keymap, keyval, state, command_idx, pos);
+  return add_keybinding_to_idx(the_keymap, keyval, state, command_idx, pos);
 }
  
 gint
-add_named_binding_from_idx (keymap * the_keymap, gchar *kb_name,  guint command_idx, KbdPosition pos)
+add_named_binding_to_idx (keymap * the_keymap, gchar *kb_name,  guint command_idx, ListPosition pos)
 {
   guint *new_idx;
   gint old_command_idx;
-  old_command_idx = lookup_keybinding_from_string(the_keymap, kb_name);//lookup_keybinding(the_keymap, keyval, state);  
+  old_command_idx = lookup_command_for_keybinding_name(the_keymap, kb_name);//lookup_keybinding(the_keymap, keyval, state);  
   //if the keybinding was previously used, remove it from bindings and update
   //its accels
   if (old_command_idx != -1) {
@@ -1105,15 +1076,15 @@ add_named_binding_from_idx (keymap * the_keymap, gchar *kb_name,  guint command_
  * returns -1. 
  */
 gint
-add_keybinding_from_idx (keymap * the_keymap, gint keyval,
-        GdkModifierType state, guint command_idx, KbdPosition pos)
+add_keybinding_to_idx (keymap * the_keymap, gint keyval,
+        GdkModifierType state, guint command_idx, ListPosition pos)
 {
   gint old_command_idx;
   gpointer value;
   gchar *kb_name;
   gboolean flag_update_accel;
   kb_name = dnm_accelerator_name(keyval, state);
-  old_command_idx = add_named_binding_from_idx (the_keymap, kb_name, command_idx, pos);
+  old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
   g_free(kb_name);
   Denemo.accelerator_status = TRUE;
   return old_command_idx;
@@ -1176,13 +1147,13 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
  //If this menu item has no action we give up
   if (!action)
     return TRUE;
-  gint idx = lookup_index_from_name(the_keymap, gtk_action_get_name(action));
+  gint idx = lookup_command_from_name(the_keymap, gtk_action_get_name(action));
   //If this menu item  action is not registered in the
   //keymap, we give up
   if (idx == -1)
     return TRUE;
   //Add the keybinding
-  add_keybinding_from_idx(the_keymap, keyval, modifiers, idx, POS_FIRST);
+  add_keybinding_to_idx(the_keymap, keyval, modifiers, idx, POS_FIRST);
   return TRUE;
 }
 gboolean
@@ -1201,7 +1172,7 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
 
 
 
-GtkAction *action_of_name(keymap *the_keymap, gchar *command_name) { 
+GtkAction *lookup_action_from_name (keymap *the_keymap, gchar *command_name) { 
   // GtkActionGroup *action_group = get_action_group(the_keymap);
   return gtk_action_group_get_action(Denemo.action_group, command_name);
 }
@@ -1247,7 +1218,7 @@ dump_command_info (keymap *the_keymap, gint command_idx)
   do {
     gtk_tree_model_get(model_bind, &iter, 0, &cur_binding, -1);
     g_print("\t%s (%d)\n", cur_binding,
-            lookup_keybinding_from_string(the_keymap, cur_binding));
+            lookup_command_for_keybinding_name(the_keymap, cur_binding));
     g_free(cur_binding);
   } while (gtk_tree_model_iter_next(model_bind, &iter));
   g_object_unref(row.bindings);

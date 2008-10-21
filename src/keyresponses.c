@@ -52,7 +52,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
-  gint command_idx = lookup_keybinding (the_keymap, event->keyval,
+  gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_sanitize_key_state(event));
   if (command_idx != -1) {
     const gchar *command_name =

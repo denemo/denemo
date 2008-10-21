@@ -50,7 +50,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   command_idx = array[0];
   gtk_tree_path_free(path);
   //set the new binding
-  add_keybinding_from_idx(Denemo.commands, event->keyval, modifiers,
+  add_keybinding_to_idx(Denemo.commands, event->keyval, modifiers,
           command_idx, POS_LAST);
   //TODO? advertize on the status bar the fact a keybinding was stolen
   //clean the GUI
@@ -78,7 +78,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   modifiers = dnm_sanitize_key_state(event);
  
   //look for the keybinding
-  command_idx = lookup_keybinding(Denemo.commands, event->keyval, modifiers);
+  command_idx = lookup_command_for_keybinding(Denemo.commands, event->keyval, modifiers);
   //if the binding is associated to a command 
   if (command_idx != -1) {
       model = gtk_tree_view_get_model(cbdata->command_view);
@@ -155,7 +155,7 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
       return;
   //else get the binding and remove it
   gtk_tree_model_get(model, &iter, 0, &binding, -1);
-  remove_keybinding_from_string(Denemo.commands, binding);
+  remove_keybinding_from_name(Denemo.commands, binding);
   g_free(binding);
 }
 
