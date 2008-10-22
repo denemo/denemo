@@ -268,7 +268,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	  //g_print("Found bind node for action %s %d\n", name, command_number);
 	  if (cur->xmlChildrenNode == NULL)
             {
-              g_warning ("Empty children node found in keymap file\n");
+              g_warning ("Empty <bind><\\bind> found in commandset file\n");
             }
 	  else
 	    {
@@ -276,32 +276,28 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	      if (tmp)
 		{
-
-
-#if 1
-		  if (command_number != -1)
-		    add_named_binding_to_idx (the_keymap, tmp, command_number, POS_LAST);
-
-#else
 		  gchar *gtk_binding = translate_binding_dnm_to_gtk((gchar *) tmp);
-          if (gtk_binding) {
-            dnm_accelerator_parse(gtk_binding, &keyval, &state);
-  #ifdef DEBUG
+		  //g_print("gtk_binding is %s\n", gtk_binding);
+		  if (gtk_binding) {
+		    dnm_accelerator_parse(gtk_binding, &keyval, &state);
+#ifdef DEBUG
 		    g_print ("binding %s, keyval %d, state %d, Command Number %d\n",
-                  gtk_binding, keyval, state, command_number);
-  #endif
-		    if (command_number != -1)
-		        add_keybinding_to_idx (the_keymap, keyval, state,
-						 command_number, POS_LAST);
-//FIXME PROBLEM, there are no proxies for the MyName command, even though we have just created it...
-		  
-		    g_free (gtk_binding);
-          } else {
-              g_warning("Could not parse binding", (gchar *) tmp);
-          }
+			     gtk_binding, keyval, state, command_number);
 #endif
-
-
+		    
+		    if (command_number != -1){
+		      if(keyval) 
+			add_keybinding_to_idx (the_keymap, keyval, state,
+					       command_number, POS_LAST);
+		      else
+			add_named_binding_to_idx (the_keymap, tmp, command_number, POS_LAST);
+		    }
+		    //FIXME PROBLEM, there are no proxies for the MyName command, even though we have just created it...
+		    
+		    g_free (gtk_binding);
+		  } else {
+		    g_print("No gtk equivalent for shortcut %s\n", tmp);
+		  }
 		  xmlFree (tmp);
 		}
 	    }
