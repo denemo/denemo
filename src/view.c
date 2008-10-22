@@ -1477,11 +1477,12 @@ typedef struct ModifierAction {
   GtkAction *action;
   gint modnum;/* GdkModifierType number 0...12 */
   gboolean press;/* if this is for press or release */
+  gboolean left;/* if this is for left or right mouse button */
 }  ModifierAction;
 
 
 static void toggleMouseAction(GtkWidget *widget, ModifierAction *info) {
-  GString *modname = modifier_name(info->modnum, info->press);
+  GString *modname = modifier_name(info->modnum, info->press, info->left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
   GtkAction *current_action=NULL;
   if(command_idx >= 0)
@@ -1565,7 +1566,8 @@ static void  insert_menu_item_for_mouse_click(GtkWidget *menu, ModifierAction *i
   GtkWidget *item;
   GtkAction *action = info->action;
   gboolean press = info->press;
-  GString *modname = modifier_name(info->modnum, press);
+  gboolean left = info->left;
+  GString *modname = modifier_name(info->modnum, press, left);
   gchar *label = g_strdup_printf("%s%s%s",  "Mouse ",modname->str," Activates this Action");
   item = gtk_check_menu_item_new_with_label(label);
   g_free(label);
@@ -1661,17 +1663,23 @@ static gboolean menu_click (GtkWidget      *widget,
 
 
 
-  static ModifierAction pressinfo, releaseinfo;
-  releaseinfo.action = pressinfo.action = action;
-  releaseinfo.modnum = pressinfo.modnum = event->state&DENEMO_MODIFIER_MASK;
-  pressinfo.press = TRUE;
-  releaseinfo.press = FALSE;
-  /* a check item setting Mouse button press */
-  insert_menu_item_for_mouse_click(menu, &pressinfo);
-  /* a check item setting Mouse button release */
-  insert_menu_item_for_mouse_click(menu, &releaseinfo);
+  static ModifierAction leftpressinfo, leftreleaseinfo,  rightpressinfo, rightreleaseinfo;
+  leftreleaseinfo.action = rightpressinfo.action =rightreleaseinfo.action = leftpressinfo.action = action;
+  leftreleaseinfo.modnum = rightpressinfo.modnum =rightreleaseinfo.modnum = leftpressinfo.modnum = event->state&DENEMO_MODIFIER_MASK;
+  leftpressinfo.press = rightpressinfo.press = TRUE;
+  leftreleaseinfo.press =rightreleaseinfo.press = FALSE;
+  leftpressinfo.left = leftreleaseinfo.left = FALSE;
+  rightpressinfo.left = rightreleaseinfo.left = TRUE;
 
-  g_print("Pointers %p %p\n", &pressinfo, &releaseinfo);
+  /* a check item setting Mouse leftbutton press */
+  insert_menu_item_for_mouse_click(menu, &leftpressinfo);
+  /* a check item setting Mouse leftbutton release */
+  insert_menu_item_for_mouse_click(menu, &leftreleaseinfo);
+
+  /* a check item setting Mouse rightbutton press */
+  insert_menu_item_for_mouse_click(menu, &rightpressinfo);
+  /* a check item setting Mouse rightbutton release */
+  insert_menu_item_for_mouse_click(menu, &rightreleaseinfo);
 
   //item = gtk_menu_item_new_with_label("Execute Current Script");
   //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);

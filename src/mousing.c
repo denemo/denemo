@@ -229,9 +229,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 }
 
-GString* modifier_name(gint mod, gboolean press) {
+GString* modifier_name(gint mod, gboolean press, gboolean left) {
   gint i;
-  GString *ret = press?g_string_new("Press"):g_string_new("Release");
+  GString *ret = g_string_new(press?(left?"PrsL":"PrsR"):(left?"RlsL":"RlsR"));
   static const gchar* names[]= {
  "Shift"   ,
   "CapsLock"	   ,
@@ -254,9 +254,9 @@ GString* modifier_name(gint mod, gboolean press) {
 
 /* perform an action for mouse-click stored with shortcuts */
 static void  
-perform_command(gint modnum, gboolean press)
+perform_command(gint modnum, gboolean press, gboolean left)
 {
-  GString *modname = modifier_name(modnum, press);
+  GString *modname = modifier_name(modnum, press, left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
   if(command_idx>=0) {
     execute_callback_from_idx (Denemo.commands, command_idx);
@@ -274,7 +274,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
-  
+  gboolean left = (event->button != 3);
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->si);
   else
@@ -304,7 +304,7 @@ DenemoGUI *gui = Denemo.gui;
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
 
-  perform_command(event->state&DENEMO_MODIFIER_MASK, TRUE);
+  perform_command(event->state&DENEMO_MODIFIER_MASK, TRUE, left);
   
   return TRUE;
 }
@@ -318,8 +318,9 @@ gint
 scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
-  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
-  perform_command(event->state&DENEMO_MODIFIER_MASK, FALSE);
+ gboolean left = (event->button != 3);
+ g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+ perform_command(event->state&DENEMO_MODIFIER_MASK, FALSE, left);
 
   return TRUE;
 }
