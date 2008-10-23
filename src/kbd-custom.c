@@ -37,7 +37,7 @@
 #endif
 
 #define DEFAULT_KEYMAP "Default.cmdset"
-//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row !!!!!!!!!
+//index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
 enum {
     COL_TYPE = 0,
     COL_ACTION,
@@ -46,6 +46,7 @@ enum {
     COL_TOOLTIP,
     COL_CALLBACK,
     COL_BINDINGS,
+    COL_HIDDEN,
     N_COLUMNS
 };
 
@@ -57,6 +58,7 @@ typedef struct command_row {
   gchar *tooltip;
   gpointer callback;
   GtkListStore *bindings;
+  gboolean hidden;
 }command_row;
 
 static void
@@ -518,7 +520,9 @@ keymap *allocate_keymap(void)
 					    G_TYPE_POINTER,//label
 					    G_TYPE_POINTER,//tooltip
 					    G_TYPE_POINTER,//callback
-					    GTK_TYPE_LIST_STORE);
+					    GTK_TYPE_LIST_STORE,//bindings
+					    G_TYPE_BOOLEAN //hidden
+					    );
   
   //empty index reference
   the_keymap->idx_from_name =
@@ -656,6 +660,7 @@ keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
 		       COL_CALLBACK, &row->callback,
 		       COL_TOOLTIP, &row->tooltip,
 		       COL_BINDINGS, &row->bindings,
+		       COL_HIDDEN, &row->hidden,
 		       -1);
     return TRUE;
 }
@@ -843,6 +848,16 @@ lookup_tooltip_from_idx (keymap * keymap, guint command_idx)
   return res;
 }
 
+gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx)
+{
+  gboolean res = FALSE;
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  res = row.hidden;//FIXME label is a property g_object_get_prop...
+  g_object_unref(row.bindings);
+  return res;
+}
 
 
 //do not free the result
@@ -1539,6 +1554,24 @@ command_name_data_function (GtkTreeViewColumn *col,
     g_object_set(renderer, "text", name, NULL);
 }
 
+static void
+command_hidden_data_function (GtkTreeViewColumn *col,
+                            GtkCellRenderer   *renderer,
+                            GtkTreeModel      *model,
+                            GtkTreeIter       *iter,
+                            gpointer           user_data)
+{
+    KeymapCommandType type;
+    gpointer action;
+    gboolean hidden;
+    gtk_tree_model_get(model, iter,
+            COL_TYPE, &type,
+            COL_ACTION, &action,
+            -1);
+    hidden = g_object_get_data(G_OBJECT(action), "hidden");   
+    g_object_set(renderer, "active", hidden, NULL);
+}
+
 static gboolean
 search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
         GtkTreeIter *iter, gpointer search_data)
@@ -1560,6 +1593,16 @@ search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
   return !res;
 }
 
+/*toggle hidden on action at row in command list */
+static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
+                                            gchar *path)  {
+  gint command_idx = atoi(path);
+  GtkAction *action = lookup_action_from_idx (Denemo.commands, command_idx);
+  if(GTK_IS_ACTION(action)){
+    gboolean hidden = (gboolean)g_object_get_data(action, "hidden");
+    set_visibility_for_action(action, hidden);
+  }
+}
 GtkWidget *
 keymap_get_command_view(keymap *the_keymap)
 {
@@ -1584,10 +1627,19 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_pack_start(col, renderer, TRUE);
   gtk_tree_view_column_set_cell_data_func(col, renderer,
           command_name_data_function, NULL, NULL);
- 
+
+  col = gtk_tree_view_column_new();
+  gtk_tree_view_column_set_title(col, _("Hidden"));
+  gtk_tree_view_append_column(res, col);
+
+  renderer = gtk_cell_renderer_toggle_new();
+  gtk_tree_view_column_pack_start(col, renderer, TRUE);
+  gtk_tree_view_column_add_attribute(col, renderer, "active", COL_HIDDEN);
+  gtk_tree_view_column_set_cell_data_func(col, renderer,
+					  command_hidden_data_function, NULL, NULL);
+  g_signal_connect(renderer, "toggled", toggle_hidden_on_action, NULL);
   selection = gtk_tree_view_get_selection(res);
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
-
   gtk_tree_view_set_search_equal_func(res, search_equal_func, NULL, NULL);
   gtk_tree_view_set_enable_search(res, TRUE);
   

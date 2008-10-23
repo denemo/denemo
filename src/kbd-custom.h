@@ -111,6 +111,9 @@ lookup_label_from_idx(keymap *keymap, guint command_idx);
 const gchar *
 lookup_tooltip_from_idx(keymap *keymap, guint command_idx);
 
+gboolean
+lookup_hidden_from_idx (keymap * keymap, guint command_idx);
+
 gpointer
 lookup_callback_from_idx (keymap * keymap, guint command_idx);
 

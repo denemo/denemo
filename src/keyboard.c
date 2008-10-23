@@ -123,6 +123,26 @@ instantiate_menus(gchar *menupath) {
   // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
   //show_type (widget, "for menupath widget is ");
 }
+
+void set_visibility_for_action(GtkAction *action, gboolean visible) {
+  if(GTK_IS_ACTION(action)) {
+    GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
+    for(;h;h=h->next) {
+      if(visible)
+      gtk_widget_show(h->data);
+      else
+	gtk_widget_hide(h->data);
+    }
+    g_object_set_data(G_OBJECT(action), "hidden", (gpointer)!visible);
+  }
+
+}
+
+static void hide_action_of_name(gchar *name){
+  GtkAction *action = lookup_action_from_name (Denemo.commands, name);
+  set_visibility_for_action(action, FALSE);
+}
+
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
 {
@@ -140,7 +160,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action")) {
 	if (cur->xmlChildrenNode == NULL)
 	  {
-	    g_warning ("Empty children node found in keymap file\n");
+	    g_warning ("Empty action node found in keymap file\n");
 	  }
 	else
 	  {
@@ -162,7 +182,23 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  g_free(text); 
 	}  
 	is_script = TRUE;
+      }    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
+
+#if 0
+	 GtkAction *action = lookup_action_from_name (Denemo.commands, name);
+	 if(GTK_IS_ACTION(action))
+	   g_object_set_data(G_OBJECT(action), "hidden", (gpointer)TRUE);//FIXME we ignore what is stored
+#else
+
+	 hide_action_of_name(name);
+GtkAction *action = lookup_action_from_name (Denemo.commands, name);
+	 g_print("hidden is %d\n", g_object_get_data(G_OBJECT(action), "hidden"));
+#endif
+
+
+
       }
+
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
 	menupath = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -301,7 +337,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 		  xmlFree (tmp);
 		}
 	    }
-	}
+	}  
       cur = cur->next;
     }
 } // parseBindings
@@ -466,18 +502,25 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
 
   for (i = 0; i < keymap_size(the_keymap); i++)
     {
+
      
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
-      
+      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);//lookup_hidden_from_idx (the_keymap, i);
+      if(hidden && scheme)
+	continue;
+
       child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-      
+
+			
       gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
 #ifdef DEBUG
       g_print ("%s \n", name);
 #endif	
       xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		       (xmlChar *) name);  
+      if(hidden)
+	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
       if(scheme) 	
 	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
 			 (xmlChar *) scheme);
@@ -497,7 +540,6 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
       if(tooltip)
 	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
 			 (xmlChar *) tooltip);
-      
       
       keymap_foreach_command_binding (the_keymap, i,
 				      (GFunc) write_xml_keybinding_info, child);
