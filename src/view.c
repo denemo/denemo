@@ -149,6 +149,14 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 }
 
 
+
+SCM scheme_get_cursor_note (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
+   return scm;
+}
+
+
 SCM scheme_get_note_name (SCM optional) {
     int length;
     //char *str=NULL;
@@ -160,7 +168,7 @@ SCM scheme_get_note_name (SCM optional) {
  chord *thechord;
  note *thenote;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return SCM_EOL;
+   return scm_makfrom0str ("");
  else {
    SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
    return scm;
@@ -472,6 +480,7 @@ void inner_main(void*closure, int argc, char **argv){
  /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
