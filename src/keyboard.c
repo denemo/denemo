@@ -126,10 +126,10 @@ instantiate_menus(gchar *menupath) {
 
 void set_visibility_for_action(GtkAction *action, gboolean visible) {
   if(GTK_IS_ACTION(action)) {
-    GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
+    GSList *h = gtk_action_get_proxies (action);
     for(;h;h=h->next) {
       if(visible)
-      gtk_widget_show(h->data);
+	gtk_widget_show(h->data);
       else
 	gtk_widget_hide(h->data);
     }
@@ -154,9 +154,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
   gboolean is_script = FALSE;
   GdkModifierType state = 0;
   DenemoGUI *gui = Denemo.gui;
+  gboolean hidden=FALSE;
   for ( ;cur; cur = cur->next)
     {
-
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action")) {
 	if (cur->xmlChildrenNode == NULL)
 	  {
@@ -183,20 +183,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	}  
 	is_script = TRUE;
       }    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
-
-#if 0
-	 GtkAction *action = lookup_action_from_name (Denemo.commands, name);
-	 if(GTK_IS_ACTION(action))
-	   g_object_set_data(G_OBJECT(action), "hidden", (gpointer)TRUE);//FIXME we ignore what is stored
-#else
-
-	 hide_action_of_name(name);
-GtkAction *action = lookup_action_from_name (Denemo.commands, name);
-	 g_print("hidden is %d\n", g_object_get_data(G_OBJECT(action), "hidden"));
-#endif
-
-
-
+	hidden = TRUE; 
       }
 
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "menupath")) {
@@ -261,9 +248,16 @@ GtkAction *action = lookup_action_from_name (Denemo.commands, name);
 	  //g_print("registering %s\n", name);
 	  register_command(Denemo.commands, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
-	  
-	}// is_script
+	  if(hidden)
+	    g_object_set_data(action, "hidden", TRUE);
+	} // is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
+#if 1
+	else if(hidden) {
+	  hide_action_of_name(name); hidden = FALSE;
+	  g_print("Hiding Builtin %s\n", name);
+	}
+#endif
       }// tooltip found, assumed last field
     } // for all nodes
   //alphabeticalize_commands(Denemo.commands);
@@ -506,8 +500,9 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
      
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
-      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);//lookup_hidden_from_idx (the_keymap, i);
-      if(hidden && scheme)
+      gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
+      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
+      if(deleted && scheme)
 	continue;
 
       child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);

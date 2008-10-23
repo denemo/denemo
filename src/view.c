@@ -2426,10 +2426,17 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 #endif
   if(Denemo.commands==NULL)
      return;
+
   command_idx = lookup_command_from_name(Denemo.commands,
 				       gtk_action_get_name(action));
   if (command_idx != -1) 
     update_accel_labels(Denemo.commands, command_idx);
+  gboolean hidden= (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
+ g_print("Looking at %d Script %s\n",hidden, gtk_action_get_name(action));
+  if(hidden) {
+	    set_visibility_for_action(action, FALSE);
+	   
+	  }
 
 }
 

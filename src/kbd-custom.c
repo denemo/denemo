@@ -47,6 +47,7 @@ enum {
     COL_CALLBACK,
     COL_BINDINGS,
     COL_HIDDEN,
+    COL_DELETED,
     N_COLUMNS
 };
 
@@ -59,6 +60,7 @@ typedef struct command_row {
   gpointer callback;
   GtkListStore *bindings;
   gboolean hidden;
+  gboolean deleted;
 }command_row;
 
 static void
@@ -521,7 +523,8 @@ keymap *allocate_keymap(void)
 					    G_TYPE_POINTER,//tooltip
 					    G_TYPE_POINTER,//callback
 					    GTK_TYPE_LIST_STORE,//bindings
-					    G_TYPE_BOOLEAN //hidden
+					    G_TYPE_BOOLEAN, //hidden
+					    G_TYPE_BOOLEAN //deleted
 					    );
   
   //empty index reference
@@ -661,6 +664,7 @@ keymap_get_command_row(keymap *the_keymap, command_row *row, guint command_idx)
 		       COL_TOOLTIP, &row->tooltip,
 		       COL_BINDINGS, &row->bindings,
 		       COL_HIDDEN, &row->hidden,
+		       COL_DELETED, &row->deleted,
 		       -1);
     return TRUE;
 }
@@ -855,6 +859,18 @@ gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx)
   if (!keymap_get_command_row(keymap, &row, command_idx))
       return NULL;
   res = row.hidden;//FIXME label is a property g_object_get_prop...
+  g_object_unref(row.bindings);
+  return res;
+}
+
+
+gboolean lookup_deleted_from_idx (keymap * keymap, guint command_idx)
+{
+  gboolean res = FALSE;
+  command_row row;
+  if (!keymap_get_command_row(keymap, &row, command_idx))
+      return NULL;
+  res = row.deleted;//FIXME label is a property g_object_get_prop...
   g_object_unref(row.bindings);
   return res;
 }
@@ -1572,6 +1588,24 @@ command_hidden_data_function (GtkTreeViewColumn *col,
     g_object_set(renderer, "active", hidden, NULL);
 }
 
+static void
+command_deleted_data_function (GtkTreeViewColumn *col,
+                            GtkCellRenderer   *renderer,
+                            GtkTreeModel      *model,
+                            GtkTreeIter       *iter,
+                            gpointer           user_data)
+{
+    KeymapCommandType type;
+    gpointer action;
+    gboolean deleted;
+    gtk_tree_model_get(model, iter,
+            COL_TYPE, &type,
+            COL_ACTION, &action,
+            -1);
+    deleted = g_object_get_data(G_OBJECT(action), "deleted");   
+    g_object_set(renderer, "active", deleted, NULL);
+}
+
 static gboolean
 search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
         GtkTreeIter *iter, gpointer search_data)
@@ -1603,6 +1637,19 @@ static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
     set_visibility_for_action(action, hidden);
   }
 }
+
+/*toggle deleted on action at row in command list */
+static void toggle_deleted_on_action (GtkCellRendererToggle *cell_renderer,
+                                            gchar *path)  {
+  gint command_idx = atoi(path);
+  GtkAction *action = lookup_action_from_idx (Denemo.commands, command_idx);
+  if(GTK_IS_ACTION(action)){
+    gboolean deleted = (gboolean)g_object_get_data(action, "deleted");
+    //set_visibility_for_action(action, deleted);
+    g_object_set_data(action, "deleted", !deleted);
+  }
+}
+
 GtkWidget *
 keymap_get_command_view(keymap *the_keymap)
 {
@@ -1638,6 +1685,22 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_set_cell_data_func(col, renderer,
 					  command_hidden_data_function, NULL, NULL);
   g_signal_connect(renderer, "toggled", toggle_hidden_on_action, NULL);
+
+
+  col = gtk_tree_view_column_new();
+  gtk_tree_view_column_set_title(col, _("Deleted"));
+  gtk_tree_view_append_column(res, col);
+
+  renderer = gtk_cell_renderer_toggle_new();
+  gtk_tree_view_column_pack_start(col, renderer, TRUE);
+  gtk_tree_view_column_add_attribute(col, renderer, "active", COL_DELETED);
+  gtk_tree_view_column_set_cell_data_func(col, renderer,
+					  command_deleted_data_function, NULL, NULL);
+  g_signal_connect(renderer, "toggled", toggle_deleted_on_action, NULL);
+
+
+
+
   selection = gtk_tree_view_get_selection(res);
   gtk_tree_selection_set_mode(selection, GTK_SELECTION_BROWSE);
   gtk_tree_view_set_search_equal_func(res, search_equal_func, NULL, NULL);
