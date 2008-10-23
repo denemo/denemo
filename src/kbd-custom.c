@@ -563,7 +563,7 @@ register_command(keymap *the_keymap, GtkAction *action, const gchar *name, const
 #if DEBUG
         //This code is only relevant to developers, to check that no action
         //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
-        gint idx = lookup_index_from_name(the_keymap, name);
+        gint idx = lookup_command_from_name(the_keymap, name);
         if (idx != -1) {
             g_warning("Command %s is inserted more than once, aborting...\n",
                     name);
