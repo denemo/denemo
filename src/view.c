@@ -543,19 +543,22 @@ Then
   gtk_main();
 
 }
+
+#if 0
 //#include <guile/gh.h>
 int call_out_to_guile(char *script) {
-  // char * SCM_STRING_CHARS (SCM x)
-  // SCM val = scm_take_locale_string(script); this will free script
-  // SCM val = scm_from_locale_string(script);
   SCM val = scm_c_eval_string(script);
-#if 0
-  if(SCM_BOOLP(val)){
-    g_print("Got %d boolean back\n", !SCM_FALSEP(val));
-  } else
-    g_print("No return boolean\n");
-#endif
 }
+
+#else
+
+void call_out_to_guile(char *script) {
+  // SCM val = scm_c_eval_string(
+ gh_eval_str_with_catch (script, gh_standard_handler);
+}
+
+
+#endif
 
 /****************
  * write the status bar
@@ -1813,7 +1816,7 @@ void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI
 }
 
 
-extern int call_out_to_guile(char *script);
+
 static void dummy(void) {
 #ifdef TRIAL_SCHEME
   //call_out_to_guile("(CursorRight)(CursorRight)(CursorRight)\n");
