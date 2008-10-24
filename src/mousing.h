@@ -13,8 +13,15 @@ scorearea_button_press (GtkWidget *widget, GdkEventButton *event);
 gint
 scorearea_motion_notify (GtkWidget *widget, GdkEventButton *event);
 
+typedef enum mouse_gesture {
+  GESTURE_PRESS,
+  GESTURE_RELEASE,
+  GESTURE_MOVE
+} mouse_gesture;
+
+
 GString* 
-modifier_name(gint mod, gboolean press, gboolean left);
+modifier_name(gint mod, mouse_gesture gesture, gboolean left);
 #define DENEMO_NUMBER_MODIFIERS (8) /* built in to GDK for GdkModifierType */
 #define DENEMO_MODIFIER_MASK (255)
 

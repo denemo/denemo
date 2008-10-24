@@ -189,6 +189,42 @@ get_placement_from_coordinates (struct placement_info *pi,
   }
 }
 
+GString* modifier_name(gint mod,  mouse_gesture gesture, gboolean left) {
+  gint i;
+  GString *ret = g_string_new((gesture==GESTURE_PRESS)?(left?"PrsL":"PrsR"):((gesture==GESTURE_RELEASE)?(left?"RlsL":"RlsR"):(left?"MveL":"MveR")));
+  static const gchar* names[]= {
+ "Shift"   ,
+  "CapsLock"	   ,
+  "Control" ,
+  "Alt"	   ,
+  "NumLock"	 ,
+  "MOD3"	   ,
+  "Penguin"	   ,
+  "AltGr"
+  };
+  for(i=0;i<DENEMO_NUMBER_MODIFIERS;i++)
+    if((1<<i)&mod)
+      g_string_append_printf(ret, "%s%s", "-",names[i]);
+  g_string_append_printf(ret, "%s", mod?"":"(Plain)");
+  //g_print("Returning %s for mod %d\n", ret->str, mod);
+  return ret;
+
+}
+
+
+/* perform an action for mouse-click stored with shortcuts */
+static void  
+perform_command(gint modnum, mouse_gesture press, gboolean left)
+{
+  GString *modname = modifier_name(modnum, press, left);
+  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
+  if(command_idx>=0) {
+    execute_callback_from_idx (Denemo.commands, command_idx);
+    displayhelper (Denemo.gui);
+  }
+  g_string_free(modname, TRUE);
+}  
+
 
 /**
  * Mouse motion callback 
@@ -221,6 +257,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	//measureright(gui);
 	set_cursor_y_from_click (gui, event->y);
 	calcmarkboundaries (gui->si);
+	if(event->state&(GDK_BUTTON1_MASK|GDK_BUTTON2_MASK|GDK_BUTTON3_MASK))
+	   perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_MOVE, event->state&GDK_BUTTON1_MASK);
 
 	/* redraw to show new cursor position  */
 	gtk_widget_queue_draw (gui->scorearea);
@@ -229,41 +267,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 }
 
-GString* modifier_name(gint mod, gboolean press, gboolean left) {
-  gint i;
-  GString *ret = g_string_new(press?(left?"PrsL":"PrsR"):(left?"RlsL":"RlsR"));
-  static const gchar* names[]= {
- "Shift"   ,
-  "CapsLock"	   ,
-  "Control" ,
-  "Alt"	   ,
-  "NumLock"	 ,
-  "MOD3"	   ,
-  "Penguin"	   ,
-  "AltGr"
-  };
-  for(i=0;i<DENEMO_NUMBER_MODIFIERS;i++)
-    if((1<<i)&mod)
-      g_string_append_printf(ret, "%s%s", "-",names[i]);
-  g_string_append_printf(ret, "%s", mod?"":"(Plain)");
-  //g_print("Returning %s for mod %d\n", ret->str, mod);
-  return ret;
 
-}
-
-
-/* perform an action for mouse-click stored with shortcuts */
-static void  
-perform_command(gint modnum, gboolean press, gboolean left)
-{
-  GString *modname = modifier_name(modnum, press, left);
-  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
-  if(command_idx>=0) {
-    execute_callback_from_idx (Denemo.commands, command_idx);
-    displayhelper (Denemo.gui);
-  }
-  g_string_free(modname, TRUE);
-}  
 
 /**
  * Mouse button press callback 
@@ -304,7 +308,7 @@ DenemoGUI *gui = Denemo.gui;
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
 
-  perform_command(event->state&DENEMO_MODIFIER_MASK, TRUE, left);
+  perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_PRESS, left);
   
   return TRUE;
 }
@@ -320,7 +324,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
  gboolean left = (event->button != 3);
  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
- perform_command(event->state&DENEMO_MODIFIER_MASK, FALSE, left);
+ perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_RELEASE, left);
 
   return TRUE;
 }

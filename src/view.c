@@ -1485,16 +1485,18 @@ static void  subst_illegals(gchar *myname) {gchar *c;// avoid whitespace etc
     if(*c==' '||*c=='\t'||*c=='\n'||*c=='/'||*c=='\\') 
       *c='-';
   }
+
+
+
 typedef struct ModifierAction {
   GtkAction *action;
   gint modnum;/* GdkModifierType number 0...12 */
-  gboolean press;/* if this is for press or release */
+  mouse_gesture gesture;/* if this is for press move or release */
   gboolean left;/* if this is for left or right mouse button */
 }  ModifierAction;
 
-
-static void toggleMouseAction(GtkWidget *widget, ModifierAction *info) {
-  GString *modname = modifier_name(info->modnum, info->press, info->left);
+static void setMouseAction(ModifierAction *info) {
+  GString *modname = modifier_name(info->modnum, info->gesture, info->left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
   GtkAction *current_action=NULL;
   if(command_idx >= 0)
@@ -1572,27 +1574,85 @@ static void append_scheme_call(gchar *func) {
 }
 
 
-/* insert a menu item into menu to set mouse clicks with modifier to action on press/release */
-static void  insert_menu_item_for_mouse_click(GtkWidget *menu, ModifierAction *info)
-  {
-  GtkWidget *item;
-  GtkAction *action = info->action;
-  gboolean press = info->press;
-  gboolean left = info->left;
-  GString *modname = modifier_name(info->modnum, press, left);
-  gchar *label = g_strdup_printf("%s%s%s",  "Mouse ",modname->str," Activates this Action");
-  item = gtk_check_menu_item_new_with_label(label);
-  g_free(label);
-  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
-  GtkAction *current_action=NULL;
-  if(command_idx >= 0)
-    current_action = lookup_action_from_idx(Denemo.commands, command_idx);
-  g_string_free(modname, TRUE);
-  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), current_action==action);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(item, "toggled", G_CALLBACK(toggleMouseAction), info);
-  }
 
+
+static void button_choice_callback(GtkWidget *w, gboolean *left ){
+  *left =  gtk_toggle_button_get_active(w);
+}
+
+static void button_move_callback(GtkWidget *w, mouse_gesture *g ){
+  if( gtk_toggle_button_get_active(w))
+       *g = GESTURE_MOVE;
+  // g_print("move %d\n", *g);
+}
+static void button_press_callback(GtkWidget *w, mouse_gesture *g ){
+  if( gtk_toggle_button_get_active(w))
+       *g = GESTURE_PRESS;
+  // g_print("press  %d\n", *g);
+}
+static void button_release_callback(GtkWidget *w, mouse_gesture *g ){
+  if( gtk_toggle_button_get_active(w))
+       *g = GESTURE_RELEASE;
+  // g_print("release %d \n", *g);
+}
+
+static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  gint *g ){
+       *g = event->state;
+}
+
+
+
+static void
+mouse_shortcut_dialog(ModifierAction *info){
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Choose a mouse gesture for this command",
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
+  GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
+  GtkWidget *widget =   gtk_radio_button_new_with_label(NULL, "Left");
+  g_signal_connect(widget, "toggled", button_choice_callback, &info->left);
+  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+  GtkWidget *widget2  =   gtk_radio_button_new_with_label_from_widget(widget, "Right");
+  gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
+  
+  
+  widget =   gtk_radio_button_new_with_label(NULL, "Press");
+  g_signal_connect(widget, "toggled", button_press_callback, &info->gesture);
+  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+  widget2  =   gtk_radio_button_new_with_label_from_widget(widget, "Release");
+  g_signal_connect(widget2, "toggled", button_release_callback, &info->gesture);
+  gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
+  widget2  =   gtk_radio_button_new_with_label_from_widget(widget, "Move");
+  g_signal_connect(widget2, "toggled", button_move_callback, &info->gesture);
+  gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
+
+  widget =   gtk_button_new_with_label("Hold Modifier Keys and Press");
+  g_signal_connect(widget, "button-release-event", button_modifier_callback, &info->modnum);
+  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox,
+		      TRUE, TRUE, 0);
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_widget_show_all (dialog);
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
+    setMouseAction(info);
+  }
+  gtk_widget_destroy (dialog);
+}
+
+static void  createMouseShortcut(GtkWidget *menu, GtkAction *action) {
+  ModifierAction info;
+  info.action = action;
+  info.gesture = GESTURE_PRESS;
+  info.modnum = 0;
+  info.left = TRUE;
+  mouse_shortcut_dialog(&info);
+}
 
 
 /*
@@ -1674,28 +1734,13 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
 
 
+  item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-  static ModifierAction leftpressinfo, leftreleaseinfo,  rightpressinfo, rightreleaseinfo;
-  leftreleaseinfo.action = rightpressinfo.action =rightreleaseinfo.action = leftpressinfo.action = action;
-  leftreleaseinfo.modnum = rightpressinfo.modnum =rightreleaseinfo.modnum = leftpressinfo.modnum = event->state&DENEMO_MODIFIER_MASK;
-  leftpressinfo.press = rightpressinfo.press = TRUE;
-  leftreleaseinfo.press =rightreleaseinfo.press = FALSE;
-  leftpressinfo.left = leftreleaseinfo.left = FALSE;
-  rightpressinfo.left = rightreleaseinfo.left = TRUE;
+  g_signal_connect(item, "activate", G_CALLBACK(createMouseShortcut), action);
 
-  /* a check item setting Mouse leftbutton press */
-  insert_menu_item_for_mouse_click(menu, &leftpressinfo);
-  /* a check item setting Mouse leftbutton release */
-  insert_menu_item_for_mouse_click(menu, &leftreleaseinfo);
 
-  /* a check item setting Mouse rightbutton press */
-  insert_menu_item_for_mouse_click(menu, &rightpressinfo);
-  /* a check item setting Mouse rightbutton release */
-  insert_menu_item_for_mouse_click(menu, &rightreleaseinfo);
 
-  //item = gtk_menu_item_new_with_label("Execute Current Script");
-  //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  //g_signal_connect(item, "activate", G_CALLBACK(executeScript), NULL);
 
   item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
