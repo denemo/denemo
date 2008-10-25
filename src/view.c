@@ -2524,7 +2524,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
   gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
 
   
-  GtkWidget *wid = gtk_check_button_new_with_label("Record Schem Script");
+  GtkWidget *wid = gtk_check_button_new();
   //GtkAction *action2 = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript");
   //g_print("action %p", action2);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), wid);
