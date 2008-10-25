@@ -1695,6 +1695,8 @@ static gboolean menu_click (GtkWidget      *widget,
       if(idx_has_callback(the_keymap, idx)){
 	if(g_object_get_data(G_OBJECT(action), "scm"))	
 	   append_scheme_call((gchar*)func_name);
+	else if(g_object_get_data(action, "scheme"))
+	  appendSchemeText(g_object_get_data(action, "scheme"));
 	//return TRUE;
       }
 
