@@ -189,9 +189,11 @@ get_placement_from_coordinates (struct placement_info *pi,
   }
 }
 
-GString* modifier_name(gint mod,  mouse_gesture gesture, gboolean left) {
+
+/* appends the name(s) for modifier mod to ret->str */
+
+void modifier_name(GString *ret, gint mod) {
   gint i;
-  GString *ret = g_string_new((gesture==GESTURE_PRESS)?(left?"PrsL":"PrsR"):((gesture==GESTURE_RELEASE)?(left?"RlsL":"RlsR"):(left?"MveL":"MveR")));
   static const gchar* names[]= {
  "Shift"   ,
   "CapsLock"	   ,
@@ -206,6 +208,14 @@ GString* modifier_name(gint mod,  mouse_gesture gesture, gboolean left) {
     if((1<<i)&mod)
       g_string_append_printf(ret, "%s%s", "-",names[i]);
   g_string_append_printf(ret, "%s", mod?"":"(Plain)");
+}
+
+/* returns a newly allocated GString containing a shortcut name */
+GString* mouse_shortcut_name(gint mod,  mouse_gesture gesture, gboolean left) {
+
+  GString *ret = g_string_new((gesture==GESTURE_PRESS)?(left?"PrsL":"PrsR"):((gesture==GESTURE_RELEASE)?(left?"RlsL":"RlsR"):(left?"MveL":"MveR")));
+
+  modifier_name(ret, mod);
   //g_print("Returning %s for mod %d\n", ret->str, mod);
   return ret;
 
@@ -216,7 +226,7 @@ GString* modifier_name(gint mod,  mouse_gesture gesture, gboolean left) {
 static void  
 perform_command(gint modnum, mouse_gesture press, gboolean left)
 {
-  GString *modname = modifier_name(modnum, press, left);
+  GString *modname = mouse_shortcut_name(modnum, press, left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
   if(command_idx>=0) {
     execute_callback_from_idx (Denemo.commands, command_idx);

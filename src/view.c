@@ -1496,7 +1496,7 @@ typedef struct ModifierAction {
 }  ModifierAction;
 
 static void setMouseAction(ModifierAction *info) {
-  GString *modname = modifier_name(info->modnum, info->gesture, info->left);
+  GString *modname = mouse_shortcut_name(info->modnum, info->gesture, info->left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
   GtkAction *current_action=NULL;
   if(command_idx >= 0)
@@ -1598,6 +1598,16 @@ static void button_release_callback(GtkWidget *w, mouse_gesture *g ){
 
 static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  gint *g ){
        *g = event->state;
+       // show_type(w, "button mod callback: ");
+       GString *str = g_string_new("Keyboard:");
+       modifier_name(str, (*g)&DENEMO_MODIFIER_MASK);
+       if(!*g)
+	 g_string_assign (str, "No keyboard modifier keys\nPress with modifier key to change");
+       else
+	 g_string_append(str, "\nPress with modifier key to change");
+       gtk_button_set_label (w,str->str);
+
+       g_string_free(str,TRUE);
 }
 
 
@@ -1631,7 +1641,7 @@ mouse_shortcut_dialog(ModifierAction *info){
   g_signal_connect(widget2, "toggled", button_move_callback, &info->gesture);
   gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
 
-  widget =   gtk_button_new_with_label("Hold Modifier Keys and Press");
+  widget =   gtk_button_new_with_label("Hold Modifier Keys/Engage Caps or Num Lock and Press Here");
   g_signal_connect(widget, "button-release-event", button_modifier_callback, &info->modnum);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
 
@@ -1700,15 +1710,26 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate", G_CALLBACK(popup_help), (gpointer)idx);
 
-  item = gtk_menu_item_new_with_label("Edit/Create Shortcut");
+  item = gtk_menu_item_new_with_label("Edit/Create Keyboard Shortcut");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(item, "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+
+  item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+
+  g_signal_connect(item, "activate", G_CALLBACK(createMouseShortcut), action);
+
+
+  // if(action scheme "Insert Menu Item into Script window"???? or where we insert d-XXX can we just insert the scheme???
+
 
   //item = gtk_check_menu_item_new_with_label("Recording Script");
   //gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
   //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
-
+  item = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+   
 
   gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
   if(!myposition)
@@ -1734,15 +1755,8 @@ static gboolean menu_click (GtkWidget      *widget,
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
 
 
-  item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-  g_signal_connect(item, "activate", G_CALLBACK(createMouseShortcut), action);
-
-
-
-
-  item = gtk_menu_item_new_with_label("Insert Script as Menu Item");
+  item = gtk_menu_item_new_with_label("Create New Menu Item Here");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
   g_signal_connect(item, "activate", G_CALLBACK(insertScript), myposition);
