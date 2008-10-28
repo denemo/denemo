@@ -17,24 +17,25 @@ typedef struct notetype
 typedef struct nstack 
 {
 	gint *pitch;
-   	gint *measure;
+   	gint *measure; /*can this be calculated on noteoff?*/
      	gint *timeon;
+	gint *on_delta_time; /* this is time between last event and this notes start */
      	gint *duration; 
-        gint *staffnum;	
+	gint *staffnum;	
 }nstack;
 
 typedef struct midicallback
 {
 	GList *notestack;
-	GList *final_list;
 	GList *chordnotes;
 	GList *currentnote;
 	DenemoGUI *gui;
-	gint leftover;
+	gint leftover; /* note/rest value that is leftover across the measure */
 	gint PPQN;
-	gint bartime;
-	gint barlength;
-	gint lastoff;
+	gint bartime; /* time relative to barlength 0-barlength */
+	gint delta_time; /* distance between notes */
+	gint barlength; /* amount of time in measure */
+	gint lastoff; /* starttime + duration. The time when the note is finished */
 	gint trackplus;
 	gint key;
 	gint track;
@@ -75,3 +76,5 @@ void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
 void restcheck(GList *tmp, midicallback *mididata);
 
 struct notetype ConvertLength(gint endnote, midicallback *mididata);
+
+

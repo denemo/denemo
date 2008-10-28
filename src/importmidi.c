@@ -1,4 +1,4 @@
-/*importmidi.cpp
+/*importmidi.c
  * midi file import functions
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 AJAnderson
@@ -9,21 +9,38 @@
 #include <string.h>
 #include <denemo/denemo.h>
 #include "importmidi.h"
+#include "staffops.h"
+
+#define NOTE_OFF                0x80
+#define NOTE_ON                 0x90
+#define CTRL_CHANGE             0xB0
+#define PGM_CHANGE              0xC0
+#define META_EVENT              0xFF
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define META_TRACK_NAME         0x03
+#define META_INSTR_NAME		0x04
+#define META_TEMPO              0x51
+#define META_TIMESIG            0x58
+#define META_KEYSIG             0x59
+
+
 
 /* 	TODO
  *  
  *  check to see if memory used by malloc is freed
  *  clean up/optimise code
  *  add functions to add notes to chords
+ *  create a define to initialize mididata->*?
+ *
+ *  change lastoff name to cursor_time
+ *  multi voice support
+ *  lyrics 
+ *  triplet support
+ *
  */
 
-enum newstaffcallbackaction
-{ INITIAL, FIRST, LAST, ADDFROMLOAD, BEFORE, AFTER,
-	  NEWVOICE,LYRICSTAFF, FIGURESTAFF, CHORDSTAFF
-};
-
-void ProcessNoteList(GList *list, midicallback *mididata); 
-void addnote(GList *list, midicallback *mididata);
+void ProcessNote(GList *list, midicallback *mididata); 
+void process_list(GList *list, midicallback *mididata);
 void MeasureCheck(GList *list, midicallback *mididata);
 
 gint
@@ -78,15 +95,14 @@ importMidi (gchar * filename, DenemoGUI * gui)
 
   fclose (fp);
     
-  g_list_foreach(mididata->final_list, (GFunc) addnote, mididata);
+  //g_list_foreach(mididata->final_list, (GFunc) addnote, mididata);
   g_free(mididata);
   return ret;
 }
 
-DenemoObject * new_dnm_object(notetype length, gint tied){
+DenemoObject * new_dnm_object(notetype length){
 	DenemoObject *mudela_obj_new;
-	tied = (tied > 0) ? tied : length.tied;
-	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, tied);
+	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, length.tied);
 	return mudela_obj_new;
 }
 
@@ -166,7 +182,7 @@ readtrack (FILE * fp, midicallback *mididata)
   gint stat;
   gint data1;
   gint data2;
-  gint tlength;
+  gint tlength;			/*track length*/
   gint time = 0;			/*track time */
   gint dtime;			/*delta time, distance to next event */
   gint event = 0;
@@ -177,6 +193,10 @@ readtrack (FILE * fp, midicallback *mididata)
     {
       dtime = readVariable (fp);
       time = time + dtime;
+      mididata->delta_time=dtime;
+#ifdef DEBUG
+      printf("\ntime = %d delta time = %d\n",time, dtime);
+#endif
       tlength--;
       if (dtime > 127)
 	tlength--;		/* 2 digit variable */
@@ -187,7 +207,7 @@ readtrack (FILE * fp, midicallback *mididata)
       /* leap of faith, all channels in track ar same */
       stat = readBytes (fp, 1);
       tlength--;
-      if (stat == 0xff)
+      if (stat == META_EVENT)
 	{
 	  /*next Byte is command */
 	  data1 = readBytes (fp, 1);
@@ -196,21 +216,21 @@ readtrack (FILE * fp, midicallback *mididata)
 	  /*pretend to read it */
 	  switch (data1)
 	    {
-	    case 88:
+	    case META_TIMESIG:
 	      {
 		/*time signature */
 		dotimesig (fp, mididata);
 		tlength = tlength - 6;
 		break;
 	      }
-	    case 89:
+	    case META_KEYSIG:
 	      {
 		/*key signature */
 		dokeysig (fp, mididata);
 		tlength = tlength - 4;
 		break;
 	      }
-	    case 81:
+	    case META_TEMPO:
 	      {
 		/* set tempo */
 		if (data2 == 3)
@@ -220,13 +240,13 @@ readtrack (FILE * fp, midicallback *mididata)
 		tlength = tlength - 5;
 		break;
 	      }
-	    case 3:
+	    case META_TRACK_NAME:
 	      {
 		dotrackname (fp, mididata, data2);
 		tlength = tlength - (data2 + 2);
 		break;
 	      }
-	    case 4:
+	    case META_INSTR_NAME:
 	      {
 		doinstrname (fp, mididata, data2);
 		tlength = tlength - (data2 + 2);
@@ -255,20 +275,32 @@ readtrack (FILE * fp, midicallback *mididata)
 	      tlength--;
 	    };
 
-	  switch (event >> 4)
+	  switch (event & SYS_EXCLUSIVE_MESSAGE1)
 	    {
-	    case 8:		/*note off */
+	    case NOTE_OFF:		/*note off */
 	      {
 		data2 = readBytes (fp, 1);
 		tlength--;
 		donoteoff (mididata, (int *) data1, (int *) time);
 		break;
 	      }
-	    case 9:		/*note on */
+	    case NOTE_ON:		/*note on */
 	      {
 		data2 = readBytes (fp, 1);
 		tlength--;
 		donoteon (mididata, (int *) data1, (int *) data2, (int *) time);
+		break;
+	      }
+	    case CTRL_CHANGE:		/*midi  controller eg. volume, pan */
+	      {
+		data2 = readBytes (fp, 1);
+		//printf("\nMIDI Controller %d, value %d",data1,data2);
+		tlength--;
+		break;
+	      }
+	    case PGM_CHANGE:		/*change instrument, ignore */
+	      {
+		//printf("\nChange to Instrument% d",data1);
 		break;
 	      }
 	    default:
@@ -277,19 +309,6 @@ readtrack (FILE * fp, midicallback *mididata)
 		tlength--;
 		break;
 	      }
-	    case 11:		/*midi  controller eg. volume, pan */
-	      {
-		data2 = readBytes (fp, 1);
-		//printf("\nMIDI Controller %d, value %d",data1,data2);
-		tlength--;
-		break;
-	      }
-	    case 12:		/*change instrument, ignore */
-	      {
-		//printf("\nChange to Instrument% d",data1);
-		break;
-	      }
-
 	    };
 	}
     }
@@ -371,11 +390,12 @@ doinstrname (FILE * fp,  midicallback *mididata, gint x)
 }
 
 static nstack *
-stack (gint *pitch, gint *timeon, gint *duration, gint *measure, gint *staffnum)
+stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *measure, gint *staffnum)
 {
   nstack *mystack = (nstack *)g_malloc0(sizeof(nstack));
   mystack->pitch = pitch;
   mystack->timeon = timeon;
+  mystack->on_delta_time = delta_time;
   return mystack;
 }
 
@@ -387,6 +407,7 @@ void
 donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
 {
   nstack *noteon;
+  int delta_time = mididata->delta_time;
   if (attack == 0)
     {
       donoteoff (mididata, pitchon, timeon);
@@ -394,7 +415,7 @@ donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
   else
     {
       /* add a note to the stack */
-      noteon = stack(pitchon,timeon,NULL,NULL, NULL);
+      noteon = stack(pitchon,timeon,delta_time,NULL,NULL, NULL);
       mididata->notestack = g_list_append(mididata->notestack, noteon);
 #ifdef DEBUG
 	      printf ("\npitchon = %i timeon = %i\n", pitchon, timeon);
@@ -402,10 +423,10 @@ donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
     }
 }
 
-gint CompareNotes(GList *tmp, gint *pitchoff)
+gint CompareNotes(GList *list, gint *pitchoff)
 {
-        if ((((nstack *) &tmp->data)->pitch == pitchoff) &&
-               (((nstack *) &tmp->data)->duration == (int) NULL))
+        if ((((nstack *) &list->data)->pitch == pitchoff) &&
+               (((nstack *) &list->data)->duration == (int) NULL))
                return 0;
         else
                return 1;
@@ -465,312 +486,207 @@ donoteoff (midicallback *mididata, gint *pitchoff, gint *timeoff)
 {
   gint duration = 0;
   gint starttime = 0;
-  GList *tmp = NULL;
-  tmp = g_list_find_custom (mididata->notestack, pitchoff, (GCompareFunc) (int) CompareNotes);
-  if (tmp != NULL)
-      	starttime = (int) ((nstack *) tmp->data)->timeon;
-      	duration = ((gint) timeoff) - starttime;
+  GList *list = NULL;
+  list = g_list_find_custom (mididata->notestack, pitchoff, (GCompareFunc) (int) CompareNotes);
+  if (list != NULL)
+      	starttime = (int) ((nstack *) list->data)->timeon;
+      	duration = ((gint) timeoff) - starttime; /*can this can actually be obtained from the delta_time?*/
 #ifdef DEBUG
    	g_printf("\nduration = %i\n",duration);
 #endif
-  	((nstack *) tmp->data)->duration = (int *) duration;
-	((nstack *) tmp->data)->measure = (int *) mididata->gui->si->currentmeasurenum;
-	((nstack *) tmp->data)->staffnum = (int *) mididata->track;
- 	
-	mididata->final_list = g_list_append(mididata->final_list, tmp);
-	mididata->notestack = g_list_remove (mididata->notestack, tmp);
+  	((nstack *) list->data)->duration = (int *) duration;
+	/* should I get currentmeasure from gui->si or calculate that here?*/
+	((nstack *) list->data)->measure = (int *) mididata->gui->si->currentmeasurenum;
+	((nstack *) list->data)->staffnum = (int *) mididata->track;
+        /*process the found note*/
+	process_list(list,mididata);	
+	/*once note is found and applied remove it from the stack*/ 	
+	mididata->notestack = g_list_remove (mididata->notestack, list);
 }
 
 
-void ProcessNoteList(GList *list, midicallback *mididata) {
+void ProcessNote(GList *list, midicallback *mididata) {
 	DenemoScore *si = mididata->gui->si;
 	gint starttime = (int) ((nstack *) list->data)->timeon;
 	gint lastoff = mididata->lastoff;
 	gint duration = (int) ((nstack *) list->data)->duration;
-	gint currentstaffnum = si->currentstaffnum; 
 	gint track = (int) ((nstack *) list->data)->staffnum;
 	gint pitch = (int) ((nstack *) list->data)->pitch;
 	nstack note;
 	DenemoObject *mudela_obj_new;
-
-	restcheck(list,mididata);
-        
-	while (mididata->chordnotes){
-		   mididata->chordnotes = g_list_remove_link(mididata->chordnotes, g_list_first (mididata->chordnotes));
-	}
+	
+	
+	//while (mididata->chordnotes){
+	//	   mididata->chordnotes = g_list_remove_link(mididata->chordnotes, g_list_first (mididata->chordnotes));
+	//}
 	
 	/* call function to return a list of chord tones */
-	mididata->currentnote = g_list_copy(list);
-	g_list_foreach(mididata->final_list, (GFunc) findchordtones, mididata);
-
-	if ((track + 1) > currentstaffnum) /*if not first track add track */
-	  {
-	      si->currentstaffnum++;
-	      si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
-	      newstaff (mididata->gui, ADDFROMLOAD, DENEMO_NONE); /* add track */
-	      si->currentstaff = g_list_last (si->thescore); /* make last staff the current */
-	      mididata->lastoff = 0;
-	      si->cursor_x = 0;
-	      mididata->bartime = 0;
-	      si->currentmeasurenum = 1;
-	  }
-
+	//mididata->currentnote = g_list_copy(list);
+	//g_list_foreach(mididata->final_list, (GFunc) findchordtones, mididata);
+	
+	/*if a noteon event happends just after anouther note finishes just add the next note */
 	if (starttime == mididata->lastoff) {
 		notetype length = ConvertLength(duration, mididata);
-		mudela_obj_new = new_dnm_object (length,mididata->leftover);
+		length.tied = mididata->leftover;
+		mudela_obj_new = new_dnm_object (length);
 		struct harmonic enote = enharmonic ((int) ((nstack *) list->data)->pitch,mididata->key);
 		dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
-		while (mididata->chordnotes){
+		/*while (mididata->chordnotes){
 		  struct harmonic enote = enharmonic ((int) 
 				 mididata->chordnotes->data,mididata->key);
 	          dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);		
 		  mididata->chordnotes = g_list_remove_link(mididata->chordnotes, g_list_first (mididata->chordnotes));
-		}
+		}*/
 		mididata->lastoff = starttime + duration;
-		MeasureCheck(list,mididata);
 		object_insert (mididata->gui, mudela_obj_new);
-		mididata->bartime = mididata->bartime + duration;
+		mididata->bartime += duration;
 	}
+	if (mididata->leftover){
+		MeasureCheck(list,mididata);
+		notetype tied_length = ConvertLength(mididata->leftover, mididata);
+		mudela_obj_new = new_dnm_object (tied_length);
+		struct harmonic enote = enharmonic ((int) ((nstack *) list->data)->pitch,mididata->key);
+		dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
+		mididata->lastoff += mididata->leftover;
+		object_insert (mididata->gui, mudela_obj_new);
+		mididata->bartime += mididata->leftover;
+		mididata->leftover = 0;
+	}
+	/* if the starttime of noteon is not were we left off we need to do something */
 	if ((starttime != mididata->lastoff) && (mididata->leftover !=0)){
 		mididata->leftover = 0;
 		((nstack *) list->data)->timeon = (int *) mididata->lastoff;
-		MeasureCheck(list,mididata);
-		addnote(list, mididata);
+		process_list(list, mididata);
 	}
 #ifdef DEBUG
 	printf("\nNotelist pitch = %i, timeon = %i, duration = %i, staffnum = %i\n", pitch, starttime, duration, track);
 #endif
 }
 
-void restcheck(GList *tmp, midicallback *mididata){
+void restcheck(GList *list, midicallback *mididata){
   gint rest = 0;
   gint PPQN = mididata->PPQN;
-  gint starttime = (int) ((nstack *) tmp->data)->timeon;
-  gint duration = (int) ((nstack *) tmp->data)->duration;
+  gint starttime = (int) ((nstack *) list->data)->timeon;
+  gint duration = (int) ((nstack *) list->data)->duration;
+  gint on_delta_time = (int) ((nstack *) list->data)->on_delta_time;
   DenemoObject *mudela_obj_new;
-
-	if (starttime > mididata->lastoff){
-		  rest = starttime - mididata->lastoff;
-		      /* Until I find a better way to pad the end of a measure */
-		
-			  if (rest > PPQN)
-			  {
-			    if (rest % PPQN){
-			      struct notetype length = ConvertLength((rest % PPQN), mididata);
-			      mudela_obj_new = new_dnm_object(length,0);
-			      object_insert (mididata->gui, mudela_obj_new);
-			      mididata->bartime = mididata->bartime + (rest % PPQN);
-			      MeasureCheck(tmp,mididata);
-			    }
-			    
-			    rest = rest - (rest % PPQN);
-			    while (rest > 0){
-			      struct notetype length = ConvertLength(PPQN, mididata);
-			      mudela_obj_new = new_dnm_object(length,0);
-			      object_insert (mididata->gui, mudela_obj_new);
-			      rest = rest - PPQN;
-			      mididata->bartime = mididata->bartime + (PPQN);
-			      MeasureCheck(tmp,mididata);
-			    }
-			  }
-		          
-			  if ((rest < PPQN) && (rest != 0)) {
-			    struct notetype length = ConvertLength(rest, mididata);
-			    mudela_obj_new = new_dnm_object(length,0);
-			    object_insert (mididata->gui, mudela_obj_new);
-			    mididata->bartime = mididata->bartime + (rest);
-			    MeasureCheck(tmp,mididata);
-		      }
-
-		  if(0)// (((starttime - mididata->lastoff) > 0) && (mididata->leftover > 0))
-		  {
-			mididata->lastoff = mididata->bartime = mididata->barlength;
-			mididata->leftover = 0;
-			MeasureCheck(tmp,mididata);
-		  }
-		  else 
-			mididata->lastoff = starttime;
-	}
+  if (starttime > mididata->lastoff){
+    rest = starttime - mididata->lastoff;
+    if (mididata->bartime + on_delta_time  >= (mididata->barlength)){
+      while(mididata->barlength - mididata->bartime){
+        rest = mididata->barlength - mididata->bartime;
+        struct notetype length = ConvertLength(rest, mididata);
+	length.tied = 0;
+        mudela_obj_new = new_dnm_object(length);
+        object_insert (mididata->gui, mudela_obj_new);
+        mididata->bartime += rest;
+        mididata->lastoff += rest;
+      } 
+      process_list(list,mididata);		          
+      rest = 0;/* I am not sure if this is the best choice here*/
+    }
+    if (rest){
+        struct notetype length = ConvertLength(rest, mididata);
+	length.tied = 0;
+	mudela_obj_new = new_dnm_object(length);
+	object_insert (mididata->gui, mudela_obj_new);
+	mididata->bartime = mididata->bartime + (rest);
+	mididata->lastoff += rest;
+	rest = 0;
+    }
+  }
 }
 
 notetype ConvertLength(gint endnote, midicallback *mididata){
- /*convert length to 2 = crotchet, 3 = quaver etc...... */
+ /*convert length to 2 = quarter, 1 = half, 0 = whole etc...... */
+	/* quarter = 384, half = 768, whole = 1536*/
   notetype gnotetype;
   gint PPQN = mididata->PPQN;
-  gint notetype = 2;
+  gint notetype = 0;
   gint numofdots = 0;
   gint tied = 0;
-  gint dsq = (8 * endnote) / PPQN;
-  /* 
-   *replace this with an algorhthm for replacing this switch?
-   */
-  switch (dsq)
-  {
-    case 1:			/*demi-semi-quaver */
-      {
-	notetype = 5;		/*thirtysecond note*/
-	break;
-      }
-    case 2:			/*semi-quaver */
-      {
-	notetype = 4;		/*sixteenth note*/
-	//numofdots = 1;
-	break;
-      }
-    case 3:			/*dotted semi-quaver */
-      {
-	notetype = 4;
-	//numofdots = 1;
-	tied = PPQN / 8;	/*dotted sixteenth*/
-	break;
-      }
-    case 4:			/*quaver */
-      {
-	notetype = 3;		/*eigth note*/
-	break;
-      }
-    case 5:			/*quaver tied demi */
-      {
-	notetype = 3;
-	tied = PPQN / 8;	
-	break;
-      }
-    case 6:			/*quaver */
-      {
-	notetype = 3;
-	//numofdots = 1;
-	tied = PPQN / 4;    /*dotted eigth*/
-	break;
-      }
-    case 7:			/*quaver */
-      {
-	notetype = 3;
-	tied = 3 * PPQN / 8;
-	break;
-      }
-    case 8:			/*crotchet */
-      {
-	notetype = 2;		/*quarter note*/
-	break;
-      }
-    case 9:			/*crotchet */
-      {
-	notetype = 2;
-	tied = PPQN / 8;
-	break;
-      }
-    case 10:			/*crotchet */
-      {
-	notetype = 2;
-	tied = PPQN / 4;
-	break;
-      }
-    case 11:			/*crotchet */
-      {
-	notetype = 2;
-	tied = PPQN * 3 / 8;
-	break;
-      }
-    case 12:			/*crotchet */
-      {
-	notetype = 2;	
-	//numofdots = 1;
-	tied = PPQN / 2;	/*dotted quarter*/
-	break;
-      }
-    case 13:			/*crotchet */
-      {
-	notetype = 2;
-	tied = 5 * PPQN / 8;
-	break;
-      }
-    case 14:			/*crotchet */
-      {
-	notetype = 2;
-	tied = 3 * PPQN / 4;
-	break;
-      }
-    case 15:			/*crotchet */
-      {
-	notetype = 2;
-	tied = 7 * PPQN / 8;
-	break;
-      }
-    case 16:			/*minim */
-      {
-	notetype = 1;		/*half note*/
-	break;
-      }
-    case 24:
-      {
-	notetype = 1;		/*dotted half note*/
-	//numofdots = 1;
-	tied = PPQN;		
-	break;
-      }
-    case 30:
-      {
-	notetype = 1;
-	tied = 7 * PPQN / 4;
-	break;
-      }
-    case 32:			/*semi-breve */
-      {
-	notetype = 0;		/*whole note*/
-	break;
-      }
-    case 48:
-      {
-	notetype = 0;		/*dotted whole note*/
-	//numofdots = 1;
-	tied = PPQN * 2;
-	break;
-      }
-  }
+  gint leftover = 0;
+  gint dsq = (4 * PPQN);
+
+  do notetype++;
+  while ((dsq >> notetype) > endnote);
+	  
+  /* TODO add a do while or something to find more dots */
+
+  if (dsq % endnote){
+    leftover = (endnote - (dsq >> notetype));            //if leftovers
+      if (leftover == (dsq >> (notetype +1))){
+        numofdots = 1;
+        leftover = 0;
+      }	
+    }
+
   gnotetype.notetype = notetype;
   gnotetype.numofdots = numofdots;
-  gnotetype.tied = tied;
+  gnotetype.tied = leftover;
   return gnotetype;
 }
 
-/* all this stuff is just checking 
- * to see if we need to add a new measure 
+/**
+ * check to see if a new staff needs to be added
  */
-void MeasureCheck(GList *list, midicallback *mididata){
-  if (mididata->leftover == 0)
-    {
-      if (mididata->bartime >= mididata->barlength)	
-	{			/* mididata->bartime >= barlenth will be true if there are rests  or notes
-				   going over end of measures. */
-	  if (!mididata->gui->si->currentmeasure->next)
-	    /* Add a measure and make it currentmeasure */
-	    mididata->gui->si->currentmeasure =
-	      dnm_addmeasures (mididata->gui->si, mididata->gui->si->currentmeasurenum, 1, 1);
-	  else
-	    mididata->gui->si->currentmeasure = mididata->gui->si->currentmeasure->next;
-	  /* Now the stuff that needs to be done for each case */
-	  mididata->gui->si->currentmeasurenum++;
-	  mididata->gui->si->currentobject = NULL;
-	  mididata->gui->si->cursor_x = 0;
-	  memcpy (mididata->gui->si->cursoraccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
-	  memcpy (mididata->gui->si->curmeasureaccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
-	  mididata->gui->si->curmeasureclef = mididata->gui->si->cursorclef;
-	  mididata->bartime = 0;
-	}
+void StaffCheck(GList *list, midicallback *mididata){
+  DenemoScore *si = mididata->gui->si;
+  gint track = (int) ((nstack *) list->data)->staffnum;
+  gint currentstaffnum = si->currentstaffnum;
 
+  if ((track + 1) > currentstaffnum) /*if not first track add track */
+    {
+      si->currentstaffnum++;
+      si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
+      newstaff (mididata->gui, ADDFROMLOAD, DENEMO_NONE); /* add track */
+      si->currentstaff = g_list_last (si->thescore); /* make last staff the current */
+      mididata->lastoff = 0;
+      si->cursor_x = 0;
+      mididata->bartime = 0;
+      si->currentmeasurenum = 1;
     }
 }
 
+/** 
+ * check
+ * to see if we need to add a new measure 
+ */
+void MeasureCheck(GList *list, midicallback *mididata){
+  if (mididata->bartime >= mididata->barlength)	
+  {			/* mididata->bartime >= barlenth will be true if there are rests  or notes
+			   going over end of measures. */
+    if (!mididata->gui->si->currentmeasure->next)
+      /* Add a measure and make it currentmeasure */
+      mididata->gui->si->currentmeasure =
+      dnm_addmeasures (mididata->gui->si, mididata->gui->si->currentmeasurenum, 1, 1);
+    else
+      mididata->gui->si->currentmeasure = mididata->gui->si->currentmeasure->next;
+    /* Now the stuff that needs to be done for each case */
+    mididata->gui->si->currentmeasurenum++;
+    mididata->gui->si->currentobject = NULL;
+    mididata->gui->si->cursor_x = 0;
+    memcpy (mididata->gui->si->cursoraccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
+    memcpy (mididata->gui->si->curmeasureaccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
+    mididata->gui->si->curmeasureclef = mididata->gui->si->cursorclef;
+    mididata->bartime = 0;
+  }
+}
+
+/**
+ * This takes a note and calculates if the note is to big to fit in the measue. 
+ * If it is it fits what it can fit in the measure and ties it to the 
+ * remainder in the next measure.
+ */
 void TiedNoteCheck(GList *list, midicallback *mididata){
-  	restcheck(list,mididata);
 	gint endnote = (int) ((nstack *) list->data)->duration;
   	gint barlength = (int) mididata->barlength;
   
 	if ((mididata->bartime + endnote) > barlength)
 	{
-	  	mididata->leftover = (int) (barlength - mididata->bartime);	/*tied over bar line */
-	  	endnote = endnote - (int) mididata->leftover;
-		((nstack *) list->data)->duration = (int *) endnote;
+	  	mididata->leftover = (int) (endnote - (barlength - mididata->bartime));	/*tied over bar line */
+	  	endnote = (int) (barlength - mididata->bartime); /*new value that fits in bar*/
+		((nstack *) list->data)->duration = (int *) endnote; 
 	}
       	else 
 		mididata->leftover = (int) 0;
@@ -780,13 +696,19 @@ void TiedNoteCheck(GList *list, midicallback *mididata){
  * Add notes to the current staff
  */
 void
-addnote (GList *list, midicallback *mididata)
+process_list(GList *list, midicallback *mididata)
 {
-  /* check to see if notes are tied over */
-  TiedNoteCheck(list, mididata);
-   
+  /* check to see if we need to add a new staff */
+  StaffCheck(list, mididata);
+  /* check to see if we need to add a measure */
+  MeasureCheck(list, mididata);  	
+  /*check for rests*/
+  restcheck(list,mididata);
+  /*check for notes tied across measure*/
+  TiedNoteCheck(list, mididata);	
   /* note processing stuff */
-  ProcessNoteList(list, mididata);  
+  ProcessNote(list, mididata);  
+
 }
 
 harmonic
