@@ -32,6 +32,8 @@ typedef struct _keyboard_dialog_data
 
 guint
 dnm_sanitize_key_event(GdkEventKey *event);
+guint
+dnm_hyper_sanitize_key_event(GdkEventKey *event);
 
 gboolean
 isModifier(GdkEventKey *event);
@@ -93,11 +95,6 @@ lookup_command_for_keybinding (keymap *the_keymap, gint keyval, GdkModifierType 
 gint
 lookup_command_for_keybinding_name (keymap *the_keymap, const gchar *binding_name);
 
-//GList*
-//lookup_keybindings_from_name(keymap* keymap, const gchar* name);
-
-//GList*
-//lookup_keybindings_by_idx(keymap* keymap, guint idx);
 
 gint 
 lookup_command_from_name (keymap * keymap, const gchar *command_name);
@@ -116,9 +113,6 @@ lookup_hidden_from_idx (keymap * keymap, guint command_idx);
 
 gpointer
 lookup_callback_from_idx (keymap * keymap, guint command_idx);
-
-//const gchar *
-//lookup_label_from_name(keymap *keymap, const gchar *command_name);
 
 void
 remove_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
@@ -145,8 +139,7 @@ keymap_update_accel(keymap *the_keymap, GtkAction *action, guint keyval,
 		GdkModifierType modifiers);
 
 gint
-keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
-		gpointer func_data);
+keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 
 GtkAction *
 lookup_action_from_name(keymap *the_keymap, gchar *command_name);
@@ -170,14 +163,14 @@ load_keymap_dialog (GtkWidget *Widget);
 
 
 void
-load_default_keymap_file (keymap *the_keymap);
+load_default_keymap_file (void);
 
 void
 load_system_keymap_dialog (GtkWidget * widget);
 void
 save_keymap_dialog (GtkWidget *widget);
 void
-load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location);
+load_keymap_dialog_location (GtkWidget * widget, gchar *location);
 void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param);
 

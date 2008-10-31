@@ -284,8 +284,9 @@ typedef struct DenemoKeymap
 
   GHashTable *idx_from_keystring; //hashtable linking the string representing
                                   //a keypress to the index of its command
-								  //The keystring is the output of
-								  //dnm_accelerator_name()
+                                  //The keystring is the output of
+  				  //dnm_accelerator_name()
+  GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
 }keymap;
 
 #define MAX_HISTORY 10
@@ -654,7 +655,7 @@ struct DenemoRoot
   gint width;
   gint height;
   gboolean maximized;
-  keymap *commands; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
+  keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
   gint last_keyval, last_keystate;/**< most recent keypress which successfully invoked a command */
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music

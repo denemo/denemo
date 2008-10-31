@@ -64,7 +64,7 @@ typedef struct command_row {
 }command_row;
 
 static void
-load_keymap_file_named (keymap * the_keymap, gchar *keymapfile, gchar *fallback);
+load_keymap_file_named (gchar *keymapfile, gchar *fallback);
 
 /* Returns the state of the event after removing the modifiers consumed by the
  * system and unwanted modifiers. Use this before doing anything based on the
@@ -72,6 +72,26 @@ load_keymap_file_named (keymap * the_keymap, gchar *keymapfile, gchar *fallback)
  */
 guint
 dnm_sanitize_key_state(GdkEventKey *event)
+{
+    guint ret = event->state;
+    GdkModifierType consumed;
+    /* We want to ignore irrelevant modifiers like ScrollLock */
+
+    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
+        event->state, event->group, NULL, NULL, NULL, &consumed);
+    /* removing consumed modifiers from ret */
+    ret &= ~consumed;
+    /* removing other unwanted modifiers from event->state */
+    ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK
+
+ | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK    /*    these make numlock required to be off for example */);
+    return ret;
+}
+/* Returns the state of the event after removing the modifiers consumed by the
+ * system and even more unwanted modifiers. Use this if sanitize is insufficient.
+ */
+guint
+dnm_hyper_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
     GdkModifierType consumed;
@@ -96,7 +116,7 @@ isModifier(GdkEventKey *event)
     /* This check for modifier values on the event may not be right,
        if the contents of gdkkeysyms.h are OS-dependent. I don't believe
        they are. */
-    return event->keyval >= GDK_Shift_L && event->keyval <= GDK_Hyper_R;
+  return (event->keyval >= GDK_Shift_L && event->keyval <= GDK_Hyper_R) || (event->keyval==GDK_Num_Lock);
 }
 
 static inline gboolean
@@ -531,7 +551,10 @@ keymap *allocate_keymap(void)
   the_keymap->idx_from_name =
       g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
   the_keymap->idx_from_keystring =
-      g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free); 
+      g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+  the_keymap->cursors = g_hash_table_new(g_int_hash, g_int_equal);
+  g_print("Created hash table %p\n", the_keymap->cursors);
   return the_keymap;
 }
 
@@ -1138,13 +1161,12 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu *menu)
 
 
 gint
-keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event,
-		gpointer func_data)
+keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
 {
   guint keyval;
   GdkModifierType modifiers;
   GtkAction *action;
-  keymap *the_keymap = Denemo.commands;
+  keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
   GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
   GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
@@ -1302,7 +1324,7 @@ load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
   gchar *name = (gchar *)
     gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
   if(g_file_test (name, G_FILE_TEST_EXISTS))
-     load_keymap_file_named(Denemo.commands, NULL, name);
+     load_keymap_file_named(NULL, name);
 }
 
 /**
@@ -1313,7 +1335,7 @@ static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
 void
-load_keymap_dialog_location (GtkWidget * widget, keymap * the_keymap, gchar *location)
+load_keymap_dialog_location (GtkWidget * widget, gchar *location)
 {
   GtkWidget *filesel;
   filesel = gtk_file_selection_new (_("Load Command Set"));
@@ -1346,7 +1368,7 @@ load_keymap_dialog (GtkWidget * widget)
 {
   gchar *keymapdir = g_strdup_printf("%s%c", locatekeymapdir(),G_DIR_SEPARATOR);
   if(keymapdir)
-    load_keymap_dialog_location (widget, Denemo.commands, keymapdir);
+    load_keymap_dialog_location (widget, keymapdir);
   else
     warningdialog("Cannot access your local .denemo");
   g_free(keymapdir);
@@ -1358,7 +1380,7 @@ load_system_keymap_dialog (GtkWidget * widget)
   gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
                                         NULL);
   if(systemwide)
-    load_keymap_dialog_location (widget, Denemo.commands, systemwide);
+    load_keymap_dialog_location (widget, systemwide);
   else
     warningdialog("Installation error");
   g_free(systemwide);
@@ -1372,16 +1394,14 @@ load_system_keymap_dialog (GtkWidget * widget)
 
  */
 static void
-load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) {
-
-  // keymap_clear_bindings (the_keymap); this doesn't prevent keybindings hanging around???
+load_keymap_file_named (gchar *localrc, gchar *systemwide) {
 
   if(localrc) {
     g_print ("Trying local file %s as xml...", localrc);
-    if (load_xml_keymap (localrc, the_keymap) == -1)
+    if (load_xml_keymap (localrc) == -1)
       {
 	g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
-	if (load_xml_keymap (systemwide, the_keymap) == -1)
+	if (load_xml_keymap (systemwide) == -1)
 	  {
 	    g_print ("..no.\nNo useful keymaps found.\n");
 	    no_map_dialog ();
@@ -1393,8 +1413,8 @@ load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) 
       g_print ("..ok.\n");
   }
   else {
-    if (load_xml_keymap (systemwide, the_keymap) == -1)
-      warningdialog("Could not load keymap file selected");
+    if (load_xml_keymap (systemwide) == -1)
+      warningdialog("Could not load command set file");
   }
 }
 
@@ -1403,7 +1423,7 @@ load_keymap_file_named (keymap * the_keymap, gchar *localrc, gchar *systemwide) 
  * or (if that doesn't load) the global default keymap
  */
 void
-load_default_keymap_file (keymap * the_keymap)
+load_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
@@ -1412,7 +1432,7 @@ load_default_keymap_file (keymap * the_keymap)
   //g_print ("systemwide = %s\n", systemwide);
   if(keymapdir)
     localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  load_keymap_file_named (the_keymap, localrc, systemwide);
+  load_keymap_file_named (localrc, systemwide);
   g_free(localrc);
   g_free(systemwide);
 }
@@ -1458,8 +1478,7 @@ save_keymap_from_dialog (GtkWidget * widget, GtkWidget * filesel)
 {
   save_xml_keymap ((gchar *)
 		   gtk_file_selection_get_filename (GTK_FILE_SELECTION
-						    (filesel)),
-		   Denemo.commands);
+						    (filesel)));
 
 }
 
@@ -1515,7 +1534,7 @@ save_default_keymap_file (GtkWidget *widget)
   const gchar *keymapdir = locatekeymapdir ();
   if(keymapdir)
     localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  save_xml_keymap (localrc, Denemo.commands);
+  save_xml_keymap (localrc);
   g_free(localrc);
 }
 
@@ -1631,7 +1650,7 @@ search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
 static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
                                             gchar *path)  {
   gint command_idx = atoi(path);
-  GtkAction *action = lookup_action_from_idx (Denemo.commands, command_idx);
+  GtkAction *action = lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
     gboolean hidden = (gboolean)g_object_get_data(action, "hidden");
     set_visibility_for_action(action, hidden);
@@ -1642,7 +1661,7 @@ static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
 static void toggle_deleted_on_action (GtkCellRendererToggle *cell_renderer,
                                             gchar *path)  {
   gint command_idx = atoi(path);
-  GtkAction *action = lookup_action_from_idx (Denemo.commands, command_idx);
+  GtkAction *action = lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
     gboolean deleted = (gboolean)g_object_get_data(action, "deleted");
     //set_visibility_for_action(action, deleted);
@@ -1723,7 +1742,7 @@ void row_inserted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("insert\n");
     if (cbdata->command_idx != -1)
-        update_accel_labels(Denemo.commands, cbdata->command_idx);
+        update_accel_labels(Denemo.map, cbdata->command_idx);
 }
 
 void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
@@ -1732,7 +1751,7 @@ void row_deleted_handler(GtkTreeModel *model, GtkTreePath *arg1,
     keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
     //g_print("delete\n");
     if (cbdata->command_idx != -1)
-        update_accel_labels(Denemo.commands, cbdata->command_idx);
+        update_accel_labels(Denemo.map, cbdata->command_idx);
 }
 
 //Performs cleanup on the keymap when a command view is closed
@@ -1828,7 +1847,7 @@ keymap_get_binding_view()
   res = GTK_TREE_VIEW(gtk_tree_view_new());
   
   col = gtk_tree_view_column_new();
-  gtk_tree_view_column_set_title(col, _("Bindings"));
+  gtk_tree_view_column_set_title(col, _("Shortcuts"));
   gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_GROW_ONLY);
   gtk_tree_view_append_column(res, col);
 

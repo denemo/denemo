@@ -33,27 +33,86 @@ gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
   //g_object_unref(event);
 }
 
+
+
+static guint lock_mask(gint keyval) {
+
+  if((keyval==GDK_Shift_L)||
+     (keyval==GDK_Shift_R))
+    return GDK_SHIFT_MASK;
+
+  if(keyval==GDK_Caps_Lock)
+    return GDK_LOCK_MASK;
+    
+  if((keyval==GDK_Control_L)||
+     (keyval==GDK_Control_R))
+    return GDK_CONTROL_MASK;
+
+
+  if(keyval==GDK_Alt_L)
+    return GDK_MOD1_MASK;
+
+
+
+  if(keyval==GDK_Num_Lock)
+    return GDK_MOD2_MASK;
+
+     /*penguin/windows */
+  if((keyval==GDK_Super_L)||
+     (keyval==GDK_Super_R))
+    return GDK_MOD4_MASK;
+
+  if(keyval==GDK_Alt_R || GDK_ISO_Level3_Shift )
+    return GDK_MOD5_MASK;
+
+  return 0;
+
+}
+
+
+
+/**
+ * keyrelease event callback 
+ * sets cursor if a modifier
+ */
+
+void
+scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
+{
+  // set_cursor_for(keyrelease_modify(event->state), event->keyval);
+  gint state;
+  if((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock))
+    return;
+  state = (lock_mask(event->keyval)^event->state);
+  set_cursor_for(state);
+}
 /**
  * keypress event callback 
  * looks up the key press and executes the correct function
  */
 
-int
+void
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  keymap *the_keymap = Denemo.commands;
+  keymap *the_keymap = Denemo.map;
   if(divert_key_event && !isModifier(event)) {
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
     return 1;
   }
-
+  gint state;
+  state = (lock_mask(event->keyval)^event->state);
+  if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))
+    set_cursor_for(state); // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_sanitize_key_state(event));
+  if(command_idx==-1)
+    command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+			       dnm_hyper_sanitize_key_state(event)); 
   if (command_idx != -1) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);

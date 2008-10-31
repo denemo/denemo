@@ -190,9 +190,30 @@ get_placement_from_coordinates (struct placement_info *pi,
 }
 
 
+void assign_cursor(guint state, guint cursor_num) {
+  guint *cursor_state = g_new(guint,1);
+  *cursor_state = state;
+  //g_print("Storing cursor %x for state %x in hash table %p\n", cursor_num, state, Denemo.map->cursors );  
+  GdkCursor *cursor = gdk_cursor_new(cursor_num);
+  g_assert(cursor);
+  g_hash_table_insert(Denemo.map->cursors, cursor_state, cursor);
+}
+
+void
+set_cursor_for(guint state) {
+  gint the_state = state;
+  GdkCursor *cursor = g_hash_table_lookup(Denemo.map->cursors, &the_state);
+  //g_print("looked up %x in %p got cursor %p which is number %d\n", state, Denemo.map->cursors,  cursor, cursor?cursor->type:-1);
+  if(cursor)
+    gdk_window_set_cursor(Denemo.window->window, cursor);
+   else 
+    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_RIGHT_PTR));//FIXME? does this take time/hog memory
+}
+
+
 /* appends the name(s) for modifier mod to ret->str */
 
-void modifier_name(GString *ret, gint mod) {
+void append_modifier_name(GString *ret, gint mod) {
   gint i;
   static const gchar* names[]= {
  "Shift"   ,
@@ -215,7 +236,7 @@ GString* mouse_shortcut_name(gint mod,  mouse_gesture gesture, gboolean left) {
 
   GString *ret = g_string_new((gesture==GESTURE_PRESS)?(left?"PrsL":"PrsR"):((gesture==GESTURE_RELEASE)?(left?"RlsL":"RlsR"):(left?"MveL":"MveR")));
 
-  modifier_name(ret, mod);
+  append_modifier_name(ret, mod);
   //g_print("Returning %s for mod %d\n", ret->str, mod);
   return ret;
 
@@ -227,9 +248,9 @@ static void
 perform_command(gint modnum, mouse_gesture press, gboolean left)
 {
   GString *modname = mouse_shortcut_name(modnum, press, left);
-  gint command_idx = lookup_command_for_keybinding_name (Denemo.commands, modname->str);
+  gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
   if(command_idx>=0) {
-    execute_callback_from_idx (Denemo.commands, command_idx);
+    execute_callback_from_idx (Denemo.map, command_idx);
     displayhelper (Denemo.gui);
   }
   g_string_free(modname, TRUE);
@@ -278,7 +299,6 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 }
 
 
-
 /**
  * Mouse button press callback 
  *
@@ -317,7 +337,7 @@ DenemoGUI *gui = Denemo.gui;
       gtk_widget_queue_draw (gui->scorearea);
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
-
+  set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_PRESS, left);
   
   return TRUE;
@@ -334,6 +354,8 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
  gboolean left = (event->button != 3);
  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+
+ set_cursor_for(event->state&DENEMO_MODIFIER_MASK);
  perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_RELEASE, left);
 
   return TRUE;

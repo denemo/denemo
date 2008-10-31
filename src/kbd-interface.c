@@ -16,6 +16,7 @@
 
 #include "kbd-custom.h"
 #include "prefops.h"
+#include "mousing.h"
 
 static void
 validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
@@ -50,7 +51,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   command_idx = array[0];
   gtk_tree_path_free(path);
   //set the new binding
-  add_keybinding_to_idx(Denemo.commands, event->keyval, modifiers,
+  add_keybinding_to_idx(Denemo.map, event->keyval, modifiers,
           command_idx, POS_LAST);
   //TODO? advertize on the status bar the fact a keybinding was stolen
   //clean the GUI
@@ -78,7 +79,7 @@ capture_look_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   modifiers = dnm_sanitize_key_state(event);
  
   //look for the keybinding
-  command_idx = lookup_command_for_keybinding(Denemo.commands, event->keyval, modifiers);
+  command_idx = lookup_command_for_keybinding(Denemo.map, event->keyval, modifiers);
   //if the binding is associated to a command 
   if (command_idx != -1) {
       model = gtk_tree_view_get_model(cbdata->command_view);
@@ -155,8 +156,50 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
       return;
   //else get the binding and remove it
   gtk_tree_model_get(model, &iter, 0, &binding, -1);
-  remove_keybinding_from_name(Denemo.commands, binding);
+  remove_keybinding_from_name(Denemo.map, binding);
   g_free(binding);
+}
+typedef struct ModifierPointerInfo {
+  guint button_mask;
+  guint cursor_number;
+}  ModifierPointerInfo;
+
+#define DENEMO_MODIFIER_MASK (255)
+static void keyboard_modifier_callback(GtkWidget *w, GdkEventButton *event, ModifierPointerInfo *info ){
+  gint mask = info->button_mask;
+  gint state = (event->state&DENEMO_MODIFIER_MASK) | mask;
+  gint cursor_number = info->cursor_number;
+  GdkCursor *cursor = gdk_cursor_new(cursor_number);
+  //g_hash_table_lookup(Denemo.map->cursors, &state);
+ 
+  // show_type(w, "button mod callback: ");
+  GString *str = g_string_new("");
+  g_string_append_printf(str, "Mouse Pointer number %d currently chosen for\n Mouse:-%s Keyboard:", cursor_number, mask?(mask&GDK_BUTTON1_MASK?"Left Button Drag":"Right Button Drag"):"No Button Press"); 
+  append_modifier_name(str, state);
+#define POINTER_PROMPT  "To change the Pointer for a mouse/keyboard state:\nSelect Mouse Pointer number\nChoose mouse state and then click here\nwhile holding modifier key\nand/or engaging Caps/Num lock for the keyboard state"
+  gdk_window_set_cursor(w->window, cursor);
+g_string_append(str, "\n");
+  g_string_append(str, POINTER_PROMPT);
+  
+  gtk_button_set_label (w,str->str);
+  assign_cursor(state, cursor_number);
+  g_string_free(str, TRUE);
+}
+
+void
+set_cursor_number (GtkSpinButton *widget, gint *number){
+  *number = gtk_spin_button_get_value_as_int(widget);
+  static GdkCursor *cursor;
+  //  if(cursor)
+  //  g_object_unref(cursor);
+  cursor = gdk_cursor_new(*number);
+  //gdk_window_set_cursor(widget->window, cursor);   
+}
+static void button_choice_callback(GtkWidget *w, gint *mask ){
+  gint choice =  gtk_toggle_button_get_active(w);
+  if(choice)
+    *mask = g_object_get_data(w, "mask");
+  g_print("button choice %x\n", *mask);
 }
 
 void
@@ -202,7 +245,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   //command selection the the change of the model displayed by the binding view
   binding_view = keymap_get_binding_view();
   binding_tree_view = gtk_bin_get_child(GTK_BIN(binding_view));
-  command_view = GTK_WIDGET(keymap_get_command_view(Denemo.commands));
+  command_view = GTK_WIDGET(keymap_get_command_view(Denemo.map));
   command_tree_view = gtk_bin_get_child(GTK_BIN(command_view));
   
   dialog = gtk_dialog_new_with_buttons (_("Command Manager"),
@@ -320,118 +363,47 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
     gtk_tree_path_free(path);
   }
   gtk_tree_selection_select_iter(selection, &iter);
+  frame= gtk_frame_new( "Setting the mouse pointer");
+  gtk_frame_set_shadow_type(frame, GTK_SHADOW_IN);
+  gtk_container_add (GTK_CONTAINER (vbox), frame);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (frame), hbox);
 
-/*
-  label = gtk_label_new_with_mnemonic (_("_Scheme:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
+  vbox = gtk_vbox_new (FALSE, 8);
+  gtk_box_pack_end (GTK_BOX (hbox), vbox, FALSE, TRUE, 0);
 
-  scheme = gtk_combo_box_new_text ();
-  update_keymaps_list (GTK_COMBO_BOX (scheme));
-  gtk_table_attach (GTK_TABLE (table), scheme, 1, 2, 0, 1,
-		    (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-		    (GtkAttachOptions) (GTK_FILL), 0, 0);
+  GtkWidget *cursor_button = gtk_button_new_with_label(POINTER_PROMPT);
+  static ModifierPointerInfo info;
+  info.button_mask = GDK_BUTTON3_MASK;//radio button for left, right none
+  g_signal_connect (GTK_OBJECT (cursor_button), "button-release-event",
+		      G_CALLBACK(keyboard_modifier_callback), &info);
+  gtk_box_pack_end (GTK_BOX (hbox), cursor_button, FALSE, TRUE, 0);
 
-  gtk_combo_box_set_active (GTK_COMBO_BOX (scheme), 0);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), scheme);
-  g_signal_connect (scheme, "changed", G_CALLBACK (change_scheme), NULL);
+  GtkWidget *mouse_state = gtk_radio_button_new_with_label(NULL, "Right Drag");
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state, TRUE, TRUE, 0);
+  g_object_set_data(mouse_state, "mask", GDK_BUTTON3_MASK);
+  g_signal_connect(mouse_state, "toggled", button_choice_callback, &info.button_mask);
+  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget(mouse_state, "Mouse Move");
+  g_signal_connect(mouse_state2, "toggled", button_choice_callback, &info.button_mask);
+  g_object_set_data(mouse_state2, "mask", 0);
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
+  mouse_state2 = gtk_radio_button_new_with_label_from_widget(mouse_state, "Left Drag");
+  g_signal_connect(mouse_state2, "toggled", button_choice_callback, &info.button_mask);
+  g_object_set_data(mouse_state2, "mask", GDK_BUTTON1_MASK);
+  gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
 
-  button_save = gtk_button_new_from_stock (GTK_STOCK_SAVE_AS);
-  gtk_table_attach (GTK_TABLE (table), button_save, 2, 3, 0, 1,
-		    (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
-
-  button = gtk_button_new_from_stock (GTK_STOCK_DELETE);
-  gtk_table_attach (GTK_TABLE (table), button, 3, 4, 0, 1,
-		    (GtkAttachOptions) (0), (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_set_sensitive (button, FALSE);
-
-  label = gtk_label_new_with_mnemonic (_("C_ategory:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-
-  // FIXME: Does not work with translated command names
-  category = gtk_combo_box_new_text ();
-  gtk_table_attach (GTK_TABLE (table), category, 1, 4, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (GTK_FILL), 0, 0);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), category);
-
-  for (i = 0; i < kbd_categories_length; i++)
-    {
-      gtk_combo_box_append_text (GTK_COMBO_BOX (category),
-				 _(kbd_categories[i]));
-    }
-
-  label = gtk_label_new_with_mnemonic (_("_Command:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
-
-  // FIXME: Does not work with translated command names
-  command = gtk_combo_box_new_text ();
-  gtk_table_attach (GTK_TABLE (table), command, 1, 4, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (GTK_FILL), 0, 0);
-  gtk_label_set_mnemonic_widget (GTK_LABEL (label), command);
-
-  scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
-  gtk_box_pack_start (GTK_BOX (vbox), scrolledwindow, TRUE, TRUE, 0);
-  gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolledwindow),
-				       GTK_SHADOW_IN);
-  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow),
-				  GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-  list_store = gtk_list_store_new (2, G_TYPE_STRING,*/	/* binding label */
-//				   G_TYPE_STRING);	/* command name */
-/*
-
-  treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (list_store));
-  gtk_widget_set_size_request (treeview, -1, 150);
-  renderer = gtk_cell_renderer_text_new ();
-
-  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (treeview), -1,
-					       "Shortcuts", renderer,
-					       "text", COL_LABEL, NULL);
-
-  gtk_container_add (GTK_CONTAINER (scrolledwindow), treeview);
-
-  hbuttonbox = gtk_hbutton_box_new ();
-  gtk_box_pack_start (GTK_BOX (vbox), hbuttonbox, FALSE, TRUE, 0);
-  gtk_button_box_set_layout (GTK_BUTTON_BOX (hbuttonbox),
-			     GTK_BUTTONBOX_START);
-  gtk_box_set_spacing (GTK_BOX (hbuttonbox), 8);
-
-  button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox), button);
-
-  button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox), button);
-  gtk_widget_set_sensitive (button, FALSE);
-
-  button = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_container_add (GTK_CONTAINER (hbuttonbox), button);
+  label = gtk_label_new("Mouse Pointer Number");
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+  GtkWidget *spinner_adj =
+    (GtkAdjustment *) gtk_adjustment_new ( info.cursor_number, 0.0,(gdouble)GDK_LAST_CURSOR-1,
+					   1.0, 1.0, 1.0);
+  GtkWidget *spinner = gtk_spin_button_new (spinner_adj, 1.0, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
+  g_signal_connect (G_OBJECT (spinner), "value-changed",
+		    G_CALLBACK (set_cursor_number), &info.cursor_number);
+  //FIXME here use gdk_cursor_get_image() to show the cursor selected.
 
 
-  struct cbdata2 cbdata;
-  cbdata.command = GTK_COMBO_BOX (command);
-  cbdata.category = GTK_COMBO_BOX (category);
-  cbdata.treeview = GTK_TREE_VIEW (treeview);
-  cbdata.dialog = GTK_DIALOG (dialog);
-
-  g_signal_connect (category, "changed", G_CALLBACK (category_changed),
-		    &cbdata);
-  g_signal_connect (command, "changed", G_CALLBACK (command_changed),
-		    &cbdata);
-  g_signal_connect (button_save, "clicked", G_CALLBACK (save_keymap_as),
-		    &cbdata);
-
-  gtk_combo_box_set_active (GTK_COMBO_BOX (category), 0);
-*/
   //Connecting signals
   g_signal_connect (addbutton, "clicked",
           G_CALLBACK(kbd_interface_add_binding), &cbdata);

@@ -20,8 +20,8 @@
 #include "prefops.h"
 
 
-gint load_xml_keymap(gchar *filename, keymap *the_keymap);
-gint save_xml_keymap(gchar *filename, keymap *the_keymap);
+gint load_xml_keymap(gchar *filename);
+gint save_xml_keymap(gchar *filename);
 void set_visibility_for_action(GtkAction *action, gboolean visible);
 gint parse_paths (gchar * filename, DenemoGUI *gui);
 gint save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip);
