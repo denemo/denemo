@@ -289,7 +289,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	set_cursor_y_from_click (gui, event->y);
 	calcmarkboundaries (gui->si);
 	if(event->state&(GDK_BUTTON1_MASK|GDK_BUTTON2_MASK|GDK_BUTTON3_MASK))
-	   perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_MOVE, event->state&GDK_BUTTON1_MASK);
+	   perform_command(event->state, GESTURE_MOVE, event->state&GDK_BUTTON1_MASK);
 
 	/* redraw to show new cursor position  */
 	gtk_widget_queue_draw (gui->scorearea);
@@ -328,17 +328,17 @@ DenemoGUI *gui = Denemo.gui;
     set_cursor_y_from_click (gui, event->y);
       if(pi.nextmeasure)
 	measureright(gui);
-      if(gui->si->markstaffnum)
-	unset_mark(gui);
+      // if(gui->si->markstaffnum)
+      //	unset_mark(gui);
       // else
-	set_mark(gui);
+      //	set_mark(gui);
       write_status(gui);
       /* Redraw to show new cursor position*/
       gtk_widget_queue_draw (gui->scorearea);
       g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
-  perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_PRESS, left);
+  perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
   
   return TRUE;
 }
@@ -356,7 +356,7 @@ DenemoGUI *gui = Denemo.gui;
  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
 
  set_cursor_for(event->state&DENEMO_MODIFIER_MASK);
- perform_command(event->state&DENEMO_MODIFIER_MASK, GESTURE_RELEASE, left);
+ perform_command(event->state, GESTURE_RELEASE, left);
 
   return TRUE;
 }

@@ -1604,7 +1604,7 @@ static void button_modifier_callback(GtkWidget *w, GdkEventButton *event,  Modif
   ma->modnum = event->state;
   // show_type(w, "button mod callback: ");
   GString *str = g_string_new("Keyboard:");
-  append_modifier_name(str, (ma->modnum)&DENEMO_MODIFIER_MASK);
+  append_modifier_name(str, ma->modnum);
   if(!ma->modnum)
     g_string_assign (str, "No keyboard modifier keys\nPress with modifier key to change");
   else
