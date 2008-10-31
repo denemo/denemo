@@ -435,8 +435,16 @@ midi_end_of_track (FILE * fd)
 void
 midi_timesig (FILE * fd, int upper, int lower)
 {
+  div_t n;	
+  int click = 24;
+
+  if (lower !=0){
+    n = div(4, lower);
+    click = 24 * ((float) n.quot + (float) n.rem);
+  }
+
   midi_4_bytes (fd, 0, 0xff, 0x58, 4);
-  midi_4_bytes (fd, upper, twolog (lower), 24, 8);
+  midi_4_bytes (fd, upper, twolog (lower), click, 8);
 }
 
 /**
