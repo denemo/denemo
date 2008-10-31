@@ -4,6 +4,16 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
+      <cursors>
+        <cursor-binding>
+          <state>101</state>
+          <cursor>116</cursor>
+        </cursor-binding>
+        <cursor-binding>
+          <state>102</state>
+          <cursor>146</cursor>
+        </cursor-binding>
+      </cursors>
       <row>
         <action>CursorLeft</action>
         <label>Cursor Left</label>
@@ -849,6 +859,7 @@ The cursor position determines which note to add</tooltip>
         <action>SetMark</action>
         <label>Set Mark</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>PrsL</bind>
       </row>
       <row>
         <action>UnsetMark</action>
