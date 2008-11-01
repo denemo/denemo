@@ -275,6 +275,7 @@ register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Nex
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "PreviousMovement"), "PreviousMovement", "Previous Movement", "Go to the previous movement", prev_movement);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "DeleteMovement"), "DeleteMovement", "Delete Movement", "Delete the current movement", delete_movement);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "DeleteBookmarks"), "DeleteBookmarks", "Delete Bookmarks", "Delete all bookmarks in current movement", deletebookmarks);
+register_command(Denemo.commands, gtk_action_group_get_action(action_group, "JackMidi"), "JackMidi", "JackMidi", "JackMidi", jackmidi);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Play"), "Play", "Play", "Play", ext_midi_playback);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "Stop"), "Stop", "Stop", "Stop", stop_midi_playback);
 register_command(Denemo.commands, gtk_action_group_get_action(action_group, "PlayCSound"), "PlayCSound", "Csound Playback", "Play using CSound...", csoundplayback);

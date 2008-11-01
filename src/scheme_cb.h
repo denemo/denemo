@@ -4430,6 +4430,22 @@ g_string_free(gstr, TRUE);} else
 ret=scm_makfrom0str("");
 return ret;
 }
+SCM scheme_JackMidi (SCM optional) {
+SCM ret;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+  }
+jackmidi (NULL, gstr);
+if(gstr) {
+ret=scm_makfrom0str(gstr->str);
+g_string_free(gstr, TRUE);} else
+ret=scm_makfrom0str("");
+return ret;
+}
 SCM scheme_Play (SCM optional) {
 SCM ret;
 GString *gstr=NULL;

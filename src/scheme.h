@@ -1107,6 +1107,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "DeleteMovement")), "
 SCM scheme_DeleteBookmarks(SCM optional);
 install_scm_function ("d-DeleteBookmarks", scheme_DeleteBookmarks);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "DeleteBookmarks")), "scm", (gpointer)1);
+/*JackMidi jackmidi*/
+SCM scheme_JackMidi(SCM optional);
+install_scm_function ("d-JackMidi", scheme_JackMidi);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.commands, "JackMidi")), "scm", (gpointer)1);
 /*Play ext_midi_playback*/
 SCM scheme_Play(SCM optional);
 install_scm_function ("d-Play", scheme_Play);
