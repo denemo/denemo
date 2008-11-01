@@ -92,8 +92,9 @@
       <menuitem action="RecordScript"/>
     </menu>
 
-    
-
+    <menu action="InputMenu">
+      <menuitem action="JackMidi"/>
+    </menu> 
 
     <menu action="PlaybackMenu">
       <menuitem action="Play"/>
