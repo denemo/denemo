@@ -250,7 +250,7 @@ perform_command(gint modnum, mouse_gesture press, gboolean left)
   GString *modname = mouse_shortcut_name(modnum, press, left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
   if(press != GESTURE_MOVE){
-    if(1/*user preference here*/){
+    if(!Denemo.prefs.strictshortcuts){
       if(command_idx<0) {
 	g_string_free(modname, TRUE);
 	modname = mouse_shortcut_name(modnum&(~GDK_LOCK_MASK/*CapsLock*/), press, left);

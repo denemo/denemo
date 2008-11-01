@@ -110,7 +110,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
    * function */
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_sanitize_key_state(event));
-  if(1/*user preference here! */){
+  if(!Denemo.prefs.strictshortcuts){
     if(command_idx==-1)
       command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_hyper_sanitize_key_state(event)); 

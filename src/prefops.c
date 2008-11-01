@@ -83,6 +83,7 @@ initprefs ()
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
   ret->temperament = g_string_new("Equal");
+  ret->strictshortcuts = FALSE;
 
   ret->immediateplayback = TRUE;
   ret->saveparts = FALSE;
@@ -307,6 +308,22 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
+
+#define READINTXMLENTRY(field) \
+      else if (0 ==\
+	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+	      prefs->field = atoi ((gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}\
+
+
+
+      READINTXMLENTRY(strictshortcuts)
 
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilystyleentry"))
 	{
@@ -575,6 +592,13 @@ writeXMLPrefs (DenemoPrefs * prefs)
   newXMLIntChild (child, (xmlChar *) "lilystyleentry", prefs->lilyentrystyle);
   newXMLIntChild (child, (xmlChar *) "immediateplayback",
 		  prefs->immediateplayback);
+
+#define WRITEINTXMLENTRY(field) \
+  newXMLIntChild (child, (xmlChar *) #field,\
+		  prefs->field);
+
+  WRITEINTXMLENTRY(strictshortcuts);
+
   newXMLIntChild (child, (xmlChar *) "rtcs", prefs->rtcs);
   newXMLIntChild (child, (xmlChar *) "notationpalette",
 		  prefs->notation_palette);

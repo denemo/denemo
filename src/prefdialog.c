@@ -36,6 +36,7 @@ struct callbackdata
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *temperament;
+  GtkWidget *strictshortcuts;
 };
 
 struct callbackdata1
@@ -113,11 +114,16 @@ set_preferences (struct callbackdata *cbdata)
   g_string_assign (prefs->denemopath,
                    gtk_entry_get_text (GTK_ENTRY (cbdata->denemopath)));
 
-#define ASSIGN(field) \
+#define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
                    gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
 
-  ASSIGN(temperament);
+#define ASSIGNBOOLEAN(field) \
+  prefs->field =\
+    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->field));
+
+  ASSIGNTEXT(temperament);
+  ASSIGNBOOLEAN(strictshortcuts);
 
   prefs->immediateplayback =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
@@ -167,6 +173,11 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *checknotationpalette;
   GtkWidget *checkrhythmpalette;
   GtkWidget *checkarticulationpalette;
+  GtkWidget *strictshortcuts;
+
+
+
+
   GtkWidget *notebook;
   GtkWidget *hbox;
   GtkWidget *vbox;
@@ -290,6 +301,30 @@ preferences_change (GtkAction *action, gpointer param)
 
   TEXTENTRY("Temperament", temperament)
 
+#define BOOLEANENTRY(thelabel, field) \
+  field =\
+    gtk_check_button_new_with_label (thelabel); \
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
+				Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);
+
+
+ /*
+   * Shortcut control 
+   */
+
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  
+
+
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
+				   _("Shortcuts"));
+
+
+
+  //  TEXTENTRY("Strict", strictshortcuts)
+  BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
 
   /*
    * External (Helper) Programs 
@@ -446,6 +481,13 @@ preferences_change (GtkAction *action, gpointer param)
   cbdata.prefs = &Denemo.prefs;
   cbdata.lilypathentry = lilypathentry;
   cbdata.checkimmediateplayback = checkimmediateplayback;
+
+#define SETCALLBACKDATA(field) \
+  cbdata.field = field;
+
+  SETCALLBACKDATA(strictshortcuts);
+  
+
   cbdata.checkautosaveparts = checkautosaveparts;
   cbdata.checkarticulationpalette = checkarticulationpalette;
   cbdata.checknotationpalette = checknotationpalette;
