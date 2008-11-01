@@ -22,7 +22,9 @@ typedef enum mouse_gesture {
 
 GString* 
 mouse_shortcut_name(gint mod, mouse_gesture gesture, gboolean left);
-void modifier_name(GString *ret, gint mod);
+void append_modifier_name(GString *ret, gint mod);
+void assign_cursor(guint state, guint cursor_num);
+void set_cursor_for(guint state);
 #define DENEMO_NUMBER_MODIFIERS (8) /* built in to GDK for GdkModifierType */
 #define DENEMO_MODIFIER_MASK (255)
 

@@ -139,7 +139,7 @@ void set_visibility_for_action(GtkAction *action, gboolean visible) {
 }
 
 static void hide_action_of_name(gchar *name){
-  GtkAction *action = lookup_action_from_name (Denemo.commands, name);
+  GtkAction *action = lookup_action_from_name (Denemo.map, name);
   set_visibility_for_action(action, FALSE);
 }
 
@@ -246,7 +246,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    g_free(msg);
 	  }
 	  //g_print("registering %s\n", name);
-	  register_command(Denemo.commands, action, name, label, tooltip, activate_script);
+	  register_command(Denemo.map, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
 	  if(hidden)
 	    g_object_set_data(action, "hidden", TRUE);
@@ -260,7 +260,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 #endif
       }// tooltip found, assumed last field
     } // for all nodes
-  //alphabeticalize_commands(Denemo.commands);
+  //alphabeticalize_commands(Denemo.map);
 }/* end of parseScripts */
 
 
@@ -336,6 +336,47 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
     }
 } // parseBindings
 
+static void
+parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur) {
+  gint state, cursor_num;
+  xmlChar *tmp;
+  for (cur = cur->xmlChildrenNode;cur != NULL; cur = cur->next)
+    {
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "state")) {
+	tmp = 
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	      if (tmp)
+		{
+		  sscanf(tmp, "%x",&state);// = atoi(tmp);
+		}
+	      xmlFree (tmp);
+      } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "cursor"))
+	{
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	      if (tmp)
+		{
+		  cursor_num = atoi(tmp);
+		}
+	      xmlFree (tmp);
+
+	      assign_cursor(state, cursor_num);
+	      // g_print("type is %s\n",g_type_name(G_TYPE_FROM_INSTANCE(Denemo.window->window)));
+	      // set_cursor_for(state);
+	}
+    }
+}
+
+
+static void
+parseCursors (xmlDocPtr doc, xmlNodePtr cur) {
+  xmlChar *tmp;
+  for (cur = cur->xmlChildrenNode;cur != NULL; cur = cur->next)
+    {
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "cursor-binding")) {
+	parseCursorBinding(doc, cur);
+      }
+    }
+}
 
 
 
@@ -350,24 +391,26 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
       if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
 	{
 	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath, merge);
-	}
+	} else 
+	  if (i && (0 == xmlStrcmp (ncur->name, (const xmlChar *) "cursors")))
+	    {
+	      parseCursors(doc, ncur);
+
+	    }
     }
 }
+
 
 static void
 parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
 {
-  cur = cur->xmlChildrenNode;
-
-  while (cur != NULL)
+  for (cur = cur->xmlChildrenNode; cur != NULL;  cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map"))
 	{
 	  parseCommands (doc, cur, the_keymap, menupath, merge);
 	}
-      cur = cur->next;
     }
-
 }
 
 /* if filename ends in /menus/.... hierarchy extract and return the tail
@@ -385,13 +428,13 @@ gchar *extract_menupath(gchar *filename) {
 }
 
 
-
 /* returns 0 on success
  * negative on failure
  */
 gint
-load_xml_keymap (gchar * filename, keymap * the_keymap)
+load_xml_keymap (gchar * filename)
 {
+  keymap *the_keymap = Denemo.map; 
   gint ret = -1;
   gboolean merge = FALSE;//Whether to replace the keymap or merge with it
   xmlDocPtr doc;
@@ -440,11 +483,11 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 	  )
 	{
 	  if(!merge) {
-	    //g_print("Losing command set %p\n", Denemo.commands);
+	    //g_print("Losing command set %p\n", Denemo.map);
 	    init_keymap(); 
-	    // g_print("Starting with a clean command set %p\n", Denemo.commands);
+	    // g_print("Starting with a clean command set %p\n", Denemo.map);
 	  }
-	  parseKeymap (doc, rootElem, Denemo.commands, menupath, merge);
+	  parseKeymap (doc, rootElem, Denemo.map, menupath, merge);
 	  if(merge) {
 	    if(Denemo.last_merged_command)
 	      g_free(Denemo.last_merged_command);
@@ -452,8 +495,8 @@ load_xml_keymap (gchar * filename, keymap * the_keymap)
 	    Denemo.accelerator_status = TRUE;
 	  }
 	  //if(!merge)
-	  //  alphabeticalize_commands(Denemo.commands);
-	  update_all_labels(Denemo.commands);
+	  //  alphabeticalize_commands(Denemo.map);
+	  update_all_labels(Denemo.map);
 	  ret = 0;
 	}
       rootElem = rootElem->next;
@@ -476,9 +519,21 @@ write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 
 }
 
+static void
+output_pointer_shortcut(gint *state, GdkCursor *cursor, xmlNodePtr parent){
+  gchar *statestr = g_strdup_printf("%x", *state);
+  gint cursor_num = cursor->type;
+  gchar *numstr = g_strdup_printf("%d", cursor_num);
+  xmlNodePtr child = xmlNewTextChild (parent, NULL, (xmlChar *) "cursor-binding", NULL);
+  xmlNewChild (child, NULL, "state", statestr);
+  xmlNewChild (child, NULL, "cursor", numstr);
+  g_free(statestr);
+  g_free(numstr);
+}
 gint
-save_xml_keymap (gchar * filename, keymap * the_keymap)
+save_xml_keymap (gchar * filename)
 {
+  keymap *the_keymap = Denemo.map;
   gint i, ret = -1;
   xmlDocPtr doc;
   //xmlNsPtr ns;
@@ -487,12 +542,19 @@ save_xml_keymap (gchar * filename, keymap * the_keymap)
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
 					     NULL);
+
+
   child = xmlNewChild (parent, NULL, (xmlChar *) "commands", NULL);
 
   xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Keymap");
   xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
 
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
+
+  child = xmlNewChild (parent, NULL, (xmlChar *) "cursors", NULL);
+
+  g_hash_table_foreach(Denemo.map->cursors, output_pointer_shortcut, child);
+
 
   for (i = 0; i < keymap_size(the_keymap); i++)
     {

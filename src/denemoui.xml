@@ -55,7 +55,7 @@
       <menu action="KeyBindings">
         <menuitem action="QuickEdits"/>
         <menuitem action="SaveAccels"/>
-        <menuitem action="RecordScript"/>
+
         <menuitem action="CommandManagement"/>
       </menu>
       <!--
@@ -88,6 +88,8 @@
       <menuitem action="ToggleEdit"/>
       <menuitem action="ToggleRest"/>
       <menuitem action="ToggleRhythm"/>
+	<separator/>
+      <menuitem action="RecordScript"/>
     </menu>
 
     <menu action="InputMenu">
