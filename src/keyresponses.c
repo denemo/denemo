@@ -110,9 +110,14 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
    * function */
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_sanitize_key_state(event));
-  if(command_idx==-1)
-    command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+  if(1/*user preference here! */){
+    if(command_idx==-1)
+      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 			       dnm_hyper_sanitize_key_state(event)); 
+    if(command_idx==-1)
+      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+			       dnm_meta_sanitize_key_state(event));
+  } 
   if (command_idx != -1) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);

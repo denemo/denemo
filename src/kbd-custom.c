@@ -106,6 +106,28 @@ dnm_hyper_sanitize_key_state(GdkEventKey *event)
     return ret;
 }
 
+/* Returns the state of the event as for hyper_sanitize
+ * additionally undoes the effect of CapsLock on keyval when Shift is not pressed.
+ * note that event->keycode & keystring are not altered, leaving event inconsistent.
+ * this could conceivably become a problem in other developments.
+ * Use this if hyper sanitize is insufficient.
+ */
+guint
+dnm_meta_sanitize_key_state(GdkEventKey *event)
+{
+    guint ret = event->state;
+    if(ret&GDK_LOCK_MASK) {
+      if(!(ret&GDK_SHIFT_MASK))
+	event->keyval += ('a'-'A');
+    }
+      
+    /* removing everything other than control shift and alt modifiers from event->state */
+    ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
+    return ret;
+}
+
+
+
 /*
  * Returns True if the key event is just a modifier key, False otherwise
  * TODO look for a gdk function doing that properly

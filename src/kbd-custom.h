@@ -34,7 +34,8 @@ guint
 dnm_sanitize_key_event(GdkEventKey *event);
 guint
 dnm_hyper_sanitize_key_event(GdkEventKey *event);
-
+guint
+dnm_meta_sanitize_key_state(GdkEventKey *event);
 gboolean
 isModifier(GdkEventKey *event);
 
