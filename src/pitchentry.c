@@ -573,6 +573,8 @@ static void display_pitch(double note, DenemoGUI *gui) {
   gint octave;
   double deviation;
   temperament *t = (temperament*)PR_temperament;
+  if(!GTK_IS_WINDOW(PR_window))
+    return;
     notepitch *found = determine_note(note, t , &octave, &deviation);
     if(found) {
       int i;
@@ -723,7 +725,7 @@ static void frequency_smoothing(GtkSpinButton *widget, gpointer data){
 
 /* destroy PR_window, and hence terminate the pitch recog subsystem */
 static void stop_PR_controls(void) {
-  if(PR_window)
+  if(GTK_IS_WINDOW(PR_window))
     gtk_widget_destroy(PR_window);
   PR_window = NULL;
 }
@@ -747,7 +749,7 @@ int stop_pitch_input(void) {
       terminate_pitch_recognition();
    else
      jackstop();
-   if(PR_window) { 
+   if(GTK_IS_WINDOW(PR_window)) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
   PR_gui = NULL;
@@ -865,7 +867,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *button;
   GtkWidget *frame;
   GtkWidget *label;
-  if(PR_window) {
+  if(GTK_IS_WINDOW(PR_window)) {
     g_warning("unexpected call");
     return;
   }
@@ -1185,7 +1187,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 
 gint setup_pitch_input(void){
   DenemoGUI *gui = Denemo.gui;
-  if(PR_window) {
+  if(GTK_IS_WINDOW(PR_window)) {
     gtk_window_present(GTK_WINDOW(PR_window));
     return 0;
   }
