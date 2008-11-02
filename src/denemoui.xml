@@ -93,7 +93,10 @@
     </menu>
 
     <menu action="InputMenu">
+      <menuitem action="KeyboardOnly"/>
       <menuitem action="JackMidi"/>
+      <menuitem action="Microphone"/>
+     
     </menu> 
 
     <menu action="PlaybackMenu">
@@ -869,7 +872,6 @@ end of "all other" menu
 
   </toolbar>
   <toolbar name="RhythmToolBar">
-      <toolitem action="TogglePitchRecognition"/>     
     <toolitem action="CreateRhythm"/>
     <toolitem action="DeleteRhythm"/>
   </toolbar>

@@ -1,7 +1,9 @@
+#ifdef _HAVE_JACK_
+
 #include <jack/jack.h>
 #include <jack/midiport.h>
 #include <glib.h>
-
+#include "pitchentry.c"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -30,9 +32,9 @@ process_midi_input(jack_nframes_t nframes)
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
     if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_ON))
-      printf("\nmidi note on = %d\n", event.buffer[1]);
+      store_pitch(midi2hz(event.buffer[1]));
     if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_OFF))
-      printf("\nmidi note off = %d\n", event.buffer[1]);
+      /* cannot do I/O during interrupts printf("\nmidi note off = %d\n", event.buffer[1])*/;
   }
 }
  
@@ -43,9 +45,9 @@ process_callback(jack_nframes_t nframes, void *notused)
   return 0;
 }
 
-void
+int
 init_jack(void){
-  int err;
+  int err = 0;
   jack_client = jack_client_open(PROGRAM_NAME, JackNullOption, NULL);
   if (jack_client == NULL) {
     g_critical("Could not connect to the JACK server; run jackd first?");
@@ -70,13 +72,23 @@ init_jack(void){
     g_critical("Cannot activate JACK client.");
     //exit(EX_UNAVAILABLE);
   }
+  return err;
 }
+#endif
 
 void 
-jack_stop(){
+jackstop(){
+#ifdef _HAVE_JACK_
   jack_deactivate(jack_client);
+#endif
 }
 
-void jackmidi(){
-  init_jack();
+int jackmidi(){
+#ifdef _HAVE_JACK_
+return  init_jack();
+ else
+   return -1;
+#endif
 }
+
+
