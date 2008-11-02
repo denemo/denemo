@@ -17,6 +17,12 @@
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 
+double
+midi2hz(int midinum)
+{
+  return 440 * pow(2, ((midinum - 69)/12));
+}
+
 void
 process_midi_input(jack_nframes_t nframes)
 {
