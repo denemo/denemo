@@ -389,7 +389,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Go to the previous movement", N_("PreviousMovement"), "prev_movement", N_("Previous Movement")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Delete the current movement", N_("DeleteMovement"), "delete_movement", N_("Delete Movement")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Delete all bookmarks in current movement", N_("DeleteBookmarks"), "deletebookmarks", N_("Delete Bookmarks")}, 
-  {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "JackMidi", N_("JackMidi"), "jackmidi", N_("JackMidi")},
+
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play", N_("Play"), "ext_midi_playback", N_("Play")}, 
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback", N_("Stop")}, 
 
@@ -435,7 +435,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Editing", N_("Edit"), NULL, N_("Edit")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Manipulating measures", N_("Measure"), NULL, N_("Measure")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Commands for staffs", N_("Staff"), NULL, N_("Staff")}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Input audio or midi", N_("Input"), NULL, N_("Input")}, 
+
   {KBD_CATEGORY_DIRECT, NULL, "Playing the music through midi file", N_("Playback"), NULL, N_("Playback")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Changing the prevailing duration or rhythm pattern", N_("SelectDuration"), NULL, N_("Select Duration")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Appending, Changing, and deleting notes", N_("EditModeNote"), NULL, N_("Edit")}, 

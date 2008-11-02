@@ -54,6 +54,8 @@ static void
 mycommands (GtkAction *action, gpointer param);
 static void
 create_window(void);
+static void
+toggle_pitch_recognition (void);
 static gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
@@ -100,7 +102,7 @@ static void save_accels (void);
 #define ToggleObjectMenu_STRING  "ToggleObjectMenu"
 #define ToggleLilyText_STRING  "ToggleLilyText"
 #define ToggleScript_STRING  "ToggleScript"
-#define TogglePitchRecognition_STRING  "TogglePitchRecognition"
+
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
@@ -1969,6 +1971,49 @@ static void   activate_action(gchar *path) {
    else 
      g_warning("Internal error, denemogui.xml out of step with literal %s in %s\n", path, __FILE__);
  }
+
+
+/**
+ *  callback changing the input source (keyboard only/audio/midi)
+ *
+ */
+
+static void
+change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
+  DenemoGUI *gui = Denemo.gui;
+gint val = gtk_radio_action_get_current_value (current);
+ switch(val) {
+ case INPUTKEYBOARD:
+   if(gui->input_source==INPUTAUDIO) {
+     g_print("Stopping audio\n");
+      stop_pitch_input();
+   }
+   if(gui->input_source==INPUTMIDI) {
+     jackstop ();
+     stop_pitch_input();
+   }
+   gui->input_source=INPUTKEYBOARD;
+   break;
+ case INPUTAUDIO:
+   g_print("Starting audio\n");
+   gui->input_source=INPUTAUDIO;
+   setup_pitch_recognition();
+   start_pitch_input();
+   break;
+ case INPUTMIDI:
+   g_print("Activating midi\n");
+   gui->input_source=INPUTMIDI;
+   jackmidi();
+   start_pitch_input();
+   break;
+ default:
+   g_warning("Bad Value\n");
+   break;
+
+ }
+
+
+}
 /**
  *  callback changing type of entry part of gui->mode,
  * depending on the entry type it switches mode part of gui->mode to Classic mode for entering rests and to Insert for entering notes. FIXME could switch to prefs value.
@@ -2105,30 +2150,6 @@ hide_scheme (GtkAction * action, GdkEvent*event,  GtkWidget *w) {
 }
 
 
-/**
- *  Function to toggle entry of notes by pitch recognition off/on 
- *
- */
-static void
-toggle_pitch_recognition (GtkAction * action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  if(!gui->pitch_recognition) {
-    if(setup_pitch_recognition(gui))  
-      {/*FIXME error */
-	g_warning("Error setting up pitch recognition");
-	return;
-      }
-  }
-  /* then turn on/off */
- 
-  if(gui->pitch_recognition) {
-    stop_pitch_recognition();
-  } else {
-    start_pitch_recognition(gui);// FIXME different guis
-    activate_action( "/MainMenu/EntryMenu/Note"); 
-  }
-  gui->pitch_recognition =  !gui->pitch_recognition;
-}
 
 
 /**
@@ -2262,9 +2283,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleScript_STRING, NULL, N_("Show Scheme Script"), NULL, N_("Show scheme script window"),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
-  {TogglePitchRecognition_STRING, NULL, N_("Microphone"), NULL, N_("Enable pitch entry from microphone"),
-   G_CALLBACK (toggle_pitch_recognition), FALSE}
-  ,
+
   {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
@@ -2298,6 +2317,16 @@ static GtkRadioActionEntry type_menu_entries[] = {
   {BLANK_E_STRING, NULL, N_("Non printing rests"), NULL,  N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK},
   {RHYTHM_E_STRING, NULL, N_("Rhythm"), NULL, N_("Mode for pure rhythyms"),
    INPUTRHYTHM|INPUTNORMAL}
+};
+
+static GtkRadioActionEntry input_menu_entries[] = {
+  {"KeyboardOnly", NULL, N_("No Input"), NULL, N_("Entry of notes via computer keyboard only"),
+  INPUTKEYBOARD}
+  ,
+  {"Microphone", NULL, N_("Audio Input"), NULL, N_("Enable pitch entry from microphone"), INPUTAUDIO
+   /*  G_CALLBACK (toggle_pitch_recognition), FALSE*/}
+  ,
+  {"JackMidi", NULL, N_("Midi Input"), NULL,N_("Input of midi via Jack Audio Connection Kit"), INPUTMIDI/*G_CALLBACK (jackmidi)*/}
 };
 
 struct cbdata
@@ -2613,6 +2642,12 @@ create_window(void) {
 				       G_N_ELEMENTS (type_menu_entries),
 				      INPUTNORMAL/* initial value */, 
 				      G_CALLBACK(change_entry_type),  Denemo.gui);
+
+  gtk_action_group_add_radio_actions (action_group,
+				       input_menu_entries,
+				       G_N_ELEMENTS (input_menu_entries),
+				      INPUTKEYBOARD/* initial value */, 
+				      G_CALLBACK(change_input_type),  NULL);
 
 
 

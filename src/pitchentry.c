@@ -729,23 +729,22 @@ static void stop_PR_controls(void) {
 }
 
 
-/* stop_pitch_recognition
-   stop audio and aubio
+/* stop_pitch_input
+   if not midi stop audio and aubio
  */
-int stop_pitch_recognition(void) {
-  if(PR_gui==NULL)// when closing a second gui after the first has dismissed PR
-    return;
+int stop_pitch_input(void) {
+  DenemoGUI *gui = Denemo.gui;
   if(PR_timer)
     g_source_remove(PR_timer);
-  //  if(PR_oldkeymap) // should always be true!
-  //    PR_gui->prefs->the_keymap = PR_oldkeymap;
+
   if(PR_enter) 
     g_signal_handler_disconnect (PR_gui->scorearea, PR_enter);
   if(PR_leave) 
     g_signal_handler_disconnect (PR_gui->scorearea, PR_leave);
    PR_timer = PR_enter = PR_leave = 0;
 
-   terminate_pitch_recognition();
+   if(gui->input_source==INPUTAUDIO)
+      terminate_pitch_recognition();
    if(PR_window) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
@@ -754,15 +753,6 @@ int stop_pitch_recognition(void) {
   return 0;
 }
 
-static gboolean stop_pitch_recognition_callback(GtkWidget *unused, DenemoGUI *gui){
-if(PR_gui==NULL)
-    return FALSE;
-GtkWidget * widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar/TogglePitchRecognition");
- PR_window=NULL;
- gtk_toggle_tool_button_set_active (GTK_TOGGLE_TOOL_BUTTON(widget),  FALSE);
- clear_tone_store(NULL, gui);
- return FALSE;
-}
 
 static stop_tuning_callback(){
   PR_tuning = FALSE;
@@ -789,7 +779,7 @@ static void change_click_volume(GtkSpinButton *widget){
 
 static void change_timer_rate(GtkSpinButton *widget, DenemoGUI *gui){
   PR_time = (guint)gtk_spin_button_get_value(widget);
-  start_pitch_recognition(gui);//FIXME do not call the whole of start_pitch_recognition, just the timer setting bit???
+  start_pitch_input();//FIXME do not call the whole of start_pitch_recognition, just the timer setting bit???
   switch_back_to_main_window();
 }
 
@@ -877,12 +867,10 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
     g_warning("unexpected call");
     return;
   }
-  PR_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);/* FIXME catch a destroy on this window
-						   and turn off pitch detection, returning to unitialized state */
+  PR_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
   gtk_window_set_title (GTK_WINDOW (PR_window), "Pitch Recognition Control");
-  g_signal_connect (G_OBJECT (PR_window), "destroy",
-		    G_CALLBACK (stop_pitch_recognition_callback), gui); 
+
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
@@ -1185,14 +1173,15 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 }
 
 
-gint setup_pitch_recognition(DenemoGUI *gui){
+gint setup_pitch_recognition(void){
+  DenemoGUI *gui = Denemo.gui;
   if(PR_window) {
     gtk_window_present(GTK_WINDOW(PR_window));
     return 0;
   }
   if(PR_temperament==NULL)
     PR_temperament = default_temperament();
-  if(initialize_pitch_recognition()==0) {
+  if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):(jackmidi()==0)) {
     set_silence(-90.0);
     set_threshold(0.3);
     set_smoothing(6.0);
@@ -1219,14 +1208,12 @@ scorearea_set_inactive(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gu
   PR_enable = FALSE; 
   gtk_widget_draw(gui->scorearea, NULL);
 }
-void start_pitch_recognition(DenemoGUI *gui) { 
+void start_pitch_input(void) { 
+  DenemoGUI *gui = Denemo.gui;
   if(PR_timer)
     g_source_remove(PR_timer);
 
-  PR_timer = g_timeout_add (PR_time, (GSourceFunc)pitchentry, gui);
-
-
-
+  PR_timer = g_timeout_add (PR_time, (GSourceFunc)pitchentry, Denemo.gui);
 
   if(PR_timer==0)
     g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");

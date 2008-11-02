@@ -49,7 +49,7 @@ typedef int (*aubio_process_func_t)
 
 
 
-static void send_noteon(int pitch, int velo);
+static void send_noteon(smpl_t pitch, int velo);
 
 
 
@@ -173,36 +173,14 @@ static void aubio_finish(void){
   aubio_cleanup();
 }
 static volatile int count;
-#if 0
-static void send_noteon(int pitch, int velo)
-{
-#if 1
-#define MIN_PITCH (0.0)
-  if(velo){
-  if(pitch> MIN_PITCH && ++count < MAX_PITCHES)
-    pitches[count] = pitch;
-  } else {
-      if(pitch> MIN_PITCH && ++count < MAX_PITCHES)
-	pitches[count] = -1.0;// note off signal
-  }
-#else
-  if(velo)
-    count=1,pitches[1] = pitch,pitches[2] = 1.0;
-  if(velo==0 && count==1)
-    count++,pitches[2] = -1.0;
-#endif
-}
-#endif
 
 
-static void send_noteon(int pitch, int velo)
+static void send_noteon(smpl_t pitch, int velo)
 {
   if(velo)
   if( ++count < MAX_PITCHES)
     pitches[count] = pitch;
 }
-
-
 
 
 /** append new note candidate to the note_buffer and return filtered value. we
@@ -353,6 +331,7 @@ int initialize_pitch_recognition(void ) {
 }
 
 int terminate_pitch_recognition(void ) {
+  g_print("Terminating portaudio and aubio\n");
   (void)pa_main(NULL);
   aubio_finish();
   return 0;
@@ -367,4 +346,8 @@ double get_pitch(void) {
   }
 
   return ret;
+}
+void store_pitch(double pitch) {
+  send_noteon(pitch, 1);
+  // return count<MAX_PITCHES; no point in returning the status, look at it outside of interrupts.
 }

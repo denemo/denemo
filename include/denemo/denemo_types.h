@@ -376,6 +376,14 @@ typedef enum
   NONE
 }InstrumentType;
 
+
+typedef enum InputSource {
+  INPUTKEYBOARD,
+  INPUTAUDIO,
+  INPUTMIDI
+} InputSource;
+
+
 /**
  * Structure to contain the list of Instruments for the score
  * configuration wizard
@@ -558,7 +566,6 @@ typedef struct DenemoScore
  */
 typedef struct DenemoGUI
 {
-
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;
@@ -578,7 +585,7 @@ typedef struct DenemoGUI
   gint plugincounter;
 
   GtkWidget* articulation_palette; /**< Articulation palette window */
-  gboolean pitch_recognition;/**< Whether pitch recognition off/on */
+  InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
 
