@@ -573,6 +573,8 @@ static void display_pitch(double note, DenemoGUI *gui) {
   gint octave;
   double deviation;
   temperament *t = (temperament*)PR_temperament;
+  if(!GTK_IS_WINDOW(PR_window))
+    return;
     notepitch *found = determine_note(note, t , &octave, &deviation);
     if(found) {
       int i;
@@ -723,7 +725,7 @@ static void frequency_smoothing(GtkSpinButton *widget, gpointer data){
 
 /* destroy PR_window, and hence terminate the pitch recog subsystem */
 static void stop_PR_controls(void) {
-  if(PR_window)
+  if(GTK_IS_WINDOW(PR_window))
     gtk_widget_destroy(PR_window);
   PR_window = NULL;
 }
@@ -745,7 +747,9 @@ int stop_pitch_input(void) {
 
    if(gui->input_source==INPUTAUDIO)
       terminate_pitch_recognition();
-   if(PR_window) { 
+   else
+     jackstop();
+   if(GTK_IS_WINDOW(PR_window)) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
   PR_gui = NULL;
@@ -863,13 +867,13 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *button;
   GtkWidget *frame;
   GtkWidget *label;
-  if(PR_window) {
+  if(GTK_IS_WINDOW(PR_window)) {
     g_warning("unexpected call");
     return;
   }
   PR_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-  gtk_window_set_title (GTK_WINDOW (PR_window), "Pitch Recognition Control");
+  gtk_window_set_title (GTK_WINDOW (PR_window), "Pitch Input Control");
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
@@ -897,11 +901,13 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   gtk_box_pack_start (GTK_BOX (vbox), radio_button,
 		      TRUE, TRUE, 0);
 
-  button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Tuning");
-  g_signal_connect (G_OBJECT (button), "toggled",
-		    G_CALLBACK (toggle_tuning), gui);
-  gtk_box_pack_start (GTK_BOX (vbox), button,
-		      TRUE, TRUE, 0);
+  if(gui->input_source==INPUTAUDIO) {
+    button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Tuning");
+    g_signal_connect (G_OBJECT (button), "toggled",
+		      G_CALLBACK (toggle_tuning), gui);
+    gtk_box_pack_start (GTK_BOX (vbox), button,
+			TRUE, TRUE, 0);
+  }
 
   frame = gtk_frame_new( "Overlay Pitches");
   gtk_container_add (GTK_CONTAINER (hbox), frame);
@@ -981,6 +987,10 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   PR_deviation = gtk_label_new("0.0");
   gtk_box_pack_start (GTK_BOX (hbox), PR_deviation,
 		      TRUE, TRUE, 0);
+
+
+
+  if(gui->input_source==INPUTAUDIO) {
   /* spinners to select silence, threshold, smoothing */ 
   
   frame = gtk_frame_new( "Pitch Recognition Parameters");
@@ -1038,7 +1048,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 		    G_CALLBACK (change_onset_detection), NULL);
 
 
-
+  }
   /* spinners to constrain the note values */
 
 
@@ -1086,8 +1096,10 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   g_signal_connect (G_OBJECT (spinner), "value-changed",
 		    G_CALLBACK (change_greatest_interval), NULL);
 
-  /* options */
 
+
+  /* options */
+  if(gui->input_source==INPUTAUDIO) {
  frame = gtk_frame_new( "Input handling");
   gtk_container_add (GTK_CONTAINER (main_vbox), frame);
   hbox = gtk_hbox_new (FALSE, 1);
@@ -1158,7 +1170,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   gtk_box_pack_start (GTK_BOX (hbox ),
 		      combobox, TRUE, TRUE, 0);
 
-
+  }
 
 /* now show the window, but leave the main window with the focus */
   gtk_window_set_focus_on_map((GtkWindow *)PR_window, FALSE);
@@ -1173,18 +1185,20 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 }
 
 
-gint setup_pitch_recognition(void){
+gint setup_pitch_input(void){
   DenemoGUI *gui = Denemo.gui;
-  if(PR_window) {
+  if(GTK_IS_WINDOW(PR_window)) {
     gtk_window_present(GTK_WINDOW(PR_window));
     return 0;
   }
   if(PR_temperament==NULL)
     PR_temperament = default_temperament();
   if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):(jackmidi()==0)) {
-    set_silence(-90.0);
-    set_threshold(0.3);
-    set_smoothing(6.0);
+    if(gui->input_source==INPUTAUDIO) {//FIXME these should be done at initialize_pitch_recognition time
+      set_silence(-90.0);
+      set_threshold(0.3);
+      set_smoothing(6.0);
+    }
     transposition_required = 1.0;
     lowest_pitch = DEFAULT_LOW;
     highest_pitch = DEFAULT_HIGH;

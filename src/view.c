@@ -1986,24 +1986,32 @@ gint val = gtk_radio_action_get_current_value (current);
  case INPUTKEYBOARD:
    if(gui->input_source==INPUTAUDIO) {
      g_print("Stopping audio\n");
-      stop_pitch_input();
+     stop_pitch_input();
    }
    if(gui->input_source==INPUTMIDI) {
-     jackstop ();
+     g_print("Stopping midi\n");
      stop_pitch_input();
    }
    gui->input_source=INPUTKEYBOARD;
    break;
  case INPUTAUDIO:
    g_print("Starting audio\n");
+   if(gui->input_source==INPUTMIDI) {
+     g_print("Stopping midi\n");
+     stop_pitch_input();
+   }
    gui->input_source=INPUTAUDIO;
-   setup_pitch_recognition();
+   setup_pitch_input();
    start_pitch_input();
    break;
  case INPUTMIDI:
-   g_print("Activating midi\n");
+   g_print("Starting midi\n");
+   if(gui->input_source==INPUTAUDIO) {
+     g_print("Stopping audio\n");
+     stop_pitch_input();
+   }
    gui->input_source=INPUTMIDI;
-   jackmidi();
+   setup_pitch_input();
    start_pitch_input();
    break;
  default:
@@ -2320,7 +2328,7 @@ static GtkRadioActionEntry type_menu_entries[] = {
 };
 
 static GtkRadioActionEntry input_menu_entries[] = {
-  {"KeyboardOnly", NULL, N_("No Input"), NULL, N_("Entry of notes via computer keyboard only"),
+  {"KeyboardOnly", NULL, N_("No External Input"), NULL, N_("Entry of notes via computer keyboard only"),
   INPUTKEYBOARD}
   ,
   {"Microphone", NULL, N_("Audio Input"), NULL, N_("Enable pitch entry from microphone"), INPUTAUDIO

@@ -86,8 +86,8 @@ jackstop(){
 int jackmidi(){
 #ifdef _HAVE_JACK_
 return  init_jack();
-// else
-//   return -1;
+#else
+ return -1;
 #endif
 }
 
