@@ -745,6 +745,8 @@ int stop_pitch_input(void) {
 
    if(gui->input_source==INPUTAUDIO)
       terminate_pitch_recognition();
+   else
+     jackstop();
    if(PR_window) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
@@ -1173,7 +1175,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 }
 
 
-gint setup_pitch_recognition(void){
+gint setup_pitch_input(void){
   DenemoGUI *gui = Denemo.gui;
   if(PR_window) {
     gtk_window_present(GTK_WINDOW(PR_window));

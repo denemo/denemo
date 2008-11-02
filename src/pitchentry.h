@@ -16,8 +16,8 @@
 #include "objops.h"
 
 
-gint setup_pitch_recognition(void);
-gint stop_pitch_recognition(void);
+gint setup_pitch_input(void);
+gint stop_pitch_input(void);
 void start_pitch_input(void);
 gboolean pitch_recognition_system_active(void);
 gboolean delete_tone(DenemoScore *si, chord *thechord);

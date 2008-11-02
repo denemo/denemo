@@ -1989,7 +1989,7 @@ gint val = gtk_radio_action_get_current_value (current);
       stop_pitch_input();
    }
    if(gui->input_source==INPUTMIDI) {
-     jackstop ();
+     g_print("Stopping midi\n");
      stop_pitch_input();
    }
    gui->input_source=INPUTKEYBOARD;
@@ -1997,13 +1997,13 @@ gint val = gtk_radio_action_get_current_value (current);
  case INPUTAUDIO:
    g_print("Starting audio\n");
    gui->input_source=INPUTAUDIO;
-   setup_pitch_recognition();
+   setup_pitch_input();
    start_pitch_input();
    break;
  case INPUTMIDI:
-   g_print("Activating midi\n");
+   g_print("Starting midi\n");
    gui->input_source=INPUTMIDI;
-   jackmidi();
+   setup_pitch_input();
    start_pitch_input();
    break;
  default:
