@@ -84,12 +84,24 @@ PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
 
-PKG_CHECK_MODULES(JACK, jack >= 0.102.0)
-AC_SUBST(JACK_CFLAGS)
-AC_SUBST(JACK_LIBS)
+AC_ARG_ENABLE(
+  jack,
+  AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      usejack=yes
+    fi
+  ])
 
-PKG_CHECK_MODULES(JACK_MIDI_NEEDS_NFRAMES, jack < 0.105.00, 
-		  AC_DEFINE(JACK_MIDI_NEEDS_NFRAMES, 1, [whether or not JACK routines need nframes parameter]), true)
+if test "x$usejack" = "xyes"; then
+  PKG_CHECK_MODULES(JACK, jack >= 0.102.0)
+  CFLAGS="$CFLAGS -DHAVEJACK $JACK_CFLAGS"
+  LIBS="$LIBS -DHAVEJACK $JACK_LIBS"
+
+ # PKG_CHECK_MODULES(JACK_MIDI_NEEDS_NFRAMES, jack < 0.105.00, 
+ # AC_DEFINE(JACK_MIDI_NEEDS_NFRAMES, 1, [whether or not JACK routines need nframes parameter]), true)
+  
+fi
 
 
 #AM_PATH_XML2(

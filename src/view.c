@@ -27,6 +27,7 @@
 #include "keyboard.h"
 #include "csoundplayback.h"
 #include "exportlilypond.h"
+#include "jackmidi.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif

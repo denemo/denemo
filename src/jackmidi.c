@@ -1,3 +1,5 @@
+#ifdef HAVEJACK
+
 #include <jack/jack.h>
 #include <jack/midiport.h>
 #include <glib.h>
@@ -80,3 +82,14 @@ jack_stop(){
 void jackmidi(){
   init_jack();
 }
+
+
+#endif
+#ifndef HAVEJACK
+void jackmidi(){
+	/* replace this with a popup */
+  printf("\nYou need to compile with jack to add this feature\n");
+}
+
+#endif
+
