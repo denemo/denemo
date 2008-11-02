@@ -2320,7 +2320,7 @@ static GtkRadioActionEntry type_menu_entries[] = {
 };
 
 static GtkRadioActionEntry input_menu_entries[] = {
-  {"KeyboardOnly", NULL, N_("No Input"), NULL, N_("Entry of notes via computer keyboard only"),
+  {"KeyboardOnly", NULL, N_("No External Input"), NULL, N_("Entry of notes via computer keyboard only"),
   INPUTKEYBOARD}
   ,
   {"Microphone", NULL, N_("Audio Input"), NULL, N_("Enable pitch entry from microphone"), INPUTAUDIO
