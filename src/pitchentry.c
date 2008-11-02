@@ -729,11 +729,11 @@ static void stop_PR_controls(void) {
 }
 
 
-/* stop_pitch_recognition
-   stop audio and aubio
+/* stop_pitch_input
+   if not midi stop audio and aubio
  */
-int stop_pitch_recognition(void) {
-
+int stop_pitch_input(void) {
+  DenemoGUI *gui = Denemo.gui;
   if(PR_timer)
     g_source_remove(PR_timer);
 
@@ -743,7 +743,8 @@ int stop_pitch_recognition(void) {
     g_signal_handler_disconnect (PR_gui->scorearea, PR_leave);
    PR_timer = PR_enter = PR_leave = 0;
 
-   terminate_pitch_recognition();
+   if(gui->input_source==INPUTAUDIO)
+      terminate_pitch_recognition();
    if(PR_window) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
@@ -778,7 +779,7 @@ static void change_click_volume(GtkSpinButton *widget){
 
 static void change_timer_rate(GtkSpinButton *widget, DenemoGUI *gui){
   PR_time = (guint)gtk_spin_button_get_value(widget);
-  start_pitch_recognition();//FIXME do not call the whole of start_pitch_recognition, just the timer setting bit???
+  start_pitch_input();//FIXME do not call the whole of start_pitch_recognition, just the timer setting bit???
   switch_back_to_main_window();
 }
 
@@ -1207,7 +1208,7 @@ scorearea_set_inactive(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gu
   PR_enable = FALSE; 
   gtk_widget_draw(gui->scorearea, NULL);
 }
-void start_pitch_recognition(void) { 
+void start_pitch_input(void) { 
   DenemoGUI *gui = Denemo.gui;
   if(PR_timer)
     g_source_remove(PR_timer);

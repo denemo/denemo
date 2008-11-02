@@ -1984,13 +1984,13 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
 gint val = gtk_radio_action_get_current_value (current);
  switch(val) {
  case INPUTKEYBOARD:
-   jackstop();
    if(gui->input_source==INPUTAUDIO) {
      g_print("Stopping audio\n");
-      stop_pitch_recognition();
-   } else jackstop();
+      stop_pitch_input();
+   }
    if(gui->input_source==INPUTMIDI) {
      jackstop ();
+     stop_pitch_input();
    }
    gui->input_source=INPUTKEYBOARD;
    break;
@@ -1998,12 +1998,13 @@ gint val = gtk_radio_action_get_current_value (current);
    g_print("Starting audio\n");
    gui->input_source=INPUTAUDIO;
    setup_pitch_recognition();
-   start_pitch_recognition();
+   start_pitch_input();
    break;
  case INPUTMIDI:
    g_print("Activating midi\n");
    gui->input_source=INPUTMIDI;
    jackmidi();
+   start_pitch_input();
    break;
  default:
    g_warning("Bad Value\n");
