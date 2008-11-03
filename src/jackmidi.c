@@ -3,7 +3,8 @@
 #include <jack/jack.h>
 #include <jack/midiport.h>
 #include <glib.h>
-#include "pitchentry.c"
+#include <math.h>
+#include "pitchentry.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -20,7 +21,9 @@ jack_port_t     *input_port;
 double
 midi2hz(int midinum)
 {
-  return 440 * pow(2, ((midinum - 69)/12));
+  double argument = (midinum - 69);
+  double expon = (argument / 12);
+  return 440 * pow(2, expon);
 }
 
 void
@@ -37,8 +40,9 @@ process_midi_input(jack_nframes_t nframes)
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
-    if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_ON))
+    if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_ON)){
       store_pitch(midi2hz(event.buffer[1]));
+      printf("\nmidinote off =  %d freq = %f\n", event.buffer[1], midi2hz(event.buffer[1]));}
     if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_OFF))
       /* cannot do I/O during interrupts printf("\nmidi note off = %d\n", event.buffer[1])*/;
   }
