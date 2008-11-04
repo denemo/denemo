@@ -225,16 +225,32 @@ determineDuration (gint duration, gchar ** durationName)
 
 
 /**
- * Output an integer child as a child of the given node.
+ * return a child node of parent, holding the passed name and integer.
  */
 static xmlNodePtr
 newXMLIntChild (xmlNodePtr parent, xmlNsPtr ns, const xmlChar * name,
 		gint content)
 {
-  static gchar sIntBuf[12];	/* enough for -2000000000 + '\0' */
-  sprintf (sIntBuf, "%d", content);
-  return xmlNewChild (parent, ns, name, (xmlChar *) sIntBuf);
+  gchar *integer = g_strdup_printf("%d", content);
+  xmlNodePtr child = xmlNewChild (parent, ns, name, (xmlChar *) integer);
+  g_free(integer);
+  return child;
 }
+
+/**
+ * 
+Set a prop of the parent, holding the passed name and integer.
+ */
+static void
+newXMLIntProp (xmlNodePtr parent,  const xmlChar * name,
+		gint content)
+{
+  gchar *integer = g_strdup_printf("%d", content);
+  xmlSetProp  (parent, name, (xmlChar *) integer);
+  g_free(integer);
+}
+
+
 
 
 /**
@@ -1304,7 +1320,16 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 				     directive->str);
 		  xmlSetProp (objElem, (xmlChar *) "locked",
 			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
+		  if(((lilydirective *) curObj->object)->display && ((lilydirective *) curObj->object)->display->len) {
+		    xmlSetProp (objElem, (xmlChar *) "display",
+			      (xmlChar *) (((lilydirective *) curObj->object)->display->str));
+		    newXMLIntProp (objElem, (xmlChar *) "x",
+				   (((lilydirective *) curObj->object)->x));
+		    newXMLIntProp (objElem, (xmlChar *) "y",
+				   (((lilydirective *) curObj->object)->y));
 
+		  }
+		    
 		  break;
 		case BARLINE:
 		case MEASUREBREAK:

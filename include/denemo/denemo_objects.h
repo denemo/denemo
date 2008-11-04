@@ -252,11 +252,6 @@ typedef struct barline
 }
 barline;
 
-/* Data structure for an arbitrary directive to be passed to
- * Lilypond that Denemo doesn't understand. This type is useful
- * in that the user can insert such directives into a mudela file
- * by hand and have Denemo respect them when it loads a file and
- * write them back when it saves it */
 
 
 /**
@@ -270,11 +265,20 @@ typedef struct lyric
   gboolean center_lyric; /**< Should the lyrics be centered? */
 }lyric;
 
-/**/
+
+/* Data structure for an arbitrary directive to be passed to
+ * Lilypond that Denemo doesn't understand. This type is useful
+ * in that the user can insert such directives into a LilyPond file
+ * by hand and have Denemo respect them when it loads a file and
+ * write them back when it saves it */
+
 typedef struct lilydirective
 {
-  GString *directive;
+  GString *directive;/**< the LilyPond text */
   gboolean locked;/**< If true the directive cannot be deleted easily */
+  GString *display;/**< Something for Denemo to display (to indicate what the directive is doing*/
+  gint x;/**< horizontal offset of display text */
+  gint y;/**< vertical offset of display text */
 }
 lilydirective;
 

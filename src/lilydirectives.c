@@ -23,6 +23,7 @@ struct callbackdata
 {
   DenemoGUI *gui;
   gchar *string;
+  gchar *display;
   gboolean locked;
   gboolean attach;/* whether the LilyPond is to be postfixed to note (else should be a DenemoObject) */
 };
@@ -80,6 +81,12 @@ insertdirective (GtkWidget * widget, struct callbackdata *cbdata)
     if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
       g_string_append(lilyobj->directive,"\n");
     }
+    if(cbdata->display) {
+      if(lilyobj->display)
+	g_string_assign(lilyobj->display, cbdata->display);
+      else
+	lilyobj->display = g_string_new(cbdata->display);
+    }
   }
   score_status(gui, TRUE);
   displayhelper(gui);
@@ -98,7 +105,9 @@ static void
 lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
 {
   gchar *string;
+  gchar *display;
   gchar *current = NULL;
+  gchar *current_display = NULL;
   DenemoScore * si = gui->si;
   note *curnote = NULL;
   static struct callbackdata cbdata;
@@ -119,6 +128,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   if ((init==NULL) && curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
+		current_display = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
 		cbdata.locked = lilyobj->locked;
 	}
   if(curnote && curnote->directive)
@@ -131,11 +141,16 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
       gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
   }
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
-  } else
+  if(!curnote)
+    display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
+  } else {
+    /* need to extract a second string if present from parameter passed by scheme */
     string = g_strdup(init);
+  }
 
   cbdata.gui = gui;
   cbdata.string = string;
+  cbdata.display = display;
 
   if (string){ 
     insertdirective (NULL, &cbdata);

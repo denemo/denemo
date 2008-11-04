@@ -1338,10 +1338,27 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
 						     xmlChildrenNode,
 						     1);
   gchar *locked = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "locked");
+  gchar *display = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "display");
+  gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "x");
+  gchar *y = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "y");
+
+
   DenemoObject *curobj = lily_directive_new (directive);
   if(locked)
     ((lilydirective*)curobj->object)->locked = !strcmp (locked, "true");
   g_free(locked);
+  if(display)
+    ((lilydirective*)curobj->object)->display = g_string_new(display);
+  g_free(display);
+  if(x)
+    ((lilydirective*)curobj->object)->x = atoi(x);
+  g_free(x);
+  if(y)
+    ((lilydirective*)curobj->object)->y = atoi(y);
+  g_free(y);
+
+
+
   return curobj;
 }
 
