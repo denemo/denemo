@@ -855,7 +855,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		//				(GString *) mych->figure);
 		    
 		  /*Output Fakechords*/
-		  if (((chord *) curObj->object)->fakechord)
+		  if (((chord *) curObj->object)->fakechord && ((GString *) ((chord *) curObj->object)->fakechord)->len)
 		    {
 		    	
   			   GString *temp = g_string_new("");

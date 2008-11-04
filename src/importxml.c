@@ -636,10 +636,10 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
   gchar *fakechord = (gchar *) xmlNodeListGetString (fakechordElem->doc,
 						  fakechordElem->xmlChildrenNode,
 						  1);
-  
-  ((chord *) curobj->object)->is_fakechord = TRUE; 
-  separate_fakechord_elements (fakechord, curobj); 
-  
+  if(fakechord) {
+    ((chord *) curobj->object)->is_fakechord = TRUE; 
+    separate_fakechord_elements (fakechord, curobj); 
+  }
   //((chord *) curobj->object)->fakechord = g_string_new (fakechord);
 
   g_free (fakechord);

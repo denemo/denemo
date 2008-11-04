@@ -90,6 +90,7 @@ separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj)
   gboolean has_extension = FALSE;
   gboolean has_pedal_bass = FALSE;
   gchar tmp2;
+
   GString *base = g_string_new("");
   GString *extension = g_string_new("");
 
@@ -126,7 +127,7 @@ separate_fakechord_elements (gchar *fakechord, DenemoObject *curObj)
  * Function to actually insert a fakechord to an object
  *
  */
-void
+gboolean
 insertfakechord (GtkWidget * widget, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
@@ -134,6 +135,8 @@ insertfakechord (GtkWidget * widget, gpointer data)
   DenemoScore *si = gui->si;
   static staff_info null_info;
   GString *current_fakechord;
+  if(cbdata->string==NULL)
+    return FALSE;
   if (si->currentobject != NULL) {
 	  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
 	    (DenemoObject *) si->currentobject->data : NULL;
@@ -143,19 +146,23 @@ insertfakechord (GtkWidget * widget, gpointer data)
 	    {
 	      if (si->currentobject->next)
 		cursorright (gui);
-	      else
+	      else if (gui->si->currentmeasure->next)
 		measureright (gui);
+	      else 
+		break;
 	      curObj =
 		si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 	    }
 	  while ((curObj != NULL) && (curObj->type != CHORD));
 
-	  si->has_fakechords = &null_info;
+	  si->has_fakechords = (gpointer)TRUE;//&null_info;
 	  gui->changecount++;
+	  return TRUE;
   }
   else {
-	warningdialog("CLIPPY: There is no object here to attach a fakechord to.  May I suggest creating a staff with the harmonic rhythm in it to attach the fakechords to.");	 
+	warningdialog("There is no object here to attach a fakechord to.");	 
   }
+  return FALSE;
 }
 
 
@@ -192,8 +199,8 @@ fakechord_insert (GtkAction *action, gpointer param)
   
   if (string)
     {
-      insertfakechord (NULL, &cbdata);
-      ((DenemoStaff*)si->currentstaff->data)->hasfakechords=TRUE;
+      if(insertfakechord (NULL, &cbdata))
+	((DenemoStaff*)si->currentstaff->data)->hasfakechords=TRUE;
       displayhelper (gui);
     }
   g_string_free(temp, TRUE);
