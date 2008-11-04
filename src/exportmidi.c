@@ -1513,7 +1513,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
        *******************/
 
 	  measurewidth = bars2ticks (1, timesigupper, timesiglower);
-
 	  if (ticks_at_bar + measurewidth != ticks_read)
 	    {
 	      if ((!measure_is_empty) && curmeasure->next)
@@ -1531,8 +1530,15 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			   ticks_at_bar + measurewidth - ticks_read,
 			   ticks_at_bar);
 		}
+ 		if(debug){
+		  printf("\nmeasure is empty = %d", measure_is_empty);
+		  printf("\nticks_at_bar(%d) + measurewidth(%d)!= "
+				  "ticks_read(%d)\n",
+				  ticks_at_bar, measurewidth, ticks_read);
+		  printf("\ninternal ticks = %d\n", internaltoticks(0));
+		}
 
-	      ticks_read = ticks_at_bar + internaltoticks (0);
+	      ticks_read = ticks_at_bar + measurewidth;//+ internaltoticks (0);
 	    }
 	  else
 	    {
