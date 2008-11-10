@@ -79,6 +79,5 @@ init_jack(void){
   return err;
 }
 
-
 #endif // _HAVE_JACK_
 
