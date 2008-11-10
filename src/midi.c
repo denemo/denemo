@@ -26,7 +26,7 @@
 #include "draw.h"
 
 
-#define SEQ_DEV    "/dev/sequencer2"
+#define SEQ_DEV    "/dev/sequencer"
 #define SEQ_DEV_N  0
 
 #ifdef HAVE_SYS_SOUNDCARD_H
