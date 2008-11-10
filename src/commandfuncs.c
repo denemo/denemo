@@ -821,8 +821,8 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   object_insert (gui, mudela_obj_new);
   curstaffstruct = (DenemoStaff *) si->currentstaff->data;
   prognum = select_program (curstaffstruct->midi_instrument->str);
-  /*playnotes (si->prefs->immediateplayback, *(chord *) mudela_obj_new->object,
-     prognum); */
+  /**/playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
+     prognum);
 }
 
 /**

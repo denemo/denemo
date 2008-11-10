@@ -27,7 +27,7 @@
 #include "keyboard.h"
 #include "csoundplayback.h"
 #include "exportlilypond.h"
-#include "jackmidi.h"
+#include "midi.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
@@ -1972,7 +1972,6 @@ static void   activate_action(gchar *path) {
      g_warning("Internal error, denemogui.xml out of step with literal %s in %s\n", path, __FILE__);
  }
 
-
 /**
  *  callback changing the input source (keyboard only/audio/midi)
  *
@@ -2001,8 +2000,11 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTAUDIO;
-   setup_pitch_input();
-   start_pitch_input();
+   if(setup_pitch_input()){
+     warningdialog("Could not start Audio input");
+     gui->input_source=INPUTKEYBOARD;
+   } else
+     start_pitch_input();
    break;
  case INPUTMIDI:
    g_print("Starting midi\n");
@@ -2011,8 +2013,11 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTMIDI;
-   setup_pitch_input();
-   start_pitch_input();
+   if(setup_pitch_input()){
+     warningdialog("Could not start MIDI input");
+     gui->input_source=INPUTKEYBOARD;
+   } else
+     start_pitch_input();
    break;
  default:
    g_warning("Bad Value\n");

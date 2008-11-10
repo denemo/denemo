@@ -1,5 +1,6 @@
-/* midi.cpp
+/* midi.c
  * functions for direct output to /dev/sequencer
+ * and direct input from /dev/midi
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Brian Delaney
@@ -25,21 +26,35 @@
 #include "draw.h"
 
 
-#define SEQ_DEV    "/dev/sequencer"
+#define SEQ_DEV    "/dev/sequencer2"
 #define SEQ_DEV_N  0
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 struct synth_info card_info;
 
 SEQ_DEFINEBUF (128);
-/*Prototype for function */
-void seqbuf_dump ();
-#endif
+
 
 static int sequencer_fd = -1;
 static gint ttag;
 static gboolean shouldremove = FALSE;
+/**
+ * Dump the global buffer to the sequencer device
+ *
+ */
+void
+seqbuf_dump ()
+{
+  if (_seqbufptr)
+    if (write (sequencer_fd, _seqbuf, _seqbufptr) == -1)
+      {
+	perror (_("Error during seqbuf_dump"));
+	exit (-1);
+      }
+  _seqbufptr = 0;
+}
 
+#endif
 /**
  * Close the sequencer device
  *
@@ -58,7 +73,7 @@ gint
 midi_init ()
 {
 #ifdef HAVE_SYS_SOUNDCARD_H
-  if ((sequencer_fd = open ("/dev/sequencer", O_WRONLY)) == -1)
+  if ((sequencer_fd = open (SEQ_DEV, O_WRONLY)) == -1)
     {
       perror (_("Error opening sequencer"));
       return -1;
@@ -69,6 +84,7 @@ midi_init ()
   if (ioctl (sequencer_fd, SNDCTL_SYNTH_INFO, &card_info) == -1)
     {
       perror (_("Cannot get info on soundcard"));
+      close (sequencer_fd);
       return -1;
     }
 
@@ -91,21 +107,6 @@ midi_init ()
 }
 
 #ifdef HAVE_SYS_SOUNDCARD_H
-/**
- * Dump the global buffer to the sequencer device
- *
- */
-void
-seqbuf_dump ()
-{
-  if (_seqbufptr)
-    if (write (sequencer_fd, _seqbuf, _seqbufptr) == -1)
-      {
-	perror (_("Error during seqbuf_dump"));
-	exit (-1);
-      }
-  _seqbufptr = 0;
-}
 
 /**
  *  Used to play each tone in the given chord
@@ -185,7 +186,7 @@ playnotes (gboolean doit, chord chord_to_play, int prognum)
 #ifdef HAVE_SYS_SOUNDCARD_H
   if (doit)
     if (sequencer_fd != -1
-	|| (sequencer_fd = open ("/dev/sequencer", O_WRONLY)) != -1)
+	|| (sequencer_fd = open (SEQ_DEV, O_WRONLY)) != -1)
       {
 	GList *tone;
 	SEQ_START_TIMER ();
@@ -212,9 +213,103 @@ playnotes (gboolean doit, chord chord_to_play, int prognum)
 #endif
 }
 
-gint
-playsong (DenemoScore * si)
-{
+// MIDI input
+#include <glib.h>
+static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
+static double
+midi2hz(int midinum)
+{
+  double argument = (midinum - 69);
+  double expon = (argument / 12);
+  return 440 * pow(2, expon);
+}
+
+
+
+#define command ((*buf)&0xFF)
+#define notenumber ((*(buf+1))&0xFF)
+#define velocity ((*(buf+2))&0xFF)
+void process_midi_event(gchar *buf) {
+  g_print("bytes stored %x %x %x\n", command, notenumber, velocity); 
+  if(velocity)
+    store_pitch(midi2hz(notenumber));
+}
+
+static int
+process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
+{
+  GError *error=NULL;
+  gsize bytes_read;
+  static gchar buf[3];
+  if(channel==NULL)
+    return FALSE;//shutdown
+  if(channel!=source)
+    return FALSE;//shutdown
+
+  //  g_print("Channel %p source %p is %d\n", channel, source, source->is_readable);
+  g_io_channel_read_chars (source, buf, 1, &bytes_read, &error);
+
+  if(command==MIDI_SYSTEM_PREFIX) {
+    while(command!=0xF7)
+      g_io_channel_read_chars (source, buf, 1, &bytes_read, &error);
+    return TRUE;
+  }
+  if(command)
+    switch(command) {
+    case MIDI_NOTEON:
+    case MIDI_NOTEOFF:
+    case MIDI_KEY_PRESSURE:
+    case MIDI_CTL_CHANGE:
+    case MIDI_PITCH_BEND:
+    case 0xF2:
+      {
+	g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
+	g_io_channel_read_chars (source, buf+2, 1, &bytes_read, &error);            
+      }
+      process_midi_event(buf);
+      return TRUE;//means do not remove event source
+
+    case MIDI_PGM_CHANGE:
+    case MIDI_CHN_PRESSURE:
+    case 0xF3:
+      g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
+      return TRUE;
+    default:
+      return TRUE; 
+    }
+}
+
+
+gint init_midi_input(void) {
+#ifdef _HAVE_JACK_
+ return init_jack();
+#else
+  GError *error = NULL;
+  if(!channel)
+    channel =  g_io_channel_new_file (/*Denemo.prefs.midi*/ "/dev/midi1","r", &error);
+  if(error)
+    return -1;
+  g_io_channel_set_encoding       (channel,NULL/* raw binary */,
+                                             &error);
+  if(error)
+    return -2;
+  g_io_add_watch_full(channel, G_PRIORITY_HIGH,G_IO_IN|G_IO_PRI, (GIOFunc) process_callback,NULL, NULL);
+  //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
   return 0;
+#endif
+}
+
+gint stop_midi_input(void) {
+#ifdef _HAVE_JACK_
+  jack_deactivate(jack_client);
+#else
+  GError *error = NULL;
+  if(channel)
+    g_io_channel_shutdown(channel, FALSE, &error);
+  if(error)
+    g_warning(error->message);
+  else
+    channel = NULL;
+#endif
 }

@@ -1,7 +1,13 @@
-#ifdef _HAVE_JACK_
 
+
+
+
+#ifdef _HAVE_JACK_
 #include <jack/jack.h>
 #include <jack/midiport.h>
+#include "midi.h"
+
+
 #include <glib.h>
 #include <math.h>
 #include "pitchentry.h"
@@ -14,20 +20,12 @@
 
 
 
-
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 
-double
-midi2hz(int midinum)
-{
-  double argument = (midinum - 69);
-  double expon = (argument / 12);
-  return 440 * pow(2, expon);
-}
 
 void
-process_midi_input(jack_nframes_t nframes)
+static process_midi_input(jack_nframes_t nframes)
 {
   int read, events, i, channel;
   void           *port_buffer;
@@ -40,11 +38,7 @@ process_midi_input(jack_nframes_t nframes)
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
-    if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_ON)){
-      store_pitch(midi2hz(event.buffer[1]));
-      printf("\nmidinote off =  %d freq = %f\n", event.buffer[1], midi2hz(event.buffer[1]));}
-    if (event.buffer[0] = (SYS_EXCLUSIVE_MESSAGE1 & NOTE_OFF))
-      /* cannot do I/O during interrupts printf("\nmidi note off = %d\n", event.buffer[1])*/;
+    process_midi_event(event->buffer);
   }
 }
  
@@ -84,21 +78,7 @@ init_jack(void){
   }
   return err;
 }
-#endif
 
-void 
-jackstop(){
-#ifdef _HAVE_JACK_
-  jack_deactivate(jack_client);
-#endif
-}
 
-int jackmidi(){
-#ifdef _HAVE_JACK_
-return  init_jack();
-#else
- return -1;
-#endif
-}
-
+#endif // _HAVE_JACK_
 

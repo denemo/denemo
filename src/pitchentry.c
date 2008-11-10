@@ -377,7 +377,7 @@ static gboolean  apply_tones(DenemoScore *si) {
 	    modify_note((chord*)theobj->object, mid_c_offset, thetone->enshift, dclef);
 	    tone_stored=TRUE;
 	    if(!si->cursor_appending)
-	      cursorright(PR_gui);
+	      cursorright(Denemo.gui);
 	    store_el = store_el->next;
 
 	  }// tone available
@@ -528,7 +528,7 @@ gboolean delete_tone(DenemoScore *si, chord *thechord) {
   si->cursor_appending = keepa;
   calcmarkboundaries (si);
 
-  displayhelper (PR_gui);
+  displayhelper (Denemo.gui);
   return TRUE;
   } else {
     return FALSE;
@@ -723,12 +723,6 @@ static void frequency_smoothing(GtkSpinButton *widget, gpointer data){
   set_frequency_smoothing(m);
 }
 
-/* destroy PR_window, and hence terminate the pitch recog subsystem */
-static void stop_PR_controls(void) {
-  if(GTK_IS_WINDOW(PR_window))
-    gtk_widget_destroy(PR_window);
-  PR_window = NULL;
-}
 
 
 /* stop_pitch_input
@@ -740,15 +734,16 @@ int stop_pitch_input(void) {
     g_source_remove(PR_timer);
 
   if(PR_enter) 
-    g_signal_handler_disconnect (PR_gui->scorearea, PR_enter);
+    g_signal_handler_disconnect (Denemo.gui->scorearea, PR_enter);
   if(PR_leave) 
-    g_signal_handler_disconnect (PR_gui->scorearea, PR_leave);
+    g_signal_handler_disconnect (Denemo.gui->scorearea, PR_leave);
    PR_timer = PR_enter = PR_leave = 0;
 
    if(gui->input_source==INPUTAUDIO)
       terminate_pitch_recognition();
    else
-     jackstop();
+     stop_midi_input();
+clear_tone_store(NULL, gui);
    if(GTK_IS_WINDOW(PR_window)) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
@@ -920,8 +915,6 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   gtk_box_pack_start (GTK_BOX (vbox2), hbox2,
 		      TRUE, TRUE, 0);
   
-  
-
   button = gtk_button_new_with_label("Clear Overlay"); //FIXME make this a proxy for the ClearOverlay action ??
   gtk_box_pack_start (GTK_BOX (hbox2), button,
 		      TRUE, TRUE, 0);
@@ -1193,23 +1186,22 @@ gint setup_pitch_input(void){
   }
   if(PR_temperament==NULL)
     PR_temperament = default_temperament();
-  if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):(jackmidi()==0)) {
+  if(gui->input_source==INPUTAUDIO?(initialize_pitch_recognition()==0):(init_midi_input()==0)) {
     if(gui->input_source==INPUTAUDIO) {//FIXME these should be done at initialize_pitch_recognition time
       set_silence(-90.0);
       set_threshold(0.3);
       set_smoothing(6.0);
     }
-    transposition_required = 1.0;
-    lowest_pitch = DEFAULT_LOW;
-    highest_pitch = DEFAULT_HIGH;
-    repeated_notes_allowed = TRUE;
-    create_pitch_recognition_window(gui);
-    //read_PRkeymap(gui);
-    return 0;
   } else
     return -1;
+  transposition_required = 1.0;
+  lowest_pitch = DEFAULT_LOW;
+  highest_pitch = DEFAULT_HIGH;
+  repeated_notes_allowed = TRUE;
+  create_pitch_recognition_window(gui);
+  //read_PRkeymap(gui);
+  return 0;
 }
-
 
 
 static void 

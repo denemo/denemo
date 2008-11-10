@@ -1,6 +1,6 @@
 /* midi.h
- * header files for Brian Delaney's direct output to /dev/sequencer
- *
+ * header file for Brian Delaney's direct output to /dev/sequencer
+ * and input from /dev/midi
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller
  */
@@ -9,14 +9,8 @@
 
 void midi_cleanup ();
 
-void seqbuf_dump ();
-
 gint midi_init ();
 
 void playnotes (gboolean doit, chord chord_to_play,int prognum);
 
-void midi_lock ();
-
-void midi_unlock ();
-
-gint playsong (DenemoScore *si);
+void process_midi_event(gchar *buf);
