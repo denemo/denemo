@@ -113,7 +113,7 @@ draw_object (objnode * curobj, gint x, gint y,
   static GdkGC *redgc = NULL;
   static GdkGC *greengc = NULL;
   static gboolean init=FALSE;
-  static GdkColor white, black, blue, green;
+  static GdkColor white, black, blue, green, yellow;
   if(!init) {
     gdk_color_parse ("white", &white);
     gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
@@ -123,6 +123,8 @@ draw_object (objnode * curobj, gint x, gint y,
     gdk_colormap_alloc_color (gdk_colormap_get_system (), &blue, TRUE, TRUE);
     gdk_color_parse ("green", &green);
     gdk_colormap_alloc_color (gdk_colormap_get_system (), &green, TRUE, TRUE);
+    gdk_color_parse ("yellow", &yellow);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &yellow, TRUE, TRUE);
     init = TRUE;
   }
   itp->highy = itp->lowy = 0;
@@ -151,7 +153,7 @@ draw_object (objnode * curobj, gint x, gint y,
     
     GdkColor *thecolor;
     if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
-      thecolor = &green;
+      thecolor = &yellow;
     else
       thecolor =/* (mudelaitem->isinvisible) ? &white :*/ itp->mark?&blue:&black;
     gdk_gc_set_foreground (blackgc, thecolor);
@@ -761,7 +763,7 @@ DenemoGUI *gui = Denemo.gui;
   /* Clear the backing pixmap */
   if(pitch_entry_active(gui)) {
     gdk_draw_rectangle (gui->pixmap,
-			gcs_graygc(),
+			gcs_lightbluegc(),
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);

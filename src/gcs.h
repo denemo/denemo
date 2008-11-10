@@ -15,9 +15,13 @@ GdkGC *gcs_graygc ();
 
 GdkGC *gcs_greengc ();
 
+GdkGC *gcs_darkgreengc ();
+
 GdkGC *gcs_redgc ();
 
 GdkGC *gcs_bluegc ();
+
+GdkGC *gcs_lightbluegc ();
 
 GdkGC *gcs_purplegc ();
 

@@ -37,10 +37,12 @@ GdkGC *blackgc;
 GdkGC *graygc;
 GdkGC *slategraygc;
 GdkGC *greengc;
+GdkGC *darkgreengc;
 GdkGC *redgc;
 GdkGC *bluegc;
 GdkGC *purplegc;
 GdkGC *yellow3gc;
+GdkGC *lightbluegc;
 
 #define autocolor(color) color##gc = colorhelper (window, #color, "white")
 
@@ -55,8 +57,10 @@ gcs_init (GdkWindow * window)
   autocolor (gray);
   autocolor (slategray);
   autocolor (green);
+  autocolor (darkgreen);
   autocolor (red);
   autocolor (blue);
+  autocolor (lightblue);
   autocolor (purple);
   autocolor (yellow3);
 }
@@ -98,6 +102,16 @@ gcs_greengc ()
 }
 
 /**
+ * Get the darkgreen graphics context
+ */
+GdkGC *
+gcs_darkgreengc ()
+{
+  return darkgreengc;
+}
+
+
+/**
  * Get the red graphics context
  */
 GdkGC *
@@ -114,6 +128,16 @@ gcs_bluegc ()
 {
   return bluegc;
 }
+
+/**
+ * Get the blue graphics context
+ */
+GdkGC *
+gcs_lightbluegc ()
+{
+  return lightbluegc;
+}
+
 
 /**
  * Get the purple graphics context
