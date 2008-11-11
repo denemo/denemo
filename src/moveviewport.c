@@ -209,7 +209,7 @@ move_viewport_down (DenemoGUI * gui)
 
 /**
  * Sets the si->currentmeasurenum to the given value
- * if exists
+ * if exists, making it the leftmost measure visible
  *
  */
 gboolean
