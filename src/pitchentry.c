@@ -762,24 +762,12 @@ static void   activate_action(gchar *path) {
  }
 
 
-static gboolean stop_pitch_recognition_callback(GtkWidget *unused, DenemoGUI *gui){
+static gboolean window_destroy_callback(void){
 if(PR_gui==NULL)
     return FALSE;
-
-
-#if 0
- {GtkToggleAction *action;
- action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager,  "/MainMenu/InputMenu/KeyboardOnly");
- gtk_toggle_action_set_active (action, TRUE);
- }
-#else
  activate_action( "/MainMenu/InputMenu/KeyboardOnly");
-#endif
-
-
  PR_window=NULL;
- // gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget),  TRUE);
- //clear_tone_store(NULL, gui);
+ clear_tone_store(NULL, Denemo.gui);
  return FALSE;
 }
 
@@ -814,12 +802,8 @@ static void change_timer_rate(GtkSpinButton *widget, DenemoGUI *gui){
 
   // toggle Denemo.prefs.overlays to show where the notes detected should go
 static void toggle_insert(GtkButton *button, DenemoGUI *gui) {
-#if 0
-  GtkAction *action;
-  action = gtk_ui_manager_get_action (Denemo.ui_manager, Denemo.prefs.overlays?"/MainMenu/EntryMenu/InsertMode": "/MainMenu/EntryMenu/EditMode");
-  gtk_action_activate(action);
-#endif
   Denemo.prefs.overlays = !Denemo.prefs.overlays;
+  clear_tone_store(NULL, Denemo.gui);
   switch_back_to_main_window();
 }
 
@@ -902,7 +886,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 
   gtk_window_set_title (GTK_WINDOW (PR_window), "Pitch Input Control");
   g_signal_connect (G_OBJECT (PR_window), "destroy",
-		    G_CALLBACK (stop_pitch_recognition_callback), gui); 
+		    G_CALLBACK (window_destroy_callback), NULL); 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
@@ -1268,11 +1252,14 @@ void start_pitch_input(void) {
 
   if(PR_timer==0)
     g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
-  gtk_widget_add_events (gui->scorearea, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
-  PR_enter = g_signal_connect (G_OBJECT (gui->scorearea), "enter-notify-event",
+  if(gui->input_source==INPUTAUDIO) {/* for input from microphone avoid accidental activation by insisting on pointer being in the score drawing area */
+    gtk_widget_add_events (gui->scorearea, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
+    PR_enter = g_signal_connect (G_OBJECT (gui->scorearea), "enter-notify-event",
 			       G_CALLBACK (scorearea_set_active), (gpointer)gui);
-  PR_leave = g_signal_connect (G_OBJECT (gui->scorearea), "leave-notify-event",
+    PR_leave = g_signal_connect (G_OBJECT (gui->scorearea), "leave-notify-event",
 			       G_CALLBACK (scorearea_set_inactive), (gpointer)gui);
+  } else
+    PR_enable = TRUE;/* for midi input you are unlikely to enter notes by accident */
   PR_gui = gui;
 }
 

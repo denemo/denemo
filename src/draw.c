@@ -761,7 +761,9 @@ scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 DenemoGUI *gui = Denemo.gui;
   do{
   /* Clear the backing pixmap */
-  if(pitch_entry_active(gui)) {
+  if(Denemo.gui->input_source!=INPUTKEYBOARD &&
+     (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
+     && pitch_entry_active(gui)) {
     gdk_draw_rectangle (gui->pixmap,
 			gcs_lightbluegc(),
 			TRUE,
