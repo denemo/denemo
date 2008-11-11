@@ -2,6 +2,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorLe
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDown"), "CursorDown", "Cursor Down", "No Tooltip yet", cursordown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "No Tooltip yet", cursorup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "No Tooltip yet", cursorright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Go to the staff above", staffup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Go to the staff below", staffdown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "No Tooltip yet", measureleft);

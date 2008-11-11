@@ -64,6 +64,8 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorDown"), "cursordown", N_("Cursor Down")},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorUp"), "cursorup", N_("Cursor Up")},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorRight"), "cursorright", N_("Cursor Right")},
+  {KBD_CATEGORY_NAVIGATION, NULL, "Moves the cursor to the Mark without altering the selection",	N_("GoToMark"), "goto_mark", N_("To Mark")},
+
   {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff above",	N_("StaffUp"), "staffup", N_("Staff Up")},
   {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff below",	N_("StaffDown"), "staffdown", N_("Staff Down")},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("MeasureLeft"), "measureleft", N_("Measure Left")},

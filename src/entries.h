@@ -3,6 +3,7 @@
 {"CursorDown", NULL, N_("Cursor Down"), NULL,N_("No Tooltip yet"),G_CALLBACK (cursordown_cb)},
 {"CursorUp", NULL, N_("Cursor Up"), NULL,N_("No Tooltip yet"),G_CALLBACK (cursorup_cb)},
 {"CursorRight", NULL, N_("Cursor Right"), NULL,N_("No Tooltip yet"),G_CALLBACK (cursorright_cb)},
+{"GoToMark", NULL, N_("To Mark"), NULL,N_("Moves the cursor to the Mark without altering the selection"),G_CALLBACK (goto_mark_cb)},
 {"StaffUp", NULL, N_("Staff Up"), NULL,N_("Go to the staff above"),G_CALLBACK (staffup_cb)},
 {"StaffDown", NULL, N_("Staff Down"), NULL,N_("Go to the staff below"),G_CALLBACK (staffdown_cb)},
 {"MeasureLeft", NULL, N_("Measure Left"), NULL,N_("No Tooltip yet"),G_CALLBACK (measureleft_cb)},

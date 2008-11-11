@@ -461,6 +461,42 @@ unset_mark (DenemoGUI * gui)
   calcmarkboundaries (si);
 }
 
+
+/**
+ * goto_mark
+ * goto the current mark without changing the selection
+ *
+ * 
+ */
+void
+goto_mark (DenemoGUI *gui)
+{
+  DenemoScore *si = gui->si;
+  if(si->markstaffnum){
+    gint firststaff = si->firststaffmarked;
+    gint laststaff = si->laststaffmarked;
+    gint firstobj = si->firstobjmarked;
+    gint lastobj = si->lastobjmarked;
+    gint firstmeasure =si->firstmeasuremarked;
+    gint lastmeasure =si->lastmeasuremarked;
+    
+    set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
+    set_currentstaffnum (Denemo.gui,si->markstaffnum);
+    while(si->cursor_x < si->markcursor_x)
+      cursorright(Denemo.gui);
+    si->firststaffmarked = firststaff;
+    si->laststaffmarked = laststaff;
+    si->firstobjmarked  = firstobj;
+    si->lastobjmarked = lastobj;
+    si->firstmeasuremarked = firstmeasure;
+    si->lastmeasuremarked = lastmeasure;
+    displayhelper(Denemo.gui);
+  }
+}
+
+
+
+
 /**
  *  copywrapper
  *  Wrapper function for the copy command

@@ -454,6 +454,8 @@
        <menuitem action="GoToMeasure"/>
        <menuitem action="GoToBeginning"/>
        <menuitem action="GoToEnd"/>
+       <menuitem action="GoToMark"/>
+       
 		<separator/>
 	   <menuitem action="NextBookmark"/>
 	   <menuitem action="PrevBookmark"/>

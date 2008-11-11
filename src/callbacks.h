@@ -23,6 +23,12 @@ static void cursorright_cb (GtkAction *action, gpointer param) {
 cursorright (gui);
 displayhelper (gui);
 }
+/*GoToMark goto_mark*/
+static void goto_mark_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+goto_mark (gui);
+displayhelper (gui);
+}
 /*StaffUp staffup*/
 static void staffup_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

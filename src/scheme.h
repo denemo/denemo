@@ -15,6 +15,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorUp")), "scm", (gpoi
 SCM scheme_CursorRight(SCM optional);
 install_scm_function ("d-CursorRight", scheme_CursorRight);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorRight")), "scm", (gpointer)1);
+/*GoToMark goto_mark*/
+SCM scheme_GoToMark(SCM optional);
+install_scm_function ("d-GoToMark", scheme_GoToMark);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToMark")), "scm", (gpointer)1);
 /*StaffUp staffup*/
 SCM scheme_StaffUp(SCM optional);
 install_scm_function ("d-StaffUp", scheme_StaffUp);

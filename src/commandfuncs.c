@@ -107,7 +107,9 @@ beamandstemdirhelper (DenemoScore * si)
 
 
 /**
- * Set si->current* variables
+ * Set si->current* variables from currentmeasurenum
+ * the current object is set to the first in the measure
+ * the selection is updated
  *
  */
 void
