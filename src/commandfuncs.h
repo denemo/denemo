@@ -60,7 +60,7 @@ voicedown (DenemoGUI  *si);
 void
 cursorleft (DenemoGUI  *gui);
 
-void
+gboolean
 cursorright (DenemoGUI  *gui);
 
 void

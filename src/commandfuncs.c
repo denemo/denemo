@@ -579,9 +579,9 @@ cursorleft (DenemoGUI * gui)
 
 /**
  * move the cursor one position to the right
- *
+ * returns TRUE if the cursor has moved.
  */
-void
+gboolean
 cursorright (DenemoGUI * gui)
 {
   DenemoScore *si = gui->si;
@@ -614,6 +614,7 @@ cursorright (DenemoGUI * gui)
     }
   calcmarkboundaries (si);
   write_status(gui);
+  return si->currentobject || (!si->cursor_appending) || si->currentmeasure->next;
 }
 
 /**

@@ -413,6 +413,38 @@ SCM next_object (SCM optional) {
     return SCM_BOOL(TRUE);
   return SCM_BOOL(FALSE);  
 }
+
+
+
+/* moves currentobject to next object in the selection.
+   Steps over barlines (i.e. cursor_appending).
+ returns TRUE if currentobject is different after than before the call
+*/
+SCM next_selected_object (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(!Denemo.gui || !(Denemo.gui->si))
+    return SCM_BOOL(FALSE);
+  //  if(Denemo.gui->si->cursor_appending)
+  //   return SCM_BOOL(FALSE);
+  GList *this = Denemo.gui->si->currentobject;
+  save_selection(Denemo.gui->si);
+  gboolean success = cursorright (Denemo.gui);
+  restore_selection(Denemo.gui->si);
+  //g_print("success %d\n", success);
+  if( (success) && in_selection(Denemo.gui->si))
+    return SCM_BOOL(TRUE);
+  return SCM_BOOL(FALSE);  
+}
+
+//(display (d-NextSelectedObject))
+
+
+
+
+
 SCM next_chord (SCM optional) {
   SCM ret = next_object(optional);
   if(SCM_FALSEP(ret))
@@ -492,6 +524,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", diatonic_shift);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", next_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", next_selected_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", next_chord);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", next_note);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 

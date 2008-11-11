@@ -462,6 +462,60 @@ unset_mark (DenemoGUI * gui)
 }
 
 
+gboolean in_selection(DenemoScore *si) {
+  if(si->currentstaffnum >= si->firststaffmarked &&
+     si->currentstaffnum <= si->laststaffmarked) {
+    if(si->currentmeasurenum == si->firstmeasuremarked) {
+      if (si->currentmeasurenum == si->lastmeasuremarked) {
+	if((si->cursor_x >= si->firstobjmarked) &&
+	   (si->cursor_x <= si->lastobjmarked))
+	  return TRUE;
+	else return FALSE;
+      }
+      if (si->currentmeasurenum < si->lastmeasuremarked){
+	if(si->cursor_x >= si->firstobjmarked)
+	  return TRUE;
+	return FALSE;
+      }
+    }
+    if(si->currentmeasurenum > si->firstmeasuremarked) {
+      if (si->currentmeasurenum == si->lastmeasuremarked) {
+	if((si->cursor_x <= si->lastobjmarked))
+	  return TRUE;
+	else return FALSE;
+      }
+      if (si->currentmeasurenum < si->lastmeasuremarked)
+	return TRUE;
+    }
+  }
+  return FALSE;  
+}
+
+/* save/restore selection */
+static      gint firststaff;
+static      gint laststaff;
+static      gint firstobj;
+static      gint lastobj;
+static      gint firstmeasure;
+static      gint lastmeasure;
+
+void save_selection(DenemoScore *si) {
+  firststaff = si->firststaffmarked;
+  laststaff = si->laststaffmarked;
+  firstobj = si->firstobjmarked;
+  lastobj = si->lastobjmarked;
+  firstmeasure =si->firstmeasuremarked;
+  lastmeasure =si->lastmeasuremarked;
+}
+void restore_selection(DenemoScore *si) {
+  si->firststaffmarked = firststaff;
+  si->laststaffmarked = laststaff;
+  si->firstobjmarked  = firstobj;
+  si->lastobjmarked = lastobj;
+  si->firstmeasuremarked = firstmeasure;
+  si->lastmeasuremarked = lastmeasure;
+}
+
 /**
  * goto_mark
  * goto the current mark without changing the selection
@@ -473,23 +527,12 @@ goto_mark (DenemoGUI *gui)
 {
   DenemoScore *si = gui->si;
   if(si->markstaffnum){
-    gint firststaff = si->firststaffmarked;
-    gint laststaff = si->laststaffmarked;
-    gint firstobj = si->firstobjmarked;
-    gint lastobj = si->lastobjmarked;
-    gint firstmeasure =si->firstmeasuremarked;
-    gint lastmeasure =si->lastmeasuremarked;
-    
+    save_selection(si);
     set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
     set_currentstaffnum (Denemo.gui,si->markstaffnum);
     while(si->cursor_x < si->markcursor_x)
       cursorright(Denemo.gui);
-    si->firststaffmarked = firststaff;
-    si->laststaffmarked = laststaff;
-    si->firstobjmarked  = firstobj;
-    si->lastobjmarked = lastobj;
-    si->firstmeasuremarked = firstmeasure;
-    si->lastmeasuremarked = lastmeasure;
+    restore_selection(si);
     displayhelper(Denemo.gui);
   }
 }
