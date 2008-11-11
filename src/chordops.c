@@ -66,7 +66,8 @@ findreversealigns (DenemoObject * thechord)
 	     previous = current, prevnote = curnote, current = current->next)
 	  {
 	    curnote = (note *) current->data;
-	    if (prevnote->mid_c_offset == curnote->mid_c_offset - 1)
+	    if ((prevnote->mid_c_offset == curnote->mid_c_offset - 1) ||
+		(prevnote->mid_c_offset == curnote->mid_c_offset))
 	      {
 		((chord *) thechord->object)->is_reversealigned = TRUE;
 		curnote->reversealign = !prevnote->reversealign;
@@ -88,7 +89,8 @@ findreversealigns (DenemoObject * thechord)
 	     previous = current, prevnote = curnote, current = current->prev)
 	  {
 	    curnote = (note *) current->data;
-	    if (prevnote->mid_c_offset == curnote->mid_c_offset + 1)
+	    if ((prevnote->mid_c_offset == curnote->mid_c_offset + 1)||
+		(prevnote->mid_c_offset == curnote->mid_c_offset))
 	      {
 		curnote->reversealign = !prevnote->reversealign;
 		((chord *) thechord->object)->is_reversealigned = TRUE;
