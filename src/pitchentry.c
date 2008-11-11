@@ -743,7 +743,7 @@ int stop_pitch_input(void) {
       terminate_pitch_recognition();
    else
      stop_midi_input();
-clear_tone_store(NULL, gui);
+   clear_tone_store(NULL, gui);
    if(GTK_IS_WINDOW(PR_window)) { 
      GtkWidget *temp = PR_window; PR_window = NULL, gtk_widget_destroy(temp);
    }
@@ -752,6 +752,36 @@ clear_tone_store(NULL, gui);
   return 0;
 }
 
+static void   activate_action(gchar *path) {
+   GtkAction *a;
+   a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
+   if(a)
+   gtk_action_activate(a);
+   else 
+     g_warning("Internal error, denemogui.xml out of step with literal %s in %s\n", path, __FILE__);
+ }
+
+
+static gboolean stop_pitch_recognition_callback(GtkWidget *unused, DenemoGUI *gui){
+if(PR_gui==NULL)
+    return FALSE;
+
+
+#if 0
+ {GtkToggleAction *action;
+ action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager,  "/MainMenu/InputMenu/KeyboardOnly");
+ gtk_toggle_action_set_active (action, TRUE);
+ }
+#else
+ activate_action( "/MainMenu/InputMenu/KeyboardOnly");
+#endif
+
+
+ PR_window=NULL;
+ // gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(widget),  TRUE);
+ //clear_tone_store(NULL, gui);
+ return FALSE;
+}
 
 static stop_tuning_callback(){
   PR_tuning = FALSE;
@@ -871,7 +901,8 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   PR_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
   gtk_window_set_title (GTK_WINDOW (PR_window), "Pitch Input Control");
-
+  g_signal_connect (G_OBJECT (PR_window), "destroy",
+		    G_CALLBACK (stop_pitch_recognition_callback), gui); 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
