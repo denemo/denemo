@@ -78,12 +78,18 @@ initprefs ()
   ret->browser = g_string_new ("firefox");
   ret->csoundorcfile = g_string_new ("");
   ret->pdfviewer = g_string_new ("xpdf");
+  ret->sequencer = g_string_new ("/dev/sequencer");
+  ret->midi_in = g_string_new ("/dev/midi");
+
+
   ret->imageviewer = g_string_new ("eog");
   ret->texteditor = g_string_new ("xedit");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
   ret->temperament = g_string_new("Equal");
   ret->strictshortcuts = FALSE;
+  ret->overlays = FALSE;
+  ret->continuous = TRUE;
 
   ret->immediateplayback = TRUE;
   ret->saveparts = FALSE;
@@ -288,6 +294,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	}
 
       READXMLENTRY(temperament)
+      READXMLENTRY(midi_in)
+      READXMLENTRY(sequencer)
+
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "createclones"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -324,6 +333,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 
       READINTXMLENTRY(strictshortcuts)
+      READINTXMLENTRY(overlays)
+      READINTXMLENTRY(continuous)
 
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilystyleentry"))
 	{
@@ -580,6 +591,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
 		 (xmlChar *) prefs->field->str)
 
   WRITEXMLENTRY(temperament);
+  WRITEXMLENTRY(midi_in);
+  WRITEXMLENTRY(sequencer);
 
   if (prefs->lilyversion)
     xmlNewChild (child, NULL, (xmlChar *) "lilyversion",
@@ -598,6 +611,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
 		  prefs->field);
 
   WRITEINTXMLENTRY(strictshortcuts);
+  WRITEINTXMLENTRY(overlays);
+  WRITEINTXMLENTRY(continuous);
 
   newXMLIntChild (child, (xmlChar *) "rtcs", prefs->rtcs);
   newXMLIntChild (child, (xmlChar *) "notationpalette",

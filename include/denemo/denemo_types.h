@@ -302,6 +302,8 @@ typedef struct DenemoPrefs
 			     wav file after rendering or not */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
+  gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
+  gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
   gboolean createclones; 
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
@@ -314,6 +316,8 @@ typedef struct DenemoPrefs
   GString *csoundcommand; /**< command used to execute csound */
   GString *csoundorcfile; /**< Path to .orc file used for csound playback */
   gboolean rtcs; /**< Real time csound */
+  GString *sequencer;  /**< path to sequencer device */
+  GString *midi_in;  /**< path to midi_in device */
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *texteditor; /**< texteditor for editing scripts and lilypond files */

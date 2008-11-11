@@ -26,7 +26,7 @@
 #include "draw.h"
 
 
-#define SEQ_DEV    "/dev/sequencer"
+#define SEQ_DEV    (Denemo.prefs.sequencer->str)
 #define SEQ_DEV_N  0
 
 #ifdef HAVE_SYS_SOUNDCARD_H
@@ -287,7 +287,7 @@ gint init_midi_input(void) {
 #else
   GError *error = NULL;
   if(!channel)
-    channel =  g_io_channel_new_file (/*Denemo.prefs.midi*/ "/dev/midi1","r", &error);
+    channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
   if(error)
     return -1;
   g_io_channel_set_encoding       (channel,NULL/* raw binary */,

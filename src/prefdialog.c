@@ -33,10 +33,14 @@ struct callbackdata
   GtkWidget *autosaveentry;
   GtkWidget *browserentry;
   GtkWidget *pdfviewer;
+  GtkWidget *sequencer;
+  GtkWidget *midi_in;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
+  GtkWidget *overlays;
+  GtkWidget *continuous;
 };
 
 struct callbackdata1
@@ -118,12 +122,20 @@ set_preferences (struct callbackdata *cbdata)
   g_string_assign (prefs->field,\
                    gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
 
+
+  ASSIGNTEXT(sequencer);
+  ASSIGNTEXT(midi_in);
+
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->field));
 
+  ASSIGNTEXT(sequencer);
+  ASSIGNTEXT(midi_in);
   ASSIGNTEXT(temperament);
   ASSIGNBOOLEAN(strictshortcuts);
+  ASSIGNBOOLEAN(overlays);
+  ASSIGNBOOLEAN(continuous);
 
   prefs->immediateplayback =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
@@ -168,12 +180,16 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *checkautosave;
   GtkWidget *autosaveentry;
   GtkWidget *pdfviewer;
+  GtkWidget *midi_in;
+  GtkWidget *sequencer;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *checknotationpalette;
   GtkWidget *checkrhythmpalette;
   GtkWidget *checkarticulationpalette;
   GtkWidget *strictshortcuts;
+  GtkWidget *overlays;
+  GtkWidget *continuous;
 
 
 
@@ -186,6 +202,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkTreeIter iter;
   GtkTreeViewColumn *column;
   GtkCellRenderer *renderer;
+  GtkWidget *entrywidget;
   static struct callbackdata cbdata;
   static struct callbackdata1 cbdata1;
   g_assert (gui != NULL);
@@ -273,6 +290,21 @@ preferences_change (GtkAction *action, gpointer param)
 				Denemo.prefs.saveparts);
   gtk_box_pack_start (GTK_BOX (main_vbox), checkautosaveparts, FALSE, TRUE, 0);
 
+#define TEXTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_entry_new ();\
+  gtk_entry_set_text (GTK_ENTRY (entrywidget), Denemo.prefs.field->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  cbdata.field = entrywidget;
+ 
+
+  TEXTENTRY("Sequencer Device", sequencer)
+  TEXTENTRY("Midi Input Device", midi_in)
+
 
   /*
    * Pitch Entry Parameters 
@@ -286,18 +318,8 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
 				   _("Pitch Entry"));
 
-  GtkWidget *entrywidget;
 
-#define TEXTENTRY(thelabel, field) \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  entrywidget = gtk_entry_new ();\
-  gtk_entry_set_text (GTK_ENTRY (entrywidget), Denemo.prefs.field->str);\
-  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
-  cbdata.field = entrywidget;
+
 
   TEXTENTRY("Temperament", temperament)
 
@@ -307,6 +329,9 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
 				Denemo.prefs.field);\
   gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);
+
+  BOOLEANENTRY("Use Overlays", overlays);
+  BOOLEANENTRY("Continuous Entry", continuous);
 
 
  /*
@@ -485,8 +510,11 @@ preferences_change (GtkAction *action, gpointer param)
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
 
+
   SETCALLBACKDATA(strictshortcuts);
   
+  SETCALLBACKDATA(overlays);
+  SETCALLBACKDATA(continuous);
 
   cbdata.checkautosaveparts = checkautosaveparts;
   cbdata.checkarticulationpalette = checkarticulationpalette;

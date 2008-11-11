@@ -18,8 +18,8 @@
 static GtkWidget *PR_window = NULL;/* a top level window for controlling pitch-recognition entry.
 			      We do not create one of these for each view (ie each DenemoGUI object, ie each score) because there is only one audio input source being used, so we would have to cope with resource contention issues, there is just no point. */
 static DenemoGUI *PR_gui; /* the gui for which the pitch recognition has been set up */
-static gboolean PR_insert; /* whether the notes should be inserted directly in the score or put in a list for controlled insertion */
-static gboolean PR_continuous; /* whether to go on to the next measure once overlay for current measure is full */
+
+
 gint PR_click;/*volume of a audible warning of next measure or extra tones in measure */
 static gboolean PR_tuning; /* whether the notes should be analyzed to refine the frequency determination
 			    for tuning instruments etc */
@@ -392,7 +392,7 @@ static gboolean  apply_tones(DenemoScore *si) {
 	if(tone_stored && curobj==NULL && curmeasure->next)
 	 ret = TRUE;
       }// while objects in measure
-    if(store_el && !PR_continuous) 
+    if(store_el && !Denemo.prefs.continuous) 
       sound_click();//extra tones in measure
     showwhichaccidentals ((objnode *) si->currentmeasure->data,
 			  si->curmeasurekey, si->curmeasureaccs);
@@ -447,7 +447,7 @@ static void enter_tone_in_store (DenemoGUI *gui, notepitch * found, gint octave)
   store = put_tone(store, gui->si->currentmeasurenum - 1, thetone);
   nextmeasure = apply_tones(gui->si);
   displayhelper (gui);
-  if(PR_continuous && nextmeasure) {
+  if(Denemo.prefs.continuous && nextmeasure) {
     sound_click();
     measureright(gui);
   }  
@@ -653,7 +653,7 @@ gint pitchentry(DenemoGUI *gui) {
       // Enter the note in the score
       if(!PR_tuning){
 	display_pitch(note, gui);
-	if(PR_insert)
+	if(!Denemo.prefs.overlays)
 	  enter_note_in_score(gui, found, octave);
 	else
 	  enter_tone_in_store(gui, found, octave);
@@ -667,9 +667,9 @@ gint pitchentry(DenemoGUI *gui) {
 
 
 
-  // toggle PR_continuous advance to next measure or not
+  // toggle continuous advance to next measure or not
 static void toggle_continuous(GtkButton *button, DenemoGUI *gui ) {
-  PR_continuous = !PR_continuous;
+  Denemo.prefs.continuous = !Denemo.prefs.continuous;
   switch_back_to_main_window();
 }
 
@@ -782,12 +782,14 @@ static void change_timer_rate(GtkSpinButton *widget, DenemoGUI *gui){
   switch_back_to_main_window();
 }
 
-  // toggle PR_insert to show where the notes detected should go, and start correct entry mode
+  // toggle Denemo.prefs.overlays to show where the notes detected should go
 static void toggle_insert(GtkButton *button, DenemoGUI *gui) {
+#if 0
   GtkAction *action;
-  action = gtk_ui_manager_get_action (Denemo.ui_manager, PR_insert?"/MainMenu/EntryMenu/EditMode": "/MainMenu/EntryMenu/InsertMode");
+  action = gtk_ui_manager_get_action (Denemo.ui_manager, Denemo.prefs.overlays?"/MainMenu/EntryMenu/InsertMode": "/MainMenu/EntryMenu/EditMode");
   gtk_action_activate(action);
-  PR_insert = !PR_insert;
+#endif
+  Denemo.prefs.overlays = !Denemo.prefs.overlays;
   switch_back_to_main_window();
 }
 
@@ -888,8 +890,18 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 		    G_CALLBACK (toggle_insert), gui);
   button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Insert Notes");
 
-  PR_insert = TRUE;
-  toggle_insert(NULL, gui);
+  g_print("Overlays %d\n", Denemo.prefs.overlays);
+  if(Denemo.prefs.overlays) {
+    //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), FALSE);
+    gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), TRUE);
+  }
+  else {
+    Denemo.prefs.overlays = !Denemo.prefs.overlays;
+    gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), TRUE);
+     
+    //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), FALSE);
+  }
+  g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
   gtk_box_pack_start (GTK_BOX (vbox), button,
 		      TRUE, TRUE, 0);/* no need for callback */
 
@@ -927,11 +939,13 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   button = gtk_check_button_new_with_label("Continuous");
   gtk_box_pack_start (GTK_BOX (hbox2), button,
 		      TRUE, TRUE, 0);
-  PR_continuous = FALSE;
+
   g_signal_connect (G_OBJECT (button), "clicked",
 		    G_CALLBACK (toggle_continuous), gui);
-  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-
+  if(Denemo.prefs.continuous){
+    Denemo.prefs.continuous = !Denemo.prefs.continuous;
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), !Denemo.prefs.continuous);
+  }
   label = gtk_label_new("Click Volume");
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   PR_click = 1;
