@@ -611,6 +611,7 @@ cursorright (DenemoGUI * gui)
 	  si->currentobject = si->currentobject->next;
 	  si->cursor_x++;
 	}
+      else return FALSE;
     }
   calcmarkboundaries (si);
   write_status(gui);

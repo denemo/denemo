@@ -361,6 +361,8 @@ SCM scheme_get_type (SCM optional) {
  DenemoObject *curObj;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
    return scm_makfrom0str("None");
+ if(Denemo.gui->si->cursor_appending)
+    return  scm_makfrom0str("Appending");
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
