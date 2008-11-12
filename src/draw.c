@@ -664,7 +664,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   /* Initialize some fields in itp */
 
-  itp.widget = widget;
+  itp.widget = widget;// this is used for widget->style, it is spuriously passed to the macro bitmaphelper
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
   itp.haslyrics = FALSE;
