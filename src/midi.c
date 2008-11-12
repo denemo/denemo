@@ -302,7 +302,7 @@ gint init_midi_input(void) {
 
 gint stop_midi_input(void) {
 #ifdef _HAVE_JACK_
-  jack_deactivate(jack_client);
+  stop_jack();
 #else
   GError *error = NULL;
   if(channel)
