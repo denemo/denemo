@@ -1958,7 +1958,7 @@ static void voicedown_cb(GtkAction *action, gpointer param) {
  */
 GtkActionEntry menu_entries[] = {
 #include "entries.h"
-  {"Stub",  NULL, N_(" "), NULL, N_("Does nothing"), G_CALLBACK (goto_mark)}
+  {"Stub",  NULL, N_(" "), NULL, N_("Does nothing"), G_CALLBACK (dummy)}
 
   };
 
