@@ -85,6 +85,7 @@ midi_init ()
     {
       perror (_("Cannot get info on soundcard"));
       close (sequencer_fd);
+      sequencer_fd = -1;
       return -1;
     }
 
@@ -95,13 +96,13 @@ midi_init ()
   if (ioctl (sequencer_fd, SNDCTL_SEQ_RESET) == -1)
     {
       perror (_("Error resetting sequencer"));
+      sequencer_fd = -1;
       return -1;
     }
 
   SEQ_DUMPBUF ();
   close (sequencer_fd);
   sequencer_fd = -1;
-
 #endif
   return 0;
 }
