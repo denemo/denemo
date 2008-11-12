@@ -38,7 +38,7 @@ static process_midi_input(jack_nframes_t nframes)
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
-    process_midi_event(event->buffer);
+    process_midi_event(event.buffer);
   }
 }
  
@@ -47,6 +47,11 @@ process_callback(jack_nframes_t nframes, void *notused)
 {
   process_midi_input(nframes);
   return 0;
+}
+
+void 
+stop_jack(void){
+  jack_deactivate(jack_client);
 }
 
 int
