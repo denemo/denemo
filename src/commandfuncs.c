@@ -746,7 +746,7 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
 void
 insertion_point (DenemoScore * si)
 {
-
+  gtk_widget_draw(Denemo.gui->scorearea, NULL);//FIXME efficiency????
   gboolean next_measure;
 
   /* First, check to see if the insertion'll cause the cursor to
