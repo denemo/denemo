@@ -93,6 +93,9 @@ gint
 lookup_command_for_keybinding (keymap *the_keymap, gint keyval, GdkModifierType state);
 
 //-1 if the binding is not found
+gint lookup_command_for_keyevent(GdkEventKey * event);
+
+//-1 if the binding is not found
 gint
 lookup_command_for_keybinding_name (keymap *the_keymap, const gchar *binding_name);
 

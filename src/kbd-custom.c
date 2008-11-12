@@ -813,6 +813,24 @@ lookup_command_for_keybinding (keymap * the_keymap, gint keyval, GdkModifierType
   g_free(name);
   return res;
 }
+
+/* weaker lookup of keybinding */
+gint lookup_command_for_keyevent(GdkEventKey * event) {
+  keymap *the_keymap = Denemo.map;
+  gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+						    dnm_sanitize_key_state(event));
+  if(!Denemo.prefs.strictshortcuts){
+    if(command_idx==-1)
+      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+						   dnm_hyper_sanitize_key_state(event)); 
+    if(command_idx==-1)
+      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
+						   dnm_meta_sanitize_key_state(event));
+  }  
+  return command_idx;
+}
+
+
 /* looks up the command idx for the binding of name binding_name */
 gint
 lookup_command_for_keybinding_name (keymap * the_keymap,

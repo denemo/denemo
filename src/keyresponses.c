@@ -3,6 +3,7 @@
  * (c) 1999-2005 Matthew Hiller
  */
 
+#include <string.h>
 
 #include "kbd-custom.h"
 #include "keyresponses.h"
@@ -13,13 +14,18 @@
 #include "view.h"
 
 
+
+
+
+
+
 static GdkEventKey ** divert_key_event;/* Non null if key events are being intercepted by a function
 					* (which is running a gtk_mail_loop() for this reason).
 					* return TRUE if a key press successfully captured
 					* in which case the kyval, state pair are returned
 					*/
 
-gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
+gboolean intercept_scorearea_keypress (GdkEventKey *pevent) {
   if(divert_key_event) {
     warningdialog("Recursive key capture not possible!");/* we could make a stack of them instead ... */
     return FALSE;
@@ -28,9 +34,9 @@ gboolean intercept_scorearea_keypress (gint *keyval, gint *state) {
   divert_key_event = &event;
   gtk_main();
   divert_key_event = NULL;
-  *keyval = event->keyval;
-  *state = dnm_sanitize_key_state(event);
-  //g_object_unref(event);
+  // *keyval = event->keyval;
+  // *state = dnm_sanitize_key_state(event);
+  memcpy(pevent, event, sizeof(GdkEventKey));
 }
 
 
@@ -100,7 +106,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
-    return 1;
+    return;
   }
   gint state;
   state = (lock_mask(event->keyval)^event->state);
@@ -108,16 +114,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     set_cursor_for(state); // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
-  gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
-			       dnm_sanitize_key_state(event));
-  if(!Denemo.prefs.strictshortcuts){
-    if(command_idx==-1)
-      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
-			       dnm_hyper_sanitize_key_state(event)); 
-    if(command_idx==-1)
-      command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
-			       dnm_meta_sanitize_key_state(event));
-  } 
+  gint command_idx = lookup_command_for_keyevent(event);
   if (command_idx != -1) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);
@@ -132,7 +129,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       g_warning("No action %i has no name", command_idx);
     }
   }
-  return 0;
+  return;
 }
 
 /**

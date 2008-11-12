@@ -258,22 +258,19 @@ if(SCM_STRINGP(msg)){
 
 
 SCM scheme_get_char(void) {
-  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
- GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
- gint keyval, state;
- gboolean success = intercept_scorearea_keypress(&keyval, &state);
- gchar *str = g_strdup_printf("%c", success?keyval:0);
+
+  GdkEventKey event;
+ gboolean success = intercept_scorearea_keypress(&event);
+ gchar *str = g_strdup_printf("%c", success?event.keyval:0);
  SCM scm = scm_makfrom0str (str);
  g_free(str);
  return  scm;
 }
 
 SCM scheme_get_keypress(void) {
-  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
- GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
- gint keyval=0, state=0;
- (void) intercept_scorearea_keypress(&keyval, &state);
- gchar *str = dnm_accelerator_name(keyval, state);
+ GdkEventKey event;
+ (void) intercept_scorearea_keypress(&event);
+ gchar *str = dnm_accelerator_name(event.keyval, event.state);
  SCM scm = scm_makfrom0str (str);
  g_free(str);
  return  scm;
@@ -288,13 +285,12 @@ SCM scheme_get_command_keypress(void) {
 }
 
 SCM scheme_get_command(void) {
-  GdkDisplay *display = gtk_widget_get_display(Denemo.window);
- GdkEventKey *event = (GdkEventKey*)gdk_display_get_event(display);
- gint keyval, state;
+  GdkEventKey event;
  GString *name=g_string_new("");
- gboolean success = intercept_scorearea_keypress(&keyval, &state);
+ gboolean success = intercept_scorearea_keypress(&event);
  if(success) {
-   gint cmd = lookup_command_for_keybinding(Denemo.map, keyval, state);
+   gint cmd = lookup_command_for_keyevent (&event);
+   g_print("command %d for %x %x\n", cmd, event.keyval, event.state);
    if(cmd!=-1)
      name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
