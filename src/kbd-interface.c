@@ -52,9 +52,7 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   gtk_tree_path_free(path);
   //set the new binding
   add_keybinding_to_idx(Denemo.map, event->keyval, modifiers,
-          command_idx, POS_LAST);
-  //TODO? advertize on the status bar the fact a keybinding was stolen
-  //clean the GUI
+          command_idx, POS_FIRST);
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);

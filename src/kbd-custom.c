@@ -1141,33 +1141,49 @@ add_named_binding_to_idx (keymap * the_keymap, gchar *kb_name,  guint command_id
   guint *new_idx;
   gint old_command_idx;
   old_command_idx = lookup_command_for_keybinding_name(the_keymap, kb_name);//lookup_keybinding(the_keymap, keyval, state);  
-  //if the keybinding was previously used, remove it from bindings and update
-  //its accels
-  if (old_command_idx != -1) {
-      remove_keybinding_bindings_helper(the_keymap, old_command_idx, kb_name);
-      update_accel_labels(the_keymap, old_command_idx);
-  }  
-
+  gchar *title = NULL;
+  gchar *prompt = NULL;
+  if(old_command_idx >= 0) {
+    title = g_strdup_printf("The Command %s Responds to this Shortcut", lookup_name_from_idx(Denemo.map, old_command_idx));
+    prompt = g_strdup_printf("Lose the shortcut %s for this?", kb_name);
+  }
+  
+  if((pos==POS_FIRST) && 
+     (old_command_idx >= 0) &&
+     (!confirm(title, prompt))){
+      g_free(title);
+      g_free(prompt);
+      return  old_command_idx;
+    }
+  
+  if(old_command_idx >= 0) {
+    remove_keybinding_bindings_helper(the_keymap, old_command_idx, kb_name);
+    update_accel_labels(the_keymap, old_command_idx);
+  } 
   //add the keybinding to the binding on idx_command
-   add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, pos);
-
+  add_keybinding_bindings_helper(the_keymap, command_idx, kb_name, pos);
+    
   //update the accel labels of the command
   update_accel_labels(the_keymap, command_idx);
-
+    
   //add or modify an entry in idx_from_keystring
   new_idx = (guint *) g_malloc(sizeof(guint));
   *new_idx = command_idx;
   g_hash_table_insert(the_keymap->idx_from_keystring, g_strdup(kb_name),
-          new_idx);
+			new_idx);  
+  g_free(title);
+  g_free(prompt);
   return old_command_idx;
 }
-
+  
    
 /**
  * Adds a keybinding to the_keymap.  If the key was already bound,
  * this function removes the old binding and replaces it, returning
  * the number of the command this keybinding was attached to. Otherwise
  * returns -1. 
+ * if pos is POS_FIRST, then the user is adding the binding - get confirmation before stealing
+ * if POS_LAST it is the command set being loaded, do not ask
  */
 gint
 add_keybinding_to_idx (keymap * the_keymap, gint keyval,

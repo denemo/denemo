@@ -1529,21 +1529,28 @@ typedef struct ModifierAction {
   gboolean left;/* if this is for left or right mouse button */
 }  ModifierAction;
 
+
+// info->action is the action for which the mouse shortcut is to be set
 static void setMouseAction(ModifierAction *info) {
   GString *modname = mouse_shortcut_name(info->modnum, info->gesture, info->left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
   GtkAction *current_action=NULL;
-  if(command_idx >= 0)
+  gchar *title = NULL;
+  gchar *prompt = NULL;
+  if(command_idx >= 0) {
     current_action = (GtkAction *)lookup_action_from_idx(Denemo.map, command_idx);
-
-  if(current_action==info->action)
-    remove_keybinding_from_name(Denemo.map, modname->str);//by_name
-  else {
+    title = g_strdup_printf("The Command %s Responds to this Shortcut", lookup_name_from_idx(Denemo.map, command_idx));
+    prompt = g_strdup_printf("Lose the shortcut %s for this?", modname->str);
+  }
+  if(current_action==NULL || confirm(title, prompt)) {
+    remove_keybinding_from_name(Denemo.map, modname->str);//by_name 
     const gchar *name = gtk_action_get_name(info->action);
     command_idx = lookup_command_from_name (Denemo.map, name);
     if(command_idx >= 0)
       add_named_binding_to_idx (Denemo.map,  modname->str, command_idx, POS_LAST);
   }
+  g_free(title);
+  g_free(prompt);
   g_string_free(modname, TRUE);
 }
 
