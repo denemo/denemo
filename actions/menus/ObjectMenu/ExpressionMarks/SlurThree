@@ -5,15 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>SlurTwo</action>
+        <action>SlurThree</action>
         <scheme>
 (d-ToggleBeginSlur)
+(d-CursorRight)
 (d-CursorRight)
 (d-ToggleEndSlur)
 (d-CursorRight)
 </scheme>
-        <label>Slur with Next Note</label>
-        <tooltip>Creates a slur from current note to next note.</tooltip>
+        <label>Slur with Next Two Notes</label>
+        <tooltip>Slur over next two notes.</tooltip>
       </row>
     </map>
   </merge>

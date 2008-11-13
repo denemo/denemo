@@ -143,9 +143,10 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
   if(!curnote)
     display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
-  } else {
-    /* need to extract a second string if present from parameter passed by scheme */
+  } else {// called with initialization string
+    display="";/* need to extract a second string if present from parameter passed by scheme */
     string = g_strdup(init);
+    
   }
 
   cbdata.gui = gui;
