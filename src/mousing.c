@@ -228,7 +228,7 @@ void append_modifier_name(GString *ret, gint mod) {
   for(i=0;i<DENEMO_NUMBER_MODIFIERS;i++)
     if((1<<i)&mod)
       g_string_append_printf(ret, "%s%s", "-",names[i]);
-  g_string_append_printf(ret, "%s", mod?"":"(Plain)");
+  g_string_append_printf(ret, "%s", mod?"":"");
 }
 
 /* returns a newly allocated GString containing a shortcut name */
