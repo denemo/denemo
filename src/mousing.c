@@ -352,7 +352,8 @@ DenemoGUI *gui = Denemo.gui;
       // if(gui->si->markstaffnum)
       //	unset_mark(gui);
       // else
-      //	set_mark(gui);
+      if(left)
+	set_mark(gui);
       write_status(gui);
       /* Redraw to show new cursor position*/
       gtk_widget_queue_draw (gui->scorearea);
