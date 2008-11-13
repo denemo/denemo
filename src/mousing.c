@@ -286,7 +286,7 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
-    if (gui->si->markstaffnum, 1){
+    if (gui->si->markstaffnum){
       struct placement_info pi; 
       if (event->y < 0)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
