@@ -523,9 +523,9 @@ void restore_selection(DenemoScore *si) {
  * 
  */
 void
-goto_mark (DenemoGUI *gui)
+goto_mark (GtkAction *action, gpointer param)
 {
-  DenemoScore *si = gui->si;
+  DenemoScore *si = Denemo.gui->si;
   if(si->markstaffnum){
     save_selection(si);
     set_currentmeasurenum (Denemo.gui, si->markmeasurenum);

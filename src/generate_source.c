@@ -64,7 +64,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorDown"), "cursordown", N_("Cursor Down")},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorUp"), "cursorup", N_("Cursor Up")},
   {KBD_CATEGORY_NAVIGATION, NULL, "No Tooltip yet",	N_("CursorRight"), "cursorright", N_("Cursor Right")},
-  {KBD_CATEGORY_NAVIGATION, NULL, "Moves the cursor to the Mark without altering the selection",	N_("GoToMark"), "goto_mark", N_("To Mark")},
+  {KBD_CATEGORY_NAVIGATION|KBD_CATEGORY_DIRECT, NULL, "Moves the cursor to the Mark without altering the selection",	N_("GoToMark"), "goto_mark", N_("To Mark")},
 
   {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff above",	N_("StaffUp"), "staffup", N_("Staff Up")},
   {KBD_CATEGORY_NAVIGATION, NULL, "Go to the staff below",	N_("StaffDown"), "staffdown", N_("Staff Down")},
@@ -500,7 +500,7 @@ int main() {
   fprintf(scheme, "gchar *text;\n");
   for(i=0;i<n_unmenued_commands;i++) {
     if (fi != NULL)
-      if(mi!=KBD_CATEGORY_DIRECT) {
+      if(!(mi&KBD_CATEGORY_DIRECT)) {
       fprintf(callbacks, "/*%s %s*/\n",ni, fi);
       fprintf(callbacks, "static void %s_cb (GtkAction *action, gpointer param) {\n"
 	      "  DenemoGUI *gui = Denemo.gui;\n"
@@ -515,7 +515,7 @@ int main() {
       //fprintf(scheme, "text = g_strdup_printf(\"(define dnm_%s %%d)\\n\", (int)action_of_name(Denemo.map, \"%s\"));\n", ni, ni);
       //fprintf(scheme, "(void)scm_c_eval_string(text);\ng_free(text);\n");// for callback via (denemo dnm_xxx)
       //if(mi==KBD_CATEGORY_DIRECT)
-	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nSCM ret;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n%s%s (NULL, gstr);\nif(gstr) {\nret=scm_makfrom0str(gstr->str);\ng_string_free(gstr, TRUE);} else\nret=scm_makfrom0str(\"\");\nreturn ret;\n}\n", ni, fi, mi!=KBD_CATEGORY_DIRECT?"_cb":"");
+	fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nSCM ret;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n%s%s (NULL, gstr);\nif(gstr) {\nret=scm_makfrom0str(gstr->str);\ng_string_free(gstr, TRUE);} else\nret=scm_makfrom0str(\"\");\nreturn ret;\n}\n", ni, fi, !(mi&KBD_CATEGORY_DIRECT)?"_cb":"");
 	fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
     }
 
@@ -525,7 +525,7 @@ int main() {
 	      "{\"%s\", %s, N_(\"%s\"), NULL,"
 	      "N_(\"%s\"),"
 	      "G_CALLBACK (%s%s)},\n",
-	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni,fi,  (mi==KBD_CATEGORY_DIRECT)?"":"_cb");
+	      ni, ii?ii:"NULL",ml?ml:ni, ti?ti:ni,fi,  (mi&KBD_CATEGORY_DIRECT)?"":"_cb");
     else
      fprintf(entries,
 	      "{\"%s\", %s, N_(\"%s\"), NULL,"

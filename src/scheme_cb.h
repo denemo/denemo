@@ -71,7 +71,7 @@ if(SCM_STRINGP(optional)){
 str = gh_scm2newstr(optional, &length);
 gstr = g_string_new_len(str, length);
   }
-goto_mark_cb (NULL, gstr);
+goto_mark (NULL, gstr);
 if(gstr) {
 ret=scm_makfrom0str(gstr->str);
 g_string_free(gstr, TRUE);} else

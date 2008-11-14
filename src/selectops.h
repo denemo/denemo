@@ -57,7 +57,7 @@ void undowrapper(GtkAction *action, gpointer param);
 void redowrapper(GtkAction *action, gpointer param);
 void update_undo_info(DenemoScore *si, unre_data *undo);
 void update_redo_info(DenemoScore *si, unre_data *redo);
-void goto_mark (DenemoGUI *gui);
+void goto_mark (GtkAction *action, gpointer param);
 void save_selection(DenemoScore *si);
 void restore_selection(DenemoScore *si);
 gboolean in_selection(DenemoScore *si);
