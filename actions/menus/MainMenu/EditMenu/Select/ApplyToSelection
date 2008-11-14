@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ApplyToSelection</action>
+        <scheme>(define isChord (lambda ()
+		  (string=? (d-GetType) "CHORD")))
+
+(define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
+					    (if (isChord)
+			                	 #t
+			                	 (NextChordInSelection))
+					    #f
+					    )))
+(define ApplyCommandToRestSelection (lambda (command)
+(if (NextChordInSelection)
+    (begin 
+        (eval-string command)
+        (ApplyCommandToRestSelection command))
+)))
+(define ApplyCommandToSelection (lambda (command)
+				  (begin
+				    (eval-string command)
+				    (ApplyCommandToRestSelection command))))
+				    
+(define ApplyToSelection (lambda (cmdname)
+			   (begin
+			     (display cmdname)
+			     (d-GoToMark)
+			     (ApplyCommandToSelection (string-append "(" cmdname ")")))))
+
+
+
+(define command (d-GetCommand))
+(if (string=? command "d-")
+    (d-WarningDialog "This keypress is not a shortcut")	
+    (ApplyToSelection command))
+</scheme>
+        <label>Apply Shortcut to Notes in Selection</label>
+        <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
