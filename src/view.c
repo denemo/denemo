@@ -290,7 +290,7 @@ SCM scheme_get_command(void) {
  gboolean success = intercept_scorearea_keypress(&event);
  if(success) {
    gint cmd = lookup_command_for_keyevent (&event);
-   g_print("command %d for %x %x\n", cmd, event.keyval, event.state);
+   //g_print("command %d for %x %x\n", cmd, event.keyval, event.state);
    if(cmd!=-1)
      name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
