@@ -37,6 +37,7 @@ gboolean intercept_scorearea_keypress (GdkEventKey *pevent) {
   // *keyval = event->keyval;
   // *state = dnm_sanitize_key_state(event);
   memcpy(pevent, event, sizeof(GdkEventKey));
+  return TRUE;
 }
 
 
