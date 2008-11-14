@@ -215,6 +215,8 @@ playnotes (gboolean doit, chord chord_to_play, int prognum)
 }
 
 // MIDI input
+#include <string.h> /*for memcpy */
+#include <math.h>
 #include <glib.h>
 static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
@@ -228,15 +230,31 @@ midi2hz(int midinum)
 
 
 
+static gint *divert_midi_event;
 #define command ((*buf)&0xFF)
 #define notenumber ((*(buf+1))&0xFF)
 #define velocity ((*(buf+2))&0xFF)
 void process_midi_event(gchar *buf) {
-  g_print("bytes stored %x %x %x\n", command, notenumber, velocity); 
+  // g_print("bytes stored %x %x %x\n", command, notenumber, velocity);
+  if(divert_midi_event){
+    memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
+    gtk_main_quit();
+    return;
+  } 
   if(velocity)
     store_pitch(midi2hz(notenumber));
 }
 
+gboolean intercept_midi_event(gint *midi) {
+  if(divert_midi_event) {
+    warningdialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
+    return FALSE;
+  }
+  divert_midi_event = midi;
+  gtk_main();
+  divert_midi_event = NULL;
+  return TRUE;
+}
 static int
 process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
 {

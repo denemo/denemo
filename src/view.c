@@ -300,6 +300,13 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
+SCM scheme_get_midi(void) {
+ gint midi;
+ gboolean success = intercept_midi_event(&midi);
+ SCM scm = scm_int2num (midi);
+ return  scm;
+}
+
 
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
@@ -554,6 +561,7 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
 
   /* test with
 
