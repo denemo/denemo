@@ -314,7 +314,7 @@ SCM scheme_put_midi (SCM scm) {
   buf[0] = midi & 0xFF;
   buf[1] = (midi>>8)&0xFF;
   buf[2] = (midi>>16)&0xFF;
-  g_print("got %x\nbreaks as %u %u %u\n", midi, buf[0], buf[1], buf[2]);
+  //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
 }
 
