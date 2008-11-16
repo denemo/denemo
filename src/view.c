@@ -1954,6 +1954,7 @@ static void dummy(void) {
   g_print("calling guile with %p %p\n", &Denemo, Denemo.ui_manager);
   call_out_to_guile("(denemoy \"/MainMenu/EntryMenu/Rest\")\n");
 #endif
+  play_pitch(440.0, 1.0);
   return;
 }
 static void voiceup_cb(GtkAction *action, gpointer param) {
@@ -2030,19 +2031,19 @@ gint val = gtk_radio_action_get_current_value (current);
  switch(val) {
  case INPUTKEYBOARD:
    if(gui->input_source==INPUTAUDIO) {
-     g_print("Stopping audio\n");
+     // g_print("Stopping audio\n");
      stop_pitch_input();
    }
    if(gui->input_source==INPUTMIDI) {
-     g_print("Stopping midi\n");
+     // g_print("Stopping midi\n");
      stop_pitch_input();
    }
    gui->input_source=INPUTKEYBOARD;
    break;
  case INPUTAUDIO:
-   g_print("Starting audio\n");
+   //g_print("Starting audio\n");
    if(gui->input_source==INPUTMIDI) {
-     g_print("Stopping midi\n");
+     //g_print("Stopping midi\n");
      stop_pitch_input();
    }
    gui->input_source=INPUTAUDIO;
@@ -2053,9 +2054,9 @@ gint val = gtk_radio_action_get_current_value (current);
      start_pitch_input();
    break;
  case INPUTMIDI:
-   g_print("Starting midi\n");
+   //g_print("Starting midi\n");
    if(gui->input_source==INPUTAUDIO) {
-     g_print("Stopping audio\n");
+     //g_print("Stopping audio\n");
      stop_pitch_input();
    }
    gui->input_source=INPUTMIDI;

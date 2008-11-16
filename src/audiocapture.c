@@ -66,9 +66,143 @@ typedef struct
 	SAMPLE      *recordedSamples;
 } paTestData;
 
+typedef struct
+{
+  int          frameIndex;  /* Index into sample array. */
+  int          maxFrameIndex;
+  double pitch;
+  SAMPLE      *recordedSamples;
+} OutData;
+
 
 static paTestData data;
+static OutData out_data;
 static int tuning = 0;/* copy data for instrument tuning routines */
+
+
+
+
+
+#define TABLE_SIZE (20000)
+#ifndef PA_VERSION_19
+	static PortAudioStream *out_stream=NULL;
+#else
+	static PaStream *out_stream=NULL;
+	PaStreamParameters  inputParameters,
+                           outputParameters;
+#endif
+
+/* This routine will be called by the PortAudio engine when audio is needed.
+** It may be called at interrupt level on some machines so don't do anything
+** that could mess up the system like calling malloc() or free().
+*/
+static int playCallback(	void *inputBuffer, void *outputBuffer,
+						unsigned long framesPerBuffer,
+				        PaTimestamp outTime, void *userData )
+{
+	
+	SAMPLE *rptr = &out_data.recordedSamples[out_data.frameIndex%TABLE_SIZE];
+	SAMPLE *wptr = (SAMPLE*)outputBuffer;
+	unsigned int i;
+	int finished;
+
+	(void) inputBuffer; /* Prevent unused variable warnings. */
+	(void) outTime;
+	for(i = 0; i<framesPerBuffer;i++) {
+	  if( out_data.frameIndex>= out_data.maxFrameIndex) 
+	    wptr[i]= 0;
+	  else {
+	    wptr[i] = out_data.recordedSamples[out_data.frameIndex%TABLE_SIZE];
+	    out_data.frameIndex += TABLE_SIZE*out_data.pitch/SAMPLE_RATE;
+	  }
+	}
+	return  0;
+	//	return out_data.frameIndex >= out_data.maxFrameIndex;
+}
+void play_pitch (double pitch, double duration) {
+  //g_print("playing");
+  if(out_data.recordedSamples==NULL && !init_audio_out()) {
+    fprintf(stderr, "Could not initialize audio out\n");
+    return;
+  } else
+    //g_print("already initialized");
+  if(out_stream && /*Pa_IsStreamActive*/Pa_StreamActive(out_stream)) {
+    out_data.maxFrameIndex = duration * TABLE_SIZE*pitch/*SAMPLE_RATE*/; 
+    out_data.pitch = pitch;
+    out_data.frameIndex = 0;
+    return;
+  }
+  // g_print("starting stream ...");   
+  out_data.maxFrameIndex = duration * SAMPLE_RATE; 
+  out_data.pitch = pitch;
+  PaError    err;
+  out_data.frameIndex = 0;
+  out_stream = NULL;
+  err = Pa_OpenStream(
+		      &out_stream,
+		      paNoDevice,
+		      0,               /* NO input */
+		      PA_SAMPLE_TYPE,	
+		      NULL,
+		      Pa_GetDefaultOutputDeviceID(),
+		      1,               /* mono output */
+		      PA_SAMPLE_TYPE, 
+		      NULL,
+		      SAMPLE_RATE,
+		      1024,            /* frames per buffer */
+		      0,               /* number of buffers, if zero then use default minimum */
+		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
+		      playCallback,
+		      &out_data );
+  if( err != paNoError ) {
+    g_print("Error opening stream\n");
+    return;
+  }
+  if( out_stream )
+     err = Pa_StartStream( out_stream );
+  if( err != paNoError ) {
+    g_print("Error starting stream\n");
+    out_stream = NULL;
+    return;
+  }
+}
+void stop_audio(void) {
+  if(out_stream != NULL)
+    Pa_CloseStream( out_stream );
+  out_stream = NULL;
+}
+
+int init_audio_out(void)
+{
+	PaError    err;
+	int        i;
+	err = Pa_Initialize();
+	if( err != paNoError ) {
+	  g_print("Error initializing portaudio library\n");
+	  return;
+	}
+	out_data.frameIndex = 0;
+	out_data.recordedSamples = (SAMPLE *) malloc( TABLE_SIZE*sizeof(SAMPLE) );
+	if( out_data.recordedSamples == NULL )
+	{
+		printf("Could not allocate record array.\n");
+		return 0;
+	}
+	for( i=0; i<TABLE_SIZE; i++ ) 
+	  out_data.recordedSamples[i] = sin(2.0*M_PI*i/(double)TABLE_SIZE);
+	return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* This routine will be called by the PortAudio engine when audio is needed.

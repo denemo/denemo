@@ -24,6 +24,7 @@
 #endif
 #include <denemo/denemo.h>
 #include "draw.h"
+#include "audio.h"
 
 
 #define SEQ_DEV    (Denemo.prefs.sequencer->str)
@@ -38,6 +39,18 @@ SEQ_DEFINEBUF (128);
 static int sequencer_fd = -1;
 static gint ttag;
 static gboolean shouldremove = FALSE;
+
+
+static double
+midi2hz(int midinum)
+{
+  double argument = (midinum - 69);
+  double expon = (argument / 12);
+  return 440 * pow(2, expon);
+}
+
+
+
 /**
  * Dump the global buffer to the sequencer device
  *
@@ -129,11 +142,13 @@ playtone (gpointer tone, gpointer chord, int prognum)
   key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
   key += ((note *) tone)->enshift;
   voice = g_list_index ((GList *) chord, tone);
-
-  SEQ_SET_PATCH (SEQ_DEV_N, voice, prognum);
-
-  SEQ_START_NOTE (SEQ_DEV_N, voice, key, 127);
-  SEQ_DUMPBUF ();
+  if(sequencer_fd == -1)
+    play_pitch(midi2hz(key), 0.3);
+  else {
+    SEQ_SET_PATCH (SEQ_DEV_N, voice, prognum);
+    SEQ_START_NOTE (SEQ_DEV_N, voice, key, 127);
+    SEQ_DUMPBUF ();
+  }
 }
 
 /**
@@ -183,7 +198,10 @@ close_seqfd (gpointer data)
 void
 playnotes (gboolean doit, chord chord_to_play, int prognum)
 {
-
+  if (doit && (sequencer_fd == -1) && chord_to_play.notes) {
+    playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
+    return;
+  }
 #ifdef HAVE_SYS_SOUNDCARD_H
   if (doit)
     if (sequencer_fd != -1
@@ -220,13 +238,6 @@ playnotes (gboolean doit, chord chord_to_play, int prognum)
 #include <glib.h>
 static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
-static double
-midi2hz(int midinum)
-{
-  double argument = (midinum - 69);
-  double expon = (argument / 12);
-  return 440 * pow(2, expon);
-}
 
 
 

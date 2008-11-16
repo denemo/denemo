@@ -653,6 +653,8 @@ gint pitchentry(DenemoGUI *gui) {
       // Enter the note in the score
       if(!PR_tuning){
 	display_pitch(note, gui);
+	if(gui->input_source==INPUTMIDI)
+	  play_pitch(found->pitch * (pow(2,(octave))), 0.3);
 	if(!Denemo.prefs.overlays)
 	  enter_note_in_score(gui, found, octave);
 	else
@@ -905,7 +907,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 		    G_CALLBACK (toggle_insert), gui);
   button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Insert Notes");
 
-  g_print("Overlays %d\n", Denemo.prefs.overlays);
+  //g_print("Overlays %d\n", Denemo.prefs.overlays);
   if(Denemo.prefs.overlays) {
     //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), FALSE);
     gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), TRUE);
@@ -916,7 +918,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
      
     //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), FALSE);
   }
-  g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
+  //g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
   gtk_box_pack_start (GTK_BOX (vbox), button,
 		      TRUE, TRUE, 0);/* no need for callback */
 

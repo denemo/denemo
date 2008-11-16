@@ -797,7 +797,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
   int prognum;
-  DenemoStaff *curstaffstruct;
+  
 
   if((mode & INPUTEDIT) && !si->cursor_appending) {
     changeduration(si, duration);
@@ -823,10 +823,12 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
      don't need to invoke that here.  */
 
   object_insert (gui, mudela_obj_new);
-  curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-  prognum = select_program (curstaffstruct->midi_instrument->str);
-  /**/playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
-     prognum);
+  if(Denemo.gui->input_source==INPUTKEYBOARD) {
+    DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+    prognum = select_program (curstaffstruct->midi_instrument->str);
+    playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
+	       prognum);
+  }
 }
 
 /**
@@ -933,7 +935,7 @@ tonechange (DenemoScore * si, gboolean remove)
   declarecurmudelaobj;
   int prognum;
   gboolean ret = FALSE;
-  DenemoStaff *curstaffstruct;
+  
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       if (remove == TRUE)
@@ -947,10 +949,12 @@ tonechange (DenemoScore * si, gboolean remove)
 	  g_free (curmudelaobj->user_string);
 	  curmudelaobj->user_string = NULL;
 	}
-      curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-      prognum = select_program (curstaffstruct->midi_instrument->str);
-      /*playnotes (si->prefs->immediateplayback,
-       *(chord *) curmudelaobj->object, prognum);*/
+      if(Denemo.gui->input_source==INPUTKEYBOARD) {
+	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+	prognum = select_program (curstaffstruct->midi_instrument->str);
+	playnotes (Denemo.prefs.immediateplayback,
+	 *(chord *) curmudelaobj->object, prognum);
+      }
     }
   return ret;
 }
@@ -992,7 +996,7 @@ incrementenshift (DenemoGUI * gui, gint direction)
   DenemoScore *si = gui->si;
   declarecurmudelaobj;
   int prognum;
-  DenemoStaff *curstaffstruct;
+  
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       shiftpitch (curmudelaobj, si->cursor_y, direction>0);
@@ -1005,11 +1009,13 @@ incrementenshift (DenemoGUI * gui, gint direction)
 	  g_free (curmudelaobj->user_string);
 	  curmudelaobj->user_string = NULL;
 	}
-      curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-      prognum = select_program (curstaffstruct->midi_instrument->str);
-      /* playnotes (si->prefs->immediateplayback,
-       *(chord *) curmudelaobj->object, prognum);*/
+      if(Denemo.gui->input_source==INPUTKEYBOARD) {
+	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+	prognum = select_program (curstaffstruct->midi_instrument->str);
 
+	playnotes (Denemo.prefs.immediateplayback,
+		   *(chord *) curmudelaobj->object, prognum);
+      }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;
       data->position = si->cursor_x;
@@ -1031,7 +1037,6 @@ setenshift (DenemoScore * si, gint enshift)
 {
   declarecurmudelaobj;
   int prognum;
-  DenemoStaff *curstaffstruct;
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       changeenshift (curmudelaobj, si->cursor_y, enshift);
@@ -1044,11 +1049,13 @@ setenshift (DenemoScore * si, gint enshift)
 	  g_free (curmudelaobj->user_string);
 	  curmudelaobj->user_string = NULL;
 	}
-      curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-      prognum = select_program (curstaffstruct->midi_instrument->str);
-      /* playnotes (si->prefs->immediateplayback,
-       *(chord *) curmudelaobj->object, prognum);*/
 
+      if(Denemo.gui->input_source==INPUTKEYBOARD) {
+	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+	prognum = select_program (curstaffstruct->midi_instrument->str);
+	playnotes (Denemo.prefs.immediateplayback,
+		   *(chord *) curmudelaobj->object, prognum);
+      }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;
       data->position = si->cursor_x;

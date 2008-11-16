@@ -525,6 +525,8 @@ COPYING for details.\n\n") ;
   //register_stock_items ();
   /* Following calls were made previously in newview. However I think they are
    * global, and should be done once and for all when the application opens
+   * they are now done after initializing guile, at the start of inner_main()
+   * which then calls this procedure.
    */
   /* Initialize preferences */
   //initprefs();
@@ -535,7 +537,20 @@ COPYING for details.\n\n") ;
   
   /* audio initialization */
   ext_init ();                  /* external players (midi...) */
-  midi_init ();                 /* internal (not working yet) */
+
+  /* Immediate Playback */
+  if(Denemo.prefs.immediateplayback) {
+    if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
+				 string then the open fails and direct audio out is used for 
+				immediate playback */
+      //g_print("Initializing audio out\n");
+      init_audio_out();
+
+    }
+  }
+
+
+
   //DenemoPrefs prefs;
   //  readxmlprefs("src/denemorc", &prefs);
 
