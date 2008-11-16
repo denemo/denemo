@@ -307,7 +307,16 @@ SCM scheme_get_midi(void) {
  return  scm;
 }
 
+SCM scheme_put_midi (SCM scm) {
+  gchar buf[3];
+  gint midi = scm_num2int(scm, 0, 0);
 
+  buf[0] = midi & 0xFF;
+  buf[1] = (midi>>8)&0xFF;
+  buf[2] = (midi>>16)&0xFF;
+  g_print("got %x\nbreaks as %u %u %u\n", midi, buf[0], buf[1], buf[2]);
+  process_midi_event(buf);
+}
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   g_print("Mid c offset of %d\n", *x-'c');
@@ -562,6 +571,7 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
 
   /* test with
 
