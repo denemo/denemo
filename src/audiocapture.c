@@ -96,9 +96,16 @@ static int tuning = 0;/* copy data for instrument tuning routines */
 ** It may be called at interrupt level on some machines so don't do anything
 ** that could mess up the system like calling malloc() or free().
 */
-static int playCallback(	void *inputBuffer, void *outputBuffer,
+static int playCallback (void *inputBuffer, void *outputBuffer,
 						unsigned long framesPerBuffer,
-				        PaTimestamp outTime, void *userData )
+#ifndef PA_VERSION_19
+
+				        PaTimestamp outTime, 
+#else
+				        PaStreamCallbackTimeInfo* outTime, 
+					PaStreamCallbackFlags status,
+#endif
+				void *userData )
 {
 	
 	SAMPLE *rptr = &out_data.recordedSamples[out_data.frameIndex%TABLE_SIZE];
@@ -124,7 +131,7 @@ void play_pitch (double pitch, double duration) {
   if(out_data.recordedSamples==NULL && !init_audio_out()) {
     fprintf(stderr, "Could not initialize audio out\n");
     return;
-  } else
+  } //else
     //g_print("already initialized");
   if(out_stream && /*Pa_IsStreamActive*/Pa_StreamActive(out_stream)) {
     out_data.maxFrameIndex = duration * TABLE_SIZE*pitch/*SAMPLE_RATE*/; 
@@ -132,7 +139,21 @@ void play_pitch (double pitch, double duration) {
     out_data.frameIndex = 0;
     return;
   }
-  // g_print("starting stream ...");   
+  // g_print("starting stream ..."); 
+
+#ifdef PA_VERSION_19
+       outputParameters.device = Pa_GetDefaultOutDevice(); /* default output device */
+       if (outinputParameters.device == paNoDevice) {
+	 g_print("Error: No default output device.\n");
+	 return;
+   	}
+       outputParameters.channelCount = 1;                    /* mono output */
+       outputParameters.sampleFormat = PA_SAMPLE_TYPE;
+       outputParameters.suggestedLatency = Pa_GetDeviceInfo( outputParameters.device )->defaultLowInputLatency;
+       outputParameters.hostApiSpecificStreamInfo = NULL;
+#endif
+
+  
   out_data.maxFrameIndex = duration * SAMPLE_RATE; 
   out_data.pitch = pitch;
   PaError    err;
@@ -140,6 +161,7 @@ void play_pitch (double pitch, double duration) {
   out_stream = NULL;
   err = Pa_OpenStream(
 		      &out_stream,
+#ifndef PA_VERSION_19
 		      paNoDevice,
 		      0,               /* NO input */
 		      PA_SAMPLE_TYPE,	
@@ -151,6 +173,12 @@ void play_pitch (double pitch, double duration) {
 		      SAMPLE_RATE,
 		      1024,            /* frames per buffer */
 		      0,               /* number of buffers, if zero then use default minimum */
+#else
+		       &ouputParameters,
+				NULL,		/* output parameters */
+				SAMPLE_RATE,
+				1024,            /* frames per buffer */
+#endif
 		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
 		      playCallback,
 		      &out_data );
@@ -190,18 +218,9 @@ int init_audio_out(void)
 	}
 	for( i=0; i<TABLE_SIZE; i++ ) 
 	  out_data.recordedSamples[i] = sin(2.0*M_PI*i/(double)TABLE_SIZE);
+	play_pitch(440.0, 0.0);/* to start the stream */
 	return 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -284,8 +303,7 @@ int pa_main(AubioCallback *fn)
 	static PortAudioStream *stream;
 #else
 	static PaStream *stream;
-	PaStreamParameters  inputParameters,
-                           outputParameters;
+	PaStreamParameters  inputParameters;
 #endif
 	PaError    err;
 
