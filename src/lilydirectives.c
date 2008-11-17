@@ -102,10 +102,9 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
  * or edit the current lilypond directive
  */
 static void
-lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
+lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
 {
   gchar *string;
-  gchar *display;
   gchar *current = NULL;
   gchar *current_display = NULL;
   DenemoScore * si = gui->si;
@@ -125,7 +124,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   lilydirective *lilyobj=NULL;
   cbdata.locked = FALSE;
   /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "init" value to insert */
-  if ((init==NULL) && curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
+  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
 		if( ((GString *) (lilyobj = (lilydirective *) curObj->object)->display))
@@ -145,14 +144,15 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   if(!curnote)
     display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
   } else {// called with initialization string
-    display="";/* need to extract a second string if present from parameter passed by scheme */
+  
     string = g_strdup(init);
-    
+    if(display)
+      current_display = g_strdup(display);
   }
 
   cbdata.gui = gui;
   cbdata.string = string;
-  cbdata.display = display;
+  cbdata.display = current_display;
 
   if (string){ 
     insertdirective (NULL, &cbdata);
@@ -172,10 +172,23 @@ void
 lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-
-  lily_directive (gui, FALSE, action?NULL: ((GString*)param)->str);
+  gchar *init = NULL, *display = NULL;
+  if(!action && param)
+    {
+    GString *values = (GString *)param;
+    gchar *str;
+#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
+      b = str+strlen(a)+1;\
+    }
+    gint i;
+    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
+      SET_STRING("init", init); 
+      SET_STRING("display", display);
+    }
+#undef SET_STRING
+    }
+  lily_directive (gui, FALSE, init, display);
 }
-
 /**
  * Lilypond directive attach.  Allows user to attach a lilypond directive 
  * to the current note
@@ -185,5 +198,5 @@ void
 lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE, action?NULL: ((GString*)param)->str);
+  lily_directive (gui, TRUE, action?NULL: ((GString*)param)->str, NULL/* no display yet for postfix */);
 }

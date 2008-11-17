@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>RepeatStart</action>
+        <scheme>
+(d-InsertLilyDirective "init=\\bar \"|:\"\0display=|R")
+</scheme>
+        <label>|:</label>
+        <tooltip>Insert a start repeat barline.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
