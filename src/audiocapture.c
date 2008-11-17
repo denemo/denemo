@@ -143,7 +143,7 @@ void play_pitch (double pitch, double duration) {
 
 #ifdef PA_VERSION_19
        outputParameters.device = Pa_GetDefaultOutDevice(); /* default output device */
-       if (outinputParameters.device == paNoDevice) {
+       if (outputParameters.device == paNoDevice) {
 	 g_print("Error: No default output device.\n");
 	 return;
    	}
