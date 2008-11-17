@@ -174,7 +174,7 @@ void play_pitch (double pitch, double duration) {
 		      1024,            /* frames per buffer */
 		      0,               /* number of buffers, if zero then use default minimum */
 #else
-		       &ouputParameters,
+		       &outputParameters,
 				NULL,		/* output parameters */
 				SAMPLE_RATE,
 				1024,            /* frames per buffer */
