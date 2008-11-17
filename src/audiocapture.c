@@ -174,10 +174,11 @@ void play_pitch (double pitch, double duration) {
 		      1024,            /* frames per buffer */
 		      0,               /* number of buffers, if zero then use default minimum */
 #else
-		       &outputParameters,
-				NULL,		/* output parameters */
-				SAMPLE_RATE,
-				1024,            /* frames per buffer */
+
+		      NULL,		/* input parameters */
+		      &outputParameters,
+		      SAMPLE_RATE,
+		      1024,            /* frames per buffer */
 #endif
 		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
 		      playCallback,
