@@ -128,7 +128,8 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init)
   if ((init==NULL) && curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
-		current_display = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
+		if( ((GString *) (lilyobj = (lilydirective *) curObj->object)->display))
+		  current_display = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
 		cbdata.locked = lilyobj->locked;
 	}
   if(curnote && curnote->directive)
