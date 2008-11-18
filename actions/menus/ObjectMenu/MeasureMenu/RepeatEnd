@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>RepeatEnd</action>
-        <scheme>(d-InsertLilyDirective "init=\\bar \":|\"\0display=R|")
+        <scheme>(d-InsertLilyDirective "lily=\\bar \":|\"\0display=R|")
 
 </scheme>
         <label>:|</label>

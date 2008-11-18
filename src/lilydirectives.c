@@ -123,7 +123,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
   cbdata.attach = attach;  
   lilydirective *lilyobj=NULL;
   cbdata.locked = FALSE;
-  /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "init" value to insert */
+  /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "lily" value to insert */
   if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
 	{
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
@@ -182,7 +182,7 @@ lily_directive_insert (GtkAction *action, gpointer param)
     }
     gint i;
     for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      SET_STRING("init", init); 
+      SET_STRING("lily", init); 
       SET_STRING("display", display);
     }
 #undef SET_STRING

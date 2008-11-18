@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>RepeatCloseOpen</action>
-        <scheme>(d-InsertLilyDirective "init=\\bar \":|:\"\0display=R|R")
+        <scheme>(d-InsertLilyDirective "lily=\\bar \":|:\"\0display=R|R")
 </scheme>
         <label>:|:</label>
         <tooltip>Inserts a repeat close and open new repeat barline</tooltip>

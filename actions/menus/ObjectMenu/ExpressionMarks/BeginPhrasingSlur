@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>BeginPhrasingSlur</action>
-        <scheme>(d-InsertLilyDirective "\\(")
+        <scheme>(d-InsertLilyDirective "lily=\\(")
 </scheme>
         <label>Begin Phrasing Slur</label>
         <tooltip>Begins a phrasing slur (which can have slurs within it)</tooltip>
