@@ -86,10 +86,12 @@ static int tuning = 0;/* copy data for instrument tuning routines */
 #define TABLE_SIZE (20000)
 #ifndef PA_VERSION_19
 	static PortAudioStream *out_stream=NULL;
+#define StreamActive Pa_StreamActive
 #else
 	static PaStream *out_stream=NULL;
 	PaStreamParameters  inputParameters,
                            outputParameters;
+#define StreamActive Pa_IsStreamActive
 #endif
 
 /* This routine will be called by the PortAudio engine when audio is needed.
@@ -133,7 +135,7 @@ void play_pitch (double pitch, double duration) {
     return;
   } //else
     //g_print("already initialized");
-  if(out_stream && /*Pa_IsStreamActive*/Pa_StreamActive(out_stream)) {
+  if(out_stream && StreamActive(out_stream)) {
     out_data.maxFrameIndex = duration * TABLE_SIZE*pitch/*SAMPLE_RATE*/; 
     out_data.pitch = pitch;
     out_data.frameIndex = 0;
