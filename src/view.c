@@ -145,6 +145,11 @@ static void install_scm_function_with_param(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
+static void install_scm_function2(gchar *name, gpointer callback) {
+scm_c_define_gsubr (name, 2, 0, 0, callback);
+
+}
+
 static void install_scm_function3(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 3, 0, 0, callback);
 
@@ -303,6 +308,8 @@ SCM scheme_get_command(void) {
 SCM scheme_get_midi(void) {
  gint midi;
  gboolean success = intercept_midi_event(&midi);
+ if(!success)
+   midi = 0;/* scripts should detect this impossible value and take action */
  SCM scm = scm_int2num (midi);
  return  scm;
 }
@@ -317,6 +324,16 @@ SCM scheme_put_midi (SCM scm) {
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
 }
+
+SCM scheme_bass_figure(SCM bass, SCM harmony) {
+  gint bassnum = scm_num2int(bass, 0, 0);
+  gint harmonynum = scm_num2int(harmony, 0, 0);
+  gchar *interval = determine_interval(bassnum, harmonynum);
+  SCM ret= scm_makfrom0str(interval);
+  g_free(interval);
+  return ret;
+}
+
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   g_print("Mid c offset of %d\n", *x-'c');
@@ -479,6 +496,9 @@ SCM next_note (SCM optional) {
 
 
 
+
+
+
 int process_command_line(int argc, char**argv);//back in main
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
@@ -572,6 +592,7 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
 
   /* test with
 
@@ -588,6 +609,7 @@ Then
 
     
   */
+
 
 
     process_command_line(argc, argv);

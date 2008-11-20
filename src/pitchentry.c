@@ -1273,3 +1273,23 @@ gboolean pitch_entry_active(DenemoGUI *gui) {
   return (PR_gui == gui) && PR_enable;
 }
 
+gchar *determine_interval(gint bass, gint harmony){
+  gint bass_octave, harmony_octave;
+  gdouble deviation;
+  gint semitones = harmony - bass;
+  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->skeyaccs;
+ notepitch bassnote = PR_temperament->notepitches[bass%12];
+ notepitch harmonynote = PR_temperament->notepitches[harmony%12];
+ gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;
+ if(interval<2)interval += 7;
+ if(interval==2 && semitones>12) interval=9;
+ gint inflection =  -bassnote.spec.alteration + accs[bassnote.spec.step]
+   + harmonynote.spec.alteration - accs[harmonynote.spec.step];
+ g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
+ gchar *modifier="";
+ if(inflection<0) modifier = "-";
+ if(inflection>0) modifier = "+";
+
+ return g_strdup_printf("%d%s", interval, modifier);
+
+}

@@ -111,17 +111,30 @@ figure_insert (GtkAction *action, gpointer param)
   gchar *PreValue = NULL;
   DenemoScore *si = gui->si;
   static struct callbackdata cbdata;
-  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
-    (DenemoObject *) si->currentobject->data : NULL;
- 
-  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->figure)
+
+  if(!action && param)
     {
-      PreValue = ((GString *) ((chord *) curObj->object)->figure)->str;
+    GString *values = (GString *)param;
+    gchar *str;
+#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
+      b = g_strdup(str+strlen(a)+1);\
     }
+    gint i;
+    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
+      SET_STRING("figures", string); 
+    }
+#undef SET_STRING
+    } else {
+      DenemoObject *curObj = (DenemoObject *) si->currentobject ?
+	(DenemoObject *) si->currentobject->data : NULL;
+ 
+      if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->figure)
+	{
+	  PreValue = ((GString *) ((chord *) curObj->object)->figure)->str;
+	}
 
-
-  string = string_dialog_entry(gui, "Insert/Edit Figure", "Give figures followed by Enter key", PreValue);
-
+      string = string_dialog_entry(gui, "Insert/Edit Figure", "Give figures followed by Enter key", PreValue);
+    }
   cbdata.gui = gui;
   cbdata.string = string;
    
