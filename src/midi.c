@@ -78,6 +78,9 @@ midi_cleanup ()
   (void) close (sequencer_fd);
 }
 
+
+
+static gboolean sequencer_absent = TRUE;
 /**
  * Initialise the sequencer device ready for immediate playback
  *
@@ -112,7 +115,7 @@ midi_init ()
       sequencer_fd = -1;
       return -1;
     }
-
+  sequencer_absent = FALSE;
   SEQ_DUMPBUF ();
   close (sequencer_fd);
   sequencer_fd = -1;
@@ -198,7 +201,7 @@ close_seqfd (gpointer data)
 void
 playnotes (gboolean doit, chord chord_to_play, int prognum)
 {
-  if (doit && (sequencer_fd == -1) && chord_to_play.notes) {
+  if (doit && (sequencer_absent) && chord_to_play.notes) {
     playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
     return;
   }
