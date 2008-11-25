@@ -880,6 +880,8 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *button;
   GtkWidget *frame;
   GtkWidget *label;
+  GtkAdjustment *spinner_adj;
+  GtkWidget *spinner;
   if(GTK_IS_WINDOW(PR_window)) {
     g_warning("unexpected call");
     return;
@@ -892,89 +894,89 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_border_width (GTK_CONTAINER (main_vbox), 1);
   gtk_container_add (GTK_CONTAINER (PR_window), main_vbox);
-
-  frame = gtk_frame_new( "Mode");
-  gtk_container_add (GTK_CONTAINER (main_vbox), frame);
-  hbox = gtk_hbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (frame), hbox);
-
-  GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
-  gtk_box_pack_start (GTK_BOX (hbox), vbox,
-		      TRUE, TRUE, 0);
-  GtkWidget *radio_button = gtk_radio_button_new_with_label(NULL, "Overlay Pitches");
-
-  g_signal_connect (G_OBJECT (radio_button), "toggled",
-		    G_CALLBACK (toggle_insert), gui);
-  button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Insert Notes");
-
-  //g_print("Overlays %d\n", Denemo.prefs.overlays);
-  if(Denemo.prefs.overlays) {
-    //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), FALSE);
-    gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), TRUE);
-  }
-  else {
-    Denemo.prefs.overlays = !Denemo.prefs.overlays;
-    gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), TRUE);
-     
-    //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), FALSE);
-  }
-  //g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
-  gtk_box_pack_start (GTK_BOX (vbox), button,
-		      TRUE, TRUE, 0);/* no need for callback */
-
-  gtk_box_pack_start (GTK_BOX (vbox), radio_button,
-		      TRUE, TRUE, 0);
-
   if(gui->input_source==INPUTAUDIO) {
+    frame = gtk_frame_new( "Mode");
+    gtk_container_add (GTK_CONTAINER (main_vbox), frame);
+    hbox = gtk_hbox_new (FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), hbox);
+
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
+    gtk_box_pack_start (GTK_BOX (hbox), vbox,
+			TRUE, TRUE, 0);
+    GtkWidget *radio_button = gtk_radio_button_new_with_label(NULL, "Overlay Pitches");
+
+    g_signal_connect (G_OBJECT (radio_button), "toggled",
+		      G_CALLBACK (toggle_insert), gui);
+    button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Insert Notes");
+
+    //g_print("Overlays %d\n", Denemo.prefs.overlays);
+    if(Denemo.prefs.overlays) {
+      //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), FALSE);
+      gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), TRUE);
+    }
+    else {
+      Denemo.prefs.overlays = !Denemo.prefs.overlays;
+      gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(button), TRUE);
+     
+      //gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), FALSE);
+    }
+    //g_print("Overlays after button setting %d\n", Denemo.prefs.overlays);
+    gtk_box_pack_start (GTK_BOX (vbox), button,
+			TRUE, TRUE, 0);/* no need for callback */
+
+    gtk_box_pack_start (GTK_BOX (vbox), radio_button,
+			TRUE, TRUE, 0);
+
+
     button = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(radio_button), "Tuning");
     g_signal_connect (G_OBJECT (button), "toggled",
 		      G_CALLBACK (toggle_tuning), gui);
     gtk_box_pack_start (GTK_BOX (vbox), button,
 			TRUE, TRUE, 0);
-  }
 
-  frame = gtk_frame_new( "Overlay Pitches");
-  gtk_container_add (GTK_CONTAINER (hbox), frame);
 
-  GtkWidget *vbox2 = gtk_vbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (frame), vbox2);
+    frame = gtk_frame_new( "Overlay Pitches");
+    gtk_container_add (GTK_CONTAINER (hbox), frame);
 
-  hbox2 = gtk_hbox_new (FALSE, 1);
+    GtkWidget *vbox2 = gtk_vbox_new (FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), vbox2);
 
-  gtk_box_pack_start (GTK_BOX (vbox2), hbox2,
-		      TRUE, TRUE, 0);
+    hbox2 = gtk_hbox_new (FALSE, 1);
+
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox2,
+			TRUE, TRUE, 0);
   
-  button = gtk_button_new_with_label("Clear Overlay"); //FIXME make this a proxy for the ClearOverlay action ??
-  gtk_box_pack_start (GTK_BOX (hbox2), button,
-		      TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (button), "clicked",
-		    G_CALLBACK (clear_tone_store), gui);
-  hbox2 = gtk_hbox_new (FALSE, 1);
+    button = gtk_button_new_with_label("Clear Overlay"); //FIXME make this a proxy for the ClearOverlay action ??
+    gtk_box_pack_start (GTK_BOX (hbox2), button,
+			TRUE, TRUE, 0);
+    g_signal_connect (G_OBJECT (button), "clicked",
+		      G_CALLBACK (clear_tone_store), gui);
+    hbox2 = gtk_hbox_new (FALSE, 1);
 
-  gtk_box_pack_start (GTK_BOX (vbox2), hbox2,
-		      TRUE, TRUE, 0);
-  button = gtk_check_button_new_with_label("Continuous");
-  gtk_box_pack_start (GTK_BOX (hbox2), button,
-		      TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox2), hbox2,
+			TRUE, TRUE, 0);
+    button = gtk_check_button_new_with_label("Continuous");
+    gtk_box_pack_start (GTK_BOX (hbox2), button,
+			TRUE, TRUE, 0);
 
-  g_signal_connect (G_OBJECT (button), "clicked",
-		    G_CALLBACK (toggle_continuous), gui);
-  if(Denemo.prefs.continuous){
-    Denemo.prefs.continuous = !Denemo.prefs.continuous;
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), !Denemo.prefs.continuous);
-  }
-  label = gtk_label_new("Click Volume");
-  gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
-  PR_click = 1;
-  GtkAdjustment *spinner_adj =
-    (GtkAdjustment *) gtk_adjustment_new ((double)PR_click, 0.0, 1.0,
-					   1.0, 1.0, 1.0);
-  GtkWidget *spinner = gtk_spin_button_new (spinner_adj, 1.0, 1);
-  gtk_box_pack_start (GTK_BOX (hbox2), spinner, TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (spinner), "value-changed",
-		    G_CALLBACK (change_click_volume), NULL);
+    g_signal_connect (G_OBJECT (button), "clicked",
+		      G_CALLBACK (toggle_continuous), gui);
+    if(Denemo.prefs.continuous){
+      Denemo.prefs.continuous = !Denemo.prefs.continuous;
+      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), !Denemo.prefs.continuous);
+    }
+    label = gtk_label_new("Click Volume");
+    gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
+    PR_click = 1;
+    spinner_adj =
+      (GtkAdjustment *) gtk_adjustment_new ((double)PR_click, 0.0, 1.0,
+					    1.0, 1.0, 1.0);
+    spinner = gtk_spin_button_new (spinner_adj, 1.0, 1);
+    gtk_box_pack_start (GTK_BOX (hbox2), spinner, TRUE, TRUE, 0);
+    g_signal_connect (G_OBJECT (spinner), "value-changed",
+		      G_CALLBACK (change_click_volume), NULL);
 
-
+  }// if audio input allow use of overlay mechanism, MIDI can use MIDIAdvanceOnEdit filter.
 
 
   frame = gtk_frame_new( "Enharmonic selection");
