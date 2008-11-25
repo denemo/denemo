@@ -71,6 +71,8 @@ typedef struct
   int          frameIndex;  /* Index into sample array. */
   int          maxFrameIndex;
   double pitch;
+  double volume;
+  int channel;
   SAMPLE      *recordedSamples;
 } OutData;
 
@@ -121,14 +123,17 @@ static int playCallback (void *inputBuffer, void *outputBuffer,
 	  if( out_data.frameIndex>= out_data.maxFrameIndex) 
 	    wptr[i]= 0;
 	  else {
-	    wptr[i] = out_data.recordedSamples[out_data.frameIndex%TABLE_SIZE];
+	    wptr[i] = out_data.volume * out_data.recordedSamples[out_data.frameIndex%TABLE_SIZE];
+	    if(out_data.channel && wptr[i]<0)
+	      wptr[ i] = - wptr[i];//distort sound for other channels
+
 	    out_data.frameIndex += TABLE_SIZE*out_data.pitch/SAMPLE_RATE;
 	  }
 	}
 	return  0;
 	//	return out_data.frameIndex >= out_data.maxFrameIndex;
 }
-void play_pitch (double pitch, double duration) {
+void play_pitch (double pitch, double duration, double volume, int channel) {
   //g_print("playing");
   if(out_data.recordedSamples==NULL && !init_audio_out()) {
     fprintf(stderr, "Could not initialize audio out\n");
@@ -138,6 +143,8 @@ void play_pitch (double pitch, double duration) {
   if(out_stream && StreamActive(out_stream)) {
     out_data.maxFrameIndex = duration * TABLE_SIZE*pitch/*SAMPLE_RATE*/; 
     out_data.pitch = pitch;
+    out_data.volume = volume;
+    out_data.channel = channel;
     out_data.frameIndex = 0;
     return;
   }
@@ -221,7 +228,7 @@ int init_audio_out(void)
 	}
 	for( i=0; i<TABLE_SIZE; i++ ) 
 	  out_data.recordedSamples[i] = sin(2.0*M_PI*i/(double)TABLE_SIZE);
-	play_pitch(440.0, 0.0);/* to start the stream */
+	play_pitch(440.0, 0.0, 0.0, 0);/* to start the stream */
 	return 1;
 }
 

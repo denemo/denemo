@@ -323,6 +323,18 @@ SCM scheme_put_midi (SCM scm) {
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
+ return SCM_BOOL(TRUE);
+}
+
+
+SCM scheme_play_midikey(SCM scm) {
+    guint midi = scm_num2int(scm, 0, 0);
+    gint key =  (midi>>8)&0xFF;
+    gint channel = midi&0xF;
+    double volume = ((midi>>16)&0xFF)/255.0;
+    g_print("Playing %x at %f volume, %d channel\n", key, volume, channel);
+    play_midikey(key, 0.2, volume, channel);
+ return SCM_BOOL(TRUE);
 }
 
 SCM scheme_bass_figure(SCM bass, SCM harmony) {
@@ -592,6 +604,7 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
 
   /* test with
@@ -779,7 +792,8 @@ quit (void)
 #ifdef HAVEALSA
   midi_seq_delete (sq);
 #endif
-  gtk_main_quit ();
+  //gtk_main_quit ();
+  exit(0);//do not use gtk_main_quit, as there may be inner loops active.
 }
 
 
@@ -791,6 +805,7 @@ static void
 close_gui (DenemoGUI *gui)
 {
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
+  activate_action("/MainMenu/InputMenu/KeyboardOnly");
   if(Denemo.autosaveid) {
     if(g_list_length(Denemo.guis)>1)
       g_print("Auto save being turned off");

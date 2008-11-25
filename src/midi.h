@@ -13,4 +13,5 @@ gint midi_init ();
 
 void playnotes (gboolean doit, chord chord_to_play,int prognum);
 
+void play_midikey(gint key, double duration, double volume, gint channel);
 void process_midi_event(gchar *buf);

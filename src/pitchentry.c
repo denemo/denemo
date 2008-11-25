@@ -654,7 +654,7 @@ gint pitchentry(DenemoGUI *gui) {
       if(!PR_tuning){
 	display_pitch(note, gui);
 	if(gui->input_source==INPUTMIDI)
-	  play_pitch(found->pitch * (pow(2,(octave))), 0.3);
+	  play_pitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
 	if(!Denemo.prefs.overlays)
 	  enter_note_in_score(gui, found, octave);
 	else
@@ -1283,8 +1283,8 @@ gchar *determine_interval(gint bass, gint harmony){
  gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;
  if(interval<2)interval += 7;
  if(interval==2 && semitones>12) interval=9;
- gint inflection =  -bassnote.spec.alteration + accs[bassnote.spec.step]
-   + harmonynote.spec.alteration - accs[harmonynote.spec.step];
+ gint inflection = /* -bassnote.spec.alteration + accs[bassnote.spec.step]
+		      + */harmonynote.spec.alteration - accs[harmonynote.spec.step];
  g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
  gchar *modifier="";
  if(inflection<0) modifier = "-";

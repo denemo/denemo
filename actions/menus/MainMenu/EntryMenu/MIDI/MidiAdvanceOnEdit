@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MidiAdvanceOnEdit</action>
+        <scheme>;;;;;;;;;;
+;;;MidiAdvance on Edit
+(if (not (defined? 'MidiAdvanceOnEdit::Active))
+    (define MidiAdvanceOnEdit::Active #f))
+(if MidiAdvanceOnEdit::Active
+    (begin
+      (d-PutMidi 0)
+      (set! MidiAdvanceOnEdit::Active #f))
+;;; not active
+    (let ((midi 0)
+	  (command 0)
+	  (velocity 0)
+	  (loop 0))
+      (begin
+	(set! MidiAdvanceOnEdit::Active #t)
+
+	(set! loop  (lambda ()
+			(begin
+			  (set! midi (d-GetMidi))
+			  (set! velocity (bit-extract midi 16 24))
+			  (set! command (bit-extract midi 0 8))
+			  (if  (= command #x90);; you have to do this otherwise it loops forever
+			       (begin 
+				 (d-PutMidi midi)
+				 (if (= velocity 0)
+				     (d-NextNote))
+				 (loop)) ))))
+	(loop))))
+</scheme>
+        <label>MIDI Advance on Edit</label>
+        <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

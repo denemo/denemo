@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>FiguredBassFilterOn</action>
+        <scheme>;;; Figured Bass filter
+(use-modules (srfi srfi-13))
+(if (not (defined? 'ToggleFiguredBassMode::Active))
+    (define ToggleFiguredBassMode::Active #f))
+(if ToggleFiguredBassMode::Active
+    (begin
+      (d-PutMidi 0)
+      (set! ToggleFiguredBassMode::Active #f)
+      ) ;;; end of active if
+    (let 
+	((Figures 0) (AddFigure 0) (GetFigures 0) (loop 0))
+	 (begin
+
+	   (set! AddFigure (lambda (note bassnote)
+			     (begin
+			       (set! Figures (cons  (d-BassFigure bassnote note) Figures)))))
+	   (set! GetFigures (lambda ()
+			      (begin
+				(string-append "figures=" (string-join (reverse Figures))))))
+	   (set! loop  (lambda (bassnote)
+			 (let* ( 
+				(midi (d-GetMidi))
+				(velocity (bit-extract midi 16 24))
+				(note (bit-extract midi 8 16))
+				(command (bit-extract midi 0 8)))
+			   ;; body of the let*
+			       (begin
+				 (if (= command #x90)
+				     (begin
+				       (if (and (&gt; velocity 0)(= bassnote 0))
+					   (begin 
+					     (set! bassnote note)
+					     (set! Figures '())
+					     (d-PutMidi midi))
+			     ;;; not bass note on 
+					   (begin
+					     (if (and (= velocity 0)(= note bassnote))
+						 (begin 
+						   (set! bassnote 0)
+						   (d-EditFiguredBass (GetFigures))
+						   (d-PutMidi midi))
+				 ;;; not bass note off
+						 (begin
+						   (if  (&gt; velocity 0)
+							(begin
+							  (AddFigure note bassnote)
+							  (d-PlayMidiKey midi)))))))));; end of if noteon
+				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
+				     (begin
+				       ;;(display "Pedal down")
+				       (d-PlayMidiKey #xF01A01)
+				       (set! Figures (cons " | "  Figures))))
+				 ;;(d-PutMidi midi)
+				 (if (not (= command 0))
+				     (loop bassnote))
+				 ));; end of let, the body of the loop proc
+			   )) ;;; loop definition
+	   (loop 0)
+	   ));;; end of not active block
+    );;; end of if active/not active if
+
+
+;;;Scheme code for command MidiFilterOff
+;;;MidiFilterOff
+(d-PutMidi 0);;; Our own Reset, this makes the filter toggle off/on</scheme>
+        <label>Figured Bass Filter On</label>
+        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

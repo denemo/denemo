@@ -25,5 +25,5 @@ double determine_frequency(void);
 void set_frequency_smoothing(double fraction);
 int initialize_pitch_recognition(void);
 int terminate_pitch_recognition(void);
-void play_pitch(double pitch, double duration);
+void play_pitch(double pitch, double duration, double volume, int channel);
 #endif //AUDIO_H

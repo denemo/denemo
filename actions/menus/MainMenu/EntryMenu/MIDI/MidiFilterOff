@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MidiFilterOff</action>
+        <scheme>;;;MidiFilterOff
+(d-PutMidi 0);;; Our own Reset, this makes the filter toggle off/on</scheme>
+        <label>MIDI Filter Off</label>
+        <tooltip>Turn off any MIDI filter script currently active.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

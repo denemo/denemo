@@ -123,7 +123,11 @@ midi_init ()
   return 0;
 }
 
-#ifdef HAVE_SYS_SOUNDCARD_H
+
+
+void play_midikey(gint key, double duration, double volume, gint channel){
+ play_pitch(midi2hz(key), duration, volume, channel);
+}
 
 /**
  *  Used to play each tone in the given chord
@@ -146,14 +150,16 @@ playtone (gpointer tone, gpointer chord, int prognum)
   key += ((note *) tone)->enshift;
   voice = g_list_index ((GList *) chord, tone);
   if(sequencer_fd == -1)
-    play_pitch(midi2hz(key), 0.3);
+    play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, 0/*prognum*/);
+#ifdef HAVE_SYS_SOUNDCARD_H
   else {
     SEQ_SET_PATCH (SEQ_DEV_N, voice, prognum);
     SEQ_START_NOTE (SEQ_DEV_N, voice, key, 127);
     SEQ_DUMPBUF ();
   }
+#endif
 }
-
+#ifdef HAVE_SYS_SOUNDCARD_H
 /**
  *  Used to stop each tone in the given chord
  *  (a g_list_foreach function)
@@ -249,11 +255,13 @@ static gint *divert_midi_event;
 #define notenumber ((*(buf+1))&0xFF)
 #define velocity ((*(buf+2))&0xFF)
 void process_midi_event(gchar *buf) {
-  // g_print("bytes stored %x %x %x\n", command, notenumber, velocity);
+  // g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
   if(divert_midi_event){
+    // this is only good for one endianness - FIXME
+    *divert_midi_event = 0;//clear 4th byte
     memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
     gtk_main_quit();
-    return;
+    return;// not reached
   } 
   if(velocity)
     store_pitch(midi2hz(notenumber));
