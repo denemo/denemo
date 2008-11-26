@@ -60,7 +60,7 @@ static gint dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 #define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
 
-
+GtkAction *sharpaction, *flataction;
 
 
 extern midi_seq *sq;		/* global denemo sequencer FIXME: should not be global */
@@ -2796,25 +2796,10 @@ get_data_dir (),
     }
   g_free (data_dir);
 
-#ifdef DENEMO_DYNAMIC_MENU_ITEMS
-  //We do not use accel_group anymore TODO delete the next 2 lines
-  //gtk_action_set_accel_group (myaction, accel_group);
-  //gtk_action_set_accel_path (myaction,"<Actions>/MenuActions/My Name");
-  //gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu", "Favorites", "Favorites", GTK_UI_MANAGER_MENU, FALSE);
-
-  gtk_ui_manager_add_ui(ui_manager,gtk_ui_manager_new_merge_id(ui_manager), "/ObjectMenu/Favorites",
-                                             "My Name", "My Name", GTK_UI_MANAGER_AUTO, FALSE);
-
-#endif
-
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");// this triggers Lily... missing action
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.menubar, FALSE, TRUE, 0);
   gtk_widget_show (Denemo.menubar);
-
-
-
-
 
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/ToolBar");
   // The user should be able to decide toolbar style.

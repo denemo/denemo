@@ -26,6 +26,7 @@ static gboolean PR_tuning; /* whether the notes should be analyzed to refine the
 static GtkWidget *PR_notelabel = NULL;
 static GtkWidget *PR_deviation = NULL;
 static GtkWidget *PR_indicator = NULL;
+static GtkWidget *PR_label=NULL;
 static gdouble PR_target_pitch = 440.0;
 static gdouble PR_accurate_pitch = 0.0;
 
@@ -178,7 +179,7 @@ static temperament WerckmeisterIV = {
   }
 };
 
-static temperament *PR_temperament; /* the currently used temperament */
+static temperament *PR_temperament=&Equal; /* the currently used temperament */
 
 static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman};
 
@@ -257,6 +258,11 @@ static gchar * notenames(gpointer p) {
   return str;
 }
 
+static gchar *nameof(gint notenumber) {
+ return g_strdup_printf("%c%s", step_name(PR_temperament->notepitches[notenumber].spec.step), alteration_name(PR_temperament->notepitches[notenumber].spec.alteration));
+}
+
+
 
 /* returns an opaque id for the user's default temperament
  FIXME user prefs */
@@ -291,12 +297,15 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
 #undef g
   PR_temperament->sharp = PR_temperament->flat;
   PR_temperament->flat = (PR_temperament->flat+7)%12;
-  gchar *names = notenames(PR_temperament);
-  gtk_label_set_markup((GtkLabel*)label, names);
-  g_free(names);
-  switch_back_to_main_window();
+  if(PR_window) {
+    gchar *names = notenames(PR_temperament);
+    gtk_label_set_markup((GtkLabel*)label, names);
+    g_free(names);
+    switch_back_to_main_window();
+  }
   return;
 }
+
 
 
 
@@ -316,14 +325,46 @@ if(t.alteration-1<-2)
 #undef t
   PR_temperament->flat = PR_temperament->sharp;
   PR_temperament->sharp = (PR_temperament->sharp+5)%12;
+  if(PR_window) {
   gchar *names = notenames(PR_temperament);
   gtk_label_set_markup((GtkLabel*)label, names);
   g_free(names);
   switch_back_to_main_window();
+  }
   return;
 }
 
+static void enharmonic_step (gboolean sharp) {
+  gchar *sharpestname, *flattestname;
+  if(sharp)
+    sharpen(NULL, PR_label);
+  else
+    flatten(NULL, PR_label);
+  GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet");
+  GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet");
 
+  sharpestname = nameof(PR_temperament->sharp);
+  flattestname = nameof(PR_temperament->flat);
+  gchar *label = g_strdup_printf("(%s) Step Sharper", sharpestname);
+  GValue a = {0};
+  g_value_init (&a, G_TYPE_STRING);
+  g_value_set_string (&a, label);
+  g_object_set_property(sharpaction, "label", &a);
+  g_free(label);
+  label = g_strdup_printf("(%s) Step Flatter", flattestname);
+  g_value_set_string (&a, label);
+  g_object_set_property(flataction, "label", &a);
+  g_free(label);
+  g_free(sharpestname);
+  g_free(flattestname);
+}
+
+void set_sharper(GtkAction *action, gpointer param) {
+  enharmonic_step (TRUE);
+}
+void set_flatter(GtkAction *action, gpointer param) {
+  enharmonic_step (FALSE);
+}
 static void sound_click(void) {
   if(PR_click)
     gdk_beep();
@@ -984,11 +1025,13 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (frame), hbox);
   label = gtk_label_new("");
+  PR_label = label;
   button = gtk_button_new_with_label("flatten");
   gtk_box_pack_start (GTK_BOX (hbox), button,
 		      TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (button), "clicked",
-		    G_CALLBACK (flatten), label);
+gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+// g_signal_connect (G_OBJECT (button), "clicked",
+//   G_CALLBACK (flatten), label);
   gchar *names = notenames(PR_temperament);
   
   gtk_label_set_markup(GTK_LABEL(label),names);
@@ -999,8 +1042,9 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   button = gtk_button_new_with_label("sharpen");
   gtk_box_pack_start (GTK_BOX (hbox), button,
 		      TRUE, TRUE, 0);
-  g_signal_connect (G_OBJECT (button), "clicked",
-		    G_CALLBACK (sharpen), label);
+  //  g_signal_connect (G_OBJECT (button), "clicked",
+  //		    G_CALLBACK (sharpen), label);
+gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
 
   frame = gtk_frame_new( "Detected note");
   gtk_container_add (GTK_CONTAINER (main_vbox), frame);

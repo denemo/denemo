@@ -24,4 +24,7 @@ gboolean delete_tone(DenemoScore *si, chord *thechord);
 void clear_overlay(GtkAction *action, gpointer param);
 void store_pitch(double pitch);
 double get_pitch(void);
+void set_sharper (GtkAction *action, gpointer param);
+void set_flatter (GtkAction *action, gpointer param);
+
 #endif //PITCHENTRY_H

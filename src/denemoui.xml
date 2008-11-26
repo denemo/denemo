@@ -96,7 +96,10 @@
       <menuitem action="KeyboardOnly"/>
       <menuitem action="JackMidi"/>
       <menuitem action="Microphone"/>
-     
+     	<separator/>
+	<menuitem action="SharpenEnharmonicSet"/>
+	<menuitem action="FlattenEnharmonicSet"/>
+
     </menu> 
 
     <menu action="PlaybackMenu">

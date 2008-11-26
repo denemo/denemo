@@ -298,6 +298,8 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Movements in a score", N_("MovementMenu"), NULL,"Movements", N_("Movement Menu")},
   {KBD_CATEGORY_DIRECT, NULL, "Help with denemo", N_("HelpMenu"), NULL, "Help", N_("Help Menu")}, 
   {KBD_CATEGORY_DIRECT, NULL, "input audio or midi", N_("InputMenu"), NULL, "Input", N_("Input Menu")},
+ {KBD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step sharper", N_("SharpenEnharmonicSet"), "set_sharper", N_("Shift Accidentals Sharpwise")}, 
+ {KBD_CATEGORY_DIRECT, NULL, "Shifts the set of accidentals one step flatter", N_("FlattenEnharmonicSet"), "set_flatter", N_("Shift Accidentals Flatwise")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Playing the music through midi file", N_("PlaybackMenu"), NULL, "Playback", N_("Playback Menu")}, 
 
 

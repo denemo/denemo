@@ -200,6 +200,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenClos
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Rhythm", "No Tooltip yet", insert_rhythm_pattern);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextRhythm"), "NextRhythm", "Next Rhythm", "Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern", nextrhythm);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasuresToScore"), "AppendMeasuresToScore", "Append Measure To Score", "No Tooltip yet", append_measure_score);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SharpenEnharmonicSet"), "SharpenEnharmonicSet", "Shift Accidentals Sharpwise", "Shifts the set of accidentals one step sharper", set_sharper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "FlattenEnharmonicSet"), "FlattenEnharmonicSet", "Shift Accidentals Flatwise", "Shifts the set of accidentals one step flatter", set_flatter);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "New"), "New", "New File", "Start a new musical score", file_newwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Open"), "Open", "Open", "Open a file containing a music score for editing", file_open_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddStaffs"), "AddStaffs", "Add Staffs", "Add staffs from a Denemo file", file_add_staffs);

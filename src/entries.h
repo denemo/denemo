@@ -210,6 +210,8 @@
 {"MovementMenu", NULL, N_("Movements"), NULL,N_("Movements in a score")},
 {"HelpMenu", NULL, N_("Help"), NULL,N_("Help with denemo")},
 {"InputMenu", NULL, N_("Input"), NULL,N_("input audio or midi")},
+{"SharpenEnharmonicSet", NULL, N_("Shift Accidentals Sharpwise"), NULL,N_("Shifts the set of accidentals one step sharper"),G_CALLBACK (set_sharper)},
+{"FlattenEnharmonicSet", NULL, N_("Shift Accidentals Flatwise"), NULL,N_("Shifts the set of accidentals one step flatter"),G_CALLBACK (set_flatter)},
 {"PlaybackMenu", NULL, N_("Playback"), NULL,N_("Playing the music through midi file")},
 {"New", GTK_STOCK_NEW, N_("New File"), NULL,N_("Start a new musical score"),G_CALLBACK (file_newwrapper)},
 {"Open", GTK_STOCK_OPEN, N_("Open"), NULL,N_("Open a file containing a music score for editing"),G_CALLBACK (file_open_with_check)},

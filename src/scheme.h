@@ -807,6 +807,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NextRhythm")), "scm", (gp
 SCM scheme_AppendMeasuresToScore(SCM optional);
 install_scm_function ("d-AppendMeasuresToScore", scheme_AppendMeasuresToScore);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AppendMeasuresToScore")), "scm", (gpointer)1);
+/*SharpenEnharmonicSet set_sharper*/
+SCM scheme_SharpenEnharmonicSet(SCM optional);
+install_scm_function ("d-SharpenEnharmonicSet", scheme_SharpenEnharmonicSet);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SharpenEnharmonicSet")), "scm", (gpointer)1);
+/*FlattenEnharmonicSet set_flatter*/
+SCM scheme_FlattenEnharmonicSet(SCM optional);
+install_scm_function ("d-FlattenEnharmonicSet", scheme_FlattenEnharmonicSet);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "FlattenEnharmonicSet")), "scm", (gpointer)1);
 /*New file_newwrapper*/
 SCM scheme_New(SCM optional);
 install_scm_function ("d-New", scheme_New);
