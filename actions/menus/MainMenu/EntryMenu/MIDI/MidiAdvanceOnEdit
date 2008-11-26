@@ -8,6 +8,7 @@
         <action>MidiAdvanceOnEdit</action>
         <scheme>;;;;;;;;;;
 ;;;MidiAdvance on Edit
+(d-EditMode)
 (if (not (defined? 'MidiAdvanceOnEdit::Active))
     (define MidiAdvanceOnEdit::Active #f))
 (if MidiAdvanceOnEdit::Active
