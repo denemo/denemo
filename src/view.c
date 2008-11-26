@@ -1536,7 +1536,7 @@ static void load_command_from_location(GtkWidget*w, gchar *filepath) {
 }
 
 
-void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
+static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
 void
 activate_script (GtkAction *action, gpointer param)
 {
@@ -1819,6 +1819,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
   if (event->button != 3)
     return FALSE;
+  /* This idx is -1 for the toggles and radio entries because they share a callback function. If we want to allow setting keybindings, getting help etc. for these then we would need to re-work all the radio action entries code using generate_source.c. Instead at the moment we have just defined scheme callback functions d-EditMode etc. using a hand-created array activatable_commands earlier in this file. */
   if (idx == -1)
     return TRUE;
 
@@ -1986,11 +1987,26 @@ void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *
 }
 
 
-void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
+static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
   accel_cb *info = g_malloc0(sizeof(accel_cb));
   info->gui = gui;
   info->action = action;
+#if 0
+  //gtk_widget_add_events (widget, (GDK_BUTTON_RELEASE_MASK));
+  if(GTK_IS_CHECK_MENU_ITEM(widget))
+    g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK (menu_toggle), info);
+  //g_print("Action of check menu item is %p\n", action);
+
   g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK (menu_click), info);
+  
+  //if(!strcmp("ToggleRhythm", gtk_action_get_name(action)))
+  //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
+#else
+  gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK));
+  g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), info);
+  //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
+  //show_type(widget, "Type is ");
+#endif
 }
 
 
@@ -2024,7 +2040,7 @@ GtkActionEntry menu_entries[] = {
   };
 
 //Get number of menu entries
-gint n_menu_items = G_N_ELEMENTS (menu_entries);
+//gint n_menu_items = G_N_ELEMENTS (menu_entries);
 
 static
 GtkWidget *get_edit_menu_for_mode(gint mode) {
@@ -2644,7 +2660,6 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
 #endif
   if(Denemo.map==NULL)
      return;
-
   command_idx = lookup_command_from_name(Denemo.map,
 				       gtk_action_get_name(action));
   if (command_idx != -1) 
