@@ -823,11 +823,16 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
      don't need to invoke that here.  */
 
   object_insert (gui, mudela_obj_new);
-  if(Denemo.gui->input_source==INPUTKEYBOARD) {
+ 
+    if (gui->mode&(INPUTRHYTHM)) {
+      play_pitch(64.0*(1+duration), 0.2, 0.5, 1);
+    } else {
+      if(Denemo.gui->input_source==INPUTKEYBOARD) {
     DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
     prognum = select_program (curstaffstruct->midi_instrument->str);
     playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
 	       prognum);
+      }
   }
 }
 
