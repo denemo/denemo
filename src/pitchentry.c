@@ -1029,9 +1029,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   button = gtk_button_new_with_label("flatten");
   gtk_box_pack_start (GTK_BOX (hbox), button,
 		      TRUE, TRUE, 0);
-gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
-// g_signal_connect (G_OBJECT (button), "clicked",
-//   G_CALLBACK (flatten), label);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
   gchar *names = notenames(PR_temperament);
   
   gtk_label_set_markup(GTK_LABEL(label),names);
@@ -1042,9 +1040,7 @@ gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMen
   button = gtk_button_new_with_label("sharpen");
   gtk_box_pack_start (GTK_BOX (hbox), button,
 		      TRUE, TRUE, 0);
-  //  g_signal_connect (G_OBJECT (button), "clicked",
-  //		    G_CALLBACK (sharpen), label);
-gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
 
   frame = gtk_frame_new( "Detected note");
   gtk_container_add (GTK_CONTAINER (main_vbox), frame);
