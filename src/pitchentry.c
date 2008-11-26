@@ -349,11 +349,11 @@ static void enharmonic_step (gboolean sharp) {
   GValue a = {0};
   g_value_init (&a, G_TYPE_STRING);
   g_value_set_string (&a, label);
-  g_object_set_property(sharpaction, "label", &a);
+  g_object_set_property(G_OBJECT(sharpaction), "label", &a);
   g_free(label);
   label = g_strdup_printf("(%s) Step Flatter", flattestname);
   g_value_set_string (&a, label);
-  g_object_set_property(flataction, "label", &a);
+  g_object_set_property(G_OBJECT(flataction), "label", &a);
   g_free(label);
   g_free(sharpestname);
   g_free(flattestname);
