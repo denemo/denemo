@@ -576,7 +576,7 @@ keymap *allocate_keymap(void)
       g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
   the_keymap->cursors = g_hash_table_new(g_int_hash, g_int_equal);
-  g_print("Created hash table %p\n", the_keymap->cursors);
+  //  g_print("Created hash table %p\n", the_keymap->cursors);
   return the_keymap;
 }
 
