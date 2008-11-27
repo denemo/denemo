@@ -142,7 +142,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
   }
   string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
   if(!curnote)
-    display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
+    current_display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
   } else {// called with initialization string
   
     string = g_strdup(init);
@@ -186,6 +186,10 @@ lily_directive_insert (GtkAction *action, gpointer param)
       SET_STRING("display", display);
     }
 #undef SET_STRING
+    if(init==NULL) {
+      init=values->str;//Allow simple form
+      display = init;
+    }
     }
   lily_directive (gui, FALSE, init, display);
 }
