@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>18thCTrillBelow</action>
-        <scheme>(d-InsertLilyDirective "_\"+\"")
+        <scheme>(d-InsertLilyDirective "lily=_\"+\"\0display=\"__+\"")
 </scheme>
 
         <label>18th c Trill Below</label>
