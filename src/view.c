@@ -951,10 +951,11 @@ close_gui_with_check (GtkAction *action, gpointer param)
   else 
     return FALSE;
   if(Denemo.guis==NULL) {
-    quit (); 
+   
     writeHistory ();
     writeXMLPrefs(&Denemo.prefs);
     ext_quit (); /* clean players pidfiles (see external.c) */
+    quit (); 
   } else {
     Denemo.gui = Denemo.guis->data;
     g_print("Setting the first piece as your score\n");
