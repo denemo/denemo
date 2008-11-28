@@ -499,11 +499,20 @@ SCM next_chord (SCM optional) {
     return 
       next_chord (optional);
 }
-
-SCM next_note (SCM optional) {
-  // there is a significant problem here. We have no way of iterating over the notes of a chord
+  // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
-  return next_chord(optional);
+//This next note is next chord that is not a rest.
+SCM next_note (SCM optional) {
+ SCM ret = next_chord(optional);
+ if(SCM_FALSEP(ret))
+    return ret;
+ if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD && 
+    ((((chord *)(((DenemoObject*) Denemo.gui->si->currentobject->data)->object))->notes)))
+   return SCM_BOOL(TRUE);
+  else
+    return 
+      next_note (optional);
 }
 
 
