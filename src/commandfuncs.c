@@ -826,9 +826,9 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
  
   if (gui->mode&(INPUTRHYTHM)) {
     if(rest)
-      play_pitch(64.0*(1+duration), 0.2, 0.2, 2);//FIXME make a distinct noise
+      play_pitch(64.0*(1+duration), 60.0/(4.0*gui->si->tempo*(1<<duration)), 0.2, 2);//FIXME make a distinct noise
       else
-	play_pitch(64.0*(1+duration), 0.2, 0.7, 1);
+	play_pitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.7, 1);
   } else {
     if(Denemo.gui->input_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
