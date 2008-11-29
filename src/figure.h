@@ -9,8 +9,7 @@
 
 #include <denemo/denemo.h>
 
-void 
-insertfigure(GtkWidget *widget, gpointer data);
+
 void 
 figure_insert(GtkAction *action, gpointer param);
 DenemoObject *

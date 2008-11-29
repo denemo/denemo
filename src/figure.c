@@ -33,14 +33,17 @@ struct callbackdata
  * Function to actually insert a figure to an object
  *
  */
-void
-insertfigure (GtkWidget * widget, gpointer data)
+static void
+insertfigure (gboolean filter, gpointer data)
 {
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoGUI *gui = cbdata->gui;
   DenemoScore *si = gui->si;
   static staff_info null_info;
   GString *current_figure;
+  gchar filter_sep = filter?'/':'|';
+  gchar filter_spc = filter?'*':' ';
+
   if (si->currentobject != NULL) {
     DenemoObject *curObj = (DenemoObject *) si->currentobject ?
       (DenemoObject *) si->currentobject->data : NULL;
@@ -52,21 +55,21 @@ insertfigure (GtkWidget * widget, gpointer data)
     gchar *c = figure;
     for(c=figure;*c;c++) {
       if(*c=='+') {
-	if(c==figure || *(c-1)==' ' || *(c-1)=='*' || *(c-1)=='|' || *(c-1)=='/')
+	if(c==figure || *(c-1)==' ' || *(c-1)==filter_spc || *(c-1)=='|' || *(c-1)==filter_sep)
 	  g_string_append(f, "_+");
 	else
 	  g_string_append(f,"+");
       }else
 	if(*c=='-') {
-	  if(c==figure || *(c-1)==' ' ||*(c-1)=='*' || *(c-1)=='|' || *(c-1)=='/')
+	  if(c==figure || *(c-1)==' ' ||*(c-1)==filter_spc || *(c-1)=='|' || *(c-1)==filter_sep)
 	    g_string_append(f, "_-");
 	  else
 	    g_string_append(f,"-");
 	}else
-	  if(*c=='/')
+	  if(*c==filter_sep)
 	    g_string_append(f, "|");
           else {
-	    if(*c=='*')
+	    if(*c==filter_spc)
 	      g_string_append(f, " ");
 		else
 		  g_string_append_c(f, *c);
@@ -140,7 +143,10 @@ figure_insert (GtkAction *action, gpointer param)
    
   if (string)
     {
-      insertfigure (NULL, &cbdata);
+      insertfigure (action!=NULL, &cbdata);
+      //also \set Staff.useBassFigureExtenders = ##t
+
+
       ((DenemoStaff*)si->currentstaff->data)->hasfigures=TRUE;
       displayhelper (gui);
     }
