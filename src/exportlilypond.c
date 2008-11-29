@@ -382,7 +382,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
   gint num_groups = 1;		/* number of groups of figures */
   if(!last_figure)
     last_figure = g_string_new("");
-  figures = g_string_append (figures, "<");
+
   if (pchord->figure == NULL
       ||
       (((GString
@@ -392,8 +392,18 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
     fig_str =
       g_string_new (((GString
 		      *) ((chord *) pchord->figure))->str);
-		      
-		    
+
+  if(*fig_str->str == '~') {
+    if(!continuation) {
+      figures = g_string_append (figures, " \\set useBassFigureExtenders = ##t ");
+      continuation = TRUE;
+    }
+    if(last_figure->len) {
+      figures = g_string_append (figures, "<");
+      figures = g_string_append (figures, last_figure->str);
+    }
+  } else
+    figures = g_string_append (figures, "<");	    
 
   /* multiple figures are separated by a FIGURES_SEP char,
      output these at subdivisions of the duration */
@@ -412,14 +422,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
     {
     default:
     case 1:
-      if(*fig_str->str == '~') {
-	if(!continuation) {
-	  figures = g_string_prepend (figures, "\\set useBassFigureExtenders = ##t ");
-	  continuation = TRUE;
-	}
-	if(last_figure->len)
-	  figures = g_string_append (figures, last_figure->str);
-      } else {
+        if(*fig_str->str != '~') {
 	if(continuation)
 	  continuation_finishing = TRUE;
 	figures = g_string_append (figures, fig_str->str);
