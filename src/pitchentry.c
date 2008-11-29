@@ -1336,7 +1336,7 @@ gchar *determine_interval(gint bass, gint harmony){
        if(inflection<0) modifier = "-";
        else
 	 if(inflection>0) modifier = "+";
- if(interval==3)
+ if(interval==3 && inflection)
    return g_strdup_printf("%c%s", '_', modifier);
  else
    return g_strdup_printf("%d%s", interval, modifier);

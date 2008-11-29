@@ -56,9 +56,16 @@
 							  (d-PlayMidiKey midi)))))))));; end of if noteon
 				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
 				     (begin
-				       ;;(display "Pedal down")
+				       	(display "Pedal down")
+					(if (and (> bassnote 0) (null? Figures))
+						(begin (d-PlayMidiKey #xF05A01)
+							(set! Figures (cons "~"  Figures))
+							(d-EditFiguredBass (GetFigures))
+							(set! Figures '())
+							(set! bassnote 0))
+						(begin
 				       (d-PlayMidiKey #xF01A01)
-				       (set! Figures (cons " | "  Figures))))
+				       (set! Figures (cons " | "  Figures))))))
 				 ;;(d-PutMidi midi)
 				 (if (not (= command 0))
 				     (loop bassnote))

@@ -372,12 +372,16 @@ static void output_lyric(GString *lyrics, chord *pchord, gboolean *pis_syllable,
 static void
 output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
 {
+  static gboolean continuation = FALSE;
+  gboolean continuation_finishing = FALSE;
+  static GString *last_figure;// for continuations
   gint duration = internaltomuduration (pchord->baseduration);
   gint numdots = pchord->numdots;
   GString *fig_str;		/*working copy of figures string stored in pchord */
   char *str;			/* pointer into the figure string fig_str */
   gint num_groups = 1;		/* number of groups of figures */
-
+  if(!last_figure)
+    last_figure = g_string_new("");
   figures = g_string_append (figures, "<");
   if (pchord->figure == NULL
       ||
@@ -408,9 +412,25 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
     {
     default:
     case 1:
-      figures = g_string_append (figures, fig_str->str);
+      if(*fig_str->str == '~') {
+	if(!continuation) {
+	  figures = g_string_prepend (figures, "\\set useBassFigureExtenders = ##t ");
+	  continuation = TRUE;
+	}
+	if(last_figure->len)
+	  figures = g_string_append (figures, last_figure->str);
+      } else {
+	if(continuation)
+	  continuation_finishing = TRUE;
+	figures = g_string_append (figures, fig_str->str);
+	g_string_assign(last_figure, fig_str->str);
+      }
       figures = g_string_append (figures, ">");
       append_duration (figures, duration, numdots);
+      if(continuation_finishing) {
+	figures = g_string_append (figures, "\\set useBassFigureExtenders = ##f ");
+	continuation = FALSE;
+      }
       break;
       /* Each group of figures is assigned a duration to
          achieve a normal looking output */
@@ -1443,7 +1463,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			"\\set figuredBassAlterationDirection = #1\n"
 			"\\set figuredBassPlusDirection = #1\n"
 			"\\override FiguredBass.BassFigure "
-			"#'font-size = #-2\n",movement, voice);
+			"#'font-size = #-1\n",movement, voice);
 	insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
       }
       g_string_printf(temp, "%s \n}\n", figures->str);
