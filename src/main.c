@@ -45,7 +45,7 @@ midi_seq *sq;
 #include "utils.h"
 #include "alsaplayback.h"
 
-int openfile (gchar * name);
+
 
 static const GtkStockItem denemo_stock_items[] = {
   {"denemo-staccato", N_("Staccato"), (GdkModifierType) 0, 0, NULL},
@@ -432,20 +432,20 @@ main (int argc, char *argv[])
   textdomain (PACKAGE);
 
   register_stock_items ();
-  g_print("Calling scm boot guile with %d and %p\n", argc, argv);
+  //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
  
-    scm_boot_guile (argc, argv, inner_main, NULL);
+  scm_boot_guile (argc, argv, inner_main, NULL);
   return 0;
 }
 
 
-int
-openfile (gchar * name)
+static int
+openfile (gchar * name, gboolean template)
 {
   GList *tmp = g_list_nth (Denemo.guis, 0);
 
   DenemoGUI *gui = (DenemoGUI *) tmp->data;
-  gint result = open_for_real (name, gui, FALSE, FALSE);
+  gint result = open_for_real (name, gui, template, REPLACE_SCORE);
   //gui->si->readonly = FALSE;
   //si->readonly = TRUE;
   return result;
@@ -606,7 +606,7 @@ COPYING for details.\n\n") ;
           switch (result)
             {
             case GTK_RESPONSE_ACCEPT:
-              openfile (name);
+              openfile (name, FALSE);
               g_remove (name);
               break;
             case GTK_RESPONSE_CANCEL:
@@ -632,7 +632,11 @@ COPYING for details.\n\n") ;
   if (dir)
     g_dir_close (dir);
 
-
+  gchar *init_file;
+  init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
+  if (openfile (init_file, TRUE) == -1)
+    g_warning("Denemo Scheme initialization file %s not found", init_file);
+  g_free(init_file);
   /* Open a file, if it was specified on the command line. Note
    * that this had to be done after the window was created, otherwise
    * there wouldn't have been a titlebar to set. Also note that
@@ -641,11 +645,10 @@ COPYING for details.\n\n") ;
 
   if (optind < argc)
     {
-      if (openfile (argv[optind]) == -1)
+      if (openfile (argv[optind], FALSE) == -1)
         {
           g_print ("Attempt to read in file %s failed\n", argv[optind]);
           return 1;
-        } else if(getNumCharsSchemeText())
-	  executeScript(); 
+        } 
     }
 }

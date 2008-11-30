@@ -2703,6 +2703,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	      ret |=  parseMovement(childElem, ns, gui, type);
 	    }
       }
+
+      if(getNumCharsSchemeText())
+	  executeScript(); 
       break;
     default:
       warningdialog("Erroneous call");
