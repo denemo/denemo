@@ -269,7 +269,8 @@ void process_midi_event(gchar *buf) {
 
 gboolean intercept_midi_event(gint *midi) {
   if(divert_midi_event) {
-    warningdialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
+    infodialog("Recursive midi capture not possible!");/* we could make a stack of them instead ... */
+    divert_midi_event = NULL;
     return FALSE;
   }
   divert_midi_event = midi;
