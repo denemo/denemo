@@ -184,7 +184,7 @@ SCM scheme_get_note_name (SCM optional) {
 }
 
 SCM scheme_get_note (SCM optional) {
-    int length;
+  //int length;
     //   char *str=NULL;
     //if(SCM_STRINGP(optional)){
     //str = gh_scm2newstr(optional, &length);
@@ -200,6 +200,20 @@ SCM scheme_get_note (SCM optional) {
    return scm;
  }
    
+}
+
+SCM scheme_get_note_as_midi(void) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return scm_int2num (0);
+ else {
+   gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
+   SCM scm = scm_int2num (midi);
+   return scm;
+   }
 }
 
 
@@ -313,6 +327,8 @@ SCM scheme_get_midi(void) {
  SCM scm = scm_int2num (midi);
  return  scm;
 }
+
+
 
 SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
@@ -615,9 +631,10 @@ Then
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
-
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   /* test with
 
+  (display (d-GetNoteAsMidi))
 
   (define command (lambda ()
             (d-WarningDialog "To use this function correctly you need to give a duration.")
