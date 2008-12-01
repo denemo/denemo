@@ -348,7 +348,7 @@ SCM scheme_play_midikey(SCM scm) {
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
-    g_print("Playing %x at %f volume, %d channel\n", key, volume, channel);
+    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_midikey(key, 0.2, volume, channel);
  return SCM_BOOL(TRUE);
 }
@@ -425,7 +425,7 @@ SCM scheme_get_type (SCM optional) {
 
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
-SCM diatonic_shift (SCM optional) {
+SCM scheme_diatonic_shift (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  chord *thechord;
@@ -453,7 +453,7 @@ SCM diatonic_shift (SCM optional) {
    Steps over barlines (i.e. cursor_appending).
  returns TRUE if currentobject is different after than before doing cursorright
 */
-SCM next_object (SCM optional) {
+SCM scheme_next_object (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
@@ -473,13 +473,16 @@ SCM next_object (SCM optional) {
   return SCM_BOOL(FALSE);  
 }
 
-
+SCM scheme_refresh_display (SCM optional) {
+  displayhelper(Denemo.gui);
+  return SCM_BOOL(TRUE);
+}
 
 /* moves currentobject to next object in the selection.
    Steps over barlines (i.e. cursor_appending).
  returns TRUE if currentobject is different after than before the call
 */
-SCM next_selected_object (SCM optional) {
+SCM scheme_next_selected_object (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
@@ -504,8 +507,8 @@ SCM next_selected_object (SCM optional) {
 
 
 
-SCM next_chord (SCM optional) {
-  SCM ret = next_object(optional);
+SCM scheme_next_chord (SCM optional) {
+  SCM ret = scheme_next_object(optional);
   if(SCM_FALSEP(ret))
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -513,13 +516,13 @@ SCM next_chord (SCM optional) {
     return SCM_BOOL(TRUE);
   else
     return 
-      next_chord (optional);
+      scheme_next_chord (optional);
 }
   // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
 //This next note is next chord that is not a rest.
-SCM next_note (SCM optional) {
- SCM ret = next_chord(optional);
+SCM scheme_next_note (SCM optional) {
+ SCM ret = scheme_next_chord(optional);
  if(SCM_FALSEP(ret))
     return ret;
  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -528,7 +531,7 @@ SCM next_note (SCM optional) {
    return SCM_BOOL(TRUE);
   else
     return 
-      next_note (optional);
+      scheme_next_note (optional);
 }
 
 
@@ -593,11 +596,11 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
-  install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", diatonic_shift);
-  install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", next_object);
-  install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", next_selected_object);
-  install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", next_chord);
-  install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", next_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", scheme_diatonic_shift);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", scheme_next_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", scheme_next_selected_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-NextNote)
@@ -632,6 +635,8 @@ Then
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
+  install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
+
   /* test with
 
   (display (d-GetNoteAsMidi))
