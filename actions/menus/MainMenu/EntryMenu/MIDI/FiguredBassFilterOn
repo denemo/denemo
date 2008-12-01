@@ -7,7 +7,7 @@
       <row>
         <action>FiguredBassFilterOn</action>
         <scheme>;;; Figured Bass filter
-(use-modules (srfi srfi-13))
+(d-Note)
 (d-EditMode)
 (if (not (defined? 'ToggleFiguredBassMode::Active))
     (define ToggleFiguredBassMode::Active #f))
