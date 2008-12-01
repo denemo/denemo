@@ -72,5 +72,7 @@ gint getNumCharsSchemeText(void);
 void
 activate_script (GtkAction *action, gpointer param);
 void 
+create_scheme_function_for_script(gchar *name);
+void 
 inner_main(void*closure, int argc, char **argv);
 #endif

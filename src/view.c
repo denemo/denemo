@@ -86,6 +86,9 @@ static void save_accels (void);
 
 #include "scheme_cb.h"
 
+void call_out_to_guile(char *script) {
+ gh_eval_str_with_catch (script, gh_standard_handler);
+}
 
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
@@ -155,6 +158,26 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
 
+static scheme_script_callback(SCM script) {
+    int length;
+    char *name=NULL;
+   if(SCM_STRINGP(script)){
+     name = gh_scm2newstr(script, &length);
+     if(name) {
+       GtkAction *action = lookup_action_from_name (name);
+       if(action){
+	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
+	 if(text)
+	   call_out_to_guile(text);
+       }
+     }
+   }
+}
+void create_scheme_function_for_script(gchar *name) {
+  gchar *proc = g_strdup_printf("(define (d-%s) (d-ScriptCallback \"%s\"))\n", name, name, name);
+   call_out_to_guile(proc);
+   g_free(proc);
+}
 
 
 SCM scheme_get_cursor_note (SCM optional) {
@@ -545,48 +568,48 @@ int process_command_line(int argc, char**argv);//back in main
 */
 void inner_main(void*closure, int argc, char **argv){
   //g_print("Got inner main with  %d and %p\n", argc, argv);
-
+  
   gint i;
   GError *error = NULL;
   
-
+  
   
   /* Initialize preferences */
   initprefs();
   readHistory();
   g_print("init prefs run");
-
+  
   //create window system
-   create_window();
-
+  create_window();
+  
   /* create the first tab */
   newview (NULL, NULL);
   load_default_keymap_file();
   gtk_key_snooper_install(dnm_key_snooper, NULL);
- Denemo.accelerator_status = FALSE;
+  Denemo.accelerator_status = FALSE;
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);
   }
   /* test with
-(d-EditMode)
-(d-2)
-(d-PutNoteName "cis''")
-*/
-
+     (d-EditMode)
+     (d-2)
+     (d-PutNoteName "cis''")
+  */
+  
   /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
-   The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
-  not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
-  Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
+     The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
+     not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
+     Note that all such actions (that may be called back by scheme directly in this fashion) are given the attribute "scm" with value 1; I do not think this is being exploited in the code at present, and is perhaps not needed.
   */
 #include "scheme.h"
-  /* install the basic scheme function for calling Denemo actions */
-  // install_scm_function_with_param ("denemo", scheme_requests_action);
-
-
-
-
- /* install the scheme functions for calling extra Denemo functions created for the scripting interface */
+  
+  /* install the scheme function for calling actions which are scripts */
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
+			
+			
+			
+			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
@@ -662,21 +685,9 @@ Then
 
 }
 
-#if 0
-//#include <guile/gh.h>
-int call_out_to_guile(char *script) {
-  SCM val = scm_c_eval_string(script);
-}
-
-#else
-
-void call_out_to_guile(char *script) {
-  // SCM val = scm_c_eval_string(
- gh_eval_str_with_catch (script, gh_standard_handler);
-}
 
 
-#endif
+
 
 /****************
  * write the status bar

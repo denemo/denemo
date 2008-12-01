@@ -139,7 +139,7 @@ void set_visibility_for_action(GtkAction *action, gboolean visible) {
 }
 
 static void hide_action_of_name(gchar *name){
-  GtkAction *action = lookup_action_from_name (Denemo.map, name);
+  GtkAction *action = lookup_action_from_name (name);
   set_visibility_for_action(action, FALSE);
 }
 
@@ -240,6 +240,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
+	  /* create a scheme function to call this script */
+	  create_scheme_function_for_script(name);
+
+
+
 	  if(merge) {
 	    gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
 	    infodialog(msg);
