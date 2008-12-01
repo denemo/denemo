@@ -146,8 +146,8 @@ gint
 keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 
 GtkAction *
-lookup_action_from_name(keymap *the_keymap, gchar *command_name);
-#define action_of_name lookup_action_from_name
+lookup_action_from_name(gchar *command_name);
+#define action_of_name(a,b) lookup_action_from_name(b)
 const GtkAction *
 lookup_action_from_idx (keymap * keymap, guint command_idx);
 gboolean

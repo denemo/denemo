@@ -1281,7 +1281,7 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
 
 
 
-GtkAction *lookup_action_from_name (keymap *the_keymap, gchar *command_name) { 
+GtkAction *lookup_action_from_name (gchar *command_name) { 
   // GtkActionGroup *action_group = get_action_group(the_keymap);
   return gtk_action_group_get_action(Denemo.action_group, command_name);
 }
