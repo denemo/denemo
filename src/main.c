@@ -636,6 +636,7 @@ COPYING for details.\n\n") ;
   init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
   if (openfile (init_file, TRUE) == -1)
     g_warning("Denemo Scheme initialization file %s not found", init_file);
+  deleteSchemeText();
   g_free(init_file);
   /* Open a file, if it was specified on the command line. Note
    * that this had to be done after the window was created, otherwise
