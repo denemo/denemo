@@ -13,7 +13,7 @@
 (if (string=? command "d-")
     (d-WarningDialog "This keypress is not a shortcut")	
     (begin
-      (set! command (string-append "(" command ")"))	
+      (set! command (string-append "(if (Chord?) (" command "))"))	
       (ApplyToSelection command "(d-GoToMark)")))))
 </scheme>
         <label>Apply Shortcut to Notes in Selection</label>
