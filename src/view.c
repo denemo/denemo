@@ -86,8 +86,8 @@ static void save_accels (void);
 
 #include "scheme_cb.h"
 
-void call_out_to_guile(char *script) {
- gh_eval_str_with_catch (script, gh_standard_handler);
+SCM call_out_to_guile(char *script) {
+ return gh_eval_str_with_catch (script, gh_standard_handler);
 }
 
 /***************** definitions to implement calling radio/check items from scheme *******************/
@@ -158,7 +158,7 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
 
-static scheme_script_callback(SCM script) {
+static SCM scheme_script_callback(SCM script) {
     int length;
     char *name=NULL;
    if(SCM_STRINGP(script)){
@@ -168,14 +168,15 @@ static scheme_script_callback(SCM script) {
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text)
-	   call_out_to_guile(text);
+	   return call_out_to_guile(text);
        }
      }
    }
+return  SCM_BOOL(FALSE);
 }
 void create_scheme_function_for_script(gchar *name) {
   gchar *proc = g_strdup_printf("(define (d-%s) (d-ScriptCallback \"%s\"))\n", name, name, name);
-   call_out_to_guile(proc);
+   (void)call_out_to_guile(proc);
    g_free(proc);
 }
 
@@ -1568,7 +1569,7 @@ void appendSchemeText(gchar *text) {
 void executeScript(void) {
   gchar *text = getSchemeText();
   g_print("Calling script %s\n", text);
-  call_out_to_guile(text);
+  (void)call_out_to_guile(text);
   g_free(text);
 }
 static void load_command_from_location(GtkWidget*w, gchar *filepath) {
