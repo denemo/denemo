@@ -551,17 +551,13 @@ SCM scheme_next_note (SCM optional) {
     return ret;
  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
     ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD && 
-    ((((chord *)(((DenemoObject*) Denemo.gui->si->currentobject->data)->object))->notes)))
+    ((((chord *)(((DenemoObject*) Denemo.gui->si->currentobject->data)->object))->notes))
+    && (!Denemo.gui->si->cursor_appending))
    return SCM_BOOL(TRUE);
   else
     return 
       scheme_next_note (optional);
 }
-
-
-
-
-
 
 int process_command_line(int argc, char**argv);//back in main
 /* Called from main for scheme initialization reasons.
