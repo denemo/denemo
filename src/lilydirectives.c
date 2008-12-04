@@ -173,9 +173,9 @@ lily_directive_insert (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *init = NULL, *display = NULL;
-  if(!action && param)
+  if(!action)
     {
-    GString *values = (GString *)param;
+    GString *values = ((DenemoScriptParam *)param)->string;
     gchar *str;
 #define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
       b = str+strlen(a)+1;\
@@ -202,5 +202,5 @@ void
 lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE, action?NULL: ((GString*)param)->str, NULL/* no display yet for postfix */);
+  lily_directive (gui, TRUE, action?NULL: ((DenemoScriptParam *)param)->string->str, NULL/* no display yet for postfix */);
 }

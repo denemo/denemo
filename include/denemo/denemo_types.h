@@ -455,6 +455,14 @@ typedef struct DenemoLilyControl
 	
 } DenemoLilyControl;
 
+
+typedef struct DenemoScriptParam { /**< commands called by scripts use one of these to pass in a string and return a boolean */
+  GString *string;/**< input string to command */
+  gboolean status;/**< return value - TRUE = normal case execution of command/FALSE = exceptional case*/
+} DenemoScriptParam;
+
+
+
 typedef struct DenemoScoreblock {
   GString *scoreblock;/**< text of the scoreblock */
   gboolean visible;/**< Whether the scoreblock should be used by default */

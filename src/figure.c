@@ -117,7 +117,7 @@ figure_insert (GtkAction *action, gpointer param)
 
   if(!action && param)
     {
-    GString *values = (GString *)param;
+    GString *values = ((DenemoScriptParam *)param)->string;
     gchar *str;
 #define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
       b = g_strdup(str+strlen(a)+1);\
