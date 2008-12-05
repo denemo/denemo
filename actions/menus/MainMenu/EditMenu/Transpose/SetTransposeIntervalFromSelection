@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SetTransposeIntervalFromSelection</action>
+        <scheme>(if (not (defined? 'Transpose::init))
+    (d-InitializeScript CurrentScript))
+(if (d-GoToMark)
+	(begin 
+	(define Transpose::Interval (Transpose::get-interval-from-selection))
+    (Transpose::SetTransposeInterval Transpose::Interval)))
+</scheme>
+        <label>Set Transpose Interval</label>
+        <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

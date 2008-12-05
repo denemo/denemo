@@ -6,7 +6,7 @@
 ;;;; public variables
       (define Transpose::SetTransposeInterval 0)
       (define Transpose::TransposeNote 0)
-      
+      (define Transpose::Interval "c d")
 ;;;;;;;;;;; private variables
 					;original note
       (define Transpose::original-pitch '(0 0 0))
