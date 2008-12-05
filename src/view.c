@@ -1593,7 +1593,7 @@ activate_script (GtkAction *action, gpointer param)
     
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
     // g_print("Executing %s\n", text);
-    (void)scm_c_eval_string(text);
+    (void)call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
