@@ -158,6 +158,37 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
 
+
+/* called by a script if it requires initialization
+ the initialization script is expected to be in init.scm in the menupath of the action that invoked the script*/
+static SCM scheme_initialize_script(SCM action_name) {
+  SCM ret;
+  gint length;
+  gchar *name = gh_scm2newstr(action_name, &length);
+  GtkAction *action = lookup_action_from_name(name);
+  if(!action){
+    g_warning("Non-existent action %s", name);
+    return SCM_BOOL(FALSE);
+  }
+    
+  gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, "init.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+    g_print("About to load from %s\n", filename);
+    ret = scm_c_primitive_load(filename);
+  }
+  g_free(filename);
+  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, "init.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+    g_print("About to load from %s\n", filename);
+    ret = scm_c_primitive_load(filename);
+  }
+  g_free(filename);
+  return ret;
+}
+
+
+
 /* when a script calls a command which is itself a script it comes through here */
 static SCM scheme_script_callback(SCM script) {
     int length;
@@ -609,6 +640,7 @@ void inner_main(void*closure, int argc, char **argv){
 			
 			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
@@ -1593,11 +1625,18 @@ activate_script (GtkAction *action, gpointer param)
     
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
     // g_print("Executing %s\n", text);
+    gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
+    /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
+      need it */
+    scm_c_eval_string(current_script);
+    g_free(current_script);
     (void)call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
 }
+
+
 
 
 /*pop up the help for passed command as info dialog
