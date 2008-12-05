@@ -1023,10 +1023,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteAfter")), "scm", (g
 SCM scheme_AddVoice(SCM optional);
 install_scm_function ("d-AddVoice", scheme_AddVoice);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddVoice")), "scm", (gpointer)1);
-/*TransposeStaff staff_transposition*/
-SCM scheme_TransposeStaff(SCM optional);
-install_scm_function ("d-TransposeStaff", scheme_TransposeStaff);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TransposeStaff")), "scm", (gpointer)1);
 /*StaffProperties staff_properties_change_cb*/
 SCM scheme_StaffProperties(SCM optional);
 install_scm_function ("d-StaffProperties", scheme_StaffProperties);

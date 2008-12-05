@@ -254,7 +254,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteBe
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteStaff"), "DeleteStaff", "Delete Current Staff", "Deletes the current staff", delete_staff_current);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteAfter"), "DeleteAfter", "Delete Staff After", "Deletes the staff after the current staff", delete_staff_after);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddVoice"), "AddVoice", "Add Voice", "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs", dnm_newstaffvoice);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "TransposeStaff"), "TransposeStaff", "Traspose Staff", "Transpose the current staff", staff_transposition);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffProperties"), "StaffProperties", "Staff Properties", "Change the properties of the current staff", staff_properties_change_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InitialClef"), "InitialClef", "Initial Clef", "Change the initial clef of the current staff", clef_change_initial);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertClef"), "InsertClef", "Clef Change", "Insert a change of clef at the cursor", clef_change_insert);

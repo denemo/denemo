@@ -4350,23 +4350,6 @@ dnm_newstaffvoice (NULL, &param);
 if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
-SCM scheme_TransposeStaff (SCM optional) {
-SCM ret;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-  }
-param.string = gstr;
-param.status = FALSE;
-
-staff_transposition (NULL, &param);
-if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
 SCM scheme_StaffProperties (SCM optional) {
 SCM ret;
 DenemoScriptParam param;
