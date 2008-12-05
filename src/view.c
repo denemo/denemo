@@ -158,6 +158,7 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
 
+/* when a script calls a command which is itself a script it comes through here */
 static SCM scheme_script_callback(SCM script) {
     int length;
     char *name=NULL;
@@ -165,6 +166,7 @@ static SCM scheme_script_callback(SCM script) {
      name = gh_scm2newstr(script, &length);
      if(name) {
        GtkAction *action = lookup_action_from_name (name);
+       //FIXME is name a memory leak? whose malloc is it? which is the free to use?
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text)
@@ -1561,7 +1563,7 @@ void appendSchemeText(gchar *text) {
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
 }
 
-
+/* execute the script that is in the Scheme script window */
 void executeScript(void) {
   gchar *text = getSchemeText();
   g_print("Calling script %s\n", text);
