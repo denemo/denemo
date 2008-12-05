@@ -21,7 +21,6 @@
 #include "midiseq.h"
 #include "pitchentry.h"
 #include "exportlilypond.h"
-#include "transpose.h"
 #include "print.h"
 #include "kbd-custom.h"
 #include "keyboard.h"

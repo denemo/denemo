@@ -268,7 +268,6 @@
 {"DeleteStaff", NULL, N_("Delete Current Staff"), NULL,N_("Deletes the current staff"),G_CALLBACK (delete_staff_current)},
 {"DeleteAfter", NULL, N_("Delete Staff After"), NULL,N_("Deletes the staff after the current staff"),G_CALLBACK (delete_staff_after)},
 {"AddVoice", NULL, N_("Add Voice"), NULL,N_("Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs"),G_CALLBACK (dnm_newstaffvoice)},
-{"TransposeStaff", NULL, N_("Traspose Staff"), NULL,N_("Transpose the current staff"),G_CALLBACK (staff_transposition)},
 {"StaffProperties", GTK_STOCK_PROPERTIES, N_("Staff Properties"), NULL,N_("Change the properties of the current staff"),G_CALLBACK (staff_properties_change_cb)},
 {"InsertMenu", NULL, N_("InsertMenu"), NULL,N_("Insert")},
 {"Clef", NULL, N_("Clef"), NULL,N_("Clef")},
