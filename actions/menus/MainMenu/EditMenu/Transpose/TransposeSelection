@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>TransposeSelection</action>
+        <scheme>;;;;;;;;; Get an interval from user and transpose selection
+(if (not (defined? 'Transpose::init))
+    (d-InitializeScript CurrentScript))
+(Transpose::SetTransposeInterval  (d-GetUserInput "Transposition - Instructions" 
+				     "Enter a note, a space, and the note you wish this to transpose to" "c d"))
+(ApplyToSelection "(Transpose::TransposeNote)" "(d-GoToMark)")
+</scheme>
+        <label>Transpose Selection</label>
+        <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
