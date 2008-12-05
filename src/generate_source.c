@@ -363,7 +363,6 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Deletes the current staff", N_("DeleteStaff"), "delete_staff_current", N_("Delete Current Staff")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Deletes the staff after the current staff", N_("DeleteAfter"), "delete_staff_after", N_("Delete Staff After")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs", "AddVoice", "dnm_newstaffvoice", N_("Add Voice")}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Transpose the current staff", N_("TransposeStaff"), "staff_transposition", N_("Traspose Staff")}, 
   {KBD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change the properties of the current staff", N_("StaffProperties"), "staff_properties_change_cb", N_("Staff Properties")},
   {KBD_CATEGORY_DIRECT, NULL, "Insert", N_("InsertMenu"), NULL},  
   {KBD_CATEGORY_DIRECT, NULL, "Clef", N_("Clef"), NULL}, 
