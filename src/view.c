@@ -505,29 +505,34 @@ SCM scheme_diatonic_shift (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
-/* moves currentobject to next object by calling cursorright.
-   Steps over barlines (i.e. cursor_appending).
- returns TRUE if currentobject is different after than before doing cursorright
-*/
-SCM scheme_next_object (SCM optional) {
+
+static gboolean to_next_object(void) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
-    return SCM_BOOL(FALSE);
-  //  if(Denemo.gui->si->cursor_appending)
-  //   return SCM_BOOL(FALSE);
+    return FALSE;
   GList *this = Denemo.gui->si->currentobject;
   cursorright (Denemo.gui);
   if(this!= Denemo.gui->si->currentobject)
-    return SCM_BOOL(TRUE);
+    return TRUE;
   if(Denemo.gui->si->cursor_appending)
     cursorright (Denemo.gui);
   if(this!= Denemo.gui->si->currentobject)
-    return SCM_BOOL(TRUE);
-  return SCM_BOOL(FALSE);  
+    return TRUE;
+  return FALSE;  
 }
+
+/* moves currentobject to next object by calling cursorright.
+   Steps over barlines (i.e. cursor_appending).
+   returns TRUE if currentobject is different after than before doing cursorright
+*/
+SCM scheme_next_object (SCM optional) {
+return to_next_object();
+}
+
+
 
 SCM scheme_refresh_display (SCM optional) {
   displayhelper(Denemo.gui);
@@ -545,11 +550,10 @@ SCM scheme_next_selected_object (SCM optional) {
   note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
     return SCM_BOOL(FALSE);
-  //  if(Denemo.gui->si->cursor_appending)
-  //   return SCM_BOOL(FALSE);
-  GList *this = Denemo.gui->si->currentobject;
   save_selection(Denemo.gui->si);
-  gboolean success = cursorright (Denemo.gui);
+  gboolean success = to_next_object();
+  if(!success)
+    success = to_next_object();//if at first you don't succeed. Better might be to examine cursor_appending...
   restore_selection(Denemo.gui->si);
   //g_print("success %d\n", success);
   if( (success) && in_selection(Denemo.gui->si))
