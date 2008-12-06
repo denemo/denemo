@@ -514,6 +514,8 @@ static gboolean to_next_object(void) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
+  if(!this)
+    return FALSE;
   cursorright (Denemo.gui);
   if(this!= Denemo.gui->si->currentobject)
     return TRUE;
@@ -526,10 +528,10 @@ static gboolean to_next_object(void) {
 
 /* moves currentobject to next object by calling cursorright.
    Steps over barlines (i.e. cursor_appending).
-   returns TRUE if currentobject is different after than before doing cursorright
+   returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_next_object (SCM optional) {
-return to_next_object();
+return SCM_BOOL(to_next_object());
 }
 
 
