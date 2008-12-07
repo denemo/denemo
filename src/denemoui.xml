@@ -161,9 +161,9 @@
 <menuitem action="Insert4"/>
 <menuitem action="Insert5"/>
 <menuitem action="Insert6"/>
-	   <menuitem action="AddDot"/>
-	   <menuitem action="RemoveDot"/>
-	      <menuitem action="InsertRhythm"/>	  <!--   should implement????? -->
+	      <menuitem action="AddDot"/>
+	      <menuitem action="RemoveDot"/>
+	      <menuitem action="InsertRhythm"/>	
 	    </menu>	 
 	   <menu action="ChangeDuration">
 
@@ -213,6 +213,7 @@
 
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
+	   <menuitem action="InsertRhythm"/>	
 	  </menu>
 
 	  
@@ -242,6 +243,7 @@
 <menuitem action="6"/>
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
+	   <menuitem action="InsertRhythm"/>	
 	   <menuitem action="Sharpen"/>
 	   <menuitem action="Flatten"/>
 	 </menu>
@@ -516,6 +518,7 @@
 
 	   <menuitem action="AddDot"/>
 	   <menuitem action="RemoveDot"/>
+	   <menuitem action="InsertRhythm"/>	
            <menuitem action="ChangeNotehead"/>	
            <menuitem action="InsertStem"/>
 <menuitem action="StemDown"/>
