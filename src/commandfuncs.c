@@ -721,10 +721,11 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
 	  insertion_point (gui->si);
 	  gui->si->cursoroffend = FALSE;
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorleft(gui);
+	    if(modifier_code(h->data)!='~')if(modifier_code(h->data)!='|') cursorleft(gui);
 	  ((GtkFunction)h->data)(gui);
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorright(gui);
+	     if(modifier_code(h->data)!='~')if(modifier_code(h->data)!='|') cursorright(gui);
+	  g_print("modifier code %c\n",modifier_code(h->data));
 	  displayhelper(gui);
 	}
 	h = ((RhythmElement*)g->data)->functions;
