@@ -240,7 +240,6 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->markmeasurenum = 0;
   si->markcursor_x = 0;
   si->maxkeywidth = 0;
-  si->is_grace_mode = FALSE;
   si->has_figures = FALSE;
   si->has_fakechords = FALSE;
   /*playback purposes */
