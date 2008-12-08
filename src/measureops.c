@@ -436,7 +436,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
 	  /* A non-chord or rest always breaks up a beam group */
 	  /* LilyPond directives can have their own behaviour,
 	   starting with *not* forcing beam breaks */
-	  if(theobj->type != LILYDIRECTIVE) {
+	  /* if(theobj->type != LILYDIRECTIVE) */{
 	    theobj->isstart_beamgroup = TRUE;
 	    theobj->isend_beamgroup = TRUE;}
 
