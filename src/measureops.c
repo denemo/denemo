@@ -248,7 +248,7 @@ calcticksperbeat (gint time1, gint time2)
  * calculatebeamsandstemdirs is invoked, and would share code besides, so
  * that's precisely where it is invoked 
  */
-void
+static void
 settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 {
   gint numerator = 1, denominator = 1;
@@ -276,11 +276,13 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		    }
 		  else if (in_grace)
 		    {
+		      ((chord *)theobj->object)->is_grace = TRUE;
 		      set_grace_numticks (theobj, 1/*8*/);/*8 =  sets durinticks too small */
 		      basic_ticks_in_grace_group += theobj->basic_durinticks;
 		    }
 		  else
 		    {
+		      ((chord *)theobj->object)->is_grace = FALSE;
 		      set_tuplefied_numticks (theobj, 1, 1);//These two overwrite each other...
 		      set_grace_numticks (theobj, 1);
 		      ticks_so_far += theobj->durinticks;
@@ -432,9 +434,11 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
       if (theobj->type != CHORD || isrest)
 	{
 	  /* A non-chord or rest always breaks up a beam group */
-	  /* I may want to adjust rest behavior to something else at some point */
-	  theobj->isstart_beamgroup = TRUE;
-	  theobj->isend_beamgroup = TRUE;
+	  /* LilyPond directives can have their own behaviour,
+	   starting with *not* forcing beam breaks */
+	  if(theobj->type != LILYDIRECTIVE) {
+	    theobj->isstart_beamgroup = TRUE;
+	    theobj->isend_beamgroup = TRUE;}
 
 	  switch (theobj->type)
 	    {
