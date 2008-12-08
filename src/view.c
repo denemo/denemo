@@ -757,7 +757,7 @@ void write_status(DenemoGUI *gui) {
     switch(curObj->type) {
     case CHORD: {
       chord *thechord =  ((chord *) curObj->object);
-      selection = g_strdup_printf("%s%s%s%s%s%s%s%s",
+      selection = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
 				  thechord->notes?
 				  (g_list_length(thechord->notes)>1?"Chord ":"Note "):"Rest ",				  
 				  thechord->slur_begin_p?", begin slur":"",
@@ -817,7 +817,7 @@ void write_status(DenemoGUI *gui) {
       selection = g_strdup_printf("Dynamic: %s", ((dynamic *) curObj->object)->type->str  );
       break;
     case GRACE_START:
-      selection = g_strdup_printf("Grace note: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
+      selection = g_strdup_printf("Start Grace Notes: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
 				  ((grace *) curObj->object)->duration);
       break;
     case GRACE_END:
