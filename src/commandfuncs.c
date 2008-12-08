@@ -712,7 +712,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
 void
 insert_rhythm_pattern(DenemoGUI  *gui) {
 #define g  (gui->rstep)
-  if(/*(gui->mode&(INPUTEDIT)) &&*/ g) {
+  if((gui->mode&(INPUTEDIT)) && g) {
     GList *start = g;
     GList *h;
     do {
@@ -721,11 +721,10 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
 	  insertion_point (gui->si);
 	  gui->si->cursoroffend = FALSE;
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	    if(modifier_code(h->data)!='~')if(modifier_code(h->data)!='|') cursorleft(gui);
+	    cursorleft(gui);
 	  ((GtkFunction)h->data)(gui);
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	     if(modifier_code(h->data)!='~')if(modifier_code(h->data)!='|') cursorright(gui);
-	  g_print("modifier code %c\n",modifier_code(h->data));
+	    cursorright(gui);
 	  displayhelper(gui);
 	}
 	h = ((RhythmElement*)g->data)->functions;

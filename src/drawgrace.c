@@ -26,11 +26,11 @@ draw_gracebracket (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
 
   if (theobj->type == GRACE_START)
     {
-      pango_layout_set_text (layout, _("Grace"), -1);
+      pango_layout_set_text (layout, _("\\"), -1);
     }
   else if (theobj->type == GRACE_END)
     {
-      pango_layout_set_text (layout, _("End Grace"), -1);
+      pango_layout_set_text (layout, _("'"), -1);
 
     }
 

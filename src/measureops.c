@@ -269,22 +269,22 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		
 		if (theobj->type == CHORD)
 		{
-			if (in_tuplet)
-			{
-				set_tuplefied_numticks (theobj, numerator, denominator);
-				basic_ticks_in_tuplet_group += theobj->basic_durinticks;
-			}
-			else if (in_grace)
-			{
-				set_grace_numticks (theobj, 8);
-				basic_ticks_in_grace_group += theobj->basic_durinticks;
-			}
-			else
-			{
-				set_tuplefied_numticks (theobj, 1, 1);
-				set_grace_numticks (theobj, 1);
-				ticks_so_far += theobj->durinticks;
-			}
+		  if (in_tuplet)
+		    {
+		      set_tuplefied_numticks (theobj, numerator, denominator);
+		      basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		    }
+		  else if (in_grace)
+		    {
+		      set_grace_numticks (theobj, 1/*8*/);/*8 =  sets durinticks too small */
+		      basic_ticks_in_grace_group += theobj->basic_durinticks;
+		    }
+		  else
+		    {
+		      set_tuplefied_numticks (theobj, 1, 1);//These two overwrite each other...
+		      set_grace_numticks (theobj, 1);
+		      ticks_so_far += theobj->durinticks;
+		    }
 		}
 		else if (theobj->type == TUPOPEN)
 		{
@@ -310,13 +310,20 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		else if (theobj->type == GRACE_END)
 		{
 			in_grace = FALSE;
-			/*      ticks_so_far += basic_ticks_in_grace_group;  RTS - this is just a mistake I think */
+			// anything here makes next note back up over grace end ... ticks_so_far -= 8;
+			//basic_ticks_in_grace_group accumulates the basic_ticks of the notes
+			// after grace start
+			//ticks_so_far += basic_ticks_in_grace_group;//???? this affects furthest
 			basic_ticks_in_grace_group = 0;
 		}
 		
 		theobj->starttickofnextnote =
 		ticks_so_far + (basic_ticks_in_tuplet_group * numerator
 						/ denominator) + basic_ticks_in_grace_group;
+
+		//this goes up too fast for grace notes...
+
+		//g_print("start tick next %d\n", 	theobj->starttickofnextnote);
     }
 }
 

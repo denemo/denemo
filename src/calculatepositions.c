@@ -219,6 +219,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
 		  non_chord_pixels += curobj->minpixelsalloted;
+		   /*g_print("*curobj->x %d *base %d, *base_tick %d, extra %d non chord %d\n", curobj->x, *base_x,*base_tick, extra_advance, non_chord_pixels);*/
 		}
 	      else
 		{
@@ -226,6 +227,13 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
 		  non_chord_pixels = 0;
+		  /*base_tick is getting bigger every note for grace but not for tuplet...
+no 0, 384,640, 896 for triplet, 0, 384, 768, 1152 for grace
+curobj->starttickofnextnot is one ahead of these for grace & triplet, as is Max advance
+
+ */
+		  /*g_print("chord *curobj->starttickofnextnote %d extra %d starts_at_tick %d, base_x %d *base_tick %d\n", curobj->starttickofnextnote, extra_advance,
+		    starts_at_tick, *base_x, *base_tick );*/
 		}
 	      starts_at_tick = curobj->starttickofnextnote;
 	      if (this_staff_obj_node == block_end_obj_nodes[i])
@@ -248,8 +256,8 @@ allocate_xes (objnode ** block_start_obj_nodes,
   /* Now increase the values of *base_x and *base_tick as a side-effect. */
 
   *base_x += block_width + extra_advance;
-  *base_tick = furthest_tick_advance;
-
+  *base_tick = furthest_tick_advance; //this is growing....
+  //g_print("furthest %d\n", furthest_tick_advance);
   /* Free non_chords and we're done */
 
   g_list_foreach (non_chords, freeit, NULL);
@@ -370,7 +378,7 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
 	{
 	  /* A-ha!  We've found a block.  Now go set the x positions
 	   * of all the objects within it appropriately */
-
+	  //g_print("*******Max advance ticks %d\n", max_advance_ticks);
 	  allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs,
 			max_advance_ticks, &base_x, &base_tick,
 			shortest_chord_duration, shortest_chord_pixels,

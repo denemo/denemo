@@ -213,6 +213,23 @@ void create_scheme_function_for_script(gchar *name) {
 }
 
 
+SCM scheme_debug_object (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+   return SCM_BOOL(FALSE);
+ g_print("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", 
+	 curObj->type,
+	 curObj->basic_durinticks,
+	 curObj->durinticks,
+	 curObj->starttickofnextnote);
+ return SCM_BOOL(TRUE);
+}
+
+
+
+
 SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
@@ -649,6 +666,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
