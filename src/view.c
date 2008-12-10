@@ -213,6 +213,23 @@ void create_scheme_function_for_script(gchar *name) {
 }
 
 
+SCM scheme_debug_object (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+   return SCM_BOOL(FALSE);
+ g_print("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", 
+	 curObj->type,
+	 curObj->basic_durinticks,
+	 curObj->durinticks,
+	 curObj->starttickofnextnote);
+ return SCM_BOOL(TRUE);
+}
+
+
+
+
 SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
@@ -514,6 +531,8 @@ static gboolean to_next_object(void) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
+  if(!this)
+    return FALSE;
   cursorright (Denemo.gui);
   if(this!= Denemo.gui->si->currentobject)
     return TRUE;
@@ -526,10 +545,10 @@ static gboolean to_next_object(void) {
 
 /* moves currentobject to next object by calling cursorright.
    Steps over barlines (i.e. cursor_appending).
-   returns TRUE if currentobject is different after than before doing cursorright
+   returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_next_object (SCM optional) {
-return to_next_object();
+return SCM_BOOL(to_next_object());
 }
 
 
@@ -647,6 +666,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
@@ -737,7 +757,7 @@ void write_status(DenemoGUI *gui) {
     switch(curObj->type) {
     case CHORD: {
       chord *thechord =  ((chord *) curObj->object);
-      selection = g_strdup_printf("%s%s%s%s%s%s%s%s",
+      selection = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
 				  thechord->notes?
 				  (g_list_length(thechord->notes)>1?"Chord ":"Note "):"Rest ",				  
 				  thechord->slur_begin_p?", begin slur":"",
@@ -797,7 +817,7 @@ void write_status(DenemoGUI *gui) {
       selection = g_strdup_printf("Dynamic: %s", ((dynamic *) curObj->object)->type->str  );
       break;
     case GRACE_START:
-      selection = g_strdup_printf("Grace note: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
+      selection = g_strdup_printf("Start Grace Notes: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
 				  ((grace *) curObj->object)->duration);
       break;
     case GRACE_END:

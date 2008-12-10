@@ -1167,6 +1167,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			     fmt_ticks (ticks_read));
 		  chordval = *(chord *) curobj->object;
 
+		  if(chordval.is_grace)
+		    break;
+
 	  /***********************************
 	   * compute nominal duration of note 
 	   ***********************************/

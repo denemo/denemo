@@ -276,7 +276,7 @@ setpixelmin (DenemoObject * theobj)
       break;
     case GRACE_START:
     case GRACE_END:
-      theobj->minpixelsalloted = 40;
+      theobj->minpixelsalloted = 8;
       theobj->space_before = 0;
       break;
     default:

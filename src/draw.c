@@ -142,6 +142,7 @@ draw_object (objnode * curobj, gint x, gint y,
     greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
 
+  /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
   if (si->currentobject == curobj)
     {
       si->cursorclef = itp->clef;

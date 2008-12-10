@@ -52,5 +52,5 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
 
 
 
-  gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx, y, 2, STAFF_HEIGHT/2);
+  gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx, y+3*STAFF_HEIGHT/2, 2, STAFF_HEIGHT/2);
 }

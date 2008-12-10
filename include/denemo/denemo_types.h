@@ -525,7 +525,7 @@ typedef struct DenemoScore
   gint curmeasure_stem_directive;
 
 
-  gboolean is_grace_mode;
+
   /* Is there a figured bass present, is so this relates the bass
    * with its figures staff, if one is present */
   staff_info * has_figures;
