@@ -245,10 +245,10 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		  if(this_staff_obj_node->prev){
 		    DenemoObject *last = (DenemoObject*)(this_staff_obj_node->prev->data);
 		    if(last->type==GRACE_END)
-		      g_print("shifted %d\n", curobj->x), last->x -=10,curobj->x -= 5;
+		      /* g_print("shifted %d\n", curobj->x),*/ last->x -=10,curobj->x -= 5;
 		  }
 		  if( ((chord*)curobj->object)->is_grace)
-		    g_print("shifted grace %d\n", curobj->x), curobj->x -= 15;
+		    /* g_print("shifted grace %d\n", curobj->x),*/ curobj->x -= 15;
 
 #endif
 		  /*base_tick is getting bigger every note for grace but not for tuplet...
