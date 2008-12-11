@@ -637,6 +637,13 @@ void inner_main(void*closure, int argc, char **argv){
   /* create the first tab */
   newview (NULL, NULL);
   load_default_keymap_file();
+
+  //insert mode on startup - should be a pref FIXME
+  gtk_widget_show (Denemo.InsertModeMenu);
+  gtk_widget_hide (Denemo.EditModeMenu);
+  gtk_widget_hide (Denemo.ClassicModeMenu);
+  gtk_widget_hide (Denemo.ModelessMenu);
+  
   gtk_key_snooper_install(dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
@@ -3020,10 +3027,7 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
  Denemo.EditModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/EditModeNote");
  Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ClassicModeNote");
  Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
- gtk_widget_show (Denemo.InsertModeMenu);
- gtk_widget_hide (Denemo.EditModeMenu);
- gtk_widget_hide (Denemo.ClassicModeMenu);
- gtk_widget_hide (Denemo.ModelessMenu);
+
  gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
  gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
