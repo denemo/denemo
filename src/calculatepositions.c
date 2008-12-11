@@ -198,7 +198,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
 	  starts_at_tick = *base_tick;
 	  non_chords_node = non_chords;
 	  extra_advance = 0;
-	  non_chord_pixels = 0;
+	  non_chord_pixels = 0;// if there are two non-chords in succession the minpixelsalloted is used
 	  while (this_staff_obj_node)
 	    {
 	      curobj = (DenemoObject *) this_staff_obj_node->data;
@@ -218,6 +218,17 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		  curobj->x = *base_x + extra_advance + non_chord_pixels
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
+#ifndef GRACE_NOTES_BUG_FIXED
+		  if (curobj->type==GRACE_START) {
+		    curobj->x -= 10;
+		    non_chord_pixels -=10;
+		  }
+		  if (curobj->type==GRACE_END) {
+		    curobj->x -= 15;
+		    non_chord_pixels -=15;
+		  }
+#endif
+		    
 		  non_chord_pixels += curobj->minpixelsalloted;
 		   /*g_print("*curobj->x %d *base %d, *base_tick %d, extra %d non chord %d\n", curobj->x, *base_x,*base_tick, extra_advance, non_chord_pixels);*/
 		}
@@ -227,6 +238,19 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
 		  non_chord_pixels = 0;
+
+#ifndef GRACE_NOTES_BUG_FIXED
+		  
+		  //need to shift note after grace
+		  if(this_staff_obj_node->prev){
+		    DenemoObject *last = (DenemoObject*)(this_staff_obj_node->prev->data);
+		    if(last->type==GRACE_END)
+		      g_print("shifted %d\n", curobj->x), last->x -=10,curobj->x -= 5;
+		  }
+		  if( ((chord*)curobj->object)->is_grace)
+		    g_print("shifted grace %d\n", curobj->x), curobj->x -= 15;
+
+#endif
 		  /*base_tick is getting bigger every note for grace but not for tuplet...
 no 0, 384,640, 896 for triplet, 0, 384, 768, 1152 for grace
 curobj->starttickofnextnot is one ahead of these for grace & triplet, as is Max advance
