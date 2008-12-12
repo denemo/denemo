@@ -1542,6 +1542,25 @@ static void load_command_from_location(GtkWidget*w, gchar *filepath) {
 
 
 static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
+
+/* get the script for action from disk; 
+ *   action an action loaded via load_xml_keymap() contains the menupath but no scheme script,
+ */
+gchar *instantiate_script(GtkAction *action){
+  gchar *menupath = (gchar*)g_object_get_data(G_OBJECT(action), "menupath");
+  gchar *name = gtk_action_get_name(action);
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
+                                        NULL);
+  if (lazy_load_xml_keymap (filename, FALSE)== -1) {
+
+    filename = g_build_filename (get_data_dir (), "actions", "menus", menupath, name,
+				 NULL);
+    if (lazy_load_xml_keymap (filename, FALSE)== -1)
+      warningdialog("Unable to load the script");
+  }
+  g_free(filename);
+  return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
+}
 void
 activate_script (GtkAction *action, gpointer param)
 {
@@ -1561,6 +1580,8 @@ activate_script (GtkAction *action, gpointer param)
       need it */
     scm_c_eval_string(current_script);
     g_free(current_script);
+    if(*text==0)
+      text = instantiate_script(action);
     (void)call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else

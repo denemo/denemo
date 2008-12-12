@@ -144,7 +144,7 @@ static void hide_action_of_name(gchar *name){
 }
 
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge, gboolean lazy)
 {
   xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
   GList *menupaths = NULL;
@@ -202,40 +202,44 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	if(is_script) {
 	  name = name?name:(xmlChar*)"NoName";
 	  label = label?label:(xmlChar*)"No label";
-	  scheme = scheme?scheme:(xmlChar*)";;empty script\n";
+	  scheme = scheme?scheme:(xmlChar*)"";
 	  tooltip = tooltip?tooltip:(xmlChar*)"No indication what this done beyond the name and label :(";
-	  
-	  
+	  GtkAction *action;
+	  if(lazy) {
 	  //FIXME duplicate code with view.c *************
-	  GtkAction *action = gtk_action_new(name,label,tooltip,NULL);
-	  GtkActionGroup *action_group;
-	  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-	  action_group = Denemo.action_group; 
-	  gtk_action_group_add_action(action_group, action);
-
-	  if(menupath) {
-	    GList *g;
-	    for(g=menupaths;g;g=g->next){
-	      menupath = g->data;
-	      menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+	    action = gtk_action_new(name,label,tooltip,NULL);
+	    GtkActionGroup *action_group;
+	    GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
+	    action_group = Denemo.action_group; 
+	    gtk_action_group_add_action(action_group, action);
+	    
+	    if(menupath) {
+	      GList *g;
+	      for(g=menupaths;g;g=g->next){
+		menupath = g->data;
+		menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
+		GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+		if(widget==NULL)
+		  instantiate_menus(menupath);
+		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+				      menupath,
+				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	      }
+	      
+	    } else if(fallback) {/* no path given, use fallback */
+	      menupath = fallback;
 	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
 	      if(widget==NULL)
 		instantiate_menus(menupath);
 	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 				    menupath,
 				    name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	      
 	    }
-
-	  } else if(fallback) {/* no path given, use fallback */
-	    menupath = fallback;
-	    GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	    if(widget==NULL)
-	      instantiate_menus(menupath);
-	    gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				  menupath,
-				  name, name, GTK_UI_MANAGER_AUTO, FALSE);
-	    
-	  }
+	  } else //not lazy
+	    {
+	      action = lookup_action_from_name(name);
+	    }
 	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
 	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
 	  g_signal_connect (G_OBJECT (action), "activate",
@@ -245,13 +249,14 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 
 
 
-	  if(merge) {
+	  if(merge && lazy) {
 	    gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
 	    infodialog(msg);
 	    g_free(msg);
 	  }
 	  //g_print("registering %s\n", name);
-	  register_command(Denemo.map, action, name, label, tooltip, activate_script);
+	  if(lazy)
+	    register_command(Denemo.map, action, name, label, tooltip, activate_script);
 	  //end duplicate code **************
 	  if(hidden)
 	    g_object_set_data(action, "hidden", TRUE);
@@ -386,7 +391,7 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur) {
 
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge, gboolean lazy)
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
@@ -395,7 +400,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
     {
       if ((0 == xmlStrcmp (ncur->name, (const xmlChar *) "row")))
 	{
-	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath, merge);
+	  i?parseBindings (doc, ncur, the_keymap):parseScripts (doc, ncur, the_keymap, menupath, merge, lazy);
 	} else 
 	  if (i && (0 == xmlStrcmp (ncur->name, (const xmlChar *) "cursors")))
 	    {
@@ -407,13 +412,13 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
 
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge, gboolean lazy)
 {
   for (cur = cur->xmlChildrenNode; cur != NULL;  cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map"))
 	{
-	  parseCommands (doc, cur, the_keymap, menupath, merge);
+	  parseCommands (doc, cur, the_keymap, menupath, merge, lazy);
 	}
     }
 }
@@ -432,12 +437,19 @@ gchar *extract_menupath(gchar *filename) {
   return base;
 }
 
+gint
+load_xml_keymap (gchar * filename) {
+  return lazy_load_xml_keymap (filename, TRUE);
+}
 
-/* returns 0 on success
+/* 
+ * load a command from filename. If lazy, do not load any scheme script, leave as empty string.
+ * if not lazy, install script on action of parsed command name.
+ * returns 0 on success
  * negative on failure
  */
 gint
-load_xml_keymap (gchar * filename)
+lazy_load_xml_keymap (gchar * filename, gboolean lazy)
 {
   keymap *the_keymap = Denemo.map; 
   gint ret = -1;
@@ -492,7 +504,7 @@ load_xml_keymap (gchar * filename)
 	    init_keymap(); 
 	    // g_print("Starting with a clean command set %p\n", Denemo.map);
 	  }
-	  parseKeymap (doc, rootElem, Denemo.map, menupath, merge);
+	  parseKeymap (doc, rootElem, Denemo.map, menupath, merge, lazy);
 	  if(merge) {
 	    if(Denemo.last_merged_command)
 	      g_free(Denemo.last_merged_command);
@@ -585,7 +597,7 @@ save_xml_keymap (gchar * filename)
 	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
       if(scheme) 	
 	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
-			 (xmlChar *) scheme);
+			 /* (xmlChar *) scheme*/ (xmlChar*)"");
       
       gchar *menupath = action?g_object_get_data(action, "menupath"):NULL;
       if(menupath)

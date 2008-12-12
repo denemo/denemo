@@ -21,6 +21,7 @@
 
 
 gint load_xml_keymap(gchar *filename);
+gint lazy_load_xml_keymap(gchar *filename, gboolean lazy);
 gint save_xml_keymap(gchar *filename);
 void set_visibility_for_action(GtkAction *action, gboolean visible);
 gint parse_paths (gchar * filename, DenemoGUI *gui);
