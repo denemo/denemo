@@ -690,6 +690,8 @@ struct DenemoRoot
   GtkWidget *notebook;/**< contains the gui.page widgets */
   GtkWidget *statusbar;
   gint status_context_id;
+  GtkWidget *input_source; /**< A label widget advising of source of external input */
+  GString *input_filters; /**< Description of any filters operating on external input */
   GtkWidget *menubar;/**< Main menubar to giving load/save play etc functionality */
   GtkWidget *ClassicModeMenu;/**< Menu to give the note editing facilities in Classic mode */
   GtkWidget *InsertModeMenu;/**< Menu to give the note editing facilities in Insert mode */

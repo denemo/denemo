@@ -118,6 +118,7 @@ gchar * music_font(gchar *str);
 
 void  set_title_bar(DenemoGUI *gui);
 void score_status(DenemoGUI *gui, gboolean change);
+void      write_status(DenemoGUI *gui);
 gboolean
 confirm (gchar *primary, gchar *secondary);
 void 

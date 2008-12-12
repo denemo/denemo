@@ -227,7 +227,26 @@ SCM scheme_debug_object (SCM optional) {
  return SCM_BOOL(TRUE);
 }
 
-
+/* write MIDI/Audio filter status */
+static SCM scheme_input_filter_names(SCM filtername) {
+    int length;
+    char *name=NULL;
+   if(SCM_STRINGP(filtername)){
+     name = gh_scm2newstr(filtername, &length);
+     if(name) {
+       if(Denemo.input_filters)
+	 g_string_assign(Denemo.input_filters, name);
+       else
+	 Denemo.input_filters = g_string_new(name);
+       write_input_status();
+       return SCM_BOOL(TRUE);
+     }
+   }
+   if(Denemo.input_filters)
+     g_string_free(Denemo.input_filters, TRUE);
+   Denemo.input_filters = NULL;
+   return  SCM_BOOL(FALSE);
+}
 
 
 SCM scheme_get_cursor_note (SCM optional) {
@@ -720,6 +739,7 @@ Then
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
+  install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
 
   /* test with
 
@@ -750,125 +770,6 @@ Then
 
 
 
-/****************
- * write the status bar
-
-********************/
-
-void write_status(DenemoGUI *gui) {
-  gchar *selection;
-  if(gui->si==NULL)
-    return;
-  if(gui->si->currentobject && gui->si->currentobject->data ) {
-    DenemoObject *curObj = gui->si->currentobject->data;
-    switch(curObj->type) {
-    case CHORD: {
-      chord *thechord =  ((chord *) curObj->object);
-      selection = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
-				  thechord->notes?
-				  (g_list_length(thechord->notes)>1?"Chord ":"Note "):"Rest ",				  
-				  thechord->slur_begin_p?", begin slur":"",
-				  thechord->slur_end_p?", end slur":"",
-				  thechord->is_tied?", tied":"",
-				  thechord->crescendo_begin_p?", begin cresc.":"",
-				  thechord->crescendo_end_p?", end cresc.":"",
-				  thechord->diminuendo_begin_p?", begin dim.":"",
-				  thechord->diminuendo_end_p?", end dim.":"",
-				  thechord->is_grace?", grace note":""
-				  );
-      if(thechord->notes){
-	GList *g;
-	for(g= thechord->notes;g;g=g->next) {
-	  note *thenote = (note *) g->data;
-	  if(thenote->directive && thenote->directive->len) {
-	    gchar *old = selection;
-	    selection = g_strdup_printf("%s: %.50s",selection, thenote->directive->str);
-	    g_free(old);
-	  }
-	}
-      }
-    }
-      break;
-
-    case TUPOPEN:
-      selection = g_strdup_printf("Tuplet %d/%d", 	((tupopen *) curObj->object)->numerator,
-				  ((tupopen *) curObj->object)->denominator);
-      break;
-    case TUPCLOSE: 
-      selection = g_strdup_printf("End tuplet");
-      break;
-    case CLEF:
-      selection = g_strdup_printf("clef change");
-      break;
-    case TIMESIG:
-      selection = g_strdup_printf("time signature change");
-      break;
-    case KEYSIG:
-      selection = g_strdup_printf("key signature change");
-      break;
-    case BARLINE:
-      selection = g_strdup_printf("special barline type %d", 	((barline *) curObj->object)->type);// FIXME names for these
-      break;
-    case STEMDIRECTIVE:
-      selection = g_strdup_printf("stem directive: %s",((stemdirective *) curObj->object)->type==DENEMO_STEMDOWN?
-				  "stem down":((stemdirective *) curObj->object)->type==DENEMO_STEMUP?"stem up":
-				  "normal stemming");
-      break;
-    case MEASUREBREAK:
-      selection = g_strdup_printf("measurebreak");
-      break;
-    case STAFFBREAK:
-      selection = g_strdup_printf("staffbreak");
-      break;
-    case DYNAMIC:
-      selection = g_strdup_printf("Dynamic: %s", ((dynamic *) curObj->object)->type->str  );
-      break;
-    case GRACE_START:
-      selection = g_strdup_printf("Start Grace Notes: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
-				  ((grace *) curObj->object)->duration);
-      break;
-    case GRACE_END:
-      selection = g_strdup_printf("Grace note end");
-      break;
-    case LYRIC:
-      selection = g_strdup_printf("Lyric: %s",  ((lyric *) curObj->object)->lyrics->str  );
-      break;
-    case FIGURE:
-      selection = g_strdup_printf("Figure");
-      break;
-
-    case LILYDIRECTIVE:
-      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
-      break;
-    case FAKECHORD:
-      selection = g_strdup_printf("Fakechord"   );
-      break;
-    case PARTIAL:
-      selection = g_strdup_printf("Partial"   );
-      break;
-    default:
-      selection = g_strdup_printf("Cursor on a unknown object");
-    }
-  } else
-    selection = g_strdup_printf("Cursor not on any object");
-
-  gchar *status;
-  if(gui->si->headerinfo.subtitle->len)
-    status = gui->si->headerinfo.subtitle->str;
-  else if(gui->si->headerinfo.piece->len)
-    status = gui->si->headerinfo.piece->str;
-  else
-    status = "";
-  status = g_strdup_printf("%s: %s", status, selection);
-
-  g_free(selection);
-  gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
-  gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
-		     status);
-  g_free(status);
-
-  //gtk_widget_queue_draw (gui->scorearea);
-}
 
 GString *get_widget_path(GtkWidget *widget) {
   const gchar * name;
@@ -2246,7 +2147,7 @@ gint val = gtk_radio_action_get_current_value (current);
 
  }
 
-
+ write_input_status();
 }
 /**
  *  callback changing type of entry part of gui->mode,
@@ -2974,7 +2875,9 @@ get_data_dir (),
     gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 		      "Denemo");
-
+  Denemo.input_source = gtk_label_new("No external input");
+  Denemo.input_filters = NULL;
+  gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
   gtk_widget_show (hbox);
 
 create_scheme_window();

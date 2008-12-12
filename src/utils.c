@@ -712,6 +712,12 @@ void  set_title_bar(DenemoGUI *gui) {
   g_free(base);
 }
 
+/* set the status of the current musical score - its change count and
+   title bar and status bars.
+   DenemoGUI *gui the musical score.
+   gboolean change TRUE = a change has just been made
+                   FALSE = the score is to be assumed saved
+*/
 void score_status(DenemoGUI *gui, gboolean change) {
   if(change) { 
     gui->changecount++;
@@ -725,6 +731,149 @@ void score_status(DenemoGUI *gui, gboolean change) {
   write_status(gui);
 }
 
+/****************
+ * write the status bar
+
+********************/
+
+void write_status(DenemoGUI *gui) {
+  gchar *selection;
+  if(gui->si==NULL)
+    return;
+  if(gui->si->currentobject && gui->si->currentobject->data ) {
+    DenemoObject *curObj = gui->si->currentobject->data;
+    switch(curObj->type) {
+    case CHORD: {
+      chord *thechord =  ((chord *) curObj->object);
+      selection = g_strdup_printf("%s%s%s%s%s%s%s%s%s",
+				  thechord->notes?
+				  (g_list_length(thechord->notes)>1?"Chord ":"Note "):"Rest ",				  
+				  thechord->slur_begin_p?", begin slur":"",
+				  thechord->slur_end_p?", end slur":"",
+				  thechord->is_tied?", tied":"",
+				  thechord->crescendo_begin_p?", begin cresc.":"",
+				  thechord->crescendo_end_p?", end cresc.":"",
+				  thechord->diminuendo_begin_p?", begin dim.":"",
+				  thechord->diminuendo_end_p?", end dim.":"",
+				  thechord->is_grace?", grace note":""
+				  );
+      if(thechord->notes){
+	GList *g;
+	for(g= thechord->notes;g;g=g->next) {
+	  note *thenote = (note *) g->data;
+	  if(thenote->directive && thenote->directive->len) {
+	    gchar *old = selection;
+	    selection = g_strdup_printf("%s: %.50s",selection, thenote->directive->str);
+	    g_free(old);
+	  }
+	}
+      }
+    }
+      break;
+
+    case TUPOPEN:
+      selection = g_strdup_printf("Tuplet %d/%d", 	((tupopen *) curObj->object)->numerator,
+				  ((tupopen *) curObj->object)->denominator);
+      break;
+    case TUPCLOSE: 
+      selection = g_strdup_printf("End tuplet");
+      break;
+    case CLEF:
+      selection = g_strdup_printf("clef change");
+      break;
+    case TIMESIG:
+      selection = g_strdup_printf("time signature change");
+      break;
+    case KEYSIG:
+      selection = g_strdup_printf("key signature change");
+      break;
+    case BARLINE:
+      selection = g_strdup_printf("special barline type %d", 	((barline *) curObj->object)->type);// FIXME names for these
+      break;
+    case STEMDIRECTIVE:
+      selection = g_strdup_printf("stem directive: %s",((stemdirective *) curObj->object)->type==DENEMO_STEMDOWN?
+				  "stem down":((stemdirective *) curObj->object)->type==DENEMO_STEMUP?"stem up":
+				  "normal stemming");
+      break;
+    case MEASUREBREAK:
+      selection = g_strdup_printf("measurebreak");
+      break;
+    case STAFFBREAK:
+      selection = g_strdup_printf("staffbreak");
+      break;
+    case DYNAMIC:
+      selection = g_strdup_printf("Dynamic: %s", ((dynamic *) curObj->object)->type->str  );
+      break;
+    case GRACE_START:
+      selection = g_strdup_printf("Start Grace Notes: %s duration %d ", ((grace *) curObj->object)->on_beat?"On beat":"Before beat",
+				  ((grace *) curObj->object)->duration);
+      break;
+    case GRACE_END:
+      selection = g_strdup_printf("Grace note end");
+      break;
+    case LYRIC:
+      selection = g_strdup_printf("Lyric: %s",  ((lyric *) curObj->object)->lyrics->str  );
+      break;
+    case FIGURE:
+      selection = g_strdup_printf("Figure");
+      break;
+
+    case LILYDIRECTIVE:
+      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
+      break;
+    case FAKECHORD:
+      selection = g_strdup_printf("Fakechord"   );
+      break;
+    case PARTIAL:
+      selection = g_strdup_printf("Partial"   );
+      break;
+    default:
+      selection = g_strdup_printf("Cursor on a unknown object");
+    }
+  } else
+    selection = g_strdup_printf("Cursor not on any object");
+
+  gchar *status;
+  if(gui->si->headerinfo.subtitle->len)
+    status = gui->si->headerinfo.subtitle->str;
+  else if(gui->si->headerinfo.piece->len)
+    status = gui->si->headerinfo.piece->str;
+  else
+    status = "";
+  status = g_strdup_printf("%s: %s", status, selection);
+
+  g_free(selection);
+  gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+  gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
+		     status);
+  g_free(status);
+}
+
+void
+write_input_status(void) {
+  DenemoGUI *gui = Denemo.gui;
+  GString *text;
+  switch (gui->input_source) { 
+  case INPUTKEYBOARD:
+    gtk_widget_hide(Denemo.input_source);
+    return;
+  case INPUTAUDIO:
+    text = g_string_new("Audio Input: ");
+    break;
+  case INPUTMIDI:
+    text = g_string_new("MIDI Input: ");
+    break;
+  default: g_warning("Unknown input source");
+    break;
+  }
+  if(Denemo.input_filters)
+    g_string_append(text, Denemo.input_filters->str);
+  else
+    g_string_append(text, "No filtering");
+  gtk_label_set_text(GTK_LABEL(Denemo.input_source), text->str);
+  gtk_widget_show(Denemo.input_source);
+  g_string_free(text, TRUE);
+}
 
 /**
  * Display a message box asking primary & secondary messages

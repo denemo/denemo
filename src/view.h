@@ -62,7 +62,7 @@ void	  highlight_rhythm(RhythmPattern *r);
 void	  unhighlight_rhythm(RhythmPattern *r);
 void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
-void      write_status(DenemoGUI *gui);
+
 
 gchar *getSchemeText(void); 
 void deleteSchemeText(void);
