@@ -1551,14 +1551,16 @@ gchar *instantiate_script(GtkAction *action){
   gchar *name = gtk_action_get_name(action);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
                                         NULL);
-  if (lazy_load_xml_keymap (filename, FALSE)== -1) {
+  g_print("Filename %s\n", filename);
+  if (load_xml_keymap (filename)== -1) {
 
     filename = g_build_filename (get_data_dir (), "actions", "menus", menupath, name,
 				 NULL);
-    if (lazy_load_xml_keymap (filename, FALSE)== -1)
+    if (load_xml_keymap (filename)== -1)
       warningdialog("Unable to load the script");
   }
   g_free(filename);
+  g_print("Text is %s\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 }
 void
@@ -2695,8 +2697,12 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
      return;
   command_idx = lookup_command_from_name(Denemo.map,
 				       gtk_action_get_name(action));
+
+    
   if (command_idx != -1) 
     update_accel_labels(Denemo.map, command_idx);
+  else
+    g_warning("%s is not yet in map\n",  gtk_action_get_name(action));
   gboolean hidden= (gboolean) (action?g_object_get_data(G_OBJECT(action), "hidden"):NULL);
   if(hidden) {
 	    set_visibility_for_action(action, FALSE);	   

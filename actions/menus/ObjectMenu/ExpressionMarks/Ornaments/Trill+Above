@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>18thCTrillAbove</action>
-        <scheme>(d-InsertLilyDirective "lily=^\"+\"\0display=\"^^+\"")
+        <action>Trill+Above</action>
+        <scheme>(d-InsertLilyDirective "lily=^\"+\"\0display=\"Tr+Above\"")
 </scheme>
 
         <label>18th c. Trill Above</label>

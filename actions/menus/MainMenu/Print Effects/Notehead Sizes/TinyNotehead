@@ -6,11 +6,10 @@
     <map>
       <row>
         <action>TinyNotehead</action>
-        <scheme>(d-InsertLilyDirective "\\normalsize ")
+        <scheme>(d-InsertLilyDirective "\\tiny ")
 </scheme>
-        <menupath>/ObjectMenu/PrintEffects/NoteheadSizes</menupath>
-        <label>Normal  Size</label>
-        <tooltip>Prints out note heads in normal size</tooltip>
+        <label>Tiny</label>
+        <tooltip>Prints out note heads in tiny size</tooltip>
       </row>
     </map>
   </merge>

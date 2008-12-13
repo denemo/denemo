@@ -8,7 +8,6 @@
         <action>SmallNotehead</action>
         <scheme>(d-InsertLilyDirective "\\small ")
 </scheme>
-        <menupath>/ObjectMenu/PrintEffects/NoteheadSizes</menupath>
         <label>Small  Size</label>
         <tooltip>Prints out note heads in small size</tooltip>
       </row>
