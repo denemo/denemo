@@ -8,7 +8,7 @@
         <action>NormalSizeNotehead</action>
         <scheme>(d-InsertLilyDirective "\\normalsize ")
 </scheme>
-        <label>Normal  Size</label>
+        <label>Normal Size</label>
         <tooltip>Prints out note heads in normal size</tooltip>
       </row>
     </map>
