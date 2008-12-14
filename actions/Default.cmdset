@@ -39,6 +39,11 @@
         <bind>Right</bind>
       </row>
       <row>
+        <action>GoToMark</action>
+        <label>To Mark</label>
+        <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
+      </row>
+      <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
         <tooltip>Go to the staff above</tooltip>
@@ -305,11 +310,13 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>StemUp</action>
+        <hidden>true</hidden>
         <label>StemUp</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>StemDown</action>
+        <hidden>true</hidden>
         <label>StemDown</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1075,6 +1082,16 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
+        <action>SharpenEnharmonicSet</action>
+        <label>Shift Accidentals Sharpwise</label>
+        <tooltip>Shifts the set of accidentals one step sharper</tooltip>
+      </row>
+      <row>
+        <action>FlattenEnharmonicSet</action>
+        <label>Shift Accidentals Flatwise</label>
+        <tooltip>Shifts the set of accidentals one step flatter</tooltip>
+      </row>
+      <row>
         <action>New</action>
         <label>New File</label>
         <tooltip>Start a new musical score</tooltip>
@@ -1353,11 +1370,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs</tooltip>
       </row>
       <row>
-        <action>TransposeStaff</action>
-        <label>Traspose Staff</label>
-        <tooltip>Transpose the current staff</tooltip>
-      </row>
-      <row>
         <action>StaffProperties</action>
         <label>Staff Properties</label>
         <tooltip>Change the properties of the current staff</tooltip>
@@ -1429,7 +1441,7 @@ Notes entered will follow this pattern</tooltip>
         <action>InsertLilyDirective</action>
         <label>Insert Lilypond</label>
         <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
-        <bind>dead_circumflex</bind>
+        <bind>l</bind>
       </row>
       <row>
         <action>InsertLilyPostfix</action>
@@ -1888,13 +1900,33 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       </row>
       <row>
         <action>MoveNoteToCursor</action>
-        <scheme>(define cursor (string-upcase (d-GetCursorNote)))
-(define command (string-append "(d-ChangeTo" cursor ")"))
-(eval-string command)</scheme>
+        <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>To Cursor</label>
         <tooltip>Moves the nearest note to join the cursor</tooltip>
         <bind>MveL-Shift</bind>
+      </row>
+      <row>
+        <action>StartDownStems</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Stems Down</label>
+        <tooltip>Stems from now on point downward.</tooltip>
+      </row>
+      <row>
+        <action>StartUpStems</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Stems Up</label>
+        <tooltip>Stems from now on point upward.</tooltip>
+      </row>
+      <row>
+        <action>InsertTiedNoteDuration</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Attach Tied Note</label>
+        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
+        <bind>t</bind>
       </row>
     </map>
   </commands>
