@@ -120,18 +120,18 @@ struct name_and_function unmenued_commands[] = {
 
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Sharpen"), "sharpen_key", "Sharpen", N_("Sharpen Note")},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("Flatten"), "flatten_key", "Flatten", N_("Flatten Note")},
-  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("StemUp"), "stem_up", "StemUp", N_("Stem Up")},
-  {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("StemDown"), "stem_down", "StemDown", N_("Stem Down")},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem up.",	N_("StemUp"), "stem_up", "StemUp", N_("Stem Up")},
+  {KBD_CATEGORY_NOTE_ENTRY, NULL, "Alters a StemNeutral object to stem down.",	N_("StemDown"), "stem_down", "StemDown", N_("Stem Down")},
 
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("AddDot"), "add_dot_key", N_("Add Dot")},
   {KBD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
 
   {KBD_CATEGORY_ARTICULATION,  NULL, "Inserts a duplicate of the current note, tied",	N_("InsertTiedNote"), "tie_notes_key","Tied note", N_("Insert Tied Note")},
 
-  {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("DeleteObject"), "deleteobject", N_("Delete Object")},
-  {KBD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
+  {KBD_CATEGORY_EDIT, NULL, "Delete the object at the cursor",	N_("DeleteObject"), "deleteobject", N_("Delete Object")},
+  {KBD_CATEGORY_EDIT, NULL, "Delete to the left of the cursor.",	N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
 
-  {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure")},
+  {KBD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in all staffs)",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure")},
   {KBD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasure"), "append_measure_key", N_("Append Measure")},
   {KBD_CATEGORY_MEASURE, NULL, "Delete the current measure in this staff, leaving the staff short",	N_("DeleteMeasure"), "deletemeasure", N_("Delete Measure")},
   {KBD_CATEGORY_MEASURE, NULL, "Delete the current measure in all staffs",	N_("DeleteMeasureAllStaffs"), "deletemeasureallstaffs", N_("Delete Measure All Staffs")},
@@ -377,7 +377,7 @@ struct name_and_function unmenued_commands[] = {
   {KBD_CATEGORY_DIRECT, NULL, "Set the initial time signature of the current staff", N_("InitialTimeSig"), "timesig_change_initial", N_("Inital Time Signature")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Edit/Insert a time signature change for the current measure", N_("InsertTimeSig"), "timesig_change_insert", N_("Insert Time Signature")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Change the type of notehead for the current note", N_("ChangeNotehead"), "set_notehead", N_("Set Notehead")}, 
-  {KBD_CATEGORY_DIRECT, NULL, "Inserts a stem neutral tag. Click on this tag and use Sharpen/StemUp etc commands to change stem direction", N_("InsertStem"), "stem_directive_insert", N_("Stem Directive")},
+  {KBD_CATEGORY_DIRECT, NULL, "Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction", N_("InsertStem"), "stem_directive_insert", N_("Auto Stemming")},
   {KBD_CATEGORY_DIRECT, NULL, "Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly", "EditLyric", "lyric_insert", "Insert/Edit Lyric", N_("Edit Lyrics")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation", N_("EditFiguredBass"), "figure_insert", "Insert/Edit Figured Bass", N_("Edit Figured Bass")}, 
   {KBD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chords")}, 
