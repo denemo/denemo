@@ -763,41 +763,42 @@ void loadWindowState (void)
     gchar *filename;
     GKeyFile *keyfile;
     gint w,h;
-    gboolean maximized;
+    gboolean maximized=FALSE;
     GError *err=NULL;
-
     filename = g_build_filename (locatedotdenemo (), "state.ini", NULL);
     keyfile = g_key_file_new ();
     if (g_key_file_load_from_file (keyfile, filename, G_KEY_FILE_NONE, NULL) == FALSE) {
         g_free (filename);
         w = INITIAL_WIDTH;
         h = INITIAL_HEIGHT;
+	maximized = FALSE;
     } else {
         g_free (filename);
         w = g_key_file_get_integer (keyfile, "State", "width", &err);
         if (err != NULL) {
-            w = 0;
+            w = INITIAL_WIDTH;
             g_error_free (err);
             err = NULL;
         }
         h = g_key_file_get_integer (keyfile, "State", "height", &err);
         if (err != NULL) {
-            h = 0;
+            h = INITIAL_HEIGHT;
             g_error_free (err);
             err = NULL;
         }
         maximized = g_key_file_get_boolean (keyfile, "State", "maximized", &err);
         if (err != NULL) {
-            g_error_free (err);
-            err = NULL;
+	  maximized = FALSE;
+	  g_error_free (err);
+	  err = NULL;
         }
+
         g_key_file_free (keyfile);
-        if (w > 0 && h > 0 && maximized == FALSE) {
-                gtk_window_set_default_size (GTK_WINDOW (Denemo.window), w, h);
-                Denemo.width = w;
-                Denemo.height = h;
-        } else if (Denemo.maximized != FALSE) {
-                gtk_window_maximize (GTK_WINDOW (Denemo.window));
+	Denemo.width = (w<=0?INITIAL_WIDTH:w);
+	Denemo.height = (h<=0?INITIAL_HEIGHT:h);
+	gtk_window_set_default_size (GTK_WINDOW (Denemo.window), Denemo.width, Denemo.height);
+        if ((Denemo.maximized=maximized)) {
+	  gtk_window_maximize (GTK_WINDOW (Denemo.window));
         }
     }
 }
