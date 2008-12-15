@@ -23,7 +23,10 @@
 	  (loop 0))
       (begin
 	(set! MidiAdvanceOnEdit::Active #t)
-
+	(d-PlayMidiKey #x203001)
+	(d-PlayMidiKey #x203401)
+	(d-PlayMidiKey #x203701)
+	(d-InputFilterNames "Advance on Edit MIDI Filter")
 	(set! loop  (lambda ()
 			(begin
 			  (set! midi (d-GetMidi))
@@ -33,7 +36,8 @@
 			       (begin 
 				 (d-PutMidi midi)
 				 (if (= velocity 0)
-				     (d-NextNote))
+				     (begin (d-NextNote)
+				     	(d-RefreshDisplay)))
 				 (loop)) ))))
 	(loop))))
 </scheme>

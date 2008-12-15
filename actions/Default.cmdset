@@ -312,13 +312,13 @@ The cursor position determines which note to add</tooltip>
         <action>StemUp</action>
         <hidden>true</hidden>
         <label>StemUp</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Alters a StemNeutral object to stem up.</tooltip>
       </row>
       <row>
         <action>StemDown</action>
         <hidden>true</hidden>
         <label>StemDown</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Alters a StemNeutral object to stem down.</tooltip>
       </row>
       <row>
         <action>AddDot</action>
@@ -340,19 +340,19 @@ The cursor position determines which note to add</tooltip>
       <row>
         <action>DeleteObject</action>
         <label>Delete Object</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Delete the object at the cursor</tooltip>
         <bind>Delete</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
         <label>Delete Previous Object</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Delete to the left of the cursor.</tooltip>
         <bind>BackSpace</bind>
       </row>
       <row>
         <action>InsertMeasure</action>
         <label>Insert Measure</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Insert a blank measure before the current one (in all staffs)</tooltip>
         <bind>m</bind>
       </row>
       <row>
@@ -1412,8 +1412,8 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>InsertStem</action>
-        <label>Stem Directive</label>
-        <tooltip>Inserts a stem neutral tag. Click on this tag and use Sharpen/StemUp etc commands to change stem direction</tooltip>
+        <label>Auto Stemming</label>
+        <tooltip>Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction</tooltip>
       </row>
       <row>
         <action>EditLyric</action>
@@ -1927,6 +1927,27 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Attach Tied Note</label>
         <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
         <bind>t</bind>
+      </row>
+      <row>
+        <action>MidiFilterOff</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <label>MIDI Filter Off</label>
+        <tooltip>Turn off any MIDI filter script currently active.</tooltip>
+      </row>
+      <row>
+        <action>CheckPitches</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <label>Check Note Pitches</label>
+        <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
+      </row>
+      <row>
+        <action>MidiAdvanceOnEdit</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <label>MIDI Advance on Edit</label>
+        <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
       </row>
     </map>
   </commands>
