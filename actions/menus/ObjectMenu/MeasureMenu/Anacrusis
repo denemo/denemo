@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Anacrusis</action>
+        <scheme>
+	;;;Scheme code for command BeginPhrasingSlur
+	(d-InsertMeasure)
+	(d-InsertLilyDirective "lily=\\partial 8")
+	(d-Insert3)
+	(d-MeasureRight)
+</scheme>
+        <label>Insert Anacrusis</label>
+        <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
