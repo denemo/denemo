@@ -9,7 +9,7 @@
         <scheme>
 	;;;Scheme code for command BeginPhrasingSlur
 	(d-InsertMeasure)
-	(d-InsertLilyDirective "lily=\\partial 8")
+	(d-InsertLilyDirective "lily=\\partial 8\0display=Upbeat")
 	(d-Insert3)
 	(d-MeasureRight)
 </scheme>
