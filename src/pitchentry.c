@@ -490,7 +490,7 @@ static void enter_tone_in_store (DenemoGUI *gui, notepitch * found, gint octave)
   displayhelper (gui);
   if(Denemo.prefs.continuous && nextmeasure) {
     sound_click();
-    measureright(gui);
+    measureright(NULL);
   }  
 #undef store
 }

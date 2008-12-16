@@ -1,10 +1,10 @@
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorLeft"), "CursorLeft", "Cursor Left", "No Tooltip yet", cursorleft);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDown"), "CursorDown", "Cursor Down", "No Tooltip yet", cursordown);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "No Tooltip yet", cursorup);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "No Tooltip yet", cursorright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorLeft"), "CursorLeft", "Cursor Left", "Moves the cursor one object left, altering the selection if any", cursorleft);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDown"), "CursorDown", "Cursor Down", "Moves the cursor one scale step down", cursordown);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "Moves the cursor one scale step up", cursorup);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "Moves the cursor one object right, altering the selection if any", cursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Go to the staff above", staffup);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Go to the staff below", staffdown);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Moves the cursor to the staff above", staffup);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Moves the cursor to the staff below", staffdown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "No Tooltip yet", measureleft);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", "Measure Right", "No Tooltip yet", measureright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "A"), "A", "A", "Action for note A (Insert, Edit or Move Cursor, depending on Mode)", go_to_A_key);

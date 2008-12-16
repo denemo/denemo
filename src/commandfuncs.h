@@ -29,10 +29,10 @@ void
 adjuststaffheight (DenemoScore  *si, gint amount);
 
 void
-measureleft (DenemoGUI  *gui);
+measureleft (DenemoScriptParam *param);
 
 void
-measureright (DenemoGUI  *gui);
+measureright (DenemoScriptParam *param);
 
 
 gboolean
@@ -46,28 +46,28 @@ gboolean
 swapmovements (GtkAction *action, gpointer param);
 
 gboolean
-staffup (DenemoGUI  *gui);
+staffup (DenemoScriptParam *param);
 
 gboolean
-staffdown (DenemoGUI  *gui);
+staffdown (DenemoScriptParam *param);
 
 gboolean
-voiceup (DenemoGUI  *si);
+voiceup (DenemoScriptParam *param);
 
 gboolean
-voicedown (DenemoGUI  *si);
+voicedown (DenemoScriptParam *param);
 
 void
-cursorleft (DenemoGUI  *gui);
+cursorleft (DenemoScriptParam *param);
 
 gboolean
-cursorright (DenemoGUI  *gui);
+cursorright (DenemoScriptParam *param);
 
 void
-cursorup (DenemoGUI  *gui);
+cursorup (DenemoScriptParam *param);
 
 void
-cursordown (DenemoGUI  *gui);
+cursordown (DenemoScriptParam *param);
 
 void
 shiftcursor (DenemoGUI  *gui, gint note_value);

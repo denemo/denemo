@@ -544,7 +544,7 @@ newstaffinitial (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->prev)
-    staffup(gui);
+    staffup(param);
   newstaffbefore (action, NULL);
 }
 
@@ -569,7 +569,7 @@ newstaffbefore (GtkAction *action, gpointer param)
   set_bottom_staff (gui);
   move_viewport_down (gui);
 
-  staffup (gui);
+  staffup (param);
   displayhelper (gui);
 
 }
@@ -590,7 +590,7 @@ dnm_newstaffafter (GtkAction *action, gpointer param)
   newstaff (gui, AFTER, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
-  staffdown (gui);
+  staffdown (param);
   displayhelper (gui);
 }
 
@@ -605,7 +605,7 @@ newstafflast (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   while(gui->si->currentstaff && gui->si->currentstaff->next)
-    staffdown(gui);
+    staffdown(param);
   dnm_newstaffafter(action, param);
 }
 
@@ -622,7 +622,7 @@ dnm_newstaffvoice (GtkAction *action, gpointer param)
   newstaff (gui, NEWVOICE, DENEMO_NONE);
   set_bottom_staff (gui);
   update_vscrollbar (gui);
-  setcurrents(gui->si);//staffdown (gui);
+  setcurrents(gui->si);
   displayhelper (gui);
 }
 

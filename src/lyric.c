@@ -78,9 +78,9 @@ insertlyric (gpointer data)
     do
       {
 	if (si->currentobject->next)
-	  cursorright (gui);
+	  cursorright (NULL);
 	else if (gui->si->currentmeasure->next)
-	  measureright (gui);
+	  measureright (NULL);
 	else 
 	  break;
 	curObj =

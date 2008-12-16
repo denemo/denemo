@@ -553,11 +553,11 @@ static gboolean to_next_object(void) {
   GList *this = Denemo.gui->si->currentobject;
   if(!this)
     return FALSE;
-  cursorright (Denemo.gui);
+  cursorright (NULL);//FIXME use value param->status
   if(this!= Denemo.gui->si->currentobject)
     return TRUE;
   if(Denemo.gui->si->cursor_appending)
-    cursorright (Denemo.gui);
+    cursorright (NULL);
   if(this!= Denemo.gui->si->currentobject)
     return TRUE;
   return FALSE;  
@@ -2059,12 +2059,12 @@ static void dummy(void) {
 }
 static void voiceup_cb(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  voiceup(gui);
+  voiceup(param);
   displayhelper(gui);
 }
 static void voicedown_cb(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  voicedown(gui);
+  voicedown(param);
   displayhelper(gui);
 }
 /**

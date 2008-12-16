@@ -7,10 +7,18 @@
       <row>
         <action>Anacrusis</action>
         <scheme>
-	;;;Scheme code for command BeginPhrasingSlur
+	;;;Scheme code for command Anacrusis
+	(d-GoToBeginning)
+	(while (d-StaffUp)
+		(display "going up"))
 	(d-InsertMeasure)
 	(d-InsertLilyDirective "lily=\\partial 8\0display=Upbeat")
 	(d-Insert3)
+	(while (d-StaffDown)
+		(begin (d-InsertLilyDirective "lily=\\partial 8\0display=Upbeat")
+		(d-Insert3)))
+	(while (d-StaffUp)
+		(display "going up"))
 	(d-MeasureRight)
 </scheme>
         <label>Insert Anacrusis</label>

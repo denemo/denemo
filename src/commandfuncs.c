@@ -289,12 +289,20 @@ adjuststaffheight (DenemoScore * si, gint amount)
  *
  */
 void
-measureleft (DenemoGUI * gui)
+measureleft (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if (!gui->si->cursor_x && gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
       isoffleftside (gui);
+      param->status = TRUE;
     }
   setcurrents (gui->si);
 }
@@ -304,13 +312,21 @@ measureleft (DenemoGUI * gui)
  *
  */
 void
-measureright (DenemoGUI * gui)
+measureright (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if (gui->si->currentmeasure->next)
     {
       gui->si->currentmeasurenum++;
       isoffrightside (gui);
       setcurrents (gui->si);
+      param->status = TRUE;
     }
 }
 
@@ -441,23 +457,31 @@ joinstaffs (GtkAction *action, gpointer param)
 
 /**
  * Move si->currentstaff up an one voice, return TRUE if successful
- *
+ * param is NULL for interactive calls, otherwise status is returned in param->status;
  */
 gboolean
-voiceup (DenemoGUI * gui)
+voiceup (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if(!gui->si->currentstaff)
-    return FALSE;
+    return param->status = FALSE;
   if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
       gui->si->currentstaffnum--;
       gui->si->currentstaff = gui->si->currentstaff->prev;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_down (gui);
-      return TRUE;
+      return param->status = TRUE;
     } else
-      warningdialog("This is the first voice");
-  return FALSE;
+      if(param==&dummy)//is interactive
+	warningdialog("This is the first voice");
+  return param->status = FALSE;
 }
 
 /**
@@ -465,12 +489,19 @@ voiceup (DenemoGUI * gui)
  *
  */
 gboolean
-staffup (DenemoGUI * gui)
+staffup (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if(!gui->si->currentstaff)
-    return FALSE;
+    return param->status = FALSE;
   while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
-    voiceup(gui);
+    voiceup(param);//FIXME check param->status
   if (gui->si->currentstaff->prev)
     {
       gui->si->currentstaffnum--;
@@ -478,10 +509,11 @@ staffup (DenemoGUI * gui)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_up (gui);
-      return TRUE;
-    }else
+      return param->status = TRUE;
+    } else
+      if(param==&dummy)//is interactive
       warningdialog("This is the first staff");
-  return FALSE;
+  return param->status = FALSE;
 }
 
 
@@ -490,32 +522,47 @@ staffup (DenemoGUI * gui)
  *
  */
 gboolean
-voicedown (DenemoGUI * gui)
+voicedown (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if(!gui->si->currentstaff)
-    return FALSE;
+    return param->status = FALSE;
   if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
       gui->si->currentstaffnum++;
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_down (gui);
-      return TRUE;
+      return param->status = TRUE;
     } else
+      if(param==&dummy)//is interactive
       warningdialog("This is the last voice");
-  return FALSE;
+  return param->status = FALSE;
 }
 /**
  * Move si->currentstaff down an one staff/voice, return TRUE if successful
  *
  */
 gboolean
-staffdown (DenemoGUI * gui)
+staffdown (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   if(!gui->si->currentstaff)
-    return FALSE;
+    return param->status = FALSE;
   while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2)
-    voicedown(gui);
+    voicedown(param);//FIXME
   if (gui->si->currentstaff->next)
     {
       gui->si->currentstaffnum++;
@@ -523,8 +570,11 @@ staffdown (DenemoGUI * gui)
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
       move_viewport_down (gui);
-    }else
+      return param->status = TRUE;
+    } else
+      if(param==&dummy)//is interactive
       warningdialog("This is the last staff");
+  return param->status = FALSE;
 }
 
 
@@ -534,9 +584,14 @@ staffdown (DenemoGUI * gui)
  *
  */
 void
-cursorleft (DenemoGUI * gui)
+cursorleft (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
   g_debug("cursorleft: cursorpos %d\n", si->cursor_x);
   if (!si->cursor_x)
     {
@@ -556,6 +611,7 @@ cursorleft (DenemoGUI * gui)
 	  si->cursor_x = g_list_length ((objnode *) si->currentmeasure->data);
 	  /* Despite appearances, there is not an off-by-one error in the
 	   * preceding command */
+	  param->status = TRUE;
 	}
     }
   else if (si->cursor_appending)
@@ -563,6 +619,7 @@ cursorleft (DenemoGUI * gui)
       /* Can back off from appending */
       si->cursor_appending = FALSE;
       si->cursor_x--;
+      param->status = TRUE;
     }
   else
     {
@@ -571,6 +628,7 @@ cursorleft (DenemoGUI * gui)
 	{
 	  si->currentobject = si->currentobject->prev;
 	  si->cursor_x--;
+	  param->status = TRUE;
 	}
     }
   calcmarkboundaries (si);
@@ -579,12 +637,17 @@ cursorleft (DenemoGUI * gui)
 
 /**
  * move the cursor one position to the right
- * returns TRUE if the cursor has moved.
+ * sets param->status TRUE if cursor could still move right.
  */
 gboolean
-cursorright (DenemoGUI * gui)
+cursorright (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
   if (si->cursor_appending && si->currentmeasure->next)
     {
       /* Go to the next measure */
@@ -611,21 +674,29 @@ cursorright (DenemoGUI * gui)
 	  si->currentobject = si->currentobject->next;
 	  si->cursor_x++;
 	}
-      else return FALSE;
+      else return param->status = FALSE;
     }
   calcmarkboundaries (si);
   write_status(gui);
-  return si->currentobject || (!si->cursor_appending) || si->currentmeasure->next;
+  return (param->status = (si->currentobject || (!si->cursor_appending) || si->currentmeasure->next));
 }
 
 /**
  * Move the cursor up one position 
  */
 void
-cursorup (DenemoGUI * gui)
+cursorup (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   gui->si->cursor_y++;
   gui->si->staffletter_y = (gui->si->staffletter_y + 1) % 7;
+  param->status = TRUE;//FIXME introduce some range boundaries, settable by user for instrument ranges.
   //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
 }
 
@@ -633,10 +704,18 @@ cursorup (DenemoGUI * gui)
  * Move the cursor down one position 
  */
 void
-cursordown (DenemoGUI * gui)
+cursordown (DenemoScriptParam *param)
 {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  DenemoScriptParam dummy;
+  if(param==NULL)
+    param = &dummy;
+  param->status = FALSE;
+
   gui->si->cursor_y--;
   gui->si->staffletter_y = (gui->si->staffletter_y + 6) % 7;
+  param->status = TRUE;//FIXME introduce some range boundaries, settable by user for instrument ranges.
   //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
 }
 
@@ -721,10 +800,10 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
 	  insertion_point (gui->si);
 	  gui->si->cursoroffend = FALSE;
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorleft(gui);
+	    cursorleft(NULL);
 	  ((GtkFunction)h->data)(gui);
 	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorright(gui);
+	    cursorright(NULL);
 	  displayhelper(gui);
 	}
 	h = ((RhythmElement*)g->data)->functions;
@@ -1524,7 +1603,7 @@ toend (GtkAction *action, gpointer param)
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
   tolastobject(gui);
-  cursorright(gui);
+  cursorright(param);
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);

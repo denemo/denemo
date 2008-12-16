@@ -1,51 +1,43 @@
 /******** generated automatically from generate_source. See generate_source.c */
 /*CursorLeft cursorleft*/
-static void cursorleft_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-cursorleft (gui);
-displayhelper (gui);
+static void cursorleft_cb (GtkAction *action, DenemoScriptParam *param) {
+cursorleft (param);
+displayhelper (Denemo.gui);
 }
 /*CursorDown cursordown*/
-static void cursordown_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-cursordown (gui);
-displayhelper (gui);
+static void cursordown_cb (GtkAction *action, DenemoScriptParam *param) {
+cursordown (param);
+displayhelper (Denemo.gui);
 }
 /*CursorUp cursorup*/
-static void cursorup_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-cursorup (gui);
-displayhelper (gui);
+static void cursorup_cb (GtkAction *action, DenemoScriptParam *param) {
+cursorup (param);
+displayhelper (Denemo.gui);
 }
 /*CursorRight cursorright*/
-static void cursorright_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-cursorright (gui);
-displayhelper (gui);
+static void cursorright_cb (GtkAction *action, DenemoScriptParam *param) {
+cursorright (param);
+displayhelper (Denemo.gui);
 }
 /*StaffUp staffup*/
-static void staffup_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-staffup (gui);
-displayhelper (gui);
+static void staffup_cb (GtkAction *action, DenemoScriptParam *param) {
+staffup (param);
+displayhelper (Denemo.gui);
 }
 /*StaffDown staffdown*/
-static void staffdown_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-staffdown (gui);
-displayhelper (gui);
+static void staffdown_cb (GtkAction *action, DenemoScriptParam *param) {
+staffdown (param);
+displayhelper (Denemo.gui);
 }
 /*MeasureLeft measureleft*/
-static void measureleft_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-measureleft (gui);
-displayhelper (gui);
+static void measureleft_cb (GtkAction *action, DenemoScriptParam *param) {
+measureleft (param);
+displayhelper (Denemo.gui);
 }
 /*MeasureRight measureright*/
-static void measureright_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-measureright (gui);
-displayhelper (gui);
+static void measureright_cb (GtkAction *action, DenemoScriptParam *param) {
+measureright (param);
+displayhelper (Denemo.gui);
 }
 /*A go_to_A_key*/
 static void go_to_A_key_cb (GtkAction *action, gpointer param) {
@@ -1404,12 +1396,12 @@ static void ChangeRest0(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_0key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1428,12 +1420,12 @@ static void ChangeDur0(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_0key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur0  (GtkAction *action, gpointer param) {
@@ -1464,12 +1456,12 @@ static void ChangeRest1(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_1key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1488,12 +1480,12 @@ static void ChangeDur1(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_1key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur1  (GtkAction *action, gpointer param) {
@@ -1524,12 +1516,12 @@ static void ChangeRest2(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_2key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1548,12 +1540,12 @@ static void ChangeDur2(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_2key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur2  (GtkAction *action, gpointer param) {
@@ -1584,12 +1576,12 @@ static void ChangeRest3(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_3key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1608,12 +1600,12 @@ static void ChangeDur3(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_3key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur3  (GtkAction *action, gpointer param) {
@@ -1644,12 +1636,12 @@ static void ChangeRest4(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_4key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1668,12 +1660,12 @@ static void ChangeDur4(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_4key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur4  (GtkAction *action, gpointer param) {
@@ -1704,12 +1696,12 @@ static void ChangeRest5(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_5key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1728,12 +1720,12 @@ static void ChangeDur5(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_5key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur5  (GtkAction *action, gpointer param) {
@@ -1764,12 +1756,12 @@ static void ChangeRest6(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTREST;
   insert_chord_6key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1788,12 +1780,12 @@ static void ChangeDur6(GtkAction *action, gpointer param){
   gint mode = gui->mode;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui);
+    cursorleft(NULL);
   gui->mode = INPUTEDIT|INPUTNORMAL;
   insert_chord_6key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   displayhelper(gui);
 }
 static void Dur6  (GtkAction *action, gpointer param) {
@@ -1813,13 +1805,13 @@ static void ChangeToA(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_A_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1827,13 +1819,13 @@ static void ChangeToB(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_B_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1841,13 +1833,13 @@ static void ChangeToC(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_C_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1855,13 +1847,13 @@ static void ChangeToD(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_D_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1869,13 +1861,13 @@ static void ChangeToE(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_E_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1883,13 +1875,13 @@ static void ChangeToF(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_F_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }
@@ -1897,13 +1889,13 @@ static void ChangeToG(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gboolean appending = gui->si->cursor_appending;
   if(appending)
-    cursorleft(gui); 
+    cursorleft(NULL); 
   gint mode = gui->mode;
   gui->mode = INPUTEDIT|INPUTNORMAL;
   go_to_G_key(gui);
   gui->mode = mode;
   if(appending)
-    cursorright(gui);
+    cursorright(NULL);
   score_status(gui, TRUE);
   displayhelper(gui);
 }

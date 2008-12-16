@@ -125,7 +125,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       execute_callback_from_name(the_keymap, command_name);
       displayhelper (gui);
       gtk_widget_draw (gui->scorearea, NULL);   
-      return 1;
+      return;
     } else {
       g_warning("No action %i has no name", command_idx);
     }
@@ -596,20 +596,20 @@ deletepreviousobject(DenemoGUI * gui)
   if (gui->si->cursor_x)
     {
       /* Then move the cursor back */
-      cursorleft (gui);
+      cursorleft (NULL);
       /* And delete */
       deleteobject (gui);
     }
   else
     {/* go to the previous measure and start deleting there */
       if(gui->si->currentmeasure->prev) {
-	measureleft(gui);
+	measureleft(NULL);
 	while (gui->si->currentobject && (gui->si->currentobject->next))
 	  {
 	    gui->si->currentobject = gui->si->currentobject->next;
 	    gui->si->cursor_x++;
 	  }
-	cursorright(gui);
+	cursorright(NULL);
 	if(gui->si->currentobject)
 	  deletepreviousobject(gui);
       }

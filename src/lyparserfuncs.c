@@ -1523,7 +1523,7 @@ node_text_previous (GtkWidget * win, gpointer data)
   /*  if(si->curlilynode == NULL) si->curlilynode = lily_file; */
   if (si->curlilynode == si->currentobject)
     {
-      cursorleft (si);
+      cursorleft (NULL);
       si->curlilynode = si->currentobject;
       gtk_widget_draw (si->scorearea, NULL);
       /* so cursor is seen to move in score */

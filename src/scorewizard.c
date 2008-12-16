@@ -98,7 +98,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 /* 	    printf("\nlocation b before switch currentstaffnum = %i\n",  */
 /* 		   wdata->gui->si->currentstaffnum); */
 	    update_vscrollbar (wdata->gui);
-	    //staffdown(wdata->gui);
+
 	    displayhelper(wdata->gui);
 	  }
 	wdata->gui->si->currentstaff = g_list_last (wdata->gui->si->thescore);
@@ -135,8 +135,6 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	      update_vscrollbar(wdata->gui);
 	      wdata->gui->si->currentstaff = 
 		g_list_last (wdata->gui->si->thescore);
-	      //update_vscrollbar (wdata->gui);
-	      //staffdown(wdata->gui);
 	      displayhelper(wdata->gui);
 	      
 	    }
@@ -193,7 +191,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
 	    wdata->gui->si->currentstaff = 
 	      g_list_last (wdata->gui->si->thescore);
 	    update_vscrollbar (wdata->gui);
-	    staffdown(wdata->gui);
+	    staffdown(NULL);
 	    displayhelper(wdata->gui);
 	  }
 	dnm_setinitialclef(wdata->gui->si, curstaffstruct, 
