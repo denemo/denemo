@@ -378,7 +378,6 @@ swapstaffs (GtkAction *action, gpointer param)
       temp = gui->si->currentstaff->data;
       if(temp->context==DENEMO_NONE ||
 	confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
-	  
 	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
 	  gui->si->currentstaff->prev->data = temp;
 	  gui->si->currentstaffnum--;
@@ -468,7 +467,6 @@ voiceup (DenemoScriptParam *param)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
@@ -497,7 +495,6 @@ staffup (DenemoScriptParam *param)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
@@ -508,11 +505,12 @@ staffup (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->prev;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-      warningdialog("This is the first staff");
+	warningdialog("This is the first staff");
   return param->status = FALSE;
 }
 
@@ -530,7 +528,6 @@ voicedown (DenemoScriptParam *param)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
@@ -569,6 +566,7 @@ staffdown (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
@@ -693,7 +691,6 @@ cursorup (DenemoScriptParam *param)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
   gui->si->cursor_y++;
   gui->si->staffletter_y = (gui->si->staffletter_y + 1) % 7;
   param->status = TRUE;//FIXME introduce some range boundaries, settable by user for instrument ranges.
@@ -1288,7 +1285,7 @@ delete_staff_before (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
-  if (staffup(gui)) {
+  if (staffup(param)) {
     deletestaff (gui, TRUE);
   }
 }
@@ -1304,7 +1301,7 @@ delete_staff_after (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
-  if (staffdown(gui)) {
+  if (staffdown(param)) {
     deletestaff (gui, TRUE);
   }
 }
