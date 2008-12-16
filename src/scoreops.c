@@ -177,7 +177,7 @@ next_movement (GtkAction *action, gpointer param)
   update_vscrollbar (gui);
   gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
   gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
-  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME see staffup/down
 }
 
 /**
@@ -208,7 +208,7 @@ prev_movement (GtkAction *action, gpointer param)
   gtk_widget_queue_draw (gui->scorearea);
   gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
   gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
-
+ gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME see staffup/down
 }
 /**
  * Initialise scoreinfo structure 
