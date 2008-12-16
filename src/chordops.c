@@ -42,7 +42,10 @@ newclefify (DenemoObject * thechord, gint dclef)
 /**
  *  This function goes through a chord and checks to see how its notes are
  * laid out, and if it will have to push the display of any notes to the
- * "wrong" side of the staff as a result 
+ * "wrong" side of the stem as a result
+ * the result is to set the is_reversealigned field of the chord
+ * and the reversealign field of the note* structures that make up the chord.
+ * thechord must have type CHORD on entry. 
  */
 void
 findreversealigns (DenemoObject * thechord)

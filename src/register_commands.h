@@ -5,8 +5,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRi
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Moves the cursor to the staff above", staffup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Moves the cursor to the staff below", staffdown);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "No Tooltip yet", measureleft);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", "Measure Right", "No Tooltip yet", measureright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "Moves the cursor to the first object in the next measure", measureleft);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", "Measure Right", "Moves the cursor to the first object in the previous measure", measureright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "A"), "A", "A", "Action for note A (Insert, Edit or Move Cursor, depending on Mode)", go_to_A_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "B"), "B", "B", "Action for note B (Insert, Edit or Move Cursor, depending on Mode)", go_to_B_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "C"), "C", "C", "Action for note C (Insert, Edit or Move Cursor, depending on Mode)", go_to_C_key);
@@ -244,8 +244,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SwapStaf
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SplitVoices"), "SplitVoices", "Split Voices", "Split off the next voice as a separate staff", splitstaffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "JoinVoices"), "JoinVoices", "Join Voices", "Merge this staff as a voice on the previous staff", joinstaffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SwapMovements"), "SwapMovements", "Swap Movements", "Swap this movement with the one before", swapmovements);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "VoiceUp"), "VoiceUp", "Voice Up", "Go to the higher numbered voice (or staff if highest voice number on staff", voiceup_cb);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "VoiceDown"), "VoiceDown", "Voice Down", "Go to the lower numbered voice on this staff", voicedown_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "VoiceUp"), "VoiceUp", "Voice Up", "Go to the higher numbered voice on staff", voiceup);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "VoiceDown"), "VoiceDown", "Voice Down", "Go to the lower numbered voice on this staff", voicedown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddBefore"), "AddBefore", "Add Staff Before", "Inserts a new staff before the current staff", newstaffbefore);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddAfter"), "AddAfter", "Add Staff After", "Inserts/Adds a new staff after the current staff", dnm_newstaffafter);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddInitial"), "AddInitial", "Add Initial Staff", "Inserts a new staff at the top of the score", newstaffinitial);

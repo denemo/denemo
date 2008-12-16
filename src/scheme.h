@@ -983,11 +983,11 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "JoinVoices")), "scm", (gp
 SCM scheme_SwapMovements(SCM optional);
 install_scm_function ("d-SwapMovements", scheme_SwapMovements);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SwapMovements")), "scm", (gpointer)1);
-/*VoiceUp voiceup_cb*/
+/*VoiceUp voiceup*/
 SCM scheme_VoiceUp(SCM optional);
 install_scm_function ("d-VoiceUp", scheme_VoiceUp);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "VoiceUp")), "scm", (gpointer)1);
-/*VoiceDown voicedown_cb*/
+/*VoiceDown voicedown*/
 SCM scheme_VoiceDown(SCM optional);
 install_scm_function ("d-VoiceDown", scheme_VoiceDown);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "VoiceDown")), "scm", (gpointer)1);

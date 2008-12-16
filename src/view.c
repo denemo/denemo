@@ -74,8 +74,7 @@ typedef enum
 } AccelStatus;
 
 
-static void voiceup_cb(GtkAction *action, gpointer param);
-static void voicedown_cb(GtkAction *action, gpointer param);
+
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
 
@@ -2057,16 +2056,7 @@ static void dummy(void) {
   play_pitch(440.0, 1.0);
   return;
 }
-static void voiceup_cb(GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  voiceup(param);
-  displayhelper(gui);
-}
-static void voicedown_cb(GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  voicedown(param);
-  displayhelper(gui);
-}
+
 /**
  * Menu entries with no shortcut keys, tooltips, and callback functions
  */

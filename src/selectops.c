@@ -533,7 +533,7 @@ goto_mark (GtkAction *action, gpointer param)
     set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
     set_currentstaffnum (Denemo.gui,si->markstaffnum);
     while(si->cursor_x < si->markcursor_x)
-      cursorright(Denemo.gui);
+      cursorright(param);
     restore_selection(si);
     displayhelper(Denemo.gui);
   } 

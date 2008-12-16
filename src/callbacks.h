@@ -1381,6 +1381,16 @@ append_measure_score (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
+/*VoiceUp voiceup*/
+static void voiceup_cb (GtkAction *action, DenemoScriptParam *param) {
+voiceup (param);
+displayhelper (Denemo.gui);
+}
+/*VoiceDown voicedown*/
+static void voicedown_cb (GtkAction *action, DenemoScriptParam *param) {
+voicedown (param);
+displayhelper (Denemo.gui);
+}
 static void InsertRest0(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   highlight_rest(gui, 0);

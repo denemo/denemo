@@ -1500,7 +1500,7 @@ node_text_next (GtkWidget * win, gpointer data)
   DenemoScore *si = (DenemoScore *) data;
   if (si->curlilynode == si->currentobject)
     {
-      cursorright (si);
+      cursorright (NULL);
       si->curlilynode = si->currentobject;
       gtk_widget_draw (si->scorearea, NULL);
       /* so cursor is seen to move in score */
