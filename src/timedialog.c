@@ -20,12 +20,14 @@
 #include "utils.h"
 
 /**
- * Is the integer a power of 2
+ * Is the integer a power of 2, or the value 1
  *
  */
-gint
+static gint
 ispow2 (gint x)
 {
+  if(x<1)
+    return 0;
   for (; !(x & 1); x >>= 1)
     ;	/* Go through all the low order bits that are equal to 0 */
   return (x == 1);
