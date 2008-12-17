@@ -263,7 +263,7 @@ void process_midi_event(gchar *buf) {
     gtk_main_quit();
     return;// not reached
   } 
-  if(velocity)
+  if(command==MIDI_NOTEON)
     store_pitch(midi2hz(notenumber));
 }
 
@@ -300,6 +300,7 @@ process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
   if(command)
     switch(command) {
     case MIDI_NOTEON:
+     
     case MIDI_NOTEOFF:
     case MIDI_KEY_PRESSURE:
     case MIDI_CTL_CHANGE:
@@ -309,9 +310,12 @@ process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
 	g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
 	g_io_channel_read_chars (source, buf+2, 1, &bytes_read, &error);            
       }
+      if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+	buf[0]=MIDI_NOTEOFF;
+	buf[2]=128;
+      }
       process_midi_event(buf);
       return TRUE;//means do not remove event source
-
     case MIDI_PGM_CHANGE:
     case MIDI_CHN_PRESSURE:
     case 0xF3:

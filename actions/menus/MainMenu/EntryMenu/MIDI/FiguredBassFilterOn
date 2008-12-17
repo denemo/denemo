@@ -34,23 +34,24 @@
 				(command (bit-extract midi 0 8)))
 			   ;; body of the let*
 			       (begin
-				 (if (= command #x90)
+				 (if (or (= command #x90) (= command #x80))
 				     (begin
-				       (if (and (&gt; velocity 0)(= bassnote 0))
+				       (if (and (= command #x90)(= bassnote 0))
 					   (begin 
 					     (set! bassnote note)
 					     (set! Figures '())
 					     (d-PutMidi midi))
 			     ;;; not bass note on 
 					   (begin
-					     (if (and (= velocity 0)(= note bassnote))
+					     (if (and (= command #x80)(= note bassnote))
 						 (begin 
 						   (set! bassnote 0)
 						   (d-EditFiguredBass (GetFigures))
-						   (d-PutMidi midi))
+						   ;;(d-PutMidi midi)
+									)
 				 ;;; not bass note off
 						 (begin
-						   (if  (&gt; velocity 0)
+						   (if  (= command #x90)
 							(begin
 							  (AddFigure note bassnote)
 							  (d-PlayMidiKey midi)))))))));; end of if noteon
@@ -75,10 +76,7 @@
 	   ));;; end of not active block
     );;; end of if active/not active if
 
-
-;;;Scheme code for command MidiFilterOff
-;;;MidiFilterOff
-(d-PutMidi 0);;; Our own Reset, this makes the filter toggle off/on</scheme>
+</scheme>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>

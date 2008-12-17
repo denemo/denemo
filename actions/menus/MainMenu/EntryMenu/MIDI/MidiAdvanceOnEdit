@@ -32,12 +32,13 @@
 			  (set! midi (d-GetMidi))
 			  (set! velocity (bit-extract midi 16 24))
 			  (set! command (bit-extract midi 0 8))
-			  (if  (= command #x90);; you have to do this otherwise it loops forever
+			  (if (= command #x80)
+				(loop))
+			  (if  (= command #x90);; noteon
 			       (begin 
 				 (d-PutMidi midi)
-				 (if (= velocity 0)
-				     (begin (d-NextNote)
-				     	(d-RefreshDisplay)))
+				 (d-NextNote)
+				 (d-RefreshDisplay)
 				 (loop)) ))))
 	(loop))))
 </scheme>
