@@ -1341,7 +1341,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       for (objnum=1, curobjnode = (objnode *) curmeasure->data;/* curobjnode NULL checked at end */;
 	   curobjnode = curobjnode->next, objnum++)
 	{
-
+	  curobj=NULL;//avoid random values for debugabililty
 	  if(objnum>=firstobj && objnum<=lastobj) {
 
 	  if(curobjnode) {
@@ -1386,8 +1386,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      g_string_append(figures, "\n");
 	    if(fakechords->len)
 	      g_string_append(fakechords, "\n");
-	    if(curobj == NULL || curobj->type!=LILYDIRECTIVE) /* if it ends in a lilydirective, the user may want to choose their own
-					       barline style, let them */
+	    
+	    if((curobjnode!=NULL) && ((curobj == NULL) || curobj->type!=LILYDIRECTIVE)) /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
 	      if (curmeasure->next)
 		g_string_append_printf(endstr, "|\n");
 	      else
