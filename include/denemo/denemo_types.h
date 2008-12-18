@@ -289,7 +289,7 @@ typedef struct DenemoKeymap
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
 }keymap;
 
-#define MAX_HISTORY 10
+
 /**
  * DenemoPrefs holds information on user preferences. 
  */
@@ -311,7 +311,8 @@ typedef struct DenemoPrefs
   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< Auto save data */
-  gint autosave_timeout; 
+  gint autosave_timeout;
+  gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
   GString *csoundcommand; /**< command used to execute csound */
   GString *csoundorcfile; /**< Path to .orc file used for csound playback */

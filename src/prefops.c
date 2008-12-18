@@ -99,6 +99,7 @@ initprefs ()
   ret->createclones = FALSE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
+  ret->maxhistory = 20;
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
   ret->rhythm_palette = TRUE;
@@ -147,7 +148,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->lilypath = 
 		g_string_assign (prefs->lilypath, (gchar *) tmp);
-	      g_print ("Lilypond Path %s\n", tmp);
+	      //g_print ("Lilypond Path %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
@@ -158,7 +159,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->midiplayer =
 		g_string_assign (prefs->midiplayer, (gchar *) tmp);
-	      g_print ("midiplayer %s\n", tmp);
+	      //g_print ("midiplayer %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
@@ -169,7 +170,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->audioplayer =
 		g_string_assign (prefs->audioplayer, (gchar *) tmp);
-	      g_print ("Audioplayer %s\n", tmp);
+	      //g_print ("Audioplayer %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
@@ -179,7 +180,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  if(tmp)
 	    {
 	      prefs->browser = g_string_assign (prefs->browser, (gchar *) tmp);
-	      g_print ("Help Browser %s\n", tmp);
+	      //g_print ("Help Browser %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
@@ -191,10 +192,23 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->autosave_timeout = atoi ((gchar *) tmp);
 	      if(prefs->autosave_timeout <1) prefs->autosave_timeout = 1;
-	      g_print ("Autosave Timeout %s\n", tmp);
+	      //g_print ("Autosave Timeout %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
+      else if (0 ==
+	       xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
+	{
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  if(tmp)
+	    {
+	      prefs->maxhistory = atoi ((gchar *) tmp);
+	      if(prefs->maxhistory <1) prefs->maxhistory = 1;
+	      xmlFree (tmp);
+	    }
+	}
+
+
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "csoundcommand"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -202,7 +216,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->csoundcommand =
 		g_string_assign (prefs->csoundcommand, (gchar *) tmp);
-	      g_print ("Csound Command %s\n", tmp);
+	      //g_print ("Csound Command %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
@@ -213,7 +227,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    {
 	      prefs->csoundorcfile =
 		g_string_assign (prefs->csoundorcfile, (gchar *) tmp);
-	      g_print ("Csound Orchestrafile %s\n", tmp);
+	      //g_print ("Csound Orchestrafile %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 
@@ -391,7 +405,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  if(tmp)
 	    {
 	      prefs->saveparts = atoi((gchar *) tmp);
-	      g_print ("Autosave Parts %s\n", tmp);
+	      //g_print ("Autosave Parts %s\n", tmp);
 	      xmlFree(tmp);	
 	    }
 	}
@@ -408,7 +422,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 static void
 writeHistoryEntry (gpointer data, gpointer user_data)
 {
-  g_print ("filename %s\n", (gchar *) data);
+  //g_print ("filename %s\n", (gchar *) data);
   xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file",
 		   (xmlChar *) data);
 }
@@ -600,6 +614,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   newXMLIntChild (child, (xmlChar *) "autosave", prefs->autosave);
   newXMLIntChild (child, (xmlChar *) "autosavetimeout",
 		  prefs->autosave_timeout);
+  newXMLIntChild (child, (xmlChar *) "maxhistory",
+		  prefs->maxhistory);
   newXMLIntChild (child, (xmlChar *) "saveparts", prefs->saveparts);
   newXMLIntChild (child, (xmlChar *) "createclones", prefs->createclones);
   newXMLIntChild (child, (xmlChar *) "lilystyleentry", prefs->lilyentrystyle);

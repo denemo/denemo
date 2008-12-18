@@ -31,6 +31,7 @@ struct callbackdata
   GtkWidget *checkrhythmpalette;
   GtkWidget *checkarticulationpalette;
   GtkWidget *autosaveentry;
+  GtkWidget *maxhistory;
   GtkWidget *browserentry;
   GtkWidget *pdfviewer;
   GtkWidget *sequencer;
@@ -137,6 +138,12 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(overlays);
   ASSIGNBOOLEAN(continuous);
 
+#define ASSIGNINT(field) \
+   prefs->field =\
+    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
+
+  ASSIGNINT(maxhistory);
+
   prefs->immediateplayback =
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 				  (cbdata->checkimmediateplayback));
@@ -179,6 +186,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *checkautosaveparts;
   GtkWidget *checkautosave;
   GtkWidget *autosaveentry;
+  GtkWidget *maxhistory;
   GtkWidget *pdfviewer;
   GtkWidget *midi_in;
   GtkWidget *sequencer;
@@ -262,7 +270,6 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkrhythmpalette),
 				Denemo.prefs.rhythm_palette);
   gtk_box_pack_start (GTK_BOX (main_vbox),checkrhythmpalette, FALSE, TRUE, 0);
-
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
@@ -502,6 +509,18 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_entry_set_text (GTK_ENTRY (browserentry), Denemo.prefs.browser->str);
   gtk_box_pack_start (GTK_BOX (hbox), browserentry, TRUE, TRUE, 0);
 
+#define INTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (1, 50, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
+
+  INTENTRY(_("Max recent files"), maxhistory);
+
   /* Set up the callback data */
   cbdata.prefs = &Denemo.prefs;
   cbdata.lilypathentry = lilypathentry;
@@ -522,6 +541,7 @@ preferences_change (GtkAction *action, gpointer param)
   cbdata.checkrhythmpalette = checkrhythmpalette;
   cbdata.checkautosave = checkautosave;
   cbdata.autosaveentry = autosaveentry;
+  cbdata.maxhistory = maxhistory;
   cbdata.browserentry = browserentry;
   cbdata.pdfviewer = pdfviewer;
   cbdata.texteditor = texteditor;
@@ -530,6 +550,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_entry_set_activates_default (GTK_ENTRY (lilypathentry), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (autosaveentry), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (maxhistory), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (browserentry), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (pdfviewer), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (texteditor), TRUE);

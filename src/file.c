@@ -196,9 +196,11 @@ set_gui_filename (DenemoGUI * gui, gchar * filename)
 #ifdef DEBUG
       g_print ("%s not in history list\n", gui->filename->str);
 #endif
-      if (g_queue_get_length (Denemo.prefs.history) > MAX_HISTORY)
+      g_print("max history now %d\n", Denemo.prefs.maxhistory);
+      if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
 	{
 	  gpointer data = g_queue_pop_head (Denemo.prefs.history);
+	  g_print("losing one history\n");
 	  if (data)
 	    g_free (data);
 	}
