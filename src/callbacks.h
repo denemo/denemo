@@ -1443,7 +1443,7 @@ static void Dur0  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 0);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur0 (action, param);
 else {
  insert_chord_0key(gui);
@@ -1503,7 +1503,7 @@ static void Dur1  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 1);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur1 (action, param);
 else {
  insert_chord_1key(gui);
@@ -1563,7 +1563,7 @@ static void Dur2  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 2);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur2 (action, param);
 else {
  insert_chord_2key(gui);
@@ -1623,7 +1623,7 @@ static void Dur3  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 3);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur3 (action, param);
 else {
  insert_chord_3key(gui);
@@ -1683,7 +1683,7 @@ static void Dur4  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 4);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur4 (action, param);
 else {
  insert_chord_4key(gui);
@@ -1743,7 +1743,7 @@ static void Dur5  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 5);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur5 (action, param);
 else {
  insert_chord_5key(gui);
@@ -1803,7 +1803,7 @@ static void Dur6  (GtkAction *action, gpointer param) {
  if(gui->mode&INPUTINSERT)
    highlight_duration(gui, 6);
  else 
- if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
    ChangeDur6 (action, param);
 else {
  insert_chord_6key(gui);

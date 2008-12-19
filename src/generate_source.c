@@ -609,7 +609,7 @@ param.status = FALSE;\n\
 	    " if(gui->mode&INPUTINSERT)\n"
 	    "   highlight_duration(gui, %d);\n"
 	    " else \n"
-	    " if( (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n"
+	    " if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))\n"
 	    "   ChangeDur%d (action, param);\n"
 	    "else {\n"
 	    " insert_chord_%dkey(gui);\n"

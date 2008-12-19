@@ -732,10 +732,10 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   gui->si->cursor_y = jumpcursor (gui->si->cursor_y, oldstaffletter_y,
 				  gui->si->staffletter_y);
   int mid_c_offset = gui->si->cursor_y;
-  if((gui->mode & INPUTRHYTHM)&&!(gui->mode&INPUTINSERT)){
-    warningdialog("Rhythm only mode - enter durations, not notes!");
-    return;
-  }
+//  if((gui->mode & INPUTRHYTHM)&&!(gui->mode&INPUTINSERT)){
+//    warningdialog("Rhythm only mode - enter durations, not notes!");
+//    return;
+//  }
      
   /* in edit mode edit the current note name */
   if((gui->mode & INPUTEDIT) && gui->si->currentobject) {
@@ -875,7 +875,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   int prognum;
   
 
-  if((mode & INPUTEDIT) && !si->cursor_appending) {
+  if((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM)) {
     changeduration(si, duration);
     return;
   }

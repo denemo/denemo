@@ -255,7 +255,7 @@ static gint *divert_midi_event;
 #define notenumber ((*(buf+1))&0xFF)
 #define velocity ((*(buf+2))&0xFF)
 void process_midi_event(gchar *buf) {
-  // g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
+  //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
   if(divert_midi_event){
     // this is only good for one endianness - FIXME
     *divert_midi_event = 0;//clear 4th byte
