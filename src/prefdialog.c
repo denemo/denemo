@@ -421,6 +421,7 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Plugins settings
    */
+  /*
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
   gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, NULL);
@@ -488,7 +489,7 @@ preferences_change (GtkAction *action, gpointer param)
 						     COLUMN_PLUGIN, NULL);
 
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-
+  */
   /*
    * Help settings
    */
