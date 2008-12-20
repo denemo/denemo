@@ -88,6 +88,7 @@ initprefs ()
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
   ret->temperament = g_string_new("Equal");
   ret->strictshortcuts = FALSE;
+  ret->resolution = 300;
   ret->overlays = FALSE;
   ret->continuous = TRUE;
 
@@ -347,6 +348,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
 
       READINTXMLENTRY(strictshortcuts)
+      READINTXMLENTRY(resolution)
       READINTXMLENTRY(overlays)
       READINTXMLENTRY(continuous)
 
@@ -627,6 +629,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
 		  prefs->field);
 
   WRITEINTXMLENTRY(strictshortcuts);
+  WRITEINTXMLENTRY(resolution);
   WRITEINTXMLENTRY(overlays);
   WRITEINTXMLENTRY(continuous);
 

@@ -328,6 +328,7 @@ typedef struct DenemoPrefs
   GString *lilyversion; /**< Lilypoind Version */
   GString *temperament; /**< Preferred temperament for tuning to */
   gboolean strictshortcuts; /**< Whether shortcuts require CaspLock & NumLock to be correct */
+  gint resolution; /**< Resolution of exported selection in dpi */
 }DenemoPrefs;
 
 /**

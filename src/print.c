@@ -222,12 +222,14 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   GError *err = NULL;
   gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
+  gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
   convert_ly(lilyfile);
   gchar *png[] = {
     Denemo.prefs.lilypath->str,
     "--png",
     "-b",
-    "eps", 
+    "eps",
+    resolution,
     "-o",
     filename,
     lilyfile,
