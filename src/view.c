@@ -2693,8 +2693,8 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, Gtk
     
   if (command_idx != -1) 
     update_accel_labels(Denemo.map, command_idx);
-  else
-    g_warning("%s is not yet in map\n",  gtk_action_get_name(action));
+  //  else //not an error, it occurs for menus being loaded
+  //   g_warning("%s is not yet in map\n",  gtk_action_get_name(action));
   gboolean hidden= (gboolean) (action?g_object_get_data(G_OBJECT(action), "hidden"):NULL);
   if(hidden) {
 	    set_visibility_for_action(action, FALSE);	   
