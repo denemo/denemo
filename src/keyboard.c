@@ -509,7 +509,7 @@ load_xml_keymap (gchar * filename)
 	    if(Denemo.last_merged_command)
 	      g_free(Denemo.last_merged_command);
 	    Denemo.last_merged_command = g_strdup(filename);
-	    Denemo.accelerator_status = TRUE;
+	    //Denemo.accelerator_status = TRUE;
 	  }
 	  //if(!merge)
 	  //  alphabeticalize_commands(Denemo.map);

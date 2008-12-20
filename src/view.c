@@ -1444,7 +1444,6 @@ static void
 save_accels (void) {
   save_default_keymap_file (NULL);
   Denemo.accelerator_status = FALSE;
-
 }
 
 static gboolean
@@ -1803,6 +1802,7 @@ mouse_shortcut_dialog(ModifierAction *info){
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT){ 
     setMouseAction(info);
+    Denemo.accelerator_status = TRUE;
   }
   gtk_widget_destroy (dialog);
 }
