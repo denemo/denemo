@@ -1469,12 +1469,6 @@ delete_accel(GtkButton *button, set_accels_cb_data *cb_data) {
 
 }
 
-
-
-typedef struct accel_cb {
-  DenemoGUI *gui;
-  GtkAction *action;
-} accel_cb;
 static 	void show_type(GtkWidget *widget, gchar *message);
 
 
@@ -1540,7 +1534,7 @@ static void load_command_from_location(GtkWidget*w, gchar *filepath) {
 }
 
 
-static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui);
+static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action);
 
 /* get the script for action from disk; 
  *   action an action loaded via load_xml_keymap() contains the menupath but no scheme script,
@@ -1559,7 +1553,7 @@ gchar *instantiate_script(GtkAction *action){
       warningdialog("Unable to load the script");
   }
   g_free(filename);
-  g_print("Text is %s\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
+  //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 }
 void
@@ -1569,13 +1563,14 @@ activate_script (GtkAction *action, gpointer param)
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
   if(GTK_IS_ACTION(action)) {
-    GSList *h = gtk_action_get_proxies (action);//FIXME this can't be needed what is a proxy?
-    for(;h;h=h->next) {
-      attach_set_accel_callback(h->data, action, gui);
+    if(!g_object_get_data(action, "signal_attached")) {
+      GSList *h = gtk_action_get_proxies (action);
+      for(;h;h=h->next) {
+	attach_right_click_callback(h->data, action);
+      }
     }
-    
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
-    // g_print("Executing %s\n", text);
+    //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
     gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
     /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
       need it */
@@ -1826,11 +1821,8 @@ static void  createMouseShortcut(GtkWidget *menu, GtkAction *action) {
 */
 static gboolean menu_click (GtkWidget      *widget,
 			  GdkEventButton *event,
-			  accel_cb *info)
+			  GtkAction *action)
 {
-
-  GtkAction *action = info->action;
-  //DenemoGUI *gui = info->gui;
   keymap *the_keymap = Denemo.map;
   const gchar *func_name = gtk_action_get_name(action);
   //g_print("widget name %s action name %s\n", gtk_widget_get_name(widget), func_name);
@@ -2022,11 +2014,11 @@ void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *
   g_object_set_data(G_OBJECT(widget), "action", action);
 }
 
+/* attaches a button-press-event signal to the widget with the action as data
+   for use in the callback */
+static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) {
 
-static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, DenemoGUI *gui) {
-  accel_cb *info = g_malloc0(sizeof(accel_cb));
-  info->gui = gui;
-  info->action = action;
+
 #if 0
   //gtk_widget_add_events (widget, (GDK_BUTTON_RELEASE_MASK));
   if(GTK_IS_CHECK_MENU_ITEM(widget))
@@ -2039,10 +2031,11 @@ static void  attach_set_accel_callback (GtkWidget *widget, GtkAction *action, De
   //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
 #else
   gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK));
-  g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), info);
+  g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), action);
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
 #endif
+  g_object_set_data(action, "signal_attached", action);//Non NULL to indicate the signal is attached
 }
 
 
@@ -2681,7 +2674,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
 static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, GtkWidget    *proxy) {
   int command_idx;
 
-  attach_set_accel_callback(proxy, action, Denemo.gui);
+  attach_right_click_callback(proxy, action);
 #if (GTK_MINOR_VERSION <10)
        attach_action_to_widget(proxy, action, Denemo.gui);
 #endif
