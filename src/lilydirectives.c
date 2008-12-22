@@ -169,10 +169,11 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
  * or edit the current lilypond directive
  */
 void
-lily_directive_insert (GtkAction *action, gpointer param)
+lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  gchar *init = NULL, *display = NULL;
+#if 0
+  gchar *lily = NULL, *display = NULL;
   if(!action)
     {
     GString *values = ((DenemoScriptParam *)param)->string;
@@ -182,16 +183,21 @@ lily_directive_insert (GtkAction *action, gpointer param)
     }
     gint i;
     for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      SET_STRING("lily", init); 
+      SET_STRING("lily", lily); 
       SET_STRING("display", display);
     }
 #undef SET_STRING
-    if(init==NULL) {
-      init=values->str;//Allow simple form
-      display = init;
+    if(lily==NULL) {
+      lily=values->str;//Allow simple form
+      display = lily;
     }
     }
-  lily_directive (gui, FALSE, init, display);
+#else
+  GET_2PARAMS(action, param, lily, display);
+  if(lily && !display)
+    display = lily;
+#endif
+  lily_directive (gui, FALSE, lily, display);
 }
 /**
  * Lilypond directive attach.  Allows user to attach a lilypond directive 

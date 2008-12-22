@@ -14,7 +14,7 @@ void
 file_savepartswrapper(GtkAction *action, gpointer param);
 
 void
-file_open_with_check (GtkAction *action, gpointer param);
+file_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
 file_add_staffs (GtkAction *action, gpointer param);

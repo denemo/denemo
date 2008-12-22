@@ -137,4 +137,51 @@ void *chord2lilybaseduration(struct chord *chordobject, GString *ret);
 void *chord2lilyduration(struct chord *chordobject, GString *ret);
 void *chord2lilynumdots(struct chord *chordobject, GString *ret);	
 
+
+#define GET_1PARAM(action, param, param_name) \
+gchar * param_name = NULL;\
+  DenemoScriptParam dummy;\
+  dummy.string=NULL;\
+  if(param==NULL)\
+    param = &dummy;\
+  param->status = FALSE;\
+if(!action && param){\
+    GString *values = ((DenemoScriptParam *)param)->string;\
+    if(values) {\
+      gchar *str;\
+      gint i;\
+      for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
+        if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
+         param_name = str+strlen(#param_name)+1;\
+      }\
+    }\
+    if(param_name==NULL)\
+       param_name = values?values->str:NULL;\
+}
+
+#define GET_2PARAMS(action, param, param_name1, param_name2) \
+gchar * param_name1 = NULL;\
+gchar * param_name2 = NULL;\
+  DenemoScriptParam dummy;\
+  dummy.string=NULL;\
+  if(param==NULL)\
+    param = &dummy;\
+  param->status = FALSE;\
+if(!action && param){\
+    GString *values = ((DenemoScriptParam *)param)->string;\
+    if(values) {\
+     gchar *str;\
+     gint i;\
+       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
+	  if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name1)))\
+           param_name1 = str+strlen(#param_name1)+1;\
+          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name2)))\
+           param_name2 = str+strlen(#param_name2)+1;\
+       }\
+     }\
+     if(param_name1==NULL)\
+      param_name1=values?values->str:NULL;\
+}
+
+
 #endif /* UTILS_H */
