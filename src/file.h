@@ -17,18 +17,18 @@ void
 file_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
-file_add_staffs (GtkAction *action, gpointer param);
+file_add_staffs (GtkAction *action, DenemoScriptParam * param);
 
 void
-file_add_movements (GtkAction *action, gpointer param);
+file_add_movements (GtkAction *action, DenemoScriptParam * param);
 
 void
-system_template_open_with_check (GtkAction *action, gpointer param);
+system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 void
-system_example_open_with_check (GtkAction *action, gpointer param);
+system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
-local_template_open_with_check (GtkAction *action, gpointer param);
+local_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 
 void
 file_savewrapper (GtkAction *action, gpointer param);
