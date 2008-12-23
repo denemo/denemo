@@ -83,22 +83,23 @@ static guint lock_mask(gint keyval) {
  * sets cursor if a modifier
  */
 
-void
+gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock))
-    return;
+    return TRUE;
   state = (lock_mask(event->keyval)^event->state);
   set_cursor_for(state);
+  return TRUE;
 }
 /**
  * keypress event callback 
  * looks up the key press and executes the correct function
  */
 
-void
+gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -107,7 +108,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
-    return;
+    return TRUE;
   }
   gint state;
   state = (lock_mask(event->keyval)^event->state);
@@ -125,12 +126,12 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       execute_callback_from_name(the_keymap, command_name);
       displayhelper (gui);
       gtk_widget_draw (gui->scorearea, NULL);   
-      return;
+      return TRUE;
     } else {
       g_warning("No action %i has no name", command_idx);
     }
   }
-  return;
+  return TRUE;
 }
 
 /**

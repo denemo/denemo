@@ -1196,7 +1196,7 @@ add_keybinding_to_idx (keymap * the_keymap, gint keyval,
   kb_name = dnm_accelerator_name(keyval, state);
   old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
   g_free(kb_name);
-  Denemo.accelerator_status = TRUE;
+  //Denemo.accelerator_status = TRUE;
   return old_command_idx;
 }
 
@@ -1370,8 +1370,9 @@ locatekeymapdir ()
 
 
 /**
+ *  loads a command set (aka keymap) from a file in a file selector.
  * This function is a callback that is wrapper for
- * load_keymap_file 
+ * load_keymap_file amongst others
  *FIXME note that non xml file support has been commented out
  */
 void
@@ -1381,15 +1382,17 @@ load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
     gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
   if(g_file_test (name, G_FILE_TEST_EXISTS))
      load_keymap_file_named(NULL, name);
+  Denemo.accelerator_status = TRUE;
 }
 
-/**
- * Function for loading a keymap from location by way of
- * a user dialog. 
- */
+
 static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
+/**
+ * Function for loading a command set (aka keymap) from location by way of
+ * a user dialog. 
+ */
 void
 load_keymap_dialog_location (GtkWidget * widget, gchar *location)
 {

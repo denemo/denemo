@@ -62,7 +62,7 @@ seqbuf_dump ()
     if (write (sequencer_fd, _seqbuf, _seqbufptr) == -1)
       {
 	perror (_("Error during seqbuf_dump"));
-	exit (-1);
+	//exit (-1);
       }
   _seqbufptr = 0;
 }

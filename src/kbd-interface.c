@@ -124,6 +124,7 @@ kbd_interface_add_binding(GtkButton *button, gpointer user_data)
           "key-press-event", G_CALLBACK(capture_add_binding), user_data);
   cbdata->handler_focus_out = g_signal_connect(GTK_WIDGET(button),
           "focus-out-event", G_CALLBACK(stop_capture_binding), user_data);
+  Denemo.accelerator_status = TRUE;
 }
 
 static void
@@ -156,6 +157,7 @@ kbd_interface_del_binding(GtkButton *button, gpointer user_data)
   gtk_tree_model_get(model, &iter, 0, &binding, -1);
   remove_keybinding_from_name(Denemo.map, binding);
   g_free(binding);
+  Denemo.accelerator_status = TRUE;
 }
 typedef struct ModifierPointerInfo {
   guint button_mask;
@@ -184,6 +186,8 @@ g_string_append(str, "\n");
   g_string_free(str, TRUE);
 }
 
+/* returns a cursor number in *number from the passed spinner widget
+ FIXME what is cursor doing? */
 void
 set_cursor_number (GtkSpinButton *widget, gint *number){
   *number = gtk_spin_button_get_value_as_int(widget);
