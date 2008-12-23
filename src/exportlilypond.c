@@ -1852,12 +1852,15 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  GString *str = g_string_new("");
 	  
 	  gchar *staffprolinsert =  (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"";
-	  if (curstaffstruct->context & DENEMO_CHOIR_START)
-	    g_string_append_printf(str, "\\new ChoirStaff %s << \n", staffprolinsert);
-	  if (curstaffstruct->context & DENEMO_GROUP_START)
-	    g_string_append_printf(str, "\\new StaffGroup %s << \n", staffprolinsert);
-	  if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	    g_string_append_printf(str, "\\new PianoStaff %s << \n", staffprolinsert);
+
+	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
+	    if (curstaffstruct->context & DENEMO_CHOIR_START)
+	      g_string_append_printf(str, "\\new ChoirStaff %s << \n", staffprolinsert);
+	    if (curstaffstruct->context & DENEMO_GROUP_START)
+	      g_string_append_printf(str, "\\new StaffGroup %s << \n", staffprolinsert);
+	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
+	      g_string_append_printf(str, "\\new PianoStaff %s << \n", staffprolinsert);
+	  }
 
 	  if(curstaffstruct->voicenumber == 1)
 	    g_string_append_printf(str, "\\new Staff %s << {\n", staffprolinsert);
@@ -1891,15 +1894,14 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	    g_string_append_printf(scoreblock, ""TAB""TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
 
 
-
-
+	  if(partname==NULL) {
 	    if(curstaffstruct->context & DENEMO_PIANO_END)
 	      g_string_append_printf(scoreblock, ">>\n\n");
 	    if(curstaffstruct->context & DENEMO_CHOIR_END)
 	      g_string_append_printf(scoreblock, ">>\n\n");
 	    if(curstaffstruct->context & DENEMO_GROUP_END)
 	      g_string_append_printf(scoreblock, ">>\n\n");
-	  
+	  }
 
        
 	}
