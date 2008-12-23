@@ -430,6 +430,7 @@ SCM scheme_put_midi (SCM scm) {
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
+  pitchentry(Denemo.gui);// this ensures any note is acted on before returning
  return SCM_BOOL(TRUE);
 }
 
@@ -439,7 +440,7 @@ SCM scheme_play_midikey(SCM scm) {
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
     double volume = ((midi>>16)&0xFF)/255.0;
-    g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
+    //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_midikey(key, 0.2, volume, channel);
     usleep(200000);
  return SCM_BOOL(TRUE);
