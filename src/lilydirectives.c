@@ -24,6 +24,8 @@ struct callbackdata
   DenemoGUI *gui;
   gchar *string;
   gchar *display;
+  gint minpixels;
+  gint spacebefore;
   gboolean locked;
   gboolean attach;/* whether the LilyPond is to be postfixed to note (else should be a DenemoObject) */
 };
@@ -62,19 +64,20 @@ insertdirective (GtkWidget * widget, struct callbackdata *cbdata)
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   gchar *directivestring = cbdata->string;
-  if (curObj && curObj->type == LILYDIRECTIVE)
+  if (curObj && curObj->type == LILYDIRECTIVE) {
     g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directivestring);
-  else
+    curObj->minpixelsalloted = cbdata->minpixels;
+  }  else
     if(cbdata->attach && (curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
       if(curnote->directive)
 	g_string_assign(curnote->directive, directivestring);
       else
 	curnote->directive = g_string_new(directivestring);      
-    }
-    else {  
+    } else {  
       DenemoObject *lily = lily_directive_new (directivestring);
       object_insert (gui, lily);
       lilyobj = (lilydirective *) lily->object;
+      lily->minpixelsalloted = cbdata->minpixels; g_print("min pixels %d\n", lily->minpixelsalloted);
     }
   if(lilyobj) {
     lilyobj->locked = cbdata->locked;
@@ -102,11 +105,12 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
  * or edit the current lilypond directive
  */
 static void
-lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
+lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display, gchar *minpixels)
 {
   gchar *string;
   gchar *current = NULL;
   gchar *current_display = NULL;
+  gint current_minpixels;
   DenemoScore * si = gui->si;
   note *curnote = NULL;
   static struct callbackdata cbdata;
@@ -148,11 +152,17 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display)
     string = g_strdup(init);
     if(display)
       current_display = g_strdup(display);
+    g_print("Got minpixels %s\n", minpixels);
+    if(minpixels)
+      current_minpixels = atoi(minpixels);
+    else
+      current_minpixels = 8;//used to be set in setpixelmin() in utils.c
   }
 
   cbdata.gui = gui;
   cbdata.string = string;
   cbdata.display = current_display;
+  cbdata.minpixels = current_minpixels;
 
   if (string){ 
     insertdirective (NULL, &cbdata);
@@ -193,11 +203,11 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
     }
     }
 #else
-  GET_2PARAMS(action, param, lily, display);
+  GET_3PARAMS(action, param, lily, display, minpixels);
   if(lily && !display)
     display = lily;
 #endif
-  lily_directive (gui, FALSE, lily, display);
+  lily_directive (gui, FALSE, lily, display, minpixels);
 }
 /**
  * Lilypond directive attach.  Allows user to attach a lilypond directive 
@@ -208,5 +218,5 @@ void
 lily_directive_postfix (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  lily_directive (gui, TRUE, action?NULL: ((DenemoScriptParam *)param)->string->str, NULL/* no display yet for postfix */);
+  lily_directive (gui, TRUE, action?NULL: ((DenemoScriptParam *)param)->string->str, NULL/* no display yet for postfix */, NULL);
 }
