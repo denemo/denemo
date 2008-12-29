@@ -256,9 +256,15 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  //g_print("Setting scheme %s\n", scheme);
 	  g_object_set_data(G_OBJECT(action), "scheme", scheme);
 	  g_object_set_data(G_OBJECT(action), "menupath", menupath);
+	  if(new_command) {
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
-
+	  //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
+	  }// else
+	  //g_print("scheme now %s", scheme);
+	  // Note the script should *not* be in Default.cmdset
+	  // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
+	  // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
 
 	} // is_script
 	// we are not as yet re-writing tooltips etc on builtin commands

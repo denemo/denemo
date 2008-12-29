@@ -182,6 +182,32 @@ if(!action && param){\
      if(param_name1==NULL)\
       param_name1=values?values->str:NULL;\
 }
+#define GET_3PARAMS(action, param, param_name1, param_name2, param_name3) \
+gchar * param_name1 = NULL;\
+gchar * param_name2 = NULL;\
+gchar * param_name3 = NULL;\
+  DenemoScriptParam dummy;\
+  dummy.string=NULL;\
+  if(param==NULL)\
+    param = &dummy;\
+  param->status = FALSE;\
+if(!action && param){\
+    GString *values = ((DenemoScriptParam *)param)->string;\
+    if(values) {\
+     gchar *str;\
+     gint i;\
+       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
+	  if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name1)))\
+           param_name1 = str+strlen(#param_name1)+1;\
+          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name2)))\
+           param_name2 = str+strlen(#param_name2)+1;\
+          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name3)))\
+           param_name3 = str+strlen(#param_name3)+1;\
+       }\
+     }\
+     if(param_name1==NULL)\
+      param_name1=values?values->str:NULL;\
+}
 
 
 #endif /* UTILS_H */
