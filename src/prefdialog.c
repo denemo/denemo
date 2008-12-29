@@ -40,6 +40,7 @@ struct callbackdata
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
+  GtkWidget *resolution;
   GtkWidget *overlays;
   GtkWidget *continuous;
 };
@@ -142,6 +143,7 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
+  ASSIGNINT(resolution);
   ASSIGNINT(maxhistory);
 
   prefs->immediateplayback =
@@ -196,6 +198,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *checkrhythmpalette;
   GtkWidget *checkarticulationpalette;
   GtkWidget *strictshortcuts;
+  GtkWidget *resolution;
   GtkWidget *overlays;
   GtkWidget *continuous;
 
@@ -417,7 +420,6 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
 
-
   /*
    * Plugins settings
    */
@@ -490,6 +492,39 @@ preferences_change (GtkAction *action, gpointer param)
 
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
   */
+
+#define INTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (1, 50, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
+
+#define INTENTRY_LIMITS(thelabel, field, min, max) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (min, max, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
+
+ 
+  /*
+   * Excerpt Menu 
+   */
+
+  main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
+				   _("Excerpt"));
+
+  INTENTRY_LIMITS(_("resolution"), resolution, 72, 600);
+
   /*
    * Help settings
    */
@@ -510,16 +545,6 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_entry_set_text (GTK_ENTRY (browserentry), Denemo.prefs.browser->str);
   gtk_box_pack_start (GTK_BOX (hbox), browserentry, TRUE, TRUE, 0);
 
-#define INTENTRY(thelabel, field) \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  field = gtk_spin_button_new_with_range (1, 50, 1.0);\
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
-
   INTENTRY(_("Max recent files"), maxhistory);
 
   /* Set up the callback data */
@@ -532,7 +557,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   SETCALLBACKDATA(strictshortcuts);
-  
+  SETCALLBACKDATA(resolution);  
   SETCALLBACKDATA(overlays);
   SETCALLBACKDATA(continuous);
 
