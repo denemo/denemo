@@ -110,7 +110,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display, gc
   gchar *string;
   gchar *current = NULL;
   gchar *current_display = NULL;
-  gint current_minpixels;
+  gint current_minpixels = 8;//used to be set in setpixelmin() in utils.c
   DenemoScore * si = gui->si;
   note *curnote = NULL;
   static struct callbackdata cbdata;
@@ -155,8 +155,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display, gc
     g_print("Got minpixels %s\n", minpixels);
     if(minpixels)
       current_minpixels = atoi(minpixels);
-    else
-      current_minpixels = 8;//used to be set in setpixelmin() in utils.c
+   
   }
 
   cbdata.gui = gui;
