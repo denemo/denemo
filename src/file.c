@@ -557,6 +557,12 @@ void
 file_open_with_check (GtkAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM(action, param, filename);
+  if(query){
+    param->status = (Denemo.gui->filename!=NULL) && Denemo.gui->filename->len;
+    if(param->status)
+      g_string_assign(param->string, Denemo.gui->filename->str);
+    return;
+  }
   DenemoGUI *gui = Denemo.gui;
   if (gui->changecount)
     {
