@@ -21,7 +21,7 @@
 		 ((equal? duration "d-7") (set! dur ":128"))
  	     )
           (if (string? dur)
-   	  (d-InsertLilyDirective (string "lily=" dur))
+   	  (d-InsertLilyDirective (string-append "directive=" dur))
 	  (command))
 
  

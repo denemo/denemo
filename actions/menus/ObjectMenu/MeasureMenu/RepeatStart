@@ -7,7 +7,7 @@
       <row>
         <action>RepeatStart</action>
         <scheme>
-(d-InsertLilyDirective "lily=\\bar \"|:\"\0display=|R")
+(d-InsertLilyDirective "directive=\\bar \"|:\"\0display=|R")
 </scheme>
         <label>|:</label>
         <tooltip>Insert a start repeat barline.</tooltip>

@@ -8,7 +8,7 @@
         <action>NamedBookmarkInsert</action>
         <scheme>
      		(define user-input (d-GetUserInput "Named Bookmark" "Give a name" "XXX"))
-     		(d-InsertLilyDirective (string-append "lily=%" user-input))
+     		(d-InsertLilyDirective (string-append "directive=%" user-input))
 	</scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Insert Named Bookmark</label>

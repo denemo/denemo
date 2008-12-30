@@ -179,13 +179,13 @@ get_lily_parameter(gchar *query, DenemoScriptParam *param) {
   DenemoObject *curObj = (DenemoObject *) Denemo.gui->si->currentobject ?
     (DenemoObject *) Denemo.gui->si->currentobject->data : NULL;
   param->status = curObj && curObj->type==LILYDIRECTIVE;
-#define ASSIGN_PARAM(name, field)  if(!strcmp(#name, query))\
+#define ASSIGN_PARAM(field)  if(!strcmp(#field, query))\
   g_string_assign(param->string, lilyobj->field->str);
   if(param->status)
     {
       lilydirective *lilyobj = (lilydirective *) curObj->object;
-      ASSIGN_PARAM(lily, directive);
-      ASSIGN_PARAM(display, display);
+      ASSIGN_PARAM(directive);
+      ASSIGN_PARAM(display);
       if(!strcmp("minpixels", query))
 	g_string_printf(param->string, "%d", curObj->minpixelsalloted);
     }
@@ -200,16 +200,16 @@ void
 lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  GET_3PARAMS(action, param, lily, display, minpixels);
+  GET_3PARAMS(action, param, directive, display, minpixels);
   g_print("query is %s\n", query);
   if(query) {
-    get_lily_parameter(*query?query:"lily", param);
+    get_lily_parameter(*query?query:"directive", param);
     return;
   }  
-  if(lily && !display)
-    display = lily;
+  if(directive && !display)
+    display = directive;
 
-  lily_directive (gui, FALSE, lily, display, minpixels);
+  lily_directive (gui, FALSE, directive, display, minpixels);
 }
 /**
  * Lilypond directive attach.  Allows user to attach a lilypond directive 
