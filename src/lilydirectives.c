@@ -172,6 +172,25 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display, gc
 
 }
 
+
+static void
+get_lily_parameter(gchar *query, DenemoScriptParam *param) {
+
+  DenemoObject *curObj = (DenemoObject *) Denemo.gui->si->currentobject ?
+    (DenemoObject *) Denemo.gui->si->currentobject->data : NULL;
+  param->status = curObj && curObj->type==LILYDIRECTIVE;
+#define ASSIGN_PARAM(name, field)  if(!strcmp(#name, query))\
+  g_string_assign(param->string, lilyobj->field->str);
+  if(param->status)
+    {
+      lilydirective *lilyobj = (lilydirective *) curObj->object;
+      ASSIGN_PARAM(lily, directive);
+      ASSIGN_PARAM(display, display);
+      if(!strcmp("minpixels", query))
+	g_string_printf(param->string, "%d", curObj->minpixelsalloted);
+    }
+#undef ASSIGN_PARAM
+}
 /**
  * Lilypond directive insert.  Allows user to insert a lilypond directive 
  * before the current cursor position
@@ -181,31 +200,15 @@ void
 lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-#if 0
-  gchar *lily = NULL, *display = NULL;
-  if(!action)
-    {
-    GString *values = ((DenemoScriptParam *)param)->string;
-    gchar *str;
-#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
-      b = str+strlen(a)+1;\
-    }
-    gint i;
-    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      SET_STRING("lily", lily); 
-      SET_STRING("display", display);
-    }
-#undef SET_STRING
-    if(lily==NULL) {
-      lily=values->str;//Allow simple form
-      display = lily;
-    }
-    }
-#else
   GET_3PARAMS(action, param, lily, display, minpixels);
+  g_print("query is %s\n", query);
+  if(query) {
+    get_lily_parameter(*query?query:"lily", param);
+    return;
+  }  
   if(lily && !display)
     display = lily;
-#endif
+
   lily_directive (gui, FALSE, lily, display, minpixels);
 }
 /**

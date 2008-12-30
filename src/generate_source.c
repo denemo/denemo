@@ -523,10 +523,13 @@ int main() {
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"%s\")), \"scm\", (gpointer)1);\n", ni); //define a property "scm" on the action to mean it scheme can call the action.
 
       /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
-      fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\nSCM ret;\nDenemoScriptParam param;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\n  }\n\
-param.string = gstr;\n\
-param.status = FALSE;\n\
-\n%s%s (NULL, &param);\nif(gstr) g_string_free(gstr, TRUE);\nreturn SCM_BOOL(param.status);\n}\n", ni, fi, !(mi&CMD_CATEGORY_DIRECT)?"_cb":"");
+      fprintf(scheme_cb, "SCM scheme_%s (SCM optional) {\ngboolean query=FALSE;\nDenemoScriptParam param;\nGString *gstr=NULL;\nint length;\n   char *str=NULL;\nif(SCM_STRINGP(optional)){\nstr = gh_scm2newstr(optional, &length);\ngstr = g_string_new_len(str, length);\nif(!strncmp(\"query\",str,5)) query = TRUE;\
+          }\n\
+         param.string = gstr;\n\
+         param.status = FALSE;\n\
+         \n%s%s (NULL, &param);\n\
+         if(param.status && query) return scm_makfrom0str (gstr->str);\
+         if(gstr) g_string_free(gstr, TRUE);\nreturn SCM_BOOL(param.status);\n}\n", ni, fi, !(mi&CMD_CATEGORY_DIRECT)?"_cb":"");
       /****************** install the command in the hash table of commands (keymap) **************/
       fprintf(register_commands, "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%s\"), \"%s\", \"%s\", \"%s\", %s);\n",ni,ni, ml?ml:ni, ti?ti:ni,fi);
       /****************** install the command as an action in the menu system **************************/

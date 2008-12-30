@@ -137,8 +137,11 @@ void *chord2lilybaseduration(struct chord *chordobject, GString *ret);
 void *chord2lilyduration(struct chord *chordobject, GString *ret);
 void *chord2lilynumdots(struct chord *chordobject, GString *ret);	
 
+#define UTILS_H_PARAM_ASSIGN(param_name) if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
+param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
 
 #define GET_1PARAM(action, param, param_name) \
+gchar * query = NULL;\
 gchar * param_name = NULL;\
   DenemoScriptParam dummy;\
   dummy.string=NULL;\
@@ -151,8 +154,8 @@ if(!action && param){\
       gchar *str;\
       gint i;\
       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
-        if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
-         param_name = str+strlen(#param_name)+1;\
+         UTILS_H_PARAM_ASSIGN(query)\
+         UTILS_H_PARAM_ASSIGN(param_name)\
       }\
     }\
     if(param_name==NULL)\
@@ -160,6 +163,7 @@ if(!action && param){\
 }
 
 #define GET_2PARAMS(action, param, param_name1, param_name2) \
+gchar * query = NULL;\
 gchar * param_name1 = NULL;\
 gchar * param_name2 = NULL;\
   DenemoScriptParam dummy;\
@@ -173,16 +177,16 @@ if(!action && param){\
      gchar *str;\
      gint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
-	  if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name1)))\
-           param_name1 = str+strlen(#param_name1)+1;\
-          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name2)))\
-           param_name2 = str+strlen(#param_name2)+1;\
+          UTILS_H_PARAM_ASSIGN(query)\
+          UTILS_H_PARAM_ASSIGN(param_name1)\
+          UTILS_H_PARAM_ASSIGN(param_name2)\
        }\
      }\
      if(param_name1==NULL)\
       param_name1=values?values->str:NULL;\
 }
 #define GET_3PARAMS(action, param, param_name1, param_name2, param_name3) \
+gchar * query = NULL;\
 gchar * param_name1 = NULL;\
 gchar * param_name2 = NULL;\
 gchar * param_name3 = NULL;\
@@ -197,12 +201,37 @@ if(!action && param){\
      gchar *str;\
      gint i;\
        for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
-	  if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name1)))\
-           param_name1 = str+strlen(#param_name1)+1;\
-          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name2)))\
-           param_name2 = str+strlen(#param_name2)+1;\
-          if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name3)))\
-           param_name3 = str+strlen(#param_name3)+1;\
+          UTILS_H_PARAM_ASSIGN(query)\
+          UTILS_H_PARAM_ASSIGN(param_name1)\
+          UTILS_H_PARAM_ASSIGN(param_name2)\
+          UTILS_H_PARAM_ASSIGN(param_name3)\
+       }\
+     }\
+     if(param_name1==NULL)\
+      param_name1=values?values->str:NULL;\
+}
+#define GET_4PARAMS(action, param, param_name1, param_name2, param_name3, param_name4) \
+gchar * query = NULL;\
+gchar * param_name1 = NULL;\
+gchar * param_name2 = NULL;\
+gchar * param_name3 = NULL;\
+gchar * param_name4 = NULL;\
+  DenemoScriptParam dummy;\
+  dummy.string=NULL;\
+  if(param==NULL)\
+    param = &dummy;\
+  param->status = FALSE;\
+if(!action && param){\
+    GString *values = ((DenemoScriptParam *)param)->string;\
+    if(values) {\
+     gchar *str;\
+     gint i;\
+       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
+          UTILS_H_PARAM_ASSIGN(query)\
+          UTILS_H_PARAM_ASSIGN(param_name1)\
+          UTILS_H_PARAM_ASSIGN(param_name2)\
+          UTILS_H_PARAM_ASSIGN(param_name3)\
+          UTILS_H_PARAM_ASSIGN(param_name4)\
        }\
      }\
      if(param_name1==NULL)\
