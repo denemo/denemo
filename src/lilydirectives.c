@@ -77,7 +77,7 @@ insertdirective (GtkWidget * widget, struct callbackdata *cbdata)
       DenemoObject *lily = lily_directive_new (directivestring);
       object_insert (gui, lily);
       lilyobj = (lilydirective *) lily->object;
-      lily->minpixelsalloted = cbdata->minpixels; g_print("min pixels %d\n", lily->minpixelsalloted);
+      lily->minpixelsalloted = cbdata->minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
     }
   if(lilyobj) {
     lilyobj->locked = cbdata->locked;
@@ -152,7 +152,7 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *display, gc
     string = g_strdup(init);
     if(display)
       current_display = g_strdup(display);
-    g_print("Got minpixels %s\n", minpixels);
+    //g_print("Got minpixels %s\n", minpixels);
     if(minpixels)
       current_minpixels = atoi(minpixels);
    
@@ -201,7 +201,7 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_3PARAMS(action, param, directive, display, minpixels);
-  g_print("query is %s\n", query);
+  //g_print("query is %s\n", query);
   if(query) {
     get_lily_parameter(*query?query:"directive", param);
     return;
