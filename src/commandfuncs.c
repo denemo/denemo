@@ -849,6 +849,8 @@ insertion_point (DenemoScore * si)
 	}
       else
 	si->currentmeasure = si->currentmeasure->next;
+      if(Denemo.gui->mode&(INPUTRHYTHM))
+	gdk_beep();
       /* Now the stuff that needs to be done for each case */
       si->currentmeasurenum++;
       si->currentobject = (objnode *) si->currentmeasure->data;
@@ -1061,9 +1063,11 @@ displayhelper (DenemoGUI * gui)
   nudgerightward (gui);
   set_bottom_staff(gui);
   write_status(gui);
+
+#if 0
   if ((gui->mode&(INPUTRHYTHM)) && si->currentobject && (((DenemoObject*)(si->currentobject->data))->type==CHORD)&& ((DenemoObject*)(si->currentobject->data))->starttickofnextnote>= WHOLE_NUMTICKS * si->cursortime1/si->cursortime2)
     gdk_beep(); //Signal new measures in Edit mode to catch out of step entry
-
+#endif
   /*gtk_widget_draw (gui->scorearea, NULL);*/
   gtk_widget_queue_draw (gui->scorearea);
 }
