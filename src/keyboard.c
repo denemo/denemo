@@ -173,6 +173,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
       } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
 	scheme = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+#if 0
+	/* this puts the loaded script into the scheme view window - useful for development work */
 	if(merge && scheme) {
 	  GtkTextIter enditer;
 	  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
@@ -180,7 +182,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  gchar *text = g_strdup_printf(";;;Scheme code for command %s\n%s",name,scheme);
 	  gtk_text_buffer_insert(buffer, &enditer, text, -1);
 	  g_free(text); 
-	}  
+	} 
+#endif 
 	is_script = TRUE;
       }    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
 	hidden = TRUE; 
