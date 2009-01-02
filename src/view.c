@@ -2264,7 +2264,7 @@ static void toggle_rhythm_mode (GtkAction * action, gpointer param){
 static void
 toggle_lilytext (GtkAction * action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
- if(!gui->textview)
+  //if(!gui->textview)
    refresh_lily_cb(action, gui);
  if(!GTK_WIDGET_VISIBLE(gui->textwindow))
    gtk_widget_show/*_all*/(gui->textwindow);
