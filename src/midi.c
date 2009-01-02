@@ -13,7 +13,19 @@
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 #include <sys/soundcard.h>
+#else
+#define MIDI_NOTEOFF		0x80
+#define MIDI_NOTEON		0x90
+#define MIDI_KEY_PRESSURE	0xA0
+
+#define MIDI_CTL_CHANGE		0xB0
+#define MIDI_PGM_CHANGE		0xC0
+#define MIDI_CHN_PRESSURE	0xD0
+#define MIDI_PITCH_BEND		0xE0
+
+#define MIDI_SYSTEM_PREFIX	0xF0
 #endif
+
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,18 +41,8 @@
 
 #define SEQ_DEV    (Denemo.prefs.sequencer->str)
 #define SEQ_DEV_N  0
-
-#ifdef HAVE_SYS_SOUNDCARD_H
-struct synth_info card_info;
-
-SEQ_DEFINEBUF (128);
-
-
 static int sequencer_fd = -1;
-static gint ttag;
 static gboolean shouldremove = FALSE;
-
-
 static double
 midi2hz(int midinum)
 {
@@ -48,6 +50,17 @@ midi2hz(int midinum)
   double expon = (argument / 12);
   return 440 * pow(2, expon);
 }
+
+#ifdef HAVE_SYS_SOUNDCARD_H
+struct synth_info card_info;
+
+SEQ_DEFINEBUF (128);
+
+
+
+static gint ttag;
+
+
 
 
 
