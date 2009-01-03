@@ -406,7 +406,8 @@ main (int argc, char *argv[])
   GError *error = NULL;
   /* gtk initialization */
   gtk_init (&argc, &argv);
-  //DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+
+  
 
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
@@ -420,8 +421,13 @@ main (int argc, char *argv[])
 
   /* initialization of directory relocatability */
   initdir();
-
-
+#ifdef G_OS_WIN32
+  gchar *scmcode = g_build_filename(get_data_dir(), "guile", NULL);
+  if(g_file_test(scmcode, G_FILE_TEST_EXISTS)) {
+  g_setenv("GUILE_LOAD_PATH", scmcode, TRUE);
+  g_print("Set environment variable GUILE_LOAD_PATH to %s\n", scmcode);
+  } else warningdialog("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+#endif
   /* locale initialization */
   //setlocale (LC_CTYPE, "");
   //setlocale (LC_MESSAGES, "");
