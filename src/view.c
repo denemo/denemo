@@ -73,7 +73,7 @@ typedef enum
   ACCELS_MAY_HAVE_CHANGED = 0x1<<2
 } AccelStatus;
 
-
+#define gh_scm2newstr scm_to_locale_stringn 
 
 static void use_markup(GtkWidget *widget);
 static void save_accels (void);
