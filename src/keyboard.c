@@ -104,8 +104,8 @@ get_state (gchar * key)
 /* add ui elements for menupath if missing */
 static gint
 instantiate_menus(gchar *menupath) {
-  /* just add last one for the moment */
   //g_print("Instantiate menus for %s\n", menupath);
+ 
   gchar *up1 = g_path_get_dirname(menupath);
   gchar *name=g_path_get_basename(menupath);
   GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, up1);
@@ -436,13 +436,25 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath
    below menus/
 */
 gchar *extract_menupath(gchar *filename) {
+  gchar *head = g_strdup_printf("%c%s", G_DIR_SEPARATOR, "menus");
   GString *str = g_string_new("");
-  gchar *base = g_strrstr(filename, "/menus");
+  gchar *base = g_strrstr(filename, head);
   if(base) {
-    base += strlen("/menus");
+    base += strlen(head);
     base = g_path_get_dirname(base);
+    gchar *c;
+    for(c = base; c && *c;c++)
+      if(*c==G_DIR_SEPARATOR)
+	*c = '/';
     //g_print("got base as %s\n", base);
   }
+  g_free(head);
+
+
+ 
+
+
+
   return base;
 }
 
