@@ -255,7 +255,7 @@
       </mediaobject>
     </figure>
 <para>
-A set of action-based menus can also be shown in addition to the object-based menu shown here. These menus can be used directly or for enquiring/setting keyboard shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus to show.
+A set of action-based menus can also be shown in addition to the object-based menu shown here. These menus can be used directly or for enquiring/setting keyboard/mouse shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus to show.
 </para>
     <para>The main menu bar has menus for overall control of the program. It
     contains the following menus:</para>
@@ -666,7 +666,7 @@ A set of action-based menus can also be shown in addition to the object-based me
            <row>
               <entry>Rhythm</entry>
 
-              <entry>Switch to entering rhythms (durations) only. A beep is sounded whenever a measure is filled.</entry>
+              <entry>Switch to mode for Rhythm entry via keyboard (pitch entry via Audio or MIDI). Each duration has its own audio feedback.</entry>
             </row>
 
             <row>
@@ -684,7 +684,7 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Toggle Rhythm</entry>
 
-              <entry>Toggle between entering notes and entering rhythms (durations).</entry>
+              <entry>Toggle between Note and Rhythm entry.</entry>
             </row>
 
           </tbody>
@@ -1037,7 +1037,7 @@ In the score properties dialog things that affect the whole piece can be set, as
 <sect2>
      <title>Adding More Features </title>
    <para>
-It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard shortcut and keep the command in your default setup.
+It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup.
   </para>
 </sect2>
 <sect2>
@@ -1105,13 +1105,46 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 </listitem>
 <listitem>d-GetUserInput takes three strings, displays and returns the user's response as a string.
 </listitem>
+<listitem>
+d-GetMidi
+</listitem>
+  <listitem>
+d-PutMidi
+</listitem>
+  <listitem>
+d-PlayMidiKey
+</listitem>
+  <listitem>
+d-BassFigure
+  </listitem>
+  <listitem>
+d-GetNoteAsMidi  
+  </listitem>
+  <listitem>
+d-RefreshDisplay
+  </listitem>
+  <listitem>
+d-InputFilterNames  sets the status bar
+  </listitem>
+
 </itemizedlist>
 
   <para>
-  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a (NULL separated) string containing values is passed these will be used and no popup will occur. This feature is being rolled out, and currently works for
+  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a (NULL separated) string containing name=value is passed these will be used and no popup will occur. As a shorthand if there is only one value being passed you can just pass the value. So for example
+<example id="schemecalls">
+(d-InsertLilyDirective "directive=^\\markup \\italic {Allegro}\0display=Allegro")
+</example>
+will insert a LilyPond directive whose text is ^\markup \italic {Allegro} while displaying the word Allegro in Denemo. If you only wanted to pass the directive then
+<example id="schemecalls">
+(d-InsertLilyDirective "^\\markup \\italic {Allegro}")
+</example>
+would do this. The fields are by convention lower case names, listed against the commands below.
+  </para>
+  <para>
+This feature is being rolled out, and currently works for
 <itemizedlist>
 <listitem>
-d-InsertLilyDirective pass string to be inserted
+d-InsertLilyDirective (directive, display)
 </listitem>
 <listitem>
 d-InsertLilyPostfix
@@ -1131,6 +1164,12 @@ d-InitialKey
 <listitem>
 d-InsertKey
 </listitem>
+<listitem>
+d-Open filename
+</listitem>
+
+
+
 </itemizedlist>
   </para>
   </sect1>
@@ -1217,20 +1256,29 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
   <sect1>
     <title>Rhythms and Overlays</title>
     <para>The Rhythms and Overlays toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the mode->Rhythm Mode option for this, so that you get a bell to confirm when you have completed a measure.</para>
- <para>Also on this toolbar is the Microphone option, which allows you to enter pitches via the mic in port on your soundcard. If you have entered your piece of music as pure rhythm you can overlay with the pitches using this option.
+ <para>Using Input->Midi or Audio allows you to enter pitches directly. If you have entered your piece of music as pure rhythm you can overlay with the pitches using a MIDI controller or musical instrument with mic, headphones out or pickup attached to your soundcard.
 </para>
 
   </sect1>
   <sect1>
-    <title>Playing Notes into Denemo</title>
+    <title>Playing Notes into Denemo - MIDI</title>
+
+<para>
+    Denemo can take pitches directly from MID input. Select Input->Midi Input. The control window allows you to choose the enharmonic range. Under Mode->MIDI are various "MIDI filters" that allow you to control how the MIDI input is used: with none active the behaviour is as if you had entered the notes using the pc-keyboard (except that octave, accidental and note name are all entered in one go). You can also use Advance on Edit to put the pitches onto pre-entered rhythms, or Check Pitches (where you play through the piece and a warning is issued if you hit a wrong note).
+</para>
+<para>
+   These MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Chords could be entered using similar code.
+</para>
+
+    <title>Playing Notes into Denemo - Audio (Souncard Mic Input)</title>
 
 <para>
 Denemo can listen for, and detect the pitch of notes on the mic input of the computer; it doesn't attempt to guess the rhythm - such systems do not work well - but you will find that playing the notes in time will help you to play them in, as well as make playing them in a musical experience rather than a chore.
 </para>
 
- <para>Playing the notes in can be much quicker than using the keyboard since the note octave and accidental are all given just by playing the note. If you are able to play a musical instrument then this will probably be much faster for you than typing note names, octave shifts and accidentals at the computer keyboard.</para>
+ <para>Playing the notes in can be much quicker than using the keyboard since the note octave and accidental are all given just by playing the note. If you are able to play a musical instrument then this will probably be much faster for you than typing note names, octave shifts and accidentals at the computer keyboard. Using the headphones out of an electronic keyboard avoids "noises-off" interfering with the pitch detection. Many microphones and pickups benefit from some pre-amplification - it is worth getting the level right before you begin.</para>
 
-<para>When you select the Microphone on the Rhythms and Overlays Toolbar the Pitch Recognition window pops up. While the mouse pointer is inside the score drawing area the score is sensitive to pitches heard via the microphone input. The background colour of the score changes to show that the notes will be entered into the score. </para>
+<para>When you select the Input->Audio on the Main Menu the Pitch Recognition window pops up. While the mouse pointer is inside the score drawing area the score is sensitive to pitches heard via the microphone input. The background colour of the score changes to show that the notes will be entered into the score. </para>
 <para>There are two ways of using the pitch entry - Overlay mode (default) and Insert mode. The button marked Insert causes notes to be entered into the current measure in the prevailing rhythm - the mode is set to Insert for this. The button marked Overlays overlays the notes already present with the pitches you sound. There is a third button, marked Tuning, which is a state-of-the art musical instrument tuner.</para>
 <para>
 Music is entered into the measure which holds the cursor. If you are overlaying a rhythm already entered, then the first un-overlayed note in the measure is overlayed by the note detected. You can delete the overlay using the regular delete keys, or clear them altogether if you want to start over in a measure. If you are in Insert mode then the notes detected will be inserted at the cursor position.
@@ -1247,7 +1295,10 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
 
     <para>Modes in Denemo are optional. Denemo has a large number of actions (functions) that it can execute for you, and these are to be found in the View-\>Objects Menu (grouped by objects such as note, measure, clef etc. Some of these functions do different things in different modes. For example the key A is usually bound to a function that moves the cursor to the nearest note A, or inserts a note A, or changes the current note to an A, all depending on which mode is chosen. (There are also entry modes, in rest entry mode instead of a note a rest would be inserted). </para>
  <para>If you dislike modal programs, you will set your keybindings to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
-<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, while in Rhythm entry a beep is sounded whenever a measure has the correct number of beats – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
+<para>
+When using a MIDI controller to enter pitches, you can just set the Rhythm entry mode, and never have to switch modes. You select rhythms via the keyboard and edit their pitch with the MIDI in.
+</para>
+<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, while in Rhythm entry the different durations have varied audio feedback and a beep is sounded when Denemo moves to the next measure – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
   </sect1>
 
   <sect1>
@@ -1258,7 +1309,7 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
       <subtitle>Introduction</subtitle>
       <para>
       Denemo allows you to explore all the actions  (insert/delete/edit/navigate...) using the Objects menu. So inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
-<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected.
+<note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
 </note>
       </para>
       <para>Denemo offers several ways of entering music: typing at the keyboard, playing in acoustically using a microphone or choosing items from the menu system. </para>
@@ -1975,7 +2026,7 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
 
     <procedure>
       <step>
-        <para>Repeat barlines can be added using Other-\>Insert/Edit LilyPond, the LilyPond directive \bar ":|" adds an end repeat, for example. See LilyPond docs for further examples, or explore the templates.</para>
+        <para>Various special barlines can be entered via menu items in the Measures menu. These are just scripts so you can add other types that LilyPond can print. You can also add 1st and 2nd time bars etc.</para>
       </step>
 
 
