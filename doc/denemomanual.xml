@@ -509,7 +509,7 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Keyboard Setup</entry>
 
-              <entry>Quick settings checkbox – one touch setting of keypresses. Save shortcuts. Extra keyindings for duplicate keybindings only.</entry>
+              <entry>Quick settings checkbox – one touch setting of keyboad shortcuts</entry>
             </row>
           </tbody>
         </tgroup>
@@ -584,7 +584,7 @@ A set of action-based menus can also be shown in addition to the object-based me
       <title>Mode</title>
 
       <para>Use the<guimenu> Mode</guimenu> menu to switch modes or choose to use modelessly. The different modes are useful for different ways or phases of work.</para>
-    <para>  With the standard keybindings the modes work like this:</para>
+    <para>  With the standard keyboard shortcuts the modes work like this:</para>
 
         <itemizedlist>
 
@@ -967,7 +967,7 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Notes/Rests</entry>
 
-              <entry>The first menu item in this menu depends on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set keybindings – it would be too slow to use them for actually entering notes/rests. I addition there are menu items for inserting rests, deleting, tied notes, setting the notehead style and stem direction </entry>
+              <entry>The first menu item in this menu depends on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set shortcuts – it would be too slow to use them for actually entering notes/rests. I addition there are menu items for inserting rests, deleting, tied notes, setting the notehead style and stem direction </entry>
             </row>
 
             <row>
@@ -1300,7 +1300,7 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
     <title>Understanding Modes</title>
 
     <para>Modes in Denemo are optional. Denemo has a large number of actions (functions) that it can execute for you, and these are to be found in the View-\>Objects Menu (grouped by objects such as note, measure, clef etc. Some of these functions do different things in different modes. For example the key A is usually bound to a function that moves the cursor to the nearest note A, or inserts a note A, or changes the current note to an A, all depending on which mode is chosen. (There are also entry modes, in rest entry mode instead of a note a rest would be inserted). </para>
- <para>If you dislike modal programs, you will set your keybindings to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
+ <para>If you dislike modal programs, you will set your shortcuts to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
 <para>
 When using a MIDI controller to enter pitches, you can just set the Rhythm entry mode, and never have to switch modes. You select rhythms via the keyboard and edit their pitch with the MIDI in.
 </para>
@@ -1327,16 +1327,20 @@ When using a MIDI controller to enter pitches, you can just set the Rhythm entry
       <para>One way to do this is to choose Rhythm entry mode and enter the music as pure rhythm, ignoring the note names. As you complete each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
       <para>Once you have entered the rhythms you click on the button marked  microphone and, placing the cursor in the first measure, play the notes into a microphone plugged into the mic input of your soundcard. The microphone button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
 
-      <para>Another method of playing music in doesn't involve entering the rhythm separately. For this click on Rhythm the Microphone button and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
+      <para>Another method of playing music in doesn't involve entering the rhythm separately. For this select Input->Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI, only you just need to select Insert mode to enter the notes in that case. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
 
-      <para>The old Denemo keymaps are still active, but precedence is given to the keybindings that appear beside the actions in the menus. (see <xref linkend="customizingDenemo" />). (Input via
-      MIDI keyboard is planned for later versions of Denemo.) Denemo also
-      provides language specific keymaps for a few langauages.</para>
+      <para>The oldest Denemo keymaps are no longer supported. (see <xref linkend="customizingDenemo" />). (Input via
+      MIDI keyboard and Mic in is now available). Denemo also
+      provides shortcuts for use with Numeric Keypad.</para>
 
       <sect3 id="scoresetup">
         <title>Score Setup</title>
 
 	<para>Denemo provides different ways to set up scores: <itemizedlist>
+            <listitem>
+              <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin.<xref linkend="initDotDenemo" /></para>
+            </listitem>
+
             <listitem>
               <para>Use a Template</para>
             </listitem>
@@ -2236,11 +2240,10 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
    <sect2 revision="0.70">
       <title>Musical Score that Do Things!</title>
 <para>
-By saving a Denemo score with a script defined you can create music lessons, automatic midi player ... the possibilities are (literally) endles. When you open such a score, the script is run - it can take user input and manipulate the score, or do other actions as your fancy takes you.
+By saving a Denemo score with a script defined (in the script window) you can create music lessons, automatic midi player ... the possibilities are (literally) endless. When you open such a score, the script is run - it can take user input and manipulate the score, or do other actions as your fancy takes you.
 </para>
-<para>
-There is a special score init.denemo that is run on startup. By editing this you can startup with whatever template and whatever actions you wish to be performed. If you set it to do something that quits Denemo, you may need to delete the file before using Denemo normally again. Your local init.denemo is stored in the directory .denemo/actions in your home directory.
-</para>
+<para id="initDotDenemo">
+There is a special score init.denemo that is run on startup. By editing this you can startup with whatever template and whatever actions you wish to be performed. If you set it to do something that quits Denemo, you may need to delete the file before using Denemo normally again. Your local init.denemo is stored in the directory .denemo/actions in your home directory.To create it put the script you want in the script window and use SaveAs selecting ~/.denemo/actions/init.denemo as your file to save to.</para>
 </sect2>
    <sect2 revision="0.70">
       <title>Piano Staffs, Orchestral Scores etc</title>
@@ -2338,7 +2341,7 @@ It is possible to set silly combinations – some will not print anything. Check
     </sect2>
 
     <sect2 id="customizingDenemo">
-      <title>Adding Custom Key Bindings</title>
+      <title>Adding Custom Key Shortcuts</title>
 
       <para><productname>Denemo</productname> still comes with a number of premade
       keyboard shortcut maps. However, the shortcuts attached to the menu items take precedence and are much easier to set. It is intended to replace this mechanism, possibly with a macro facility, at some future date.</para>
