@@ -240,8 +240,10 @@
 
   <sect1>
     <title>Getting Started</title>
+    <para>On starting a Denemo Music score (called init.denemo) is loaded, and any actions associated with it are run. 
+</para>
 
-    <para>Denemo is usually used via the keyboard or playing in via a musical instrument. The mouse however has its uses. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a keybinding for the menu item.</para>
+    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. The mouse however has its uses. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
 
     <subtitle>The Denemo Interface</subtitle>
 
@@ -692,7 +694,11 @@ A set of action-based menus can also be shown in addition to the object-based me
       </informaltable>
     </sect2>
 
-   
+     <sect2>
+      <title>Input</title>
+       <para>Choose whether to use external sources (Audio from the Mic input or MIDI) for Denemo. To use these you may need to review the settings in Edit->Prefs first.</para>
+   </sect2>
+  
     <sect2>
       <title>More</title>
        <para>Add commands to Denemo. Extra commands are available (those which not everyone will want) via this menu. More Commands gives commands shipped with Denemo, while My Commands gives ones that you have created locally. Note that the extra commands can also be loaded at the menu where you are looking for them (you right-click on a menu item, and if there are more commands for that menu the More Commands for this Menu item will show),</para>
@@ -1059,7 +1065,7 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
  A good example of this is a script to insert a particular LilyPond directive into the score. This is all that many scripts do: it is easy to see the piece of LilyPond in the Scheme Script window, and by changing it you can create a new command.
  </para> 
  <para>
- For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Once you have loaded this command its script is appended to the Scheme Script window. Here you can see the part that says
+ For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Fetch Script from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
 <itemizedlist>
  <listitem>
 (d-InsertLilyDirective " \\mark \\default")
@@ -2227,6 +2233,15 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
 
   <sect1>
     <title>Advanced Use</title>
+   <sect2 revision="0.70">
+      <title>Musical Score that Do Things!</title>
+<para>
+By saving a Denemo score with a script defined you can create music lessons, automatic midi player ... the possibilities are (literally) endles. When you open such a score, the script is run - it can take user input and manipulate the score, or do other actions as your fancy takes you.
+</para>
+<para>
+There is a special score init.denemo that is run on startup. By editing this you can startup with whatever template and whatever actions you wish to be performed. If you set it to do something that quits Denemo, you may need to delete the file before using Denemo normally again. Your local init.denemo is stored in the directory .denemo/actions in your home directory.
+</para>
+</sect2>
    <sect2 revision="0.70">
       <title>Piano Staffs, Orchestral Scores etc</title>
 
