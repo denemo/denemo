@@ -1520,6 +1520,11 @@ void appendSchemeText(gchar *text) {
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
 }
 
+static appendSchemeText_cb(GtkWidget *widget, gchar *text) {
+  appendSchemeText(text);
+}
+
+
 /* execute the script that is in the Scheme script window */
 void executeScript(void) {
   gchar *text = getSchemeText();
@@ -1542,7 +1547,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action);
  */
 gchar *instantiate_script(GtkAction *action){
   gchar *menupath = (gchar*)g_object_get_data(G_OBJECT(action), "menupath");
-  gchar *name = gtk_action_get_name(action);
+  const gchar *name = gtk_action_get_name(action);
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
                                         NULL);
   g_print("Filename %s\n", filename);
@@ -1564,7 +1569,7 @@ activate_script (GtkAction *action, gpointer param)
   // the proxy list is NULL until the menu item is first called...
   //BUT if you first activate it with right button ....
   if(GTK_IS_ACTION(action)) {
-    if(!g_object_get_data(action, "signal_attached")) {
+    if(!g_object_get_data(G_OBJECT(action), "signal_attached")) {
       GSList *h = gtk_action_get_proxies (action);
       for(;h;h=h->next) {
 	attach_right_click_callback(h->data, action);
@@ -1812,7 +1817,25 @@ static void  createMouseShortcut(GtkWidget *menu, GtkAction *action) {
   mouse_shortcut_dialog(&info);
 }
 
-
+/* save the action (which must be a script),
+   setting the script text to the script currently in the ScriptView
+   The save is to the user's menu hierarchy on disk
+*/
+static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
+  gchar *name = (gchar *)gtk_action_get_name(action);
+  gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  gchar *tooltip = (gchar*)lookup_tooltip_from_idx(Denemo.map, idx);
+  gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
+  
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
+				      NULL);
+  gchar *scheme = getSchemeText();
+  if(scheme && *scheme)
+    save_script_as_xml (filename, name, scheme, label, tooltip);
+  else
+    warningdialog("No script to save");
+}
 /*
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
@@ -1841,7 +1864,7 @@ static gboolean menu_click (GtkWidget      *widget,
 	if(g_object_get_data(G_OBJECT(action), "scm"))	
 	   append_scheme_call((gchar*)func_name);
 	else if(g_object_get_data(G_OBJECT(action), "scheme"))
-	  appendSchemeText(g_object_get_data(G_OBJECT(action), "scheme"));
+	  appendSchemeText(g_object_get_data(G_OBJECT(action), "scheme"));//FIXME Should insert (d-<name of action>) now
 	//return TRUE;
       }
 
@@ -1853,19 +1876,22 @@ static gboolean menu_click (GtkWidget      *widget,
 
 
   GtkWidget *menu = gtk_menu_new();
-
-  GtkWidget *item = gtk_menu_item_new_with_label("What is this?");
+  gchar *labeltext = g_strdup_printf("Help for %s", func_name);
+  GtkWidget *item = gtk_menu_item_new_with_label(labeltext);
+  g_free(labeltext);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(popup_help), (gpointer)idx);
-
-  item = gtk_menu_item_new_with_label("Edit/Create Keyboard Shortcut");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
 
   item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
+
+
+  item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+
 
 
   // if(action scheme "Insert Menu Item into Script window"???? or where we insert d-XXX can we just insert the scheme???
@@ -1896,20 +1922,32 @@ static gboolean menu_click (GtkWidget      *widget,
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }
 
+
+
+  gchar *scheme = g_object_get_data(G_OBJECT(action), "scheme");
+  if(scheme) {
+    if(*scheme==0)
+      scheme = instantiate_script(action);
+    item = gtk_menu_item_new_with_label("Get Script");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(appendSchemeText_cb), scheme);
+    item = gtk_menu_item_new_with_label("Save Script");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
+  }
+  if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
+    item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  }
+
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), myposition);
+
   /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label("Show Current Script");
   gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView)));
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   //FIXME the next statement triggers a warning that ToggleScript is not a registered denemo commad - correct, since we do not make the toggles available as commands since using such a command would make the check boxes out of step, instead we install function that activate the menuitem.
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), item);
-
-
-
-  item = gtk_menu_item_new_with_label("Create New Menu Item Here");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), myposition);
-
 
 
   gtk_widget_show_all(menu);
@@ -2036,7 +2074,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
 #endif
-  g_object_set_data(action, "signal_attached", action);//Non NULL to indicate the signal is attached
+  g_object_set_data(G_OBJECT(action), "signal_attached", action);//Non NULL to indicate the signal is attached
 }
 
 
