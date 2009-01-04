@@ -422,7 +422,7 @@ main (int argc, char *argv[])
   /* initialization of directory relocatability */
   initdir();
 #ifdef G_OS_WIN32
-  gchar *scmcode = g_build_filename(get_data_dir(), "guile", NULL);
+  gchar *scmcode = g_build_filename(get_data_dir(), "share", "guile", NULL);
   if(g_file_test(scmcode, G_FILE_TEST_EXISTS)) {
   g_setenv("GUILE_LOAD_PATH", scmcode, TRUE);
   g_print("Set environment variable GUILE_LOAD_PATH to %s\n", scmcode);
