@@ -91,7 +91,7 @@ typedef enum ornament {
   PRALL,
   PRALLPRALL,
   SEGNO,
-  SFORZATO,
+  SFORZATO,/*unused is a dynamic */
   STOPPED,
   THUMB,
   TRILL_ELEMENT,
