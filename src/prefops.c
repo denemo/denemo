@@ -758,7 +758,7 @@ void storeWindowState (void)
    GKeyFile *keyfile;
    gchar *contents;
    gchar *filename;
-   gtk_window_get_size (Denemo.window, &(Denemo.width), &(Denemo.height));
+   gtk_window_get_size ( GTK_WINDOW (Denemo.window), &(Denemo.width), &(Denemo.height));
    keyfile = g_key_file_new ();
    g_key_file_set_integer (keyfile, "State", "width", Denemo.width);
    g_key_file_set_integer (keyfile, "State", "height", Denemo.height);
@@ -818,6 +818,7 @@ void loadWindowState (void)
 	gtk_window_set_default_size (GTK_WINDOW (Denemo.window), Denemo.width, Denemo.height);
         if ((Denemo.maximized=maximized)) {
 	  gtk_window_maximize (GTK_WINDOW (Denemo.window));
-        }
+        } else
+	  gtk_window_unmaximize (GTK_WINDOW (Denemo.window));
     }
 }
