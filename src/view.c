@@ -2453,9 +2453,11 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleEntryToolbar_STRING, NULL, N_("Note and rest entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), FALSE}
   ,
+#if 0
   {ToggleActionMenu_STRING, NULL, N_("Menu of actions"), NULL, N_("Show/hide a menu which is arranged by actions\nThe actions are independent of any mode set"),
    G_CALLBACK (toggle_action_menu), FALSE}
   ,
+#endif
   {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), FALSE}
   ,
@@ -2905,10 +2907,10 @@ get_data_dir (),
   }
 
 
-  menubar = gtk_ui_manager_get_widget (ui_manager, "/ActionMenu");
-  if(menubar) {
-    gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, TRUE, 0);
-  }
+  //  menubar = gtk_ui_manager_get_widget (ui_manager, "/ActionMenu");
+  //  if(menubar) {
+  //    gtk_box_pack_start (GTK_BOX (main_vbox), menubar, FALSE, TRUE, 0);
+  //  }
 
   Denemo.notebook = gtk_notebook_new ();
   gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), FALSE);//only show when more than one
@@ -2982,7 +2984,7 @@ gtk_action_group_set_translation_domain (lilyaction_group, NULL);
  Denemo.ClassicModeMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ClassicModeNote");
  Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
 
- gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
+ //gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
  gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
 #ifdef G_OS_WIN32
