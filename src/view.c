@@ -1595,9 +1595,11 @@ activate_script (GtkAction *action, gpointer param)
 
 /*pop up the help for passed command as info dialog
  */
-static void popup_help(GtkWidget *widget, gint idx) {
-  gchar *tooltip = (gchar *)lookup_tooltip_from_idx (Denemo.map, idx);
-  const gchar *name = lookup_name_from_idx (Denemo.map, idx);
+static void popup_help(GtkWidget *widget, GtkAction *action) {
+  const gchar *name = gtk_action_get_name(action);
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  gchar *tooltip = idx>=0?(gchar *)lookup_tooltip_from_idx (Denemo.map, idx):"A menu for ...";
+
   tooltip = g_strdup_printf("Command: %s\n\nInformation:\n%s", name,  tooltip);
   infodialog (tooltip);
   g_free(tooltip);
@@ -1870,40 +1872,38 @@ static gboolean menu_click (GtkWidget      *widget,
 
   if (event->button != 3)
     return FALSE;
-  /* This idx is -1 for the toggles and radio entries because they share a callback function. If we want to allow setting keybindings, getting help etc. for these then we would need to re-work all the radio action entries code using generate_source.c. Instead at the moment we have just defined scheme callback functions d-EditMode etc. using a hand-created array activatable_commands earlier in this file. */
+
+
+#if 0
+  /* This idx is -1 for the toggles and radio entries because they share a callback function. If we want to allow setting keybindings, getting help etc. for these then we would need to re-work all the radio action entries code using generate_source.c. Instead at the moment we have just defined scheme callback functions d-EditMode etc. using a hand-created array activatable_commands earlier in this file.
+   It is also for menus themselves, so we process the case further.*/
   if (idx == -1)
     return TRUE;
-
+#endif
 
   GtkWidget *menu = gtk_menu_new();
   gchar *labeltext = g_strdup_printf("Help for %s", func_name);
   GtkWidget *item = gtk_menu_item_new_with_label(labeltext);
   g_free(labeltext);
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(popup_help), (gpointer)idx);
-
-  item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(popup_help), (gpointer)action);
 
 
-  item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+  if(idx!=-1) {
+    item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
 
 
+    item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
 
-  // if(action scheme "Insert Menu Item into Script window"???? or where we insert d-XXX can we just insert the scheme???
 
-
-  //item = gtk_check_menu_item_new_with_label("Recording Script");
-  //gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item), Denemo.ScriptRecording);
-  //gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  //gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript"), item);
-  item = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
    
+  }//idx!=-1
 
   gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
   if(!myposition)
@@ -1938,9 +1938,8 @@ static gboolean menu_click (GtkWidget      *widget,
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), myposition);
   }
-
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), myposition);
 
   /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label("Show Current Script");
@@ -2711,11 +2710,25 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     set the shortcut label 
 
 */
-
-static void  proxy_connected (GtkUIManager *uimanager, GtkAction    *action, GtkWidget    *proxy) {
+static gboolean  thecallback      (GtkWidget      *widget,
+                                            GdkEventButton *event,
+				   GtkAction *action) {
+  if (event->button==1 && !(event->state&(GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
+    return FALSE;
+  g_print("going for %d for %d\n", event->button, event->state);
+  event->button = 3;
+  return menu_click(widget, event, action);
+}
+static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWidget    *proxy) {
   int command_idx;
 
   attach_right_click_callback(proxy, action);
+
+  if(GTK_IS_IMAGE_MENU_ITEM(proxy)) {
+    if(!g_object_get_data(G_OBJECT(action), "connected"))
+    g_signal_connect(G_OBJECT(proxy), "button-press-event", G_CALLBACK(thecallback), action);
+     g_object_set_data(G_OBJECT(action), "connected", (gpointer)1);  //Unfortunately GtkImageMenuItems that pop up a menu do not wait for a button press - the focus switches to the popped up memory on entry. So we don't see this signal for them
+  }
 #if (GTK_MINOR_VERSION <10)
        attach_action_to_widget(proxy, action, Denemo.gui);
 #endif
