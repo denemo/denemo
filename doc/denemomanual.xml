@@ -1150,7 +1150,7 @@ would do this. The fields are by convention lower case names, listed against the
 This feature is being rolled out, and currently works for
 <itemizedlist>
 <listitem>
-d-InsertLilyDirective (directive, display)
+d-InsertLilyDirective (directive, display. minpixels)
 </listitem>
 <listitem>
 d-InsertLilyPostfix
