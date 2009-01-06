@@ -399,26 +399,26 @@
         <menuitem action="InsertTimeSig"/>
     </menu>
 
-     <menu action="ExpressionMarks">
+     <menu action="Markings">
+     <menu action="Dynamics">
 	<menuitem action="InsertDynamic"/>
 	<menuitem action="ToggleStartCrescendo"/>
 	<menuitem action="ToggleEndCrescendo"/>
 	<menuitem action="ToggleStartDiminuendo"/>
 	<menuitem action="ToggleEndDiminuendo"/>
+     </menu>
 
-	<separator/>
      <menu action="Slurs">
 	<menuitem action="ToggleBeginSlur"/>
 	<menuitem action="ToggleEndSlur"/>
     </menu>
-	<separator/>
-	<menu action="Articulations">
+    <menu action="Articulations">
 		<menuitem action="ToggleStaccato"/>
 		<menuitem action="ToggleStaccatissimo"/>
 		<menuitem action="ToggleTenuto"/>
 		<menuitem action="ToggleAccent"/>
-	</menu>
-	<separator/>
+    </menu>
+
 	<menu action="Ornaments">
 	  <menuitem action="ToggleFermata"/>
 	  <menuitem action="ToggleTrill"/>
@@ -438,11 +438,12 @@
 	  <menuitem action="ToggleArpeggio"/>
 	  <menuitem action="SetGrace"/>
         </menu>
-     </menu>
-     <menu action="TextMarks">
+        <menu action="TextMarks">
 	  <menuitem action="ToggleSegno"/>
 	  <menuitem action="ToggleCoda"/>
 	  <menuitem action="ToggleFermata"/>
+        </menu>
+
      </menu>
 
 
@@ -484,7 +485,7 @@
 	</menu>
 
     <menu action="Instruments">
-       <menu action="Markings">
+       <menu action="StringedInstruments">
        	  <menuitem action="ToggleFlageolet"/>
 	  <menuitem action="ToggleStopped"/>
 	  <menuitem action="ToggleThumb"/>

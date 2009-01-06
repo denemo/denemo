@@ -436,7 +436,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Score", N_("Score"), NULL, N_("Score")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Instruments", N_("Instruments"), NULL, N_("Instruments")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Markings", N_("Markings"), NULL, N_("Markings")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "TextMarks", N_("TextMarks"), NULL, N_("Textual Markup")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Text and symbol Markings", N_("TextMarks"), NULL, N_("Text/Symbol")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Commands for Stringed Instruments", N_("StringedInstruments"), NULL, N_("Strings")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Entry" , N_("Note Entry")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Anything not previously covered", N_("AllOther"), NULL, N_("Other")}, 
@@ -467,7 +468,10 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL, N_("Change Note")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL, N_("Change Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current rest", N_("ChangeRest"), NULL, N_("Change Rest")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL, "Expression Marks", N_("Expression Marks")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL, "Expression Marks", N_("Expression Marks")},
+  {CMD_CATEGORY_DIRECT, NULL, "Markings above and below the music", N_("Markings"), NULL, "Markings", N_("Markings")},
+  {CMD_CATEGORY_DIRECT, NULL, "Dynamic markings", N_("Dynamics"), NULL, "Dynamics", N_("Dynamics")},
+ 
   {CMD_CATEGORY_DIRECT, NULL, "grace notes etc", N_("Ornaments"), NULL, N_("Ornaments")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Lyrics, chord symbols, figured basses etc", N_("Other"), NULL, N_("Other")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Less used actions", N_("Others"), NULL, N_("Others")}, 
