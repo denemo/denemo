@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>OpenOctaveUp</action>
+        <scheme>(d-InsertLilyDirective "directive=\\transpose c c'{\0display=Up8va")
+</scheme>
+        <label>Open { Octave Up</label>
+        <tooltip>Opens a block to be transposed up one octave
+	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
