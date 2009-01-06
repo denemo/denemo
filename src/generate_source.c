@@ -429,6 +429,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Actions to control the stem up/down", N_("StemControl"), NULL, N_("Stem Direction")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Different types of notehead", N_("NoteheadControl"), NULL, N_("Notehead Types")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Creating Tied Notes", N_("TiedNotes"), NULL, N_("Tied Notes")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Effects that are only for the Denemo display,\\nnot affecting the printed page.", N_("DisplayEffects"), NULL, N_("Display Effects")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Articulations", N_("Articulations"), NULL, N_("Articulations")},
   {CMD_CATEGORY_DIRECT, NULL, "Slurs", N_("Slurs"), NULL, N_("Slurs")}, 

@@ -322,6 +322,7 @@
 {"StemControl", NULL, N_("Stem Direction"), NULL,N_("Actions to control the stem up/down")},
 {"NoteheadControl", NULL, N_("Notehead Types"), NULL,N_("Different types of notehead")},
 {"TiedNotes", NULL, N_("Tied Notes"), NULL,N_("Creating Tied Notes")},
+{"DisplayEffects", NULL, N_("Display Effects"), NULL,N_("Effects that are only for the Denemo display,\nnot affecting the printed page.")},
 {"Articulations", NULL, N_("Articulations"), NULL,N_("Articulations")},
 {"Slurs", NULL, N_("Slurs"), NULL,N_("Slurs")},
 {"GraceNotes", NULL, N_("Grace Notes"), NULL,N_("Grace Notes")},

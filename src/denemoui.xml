@@ -179,8 +179,10 @@
            <menuitem action="DeleteMeasureAllStaffs"/>
 	   <menuitem action="DeleteMeasure"/>
 	<separator/>
+	<menu action="DisplayEffects">
 	   <menuitem action="ShrinkMeasures"/>
 	   <menuitem action="WidenMeasures"/>
+	</menu>
      </menu>
 
      <menu action="NotesRests">
