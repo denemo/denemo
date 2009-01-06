@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>TransposeOctaveUp</action>
+        <scheme>(d-ScoreProperties "lilypond= \\transpose c c'")
+
+</scheme>
+        <label>Transpose Octave Up</label>
+        <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
