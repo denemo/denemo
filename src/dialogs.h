@@ -67,7 +67,7 @@ void
 header_change (GtkAction *action, gpointer param);
 
 void
-score_properties_dialog(GtkAction *action, gpointer param);
+score_properties_dialog(GtkAction *action, DenemoScriptParam *param);
 
 void export_pdf_action (GtkAction *action, gpointer param);
 

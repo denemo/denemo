@@ -38,9 +38,19 @@ gboolean abandon_editprops_custom_scoreblock(DenemoGUI *gui) {
  * Create and run a modal score properties dialog.
  */
 void
-score_properties_dialog (GtkAction *action, gpointer param)
+score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
+
+  GET_1PARAM(action, param, lilypond);
+  if(lilypond) {
+    if(Denemo.gui->lilycontrol.lilypond)
+      g_string_assign(Denemo.gui->lilycontrol.lilypond, lilypond);
+    else
+      Denemo.gui->lilycontrol.lilypond = g_string_new(lilypond);
+    return;
+  }
+
   if(abandon_editprops_custom_scoreblock(gui))
     return;
   GtkWidget *dialog;
@@ -231,9 +241,20 @@ ASSIGN(extra);
  *
  */
 void
-movement_props_dialog (GtkAction *action, gpointer param)
+movement_props_dialog (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
+
+#if 0
+  GET_1PARAM(action, param, lilypond);
+  if(lilypond) {
+    if(Denemo.gui->lilycontrol.lilypond)
+      g_string_assign(Denemo.gui->lilycontrol.lilypond, lilypond);
+    else
+      Denemo.gui->lilycontrol.lilypond = g_string_new(lilypond);
+    return;
+  }
+#endif
 if(abandon_editprops_custom_scoreblock(gui))
     return;
 
