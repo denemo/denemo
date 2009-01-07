@@ -1958,6 +1958,28 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Angry Delete</label>
         <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
       </row>
+      <row>
+        <action>OpenOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/PrintEffects/Transpose</menupath>
+        <label>Open { Octave Up</label>
+        <tooltip>Opens a block to be transposed up one octave
+	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
+      </row>
+      <row>
+        <action>CloseLilyBlock</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/PrintEffects/Transpose</menupath>
+        <label>Close } a LilyPond Block</label>
+        <tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</tooltip>
+      </row>
+      <row>
+        <action>TransposeOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/PrintEffects</menupath>
+        <label>Transpose Octave Up</label>
+        <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
