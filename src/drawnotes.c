@@ -225,13 +225,27 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
 		     xx, y + height - headsemiheights[noteheadtype],
 		     headwidths[noteheadtype], headheights[noteheadtype]);
 
-  /* Now draw any trailing dots and we're done */
+  /* Now draw any trailing dots */
   if ((height % LINE_SPACE) == 0)
     draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
 	       y + height - HALF_LINE_SPACE, numdots);
   else
     draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
 	       y + height, numdots);
+
+  /* any display for attached LilyPond */
+  if(thenote->display){
+  PangoContext *context =
+    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+    PangoLayout *layout = pango_layout_new (context);
+    PangoFontDescription *desc = pango_font_description_from_string (FONT);
+        pango_layout_set_text (layout,
+			   thenote->display->str,
+			   -1);
+    pango_layout_set_font_description (layout, desc);
+    gdk_draw_layout (pixmap, gc, xx, y+STAFF_HEIGHT+20, layout);
+  }
+
 }
 
 /**

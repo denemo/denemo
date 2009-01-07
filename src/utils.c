@@ -761,9 +761,9 @@ void write_status(DenemoGUI *gui) {
 	GList *g;
 	for(g= thechord->notes;g;g=g->next) {
 	  note *thenote = (note *) g->data;
-	  if(thenote->directive && thenote->directive->len) {
+	  if(thenote->directive || thenote->prefix) {
 	    gchar *old = selection;
-	    selection = g_strdup_printf("%s: %.50s",selection, thenote->directive->str);
+	    selection = g_strdup_printf("%.50s (%s) %.50s",thenote->prefix?thenote->prefix->str:"",selection,  thenote->directive? thenote->directive->str:"");
 	    g_free(old);
 	  }
 	}

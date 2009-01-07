@@ -1163,6 +1163,14 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			     xmlNewChild (curElem, ns,
 					  (xmlChar *) "directive",
 					  (xmlChar *)curNote->directive->str);
+                          if(curNote->prefix && curNote->prefix->len)
+			     xmlNewChild (curElem, ns,
+					  (xmlChar *) "prefix",
+					  (xmlChar *)curNote->prefix->str);
+                          if(curNote->display && curNote->display->len)
+			     xmlNewChild (curElem, ns,
+					  (xmlChar *) "display",
+					  (xmlChar *)curNote->display->str);
 			}
 		    }
 

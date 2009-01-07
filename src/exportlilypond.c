@@ -796,7 +796,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  {
 		    note *curnote = (note *) notenode->data;
 		    noteheadtype = curnote->noteheadtype;
-
+		    if(curnote->prefix ) {
+		      insert_editable(&curnote->prefix, curnote->prefix->len?curnote->prefix->str:" ", iter, invisibility, gui);
+		    }
 		    switch (noteheadtype)
 		      {
 		      case DENEMO_NORMAL_NOTEHEAD:

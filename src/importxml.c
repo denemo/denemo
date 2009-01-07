@@ -658,7 +658,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   gint middleCOffset = 0, accidental = 0,
     noteHeadType = DENEMO_NORMAL_NOTEHEAD;
   gboolean showAccidental = FALSE;
-  gchar *accidentalName, *showAccidentalProp, *noteHeadName, *directive = NULL;
+  gchar *accidentalName, *showAccidentalProp, *noteHeadName, *directive = NULL, *prefix = NULL, *display = NULL;
 
   FOREACH_CHILD_ELEM (childElem, noteElem)
   {
@@ -723,6 +723,16 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
 	    directive = (gchar *) xmlNodeListGetString
 	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
 	  }
+	else if (ELEM_NAME_EQ (childElem, "prefix"))
+	  {
+	    prefix = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
+	  }
+	else if (ELEM_NAME_EQ (childElem, "display"))
+	  {
+	    display = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
+	  }
 	else if (ELEM_NAME_EQ (childElem, "note-head"))
 	  {
 	    noteHeadName =
@@ -762,6 +772,11 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   note *newnote = addtone (chordObj, middleCOffset, accidental, currentClef);
   if(newnote && directive)
     newnote->directive = g_string_new(directive);
+  if(newnote && prefix)
+    newnote->prefix = g_string_new(prefix);
+  if(newnote && display)
+    newnote->display = g_string_new(display);
+
   if (noteHeadType != DENEMO_NORMAL_NOTEHEAD)
     {
       /* FIXME: Is this the right note in the chord? */

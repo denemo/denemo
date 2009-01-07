@@ -60,6 +60,8 @@ typedef struct note
   gint x_off;  /**< Holds x offset from default position.  */
   gint y_off; /**< Holds y offset from default position.  */
   GString *directive; /**< LilyPond text to be inserted after the note */
+  GString *prefix;  /**< LilyPond text to be inserted before the note */
+  GString *display; /**< something to display to describe the LilyPond attached to the note */
 }
 note;
 
