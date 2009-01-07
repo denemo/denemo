@@ -335,7 +335,7 @@ default_mode (DenemoGUI * gui)
 void
 rest_toggle_key (DenemoGUI * gui)
 {
-GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EntryMenu/Rest");
+GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Rest");
   gtk_action_activate(mode);
 
 }
@@ -347,7 +347,7 @@ GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/Entry
 void
 toggle_blank (DenemoGUI * gui)
 {
-GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EntryMenu/Blank");
+GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Blank");
   gtk_action_activate(mode);
 }
 

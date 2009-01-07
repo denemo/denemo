@@ -293,8 +293,9 @@ struct name_and_function denemo_commands[] = {
   /* from view.c menu_entries[]  */
   {CMD_CATEGORY_DIRECT, NULL, "Creating, saving, loading, displaying and printing musical scores", N_("FileMenu"), NULL, "File", N_("File Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Creating, saving places in musical scores", N_("Bookmarks"), NULL, "Bookmarks", N_("Bookmarks")},
-  {CMD_CATEGORY_DIRECT, NULL, "Different keyboard entry modes", N_("EntryMenu"), NULL, "Mode", N_("Entry Menu")},  {CMD_CATEGORY_DIRECT, NULL, "General editing commands", N_("EditMenu"), NULL, "Edit", N_("Edit Menu")}, 
- {CMD_CATEGORY_DIRECT, NULL, "Control which tools are to be shown", N_("ViewMenu"), NULL, "View", N_("View Menu")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Different keyboard and MIDI entry modes", N_("ModeMenu"), NULL, "Mode"},
+  {CMD_CATEGORY_DIRECT, NULL, "General editing commands", N_("EditMenu"), NULL, "Edit", N_("Edit Menu")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Control which tools are to be shown", N_("ViewMenu"), NULL, "View", N_("View Menu")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Staffs and voices", N_("StaffMenu"), NULL,"Staffs/Voices", N_("Staff Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Movements in a score", N_("MovementMenu"), NULL,"Movements", N_("Movement Menu")},

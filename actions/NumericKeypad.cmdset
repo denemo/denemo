@@ -1895,21 +1895,21 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Filter Off</label>
         <tooltip>Turn off any MIDI filter script currently active.</tooltip>
       </row>
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
       <row>
         <action>MidiAdvanceOnEdit</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
       </row>

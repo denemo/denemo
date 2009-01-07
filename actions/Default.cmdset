@@ -17,25 +17,25 @@
       <row>
         <action>CursorLeft</action>
         <label>Cursor Left</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
         <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
         <label>Cursor Down</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one scale step down</tooltip>
         <bind>Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
         <label>Cursor Up</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one scale step up</tooltip>
         <bind>Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
         <label>Cursor Right</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
         <bind>Right</bind>
       </row>
       <row>
@@ -46,25 +46,25 @@
       <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
-        <tooltip>Go to the staff above</tooltip>
+        <tooltip>Moves the cursor to the staff above</tooltip>
         <bind>Control+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <label>Staff Down</label>
-        <tooltip>Go to the staff below</tooltip>
+        <tooltip>Moves the cursor to the staff below</tooltip>
         <bind>Control+Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
         <label>Measure Left</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor to the first object in the next measure</tooltip>
         <bind>Control+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
         <label>Measure Right</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor to the first object in the previous measure</tooltip>
         <bind>Control+Right</bind>
       </row>
       <row>
@@ -914,112 +914,112 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>ToggleAccent</action>
-        <label>Add Accent</label>
+        <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>greater</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
-        <label>Add Fermata</label>
+        <label>Fermata (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>quotedbl</bind>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <label>Add Staccato</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <label>Add Tenuto</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>underscore</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <label>Add Trill</label>
+        <label>Trill  (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleTurn</action>
-        <label>Add Turn</label>
+        <label>Turn (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleMordent</action>
-        <label>Add Mordent</label>
+        <label>Mordent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <label>Add Staccatissimo</label>
+        <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>colon</bind>
       </row>
       <row>
         <action>ToggleCoda</action>
-        <label>Add Coda</label>
+        <label>Coda (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleFlageolet</action>
-        <label>Add Flageolet</label>
+        <label>Flageolet  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleOpen</action>
-        <label>Add Open</label>
+        <label>Open (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrallMordent</action>
-        <label>Add Prall Mordent</label>
+        <label>Prall Mordent  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrallPrall</action>
-        <label>Add Prall Prall</label>
+        <label>Prall Prall  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrall</action>
-        <label>Add Prall</label>
+        <label>Prall (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleReverseTurn</action>
-        <label>Add Reverse Turn</label>
+        <label>Reverse Turn  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSegno</action>
-        <label>Toggle Segno</label>
+        <label>Segno  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSforzato</action>
-        <label>Toggle Sforzato</label>
+        <label>Sforzato  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
-        <label>Toggle Stopped</label>
+        <label>Stopped  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleThumb</action>
-        <label>Toggle Thumb</label>
+        <label>Thumb  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleUpprall</action>
-        <label>Toggle Up Prall</label>
+        <label>Up Prall (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleArpeggio</action>
-        <label>Add Apreggio</label>
+        <label>Apreggio (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>percent</bind>
       </row>
@@ -1320,7 +1320,7 @@ Notes entered will follow this pattern</tooltip>
       <row>
         <action>VoiceUp</action>
         <label>Voice Up</label>
-        <tooltip>Go to the higher numbered voice (or staff if highest voice number on staff</tooltip>
+        <tooltip>Go to the higher numbered voice on staff</tooltip>
         <bind>Page_Up</bind>
       </row>
       <row>
@@ -1428,7 +1428,7 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>EditChords</action>
-        <label>Edit Chords</label>
+        <label>Edit Chord Symbols</label>
         <tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</tooltip>
       </row>
       <row>
@@ -1931,23 +1931,30 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Filter Off</label>
         <tooltip>Turn off any MIDI filter script currently active.</tooltip>
       </row>
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
       <row>
         <action>MidiAdvanceOnEdit</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EntryMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
+      </row>
+      <row>
+        <action>AngryDelete</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Angry Delete</label>
+        <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
       </row>
     </map>
   </commands>

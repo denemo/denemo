@@ -203,7 +203,7 @@
 {"AppendMeasuresToScore", NULL, N_("Append Measure To Score"), NULL,N_("No Tooltip yet"),G_CALLBACK (append_measure_score_cb)},
 {"FileMenu", NULL, N_("File"), NULL,N_("Creating, saving, loading, displaying and printing musical scores")},
 {"Bookmarks", NULL, N_("Bookmarks"), NULL,N_("Creating, saving places in musical scores")},
-{"EntryMenu", NULL, N_("Mode"), NULL,N_("Different keyboard entry modes")},
+{"ModeMenu", NULL, N_("Mode"), NULL,N_("Different keyboard and MIDI entry modes")},
 {"EditMenu", NULL, N_("Edit"), NULL,N_("General editing commands")},
 {"ViewMenu", NULL, N_("View"), NULL,N_("Control which tools are to be shown")},
 {"StaffMenu", NULL, N_("Staffs/Voices"), NULL,N_("Staffs and voices")},

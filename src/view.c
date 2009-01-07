@@ -111,7 +111,7 @@ SCM call_out_to_guile(char *script) {
 
 
 #define FN_DEF(X) void X##_CB(void) {\
-activate_action("/MainMenu/EntryMenu/"X##_STRING);}
+activate_action("/MainMenu/ModeMenu/"X##_STRING);}
 
  FN_DEF(MODELESS);
  FN_DEF(CLASSICMODE);
@@ -2082,7 +2082,7 @@ static void dummy(void) {
 #ifdef TRIAL_SCHEME
   //call_out_to_guile("(CursorRight)(CursorRight)(CursorRight)\n");
   g_print("calling guile with %p %p\n", &Denemo, Denemo.ui_manager);
-  call_out_to_guile("(denemoy \"/MainMenu/EntryMenu/Rest\")\n");
+  call_out_to_guile("(denemoy \"/MainMenu/ModeMenu/Rest\")\n");
 #endif
   play_pitch(440.0, 1.0);
   return;
@@ -2208,20 +2208,20 @@ gint val = gtk_radio_action_get_current_value (current);
 #define SET_MODE(m)  (gui->mode=((gui->mode&ENTRY_TYPE_MASK)|m))
  case INPUTREST:
    SET_MODE(INPUTREST);
-   activate_action("/MainMenu/EntryMenu/ClassicMode");
+   activate_action("/MainMenu/ModeMenu/ClassicMode");
 
    break;
  case INPUTNORMAL:
    SET_MODE(INPUTNORMAL);
-   activate_action( "/MainMenu/EntryMenu/InsertMode");
+   activate_action( "/MainMenu/ModeMenu/InsertMode");
    break;
  case INPUTBLANK:
    SET_MODE(INPUTBLANK);
-   activate_action( "/MainMenu/EntryMenu/ClassicMode");
+   activate_action( "/MainMenu/ModeMenu/ClassicMode");
    break;
  case INPUTRHYTHM|INPUTNORMAL:
    SET_MODE(INPUTRHYTHM|INPUTNORMAL);
-   activate_action( "/MainMenu/EntryMenu/EditMode");
+   activate_action( "/MainMenu/ModeMenu/EditMode");
    break;
  }
 #undef SET_MODE
@@ -2237,20 +2237,20 @@ static void toggle_edit_mode (GtkAction * action, gpointer param){
   if(gui->mode&INPUTEDIT){
     switch(mode & ~MODE_MASK ) {
     case INPUTINSERT:
-      activate_action( "/MainMenu/EntryMenu/InsertMode");
+      activate_action( "/MainMenu/ModeMenu/InsertMode");
       break;
     case INPUTCLASSIC:
-      activate_action( "/MainMenu/EntryMenu/ClassicMode");
+      activate_action( "/MainMenu/ModeMenu/ClassicMode");
       break;
     case 0:
-      activate_action( "/MainMenu/EntryMenu/Modeless");
+      activate_action( "/MainMenu/ModeMenu/Modeless");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back
-    activate_action( "/MainMenu/EntryMenu/EditMode");
+    activate_action( "/MainMenu/ModeMenu/EditMode");
   }
 }
 
@@ -2261,17 +2261,17 @@ static void toggle_rest_mode (GtkAction * action, gpointer param){
   if(gui->mode&INPUTREST){
     switch(mode & ~ENTRY_TYPE_MASK ) {
     case INPUTNORMAL:
-      activate_action( "/MainMenu/EntryMenu/Note");
+      activate_action( "/MainMenu/ModeMenu/Note");
       break;
     case INPUTBLANK:
-      activate_action( "/MainMenu/EntryMenu/Blank");
+      activate_action( "/MainMenu/ModeMenu/Blank");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back
-    activate_action( "/MainMenu/EntryMenu/Rest");
+    activate_action( "/MainMenu/ModeMenu/Rest");
   }
 }
 
@@ -2283,14 +2283,14 @@ static void toggle_rhythm_mode (GtkAction * action, gpointer param){
   if(gui->mode&INPUTRHYTHM){
     switch(mode & ~ENTRY_TYPE_MASK ) {
     case INPUTNORMAL:
-      activate_action( "/MainMenu/EntryMenu/Note");
+      activate_action( "/MainMenu/ModeMenu/Note");
       break;
     default:
       ;
     }
   } else {
     mode = gui->mode;// remember mode for switching back, breaks with multi gui FIXME
-    activate_action( "/MainMenu/EntryMenu/Rhythm");
+    activate_action( "/MainMenu/ModeMenu/Rhythm");
   }
 }
 
@@ -2354,8 +2354,8 @@ toggle_rhythm_toolbar (GtkAction * action, DenemoGUI * gui)
 
       gtk_widget_show (widget);
       /* make sure we are in Insert and Note for rhythm toolbar */
-      activate_action( "/MainMenu/EntryMenu/Note");
-      activate_action( "/MainMenu/EntryMenu/InsertMode");
+      activate_action( "/MainMenu/ModeMenu/Note");
+      activate_action( "/MainMenu/ModeMenu/InsertMode");
     }
 }
 
@@ -2667,16 +2667,16 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
 
   switch(gui->mode & ~MODE_MASK ) {
     case INPUTINSERT:
-      activate_action( "/MainMenu/EntryMenu/InsertMode");
+      activate_action( "/MainMenu/ModeMenu/InsertMode");
       break;
     case INPUTEDIT:
-      activate_action( "/MainMenu/EntryMenu/EditMode");
+      activate_action( "/MainMenu/ModeMenu/EditMode");
       break;
     case INPUTCLASSIC:
-      activate_action( "/MainMenu/EntryMenu/ClassicMode");
+      activate_action( "/MainMenu/ModeMenu/ClassicMode");
       break;
     case 0:
-      activate_action( "/MainMenu/EntryMenu/Modeless");
+      activate_action( "/MainMenu/ModeMenu/Modeless");
       break;
     default:
       ;
@@ -2684,16 +2684,16 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
 
   switch(gui->mode & ~ENTRY_TYPE_MASK ) {
     case INPUTNORMAL:
-      activate_action( "/MainMenu/EntryMenu/Note");
+      activate_action( "/MainMenu/ModeMenu/Note");
       break;
     case INPUTBLANK:
-      activate_action( "/MainMenu/EntryMenu/Blank");
+      activate_action( "/MainMenu/ModeMenu/Blank");
       break;
     case INPUTREST:
-      activate_action( "/MainMenu/EntryMenu/Rest");
+      activate_action( "/MainMenu/ModeMenu/Rest");
       break;
     case INPUTRHYTHM:
-      activate_action( "/MainMenu/EntryMenu/Rhythm");
+      activate_action( "/MainMenu/ModeMenu/Rhythm");
       break;
     default:
       ;
@@ -2773,7 +2773,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   GtkWidget *wid = gtk_check_button_new();
   //GtkAction *action2 = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EditMenu/KeyBindings/RecordScript");
   //g_print("action %p", action2);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/EntryMenu/RecordScript"), wid);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"), wid);
   gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
 
