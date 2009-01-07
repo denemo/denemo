@@ -1079,10 +1079,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertDynamic")), "scm", 
 SCM scheme_InsertLilyDirective(SCM optional);
 install_scm_function ("d-InsertLilyDirective", scheme_InsertLilyDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyDirective")), "scm", (gpointer)1);
-/*InsertLilyPostfix lily_directive_postfix*/
-SCM scheme_InsertLilyPostfix(SCM optional);
-install_scm_function ("d-InsertLilyPostfix", scheme_InsertLilyPostfix);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyPostfix")), "scm", (gpointer)1);
+/*AttachLilyDirective lily_directive_attach*/
+SCM scheme_AttachLilyDirective(SCM optional);
+install_scm_function ("d-AttachLilyDirective", scheme_AttachLilyDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AttachLilyDirective")), "scm", (gpointer)1);
 /*InsertBarline insert_barline*/
 SCM scheme_InsertBarline(SCM optional);
 install_scm_function ("d-InsertBarline", scheme_InsertBarline);

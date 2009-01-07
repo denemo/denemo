@@ -4588,7 +4588,7 @@ lily_directive_insert (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
-SCM scheme_InsertLilyPostfix (SCM optional) {
+SCM scheme_AttachLilyDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
@@ -4601,7 +4601,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
          param.status = FALSE;
          
-lily_directive_postfix (NULL, &param);
+lily_directive_attach (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

@@ -385,7 +385,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a dynamic marking at the cursor position", N_("InsertDynamic"), "insert_dynamic", N_("Insert Dynamics")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.", N_("InsertLilyDirective"), "lily_directive_insert", N_("Insert Lilypond")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Attach or edit a LilyPond text to be fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("InsertLilyPostfix"), "lily_directive_postfix", N_("Attach Lilypond")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Attach or edit attached LilyPond text (fixed to the current note). This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("AttachLilyDirective"), "lily_directive_attach", N_("Attach Lilypond")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline", N_("Insert Barline")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Getting around the score", N_("NavigationMenu"), NULL, "Navigation", N_("Navigation Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Opens a dialog for going to a numbered measure", N_("GoToMeasure"), "tomeasurenum", "Go to Measure", N_("Go To Measure")}, 

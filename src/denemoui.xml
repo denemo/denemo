@@ -501,7 +501,7 @@
 	  <menuitem action="EditChords"/>
 	  <menuitem action="EditFiguredBass"/>
           <menuitem action="InsertLilyDirective"/>
-          <menuitem action="InsertLilyPostfix"/>
+          <menuitem action="AttachLilyDirective"/>
           <menuitem action="ClearOverlay"/>
 	  
     </menu>

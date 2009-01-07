@@ -67,39 +67,43 @@ insertdirective (GtkWidget * widget, struct callbackdata *cbdata)
   gchar *directivestring = cbdata->directive;
   gchar *prefixstring = cbdata->prefix;
   gchar *displaystring = cbdata->display;
-  if (curObj && curObj->type == LILYDIRECTIVE) {
-    g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directivestring);
-    curObj->minpixelsalloted = cbdata->minpixels;
-  }  else
-    if(cbdata->attach && (curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
-      if(curnote->directive)
+  if(cbdata->attach) {//ATTACH
+    if((curnote = findnote(curObj, gui->si->cursor_y)) != NULL) {
+      if(curnote->directive && directivestring)
 	g_string_assign(curnote->directive, directivestring);
       else
 	curnote->directive = g_string_new(directivestring); 
-     if(curnote->prefix)
+     if(curnote->prefix && prefixstring)
 	g_string_assign(curnote->prefix, prefixstring);
       else
 	curnote->prefix = g_string_new(prefixstring); 
-    if(curnote->display)
+    if(curnote->display && displaystring)
 	g_string_assign(curnote->display, displaystring);
       else
 	curnote->display = g_string_new(displaystring); 
-    } else {  
+    } else
+      g_warning("Attach without note");
+  } else { //INSERT
+    if (curObj && curObj->type == LILYDIRECTIVE) {
+      g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directivestring);
+      curObj->minpixelsalloted = cbdata->minpixels;
+    }  else {  
       DenemoObject *lily = lily_directive_new (directivestring);
       object_insert (gui, lily);
       lilyobj = (lilydirective *) lily->object;
       lily->minpixelsalloted = cbdata->minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
     }
-  if(lilyobj) {
-    lilyobj->locked = cbdata->locked;
-    if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
-      g_string_append(lilyobj->directive,"\n");
-    }
-    if(cbdata->display) {
-      if(lilyobj->display)
-	g_string_assign(lilyobj->display, cbdata->display);
-      else
-	lilyobj->display = g_string_new(cbdata->display);
+    if(lilyobj) {
+      lilyobj->locked = cbdata->locked;
+      if(*directivestring=='%') {//append newline if directive starts with a LilyPond comment indicator
+	g_string_append(lilyobj->directive,"\n");
+      }
+      if(cbdata->display) {
+	if(lilyobj->display)
+	  g_string_assign(lilyobj->display, cbdata->display);
+	else
+	  lilyobj->display = g_string_new(cbdata->display);
+      }
     }
   }
   score_status(gui, TRUE);
@@ -126,51 +130,49 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *prefix, gch
   DenemoScore * si = gui->si;
   note *curnote = NULL;
   static struct callbackdata cbdata;
-  
-  if(init==NULL && prefix==NULL) {
-  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
-    (DenemoObject *) si->currentobject->data : NULL;
-  if(attach)
-    curnote = findnote(curObj, gui->si->cursor_y);
-  if(attach && curnote==NULL) {
-    warningdialog("You must put the cursor on a note to postfix LilyPond");//FIXME find a note and ask
-    return;
-  }
-  cbdata.attach = attach;  
-  lilydirective *lilyobj=NULL;
-  cbdata.locked = FALSE;
-  /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "lily" value to insert */
-  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive) {
-		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
-		if( ((GString *) (lilyobj = (lilydirective *) curObj->object)->display))
-		  displaystring = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
-		cbdata.locked = lilyobj->locked;
-  }
-  if(curnote && curnote->directive) {
-    if(curnote->directive)
+  cbdata.attach = attach; 
+  if(!(init || prefix || display)) {
+    DenemoObject *curObj = (DenemoObject *) si->currentobject ?
+      (DenemoObject *) si->currentobject->data : NULL;
+    if(attach)
+      curnote = findnote(curObj, gui->si->cursor_y);
+    if(attach && curnote==NULL) {
+      warningdialog("You must put the cursor on a note to postfix LilyPond");//FIXME find a note and ask
+      return;
+    }
+    lilydirective *lilyobj=NULL;
+    cbdata.locked = FALSE;
+    /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "lily" value to insert */
+    if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive) {
+      current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
+      if( ((GString *) (lilyobj = (lilydirective *) curObj->object)->display))
+	displaystring = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
+      cbdata.locked = lilyobj->locked;
+    }
+    if(attach) {
+      if(curnote->directive)
    	current = curnote->directive->str;
-    if(curnote->prefix)
-      prefixstring = curnote->prefix->str;
-    if(curnote->display)
-      displaystring = curnote->display->str;
-    
-  }
+      if(curnote->prefix)
+	prefixstring = curnote->prefix->str;
+      if(curnote->display)
+	displaystring = curnote->display->str;
+    }
 
 
-  GtkToggleButton *button = NULL;
-  if(!curnote) {
-    button = (GtkToggleButton *)gtk_check_button_new_with_label("locked");
-    g_signal_connect(button, "toggled",  G_CALLBACK (toggle_locked), &cbdata.locked);
-    if(cbdata.locked)
-      gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
-  }
-  directivestring = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
-  if(attach)
-    prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefix);
-  displaystring =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", displaystring);
+    GtkToggleButton *button = NULL;
+    if(!attach) {
+      button = (GtkToggleButton *)gtk_check_button_new_with_label("locked");
+      g_signal_connect(button, "toggled",  G_CALLBACK (toggle_locked), &cbdata.locked);
+      if(cbdata.locked)
+	gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
+    }
+    directivestring = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
+    if(attach)
+      prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefix);
+    displaystring =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", displaystring);
   } else {// called with initialization string
-  
-    directivestring = g_strdup(init);
+    if(init)
+      directivestring = g_strdup(init);
     if(display)
       displaystring = g_strdup(display);
     if(minpixels)
@@ -240,7 +242,7 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
  * or edit the current lilypond directive
  */
 void
-lily_directive_postfix (GtkAction *action, DenemoScriptParam *param)
+lily_directive_attach (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_3PARAMS(action, param, directive, display, prefix);
