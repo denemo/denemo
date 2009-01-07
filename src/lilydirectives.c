@@ -52,7 +52,7 @@ findnote(DenemoObject *curObj, gint cursory) {
      return curnote;
 }
 /**
- * Insert the lilypond directive into the score
+ * Insert the lilypond directive object or attaches LilyPond to a note
  *
  */
 static void
@@ -118,16 +118,16 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
 static void
 lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *prefix, gchar *display, gchar *minpixels)
 {
-  gchar *string;
+  gchar *directivestring;
   gchar *current = NULL;
-  gchar *current_display = NULL;
+  gchar *displaystring = NULL;
   gchar *prefixstring = NULL;
   gint current_minpixels = 8;//used to be set in setpixelmin() in utils.c
   DenemoScore * si = gui->si;
   note *curnote = NULL;
   static struct callbackdata cbdata;
   
-  if(init==NULL) {
+  if(init==NULL && prefix==NULL) {
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   if(attach)
@@ -140,20 +140,19 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *prefix, gch
   lilydirective *lilyobj=NULL;
   cbdata.locked = FALSE;
   /* Edit if on a lilydirective otherwise insert. But do not edit called from scheme with a "lily" value to insert */
-  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive)
-	{
+  if (curObj && curObj->type == LILYDIRECTIVE && ((lilydirective *) curObj->object)->directive) {
 		current = ((GString *) (lilyobj = (lilydirective *) curObj->object)->directive)->str;
 		if( ((GString *) (lilyobj = (lilydirective *) curObj->object)->display))
-		  current_display = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
+		  displaystring = ((GString *) (lilyobj = (lilydirective *) curObj->object)->display)->str;
 		cbdata.locked = lilyobj->locked;
-	}
+  }
   if(curnote && curnote->directive) {
     if(curnote->directive)
    	current = curnote->directive->str;
     if(curnote->prefix)
-      prefix = curnote->prefix->str;
+      prefixstring = curnote->prefix->str;
     if(curnote->display)
-      current_display = curnote->display->str;
+      displaystring = curnote->display->str;
     
   }
 
@@ -165,33 +164,35 @@ lily_directive (DenemoGUI *gui, gboolean attach, gchar *init, gchar *prefix, gch
     if(cbdata.locked)
       gtk_toggle_button_set_active (button, cbdata.locked), cbdata.locked=TRUE;//FIXME how is this supposed to be done?
   }
-  string = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
+  directivestring = string_dialog_entry_with_widget(gui, curnote?"Postfix LilyPond":"Insert LilyPond", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to insert", current, GTK_WIDGET(button));
   if(attach)
     prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefix);
-  current_display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", current_display);
+  displaystring =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", displaystring);
   } else {// called with initialization string
   
-    string = g_strdup(init);
+    directivestring = g_strdup(init);
     if(display)
-      current_display = g_strdup(display);
-    //g_print("Got minpixels %s\n", minpixels);
+      displaystring = g_strdup(display);
     if(minpixels)
       current_minpixels = atoi(minpixels);
-   
+    if(prefix)
+      prefixstring = prefix;
   }
 
   cbdata.gui = gui;
-  cbdata.directive = string;
+  cbdata.directive = directivestring;
   cbdata.prefix = prefixstring;
-  cbdata.display = current_display;
+  cbdata.display = displaystring;
   cbdata.minpixels = current_minpixels;
 
-  if (string){ 
+  if (directivestring || prefixstring || displaystring){ 
     insertdirective (NULL, &cbdata);
     displayhelper (gui);
   }
 
-  g_free(string);
+  g_free(directivestring);
+  g_free(displaystring);
+  g_free(prefixstring);
 
 }
 
