@@ -1476,11 +1476,13 @@ Notes entered will follow this pattern</tooltip>
         <action>NextMovement</action>
         <label>Next Movement</label>
         <tooltip>Go to the next movement</tooltip>
+        <bind>Shift+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
         <label>Previous Movement</label>
         <tooltip>Go to the previous movement</tooltip>
+        <bind>Shift+Left</bind>
       </row>
       <row>
         <action>DeleteMovement</action>
