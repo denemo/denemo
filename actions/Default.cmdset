@@ -1444,9 +1444,14 @@ Notes entered will follow this pattern</tooltip>
         <bind>l</bind>
       </row>
       <row>
-        <action>AttachLilyDirective</action>
-        <label>Attach Lilypond</label>
-        <tooltip>Attach or edit attached LilyPond text (fixed to the current note). This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
+        <action>AttachLilyToNote</action>
+        <label>Attach Lilypond to Note</label>
+        <tooltip>Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
+      </row>
+      <row>
+        <action>AttachLilyToChord</action>
+        <label>Attach Lilypond to Chord</label>
+        <tooltip>Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.</tooltip>
       </row>
       <row>
         <action>InsertBarline</action>
@@ -1999,6 +2004,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/MainMenu/EditMenu/Transpose</menupath>
         <label>Transpose Selection</label>
         <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
+      </row>
+      <row>
+        <action>D.C.AlFine</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <label>D. C. al fine</label>
+        <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>
     </map>
   </commands>
