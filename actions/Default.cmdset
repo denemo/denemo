@@ -1444,10 +1444,9 @@ Notes entered will follow this pattern</tooltip>
         <bind>l</bind>
       </row>
       <row>
-        <action>InsertLilyPostfix</action>
-        <label>Postfix Lilypond</label>
-        <tooltip>Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
-        <bind>degree</bind>
+        <action>AttachLilyDirective</action>
+        <label>Attach Lilypond</label>
+        <tooltip>Attach or edit attached LilyPond text (fixed to the current note). This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
       </row>
       <row>
         <action>InsertBarline</action>
@@ -1979,6 +1978,27 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/Score/PrintEffects</menupath>
         <label>Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval</label>
+        <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
+      </row>
+      <row>
+        <action>TransposeNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Note</label>
+        <tooltip>Transposes the note at the cursor by the amount set by other commands.</tooltip>
+      </row>
+      <row>
+        <action>TransposeSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Selection</label>
+        <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
       </row>
     </map>
   </commands>
