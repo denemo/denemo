@@ -13,7 +13,9 @@
 
 
 void
-lily_directive_attach (GtkAction *action, gpointer param);
+lily_directive_attach_note (GtkAction *action, gpointer param);
+void
+lily_directive_attach_chord (GtkAction *action, gpointer param);
 void
 lily_directive_insert (GtkAction *action, DenemoScriptParam *param);
 #endif

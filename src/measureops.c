@@ -669,7 +669,7 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
 		/* A new accidental not present in the original chord */
 		thetone->showaccidental =
 		  ((chord *) theobj->object)->hasanacc = TRUE;
-	      else if (thetone->directive && (*thetone->directive->str=='!'|| *thetone->directive->str=='?'))
+	      else if (thetone->postfix && (*thetone->postfix->str=='!'|| *thetone->postfix->str=='?'))
 		thetone->showaccidental =
 		  ((chord *) theobj->object)->hasanacc = TRUE;
 	      else

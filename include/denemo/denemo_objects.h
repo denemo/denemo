@@ -59,8 +59,8 @@ typedef struct note
   enum headtype noteheadtype; /**< Holds note head type.  */
   gint x_off;  /**< Holds x offset from default position.  */
   gint y_off; /**< Holds y offset from default position.  */
-  GString *directive; /**< LilyPond text to be inserted after the note */
   GString *prefix;  /**< LilyPond text to be inserted before the note */
+  GString *postfix; /**< LilyPond text to be inserted after the note */
   GString *display; /**< something to display to describe the LilyPond attached to the note */
 }
 note;
@@ -163,6 +163,9 @@ typedef struct chord
   gboolean is_fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord_extension; /**< This is the extension to the fake chord. It may be a 7, sus4, 9, 11, 13 etc... */
+  GString *prefix; /**< LilyPond text to be inserted before the chord */
+  GString *postfix;/**< LilyPond text to be inserted after the chord */
+  GString *display; /**< something to display to describe the LilyPond attached to the chord */
 }
 chord;
 

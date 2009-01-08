@@ -658,7 +658,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   gint middleCOffset = 0, accidental = 0,
     noteHeadType = DENEMO_NORMAL_NOTEHEAD;
   gboolean showAccidental = FALSE;
-  gchar *accidentalName, *showAccidentalProp, *noteHeadName, *directive = NULL, *prefix = NULL, *display = NULL;
+  gchar *accidentalName, *showAccidentalProp, *noteHeadName, *postfix = NULL, *prefix = NULL, *display = NULL;
 
   FOREACH_CHILD_ELEM (childElem, noteElem)
   {
@@ -718,9 +718,9 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
 		g_free (showAccidentalProp);
 	      }
 	  }
-	else if (ELEM_NAME_EQ (childElem, "directive"))
+	else if (ELEM_NAME_EQ (childElem, "postfix"))
 	  {
-	    directive = (gchar *) xmlNodeListGetString
+	    postfix = (gchar *) xmlNodeListGetString
 	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
 	  }
 	else if (ELEM_NAME_EQ (childElem, "prefix"))
@@ -770,8 +770,8 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   /* Now actually construct the note object. */
 
   note *newnote = addtone (chordObj, middleCOffset, accidental, currentClef);
-  if(newnote && directive)
-    newnote->directive = g_string_new(directive);
+  if(newnote && postfix)
+    newnote->postfix = g_string_new(postfix);
   if(newnote && prefix)
     newnote->prefix = g_string_new(prefix);
   if(newnote && display)
@@ -1325,6 +1325,28 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	    parseFakechord (childElem, chordObj);
 	    si->has_fakechords = (gpointer) TRUE;
 	  }
+	else if (ELEM_NAME_EQ (childElem, "prefix"))
+	  {
+	    ((chord *) chordObj->object)->prefix = g_string_new(xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode,
+						  1));
+	  }
+	else if (ELEM_NAME_EQ (childElem, "postfix"))
+	  {
+	    ((chord *) chordObj->object)->postfix = g_string_new(xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode,
+						  1));
+	  }
+	else if (ELEM_NAME_EQ (childElem, "display"))
+	  {
+	    ((chord *) chordObj->object)->display = g_string_new(xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode,
+						  1));
+	  }
+
+
+
+
 
 	else
 	  {

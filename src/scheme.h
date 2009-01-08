@@ -1079,10 +1079,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertDynamic")), "scm", 
 SCM scheme_InsertLilyDirective(SCM optional);
 install_scm_function ("d-InsertLilyDirective", scheme_InsertLilyDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyDirective")), "scm", (gpointer)1);
-/*AttachLilyDirective lily_directive_attach*/
-SCM scheme_AttachLilyDirective(SCM optional);
-install_scm_function ("d-AttachLilyDirective", scheme_AttachLilyDirective);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AttachLilyDirective")), "scm", (gpointer)1);
+/*AttachLilyToNote lily_directive_attach_note*/
+SCM scheme_AttachLilyToNote(SCM optional);
+install_scm_function ("d-AttachLilyToNote", scheme_AttachLilyToNote);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AttachLilyToNote")), "scm", (gpointer)1);
+/*AttachLilyToChord lily_directive_attach_chord*/
+SCM scheme_AttachLilyToChord(SCM optional);
+install_scm_function ("d-AttachLilyToChord", scheme_AttachLilyToChord);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AttachLilyToChord")), "scm", (gpointer)1);
 /*InsertBarline insert_barline*/
 SCM scheme_InsertBarline(SCM optional);
 install_scm_function ("d-InsertBarline", scheme_InsertBarline);

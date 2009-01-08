@@ -786,9 +786,16 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	      switch (curObj->type)
 		{
 		case CHORD:
+		  {chord *thechord = (chord *) curObj->object;
 		  emptyMeasure = FALSE;
 
-		  /* If this is the start of a beam, output a <beam-start>. */
+		  if(thechord->prefix && thechord->prefix->len)
+		    xmlNewChild (curElem, ns,
+				 (xmlChar *) "prefix",
+					  (xmlChar *)thechord->prefix->str);
+		  
+		  /* FIXME WHY DO WE EXPORT THIS INFO: it is derived from the data
+		     If this is the start of a beam, output a <beam-start>. */
 
 		  if (curObj->isstart_beamgroup && !curObj->isend_beamgroup)
 		    {
@@ -832,6 +839,16 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    newXMLIntChild (parentElem, ns, (xmlChar *) "dots",
 				    ((chord *) curObj->object)->numdots);
 
+		  /* Output the LilyPond */
+#define DO(field)  if (((chord *) curObj->object)->field \
+                   && ((chord *) curObj->object)->field->len)\
+                      xmlNewChild (objElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) ((chord *) curObj->object)->\
+				     field->str);
+		  DO(prefix);
+		  DO(postfix);
+		  DO(display);
+#undef DO		  
 
 		  /*Output Lyric */
 		  if (((chord *) curObj->object)->lyric)
@@ -1128,6 +1145,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			xmlNewChild (objElem, ns, (xmlChar *) "tie", NULL);
 		    }
 
+ 
+
+
 		  /* Output all the notes, if this isn't a rest. */
 
 		  if (((chord *) curObj->object)->notes != NULL)
@@ -1159,10 +1179,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      newXMLNoteHead (curElem, ns,
 					      curNote->noteheadtype);
 			    }
-			  if(curNote->directive && curNote->directive->len)
+			  if(curNote->postfix && curNote->postfix->len)
 			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "directive",
-					  (xmlChar *)curNote->directive->str);
+					  (xmlChar *) "postfix",
+					  (xmlChar *)curNote->postfix->str);
                           if(curNote->prefix && curNote->prefix->len)
 			     xmlNewChild (curElem, ns,
 					  (xmlChar *) "prefix",
@@ -1195,7 +1215,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			  lastBeamStartXMLID = NULL;
 			}
 		    }
-
+		  }
 		  break;
 
 		case TUPOPEN:

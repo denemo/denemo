@@ -752,6 +752,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
+	if(pchord->prefix && pchord->prefix->len)
+	   insert_editable(pchord->prefix, pchord->prefix->str, iter, invisibility, gui);
+		    
 	if (!pchord->notes)
 	  {			/* A rest */
 	    if (!curobj->isinvisible)
@@ -853,8 +856,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 
 		    outputret;
-		    if(curnote->directive ) {
-		      insert_editable(&curnote->directive, curnote->directive->len?curnote->directive->str:" ", iter, invisibility, gui);
+		    if(curnote->postfix ) {
+		      insert_editable(&curnote->postfix, curnote->postfix->len?curnote->postfix->str:" ", iter, invisibility, gui);
 		    }
 		    else
 		      if (notenode->next)
@@ -877,7 +880,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		prevnumdots = numdots;
 		for (j = 0; j < numdots; j++)
 		  g_string_append_printf (ret, ".");
-	      }	    
+	      }
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
 		dynamic_string = (GString *) pchord->dynamics->data;
@@ -969,6 +972,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, "(");
 	    if (pchord->is_tied)
 	      g_string_append_printf (ret, " ~");
+
+	    outputret;
+	    if(pchord->postfix &&pchord->postfix->len) {
+		      insert_editable(&pchord->postfix, pchord->prefix->len?pchord->postfix->str:" ", iter, invisibility, gui);
+		    }
+	      
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
 	break;

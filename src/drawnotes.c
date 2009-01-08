@@ -522,6 +522,22 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       draw_ledgers (pixmap, gc, thechord.highesty, thechord.lowesty, xx, y,
 		    headwidths[noteheadtype]);
 
+
+      if(thechord.display) {
+	PangoContext *context =
+	  gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+	PangoLayout *layout = pango_layout_new (context);
+	PangoFontDescription *desc = pango_font_description_from_string (FONT);
+        pango_layout_set_text (layout,
+			       thechord.display->str,
+			       -1);
+	pango_layout_set_font_description (layout, desc);
+	gdk_draw_layout (pixmap, gc, xx, y+STAFF_HEIGHT+40, layout);
+      }
+
+      
+	
+
     }				/* end else */
 
 }

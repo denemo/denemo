@@ -516,6 +516,21 @@ void restore_selection(DenemoScore *si) {
   si->lastmeasuremarked = lastmeasure;
 }
 
+
+void
+goto_nearestnote (GtkAction *action, gpointer param) {
+#if 0
+  if(gui->si->currentobject) {
+    objnode *thenotenode =  nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
+    if(thenotenode) {
+      note *thenote =  *((note *) thenotenode->data);
+      //thenote->mid_c_offset!!!!!!!!!!!
+    }
+
+  }
+#endif
+}
+
 /**
  * goto_mark
  * goto the current mark without changing the selection
