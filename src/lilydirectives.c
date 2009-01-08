@@ -80,13 +80,20 @@ attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *di
     return;
   }
   chord *thechord = NULL;
+  thechord = (chord *)curObj->object;
+  if(curObj->type!=CHORD) {  
+    if(interactive)
+      warningdialog("You must put the cursor on a chord to attach LilyPond");
+    return;
+  }
+    
   curnote = findnote(curObj, gui->si->cursor_y);
   if(attach==ATTACH_NOTE && (curnote==NULL)) {  
     if(interactive)
       warningdialog("You must put the cursor on a note to attach LilyPond to the note");//FIXME find a note and ask
     return;
   }
-  thechord = (chord *)curObj->object;
+ 
   if(interactive) {
     switch(attach) {
     case ATTACH_CHORD:
@@ -122,7 +129,7 @@ attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *di
   }
   switch(attach) {
 #define STRINGASSIGN(obj, field, val) \
-     if(obj->field) g_string_assign(obj->field, val);\
+     if(obj->field && val && *val) g_string_assign(obj->field, val);\
      else obj->field=g_string_new(val);
                      
   case ATTACH_CHORD:
