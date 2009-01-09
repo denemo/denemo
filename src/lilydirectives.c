@@ -242,8 +242,15 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
   if(directive && !display)
     display = directive;
   if(action) {
-     if(get_lily_directive(&directive, &display, &locked))
-       insert_lily_directive(directive, display, locked, 8);
+    DenemoObject *curObj = (DenemoObject *) gui->si->currentobject ?
+      (DenemoObject *) gui->si->currentobject->data : NULL;
+    if (curObj && curObj->type == LILYDIRECTIVE) {
+      lilydirective *lilyobj=(lilydirective *) curObj->object;
+      directive = lilyobj->directive? lilyobj->directive->str:NULL;
+      display = lilyobj->display? lilyobj->display->str:NULL;
+    }
+    if(get_lily_directive(&directive, &display, &locked))
+      insert_lily_directive(directive, display, locked, 8);
   } else {
     insert_lily_directive(directive, display, locked, atoi(minpixels));
   }
