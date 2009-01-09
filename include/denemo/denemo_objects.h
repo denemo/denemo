@@ -125,6 +125,7 @@ typedef struct chord
   gint numdots; /**< Number of dots that are applied to the note */
   gint sum_mid_c_offset;
   gint numnotes;
+  gboolean chordize;/**< TRUE if this chord is to be treated as a multi-note chord even if it only has one note */
 
   gboolean is_tied;
   gboolean is_stemup;

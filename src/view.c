@@ -255,6 +255,22 @@ SCM scheme_get_cursor_note (SCM optional) {
 }
 
 
+SCM scheme_chordize (SCM setting) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+    return SCM_BOOL(FALSE);
+  gboolean val;
+  if(SCM_BOOLP(setting)){
+    val = gh_scm2bool(setting);
+  }
+  thechord->chordize = val;
+  return SCM_BOOL(TRUE);
+}
+
+
 SCM scheme_get_note_name (SCM optional) {
     int length;
     //char *str=NULL;
@@ -705,6 +721,8 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", scheme_next_selected_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
+
+  install_scm_function (DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-NextNote)

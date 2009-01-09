@@ -788,7 +788,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    GList *tmpornament;
 	    if (!curobj->isinvisible)
 	      {
-		if (pchord->notes->next )//multinote chord
+		if (pchord->notes->next || pchord->chordize )//multinote chord
 		  {
 		    is_chordmode = TRUE;
 		    g_string_append_printf (ret, "<");
@@ -864,7 +864,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			output(" ");
 		  }		/* End notes in chord loop */
 
-		if (pchord->notes->next) //multi-note chord
+		if (pchord->notes->next  || pchord->chordize) //multi-note chord
 		  g_string_append_printf (ret, ">");
 	      } //end of note(s) that is(are) not invisible
 	    else //invisible note - does this case exist??
