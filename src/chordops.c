@@ -489,6 +489,7 @@ clone_chord (DenemoObject * thechord)
   DenemoObject *ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   GList *curtone;
   note *newnote;
+  chord *curchord = (chord *) thechord->object;
   chord *clonedchord = (chord *) g_malloc0 (sizeof (chord));
   /* I'd use a g_list_copy here, only that won't do the deep copy of
    * the list data that I'd want it to */
@@ -501,7 +502,7 @@ clone_chord (DenemoObject * thechord)
    * A gpointer doesn't know the type it is so have to explictly 
    * copy the object */
 
-  memcpy ((chord *) clonedchord, (chord *) thechord->object, sizeof (chord));
+  memcpy ((chord *) clonedchord, curchord, sizeof (chord));
 
 #if 0
   //this would have to clone the list to work, else both notes share the same list and deleting one should
@@ -519,14 +520,28 @@ clone_chord (DenemoObject * thechord)
   clonedchord->is_figure = FALSE;
   clonedchord->lyric = NULL;
 
-
+#define CLONE(field) \
+      if(curchord->field && curchord->field->len)\
+        clonedchord->field = g_string_new(curchord->field->str);
+      CLONE(prefix);
+      CLONE(postfix);
+      CLONE(display);
+#undef CLONE
 
   clonedchord->notes = NULL;
   for (curtone = ((chord *) thechord->object)->notes;
        curtone; curtone = curtone->next)
     {
       newnote = (note *) g_malloc0 (sizeof (note));
-      memcpy (newnote, (note *) curtone->data, sizeof (note));
+      note *curnote = (note *) curtone->data;
+      memcpy (newnote, curnote, sizeof (note));
+#define CLONE(field) \
+      if(curnote->field && curnote->field->len)\
+        newnote->field = g_string_new(curnote->field->str);
+      CLONE(prefix);
+      CLONE(postfix);
+      CLONE(display);
+#undef CLONE
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
   ret->object = (chord *) clonedchord;

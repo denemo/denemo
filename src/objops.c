@@ -210,8 +210,15 @@ dnm_clone_object (DenemoObject * orig)
 	    case CHORD:
 	      ret = clone_chord (orig);
 	      break;
-	    case LILYDIRECTIVE:
-	      ret = lily_directive_new(((lilydirective*)orig->object)->directive->str);
+	    case LILYDIRECTIVE: {
+	      lilydirective *curlily = (lilydirective*)orig->object;
+	      ret = lily_directive_new(curlily->directive->str);
+	      lilydirective *newlily = (lilydirective *)ret->object;
+	      if(curlily->display && curlily->display->len)
+		newlily->display = g_string_new(curlily->display->str);
+	      ret->minpixelsalloted = orig->minpixelsalloted;
+	      newlily->locked = curlily->locked;
+		 }
 	      break;
 	    default:
 	      ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
