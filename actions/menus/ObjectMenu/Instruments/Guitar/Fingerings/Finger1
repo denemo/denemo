@@ -6,7 +6,8 @@
     <map>
       <row>
         <action>Finger1</action>
-        <scheme>(d-InsertLilyPostfix "-1")
+	<scheme>
+		(d-AttachLilyToNote "prefix=&lt;\0postfix=-1&gt;\0display=1")
 </scheme>
 
         <label>Finger 1</label>
