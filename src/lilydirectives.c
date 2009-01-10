@@ -255,7 +255,7 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
     if(get_lily_directive(&directive, &display, &locked))
       insert_lily_directive(directive, display, locked, 8);
   } else {
-    insert_lily_directive(directive, display, locked, atoi(minpixels));
+    insert_lily_directive(directive, display, locked, minpixels?atoi(minpixels):8);
   }
 }
 /**
