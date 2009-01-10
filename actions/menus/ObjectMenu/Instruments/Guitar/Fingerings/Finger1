@@ -6,10 +6,9 @@
     <map>
       <row>
         <action>Finger1</action>
-	<scheme>
-		(d-AttachLilyToNote "prefix=&lt;\0postfix=-1&gt;\0display=1")
+        <scheme>(d-AttachLilyToNote "postfix=-1\0display=1")
+(d-Chordize #t)
 </scheme>
-
         <label>Finger 1</label>
         <tooltip>Inserts fingering for finger 1</tooltip>
       </row>
