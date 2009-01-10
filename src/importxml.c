@@ -1344,6 +1344,11 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 						  1));
 	  }
 
+	else if (ELEM_NAME_EQ (childElem, "chordize"))
+	  {
+	    ((chord *) chordObj->object)->chordize = TRUE;
+	  }
+
 
 
 

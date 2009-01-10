@@ -849,6 +849,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  DO(postfix);
 		  DO(display);
 #undef DO		  
+		  if(((chord *) curObj->object)->chordize)
+		    newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
 
 		  /*Output Lyric */
 		  if (((chord *) curObj->object)->lyric)
