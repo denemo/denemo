@@ -460,23 +460,39 @@ changenumdots (DenemoObject * thechord, gint number)
   set_basic_numticks (thechord);
 }
 
+static void 
+freenote(note *thenote) {
+#define FREE(field) if(thenote->field) g_string_free(thenote->field, TRUE);
+  FREE(display);
+  FREE(prefix);
+  FREE(postfix);
+#undef FREE
+  g_free(thenote);
+}
+
+
 /**
  * Free the current chord
  */
 void
 freechord (DenemoObject * thechord)
 {
-  g_list_foreach (((chord *) thechord->object)->notes, freeit, NULL);
+  g_list_foreach (((chord *) thechord->object)->notes, freenote, NULL);
   g_list_free (((chord *) thechord->object)->notes);
   g_list_free(((chord *) thechord->object)->dynamics);
   g_list_free(((chord *) thechord->object)->ornamentlist);
   if(((chord *) thechord->object)->lyric)
-    g_string_free(((chord *) thechord->object)->lyric, FALSE);
+    g_string_free(((chord *) thechord->object)->lyric, FALSE);//FIXME memory leak???? 
   /* tone_node does not belong to the chord but belongs instead to the pitch recognition system */
   if(((chord *) thechord->object)->is_figure && ((chord *) thechord->object)->figure)
-    g_string_free(((chord *) thechord->object)->figure, FALSE);
-  
-  g_free (thechord);
+    g_string_free(((chord *) thechord->object)->figure, FALSE);//FIXME memory leak???? 
+#define FREE(field) if(((chord *) thechord->object)->field)\
+         g_string_free(((chord *) thechord->object)->field, TRUE);
+  FREE(display);
+  FREE(prefix);
+  FREE(postfix);
+#undef FREE
+  g_free (thechord);//FIXME free thechord->object
 }
 
 /**

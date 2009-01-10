@@ -975,7 +975,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 	    outputret;
 	    if(pchord->postfix &&pchord->postfix->len) {
-		      insert_editable(&pchord->postfix, pchord->prefix->len?pchord->postfix->str:" ", iter, invisibility, gui);
+		      insert_editable(&pchord->postfix, pchord->postfix->len?pchord->postfix->str:" ", iter, invisibility, gui);
 		    }
 	      
 	    /* do this in caller                    g_string_append_printf (ret, " "); */

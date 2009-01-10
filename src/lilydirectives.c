@@ -60,15 +60,15 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
 
 typedef enum attach_type {ATTACH_NOTE, ATTACH_CHORD} attach_type;
 /**
- * Lilypond directive.  Allows user to insert a lilypond directive 
- * before the current cursor position
- * or (if ATTACH is true) attach one to the note, 
- * or edit the current lilypond directive
+ * Lilypond directive.  
+if interactive: Allows user to attach a lilypond directive 
+else attache the passed strings as lilypond directive
+attachment is to chord ( attach is ATTACH_CHORD) or to the note at the cursor
  */
 static void
-attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *display, gboolean interactive)
+attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *display, gboolean interactive)
 {
-  gchar *prefixstring=NULL, *current=NULL, *displaystring=NULL;
+  gchar *prefixstring=NULL, *postfixstring=NULL, *displaystring=NULL;
   DenemoGUI *gui = Denemo.gui;
   DenemoScore * si = gui->si;
   note *curnote = NULL;
@@ -98,16 +98,15 @@ attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *di
     switch(attach) {
     case ATTACH_CHORD:
       if(thechord->postfix)
-	current = thechord->postfix->str;
+	postfixstring = thechord->postfix->str;
       if(thechord->prefix)
 	prefixstring = thechord->prefix->str;
       if(thechord->display)
 	displaystring = thechord->display->str;
-      break;;
       break;
     case ATTACH_NOTE:
       if(curnote->postfix)
-	current = curnote->postfix->str;
+	postfixstring = curnote->postfix->str;
       if(curnote->prefix)
 	prefixstring = curnote->prefix->str;
       if(curnote->display)
@@ -117,28 +116,29 @@ attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *di
       break;
     }  
     prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefixstring);
-    current = string_dialog_entry(gui, curnote?"Attach LilyPond to Note":"Attach LilyPond to Chord", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to postfix to chord", current);
+    postfixstring = string_dialog_entry(gui, curnote?"Attach LilyPond to Note":"Attach LilyPond to Chord", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to postfix to chord", postfixstring);
     displaystring =  string_dialog_entry(gui, "Attach LilyPond", "Give Display text if required", displaystring);
   } else {//not interactive
     if(prefix)
       prefixstring = g_strdup(prefix);
-    if(init)
-      current = g_strdup(init);
+    if(postfix)
+      postfixstring = g_strdup(postfix);
     if(display)
       displaystring = g_strdup(display);
   }
   switch(attach) {
 #define STRINGASSIGN(obj, field, val) \
-     if(obj->field && val && *val) g_string_assign(obj->field, val);\
-     else obj->field=g_string_new(val);
+     if(val && *val) {\
+     if(obj->field) g_string_assign(obj->field, val);\
+     else obj->field=g_string_new(val);}
                      
   case ATTACH_CHORD:
-    STRINGASSIGN(thechord, postfix, current);
+    STRINGASSIGN(thechord, postfix, postfixstring);
     STRINGASSIGN(thechord, prefix, prefixstring);
     STRINGASSIGN(thechord, display, displaystring);
     break;
   case ATTACH_NOTE:
-    STRINGASSIGN( curnote, postfix, current);
+    STRINGASSIGN( curnote, postfix, postfixstring);
     STRINGASSIGN(curnote, prefix, prefixstring);
     STRINGASSIGN(curnote, display, displaystring);
     break;
@@ -148,7 +148,7 @@ attach_lily_directive (attach_type attach, gchar *init, gchar *prefix, gchar *di
   } 
   score_status(gui, TRUE);
   displayhelper (gui);
-  g_free(current);
+  g_free(postfixstring);
   g_free(displaystring);
   g_free(prefixstring);
 }
@@ -209,6 +209,9 @@ void insert_lily_directive(gchar *directive, gchar *display, gboolean locked, gi
     displayhelper(gui);
 }
 
+
+/* Run a dialog to get a lily directive from the user
+ the values returned must be freed by the caller */
 static
 gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked) {
   DenemoGUI *gui = Denemo.gui;
