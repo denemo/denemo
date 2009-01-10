@@ -266,7 +266,10 @@ SCM scheme_chordize (SCM setting) {
   if(SCM_BOOLP(setting)){
     val = gh_scm2bool(setting);
   }
-  thechord->chordize = val;
+  if( thechord->chordize != val) {
+    thechord->chordize = val;
+    score_status(gui, TRUE);
+  }
   return SCM_BOOL(TRUE);
 }
 
