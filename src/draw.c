@@ -652,6 +652,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   struct infotopass itp;
   static GdkGC *blackgc = NULL;
   static GdkGC *bluegc;
+  static GdkGC *graygc;
   GList *mwidthiterator;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
@@ -661,6 +662,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     {
       blackgc = gcs_blackgc ();
       bluegc = gcs_bluegc ();
+      graygc = gcs_graygc ();
     }
 
   /* Initialize some fields in itp */
@@ -710,7 +712,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	   
 	   if (!mwidthiterator->next) /* Last measure - draw double-barline */
 	     x -= 3;
-	   gdk_draw_line (gui->pixmap, blackgc, x, top, x, y);
+	   gdk_draw_line (gui->pixmap, graygc, x, top, x, y);
 	   
 	   if (!mwidthiterator->next)
 	     {
