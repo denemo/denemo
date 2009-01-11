@@ -159,10 +159,8 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
       si->currentstaff = g_list_nth (si->thescore, addat - 1);
       si->currentstaffnum = addat;
       setcurrentprimarystaff (si);
-      find_leftmost_staffcontext (thestaffstruct, si);
     }
-
-
+  find_leftmost_staffcontext (thestaffstruct, si);
 }
 
 
