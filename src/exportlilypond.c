@@ -1401,7 +1401,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    
 	    if((curobjnode!=NULL) && ((curobj == NULL) || curobj->type!=LILYDIRECTIVE)) /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
 	      if (curmeasure->next)
-		g_string_append_printf(endstr, "|\n");
+		g_string_append_printf(endstr, "%|\n");
 	      else
 		g_string_append_printf(endstr, " \\bar \"|.\"\n");
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
