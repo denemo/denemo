@@ -421,7 +421,7 @@ SCM scheme_get_command(void) {
    gint cmd = lookup_command_for_keyevent (&event);
    //g_print("command %d for %x %x\n", cmd, event.keyval, event.state);
    if(cmd!=-1)
-     name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));
+     name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));//FIXME NULL?, memory leaks
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
   }
  SCM scm = scm_makfrom0str (name->str);
