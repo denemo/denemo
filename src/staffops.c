@@ -159,8 +159,9 @@ insert_staff (DenemoScore * si, DenemoStaff * thestaffstruct,
       si->currentstaff = g_list_nth (si->thescore, addat - 1);
       si->currentstaffnum = addat;
       setcurrentprimarystaff (si);
+      find_leftmost_staffcontext (thestaffstruct, si);
     }
-  find_leftmost_staffcontext (thestaffstruct, si);
+
 }
 
 
@@ -290,7 +291,8 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 		      numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
   thestaffstruct->midi_instrument = g_string_new ("acoustic grand");
-
+  thestaffstruct->leftmost_time1context = thestaffstruct->stime1;
+      thestaffstruct->leftmost_time2context = thestaffstruct->stime2;
   /* In what position should the scrollbar be added?  */
   switch (action)
     {
