@@ -5,11 +5,11 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>(Print) TransposeOctaveUp</action>
+        <action>TransposeOctaveUp</action>
         <scheme>(d-ScoreProperties "lilypond= \\transpose c c'")
 
 </scheme>
-        <label>Transpose Octave Up</label>
+        <label>(Print) Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
       </row>
     </map>
