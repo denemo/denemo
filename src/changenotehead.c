@@ -84,6 +84,7 @@ set_notehead (GtkAction *action, gpointer param)
     if( ((DenemoScriptParam *)param)->string->len) {
       insertnotehead (gui->si, ((DenemoScriptParam *)param)->string->str);
       ((DenemoScriptParam *)param)->status = TRUE;
+      return;
     } else {
       ((DenemoScriptParam *)param)->status = FALSE;
       return;
