@@ -692,11 +692,23 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
 }
 
+static gint
+brace_count(gchar *str) {
+  gint ret;
+  for(ret=0;*str;str++) {
+    if(*str=='{') ret++;
+    if(*str=='}') ret--;
+  }
+  return ret;
+}
+
+
 /**
  * generate the lilypond for the DenemoObject curobj
  * the state of the prevailing duration, clef keysignature are updated and returned.
+ * returns the excess of open braces "{" created by this object.
  */
-static void
+static gint
 generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, DenemoObject * curobj, 
 		       GtkTextChildAnchor *objanc,		       
 		       gint * pprevduration, gint * pprevnumdots,
@@ -723,11 +735,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
   gint octave, enshift;
   gint noteheadtype;
   gint mid_c_offset;
-
+  gint open_braces=0;/* keep track of excess open braces "{" so as to ensure they are closed */
 
   GString *dynamic_string = NULL;
 
-  if(curobj->type==LILYDIRECTIVE){    
+  if(curobj->type==LILYDIRECTIVE){
+    open_braces += brace_count( ((lilydirective *) curobj->object)->directive->str);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->directive->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
     GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
     GtkTextIter back;
@@ -752,9 +765,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
-	if(pchord->prefix && pchord->prefix->len)
-	   insert_editable(pchord->prefix, pchord->prefix->str, iter, invisibility, gui);
-		    
+	if(pchord->prefix && pchord->prefix->len) {
+	  open_braces += brace_count(pchord->prefix->str); 
+	  insert_editable(&pchord->prefix, pchord->prefix->str, iter, invisibility, gui);
+	}	    
 	if (!pchord->notes)
 	  {			/* A rest */
 	    if (!curobj->isinvisible)
@@ -974,9 +988,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, " ~");
 
 	    outputret;
-	    if(pchord->postfix &&pchord->postfix->len) {
-		      insert_editable(&pchord->postfix, pchord->postfix->len?pchord->postfix->str:" ", iter, invisibility, gui);
-		    }
+	    if(pchord->postfix && pchord->postfix->len) {
+	      open_braces += brace_count(pchord->postfix->str);
+	      insert_editable(&pchord->postfix, pchord->postfix->str, iter, invisibility, gui);
+	    }
 	      
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
@@ -1105,7 +1120,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
     *pkeyname = keyname;
     *pcur_stime1 = cur_stime1;
     *pcur_stime2 = cur_stime2;
-
+    return open_braces;
 }
 
 /* create and insertion point and button for the next piece of music */
@@ -1230,7 +1245,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gint curmeasurenum;// count of measures printed
   gint measurenum; //count of measures from start of staff starting at 1
   gint objnum;//count of objects in measure starting at 1
-
+  gint open_braces;//Keep track of the number of open brace "{" chars in the music, in case of imbalance.
   GString *str = g_string_new("");
   GString * lyrics = g_string_new("");
   GString * figures = g_string_new("");
@@ -1318,13 +1333,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   curmeasure = curstaffstruct->measures;
   if(!end)
     end = g_list_length (curmeasure);
-
-
-
   /* Now each measure */
   if (start)
     curmeasure = g_list_nth (curmeasure, start - 1);
-
+  open_braces = 0;//keep track of excess open braces "{"
   for (measurenum = MAX (start, 1); curmeasure && measurenum <= end;
        curmeasure = curmeasure->next, measurenum++)
     {
@@ -1378,7 +1390,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, &iter);
 	  gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, &iter);
 
-	  generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
+	  open_braces += generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
 				 &cur_stime1, &cur_stime2);
@@ -1404,6 +1416,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 		g_string_append_printf(endstr, "%|\n");
 	      else
 		g_string_append_printf(endstr, " \\bar \"|.\"\n");
+	    
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, invisibility,NULL);
 	    //g_string_assign(endstr,"");
@@ -1429,11 +1442,16 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if(curobjnode==NULL || curobjnode->next==NULL)
 	    break;//we want to go through once for empty measures
 	} /* For each object in the measure */
-
-
-
     } /* for each staff */
   
+     
+  for(;open_braces>0;open_braces--)
+    g_string_append_printf(str, "\n} %% missing close brace\n");
+
+
+
+
+
   // str is empty again now FIXME
   g_string_append_printf(str, "}\n");
   g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s %s {\\%s%sProlog \\%s%s}\n",
