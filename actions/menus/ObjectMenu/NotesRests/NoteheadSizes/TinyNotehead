@@ -8,7 +8,7 @@
         <action>TinyNotehead</action>
         <scheme>(d-InsertLilyDirective "directive=\\tiny\0display=TinyNoteheads")
 </scheme>
-        <label>Tiny</label>
+        <label>(Print) Tiny Size</label>
         <tooltip>Prints out note heads in tiny size</tooltip>
       </row>
     </map>
