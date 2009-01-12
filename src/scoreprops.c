@@ -43,6 +43,13 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   DenemoGUI *gui = Denemo.gui;
 
   GET_1PARAM(action, param, lilypond);
+ if(query) {
+   if( Denemo.gui->lilycontrol.lilypond == NULL) Denemo.gui->lilycontrol.lilypond = g_string_new(" ");
+   if(*query) if(!strcmp("lilypond", query))
+     g_string_assign(param->string, Denemo.gui->lilycontrol.lilypond->str);
+   param->status = TRUE;
+   return;
+ }
   if(lilypond) {
     if(Denemo.gui->lilycontrol.lilypond)
       g_string_assign(Denemo.gui->lilycontrol.lilypond, lilypond);
@@ -88,7 +95,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   hsetup = headersetup (notebook, gui, TRUE);
 
   // Layout
-  label = gtk_label_new_with_mnemonic (_("La_yout"));
+  label = gtk_label_new_with_mnemonic (_("Display Layout"));
   table = gtk_table_new (2, 2, FALSE);
   gtk_container_set_border_width (GTK_CONTAINER (table), 12);
   gtk_table_set_row_spacings (GTK_TABLE (table), 8);
