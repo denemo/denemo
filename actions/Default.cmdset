@@ -2012,6 +2012,27 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>D. C. al fine</label>
         <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>
+      <row>
+        <action>Allegro</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro</label>
+        <tooltip>Print Allegro in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Andante</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Andante</label>
+        <tooltip>Print Andante in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Presto</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Presto</label>
+        <tooltip>Print Presto in bold italics above the chord.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

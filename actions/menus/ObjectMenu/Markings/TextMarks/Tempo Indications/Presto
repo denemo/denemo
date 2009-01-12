@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Presto</action>
+        <scheme>(d-AttachLilyToChord "prefix=\\once \\override TextScript #'extra-offset = #'( 0.0 . 0.0 )\0postfix=^\\markup \\italic \\bold {Presto}\0display=Presto")
+</scheme>
+        <label>Presto</label>
+        <tooltip>Print Presto in bold italics above the chord.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
