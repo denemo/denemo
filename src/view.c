@@ -352,22 +352,28 @@ SCM scheme_get_notes (SCM optional) {
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
   gchar *title, *instruction, *initial_value;
   gint length;
+  //FIXME scm_dynwind_begin (0);
+
 if(SCM_STRINGP(label)){
-  title = gh_scm2newstr(label, &length);
+  title = scm_to_locale_string(label);
+  //scm_dynwind_free (title);
   }
  else title = "Input Required";
  if(SCM_STRINGP(prompt)){
-  instruction = gh_scm2newstr(prompt, &length);
+  instruction = scm_to_locale_string(prompt);
+  //scm_dynwind_free (instruction);
   }
  else instruction = "Give input: ";
 
  if(SCM_STRINGP(init)){
-  initial_value = gh_scm2newstr(init, &length);
+  initial_value = scm_to_locale_string(init);
+  //scm_dynwind_free (initial_value);
   }
  else initial_value = " ";//FIXME mixed types of string, memory leaks
  
  gchar * ret = string_dialog_entry_with_widget (Denemo.gui, title, instruction, initial_value, NULL);
  SCM scm = scm_makfrom0str (ret);
+ //scm_dynwind_end ();
  return scm;
 }
 
