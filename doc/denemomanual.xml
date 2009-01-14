@@ -1032,6 +1032,22 @@ These menus can be used directly or for enquiring/setting keyboard/mouse shortcu
         </tgroup>
       </informaltable>
     </sect2>
+
+
+    <sect1 id="customizingDenemo">
+      <title>Adding Key/Mouse Shortcuts</title>
+
+      <para><productname>Denemo</productname> allows you to choose which keys activate which commands. It also allows you to choose Mouse press/release gestures (in combination with keys such as Shift, NumLock, CapsLock etc).
+ <para>
+ To choose a shortcut for a menu item, right-click on the item and choose the Create Mouse Shortcut, or the Edit Shortcuts option. The Set Mouse Shortcut Dialog requires you to set which button and action you want to use and then to hold/lock the keyboard modifier while clicking on the big button. The setting you have chosen is shown, and you click ok to accept it.
+ </para>
+ <para>
+ To set a keyboard shortcut, and to delete any sort of shortcut, use the Edit Shortcuts menu item. This dialog also allows you to choose a cursor to show while certain mouse actions are underway.
+ </para>
+ The menu item that activates the command shows the shortcuts that exist in bright blue lettering. PrsL-CapsLoc, for example, is the Press action on the Left mouse key while the CapsLock light is on.  In the default command set this is linked to the BeginSlur command, so that together with the RlsL-CapsLoc for the release of the left mouse button, you can "draw" slurs by using the mouse. Similarly, Shift with left mouse button (MveL-Shift) is set to allow you to drag notes up and down the staff. (Command MoveNoteToCursor, which is found under Notes/Rests/Edit/Edit Note/To Cursor)</para>
+    </sect1>
+
+
   <sect1>
     <title>Movements</title>
 
@@ -2354,12 +2370,7 @@ It is possible to set silly combinations – some will not print anything. Check
       <para>To enter chord symbols choose Other->Insert/Enter chord symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
     </sect2>
 
-    <sect2 id="customizingDenemo">
-      <title>Adding Custom Key Shortcuts</title>
 
-      <para><productname>Denemo</productname> still comes with a number of premade
-      keyboard shortcut maps. However, the shortcuts attached to the menu items take precedence and are much easier to set. It is intended to replace this mechanism, possibly with a macro facility, at some future date.</para>
-    </sect2>
   </sect1>
 
   <sect1>

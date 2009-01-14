@@ -1980,7 +1980,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>TransposeOctaveUp</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/</menupath>
+        <menupath>/ObjectMenu/Score</menupath>
         <label>(Print) Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
       </row>
@@ -2032,6 +2032,55 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Presto</label>
         <tooltip>Print Presto in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Finger0</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 0</label>
+        <tooltip>Inserts fingering for open string</tooltip>
+      </row>
+      <row>
+        <action>Finger1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 1</label>
+        <tooltip>Inserts fingering for finger 1</tooltip>
+      </row>
+      <row>
+        <action>Finger2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 2</label>
+        <tooltip>Inserts fingering for finger 2</tooltip>
+      </row>
+      <row>
+        <action>Finger3</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 3</label>
+        <tooltip>Inserts fingering for finger 3</tooltip>
+      </row>
+      <row>
+        <action>Finger4</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 4</label>
+        <tooltip>Inserts fingering for finger 4</tooltip>
+      </row>
+      <row>
+        <action>Finger5</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 5</label>
+        <tooltip>Inserts fingering for finger 5</tooltip>
+      </row>
+      <row>
+        <action>RehearsalMark</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Orchestral</menupath>
+        <label>Insert Rehearsal Mark</label>
+        <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>
     </map>
   </commands>
