@@ -41,18 +41,11 @@
     <title>Introduction</title>
 
     <para>Denemo lets you create musical scores. You can type music in using the keyboard 
-    or play it in using the microphone input. You can edit your music - the display shows you the measures you
+    or play it in using a MIDI contoller or the microphone input. You can edit your music - the display shows you the measures you
     are working on - and you can playback selected bits to check how it sounds. 
     You can preview and print the score or parts to the highest standards used in the music publishing industry 
     - thanks to the Lilypond typesetting program.</para>
     <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview.</para>
-	    <para>Anonymous Git checkout:</para>
-
-	    <para>git clone git://git.savannah.gnu.org/denemo.git</para>
-    
-	    <para>Anonymous CVS checkout:</para> 
-	    <para>cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master</para>
- 
 
   <sect1>
     <title>Obtaining and Installing Denemo</title>
@@ -64,12 +57,20 @@
     Denemo from the Debian unstable repositories, using the command apt-get
     install denemo. Builds for Macintosh are available from the Gnu-Darwin
     project. The Denemo development branch can be downloaded using anonymous
-    CVS or GIT.</para>
+    CVS or Git.</para>
+	    <para>Anonymous Git checkout:</para>
+
+	    <para>git clone git://git.savannah.gnu.org/denemo.git</para>
+    
+	    <para>Anonymous CVS checkout:</para> 
+	    <para>cvs -d:pserver:anonymous@pserver.git.sv.gnu.org:/denemo.git co -d denemo master</para>
+ 
+
   </sect1>
     <sect2>
       <title>Dependencies</title>
 
-      <para>To build Denemo from CVS or a source package, the following
+      <para>To build Denemo from a source package, the following
       dependent packages should be installed first. Remember to install the
       development packages as well (check your distribution for the specific
       package name):<note>
@@ -240,10 +241,10 @@
 
   <sect1>
     <title>Getting Started</title>
-    <para>On starting a Denemo Music score (called init.denemo) is loaded, and any actions associated with it are run. 
+    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with tehm are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/denemo/actions/init.denemo (where ~ means your home directory).
 </para>
 
-    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. The mouse however has its uses. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
+    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. A few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
 
     <subtitle>The Denemo Interface</subtitle>
 
@@ -257,7 +258,7 @@
       </mediaobject>
     </figure>
 <para>
-A set of action-based menus can also be shown in addition to the object-based menu shown here. These menus can be used directly or for enquiring/setting keyboard/mouse shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus to show.
+These menus can be used directly or for enquiring/setting keyboard/mouse shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus and toolbars to show.
 </para>
     <para>The main menu bar has menus for overall control of the program. It
     contains the following menus:</para>
@@ -300,7 +301,7 @@ A set of action-based menus can also be shown in addition to the object-based me
     <sect2>
       <title>File</title>
 
-      <para>Use the <guimenu>File</guimenu> menu to perform global operations.
+      <para>Use the <guimenu>File</guimenu> menu to perform global operations related to storing and retrieving from file systems.
       The File menu contains the following Menu Items:</para>
 
       <informaltable>
@@ -369,10 +370,10 @@ A set of action-based menus can also be shown in addition to the object-based me
 
 
             <row>
-              <entry>Open in New Window</entry>
+              <entry>Open in New</entry>
 
               <entry>Open an existing <productname>Denemo</productname> file
-              in a new window so that both can be used at once.</entry>
+              in a new tab (or "page") so that both can be used at once.</entry>
             </row>
 
             <row>
@@ -424,14 +425,14 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Close</entry>
 
-              <entry>Close the current file but keep
-              <productname>Denemo</productname> open.</entry>
+              <entry>Close the current score but keep other
+              <productname>Denemo</productname> scores open.</entry>
             </row>
 
             <row>
               <entry>Quit</entry>
 
-              <entry>Close the current file and exit
+              <entry>Close the current scores and exit
               <productname>Denemo</productname>.</entry>
             </row>
           </tbody>
@@ -503,13 +504,23 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Preferences</entry>
 
-              <entry>Set external programs (LilyPond, PDF viewer etc.), autosave interval etc.</entry>
+              <entry>Set external programs (LilyPond, PDF viewer etc.), autosave interval etc. These values will bre remembered when you re-start the program</entry>
             </row>
 
             <row>
-              <entry>Keyboard Setup</entry>
+              <entry>Customize Commands, Shortcuts...</entry>
+ 
+            </row>
+            <row>
+              <entry>Quick settings checkbox
+</entry> <entry>One touch setting of keyboad shortcuts</entry>
+            </row>
+            <row>
 
-              <entry>Quick settings checkbox – one touch setting of keyboad shortcuts</entry>
+	      <entry>Save Command Set.</entry> <entry> Save your current customization of the menu commands and shortcuts.</entry>
+            </row>
+            <row>
+	      <entry>Manage Command Set.</entry> <entry> Hide/Delete/Show menu items, set keyboard shortcuts, set cursor shapes, load/save all these.</entry>
             </row>
           </tbody>
         </tgroup>
@@ -520,7 +531,7 @@ A set of action-based menus can also be shown in addition to the object-based me
       <title>View</title>
 
       <para>Use the <guimenu>View</guimenu> menu to toggle toolbars and
-      palettes used for entering notation with the mouse.</para>
+      palettes used with the mouse.</para>
 
       <informaltable>
         <tgroup cols="2">
@@ -536,30 +547,22 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Rhythms and Overlays</entry>
 
-              <entry>Allows custom rhythm patterns and microphone overlay</entry>
+              <entry>Allows custom rhythm patterns. Enter rhythms by setting up patterns and then overlay the rhythms with pitches via MIDI or microphone</entry>
             </row>
-
-
-
 
             <row>
               <entry>Note and Rest Entry</entry>
 
-              <entry>Notes and rests buttons – the highlighted button is current duration – click a button to enter a note/rest</entry>
+              <entry>Notes and rests buttons – the highlighted button is current duration – click a button to enter a note/rest, or to edit the note under the cursor in edit mode</entry>
             </row>
 
             <row>
               <entry>Articulation Palette</entry>
 
-              <entry>A palette of expression marks to apply to notes.</entry>
+              <entry>A (limited) palette of expression marks etc to apply to notes. More are in the menu system under Markings.</entry>
             </row>
 
-            <row>
-              <entry>Menu of Actions</entry>
-
-              <entry>Menu of all the Denemo commands listed under type of Action</entry>
-            </row>
-
+           
             <row>
               <entry>Menu of Objects</entry>
 
@@ -571,6 +574,12 @@ A set of action-based menus can also be shown in addition to the object-based me
               <entry>Show LilyPond</entry>
 
               <entry>Pops up a window for customizing the LilyPond</entry>
+            </row>
+
+            <row>
+              <entry>Show Scheme Script</entry>
+
+              <entry>Pops up a window for showing scripts written in scheme to control Denemo</entry>
             </row>
 
           </tbody>
@@ -967,12 +976,12 @@ A set of action-based menus can also be shown in addition to the object-based me
             <row>
               <entry>Notes/Rests</entry>
 
-              <entry>The first menu item in this menu depends on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set shortcuts – it would be too slow to use them for actually entering notes/rests. I addition there are menu items for inserting rests, deleting, tied notes, setting the notehead style and stem direction </entry>
+              <entry>The first menu item in this menu depends on which mode you have chosen. For example in Classic mode there is a function to move the cursor to a new note while in Insert mode the function inserts a note of the given name. These menu items are present mainly to allow you to set shortcuts – it would be too slow to use them for actually entering notes/rests. I addition there are menu items for inserting rests, deleting, tied notes, setting the notehead style and stem direction, grace notes, transposing and more </entry>
             </row>
 
             <row>
-              <entry>Expression Marks</entry>
-              <entry>Insert/remove dynamics, slurs trills etc.</entry>
+              <entry>Markings</entry>
+              <entry>Insert/remove tempo indications, dynamics, slurs, trills etc.</entry>
             </row>
             <row>
               <entry>Chords</entry>
@@ -1050,9 +1059,9 @@ It is possible to add more commands to the set that Denemo ships with. Some of t
      <title>Adding Your Own Features </title>
    <para>
 You can also get Denemo to remember a frequently used sequence of actions - it can be installed in the menu system and given a keyboard shortcut just like any other command. </para>
-  <para> To do this you right-click and choose Show Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the little window that pops up set Recordin Scheme Script and then do the set of steps you wish Denemo to remember, <emphasis>using the menu items, not keyboard, for each step</emphasis>.
+  <para> To do this you right-click and choose Show Scheme Script. (You do not have to understand what a Scheme Script is to use this!). In the little window that pops up set Record Scheme Script and then do the set of steps you wish Denemo to remember, <emphasis>using the menu items, not keyboard, for each step</emphasis>.
   </para> 
- <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Insert Script as Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
+ <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
 
  </para>  <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
 </sect2>
@@ -1065,13 +1074,13 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
  A good example of this is a script to insert a particular LilyPond directive into the score. This is all that many scripts do: it is easy to see the piece of LilyPond in the Scheme Script window, and by changing it you can create a new command.
  </para> 
  <para>
- For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Fetch Script from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
+ For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Get Script from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
 <itemizedlist>
  <listitem>
 (d-InsertLilyDirective " \\mark \\default")
 </listitem>
 </itemizedlist>
-which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs, and then save as a new menu item.
+which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, or if use Save Script to customize the script you started with.
  </para>
  
  <para> 
@@ -1132,6 +1141,9 @@ d-RefreshDisplay
   <listitem>
 d-InputFilterNames  sets the status bar
   </listitem>
+  <listitem>
+d-Chordize Ensure that even a single note is treated as a chord - needed for some LilyPond constructs (e.g. fingerings)
+  </listitem>
 
 </itemizedlist>
 
@@ -1173,7 +1185,9 @@ d-InsertKey
 <listitem>
 d-Open filename
 </listitem>
-
+<listitem>
+d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyPond)
+</listitem>
 
 
 </itemizedlist>
