@@ -2082,6 +2082,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Insert Rehearsal Mark</label>
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>
+      <row>
+        <action>NamedBookmarkInsert</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Insert Named Bookmark</label>
+        <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
