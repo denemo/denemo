@@ -261,13 +261,13 @@
       </mediaobject>
     </figure>
 <para>
-The main window has menus and toolbars at the top and then the drawing area where the music input is displayed - just the few measures you are working on. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar.
+The main window has menus and toolbars at the top and then the drawing area where the music input is displayed - just the few measures you are working on. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next. Selected music is colored blue and outlined with a blue rectangle.
 </para>
 <para>
-These menus can be used directly or for enquiring/setting keyboard/mouse shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus and toolbars to show.
+The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you set keyboard/mouse shortcuts for the actions. All this extra functionality &amp; more comes with right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). Also available by right-clicking is creating new actions - often by modifying ones that are already there.
 </para>
-    <para>The main menu bar has menus for overall control of the program. It
-    contains the following menus:</para>
+    <para>The Main Menu has submenus for overall control of the program. It
+    contains the following submenus:</para>
 
     <itemizedlist>
       <listitem>
@@ -623,7 +623,10 @@ These menus can be used directly or for enquiring/setting keyboard/mouse shortcu
 	         <para>Classic Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the cursor position, while the Note name keys A,B,C ... move the cursor. The cursor is green. This mode is good for entering music with chords (Enter is the standard keybinding for this).
 		 </para>
           </listitem>
-       
+       	  <listitem>
+	         <para> Entry types: Note, Rest, Non-Printing Rests, Rhythm. These are used with the above modes to control what is entered. The unusual one here is Rhythm entry, which gives audio feedback when entering pure rhythms, enabling you to enter rhythms without looking at the screen to check that you have entered the correct duration. Non-Printing rests allows you to make a part vanish and return when writing several parts to a staff.
+		 </para>
+          </listitem>
        
        </itemizedlist>
 
