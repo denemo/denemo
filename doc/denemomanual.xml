@@ -1321,7 +1321,8 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 <para>
    These MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Chords could be entered using similar code.
 </para>
-
+  </sect1>
+  <sect1>
     <title>Playing Notes into Denemo - Audio (Souncard Mic Input)</title>
 
 <para>
@@ -1364,17 +1365,19 @@ When using a MIDI controller to enter pitches, you can just set the Rhythm entry
 <note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
 </note>
       </para>
-      <para>Denemo offers several ways of entering music: typing at the keyboard, playing in acoustically using a microphone or choosing items from the menu system. </para>
+      <para>Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. </para>
       <para>Using the menus for everything would be very slow, but next to each menu item is the keypress that you can use instead. If there is no keypress shown, and you want to use that item often, then right click on the menu item and you can set a key combination for that menu action. Right clicking is also useful for getting a description of what the menu action is. </para>
       <para> Typing at the keyboard can be very fast, if you forget which keypress you need you can consult the menu system to find out. This method is good for touch typists.
       </para>
 
-      <para role="persom">For entering a lot of already written-out music, playing the music in via a microphone can offer the fastest and most musical method. </para>
-      <para>One way to do this is to choose Rhythm entry mode and enter the music as pure rhythm, ignoring the note names. As you complete each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
-      <para>Once you have entered the rhythms you click on the button marked  microphone and, placing the cursor in the first measure, play the notes into a microphone plugged into the mic input of your soundcard. The microphone button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
+      <para role="persom">For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method. </para>
+      <para>One way to do this is to choose Rhythm entry mode and enter the music as pure rhythm, ignoring the note names. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
+      <para>Once you have entered the rhythms you choose an external source from the Input menu, placing the cursor in the first measure, play the notes via MIDI or a microphone plugged into the mic input of your soundcard. The Audio Input button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
 
-      <para>Another method of playing music in doesn't involve entering the rhythm separately. For this select Input->Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI, only you just need to select Insert mode to enter the notes in that case. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
 
+
+      <para>Another method of playing music in acoustically doesn't involve entering the rhythm separately. For this select Input->Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI, only you just need to select Insert mode to enter the notes in that case. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
+      <para> For MIDI input there are special modes (MIDI filters), such as Advance On Edit, which means you can simply play the pitches in and they are applied to the notes. If you are entering notes and durations at the same time using MIDI then the "AngryDelete" finger can be useful. With this filter on notes are entered normally until, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Mode-&gt;MIDI</para>
       <para>The oldest Denemo keymaps are no longer supported. (see <xref linkend="customizingDenemo" />). (Input via
       MIDI keyboard and Mic in is now available). Denemo also
       provides shortcuts for use with Numeric Keypad.</para>
@@ -1572,485 +1575,36 @@ create a next measure if one didn't already exist.</para></note>
     <sect2>
       <title>Inserting LilyPond Directives</title>
 
-      <para><productname>Denemo</productname> allow you to insert LilyPond directives in between notes, after the individual notes of a chord and at the start of each staff. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful).
+      <para><productname>Denemo</productname> allow you to insert LilyPond directives between notes, prefixing and postfixing the individual notes of a chord or the whole chord itself and at the start of each staff in a score and at the start of each score. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful).
 </para> 
 <para>
 To put a LilyPond directive on an individual note of a chord, put the cursor on that note and invoke 
 </para> 
 <step>
-Other->Insert/Edit LilyPond
+Other-&gt;AttachLilyToNote
 </step> 
 <para> 
-To put a LilyPond directive between chords, start with the cursor on a line or space that is not in the chord, and invoke the same command. Such a LilyPond insert can be locked, which means you will be warned if you try to delete it while you are deleting notes.
+To put a LilyPond directive between chords, place the cursor at the insertion point, and invoke 
+<step>
+Other-&gt;InsertLilyPond
+</step> 
+ Such a LilyPond insert can be locked, which means you will be warned if you try to delete it while you are deleting notes.
 </para>
 <para>
-When you have inserted a LilyPond directive between two notes or chords an “L” is printed at that point above the staff. If the LilyPond inserted is text to be printed above staff the notation ^text can be used. Denemo will show this text above the staff. Likewise, _text will cause text to be printed under the staff. If you wish to annotate your music use %text, which Denemo will print, but LilyPond will not (a newline character is automatically inserted for you to ensure this happens).
+When you have inserted a LilyPond directive a green bar is printed at that point below the staff. In addition if you specify some display text it will be shown. If the LilyPond inserted is text to be printed above staff the notation ^text can be used. Denemo will show this text above the staff. Likewise, _text will cause text to be printed under the staff. If you wish to annotate your music use %text, which Denemo will print, but LilyPond will not (a newline character is automatically inserted for you to ensure this happens). LilyPond attached to chords or notes shows the display text only. The status bar also shows some of the information.
 </para>
-<para>
-Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g. \transpose c d { will start transposing up a tone, use another LilyPond directive "}" to stop the transposing).<productname>Denemo</productname> does not understand these directives, but the PDF file will show them. Things like beaming and much, much more can be controlled this way. Note that these directives can also be added or edited in the LilyPond text window (see view->Show LilyPond)
-      <table>
-          <title>Dynamics and Phrasing</title>
-
-          <tgroup cols="6">
-            <thead>
-              <row>
-                <entry>Mark</entry>
-
-                <entry>Name</entry>
-
-                <entry>Shortcut</entry>
-
-                <entry>Marks</entry>
-
-                <entry>Name</entry>
-
-                <entry>Shortcut</entry>
-              </row>
-            </thead>
-
-            <tbody>
-              <row>
-                <entry>p</entry>
-
-                <entry>Piano</entry>
-
-                <entry></entry>
-
-                <entry><graphic align="center" fileref="images/accent.png" /></entry>
-
-                <entry>accent</entry>
-
-                <entry>@ToggleAccent@</entry>
-              </row>
-
-              <row>
-                <entry>pp</entry>
-
-                <entry>Pianissimo</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/acciaccatura.png" /></entry>
-
-                <entry>acciaccatura</entry>
-
-                <entry>Use a LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry>ppp</entry>
-
-                <entry>Pianississimo</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/appoggiatura.png" /></entry>
-
-                <entry>appoggiatura</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry>mf</entry>
-
-                <entry>Mezzo Forte</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/arpeggio.png" /></entry>
-
-                <entry>arpeggio</entry>
-
-                <entry>@ToggleArpeggio@</entry>
-              </row>
-
-              <row>
-                <entry>f</entry>
-
-                <entry>Forte</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/downbow.png" /></entry>
-
-                <entry>downbow</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry>ff</entry>
-
-                <entry>Fortissimo</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/downmordent.png" /></entry>
-
-                <entry>downmordent</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry>fff</entry>
-
-                <entry>Fortissatissimo</entry>
-
-                <entry>na</entry>
-
-                <entry><graphic align="center"
-                fileref="images/downprall.png" /></entry>
-
-                <entry>downprall</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry>sfz</entry>
-
-                <entry>Sfortzando</entry>
-
-                <entry>@ToggleSforzato@</entry>
-
-                <entry><graphic align="center"
-                fileref="images/fermata.png" /></entry>
-
-                <entry>fermata</entry>
-
-                <entry>Shift Asterisk *</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/flageolet.png" /></entry>
-
-                <entry>flageolet</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/glissando.png" /></entry>
-
-                <entry>glissando</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/lheel.png" /></entry>
-
-                <entry>lheel</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/lineprall.png" /></entry>
-
-                <entry>lineprall</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/longfermata.png" /></entry>
-
-                <entry>longfermata</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center" fileref="images/ltoe.png" /></entry>
-
-                <entry>ltoe</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/rheel.png" /></entry>
-
-                <entry>rheel</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/marcato.png" /></entry>
-
-                <entry>marcato</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/rtoe.png" /></entry>
-
-                <entry>rtoe</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/mordent.png" /></entry>
-
-                <entry>mordent</entry>
-
-                <entry>@ToggleMordent@</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/shortfermata.png" /></entry>
-
-                <entry>shortfermata</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center" fileref="images/open.png" /></entry>
-
-                <entry>open</entry>
-
-                <entry></entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/signumcongruentime.png" /></entry>
-
-                <entry>signumcongruentime</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/portato.png" /></entry>
-
-                <entry>portato</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/staccato.png" /></entry>
-
-                <entry>staccato</entry>
-
-                <entry>@ToggleStaccato@</entry>
-
-                <entry><graphic align="center" fileref="images/prall.png" /></entry>
-
-                <entry>@TogglePrall@</entry>
-
-                <entry></entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/stacctissiimo.png " /></entry>
-
-                <entry>stacctissiimo</entry>
-
-                <entry>Ctrl Alt . period</entry>
-
-                <entry><graphic align="center"
-                fileref="images/pralldown.png" /></entry>
-
-                <entry>pralldown</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/stopped.png" /></entry>
-
-                <entry>stopped</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/prallmordent.png" /></entry>
-
-                <entry>prallmordent</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/tenuto.png" /></entry>
-
-                <entry>tenuto</entry>
-
-                <entry>@ToggleTenuto@</entry>
-
-                <entry><graphic align="center"
-                fileref="images/prallprall.png" /></entry>
-
-                <entry>@TogglePrallPrall@</entry>
-
-                <entry></entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/thumb.png" /></entry>
-
-                <entry>thumb</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/prallup.png" /></entry>
-
-                <entry>prallup</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/trill.png" /></entry>
-
-                <entry>trill</entry>
-
-                <entry>@ToggleTrill@</entry>
-
-                <entry><graphic align="center"
-                fileref="images/reverseturn.png" /></entry>
-
-                <entry>reverseturn</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/turn.png" /></entry>
-
-                <entry>@ToggleTurn@</entry>
-
-                <entry>@ToggleTurn@e</entry>
-
-                <entry><graphic align="center"
-                fileref="images/upprall.png" /></entry>
-
-                <entry>@ToggleUpprall@</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center" fileref="images/upbow.png" /></entry>
-
-                <entry>upbow</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic align="center"
-                fileref="images/verylongfermata.png" /></entry>
-
-                <entry>verylongfermata</entry>
-
-                <entry>Use LilyPond directive</entry>
-              </row>
-
-              <row>
-                <entry><graphic align="center"
-                fileref="images/upmordent.png" /></entry>
-
-                <entry>upmordent</entry>
-
-                <entry>Use LilyPond directive</entry>
-
-                <entry><graphic fileref="images/" /></entry>
-
-                <entry>@ToggleBeginSlur@</entry>
-
-                <entry></entry>
-              </row>
-            </tbody>
-          </tgroup>
-        </table></para>
-
-      <para>To add an expression to notation as you type, just enter the note
-      pitch and duration you want and immediately afterwards the expression you want from the menu Expression Marks. As always, you can assign shortcuts to expression marks you frequently use. To add expressions
-      after you have already added notes, position the cursor at the note you want to add an expression
-      to. You won't need to be exactly on the note to add expressions
-      especially at the end of a measure.</para>
-
-      <example id="expressions">
-        <title></title>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/expressions.png" />
-          </imageobject>
-        </mediaobject>
-      </example>
     </sect2>
   </sect1>
 
   <sect1 revision="0.75">
-    <title>Adding Expressions</title>
+    <title>Adding Markings</title>
 
-    <para>Look at <xref linkend="expressions" />, we see a short musical
-    expression. Lets add the expressions:</para>
-
-    <procedure>
-      <step>
-        <para>Using the keyboard shortcuts enter the low b. (the b on the
-        keyboard and a space)</para>
-      </step>
-
-      <step>
-        <para>Type the g (the g on the keyboard and a space)</para>
-      </step>
-
-      <step>
-        <para>Type in your keybinding for a inserting a mordent, a mordent above the g. <note>
-            <para><productname>Denemo</productname> won't place expressions
-            optimally, don't worry it will display correctly in the final
-            published output.</para>
-          </note></para>
-      </step>
-
-      <step>
-        <para>Type the second g the same way you did in the previous
-        step.</para>
-      </step>
-
-      <step>
-        <para>Type the a and g eighth notes </para>
-      </step>
-
-      <step>
-        <para>Type two a quarter notes </para>
-      </step>
-
-      <step>
-        <para>Type in your keybinding for inserting trills, a trill will appears above the a.</para>
-      </step>
-
-      <step>
-        <para>Type an a quarter note.</para>
-      </step>
-
-
-      <step>
-        <para>Type a tilde keybinding, a turn appears above the
-        final a quarter note.</para>
-      </step>
-
-      <step>
-        <para>Type the final b and c eighth notes.</para>
-      </step>
-    </procedure>
+    <para>Dynamics, Slurs, Trills, Tempo Indications, and much more a found in the Markings menu </para>
+    <para>You can collect together your favorite ones, either by assigning shortcuts, or creating a menu of favorite commands which just invoke the action you use. </para>
+   
     <procedure> 
-      <title>Adding Expressions using the Articulation palette</title>
-      
+      <title>Adding Markings using the Articulation palette</title>
+       <para>Some ornaments and articulations have been collected together as a palette. </para>
       
       <example id="expressions_palette">
         <title></title>
@@ -2062,14 +1616,7 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
         </mediaobject>
       </example>
 
-      <para>Look at <xref linkend="expressions_palette" />, we see a dialog with 
-	          expression symbols. Lets add the expressions to our notes:</para>
-      <step>
-        <para>Add the notes to the staff as documented in the last section</para>
-      </step>
-      <step>
-	      <para>Click on the note that will have the expression assigned to it then click on the desired expression in the expression palette. This will place the expression symbol above or below then note. </para>
-      </step>
+     
   </procedure> 
  
   </sect1>
@@ -2104,15 +1651,17 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
 
 </sect2>
 
-<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using csound. Denemo will play your file with a .orc file. In the playback properties make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo will soon come with a few demo .orc files which you will find in XXX. The csound module of Denemo is currently under construction.
+<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using csound. Denemo will play your file with a .orc file. In the playback properties make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo will soon come with a few demo .orc files which you will find in XXX. The csound module of Denemo is currently under construction. It is not tested for this release.
  </para></sect2>
 </sect1>
 
   <sect1 revision="0.75">
     <title>Publishing</title>
 
-    <para>Creating scores with <productname>Denemo</productname> is quick and
-    easy. Click on Print, and in the PDF viewer choose print.
+    <para>Creating paper scores with <productname>Denemo</productname> is done via an intermediate PDF file. <productname>Denemo</productname> takes care of this for you, provided you have set the name of a PDF view in the Preferences. Once this is done click on Print Preview, or Print Part, wait for LilyPond to typeset your score the PDF viewer will pop-up, and you can print using the facilities of that program.
+<note>
+            <para>Denemo is unresponsive while LilyPond is working - be patient!</para>
+          </note>
     </para>
 
  
@@ -2121,168 +1670,13 @@ Choose Other->Insert/Edit LilyPond and enter the LilyPond syntax required. (e.g.
   <sect1>
     <title>Advanced Features</title>
 
-    <para>This section will explain how to enter advanced rhythms, chords
-    polyphony etc</para>
-
-    <formalpara>
-      <title>Display Command</title>
-
-      <para>Control-Shift-left: Decrease the minimum display width of all
-      measures by 10 pixels Control-Shift-right: Increase the same by 10
-      pixels Control-Shift-up: Decrease vertical space alloted to each staff
-      by 10 pixels Control-Shift-down: Increase vertical space alloted to each
-      staff by 10 pixels</para>
-    </formalpara>
-
-    <sect2>
-      <title>Entering Tuplets</title>
-<para>
-      Tuplets can be entered using the Tuplets menu on the Menu of Objects, or the old method described below
-</para>
-      <para>LilyPond treats tuplets as fractions with the top (numerator)
-      signifying the amount of notes normally displayed and the denominator
-      the amount of notes to be displayed instead. If this sounds confusing
-      for musicians raised on triplets, pentuplets etc., it is. So Denemo has
-      simplified this by permitting you to use the triplet name to lay them
-      down easily, it also lets you create custom tuplets if you so
-      desire.</para>
-
-      <table id="tuples">
-        <title></title>
-
-        <tgroup cols="4">
-          <thead>
-            <row>
-              <entry>Tuplet</entry>
-
-              <entry>Shortcut</entry>
-
-              <entry>Tuplet</entry>
-
-              <entry>Shortcut</entry>
-            </row>
-          </thead>
-
-          <tbody>
-            <row>
-              <entry>Duplet</entry>
-
-              <entry>2</entry>
-
-              <entry>Triplet</entry>
-
-              <entry>3</entry>
-            </row>
-
-            <row>
-              <entry>Quadruplet</entry>
-
-              <entry>4</entry>
-
-              <entry>Pentuplet</entry>
-
-              <entry>5</entry>
-            </row>
-
-            <row>
-              <entry>Sextuplet</entry>
-
-              <entry>6</entry>
-
-              <entry>Septuplet</entry>
-
-              <entry>7</entry>
-            </row>
-
-            <row>
-              <entry>Octuplet</entry>
-
-              <entry>8</entry>
-
-              <entry></entry>
-
-              <entry></entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </table>
-
-      <para><xref linkend="tuples" /> lists the keyboard shortcut for adding
-      tuplets in Denemo. To add tuplets do the following:</para>
-
-      <procedure>
-        <step>
-          <para>Place the cursor in the place you want to add the
-          tuplet.</para>
-        </step>
-
-        <step>
-          <para>Type the number corresponding to the tuplet you want to enter.
-          (For instance a 3 for a tuplet). The tuplet boundary markers "~" and "|" appear at the top of the staff. The cursor is placed between, which is where your triplet should go. Tuplets can be selected and made into custom rhythms for easier entry. See (out of date image) <xref
-          linkend="tupletmarkers" /></para>
-        </step>
-
-        <step>
-          <para>Enter the pitches and durations of the tuplet using the pitch
-          names (a, b, c, d, etc.) and the duration keybindings.</para>
-        </step>
-
-        <step>
-          <para>Next with the <command>l</command> key move the cursor after
-          the Tuplet End marker.</para>
-        </step>
-      </procedure>
-
-      <figure id="tupletmarkers">
-        <title>Tuplet Markers</title>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata align="center" fileref="images/tupletmarkers.png" />
-          </imageobject>
-        </mediaobject>
-      </figure>
-    </sect2>
 
   <sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
 </para>
-
-
-<sect3><title>Commands</title><para>To edit quickly in Denemo use the following keyboard shortcuts:
-
-<table><title></title><tgroup cols="3" ><thead><colspec colnum="1" colsep="1" ></colspec><row><entry>Command</entry><entry>Function</entry><entry>Comment</entry></row></thead><tbody>
-
-<row><entry><command> m</command> </entry> <entry> Add a new measure to all staves at the current cursor position</entry> </row>
-<row><entry><command> Ctrl up </command></entry><entry>Switch to the staff above the current staff</entry> </row>
-<row><entry><command>Ctrl down</command></entry><entry>Switch to the staff below the current staff</entry> </row>
-<row><entry><command> Ctrl C</command></entry><entry>Copy selection to the Clipboard but leave the area selected</entry></row>
-<row><entry><command> Ctrl X</command></entry><entry> Copy the area between the mark point and the current cursor location to the paste buffer and clear the selection</entry></row>
-<row><entry><command>Ctrl V</command></entry><entry>Paste the buffer at the current cursor position</entry></row>
-</tbody></tgroup></table>
-
-</para>
-
-
-<para>To perform common editing tasks the procedure is as follows:
-
-</para><procedure><step><para>Move the cursor to the beat within the measure you want to edit. </para></step>
-
-<step><para>Lasso the notes you want to edit: Select the section with the left mouse button or use the selection keybinds in combination with the navagation keybindings to increase or decrease size of selection.</para></step>
-
-<step><para>Next type the command you want to perform, such as copy <command>Ctrl c</command> or cut <command>Ctrl x</command></para></step>
-
-
-<step><para>Navigate to the measure you want to paste the section in the clipboard and type <command>Ctrl v</command> to paste in the notes from the clipboard.</para></step>
-
-
-</procedure></sect3>
 </sect2>
 
 
-  </sect1>
 
-  <sect1>
-    <title>Advanced Use</title>
    <sect2 revision="0.70">
       <title>Musical Score that Do Things!</title>
 <para>
