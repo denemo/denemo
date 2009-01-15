@@ -205,43 +205,43 @@
         <action>InsertWholeRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;r&lt;/span&gt;</label>
         <tooltip>Insert whole-note rest</tooltip>
-        <bind>Alt+0</bind>
+        <bind>Alt+KP_Insert</bind>
       </row>
       <row>
         <action>InsertHalfRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;s&lt;/span&gt;</label>
         <tooltip>Insert half-note rest</tooltip>
-        <bind>Alt+1</bind>
+        <bind>Alt+KP_End</bind>
       </row>
       <row>
         <action>InsertQuarterRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;t&lt;/span&gt;</label>
         <tooltip>Insert quarter-note rest</tooltip>
-        <bind>Alt+2</bind>
+        <bind>Alt+KP_Down</bind>
       </row>
       <row>
         <action>InsertEighthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;u&lt;/span&gt;</label>
         <tooltip>Insert eighth-note rest</tooltip>
-        <bind>Alt+3</bind>
+        <bind>Alt+KP_Page_Down</bind>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;v&lt;/span&gt;</label>
         <tooltip>Insert sixteenth-note rest</tooltip>
-        <bind>Alt+4</bind>
+        <bind>Alt+KP_Left</bind>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;w&lt;/span&gt;</label>
         <tooltip>Insert thirty-second note rest</tooltip>
-        <bind>Alt+5</bind>
+        <bind>Alt+KP_Begin</bind>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;x&lt;/span&gt;</label>
         <tooltip>Insert sixty-fourth note rest</tooltip>
-        <bind>Alt+6</bind>
+        <bind>Alt+KP_Right</bind>
       </row>
       <row>
         <action>InsertDuplet</action>
@@ -872,7 +872,7 @@ The cursor position determines which note to add</tooltip>
         <action>UnsetMark</action>
         <label>Unset Mark</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>space</bind>
+        <bind>Escape</bind>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
@@ -1068,6 +1068,7 @@ The cursor position determines which note to add</tooltip>
         <action>InsertRhythm</action>
         <label>Insert Rhythm</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>KP_Enter</bind>
       </row>
       <row>
         <action>NextRhythm</action>
@@ -1075,6 +1076,7 @@ The cursor position determines which note to add</tooltip>
         <tooltip>Make next rhythm pattern
 the prevailing rhythm.
 Notes entered will follow this pattern</tooltip>
+        <bind>space</bind>
       </row>
       <row>
         <action>AppendMeasuresToScore</action>
