@@ -4,29 +4,38 @@
     <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
-      <cursors/>
+      <cursors>
+        <cursor-binding>
+          <state>101</state>
+          <cursor>116</cursor>
+        </cursor-binding>
+        <cursor-binding>
+          <state>102</state>
+          <cursor>146</cursor>
+        </cursor-binding>
+      </cursors>
       <row>
         <action>CursorLeft</action>
         <label>Cursor Left</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
         <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
         <label>Cursor Down</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one scale step down</tooltip>
         <bind>Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
         <label>Cursor Up</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one scale step up</tooltip>
         <bind>Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
         <label>Cursor Right</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
         <bind>Right</bind>
       </row>
       <row>
@@ -37,24 +46,26 @@
       <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
-        <tooltip>Go to the staff above</tooltip>
+        <tooltip>Moves the cursor to the staff above</tooltip>
         <bind>Control+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <label>Staff Down</label>
-        <tooltip>Go to the staff below</tooltip>
+        <tooltip>Moves the cursor to the staff below</tooltip>
         <bind>Control+Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
         <label>Measure Left</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor to the first object in the next measure</tooltip>
+        <bind>Control+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
         <label>Measure Right</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Moves the cursor to the first object in the previous measure</tooltip>
+        <bind>Control+Right</bind>
       </row>
       <row>
         <action>A</action>
@@ -194,43 +205,43 @@
         <action>InsertWholeRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;r&lt;/span&gt;</label>
         <tooltip>Insert whole-note rest</tooltip>
-        <bind>Alt+KP_0</bind>
+        <bind>Alt+0</bind>
       </row>
       <row>
         <action>InsertHalfRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;s&lt;/span&gt;</label>
         <tooltip>Insert half-note rest</tooltip>
-        <bind>Alt+KP_1</bind>
+        <bind>Alt+1</bind>
       </row>
       <row>
         <action>InsertQuarterRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;t&lt;/span&gt;</label>
         <tooltip>Insert quarter-note rest</tooltip>
-        <bind>Alt+KP_2</bind>
+        <bind>Alt+2</bind>
       </row>
       <row>
         <action>InsertEighthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;u&lt;/span&gt;</label>
         <tooltip>Insert eighth-note rest</tooltip>
-        <bind>Alt+KP_3</bind>
+        <bind>Alt+3</bind>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;v&lt;/span&gt;</label>
         <tooltip>Insert sixteenth-note rest</tooltip>
-        <bind>Alt+KP_4</bind>
+        <bind>Alt+4</bind>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;w&lt;/span&gt;</label>
         <tooltip>Insert thirty-second note rest</tooltip>
-        <bind>Alt+KP_5</bind>
+        <bind>Alt+5</bind>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;x&lt;/span&gt;</label>
         <tooltip>Insert sixty-fourth note rest</tooltip>
-        <bind>Alt+KP_6</bind>
+        <bind>Alt+6</bind>
       </row>
       <row>
         <action>InsertDuplet</action>
@@ -277,21 +288,25 @@
         <label>Add note</label>
         <tooltip>Add a note to the current chord
 The cursor position determines which note to add</tooltip>
+        <bind>Return</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
         <label>Remove note</label>
         <tooltip>Remove a note from the current chord</tooltip>
+        <bind>Control+Return</bind>
       </row>
       <row>
         <action>Sharpen</action>
         <label>Sharpen</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>plus</bind>
       </row>
       <row>
         <action>Flatten</action>
         <label>Flatten</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>minus</bind>
       </row>
       <row>
         <action>StemUp</action>
@@ -309,14 +324,12 @@ The cursor position determines which note to add</tooltip>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>KP_Delete</bind>
         <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
         <label>Remove Dot</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>Control+KP_Delete</bind>
         <bind>Control+period</bind>
       </row>
       <row>
@@ -357,6 +370,7 @@ The cursor position determines which note to add</tooltip>
         <action>DeleteMeasureAllStaffs</action>
         <label>Delete Measure All Staffs</label>
         <tooltip>Delete the current measure in all staffs</tooltip>
+        <bind>Control+M</bind>
       </row>
       <row>
         <action>ShrinkMeasures</action>
@@ -852,6 +866,7 @@ The cursor position determines which note to add</tooltip>
         <action>SetMark</action>
         <label>Set Mark</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>PrsL</bind>
       </row>
       <row>
         <action>UnsetMark</action>
@@ -864,142 +879,155 @@ The cursor position determines which note to add</tooltip>
         <label>Begin Slur</label>
         <tooltip>Insert/delete begin slur on this note</tooltip>
         <bind>parenleft</bind>
+        <bind>PrsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
         <label>End Slur</label>
         <tooltip>Insert/delete end slur on this note</tooltip>
         <bind>parenright</bind>
+        <bind>RlsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
         <label>Start Crescendo</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>PrsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndCrescendo</action>
         <label>End Crescendo</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>RlsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartDiminuendo</action>
         <label>Start Diminuendo</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>PrsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleEndDiminuendo</action>
         <label>End Diminuendo</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleAccent</action>
-        <label>Add Accent</label>
+        <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>greater</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
-        <label>Add Fermata</label>
+        <label>Fermata (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>quotedbl</bind>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <label>Add Staccato</label>
+        <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <label>Add Tenuto</label>
+        <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>underscore</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <label>Add Trill</label>
+        <label>Trill  (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleTurn</action>
-        <label>Add Turn</label>
+        <label>Turn (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleMordent</action>
-        <label>Add Mordent</label>
+        <label>Mordent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <label>Add Staccatissimo</label>
+        <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>colon</bind>
       </row>
       <row>
         <action>ToggleCoda</action>
-        <label>Add Coda</label>
+        <label>Coda (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleFlageolet</action>
-        <label>Add Flageolet</label>
+        <label>Flageolet  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleOpen</action>
-        <label>Add Open</label>
+        <label>Open (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrallMordent</action>
-        <label>Add Prall Mordent</label>
+        <label>Prall Mordent  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrallPrall</action>
-        <label>Add Prall Prall</label>
+        <label>Prall Prall  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>TogglePrall</action>
-        <label>Add Prall</label>
+        <label>Prall (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleReverseTurn</action>
-        <label>Add Reverse Turn</label>
+        <label>Reverse Turn  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSegno</action>
-        <label>Toggle Segno</label>
+        <label>Segno  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleSforzato</action>
-        <label>Toggle Sforzato</label>
+        <label>Sforzato  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleStopped</action>
-        <label>Toggle Stopped</label>
+        <label>Stopped  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleThumb</action>
-        <label>Toggle Thumb</label>
+        <label>Thumb  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleUpprall</action>
-        <label>Toggle Up Prall</label>
+        <label>Up Prall (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleArpeggio</action>
-        <label>Add Apreggio</label>
+        <label>Apreggio (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>percent</bind>
       </row>
       <row>
         <action>SetGrace</action>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>slash</bind>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -1047,7 +1075,6 @@ The cursor position determines which note to add</tooltip>
         <tooltip>Make next rhythm pattern
 the prevailing rhythm.
 Notes entered will follow this pattern</tooltip>
-        <bind>KP_Enter</bind>
       </row>
       <row>
         <action>AppendMeasuresToScore</action>
@@ -1074,7 +1101,6 @@ Notes entered will follow this pattern</tooltip>
         <action>Open</action>
         <label>Open</label>
         <tooltip>Open a file containing a music score for editing</tooltip>
-        <bind>Control+o</bind>
       </row>
       <row>
         <action>AddStaffs</action>
@@ -1095,16 +1121,19 @@ Notes entered will follow this pattern</tooltip>
         <action>OpenNewWindow</action>
         <label>Open In New</label>
         <tooltip>Open a file containing a music score for editing in a separate working area (tab</tooltip>
+        <bind>Control+o</bind>
       </row>
       <row>
         <action>Save</action>
         <label>Save</label>
         <tooltip>Save the score</tooltip>
+        <bind>Control+s</bind>
       </row>
       <row>
         <action>SaveAs</action>
         <label>Save As</label>
         <tooltip>Save the score under a new name</tooltip>
+        <bind>Control+S</bind>
       </row>
       <row>
         <action>OpenTemplate</action>
@@ -1130,6 +1159,7 @@ Notes entered will follow this pattern</tooltip>
         <action>NewWindow</action>
         <label>New Tab</label>
         <tooltip>Create working area (tab with an empty score in it)</tooltip>
+        <bind>Control+t</bind>
       </row>
       <row>
         <action>InsertMovementBefore</action>
@@ -1160,7 +1190,7 @@ Notes entered will follow this pattern</tooltip>
         <action>PrintPreview</action>
         <label>Print Preview</label>
         <tooltip>Displays the final finished score in your pdf viewer</tooltip>
-        <bind>Control+p</bind>
+        <bind>Control+P</bind>
       </row>
       <row>
         <action>PrintExcerptPreview</action>
@@ -1171,6 +1201,7 @@ Notes entered will follow this pattern</tooltip>
         <action>Print</action>
         <label>Print</label>
         <tooltip>Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer</tooltip>
+        <bind>Control+p</bind>
       </row>
       <row>
         <action>PrintPart</action>
@@ -1181,11 +1212,13 @@ Notes entered will follow this pattern</tooltip>
         <action>Close</action>
         <label>Close Score</label>
         <tooltip>Close the current score. Other windows will stay open</tooltip>
+        <bind>Control+w</bind>
       </row>
       <row>
         <action>Quit</action>
         <label>Quit</label>
         <tooltip>Quit the Denemo program</tooltip>
+        <bind>Control+q</bind>
       </row>
       <row>
         <action>Undo</action>
@@ -1197,6 +1230,7 @@ Notes entered will follow this pattern</tooltip>
         <action>Redo</action>
         <label>Redo</label>
         <tooltip>Redo</tooltip>
+        <bind>Control+Z</bind>
       </row>
       <row>
         <action>Copy</action>
@@ -1209,12 +1243,14 @@ Notes entered will follow this pattern</tooltip>
         <label>Cut</label>
         <tooltip>Cut</tooltip>
         <bind>Control+x</bind>
+        <bind>PrsL-Control</bind>
       </row>
       <row>
         <action>Paste</action>
         <label>Paste</label>
         <tooltip>Paste the selected music</tooltip>
         <bind>Control+v</bind>
+        <bind>RlsL-Control</bind>
       </row>
       <row>
         <action>ScoreProperties</action>
@@ -1284,12 +1320,14 @@ Notes entered will follow this pattern</tooltip>
       <row>
         <action>VoiceUp</action>
         <label>Voice Up</label>
-        <tooltip>Go to the higher numbered voice (or staff if highest voice number on staff</tooltip>
+        <tooltip>Go to the higher numbered voice on staff</tooltip>
+        <bind>Page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
         <label>Voice Down</label>
         <tooltip>Go to the lower numbered voice on this staff</tooltip>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>AddBefore</action>
@@ -1335,6 +1373,7 @@ Notes entered will follow this pattern</tooltip>
         <action>StaffProperties</action>
         <label>Staff Properties</label>
         <tooltip>Change the properties of the current staff</tooltip>
+        <bind>Alt+Return</bind>
       </row>
       <row>
         <action>InitialClef</action>
@@ -1389,13 +1428,14 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>EditChords</action>
-        <label>Edit Chords</label>
+        <label>Edit Chord Symbols</label>
         <tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</tooltip>
       </row>
       <row>
         <action>InsertDynamic</action>
         <label>Insert Dynamics</label>
         <tooltip>Inserts a dynamic marking at the cursor position</tooltip>
+        <bind>Control+d</bind>
       </row>
       <row>
         <action>InsertLilyDirective</action>
@@ -1404,10 +1444,14 @@ Notes entered will follow this pattern</tooltip>
         <bind>l</bind>
       </row>
       <row>
-        <action>InsertLilyPostfix</action>
-        <label>Postfix Lilypond</label>
-        <tooltip>Insert or edit a LilyPond text to be post-fixed to the current note. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
-        <bind>L</bind>
+        <action>AttachLilyToNote</action>
+        <label>Attach Lilypond to Note</label>
+        <tooltip>Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
+      </row>
+      <row>
+        <action>AttachLilyToChord</action>
+        <label>Attach Lilypond to Chord</label>
+        <tooltip>Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.</tooltip>
       </row>
       <row>
         <action>InsertBarline</action>
@@ -1418,16 +1462,19 @@ Notes entered will follow this pattern</tooltip>
         <action>GoToMeasure</action>
         <label>Go to Measure</label>
         <tooltip>Opens a dialog for going to a numbered measure</tooltip>
+        <bind>Alt+m</bind>
       </row>
       <row>
         <action>GoToBeginning</action>
         <label>Go To Beginning</label>
         <tooltip>Go To Beginning</tooltip>
+        <bind>Home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
         <label>Go To End</label>
         <tooltip>Go To End</tooltip>
+        <bind>End</bind>
       </row>
       <row>
         <action>NextMovement</action>
@@ -1455,11 +1502,13 @@ Notes entered will follow this pattern</tooltip>
         <action>Play</action>
         <label>Play</label>
         <tooltip>Play</tooltip>
+        <bind>F5</bind>
       </row>
       <row>
         <action>Stop</action>
         <label>Stop</label>
         <tooltip>Stop</tooltip>
+        <bind>F6</bind>
       </row>
       <row>
         <action>PlayCSound</action>
@@ -1475,6 +1524,7 @@ Notes entered will follow this pattern</tooltip>
         <action>Help</action>
         <label>Browse Manual</label>
         <tooltip>Opens a browser on the user manual</tooltip>
+        <bind>F1</bind>
       </row>
       <row>
         <action>About</action>
@@ -1495,21 +1545,25 @@ Notes entered will follow this pattern</tooltip>
         <action>AddBookmark</action>
         <label>Add Bookmark</label>
         <tooltip>Bookmark the current cursor position</tooltip>
+        <bind>F9</bind>
       </row>
       <row>
         <action>GotoBookmark</action>
         <label>Goto Bookmarks</label>
         <tooltip>Go to a bookmarked point in the score</tooltip>
+        <bind>F10</bind>
       </row>
       <row>
         <action>NextBookmark</action>
         <label>Next Bookmark</label>
         <tooltip>Go to the next bookmarked point in the list</tooltip>
+        <bind>F11</bind>
       </row>
       <row>
         <action>PrevBookmark</action>
         <label>Prev Bookmark</label>
         <tooltip>Go to the previous bookmarked point in the list</tooltip>
+        <bind>F12</bind>
       </row>
       <row>
         <action>ToggleEdit</action>
@@ -1596,21 +1650,18 @@ Note is inserted in the prevailing rhythm</tooltip>
         <label>Change to A</label>
         <tooltip>Changes note at cursor to nearest note A
 Rhythm is unchanged</tooltip>
-        <bind>Alt+a</bind>
       </row>
       <row>
         <action>ChangeToB</action>
         <label>Change to B</label>
         <tooltip>Changes note at cursor to nearest note B
 Rhythm is unchanged</tooltip>
-        <bind>Alt+b</bind>
       </row>
       <row>
         <action>ChangeToC</action>
         <label>Change to C</label>
         <tooltip>Changes note at cursor to nearest note C
 Rhythm is unchanged</tooltip>
-        <bind>Alt+c</bind>
       </row>
       <row>
         <action>ChangeToD</action>
@@ -1623,21 +1674,18 @@ Rhythm is unchanged</tooltip>
         <label>Change to E</label>
         <tooltip>Changes note at cursor to nearest note E
 Rhythm is unchanged</tooltip>
-        <bind>Alt+e</bind>
       </row>
       <row>
         <action>ChangeToF</action>
         <label>Change to F</label>
         <tooltip>Changes note at cursor to nearest note F
 Rhythm is unchanged</tooltip>
-        <bind>Alt+f</bind>
       </row>
       <row>
         <action>ChangeToG</action>
         <label>Change to G</label>
         <tooltip>Changes note at cursor to nearest note G
 Rhythm is unchanged</tooltip>
-        <bind>Alt+g</bind>
       </row>
       <row>
         <action>0</action>
@@ -1646,19 +1694,17 @@ Rhythm is unchanged</tooltip>
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_0</bind>
+        <bind>KP_Insert</bind>
       </row>
       <row>
         <action>Change0</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</tooltip>
-        <bind>Alt+0</bind>
       </row>
       <row>
         <action>Insert0</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</tooltip>
-        <bind>0</bind>
       </row>
       <row>
         <action>InsertRest0</action>
@@ -1679,19 +1725,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_1</bind>
+        <bind>KP_End</bind>
       </row>
       <row>
         <action>Change1</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</tooltip>
-        <bind>Alt+1</bind>
       </row>
       <row>
         <action>Insert1</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</tooltip>
-        <bind>1</bind>
       </row>
       <row>
         <action>InsertRest1</action>
@@ -1712,19 +1756,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_2</bind>
+        <bind>KP_Down</bind>
       </row>
       <row>
         <action>Change2</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</tooltip>
-        <bind>Alt+2</bind>
       </row>
       <row>
         <action>Insert2</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</tooltip>
-        <bind>2</bind>
       </row>
       <row>
         <action>InsertRest2</action>
@@ -1745,19 +1787,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_3</bind>
+        <bind>KP_Page_Down</bind>
       </row>
       <row>
         <action>Change3</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</tooltip>
-        <bind>Alt+3</bind>
       </row>
       <row>
         <action>Insert3</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</tooltip>
-        <bind>3</bind>
       </row>
       <row>
         <action>InsertRest3</action>
@@ -1778,19 +1818,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_4</bind>
+        <bind>KP_Left</bind>
       </row>
       <row>
         <action>Change4</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</tooltip>
-        <bind>Alt+4</bind>
       </row>
       <row>
         <action>Insert4</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</tooltip>
-        <bind>4</bind>
       </row>
       <row>
         <action>InsertRest4</action>
@@ -1811,19 +1849,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_5</bind>
+        <bind>KP_Begin</bind>
       </row>
       <row>
         <action>Change5</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</tooltip>
-        <bind>Alt+5</bind>
       </row>
       <row>
         <action>Insert5</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</tooltip>
-        <bind>5</bind>
       </row>
       <row>
         <action>InsertRest5</action>
@@ -1844,19 +1880,17 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;
 In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
  or appends a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt; if no current note
 In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt; at the cursor</tooltip>
-        <bind>KP_6</bind>
+        <bind>KP_Right</bind>
       </row>
       <row>
         <action>Change6</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
-        <bind>Alt+6</bind>
       </row>
       <row>
         <action>Insert6</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</label>
         <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
-        <bind>6</bind>
       </row>
       <row>
         <action>InsertRest6</action>
@@ -1871,11 +1905,12 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
       </row>
       <row>
-        <action>StartUpStems</action>
+        <action>MoveNoteToCursor</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
-        <label>Stems Up</label>
-        <tooltip>Stems from now on point upward.</tooltip>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>To Cursor</label>
+        <tooltip>Moves the nearest note to join the cursor</tooltip>
+        <bind>MveL-Shift</bind>
       </row>
       <row>
         <action>StartDownStems</action>
@@ -1883,6 +1918,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
         <label>Stems Down</label>
         <tooltip>Stems from now on point downward.</tooltip>
+      </row>
+      <row>
+        <action>StartUpStems</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Stems Up</label>
+        <tooltip>Stems from now on point upward.</tooltip>
       </row>
       <row>
         <action>InsertTiedNoteDuration</action>
@@ -1912,6 +1954,146 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
+      </row>
+      <row>
+        <action>AngryDelete</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Angry Delete</label>
+        <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Open { Octave Up</label>
+        <tooltip>Opens a block to be transposed up one octave
+	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
+      </row>
+      <row>
+        <action>CloseLilyBlock</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Close } a LilyPond Block</label>
+        <tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</tooltip>
+      </row>
+      <row>
+        <action>TransposeOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Transpose Octave Up</label>
+        <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval</label>
+        <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
+      </row>
+      <row>
+        <action>TransposeNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Note</label>
+        <tooltip>Transposes the note at the cursor by the amount set by other commands.</tooltip>
+      </row>
+      <row>
+        <action>TransposeSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Selection</label>
+        <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
+      </row>
+      <row>
+        <action>D.C.AlFine</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <label>D. C. al fine</label>
+        <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
+      </row>
+      <row>
+        <action>Allegro</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro</label>
+        <tooltip>Print Allegro in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Andante</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Andante</label>
+        <tooltip>Print Andante in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Presto</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Presto</label>
+        <tooltip>Print Presto in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Finger0</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 0</label>
+        <tooltip>Inserts fingering for open string</tooltip>
+        <bind>0</bind>
+      </row>
+      <row>
+        <action>Finger1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 1</label>
+        <tooltip>Inserts fingering for finger 1</tooltip>
+        <bind>1</bind>
+      </row>
+      <row>
+        <action>Finger2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 2</label>
+        <tooltip>Inserts fingering for finger 2</tooltip>
+        <bind>2</bind>
+      </row>
+      <row>
+        <action>Finger3</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 3</label>
+        <tooltip>Inserts fingering for finger 3</tooltip>
+        <bind>3</bind>
+      </row>
+      <row>
+        <action>Finger4</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 4</label>
+        <tooltip>Inserts fingering for finger 4</tooltip>
+        <bind>4</bind>
+      </row>
+      <row>
+        <action>Finger5</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <label>Finger 5</label>
+        <tooltip>Inserts fingering for finger 5</tooltip>
+        <bind>5</bind>
+      </row>
+      <row>
+        <action>RehearsalMark</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Orchestral</menupath>
+        <label>Insert Rehearsal Mark</label>
+        <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>NamedBookmarkInsert</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Insert Named Bookmark</label>
+        <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
       </row>
     </map>
   </commands>

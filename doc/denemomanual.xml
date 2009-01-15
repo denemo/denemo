@@ -1176,7 +1176,7 @@ d-Chordize Ensure that even a single note is treated as a chord - needed for som
 </itemizedlist>
 
   <para>
-  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a (NULL separated) string containing name=value is passed these will be used and no popup will occur. As a shorthand if there is only one value being passed you can just pass the value. So for example
+  Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a string consisting of strings of the form "name=value\0" is passed these will be used and no popup will occur. The field "name" will be given the value "value". The \0 is a NULL character that separates the assignment strings. As a shorthand if there is only one value being passed you can just pass the value. The names of the fields depend on the action being called. So for example
 <example id="schemecalls">
 (d-InsertLilyDirective "directive=^\\markup \\italic {Allegro}\0display=Allegro")
 </example>
@@ -1184,7 +1184,7 @@ will insert a LilyPond directive whose text is ^\markup \italic {Allegro} while 
 <example id="schemecalls">
 (d-InsertLilyDirective "^\\markup \\italic {Allegro}")
 </example>
-would do this. The fields are by convention lower case names, listed against the commands below.
+would do this. The fields are by convention lower case names, they are listed against the commands below.
   </para>
   <para>
 This feature is being rolled out, and currently works for
@@ -1193,7 +1193,10 @@ This feature is being rolled out, and currently works for
 d-InsertLilyDirective (directive, display. minpixels)
 </listitem>
 <listitem>
-d-InsertLilyPostfix
+d-AttachLilyToChord (prefix, postfix, display)
+</listitem>
+<listitem>
+d-AttachLilyToNote (prefix, postfix, display) see also d-Chordize below.
 </listitem>
 <listitem>
 d-StaffProperties   understands a couple of property=value settings
