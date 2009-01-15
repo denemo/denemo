@@ -140,6 +140,9 @@
         <listitem>
           <para>libaubio</para>
         </listitem>
+        <listitem>
+          <para>libfftw3-dev</para>
+        </listitem>
 
         <listitem>
           <para>libportaudio</para>
@@ -257,6 +260,9 @@
         </imageobject>
       </mediaobject>
     </figure>
+<para>
+The main window has menus and toolbars at the top and then the drawing area where the music input is displayed - just the few measures you are working on. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar.
+</para>
 <para>
 These menus can be used directly or for enquiring/setting keyboard/mouse shortcuts for the actions, or getting help on the particular action. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). The View menu selects which menus and toolbars to show.
 </para>
