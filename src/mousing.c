@@ -351,8 +351,8 @@ DenemoGUI *gui = Denemo.gui;
     if(left)
       set_mark(gui);
     write_status(gui);
-    /* Redraw to show new cursor position*/
-    gtk_widget_queue_draw (gui->scorearea);
+    /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
+    gtk_widget_draw (gui->scorearea, NULL);
     g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
