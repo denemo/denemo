@@ -6,7 +6,7 @@ dist_sysconf_DATA = denemo.conf
 
 EXTRA_DIST = mkinstalldirs  actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond README.lilypond include actions \
-	     guile-1.8.pc
+	     guile-1.8.pc fonts/LICENSE_OFL.txt
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \
@@ -17,7 +17,6 @@ MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 
 install-data-hook:
 	cp -r actions ${DESTDIR}/$(datadir)/${PACKAGE}/
-
 
 	chmod -R 755 ${DESTDIR}/$(datadir)/${PACKAGE}/actions
 dist-hook: @PACKAGE@.spec
