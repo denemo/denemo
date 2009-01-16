@@ -160,8 +160,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetIniti
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetInitialBflatmin"), "SetInitialBflatmin", "Set Bb Minor as Initial Keysig", "No Tooltip yet", setkeysigbflatmin);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetInitialEflatmin"), "SetInitialEflatmin", "Set Eb Minor as Initial Keysig", "No Tooltip yet", setkeysigeflatmin);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetInitialAflatmin"), "SetInitialAflatmin", "Set Ab Minor as Initial Keysig", "No Tooltip yet", setkeysigaflatmin);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetMark"), "SetMark", "Set Mark", "No Tooltip yet", set_mark);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "UnsetMark"), "UnsetMark", "Unset Mark", "No Tooltip yet", unset_mark);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetMark"), "SetMark", "Set Mark", "Sets the start point for a selection,\nthe cursor position is the end point", set_mark);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "UnsetMark"), "UnsetMark", "Unset Mark", "Gets rid of the selection.", unset_mark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleBeginSlur"), "ToggleBeginSlur", "Begin Slur", "Insert/delete begin slur on this note", toggle_begin_slur);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEndSlur"), "ToggleEndSlur", "End Slur", "Insert/delete end slur on this note", toggle_end_slur);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleStartCrescendo"), "ToggleStartCrescendo", "Start Crescendo", "No Tooltip yet", toggle_start_crescendo);

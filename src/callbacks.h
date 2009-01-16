@@ -1106,14 +1106,12 @@ static void set_mark_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 set_mark (gui);
 displayhelper (gui);
-  score_status(gui, TRUE);
 }
 /*UnsetMark unset_mark*/
 static void unset_mark_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 unset_mark (gui);
 displayhelper (gui);
-  score_status(gui, TRUE);
 }
 /*ToggleBeginSlur toggle_begin_slur*/
 static void toggle_begin_slur_cb (GtkAction *action, gpointer param) {
