@@ -324,6 +324,7 @@ The cursor position determines which note to add</tooltip>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>KP_Delete</bind>
         <bind>period</bind>
       </row>
       <row>
@@ -865,13 +866,14 @@ The cursor position determines which note to add</tooltip>
       <row>
         <action>SetMark</action>
         <label>Set Mark</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Sets the start point for a selection,
+the cursor position is the end point</tooltip>
         <bind>PrsL</bind>
       </row>
       <row>
         <action>UnsetMark</action>
         <label>Unset Mark</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Gets rid of the selection.</tooltip>
         <bind>Escape</bind>
       </row>
       <row>
