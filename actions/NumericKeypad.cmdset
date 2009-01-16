@@ -331,6 +331,7 @@ The cursor position determines which note to add</tooltip>
         <action>RemoveDot</action>
         <label>Remove Dot</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>Control+KP_Delete</bind>
         <bind>Control+period</bind>
       </row>
       <row>
