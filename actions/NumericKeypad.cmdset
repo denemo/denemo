@@ -300,13 +300,13 @@ The cursor position determines which note to add</tooltip>
         <action>Sharpen</action>
         <label>Sharpen</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>plus</bind>
+        <bind>KP_Add</bind>
       </row>
       <row>
         <action>Flatten</action>
         <label>Flatten</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>minus</bind>
+        <bind>KP_Subtract</bind>
       </row>
       <row>
         <action>StemUp</action>
