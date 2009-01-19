@@ -2089,6 +2089,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Insert Named Bookmark</label>
         <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
       </row>
+      <row>
+        <action>StartBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Start Beam</label>
+        <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
+      </row>
+      <row>
+        <action>EndBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>End Beam</label>
+        <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

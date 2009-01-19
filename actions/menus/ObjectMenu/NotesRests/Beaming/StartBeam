@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>StartBeam</action>
+        <scheme>(d-AttachLilyToChord "postfix=[\0display=[")
+
+</scheme>
+        <label>Start Beam</label>
+        <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
