@@ -2114,6 +2114,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>End Beam</label>
         <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>
       </row>
+      <row>
+        <action>DeleteLilyPondOnNote</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Other</menupath>
+        <label>Delete LilyPond on Note</label>
+        <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
+      </row>
+      <row>
+        <action>DeleteLilyPondOnChord</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Other</menupath>
+        <label>Delete LilyPond on Chord</label>
+        <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
