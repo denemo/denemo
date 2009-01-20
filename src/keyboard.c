@@ -367,17 +367,18 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur) {
 	      if (tmp)
 		{
 		  sscanf(tmp, "%x",&state);// = atoi(tmp);
+		  xmlFree (tmp);
 		}
-	      xmlFree (tmp);
+	     
       } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "cursor"))
 	{
+	tmp = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	      if (tmp)
 		{
 		  cursor_num = atoi(tmp);
+		  xmlFree (tmp);
 		}
-	      xmlFree (tmp);
-
 	      assign_cursor(state, cursor_num);
 	      // g_print("type is %s\n",g_type_name(G_TYPE_FROM_INSTANCE(Denemo.window->window)));
 	      // set_cursor_for(state);
