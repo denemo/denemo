@@ -865,13 +865,14 @@ The cursor position determines which note to add</tooltip>
       <row>
         <action>SetMark</action>
         <label>Set Mark</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Sets the start point for a selection,
+the cursor position is the end point</tooltip>
         <bind>PrsL</bind>
       </row>
       <row>
         <action>UnsetMark</action>
         <label>Unset Mark</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Gets rid of the selection.</tooltip>
         <bind>space</bind>
       </row>
       <row>
@@ -2102,6 +2103,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <label>End Beam</label>
         <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>
+      </row>
+      <row>
+        <action>DeleteLilyPondOnNote</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Other</menupath>
+        <label>Delete LilyPond on Note</label>
+        <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
       </row>
     </map>
   </commands>
