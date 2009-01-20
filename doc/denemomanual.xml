@@ -248,6 +248,44 @@
 </para>
     <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. If you have a Numeric Keypad you may wish to start with an alternative set (Edit-&gt;Customize Commands Shortcuts...-&gt;Manage Command Set and click on "Load a Standard Command Set" to get this. Save it for next time using "Save as Default Command Set").
 </para>
+ <sect2>
+<title>Some Common Keyboard Shortcuts</title>
+<para>Here are a few of the keyboard shortcuts that are commonly used in Denemo.
+    <itemizedlist>
+      <listitem>
+      Letters A-G are used to refer to the notes A-G, either moving the cursor, inserting or editing depending on mode.
+      </listitem>
+      <listitem>
+      Numbers 0-6 are used to refer to the note durations Whole Note ... 64th note, inserting, changing the prevailing duration or editing depending on mode. The corresponding Numeric Keypad keys are used if you choose that command set.
+      </listitem>
+      <listitem>
+      "." dots a note, Ctrl-"." undots it.
+      </listitem>
+    </itemizedlist>
+</para>
+ </sect2>
+ <sect2>
+<title>Some Common Mouse Shortcuts</title>
+<para>Here are a few of the shortcuts that are commonly used in Denemo.
+    <itemizedlist>
+      <listitem>
+      Shift Key and Left mouse button drags notes up and down.
+      </listitem>
+      <listitem>
+      CapsLock with Left mouse drag inserts a slur
+      </listitem>
+      <listitem>
+      CapsLock with Left mouse drag inserts a slur
+      </listitem>
+      <listitem>
+      CapsLock AND Shift key with Left mouse drag inserts a crescendo
+      </listitem>
+      <listitem>
+      CapsLock AND AltGr key with Left mouse drag inserts a diminuendo
+      </listitem>
+    </itemizedlist>
+</para>
+ </sect2>
     <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. A few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
   <sect1>
