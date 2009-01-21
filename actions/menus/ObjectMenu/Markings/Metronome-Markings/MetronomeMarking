@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MetronomeMarking</action>
+        <scheme>(d-AttachLilyToChord   "postfix= \0prefix=\\override Score.MetronomeMark #'padding = #3
+  \\tempo 4 = 60\0display=MM60")</scheme>
+        <label>Add Metronome Marking to Chord</label>
+        <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
