@@ -2135,6 +2135,34 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
+      <row>
+        <action>Anacrusis</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Anacrusis</label>
+        <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>
+      </row>
+      <row>
+        <action>RepeatStart</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>|:</label>
+        <tooltip>Insert a start repeat barline.</tooltip>
+      </row>
+      <row>
+        <action>RepeatEnd</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>:|</label>
+        <tooltip>Insert repeat barline.</tooltip>
+      </row>
+      <row>
+        <action>RepeatCloseOpen</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>:|:</label>
+        <tooltip>Inserts a repeat close and open new repeat barline</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
