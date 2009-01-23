@@ -2153,6 +2153,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>:|:</label>
         <tooltip>Inserts a repeat close and open new repeat barline</tooltip>
       </row>
+      <row>
+        <action>ApplyToSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Apply Shortcut to Notes in Selection</label>
+        <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
