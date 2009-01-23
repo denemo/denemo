@@ -124,6 +124,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       Denemo.last_keyval = event->keyval;
       Denemo.last_keystate =  dnm_sanitize_key_state(event);
       execute_callback_from_name(the_keymap, command_name);
+      gui = Denemo.gui;
       displayhelper (gui);
       gtk_widget_draw (gui->scorearea, NULL);   
       return TRUE;
