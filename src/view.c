@@ -162,7 +162,8 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 static SCM scheme_initialize_script(SCM action_name) {
   SCM ret;
   gint length;
-  gchar *name = gh_scm2newstr(action_name, &length);
+  //FIXME scm_dynwind_begin (0); etc
+  gchar *name = scm_to_locale_string(action_name);//scm_dynwind_free (name);
   GtkAction *action = lookup_action_from_name(name);
   if(!action){
     g_warning("Non-existent action %s", name);
@@ -191,11 +192,11 @@ static SCM scheme_initialize_script(SCM action_name) {
 static SCM scheme_script_callback(SCM script) {
     int length;
     char *name=NULL;
+  //FIXME scm_dynwind_begin (0); etc
    if(SCM_STRINGP(script)){
-     name = gh_scm2newstr(script, &length);
+     name = scm_to_locale_string(script);
      if(name) {
        GtkAction *action = lookup_action_from_name (name);
-       //FIXME is name a memory leak? whose malloc is it? which is the free to use?
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text)
@@ -230,8 +231,9 @@ SCM scheme_debug_object (SCM optional) {
 static SCM scheme_input_filter_names(SCM filtername) {
     int length;
     char *name=NULL;
+  //FIXME scm_dynwind_begin (0); etc
    if(SCM_STRINGP(filtername)){
-     name = gh_scm2newstr(filtername, &length);
+     name = scm_to_locale_string(filtername);
      if(name) {
        if(Denemo.input_filters)
 	 g_string_assign(Denemo.input_filters, name);
@@ -382,12 +384,12 @@ SCM scheme_warningdialog(SCM msg) {
   gchar *title;
   gint length;
 if(SCM_STRINGP(msg)){
-  title = gh_scm2newstr(msg, &length);
+  title = scm_to_locale_string(msg);//scm_dynwind_free (title)
   }
- else title = "Script generated warning";
+ else title = "Script generated warning";//FIXME mixed types of string, memory leaks
  
  warningdialog (title);
-
+ //scm_dynwind_end ();
  return msg;
 }
 
@@ -514,10 +516,10 @@ SCM scheme_put_note_name (SCM optional) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return SCM_BOOL(FALSE);
  else {
-    int length;
+ //FIXME scm_dynwind_begin (0); etc
    char *str=NULL;
    if(SCM_STRINGP(optional)){
-     str = gh_scm2newstr(optional, &length);
+     str = scm_to_locale_string(optional);
      gint mid_c_offset;
      gint enshift;
      name2mid_c_offset(str, &mid_c_offset, &enshift);
@@ -551,10 +553,10 @@ SCM scheme_diatonic_shift (SCM optional) {
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return SCM_BOOL(FALSE);
  else {
-    int length;
+   //FIXME scm_dynwind_begin (0); etc
    char *str=NULL;
    if(SCM_STRINGP(optional)){
-     str = gh_scm2newstr(optional, &length);
+     str = scm_to_locale_string(optional);
      gint shift;
      sscanf(str, "%d", &shift);
      
