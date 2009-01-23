@@ -6,8 +6,12 @@
     <map>
       <row>
         <action>MetronomeMarking</action>
-        <scheme>(d-AttachLilyToChord   "postfix= \0prefix=\\override Score.MetronomeMark #'padding = #3
-  \\tempo 4 = 60\0display=MM60")</scheme>
+        <scheme>(let ((bpm 60))
+  (set! bpm (d-GetUserInput "Metronome Setting" 
+			       "Give Beats per Minute" "60"))
+  (d-AttachLilyToChord   (string-append "postfix= \0prefix=\\override Score.MetronomeMark #'padding = #3
+  \\tempo 4 = " bpm "\0display=MM" bpm)))
+</scheme>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
