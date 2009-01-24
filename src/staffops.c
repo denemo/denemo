@@ -433,10 +433,10 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 
   //FIXME none of this works to get the current measure stem direction correct
       setcurrents (si);
-      find_xes_in_all_measures (si);
-      beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-      si->markstaffnum = 0;
-      displayhelper (gui);
+      //     find_xes_in_all_measures (si);
+      //   beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+      //   si->markstaffnum = 0;
+      //  displayhelper (gui);
   score_status(gui,TRUE);
   if(give_info)
     infodialog ("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts.");
