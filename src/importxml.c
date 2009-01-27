@@ -2716,6 +2716,13 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	    g_free (tmp);
 	  }
 	} else
+	if (ELEM_NAME_EQ (childElem, "custom_prolog")){
+	  gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+						       childElem->
+						       xmlChildrenNode, 1);
+	  gui->custom_prolog = g_string_new(tmp);
+	  g_free (tmp);
+	} else
 	if (ELEM_NAME_EQ (childElem, "lilycontrol")){
 	  parseSetupInfo(childElem, ns, gui);
 	} else
