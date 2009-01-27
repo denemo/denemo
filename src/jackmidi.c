@@ -16,12 +16,14 @@
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 
 #define INPUT_PORT_NAME         "midi_in"
+#define OUTPUT_PORT_NAME	"midi_out"
 #define PROGRAM_NAME            "denemo"
 
 
 
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
+jack_port_t	*output_port;
 
 
 void
@@ -76,6 +78,14 @@ init_jack(void){
     g_critical("Could not register JACK input port.");
     //exit(EX_UNAVAILABLE);
   }
+
+  output_port = jack_port_register(jack_client, OUTPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+  
+  if (output_port == NULL) {
+    g_critical("Could not register JACK output port '%s'.", OUTPUT_PORT_NAME);
+    //  exit(EX_UNAVAILABLE);
+  }
+
 
   if (jack_activate(jack_client)) {
     g_critical("Cannot activate JACK client.");
