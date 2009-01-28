@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SetFontSize</action>
+        <scheme>;;; d-SetFontSize
+(d-ScoreProperties (string-append "fontsize=" (d-GetUserInput "Overall Score Sizing" 
+			       "Give font size to use" "20")))
+</scheme>
+        <label>(Print) Set Score Size</label>
+        <tooltip>Sets the font size for the score, by which the whole score is scaled on printing.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
