@@ -19,17 +19,6 @@
 #include "utils.h"
 
 
-struct callbackdata
-{
-  DenemoGUI *gui;
-  gchar *directive;
-  gchar *prefix;
-  gchar *display;
-  gint minpixels;
-  gint spacebefore;
-  gboolean locked;
-  gboolean attach;/* whether the LilyPond is to be postfixed to note (else should be a DenemoObject) */
-};
 
 /**
  * If the curObj is a chord with a note(s)
@@ -46,7 +35,6 @@ findnote(DenemoObject *curObj, gint cursory) {
       //g_print("comparing %d and %d\n", cursory, curnote->y);
       if(cursory <= curnote->mid_c_offset)
 	break;
-      //curnote = NULL;
    }
 
   }
