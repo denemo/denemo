@@ -2160,6 +2160,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Apply Shortcut to Notes in Selection</label>
         <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>
       </row>
+      <row>
+        <action>SetFontSize</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print)Set Overall Score Size</label>
+        <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
