@@ -42,12 +42,16 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
 
-  GET_1PARAM(action, param, lilypond);
+  GET_2PARAMS(action, param, lilypond, fontsize);
  if(query) {
-   if( Denemo.gui->lilycontrol.lilypond == NULL) Denemo.gui->lilycontrol.lilypond = g_string_new(" ");
-   if(*query) if(!strcmp("lilypond", query))
-     g_string_assign(param->string, Denemo.gui->lilycontrol.lilypond->str);
-   param->status = TRUE;
+   if(*query) if(!strcmp("lilypond", query)) {
+     g_string_assign(param->string, Denemo.gui->lilycontrol.lilypond?Denemo.gui->lilycontrol.lilypond->str:"");
+     param->status = TRUE;
+   }
+   if(*query) if(!strcmp("fontsize", query)) {
+     g_string_assign(param->string, g_strdup_printf("%d", Denemo.gui->lilycontrol.fontsize));//FIXME memory leak
+     param->status = TRUE;
+   }
    return;
  }
   if(lilypond) {
@@ -55,6 +59,15 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
       g_string_assign(Denemo.gui->lilycontrol.lilypond, lilypond);
     else
       Denemo.gui->lilycontrol.lilypond = g_string_new(lilypond);
+    param->status = TRUE;
+    return;
+  }
+  if(fontsize) {
+    gint size = atoi(fontsize);
+    if(size<8) size=8;
+    if(size>420) size = 420;
+    Denemo.gui->lilycontrol.fontsize = size;
+    param->status = TRUE;
     return;
   }
 
