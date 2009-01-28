@@ -1495,7 +1495,7 @@ d-InsertKey
 d-Open filename
 </listitem>
 <listitem>
-d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyPond)
+d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyPond, fontsize= size of font to be used for score)
 </listitem>
 
 
