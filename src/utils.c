@@ -223,7 +223,7 @@ setpixelmin (DenemoObject * theobj)
 	theobj->minpixelsalloted += 6;
 
       // PLAN: Allow extra space specified by attached LilyPond directives - example:
-      if(chordval.display) theobj->minpixelsalloted += 80;
+      //if(chordval.display) theobj->minpixelsalloted += 80;
       //PLAN use the max of (the amount for the LilY attached to the Chord and the max for lily attached to notes).
 
 
