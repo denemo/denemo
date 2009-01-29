@@ -689,7 +689,8 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), "end", (gpointer)endanc);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
+  if((*pdirective)==NULL || (*pdirective)->len==0)
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
 }
 
 static gint
@@ -1207,15 +1208,6 @@ outputHeader (GString *str, DenemoGUI * gui)
     g_string_append_printf (str, "\\paper {printallheaders = ##t}\n");
 
 
-
-  g_string_append_printf (str, "#(set-global-staff-size %d)\n", gui->lilycontrol.fontsize);
-  g_string_append_printf (str, "#(set-default-paper-size \"%s\")\n",
-			  gui->lilycontrol.papersize->str);
-  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
-    g_string_append_printf (str, "\n\\header{\n");
-    g_string_append_printf(str, TAB"tagline = \"%s\"\n", ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str);
-    g_string_append_printf(str,"}\n");
-  }
 }
 
 /**
@@ -1792,11 +1784,28 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
  
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
+  // containing the fixed stuff. for example:
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
+  insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
+  
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
+  insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
+  
+  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
+    insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
+  }
+  
 
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
-
+  
 
 
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));

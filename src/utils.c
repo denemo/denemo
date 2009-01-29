@@ -208,15 +208,26 @@ setpixelmin (DenemoObject * theobj)
 	   * stemup notes. It's commented out 'cause we no longer want
 	   * that behavior */
 	  theobj->minpixelsalloted = headwidths[headtype];
+	  //PLAN: search through the notes for attached LilyPond, find max display space requested
+	  //use this below
+	 
 	}
       else			/* a rest */
 	theobj->minpixelsalloted = restwidths[baseduration];
+
 
       /* 12 pixels for the first dot, 6 for each dot thereafter */
       if (chordval.numdots)
 	theobj->minpixelsalloted += 6;
       for (i = 0; i < chordval.numdots; i++)
 	theobj->minpixelsalloted += 6;
+
+      // PLAN: Allow extra space specified by attached LilyPond directives - example:
+      if(chordval.display) theobj->minpixelsalloted += 80;
+      //PLAN use the max of (the amount for the LilY attached to the Chord and the max for lily attached to notes).
+
+
+
       theobj->space_before = 0;
       if (chordval.hasanacc)
 	for (tnode = chordval.notes; tnode; tnode = tnode->next)
@@ -415,12 +426,12 @@ void *chord2lilyduration(struct chord *chordobject, GString *ret){
 
 void *chord2lilybaseduration(struct chord *chordobject, GString *ret){
   int baseduration = chordobject->baseduration;
-  g_string_append_printf (ret, baseduration);
+  g_string_append_printf (ret,  "%d", baseduration);
 }
 
 void *chord2lilynumdots(struct chord *chordobject, GString *ret){
   int numdots = chordobject->numdots;
-  g_string_append_printf (ret, numdots);
+  g_string_append_printf (ret, "%d",numdots);
 }
 
 /**

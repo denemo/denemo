@@ -449,7 +449,7 @@ typedef struct Bookmark
 typedef struct DenemoLilyControl
 {
   GString *papersize;
-  gint fontsize;
+  GString *staffsize;
   GString *lilyversion;
   gboolean orientation;
   gboolean excerpt;

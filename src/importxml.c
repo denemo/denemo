@@ -1565,7 +1565,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	else if (ELEM_NAME_EQ (childElem, "fontsize"))
 	  {
 	    gint font = getXMLIntChild (childElem);
-	    gui->lilycontrol.fontsize = font;
+	    gui->lilycontrol.staffsize = g_string_new(g_strdup_printf("%d", font));
 	    //g_print ("Font Size %d", font);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "papersize"))

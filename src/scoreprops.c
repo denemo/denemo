@@ -49,7 +49,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
      param->status = TRUE;
    }
    if(*query) if(!strcmp("fontsize", query)) {
-     g_string_assign(param->string, g_strdup_printf("%d", Denemo.gui->lilycontrol.fontsize));//FIXME memory leak
+     g_string_assign(param->string, Denemo.gui->lilycontrol.staffsize->str);
      param->status = TRUE;
    }
    return;
@@ -63,10 +63,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
     return;
   }
   if(fontsize) {
-    gint size = atoi(fontsize);
-    if(size<8) size=8;
-    if(size>420) size = 420;
-    Denemo.gui->lilycontrol.fontsize = size;
+    g_string_assign(Denemo.gui->lilycontrol.staffsize, fontsize);
     param->status = TRUE;
     return;
   }

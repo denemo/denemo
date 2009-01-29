@@ -568,7 +568,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   NEWCHILD(papersize);
   NEWCHILD(lilyversion);
   NEWCHILD(lilypond);
-  newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  gui->lilycontrol.fontsize);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  atoi(gui->lilycontrol.staffsize->str));
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation",  gui->lilycontrol.orientation);
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {

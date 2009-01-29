@@ -3062,7 +3062,7 @@ newview (GtkAction *action, gpointer param)
   Denemo.gui = NULL;
   // Denemo.gui = gui; must do this after switching to page, so after creating page
   gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
-  gui->lilycontrol.fontsize = 16;
+  gui->lilycontrol.staffsize = g_string_new("18");
   gui->lilycontrol.lilyversion = g_string_new (LILYPOND_VERSION);
   gui->lilycontrol.orientation = TRUE;	//portrait
   gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");

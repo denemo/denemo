@@ -2905,7 +2905,7 @@ DenemoScore *si	= gui->si;
 		int font;
 		if (sscanf (pt+21, " %d", &font) == 1)
 		{
-			gui->lilycontrol.fontsize = font;
+			gui->lilycontrol.staffsize = g_string_new(g_strdup_printf("%d", font));
 		}
 		else
 			g_warning("%s no font", pt);
