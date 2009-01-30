@@ -57,8 +57,7 @@ typedef struct note
   gint y; /**< Holds y co-ordinate for drawing rather than recalculating it each
   		   run through the drawing loop. see calculateheight  */
   enum headtype noteheadtype; /**< Holds note head type.  */
-  gint x_off;  /**< Holds x offset from default position.  */
-  gint y_off; /**< Holds y offset from default position.  */
+
   GString *prefix;  /**< LilyPond text to be inserted before the note */
   GString *postfix; /**< LilyPond text to be inserted after the note */
   GString *display; /**< something to display to describe the LilyPond attached to the note */
