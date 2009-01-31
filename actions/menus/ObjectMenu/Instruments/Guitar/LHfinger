@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>LHfinger</action>
+        <scheme>;;;;;;;;;;;;;;; d-LHfinger
+(let ((num "0"))
+(set! num (d-GetKeypress))
+(d-AttachLilyToNote (string-append "tag=LHfinger\0postfix=-" num "\0display=" num))
+(d-Chordize #t))
+</scheme>
+        <label>Left Hand Fingering</label>
+        <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>StringNum</action>
+        <scheme>;;;;;;;;;;;;;;; d-StringNum
+(let ((num "0"))
+(set! num (d-GetKeypress))
+(d-AttachLilyToNote (string-append "tag=StringNum\0postfix=\\" num "\0display=" num))
+(d-Chordize #t))</scheme>
+        <label>String Number</label>
+        <tooltip>Followed by a number, places string number on note.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
