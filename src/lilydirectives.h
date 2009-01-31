@@ -19,15 +19,34 @@ chord_directive (GtkAction *action, gpointer param);
 void
 standalone_directive (GtkAction *action, DenemoScriptParam *param);
 
-#define DECL_PUT_FIELD(field) gboolean note_directive_put_##field(gchar *tag, gchar *value);
-#define DECL_GET_FIELD(field) gchar *note_directive_get_##field(gchar *tag);
-DECL_GET_FIELD(prefix)
-DECL_GET_FIELD(postfix)
-DECL_GET_FIELD(display)
+#define DECL_PUT_FIELD(what, field) gboolean what##_directive_put_##field(gchar *tag, gchar *value);
+#define DECL_GET_FIELD(what, field) gchar *what##_directive_get_##field(gchar *tag);
+#define DECL_GET_INT(what, field) gint what##_directive_get_##field(gchar *tag);
+#define DECL_PUT_INT(what, field) gboolean what##_directive_get_##field(gchar *tag, gint value);
 
-DECL_PUT_FIELD(prefix)
-DECL_PUT_FIELD(postfix)
-DECL_PUT_FIELD(display)
+
+DECL_GET_FIELD(note, prefix)
+DECL_GET_FIELD(note, postfix)
+DECL_GET_FIELD(note, display)
+
+DECL_PUT_FIELD(note, prefix)
+DECL_PUT_FIELD(note, postfix)
+DECL_PUT_FIELD(note, display)
+
+
+DECL_GET_FIELD(chord, prefix)
+DECL_GET_FIELD(chord, postfix)
+DECL_GET_FIELD(chord, display)
+
+DECL_PUT_FIELD(chord, prefix)
+DECL_PUT_FIELD(chord, postfix)
+DECL_PUT_FIELD(chord, display)
+
+DECL_GET_INT(note, minpixels)
+DECL_GET_INT(chord, minpixels)
+
 #undef DECL_PUT_FIELD
 #undef DECL_GET_FIELD
+#undef DECL_PUT_INT
+#undef DECL_GET_INT
 #endif

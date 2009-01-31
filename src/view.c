@@ -438,36 +438,63 @@ SCM scheme_get_command(void) {
 }
 
 
-#define FUNC_DEF(field)\
-static SCM scheme_note_directive_get_##field(SCM tag) {\
+#define GETFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   gchar *tagname = scm_to_locale_string(tag);\
-  gchar *value = note_directive_get_##field(tagname);\
+  gchar *value = what##_directive_get_##field(tagname);\
   if(value)\
     return scm_makfrom0str(value);\
   return SCM_BOOL(FALSE);\
 }
-
-FUNC_DEF(display)
-FUNC_DEF(prefix)
-FUNC_DEF(postfix)
-
-#undef FUNC_DEF
-
-#define FUNC_DEF(field)\
-static SCM scheme_note_directive_put_##field(SCM tag, SCM value) {\
+#define PUTFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   gchar *tagname = scm_to_locale_string(tag);\
   gchar *valuename = scm_to_locale_string(value);\
-  return SCM_BOOL(note_directive_put_##field(tagname, valuename));\
+  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
 }
 
-FUNC_DEF(display)
-FUNC_DEF(prefix)
-FUNC_DEF(postfix)
+GETFUNC_DEF(note, display)
+GETFUNC_DEF(note, prefix)
+GETFUNC_DEF(note, postfix)
 
-#undef FUNC_DEF
+GETFUNC_DEF(chord, display)
+GETFUNC_DEF(chord, prefix)
+GETFUNC_DEF(chord, postfix)
+
+PUTFUNC_DEF(note, display)
+PUTFUNC_DEF(note, prefix)
+PUTFUNC_DEF(note, postfix)
+
+PUTFUNC_DEF(chord, display)
+PUTFUNC_DEF(chord, prefix)
+PUTFUNC_DEF(chord, postfix)
 
 
+#undef GETFUNC_DEF
+#undef PUTFUNC_DEF
 
+#define INT_PUTFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gint valuename = scm_num2int(value, 0, 0);\
+  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
+}
+#define INT_GETFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_get_##field(SCM tag) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return scm_int2num(what##_directive_get_##field (tagname));\
+}
+
+     //block to copy for new int field in directive
+INT_PUTFUNC_DEF(note, minpixels)
+INT_PUTFUNC_DEF(chord, minpixels)
+INT_GETFUNC_DEF(note, minpixels)
+INT_GETFUNC_DEF(chord, minpixels)
+     //end block to copy for new int field in directive
+
+
+#undef INT_PUTFUNC_DEF
+#undef INT_GETFUNC_DEF
 
 
 SCM scheme_get_midi(void) {
@@ -801,17 +828,42 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
 
-  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetDisplay", scheme_note_directive_get_display);
-  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetPrefix", scheme_note_directive_get_prefix);
-  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetPostfix", scheme_note_directive_get_postfix);
+#define INSTALL_PUT(what, field)\
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
 
-  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutDisplay", scheme_note_directive_put_display);
-  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutPrefix", scheme_note_directive_put_prefix);
-  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutPostfix", scheme_note_directive_put_postfix);
+#define INSTALL_GET(what, field)\
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
+  INSTALL_PUT(note, display);
+  INSTALL_PUT(note, prefix);
+  INSTALL_PUT(note, postfix);
 
-  /* test with (display (d-NoteDirectivePutDisplay "LHfinger" "test")) after attaching a LH finger directive */
+  INSTALL_GET(note, display);
+  INSTALL_GET(note, prefix);
+  INSTALL_GET(note, postfix);
 
-  /* test with (display (d-NoteDirectiveGetDisplay "LHfinger")) after attaching a LH finger directive */
+  INSTALL_PUT(chord, display);
+  INSTALL_PUT(chord, prefix);
+  INSTALL_PUT(chord, postfix);
+
+  INSTALL_GET(chord, display);
+  INSTALL_GET(chord, prefix);
+  INSTALL_GET(chord, postfix);
+
+  //block to repeat for new int directive fields 
+  INSTALL_PUT(note, minpixels);
+  INSTALL_GET(note, minpixels);
+  INSTALL_PUT(chord, minpixels);
+  INSTALL_GET(chord, minpixels);
+  //end block to repeat for new int directive fields 
+
+#undef INSTALL_PUT
+#undef INSTALL_GET
+
+  /* test with (display (d-DirectivePut-note-display "LHfinger" "test")) after attaching a LH finger directive */
+  /* test with (display (d-DirectivePut-note-minpixels "LHfinger" 80)) after attaching a LH finger directive */
+  /* test with (display (d-DirectiveGet-note-minpixels "LHfinger")) after attaching a LH finger directive */
+
+  /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);

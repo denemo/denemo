@@ -235,13 +235,19 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = g_string_new(xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
+#define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
+         directive->field = getXMLIntChild(childElem);
   FOREACH_CHILD_ELEM (childElem, parentElem) {
     DO_DIREC(tag);
     DO_DIREC(prefix);
     DO_DIREC(postfix);
-    DO_DIREC(display);    
+    DO_DIREC(display); 
+    DO_INTDIREC(minpixels);
+    DO_INTDIREC(x);
+    DO_INTDIREC(y);
   }
-#undef DO_DIREC   
+#undef DO_DIREC 
+#undef DO_INTDIREC   
 }
 
 static GList *
@@ -1346,7 +1352,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	  {
 	  ((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
 	  }
-	//Support for old files 0.8.3 only
+	//Support for old files 0.8.2 only
 #define DO_DIREC(field) else if (ELEM_NAME_EQ (childElem, #field))\
 	  {\
 	    if( ((chord *) chordObj->object)->directives == NULL) {\
@@ -1361,7 +1367,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
     DO_DIREC(postfix)
     DO_DIREC(display)  
 #undef DO_DIREC
-	// End 0.8.3 support
+	// End 0.8.2 support
 	else if (ELEM_NAME_EQ (childElem, "chordize"))
 	  {
 	    ((chord *) chordObj->object)->chordize = TRUE;

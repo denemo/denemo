@@ -849,11 +849,20 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
                    && directive->field->len)\
                       xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
 				     (xmlChar *) directive->field->str);
+#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+				             directive->field);
+
 		      DO_DIREC(tag);
 		      DO_DIREC(prefix);
 		      DO_DIREC(postfix);
 		      DO_DIREC(display);
+		      DO_INTDIREC(minpixels);
+		      DO_INTDIREC(x);
+		      DO_INTDIREC(y);
+
+
 #undef DO_DIREC
+#undef DO_INTDIREC
 		    }
 		  }
   
@@ -1200,13 +1209,25 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
                    && directive->field->len)\
                       xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
 				     (xmlChar *) directive->field->str);
+
+#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+				             directive->field);
+
 			      DO_DIREC(tag);
 			      DO_DIREC(prefix);
 			      DO_DIREC(postfix);
 			      DO_DIREC(display);
+
+			      DO_INTDIREC(minpixels);
+			      DO_INTDIREC(x);
+			      DO_INTDIREC(y);
+
+
+#undef DO_DIREC
+#undef DO_INTDIREC
 			    }
 			  }
-#undef DO_DIREC
+
 			}
 		      }
 		  /* If this is the end of a beam, output a <beam-end>. */

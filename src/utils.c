@@ -193,27 +193,29 @@ setpixelmin (DenemoObject * theobj)
       chordval = *(chord *) theobj->object;
       baseduration = chordval.baseduration;
       headtype = MIN (baseduration, 2);
+      gint directive_pixels = 0;// the largest amount of extra space asked for by any directive
+      GList *g = chordval.directives;
+      for(;g;g=g->next)
+	directive_pixels =  MAX(directive_pixels, ((DenemoDirective*)g->data)->minpixels);
       if (chordval.notes)
 	{
-	  /* if (theobj->isstart_beamgroup && theobj->isend_beamgroup &&
-	     chordval.is_stemup)
-	     theobj->minpixelsalloted = headwidths[headtype] + STEM_WIDTH;
-	     else
-	     theobj->minpixelsalloted = headwidths[headtype];  */
-	  /* We can get away with that because the stems are narrower
-	   * than even the narrowest notes; upstemmed notes are
-	   * the unusual case here */
-
-	  /* The above code will allow extra space for the stem of
-	   * stemup notes. It's commented out 'cause we no longer want
-	   * that behavior */
 	  theobj->minpixelsalloted = headwidths[headtype];
-	  //PLAN: search through the notes for attached LilyPond, find max display space requested
+	  //search through notes and their attached directives, find max display space requested
 	  //use this below
-	 
+	  
+	  g=chordval.notes;
+	  for(;g;g=g->next) {
+	    GList *h = ((note *)g->data)->directives;
+	  for(;h;h=h->next)
+	    directive_pixels = MAX(directive_pixels, ((DenemoDirective*)h->data)->minpixels);
+	  }
 	}
       else			/* a rest */
 	theobj->minpixelsalloted = restwidths[baseduration];
+
+      // Allow extra space specified by attached LilyPond directives - example:     
+      theobj->minpixelsalloted += directive_pixels;
+
 
 
       /* 12 pixels for the first dot, 6 for each dot thereafter */
@@ -221,12 +223,6 @@ setpixelmin (DenemoObject * theobj)
 	theobj->minpixelsalloted += 6;
       for (i = 0; i < chordval.numdots; i++)
 	theobj->minpixelsalloted += 6;
-
-      // PLAN: Allow extra space specified by attached LilyPond directives - example:
-      //if(chordval.display) theobj->minpixelsalloted += 80;
-      //PLAN use the max of (the amount for the LilY attached to the Chord and the max for lily attached to notes).
-
-
 
       theobj->space_before = 0;
       if (chordval.hasanacc)

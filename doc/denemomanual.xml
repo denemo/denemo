@@ -1456,10 +1456,10 @@ d-ChordDirectiveGet* as above but for the Chord as a whole
   </listitem>
 
   <listitem>
-d-NoteDirectivePut* where * is one of Display, Prefix, Postfix, takes a tag and value, changes or creates a directive on the note at the cursor, with that tag and value. Returns #t if successful.
+d-DirectivePut-note-* where * is one of display, prefix, postfix, takes a tag and value, changes or creates a directive on the note at the cursor, with that tag and value. Returns #t if successful.
   </listitem>
   <listitem>
-d-ChordDirectivePut* as above but for the Chord as a whole
+d-DirectivePut-chord* as above but for the Chord as a whole
   </listitem>
 
   <listitem>

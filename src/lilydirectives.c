@@ -321,12 +321,7 @@ chord_directive (GtkAction *action, DenemoScriptParam *param)
 }
 
 
-
-
-static note *get_note(void) {
-  DenemoGUI *gui = Denemo.gui;
-  DenemoScore * si = gui->si;
-  note *curnote = NULL;
+static DenemoObject *get_chordobject(void) {
   chord *thechord = NULL;
   DenemoObject *curObj = findobj();
   if(curObj==NULL)
@@ -335,56 +330,143 @@ static note *get_note(void) {
   if(curObj->type!=CHORD) {  
     return NULL;
   }
+  return curObj;
+}
+static chord *get_chord(void) {
+  chord *thechord = NULL;
+  DenemoObject *curObj = get_chordobject();
+  if(curObj==NULL)
+    return NULL;
+  return (chord *)curObj->object;
+}
+
+
+static note *get_note(void) {
+  DenemoGUI *gui = Denemo.gui;
+  note *curnote = NULL;
+  chord *thechord = NULL;
+  DenemoObject *curObj = get_chordobject();
+  if(curObj==NULL)
+    return NULL;
   return findnote(curObj, gui->si->cursor_y);
 }
 static
 DenemoDirective *get_note_directive(gchar *tag) {
-  DenemoGUI *gui = Denemo.gui;
-  DenemoScore * si = gui->si;
   note *curnote = get_note();
   if(curnote==NULL || (curnote->directives==NULL))
     return NULL;
   return find_directive(curnote->directives, tag);
 }
 
+static
+DenemoDirective *get_chord_directive(gchar *tag) {
+DenemoObject *curObj = get_chordobject();
+  if(curObj==NULL)
+    return NULL;
+  chord *thechord = (chord *)curObj->object;
+  if(thechord->directives==NULL)
+    return NULL;
+  return find_directive(thechord->directives, tag);
+}
 
-#define GET_FIELD_FUNC(field)\
+
+#define GET_FIELD_FUNC(what, field)\
 gchar *\
-note_directive_get_##field(gchar *tag) {\
-  DenemoDirective *directive = get_note_directive(tag);\
+what##_directive_get_##field(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive && directive->field)\
     return directive->field->str;\
   return NULL;\
 }
 
-#define PUT_FIELD_FUNC(field)\
+#define PUT_FIELD_FUNC(what, field)\
 gboolean \
-note_directive_put_##field(gchar *tag, gchar *value) {\
-  DenemoDirective *directive = get_note_directive(tag);\
+what##_directive_put_##field(gchar *tag, gchar *value) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive && directive->field)\
     g_string_assign(directive->field, value);\
   else if(directive)\
     directive->field = g_string_new(value);\
   else {\
-       note *curnote = get_note();\
-       if(curnote==NULL) return FALSE;\
-       if(curnote->directives==NULL) {\
-          create_directives (&curnote->directives, tag);\
-          note_directive_put_##field(tag, value);\
+       what *current = get_##what();\
+       if(current==NULL) return FALSE;\
+       if(current->directives==NULL) {\
+          create_directives (&current->directives, tag);\
+          what##_directive_put_##field(tag, value);\
         }\
   }\
   return TRUE;\
 }
 
 
-GET_FIELD_FUNC(prefix)
-GET_FIELD_FUNC(postfix)
-GET_FIELD_FUNC(display)
+GET_FIELD_FUNC(note, prefix)
+GET_FIELD_FUNC(note, postfix)
+GET_FIELD_FUNC(note, display)
 
-PUT_FIELD_FUNC(prefix)
-PUT_FIELD_FUNC(postfix)
-PUT_FIELD_FUNC(display)
+PUT_FIELD_FUNC(note, prefix)
+PUT_FIELD_FUNC(note, postfix)
+PUT_FIELD_FUNC(note, display)
+
+GET_FIELD_FUNC(chord, prefix)
+GET_FIELD_FUNC(chord, postfix)
+GET_FIELD_FUNC(chord, display)
+
+PUT_FIELD_FUNC(chord, prefix)
+PUT_FIELD_FUNC(chord, postfix)
+PUT_FIELD_FUNC(chord, display)
 
 
 #undef GET_FIELD_FUNC
 #undef PUT_FIELD_FUNC
+
+#define PUT_INT_FIELD_FUNC(what, field)\
+gboolean \
+what##_directive_put_##field(gchar *tag, gint value) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    directive->field = value;\
+  else {\
+       what *current = get_##what();\
+       if(current==NULL) return FALSE;\
+       if(current->directives==NULL) {\
+          create_directives (&current->directives, tag);\
+          what##_directive_put_##field(tag, value);\
+        }\
+  }\
+  return TRUE;\
+}
+
+#define GET_INT_FIELD_FUNC(what, field)\
+gint \
+what##_directive_get_##field(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return directive->field;\
+  return 0;\
+}
+
+
+PUT_INT_FIELD_FUNC(note, x)
+PUT_INT_FIELD_FUNC(note, y)
+
+
+PUT_INT_FIELD_FUNC(chord, x)
+PUT_INT_FIELD_FUNC(chord, y)
+
+
+GET_INT_FIELD_FUNC(note, x)
+GET_INT_FIELD_FUNC(note, y)
+
+
+GET_INT_FIELD_FUNC(chord, x)
+GET_INT_FIELD_FUNC(chord, y)
+
+     /* block which can be copied for new int fields */
+PUT_INT_FIELD_FUNC(note, minpixels)
+PUT_INT_FIELD_FUNC(chord, minpixels)
+GET_INT_FIELD_FUNC(note, minpixels)
+GET_INT_FIELD_FUNC(chord, minpixels)
+  /* end block which can be copied for new int fields */
+
+#undef PUT_INT_FIELD_FUNC
+#undef GET_INT_FIELD_FUNC
