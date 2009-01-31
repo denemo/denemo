@@ -881,6 +881,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 		    outputret;
 		    g = curnote->directives;
+		    if (!g && notenode->next)
+		      output(" ");
 		    for(;g;g=g->next) {
 		      DenemoDirective *directive = (DenemoDirective *)g->data;
 		      if(directive->postfix ) {
