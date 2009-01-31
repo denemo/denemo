@@ -255,12 +255,12 @@ gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked
   return TRUE;
 }
 /**
- * Lilypond directive insert.  Allows user to insert a lilypond directive 
+ * Lilypond directive insert/Edit.  Allows user to insert a lilypond directive 
  * before the current cursor position
  * or edit the current lilypond directive
  */
 void
-lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
+standalone_directive (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_3PARAMS(action, param, directive, display, minpixels);
@@ -292,7 +292,7 @@ lily_directive_insert (GtkAction *action, DenemoScriptParam * param)
  * or edit it
  */
 void
-lily_directive_attach_note (GtkAction *action, DenemoScriptParam *param)
+note_directive (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS(action, param, postfix, display, prefix, tag);
@@ -304,9 +304,10 @@ lily_directive_attach_note (GtkAction *action, DenemoScriptParam *param)
  * or edit it
  */
 void
-lily_directive_attach_chord (GtkAction *action, DenemoScriptParam *param)
+chord_directive (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS(action, param, postfix, display, prefix, tag);
   attach_lily_directive (ATTACH_CHORD, postfix, prefix, display, tag, action!=NULL);
 }
+
