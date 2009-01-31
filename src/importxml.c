@@ -227,6 +227,35 @@ LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
     }
 }
 
+static gint
+parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
+	       DenemoDirective *directive)
+{
+  xmlNodePtr childElem;
+#define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
+         directive->field = g_string_new(xmlNodeListGetString (childElem->doc,\
+						  childElem->xmlChildrenNode, 1));
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    DO_DIREC(tag);
+    DO_DIREC(prefix);
+    DO_DIREC(postfix);
+    DO_DIREC(display);    
+  }
+#undef DO_DIREC   
+}
+
+static GList *
+parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
+{
+  GList *directives = NULL;
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    DenemoDirective *directive = (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
+    parseDirective(childElem, ns, directive);
+    directives = g_list_append(directives, directive);
+  }
+  return directives;
+}
 /**
  * Return the numerator and denominator from the given XML fraction.
  */
@@ -646,6 +675,9 @@ parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
 
 }
 
+
+
+
 /**
  * Parse the given <note> element into a note structure and add it to the
  * given chord.
@@ -658,7 +690,8 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   gint middleCOffset = 0, accidental = 0,
     noteHeadType = DENEMO_NORMAL_NOTEHEAD;
   gboolean showAccidental = FALSE;
-  gchar *accidentalName, *showAccidentalProp, *noteHeadName, *postfix = NULL, *prefix = NULL, *display = NULL;
+  gchar *accidentalName, *showAccidentalProp, *noteHeadName;
+  GList *directives = NULL;
 
   FOREACH_CHILD_ELEM (childElem, noteElem)
   {
@@ -718,20 +751,9 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
 		g_free (showAccidentalProp);
 	      }
 	  }
-	else if (ELEM_NAME_EQ (childElem, "postfix"))
+	else if (ELEM_NAME_EQ (childElem, "directives"))
 	  {
-	    postfix = (gchar *) xmlNodeListGetString
-	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
-	  }
-	else if (ELEM_NAME_EQ (childElem, "prefix"))
-	  {
-	    prefix = (gchar *) xmlNodeListGetString
-	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
-	  }
-	else if (ELEM_NAME_EQ (childElem, "display"))
-	  {
-	    display = (gchar *) xmlNodeListGetString
-	      (childElem->doc, childElem->xmlChildrenNode, 1);	    
+	    directives = parseDirectives(childElem, ns);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "note-head"))
 	  {
@@ -770,12 +792,7 @@ parseNote (xmlNodePtr noteElem, xmlNsPtr ns,
   /* Now actually construct the note object. */
 
   note *newnote = addtone (chordObj, middleCOffset, accidental, currentClef);
-  if(newnote && postfix)
-    newnote->postfix = g_string_new(postfix);
-  if(newnote && prefix)
-    newnote->prefix = g_string_new(prefix);
-  if(newnote && display)
-    newnote->display = g_string_new(display);
+  newnote->directives = directives;
 
   if (noteHeadType != DENEMO_NORMAL_NOTEHEAD)
     {
@@ -1325,25 +1342,26 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	    parseFakechord (childElem, chordObj);
 	    si->has_fakechords = (gpointer) TRUE;
 	  }
-	else if (ELEM_NAME_EQ (childElem, "prefix"))
+	else if (ELEM_NAME_EQ (childElem, "directives")) 
 	  {
-	    ((chord *) chordObj->object)->prefix = g_string_new(xmlNodeListGetString (childElem->doc,
-						  childElem->xmlChildrenNode,
-						  1));
+	  ((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
 	  }
-	else if (ELEM_NAME_EQ (childElem, "postfix"))
-	  {
-	    ((chord *) chordObj->object)->postfix = g_string_new(xmlNodeListGetString (childElem->doc,
-						  childElem->xmlChildrenNode,
-						  1));
+	//Support for old files 0.8.3 only
+#define DO_DIREC(field) else if (ELEM_NAME_EQ (childElem, #field))\
+	  {\
+	    if( ((chord *) chordObj->object)->directives == NULL) {\
+	      DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));\
+	  ((chord *) chordObj->object)->directives = g_list_append(NULL, directive) ;\
+	  }\
+	    ((DenemoDirective*) (((chord *) chordObj->object)->directives)->data)->field = \
+		 g_string_new(xmlNodeListGetString (childElem->doc,\
+		 childElem->xmlChildrenNode, 1));\
 	  }
-	else if (ELEM_NAME_EQ (childElem, "display"))
-	  {
-	    ((chord *) chordObj->object)->display = g_string_new(xmlNodeListGetString (childElem->doc,
-						  childElem->xmlChildrenNode,
-						  1));
-	  }
-
+    DO_DIREC(prefix)
+    DO_DIREC(postfix)
+    DO_DIREC(display)  
+#undef DO_DIREC
+	// End 0.8.3 support
 	else if (ELEM_NAME_EQ (childElem, "chordize"))
 	  {
 	    ((chord *) chordObj->object)->chordize = TRUE;

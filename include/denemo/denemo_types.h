@@ -331,6 +331,16 @@ typedef struct DenemoPrefs
   gint resolution; /**< Resolution of exported selection in dpi */
 }DenemoPrefs;
 
+/* DenemoDirectives are attached to chords and to the individual notes of a chord. They attach LilyPond and MIDI directivees that add to the note information & describe how to display themselves in the Denemo display */
+typedef struct DenemoDirective
+{
+  GString *tag; /**< tag identifying the owner of this directive, usually the denemo command that created it */
+  GString *prefix; /**< LilyPond text to be inserted before the chord */
+  GString *postfix;/**< LilyPond text to be inserted after the chord */
+  GString *display; /**< something to display to describe the LilyPond attached to the chord */
+  /* MIDI attributes not done yet */
+} DenemoDirective;
+
 /**
  * Contains the lilypond header information for the movements, plus markup between movements.
  *

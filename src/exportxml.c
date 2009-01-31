@@ -511,7 +511,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   GString *filename = g_string_new (thefilename);
   xmlDocPtr doc;
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
-  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem;
+  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem, directivesElem, directiveElem;
   xmlNodePtr curElem, parentElem;
   xmlNsPtr ns;
   staffnode *curStaff;
@@ -838,16 +838,25 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    newXMLIntChild (parentElem, ns, (xmlChar *) "dots",
 				    ((chord *) curObj->object)->numdots);
 
-		  /* Output the LilyPond */
-#define DO(field)  if (((chord *) curObj->object)->field \
-                   && ((chord *) curObj->object)->field->len)\
-                      xmlNewChild (objElem, ns, (xmlChar *) #field,\
-				     (xmlChar *) ((chord *) curObj->object)->\
-				     field->str);
-		  DO(prefix);
-		  DO(postfix);
-		  DO(display);
-#undef DO		  
+		  /* Output the DenemoDirectives on the chord */
+		  if(((chord *) curObj->object)->directives) {
+		    directivesElem =  xmlNewChild (objElem, ns, (xmlChar *) "directives", NULL);
+		    GList *g = ((chord *) curObj->object)->directives;
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
+#define DO_DIREC(field)  if (directive->field \
+                   && directive->field->len)\
+                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) directive->field->str);
+		      DO_DIREC(tag);
+		      DO_DIREC(prefix);
+		      DO_DIREC(postfix);
+		      DO_DIREC(display);
+#undef DO_DIREC
+		    }
+		  }
+  
 		  if(((chord *) curObj->object)->chordize)
 		    newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
 
@@ -1180,21 +1189,26 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      newXMLNoteHead (curElem, ns,
 					      curNote->noteheadtype);
 			    }
-			  if(curNote->postfix && curNote->postfix->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "postfix",
-					  (xmlChar *)curNote->postfix->str);
-                          if(curNote->prefix && curNote->prefix->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "prefix",
-					  (xmlChar *)curNote->prefix->str);
-                          if(curNote->display && curNote->display->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "display",
-					  (xmlChar *)curNote->display->str);
-			}
-		    }
 
+			  if(curNote->directives) {
+			    directivesElem =  xmlNewChild (curElem, ns, (xmlChar *) "directives", NULL);
+			    GList *g = curNote->directives;
+			    for(;g;g=g->next) {
+			      DenemoDirective *directive = (DenemoDirective *)g->data;
+			      directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);	
+#define DO_DIREC(field)  if (directive->field\
+                   && directive->field->len)\
+                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) directive->field->str);
+			      DO_DIREC(tag);
+			      DO_DIREC(prefix);
+			      DO_DIREC(postfix);
+			      DO_DIREC(display);
+			    }
+			  }
+#undef DO_DIREC
+			}
+		      }
 		  /* If this is the end of a beam, output a <beam-end>. */
 
 		  if (curObj->isend_beamgroup && !curObj->isstart_beamgroup)
@@ -1411,4 +1425,4 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   sNextXMLID = 0;
 
   g_string_free (filename, TRUE);
-}
+  }

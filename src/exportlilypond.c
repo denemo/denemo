@@ -766,10 +766,15 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
-	if(pchord->prefix && pchord->prefix->len) {
-	  open_braces += brace_count(pchord->prefix->str); 
-	  insert_editable(&pchord->prefix, pchord->prefix->str, iter, invisibility, gui);
-	}	    
+	GList *g = pchord->directives;
+	for(;g;g=g->next) {
+	  DenemoDirective *directive = (DenemoDirective *)g->data;
+	  if(directive->prefix && directive->prefix->len) {
+	    open_braces += brace_count(directive->prefix->str); 
+	    insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
+	  }
+	}
+	    
 	if (!pchord->notes)
 	  {			/* A rest */
 	    if (!curobj->isinvisible)
@@ -814,8 +819,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  {
 		    note *curnote = (note *) notenode->data;
 		    noteheadtype = curnote->noteheadtype;
-		    if(curnote->prefix ) {
-		      insert_editable(&curnote->prefix, curnote->prefix->len?curnote->prefix->str:" ", iter, invisibility, gui);
+		    GList *g = curnote->directives;
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      if(directive->prefix ) {
+			insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
+		      }
 		    }
 		    switch (noteheadtype)
 		      {
@@ -871,12 +880,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 
 		    outputret;
-		    if(curnote->postfix ) {
-		      insert_editable(&curnote->postfix, curnote->postfix->len?curnote->postfix->str:" ", iter, invisibility, gui);
-		    }
-		    else
+		    g = curnote->directives;
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      if(directive->postfix ) {
+			insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
+		      }	else
 		      if (notenode->next)
 			output(" ");
+		   
+		    }
 		  }		/* End notes in chord loop */
 
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
@@ -989,11 +1002,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, " ~");
 
 	    outputret;
-	    if(pchord->postfix && pchord->postfix->len) {
-	      open_braces += brace_count(pchord->postfix->str);
-	      insert_editable(&pchord->postfix, pchord->postfix->str, iter, invisibility, gui);
+	    
+
+	    GList *g = pchord->directives;
+	    for(;g;g=g->next) {
+	      DenemoDirective *directive = (DenemoDirective *)g->data;
+	      if(directive->postfix && directive->postfix->len) {
+		open_braces += brace_count(directive->postfix->str);
+		insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+	      }
 	    }
-	      
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
 	break;

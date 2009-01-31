@@ -772,10 +772,14 @@ void write_status(DenemoGUI *gui) {
 	GList *g;
 	for(g= thechord->notes;g;g=g->next) {
 	  note *thenote = (note *) g->data;
-	  if(thenote->postfix || thenote->prefix) {
-	    gchar *old = selection;
-	    selection = g_strdup_printf("%.50s (%s) %.50s",thenote->prefix?thenote->prefix->str:"",selection,  thenote->postfix? thenote->postfix->str:"");
-	    g_free(old);
+	  GList *h;
+	  for(h=thenote->directives;h;h=h->next) {
+	    DenemoDirective *directive= (DenemoDirective *)h->data;
+	    if(directive->postfix || directive->prefix) {
+	      gchar *old = selection;
+	      selection = g_strdup_printf("%.50s (%s) %.50s",directive->prefix?directive->prefix->str:"",selection, directive->postfix? directive->postfix->str:"");
+	      g_free(old);
+	    }
 	  }
 	}
       }

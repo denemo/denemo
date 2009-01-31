@@ -46,6 +46,31 @@ static void  toggle_locked(GtkWidget *widget, gboolean *locked) {
   *locked = !*locked;
 }
 
+/* lookup a directive tagged with TAG in a list DIRECTIVES and return it.
+   if TAG is NULL return the first directive
+   else return NULL */
+static DenemoDirective *find_directive(GList *directives, gchar *tag) {
+  DenemoDirective *directive = NULL;
+  if(tag) {
+    GList *g;
+    for(g=directives;g;g=g->next){
+      directive = (DenemoDirective *)g->data;
+      if(directive->tag && !strcmp(tag, directive->tag->str))
+	return directive;
+      directive = NULL;
+    }
+  } else
+    directive = (DenemoDirective *)directives->data;
+  return directive;
+}
+
+static DenemoDirective*
+new_directive(gchar *tag){
+  DenemoDirective *directive = (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
+  if(tag)
+    directive->tag = g_string_new(tag);
+  return directive;
+}
 
 typedef enum attach_type {ATTACH_NOTE, ATTACH_CHORD} attach_type;
 /**
@@ -55,7 +80,7 @@ else attache the passed strings as lilypond directive
 attachment is to chord ( attach is ATTACH_CHORD) or to the note at the cursor
  */
 static void
-attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *display, gboolean interactive)
+attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *display, gchar *tag, gboolean interactive)
 {
   gchar *prefixstring=NULL, *postfixstring=NULL, *displaystring=NULL;
   DenemoGUI *gui = Denemo.gui;
@@ -83,27 +108,50 @@ attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar 
     return;
   }
  
-  if(interactive) {
+  // setup directive to be data from thechord->directives or curnote->directives which has matching tag, or first if tag is NULL.
+  DenemoDirective *directive=NULL;
     switch(attach) {
-    case ATTACH_CHORD:
-      if(thechord->postfix)
-	postfixstring = thechord->postfix->str;
-      if(thechord->prefix)
-	prefixstring = thechord->prefix->str;
-      if(thechord->display)
-	displaystring = thechord->display->str;
+    case  ATTACH_CHORD:
+      if(thechord->directives==NULL) {
+	directive = new_directive(tag);
+	thechord->directives = g_list_append(NULL, directive);
+      } else {
+	directive = find_directive(thechord->directives, tag);
+	if(directive == NULL) {
+	  if(tag) {
+	    directive = new_directive(tag);
+	    thechord->directives = g_list_append(thechord->directives, directive);
+	  }
+	}
+      }
       break;
-    case ATTACH_NOTE:
-      if(curnote->postfix)
-	postfixstring = curnote->postfix->str;
-      if(curnote->prefix)
-	prefixstring = curnote->prefix->str;
-      if(curnote->display)
-	displaystring = curnote->display->str;
+     case  ATTACH_NOTE:
+      if(curnote->directives==NULL) {
+	directive = new_directive(tag);
+	curnote->directives = g_list_append(NULL, directive);
+      } else {
+	directive = find_directive(curnote->directives, tag);
+	if(directive == NULL) {
+	  if(tag) {
+	    directive = new_directive(tag);
+	    curnote->directives = g_list_append(curnote->directives, directive);
+	  }
+	}
+      }
       break;
     default:
-      break;
-    }  
+      g_warning("Error in attach type");
+      return;
+    }
+
+  if(interactive) {
+      if(directive->postfix)
+	postfixstring = directive->postfix->str;
+      if(directive->prefix)
+	prefixstring = directive->prefix->str;
+      if(directive->display)
+	displaystring = directive->display->str;
+
     prefixstring = string_dialog_entry(gui, "Attach LilyPond", "Give text to place before the note", prefixstring);
     postfixstring = string_dialog_entry(gui, curnote?"Attach LilyPond to Note":"Attach LilyPond to Chord", curnote?"Give LilyPond text to postfix to note of chord":"Give LilyPond text to postfix to chord", postfixstring);
     displaystring =  string_dialog_entry(gui, "Attach LilyPond", "Give Display text if required", displaystring);
@@ -115,26 +163,17 @@ attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar 
     if(display)
       displaystring = g_strdup(display);
   }
-  switch(attach) {
-#define STRINGASSIGN(obj, field, val) \
+
+#define STRINGASSIGN(field, val) \
      if(val && *val) {\
-     if(obj->field) g_string_assign(obj->field, val);\
-     else obj->field=g_string_new(val);}
-                     
-  case ATTACH_CHORD:
-    STRINGASSIGN(thechord, postfix, postfixstring);
-    STRINGASSIGN(thechord, prefix, prefixstring);
-    STRINGASSIGN(thechord, display, displaystring);
-    break;
-  case ATTACH_NOTE:
-    STRINGASSIGN( curnote, postfix, postfixstring);
-    STRINGASSIGN(curnote, prefix, prefixstring);
-    STRINGASSIGN(curnote, display, displaystring);
-    break;
-  default:
-    break;
+     if(directive->field) g_string_assign(directive->field, val);\
+     else directive->field=g_string_new(val);}
+    STRINGASSIGN(postfix, postfixstring);
+    STRINGASSIGN(prefix, prefixstring);
+    STRINGASSIGN(display, displaystring);
+
 #undef STRINGASSIGN
-  } 
+
   score_status(gui, TRUE);
   displayhelper (gui);
   g_free(postfixstring);
@@ -256,8 +295,8 @@ void
 lily_directive_attach_note (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
-  GET_3PARAMS(action, param, postfix, display, prefix);
-  attach_lily_directive (ATTACH_NOTE, postfix, prefix, display, action!=NULL);
+  GET_4PARAMS(action, param, postfix, display, prefix, tag);
+  attach_lily_directive (ATTACH_NOTE, postfix, prefix, display, tag, action!=NULL);
 }
 /**
  * Lilypond directive attach to chord.  Allows user to attach a lilypond directive 
@@ -268,6 +307,6 @@ void
 lily_directive_attach_chord (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
-  GET_3PARAMS(action, param, postfix, display, prefix);
-  attach_lily_directive (ATTACH_CHORD, postfix, prefix, display, action!=NULL);
+  GET_4PARAMS(action, param, postfix, display, prefix, tag);
+  attach_lily_directive (ATTACH_CHORD, postfix, prefix, display, tag, action!=NULL);
 }
