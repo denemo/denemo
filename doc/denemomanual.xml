@@ -1447,6 +1447,21 @@ d-RefreshDisplay
   <listitem>
 d-InputFilterNames  sets the status bar
   </listitem>
+
+  <listitem>
+d-NoteDirectiveGet* where * is one of Display, Prefix, Postfix, takes a tag and returns the value or #f if no tagged directive found on the note at  the cursor.
+  </listitem>
+  <listitem>
+d-ChordDirectiveGet* as above but for the Chord as a whole
+  </listitem>
+
+  <listitem>
+d-NoteDirectivePut* where * is one of Display, Prefix, Postfix, takes a tag and value, changes or creates a directive on the note at the cursor, with that tag and value. Returns #t if successful.
+  </listitem>
+  <listitem>
+d-ChordDirectivePut* as above but for the Chord as a whole
+  </listitem>
+
   <listitem>
 d-Chordize Ensure that even a single note is treated as a chord - needed for some LilyPond constructs (e.g. fingerings)
   </listitem>
@@ -1471,10 +1486,10 @@ This feature is being rolled out, and currently works for
 d-InsertLilyDirective (directive, display. minpixels)
 </listitem>
 <listitem>
-d-AttachLilyToChord (prefix, postfix, display)
+d-AttachLilyToChord (prefix, postfix, display) deprecated see d-ChordDirectiveGet* and Put* below
 </listitem>
 <listitem>
-d-AttachLilyToNote (prefix, postfix, display) see also d-Chordize below.
+d-AttachLilyToNote (prefix, postfix, display) deprecated see d-NoteDirectiveGet* and Put* below
 </listitem>
 <listitem>
 d-StaffProperties   understands a couple of property=value settings
