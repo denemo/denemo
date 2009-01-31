@@ -338,6 +338,9 @@ typedef struct DenemoDirective
   GString *prefix; /**< LilyPond text to be inserted before the chord */
   GString *postfix;/**< LilyPond text to be inserted after the chord */
   GString *display; /**< something to display to describe the LilyPond attached to the chord */
+  gint minpixels;/**< horizontal space needed by the display */
+  gint x, y; /**< x and y offsets in pixels for the display */
+  
   /* MIDI attributes not done yet */
 } DenemoDirective;
 
