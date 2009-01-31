@@ -72,22 +72,29 @@ new_directive(gchar *tag){
   return directive;
 }
 
+static  DenemoObject *findobj(void) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore * si = gui->si;
+  note *curnote = NULL;
+  return (DenemoObject *) si->currentobject ?
+    (DenemoObject *) si->currentobject->data : NULL;
+  }
+
 typedef enum attach_type {ATTACH_NOTE, ATTACH_CHORD} attach_type;
 /**
- * Lilypond directive.  
+ * Denemo directive attach or edit.  
 if interactive: Allows user to attach a lilypond directive 
 else attache the passed strings as lilypond directive
 attachment is to chord ( attach is ATTACH_CHORD) or to the note at the cursor
  */
 static void
-attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *display, gchar *tag, gboolean interactive)
+attach_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar *display, gchar *tag, gboolean interactive)
 {
   gchar *prefixstring=NULL, *postfixstring=NULL, *displaystring=NULL;
   DenemoGUI *gui = Denemo.gui;
   DenemoScore * si = gui->si;
   note *curnote = NULL;
-  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
-    (DenemoObject *) si->currentobject->data : NULL;
+  DenemoObject *curObj = findobj();
   if(curObj==NULL) {  
     if(interactive)
       warningdialog("You must put the cursor on a chord to attach LilyPond");//FIXME find a note and ask
@@ -181,7 +188,9 @@ attach_lily_directive (attach_type attach, gchar *postfix, gchar *prefix, gchar 
   g_free(prefixstring);
 }
 
-
+static void create_directives(GList **directives, gchar *tag) {
+  *directives = g_list_append(NULL, new_directive(tag));
+}
 static void
 get_lily_parameter(gchar *query, DenemoScriptParam *param) {
   DenemoObject *curObj = (DenemoObject *) Denemo.gui->si->currentobject ?
@@ -296,7 +305,7 @@ note_directive (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS(action, param, postfix, display, prefix, tag);
-  attach_lily_directive (ATTACH_NOTE, postfix, prefix, display, tag, action!=NULL);
+  attach_directive (ATTACH_NOTE, postfix, prefix, display, tag, action!=NULL);
 }
 /**
  * Lilypond directive attach to chord.  Allows user to attach a lilypond directive 
@@ -308,6 +317,74 @@ chord_directive (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GET_4PARAMS(action, param, postfix, display, prefix, tag);
-  attach_lily_directive (ATTACH_CHORD, postfix, prefix, display, tag, action!=NULL);
+  attach_directive (ATTACH_CHORD, postfix, prefix, display, tag, action!=NULL);
 }
 
+
+
+
+static note *get_note(void) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore * si = gui->si;
+  note *curnote = NULL;
+  chord *thechord = NULL;
+  DenemoObject *curObj = findobj();
+  if(curObj==NULL)
+    return NULL;
+  thechord = (chord *)curObj->object;
+  if(curObj->type!=CHORD) {  
+    return NULL;
+  }
+  return findnote(curObj, gui->si->cursor_y);
+}
+static
+DenemoDirective *get_note_directive(gchar *tag) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore * si = gui->si;
+  note *curnote = get_note();
+  if(curnote==NULL || (curnote->directives==NULL))
+    return NULL;
+  return find_directive(curnote->directives, tag);
+}
+
+
+#define GET_FIELD_FUNC(field)\
+gchar *\
+note_directive_get_##field(gchar *tag) {\
+  DenemoDirective *directive = get_note_directive(tag);\
+  if(directive && directive->field)\
+    return directive->field->str;\
+  return NULL;\
+}
+
+#define PUT_FIELD_FUNC(field)\
+gboolean \
+note_directive_put_##field(gchar *tag, gchar *value) {\
+  DenemoDirective *directive = get_note_directive(tag);\
+  if(directive && directive->field)\
+    g_string_assign(directive->field, value);\
+  else if(directive)\
+    directive->field = g_string_new(value);\
+  else {\
+       note *curnote = get_note();\
+       if(curnote==NULL) return FALSE;\
+       if(curnote->directives==NULL) {\
+          create_directives (&curnote->directives, tag);\
+          note_directive_put_##field(tag, value);\
+        }\
+  }\
+  return TRUE;\
+}
+
+
+GET_FIELD_FUNC(prefix)
+GET_FIELD_FUNC(postfix)
+GET_FIELD_FUNC(display)
+
+PUT_FIELD_FUNC(prefix)
+PUT_FIELD_FUNC(postfix)
+PUT_FIELD_FUNC(display)
+
+
+#undef GET_FIELD_FUNC
+#undef PUT_FIELD_FUNC

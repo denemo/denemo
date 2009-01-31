@@ -437,6 +437,39 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
+
+#define FUNC_DEF(field)\
+static SCM scheme_note_directive_get_##field(SCM tag) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *value = note_directive_get_##field(tagname);\
+  if(value)\
+    return scm_makfrom0str(value);\
+  return SCM_BOOL(FALSE);\
+}
+
+FUNC_DEF(display)
+FUNC_DEF(prefix)
+FUNC_DEF(postfix)
+
+#undef FUNC_DEF
+
+#define FUNC_DEF(field)\
+static SCM scheme_note_directive_put_##field(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *valuename = scm_to_locale_string(value);\
+  return SCM_BOOL(note_directive_put_##field(tagname, valuename));\
+}
+
+FUNC_DEF(display)
+FUNC_DEF(prefix)
+FUNC_DEF(postfix)
+
+#undef FUNC_DEF
+
+
+
+
+
 SCM scheme_get_midi(void) {
  gint midi;
  gboolean success = intercept_midi_event(&midi);
@@ -462,7 +495,7 @@ SCM scheme_put_midi (SCM scm) {
 }
 
 
-SCM scheme_play_midikey(SCM scm) {
+static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
@@ -473,7 +506,7 @@ SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
-SCM scheme_bass_figure(SCM bass, SCM harmony) {
+static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   gint bassnum = scm_num2int(bass, 0, 0);
   gint harmonynum = scm_num2int(harmony, 0, 0);
   gchar *interval = determine_interval(bassnum, harmonynum);
@@ -507,7 +540,7 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   *enshift = accs;
 }
 
-SCM scheme_put_note_name (SCM optional) {
+static SCM scheme_put_note_name (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -533,7 +566,7 @@ SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
-SCM scheme_get_type (SCM optional) {
+static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
@@ -542,6 +575,9 @@ SCM scheme_get_type (SCM optional) {
     return  scm_makfrom0str("Appending");
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
+
+
+
 
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
@@ -763,6 +799,20 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+
+
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetDisplay", scheme_note_directive_get_display);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetPrefix", scheme_note_directive_get_prefix);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"NoteDirectiveGetPostfix", scheme_note_directive_get_postfix);
+
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutDisplay", scheme_note_directive_put_display);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutPrefix", scheme_note_directive_put_prefix);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"NoteDirectivePutPostfix", scheme_note_directive_put_postfix);
+
+  /* test with (display (d-NoteDirectivePutDisplay "LHfinger" "test")) after attaching a LH finger directive */
+
+  /* test with (display (d-NoteDirectiveGetDisplay "LHfinger")) after attaching a LH finger directive */
+
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
