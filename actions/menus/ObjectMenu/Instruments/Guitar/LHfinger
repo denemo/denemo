@@ -12,6 +12,7 @@
 (d-AttachLilyToNote (string-append "tag=LHfinger\0postfix=-" num "\0display=" num))
 (d-DirectivePut-note-minpixels "LHfinger" 20)
 (d-Chordize #t))
+(d-RefreshDisplay)
 </scheme>
         <label>Left Hand Fingering</label>
         <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
