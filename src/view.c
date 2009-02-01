@@ -3214,10 +3214,11 @@ Denemo.gui = gui;
   gtk_box_pack_start (GTK_BOX (main_vbox), gui->hscrollbar, FALSE, TRUE, 0);
   gtk_widget_show (gui->hscrollbar);
 
+#if 0
   GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_widget_show (hbox);
-
+#endif
 
   //FIXME populate_opened_recent (gui);
 
