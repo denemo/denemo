@@ -602,6 +602,16 @@ typedef struct DenemoGUI
   GtkObject *hadjustment;
   GtkWidget *hscrollbar;
 
+  GtkWidget *printarea;/**< area holding a print preview */
+  GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
+  GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
+  GdkPixbuf *pixbuf;/**< print preview pixbuf */
+
+  gint markx, marky, pointx, pointy;/**< a selected area in the printarea */
+  GdkBitmap *graphic; /**< bitmap representation of the selection from the printarea */
+
+
+
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   GtkTextView *textview; /**< LilyPond output text view */

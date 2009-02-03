@@ -105,6 +105,8 @@ SCM call_out_to_guile(char *script) {
 #define ToggleScript_STRING  "ToggleScript"
 
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
+#define TogglePrintView_STRING  "TogglePrintView"
+#define ToggleScoreView_STRING  "ToggleScoreView"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
@@ -2216,6 +2218,11 @@ static void dummy(void) {
   call_out_to_guile("(denemoy \"/MainMenu/ModeMenu/Rest\")\n");
 #endif
   play_pitch(440.0, 1.0);
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
   return;
 }
 
@@ -2547,8 +2554,36 @@ toggle_action_menu (GtkAction * action, DenemoGUI * gui)
     }
 }
 
-
-
+/**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+void
+toggle_print_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
+  return;
+}
+/**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+void
+toggle_score_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->scorearea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
+  return;
+}
 /**
  *  Function to toggle whether object menubar is visible 
  *  
@@ -2600,6 +2635,13 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
+
+  {TogglePrintView_STRING, NULL, N_("Print View"), NULL, NULL,
+   G_CALLBACK (toggle_print_view), FALSE},
+  {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
+   G_CALLBACK (toggle_score_view), TRUE},
+
+
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
    G_CALLBACK (toggle_quick_edits), FALSE},
   {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
@@ -3175,15 +3217,19 @@ newview (GtkAction *action, gpointer param)
   /* Initialize the GUI */
 
   //create the tab for this gui
+  GtkWidget *top_vbox = gtk_vbox_new (FALSE, 1);
+  
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-
-  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), main_vbox, NULL);
+  gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
+		      0);
+  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
   gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
 Denemo.gui = gui;
  if(pagenum)
    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);
+  gtk_widget_show (top_vbox);
   gtk_widget_show (main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
@@ -3195,7 +3241,7 @@ Denemo.gui = gui;
 
 
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,
-		      TRUE, 0);// with this, the scoreare_expose_event is called
+		      TRUE, 0);// with this, the scorearea_expose_event is called
   gtk_widget_show (gui->scorearea);
 
   gui->vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
@@ -3212,6 +3258,9 @@ Denemo.gui = gui;
 		      GTK_SIGNAL_FUNC (horizontal_scroll), gui);
   gui->hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (gui->hadjustment));
   gtk_box_pack_start (GTK_BOX (main_vbox), gui->hscrollbar, FALSE, TRUE, 0);
+
+
+
   gtk_widget_show (gui->hscrollbar);
 
 #if 0
@@ -3220,6 +3269,9 @@ Denemo.gui = gui;
   gtk_widget_show (hbox);
 #endif
 
+
+  install_printpreview(gui, top_vbox);
+ 
   //FIXME populate_opened_recent (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
