@@ -27,6 +27,9 @@
 #include "prefops.h"
 #include "keyresponses.h"
 #include "view.h"
+#ifdef _HAVE_JACK_
+#include "jackmidi.h"
+#endif
 /**
  * Macro to get the current DenemoObject
  */
@@ -911,8 +914,11 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
     if(Denemo.gui->input_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       prognum = select_program (curstaffstruct->midi_instrument->str);
-      playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
-		 prognum);
+#ifdef _HAVE_JACK_
+      jack_playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object, prognum);
+#else
+      playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object, prognum);
+#endif
     }
   }
 }
@@ -1038,8 +1044,14 @@ tonechange (DenemoScore * si, gboolean remove)
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	prognum = select_program (curstaffstruct->midi_instrument->str);
+#ifdef _HAVE_JACK_
+	jack_playnotes (Denemo.prefs.immediateplayback,
+	 *(chord *) curmudelaobj->object, prognum);
+#else
 	playnotes (Denemo.prefs.immediateplayback,
 	 *(chord *) curmudelaobj->object, prognum);
+
+#endif
       }
     }
   return ret;
@@ -1100,9 +1112,14 @@ incrementenshift (DenemoGUI * gui, gint direction)
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	prognum = select_program (curstaffstruct->midi_instrument->str);
-
+#ifdef _HAVE_JACK_
+	jack_playnotes (Denemo.prefs.immediateplayback,
+		   *(chord *) curmudelaobj->object, prognum);
+#else
 	playnotes (Denemo.prefs.immediateplayback,
 		   *(chord *) curmudelaobj->object, prognum);
+#endif
+
       }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;
@@ -1141,8 +1158,14 @@ setenshift (DenemoScore * si, gint enshift)
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	prognum = select_program (curstaffstruct->midi_instrument->str);
+#ifdef _HAVE_JACK_
+	jack_playnotes (Denemo.prefs.immediateplayback,
+		   *(chord *) curmudelaobj->object, prognum);
+#else
 	playnotes (Denemo.prefs.immediateplayback,
 		   *(chord *) curmudelaobj->object, prognum);
+#endif
+
       }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;

@@ -10,4 +10,6 @@
 
 int jackmidi(void);
 void  jackstop(void);
+
+void jack_playnotes (gboolean doit, chord chord_to_play,int prognum);
 #endif //JACKMIDI_H
