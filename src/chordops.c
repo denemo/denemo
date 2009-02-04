@@ -555,7 +555,10 @@ clone_chord (DenemoObject * thechord)
   GList *g = curchord->directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
-    clonedchord->directives = g_list_append(clonedchord->directives, clone_directive(directive));
+    if(directive)
+      clonedchord->directives = g_list_append(clonedchord->directives, clone_directive(directive));
+    else
+      g_warning("A Chord Directive list with NULL directive");
   }
   clonedchord->notes = NULL;
   for (curtone = ((chord *) thechord->object)->notes;
@@ -567,7 +570,10 @@ clone_chord (DenemoObject * thechord)
       newnote->directives=NULL;
       for(g=curnote->directives;g;g=g->next) {
 	DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive)
 	newnote->directives = g_list_append(newnote->directives, clone_directive(directive));
+    else
+      g_warning("A Note Directive list with NULL directive");
       }      
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
