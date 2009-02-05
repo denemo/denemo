@@ -517,6 +517,7 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(postfix);
   CLONE(display);
 #undef CLONE
+  return ret;
 }
 
 /**
@@ -536,12 +537,7 @@ clone_chord (DenemoObject * thechord)
   memcpy ((DenemoObject *) ret, (DenemoObject *) thechord,
 	  sizeof (DenemoObject));
 
-  ret->object = NULL;
-
-
-  /* This has to be done as the object union has been removed.
-   * A gpointer doesn't know the type it is so have to explictly 
-   * copy the object */
+  ret->object = NULL;//currently the only pointer in DenemoObject
 
   memcpy ((chord *) clonedchord, curchord, sizeof (chord));
   clonedchord->directives = NULL;
