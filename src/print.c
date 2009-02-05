@@ -757,6 +757,14 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   }
   width = Denemo.gui->pointx-Denemo.gui->markx;
   height = Denemo.gui->pointy-Denemo.gui->marky;
+  if(width>255 || height >255) {
+    warningdialog("Too wide! clipping it to 255 max");
+    Denemo.gui->pointx = Denemo.gui->markx + 255;
+  }
+  if(height >255) {
+    warningdialog("Too high! clipping it to 255 max");
+    Denemo.gui->pointy = Denemo.gui->marky + 255;
+  }
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
   GError *error = NULL;
 
@@ -768,7 +776,9 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
    }
   const gchar *data =  get_xbm(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
   Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
-  g_free(data);
+  if(Denemo.gui->xbm)
+    g_free(Denemo.gui->xbm);
+  Denemo.gui->xbm = data;
 }
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox ){

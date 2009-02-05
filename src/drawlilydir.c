@@ -25,10 +25,10 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
   gchar *first = (lily->directive->str);
 
-  if(Denemo.gui->graphic){
-    gint width = Denemo.gui->pointx-Denemo.gui->markx;
-    gint  height = Denemo.gui->pointy-Denemo.gui->marky;  
-    drawbitmapinverse (pixmap, gcs_lightbluegc(), Denemo.gui->graphic,
+  if(lily->graphic){
+    gint width = lily->width;
+    gint  height = lily->height;  
+    drawbitmapinverse (pixmap, gcs_lightbluegc(), lily->graphic,
 		     xx, y+lowy, width, height);
   }
   if(lily->display) {  //store display position x,y as well

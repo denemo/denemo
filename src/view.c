@@ -439,6 +439,7 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
+/* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
 
 #define GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
@@ -487,6 +488,18 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   return scm_int2num(what##_directive_get_##field (tagname));\
 }
 
+
+#define INT_PUTGRAPHICFUNC_DEF(what)\
+static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *valuename = scm_to_locale_string(value);\
+  return SCM_BOOL(what##_directive_put_graphic (tagname, valuename));\
+}
+
+INT_PUTGRAPHICFUNC_DEF(note);
+INT_PUTGRAPHICFUNC_DEF(chord);
+
+
      //block to copy for new int field in directive
 INT_PUTFUNC_DEF(note, minpixels)
 INT_PUTFUNC_DEF(chord, minpixels)
@@ -497,7 +510,7 @@ INT_GETFUNC_DEF(chord, minpixels)
 
 #undef INT_PUTFUNC_DEF
 #undef INT_GETFUNC_DEF
-
+#undef INT_PUTGRAPHICFUNC_DEF
 
 SCM scheme_get_midi(void) {
  gint midi;
@@ -860,6 +873,14 @@ Then
 
 #undef INSTALL_PUT
 #undef INSTALL_GET
+
+
+#define INSTALL_PUT_GRAPHIC(what)\
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePutGraphic" "-" #what, scheme_##what##_directive_put_graphic);
+  INSTALL_PUT_GRAPHIC(chord);
+  INSTALL_PUT_GRAPHIC(note);
+
+#undef INSTALL_PUT_GRAPHIC
 
   /* test with (display (d-DirectivePut-note-display "LHfinger" "test")) after attaching a LH finger directive */
   /* test with (display (d-DirectivePut-note-minpixels "LHfinger" 80)) after attaching a LH finger directive */
@@ -1971,6 +1992,78 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   else
     warningdialog("No script to save");
 }
+
+static const gchar *
+locatebitmapsdir(void) {
+  static gchar *bitmapsdir = NULL;
+  gboolean err;
+  if (!bitmapsdir)
+    {
+      bitmapsdir = g_build_filename (locatedotdenemo(), "actions", "bitmaps", NULL);
+    }
+  err = g_mkdir_with_parents(bitmapsdir, 0770);
+  if(err) {
+    warningdialog("Could not create .denemo/actions/bitmaps for your graphics for customized commands");
+    g_free(bitmapsdir);
+    bitmapsdir = g_strdup("");
+  }
+  return bitmapsdir;
+}
+gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+  gchar *filename = g_build_filename (locatebitmapsdir (), name,
+				      NULL);
+
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename (get_data_dir (), "actions", "bitmaps", name,
+				      NULL);
+  }
+    
+  FILE *fp = fopen(filename,"rb");
+  if(fp) {
+    gchar w, h;
+    fread(&w, 1, 1, fp);
+    fread(&h, 1, 1, fp);
+
+    gint numbytes = h*((w+7)/8)*8;
+    gchar *data = g_malloc(numbytes);    
+    //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
+    if(numbytes == fread(data, 1, numbytes, fp)){
+      *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
+      *width = w; *height = h;
+      fclose(fp);
+      return TRUE;
+    }
+    fclose(fp);  
+  } else {
+
+    warningdialog("Could not load graphic");
+  }
+  return FALSE;
+}
+
+/* save the current graphic
+*/
+static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
+  gchar *name = (gchar *)gtk_action_get_name(action);
+  gchar *filename = g_build_filename (locatebitmapsdir (),  name,
+				      NULL);
+  //FIXME allow fileselector here to change the name
+  guchar width = Denemo.gui->pointx-Denemo.gui->markx;
+  guchar height = Denemo.gui->pointy-Denemo.gui->marky;
+  FILE *fp = fopen(filename,"wb");
+  if(fp) {
+    fwrite(&width, 1, 1, fp);
+    fwrite(&height, 1, 1, fp);
+    gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
+    //g_print("Wrote %d bytes for %d x %d\n", size, width, height);
+    fclose(fp);
+  }
+  else
+    warningdialog("Could not write file");
+  g_free(filename);
+}
+
 /*
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
@@ -2067,6 +2160,13 @@ static gboolean menu_click (GtkWidget      *widget,
     item = gtk_menu_item_new_with_label("Save Script");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
+    if(Denemo.gui->graphic) {
+      item = gtk_menu_item_new_with_label("Save Graphic");
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
+    }
+
+
   }
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");

@@ -245,9 +245,16 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     DO_INTDIREC(minpixels);
     DO_INTDIREC(x);
     DO_INTDIREC(y);
+    if(ELEM_NAME_EQ (childElem, "graphic_name")) {
+      directive->graphic_name =  g_string_new(xmlNodeListGetString (childElem->doc,\
+						  childElem->xmlChildrenNode, 1));
+      loadGraphicItem(directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+      /* FIXME, create a hash table of names<->bitmaps */
+    }
+      
   }
 #undef DO_DIREC 
-#undef DO_INTDIREC   
+#undef DO_INTDIREC  
 }
 
 static GList *

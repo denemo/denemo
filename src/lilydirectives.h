@@ -24,6 +24,10 @@ standalone_directive (GtkAction *action, DenemoScriptParam *param);
 #define DECL_GET_INT(what, field) gint what##_directive_get_##field(gchar *tag);
 #define DECL_PUT_INT(what, field) gboolean what##_directive_get_##field(gchar *tag, gint value);
 
+#define DECL_PUT_GRAPHIC(what) gboolean what##_directive_put_graphic(gchar *tag, gchar *value);
+DECL_PUT_GRAPHIC(chord)
+DECL_PUT_GRAPHIC(note)
+
 
 DECL_GET_FIELD(note, prefix)
 DECL_GET_FIELD(note, postfix)

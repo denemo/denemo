@@ -470,7 +470,12 @@ free_directives(GList *directives) {
     DFREE(display);
     DFREE(prefix);
     DFREE(postfix);
+   
 #undef FREE
+    if(directive->graphic)
+      g_object_unref(directive->graphic);
+    if(directive->graphic_name)
+      g_string_free(directive->graphic_name, TRUE);
   } 
 }
 static void 
@@ -516,7 +521,12 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(prefix);
   CLONE(postfix);
   CLONE(display);
+  CLONE(graphic_name);
 #undef CLONE
+  if(directive->graphic) {
+    g_object_ref(G_OBJECT(directive->graphic));//FIXME check the docs
+    ret->graphic = directive->graphic;
+  }
   return ret;
 }
 

@@ -470,3 +470,26 @@ GET_INT_FIELD_FUNC(chord, minpixels)
 
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC
+
+
+#define PUT_GRAPHIC(what) gboolean \
+what##_directive_put_graphic(gchar *tag, gchar *value) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive && directive->graphic)\
+    g_object_unref(G_OBJECT(directive->graphic));\
+  if(directive) {\
+     loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);\
+     directive->graphic_name = g_string_new(value);}\
+  else {\
+       what *current = get_##what();\
+       if(current==NULL) return FALSE;\
+       if(current->directives==NULL) {\
+          create_directives (&current->directives, tag);\
+          what##_directive_put_graphic(tag, value);\
+        }\
+  }\
+  return TRUE;\
+}
+     PUT_GRAPHIC(chord);
+     PUT_GRAPHIC(note);
+#undef PUT_GRAPHIC

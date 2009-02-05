@@ -283,6 +283,8 @@ typedef struct lilydirective
   GString *display;/**< Something for Denemo to display (to indicate what the directive is doing*/
   gint x;/**< horizontal offset of display text */
   gint y;/**< vertical offset of display text */
+  GdkBitmap *graphic; /**< bitmap to draw for this directive */
+  gint width, height; /**< width and height of the bitmap */
 }
 lilydirective;
 

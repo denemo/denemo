@@ -860,6 +860,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		      DO_INTDIREC(x);
 		      DO_INTDIREC(y);
 
+		      DO_DIREC(graphic_name);
+
 
 #undef DO_DIREC
 #undef DO_INTDIREC
@@ -1221,6 +1223,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      DO_INTDIREC(minpixels);
 			      DO_INTDIREC(x);
 			      DO_INTDIREC(y);
+			      DO_INTDIREC(graphic_name);
 
 
 #undef DO_DIREC

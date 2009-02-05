@@ -340,7 +340,9 @@ typedef struct DenemoDirective
   GString *display; /**< something to display to describe the LilyPond attached to the chord */
   gint minpixels;/**< horizontal space needed by the display */
   gint x, y; /**< x and y offsets in pixels for the display */
-  
+  GdkBitmap *graphic; /**< bitmap to draw for this directive */
+  GString *graphic_name; /**< name of the graphic to be drawn */
+  gint width, height; /**< width and height of the bitmap */
   /* MIDI attributes not done yet */
 } DenemoDirective;
 
@@ -609,9 +611,7 @@ typedef struct DenemoGUI
 
   gint markx, marky, pointx, pointy;/**< a selected area in the printarea */
   GdkBitmap *graphic; /**< bitmap representation of the selection from the printarea */
-
-
-
+  gchar *xbm; /**< xbm representation of graphic bitmap (height and width from the mark & point values */
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   GtkTextView *textview; /**< LilyPond output text view */

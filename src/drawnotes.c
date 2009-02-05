@@ -541,7 +541,13 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       gint count = 0;
       for(;g;g=g->next) {
 	DenemoDirective *directive = (DenemoDirective *)g->data;
-	
+	if(directive->graphic) {
+	  gint width, height;
+	  gdk_drawable_get_size(directive->graphic, &width, &height);
+	  drawbitmapinverse (pixmap, gc, directive->graphic,
+			     xx, y, width, height);
+
+	}
 	if(directive->display) {
 	  PangoContext *context =
 	    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
