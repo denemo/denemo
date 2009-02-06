@@ -63,7 +63,6 @@ draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, gint type)
       clefs[DENEMO_TENOR_CLEF] = bitmaphelper (NULL, feta26_clefs_alto);
       clefs[DENEMO_SOPRANO_CLEF] = bitmaphelper (NULL, feta26_clefs_alto);
     }
-
   drawbitmapinverse (pixmap, gc, clefs[type],
 		     xx, y + clefoffsets[type],
 		     clefwidths[type], clefheights[type]);

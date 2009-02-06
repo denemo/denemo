@@ -105,6 +105,8 @@ SCM call_out_to_guile(char *script) {
 #define ToggleScript_STRING  "ToggleScript"
 
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
+#define TogglePrintView_STRING  "TogglePrintView"
+#define ToggleScoreView_STRING  "ToggleScoreView"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
@@ -437,6 +439,108 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
+/* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+
+#define GETFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_get_##field(SCM tag) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *value = what##_directive_get_##field(tagname);\
+  if(value)\
+    return scm_makfrom0str(value);\
+  return SCM_BOOL(FALSE);\
+}
+#define PUTFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *valuename = scm_to_locale_string(value);\
+  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
+}
+
+GETFUNC_DEF(note, display)
+GETFUNC_DEF(note, prefix)
+GETFUNC_DEF(note, postfix)
+
+GETFUNC_DEF(chord, display)
+GETFUNC_DEF(chord, prefix)
+GETFUNC_DEF(chord, postfix)
+
+PUTFUNC_DEF(note, display)
+PUTFUNC_DEF(note, prefix)
+PUTFUNC_DEF(note, postfix)
+
+PUTFUNC_DEF(chord, display)
+PUTFUNC_DEF(chord, prefix)
+PUTFUNC_DEF(chord, postfix)
+
+
+#undef GETFUNC_DEF
+#undef PUTFUNC_DEF
+
+#define INT_PUTFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gint valuename = scm_num2int(value, 0, 0);\
+  return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
+}
+#define INT_GETFUNC_DEF(what, field)\
+static SCM scheme_##what##_directive_get_##field(SCM tag) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return scm_int2num(what##_directive_get_##field (tagname));\
+}
+
+
+#define INT_PUTGRAPHICFUNC_DEF(what)\
+static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
+  gchar *tagname = scm_to_locale_string(tag);\
+  gchar *valuename = scm_to_locale_string(value);\
+  return SCM_BOOL(what##_directive_put_graphic (tagname, valuename));\
+}
+
+INT_PUTGRAPHICFUNC_DEF(note);
+INT_PUTGRAPHICFUNC_DEF(chord);
+
+
+     //block to copy for new int field in directive
+INT_PUTFUNC_DEF(note, minpixels)
+INT_PUTFUNC_DEF(chord, minpixels)
+INT_GETFUNC_DEF(note, minpixels)
+INT_GETFUNC_DEF(chord, minpixels)
+     //end block to copy for new int field in directive
+
+INT_PUTFUNC_DEF(note, y)
+INT_PUTFUNC_DEF(chord, y)
+INT_GETFUNC_DEF(note, y)
+INT_GETFUNC_DEF(chord, y)
+INT_PUTFUNC_DEF(note, x)
+INT_PUTFUNC_DEF(chord, x)
+INT_GETFUNC_DEF(note, x)
+INT_GETFUNC_DEF(chord, x)
+
+INT_PUTFUNC_DEF(note, ty)
+INT_PUTFUNC_DEF(chord, ty)
+INT_GETFUNC_DEF(note, ty)
+INT_GETFUNC_DEF(chord, ty)
+INT_PUTFUNC_DEF(note, tx)
+INT_PUTFUNC_DEF(chord, tx)
+INT_GETFUNC_DEF(note, tx)
+INT_GETFUNC_DEF(chord, tx)
+
+INT_PUTFUNC_DEF(note, gy)
+INT_PUTFUNC_DEF(chord, gy)
+INT_GETFUNC_DEF(note, gy)
+INT_GETFUNC_DEF(chord, gy)
+INT_PUTFUNC_DEF(note, gx)
+INT_PUTFUNC_DEF(chord, gx)
+INT_GETFUNC_DEF(note, gx)
+INT_GETFUNC_DEF(chord, gx)
+
+
+
+
+#undef INT_PUTFUNC_DEF
+#undef INT_GETFUNC_DEF
+#undef INT_PUTGRAPHICFUNC_DEF
+
 SCM scheme_get_midi(void) {
  gint midi;
  gboolean success = intercept_midi_event(&midi);
@@ -462,7 +566,7 @@ SCM scheme_put_midi (SCM scm) {
 }
 
 
-SCM scheme_play_midikey(SCM scm) {
+static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
     gint key =  (midi>>8)&0xFF;
     gint channel = midi&0xF;
@@ -473,7 +577,7 @@ SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
-SCM scheme_bass_figure(SCM bass, SCM harmony) {
+static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   gint bassnum = scm_num2int(bass, 0, 0);
   gint harmonynum = scm_num2int(harmony, 0, 0);
   gchar *interval = determine_interval(bassnum, harmonynum);
@@ -507,7 +611,7 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   *enshift = accs;
 }
 
-SCM scheme_put_note_name (SCM optional) {
+static SCM scheme_put_note_name (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -533,7 +637,7 @@ SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
-SCM scheme_get_type (SCM optional) {
+static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME(curObj)))
@@ -542,6 +646,9 @@ SCM scheme_get_type (SCM optional) {
     return  scm_makfrom0str("Appending");
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
+
+
+
 
 
 /* shifts the note at the cursor by the number of diatonic steps passed in */
@@ -763,6 +870,82 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+
+
+#define INSTALL_PUT(what, field)\
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
+
+#define INSTALL_GET(what, field)\
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
+  INSTALL_PUT(note, display);
+  INSTALL_PUT(note, prefix);
+  INSTALL_PUT(note, postfix);
+
+  INSTALL_GET(note, display);
+  INSTALL_GET(note, prefix);
+  INSTALL_GET(note, postfix);
+
+  INSTALL_PUT(chord, display);
+  INSTALL_PUT(chord, prefix);
+  INSTALL_PUT(chord, postfix);
+
+  INSTALL_GET(chord, display);
+  INSTALL_GET(chord, prefix);
+  INSTALL_GET(chord, postfix);
+
+  //block to repeat for new int directive fields 
+  INSTALL_PUT(note, minpixels);
+  INSTALL_GET(note, minpixels);
+  INSTALL_PUT(chord, minpixels);
+  INSTALL_GET(chord, minpixels);
+  //end block to repeat for new int directive fields 
+  INSTALL_PUT(note, x);
+  INSTALL_GET(note, x);
+  INSTALL_PUT(chord, x);
+  INSTALL_GET(chord, x);
+  INSTALL_PUT(note, y);
+  INSTALL_GET(note, y);
+  INSTALL_PUT(chord, y);
+  INSTALL_GET(chord, y);
+
+  INSTALL_PUT(note, tx);
+  INSTALL_GET(note, tx);
+  INSTALL_PUT(chord, tx);
+  INSTALL_GET(chord, tx);
+  INSTALL_PUT(note, ty);
+  INSTALL_GET(note, ty);
+  INSTALL_PUT(chord, ty);
+  INSTALL_GET(chord, ty);
+
+
+
+  INSTALL_PUT(note, gx);
+  INSTALL_GET(note, gx);
+  INSTALL_PUT(chord, gx);
+  INSTALL_GET(chord, gx);
+  INSTALL_PUT(note, gy);
+  INSTALL_GET(note, gy);
+  INSTALL_PUT(chord, gy);
+  INSTALL_GET(chord, gy);
+
+
+#undef INSTALL_PUT
+#undef INSTALL_GET
+
+
+#define INSTALL_PUT_GRAPHIC(what)\
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePutGraphic" "-" #what, scheme_##what##_directive_put_graphic);
+  INSTALL_PUT_GRAPHIC(chord);
+  INSTALL_PUT_GRAPHIC(note);
+
+#undef INSTALL_PUT_GRAPHIC
+
+  /* test with (display (d-DirectivePut-note-display "LHfinger" "test")) after attaching a LH finger directive */
+  /* test with (display (d-DirectivePut-note-minpixels "LHfinger" 80)) after attaching a LH finger directive */
+  /* test with (display (d-DirectiveGet-note-minpixels "LHfinger")) after attaching a LH finger directive */
+
+  /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
+
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
@@ -1867,6 +2050,78 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   else
     warningdialog("No script to save");
 }
+
+static const gchar *
+locatebitmapsdir(void) {
+  static gchar *bitmapsdir = NULL;
+  gboolean err;
+  if (!bitmapsdir)
+    {
+      bitmapsdir = g_build_filename (locatedotdenemo(), "actions", "bitmaps", NULL);
+    }
+  err = g_mkdir_with_parents(bitmapsdir, 0770);
+  if(err) {
+    warningdialog("Could not create .denemo/actions/bitmaps for your graphics for customized commands");
+    g_free(bitmapsdir);
+    bitmapsdir = g_strdup("");
+  }
+  return bitmapsdir;
+}
+gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+  gchar *filename = g_build_filename (locatebitmapsdir (), name,
+				      NULL);
+
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename (get_data_dir (), "actions", "bitmaps", name,
+				      NULL);
+  }
+    
+  FILE *fp = fopen(filename,"rb");
+  if(fp) {
+    guchar w, h;
+    fread(&w, 1, 1, fp);
+    fread(&h, 1, 1, fp);
+
+    gint numbytes = h*((w+7)/8)*8;
+    gchar *data = g_malloc(numbytes);    
+    //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
+    if(numbytes == fread(data, 1, numbytes, fp)){
+      *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
+      *width = w; *height = h;
+      fclose(fp);
+      return TRUE;
+    }
+    fclose(fp);  
+  } else {
+
+    warningdialog("Could not load graphic");
+  }
+  return FALSE;
+}
+
+/* save the current graphic
+*/
+static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
+  gchar *name = (gchar *)gtk_action_get_name(action);
+  gchar *filename = g_build_filename (locatebitmapsdir (),  name,
+				      NULL);
+  //FIXME allow fileselector here to change the name
+  guchar width = Denemo.gui->pointx-Denemo.gui->markx;
+  guchar height = Denemo.gui->pointy-Denemo.gui->marky;
+  FILE *fp = fopen(filename,"wb");
+  if(fp) {
+    fwrite(&width, 1, 1, fp);
+    fwrite(&height, 1, 1, fp);
+    gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
+    //g_print("Wrote %d bytes for %d x %d\n", size, width, height);
+    fclose(fp);
+  }
+  else
+    warningdialog("Could not write file");
+  g_free(filename);
+}
+
 /*
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
@@ -1963,6 +2218,13 @@ static gboolean menu_click (GtkWidget      *widget,
     item = gtk_menu_item_new_with_label("Save Script");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
+    if(Denemo.gui->graphic) {
+      item = gtk_menu_item_new_with_label("Save Graphic");
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
+    }
+
+
   }
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
@@ -2114,6 +2376,11 @@ static void dummy(void) {
   call_out_to_guile("(denemoy \"/MainMenu/ModeMenu/Rest\")\n");
 #endif
   play_pitch(440.0, 1.0);
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
   return;
 }
 
@@ -2445,8 +2712,36 @@ toggle_action_menu (GtkAction * action, DenemoGUI * gui)
     }
 }
 
-
-
+/**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+void
+toggle_print_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
+  return;
+}
+/**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+void
+toggle_score_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->scorearea));
+  if(GTK_WIDGET_VISIBLE(w))
+    gtk_widget_hide(w);
+  else
+    gtk_widget_show(w);
+  return;
+}
 /**
  *  Function to toggle whether object menubar is visible 
  *  
@@ -2498,6 +2793,13 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {ToggleArticulationPalette_STRING, NULL, N_("_Articulation Palette"), NULL, NULL,
    G_CALLBACK (toggle_articulation_palette), FALSE},
+
+  {TogglePrintView_STRING, NULL, N_("Print View"), NULL, NULL,
+   G_CALLBACK (toggle_print_view), FALSE},
+  {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
+   G_CALLBACK (toggle_score_view), TRUE},
+
+
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
    G_CALLBACK (toggle_quick_edits), FALSE},
   {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
@@ -3062,7 +3364,7 @@ newview (GtkAction *action, gpointer param)
   Denemo.gui = NULL;
   // Denemo.gui = gui; must do this after switching to page, so after creating page
   gui->lilycontrol.papersize = g_string_new ("a4");	//A4 default
-  gui->lilycontrol.fontsize = 16;
+  gui->lilycontrol.staffsize = g_string_new("18");
   gui->lilycontrol.lilyversion = g_string_new (LILYPOND_VERSION);
   gui->lilycontrol.orientation = TRUE;	//portrait
   gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");
@@ -3073,15 +3375,19 @@ newview (GtkAction *action, gpointer param)
   /* Initialize the GUI */
 
   //create the tab for this gui
+  GtkWidget *top_vbox = gtk_vbox_new (FALSE, 1);
+  
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
-
-  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), main_vbox, NULL);
+  gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
+		      0);
+  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
   gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
 Denemo.gui = gui;
  if(pagenum)
    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);
+  gtk_widget_show (top_vbox);
   gtk_widget_show (main_vbox);
   GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
@@ -3093,7 +3399,7 @@ Denemo.gui = gui;
 
 
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,
-		      TRUE, 0);// with this, the scoreare_expose_event is called
+		      TRUE, 0);// with this, the scorearea_expose_event is called
   gtk_widget_show (gui->scorearea);
 
   gui->vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
@@ -3110,13 +3416,20 @@ Denemo.gui = gui;
 		      GTK_SIGNAL_FUNC (horizontal_scroll), gui);
   gui->hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (gui->hadjustment));
   gtk_box_pack_start (GTK_BOX (main_vbox), gui->hscrollbar, FALSE, TRUE, 0);
+
+
+
   gtk_widget_show (gui->hscrollbar);
 
+#if 0
   GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_widget_show (hbox);
+#endif
 
 
+  install_printpreview(gui, top_vbox);
+ 
   //FIXME populate_opened_recent (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea

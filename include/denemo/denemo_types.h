@@ -331,6 +331,25 @@ typedef struct DenemoPrefs
   gint resolution; /**< Resolution of exported selection in dpi */
 }DenemoPrefs;
 
+/* DenemoDirectives are attached to chords and to the individual notes of a chord. They attach LilyPond and MIDI directivees that add to the note information & describe how to display themselves in the Denemo display */
+typedef struct DenemoDirective
+{
+  GString *tag; /**< tag identifying the owner of this directive, usually the denemo command that created it */
+  GString *prefix; /**< LilyPond text to be inserted before the chord */
+  GString *postfix;/**< LilyPond text to be inserted after the chord */
+  GString *display; /**< some text to display to describe the LilyPond attached to the chord */
+  gint tx,ty; /**< x and y offsets in pixels for the display text */
+  gint minpixels;/**< horizontal space needed by the display */
+  gint x, y; /**< x and y offsets passed to LilyPond to control printed position */
+  GdkBitmap *graphic; /**< bitmap to draw for this directive */
+  gint gx, gy; /**< x and y offsets in pixels for the graphic */
+  GString *graphic_name; /**< name of the graphic to be drawn */
+  gint width, height; /**< width and height of the bitmap */
+
+  gboolean locked;/**< If true the directive cannot be deleted easily */
+  /* MIDI attributes not done yet */
+} DenemoDirective;
+
 /**
  * Contains the lilypond header information for the movements, plus markup between movements.
  *
@@ -449,7 +468,7 @@ typedef struct Bookmark
 typedef struct DenemoLilyControl
 {
   GString *papersize;
-  gint fontsize;
+  GString *staffsize;
   GString *lilyversion;
   gboolean orientation;
   gboolean excerpt;
@@ -589,6 +608,14 @@ typedef struct DenemoGUI
   GtkObject *hadjustment;
   GtkWidget *hscrollbar;
 
+  GtkWidget *printarea;/**< area holding a print preview */
+  GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
+  GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
+  GdkPixbuf *pixbuf;/**< print preview pixbuf */
+
+  gint markx, marky, pointx, pointy;/**< a selected area in the printarea */
+  GdkBitmap *graphic; /**< bitmap representation of the selection from the printarea */
+  gchar *xbm; /**< xbm representation of graphic bitmap (height and width from the mark & point values */
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   GtkTextView *textview; /**< LilyPond output text view */

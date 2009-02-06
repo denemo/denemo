@@ -57,11 +57,7 @@ typedef struct note
   gint y; /**< Holds y co-ordinate for drawing rather than recalculating it each
   		   run through the drawing loop. see calculateheight  */
   enum headtype noteheadtype; /**< Holds note head type.  */
-  gint x_off;  /**< Holds x offset from default position.  */
-  gint y_off; /**< Holds y offset from default position.  */
-  GString *prefix;  /**< LilyPond text to be inserted before the note */
-  GString *postfix; /**< LilyPond text to be inserted after the note */
-  GString *display; /**< something to display to describe the LilyPond attached to the note */
+  GList *directives;/**< list of DenemoDirective to apply to the note */
 }
 note;
 
@@ -102,6 +98,8 @@ typedef enum ornament {
   D_ARPEGGIO
 }Ornament;
  
+
+
 
 /**
  * Structure describing a chord
@@ -164,9 +162,9 @@ typedef struct chord
   gboolean is_fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord_extension; /**< This is the extension to the fake chord. It may be a 7, sus4, 9, 11, 13 etc... */
-  GString *prefix; /**< LilyPond text to be inserted before the chord */
-  GString *postfix;/**< LilyPond text to be inserted after the chord */
-  GString *display; /**< something to display to describe the LilyPond attached to the chord */
+  
+  GList *directives;/**< list of DenemoDirective to apply to the chord */
+
 }
 chord;
 
@@ -272,22 +270,23 @@ typedef struct lyric
 }lyric;
 
 
-/* Data structure for an arbitrary directive to be passed to
- * Lilypond that Denemo doesn't understand. This type is useful
- * in that the user can insert such directives into a LilyPond file
- * by hand and have Denemo respect them when it loads a file and
- * write them back when it saves it */
+/* A standalone DenemoDirective. lilydirective is an obsolete name */
 
-typedef struct lilydirective
+#define lilydirective DenemoDirective
+#if 0
+typedef struct lilydirective DenemoDirective;
+
 {
   GString *directive;/**< the LilyPond text */
   gboolean locked;/**< If true the directive cannot be deleted easily */
   GString *display;/**< Something for Denemo to display (to indicate what the directive is doing*/
   gint x;/**< horizontal offset of display text */
   gint y;/**< vertical offset of display text */
+  GdkBitmap *graphic; /**< bitmap to draw for this directive */
+  gint width, height; /**< width and height of the bitmap */
 }
 lilydirective;
-
+#endif
 
 /**
  * Enum defining stem direction values

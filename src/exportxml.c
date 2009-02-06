@@ -511,7 +511,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   GString *filename = g_string_new (thefilename);
   xmlDocPtr doc;
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
-  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem;
+  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem, directivesElem, directiveElem;
   xmlNodePtr curElem, parentElem;
   xmlNsPtr ns;
   staffnode *curStaff;
@@ -568,7 +568,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   NEWCHILD(papersize);
   NEWCHILD(lilyversion);
   NEWCHILD(lilypond);
-  newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  gui->lilycontrol.fontsize);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  atoi(gui->lilycontrol.staffsize->str));
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation",  gui->lilycontrol.orientation);
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
@@ -838,16 +838,42 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    newXMLIntChild (parentElem, ns, (xmlChar *) "dots",
 				    ((chord *) curObj->object)->numdots);
 
-		  /* Output the LilyPond */
-#define DO(field)  if (((chord *) curObj->object)->field \
-                   && ((chord *) curObj->object)->field->len)\
-                      xmlNewChild (objElem, ns, (xmlChar *) #field,\
-				     (xmlChar *) ((chord *) curObj->object)->\
-				     field->str);
-		  DO(prefix);
-		  DO(postfix);
-		  DO(display);
-#undef DO		  
+		  /* Output the DenemoDirectives on the chord */
+		  if(((chord *) curObj->object)->directives) {
+		    directivesElem =  xmlNewChild (objElem, ns, (xmlChar *) "directives", NULL);
+		    GList *g = ((chord *) curObj->object)->directives;
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
+#define DO_DIREC(field)  if (directive->field \
+                   && directive->field->len)\
+                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) directive->field->str);
+#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+				             directive->field);
+
+		      DO_DIREC(tag);
+		      DO_DIREC(prefix);
+		      DO_DIREC(postfix);
+		      DO_DIREC(display);
+		      DO_DIREC(graphic_name);
+
+		      DO_INTDIREC(minpixels);
+		      DO_INTDIREC(x);
+		      DO_INTDIREC(y);
+		      DO_INTDIREC(tx);
+		      DO_INTDIREC(ty);
+		      DO_INTDIREC(gx);
+		      DO_INTDIREC(gy);
+
+
+
+
+#undef DO_DIREC
+#undef DO_INTDIREC
+		    }
+		  }
+  
 		  if(((chord *) curObj->object)->chordize)
 		    newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
 
@@ -1180,21 +1206,43 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      newXMLNoteHead (curElem, ns,
 					      curNote->noteheadtype);
 			    }
-			  if(curNote->postfix && curNote->postfix->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "postfix",
-					  (xmlChar *)curNote->postfix->str);
-                          if(curNote->prefix && curNote->prefix->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "prefix",
-					  (xmlChar *)curNote->prefix->str);
-                          if(curNote->display && curNote->display->len)
-			     xmlNewChild (curElem, ns,
-					  (xmlChar *) "display",
-					  (xmlChar *)curNote->display->str);
-			}
-		    }
 
+			  if(curNote->directives) {
+			    directivesElem =  xmlNewChild (curElem, ns, (xmlChar *) "directives", NULL);
+			    GList *g = curNote->directives;
+			    for(;g;g=g->next) {
+			      DenemoDirective *directive = (DenemoDirective *)g->data;
+			      directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);	
+#define DO_DIREC(field)  if (directive->field\
+                   && directive->field->len)\
+                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) directive->field->str);
+
+#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+				             directive->field);
+
+			      DO_DIREC(tag);
+			      DO_DIREC(prefix);
+			      DO_DIREC(postfix);
+			      DO_DIREC(display);
+			      DO_DIREC(graphic_name);
+
+			      DO_INTDIREC(minpixels);
+			      DO_INTDIREC(x);
+			      DO_INTDIREC(y);
+			      DO_INTDIREC(tx);
+			      DO_INTDIREC(ty);
+			      DO_INTDIREC(gx);
+			      DO_INTDIREC(gy);
+
+
+#undef DO_DIREC
+#undef DO_INTDIREC
+			    }
+			  }
+
+			}
+		      }
 		  /* If this is the end of a beam, output a <beam-end>. */
 
 		  if (curObj->isend_beamgroup && !curObj->isstart_beamgroup)
@@ -1346,7 +1394,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  objElem =
 			xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
 				     (xmlChar *) ((lilydirective *) curObj->object)->
-				     directive->str);
+				     postfix->str);
 		  xmlSetProp (objElem, (xmlChar *) "locked",
 			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
 		  if(((lilydirective *) curObj->object)->display && ((lilydirective *) curObj->object)->display->len) {
@@ -1411,4 +1459,4 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   sNextXMLID = 0;
 
   g_string_free (filename, TRUE);
-}
+  }

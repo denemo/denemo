@@ -138,7 +138,7 @@ void *chord2lilyduration(struct chord *chordobject, GString *ret);
 void *chord2lilynumdots(struct chord *chordobject, GString *ret);	
 
 #define UTILS_H_PARAM_ASSIGN(param_name) if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
-param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
+nothing=FALSE,param_name = (*(str+strlen(#param_name))=='=')?str+strlen(#param_name)+1:NULL;
 
 #define GET_1PARAM(action, param, param_name) \
 gchar * query = NULL;\
@@ -149,6 +149,7 @@ gchar * param_name = NULL;\
     param = &dummy;\
   param->status = FALSE;\
 if(!action && param){\
+    gboolean nothing=TRUE;\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
       gchar *str;\
@@ -172,6 +173,7 @@ gchar * param_name2 = NULL;\
     param = &dummy;\
   param->status = FALSE;\
 if(!action && param){\
+    gboolean nothing=TRUE;\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
@@ -182,7 +184,7 @@ if(!action && param){\
           UTILS_H_PARAM_ASSIGN(param_name2)\
        }\
      }\
-     if(param_name1==NULL)\
+     if(nothing)\
       param_name1=values?values->str:NULL;\
 }
 #define GET_3PARAMS(action, param, param_name1, param_name2, param_name3) \
@@ -196,6 +198,7 @@ gchar * param_name3 = NULL;\
     param = &dummy;\
   param->status = FALSE;\
 if(!action && param){\
+    gboolean nothing=TRUE;\
     GString *values = ((DenemoScriptParam *)param)->string;\
     if(values) {\
      gchar *str;\
@@ -207,7 +210,7 @@ if(!action && param){\
           UTILS_H_PARAM_ASSIGN(param_name3)\
        }\
      }\
-     if(param_name1==NULL)\
+     if(nothing)\
       param_name1=values?values->str:NULL;\
 }
 #define GET_4PARAMS(action, param, param_name1, param_name2, param_name3, param_name4) \
@@ -223,6 +226,7 @@ gchar * param_name4 = NULL;\
   param->status = FALSE;\
 if(!action && param){\
     GString *values = ((DenemoScriptParam *)param)->string;\
+    gboolean nothing=TRUE;\
     if(values) {\
      gchar *str;\
      gint i;\
@@ -234,7 +238,7 @@ if(!action && param){\
           UTILS_H_PARAM_ASSIGN(param_name4)\
        }\
      }\
-     if(param_name1==NULL)\
+     if(nothing)\
       param_name1=values?values->str:NULL;\
 }
 

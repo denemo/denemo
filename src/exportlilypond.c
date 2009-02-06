@@ -689,7 +689,8 @@ insert_editable (GString **pdirective, gchar *original, GtkTextIter *iter, gchar
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
   gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
   g_object_set_data(G_OBJECT(lilyanc), "end", (gpointer)endanc);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
+  if((*pdirective)==NULL || (*pdirective)->len==0)
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, HIGHLIGHT, invisibility, NULL);
 }
 
 static gint
@@ -740,8 +741,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
   GString *dynamic_string = NULL;
 
   if(curobj->type==LILYDIRECTIVE){
-    open_braces += brace_count( ((lilydirective *) curobj->object)->directive->str);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->directive->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
+    open_braces += brace_count( ((lilydirective *) curobj->object)->postfix->str);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->postfix->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
     GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
     GtkTextIter back;
     back = *iter;
@@ -749,7 +750,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
     g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);
-    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->directive);
+    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->postfix);
     gui->anchors = g_list_prepend(gui->anchors, objanc);
     prevduration = -1;
     prevnumdots = -1;// the LILYDIRECTIVE may have changed the duration
@@ -765,10 +766,15 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
-	if(pchord->prefix && pchord->prefix->len) {
-	  open_braces += brace_count(pchord->prefix->str); 
-	  insert_editable(&pchord->prefix, pchord->prefix->str, iter, invisibility, gui);
-	}	    
+	GList *g = pchord->directives;
+	for(;g;g=g->next) {
+	  DenemoDirective *directive = (DenemoDirective *)g->data;
+	  if(directive->prefix && directive->prefix->len) {
+	    open_braces += brace_count(directive->prefix->str); 
+	    insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
+	  }
+	}
+	    
 	if (!pchord->notes)
 	  {			/* A rest */
 	    if (!curobj->isinvisible)
@@ -813,8 +819,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  {
 		    note *curnote = (note *) notenode->data;
 		    noteheadtype = curnote->noteheadtype;
-		    if(curnote->prefix ) {
-		      insert_editable(&curnote->prefix, curnote->prefix->len?curnote->prefix->str:" ", iter, invisibility, gui);
+		    GList *g = curnote->directives;
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      if(directive->prefix ) {
+			insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
+		      }
 		    }
 		    switch (noteheadtype)
 		      {
@@ -870,12 +880,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 
 		    outputret;
-		    if(curnote->postfix ) {
-		      insert_editable(&curnote->postfix, curnote->postfix->len?curnote->postfix->str:" ", iter, invisibility, gui);
-		    }
-		    else
+		    g = curnote->directives;
+		    if (!g && notenode->next)
+		      output(" ");
+		    for(;g;g=g->next) {
+		      DenemoDirective *directive = (DenemoDirective *)g->data;
+		      if(directive->postfix ) {
+			insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
+		      }	else
 		      if (notenode->next)
 			output(" ");
+		   
+		    }
 		  }		/* End notes in chord loop */
 
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
@@ -988,11 +1004,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, " ~");
 
 	    outputret;
-	    if(pchord->postfix && pchord->postfix->len) {
-	      open_braces += brace_count(pchord->postfix->str);
-	      insert_editable(&pchord->postfix, pchord->postfix->str, iter, invisibility, gui);
+	    
+
+	    GList *g = pchord->directives;
+	    for(;g;g=g->next) {
+	      DenemoDirective *directive = (DenemoDirective *)g->data;
+	      if(directive->postfix && directive->postfix->len) {
+		open_braces += brace_count(directive->postfix->str);
+		insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+	      }
 	    }
-	      
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
 	break;
@@ -1207,15 +1228,6 @@ outputHeader (GString *str, DenemoGUI * gui)
     g_string_append_printf (str, "\\paper {printallheaders = ##t}\n");
 
 
-
-  g_string_append_printf (str, "#(set-global-staff-size %d)\n", gui->lilycontrol.fontsize);
-  g_string_append_printf (str, "#(set-default-paper-size \"%s\")\n",
-			  gui->lilycontrol.papersize->str);
-  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
-    g_string_append_printf (str, "\n\\header{\n");
-    g_string_append_printf(str, TAB"tagline = \"%s\"\n", ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str);
-    g_string_append_printf(str,"}\n");
-  }
 }
 
 /**
@@ -1373,7 +1385,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
 	    empty_measure=FALSE; 
 	  if( (curobj->type==LILYDIRECTIVE) &&
-	      (((lilydirective *) curobj->object)->directive->len==0))
+	      (((lilydirective *) curobj->object)->postfix->len==0))
 	    continue;
 	  //put in an invisible ineditable anchor to mark the start of the object
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
@@ -1792,11 +1804,28 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
  
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
+  // containing the fixed stuff. for example:
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
+  insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
+  
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
+  insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
+  
+  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
+    insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
+  }
+  
 
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
-
+  
 
 
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));

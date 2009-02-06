@@ -669,9 +669,10 @@ showwhichaccidentals (objnode * theobjs, gint initialnum, gint * initialaccs)
 		/* A new accidental not present in the original chord */
 		thetone->showaccidental =
 		  ((chord *) theobj->object)->hasanacc = TRUE;
-	      else if (thetone->postfix && (*thetone->postfix->str=='!'|| *thetone->postfix->str=='?'))
-		thetone->showaccidental =
-		  ((chord *) theobj->object)->hasanacc = TRUE;
+	      // FIXME - you should use a script to apply these directives & set hasnacc with that.
+	      else if (thetone->directives && ((DenemoDirective*)thetone->directives->data)->postfix && (* ((DenemoDirective*)thetone->directives->data)    ->postfix->str=='!'|| *  ((DenemoDirective*)thetone->directives->data)    ->postfix->str=='?'))
+	     	thetone->showaccidental =
+	     	  ((chord *) theobj->object)->hasanacc = TRUE;
 	      else
 		thetone->showaccidental = FALSE;
 	    }			/* End second loop through chord */

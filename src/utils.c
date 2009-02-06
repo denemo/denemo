@@ -193,30 +193,37 @@ setpixelmin (DenemoObject * theobj)
       chordval = *(chord *) theobj->object;
       baseduration = chordval.baseduration;
       headtype = MIN (baseduration, 2);
+      gint directive_pixels = 0;// the largest amount of extra space asked for by any directive
+      GList *g = chordval.directives;
+      for(;g;g=g->next)
+	directive_pixels =  MAX(directive_pixels, ((DenemoDirective*)g->data)->minpixels);
       if (chordval.notes)
 	{
-	  /* if (theobj->isstart_beamgroup && theobj->isend_beamgroup &&
-	     chordval.is_stemup)
-	     theobj->minpixelsalloted = headwidths[headtype] + STEM_WIDTH;
-	     else
-	     theobj->minpixelsalloted = headwidths[headtype];  */
-	  /* We can get away with that because the stems are narrower
-	   * than even the narrowest notes; upstemmed notes are
-	   * the unusual case here */
-
-	  /* The above code will allow extra space for the stem of
-	   * stemup notes. It's commented out 'cause we no longer want
-	   * that behavior */
 	  theobj->minpixelsalloted = headwidths[headtype];
+	  //search through notes and their attached directives, find max display space requested
+	  //use this below
+	  
+	  g=chordval.notes;
+	  for(;g;g=g->next) {
+	    GList *h = ((note *)g->data)->directives;
+	  for(;h;h=h->next)
+	    directive_pixels = MAX(directive_pixels, ((DenemoDirective*)h->data)->minpixels);
+	  }
 	}
       else			/* a rest */
 	theobj->minpixelsalloted = restwidths[baseduration];
+
+      // Allow extra space specified by attached LilyPond directives - example:     
+      theobj->minpixelsalloted += directive_pixels;
+
+
 
       /* 12 pixels for the first dot, 6 for each dot thereafter */
       if (chordval.numdots)
 	theobj->minpixelsalloted += 6;
       for (i = 0; i < chordval.numdots; i++)
 	theobj->minpixelsalloted += 6;
+
       theobj->space_before = 0;
       if (chordval.hasanacc)
 	for (tnode = chordval.notes; tnode; tnode = tnode->next)
@@ -415,12 +422,12 @@ void *chord2lilyduration(struct chord *chordobject, GString *ret){
 
 void *chord2lilybaseduration(struct chord *chordobject, GString *ret){
   int baseduration = chordobject->baseduration;
-  g_string_append_printf (ret, baseduration);
+  g_string_append_printf (ret,  "%d", baseduration);
 }
 
 void *chord2lilynumdots(struct chord *chordobject, GString *ret){
   int numdots = chordobject->numdots;
-  g_string_append_printf (ret, numdots);
+  g_string_append_printf (ret, "%d",numdots);
 }
 
 /**
@@ -761,10 +768,14 @@ void write_status(DenemoGUI *gui) {
 	GList *g;
 	for(g= thechord->notes;g;g=g->next) {
 	  note *thenote = (note *) g->data;
-	  if(thenote->postfix || thenote->prefix) {
-	    gchar *old = selection;
-	    selection = g_strdup_printf("%.50s (%s) %.50s",thenote->prefix?thenote->prefix->str:"",selection,  thenote->postfix? thenote->postfix->str:"");
-	    g_free(old);
+	  GList *h;
+	  for(h=thenote->directives;h;h=h->next) {
+	    DenemoDirective *directive= (DenemoDirective *)h->data;
+	    if(directive->postfix || directive->prefix) {
+	      gchar *old = selection;
+	      selection = g_strdup_printf("%.50s (%s) %.50s",directive->prefix?directive->prefix->str:"",selection, directive->postfix? directive->postfix->str:"");
+	      g_free(old);
+	    }
 	  }
 	}
       }
@@ -819,7 +830,7 @@ void write_status(DenemoGUI *gui) {
       break;
 
     case LILYDIRECTIVE:
-      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
+      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->postfix)->str);
       break;
     case FAKECHORD:
       selection = g_strdup_printf("Fakechord"   );

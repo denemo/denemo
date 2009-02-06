@@ -4584,7 +4584,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
          param.status = FALSE;
          
-lily_directive_insert (NULL, &param);
+standalone_directive (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
@@ -4601,7 +4601,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
          param.status = FALSE;
          
-lily_directive_attach_note (NULL, &param);
+note_directive (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
@@ -4618,7 +4618,7 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.string = gstr;
          param.status = FALSE;
          
-lily_directive_attach_chord (NULL, &param);
+chord_directive (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

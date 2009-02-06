@@ -460,13 +460,30 @@ changenumdots (DenemoObject * thechord, gint number)
   set_basic_numticks (thechord);
 }
 
+
+static void
+free_directives(GList *directives) {
+  for(;directives;directives=directives->next) {
+    DenemoDirective *directive = directives->data;
+#define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
+    DFREE(tag);
+    DFREE(display);
+    DFREE(prefix);
+    DFREE(postfix);
+   
+#undef FREE
+    if(directive->graphic)
+      g_object_unref(directive->graphic);
+    if(directive->graphic_name)
+      g_string_free(directive->graphic_name, TRUE);
+  } 
+}
 static void 
 freenote(note *thenote) {
-#define FREE(field) if(thenote->field) g_string_free(thenote->field, TRUE);
-  FREE(display);
-  FREE(prefix);
-  FREE(postfix);
-#undef FREE
+  if(thenote->directives) {
+    free_directives(thenote->directives);
+    g_list_free(thenote->directives);
+  }
   g_free(thenote);
 }
 
@@ -486,14 +503,15 @@ freechord (DenemoObject * thechord)
   /* tone_node does not belong to the chord but belongs instead to the pitch recognition system */
   if(((chord *) thechord->object)->is_figure && ((chord *) thechord->object)->figure)
     g_string_free(((chord *) thechord->object)->figure, FALSE);//FIXME memory leak???? 
-#define FREE(field) if(((chord *) thechord->object)->field)\
-         g_string_free(((chord *) thechord->object)->field, TRUE);
-  FREE(display);
-  FREE(prefix);
-  FREE(postfix);
-#undef FREE
-  g_free (thechord);//FIXME free thechord->object
+
+  if(((chord *) thechord->object)->directives) {
+    free_directives(((chord *) thechord->object)->directives);
+    g_list_free(((chord *) thechord->object)->directives);
+  }
+  g_free (thechord);
 }
+
+
 
 /**
  * Clone the current chord
@@ -512,38 +530,25 @@ clone_chord (DenemoObject * thechord)
   memcpy ((DenemoObject *) ret, (DenemoObject *) thechord,
 	  sizeof (DenemoObject));
 
-  ret->object = NULL;
-
-  /* This has to be done as the object union has been removed.
-   * A gpointer doesn't know the type it is so have to explictly 
-   * copy the object */
+  ret->object = NULL;//currently the only pointer in DenemoObject
 
   memcpy ((chord *) clonedchord, curchord, sizeof (chord));
-
-#if 0
-  //this would have to clone the list to work, else both notes share the same list and deleting one should
-  // leave the other dangling.
-  if (!((chord *) thechord->object)->dynamics)
-    clonedchord->dynamics = NULL;
-  else
-    clonedchord->dynamics = ((chord *) thechord->object)->dynamics;
-#else
+  clonedchord->directives = NULL;
   clonedchord->dynamics = NULL;
-#endif
   clonedchord->ornamentlist = NULL;
   clonedchord->tone_node = NULL;
   clonedchord->figure = NULL;
   clonedchord->is_figure = FALSE;
   clonedchord->lyric = NULL;
 
-#define CLONE(field) \
-      if(curchord->field && curchord->field->len)\
-        clonedchord->field = g_string_new(curchord->field->str);
-      CLONE(prefix);
-      CLONE(postfix);
-      CLONE(display);
-#undef CLONE
-
+  GList *g = curchord->directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive)
+      clonedchord->directives = g_list_append(clonedchord->directives, clone_directive(directive));
+    else
+      g_warning("A Chord Directive list with NULL directive");
+  }
   clonedchord->notes = NULL;
   for (curtone = ((chord *) thechord->object)->notes;
        curtone; curtone = curtone->next)
@@ -551,13 +556,14 @@ clone_chord (DenemoObject * thechord)
       newnote = (note *) g_malloc0 (sizeof (note));
       note *curnote = (note *) curtone->data;
       memcpy (newnote, curnote, sizeof (note));
-#define CLONE(field) \
-      if(curnote->field && curnote->field->len)\
-        newnote->field = g_string_new(curnote->field->str);
-      CLONE(prefix);
-      CLONE(postfix);
-      CLONE(display);
-#undef CLONE
+      newnote->directives=NULL;
+      for(g=curnote->directives;g;g=g->next) {
+	DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive)
+	newnote->directives = g_list_append(newnote->directives, clone_directive(directive));
+    else
+      g_warning("A Note Directive list with NULL directive");
+      }      
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
   ret->object = (chord *) clonedchord;

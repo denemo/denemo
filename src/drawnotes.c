@@ -234,18 +234,46 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
 	       y + height, numdots);
 
   /* any display for attached LilyPond */
-  if(thenote->display){
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-    PangoLayout *layout = pango_layout_new (context);
-    PangoFontDescription *desc = pango_font_description_from_string (FONT);
-        pango_layout_set_text (layout,
-			   thenote->display->str,
-			   -1);
-    pango_layout_set_font_description (layout, desc);
-    gdk_draw_layout (pixmap, gc, xx, y+STAFF_HEIGHT+20, layout);
-  }
+ { GList *g = thenote->directives;
+ GString *gstr=g_string_new("");
+ gint count=10;
+  for(;g;g=g->next, count+=10) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive->graphic) {
+      gint width, height;
+      gdk_drawable_get_size(directive->graphic, &width, &height);
+      drawbitmapinverse (pixmap, gc, directive->graphic,
+			 xx+directive->gx+count,  y+thenote->y+directive->gy/*thechord.highesty*/, width, height);
 
+    }
+    if(directive->display) {
+      //      g_string_append(gstr, directive->display->str);
+      PangoContext *context =
+	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+      PangoLayout *layout = pango_layout_new (context);
+      PangoFontDescription *desc = pango_font_description_from_string (FONT);
+      pango_layout_set_text (layout,
+			     directive->display->str,
+			     -1);
+      pango_layout_set_font_description (layout, desc);
+      gdk_draw_layout (pixmap, gc, xx+directive->tx+count, y+thenote->y+directive->ty, layout);
+    }
+  }
+#if 0
+  if(gstr->len) {
+      PangoContext *context =
+	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+      PangoLayout *layout = pango_layout_new (context);
+      PangoFontDescription *desc = pango_font_description_from_string (FONT);
+      pango_layout_set_text (layout,
+			     gstr->str,
+			     -1);
+      pango_layout_set_font_description (layout, desc);
+      gdk_draw_layout (pixmap, gc, xx+20, y+thenote->y, layout);
+      g_string_free(gstr, TRUE);
+  }
+#endif
+ }
 }
 
 /**
@@ -522,20 +550,36 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       draw_ledgers (pixmap, gc, thechord.highesty, thechord.lowesty, xx, y,
 		    headwidths[noteheadtype]);
 
+      /* PLAN: here we will need to access the x,y, bitmap, width & height elements to display anything attached to the chord
+       *The GdkBitmap will be created by the user specifying a file that contains it. The things attached should be in lists with each tagged with a string, the name of the command that created it, so that they can be independently edited.
+       The same mechanism will apply to things attached to notes, and to standalone LilyPond directives.
+      */
 
-      if(thechord.display) {
-	PangoContext *context =
-	  gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-	PangoLayout *layout = pango_layout_new (context);
-	PangoFontDescription *desc = pango_font_description_from_string (FONT);
-        pango_layout_set_text (layout,
-			       thechord.display->str,
-			       -1);
-	pango_layout_set_font_description (layout, desc);
-	gdk_draw_layout (pixmap, gc, xx, y+STAFF_HEIGHT+40, layout);
-      }
+     { GList *g = thechord.directives;
+      gint count = 0;
+      for(;g;g=g->next) {
+	DenemoDirective *directive = (DenemoDirective *)g->data;
+	if(directive->graphic) {
+	  gint width, height;
+	  gdk_drawable_get_size(directive->graphic, &width, &height);
+	  drawbitmapinverse (pixmap, gc, directive->graphic,
+			     xx+directive->gx, thechord.highesty+directive->gy, width, height);
 
-      
+	}
+	if(directive->display) {
+	  PangoContext *context =
+	    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+	  PangoLayout *layout = pango_layout_new (context);
+	  PangoFontDescription *desc = pango_font_description_from_string (FONT);
+	  pango_layout_set_text (layout,
+				 directive->display->str,
+				 -1);
+	  pango_layout_set_font_description (layout, desc);
+	  gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
+	  count += 16;
+	}
+      } 
+     }
 	
 
     }				/* end else */

@@ -1,11 +1,14 @@
-/* print.cpp
+/* print.c
  * 
- * basic printing support for GNU Denemo
- * outputs to a dvi file
- *
+ * printing support for GNU Denemo
+ * outputs to a pdf or png file
+ * and displays in a print-preview drawing area
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2001-2005 Adam Tee
+ * (c) 2001-2005 Adam Tee, 2009 Richard Shann
  */
+#ifndef PRINT_H
+
+#define PRINT_H
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -25,7 +28,7 @@
 #include "prefops.h"
 #include "exportlilypond.h"
 #include "utils.h"
-
+static void load_png (DenemoGUI *gui);
 /*** 
  * make sure lilypond is in the path defined in the preferences
  */
@@ -177,22 +180,23 @@ open_viewer(gchar *filename, DenemoGUI *gui){
     g_free(printfile);
     return;
   }
-    
+  gchar *png[] = {
+    Denemo.prefs.imageviewer->str,
+    printfile,
+    NULL
+  };  
+  gchar *pdf[] = {
+    Denemo.prefs.pdfviewer->str,
+    printfile,
+    NULL
+  };
   if (gui->lilycontrol.excerpt == TRUE){
-  	  gchar *args[] = {
-	    Denemo.prefs.imageviewer->str,
-	    printfile,
-	    NULL
-	  };
-	  arguments = args;
+
+    arguments = png;
   }
   else {
-	  gchar *args[] = {
-	    Denemo.prefs.pdfviewer->str,
-	    printfile,
-	    NULL
-	  };
-	  arguments = args;  
+
+    arguments = pdf;  
   }
 
   GPid printpid;//ignored
@@ -260,6 +264,10 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		NULL, &err);
   
   process_lilypond_errors(lilyfile, gui, errors, output, err); 
+  if (gui->lilycontrol.excerpt){
+    load_png(gui);
+
+  }
 }
 
 /* Run the LilyPond interpreter on the file (filename).ly
@@ -369,7 +377,7 @@ printrangedialog(DenemoGUI * gui){
   to_measure =
   gtk_spin_button_new_with_range (1.0, (gdouble) max_measure, 1.0);
   gtk_box_pack_start (GTK_BOX (hbox), to_measure, TRUE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
+  //  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_measure, TRUE, TRUE, 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_measure),
 			     (gdouble) gui->si->lastmeasuremarked);
 
@@ -384,7 +392,7 @@ printrangedialog(DenemoGUI * gui){
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (from_measure));
       gui->si->lastmeasuremarked =
 	gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (to_measure));
-      gtk_widget_destroy (dialog);
+      //gtk_widget_destroy (dialog);
     }
   else 
     {
@@ -589,3 +597,250 @@ export_pdf_action (GtkAction *action, gpointer param)
   gtk_widget_destroy (file_selection);
 }
 
+
+
+#if 1
+// Displaying Print Preview
+
+static void draw_print(DenemoGUI *gui) {
+  gint x, y;
+  GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
+  x = (gint)adjust->value;
+  adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));
+  y = (gint)adjust->value;
+
+  gint width, height;
+  width = gdk_pixbuf_get_width( GDK_PIXBUF(gui->pixbuf)) - x;
+  height = gdk_pixbuf_get_height( GDK_PIXBUF(gui->pixbuf)) - y;
+
+  gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
+		  x,y,0,0,/* x, y in pixbuf, x,y in window */
+		  width,  height, GDK_RGB_DITHER_NONE,0,0);
+}
+
+
+
+static void load_png (DenemoGUI *gui) {
+  GError *error = NULL;
+  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint.png", NULL);
+  if(gui->pixbuf)
+    g_object_unref(gui->pixbuf);
+  gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
+ if(error != NULL)
+   {
+     g_warning (_("Could not load the print preview:\n%s\n"),
+                 error->message);
+     g_error_free (error);
+   } else {
+     gboolean ret;
+     //FIXME the parameters here are placed by trial and error - the docs indicate &ret should come at the end
+     //but an error message results.
+     g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, gui);
+   }
+}
+
+gint
+printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event, DenemoGUI *gui)
+{
+  if(gui->pixbuf==NULL)
+    return;
+  gint width, height;
+  gdk_drawable_get_size (gui->printarea->window, &width, &height);
+  GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));
+  vadjust->lower = vadjust->value = 0.0;
+  vadjust->upper = (gdouble)gdk_pixbuf_get_height(gui->pixbuf);
+  vadjust->page_size =  (gdouble)height;
+  
+  GtkAdjustment * hadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
+  hadjust->lower = hadjust->value = 0.0;
+  hadjust->upper = (gdouble)gdk_pixbuf_get_width(gui->pixbuf);
+  hadjust->page_size =  (gdouble)width;
+
+  gtk_adjustment_changed(vadjust);
+  gtk_adjustment_changed(hadjust);
+}
+
+static void
+printvertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+{
+  // g_print("vertical %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
+  gtk_widget_queue_draw (gui->printarea);
+}
+
+static void
+printhorizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+{
+  // g_print("horizontal %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
+gtk_widget_queue_draw (gui->printarea);
+}
+
+static gint
+printarea_expose_event (GtkWidget * widget, GdkEventExpose * event, DenemoGUI *gui)
+{
+  if(gui->pixbuf==NULL)
+    return;
+  draw_print(gui);
+}
+
+static const gchar *
+get_xbm (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy)
+{
+  int width, height, rowstride, n_channels;
+  guchar *pixels, *p;
+
+  n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+
+#ifdef DEBUG
+  g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
+  g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
+  g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
+  g_assert (n_channels == 4);
+#endif
+  width = hix - lox;
+  height = hiy - loy;      
+  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+  pixels = gdk_pixbuf_get_pixels (pixbuf);
+  int x, y, i;
+
+  unsigned char *chars = g_malloc0(sizeof(char) * width*height);//about 8 times too big!
+  unsigned char * this = chars;
+  for(i=0, y=loy;y<hiy;y++)
+    {
+      for(x=lox;x<hix;x++, i++) {
+	this = chars + (i/8);
+	gint set = ((pixels + y * rowstride + x * n_channels)[3]>0);
+	*this += set<<i%8;
+      }
+      i = ((i+7)/8)*8;
+    }
+  return chars;
+}
+
+
+
+
+//GdkBitmap *graphic = NULL; /* a selection from the print area */
+//gint markx, marky, pointx, pointy;/* a selected area in the printarea */
+
+
+gint
+printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
+{
+  if(Denemo.gui->pixbuf==NULL)
+    return;
+}
+gint
+printarea_button_press (GtkWidget * widget, GdkEventButton * event)
+{
+  gboolean left = (event->button != 3);
+  if(!left) {
+    load_png(Denemo.gui);
+    return;
+  }
+
+  if(Denemo.gui->pixbuf==NULL)
+    return;
+  Denemo.gui->markx=event->x;
+  Denemo.gui->marky=event->y;
+}
+gint
+printarea_button_release (GtkWidget * widget, GdkEventButton * event)
+{
+  gboolean left = (event->button != 3);
+  if(!left) {
+    return;
+  }
+
+  if(Denemo.gui->pixbuf==NULL)
+    return;
+  Denemo.gui->pointx=event->x;
+  Denemo.gui->pointy=event->y;
+  gint width, height;
+  if(Denemo.gui->pointx<Denemo.gui->markx) {
+    gint temp=Denemo.gui->pointx;
+    Denemo.gui->pointx=Denemo.gui->markx;
+    Denemo.gui->markx=temp;
+  }
+  if(Denemo.gui->pointy<Denemo.gui->marky) {
+    gint temp=Denemo.gui->pointy;
+    Denemo.gui->pointy=Denemo.gui->marky;
+    Denemo.gui->marky=temp;
+  }
+  width = Denemo.gui->pointx-Denemo.gui->markx;
+  height = Denemo.gui->pointy-Denemo.gui->marky;
+  if(width>255 || height >255) {
+    warningdialog("Too wide! clipping it to 255 max");
+    Denemo.gui->pointx = Denemo.gui->markx + 255;
+  }
+  if(height >255) {
+    warningdialog("Too high! clipping it to 255 max");
+    Denemo.gui->pointy = Denemo.gui->marky + 255;
+  }
+  GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
+  GError *error = NULL;
+
+ if(error != NULL)
+   {
+     g_warning (_("Could not save:\n%s\n"),
+                 error->message);
+     g_error_free (error);
+   }
+  const gchar *data =  get_xbm(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
+  Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
+  if(Denemo.gui->xbm)
+    g_free(Denemo.gui->xbm);
+  Denemo.gui->xbm = data;
+}
+
+void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox ){
+  GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
+		      0);
+  GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
+		      0);
+  gui->printarea = gtk_drawing_area_new ();
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->printarea, TRUE,
+		      TRUE, 0);
+  GtkAdjustment *printvadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  g_signal_connect (G_OBJECT (printvadjustment), "value_changed",
+		      G_CALLBACK (printvertical_scroll), gui);
+  gui->printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->printvscrollbar, FALSE,
+		      TRUE, 0);
+  GtkAdjustment *printhadjustment =  GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  g_signal_connect (G_OBJECT (printhadjustment), "value_changed",
+		      G_CALLBACK (printhorizontal_scroll), gui);
+  gui->printhscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (printhadjustment));
+  gtk_box_pack_start (GTK_BOX (main_vbox), gui->printhscrollbar, FALSE, TRUE, 0);
+
+  g_signal_connect (G_OBJECT (gui->printarea), "configure_event",
+		      G_CALLBACK (printarea_configure_event), gui);
+  g_signal_connect (G_OBJECT (gui->printarea), "expose_event",
+		      G_CALLBACK (printarea_expose_event), gui);
+  g_signal_connect (G_OBJECT (gui->printarea), "button_release_event",
+		      G_CALLBACK (printarea_button_release), gui);
+  g_signal_connect (G_OBJECT (gui->printarea), "motion_notify_event",
+		      G_CALLBACK (printarea_motion_notify), gui);
+  g_signal_connect (G_OBJECT (gui->printarea), "button_press_event",
+		      G_CALLBACK (printarea_button_press), gui);
+  gtk_widget_add_events (gui->printarea, (GDK_EXPOSURE_MASK
+					  | GDK_POINTER_MOTION_MASK
+					  /* | GDK_LEAVE_NOTIFY_MASK */
+					  | GDK_BUTTON_PRESS_MASK
+					  | GDK_BUTTON_RELEASE_MASK));
+
+
+  gtk_widget_show_all(main_vbox);
+  gtk_widget_hide(main_vbox);
+}
+
+
+
+#endif
+
+
+
+
+
+#endif /* PRINT_H */

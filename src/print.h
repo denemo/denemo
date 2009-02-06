@@ -18,13 +18,6 @@ run_lilypond_and_viewer(gchar *basename, DenemoGUI *gui);
 void export_pdf_action (GtkAction *action, gpointer param);
 
 
+void install_printpreview(DenemoGUI *gui, GtkWidget *vbox);
+
 #endif /*PRINT_H*/	
-/* exportpdf.h
- * Header file for exporting PDF files
- *
- * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2001 Eric Galluzzo
- */
-
-#include <gtk/gtk.h>
-

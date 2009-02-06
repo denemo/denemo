@@ -63,6 +63,8 @@ void	  unhighlight_rhythm(RhythmPattern *r);
 void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
 
+gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height );
+
 
 gchar *getSchemeText(void); 
 void deleteSchemeText(void);

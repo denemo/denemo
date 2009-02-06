@@ -505,9 +505,9 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
       gtk_combo_box_append_text(GTK_COMBO_BOX(fontsize), fontsizes[i]);
     }
   gchar *tmp;
-  tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
-  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child), tmp);
-  g_free(tmp);
+  //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
+  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->str );
+  //g_free(tmp);
   gtk_table_attach(GTK_TABLE(table), fontsize, 1,2,1,2,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -990,8 +990,8 @@ void setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
 		  (gchar *)gtk_entry_get_text 
 		  (GTK_ENTRY (cbdata->lilypond)));
 
-  gui->lilycontrol.fontsize = 
-    atoi((gchar *) gtk_entry_get_text 
+  g_string_assign(gui->lilycontrol.staffsize,
+    (gchar *) gtk_entry_get_text 
 	 (GTK_ENTRY (GTK_BIN (cbdata->fontsize)->child)));
   if(gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->portrait)))
     {
