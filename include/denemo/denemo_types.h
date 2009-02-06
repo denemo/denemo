@@ -338,8 +338,9 @@ typedef struct DenemoDirective
   GString *prefix; /**< LilyPond text to be inserted before the chord */
   GString *postfix;/**< LilyPond text to be inserted after the chord */
   GString *display; /**< some text to display to describe the LilyPond attached to the chord */
+  gint tx,ty; /**< x and y offsets in pixels for the display text */
   gint minpixels;/**< horizontal space needed by the display */
-  gint x, y; /**< x and y offsets in pixels for the display text */
+  gint x, y; /**< x and y offsets passed to LilyPond to control printed position */
   GdkBitmap *graphic; /**< bitmap to draw for this directive */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
   GString *graphic_name; /**< name of the graphic to be drawn */

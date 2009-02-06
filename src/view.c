@@ -516,6 +516,15 @@ INT_PUTFUNC_DEF(chord, x)
 INT_GETFUNC_DEF(note, x)
 INT_GETFUNC_DEF(chord, x)
 
+INT_PUTFUNC_DEF(note, ty)
+INT_PUTFUNC_DEF(chord, ty)
+INT_GETFUNC_DEF(note, ty)
+INT_GETFUNC_DEF(chord, ty)
+INT_PUTFUNC_DEF(note, tx)
+INT_PUTFUNC_DEF(chord, tx)
+INT_GETFUNC_DEF(note, tx)
+INT_GETFUNC_DEF(chord, tx)
+
 INT_PUTFUNC_DEF(note, gy)
 INT_PUTFUNC_DEF(chord, gy)
 INT_GETFUNC_DEF(note, gy)
@@ -898,6 +907,18 @@ Then
   INSTALL_GET(note, y);
   INSTALL_PUT(chord, y);
   INSTALL_GET(chord, y);
+
+  INSTALL_PUT(note, tx);
+  INSTALL_GET(note, tx);
+  INSTALL_PUT(chord, tx);
+  INSTALL_GET(chord, tx);
+  INSTALL_PUT(note, ty);
+  INSTALL_GET(note, ty);
+  INSTALL_PUT(chord, ty);
+  INSTALL_GET(chord, ty);
+
+
+
   INSTALL_PUT(note, gx);
   INSTALL_GET(note, gx);
   INSTALL_PUT(chord, gx);

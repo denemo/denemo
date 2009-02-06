@@ -11,7 +11,7 @@
 (set! num (d-GetKeypress))
 (d-AttachLilyToNote (string-append "tag=LHFinger\0postfix=-" num "\0display=" num))
 (d-DirectivePut-note-minpixels "LHFinger" 20)
-(d-DirectivePut-note-x  "LHFinger" 10)
+(d-DirectivePut-note-tx  "LHFinger" 10)
 (d-Chordize #t)
 (d-RefreshDisplay))
 

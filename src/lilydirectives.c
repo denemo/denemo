@@ -465,6 +465,18 @@ PUT_INT_FIELD_FUNC(chord, y)
 GET_INT_FIELD_FUNC(note, y)
 GET_INT_FIELD_FUNC(chord, y)
 
+
+PUT_INT_FIELD_FUNC(note, tx)
+PUT_INT_FIELD_FUNC(chord, tx)
+GET_INT_FIELD_FUNC(note, tx)
+GET_INT_FIELD_FUNC(chord, tx)
+
+PUT_INT_FIELD_FUNC(note, ty)
+PUT_INT_FIELD_FUNC(chord, ty)
+GET_INT_FIELD_FUNC(note, ty)
+GET_INT_FIELD_FUNC(chord, ty)
+
+
 PUT_INT_FIELD_FUNC(note, gx)
 PUT_INT_FIELD_FUNC(chord, gx)
 GET_INT_FIELD_FUNC(note, gx)

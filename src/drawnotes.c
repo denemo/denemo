@@ -256,7 +256,7 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
 			     directive->display->str,
 			     -1);
       pango_layout_set_font_description (layout, desc);
-      gdk_draw_layout (pixmap, gc, xx+directive->x+count, y+thenote->y+directive->y, layout);
+      gdk_draw_layout (pixmap, gc, xx+directive->tx+count, y+thenote->y+directive->ty, layout);
     }
   }
 #if 0
@@ -563,7 +563,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  gint width, height;
 	  gdk_drawable_get_size(directive->graphic, &width, &height);
 	  drawbitmapinverse (pixmap, gc, directive->graphic,
-			     xx, thechord.highesty, width, height);
+			     xx+directive->gx, thechord.highesty+directive->gy, width, height);
 
 	}
 	if(directive->display) {
@@ -575,7 +575,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				 directive->display->str,
 				 -1);
 	  pango_layout_set_font_description (layout, desc);
-	  gdk_draw_layout (pixmap, gc, xx, y+STAFF_HEIGHT+40+count, layout);
+	  gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
 	  count += 16;
 	}
       } 
