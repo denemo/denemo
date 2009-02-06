@@ -345,6 +345,8 @@ typedef struct DenemoDirective
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
   GString *graphic_name; /**< name of the graphic to be drawn */
   gint width, height; /**< width and height of the bitmap */
+
+  gboolean locked;/**< If true the directive cannot be deleted easily */
   /* MIDI attributes not done yet */
 } DenemoDirective;
 

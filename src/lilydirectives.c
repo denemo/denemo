@@ -201,7 +201,7 @@ get_lily_parameter(gchar *query, DenemoScriptParam *param) {
   if(param->status)
     {
       lilydirective *lilyobj = (lilydirective *) curObj->object;
-      ASSIGN_PARAM(directive);
+      ASSIGN_PARAM(postfix);
       ASSIGN_PARAM(display);
       if(!strcmp("minpixels", query))
 	g_string_printf(param->string, "%d", curObj->minpixelsalloted);
@@ -211,27 +211,29 @@ get_lily_parameter(gchar *query, DenemoScriptParam *param) {
 
 
 static
-void insert_lily_directive(gchar *directive, gchar *display, gboolean locked, gint minpixels) {
+void insert_lily_directive(gchar *postfix, gchar *display, gboolean locked, gint minpixels) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   DenemoObject *lily;
   lilydirective *lilyobj=NULL; /* a lily directive object */
   DenemoObject *curObj = (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
+  if(postfix==NULL)
+    postfix="";
   gboolean is_new = FALSE;
     if (curObj && curObj->type == LILYDIRECTIVE) {
-      g_string_assign((lilyobj=(lilydirective *) curObj->object)->directive, directive);
+      g_string_assign((lilyobj=(lilydirective *) curObj->object)->postfix, postfix);
       curObj->minpixelsalloted = minpixels;
     }  else {  
-      lily = lily_directive_new (directive);
+      lily = lily_directive_new (postfix);
       is_new= TRUE;
       lilyobj = (lilydirective *) lily->object;
       lily->minpixelsalloted = minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
     }
     if(lilyobj) {
       lilyobj->locked = locked;
-      if(*directive=='%') {//append newline if directive starts with a LilyPond comment indicator
-	g_string_append(lilyobj->directive,"\n");
+      if(*postfix=='%') {//append newline if directive starts with a LilyPond comment indicator
+	g_string_append(lilyobj->postfix,"\n");
       }
       if(display) {
 	if(lilyobj->display)
@@ -272,27 +274,29 @@ void
 standalone_directive (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
-  GET_3PARAMS(action, param, directive, display, minpixels);
+  GET_4PARAMS(action, param, directive, postfix, display, minpixels);
   //g_print("query is %s\n", query);
+  if(directive)
+    postfix = directive;//support for simpler syntax directive=xxx instead of postfix=xxx
   if(query) {
-    get_lily_parameter(*query?query:"directive", param);
+    get_lily_parameter(*query?query:"postfix", param);
     return;
   }
   gboolean locked = FALSE;
-  if(directive && !display)
-    display = directive;
+  if(postfix && !display)
+    display = postfix;
   if(action) {
     DenemoObject *curObj = (DenemoObject *) gui->si->currentobject ?
       (DenemoObject *) gui->si->currentobject->data : NULL;
     if (curObj && curObj->type == LILYDIRECTIVE) {
       lilydirective *lilyobj=(lilydirective *) curObj->object;
-      directive = lilyobj->directive? lilyobj->directive->str:NULL;
+      postfix = lilyobj->postfix? lilyobj->postfix->str:NULL;
       display = lilyobj->display? lilyobj->display->str:NULL;
     }
-    if(get_lily_directive(&directive, &display, &locked))
-      insert_lily_directive(directive, display, locked, 8);
+    if(get_lily_directive(&postfix, &display, &locked))
+      insert_lily_directive(postfix, display, locked, 8);
   } else {
-    insert_lily_directive(directive, display, locked, minpixels?atoi(minpixels):8);
+    insert_lily_directive(postfix, display, locked, minpixels?atoi(minpixels):8);
   }
 }
 /**

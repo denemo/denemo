@@ -23,7 +23,7 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
     gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
   PangoLayout *layout = pango_layout_new (context);
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
-  gchar *first = (lily->directive->str);
+  gchar *first = (lily->postfix->str);
 
   if(lily->graphic){
     gint width = lily->width;

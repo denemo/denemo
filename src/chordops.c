@@ -511,25 +511,7 @@ freechord (DenemoObject * thechord)
   g_free (thechord);
 }
 
-static 
-DenemoDirective *clone_directive(DenemoDirective *directive) {
-  DenemoDirective *ret = (DenemoDirective *)g_malloc0(sizeof(DenemoDirective));
-  memcpy(ret, directive, sizeof(DenemoDirective));//BEWARE all pointers in DenemoDirective require code, as follows:
-#define CLONE(field) \
-      if(directive->field && directive->field->len)\
-        ret->field = g_string_new(directive->field->str);
-  CLONE(tag);
-  CLONE(prefix);
-  CLONE(postfix);
-  CLONE(display);
-  CLONE(graphic_name);
-#undef CLONE
-  if(directive->graphic) {
-    g_object_ref(G_OBJECT(directive->graphic));//FIXME check the docs
-    ret->graphic = directive->graphic;
-  }
-  return ret;
-}
+
 
 /**
  * Clone the current chord

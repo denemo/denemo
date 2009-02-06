@@ -194,6 +194,26 @@ newstaffbreakobject ()
   return ret;
 }
 
+DenemoDirective *clone_directive(DenemoDirective *directive) {
+  DenemoDirective *ret = (DenemoDirective *)g_malloc0(sizeof(DenemoDirective));
+  memcpy(ret, directive, sizeof(DenemoDirective));//BEWARE all pointers in DenemoDirective require code, as follows:
+#define CLONE(field) \
+      if(directive->field && directive->field->len)\
+        ret->field = g_string_new(directive->field->str);
+  CLONE(tag);
+  CLONE(prefix);
+  CLONE(postfix);
+  CLONE(display);
+  CLONE(graphic_name);
+#undef CLONE
+  if(directive->graphic) {
+    g_object_ref(G_OBJECT(directive->graphic));//FIXME check the docs
+    ret->graphic = directive->graphic;
+  }
+  return ret;
+}
+
+
 
 /**
  * Create a clone of the given object
@@ -203,26 +223,52 @@ newstaffbreakobject ()
 DenemoObject *
 dnm_clone_object (DenemoObject * orig)
 {
-  DenemoObject *ret;
+  DenemoObject *ret=NULL;
   if (orig != NULL) {
 	  switch (orig->type)
 	    {
 	    case CHORD:
 	      ret = clone_chord (orig);
 	      break;
+	    
+	    case TUPOPEN:
+	      ret  = newtupopen(((tupopen*)orig->object)->numerator, ((tupopen*)orig->object)->denominator);	  
+	      break;
+	    case TUPCLOSE:
+	      ret  = newtupclose();
+	      break;
+	    case CLEF:
+	      ret = dnm_newclefobj (((clef *)orig->object)->type);
+	      break;
+	    case TIMESIG:
+	      ret = dnm_newtimesigobj (((timesig *)orig->object)->time1,((timesig *)orig->object)->time2 );
+	      break;
+	    case KEYSIG:
+	      ret = dnm_newkeyobj (((keysig *)orig->object)->number,((keysig *)orig->object)->isminor,((keysig *)orig->object)->mode);
+	      break;
+	      break;
+	    case STEMDIRECTIVE:
+	      ret = dnm_stem_directive_new  (((stemdirective *)orig->object)->type);
+	      break;
+	    case MEASUREBREAK:
+	      ret = newmeasurebreakobject ();
+	      break;
+	    case STAFFBREAK:
+	      ret = newstaffbreakobject ();
+	      break;
+	    case GRACE_START:
+	      ret = newgracestart ();
+	      break;
+	    case GRACE_END:
+	      ret = newgraceend ();
+	      break;
 	    case LILYDIRECTIVE: {
 	      lilydirective *curlily = (lilydirective*)orig->object;
-	      ret = lily_directive_new(curlily->directive->str);
-	      lilydirective *newlily = (lilydirective *)ret->object;
-	      if(curlily->display && curlily->display->len)
-		newlily->display = g_string_new(curlily->display->str);
-	      ret->minpixelsalloted = orig->minpixelsalloted;
-	      newlily->locked = curlily->locked;
-		 }
+	      ret = directive_object_new(clone_directive(curlily));
+	    }
 	      break;
 	    default:
-	      ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
-	      memcpy (ret, orig, sizeof (DenemoObject));//dangerous ret->object is duplicated pointer
+	      g_warning("Unknown object type"); 
 	      break;
 	    }
   }
@@ -262,16 +308,26 @@ lily_directive_new (gchar * type)
 {
   DenemoObject *ret;
   lilydirective *newlily =
-    (lilydirective *) g_malloc (sizeof (lilydirective));
-  ret = (DenemoObject *) g_malloc (sizeof (DenemoObject));
+    (lilydirective *) g_malloc0 (sizeof (lilydirective));
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = LILYDIRECTIVE;
-  newlily->directive = g_string_new (type);
+  newlily->postfix = g_string_new (type);
   ret->object = newlily;
   set_basic_numticks (ret);
   setpixelmin (ret);
   return ret;
 }
 
+DenemoObject *
+directive_object_new(DenemoDirective *directive) {
+  DenemoObject *ret;
+  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
+  ret->type = LILYDIRECTIVE;
+  ret->object = directive;
+  set_basic_numticks (ret);
+  setpixelmin (ret);
+  return ret;
+}
 
 /**
  * Create a new dynamic object
