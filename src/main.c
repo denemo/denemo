@@ -37,6 +37,7 @@
 #include <glib/gstdio.h>
 #include "midiseq.h"
 #include <libguile.h>
+#include "jackmidi.h"
 struct DenemoRoot Denemo;
 midi_seq *sq;
 #include "view.h"
@@ -439,7 +440,7 @@ main (int argc, char *argv[])
 
   register_stock_items ();
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
- 
+  init_jack();
   scm_boot_guile (argc, argv, inner_main, NULL);
   return 0;
 }

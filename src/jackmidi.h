@@ -7,7 +7,7 @@
 #ifndef JACKMIDI_H
 #define JACKMIDI_H
 
-
+int init_jack(void);
 int jackmidi(void);
 void  jackstop(void);
 
