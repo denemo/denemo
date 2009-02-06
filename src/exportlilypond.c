@@ -741,8 +741,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
   GString *dynamic_string = NULL;
 
   if(curobj->type==LILYDIRECTIVE){
-    open_braces += brace_count( ((lilydirective *) curobj->object)->directive->str);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->directive->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
+    open_braces += brace_count( ((lilydirective *) curobj->object)->postfix->str);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->postfix->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
     GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
     GtkTextIter back;
     back = *iter;
@@ -750,7 +750,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
     gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
     g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);
-    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->directive);
+    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->postfix);
     gui->anchors = g_list_prepend(gui->anchors, objanc);
     prevduration = -1;
     prevnumdots = -1;// the LILYDIRECTIVE may have changed the duration
@@ -1385,7 +1385,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
 	    empty_measure=FALSE; 
 	  if( (curobj->type==LILYDIRECTIVE) &&
-	      (((lilydirective *) curobj->object)->directive->len==0))
+	      (((lilydirective *) curobj->object)->postfix->len==0))
 	    continue;
 	  //put in an invisible ineditable anchor to mark the start of the object
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);

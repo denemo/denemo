@@ -1394,7 +1394,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  objElem =
 			xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
 				     (xmlChar *) ((lilydirective *) curObj->object)->
-				     directive->str);
+				     postfix->str);
 		  xmlSetProp (objElem, (xmlChar *) "locked",
 			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
 		  if(((lilydirective *) curObj->object)->display && ((lilydirective *) curObj->object)->display->len) {

@@ -27,6 +27,11 @@ DenemoObject *
 lily_directive_new (gchar* type);
 
 DenemoObject *
+directive_object_new(DenemoDirective *directive);
+
+DenemoObject *
 dynamic_new (gchar *type);
 
+DenemoDirective *
+clone_directive(DenemoDirective *directive);
 #endif

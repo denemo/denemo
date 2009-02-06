@@ -270,13 +270,12 @@ typedef struct lyric
 }lyric;
 
 
-/* Data structure for an arbitrary directive to be passed to
- * Lilypond that Denemo doesn't understand. This type is useful
- * in that the user can insert such directives into a LilyPond file
- * by hand and have Denemo respect them when it loads a file and
- * write them back when it saves it */
+/* A standalone DenemoDirective. lilydirective is an obsolete name */
 
-typedef struct lilydirective
+#define lilydirective DenemoDirective
+#if 0
+typedef struct lilydirective DenemoDirective;
+
 {
   GString *directive;/**< the LilyPond text */
   gboolean locked;/**< If true the directive cannot be deleted easily */
@@ -287,7 +286,7 @@ typedef struct lilydirective
   gint width, height; /**< width and height of the bitmap */
 }
 lilydirective;
-
+#endif
 
 /**
  * Enum defining stem direction values

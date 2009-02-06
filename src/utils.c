@@ -830,7 +830,7 @@ void write_status(DenemoGUI *gui) {
       break;
 
     case LILYDIRECTIVE:
-      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->directive)->str);
+      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->postfix)->str);
       break;
     case FAKECHORD:
       selection = g_strdup_printf("Fakechord"   );
