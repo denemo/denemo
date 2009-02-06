@@ -856,11 +856,17 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		      DO_DIREC(prefix);
 		      DO_DIREC(postfix);
 		      DO_DIREC(display);
+		      DO_DIREC(graphic_name);
+
 		      DO_INTDIREC(minpixels);
 		      DO_INTDIREC(x);
 		      DO_INTDIREC(y);
+		      DO_INTDIREC(tx);
+		      DO_INTDIREC(ty);
+		      DO_INTDIREC(gx);
+		      DO_INTDIREC(gy);
 
-		      DO_DIREC(graphic_name);
+
 
 
 #undef DO_DIREC
@@ -1219,11 +1225,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      DO_DIREC(prefix);
 			      DO_DIREC(postfix);
 			      DO_DIREC(display);
+			      DO_DIREC(graphic_name);
 
 			      DO_INTDIREC(minpixels);
 			      DO_INTDIREC(x);
 			      DO_INTDIREC(y);
-			      DO_INTDIREC(graphic_name);
+			      DO_INTDIREC(tx);
+			      DO_INTDIREC(ty);
+			      DO_INTDIREC(gx);
+			      DO_INTDIREC(gy);
 
 
 #undef DO_DIREC

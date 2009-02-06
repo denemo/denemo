@@ -245,6 +245,10 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     DO_INTDIREC(minpixels);
     DO_INTDIREC(x);
     DO_INTDIREC(y);
+    DO_INTDIREC(tx);
+    DO_INTDIREC(ty);
+    DO_INTDIREC(gx);
+    DO_INTDIREC(gy);
     if(ELEM_NAME_EQ (childElem, "graphic_name")) {
       directive->graphic_name =  g_string_new(xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
