@@ -514,6 +514,7 @@ freechord (DenemoObject * thechord)
 static 
 DenemoDirective *clone_directive(DenemoDirective *directive) {
   DenemoDirective *ret = (DenemoDirective *)g_malloc0(sizeof(DenemoDirective));
+  memcpy(ret, directive, sizeof(DenemoDirective));//BEWARE all pointers in DenemoDirective require code, as follows:
 #define CLONE(field) \
       if(directive->field && directive->field->len)\
         ret->field = g_string_new(directive->field->str);
