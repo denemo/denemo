@@ -732,6 +732,12 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
+  gboolean left = (event->button != 3);
+  if(!left) {
+    load_png(Denemo.gui);
+    return;
+  }
+
   if(Denemo.gui->pixbuf==NULL)
     return;
   Denemo.gui->markx=event->x;
@@ -740,6 +746,11 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
+  gboolean left = (event->button != 3);
+  if(!left) {
+    return;
+  }
+
   if(Denemo.gui->pixbuf==NULL)
     return;
   Denemo.gui->pointx=event->x;

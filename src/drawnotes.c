@@ -236,13 +236,30 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
   /* any display for attached LilyPond */
  { GList *g = thenote->directives;
  GString *gstr=g_string_new("");
-  for(;g;g=g->next) {
+ gint count=10;
+  for(;g;g=g->next, count+=10) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive->display) {
-      g_string_append(gstr, directive->display->str);
+    if(directive->graphic) {
+      gint width, height;
+      gdk_drawable_get_size(directive->graphic, &width, &height);
+      drawbitmapinverse (pixmap, gc, directive->graphic,
+			 xx+directive->gx+count,  y+thenote->y+directive->gy/*thechord.highesty*/, width, height);
 
     }
+    if(directive->display) {
+      //      g_string_append(gstr, directive->display->str);
+      PangoContext *context =
+	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+      PangoLayout *layout = pango_layout_new (context);
+      PangoFontDescription *desc = pango_font_description_from_string (FONT);
+      pango_layout_set_text (layout,
+			     directive->display->str,
+			     -1);
+      pango_layout_set_font_description (layout, desc);
+      gdk_draw_layout (pixmap, gc, xx+directive->x+count, y+thenote->y+directive->y, layout);
+    }
   }
+#if 0
   if(gstr->len) {
       PangoContext *context =
 	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
@@ -255,6 +272,7 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
       gdk_draw_layout (pixmap, gc, xx+20, y+thenote->y, layout);
       g_string_free(gstr, TRUE);
   }
+#endif
  }
 }
 
@@ -545,7 +563,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  gint width, height;
 	  gdk_drawable_get_size(directive->graphic, &width, &height);
 	  drawbitmapinverse (pixmap, gc, directive->graphic,
-			     xx, y, width, height);
+			     xx, thechord.highesty, width, height);
 
 	}
 	if(directive->display) {

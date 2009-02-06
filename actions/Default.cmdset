@@ -2167,6 +2167,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>(Print)Set Overall Score Size</label>
         <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
       </row>
+      <row>
+        <action>LHFinger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <label>Left Hand Fingering</label>
+        <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
+      </row>
+      <row>
+        <action>StringNum</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <label>String Number</label>
+        <tooltip>Followed by a number, places string number on note.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

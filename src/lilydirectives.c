@@ -446,20 +446,7 @@ what##_directive_get_##field(gchar *tag) {\
 }
 
 
-PUT_INT_FIELD_FUNC(note, x)
-PUT_INT_FIELD_FUNC(note, y)
 
-
-PUT_INT_FIELD_FUNC(chord, x)
-PUT_INT_FIELD_FUNC(chord, y)
-
-
-GET_INT_FIELD_FUNC(note, x)
-GET_INT_FIELD_FUNC(note, y)
-
-
-GET_INT_FIELD_FUNC(chord, x)
-GET_INT_FIELD_FUNC(chord, y)
 
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
@@ -467,6 +454,26 @@ PUT_INT_FIELD_FUNC(chord, minpixels)
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
   /* end block which can be copied for new int fields */
+
+PUT_INT_FIELD_FUNC(note, x)
+PUT_INT_FIELD_FUNC(chord, x)
+GET_INT_FIELD_FUNC(note, x)
+GET_INT_FIELD_FUNC(chord, x)
+
+PUT_INT_FIELD_FUNC(note, y)
+PUT_INT_FIELD_FUNC(chord, y)
+GET_INT_FIELD_FUNC(note, y)
+GET_INT_FIELD_FUNC(chord, y)
+
+PUT_INT_FIELD_FUNC(note, gx)
+PUT_INT_FIELD_FUNC(chord, gx)
+GET_INT_FIELD_FUNC(note, gx)
+GET_INT_FIELD_FUNC(chord, gx)
+
+PUT_INT_FIELD_FUNC(note, gy)
+PUT_INT_FIELD_FUNC(chord, gy)
+GET_INT_FIELD_FUNC(note, gy)
+GET_INT_FIELD_FUNC(chord, gy)
 
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC

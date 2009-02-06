@@ -507,6 +507,26 @@ INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
      //end block to copy for new int field in directive
 
+INT_PUTFUNC_DEF(note, y)
+INT_PUTFUNC_DEF(chord, y)
+INT_GETFUNC_DEF(note, y)
+INT_GETFUNC_DEF(chord, y)
+INT_PUTFUNC_DEF(note, x)
+INT_PUTFUNC_DEF(chord, x)
+INT_GETFUNC_DEF(note, x)
+INT_GETFUNC_DEF(chord, x)
+
+INT_PUTFUNC_DEF(note, gy)
+INT_PUTFUNC_DEF(chord, gy)
+INT_GETFUNC_DEF(note, gy)
+INT_GETFUNC_DEF(chord, gy)
+INT_PUTFUNC_DEF(note, gx)
+INT_PUTFUNC_DEF(chord, gx)
+INT_GETFUNC_DEF(note, gx)
+INT_GETFUNC_DEF(chord, gx)
+
+
+
 
 #undef INT_PUTFUNC_DEF
 #undef INT_GETFUNC_DEF
@@ -870,6 +890,23 @@ Then
   INSTALL_PUT(chord, minpixels);
   INSTALL_GET(chord, minpixels);
   //end block to repeat for new int directive fields 
+  INSTALL_PUT(note, x);
+  INSTALL_GET(note, x);
+  INSTALL_PUT(chord, x);
+  INSTALL_GET(chord, x);
+  INSTALL_PUT(note, y);
+  INSTALL_GET(note, y);
+  INSTALL_PUT(chord, y);
+  INSTALL_GET(chord, y);
+  INSTALL_PUT(note, gx);
+  INSTALL_GET(note, gx);
+  INSTALL_PUT(chord, gx);
+  INSTALL_GET(chord, gx);
+  INSTALL_PUT(note, gy);
+  INSTALL_GET(note, gy);
+  INSTALL_PUT(chord, gy);
+  INSTALL_GET(chord, gy);
+
 
 #undef INSTALL_PUT
 #undef INSTALL_GET
@@ -2021,7 +2058,7 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     
   FILE *fp = fopen(filename,"rb");
   if(fp) {
-    gchar w, h;
+    guchar w, h;
     fread(&w, 1, 1, fp);
     fread(&h, 1, 1, fp);
 

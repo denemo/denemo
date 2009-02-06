@@ -2178,7 +2178,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
       </row>
       <row>
-        <action>LHfinger</action>
+        <action>LHFinger</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Instruments/Guitar</menupath>
         <label>Left Hand Fingering</label>
