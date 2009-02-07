@@ -440,7 +440,9 @@ main (int argc, char *argv[])
 
   register_stock_items ();
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
+#ifdef _HAVE_JACK_
   init_jack();
+#endif
   scm_boot_guile (argc, argv, inner_main, NULL);
   return 0;
 }

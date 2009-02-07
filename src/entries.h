@@ -297,7 +297,7 @@
 {"PreviousMovement", NULL, N_("Previous Movement"), NULL,N_("Go to the previous movement"),G_CALLBACK (prev_movement)},
 {"DeleteMovement", NULL, N_("Delete Movement"), NULL,N_("Delete the current movement"),G_CALLBACK (delete_movement)},
 {"DeleteBookmarks", NULL, N_("Delete Bookmarks"), NULL,N_("Delete all bookmarks in current movement"),G_CALLBACK (deletebookmarks)},
-{"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), NULL,N_("Play"),G_CALLBACK (ext_midi_playback)},
+{"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), NULL,N_("Play"),G_CALLBACK (jack_midi_playback)},
 {"Stop", GTK_STOCK_MEDIA_STOP, N_("Stop"), NULL,N_("Stop"),G_CALLBACK (stop_midi_playback)},
 {"PlayCSound", GTK_STOCK_MEDIA_PLAY, N_("Csound Playback"), NULL,N_("Play using CSound..."),G_CALLBACK (csoundplayback)},
 {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL,N_("Allows you to specify properties used in playing back (midi and csound"),G_CALLBACK (playback_properties_change)},

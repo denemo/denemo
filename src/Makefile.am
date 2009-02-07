@@ -45,17 +45,18 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	jackmidi.c scheme_cb.h scheme.h register_commands.h
+	jackmidi.c jackmidi.h scheme_cb.h scheme.h register_commands.h
 EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
+-I$(top_srcdir)/libsmf \
 -I$(top_srcdir)/pixmaps \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\"
 
-denemo_LDADD = $(INTLLIBS) 
+denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 
