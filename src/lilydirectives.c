@@ -266,7 +266,7 @@ gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked
   return TRUE;
 }
 /**
- * Lilypond directive insert/Edit.  Allows user to insert a lilypond directive 
+ * Denemo directive insert/Edit.  Allows user to insert a Denemo directive 
  * before the current cursor position
  * or edit the current lilypond directive
  */
@@ -300,9 +300,11 @@ standalone_directive (GtkAction *action, DenemoScriptParam * param)
   }
 }
 /**
- * Lilypond directive attach to note.  Allows user to attach a lilypond directive 
- * to the current note
- * or edit it
+ * callback for AttachLilyToNote (command name is historical)
+ * note_directive DenemoDirective attach to chord.  The DenemoDirective is tagged with TAG
+ * and attached the note below cursor in current chord
+ * if one tagged with TAG already exists, it edits it with the passed values. 
+ * Only postfix, prefix and display can be set with this call (for backward compatibility)
  */
 void
 note_directive (GtkAction *action, DenemoScriptParam *param)
@@ -312,9 +314,11 @@ note_directive (GtkAction *action, DenemoScriptParam *param)
   attach_directive (ATTACH_NOTE, postfix, prefix, display, tag, action!=NULL);
 }
 /**
- * Lilypond directive attach to chord.  Allows user to attach a lilypond directive 
- * to the current chord
- * or edit it
+ * callback for AttachLilyToChord (command name is historical)
+ * chord_directive DenemoDirective attach to chord.  The DenemoDirective is tagged with TAG
+ * and attached the current chord
+ * if one tagged with TAG already exists, it edits it with the passed values. 
+ * Only postfix, prefix and display can be set with this call (for backward compatibility)
  */
 void
 chord_directive (GtkAction *action, DenemoScriptParam *param)
@@ -323,6 +327,7 @@ chord_directive (GtkAction *action, DenemoScriptParam *param)
   GET_4PARAMS(action, param, postfix, display, prefix, tag);
   attach_directive (ATTACH_CHORD, postfix, prefix, display, tag, action!=NULL);
 }
+
 
 
 static DenemoObject *get_chordobject(void) {

@@ -1448,12 +1448,6 @@ d-RefreshDisplay
 d-InputFilterNames  sets the status bar
   </listitem>
 
-  <listitem>
-d-NoteDirectiveGet* where * is one of Display, Prefix, Postfix, takes a tag and returns the value or #f if no tagged directive found on the note at  the cursor.
-  </listitem>
-  <listitem>
-d-ChordDirectiveGet* as above but for the Chord as a whole
-  </listitem>
 
   <listitem>
 d-DirectivePut-note-* where * is one of display, prefix, postfix, takes a tag and value, changes or creates a directive on the note at the cursor, with that tag and value. Returns #t if successful.
@@ -1486,10 +1480,10 @@ This feature is being rolled out, and currently works for
 d-InsertLilyDirective (directive, display. minpixels)
 </listitem>
 <listitem>
-d-AttachLilyToChord (prefix, postfix, display) deprecated see d-ChordDirectiveGet* and Put* below
+d-AttachLilyToChord (prefix, postfix, display) deprecated see d-DirectiveGet-chord-* and d-DirectivePut-chord-* below
 </listitem>
 <listitem>
-d-AttachLilyToNote (prefix, postfix, display) deprecated see d-NoteDirectiveGet* and Put* below
+d-AttachLilyToNote (prefix, postfix, display) deprecated see d-DirectiveGet-note* and Put below
 </listitem>
 <listitem>
 d-StaffProperties   understands a couple of property=value settings
@@ -1514,7 +1508,33 @@ d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyP
 </listitem>
 
 
+
+
 </itemizedlist>
+  </para>
+
+  <para>
+ The Denemo Directives are sufficiently important to have their own commands. The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
+<itemizedlist>
+
+<listitem>
+d-DirectivePut-chord-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set.
+</listitem>
+<listitem>
+d-DirectivePut-note-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
+</listitem>
+<listitem>
+d-DirectiveGet-chord-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
+</listitem>
+<listitem>
+d-DirectiveGet-note-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
+</listitem>
+
+
+</itemizedlist>
+
+
+
   </para>
   </sect1>
 
