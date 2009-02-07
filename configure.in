@@ -298,4 +298,5 @@ AC_OUTPUT(
   templates/chamber/Makefile
   templates/choral/Makefile
   templates/jazz/Makefile
+  libsmf/Makefile
 ])
