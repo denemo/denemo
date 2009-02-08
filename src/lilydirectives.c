@@ -558,16 +558,17 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
   DenemoDirective *directive = get_standalone_directive(tag);
   if(directive && directive->graphic)
     g_object_unref(G_OBJECT(directive->graphic));
-  if(directive) {
-     loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);
-     directive->graphic_name = g_string_new(value);
-  }  else {
+  if(!directive) {
    	DenemoObject *obj = lily_directive_new (" ");
         directive = (DenemoDirective*)obj->object;
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
-	standalone_directive_put_graphic(tag, value);
   }
+  loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);
+  if(directive->graphic_name)
+    g_string_assign(directive->graphic_name, value);
+  else
+    directive->graphic_name = g_string_new(value);
   return TRUE;
 }
 

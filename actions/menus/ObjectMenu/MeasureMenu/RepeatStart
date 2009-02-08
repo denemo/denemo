@@ -6,9 +6,13 @@
     <map>
       <row>
         <action>RepeatStart</action>
-        <scheme>
-(d-InsertLilyDirective "directive=\\bar \"|:\"\0display=|R")
-</scheme>
+        <scheme>;;;RepeatStart
+(d-DirectivePut-standalone-minpixels "RepeatStart" 30)
+(d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
+(d-DirectivePut-standalone-gx  "RepeatStart"  0)
+(d-DirectivePut-standalone-gy  "RepeatStart"  -2)
+(d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
+(d-RefreshDisplay)</scheme>
         <label>|:</label>
         <tooltip>Insert a start repeat barline.</tooltip>
       </row>

@@ -28,9 +28,11 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   if(lily->graphic){
     gint width = lily->width;
     gint  height = lily->height;  
-    drawbitmapinverse (pixmap, gcs_lightbluegc(), lily->graphic,
-		     xx + lily->gx, y+lowy + lily->gy, width, height);
+    drawbitmapinverse (pixmap, gc, lily->graphic,
+		     xx + lily->gx, y + lily->gy, width, height);
   }
+  else
+    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx, y+3*STAFF_HEIGHT/2, 2, STAFF_HEIGHT/2);
   if(lily->display) {  //store display position x,y as well
     pango_layout_set_text (layout,
 			   lily->display->str,
@@ -57,6 +59,6 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
    pango_font_description_free (desc); 
 
 
-
-  gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx, y+3*STAFF_HEIGHT/2, 2, STAFF_HEIGHT/2);
+   
+    
 }

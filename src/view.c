@@ -2160,10 +2160,15 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     
   FILE *fp = fopen(filename,"rb");
   if(fp) {
-    guchar w, h;
-    fread(&w, 1, 1, fp);
-    fread(&h, 1, 1, fp);
+    guchar wlo, whi, hlo, hhi;
+    gint w, h;
+    fread(&wlo, 1, 1, fp);
+    fread(&whi, 1, 1, fp);
 
+    fread(&hlo, 1, 1, fp);
+    fread(&hhi, 1, 1, fp);
+    w = wlo+255*whi;
+    h = hlo+255*hhi;
     gint numbytes = h*((w+7)/8)*8;
     gchar *data = g_malloc(numbytes);    
     //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
@@ -2188,12 +2193,22 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatebitmapsdir (),  name,
 				      NULL);
   //FIXME allow fileselector here to change the name
-  guchar width = Denemo.gui->pointx-Denemo.gui->markx;
-  guchar height = Denemo.gui->pointy-Denemo.gui->marky;
+  guint width = Denemo.gui->pointx-Denemo.gui->markx;
+  guint height = Denemo.gui->pointy-Denemo.gui->marky;
   FILE *fp = fopen(filename,"wb");
   if(fp) {
-    fwrite(&width, 1, 1, fp);
-    fwrite(&height, 1, 1, fp);
+    guchar whi, wlo, hhi, hlo;
+    wlo = width&0xFF;
+    whi = width>>8;
+    hlo = height&0xFF;
+    hhi = height>>8;
+
+    fwrite(&wlo, 1, 1, fp);
+    fwrite(&whi, 1, 1, fp);
+
+    fwrite(&hlo, 1, 1, fp);
+    fwrite(&hhi, 1, 1, fp);
+
     gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
     //g_print("Wrote %d bytes for %d x %d\n", size, width, height);
     fclose(fp);
