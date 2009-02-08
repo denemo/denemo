@@ -8,11 +8,12 @@
         <action>RepeatEnd</action>
         <scheme>;;;RepeatEnd
 (d-DirectivePut-standalone-minpixels "RepeatEnd" 20)
-(d-CursorRight)
+(d-CursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatEnd" " \\bar \":|\"")
 (d-DirectivePut-standalone-gx  "RepeatEnd"  0)
 (d-DirectivePut-standalone-gy  "RepeatEnd"  -10)
 (d-DirectivePut-standalone-graphic "RepeatEnd" "RepeatEnd")
+(d-CursorRight)
 (d-RefreshDisplay)</scheme>
         <label>:|</label>
         <tooltip>Insert repeat barline.</tooltip>
