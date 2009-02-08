@@ -8,6 +8,7 @@
         <action>RepeatStart</action>
         <scheme>;;;RepeatStart
 (d-DirectivePut-standalone-minpixels "RepeatStart" 30)
+(d-CursorRight)
 (d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
 (d-DirectivePut-standalone-gx  "RepeatStart"  0)
 (d-DirectivePut-standalone-gy  "RepeatStart"  -2)
