@@ -265,10 +265,24 @@ gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked
   *display =  string_dialog_entry(gui, "Insert LilyPond", "Give Display text if required", *display);
   return TRUE;
 }
+
+/* return the directive tagged tag if present at cursor postion */
+static
+DenemoDirective *get_standalone_directive(gchar *tag){
+    DenemoObject *curObj = (DenemoObject *) Denemo.gui->si->currentobject ?
+      (DenemoObject *)  Denemo.gui->si->currentobject->data : NULL;
+    if (curObj && curObj->type == LILYDIRECTIVE) {
+      DenemoDirective *ret = (DenemoDirective *)curObj->object;
+      if(ret && ret->tag && strcmp(tag, ret->tag->str))
+	 ret = NULL;	
+      return ret;
+    }
+    return NULL;
+}
 /**
  * Denemo directive insert/Edit.  Allows user to insert a Denemo directive 
  * before the current cursor position
- * or edit the current lilypond directive
+ * or edit the current Denemo directive
  */
 void
 standalone_directive (GtkAction *action, DenemoScriptParam * param)
@@ -407,6 +421,14 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
+GET_FIELD_FUNC(chord, prefix)
+GET_FIELD_FUNC(chord, postfix)
+GET_FIELD_FUNC(chord, display)
+
+PUT_FIELD_FUNC(chord, prefix)
+PUT_FIELD_FUNC(chord, postfix)
+PUT_FIELD_FUNC(chord, display)
+
 
 GET_FIELD_FUNC(note, prefix)
 GET_FIELD_FUNC(note, postfix)
@@ -416,13 +438,10 @@ PUT_FIELD_FUNC(note, prefix)
 PUT_FIELD_FUNC(note, postfix)
 PUT_FIELD_FUNC(note, display)
 
-GET_FIELD_FUNC(chord, prefix)
-GET_FIELD_FUNC(chord, postfix)
-GET_FIELD_FUNC(chord, display)
+GET_FIELD_FUNC(standalone, prefix)
+GET_FIELD_FUNC(standalone, postfix)
+GET_FIELD_FUNC(standalone, display)
 
-PUT_FIELD_FUNC(chord, prefix)
-PUT_FIELD_FUNC(chord, postfix)
-PUT_FIELD_FUNC(chord, display)
 
 
 #undef GET_FIELD_FUNC
@@ -460,8 +479,10 @@ what##_directive_get_##field(gchar *tag) {\
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
 PUT_INT_FIELD_FUNC(chord, minpixels)
+     //standalone needs different code see DIREC_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
+GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
 
 PUT_INT_FIELD_FUNC(note, x)
@@ -496,6 +517,17 @@ PUT_INT_FIELD_FUNC(chord, gy)
 GET_INT_FIELD_FUNC(note, gy)
 GET_INT_FIELD_FUNC(chord, gy)
 
+
+GET_INT_FIELD_FUNC(standalone, x)
+GET_INT_FIELD_FUNC(standalone, y)
+
+GET_INT_FIELD_FUNC(standalone, tx)
+GET_INT_FIELD_FUNC(standalone, ty)
+
+GET_INT_FIELD_FUNC(standalone, gx)
+GET_INT_FIELD_FUNC(standalone, gy)
+
+
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC
 
@@ -521,3 +553,94 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
      PUT_GRAPHIC(chord);
      PUT_GRAPHIC(note);
 #undef PUT_GRAPHIC
+
+standalone_directive_put_graphic(gchar *tag, gchar *value) {
+  DenemoDirective *directive = get_standalone_directive(tag);
+  if(directive && directive->graphic)
+    g_object_unref(G_OBJECT(directive->graphic));
+  if(directive) {
+     loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);
+     directive->graphic_name = g_string_new(value);
+  }  else {
+   	DenemoObject *obj = lily_directive_new (" ");
+        directive = (DenemoDirective*)obj->object;
+        directive->tag = g_string_new(tag);
+	object_insert(Denemo.gui, obj);
+	standalone_directive_put_graphic(tag, value);
+  }
+  return TRUE;
+}
+
+
+
+#define DIREC_PUT_FIELD_FUNC(field)\
+gboolean \
+standalone_directive_put_##field(gchar *tag, gchar *value) {\
+  DenemoDirective *directive = get_standalone_directive(tag);\
+  if(directive && directive->field)\
+    g_string_assign(directive->field, value);\
+  else if(directive)\
+    directive->field = g_string_new(value);\
+  else {\
+	DenemoObject *obj = lily_directive_new (" ");\
+        directive = (DenemoDirective*)obj->object;\
+        directive->tag = g_string_new(tag);\
+        directive->field = g_string_new(value);\
+	object_insert(Denemo.gui, obj);\
+   }\
+  return TRUE;\
+}
+
+DIREC_PUT_FIELD_FUNC(prefix);
+DIREC_PUT_FIELD_FUNC(postfix);
+DIREC_PUT_FIELD_FUNC(display);
+
+
+
+
+#undef DIREC_PUT_FIELD_FUNC
+
+#define DIREC_PUT_INT_FIELD_FUNC(field)\
+gboolean \
+standalone_directive_put_##field(gchar *tag, gint value) {\
+  DenemoDirective *directive = get_standalone_directive(tag);\
+  if(directive)\
+    directive->field = value;\
+  else {\
+        DenemoObject *obj = lily_directive_new (" ");\
+        directive = (DenemoDirective*)obj->object;\
+        directive->tag = g_string_new(tag);\
+        directive->field = value;\
+	object_insert(Denemo.gui, obj);\
+   }\
+  return TRUE;\
+}
+
+//DIREC_PUT_INT_FIELD_FUNC(minpixels); special case
+DIREC_PUT_INT_FIELD_FUNC(x);
+DIREC_PUT_INT_FIELD_FUNC(y);
+DIREC_PUT_INT_FIELD_FUNC(tx);
+DIREC_PUT_INT_FIELD_FUNC(ty);
+DIREC_PUT_INT_FIELD_FUNC(gx);
+DIREC_PUT_INT_FIELD_FUNC(gy);
+
+#undef DIREC_PUT_INT_FIELD_FUNC
+gboolean 
+standalone_directive_put_minpixels(gchar *tag, gint value) {
+  DenemoDirective *directive = get_standalone_directive(tag);
+  if(directive){
+    directive->minpixels = value;//This field is not actually useful for standalone directives.
+    DenemoObject *obj = findobj();
+    obj->minpixelsalloted = value;
+  }
+  else {
+        DenemoObject *obj = lily_directive_new (" ");
+        directive = (DenemoDirective*)obj->object;
+        directive->tag = g_string_new(tag);
+        obj->minpixelsalloted = directive->minpixels = value;
+	object_insert(Denemo.gui, obj);
+   }
+  return TRUE;
+}
+
+

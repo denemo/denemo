@@ -456,21 +456,32 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
 }
 
+
+
+//block to clone for new GString entries in DenemoDirective
 GETFUNC_DEF(note, display)
+GETFUNC_DEF(chord, display)
+GETFUNC_DEF(standalone, display)
+PUTFUNC_DEF(note, display)
+PUTFUNC_DEF(chord, display)
+PUTFUNC_DEF(standalone, display)
+
+// end of block to clone
+
 GETFUNC_DEF(note, prefix)
 GETFUNC_DEF(note, postfix)
-
-GETFUNC_DEF(chord, display)
-GETFUNC_DEF(chord, prefix)
-GETFUNC_DEF(chord, postfix)
-
-PUTFUNC_DEF(note, display)
 PUTFUNC_DEF(note, prefix)
 PUTFUNC_DEF(note, postfix)
 
-PUTFUNC_DEF(chord, display)
+GETFUNC_DEF(chord, prefix)
+GETFUNC_DEF(chord, postfix)
 PUTFUNC_DEF(chord, prefix)
 PUTFUNC_DEF(chord, postfix)
+
+GETFUNC_DEF(standalone, prefix)
+GETFUNC_DEF(standalone, postfix)
+PUTFUNC_DEF(standalone, prefix)
+PUTFUNC_DEF(standalone, postfix)
 
 
 #undef GETFUNC_DEF
@@ -498,41 +509,56 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
 
 INT_PUTGRAPHICFUNC_DEF(note);
 INT_PUTGRAPHICFUNC_DEF(chord);
+INT_PUTGRAPHICFUNC_DEF(standalone);
 
 
      //block to copy for new int field in directive
 INT_PUTFUNC_DEF(note, minpixels)
 INT_PUTFUNC_DEF(chord, minpixels)
+INT_PUTFUNC_DEF(standalone, minpixels)
 INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
+INT_GETFUNC_DEF(standalone, minpixels)
      //end block to copy for new int field in directive
 
 INT_PUTFUNC_DEF(note, y)
 INT_PUTFUNC_DEF(chord, y)
+INT_PUTFUNC_DEF(standalone, y)
 INT_GETFUNC_DEF(note, y)
 INT_GETFUNC_DEF(chord, y)
+INT_GETFUNC_DEF(standalone, y)
 INT_PUTFUNC_DEF(note, x)
 INT_PUTFUNC_DEF(chord, x)
+INT_PUTFUNC_DEF(standalone, x)
 INT_GETFUNC_DEF(note, x)
 INT_GETFUNC_DEF(chord, x)
+INT_GETFUNC_DEF(standalone, x)
 
 INT_PUTFUNC_DEF(note, ty)
 INT_PUTFUNC_DEF(chord, ty)
+INT_PUTFUNC_DEF(standalone, ty)
 INT_GETFUNC_DEF(note, ty)
 INT_GETFUNC_DEF(chord, ty)
+INT_GETFUNC_DEF(standalone, ty)
 INT_PUTFUNC_DEF(note, tx)
 INT_PUTFUNC_DEF(chord, tx)
+INT_PUTFUNC_DEF(standalone, tx)
 INT_GETFUNC_DEF(note, tx)
 INT_GETFUNC_DEF(chord, tx)
+INT_GETFUNC_DEF(standalone, tx)
 
 INT_PUTFUNC_DEF(note, gy)
 INT_PUTFUNC_DEF(chord, gy)
+INT_PUTFUNC_DEF(standalone, gy)
 INT_GETFUNC_DEF(note, gy)
 INT_GETFUNC_DEF(chord, gy)
+INT_GETFUNC_DEF(standalone, gy)
 INT_PUTFUNC_DEF(note, gx)
 INT_PUTFUNC_DEF(chord, gx)
+INT_PUTFUNC_DEF(standalone, gx)
 INT_GETFUNC_DEF(note, gx)
 INT_GETFUNC_DEF(chord, gx)
+INT_GETFUNC_DEF(standalone, gx)
 
 
 
@@ -877,13 +903,34 @@ Then
 
 #define INSTALL_GET(what, field)\
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
-  INSTALL_PUT(note, display);
-  INSTALL_PUT(note, prefix);
-  INSTALL_PUT(note, postfix);
 
-  INSTALL_GET(note, display);
-  INSTALL_GET(note, prefix);
-  INSTALL_GET(note, postfix);
+
+  //block to repeat for new  directive fields 
+  INSTALL_PUT(note, minpixels);
+  INSTALL_GET(note, minpixels);
+
+  INSTALL_PUT(chord, minpixels);
+  INSTALL_GET(chord, minpixels);
+
+  INSTALL_PUT(standalone, minpixels);
+  INSTALL_GET(standalone, minpixels);
+
+  //end block to repeat for new  directive fields 
+
+
+  //graphic 
+  INSTALL_PUT(note, graphic);
+  //INSTALL_GET(note, graphic);
+
+  INSTALL_PUT(chord, graphic);
+  //INSTALL_GET(chord, graphic);
+
+  INSTALL_PUT(standalone, graphic);
+  //INSTALL_GET(standalone, graphic);
+
+  //graphic
+
+
 
   INSTALL_PUT(chord, display);
   INSTALL_PUT(chord, prefix);
@@ -893,12 +940,29 @@ Then
   INSTALL_GET(chord, prefix);
   INSTALL_GET(chord, postfix);
 
-  //block to repeat for new int directive fields 
-  INSTALL_PUT(note, minpixels);
-  INSTALL_GET(note, minpixels);
-  INSTALL_PUT(chord, minpixels);
-  INSTALL_GET(chord, minpixels);
-  //end block to repeat for new int directive fields 
+
+  INSTALL_PUT(note, display);
+  INSTALL_PUT(note, prefix);
+  INSTALL_PUT(note, postfix);
+
+  INSTALL_GET(note, display);
+  INSTALL_GET(note, prefix);
+  INSTALL_GET(note, postfix);
+
+  INSTALL_PUT(standalone, display);
+  INSTALL_PUT(standalone, prefix);
+  INSTALL_PUT(standalone, postfix);
+
+  INSTALL_GET(standalone, display);
+  INSTALL_GET(standalone, prefix);
+  INSTALL_GET(standalone, postfix);
+
+
+
+
+
+
+
   INSTALL_PUT(note, x);
   INSTALL_GET(note, x);
   INSTALL_PUT(chord, x);
@@ -929,16 +993,33 @@ Then
   INSTALL_GET(chord, gy);
 
 
+  INSTALL_PUT(standalone, x);
+  INSTALL_GET(standalone, x);
+  INSTALL_PUT(standalone, y);
+  INSTALL_GET(standalone, y);
+
+  INSTALL_PUT(standalone, tx);
+  INSTALL_GET(standalone, tx);
+  INSTALL_PUT(standalone, ty);
+  INSTALL_GET(standalone, ty);
+
+  INSTALL_PUT(standalone, gx);
+  INSTALL_GET(standalone, gx);
+  INSTALL_PUT(standalone, gy);
+  INSTALL_GET(standalone, gy);
+
+
 #undef INSTALL_PUT
 #undef INSTALL_GET
 
 
-#define INSTALL_PUT_GRAPHIC(what)\
-  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePutGraphic" "-" #what, scheme_##what##_directive_put_graphic);
-  INSTALL_PUT_GRAPHIC(chord);
-  INSTALL_PUT_GRAPHIC(note);
+  //#define INSTALL_PUT_GRAPHIC(what)\
+    //  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePutGraphic" "-" #what, scheme_##what##_directive_put_graphic);
+    //  INSTALL_PUT_GRAPHIC(chord);
+    //  INSTALL_PUT_GRAPHIC(note);
+    //  INSTALL_PUT_GRAPHIC(standalone);
 
-#undef INSTALL_PUT_GRAPHIC
+    //#undef INSTALL_PUT_GRAPHIC
 
   /* test with (display (d-DirectivePut-note-display "LHfinger" "test")) after attaching a LH finger directive */
   /* test with (display (d-DirectivePut-note-minpixels "LHfinger" 80)) after attaching a LH finger directive */

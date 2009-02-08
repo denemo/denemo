@@ -6,7 +6,11 @@
     <map>
       <row>
         <action>RepeatEnd</action>
-        <scheme>(d-InsertLilyDirective "directive=\\bar \":|\"\0display=R|")
+        <scheme>(d-DirectivePut-standalone-minpixels "RepeatEnd" 10)
+(d-DirectivePut-standalone-postfix "RepeatEnd" " \\bar \":|\"")
+(d-DirectivePut-standalone-gx  "RepeatEnd"  -20)
+(d-DirectivePut-standalone-gy  "RepeatEnd"  -10)
+(d-DirectivePut-standalone-graphic "RepeatEnd" "RepeatEnd")
 
 </scheme>
         <label>:|</label>

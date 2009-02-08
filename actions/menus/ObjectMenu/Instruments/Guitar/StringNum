@@ -14,7 +14,7 @@
 (d-DirectivePut-note-minpixels "StringNum" 20)
 (d-DirectivePut-note-tx  "StringNum" 10)
 (d-DirectivePut-note-gx  "StringNum" 5)
-(d-DirectivePutGraphic-note "StringNum" "EncircleChar")
+(d-DirectivePut-note-graphic"StringNum" "EncircleChar")
 (d-Chordize #t)
 (d-RefreshDisplay))</scheme>
         <label>String Number</label>

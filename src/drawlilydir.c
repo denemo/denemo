@@ -3,7 +3,7 @@
  * Functions for drawing stemming directives
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999, 2000, 2001, 2002 Adam Tee
+ * (c) 1999, 2000, 2001, 2002 Adam Tee, 2008, 2009 Richard Shann
  */
 
 #include "utils.h"		/* Includes <gdk.h> */
@@ -29,14 +29,14 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
     gint width = lily->width;
     gint  height = lily->height;  
     drawbitmapinverse (pixmap, gcs_lightbluegc(), lily->graphic,
-		     xx, y+lowy, width, height);
+		     xx + lily->gx, y+lowy + lily->gy, width, height);
   }
   if(lily->display) {  //store display position x,y as well
     pango_layout_set_text (layout,
 			   lily->display->str,
 			   -1);
     pango_layout_set_font_description (layout, desc);
-    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx/*+display x */, y+lowy+20/*+display y */, layout);
+    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx+ lily->tx/*+display x */, y+lowy+lily->tx/*+display y */, layout);
   }
 #if 1
   else
