@@ -86,6 +86,22 @@ PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
 
+AC_ARG_WITH([lash],
+	    [AS_HELP_STRING([--with-lash],
+	    [support LASH @<:@default=check@:>@])],
+	    [],
+	    [with_lash=check])
+
+AS_IF([test "x$with_lash" != xno],
+      [PKG_CHECK_MODULES(LASH, lash-1.0, AC_DEFINE([HAVE_LASH], [], [Defined if we have LASH support.]),
+      [if test "x$with_lash" != xcheck; then
+       AC_MSG_FAILURE([--with-lash was given, but LASH was not found])
+       fi
+       ])])
+
+AC_SUBST(LASH_CFLAGS)
+AC_SUBST(LASH_LIBS)
+
 AC_ARG_ENABLE(
   jack,
   AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),
