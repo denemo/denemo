@@ -1,6 +1,3 @@
- 
-
-
 
 #ifdef _HAVE_JACK_
 #include <jack/jack.h>
@@ -10,16 +7,24 @@
 #include <glib.h>
 #include <math.h>
 #include <string.h>
+#include <assert.h>
 #include "pitchentry.h"
 #include "libsmf/smf.h"
+
+#ifdef WITH_LASH
+#include <lash/lash.h>
+#endif
+
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define MIDI_CONTROLLER         0xB0
+#define MIDI_ALL_SOUND_OFF      120
+#define MAX_NUMBER_OF_TRACKS    128
 
 #define INPUT_PORT_NAME         "midi_in"
 #define OUTPUT_PORT_NAME	"midi_out"
 #define PROGRAM_NAME            "denemo"
-
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_port;
@@ -38,8 +43,144 @@ jack_nframes_t note_length = 9;
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration;
 
+//jack_port_t     *output_ports[MAX_NUMBER_OF_TRACKS];
+//int             drop_messages = 0;
+//jack_client_t   *jack_client = NULL;
 smf_t           *smf = NULL;
+double          rate_limit = 0;
+int             just_one_output = 0;
+int             start_stopped = 0;
+int             use_transport = 0;
+int             be_quiet = 0;
 
+volatile int    playback_started = -1, song_position = 0, ctrl_c_pressed = 0;
+
+#ifdef WITH_LASH
+lash_client_t   *lash_client;
+#endif
+
+
+double 
+get_time(void)
+{
+	double		seconds;
+	int		ret;
+	struct timeval	tv;
+
+	ret = gettimeofday(&tv, NULL);
+
+	if (ret) {
+		perror("gettimeofday");
+		//exit(EX_OSERR);
+	}
+
+	seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
+
+	return seconds;
+}
+
+double
+get_delta_time(void)
+{
+	static double	previously = -1.0;
+	double		now;
+	double		delta;
+
+	now = get_time();
+
+	if (previously == -1.0) {
+		previously = now;
+
+		return 0;
+	}
+
+	delta = now - previously;
+	previously = now;
+
+	assert(delta >= 0.0);
+
+	return delta;
+}
+
+static gboolean
+warning_async(gpointer s)
+{
+	const char *str = (const char *)s;
+
+	g_warning(str);
+
+	return FALSE;
+}
+
+static void
+warn_from_jack_thread_context(const char *str)
+{
+	g_idle_add(warning_async, (gpointer)str);
+}
+
+static double
+nframes_to_ms(jack_nframes_t nframes)
+{
+	jack_nframes_t sr;
+
+	sr = jack_get_sample_rate(jack_client);
+
+	assert(sr > 0);
+
+	return (nframes * 1000.0) / (double)sr;
+}
+
+static double
+nframes_to_seconds(jack_nframes_t nframes)
+{
+	return nframes_to_ms(nframes) / 1000.0;
+}
+
+static jack_nframes_t
+ms_to_nframes(double ms)
+{
+	jack_nframes_t sr;
+
+	sr = jack_get_sample_rate(jack_client);
+
+	assert(sr > 0);
+
+	return ((double)sr * ms) / 1000.0;
+}
+
+static jack_nframes_t
+seconds_to_nframes(double seconds)
+{
+	return ms_to_nframes(seconds * 1000.0);
+}
+
+static void
+send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nframes)
+{
+	int i, channel;
+	unsigned char *buffer;
+
+	for (i = 0; i <= smf->number_of_tracks; i++) {
+		for (channel = 0; channel < 16; channel++) {
+#ifdef JACK_MIDI_NEEDS_NFRAMES
+			buffer = jack_midi_event_reserve(port_buffers[i], 0, 3, nframes);
+#else
+			buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+#endif
+			if (buffer == NULL) {
+				warn_from_jack_thread_context("jack_midi_event_reserve failed, cannot send All Sound Off.");
+				break;
+			}
+
+			buffer[0] = MIDI_CONTROLLER | channel;
+			buffer[1] = MIDI_ALL_SOUND_OFF;
+			buffer[2] = 0;
+		}
+
+		if (just_one_output)
+			break;
+	}
+}
 static gint move_on(DenemoGUI *gui){
 	  if(timeout_id==0)
 		      return FALSE;
@@ -58,92 +199,210 @@ if(kill_id)
 kill_id = 0;
 }
 
+#ifdef WITH_LASH
 
-int process(jack_nframes_t nframes)
+static gboolean
+lash_callback(gpointer notused)
 {
-	int i,j;
-	void* port_buf = jack_port_get_buffer(output_port, nframes);
-	unsigned char* buffer;
-	jack_midi_clear_buffer(port_buf);
-	/*memset(buffer, 0, nframes*sizeof(jack_default_audio_sample_t));*/
+	lash_event_t	*event;
 
-  gchar note;
-  GList *tmp;
-  //jack_midi_clear_buffer(port_buf);
-  if (g_list_length(note_frqs) > 0){ 
-        loop_index = 0;
-	tmp =  g_list_first(note_frqs);
-	note = (gchar *) tmp->data; 
-	//remove note from glist element
-        //note_frqs = g_list_delete_link(note_frqs, g_list_first(note_frqs));
+	while ((event = lash_get_event(lash_client))) {
+		switch (lash_event_get_type(event)) {
+			case LASH_Restore_Data_Set:
+			case LASH_Save_Data_Set:
+				break;
 
-	for(i=0; i<nframes; i++)
-	{
-		for(j=0; j<num_notes; j++)
-		{
-			if(note_start == loop_index)
-			{
-				jack_midi_clear_buffer(port_buf);
-				buffer = jack_midi_event_reserve(port_buf, i, 3);
-/*				printf("wrote a note on, port buffer = 0x%x, event buffer = 0x%x\n", port_buf, buffer);*/
-				buffer[2] = 64;		/* velocity */
-				buffer[1] = note;
-				buffer[0] = 0x90;	/* note on */
-			}
-			else if(note_start + note_length == loop_index)
-			{
-				jack_midi_clear_buffer(port_buf);
-				buffer = jack_midi_event_reserve(port_buf, i, 3);
-				printf("wrote a note off, port buffer = 0x%x, event buffer = 0x%x\n", port_buf, buffer);
-				buffer[2] = 0;		/* velocity */
-				buffer[1] = note;
-				buffer[0] = 0x80;	/* note off */
-				note_frqs = g_list_delete_link(note_frqs, g_list_first(note_frqs));
-			}
+			case LASH_Quit:
+				g_warning("Exiting due to LASH request.");
+				ctrl_c_pressed = 1;
+				break;
+
+			default:
+				g_warning("Receieved unknown LASH event of type %d.", lash_event_get_type(event));
+				lash_event_destroy(event);
 		}
-		loop_index = loop_index+1 >= loop_nsamp ? 0 : loop_index+1;
 	}
-	return 0;
-  }
+
+	return TRUE;
 }
-int process_midi_output(jack_nframes_t nframes)
+
+static void
+init_lash(lash_args_t *args)
 {
-  int i,j;
-  void* port_buf = jack_port_get_buffer(output_port, nframes);
-  unsigned char* buffer;
-  //unsigned char* midi_buffer;
-  gchar note;
-  GList *tmp;
-  jack_midi_clear_buffer(port_buf);
-  if (g_list_length(note_frqs) > 0){ 
-        tmp =  g_list_first(note_frqs);
-	note = (gchar *) tmp->data; 
-	//remove note from glist element
-        note_frqs = g_list_delete_link(note_frqs, g_list_first(note_frqs));
+	/* XXX: Am I doing the right thing wrt protocol version? */
+	lash_client = lash_init(args, PROGRAM_NAME, LASH_Config_Data_Set, LASH_PROTOCOL(2, 0));
+
+	if (!lash_server_connected(lash_client)) {
+		g_critical("Cannot initialize LASH.  Continuing anyway.");
+		/* exit(EX_UNAVAILABLE); */
+
+		return;
+	}
+
+	/* Schedule a function to process LASH events, ten times per second. */
+	g_timeout_add(100, lash_callback, NULL);
+}
+
+#endif /* WITH_LASH */
+
+
+static void
+process_midi_output(jack_nframes_t nframes)
+{
+	int		i, t, bytes_remaining, track_number;
+	unsigned char  *buffer, tmp_status;
+	void		*port_buffers[MAX_NUMBER_OF_TRACKS];
+	jack_nframes_t	last_frame_time;
+	jack_transport_state_t transport_state;
+	static jack_transport_state_t previous_transport_state = JackTransportStopped;
+	//g_print("\nNumber of midi tracks = %d\n",smf->number_of_tracks);
+	for (i = 0; i <= smf->number_of_tracks; i++) {
+		port_buffers[i] = jack_port_get_buffer(output_port, nframes);
+
+		if (port_buffers[i] == NULL) {
+			warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
+			return;
+		}
+
+#ifdef JACK_MIDI_NEEDS_NFRAMES
+		jack_midi_clear_buffer(port_buffers[i], nframes);
+#else
+		jack_midi_clear_buffer(port_buffers[i]);
+#endif
+
+		if (just_one_output)
+			break;
+	}
+
+	if (ctrl_c_pressed) {
+		send_all_sound_off(port_buffers, nframes);
+		
+		/* The idea here is to exit at the second time process_midi_output gets called.
+		   Otherwise, All Sound Off won't be delivered. */
+		ctrl_c_pressed++;
+		if (ctrl_c_pressed >= 3)
+		//	exit(0);
+
+		return;
+	}
+        
+	if (use_transport) {
+		transport_state = jack_transport_query(jack_client, NULL);
+		if (transport_state == JackTransportStopped) {
+			if (previous_transport_state == JackTransportRolling)
+				send_all_sound_off(port_buffers, nframes);
+
+			previous_transport_state = transport_state;
+
+			return;
+		}
+
+		previous_transport_state = transport_state;
+	}
 	
-         
-    for(i=0; i<nframes; i++){
-	  if (loop_index == 0){
-	    buffer = jack_midi_event_reserve(port_buf, i, 3);
-	      buffer[2] = 128;
-	      buffer[1] = note;
-	      buffer[0] = NOTE_ON;
-	      g_print("\njack noteon = %d\n",note);
-	  }
-	  
-	  if (loop_index == note_length){
-	      buffer = jack_midi_event_reserve(port_buf, i, 3);
-	      buffer[2] = 128;
-	      buffer[1] = note;
-	      buffer[0] = NOTE_OFF;
-	      g_print("\njack noteoff = %d\n",note);
-	   }
-	  //g_print("\nloop index = %d\n",loop_index);
-	loop_index = loop_index+1 >= loop_nsamp ? 0 : loop_index+1;
-    }
-  }
-  
-  return 0;
+	last_frame_time = jack_last_frame_time(jack_client);
+        //g_print("\nLast frame time = %d\n", last_frame_time);
+	/* End of song already? */
+	if (playback_started < 0)
+		return;
+	g_print("\nplayback started = %d\n", playback_started);
+
+	/* We may push at most one byte per 0.32ms to stay below 31.25 Kbaud limit. */
+	bytes_remaining = nframes_to_ms(nframes) * rate_limit;
+
+	for (;;) {
+		smf_event_t *event = smf_peek_next_event(smf);
+
+		if (event == NULL) {
+			if (!be_quiet)
+				g_debug("End of song.");
+			playback_started = -1;
+
+			if (!use_transport)
+				ctrl_c_pressed = 1;
+
+			break;
+		}
+
+		/* Skip over metadata events. */
+		if (smf_event_is_metadata(event)) {
+			char *decoded = smf_event_decode(event);
+			if (decoded && !be_quiet)
+				g_debug("Metadata: %s", decoded);
+
+			smf_get_next_event(smf);
+			continue;
+		}
+
+		bytes_remaining -= event->midi_buffer_length;
+		g_print("\nBytes Remaining = %d\n",bytes_remaining);
+		if (rate_limit > 0.0 && bytes_remaining <= 0) {
+			warn_from_jack_thread_context("Rate limiting in effect.");
+			break;
+		}
+
+		t = seconds_to_nframes(event->time_seconds) + playback_started - song_position + nframes - last_frame_time;
+
+		/* If computed time is too much into the future, we'll need
+		   to send it later. */
+		if (t >= (int)nframes)
+			break;
+
+		/* If computed time is < 0, we missed a cycle because of xrun. */
+		if (t < 0)
+			t = 0;
+
+		assert(event->track->track_number >= 0 && event->track->track_number <= MAX_NUMBER_OF_TRACKS);
+
+		/* We will send this event; remove it from the queue. */
+		smf_get_next_event(smf);
+
+		/* First, send it via midi_out. */
+		track_number = 0;
+
+#ifdef JACK_MIDI_NEEDS_NFRAMES
+		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length, nframes);
+#else
+		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length);
+#endif
+
+		if (buffer == NULL) {
+			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
+			break;
+		}
+
+		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
+
+		/* Ignore per-track outputs? */
+		if (just_one_output)
+			continue;
+
+		/* Send it via proper output port. */
+		track_number = event->track->track_number;
+
+#ifdef JACK_MIDI_NEEDS_NFRAMES
+		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length, nframes);
+#else
+		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length);
+#endif
+
+		if (buffer == NULL) {
+			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
+			break;
+		}
+
+		/* Before sending, reset channel to 0. XXX: Not very pretty. */
+		assert(event->midi_buffer_length >= 1);
+
+		tmp_status = event->midi_buffer[0];
+
+		if (event->midi_buffer[0] >= 0x80 && event->midi_buffer[0] <= 0xEF)
+			event->midi_buffer[0] &= 0xF0;
+
+		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
+
+		event->midi_buffer[0] = tmp_status;
+	}
 }
 
 void
@@ -163,14 +422,56 @@ static process_midi_input(jack_nframes_t nframes)
     process_midi_event(event.buffer);
   }
 }
- 
-static int
+
+static int 
 process_callback(jack_nframes_t nframes, void *notused)
 {
-  process_midi_input(nframes);
-  //process_midi_output(nframes);
-  process(nframes);
-  return 0;
+#ifdef MEASURE_TIME
+	if (get_delta_time() > MAX_TIME_BETWEEN_CALLBACKS) {
+		warn_from_jack_thread_context("Had to wait too long for JACK callback; scheduling problem?");
+	}
+#endif
+
+	/* Check for impossible condition that actually happened to me, caused by some problem between jackd and OSS4. */
+	if (nframes <= 0) {
+		warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
+		return 0;
+	}
+
+	process_midi_input(nframes);
+	if (smf != NULL)
+	  process_midi_output(nframes);
+
+#ifdef MEASURE_TIME
+	if (get_delta_time() > MAX_PROCESSING_TIME) {
+		warn_from_jack_thread_context("Processing took too long; scheduling problem?");
+	}
+#endif
+
+	return 0;
+}
+
+static int
+sync_callback(jack_transport_state_t state, jack_position_t *position, void *notused)
+{
+	assert(jack_client);
+
+	/* XXX: We should probably adapt to external tempo changes. */
+
+	if (state == JackTransportStarting) {
+		song_position = position->frame;
+		smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
+
+		if (!be_quiet)
+			g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
+
+		playback_started = jack_frame_time(jack_client);
+
+	} else if (state == JackTransportStopped) {
+		playback_started = -1;
+	}
+
+	return TRUE;
 }
 
 void 
@@ -181,18 +482,29 @@ stop_jack(void){
 int
 init_jack(void){
   int err = 0;
+
+#ifdef WITH_LASH
+  lash_event_t *event;
+#endif
+
   jack_client = jack_client_open(PROGRAM_NAME, JackNullOption, NULL);
   if (jack_client == NULL) {
     g_critical("Could not connect to the JACK server; run jackd first?");
     //exit(EX_UNAVAILABLE);
   }
+#ifdef WITH_LASH
+  event = lash_event_new_with_type(LASH_Client_Name);
+  assert (event); /* Documentation does not say anything about return value. */
+  lash_event_set_string(event, jack_get_client_name(jack_client));
+  lash_send_event(lash_client, event);
+  lash_jack_client_name(lash_client, jack_get_client_name(jack_client));
+#endif
 
   err = jack_set_process_callback(jack_client, process_callback, 0);
   if (err) {
     g_critical("Could not register JACK process callback.");
     //exit(EX_UNAVAILABLE);
   }
-
   input_port = jack_port_register(jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
 
@@ -240,37 +552,9 @@ jack_playtone (gpointer tone, gpointer chord, int prognum)
   note_frqs = g_list_append (note_frqs, key);
 }
 
-/**
- *  Used to stop each tone in the given chord
- *  (a g_list_foreach function)
- */
-static void
-jack_stoptone (gpointer tone, gpointer chord)
-{
-  gint offset;
-  gint voice;
-  gchar key;
-  /* Because mid_c_offset is a measure of notes and we need a measure of
-   * half-steps, this array will help */
-  const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
-
-  offset = ((note *) tone)->mid_c_offset;
-
-  /* 60 is middle-C in MIDI keys */
-  key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
-  key += ((note *) tone)->enshift;
-  voice = g_list_index ((GList *) chord, tone);
- 
-  g_print("\nsending jack noteoff key=%d\n", key); 
-}
-
 void
 jack_playnotes (gboolean doit, chord chord_to_play, int prognum)
 {
-  //if (doit && chord_to_play.notes) {
-  //  jack_playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
-  //  return;
-  //}
   if (doit){
 	GList *tone;
 	tone = chord_to_play.notes;
@@ -279,21 +563,60 @@ jack_playnotes (gboolean doit, chord chord_to_play, int prognum)
 	    jack_playtone (tone->data, chord_to_play.notes, prognum);
 	    tone = tone->next;
 	  }
-	/* delta time or length of chord */
-
-//	g_list_foreach (chord_to_play.notes,
-//			(GFunc) jack_stoptone, chord_to_play.notes);
   }
 }
 
 void
 jack_midi_player (gchar *file_name) {
 
-  	smf = smf_load(file_name);
+#ifdef WITH_LASH
+  lash_args_t *lash_args;
+#endif
+
+  //g_thread_init(NULL);
+
+#ifdef WITH_LASH
+  lash_args = lash_extract_args(&argc, &argv);
+#endif
+
+  smf = smf_load(file_name);
   if (smf == NULL) {
-      g_critical("Loading SMF file failed.");
-       exit(-1);
+     g_critical("Loading SMF file failed.");
+     exit(-1);
   }
+  if (!be_quiet)
+     g_message("%s.", smf_decode(smf));
+
+  if (smf->number_of_tracks > MAX_NUMBER_OF_TRACKS) { 
+     g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
+     just_one_output = 1;
+  }
+ 
+  if (use_transport) {
+    gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
+    if (err) {
+      g_critical("Could not register JACK sync callback.");
+      //exit(EX_UNAVAILABLE);
+    }
+  }
+  assert(smf->number_of_tracks >= 1);
+
+
+#ifdef WITH_LASH
+  init_lash(lash_args);
+#endif
+  //g_timeout_add(1000, emergency_exit_timeout, (gpointer)0);
+  //signal(SIGINT, ctrl_c_handler);
+          
+  if (use_transport && !start_stopped) {
+    jack_transport_locate(jack_client, 0);
+    jack_transport_start(jack_client);
+  }
+  
+  if (!use_transport)
+    playback_started = jack_frame_time(jack_client);
+
+  g_main_loop_run(g_main_loop_new(NULL, TRUE));
 
 }
 
