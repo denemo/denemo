@@ -599,7 +599,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 
 
 
-#if 1
+
 // Displaying Print Preview
 
 static void draw_print(DenemoGUI *gui) {
@@ -768,14 +768,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   }
   width = Denemo.gui->pointx-Denemo.gui->markx;
   height = Denemo.gui->pointy-Denemo.gui->marky;
-  if(width>255 || height >255) {
-    warningdialog("Too wide! clipping it to 255 max");
-    Denemo.gui->pointx = Denemo.gui->markx + 255;
-  }
-  if(height >255) {
-    warningdialog("Too high! clipping it to 255 max");
-    Denemo.gui->pointy = Denemo.gui->marky + 255;
-  }
+
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
   GError *error = NULL;
 
@@ -834,12 +827,6 @@ void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox ){
   gtk_widget_show_all(main_vbox);
   gtk_widget_hide(main_vbox);
 }
-
-
-
-#endif
-
-
 
 
 

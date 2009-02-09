@@ -1391,22 +1391,45 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  break;
 		case LILYDIRECTIVE:
-		  objElem =
-			xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
-				     (xmlChar *) ((lilydirective *) curObj->object)->
-				     postfix->str);
+		  //FIXME this should really have been the tag saved here, but for backwards compatibility we use the postfix string.
+		  if( ((lilydirective *) curObj->object)->
+				     postfix && ((lilydirective *) curObj->object)->
+		      postfix->len)
+		    objElem =
+		      xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
+				   (xmlChar *) ((lilydirective *) curObj->object)->
+				   postfix->str);
+		  else
+		    objElem =
+		      xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
+				   (xmlChar *)" ");
+
+		  
 		  xmlSetProp (objElem, (xmlChar *) "locked",
 			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
-		  if(((lilydirective *) curObj->object)->display && ((lilydirective *) curObj->object)->display->len) {
-		    xmlSetProp (objElem, (xmlChar *) "display",
-			      (xmlChar *) (((lilydirective *) curObj->object)->display->str));
-		    newXMLIntProp (objElem, (xmlChar *) "x",
-				   (((lilydirective *) curObj->object)->x));
-		    newXMLIntProp (objElem, (xmlChar *) "y",
-				   (((lilydirective *) curObj->object)->y));
 
-		  }
-		    
+#define SETSTRING_PROP(field)\
+		  if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
+		    xmlSetProp (objElem, (xmlChar *) #field,\
+			      (xmlChar *) (((lilydirective *) curObj->object)->field->str));
+
+		    SETSTRING_PROP (tag);
+		    SETSTRING_PROP (display);
+		    SETSTRING_PROP (graphic_name);
+		    SETSTRING_PROP (prefix);//postfix done above, for backward compatibility
+#undef SETSTRING_PROP
+
+#define SETINT_PROP(x)\
+		    newXMLIntProp (objElem, (xmlChar *) #x,\
+				   (((lilydirective *) curObj->object)->x));
+		    SETINT_PROP (x);
+		    SETINT_PROP (y);
+		    SETINT_PROP (tx);
+		    SETINT_PROP (ty);
+		    SETINT_PROP (gx);
+		    SETINT_PROP (gy);
+		    SETINT_PROP (minpixels);
+#undef SETINT_PROP		  
 		  break;
 		case BARLINE:
 		case MEASUREBREAK:

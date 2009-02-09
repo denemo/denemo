@@ -27,6 +27,7 @@ standalone_directive (GtkAction *action, DenemoScriptParam *param);
 #define DECL_PUT_GRAPHIC(what) gboolean what##_directive_put_graphic(gchar *tag, gchar *value);
 DECL_PUT_GRAPHIC(chord)
 DECL_PUT_GRAPHIC(note)
+DECL_PUT_GRAPHIC(standalone)
 
 
 DECL_GET_FIELD(note, prefix)
@@ -46,8 +47,19 @@ DECL_PUT_FIELD(chord, prefix)
 DECL_PUT_FIELD(chord, postfix)
 DECL_PUT_FIELD(chord, display)
 
+DECL_GET_FIELD(standalone, prefix)
+DECL_GET_FIELD(standalone, postfix)
+DECL_GET_FIELD(standalone, display)
+
+DECL_PUT_FIELD(standalone, prefix)
+DECL_PUT_FIELD(standalone, postfix)
+DECL_PUT_FIELD(standalone, display)
+
+
 DECL_GET_INT(note, minpixels)
 DECL_GET_INT(chord, minpixels)
+DECL_GET_INT(standalone, minpixels)
+     //FIXME x,y,tx,ty,gx,gy
 
 #undef DECL_PUT_FIELD
 #undef DECL_GET_FIELD

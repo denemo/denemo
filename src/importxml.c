@@ -1414,28 +1414,42 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
 						     LilyDirectiveElem->
 						     xmlChildrenNode,
 						     1);
+
+  DenemoObject *curobj = lily_directive_new (directive?directive:" "); 
+  DenemoDirective *thedirective = (lilydirective*)curobj->object;
+
   gchar *locked = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "locked");
-  gchar *display = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "display");
-  gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "x");
-  gchar *y = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) "y");
-
-
-  DenemoObject *curobj = lily_directive_new (directive);
+ 
   if(locked)
-    ((lilydirective*)curobj->object)->locked = !strcmp (locked, "true");
+    thedirective->locked = !strcmp (locked, "true");
   g_free(locked);
-  if(display)
-    ((lilydirective*)curobj->object)->display = g_string_new(display);
+
+#define GET_STR_FIELD(display)\
+  gchar *display = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #display);\
+  if(display)\
+    ((lilydirective*)curobj->object)->display = g_string_new(display);\
   g_free(display);
-  if(x)
-    ((lilydirective*)curobj->object)->x = atoi(x);
+
+  GET_STR_FIELD(tag);
+  GET_STR_FIELD(display);
+  GET_STR_FIELD(graphic_name);
+  GET_STR_FIELD(prefix);
+  if(thedirective->graphic_name && thedirective->graphic_name->len)
+    loadGraphicItem(thedirective->graphic_name->str , &thedirective->graphic, &thedirective->width, &thedirective->height);
+#define GET_INT_FIELD(x)\
+  gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
+  if(x)\
+    ((lilydirective*)curobj->object)->x = atoi(x);\
   g_free(x);
-  if(y)
-    ((lilydirective*)curobj->object)->y = atoi(y);
-  g_free(y);
 
-
-
+  GET_INT_FIELD(x);
+  GET_INT_FIELD(y);
+  GET_INT_FIELD(tx);
+  GET_INT_FIELD(ty);
+  GET_INT_FIELD(gx);
+  GET_INT_FIELD(gy);
+  GET_INT_FIELD(minpixels);
+  curobj->minpixelsalloted = thedirective->minpixels;
   return curobj;
 }
 
