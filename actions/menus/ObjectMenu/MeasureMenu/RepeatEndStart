@@ -5,9 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>RepeatCloseOpen</action>
-        <scheme>(d-InsertLilyDirective "directive=\\bar \":|:\"\0display=R|R")
-</scheme>
+        <action>RepeatEndStart</action>
+        <scheme>;;;RepeatEndStart
+(d-DirectivePut-standalone-minpixels "RepeatEndStart" 50)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "RepeatEndStart" " \\bar \":|:\"")
+(d-DirectivePut-standalone-gx  "RepeatEndStart"  0)
+(d-DirectivePut-standalone-gy  "RepeatEndStart"  -5)
+(d-DirectivePut-standalone-graphic "RepeatEndStart" "RepeatEndStart")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
         <label>:|:</label>
         <tooltip>Inserts a repeat close and open new repeat barline</tooltip>
       </row>

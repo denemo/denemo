@@ -2157,7 +2157,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Insert repeat barline.</tooltip>
       </row>
       <row>
-        <action>RepeatCloseOpen</action>
+        <action>RepeatEndStart</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>:|:</label>
