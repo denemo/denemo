@@ -682,40 +682,6 @@ printarea_expose_event (GtkWidget * widget, GdkEventExpose * event, DenemoGUI *g
   draw_print(gui);
 }
 
-static const gchar *
-get_xbm (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy)
-{
-  int width, height, rowstride, n_channels;
-  guchar *pixels, *p;
-
-  n_channels = gdk_pixbuf_get_n_channels (pixbuf);
-
-#ifdef DEBUG
-  g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
-  g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
-  g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
-  g_assert (n_channels == 4);
-#endif
-  width = hix - lox;
-  height = hiy - loy;      
-  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-  pixels = gdk_pixbuf_get_pixels (pixbuf);
-  int x, y, i;
-
-  unsigned char *chars = g_malloc0(sizeof(char) * width*height);//about 8 times too big!
-  unsigned char * this = chars;
-  for(i=0, y=loy;y<hiy;y++)
-    {
-      for(x=lox;x<hix;x++, i++) {
-	this = chars + (i/8);
-	gint set = ((pixels + y * rowstride + x * n_channels)[3]>0);
-	*this += set<<i%8;
-      }
-      i = ((i+7)/8)*8;
-    }
-  return chars;
-}
-
 
 
 
@@ -770,15 +736,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   height = Denemo.gui->pointy-Denemo.gui->marky;
 
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
-  GError *error = NULL;
-
- if(error != NULL)
-   {
-     g_warning (_("Could not save:\n%s\n"),
-                 error->message);
-     g_error_free (error);
-   }
-  const gchar *data =  get_xbm(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
+  gchar *data =  create_xbm_data_from_pixbuf(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
   Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
   if(Denemo.gui->xbm)
     g_free(Denemo.gui->xbm);

@@ -479,7 +479,7 @@ what##_directive_get_##field(gchar *tag) {\
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
 PUT_INT_FIELD_FUNC(chord, minpixels)
-     //standalone needs different code see DIREC_PUT* below
+     //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
 GET_INT_FIELD_FUNC(standalone, minpixels)
@@ -527,6 +527,13 @@ GET_INT_FIELD_FUNC(standalone, ty)
 GET_INT_FIELD_FUNC(standalone, gx)
 GET_INT_FIELD_FUNC(standalone, gy)
 
+     /* width and height of graphic (if any), read only */
+GET_INT_FIELD_FUNC(note, width)
+GET_INT_FIELD_FUNC(chord, width)
+GET_INT_FIELD_FUNC(standalone, width)
+GET_INT_FIELD_FUNC(note, height)
+GET_INT_FIELD_FUNC(chord, height)
+GET_INT_FIELD_FUNC(standalone, height)
 
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC
@@ -535,18 +542,17 @@ GET_INT_FIELD_FUNC(standalone, gy)
 #define PUT_GRAPHIC(what) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive && directive->graphic)\
-    g_object_unref(G_OBJECT(directive->graphic));\
-  if(directive) {\
+  if(directive && !directive->graphic)\
+  {if(directive) {\
      loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);\
      directive->graphic_name = g_string_new(value);}\
-  else {\
+    else {\
        what *current = get_##what();\
        if(current==NULL) return FALSE;\
        if(current->directives==NULL) {\
           create_directives (&current->directives, tag);\
           what##_directive_put_graphic(tag, value);\
-        }\
+        }}\
   }\
   return TRUE;\
 }
@@ -554,27 +560,33 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
      PUT_GRAPHIC(note);
 #undef PUT_GRAPHIC
 
+gboolean
 standalone_directive_put_graphic(gchar *tag, gchar *value) {
   DenemoDirective *directive = get_standalone_directive(tag);
-  if(directive && directive->graphic)
-    g_object_unref(G_OBJECT(directive->graphic));
+  if(directive && directive->graphic) {
+    
+    // directive->graphic = NULL; FIXME should we do this...
+    //g_string_free(directive->graphic_name, TRUE);
+  }
   if(!directive) {
    	DenemoObject *obj = lily_directive_new (" ");
         directive = (DenemoDirective*)obj->object;
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
   }
-  loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);
-  if(directive->graphic_name)
-    g_string_assign(directive->graphic_name, value);
-  else
-    directive->graphic_name = g_string_new(value);
-  return TRUE;
+  if( loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height)) {
+    if(directive->graphic_name)
+      g_string_assign(directive->graphic_name, value);
+    else
+      directive->graphic_name = g_string_new(value);
+    return TRUE;
+  } else 
+    return FALSE;
 }
 
 
 
-#define DIREC_PUT_FIELD_FUNC(field)\
+#define STANDALONE_PUT_FIELD_FUNC(field)\
 gboolean \
 standalone_directive_put_##field(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
@@ -592,16 +604,16 @@ standalone_directive_put_##field(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
-DIREC_PUT_FIELD_FUNC(prefix);
-DIREC_PUT_FIELD_FUNC(postfix);
-DIREC_PUT_FIELD_FUNC(display);
+STANDALONE_PUT_FIELD_FUNC(prefix);
+STANDALONE_PUT_FIELD_FUNC(postfix);
+STANDALONE_PUT_FIELD_FUNC(display);
 
 
 
 
-#undef DIREC_PUT_FIELD_FUNC
+#undef STANDALONE_PUT_FIELD_FUNC
 
-#define DIREC_PUT_INT_FIELD_FUNC(field)\
+#define STANDALONE_PUT_INT_FIELD_FUNC(field)\
 gboolean \
 standalone_directive_put_##field(gchar *tag, gint value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
@@ -617,15 +629,15 @@ standalone_directive_put_##field(gchar *tag, gint value) {\
   return TRUE;\
 }
 
-//DIREC_PUT_INT_FIELD_FUNC(minpixels); special case
-DIREC_PUT_INT_FIELD_FUNC(x);
-DIREC_PUT_INT_FIELD_FUNC(y);
-DIREC_PUT_INT_FIELD_FUNC(tx);
-DIREC_PUT_INT_FIELD_FUNC(ty);
-DIREC_PUT_INT_FIELD_FUNC(gx);
-DIREC_PUT_INT_FIELD_FUNC(gy);
+//STANDALONE_PUT_INT_FIELD_FUNC(minpixels); special case
+STANDALONE_PUT_INT_FIELD_FUNC(x);
+STANDALONE_PUT_INT_FIELD_FUNC(y);
+STANDALONE_PUT_INT_FIELD_FUNC(tx);
+STANDALONE_PUT_INT_FIELD_FUNC(ty);
+STANDALONE_PUT_INT_FIELD_FUNC(gx);
+STANDALONE_PUT_INT_FIELD_FUNC(gy);
 
-#undef DIREC_PUT_INT_FIELD_FUNC
+#undef STANDALONE_PUT_INT_FIELD_FUNC
 gboolean 
 standalone_directive_put_minpixels(gchar *tag, gint value) {
   DenemoDirective *directive = get_standalone_directive(tag);

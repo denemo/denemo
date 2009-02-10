@@ -472,8 +472,8 @@ free_directives(GList *directives) {
     DFREE(postfix);
    
 #undef FREE
-    if(directive->graphic)
-      g_object_unref(directive->graphic);
+    //if(directive->graphic)
+    //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
     if(directive->graphic_name)
       g_string_free(directive->graphic_name, TRUE);
   } 

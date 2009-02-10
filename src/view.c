@@ -443,6 +443,8 @@ SCM scheme_get_command(void) {
 
 #define GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   gchar *value = what##_directive_get_##field(tagname);\
   if(value)\
@@ -451,6 +453,8 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
 }
 #define PUTFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
+  if((!SCM_STRINGP(tag))||(!SCM_STRINGP(value)))\
+     return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   gchar *valuename = scm_to_locale_string(value);\
   return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
@@ -489,27 +493,33 @@ PUTFUNC_DEF(standalone, postfix)
 
 #define INT_PUTFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
+  if((!SCM_STRINGP(tag))||(!scm_integer_p(value)))\
+     return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   gint valuename = scm_num2int(value, 0, 0);\
   return SCM_BOOL(what##_directive_put_##field (tagname, valuename));\
 }
 #define INT_GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   return scm_int2num(what##_directive_get_##field (tagname));\
 }
 
 
-#define INT_PUTGRAPHICFUNC_DEF(what)\
+#define PUTGRAPHICFUNC_DEF(what)\
 static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
+  if((!SCM_STRINGP(tag))||(!SCM_STRINGP(value)))\
+     return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   gchar *valuename = scm_to_locale_string(value);\
   return SCM_BOOL(what##_directive_put_graphic (tagname, valuename));\
 }
 
-INT_PUTGRAPHICFUNC_DEF(note);
-INT_PUTGRAPHICFUNC_DEF(chord);
-INT_PUTGRAPHICFUNC_DEF(standalone);
+PUTGRAPHICFUNC_DEF(note);
+PUTGRAPHICFUNC_DEF(chord);
+PUTGRAPHICFUNC_DEF(standalone);
 
 
      //block to copy for new int field in directive
@@ -560,12 +570,18 @@ INT_GETFUNC_DEF(note, gx)
 INT_GETFUNC_DEF(chord, gx)
 INT_GETFUNC_DEF(standalone, gx)
 
-
+INT_GETFUNC_DEF(note, width)
+INT_GETFUNC_DEF(chord, width)
+INT_GETFUNC_DEF(standalone, width)
+INT_GETFUNC_DEF(note, height)
+INT_GETFUNC_DEF(chord, height)
+INT_GETFUNC_DEF(standalone, height)
+ 
 
 
 #undef INT_PUTFUNC_DEF
 #undef INT_GETFUNC_DEF
-#undef INT_PUTGRAPHICFUNC_DEF
+#undef PUTGRAPHICFUNC_DEF
 
 SCM scheme_get_midi(void) {
  gint midi;
@@ -1008,6 +1024,15 @@ Then
   INSTALL_PUT(standalone, gy);
   INSTALL_GET(standalone, gy);
 
+
+
+
+  INSTALL_GET(note, width);
+  INSTALL_GET(chord, width);
+  INSTALL_GET(standalone, width);
+  INSTALL_GET(note, height);
+  INSTALL_GET(chord, height);
+  INSTALL_GET(standalone, height);
 
 #undef INSTALL_PUT
 #undef INSTALL_GET
@@ -2148,16 +2173,95 @@ locatebitmapsdir(void) {
   }
   return bitmapsdir;
 }
+
+gchar *
+create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy)
+{
+  int width, height, rowstride, n_channels;
+  guchar *pixels, *p;
+
+  n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+
+#ifdef DEBUG
+  g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
+  g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
+  g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
+  g_assert (n_channels == 4);
+#endif
+  width = hix - lox;
+  height = hiy - loy;      
+  rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+  pixels = gdk_pixbuf_get_pixels (pixbuf);
+  int x, y, i;
+
+  unsigned char *chars = g_malloc0(sizeof(char) * width*height);//about 8 times too big!
+  unsigned char * this = chars;
+  for(i=0, y=loy;y<hiy;y++)
+    {
+      for(x=lox;x<hix;x++, i++) {
+	this = chars + (i/8);
+	gint set = ((pixels + y * rowstride + x * n_channels)[3]>0);
+	*this += set<<i%8;
+      }
+      i = ((i+7)/8)*8;
+    }
+  return chars;
+}
+
+static GHashTable *bitmaps;
+static void hash_table_insert(gchar *name, GdkBitmap *xbm) {
+  if(!bitmaps)
+    bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+  g_hash_table_insert(bitmaps, g_strdup(name), xbm);
+}
+
+static loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
+
+  GError *error = NULL;
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (name, &error);
+  if(error) {
+    warningdialog(error->message);		 
+    return FALSE;
+  }
+  GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
+  *width = gdk_pixbuf_get_width(pixbufa);
+  *height = gdk_pixbuf_get_height(pixbufa);
+  gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
+  *xbm = gdk_bitmap_create_from_data (NULL, data, *width, *height);
+  hash_table_insert(basename, *xbm);
+  g_free(data);
+  return TRUE;
+}
+
+
+static loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+  GError *error = NULL;
+  gchar *filename = g_strconcat(name, ".png", NULL);
+  return loadGraphicFromFormat(basename, filename, xbm, width, height);//FIXME free filename
+  //others .jpg .svg ....		 
+    return FALSE;
+}
+
+
 gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+  if(bitmaps && (*xbm = (GdkBitmap *) g_hash_table_lookup(bitmaps, name))) {
+    gdk_drawable_get_size(*xbm, width, height);
+    return TRUE;
+  }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
 				      NULL);
-
+  
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+      return TRUE;
     g_free(filename);
     filename = g_build_filename (get_data_dir (), "actions", "bitmaps", name,
 				      NULL);
   }
-    
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+      return TRUE;
+  } 
   FILE *fp = fopen(filename,"rb");
   if(fp) {
     guchar wlo, whi, hlo, hhi;
@@ -2174,6 +2278,7 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
     if(numbytes == fread(data, 1, numbytes, fp)){
       *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
+      hash_table_insert(name, *xbm);
       *width = w; *height = h;
       fclose(fp);
       return TRUE;
