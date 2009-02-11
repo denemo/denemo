@@ -264,10 +264,10 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		NULL, &err);
   
   process_lilypond_errors(lilyfile, gui, errors, output, err); 
-  if (gui->lilycontrol.excerpt){
-    load_png(gui);
+  // if (gui->lilycontrol.excerpt){
+  //    load_png(gui);
 
-  }
+  //  }
 }
 
 /* Run the LilyPond interpreter on the file (filename).ly
@@ -323,7 +323,6 @@ gchar *get_printfile_pathbasename(void) {
 static void
 print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
-  DenemoScore *si = gui->si;
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   remove (lilyfile);
@@ -601,7 +600,8 @@ export_pdf_action (GtkAction *action, gpointer param)
 
 
 // Displaying Print Preview
-
+static gboolean dragging = FALSE;
+static gint curx, cury;
 static void draw_print(DenemoGUI *gui) {
   gint x, y;
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
@@ -616,13 +616,54 @@ static void draw_print(DenemoGUI *gui) {
   gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
 		  x,y,0,0,/* x, y in pixbuf, x,y in window */
 		  width,  height, GDK_RGB_DITHER_NONE,0,0);
+  if(dragging)
+    {gint w = ABS(Denemo.gui->markx-curx);
+    gint h = ABS(Denemo.gui->marky-cury);
+    gdk_draw_rectangle (Denemo.gui->printarea->window,
+			gcs_blackgc(), FALSE,Denemo.gui->markx, Denemo.gui->marky, w, h);
+    }
 }
 
 
 
 static void load_png (DenemoGUI *gui) {
   GError *error = NULL;
-  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint.png", NULL);
+
+  gchar *filename = get_printfile_pathbasename();
+  gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
+  remove (lilyfile);
+  gui->lilycontrol.excerpt = TRUE;
+  exportlilypond (lilyfile, gui,  TRUE);
+  gui->lilycontrol.excerpt = FALSE;
+  convert_ly(lilyfile);
+
+  // run_lilypond_and_viewer(filename, gui);
+  gchar *printfile = g_strconcat (filename, "_", NULL);
+  gchar *resolution = "-dresolution=180";
+
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    printfile,
+    lilyfile,
+    NULL
+  };
+  gchar *output=NULL, *errors=NULL;
+  g_spawn_sync (locatedotdenemo (),		/* dir */
+		arguments, NULL,	/* env */
+		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
+		NULL,		/* user data */
+		&output,		/* stdout */
+		&errors,		/* stderr */
+		NULL, &error);
+  
+  g_free(lilyfile);
+
+  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint_.png", NULL);
   if(gui->pixbuf)
     g_object_unref(gui->pixbuf);
   gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
@@ -637,6 +678,7 @@ static void load_png (DenemoGUI *gui) {
      //but an error message results.
      g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, gui);
    }
+  gtk_widget_queue_draw (gui->printarea);
 }
 
 gint
@@ -688,37 +730,43 @@ printarea_expose_event (GtkWidget * widget, GdkEventExpose * event, DenemoGUI *g
 //GdkBitmap *graphic = NULL; /* a selection from the print area */
 //gint markx, marky, pointx, pointy;/* a selected area in the printarea */
 
-
 gint
 printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   if(Denemo.gui->pixbuf==NULL)
-    return;
+    return TRUE;
+  if(dragging) {
+    curx = (int)event->x;
+    cury = (int)event->y;
+    gtk_widget_queue_draw (Denemo.gui->printarea);
+  }
+  return TRUE;
 }
 gint
 printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   gboolean left = (event->button != 3);
-  if(!left) {
+  if((!left) || (Denemo.gui->pixbuf==NULL)) {
     load_png(Denemo.gui);
-    return;
+    return TRUE;
   }
-
+  dragging = TRUE;
   if(Denemo.gui->pixbuf==NULL)
     return;
   Denemo.gui->markx=event->x;
   Denemo.gui->marky=event->y;
+    return TRUE;
 }
 gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
   gboolean left = (event->button != 3);
   if(!left) {
-    return;
+        return TRUE;
   }
-
+  dragging = FALSE;
   if(Denemo.gui->pixbuf==NULL)
-    return;
+    return TRUE;
   Denemo.gui->pointx=event->x;
   Denemo.gui->pointy=event->y;
   gint width, height;
@@ -737,10 +785,13 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
   gchar *data =  create_xbm_data_from_pixbuf(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
-  Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
-  if(Denemo.gui->xbm)
-    g_free(Denemo.gui->xbm);
-  Denemo.gui->xbm = data;
+  if(data) {
+    Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
+    if(Denemo.gui->xbm)
+      g_free(Denemo.gui->xbm);
+    Denemo.gui->xbm = data;
+  }
+  return TRUE;
 }
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox ){
