@@ -2181,6 +2181,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>String Number</label>
         <tooltip>Followed by a number, places string number on note.</tooltip>
       </row>
+      <row>
+        <action>DoubleBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>||</label>
+        <tooltip>Double barline at cursor position.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
