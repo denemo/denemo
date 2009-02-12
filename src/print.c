@@ -632,9 +632,9 @@ static void load_png (DenemoGUI *gui) {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
-  gui->lilycontrol.excerpt = TRUE;
+  // gui->lilycontrol.excerpt = TRUE;
   exportlilypond (lilyfile, gui,  TRUE);
-  gui->lilycontrol.excerpt = FALSE;
+  // gui->lilycontrol.excerpt = FALSE;
   convert_ly(lilyfile);
 
   // run_lilypond_and_viewer(filename, gui);
@@ -672,6 +672,7 @@ static void load_png (DenemoGUI *gui) {
      g_warning (_("Could not load the print preview:\n%s\n"),
                  error->message);
      g_error_free (error);
+     gui->pixbuf = NULL;
    } else {
      gboolean ret;
      //FIXME the parameters here are placed by trial and error - the docs indicate &ret should come at the end
@@ -784,12 +785,14 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   height = Denemo.gui->pointy-Denemo.gui->marky;
 
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
+  if(selection){
   gchar *data =  create_xbm_data_from_pixbuf(selection, Denemo.gui->markx, Denemo.gui->marky, Denemo.gui->pointx, Denemo.gui->pointy);
+  g_object_unref(selection);
   if(data) {
-    Denemo.gui->graphic = gdk_bitmap_create_from_data (NULL, data, width, height);
     if(Denemo.gui->xbm)
       g_free(Denemo.gui->xbm);
     Denemo.gui->xbm = data;
+  }
   }
   return TRUE;
 }
