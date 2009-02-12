@@ -43,7 +43,7 @@ int             start_stopped = 0;
 int             use_transport = 0;
 int             be_quiet = 0;
 
-volatile int    playback_started = -1, song_position = 0, ctrl_c_pressed = 0;
+volatile int    playback_started = -1, song_position = 0, stop_midi_output = 0;
 
 #ifdef WITH_LASH
 lash_client_t   *lash_client;
@@ -204,7 +204,7 @@ lash_callback(gpointer notused)
 
 			case LASH_Quit:
 				g_warning("Exiting due to LASH request.");
-				ctrl_c_pressed = 1;
+				stop_midi_output = 1;
 				break;
 
 			default:
@@ -264,13 +264,13 @@ process_midi_output(jack_nframes_t nframes)
 			break;
 	}
 
-	if (ctrl_c_pressed) {
+	if (stop_midi_output) {
 		send_all_sound_off(port_buffers, nframes);
 		
 		/* The idea here is to exit at the second time process_midi_output gets called.
 		   Otherwise, All Sound Off won't be delivered. */
-		ctrl_c_pressed++;
-		if (ctrl_c_pressed >= 3)
+		stop_midi_output++;
+		if (stop_midi_output >= 3)
 			//exit(0);
 
 		return;
@@ -309,7 +309,7 @@ process_midi_output(jack_nframes_t nframes)
 			playback_started = -1;
 
 			if (!use_transport)
-				ctrl_c_pressed = 1;
+				stop_midi_output = 1;
 
 			break;
 		}
@@ -581,18 +581,18 @@ jack_midi_playback_control (gboolean start)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *mididata = NULL;
-  playback_started = -1, song_position = 0, ctrl_c_pressed = 0;
+  playback_started = -1, song_position = 0, stop_midi_output = 0;
   //maybe place playback_started somewhere like when the end of the midi file is reached
 
   //if (playback_started > 0){
   //stop_midi_player
-  //  ctrl_c_pressed = 1; 
+  //  stop_midi_output = 1; 
   //  return 0;
   //}
   
   //stop_midi_playback
   if (!start) {
-    ctrl_c_pressed = 1;
+    stop_midi_output = 1;
     return 0;
   }
   mididata = get_temp_filename ("denemoplayback.mid");
@@ -634,6 +634,7 @@ void
 stop_jack_midi_playback (GtkAction * action, gpointer param)
 {
   jack_midi_playback_control (FALSE);
+  kill_timer();
 }
 #endif // _HAVE_JACK_
 
