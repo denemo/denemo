@@ -28,17 +28,7 @@
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_port;
-//unsigned char* note_frqs; 
-//unsigned char note_frqs;
-GList *note_frqs;
 
-unsigned char* gnote_frqs;
-jack_nframes_t num_notes = 1;
-jack_nframes_t* note_start = 0;
-jack_nframes_t num_notes;
-jack_nframes_t loop_nsamp = 90;
-jack_nframes_t loop_index;
-jack_nframes_t note_length = 9;
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration;
@@ -281,7 +271,7 @@ process_midi_output(jack_nframes_t nframes)
 		   Otherwise, All Sound Off won't be delivered. */
 		ctrl_c_pressed++;
 		if (ctrl_c_pressed >= 3)
-		//	exit(0);
+			//exit(0);
 
 		return;
 	}
@@ -528,44 +518,6 @@ init_jack(void){
   return err;
 }
 
-/**
- *  Used to play each tone in the given chord
- *  (a g_list_foreach function)
- */
-static void
-jack_playtone (gpointer tone, gpointer chord, int prognum)
-{
-  gint offset, i;
-  gchar key;
-  gint voice;
-  /* Because mid_c_offset is a measure of notes and we need a measure of
-   * half-steps, this array will help */
-  const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
-
-  offset = ((note *) tone)->mid_c_offset;
-
-  /* 60 is middle-C in MIDI keys */
-  key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
-  key += ((note *) tone)->enshift;
-  voice = g_list_index ((GList *) chord, tone);
-  //g_print("\nI see a noteon for processing key = %d\n", key);
-  note_frqs = g_list_append (note_frqs, key);
-}
-
-void
-jack_playnotes (gboolean doit, chord chord_to_play, int prognum)
-{
-  if (doit){
-	GList *tone;
-	tone = chord_to_play.notes;
-	while (tone)
-	  {
-	    jack_playtone (tone->data, chord_to_play.notes, prognum);
-	    tone = tone->next;
-	  }
-  }
-}
-
 void
 jack_midi_player (gchar *file_name) {
 
@@ -582,7 +534,7 @@ jack_midi_player (gchar *file_name) {
   smf = smf_load(file_name);
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
-     exit(-1);
+     //exit(-1);
   }
   if (!be_quiet)
      g_message("%s.", smf_decode(smf));
@@ -591,6 +543,7 @@ jack_midi_player (gchar *file_name) {
      g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
      just_one_output = 1;
   }
+  g_print("\nNumber of tracks = %d\n", smf->number_of_tracks);
  
   if (use_transport) {
     gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
@@ -616,8 +569,8 @@ jack_midi_player (gchar *file_name) {
   if (!use_transport)
     playback_started = jack_frame_time(jack_client);
 
-  g_main_loop_run(g_main_loop_new(NULL, TRUE));
-
+  //g_main_loop_run(g_main_loop_new(NULL, TRUE));
+  
 }
 
 /* start or restart internal jack midi player
@@ -627,36 +580,47 @@ static void
 jack_midi_playback_control (gboolean start)
 {
   DenemoGUI *gui = Denemo.gui;
-  FILE *fp;
-  int got, ok;
-  GError *err = NULL;
   gchar *mididata = NULL;
+  playback_started = -1, song_position = 0, ctrl_c_pressed = 0;
+  //maybe place playback_started somewhere like when the end of the midi file is reached
 
+  //if (playback_started > 0){
+  //stop_midi_player
+  //  ctrl_c_pressed = 1; 
+  //  return 0;
+  //}
+  
+  //stop_midi_playback
+  if (!start) {
+    ctrl_c_pressed = 1;
+    return 0;
+  }
   mididata = get_temp_filename ("denemoplayback.mid");
   if(gui->si->markstaffnum)
-    duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
+   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
   else 
-    if(gui->si->end)
-      exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
-    else
-      duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
-  g_print("Values are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
+   if(gui->si->end)
+     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
+   else
+     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+  //g_print("\nValues are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
  /* execute jackmidi player function */ 
-  g_print("\nGoing to start playing via jackmidi now\n");
   jack_midi_player(mididata);
   g_free (mididata);
   // first measure to play at start
-  if(gui->si->markstaffnum)
-    set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
-  else    
-    set_currentmeasurenum (gui, gui->si->currentmeasurenum);
-  if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
-    DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-  //FIXME add a delay before starting the timer.
-  timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
+  
+    if(gui->si->markstaffnum)
+      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
+    else    
+      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
+    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
+      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+      //FIXME add a delay before starting the timer.
+      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
 			       (GSourceFunc)move_on, gui);
-  kill_id = g_timeout_add (duration*1000, (GSourceFunc)kill_timer, NULL);
-  }
+      kill_id = g_timeout_add (duration*1000, (GSourceFunc)kill_timer, NULL);
+    }
+  
   return;
 }
 
@@ -666,6 +630,10 @@ jack_midi_playback (GtkAction * action, gpointer param)
   jack_midi_playback_control (TRUE);
 }
 
-
+void
+stop_jack_midi_playback (GtkAction * action, gpointer param)
+{
+  jack_midi_playback_control (FALSE);
+}
 #endif // _HAVE_JACK_
 

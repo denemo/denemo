@@ -1127,6 +1127,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Play")), "scm", (gpointer
 SCM scheme_Stop(SCM optional);
 install_scm_function ("d-Stop", scheme_Stop);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Stop")), "scm", (gpointer)1);
+/*JackMidiPlay jack_midi_playback*/
+SCM scheme_JackMidiPlay(SCM optional);
+install_scm_function ("d-JackMidiPlay", scheme_JackMidiPlay);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "JackMidiPlay")), "scm", (gpointer)1);
+/*JackMidiStop stop_jack_midi_playback*/
+SCM scheme_JackMidiStop(SCM optional);
+install_scm_function ("d-JackMidiStop", scheme_JackMidiStop);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "JackMidiStop")), "scm", (gpointer)1);
 /*PlayCSound csoundplayback*/
 SCM scheme_PlayCSound(SCM optional);
 install_scm_function ("d-PlayCSound", scheme_PlayCSound);

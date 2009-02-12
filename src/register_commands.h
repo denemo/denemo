@@ -280,6 +280,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMo
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteBookmarks"), "DeleteBookmarks", "Delete Bookmarks", "Delete all bookmarks in current movement", deletebookmarks);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Play"), "Play", "Play", "Play", ext_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Stop"), "Stop", "Stop", "Stop", stop_midi_playback);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "JackMidiPlay"), "JackMidiPlay", "JackMidiPlay", "Play", jack_midi_playback);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "JackMidiStop"), "JackMidiStop", "JackMidiStop", "Stop", stop_jack_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlayCSound"), "PlayCSound", "Csound Playback", "Play using CSound...", csoundplayback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlaybackProperties"), "PlaybackProperties", "Playback Properties", "Allows you to specify properties used in playing back (midi and csound", playback_properties_change);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Help"), "Help", "Browse Manual", "Opens a browser on the user manual", browse_manual);
