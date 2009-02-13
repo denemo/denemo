@@ -613,8 +613,9 @@ typedef struct DenemoGUI
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
 
-  gint markx, marky, pointx, pointy;/**< a selected area in the printarea */
-  gchar *xbm; /**< xbm representation of graphic bitmap from selected area(height and width from the mark & point values) */
+
+  gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
+  gint xbm_width, xbm_height;/**< width and height of the xbm data */
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
   GtkTextView *textview; /**< LilyPond output text view */

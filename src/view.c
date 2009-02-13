@@ -2298,8 +2298,8 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatebitmapsdir (),  name,
 				      NULL);
   //FIXME allow fileselector here to change the name
-  guint width = Denemo.gui->pointx-Denemo.gui->markx;
-  guint height = Denemo.gui->pointy-Denemo.gui->marky;
+  guint width = Denemo.gui->xbm_width;
+  guint height = Denemo.gui->xbm_height;
   FILE *fp = fopen(filename,"wb");
   if(fp) {
     guchar whi, wlo, hhi, hlo;
