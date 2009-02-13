@@ -28,7 +28,8 @@
 #include "prefops.h"
 #include "exportlilypond.h"
 #include "utils.h"
-
+#include "gcs.h"
+#include "view.h"
 /*** 
  * make sure lilypond is in the path defined in the preferences
  */
@@ -599,10 +600,10 @@ export_pdf_action (GtkAction *action, gpointer param)
 // Displaying Print Preview
 static gboolean selecting = FALSE;
 static gboolean dragging = FALSE;
+static gint offsetx, offsety;//need to be global?
 
-static gint curx, cury;
-static gint pointx, pointy;//coordinates defining a selected region in print preview pane.
-static gint markx, marky;
+static gint curx, cury;// position of mouse pointer while during motion
+static gint pointx, pointy,  markx, marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
 static void draw_print(DenemoGUI *gui) {
   gint x, y;
   GtkAdjustment * adjust = gtk_range_get_adjustment(GTK_RANGE(gui->printhscrollbar));
@@ -621,12 +622,15 @@ static void draw_print(DenemoGUI *gui) {
     {gint w = ABS(markx-curx);
     gint h = ABS(marky-cury);
     gdk_draw_rectangle (Denemo.gui->printarea->window,
-			gcs_blackgc(), FALSE,markx, marky, w, h);
+			gcs_bluegc(), FALSE,markx, marky, w, h);
     }
   if(dragging)
     {
       gint w = pointx-markx;
       gint h = pointy-marky;
+    gdk_draw_rectangle (Denemo.gui->printarea->window,
+			gcs_graygc(), TRUE, markx, marky, w, h);
+
       gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
 		  markx, marky, curx, cury,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
@@ -691,11 +695,11 @@ static void load_png (void) {
   gtk_widget_queue_draw (gui->printarea);
 }
 
-static gint 
-drag_selection(void) {
-  dragging = TRUE;
-  return TRUE;
-}
+//static gint 
+//drag_selection(void) {
+//  dragging = TRUE;
+//  return TRUE;
+//}
 
 static gint 
 popup_menu(void) {
@@ -704,9 +708,9 @@ popup_menu(void) {
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_png), NULL);
-  item = gtk_menu_item_new_with_label("Drag Selection");
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_selection), NULL);
+  // item = gtk_menu_item_new_with_label("Drag Selection");
+  // gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  // g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_selection), NULL);
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
   return TRUE;
@@ -774,34 +778,9 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
   return TRUE;
 }
-gint
-printarea_button_press (GtkWidget * widget, GdkEventButton * event)
-{
-  gboolean left = (event->button != 3);
-  if((!left) || (Denemo.gui->pixbuf==NULL)) {
-    popup_menu();
-    return TRUE;
-  }
-  selecting = TRUE;
-  if(Denemo.gui->pixbuf==NULL)
-    return;
-  markx=event->x;
-  marky=event->y;
-    return TRUE;
-}
-gint
-printarea_button_release (GtkWidget * widget, GdkEventButton * event)
-{
-  gboolean left = (event->button != 3);
-  if(!left) {
-        return TRUE;
-  }
-  selecting = FALSE;
-  if(Denemo.gui->pixbuf==NULL)
-    return TRUE;
-  pointx=event->x;
-  pointy=event->y;
-  gint width, height;
+
+
+static void normalize(void){
   if(pointx<markx) {
     gint temp=pointx;
     pointx=markx;
@@ -812,6 +791,61 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
     pointy=marky;
     marky=temp;
   }
+}
+static	gboolean within_area(gint x, gint y) {
+  return(x<=pointx &&
+	 y<=pointy &&
+	 x>=markx &&
+	 y>=marky);
+}
+ 
+gint
+printarea_button_press (GtkWidget * widget, GdkEventButton * event)
+{
+  gboolean left = (event->button != 3);
+  if((!left) || (Denemo.gui->pixbuf==NULL)) {
+    popup_menu();
+    return TRUE;
+  }
+  if(within_area((gint)event->x,(gint)event->y)) {
+    dragging = TRUE;
+    return TRUE;
+  } else 
+     selecting = TRUE;
+  if(Denemo.gui->pixbuf==NULL)
+    return TRUE;
+  pointx = markx=event->x;
+  pointy = marky=event->y;
+
+  return TRUE;
+}
+gint
+printarea_button_release (GtkWidget * widget, GdkEventButton * event)
+{
+  gboolean left = (event->button != 3);
+  if(!left) {
+        return TRUE;
+  }
+  selecting = FALSE;
+  if(dragging) {
+    offsetx = curx - markx;
+    offsety = cury - marky;
+    gchar *setvars = g_strdup_printf("(define d-x %d) (define d-y %d)\n", offsetx, offsety);
+    call_out_to_guile(setvars);
+    g_free(setvars);
+    gchar *msg = g_strdup_printf("You have chosen a tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nAt the moment you have to do this by script.\nd-x and d-y hold the values in Scheme for you to use.", offsetx, offsety);
+    warningdialog(msg);
+    g_free(msg);
+    dragging = FALSE;
+    return;
+  }
+  if(Denemo.gui->pixbuf==NULL)
+    return TRUE;
+  pointx=event->x;
+  pointy=event->y;
+  gint width, height;
+  normalize();
+
   width = pointx-markx;
   height = pointy-marky;
 
