@@ -108,8 +108,6 @@
       <menuitem action="Play"/>
       <menuitem action="Stop"/>
       <!--		<menuitem action="PlayALSA"/> -->
-      <menuitem action="JackMidiPlay"/>
-      <menuitem action="JackMidiStop"/>
       <menuitem action="PlayCSound"/>
       <menuitem action="PlaybackProperties"/>
     </menu>

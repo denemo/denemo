@@ -180,7 +180,7 @@ static gint move_on(DenemoGUI *gui){
 	      return TRUE;
 }
 
-static gint kill_timer(void){
+gint jack_kill_timer(void){
 if(timeout_id>0)
   g_source_remove(timeout_id);
 timeout_id= 0;
@@ -198,41 +198,59 @@ lash_callback(gpointer notused)
 
 	while ((event = lash_get_event(lash_client))) {
 		switch (lash_event_get_type(event)) {
-			case LASH_Restore_Data_Set:
-			case LASH_Save_Data_Set:
-				break;
+			case LASH_Save_File:
+				printf("Asked to save data in %s, but we don’t have any\n",
+			 	lash_event_get_string(event));
+				lash_send_event(lash_client, event);
+			    	continue;
+
+			case LASH_Restore_File:
+				printf("Asked to restore data from %s, but we don’t have any\n",
+							   lash_event_get_string(event));
+				lash_send_event(lash_client, event);
+			 	continue;
 
 			case LASH_Quit:
 				g_warning("Exiting due to LASH request.");
-				stop_midi_output = 1;
-				break;
-
+				//stop_midi_output = 1; //Is this needed?
+				//add stuff to exit denemo here
+				//break;
 			default:
 				g_warning("Receieved unknown LASH event of type %d.", lash_event_get_type(event));
-				lash_event_destroy(event);
 		}
+	  lash_event_destroy(event);
+		
 	}
-
 	return TRUE;
 }
 
 static void
-init_lash(lash_args_t *args)
+init_lash()
 {
 	/* XXX: Am I doing the right thing wrt protocol version? */
-	lash_client = lash_init(args, PROGRAM_NAME, LASH_Config_Data_Set, LASH_PROTOCOL(2, 0));
+	//lash_client = lash_init(args, PROGRAM_NAME, LASH_Config_Data_Set, LASH_PROTOCOL(2, 0));
 
-	if (!lash_server_connected(lash_client)) {
+	if (lash_server_connected(lash_client)) {
+		g_print("\n\t\t*** Lash Initialized ***\n");
+	} 
+	else {
 		g_critical("Cannot initialize LASH.  Continuing anyway.");
 		/* exit(EX_UNAVAILABLE); */
-
 		return;
-	}
-
+	}	
+	
 	/* Schedule a function to process LASH events, ten times per second. */
 	g_timeout_add(100, lash_callback, NULL);
 }
 
+void
+start_init_lash(lash_client_t *client)
+{
+  lash_client = client;
+	//lash_args_t *lash_args;
+  //lash_args = lash_extract_args(&argc, &argv);
+  init_lash();
+}
 #endif /* WITH_LASH */
 
 
@@ -522,13 +540,15 @@ void
 jack_midi_player (gchar *file_name) {
 
 #ifdef WITH_LASH
-  lash_args_t *lash_args;
+  //lash_args_t *lash_args;
 #endif
 
   //g_thread_init(NULL);
 
 #ifdef WITH_LASH
-  lash_args = lash_extract_args(&argc, &argv);
+  //int argc = 1;
+  //char** argv;
+  //lash_args = lash_extract_args(&argc, &argv);
 #endif
 
   smf = smf_load(file_name);
@@ -556,7 +576,8 @@ jack_midi_player (gchar *file_name) {
 
 
 #ifdef WITH_LASH
-  init_lash(lash_args);
+  //init_lash(NULL);
+  //init_lash(lash_args);
 #endif
   //g_timeout_add(1000, emergency_exit_timeout, (gpointer)0);
   //signal(SIGINT, ctrl_c_handler);
@@ -576,19 +597,12 @@ jack_midi_player (gchar *file_name) {
 /* start or restart internal jack midi player
  * if start==FALSE stop the playback rather than start it
  */
-static void
+void
 jack_midi_playback_control (gboolean start)
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *mididata = NULL;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
-  //maybe place playback_started somewhere like when the end of the midi file is reached
-
-  //if (playback_started > 0){
-  //stop_midi_player
-  //  stop_midi_output = 1; 
-  //  return 0;
-  //}
   
   //stop_midi_playback
   if (!start) {
@@ -618,7 +632,7 @@ jack_midi_playback_control (gboolean start)
       //FIXME add a delay before starting the timer.
       timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
 			       (GSourceFunc)move_on, gui);
-      kill_id = g_timeout_add (duration*1000, (GSourceFunc)kill_timer, NULL);
+      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
     }
   
   return;
@@ -630,11 +644,5 @@ jack_midi_playback (GtkAction * action, gpointer param)
   jack_midi_playback_control (TRUE);
 }
 
-void
-stop_jack_midi_playback (GtkAction * action, gpointer param)
-{
-  jack_midi_playback_control (FALSE);
-  kill_timer();
-}
 #endif // _HAVE_JACK_
 

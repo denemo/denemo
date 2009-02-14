@@ -299,8 +299,6 @@
 {"DeleteBookmarks", NULL, N_("Delete Bookmarks"), NULL,N_("Delete all bookmarks in current movement"),G_CALLBACK (deletebookmarks)},
 {"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), NULL,N_("Play"),G_CALLBACK (ext_midi_playback)},
 {"Stop", GTK_STOCK_MEDIA_STOP, N_("Stop"), NULL,N_("Stop"),G_CALLBACK (stop_midi_playback)},
-{"JackMidiPlay", GTK_STOCK_MEDIA_PLAY, N_("JackMidiPlay"), NULL,N_("Play"),G_CALLBACK (jack_midi_playback)},
-{"JackMidiStop", GTK_STOCK_MEDIA_STOP, N_("JackMidiStop"), NULL,N_("Stop"),G_CALLBACK (stop_jack_midi_playback)},
 {"PlayCSound", GTK_STOCK_MEDIA_PLAY, N_("Csound Playback"), NULL,N_("Play using CSound..."),G_CALLBACK (csoundplayback)},
 {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), NULL,N_("Allows you to specify properties used in playing back (midi and csound"),G_CALLBACK (playback_properties_change)},
 {"Help", NULL, N_("Browse Manual"), NULL,N_("Opens a browser on the user manual"),G_CALLBACK (browse_manual)},

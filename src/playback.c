@@ -184,12 +184,21 @@ ext_midi_playback_control (gboolean start)
 void
 ext_midi_playback (GtkAction * action, gpointer param)
 {
+#ifdef _HAVE_JACK_
+  jack_midi_playback_control (TRUE);
+#else
   ext_midi_playback_control (TRUE);
+#endif
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
+#ifdef _HAVE_JACK_
+ jack_midi_playback_control (FALSE);
+ jack_kill_timer();
+#else
  ext_midi_playback_control (FALSE);
  kill_timer();
+#endif
 }
 
 
