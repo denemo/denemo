@@ -2300,7 +2300,7 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
 				      NULL);
   //FIXME allow fileselector here to change the name
   gchar *msg = g_strdup_printf("Saving a graphic for use in the %s script", name);
-  if(g_file_test(filename,  G_FILE_TEST_EXISTS) && confirm (msg, "Replace current graphic?")) {
+  if( !g_file_test(filename,  G_FILE_TEST_EXISTS) || confirm (msg, "Replace current graphic?")) {
     guint width = Denemo.gui->xbm_width;
     guint height = Denemo.gui->xbm_height;
     FILE *fp = fopen(filename,"wb");
