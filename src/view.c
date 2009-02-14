@@ -2299,28 +2299,35 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatebitmapsdir (),  name,
 				      NULL);
   //FIXME allow fileselector here to change the name
-  guint width = Denemo.gui->xbm_width;
-  guint height = Denemo.gui->xbm_height;
-  FILE *fp = fopen(filename,"wb");
-  if(fp) {
-    guchar whi, wlo, hhi, hlo;
-    wlo = width&0xFF;
-    whi = width>>8;
-    hlo = height&0xFF;
-    hhi = height>>8;
-
-    fwrite(&wlo, 1, 1, fp);
-    fwrite(&whi, 1, 1, fp);
-
-    fwrite(&hlo, 1, 1, fp);
-    fwrite(&hhi, 1, 1, fp);
-
-    gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
+  gchar *msg = g_strdup_printf("Saving a graphic for use in the %s script", name);
+  if(g_file_test(filename,  G_FILE_TEST_EXISTS) && confirm (msg, "Replace current graphic?")) {
+    guint width = Denemo.gui->xbm_width;
+    guint height = Denemo.gui->xbm_height;
+    FILE *fp = fopen(filename,"wb");
+    if(fp) {
+      guchar whi, wlo, hhi, hlo;
+      wlo = width&0xFF;
+      whi = width>>8;
+      hlo = height&0xFF;
+      hhi = height>>8;
+      
+      fwrite(&wlo, 1, 1, fp);
+      fwrite(&whi, 1, 1, fp);
+      
+      fwrite(&hlo, 1, 1, fp);
+      fwrite(&hhi, 1, 1, fp);
+      
+      gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
     //g_print("Wrote %d bytes for %d x %d\n", size, width, height);
-    fclose(fp);
+      g_free(msg);
+      msg = g_strdup_printf("Saved graphic as file %s", filename);
+      infodialog(msg);
+      fclose(fp);  
+    }
+    else
+      warningdialog("Could not write file");
   }
-  else
-    warningdialog("Could not write file");
+  g_free(msg);
   g_free(filename);
 }
 
@@ -2424,7 +2431,8 @@ static gboolean menu_click (GtkWidget      *widget,
       item = gtk_menu_item_new_with_label("Save Graphic");
       // GtkSettings* settings = gtk_settings_get_default();
       // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
-      item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
+      //item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
+      item = gtk_image_menu_item_new_from_stock("Save Graphic"/*GTK_STOCK_OK*/, NULL);
       
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);

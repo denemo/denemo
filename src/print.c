@@ -819,6 +819,9 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   return TRUE;
 }
+
+
+
 gint
 printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
@@ -849,16 +852,18 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   width = pointx-markx;
   height = pointy-marky;
 
-  GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
-  if(selection){
-  gchar *data =  create_xbm_data_from_pixbuf(selection, markx, marky, pointx, pointy);
-
+  GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
+  if(alphapixbuf){
+  gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
+  
   GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-  GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (selection);
+  GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx, marky, width, height);
+
+  GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
+  g_object_unref(sub_pixbuf);
   gtk_icon_factory_add (icon_factory, "Save Graphic", icon_set);
-
-
-  g_object_unref(selection);
+  gtk_icon_factory_add_default    (icon_factory);
+  g_object_unref(alphapixbuf);
   if(data) {
     if(Denemo.gui->xbm)
       g_free(Denemo.gui->xbm);
