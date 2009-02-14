@@ -107,7 +107,7 @@
     <menu action="PlaybackMenu">
       <menuitem action="Play"/>
       <menuitem action="Stop"/>
-	<!--		<menuitem action="PlayALSA"/> -->
+      <!--		<menuitem action="PlayALSA"/> -->
       <menuitem action="PlayCSound"/>
       <menuitem action="PlaybackProperties"/>
     </menu>

@@ -28,6 +28,7 @@
 #include <wait.h>
 #endif
 #include <errno.h>
+#include "jackmidi.h"
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration;
@@ -177,20 +178,27 @@ ext_midi_playback_control (gboolean start)
   return;
 }
 
-
 /* start or restart an external midi player
  * trying avoid multiple instances of it
  */
 void
 ext_midi_playback (GtkAction * action, gpointer param)
 {
+#ifdef _HAVE_JACK_
+  jack_midi_playback_control (TRUE);
+#else
   ext_midi_playback_control (TRUE);
-
+#endif
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
+#ifdef _HAVE_JACK_
+ jack_midi_playback_control (FALSE);
+ jack_kill_timer();
+#else
  ext_midi_playback_control (FALSE);
  kill_timer();
+#endif
 }
 
 

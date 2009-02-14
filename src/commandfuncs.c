@@ -911,8 +911,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
     if(Denemo.gui->input_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       prognum = select_program (curstaffstruct->midi_instrument->str);
-      playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,
-		 prognum);
+      playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object, prognum);
     }
   }
 }
@@ -1100,7 +1099,6 @@ incrementenshift (DenemoGUI * gui, gint direction)
       if(Denemo.gui->input_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	prognum = select_program (curstaffstruct->midi_instrument->str);
-
 	playnotes (Denemo.prefs.immediateplayback,
 		   *(chord *) curmudelaobj->object, prognum);
       }
@@ -1143,6 +1141,7 @@ setenshift (DenemoScore * si, gint enshift)
 	prognum = select_program (curstaffstruct->midi_instrument->str);
 	playnotes (Denemo.prefs.immediateplayback,
 		   *(chord *) curmudelaobj->object, prognum);
+
       }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;

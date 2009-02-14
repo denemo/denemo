@@ -11,6 +11,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
+	jackmidi.c jackmidi.h \ 
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c plugin.c prefdialog.c prefops.c	processstaffname.c \
 	csoundplayback.c lyric.c scoreops.c scoreprops.c \
@@ -45,17 +46,18 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	jackmidi.c scheme_cb.h scheme.h register_commands.h
+	scheme_cb.h scheme.h register_commands.h
 EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
+-I$(top_srcdir)/libsmf \
 -I$(top_srcdir)/pixmaps \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\"
 
-denemo_LDADD = $(INTLLIBS) 
+denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 
