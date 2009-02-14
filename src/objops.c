@@ -206,9 +206,8 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(display);
   CLONE(graphic_name);
 #undef CLONE
-  if(directive->graphic) {
-    g_object_ref(G_OBJECT(directive->graphic));//FIXME check the docs
-    ret->graphic = directive->graphic;
+  if(directive->graphic) {    
+    ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
   }
   return ret;
 }

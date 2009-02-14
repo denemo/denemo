@@ -253,7 +253,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
       directive->graphic_name =  g_string_new(xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
       loadGraphicItem(directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
-      /* FIXME, create a hash table of names<->bitmaps */
+      /* FIXME,handle not loaded */
     }
       
   }

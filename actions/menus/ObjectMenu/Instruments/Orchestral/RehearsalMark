@@ -6,9 +6,15 @@
     <map>
       <row>
         <action>RehearsalMark</action>
-        <scheme>(d-InsertLilyDirective " \\mark \\default")
-</scheme>
-
+        <scheme>;;; RehearsalMark
+(d-DirectivePut-standalone-minpixels "RehearsalMark" 30)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "RehearsalMark"  " \\mark \\default" )
+(d-DirectivePut-standalone-gx  "RehearsalMark"  0)
+(d-DirectivePut-standalone-gy  "RehearsalMark"  -30)
+(d-DirectivePut-standalone-graphic "RehearsalMark" "RehearsalMark")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
         <label>Insert Rehearsal Mark</label>
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>

@@ -258,7 +258,10 @@ setpixelmin (DenemoObject * theobj)
       theobj->space_before = 0;
       break;
     case LILYDIRECTIVE:
-      //theobj->minpixelsalloted = 8;
+      {
+	DenemoDirective *directive = (DenemoDirective*)theobj->object;	
+	theobj->minpixelsalloted = directive->minpixels;
+      }
       break;
     case CLEF:
       theobj->minpixelsalloted = 35;
@@ -830,8 +833,13 @@ void write_status(DenemoGUI *gui) {
       break;
 
     case LILYDIRECTIVE:
-      selection = g_strdup_printf("Lily directive: %.50s", ((GString *)((lilydirective *) curObj->object)->postfix)->str);
+      {
+	DenemoDirective *directive = (DenemoDirective *)curObj->object;
+	
+      selection = g_strdup_printf("Lily directive: %.50s", directive->postfix?directive->postfix->str:directive->prefix?directive->prefix->str:directive->graphic_name?directive->graphic_name->str:directive->display?directive->display->str:"empty");
+      }
       break;
+
     case FAKECHORD:
       selection = g_strdup_printf("Fakechord"   );
       break;

@@ -77,4 +77,8 @@ void
 create_scheme_function_for_script(gchar *name);
 void 
 inner_main(void*closure, int argc, char **argv);
+
+gchar *
+create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy);
+
 #endif

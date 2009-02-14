@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>DoubleBarline</action>
+        <scheme>;;;DoubleBarline
+(d-DirectivePut-standalone-minpixels "DoubleBarline" 30)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "DoubleBarline" " \\bar \"||\"")
+(d-DirectivePut-standalone-gx  "DoubleBarline"  0)
+(d-DirectivePut-standalone-gy  "DoubleBarline"  -7)
+(d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
+        <label>||</label>
+        <tooltip>Insert a double barline at cursor position.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
