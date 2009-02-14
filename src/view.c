@@ -27,6 +27,7 @@
 #include "csoundplayback.h"
 #include "exportlilypond.h"
 #include "midi.h"
+#include "jackmidi.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
@@ -2421,6 +2422,10 @@ static gboolean menu_click (GtkWidget      *widget,
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
     if(Denemo.gui->xbm) {
       item = gtk_menu_item_new_with_label("Save Graphic");
+      // GtkSettings* settings = gtk_settings_get_default();
+      // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
+      item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
+      
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
     }

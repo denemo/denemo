@@ -852,6 +852,12 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   GdkPixbuf *selection = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
   if(selection){
   gchar *data =  create_xbm_data_from_pixbuf(selection, markx, marky, pointx, pointy);
+
+  GtkIconFactory *icon_factory = gtk_icon_factory_new ();
+  GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (selection);
+  gtk_icon_factory_add (icon_factory, "Save Graphic", icon_set);
+
+
   g_object_unref(selection);
   if(data) {
     if(Denemo.gui->xbm)
