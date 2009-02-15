@@ -212,7 +212,8 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  action = lookup_action_from_name(name);	     
 	  if(action==NULL) {
 	    new_command = TRUE;
-	    action = gtk_action_new(name,label,tooltip,NULL);
+	    gchar *icon_name = get_icon_for_name(name, label);
+	    action = gtk_action_new(name,label,tooltip, icon_name);
 	    //g_print("New action %s\n", name);
 	    if(hidden)
 	      g_object_set_data(action, "hidden", TRUE);
@@ -245,7 +246,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	      if(widget==NULL) {
 		instantiate_menus(menupath);
 	      }
-		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 				      menupath,
 				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
 	    }

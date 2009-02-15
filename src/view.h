@@ -80,5 +80,6 @@ inner_main(void*closure, int argc, char **argv);
 
 gchar *
 create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy);
-
+gchar *
+get_icon_for_name(gchar *name, gchar *label);
 #endif

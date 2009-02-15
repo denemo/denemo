@@ -791,6 +791,11 @@ static void normalize(void){
     pointy=marky;
     marky=temp;
   }
+  if(markx==pointx)
+    pointx++;
+  if(marky==pointy)
+    pointy++;
+
 }
 static	gboolean within_area(gint x, gint y) {
   return(x<=pointx &&
@@ -829,7 +834,7 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(!left) {
         return TRUE;
   }
-  selecting = FALSE;
+
   if(dragging) {
     offsetx = curx - markx;
     offsety = cury - marky;
@@ -844,35 +849,38 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   }
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
-  pointx=event->x;
-  pointy=event->y;
-  gint width, height;
-  normalize();
+  if(selecting) {
+    pointx=event->x;
+    pointy=event->y;
+    gint width, height;
+    normalize();
 
-  width = pointx-markx;
-  height = pointy-marky;
+    width = pointx-markx;
+    height = pointy-marky;
 
-  GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
-  if(alphapixbuf){
-  gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
+    GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
+    if(alphapixbuf){
+      gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
   
-  GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-  GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx, marky, width, height);
+      GtkIconFactory *icon_factory = gtk_icon_factory_new ();
+      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx, marky, width, height);
 
-  GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
-  g_object_unref(sub_pixbuf);
-  gtk_icon_factory_add (icon_factory, "Save Graphic", icon_set);
-  gtk_icon_factory_add_default    (icon_factory);
-  g_object_unref(alphapixbuf);
-  if(data) {
-    if(Denemo.gui->xbm)
-      g_free(Denemo.gui->xbm);
-    Denemo.gui->xbm = data;
-    Denemo.gui->xbm_width = width;
-    Denemo.gui->xbm_height = height;
+      GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
+      g_object_unref(sub_pixbuf);
+      gtk_icon_factory_add (icon_factory, "Save Graphic", icon_set);
+      gtk_icon_factory_add_default    (icon_factory);
+      g_object_unref(alphapixbuf);
+      if(data) {
+	if(Denemo.gui->xbm)
+	  g_free(Denemo.gui->xbm);
+	Denemo.gui->xbm = data;
+	Denemo.gui->xbm_width = width;
+	Denemo.gui->xbm_height = height;
 
+      }
+    }
   }
-  }
+  selecting = FALSE;
   return TRUE;
 }
 

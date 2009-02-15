@@ -11,12 +11,12 @@
 (d-CursorLeft)
 (d-DirectivePut-standalone-postfix "DoubleBarline" " \\bar \"||\"")
 (d-DirectivePut-standalone-gx  "DoubleBarline"  0)
-(d-DirectivePut-standalone-gy  "DoubleBarline"  -7)
+(d-DirectivePut-standalone-gy  "DoubleBarline"  -8)
 (d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
         <label>||</label>
-        <tooltip>Insert a double barline at cursor position.</tooltip>
+        <tooltip>Double barline at cursor position.</tooltip>
       </row>
     </map>
   </merge>
