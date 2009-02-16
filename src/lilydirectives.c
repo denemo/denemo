@@ -393,7 +393,7 @@ DenemoObject *curObj = get_chordobject();
 }
 
 
-#define GET_FIELD_FUNC(what, field)\
+#define GET_STR_FIELD_FUNC(what, field)\
 gchar *\
 what##_directive_get_##field(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -402,65 +402,64 @@ what##_directive_get_##field(gchar *tag) {\
   return NULL;\
 }
 
-#define PUT_FIELD_FUNC(what, field)\
+#define PUT_STR_FIELD_FUNC(what, field)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive && directive->field)\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  if(directive->field)\
     g_string_assign(directive->field, value);\
-  else if(directive)\
+  else\
     directive->field = g_string_new(value);\
-  else {\
-       what *current = get_##what();\
-       if(current==NULL) return FALSE;\
-       if(current->directives==NULL) {\
-          create_directives (&current->directives, tag);\
-          what##_directive_put_##field(tag, value);\
-        }\
-  }\
   return TRUE;\
 }
 
-GET_FIELD_FUNC(chord, prefix)
-GET_FIELD_FUNC(chord, postfix)
-GET_FIELD_FUNC(chord, display)
+GET_STR_FIELD_FUNC(chord, prefix)
+GET_STR_FIELD_FUNC(chord, postfix)
+GET_STR_FIELD_FUNC(chord, display)
 
-PUT_FIELD_FUNC(chord, prefix)
-PUT_FIELD_FUNC(chord, postfix)
-PUT_FIELD_FUNC(chord, display)
-
-
-GET_FIELD_FUNC(note, prefix)
-GET_FIELD_FUNC(note, postfix)
-GET_FIELD_FUNC(note, display)
-
-PUT_FIELD_FUNC(note, prefix)
-PUT_FIELD_FUNC(note, postfix)
-PUT_FIELD_FUNC(note, display)
-
-GET_FIELD_FUNC(standalone, prefix)
-GET_FIELD_FUNC(standalone, postfix)
-GET_FIELD_FUNC(standalone, display)
+PUT_STR_FIELD_FUNC(chord, prefix)
+PUT_STR_FIELD_FUNC(chord, postfix)
+PUT_STR_FIELD_FUNC(chord, display)
 
 
+GET_STR_FIELD_FUNC(note, prefix)
+GET_STR_FIELD_FUNC(note, postfix)
+GET_STR_FIELD_FUNC(note, display)
 
-#undef GET_FIELD_FUNC
-#undef PUT_FIELD_FUNC
+PUT_STR_FIELD_FUNC(note, prefix)
+PUT_STR_FIELD_FUNC(note, postfix)
+PUT_STR_FIELD_FUNC(note, display)
+
+GET_STR_FIELD_FUNC(standalone, prefix)
+GET_STR_FIELD_FUNC(standalone, postfix)
+GET_STR_FIELD_FUNC(standalone, display)
+
+
+
+#undef GET_STR_FIELD_FUNC
+#undef PUT_STR_FIELD_FUNC
 
 #define PUT_INT_FIELD_FUNC(what, field)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive)\
-    directive->field = value;\
-  else {\
-       what *current = get_##what();\
-       if(current==NULL) return FALSE;\
-       if(current->directives==NULL) {\
-          create_directives (&current->directives, tag);\
-          what##_directive_put_##field(tag, value);\
-        }\
-  }\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  directive->field = value;\
   return TRUE;\
 }
 
@@ -538,22 +537,23 @@ GET_INT_FIELD_FUNC(standalone, height)
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC
 
-
+     //note I think you cannot change the graphic once you have set it.
 #define PUT_GRAPHIC(what) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive && !directive->graphic)\
-  {if(directive) {\
-     loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);\
-     directive->graphic_name = g_string_new(value);}\
-    else {\
-       what *current = get_##what();\
-       if(current==NULL) return FALSE;\
-       if(current->directives==NULL) {\
-          create_directives (&current->directives, tag);\
-          what##_directive_put_graphic(tag, value);\
-        }}\
-  }\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);\
+  if(directive->graphic_name)\
+     g_string_assign(directive->graphic_name, value);\
+  else\
+      directive->graphic_name = g_string_new(value);\
   return TRUE;\
 }
      PUT_GRAPHIC(chord);
@@ -586,7 +586,7 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
 
 
 
-#define STANDALONE_PUT_FIELD_FUNC(field)\
+#define STANDALONE_PUT_STR_FIELD_FUNC(field)\
 gboolean \
 standalone_directive_put_##field(gchar *tag, gchar *value) {\
   DenemoDirective *directive = get_standalone_directive(tag);\
@@ -604,14 +604,14 @@ standalone_directive_put_##field(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
-STANDALONE_PUT_FIELD_FUNC(prefix);
-STANDALONE_PUT_FIELD_FUNC(postfix);
-STANDALONE_PUT_FIELD_FUNC(display);
+STANDALONE_PUT_STR_FIELD_FUNC(prefix);
+STANDALONE_PUT_STR_FIELD_FUNC(postfix);
+STANDALONE_PUT_STR_FIELD_FUNC(display);
 
 
 
 
-#undef STANDALONE_PUT_FIELD_FUNC
+#undef STANDALONE_PUT_STR_FIELD_FUNC
 
 #define STANDALONE_PUT_INT_FIELD_FUNC(field)\
 gboolean \
