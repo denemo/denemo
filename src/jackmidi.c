@@ -10,11 +10,6 @@
 #include <assert.h>
 #include "pitchentry.h"
 #include "libsmf/smf.h"
-
-#ifdef WITH_LASH
-#include <lash/lash.h>
-#endif
-
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -28,7 +23,6 @@
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_port;
-
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration;
@@ -44,11 +38,6 @@ int             use_transport = 0;
 int             be_quiet = 0;
 
 volatile int    playback_started = -1, song_position = 0, stop_midi_output = 0;
-
-#ifdef WITH_LASH
-lash_client_t   *lash_client;
-#endif
-
 
 double 
 get_time(void)
@@ -188,71 +177,6 @@ if(kill_id)
   g_source_remove(kill_id);
 kill_id = 0;
 }
-
-#ifdef WITH_LASH
-
-static gboolean
-lash_callback(gpointer notused)
-{
-	lash_event_t	*event;
-
-	while ((event = lash_get_event(lash_client))) {
-		switch (lash_event_get_type(event)) {
-			case LASH_Save_File:
-				printf("Asked to save data in %s, but we don’t have any\n",
-			 	lash_event_get_string(event));
-				lash_send_event(lash_client, event);
-			    	continue;
-
-			case LASH_Restore_File:
-				printf("Asked to restore data from %s, but we don’t have any\n",
-							   lash_event_get_string(event));
-				lash_send_event(lash_client, event);
-			 	continue;
-
-			case LASH_Quit:
-				g_warning("Exiting due to LASH request.");
-				//stop_midi_output = 1; //Is this needed?
-				//add stuff to exit denemo here
-				//break;
-			default:
-				g_warning("Receieved unknown LASH event of type %d.", lash_event_get_type(event));
-		}
-	  lash_event_destroy(event);
-		
-	}
-	return TRUE;
-}
-
-static void
-init_lash()
-{
-	/* XXX: Am I doing the right thing wrt protocol version? */
-	//lash_client = lash_init(args, PROGRAM_NAME, LASH_Config_Data_Set, LASH_PROTOCOL(2, 0));
-
-	if (lash_server_connected(lash_client)) {
-		g_print("\n\t\t*** Lash Initialized ***\n");
-	} 
-	else {
-		g_critical("Cannot initialize LASH.  Continuing anyway.");
-		/* exit(EX_UNAVAILABLE); */
-		return;
-	}	
-	
-	/* Schedule a function to process LASH events, ten times per second. */
-	g_timeout_add(100, lash_callback, NULL);
-}
-
-void
-start_init_lash(lash_client_t *client)
-{
-  lash_client = client;
-	//lash_args_t *lash_args;
-  //lash_args = lash_extract_args(&argc, &argv);
-  init_lash();
-}
-#endif /* WITH_LASH */
-
 
 static void
 process_midi_output(jack_nframes_t nframes)
@@ -490,24 +414,12 @@ stop_jack(void){
 int
 init_jack(void){
   int err = 0;
-
-#ifdef WITH_LASH
-  lash_event_t *event;
-#endif
-
+  
   jack_client = jack_client_open(PROGRAM_NAME, JackNullOption, NULL);
   if (jack_client == NULL) {
     g_critical("Could not connect to the JACK server; run jackd first?");
     //exit(EX_UNAVAILABLE);
   }
-#ifdef WITH_LASH
-  event = lash_event_new_with_type(LASH_Client_Name);
-  assert (event); /* Documentation does not say anything about return value. */
-  lash_event_set_string(event, jack_get_client_name(jack_client));
-  lash_send_event(lash_client, event);
-  lash_jack_client_name(lash_client, jack_get_client_name(jack_client));
-#endif
-
   err = jack_set_process_callback(jack_client, process_callback, 0);
   if (err) {
     g_critical("Could not register JACK process callback.");
@@ -539,18 +451,6 @@ init_jack(void){
 void
 jack_midi_player (gchar *file_name) {
 
-#ifdef WITH_LASH
-  //lash_args_t *lash_args;
-#endif
-
-  //g_thread_init(NULL);
-
-#ifdef WITH_LASH
-  //int argc = 1;
-  //char** argv;
-  //lash_args = lash_extract_args(&argc, &argv);
-#endif
-
   smf = smf_load(file_name);
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
@@ -574,14 +474,6 @@ jack_midi_player (gchar *file_name) {
   }
   assert(smf->number_of_tracks >= 1);
 
-
-#ifdef WITH_LASH
-  //init_lash(NULL);
-  //init_lash(lash_args);
-#endif
-  //g_timeout_add(1000, emergency_exit_timeout, (gpointer)0);
-  //signal(SIGINT, ctrl_c_handler);
-          
   if (use_transport && !start_stopped) {
     jack_transport_locate(jack_client, 0);
     jack_transport_start(jack_client);
@@ -591,7 +483,6 @@ jack_midi_player (gchar *file_name) {
     playback_started = jack_frame_time(jack_client);
 
   //g_main_loop_run(g_main_loop_new(NULL, TRUE));
-  
 }
 
 /* start or restart internal jack midi player

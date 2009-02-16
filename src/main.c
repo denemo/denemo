@@ -47,7 +47,7 @@
 #endif
 #ifdef WITH_LASH
 #include <lash/lash.h>
-//extern lash_client_t* lash_client;
+#include "lash_support.h"
 #endif
 
 struct DenemoRoot Denemo;
