@@ -15,8 +15,8 @@
 (d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
-        <label>|:</label>
-        <tooltip>Insert a start repeat barline.</tooltip>
+        <label>Repeat Start Barline</label>
+        <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
     </map>
   </merge>

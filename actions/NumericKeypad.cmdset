@@ -2146,22 +2146,22 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <action>RepeatStart</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>|:</label>
-        <tooltip>Insert a start repeat barline.</tooltip>
+        <label>Repeat Start Barline</label>
+        <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEnd</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>:|</label>
-        <tooltip>Insert repeat barline.</tooltip>
+        <label>Repeat End Barline</label>
+        <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>
       <row>
         <action>RepeatEndStart</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>:|:</label>
-        <tooltip>Inserts a repeat close and open new repeat barline</tooltip>
+        <label>Repeat End-Start</label>
+        <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
       </row>
       <row>
         <action>ApplyToSelection</action>
@@ -2195,8 +2195,8 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <action>DoubleBarline</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>||</label>
-        <tooltip>Double barline at cursor position.</tooltip>
+        <label>Double Bar</label>
+        <tooltip>Insert a double barline at cursor position.</tooltip>
       </row>
     </map>
   </commands>

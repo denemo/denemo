@@ -15,8 +15,8 @@
 (d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
-        <label>||</label>
-        <tooltip>Double barline at cursor position.</tooltip>
+        <label>Double Bar</label>
+        <tooltip>Insert a double barline at cursor position.</tooltip>
       </row>
     </map>
   </merge>
