@@ -645,9 +645,8 @@ static void load_png (void) {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
-  // gui->lilycontrol.excerpt = TRUE;
+  gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
   exportlilypond (lilyfile, gui,  TRUE);
-  // gui->lilycontrol.excerpt = FALSE;
   convert_ly(lilyfile);
 
   // run_lilypond_and_viewer(filename, gui);
