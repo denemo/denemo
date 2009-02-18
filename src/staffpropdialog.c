@@ -518,7 +518,8 @@ staff_properties_change (gpointer callback_data)
 		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
 		    (GtkAttachOptions) (0), 0, 0);
   gtk_widget_show (midicombo);
-
+  
+  /*volume*/
   label = gtk_label_new (_("Volume:"));
   gtk_table_attach (GTK_TABLE (table), label, 2, 3, 3, 4,
 		    (GtkAttachOptions) (GTK_FILL),

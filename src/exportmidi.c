@@ -1103,7 +1103,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       midi_timesig (fd, timesigupper, timesiglower);
 
       /* set a default velocity value */
-      cur_volume = dyn_vol[DYN_MF];
+      cur_volume = curstaffstruct->volume;
 
       /* reset measure */
       curmeasurenum = 0;
