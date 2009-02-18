@@ -15,8 +15,8 @@
 (d-DirectivePut-standalone-graphic "RepeatEnd" "RepeatEnd")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
-        <label>:|</label>
-        <tooltip>Insert repeat barline.</tooltip>
+        <label>Repeat End Barline</label>
+        <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
       </row>
     </map>
   </merge>

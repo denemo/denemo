@@ -10,13 +10,13 @@
 (d-DirectivePut-standalone-minpixels "RepeatStart" 30)
 (d-CursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
-(d-DirectivePut-standalone-gx  "RepeatStart"  0)
-(d-DirectivePut-standalone-gy  "RepeatStart"  -2)
+(d-DirectivePut-standalone-gx  "RepeatStart"  -15)
+(d-DirectivePut-standalone-gy  "RepeatStart"  -7)
 (d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
-        <label>|:</label>
-        <tooltip>Insert a start repeat barline.</tooltip>
+        <label>Repeat Start Barline</label>
+        <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
       </row>
     </map>
   </merge>

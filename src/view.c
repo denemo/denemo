@@ -1881,6 +1881,14 @@ gchar *instantiate_script(GtkAction *action){
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 }
+
+
+/* the callback for menu items that are scripts. The script is attached to the action,
+tagged as "scheme".
+The script may be empty, in which case it is fetched from actions/menus...
+
+This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
+*/
 void
 activate_script (GtkAction *action, gpointer param)
 {
@@ -1892,6 +1900,7 @@ activate_script (GtkAction *action, gpointer param)
       GSList *h = gtk_action_get_proxies (action);
       for(;h;h=h->next) {
 	attach_right_click_callback(h->data, action);
+	show_type(h->data, "type is ");
       }
     }
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
@@ -2175,6 +2184,46 @@ locatebitmapsdir(void) {
   return bitmapsdir;
 }
 
+/* if a graphic file for name exists (local or systemwide) create an icon for it called label
+and return label, else return NULL
+*/
+gchar *
+get_icon_for_name(gchar *name, gchar *label) {
+
+  gchar *pngname = g_strconcat(name, ".png", NULL);
+  gchar *filename = g_build_filename (locatebitmapsdir (), pngname,
+				      NULL);
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename (get_data_dir (), "actions", "bitmaps", pngname, 
+				 NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+      g_free(filename);
+      g_free(pngname);
+      return NULL;
+    }
+  }
+  GError *error = NULL;
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+  g_free(filename);
+  g_free(pngname);
+  if(error) {
+    warningdialog(error->message);		 
+    return NULL;
+  }
+  static GtkIconFactory *icon_factory;
+  if(!icon_factory){
+    icon_factory = gtk_icon_factory_new ();
+    gtk_icon_factory_add_default (icon_factory);
+  }
+  GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (pixbuf);
+  g_object_unref(pixbuf);
+  gtk_icon_factory_add (icon_factory, label, icon_set);
+  return label;
+}
+
+
+
 gchar *
 create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy)
 {
@@ -2216,7 +2265,8 @@ static void hash_table_insert(gchar *name, GdkBitmap *xbm) {
   g_hash_table_insert(bitmaps, g_strdup(name), xbm);
 }
 
-static loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
+static gboolean
+loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
 
   GError *error = NULL;
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (name, &error);
@@ -2235,7 +2285,8 @@ static loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint
 }
 
 
-static loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+static gboolean
+loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
   GError *error = NULL;
   gchar *filename = g_strconcat(name, ".png", NULL);
   return loadGraphicFromFormat(basename, filename, xbm, width, height);//FIXME free filename
@@ -2289,38 +2340,85 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
 
     warningdialog("Could not load graphic");
   }
+
+
   return FALSE;
 }
 
 /* save the current graphic
 */
 static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
+  GError *error = NULL;
   gchar *name = (gchar *)gtk_action_get_name(action);
-  gchar *filename = g_build_filename (locatebitmapsdir (),  name,
+  gchar *pngname = g_strconcat(name, ".png", NULL);
+  gchar *filename = g_build_filename (locatebitmapsdir (),  pngname,
 				      NULL);
   //FIXME allow fileselector here to change the name
-  guint width = Denemo.gui->xbm_width;
-  guint height = Denemo.gui->xbm_height;
-  FILE *fp = fopen(filename,"wb");
-  if(fp) {
-    guchar whi, wlo, hhi, hlo;
-    wlo = width&0xFF;
-    whi = width>>8;
-    hlo = height&0xFF;
-    hhi = height>>8;
+  gchar *msg = g_strdup_printf("Saving a graphic for use in the %s script", name);
+  if( !g_file_test(filename,  G_FILE_TEST_EXISTS) || confirm (msg, "Replace current graphic?")) {
+    guint width = Denemo.gui->xbm_width;
+    guint height = Denemo.gui->xbm_height;
+    
+    
+    GdkBitmap *bitmap = gdk_bitmap_create_from_data(NULL, Denemo.gui->xbm, width, height);
+    GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_drawable (NULL,  bitmap, NULL, 0,0,0,0, width, height);
 
-    fwrite(&wlo, 1, 1, fp);
-    fwrite(&whi, 1, 1, fp);
+    GdkPixbuf *pixbuf = gdk_pixbuf_add_alpha (pixbuf1, TRUE, 0,0,0);// 255, 255, 255);
 
-    fwrite(&hlo, 1, 1, fp);
-    fwrite(&hhi, 1, 1, fp);
+    guchar *pixels;
+    gint n_channels = gdk_pixbuf_get_n_channels (pixbuf);
+    g_assert (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
+    g_assert (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
+    g_assert (gdk_pixbuf_get_has_alpha (pixbuf));
+    g_assert (n_channels == 4);
+    gint rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+    pixels = gdk_pixbuf_get_pixels (pixbuf);
+    int x, y, i;
+    for(i=0, y=0;y<height;y++)
+      {
+	for(x=0;x<width;x++, i++) {
+	  gint set = !((pixels + y * rowstride + x * n_channels)[3]>0);
+	  (pixels + y * rowstride + x * n_channels)[0] = 0xFF * set;
+	  (pixels + y * rowstride + x * n_channels)[1] = 0xFF * set;
+	  (pixels + y * rowstride + x * n_channels)[2] = 0xFF * set;
+	}
+      }
 
-    gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
+
+    gdk_pixbuf_save (pixbuf, filename, "png", &error, "compression", "2", NULL);
+
+
+#if 0
+      FILE *fp = fopen(filename,"wb");
+      if(fp) {
+      guchar whi, wlo, hhi, hlo;
+      wlo = width&0xFF;
+      whi = width>>8;
+      hlo = height&0xFF;
+      hhi = height>>8;
+      
+      fwrite(&wlo, 1, 1, fp);
+      fwrite(&whi, 1, 1, fp);
+      
+      fwrite(&hlo, 1, 1, fp);
+      fwrite(&hhi, 1, 1, fp);
+      
+      gint size = fwrite(Denemo.gui->xbm, 1, height*((width+7)/8)*8, fp);
     //g_print("Wrote %d bytes for %d x %d\n", size, width, height);
-    fclose(fp);
+
+
+      g_free(msg);
+      msg = g_strdup_printf("Saved graphic as file %s", filename);
+      infodialog(msg);
+      fclose(fp);  
+    }
+    else
+      warningdialog("Could not write file");
+#endif
   }
-  else
-    warningdialog("Could not write file");
+
+  g_free(pngname);
+  g_free(msg);
   g_free(filename);
 }
 
@@ -2422,6 +2520,11 @@ static gboolean menu_click (GtkWidget      *widget,
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
     if(Denemo.gui->xbm) {
       item = gtk_menu_item_new_with_label("Save Graphic");
+      // GtkSettings* settings = gtk_settings_get_default();
+      // gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
+      //item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
+      item = gtk_image_menu_item_new_from_stock("Save Graphic"/*GTK_STOCK_OK*/, NULL);
+      
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
     }
@@ -3258,6 +3361,7 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   attach_right_click_callback(proxy, action);
 
   if(GTK_IS_IMAGE_MENU_ITEM(proxy)) {
+    //  ????????????? should I put an icon named for the action->label into an icon factory here (we could just have one, static, and use gtk_icon_factory_add_default??????????
     if(!g_object_get_data(G_OBJECT(action), "connected"))
     g_signal_connect(G_OBJECT(proxy), "button-press-event", G_CALLBACK(thecallback), action);
      g_object_set_data(G_OBJECT(action), "connected", (gpointer)1);  //Unfortunately GtkImageMenuItems that pop up a menu do not wait for a button press - the focus switches to the popped up memory on entry. So we don't see this signal for them

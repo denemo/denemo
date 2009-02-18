@@ -11,12 +11,12 @@
 (d-CursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatEndStart" " \\bar \":|:\"")
 (d-DirectivePut-standalone-gx  "RepeatEndStart"  0)
-(d-DirectivePut-standalone-gy  "RepeatEndStart"  -5)
+(d-DirectivePut-standalone-gy  "RepeatEndStart"  -9)
 (d-DirectivePut-standalone-graphic "RepeatEndStart" "RepeatEndStart")
 (d-CursorRight)
 (d-RefreshDisplay)</scheme>
-        <label>:|:</label>
-        <tooltip>Inserts a repeat close and open new repeat barline</tooltip>
+        <label>Repeat End-Start</label>
+        <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
       </row>
     </map>
   </merge>
