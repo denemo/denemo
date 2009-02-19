@@ -3591,16 +3591,18 @@ create_scheme_window();
   gcs_init (Denemo.window->window);
 
 
-#if 0
-  /* we have to do this properly, because it introduces a keymap - no longer true */
-  if (Denemo.prefs.rhythm_palette) {
+#if 1 /* bug #25562 : apparently several people have tried to fix it this way */
+  {
     GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
     if (GTK_WIDGET_VISIBLE (widget))
       gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
-    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
-    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
-    //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
+    if (Denemo.prefs.rhythm_palette) {
+      widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
+      g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
     }
+  }
+#endif
+#if 0
   // A cheap way of doing activating this toolbar, note it is called variously notation toolbar, duration toolbar and EntryToolBar FIXME
   if (!Denemo.prefs.notation_palette)
     {
