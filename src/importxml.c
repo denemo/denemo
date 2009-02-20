@@ -1979,6 +1979,10 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 		curStaff->no_of_lines = 5;
 	      }
 	  }
+	else if (ELEM_NAME_EQ (childElem, "volume"))
+	  {
+  	    curStaff->volume = getXMLIntChild (childElem);
+  	  }	    
         else if (ELEM_NAME_EQ (childElem, "midi_prognum_override"))
 	  {
   	    curStaff->midi_prognum_override = getXMLIntChild (childElem);

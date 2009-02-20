@@ -107,7 +107,7 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
   memcpy (dest->skeyaccs, src->skeyaccs, SEVENGINTS);
   dest->stime1 = src->stime1;
   dest->stime2 = src->stime2;
-  dest->volume = 128;
+  dest->volume = 65;
   dest->no_of_lines = 5;
   dest->transposition = 0;
   dest->pos_in_half_lines = 0;
@@ -203,13 +203,12 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       memset (thestaffstruct->skeyaccs, 0, SEVENGINTS);
       thestaffstruct->stime1 = 4;
       thestaffstruct->stime2 = 4;
-      thestaffstruct->volume = 128;
+      thestaffstruct->volume = 65;
       thestaffstruct->no_of_lines = 5;
       thestaffstruct->transposition = 0;
       thestaffstruct->pos_in_half_lines = 0;
       thestaffstruct->space_above = 0;
       thestaffstruct->space_below = 0;
-      thestaffstruct->volume = 128;
       thestaffstruct->nummeasures = 1;
 
 #if 0

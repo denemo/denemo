@@ -86,6 +86,14 @@ PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
 
+PKG_CHECK_MODULES(FFTW, fftw3 >= 3.1.2)
+CFLAGS="$CFLAGS $FFTW_CFLAGS"
+LIBS="$LIBS $FFTW_LIBS"
+
+PKG_CHECK_MODULES(samplerate, samplerate >= 0.1.4)
+CFLAGS="$CFLAGS $samplerate_CFLAGS"
+LIBS="$LIBS $samplerate_LIBS"
+
 AC_ARG_ENABLE(
   jack,
   AC_HELP_STRING([--enable-jack], [use JACK @<:@default=no@:>@]),

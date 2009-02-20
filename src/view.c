@@ -3617,7 +3617,7 @@ create_scheme_window();
       toggle_entry_toolbar (NULL, Denemo.gui);
     }
 #endif
- 
+
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),

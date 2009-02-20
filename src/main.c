@@ -451,9 +451,11 @@ main (int argc, char *argv[])
 #endif
 #ifdef WITH_LASH
   lash_client_t* lash_client;
-  
+  int flags = 0;
+  flags = LASH_Config_Data_Set;
+
   lash_client = lash_init(lash_extract_args(&argc, &argv), "denemo",
-		                           LASH_Config_File, LASH_PROTOCOL(2, 0));
+		                           flags, LASH_PROTOCOL(2, 0));
   start_init_lash(lash_client);
 #endif
 
