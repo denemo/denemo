@@ -385,6 +385,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a dynamic marking at the cursor position", N_("InsertDynamic"), "insert_dynamic", N_("Insert Dynamics")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.", N_("InsertLilyDirective"), "standalone_directive", N_("Insert Lilypond")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Run an edit script to edit the directive at the cursor.", N_("RunEditScript"), "edit_directive", N_("Edit Directive")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.",N_("AttachLilyToNote"), "note_directive", N_("Attach Lilypond to Note")},
   {CMD_CATEGORY_DIRECT, NULL, "Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation.",N_("AttachLilyToChord"), "chord_directive", N_("Attach Lilypond to Chord")},
   {CMD_CATEGORY_DIRECT, NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline", N_("Insert Barline")}, 

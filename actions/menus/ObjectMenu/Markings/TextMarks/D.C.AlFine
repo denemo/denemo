@@ -6,8 +6,11 @@
     <map>
       <row>
         <action>D.C.AlFine</action>
-        <scheme>(d-AttachLilyToChord "prefix=\\once \\override TextScript #'extra-offset = #'( -4.0 . 0.0 )\0postfix=^\\markup \\italic \\bold {D. C. al fine}\0display=D.C. al fine")
-</scheme>
+        <scheme>;;D.C al fine
+(d-DirectivePut-note-display "D.C.AlFine"  "D.C. al fine" )
+(d-DirectivePut-note-postfix "D.C.AlFine"  "^\\markup \\italic \\bold {D. C. al fine}"
+(d-DirectivePut-note-minpixels  "D.C.AlFine" 20)
+(d-RefreshDisplay))</scheme>
         <label>D. C. al fine</label>
         <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>

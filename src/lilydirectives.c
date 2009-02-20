@@ -266,13 +266,16 @@ gboolean get_lily_directive(gchar **directive, gchar **display, gboolean *locked
   return TRUE;
 }
 
-/* return the directive tagged tag if present at cursor postion */
+/* return the directive tagged tag if present at cursor postion
+ if tag is NULL, return any directive at current position*/
 static
 DenemoDirective *get_standalone_directive(gchar *tag){
     DenemoObject *curObj = (DenemoObject *) Denemo.gui->si->currentobject ?
       (DenemoObject *)  Denemo.gui->si->currentobject->data : NULL;
     if (curObj && curObj->type == LILYDIRECTIVE) {
       DenemoDirective *ret = (DenemoDirective *)curObj->object;
+      if(tag==NULL)
+	return ret;
       if(ret && ret->tag && strcmp(tag, ret->tag->str))
 	 ret = NULL;	
       return ret;
@@ -656,4 +659,162 @@ standalone_directive_put_minpixels(gchar *tag, gint value) {
   return TRUE;
 }
 
+/* returns the path to a script file for editing a directive created by command of name commandname 
+   a local one takes precedence over the system one
+   caller must g_free the result */
+static gchar *
+get_script_file(gchar *commandname) {
+  gchar *name = g_strconcat(commandname, ".scm", NULL);
+  gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      return filename;
+    g_free(filename);
+    return NULL;
+  }
+  return filename;
+}
+
+static gboolean
+script_file_exists(gchar *commandname){
+  commandname = get_script_file(commandname);
+  if(commandname==NULL) return FALSE;
+  g_free(commandname);
+  return TRUE;
+}
+
+static gboolean
+tag_choice(GtkWidget *widget, DenemoDirective **response) {
+  if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+    *response = g_object_get_data(G_OBJECT(widget), "choice");
+  return TRUE;
+}
+/* let the user choose from a list of directives */
+static
+DenemoDirective *select_directive(gchar *note_name, GList *directives) {
+  gchar *instr = note_name?g_strdup_printf("Select a directive attached to the note \"%s\"", note_name):g_strdup("Select a directive attached to chord"); 
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Directive",
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_MODAL |
+                                                       GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+		      TRUE, TRUE, 0);
+  
+  DenemoDirective *response = NULL;
+  GList *g;
+  gint count;//count tagged directives
+  GtkWidget *widget, *widget2;
+  widget = gtk_label_new(instr);
+  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+
+  for(count=0, g=directives;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *) g->data;
+      if (directive->tag && script_file_exists(directive->tag->str)){
+	count++;
+	if(response==NULL)
+	   response = directive;
+	if(g==directives) {
+	  widget =   gtk_radio_button_new_with_label(NULL, directive->tag->str);
+	  g_object_set_data(widget, "choice", directive);
+	  g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(tag_choice), &response);
+	  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+	} else {
+	  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), directive->tag->str);
+	  g_object_set_data(widget2, "choice", directive);
+	  g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(tag_choice), &response);
+	  gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
+	}
+      }
+  }
+  if(count>1) {    
+    gtk_widget_show_all (dialog);
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
+      response = NULL;
+    }
+  }
+  gtk_widget_destroy (dialog);
+  if(response && response->tag)
+    g_print("Came back with response %s\n", response->tag->str);
+  return response;
+}
+
+/* let the user choose from the directives at the cursor */
+static 
+DenemoDirective *get_directive(void) {
+  DenemoDirective *directive = get_standalone_directive(NULL);
+  if(directive)
+    return directive;
+  note *curnote = get_note();
+  if(curnote==NULL)
+    return NULL;//if we allow chord directives on rests this must change.
+  gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
+  if(curnote->mid_c_offset == Denemo.gui->si->cursor_y)
+    if(curnote->directives) {
+      directive = select_directive(name, curnote->directives);
+      if(directive)
+	return directive;
+    }
+  if(directive==NULL) {
+  // not exactly on a note, offer any chord directives
+    chord *curchord = get_chord();
+    if(curchord && curchord->directives) {
+      directive = select_directive(NULL, curchord->directives);
+    } 
+  }
+  if(directive==NULL)//try nearest note
+    if(curnote->directives && curnote->mid_c_offset != Denemo.gui->si->cursor_y) {
+      directive = select_directive(name, curnote->directives);
+      if(directive && (g_list_length(curnote->directives)==1)) {
+	/* seek confirmation of the choice of this directive since it is on a note not pointed at and
+	   has been chosen automatically. */
+	gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
+	gchar *msg = g_strdup_printf("Edit the directive %s on note \"%s\"?", directive->tag->str, name);
+
+	if(!confirm("Edit Directive", msg))
+	  directive = NULL;
+	g_free(name);
+	g_free(msg);
+      }
+    }
+  g_free(name);
+  return directive;
+}
+
+/**
+ * callback for EditDirective 
+ */
+void edit_directive(GtkAction *action,  DenemoScriptParam *param) {
+  g_print("Edit directive called\n");
+  DenemoDirective *directive = get_directive();
+  g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    warningdialog("Use the old Other->Insert LilyPond command");
+  else {
+    gchar *name = g_strconcat(directive->tag->str, ".scm", NULL);
+    gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+      g_free(filename);
+      filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS))
+      warningdialog("No editing script provided, ?Use the old Other->Insert LilyPond command");
+      return;
+    }
+    GError *error = NULL;
+    gchar *script;
+    if(g_file_get_contents (filename, &script, NULL, &error)) {
+      //call_out_to_guile(script);???????if the script wants to pop up a menu??? I guess it has to run gtkmainloop hmmm
+      // it will have to create a dialog instead. We will need a specialized one creating a combo box.
+      call_out_to_guile(script);
+      g_free(script);
+    }
+  }
+}
 

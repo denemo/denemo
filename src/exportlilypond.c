@@ -741,17 +741,32 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
   GString *dynamic_string = NULL;
 
   if(curobj->type==LILYDIRECTIVE){
-    open_braces += brace_count( ((lilydirective *) curobj->object)->postfix->str);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->postfix->str, -1, "bold", invisibility, NULL);// Make it editable as well, the rest not...
-    GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);
-    GtkTextIter back;
-    back = *iter;
-    (void)gtk_text_iter_backward_char(&back);
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);
-    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);
-    g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);
-    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->postfix);
-    gui->anchors = g_list_prepend(gui->anchors, objanc);
+
+
+#define OUTPUT_LILY(what) \
+  if(((lilydirective *) curobj->object)->what && ((lilydirective *) curobj->object)->what->len) {\
+    open_braces += brace_count( ((lilydirective *) curobj->object)->what->str);\
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter,  ((lilydirective *) curobj->object)->what->str, -1, "bold", invisibility, NULL); \
+    GtkTextChildAnchor *endanc  = gtk_text_buffer_create_child_anchor (gui->textbuffer, iter);\
+    GtkTextIter back;\
+    back = *iter;\
+    (void)gtk_text_iter_backward_char(&back);\
+    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, INEDITABLE, &back, iter);\
+    gtk_text_buffer_apply_tag_by_name(gui->textbuffer, "system_invisible", &back, iter);\
+    g_object_set_data(G_OBJECT(objanc), "end", (gpointer)endanc);\
+    g_object_set_data(G_OBJECT(objanc), TARGET, (gpointer)&((lilydirective *) curobj->object)->what);\
+    gui->anchors = g_list_prepend(gui->anchors, objanc);\
+  }
+
+
+ OUTPUT_LILY(prefix);
+ gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, invisibility, NULL);
+ OUTPUT_LILY(postfix);
+
+#undef OUTPUT_LILY
+
+
+
     prevduration = -1;
     prevnumdots = -1;// the LILYDIRECTIVE may have changed the duration
   }  else {

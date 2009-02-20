@@ -49,6 +49,8 @@
       <menuitem action="Copy"/>
       <menuitem action="Paste"/>
       <separator/>
+      <menuitem action="RunEditScript"/>
+      <separator/>
       <menuitem action="ScoreProperties"/>
 	   <separator/>
       <menuitem action="Preferences"/>

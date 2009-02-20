@@ -837,10 +837,10 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(dragging) {
     offsetx = curx - markx;
     offsety = cury - marky;
-    gchar *setvars = g_strdup_printf("(define d-x %d) (define d-y %d)\n", offsetx, offsety);
+    gchar *setvars = g_strdup_printf("(define d-x \"%.1f\") (define d-y \"%.1f\")\n", offsetx/10.0, -offsety/10.0);//values found by trial and error
     call_out_to_guile(setvars);
     g_free(setvars);
-    gchar *msg = g_strdup_printf("You have chosen a tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nAt the moment you have to do this by script.\nd-x and d-y hold the values in Scheme for you to use.", offsetx, offsety);
+    gchar *msg = g_strdup_printf("You have chosen a tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nAt the moment you have to do this by script.\nd-x and d-y hold the values in Scheme for you to use.", offsetx, -offsety);
     warningdialog(msg);
     g_free(msg);
     dragging = FALSE;

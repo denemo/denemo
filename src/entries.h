@@ -286,6 +286,7 @@
 {"EditChords", NULL, N_("Edit Chord Symbols"), NULL,N_("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"),G_CALLBACK (fakechord_insert)},
 {"InsertDynamic", NULL, N_("Insert Dynamics"), NULL,N_("Inserts a dynamic marking at the cursor position"),G_CALLBACK (insert_dynamic)},
 {"InsertLilyDirective", NULL, N_("Insert Lilypond"), NULL,N_("Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."),G_CALLBACK (standalone_directive)},
+{"RunEditScript", NULL, N_("Edit Directive"), NULL,N_("Run an edit script to edit the directive at the cursor."),G_CALLBACK (edit_directive)},
 {"AttachLilyToNote", NULL, N_("Attach Lilypond to Note"), NULL,N_("Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."),G_CALLBACK (note_directive)},
 {"AttachLilyToChord", NULL, N_("Attach Lilypond to Chord"), NULL,N_("Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."),G_CALLBACK (chord_directive)},
 {"InsertBarline", NULL, N_("Insert Barline"), NULL,N_("Inserts specialized barline at the cursor position. Mostly not working"),G_CALLBACK (insert_barline)},

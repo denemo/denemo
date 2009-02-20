@@ -2547,7 +2547,6 @@ static gboolean menu_click (GtkWidget      *widget,
 
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
-
   // configure_keyboard_dialog_init_idx (action, gui, idx);
   return TRUE;
 }
@@ -2675,17 +2674,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
 
 
 static void dummy(void) {
-#ifdef TRIAL_SCHEME
-  //call_out_to_guile("(CursorRight)(CursorRight)(CursorRight)\n");
-  g_print("calling guile with %p %p\n", &Denemo, Denemo.ui_manager);
-  call_out_to_guile("(denemoy \"/MainMenu/ModeMenu/Rest\")\n");
-#endif
-  play_pitch(440.0, 1.0);
-  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea));
-  if(GTK_WIDGET_VISIBLE(w))
-    gtk_widget_hide(w);
-  else
-    gtk_widget_show(w);
+
   return;
 }
 
@@ -3590,7 +3579,27 @@ create_scheme_window();
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
 
+#if 1 /* bug #25562 : apparently several people have tried to fix it this way */
 
+   {
+
+     GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+
+     if (GTK_WIDGET_VISIBLE (widget))
+
+       gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
+
+     if (Denemo.prefs.rhythm_palette) {
+
+       widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
+
+       g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
+
+     }
+
+   }
+
+#endif
 #if 0
   /* we have to do this properly, because it introduces a keymap - no longer true */
   if (Denemo.prefs.rhythm_palette) {

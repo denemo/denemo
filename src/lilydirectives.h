@@ -11,7 +11,8 @@
 
 #include <denemo/denemo.h>
 
-
+void 
+edit_directive(GtkAction *action,  DenemoScriptParam *param);
 void
 note_directive (GtkAction *action, gpointer param);
 void
