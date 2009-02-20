@@ -63,10 +63,15 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 	  ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
 
 	}
-      if (g_list_length (si->measurewidths) <
-	  ((DenemoStaff *) si->currentstaff->data)->nummeasures)
+
+      gint maxmeasures=0;
+      for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	{
-/* ???????????????? what if different staffs have different nummeasures??????? */
+	  maxmeasures = MAX(maxmeasures,  ((DenemoStaff *) curstaff->data)->nummeasures);
+	}
+
+      if (g_list_length (si->measurewidths) < maxmeasures)
+	{
 	  si->measurewidths = g_list_insert (si->measurewidths,
 					     GINT_TO_POINTER (si->
 							      measurewidth),
