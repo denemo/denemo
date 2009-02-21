@@ -1,50 +1,12 @@
-;;; tweak position, d-x and d-y are set by dragging in printview area.
-(display d-x)
-(display "and")
-(display d-y)
-
-
-(use-modules (ice-9 regex))
-
-
-
-(define xy (string-append d-x " . " d-y))
+;;; tweak position of Fingering inserted by LHFinger, d-x and d-y are set by dragging in printview area.
 
 (define oldstr (d-DirectiveGet-chord-prefix "LHFinger"))
-
+(if (equal? oldstr "")
+    (set! oldstr #f))
 (define start "\\once \\override Fingering  #'extra-offset = #'(")
 (define end ")")
-(if (boolean? oldstr)
-      (define oldstr (string-append start " 0.0 . 0.0 " end)))
-(display "\n")(display oldstr)(display "\n")
-(define startbit (regexp-quote start))
-(define endbit  (regexp-quote end))
-(define theregexp (string-append startbit "[ ]*[-0-9.]+[ ]+.[ ]+[-0-9.]+[ ]*" endbit))
-(define thematch (string-match theregexp oldstr))
-(if (boolean? thematch)
-    (begin
-      (display "no match")
-      )
-    (begin 
-      (define newstr (regexp-substitute #f thematch 'pre (string-append start xy end) 'post))
-      (d-DirectivePut-chord-prefix "LHFinger" newstr)
-      ))
-
-
-
-
-
-
-
-
-
-;;(d-DirectivePut-chord-prefix "LHFinger"  "\\set fingeringOrientations = #'(left)")
-
-;;;(d-DirectivePut-chord-prefix "LHFinger"  "\\set fingeringOrientations = #'(left) \\override Fingering #'padding = #4")
-
-;;\override Fingering #'font-size = #-7
-;;\override Fingering #'padding = #4
-
-
-;;;(d-DirectivePut-note-prefix "LHFinger"  (string-append " \\override Score.Text  #'extra-offset = #'( " (number->string (exact->inexact (/ d-x 10.0))) " . " (number->string (exact->inexact (/ d-y 10.0))) " )"))
+(display oldstr)
+(display start)
+(display d-x)
+(d-DirectivePut-chord-prefix "LHFinger" (ChangeOffset oldstr start end))
 (d-RefreshDisplay)
