@@ -6,8 +6,10 @@
     <map>
       <row>
         <action>Andante</action>
-        <scheme>(d-AttachLilyToChord "prefix=\\once \\override TextScript #'extra-offset = #'( 0.0 . 0.0 )\0postfix=^\\markup \\italic \\bold {Andante}\0display=Andante")
-</scheme>
+        <scheme>;;; Andante
+(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Andante}")
+(d-DirectivePut-chord-display "Tempo" "Andante")
+(d-RefreshDisplay)</scheme>
         <label>Andante</label>
         <tooltip>Print Andante in bold italics above the chord.</tooltip>
       </row>
