@@ -1394,6 +1394,9 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
  </para>
 </sect2>
 <itemizedlist>
+<listitem>d-InitializeScript <action-name> runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
+</listitem>
+
 <listitem>d-GetType returns a scheme string indicating the type of the current object
 </listitem>
 <listitem>d-GetNoteName returns  a scheme string, giving the note name a-g of the current note
