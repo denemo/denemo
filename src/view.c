@@ -817,14 +817,14 @@ int process_command_line(int argc, char**argv);//back in main
 
 
 static void denemo_scheme_init(void){
-  gchar *filename = g_build_filename(get_data_dir(), "denemo.scm", NULL);
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
 
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     scm_c_primitive_load(filename);
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
-  filename = g_build_filename(locatedotdenemo(), "denemo.scm", NULL);
+  filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     scm_c_primitive_load(filename);
   g_free(filename);
