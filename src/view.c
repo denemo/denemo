@@ -140,6 +140,15 @@ cb_string_pairs activatable_commands[] = {
 
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
+
+static gboolean
+option_choice(GtkWidget *widget, DenemoDirective **response) {
+  if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+    *response = g_object_get_data(G_OBJECT(widget), "choice");
+  return TRUE;
+}
+
+
 #define DENEMO_SCHEME_PREFIX "d-"
 static void install_scm_function(gchar *name, gpointer callback) {
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
@@ -439,6 +448,52 @@ SCM scheme_get_command(void) {
  g_string_free(name, TRUE);
  return  scm;
 }
+
+/* create a dialog with the options & return the one chosen, of #f if
+   the user cancels
+*/
+SCM scheme_get_option(SCM options) {
+  SCM scm;
+  gchar *response;
+  gint length;
+  gchar *str=NULL;
+  if(SCM_STRINGP(options)){
+    str = gh_scm2newstr(options, &length);
+    GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select an Option (or Cancel)",
+						     GTK_WINDOW (Denemo.window),
+						     (GtkDialogFlags) (GTK_DIALOG_MODAL |
+								       GTK_DIALOG_DESTROY_WITH_PARENT),
+						     GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+						     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+						     NULL);
+    GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+			TRUE, TRUE, 0);
+    gchar *opt;
+    gint i;
+    GtkWidget *widget1, *widget2, *widget;
+    for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
+      if(opt==str) {
+	widget = widget1 =   gtk_radio_button_new_with_label(NULL, opt);
+      } else {
+	widget =  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
+      }	
+      g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
+      g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
+      gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+    }
+    gtk_widget_show_all (dialog);
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
+      response = NULL;
+    }
+    gtk_widget_destroy(dialog);
+  }
+  if(response)
+    scm = gh_str2scm (response, strlen(response));
+  else scm = SCM_BOOL(FALSE);
+  return  scm;
+}
+
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
 
@@ -883,6 +938,8 @@ void inner_main(void*closure, int argc, char **argv){
   /* install the scheme function for calling actions which are scripts */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
 			
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
+  /* test with (display (d-GetOption "this\0and\0that\0")) */
 			
 			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */

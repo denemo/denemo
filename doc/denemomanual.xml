@@ -1394,7 +1394,7 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
  </para>
 </sect2>
 <itemizedlist>
-<listitem>d-InitializeScript <action-name> runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
+<listitem>d-InitializeScript (parameter: action-name) runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
 </listitem>
 
 <listitem>d-GetType returns a scheme string indicating the type of the current object
@@ -1420,6 +1420,8 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 
 
 <listitem>d-WarningDialog Pass a string argument to pop up a warning.
+</listitem>
+<listitem>d-GetOption (parameter string of options). Takes a null separated set of options and pops up a dialog offering them to the user. Returns the one chosen or #f if the user cancels.
 </listitem>
 
 
