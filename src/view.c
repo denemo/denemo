@@ -475,6 +475,7 @@ SCM scheme_get_option(SCM options) {
     for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
       if(opt==str) {
 	widget = widget1 =   gtk_radio_button_new_with_label(NULL, opt);
+	response = opt;
       } else {
 	widget =  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
       }	
