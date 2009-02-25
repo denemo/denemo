@@ -47,7 +47,8 @@
 	(ynew "")
 	(xval 0)
 	(yval 0)
-	(xy ""))
+	(xy "")
+	(offset ""))
     (begin
       (if (boolean? oldstr)
 	  (set! oldstr (string-append prefixstring " 0.0 . 0.0 " postfixstring)))
@@ -62,11 +63,17 @@
       (set! xold (string->number oldx))
       (set! yold (string->number oldy))
 ;;;add two values
-      (set! xval (string->number d-x))
-      (set! yval (string->number d-y))
-      (set! xnew (number->string (+ xval xold)))
-      (set! ynew (number->string (+ yval yold)))
-      (set! xy (string-append xnew " . " ynew))
+      (set! offset (d-GetOffset))
+      (if (pair? offset)
+	  (begin
+	    (set! d-x (car offset))
+	    (set! d-y (cdr offset))
+	    (set! xval (string->number d-x))
+	    (set! yval (string->number d-y))
+	    (set! xnew (number->string (+ xval xold)))
+	    (set! ynew (number->string (+ yval yold)))
+	    (set! xy (string-append xnew " . " ynew)))
+	  (set! xy " 0.0 . 0.0 "))
       (regexp-substitute #f thematch 'pre (string-append prefixstring xy postfixstring) 'post))    
     ));;;; end of function change offset
 ;;;;;;;;;;;;;

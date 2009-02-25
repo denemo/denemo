@@ -1,8 +1,7 @@
 ;;; tweak values of D.C. Al fine indication, d-x and d-y are set by dragging in printview area.
 ;;D.C.AlFine edit choices
 
-
-(let ((choice #f) (edit-text #f) (newtext ""))
+(let ((choice #f) (edit-text #f) (newtext "") (place-above ""))
   (begin
     (set! edit-text (lambda ()
 		      (begin
