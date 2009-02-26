@@ -140,6 +140,15 @@ cb_string_pairs activatable_commands[] = {
 
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
+
+static gboolean
+option_choice(GtkWidget *widget, DenemoDirective **response) {
+  if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+    *response = g_object_get_data(G_OBJECT(widget), "choice");
+  return TRUE;
+}
+
+
 #define DENEMO_SCHEME_PREFIX "d-"
 static void install_scm_function(gchar *name, gpointer callback) {
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
@@ -424,6 +433,8 @@ SCM scheme_get_command_keypress(void) {
  return  scm;
 }
 
+
+
 SCM scheme_get_command(void) {
   GdkEventKey event;
  GString *name=g_string_new("");
@@ -439,6 +450,112 @@ SCM scheme_get_command(void) {
  g_string_free(name, TRUE);
  return  scm;
 }
+
+static get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
+  g_object_set_data(G_OBJECT(dialog), "response", (gpointer)response_id);
+  if(response_id < 0)
+    gtk_main_quit();
+  gint offsetx, offsety;
+  offsetx =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  offsety =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  gchar *text = g_strdup_printf("Offset now %d %d. Drag again in the print window to change\nOr click OK to apply the position shift", offsetx, offsety);
+  gtk_label_set_text(label, text);
+  g_free(text);
+}
+
+
+
+/* return a pair x, y representing the offset desired for some lilypond graphic
+ or #f if no printarea or user cancels*/
+SCM scheme_get_offset(void) {
+  SCM x, y, ret;
+  if(Denemo.gui->printarea==NULL)
+    return SCM_BOOL(FALSE);
+  gint offsetx = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  gint offsety = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+
+
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Offset in Print Window",
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog", (gpointer)dialog);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+		      TRUE, TRUE, 0);
+  gchar *text = g_strdup_printf("Current offset %d, %d\nDrag in print window to change this\nClick OK to apply the position shift to the directive", offsetx, -offsety);
+  GtkWidget *label = gtk_label_new(text);
+  g_free(text);
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+  gtk_widget_show_all (dialog);
+
+  gint val;
+
+  g_signal_connect(dialog, "response", G_CALLBACK(get_drag_offset), label);
+  gtk_widget_show_all(dialog);
+  gtk_main();
+  offsetx = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  offsety = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  val =  (gint)g_object_get_data(G_OBJECT(dialog), "response");
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog", NULL);
+  gtk_widget_destroy(dialog);
+  if(val == GTK_RESPONSE_ACCEPT) {
+    x= scm_makfrom0str (g_strdup_printf("%.1f", offsetx/10.0));
+    y= scm_makfrom0str (g_strdup_printf("%.1f", -offsety/10.0));
+    ret = scm_cons(x, y);
+  } else
+    ret = SCM_BOOL(FALSE);//FIXME add a RESET button for which return TRUE to reset the overall offset to zero.
+  return ret;
+}
+
+/* create a dialog with the options & return the one chosen, of #f if
+   the user cancels
+*/
+SCM scheme_get_option(SCM options) {
+  SCM scm;
+  gchar *response;
+  gint length;
+  gchar *str=NULL;
+  if(SCM_STRINGP(options)){
+    str = gh_scm2newstr(options, &length);
+    GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select an Option (or Cancel)",
+						     GTK_WINDOW (Denemo.window),
+						     (GtkDialogFlags) (GTK_DIALOG_MODAL |
+								       GTK_DIALOG_DESTROY_WITH_PARENT),
+						     GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+						     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+						     NULL);
+    GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+			TRUE, TRUE, 0);
+    gchar *opt;
+    gint i;
+    GtkWidget *widget1, *widget2, *widget;
+    for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
+      if(opt==str) {
+	widget = widget1 =   gtk_radio_button_new_with_label(NULL, opt);
+	response = opt;
+      } else {
+	widget =  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
+      }	
+      g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
+      g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
+      gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+    }
+    gtk_widget_show_all (dialog);
+    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
+      response = NULL;
+    }
+    gtk_widget_destroy(dialog);
+  }
+  if(response)
+    scm = gh_str2scm (response, strlen(response));
+  else scm = SCM_BOOL(FALSE);
+  return  scm;
+}
+
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
 
@@ -752,6 +869,7 @@ return SCM_BOOL(to_next_object());
 
 SCM scheme_refresh_display (SCM optional) {
   displayhelper(Denemo.gui);
+  score_status(Denemo.gui, TRUE);
   return SCM_BOOL(TRUE);
 }
 
@@ -812,6 +930,25 @@ SCM scheme_next_note (SCM optional) {
 }
 
 int process_command_line(int argc, char**argv);//back in main
+
+
+
+static void denemo_scheme_init(void){
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
+
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    scm_c_primitive_load(filename);
+  else
+    g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
+  g_free(filename);
+  filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    scm_c_primitive_load(filename);
+  g_free(filename);
+}
+
+
+
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
@@ -863,8 +1000,10 @@ void inner_main(void*closure, int argc, char **argv){
   /* install the scheme function for calling actions which are scripts */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
 			
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
+  /* test with (display (d-GetOption "this\0and\0that\0")) */
 			
-			
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
 
@@ -1078,7 +1217,7 @@ Then
     
   */
 
-
+  denemo_scheme_init();
 
     process_command_line(argc, argv);
  /* Now launch into the main gtk event loop and we're all set */

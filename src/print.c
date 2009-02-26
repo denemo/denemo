@@ -836,13 +836,21 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 
   if(dragging) {
     offsetx = curx - markx;
-    offsety = cury - marky;
-    gchar *setvars = g_strdup_printf("(define d-x \"%.1f\") (define d-y \"%.1f\")\n", offsetx/10.0, -offsety/10.0);//values found by trial and error
-    call_out_to_guile(setvars);
-    g_free(setvars);
-    gchar *msg = g_strdup_printf("You have chosen a tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nAt the moment you have to do this by script.\nd-x and d-y hold the values in Scheme for you to use.", offsetx, -offsety);
-    warningdialog(msg);
-    g_free(msg);
+    offsety = cury - marky;   
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog");
+    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsetx", (gpointer)offsetx);
+    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsety", (gpointer)offsety);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else {
+      //FIXME user scm_c_define() FIXME discontinue d-x and d-y altogether.
+      gchar *setvars = g_strdup_printf("(define d-x \"%.1f\") (define d-y \"%.1f\")\n", offsetx/10.0, -offsety/10.0);//values found by trial and error
+      call_out_to_guile(setvars);
+      g_free(setvars);
+      gchar *msg = g_strdup_printf("You have chosen a offset tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", offsetx, -offsety);
+      warningdialog(msg);
+      g_free(msg);
+    }
     dragging = FALSE;
     return;
   }

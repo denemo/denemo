@@ -6,8 +6,10 @@
     <map>
       <row>
         <action>Presto</action>
-        <scheme>(d-AttachLilyToChord "prefix=\\once \\override TextScript #'extra-offset = #'( 0.0 . 0.0 )\0postfix=^\\markup \\italic \\bold {Presto}\0display=Presto")
-</scheme>
+        <scheme>;;; Presto
+(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Presto}")
+(d-DirectivePut-chord-display "Tempo" "Presto")
+(d-RefreshDisplay)</scheme>
         <label>Presto</label>
         <tooltip>Print Presto in bold italics above the chord.</tooltip>
       </row>

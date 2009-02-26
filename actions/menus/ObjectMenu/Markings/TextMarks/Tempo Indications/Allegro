@@ -6,8 +6,10 @@
     <map>
       <row>
         <action>Allegro</action>
-        <scheme>(d-AttachLilyToChord "prefix=\\once \\override TextScript #'extra-offset = #'( 0.0 . 0.0 )\0postfix=^\\markup \\italic \\bold {Allegro}\0display=Allegro")
-</scheme>
+        <scheme>;;; Allegro
+(d-DirectivePut-chord-postfix "Tempo" "^\\markup \\italic \\bold {Allegro}")
+(d-DirectivePut-chord-display "Tempo" "Allegro")
+(d-RefreshDisplay)</scheme>
         <label>Allegro</label>
         <tooltip>Print Allegro in bold italics above the chord.</tooltip>
       </row>
