@@ -20,6 +20,9 @@
 #include <gtk/gtk.h>
 #include "calculatepositions.h"
 #include "commandfuncs.h"
+#ifdef _HAVE_JACK_
+#include "jackmidi.h"
+#endif
 
 /**
  * Return the first object node of the given measure
@@ -180,7 +183,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   DenemoScore *si = gui->si;
   g_assert (si != NULL);
   /* What gets added */
-  gint ret = -1;
+  gint ret = -1, err;
   DenemoStaff *thestaffstruct =
     (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
   struct newstaffinfotopass itp;
@@ -329,6 +332,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	  copy_staff_properties ((DenemoStaff *) si->currentstaff->data,
 				 thestaffstruct);
 	  insert_staff (si, thestaffstruct, action, addat);
+#ifdef _HAVE_JACK_
+	    //  err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
+#endif
 	}
       else
 	{
@@ -348,6 +354,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	         the next staff. 
 	       */
 	      si->leftmeasurenum = 1;
+#ifdef _HAVE_JACK_
+	   //   err = create_jack_midi_port(numstaffs, itp.staff->denemo_name->str);
+#endif
 	    }
 	  else
 	    {
@@ -363,7 +372,15 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
     {
       insert_staff (si, thestaffstruct, action, addat);
       si->leftmeasurenum = 1;
+#ifdef _HAVE_JACK_
+      	  //    err = create_jack_midi_port(numstaffs, itp.staff->denemo_name->str);
+#endif
     }
+#ifdef _HAVE_JACK_
+  if (action == INITIAL || action == ADDFROMLOAD || action == NEWVOICE 
+		  || (action != INITIAL && action != ADDFROMLOAD && action != NEWVOICE))
+  	err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
+#endif
 
   //si->haschanged = TRUE;
 }
