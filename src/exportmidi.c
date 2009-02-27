@@ -930,6 +930,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_written;
   long ticks_at_bar = 0;
   int cur_volume;
+  gboolean mute_volume;
+  int mix;
   int midi_channel = (-1);
   int tracknumber = 0;
   int timesigupper = 4;
@@ -1104,6 +1106,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* set a default velocity value */
       cur_volume = curstaffstruct->volume;
+      /* mute output if set */
+      mute_volume = curstaffstruct->mute_volume;
 
       /* reset measure */
       curmeasurenum = 0;
@@ -1321,13 +1325,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  /* write note on/off */
 			  if (slur_on_p (note_status, n))
 			    {
+			      mix = compress(128, cur_volume + rand_delta + beat);
 			      midi_channel_event (fd, MIDI_NOTE_ON,
 						  midi_channel, n,
-						  compress (128,
-							    cur_volume +
-							    rand_delta +
-							    beat));
-			      // printf ("n = %i\n", n);
+						  (mute_volume ? 0:mix));
+
+			      printf ("volume = %i\n", (mute_volume ? 0:mix));
 			    }
 			  else if (slur_kill_p (note_status, n))
 			    {
