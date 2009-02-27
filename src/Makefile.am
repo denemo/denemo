@@ -11,7 +11,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
-	jackmidi.c jackmidi.h lash_support.c lash_support.h \ 
+	jackmidi.c jackmidi.h lash_support.c lash_support.h \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c plugin.c prefdialog.c prefops.c	processstaffname.c \
 	csoundplayback.c lyric.c scoreops.c scoreprops.c \
