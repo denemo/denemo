@@ -361,7 +361,7 @@ static void output_lyric(GString *lyrics, chord *pchord, gboolean *pis_syllable,
       else
 	lyrics = g_string_append (lyrics, "__ ");
     } else
-      lyrics = g_string_append (lyrics, " - ");//FIXME is this right?
+      lyrics = g_string_append (lyrics, " _ ");//FIXME is this right?
 }
 
 
