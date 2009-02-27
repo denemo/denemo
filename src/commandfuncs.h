@@ -163,5 +163,6 @@ void
 nextrhythm(DenemoGUI *gui);
 void 
 insert_rhythm_pattern(DenemoGUI *gui);
-
+void
+toggle_tie (GtkAction *action, gpointer param);
 #endif /*COMMANDFUNCSH */

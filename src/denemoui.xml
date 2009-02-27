@@ -259,6 +259,7 @@
 	   <menuitem action="E"/>
 	   <menuitem action="F"/>
 	   <menuitem action="G"/>
+              <menuitem action="ToggleTie"/>
            <menuitem action="InsertTiedNote"/>
 	   <menuitem action="OctaveUp"/>
            <menuitem action="OctaveDown"/>
@@ -293,6 +294,7 @@
 <menuitem action="E"/>
 <menuitem action="F"/>
 <menuitem action="G"/>
+              <menuitem action="ToggleTie"/>
          <menuitem action="InsertTiedNote"/>
 
 	 </menu>
@@ -324,6 +326,7 @@
 	   <menuitem action="E"/>
 	   <menuitem action="F"/>
 	   <menuitem action="G"/>
+              <menuitem action="ToggleTie"/>
           <menuitem action="InsertTiedNote"/>
 	   <menuitem action="Sharpen"/>
 	   <menuitem action="Flatten"/>
@@ -358,6 +361,7 @@
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
           <menu action="TiedNotes">
+              <menuitem action="ToggleTie"/>
               <menuitem action="InsertTiedNote"/>
            </menu>
            <menu action="NoteheadControl">
@@ -610,7 +614,12 @@
        	      <menuitem action="AddDot"/>
 	      <menuitem action="RemoveDot"/>
            </menu>
-
+     <menu action="Slurs">
+	<menuitem action="ToggleBeginSlur"/>
+	<menuitem action="ToggleEndSlur"/>
+    </menu>
+    <menuitem action="ToggleTie"/>
+    <menuitem action="EditLyric"/>
 
   </popup>
 

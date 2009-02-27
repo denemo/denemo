@@ -1588,6 +1588,25 @@ void tolastobject (DenemoGUI *gui)
     }
 }
 
+
+/* Make note tied/untied */
+void
+toggle_tie (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curmudelaobj = (DenemoObject *)
+    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+  if (curmudelaobj && curmudelaobj->type == CHORD &&
+      ((chord *) curmudelaobj->object)->notes)
+    {
+
+      ((chord *) curmudelaobj->object)->is_tied ^= 1;
+    }
+}
+
+
+
+
 /**
  * Move cursor to the end of the score 
  * @param action - Gtk Action event 

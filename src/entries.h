@@ -57,6 +57,7 @@
 {"AddDot", NULL, N_("Add Dot"), NULL,N_("No Tooltip yet"),G_CALLBACK (add_dot_key_cb)},
 {"RemoveDot", NULL, N_("Remove Dot"), NULL,N_("No Tooltip yet"),G_CALLBACK (remove_dot_key_cb)},
 {"InsertTiedNote", NULL, N_("Tied note"), NULL,N_("Inserts a duplicate of the current note, tied"),G_CALLBACK (tie_notes_key_cb)},
+{"ToggleTie", NULL, N_("Toggle Tie"), NULL,N_("Ties/unties the note at the cursor"),G_CALLBACK (toggle_tie)},
 {"DeleteObject", NULL, N_("Delete Object"), NULL,N_("Delete the object at the cursor"),G_CALLBACK (deleteobject_cb)},
 {"DeletePreviousObject", NULL, N_("Delete Previous Object"), NULL,N_("Delete to the left of the cursor."),G_CALLBACK (deletepreviousobject_cb)},
 {"InsertMeasure", NULL, N_("Insert Measure"), NULL,N_("Insert a blank measure before the current one (in all staffs)"),G_CALLBACK (insert_measure_key_cb)},

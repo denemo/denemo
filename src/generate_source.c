@@ -128,6 +128,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("RemoveDot"), "remove_dot_key", N_("Remove Dot")},
 
   {CMD_CATEGORY_ARTICULATION,  NULL, "Inserts a duplicate of the current note, tied",	N_("InsertTiedNote"), "tie_notes_key","Tied note", N_("Insert Tied Note")},
+  {CMD_CATEGORY_ARTICULATION|CMD_CATEGORY_DIRECT,  NULL, "Ties/unties the note at the cursor",	N_("ToggleTie"), "toggle_tie","Toggle Tie", N_("Toggle Tied Note")},
 
   {CMD_CATEGORY_EDIT, NULL, "Delete the object at the cursor",	N_("DeleteObject"), "deleteobject", N_("Delete Object")},
   {CMD_CATEGORY_EDIT, NULL, "Delete to the left of the cursor.",	N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},

@@ -56,6 +56,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "StemDown
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddDot"), "AddDot", "Add Dot", "No Tooltip yet", add_dot_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "RemoveDot"), "RemoveDot", "Remove Dot", "No Tooltip yet", remove_dot_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertTiedNote"), "InsertTiedNote", "Tied note", "Inserts a duplicate of the current note, tied", tie_notes_key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTie"), "ToggleTie", "Toggle Tie", "Ties/unties the note at the cursor", toggle_tie);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteObject"), "DeleteObject", "Delete Object", "Delete the object at the cursor", deleteobject);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeletePreviousObject"), "DeletePreviousObject", "Delete Previous Object", "Delete to the left of the cursor.", deletepreviousobject);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasure"), "InsertMeasure", "Insert Measure", "Insert a blank measure before the current one (in all staffs)", insert_measure_key);

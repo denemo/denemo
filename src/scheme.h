@@ -231,6 +231,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "RemoveDot")), "scm", (gpo
 SCM scheme_InsertTiedNote(SCM optional);
 install_scm_function ("d-InsertTiedNote", scheme_InsertTiedNote);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertTiedNote")), "scm", (gpointer)1);
+/*ToggleTie toggle_tie*/
+SCM scheme_ToggleTie(SCM optional);
+install_scm_function ("d-ToggleTie", scheme_ToggleTie);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleTie")), "scm", (gpointer)1);
 /*DeleteObject deleteobject*/
 SCM scheme_DeleteObject(SCM optional);
 install_scm_function ("d-DeleteObject", scheme_DeleteObject);
