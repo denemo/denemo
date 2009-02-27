@@ -63,7 +63,7 @@ insertlyric (gpointer data)
   DenemoObject *curObj = (DenemoObject *) (si->currentobject ?
 					   si->currentobject->data : NULL);
   gchar *lyric = (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->entry));
-  if (curObj && curObj->type == CHORD)
+  if (curObj && curObj->type == CHORD && (((chord *) curObj->object)->notes!=NULL))
     {
       if (!((chord *) curObj->object)->lyric)
 	((chord *) curObj->object)->lyric = g_string_new (lyric);
