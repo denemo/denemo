@@ -827,6 +827,14 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
       gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
     }
     return;
+
+  case STEMDIRECTIVE:
+     {
+      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup");
+      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+    }  
+     return;
+
   default:
     warningdialog("No method for editing this type of object");
     return;
