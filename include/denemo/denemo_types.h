@@ -217,6 +217,7 @@ typedef struct
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
   gint pos_in_half_lines; /**< I believe this maybe broken. It does not seem to do much*/ 
   gint volume;	/**< Volume used for midi/csound playback */
+  gboolean mute_volume; /**< mute Volume of voices playback */
   /* Back to Hiller stuff */
   GString *staff_name;
   /* RTS: I've introduced the staff name here, the other two are versions

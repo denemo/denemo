@@ -21,7 +21,7 @@
  * List of midi instrument names
  * 
  */
-static gchar *instruments[128] = {
+static gchar *instruments[] = {
   "acoustic grand",
   "bright acoustic",
   "electric grand",
@@ -149,7 +149,8 @@ static gchar *instruments[128] = {
   "telephone ring",
   "helicopter",
   "applause",
-  "gunshot"
+  "gunshot",
+  NULL
 };
 
 
@@ -163,8 +164,6 @@ static const gchar *context_strings[] = {
   GROUP_END_STRING,
   NULL
 };
-
-
 
 
 /**
@@ -194,22 +193,21 @@ struct callbackdata
 {
   DenemoGUI *gui;
   DenemoStaff *staffstruct;
-  GtkWidget *nameentry;
+  GtkWidget *denemo_name;
+  GtkWidget *midi_instrument;
   GtkWidget *midi_prognum;
   GtkWidget *midi_channel;
   GtkWidget *midi_prognum_override;
-  GtkWidget *aboveentry;
-  GtkWidget *belowentry;
-  GtkWidget *numlinesentry;
-  GtkWidget *transposeentry;
+  GtkWidget *space_above;
+  GtkWidget *space_below;
+  GtkWidget *no_of_lines;
+  GtkWidget *transposition;
   GtkWidget *volume;
-  GtkWidget *posinhalflinesentry;
-  GtkWidget *midientry;
-  GtkWidget *contexts;
-  GtkWidget *staff_prolog;
-  GtkWidget *voice_prolog;
-
-  
+  GtkWidget *mute_volume;
+  GtkWidget *pos_in_half_lines;
+  GtkWidget *context;
+  GtkWidget *staff_prolog_insert;
+  GtkWidget *voice_prolog_insert;
 };
 
 /**
@@ -250,56 +248,65 @@ set_properties (struct callbackdata *cbdata)
   DenemoStaff *staffstruct = cbdata->staffstruct;
   gint n;
 
+#define ASSIGNTEXT(field) \
+    g_string_assign (staffstruct->field,\
+    gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
+
+#define ASSIGNNUMBER(field) \
+    staffstruct->field = \
+      atoi(gtk_entry_get_text(GTK_ENTRY (cbdata->field)))
+
+#define ASSIGNBOOLEAN(field) \
+    staffstruct->field = \
+    (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->field)));
+
   canonicalize_denemo_name
-    ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->nameentry)),
+    ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)),
      staffstruct->denemo_name);
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
-  
-  /* set channel/prognum */
-  staffstruct->midi_prognum_override = (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->midi_prognum_override)));
-  staffstruct->midi_prognum = (guint8) atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->midi_prognum)));
-  staffstruct->midi_channel = (guint8) atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->midi_channel)));
-  
+    
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
 
-  g_string_assign (staffstruct->midi_instrument,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->midientry)));
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->aboveentry)))) >= 0)
-    staffstruct->space_above = n;
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->belowentry)))) >= 0)
-    staffstruct->space_below = n;
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->numlinesentry)))))
-    staffstruct->no_of_lines = n;
-  staffstruct->transposition = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->transposeentry)));
-  if ((n =
-       atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->posinhalflinesentry)))))
-    staffstruct->pos_in_half_lines = n;
-  if ((n = atoi (gtk_entry_get_text (GTK_ENTRY (cbdata->volume)))))
-    staffstruct->volume = n;
+  ASSIGNNUMBER(space_above);
+  ASSIGNNUMBER(space_below);
+  ASSIGNNUMBER(no_of_lines);
+  ASSIGNNUMBER(transposition);
+  ASSIGNNUMBER(pos_in_half_lines);
+ 
+  /* set midi channel/prognum */
+  ASSIGNTEXT(midi_instrument);
+  ASSIGNBOOLEAN(mute_volume);
+  ASSIGNNUMBER(volume);
+  ASSIGNBOOLEAN(midi_prognum_override);
+  ASSIGNNUMBER(midi_prognum);
+  ASSIGNNUMBER(midi_channel);
+
+  /* staff context */
   DenemoContext old = staffstruct->context;
   staffstruct->context =
-    setcontext (gtk_entry_get_text (GTK_ENTRY (cbdata->contexts)));
+    setcontext (gtk_entry_get_text (GTK_ENTRY (cbdata->context)));
   if(staffstruct->context==-1)
     staffstruct->context=old;
   else
     if(staffstruct->context != DENEMO_NONE)
       staffstruct->context |= old;//Allow more than one context to start/end, reset using DENEMO_NONE (0)
+  
+  /* staff prolog insert */
   if(staffstruct->staff_prolog_insert) 
     g_string_free(staffstruct->staff_prolog_insert, TRUE);
   staffstruct->staff_prolog_insert =
-    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->staff_prolog))); 
-
+    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->staff_prolog_insert))); 
+  /* voice prolog insert */
   if(staffstruct->voice_prolog_insert) 
     g_string_free(staffstruct->voice_prolog_insert, TRUE);
   staffstruct->voice_prolog_insert =
-    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->voice_prolog))); 
+    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->voice_prolog_insert))); 
 
 #ifdef DEBUG
-	g_printf("Staff Transposition %d\n", staffstruct->transposition);
+  g_printf("Staff Transposition %d\n", staffstruct->transposition);
 #endif
-	//	if(cbdata->gui) must update changecount
-	  score_status(cbdata->gui, TRUE);
+  score_status(cbdata->gui, TRUE);
 }
 
 void staff_properties_change_cb (GtkAction *action, gpointer param) {
@@ -344,27 +351,32 @@ staff_properties_change (gpointer callback_data)
   gboolean result = FALSE;
   DenemoStaff *staffstruct;
   GtkWidget *dialog;
+  GtkWidget *notebook;
   GtkWidget *label;
-  GtkWidget *table;
-  GtkWidget *nameentry;
-  GtkWidget *aboveentry;
-  GtkWidget *belowentry;
-  GtkWidget *numlinesentry;
-  GtkWidget *transposeentry;
-  GtkWidget *posinhalflinesentry;
-  GtkWidget *midi_prognum_override;
-  GtkWidget *midi_channel;
-  GtkWidget *midi_prognum;
-  GtkWidget *volume;
-  GtkWidget *staff_prolog;
-  GtkWidget *voice_prolog;
-
-  GtkWidget *midicombo;
-  GtkWidget *context;
+  GtkWidget *main_vbox;
+  GtkWidget *hbox;
+  GtkWidget *entrywidget;
   static GString *entrycontent;
   GList *instrument_list = NULL;
   GList *context_list = NULL;
   static struct callbackdata cbdata;
+  
+  if (!instrument_list)
+    {
+      int i=0;
+      do {
+	   instrument_list = g_list_append (instrument_list, instruments[i++]);
+      } while (instruments[i]);
+    }
+
+  if (!context_list)
+    {
+      int i=0;
+      while (context_strings[i++])
+	{
+	  context_list = g_list_append (context_list, (gpointer) (context_strings[i]?context_strings[i]:"None"));
+	}
+    }
 
   if (callback_data==NULL)
     {
@@ -388,14 +400,11 @@ staff_properties_change (gpointer callback_data)
     }
 
 
-
-
-
   if (!entrycontent)
     {
       entrycontent = g_string_new (NULL);
     }
-
+ 
   dialog = gtk_dialog_new_with_buttons (_("Staff Properties"), NULL,	/* no parent window (should be gui->window but not always passing that here */
 					(GtkDialogFlags)
 					(GTK_DIALOG_MODAL |
@@ -403,268 +412,118 @@ staff_properties_change (gpointer callback_data)
 					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
 					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
 					NULL);
-
-  table = gtk_table_new (5, 8, FALSE);
-  gtk_container_set_border_width (GTK_CONTAINER (table), 12);
-  gtk_table_set_row_spacings (GTK_TABLE (table), 8);
-  gtk_table_set_col_spacings (GTK_TABLE (table), 8);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), table,
-		      TRUE, TRUE, 0);
-
-  label = gtk_label_new (_("Staff name:"));
-  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-
-  nameentry = gtk_entry_new ();
-  gtk_entry_set_text (GTK_ENTRY (nameentry), staffstruct->denemo_name->str);
-  gtk_table_attach (GTK_TABLE (table), nameentry, 1, 2, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (nameentry);
-
-  label = gtk_label_new (_("Space above:"));
-  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 1, 2,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-
-  aboveentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->space_above);
-  gtk_entry_set_text (GTK_ENTRY (aboveentry), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), aboveentry, 1, 2, 1, 2,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (aboveentry);
-
-  label = gtk_label_new (_("Space below:"));
-  //gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  belowentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->space_below);
-  gtk_entry_set_text (GTK_ENTRY (belowentry), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), belowentry, 1, 2, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (belowentry);
-
-  label = gtk_label_new (_("Number of lines:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  numlinesentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->no_of_lines);
-  gtk_entry_set_text (GTK_ENTRY (numlinesentry), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), numlinesentry, 3, 4, 0, 1,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (numlinesentry);
-
-  label = gtk_label_new (_("Transposition:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 1, 2,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  transposeentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->transposition);
-#ifdef DEBUG
-	g_printf("Staff Transposition %d\n", staffstruct->transposition);
-#endif
-  gtk_entry_set_text (GTK_ENTRY (transposeentry), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), transposeentry, 3, 4, 1, 2,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (transposeentry);
-
-  label = gtk_label_new (_("Position in half-lines:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 2, 3,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  posinhalflinesentry = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->pos_in_half_lines);
-  gtk_entry_set_text (GTK_ENTRY (posinhalflinesentry), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), posinhalflinesentry,
-		    3, 4, 2, 3, (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (posinhalflinesentry);
-
-  label = gtk_label_new (_("MIDI Instrument:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  midicombo = gtk_combo_new ();
-  if (!instrument_list)
-    {
-      int i;
-      for (i = 0; i < 128; i++)
-	{
-	  instrument_list = g_list_append (instrument_list, instruments[i]);
-	}
-    }
-  gtk_combo_set_popdown_strings (GTK_COMBO (midicombo), instrument_list);
-
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (midicombo)->entry),
-		      staffstruct->midi_instrument->str);
-  gtk_table_attach (GTK_TABLE (table), midicombo, 1, 2, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (midicombo);
-  
-  /*volume*/
-  label = gtk_label_new (_("Volume:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  volume = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->volume);
-  gtk_entry_set_text (GTK_ENTRY (volume), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), volume, 3, 4, 3, 4,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (volume);
  
-  /*prognum/channel override */
-  label = gtk_label_new (_("Override Midi Channel/Program"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 4, 5,
-				(GtkAttachOptions) (GTK_FILL),
-					    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
+  gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+  notebook = gtk_notebook_new ();
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
+		                            TRUE, 0);
+ 
+#define NEWPAGE(thelabel) \
+  main_vbox = gtk_vbox_new (FALSE, 1);\
+  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,\
+		                                       _(thelabel));
 
-  midi_prognum_override = gtk_check_button_new ();
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (midi_prognum_override), staffstruct->midi_prognum_override);
-  gtk_table_attach (GTK_TABLE (table), midi_prognum_override, 1, 2, 4, 5,
-				(GtkAttachOptions) (GTK_FILL),
-					    (GtkAttachOptions) (0), 0, 0);
+#define TEXTENTRY(thelabel, field) \
+  GtkWidget *field;\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_entry_new ();\
+  g_string_sprintf (entrycontent, "%s", staffstruct->field?staffstruct->field->str:"");\
+  gtk_entry_set_text (GTK_ENTRY (entrywidget), entrycontent->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  cbdata.field = entrywidget;
 
-  gtk_widget_show (midi_prognum_override);
+#define INTENTRY_LIMITS(thelabel, field, min, max) \
+  GtkWidget *field;\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (min, max, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), staffstruct->field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  cbdata.field = field;
 
-  /**/
-  label = gtk_label_new (_("Channel:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
+#define BOOLEANENTRY(thelabel, field) \
+  GtkWidget *field;\
+  field =\
+    gtk_check_button_new_with_label (thelabel); \
+    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
+		                                    staffstruct->field);\
+    gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
+    cbdata.field = field;
+
+#define COMBOBOXENTRY(thelabel, field, thelist, setstring) \
+  GtkWidget *field;\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_combo_new ();\
+  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
+  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (field)->entry),\
+		  setstring->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  cbdata.field = GTK_COMBO (field)->entry;
+
+  /* appearance tab */
+  NEWPAGE("Appearance");
+  TEXTENTRY("Staff name:", denemo_name);
+  INTENTRY_LIMITS("Space above:", space_above, 0, 15);
+  INTENTRY_LIMITS("Space below:", space_below, 0, 15); 
+  INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
+  INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
+  INTENTRY_LIMITS("Position in half-lines:", pos_in_half_lines, -5, 5);
   
-  midi_channel = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->midi_channel);
-  gtk_entry_set_text (GTK_ENTRY (midi_channel), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), midi_channel, 1, 2, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (midi_channel);
-
-  label = gtk_label_new (_("Program:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
+  TEXTENTRY("Staff prolog:", staff_prolog_insert); 
+  TEXTENTRY("Voice prolog:", voice_prolog_insert);
   
-  midi_prognum = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%d", staffstruct->midi_prognum);
-  gtk_entry_set_text (GTK_ENTRY (midi_prognum), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), midi_prognum, 3, 4, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (midi_prognum);
-
-  /**/
-
-  label = gtk_label_new (_("Custom prolog:"));
-  gtk_table_attach (GTK_TABLE (table), label, 2, 3, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  staff_prolog = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%s", staffstruct->staff_prolog_insert?staffstruct->staff_prolog_insert->str:"");
-  gtk_entry_set_text (GTK_ENTRY (staff_prolog), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), staff_prolog, 3, 4, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (staff_prolog);
-  voice_prolog = gtk_entry_new ();
-  g_string_sprintf (entrycontent, "%s", staffstruct->voice_prolog_insert?staffstruct->voice_prolog_insert->str:"");
-  gtk_entry_set_text (GTK_ENTRY (voice_prolog), entrycontent->str);
-  gtk_table_attach (GTK_TABLE (table), voice_prolog, 4, 5, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (staff_prolog);
-
-  label = gtk_label_new (_("Context:"));
-  gtk_table_attach (GTK_TABLE (table), label, 0, 1, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (label);
-  context = gtk_combo_new ();
-  if (!context_list)
-    {
-      int i=0;
-      while (context_strings[i++])
-	{
-	  context_list = g_list_append (context_list, (gpointer) (context_strings[i]?context_strings[i]:"None"));
-	}
-    }
-  gtk_combo_set_popdown_strings (GTK_COMBO (context), context_list);
   GString *s = context_string(staffstruct->context);
-  gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (context)->entry),
-		      s->str);
-  g_string_free(s, TRUE);
-  gtk_table_attach (GTK_TABLE (table), context, 1, 2, 6, 7,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
-  gtk_widget_show (context);
-  gtk_widget_show (table);
-
+  g_print("\ncontext string = %s\n",s->str);
+  COMBOBOXENTRY("Context:", context, context_list, s);
+  g_string_free(s, TRUE); 
+ 
+  /* midi tab */
+  NEWPAGE("midi");
+  COMBOBOXENTRY("Midi Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
+  BOOLEANENTRY("Mute", mute_volume);
+  INTENTRY_LIMITS("Volume:", volume, 0, 127);
+  BOOLEANENTRY("Override Midi Channel/Program", midi_prognum_override);  
+  INTENTRY_LIMITS("Channel:", midi_channel, 0, 15);
+  INTENTRY_LIMITS("Program:", midi_prognum, 0, 127);
+  
   /* Set up the callback data */
+#define SETCALLBACKDATA(field) \
+    cbdata.field = field;
 
-  cbdata.gui = gui;
-  cbdata.staffstruct = staffstruct;
-  cbdata.nameentry = nameentry;
-  cbdata.midi_prognum_override = midi_prognum_override;//prognum_override;
-  cbdata.midi_prognum = midi_prognum;
-  cbdata.midi_channel = midi_channel;
-  cbdata.aboveentry = aboveentry;
-  cbdata.belowentry = belowentry;
-  cbdata.numlinesentry = numlinesentry;
-  cbdata.transposeentry = transposeentry;
-  cbdata.posinhalflinesentry = posinhalflinesentry;
-  cbdata.volume = volume;
-  cbdata.staff_prolog = staff_prolog;
-  cbdata.voice_prolog = voice_prolog;
-
-  cbdata.midientry = GTK_COMBO (midicombo)->entry;
-  cbdata.contexts = GTK_COMBO (context)->entry;
-  /* Also set things up so that the callback'll run when you hit enter
+  SETCALLBACKDATA(gui);
+  SETCALLBACKDATA(staffstruct);
+  
+  /* FIXME
+     Also set things up so that the callback'll run when you hit enter
    * in the text entries */
-  gtk_entry_set_activates_default (GTK_ENTRY (nameentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (aboveentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (belowentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (numlinesentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (transposeentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (posinhalflinesentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (GTK_COMBO (midicombo)->entry),
-				   TRUE);
-
+ 
+/* 
+  gtk_entry_set_activates_default (GTK_ENTRY (denemo_name), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (space_above), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (space_below), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (no_of_lines), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (transposition), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (pos_in_half_lines), TRUE);
+*/
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
-  gtk_widget_grab_focus (nameentry);
+  gtk_widget_show_all(dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_properties (&cbdata);
       result = TRUE;
-
     }
   gtk_widget_destroy (dialog);
 
