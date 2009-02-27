@@ -475,8 +475,8 @@ staff_properties_change (gpointer callback_data)
   /* appearance tab */
   NEWPAGE("Appearance");
   TEXTENTRY("Staff name:", denemo_name);
-  INTENTRY_LIMITS("Space above:", space_above, 0, 15);
-  INTENTRY_LIMITS("Space below:", space_below, 0, 15); 
+  INTENTRY_LIMITS("Space above:", space_above, 0, 30);
+  INTENTRY_LIMITS("Space below:", space_below, 0, 30); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   INTENTRY_LIMITS("Position in half-lines:", pos_in_half_lines, -5, 5);
