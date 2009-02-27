@@ -13,6 +13,8 @@
 
 void 
 edit_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
+edit_object(GtkAction *action,  DenemoScriptParam *param);//FIXME move to ???
 void
 note_directive (GtkAction *action, gpointer param);
 void

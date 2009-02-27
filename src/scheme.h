@@ -1079,10 +1079,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertDynamic")), "scm", 
 SCM scheme_InsertLilyDirective(SCM optional);
 install_scm_function ("d-InsertLilyDirective", scheme_InsertLilyDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyDirective")), "scm", (gpointer)1);
-/*RunEditScript edit_directive*/
-SCM scheme_RunEditScript(SCM optional);
-install_scm_function ("d-RunEditScript", scheme_RunEditScript);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "RunEditScript")), "scm", (gpointer)1);
+/*EditObject edit_object*/
+SCM scheme_EditObject(SCM optional);
+install_scm_function ("d-EditObject", scheme_EditObject);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditObject")), "scm", (gpointer)1);
+/*EditDirective edit_directive*/
+SCM scheme_EditDirective(SCM optional);
+install_scm_function ("d-EditDirective", scheme_EditDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditDirective")), "scm", (gpointer)1);
 /*AttachLilyToNote note_directive*/
 SCM scheme_AttachLilyToNote(SCM optional);
 install_scm_function ("d-AttachLilyToNote", scheme_AttachLilyToNote);

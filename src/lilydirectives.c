@@ -786,11 +786,45 @@ DenemoDirective *get_directive(void) {
   return directive;
 }
 
+
+static void edit_note(void){
+
+
+
+}
+void edit_directive(GtkAction *action,  DenemoScriptParam *param);
+void edit_object(GtkAction *action,  DenemoScriptParam *param) {
+  DenemoObject *obj = findobj();
+  if(obj==NULL){
+    warningdialog("No object here to edit");
+    return;
+  }
+  switch(obj->type){
+  case LILYDIRECTIVE:
+    edit_directive(action, param);
+    return;
+  case CLEF:
+     {
+      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ClefEditPopup");
+      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+    }  
+     return;
+  case CHORD:
+    {
+      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup");
+      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+    }
+    return;
+  default:
+    warningdialog("No method for editing this type of object");
+    return;
+  }
+}
 /**
  * callback for EditDirective 
  */
 void edit_directive(GtkAction *action,  DenemoScriptParam *param) {
-  g_print("Edit directive called\n");
+  //g_print("Edit directive called\n");
   DenemoDirective *directive = get_directive();
   g_print("Got directive %p\n", directive);
   if(directive==NULL)

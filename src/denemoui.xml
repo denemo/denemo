@@ -49,7 +49,7 @@
       <menuitem action="Copy"/>
       <menuitem action="Paste"/>
       <separator/>
-      <menuitem action="RunEditScript"/>
+      <menuitem action="EditObject"/>
       <separator/>
       <menuitem action="ScoreProperties"/>
 	   <separator/>
@@ -565,6 +565,47 @@
   <popup name="LilyCustomScoreblockMenu">
       <menuitem action="LilyToggleShow"/>
       <menuitem action="LilyDelete"/>
+  </popup>
+<!--
+ Popup menus for edit object
+  -->
+
+  <popup name="ClefEditPopup">
+     <menuitem action="InsertClef"/>
+  </popup>
+
+  <popup name="NoteEditPopup">
+      <menu action="EditDirectivesMenu">
+        <menuitem action="EditDirective"/>
+      </menu>
+
+      <menu action="ChangeNote">
+        <menuitem action="ChangeToA"/>
+	<menuitem action="ChangeToB"/>
+	<menuitem action="ChangeToC"/>
+	<menuitem action="ChangeToD"/>
+	<menuitem action="ChangeToE"/>
+	<menuitem action="ChangeToF"/>
+	<menuitem action="ChangeToG"/>
+	<menuitem action="Sharpen"/>
+	<menuitem action="Flatten"/>
+	<menuitem action="StemDown"/>
+	<menuitem action="StemUp"/>
+      </menu>
+
+	   <menu action="ChangeDuration">
+	      <menuitem action="Change0"/>
+	      <menuitem action="Change1"/>
+	      <menuitem action="Change2"/>
+	      <menuitem action="Change3"/>
+	      <menuitem action="Change4"/>
+	      <menuitem action="Change5"/>
+	      <menuitem action="Change6"/>
+       	      <menuitem action="AddDot"/>
+	      <menuitem action="RemoveDot"/>
+           </menu>
+
+
   </popup>
 
 

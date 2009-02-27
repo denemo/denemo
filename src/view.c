@@ -3768,11 +3768,13 @@ get_data_dir (),
   use_markup(Denemo.window);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.
 Really we should change the default for the class.*/
+  {
   GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
-gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
+  gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
   gtk_action_group_add_actions (lilyaction_group, lily_menus,
 				G_N_ELEMENTS (lily_menus), Denemo.gui);
   gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);
+  }
  //  g_print("Turning on the modes\n");
 
 
