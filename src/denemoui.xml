@@ -573,6 +573,12 @@
   <popup name="ClefEditPopup">
      <menuitem action="InsertClef"/>
   </popup>
+  <popup name="KeyEditPopup">
+     <menuitem action="InsertKey"/>
+  </popup>
+  <popup name="TimeEditPopup">
+     <menuitem action="InsertTimeSig"/>
+  </popup>
 
   <popup name="NoteEditPopup">
       <menu action="EditDirectivesMenu">

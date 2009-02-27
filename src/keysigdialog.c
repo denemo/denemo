@@ -558,8 +558,11 @@ key_change (DenemoGUI * gui, actiontype action)
 	}
       else
 	{
+	  if(gui->si->currentobject && ((DenemoObject*)gui->si->currentobject->data)->type==KEYSIG)
+	    deleteobject(gui);
 	  insert_keysig (NULL, cbdata);
 	}
+      score_status(gui, TRUE);
       displayhelper (gui);
     }
 

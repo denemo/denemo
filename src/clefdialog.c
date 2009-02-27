@@ -168,8 +168,6 @@ clef_change (DenemoGUI * gui, actiontype action)
       if (action == CHANGEINITIAL)
 	{
 	  dnm_setinitialclef (gui->si, curstaffstruct, clef);
-
-	  score_status(gui, TRUE);
 	}
       else
 	{
@@ -178,6 +176,7 @@ clef_change (DenemoGUI * gui, actiontype action)
 	  object_insert (gui, dnm_newclefobj (clef));
 
 	}
+      score_status(gui, TRUE);
       displayhelper (gui);
     }
   gtk_widget_destroy (dialog);

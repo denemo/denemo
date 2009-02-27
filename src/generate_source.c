@@ -369,15 +369,15 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Insert", N_("InsertMenu"), NULL},  
   {CMD_CATEGORY_DIRECT, NULL, "Clef", N_("Clef"), NULL}, 
   {CMD_CATEGORY_DIRECT, NULL, "Change the initial clef of the current staff", N_("InitialClef"), "clef_change_initial", N_("Initial Clef")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Insert a change of clef at the cursor", N_("InsertClef"), "clef_change_insert", N_("Clef Change")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Insert/Edit a change of clef at the cursor", N_("InsertClef"), "clef_change_insert", N_("Clef Change")}, 
 
 
   {CMD_CATEGORY_DIRECT, NULL, "insert change key signature or set the initial key", N_("Key"), NULL, N_("Keys")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Set the initial key signature of the current staff", N_("InitialKey"), "key_change_initial", N_("Initial Key")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Insert a key change at the cursor position", N_("InsertKey"), "key_change_insert", N_("Insert Key Change")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Insert/Edit a key change at the cursor position", N_("InsertKey"), "key_change_insert", N_("Key Signature Change")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Manage the time signature changes and initial value", N_("TimeSig"), NULL,  N_("Time Signatures")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Set the initial time signature of the current staff", N_("InitialTimeSig"), "timesig_change_initial", N_("Inital Time Signature")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Edit/Insert a time signature change for the current measure", N_("InsertTimeSig"), "timesig_change_insert", N_("Insert Time Signature")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Edit/Insert a time signature change for the current measure", N_("InsertTimeSig"), "timesig_change_insert", N_("Time Signature Change")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Change the type of notehead for the current note", N_("ChangeNotehead"), "set_notehead", N_("Set Notehead")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction", N_("InsertStem"), "stem_directive_insert", N_("Auto Stemming")},
   {CMD_CATEGORY_DIRECT, NULL, "Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly", "EditLyric", "lyric_insert", "Insert/Edit Lyric", N_("Edit Lyrics")}, 
