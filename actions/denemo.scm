@@ -1,4 +1,9 @@
 (use-modules (srfi srfi-13))
+(use-modules (ice-9 regex))
+(use-modules (ice-9 optargs))
+
+
+
 (define Chord? (lambda ()
 		  (string=? (d-GetType) "CHORD")))
 
@@ -20,20 +25,31 @@
 				    (eval-string  command)
 				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
 ;;;;;;;;;;;;;;;;; ExtraOffset
-(define (ExtraOffset what)
-  (let ((oldstr #f) (start "") (end ""))
-    (set! oldstr (d-DirectiveGet-chord-prefix what))
+(define* (ExtraOffset what  #:optional (type "chord") (context ""))
+  (let ((oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))
+    (cond
+     ((string=? type "note")
+      (begin (set! get-command d-DirectiveGet-note-prefix)
+	     (set! put-command d-DirectivePut-note-prefix)))
+     ((string=? type "standalone")
+      (begin (set! get-command d-DirectiveGet-standalone-prefix)
+	     (set! put-command d-DirectivePut-standalone-prefix)))
+     )
+    
+
+    (set! oldstr (get-command what))
     (if (equal? oldstr "")
 	(set! oldstr #f))
-    (set! start (string-append "\\once \\override " what "  #'extra-offset = #'("))
+    (set! start (string-append "\\once \\override " context what "  #'extra-offset = #'("))
     (set! end ")")
-    (d-DirectivePut-chord-prefix what (ChangeOffset oldstr start end))))
+    (put-command what (ChangeOffset oldstr start end))))
+
 ;;;;;;;;;;;;;;;;; ChangeOffset
 ;;; e.g.  (define prefixstring      "\\once \\override Fingering  #'extra-offset = #'(")
 ;;; (define postfix ")")
 (define d-x "0.0")
 (define d-y "0.0")
-(use-modules (ice-9 regex))
+
 (define (ChangeOffset oldstr prefixstring postfixstring)
   (let ((startbit "")
 	(endbit "")
