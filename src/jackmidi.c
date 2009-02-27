@@ -46,7 +46,6 @@ get_time(void)
 
 	if (ret) {
 		perror("gettimeofday");
-		//exit(EX_OSERR);
 	}
 
 	seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
@@ -134,8 +133,7 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 {
 	int i, channel;
 	unsigned char *buffer;
-	//for (i = 0; i <= smf->number_of_tracks; i++) {
-	for (i = 0; i < smf->number_of_tracks; i++) {
+	for (i = 0; i <= smf->number_of_tracks; i++) {
 		for (channel = 0; channel < 16; channel++) {
 #ifdef JACK_MIDI_NEEDS_NFRAMES
 			buffer = jack_midi_event_reserve(port_buffers[i], 0, 3, nframes);
@@ -183,14 +181,10 @@ process_midi_output(jack_nframes_t nframes)
 	jack_nframes_t	last_frame_time;
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
-	//g_print("\nNumber of midi tracks = %d\n",smf->number_of_tracks);
-	//g_list_length(note_frqs
-	//for (i = 0; i <= smf->number_of_tracks; i++) {
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
 
 		if (port_buffers[i] == NULL) {
-			//port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
 			warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
 			return;
 		}
@@ -212,8 +206,6 @@ process_midi_output(jack_nframes_t nframes)
 		   Otherwise, All Sound Off won't be delivered. */
 		stop_midi_output++;
 		if (stop_midi_output >= 3)
-			//exit(0);
-
 		return;
 	}
         
@@ -422,30 +414,25 @@ init_jack(void){
   int err = 0;
   
   jack_client = jack_client_open(PROGRAM_NAME, JackNullOption, NULL);
+ 
   if (jack_client == NULL) {
     g_critical("Could not connect to the JACK server; run jackd first?");
-    //exit(EX_UNAVAILABLE);
   }
   err = jack_set_process_callback(jack_client, process_callback, 0);
   if (err) {
     g_critical("Could not register JACK process callback.");
-    //exit(EX_UNAVAILABLE);
   }
+  
   input_port = jack_port_register(jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
-
   if (input_port == NULL) {
     g_critical("Could not register JACK input port.");
-    //exit(EX_UNAVAILABLE);
   }
 
-  //err = create_jack_midi_port(0, OUTPUT_PORT_NAME);   
-  
-    if (jack_activate(jack_client)) {
-      g_critical("Cannot activate JACK client.");
-      //exit(EX_UNAVAILABLE);
-    }
-    return err;
+  if (jack_activate(jack_client)) {
+    g_critical("Cannot activate JACK client.");
+  }
+  return err;
 }
 
 
@@ -455,7 +442,6 @@ jack_midi_player (gchar *file_name) {
   smf = smf_load(file_name);
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
-     //exit(-1);
   }
   if (!be_quiet)
      g_message("%s.", smf_decode(smf));
@@ -470,7 +456,6 @@ jack_midi_player (gchar *file_name) {
     gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
     if (err) {
       g_critical("Could not register JACK sync callback.");
-      //exit(EX_UNAVAILABLE);
     }
   }
   assert(smf->number_of_tracks >= 1);
@@ -482,8 +467,6 @@ jack_midi_player (gchar *file_name) {
   
   if (!use_transport)
     playback_started = jack_frame_time(jack_client);
-
-  //g_main_loop_run(g_main_loop_new(NULL, TRUE));
 }
 
 /* start or restart internal jack midi player
@@ -496,7 +479,7 @@ jack_midi_playback_control (gboolean start)
   gchar *mididata = NULL;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
   
-  //stop_midi_playback
+  /*stop_midi_playback*/
   if (!start) {
     stop_midi_output = 1;
     return 0;
@@ -509,8 +492,7 @@ jack_midi_playback_control (gboolean start)
      exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
    else
      duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
-  //g_print("\nValues are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
- /* execute jackmidi player function */ 
+  /* execute jackmidi player function */ 
   jack_midi_player(mididata);
   g_free (mididata);
   // first measure to play at start
