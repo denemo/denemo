@@ -28,7 +28,8 @@ update_hscrollbar (DenemoGUI * gui)
     = gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0;
   adj->value = gui->si->leftmeasurenum;
 #if GTK_MAJOR_VERSION > 1
-  /* what if anything needs be done here? */
+  gtk_adjustment_changed(adj);
+  //gtk_adjustment_value_changed(adj);
 #else
   gtk_range_slider_update (GTK_RANGE (gui->hscrollbar));
 #endif
@@ -49,13 +50,13 @@ void
 update_vscrollbar (DenemoGUI * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (gui->vadjustment);
-
   adj->upper = g_list_length (gui->si->thescore) + 1.0;
   adj->page_size = adj->page_increment
     = gui->si->bottom_staff - gui->si->top_staff + 1.0;
   adj->value = gui->si->top_staff;
 #if GTK_MAJOR_VERSION > 1
-  /* what if anything needs be done here? */
+  gtk_adjustment_changed(adj);
+  //gtk_adjustment_value_changed(adj);
 #else
   gtk_range_slider_update (GTK_RANGE (gui->vscrollbar));
 #endif
@@ -260,10 +261,11 @@ void
 vertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
 {
   gint dest;
-
   if ((dest = (gint) (adjust->value + 0.5)) != gui->si->top_staff)
     {
       gui->si->top_staff = dest;
+      //  while(gui->si->top_staff>g_list_length (gui->si->thescore))
+      //  gui->si->top_staff--;
       set_bottom_staff (gui);
       if (gui->si->currentstaffnum > gui->si->bottom_staff)
 	{
