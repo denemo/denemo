@@ -114,6 +114,9 @@ lyric_insert (GtkAction *action, gpointer param)
   DenemoScore *si = gui->si;
   DenemoObject *curObj = (DenemoObject *)
     (si->currentobject ? si->currentobject->data : NULL);
+  if(!(curObj && curObj->type==CHORD && ((chord *) curObj->object)->notes))
+    return;
+
   dialog = gtk_dialog_new_with_buttons (_("Insert Lyric"),
 					GTK_WINDOW (Denemo.window),
 					(GtkDialogFlags) (GTK_DIALOG_MODAL |

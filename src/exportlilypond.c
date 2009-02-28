@@ -1454,7 +1454,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    /* lyrics, figures and chord symbols */
 	    if(curobj->type==CHORD) {
 	      chord *pchord = (chord *) curobj->object;
-	      if(curstaffstruct->haslyrics)
+	      if(curstaffstruct->haslyrics && pchord->notes)
 		output_lyric(lyrics, pchord, &is_syllable, &center_lyric);
 	       
 	      if(curstaffstruct->hasfigures)
