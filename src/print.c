@@ -600,7 +600,9 @@ export_pdf_action (GtkAction *action, gpointer param)
 // Displaying Print Preview
 static gboolean selecting = FALSE;
 static gboolean dragging = FALSE;
-static gint offsetx, offsety;//need to be global?
+static gboolean padding = FALSE;
+
+static gint offsetx, offsety;
 
 static gint curx, cury;// position of mouse pointer while during motion
 static gint pointx, pointy,  markx, marky;//coordinates defining a selected region in print preview pane. These are set by left button press/release, with pointx, pointy being set to top left
@@ -628,7 +630,7 @@ static void draw_print(DenemoGUI *gui) {
     {
       gint w = pointx-markx;
       gint h = pointy-marky;
-    gdk_draw_rectangle (Denemo.gui->printarea->window,
+      gdk_draw_rectangle (Denemo.gui->printarea->window,
 			gcs_graygc(), TRUE, markx, marky, w, h);
 
       gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
@@ -636,6 +638,17 @@ static void draw_print(DenemoGUI *gui) {
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
+  if(padding)
+    {
+      gint w = pointx-markx;
+      gint h = pointy-marky;
+      gint pad = ABS(markx-curx);
+      gdk_draw_rectangle (Denemo.gui->printarea->window,
+			gcs_graygc(), TRUE, markx, marky, w+pad, h+pad);
+
+    }
+
+
 }
 
 static void load_png (void) {
@@ -699,6 +712,11 @@ static void load_png (void) {
 //  dragging = TRUE;
 //  return TRUE;
 //}
+static gint 
+drag_padding(void) {
+  padding = TRUE;
+  return TRUE;
+}
 
 static gint 
 popup_menu(void) {
@@ -710,6 +728,12 @@ popup_menu(void) {
   // item = gtk_menu_item_new_with_label("Drag Selection");
   // gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   // g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_selection), NULL);
+
+  item = gtk_menu_item_new_with_label("Drag a space for padding");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_padding), NULL);
+
+
   gtk_widget_show_all(menu);
   gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
   return TRUE;
@@ -769,7 +793,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
-  if(dragging || selecting) {
+  if(padding || dragging || selecting) {
     curx = (int)event->x;
     cury = (int)event->y;
     gtk_widget_queue_draw (Denemo.gui->printarea);
