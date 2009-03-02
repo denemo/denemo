@@ -21,7 +21,7 @@
 #define PROGRAM_NAME            "denemo"
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
-jack_port_t     *output_ports[MAX_NUMBER_OF_TRACKS];
+jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration;
@@ -133,7 +133,7 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 {
 	int i, channel;
 	unsigned char *buffer;
-	for (i = 0; i <= smf->number_of_tracks; i++) {
+	for (i = 0; i < smf->number_of_tracks; i++) {
 		for (channel = 0; channel < 16; channel++) {
 #ifdef JACK_MIDI_NEEDS_NFRAMES
 			buffer = jack_midi_event_reserve(port_buffers[i], 0, 3, nframes);
@@ -181,6 +181,7 @@ process_midi_output(jack_nframes_t nframes)
 	jack_nframes_t	last_frame_time;
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
+	//g_print("\n*** processing midi output ***\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
 
@@ -258,7 +259,7 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		bytes_remaining -= event->midi_buffer_length;
-		//g_print("\nBytes Remaining = %d\n",bytes_remaining);
+		g_print("\nBytes Remaining = %d\n",bytes_remaining);
 		if (rate_limit > 0.0 && bytes_remaining <= 0) {
 			warn_from_jack_thread_context("Rate limiting in effect.");
 			break;
@@ -361,8 +362,9 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if (smf != NULL)
+	if ((smf != NULL) && (output_ports != NULL)){
 	  process_midi_output(nframes);
+	}
 #ifdef MEASURE_TIME
 	if (get_delta_time() > MAX_PROCESSING_TIME) {
 		warn_from_jack_thread_context("Processing took too long; scheduling problem?");
@@ -396,12 +398,23 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 }
 
 int create_jack_midi_port(int port_number, char* port_name){
-	output_ports[port_number] = jack_port_register(jack_client, 
+
+	jack_nframes_t nframes = jack_get_buffer_size(jack_client);
+
+	/* only assign it if the port has not been assigned already */	
+	if (output_ports[port_number] == NULL)
+	  output_ports[port_number] = jack_port_register(jack_client, 
 					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
 
+	/* clear buffer */
+	if (output_ports[port_number]){	
+          jack_midi_clear_buffer(jack_port_get_buffer(output_ports[port_number], nframes));
+	}
+	
 	if (output_ports[port_number] == NULL) {
 		g_critical("Could not register JACK output port '%s'.", port_name);
 	}
+
 }
 
 void 
@@ -425,9 +438,12 @@ init_jack(void){
   
   input_port = jack_port_register(jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
+   
   if (input_port == NULL) {
     g_critical("Could not register JACK input port.");
   }
+
+  //err = create_jack_midi_port(0, "test port");
 
   if (jack_activate(jack_client)) {
     g_critical("Cannot activate JACK client.");
