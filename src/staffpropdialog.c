@@ -18,7 +18,7 @@
 #include <string.h>
 #include "xmldefs.h"
 /**
- * List of midi instrument names
+ * List of MIDI instrument names
  * 
  */
 static gchar *instruments[] = {
@@ -260,11 +260,16 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->field = \
     (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->field)));
 
+  /* rename of set staff/voice name */
   canonicalize_denemo_name
     ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)),
      staffstruct->denemo_name);
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
-    
+
+#ifdef _HAVE_JACK_
+ // rename_jack_midi_port(cbdata->gui->si->currentstaffnum ,staffstruct->denemo_name->str);
+#endif  
+
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
 
@@ -274,7 +279,7 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNNUMBER(transposition);
   ASSIGNNUMBER(pos_in_half_lines);
  
-  /* set midi channel/prognum */
+  /* set MIDI channel/prognum */
   ASSIGNTEXT(midi_instrument);
   ASSIGNBOOLEAN(mute_volume);
   ASSIGNNUMBER(volume);
@@ -472,8 +477,8 @@ staff_properties_change (gpointer callback_data)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = GTK_COMBO (field)->entry;
 
-  /* appearance tab */
-  NEWPAGE("Appearance");
+  /* Display appearance tab */
+  NEWPAGE("Display Appearance");
   TEXTENTRY("Staff name:", denemo_name);
   INTENTRY_LIMITS("Space above:", space_above, 0, 30);
   INTENTRY_LIMITS("Space below:", space_below, 0, 30); 
@@ -481,6 +486,8 @@ staff_properties_change (gpointer callback_data)
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   INTENTRY_LIMITS("Position in half-lines:", pos_in_half_lines, -5, 5);
   
+  /*print appearance tab */
+  NEWPAGE("Printout Appearance");
   TEXTENTRY("Staff prolog:", staff_prolog_insert); 
   TEXTENTRY("Voice prolog:", voice_prolog_insert);
   
@@ -489,12 +496,12 @@ staff_properties_change (gpointer callback_data)
   COMBOBOXENTRY("Context:", context, context_list, s);
   g_string_free(s, TRUE); 
  
-  /* midi tab */
-  NEWPAGE("midi");
-  COMBOBOXENTRY("Midi Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
+  /* MIDI tab */
+  NEWPAGE("MIDI");
+  COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
-  BOOLEANENTRY("Override Midi Channel/Program", midi_prognum_override);  
+  BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
   INTENTRY_LIMITS("Channel:", midi_channel, 0, 15);
   INTENTRY_LIMITS("Program:", midi_prognum, 0, 127);
   

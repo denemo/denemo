@@ -1329,8 +1329,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      midi_channel_event (fd, MIDI_NOTE_ON,
 						  midi_channel, n,
 						  (mute_volume ? 0:mix));
-
+#if DEBUG
 			      printf ("volume = %i\n", (mute_volume ? 0:mix));
+#endif
 			    }
 			  else if (slur_kill_p (note_status, n))
 			    {
