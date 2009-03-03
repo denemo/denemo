@@ -333,7 +333,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 				 thestaffstruct);
 	  insert_staff (si, thestaffstruct, action, addat);
 #ifdef _HAVE_JACK_
-	    //  err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
+	  //err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
 #endif
 	}
       else
@@ -411,6 +411,13 @@ void
 deletestaff (DenemoGUI * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
+      
+#ifdef _HAVE_JACK_
+  int err;
+  //if (interactive)
+     err = remove_jack_midi_port(si->currentstaffnum);
+#endif
+ 
   if(interactive && !confirm_deletestaff_custom_scoreblock(gui))
     return;
   if(si->currentstaff==NULL)

@@ -414,7 +414,19 @@ int create_jack_midi_port(int port_number, char* port_name){
 	if (output_ports[port_number] == NULL) {
 		g_critical("Could not register JACK output port '%s'.", port_name);
 	}
+}
 
+int 
+remove_jack_midi_port(int port_number){
+	int err;
+	err = jack_port_unregister(jack_client, output_ports[port_number -1]);
+	output_ports[port_number -1] = NULL;
+}
+
+int
+rename_jack_midi_port(int port_number, char *port_name){
+	int err;
+	err = jack_port_set_name (output_ports[port_number -1], port_name); 		
 }
 
 void 

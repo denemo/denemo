@@ -260,11 +260,16 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->field = \
     (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->field)));
 
+  /* rename of set staff/voice name */
   canonicalize_denemo_name
     ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)),
      staffstruct->denemo_name);
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
-    
+
+#ifdef _HAVE_JACK_
+ // rename_jack_midi_port(cbdata->gui->si->currentstaffnum ,staffstruct->denemo_name->str);
+#endif  
+
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
 

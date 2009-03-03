@@ -11,7 +11,10 @@ int jackmidi(void);
 void  jackstop(void);
 void jack_midi_playback_control(gboolean start);
 int jack_kill_timer(void);
-int create_jack_midi_port(int port_number, char* port_name);
+int create_jack_midi_port(int port_number, char *port_name);
+int rename_jack_midi_port(int port_number, char *port_name);
+int remove_jack_midi_port(int port_number);
+
 #ifdef WITH_LASH
 #include<lash/lash.h>
 void start_init_lash(lash_client_t *client);
