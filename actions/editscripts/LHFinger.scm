@@ -1,4 +1,15 @@
-;;; tweak position of Fingering inserted by LHFinger, d-x and d-y are set by dragging in printview area.
+;;; tweak Fingering inserted by LHFinger
 
-(ExtraOffset "Fingering") 
+(let ((choice #f))
+  (begin
+    (set! choice (d-GetOption "Offset the Position\0Set Padding\0Set Relative Font Size\0"))
+    (cond
+     ((boolean? choice)
+      (d-WarningDialog "Operation cancelled"))
+     ((equal? choice "Offset the Position")
+      (ExtraOffset "Fingering"))
+     ((equal? choice "Set Relative Font Size")
+      (ChangeRelativeFontSize "Fingering"))
+     ((equal? choice "Set Padding")
+      (SetPadding "Fingering")))))
 (d-RefreshDisplay)

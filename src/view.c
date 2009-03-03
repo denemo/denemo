@@ -452,13 +452,24 @@ SCM scheme_get_command(void) {
 }
 
 static get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
-  g_object_set_data(G_OBJECT(dialog), "response", (gpointer)response_id);
+  g_object_set_data(G_OBJECT(dialog), "offset-response", (gpointer)response_id);
   if(response_id < 0)
     gtk_main_quit();
   gint offsetx, offsety;
   offsetx =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
   offsety =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
   gchar *text = g_strdup_printf("Offset now %d %d. Drag again in the print window to change\nOr click OK to apply the position shift", offsetx, offsety);
+  gtk_label_set_text(label, text);
+  g_free(text);
+}
+
+static get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
+  g_object_set_data(G_OBJECT(dialog), "pad-response", (gpointer)response_id);
+  if(response_id < 0)
+    gtk_main_quit();
+  gint padding;
+  padding =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  gchar *text = g_strdup_printf("Padding now %d. Drag again in the print window to change\nOr click OK to apply the padding to the graphical object belonging to the directive", padding);
   gtk_label_set_text(label, text);
   g_free(text);
 }
@@ -471,6 +482,10 @@ SCM scheme_get_offset(void) {
   SCM x, y, ret;
   if(Denemo.gui->printarea==NULL)
     return SCM_BOOL(FALSE);
+  if(g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog")){
+    warningdialog("Already in a padding dialog");
+    return SCM_BOOL_F;
+  }
   gint offsetx = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
   gint offsety = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
 
@@ -481,7 +496,7 @@ SCM scheme_get_offset(void) {
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                                         NULL);
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog", (gpointer)dialog);
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog", (gpointer)dialog);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
@@ -498,8 +513,8 @@ SCM scheme_get_offset(void) {
   gtk_main();
   offsetx = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
   offsety = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
-  val =  (gint)g_object_get_data(G_OBJECT(dialog), "response");
-  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog", NULL);
+  val =  (gint)g_object_get_data(G_OBJECT(dialog), "offset-response");
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
     x= scm_makfrom0str (g_strdup_printf("%.1f", offsetx/10.0));
@@ -507,6 +522,67 @@ SCM scheme_get_offset(void) {
     ret = scm_cons(x, y);
   } else
     ret = SCM_BOOL(FALSE);//FIXME add a RESET button for which return TRUE to reset the overall offset to zero.
+  return ret;
+}
+
+/* return a string representing the relative font size the user wishes to use*/
+SCM scheme_get_relative_font_size(void) {
+  if(Denemo.gui->printarea==NULL)
+    return SCM_BOOL(FALSE);
+  gchar *value = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "font-size");
+  if(value)
+    g_free(value);
+  value = string_dialog_entry (Denemo.gui, "Font Size", "Give a value (+/-) to adjust font size by", value);
+  if(!value)
+    value = g_strdup("0");
+  gchar *clean = g_strdup_printf("%d", atoi(value));
+  g_free(value);
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "font-size", (gpointer)clean);
+  return gh_str2scm (clean, strlen(clean));
+}
+
+/* return a string representing the padding desired for some lilypond graphic
+ or #f if no printarea or user cancels*/
+SCM scheme_get_padding(void) {
+  SCM pad, ret;
+  if(Denemo.gui->printarea==NULL)
+    return SCM_BOOL(FALSE);
+  if(g_object_get_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog")){
+    warningdialog("Already in a padding dialog");
+    return SCM_BOOL_F;
+  }
+     
+  gint padding = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Padding in Print Window",
+                                        GTK_WINDOW (Denemo.window),
+                                        (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT),
+                                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                        NULL);
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog", (gpointer)dialog);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+		      TRUE, TRUE, 0);
+  gchar *text = g_strdup_printf("Current padding is %d\nUse right click in print window to change this\nClick OK to apply the padding to the music item drawn by the directive", padding);
+  GtkWidget *label = gtk_label_new(text);
+  g_free(text);
+  gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+  gtk_widget_show_all (dialog);
+
+  gint val;
+
+  g_signal_connect(dialog, "response", G_CALLBACK(get_drag_pad), label);
+  gtk_widget_show_all(dialog);
+  gtk_main();
+  padding = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  val =  (gint)g_object_get_data(G_OBJECT(dialog), "pad-response");
+  g_object_set_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog", NULL);
+  gtk_widget_destroy(dialog);
+  if(val == GTK_RESPONSE_ACCEPT) {
+    ret = scm_makfrom0str (g_strdup_printf("%d", padding/10));
+  } else
+    ret = SCM_BOOL(FALSE);
   return ret;
 }
 
@@ -1004,6 +1080,8 @@ void inner_main(void*closure, int argc, char **argv){
   /* test with (display (d-GetOption "this\0and\0that\0")) */
 			
   install_scm_function (DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);			
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetPadding",  scheme_get_padding);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetRelativeFontSize",  scheme_get_relative_font_size);			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
 

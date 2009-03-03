@@ -1,4 +1,4 @@
-;;; tweak position of Tempo indication, d-x and d-y are set by dragging in printview area.
+;;; tweak position of Tempo indication
 (ExtraOffset "TextScript")
 (d-RefreshDisplay)
 

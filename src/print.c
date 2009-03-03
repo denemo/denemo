@@ -599,7 +599,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 
 // Displaying Print Preview
 static gboolean selecting = FALSE;
-static gboolean dragging = FALSE;
+static gboolean offsetting = FALSE;
 static gboolean padding = FALSE;
 
 static gint offsetx, offsety;
@@ -626,7 +626,7 @@ static void draw_print(DenemoGUI *gui) {
     gdk_draw_rectangle (Denemo.gui->printarea->window,
 			gcs_bluegc(), FALSE,markx, marky, w, h);
     }
-  if(dragging)
+  if(offsetting)
     {
       gint w = pointx-markx;
       gint h = pointy-marky;
@@ -640,11 +640,16 @@ static void draw_print(DenemoGUI *gui) {
     }
   if(padding)
     {
+
+      gint pad = ABS(markx-curx);
       gint w = pointx-markx;
       gint h = pointy-marky;
-      gint pad = ABS(markx-curx);
+
       gdk_draw_rectangle (Denemo.gui->printarea->window,
-			gcs_graygc(), TRUE, markx, marky, w+pad, h+pad);
+			gcs_graygc(), TRUE, markx-pad/2, marky-pad/2, w+pad, h+pad);
+      gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
+		      markx, marky, markx, marky,/* x, y in pixbuf, x,y in window FIXME after scrolling */
+		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
 
@@ -709,12 +714,12 @@ static void load_png (void) {
 
 //static gint 
 //drag_selection(void) {
-//  dragging = TRUE;
+//  offsetting = TRUE;
 //  return TRUE;
 //}
 static gint 
-drag_padding(void) {
-  padding = TRUE;
+start_drag(GtkWidget *widget, gboolean *flag) {
+  *flag = TRUE;
   return TRUE;
 }
 
@@ -725,13 +730,13 @@ popup_menu(void) {
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_png), NULL);
-  // item = gtk_menu_item_new_with_label("Drag Selection");
-  // gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  // g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_selection), NULL);
+  item = gtk_menu_item_new_with_label("Drag to desired offset");
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &offsetting);
 
   item = gtk_menu_item_new_with_label("Drag a space for padding");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(drag_padding), NULL);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &padding);
 
 
   gtk_widget_show_all(menu);
@@ -793,7 +798,7 @@ printarea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
-  if(padding || dragging || selecting) {
+  if(padding || offsetting || selecting) {
     curx = (int)event->x;
     cury = (int)event->y;
     gtk_widget_queue_draw (Denemo.gui->printarea);
@@ -835,10 +840,44 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
     popup_menu();
     return TRUE;
   }
-  if(within_area((gint)event->x,(gint)event->y)) {
-    dragging = TRUE;
-    return TRUE;
-  } else 
+  /* creating an offset? */
+  if(offsetting) {
+    offsetx = curx - markx;
+    offsety = cury - marky;   
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog");
+    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsetx", (gpointer)offsetx);
+    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsety", (gpointer)offsety);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else { 
+      gchar *msg = g_strdup_printf("You have chosen a offset tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", offsetx, -offsety);
+      warningdialog(msg);
+      g_free(msg);
+    }
+    offsetting = FALSE;
+    return;
+  }
+  /*( creating a padding value? */
+  if(padding) {
+    gint pad = ABS(curx - markx);
+    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog");
+    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "padding", (gpointer)pad);
+    if(thedialog){
+      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
+    } else { 
+      gchar *msg = g_strdup_printf("You have chosen a padding tweak of %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", pad);
+      warningdialog(msg);
+      g_free(msg);
+    }
+    padding = FALSE;
+    return;
+  }
+
+
+  //  if(within_area((gint)event->x,(gint)event->y)) {
+  //    offsetting = TRUE;
+  //    return TRUE;
+  //  } else 
      selecting = TRUE;
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
@@ -858,26 +897,8 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
         return TRUE;
   }
 
-  if(dragging) {
-    offsetx = curx - markx;
-    offsety = cury - marky;   
-    GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "drag-dialog");
-    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsetx", (gpointer)offsetx);
-    g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsety", (gpointer)offsety);
-    if(thedialog){
-      gtk_dialog_response(GTK_DIALOG(thedialog), 1/*DRAGGED*/);
-    } else {
-      //FIXME user scm_c_define() FIXME discontinue d-x and d-y altogether.
-      gchar *setvars = g_strdup_printf("(define d-x \"%.1f\") (define d-y \"%.1f\")\n", offsetx/10.0, -offsety/10.0);//values found by trial and error
-      call_out_to_guile(setvars);
-      g_free(setvars);
-      gchar *msg = g_strdup_printf("You have chosen a offset tweak of %d, %d\nYour printed output will not change until you put this tweak into the corresponding Denemo directive\nUse Edit Directive to do this.", offsetx, -offsety);
-      warningdialog(msg);
-      g_free(msg);
-    }
-    dragging = FALSE;
-    return;
-  }
+
+
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
   if(selecting) {
