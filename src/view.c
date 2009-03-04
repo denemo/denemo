@@ -532,7 +532,7 @@ SCM scheme_get_relative_font_size(void) {
   gchar *value = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "font-size");
   if(value)
     g_free(value);
-  value = string_dialog_entry (Denemo.gui, "Font Size", "Give a value (+/-) to adjust font size by", value);
+  value = string_dialog_entry (Denemo.gui, "Font Size", "Give a value (+/-) to adjust font size by", "0");
   if(!value)
     value = g_strdup("0");
   gchar *clean = g_strdup_printf("%d", atoi(value));
