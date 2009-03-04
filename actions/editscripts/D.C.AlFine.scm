@@ -19,7 +19,7 @@
 			(d-DirectivePut-chord-postfix   "D.C.AlFine" newtext))))
 
 
-    (set! choice (d-GetOption "Place above staff\0Place below staff\0Edit offset\0Edit text\0"))
+    (set! choice (d-GetOption "Place above staff\0Place below staff\0Set Relative Font Size\0Edit offset\0Edit text\0"))
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
@@ -28,6 +28,8 @@
       (place-above #t))
      ((equal? choice "Place below staff")
       (place-above #f))
+     ((equal? choice "Set Relative Font Size")
+      (SetRelativeFontSize "TextScript"     ))
 
      ((equal? choice "Edit text")
       (edit-text))	

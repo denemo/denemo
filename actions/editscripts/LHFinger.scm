@@ -9,7 +9,7 @@
      ((equal? choice "Offset the Position")
       (ExtraOffset "Fingering"))
      ((equal? choice "Set Relative Font Size")
-      (ChangeRelativeFontSize "Fingering"))
+      (SetRelativeFontSize "Fingering"))
      ((equal? choice "Set Padding")
       (SetPadding "Fingering")))))
 (d-RefreshDisplay)
