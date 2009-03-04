@@ -50,6 +50,26 @@
 
 ;;;;;;;;;;;;;;;;; SetPadding
 (define* (SetPadding what  #:optional (type "chord") (context ""))
+;   (let ((tag "") (oldstr #f) (start "") (end "") (pad "")  (get-command d-DirectiveGet-chord-prefix) (put-command d-DirectivePut-chord-prefix))
+;     (cond
+;      ((string=? type "note")
+;       (begin (set! get-command d-DirectiveGet-note-prefix)
+; 	     (set! put-command d-DirectivePut-note-prefix)))
+;      ((string=? type "standalone")
+;       (begin (set! get-command d-DirectiveGet-standalone-prefix) 
+; 	     (set! put-command d-DirectivePut-standalone-prefix)))
+;      )
+;     (set! start (string-append "\\once \\override " context what "  #'padding = #"))
+;     (set! end " ")
+;     (set! tag what)
+;     (set! oldstr (get-command tag))
+;     (if (equal? oldstr "")
+; 	(set! oldstr #f))
+;     (put-command tag (ChangePad oldstr start end))))
+(SetValue ChangePad  "  #'padding = #" what type context))
+
+;;;;;;;;;;;;;;;;; SetValue
+(define* (SetValue change-func change-str  what  #:optional (type "chord") (context ""))
   (let ((tag "") (oldstr #f) (start "") (end "") (pad "")  (get-command d-DirectiveGet-chord-prefix) (put-command d-DirectivePut-chord-prefix))
     (cond
      ((string=? type "note")
@@ -59,13 +79,13 @@
       (begin (set! get-command d-DirectiveGet-standalone-prefix) 
 	     (set! put-command d-DirectivePut-standalone-prefix)))
      )
-    (set! start (string-append "\\once \\override " context what "  #'padding = #"))
+    (set! start (string-append "\\once \\override " context what change-str))
     (set! end " ")
     (set! tag what)
     (set! oldstr (get-command tag))
     (if (equal? oldstr "")
 	(set! oldstr #f))
-    (put-command tag (ChangePad oldstr start end))))
+    (put-command tag (change-func oldstr start end))))
 
 
 
