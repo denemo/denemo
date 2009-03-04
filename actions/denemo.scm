@@ -24,6 +24,19 @@
 				 (begin
 				    (eval-string  command)
 				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
+(define stop "\0")
+(define cue-PlaceAbove "Place above staff")
+(define cue-PlaceBelow "Place below staff")
+(define cue-SetRelativeFontSize "Set Relative Font Size")
+(define cue-OffsetPositionAll "Offset Position (All)")
+(define cue-OffsetPositionOne "Offset Position (One)")
+(define cue-EditText "Edit Text")
+(define cue-SetPadding "Set Padding")
+;(define cue- "")
+
+
+
+
 ;;;;;;;;;;;;;;;;; ExtraOffset
 (define* (ExtraOffset what  #:optional (type "chord") (context ""))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))

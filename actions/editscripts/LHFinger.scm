@@ -2,14 +2,14 @@
 
 (let ((choice #f))
   (begin
-    (set! choice (d-GetOption "Offset the Position\0Set Padding\0Set Relative Font Size\0"))
+    (set! choice (d-GetOption (string-append cue-OffsetPositionAll stop cue-SetPadding stop cue-SetRelativeFontSize stop)))
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
-     ((equal? choice "Offset the Position")
+     ((equal? choice  cue-OffsetPositionAll)
       (ExtraOffset "Fingering"))
-     ((equal? choice "Set Relative Font Size")
+     ((equal? choice cue-SetRelativeFontSize)
       (SetRelativeFontSize "Fingering"))
-     ((equal? choice "Set Padding")
+     ((equal? choice cue-SetPadding)
       (SetPadding "Fingering")))))
 (d-RefreshDisplay)

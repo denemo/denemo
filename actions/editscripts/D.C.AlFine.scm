@@ -19,20 +19,22 @@
 			(d-DirectivePut-chord-postfix   "D.C.AlFine" newtext))))
 
 
-    (set! choice (d-GetOption "Place above staff\0Place below staff\0Set Relative Font Size\0Edit offset\0Edit text\0"))
+    (set! choice (d-GetOption (string-append cue-PlaceAbove stop  cue-PlaceBelow stop cue-SetRelativeFontSize stop cue-SetPadding stop cue-OffsetPositionAll  stop cue-EditText stop)))
+
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
 
-     ((equal? choice "Place above staff")
+     ((equal? choice cue-PlaceAbove)
       (place-above #t))
-     ((equal? choice "Place below staff")
+     ((equal? choice cue-PlaceBelow)
       (place-above #f))
-     ((equal? choice "Set Relative Font Size")
+     ((equal? choice cue-SetRelativeFontSize)
       (SetRelativeFontSize "TextScript"     ))
-
-     ((equal? choice "Edit text")
-      (edit-text))	
-     ((equal? choice "Edit offset")
+     ((equal? choice  cue-EditText)
+      (edit-text))
+     ((equal? choice cue-SetPadding)
+      (SetPadding "TextScript"))	
+     ((equal? choice cue-OffsetPositionAll)
       (ExtraOffset "TextScript")))
     (d-RefreshDisplay)))

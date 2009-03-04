@@ -1,7 +1,33 @@
-;;; tweak position of StringNumber inserted by StringNum, d-x and d-y are set by dragging in printview area.
-
-(ExtraOffset "StringNumber")
+;;; tweak position of StringNumber inserted by StringNum
+;; FIXME common code with LHFinger.scm
+(let ((choice #f))
+  (begin
+    (set! choice 
+	  (d-GetOption (string-append cue-OffsetPositionAll stop cue-SetPadding stop cue-SetRelativeFontSize stop)))
+    (cond
+     ((boolean? choice)
+      (d-WarningDialog "Operation cancelled"))
+     ((equal? choice  cue-OffsetPositionAll)
+      (ExtraOffset "StringNumber"))
+     ((equal? choice cue-SetRelativeFontSize)
+      (SetRelativeFontSize "StringNumber"))
+     ((equal? choice cue-SetPadding)
+      (SetPadding "StringNumber")))))
 (d-RefreshDisplay)
+
+
+
+
+
+
+
+
+
+
+
+
+;;(ExtraOffset "StringNumber")
+;;(d-RefreshDisplay)
 
 ;;(d-DirectivePut-chord-prefix "StringNum"  "\\set fingeringOrientations = #'(left)")
 
