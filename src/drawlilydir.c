@@ -38,7 +38,7 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
 			   lily->display->str,
 			   -1);
     pango_layout_set_font_description (layout, desc);
-    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx+ lily->tx/*+display x */, y+lowy+lily->tx/*+display y */, layout);
+    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx+ lily->tx/*+display x */, y+lowy+lily->ty/*+display y */, layout);
   }
 #if 1
   else
