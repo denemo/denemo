@@ -2186,6 +2186,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Double Bar</label>
         <tooltip>Insert a double barline at cursor position.</tooltip>
       </row>
+      <row>
+        <action>Glissando</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <label>Glissando</label>
+        <tooltip>Inserts a glissando</tooltip>
+      </row>
+      <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff</label>
+        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

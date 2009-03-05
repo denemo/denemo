@@ -2218,6 +2218,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Glissando</label>
         <tooltip>Inserts a glissando</tooltip>
       </row>
+      <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff</label>
+        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

@@ -570,6 +570,8 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   else
     gc = graygc;
 
+
+
   draw_clef (gui->pixmap, gc, LEFT_MARGIN, y,
 	     itp->clef = curstaffstruct->leftmost_clefcontext);
   x = KEY_MARGIN;
@@ -599,9 +601,28 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   pango_layout_set_text (layout, curstaffstruct->denemo_name->str, -1);
   desc = pango_font_description_from_string (FONT);
   pango_layout_set_font_description (layout, desc);
-  pango_font_description_free (desc);
+
 
   gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - buffer, layout);
+
+  if(curstaffstruct->staff_directives) {
+    GList *g = curstaffstruct->staff_directives;
+    gint count=1;
+    for(;g;g=g->next, count++) {
+      DenemoDirective* directive = g->data;
+        if(directive->display) { 
+    pango_layout_set_text (layout,
+			   directive->display->str,
+			   -1);
+    pango_layout_set_font_description (layout, desc);
+    gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN + directive->tx, y-buffer+directive->ty - count*10, layout);
+  }
+    }
+
+  }
+  //FIXME voice directives...
+
+  pango_font_description_free (desc);
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
