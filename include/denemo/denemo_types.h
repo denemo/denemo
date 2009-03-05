@@ -247,11 +247,11 @@ typedef struct
 			the notes in this staff
 			the data are tone* */
   GString *staff_prolog;/**< Customised version of the LilyPond prolog defining the music of this staff */
-  GString *staff_prolog_insert;/**< LilyPond text to insert into a standard LilyPond staff prolog*/
-  GString *voice_prolog_insert;/**< LilyPond text to insert into a standard LilyPond voice prolog*/
-  GString *lyrics_prolog;/**< Customised version of the LilyPond prolog defining the lyrics of this staff */
-  GString *figures_prolog;/**< Customised version of the LilyPond prolog defining the figured bass of this staff */
-  GString *fakechords_prolog;/**< Customised version of the LilyPond prolog defining the chord symbols of this staff */
+  GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
+  GList *voice_directives;/**< List of DenemoDirective for the voice context */
+  GString *lyrics_prolog;/**< (Unused)Customised version of the LilyPond prolog defining the lyrics of this staff */
+  GString *figures_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the figured bass of this staff */
+  GString *fakechords_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the chord symbols of this staff */
 }DenemoStaff;
 
 /* The ->data part of each staffnode points to a staff structure */

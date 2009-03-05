@@ -2055,19 +2055,35 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	    curStaff->staff_prolog = (temp?g_string_new(temp):NULL);
 	    g_free (temp);
 	  }
-	else if (ELEM_NAME_EQ (childElem, "staff-prolog-insert"))
+	else if (ELEM_NAME_EQ (childElem, "staff-prolog-insert"))//backward compatibility only
 	  {
 	    gchar *temp = 
 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->staff_prolog_insert = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
+	    if(temp) {
+	      DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
+	      directive->postfix = g_string_new(temp);
+	      curStaff->staff_directives = g_list_append(NULL, directive);
+	      g_free (temp);
+	    }
 	  }
-	else if (ELEM_NAME_EQ (childElem, "voice-prolog-insert"))
+	else if (ELEM_NAME_EQ (childElem, "voice-prolog-insert"))//backward compatibility only
 	  {
 	    gchar *temp = 
 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->voice_prolog_insert = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
+	    if(temp) {
+	      DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
+	      directive->postfix = g_string_new(temp);
+	      curStaff->voice_directives = g_list_append(NULL, directive);
+	      g_free (temp);
+	    }
+	  }
+	else if (ELEM_NAME_EQ (childElem, "staff-directives"))
+	  {
+	    curStaff->staff_directives = parseDirectives(childElem, ns);
+	  }
+	else if (ELEM_NAME_EQ (childElem, "voice-directives"))
+	  {
+	    curStaff->voice_directives = parseDirectives(childElem, ns);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog"))
 	  {

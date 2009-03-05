@@ -376,6 +376,16 @@ static note *get_note(void) {
     return NULL;
   return findnote(curObj, gui->si->cursor_y);
 }
+
+
+static DenemoStaff *get_staff(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  return Denemo.gui->si->currentstaff->data;
+}
+#define get_voice get_staff
+
+
 static
 DenemoDirective *get_note_directive(gchar *tag) {
   note *curnote = get_note();
@@ -395,6 +405,26 @@ DenemoObject *curObj = get_chordobject();
   return find_directive(thechord->directives, tag);
 }
 
+static
+DenemoDirective *get_staff_directive(gchar *tag) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  //FIXME return NULL if not primary staff
+  if(curstaff==NULL || curstaff->staff_directives==NULL)
+    return NULL;
+  return find_directive(curstaff->staff_directives, tag);
+}
+static
+DenemoDirective *get_voice_directive(gchar *tag) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  if(curstaff==NULL || curstaff->voice_directives==NULL)
+    return NULL;
+  return find_directive(curstaff->voice_directives, tag);
+}
+
 
 #define GET_STR_FIELD_FUNC(what, field)\
 gchar *\
@@ -405,17 +435,19 @@ what##_directive_get_##field(gchar *tag) {\
   return NULL;\
 }
 
-#define PUT_STR_FIELD_FUNC(what, field)\
+typedef DenemoStaff staff;
+typedef DenemoStaff voice;
+#define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  if(current->directives==NULL)\
-       create_directives (&current->directives, tag);\
+  if(current->name==NULL)\
+       create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive==NULL){\
     directive=new_directive(tag);\
-    current->directives = g_list_append(current->directives, directive);\
+    current->name = g_list_append(current->name, directive);\
     }\
   if(directive->field)\
     g_string_assign(directive->field, value);\
@@ -423,6 +455,12 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     directive->field = g_string_new(value);\
   return TRUE;\
 }
+
+#define PUT_STR_FIELD_FUNC(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, directives)
+#define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
+#define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
+
+
 
 GET_STR_FIELD_FUNC(chord, prefix)
 GET_STR_FIELD_FUNC(chord, postfix)
@@ -445,26 +483,44 @@ GET_STR_FIELD_FUNC(standalone, prefix)
 GET_STR_FIELD_FUNC(standalone, postfix)
 GET_STR_FIELD_FUNC(standalone, display)
 
+GET_STR_FIELD_FUNC(staff, prefix)
+GET_STR_FIELD_FUNC(staff, postfix)
+GET_STR_FIELD_FUNC(staff, display)
 
+PUT_STR_FIELD_FUNCS(staff, prefix)
+PUT_STR_FIELD_FUNCS(staff, postfix)
+PUT_STR_FIELD_FUNCS(staff, display)
 
+GET_STR_FIELD_FUNC(voice, prefix)
+GET_STR_FIELD_FUNC(voice, postfix)
+GET_STR_FIELD_FUNC(voice, display)
+
+PUT_STR_FIELD_FUNCV(voice, prefix)
+PUT_STR_FIELD_FUNCV(voice, postfix)
+PUT_STR_FIELD_FUNCV(voice, display)
+#undef staff
 #undef GET_STR_FIELD_FUNC
 #undef PUT_STR_FIELD_FUNC
 
-#define PUT_INT_FIELD_FUNC(what, field)\
+#define PUT_INT_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
-  if(current->directives==NULL)\
-       create_directives (&current->directives, tag);\
+  if(current->name==NULL)\
+       create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive==NULL){\
     directive=new_directive(tag);\
-    current->directives = g_list_append(current->directives, directive);\
+    current->name = g_list_append(current->name, directive);\
     }\
   directive->field = value;\
   return TRUE;\
 }
+#define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
+#define PUT_INT_FIELD_FUNCS(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, staff_directives)
+#define PUT_INT_FIELD_FUNCV(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, voice_directives)
+
 
 #define GET_INT_FIELD_FUNC(what, field)\
 gint \
@@ -481,43 +537,74 @@ what##_directive_get_##field(gchar *tag) {\
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
 PUT_INT_FIELD_FUNC(chord, minpixels)
+PUT_INT_FIELD_FUNCS(staff, minpixels)
+PUT_INT_FIELD_FUNCV(voice, minpixels)
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
+GET_INT_FIELD_FUNC(staff, minpixels)
+GET_INT_FIELD_FUNC(voice, minpixels)
 GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
 
 PUT_INT_FIELD_FUNC(note, x)
 PUT_INT_FIELD_FUNC(chord, x)
+PUT_INT_FIELD_FUNCS(staff, x)
+PUT_INT_FIELD_FUNCV(voice, x)
+
 GET_INT_FIELD_FUNC(note, x)
 GET_INT_FIELD_FUNC(chord, x)
-
+GET_INT_FIELD_FUNC(staff, x)
+GET_INT_FIELD_FUNC(voice, x)
+ 
 PUT_INT_FIELD_FUNC(note, y)
 PUT_INT_FIELD_FUNC(chord, y)
+PUT_INT_FIELD_FUNCS(staff, y)
+PUT_INT_FIELD_FUNCV(voice, y)
+
 GET_INT_FIELD_FUNC(note, y)
 GET_INT_FIELD_FUNC(chord, y)
-
+GET_INT_FIELD_FUNC(staff, y)
+GET_INT_FIELD_FUNC(voice, y)
+ 
 
 PUT_INT_FIELD_FUNC(note, tx)
 PUT_INT_FIELD_FUNC(chord, tx)
+PUT_INT_FIELD_FUNCS(staff, tx)
+PUT_INT_FIELD_FUNCV(voice, tx)
 GET_INT_FIELD_FUNC(note, tx)
 GET_INT_FIELD_FUNC(chord, tx)
+GET_INT_FIELD_FUNC(staff, tx)
+GET_INT_FIELD_FUNC(voice, tx)
 
 PUT_INT_FIELD_FUNC(note, ty)
 PUT_INT_FIELD_FUNC(chord, ty)
+PUT_INT_FIELD_FUNCS(staff, ty)
+PUT_INT_FIELD_FUNCV(voice, ty)
 GET_INT_FIELD_FUNC(note, ty)
 GET_INT_FIELD_FUNC(chord, ty)
+GET_INT_FIELD_FUNC(staff, ty)
+GET_INT_FIELD_FUNC(voice, ty)
 
 
 PUT_INT_FIELD_FUNC(note, gx)
 PUT_INT_FIELD_FUNC(chord, gx)
+PUT_INT_FIELD_FUNCS(staff, gx)
+PUT_INT_FIELD_FUNCV(voice, gx)
 GET_INT_FIELD_FUNC(note, gx)
 GET_INT_FIELD_FUNC(chord, gx)
+GET_INT_FIELD_FUNC(staff, gx)
+GET_INT_FIELD_FUNC(voice, gx)
+
 
 PUT_INT_FIELD_FUNC(note, gy)
 PUT_INT_FIELD_FUNC(chord, gy)
+PUT_INT_FIELD_FUNCS(staff, gy)
+PUT_INT_FIELD_FUNCV(voice, gy)
 GET_INT_FIELD_FUNC(note, gy)
 GET_INT_FIELD_FUNC(chord, gy)
+GET_INT_FIELD_FUNC(staff, gy)
+GET_INT_FIELD_FUNC(voice, gy)
 
 
 GET_INT_FIELD_FUNC(standalone, x)
@@ -532,9 +619,13 @@ GET_INT_FIELD_FUNC(standalone, gy)
      /* width and height of graphic (if any), read only */
 GET_INT_FIELD_FUNC(note, width)
 GET_INT_FIELD_FUNC(chord, width)
+GET_INT_FIELD_FUNC(staff, width)
+GET_INT_FIELD_FUNC(voice, width)
 GET_INT_FIELD_FUNC(standalone, width)
 GET_INT_FIELD_FUNC(note, height)
 GET_INT_FIELD_FUNC(chord, height)
+GET_INT_FIELD_FUNC(staff, height)
+GET_INT_FIELD_FUNC(voice, height)
 GET_INT_FIELD_FUNC(standalone, height)
 
 #undef PUT_INT_FIELD_FUNC
@@ -561,6 +652,8 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
 }
      PUT_GRAPHIC(chord);
      PUT_GRAPHIC(note);
+// PUT_GRAPHIC(staff);
+// PUT_GRAPHIC(voice);
 #undef PUT_GRAPHIC
 
 gboolean

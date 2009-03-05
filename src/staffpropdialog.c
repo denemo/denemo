@@ -297,16 +297,6 @@ set_properties (struct callbackdata *cbdata)
     if(staffstruct->context != DENEMO_NONE)
       staffstruct->context |= old;//Allow more than one context to start/end, reset using DENEMO_NONE (0)
   
-  /* staff prolog insert */
-  if(staffstruct->staff_prolog_insert) 
-    g_string_free(staffstruct->staff_prolog_insert, TRUE);
-  staffstruct->staff_prolog_insert =
-    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->staff_prolog_insert))); 
-  /* voice prolog insert */
-  if(staffstruct->voice_prolog_insert) 
-    g_string_free(staffstruct->voice_prolog_insert, TRUE);
-  staffstruct->voice_prolog_insert =
-    g_string_new(gtk_entry_get_text (GTK_ENTRY (cbdata->voice_prolog_insert))); 
 
 #ifdef DEBUG
   g_printf("Staff Transposition %d\n", staffstruct->transposition);
@@ -330,8 +320,8 @@ void staff_properties_change_cb (GtkAction *action, gpointer param) {
     }
     gint i;
     for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      SET_STRING("staff-prolog-insert", staff_prolog_insert); 
-      SET_STRING("voice-prolog-insert", voice_prolog_insert);
+      // SET_STRING("staff-prolog-insert", staff_prolog_insert); 
+      //SET_STRING("voice-prolog-insert", voice_prolog_insert);
     // others ....
     }
 #undef SET_STRING
@@ -488,8 +478,8 @@ staff_properties_change (gpointer callback_data)
   
   /*print appearance tab */
   NEWPAGE("Printout Appearance");
-  TEXTENTRY("Staff prolog:", staff_prolog_insert); 
-  TEXTENTRY("Voice prolog:", voice_prolog_insert);
+  //TEXTENTRY("Staff prolog:", staff_prolog_insert); 
+  //TEXTENTRY("Voice prolog:", voice_prolog_insert);
   
   GString *s = context_string(staffstruct->context);
   g_print("\ncontext string = %s\n",s->str);

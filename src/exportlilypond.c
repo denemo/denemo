@@ -1215,7 +1215,20 @@ outputHeader (GString *str, DenemoGUI * gui)
 
 
 }
-
+/* returns a newly allocated string of lilypond output from list of directives */
+static gchar *get_prolog(GList *g) {
+  if(g==NULL)
+    return g_strdup("");
+  GString *ret = g_string_new("");
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    if(d->prefix && d->prefix->len)
+      g_string_append(ret, d->prefix->str);
+    if(d->postfix && d->postfix->len)
+      g_string_append(ret, d->postfix->str);
+  }
+return g_string_free(ret, FALSE);
+}
 /**
  * Output a Denemo Staff in Lilypond syntax
  * A section is created in the gui->textbuffer and the music inserted into it.
@@ -1495,16 +1508,13 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   for(;open_braces>0;open_braces--)
     g_string_append_printf(str, "\n} %% missing close brace\n");
 
-
-
-
-
   // str is empty again now FIXME
   g_string_append_printf(str, "}\n");
+  gchar *voice_prolog_insert = get_prolog(curstaffstruct->voice_directives);
   g_string_append_printf(str, "%s%sMusicVoice = \\context Voice = %s%s %s {\\%s%sProlog \\%s%s}\n",
-			 movement, voice,  voice, movement, 
-			 (curstaffstruct->voice_prolog_insert && curstaffstruct->voice_prolog_insert->len)? curstaffstruct->voice_prolog_insert->str:"",
+			 movement, voice,  voice, movement, voice_prolog_insert,
  movement, voice, movement, voice);
+  g_free(voice_prolog_insert);
   g_string_append_printf(str, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			 movement, voice, movement, voice, movement, voice);
   
@@ -1764,6 +1774,7 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
   }
   }
   
+
 /*
  *writes the current score in LilyPond format to the textbuffer.
  *sets gui->lilysync equal to gui->changecount
@@ -1944,25 +1955,25 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 				   movement_name->str, voice_name->str);
 	  GString *str = g_string_new("");
 	  
-	  gchar *staffprolinsert =  (curstaffstruct->staff_prolog_insert && curstaffstruct->staff_prolog_insert->len)? curstaffstruct->staff_prolog_insert->str:"";
+	  gchar *staff_prolog_insert =  get_prolog(curstaffstruct->staff_directives);
 
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
-	      g_string_append_printf(str, "\\new ChoirStaff %s << \n", staffprolinsert);
+	      g_string_append_printf(str, "\\new ChoirStaff %s << \n", staff_prolog_insert);
 	    if (curstaffstruct->context & DENEMO_GROUP_START)
-	      g_string_append_printf(str, "\\new StaffGroup %s << \n", staffprolinsert);
+	      g_string_append_printf(str, "\\new StaffGroup %s << \n", staff_prolog_insert);
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	      g_string_append_printf(str, "\\new PianoStaff %s << \n", staffprolinsert);
+	      g_string_append_printf(str, "\\new PianoStaff %s << \n", staff_prolog_insert);
 	  }
 
 	  if(curstaffstruct->voicenumber == 1)
-	    g_string_append_printf(str, "\\new Staff %s << {\n", staffprolinsert);
+	    g_string_append_printf(str, "\\new Staff %s << {\n", staff_prolog_insert);
 	  else
 	    g_string_append_printf(str, "\\new Voice {\n");
 	  if (curstaffstruct->no_of_lines != 5)
 	    g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
-	  
+	  g_free(staff_prolog_insert);
 	  const gchar *endofblock;
 	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
 	    endofblock = "";

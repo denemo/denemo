@@ -660,9 +660,14 @@ static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
 GETFUNC_DEF(note, display)
 GETFUNC_DEF(chord, display)
 GETFUNC_DEF(standalone, display)
+GETFUNC_DEF(staff, display)
+GETFUNC_DEF(voice, display)
+
 PUTFUNC_DEF(note, display)
 PUTFUNC_DEF(chord, display)
 PUTFUNC_DEF(standalone, display)
+PUTFUNC_DEF(staff, display)
+PUTFUNC_DEF(voice, display)
 
 // end of block to clone
 
@@ -670,6 +675,16 @@ GETFUNC_DEF(note, prefix)
 GETFUNC_DEF(note, postfix)
 PUTFUNC_DEF(note, prefix)
 PUTFUNC_DEF(note, postfix)
+
+PUTFUNC_DEF(staff, prefix)
+PUTFUNC_DEF(voice, prefix)
+GETFUNC_DEF(staff, prefix)
+GETFUNC_DEF(voice, prefix)
+
+PUTFUNC_DEF(staff, postfix)
+PUTFUNC_DEF(voice, postfix)
+GETFUNC_DEF(staff, postfix)
+GETFUNC_DEF(voice, postfix)
 
 GETFUNC_DEF(chord, prefix)
 GETFUNC_DEF(chord, postfix)
@@ -1191,6 +1206,22 @@ Then
   INSTALL_GET(standalone, prefix);
   INSTALL_GET(standalone, postfix);
 
+
+  INSTALL_PUT(staff, display);
+  INSTALL_PUT(staff, prefix);
+  INSTALL_PUT(staff, postfix);
+
+  INSTALL_GET(staff, display);
+  INSTALL_GET(staff, prefix);
+  INSTALL_GET(staff, postfix);
+
+  INSTALL_PUT(voice, display);
+  INSTALL_PUT(voice, prefix);
+  INSTALL_PUT(voice, postfix);
+
+  INSTALL_GET(voice, display);
+  INSTALL_GET(voice, prefix);
+  INSTALL_GET(voice, postfix);
 
 
 

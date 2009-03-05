@@ -2,11 +2,11 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>RTS</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <row>
         <action>SmallerStaff</action>
-        <scheme>(d-StaffProperties "staff-prolog-insert=\\with {\n
+        <scheme>(d-DirectivePut-staff-postfix "StaffSize" "\\with {\n
    fontSize = #-3\n
     \\override StaffSymbol #'staff-space = #(magstep -3)\n
   }\n")</scheme>
