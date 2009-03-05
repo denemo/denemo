@@ -32,6 +32,7 @@
 (define cue-OffsetPositionOne "Offset Position (One)")
 (define cue-EditText "Edit Text")
 (define cue-SetPadding "Set Padding")
+(define cue-Delete "Delete")
 ;(define cue- "")
 
 

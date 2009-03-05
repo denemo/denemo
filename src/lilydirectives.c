@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <denemo/denemo.h>
+#include "lilydirectives.h"
 #include "chordops.h"
 #include "calculatepositions.h"
 #include "commandfuncs.h"
@@ -17,7 +18,7 @@
 #include "objops.h"
 #include "staffops.h"
 #include "utils.h"
-
+#include "prefops.h"
 
 
 /**
@@ -63,6 +64,32 @@ static DenemoDirective *find_directive(GList *directives, gchar *tag) {
     directive = (DenemoDirective *)directives->data;
   return directive;
 }
+
+static void
+free_directive(DenemoDirective *directive) {
+
+  g_free(directive);//FIXME free the GStrings, do nothing to the graphic which may be shared.
+
+}
+static gboolean 
+delete_directive(GList **directives, gchar *tag) {
+  DenemoDirective *directive = NULL;
+  if(tag) {
+    GList *g;
+    for(g=*directives;g;g=g->next){
+      directive = (DenemoDirective *)g->data;
+      if(directive->tag && !strcmp(tag, directive->tag->str)){
+	*directives = g_list_remove(*directives, directive);
+	free_directive(directive);
+	return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+
+
 
 static DenemoDirective*
 new_directive(gchar *tag){
@@ -425,6 +452,47 @@ DenemoDirective *get_voice_directive(gchar *tag) {
   return find_directive(curstaff->voice_directives, tag);
 }
 
+gboolean
+delete_staff_directive(gchar *tag) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  if(curstaff==NULL || curstaff->staff_directives==NULL)
+    return;
+  return delete_directive(&curstaff->staff_directives, tag);
+}
+gboolean
+delete_voice_directive(gchar *tag) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return FALSE;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  if(curstaff==NULL || curstaff->voice_directives==NULL)
+    return FALSE;
+  return delete_directive(&curstaff->voice_directives, tag);
+}
+gboolean delete_note_directive(gchar *tag) {
+  note *curnote = get_note();
+  if(curnote==NULL || (curnote->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_note_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  curnote->directives = g_list_remove(curnote->directives, directive);
+  free_directive(directive);
+}
+gboolean delete_chord_directive(gchar *tag) {
+DenemoObject *curObj = get_chordobject();
+  if(curObj==NULL)
+    return FALSE;
+  chord *thechord = (chord *)curObj->object;
+  if(thechord->directives==NULL)
+    return FALSE;
+  DenemoDirective *directive = get_chord_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  thechord->directives = g_list_remove(thechord->directives, directive);
+  free_directive(directive);
+}
 
 #define GET_STR_FIELD_FUNC(what, field)\
 gchar *\
@@ -784,10 +852,41 @@ tag_choice(GtkWidget *widget, DenemoDirective **response) {
     *response = g_object_get_data(G_OBJECT(widget), "choice");
   return TRUE;
 }
+
+
+/* pack radio buttons for directive choice */
+static gint
+pack_buttons(GtkWidget *vbox, GList *directives, DenemoDirective **response) {
+  GList *g;
+  gint count;
+  GtkWidget *widget, *widget2;
+  for(count=0, g=directives;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *) g->data;
+    if (directive->tag && script_file_exists(directive->tag->str)){
+      count++;
+      if(*response==NULL)
+	*response = directive;
+      if(g==directives) {
+	widget =   gtk_radio_button_new_with_label(NULL, directive->tag->str);
+	g_object_set_data(G_OBJECT(widget), "choice", directive);
+	g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(tag_choice), response);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+      } else {
+	widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), directive->tag->str);
+	g_object_set_data(G_OBJECT(widget2), "choice", directive);
+	g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(tag_choice), response);
+	gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
+      }
+    }
+  }
+  return count;
+}
+
+
 /* let the user choose from a list of directives */
 static
-DenemoDirective *select_directive(gchar *note_name, GList *directives) {
-  gchar *instr = note_name?g_strdup_printf("Select a directive attached to the note \"%s\"", note_name):g_strdup("Select a directive attached to chord"); 
+DenemoDirective *select_directive(gchar *instr, GList *directives) {
+
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Directive",
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
@@ -805,27 +904,9 @@ DenemoDirective *select_directive(gchar *note_name, GList *directives) {
   GtkWidget *widget, *widget2;
   widget = gtk_label_new(instr);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+  count = pack_buttons(vbox, directives, &response);
 
-  for(count=0, g=directives;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *) g->data;
-      if (directive->tag && script_file_exists(directive->tag->str)){
-	count++;
-	if(response==NULL)
-	   response = directive;
-	if(g==directives) {
-	  widget =   gtk_radio_button_new_with_label(NULL, directive->tag->str);
-	  g_object_set_data(widget, "choice", directive);
-	  g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(tag_choice), &response);
-	  gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-	} else {
-	  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget), directive->tag->str);
-	  g_object_set_data(widget2, "choice", directive);
-	  g_signal_connect(G_OBJECT(widget2), "toggled", G_CALLBACK(tag_choice), &response);
-	  gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
-	}
-      }
-  }
-  if(count>1) {    
+  if(count>0) {    
     gtk_widget_show_all (dialog);
     if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
       response = NULL;
@@ -836,6 +917,7 @@ DenemoDirective *select_directive(gchar *note_name, GList *directives) {
     g_print("Came back with response %s\n", response->tag->str);
   return response;
 }
+
 
 /* let the user choose from the directives at the cursor */
 static 
@@ -849,20 +931,25 @@ DenemoDirective *get_directive(void) {
   gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
   if(curnote->mid_c_offset == Denemo.gui->si->cursor_y)
     if(curnote->directives) {
-      directive = select_directive(name, curnote->directives);
+      gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
+      directive = select_directive(instr, curnote->directives);
+      g_free(instr);
       if(directive)
 	return directive;
     }
   if(directive==NULL) {
   // not exactly on a note, offer any chord directives
+    gchar *instr = "Select a directive attached to the chord";
     chord *curchord = get_chord();
     if(curchord && curchord->directives) {
-      directive = select_directive(NULL, curchord->directives);
+      directive = select_directive(instr, curchord->directives);
     } 
   }
   if(directive==NULL)//try nearest note
     if(curnote->directives && curnote->mid_c_offset != Denemo.gui->si->cursor_y) {
-      directive = select_directive(name, curnote->directives);
+      gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
+      directive = select_directive(instr, curnote->directives);
+      g_free(instr);
       if(directive && (g_list_length(curnote->directives)==1)) {
 	/* seek confirmation of the choice of this directive since it is on a note not pointed at and
 	   has been chosen automatically. */
@@ -885,7 +972,7 @@ static void edit_note(void){
 
 
 }
-void edit_directive(GtkAction *action,  DenemoScriptParam *param);
+
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   DenemoObject *obj = findobj();
   if(obj==NULL){
@@ -894,7 +981,7 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   }
   switch(obj->type){
   case LILYDIRECTIVE:
-    edit_directive(action, param);
+    edit_object_directive(action, param);
     return;
   case CLEF:
      {
@@ -933,10 +1020,30 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
     return;
   }
 }
+
+static void
+edit_directive(DenemoDirective *directive) {
+  gchar *name = g_strconcat(directive->tag->str, ".scm", NULL);
+  gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS))
+      warningdialog("No editing script provided, perhaps edit in LilyPond window?");
+    return;
+  }
+  GError *error = NULL;
+  gchar *script;
+  if(g_file_get_contents (filename, &script, NULL, &error)) {
+    call_out_to_guile(script);
+    g_free(script);
+  }
+}
+
 /**
  * callback for EditDirective 
  */
-void edit_directive(GtkAction *action,  DenemoScriptParam *param) {
+void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive = get_directive();
   g_print("Got directive %p\n", directive);
@@ -945,23 +1052,64 @@ void edit_directive(GtkAction *action,  DenemoScriptParam *param) {
   if(directive->tag == NULL)
     warningdialog("Use the old Other->Insert LilyPond command");
   else {
-    gchar *name = g_strconcat(directive->tag->str, ".scm", NULL);
-    gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
-    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-      g_free(filename);
-      filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
-    if(!g_file_test(filename, G_FILE_TEST_EXISTS))
-      warningdialog("No editing script provided, ?Use the old Other->Insert LilyPond command");
-      return;
-    }
-    GError *error = NULL;
-    gchar *script;
-    if(g_file_get_contents (filename, &script, NULL, &error)) {
-      //call_out_to_guile(script);???????if the script wants to pop up a menu??? I guess it has to run gtkmainloop hmmm
-      // it will have to create a dialog instead. We will need a specialized one creating a combo box.
-      call_out_to_guile(script);
-      g_free(script);
-    }
+    edit_directive(directive);
+
   }
 }
+
+static
+DenemoDirective *select_staff_directive(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  //FIXME return NULL if not primary staff
+  if(curstaff==NULL || curstaff->staff_directives==NULL)
+    return NULL;
+  return select_directive("Select a staff directive", curstaff->staff_directives);
+}
+static
+DenemoDirective *select_voice_directive(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  if(curstaff==NULL || curstaff->voice_directives==NULL)
+    return NULL;
+  return select_directive("Select a voice directive", curstaff->voice_directives);
+}
+
+
+/**
+ * callback for EditStaffDirective 
+ */
+void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_voice_directive();
+  g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    warningdialog("Use the LilyPond window");
+  else {
+    edit_directive(directive);
+
+  }
+}
+
+/**
+ * callback for EditStaffDirective 
+ */
+void edit_staff_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_staff_directive();
+  g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    warningdialog("Use the LilyPond window");
+  else {
+    edit_directive(directive);
+
+  }
+}
+
 

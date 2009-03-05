@@ -150,6 +150,9 @@
 
     <menu action="StaffMenu">
       <menuitem action="StaffProperties"/>
+      <menuitem action="EditStaffDirective"/>
+      <menuitem action="EditVoiceDirective"/>
+      
       <menu action="InsertStaff">
         <menuitem action="AddBefore"/>
 	<menuitem action="AddAfter"/>

@@ -634,6 +634,18 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+#define DELETEFUNC_DEF(what) static SCM scheme_delete_##what##_directive(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return SCM_BOOL( delete_##what##_directive (tagname));\
+}
+DELETEFUNC_DEF(note)
+DELETEFUNC_DEF(chord)
+DELETEFUNC_DEF(staff)
+DELETEFUNC_DEF(voice)
+
+#undef DELETEFUNC_DEF
 
 #define GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
@@ -1146,6 +1158,13 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
+#define INSTALL_DELETE(what)\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);
+  INSTALL_DELETE(note);
+  INSTALL_DELETE(chord);
+  INSTALL_DELETE(staff);
+  INSTALL_DELETE(voice);
+#undef INSTALL_DELETE
 
 #define INSTALL_PUT(what, field)\
   install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);

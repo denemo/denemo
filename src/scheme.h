@@ -1087,10 +1087,18 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyDirective")), "
 SCM scheme_EditObject(SCM optional);
 install_scm_function ("d-EditObject", scheme_EditObject);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditObject")), "scm", (gpointer)1);
-/*EditDirective edit_directive*/
+/*EditDirective edit_object_directive*/
 SCM scheme_EditDirective(SCM optional);
 install_scm_function ("d-EditDirective", scheme_EditDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditDirective")), "scm", (gpointer)1);
+/*EditStaffDirective edit_staff_directive*/
+SCM scheme_EditStaffDirective(SCM optional);
+install_scm_function ("d-EditStaffDirective", scheme_EditStaffDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditStaffDirective")), "scm", (gpointer)1);
+/*EditVoiceDirective edit_voice_directive*/
+SCM scheme_EditVoiceDirective(SCM optional);
+install_scm_function ("d-EditVoiceDirective", scheme_EditVoiceDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditVoiceDirective")), "scm", (gpointer)1);
 /*AttachLilyToNote note_directive*/
 SCM scheme_AttachLilyToNote(SCM optional);
 install_scm_function ("d-AttachLilyToNote", scheme_AttachLilyToNote);
