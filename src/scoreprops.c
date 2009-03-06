@@ -42,26 +42,15 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
 
-  GET_2PARAMS(action, param, lilypond, fontsize);
+  GET_1PARAM(action, param, fontsize);
  if(query) {
-   if(*query) if(!strcmp("lilypond", query)) {
-     g_string_assign(param->string, Denemo.gui->lilycontrol.lilypond?Denemo.gui->lilycontrol.lilypond->str:"");
-     param->status = TRUE;
-   }
    if(*query) if(!strcmp("fontsize", query)) {
      g_string_assign(param->string, Denemo.gui->lilycontrol.staffsize->str);
      param->status = TRUE;
    }
    return;
  }
-  if(lilypond) {
-    if(Denemo.gui->lilycontrol.lilypond)
-      g_string_assign(Denemo.gui->lilycontrol.lilypond, lilypond);
-    else
-      Denemo.gui->lilycontrol.lilypond = g_string_new(lilypond);
-    param->status = TRUE;
-    return;
-  }
+ 
   if(fontsize) {
     g_string_assign(Denemo.gui->lilycontrol.staffsize, fontsize);
     param->status = TRUE;

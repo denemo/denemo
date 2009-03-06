@@ -598,9 +598,13 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
                       (xmlChar *) gui->lilycontrol.field->str)
   NEWCHILD(papersize);
   NEWCHILD(lilyversion);
-  NEWCHILD(lilypond);
+
   newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  atoi(gui->lilycontrol.staffsize->str));
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation",  gui->lilycontrol.orientation);
+
+  if(gui->lilycontrol.directives) 
+	    newDirectivesElem(parentElem, ns, gui->lilycontrol.directives, "score-directives");
+
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
     xmlNewChild (scoreElem, ns, "custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));

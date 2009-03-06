@@ -1099,6 +1099,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditStaffDirective")), "s
 SCM scheme_EditVoiceDirective(SCM optional);
 install_scm_function ("d-EditVoiceDirective", scheme_EditVoiceDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditVoiceDirective")), "scm", (gpointer)1);
+/*EditScoreDirective edit_score_directive*/
+SCM scheme_EditScoreDirective(SCM optional);
+install_scm_function ("d-EditScoreDirective", scheme_EditScoreDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditScoreDirective")), "scm", (gpointer)1);
 /*AttachLilyToNote note_directive*/
 SCM scheme_AttachLilyToNote(SCM optional);
 install_scm_function ("d-AttachLilyToNote", scheme_AttachLilyToNote);

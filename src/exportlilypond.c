@@ -1924,7 +1924,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
    
       //standard score block
-      g_string_append_printf (scoreblock, "\\score {\n<<%s <<\n", gui->lilycontrol.lilypond->str);
+      gchar *score_prolog = get_prolog(gui->lilycontrol.directives);
+      g_string_append_printf (scoreblock, "\\score {\n<<%s <<\n", score_prolog);
+      g_free(score_prolog);
     }
  
     for (curstaff = si->thescore, voice_count=1; curstaff; curstaff = curstaff->next, voice_count++)

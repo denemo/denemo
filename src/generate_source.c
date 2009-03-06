@@ -391,6 +391,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to chord/note at cursor.", N_("EditDirective"), "edit_object_directive", N_("Edit Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to staff.", N_("EditStaffDirective"), "edit_staff_directive", N_("Edit Staff Directives")},
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to voice.", N_("EditVoiceDirective"), "edit_voice_directive", N_("Edit Voice Directives")},
+  {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to score.", N_("EditScoreDirective"), "edit_score_directive", N_("Edit Score Directives")},
 
 
  

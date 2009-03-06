@@ -257,7 +257,7 @@ typedef struct
 /* The ->data part of each staffnode points to a staff structure */
 
 typedef GList staffnode;/**< The ->data part of each staffnode points to a DenemoStaff structure */
-typedef staffnode *score;
+//typedef staffnode *score;
 
 /* a pair of staffs, used to relate two staffs together */
 typedef struct staff_info
@@ -473,7 +473,7 @@ typedef struct DenemoLilyControl
   GString *lilyversion;
   gboolean orientation;
   gboolean excerpt;
-  GString *lilypond; /**< Lilypond directive for all music in the movements */
+  GList *directives; /**< list of DenemoDirective for all music in the movements */
 	
 } DenemoLilyControl;
 
@@ -516,7 +516,8 @@ typedef struct DenemoScore
 
   /* Fields that have more to do with the data model and its manipulation,
    * though they may be modified by side-effects of the drawing routines */
-  score thescore;
+  // score thescore;
+  staffnode *thescore;
   
   staffnode *currentprimarystaff;
   staffnode *currentstaff;

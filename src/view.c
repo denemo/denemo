@@ -644,6 +644,7 @@ DELETEFUNC_DEF(note)
 DELETEFUNC_DEF(chord)
 DELETEFUNC_DEF(staff)
 DELETEFUNC_DEF(voice)
+DELETEFUNC_DEF(score)
 
 #undef DELETEFUNC_DEF
 
@@ -674,12 +675,14 @@ GETFUNC_DEF(chord, display)
 GETFUNC_DEF(standalone, display)
 GETFUNC_DEF(staff, display)
 GETFUNC_DEF(voice, display)
+GETFUNC_DEF(score, display)
 
 PUTFUNC_DEF(note, display)
 PUTFUNC_DEF(chord, display)
 PUTFUNC_DEF(standalone, display)
 PUTFUNC_DEF(staff, display)
 PUTFUNC_DEF(voice, display)
+PUTFUNC_DEF(score, display)
 
 // end of block to clone
 
@@ -687,6 +690,12 @@ GETFUNC_DEF(note, prefix)
 GETFUNC_DEF(note, postfix)
 PUTFUNC_DEF(note, prefix)
 PUTFUNC_DEF(note, postfix)
+
+GETFUNC_DEF(score, prefix)
+GETFUNC_DEF(score, postfix)
+PUTFUNC_DEF(score, prefix)
+PUTFUNC_DEF(score, postfix)
+
 
 PUTFUNC_DEF(staff, prefix)
 PUTFUNC_DEF(voice, prefix)
@@ -741,15 +750,25 @@ static SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
 PUTGRAPHICFUNC_DEF(note);
 PUTGRAPHICFUNC_DEF(chord);
 PUTGRAPHICFUNC_DEF(standalone);
+PUTGRAPHICFUNC_DEF(staff);
+PUTGRAPHICFUNC_DEF(voice);
+PUTGRAPHICFUNC_DEF(score);
 
 
      //block to copy for new int field in directive
 INT_PUTFUNC_DEF(note, minpixels)
 INT_PUTFUNC_DEF(chord, minpixels)
 INT_PUTFUNC_DEF(standalone, minpixels)
+INT_PUTFUNC_DEF(staff, minpixels)
+INT_PUTFUNC_DEF(voice, minpixels)
+INT_PUTFUNC_DEF(score, minpixels)
 INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
 INT_GETFUNC_DEF(standalone, minpixels)
+INT_GETFUNC_DEF(staff, minpixels)
+INT_GETFUNC_DEF(voice, minpixels)
+INT_GETFUNC_DEF(score, minpixels)
+
      //end block to copy for new int field in directive
 
 INT_PUTFUNC_DEF(note, y)
@@ -798,6 +817,24 @@ INT_GETFUNC_DEF(note, height)
 INT_GETFUNC_DEF(chord, height)
 INT_GETFUNC_DEF(standalone, height)
  
+INT_GETFUNC_DEF(score, x)
+INT_GETFUNC_DEF(score, y)
+INT_GETFUNC_DEF(score, tx)
+INT_GETFUNC_DEF(score, ty)
+INT_GETFUNC_DEF(score, gx)
+INT_GETFUNC_DEF(score, gy)
+INT_GETFUNC_DEF(score, width)
+INT_GETFUNC_DEF(score, height)
+
+INT_PUTFUNC_DEF(score, x)
+INT_PUTFUNC_DEF(score, y)
+INT_PUTFUNC_DEF(score, tx)
+INT_PUTFUNC_DEF(score, ty)
+INT_PUTFUNC_DEF(score, gx)
+INT_PUTFUNC_DEF(score, gy)
+INT_PUTFUNC_DEF(score, width)
+INT_PUTFUNC_DEF(score, height)
+
 
 
 #undef INT_PUTFUNC_DEF
@@ -1164,6 +1201,8 @@ Then
   INSTALL_DELETE(chord);
   INSTALL_DELETE(staff);
   INSTALL_DELETE(voice);
+  INSTALL_DELETE(score);
+
 #undef INSTALL_DELETE
 
 #define INSTALL_PUT(what, field)\
@@ -1174,14 +1213,23 @@ Then
 
 
   //block to repeat for new  directive fields 
-  INSTALL_PUT(note, minpixels);
-  INSTALL_GET(note, minpixels);
 
-  INSTALL_PUT(chord, minpixels);
+
+  INSTALL_GET(standalone, minpixels);
   INSTALL_GET(chord, minpixels);
+  INSTALL_GET(note, minpixels);
+  INSTALL_GET(staff, minpixels);
+  INSTALL_GET(voice, minpixels);
+  INSTALL_GET(score, minpixels);
 
   INSTALL_PUT(standalone, minpixels);
-  INSTALL_GET(standalone, minpixels);
+  INSTALL_PUT(chord, minpixels);
+  INSTALL_PUT(note, minpixels);
+  INSTALL_PUT(staff, minpixels);
+  INSTALL_PUT(voice, minpixels);
+  INSTALL_PUT(score, minpixels);
+
+
 
   //end block to repeat for new  directive fields 
 
@@ -1196,6 +1244,9 @@ Then
   INSTALL_PUT(standalone, graphic);
   //INSTALL_GET(standalone, graphic);
 
+
+  INSTALL_PUT(staff, graphic);
+  INSTALL_PUT(score, graphic);
   //graphic
 
 
@@ -1241,6 +1292,14 @@ Then
   INSTALL_GET(voice, display);
   INSTALL_GET(voice, prefix);
   INSTALL_GET(voice, postfix);
+
+  INSTALL_PUT(score, display);
+  INSTALL_PUT(score, prefix);
+  INSTALL_PUT(score, postfix);
+
+  INSTALL_GET(score, display);
+  INSTALL_GET(score, prefix);
+  INSTALL_GET(score, postfix);
 
 
 
@@ -1421,6 +1480,7 @@ void free_gui(DenemoGUI *gui)
     gui->si = g->data;
     free_score(gui);
   }
+  delete_directives(&gui->lilycontrol.directives);
   g_list_free(gui->movements);
   gui->movements = NULL;
   if(gui->custom_scoreblocks) {
@@ -3951,7 +4011,7 @@ newview (GtkAction *action, gpointer param)
   gui->lilycontrol.staffsize = g_string_new("18");
   gui->lilycontrol.lilyversion = g_string_new (LILYPOND_VERSION);
   gui->lilycontrol.orientation = TRUE;	//portrait
-  gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");
+  // gui->lilycontrol.lilypond = g_string_new ("\\transpose c c");
 
 
   gui->pixmap = NULL;

@@ -88,6 +88,17 @@ delete_directive(GList **directives, gchar *tag) {
   return FALSE;
 }
 
+/* free a list of directives and set to NULL */
+void
+delete_directives(GList **directives) {
+  DenemoDirective *directive = NULL; 
+  if(directives)
+  while(*directives){
+    directive = (DenemoDirective *)(*directives)->data;
+    *directives = g_list_remove(*directives, directive);
+    free_directive(directive);
+  }
+}
 
 
 
@@ -393,6 +404,10 @@ static chord *get_chord(void) {
   return (chord *)curObj->object;
 }
 
+static DenemoLilyControl *get_score(void) {
+  return &Denemo.gui->lilycontrol;
+}
+
 
 static note *get_note(void) {
   DenemoGUI *gui = Denemo.gui;
@@ -430,6 +445,12 @@ DenemoObject *curObj = get_chordobject();
   if(thechord->directives==NULL)
     return NULL;
   return find_directive(thechord->directives, tag);
+}
+
+static
+DenemoDirective *get_score_directive(gchar *tag) {
+
+  return find_directive(Denemo.gui->lilycontrol.directives, tag);
 }
 
 static
@@ -477,8 +498,7 @@ gboolean delete_note_directive(gchar *tag) {
   DenemoDirective *directive = get_note_directive(tag);
   if(directive==NULL)
     return FALSE;
-  curnote->directives = g_list_remove(curnote->directives, directive);
-  free_directive(directive);
+  return delete_directive(&curnote->directives, tag);
 }
 gboolean delete_chord_directive(gchar *tag) {
 DenemoObject *curObj = get_chordobject();
@@ -490,8 +510,15 @@ DenemoObject *curObj = get_chordobject();
   DenemoDirective *directive = get_chord_directive(tag);
   if(directive==NULL)
     return FALSE;
-  thechord->directives = g_list_remove(thechord->directives, directive);
-  free_directive(directive);
+  return delete_directive(&thechord->directives, tag);
+}
+
+gboolean delete_score_directive(gchar *tag) {
+
+  DenemoDirective *directive = get_score_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&Denemo.gui->lilycontrol.directives, tag);
 }
 
 #define GET_STR_FIELD_FUNC(what, field)\
@@ -502,9 +529,10 @@ what##_directive_get_##field(gchar *tag) {\
     return directive->field->str;\
   return NULL;\
 }
-
+//typdefs to make the macros defined below pick up the right structure for staff, voice and score as chord & note do
 typedef DenemoStaff staff;
 typedef DenemoStaff voice;
+typedef DenemoLilyControl score;
 #define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
@@ -547,9 +575,17 @@ PUT_STR_FIELD_FUNC(note, prefix)
 PUT_STR_FIELD_FUNC(note, postfix)
 PUT_STR_FIELD_FUNC(note, display)
 
+PUT_STR_FIELD_FUNC(score, prefix)
+PUT_STR_FIELD_FUNC(score, postfix)
+PUT_STR_FIELD_FUNC(score, display)
+
 GET_STR_FIELD_FUNC(standalone, prefix)
 GET_STR_FIELD_FUNC(standalone, postfix)
 GET_STR_FIELD_FUNC(standalone, display)
+
+GET_STR_FIELD_FUNC(score, prefix)
+GET_STR_FIELD_FUNC(score, postfix)
+GET_STR_FIELD_FUNC(score, display)
 
 GET_STR_FIELD_FUNC(staff, prefix)
 GET_STR_FIELD_FUNC(staff, postfix)
@@ -607,11 +643,13 @@ PUT_INT_FIELD_FUNC(note, minpixels)
 PUT_INT_FIELD_FUNC(chord, minpixels)
 PUT_INT_FIELD_FUNCS(staff, minpixels)
 PUT_INT_FIELD_FUNCV(voice, minpixels)
+PUT_INT_FIELD_FUNC(score, minpixels)
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
 GET_INT_FIELD_FUNC(staff, minpixels)
 GET_INT_FIELD_FUNC(voice, minpixels)
+GET_INT_FIELD_FUNC(score, minpixels)
 GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
 
@@ -684,23 +722,48 @@ GET_INT_FIELD_FUNC(standalone, ty)
 GET_INT_FIELD_FUNC(standalone, gx)
 GET_INT_FIELD_FUNC(standalone, gy)
 
+
+GET_INT_FIELD_FUNC(score, x)
+GET_INT_FIELD_FUNC(score, y)
+
+GET_INT_FIELD_FUNC(score, tx)
+GET_INT_FIELD_FUNC(score, ty)
+
+GET_INT_FIELD_FUNC(score, gx)
+GET_INT_FIELD_FUNC(score, gy)
+
+PUT_INT_FIELD_FUNC(score, x)
+PUT_INT_FIELD_FUNC(score, y)
+
+PUT_INT_FIELD_FUNC(score, tx)
+PUT_INT_FIELD_FUNC(score, ty)
+
+PUT_INT_FIELD_FUNC(score, gx)
+PUT_INT_FIELD_FUNC(score, gy)
+PUT_INT_FIELD_FUNC(score, width)
+PUT_INT_FIELD_FUNC(score, height)
+
+
+
      /* width and height of graphic (if any), read only */
 GET_INT_FIELD_FUNC(note, width)
 GET_INT_FIELD_FUNC(chord, width)
 GET_INT_FIELD_FUNC(staff, width)
 GET_INT_FIELD_FUNC(voice, width)
 GET_INT_FIELD_FUNC(standalone, width)
+GET_INT_FIELD_FUNC(score, width)
 GET_INT_FIELD_FUNC(note, height)
 GET_INT_FIELD_FUNC(chord, height)
 GET_INT_FIELD_FUNC(staff, height)
 GET_INT_FIELD_FUNC(voice, height)
 GET_INT_FIELD_FUNC(standalone, height)
+GET_INT_FIELD_FUNC(score, height)
 
 #undef PUT_INT_FIELD_FUNC
 #undef GET_INT_FIELD_FUNC
 
      //note I think you cannot change the graphic once you have set it.
-#define PUT_GRAPHIC(what) gboolean \
+#define PUT_GRAPHIC_NAME(what, directives) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
@@ -718,10 +781,17 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
       directive->graphic_name = g_string_new(value);\
   return TRUE;\
 }
-     PUT_GRAPHIC(chord);
-     PUT_GRAPHIC(note);
-// PUT_GRAPHIC(staff);
-// PUT_GRAPHIC(voice);
+
+#define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
+#define PUT_GRAPHICS(what) PUT_GRAPHIC_NAME(what, staff_directives)
+#define PUT_GRAPHICV(what) PUT_GRAPHIC_NAME(what, voice_directives)
+
+
+PUT_GRAPHIC(chord);
+PUT_GRAPHIC(note);
+PUT_GRAPHIC(score);
+PUT_GRAPHICS(staff);
+PUT_GRAPHICV(voice);
 #undef PUT_GRAPHIC
 
 gboolean
@@ -1056,6 +1126,12 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
 
   }
 }
+static
+DenemoDirective *select_score_directive(void) {
+  if(Denemo.gui->lilycontrol.directives==NULL)
+    return NULL;
+  return select_directive("Select a score directive", Denemo.gui->lilycontrol.directives);
+}
 
 static
 DenemoDirective *select_staff_directive(void) {
@@ -1079,7 +1155,7 @@ DenemoDirective *select_voice_directive(void) {
 
 
 /**
- * callback for EditStaffDirective 
+ * callback for EditVoiceDirective 
  */
 void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
@@ -1112,4 +1188,18 @@ void edit_staff_directive(GtkAction *action,  DenemoScriptParam *param) {
   }
 }
 
+/**
+ * callback for EditScoreDirective 
+ */
+void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
+  DenemoDirective *directive = select_score_directive();
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    warningdialog("Use the LilyPond window");
+  else {
+    edit_directive(directive);
+
+  }
+}
 

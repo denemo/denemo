@@ -18,6 +18,8 @@ edit_staff_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
 edit_voice_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
+edit_score_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
 edit_object(GtkAction *action,  DenemoScriptParam *param);//FIXME move to ???
 void
 note_directive (GtkAction *action, DenemoScriptParam * param);
@@ -25,7 +27,8 @@ void
 chord_directive (GtkAction *action, DenemoScriptParam * param);
 void
 standalone_directive (GtkAction *action, DenemoScriptParam *param);
-
+void
+delete_directives (GList** pdirectives);
 
 gboolean delete_chord_directive(gchar *tag);
 gboolean delete_note_directive(gchar *tag);

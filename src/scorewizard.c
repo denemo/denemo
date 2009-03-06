@@ -525,17 +525,9 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_entry_set_text(GTK_ENTRY(lilyversion), 
 		     gui->lilycontrol.lilyversion->str);
 
-  label = gtk_label_new(_("LilyPond Control"));
-  gtk_table_attach(GTK_TABLE(table), label, 0,1,3,4,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
 
-  GtkWidget *lilypond = gtk_entry_new();
-  gtk_table_attach(GTK_TABLE(table), lilypond, 1,2,3,4,
-                   (GtkAttachOptions) (GTK_FILL),
-                   (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(lilypond), 
-		     gui->lilycontrol.lilypond->str);
+
+
 
 
   GtkWidget *vbox = gtk_vbox_new(FALSE,0);
@@ -571,7 +563,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   setup->fontsize = fontsize;
   setup->portrait = portraitradio;
   setup->lilyversion = lilyversion;
-  setup->lilypond = lilypond;
+
   score_status(gui, TRUE);
   return setup;
 }
@@ -986,9 +978,6 @@ void setpaperconfig(papersetupcb *cbdata, DenemoGUI *gui)
   g_string_assign(gui->lilycontrol.lilyversion, 
 		  (gchar *)gtk_entry_get_text 
 		  (GTK_ENTRY (cbdata->lilyversion)));
-  g_string_assign(gui->lilycontrol.lilypond, 
-		  (gchar *)gtk_entry_get_text 
-		  (GTK_ENTRY (cbdata->lilypond)));
 
   g_string_assign(gui->lilycontrol.staffsize,
     (gchar *) gtk_entry_get_text 

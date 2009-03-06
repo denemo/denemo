@@ -291,6 +291,7 @@
 {"EditDirective", NULL, N_("Edit Directives"), NULL,N_("Edit any directives attached to chord/note at cursor."),G_CALLBACK (edit_object_directive)},
 {"EditStaffDirective", NULL, N_("Edit Staff Directives"), NULL,N_("Edit any directives attached to staff."),G_CALLBACK (edit_staff_directive)},
 {"EditVoiceDirective", NULL, N_("Edit Voice Directives"), NULL,N_("Edit any directives attached to voice."),G_CALLBACK (edit_voice_directive)},
+{"EditScoreDirective", NULL, N_("Edit Score Directives"), NULL,N_("Edit any directives attached to score."),G_CALLBACK (edit_score_directive)},
 {"AttachLilyToNote", NULL, N_("Attach Lilypond to Note"), NULL,N_("Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation."),G_CALLBACK (note_directive)},
 {"AttachLilyToChord", NULL, N_("Attach Lilypond to Chord"), NULL,N_("Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation."),G_CALLBACK (chord_directive)},
 {"InsertBarline", NULL, N_("Insert Barline"), NULL,N_("Inserts specialized barline at the cursor position. Mostly not working"),G_CALLBACK (insert_barline)},

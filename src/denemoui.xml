@@ -130,6 +130,8 @@
 <menubar name="ObjectMenu">
      <menu action="Score">
             <menuitem action="ScoreProperties"/>
+	    <menuitem action="EditScoreDirective"/>
+	    
      </menu>
 
 

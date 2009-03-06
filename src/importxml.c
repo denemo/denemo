@@ -1599,15 +1599,17 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 		g_free (tmp);
 	      }
 	  }
-	if (ELEM_NAME_EQ (childElem, "lilypond"))
+	if (ELEM_NAME_EQ (childElem, "lilypond"))//backward compatibility only
 	  {
 	    tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 						  childElem->
 						  xmlChildrenNode, 1);
 	    if (tmp != NULL)
 	      {
-		//g_print ("lilypond directive for all music %s", tmp);
-		g_string_assign (gui->lilycontrol.lilypond, tmp);
+		DenemoDirective *directive =  (DenemoDirective*)g_malloc0(sizeof(DenemoDirective));
+		directive->postfix = g_string_new(tmp);
+		directive->tag = g_string_new("UnknownScoreTag");
+		gui->lilycontrol.directives = g_list_append(NULL, directive);
 		g_free (tmp);
 	      }
 	  }
@@ -1637,6 +1639,12 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	    gui->lilycontrol.orientation = orientation;
 	    //g_print ("Orientation %d\n", orientation);
 	  }
+	else if (ELEM_NAME_EQ (childElem, "directives"))
+	  {
+	    gui->lilycontrol.directives = parseDirectives(childElem, ns);
+	  }
+
+
       }
   }
 

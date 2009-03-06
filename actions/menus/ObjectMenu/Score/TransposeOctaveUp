@@ -6,7 +6,8 @@
     <map>
       <row>
         <action>TransposeOctaveUp</action>
-        <scheme>(d-ScoreProperties "lilypond= \\transpose c c'")
+        <scheme>(d-DirectivePut-score-postfix  "TransposeScore" "\\transpose c c' ")
+(d-DirectivePut-score-display  "TransposeScore" "8va up ")
 
 </scheme>
         <label>(Print) Transpose Octave Up</label>
