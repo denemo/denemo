@@ -7,8 +7,12 @@
       <row>
         <action>TransposeOctaveUp</action>
         <scheme>(d-DirectivePut-score-postfix  "TransposeScore" "\\transpose c c' ")
-(d-DirectivePut-score-display  "TransposeScore" "8va up ")
+(d-DirectivePut-score-display  "TransposeScore" "Print out 8va up ")
 
+(d-DirectivePut-score-ty  "TransposeScore" 20)
+
+(d-DirectivePut-score-tx  "TransposeScore" 120)
+(d-RefreshDisplay)
 </scheme>
         <label>(Print) Transpose Octave Up</label>
         <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
