@@ -1,4 +1,4 @@
-/* draw.cpp
+/* draw.c
  * loop that draws all the items in the presently-displayed part of
  * the score
  *  
@@ -29,7 +29,6 @@
  */
 #define REDEXCL_WIDTH 3
 #define REDEXCL_HEIGHT 13
-#define MAXEXTRASPACE (150) /* maximum space for leger lines, for sanity */
 
 /**
  * scorearea_configure_event
@@ -182,7 +181,7 @@ draw_object (objnode * curobj, gint x, gint y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
 	  if((((chord *) mudelaitem->object)->highesty) < itp->highy)
-	    itp->highy  = ((chord *) mudelaitem->object)->highesty;
+ 	    itp->highy  = ((chord *) mudelaitem->object)->highesty, g_print("setting highy %d\n", itp->highy);
 
 	  if((((chord *) mudelaitem->object)->lowesty) > itp->lowy+STAFF_HEIGHT)
 	    itp->lowy  = ((chord *) mudelaitem->object)->lowesty-STAFF_HEIGHT;
@@ -396,7 +395,7 @@ draw_object (objnode * curobj, gint x, gint y,
 
 
   gdk_gc_set_foreground (blackgc, &black);
-    
+  g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
   return (mudelaitem->starttickofnextnote > itp->tickspermeasure);
 } /* draw_object */
@@ -670,6 +669,36 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 }
 
 /**
+ * Draw the score directives and return the amount of vertical space they took up.
+
+*/
+static gint
+draw_score_directives (void) {
+  GList *g = Denemo.gui->lilycontrol.directives;
+  gint y = 0;
+  if(g==NULL)
+    return 0;
+  PangoContext *context =
+    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (Denemo.gui->pixmap));
+  PangoLayout *layout = pango_layout_new (context);
+  PangoFontDescription *desc = pango_font_description_from_string (FONT);
+  for(;g;g=g->next) {
+   DenemoDirective *directive = g->data;
+    if(directive->display) {
+      pango_layout_set_text (layout,
+			     directive->display->str,
+			     -1);
+      
+      pango_layout_set_font_description (layout, desc);
+      y += directive->ty;
+      gdk_draw_layout (Denemo.gui->pixmap, gcs_blackgc(), directive->tx, y, layout);
+    }
+  }
+  pango_font_description_free (desc);
+  return y;
+}
+
+/**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
  * @param gui pointer to the DenemoGUI structure
@@ -703,12 +732,20 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.hairpin_stack = NULL;
   itp.haslyrics = FALSE;
   itp.highy = 0;//in case there are no objects...
-
-  
+  y = 0;
+  //draw score title etc above top staff, if it is visible and if desired by score directives
+  if(si->top_staff==1) {
+    y = draw_score_directives();
+    curstaff = si->thescore;
+    gint space = ((DenemoStaff *) curstaff->data)->space_above;
+    if(space<y) 
+       g_print("setting space to %d\n", y), ((DenemoStaff *) curstaff->data)->space_above = y;
+   
+  }
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
 	curstaff = g_list_nth (si->thescore, si->top_staff - 1),
-	y = si->staffspace / 4);
+	y += si->staffspace / 4);
        curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++)
     {
       if (curstaff && ((DenemoStaff *) curstaff->data)->voicenumber == 1)
@@ -722,11 +759,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gint lowy =  ((DenemoStaff *) curstaff->data)->space_below;
 
       itp.in_highy = highy, itp.in_lowy = lowy;
+      itp.highy = 0;//do not pass on extra_space from one staff to the next
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
-      //IN FACT highy is only set by one measure, it is reset to zero in the measure loop
+      //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
       if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
-	((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
+	g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
       if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
 	((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
 

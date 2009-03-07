@@ -272,8 +272,9 @@ set_properties (struct callbackdata *cbdata)
 
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
-
+  g_print("first %d\t", staffstruct->space_above);
   ASSIGNNUMBER(space_above);
+  g_print("then %d\t", staffstruct->space_above);
   ASSIGNNUMBER(space_below);
   ASSIGNNUMBER(no_of_lines);
   ASSIGNNUMBER(transposition);
@@ -470,8 +471,8 @@ staff_properties_change (gpointer callback_data)
   /* Display appearance tab */
   NEWPAGE("Display Appearance");
   TEXTENTRY("Staff name:", denemo_name);
-  INTENTRY_LIMITS("Space above:", space_above, 0, 30);
-  INTENTRY_LIMITS("Space below:", space_below, 0, 30); 
+  INTENTRY_LIMITS("Space above:", space_above, 0, MAXEXTRASPACE);
+  INTENTRY_LIMITS("Space below:", space_below, 0, MAXEXTRASPACE); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   INTENTRY_LIMITS("Position in half-lines:", pos_in_half_lines, -5, 5);

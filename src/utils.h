@@ -12,6 +12,8 @@
 
 #include <denemo/denemo.h>
 
+#define MAXEXTRASPACE (150) /* maximum space for ledger lines, for sanity */
+
 #define LINE_SPACE 10
 #define HALF_LINE_SPACE 5
 #define NO_OF_LINES 5
