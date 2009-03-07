@@ -1639,7 +1639,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	    gui->lilycontrol.orientation = orientation;
 	    //g_print ("Orientation %d\n", orientation);
 	  }
-	else if (ELEM_NAME_EQ (childElem, "directives"))
+	else if (ELEM_NAME_EQ (childElem, "score-directives"))
 	  {
 	    gui->lilycontrol.directives = parseDirectives(childElem, ns);
 	  }
