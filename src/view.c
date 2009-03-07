@@ -1302,6 +1302,19 @@ Then
   INSTALL_GET(score, postfix);
 
 
+INSTALL_GET(score, x);
+INSTALL_GET(score, gx);
+INSTALL_GET(score, tx);
+INSTALL_PUT(score, x);
+INSTALL_PUT(score, gx);
+INSTALL_PUT(score, tx);
+
+INSTALL_GET(score, y);
+INSTALL_GET(score, gy);
+INSTALL_GET(score, ty);
+INSTALL_PUT(score, y);
+INSTALL_PUT(score, gy);
+INSTALL_PUT(score, ty);
 
 
 
