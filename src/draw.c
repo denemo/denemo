@@ -604,7 +604,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 
 
   gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - buffer, layout);
-
+  gint title_highy = 0;
   if(curstaffstruct->staff_directives) {
     GList *g = curstaffstruct->staff_directives;
     gint count=1;
@@ -615,7 +615,10 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 			   directive->display->str,
 			   -1);
     pango_layout_set_font_description (layout, desc);
-    gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN + directive->tx, y-buffer+directive->ty - count*10, layout);
+    gint ypos = y-buffer+directive->ty - count*10;
+    gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN + directive->tx, ypos, layout);
+    //g_print("high %d %d\n", itp->highy, -ypos);
+    if(title_highy > ypos) title_highy = ypos;
   }
     }
 
@@ -649,7 +652,8 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
       itp->measurenum++;
     }
 
-
+  if(itp->highy > title_highy)
+    itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
   for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE)
@@ -698,7 +702,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
   itp.haslyrics = FALSE;
-
+  itp.highy = 0;//in case there are no objects...
 
   
   /* Draw each staff */
@@ -719,6 +723,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       itp.in_highy = highy, itp.in_lowy = lowy;
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
+
+      //IN FACT highy is only set by one measure, it is reset to zero in the measure loop
       if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
 	((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
       if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
