@@ -63,7 +63,7 @@ set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
   DenemoStaff *staff;
   gint extra_space = 0;
   for(  curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1) ; curstaff;curstaff=curstaff->next) {
-    g_print("before extra space %d\n", extra_space);
+    //g_print("before extra space %d\n", extra_space);
     staff = (DenemoStaff *) curstaff->data;
     if(staff->voicenumber == 1)
       extra_space += (staff->space_above*2 );
@@ -74,7 +74,7 @@ set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
       extra_space += ((staff->space_below) + (staff->haslyrics?LYRICS_HEIGHT:0));
       staffs_from_top++;
     }
-    g_print("after extra space %d\n", extra_space);
+    //g_print("after extra space %d\n", extra_space);
   }
 
   click_height =

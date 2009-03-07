@@ -181,7 +181,7 @@ draw_object (objnode * curobj, gint x, gint y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
 	  if((((chord *) mudelaitem->object)->highesty) < itp->highy)
- 	    itp->highy  = ((chord *) mudelaitem->object)->highesty, g_print("setting highy %d\n", itp->highy);
+ 	    itp->highy  = ((chord *) mudelaitem->object)->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
 
 	  if((((chord *) mudelaitem->object)->lowesty) > itp->lowy+STAFF_HEIGHT)
 	    itp->lowy  = ((chord *) mudelaitem->object)->lowesty-STAFF_HEIGHT;
@@ -395,7 +395,7 @@ draw_object (objnode * curobj, gint x, gint y,
 
 
   gdk_gc_set_foreground (blackgc, &black);
-  g_print("returning with %d\n", itp->highy);
+  //g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
   return (mudelaitem->starttickofnextnote > itp->tickspermeasure);
 } /* draw_object */
@@ -739,7 +739,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     curstaff = si->thescore;
     gint space = ((DenemoStaff *) curstaff->data)->space_above;
     if(space<y) 
-       g_print("setting space to %d\n", y), ((DenemoStaff *) curstaff->data)->space_above = y;
+      /*g_print("setting space to %d\n", y),*/ ((DenemoStaff *) curstaff->data)->space_above = y;
    
   }
   /* Draw each staff */
@@ -764,7 +764,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
       if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
-	g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
+	/*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
       if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
 	((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
 
