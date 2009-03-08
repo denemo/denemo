@@ -289,7 +289,24 @@
     <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. A few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
   <sect1>
-    <title>Movements</title>
+    <title>Overall View of Denemo</title>
+  <sect2>
+    <title>General Concepts</title>
+    <para>
+    The unit of work in Denemo is a musical score, which can be saved in a single file (with .denemo suffix). This is represented on the screen by a "tab". If you have several tabs open at once they appear just above the music in the main window, and you can switch between them by clicking on the tab.
+ </para>
+    <para>
+    One score may contain several movements, which you can move between, insert and delete with the Movements menu. A movement is a continuous piece of music with titles etc.
+ </para>
+    <para>
+    Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives. The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may just print "Smaller Staff" over the staff. The directive then directs the LilyPond typesetter to make the staff smaller.
+</para>
+    <para>
+    The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods.
+    </para>
+    <para>
+    The titles of the current movement can be set. These titles should be left blank for movements after the first if they apply to the whole score (a LilyPond peculiarity). In the movement properties dialog you can set a LilyPond directive to cause a page break before the movement (see LilyPond docs, but briefly #f is no page break and #t (true) is page break). You can include any other directives here to apply to the movement as a whole.
+    </para>
 
     <para>
 Each Denemo file represents a piece of music which may consist of several “movements”, interspersed with headings. These might be different songs in a song book, or literally the movements in a classical sonata, or any other pieces of music that you want to print out in a book form with titles, page numbering and so on.
@@ -300,6 +317,7 @@ Each Denemo file represents a piece of music which may consist of several “mov
          <note>
             <para>When a file is loaded it opens with the final movement set as the current movement.</para>
           </note>
+  </sect2>
   </sect1>
   <sect1>
     <title>The Denemo Window</title>
@@ -559,14 +577,14 @@ The menus in Denemo are unusual: they not only let you do some particular action
             </row>
 
             <row>
-              <entry>Score Properties</entry>
+              <entry>Edit Object</entry>
 
-              <entry>Add header information for titles etc. for score and header information for the current movement.</entry>
+              <entry>A general interface to editing whatever is at the cursor, especially Directives attached to notes/chords.</entry>
             </row>
 
             <row>
-              <entry>Preferences</entry>
 
+              <entry>Change Preferences</entry>
               <entry>Set external programs (LilyPond, PDF viewer etc.), autosave interval etc. These values will bre remembered when you re-start the program</entry>
             </row>
 
@@ -1080,10 +1098,6 @@ The menus in Denemo are unusual: they not only let you do some particular action
               <entry>Markings</entry>
               <entry>Insert/remove tempo indications, dynamics, slurs, trills etc.</entry>
             </row>
-
-            
-           
-
             <row>
               <entry>Cursor</entry>
               <entry>Navigation of the (Denemo) cursor.</entry>
@@ -1113,16 +1127,7 @@ The menus in Denemo are unusual: they not only let you do some particular action
           </note>
   </sect2>
 
-  <sect2>
-    <title>Movements</title>
 
-    <para>
-    Your score may contain several movements, which you can move between, insert and delete with the Movements menu.
- </para>
-    <para>
-    The titles of the current movement can be set. These titles should be left blank for movements after the first if they apply to the whole score (a LilyPond peculiarity). In the movement properties dialog you can set a LilyPond directive to cause a page break before the movement (see LilyPond docs, but briefly #f is no page break and #t (true) is page break). You can include any other directives here to apply to the movement as a whole.
-    </para>
-  </sect2>
   <sect2 revision="0.75">
     <title>Adding Markings</title>
 
@@ -1386,7 +1391,7 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
 (d-InsertLilyDirective " \\mark \\default")
 </listitem>
 </itemizedlist>
-which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, or if use Save Script to customize the script you started with.
+which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, or use Save Script to customize the script you started with.
  </para>
  
  <para> 
@@ -1465,6 +1470,8 @@ d-DirectivePut-chord* as above but for the Chord as a whole
 d-Chordize Ensure that even a single note is treated as a chord - needed for some LilyPond constructs (e.g. fingerings)
   </listitem>
 
+
+
 </itemizedlist>
 
   <para>
@@ -1542,6 +1549,56 @@ d-DirectiveGet-note-* where * is one of display, tx, ty, gx, gy, graphic, prefix
 
   </para>
   </sect1>
+
+ <sect1>
+    <title>Directive Edit Scripts</title>
+<sect2>
+     <title>Introduction</title>
+ 
+   <para>
+   The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
+  </para>
+</sect2>
+<sect2>
+     <title>Edit Scripts</title>
+ 
+   <para>
+   Edit scripts are kept in a directory actions/editscripts parallel with the directory actions/menus where the commands themselves are kept. They have available functions to enable editing of directives which are defined in actions//denemo.scm executed at startup. The functions and variables for script editing are
+  </para>
+
+<itemizedlist>
+<listitem>
+d-GetOption followed by a nul separated list of options, offers the options to the user and returns one, or #f if the user cancels.
+</listitem>
+<listitem>
+Extra-Offset tag type context. Takes three string options: tag is the name of the directive to be edited, which must be the name of a LilyPond object, type is the type of directive (note, chord, standalone, staff, voice or score), context is the LilyPond context of the object. Only tag is required. Shifts the object in the LilyPond output.
+</listitem>
+<listitem>
+SetPadding tag type context. As Extra-Offset, it sets the space left around the item in the LilyPond engraving process.
+</listitem>
+<listitem>
+SetRelativeFontSize tag type context. As Extra-Offset, it shifts the font size of the following text in the LilyPond engraving process.
+</listitem>
+<listitem>
+Useful variables defined:
+(define stop "\0")
+(define cue-PlaceAbove "Place above staff")
+(define cue-PlaceBelow "Place below staff")
+(define cue-SetRelativeFontSize "Set Relative Font Size")
+(define cue-OffsetPositionAll "Offset Position (All)")
+(define cue-OffsetPositionOne "Offset Position (One)")
+(define cue-EditText "Edit Text")
+(define cue-SetPadding "Set Padding")
+(define cue-Delete "Delete")
+</listitem>
+</itemizedlist>
+
+</sect2>
+
+
+
+  </sect1>
+
 
  <sect1>
     <title>LilyPond Editing</title>
