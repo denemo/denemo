@@ -1566,6 +1566,35 @@ d-DirectiveGet-type-field type is one of score, staff, voice, standalone, chord 
 
 
   </para>
+  <para>
+The fields in d-DirectiveGet/Put have the following meanings
+<itemizedlist>
+<listitem>
+postfix - A fragment of LilyPond to be output (after any object the directive is attached to). 
+</listitem>
+<listitem>
+prefix - A fragment of LilyPond to be output (after any object the directive is attached to). 
+</listitem>
+<listitem>
+display - text to be shown in the Denemo Display
+</listitem>
+<listitem>
+tx, ty - where to show the text in the Denemo Display
+</listitem>
+<listitem>
+graphic - a .png image to be shown in the Denemo Display (the directory bitmaps holds these). The graphic can be saved for a command using the right-click -> Save Graphic command, after selecting a portion of the print preview as the image required.
+</listitem>
+<listitem>
+gx, gy - where to show thegraphic in the Denemo Display
+</listitem>
+<listitem>
+minpixels - how much space to leave for this item in the DenemoDisplay
+</listitem>
+
+
+
+</itemizedlist>
+  </para>
   </sect1>
 
  <sect1>
