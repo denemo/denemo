@@ -302,7 +302,7 @@
     Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives. The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may just print "Smaller Staff" over the staff. The directive then directs the LilyPond typesetter to make the staff smaller.
 </para>
     <para>
-    The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods.
+    The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods. You can use the Print View to indicate the padding that you wish to apply to some item, or to show where you want to drag it to.
     </para>
     <para>
     The titles of the current movement can be set. These titles should be left blank for movements after the first if they apply to the whole score (a LilyPond peculiarity). In the movement properties dialog you can set a LilyPond directive to cause a page break before the movement (see LilyPond docs, but briefly #f is no page break and #t (true) is page break). You can include any other directives here to apply to the movement as a whole.
@@ -331,11 +331,16 @@ Each Denemo file represents a piece of music which may consist of several “mov
       </mediaobject>
     </figure>
 <para>
-The main window has menus and toolbars at the top and then the drawing area where the music input is displayed - just the few measures you are working on. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next. Selected music is colored blue and outlined with a blue rectangle.
+The main window has menus and toolbars at the top. With View->Score View checked there is next the drawing area where the music input is displayed - just the few measures you are working on. With View->Print View checked there is another pane showing the print preview of your score. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next. Selected music is colored blue and outlined with a blue rectangle.
 </para>
 <para>
 The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you set keyboard/mouse shortcuts for the actions. All this extra functionality &amp; more comes with right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). Also available by right-clicking is creating new actions - often by modifying ones that are already there.
 </para>
+  </sect1>
+  <sect1>
+    <title>The Print Preview Pane</title>
+ <para>The print preview pane is shown by checking View->Print View. Right clicking in this pane allows you to refresh the print preview (the program hangs waiting for LilyPond to finish).</para>
+ <para> Right clicking in this pane also allows you to choose offsets to apply to items that LilyPond has positioned badly.Or you can select an amount of padding to apply to some object. This is generally a better way of indicating that it is too close to something else, since other objects will move away from it as needed - that is, if you later edit something it will behave more intelligently. The actual editing is always done in the Score View pane, choosing Edit Object while the cursor is on the offending object and then dragging in the Print Preview window to indicate the amount of change required.</para>
   </sect1>
   <sect1>
     <title>The Main Menubar</title>
@@ -625,6 +630,18 @@ The menus in Denemo are unusual: they not only let you do some particular action
           </thead>
 
           <tbody>
+            <row>
+              <entry>Score View</entry>
+
+              <entry>Shows the score in panorama format for editing. The printed score will generally look different.</entry>
+            </row>
+
+            <row>
+              <entry>Print View</entry>
+
+              <entry>Shows the score as engraved by the LilyPond typesetter. You cannot edit in this window, but you can drag items to indicate how you want an item edited.</entry>
+            </row>
+
             <row>
               <entry>Rhythms and Overlays</entry>
 
