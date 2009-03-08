@@ -1405,7 +1405,7 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
  For example, from the More menu select the command /menus/ObjectMenu/Instruments/Orchestral/RehearsalMark (the files are laid out in folders/directories in the same way as the menu system itself). Then choose Get Script from the right click menu. With this command its script is appended to the Scheme Script window. Here you can see the part that says
 <itemizedlist>
  <listitem>
-(d-InsertLilyDirective " \\mark \\default")
+             (d-DirectivePut-standalone-postfix "RehearsalMark"  " \\mark \\default" )
 </listitem>
 </itemizedlist>
 which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra \s are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, or use Save Script to customize the script you started with.
@@ -1482,6 +1482,12 @@ d-DirectivePut-note-* where * is one of display, prefix, postfix, takes a tag an
   <listitem>
 d-DirectivePut-chord* as above but for the Chord as a whole
   </listitem>
+  <listitem>
+d-DirectivePut-staff* as above but for the Staff as a whole
+  </listitem>
+  <listitem>
+d-DirectivePut-score* as above but for the Score as a whole
+  </listitem>
 
   <listitem>
 d-Chordize Ensure that even a single note is treated as a chord - needed for some LilyPond constructs (e.g. fingerings)
@@ -1494,19 +1500,15 @@ d-Chordize Ensure that even a single note is treated as a chord - needed for som
   <para>
   Standard Denemo commands that pop up dialogs will work as usual if no argument is passed to them from Scheme. In general if a string consisting of strings of the form "name=value\0" is passed these will be used and no popup will occur. The field "name" will be given the value "value". The \0 is a NULL character that separates the assignment strings. As a shorthand if there is only one value being passed you can just pass the value. The names of the fields depend on the action being called. So for example
 <example id="schemecalls">
-(d-InsertLilyDirective "directive=^\\markup \\italic {Allegro}\0display=Allegro")
+(d-Open "filename=myfile.denemo\0")
 </example>
-will insert a LilyPond directive whose text is ^\markup \italic {Allegro} while displaying the word Allegro in Denemo. If you only wanted to pass the directive then
-<example id="schemecalls">
-(d-InsertLilyDirective "^\\markup \\italic {Allegro}")
-</example>
-would do this. The fields are by convention lower case names, they are listed against the commands below.
+will open the file "myfile.denemo".
   </para>
   <para>
 This feature is being rolled out, and currently works for
 <itemizedlist>
 <listitem>
-d-InsertLilyDirective (directive, display. minpixels)
+d-InsertLilyDirective (directive, display. minpixels) (deprecated function)
 </listitem>
 <listitem>
 d-AttachLilyToChord (prefix, postfix, display) deprecated see d-DirectiveGet-chord-* and d-DirectivePut-chord-* below
@@ -1533,7 +1535,7 @@ d-InsertKey
 d-Open filename
 </listitem>
 <listitem>
-d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyPond, fontsize= size of font to be used for score)
+d-ScoreProperties (fontsize= size of font to be used for score)
 </listitem>
 
 
@@ -1547,17 +1549,16 @@ d-ScoreProperties (lilypond= lilypond to be applied to each score block in LilyP
 <itemizedlist>
 
 <listitem>
-d-DirectivePut-chord-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set.
+d-DirectivePut-type-field where type is one of score, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
+<example id="schemecalls">
+ (d-DirectivePut-note-postfix "LHFinger" "3")
+</example>
+will put the fingering 3 on (after) the note at the cursor.
 </listitem>
 <listitem>
-d-DirectivePut-note-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
+d-DirectiveGet-type-field type is one of score, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
 </listitem>
-<listitem>
-d-DirectiveGet-chord-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
-</listitem>
-<listitem>
-d-DirectiveGet-note-* where * is one of display, tx, ty, gx, gy, graphic, prefix, postfix, minpixels
-</listitem>
+
 
 
 </itemizedlist>
