@@ -95,6 +95,9 @@ setpixelmin (DenemoObject *theobj);
 void
 freeit (gpointer data, gpointer user_data);
 
+void 
+popup_menu(gchar *name);
+
 void
 warningdialog(gchar *msg);
 void

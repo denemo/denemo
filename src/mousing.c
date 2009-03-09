@@ -328,6 +328,23 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   gboolean left = (event->button != 3);
+  if(!left) {
+    if(event->x<LEFT_MARGIN) {
+
+      //  do left here - navigate rightwards for a click release in this space....
+      //gui->si->currentobject = NULL;
+      popup_menu("/ScorePopup");
+      return TRUE;
+    } else  if(event->x<KEY_MARGIN) {
+      popup_menu("/StaffMenuPopup");
+      return TRUE;
+    }  else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME) {
+      popup_menu("/InitialTimeEditPopup");
+      return TRUE;
+    }
+  }
+
+
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->si);
   else

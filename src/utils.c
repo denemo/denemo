@@ -21,6 +21,16 @@
 #include "binreloc.h"
 #endif
 
+
+/**
+   Popups up the menu named.
+ */
+void popup_menu(gchar *name) {
+  GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, name);
+ gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+}
+
+
 /**
  * Pops up a warning dialog and blocks until it is dismissed
  *  @param msg warning message to display

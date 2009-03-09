@@ -579,9 +579,29 @@
  Popup menus for edit object
   -->
 
+  <popup name="InitialClefEditPopup">
+     <menuitem action="InitialClef"/>
+  </popup>
+  <popup name="InitialKeyEditPopup">
+     <menuitem action="InitialKey"/>
+  </popup>
+  <popup name="InitialTimeEditPopup">
+     <menuitem action="InitialTimeSig"/>
+  </popup>
   <popup name="ClefEditPopup">
      <menuitem action="InsertClef"/>
   </popup>
+  <popup action="ScorePopup">
+            <menuitem action="ScoreProperties"/>
+	    <menuitem action="EditScoreDirective"/>	    
+  </popup>
+
+  <popup action="StaffMenuPopup">
+      <menuitem action="StaffProperties"/>
+      <menuitem action="EditStaffDirective"/>
+      <menuitem action="EditVoiceDirective"/>
+   </popup>
+
   <popup name="KeyEditPopup">
      <menuitem action="InsertKey"/>
   </popup>

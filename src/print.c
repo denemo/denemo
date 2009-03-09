@@ -724,7 +724,7 @@ start_drag(GtkWidget *widget, gboolean *flag) {
 }
 
 static gint 
-popup_menu(void) {
+popup_print_preview_menu(void) {
   GtkWidget *menu = gtk_menu_new();
   GtkWidget *item = gtk_menu_item_new_with_label("Refresh Print Preview");
 
@@ -837,7 +837,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   gboolean left = (event->button != 3);
   if((!left) || (Denemo.gui->pixbuf==NULL)) {
-    popup_menu();
+    popup_print_preview_menu();
     return TRUE;
   }
   /* creating an offset? */

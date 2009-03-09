@@ -110,7 +110,7 @@ set_lily_error(gint line, gint column, DenemoGUI *gui) {
 
 
 /* pop up an appropriate menu for the section attached to the button */
-static gboolean popup_menu(GtkButton *button,GdkEvent *event, DenemoGUI *gui) {
+static gboolean popup_menu_for_button(GtkButton *button,GdkEvent *event, DenemoGUI *gui) {
   GtkTextChildAnchor *anchor = g_object_get_data(G_OBJECT(button), "anchor");
   GtkWidget *menu;
   if(g_object_get_data(G_OBJECT(anchor), STANDARD_SCOREBLOCK))
@@ -171,7 +171,7 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
     gtk_text_view_add_child_at_anchor (GTK_TEXT_VIEW(gui->textview), button, objanc);
     g_object_set_data(G_OBJECT(button), "anchor", (gpointer)objanc);
     g_signal_connect (G_OBJECT (button), "button-press-event",
-		      G_CALLBACK (popup_menu), gui);
+		      G_CALLBACK (popup_menu_for_button), gui);
     gtk_widget_show_all(button);
   }
   (void)gtk_text_iter_backward_char(iter);

@@ -1037,16 +1037,13 @@ DenemoDirective *get_directive(void) {
 }
 
 
-static void edit_note(void){
 
 
-
-}
 
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   DenemoObject *obj = findobj();
   if(obj==NULL){
-    warningdialog("No object here to edit");
+      warningdialog("No object here to edit");
     return;
   }
   switch(obj->type){
@@ -1055,33 +1052,28 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
     return;
   case CLEF:
      {
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ClefEditPopup");
-      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+      popup_menu( "/ClefEditPopup");
     }  
      return;
   case KEYSIG:
      {
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/KeyEditPopup");
-      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+      popup_menu( "/KeyEditPopup");
     }  
      return;
   case TIMESIG:
      {
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/TimeEditPopup");
-      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+      popup_menu( "/TimeEditPopup");
     }  
      return;
   case CHORD:
     {
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup");
-      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time()); 
+      popup_menu( "/NoteEditPopup");
     }
     return;
 
   case STEMDIRECTIVE:
      {
-      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup");
-      gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
+      popup_menu( "/StemControlPopup");
     }  
      return;
 
