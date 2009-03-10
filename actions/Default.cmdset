@@ -1443,6 +1443,33 @@ Notes entered will follow this pattern</tooltip>
         <bind>l</bind>
       </row>
       <row>
+        <action>EditObject</action>
+        <label>Edit Object</label>
+        <tooltip>Edit the object at the cursor.</tooltip>
+        <bind>Tab</bind>
+        <bind>PrsR</bind>
+      </row>
+      <row>
+        <action>EditDirective</action>
+        <label>Edit Directives</label>
+        <tooltip>Edit any directives attached to chord/note at cursor.</tooltip>
+      </row>
+      <row>
+        <action>EditStaffDirective</action>
+        <label>Edit Staff Directives</label>
+        <tooltip>Edit any directives attached to staff.</tooltip>
+      </row>
+      <row>
+        <action>EditVoiceDirective</action>
+        <label>Edit Voice Directives</label>
+        <tooltip>Edit any directives attached to voice.</tooltip>
+      </row>
+      <row>
+        <action>EditScoreDirective</action>
+        <label>Edit Score Directives</label>
+        <tooltip>Edit any directives attached to score.</tooltip>
+      </row>
+      <row>
         <action>AttachLilyToNote</action>
         <label>Attach Lilypond to Note</label>
         <tooltip>Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
