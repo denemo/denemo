@@ -336,10 +336,19 @@ DenemoGUI *gui = Denemo.gui;
   }
   if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME)  && (event->x>LEFT_MARGIN)){
     set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
-
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   } 
+
+
+
+  if (event->y < 0)
+    get_placement_from_coordinates (&pi, event->x, 0, gui->si);
+  else
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+
+  gui->si->currentstaff = pi.the_staff;
+  gui->si->currentstaffnum = pi.staff_number;
   if(event->x<LEFT_MARGIN) {
     popup_menu("/StaffMenuPopup");
     return TRUE;
@@ -355,11 +364,6 @@ DenemoGUI *gui = Denemo.gui;
       return TRUE;
     }
   }
-
-  if (event->y < 0)
-    get_placement_from_coordinates (&pi, event->x, 0, gui->si);
-  else
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
 	 
     gui->si->currentstaffnum = pi.staff_number;
