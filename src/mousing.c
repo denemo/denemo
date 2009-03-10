@@ -334,9 +334,9 @@ DenemoGUI *gui = Denemo.gui;
     popup_menu("/ScorePopup");
     return TRUE;
   }
-  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME)){
+  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME)  && (event->x>LEFT_MARGIN)){
     set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
-    g_print("leftwards\n");
+
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   } 

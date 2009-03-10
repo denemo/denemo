@@ -739,8 +739,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     curstaff = si->thescore;
     gint space = ((DenemoStaff *) curstaff->data)->space_above;
     if(space<y) 
-      /*g_print("setting space to %d\n", y),*/ ((DenemoStaff *) curstaff->data)->space_above = y;
-   
+      space = ((DenemoStaff *) curstaff->data)->space_above = y;
+    gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, KEY_MARGIN, 10); 
   }
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
@@ -760,6 +760,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       itp.in_highy = highy, itp.in_lowy = lowy;
       itp.highy = 0;//do not pass on extra_space from one staff to the next
+
+      gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*si->staffspace*/); 
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
       //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
