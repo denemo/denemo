@@ -277,6 +277,7 @@ perform_command(gint modnum, mouse_gesture press, gboolean left)
   g_string_free(modname, TRUE);
 }  
 
+static gboolean selecting = FALSE;
 
 /**
  * Mouse motion callback 
@@ -286,7 +287,8 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
-    if (gui->si->markstaffnum){
+  //  g_print("Marked %d\n", gui->si->markstaffnum);
+    if (selecting && gui->si->markstaffnum){
       struct placement_info pi; 
       if (event->y < 0)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
@@ -328,22 +330,31 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   gboolean left = (event->button != 3);
-  if(!left) {
-    if(event->x<LEFT_MARGIN) {
-
-      //  do left here - navigate rightwards for a click release in this space....
-      //gui->si->currentobject = NULL;
-      popup_menu("/ScorePopup");
+  if(event->y<10 && event->x<KEY_MARGIN) {
+    popup_menu("/ScorePopup");
+    return TRUE;
+  }
+  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME)){
+    set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
+    g_print("leftwards\n");
+    gtk_widget_queue_draw (gui->scorearea);
+    return TRUE;
+  } 
+  if(event->x<LEFT_MARGIN) {
+    popup_menu("/StaffMenuPopup");
+    return TRUE;
+  } else if(gui->si->leftmeasurenum==1) {
+    if(event->x<KEY_MARGIN) {
+      popup_menu("/InitialClefEditPopup");
       return TRUE;
-    } else  if(event->x<KEY_MARGIN) {
-      popup_menu("/StaffMenuPopup");
+    }  else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME/2) {
+      popup_menu("/InitialKeyEditPopup");
       return TRUE;
-    }  else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME) {
+    } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME ) {
       popup_menu("/InitialTimeEditPopup");
       return TRUE;
     }
   }
-
 
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->si);
@@ -367,10 +378,12 @@ DenemoGUI *gui = Denemo.gui;
     
     if(left)
       set_mark(gui);
+    selecting = TRUE;
     write_status(gui);
     /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
     gtk_widget_draw (gui->scorearea, NULL);
-    g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
+
+    //g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
   }
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
@@ -388,8 +401,8 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
  gboolean left = (event->button != 3);
- g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
-
+ //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+ selecting = FALSE;
  set_cursor_for(event->state&DENEMO_MODIFIER_MASK);
  perform_command(event->state, GESTURE_RELEASE, left);
 

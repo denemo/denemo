@@ -4140,7 +4140,7 @@ Denemo.gui = gui;
   g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
 		      G_CALLBACK (scorearea_motion_notify), gui);
 
-  g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
+  //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
 		      G_CALLBACK (scorearea_button_press), gui);
   //  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
