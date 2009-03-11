@@ -334,14 +334,13 @@ DenemoGUI *gui = Denemo.gui;
     popup_menu("/ScorePopup");
     return TRUE;
   }
-  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME)  && (event->x>LEFT_MARGIN)){
+  gint key = gui->si->maxkeywidth;
+  gint cmajor = key?0:5;//allow some area for keysig in C-major
+  if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
     set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   } 
-
-
-
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->si);
   else
@@ -349,17 +348,19 @@ DenemoGUI *gui = Denemo.gui;
 
   gui->si->currentstaff = pi.the_staff;
   gui->si->currentstaffnum = pi.staff_number;
+
+
   if(event->x<LEFT_MARGIN) {
     popup_menu("/StaffMenuPopup");
     return TRUE;
   } else if(gui->si->leftmeasurenum==1) {
-    if(event->x<KEY_MARGIN) {
+    if(event->x<KEY_MARGIN-cmajor) {
       popup_menu("/InitialClefEditPopup");
       return TRUE;
-    }  else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME/2) {
+    }  else  if(event->x<KEY_MARGIN+key+cmajor) {
       popup_menu("/InitialKeyEditPopup");
       return TRUE;
-    } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME ) {
+    } else  if(event->x<KEY_MARGIN+SPACE_FOR_TIME+key) {
       popup_menu("/InitialTimeEditPopup");
       return TRUE;
     }

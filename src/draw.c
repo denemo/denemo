@@ -761,7 +761,17 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       itp.in_highy = highy, itp.in_lowy = lowy;
       itp.highy = 0;//do not pass on extra_space from one staff to the next
 
-      gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*si->staffspace*/); 
+      gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
+      if(si->leftmeasurenum==1) {
+	/* draw background of clef, keysig, timesig */
+	gint key = gui->si->maxkeywidth;
+	gint cmajor = key?0:5;//allow some area for keysig in C-major
+	gdk_draw_rectangle (gui->pixmap, gcs_graygc(), TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
+	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
+	gdk_draw_rectangle (gui->pixmap, gcs_graygc(), TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+
+            
+	       }
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
       //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
