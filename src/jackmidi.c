@@ -362,7 +362,7 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if ((smf != NULL) && (output_ports != NULL)){
+	if ((smf != NULL) && (output_ports != NULL) && (stop_midi_output == 0)){
 	  process_midi_output(nframes);
 	}
 #ifdef MEASURE_TIME
