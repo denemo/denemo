@@ -13,8 +13,10 @@ GPid spawn_external(const GString* cmdline);
 /* GPID_UNREF contains the default value for an unreferenced GPid*/
 #ifdef G_OS_WIN32
 static const GPid GPID_UNREF = NULL;
+#define GPID_UNREF_VALUE (NULL)
 #else
 static const GPid GPID_UNREF = -1;
+#define GPID_UNREF_VALUE (-1)
 #endif
 
 /* define your externals here:

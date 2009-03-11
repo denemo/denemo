@@ -23,13 +23,18 @@
 #endif
 
 #include <errno.h>
-
+#include <denemo/denemo.h>
 #include "print.h"
 #include "prefops.h"
 #include "exportlilypond.h"
 #include "utils.h"
 #include "gcs.h"
 #include "view.h"
+#include "external.h"
+
+static GPid printpid = GPID_UNREF_VALUE;
+
+
 /*** 
  * make sure lilypond is in the path defined in the preferences
  */
@@ -598,6 +603,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 
 
 // Displaying Print Preview
+static changecount = 0;//changecount when last refreshed
 static gboolean selecting = FALSE;
 static gboolean offsetting = FALSE;
 static gboolean padding = FALSE;
@@ -656,10 +662,53 @@ static void draw_print(DenemoGUI *gui) {
 
 }
 
-static void load_png (void) {
+
+static void
+print_finished(void) {
+  DenemoGUI *gui = Denemo.gui;
+  g_spawn_close_pid (printpid);
+  printpid = GPID_UNREF_VALUE;
+  GError *error = NULL;
+  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint_.png", NULL);
+  if(gui->pixbuf)
+    g_object_unref(gui->pixbuf);
+  gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
+ if(error != NULL)
+   {
+     g_warning (_("Could not load the print preview:\n%s\n"),
+                 error->message);
+     g_error_free (error);
+     gui->pixbuf = NULL;
+   } else {
+     gboolean ret;
+     //FIXME the parameters here are placed by trial and error - the docs indicate &ret should come at the end
+     //but an error message results.
+     g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, NULL);
+   }
+ g_object_set_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate", changecount);
+ gtk_widget_queue_draw (gui->printarea);
+}
+
+void refresh_print_view (void) {
   DenemoGUI *gui = Denemo.gui;
   GError *error = NULL;
-
+  //g_print("printpid %d\n", printpid);
+  if(changecount == Denemo.gui->changecount) {
+     warningdialog ("No changes since last update");
+     return;
+  }
+    
+  if(printpid!=GPID_UNREF_VALUE) {
+    if(confirm("Already doing a print", "Kill that one off and re-start?")) {
+      if(printpid!=GPID_UNREF_VALUE) //It could have died while the user was making up their mind...
+	 kill_process(printpid);
+      printpid = GPID_UNREF_VALUE;
+    }
+    else {
+      warningdialog ("Print preview continues");
+      return;
+    }
+  }
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
@@ -682,35 +731,19 @@ static void load_png (void) {
     lilyfile,
     NULL
   };
+  changecount = Denemo.gui->changecount;// keep track so we know it update is needed
   gchar *output=NULL, *errors=NULL;
-  g_spawn_sync (locatedotdenemo (),		/* dir */
-		arguments, NULL,	/* env */
-		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
-		NULL,		/* user data */
-		&output,		/* stdout */
-		&errors,		/* stderr */
-		NULL, &error);
-  
+  g_spawn_async (locatedotdenemo (),		/* dir */
+		 arguments, NULL,	/* env */
+		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
+		 NULL,		/* user data */
+		 &printpid,
+		 &error);
   g_free(lilyfile);
-
-  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint_.png", NULL);
-  if(gui->pixbuf)
-    g_object_unref(gui->pixbuf);
-  gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
- if(error != NULL)
-   {
-     g_warning (_("Could not load the print preview:\n%s\n"),
-                 error->message);
-     g_error_free (error);
-     gui->pixbuf = NULL;
-   } else {
-     gboolean ret;
-     //FIXME the parameters here are placed by trial and error - the docs indicate &ret should come at the end
-     //but an error message results.
-     g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, gui);
-   }
-  gtk_widget_queue_draw (gui->printarea);
+  g_child_watch_add (printpid, (GChildWatchFunc)print_finished  /*  GChildWatchFunc function */, NULL);
 }
+
+
 
 //static gint 
 //drag_selection(void) {
@@ -729,7 +762,7 @@ popup_print_preview_menu(void) {
   GtkWidget *item = gtk_menu_item_new_with_label("Refresh Print Preview");
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_png), NULL);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(refresh_print_view), NULL);
   item = gtk_menu_item_new_with_label("Drag to desired offset");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &offsetting);
@@ -745,8 +778,9 @@ popup_print_preview_menu(void) {
 }
 
 gint
-printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event, DenemoGUI *gui)
+printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
+  DenemoGUI *gui = Denemo.gui;
   if(gui->pixbuf==NULL)
     return;
   gint width, height;
@@ -766,22 +800,25 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event, Denemo
 }
 
 static void
-printvertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+printvertical_scroll (GtkAdjustment * adjust)
 {
+  DenemoGUI *gui = Denemo.gui;
   // g_print("vertical %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
   gtk_widget_queue_draw (gui->printarea);
 }
 
 static void
-printhorizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+printhorizontal_scroll (GtkAdjustment * adjust)
 {
+  DenemoGUI *gui = Denemo.gui;
   // g_print("horizontal %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
 gtk_widget_queue_draw (gui->printarea);
 }
 
 static gint
-printarea_expose_event (GtkWidget * widget, GdkEventExpose * event, DenemoGUI *gui)
+printarea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
+  DenemoGUI *gui = Denemo.gui;
   if(gui->pixbuf==NULL)
     return;
   draw_print(gui);
