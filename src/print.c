@@ -662,6 +662,14 @@ static void draw_print(DenemoGUI *gui) {
 
 }
 
+static GdkCursor *busycursor;
+static GdkCursor *arrowcursor;
+static void busy_cursor(void) {
+ gdk_window_set_cursor(Denemo.gui->printarea->window, busycursor);
+}
+static void normal_cursor(void) {
+ gdk_window_set_cursor(Denemo.gui->printarea->window, arrowcursor);
+}
 
 static void
 print_finished(void) {
@@ -669,6 +677,7 @@ print_finished(void) {
   g_spawn_close_pid (printpid);
   printpid = GPID_UNREF_VALUE;
   GError *error = NULL;
+  normal_cursor();
   gchar * path = g_build_filename(locatedotdenemo (), "denemoprint_.png", NULL);
   if(gui->pixbuf)
     g_object_unref(gui->pixbuf);
@@ -731,6 +740,7 @@ void refresh_print_view (void) {
     lilyfile,
     NULL
   };
+  busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
   gchar *output=NULL, *errors=NULL;
   g_spawn_async (locatedotdenemo (),		/* dir */
@@ -973,7 +983,10 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   return TRUE;
 }
 
-void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox ){
+void install_printpreview(DenemoGUI *gui, GtkWidget *top_vbox){ 
+  busycursor = gdk_cursor_new(GDK_WATCH);
+  arrowcursor = gdk_cursor_new(GDK_RIGHT_PTR);//FIXME what is the system cursor called??
+
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
