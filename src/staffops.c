@@ -379,7 +379,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 #ifdef _HAVE_JACK_
   if (action == INITIAL || action == ADDFROMLOAD || action == NEWVOICE 
 		  || (action != INITIAL && action != ADDFROMLOAD && action != NEWVOICE))
-  	err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
+  	err = create_jack_midi_port(thestaffstruct->jack_midi_out_port, thestaffstruct->denemo_name->str);
 #endif
 
   //si->haschanged = TRUE;
@@ -411,19 +411,19 @@ void
 deletestaff (DenemoGUI * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
-      
+  DenemoStaff *curstaffstruct = si->currentstaff->data;
+    
 #ifdef _HAVE_JACK_
   int err;
   //if (interactive)
-     err = remove_jack_midi_port(si->currentstaffnum);
+     err = remove_jack_midi_port(curstaffstruct->jack_midi_out_port);
 #endif
  
   if(interactive && !confirm_deletestaff_custom_scoreblock(gui))
     return;
   if(si->currentstaff==NULL)
     return;
-  DenemoStaff *curstaffstruct = si->currentstaff->data;
-
+  
   gboolean give_info=FALSE;//give info about removing matching context
   if(interactive && (curstaffstruct->context!=DENEMO_NONE) &&
      (!confirm("A context is set on this staff", "You will need to alter/delete the matching staff; Proceed?")))

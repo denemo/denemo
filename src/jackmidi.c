@@ -397,30 +397,45 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 	return TRUE;
 }
 
-int create_jack_midi_port(int port_number, char* port_name){
+int 
+create_jack_midi_port(int *port_number, char* port_name){
 
+	int i=0;
 	jack_nframes_t nframes = jack_get_buffer_size(jack_client);
-
 	/* only assign it if the port has not been assigned already */	
-	if (output_ports[port_number] == NULL)
-	  output_ports[port_number] = jack_port_register(jack_client, 
-					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+	while (i <= MAX_NUMBER_OF_TRACKS){
 
-	/* clear buffer */
-	if (output_ports[port_number]){	
-          jack_midi_clear_buffer(jack_port_get_buffer(output_ports[port_number], nframes));
+	  if (output_ports[i] == NULL){
+	    output_ports[i] = jack_port_register(jack_client, 
+					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+	  
+		/* clear buffer */
+		if (output_ports[i]){	
+		  jack_midi_clear_buffer(jack_port_get_buffer(output_ports[i], nframes));
+		}
+		
+		if (output_ports[i] == NULL) {
+			g_critical("Could not register JACK output port '%s'.", port_name);
+			//return -1
+		}
+ 		port_number = i;
+		g_print("\nassigned port number = %d\n", (port_number));
+		return 1;
+	  }
+	  i++;
 	}
-	
-	if (output_ports[port_number] == NULL) {
-		g_critical("Could not register JACK output port '%s'.", port_name);
-	}
+	//return success;
 }
 
 int 
 remove_jack_midi_port(int port_number){
-	int err;
-	err = jack_port_unregister(jack_client, output_ports[port_number -1]);
-	output_ports[port_number -1] = NULL;
+	int err, i;
+	if (output_ports[port_number] != NULL){
+		err = jack_port_unregister(jack_client, output_ports[port_number]);
+		output_ports[port_number] = NULL;
+		g_print("\nremove port number = %d\n", (port_number));
+	}
+	/* move later tracks up */
 }
 
 int
