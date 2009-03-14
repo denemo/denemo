@@ -990,18 +990,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, " ~");
 
 	    outputret;
-	    
 
-	    GList *g = pchord->directives;
-	    for(;g;g=g->next) {
-	      DenemoDirective *directive = (DenemoDirective *)g->data;
-	      if(directive->postfix && directive->postfix->len) {
-		open_braces += brace_count(directive->postfix->str);
-		insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
-	      }
-	    }
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
+
+	g = pchord->directives;
+	for(;g;g=g->next) {
+	  DenemoDirective *directive = (DenemoDirective *)g->data;
+	  if(directive->postfix && directive->postfix->len) {
+	    open_braces += brace_count(directive->postfix->str);
+	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+	  }
+	}
 	break;
       case CLEF:
 	determineclef (((clef *) curobj->object)->type, &clefname);
