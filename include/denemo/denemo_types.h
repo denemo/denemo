@@ -230,7 +230,7 @@ typedef struct
   gboolean midi_prognum_override; /**< override to allow manually setting prognum + channel */
   guint8 midi_prognum; /**< midi prognum assigned to the staff voice */
   guint8 midi_channel; /**< midi channel assigned to the staff voice */
-  
+  gint jack_midi_out_port; /**< the port number that jackmidi has assigned */ 
   gint space_above; /**< space above the staff used in the denemo gui */
   gint space_below; /**< space below the staff used in the denemo gui */
   gboolean haslyrics; /**< TRUE if the staff has had lyrics attached */

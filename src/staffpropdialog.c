@@ -247,6 +247,7 @@ set_properties (struct callbackdata *cbdata)
 
   DenemoStaff *staffstruct = cbdata->staffstruct;
   gint n;
+  gint err;
 
 #define ASSIGNTEXT(field) \
     g_string_assign (staffstruct->field,\
@@ -267,7 +268,9 @@ set_properties (struct callbackdata *cbdata)
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
 
 #ifdef _HAVE_JACK_
- // rename_jack_midi_port(cbdata->gui->si->currentstaffnum ,staffstruct->denemo_name->str);
+  /* check to make sure jack actually assigned a port before renaming */
+  if (staffstruct->jack_midi_out_port >= 0)
+    err = rename_jack_midi_port(staffstruct->jack_midi_out_port, staffstruct->denemo_name->str);
 #endif  
 
   /* !!!! Insert advisory function for detecting colliding staff names
