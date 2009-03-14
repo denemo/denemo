@@ -397,51 +397,85 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 	return TRUE;
 }
 
+/* returns the jack midi port number that
+ *  has been assigned
+ */
 int 
-create_jack_midi_port(int *port_number, char* port_name){
+create_jack_midi_port(char* port_name){
 
-	int i=0;
+	gint i;
 	jack_nframes_t nframes = jack_get_buffer_size(jack_client);
 	/* only assign it if the port has not been assigned already */	
-	while (i <= MAX_NUMBER_OF_TRACKS){
+	for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
 
 	  if (output_ports[i] == NULL){
+		  //assert(i == 0);
 	    output_ports[i] = jack_port_register(jack_client, 
 					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
-	  
+
+		if (output_ports[i] == NULL) {
+			g_critical("Could not register JACKMIDI output_port[%d] '%s'.",i, port_name);
+			//return -1;
+		}
+  
 		/* clear buffer */
 		if (output_ports[i]){	
 		  jack_midi_clear_buffer(jack_port_get_buffer(output_ports[i], nframes));
 		}
-		
-		if (output_ports[i] == NULL) {
-			g_critical("Could not register JACK output port '%s'.", port_name);
-			//return -1
-		}
- 		port_number = i;
-		g_print("\nassigned port number = %d\n", (port_number));
-		return 1;
+	
+	 	if (output_ports[i] != NULL)	
+		  g_debug("\nassigning jackmidi port output_port[%d]\n", i);
+		return i;
 	  }
-	  i++;
 	}
-	//return success;
 }
 
 int 
 remove_jack_midi_port(int port_number){
-	int err, i;
+	int err;
+	err = 0;
 	if (output_ports[port_number] != NULL){
 		err = jack_port_unregister(jack_client, output_ports[port_number]);
 		output_ports[port_number] = NULL;
-		g_print("\nremove port number = %d\n", (port_number));
+#ifdef DEBUG
+		g_debug("\nremove jackmidi port number = %d\n", port_number);
+#endif
 	}
-	/* move later tracks up */
+	return err;
+}
+
+void
+remove_all_jack_midi_ports(){
+	int err,i;
+	err = 0;
+
+	
+	for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
+
+	  if (output_ports[i] != NULL){
+
+		err = jack_port_unregister(jack_client, output_ports[i]);
+		output_ports[i] = NULL;
+#ifdef DEBUG
+		g_debug("\nremoving jackmidi port number = %d\n", i);
+#endif
+	  }
+	}
+	return err;
 }
 
 int
 rename_jack_midi_port(int port_number, char *port_name){
-	int err;
-	err = jack_port_set_name (output_ports[port_number -1], port_name); 		
+	int err = 0;
+	if (output_ports[port_number] != NULL)
+	  err = jack_port_set_name (output_ports[port_number], port_name);
+	
+	g_debug("Trying to rename JACK port output_ports[%d] to %s\n",port_number, port_name);
+
+	if (err)
+	  g_critical("Could not rename JACK port output_ports[%d] to %s",port_number, port_name);
+	
+	return err;	
 }
 
 void 
@@ -469,8 +503,6 @@ init_jack(void){
   if (input_port == NULL) {
     g_critical("Could not register JACK input port.");
   }
-
-  //err = create_jack_midi_port(0, "test port");
 
   if (jack_activate(jack_client)) {
     g_critical("Cannot activate JACK client.");

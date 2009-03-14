@@ -325,6 +325,14 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   itp.gui = gui;
   itp.staff = thestaffstruct;
   itp.addat = addat;
+  
+  if (action == INITIAL || action == ADDFROMLOAD)
+    {
+#ifdef _HAVE_JACK_
+      thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
+#endif 
+    }
+
   if (action != INITIAL && action != ADDFROMLOAD)
     {
       if (action == NEWVOICE)
@@ -333,12 +341,17 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 				 thestaffstruct);
 	  insert_staff (si, thestaffstruct, action, addat);
 #ifdef _HAVE_JACK_
-	  //err = create_jack_midi_port(numstaffs, thestaffstruct->denemo_name->str);
+      thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
 #endif
 	}
       else
 	{
+	  thestaffstruct->jack_midi_out_port = -1;
 	  ret = staff_properties_change (&itp);
+#ifdef _HAVE_JACK_
+	  thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
+#endif
+
 
 	  if (ret)
 	    {
@@ -354,9 +367,6 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	         the next staff. 
 	       */
 	      si->leftmeasurenum = 1;
-#ifdef _HAVE_JACK_
-	   //   err = create_jack_midi_port(numstaffs, itp.staff->denemo_name->str);
-#endif
 	    }
 	  else
 	    {
@@ -372,14 +382,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
     {
       insert_staff (si, thestaffstruct, action, addat);
       si->leftmeasurenum = 1;
-#ifdef _HAVE_JACK_
-      	  //    err = create_jack_midi_port(numstaffs, itp.staff->denemo_name->str);
-#endif
     }
 #ifdef _HAVE_JACK_
-  if (action == INITIAL || action == ADDFROMLOAD || action == NEWVOICE 
-		  || (action != INITIAL && action != ADDFROMLOAD && action != NEWVOICE))
-  	err = create_jack_midi_port(thestaffstruct->jack_midi_out_port, thestaffstruct->denemo_name->str);
+      //thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
 #endif
 
   //si->haschanged = TRUE;
@@ -412,13 +417,11 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
 {
   DenemoScore *si = gui->si;
   DenemoStaff *curstaffstruct = si->currentstaff->data;
-    
-#ifdef _HAVE_JACK_
-  int err;
-  //if (interactive)
-     err = remove_jack_midi_port(curstaffstruct->jack_midi_out_port);
-#endif
  
+#ifdef _HAVE_JACK_
+  int err = remove_jack_midi_port(curstaffstruct->jack_midi_out_port);
+#endif
+
   if(interactive && !confirm_deletestaff_custom_scoreblock(gui))
     return;
   if(si->currentstaff==NULL)
@@ -430,6 +433,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     return;
   if(interactive &&  (curstaffstruct->context!=DENEMO_NONE))
     give_info = TRUE;
+    
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
