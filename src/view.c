@@ -1495,6 +1495,11 @@ void free_gui(DenemoGUI *gui)
     free_score(gui);
   }
   delete_directives(&gui->lilycontrol.directives);
+#ifdef _HAVE_JACK_
+  //Is this the best place for this? 
+  //should this be done by free_score(gui)?
+  remove_all_jack_midi_ports(); 
+#endif
   g_list_free(gui->movements);
   gui->movements = NULL;
   if(gui->custom_scoreblocks) {
