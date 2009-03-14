@@ -45,7 +45,7 @@
 #define EXTRA_ACCELS "extra.accels"
 
 
-void newview(GtkAction*, gpointer param);
+/* void newview(GtkAction*, gpointer param); */
 
 void free_gui(DenemoGUI *gui);/* frees all movement data from gui, leaving gui interface intact */
 void addhistorymenuitem(gchar *filename);

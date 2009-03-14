@@ -910,7 +910,21 @@ file_newwrapper (GtkAction * action, gpointer param)
   else
     {
       deletescore(NULL, gui);
-    };
+    }
+  open_user_default_template();
+
+}
+
+/* open_user_default_template
+ * open the user's standard template if there is one
+ **/
+void
+open_user_default_template(void) {
+  gchar *filename = g_build_filename(locatedotdenemo(), "templates", "default.denemo", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+    open_for_real(filename, Denemo.gui, TRUE, REPLACE_SCORE);
+  }
+  g_free(filename);
 }
 
 /**

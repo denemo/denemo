@@ -23,6 +23,9 @@ void
 file_add_movements (GtkAction *action, DenemoScriptParam * param);
 
 void
+open_user_default_template(void);
+
+void
 system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
 void
 system_example_open_with_check (GtkAction *action, DenemoScriptParam * param);

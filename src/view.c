@@ -31,7 +31,10 @@
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
-
+static void
+newview (GtkAction *action, gpointer param);
+static void
+newtab (GtkAction *action, gpointer param);
 static void
 closewrapper (GtkAction *action, gpointer param);
 static gboolean
@@ -1109,7 +1112,7 @@ void inner_main(void*closure, int argc, char **argv){
   create_window();
   
   /* create the first tab */
-  newview (NULL, NULL);
+  newtab (NULL, NULL);
   load_default_keymap_file();
 
   //insert mode on startup - should be a pref FIXME
@@ -1418,11 +1421,9 @@ INSTALL_PUT(score, ty);
   */
 
   denemo_scheme_init();
-
-    process_command_line(argc, argv);
- /* Now launch into the main gtk event loop and we're all set */
+  process_command_line(argc, argv);
+  /* Now launch into the main gtk event loop and we're all set */
   gtk_main();
-
 }
 
 
@@ -1595,7 +1596,7 @@ mycommands (GtkAction *action, gpointer param)
 void
 openinnew (GtkAction *action, gpointer param)
 {
-  newview (NULL, param);
+  newtab (NULL, param);
   file_open_with_check (NULL, param);
 }
 
@@ -4006,6 +4007,15 @@ Really we should change the default for the class.*/
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
 }   /* create window */
 
+
+static void
+newview (GtkAction *action, gpointer param)
+{
+  newtab(NULL, NULL);
+  //should we load init.denemo here as well???
+  open_user_default_template();
+}
+
 /**
  * Creates a new DenemoGUI structure represented by a tab in a notebook to control one musical score
  * of possibly several movements. 
@@ -4014,8 +4024,7 @@ Really we should change the default for the class.*/
  * 
  */
 void
-newview (GtkAction *action, gpointer param)
-{
+newtab (GtkAction *action, gpointer param) {
   GtkActionGroup *action_group=Denemo.action_group;
   //  if(Denemo.guis==NULL)
   //    action_group = create_window();
