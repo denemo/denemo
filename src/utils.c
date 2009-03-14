@@ -868,7 +868,11 @@ void write_status(DenemoGUI *gui) {
   else if(gui->si->headerinfo.piece->len)
     status = gui->si->headerinfo.piece->str;
   else
-    status = "";
+    status = "(no titles)";
+  //  if(gui->si->headerinfo.subtitle->len)
+  //    g_print("note we have the suntitle %s\n", gui->si->headerinfo.subtitle->str);
+  //  if(gui->si->headerinfo.piece->len)
+  //  g_print("note we have the piece %s\n", gui->si->headerinfo.piece->str);
   status = g_strdup_printf("%s: %s", status, selection);
 
   g_free(selection);
