@@ -1925,7 +1925,37 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
    
       //standard score block
       gchar *score_prolog = get_prolog(gui->lilycontrol.directives);
-      g_string_append_printf (scoreblock, "\\score {\n<<%s <<\n", score_prolog);
+      g_string_append_printf (scoreblock, "\\score {\n");
+
+#ifdef SOMELILYPONDVERSION
+      /* \header block */
+      g_string_append_printf(scoreblock, "\\header{\n");
+#define HEADER(field) if(si->headerinfo.field->len) \
+g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.field->str);
+      HEADER(title);
+      HEADER(subtitle);
+      HEADER(poet);
+      HEADER(composer);
+      HEADER(meter);
+      HEADER(piece);
+      HEADER(opus);
+      HEADER(arranger);
+      HEADER(instrument);
+      HEADER(dedication);
+      HEADER(head);
+      HEADER(copyright);
+      HEADER(footer);
+#undef HEADER
+      if(si->headerinfo.extra->len)
+	g_string_append_printf(scoreblock, ""TAB"%s\n",si->headerinfo.extra->str );    
+     
+      g_string_append_printf(scoreblock, ""TAB"}\n\n"); /*end of  \header block */
+#endif
+
+      g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
+
+
+
       g_free(score_prolog);
     }
  
@@ -2027,6 +2057,8 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
       g_string_append_printf(scoreblock, ""TAB"}\n");
      
+
+#ifndef SOMELILYPONDVERSION
       /* \header block */
       g_string_append_printf(scoreblock, "\\header{\n");
 #define HEADER(field) if(si->headerinfo.field->len) \
@@ -2044,14 +2076,15 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
       HEADER(head);
       HEADER(copyright);
       HEADER(footer);
-
+#undef HEADER
       if(si->headerinfo.extra->len)
-	g_string_append_printf(scoreblock, ""TAB"%s\n",si->headerinfo.extra->str );
+	g_string_append_printf(scoreblock, ""TAB"%s\n",si->headerinfo.extra->str );    
      
-      /*end of  \header block */
-      g_string_append_printf(scoreblock, ""TAB"}\n\n");
-      /*end of \score block */
-      g_string_append_printf(scoreblock, "}\n");
+      g_string_append_printf(scoreblock, ""TAB"}\n\n"); /*end of  \header block */
+#endif
+
+     
+      g_string_append_printf(scoreblock, "}\n"); /*end of \score block */
  
 
       /* any markup after score block */
