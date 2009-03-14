@@ -489,7 +489,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
     }
 
   gtk_entry_set_text(GTK_ENTRY(GTK_BIN(papersize)->child), 
-		     gui->lilycontrol.papersize->str);
+		    gui->lilycontrol.papersize->len? gui->lilycontrol.papersize->str:"");
   gtk_table_attach(GTK_TABLE(table), papersize,1,2,0,1,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
@@ -506,7 +506,7 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
     }
   gchar *tmp;
   //tmp = g_strdup_printf( "%d", gui->lilycontrol.fontsize);
-  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->str );
+  gtk_entry_set_text (GTK_ENTRY (GTK_BIN(fontsize)->child),  gui->lilycontrol.staffsize->len?gui->lilycontrol.staffsize->str:"");
   //g_free(tmp);
   gtk_table_attach(GTK_TABLE(table), fontsize, 1,2,1,2,
                    (GtkAttachOptions) (GTK_FILL),
@@ -522,8 +522,8 @@ papersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_table_attach(GTK_TABLE(table), lilyversion, 1,2,2,3,
                    (GtkAttachOptions) (GTK_FILL),
                    (GtkAttachOptions) (0), 0, 0);
-  gtk_entry_set_text(GTK_ENTRY(lilyversion), 
-		     gui->lilycontrol.lilyversion->str);
+  gtk_entry_set_text(GTK_ENTRY(lilyversion), gui->lilycontrol.lilyversion->len?
+		     gui->lilycontrol.lilyversion->str:"");
 
 
 
@@ -773,7 +773,7 @@ headersetup(GtkWidget *notebook, DenemoGUI *gui, gboolean isnotebook)
   gtk_table_set_col_spacings (GTK_TABLE (table), 8);
 
   /** title **/
-#define SET_TEXT(label) gtk_entry_set_text (GTK_ENTRY (label), gui->si->headerinfo.label->str);
+#define SET_TEXT(label) gtk_entry_set_text (GTK_ENTRY (label), gui->si->headerinfo.label->len?gui->si->headerinfo.label->str:"");
   label = gtk_label_new(_("Title"));
   gtk_table_attach(GTK_TABLE(table), label, 0,1,1,2,
                    (GtkAttachOptions) (GTK_FILL),
