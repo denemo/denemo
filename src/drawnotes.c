@@ -555,7 +555,10 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
        The same mechanism will apply to things attached to notes, and to standalone LilyPond directives.
       */
 
-     { GList *g = thechord.directives;
+	
+
+    }				/* end else if there are notes in the chord*/
+  { GList *g = thechord.directives;
       gint count = 0;
       for(;g;g=g->next) {
 	DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -578,12 +581,8 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
 	  count += 16;
 	}
-      } 
-     }
-	
-
-    }				/* end else */
-
+      } //for each chord directive
+  }//block displaying chord directives
 }
 
 
