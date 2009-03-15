@@ -244,7 +244,7 @@
 
   <sect1>
     <title>Getting Started</title>
-    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/denemo/actions/init.denemo (where ~ means your home directory).
+    <para>On starting a Denemo up to three music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory). Finally (and every time you ask for a new blank score) your default template (~/.denemo/templates/default.denemo) is loaded. In this file you can keep your favorite paper margins etc.
 </para>
     <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. If you have a Numeric Keypad you may wish to start with an alternative set (Edit-&gt;Customize Commands Shortcuts...-&gt;Manage Command Set and click on "Load a Standard Command Set" to get this. Save it for next time using "Save as Default Command Set").
 </para>
