@@ -1274,7 +1274,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   //g_print("making %s\n", voice_name->str);
   insert_music_section(gui, voice_name->str);
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, voice_name->str));
-  curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);//FIXME remove this mark at the end of the output of this staff...
+  curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);//we remove this mark at the end of the output of this staff... gtk_text_buffer_delete_mark (GtkTextBuffer *buffer, GtkTextMark *mark);
   
   /* a button and mark for the lyrics of this staff */
   GString *lyrics_name = g_string_new(movement);
@@ -1578,6 +1578,9 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
     }
+
+
+  gtk_text_buffer_delete_mark (gui->textbuffer, curmark);
   g_string_free(fakechords_name, TRUE);
 
   g_string_free(str, TRUE);
@@ -1985,10 +1988,11 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
 	  if (curstaffstruct->hasfakechords)
 	    g_string_append_printf(scoreblock, ""TAB""TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
 				   movement_name->str, voice_name->str);
+#if 0	  
+CHANGE THIS SO THAT str is a definition of what to put in scoreblock (output these to the textbuffer) and scoreblock has the uses of them which gets output at the end...
+#endif
 	  GString *str = g_string_new("");
-	  
 	  gchar *staff_prolog_insert =  get_prolog(curstaffstruct->staff_directives);
-
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
 	      g_string_append_printf(str, "\\new ChoirStaff %s << \n", staff_prolog_insert);
@@ -1997,15 +2001,18 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
 	      g_string_append_printf(str, "\\new PianoStaff %s << \n", staff_prolog_insert);
 	  }
-
 	  if(curstaffstruct->voicenumber == 1)
 	    g_string_append_printf(str, "\\new Staff %s << {\n", staff_prolog_insert);
 	  else
 	    g_string_append_printf(str, "\\new Voice {\n");
+	  g_free(staff_prolog_insert);
+
+
+
+	  //I think the next bit is in the wrong place to do anything.
 	  if (curstaffstruct->no_of_lines != 5)
 	    g_string_append_printf(str, "\n"TAB"\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
-	  g_free(staff_prolog_insert);
 	  const gchar *endofblock;
 	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
 	    endofblock = "";
@@ -2014,7 +2021,6 @@ g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.
 	  
 	  if (curstaffstruct->voicenumber != 2)
 	    {
-	    
 	      g_string_append_printf(scoreblock, "%s"TAB""TAB"\\%s%sMusicVoice\n"TAB""TAB"}\n"TAB""TAB"%s\n",str->str, movement_name->str, voice_name->str, endofblock);
 	      if (curstaffstruct->haslyrics)
 	      {
