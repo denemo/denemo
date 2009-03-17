@@ -450,7 +450,7 @@ remove_all_jack_midi_ports(){
 	err = 0;
 
 	
-	for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
+	for (i=0;i < MAX_NUMBER_OF_TRACKS;i++){
 
 	  if (output_ports[i] != NULL){
 
