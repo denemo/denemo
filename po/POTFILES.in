@@ -54,7 +54,6 @@ src/staffops.c
 src/staffpropdialog.c
 src/timedialog.c
 src/tomeasuredialog.c
-src/transpose.c
 src/tupletops.c
 src/view.c
 src/entries.h
