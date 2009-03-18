@@ -311,7 +311,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
       READXMLENTRY(sequencer)
-
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "createclones"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -351,6 +350,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(resolution)
       READINTXMLENTRY(overlays)
       READINTXMLENTRY(continuous)
+      READINTXMLENTRY(jacktransport)
 
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilystyleentry"))
 	{
@@ -610,6 +610,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(midi_in);
   WRITEXMLENTRY(sequencer);
 
+
   if (prefs->lilyversion)
     xmlNewChild (child, NULL, (xmlChar *) "lilyversion",
 		 (xmlChar *) prefs->lilyversion->str);
@@ -632,6 +633,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(resolution);
   WRITEINTXMLENTRY(overlays);
   WRITEINTXMLENTRY(continuous);
+  WRITEINTXMLENTRY(jacktransport);
 
   newXMLIntChild (child, (xmlChar *) "rtcs", prefs->rtcs);
   newXMLIntChild (child, (xmlChar *) "notationpalette",
