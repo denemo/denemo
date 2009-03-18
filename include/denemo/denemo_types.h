@@ -320,6 +320,7 @@ typedef struct DenemoPrefs
   gboolean rtcs; /**< Real time csound */
   GString *sequencer;  /**< path to sequencer device */
   GString *midi_in;  /**< path to midi_in device */
+  gboolean *jacktransport; /**< toggle on and off jack transport */
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *texteditor; /**< texteditor for editing scripts and lilypond files */

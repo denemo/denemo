@@ -24,18 +24,19 @@ struct callbackdata
 {
   DenemoPrefs *prefs;
   GtkWidget *lilypathentry;
-  GtkWidget *checkimmediateplayback;
-  GtkWidget *checkautosaveparts;
-  GtkWidget *checkautosave;
-  GtkWidget *checknotationpalette;
-  GtkWidget *checkrhythmpalette;
-  GtkWidget *checkarticulationpalette;
-  GtkWidget *autosaveentry;
+  GtkWidget *immediateplayback;
+  GtkWidget *saveparts;
+  GtkWidget *autosave;
+  GtkWidget *notation_palette;
+  GtkWidget *rhythm_palette;
+  GtkWidget *articulation_palette;
+  GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browserentry;
   GtkWidget *pdfviewer;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
+  GtkWidget *jacktransport;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *temperament;
@@ -59,9 +60,9 @@ struct callbackdata1
  * clicked
  */
 static void
-toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosaveentry)
+toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
 {
-  gtk_widget_set_sensitive (autosaveentry,
+  gtk_widget_set_sensitive (autosave_timeout,
 			    gtk_toggle_button_get_active (togglebutton));
 }
 
@@ -109,31 +110,29 @@ set_preferences (struct callbackdata *cbdata)
   DenemoPrefs *prefs = cbdata->prefs;
 
 
-  g_string_assign (prefs->lilypath,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->lilypathentry)));
-  g_string_assign (prefs->browser,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->browserentry)));
-  g_string_assign (prefs->pdfviewer,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->pdfviewer)));
-  g_string_assign (prefs->texteditor,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->texteditor)));
-  g_string_assign (prefs->denemopath,
-                   gtk_entry_get_text (GTK_ENTRY (cbdata->denemopath)));
-
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
                    gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
 
 
+  g_string_assign (prefs->lilypath,
+		   gtk_entry_get_text (GTK_ENTRY (cbdata->lilypathentry)));
+  g_string_assign (prefs->browser,
+		   gtk_entry_get_text (GTK_ENTRY (cbdata->browserentry)));
+  
+  ASSIGNTEXT(pdfviewer);
+  ASSIGNTEXT(texteditor);
+  ASSIGNTEXT(denemopath);
   ASSIGNTEXT(sequencer);
   ASSIGNTEXT(midi_in);
-
+  
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->field));
 
   ASSIGNTEXT(sequencer);
   ASSIGNTEXT(midi_in);
+  ASSIGNBOOLEAN(jacktransport);
   ASSIGNTEXT(temperament);
   ASSIGNBOOLEAN(strictshortcuts);
   ASSIGNBOOLEAN(overlays);
@@ -145,29 +144,14 @@ set_preferences (struct callbackdata *cbdata)
 
   ASSIGNINT(resolution);
   ASSIGNINT(maxhistory);
-
-  prefs->immediateplayback =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
-				  (cbdata->checkimmediateplayback));
-
-  prefs->autosave =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checkautosave));
-  prefs->autosave_timeout =
-    gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON
-				      (cbdata->autosaveentry));
-
-  prefs->articulation_palette =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
-				  (cbdata->checkarticulationpalette));
-  prefs->notation_palette =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
-				  (cbdata->checknotationpalette));
-  prefs->rhythm_palette =
-    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
-				  (cbdata->checkrhythmpalette));
-  prefs->saveparts =
-  	gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-  				  (cbdata->checkautosaveparts));
+  
+  ASSIGNBOOLEAN(immediateplayback);
+  ASSIGNBOOLEAN(autosave);
+  ASSIGNINT(autosave_timeout);
+  ASSIGNBOOLEAN(articulation_palette);
+  ASSIGNBOOLEAN(notation_palette);
+  ASSIGNBOOLEAN(rhythm_palette);
+  ASSIGNBOOLEAN(saveparts);
   //g_print ("Timeout %d \n", prefs->autosave_timeout);
 
   /* Now write it all to denemorc */
@@ -184,23 +168,25 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *main_vbox;
   GtkWidget *lilypathentry;
   GtkWidget *browserentry;
-  GtkWidget *checkimmediateplayback;
-  GtkWidget *checkautosaveparts;
-  GtkWidget *checkautosave;
-  GtkWidget *autosaveentry;
+  GtkWidget *immediateplayback;
+  GtkWidget *saveparts;
+  GtkWidget *autosave;
+  GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *pdfviewer;
   GtkWidget *midi_in;
   GtkWidget *sequencer;
+  GtkWidget *jacktransport;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
-  GtkWidget *checknotationpalette;
-  GtkWidget *checkrhythmpalette;
-  GtkWidget *checkarticulationpalette;
+  GtkWidget *notation_palette;
+  GtkWidget *rhythm_palette;
+  GtkWidget *articulation_palette;
   GtkWidget *strictshortcuts;
   GtkWidget *resolution;
   GtkWidget *overlays;
   GtkWidget *continuous;
+
 
 
 
@@ -232,73 +218,48 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
 
+#define NEWPAGE(thelabel) \
+    main_vbox = gtk_vbox_new (FALSE, 1);\
+    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);\
+    gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,\
+                                                           _(thelabel));
+
+#define BOOLEANENTRY(thelabel, field) \
+  field =\
+    gtk_check_button_new_with_label (thelabel); \
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
+				Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);
+
+
   /*
    * Note entry settings
    */
-  main_vbox = gtk_vbox_new (FALSE, 1);
   
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("View"));
-
-  checkimmediateplayback =
-    gtk_check_button_new_with_label (_
-				     ("Play back entered notes immediately"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkimmediateplayback),
-				Denemo.prefs.immediateplayback);
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), checkimmediateplayback, FALSE, TRUE, 0);
-
-  checknotationpalette =
-    gtk_check_button_new_with_label (_("Display durations toolbar"));
-  gtk_widget_set_sensitive (checknotationpalette, TRUE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checknotationpalette),
-				Denemo.prefs.notation_palette);
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), checknotationpalette      , FALSE, TRUE, 0);
- 
-
-  checkarticulationpalette =
-    gtk_check_button_new_with_label (_("Display articulation palette"));
-  gtk_widget_set_sensitive (checkarticulationpalette, TRUE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkarticulationpalette),
-				Denemo.prefs.articulation_palette);
-  gtk_box_pack_start (GTK_BOX (main_vbox), checkarticulationpalette   , FALSE, TRUE, 0);
-
-
-  checkrhythmpalette =
-    gtk_check_button_new_with_label (_("Display rhythm pattern toolbar"));
-  gtk_widget_set_sensitive (checkrhythmpalette, TRUE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkrhythmpalette),
-				Denemo.prefs.rhythm_palette);
-  gtk_box_pack_start (GTK_BOX (main_vbox),checkrhythmpalette, FALSE, TRUE, 0);
-
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-
-  checkautosave = gtk_check_button_new_with_label (_("Autosave every"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkautosave),
+  NEWPAGE("View");
+  
+  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
+  BOOLEANENTRY("Display duration toolbar", notation_palette);
+  BOOLEANENTRY("Display articulation palette", articulation_palette);
+  BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
+  autosave = gtk_check_button_new_with_label (_("Autosave every"));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
 				Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), checkautosave, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
 
-  autosaveentry = gtk_spin_button_new_with_range (1, 50, 1.0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosaveentry),
+  autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout),
 			     Denemo.prefs.autosave_timeout);
-  gtk_widget_set_sensitive (autosaveentry, Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), autosaveentry, FALSE, FALSE, 0);
+  gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
 
   label = gtk_label_new (_("minute(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  g_signal_connect (GTK_OBJECT (checkautosave),
-		    "toggled", G_CALLBACK (toggle_autosave), autosaveentry);
+  g_signal_connect (GTK_OBJECT (autosave),
+		    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
 
 
-  checkautosaveparts = gtk_check_button_new_with_label(_("Autosave Parts"));
-  gtk_widget_set_sensitive (checkautosaveparts, FALSE);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkautosaveparts),
-				Denemo.prefs.saveparts);
-  gtk_box_pack_start (GTK_BOX (main_vbox), checkautosaveparts, FALSE, TRUE, 0);
+  BOOLEANENTRY("Autosave Parts", saveparts);
 
 #define TEXTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -319,27 +280,9 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Pitch Entry Parameters 
    */
-
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  
-
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Pitch Entry"));
-
-
-
+  NEWPAGE("Pitch Entry");
 
   TEXTENTRY("Temperament", temperament)
-
-#define BOOLEANENTRY(thelabel, field) \
-  field =\
-    gtk_check_button_new_with_label (thelabel); \
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
-				Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);
-
   BOOLEANENTRY("Use Overlays", overlays);
   BOOLEANENTRY("Continuous Entry", continuous);
 
@@ -347,16 +290,7 @@ preferences_change (GtkAction *action, gpointer param)
  /*
    * Shortcut control 
    */
-
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  
-
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Shortcuts"));
-
-
+  NEWPAGE("Shortcuts");
 
   //  TEXTENTRY("Strict", strictshortcuts)
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
@@ -364,16 +298,8 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * External (Helper) Programs 
    */
-
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  
-
-
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Externals"));
-
-  
+  NEWPAGE("Externals");
+ 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
 
@@ -517,24 +443,24 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Excerpt Menu 
    */
-
-  main_vbox = gtk_vbox_new (FALSE, 1);
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Excerpt"));
-
+  NEWPAGE("Excerpt");
+ 
   INTENTRY_LIMITS(_("resolution"), resolution, 72, 600);
+
+  /*
+   * Jack Menu
+   */
+#ifdef _HAVE_JACK_
+  NEWPAGE("JACK");
+  BOOLEANENTRY("Enable Jack Transport", jacktransport);
+#endif
+
 
   /*
    * Help settings
    */
-
-  main_vbox = gtk_vbox_new (FALSE, 1);
+  NEWPAGE("Help Settings");
   
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), main_vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), main_vbox,
-				   _("Help Settings"));
-
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
 
@@ -550,7 +476,7 @@ preferences_change (GtkAction *action, gpointer param)
   /* Set up the callback data */
   cbdata.prefs = &Denemo.prefs;
   cbdata.lilypathentry = lilypathentry;
-  cbdata.checkimmediateplayback = checkimmediateplayback;
+  cbdata.immediateplayback = immediateplayback;
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
@@ -560,22 +486,21 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(resolution);  
   SETCALLBACKDATA(overlays);
   SETCALLBACKDATA(continuous);
-
-  cbdata.checkautosaveparts = checkautosaveparts;
-  cbdata.checkarticulationpalette = checkarticulationpalette;
-  cbdata.checknotationpalette = checknotationpalette;
-  cbdata.checkrhythmpalette = checkrhythmpalette;
-  cbdata.checkautosave = checkautosave;
-  cbdata.autosaveentry = autosaveentry;
-  cbdata.maxhistory = maxhistory;
-  cbdata.browserentry = browserentry;
-  cbdata.pdfviewer = pdfviewer;
-  cbdata.texteditor = texteditor;
-  cbdata.denemopath = denemopath;
+  SETCALLBACKDATA(jacktransport);
+  SETCALLBACKDATA(saveparts);
+  SETCALLBACKDATA(notation_palette); 
+  SETCALLBACKDATA(rhythm_palette);
+  SETCALLBACKDATA(autosave); 
+  SETCALLBACKDATA(autosave_timeout); 
+  SETCALLBACKDATA(maxhistory);
+  SETCALLBACKDATA(browserentry);
+  SETCALLBACKDATA(pdfviewer);
+  SETCALLBACKDATA(texteditor);
+  SETCALLBACKDATA(denemopath);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_entry_set_activates_default (GTK_ENTRY (lilypathentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (autosaveentry), TRUE);
+  gtk_entry_set_activates_default (GTK_ENTRY (autosave_timeout), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (maxhistory), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (browserentry), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (pdfviewer), TRUE);

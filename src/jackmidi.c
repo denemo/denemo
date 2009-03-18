@@ -553,7 +553,10 @@ jack_midi_playback_control (gboolean start)
   DenemoGUI *gui = Denemo.gui;
   gchar *mididata = NULL;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
-  
+  /* set tranport on/off */
+  use_transport = Denemo.prefs.jacktransport; 
+  g_debug("\nTransport set to %d\n", use_transport);
+
   /*stop_midi_playback*/
   if (!start) {
     stop_midi_output = 1;
