@@ -653,6 +653,22 @@ GET_INT_FIELD_FUNC(score, minpixels)
 GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
 
+
+PUT_INT_FIELD_FUNC(note, override)
+PUT_INT_FIELD_FUNC(chord, override)
+PUT_INT_FIELD_FUNCS(staff, override)
+PUT_INT_FIELD_FUNCV(voice, override)
+PUT_INT_FIELD_FUNC(score, override)
+     //standalone has nothing to override
+GET_INT_FIELD_FUNC(note, override)
+GET_INT_FIELD_FUNC(chord, override)
+GET_INT_FIELD_FUNC(staff, override)
+GET_INT_FIELD_FUNC(voice, override)
+GET_INT_FIELD_FUNC(score, override)
+
+
+
+
 PUT_INT_FIELD_FUNC(note, x)
 PUT_INT_FIELD_FUNC(chord, x)
 PUT_INT_FIELD_FUNCS(staff, x)

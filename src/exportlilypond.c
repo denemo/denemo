@@ -1229,6 +1229,20 @@ static gchar *get_prolog(GList *g) {
   }
 return g_string_free(ret, FALSE);
 }
+
+/* returns the directives flags ORd together */
+static gint get_override(GList *g) {
+  gint ret = 0;
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    ret |= d->override;
+  }
+  return ret;
+}
+
+
+
+
 /**
  * Output a Denemo Staff in Lilypond syntax
  * A section is created in the gui->textbuffer and the music inserted into it.
@@ -1967,6 +1981,7 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
       {
 	gint visible_part=1;/* 1 for visible -1 for invisible */ 
 	curstaffstruct = (DenemoStaff *) curstaff->data;
+	gint staff_override = get_override(curstaffstruct->staff_directives);
 	GString *voice_name = g_string_new("");
 	GString *staff_name = g_string_new("");
 	GString *name = g_string_new("");
@@ -1998,8 +2013,6 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	    g_string_append_printf(scoreblock, TAB TAB"\\new ChordNames \\chordmode { \\%s%sChords }\n", 
 				   movement_name->str, voice_name->str);
 	  
-
-
 	  GString *thestr = g_string_new("");
 	  gchar *staff_prolog_insert =  get_prolog(curstaffstruct->staff_directives);
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
@@ -2011,9 +2024,10 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	      g_string_append_printf(thestr, "\\new PianoStaff %s << \n", staff_prolog_insert);
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
-
-
-	    g_string_append_printf(definitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
+	    if(!staff_override)
+	      g_string_append_printf(definitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
+	    else
+	      g_string_append_printf(definitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
 	    g_string_append_printf(thestr, "\\%s%s\n", movement_name->str, staff_name->str);
 	  }
 	  else

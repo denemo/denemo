@@ -346,7 +346,9 @@ typedef struct DenemoDirective
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
   GString *graphic_name; /**< name of the graphic to be drawn */
   gint width, height; /**< width and height of the bitmap */
-
+#define DENEMO_OVERRIDE_LILYPOND (1<<0)
+#define DENEMO_OVERRIDE_GRAPHIC (1<<2)
+  gint override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive */
   gboolean locked;/**< If true the directive cannot be deleted easily */
   /* MIDI attributes not done yet */
 } DenemoDirective;

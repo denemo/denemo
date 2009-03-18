@@ -774,6 +774,24 @@ INT_GETFUNC_DEF(score, minpixels)
 
      //end block to copy for new int field in directive
 
+INT_PUTFUNC_DEF(note, override)
+INT_PUTFUNC_DEF(chord, override)
+     //INT_PUTFUNC_DEF(standalone, override)
+INT_PUTFUNC_DEF(staff, override)
+INT_PUTFUNC_DEF(voice, override)
+INT_PUTFUNC_DEF(score, override)
+INT_GETFUNC_DEF(note, override)
+INT_GETFUNC_DEF(chord, override)
+     //INT_GETFUNC_DEF(standalone, override)
+INT_GETFUNC_DEF(staff, override)
+INT_GETFUNC_DEF(voice, override)
+INT_GETFUNC_DEF(score, override)
+
+
+
+
+
+
 INT_PUTFUNC_DEF(note, y)
 INT_PUTFUNC_DEF(chord, y)
 INT_PUTFUNC_DEF(standalone, y)
@@ -1217,7 +1235,6 @@ Then
 
   //block to repeat for new  directive fields 
 
-
   INSTALL_GET(standalone, minpixels);
   INSTALL_GET(chord, minpixels);
   INSTALL_GET(note, minpixels);
@@ -1232,9 +1249,21 @@ Then
   INSTALL_PUT(voice, minpixels);
   INSTALL_PUT(score, minpixels);
 
-
-
   //end block to repeat for new  directive fields 
+
+  //  INSTALL_GET(standalone, override);
+  INSTALL_GET(chord, override);
+  INSTALL_GET(note, override);
+  INSTALL_GET(staff, override);
+  INSTALL_GET(voice, override);
+  INSTALL_GET(score, override);
+
+  //  INSTALL_PUT(standalone, override);
+  INSTALL_PUT(chord, override);
+  INSTALL_PUT(note, override);
+  INSTALL_PUT(staff, override);
+  INSTALL_PUT(voice, override);
+  INSTALL_PUT(score, override);
 
 
   //graphic 

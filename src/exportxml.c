@@ -526,6 +526,8 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
     DO_INTDIREC(ty);
     DO_INTDIREC(gx);
     DO_INTDIREC(gy);
+    DO_INTDIREC(override);
+
 #undef DO_DIREC
 #undef DO_INTDIREC
   }
@@ -1241,6 +1243,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			      DO_INTDIREC(ty);
 			      DO_INTDIREC(gx);
 			      DO_INTDIREC(gy);
+			      DO_INTDIREC(override);
 
 
 #undef DO_DIREC
