@@ -560,6 +560,7 @@ jack_midi_playback_control (gboolean start)
   /*stop_midi_playback*/
   if (!start) {
     stop_midi_output = 1;
+    jack_transport_stop(jack_client);
     return 0;
   }
   mididata = get_temp_filename ("denemoplayback.mid");
