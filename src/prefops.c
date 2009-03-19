@@ -351,46 +351,12 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(overlays)
       READINTXMLENTRY(continuous)
       READINTXMLENTRY(jacktransport)
-
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilystyleentry"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->lilyentrystyle = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "notationpalette"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->notation_palette = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "articulationpalette"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->articulation_palette = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "rhythmpalette"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->rhythm_palette = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
+      READINTXMLENTRY(jack_at_startup)
+      READINTXMLENTRY(lilyentrystyle)
+      READINTXMLENTRY(notation_palette)
+      READINTXMLENTRY(articulation_palette)
+      READINTXMLENTRY(rhythm_palette) 
+      
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilyversion"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -401,16 +367,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-      else if(0 == xmlStrcmp(cur->name, (const xmlChar *) "saveparts"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString(doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->saveparts = atoi((gchar *) tmp);
-	      //g_print ("Autosave Parts %s\n", tmp);
-	      xmlFree(tmp);	
-	    }
-	}
+      READINTXMLENTRY(saveparts)
+      
       cur = cur->next;
     }
   return;
@@ -609,11 +567,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(temperament);
   WRITEXMLENTRY(midi_in);
   WRITEXMLENTRY(sequencer);
-
-
-  if (prefs->lilyversion)
-    xmlNewChild (child, NULL, (xmlChar *) "lilyversion",
-		 (xmlChar *) prefs->lilyversion->str);
+  WRITEXMLENTRY(lilyversion);
+    
   newXMLIntChild (child, (xmlChar *) "autosave", prefs->autosave);
   newXMLIntChild (child, (xmlChar *) "autosavetimeout",
 		  prefs->autosave_timeout);
@@ -634,8 +589,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(overlays);
   WRITEINTXMLENTRY(continuous);
   WRITEINTXMLENTRY(jacktransport);
-
-  newXMLIntChild (child, (xmlChar *) "rtcs", prefs->rtcs);
+  WRITEINTXMLENTRY(jack_at_startup);
+  WRITEINTXMLENTRY(rtcs);
   newXMLIntChild (child, (xmlChar *) "notationpalette",
 		  prefs->notation_palette);
   newXMLIntChild (child, (xmlChar *) "articulationpalette",

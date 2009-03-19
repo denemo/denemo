@@ -37,6 +37,7 @@ struct callbackdata
   GtkWidget *sequencer;
   GtkWidget *midi_in;
   GtkWidget *jacktransport;
+  GtkWidget *jack_at_startup;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *temperament;
@@ -133,6 +134,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(sequencer);
   ASSIGNTEXT(midi_in);
   ASSIGNBOOLEAN(jacktransport);
+  ASSIGNBOOLEAN(jack_at_startup);
   ASSIGNTEXT(temperament);
   ASSIGNBOOLEAN(strictshortcuts);
   ASSIGNBOOLEAN(overlays);
@@ -177,6 +179,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *midi_in;
   GtkWidget *sequencer;
   GtkWidget *jacktransport;
+  GtkWidget *jack_at_startup;
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *notation_palette;
@@ -453,6 +456,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_JACK_
   NEWPAGE("JACK");
   BOOLEANENTRY("Enable Jack Transport", jacktransport);
+  BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
 #endif
 
 
@@ -487,6 +491,7 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(overlays);
   SETCALLBACKDATA(continuous);
   SETCALLBACKDATA(jacktransport);
+  SETCALLBACKDATA(jack_at_startup);
   SETCALLBACKDATA(saveparts);
   SETCALLBACKDATA(notation_palette); 
   SETCALLBACKDATA(rhythm_palette);
