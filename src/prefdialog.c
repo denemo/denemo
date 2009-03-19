@@ -19,6 +19,9 @@
 #include "prefops.h"
 #include "utils.h"
 #include "plugin.h"
+#ifdef _HAVE_JACK_
+#include "jackmidi.h"
+#endif
 
 struct callbackdata
 {
@@ -467,7 +470,15 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("JACK");
   BOOLEANENTRY("Enable Jack Transport", jacktransport);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
+  /* Start/Restart Button */
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
+  gtk_box_pack_start (GTK_BOX (hbox), jack_activate, FALSE, FALSE, 0);
+  //jack_start_restart(jack_activate, NULL);
+  g_signal_connect (G_OBJECT (jack_activate), "clicked",
+    G_CALLBACK (jack_start_restart), (gpointer) NULL);
+
 #endif
 
 

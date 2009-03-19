@@ -493,7 +493,10 @@ rename_jack_midi_port(int port_number, char *port_name){
 
 void 
 stop_jack(void){
+  remove_all_jack_midi_ports();
+  int err = jack_port_unregister(jack_client, input_port);
   jack_deactivate(jack_client);
+  jack_client_close(jack_client);
 }
 
 int
@@ -523,6 +526,21 @@ init_jack(void){
   return err;
 }
 
+void
+jack_start_restart (void){
+  g_debug("\nJack Start/Restart button pressed\n");
+  if (jack_client == NULL){
+    g_debug("\nStarting Jack\n");
+    init_jack();
+    create_jack_midi_ports_from_score();
+  }
+  if (jack_client != NULL){
+    g_debug("\nRestarting Jack\n");
+    stop_jack();
+    init_jack();
+    create_jack_midi_ports_from_score();
+  }
+}
 
 void
 jack_midi_player (gchar *file_name) {

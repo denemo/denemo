@@ -15,11 +15,5 @@ int create_jack_midi_port(char *port_name);
 int rename_jack_midi_port(int port_number, char *port_name);
 int remove_jack_midi_port(int port_number);
 void remove_all_jack_midi_ports(void); 
-#ifdef WITH_LASH
-#include<lash/lash.h>
-void start_init_lash(lash_client_t *client);
-#endif
-
-
-
+void jack_start_restart (void);
 #endif //JACKMIDI_H
