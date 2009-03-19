@@ -104,7 +104,7 @@ setcurrentprimarystaff (DenemoScore * si)
 static void
 copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 {
-  dest->sclef = src->sclef;
+  dest->clef.type = src->clef.type;//other fields - take care if dynamic
   dest->skey = src->skey;
   dest->skey_isminor = src->skey_isminor;
   memcpy (dest->skeyaccs, src->skeyaccs, SEVENGINTS);
@@ -200,7 +200,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       action = INITIAL;
       n = 1;
 
-      thestaffstruct->sclef = DENEMO_TREBLE_CLEF;
+      thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
       thestaffstruct->skey = 0;
       thestaffstruct->skey_isminor = FALSE;
       memset (thestaffstruct->skeyaccs, 0, SEVENGINTS);
@@ -490,7 +490,7 @@ beamsandstemdirswholestaff (DenemoStaff * thestaff)
   measurenode *curmeasure;
   gint nclef, time1, time2, stem_directive;
 
-  nclef = thestaff->sclef;
+  nclef = thestaff->clef.type;
   time1 = thestaff->stime1;
   time2 = thestaff->stime2;
   stem_directive = DENEMO_STEMBOTH;
@@ -531,7 +531,7 @@ showwhichaccidentalswholestaff (DenemoStaff * thestaff)
 void
 fixnoteheights (DenemoStaff * thestaff)
 {
-  gint nclef = thestaff->sclef;
+  gint nclef = thestaff->clef.type;
   gint time1 = thestaff->stime1;
   gint time2 = thestaff->stime2;
   gint initialclef;

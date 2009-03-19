@@ -95,7 +95,7 @@ set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
   }
   if ((obj = first_context (firstmeasure, CLEF)))
     {
-      curstaffstruct->sclef = ((clef *) obj->object)->type;
+      curstaffstruct->clef.type = ((clef *) obj->object)->type;
       find_leftmost_staffcontext (curstaffstruct, si);
       fixnoteheights (curstaffstruct);
       delete_context (firstmeasure, obj);
@@ -180,7 +180,7 @@ cleftypefromname (gchar * str)
 void
 set_clef (DenemoScore * si, gchar * str)
 {
-  ((DenemoStaff *) si->currentstaff->data)->sclef = cleftypefromname (str);
+  ((DenemoStaff *) si->currentstaff->data)->clef.type = cleftypefromname (str);
 }
 
 void
@@ -528,7 +528,7 @@ anewstaff (DenemoScore * si, GString * staffname, GString * voicename)
 {
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc0 (sizeof (DenemoStaff));
 
-  thestaffstruct->sclef = DENEMO_TREBLE_CLEF;
+  thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
   thestaffstruct->stime1 = 4;
   thestaffstruct->stime2 = 4;
   thestaffstruct->no_of_lines = 5;

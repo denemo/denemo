@@ -88,9 +88,9 @@ gint
 find_prevailing_clef(DenemoScore *si) {
 DenemoStaff *curstaff = ((DenemoStaff*)si->currentstaff->data);
 DenemoObject *obj= find_context_of_object (si, CLEF);
-// g_print("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->sclef);
+// g_print("prevailing clef %d\n",  obj? ((clef *) obj->object)->type:curstaff->clef.type);
 return obj? ((clef *) obj->object)->type:
-  curstaff->sclef;
+  curstaff->clef.type;
 }
 
 /**
@@ -111,7 +111,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
   if ((obj = find_context (leftmeasure, CLEF)))
     curstaffstruct->leftmost_clefcontext = ((clef *) obj->object)->type;
   else
-    curstaffstruct->leftmost_clefcontext = curstaffstruct->sclef;
+    curstaffstruct->leftmost_clefcontext = curstaffstruct->clef.type;
   if ((obj = find_context (leftmeasure, KEYSIG)))
     curstaffstruct->leftmost_keysigcontext = ((keysig *) obj->object)->number;
   else

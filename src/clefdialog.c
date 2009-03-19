@@ -91,7 +91,7 @@ void
 dnm_setinitialclef (DenemoScore * si, DenemoStaff * curstaffstruct,
 		    enum clefs clef)
 {
-  curstaffstruct->sclef = clef;
+  curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);
   fixnoteheights (curstaffstruct);
   find_xes_in_all_measures (si);
@@ -140,7 +140,7 @@ clef_change (DenemoGUI * gui, actiontype action)
 			  COLUMN_NAME, _(clef_info[i].name),
 			  COLUMN_ID, clef_info[i].clef, -1);
 
-      if (clef_info[i].clef == curstaffstruct->sclef)
+      if (clef_info[i].clef == curstaffstruct->clef.type)
 	{
 	  gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter);
 	}

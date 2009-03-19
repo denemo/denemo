@@ -441,7 +441,7 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
        curstaff != NULL; curstaff = curstaff->next, curvoicenum++)
     {
       curstaffstruct = (DenemoStaff *) curstaff->data;
-      determineclef (curstaffstruct->sclef, &clefname, &octaveshift);
+      determineclef (curstaffstruct->clef.type, &clefname, &octaveshift);
       determinebasekey (curstaffstruct->skey_isminor ?
 			curstaffstruct->skey + 3 :
 			curstaffstruct->skey, &basekeyname);

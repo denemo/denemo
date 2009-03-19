@@ -802,7 +802,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 				(xmlChar *) "initial-voice-params", NULL);
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "staff-ref", NULL);
       xmlSetProp (curElem, (xmlChar *) "staff", (xmlChar *) staffXMLID);
-      newXMLClef (parentElem, ns, curStaffStruct->sclef);
+      newXMLClef (parentElem, ns, curStaffStruct->clef.type);
       newXMLKeySignature (parentElem, ns, curStaffStruct->skey,
 			  curStaffStruct->skey_isminor);
       curTime1 = curStaffStruct->stime1;

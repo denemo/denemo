@@ -194,7 +194,7 @@ typedef GList measurenode;
 typedef struct 
 {
   measurenode *measures; /**< This is a pointer to each measure in the staff */
-  gint sclef; /**< The initial clef see denemo_objects.h clefs */
+  clef clef; /**< The initial clef see denemo_objects.h clefs */
   gint skey; /**< The inital keysig. >0=sharps <0 = flats */  
   gint skey_isminor;  /**< Values 0 = major, 1 = minor, 2 = mode */
   gint skeyaccs[7]; /**< The initial keysignature. Values -7=Cb... -1=F, 0=C, 1=G...7=C# in a chain of fifths */

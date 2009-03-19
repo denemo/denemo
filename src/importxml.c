@@ -2258,7 +2258,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 	  }
 	else if (ELEM_NAME_EQ (childElem, "clef"))
 	  {
-	    parseClef (childElem, ns, &(curVoice->sclef));
+	    parseClef (childElem, ns, &(curVoice->clef.type));
 	  }
 	else if (ELEM_NAME_EQ (childElem, "key-signature"))
 	  {
@@ -2302,7 +2302,7 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
   xmlNodePtr childElem, objElem, notesElem = NULL;
   DenemoObject *curObj, *prevChord = NULL;
   gboolean startedBeam = FALSE;
-  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->sclef;
+  gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
   enum clefs newClef;
   gint keySig;
   gboolean isMinor;

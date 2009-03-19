@@ -1339,7 +1339,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     else
       g_string_append_printf(definitions, "%s", " \\major\n");
     /* Determine the clef */
-    determineclef (curstaffstruct->sclef, &clefname);
+    determineclef (curstaffstruct->clef.type, &clefname);
     g_string_append_printf(definitions, "%s%sClef = \\clef %s\n", movement, voice, clefname);
     g_string_append_printf(definitions, "%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			   movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
