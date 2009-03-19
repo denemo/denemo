@@ -181,7 +181,6 @@ process_midi_output(jack_nframes_t nframes)
 	jack_nframes_t	last_frame_time;
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
-	//g_print("\n*** processing midi output ***\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
 
@@ -225,12 +224,9 @@ process_midi_output(jack_nframes_t nframes)
 	}
 	
 	last_frame_time = jack_last_frame_time(jack_client);
-        //g_print("\nLast frame time = %d\n", last_frame_time);
 	/* End of song already? */
 	if (playback_started < 0)
 		return;
-	//g_print("\nplayback started = %d\n", playback_started);
-
 	/* We may push at most one byte per 0.32ms to stay below 31.25 Kbaud limit. */
 	bytes_remaining = nframes_to_ms(nframes) * rate_limit;
 
@@ -259,7 +255,7 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		bytes_remaining -= event->midi_buffer_length;
-		g_print("\nBytes Remaining = %d\n",bytes_remaining);
+		//g_print("\nBytes Remaining = %d\n",bytes_remaining);
 		if (rate_limit > 0.0 && bytes_remaining <= 0) {
 			warn_from_jack_thread_context("Rate limiting in effect.");
 			break;
@@ -409,13 +405,11 @@ create_jack_midi_port(char* port_name){
 	for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
 
 	  if (output_ports[i] == NULL){
-		  //assert(i == 0);
 	    output_ports[i] = jack_port_register(jack_client, 
 					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
 
 		if (output_ports[i] == NULL) {
 			g_critical("Could not register JACKMIDI output_port[%d] '%s'.",i, port_name);
-			//return -1;
 		}
   
 		/* clear buffer */
@@ -428,6 +422,22 @@ create_jack_midi_port(char* port_name){
 		return i;
 	  }
 	}
+}
+
+void
+create_jack_midi_ports_from_score(){
+  staffnode *curstaff;
+  DenemoStaff *curstaffstruct;
+  curstaff = Denemo.gui->si->thescore;
+  
+  while (curstaff)
+  {
+    curstaffstruct = (DenemoStaff *) curstaff->data;
+    g_debug("\nStaff name = %s\n", curstaffstruct->denemo_name->str);
+    /* Create port and assign jack port number */
+    curstaffstruct->jack_midi_out_port = create_jack_midi_port(curstaffstruct->denemo_name->str);
+    curstaff = curstaff->next;
+  }
 }
 
 int 
@@ -513,7 +523,7 @@ init_jack(void){
 
 void
 jack_midi_player (gchar *file_name) {
-
+  
   smf = smf_load(file_name);
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
