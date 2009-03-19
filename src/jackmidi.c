@@ -181,7 +181,6 @@ process_midi_output(jack_nframes_t nframes)
 	jack_nframes_t	last_frame_time;
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
-	//g_print("\n*** processing midi output ***\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
 
@@ -225,12 +224,9 @@ process_midi_output(jack_nframes_t nframes)
 	}
 	
 	last_frame_time = jack_last_frame_time(jack_client);
-        //g_print("\nLast frame time = %d\n", last_frame_time);
 	/* End of song already? */
 	if (playback_started < 0)
 		return;
-	//g_print("\nplayback started = %d\n", playback_started);
-
 	/* We may push at most one byte per 0.32ms to stay below 31.25 Kbaud limit. */
 	bytes_remaining = nframes_to_ms(nframes) * rate_limit;
 
@@ -259,7 +255,7 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		bytes_remaining -= event->midi_buffer_length;
-		g_print("\nBytes Remaining = %d\n",bytes_remaining);
+		//g_print("\nBytes Remaining = %d\n",bytes_remaining);
 		if (rate_limit > 0.0 && bytes_remaining <= 0) {
 			warn_from_jack_thread_context("Rate limiting in effect.");
 			break;
@@ -402,20 +398,18 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
  */
 int 
 create_jack_midi_port(char* port_name){
-
+  if (jack_client != NULL){
 	gint i;
 	jack_nframes_t nframes = jack_get_buffer_size(jack_client);
 	/* only assign it if the port has not been assigned already */	
 	for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
 
 	  if (output_ports[i] == NULL){
-		  //assert(i == 0);
 	    output_ports[i] = jack_port_register(jack_client, 
 					port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
 
 		if (output_ports[i] == NULL) {
 			g_critical("Could not register JACKMIDI output_port[%d] '%s'.",i, port_name);
-			//return -1;
 		}
   
 		/* clear buffer */
@@ -428,6 +422,25 @@ create_jack_midi_port(char* port_name){
 		return i;
 	  }
 	}
+  }
+  else 
+    return -1;
+}
+
+void
+create_jack_midi_ports_from_score(){
+  staffnode *curstaff;
+  DenemoStaff *curstaffstruct;
+  curstaff = Denemo.gui->si->thescore;
+  
+  while (curstaff)
+  {
+    curstaffstruct = (DenemoStaff *) curstaff->data;
+    g_debug("\nStaff name = %s\n", curstaffstruct->denemo_name->str);
+    /* Create port and assign jack port number */
+    curstaffstruct->jack_midi_out_port = create_jack_midi_port(curstaffstruct->denemo_name->str);
+    curstaff = curstaff->next;
+  }
 }
 
 int 
@@ -480,7 +493,10 @@ rename_jack_midi_port(int port_number, char *port_name){
 
 void 
 stop_jack(void){
+  remove_all_jack_midi_ports();
+  int err = jack_port_unregister(jack_client, input_port);
   jack_deactivate(jack_client);
+  jack_client_close(jack_client);
 }
 
 int
@@ -510,10 +526,25 @@ init_jack(void){
   return err;
 }
 
+void
+jack_start_restart (void){
+  g_debug("\nJack Start/Restart button pressed\n");
+  if (jack_client == NULL){
+    g_debug("\nStarting Jack\n");
+    init_jack();
+    create_jack_midi_ports_from_score();
+  }
+  if (jack_client != NULL){
+    g_debug("\nRestarting Jack\n");
+    stop_jack();
+    init_jack();
+    create_jack_midi_ports_from_score();
+  }
+}
 
 void
 jack_midi_player (gchar *file_name) {
-
+  
   smf = smf_load(file_name);
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
@@ -556,38 +587,38 @@ jack_midi_playback_control (gboolean start)
   /* set tranport on/off */
   use_transport = Denemo.prefs.jacktransport; 
   g_debug("\nTransport set to %d\n", use_transport);
-
-  /*stop_midi_playback*/
-  if (!start) {
-    stop_midi_output = 1;
-    jack_transport_stop(jack_client);
-    return 0;
-  }
-  mididata = get_temp_filename ("denemoplayback.mid");
-  if(gui->si->markstaffnum)
-   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
-  else 
-   if(gui->si->end)
-     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
-   else
-     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
-  /* execute jackmidi player function */ 
-  jack_midi_player(mididata);
-  g_free (mididata);
-  // first measure to play at start
-  
-    if(gui->si->markstaffnum)
-      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
-    else    
-      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
-    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
-      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-      //FIXME add a delay before starting the timer.
-      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
-			       (GSourceFunc)move_on, gui);
-      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
-    }
-  
+  if (jack_client != NULL){
+	  /*stop_midi_playback*/
+	  if (!start) {
+	    stop_midi_output = 1;
+	    jack_transport_stop(jack_client);
+	    return 0;
+	  }
+	  mididata = get_temp_filename ("denemoplayback.mid");
+	  if(gui->si->markstaffnum)
+	   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
+	  else 
+	   if(gui->si->end)
+	     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
+	   else
+	     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+	  /* execute jackmidi player function */ 
+	  jack_midi_player(mididata);
+	  g_free (mididata);
+	  // first measure to play at start
+	  
+	    if(gui->si->markstaffnum)
+	      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
+	    else    
+	      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
+	    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
+	      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+	      //FIXME add a delay before starting the timer.
+	      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
+				       (GSourceFunc)move_on, gui);
+	      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
+	    }
+  }  
   return;
 }
 

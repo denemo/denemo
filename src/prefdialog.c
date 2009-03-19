@@ -19,6 +19,9 @@
 #include "prefops.h"
 #include "utils.h"
 #include "plugin.h"
+#ifdef _HAVE_JACK_
+#include "jackmidi.h"
+#endif
 
 struct callbackdata
 {
@@ -38,6 +41,7 @@ struct callbackdata
   GtkWidget *midi_in;
 #ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
+  GtkWidget *jack_at_startup;
 #endif
   GtkWidget *texteditor;
   GtkWidget *denemopath;
@@ -137,6 +141,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(midi_in);
 #ifdef _HAVE_JACK_
   ASSIGNBOOLEAN(jacktransport);
+  ASSIGNBOOLEAN(jack_at_startup);
 #endif
   ASSIGNTEXT(temperament);
   ASSIGNBOOLEAN(strictshortcuts);
@@ -183,6 +188,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *sequencer;
 #ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
+  GtkWidget *jack_at_startup;
 #endif
   GtkWidget *texteditor;
   GtkWidget *denemopath;
@@ -463,6 +469,16 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_JACK_
   NEWPAGE("JACK");
   BOOLEANENTRY("Enable Jack Transport", jacktransport);
+  BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
+  /* Start/Restart Button */
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
+  gtk_box_pack_start (GTK_BOX (hbox), jack_activate, FALSE, FALSE, 0);
+  //jack_start_restart(jack_activate, NULL);
+  g_signal_connect (G_OBJECT (jack_activate), "clicked",
+    G_CALLBACK (jack_start_restart), (gpointer) NULL);
+
 #endif
 
 
@@ -498,6 +514,7 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(continuous);
 #ifdef _HAVE_JACK_
   SETCALLBACKDATA(jacktransport);
+  SETCALLBACKDATA(jack_at_startup);
 #endif
   SETCALLBACKDATA(saveparts);
   SETCALLBACKDATA(notation_palette); 
