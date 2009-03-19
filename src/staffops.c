@@ -326,13 +326,6 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   itp.staff = thestaffstruct;
   itp.addat = addat;
   
-  if (action == INITIAL || action == ADDFROMLOAD)
-    {
-#ifdef _HAVE_JACK_
-      thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
-#endif 
-    }
-
   if (action != INITIAL && action != ADDFROMLOAD)
     {
       if (action == NEWVOICE)
@@ -340,19 +333,11 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	  copy_staff_properties ((DenemoStaff *) si->currentstaff->data,
 				 thestaffstruct);
 	  insert_staff (si, thestaffstruct, action, addat);
-#ifdef _HAVE_JACK_
-      thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
-#endif
 	}
       else
 	{
 	  thestaffstruct->jack_midi_out_port = -1;
 	  ret = staff_properties_change (&itp);
-#ifdef _HAVE_JACK_
-	  thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
-#endif
-
-
 	  if (ret)
 	    {
 	      /* 
@@ -384,7 +369,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       si->leftmeasurenum = 1;
     }
 #ifdef _HAVE_JACK_
-      //thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
+      thestaffstruct->jack_midi_out_port = create_jack_midi_port(thestaffstruct->lily_name->str);
 #endif
 
   //si->haschanged = TRUE;
