@@ -446,19 +446,6 @@ main (int argc, char *argv[])
 
   register_stock_items ();
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
-#ifdef _HAVE_JACK_
-  init_jack();
-#endif
-#ifdef WITH_LASH
-  lash_client_t* lash_client;
-  int flags = 0;
-  flags = LASH_Config_Data_Set;
-
-  lash_client = lash_init(lash_extract_args(&argc, &argv), "denemo",
-		                           flags, LASH_PROTOCOL(2, 0));
-  start_init_lash(lash_client);
-#endif
-
   scm_boot_guile (argc, argv, inner_main, NULL);
   
   return 0;
@@ -560,9 +547,15 @@ COPYING for details.\n\n") ;
   //readHistory();
   /* Set up the keymap */
   //init_keymap();
-  
+
+#ifdef _HAVE_JACK_
+  g_debug("\nDenemo.prefs.jack_at_startup = %d\n", Denemo.prefs.jack_at_startup);
+  if (Denemo.prefs.jack_at_startup)
+    init_jack();
+#else
   /* audio initialization */
   ext_init ();                  /* external players (midi...) */
+
 
   /* Immediate Playback */
   if(Denemo.prefs.immediateplayback) {
@@ -574,6 +567,17 @@ COPYING for details.\n\n") ;
 
     }
   }
+#endif
+
+#ifdef WITH_LASH
+  lash_client_t* lash_client;
+  int flags = 0;
+  flags = LASH_Config_Data_Set;
+
+  lash_client = lash_init(lash_extract_args(&argc, &argv), "denemo",
+		                           flags, LASH_PROTOCOL(2, 0));
+  start_init_lash(lash_client);
+#endif
 
 
 

@@ -398,7 +398,7 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
  */
 int 
 create_jack_midi_port(char* port_name){
-
+  if (jack_client != NULL){
 	gint i;
 	jack_nframes_t nframes = jack_get_buffer_size(jack_client);
 	/* only assign it if the port has not been assigned already */	
@@ -422,6 +422,9 @@ create_jack_midi_port(char* port_name){
 		return i;
 	  }
 	}
+  }
+  else 
+    return -1;
 }
 
 void
@@ -566,38 +569,38 @@ jack_midi_playback_control (gboolean start)
   /* set tranport on/off */
   use_transport = Denemo.prefs.jacktransport; 
   g_debug("\nTransport set to %d\n", use_transport);
-
-  /*stop_midi_playback*/
-  if (!start) {
-    stop_midi_output = 1;
-    jack_transport_stop(jack_client);
-    return 0;
-  }
-  mididata = get_temp_filename ("denemoplayback.mid");
-  if(gui->si->markstaffnum)
-   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
-  else 
-   if(gui->si->end)
-     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
-   else
-     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
-  /* execute jackmidi player function */ 
-  jack_midi_player(mididata);
-  g_free (mididata);
-  // first measure to play at start
-  
-    if(gui->si->markstaffnum)
-      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
-    else    
-      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
-    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
-      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-      //FIXME add a delay before starting the timer.
-      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
-			       (GSourceFunc)move_on, gui);
-      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
-    }
-  
+  if (jack_client != NULL){
+	  /*stop_midi_playback*/
+	  if (!start) {
+	    stop_midi_output = 1;
+	    jack_transport_stop(jack_client);
+	    return 0;
+	  }
+	  mididata = get_temp_filename ("denemoplayback.mid");
+	  if(gui->si->markstaffnum)
+	   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
+	  else 
+	   if(gui->si->end)
+	     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
+	   else
+	     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+	  /* execute jackmidi player function */ 
+	  jack_midi_player(mididata);
+	  g_free (mididata);
+	  // first measure to play at start
+	  
+	    if(gui->si->markstaffnum)
+	      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
+	    else    
+	      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
+	    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
+	      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+	      //FIXME add a delay before starting the timer.
+	      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
+				       (GSourceFunc)move_on, gui);
+	      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
+	    }
+  }  
   return;
 }
 

@@ -467,6 +467,7 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("JACK");
   BOOLEANENTRY("Enable Jack Transport", jacktransport);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
+  GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
 #endif
 
 
