@@ -36,7 +36,9 @@ struct callbackdata
   GtkWidget *pdfviewer;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
+#ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
+#endif
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *temperament;
@@ -62,6 +64,7 @@ struct callbackdata1
 static void
 toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
 {
+  g_print("now %s\n", togglebutton);
   gtk_widget_set_sensitive (autosave_timeout,
 			    gtk_toggle_button_get_active (togglebutton));
 }
@@ -132,7 +135,9 @@ set_preferences (struct callbackdata *cbdata)
 
   ASSIGNTEXT(sequencer);
   ASSIGNTEXT(midi_in);
+#ifdef _HAVE_JACK_
   ASSIGNBOOLEAN(jacktransport);
+#endif
   ASSIGNTEXT(temperament);
   ASSIGNBOOLEAN(strictshortcuts);
   ASSIGNBOOLEAN(overlays);
@@ -176,7 +181,9 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *pdfviewer;
   GtkWidget *midi_in;
   GtkWidget *sequencer;
+#ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
+#endif
   GtkWidget *texteditor;
   GtkWidget *denemopath;
   GtkWidget *notation_palette;
@@ -242,6 +249,9 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display duration toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
+
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   autosave = gtk_check_button_new_with_label (_("Autosave every"));
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
 				Denemo.prefs.autosave);
@@ -252,7 +262,7 @@ preferences_change (GtkAction *action, gpointer param)
 			     Denemo.prefs.autosave_timeout);
   gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
-
+  g_print("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   g_signal_connect (GTK_OBJECT (autosave),
@@ -486,9 +496,12 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(resolution);  
   SETCALLBACKDATA(overlays);
   SETCALLBACKDATA(continuous);
+#ifdef _HAVE_JACK_
   SETCALLBACKDATA(jacktransport);
+#endif
   SETCALLBACKDATA(saveparts);
   SETCALLBACKDATA(notation_palette); 
+  SETCALLBACKDATA(articulation_palette); 
   SETCALLBACKDATA(rhythm_palette);
   SETCALLBACKDATA(autosave); 
   SETCALLBACKDATA(autosave_timeout); 
