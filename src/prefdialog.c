@@ -26,7 +26,7 @@
 struct callbackdata
 {
   DenemoPrefs *prefs;
-  GtkWidget *lilypathentry;
+  GtkWidget *lilypath;
   GtkWidget *immediateplayback;
   GtkWidget *saveparts;
   GtkWidget *autosave;
@@ -35,7 +35,7 @@ struct callbackdata
   GtkWidget *articulation_palette;
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
-  GtkWidget *browserentry;
+  GtkWidget *browser;
   GtkWidget *pdfviewer;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
@@ -68,7 +68,8 @@ struct callbackdata1
 static void
 toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
 {
-  g_print("now %s\n", togglebutton);
+  g_debug("autosave now %d\n", 
+     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(autosave_timeout)));
   gtk_widget_set_sensitive (autosave_timeout,
 			    gtk_toggle_button_get_active (togglebutton));
 }
@@ -119,54 +120,47 @@ set_preferences (struct callbackdata *cbdata)
 
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
-                   gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
+                   gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
 
-
-  g_string_assign (prefs->lilypath,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->lilypathentry)));
-  g_string_assign (prefs->browser,
-		   gtk_entry_get_text (GTK_ENTRY (cbdata->browserentry)));
-  
-  ASSIGNTEXT(pdfviewer);
-  ASSIGNTEXT(texteditor);
-  ASSIGNTEXT(denemopath);
-  ASSIGNTEXT(sequencer);
-  ASSIGNTEXT(midi_in);
-  
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(cbdata->field));
-
-  ASSIGNTEXT(sequencer);
-  ASSIGNTEXT(midi_in);
-#ifdef _HAVE_JACK_
-  ASSIGNBOOLEAN(jacktransport);
-  ASSIGNBOOLEAN(jack_at_startup);
-#endif
-  ASSIGNTEXT(temperament);
-  ASSIGNBOOLEAN(strictshortcuts);
-  ASSIGNBOOLEAN(overlays);
-  ASSIGNBOOLEAN(continuous);
 
 #define ASSIGNINT(field) \
    prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-  ASSIGNINT(resolution);
-  ASSIGNINT(maxhistory);
-  
-  ASSIGNBOOLEAN(immediateplayback);
-  ASSIGNBOOLEAN(autosave);
-  ASSIGNINT(autosave_timeout);
-  ASSIGNBOOLEAN(articulation_palette);
-  ASSIGNBOOLEAN(notation_palette);
-  ASSIGNBOOLEAN(rhythm_palette);
-  ASSIGNBOOLEAN(saveparts);
+
+  ASSIGNTEXT(lilypath)
+  ASSIGNTEXT(browser) 
+  ASSIGNTEXT(pdfviewer)
+  ASSIGNTEXT(texteditor)
+  ASSIGNTEXT(denemopath)
+  ASSIGNTEXT(sequencer)
+  ASSIGNTEXT(midi_in)
+  ASSIGNTEXT(sequencer)
+  ASSIGNTEXT(midi_in)
+#ifdef _HAVE_JACK_
+  ASSIGNBOOLEAN(jacktransport)
+  ASSIGNBOOLEAN(jack_at_startup)
+#endif
+  ASSIGNTEXT(temperament)
+  ASSIGNBOOLEAN(strictshortcuts)
+  ASSIGNBOOLEAN(overlays)
+  ASSIGNBOOLEAN(continuous)
+  ASSIGNINT(resolution)
+  ASSIGNINT(maxhistory)
+  ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(autosave)
+  ASSIGNINT(autosave_timeout)
+  ASSIGNBOOLEAN(articulation_palette)
+  ASSIGNBOOLEAN(notation_palette)
+  ASSIGNBOOLEAN(rhythm_palette)
+  ASSIGNBOOLEAN(saveparts)
   //g_print ("Timeout %d \n", prefs->autosave_timeout);
 
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
-
 }
 
 void
@@ -176,34 +170,9 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *dialog;
   GtkWidget *label;
   GtkWidget *main_vbox;
-  GtkWidget *lilypathentry;
-  GtkWidget *browserentry;
-  GtkWidget *immediateplayback;
-  GtkWidget *saveparts;
   GtkWidget *autosave;
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
-  GtkWidget *pdfviewer;
-  GtkWidget *midi_in;
-  GtkWidget *sequencer;
-#ifdef _HAVE_JACK_
-  GtkWidget *jacktransport;
-  GtkWidget *jack_at_startup;
-#endif
-  GtkWidget *texteditor;
-  GtkWidget *denemopath;
-  GtkWidget *notation_palette;
-  GtkWidget *rhythm_palette;
-  GtkWidget *articulation_palette;
-  GtkWidget *strictshortcuts;
-  GtkWidget *resolution;
-  GtkWidget *overlays;
-  GtkWidget *continuous;
-
-
-
-
-
   GtkWidget *notebook;
   GtkWidget *hbox;
   GtkWidget *vbox;
@@ -214,7 +183,6 @@ preferences_change (GtkAction *action, gpointer param)
   GtkCellRenderer *renderer;
   GtkWidget *entrywidget;
   static struct callbackdata cbdata;
-  static struct callbackdata1 cbdata1;
   g_assert (gui != NULL);
 
   dialog = gtk_dialog_new_with_buttons (_("Preferences - Denemo"),
@@ -238,12 +206,45 @@ preferences_change (GtkAction *action, gpointer param)
                                                            _(thelabel));
 
 #define BOOLEANENTRY(thelabel, field) \
-  field =\
+  GtkWidget *field =\
     gtk_check_button_new_with_label (thelabel); \
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
 				Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
+  cbdata.field = field;
 
+#define TEXTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  GtkWidget *field = gtk_entry_new ();\
+  gtk_entry_set_text (GTK_ENTRY (field), Denemo.prefs.field->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, TRUE, TRUE, 0);\
+  cbdata.field = field;
+
+#define INTENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (1, 50, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  cbdata.field = field;
+
+#define INTENTRY_LIMITS(thelabel, field, min, max) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  GtkWidget *field = gtk_spin_button_new_with_range (min, max, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  cbdata.field = field;
 
   /*
    * Note entry settings
@@ -268,7 +269,7 @@ preferences_change (GtkAction *action, gpointer param)
 			     Denemo.prefs.autosave_timeout);
   gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
   gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
-  g_print("autosave %p\n", autosave);
+  g_debug("autosave %p\n", autosave);
   label = gtk_label_new (_("minute(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   g_signal_connect (GTK_OBJECT (autosave),
@@ -276,19 +277,6 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   BOOLEANENTRY("Autosave Parts", saveparts);
-
-#define TEXTENTRY(thelabel, field) \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (_(thelabel));\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  entrywidget = gtk_entry_new ();\
-  gtk_entry_set_text (GTK_ENTRY (entrywidget), Denemo.prefs.field->str);\
-  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
-  cbdata.field = entrywidget;
- 
-
   TEXTENTRY("Sequencer Device", sequencer)
   TEXTENTRY("Midi Input Device", midi_in)
 
@@ -302,8 +290,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Use Overlays", overlays);
   BOOLEANENTRY("Continuous Entry", continuous);
 
-
- /*
+  /*
    * Shortcut control 
    */
   NEWPAGE("Shortcuts");
@@ -316,51 +303,10 @@ preferences_change (GtkAction *action, gpointer param)
    */
   NEWPAGE("Externals");
  
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-
-  label = gtk_label_new (_("Path to Lilypond:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  lilypathentry = gtk_entry_new ();
-  gtk_entry_set_text (GTK_ENTRY (lilypathentry), Denemo.prefs.lilypath->str);
-  gtk_box_pack_start (GTK_BOX (hbox), lilypathentry, TRUE, TRUE, 0);
-
-
-  hbox = gtk_hbox_new (FALSE, 8);
-  
-  label = gtk_label_new (_("Pdf Viewer"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-  pdfviewer = gtk_entry_new ();
-  gtk_entry_set_text (GTK_ENTRY (pdfviewer), Denemo.prefs.pdfviewer->str);
-  gtk_box_pack_start (GTK_BOX (hbox), pdfviewer, TRUE, TRUE, 0);
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
-  hbox = gtk_hbox_new (FALSE, 8);
-  
-
-  label = gtk_label_new (_("Text Editor"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-
-  texteditor = gtk_entry_new ();
-  gtk_entry_set_text (GTK_ENTRY (texteditor), Denemo.prefs.texteditor->str);
-  gtk_box_pack_start (GTK_BOX (hbox), texteditor, TRUE, TRUE, 0);
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
-  hbox = gtk_hbox_new (FALSE, 8);
-
-  label = gtk_label_new (_("Default Save Path"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
- 
-  denemopath = gtk_entry_new ();
-  if (Denemo.prefs.denemopath != NULL)
-  	gtk_entry_set_text (GTK_ENTRY (denemopath), Denemo.prefs.denemopath->str);
-  gtk_box_pack_start (GTK_BOX (hbox), denemopath, TRUE, TRUE, 0);
-
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
-
+  TEXTENTRY("Path to Lilypond", lilypath)
+  TEXTENTRY("Pdf Viewer", pdfviewer)
+  TEXTENTRY("Text Editor", texteditor)
+  TEXTENTRY("Default Save Path", denemopath)
 
   /*
    * Plugins settings
@@ -434,27 +380,6 @@ preferences_change (GtkAction *action, gpointer param)
 
   gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
   */
-
-#define INTENTRY(thelabel, field) \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  field = gtk_spin_button_new_with_range (1, 50, 1.0);\
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
-
-#define INTENTRY_LIMITS(thelabel, field, min, max) \
-  hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
-  label = gtk_label_new (thelabel);\
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  field = gtk_spin_button_new_with_range (min, max, 1.0);\
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);
-
  
   /*
    * Excerpt Menu 
@@ -485,59 +410,30 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Help settings
    */
-  NEWPAGE("Help Settings");
-  
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-
-  label = gtk_label_new (_("Help Browser:"));
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  browserentry = gtk_entry_new ();
-  gtk_entry_set_text (GTK_ENTRY (browserentry), Denemo.prefs.browser->str);
-  gtk_box_pack_start (GTK_BOX (hbox), browserentry, TRUE, TRUE, 0);
-
-  INTENTRY(_("Max recent files"), maxhistory);
+  NEWPAGE("Help Settings")
+  TEXTENTRY("Help Browser", browser)
+  INTENTRY(_("Max recent files"), maxhistory)
 
   /* Set up the callback data */
-  cbdata.prefs = &Denemo.prefs;
-  cbdata.lilypathentry = lilypathentry;
-  cbdata.immediateplayback = immediateplayback;
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
-
-
-  SETCALLBACKDATA(strictshortcuts);
-  SETCALLBACKDATA(resolution);  
-  SETCALLBACKDATA(overlays);
-  SETCALLBACKDATA(continuous);
-#ifdef _HAVE_JACK_
-  SETCALLBACKDATA(jacktransport);
-  SETCALLBACKDATA(jack_at_startup);
-#endif
-  SETCALLBACKDATA(saveparts);
-  SETCALLBACKDATA(notation_palette); 
-  SETCALLBACKDATA(articulation_palette); 
-  SETCALLBACKDATA(rhythm_palette);
-  SETCALLBACKDATA(autosave); 
+  
+  cbdata.prefs = &Denemo.prefs;
+  SETCALLBACKDATA(autosave);
   SETCALLBACKDATA(autosave_timeout); 
   SETCALLBACKDATA(maxhistory);
-  SETCALLBACKDATA(browserentry);
-  SETCALLBACKDATA(pdfviewer);
-  SETCALLBACKDATA(texteditor);
-  SETCALLBACKDATA(denemopath);
-
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_entry_set_activates_default (GTK_ENTRY (lilypathentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (autosave_timeout), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (maxhistory), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (browserentry), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (pdfviewer), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (texteditor), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (denemopath), TRUE);
   
-  gtk_widget_grab_focus (lilypathentry);
+  //gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+  //gtk_entry_set_activates_default (GTK_ENTRY (lilypath), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (autosave_timeout), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (maxhistory), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (browser), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (pdfviewer), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (texteditor), TRUE);
+  //gtk_entry_set_activates_default (GTK_ENTRY (denemopath), TRUE);
+  
+  //gtk_widget_grab_focus (lilypath);
   gtk_widget_show_all (dialog);
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
