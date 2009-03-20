@@ -142,6 +142,30 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
   cur = cur->xmlChildrenNode;
   while (cur != NULL)
     {
+#define READXMLENTRY(field)  \
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+	      prefs->field =\
+		g_string_assign (prefs->field, (gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}
+
+#define READINTXMLENTRY(field) \
+      else if (0 ==\
+	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+	      prefs->field = atoi ((gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}\
+
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypondpath"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -153,39 +177,10 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "midiplayer"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->midiplayer =
-		g_string_assign (prefs->midiplayer, (gchar *) tmp);
-	      //g_print ("midiplayer %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "audioplayer"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->audioplayer =
-		g_string_assign (prefs->audioplayer, (gchar *) tmp);
-	      //g_print ("Audioplayer %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "browser"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->browser = g_string_assign (prefs->browser, (gchar *) tmp);
-	      //g_print ("Help Browser %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 ==
+	READXMLENTRY(midiplayer)      
+	READXMLENTRY(audioplayer)        
+	READXMLENTRY(browser)
+        else if (0 ==
 	       xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -208,144 +203,22 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
-
-
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "csoundcommand"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->csoundcommand =
-		g_string_assign (prefs->csoundcommand, (gchar *) tmp);
-	      //g_print ("Csound Command %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "csoundorcfile"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if (tmp != NULL)
-	    {
-	      prefs->csoundorcfile =
-		g_string_assign (prefs->csoundorcfile, (gchar *) tmp);
-	      //g_print ("Csound Orchestrafile %s\n", tmp);
-	      xmlFree (tmp);
-	    }
-
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "rtcs"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->rtcs = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-
-	}
-
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosave"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->autosave = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "pdfviewer"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->pdfviewer =
-		g_string_assign (prefs->pdfviewer, (gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "imageviewer"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->imageviewer =
-		g_string_assign (prefs->imageviewer, (gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-
-	}
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "texteditor"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->texteditor =
-		g_string_assign (prefs->texteditor, (gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "denemopath"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->denemopath =
-		g_string_assign (prefs->denemopath, (gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-
-	}
-#define READXMLENTRY(field)       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
-	      prefs->field =\
-		g_string_assign (prefs->field, (gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}
-
+      READXMLENTRY(csoundcommand)
+      READXMLENTRY(csoundorcfile)
+	
+      READINTXMLENTRY(rtcs)
+      READINTXMLENTRY(autosave)
+      
+      READXMLENTRY(pdfviewer)
+      READXMLENTRY(imageviewer)           
+      READXMLENTRY(texteditor)            
+      READXMLENTRY(denemopath)          
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
       READXMLENTRY(sequencer)
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "createclones"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->createclones = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-
-      else if (0 ==
-	       xmlStrcmp (cur->name, (const xmlChar *) "immediateplayback"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->immediateplayback = atoi ((gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
-
-#define READINTXMLENTRY(field) \
-      else if (0 ==\
-	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
-	{\
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
-	  if(tmp)\
-	    {\
-	      prefs->field = atoi ((gchar *) tmp);\
-	      xmlFree (tmp);\
-	    }\
-	}\
-
-
-
+      
+      READINTXMLENTRY(createclones)
+      READINTXMLENTRY(immediateplayback)   
       READINTXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
       READINTXMLENTRY(overlays)
@@ -356,17 +229,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(notation_palette)
       READINTXMLENTRY(articulation_palette)
       READINTXMLENTRY(rhythm_palette) 
-      
-      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilyversion"))
-	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-	  if(tmp)
-	    {
-	      prefs->lilyversion =
-		g_string_assign (prefs->lilyversion, (gchar *) tmp);
-	      xmlFree (tmp);
-	    }
-	}
+     
+      READXMLENTRY(lilyversion) 
       READINTXMLENTRY(saveparts)
       
       cur = cur->next;
@@ -532,77 +396,49 @@ writeXMLPrefs (DenemoPrefs * prefs)
     xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "Config", NULL);
 
-  if (prefs->lilypath)
-    xmlNewChild (child, NULL, (xmlChar *) "lilypondpath",
-		 (xmlChar *) prefs->lilypath->str);
-  if (prefs->lilypath)
-    xmlNewChild (child, NULL, (xmlChar *) "midiplayer",
-		 (xmlChar *) prefs->midiplayer->str);
-  if (prefs->audioplayer)
-    xmlNewChild (child, NULL, (xmlChar *) "audioplayer",
-		 (xmlChar *) prefs->audioplayer->str);
-  if (prefs->csoundcommand)
-    xmlNewChild (child, NULL, (xmlChar *) "csoundcommand",
-		 (xmlChar *) prefs->csoundcommand->str);
-  if (prefs->csoundorcfile)
-    xmlNewChild (child, NULL, (xmlChar *) "csoundorcfile",
-		 (xmlChar *) prefs->csoundorcfile->str);
-  if (prefs->pdfviewer)
-    xmlNewChild (child, NULL, (xmlChar *) "pdfviewer",
-		 (xmlChar *) prefs->pdfviewer->str);
-  if (prefs->imageviewer)
-    xmlNewChild (child, NULL, (xmlChar *) "imageviewer",
-		 (xmlChar *) prefs->imageviewer->str);
-  if (prefs->texteditor)
-    xmlNewChild (child, NULL, (xmlChar *) "texteditor",
-		 (xmlChar *) prefs->texteditor->str);
-  if (prefs->denemopath)
-    xmlNewChild (child, NULL, (xmlChar *) "denemopath",
-		 (xmlChar *) prefs->denemopath->str);
 #define WRITEXMLENTRY(field) \
   if (prefs->field)\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
-		 (xmlChar *) prefs->field->str)
+		 (xmlChar *) prefs->field->str);
 
-  WRITEXMLENTRY(temperament);
-  WRITEXMLENTRY(midi_in);
-  WRITEXMLENTRY(sequencer);
-  WRITEXMLENTRY(lilyversion);
-    
-  newXMLIntChild (child, (xmlChar *) "autosave", prefs->autosave);
-  newXMLIntChild (child, (xmlChar *) "autosavetimeout",
-		  prefs->autosave_timeout);
-  newXMLIntChild (child, (xmlChar *) "maxhistory",
-		  prefs->maxhistory);
-  newXMLIntChild (child, (xmlChar *) "saveparts", prefs->saveparts);
-  newXMLIntChild (child, (xmlChar *) "createclones", prefs->createclones);
-  newXMLIntChild (child, (xmlChar *) "lilystyleentry", prefs->lilyentrystyle);
-  newXMLIntChild (child, (xmlChar *) "immediateplayback",
-		  prefs->immediateplayback);
-
+  WRITEXMLENTRY(lilypath)
+  WRITEXMLENTRY(midiplayer)
+  WRITEXMLENTRY(audioplayer)
+  WRITEXMLENTRY(csoundcommand)
+  WRITEXMLENTRY(csoundorcfile)  
+  WRITEXMLENTRY(pdfviewer)
+  WRITEXMLENTRY(imageviewer)
+  WRITEXMLENTRY(texteditor) 
+  WRITEXMLENTRY(denemopath)
+  WRITEXMLENTRY(temperament)
+  WRITEXMLENTRY(midi_in)
+  WRITEXMLENTRY(sequencer)
+  WRITEXMLENTRY(lilyversion)
+ 
 #define WRITEINTXMLENTRY(field) \
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);
 
-  WRITEINTXMLENTRY(strictshortcuts);
-  WRITEINTXMLENTRY(resolution);
-  WRITEINTXMLENTRY(overlays);
-  WRITEINTXMLENTRY(continuous);
-  WRITEINTXMLENTRY(jacktransport);
-  WRITEINTXMLENTRY(jack_at_startup);
-  WRITEINTXMLENTRY(rtcs);
-  newXMLIntChild (child, (xmlChar *) "notationpalette",
-		  prefs->notation_palette);
-  newXMLIntChild (child, (xmlChar *) "articulationpalette",
-		  prefs->articulation_palette);
-  newXMLIntChild (child, (xmlChar *) "rhythmpalette",
-		  prefs->rhythm_palette);
-  if (prefs->browser)
-    xmlNewChild (child, NULL, (xmlChar *) "browser",
-		 (xmlChar *) prefs->browser->str);
-
-
-
+  WRITEINTXMLENTRY(autosave)
+  WRITEINTXMLENTRY(autosave_timeout)
+  WRITEINTXMLENTRY(maxhistory)
+  WRITEINTXMLENTRY(saveparts)
+  WRITEINTXMLENTRY(createclones)
+  WRITEINTXMLENTRY(lilyentrystyle)
+  WRITEINTXMLENTRY(immediateplayback)
+  WRITEINTXMLENTRY(strictshortcuts)
+  WRITEINTXMLENTRY(resolution)
+  WRITEINTXMLENTRY(overlays)
+  WRITEINTXMLENTRY(continuous)
+  WRITEINTXMLENTRY(jacktransport)
+  WRITEINTXMLENTRY(jack_at_startup)
+  WRITEINTXMLENTRY(rtcs)
+  WRITEINTXMLENTRY(notation_palette)
+  WRITEINTXMLENTRY(articulation_palette)
+  WRITEINTXMLENTRY(rhythm_palette)
+  
+  WRITEXMLENTRY(browser) 
+  
   xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
