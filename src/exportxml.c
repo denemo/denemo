@@ -730,6 +730,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	  
 	  if(curStaffStruct->voice_directives)
 	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "voice-directives");
+	  if(curStaffStruct->clef.directives)
+	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "clef-directives");
 	    
 
 	  if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)

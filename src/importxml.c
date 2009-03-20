@@ -2095,6 +2095,12 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  {
 	    curStaff->voice_directives = parseDirectives(childElem, ns);
 	  }
+	else if (ELEM_NAME_EQ (childElem, "clef-directives"))
+	  {
+	    curStaff->clef.directives = parseDirectives(childElem, ns);
+	  }
+
+
 	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog"))
 	  {
 	    gchar *temp = 
