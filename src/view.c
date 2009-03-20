@@ -649,7 +649,6 @@ DELETEFUNC_DEF(staff)
 DELETEFUNC_DEF(voice)
 DELETEFUNC_DEF(score)
 
-#undef DELETEFUNC_DEF
 
 #define GETFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_get_##field(SCM tag) {\
@@ -692,6 +691,7 @@ PUTFUNC_DEF(score, display)
 GETFUNC_DEF(note, prefix)
 GETFUNC_DEF(note, postfix)
 PUTFUNC_DEF(note, prefix)
+     //PUTFUNC_DEF(clef, prefix)
 PUTFUNC_DEF(note, postfix)
 
 GETFUNC_DEF(score, prefix)
@@ -720,9 +720,6 @@ GETFUNC_DEF(standalone, postfix)
 PUTFUNC_DEF(standalone, prefix)
 PUTFUNC_DEF(standalone, postfix)
 
-
-#undef GETFUNC_DEF
-#undef PUTFUNC_DEF
 
 #define INT_PUTFUNC_DEF(what, field)\
 static SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
@@ -765,14 +762,22 @@ INT_PUTFUNC_DEF(standalone, minpixels)
 INT_PUTFUNC_DEF(staff, minpixels)
 INT_PUTFUNC_DEF(voice, minpixels)
 INT_PUTFUNC_DEF(score, minpixels)
+INT_PUTFUNC_DEF(clef, minpixels)
+
 INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
 INT_GETFUNC_DEF(standalone, minpixels)
 INT_GETFUNC_DEF(staff, minpixels)
 INT_GETFUNC_DEF(voice, minpixels)
 INT_GETFUNC_DEF(score, minpixels)
+INT_GETFUNC_DEF(clef, minpixels)
 
      //end block to copy for new int field in directive
+
+
+
+
+
 
 INT_PUTFUNC_DEF(note, override)
 INT_PUTFUNC_DEF(chord, override)
@@ -858,9 +863,34 @@ INT_PUTFUNC_DEF(score, height)
 
 
 
-#undef INT_PUTFUNC_DEF
-#undef INT_GETFUNC_DEF
-#undef PUTGRAPHICFUNC_DEF
+     // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
+GETFUNC_DEF(clef, prefix)
+GETFUNC_DEF(clef, postfix)
+GETFUNC_DEF(clef, display)
+PUTFUNC_DEF(clef, prefix)
+PUTFUNC_DEF(clef, postfix)
+PUTFUNC_DEF(clef, display)
+PUTGRAPHICFUNC_DEF(clef);
+
+INT_PUTFUNC_DEF(clef, x)
+INT_PUTFUNC_DEF(clef, y)
+INT_PUTFUNC_DEF(clef, tx)
+INT_PUTFUNC_DEF(clef, ty)
+INT_PUTFUNC_DEF(clef, gx)
+INT_PUTFUNC_DEF(clef, gy)
+INT_PUTFUNC_DEF(clef, override)
+INT_GETFUNC_DEF(clef, x)
+INT_GETFUNC_DEF(clef, y)
+INT_GETFUNC_DEF(clef, tx)
+INT_GETFUNC_DEF(clef, ty)
+INT_GETFUNC_DEF(clef, gx)
+INT_GETFUNC_DEF(clef, gy)
+INT_GETFUNC_DEF(clef, override)
+INT_GETFUNC_DEF(clef, width)
+INT_GETFUNC_DEF(clef, height)
+DELETEFUNC_DEF(clef)
+     // end block
+
 
 SCM scheme_get_midi(void) {
  gint midi;
@@ -1224,7 +1254,6 @@ Then
   INSTALL_DELETE(voice);
   INSTALL_DELETE(score);
 
-#undef INSTALL_DELETE
 
 #define INSTALL_PUT(what, field)\
   install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
@@ -1241,6 +1270,7 @@ Then
   INSTALL_GET(staff, minpixels);
   INSTALL_GET(voice, minpixels);
   INSTALL_GET(score, minpixels);
+  INSTALL_GET(clef, minpixels);
 
   INSTALL_PUT(standalone, minpixels);
   INSTALL_PUT(chord, minpixels);
@@ -1248,6 +1278,7 @@ Then
   INSTALL_PUT(staff, minpixels);
   INSTALL_PUT(voice, minpixels);
   INSTALL_PUT(score, minpixels);
+  INSTALL_PUT(clef, minpixels);
 
   //end block to repeat for new  directive fields 
 
@@ -1406,17 +1437,50 @@ INSTALL_PUT(score, ty);
   INSTALL_GET(chord, height);
   INSTALL_GET(standalone, height);
 
+
+
+     //block to copy for new type of directive
+INSTALL_PUT(clef, display);
+INSTALL_PUT(clef, prefix);
+INSTALL_PUT(clef, postfix);
+
+INSTALL_GET(clef, display);
+INSTALL_GET(clef, prefix);
+INSTALL_GET(clef, postfix);
+
+INSTALL_PUT(clef, x)
+INSTALL_PUT(clef, y)
+INSTALL_PUT(clef, tx)
+INSTALL_PUT(clef, ty)
+INSTALL_PUT(clef, gx)
+INSTALL_PUT(clef, gy)
+INSTALL_PUT(clef, override)
+
+INSTALL_GET(clef, x)
+INSTALL_GET(clef, y)
+INSTALL_GET(clef, tx)
+INSTALL_GET(clef, ty)
+INSTALL_GET(clef, gx)
+INSTALL_GET(clef, gy)
+INSTALL_GET(clef, override)
+INSTALL_GET(clef, width)
+INSTALL_GET(clef, height)
+
+INSTALL_DELETE(clef);
+     // end of block to copy for new type of directive
+#undef INSTALL_DELETE
+#undef DELETEFUNC_DEF
 #undef INSTALL_PUT
 #undef INSTALL_GET
+#undef GETFUNC_DEF
+#undef PUTFUNC_DEF
+
+#undef INT_PUTFUNC_DEF
+#undef INT_GETFUNC_DEF
+#undef PUTGRAPHICFUNC_DEF
 
 
-  //#define INSTALL_PUT_GRAPHIC(what)\
-    //  install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePutGraphic" "-" #what, scheme_##what##_directive_put_graphic);
-    //  INSTALL_PUT_GRAPHIC(chord);
-    //  INSTALL_PUT_GRAPHIC(note);
-    //  INSTALL_PUT_GRAPHIC(standalone);
 
-    //#undef INSTALL_PUT_GRAPHIC
 
   /* test with (display (d-DirectivePut-note-display "LHfinger" "test")) after attaching a LH finger directive */
   /* test with (display (d-DirectivePut-note-minpixels "LHfinger" 80)) after attaching a LH finger directive */

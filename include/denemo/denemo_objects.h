@@ -199,6 +199,7 @@ typedef enum clefs
 typedef struct clef
 {
   enum clefs type;
+  GList *directives;
 }
 clef;
 

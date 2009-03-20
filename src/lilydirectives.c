@@ -428,6 +428,39 @@ static DenemoStaff *get_staff(void) {
 #define get_voice get_staff
 
 
+//block for new type of directive
+static  clef *get_clef(void) {
+  clef *ret = NULL;
+  DenemoObject *curObj = findobj();  
+  if(curObj && curObj->type==CLEF){
+    ret = ((clef*)curObj->object)->directives;
+  } else {
+    DenemoStaff *curstaff = get_staff();
+    if(curstaff)
+      ret = curstaff->clef.directives;
+  }
+  return ret;
+}
+static
+DenemoDirective *get_clef_directive(gchar *tag) {
+  note *curclef = get_clef();
+  if(curclef==NULL || (curclef->directives==NULL))
+    return NULL;
+  return find_directive(curclef->directives, tag);
+}
+gboolean delete_clef_directive(gchar *tag) {
+  clef *curclef = get_clef();
+  if(curclef==NULL || (curclef->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_clef_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curclef->directives, tag);
+}
+// end of block for new type of directive
+
+
+
 static
 DenemoDirective *get_note_directive(gchar *tag) {
   note *curnote = get_note();
@@ -491,6 +524,7 @@ delete_voice_directive(gchar *tag) {
     return FALSE;
   return delete_directive(&curstaff->voice_directives, tag);
 }
+
 gboolean delete_note_directive(gchar *tag) {
   note *curnote = get_note();
   if(curnote==NULL || (curnote->directives==NULL))
@@ -603,8 +637,6 @@ PUT_STR_FIELD_FUNCV(voice, prefix)
 PUT_STR_FIELD_FUNCV(voice, postfix)
 PUT_STR_FIELD_FUNCV(voice, display)
 #undef staff
-#undef GET_STR_FIELD_FUNC
-#undef PUT_STR_FIELD_FUNC
 
 #define PUT_INT_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
@@ -644,14 +676,20 @@ PUT_INT_FIELD_FUNC(chord, minpixels)
 PUT_INT_FIELD_FUNCS(staff, minpixels)
 PUT_INT_FIELD_FUNCV(voice, minpixels)
 PUT_INT_FIELD_FUNC(score, minpixels)
+PUT_INT_FIELD_FUNC(clef, minpixels)
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
 GET_INT_FIELD_FUNC(staff, minpixels)
 GET_INT_FIELD_FUNC(voice, minpixels)
 GET_INT_FIELD_FUNC(score, minpixels)
+GET_INT_FIELD_FUNC(clef, minpixels)
 GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
+
+
+
+
 
 
 PUT_INT_FIELD_FUNC(note, override)
@@ -775,8 +813,7 @@ GET_INT_FIELD_FUNC(voice, height)
 GET_INT_FIELD_FUNC(standalone, height)
 GET_INT_FIELD_FUNC(score, height)
 
-#undef PUT_INT_FIELD_FUNC
-#undef GET_INT_FIELD_FUNC
+
 
      //note I think you cannot change the graphic once you have set it.
 #define PUT_GRAPHIC_NAME(what, directives) gboolean \
@@ -808,7 +845,7 @@ PUT_GRAPHIC(note);
 PUT_GRAPHIC(score);
 PUT_GRAPHICS(staff);
 PUT_GRAPHICV(voice);
-#undef PUT_GRAPHIC
+
 
 gboolean
 standalone_directive_put_graphic(gchar *tag, gchar *value) {
@@ -861,7 +898,7 @@ STANDALONE_PUT_STR_FIELD_FUNC(display);
 
 
 
-#undef STANDALONE_PUT_STR_FIELD_FUNC
+
 
 #define STANDALONE_PUT_INT_FIELD_FUNC(field)\
 gboolean \
@@ -887,7 +924,7 @@ STANDALONE_PUT_INT_FIELD_FUNC(ty);
 STANDALONE_PUT_INT_FIELD_FUNC(gx);
 STANDALONE_PUT_INT_FIELD_FUNC(gy);
 
-#undef STANDALONE_PUT_INT_FIELD_FUNC
+
 gboolean 
 standalone_directive_put_minpixels(gchar *tag, gint value) {
   DenemoDirective *directive = get_standalone_directive(tag);
@@ -1211,3 +1248,44 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
   }
 }
 
+
+
+
+/* block which can be copied for type of directive (minpixels is done as sample for new int fields */
+PUT_INT_FIELD_FUNC(clef, x)
+PUT_INT_FIELD_FUNC(clef, y)
+PUT_INT_FIELD_FUNC(clef, tx)
+PUT_INT_FIELD_FUNC(clef, ty)
+PUT_INT_FIELD_FUNC(clef, gx)
+PUT_INT_FIELD_FUNC(clef, gy)
+PUT_INT_FIELD_FUNC(clef, override)
+GET_INT_FIELD_FUNC(clef, x)
+GET_INT_FIELD_FUNC(clef, y)
+GET_INT_FIELD_FUNC(clef, tx)
+GET_INT_FIELD_FUNC(clef, ty)
+GET_INT_FIELD_FUNC(clef, gx)
+GET_INT_FIELD_FUNC(clef, gy)
+GET_INT_FIELD_FUNC(clef, override)
+GET_INT_FIELD_FUNC(clef, width)
+GET_INT_FIELD_FUNC(clef, height)
+
+PUT_GRAPHIC(clef)
+
+PUT_STR_FIELD_FUNC(clef, prefix)
+PUT_STR_FIELD_FUNC(clef, postfix)
+PUT_STR_FIELD_FUNC(clef, display)
+
+GET_STR_FIELD_FUNC(clef, prefix)
+GET_STR_FIELD_FUNC(clef, postfix)
+GET_STR_FIELD_FUNC(clef, display)
+
+/* end block which can be copied for type of directive */
+
+
+
+#undef STANDALONE_PUT_INT_FIELD_FUNC
+#undef PUT_GRAPHIC
+#undef PUT_INT_FIELD_FUNC
+#undef GET_INT_FIELD_FUNC
+#undef PUT_STR_FIELD_FUNC
+#undef GET_STR_FIELD_FUNC

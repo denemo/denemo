@@ -76,6 +76,19 @@ DECL_PUT_FIELD(standalone, display)
 DECL_GET_INT(note, minpixels)
 DECL_GET_INT(chord, minpixels)
 DECL_GET_INT(standalone, minpixels)
+
+     // block to copy
+DECL_PUT_GRAPHIC(clef)
+DECL_GET_FIELD(clef, prefix)
+DECL_GET_FIELD(clef, postfix)
+DECL_GET_FIELD(clef, display)
+DECL_PUT_FIELD(clef, prefix)
+DECL_PUT_FIELD(clef, postfix)
+DECL_PUT_FIELD(clef, display)
+
+
+     // end of block to copy
+
      //FIXME x,y,tx,ty,gx,gy
 
 #undef DECL_PUT_FIELD
