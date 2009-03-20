@@ -34,4 +34,11 @@ dynamic_new (gchar *type);
 
 DenemoDirective *
 clone_directive(DenemoDirective *directive);
+
+GList *
+clone_directives(GList *directives);
+
+void
+free_directives(GList *directives);
+
 #endif

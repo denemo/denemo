@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "objops.h"
 #include "chordops.h"
 #include "utils.h"
 
@@ -461,23 +462,7 @@ changenumdots (DenemoObject * thechord, gint number)
 }
 
 
-static void
-free_directives(GList *directives) {
-  for(;directives;directives=directives->next) {
-    DenemoDirective *directive = directives->data;
-#define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
-    DFREE(tag);
-    DFREE(display);
-    DFREE(prefix);
-    DFREE(postfix);
-   
-#undef FREE
-    //if(directive->graphic)
-    //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
-    if(directive->graphic_name)
-      g_string_free(directive->graphic_name, TRUE);
-  } 
-}
+
 static void 
 freenote(note *thenote) {
   if(thenote->directives) {
@@ -541,14 +526,17 @@ clone_chord (DenemoObject * thechord)
   clonedchord->is_figure = FALSE;
   clonedchord->lyric = NULL;
 
-  GList *g = curchord->directives;
-  for(;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive)
-      clonedchord->directives = g_list_append(clonedchord->directives, clone_directive(directive));
-    else
-      g_warning("A Chord Directive list with NULL directive");
-  }
+/*   GList *g = curchord->directives; */
+/*   for(;g;g=g->next) { */
+/*     DenemoDirective *directive = (DenemoDirective *)g->data; */
+/*     if(directive) */
+/*       clonedchord->directives = g_list_append(clonedchord->directives, clone_directive(directive)); */
+/*     else */
+/*       g_warning("A Chord Directive list with NULL directive"); */
+/*   } */
+
+  clonedchord->directives = clone_directives(curchord->directives);
+
   clonedchord->notes = NULL;
   for (curtone = ((chord *) thechord->object)->notes;
        curtone; curtone = curtone->next)
@@ -556,14 +544,7 @@ clone_chord (DenemoObject * thechord)
       newnote = (note *) g_malloc0 (sizeof (note));
       note *curnote = (note *) curtone->data;
       memcpy (newnote, curnote, sizeof (note));
-      newnote->directives=NULL;
-      for(g=curnote->directives;g;g=g->next) {
-	DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive)
-	newnote->directives = g_list_append(newnote->directives, clone_directive(directive));
-    else
-      g_warning("A Note Directive list with NULL directive");
-      }      
+      newnote->directives = clone_directives(curnote->directives);    
       clonedchord->notes = g_list_append (clonedchord->notes, newnote);
     }
   ret->object = (chord *) clonedchord;

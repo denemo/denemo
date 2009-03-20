@@ -213,7 +213,27 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
 }
 
 
+GList *clone_directives(GList *directives) {
+  for(;directives;directives=directives->next)
+    clone_directive(directives->data);
+}
 
+void
+free_directives(GList *directives) {
+  for(;directives;directives=directives->next) {
+    DenemoDirective *directive = directives->data;
+#define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
+    DFREE(tag);
+    DFREE(display);
+    DFREE(prefix);
+    DFREE(postfix);
+#undef DFREE
+    //if(directive->graphic)
+    //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
+    if(directive->graphic_name)
+      g_string_free(directive->graphic_name, TRUE);
+  } 
+}
 /**
  * Create a clone of the given object
  * @param orig the object to clone
@@ -238,6 +258,7 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    case CLEF:
 	      ret = dnm_newclefobj (((clef *)orig->object)->type);
+	      ((clef *)ret->object)->directives = clone_directives(((clef *)orig->object)->directives);
 	      break;
 	    case TIMESIG:
 	      ret = dnm_newtimesigobj (((timesig *)orig->object)->time1,((timesig *)orig->object)->time2 );

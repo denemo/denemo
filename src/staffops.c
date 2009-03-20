@@ -427,6 +427,8 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
   g_free (curstaffstruct);
+
+  free_directives(curstaffstruct->staff_directives);
   if(si->currentstaff==g_list_last(si->thescore))
     si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease
   si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
