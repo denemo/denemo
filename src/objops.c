@@ -28,6 +28,10 @@ freeobject (DenemoObject * mudobj)
       case CHORD:
 	freechord (mudobj);	/* Which also frees mudobj itself */
 	break;
+      case CLEF:
+	free_directives(((clef*)mudobj->object)->directives);
+	g_free (mudobj);
+	break;
       default:
 	g_free (mudobj);
 	break;
@@ -214,8 +218,10 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
 
 
 GList *clone_directives(GList *directives) {
+  GList *ret=NULL;
   for(;directives;directives=directives->next)
-    clone_directive(directives->data);
+    ret = g_list_append(ret, clone_directive(directives->data));
+  return ret;
 }
 
 void

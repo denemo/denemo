@@ -200,7 +200,11 @@ typedef struct
   gint skeyaccs[7]; /**< The initial keysignature. Values -7=Cb... -1=F, 0=C, 1=G...7=C# in a chain of fifths */
   gint stime1; /**< This is the initial timesig numerator */
   gint stime2; /**< This is the initial timesig denominator */
-  gint leftmost_clefcontext; /**< The clef for the leftmost measure visible in the window*/
+/* if we make leftmost_clefcontext a reference to a clef then it will dangle if the object is deleted. But if we don't we will have to clone & free the clef at each draw... */
+
+/* We should make it a pointer & re-validate leftmost clefcontext in the delete of CLEF object. */
+
+  clef* leftmost_clefcontext; /**< The clef for the leftmost measure visible in the window*/
   gint leftmost_keysigcontext; /**< The keysig at thestart of the leftmost measure visible in the window*/
   gint leftmost_keywidth; /**< Space allowed for leftmost keysig  */
   gint leftmost_time1context; /**< The leftmost visible timesig numerator */

@@ -1501,6 +1501,8 @@ dnm_deleteobject (DenemoScore * si)
 
 	  break;
 	case CLEF:
+/* here we have to re-validate leftmost clef e.g. find_leftmost_allcontexts (gui->si);
+ which seems to be done... */
 	  delete_object_helper (si);
 	  fixnoteheights ((DenemoStaff *) si->currentstaff->data);
 	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);

@@ -295,6 +295,41 @@ newXMLFraction (xmlNodePtr parent, xmlNsPtr ns, gint num, gint denom)
 }
 
 
+static void
+newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) { 
+  xmlNodePtr directivesElem =  xmlNewChild (objElem, ns, (xmlChar *) type, NULL);
+  //GList *g = ((chord *) curObj->object)->directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+     xmlNodePtr directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
+#define DO_DIREC(field)  if (directive->field \
+                   && directive->field->len)\
+                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
+				     (xmlChar *) directive->field->str);
+#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+				             directive->field);
+    DO_DIREC(tag);
+    DO_DIREC(prefix);
+    DO_DIREC(postfix);
+    DO_DIREC(display);
+    DO_DIREC(graphic_name);
+    
+    DO_INTDIREC(minpixels);
+    DO_INTDIREC(x);
+    DO_INTDIREC(y);
+    DO_INTDIREC(tx);
+    DO_INTDIREC(ty);
+    DO_INTDIREC(gx);
+    DO_INTDIREC(gy);
+    DO_INTDIREC(override);
+
+#undef DO_DIREC
+#undef DO_INTDIREC
+  }
+}
+
+
+
 /**
  * Output a clef of the form:
  *
@@ -303,14 +338,16 @@ newXMLFraction (xmlNodePtr parent, xmlNsPtr ns, gint num, gint denom)
  * as a child of the given node.
  */
 static xmlNodePtr
-newXMLClef (xmlNodePtr parent, xmlNsPtr ns, gint clef)
+newXMLClef (xmlNodePtr parent, xmlNsPtr ns, clef * clef)
 {
   gchar *clefName = NULL;
   xmlNodePtr clefElem = NULL;
 
-  determineClef (clef, &clefName);
+  determineClef (clef->type, &clefName);
   clefElem = xmlNewChild (parent, ns, (xmlChar *) "clef", NULL);
   xmlSetProp (clefElem, (xmlChar *) "name", (xmlChar *) clefName);
+  if(clef->directives) 
+	    newDirectivesElem(clefElem, ns, clef->directives, "directives");
   return clefElem;
 }
 
@@ -498,39 +535,6 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
     }
   xmlSetProp (noteHeadElem, (xmlChar *) "type", (xmlChar *) headTypeName);
   return noteHeadElem;
-}
-
-static void
-newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) { 
-  xmlNodePtr directivesElem =  xmlNewChild (objElem, ns, (xmlChar *) type, NULL);
-  //GList *g = ((chord *) curObj->object)->directives;
-  for(;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-     xmlNodePtr directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
-#define DO_DIREC(field)  if (directive->field \
-                   && directive->field->len)\
-                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
-				     (xmlChar *) directive->field->str);
-#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
-				             directive->field);
-    DO_DIREC(tag);
-    DO_DIREC(prefix);
-    DO_DIREC(postfix);
-    DO_DIREC(display);
-    DO_DIREC(graphic_name);
-    
-    DO_INTDIREC(minpixels);
-    DO_INTDIREC(x);
-    DO_INTDIREC(y);
-    DO_INTDIREC(tx);
-    DO_INTDIREC(ty);
-    DO_INTDIREC(gx);
-    DO_INTDIREC(gy);
-    DO_INTDIREC(override);
-
-#undef DO_DIREC
-#undef DO_INTDIREC
-  }
 }
 
 
@@ -804,7 +808,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 				(xmlChar *) "initial-voice-params", NULL);
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "staff-ref", NULL);
       xmlSetProp (curElem, (xmlChar *) "staff", (xmlChar *) staffXMLID);
-      newXMLClef (parentElem, ns, curStaffStruct->clef.type);
+      newXMLClef (parentElem, ns, &curStaffStruct->clef);
       newXMLKeySignature (parentElem, ns, curStaffStruct->skey,
 			  curStaffStruct->skey_isminor);
       curTime1 = curStaffStruct->stime1;
@@ -1319,7 +1323,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		case CLEF:
 		  objElem = newXMLClef (measureElem, ns,
-					((clef *) curObj->object)->type);
+					((clef *) curObj->object));
 		  break;
 
 		case TIMESIG:

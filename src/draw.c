@@ -62,7 +62,7 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
  */
 struct infotopass
 {
-  gint clef;
+  clef* clef;
   gint key;
   gint curaccs[7];
   gint keyaccs[7];
@@ -144,7 +144,7 @@ draw_object (objnode * curobj, gint x, gint y,
   /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
   if (si->currentobject == curobj)
     {
-      si->cursorclef = itp->clef;
+      si->cursorclef = itp->clef->type;
       if (!si->cursor_appending)
 	memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
     }
@@ -293,14 +293,14 @@ draw_object (objnode * curobj, gint x, gint y,
       break;
     case CLEF:
       draw_clef (gui->pixmap, itp->gc, x + mudelaitem->x, y,
-		 itp->clef = ((clef *) mudelaitem->object)->type);
+		 itp->clef = ((clef *) mudelaitem->object));
       if (si->currentobject == curobj && si->cursor_appending)
-	si->cursorclef = itp->clef;
+	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;
     case KEYSIG:
       draw_key (gui->pixmap, itp->gc, x + mudelaitem->x, y,
 		((keysig *) mudelaitem->object)->number, itp->key,
-		itp->clef, TRUE);
+		itp->clef->type, TRUE);
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs,
 	      SEVENGINTS);
@@ -443,7 +443,7 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
   itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
   if (curmeasure == si->currentmeasure)
     {
-      si->curmeasureclef = itp->clef;
+      si->curmeasureclef = itp->clef->type;
       memcpy (si->curmeasureaccs, itp->keyaccs, SEVENGINTS);
       memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
       si->curmeasurekey = itp->key;
@@ -471,9 +471,9 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
 	{
 	  /* That is, the cursor's at the beginning of this blank measure */
 	  si->cursoroffend = FALSE;
-	  draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef);
+	  draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-	  si->cursorclef = itp->clef;
+	  si->cursorclef = itp->clef->type;
 	}
     }
   curobj = (objnode *) curmeasure->data;
@@ -576,7 +576,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   x = KEY_MARGIN;
   draw_key (gui->pixmap, gc, x, y,
 	    itp->key = curstaffstruct->leftmost_keysigcontext,
-	    0, itp->clef, TRUE);
+	    0, itp->clef->type, TRUE);
   memcpy (itp->keyaccs, curstaffstruct->leftmost_keyaccs, SEVENGINTS);
   x += si->maxkeywidth;
 

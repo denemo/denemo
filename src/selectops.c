@@ -250,7 +250,7 @@ cuttobuffer (DenemoScore * si)
 	}
       showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-    }
+    } // end of single staff
   else
     {				/* Multiple staff selection */
       if (staffsinbuffer == (gint) (g_list_length (si->thescore)))
@@ -312,6 +312,9 @@ cuttobuffer (DenemoScore * si)
       si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
       si->cursor_appending = TRUE;
     }
+  //if clef has been deleted we need to re-validate leftmost clef - would only apply if the clef being deleted was off the left side of screen - some sort of scripting scenario...
+  find_leftmost_allcontexts(si);
+
   /*   isoffleftside;  */
   /*find_xes_in_all_measures (si);
      nudgerightward (si);

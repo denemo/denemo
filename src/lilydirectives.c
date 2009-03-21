@@ -433,17 +433,17 @@ static  clef *get_clef(void) {
   clef *ret = NULL;
   DenemoObject *curObj = findobj();  
   if(curObj && curObj->type==CLEF){
-    ret = ((clef*)curObj->object)->directives;
+    ret = ((clef*)curObj->object);
   } else {
     DenemoStaff *curstaff = get_staff();
     if(curstaff)
-      ret = curstaff->clef.directives;
+      ret = &curstaff->clef;
   }
   return ret;
 }
 static
 DenemoDirective *get_clef_directive(gchar *tag) {
-  note *curclef = get_clef();
+  clef *curclef = get_clef();
   if(curclef==NULL || (curclef->directives==NULL))
     return NULL;
   return find_directive(curclef->directives, tag);

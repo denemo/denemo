@@ -519,9 +519,9 @@ void
 fixnoteheights (DenemoStaff * thestaff)
 {
   gint nclef = thestaff->clef.type;
-  gint time1 = thestaff->stime1;
-  gint time2 = thestaff->stime2;
-  gint initialclef;
+  gint time1 = thestaff->stime1;//USELESS
+  gint time2 = thestaff->stime2;//USELESS
+  gint initialclef;//USELESS
   measurenode *curmeasure;
   objnode *curobj;
   DenemoObject *theobj;
@@ -539,7 +539,7 @@ fixnoteheights (DenemoStaff * thestaff)
 	    case CHORD:
 	      newclefify (theobj, nclef);
 	      break;
-	    case TIMESIG:
+	    case TIMESIG://USELESS
 	      time1 = ((timesig *) theobj->object)->time1;
 	      time2 = ((timesig *) theobj->object)->time2;
 	      break;

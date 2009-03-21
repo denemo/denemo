@@ -37,8 +37,9 @@
  * onto the backing pixmap 
  */
 void
-draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, gint type)
+draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, clef *clef)
 {
+  gint type = clef->type;
   static GdkPixmap *clefs[NUMCLEFTYPES] =
     { NULL, NULL, NULL, NULL, NULL, NULL };
   static gint clefwidths[NUMCLEFTYPES] =
@@ -63,7 +64,35 @@ draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, gint type)
       clefs[DENEMO_TENOR_CLEF] = bitmaphelper (NULL, feta26_clefs_alto);
       clefs[DENEMO_SOPRANO_CLEF] = bitmaphelper (NULL, feta26_clefs_alto);
     }
-  drawbitmapinverse (pixmap, gc, clefs[type],
+
+  gboolean override = FALSE;
+  if(clef->directives) {
+    gint count=0;
+    GList *g=clef->directives;
+    for(;g;g=g->next, count++) {
+      DenemoDirective* directive = g->data;
+      override = override || directive->override;
+      if(directive->display) { 
+	PangoContext *context =
+	  gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+	PangoLayout *layout = pango_layout_new (context);
+	PangoFontDescription *desc = pango_font_description_from_string (FONT);
+	pango_layout_set_text (layout,
+			       directive->display->str,
+			       -1);
+	pango_layout_set_font_description (layout, desc);
+	gdk_draw_layout (Denemo.gui->pixmap, gc, xx + directive->tx, y+count*10, layout);
+      }
+      if(directive->graphic) {
+	gint width, height;
+	gdk_drawable_get_size(directive->graphic, &width, &height);
+	drawbitmapinverse (pixmap, gc, directive->graphic,
+			   xx+directive->gx+count,  y+directive->gy, width, height);
+      }
+    }
+  }
+  if(!override)
+      drawbitmapinverse (pixmap, gc, clefs[type],
 		     xx, y + clefoffsets[type],
 		     clefwidths[type], clefheights[type]);
 }

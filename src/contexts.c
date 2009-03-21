@@ -15,7 +15,7 @@
 #include "staffops.h"
 
 /**
- * This function finds the first DenemoObject of type thetype before measure
+ * This function finds the first DenemoObject of type thetype *before* measure
  * curmeasure. It returns NULL if it was unable to find such a DenemoObject 
  * 
  * @param curmeasure the current measure to search
@@ -23,7 +23,7 @@
  * @return the first DenemoObject of type the type
  */
 static DenemoObject *
-find_context (measurenode * curmeasure, gint thetype)
+find_measure_context (measurenode * curmeasure, gint thetype)
 {
   objnode *curobj;
   if (curmeasure && curmeasure->prev)
@@ -108,11 +108,11 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
 					 si->leftmeasurenum - 1);
   DenemoObject *obj;
 
-  if ((obj = find_context (leftmeasure, CLEF)))
-    curstaffstruct->leftmost_clefcontext = ((clef *) obj->object)->type;
+  if ((obj = find_measure_context (leftmeasure, CLEF)))
+    curstaffstruct->leftmost_clefcontext = ((clef *) obj->object);
   else
-    curstaffstruct->leftmost_clefcontext = curstaffstruct->clef.type;
-  if ((obj = find_context (leftmeasure, KEYSIG)))
+    curstaffstruct->leftmost_clefcontext = &curstaffstruct->clef;
+  if ((obj = find_measure_context (leftmeasure, KEYSIG)))
     curstaffstruct->leftmost_keysigcontext = ((keysig *) obj->object)->number;
   else
     curstaffstruct->leftmost_keysigcontext = curstaffstruct->skey;
@@ -123,7 +123,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
   curstaffstruct->leftmost_keywidth =
     draw_key (NULL, NULL, 0, 0, curstaffstruct->leftmost_keysigcontext,
 	      0, 0, FALSE);
-  if ((obj = find_context (leftmeasure, TIMESIG)))
+  if ((obj = find_measure_context (leftmeasure, TIMESIG)))
     {
       curstaffstruct->leftmost_time1context =
 	((timesig *) obj->object)->time1;
@@ -135,7 +135,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
       curstaffstruct->leftmost_time1context = curstaffstruct->stime1;
       curstaffstruct->leftmost_time2context = curstaffstruct->stime2;
     }
-  if ((obj = find_context (leftmeasure, STEMDIRECTIVE)))
+  if ((obj = find_measure_context (leftmeasure, STEMDIRECTIVE)))
     curstaffstruct->leftmost_stem_directive =
       ((stemdirective *) obj->object)->type;
   else

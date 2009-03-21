@@ -32,7 +32,7 @@ draw_tuplet (GdkPixmap *pixmap, GdkGC *gc,
 	     objnode *curobj, gint xx, gint y, gint mwidth, gint *accs);
 
 void
-draw_clef (GdkPixmap *pixmap, GdkGC *gc, gint xx, gint y, gint type);
+draw_clef (GdkPixmap *pixmap, GdkGC *gc, gint xx, gint y, clef* type);
 
 gint
 draw_key (GdkPixmap *pixmap, GdkGC *gc, gint xx, gint y,

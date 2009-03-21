@@ -1443,6 +1443,8 @@ INSTALL_PUT(score, ty);
 INSTALL_PUT(clef, display);
 INSTALL_PUT(clef, prefix);
 INSTALL_PUT(clef, postfix);
+INSTALL_PUT(clef, graphic);
+
 
 INSTALL_GET(clef, display);
 INSTALL_GET(clef, prefix);
@@ -1455,6 +1457,7 @@ INSTALL_PUT(clef, ty)
 INSTALL_PUT(clef, gx)
 INSTALL_PUT(clef, gy)
 INSTALL_PUT(clef, override)
+
 
 INSTALL_GET(clef, x)
 INSTALL_GET(clef, y)

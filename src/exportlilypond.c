@@ -702,6 +702,30 @@ brace_count(gchar *str) {
   }
   return ret;
 }
+/* returns a newly allocated string of lilypond output from list of directives */
+static gchar *get_prolog(GList *g) {
+  if(g==NULL)
+    return g_strdup("");
+  GString *ret = g_string_new("");
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    if(d->prefix && d->prefix->len)
+      g_string_append(ret, d->prefix->str);
+    if(d->postfix && d->postfix->len)
+      g_string_append(ret, d->postfix->str);
+  }
+return g_string_free(ret, FALSE);
+}
+
+/* returns the directives flags ORd together */
+static gint get_override(GList *g) {
+  gint ret = 0;
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    ret |= d->override;
+  }
+  return ret;
+}
 
 
 /**
@@ -1004,8 +1028,15 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	}
 	break;
       case CLEF:
-	determineclef (((clef *) curobj->object)->type, &clefname);
-	g_string_append_printf (ret, "\\clef %s", clefname);
+	{gboolean override = get_override(((clef *) curobj->object)->directives);
+	if(((clef *) curobj->object)->directives) {
+	  g_string_append_printf (ret, "%s", get_prolog(((clef *) curobj->object)->directives));
+	}
+	if(!override) {
+	  determineclef (((clef *) curobj->object)->type, &clefname);
+	  g_string_append_printf (ret, "\\clef %s", clefname);
+	}
+	}
 	break;
       case KEYSIG:
 	determinekey (((keysig *) curobj->object)->isminor ?
@@ -1215,30 +1246,6 @@ outputHeader (GString *str, DenemoGUI * gui)
 
 
 }
-/* returns a newly allocated string of lilypond output from list of directives */
-static gchar *get_prolog(GList *g) {
-  if(g==NULL)
-    return g_strdup("");
-  GString *ret = g_string_new("");
-  for(;g;g=g->next) {
-    DenemoDirective *d = g->data;
-    if(d->prefix && d->prefix->len)
-      g_string_append(ret, d->prefix->str);
-    if(d->postfix && d->postfix->len)
-      g_string_append(ret, d->postfix->str);
-  }
-return g_string_free(ret, FALSE);
-}
-
-/* returns the directives flags ORd together */
-static gint get_override(GList *g) {
-  gint ret = 0;
-  for(;g;g=g->next) {
-    DenemoDirective *d = g->data;
-    ret |= d->override;
-  }
-  return ret;
-}
 
 
 
@@ -1340,7 +1347,13 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       g_string_append_printf(definitions, "%s", " \\major\n");
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
-    g_string_append_printf(definitions, "%s%sClef = \\clef %s\n", movement, voice, clefname);
+    gboolean clef_override = get_override(curstaffstruct->clef.directives);
+    gchar *clef_prolog_insert = get_prolog(curstaffstruct->clef.directives);
+    if(clef_override)
+      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_prolog_insert);
+    else
+      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clef_prolog_insert, clefname);
+    g_free(clef_prolog_insert);
     g_string_append_printf(definitions, "%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			   movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
     
@@ -1524,12 +1537,22 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
   // str is empty again now FIXME
   g_string_append_printf(str, "%s", "}\n");
+  gint voice_override = get_override(curstaffstruct->voice_directives);
   gchar *voice_prolog_insert = get_prolog(curstaffstruct->voice_directives);
 
   g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			 movement, voice, movement, voice, movement, voice);
-  g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
+
+  if(voice_override) 
+    g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
+			   movement, voice,   voice_prolog_insert, movement, voice);
+  else
+    g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
 			 movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
+
+
+
+
   g_free(voice_prolog_insert);
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
   
