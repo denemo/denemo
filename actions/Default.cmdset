@@ -336,6 +336,11 @@ The cursor position determines which note to add</tooltip>
         <tooltip>Inserts a duplicate of the current note, tied</tooltip>
       </row>
       <row>
+        <action>ToggleTie</action>
+        <label>Toggle Tie</label>
+        <tooltip>Ties/unties the note at the cursor</tooltip>
+      </row>
+      <row>
         <action>DeleteObject</action>
         <label>Delete Object</label>
         <tooltip>Delete the object at the cursor</tooltip>
@@ -1382,7 +1387,7 @@ Notes entered will follow this pattern</tooltip>
       <row>
         <action>InsertClef</action>
         <label>Clef Change</label>
-        <tooltip>Insert a change of clef at the cursor</tooltip>
+        <tooltip>Insert/Edit a change of clef at the cursor</tooltip>
       </row>
       <row>
         <action>InitialKey</action>
@@ -1391,8 +1396,8 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>InsertKey</action>
-        <label>Insert Key Change</label>
-        <tooltip>Insert a key change at the cursor position</tooltip>
+        <label>Key Signature Change</label>
+        <tooltip>Insert/Edit a key change at the cursor position</tooltip>
       </row>
       <row>
         <action>InitialTimeSig</action>
@@ -1401,7 +1406,7 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>InsertTimeSig</action>
-        <label>Insert Time Signature</label>
+        <label>Time Signature Change</label>
         <tooltip>Edit/Insert a time signature change for the current measure</tooltip>
       </row>
       <row>
@@ -2226,6 +2231,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <label>Smaller Staff</label>
         <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
+      <row>
+        <action>TmbalesStyle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Tmbales Style Staff</label>
+        <tooltip>Changes to a drum staff</tooltip>
       </row>
     </map>
   </commands>

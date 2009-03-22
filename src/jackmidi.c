@@ -31,9 +31,9 @@ double          rate_limit = 0;
 int             just_one_output = 0;
 int             start_stopped = 0;
 int             use_transport = 0;
-int             be_quiet = 0;
+int             be_quiet = 1;
 
-volatile int    playback_started = -1, song_position = 0, stop_midi_output = 0;
+int    playback_started = -1, song_position = 0, stop_midi_output = 0;
 
 double 
 get_time(void)
@@ -133,6 +133,7 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 {
 	int i, channel;
 	unsigned char *buffer;
+	g_debug("\nSending all sound off!!!\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		for (channel = 0; channel < 16; channel++) {
 #ifdef JACK_MIDI_NEEDS_NFRAMES
@@ -157,7 +158,6 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 static gint move_on(DenemoGUI *gui){
 	  if(timeout_id==0)
 		      return FALSE;
-	    //g_print("Current measure %d\n", gui->si->currentmeasurenum);
 	    set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
 
 	      return TRUE;
@@ -198,17 +198,7 @@ process_midi_output(jack_nframes_t nframes)
 		if (just_one_output)
 			break;
 	}
-
-	if (stop_midi_output) {
-		send_all_sound_off(port_buffers, nframes);
-		
-		/* The idea here is to exit at the second time process_midi_output gets called.
-		   Otherwise, All Sound Off won't be delivered. */
-		stop_midi_output++;
-		if (stop_midi_output >= 3)
-		return;
-	}
-        
+ 
 	if (use_transport) {
 		transport_state = jack_transport_query(jack_client, NULL);
 		if (transport_state == JackTransportStopped) {
@@ -244,6 +234,12 @@ process_midi_output(jack_nframes_t nframes)
 			break;
 		}
 
+	        if (stop_midi_output > 0) {
+			send_all_sound_off(port_buffers, nframes);
+			jack_transport_stop(jack_client);	
+			return;
+		}
+		
 		/* Skip over metadata events. */
 		if (smf_event_is_metadata(event)) {
 			char *decoded = smf_event_decode(event);
@@ -255,7 +251,6 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		bytes_remaining -= event->midi_buffer_length;
-		//g_print("\nBytes Remaining = %d\n",bytes_remaining);
 		if (rate_limit > 0.0 && bytes_remaining <= 0) {
 			warn_from_jack_thread_context("Rate limiting in effect.");
 			break;
@@ -358,7 +353,7 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if ((smf != NULL) && (output_ports != NULL) && (stop_midi_output == 0)){
+	if ((smf != NULL) && (output_ports != NULL)){
 	  process_midi_output(nframes);
 	}
 #ifdef MEASURE_TIME
@@ -556,7 +551,7 @@ jack_midi_player (gchar *file_name) {
      g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
      just_one_output = 1;
   }
-  g_print("\nNumber of tracks = %d\n", smf->number_of_tracks);
+  g_debug("\nNumber of tracks = %d\n", smf->number_of_tracks);
  
   if (use_transport) {
     gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
@@ -575,25 +570,19 @@ jack_midi_player (gchar *file_name) {
     playback_started = jack_frame_time(jack_client);
 }
 
-/* start or restart internal jack midi player
- * if start==FALSE stop the playback rather than start it
- */
 void
-jack_midi_playback_control (gboolean start)
+jack_midi_playback_start()
 {
   DenemoGUI *gui = Denemo.gui;
   gchar *mididata = NULL;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
   /* set tranport on/off */
   use_transport = Denemo.prefs.jacktransport; 
-  g_debug("\nTransport set to %d\n", use_transport);
+  /* set tranport start_stopped */
+  start_stopped = Denemo.prefs.jacktransport_start_stopped; 
+  g_debug("\nTransport set to %d Transport start stopped = %d\n", 
+		  use_transport, start_stopped);
   if (jack_client != NULL){
-	  /*stop_midi_playback*/
-	  if (!start) {
-	    stop_midi_output = 1;
-	    jack_transport_stop(jack_client);
-	    return 0;
-	  }
 	  mididata = get_temp_filename ("denemoplayback.mid");
 	  if(gui->si->markstaffnum)
 	   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
@@ -623,10 +612,12 @@ jack_midi_playback_control (gboolean start)
 }
 
 void
-jack_midi_playback (GtkAction * action, gpointer param)
+jack_midi_playback_stop ()
 {
-  jack_midi_playback_control (TRUE);
+   stop_midi_output = 1;
+   jack_transport_stop(jack_client);
 }
+
 
 #endif // _HAVE_JACK_
 

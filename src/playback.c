@@ -185,7 +185,7 @@ void
 ext_midi_playback (GtkAction * action, gpointer param)
 {
 #ifdef _HAVE_JACK_
-  jack_midi_playback_control (TRUE);
+  jack_midi_playback_start();
 #else
   ext_midi_playback_control (TRUE);
 #endif
@@ -193,7 +193,7 @@ ext_midi_playback (GtkAction * action, gpointer param)
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
 #ifdef _HAVE_JACK_
- jack_midi_playback_control (FALSE);
+ jack_midi_playback_stop();
  jack_kill_timer();
 #else
  ext_midi_playback_control (FALSE);

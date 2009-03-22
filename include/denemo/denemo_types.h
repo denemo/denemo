@@ -325,6 +325,7 @@ typedef struct DenemoPrefs
   GString *sequencer;  /**< path to sequencer device */
   GString *midi_in;  /**< path to midi_in device */
   gboolean *jacktransport; /**< toggle on and off jack transport */
+  gboolean *jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
   gboolean *jack_at_startup; /**< toggle on and off jack initialization at startup */
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
