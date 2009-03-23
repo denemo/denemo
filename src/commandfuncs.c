@@ -505,6 +505,7 @@ staffup (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->prev;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_up (gui);
       return param->status = TRUE;
@@ -566,6 +567,7 @@ staffdown (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_down (gui);
       return param->status = TRUE;
