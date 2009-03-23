@@ -632,7 +632,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 
 
 // Displaying Print Preview
-static changecount = 0;//changecount when last refreshed
+static changecount = -1;//changecount when last refreshed
 static gboolean selecting = FALSE;
 static gboolean offsetting = FALSE;
 static gboolean padding = FALSE;

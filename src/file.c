@@ -248,6 +248,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
 	  score_status(gui, TRUE);
       }
+      if(gui->printarea) 
+	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", -2);
       updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
       set_bottom_staff (gui);
