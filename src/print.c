@@ -731,9 +731,9 @@ void refresh_print_view (void) {
   DenemoGUI *gui = Denemo.gui;
   GError *error = NULL;
   //g_print("printviewpid %d\n", printviewpid);
-  if(changecount == Denemo.gui->changecount) {
-     warningdialog ("No changes since last update");
-     return;
+  if(changecount == Denemo.gui->changecount && g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")==Denemo.gui->changecount) {
+    if(confirm ("No changes since last update", "Cancel refresh of print view?"))
+      return;
   }
 
   if(printviewpid!=GPID_UNREF_VALUE) {
