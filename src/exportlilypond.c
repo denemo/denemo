@@ -702,8 +702,21 @@ brace_count(gchar *str) {
   }
   return ret;
 }
-/* returns a newly allocated string of lilypond output from list of directives */
-static gchar *get_prolog(GList *g) {
+/* returns a newly allocated string of lilypond output from  the postfix fields of a list of directives */
+static gchar *get_postfix(GList *g) {
+  if(g==NULL)
+    return g_strdup("");
+  GString *ret = g_string_new("");
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    
+    if(d->postfix && d->postfix->len)
+      g_string_append(ret, d->postfix->str);
+  }
+return g_string_free(ret, FALSE);
+}
+/* returns a newly allocated string of lilypond output from the prefix fields of a list of directives */
+static gchar *get_prefix(GList *g) {
   if(g==NULL)
     return g_strdup("");
   GString *ret = g_string_new("");
@@ -711,11 +724,15 @@ static gchar *get_prolog(GList *g) {
     DenemoDirective *d = g->data;
     if(d->prefix && d->prefix->len)
       g_string_append(ret, d->prefix->str);
-    if(d->postfix && d->postfix->len)
-      g_string_append(ret, d->postfix->str);
+    
   }
 return g_string_free(ret, FALSE);
 }
+
+
+
+
+
 
 /* returns the directives flags ORd together */
 static gint get_override(GList *g) {
@@ -1030,7 +1047,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       case CLEF:
 	{gboolean override = get_override(((clef *) curobj->object)->directives);
 	if(((clef *) curobj->object)->directives) {
-	  g_string_append_printf (ret, "%s", get_prolog(((clef *) curobj->object)->directives));
+	  g_string_append_printf (ret, "%s", get_postfix(((clef *) curobj->object)->directives));//FIXME memory leak get_postfix
 	}
 	if(!override) {
 	  determineclef (((clef *) curobj->object)->type, &clefname);
@@ -1348,17 +1365,18 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
     gboolean clef_override = get_override(curstaffstruct->clef.directives);
-    gchar *clef_prolog_insert = get_prolog(curstaffstruct->clef.directives);
+    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
     if(clef_override)
-      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_prolog_insert);
+      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
     else
-      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clef_prolog_insert, clefname);
-    g_free(clef_prolog_insert);
+      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clefname, clef_postfix_insert);
+    g_free(clef_postfix_insert);
     g_string_append_printf(definitions, "%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
 			   movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
-    
-    g_string_append_printf(str, "%s%s = {\n",
-			   movement, voice);    
+    gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
+    g_string_append_printf(str, "%s%s = %s {\n",
+			   movement, voice, voice_prefix);    
+    g_free(voice_prefix);
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
     insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
   } /* standard staff-prolog */
@@ -1538,7 +1556,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   // str is empty again now FIXME
   g_string_append_printf(str, "%s", "}\n");
   gint voice_override = get_override(curstaffstruct->voice_directives);
-  gchar *voice_prolog_insert = get_prolog(curstaffstruct->voice_directives);
+  gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
 
   g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
 			 movement, voice, movement, voice, movement, voice);
@@ -1886,7 +1904,18 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
  
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
+  //gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
+
+  if(gui->custom_prolog && gui->custom_prolog->len ) 
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
+  else {
+    GString *header = g_string_new("");
+    outputHeader (header, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1, "bold", NULL);
+    g_string_free(header, TRUE);
+  }
+
+
   //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
   // containing the fixed stuff. for example:
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
@@ -1904,28 +1933,21 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   }
   
 
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  {
+  GList *g = gui->lilycontrol.directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = g->data;
+    if(directive->prefix)
+      insert_editable(&directive->prefix, directive->prefix->str, &iter, HIGHLIGHT, gui);
+    //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
+  }
+  }
+
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n% The music follows\n", -1, INEDITABLE, NULL);
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
   
-
-
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
-  if(gui->custom_prolog && gui->custom_prolog->len ) 
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
-  else {
-    GString *header = g_string_new("");
-    outputHeader (header, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1, "bold", NULL);
-    g_string_free(header, TRUE);
-  }
-  
-
-  //  GTimeVal time;long seconds;
-  //  g_get_current_time(&time);
-  //  g_print("time %ld secs", seconds = time.tv_sec);
-
   /* output custom scoreblocks making the first one visible unless this is just a part being printed */
   GList *custom;
   for(custom=gui->custom_scoreblocks;custom;custom=custom->next) 
@@ -1965,7 +1987,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
    
       //standard score block
-      gchar *score_prolog = get_prolog(gui->lilycontrol.directives);
+      gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
       g_string_append_printf (scoreblock, "%s", "\\score {\n");
 
 #ifdef SOMELILYPONDVERSION
@@ -2037,7 +2059,7 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 				   movement_name->str, voice_name->str);
 	  
 	  GString *thestr = g_string_new("");
-	  gchar *staff_prolog_insert =  get_prolog(curstaffstruct->staff_directives);
+	  gchar *staff_prolog_insert =  get_postfix(curstaffstruct->staff_directives);
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
 	      g_string_append_printf(thestr, "\\new ChoirStaff %s << \n", staff_prolog_insert);
