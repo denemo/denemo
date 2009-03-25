@@ -1938,7 +1938,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
     if(directive->prefix)
-      insert_editable(&directive->prefix, directive->prefix->str, &iter, HIGHLIGHT, gui);
+      insert_editable(&directive->prefix, directive->prefix->str, &iter, NULL, gui);
     //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
   }
   }
