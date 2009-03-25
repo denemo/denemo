@@ -1266,8 +1266,16 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  gint tmp = cur_volume;
 			  if (curobj->isinvisible)
 			    cur_volume = 0;
+			  else if (chordval.has_dynamic){
+			      g_debug("\nThis chord has a dynamic marking attatched\n");
+			      GList *dynamic = g_list_first(chordval.dynamics);	
+			      cur_volume =
+		              string_to_vol (((GString *) dynamic->data)->str,
+				   cur_volume);
+			  }
 			  else
 			    cur_volume = tmp;
+
 			  mid_c_offset =
 			    ((note *) curtone->data)->mid_c_offset;
 			  enshift = ((note *) curtone->data)->enshift;
