@@ -2239,6 +2239,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Tmbales Style Staff</label>
         <tooltip>Changes to a drum staff</tooltip>
       </row>
+      <row>
+        <action>Fortissimo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Fortissimo</label>
+        <tooltip>Places a ff sign on the chord at the cursor</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
