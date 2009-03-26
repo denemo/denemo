@@ -1093,13 +1093,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       midi_change_event (fd, MIDI_PROG_CHANGE, midi_channel, prognum);
 
       /*key signature */
-      midi_keysig (fd, curstaffstruct->skey, curstaffstruct->skey_isminor);
+      midi_keysig (fd, curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
 
       /* Time signature */
-      timesigupper = curstaffstruct->stime1;
+      timesigupper = curstaffstruct->timesig.time1;
       //printf("\nstime1 = %i\n", timesigupper);
 
-      timesiglower = curstaffstruct->stime2;
+      timesiglower = curstaffstruct->timesig.time2;
       //printf("\nstime2 = %i\n", timesiglower);
 
       midi_timesig (fd, timesigupper, timesiglower);
@@ -1508,7 +1508,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  //  ((keysig *) theobj->object)->number; referenced in src/measureops.cpp       
 		  //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
 		  midi_keysig (fd, (((keysig *) curobj->object)->number),
-			       curstaffstruct->skey_isminor);
+			       curstaffstruct->keysig.isminor);
 
 		case CLEF:
 

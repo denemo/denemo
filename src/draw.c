@@ -575,15 +575,15 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 	     itp->clef = curstaffstruct->leftmost_clefcontext);
   x = KEY_MARGIN;
   draw_key (gui->pixmap, gc, x, y,
-	    itp->key = curstaffstruct->leftmost_keysigcontext,
+	    itp->key = curstaffstruct->leftmost_keysig->number,
 	    0, itp->clef->type, TRUE);
-  memcpy (itp->keyaccs, curstaffstruct->leftmost_keyaccs, SEVENGINTS);
+  memcpy (itp->keyaccs, curstaffstruct->leftmost_keysig->accs, SEVENGINTS);
   x += si->maxkeywidth;
 
   draw_timesig (gui->pixmap, gc, gtk_style_get_font (itp->widget->style), x,
 		y, itp->time1 =
-		curstaffstruct->leftmost_time1context, itp->time2 =
-		curstaffstruct->leftmost_time2context);
+		curstaffstruct->leftmost_timesig->time1, itp->time2 =
+		curstaffstruct->leftmost_timesig->time2);
   x += SPACE_FOR_TIME;
   itp->stem_directive = curstaffstruct->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;

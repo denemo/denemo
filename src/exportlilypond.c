@@ -1280,8 +1280,8 @@ static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count, GString *definitions)
 {
-  gint cur_stime1 = curstaffstruct->stime1;
-  gint cur_stime2 = curstaffstruct->stime2;
+  gint cur_stime1 = curstaffstruct->timesig.time1;
+  gint cur_stime2 = curstaffstruct->timesig.time2;
 
   gint prevduration, prevnumdots;
   gchar *clefname;
@@ -1348,17 +1348,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
     
     /* Time signature */
-    g_string_append_printf(definitions, "%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->stime1,
-			   curstaffstruct->stime2);
+    g_string_append_printf(definitions, "%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->timesig.time1,
+			   curstaffstruct->timesig.time2);
     /* Determine the key signature */
     gchar *clefname;
     /* clef name */
     gchar *keyname;
     /* key signature name */
-    determinekey (curstaffstruct->skey_isminor ?
-		  curstaffstruct->skey + 3 : curstaffstruct->skey, &keyname);
+    determinekey (curstaffstruct->keysig.isminor ?
+		  curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
     g_string_append_printf(definitions, "%s%sKeySig = \\key %s", movement, voice, keyname);
-    if (curstaffstruct->skey_isminor)
+    if (curstaffstruct->keysig.isminor)
       g_string_append_printf(definitions, "%s", " \\minor\n");
     else
       g_string_append_printf(definitions, "%s", " \\major\n");

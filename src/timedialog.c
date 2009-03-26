@@ -41,8 +41,8 @@ ispow2 (gint x)
 static void
 settimesig (DenemoStaff * curstaffstruct, gint time1, gint time2)
 {
-  curstaffstruct->stime1 = time1;
-  curstaffstruct->stime2 = time2;
+  curstaffstruct->timesig.time1 = time1;
+  curstaffstruct->timesig.time2 = time2;
   beamsandstemdirswholestaff (curstaffstruct);
 }
 
@@ -202,7 +202,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
   textentry1 = gtk_spin_button_new_with_range (1, 128, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry1), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry1),
-			     (gdouble) curstaffstruct->stime1);
+			     (gdouble) curstaffstruct->timesig.time1);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry1, FALSE,
 		      FALSE, 8);
   gtk_entry_set_activates_default (GTK_ENTRY (textentry1), TRUE);
@@ -210,7 +210,7 @@ timesig_change (DenemoGUI * gui, actiontype action)
   textentry2 = gtk_spin_button_new_with_range (1, 16, 1.0);
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (textentry2), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (textentry2),
-			     (gdouble) curstaffstruct->stime2);
+			     (gdouble) curstaffstruct->timesig.time2);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), textentry2, FALSE,
 		      FALSE, 8);
   gtk_entry_set_activates_default (GTK_ENTRY (textentry2), TRUE);

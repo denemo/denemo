@@ -642,7 +642,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
  
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (numerator), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (numerator),
-			     (gdouble) curstaffstruct->stime1);
+			     (gdouble) curstaffstruct->timesig.time1);
   gtk_entry_set_activates_default (GTK_ENTRY (numerator), TRUE);
 
   GtkWidget *denominator = gtk_spin_button_new_with_range (1, 16, 1.0);
@@ -652,7 +652,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
  
   gtk_spin_button_set_digits (GTK_SPIN_BUTTON (denominator), 0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (denominator),
-			     (gdouble) curstaffstruct->stime2);
+			     (gdouble) curstaffstruct->timesig.time2);
   gtk_entry_set_activates_default (GTK_ENTRY (denominator), TRUE);
 
   /*key signature*/
@@ -708,7 +708,7 @@ timekeysig(wizarddata *wdata, gboolean isnotebook)
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton1), TRUE);
   majorcallback (NULL, mdata);
   gtk_entry_set_text(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-		     majorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET]);
+		     majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
    
   if(isnotebook)
     {
@@ -1015,9 +1015,9 @@ static void applykeytimesig_settings(wizarddata *wdata)
   si->tempo = atoi( (gchar *) gtk_entry_get_text (GTK_ENTRY (tsetup->tempo)));
   /*apply timesig*/
 
-  curstaffstruct->stime1 = 
+  curstaffstruct->timesig.time1 = 
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (tsetup->numerator));
-  curstaffstruct->stime2 = 
+  curstaffstruct->timesig.time2 = 
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (tsetup->denominator));
 
   // wdata->gui->haschanged = TRUE;???????? why was this set???

@@ -1319,7 +1319,7 @@ gchar *determine_interval(gint bass, gint harmony){
   gint bass_octave, harmony_octave;
   gdouble deviation;
   gint semitones = harmony - bass;
-  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->skeyaccs;
+  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->keysig.accs;
  notepitch bassnote = PR_temperament->notepitches[bass%12];
  notepitch harmonynote = PR_temperament->notepitches[harmony%12];
  gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;

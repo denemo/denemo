@@ -2268,15 +2268,15 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 	  }
 	else if (ELEM_NAME_EQ (childElem, "key-signature"))
 	  {
-	    parseKeySignature (childElem, ns, &(curVoice->skey),
-			       &(curVoice->skey_isminor));
-	    initkeyaccs (curVoice->skeyaccs, curVoice->skey);
+	    parseKeySignature (childElem, ns, &(curVoice->keysig.number),
+			       &(curVoice->keysig.isminor));
+	    initkeyaccs (curVoice->keysig.accs, curVoice->keysig.number);
 	    //dnm_setinitialkeysig(curVoice, curVoice->skey, curVoice->skey_isminor);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "time-signature"))
 	  {
-	    parseTimeSignature (childElem, ns, &(curVoice->stime1),
-				&(curVoice->stime2));
+	    parseTimeSignature (childElem, ns, &(curVoice->timesig.time1),
+				&(curVoice->timesig.time2));
 	  }
 	else
 	  {

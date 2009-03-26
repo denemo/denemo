@@ -809,10 +809,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "staff-ref", NULL);
       xmlSetProp (curElem, (xmlChar *) "staff", (xmlChar *) staffXMLID);
       newXMLClef (parentElem, ns, &curStaffStruct->clef);
-      newXMLKeySignature (parentElem, ns, curStaffStruct->skey,
-			  curStaffStruct->skey_isminor);
-      curTime1 = curStaffStruct->stime1;
-      curTime2 = curStaffStruct->stime2;
+      newXMLKeySignature (parentElem, ns, curStaffStruct->keysig.number,
+			  curStaffStruct->keysig.isminor);
+      curTime1 = curStaffStruct->timesig.time1;
+      curTime2 = curStaffStruct->timesig.time2;
       newXMLTimeSignature (parentElem, ns, curTime1, curTime2);
 
       /* Write out the measures. */

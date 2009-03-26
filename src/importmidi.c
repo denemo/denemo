@@ -324,10 +324,10 @@ dotimesig (FILE * fp, midicallback *mididata)
   /*only does initial TS */
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
 
-  curstaffstruct->stime1 = readBytes (fp, 1);
-  curstaffstruct->stime2 = (gint) pow (2, (readBytes (fp, 1)));
+  curstaffstruct->timesig.time1 = readBytes (fp, 1);
+  curstaffstruct->timesig.time2 = (gint) pow (2, (readBytes (fp, 1)));
 
-  mididata->barlength = mididata->PPQN * 4 * curstaffstruct->stime1 / curstaffstruct->stime2;
+  mididata->barlength = mididata->PPQN * 4 * curstaffstruct->timesig.time1 / curstaffstruct->timesig.time2;
   readBytes (fp, 2);		/*skip last two characters */
 }
 
@@ -348,8 +348,8 @@ dokeysig (FILE * fp, midicallback *mididata)
     key = key - 256;		/*get flat key num, see keysigdialog.cpp */
 
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
-  curstaffstruct->skey = key;
-  curstaffstruct->skey_isminor = isminor;
+  curstaffstruct->keysig.number = key;
+  curstaffstruct->keysig.isminor = isminor;
   dnm_setinitialkeysig (curstaffstruct, key, isminor);
 }
 

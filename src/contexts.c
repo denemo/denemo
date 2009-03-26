@@ -113,27 +113,24 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoScore * si)
   else
     curstaffstruct->leftmost_clefcontext = &curstaffstruct->clef;
   if ((obj = find_measure_context (leftmeasure, KEYSIG)))
-    curstaffstruct->leftmost_keysigcontext = ((keysig *) obj->object)->number;
+    curstaffstruct->leftmost_keysig = (keysig *) obj->object;
   else
-    curstaffstruct->leftmost_keysigcontext = curstaffstruct->skey;
-  /*  dnm_setinitialkeysig  (curstaffstruct, curstaffstruct->leftmost_keysigcontext,
-      curstaffstruct->skey_isminor);*/
-  initkeyaccs (curstaffstruct->leftmost_keyaccs,
-	       curstaffstruct->leftmost_keysigcontext);
-  curstaffstruct->leftmost_keywidth =
-    draw_key (NULL, NULL, 0, 0, curstaffstruct->leftmost_keysigcontext,
-	      0, 0, FALSE);
+    curstaffstruct->leftmost_keysig = &curstaffstruct->keysig;
+
+  // initkeyaccs (curstaffstruct->leftmost_keysig->accs,
+  //	       curstaffstruct->leftmost_keysig->number);
+
+      si->maxkeywidth = MAX (si->maxkeywidth, 
+			     draw_key (NULL, NULL, 0, 0, curstaffstruct->leftmost_keysig->number,
+	      0, 0, FALSE));
   if ((obj = find_measure_context (leftmeasure, TIMESIG)))
     {
-      curstaffstruct->leftmost_time1context =
-	((timesig *) obj->object)->time1;
-      curstaffstruct->leftmost_time2context =
-	((timesig *) obj->object)->time2;
+      curstaffstruct->leftmost_timesig =
+	(timesig *) obj->object;
     }
   else
     {
-      curstaffstruct->leftmost_time1context = curstaffstruct->stime1;
-      curstaffstruct->leftmost_time2context = curstaffstruct->stime2;
+      curstaffstruct->leftmost_timesig = &curstaffstruct->timesig;
     }
   if ((obj = find_measure_context (leftmeasure, STEMDIRECTIVE)))
     curstaffstruct->leftmost_stem_directive =
@@ -157,8 +154,6 @@ find_leftmost_allcontexts (DenemoScore * si)
   for (; curstaff; curstaff = curstaff->next)
     {
       find_leftmost_staffcontext ((DenemoStaff *) curstaff->data, si);
-      si->maxkeywidth = MAX (si->maxkeywidth,
-			     ((DenemoStaff *) curstaff->data)->
-			     leftmost_keywidth);
+
     }
 }

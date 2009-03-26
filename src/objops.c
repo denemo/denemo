@@ -430,12 +430,12 @@ void
 dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
 {
 
-  curstaff->skey = tokey;
-  curstaff->skey_isminor = type;
+  curstaff->keysig.number = tokey;
+  curstaff->keysig.isminor = type;
 
-  initkeyaccs (curstaff->leftmost_keyaccs, tokey);
-  memcpy (curstaff->skeyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
-
+  initkeyaccs (curstaff->keysig.accs, tokey);
+  //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
+  curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
 
 }

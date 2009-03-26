@@ -462,8 +462,8 @@ find_xes_in_all_measures (DenemoScore * si)
   DenemoStaff *firststaffstruct = (DenemoStaff *) si->thescore->data;
   struct twoints feed;
 
-  feed.a = firststaffstruct->stime1;
-  feed.b = firststaffstruct->stime2;
+  feed.a = firststaffstruct->timesig.time1;
+  feed.b = firststaffstruct->timesig.time2;
   //g_print ("Number of measures in score %d\n", n);
   for (i = 1; i <= n; i++)
     feed = find_xes_in_measure (si, i, feed.a, feed.b);

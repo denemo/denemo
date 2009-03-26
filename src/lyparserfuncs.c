@@ -102,15 +102,15 @@ set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
     }
   if ((obj = first_context (firstmeasure, KEYSIG)))
     {
-      curstaffstruct->skey = ((keysig *) obj->object)->number;
-      dnm_setinitialkeysig (curstaffstruct, curstaffstruct->skey, curstaffstruct->skey_isminor);
+      curstaffstruct->keysig.number = ((keysig *) obj->object)->number;
+      dnm_setinitialkeysig (curstaffstruct, curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
       //initkeyaccs (curstaffstruct->skeyaccs, curstaffstruct->skey);
       delete_context (firstmeasure, obj);
     }
   if ((obj = first_context (firstmeasure, TIMESIG)))
     {
-      curstaffstruct->stime1 = ((timesig *) obj->object)->time1;
-      curstaffstruct->stime2 = ((timesig *) obj->object)->time2;
+      curstaffstruct->timesig.time1 = ((timesig *) obj->object)->time1;
+      curstaffstruct->timesig.time2 = ((timesig *) obj->object)->time2;
       delete_context (firstmeasure, obj);
     }
   if ((obj = first_context (firstmeasure, SET )))
@@ -190,16 +190,16 @@ set_key (DenemoScore * si, struct twoints t)
 
   if (t.b)
     {				/* Minor key  */
-      curstaffstruct->skey = t.a - 3;
-      curstaffstruct->skey_isminor = TRUE;
+      curstaffstruct->keysig.number = t.a - 3;
+      curstaffstruct->keysig.isminor = TRUE;
     }
   else
     {
-      curstaffstruct->skey = t.a;
-      curstaffstruct->skey_isminor = FALSE;
+      curstaffstruct->keysig.number = t.a;
+      curstaffstruct->keysig.isminor = FALSE;
     }
   //dnm_setinitialkeysig (curstaffstruct, curstaffstruct->skey, curstaffstruct->skey_isminor);
-  initkeyaccs (curstaffstruct->skeyaccs, curstaffstruct->skey);
+  initkeyaccs (curstaffstruct->keysig.accs, curstaffstruct->keysig.number);
 }
 
 void
@@ -207,8 +207,8 @@ set_time (DenemoScore * si, struct twoints t)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
-  curstaffstruct->stime1 = t.a;
-  curstaffstruct->stime2 = t.b;
+  curstaffstruct->timesig.time1 = t.a;
+  curstaffstruct->timesig.time2 = t.b;
 }
 
 struct twoints
@@ -529,8 +529,8 @@ anewstaff (DenemoScore * si, GString * staffname, GString * voicename)
   DenemoStaff *thestaffstruct = (DenemoStaff *) g_malloc0 (sizeof (DenemoStaff));
 
   thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
-  thestaffstruct->stime1 = 4;
-  thestaffstruct->stime2 = 4;
+  thestaffstruct->timesig.time1 = 4;
+  thestaffstruct->timesig.time2 = 4;
   thestaffstruct->no_of_lines = 5;
   thestaffstruct->staff_name = staffname;
   thestaffstruct->denemo_name = g_string_new ("");
@@ -771,9 +771,9 @@ fprintf(stderr, "%s type %d ticks_so_far %d tickspermeasure %d %s\n", __FUNCTION
 	  basic_ticks_in_grace_group = 0;
 	  break;
 	case TIMESIG:
-	  staff->stime1 = ((timesig *) theobj->object)->time1;
-	  staff->stime2 = ((timesig *) theobj->object)->time2;
-	  *ptickspermeasure = staff->stime1 * WHOLE_NUMTICKS / staff->stime2;
+	  staff->timesig.time1 = ((timesig *) theobj->object)->time1;
+	  staff->timesig.time2 = ((timesig *) theobj->object)->time2;
+	  *ptickspermeasure = staff->timesig.time1 * WHOLE_NUMTICKS / staff->timesig.time2;
 	  break;
 	case MUSIC_IDENTIFIER:
 	  {
@@ -866,7 +866,7 @@ break_into_measures (DenemoScore * si, GList * branch, DenemoStaff * staff)
   GList * current_measure = NULL;
   gint numerator = 1, denominator = 1;  /* varies if in tuplet etc */
   gint ticks_so_far = 0;
-  gint tickspermeasure = staff->stime1 * WHOLE_NUMTICKS / staff->stime2;
+  gint tickspermeasure = staff->timesig.time1 * WHOLE_NUMTICKS / staff->timesig.time2;
 
 
 #ifdef DEBUG
