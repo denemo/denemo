@@ -603,7 +603,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
                        xmlNewChild (parentElem, ns, (xmlChar *) #field,\
                       (xmlChar *) gui->lilycontrol.field->str)
   NEWCHILD(papersize);
-  NEWCHILD(lilyversion);
+  //  NEWCHILD(lilyversion);
 
   newXMLIntChild (parentElem, ns, (xmlChar *) "fontsize",  atoi(gui->lilycontrol.staffsize->str));
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation",  gui->lilycontrol.orientation);
