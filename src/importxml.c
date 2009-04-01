@@ -1589,7 +1589,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
   {
     if (childElem->ns == ns)
       {
-	if (ELEM_NAME_EQ (childElem, "lilypondversion"))
+	if (ELEM_NAME_EQ (childElem, "lilyversion"))
 	  {
 	    tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 						  childElem->
@@ -1597,7 +1597,9 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	    if (tmp != NULL)
 	      {
 		//g_print ("lilypond version %s", tmp);
-		g_string_assign (gui->lilycontrol.lilyversion, tmp);
+		//g_string_assign (gui->lilycontrol.lilyversion, tmp);
+		if(strcmp(tmp, LILYPOND_VERSION))
+		   warningdialog("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
 		g_free (tmp);
 	      }
 	  }

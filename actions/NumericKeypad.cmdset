@@ -2249,6 +2249,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Fortissimo</label>
         <tooltip>Places a ff sign on the chord at the cursor</tooltip>
       </row>
+      <row>
+        <action>CautionaryAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Cautionary Accidental</label>
+        <tooltip>Forces the accidental on the note to be printed.</tooltip>
+      </row>
+      <row>
+        <action>ReminderAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Reminder Accidental</label>
+        <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
