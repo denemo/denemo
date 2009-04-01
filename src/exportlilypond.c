@@ -1557,17 +1557,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_append_printf(str, "%s", "}\n");
   gint voice_override = get_override(curstaffstruct->voice_directives);
   gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
-
-  g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
-			 movement, voice, movement, voice, movement, voice);
-
-  if(voice_override) 
-    g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
-			   movement, voice,   voice_prolog_insert, movement, voice);
-  else
-    g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
-			 movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
-
+  if(invisibility==NULL) {
+    g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
+			   movement, voice, movement, voice, movement, voice);
+    
+    if(voice_override) 
+      g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
+			     movement, voice,   voice_prolog_insert, movement, voice);
+    else
+      g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
+			     movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
+  }
 
 
 
@@ -1841,6 +1841,8 @@ static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
   GString *definitions = g_string_new("");
+  GString *staffdefinitions = g_string_new("");
+
   if(gui->namespec==NULL)
     gui->namespec=g_strdup_printf("");/* to check if the scoreblocks to make visible are different */
 
@@ -1913,25 +1915,26 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     outputHeader (header, gui);
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1, "bold", NULL);
     g_string_free(header, TRUE);
-  }
 
 
-  //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
-  // containing the fixed stuff. for example:
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
-  insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
-  
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
-  insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-  
-  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
-    insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
-  }
-  
+
+    //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
+    // containing the fixed stuff. for example:
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
+    insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
+    
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
+    insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
+
+    //The tagline field has to appear in a header block at the top of the file, else it is ignored    
+    if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
+      insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
+    }
+  }  
 
   {
   GList *g = gui->lilycontrol.directives;
@@ -1985,10 +1988,6 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       /* Any markup before the score block */
       if(si->headerinfo.lilypond_before->len)
 	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
-   
-      //standard score block
-      gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
-      g_string_append_printf (scoreblock, "%s", "\\score {\n");
 
 #ifdef SOMELILYPONDVERSION
       /* \header block */
@@ -2014,6 +2013,12 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
      
       g_string_append_printf(scoreblock, "%s", TAB"}\n\n"); /*end of  \header block */
 #endif
+
+      //standard score block
+      gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
+      g_string_append_printf (scoreblock, "%s", "\\score {\n");
+
+
 
       g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
 
@@ -2070,17 +2075,17 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
-	      g_string_append_printf(definitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
 	    else
-	      g_string_append_printf(definitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
 	    g_string_append_printf(thestr, "\\%s%s\n", movement_name->str, staff_name->str);
 	  }
 	  else
-	    g_string_append_printf(definitions, "%s", "\\new Voice {\n");
+	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice {\n");
 	  g_free(staff_prolog_insert);
 
 	  if (curstaffstruct->no_of_lines != 5)
-	    g_string_append_printf(definitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
+	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
 	  const gchar *endofblock;
 	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
@@ -2090,23 +2095,23 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	  
 	  if (curstaffstruct->voicenumber != 2)
 	    {
-	      g_string_append_printf(definitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
+	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
 
 	      if (curstaffstruct->haslyrics)
 	      {
-		g_string_append_printf(definitions, 
+		g_string_append_printf(staffdefinitions, 
 				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
 				voice_name->str, movement_name->str, 
 				movement_name->str, voice_name->str);
 	      }
 
 	      if (curstaffstruct->hasfigures)
-		g_string_append_printf(definitions, TAB TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
-	      g_string_append_printf(definitions, TAB TAB"%s\n", endofblock);
+		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
+	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
 	  else if (curstaffstruct->voicenumber == 2)
-	    g_string_append_printf(definitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
+	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
 
 
 
@@ -2134,6 +2139,11 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
       curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, definitions->str, -1, INEDITABLE, NULL);
+
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staffdefinitions->str, -1, INEDITABLE, NULL);
+
+
+
       g_free(name);
       g_string_assign(definitions, "");
     }
