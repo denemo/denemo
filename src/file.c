@@ -33,7 +33,6 @@
 #include <string.h>
 #include <sys/stat.h>		/* check existance and type of files */
 #include <dirent.h>		/* filter and sort filenames */
-#include <malloc.h>		/* I use free() */
 
 
 
