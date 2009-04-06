@@ -71,7 +71,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   GtkWidget *measure_width;
   GtkWidget *staff_spacing;
   papersetupcb *cbdata = NULL;
-  headersetupcb *hsetup = NULL;
+
   DenemoScore *si = gui->si;
   g_assert (si != NULL);
 
@@ -90,8 +90,6 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
 
-  // Headers  
-  hsetup = headersetup (notebook, gui, TRUE);
 
   // Layout
   label = gtk_label_new_with_mnemonic (_("Display Layout"));
@@ -136,8 +134,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
-      // Set headers
-      applyheader_settings(hsetup,gui);
+
 	/*
        if (!si->lily_file)
 	{
@@ -220,23 +217,10 @@ set_movement_props (gpointer data)
   DenemoGUI *gui = cbdata->gui;
   DenemoScore *si = gui->si;
 #define ASSIGN(field) g_string_assign(si->headerinfo.field , (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
-ASSIGN(title);	  
-ASSIGN(subtitle);	  
-ASSIGN(poet);	  
-ASSIGN(composer);	  
-ASSIGN(meter);	  
-ASSIGN(opus);	  
-ASSIGN(arranger);	  
-ASSIGN(instrument);	  
-ASSIGN(dedication);	  
-ASSIGN(piece);	  
-ASSIGN(head);	  
-ASSIGN(copyright);	  
-ASSIGN(footer);	  
-ASSIGN(tagline);	  
+	  
 ASSIGN(lilypond_before); 
 ASSIGN(lilypond_after);  
-ASSIGN(layout);
+
 ASSIGN(extra); 
 }
 
@@ -302,24 +286,11 @@ GtkWidget *frame2;
   gtk_container_add (GTK_CONTAINER (frame2), entry);\
   gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
 
-  ACCESS(title);	  
-  ACCESS(subtitle);	  
-  ACCESS(poet);	  
-  ACCESS(composer);	  
-  ACCESS(meter);	  
-  ACCESS(opus);	  
-  ACCESS(arranger);	  
-  ACCESS(instrument);	  
-  ACCESS(dedication);	  
-  ACCESS(piece);	  
-  ACCESS(head);	  
-  ACCESS(copyright);	  
-  ACCESS(footer);	  
-  ACCESS(tagline);	  
+	  
 
   ACCESS(lilypond_before); 
   ACCESS(lilypond_after);  
-  ACCESS(layout);
+
   ACCESS(extra);  
 
 
@@ -334,6 +305,7 @@ GtkWidget *frame2;
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_movement_props (&cbdata);
+      score_status(gui, TRUE);
     }
   gtk_widget_destroy (dialog);
 }

@@ -199,19 +199,10 @@ typedef struct
   timesig timesig;
   keysig *leftmost_keysig;
   timesig *leftmost_timesig;
-  // gint skey; /**< The inital keysig. >0=sharps <0 = flats */  
-  // gint skey_isminor;  /**< Values 0 = major, 1 = minor, 2 = mode */
-  // gint skeyaccs[7]; /**< The initial keysignature. Values -7=Cb... -1=F, 0=C, 1=G...7=C# in a chain of fifths */
-  // gint stime1; /**< This is the initial timesig numerator */
-  //  gint stime2; /**< This is the initial timesig denominator */
+ 
   /* we make leftmost_clefcontext a reference to a clef (a pointer) & re-validate leftmost clefcontext in the delete of CLEF object. */
   clef* leftmost_clefcontext; /**< The clef for the leftmost measure visible in the window*/
-  // gint leftmost_keysigcontext; /**< The keysig at thestart of the leftmost measure visible in the window*/
-  //  gint leftmost_keywidth; /**< Space allowed for leftmost keysig  */
-  //gint leftmost_time1context; /**< The leftmost visible timesig numerator */
-  //gint leftmost_time2context; /**< The leftmost visible timesig denominator */
 
-  //gint leftmost_keyaccs[7]; /**<  The keysig at thestart of the leftmost measure visible in the window */
   gint leftmost_stem_directive; /**< Stem directive at start of leftmost visible measure */
   DenemoContext context;   /**< The Lilypond context in which this staff appears */
   /*
@@ -501,6 +492,28 @@ typedef struct DenemoScoreblock {
 } DenemoScoreblock;
 
 
+typedef struct header
+{
+  GList *directives;
+}
+header;
+typedef struct scoreheader
+{
+  GList *directives;
+}
+scoreheader;
+typedef struct paper
+{
+  GList *directives;
+}
+paper;
+typedef struct layout
+{
+  GList *directives;
+}
+layout;
+
+
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
  *  A movement corresponds with a single \score{} block in the LilyPond language
@@ -573,6 +586,11 @@ typedef struct DenemoScore
   gint lastmeasuremarked;
   gint firstobjmarked;
   gint lastobjmarked;
+
+
+
+layout layout;
+  header header;
   LilypondHeaderFields headerinfo;/**< Lilypond header fields and markup for this movement */
 
 
@@ -647,6 +665,10 @@ typedef struct DenemoGUI
   GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
   DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this gui */
   DenemoLilyControl lilycontrol; /**< Control of the LilyPond output for whole musical score */
+
+  scoreheader scoreheader;
+  paper paper;
+
   GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
   GString *custom_prolog; /**< Customized text for LilyPond output, replaces standard prolog */
   gpointer lilystart, lilyend; /**<range of lilytext  */

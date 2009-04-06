@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ScoreTitle</action>
+        <scheme>
+	(if (d-PreviousMovement)
+		(d-WarningDialog "Returning to the first Movement to set this title"))
+	(while (d-PreviousMovement)
+		(display "Seeking first movement"))
+        (SetHeaderField "title")
+        (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+        (d-RefreshDisplay)
+        </scheme>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

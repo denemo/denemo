@@ -460,6 +460,147 @@ gboolean delete_clef_directive(gchar *tag) {
 // end of block for new type of directive
 
 
+static  keysig *get_keysig(void) {
+  keysig *ret = NULL;
+  DenemoObject *curObj = findobj();  
+  if(curObj && curObj->type==KEYSIG){
+    ret = ((keysig*)curObj->object);
+  } else {
+    DenemoStaff *curstaff = get_staff();
+    if(curstaff)
+      ret = &curstaff->keysig;
+  }
+  return ret;
+}
+static
+DenemoDirective *get_keysig_directive(gchar *tag) {
+  keysig *curkeysig = get_keysig();
+  if(curkeysig==NULL || (curkeysig->directives==NULL))
+    return NULL;
+  return find_directive(curkeysig->directives, tag);
+}
+gboolean delete_keysig_directive(gchar *tag) {
+  keysig *curkeysig = get_keysig();
+  if(curkeysig==NULL || (curkeysig->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_keysig_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curkeysig->directives, tag);
+}
+
+static  timesig *get_timesig(void) {
+  timesig *ret = NULL;
+  DenemoObject *curObj = findobj();  
+  if(curObj && curObj->type==TIMESIG){
+    ret = ((timesig*)curObj->object);
+  } else {
+    DenemoStaff *curstaff = get_staff();
+    if(curstaff)
+      ret = &curstaff->timesig;
+  }
+  return ret;
+}
+static
+DenemoDirective *get_timesig_directive(gchar *tag) {
+  timesig *curtimesig = get_timesig();
+  if(curtimesig==NULL || (curtimesig->directives==NULL))
+    return NULL;
+  return find_directive(curtimesig->directives, tag);
+}
+gboolean delete_timesig_directive(gchar *tag) {
+  timesig *curtimesig = get_timesig();
+  if(curtimesig==NULL || (curtimesig->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_timesig_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curtimesig->directives, tag);
+}
+
+
+static  scoreheader *get_scoreheader(void) {
+  return &Denemo.gui->scoreheader;
+}
+static
+DenemoDirective *get_scoreheader_directive(gchar *tag) {
+  scoreheader *curscoreheader = get_scoreheader();
+  if(curscoreheader==NULL || (curscoreheader->directives==NULL))
+    return NULL;
+  return find_directive(curscoreheader->directives, tag);
+}
+gboolean delete_scoreheader_directive(gchar *tag) {
+  scoreheader *curscoreheader = get_scoreheader();
+  if(curscoreheader==NULL || (curscoreheader->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_scoreheader_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curscoreheader->directives, tag);
+}
+
+
+static  paper *get_paper(void) {
+  return &Denemo.gui->paper;
+}
+static
+DenemoDirective *get_paper_directive(gchar *tag) {
+  paper *curpaper = get_paper();
+  if(curpaper==NULL || (curpaper->directives==NULL))
+    return NULL;
+  return find_directive(curpaper->directives, tag);
+}
+gboolean delete_paper_directive(gchar *tag) {
+  paper *curpaper = get_paper();
+  if(curpaper==NULL || (curpaper->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_paper_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curpaper->directives, tag);
+}
+
+static  layout *get_layout(void) {
+  return &Denemo.gui->si->layout;
+}
+static
+DenemoDirective *get_layout_directive(gchar *tag) {
+  layout *curlayout = get_layout();
+  if(curlayout==NULL || (curlayout->directives==NULL))
+    return NULL;
+  return find_directive(curlayout->directives, tag);
+}
+gboolean delete_layout_directive(gchar *tag) {
+  layout *curlayout = get_layout();
+  if(curlayout==NULL || (curlayout->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_layout_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curlayout->directives, tag);
+}
+
+
+static  header *get_header(void) {
+  return &Denemo.gui->si->header;
+}
+static
+DenemoDirective *get_header_directive(gchar *tag) {
+  header *curheader = get_header();
+  if(curheader==NULL || (curheader->directives==NULL))
+    return NULL;
+  return find_directive(curheader->directives, tag);
+}
+gboolean delete_header_directive(gchar *tag) {
+  header *curheader = get_header();
+  if(curheader==NULL || (curheader->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_header_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curheader->directives, tag);
+}
+
 
 static
 DenemoDirective *get_note_directive(gchar *tag) {
@@ -677,6 +818,14 @@ PUT_INT_FIELD_FUNCS(staff, minpixels)
 PUT_INT_FIELD_FUNCV(voice, minpixels)
 PUT_INT_FIELD_FUNC(score, minpixels)
 PUT_INT_FIELD_FUNC(clef, minpixels)
+PUT_INT_FIELD_FUNC(timesig, minpixels)
+PUT_INT_FIELD_FUNC(keysig, minpixels)
+
+PUT_INT_FIELD_FUNC(scoreheader, minpixels)
+PUT_INT_FIELD_FUNC(header, minpixels)
+PUT_INT_FIELD_FUNC(paper, minpixels)
+PUT_INT_FIELD_FUNC(layout, minpixels)
+
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
 GET_INT_FIELD_FUNC(chord, minpixels)
@@ -684,6 +833,16 @@ GET_INT_FIELD_FUNC(staff, minpixels)
 GET_INT_FIELD_FUNC(voice, minpixels)
 GET_INT_FIELD_FUNC(score, minpixels)
 GET_INT_FIELD_FUNC(clef, minpixels)
+GET_INT_FIELD_FUNC(keysig, minpixels)
+GET_INT_FIELD_FUNC(timesig, minpixels)
+
+GET_INT_FIELD_FUNC(scoreheader, minpixels)
+GET_INT_FIELD_FUNC(header, minpixels)
+GET_INT_FIELD_FUNC(paper, minpixels)
+GET_INT_FIELD_FUNC(layout, minpixels)
+
+
+
 GET_INT_FIELD_FUNC(standalone, minpixels)
   /* end block which can be copied for new int fields */
 
@@ -1281,6 +1440,174 @@ GET_STR_FIELD_FUNC(clef, display)
 
 /* end block which can be copied for type of directive */
 
+
+
+PUT_INT_FIELD_FUNC(keysig, x)
+PUT_INT_FIELD_FUNC(keysig, y)
+PUT_INT_FIELD_FUNC(keysig, tx)
+PUT_INT_FIELD_FUNC(keysig, ty)
+PUT_INT_FIELD_FUNC(keysig, gx)
+PUT_INT_FIELD_FUNC(keysig, gy)
+PUT_INT_FIELD_FUNC(keysig, override)
+GET_INT_FIELD_FUNC(keysig, x)
+GET_INT_FIELD_FUNC(keysig, y)
+GET_INT_FIELD_FUNC(keysig, tx)
+GET_INT_FIELD_FUNC(keysig, ty)
+GET_INT_FIELD_FUNC(keysig, gx)
+GET_INT_FIELD_FUNC(keysig, gy)
+GET_INT_FIELD_FUNC(keysig, override)
+GET_INT_FIELD_FUNC(keysig, width)
+GET_INT_FIELD_FUNC(keysig, height)
+
+PUT_GRAPHIC(keysig)
+
+PUT_STR_FIELD_FUNC(keysig, prefix)
+PUT_STR_FIELD_FUNC(keysig, postfix)
+PUT_STR_FIELD_FUNC(keysig, display)
+
+GET_STR_FIELD_FUNC(keysig, prefix)
+GET_STR_FIELD_FUNC(keysig, postfix)
+GET_STR_FIELD_FUNC(keysig, display)
+
+PUT_INT_FIELD_FUNC(timesig, x)
+PUT_INT_FIELD_FUNC(timesig, y)
+PUT_INT_FIELD_FUNC(timesig, tx)
+PUT_INT_FIELD_FUNC(timesig, ty)
+PUT_INT_FIELD_FUNC(timesig, gx)
+PUT_INT_FIELD_FUNC(timesig, gy)
+PUT_INT_FIELD_FUNC(timesig, override)
+GET_INT_FIELD_FUNC(timesig, x)
+GET_INT_FIELD_FUNC(timesig, y)
+GET_INT_FIELD_FUNC(timesig, tx)
+GET_INT_FIELD_FUNC(timesig, ty)
+GET_INT_FIELD_FUNC(timesig, gx)
+GET_INT_FIELD_FUNC(timesig, gy)
+GET_INT_FIELD_FUNC(timesig, override)
+GET_INT_FIELD_FUNC(timesig, width)
+GET_INT_FIELD_FUNC(timesig, height)
+
+PUT_GRAPHIC(timesig)
+
+PUT_STR_FIELD_FUNC(timesig, prefix)
+PUT_STR_FIELD_FUNC(timesig, postfix)
+PUT_STR_FIELD_FUNC(timesig, display)
+
+GET_STR_FIELD_FUNC(timesig, prefix)
+GET_STR_FIELD_FUNC(timesig, postfix)
+GET_STR_FIELD_FUNC(timesig, display)
+
+
+
+PUT_INT_FIELD_FUNC(scoreheader, x)
+PUT_INT_FIELD_FUNC(scoreheader, y)
+PUT_INT_FIELD_FUNC(scoreheader, tx)
+PUT_INT_FIELD_FUNC(scoreheader, ty)
+PUT_INT_FIELD_FUNC(scoreheader, gx)
+PUT_INT_FIELD_FUNC(scoreheader, gy)
+PUT_INT_FIELD_FUNC(scoreheader, override)
+GET_INT_FIELD_FUNC(scoreheader, x)
+GET_INT_FIELD_FUNC(scoreheader, y)
+GET_INT_FIELD_FUNC(scoreheader, tx)
+GET_INT_FIELD_FUNC(scoreheader, ty)
+GET_INT_FIELD_FUNC(scoreheader, gx)
+GET_INT_FIELD_FUNC(scoreheader, gy)
+GET_INT_FIELD_FUNC(scoreheader, override)
+GET_INT_FIELD_FUNC(scoreheader, width)
+GET_INT_FIELD_FUNC(scoreheader, height)
+
+PUT_GRAPHIC(scoreheader)
+
+PUT_STR_FIELD_FUNC(scoreheader, prefix)
+PUT_STR_FIELD_FUNC(scoreheader, postfix)
+PUT_STR_FIELD_FUNC(scoreheader, display)
+
+GET_STR_FIELD_FUNC(scoreheader, prefix)
+GET_STR_FIELD_FUNC(scoreheader, postfix)
+GET_STR_FIELD_FUNC(scoreheader, display)
+
+
+PUT_INT_FIELD_FUNC(header, x)
+PUT_INT_FIELD_FUNC(header, y)
+PUT_INT_FIELD_FUNC(header, tx)
+PUT_INT_FIELD_FUNC(header, ty)
+PUT_INT_FIELD_FUNC(header, gx)
+PUT_INT_FIELD_FUNC(header, gy)
+PUT_INT_FIELD_FUNC(header, override)
+GET_INT_FIELD_FUNC(header, x)
+GET_INT_FIELD_FUNC(header, y)
+GET_INT_FIELD_FUNC(header, tx)
+GET_INT_FIELD_FUNC(header, ty)
+GET_INT_FIELD_FUNC(header, gx)
+GET_INT_FIELD_FUNC(header, gy)
+GET_INT_FIELD_FUNC(header, override)
+GET_INT_FIELD_FUNC(header, width)
+GET_INT_FIELD_FUNC(header, height)
+
+PUT_GRAPHIC(header)
+
+PUT_STR_FIELD_FUNC(header, prefix)
+PUT_STR_FIELD_FUNC(header, postfix)
+PUT_STR_FIELD_FUNC(header, display)
+
+GET_STR_FIELD_FUNC(header, prefix)
+GET_STR_FIELD_FUNC(header, postfix)
+GET_STR_FIELD_FUNC(header, display)
+
+
+PUT_INT_FIELD_FUNC(paper, x)
+PUT_INT_FIELD_FUNC(paper, y)
+PUT_INT_FIELD_FUNC(paper, tx)
+PUT_INT_FIELD_FUNC(paper, ty)
+PUT_INT_FIELD_FUNC(paper, gx)
+PUT_INT_FIELD_FUNC(paper, gy)
+PUT_INT_FIELD_FUNC(paper, override)
+GET_INT_FIELD_FUNC(paper, x)
+GET_INT_FIELD_FUNC(paper, y)
+GET_INT_FIELD_FUNC(paper, tx)
+GET_INT_FIELD_FUNC(paper, ty)
+GET_INT_FIELD_FUNC(paper, gx)
+GET_INT_FIELD_FUNC(paper, gy)
+GET_INT_FIELD_FUNC(paper, override)
+GET_INT_FIELD_FUNC(paper, width)
+GET_INT_FIELD_FUNC(paper, height)
+
+PUT_GRAPHIC(paper)
+
+PUT_STR_FIELD_FUNC(paper, prefix)
+PUT_STR_FIELD_FUNC(paper, postfix)
+PUT_STR_FIELD_FUNC(paper, display)
+
+GET_STR_FIELD_FUNC(paper, prefix)
+GET_STR_FIELD_FUNC(paper, postfix)
+GET_STR_FIELD_FUNC(paper, display)
+
+
+PUT_INT_FIELD_FUNC(layout, x)
+PUT_INT_FIELD_FUNC(layout, y)
+PUT_INT_FIELD_FUNC(layout, tx)
+PUT_INT_FIELD_FUNC(layout, ty)
+PUT_INT_FIELD_FUNC(layout, gx)
+PUT_INT_FIELD_FUNC(layout, gy)
+PUT_INT_FIELD_FUNC(layout, override)
+GET_INT_FIELD_FUNC(layout, x)
+GET_INT_FIELD_FUNC(layout, y)
+GET_INT_FIELD_FUNC(layout, tx)
+GET_INT_FIELD_FUNC(layout, ty)
+GET_INT_FIELD_FUNC(layout, gx)
+GET_INT_FIELD_FUNC(layout, gy)
+GET_INT_FIELD_FUNC(layout, override)
+GET_INT_FIELD_FUNC(layout, width)
+GET_INT_FIELD_FUNC(layout, height)
+
+PUT_GRAPHIC(layout)
+
+PUT_STR_FIELD_FUNC(layout, prefix)
+PUT_STR_FIELD_FUNC(layout, postfix)
+PUT_STR_FIELD_FUNC(layout, display)
+
+GET_STR_FIELD_FUNC(layout, prefix)
+GET_STR_FIELD_FUNC(layout, postfix)
+GET_STR_FIELD_FUNC(layout, display)
 
 
 #undef STANDALONE_PUT_INT_FIELD_FUNC

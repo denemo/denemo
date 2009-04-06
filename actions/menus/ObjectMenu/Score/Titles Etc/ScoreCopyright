@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ScoreCopyright</action>
+        <scheme>
+		(SetScoreHeaderField "copyright")
+		(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+		(d-RefreshDisplay)
+	</scheme>
+        <label>Copyright</label>
+        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

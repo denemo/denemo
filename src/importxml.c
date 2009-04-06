@@ -417,9 +417,10 @@ parseClef (xmlNodePtr clefElem, xmlNsPtr ns, gint * clefType)
  * given number of sharps plus whether it's minor or not).
  */
 static void
-parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns,
-		   gint * keySig, gboolean * isMinor)
+parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns, keysig *keysig)
 {
+  gint * keySig = &keysig->number;
+  gboolean * isMinor = &keysig->isminor;
   xmlNodePtr childElem;
   gint childCount = 0;
   gboolean successful = FALSE;
@@ -427,139 +428,119 @@ parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns,
   gint note, accidental;
 
   FOREACH_CHILD_ELEM (childElem, keySigElem)
-  {
-    if (childElem->ns == ns)
-      {
-	if (++childCount > 1)
-	  {
-	    /* Only print this warning once (when the child count is 2). */
-	    if (childCount == 2)
-	      g_warning ("<key-signature> element should only have one "
-			 "child (<modal-key-signature>)");
-	  }
-	else
-	  {
-	    if (ELEM_NAME_EQ (childElem, "modal-key-signature"))
-	      {
-		noteName = (gchar *) xmlGetProp
-		  (childElem, (xmlChar *) "note-name");
-		accidentalName = (gchar *) xmlGetProp
-		  (childElem, (xmlChar *) "accidental");
-		modeName =
-		  (gchar *) xmlGetProp (childElem, (xmlChar *) "mode");
+    {
+      if (ELEM_NAME_EQ (childElem, "modal-key-signature"))
+	{
+	  noteName = (gchar *) xmlGetProp
+	    (childElem, (xmlChar *) "note-name");
+	  accidentalName = (gchar *) xmlGetProp
+	    (childElem, (xmlChar *) "accidental");
+	  modeName =
+	    (gchar *) xmlGetProp (childElem, (xmlChar *) "mode");
 
-		if (noteName == NULL)
-		  {
-		    g_warning ("<modal-key-signature> should have a "
-			       "note-name attribute; defaulting to C");
-		    noteName = "C";
-		  }
-		if (accidentalName == NULL)
-		  accidentalName = "natural";
-		if (modeName == NULL)
-		  {
-		    g_warning ("<modal-key-signature> should have a "
-			       "mode attribute; defaulting to major");
-		    modeName = "major";
-		  }
+	  if (noteName == NULL)
+	    {
+	      g_warning ("<modal-key-signature> should have a "
+			 "note-name attribute; defaulting to C");
+	      noteName = "C";
+	    }
+	  if (accidentalName == NULL)
+	    accidentalName = "natural";
+	  if (modeName == NULL)
+	    {
+	      g_warning ("<modal-key-signature> should have a "
+			 "mode attribute; defaulting to major");
+	      modeName = "major";
+	    }
 
-		/* Translate note name (A to G) into note number (0 to 6). */
+	  /* Translate note name (A to G) into note number (0 to 6). */
 
-		note = noteName[0] - 'A';
-		if (strlen (noteName) != 1 || note < 0 || note > 6)
-		  {
-		    g_warning ("<modal-key-signature> note name should be A "
-			       "through G, received \"%s\"; defaulting to C",
-			       noteName);
-		    note = 2;
-		  }
+	  note = noteName[0] - 'A';
+	  if (strlen (noteName) != 1 || note < 0 || note > 6)
+	    {
+	      g_warning ("<modal-key-signature> note name should be A "
+			 "through G, received \"%s\"; defaulting to C",
+			 noteName);
+	      note = 2;
+	    }
 
-		accidental = determineAccidentalShift (accidentalName);
+	  accidental = determineAccidentalShift (accidentalName);
 
-		/* Try to determine the base key signature. */
+	  /* Try to determine the base key signature. */
 
-		if (note == 2 && accidental == -1)
-		  *keySig = -7;
-		else if (note == 6 && accidental == -1)
-		  *keySig = -6;
-		else if (note == 3 && accidental == -1)
-		  *keySig = -5;
-		else if (note == 0 && accidental == -1)
-		  *keySig = -4;
-		else if (note == 4 && accidental == -1)
-		  *keySig = -3;
-		else if (note == 1 && accidental == -1)
-		  *keySig = -2;
-		else if (note == 5 && accidental == 0)
-		  *keySig = -1;
-		else if (note == 2 && accidental == 0)
-		  *keySig = 0;
-		else if (note == 6 && accidental == 0)
-		  *keySig = 1;
-		else if (note == 3 && accidental == 0)
-		  *keySig = 2;
-		else if (note == 0 && accidental == 0)
-		  *keySig = 3;
-		else if (note == 4 && accidental == 0)
-		  *keySig = 4;
-		else if (note == 1 && accidental == 0)
-		  *keySig = 5;
-		else if (note == 5 && accidental == 1)
-		  *keySig = 6;
-		else if (note == 2 && accidental == 1)
-		  *keySig = 7;
-		else if (note == 6 && accidental == 1)
-		  *keySig = 8;
-		else if (note == 3 && accidental == 1)
-		  *keySig = 9;
-		else if (note == 0 && accidental == 1)
-		  *keySig = 10;
-		else
-		  {
-		    g_warning ("Unknown key signature with note name %s and "
-			       "accidental %s; defaulting to C", noteName,
-			       accidentalName);
-		    *keySig = 0;
-		  }
+	  if (note == 2 && accidental == -1)
+	    *keySig = -7;
+	  else if (note == 6 && accidental == -1)
+	    *keySig = -6;
+	  else if (note == 3 && accidental == -1)
+	    *keySig = -5;
+	  else if (note == 0 && accidental == -1)
+	    *keySig = -4;
+	  else if (note == 4 && accidental == -1)
+	    *keySig = -3;
+	  else if (note == 1 && accidental == -1)
+	    *keySig = -2;
+	  else if (note == 5 && accidental == 0)
+	    *keySig = -1;
+	  else if (note == 2 && accidental == 0)
+	    *keySig = 0;
+	  else if (note == 6 && accidental == 0)
+	    *keySig = 1;
+	  else if (note == 3 && accidental == 0)
+	    *keySig = 2;
+	  else if (note == 0 && accidental == 0)
+	    *keySig = 3;
+	  else if (note == 4 && accidental == 0)
+	    *keySig = 4;
+	  else if (note == 1 && accidental == 0)
+	    *keySig = 5;
+	  else if (note == 5 && accidental == 1)
+	    *keySig = 6;
+	  else if (note == 2 && accidental == 1)
+	    *keySig = 7;
+	  else if (note == 6 && accidental == 1)
+	    *keySig = 8;
+	  else if (note == 3 && accidental == 1)
+	    *keySig = 9;
+	  else if (note == 0 && accidental == 1)
+	    *keySig = 10;
+	  else
+	    {
+	      g_warning ("Unknown key signature with note name %s and "
+			 "accidental %s; defaulting to C", noteName,
+			 accidentalName);
+	      *keySig = 0;
+	    }
 
-		/* Determine whether it's major or minor. */
+	  /* Determine whether it's major or minor. */
 
-		if (strcmp (modeName, "major") == 0)
-		  *isMinor = FALSE;
-		else if (strcmp (modeName, "minor") == 0)
-		  *isMinor = TRUE;
-		else
-		  {
-		    g_warning ("Unknown mode %s; defaulting to major",
-			       modeName);
-		    *isMinor = FALSE;
-		  }
+	  if (strcmp (modeName, "major") == 0)
+	    *isMinor = FALSE;
+	  else if (strcmp (modeName, "minor") == 0)
+	    *isMinor = TRUE;
+	  else
+	    {
+	      g_warning ("Unknown mode %s; defaulting to major",
+			 modeName);
+	      *isMinor = FALSE;
+	    }
 
-		successful = TRUE;
+	  successful = TRUE;
 
-		g_free (noteName);
-		//g_free (accidentalName);
-		g_free (modeName);
-	      }
-	  }
-      }
-
-    /*
-     * Note: We can ignore other namespaces because the generic "parse this
-     *       DenemoObject" code takes care of them for us.
-     */
-  }
-
-  if (childCount == 0)
-    g_warning ("<key-signature> element should have a child in the Denemo "
-	       "namespace (<modal-key-signature>); defaulting to C Major");
-
+	  g_free (noteName);
+	  //g_free (accidentalName);
+	  g_free (modeName);
+	}
+      if(ELEM_NAME_EQ (childElem, "directives"))
+	{
+	  keysig->directives = parseDirectives(childElem, ns);
+	}
+    }
   if (!successful)
     {
       *keySig = 0;
       *isMinor = FALSE;
     }
-
   if (*isMinor)
     *keySig -= 3;
 }
@@ -570,47 +551,36 @@ parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns,
  * given number of sharps plus whether it's minor or not).
  */
 static void
-parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns,
-		    gint * numerator, gint * denominator)
+parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig* timesig)
 {
   xmlNodePtr childElem;
   gint childCount = 0;
   gboolean successful = FALSE;
+  gint *numerator =  &timesig->time1;
+  gint *denominator =  &timesig->time2;
 
   FOREACH_CHILD_ELEM (childElem, timeSigElem)
   {
-    if (childElem->ns == ns)
+
+    if (ELEM_NAME_EQ (childElem, "simple-time-signature"))
       {
-	if (++childCount > 1)
-	  {
-	    /* Only print this warning once (when the child count is 2). */
-	    if (childCount == 2)
-	      g_warning ("<time-signature> element should only have one "
-			 "child (<simple-time-signature>)");
-	  }
+	if (parseFraction (childElem, ns, numerator, denominator)
+	    != 0)
+	  g_warning ("Could not parse <simple-time-signature>; "
+		     "defaulting to 4/4");
 	else
-	  {
-	    if (ELEM_NAME_EQ (childElem, "simple-time-signature"))
-	      {
-		if (parseFraction (childElem, ns, numerator, denominator)
-		    != 0)
-		  g_warning ("Could not parse <simple-time-signature>; "
-			     "defaulting to 4/4");
-		else
-		  successful = TRUE;
-	      }
-	  }
+	  successful = TRUE;
       }
 
+    if (ELEM_NAME_EQ (childElem, "directives"))
+      {
+	timesig->directives = parseDirectives(childElem, ns);
+      }
     /*
      * Note: We can ignore other namespaces because the generic "parse this
      *       DenemoObject" code takes care of them for us.
      */
   }
-
-  if (childCount == 0)
-    g_warning ("<time-signature> element should have a child in the Denemo "
-	       "namespace (<simple-time-signature>); defaulting to 4/4");
 
   if (!successful)
     {
@@ -1649,6 +1619,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	  }
 
 
+
       }
   }
 
@@ -1753,142 +1724,42 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 						    xmlChildrenNode, 1);
 	    if (title != NULL)
 	      {
-		g_string_assign (si->headerinfo.title, title);
+		//g_string_assign (si->headerinfo.title, title);
+		gchar *val = g_strdup_printf("title = \"%s\"\n", title);
+		header_directive_put_postfix("Movement-title", val);
+		g_free(val);
 		g_free (title);
 	      }
 	  }
-	else if (ELEM_NAME_EQ (childElem, "subtitle"))
-	  {
-	    subtitle = (gchar *) xmlNodeListGetString (childElem->doc,
-						       childElem->
-						       xmlChildrenNode, 1);
-	    if (subtitle != NULL)
-	      {
-		g_string_assign (si->headerinfo.subtitle, subtitle);
-		g_free (subtitle);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "composer"))
-	  {
-	    composer = (gchar *) xmlNodeListGetString (childElem->doc,
-						       childElem->
-						       xmlChildrenNode, 1);
-	    if (composer != NULL)
-	      {
-		g_string_assign (si->headerinfo.composer, composer);
-		g_free (composer);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "poet"))
-	  {
-	    poet = (gchar *) xmlNodeListGetString (childElem->doc,
-						   childElem->
-						   xmlChildrenNode, 1);
-	    if (poet != NULL)
-	      {
-		g_string_assign (si->headerinfo.poet, poet);
-		g_free (poet);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "meter"))
-	  {
-	    meter = (gchar *) xmlNodeListGetString (childElem->doc,
-						    childElem->
-						    xmlChildrenNode, 1);
-	    if (meter != NULL)
-	      {
-		g_string_assign (si->headerinfo.meter, meter);
-		g_free (meter);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "opus"))
-	  {
-	    opus = (gchar *) xmlNodeListGetString (childElem->doc,
-						   childElem->
-						   xmlChildrenNode, 1);
-	    if (opus != NULL)
-	      {
-		g_string_assign (si->headerinfo.opus, opus);
-		g_free (opus);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "arranger"))
-	  {
-	    arranger = (gchar *) xmlNodeListGetString (childElem->doc,
-						       childElem->
-						       xmlChildrenNode, 1);
-	    if (arranger != NULL)
-	      {
-		g_string_assign (si->headerinfo.arranger, arranger);
-		g_free (arranger);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "instrument"))
-	  {
-	    instrument = (gchar *) xmlNodeListGetString (childElem->doc,
-							 childElem->
-							 xmlChildrenNode, 1);
-	    if (instrument != NULL)
-	      {
-		g_string_assign (si->headerinfo.instrument, instrument);
-		g_free (instrument);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "dedication"))
-	  {
-	    dedication = (gchar *) xmlNodeListGetString (childElem->doc,
-							 childElem->
-							 xmlChildrenNode, 1);
-	    if (dedication != NULL)
-	      {
-		g_string_assign (si->headerinfo.dedication, dedication);
-		g_free (dedication);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "piece"))
-	  {
-	    piece = (gchar *) xmlNodeListGetString (childElem->doc,
-						    childElem->
-						    xmlChildrenNode, 1);
-	    if (piece != NULL)
-	      {
-		g_string_assign (si->headerinfo.piece, piece);
-		g_free (piece);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "head"))
-	  {
-	    head = (gchar *) xmlNodeListGetString (childElem->doc,
-						   childElem->
-						   xmlChildrenNode, 1);
-	    if (head != NULL)
-	      {
-		g_string_assign (si->headerinfo.head, head);
-		g_free (head);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "copyright"))
-	  {
-	    copyright = (gchar *) xmlNodeListGetString (childElem->doc,
-							childElem->
-							xmlChildrenNode, 1);
-	    if (copyright != NULL)
-	      {
-		g_string_assign (si->headerinfo.copyright, copyright);
-		g_free (copyright);
-	      }
-	  }
-	else if (ELEM_NAME_EQ (childElem, "footer"))
-	  {
-	    footer = (gchar *) xmlNodeListGetString (childElem->doc,
-						     childElem->
-						     xmlChildrenNode, 1);
-	    if (footer != NULL)
-	      {
-		g_string_assign (si->headerinfo.footer, footer);
-		g_free (footer);
-	      }
-	  }
+
+#define DO_ELEM(subtitle, Subtitle)\
+	else if (ELEM_NAME_EQ (childElem, subtitle))\
+	  {\
+	    gchar *field = (gchar *) xmlNodeListGetString (childElem->doc,\
+						       childElem->\
+						       xmlChildrenNode, 1);\
+	    if (field != NULL)\
+	      {\
+		gchar *val = g_strdup_printf(subtitle" = \"%s\"\n", field);\
+	        header_directive_put_postfix(Subtitle, val);\
+		g_free(val);\
+		g_free (field);\
+	      }\
+	  }\
+
+DO_ELEM("subtitle", "HeaderSubtitle")
+DO_ELEM("composer","HeaderComposer")
+DO_ELEM("poet","HeaderPoet")
+DO_ELEM("meter","HeaderMeter")
+DO_ELEM("opus","HeaderOpus")
+DO_ELEM("arranger","HeaderArranger")
+DO_ELEM("instrument","HeaderInstrument")
+DO_ELEM("dedication","HeaderDedication")
+DO_ELEM("piece","HeaderPiece")
+DO_ELEM("head","HeaderHead")
+DO_ELEM("copyright","HeaderCopyright")
+DO_ELEM("footer","HeaderFooter")
+#undef DO_ELEM
 	else if (ELEM_NAME_EQ (childElem, "tagline"))
 	  {
 	    tagline = (gchar *) xmlNodeListGetString (childElem->doc,
@@ -1896,7 +1767,9 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 						      xmlChildrenNode, 1);
 	    if (tagline != NULL)
 	      {
-		g_string_assign (si->headerinfo.tagline, tagline);
+		gchar *val = g_strdup_printf("tagline = \"%s\"\n", tagline);
+		scoreheader_directive_put_postfix("ScoreHeaderTagline", val);
+		g_free(val);
 		g_free (tagline);
 	      }
 	  }
@@ -2270,15 +2143,13 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 	  }
 	else if (ELEM_NAME_EQ (childElem, "key-signature"))
 	  {
-	    parseKeySignature (childElem, ns, &(curVoice->keysig.number),
-			       &(curVoice->keysig.isminor));
+	    parseKeySignature (childElem, ns, &(curVoice->keysig));
 	    initkeyaccs (curVoice->keysig.accs, curVoice->keysig.number);
 	    //dnm_setinitialkeysig(curVoice, curVoice->skey, curVoice->skey_isminor);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "time-signature"))
 	  {
-	    parseTimeSignature (childElem, ns, &(curVoice->timesig.time1),
-				&(curVoice->timesig.time2));
+	    parseTimeSignature (childElem, ns, &curVoice->timesig);
 	  }
 	else
 	  {
@@ -2423,8 +2294,9 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 	      else if (ELEM_NAME_EQ (objElem, "key-signature"))
 		{
 #if 1
-		  parseKeySignature (objElem, ns, &keySig, &isMinor);
 		  curObj = dnm_newkeyobj (keySig, isMinor, 0);
+		  parseKeySignature (objElem, ns, curObj->object);
+		 
 		  initkeyaccs (((keysig *) curObj->object)->accs, keySig);
 		  //dnm_setinitialkeysig(((keysig *) curObj->object), keySig, isMinor);
 #else
@@ -2460,8 +2332,8 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		}
 	      else if (ELEM_NAME_EQ (objElem, "time-signature"))
 		{
-		  parseTimeSignature (objElem, ns, &numerator, &denominator);
-		  curObj = dnm_newtimesigobj (numerator, denominator);
+		  curObj = dnm_newtimesigobj (4, 4);
+		  parseTimeSignature (objElem, ns, curObj->object);
 		}
 	      else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
 		{
@@ -2621,6 +2493,14 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
     parseEditInfo (childElem, ns, si, staffnoPtr);
   //if (parseEditInfo (childElem, ns, si, staffnoPtr) != 0)
   //  return -1;
+
+  childElem = getXMLChild (scoreElem, "header-directives", ns);
+  if (childElem != 0)
+    si->header.directives = parseDirectives(childElem, ns);
+
+  childElem = getXMLChild (scoreElem, "layout-directives", ns);
+  if (childElem != 0)
+    si->layout.directives = parseDirectives(childElem, ns);
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");
@@ -2793,61 +2673,72 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       deleteSchemeText();
       /* this is dependent on the order of elements, which is not strictly correct */
       FOREACH_CHILD_ELEM(childElem, rootElem){
-
+	
 	if (ELEM_NAME_EQ (childElem, "scheme")) {
 	  gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-						  childElem->
-						  xmlChildrenNode, 1);
+						       childElem->
+						       xmlChildrenNode, 1);
 	  if (tmp != NULL) {
 	    appendSchemeText(tmp);
 	    g_free (tmp);
 	  }
 	} else
-	if (ELEM_NAME_EQ (childElem, "custom_prolog")){
-	  gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-						       childElem->
-						       xmlChildrenNode, 1);
-	  gui->custom_prolog = g_string_new(tmp);
-	  g_free (tmp);
-	} else
-	if (ELEM_NAME_EQ (childElem, "lilycontrol")){
-	  parseSetupInfo(childElem, ns, gui);
-	} else
-	if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
+	  if (ELEM_NAME_EQ (childElem, "custom_prolog")){
 	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-						  childElem->
-						  xmlChildrenNode, 1);
-	    if (tmp != NULL)
-	      {
-		DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
-		sb->scoreblock = g_string_new(tmp);
-		gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
-		g_free (tmp);
-	      }
+							 childElem->
+							 xmlChildrenNode, 1);
+	    gui->custom_prolog = g_string_new(tmp);
+	    g_free (tmp);
 	  } else
-	    if (ELEM_NAME_EQ (childElem, "visible_scoreblock")){
-	      {
-		if (gui->custom_scoreblocks)
-		  {
-		    DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
-		    sb->visible = TRUE;
-		  }
-	      }
-	    }
-	    else {
-	      new_empty_score(gui);
-	      ret |=  parseMovement(childElem, ns, gui, type);
-	    }
+	    if (ELEM_NAME_EQ (childElem, "lilycontrol")){
+	      parseSetupInfo(childElem, ns, gui);
+	    } else
+	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
+		gui->scoreheader.directives = parseDirectives(childElem, ns);
+	      } else
+		if (ELEM_NAME_EQ (childElem, "paper-directives")){
+		  gui->paper.directives = parseDirectives(childElem, ns);
+		} else
+		  if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
+		    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
+								 childElem->
+								 xmlChildrenNode, 1);
+		    if (tmp != NULL)
+		      {
+			DenemoScoreblock *sb = g_malloc0 (sizeof(DenemoScoreblock));
+			sb->scoreblock = g_string_new(tmp);
+			gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
+			g_free (tmp);
+		      }
+		  } else
+		    if (ELEM_NAME_EQ (childElem, "visible_scoreblock")){
+		      {
+			if (gui->custom_scoreblocks)
+			  {
+			    DenemoScoreblock *sb =  (DenemoScoreblock*)gui->custom_scoreblocks->data;
+			    sb->visible = TRUE;
+			  }
+		      }
+		    }  else 
+		      if (ELEM_NAME_EQ (childElem, "movement")){
+			new_empty_score(gui);
+			ret |=  parseMovement(childElem, ns, gui, type);
+		      } else 
+			{
+			  g_warning("unrecognized element in score -assuming movement");
+			  new_empty_score(gui);
+			  ret |=  parseMovement(childElem, ns, gui, type);
+			}
       }
-
-      if(getNumCharsSchemeText())
+	
+	if(getNumCharsSchemeText())
 	  executeScript(); 
-      break;
-    default:
-      warningdialog("Erroneous call");
-      goto cleanup;
-    } 
-  } else {//version 1
+	break;
+      default:
+	warningdialog("Erroneous call");
+	goto cleanup;
+      } 
+    } else {//version 1
     switch(type) {
     case ADD_STAFFS:
       ret +=  parseMovement(rootElem, ns, gui, type);

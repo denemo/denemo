@@ -357,14 +357,18 @@ newXMLClef (xmlNodePtr parent, xmlNsPtr ns, clef * clef)
  *
  *   <key-signature>
  *     <modal-key-signature note-name="B" accidental="flat" mode="major"/>
+ *   <directives>
+ *         ....
+ *   </directives>
  *   </key-signature>
  *
  * as a child of the given node.
  */
 static xmlNodePtr
-newXMLKeySignature (xmlNodePtr parent, xmlNsPtr ns, gint keySig,
-		    gboolean isMinor)
+newXMLKeySignature (xmlNodePtr parent, xmlNsPtr ns, keysig *keysig)
 {
+ gint keySig = keysig->number;
+ gboolean isMinor = keysig->isminor;
   gchar *noteName = NULL, *accidental = NULL, *mode = NULL;
   xmlNodePtr keySigElem = NULL, modalKeySigElem = NULL;
 
@@ -377,7 +381,8 @@ newXMLKeySignature (xmlNodePtr parent, xmlNsPtr ns, gint keySig,
     xmlSetProp (modalKeySigElem, (xmlChar *) "accidental",
 		(xmlChar *) accidental);
   xmlSetProp (modalKeySigElem, (xmlChar *) "mode", (xmlChar *) mode);
-
+  if(keysig->directives) 
+	    newDirectivesElem(keySigElem, ns, keysig->directives, "directives");
   return keySigElem;
 }
 
@@ -390,19 +395,23 @@ newXMLKeySignature (xmlNodePtr parent, xmlNsPtr ns, gint keySig,
  *       <numerator>3</numerator>
  *       <denominator>4</denominator>
  *     </simple-time-signature>
+ *   <directives>
+ *         ....
+ *   </directives>
  *   </time-signature>
  *
  * as a child of the given node.
  */
 static xmlNodePtr
-newXMLTimeSignature (xmlNodePtr parent, xmlNsPtr ns, gint numerator,
-		     gint denominator)
+newXMLTimeSignature (xmlNodePtr parent, xmlNsPtr ns, timesig *timesig)
 {
   xmlNodePtr timeSigElem =
     xmlNewChild (parent, ns, (xmlChar *) "time-signature", NULL);
   newXMLFraction (xmlNewChild
 		  (timeSigElem, ns, (xmlChar *) "simple-time-signature",
-		   NULL), ns, numerator, denominator);
+		   NULL), ns, timesig->time1, timesig->time2);
+  if(timesig->directives) 
+	    newDirectivesElem(timeSigElem, ns, timesig->directives, "directives");
   return timeSigElem;
 }
 
@@ -595,6 +604,13 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     xmlNewChild (scoreElem, ns, "scheme", (xmlChar *)text);
     g_free(text);
   }
+
+  if(gui->scoreheader.directives) 
+	    newDirectivesElem(scoreElem, ns, gui->scoreheader.directives, "scoreheader-directives");
+  if(gui->paper.directives) 
+	    newDirectivesElem(scoreElem, ns, gui->paper.directives, "paper-directives");
+
+
   /* lilycontrol for the whole musical score */
   
   
@@ -631,39 +647,19 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  si->cursor_x - 1);
 
 
+  if(si->header.directives) {
+    newDirectivesElem(mvmntElem, ns, si->header.directives, "header-directives");
+  }
+  if(si->layout.directives) {
+    newDirectivesElem(mvmntElem, ns, si->layout.directives, "layout-directives");
+  }
+
   parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
   curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
   newXMLFraction (xmlNewChild (curElem, ns, (xmlChar *) "duration", NULL), ns,
 		  1, 4);
   newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo);
-  xmlNewChild (parentElem, ns, (xmlChar *) "title",
-	       (xmlChar *) si->headerinfo.title->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "subtitle",
-	       (xmlChar *) si->headerinfo.subtitle->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "composer",
-	       (xmlChar *) si->headerinfo.composer->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "poet",
-	       (xmlChar *) si->headerinfo.poet->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "meter",
-	       (xmlChar *) si->headerinfo.meter->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "opus",
-	       (xmlChar *) si->headerinfo.opus->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "arranger",
-	       (xmlChar *) si->headerinfo.arranger->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "instrument",
-	       (xmlChar *) si->headerinfo.instrument->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "dedication",
-	       (xmlChar *) si->headerinfo.dedication->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "piece",
-	       (xmlChar *) si->headerinfo.piece->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "head",
-	       (xmlChar *) si->headerinfo.head->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "copyright",
-	       (xmlChar *) si->headerinfo.copyright->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "footer",
-	       (xmlChar *) si->headerinfo.footer->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "tagline",
-	       (xmlChar *) si->headerinfo.tagline->str);
+  
   xmlNewChild (parentElem, ns, (xmlChar *) "extra",
 	       (xmlChar *) si->headerinfo.extra->str);
   xmlNewChild (parentElem, ns, (xmlChar *) "markup_before",
@@ -809,11 +805,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "staff-ref", NULL);
       xmlSetProp (curElem, (xmlChar *) "staff", (xmlChar *) staffXMLID);
       newXMLClef (parentElem, ns, &curStaffStruct->clef);
-      newXMLKeySignature (parentElem, ns, curStaffStruct->keysig.number,
-			  curStaffStruct->keysig.isminor);
+      newXMLKeySignature (parentElem, ns, &curStaffStruct->keysig);
       curTime1 = curStaffStruct->timesig.time1;
       curTime2 = curStaffStruct->timesig.time2;
-      newXMLTimeSignature (parentElem, ns, curTime1, curTime2);
+      newXMLTimeSignature (parentElem, ns, &curStaffStruct->timesig);
 
       /* Write out the measures. */
       gboolean warning_given = FALSE;//No warning yet about empty measures
@@ -1327,18 +1322,14 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  break;
 
 		case TIMESIG:
-		  objElem = newXMLTimeSignature (measureElem, ns,
-						 ((timesig *)
-						  curObj->object)->time1,
-						 ((timesig *)
-						  curObj->object)->time2);
+		  objElem = newXMLTimeSignature (measureElem, ns, (timesig *)
+						  curObj->object);
 		  break;
 
 		case KEYSIG:
 		  objElem = newXMLKeySignature
 		    (measureElem, ns,
-		     ((keysig *) curObj->object)->number,
-		     ((keysig *) curObj->object)->isminor);
+		     ((keysig *) curObj->object));
 		  break;
 
 		case STEMDIRECTIVE:

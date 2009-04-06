@@ -2260,6 +2260,55 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Reminder Accidental</label>
         <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
       </row>
+      <row>
+        <action>ScoreTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreComposer</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Composer</label>
+        <tooltip>Prints name given to left above first movement of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreTagline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Tagline</label>
+        <tooltip>Prints a line of text at the end of the score.</tooltip>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Title (subtitle of score)</label>
+        <tooltip>Prints the name given as a title above this movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Piece</label>
+        <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Score Title</label>
+        <tooltip>Prints the name given as a grand title above this movement. Suggested use: first movement only, see (Sub)title.</tooltip>
+      </row>
+      <row>
+        <action>ScoreCopyright</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Copyright</label>
+        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
