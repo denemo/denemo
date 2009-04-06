@@ -2316,6 +2316,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Indent</label>
         <tooltip>Alter the indent of the opening system for the current movement.</tooltip>
       </row>
+      <row>
+        <action>ScoreIndent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Indent the first system of every movement by the given amount.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
