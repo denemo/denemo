@@ -2312,6 +2312,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Copyright</label>
         <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
       </row>
+      <row>
+        <action>Indent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Alter the indent of the opening system for the current movement.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
