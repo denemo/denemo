@@ -2294,10 +2294,10 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 	      else if (ELEM_NAME_EQ (objElem, "key-signature"))
 		{
 #if 1
-		  curObj = dnm_newkeyobj (keySig, isMinor, 0);
+		  curObj = dnm_newkeyobj (0, 0, 0);
 		  parseKeySignature (objElem, ns, curObj->object);
 		 
-		  initkeyaccs (((keysig *) curObj->object)->accs, keySig);
+		  initkeyaccs (((keysig *) curObj->object)->accs, ((keysig *)curObj->object)->number );
 		  //dnm_setinitialkeysig(((keysig *) curObj->object), keySig, isMinor);
 #else
 		  //warningdialog("Dodgy code");
