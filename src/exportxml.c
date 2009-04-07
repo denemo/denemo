@@ -306,7 +306,7 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
                    && directive->field->len)\
                       xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
 				     (xmlChar *) directive->field->str);
-#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
+#define DO_INTDIREC(field)   if(directive->field) newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
 				             directive->field);
     DO_DIREC(tag);
     DO_DIREC(prefix);
