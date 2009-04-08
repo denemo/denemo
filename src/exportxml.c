@@ -633,8 +633,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     if(((DenemoScoreblock*)custom->data)->visible)
       xmlNewChild (scoreElem, ns, "visible_scoreblock", NULL);
   }
-  if(gui->custom_prolog && gui->custom_prolog->len)
-    xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
+  //  if(gui->custom_prolog && gui->custom_prolog->len)
+  //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
   
   GList *g;
   for(g=gui->movements;g;g=g->next) {

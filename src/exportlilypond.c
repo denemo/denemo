@@ -1918,7 +1918,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
-  insert_section(&gui->custom_prolog, START, "Prolog", &iter, gui);
+  insert_section(NULL, START, "Prolog", &iter, gui);
 
   gtk_text_buffer_get_end_iter (gui->textbuffer, &iter);
 
@@ -1932,12 +1932,13 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
  
   //gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
 
-  if(gui->custom_prolog && gui->custom_prolog->len ) 
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
-  else {//no custom prolog
+  //  if(gui->custom_prolog && gui->custom_prolog->len ) 
+  //    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
+  // else 
+    {//no custom prolog
     GString *header = g_string_new("");
     outputHeader (header, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1, "bold", NULL);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
     g_string_free(header, TRUE);
 
 

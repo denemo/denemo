@@ -1996,7 +1996,7 @@ void free_gui(DenemoGUI *gui)
     g_list_free(gui->custom_scoreblocks);
     gui->custom_scoreblocks=NULL;
   }
-  nullify_gstring(&gui->custom_prolog);
+  //nullify_gstring(&gui->custom_prolog);
 
       /* any other free/initializations */
 }

@@ -2687,7 +2687,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 							 childElem->
 							 xmlChildrenNode, 1);
-	    gui->custom_prolog = g_string_new(tmp);
+	    //gui->custom_prolog = g_string_new(tmp);
+	    g_print("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
+	    warningdialog("custom prolog no longer supported. Use score directive prefix instead");
 	    g_free (tmp);
 	  } else
 	    if (ELEM_NAME_EQ (childElem, "lilycontrol")){
