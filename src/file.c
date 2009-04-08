@@ -248,7 +248,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	  score_status(gui, TRUE);
       }
       if(gui->printarea) 
-	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", -2);
+	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", G_MAXUINT);
       updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
       set_bottom_staff (gui);
@@ -913,7 +913,8 @@ file_newwrapper (GtkAction * action, gpointer param)
       deletescore(NULL, gui);
     }
   open_user_default_template();
-
+  if(gui->printarea) 
+    g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", G_MAXUINT);
 }
 
 /* open_user_default_template
