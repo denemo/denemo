@@ -832,7 +832,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  {chord *thechord = (chord *) curObj->object;
 		  emptyMeasure = FALSE;
 
-		  
+#if 0		  
 		  /* FIXME WHY DO WE EXPORT THIS INFO: it is derived from the data
 		     If this is the start of a beam, output a <beam-start>. */
 
@@ -843,7 +843,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		      lastBeamStartXMLID = newXMLID ();
 		      xmlSetProp (curElem, (xmlChar *) "id",
 				  (xmlChar *) lastBeamStartXMLID);
-		    }
+#endif		    }
 
 		  /* Output the root element, "rest" or "chord". */
 
@@ -1255,6 +1255,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 			}
 		      }
+
+#if 0
 		  /* If this is the end of a beam, output a <beam-end>. */
 
 		  if (curObj->isend_beamgroup && !curObj->isstart_beamgroup)
@@ -1276,6 +1278,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			  lastBeamStartXMLID = NULL;
 			}
 		    }
+#endif
+
 		  }
 		  break;
 

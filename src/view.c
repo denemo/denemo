@@ -3103,7 +3103,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   GError *error = NULL;
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (name, &error);
   if(error) {
-    warningdialog(error->message);		 
+    //warningdialog(error->message);
+    g_warning("creating pixbuf from file %s gave %s\n", name, error->message);
     return FALSE;
   }
   GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
@@ -3169,8 +3170,8 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     }
     fclose(fp);  
   } else {
-
-    warningdialog("Could not load graphic");
+    g_warning("Could not load graphic");
+    //warningdialog("Could not load graphic");
   }
 
 

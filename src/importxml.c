@@ -2217,8 +2217,11 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		  /* FIXME */
 		  g_warning ("Cannot yet handle <barline> elements");
 		}
+
+
 	      else if (ELEM_NAME_EQ (objElem, "beam-end"))
 		{
+#if 0
 		  /* Ignore beam attribute for now. */
 		  if (prevChord == NULL)
 		    {
@@ -2230,11 +2233,14 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		      prevChord->isstart_beamgroup = FALSE;
 		      prevChord->isend_beamgroup = TRUE;
 		    }
+#endif
 		}
 	      else if (ELEM_NAME_EQ (objElem, "beam-start"))
 		{
+#if 0
 		  /* Ignore ID for now. */
 		  startedBeam = TRUE;
+#endif
 		}
 	      else if (ELEM_NAME_EQ (objElem, "chord"))
 		{
