@@ -2583,6 +2583,8 @@ static gint   parseMovement(xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI *gui, I
 gint
 importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 {
+
+  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint ret = 0;
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
@@ -2780,7 +2782,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   g_hash_table_destroy (sXMLIDToElemMap);
   sXMLIDToElemMap = NULL;
 
-
+  g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
   return ret;
 }

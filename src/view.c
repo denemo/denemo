@@ -4635,20 +4635,20 @@ Denemo.gui = gui;
   GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
   gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
   g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), gui);
+		      G_CALLBACK (scorearea_expose_event), NULL);
   g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), gui);
 
 
   g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
-		      G_CALLBACK (scorearea_button_release), gui);
+		      G_CALLBACK (scorearea_button_release), NULL);
 
   g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
-		      G_CALLBACK (scorearea_motion_notify), gui);
+		      G_CALLBACK (scorearea_motion_notify), NULL);
 
   //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
-		      G_CALLBACK (scorearea_button_press), gui);
+		      G_CALLBACK (scorearea_button_press), NULL);
   //  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
   //		      (GtkSignalFunc) delete_callback, gui);
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_press_event",
