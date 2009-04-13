@@ -2323,6 +2323,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Indent</label>
         <tooltip>Indent the first system of every movement by the given amount.</tooltip>
       </row>
+      <row>
+        <action>StopTupletNumbering</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Stop Tuplet Numbers</label>
+        <tooltip>From this point the tuplet numbers will no longer be printed over tuplets.</tooltip>
+      </row>
+      <row>
+        <action>NoBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Here</label>
+        <tooltip>Prints note without any beam attached.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

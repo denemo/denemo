@@ -6,7 +6,11 @@
     <map>
       <row>
         <action>StopTupletNumbering</action>
-        <scheme>(d-DirectivePut-standalone-postfix "StopTupletNumbering" "\\override TupletNumber #'transparent = ##t ")</scheme>
+        <scheme>(d-DirectivePut-standalone-postfix "StopTupletNumbering" "\\override TupletNumber #'transparent = ##t ")
+(d-DirectivePut-standalone-minpixels "StopTupletNumbering" 30)
+(d-DirectivePut-standalone-graphic "StopTupletNumbering"  "StopTupletNumbering" )
+
+</scheme>
         <label>Stop Tuplet Numbers</label>
         <tooltip>From this point the tuplet numbers will no longer be printed over tuplets.</tooltip>
       </row>
