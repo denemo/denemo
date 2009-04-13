@@ -2324,11 +2324,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Indent the first system of every movement by the given amount.</tooltip>
       </row>
       <row>
-        <action>StopTupletNumbering</action>
+        <action>ToggleTupletNumbering</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
-        <label>Stop Tuplet Numbers</label>
-        <tooltip>From this point the tuplet numbers will no longer be printed over tuplets.</tooltip>
+        <label>Tuplet Numbering on/off</label>
+        <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
       </row>
       <row>
         <action>NoBeam</action>
