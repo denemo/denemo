@@ -1055,21 +1055,43 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	}
 	}
 	break;
-      case KEYSIG:
-	determinekey (((keysig *) curobj->object)->isminor ?
-		      ((keysig *) curobj->object)->number + 3 :
-		      ((keysig *) curobj->object)->number, &keyname);
-	g_string_append_printf (ret, "\\key %s", keyname);
-	if (((keysig *) curobj->object)->isminor)
-	  g_string_append_printf (ret, " \\minor");
-	else
-	  g_string_append_printf (ret, " \\major");
-	/*do this in caller             g_string_append_printf (ret, " "); */
+      case KEYSIG: {
+	gboolean override = FALSE;
+	gchar *keysig_string = "";
+	GList *directives =  ((keysig *) curobj->object)->directives;
+	if(directives) {
+	  override = get_override(directives);
+	  keysig_string = get_postfix(directives);	 
+	}
+	if(override) 
+	  g_string_append_printf (ret,"%s", keysig_string);
+	else {
+	  determinekey (((keysig *) curobj->object)->isminor ?
+			((keysig *) curobj->object)->number + 3 :
+			((keysig *) curobj->object)->number, &keyname);
+	  g_string_append_printf (ret, "\\key %s", keyname);
+	  if (((keysig *) curobj->object)->isminor)
+	    g_string_append_printf (ret, " \\minor%s", keysig_string);
+	  else
+	    g_string_append_printf (ret, " \\major%s", keysig_string);
+	}
+      }
 	break;
-      case TIMESIG:
-	g_string_append_printf (ret, "\\time %d/%d",
-				((timesig *) curobj->object)->time1,
-				((timesig *) curobj->object)->time2);
+      case TIMESIG: {
+	gboolean override = FALSE;
+	gchar *timesig_string = "";
+	GList *directives =  ((timesig *) curobj->object)->directives;
+	if(directives) {
+	  override = get_override(directives);
+	  timesig_string = get_postfix(directives);	 
+	}
+	if(override) 
+	  g_string_append_printf (ret,"%s", timesig_string);
+	else 
+	  g_string_append_printf (ret, "\\time %d/%d%s",
+				  ((timesig *) curobj->object)->time1,
+				  ((timesig *) curobj->object)->time2, timesig_string);
+      }
 	cur_stime1 = ((timesig *) curobj->object)->time1;
 	cur_stime2 = ((timesig *) curobj->object)->time2;
 	break;
@@ -1382,7 +1404,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	if (curstaffstruct->keysig.isminor)
 	  g_string_append_printf(definitions, "%s %s", " \\minor\n", keysig_string);
 	else
-	  g_string_append_printf(definitions, "%s", " \\major\n");
+	  g_string_append_printf(definitions, "%s %s", " \\major\n", keysig_string);
       }
     }
 

@@ -108,7 +108,6 @@ new_directive(gchar *tag){
 static  DenemoObject *findobj(void) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore * si = gui->si;
-  note *curnote = NULL;
   return (DenemoObject *) si->currentobject ?
     (DenemoObject *) si->currentobject->data : NULL;
   }
@@ -1326,7 +1325,7 @@ static gboolean text_edit_directive(DenemoDirective *directive) {
                                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                         NULL);
-  gtk_dialog_add_button           (dialog, "Delete Directive", GTK_RESPONSE_REJECT);
+  gtk_dialog_add_button (GTK_DIALOG(dialog), "Delete Directive", GTK_RESPONSE_REJECT);
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
@@ -1473,35 +1472,26 @@ DenemoDirective *select_layout_directive(void) {
 
 static
 DenemoDirective *select_clef_directive(void) {
-  if(Denemo.gui->si->currentstaff==NULL)
+  clef *curclef = get_clef();
+  if(curclef==NULL || curclef->directives==NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
-  //FIXME return NULL if not primary staff
-  if(curstaff==NULL || curstaff->clef.directives==NULL)
-    return NULL;
-  return select_directive("Select a cleff directive", curstaff->clef.directives);
+  return select_directive("Select a clef directive", curclef->directives);
 }
 
 static
 DenemoDirective *select_keysig_directive(void) {
-  if(Denemo.gui->si->currentstaff==NULL)
+  keysig *curkeysig = get_keysig();
+  if(curkeysig==NULL || curkeysig->directives==NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
-  //FIXME return NULL if not primary staff
-  if(curstaff==NULL || curstaff->keysig.directives==NULL)
-    return NULL;
-  return select_directive("Select a key signature directive", curstaff->keysig.directives);
+  return select_directive("Select a key signature directive", curkeysig->directives);
 }
 
 static
 DenemoDirective *select_timesig_directive(void) {
-  if(Denemo.gui->si->currentstaff==NULL)
+  timesig *curtimesig = get_timesig();
+  if(curtimesig==NULL || curtimesig->directives==NULL)
     return NULL;
-  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
-  //FIXME return NULL if not primary staff
-  if(curstaff==NULL || curstaff->timesig.directives==NULL)
-    return NULL;
-  return select_directive("Select a time signature directive", curstaff->timesig.directives);
+  return select_directive("Select a time signature directive", curtimesig->directives);
 }
 
 static

@@ -607,9 +607,11 @@
 
   <popup name="KeyEditPopup">
      <menuitem action="InsertKey"/>
+     <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="TimeEditPopup">
      <menuitem action="InsertTimeSig"/>
+     <menuitem action="EditTimesigDirective"/>
   </popup>
 
   <popup name="NoteEditPopup">
