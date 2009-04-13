@@ -651,6 +651,19 @@ delete_staff_directive(gchar *tag) {
     return;
   return delete_directive(&curstaff->staff_directives, tag);
 }
+
+
+gboolean
+delete_initialclef_directive(gchar *tag) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  if(curstaff==NULL || curstaff->clef.directives==NULL)
+    return;
+  return delete_directive(&curstaff->clef.directives, tag);
+}
+
+
 gboolean
 delete_voice_directive(gchar *tag) {
   if(Denemo.gui->si->currentstaff==NULL)
@@ -1459,6 +1472,39 @@ DenemoDirective *select_layout_directive(void) {
 }
 
 static
+DenemoDirective *select_clef_directive(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  //FIXME return NULL if not primary staff
+  if(curstaff==NULL || curstaff->clef.directives==NULL)
+    return NULL;
+  return select_directive("Select a cleff directive", curstaff->clef.directives);
+}
+
+static
+DenemoDirective *select_keysig_directive(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  //FIXME return NULL if not primary staff
+  if(curstaff==NULL || curstaff->keysig.directives==NULL)
+    return NULL;
+  return select_directive("Select a key signature directive", curstaff->keysig.directives);
+}
+
+static
+DenemoDirective *select_timesig_directive(void) {
+  if(Denemo.gui->si->currentstaff==NULL)
+    return NULL;
+  DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
+  //FIXME return NULL if not primary staff
+  if(curstaff==NULL || curstaff->timesig.directives==NULL)
+    return NULL;
+  return select_directive("Select a time signature directive", curstaff->timesig.directives);
+}
+
+static
 DenemoDirective *select_staff_directive(void) {
   if(Denemo.gui->si->currentstaff==NULL)
     return NULL;
@@ -1491,7 +1537,8 @@ void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive))
-    delete_voice_directive(directive->tag);
+    delete_voice_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
 }
 
 /**
@@ -1506,12 +1553,57 @@ void edit_staff_directive(GtkAction *action,  DenemoScriptParam *param) {
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive))
-    delete_staff_directive(directive->tag);
+    delete_staff_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
+}
+
+/**
+ * callback for EditClefDirective 
+ */
+void edit_clef_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_clef_directive();
+  //g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(!edit_directive(directive))
+    delete_clef_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
+}
+/**
+ * callback for EditKeysigDirective 
+ */
+void edit_keysig_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_keysig_directive();
+  //g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(!edit_directive(directive))
+    delete_keysig_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
 }
 
 
-
-
+/**
+ * callback for EditTimesigDirective 
+ */
+void edit_timesig_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_timesig_directive();
+  //g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(!edit_directive(directive))
+    delete_timesig_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
+}
 
 /**
  * callback for EditScoreDirective 
@@ -1547,6 +1639,7 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
       directive->tag = g_string_new(UNKNOWN_TAG);\
     if(!edit_directive(directive))\
       delete_##what##_directive(directive->tag->str);\
+  score_status (Denemo.gui, TRUE);\
   }
 
 

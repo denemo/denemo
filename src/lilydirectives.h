@@ -14,6 +14,12 @@
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
+edit_clef_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
+edit_keysig_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
+edit_timesig_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
 edit_staff_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
 edit_voice_directive(GtkAction *action,  DenemoScriptParam *param);
