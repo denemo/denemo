@@ -1008,3 +1008,46 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 	}
 
 }
+
+static gboolean
+option_choice(GtkWidget *widget, DenemoDirective **response) {
+  if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
+    *response = g_object_get_data(G_OBJECT(widget), "choice");
+  return TRUE;
+}
+
+/* run a dialog for the user to select a string from the NULL separated strings, str
+ return NULL if user cancels.*/ 
+gchar * get_option(gchar *str, gint length) {
+  gchar *response=NULL;
+  GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select an Option (or Cancel)",
+						   GTK_WINDOW (Denemo.window),
+						   (GtkDialogFlags) (GTK_DIALOG_MODAL |
+								     GTK_DIALOG_DESTROY_WITH_PARENT),
+						   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+						   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+						   NULL);
+  GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
+		      TRUE, TRUE, 0);
+  gchar *opt;
+  gint i;
+  GtkWidget *widget1, *widget2, *widget;
+  for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
+    if(opt==str) {
+      widget = widget1 =   gtk_radio_button_new_with_label(NULL, opt);
+      response = opt;
+    } else {
+      widget =  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
+    }	
+    g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
+    g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
+    gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
+  }
+  gtk_widget_show_all (dialog);
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
+    response = NULL;
+  }
+  gtk_widget_destroy(dialog);
+  return response;
+}

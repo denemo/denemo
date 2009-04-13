@@ -223,22 +223,30 @@ GList *clone_directives(GList *directives) {
     ret = g_list_append(ret, clone_directive(directives->data));
   return ret;
 }
-
 void
-free_directives(GList *directives) {
-  for(;directives;directives=directives->next) {
-    DenemoDirective *directive = directives->data;
+free_directive_data(DenemoDirective *directive) {
 #define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
     DFREE(tag);
     DFREE(display);
     DFREE(prefix);
     DFREE(postfix);
+    DFREE(graphic_name);
 #undef DFREE
     //if(directive->graphic)
     //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
-    if(directive->graphic_name)
-      g_string_free(directive->graphic_name, TRUE);
+}
+void
+free_directive(DenemoDirective *directive) {
+  free_directive_data(directive);
+  g_free(directive);
+}
+void
+free_directives(GList *directives) {
+  for(;directives;directives=directives->next) {
+    DenemoDirective *directive = directives->data;
+    free_directive(directive);
   } 
+  g_list_free(directives);
 }
 /**
  * Create a clone of the given object

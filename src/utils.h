@@ -5,7 +5,7 @@
  * also includes useful constants
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005 Matthew Hiller
+ * (c) 1999-2005 Matthew Hiller, 2008, 2009 Richard Shann
  */
 #ifndef UTILS_H
 #define UTILS_H
@@ -247,5 +247,6 @@ if(!action && param){\
       param_name1=values?values->str:NULL;\
 }
 
+gchar * get_option(gchar *str, gint length);
 
 #endif /* UTILS_H */
