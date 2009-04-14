@@ -1310,6 +1310,10 @@ static gboolean set_gstring (GtkWidget   *widget,   GdkEventKey *event, GString 
   g_string_assign(gstr, (gchar*)gtk_entry_get_text(GTK_ENTRY(widget)));
   return TRUE;
 }
+static gboolean set_int (GtkSpinButton *widget,  gint *val)  {
+  *val = gtk_spin_button_get_value_as_int (widget);
+  return TRUE;
+}
 
 /* text_edit_directive
    textually edit the directive via a dialog.
@@ -1348,12 +1352,45 @@ static gboolean text_edit_directive(DenemoDirective *directive) {
   g_signal_connect(G_OBJECT(entrywidget), "key-release-event", G_CALLBACK(set_gstring), directive->field);\
   g_string_assign(entrycontent, "");
 
+#define NEWINTENTRY(thelabel, field)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_spin_button_new_with_range (0.0, (gdouble)G_MAXUINT, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), directive->field);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->field);
+
+#define ADDINTENTRY(thelabel, fieldx, fieldy)\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  label = gtk_label_new (_(" x:"));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_spin_button_new_with_range (-(gdouble)G_MAXINT, (gdouble)G_MAXINT, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), directive->fieldx);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->fieldx);\
+  label = gtk_label_new (_(" y:"));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  entrywidget = gtk_spin_button_new_with_range (-(gdouble)G_MAXINT, (gdouble)G_MAXINT, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), directive->fieldy);\
+  gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
+  g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->fieldy);
+
   TEXTENTRY("Postfix", postfix);
   TEXTENTRY("Prefix", prefix);
   TEXTENTRY("Display text", display);
+  ADDINTENTRY("Text Position", tx, ty);
   TEXTENTRY("Graphic", graphic_name);
+  ADDINTENTRY("Graphic Position", gx, gy);
   TEXTENTRY("Tag", tag);
 
+  NEWINTENTRY("Override Mask", override);
 #undef TEXTENTRY
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
