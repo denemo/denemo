@@ -32,6 +32,18 @@ freeobject (DenemoObject * mudobj)
 	free_directives(((clef*)mudobj->object)->directives);
 	g_free (mudobj);
 	break;
+
+      case KEYSIG:
+	free_directives(((keysig*)mudobj->object)->directives);
+	g_free (mudobj);
+	break;
+      case TIMESIG:
+	free_directives(((timesig*)mudobj->object)->directives);
+	g_free (mudobj);
+	break;
+
+
+
       default:
 	g_free (mudobj);
 	break;
@@ -276,9 +288,13 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    case TIMESIG:
 	      ret = dnm_newtimesigobj (((timesig *)orig->object)->time1,((timesig *)orig->object)->time2 );
+	      ((timesig *)ret->object)->directives = clone_directives(((timesig *)orig->object)->directives);
+
 	      break;
 	    case KEYSIG:
 	      ret = dnm_newkeyobj (((keysig *)orig->object)->number,((keysig *)orig->object)->isminor,((keysig *)orig->object)->mode);
+	      ((keysig *)ret->object)->directives = clone_directives(((keysig *)orig->object)->directives);
+
 	      break;
 	      break;
 	    case STEMDIRECTIVE:
