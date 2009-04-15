@@ -1247,9 +1247,9 @@ void user_select_directive_at_cursor(GList ***pdirectives, DenemoDirective **pdi
 	/* seek confirmation of the choice of this directive since it is on a note not pointed at and
 	   has been chosen automatically. */
 	gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
-	gchar *msg = g_strdup_printf("Edit the directive %s on note \"%s\"?", (*pdirective)->tag->str, name);
+	gchar *msg = g_strdup_printf("Select the directive %s on note \"%s\"?", (*pdirective)->tag->str, name);
 
-	if(!confirm("Edit Directive", msg))
+	if(!confirm("Select Directive", msg))
 	  *pdirective = NULL;
 	g_free(name);
 	g_free(msg);
@@ -1437,6 +1437,7 @@ edit_directive(DenemoDirective *directive) {
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
       ret =( text_edit_directive(directive)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
     }
+    score_status (Denemo.gui, TRUE);
     return ret;
   }
   GError *error = NULL;
@@ -1471,8 +1472,35 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
       dnm_deleteobject(Denemo.gui->si);
     }
   }
-  score_status (Denemo.gui, TRUE);
 }
+
+/**
+ * callback for DeleteDirective 
+ */
+void delete_object_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive;
+  GList **directives;
+  user_select_directive_at_cursor(&directives, &directive);
+  //g_print("Got directive %p in list %p\n", directive, directives);
+  if(directives==NULL) {
+    warningdialog("No directives here");
+    return;
+  }
+  if(directive==NULL) {
+    warningdialog("No directive selected");
+    return;
+  }
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(confirm("Directive Delete", "Are you sure you want to delete the directive?"))
+    delete_directive(directives, directive->tag->str);
+  else
+    warningdialog("Operation cancelled");
+}
+
+
+
 static
 DenemoDirective *select_score_directive(void) {
   if(Denemo.gui->lilycontrol.directives==NULL)

@@ -617,6 +617,7 @@
   <popup name="NoteEditPopup">
       <menu action="EditDirectivesMenu">
         <menuitem action="EditDirective"/>
+        <menuitem action="DeleteDirective"/>
       </menu>
 
       <menu action="ChangeNote">
