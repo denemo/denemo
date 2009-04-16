@@ -674,26 +674,33 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 */
 static gint
 draw_score_directives (void) {
-  GList *g = Denemo.gui->lilycontrol.directives;
+  GList *score_directives = Denemo.gui->lilycontrol.directives;
+  GList *scoreheader_directives = Denemo.gui->scoreheader.directives;
+  GList *paper_directives = Denemo.gui->paper.directives;
+  GList *header_directives = Denemo.gui->si->header.directives;
   gint y = 0;
-  if(g==NULL)
-    return 0;
+
   PangoContext *context =
     gdk_pango_context_get_for_screen (gdk_drawable_get_screen (Denemo.gui->pixmap));
   PangoLayout *layout = pango_layout_new (context);
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
-  for(;g;g=g->next) {
-   DenemoDirective *directive = g->data;
-    if(directive->display) {
-      pango_layout_set_text (layout,
-			     directive->display->str,
-			     -1);
-      
-      pango_layout_set_font_description (layout, desc);
-      y += directive->ty;
-      gdk_draw_layout (Denemo.gui->pixmap, gcs_blackgc(), directive->tx, y, layout);
-    }
+#define OUTPUT_DIREC(g)\
+  for(;g;g=g->next) {\
+   DenemoDirective *directive = g->data;\
+    if(directive->display) {\
+      pango_layout_set_text (layout,\
+			     directive->display->str,\
+			     -1);\    
+      pango_layout_set_font_description (layout, desc);\
+      y += 10/*directive->ty*/;\
+      gdk_draw_layout (Denemo.gui->pixmap, gcs_blackgc(), directive->tx, y, layout);\
+    }\
   }
+  OUTPUT_DIREC(scoreheader_directives);
+  OUTPUT_DIREC(header_directives);
+  OUTPUT_DIREC(paper_directives);
+  OUTPUT_DIREC(header_directives);
+#undef OUTPUT_DIREC
   pango_font_description_free (desc);
   return y;
 }
@@ -735,12 +742,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   y = 0;
   //draw score title etc above top staff, if it is visible and if desired by score directives
   if(si->top_staff==1) {
+    gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, KEY_MARGIN, 10);
     y = draw_score_directives();
     curstaff = si->thescore;
     gint space = ((DenemoStaff *) curstaff->data)->space_above;
     if(space<y) 
       space = ((DenemoStaff *) curstaff->data)->space_above = y;
-    gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, KEY_MARGIN, 10); 
   }
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,

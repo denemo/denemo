@@ -1667,6 +1667,8 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
 #define ScoreDirectives  "ScoreDirectives"
 #define ScoreHeaderBlockDirectives  "Score Header Block Directives"
 #define ScorePaperBlockDirectives  "Score Paper Block Directives"
+#define HeaderBlockDirectives  "Movement Header Block Directives"
+
 #define STRINGAPPEND(field)  g_string_append_len(options, field"\0", 1+strlen(field))
   GString *options = g_string_new("");
   gchar *option;
@@ -1676,6 +1678,8 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
      STRINGAPPEND(ScoreHeaderBlockDirectives);
   if(Denemo.gui->paper.directives)
     STRINGAPPEND(ScorePaperBlockDirectives);
+  if(Denemo.gui->si->header.directives)
+    STRINGAPPEND(HeaderBlockDirectives);
 
   if(strlen(options->str) != options->len) {
     option = get_option(options->str, options->len);
@@ -1701,6 +1705,7 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
   EDITTYPE(ScoreDirectives, score);
   EDITTYPE(ScoreHeaderBlockDirectives, scoreheader);
   EDITTYPE(ScorePaperBlockDirectives, paper);
+  EDITTYPE(HeaderBlockDirectives, header);
 
   //  g_print("option was %s\n",option);
   g_string_free(options, TRUE);
