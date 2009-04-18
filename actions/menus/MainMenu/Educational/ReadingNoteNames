@@ -6,68 +6,79 @@
     <map>
       <row>
         <action>ReadingNoteNames</action>
-        <scheme>
-
-;;;Scheme code for command ReadingNoteNames
+        <scheme>;;;;;;;;;;;;;;;
+;;ReadingNoteNames
 ;; tests note name recognition.
-;; set the random seed up using time of day
-     (let ((time (gettimeofday)))
-       (set! *random-state*
-             (seed->random-state (+ (car time)
-                                    (cdr time)))))
-(define shiftup
-  (lambda (n)
-    (if (> n 0) (begin
-	(d-CursorUp)
-	(shiftup (- n 1))))))
+(let (
+      (shiftup 0)
+      (shiftdown 0)
+      (runtest 0)
+      (notewas #t)
+      (usernote #t)
+      (score 0)
+      (steps 0)
+      (span 8) ;; how many steps of the scale to test.
+      (num-goes 10) ;; how many notes to present for the whole test
+      )
+  ;; set the random seed up using time of day
+  (let ((time (gettimeofday)))
+    (set! *random-state*
+	  (seed-&gt;random-state (+ (car time)
+				 (cdr time)))))
+  (set! shiftup
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(d-CursorUp)
+			(shiftup (- n 1))))))
 
-(define shiftdown
-  (lambda (n)
-    (if (> n 0) (begin
-	(d-CursorDown)
-	(shiftdown (- n 1))))))
+  (set! shiftdown
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(d-CursorDown)
+			(shiftdown (- n 1))))))
+;;;;;;;; the main function to run the test
+  (set! runtest 
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(set! steps (+ 1 (random span)))
+			(shiftup steps)
+			(d-Insert2)
+			(set! notewas (d-GetNoteName))
+			;;(d-InsertLilyDirective "directive=%Your score so far: ")
+			(d-DirectivePut-score-display "ReadingNoteNames" (string-append (string-append  "Score: " (object-&gt;string score)) ". Name this note"))
+			(shiftdown steps)
+			(set! usernote  (d-GetChar)
+			      )
+			(if (string? usernote)
+			    (begin
+			      ;;(d-DeletePreviousObject)
+			      (if  (string=? notewas usernote)
+				   (begin
+				     (set! score (+ score 1))
+				     (d-ChangeNotehead "Diamond"))
+				   (begin
+				     (set! score (- score 1))
+				     (d-ChangeNotehead "Cross"))) 		 
+			      (runtest (- n 1))))))))
 
-
-;; it seems you have to define before you can set
-(define notewas #t)
-(define usernote #t)
-(define score 0)
-(define steps 0)
-(define span 8) ;; how many steps of the scale to test.
-(define runtest 
-  (lambda (n)
-    (if (> n 0) (begin
-		  (set! steps (+ 1 (random span)))
-		  (shiftup steps)
-		  (d-Insert2)
-		  (set! notewas (d-GetNoteName))
-		  ;;(d-InsertLilyDirective "directive=%Your score so far: ")
-		  (d-InsertLilyDirective (string-append (string-append  "directive=%Score: " (object->string score)) ". Name this note"))
-		  (shiftdown steps)
-		  (set! usernote  (d-GetChar)
-			)
-		  (if (string? usernote)
-		      (begin
-		  (d-DeletePreviousObject)
-		  (if  (string=? notewas usernote)
-		       (begin
-		       (set! score (+ score 1))
-		       (d-ChangeNotehead "Diamond"))
-		       (begin
-		       (set! score (- score 1))
-		       (d-ChangeNotehead "Cross"))) 		 
-		  (runtest (- n 1))))))))
- (d-GetUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key." "OK")
-(runtest 8)
-(d-InsertLilyDirective (string-append  "directive=%Final Score: " (object->string score)))
-(d-AppendMeasure)
-(d-MeasureRight)
-(d-AppendMeasure)
-(d-MeasureRight)
-
+  (d-PlayMidiKey #xF03001)
+  (d-PlayMidiKey #xF02A01)
+  (d-PlayMidiKey #xF04001)
+  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key.\nHow many goes do you want?" "8"))
+  (d-NewWindow)
+  (set! num-goes (string-&gt;number num-goes))
+  (if (not (integer? num-goes))
+      (set! num-goes 10))
+  (runtest num-goes)
+  (d-DirectivePut-score-display  "ReadingNoteNames"  (string-append  "Final Score: " (object-&gt;string score)))
+  (d-RefreshDisplay)
+  (d-PlayMidiKey #xF03001)
+  (d-PlayMidiKey #xF02A01)
+  (d-PlayMidiKey #xF04001)
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
-        <menupath>/MainMenu/Educational/MusicReading</menupath>
         <label>Note Name Recognition</label>
         <tooltip>%tests your ability to name the notes of the scale</tooltip>
       </row>
