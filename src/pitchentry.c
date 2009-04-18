@@ -418,7 +418,7 @@ static gboolean  apply_tones(DenemoScore *si) {
 	    modify_note((chord*)theobj->object, mid_c_offset, thetone->enshift, dclef);
 	    tone_stored=TRUE;
 	    if(!si->cursor_appending)
-	      cursorright(Denemo.gui);
+	      cursorright(NULL);
 	    store_el = store_el->next;
 
 	  }// tone available
