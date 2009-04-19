@@ -2337,6 +2337,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>No Beam Here</label>
         <tooltip>Prints note without any beam attached.</tooltip>
       </row>
+      <row>
+        <action>TimbalesStyle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Timbales Style Staff</label>
+        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

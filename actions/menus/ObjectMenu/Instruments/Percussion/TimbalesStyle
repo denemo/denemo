@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>TmbalesStyle</action>
+        <action>TimbalesStyle</action>
         <scheme>;;;;;;;;;; TimbalesStyle
 (d-DirectivePut-staff-postfix "TimbalesStyle" "&lt;&lt; { \\new DrumStaff \\with {\n
       drumStyleTable = #timbales-style
@@ -19,10 +19,11 @@
 (d-DirectivePut-clef-postfix "TimbalesStyle" "{ }\n ")
 (d-DirectivePut-clef-override "TimbalesStyle" 1)
 (d-DirectivePut-clef-graphic "TimbalesStyle" "DrumClef")
-
+(d-DirectivePut-keysig-postfix "TimbalesStyle" "{ }\n ")
+(d-DirectivePut-keysig-override "TimbalesStyle" 1)
 (d-RefreshDisplay)</scheme>
-        <label>Tmbales Style Staff</label>
-        <tooltip>Changes to a drum staff</tooltip>
+        <label>Timbales Style Staff</label>
+        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
       </row>
     </map>
   </merge>
