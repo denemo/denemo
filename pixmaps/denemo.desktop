@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Exec=denemo
-Icon=denemo.png
+Icon=denemo
 StartupNotify=true
 Terminal=false
 Type=Application
