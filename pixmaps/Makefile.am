@@ -135,7 +135,7 @@ icon-rest-4.svg \
 icon-rest-5.svg 
 
 icondir=$(datadir)/pixmaps
-icon_DATA=denemo.png
+icon_DATA=denemo
 
 desktopdir = $(datadir)/applications
 desktop_DATA = denemo.desktop
