@@ -722,7 +722,7 @@ cursordown (DenemoScriptParam *param)
  * shiftcursor: FIXME change the name of this function!
  * Mode sensitive note actions:
  * In Classic mode: Move the cursor to a given note value nearest the current cursor
- * In Edit mode: Change the current note (or insert if none)
+ * In Edit mode: Change the current note (or insert if none), if INPUTRHYTHM as well, move cursor to next note.
  * In Insert mode: Insert a note at the cursor
  */
 void
@@ -734,10 +734,6 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   gui->si->cursor_y = jumpcursor (gui->si->cursor_y, oldstaffletter_y,
 				  gui->si->staffletter_y);
   int mid_c_offset = gui->si->cursor_y;
-//  if((gui->mode & INPUTRHYTHM)&&!(gui->mode&INPUTINSERT)){
-//    warningdialog("Rhythm only mode - enter durations, not notes!");
-//    return;
-//  }
      
   /* in edit mode edit the current note name */
   if((gui->mode & INPUTEDIT) && gui->si->currentobject) {
@@ -753,6 +749,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       modify_note((chord*)theobj->object, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
       showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
 			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
+      }
+      if(gui->mode & INPUTRHYTHM) {
+	scheme_next_note(NULL);
       }
       score_status(gui, TRUE);
     }  

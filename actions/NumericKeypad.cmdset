@@ -1479,6 +1479,26 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Edit any directives attached to score.</tooltip>
       </row>
       <row>
+        <action>EditClefDirective</action>
+        <label>Edit Clef Directives</label>
+        <tooltip>Edit any directives attached to clef.</tooltip>
+      </row>
+      <row>
+        <action>EditTimesigDirective</action>
+        <label>Edit Time Signature Directives</label>
+        <tooltip>Edit any directives attached to time signature.</tooltip>
+      </row>
+      <row>
+        <action>EditKeysigDirective</action>
+        <label>Edit Key Signature Directives</label>
+        <tooltip>Edit any directives attached to key signature.</tooltip>
+      </row>
+      <row>
+        <action>DeleteDirective</action>
+        <label>Delete a Directive</label>
+        <tooltip>Delete a directive attached to chord/note at cursor.</tooltip>
+      </row>
+      <row>
         <action>AttachLilyToNote</action>
         <label>Attach Lilypond to Note</label>
         <tooltip>Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation.</tooltip>
@@ -2339,6 +2359,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <label>No Beam Here</label>
         <tooltip>Prints note without any beam attached.</tooltip>
+      </row>
+      <row>
+        <action>TimbalesStyle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Timbales Style Staff</label>
+        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
       </row>
     </map>
   </commands>
