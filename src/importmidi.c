@@ -3,29 +3,7 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 AJAnderson
  *
- */
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <denemo/denemo.h>
-#include "importmidi.h"
-#include "staffops.h"
-
-#define NOTE_OFF                0x80
-#define NOTE_ON                 0x90
-#define CTRL_CHANGE             0xB0
-#define PGM_CHANGE              0xC0
-#define META_EVENT              0xFF
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
-#define META_TRACK_NAME         0x03
-#define META_INSTR_NAME		0x04
-#define META_TEMPO              0x51
-#define META_TIMESIG            0x58
-#define META_KEYSIG             0x59
-
-
-
-/* 	TODO
+ * 	TODO
  *  
  *  check to see if memory used by malloc is freed
  *  clean up/optimise code
@@ -39,12 +17,144 @@
  *
  */
 
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <denemo/denemo.h>
+#include "importmidi.h"
+#include "staffops.h"
+#include "smf.h"
+
+#define NOTE_OFF                0x80
+#define NOTE_ON                 0x90
+#define CTRL_CHANGE             0xB0
+#define PGM_CHANGE              0xC0
+#define META_EVENT              0xFF
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define META_TRACK_NAME         0x03
+#define META_INSTR_NAME		0x04
+#define META_TEMPO              0x51
+#define META_TIMESIG            0x58
+#define META_KEYSIG             0x59
+
+typedef struct notetype
+{
+	gint notetype;
+	gint numofdots;
+	gint tied;
+}notetype;
+
+typedef struct nstack 
+{
+	gint *pitch;
+   	gint *measure; /*can this be calculated on noteoff?*/
+     	gint *timeon;
+	gint *on_delta_time; /* this is time between last event and this notes start */
+     	gint *duration; 
+	gint *staffnum;	
+}nstack;
+
+typedef struct midicallback
+{
+	GList *notestack;
+	GList *chordnotes;
+	GList *currentnote;
+	DenemoGUI *gui;
+	gint leftover; /* note/rest value that is leftover across the measure */
+	gint PPQN;
+	gint bartime; /* time relative to barlength 0-barlength */
+	gint delta_time; /* distance between notes */
+	gint barlength; /* amount of time in measure */
+	gint lastoff; /* starttime + duration. The time when the note is finished */
+	gint trackplus;
+	gint key;
+	gint track;
+	smf_t *smf
+}midicallback;
+
+typedef struct harmonic
+{
+	gint pitch;
+	gint enshift;
+}harmonic;
+
+
 void ProcessNote(GList *list, midicallback *mididata); 
 void process_list(GList *list, midicallback *mididata);
 void MeasureCheck(GList *list, midicallback *mididata);
+struct harmonic enharmonic(gint input, gint key);
+gint readBytes(FILE* fp, gint numb);
+gint readheader(FILE* fp, midicallback *mididata);
+void readtrack(FILE* fp, midicallback *mididata);
+gint readVariable(FILE* fp);
+void dotimesig(FILE* fp, midicallback *mididata);
+void dokeysig(FILE* fp, midicallback *mididata);
+void dotempo(FILE* fp,  midicallback *mididata);
+void dotrackname(FILE* fp, midicallback *mididata, gint x);
+void doinstrname(FILE* fp, midicallback *mididata, gint x);
+void donoteon(midicallback *mididata, gint *pitchon, gint *attack, gint *timeon);
+void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
+void restcheck(GList *tmp, midicallback *mididata);
+struct notetype ConvertLength(gint endnote, midicallback *mididata);
+
+smf_track_t *selected_track = NULL;
+smf_event_t *selected_event = NULL;
+	
+static int
+cmd_tracks(char *notused, midicallback *mididata)
+{
+	smf_t *smf = mididata->smf;
+	if (smf->number_of_tracks > 0)
+		g_message("There are %d tracks, numbered from 1 to %d.", 
+				smf->number_of_tracks, smf->number_of_tracks);
+	else
+		g_message("There are no tracks.");
+
+	return (0);
+}
+
+
+static int
+cmd_load(char *file_name, midicallback *mididata)
+{
+	char *decoded;
+	smf_t *smf = mididata->smf;
+
+	selected_track = NULL;
+	selected_event = NULL;
+
+	if (smf != NULL) {
+		smf_delete(smf);
+		smf = NULL;
+	}
+
+	smf = smf_load(file_name);
+	if (smf == NULL) {
+		g_critical("Couldn't load '%s'.", file_name);
+
+		smf = smf_new();
+		if (smf == NULL) {
+			g_critical("Cannot initialize smf_t.");
+			return (-1);
+		}
+
+		return (-2);
+	}
+
+	g_message("File '%s' loaded.", file_name);
+	decoded = smf_decode(smf);
+	g_message("%s.", decoded);
+	free(decoded);
+
+	cmd_track("1");
+
+	free(file_name);
+
+	return (0);
+}
 
 gint
-importMidi (gchar * filename, DenemoGUI * gui)
+importMidi (gchar *filename, DenemoGUI *gui)
 {
   midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
   mididata->notestack = NULL;
@@ -54,49 +164,21 @@ importMidi (gchar * filename, DenemoGUI * gui)
   mididata->bartime = 0;
   mididata->lastoff = 0;
   mididata->track = 0;
+  mididata->smf = NULL;
   gint ret = 0;			// (-1 on failure)
   gint data = 0;
   FILE *fp = 0;
   gint tracks = 0;
+  char *decoded;
 
+  /* delete old data in the score */
   dnm_deletescore (NULL, gui);
 
-  if (fopen (filename, "r") != 0)
-    fp = fopen (filename, "r");
-
-  /*scan to first track */
+  /* load the file */
+  ret = cmd_load(filename, mididata);
   
-  while (1)
-    {
-      data = readBytes (fp, 1);
-      if (data == 0x4d)
-	{
-	  data = readBytes (fp, 3);
-	  if (data == 0x546864)
-	    {
-	      tracks = readheader (fp,mididata);
-#ifdef DEBUG
-      		printf ("\ntracks = %i\n", tracks);
-#endif
-	    };
-	  if (data == 0x54726b)
-	    {
-#ifdef DEBUG
-      	    	printf ("\nReading Track\n");
-#endif  
-	  readtrack (fp, mididata);
-	  tracks--;
-	  mididata->track++;
-	    };
-	};
-      if (tracks == 0)
-	break;
-    };
-
-  fclose (fp);
-    
-  //g_list_foreach(mididata->final_list, (GFunc) addnote, mididata);
   g_free(mididata);
+  g_free(filename);
   return ret;
 }
 
