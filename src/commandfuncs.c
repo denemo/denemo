@@ -750,9 +750,6 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
 			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
       }
-      if(gui->mode & INPUTRHYTHM) {
-	scheme_next_note(NULL);
-      }
       score_status(gui, TRUE);
     }  
   } else
