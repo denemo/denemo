@@ -603,7 +603,7 @@ jack_midi_playback_start()
 	    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
 	      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
 	      //FIXME add a delay before starting the timer.
-	      timeout_id = g_timeout_add ( 4*((double)staff->stime1/(double)staff->stime2)/(gui->si->tempo/(60.0*1000.0)), 
+	      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), 
 				       (GSourceFunc)move_on, gui);
 	      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
 	    }

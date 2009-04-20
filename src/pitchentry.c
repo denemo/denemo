@@ -418,7 +418,7 @@ static gboolean  apply_tones(DenemoScore *si) {
 	    modify_note((chord*)theobj->object, mid_c_offset, thetone->enshift, dclef);
 	    tone_stored=TRUE;
 	    if(!si->cursor_appending)
-	      cursorright(Denemo.gui);
+	      cursorright(NULL);
 	    store_el = store_el->next;
 
 	  }// tone available
@@ -1319,7 +1319,7 @@ gchar *determine_interval(gint bass, gint harmony){
   gint bass_octave, harmony_octave;
   gdouble deviation;
   gint semitones = harmony - bass;
-  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->skeyaccs;
+  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->keysig.accs;
  notepitch bassnote = PR_temperament->notepitches[bass%12];
  notepitch harmonynote = PR_temperament->notepitches[harmony%12];
  gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>CautionaryAccidental</action>
+        <scheme>(d-DirectivePut-note-postfix "CautionaryAccidental" "!")
+(d-RefreshDisplay)
+</scheme>
+        <label>Cautionary Accidental</label>
+        <tooltip>Forces the accidental on the note to be printed.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

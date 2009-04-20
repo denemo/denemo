@@ -382,11 +382,11 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
    *   - K: (key signature)
    */
 
-  determinebasekey (firststaffstruct->skey_isminor ?
-		    firststaffstruct->skey + 3 :
-		    firststaffstruct->skey, &basekeyname);
-  curtime.a = firststaffstruct->stime1;
-  curtime.b = firststaffstruct->stime2;
+  determinebasekey (firststaffstruct->keysig.isminor ?
+		    firststaffstruct->keysig.number + 3 :
+		    firststaffstruct->keysig.number, &basekeyname);
+  curtime.a = firststaffstruct->timesig.time1;
+  curtime.b = firststaffstruct->timesig.time2;
   defaultlength = determinedefaultlength (&curtime);
 
   fprintf (fp, "X:1\n");
@@ -396,8 +396,8 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   if (si->headerinfo.composer->len > 0)
     fprintf (fp, "C:%s\n", si->headerinfo.composer->str);
   fprintf (fp, "Q:1/4=%d\n", si->tempo);
-  fprintf (fp, "M:%d/%d\n", firststaffstruct->stime1,
-	   firststaffstruct->stime2);
+  fprintf (fp, "M:%d/%d\n", firststaffstruct->timesig.time1,
+	   firststaffstruct->timesig.time2);
   fprintf (fp, "L:1/%d\n", defaultlength);
 
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);
@@ -433,7 +433,7 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   fprintf (fp, "]\n");
 
   fprintf (fp, "K:%s%s\n", basekeyname,
-	   firststaffstruct->skey_isminor ? "m" : "");
+	   firststaffstruct->keysig.isminor ? "m" : "");
 
   /* Now we output each voice in turn. */
 
@@ -442,22 +442,22 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
     {
       curstaffstruct = (DenemoStaff *) curstaff->data;
       determineclef (curstaffstruct->clef.type, &clefname, &octaveshift);
-      determinebasekey (curstaffstruct->skey_isminor ?
-			curstaffstruct->skey + 3 :
-			curstaffstruct->skey, &basekeyname);
-      curtime.a = curstaffstruct->stime1;
-      curtime.b = curstaffstruct->stime2;
+      determinebasekey (curstaffstruct->keysig.isminor ?
+			curstaffstruct->keysig.number + 3 :
+			curstaffstruct->keysig.number, &basekeyname);
+      curtime.a = curstaffstruct->timesig.time1;
+      curtime.b = curstaffstruct->timesig.time2;
       defaultlength = determinedefaultlength (&curtime);
 
       /* First, the V: header. FIXME: Output name="..." too. */
 
       fprintf (fp, "%%\n%%\nV:%d clef=%s\n", curvoicenum, clefname);
       fprintf (fp, "I:octave=%d\n", -octaveshift);	/* FIXME: nonstandard */
-      fprintf (fp, "M:%d/%d\n", curstaffstruct->stime1,
-	       curstaffstruct->stime2);
+      fprintf (fp, "M:%d/%d\n", curstaffstruct->timesig.time1,
+	       curstaffstruct->timesig.time2);
       fprintf (fp, "L:1/%d\n", defaultlength);
       fprintf (fp, "K:%s%s\n", basekeyname,
-	       curstaffstruct->skey_isminor ? "m" : "");
+	       curstaffstruct->keysig.isminor ? "m" : "");
 
       /* Then the actual notes, measure for measure (sorry, excuse the bad
        * Shakespeare pun). */

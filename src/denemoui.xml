@@ -581,12 +581,15 @@
 
   <popup name="InitialClefEditPopup">
      <menuitem action="InitialClef"/>
+     <menuitem action="EditClefDirective"/>
   </popup>
   <popup name="InitialKeyEditPopup">
      <menuitem action="InitialKey"/>
+     <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="InitialTimeEditPopup">
      <menuitem action="InitialTimeSig"/>
+     <menuitem action="EditTimesigDirective"/>
   </popup>
   <popup name="ClefEditPopup">
      <menuitem action="InsertClef"/>
@@ -604,14 +607,17 @@
 
   <popup name="KeyEditPopup">
      <menuitem action="InsertKey"/>
+     <menuitem action="EditKeysigDirective"/>
   </popup>
   <popup name="TimeEditPopup">
      <menuitem action="InsertTimeSig"/>
+     <menuitem action="EditTimesigDirective"/>
   </popup>
 
   <popup name="NoteEditPopup">
       <menu action="EditDirectivesMenu">
         <menuitem action="EditDirective"/>
+        <menuitem action="DeleteDirective"/>
       </menu>
 
       <menu action="ChangeNote">

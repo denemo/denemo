@@ -159,13 +159,18 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
  * @return none
 */
 void
-next_movement (GtkAction *action, gpointer param)
+next_movement (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->next;
+  if(param)
+    param->status = TRUE;
   if(this==NULL){
-    warningdialog(_("This is the last movement"));
+    if(param)
+      param->status = FALSE;
+    else
+      warningdialog(_("This is the last movement"));
     return;
   }
   gui->si = this->data;
@@ -190,13 +195,18 @@ next_movement (GtkAction *action, gpointer param)
  * @return none
 */
 void
-prev_movement (GtkAction *action, gpointer param)
+prev_movement (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   GList *this = g_list_find( gui->movements, gui->si);
   this = this->prev;
+  if(param)
+    param->status = TRUE;
   if(this==NULL){
-    warningdialog(_("This is the first movement"));
+    if(param)
+      param->status = FALSE;
+    else
+      warningdialog(_("This is the first movement"));
     return;
   }
   gui->si = this->data; 
@@ -327,6 +337,9 @@ void
 free_score (DenemoGUI * gui)
 {
   delete_all_staffs(gui);
+  delete_directives(&gui->si->layout.directives);
+  delete_directives(&gui->si->header.directives);
+
 #define  HEADER(field)   g_string_free(gui->si->headerinfo.field, TRUE)
   HEADER(title);
   HEADER(subtitle);

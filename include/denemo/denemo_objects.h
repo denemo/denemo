@@ -211,6 +211,7 @@ typedef struct timesig
 {
   gint time1; /**< This is the numerator for a time signature */
   gint time2; /**< This is the denominator for a time signature */
+  GList *directives;
 }
 timesig;
 
@@ -223,6 +224,7 @@ typedef struct keysig
   gint isminor; /**< Type of key 0-major 1-minor 2-mode */
   gint mode;  /**< Mode indicator */
   gint accs[7];
+  GList *directives;
 }
 keysig;
 

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ScoreTagline</action>
+        <scheme>
+		(SetScoreHeaderField "tagline")
+		(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+		(d-RefreshDisplay)
+	</scheme>
+        <label>Tagline</label>
+        <tooltip>Prints a line of text at the end of the score.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

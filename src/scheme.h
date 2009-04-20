@@ -1103,6 +1103,22 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditVoiceDirective")), "s
 SCM scheme_EditScoreDirective(SCM optional);
 install_scm_function ("d-EditScoreDirective", scheme_EditScoreDirective);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditScoreDirective")), "scm", (gpointer)1);
+/*EditClefDirective edit_clef_directive*/
+SCM scheme_EditClefDirective(SCM optional);
+install_scm_function ("d-EditClefDirective", scheme_EditClefDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditClefDirective")), "scm", (gpointer)1);
+/*EditTimesigDirective edit_timesig_directive*/
+SCM scheme_EditTimesigDirective(SCM optional);
+install_scm_function ("d-EditTimesigDirective", scheme_EditTimesigDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditTimesigDirective")), "scm", (gpointer)1);
+/*EditKeysigDirective edit_keysig_directive*/
+SCM scheme_EditKeysigDirective(SCM optional);
+install_scm_function ("d-EditKeysigDirective", scheme_EditKeysigDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditKeysigDirective")), "scm", (gpointer)1);
+/*DeleteDirective delete_object_directive*/
+SCM scheme_DeleteDirective(SCM optional);
+install_scm_function ("d-DeleteDirective", scheme_DeleteDirective);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteDirective")), "scm", (gpointer)1);
 /*AttachLilyToNote note_directive*/
 SCM scheme_AttachLilyToNote(SCM optional);
 install_scm_function ("d-AttachLilyToNote", scheme_AttachLilyToNote);

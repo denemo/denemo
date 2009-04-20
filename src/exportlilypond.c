@@ -702,8 +702,21 @@ brace_count(gchar *str) {
   }
   return ret;
 }
-/* returns a newly allocated string of lilypond output from list of directives */
-static gchar *get_prolog(GList *g) {
+/* returns a newly allocated string of lilypond output from  the postfix fields of a list of directives */
+static gchar *get_postfix(GList *g) {
+  if(g==NULL)
+    return g_strdup("");
+  GString *ret = g_string_new("");
+  for(;g;g=g->next) {
+    DenemoDirective *d = g->data;
+    
+    if(d->postfix && d->postfix->len)
+      g_string_append(ret, d->postfix->str);
+  }
+return g_string_free(ret, FALSE);
+}
+/* returns a newly allocated string of lilypond output from the prefix fields of a list of directives */
+static gchar *get_prefix(GList *g) {
   if(g==NULL)
     return g_strdup("");
   GString *ret = g_string_new("");
@@ -711,11 +724,15 @@ static gchar *get_prolog(GList *g) {
     DenemoDirective *d = g->data;
     if(d->prefix && d->prefix->len)
       g_string_append(ret, d->prefix->str);
-    if(d->postfix && d->postfix->len)
-      g_string_append(ret, d->postfix->str);
+    
   }
 return g_string_free(ret, FALSE);
 }
+
+
+
+
+
 
 /* returns the directives flags ORd together */
 static gint get_override(GList *g) {
@@ -1030,7 +1047,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       case CLEF:
 	{gboolean override = get_override(((clef *) curobj->object)->directives);
 	if(((clef *) curobj->object)->directives) {
-	  g_string_append_printf (ret, "%s", get_prolog(((clef *) curobj->object)->directives));
+	  g_string_append_printf (ret, "%s", get_postfix(((clef *) curobj->object)->directives));//FIXME memory leak get_postfix
 	}
 	if(!override) {
 	  determineclef (((clef *) curobj->object)->type, &clefname);
@@ -1038,21 +1055,43 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	}
 	}
 	break;
-      case KEYSIG:
-	determinekey (((keysig *) curobj->object)->isminor ?
-		      ((keysig *) curobj->object)->number + 3 :
-		      ((keysig *) curobj->object)->number, &keyname);
-	g_string_append_printf (ret, "\\key %s", keyname);
-	if (((keysig *) curobj->object)->isminor)
-	  g_string_append_printf (ret, " \\minor");
-	else
-	  g_string_append_printf (ret, " \\major");
-	/*do this in caller             g_string_append_printf (ret, " "); */
+      case KEYSIG: {
+	gboolean override = FALSE;
+	gchar *keysig_string = "";
+	GList *directives =  ((keysig *) curobj->object)->directives;
+	if(directives) {
+	  override = get_override(directives);
+	  keysig_string = get_postfix(directives);	 
+	}
+	if(override) 
+	  g_string_append_printf (ret,"%s", keysig_string);
+	else {
+	  determinekey (((keysig *) curobj->object)->isminor ?
+			((keysig *) curobj->object)->number + 3 :
+			((keysig *) curobj->object)->number, &keyname);
+	  g_string_append_printf (ret, "\\key %s", keyname);
+	  if (((keysig *) curobj->object)->isminor)
+	    g_string_append_printf (ret, " \\minor%s", keysig_string);
+	  else
+	    g_string_append_printf (ret, " \\major%s", keysig_string);
+	}
+      }
 	break;
-      case TIMESIG:
-	g_string_append_printf (ret, "\\time %d/%d",
-				((timesig *) curobj->object)->time1,
-				((timesig *) curobj->object)->time2);
+      case TIMESIG: {
+	gboolean override = FALSE;
+	gchar *timesig_string = "";
+	GList *directives =  ((timesig *) curobj->object)->directives;
+	if(directives) {
+	  override = get_override(directives);
+	  timesig_string = get_postfix(directives);	 
+	}
+	if(override) 
+	  g_string_append_printf (ret,"%s", timesig_string);
+	else 
+	  g_string_append_printf (ret, "\\time %d/%d%s",
+				  ((timesig *) curobj->object)->time1,
+				  ((timesig *) curobj->object)->time2, timesig_string);
+      }
 	cur_stime1 = ((timesig *) curobj->object)->time1;
 	cur_stime2 = ((timesig *) curobj->object)->time2;
 	break;
@@ -1239,12 +1278,18 @@ outputHeader (GString *str, DenemoGUI * gui)
     g_string_append_printf (str, "%s", "\tline-width = #(- line-width (* mm  3.000000))\n");
     g_string_append_printf (str, "%s", "}\n");
   }
-  /* print \paper block settings for standard piece */
-  else 
-  /* print \paper block setting printing of all headers */
-    g_string_append_printf (str,  "%s", "\\paper {printallheaders = ##t}\n");
-
-
+  /* print \paper block settings for the score */
+  else {
+    g_string_append_printf (str,  "%s", "\\paper {\n");
+    gchar *paper_settings = get_postfix(gui->paper.directives);
+    if(paper_settings){
+      g_string_append(str, paper_settings);
+      g_free(paper_settings);
+    } else
+      g_string_append_printf (str,  "%s", "printallheaders = ##f\n");
+    g_string_append_printf (str,  "%s", "}\n");
+  }
+  
 }
 
 
@@ -1263,8 +1308,8 @@ static void
 outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	     gint start, gint end, gchar *movement, gchar *voice, gint movement_count, gint voice_count, GString *definitions)
 {
-  gint cur_stime1 = curstaffstruct->stime1;
-  gint cur_stime2 = curstaffstruct->stime2;
+  gint cur_stime1 = curstaffstruct->timesig.time1;
+  gint cur_stime2 = curstaffstruct->timesig.time2;
 
   gint prevduration, prevnumdots;
   gchar *clefname;
@@ -1328,37 +1373,56 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   } else {
     
     /* The midi instrument */
-    g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
+    //  g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
     
     /* Time signature */
-    g_string_append_printf(definitions, "%s%sTimeSig = \\time %d/%d\n", movement, voice, curstaffstruct->stime1,
-			   curstaffstruct->stime2);
+    {
+      gboolean override = get_override(curstaffstruct->timesig.directives);
+      gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
+      if(override)
+	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
+      else
+	g_string_append_printf(definitions, "\n"TAB"%s%sTimeSig = \\time %d/%d %s\n", movement, voice, curstaffstruct->timesig.time1,
+			       curstaffstruct->timesig.time2, timesig_string);
+    }
+
     /* Determine the key signature */
     gchar *clefname;
     /* clef name */
     gchar *keyname;
     /* key signature name */
-    determinekey (curstaffstruct->skey_isminor ?
-		  curstaffstruct->skey + 3 : curstaffstruct->skey, &keyname);
-    g_string_append_printf(definitions, "%s%sKeySig = \\key %s", movement, voice, keyname);
-    if (curstaffstruct->skey_isminor)
-      g_string_append_printf(definitions, "%s", " \\minor\n");
-    else
-      g_string_append_printf(definitions, "%s", " \\major\n");
+
+    {
+      gboolean override = get_override(curstaffstruct->keysig.directives);
+      gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
+      if(override)
+	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
+      else {
+	determinekey (curstaffstruct->keysig.isminor ?
+		      curstaffstruct->keysig.number + 3 : curstaffstruct->keysig.number, &keyname);
+	g_string_append_printf(definitions, "%s%sKeySig = \\key %s", movement, voice, keyname);
+	if (curstaffstruct->keysig.isminor)
+	  g_string_append_printf(definitions, "%s %s", " \\minor\n", keysig_string);
+	else
+	  g_string_append_printf(definitions, "%s %s", " \\major\n", keysig_string);
+      }
+    }
+
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
     gboolean clef_override = get_override(curstaffstruct->clef.directives);
-    gchar *clef_prolog_insert = get_prolog(curstaffstruct->clef.directives);
+    gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
     if(clef_override)
-      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_prolog_insert);
+      g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
     else
-      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clef_prolog_insert, clefname);
-    g_free(clef_prolog_insert);
-    g_string_append_printf(definitions, "%s%sProlog = {\\%s%sMidiInst \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
-			   movement, voice, movement, voice, movement, voice, movement, voice, movement, voice);
-    
-    g_string_append_printf(str, "%s%s = {\n",
-			   movement, voice);    
+      g_string_append_printf(definitions, "%s%sClef = \\clef %s %s\n", movement, voice, clefname, clef_postfix_insert);
+    g_free(clef_postfix_insert);
+    g_string_append_printf(definitions, "%s%sProlog = { \\%s%sTimeSig \\%s%sKeySig \\%s%sClef}\n", 
+			    movement, voice, movement, voice, movement, voice, movement, voice);
+    gchar *voice_prefix = get_prefix(curstaffstruct->voice_directives);
+    g_string_append_printf(str, "%s%s = %s {\n",
+			   movement, voice, voice_prefix);    
+    g_free(voice_prefix);
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
     insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
   } /* standard staff-prolog */
@@ -1538,18 +1602,18 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   // str is empty again now FIXME
   g_string_append_printf(str, "%s", "}\n");
   gint voice_override = get_override(curstaffstruct->voice_directives);
-  gchar *voice_prolog_insert = get_prolog(curstaffstruct->voice_directives);
-
-  g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
-			 movement, voice, movement, voice, movement, voice);
-
-  if(voice_override) 
-    g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
-			   movement, voice,   voice_prolog_insert, movement, voice);
-  else
-    g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
-			 movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
-
+  gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
+  if(invisibility==NULL) {
+    g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
+			   movement, voice, movement, voice, movement, voice);
+    
+    if(voice_override) 
+      g_string_append_printf(definitions, "%s%sContext = %s {\\%s%sMusic}\n",
+			     movement, voice,   voice_prolog_insert, movement, voice);
+    else
+      g_string_append_printf(definitions, "%s%sContext = \\context Voice = %s%s %s {\\%s%sMusic}\n",
+			     movement, voice,  voice, movement, voice_prolog_insert, movement, voice);
+  }
 
 
 
@@ -1823,6 +1887,8 @@ static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
   GString *definitions = g_string_new("");
+  GString *staffdefinitions = g_string_new("");
+
   if(gui->namespec==NULL)
     gui->namespec=g_strdup_printf("");/* to check if the scoreblocks to make visible are different */
 
@@ -1874,7 +1940,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
 
-  insert_section(&gui->custom_prolog, START, "Prolog", &iter, gui);
+  insert_section(NULL, START, "Prolog", &iter, gui);
 
   gtk_text_buffer_get_end_iter (gui->textbuffer, &iter);
 
@@ -1886,46 +1952,63 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n", -1, "bold", NULL);
  
-  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
-  //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
-  // containing the fixed stuff. for example:
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
-  insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
-  
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
-  insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
-  
-  if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
-    insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
-  }
-  
+  //gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
 
-  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The music follows\n", -1, INEDITABLE, NULL);
+  //  if(gui->custom_prolog && gui->custom_prolog->len ) 
+  //    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
+  // else 
+    {//no custom prolog
+    GString *header = g_string_new("");
+    outputHeader (header, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1,  INEDITABLE, NULL);
+    g_string_free(header, TRUE);
+
+
+
+    //!!!!!!!!! here put the fields paper size, fontsize, printallheaders(excerpt) etc, while leaving the custom prolog
+    // containing the fixed stuff. for example:
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
+    insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
+    
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
+    insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
+
+#if 0
+    //The tagline field has to appear in a header block at the top of the file, else it is ignored    
+    if(((DenemoScore*)gui->movements->data)->headerinfo.tagline->len) {
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n" TAB"tagline = \"", -1, INEDITABLE, NULL, NULL);
+      insert_editable(& ((DenemoScore*)gui->movements->data)->headerinfo.tagline,  ((DenemoScore*)gui->movements->data)->headerinfo.tagline->str, &iter, NULL, gui);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"}\n", -1, INEDITABLE, NULL, NULL); 
+    }
+#endif
+    {
+      gchar *header_string = get_postfix(gui->scoreheader.directives);
+      if(header_string) {
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n\\header{\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header_string, -1, INEDITABLE, NULL, NULL);   
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "}\n", -1, INEDITABLE, NULL, NULL);   
+      g_free(header_string);
+      }
+    }
+  }//end of standard prolog
+
+  {
+  GList *g = gui->lilycontrol.directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = g->data;
+    if(directive->prefix)
+      insert_editable(&directive->prefix, directive->prefix->str, &iter, NULL, gui);
+    //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);
+  }
+  }
+
+  gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\n% The music follows\n", -1, INEDITABLE, NULL);
   
   gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, SCOREBLOCK));
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "% The scoreblocks follow\n", -1, "bold","system_invisible", NULL); 
   
-
-
-  gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, START));
-  if(gui->custom_prolog && gui->custom_prolog->len ) 
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, gui->custom_prolog->str, -1, "bold", NULL);
-  else {
-    GString *header = g_string_new("");
-    outputHeader (header, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, header->str, -1, "bold", NULL);
-    g_string_free(header, TRUE);
-  }
-  
-
-  //  GTimeVal time;long seconds;
-  //  g_get_current_time(&time);
-  //  g_print("time %ld secs", seconds = time.tv_sec);
-
   /* output custom scoreblocks making the first one visible unless this is just a part being printed */
   GList *custom;
   for(custom=gui->custom_scoreblocks;custom;custom=custom->next) 
@@ -1963,35 +2046,14 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       /* Any markup before the score block */
       if(si->headerinfo.lilypond_before->len)
 	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
-   
+
+
+
       //standard score block
-      gchar *score_prolog = get_prolog(gui->lilycontrol.directives);
+      gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
       g_string_append_printf (scoreblock, "%s", "\\score {\n");
 
-#ifdef SOMELILYPONDVERSION
-      /* \header block */
-      g_string_append_printf(scoreblock, "%s", "\\header{\n");
-#define HEADER(field) if(si->headerinfo.field->len) \
-g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.field->str);
-      HEADER(title);
-      HEADER(subtitle);
-      HEADER(poet);
-      HEADER(composer);
-      HEADER(meter);
-      HEADER(piece);
-      HEADER(opus);
-      HEADER(arranger);
-      HEADER(instrument);
-      HEADER(dedication);
-      HEADER(head);
-      HEADER(copyright);
-      HEADER(footer);
-#undef HEADER
-      if(si->headerinfo.extra->len)
-	g_string_append_printf(scoreblock, TAB"%s\n",si->headerinfo.extra->str);    
-     
-      g_string_append_printf(scoreblock, "%s", TAB"}\n\n"); /*end of  \header block */
-#endif
+
 
       g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
 
@@ -2037,7 +2099,7 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 				   movement_name->str, voice_name->str);
 	  
 	  GString *thestr = g_string_new("");
-	  gchar *staff_prolog_insert =  get_prolog(curstaffstruct->staff_directives);
+	  gchar *staff_prolog_insert =  get_postfix(curstaffstruct->staff_directives);
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
 	      g_string_append_printf(thestr, "\\new ChoirStaff %s << \n", staff_prolog_insert);
@@ -2048,17 +2110,17 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
-	      g_string_append_printf(definitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
 	    else
-	      g_string_append_printf(definitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
 	    g_string_append_printf(thestr, "\\%s%s\n", movement_name->str, staff_name->str);
 	  }
 	  else
-	    g_string_append_printf(definitions, "%s", "\\new Voice {\n");
+	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice {\n");
 	  g_free(staff_prolog_insert);
 
 	  if (curstaffstruct->no_of_lines != 5)
-	    g_string_append_printf(definitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
+	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
 				   curstaffstruct->no_of_lines);
 	  const gchar *endofblock;
 	  if(curstaff->next && ((DenemoStaff *) curstaff->next->data)->voicenumber == 2)
@@ -2068,23 +2130,23 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
 	  
 	  if (curstaffstruct->voicenumber != 2)
 	    {
-	      g_string_append_printf(definitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
+	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
 
 	      if (curstaffstruct->haslyrics)
 	      {
-		g_string_append_printf(definitions, 
+		g_string_append_printf(staffdefinitions, 
 				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
 				voice_name->str, movement_name->str, 
 				movement_name->str, voice_name->str);
 	      }
 
 	      if (curstaffstruct->hasfigures)
-		g_string_append_printf(definitions, TAB TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
-	      g_string_append_printf(definitions, TAB TAB"%s\n", endofblock);
+		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
+	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
 	  else if (curstaffstruct->voicenumber == 2)
-	    g_string_append_printf(definitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
+	    g_string_append_printf(staffdefinitions, "%s"TAB TAB"\\%s%s\n"TAB TAB"}\n"TAB TAB"%s\n", thestr->str, movement_name->str, voice_name->str, endofblock);
 
 
 
@@ -2112,48 +2174,40 @@ g_string_append_printf(scoreblock, TAB"%s = \"%s\"\n", #field, si->headerinfo.fi
       curmark = gtk_text_buffer_create_mark (gui->textbuffer, NULL, &iter, FALSE);
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, definitions->str, -1, INEDITABLE, NULL);
+
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, staffdefinitions->str, -1, INEDITABLE, NULL);
+
+
+
       g_free(name);
       g_string_assign(definitions, "");
     }
 
     if(visible_movement==1) {
-      //  if (context)
-      //	g_string_append_printf(scoreblock, ""TAB">> \n");
-     
-      g_string_append_printf(scoreblock, "%s",
-			     ">>\n>>\n"
-			     ""TAB"\\layout {\n");
-			      /* if any layout markup place it in the \layout block */
-			       if(si->headerinfo.layout->len)
-				 g_string_append_printf (scoreblock, ""TAB""TAB"%s\n", si->headerinfo.layout->str);
 
-      g_string_append_printf(scoreblock, "%s", ""TAB"}\n");
+      g_string_append_printf(scoreblock, "%s", ">>\n>>\n");
      
+      { gchar *layout_string = get_postfix(si->layout.directives);
+      g_string_append_printf(scoreblock, "%s", "\\layout{\n");
+      if(layout_string) {
+	g_string_append(scoreblock, layout_string);
+	g_free(layout_string);
+      }
+      g_string_append_printf(scoreblock, "%s", ""TAB"}\n");   
+      }
 
-#ifndef SOMELILYPONDVERSION
-      /* \header block */
+
+
+
+      { gchar *header_string = get_postfix(si->header.directives);
+      //g_print("Now output %s for %p\n", header_string, si);
       g_string_append_printf(scoreblock, "%s", "\\header{\n");
-#define HEADER(field) if(si->headerinfo.field->len) \
-g_string_append_printf(scoreblock, ""TAB"%s = \"%s\"\n", #field, si->headerinfo.field->str);
-      HEADER(title);
-      HEADER(subtitle);
-      HEADER(poet);
-      HEADER(composer);
-      HEADER(meter);
-      HEADER(piece);
-      HEADER(opus);
-      HEADER(arranger);
-      HEADER(instrument);
-      HEADER(dedication);
-      HEADER(head);
-      HEADER(copyright);
-      HEADER(footer);
-#undef HEADER
-      if(si->headerinfo.extra->len)
-	g_string_append_printf(scoreblock, ""TAB"%s\n",si->headerinfo.extra->str );    
-     
+      if(header_string) {
+	g_string_append(scoreblock, header_string);
+	g_free(header_string);
+      }  
       g_string_append_printf(scoreblock, "%s", ""TAB"}\n\n"); /*end of  \header block */
-#endif
+      }
 
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */

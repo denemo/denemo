@@ -41,4 +41,9 @@ clone_directives(GList *directives);
 void
 free_directives(GList *directives);
 
+void
+free_directive(DenemoDirective *directive);
+
+void
+free_directive_data(DenemoDirective *directive);
 #endif

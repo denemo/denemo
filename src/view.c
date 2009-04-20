@@ -144,12 +144,6 @@ cb_string_pairs activatable_commands[] = {
 /***************** end of definitions to implement calling radio/check items from scheme *******************/
 
 
-static gboolean
-option_choice(GtkWidget *widget, DenemoDirective **response) {
-  if( gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)))
-    *response = g_object_get_data(G_OBJECT(widget), "choice");
-  return TRUE;
-}
 
 
 #define DENEMO_SCHEME_PREFIX "d-"
@@ -589,6 +583,8 @@ SCM scheme_get_padding(void) {
   return ret;
 }
 
+
+
 /* create a dialog with the options & return the one chosen, of #f if
    the user cancels
 */
@@ -599,35 +595,7 @@ SCM scheme_get_option(SCM options) {
   gchar *str=NULL;
   if(SCM_STRINGP(options)){
     str = gh_scm2newstr(options, &length);
-    GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select an Option (or Cancel)",
-						     GTK_WINDOW (Denemo.window),
-						     (GtkDialogFlags) (GTK_DIALOG_MODAL |
-								       GTK_DIALOG_DESTROY_WITH_PARENT),
-						     GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-						     GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-						     NULL);
-    GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
-    gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
-			TRUE, TRUE, 0);
-    gchar *opt;
-    gint i;
-    GtkWidget *widget1, *widget2, *widget;
-    for(opt = str;(opt-str)<length;opt += strlen(opt)+1) {
-      if(opt==str) {
-	widget = widget1 =   gtk_radio_button_new_with_label(NULL, opt);
-	response = opt;
-      } else {
-	widget =  widget2  =   gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON (widget1), opt);
-      }	
-      g_object_set_data(G_OBJECT(widget), "choice", (gpointer)opt);
-      g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK(option_choice), &response);
-      gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-    }
-    gtk_widget_show_all (dialog);
-    if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_REJECT){ 
-      response = NULL;
-    }
-    gtk_widget_destroy(dialog);
+    response = get_option(str, length);
   }
   if(response)
     scm = gh_str2scm (response, strlen(response));
@@ -763,6 +731,13 @@ INT_PUTFUNC_DEF(staff, minpixels)
 INT_PUTFUNC_DEF(voice, minpixels)
 INT_PUTFUNC_DEF(score, minpixels)
 INT_PUTFUNC_DEF(clef, minpixels)
+INT_PUTFUNC_DEF(timesig, minpixels)
+INT_PUTFUNC_DEF(keysig, minpixels)
+
+INT_PUTFUNC_DEF(scoreheader, minpixels)
+INT_PUTFUNC_DEF(header, minpixels)
+INT_PUTFUNC_DEF(paper, minpixels)
+INT_PUTFUNC_DEF(layout, minpixels)
 
 INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
@@ -771,8 +746,15 @@ INT_GETFUNC_DEF(staff, minpixels)
 INT_GETFUNC_DEF(voice, minpixels)
 INT_GETFUNC_DEF(score, minpixels)
 INT_GETFUNC_DEF(clef, minpixels)
+INT_GETFUNC_DEF(timesig, minpixels)
+INT_GETFUNC_DEF(keysig, minpixels)
 
-     //end block to copy for new int field in directive
+INT_GETFUNC_DEF(scoreheader, minpixels)
+INT_GETFUNC_DEF(header, minpixels)
+INT_GETFUNC_DEF(paper, minpixels)
+INT_GETFUNC_DEF(layout, minpixels)
+
+     //end block to ocpy for new int field in directive
 
 
 
@@ -890,6 +872,168 @@ INT_GETFUNC_DEF(clef, width)
 INT_GETFUNC_DEF(clef, height)
 DELETEFUNC_DEF(clef)
      // end block
+
+GETFUNC_DEF(timesig, prefix)
+GETFUNC_DEF(timesig, postfix)
+GETFUNC_DEF(timesig, display)
+PUTFUNC_DEF(timesig, prefix)
+PUTFUNC_DEF(timesig, postfix)
+PUTFUNC_DEF(timesig, display)
+PUTGRAPHICFUNC_DEF(timesig);
+
+INT_PUTFUNC_DEF(timesig, x)
+INT_PUTFUNC_DEF(timesig, y)
+INT_PUTFUNC_DEF(timesig, tx)
+INT_PUTFUNC_DEF(timesig, ty)
+INT_PUTFUNC_DEF(timesig, gx)
+INT_PUTFUNC_DEF(timesig, gy)
+INT_PUTFUNC_DEF(timesig, override)
+INT_GETFUNC_DEF(timesig, x)
+INT_GETFUNC_DEF(timesig, y)
+INT_GETFUNC_DEF(timesig, tx)
+INT_GETFUNC_DEF(timesig, ty)
+INT_GETFUNC_DEF(timesig, gx)
+INT_GETFUNC_DEF(timesig, gy)
+INT_GETFUNC_DEF(timesig, override)
+INT_GETFUNC_DEF(timesig, width)
+INT_GETFUNC_DEF(timesig, height)
+DELETEFUNC_DEF(timesig)
+
+GETFUNC_DEF(keysig, prefix)
+GETFUNC_DEF(keysig, postfix)
+GETFUNC_DEF(keysig, display)
+PUTFUNC_DEF(keysig, prefix)
+PUTFUNC_DEF(keysig, postfix)
+PUTFUNC_DEF(keysig, display)
+PUTGRAPHICFUNC_DEF(keysig);
+
+INT_PUTFUNC_DEF(keysig, x)
+INT_PUTFUNC_DEF(keysig, y)
+INT_PUTFUNC_DEF(keysig, tx)
+INT_PUTFUNC_DEF(keysig, ty)
+INT_PUTFUNC_DEF(keysig, gx)
+INT_PUTFUNC_DEF(keysig, gy)
+INT_PUTFUNC_DEF(keysig, override)
+INT_GETFUNC_DEF(keysig, x)
+INT_GETFUNC_DEF(keysig, y)
+INT_GETFUNC_DEF(keysig, tx)
+INT_GETFUNC_DEF(keysig, ty)
+INT_GETFUNC_DEF(keysig, gx)
+INT_GETFUNC_DEF(keysig, gy)
+INT_GETFUNC_DEF(keysig, override)
+INT_GETFUNC_DEF(keysig, width)
+INT_GETFUNC_DEF(keysig, height)
+DELETEFUNC_DEF(keysig)
+
+
+GETFUNC_DEF(scoreheader, prefix)
+GETFUNC_DEF(scoreheader, postfix)
+GETFUNC_DEF(scoreheader, display)
+PUTFUNC_DEF(scoreheader, prefix)
+PUTFUNC_DEF(scoreheader, postfix)
+PUTFUNC_DEF(scoreheader, display)
+PUTGRAPHICFUNC_DEF(scoreheader);
+
+INT_PUTFUNC_DEF(scoreheader, x)
+INT_PUTFUNC_DEF(scoreheader, y)
+INT_PUTFUNC_DEF(scoreheader, tx)
+INT_PUTFUNC_DEF(scoreheader, ty)
+INT_PUTFUNC_DEF(scoreheader, gx)
+INT_PUTFUNC_DEF(scoreheader, gy)
+INT_PUTFUNC_DEF(scoreheader, override)
+INT_GETFUNC_DEF(scoreheader, x)
+INT_GETFUNC_DEF(scoreheader, y)
+INT_GETFUNC_DEF(scoreheader, tx)
+INT_GETFUNC_DEF(scoreheader, ty)
+INT_GETFUNC_DEF(scoreheader, gx)
+INT_GETFUNC_DEF(scoreheader, gy)
+INT_GETFUNC_DEF(scoreheader, override)
+INT_GETFUNC_DEF(scoreheader, width)
+INT_GETFUNC_DEF(scoreheader, height)
+DELETEFUNC_DEF(scoreheader)
+
+
+GETFUNC_DEF(header, prefix)
+GETFUNC_DEF(header, postfix)
+GETFUNC_DEF(header, display)
+PUTFUNC_DEF(header, prefix)
+PUTFUNC_DEF(header, postfix)
+PUTFUNC_DEF(header, display)
+PUTGRAPHICFUNC_DEF(header);
+
+INT_PUTFUNC_DEF(header, x)
+INT_PUTFUNC_DEF(header, y)
+INT_PUTFUNC_DEF(header, tx)
+INT_PUTFUNC_DEF(header, ty)
+INT_PUTFUNC_DEF(header, gx)
+INT_PUTFUNC_DEF(header, gy)
+INT_PUTFUNC_DEF(header, override)
+INT_GETFUNC_DEF(header, x)
+INT_GETFUNC_DEF(header, y)
+INT_GETFUNC_DEF(header, tx)
+INT_GETFUNC_DEF(header, ty)
+INT_GETFUNC_DEF(header, gx)
+INT_GETFUNC_DEF(header, gy)
+INT_GETFUNC_DEF(header, override)
+INT_GETFUNC_DEF(header, width)
+INT_GETFUNC_DEF(header, height)
+DELETEFUNC_DEF(header)
+
+
+GETFUNC_DEF(paper, prefix)
+GETFUNC_DEF(paper, postfix)
+GETFUNC_DEF(paper, display)
+PUTFUNC_DEF(paper, prefix)
+PUTFUNC_DEF(paper, postfix)
+PUTFUNC_DEF(paper, display)
+PUTGRAPHICFUNC_DEF(paper);
+
+INT_PUTFUNC_DEF(paper, x)
+INT_PUTFUNC_DEF(paper, y)
+INT_PUTFUNC_DEF(paper, tx)
+INT_PUTFUNC_DEF(paper, ty)
+INT_PUTFUNC_DEF(paper, gx)
+INT_PUTFUNC_DEF(paper, gy)
+INT_PUTFUNC_DEF(paper, override)
+INT_GETFUNC_DEF(paper, x)
+INT_GETFUNC_DEF(paper, y)
+INT_GETFUNC_DEF(paper, tx)
+INT_GETFUNC_DEF(paper, ty)
+INT_GETFUNC_DEF(paper, gx)
+INT_GETFUNC_DEF(paper, gy)
+INT_GETFUNC_DEF(paper, override)
+INT_GETFUNC_DEF(paper, width)
+INT_GETFUNC_DEF(paper, height)
+DELETEFUNC_DEF(paper)
+
+
+GETFUNC_DEF(layout, prefix)
+GETFUNC_DEF(layout, postfix)
+GETFUNC_DEF(layout, display)
+PUTFUNC_DEF(layout, prefix)
+PUTFUNC_DEF(layout, postfix)
+PUTFUNC_DEF(layout, display)
+PUTGRAPHICFUNC_DEF(layout);
+
+INT_PUTFUNC_DEF(layout, x)
+INT_PUTFUNC_DEF(layout, y)
+INT_PUTFUNC_DEF(layout, tx)
+INT_PUTFUNC_DEF(layout, ty)
+INT_PUTFUNC_DEF(layout, gx)
+INT_PUTFUNC_DEF(layout, gy)
+INT_PUTFUNC_DEF(layout, override)
+INT_GETFUNC_DEF(layout, x)
+INT_GETFUNC_DEF(layout, y)
+INT_GETFUNC_DEF(layout, tx)
+INT_GETFUNC_DEF(layout, ty)
+INT_GETFUNC_DEF(layout, gx)
+INT_GETFUNC_DEF(layout, gy)
+INT_GETFUNC_DEF(layout, override)
+INT_GETFUNC_DEF(layout, width)
+INT_GETFUNC_DEF(layout, height)
+DELETEFUNC_DEF(layout)
+
+
 
 
 SCM scheme_get_midi(void) {
@@ -1254,6 +1398,15 @@ Then
   INSTALL_DELETE(voice);
   INSTALL_DELETE(score);
 
+  INSTALL_DELETE(clef);
+  INSTALL_DELETE(timesig);
+  INSTALL_DELETE(keysig);
+  INSTALL_DELETE(scoreheader);
+  INSTALL_DELETE(header);
+  INSTALL_DELETE(paper);
+  INSTALL_DELETE(layout);
+
+
 
 #define INSTALL_PUT(what, field)\
   install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
@@ -1271,6 +1424,13 @@ Then
   INSTALL_GET(voice, minpixels);
   INSTALL_GET(score, minpixels);
   INSTALL_GET(clef, minpixels);
+  INSTALL_GET(timesig, minpixels);
+  INSTALL_GET(keysig, minpixels);
+
+  INSTALL_GET(scoreheader, minpixels);
+  INSTALL_GET(header, minpixels);
+  INSTALL_GET(paper, minpixels);
+  INSTALL_GET(layout, minpixels);
 
   INSTALL_PUT(standalone, minpixels);
   INSTALL_PUT(chord, minpixels);
@@ -1279,6 +1439,14 @@ Then
   INSTALL_PUT(voice, minpixels);
   INSTALL_PUT(score, minpixels);
   INSTALL_PUT(clef, minpixels);
+  INSTALL_PUT(timesig, minpixels);
+  INSTALL_PUT(keysig, minpixels);
+
+
+  INSTALL_PUT(scoreheader, minpixels);
+  INSTALL_PUT(header, minpixels);
+  INSTALL_PUT(paper, minpixels);
+  INSTALL_PUT(layout, minpixels);
 
   //end block to repeat for new  directive fields 
 
@@ -1471,6 +1639,199 @@ INSTALL_GET(clef, height)
 
 INSTALL_DELETE(clef);
      // end of block to copy for new type of directive
+
+INSTALL_PUT(timesig, display);
+INSTALL_PUT(timesig, prefix);
+INSTALL_PUT(timesig, postfix);
+INSTALL_PUT(timesig, graphic);
+
+
+INSTALL_GET(timesig, display);
+INSTALL_GET(timesig, prefix);
+INSTALL_GET(timesig, postfix);
+
+INSTALL_PUT(timesig, x)
+INSTALL_PUT(timesig, y)
+INSTALL_PUT(timesig, tx)
+INSTALL_PUT(timesig, ty)
+INSTALL_PUT(timesig, gx)
+INSTALL_PUT(timesig, gy)
+INSTALL_PUT(timesig, override)
+
+
+INSTALL_GET(timesig, x)
+INSTALL_GET(timesig, y)
+INSTALL_GET(timesig, tx)
+INSTALL_GET(timesig, ty)
+INSTALL_GET(timesig, gx)
+INSTALL_GET(timesig, gy)
+INSTALL_GET(timesig, override)
+INSTALL_GET(timesig, width)
+INSTALL_GET(timesig, height)
+
+INSTALL_DELETE(timesig);
+
+INSTALL_PUT(keysig, display);
+INSTALL_PUT(keysig, prefix);
+INSTALL_PUT(keysig, postfix);
+INSTALL_PUT(keysig, graphic);
+
+
+INSTALL_GET(keysig, display);
+INSTALL_GET(keysig, prefix);
+INSTALL_GET(keysig, postfix);
+
+INSTALL_PUT(keysig, x)
+INSTALL_PUT(keysig, y)
+INSTALL_PUT(keysig, tx)
+INSTALL_PUT(keysig, ty)
+INSTALL_PUT(keysig, gx)
+INSTALL_PUT(keysig, gy)
+INSTALL_PUT(keysig, override)
+
+
+INSTALL_GET(keysig, x)
+INSTALL_GET(keysig, y)
+INSTALL_GET(keysig, tx)
+INSTALL_GET(keysig, ty)
+INSTALL_GET(keysig, gx)
+INSTALL_GET(keysig, gy)
+INSTALL_GET(keysig, override)
+INSTALL_GET(keysig, width)
+INSTALL_GET(keysig, height)
+
+INSTALL_DELETE(keysig);
+
+
+INSTALL_PUT(scoreheader, display);
+INSTALL_PUT(scoreheader, prefix);
+INSTALL_PUT(scoreheader, postfix);
+INSTALL_PUT(scoreheader, graphic);
+
+
+INSTALL_GET(scoreheader, display);
+INSTALL_GET(scoreheader, prefix);
+INSTALL_GET(scoreheader, postfix);
+
+INSTALL_PUT(scoreheader, x)
+INSTALL_PUT(scoreheader, y)
+INSTALL_PUT(scoreheader, tx)
+INSTALL_PUT(scoreheader, ty)
+INSTALL_PUT(scoreheader, gx)
+INSTALL_PUT(scoreheader, gy)
+INSTALL_PUT(scoreheader, override)
+
+
+INSTALL_GET(scoreheader, x)
+INSTALL_GET(scoreheader, y)
+INSTALL_GET(scoreheader, tx)
+INSTALL_GET(scoreheader, ty)
+INSTALL_GET(scoreheader, gx)
+INSTALL_GET(scoreheader, gy)
+INSTALL_GET(scoreheader, override)
+INSTALL_GET(scoreheader, width)
+INSTALL_GET(scoreheader, height)
+
+INSTALL_DELETE(scoreheader);
+
+
+INSTALL_PUT(header, display);
+INSTALL_PUT(header, prefix);
+INSTALL_PUT(header, postfix);
+INSTALL_PUT(header, graphic);
+
+
+INSTALL_GET(header, display);
+INSTALL_GET(header, prefix);
+INSTALL_GET(header, postfix);
+
+INSTALL_PUT(header, x)
+INSTALL_PUT(header, y)
+INSTALL_PUT(header, tx)
+INSTALL_PUT(header, ty)
+INSTALL_PUT(header, gx)
+INSTALL_PUT(header, gy)
+INSTALL_PUT(header, override)
+
+
+INSTALL_GET(header, x)
+INSTALL_GET(header, y)
+INSTALL_GET(header, tx)
+INSTALL_GET(header, ty)
+INSTALL_GET(header, gx)
+INSTALL_GET(header, gy)
+INSTALL_GET(header, override)
+INSTALL_GET(header, width)
+INSTALL_GET(header, height)
+
+INSTALL_DELETE(header);
+
+
+INSTALL_PUT(paper, display);
+INSTALL_PUT(paper, prefix);
+INSTALL_PUT(paper, postfix);
+INSTALL_PUT(paper, graphic);
+
+
+INSTALL_GET(paper, display);
+INSTALL_GET(paper, prefix);
+INSTALL_GET(paper, postfix);
+
+INSTALL_PUT(paper, x)
+INSTALL_PUT(paper, y)
+INSTALL_PUT(paper, tx)
+INSTALL_PUT(paper, ty)
+INSTALL_PUT(paper, gx)
+INSTALL_PUT(paper, gy)
+INSTALL_PUT(paper, override)
+
+
+INSTALL_GET(paper, x)
+INSTALL_GET(paper, y)
+INSTALL_GET(paper, tx)
+INSTALL_GET(paper, ty)
+INSTALL_GET(paper, gx)
+INSTALL_GET(paper, gy)
+INSTALL_GET(paper, override)
+INSTALL_GET(paper, width)
+INSTALL_GET(paper, height)
+
+INSTALL_DELETE(paper);
+
+
+INSTALL_PUT(layout, display);
+INSTALL_PUT(layout, prefix);
+INSTALL_PUT(layout, postfix);
+INSTALL_PUT(layout, graphic);
+
+
+INSTALL_GET(layout, display);
+INSTALL_GET(layout, prefix);
+INSTALL_GET(layout, postfix);
+
+INSTALL_PUT(layout, x)
+INSTALL_PUT(layout, y)
+INSTALL_PUT(layout, tx)
+INSTALL_PUT(layout, ty)
+INSTALL_PUT(layout, gx)
+INSTALL_PUT(layout, gy)
+INSTALL_PUT(layout, override)
+
+
+INSTALL_GET(layout, x)
+INSTALL_GET(layout, y)
+INSTALL_GET(layout, tx)
+INSTALL_GET(layout, ty)
+INSTALL_GET(layout, gx)
+INSTALL_GET(layout, gy)
+INSTALL_GET(layout, override)
+INSTALL_GET(layout, width)
+INSTALL_GET(layout, height)
+
+INSTALL_DELETE(layout);
+
+
+
 #undef INSTALL_DELETE
 #undef DELETEFUNC_DEF
 #undef INSTALL_PUT
@@ -1591,6 +1952,8 @@ void free_gui(DenemoGUI *gui)
     free_score(gui);
   }
   delete_directives(&gui->lilycontrol.directives);
+  delete_directives(&gui->scoreheader.directives);
+  delete_directives(&gui->paper.directives);
   g_list_free(gui->movements);
   gui->movements = NULL;
   if(gui->custom_scoreblocks) {
@@ -1601,7 +1964,7 @@ void free_gui(DenemoGUI *gui)
     g_list_free(gui->custom_scoreblocks);
     gui->custom_scoreblocks=NULL;
   }
-  nullify_gstring(&gui->custom_prolog);
+  //nullify_gstring(&gui->custom_prolog);
 
       /* any other free/initializations */
 }
@@ -2708,7 +3071,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   GError *error = NULL;
   GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (name, &error);
   if(error) {
-    warningdialog(error->message);		 
+    //warningdialog(error->message);
+    g_warning("creating pixbuf from file %s gave %s\n", name, error->message);
     return FALSE;
   }
   GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
@@ -2774,8 +3138,8 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     }
     fclose(fp);  
   } else {
-
-    warningdialog("Could not load graphic");
+    g_warning("Could not load graphic");
+    //warningdialog("Could not load graphic");
   }
 
 
@@ -4239,20 +4603,20 @@ Denemo.gui = gui;
   GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
   gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
   g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), gui);
+		      G_CALLBACK (scorearea_expose_event), NULL);
   g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
 		      G_CALLBACK (scorearea_configure_event), gui);
 
 
   g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
-		      G_CALLBACK (scorearea_button_release), gui);
+		      G_CALLBACK (scorearea_button_release), NULL);
 
   g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
-		      G_CALLBACK (scorearea_motion_notify), gui);
+		      G_CALLBACK (scorearea_motion_notify), NULL);
 
   //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
-		      G_CALLBACK (scorearea_button_press), gui);
+		      G_CALLBACK (scorearea_button_press), NULL);
   //  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
   //		      (GtkSignalFunc) delete_callback, gui);
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_press_event",

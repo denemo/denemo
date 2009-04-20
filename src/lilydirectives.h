@@ -14,6 +14,12 @@
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
+edit_clef_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
+edit_keysig_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
+edit_timesig_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
 edit_staff_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
 edit_voice_directive(GtkAction *action,  DenemoScriptParam *param);
@@ -27,6 +33,11 @@ void
 chord_directive (GtkAction *action, DenemoScriptParam * param);
 void
 standalone_directive (GtkAction *action, DenemoScriptParam *param);
+
+void 
+delete_object_directive(GtkAction *action,  DenemoScriptParam *param);
+
+
 void
 delete_directives (GList** pdirectives);
 
@@ -34,7 +45,6 @@ gboolean delete_chord_directive(gchar *tag);
 gboolean delete_note_directive(gchar *tag);
 gboolean delete_staff_directive(gchar *tag);
 gboolean delete_voice_directive(gchar *tag);
-
 
 #define DECL_PUT_FIELD(what, field) gboolean what##_directive_put_##field(gchar *tag, gchar *value);
 #define DECL_GET_FIELD(what, field) gchar *what##_directive_get_##field(gchar *tag);

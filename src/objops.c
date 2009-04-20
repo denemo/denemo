@@ -32,6 +32,18 @@ freeobject (DenemoObject * mudobj)
 	free_directives(((clef*)mudobj->object)->directives);
 	g_free (mudobj);
 	break;
+
+      case KEYSIG:
+	free_directives(((keysig*)mudobj->object)->directives);
+	g_free (mudobj);
+	break;
+      case TIMESIG:
+	free_directives(((timesig*)mudobj->object)->directives);
+	g_free (mudobj);
+	break;
+
+
+
       default:
 	g_free (mudobj);
 	break;
@@ -223,22 +235,30 @@ GList *clone_directives(GList *directives) {
     ret = g_list_append(ret, clone_directive(directives->data));
   return ret;
 }
-
 void
-free_directives(GList *directives) {
-  for(;directives;directives=directives->next) {
-    DenemoDirective *directive = directives->data;
+free_directive_data(DenemoDirective *directive) {
 #define DFREE(field) if(directive->field) g_string_free(directive->field, TRUE);
     DFREE(tag);
     DFREE(display);
     DFREE(prefix);
     DFREE(postfix);
+    DFREE(graphic_name);
 #undef DFREE
     //if(directive->graphic)
     //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
-    if(directive->graphic_name)
-      g_string_free(directive->graphic_name, TRUE);
+}
+void
+free_directive(DenemoDirective *directive) {
+  free_directive_data(directive);
+  g_free(directive);
+}
+void
+free_directives(GList *directives) {
+  for(;directives;directives=directives->next) {
+    DenemoDirective *directive = directives->data;
+    free_directive(directive);
   } 
+  g_list_free(directives);
 }
 /**
  * Create a clone of the given object
@@ -268,9 +288,13 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    case TIMESIG:
 	      ret = dnm_newtimesigobj (((timesig *)orig->object)->time1,((timesig *)orig->object)->time2 );
+	      ((timesig *)ret->object)->directives = clone_directives(((timesig *)orig->object)->directives);
+
 	      break;
 	    case KEYSIG:
 	      ret = dnm_newkeyobj (((keysig *)orig->object)->number,((keysig *)orig->object)->isminor,((keysig *)orig->object)->mode);
+	      ((keysig *)ret->object)->directives = clone_directives(((keysig *)orig->object)->directives);
+
 	      break;
 	      break;
 	    case STEMDIRECTIVE:
@@ -430,12 +454,12 @@ void
 dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
 {
 
-  curstaff->skey = tokey;
-  curstaff->skey_isminor = type;
+  curstaff->keysig.number = tokey;
+  curstaff->keysig.isminor = type;
 
-  initkeyaccs (curstaff->leftmost_keyaccs, tokey);
-  memcpy (curstaff->skeyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
-
+  initkeyaccs (curstaff->keysig.accs, tokey);
+  //memcpy (curstaff->keysig.keyaccs, curstaff->leftmost_keyaccs, SEVENGINTS);
+  curstaff->leftmost_keysig = &curstaff->keysig;
   showwhichaccidentalswholestaff (curstaff);
 
 }

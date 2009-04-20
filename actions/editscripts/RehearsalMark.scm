@@ -10,5 +10,7 @@
      ((equal? choice "Offset the Position")
       (ExtraOffset "RehearsalMark" "standalone" "Score."))
      ((equal? choice "Set Padding")
-      (SetPadding "RehearsalMark" "standalone" "Score.")))))
-(d-RefreshDisplay)
+      (SetPadding "RehearsalMark" "standalone" "Score.")))
+    (if (not (boolean? choice))
+	(d-RefreshDisplay))))
+

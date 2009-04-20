@@ -467,7 +467,7 @@ static void
 freenote(note *thenote) {
   if(thenote->directives) {
     free_directives(thenote->directives);
-    g_list_free(thenote->directives);
+    //g_list_free(thenote->directives);
   }
   g_free(thenote);
 }
@@ -491,7 +491,7 @@ freechord (DenemoObject * thechord)
 
   if(((chord *) thechord->object)->directives) {
     free_directives(((chord *) thechord->object)->directives);
-    g_list_free(((chord *) thechord->object)->directives);
+    //g_list_free(((chord *) thechord->object)->directives);
   }
   g_free (thechord);
 }

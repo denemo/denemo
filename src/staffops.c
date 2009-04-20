@@ -105,11 +105,11 @@ static void
 copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 {
   dest->clef.type = src->clef.type;//other fields - take care if dynamic
-  dest->skey = src->skey;
-  dest->skey_isminor = src->skey_isminor;
-  memcpy (dest->skeyaccs, src->skeyaccs, SEVENGINTS);
-  dest->stime1 = src->stime1;
-  dest->stime2 = src->stime2;
+  dest->keysig.number = src->keysig.number;
+  dest->keysig.isminor = src->keysig.isminor;
+  memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);
+  dest->timesig.time1 = src->timesig.time1;
+  dest->timesig.time2 = src->timesig.time2;
   dest->volume = 65;
   dest->no_of_lines = 5;
   dest->transposition = 0;
@@ -201,11 +201,11 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       n = 1;
 
       thestaffstruct->clef.type = DENEMO_TREBLE_CLEF;
-      thestaffstruct->skey = 0;
-      thestaffstruct->skey_isminor = FALSE;
-      memset (thestaffstruct->skeyaccs, 0, SEVENGINTS);
-      thestaffstruct->stime1 = 4;
-      thestaffstruct->stime2 = 4;
+      thestaffstruct->keysig.number = 0;
+      thestaffstruct->keysig.isminor = FALSE;
+      memset (thestaffstruct->keysig.accs, 0, SEVENGINTS);
+      thestaffstruct->timesig.time1 = 4;
+      thestaffstruct->timesig.time2 = 4;
       thestaffstruct->volume = 65;
       thestaffstruct->no_of_lines = 5;
       thestaffstruct->transposition = 0;
@@ -294,8 +294,8 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 		      numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
   thestaffstruct->midi_instrument = g_string_new ("acoustic grand");
-  thestaffstruct->leftmost_time1context = thestaffstruct->stime1;
-      thestaffstruct->leftmost_time2context = thestaffstruct->stime2;
+  thestaffstruct->leftmost_timesig = &thestaffstruct->timesig;
+
   /* In what position should the scrollbar be added?  */
   switch (action)
     {
@@ -429,6 +429,9 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   g_free (curstaffstruct);
 
   free_directives(curstaffstruct->staff_directives);
+  free_directives(curstaffstruct->timesig.directives);
+  free_directives(curstaffstruct->keysig.directives);
+
   if(si->currentstaff==g_list_last(si->thescore))
     si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease
   si->thescore = g_list_delete_link (si->thescore, si->currentstaff);
@@ -478,8 +481,8 @@ beamsandstemdirswholestaff (DenemoStaff * thestaff)
   gint nclef, time1, time2, stem_directive;
 
   nclef = thestaff->clef.type;
-  time1 = thestaff->stime1;
-  time2 = thestaff->stime2;
+  time1 = thestaff->timesig.time1;
+  time2 = thestaff->timesig.time2;
   stem_directive = DENEMO_STEMBOTH;
 
   for (curmeasure = thestaff->measures; curmeasure;
@@ -502,8 +505,8 @@ showwhichaccidentalswholestaff (DenemoStaff * thestaff)
   gint feednum;
   measurenode *curmeasure;
 
-  memcpy (feed, thestaff->skeyaccs, SEVENGINTS);
-  feednum = thestaff->skey;
+  memcpy (feed, thestaff->keysig.accs, SEVENGINTS);
+  feednum = thestaff->keysig.number;
   for (curmeasure = thestaff->measures; curmeasure;
        curmeasure = curmeasure->next)
     feednum =
@@ -519,9 +522,9 @@ void
 fixnoteheights (DenemoStaff * thestaff)
 {
   gint nclef = thestaff->clef.type;
-  gint time1 = thestaff->stime1;//USELESS
-  gint time2 = thestaff->stime2;//USELESS
-  gint initialclef;//USELESS
+  //gint time1 = thestaff->stime1;//USELESS
+  //gint time2 = thestaff->stime2;//USELESS
+  //gint initialclef;//USELESS
   measurenode *curmeasure;
   objnode *curobj;
   DenemoObject *theobj;
@@ -529,7 +532,7 @@ fixnoteheights (DenemoStaff * thestaff)
   for (curmeasure = thestaff->measures; curmeasure;
        curmeasure = curmeasure->next)
     {
-      initialclef = nclef;
+      //initialclef = nclef;
       for (curobj = (objnode *) curmeasure->data; curobj;
 	   curobj = curobj->next)
 	{
@@ -540,8 +543,8 @@ fixnoteheights (DenemoStaff * thestaff)
 	      newclefify (theobj, nclef);
 	      break;
 	    case TIMESIG://USELESS
-	      time1 = ((timesig *) theobj->object)->time1;
-	      time2 = ((timesig *) theobj->object)->time2;
+	      //time1 = ((timesig *) theobj->object)->time1;
+	      // time2 = ((timesig *) theobj->object)->time2;
 	      break;
 	    case CLEF:
 	      nclef = ((clef *) theobj->object)->type;

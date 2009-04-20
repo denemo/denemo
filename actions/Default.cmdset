@@ -2239,6 +2239,111 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Tmbales Style Staff</label>
         <tooltip>Changes to a drum staff</tooltip>
       </row>
+      <row>
+        <action>Fortissimo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Fortissimo</label>
+        <tooltip>Places a ff sign on the chord at the cursor</tooltip>
+      </row>
+      <row>
+        <action>CautionaryAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Cautionary Accidental</label>
+        <tooltip>Forces the accidental on the note to be printed.</tooltip>
+      </row>
+      <row>
+        <action>ReminderAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Reminder Accidental</label>
+        <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
+      </row>
+      <row>
+        <action>ScoreTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreComposer</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Composer</label>
+        <tooltip>Prints name given to left above first movement of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreTagline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Tagline</label>
+        <tooltip>Prints a line of text at the end of the score.</tooltip>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Title (subtitle of score)</label>
+        <tooltip>Prints the name given as a title above this movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Piece</label>
+        <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Score Title</label>
+        <tooltip>Prints the name given as a grand title above this movement. Suggested use: first movement only, see (Sub)title.</tooltip>
+      </row>
+      <row>
+        <action>ScoreCopyright</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Copyright</label>
+        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+      </row>
+      <row>
+        <action>Indent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Alter the indent of the opening system for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>ScoreIndent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Indent the first system of every movement by the given amount.</tooltip>
+      </row>
+      <row>
+        <action>ToggleTupletNumbering</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Numbering on/off</label>
+        <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
+      </row>
+      <row>
+        <action>NoBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Here</label>
+        <tooltip>Prints note without any beam attached.</tooltip>
+      </row>
+      <row>
+        <action>TimbalesStyle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Timbales Style Staff</label>
+        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

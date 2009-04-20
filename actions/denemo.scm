@@ -197,3 +197,40 @@
     )));;;; end of function change pad
 
 
+
+;;;;;;;;;; SetHeaderField sets a field in the movement header
+
+(define (SetHeaderField field)
+(let ((title "") (current "") (thematch #f) (tag ""))
+  (set! tag (string-append "Movement-" field))
+  (set! current (d-DirectiveGet-header-postfix tag))
+  (if (boolean? current)
+      (set! current "") 
+      (begin
+	;;(display current)
+	(set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
+	;;(display thematch)
+	(if (regexp-match? thematch)
+	    (set! current (match:substring thematch 1)))))
+  (set! title (d-GetUserInput (string-append "Movement " field) 
+			      (string-append "Give a name for the " field " of the current movement") current))
+  (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
+
+;;;;;;;;;; SetScoreHeaderField sets a field in the score header
+
+(define (SetScoreHeaderField field)
+(let ((title "") (current "") (thematch #f) (tag ""))
+  (set! tag (string-append "Score" field))
+  (set! current (d-DirectiveGet-scoreheader-postfix tag))
+  (if (boolean? current)
+      (set! current "") 
+      (begin
+	;;(display current)
+	(set! thematch (string-match (string-append field " = \"([^\"]*)\"\n") current))
+	;;(display thematch)
+	(if (regexp-match? thematch)
+	    (set! current (match:substring thematch 1)))))
+  (set! title (d-GetUserInput (string-append "Score " field) 
+			      (string-append "Give a name for the " field " of the whole score") current))
+  (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
+

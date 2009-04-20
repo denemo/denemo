@@ -338,8 +338,8 @@ key_change_insert (GtkAction * action, gpointer param)
       isminor = ((keysig *)curobj->object)->isminor;
       number = ((keysig *)curobj->object)->number + KEYNAME_ARRAY_OFFSET;
     } else {
-      isminor = (curstaffstruct->skey_isminor == 1);
-      number = curstaffstruct->skey + KEYNAME_ARRAY_OFFSET;
+      isminor = (curstaffstruct->keysig.isminor == 1);
+      number = curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET;
     }
     /* return initial key */
     if (isminor)
@@ -372,10 +372,10 @@ key_change_initial (GtkAction * action, gpointer param)
     }
 
     gchar *key;
-    if (curstaffstruct->skey_isminor == 1)
-      key = g_strdup_printf( "%s %s",minorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET], "Minor");
+    if (curstaffstruct->keysig.isminor == 1)
+      key = g_strdup_printf( "%s %s",minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
     else
-      key = g_strdup_printf( "%s %s",majorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET], "Major");
+      key = g_strdup_printf( "%s %s",majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
     g_string_assign(values, key);
     g_free(key);
 
@@ -488,19 +488,19 @@ key_change (DenemoGUI * gui, actiontype action)
   gtk_box_pack_start (GTK_BOX (hbox), radiobutton3, TRUE, TRUE, 0);
   gtk_widget_show (radiobutton3);
 
-  if (curstaffstruct->skey_isminor == 2)
+  if (curstaffstruct->keysig.isminor == 2)
     {
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton3), TRUE);
       modedialog (NULL, mdata);
 
     }
-  else if (curstaffstruct->skey_isminor == 1)
+  else if (curstaffstruct->keysig.isminor == 1)
     {
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radiobutton2), TRUE);
       minorcallback (NULL, mdata);
       gtk_entry_set_text
 	(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-	 minorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET]);
+	 minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
 
     }
   else
@@ -509,7 +509,7 @@ key_change (DenemoGUI * gui, actiontype action)
       majorcallback (NULL, mdata);
       gtk_entry_set_text
 	(GTK_ENTRY (GTK_COMBO (combobox)->entry),
-	 majorkeys[curstaffstruct->skey + KEYNAME_ARRAY_OFFSET]);
+	 majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET]);
 
     }
   /* This setting-active will also complete the initialization of
