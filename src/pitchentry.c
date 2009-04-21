@@ -1269,6 +1269,9 @@ gint setup_pitch_input(void){
       set_threshold(0.3);
       set_smoothing(6.0);
     }
+    if(gui->input_source==INPUTMIDI) {
+      PR_time = 5;
+    }
   } else
     return -1;
   transposition_required = 1.0;
