@@ -136,6 +136,9 @@
 
 
     <menu action="MovementMenu">
+       <menuitem action="MovementProps"/>
+       <menuitem action="EditMovementDirective"/>
+
       <menu action="InsertMovement">
         <menuitem action="InsertMovementBefore"/>
 	<menuitem action="InsertMovementAfter"/>
@@ -144,7 +147,7 @@
 	<separator/>
        <menuitem action="PreviousMovement"/>
        <menuitem action="NextMovement"/>
-       <menuitem action="MovementProps"/>
+
              <separator/>
        <menuitem action="AddMovements"/>
        <menuitem action="SwapMovements"/>

@@ -292,6 +292,7 @@
 {"EditStaffDirective", NULL, N_("Edit Staff Directives"), NULL,N_("Edit any directives attached to staff."),G_CALLBACK (edit_staff_directive)},
 {"EditVoiceDirective", NULL, N_("Edit Voice Directives"), NULL,N_("Edit any directives attached to voice."),G_CALLBACK (edit_voice_directive)},
 {"EditScoreDirective", NULL, N_("Edit Score Directives"), NULL,N_("Edit any directives attached to score."),G_CALLBACK (edit_score_directive)},
+{"EditMovementDirective", NULL, N_("Edit Movement Directives"), NULL,N_("Edit any directives attached to movement."),G_CALLBACK (edit_movement_directive)},
 {"EditClefDirective", NULL, N_("Edit Clef Directives"), NULL,N_("Edit any directives attached to clef."),G_CALLBACK (edit_clef_directive)},
 {"EditTimesigDirective", NULL, N_("Edit Time Signature Directives"), NULL,N_("Edit any directives attached to time signature."),G_CALLBACK (edit_timesig_directive)},
 {"EditKeysigDirective", NULL, N_("Edit Key Signature Directives"), NULL,N_("Edit any directives attached to key signature."),G_CALLBACK (edit_keysig_directive)},

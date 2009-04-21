@@ -1715,6 +1715,52 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
 
 
 
+/**
+ * callback for EditMovementDirective 
+ */
+void edit_movement_directive(GtkAction *action,  DenemoScriptParam *param) {
+#define LayoutDirectives  "LayoutDirectives"
+#define HeaderBlockDirectives  "Movement Header Block Directives"
+
+#define STRINGAPPEND(field)  g_string_append_len(options, field"\0", 1+strlen(field))
+  GString *options = g_string_new("");
+  gchar *option;
+  if(Denemo.gui->si->layout.directives)
+    STRINGAPPEND(LayoutDirectives);
+ 
+  if(Denemo.gui->si->header.directives)
+    STRINGAPPEND(HeaderBlockDirectives);
+
+  if(strlen(options->str) != options->len) {
+    option = get_option(options->str, options->len);
+    if(option==NULL) {
+      g_string_free(options, TRUE);
+      return;
+    }
+  } else
+    option = options->str;
+#define EDITTYPE(type, what)\
+  if(!strcmp(option, type)) {\
+    DenemoDirective *directive = select_##what##_directive();\
+    if(directive==NULL)\
+      return;\
+    if(directive->tag == NULL)\
+      directive->tag = g_string_new(UNKNOWN_TAG);\
+    if(!edit_directive(directive))\
+      delete_##what##_directive(directive->tag->str);\
+  score_status (Denemo.gui, TRUE);\
+  }
+
+
+
+  EDITTYPE(HeaderBlockDirectives, header);
+  EDITTYPE(LayoutDirectives, header);
+  g_string_free(options, TRUE);
+#undef EDITTYPE
+#undef STRINGAPPEND
+}
+
+
 
 
 /* block which can be copied for type of directive (minpixels is done as sample for new int fields */

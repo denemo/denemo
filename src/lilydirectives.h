@@ -26,6 +26,8 @@ edit_voice_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
 edit_score_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
+edit_movement_directive(GtkAction *action,  DenemoScriptParam *param);
+void 
 edit_object(GtkAction *action,  DenemoScriptParam *param);//FIXME move to ???
 void
 note_directive (GtkAction *action, DenemoScriptParam * param);
