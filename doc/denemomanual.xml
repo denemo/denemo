@@ -1474,21 +1474,6 @@ d-RefreshDisplay
   <listitem>
 d-InputFilterNames  sets the status bar
   </listitem>
-
-
-  <listitem>
-d-DirectivePut-note-* where * is one of display, prefix, postfix, takes a tag and value, changes or creates a directive on the note at the cursor, with that tag and value. Returns #t if successful.
-  </listitem>
-  <listitem>
-d-DirectivePut-chord* as above but for the Chord as a whole
-  </listitem>
-  <listitem>
-d-DirectivePut-staff* as above but for the Staff as a whole
-  </listitem>
-  <listitem>
-d-DirectivePut-score* as above but for the Score as a whole
-  </listitem>
-
   <listitem>
 d-Chordize Ensure that even a single note is treated as a chord - needed for some LilyPond constructs (e.g. fingerings)
   </listitem>
@@ -1543,37 +1528,43 @@ d-ScoreProperties (fontsize= size of font to be used for score)
 
 </itemizedlist>
   </para>
+  <sect2>
+   <title>The Types of Directives</title>
 
   <para>
- The Denemo Directives are sufficiently important to have their own commands. The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
+ Denemo Directives can be attached at almost every level of a Denemo score and can modify the behavior of the element concerned. They are sufficiently important to have their own commands.
 <itemizedlist>
 
 <listitem>
-d-DirectivePut-type-field where type is one of score, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
+d-DirectivePut-type-field where type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
 <example id="schemecalls">
  (d-DirectivePut-note-postfix "LHFinger" "3")
 </example>
 will put the fingering 3 on (after) the note at the cursor.
 </listitem>
 <listitem>
-d-DirectiveGet-type-field type is one of score, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
+d-DirectiveGet-type-field type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
 </listitem>
-
-
-
-</itemizedlist>
-
-
-
+</itemizedlist> 
   </para>
+</sect2>
+
+  <sect2>
+   <title>Directives Attached to ...</title>
+ score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.
+</sect2>
+<sect2>
+   <title>The Settable Directive Fields</title>
+
+ The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
   <para>
 The fields in d-DirectiveGet/Put have the following meanings
 <itemizedlist>
 <listitem>
-postfix - A fragment of LilyPond to be output (after any object the directive is attached to). 
+postfix - A fragment of LilyPond to be output (after the LilyPond for any object the directive is attached to). 
 </listitem>
 <listitem>
-prefix - A fragment of LilyPond to be output (after any object the directive is attached to). 
+prefix - A fragment of LilyPond to be output (before  the LilyPond for any object the directive is attached to). 
 </listitem>
 <listitem>
 display - text to be shown in the Denemo Display
@@ -1590,11 +1581,16 @@ gx, gy - where to show thegraphic in the Denemo Display
 <listitem>
 minpixels - how much space to leave for this item in the DenemoDisplay
 </listitem>
+<listitem>
+override - Contains bits to determine whether the LilyPond contained in the Directive (postfix and/or prefix fields) should override the normal LilyPond output, and whether the Graphic should replace the normal Denemo display for the item.
+</listitem>
 
 
 
 </itemizedlist>
   </para>
+</sect2>
+
   </sect1>
 
  <sect1>
