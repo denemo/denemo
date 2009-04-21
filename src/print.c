@@ -354,15 +354,15 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-  gchar *backend;
+
   /* Check Lilypond Version */
   //if (get_lily_version("2.12") != SAME)
     convert_ly(lilyfile);
 #if G_LIB_MINOR_VERSION >= 14
+   gchar *backend;
   if (get_lily_version("2.12") >= 1)
     backend = "-dbackend=eps";
   else
-#endif
     backend = "-b eps";
 
   gchar *png[] = {
@@ -375,6 +375,22 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     lilyfile,
     NULL
   };
+#else
+  gchar *png[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+#endif
+
+
+
   gchar *pdf[] = {
     Denemo.prefs.lilypath->str,
     "--pdf",
@@ -870,12 +886,13 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
+#if G_LIB_MINOR_VERSION >= 14
   gchar *backend;
+
   if (get_lily_version("2.12") >= 1)
     backend = "-dbackend=eps";
   else
     backend = "-b eps";
-
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--png",
@@ -886,6 +903,21 @@ void refresh_print_view (void) {
     lilyfile,
     NULL
   };
+#else
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    printfile,
+    lilyfile,
+    NULL
+  };
+#endif
+
+
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
