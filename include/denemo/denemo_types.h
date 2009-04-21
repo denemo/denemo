@@ -374,12 +374,12 @@ typedef struct LilypondHeaderFields
   GString *copyright;
   GString *footer;
   GString *tagline;
-  GString *extra;
+  //GString *extra;
   /* lilypond before and after each \score block     */
   GString *lilypond_before;
   GString *lilypond_after;
   /* preferences to go into \layout block */
-  GString *layout;
+  //GString *layout;
 }LilypondHeaderFields;
 
 

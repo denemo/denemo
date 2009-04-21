@@ -6,7 +6,9 @@
     <map>
       <row>
         <action>MovementPageBreak</action>
-        <scheme>(d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")
+        <scheme>;;; MovementPageBreak
+(d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")
+(d-DirectivePut-header-display "MovementPageBreak" "(Page Break)")
 (d-RefreshDisplay)
 
 </scheme>

@@ -1780,7 +1780,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (mvmnt_header != NULL)
 	      {
-		g_string_assign (si->headerinfo.extra, mvmnt_header);
+		//g_string_assign (si->headerinfo.extra, mvmnt_header);
 		g_free (mvmnt_header);
 	      }
 	  }
@@ -1813,7 +1813,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (layout_markup != NULL)
 	      {
-		g_string_assign (si->headerinfo.layout, layout_markup);
+		//g_string_assign (si->headerinfo.layout, layout_markup);
 		g_free (layout_markup);
 	      }
 	  }

@@ -202,8 +202,8 @@ struct callbackdata
 
   GtkWidget *lilypond_before; 
   GtkWidget *lilypond_after;  
-  GtkWidget *layout;
-  GtkWidget *extra;  
+  // GtkWidget *layout;
+  // GtkWidget *extra;  
 };
 
 /**
@@ -221,7 +221,7 @@ set_movement_props (gpointer data)
 ASSIGN(lilypond_before); 
 ASSIGN(lilypond_after);  
 
-ASSIGN(extra); 
+//ASSIGN(extra); 
 }
 
 
@@ -291,7 +291,7 @@ GtkWidget *frame2;
   ACCESS(lilypond_before); 
   ACCESS(lilypond_after);  
 
-  ACCESS(extra);  
+  // ACCESS(extra);  
 
 
 
