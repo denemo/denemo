@@ -2367,6 +2367,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Timbales Style Staff</label>
         <tooltip>Changes to print as a drum staff in timbales style</tooltip>
       </row>
+      <row>
+        <action>MovementPageBreak</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Page Break Before</label>
+        <tooltip>Prints this movement starting on a new page</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
