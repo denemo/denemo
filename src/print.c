@@ -118,7 +118,7 @@ string_to_lilyversion(char *string)
 }
 
 gchar * 
-find_decimal_dot_double_decimal (const gchar *string)
+regex_parse_version_number (const gchar *string)
 {
   GRegex *regex = NULL;
   GMatchInfo *match_info;
@@ -164,7 +164,7 @@ get_lily_version (gchar *version)
   &error);
 
   read(standard_output, buf, sizeof(buf));
-  version_string = find_decimal_dot_double_decimal(buf);
+  version_string = regex_parse_version_number(buf);
   lilyversion installed_version = string_to_lilyversion(version_string);
   lilyversion check_version = string_to_lilyversion(version);
 
