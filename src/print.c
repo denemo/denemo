@@ -866,12 +866,16 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
+  gchar *backend;
+  if (get_lily_version("2.12") >= 1)
+    backend = "-dbackend=eps";
+  else
+    backend = "-b eps";
 
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--png",
-    "-b",
-    "eps",
+    backend,
     resolution,
     "-o",
     printfile,
