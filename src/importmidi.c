@@ -67,9 +67,11 @@ typedef struct midicallback
 	gint barlength; /* amount of time in measure */
 	gint lastoff; /* starttime + duration. The time when the note is finished */
 	gint trackplus;
+	gint number_of_tracks;
+	gint midi_format;
 	gint key;
 	gint track;
-	smf_t *smf
+	smf_t *smf;
 }midicallback;
 
 typedef struct harmonic
@@ -83,9 +85,8 @@ void ProcessNote(GList *list, midicallback *mididata);
 void process_list(GList *list, midicallback *mididata);
 void MeasureCheck(GList *list, midicallback *mididata);
 struct harmonic enharmonic(gint input, gint key);
-gint readBytes(FILE* fp, gint numb);
-gint readheader(FILE* fp, midicallback *mididata);
-void readtrack(FILE* fp, midicallback *mididata);
+gint readheader(midicallback *mididata);
+void readtrack(midicallback *mididata);
 gint readVariable(FILE* fp);
 void dotimesig(FILE* fp, midicallback *mididata);
 void dokeysig(FILE* fp, midicallback *mididata);
@@ -99,35 +100,37 @@ struct notetype ConvertLength(gint endnote, midicallback *mididata);
 
 smf_track_t *selected_track = NULL;
 smf_event_t *selected_event = NULL;
-	
-static int
-cmd_tracks(char *notused, midicallback *mididata)
-{
-	smf_t *smf = mididata->smf;
-	if (smf->number_of_tracks > 0)
-		g_message("There are %d tracks, numbered from 1 to %d.", 
-				smf->number_of_tracks, smf->number_of_tracks);
-	else
-		g_message("There are no tracks.");
+static smf_t *smf = NULL;
 
-	return (0);
+static void
+log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer notused)
+{
+	fprintf(stderr, "%s: %s\n", log_domain, message);
 }
 
+static int cmd_track(char *arg);
 
 static int
-cmd_load(char *file_name, midicallback *mididata)
+cmd_load(char *file_name)
 {
-	char *decoded;
-	smf_t *smf = mididata->smf;
+	/*
+	if (file_name == NULL) {
+		if (last_file_name == NULL) {
+			g_critical("Please specify file name.");
+			return -1;
+		}
+
+		file_name = last_file_name;
+	}
+	*/
+
+	if (smf != NULL)
+		smf_delete(smf);
 
 	selected_track = NULL;
 	selected_event = NULL;
 
-	if (smf != NULL) {
-		smf_delete(smf);
-		smf = NULL;
-	}
-
+	//last_file_name = strdup(file_name);
 	smf = smf_load(file_name);
 	if (smf == NULL) {
 		g_critical("Couldn't load '%s'.", file_name);
@@ -135,51 +138,372 @@ cmd_load(char *file_name, midicallback *mididata)
 		smf = smf_new();
 		if (smf == NULL) {
 			g_critical("Cannot initialize smf_t.");
-			return (-1);
+			return -1;
 		}
 
-		return (-2);
+		return -2;
 	}
 
 	g_message("File '%s' loaded.", file_name);
-	decoded = smf_decode(smf);
-	g_message("%s.", decoded);
-	free(decoded);
+	g_message("%s.", smf_decode(smf));
 
 	cmd_track("1");
 
-	free(file_name);
-
-	return (0);
+	return 0;
 }
 
-gint
-importMidi (gchar *filename, DenemoGUI *gui)
+static int
+cmd_format(char *new_format)
 {
-  midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
-  mididata->notestack = NULL;
-  mididata->chordnotes = NULL;
-  mididata->gui = gui;
-  mididata->PPQN = 200;
-  mididata->bartime = 0;
-  mididata->lastoff = 0;
-  mididata->track = 0;
-  mididata->smf = NULL;
-  gint ret = 0;			// (-1 on failure)
-  gint data = 0;
-  FILE *fp = 0;
-  gint tracks = 0;
-  char *decoded;
+	int tmp;
+	char *end;
 
-  /* delete old data in the score */
-  dnm_deletescore (NULL, gui);
+	if (new_format == NULL) {
+		g_message("Format is %d.", smf->format);
+	} else {
+		tmp = strtol(new_format, &end, 10);
+		if (end - new_format != strlen(new_format)) {
+			g_critical("Invalid format value, garbage characters after the number.");
+			return -1;
+		}
 
-  /* load the file */
-  ret = cmd_load(filename, mididata);
-  
-  g_free(mididata);
-  g_free(filename);
-  return ret;
+		if (tmp < 0 || tmp > 2) {
+			g_critical("Invalid format value, valid values are in range 0 - 2, inclusive.");
+			return -2;
+		}
+
+		if (smf_set_format(smf, tmp)) {
+			g_critical("smf_set_format failed.");
+			return -3;
+		}
+
+		g_message("Forma changed to %d.", smf->format);
+	}
+	
+	return 0;
+}
+
+static int
+cmd_tracks(char *notused)
+{
+	if (smf->number_of_tracks > 0)
+		g_message("There are %d tracks, numbered from 1 to %d.", smf->number_of_tracks, smf->number_of_tracks);
+	else
+		g_message("There are no tracks.");
+
+	return 0;
+}
+
+static int
+parse_track_number(const char *arg)
+{
+	int num;
+	char *end;
+
+	if (arg == NULL) {
+		if (selected_track == NULL) {
+			g_message("No track currently selected and no track number given.");
+			return -1;
+		} else {
+			return selected_track->track_number;
+		}
+	}
+
+	num = strtol(arg, &end, 10);
+	if (end - arg != strlen(arg)) {
+		g_critical("Invalid track number, garbage characters after the number.");
+		return -1;
+	}
+
+	if (num < 1 || num > smf->number_of_tracks) {
+		if (smf->number_of_tracks > 0) {
+			g_critical("Invalid track number specified; valid choices are 1 - %d.", smf->number_of_tracks);
+		} else {
+			g_critical("There are no tracks.");
+		}
+
+		return -1;
+	}
+
+	return num;
+}
+
+static int
+cmd_track(char *arg)
+{
+	int num;
+
+	if (arg == NULL) {
+		if (selected_track == NULL)
+			g_message("No track currently selected.");
+		else
+			g_message("Currently selected is track number %d, containing %d events.",
+				selected_track->track_number, selected_track->number_of_events);
+	} else {
+		if (smf->number_of_tracks == 0) {
+			g_message("There are no tracks.");
+			return -1;
+		}
+
+		num = parse_track_number(arg);
+		if (num < 0)
+			return -1;
+
+		selected_track = smf_get_track_by_number(smf, num);
+		if (selected_track == NULL) {
+			g_critical("smf_get_track_by_number() failed, track not selected.");
+			return -3;
+		}
+
+		selected_event = NULL;
+
+		g_message("Track number %d selected; it contains %d events.",
+				selected_track->track_number, selected_track->number_of_events);
+	}
+
+	return 0;
+}
+
+
+#define BUFFER_SIZE 1024
+
+static int
+show_event(smf_event_t *event)
+{
+	int off = 0, i;
+	char *decoded, *type;
+
+	if (smf_event_is_metadata(event))
+		type = "Metadata";
+	else
+		type = "Event";
+	
+	decoded = smf_event_decode(event);
+
+	if (decoded == NULL) {
+		decoded = malloc(BUFFER_SIZE);
+		if (decoded == NULL) {
+			g_critical("show_event: malloc failed.");
+			return -1;
+		}
+
+		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
+
+		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
+			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
+	}
+
+	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
+		event->time_seconds, event->time_pulses, event->delta_time_pulses);
+
+	free(decoded);
+
+	return 0;
+}
+
+static int
+process_midi_event(smf_event_t *event)
+{
+	int off = 0, i;
+	char *decoded, *type;
+
+	if (smf_event_is_metadata(event))
+		type = "Metadata";
+	else
+		type = "Event";
+	
+	decoded = smf_event_decode(event);
+
+	if (decoded == NULL) {
+		decoded = malloc(BUFFER_SIZE);
+		if (decoded == NULL) {
+			g_critical("show_event: malloc failed.");
+			return -1;
+		}
+		/*
+		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
+
+		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
+			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
+			*/
+	}
+
+	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
+		event->time_seconds, event->time_pulses, event->delta_time_pulses);
+
+	free(decoded);
+
+	return 0;
+}
+
+static int
+cmd_events()
+{
+	smf_event_t *event;
+
+	if (selected_track == NULL) {
+		g_critical("No track selected - please use 'track [number]' command first.");
+		return -1;
+	}
+
+	g_message("List of events in track %d follows:", selected_track->track_number);
+
+	smf_rewind(smf);
+
+	while ((event = smf_track_get_next_event(selected_track)) != NULL) {
+		/* print midi event */
+		show_event(event);
+		/* Do something with the event */
+		process_midi_event(event);
+	}
+
+	smf_rewind(smf);
+
+	return 0;
+}
+
+static int
+parse_event_number(const char *arg)
+{
+	int num;
+	char *end;
+
+	if (selected_track == NULL) {
+		g_critical("You need to select track first (using 'track <number>').");
+		return -1;
+	}
+
+	if (arg == NULL) {
+		if (selected_event == NULL) {
+			g_message("No event currently selected and no event number given.");
+			return -1;
+		} else {
+			return selected_event->event_number;
+		}
+	}
+
+	num = strtol(arg, &end, 10);
+	if (end - arg != strlen(arg)) {
+		g_critical("Invalid event number, garbage characters after the number.");
+		return -1;
+	}
+
+	if (num < 1 || num > selected_track->number_of_events) {
+		if (selected_track->number_of_events > 0) {
+			g_critical("Invalid event number specified; valid choices are 1 - %d.", selected_track->number_of_events);
+		} else {
+			g_critical("There are no events in currently selected track.");
+		}
+
+		return -1;
+	}
+
+	return num;
+}
+
+static int
+cmd_event(char *arg)
+{
+	int num;
+
+	if (arg == NULL) {
+		if (selected_event == NULL) {
+			g_message("No event currently selected.");
+		} else {
+			g_message("Currently selected is event %d, track %d.", selected_event->event_number, selected_track->track_number);
+			show_event(selected_event);
+		}
+	} else {
+		num = parse_event_number(arg);
+		if (num < 0)
+			return -1;
+
+		selected_event = smf_track_get_event_by_number(selected_track, num);
+		if (selected_event == NULL) {
+			g_critical("smf_get_event_by_number() failed, event not selected.");
+			return -2;
+		}
+
+		g_message("Event number %d selected.", selected_event->event_number);
+		show_event(selected_event);
+	}
+
+	return 0;
+}
+
+static int
+decode_hex(char *str, unsigned char **buffer, int *length)
+{
+	int i, value, midi_buffer_length;
+	char buf[3];
+	unsigned char *midi_buffer = NULL;
+	char *end = NULL;
+
+	if ((strlen(str) % 2) != 0) {
+		g_critical("Hex value should have even number of characters, you know.");
+		goto error;
+	}
+
+	midi_buffer_length = strlen(str) / 2;
+	midi_buffer = malloc(midi_buffer_length);
+	if (midi_buffer == NULL) {
+		g_critical("malloc() failed.");
+		goto error;
+	}
+
+	for (i = 0; i < midi_buffer_length; i++) {
+		buf[0] = str[i * 2];
+		buf[1] = str[i * 2 + 1];
+		buf[2] = '\0';
+		value = strtoll(buf, &end, 16);
+
+		if (end - buf != 2) {
+			g_critical("Garbage characters detected after hex.");
+			goto error;
+		}
+
+		midi_buffer[i] = value;
+	}
+
+	*buffer = midi_buffer;
+	*length = midi_buffer_length;
+
+	return 0;
+
+error:
+	if (midi_buffer != NULL)
+		free(midi_buffer);
+
+	return -1;
+}
+
+static int
+cmd_tempo(char *notused)
+{
+	int i;
+	smf_tempo_t *tempo;
+
+	for (i = 0;; i++) {
+		tempo = smf_get_tempo_by_number(smf, i);
+		if (tempo == NULL)
+			break;
+
+		g_message("Tempo #%d: Starts at %d pulses, %f seconds, setting %d microseconds per quarter note, %.2f BPM.",
+			i, tempo->time_pulses, tempo->time_seconds, tempo->microseconds_per_quarter_note,
+			60000000.0 / (double)tempo->microseconds_per_quarter_note);
+		g_message("Time signature: %d/%d, %d clocks per click, %d 32nd notes per quarter note.",
+			tempo->numerator, tempo->denominator, tempo->clocks_per_click, tempo->notes_per_note);
+	}
+
+	return 0;
+}
+
+static int
+cmd_length(char *notused)
+{
+	g_message("Length: %d pulses, %f seconds.", smf_get_length_pulses(smf), smf_get_length_seconds(smf));
+
+	return 0;
 }
 
 DenemoObject * new_dnm_object(notetype length){
@@ -189,68 +513,23 @@ DenemoObject * new_dnm_object(notetype length){
 }
 
 /**
- * Read variable length valuue
- *
- */
-gint
-readVariable (FILE * fp)
-{
-  /*so all are 7bit numbers, and all have bit 8 high except the last */
-  gint total = 0;
-  gint last = 0;
-  do
-    {
-      last = fgetc (fp);
-      total = (total << 7) + (last & 0x7f);
-    }
-  while ((last >> 7) != 0);
-  return total;
-}
-
-/**
- * Read the number of bytes specified
- *
- * @param fp pointer to the file descriptor
- * @param numb number of bytes to read
- */
-gint
-readBytes (FILE * fp, gint numb)
-{
-  gint read = 0;
-  while (numb > 0)
-    {
-      read = (read << 8) + (gint) fgetc (fp);
-      numb--;
-    }
-  return read;
-}
-
-/**
  * Read Midi file header
  *
  */
 gint
-readheader (FILE * fp, midicallback *mididata)
+readheader (midicallback *mididata)
 {
-  gint header_length;
-  gint midi_format;
-  gint number_of_tracks;
-  gint PPQN;
-
-  header_length = readBytes (fp, 4);
-  midi_format = readBytes (fp, 2);
-  number_of_tracks = readBytes (fp, 2);
-  PPQN = readBytes (fp, 2);
-  mididata->PPQN = PPQN;
+  mididata->midi_format = smf->format;
+  mididata->number_of_tracks = smf->number_of_tracks;
+  mididata->PPQN = smf->ppqn;
 
 #ifdef DEBUG
-  printf ("\nHeader length confirmed as %d Bytes", header_length);
-  printf ("\nMidi format is %d", midi_format);
-  printf ("\nNo. of Tracks is %d", number_of_tracks);
-  printf ("\nPPQN is %d", PPQN);
+  printf ("\nMidi format is %d\n", mididata->midi_format);
+  printf ("\nNo. of Tracks is %d\n", mididata->number_of_tracks);
+  printf ("\nPPQN is %d\n", mididata->PPQN);
 #endif
   
-  return number_of_tracks;
+  return 1;
 }
 
 /**
@@ -258,142 +537,12 @@ readheader (FILE * fp, midicallback *mididata)
  *
  */
 void
-readtrack (FILE * fp, midicallback *mididata)
+readtrack (midicallback *mididata)
 {
-  DenemoScore *si = mididata->gui->si; 
-  gint stat;
-  gint data1;
-  gint data2;
-  gint tlength;			/*track length*/
-  gint time = 0;			/*track time */
-  gint dtime;			/*delta time, distance to next event */
-  gint event = 0;
+  /* Get a listing of events 
+   and decide what to do with them */  
+  cmd_events();
 
-  tlength = readBytes (fp, 4);
- 
-  while (tlength != 0)
-    {
-      dtime = readVariable (fp);
-      time = time + dtime;
-      mididata->delta_time=dtime;
-#ifdef DEBUG
-      printf("\ntime = %d delta time = %d\n",time, dtime);
-#endif
-      tlength--;
-      if (dtime > 127)
-	tlength--;		/* 2 digit variable */
-      if (dtime > 16383)
-	tlength--;		/*  3 digit variable */
-      if (dtime > 2097151)
-	tlength--;		/*  3 digit variable */
-      /* leap of faith, all channels in track ar same */
-      stat = readBytes (fp, 1);
-      tlength--;
-      if (stat == META_EVENT)
-	{
-	  /*next Byte is command */
-	  data1 = readBytes (fp, 1);
-	  /*next Byte is length */
-	  data2 = readBytes (fp, 1);
-	  /*pretend to read it */
-	  switch (data1)
-	    {
-	    case META_TIMESIG:
-	      {
-		/*time signature */
-		dotimesig (fp, mididata);
-		tlength = tlength - 6;
-		break;
-	      }
-	    case META_KEYSIG:
-	      {
-		/*key signature */
-		dokeysig (fp, mididata);
-		tlength = tlength - 4;
-		break;
-	      }
-	    case META_TEMPO:
-	      {
-		/* set tempo */
-		if (data2 == 3)
-		  {
-		    dotempo (fp, mididata);
-		  }
-		tlength = tlength - 5;
-		break;
-	      }
-	    case META_TRACK_NAME:
-	      {
-		dotrackname (fp, mididata, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    case META_INSTR_NAME:
-	      {
-		doinstrname (fp, mididata, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    default:
-	      {
-		/*read off surplus */
-		data1 = readBytes (fp, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    }
-	}
-      else
-	{
-	  if (stat < 128)
-	    {
-	      /*running status event is same as before */
-	      data1 = stat;
-	    }
-	  else
-	    {
-	      event = stat;
-	      data1 = readBytes (fp, 1);
-	      tlength--;
-	    };
-
-	  switch (event & SYS_EXCLUSIVE_MESSAGE1)
-	    {
-	    case NOTE_OFF:		/*note off */
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		donoteoff (mididata, (int *) data1, (int *) time);
-		break;
-	      }
-	    case NOTE_ON:		/*note on */
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		donoteon (mididata, (int *) data1, (int *) data2, (int *) time);
-		break;
-	      }
-	    case CTRL_CHANGE:		/*midi  controller eg. volume, pan */
-	      {
-		data2 = readBytes (fp, 1);
-		//printf("\nMIDI Controller %d, value %d",data1,data2);
-		tlength--;
-		break;
-	      }
-	    case PGM_CHANGE:		/*change instrument, ignore */
-	      {
-		//printf("\nChange to Instrument% d",data1);
-		break;
-	      }
-	    default:
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		break;
-	      }
-	    };
-	}
-    }
 }
 
 /**
@@ -406,11 +555,11 @@ dotimesig (FILE * fp, midicallback *mididata)
   /*only does initial TS */
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
 
-  curstaffstruct->timesig.time1 = readBytes (fp, 1);
-  curstaffstruct->timesig.time2 = (gint) pow (2, (readBytes (fp, 1)));
+  //curstaffstruct->timesig.time1 = readBytes (fp, 1);
+  //curstaffstruct->timesig.time2 = (gint) pow (2, (readBytes (fp, 1)));
 
   mididata->barlength = mididata->PPQN * 4 * curstaffstruct->timesig.time1 / curstaffstruct->timesig.time2;
-  readBytes (fp, 2);		/*skip last two characters */
+  //readBytes (fp, 2);		/*skip last two characters */
 }
 
 /**
@@ -423,8 +572,8 @@ dokeysig (FILE * fp, midicallback *mididata)
   /*assume major */
   gint isminor = 0;
   gint key = mididata->key;
-  key = readBytes (fp, 1);	/*read in sharps */
-  isminor = readBytes (fp, 1);
+ // key = readBytes (fp, 1);	/*read in sharps */
+  //isminor = readBytes (fp, 1);
 
   if (key > 7)
     key = key - 256;		/*get flat key num, see keysigdialog.cpp */
@@ -440,8 +589,8 @@ dotempo (FILE * fp, midicallback *mididata)
 {
   gint tempo, n, x;
   x = n = 0;
-  while (n++ < 3)
-    x = ((x & 0x007FFFFF) << 8) + (gint) readBytes (fp, 1);
+  //while (n++ < 3)
+   // x = ((x & 0x007FFFFF) << 8) + (gint) readBytes (fp, 1);
   tempo = (gint) (6.0e7 / (double) x);
   mididata->gui->si->tempo = tempo;
 }
@@ -451,8 +600,8 @@ dotrackname (FILE * fp, midicallback *mididata, gint x)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   GString *temp = g_string_new(""); 
-  while (x-- > 0)
-	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
+  //while (x-- > 0)
+//	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
 
   curstaffstruct->denemo_name->str = g_strdup(temp->str);
   dnm_set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
@@ -464,8 +613,8 @@ doinstrname (FILE * fp,  midicallback *mididata, gint x)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   GString *temp = g_string_new("");  
-  while (x-- > 0)
-	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
+  //while (x-- > 0)
+//	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
 
   curstaffstruct->midi_instrument->str = g_strdup(temp->str);
   g_string_free (temp, FALSE);
@@ -885,3 +1034,30 @@ enharmonic (gint input, gint key)
   return local;
 }
 
+gint
+importMidi (gchar *filename, DenemoGUI *gui)
+{
+  midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
+  mididata->notestack = NULL;
+  mididata->chordnotes = NULL;
+  mididata->gui = gui;
+  mididata->PPQN = 200;
+  mididata->bartime = 0;
+  mididata->lastoff = 0;
+  mididata->track = 0;
+  gint ret = 0;	// (-1 on failure)
+
+  /* delete old data in the score */
+  dnm_deletescore (NULL, gui);
+
+  /* load the file */
+  ret = cmd_load(filename);
+  /* get header info */
+  readheader(mididata);
+  /* Read Track Data */ 
+  readtrack(mididata);
+
+  g_free(mididata);
+  g_free(filename);
+  return ret;
+}

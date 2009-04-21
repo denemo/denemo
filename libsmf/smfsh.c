@@ -348,6 +348,39 @@ show_event(smf_event_t *event)
 }
 
 static int
+proces_midi_event(smf_event_t *event)
+{
+	int off = 0, i;
+	char *decoded, *type;
+
+	if (smf_event_is_metadata(event))
+		type = "Metadata";
+	else
+		type = "Event";
+	
+	decoded = smf_event_decode(event);
+
+	if (decoded == NULL) {
+		decoded = malloc(BUFFER_SIZE);
+		if (decoded == NULL) {
+			g_critical("show_event: malloc failed.");
+			return -1;
+		}
+
+		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
+
+		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
+			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
+	}
+
+	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
+		event->time_seconds, event->time_pulses, event->delta_time_pulses);
+
+	free(decoded);
+
+	return 0;
+}
+static int
 cmd_events(char *notused)
 {
 	smf_event_t *event;
