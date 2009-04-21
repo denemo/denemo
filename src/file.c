@@ -229,15 +229,17 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 {
   gint result;
   result = 1;//FAILURE
-  if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
-    result = importXML (filename, gui, type);
-  else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
-    result = importXML (filename, gui, type);
-  else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
-    result = lyinput (filename, gui);
-  else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
-	   strcmp (filename + strlen (filename) - 5, ".midi") == 0)
-    result = importMidi (filename, gui);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
+      result = importXML (filename, gui, type);
+    else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
+      result = importXML (filename, gui, type);
+    else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
+      result = lyinput (filename, gui);
+    else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
+	     strcmp (filename + strlen (filename) - 5, ".midi") == 0)
+      result = importMidi (filename, gui);
+  }
   if (result == 0)
     {
       if(!template) {// not a template
