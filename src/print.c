@@ -79,6 +79,7 @@ check_lilypond_path (DenemoGUI * gui){
       return 1;
 }
 
+#if G_LIB_MINOR_VERSION >= 14
 int
 version_check(lilyversion base, lilyversion installed)
 {
@@ -170,6 +171,7 @@ get_lily_version (gchar *version)
 
   return version_check(check_version, installed_version);
 }
+#endif
         
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
@@ -356,9 +358,11 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   /* Check Lilypond Version */
   //if (get_lily_version("2.12") != SAME)
     convert_ly(lilyfile);
+#if G_LIB_MINOR_VERSION >= 14
   if (get_lily_version("2.12") >= 1)
     backend = "-dbackend=eps";
   else
+#endif
     backend = "-b eps";
 
   gchar *png[] = {
