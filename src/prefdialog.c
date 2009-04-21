@@ -37,6 +37,7 @@ struct callbackdata
   GtkWidget *maxhistory;
   GtkWidget *browser;
   GtkWidget *pdfviewer;
+  GtkWidget *imageviewer;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
 #ifdef _HAVE_JACK_
@@ -135,6 +136,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
+  ASSIGNTEXT(imageviewer)
   ASSIGNTEXT(texteditor)
   ASSIGNTEXT(denemopath)
   ASSIGNTEXT(sequencer)
@@ -307,6 +309,7 @@ preferences_change (GtkAction *action, gpointer param)
  
   TEXTENTRY("Path to Lilypond", lilypath)
   TEXTENTRY("Pdf Viewer", pdfviewer)
+  TEXTENTRY("Image Viewer", imageviewer)
   TEXTENTRY("Text Editor", texteditor)
   TEXTENTRY("Default Save Path", denemopath)
 
