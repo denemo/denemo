@@ -390,11 +390,7 @@ exportabc (gchar * thefilename, DenemoGUI * gui, gint start, gint end)
   defaultlength = determinedefaultlength (&curtime);
 
   fprintf (fp, "X:1\n");
-  fprintf (fp, "T:%s\n", si->headerinfo.title->str);
-  if (si->headerinfo.subtitle->len > 0)
-    fprintf (fp, "T:%s\n", si->headerinfo.subtitle->str);
-  if (si->headerinfo.composer->len > 0)
-    fprintf (fp, "C:%s\n", si->headerinfo.composer->str);
+  fprintf (fp, "T:%s\n","No title");
   fprintf (fp, "Q:1/4=%d\n", si->tempo);
   fprintf (fp, "M:%d/%d\n", firststaffstruct->timesig.time1,
 	   firststaffstruct->timesig.time2);

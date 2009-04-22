@@ -513,6 +513,11 @@ typedef struct layout
 }
 layout;
 
+typedef struct movementcontrol
+{
+  GList *directives;
+}
+movementcontrol;
 
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
@@ -588,10 +593,10 @@ typedef struct DenemoScore
   gint lastobjmarked;
 
 
-
-layout layout;
-  header header;
-  LilypondHeaderFields headerinfo;/**< Lilypond header fields and markup for this movement */
+  movementcontrol movementcontrol;/*< Directives for control of the whole movement */
+  layout layout;/*< Directives for the layout block of the movement */
+  header header;/*< Directives for the header block of the movement */
+  
 
 
   /* Fields used for MIDI playback */
@@ -664,10 +669,10 @@ typedef struct DenemoGUI
 
   GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
   DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this gui */
-  DenemoLilyControl lilycontrol; /**< Control of the LilyPond output for whole musical score */
+  DenemoLilyControl lilycontrol; /**< Directives for the start of the score and before every movement */
 
-  scoreheader scoreheader;
-  paper paper;
+  scoreheader scoreheader;/*< Directives for the header block at the start of the score */
+  paper paper;/*< Directives for the paper block of the score */
 
   GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
 

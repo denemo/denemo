@@ -1791,7 +1791,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (markup_before != NULL)
 	      {
-		g_string_assign (si->headerinfo.lilypond_before, markup_before);
+		//g_string_assign (si->headerinfo.lilypond_before, markup_before);
 		g_free (markup_before);
 	      }
 	  }
@@ -1802,7 +1802,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (markup_after != NULL)
 	      {
-		g_string_assign (si->headerinfo.lilypond_after, markup_after);
+		//g_string_assign (si->headerinfo.lilypond_after, markup_after);
 		g_free (markup_after);
 	      }
 	  }
@@ -2507,6 +2507,10 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
   childElem = getXMLChild (scoreElem, "layout-directives", ns);
   if (childElem != 0)
     si->layout.directives = parseDirectives(childElem, ns);
+
+  childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
+  if (childElem != 0)
+    si->movementcontrol.directives = parseDirectives(childElem, ns);
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");

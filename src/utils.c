@@ -863,12 +863,8 @@ void write_status(DenemoGUI *gui) {
     selection = g_strdup_printf("Cursor not on any object");
 
   gchar *status;
-  if(gui->si->headerinfo.subtitle->len)
-    status = gui->si->headerinfo.subtitle->str;
-  else if(gui->si->headerinfo.piece->len)
-    status = gui->si->headerinfo.piece->str;
-  else
-    status = "(no titles)";
+
+  status = "Movement";//FIXME find which number si comes in the list gui->movements and print that
   //  if(gui->si->headerinfo.subtitle->len)
   //    g_print("note we have the suntitle %s\n", gui->si->headerinfo.subtitle->str);
   //  if(gui->si->headerinfo.piece->len)

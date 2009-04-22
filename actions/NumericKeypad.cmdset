@@ -2380,6 +2380,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Page Break Before</label>
         <tooltip>Prints this movement starting on a new page</tooltip>
       </row>
+      <row>
+        <action>HideMovement</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Hide Movement</label>
+        <tooltip>Hides the movement on printing.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

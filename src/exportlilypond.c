@@ -2042,14 +2042,18 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     GString *scoreblock_defs = g_string_new("");
 
     if(visible_movement==1) {
-
-      /* Any markup before the score block */
-      if(si->headerinfo.lilypond_before->len)
-	g_string_append_printf (scoreblock, "%s\n", si->headerinfo.lilypond_before->str);
-
-
-
       //standard score block
+      /* any markup before score block */
+      { 
+	gchar *mvmnt_string = get_prefix(si->movementcontrol.directives);
+	if(mvmnt_string) {
+	  g_string_append(scoreblock, mvmnt_string);
+	  g_free(mvmnt_string);
+	}  
+      }
+
+
+
       gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
       g_string_append_printf (scoreblock, "%s", "\\score {\n");
 
@@ -2211,12 +2215,15 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
- 
-
-      /* any markup after score block */
-      if(si->headerinfo.lilypond_after->len)
-	g_string_append_printf(scoreblock, "%s\n", si->headerinfo.lilypond_after->str);
-
+      /* any markup after score block*/
+      { 
+	gchar *mvmnt_string = get_postfix(si->movementcontrol.directives);
+	if(mvmnt_string) {
+	  g_string_append(scoreblock, mvmnt_string);
+	  g_free(mvmnt_string);
+	}
+      }
+      
 
       // Put this standard scoreblock in the textbuffer
 

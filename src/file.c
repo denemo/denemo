@@ -822,6 +822,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
   /*set default folder for saving */
   set_current_folder(file_selection, gui, template);
 
+#if 0
   /* assign title */ 
   if (gui->si->headerinfo.title->len)
     { 
@@ -831,7 +832,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
  // else {
   //	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), "Untitled Document");
   //}
-
+#endif
 
   hbox = gtk_hbox_new (FALSE, 8);
   label = gtk_label_new (_("Format:"));
