@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>HideMovement</action>
+        <scheme>;;;HideMovement
+(if (boolean? (d-DirectiveGet-movementcontrol-display "HideMovement" ))  
+    (begin
+      (d-DirectivePut-movementcontrol-display "HideMovement" "NO PRINT")
+      (d-DirectivePut-movementcontrol-prefix "HideMovement" "%{ \n")
+      (d-DirectivePut-movementcontrol-postfix "HideMovement" "%} \n"))
+    (d-DirectiveDelete-movementcontrol "HideMovement"))
+(d-RefreshDisplay)</scheme>
+        <label>(Print) Hide/Show Movement</label>
+        <tooltip>Hides the current movement on printing.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
