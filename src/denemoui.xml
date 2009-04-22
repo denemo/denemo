@@ -136,7 +136,6 @@
 
 
     <menu action="MovementMenu">
-       <menuitem action="MovementProps"/>
        <menuitem action="EditMovementDirective"/>
 
       <menu action="InsertMovement">
