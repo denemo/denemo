@@ -79,7 +79,7 @@ check_lilypond_path (DenemoGUI * gui){
       return 1;
 }
 
-#if G_LIB_MINOR_VERSION >= 14
+#if GLIB_MINOR_VERSION >= 14
 int
 version_check(lilyversion base, lilyversion installed)
 {
@@ -358,7 +358,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   /* Check Lilypond Version */
   //if (get_lily_version("2.12") != SAME)
     convert_ly(lilyfile);
-#if G_LIB_MINOR_VERSION >= 14
+#if GLIB_MINOR_VERSION >= 14
    gchar *backend;
   if (get_lily_version("2.12") >= 1)
     backend = "-dbackend=eps";
@@ -886,7 +886,7 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
-#if G_LIB_MINOR_VERSION >= 14
+#if GLIB_MINOR_VERSION >= 14
   gchar *backend;
 
   if (get_lily_version("2.12") >= 1)

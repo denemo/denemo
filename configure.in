@@ -129,8 +129,6 @@ if test "x$uselash" = "xyes"; then
 
 fi
 
-PKG_CHECK_MODULES(G_LIB_MINOR_VERSION, glib-2.0 > 2.14,
-		          AC_DEFINE(G_LIB_MINOR_VERSION, 15, [whether or not glib-2.0 is new enough for some code]))
 
 #AM_PATH_XML2(
 #  2.0.0,
