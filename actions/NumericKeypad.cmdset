@@ -1479,6 +1479,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Edit any directives attached to score.</tooltip>
       </row>
       <row>
+        <action>EditMovementDirective</action>
+        <label>Edit Movement Directives</label>
+        <tooltip>Edit any directives attached to movement.</tooltip>
+      </row>
+      <row>
         <action>EditClefDirective</action>
         <label>Edit Clef Directives</label>
         <tooltip>Edit any directives attached to clef.</tooltip>
@@ -2275,6 +2280,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>Cautionary Accidental</label>
         <tooltip>Forces the accidental on the note to be printed.</tooltip>
+        <bind>exclam</bind>
       </row>
       <row>
         <action>ReminderAccidental</action>
