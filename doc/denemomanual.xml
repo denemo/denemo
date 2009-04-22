@@ -1529,29 +1529,93 @@ d-ScoreProperties (fontsize= size of font to be used for score)
 </itemizedlist>
   </para>
   <sect2>
-   <title>The Types of Directives</title>
+   <title>Denemo Directives</title>
 
   <para>
- Denemo Directives can be attached at almost every level of a Denemo score and can modify the behavior of the element concerned. They are sufficiently important to have their own commands.
+ Denemo Directives can be attached at almost every level of a Denemo score and can modify the behavior of the element concerned. They contain fields to describe how the element's properties should be modified, either in the display or in the printing. Elements, such as clefs notes etc have their own built-in display and print properties; Denemo Directives allow you (or scripts you invoke) to modify them for many more purposes than the built-in set allows. This means Denemo can grow - you can add features - without getting a new version.
+  </para>
+  <para>
+For example the drum clef is not built-in to Denemo. Instead a directive attached to the clef has a field (graphic) set to an image of the drum clef, and another field (postfix) set to the LilyPond syntax for a drum clef, while another field (override) is set to indicate that these values should replace the normal ones, rather than adding to them.
+  </para>
+  <para>
+The elements that can be modified in this way are the following:
+<itemizedlist>
+<listitem>
+score: the LilyPond fields (prefix and postfix) are placed at the start of the score and just before each movement. The display field is shown at the top of the display.
+</listitem>
+
+<listitem>
+scoreheader: Attached to the score. The postfix field is put inside a \header{} block at the start of the score.
+</listitem>
+<listitem>
+movementcontrol: Attached to a movement. The prefix field is placed before the movements \score{} block, the postfix after it.
+</listitem>
+<listitem>
+header: Attached to a movement. As scoreheader but for \header[] blocks inside the movement's score block.
+</listitem>
+<listitem>
+paper: Attached to the score. The postfix is placed inside a \paper{} block.
+</listitem>
+
+<listitem>
+layout: Attached to a movement. The postfix is placed inside a \layout{} block in the movement's scoreblock.
+</listitem>
+
+<listitem>
+clef: Attached to a clef or clef change. The graphic holds the displayed icon, gx,gy its position. The postfix field is put into the music at the point where the clef is found, replacing the normal text if the override is set.
+</listitem>
+
+
+<listitem>
+timesig: Attached to a time signature or time signature change. The graphic holds the displayed icon, gx,gy its position. The postfix field is put into the music at the point where the time signature is found, replacing the normal text if the override is set.
+</listitem>
+
+<listitem>
+keysig: as timesig but for key signatures. (e.g. used to supress keysignatures in drum clef).
+</listitem>
+<listitem>
+staff: The postfix field modifies the whole staff context, with the display field printed at the start of the staff
+</listitem>
+<listitem>
+voice: The postfix field modifies the voice context, with the display field printed at the start of the staff containing the voice
+</listitem>
+<listitem>
+standalone: A directive not attached to an music element - it comes with the music and is used for things like repeat bars etc.
+</listitem>
+<listitem>
+chord: The prefix field is emitted before the LilyPond for the chord and the postfix after it.
+</listitem>
+<listitem>
+note: The prefix field is emitted before the LilyPond for the note and the postfix after it. Examples are fingerings attached to notes etc. Again the display and graphic fields a placed in the display positioned relative to the note via the coordinate fields gx, gy (for the graphic) and tx, ty for the display text.
+</listitem>
+
+</itemizedlist>
+
+  </para>
+  <para>
+The Directives are sufficiently important to have their own commands.
+  </para>
+  <para>
 <itemizedlist>
 
 <listitem>
-d-DirectivePut-type-field where type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
+d-DirectivePut-type-field where type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
 <example id="schemecalls">
  (d-DirectivePut-note-postfix "LHFinger" "3")
 </example>
 will put the fingering 3 on (after) the note at the cursor.
 </listitem>
 <listitem>
-d-DirectiveGet-type-field type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
+d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
 </listitem>
+
+<listitem>
+d-DirectiveDelete-type type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note. This function returns #t or #f if a directive with the given tag was deleted.
+</listitem>
+
+
 </itemizedlist> 
   </para>
-</sect2>
-
-  <sect2>
-   <title>Directives Attached to ...</title>
- score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.
 </sect2>
 <sect2>
    <title>The Settable Directive Fields</title>
@@ -1600,6 +1664,9 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
  
    <para>
    The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
+  </para>
+   <para>
+   There is also a low-level editing dialog which is invoked if no editing script exists. This allows you to edit and delete a directive directly.
   </para>
 </sect2>
 <sect2>
