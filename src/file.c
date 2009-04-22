@@ -881,6 +881,9 @@ file_saveas (DenemoGUI * gui, gboolean template)
 	    {
 	      filesel_save (gui, file_name, format_id, template);
 	      close = TRUE;
+	      //the lilypond can now be out of sync
+	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+	      refresh_lily_cb(NULL, gui);
 	    }
 	  g_free (file_name);
 	}
