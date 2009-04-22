@@ -1618,7 +1618,7 @@ d-DirectiveDelete-type type is one of score, scoreheader, movementcontrol, heade
   </para>
 </sect2>
 <sect2>
-   <title>The Settable Directive Fields</title>
+   <title>The Directive Fields</title>
 
  The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
   <para>
@@ -1643,7 +1643,7 @@ graphic - a .png image to be shown in the Denemo Display (the directory bitmaps 
 gx, gy - where to show thegraphic in the Denemo Display
 </listitem>
 <listitem>
-minpixels - how much space to leave for this item in the DenemoDisplay
+minpixels - how much space to leave for this item in the Denemo Display
 </listitem>
 <listitem>
 override - Contains bits to determine whether the LilyPond contained in the Directive (postfix and/or prefix fields) should override the normal LilyPond output, and whether the Graphic should replace the normal Denemo display for the item.
@@ -1666,7 +1666,7 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
    The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
   </para>
    <para>
-   There is also a low-level editing dialog which is invoked if no editing script exists. This allows you to edit and delete a directive directly.
+   There is also a low-level editing dialog which is invoked if no editing script exists. This allows you to edit and delete a directive directly. The other directive editing commands are EditScoreDirective EditMovementDirective EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective EditTimesigDirective for directives attached to the relevant objects.
   </para>
 </sect2>
 <sect2>
