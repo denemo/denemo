@@ -679,6 +679,7 @@ draw_score_directives (void) {
   GList *header_directives = Denemo.gui->si->header.directives;
   GList *paper_directives = Denemo.gui->paper.directives;
   GList *layout_directives = Denemo.gui->si->layout.directives;
+  GList *movement_directives = Denemo.gui->si->movementcontrol.directives;
   gint x=0, y = 0;
 
   PangoContext *context =
@@ -702,6 +703,7 @@ draw_score_directives (void) {
   OUTPUT_DIREC(header_directives);
   OUTPUT_DIREC(paper_directives);
   OUTPUT_DIREC(layout_directives);
+  OUTPUT_DIREC(movement_directives);
 #undef OUTPUT_DIREC
   pango_font_description_free (desc);
   return y;
