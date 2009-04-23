@@ -1255,7 +1255,9 @@ When using a MIDI controller to enter pitches, you can just set the Rhythm entry
 
 	<para>Denemo provides different ways to set up scores: <itemizedlist>
             <listitem>
-              <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin.<xref linkend="initDotDenemo" /></para>
+	    <para>Create template with the special name "default.denemo". If this is placed at the top level of your templates directory (that is ~/.denemo/templates/default.denemo), then it will be opened each time you start a new score. </para> </listitem>
+            <listitem>
+              <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <xref linkend="initDotDenemo" /> for details on what actions you can have Denemo perform before you start.</para>
             </listitem>
 
             <listitem>
