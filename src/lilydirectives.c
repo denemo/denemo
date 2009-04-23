@@ -575,6 +575,27 @@ gboolean delete_layout_directive(gchar *tag) {
 }
 
 
+static  movementcontrol *get_movementcontrol(void) {
+  return &Denemo.gui->si->movementcontrol;
+}
+static
+DenemoDirective *get_movementcontrol_directive(gchar *tag) {
+  movementcontrol *curmovementcontrol = get_movementcontrol();
+  if(curmovementcontrol==NULL || (curmovementcontrol->directives==NULL))
+    return NULL;
+  return find_directive(curmovementcontrol->directives, tag);
+}
+gboolean delete_movementcontrol_directive(gchar *tag) {
+  movementcontrol *curmovementcontrol = get_movementcontrol();
+  if(curmovementcontrol==NULL || (curmovementcontrol->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_movementcontrol_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curmovementcontrol->directives, tag);
+}
+
+
 static  header *get_header(void) {
   return &Denemo.gui->si->header;
 }
@@ -832,6 +853,7 @@ PUT_INT_FIELD_FUNC(scoreheader, minpixels)
 PUT_INT_FIELD_FUNC(header, minpixels)
 PUT_INT_FIELD_FUNC(paper, minpixels)
 PUT_INT_FIELD_FUNC(layout, minpixels)
+PUT_INT_FIELD_FUNC(movementcontrol, minpixels)
 
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
@@ -847,6 +869,7 @@ GET_INT_FIELD_FUNC(scoreheader, minpixels)
 GET_INT_FIELD_FUNC(header, minpixels)
 GET_INT_FIELD_FUNC(paper, minpixels)
 GET_INT_FIELD_FUNC(layout, minpixels)
+GET_INT_FIELD_FUNC(movementcontrol, minpixels)
 
 
 
@@ -1522,6 +1545,7 @@ DenemoDirective *select_paper_directive(void) {
   return select_directive("Select a score paper block directive", Denemo.gui->paper.directives);
 }
 
+
 static
 DenemoDirective *select_header_directive(void) {
   if(Denemo.gui->si->header.directives==NULL)
@@ -1533,6 +1557,13 @@ DenemoDirective *select_layout_directive(void) {
   if(Denemo.gui->si->layout.directives==NULL)
     return NULL;
   return select_directive("Select a movement layout block directive", Denemo.gui->si->layout.directives);
+}
+
+static
+DenemoDirective *select_movementcontrol_directive(void) {
+  if(Denemo.gui->si->movementcontrol.directives==NULL)
+    return NULL;
+  return select_directive("Select a movement control directive", Denemo.gui->si->movementcontrol.directives);
 }
 
 static
@@ -1715,6 +1746,57 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
 
 
 
+/**
+ * callback for EditMovementDirective 
+ */
+void edit_movement_directive(GtkAction *action,  DenemoScriptParam *param) {
+#define LayoutDirectives  "LayoutDirectives"
+#define MovementDirectives  "MovementDirectives"
+#define HeaderBlockDirectives  "Movement Header Block Directives"
+
+#define STRINGAPPEND(field)  g_string_append_len(options, field"\0", 1+strlen(field))
+  GString *options = g_string_new("");
+  gchar *option;
+  if(Denemo.gui->si->layout.directives)
+    STRINGAPPEND(LayoutDirectives);
+  if(Denemo.gui->si->movementcontrol.directives)
+    STRINGAPPEND(MovementDirectives);
+ 
+  if(Denemo.gui->si->header.directives)
+    STRINGAPPEND(HeaderBlockDirectives);
+
+  if(strlen(options->str) != options->len) {
+    option = get_option(options->str, options->len);
+    if(option==NULL) {
+      g_string_free(options, TRUE);
+      return;
+    }
+  } else
+    option = options->str;
+#define EDITTYPE(type, what)\
+  if(!strcmp(option, type)) {\
+    DenemoDirective *directive = select_##what##_directive();\
+    if(directive==NULL)\
+      return;\
+    if(directive->tag == NULL)\
+      directive->tag = g_string_new(UNKNOWN_TAG);\
+    if(!edit_directive(directive))\
+      delete_##what##_directive(directive->tag->str);\
+  score_status (Denemo.gui, TRUE);\
+  }
+
+
+
+  EDITTYPE(HeaderBlockDirectives, header);
+  EDITTYPE(LayoutDirectives, layout);
+  EDITTYPE(MovementDirectives, movementcontrol);
+
+  g_string_free(options, TRUE);
+#undef EDITTYPE
+#undef STRINGAPPEND
+}
+
+
 
 
 /* block which can be copied for type of directive (minpixels is done as sample for new int fields */
@@ -1887,8 +1969,6 @@ PUT_STR_FIELD_FUNC(paper, display)
 GET_STR_FIELD_FUNC(paper, prefix)
 GET_STR_FIELD_FUNC(paper, postfix)
 GET_STR_FIELD_FUNC(paper, display)
-
-
 PUT_INT_FIELD_FUNC(layout, x)
 PUT_INT_FIELD_FUNC(layout, y)
 PUT_INT_FIELD_FUNC(layout, tx)
@@ -1915,6 +1995,36 @@ PUT_STR_FIELD_FUNC(layout, display)
 GET_STR_FIELD_FUNC(layout, prefix)
 GET_STR_FIELD_FUNC(layout, postfix)
 GET_STR_FIELD_FUNC(layout, display)
+
+
+
+PUT_INT_FIELD_FUNC(movementcontrol, x)
+PUT_INT_FIELD_FUNC(movementcontrol, y)
+PUT_INT_FIELD_FUNC(movementcontrol, tx)
+PUT_INT_FIELD_FUNC(movementcontrol, ty)
+PUT_INT_FIELD_FUNC(movementcontrol, gx)
+PUT_INT_FIELD_FUNC(movementcontrol, gy)
+PUT_INT_FIELD_FUNC(movementcontrol, override)
+GET_INT_FIELD_FUNC(movementcontrol, x)
+GET_INT_FIELD_FUNC(movementcontrol, y)
+GET_INT_FIELD_FUNC(movementcontrol, tx)
+GET_INT_FIELD_FUNC(movementcontrol, ty)
+GET_INT_FIELD_FUNC(movementcontrol, gx)
+GET_INT_FIELD_FUNC(movementcontrol, gy)
+GET_INT_FIELD_FUNC(movementcontrol, override)
+GET_INT_FIELD_FUNC(movementcontrol, width)
+GET_INT_FIELD_FUNC(movementcontrol, height)
+
+PUT_GRAPHIC(movementcontrol)
+
+PUT_STR_FIELD_FUNC(movementcontrol, prefix)
+PUT_STR_FIELD_FUNC(movementcontrol, postfix)
+PUT_STR_FIELD_FUNC(movementcontrol, display)
+
+GET_STR_FIELD_FUNC(movementcontrol, prefix)
+GET_STR_FIELD_FUNC(movementcontrol, postfix)
+GET_STR_FIELD_FUNC(movementcontrol, display)
+
 
 
 #undef STANDALONE_PUT_INT_FIELD_FUNC

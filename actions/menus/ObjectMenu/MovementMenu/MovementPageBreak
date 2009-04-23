@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MovementPageBreak</action>
+        <scheme>;;; MovementPageBreak
+(d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")
+(d-DirectivePut-header-display "MovementPageBreak" "(Page Break)")
+(d-RefreshDisplay)
+
+</scheme>
+        <label>Page Break Before</label>
+        <tooltip>Prints this movement starting on a new page</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

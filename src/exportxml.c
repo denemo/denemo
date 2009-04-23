@@ -653,6 +653,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   if(si->layout.directives) {
     newDirectivesElem(mvmntElem, ns, si->layout.directives, "layout-directives");
   }
+  if(si->movementcontrol.directives) {
+    newDirectivesElem(mvmntElem, ns, si->movementcontrol.directives, "movementcontrol-directives");
+  }
 
   parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
   curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
@@ -660,14 +663,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  1, 4);
   newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo);
   
-  xmlNewChild (parentElem, ns, (xmlChar *) "extra",
-	       (xmlChar *) si->headerinfo.extra->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "markup_before",
-	       (xmlChar *) si->headerinfo.lilypond_before->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "markup_after",
-	       (xmlChar *) si->headerinfo.lilypond_after->str);
-  xmlNewChild (parentElem, ns, (xmlChar *) "layout_markup",
-	       (xmlChar *) si->headerinfo.layout->str);
+
 
   /* Output each (primary) staff, and store the IDs in a hash table. */
   fraction = 1.0 / (gdouble) g_list_length (si->thescore);
@@ -843,8 +839,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		      lastBeamStartXMLID = newXMLID ();
 		      xmlSetProp (curElem, (xmlChar *) "id",
 				  (xmlChar *) lastBeamStartXMLID);
-#endif		    }
-
+		    }
+#endif
 		  /* Output the root element, "rest" or "chord". */
 
 		  if (((chord *) curObj->object)->notes == NULL)

@@ -738,6 +738,7 @@ INT_PUTFUNC_DEF(scoreheader, minpixels)
 INT_PUTFUNC_DEF(header, minpixels)
 INT_PUTFUNC_DEF(paper, minpixels)
 INT_PUTFUNC_DEF(layout, minpixels)
+INT_PUTFUNC_DEF(movementcontrol, minpixels)
 
 INT_GETFUNC_DEF(note, minpixels)
 INT_GETFUNC_DEF(chord, minpixels)
@@ -753,6 +754,7 @@ INT_GETFUNC_DEF(scoreheader, minpixels)
 INT_GETFUNC_DEF(header, minpixels)
 INT_GETFUNC_DEF(paper, minpixels)
 INT_GETFUNC_DEF(layout, minpixels)
+INT_GETFUNC_DEF(movementcontrol, minpixels)
 
      //end block to ocpy for new int field in directive
 
@@ -1034,6 +1036,31 @@ INT_GETFUNC_DEF(layout, height)
 DELETEFUNC_DEF(layout)
 
 
+GETFUNC_DEF(movementcontrol, prefix)
+GETFUNC_DEF(movementcontrol, postfix)
+GETFUNC_DEF(movementcontrol, display)
+PUTFUNC_DEF(movementcontrol, prefix)
+PUTFUNC_DEF(movementcontrol, postfix)
+PUTFUNC_DEF(movementcontrol, display)
+PUTGRAPHICFUNC_DEF(movementcontrol);
+
+INT_PUTFUNC_DEF(movementcontrol, x)
+INT_PUTFUNC_DEF(movementcontrol, y)
+INT_PUTFUNC_DEF(movementcontrol, tx)
+INT_PUTFUNC_DEF(movementcontrol, ty)
+INT_PUTFUNC_DEF(movementcontrol, gx)
+INT_PUTFUNC_DEF(movementcontrol, gy)
+INT_PUTFUNC_DEF(movementcontrol, override)
+INT_GETFUNC_DEF(movementcontrol, x)
+INT_GETFUNC_DEF(movementcontrol, y)
+INT_GETFUNC_DEF(movementcontrol, tx)
+INT_GETFUNC_DEF(movementcontrol, ty)
+INT_GETFUNC_DEF(movementcontrol, gx)
+INT_GETFUNC_DEF(movementcontrol, gy)
+INT_GETFUNC_DEF(movementcontrol, override)
+INT_GETFUNC_DEF(movementcontrol, width)
+INT_GETFUNC_DEF(movementcontrol, height)
+DELETEFUNC_DEF(movementcontrol)
 
 
 SCM scheme_get_midi(void) {
@@ -1397,7 +1424,7 @@ Then
   INSTALL_DELETE(staff);
   INSTALL_DELETE(voice);
   INSTALL_DELETE(score);
-
+#if 0
   INSTALL_DELETE(clef);
   INSTALL_DELETE(timesig);
   INSTALL_DELETE(keysig);
@@ -1405,7 +1432,8 @@ Then
   INSTALL_DELETE(header);
   INSTALL_DELETE(paper);
   INSTALL_DELETE(layout);
-
+  INSTALL_DELETE(movementcontrol);
+#endif
 
 
 #define INSTALL_PUT(what, field)\
@@ -1431,6 +1459,7 @@ Then
   INSTALL_GET(header, minpixels);
   INSTALL_GET(paper, minpixels);
   INSTALL_GET(layout, minpixels);
+  INSTALL_GET(movementcontrol, minpixels);
 
   INSTALL_PUT(standalone, minpixels);
   INSTALL_PUT(chord, minpixels);
@@ -1447,6 +1476,7 @@ Then
   INSTALL_PUT(header, minpixels);
   INSTALL_PUT(paper, minpixels);
   INSTALL_PUT(layout, minpixels);
+  INSTALL_PUT(movementcontrol, minpixels);
 
   //end block to repeat for new  directive fields 
 
@@ -1830,6 +1860,36 @@ INSTALL_GET(layout, height)
 
 INSTALL_DELETE(layout);
 
+INSTALL_PUT(movementcontrol, display);
+INSTALL_PUT(movementcontrol, prefix);
+INSTALL_PUT(movementcontrol, postfix);
+INSTALL_PUT(movementcontrol, graphic);
+
+
+INSTALL_GET(movementcontrol, display);
+INSTALL_GET(movementcontrol, prefix);
+INSTALL_GET(movementcontrol, postfix);
+
+INSTALL_PUT(movementcontrol, x)
+INSTALL_PUT(movementcontrol, y)
+INSTALL_PUT(movementcontrol, tx)
+INSTALL_PUT(movementcontrol, ty)
+INSTALL_PUT(movementcontrol, gx)
+INSTALL_PUT(movementcontrol, gy)
+INSTALL_PUT(movementcontrol, override)
+
+
+INSTALL_GET(movementcontrol, x)
+INSTALL_GET(movementcontrol, y)
+INSTALL_GET(movementcontrol, tx)
+INSTALL_GET(movementcontrol, ty)
+INSTALL_GET(movementcontrol, gx)
+INSTALL_GET(movementcontrol, gy)
+INSTALL_GET(movementcontrol, override)
+INSTALL_GET(movementcontrol, width)
+INSTALL_GET(movementcontrol, height)
+
+INSTALL_DELETE(movementcontrol);
 
 
 #undef INSTALL_DELETE

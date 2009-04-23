@@ -32,6 +32,16 @@
 #include "view.h"
 #include "external.h"
 
+#define GREATER 2
+#define SAME 1
+#define LESSER 0
+
+typedef struct lilyversion
+{
+  gint major;
+  gint minor;
+}lilyversion;
+
 static GPid printviewpid = GPID_UNREF_VALUE;
 
 static GPid printpid = GPID_UNREF_VALUE;
@@ -69,6 +79,100 @@ check_lilypond_path (DenemoGUI * gui){
       return 1;
 }
 
+#if GLIB_MINOR_VERSION >= 14
+int
+version_check(lilyversion base, lilyversion installed)
+{
+  if (base.major > installed.major)
+    return LESSER;
+  if (base.major < installed.major)
+    return GREATER;
+  if (base.minor == installed.minor)
+    return SAME;
+  if (base.minor > installed.minor)
+    return LESSER;
+  if (base.minor < installed.minor)
+    return GREATER;
+
+  /* if none of the above something is wrong */
+  return -1;
+}
+
+lilyversion
+string_to_lilyversion(char *string)
+{
+  lilyversion version;
+  char **token;
+  const char delimiters[] = ".";
+
+  /* split string */
+  token = g_strsplit(string, delimiters, 2);
+
+  /* get major version number */
+  version.major = atoi(token[0]);
+
+  /* get minor version number */
+  version.minor = atoi(token[1]);
+
+  printf("\nstring_to_lilyversion() major = %d minor = %d\n",version.major, version.minor);
+  return version;
+}
+
+gchar * 
+regex_parse_version_number (const gchar *string)
+{
+  GRegex *regex = NULL;
+  GMatchInfo *match_info;
+  GString *lilyversion = g_string_new ("");
+
+  regex = g_regex_new("\\d.\\d\\d", 0, 0, NULL);
+  g_regex_match(regex, string, 0, &match_info);
+
+  if (g_match_info_matches (match_info))
+  {
+  g_string_append(lilyversion, g_match_info_fetch (match_info, 0));
+  }
+
+  g_match_info_free (match_info);
+  g_regex_unref (regex);
+  return g_string_free(lilyversion, FALSE); 	  
+}
+
+int
+get_lily_version (gchar *version)
+{
+  GError *error = NULL;
+  gchar *version_string;
+  double d;
+  int standard_output;
+#define NUMBER_OF_PARSED_CHAR 30
+  gchar buf[NUMBER_OF_PARSED_CHAR]; /* characters needed to parse */
+
+  gchar *arguments[] = {
+  "lilypond",
+  "-v",
+  NULL
+  };
+
+  g_spawn_async_with_pipes (NULL,            /* dir */
+  arguments, NULL,       /* env */
+  G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL, /* child setup func */
+  NULL,          /* user data */
+  NULL,	/*pid*/
+  NULL, 	/*standard_input*/
+  &standard_output,	/*standard output*/
+  NULL,	/*standard error*/
+  &error);
+
+  read(standard_output, buf, sizeof(buf));
+  version_string = regex_parse_version_number(buf);
+  lilyversion installed_version = string_to_lilyversion(version_string);
+  lilyversion check_version = string_to_lilyversion(version);
+
+  return version_check(check_version, installed_version);
+}
+#endif
+        
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
   gint i;
@@ -250,7 +354,28 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-  convert_ly(lilyfile);
+
+  /* Check Lilypond Version */
+  //if (get_lily_version("2.12") != SAME)
+    convert_ly(lilyfile);
+#if GLIB_MINOR_VERSION >= 14
+   gchar *backend;
+  if (get_lily_version("2.12") >= 1)
+    backend = "-dbackend=eps";
+  else
+    backend = "-b eps";
+
+  gchar *png[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    backend,
+    resolution,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+#else
   gchar *png[] = {
     Denemo.prefs.lilypath->str,
     "--png",
@@ -262,6 +387,10 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     lilyfile,
     NULL
   };
+#endif
+
+
+
   gchar *pdf[] = {
     Denemo.prefs.lilypath->str,
     "--pdf",
@@ -757,7 +886,24 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
+#if GLIB_MINOR_VERSION >= 14
+  gchar *backend;
 
+  if (get_lily_version("2.12") >= 1)
+    backend = "-dbackend=eps";
+  else
+    backend = "-b eps";
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    backend,
+    resolution,
+    "-o",
+    printfile,
+    lilyfile,
+    NULL
+  };
+#else
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "--png",
@@ -769,6 +915,9 @@ void refresh_print_view (void) {
     lilyfile,
     NULL
   };
+#endif
+
+
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 

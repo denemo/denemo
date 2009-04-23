@@ -696,8 +696,12 @@ gint pitchentry(DenemoGUI *gui) {
 	display_pitch(note, gui);
 	if(gui->input_source==INPUTMIDI)
 	  play_pitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
-	if(!Denemo.prefs.overlays)
+	if(!Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
+	  if(gui->mode & INPUTRHYTHM) {
+	    scheme_next_note(NULL);
+	  }
+	}
 	else
 	  enter_tone_in_store(gui, found, octave);
       }
@@ -1264,6 +1268,9 @@ gint setup_pitch_input(void){
       set_silence(-90.0);
       set_threshold(0.3);
       set_smoothing(6.0);
+    }
+    if(gui->input_source==INPUTMIDI) {
+      PR_time = 5;
     }
   } else
     return -1;

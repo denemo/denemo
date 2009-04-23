@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>TransposeNote</action>
+        <scheme>;;;Scheme code for command Transpose
+(if (not (defined? 'Transpose::init))
+    (d-InitializeScript CurrentScript))
+(Transpose::TransposeNote)</scheme>
+        <label>Transpose Note</label>
+        <tooltip>Transposes the note at the cursor by the amount set by other commands.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

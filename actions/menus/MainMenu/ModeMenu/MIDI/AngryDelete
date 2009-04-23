@@ -12,6 +12,7 @@
       (note 0)
       (velocity 0)
       (loop 0))
+     (d-InputFilterNames "Angry Delete MIDI Filter")
      (set! loop  (lambda ()
 		(begin		  
 		  (set! midi (d-GetMidi))

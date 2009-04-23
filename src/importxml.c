@@ -1780,7 +1780,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (mvmnt_header != NULL)
 	      {
-		g_string_assign (si->headerinfo.extra, mvmnt_header);
+		//g_string_assign (si->headerinfo.extra, mvmnt_header);
 		g_free (mvmnt_header);
 	      }
 	  }
@@ -1791,7 +1791,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (markup_before != NULL)
 	      {
-		g_string_assign (si->headerinfo.lilypond_before, markup_before);
+		//g_string_assign (si->headerinfo.lilypond_before, markup_before);
 		g_free (markup_before);
 	      }
 	  }
@@ -1802,7 +1802,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (markup_after != NULL)
 	      {
-		g_string_assign (si->headerinfo.lilypond_after, markup_after);
+		//g_string_assign (si->headerinfo.lilypond_after, markup_after);
 		g_free (markup_after);
 	      }
 	  }
@@ -1813,7 +1813,7 @@ DO_ELEM("footer","HeaderFooter")
 						      xmlChildrenNode, 1);
 	    if (layout_markup != NULL)
 	      {
-		g_string_assign (si->headerinfo.layout, layout_markup);
+		//g_string_assign (si->headerinfo.layout, layout_markup);
 		g_free (layout_markup);
 	      }
 	  }
@@ -2508,6 +2508,10 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
   if (childElem != 0)
     si->layout.directives = parseDirectives(childElem, ns);
 
+  childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
+  if (childElem != 0)
+    si->movementcontrol.directives = parseDirectives(childElem, ns);
+
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");
   if(type==REPLACE_SCORE)
@@ -2584,7 +2588,6 @@ gint
 importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 {
 
-  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint ret = 0;
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
@@ -2601,6 +2604,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       ret = -1;
       return ret;
     }
+  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
 
   /*
    * Do a couple of sanity checks to make sure we've actually got a Denemo

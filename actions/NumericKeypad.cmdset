@@ -1479,6 +1479,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Edit any directives attached to score.</tooltip>
       </row>
       <row>
+        <action>EditMovementDirective</action>
+        <label>Edit Movement Directives</label>
+        <tooltip>Edit any directives attached to movement.</tooltip>
+      </row>
+      <row>
         <action>EditClefDirective</action>
         <label>Edit Clef Directives</label>
         <tooltip>Edit any directives attached to clef.</tooltip>
@@ -2275,6 +2280,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>Cautionary Accidental</label>
         <tooltip>Forces the accidental on the note to be printed.</tooltip>
+        <bind>exclam</bind>
       </row>
       <row>
         <action>ReminderAccidental</action>
@@ -2366,6 +2372,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/Instruments/Percussion</menupath>
         <label>Timbales Style Staff</label>
         <tooltip>Changes to print as a drum staff in timbales style</tooltip>
+      </row>
+      <row>
+        <action>MovementPageBreak</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Page Break Before</label>
+        <tooltip>Prints this movement starting on a new page</tooltip>
+      </row>
+      <row>
+        <action>HideMovement</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Hide Movement</label>
+        <tooltip>Hides the movement on printing.</tooltip>
       </row>
     </map>
   </commands>

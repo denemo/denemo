@@ -229,15 +229,17 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 {
   gint result;
   result = 1;//FAILURE
-  if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
-    result = importXML (filename, gui, type);
-  else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
-    result = importXML (filename, gui, type);
-  else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
-    result = lyinput (filename, gui);
-  else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
-	   strcmp (filename + strlen (filename) - 5, ".midi") == 0)
-    result = importMidi (filename, gui);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
+      result = importXML (filename, gui, type);
+    else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
+      result = importXML (filename, gui, type);
+    else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
+      result = lyinput (filename, gui);
+    else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
+	     strcmp (filename + strlen (filename) - 5, ".midi") == 0)
+      result = importMidi (filename, gui);
+  }
   if (result == 0)
     {
       if(!template) {// not a template
@@ -820,6 +822,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
   /*set default folder for saving */
   set_current_folder(file_selection, gui, template);
 
+#if 0
   /* assign title */ 
   if (gui->si->headerinfo.title->len)
     { 
@@ -829,7 +832,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
  // else {
   //	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (file_selection), "Untitled Document");
   //}
-
+#endif
 
   hbox = gtk_hbox_new (FALSE, 8);
   label = gtk_label_new (_("Format:"));
@@ -879,6 +882,9 @@ file_saveas (DenemoGUI * gui, gboolean template)
 	    {
 	      filesel_save (gui, file_name, format_id, template);
 	      close = TRUE;
+	      //the lilypond can now be out of sync
+	      gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
+	      refresh_lily_cb(NULL, gui);
 	    }
 	  g_free (file_name);
 	}

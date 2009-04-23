@@ -2869,6 +2869,7 @@ DenemoScore *si	= gui->si;
     }
     if (findtok (lily_file, HEADER))
     {
+#if 0
 	if ((pt = header_str ("title")))
 	    g_string_assign (si->headerinfo.title, pt);
 	if ((pt = header_str ("subtitle")))
@@ -2897,6 +2898,11 @@ DenemoScore *si	= gui->si;
 	    g_string_assign (si->headerinfo.footer, pt);
 	if ((pt = header_str ("tagline")))
 	    g_string_assign (si->headerinfo.tagline, pt);
+#else
+//FIXME create tagged directives for this information
+#endif
+
+
     }
     for(scm = findtok (lily_file, SCM_T); scm ; scm = scm->next)
     {
