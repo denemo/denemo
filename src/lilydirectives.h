@@ -11,6 +11,9 @@
 
 #include <denemo/denemo.h>
 
+gchar * get_scoretitle(void);
+
+
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);
 void 

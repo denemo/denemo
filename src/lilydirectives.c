@@ -2033,3 +2033,19 @@ GET_STR_FIELD_FUNC(movementcontrol, display)
 #undef GET_INT_FIELD_FUNC
 #undef PUT_STR_FIELD_FUNC
 #undef GET_STR_FIELD_FUNC
+
+
+
+gchar * get_scoretitle(void){
+  gchar *scoretitle = NULL;
+  GList *first = Denemo.gui->movements;
+  if(first) {
+    DenemoScore *si = (DenemoScore *)first->data;
+    if(si){
+       DenemoDirective *directive = find_directive(si->header.directives, "Movement-title");
+       if(directive && directive->display)
+	 scoretitle = directive->display->str;
+    }
+  }
+  return scoretitle;
+}
