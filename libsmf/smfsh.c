@@ -11,7 +11,7 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
- * ALTHOUGH THIS SOFTWARE IS MADE OF SCIENCE AND WIN, IT IS PROVIDED BY THE
+ * ALTHOUGH THIS SOFTWARE IS MADE OF WIN AND SCIENCE, IT IS PROVIDED BY THE
  * AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
  * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
@@ -25,11 +25,19 @@
  *
  */
 
+/**
+ * \file
+ *
+ * "SMF shell", command line utility.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sysexits.h>
 #include <string.h>
 #include <ctype.h>
+#include <assert.h>
 #include "smf.h"
 #include "config.h"
 
@@ -43,18 +51,15 @@ smf_event_t *selected_event = NULL;
 smf_t *smf = NULL;
 char *last_file_name = NULL;
 
-static void
-usage(void)
-{
-	fprintf(stderr, "usage: smfsh [file]\n");
-
-	exit(EX_USAGE);
-}
+#define COMMAND_LENGTH 10
 
 static void
 log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *message, gpointer notused)
 {
-	fprintf(stderr, "%s: %s\n", log_domain, message);
+	if (strcmp(log_domain, "smfsh") == 0)
+		fprintf(stderr, "%s\n", message);
+	else
+		fprintf(stderr, "%s: %s\n", log_domain, message);
 }
 
 static int cmd_track(char *arg);
@@ -62,22 +67,31 @@ static int cmd_track(char *arg);
 static int
 cmd_load(char *file_name)
 {
+	char *decoded;
+
 	if (file_name == NULL) {
 		if (last_file_name == NULL) {
 			g_critical("Please specify file name.");
-			return -1;
+			return (-1);
 		}
 
-		file_name = last_file_name;
+		file_name = strdup(last_file_name);
+	} else {
+		file_name = strdup(file_name);
 	}
-
-	if (smf != NULL)
-		smf_delete(smf);
 
 	selected_track = NULL;
 	selected_event = NULL;
 
+	if (smf != NULL) {
+		smf_delete(smf);
+		smf = NULL;
+	}
+
+	if (last_file_name != NULL)
+		free(last_file_name);
 	last_file_name = strdup(file_name);
+
 	smf = smf_load(file_name);
 	if (smf == NULL) {
 		g_critical("Couldn't load '%s'.", file_name);
@@ -85,18 +99,22 @@ cmd_load(char *file_name)
 		smf = smf_new();
 		if (smf == NULL) {
 			g_critical("Cannot initialize smf_t.");
-			return -1;
+			return (-1);
 		}
 
-		return -2;
+		return (-2);
 	}
 
 	g_message("File '%s' loaded.", file_name);
-	g_message("%s.", smf_decode(smf));
+	decoded = smf_decode(smf);
+	g_message("%s.", decoded);
+	free(decoded);
 
 	cmd_track("1");
 
-	return 0;
+	free(file_name);
+
+	return (0);
 }
 
 static int
@@ -107,27 +125,29 @@ cmd_save(char *file_name)
 	if (file_name == NULL) {
 		if (last_file_name == NULL) {
 			g_critical("Please specify file name.");
-			return -1;
+			return (-1);
 		}
 
-		file_name = last_file_name;
+		file_name = strdup(last_file_name);
+	} else {
+		file_name = strdup(file_name);
 	}
 
-	if (file_name == NULL) {
-		g_critical("Please specify file name.");
-		return -1;
-	}
-
+	if (last_file_name != NULL)
+		free(last_file_name);
 	last_file_name = strdup(file_name);
+
 	ret = smf_save(smf, file_name);
 	if (ret) {
 		g_critical("Couldn't save '%s'", file_name);
-		return -1;
+		return (-1);
 	}
 
 	g_message("File '%s' saved.", file_name);
 
-	return 0;
+	free(file_name);
+
+	return (0);
 }
 
 static int
@@ -142,23 +162,23 @@ cmd_ppqn(char *new_ppqn)
 		tmp = strtol(new_ppqn, &end, 10);
 		if (end - new_ppqn != strlen(new_ppqn)) {
 			g_critical("Invalid PPQN, garbage characters after the number.");
-			return -1;
+			return (-1);
 		}
 
 		if (tmp <= 0) {
 			g_critical("Invalid PPQN, valid values are greater than zero.");
-			return -2;
+			return (-2);
 		}
 
 		if (smf_set_ppqn(smf, tmp)) {
 			g_message("smf_set_ppqn failed.");
-			return -3;
+			return (-3);
 		}
 
 		g_message("Pulses Per Quarter Note changed to %d.", smf->ppqn);
 	}
 	
-	return 0;
+	return (0);
 }
 
 static int
@@ -173,23 +193,23 @@ cmd_format(char *new_format)
 		tmp = strtol(new_format, &end, 10);
 		if (end - new_format != strlen(new_format)) {
 			g_critical("Invalid format value, garbage characters after the number.");
-			return -1;
+			return (-1);
 		}
 
 		if (tmp < 0 || tmp > 2) {
 			g_critical("Invalid format value, valid values are in range 0 - 2, inclusive.");
-			return -2;
+			return (-2);
 		}
 
 		if (smf_set_format(smf, tmp)) {
 			g_critical("smf_set_format failed.");
-			return -3;
+			return (-3);
 		}
 
 		g_message("Forma changed to %d.", smf->format);
 	}
 	
-	return 0;
+	return (0);
 }
 
 static int
@@ -200,7 +220,7 @@ cmd_tracks(char *notused)
 	else
 		g_message("There are no tracks.");
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -212,16 +232,16 @@ parse_track_number(const char *arg)
 	if (arg == NULL) {
 		if (selected_track == NULL) {
 			g_message("No track currently selected and no track number given.");
-			return -1;
+			return (-1);
 		} else {
-			return selected_track->track_number;
+			return (selected_track->track_number);
 		}
 	}
 
 	num = strtol(arg, &end, 10);
 	if (end - arg != strlen(arg)) {
 		g_critical("Invalid track number, garbage characters after the number.");
-		return -1;
+		return (-1);
 	}
 
 	if (num < 1 || num > smf->number_of_tracks) {
@@ -231,10 +251,10 @@ parse_track_number(const char *arg)
 			g_critical("There are no tracks.");
 		}
 
-		return -1;
+		return (-1);
 	}
 
-	return num;
+	return (num);
 }
 
 static int
@@ -251,17 +271,17 @@ cmd_track(char *arg)
 	} else {
 		if (smf->number_of_tracks == 0) {
 			g_message("There are no tracks.");
-			return -1;
+			return (-1);
 		}
 
 		num = parse_track_number(arg);
 		if (num < 0)
-			return -1;
+			return (-1);
 
 		selected_track = smf_get_track_by_number(smf, num);
 		if (selected_track == NULL) {
 			g_critical("smf_get_track_by_number() failed, track not selected.");
-			return -3;
+			return (-3);
 		}
 
 		selected_event = NULL;
@@ -270,7 +290,7 @@ cmd_track(char *arg)
 				selected_track->track_number, selected_track->number_of_events);
 	}
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -279,7 +299,7 @@ cmd_trackadd(char *notused)
 	selected_track = smf_track_new();
 	if (selected_track == NULL) {
 		g_critical("smf_track_new() failed, track not created.");
-		return -1;
+		return (-1);
 	}
 
 	smf_add_track(smf, selected_track);
@@ -288,7 +308,7 @@ cmd_trackadd(char *notused)
 
 	g_message("Created new track; track number %d selected.", selected_track->track_number);
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -297,7 +317,7 @@ cmd_trackrm(char *arg)
 	int num = parse_track_number(arg);
 
 	if (num < 0)
-		return -1;
+		return (-1);
 
 	if (selected_track != NULL && num == selected_track->track_number) {
 		selected_track = NULL;
@@ -306,9 +326,9 @@ cmd_trackrm(char *arg)
 
 	smf_track_delete(smf_get_track_by_number(smf, num));
 
-	g_message("Track #%d removed.", num);
+	g_message("Track %d removed.", num);
 
-	return 0;
+	return (0);
 }
 
 #define BUFFER_SIZE 1024
@@ -330,7 +350,7 @@ show_event(smf_event_t *event)
 		decoded = malloc(BUFFER_SIZE);
 		if (decoded == NULL) {
 			g_critical("show_event: malloc failed.");
-			return -1;
+			return (-1);
 		}
 
 		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
@@ -340,67 +360,38 @@ show_event(smf_event_t *event)
 	}
 
 	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
-		event->time_seconds, event->time_pulses, event->delta_time_pulses);
+	    event->time_seconds, event->time_pulses, event->delta_time_pulses);
 
 	free(decoded);
 
-	return 0;
+	return (0);
 }
 
-static int
-proces_midi_event(smf_event_t *event)
-{
-	int off = 0, i;
-	char *decoded, *type;
-
-	if (smf_event_is_metadata(event))
-		type = "Metadata";
-	else
-		type = "Event";
-	
-	decoded = smf_event_decode(event);
-
-	if (decoded == NULL) {
-		decoded = malloc(BUFFER_SIZE);
-		if (decoded == NULL) {
-			g_critical("show_event: malloc failed.");
-			return -1;
-		}
-
-		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
-
-		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
-			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
-	}
-
-	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
-		event->time_seconds, event->time_pulses, event->delta_time_pulses);
-
-	free(decoded);
-
-	return 0;
-}
 static int
 cmd_events(char *notused)
 {
 	smf_event_t *event;
 
 	if (selected_track == NULL) {
-		g_critical("No track selected - please use 'track [number]' command first.");
-		return -1;
+		g_critical("No track selected - please use 'track <number>' command first.");
+		return (-1);
+	}
+
+	if (selected_track->number_of_events == 0) {
+		g_message("Selected track is empty.");
+		return (0);
 	}
 
 	g_message("List of events in track %d follows:", selected_track->track_number);
 
 	smf_rewind(smf);
 
-	while ((event = smf_track_get_next_event(selected_track)) != NULL) {
+	while ((event = smf_track_get_next_event(selected_track)) != NULL)
 		show_event(event);
-	}
 
 	smf_rewind(smf);
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -411,35 +402,34 @@ parse_event_number(const char *arg)
 
 	if (selected_track == NULL) {
 		g_critical("You need to select track first (using 'track <number>').");
-		return -1;
+		return (-1);
 	}
 
 	if (arg == NULL) {
 		if (selected_event == NULL) {
 			g_message("No event currently selected and no event number given.");
-			return -1;
+			return (-1);
 		} else {
-			return selected_event->event_number;
+			return (selected_event->event_number);
 		}
 	}
 
 	num = strtol(arg, &end, 10);
 	if (end - arg != strlen(arg)) {
 		g_critical("Invalid event number, garbage characters after the number.");
-		return -1;
+		return (-1);
 	}
 
 	if (num < 1 || num > selected_track->number_of_events) {
-		if (selected_track->number_of_events > 0) {
+		if (selected_track->number_of_events > 0)
 			g_critical("Invalid event number specified; valid choices are 1 - %d.", selected_track->number_of_events);
-		} else {
+		else
 			g_critical("There are no events in currently selected track.");
-		}
 
-		return -1;
+		return (-1);
 	}
 
-	return num;
+	return (num);
 }
 
 static int
@@ -457,19 +447,19 @@ cmd_event(char *arg)
 	} else {
 		num = parse_event_number(arg);
 		if (num < 0)
-			return -1;
+			return (-1);
 
 		selected_event = smf_track_get_event_by_number(selected_track, num);
 		if (selected_event == NULL) {
 			g_critical("smf_get_event_by_number() failed, event not selected.");
-			return -2;
+			return (-2);
 		}
 
 		g_message("Event number %d selected.", selected_event->event_number);
 		show_event(selected_event);
 	}
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -509,20 +499,20 @@ decode_hex(char *str, unsigned char **buffer, int *length)
 	*buffer = midi_buffer;
 	*length = midi_buffer_length;
 
-	return 0;
+	return (0);
 
 error:
 	if (midi_buffer != NULL)
 		free(midi_buffer);
 
-	return -1;
+	return (-1);
 }
 
 static void
 eventadd_usage(void)
 {
-	g_message("Usage: eventadd time-in-seconds midi-in-hex.  For example, 'eventadd 1 903C7F'");
-        g_message("will add Note On event, one second from the start of song, channel 1, note C4, velocity 127.");
+	g_message("Usage: add <time-in-seconds> <midi-in-hex> - for example, 'add 1 903C7F' will add");
+	g_message("Note On event, note C4, velocity 127, channel 1, one second from the start of song, channel 1.");
 }
 
 static int
@@ -534,38 +524,44 @@ cmd_eventadd(char *str)
 	char *time, *endtime;
 
 	if (selected_track == NULL) {
-		g_critical("Please select a track first.");
-		return -1;
+		g_critical("Please select a track first, using 'track <number>' command.");
+		return (-1);
 	}
 
 	if (str == NULL) {
 		eventadd_usage();
-		return -2;
+		return (-2);
 	}
 
-	/* Extract the time. */
-	time = strsep(&str, " ");
+	/* Extract the time.  Don't use strsep(3), it doesn't work on SunOS. */
+	time = str;
+	str = strchr(str, ' ');
+	if (str != NULL) {
+		*str = '\0';
+		str++;
+	}
+
 	seconds = strtod(time, &endtime);
 	if (endtime - time != strlen(time)) {
 		g_critical("Time is supposed to be a number, without trailing characters.");
-		return -3;
+		return (-3);
 	}
 
 	/* Called with one parameter? */
 	if (str == NULL) {
 		eventadd_usage();
-		return -4;
+		return (-4);
 	}
 
 	if (decode_hex(str, &midi_buffer, &midi_buffer_length)) {
 		eventadd_usage();
-		return -5;
+		return (-5);
 	}
 
 	selected_event = smf_event_new();
 	if (selected_event == NULL) {
 		g_critical("smf_event_new() failed, event not created.");
-		return -6;
+		return (-6);
 	}
 
 	selected_event->midi_buffer = midi_buffer;
@@ -575,15 +571,92 @@ cmd_eventadd(char *str)
 		g_critical("Event is invalid from the MIDI specification point of view, not created.");
 		smf_event_delete(selected_event);
 		selected_event = NULL;
-		return -7;
+		return (-7);
 	}
 
 	smf_track_add_event_seconds(selected_track, selected_event, seconds);
 
 	g_message("Event created.");
 
-	return 0;
+	return (0);
 }
+
+static int
+cmd_text(char *str)
+{
+	double seconds, type;
+	char *time, *typestr, *end;
+
+	if (selected_track == NULL) {
+		g_critical("Please select a track first, using 'track <number>' command.");
+		return (-1);
+	}
+
+	if (str == NULL) {
+		g_critical("Usage: text <time-in-seconds> <event-type> <text-itself>");
+		return (-2);
+	}
+
+	/* Extract the time.  Don't use strsep(3), it doesn't work on SunOS. */
+	time = str;
+	str = strchr(str, ' ');
+	if (str != NULL) {
+		*str = '\0';
+		str++;
+	}
+
+	seconds = strtod(time, &end);
+	if (end - time != strlen(time)) {
+		g_critical("Time is supposed to be a number, without trailing characters.");
+		return (-3);
+	}
+
+	/* Called with one parameter? */
+	if (str == NULL) {
+		g_critical("Usage: text <time-in-seconds> <event-type> <text-itself>");
+		return (-4);
+	}
+
+	/* Extract the event type. */
+	typestr = str;
+	str = strchr(str, ' ');
+	if (str != NULL) {
+		*str = '\0';
+		str++;
+	}
+
+	type = strtod(typestr, &end);
+	if (end - typestr != strlen(typestr)) {
+		g_critical("Type is supposed to be a number, without trailing characters.");
+		return (-4);
+	}
+
+	if (type < 1 || type > 9) {
+		g_critical("Valid values for type are 1 - 9, inclusive.");
+		return (-5);
+	}
+
+	/* Called with one parameter? */
+	if (str == NULL) {
+		g_critical("Usage: text <time-in-seconds> <event-type> <text-itself>");
+		return (-4);
+	}
+
+	selected_event = smf_event_new_textual(type, str);
+	if (selected_event == NULL) {
+		g_critical("smf_event_new_textual() failed, event not created.");
+		return (-6);
+	}
+
+	assert(smf_event_is_valid(selected_event));
+
+	smf_track_add_event_seconds(selected_track, selected_event, seconds);
+
+	g_message("Event created.");
+
+	return (0);
+}
+
 
 static int
 cmd_eventaddeot(char *time)
@@ -592,29 +665,29 @@ cmd_eventaddeot(char *time)
 	char *end;
 
 	if (selected_track == NULL) {
-		g_critical("Please select a track first.");
-		return -1;
+		g_critical("Please select a track first, using 'track <number>' command.");
+		return (-1);
 	}
 
 	if (time == NULL) {
 		g_critical("Please specify the time, in seconds.");
-		return -2;
+		return (-2);
 	}
 
 	seconds = strtod(time, &end);
 	if (end - time != strlen(time)) {
 		g_critical("Time is supposed to be a number, without trailing characters.");
-		return -3;
+		return (-3);
 	}
 
 	if (smf_track_add_eot_seconds(selected_track, seconds)) {
 		g_critical("smf_track_add_eot() failed.");
-		return -4;
+		return (-4);
 	}
 
 	g_message("Event created.");
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -623,7 +696,7 @@ cmd_eventrm(char *number)
 	int num = parse_event_number(number);
 
 	if (num < 0)
-		return -1;
+		return (-1);
 
 	if (selected_event != NULL && num == selected_event->event_number)
 		selected_event = NULL;
@@ -632,7 +705,7 @@ cmd_eventrm(char *number)
 
 	g_message("Event #%d removed.", num);
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -647,13 +720,13 @@ cmd_tempo(char *notused)
 			break;
 
 		g_message("Tempo #%d: Starts at %d pulses, %f seconds, setting %d microseconds per quarter note, %.2f BPM.",
-			i, tempo->time_pulses, tempo->time_seconds, tempo->microseconds_per_quarter_note,
-			60000000.0 / (double)tempo->microseconds_per_quarter_note);
+		    i, tempo->time_pulses, tempo->time_seconds, tempo->microseconds_per_quarter_note,
+		    60000000.0 / (double)tempo->microseconds_per_quarter_note);
 		g_message("Time signature: %d/%d, %d clocks per click, %d 32nd notes per quarter note.",
-			tempo->numerator, tempo->denominator, tempo->clocks_per_click, tempo->notes_per_note);
+		    tempo->numerator, tempo->denominator, tempo->clocks_per_click, tempo->notes_per_note);
 	}
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -661,7 +734,7 @@ cmd_length(char *notused)
 {
 	g_message("Length: %d pulses, %f seconds.", smf_get_length_pulses(smf), smf_get_length_seconds(smf));
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -669,7 +742,7 @@ cmd_version(char *notused)
 {
 	g_message("libsmf version %s.", smf_get_version());
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -681,31 +754,34 @@ cmd_exit(char *notused)
 
 static int cmd_help(char *notused);
 
-struct command_struct {
+static struct command_struct {
 	char *name;
 	int (*function)(char *command);
 	char *help;
-} commands[] = {{"help", cmd_help, "show this help."},
-		{"load", cmd_load, "load named file."},
-		{"save", cmd_save, "save to named file."},
-		{"ppqn", cmd_ppqn, "show ppqn (aka division), or set ppqn if used with parameter."},
-		{"format", cmd_format, "show format, or set format if used with parameter."},
-		{"tracks", cmd_tracks, "show number of tracks."},
-		{"track", cmd_track, "show number of currently selected track, or select a track."},
-		{"trackadd", cmd_trackadd, "add a track and select it."},
-		{"trackrm", cmd_trackrm, "remove currently selected track."},
-		{"events", cmd_events, "show events in the currently selected track."},
-		{"event", cmd_event, "show number of currently selected event, or select an event."},
-		{"eventadd", cmd_eventadd, "add an event and select it."},
-		{"add", cmd_eventadd, NULL},
-		{"eventaddeot", cmd_eventaddeot, "add an End Of Track event."},
-		{"eot", cmd_eventaddeot, NULL},
-		{"eventrm", cmd_eventrm, "remove currently selected event."},
-		{"rm", cmd_eventrm, NULL},
-		{"tempo", cmd_tempo, "show tempo map."},
-		{"length", cmd_length, "show length of the song."},
-		{"version", cmd_version, "show libsmf version."},
-		{"exit", cmd_exit, "exit to shell."},
+} commands[] = {{"help", cmd_help, "Show this help."},
+		{"?", cmd_help, NULL},
+		{"load", cmd_load, "Load named file."},
+		{"open", cmd_load},
+		{"save", cmd_save, "Save to named file."},
+		{"ppqn", cmd_ppqn, "Show ppqn (aka division), or set ppqn if used with parameter."},
+		{"format", cmd_format, "Show format, or set format if used with parameter."},
+		{"tracks", cmd_tracks, "Show number of tracks."},
+		{"track", cmd_track, "Show number of currently selected track, or select a track."},
+		{"trackadd", cmd_trackadd, "Add a track and select it."},
+		{"trackrm", cmd_trackrm, "Remove currently selected track."},
+		{"events", cmd_events, "Show events in the currently selected track."},
+		{"event", cmd_event, "Show number of currently selected event, or select an event."},
+		{"add", cmd_eventadd, "Add an event and select it."},
+		{"text", cmd_text, "Add textual event and select it."},
+		{"eventadd", cmd_eventadd, NULL},
+		{"eot", cmd_eventaddeot, "Add an End Of Track event."},
+		{"eventaddeot", cmd_eventaddeot, NULL},
+		{"eventrm", cmd_eventrm, NULL},
+		{"rm", cmd_eventrm, "Remove currently selected event."},
+		{"tempo", cmd_tempo, "Show tempo map."},
+		{"length", cmd_length, "Show length of the song."},
+		{"version", cmd_version, "Show libsmf version."},
+		{"exit", cmd_exit, "Exit to shell."},
 		{"quit", cmd_exit, NULL},
 		{"bye", cmd_exit, NULL},
 		{NULL, NULL, NULL}};
@@ -713,6 +789,8 @@ struct command_struct {
 static int
 cmd_help(char *notused)
 {
+	int i, padding_length;
+	char padding[COMMAND_LENGTH + 1];
 	struct command_struct *tmp;
 
 	g_message("Available commands:");
@@ -721,10 +799,17 @@ cmd_help(char *notused)
 		/* Skip commands with no help string. */
 		if (tmp->help == NULL)
 			continue;
-		g_message("%s: %s", tmp->name, tmp->help);
+
+		padding_length = COMMAND_LENGTH - strlen(tmp->name);
+		assert(padding_length >= 0);
+		for (i = 0; i < padding_length; i++)
+			padding[i] = ' ';
+		padding[i] = '\0';
+
+		g_message("%s:%s%s", tmp->name, padding, tmp->help);
 	}
 
-	return 0;
+	return (0);
 }
 
 /**
@@ -775,7 +860,7 @@ read_command(void)
 	buf = malloc(1024);
 	if (buf == NULL) {
 		g_critical("Malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	fprintf(stdout, "smfsh> ");
@@ -786,7 +871,7 @@ read_command(void)
 
 	if (buf == NULL) {
 		fprintf(stdout, "exit\n");
-		return "exit";
+		return (strdup("exit"));
 	}
 
 	strip_unneeded_whitespace(buf, 1024);
@@ -794,13 +879,13 @@ read_command(void)
 	len = strlen(buf);
 
 	if (len == 0)
-		return read_command();
+		return (read_command());
 
 #ifdef HAVE_LIBREADLINE
 	add_history(buf);
 #endif
 
-	return buf;
+	return (buf);
 }
 
 static int
@@ -809,33 +894,50 @@ execute_command(char *line)
 	char *command, *args;
 	struct command_struct *tmp;
 
-	args = line;
-	command = strsep(&args, " ");
+	command = line;
+	args = strchr(line, ' ');
+	if (args != NULL) {
+		*args = '\0';
+		args++;
+	}
 
 	for (tmp = commands; tmp->name != NULL; tmp++) {
 		if (strcmp(tmp->name, command) == 0)
-			return (tmp->function)(args);
+			return ((tmp->function)(args));
 	}
 
 	g_warning("No such command: '%s'.  Type 'help' to see available commands.", command);
 
-	return -1;
+	return (-1);
 }
 
 static void
 read_and_execute_command(void)
 {
 	int ret;
-	char *command;
+	char *command_line, *command, *next_command;
 
-	command = read_command();
+	command = command_line = read_command();
 
-	ret = execute_command(command);
-	if (ret) {
-		g_warning("Command finished with error.");
-	}
+	do {
+		next_command = strchr(command, ';');
+		if (next_command != NULL) {
+			*next_command = '\0';
+			next_command++;
+		}
 
-	free(command);
+		strip_unneeded_whitespace(command, 1024);
+		if (strlen(command) > 0) {
+			ret = execute_command(command);
+			if (ret)
+				g_warning("Command finished with error.");
+		}
+
+		command = next_command;
+
+	} while (command);
+
+	free(command_line);
 }
 
 #ifdef HAVE_LIBREADLINE
@@ -854,10 +956,10 @@ smfsh_command_generator(const char *text, int state)
 		command++;
 
 		if (strncmp(tmp, text, strlen(text)) == 0)
-			return strdup(tmp);
+			return (strdup(tmp));
 	}
 
-	return NULL;
+	return (NULL);
 }
 
 static char **
@@ -869,35 +971,55 @@ smfsh_completion(const char *text, int start, int end)
 	if (start != 0) {
 		for (i = 0; i < start; i++) {
 			if (!isspace(rl_line_buffer[i]))
-				return NULL;
+				return (NULL);
 		}
 	}
 
-	return rl_completion_matches(text, smfsh_command_generator);
+	return (rl_completion_matches(text, smfsh_command_generator));
 }
 
 #endif
 
-int main(int argc, char *argv[])
+static void
+usage(void)
 {
-	if (argc > 2) {
-		usage();
+	fprintf(stderr, "usage: smfsh [-V | file]\n");
+
+	exit(EX_USAGE);
+}
+
+int
+main(int argc, char *argv[])
+{
+	int ch;
+
+	while ((ch = getopt(argc, argv, "V")) != -1) {
+		switch (ch) {
+		case 'V':
+			cmd_version(NULL);
+			exit(EX_OK);
+
+		case '?':
+		default:
+			usage();
+		}
 	}
+
+	if (argc > 2)
+		usage();
 
 	g_log_set_default_handler(log_handler, NULL);
 
 	smf = smf_new();
 	if (smf == NULL) {
 		g_critical("Cannot initialize smf_t.");
-		return -1;
+		return (-1);
 	}
 
-	if (argc == 2) {
-		last_file_name = argv[1];
-		cmd_load(last_file_name);
-	} else {
+	if (argc == 2)
+		cmd_load(argv[1]);
+	else
 		cmd_trackadd(NULL);
-	}
 
 #ifdef HAVE_LIBREADLINE
 	rl_readline_name = "smfsh";
@@ -907,6 +1029,6 @@ int main(int argc, char *argv[])
 	for (;;)
 		read_and_execute_command();
 
-	return 0;
+	return (0);
 }
 

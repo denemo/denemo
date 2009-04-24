@@ -87,12 +87,11 @@ void MeasureCheck(GList *list, midicallback *mididata);
 struct harmonic enharmonic(gint input, gint key);
 gint readheader(midicallback *mididata);
 void readtrack(midicallback *mididata);
-gint readVariable(FILE* fp);
-void dotimesig(FILE* fp, midicallback *mididata);
-void dokeysig(FILE* fp, midicallback *mididata);
-void dotempo(FILE* fp,  midicallback *mididata);
-void dotrackname(FILE* fp, midicallback *mididata, gint x);
-void doinstrname(FILE* fp, midicallback *mididata, gint x);
+void dotimesig(gint numerator, gint denominator, midicallback *mididata);
+void dokeysig(gint key, gint isminor, midicallback *mididata);
+void dotempo(gint tempo,  midicallback *mididata);
+void dotrackname(gchar *name, midicallback *mididata);
+void doinstrname(gchar *name, midicallback *mididata);
 void donoteon(midicallback *mididata, gint *pitchon, gint *attack, gint *timeon);
 void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
 void restcheck(GList *tmp, midicallback *mididata);
@@ -109,6 +108,19 @@ log_handler(const gchar *log_domain, GLogLevelFlags log_level, const gchar *mess
 }
 
 static int cmd_track(char *arg);
+
+static void
+note_from_int(char *buf, int note_number)
+{
+	int note, octave;
+	char *names[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+
+	octave = note_number / 12 - 1;
+	note = note_number % 12;
+
+	sprintf(buf, "%s%d", names[note], octave);
+}
+
 
 static int
 cmd_load(char *file_name)
@@ -301,16 +313,212 @@ show_event(smf_event_t *event)
 	return 0;
 }
 
+static char *
+filter_metadata(const smf_event_t *event, midicallback *mididata)
+{
+	int off = 0, mspqn, flats, isminor;
+	char *buf;
+
+	static const char *const major_keys[] = {"Fb", "Cb", "Gb", "Db", "Ab",
+		"Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#", "G#"};
+
+	static const char *const minor_keys[] = {"Dbm", "Abm", "Ebm", "Bbm", "Fm",
+		"Cm", "Gm", "Dm", "Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "E#m"};
+
+	//assert(smf_event_is_metadata(event));
+
+	switch (event->midi_buffer[1]) {
+		case 0x01:
+			//return smf_event_decode_textual(event, "Text");
+
+		case 0x02:
+			//return smf_event_decode_textual(event, "Copyright");
+
+		case META_TRACK_NAME:
+			//return smf_event_decode_textual(event, "Sequence/Track Name");
+			dotrackname(smf_event_extract_text(event),mididata);
+
+		case META_INSTR_NAME:
+			//printf("\nInstrument text = %s\n", smf_string_from_event(event));
+			doinstrname(smf_event_extract_text(event), mididata);
+		case 0x05:
+			//return smf_event_decode_textual(event, "Lyric");
+
+		case 0x06:
+			//return smf_event_decode_textual(event, "Marker");
+
+		case 0x07:
+			//return smf_event_decode_textual(event, "Cue Point");
+
+		case 0x08:
+			//return smf_event_decode_textual(event, "Program Name");
+
+		case 0x09:
+			//return smf_event_decode_textual(event, "Device (Port) Name");
+
+		default:
+			break;
+	}
+
+	buf = malloc(BUFFER_SIZE);
+	if (buf == NULL) {
+		g_critical("smf_event_decode_metadata: malloc failed.");
+		return NULL;
+	}
+
+	switch (event->midi_buffer[1]) {
+		case 0x00:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Sequence number");
+			break;
+
+		/* http://music.columbia.edu/pipermail/music-dsp/2004-August/061196.html */
+		case 0x20:
+			if (event->midi_buffer_length < 4) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Prefix: %d.", event->midi_buffer[3]);
+			break;
+
+		case 0x21:
+			if (event->midi_buffer_length < 4) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Midi Port: %d.", event->midi_buffer[3]);
+			break;
+
+		case 0x2F:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "End Of Track");
+			break;
+
+		case META_TEMPO:
+			if (event->midi_buffer_length < 6) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			mspqn = (event->midi_buffer[3] << 16) + (event->midi_buffer[4] << 8) + event->midi_buffer[5];
+		        
+			dotempo(mspqn, mididata);
+
+			break;
+
+		case 0x54:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "SMPTE Offset");
+			break;
+
+		case META_TIMESIG:
+			if (event->midi_buffer_length < 7) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			dotimesig(event->midi_buffer[3], (int)pow(2, event->midi_buffer[4]), mididata);
+			break;
+
+		case META_KEYSIG:
+			if (event->midi_buffer_length < 5) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			flats = event->midi_buffer[3];
+			isminor = event->midi_buffer[4];
+
+			if (isminor != 0 && isminor != 1) {
+				g_critical("smf_event_decode_metadata: last byte of the Key Signature event has invalid value %d.", isminor);
+				goto error;
+			}
+
+			dokeysig(isminor, flats, mididata);
+			break;
+
+		case 0x7F:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Proprietary (aka Sequencer) Event, length %d",
+				event->midi_buffer_length);
+			break;
+
+		default:
+			goto error;
+	}
+
+	return buf;
+
+error:
+	free(buf);
+
+	return NULL;
+}
+
+char *
+filter_midi_event(const smf_event_t *event, midicallback *mididata)
+{
+	int off = 0, channel;
+	char *buf, note[5];
+
+	/* + 1, because user-visible channels used to be in range <1-16>. */
+	channel = (event->midi_buffer[0] & 0x0F) + 1;
+
+	switch (event->midi_buffer[0] & 0xF0) {
+		case 0x80:
+			note_from_int(note, event->midi_buffer[1]);
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Note Off, channel %d, note %s, velocity %d",
+					channel, note, event->midi_buffer[2]);
+			break;
+
+		case NOTE_ON:
+			note_from_int(note, event->midi_buffer[1]);
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Note On, channel %d, note %s, velocity %d",
+					channel, note, event->midi_buffer[2]);
+			break;
+
+		case 0xA0:
+			note_from_int(note, event->midi_buffer[1]);
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Aftertouch, channel %d, note %s, pressure %d",
+					channel, note, event->midi_buffer[2]);
+			break;
+
+		case 0xB0:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Controller, channel %d, controller %d, value %d",
+					channel, event->midi_buffer[1], event->midi_buffer[2]);
+			break;
+
+		case 0xC0:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Program Change, channel %d, controller %d",
+					channel, event->midi_buffer[1]);
+			break;
+
+		case 0xD0:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Pressure, channel %d, pressure %d",
+					channel, event->midi_buffer[1]);
+			break;
+
+		case 0xE0:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Pitch Wheel, channel %d, value %d",
+					channel, ((int)event->midi_buffer[2] << 7) | (int)event->midi_buffer[2]);
+			break;
+
+		default:
+			free(buf);
+			return (NULL);
+	}
+
+	return (buf);
+}
 static int
-process_midi_event(smf_event_t *event)
+process_midi_event(smf_event_t *event, midicallback *mididata)
 {
 	int off = 0, i;
 	char *decoded, *type;
 
 	if (smf_event_is_metadata(event))
-		type = "Metadata";
+		g_message("\nMetadata = %s\n", filter_metadata(event, mididata));
 	else
-		type = "Event";
+		type = "Data";
+		//g_message("\nEvent = %s\n", filter_midi_event(event, mididata));
 	
 	decoded = smf_event_decode(event);
 
@@ -328,6 +536,8 @@ process_midi_event(smf_event_t *event)
 			*/
 	}
 
+	if (type == "Data")
+		//g_message("\nEvent = %s\n", filter_midi_event(event, mididata));
 	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
 		event->time_seconds, event->time_pulses, event->delta_time_pulses);
 
@@ -337,7 +547,7 @@ process_midi_event(smf_event_t *event)
 }
 
 static int
-cmd_events()
+cmd_events(midicallback *mididata)
 {
 	smf_event_t *event;
 
@@ -351,10 +561,12 @@ cmd_events()
 	smf_rewind(smf);
 
 	while ((event = smf_track_get_next_event(selected_track)) != NULL) {
+#ifdef DEBUG
 		/* print midi event */
-		show_event(event);
+		//show_event(event);
+#endif
 		/* Do something with the event */
-		process_midi_event(event);
+		process_midi_event(event, mididata);
 	}
 
 	smf_rewind(smf);
@@ -477,35 +689,6 @@ error:
 	return -1;
 }
 
-static int
-cmd_tempo(char *notused)
-{
-	int i;
-	smf_tempo_t *tempo;
-
-	for (i = 0;; i++) {
-		tempo = smf_get_tempo_by_number(smf, i);
-		if (tempo == NULL)
-			break;
-
-		g_message("Tempo #%d: Starts at %d pulses, %f seconds, setting %d microseconds per quarter note, %.2f BPM.",
-			i, tempo->time_pulses, tempo->time_seconds, tempo->microseconds_per_quarter_note,
-			60000000.0 / (double)tempo->microseconds_per_quarter_note);
-		g_message("Time signature: %d/%d, %d clocks per click, %d 32nd notes per quarter note.",
-			tempo->numerator, tempo->denominator, tempo->clocks_per_click, tempo->notes_per_note);
-	}
-
-	return 0;
-}
-
-static int
-cmd_length(char *notused)
-{
-	g_message("Length: %d pulses, %f seconds.", smf_get_length_pulses(smf), smf_get_length_seconds(smf));
-
-	return 0;
-}
-
 DenemoObject * new_dnm_object(notetype length){
 	DenemoObject *mudela_obj_new;
 	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, length.tied);
@@ -541,8 +724,7 @@ readtrack (midicallback *mididata)
 {
   /* Get a listing of events 
    and decide what to do with them */  
-  cmd_events();
-
+  cmd_events(mididata);
 }
 
 /**
@@ -550,16 +732,15 @@ readtrack (midicallback *mididata)
  *
  */
 void
-dotimesig (FILE * fp, midicallback *mididata)
+dotimesig (gint numerator, gint denominator, midicallback *mididata)
 {
   /*only does initial TS */
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
 
-  //curstaffstruct->timesig.time1 = readBytes (fp, 1);
-  //curstaffstruct->timesig.time2 = (gint) pow (2, (readBytes (fp, 1)));
+  curstaffstruct->timesig.time1 = numerator;
+  curstaffstruct->timesig.time2 = denominator;
 
-  mididata->barlength = mididata->PPQN * 4 * curstaffstruct->timesig.time1 / curstaffstruct->timesig.time2;
-  //readBytes (fp, 2);		/*skip last two characters */
+  mididata->barlength = mididata->PPQN * 4 * numerator / denominator;
 }
 
 /**
@@ -567,57 +748,44 @@ dotimesig (FILE * fp, midicallback *mididata)
  *
  */
 void
-dokeysig (FILE * fp, midicallback *mididata)
+dokeysig (gint isminor, gint key, midicallback *mididata)
 {
-  /*assume major */
-  gint isminor = 0;
-  gint key = mididata->key;
- // key = readBytes (fp, 1);	/*read in sharps */
-  //isminor = readBytes (fp, 1);
 
   if (key > 7)
     key = key - 256;		/*get flat key num, see keysigdialog.cpp */
-
+#ifdef DEBUG
+  g_print("\nkey = %d\n", key); 
+#endif
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;
-  dnm_setinitialkeysig (curstaffstruct, key, isminor);
+  /* is this needed ?*/
+  //dnm_setinitialkeysig (curstaffstruct, flats, isminor);
 }
 
 void
-dotempo (FILE * fp, midicallback *mididata)
-{
-  gint tempo, n, x;
-  x = n = 0;
-  //while (n++ < 3)
-   // x = ((x & 0x007FFFFF) << 8) + (gint) readBytes (fp, 1);
-  tempo = (gint) (6.0e7 / (double) x);
-  mididata->gui->si->tempo = tempo;
+dotempo (gint tempo, midicallback *mididata)
+{ 
+  mididata->gui->si->tempo = (gint) (6.0e7 / (double) tempo);
 }
 
 void
-dotrackname (FILE * fp, midicallback *mididata, gint x)
+dotrackname (gchar *name, midicallback *mididata)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
-  GString *temp = g_string_new(""); 
-  //while (x-- > 0)
-//	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
-
-  curstaffstruct->denemo_name->str = g_strdup(temp->str);
+  
+  curstaffstruct->denemo_name->str = g_strdup(name);
   dnm_set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
-  g_string_free (temp, FALSE);
+  //g_string_free (temp, FALSE);
 }
 
 void
-doinstrname (FILE * fp,  midicallback *mididata, gint x)
+doinstrname (gchar* name,  midicallback *mididata)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
-  GString *temp = g_string_new("");  
-  //while (x-- > 0)
-//	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
 
-  curstaffstruct->midi_instrument->str = g_strdup(temp->str);
-  g_string_free (temp, FALSE);
+  curstaffstruct->midi_instrument->str = g_strdup(name);
+  //g_string_free (temp, FALSE);
 }
 
 static nstack *

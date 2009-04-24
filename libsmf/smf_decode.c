@@ -11,7 +11,7 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
- * ALTHOUGH THIS SOFTWARE IS MADE OF SCIENCE AND WIN, IT IS PROVIDED BY THE
+ * ALTHOUGH THIS SOFTWARE IS MADE OF WIN AND SCIENCE, IT IS PROVIDED BY THE
  * AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
  * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
@@ -25,10 +25,11 @@
  *
  */
 
-/*
- * This is Standard MIDI File format implementation, event decoding routines.
+/**
+ * \file
  *
- * For questions and comments, contact Edward Tomasz Napierala <trasz@FreeBSD.org>.
+ * Event decoding routines.
+ *
  */
 
 #include <stdlib.h>
@@ -55,13 +56,13 @@ smf_event_is_metadata(const smf_event_t *event)
 	assert(event->midi_buffer_length > 0);
 	
 	if (event->midi_buffer[0] == 0xFF)
-		return 1;
+		return (1);
 
-	return 0;
+	return (0);
 }
 
 /**
- * \return Nonzero if event is system realtime.
+ * \return Nonzero if event is System Realtime.
  */
 int
 smf_event_is_system_realtime(const smf_event_t *event)
@@ -70,16 +71,16 @@ smf_event_is_system_realtime(const smf_event_t *event)
 	assert(event->midi_buffer_length > 0);
 
 	if (smf_event_is_metadata(event))
-		return 0;
+		return (0);
 	
 	if (event->midi_buffer[0] >= 0xF8)
-		return 1;
+		return (1);
 
-	return 0;
+	return (0);
 }
 
 /**
- * \return Nonzero if event is system common.
+ * \return Nonzero if event is System Common.
  */
 int
 smf_event_is_system_common(const smf_event_t *event)
@@ -88,9 +89,9 @@ smf_event_is_system_common(const smf_event_t *event)
 	assert(event->midi_buffer_length > 0);
 
 	if (event->midi_buffer[0] >= 0xF0 && event->midi_buffer[0] <= 0xF7)
-		return 1;
+		return (1);
 
-	return 0;
+	return (0);
 }
 /**
   * \return Nonzero if event is SysEx message.
@@ -102,9 +103,9 @@ smf_event_is_sysex(const smf_event_t *event)
 	assert(event->midi_buffer_length > 0);
 	
 	if (event->midi_buffer[0] == 0xF0)
-		return 1;
+		return (1);
 
-	return 0;
+	return (0);
 }
 
 static char *
@@ -116,18 +117,18 @@ smf_event_decode_textual(const smf_event_t *event, const char *name)
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode_textual: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
-	extracted = smf_string_from_event(event);
+	extracted = smf_event_extract_text(event);
 	if (extracted == NULL) {
 		free(buf);
-		return NULL;
+		return (NULL);
 	}
 
 	snprintf(buf + off, BUFFER_SIZE - off, "%s: %s", name, extracted);
 
-	return buf;
+	return (buf);
 }
 
 static char *
@@ -146,31 +147,31 @@ smf_event_decode_metadata(const smf_event_t *event)
 
 	switch (event->midi_buffer[1]) {
 		case 0x01:
-			return smf_event_decode_textual(event, "Text");
+			return (smf_event_decode_textual(event, "Text"));
 
 		case 0x02:
-			return smf_event_decode_textual(event, "Copyright");
+			return (smf_event_decode_textual(event, "Copyright"));
 
 		case 0x03:
-			return smf_event_decode_textual(event, "Sequence/Track Name");
+			return (smf_event_decode_textual(event, "Sequence/Track Name"));
 
 		case 0x04:
-			return smf_event_decode_textual(event, "Instrument");
+			return (smf_event_decode_textual(event, "Instrument"));
 
 		case 0x05:
-			return smf_event_decode_textual(event, "Lyric");
+			return (smf_event_decode_textual(event, "Lyric"));
 
 		case 0x06:
-			return smf_event_decode_textual(event, "Marker");
+			return (smf_event_decode_textual(event, "Marker"));
 
 		case 0x07:
-			return smf_event_decode_textual(event, "Cue Point");
+			return (smf_event_decode_textual(event, "Cue Point"));
 
 		case 0x08:
-			return smf_event_decode_textual(event, "Program Name");
+			return (smf_event_decode_textual(event, "Program Name"));
 
 		case 0x09:
-			return smf_event_decode_textual(event, "Device (Port) Name");
+			return (smf_event_decode_textual(event, "Device (Port) Name"));
 
 		default:
 			break;
@@ -179,7 +180,7 @@ smf_event_decode_metadata(const smf_event_t *event)
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode_metadata: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	switch (event->midi_buffer[1]) {
@@ -194,7 +195,7 @@ smf_event_decode_metadata(const smf_event_t *event)
 				goto error;
 			}
 
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Prefix: %d.", event->midi_buffer[3]);
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Prefix: %d", event->midi_buffer[3]);
 			break;
 
 		case 0x21:
@@ -203,7 +204,7 @@ smf_event_decode_metadata(const smf_event_t *event)
 				goto error;
 			}
 
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Midi Port: %d.", event->midi_buffer[3]);
+			off += snprintf(buf + off, BUFFER_SIZE - off, "MIDI Port: %d", event->midi_buffer[3]);
 			break;
 
 		case 0x2F:
@@ -280,12 +281,12 @@ smf_event_decode_metadata(const smf_event_t *event)
 			goto error;
 	}
 
-	return buf;
+	return (buf);
 
 error:
 	free(buf);
 
-	return NULL;
+	return (NULL);
 }
 
 static char *
@@ -298,13 +299,13 @@ smf_event_decode_system_realtime(const smf_event_t *event)
 
 	if (event->midi_buffer_length != 1) {
 		g_critical("smf_event_decode_system_realtime: event length is not 1.");
-		return NULL;
+		return (NULL);
 	}
 
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode_system_realtime: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	switch (event->midi_buffer[0]) {
@@ -334,10 +335,10 @@ smf_event_decode_system_realtime(const smf_event_t *event)
 
 		default:
 			free(buf);
-			return NULL;
+			return (NULL);
 	}
 
-	return buf;
+	return (buf);
 }
 
 static char *
@@ -350,13 +351,13 @@ smf_event_decode_sysex(const smf_event_t *event)
 
 	if (event->midi_buffer_length < 5) {
 		g_critical("smf_event_decode_sysex: truncated MIDI message.");
-		return NULL;
+		return (NULL);
 	}
 
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode_sysex: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	manufacturer = event->midi_buffer[1];
@@ -368,7 +369,7 @@ smf_event_decode_sysex(const smf_event_t *event)
 	} else {
 		off += snprintf(buf + off, BUFFER_SIZE - off, "SysEx, manufacturer 0x%x", manufacturer);
 
-		return buf;
+		return (buf);
 	}
 
 	subid = event->midi_buffer[3];
@@ -423,7 +424,7 @@ smf_event_decode_sysex(const smf_event_t *event)
 		off += snprintf(buf + off, BUFFER_SIZE - off, ", Single Note Tuning Change (Bank)");
 
 	else if (subid == 0x09)
-		off += snprintf(buf + off, BUFFER_SIZE - off, ", General Midi %s", subid2 == 0 ? "disable" : "enable");
+		off += snprintf(buf + off, BUFFER_SIZE - off, ", General MIDI %s", subid2 == 0 ? "disable" : "enable");
 
 	else if (subid == 0x7C)
 		off += snprintf(buf + off, BUFFER_SIZE - off, ", Sample Dump Wait");
@@ -440,7 +441,7 @@ smf_event_decode_sysex(const smf_event_t *event)
 	else
 		off += snprintf(buf + off, BUFFER_SIZE - off, ", Unknown");
 
-	return buf;
+	return (buf);
 }
 
 static char *
@@ -452,12 +453,12 @@ smf_event_decode_system_common(const smf_event_t *event)
 	assert(smf_event_is_system_common(event));
 
 	if (smf_event_is_sysex(event))
-		return smf_event_decode_sysex(event);
+		return (smf_event_decode_sysex(event));
 
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode_system_realtime: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	switch (event->midi_buffer[0]) {
@@ -479,10 +480,10 @@ smf_event_decode_system_common(const smf_event_t *event)
 
 		default:
 			free(buf);
-			return NULL;
+			return (NULL);
 	}
 
-	return buf;
+	return (buf);
 }
 
 static void
@@ -500,85 +501,94 @@ note_from_int(char *buf, int note_number)
 /**
  * \return Textual representation of the event given, or NULL, if event is unknown.
  * Returned string looks like this:
- * Note On, channel 0, note F#3, velocity 0
+ *
+ * Note On, channel 1, note F#3, velocity 0
+ *
+ * You should free the returned string afterwards, using free(3).
  */
 char *
 smf_event_decode(const smf_event_t *event)
 {
-	int off = 0;
+	int off = 0, channel;
 	char *buf, note[5];
 
 	if (smf_event_is_metadata(event))
-		return smf_event_decode_metadata(event);
+		return (smf_event_decode_metadata(event));
 
 	if (smf_event_is_system_realtime(event))
-		return smf_event_decode_system_realtime(event);
+		return (smf_event_decode_system_realtime(event));
 
 	if (smf_event_is_system_common(event))
-		return smf_event_decode_system_common(event);
+		return (smf_event_decode_system_common(event));
 
 	if (!smf_event_length_is_valid(event)) {
 		g_critical("smf_event_decode: incorrect MIDI message length.");
-		return NULL;
+		return (NULL);
 	}
 
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
+
+	/* + 1, because user-visible channels used to be in range <1-16>. */
+	channel = (event->midi_buffer[0] & 0x0F) + 1;
 
 	switch (event->midi_buffer[0] & 0xF0) {
 		case 0x80:
 			note_from_int(note, event->midi_buffer[1]);
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Note Off, channel %d, note %s, velocity %d",
-					event->midi_buffer[0] & 0x0F, note, event->midi_buffer[2]);
+					channel, note, event->midi_buffer[2]);
 			break;
 
 		case 0x90:
 			note_from_int(note, event->midi_buffer[1]);
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Note On, channel %d, note %s, velocity %d",
-					event->midi_buffer[0] & 0x0F, note, event->midi_buffer[2]);
+					channel, note, event->midi_buffer[2]);
 			break;
 
 		case 0xA0:
 			note_from_int(note, event->midi_buffer[1]);
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Aftertouch, channel %d, note %s, pressure %d",
-					event->midi_buffer[0] & 0x0F, note, event->midi_buffer[2]);
+					channel, note, event->midi_buffer[2]);
 			break;
 
 		case 0xB0:
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Controller, channel %d, controller %d, value %d",
-					event->midi_buffer[0] & 0x0F, event->midi_buffer[1], event->midi_buffer[2]);
+					channel, event->midi_buffer[1], event->midi_buffer[2]);
 			break;
 
 		case 0xC0:
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Program Change, channel %d, controller %d",
-					event->midi_buffer[0] & 0x0F, event->midi_buffer[1]);
+					channel, event->midi_buffer[1]);
 			break;
 
 		case 0xD0:
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Pressure, channel %d, pressure %d",
-					event->midi_buffer[0] & 0x0F, event->midi_buffer[1]);
+					channel, event->midi_buffer[1]);
 			break;
 
 		case 0xE0:
 			off += snprintf(buf + off, BUFFER_SIZE - off, "Pitch Wheel, channel %d, value %d",
-					event->midi_buffer[0] & 0x0F, ((int)event->midi_buffer[2] << 7) | (int)event->midi_buffer[2]);
+					channel, ((int)event->midi_buffer[2] << 7) | (int)event->midi_buffer[2]);
 			break;
 
 		default:
 			free(buf);
-			return NULL;
+			return (NULL);
 	}
 
-	return buf;
+	return (buf);
 }
 
 /**
  * \return Textual representation of the data extracted from MThd header, or NULL, if something goes wrong.
  * Returned string looks like this:
+ *
  * format: 1 (several simultaneous tracks); number of tracks: 4; division: 192 PPQN.
+ *
+ * You should free the returned string afterwards, using free(3).
  */
 char *
 smf_decode(const smf_t *smf)
@@ -589,7 +599,7 @@ smf_decode(const smf_t *smf)
 	buf = malloc(BUFFER_SIZE);
 	if (buf == NULL) {
 		g_critical("smf_event_decode: malloc failed.");
-		return NULL;
+		return (NULL);
 	}
 
 	off += snprintf(buf + off, BUFFER_SIZE - off, "format: %d ", smf->format);
@@ -619,6 +629,6 @@ smf_decode(const smf_t *smf)
 	else
 		off += snprintf(buf + off, BUFFER_SIZE - off, "; division: %d FPS, %d resolution", smf->frames_per_second, smf->resolution);
 
-	return buf;
+	return (buf);
 }
 
