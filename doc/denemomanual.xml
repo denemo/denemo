@@ -660,7 +660,13 @@ The menus in Denemo are unusual: they not only let you do some particular action
               <entry>A (limited) palette of expression marks etc to apply to notes. More are in the menu system under Markings.</entry>
             </row>
 
-           
+            <row>
+              <entry>Score Titles</entry>
+
+              <entry>If this is checked any Titles, indent settings etc applying to the score are shown at the top of the score. The area can be clicked on for editing them.</entry>
+            </row>
+
+              
             <row>
               <entry>Menu of Objects</entry>
 

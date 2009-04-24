@@ -111,6 +111,7 @@ SCM call_out_to_guile(char *script) {
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define TogglePrintView_STRING  "TogglePrintView"
 #define ToggleScoreView_STRING  "ToggleScoreView"
+#define ToggleScoreTitles_STRING  "ToggleScoreTitles"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
@@ -3903,6 +3904,18 @@ toggle_score_view (GtkAction *action, gpointer param)
   return;
 }
 /**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+static void
+toggle_scoretitles (GtkAction *action, gpointer param)
+{
+  Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles;
+  if(Denemo.gui && Denemo.gui->scorearea)gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return;
+}
+/**
  *  Function to toggle whether object menubar is visible 
  *  
  *  
@@ -3936,11 +3949,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleEntryToolbar_STRING, NULL, N_("Note and rest entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), FALSE}
   ,
-#if 0
-  {ToggleActionMenu_STRING, NULL, N_("Menu of actions"), NULL, N_("Show/hide a menu which is arranged by actions\nThe actions are independent of any mode set"),
-   G_CALLBACK (toggle_action_menu), FALSE}
-  ,
-#endif
   {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), FALSE}
   ,
@@ -3958,6 +3966,8 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_print_view), FALSE},
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
+  {ToggleScoreTitles_STRING, NULL, N_("Score Titles"), NULL, NULL,
+   G_CALLBACK (toggle_scoretitles), TRUE},
 
 
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
@@ -4438,12 +4448,17 @@ get_data_dir (),
   gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
   gtk_widget_show (hbox);
 
-create_scheme_window();
+  create_scheme_window();
 
   populate_opened_recent ();
   gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
+  if (!Denemo.prefs.visible_titles) {
+    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
+    Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles; 
+  }
 
 #if 1 /* bug #25562 : apparently several people have tried to fix it this way */
 
@@ -4586,7 +4601,6 @@ Denemo.gui = gui;
   gtk_widget_show (score_and_scroll_hbox);
   //gtk_grab_remove(toolbar);  ?????????
   gui->scorearea = gtk_drawing_area_new ();
-
 
 
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,

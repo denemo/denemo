@@ -745,7 +745,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.highy = 0;//in case there are no objects...
   y = 0;
   //draw score title etc above top staff, if it is visible and if desired by score directives
-  if(si->top_staff==1) {
+  if(si->top_staff==1 && Denemo.prefs.visible_titles) {
     static last_y;
     curstaff = si->thescore;
     gint space = ((DenemoStaff *) curstaff->data)->space_above;

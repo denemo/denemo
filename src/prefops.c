@@ -103,6 +103,7 @@ initprefs ()
   ret->maxhistory = 20;
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
+  ret->visible_titles = TRUE;
   ret->rhythm_palette = TRUE;
   ret->history = g_queue_new ();
 
@@ -229,6 +230,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(lilyentrystyle)
       READINTXMLENTRY(notation_palette)
       READINTXMLENTRY(articulation_palette)
+      READINTXMLENTRY(visible_titles)
       READINTXMLENTRY(rhythm_palette) 
      
       READXMLENTRY(lilyversion) 
@@ -437,6 +439,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(rtcs)
   WRITEINTXMLENTRY(notation_palette)
   WRITEINTXMLENTRY(articulation_palette)
+  WRITEINTXMLENTRY(visible_titles)
   WRITEINTXMLENTRY(rhythm_palette)
   
   WRITEXMLENTRY(browser) 

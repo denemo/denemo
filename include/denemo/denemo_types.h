@@ -302,7 +302,8 @@ typedef struct DenemoPrefs
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
-  gboolean createclones; 
+  gboolean createclones;
+  gboolean visible_titles;/*< whether the titles should be shown at the top of the score area */
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
   gboolean notation_palette; /**< This switch makes the duration toolbar visable */
   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */

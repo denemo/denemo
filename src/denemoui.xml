@@ -73,7 +73,7 @@
       <menuitem action="ToggleRhythmToolbar"/>
       <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleArticulationPalette"/>
-      
+      <menuitem action="ToggleScoreTitles"/>
       <menuitem action="ToggleObjectMenu"/>
       <menuitem action="ToggleLilyText"/>
       <menuitem action="ToggleScript"/>
