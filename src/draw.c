@@ -747,13 +747,13 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   //draw score title etc above top staff, if it is visible and if desired by score directives
   if(si->top_staff==1) {
     static last_y;
+    curstaff = si->thescore;
+    gint space = ((DenemoStaff *) curstaff->data)->space_above;
     do {
       last_y = y;
       y = 0;
       gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, widget->allocation.width/*KEY_MARGIN*/, last_y);
-      y = draw_score_directives();
-      curstaff = si->thescore;
-      gint space = ((DenemoStaff *) curstaff->data)->space_above;
+      y = draw_score_directives();  
       if(space<y) 
 	space = ((DenemoStaff *) curstaff->data)->space_above = y;
     } while (last_y != y);
