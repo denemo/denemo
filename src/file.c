@@ -357,8 +357,11 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
       };
     case PNG_FORMAT:
       {
+	gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
 	gui->lilycontrol.excerpt = TRUE;
-	exportlilypond (file, gui, TRUE);
+	exportlilypond (lilyfile, gui,  TRUE);
+	run_lilypond(file, Denemo.gui);
+	gui->lilycontrol.excerpt = FALSE;
 	break;
       }
     case ABC_FORMAT:

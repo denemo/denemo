@@ -348,7 +348,7 @@ open_viewer(GPid pid, gint status, gchar *filename){
 
 }
 
-static void
+void
 run_lilypond(gchar *filename, DenemoGUI *gui){
 
   gchar **arguments;
