@@ -952,7 +952,7 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
     set_title_bar (gui);
   }
 
-  new_score(gui);
+  point_to_new_movement(gui);
   gui->movements = g_list_append(gui->movements, gui->si);
   set_width_to_work_with(gui);
   set_rightmeasurenum (gui->si);

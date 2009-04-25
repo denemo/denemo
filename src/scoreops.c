@@ -20,11 +20,11 @@ static remove_all_staffs(DenemoScore * si);
 
 
 /**
- * Create new DenemoScore with one empty staff
- * 
+ * Create new DenemoScore with no staff
+ * set it as gui->si but do not add it to the movements list.
  */
 void
-new_empty_score (DenemoGUI *gui)
+point_to_empty_movement (DenemoGUI *gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
@@ -32,19 +32,19 @@ new_empty_score (DenemoGUI *gui)
 }
 /**
  * Create new DenemoScore with one empty staff
- * 
+ * set it as gui->si but do not add it to the movements list.
  */
 void
-new_score (DenemoGUI *gui)
+point_to_new_movement (DenemoGUI *gui)
 {
-  new_empty_score(gui);
+  point_to_empty_movement(gui);
   newstaff (gui, INITIAL, DENEMO_NONE);
 }
 
 
 static void
 new_movement(DenemoGUI *gui, gboolean before) {
-  new_score(gui);
+  point_to_new_movement(gui);
   if(before) 
     gui->movements = g_list_prepend(gui->movements, gui->si);//FIXME insert before g_list_find(gui->movements, si)
   else

@@ -9,8 +9,8 @@
 #ifndef SCOREOPS_H
 #define SCOREOPS_H
 
-void new_empty_score(DenemoGUI * gui);
-void new_score(DenemoGUI * gui);
+void point_to_empty_movement/*new_empty_score*/(DenemoGUI * gui);
+void point_to_new_movement/*new_score*/(DenemoGUI * gui);
 void init_score (DenemoScore *si, DenemoGUI * gui);
 
 void free_score (DenemoGUI *gui);

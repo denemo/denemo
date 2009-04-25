@@ -4638,8 +4638,8 @@ Denemo.gui = gui;
   //FIXME populate_opened_recent (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
-   which it cannot do before there is a score. */
-  new_score (gui);
+   which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
+  point_to_new_movement (gui);
   gui->movements = g_list_append(NULL, gui->si);
  
 

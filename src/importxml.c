@@ -2659,7 +2659,9 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       FOREACH_CHILD_ELEM(childElem, rootElem){
 	if (ELEM_NAME_EQ (childElem, "lilycontrol") 
 	    || ELEM_NAME_EQ (childElem, "custom_scoreblock")
-	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")){
+	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")
+	    || ELEM_NAME_EQ (childElem, "scoreheader-directives")
+	    || ELEM_NAME_EQ (childElem, "paper-directives")){
 	  continue;
 	} else
 	ret |=  parseMovement(childElem, ns, gui, type);
@@ -2671,12 +2673,16 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       FOREACH_CHILD_ELEM(childElem, rootElem){
 	if (ELEM_NAME_EQ (childElem, "lilycontrol") 
 	    || ELEM_NAME_EQ (childElem, "custom_scoreblock")
-	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")){
+	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")
+	    || ELEM_NAME_EQ (childElem, "scoreheader-directives")
+	    || ELEM_NAME_EQ (childElem, "paper-directives")){
 	  continue;/* do not change the header when adding movements parseScoreInfo(childElem, ns, gui);*/
-	} else {
-	  new_empty_score(gui);
+	} else	if (ELEM_NAME_EQ (childElem, "movement")) {
+	  point_to_empty_movement(gui);
 	  ret |=  parseMovement(childElem, ns, gui, type);
 	  //g_print("parsed movement\n");
+	} else {
+	  g_warning("Unexpected %s\n", childElem->name); 
 	}
       }
       break;
@@ -2735,12 +2741,12 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 		      }
 		    }  else 
 		      if (ELEM_NAME_EQ (childElem, "movement")){
-			new_empty_score(gui);
+			point_to_empty_movement (gui);
 			ret |=  parseMovement(childElem, ns, gui, type);
 		      } else 
 			{
 			  g_warning("unrecognized element in score -assuming movement");
-			  new_empty_score(gui);
+			  point_to_empty_movement(gui);
 			  ret |=  parseMovement(childElem, ns, gui, type);
 			}
       }
@@ -2758,7 +2764,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       ret +=  parseMovement(rootElem, ns, gui, type);
       break;
     case ADD_MOVEMENTS:
-      new_empty_score(gui);
+      point_to_empty_movement(gui);
       ret =  parseMovement(rootElem, ns, gui, type);
       break;
     case REPLACE_SCORE:
