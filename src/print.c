@@ -445,7 +445,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
     fclose(fp);
   g_free(printfile);
   run_lilypond(filename, gui);
-  g_print("print pid is %d\n", printpid);
+  //  g_print("print pid is %d\n", printpid);
   g_child_watch_add (printpid, (GChildWatchFunc)open_viewer  /*  GChildWatchFunc function */, filename);
 }
 
@@ -454,12 +454,12 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
    The returned string should not be freed.
 */
    
-gchar *get_printfile_pathbasename(void) {
+gchar *get_printfile_pathbasename(gboolean new) {
   static gchar *filename = NULL;
 #ifdef G_OS_WIN32
  {
    static int count=1;
-   gchar *denemoprint = g_strdup_printf("denemoprint%d", count);
+   gchar *denemoprint = g_strdup_printf("denemoprint%d", new?count:--count);
    count++;
    if(filename)
      g_free(filename);
@@ -481,7 +481,7 @@ gchar *get_printfile_pathbasename(void) {
 static void
 print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
-  gchar *filename = get_printfile_pathbasename();
+  gchar *filename = get_printfile_pathbasename(TRUE);
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   remove (lilyfile);
   if(part_only)
@@ -609,6 +609,12 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
 
 }
 
+
+void printpdf_finished() {
+  g_spawn_close_pid (printpid);
+  printpid = GPID_UNREF_VALUE;
+  infodialog("Your pdf file has now been created");
+}
 /**
  * Does all the export pdf work.
  * calls exportmudela and then  
@@ -670,30 +676,18 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
 
   /* generate the pdf file */
   run_lilypond(tmpfile, gui);
-  //FIXME waitpid!!!!!!! or child wait...
+
   gint status;
-  if(printpid!=GPID_UNREF_VALUE)
-    waitpid(printpid, &status, 0);
-  if (0)//(err != NULL)
-    {
-      g_warning ("%s", err->message);
-      if(err) g_error_free (err);
-      remove (mudelafile);
-
-      g_free (tmpfile);
-      g_free (mudelafile);
-      g_free (midifile);
-      g_free (dvifile);
-      g_free (psfile);
-      g_free (pdffile);
-
-      return;
+  if(printpid!=GPID_UNREF_VALUE) {
+    //    g_print("print pid is %d\n", printpid);
+    g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, NULL);
+    while(printpid!=GPID_UNREF_VALUE) {
+      gtk_main_iteration_do(FALSE);
     }
-
-  /* move the pdf file to its destination */
-  if (rename (pdffile, filename) != 0)
-    g_warning ("Failed to rename %s to %s\n", pdffile, filename);
-
+    /* move the pdf file to its destination */
+    if (rename (pdffile, filename) != 0)
+      warningdialog (g_strdup_printf("Failed to rename %s to %s\n", pdffile, filename));
+  }
   /* remove unnecessary files and free the memory */
   remove (mudelafile);
   remove (midifile);
@@ -741,6 +735,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 	  if (replace_existing_file_dialog
 	      (filename, GTK_WINDOW (Denemo.window), -1))
 	    {
+	      gtk_widget_destroy (file_selection);
 	      export_pdf (filename, gui);
 	      close = TRUE;
 	    }
@@ -748,13 +743,12 @@ export_pdf_action (GtkAction *action, gpointer param)
 	}
       else
 	{
+	  gtk_widget_destroy (file_selection);
 	  close = TRUE;
 	}
 
     }
   while (!close);
-
-  gtk_widget_destroy (file_selection);
 }
 
 
@@ -836,7 +830,9 @@ printview_finished(void) {
   printviewpid = GPID_UNREF_VALUE;
   GError *error = NULL;
   normal_cursor();
-  gchar * path = g_build_filename(locatedotdenemo (), "denemoprint_.png", NULL);
+
+  gchar *filename = get_printfile_pathbasename(FALSE);
+  gchar *path = g_strconcat (filename, "_.png", NULL);
   if(gui->pixbuf)
     g_object_unref(gui->pixbuf);
   gui->pixbuf = gdk_pixbuf_new_from_file (path, &error);
@@ -876,7 +872,7 @@ void refresh_print_view (void) {
       return;
     }
   }
-  gchar *filename = get_printfile_pathbasename();
+  gchar *filename = get_printfile_pathbasename(TRUE);
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
