@@ -582,6 +582,7 @@ printpart_cb (GtkAction *action, gpointer param) {
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
+      gui->lilycontrol.excerpt = TRUE;
     }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
