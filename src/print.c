@@ -42,11 +42,12 @@ typedef struct lilyversion
   gint minor;
 }lilyversion;
 
-static GPid printviewpid = GPID_UNREF_VALUE;
+#define GPID_NONE (-1)
+static GPid printviewpid = GPID_NONE;
 
-static GPid printpid = GPID_UNREF_VALUE;
-static gint output=NULL;
-static gint errors=NULL;
+static GPid printpid = GPID_NONE;
+static gint output=-1;
+static gint errors=-1;
 static   GError *lily_err = NULL;
 
 /*** 
@@ -198,19 +199,21 @@ static void truncate_lines(gchar *epoint) {
 void convert_ly(gchar *lilyfile){
   GError *err = NULL;
 #ifdef G_OS_WIN32
-/*   gchar *dirname = g_path_get_dirname (Denemo.prefs.lilypath->str ); */
-/*   gchar *convert = g_build_filename(dirname, "convert-ly.py");// FIXME memory leaks */
-
-#else
-  gchar *convert = "convert-ly";
-
   gchar *conv_argv[] = {
-    convert,
+    "python"
+    "convert-ly.py",
     "-e",
     lilyfile,
     NULL
   };
-
+#else
+  gchar *conv_argv[] = {
+    "convert-ly",
+    "-e",
+    lilyfile,
+    NULL
+  };
+#endif
   g_spawn_sync (locatedotdenemo (),		/* dir */
 		conv_argv, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH, NULL,	/* child setup func */
@@ -221,12 +224,10 @@ void convert_ly(gchar *lilyfile){
 
   if (err != NULL)
     {
-      warningdialog("Could not execute lilypond's convert-ly program - check lilypond installation or just ignore");
       g_warning ("%s", err->message);
       if(err) g_error_free (err);
       err = NULL;
     }
-#endif
 }
 
 static void
@@ -234,12 +235,15 @@ process_lilypond_errors(gchar *filename){
   DenemoGUI *gui = Denemo.gui;
   if (errors == -1)
     return;
-  gchar *filename_colon = g_strdup_printf("%s.ly%s", filename, ":");
-  //g_print("filename_colon = %s\n", filename_colon);
+  gchar *basename = g_path_get_basename(filename);
+  gchar *filename_colon = g_strdup_printf("%s.ly%s", basename, ":");
+  g_free(basename);
   gchar *epoint = NULL;
 #define bufsize (1000)
   gchar *bytes = g_malloc0(bufsize);
   gint numbytes = read(errors, bytes, bufsize-1);
+  close(errors);
+  errors = -1;
   if(numbytes==-1) {
     g_free(bytes);
     return;
@@ -281,18 +285,18 @@ process_lilypond_errors(gchar *filename){
 }
 
 static void
-open_viewer(GPid pid, gint status, gchar *filename){
+open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   DenemoGUI *gui = Denemo.gui;
   GError *err = NULL;
   gchar *printfile;
   gchar **arguments;
   g_spawn_close_pid (printpid);
-  printpid = GPID_UNREF_VALUE;
+  printpid = GPID_NONE;
   //normal_cursor();
 
   process_lilypond_errors(filename); 
 
-  if (gui->lilycontrol.excerpt == TRUE)
+  if (is_png)
 	printfile = g_strconcat (filename, ".png", NULL);
   else
   	printfile = g_strconcat (filename, ".pdf", NULL);
@@ -317,7 +321,7 @@ open_viewer(GPid pid, gint status, gchar *filename){
     printfile,
     NULL
   };
-  if (gui->lilycontrol.excerpt == TRUE){
+  if (is_png){
 
     arguments = png;
   }
@@ -325,7 +329,6 @@ open_viewer(GPid pid, gint status, gchar *filename){
 
     arguments = pdf;  
   }
-
 
   g_spawn_async (locatedotdenemo (),		/* dir */
 		 arguments, NULL,	/* env */
@@ -343,9 +346,18 @@ open_viewer(GPid pid, gint status, gchar *filename){
       err = NULL;
       if(err) g_error_free (err);
     }
-
   g_free(printfile);
+}
 
+
+static void
+open_pngviewer(GPid pid, gint status, gchar *filename){
+      open_viewer(pid, status, filename, TRUE);
+}
+
+static void
+open_pdfviewer(GPid pid, gint status, gchar *filename){
+     open_viewer(pid, status, filename, FALSE);
 }
 
 void
@@ -411,7 +423,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		NULL,		/* user data */
 		&printpid,
 	        NULL,
-		&output,		/* stdout */
+		NULL,		/* stdout */
 		&errors,		/* stderr */
 		&lily_err);
 }
@@ -423,11 +435,11 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
  */
 void
 run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
-  if(printpid!=GPID_UNREF_VALUE) {
+  if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printviewpid!=GPID_UNREF_VALUE) //It could have died while the user was making up their mind...
+      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
 	 kill_process(printpid);
-      printpid = GPID_UNREF_VALUE;
+      printpid = GPID_NONE;
     }
     else {
       warningdialog ("Cancelled");
@@ -446,7 +458,10 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   g_free(printfile);
   run_lilypond(filename, gui);
   //  g_print("print pid is %d\n", printpid);
-  g_child_watch_add (printpid, (GChildWatchFunc)open_viewer  /*  GChildWatchFunc function */, filename);
+  if (gui->lilycontrol.excerpt == TRUE)
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
+  else
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
 }
 
 /* returns the base name (~/.denemo/denemoprint usually) used as a base
@@ -454,23 +469,8 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
    The returned string should not be freed.
 */
    
-gchar *get_printfile_pathbasename(gboolean new) {
-  static gchar *filename = NULL;
-#ifdef G_OS_WIN32
- {
-   static int count=1;
-   gchar *denemoprint = g_strdup_printf("denemoprint%d", new?count:--count);
-   count++;
-   if(filename)
-     g_free(filename);
-   filename = g_build_filename ( locatedotdenemo (), denemoprint, NULL);
-   g_free(denemoprint);
- }
-#else
-  if (!filename)
-      filename = g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
-#endif
-  return filename;
+gchar *get_printfile_pathbasename(void) {
+  return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
 }
 
 /*  Print function 
@@ -481,7 +481,7 @@ gchar *get_printfile_pathbasename(gboolean new) {
 static void
 print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
-  gchar *filename = get_printfile_pathbasename(TRUE);
+  gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   remove (lilyfile);
   if(part_only)
@@ -489,6 +489,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
   else
     exportlilypond (lilyfile, gui,  all_movements);
   run_lilypond_and_viewer(filename, gui);
+  gui->lilycontrol.excerpt = FALSE;//The default value
   g_free(lilyfile);
 }
 
@@ -582,7 +583,6 @@ printpart_cb (GtkAction *action, gpointer param) {
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
-      gui->lilycontrol.excerpt = TRUE;
     }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
@@ -609,14 +609,13 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->firstmeasuremarked)
     print(gui, FALSE, FALSE);
-  //gui->lilycontrol.excerpt = FALSE;
-
+  gui->lilysync = G_MAXUINT;//re-create lilyview after printing excerpt
 }
 
 
 void printpdf_finished() {
   g_spawn_close_pid (printpid);
-  printpid = GPID_UNREF_VALUE;
+  printpid = GPID_NONE;
   infodialog("Your pdf file has now been created");
 }
 /**
@@ -682,10 +681,10 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   run_lilypond(tmpfile, gui);
 
   gint status;
-  if(printpid!=GPID_UNREF_VALUE) {
+  if(printpid!=GPID_NONE) {
     //    g_print("print pid is %d\n", printpid);
     g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, NULL);
-    while(printpid!=GPID_UNREF_VALUE) {
+    while(printpid!=GPID_NONE) {
       gtk_main_iteration_do(FALSE);
     }
     /* move the pdf file to its destination */
@@ -831,11 +830,11 @@ static void
 printview_finished(void) {
   DenemoGUI *gui = Denemo.gui;
   g_spawn_close_pid (printviewpid);
-  printviewpid = GPID_UNREF_VALUE;
+  printviewpid = GPID_NONE;
   GError *error = NULL;
   normal_cursor();
 
-  gchar *filename = get_printfile_pathbasename(FALSE);
+  gchar *filename = get_printfile_pathbasename();
   gchar *path = g_strconcat (filename, "_.png", NULL);
   if(gui->pixbuf)
     g_object_unref(gui->pixbuf);
@@ -852,7 +851,7 @@ printview_finished(void) {
      //but an error message results.
      g_signal_emit_by_name(gui->printarea, "configure_event", NULL, &ret, NULL);
    }
- g_object_set_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate", changecount);
+ g_object_set_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate", (gpointer) changecount);
  gtk_widget_queue_draw (gui->printarea);
 }
 
@@ -860,23 +859,23 @@ void refresh_print_view (void) {
   DenemoGUI *gui = Denemo.gui;
   GError *error = NULL;
   //g_print("printviewpid %d\n", printviewpid);
-  if(changecount == Denemo.gui->changecount && g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")==Denemo.gui->changecount) {
+  if((changecount == Denemo.gui->changecount) && ((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")==Denemo.gui->changecount)) {
     if(confirm ("No changes since last update", "Cancel refresh of print view?"))
       return;
   }
 
-  if(printviewpid!=GPID_UNREF_VALUE) {
+  if(printviewpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printviewpid!=GPID_UNREF_VALUE) //It could have died while the user was making up their mind...
+      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
 	 kill_process(printviewpid);
-      printviewpid = GPID_UNREF_VALUE;
+      printviewpid = GPID_NONE;
     }
     else {
       warningdialog ("Cancelled");
       return;
     }
   }
-  gchar *filename = get_printfile_pathbasename(TRUE);
+  gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
