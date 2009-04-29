@@ -568,6 +568,7 @@ printrangedialog(DenemoGUI * gui){
 void
 printall_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
+  gui->lilycontrol.excerpt = FALSE;
   gchar *str = g_strdup_printf("No direct printing yet\nWe will run the PDF viewer program %s so you can use its print command.\nYou can change the PDF viewer using \nEdit->Preferences->Externals->Pdf viewer.", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
   g_free(str);
@@ -577,9 +578,11 @@ printall_cb (GtkAction *action, gpointer param) {
 void
 printpart_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
+  gui->lilycontrol.excerpt = FALSE;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
+      gui->lilycontrol.excerpt = TRUE;
     }
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print this part from all of them?")))
@@ -591,6 +594,7 @@ printpart_cb (GtkAction *action, gpointer param) {
 void
 printpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
+  gui->lilycontrol.excerpt = FALSE;
   if(gui->si->markstaffnum)
     if(confirm("A range of music is selected","Print whole file?")){
       gui->si->markstaffnum=0;
@@ -605,7 +609,7 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->firstmeasuremarked)
     print(gui, FALSE, FALSE);
-  gui->lilycontrol.excerpt = FALSE;
+  //gui->lilycontrol.excerpt = FALSE;
 
 }
 
