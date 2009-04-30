@@ -1265,7 +1265,7 @@ outputHeader (GString *str, DenemoGUI * gui)
 
   g_string_append_printf (str, "%s", "%%http://www.gnu.org/software/denemo/\n\n");
   /*Print out lilypond syntax version */
-  g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
+  g_string_append_printf (str, "\\version \"%s\"\n", gui->lilycontrol.lilyversion->str/*LILYPOND_VERSION*/);
 
   /* print \paper block settings for excerpt */
   if (gui->lilycontrol.excerpt == TRUE){
