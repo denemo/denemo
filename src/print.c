@@ -886,22 +886,32 @@ void refresh_print_view (void) {
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
 #if GLIB_MINOR_VERSION >= 14
-  gchar *backend;
-
-  if (get_lily_version("2.12") >= 1)
-    backend = "-dbackend=eps";
-  else
-    backend = "-b eps";
-  gchar *arguments[] = {
+  gchar **arguments;
+  gchar *arguments1[] = {
     Denemo.prefs.lilypath->str,
     "--png",
-    backend,
+    "-dbackend=eps",
     resolution,
     "-o",
     printfile,
     lilyfile,
     NULL
   };
+  gchar *arguments2[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    printfile,
+    lilyfile,
+    NULL
+  };
+  if (get_lily_version("2.12") >= 1)
+   arguments = arguments1;
+  else
+    arguments = arguments2;
 #else
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
