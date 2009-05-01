@@ -490,6 +490,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
     exportlilypond (lilyfile, gui,  all_movements);
   run_lilypond_and_viewer(filename, gui);
   gui->lilycontrol.excerpt = FALSE;//The default value
+  gui->lilysync = G_MAXUINT;// in certain cases this may not be needed
   g_free(lilyfile);
 }
 
@@ -589,7 +590,7 @@ printpart_cb (GtkAction *action, gpointer param) {
     print(gui, TRUE, TRUE);
   else
    print(gui, TRUE, FALSE);
-  
+ 
 }
 void
 printpreview_cb (GtkAction *action, gpointer param) {
@@ -609,7 +610,6 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->firstmeasuremarked)
     print(gui, FALSE, FALSE);
-  gui->lilysync = G_MAXUINT;//re-create lilyview after printing excerpt
 }
 
 
