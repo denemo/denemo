@@ -1459,7 +1459,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
       g_string_assign(str,"");
       gint firstobj=1, lastobj= G_MAXINT;
-      if(start && gui->si->firstobjmarked) {//firstobjmarked==0 means not set
+      if(start && gui->si->firststaffmarked) {//firststaffmarked==0 means not set
 	firstobj = 1+MIN( gui->si->firstobjmarked, gui->si->lastobjmarked);
 	lastobj =  1+MAX( gui->si->firstobjmarked, gui->si->lastobjmarked);
       }
