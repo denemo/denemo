@@ -1732,7 +1732,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 	      }
 	  }
 
-#define DO_ELEM(subtitle, Subtitle)\
+#define DO_ELEM(subtitle, dummy)\
 	else if (ELEM_NAME_EQ (childElem, subtitle))\
 	  {\
 	    gchar *field = (gchar *) xmlNodeListGetString (childElem->doc,\
@@ -1741,13 +1741,15 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 	    if (field != NULL)\
 	      {\
 		gchar *val = g_strdup_printf(subtitle" = \"%s\"\n", field);\
-	        header_directive_put_postfix(Subtitle, val);\
+	        header_directive_put_postfix("Movement-"subtitle, val);\
+	        header_directive_put_display("Movement-"subtitle, field);\
+                paper_directive_put_postfix("PrintAllHeaders", "printallheaders = ##t\n");\
 		g_free(val);\
 		g_free (field);\
 	      }\
 	  }\
 
-DO_ELEM("subtitle", "HeaderSubtitle")
+DO_ELEM("subtitle", 0)
 DO_ELEM("composer","HeaderComposer")
 DO_ELEM("poet","HeaderPoet")
 DO_ELEM("meter","HeaderMeter")
