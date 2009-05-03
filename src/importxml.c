@@ -1727,6 +1727,8 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 		//g_string_assign (si->headerinfo.title, title);
 		gchar *val = g_strdup_printf("title = \"%s\"\n", title);
 		header_directive_put_postfix("Movement-title", val);
+		header_directive_put_display("Movement-title", title);
+		paper_directive_put_postfix("PrintAllHeaders", "printallheaders = ##t\n");
 		g_free(val);
 		g_free (title);
 	      }
@@ -1770,7 +1772,7 @@ DO_ELEM("footer","HeaderFooter")
 	    if (tagline != NULL)
 	      {
 		gchar *val = g_strdup_printf("tagline = \"%s\"\n", tagline);
-		scoreheader_directive_put_postfix("ScoreHeaderTagline", val);
+		scoreheader_directive_put_postfix("Scoretagline", val);
 		g_free(val);
 		g_free (tagline);
 	      }
