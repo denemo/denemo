@@ -1459,9 +1459,10 @@ edit_directive(DenemoDirective *directive) {
     filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
       ret =( text_edit_directive(directive)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+      g_free(filename);
+      score_status (Denemo.gui, TRUE);
+      return ret;
     }
-    score_status (Denemo.gui, TRUE);
-    return ret;
   }
   GError *error = NULL;
   gchar *script;
@@ -1469,6 +1470,7 @@ edit_directive(DenemoDirective *directive) {
     call_out_to_guile(script);
     g_free(script);
   }
+  g_free(filename);
   return ret;
 }
 
