@@ -879,6 +879,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertMovementBefore")), 
 SCM scheme_InsertMovementAfter(SCM optional);
 install_scm_function ("d-InsertMovementAfter", scheme_InsertMovementAfter);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertMovementAfter")), "scm", (gpointer)1);
+/*NewMovement append_new_movement*/
+SCM scheme_NewMovement(SCM optional);
+install_scm_function ("d-NewMovement", scheme_NewMovement);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NewMovement")), "scm", (gpointer)1);
 /*SaveParts file_savepartswrapper*/
 SCM scheme_SaveParts(SCM optional);
 install_scm_function ("d-SaveParts", scheme_SaveParts);

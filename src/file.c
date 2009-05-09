@@ -918,21 +918,24 @@ file_newwrapper (GtkAction * action, gpointer param)
     {
       deletescore(NULL, gui);
     }
-  open_user_default_template();
+  open_user_default_template(REPLACE_SCORE);
   if(gui->printarea) 
     g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", G_MAXUINT);
 }
 
 /* open_user_default_template
  * open the user's standard template if there is one
+ * @return 0 for success non zero for failure
  **/
-void
-open_user_default_template(void) {
+gint
+open_user_default_template(ImportType type) {
+  gint ret;
   gchar *filename = g_build_filename(locatedotdenemo(), "templates", "default.denemo", NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
-    open_for_real(filename, Denemo.gui, TRUE, REPLACE_SCORE);
+    ret = open_for_real(filename, Denemo.gui, TRUE, type);
   }
   g_free(filename);
+  return ret;
 }
 
 /**

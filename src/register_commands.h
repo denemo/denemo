@@ -218,6 +218,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveTemp
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NewWindow"), "NewWindow", "New Tab", "Create working area (tab with an empty score in it)", newview);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMovementBefore"), "InsertMovementBefore", "Insert Movement Before", "Insert a new movement before the current one", insert_movement_before);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMovementAfter"), "InsertMovementAfter", "Insert Movement After", "Insert a new movement after the current one", insert_movement_after);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "NewMovement"), "NewMovement", "New Movement", "Create a new movement, usign any default template", append_new_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveParts"), "SaveParts", "Save Parts", "Save Parts: each staff becomes a file in lilypond format", file_savepartswrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPDF"), "ExportPDF", "Export PDF", "Export the score as a PDF document file", export_pdf_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ConfigureScore"), "ConfigureScore", "Score Wizard", "Start up a wizard to create a new score. This allows you to set various properties of the score", scorewizard);

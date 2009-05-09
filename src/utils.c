@@ -603,7 +603,7 @@ initdir ()
 {
 #ifndef G_OS_WIN32
   GError *error=NULL;
-  if(!gbr_init (&error))
+  if(!gbr_init (&error)&& (error != GBR_INIT_ERROR_DISABLED))
     {
       g_print ("BinReloc failed to initialize:\n");
       g_print ("Domain: %d (%s)\n",

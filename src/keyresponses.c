@@ -110,6 +110,11 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     gtk_main_quit();
     return TRUE;
   }
+
+  /// g_print("obj %p appending %d",  Denemo.gui->si->currentobject, Denemo.gui->si->cursor_appending);
+
+
+
   gint state;
   state = (lock_mask(event->keyval)^event->state);
   if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))

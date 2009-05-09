@@ -49,6 +49,32 @@ new_movement(DenemoGUI *gui, gboolean before) {
     gui->movements = g_list_prepend(gui->movements, gui->si);//FIXME insert before g_list_find(gui->movements, si)
   else
     gui->movements = g_list_append(gui->movements, gui->si);//ditto after
+  // It would be good to keep a record of the template used to open the music (relative to templates) and try and open that
+  if(open_user_default_template(ADD_MOVEMENTS))   {//no default template
+    set_width_to_work_with(gui);
+    //FIXME duplicate code
+    set_rightmeasurenum (gui->si);
+    find_leftmost_allcontexts (gui->si);
+    set_bottom_staff (gui);
+    update_hscrollbar (gui);
+    update_vscrollbar (gui);
+    gtk_widget_queue_draw (gui->scorearea);
+    gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
+    gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
+    displayhelper(gui);
+    score_status(gui, TRUE);
+  }
+}
+
+
+void
+append_new_movement(GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  //It would be good to keep a record of the template used to open the music (relative to templates) and try and open that
+  if(open_user_default_template(ADD_MOVEMENTS))   {//no default template
+    point_to_new_movement(gui);
+    gui->movements = g_list_append(gui->movements, gui->si);
+  }
   set_width_to_work_with(gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
@@ -60,8 +86,9 @@ new_movement(DenemoGUI *gui, gboolean before) {
   gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
   gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
   displayhelper(gui);
-  score_status(gui, TRUE);
+  score_status(gui, TRUE); 
 }
+
 
 void
 insert_movement_before(GtkAction *action, gpointer param) {

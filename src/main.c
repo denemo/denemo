@@ -684,5 +684,5 @@ COPYING for details.\n\n") ;
           return 1;
         } 
     } else
-      open_user_default_template();
+      open_user_default_template(REPLACE_SCORE);
 }

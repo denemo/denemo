@@ -4548,7 +4548,7 @@ newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
   //should we load init.denemo here as well???
-  open_user_default_template();
+  open_user_default_template(REPLACE_SCORE);
 }
 
 /**

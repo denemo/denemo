@@ -229,6 +229,7 @@
 {"NewWindow", NULL, N_("New Tab"), NULL,N_("Create working area (tab with an empty score in it)"),G_CALLBACK (newview)},
 {"InsertMovementBefore", NULL, N_("Insert Movement Before"), NULL,N_("Insert a new movement before the current one"),G_CALLBACK (insert_movement_before)},
 {"InsertMovementAfter", NULL, N_("Insert Movement After"), NULL,N_("Insert a new movement after the current one"),G_CALLBACK (insert_movement_after)},
+{"NewMovement", NULL, N_("New Movement"), NULL,N_("Create a new movement, usign any default template"),G_CALLBACK (append_new_movement)},
 {"SaveParts", GTK_STOCK_SAVE_AS, N_("Save Parts"), NULL,N_("Save Parts: each staff becomes a file in lilypond format"),G_CALLBACK (file_savepartswrapper)},
 {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), NULL,N_("Export the score as a PDF document file"),G_CALLBACK (export_pdf_action)},
 {"ConfigureScore", GTK_STOCK_PROPERTIES, N_("Score Wizard"), NULL,N_("Start up a wizard to create a new score. This allows you to set various properties of the score"),G_CALLBACK (scorewizard)},
