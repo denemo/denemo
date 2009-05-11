@@ -11,7 +11,7 @@
 #include "twoints.h"
 #include "file.h"
 
-void set_initial_staffcontexts (DenemoScore *si);
+gint set_initial_staffcontexts (DenemoScore *si);
 
 void setstaffname (DenemoScore *si, gchar * str);
 

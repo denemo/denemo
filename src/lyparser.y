@@ -1048,7 +1048,7 @@ LATER_MESSAGE(@$.first_line);
 	{DenemoObject *tupopen, *tupclose;
 		tupopen = newtupopen ($2.t.a, $2.t.b);
 		tupclose = newtupclose ();
-		g_assert(ntype($3)==SEQUENTIAL);
+		//g_assert(ntype($3)==SEQUENTIAL);
 		
 		tupopen->user_string = g_strconcat($1.user_string, 
 						   $2.user_string, u_str($3),
@@ -2596,7 +2596,7 @@ next_figure (objnode * h)
       if (figmud->type == CHORD)
 	return h;
     }
-  g_assert (h == NULL);
+  //g_assert (h == NULL);
   return NULL;
 }
 
@@ -2657,7 +2657,7 @@ fill_in_figures (DenemoStaff * bass, DenemoStaff * figures)
    run set_initial_staffcontexts() to setup the clef etc in the staff structures
    Fill in any figured bass staff that is short of figures with blank figures.
  */
-static void
+static gint
 fixup_measure_widths_and_contexts (DenemoScore * si)
 {
   GList *g = si->thescore;
@@ -2690,8 +2690,10 @@ fixup_measure_widths_and_contexts (DenemoScore * si)
   if (si->has_figures)
     fill_in_figures (si->has_figures->main_staff,
 		     si->has_figures->related_staff);
-  set_initial_staffcontexts (si);
+  if(set_initial_staffcontexts (si))
+	return -1;
   find_leftmost_allcontexts (si);
+  return 0;
 }
 
 
@@ -2976,14 +2978,10 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	  lily_file = NULL;	
 	  parser_error_dialog = NULL;
 	  parser_error_message = NULL;
-	  /* free_score (si); CHANGE THIS TO FREE ALL THE si in 
-	     si->thefile->currentDenemoScore list... */
-
-#if 1
 	  // Calling init_score here would cause piece in header to set to "Movement 2"
   	  si->measurewidths = NULL;
 	  si->thescore = NULL;
-#endif	  
+	  
 
 	  /* in case we are re-entering via reload after error */
 	  lyrestart (lyin);	
@@ -2995,7 +2993,7 @@ lyinput (gchar * filename, DenemoGUI *gui)
 	    {
 	      lyparse ();
 	    }
-	 if(1)
+	 
 	    {
 	      GList *score = findtok (lily_file, SCORE);
 	      if (score)
@@ -3003,7 +3001,8 @@ lyinput (gchar * filename, DenemoGUI *gui)
 		  {
 		    GList *top;
 		    score_prop_from_lily(gui);
-		    fixup_measure_widths_and_contexts (si);
+		    if(fixup_measure_widths_and_contexts (si))
+			goto error;
 		    while (score && score->next)
 		      {
 			score = findtok (score->next, SCORE);
@@ -3014,74 +3013,26 @@ lyinput (gchar * filename, DenemoGUI *gui)
 			      Denemo.gui->si;
 			    init_score (nextsi, gui);
 		 	    create_score_from_lily (nextsi, br (score));
-		            fixup_measure_widths_and_contexts (nextsi);
+		            if(fixup_measure_widths_and_contexts (nextsi))
+				goto error;
 			    
 			  }
 		      }
 
 		    return 0;
 		  }
-	    }			/* if successful lily parse */
-	    else
-	    {
-		fprintf(stderr, "Parse Error Line %d: %s\n", 
-		    parser_error_linenum, parser_error_message);
-		return(1);
 	    }
 
 	}
       reset_initial_lexer_state ();
-      g_assert (lily_file);
-#ifdef LILYEDIT
-      if (!getenv ("EDITOR"))
-	{
-	  long len;
-	  gchar *filecontents;
-	  fseek (lyin, 0L, SEEK_END);
-	  len = ftell (lyin);
-	  filecontents = (gchar *) g_malloc (len + 1);	/* +1 for NULL terminator */
-	  rewind (lyin);
-	  fread (filecontents, len, 1, lyin);
-	  *(filecontents + len) = '\0';
-	  fclose (lyin);
-	  u_str (lily_file) = filecontents;
-	  lily_file->next = NULL;
-	  si->lily_file = lily_file;
-	  si->curlilynode = lily_file;
-	  if (si->textwindow)
-	    lily_text_change (si);
-	  else
-	    create_text_display (si);
-	  gui->filename = g_string_new (filename);
-	  gtk_widget_set_sensitive (si->textview, TRUE);
-	  gtk_widget_set_sensitive (si->scorearea, FALSE);
+error:
+    //  if(si->thescore==NULL) {
+	deletescore(NULL, Denemo.gui);
+        open_user_default_template(REPLACE_SCORE);
+    //  }	
+      if (lily_file == NULL)
+		return 1;
 
-	  /* put dialog on top - it would be nice to use gtk_dialog_run() but  how do you use it? */
-	  if (parser_error_dialog)
-	    gtk_window_present ((GtkWindow *) parser_error_dialog);
-	  return -1;
-	}
-      else
-	{			/* use external editor */
-	  GString *cmd;
-	  int ret;
-	  fclose (lyin);
-	  cmd = g_string_new (getenv ("EDITOR"));
-	  g_string_append_printf (cmd, " +%d %s", parser_error_linenum,
-				  filename);
-	  g_warning
-	    ("Using environment variable $EDITOR calling system with %s\n",
-	     cmd->str);
-	  ret = system (cmd->str);
-#if 0
-	  if (WIFIGNALED (ret) &&
-	      (WTERMSIG (ret) == SIGINT || WTERMSIG (ret) == SIGQUIT))
-	    break;
-#endif
-	  if (ret)
-	    break;
-	}
-#endif //LILYEDIT
         lyerror ("File load failed\n");
         return -1;     
     }				/* forever */

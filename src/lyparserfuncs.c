@@ -81,7 +81,7 @@ first_context (measurenode * curmeasure, gint thetype)
    than nodes, so transfer node data to staff structure and delete
    the nodes. If we do not do this, objects like initial key, clef, and time
    signatures are shown twice in denemo */
-static void
+static gint
 set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
 {
   measurenode *firstmeasure = curstaffstruct->measures;
@@ -89,9 +89,9 @@ set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
   curstaffstruct->context = DENEMO_NONE;
   if(firstmeasure==NULL) {
     warningdialog("Unable to load this file - quitting");
-    //curstaffstruct->measures = g_list_append(NULL, NULL);
-    // return;
-    g_assert (firstmeasure);
+    curstaffstruct->measures = g_list_append(NULL, NULL);
+    return -1;
+    //g_assert (firstmeasure);
   }
   if ((obj = first_context (firstmeasure, CLEF)))
     {
@@ -131,9 +131,10 @@ set_initial_staffcontext (DenemoStaff * curstaffstruct, DenemoScore *si)
 	    delete_context (firstmeasure, obj);
 	}
   }
+  return 0;
 }
 
-void
+gint
 set_initial_staffcontexts (DenemoScore *si)
 {
   staffnode *curstaff = si->thescore;
@@ -141,8 +142,10 @@ set_initial_staffcontexts (DenemoScore *si)
   si->maxkeywidth = G_MININT;
   for (; curstaff; curstaff = curstaff->next)
     {
-      set_initial_staffcontext ((DenemoStaff *) curstaff->data, si);
+      if(set_initial_staffcontext ((DenemoStaff *) curstaff->data, si))
+	return -1;
     }
+  return 0;
 }
 
 
@@ -1319,7 +1322,7 @@ set_post_events (DenemoObject *mud, gchar *usr_str, GList *g)
     if (obj->type != CHORD)
     {
 
-	g_assert (obj->type == CHORD);
+      return;//g_assert (obj->type == CHORD);
     }
     chordpt = (chord *) (obj->object);
 	while (g)
