@@ -246,6 +246,7 @@
 {"Copy", GTK_STOCK_COPY, N_("Copy"), NULL,N_("Copy"),G_CALLBACK (copywrapper)},
 {"Cut", GTK_STOCK_CUT, N_("Cut"), NULL,N_("Cut"),G_CALLBACK (cutwrapper)},
 {"Paste", GTK_STOCK_PASTE, N_("Paste"), NULL,N_("Paste the selected music"),G_CALLBACK (pastewrapper)},
+{"PasteClipboard", GTK_STOCK_PASTE, N_("Paste LilyPond notes"), NULL,N_("Paste LilyPond notes from the text clipboard"),G_CALLBACK (paste_clipboard)},
 {"ScoreProperties", GTK_STOCK_PROPERTIES, N_("Score Properties"), NULL,N_("Change some of the properties of the current score. This will start up a dialog window"),G_CALLBACK (score_properties_dialog)},
 {"SaveSelection", NULL, N_("Save Selection"), NULL,N_("Save the selected music. Not sure if this is working"),G_CALLBACK (saveselwrapper)},
 {"Preferences", GTK_STOCK_PREFERENCES, N_("Change Preferences"), NULL,N_("Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones"),G_CALLBACK (preferences_change)},

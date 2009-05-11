@@ -1180,6 +1180,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Insert a new movement after the current one</tooltip>
       </row>
       <row>
+        <action>NewMovement</action>
+        <label>New Movement</label>
+        <tooltip>Create a new movement, usign any default template</tooltip>
+      </row>
+      <row>
         <action>SaveParts</action>
         <label>Save Parts</label>
         <tooltip>Save Parts: each staff becomes a file in lilypond format</tooltip>
@@ -2386,6 +2391,20 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/MovementMenu</menupath>
         <label>(Print) Hide Movement</label>
         <tooltip>Hides the movement on printing.</tooltip>
+      </row>
+      <row>
+        <action>Beam1234</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Beam 4 Beats</label>
+        <tooltip>Beams end on each quarter note (up to 4).</tooltip>
+      </row>
+      <row>
+        <action>ClosingBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Closing Barline</label>
+        <tooltip>Inserts a closing barline (a double bar with last one thicker).</tooltip>
       </row>
     </map>
   </commands>

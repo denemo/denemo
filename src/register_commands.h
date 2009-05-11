@@ -233,6 +233,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), 
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Copy"), "Copy", "Copy", "Copy", copywrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Cut"), "Cut", "Cut", "Cut", cutwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Paste"), "Paste", "Paste", "Paste the selected music", pastewrapper);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PasteClipboard"), "PasteClipboard", "Paste LilyPond notes", "Paste LilyPond notes from the text clipboard", paste_clipboard);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ScoreProperties"), "ScoreProperties", "Score Properties", "Change some of the properties of the current score. This will start up a dialog window", score_properties_dialog);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveSelection"), "SaveSelection", "Save Selection", "Save the selected music. Not sure if this is working", saveselwrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Preferences"), "Preferences", "Change Preferences", "Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones", preferences_change);

@@ -939,6 +939,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Cut")), "scm", (gpointer)
 SCM scheme_Paste(SCM optional);
 install_scm_function ("d-Paste", scheme_Paste);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Paste")), "scm", (gpointer)1);
+/*PasteClipboard paste_clipboard*/
+SCM scheme_PasteClipboard(SCM optional);
+install_scm_function ("d-PasteClipboard", scheme_PasteClipboard);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PasteClipboard")), "scm", (gpointer)1);
 /*ScoreProperties score_properties_dialog*/
 SCM scheme_ScoreProperties(SCM optional);
 install_scm_function ("d-ScoreProperties", scheme_ScoreProperties);

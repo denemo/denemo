@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ClosingBarline</action>
+        <scheme>;;;ClosingBarline
+(d-DirectivePut-standalone-minpixels "ClosingBarline" 30)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "ClosingBarline" " \\bar \"|.\"")
+(d-DirectivePut-standalone-gx  "ClosingBarline"  0)
+(d-DirectivePut-standalone-gy  "ClosingBarline"  -18)
+(d-DirectivePut-standalone-graphic "ClosingBarline" "ClosingBarline")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
+        <label>Closing Barline</label>
+        <tooltip>Inserts a closing barline (a double bar with last one thicker).</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
