@@ -2608,7 +2608,6 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       ret = -1;
       return ret;
     }
-  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
 
   /*
    * Do a couple of sanity checks to make sure we've actually got a Denemo
@@ -2796,7 +2795,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   g_hash_table_destroy (sXMLIDToElemMap);
   sXMLIDToElemMap = NULL;
 
-  g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
   return ret;
 }

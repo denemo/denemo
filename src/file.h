@@ -55,6 +55,8 @@ file_saveas (DenemoGUI *gui, gboolean as_template);
 
 void
 template_save (GtkAction * action, gpointer param);
+void 
+paste_clipboard(GtkAction * action, gpointer param);
 
 void
 reload_lily_file (GtkWidget * widget, gpointer data);

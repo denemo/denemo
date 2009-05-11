@@ -227,6 +227,7 @@ static void      update_file_selection_path (gchar *file) {
 gint
 open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType type)
 {
+  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint result;
   result = 1;//FAILURE
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
@@ -250,7 +251,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	  score_status(gui, TRUE);
       }
       if(gui->printarea) 
-	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", G_MAXUINT);
+	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
       updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
       set_bottom_staff (gui);
@@ -262,6 +263,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
       gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
       refresh_lily_cb(NULL, gui);
     }
+  g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   return result;
 }
 
@@ -920,7 +922,7 @@ file_newwrapper (GtkAction * action, gpointer param)
     }
   open_user_default_template(REPLACE_SCORE);
   if(gui->printarea) 
-    g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", G_MAXUINT);
+    g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }
 
 /* open_user_default_template
@@ -1065,4 +1067,55 @@ file_savepartswrapper (GtkAction * action, gpointer param)
     }
 
   export_lilypond_parts (gui->filename->str, gui);
+}
+
+
+static void selection_received (GtkClipboard *clipboard, const gchar *text, gpointer data) {
+  if(!text) {
+    warningdialog("No selection text available");
+    return;
+  }
+  gchar *filename = g_build_filename (locatedotdenemo(), "denemopaste.ly", NULL);
+  FILE *fp = fopen(filename, "w");
+  if(fp){
+    fprintf(fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
+    fclose(fp);
+    gint theclef = find_prevailing_clef(Denemo.gui->si);
+    newtab(NULL, NULL);
+    gint fail = open_for_real(filename, Denemo.gui, TRUE, REPLACE_SCORE);
+    //thescore can be NULL after failed load....
+    if(fail) {
+      DenemoGUI *gui = Denemo.gui;
+      //FIXME repeated code
+      free_gui(gui);  
+      gtk_widget_destroy (gui->page);
+      Denemo.guis = g_list_remove (Denemo.guis, gui);
+      g_free (gui);
+      warningdialog("Could not interpret selection as LilyPond notes");
+      return;
+    }
+    dnm_setinitialclef(Denemo.gui->si, (DenemoStaff*)Denemo.gui->si->currentstaff->data, theclef);
+    if(confirm("Paste from Selection", "Paste this music into your score?")) {
+      DenemoGUI *gui = Denemo.gui;
+      tohome(NULL, NULL);
+      set_mark(gui);
+      toend(NULL, NULL);
+      copywrapper(NULL, NULL);
+      free_gui(gui);  
+      gtk_widget_destroy (gui->page);
+      Denemo.guis = g_list_remove (Denemo.guis, gui);
+      g_free (gui);
+      pastewrapper(NULL, NULL);
+    }
+  }
+}
+
+void paste_clipboard(GtkAction * action, gpointer param) {
+  if(Denemo.gui != g_list_last(Denemo.guis)->data) {
+    warningdialog("Can only paste LilyPond text into the last tab, sorry");
+    return;
+  }
+  GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) selection_received, NULL);
+
 }
