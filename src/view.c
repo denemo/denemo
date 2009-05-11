@@ -33,8 +33,7 @@
 #endif
 static void
 newview (GtkAction *action, gpointer param);
-static void
-newtab (GtkAction *action, gpointer param);
+
 static void
 closewrapper (GtkAction *action, gpointer param);
 static gboolean
@@ -4699,33 +4698,21 @@ Denemo.gui = gui;
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_release_event",
 		      (GtkSignalFunc) scorearea_keyrelease_event, gui);
 
-
-
-
   gtk_widget_add_events/*gtk_widget_set_events*/ (gui->scorearea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  | GDK_LEAVE_NOTIFY_MASK
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 
-
-
-
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {
-     g_print("No autosave on new gui");
+     g_print("No autosave on new tab");
    }
    else {
      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
 					(GSourceFunc) auto_save_document_timeout, Denemo.gui);
    }
  }
-
- 
-
-
-
-
 
 }
 
