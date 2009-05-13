@@ -25,6 +25,7 @@
 				    (eval-string  command)
 				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
 (define stop "\0")
+(define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
 (define cue-PlaceBelow "Place below staff")
 (define cue-SetRelativeFontSize "Set Relative Font Size")
