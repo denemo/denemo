@@ -605,17 +605,28 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
-#define DELETEFUNC_DEF(what) static SCM scheme_delete_##what##_directive(SCM tag) {\
+
+#define EDIT_DELETE_FN_DEF(what)\
+ static SCM scheme_delete_##what##_directive(SCM tag) {\
   if(!SCM_STRINGP(tag))\
      return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   return SCM_BOOL( delete_##what##_directive (tagname));\
+}\
+ static SCM scheme_text_edit_##what##_directive(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return SCM_BOOL( text_edit_##what##_directive (tagname));\
 }
-DELETEFUNC_DEF(note)
-DELETEFUNC_DEF(chord)
-DELETEFUNC_DEF(staff)
-DELETEFUNC_DEF(voice)
-DELETEFUNC_DEF(score)
+
+
+
+EDIT_DELETE_FN_DEF(note)
+EDIT_DELETE_FN_DEF(chord)
+EDIT_DELETE_FN_DEF(staff)
+EDIT_DELETE_FN_DEF(voice)
+EDIT_DELETE_FN_DEF(score)
 
 
 #define GETFUNC_DEF(what, field)\
@@ -872,7 +883,7 @@ INT_GETFUNC_DEF(clef, gy)
 INT_GETFUNC_DEF(clef, override)
 INT_GETFUNC_DEF(clef, width)
 INT_GETFUNC_DEF(clef, height)
-DELETEFUNC_DEF(clef)
+EDIT_DELETE_FN_DEF(clef)
      // end block
 
 GETFUNC_DEF(timesig, prefix)
@@ -899,7 +910,7 @@ INT_GETFUNC_DEF(timesig, gy)
 INT_GETFUNC_DEF(timesig, override)
 INT_GETFUNC_DEF(timesig, width)
 INT_GETFUNC_DEF(timesig, height)
-DELETEFUNC_DEF(timesig)
+EDIT_DELETE_FN_DEF(timesig)
 
 GETFUNC_DEF(keysig, prefix)
 GETFUNC_DEF(keysig, postfix)
@@ -925,7 +936,7 @@ INT_GETFUNC_DEF(keysig, gy)
 INT_GETFUNC_DEF(keysig, override)
 INT_GETFUNC_DEF(keysig, width)
 INT_GETFUNC_DEF(keysig, height)
-DELETEFUNC_DEF(keysig)
+EDIT_DELETE_FN_DEF(keysig)
 
 
 GETFUNC_DEF(scoreheader, prefix)
@@ -952,7 +963,7 @@ INT_GETFUNC_DEF(scoreheader, gy)
 INT_GETFUNC_DEF(scoreheader, override)
 INT_GETFUNC_DEF(scoreheader, width)
 INT_GETFUNC_DEF(scoreheader, height)
-DELETEFUNC_DEF(scoreheader)
+EDIT_DELETE_FN_DEF(scoreheader)
 
 
 GETFUNC_DEF(header, prefix)
@@ -979,7 +990,7 @@ INT_GETFUNC_DEF(header, gy)
 INT_GETFUNC_DEF(header, override)
 INT_GETFUNC_DEF(header, width)
 INT_GETFUNC_DEF(header, height)
-DELETEFUNC_DEF(header)
+EDIT_DELETE_FN_DEF(header)
 
 
 GETFUNC_DEF(paper, prefix)
@@ -1006,7 +1017,7 @@ INT_GETFUNC_DEF(paper, gy)
 INT_GETFUNC_DEF(paper, override)
 INT_GETFUNC_DEF(paper, width)
 INT_GETFUNC_DEF(paper, height)
-DELETEFUNC_DEF(paper)
+EDIT_DELETE_FN_DEF(paper)
 
 
 GETFUNC_DEF(layout, prefix)
@@ -1033,7 +1044,7 @@ INT_GETFUNC_DEF(layout, gy)
 INT_GETFUNC_DEF(layout, override)
 INT_GETFUNC_DEF(layout, width)
 INT_GETFUNC_DEF(layout, height)
-DELETEFUNC_DEF(layout)
+EDIT_DELETE_FN_DEF(layout)
 
 
 GETFUNC_DEF(movementcontrol, prefix)
@@ -1060,7 +1071,7 @@ INT_GETFUNC_DEF(movementcontrol, gy)
 INT_GETFUNC_DEF(movementcontrol, override)
 INT_GETFUNC_DEF(movementcontrol, width)
 INT_GETFUNC_DEF(movementcontrol, height)
-DELETEFUNC_DEF(movementcontrol)
+EDIT_DELETE_FN_DEF(movementcontrol)
 
 
 SCM scheme_get_midi(void) {
@@ -1417,23 +1428,15 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
-#define INSTALL_DELETE(what)\
- install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);
-  INSTALL_DELETE(note);
-  INSTALL_DELETE(chord);
-  INSTALL_DELETE(staff);
-  INSTALL_DELETE(voice);
-  INSTALL_DELETE(score);
-#if 0
-  INSTALL_DELETE(clef);
-  INSTALL_DELETE(timesig);
-  INSTALL_DELETE(keysig);
-  INSTALL_DELETE(scoreheader);
-  INSTALL_DELETE(header);
-  INSTALL_DELETE(paper);
-  INSTALL_DELETE(layout);
-  INSTALL_DELETE(movementcontrol);
-#endif
+
+#define INSTALL_EDIT(what)\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
+  INSTALL_EDIT(note);
+  INSTALL_EDIT(chord);
+  INSTALL_EDIT(staff);
+  INSTALL_EDIT(voice);
+  INSTALL_EDIT(score);
 
 
 #define INSTALL_PUT(what, field)\
@@ -1667,7 +1670,7 @@ INSTALL_GET(clef, override)
 INSTALL_GET(clef, width)
 INSTALL_GET(clef, height)
 
-INSTALL_DELETE(clef);
+INSTALL_EDIT(clef);
      // end of block to copy for new type of directive
 
 INSTALL_PUT(timesig, display);
@@ -1699,7 +1702,7 @@ INSTALL_GET(timesig, override)
 INSTALL_GET(timesig, width)
 INSTALL_GET(timesig, height)
 
-INSTALL_DELETE(timesig);
+INSTALL_EDIT(timesig);
 
 INSTALL_PUT(keysig, display);
 INSTALL_PUT(keysig, prefix);
@@ -1730,7 +1733,7 @@ INSTALL_GET(keysig, override)
 INSTALL_GET(keysig, width)
 INSTALL_GET(keysig, height)
 
-INSTALL_DELETE(keysig);
+INSTALL_EDIT(keysig);
 
 
 INSTALL_PUT(scoreheader, display);
@@ -1762,7 +1765,7 @@ INSTALL_GET(scoreheader, override)
 INSTALL_GET(scoreheader, width)
 INSTALL_GET(scoreheader, height)
 
-INSTALL_DELETE(scoreheader);
+INSTALL_EDIT(scoreheader);
 
 
 INSTALL_PUT(header, display);
@@ -1794,7 +1797,7 @@ INSTALL_GET(header, override)
 INSTALL_GET(header, width)
 INSTALL_GET(header, height)
 
-INSTALL_DELETE(header);
+INSTALL_EDIT(header);
 
 
 INSTALL_PUT(paper, display);
@@ -1826,7 +1829,7 @@ INSTALL_GET(paper, override)
 INSTALL_GET(paper, width)
 INSTALL_GET(paper, height)
 
-INSTALL_DELETE(paper);
+INSTALL_EDIT(paper);
 
 
 INSTALL_PUT(layout, display);
@@ -1858,7 +1861,7 @@ INSTALL_GET(layout, override)
 INSTALL_GET(layout, width)
 INSTALL_GET(layout, height)
 
-INSTALL_DELETE(layout);
+INSTALL_EDIT(layout);
 
 INSTALL_PUT(movementcontrol, display);
 INSTALL_PUT(movementcontrol, prefix);
@@ -1889,11 +1892,11 @@ INSTALL_GET(movementcontrol, override)
 INSTALL_GET(movementcontrol, width)
 INSTALL_GET(movementcontrol, height)
 
-INSTALL_DELETE(movementcontrol);
+INSTALL_EDIT(movementcontrol);
 
 
-#undef INSTALL_DELETE
-#undef DELETEFUNC_DEF
+#undef INSTALL_EDIT
+#undef EDIT_DELETE_FN_DEF
 #undef INSTALL_PUT
 #undef INSTALL_GET
 #undef GETFUNC_DEF

@@ -13,6 +13,7 @@
 
 gchar * get_scoretitle(void);
 
+gboolean text_edit_note_directive(gchar *tag);
 
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);

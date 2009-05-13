@@ -1233,7 +1233,7 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
 
 /* let the user choose from the directives at the cursor */
 static 
-void user_select_directive_at_cursor(GList ***pdirectives, DenemoDirective **pdirective) {
+void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoDirective **pdirective) {
   *pdirectives = NULL;
   *pdirective = get_standalone_directive(NULL);
   if(*pdirective)
@@ -1245,6 +1245,7 @@ void user_select_directive_at_cursor(GList ***pdirectives, DenemoDirective **pdi
   if(curnote->mid_c_offset == Denemo.gui->si->cursor_y)
     if(curnote->directives) {
       *pdirectives = &curnote->directives;
+      *what = "note";
       gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
       *pdirective = select_directive(instr, **pdirectives);
       g_free(instr);
@@ -1257,12 +1258,14 @@ void user_select_directive_at_cursor(GList ***pdirectives, DenemoDirective **pdi
     chord *curchord = get_chord();
     if(curchord && curchord->directives) {
       *pdirectives = &curchord->directives;
+      *what = "chord";
       *pdirective = select_directive(instr, **pdirectives);
     } 
   }
   if(*pdirective==NULL)//try nearest note
     if(curnote->directives && curnote->mid_c_offset != Denemo.gui->si->cursor_y) {
       *pdirectives = &curnote->directives;
+      *what = "note";
       gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
       *pdirective = select_directive(instr, **pdirectives);
       g_free(instr);
@@ -1338,12 +1341,61 @@ static gboolean set_int (GtkSpinButton *widget,  gint *val)  {
   return TRUE;
 }
 
+static gchar* quote_scheme(gchar *s) {
+  GString *dest = g_string_new("");
+  gchar *c;
+  for(c=s;*c;c++) {
+    if(*c=='"' || *c=='\\')
+      g_string_append_c(dest, '\\');
+    g_string_append_c(dest, *c);  
+  }
+  return g_string_free(dest, FALSE);
+}
+
+static void create_script(DenemoDirective *directive, gchar *what) {
+  GString *scheme = g_string_new(directive->tag->str);
+  g_string_prepend(scheme, ";;;");
+  g_string_append(scheme, "\n");
+
+#define ADD_TEXT(field)\
+if(directive->field)\
+  {gchar *quote = quote_scheme(directive->field->str);\
+   g_string_append_printf(scheme, "(d-DirectivePut-%s-%s \"%s\" \"%s\")\n",\
+       what, #field, directive->tag->str, quote);\
+   g_free(quote);}
+ADD_TEXT(prefix);			 
+ADD_TEXT(postfix);			 
+ADD_TEXT(display);			 
+ADD_TEXT(graphic_name);			 
+#undef ADD_TEXT
+#define ADD_INTTEXT(field)\
+if(directive->field)\
+  g_string_append_printf(scheme, "(d-DirectivePut-%s-%s \"%s\" %d)\n",\
+       what, #field, directive->tag->str, directive->field);
+ADD_INTTEXT(minpixels);
+ADD_INTTEXT(override);
+ADD_INTTEXT(x);
+ADD_INTTEXT(y);
+ADD_INTTEXT(tx);
+ADD_INTTEXT(ty);
+ADD_INTTEXT(gx);
+ADD_INTTEXT(gy);
+
+#undef ADD_INTTEXT
+ g_string_append(scheme,  "(d-RefreshDisplay)\n;;;End of scheme script");
+ // quote_scheme(scheme);
+ g_print("Scheme is %s\n", scheme->str);
+  appendSchemeText(scheme->str);
+  g_string_free(scheme, TRUE);
+}
+
 /* text_edit_directive
    textually edit the directive via a dialog.
    return FALSE if the user requests deletion of the directive.
 */
-static gboolean text_edit_directive(DenemoDirective *directive) {
+static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
+#define CREATE_SCRIPT (2)
   DenemoDirective *clone = clone_directive(directive);//for reset
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Primitive Denemo Directive Edit",
                                         GTK_WINDOW (Denemo.window),
@@ -1353,6 +1405,10 @@ static gboolean text_edit_directive(DenemoDirective *directive) {
                                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                                         NULL);
   gtk_dialog_add_button (GTK_DIALOG(dialog), "Delete Directive", GTK_RESPONSE_REJECT);
+  gtk_dialog_add_button (GTK_DIALOG(dialog), "Create Script", CREATE_SCRIPT);
+
+
+
   GtkWidget *vbox = gtk_vbox_new(FALSE, 8);
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), vbox,
 		      TRUE, TRUE, 0);
@@ -1443,6 +1499,8 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   if(directive->graphic_name)
     loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
   gtk_widget_destroy (dialog);
+  if(response==CREATE_SCRIPT)
+    create_script(directive, what);//g_print("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
   return ret;
 }
 
@@ -1450,7 +1508,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
    return FALSE if user confirms a request to delete the directive
 */
 static gboolean
-edit_directive(DenemoDirective *directive) {
+edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
   gchar *name = g_strconcat(directive->tag->str, ".scm", NULL);
   gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
@@ -1458,7 +1516,7 @@ edit_directive(DenemoDirective *directive) {
     g_free(filename);
     filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
-      ret =( text_edit_directive(directive)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+      ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
       g_free(filename);
       score_status (Denemo.gui, TRUE);
       return ret;
@@ -1481,7 +1539,8 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive;
   GList **directives;
-  user_select_directive_at_cursor(&directives, &directive);
+  gchar *what=NULL;
+  user_select_directive_at_cursor(&what, &directives, &directive);
   //g_print("Got directive %p in list %p\n", directive, directives);
   if(directive==NULL) {
     warningdialog("Use the ObjectMenu to modify this object - there are no directives here");
@@ -1489,7 +1548,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   }
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive)) {
+  if(!edit_directive(directive, what)) {
     if(directives && *directives) {
       *directives = g_list_remove(*directives, directive);
       free_directive(directive);
@@ -1506,7 +1565,8 @@ void delete_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
   DenemoDirective *directive;
   GList **directives;
-  user_select_directive_at_cursor(&directives, &directive);
+  gchar *what=NULL;
+  user_select_directive_at_cursor(&what, &directives, &directive);
   //g_print("Got directive %p in list %p\n", directive, directives);
   if(directives==NULL) {
     warningdialog("No directives here");
@@ -1624,7 +1684,7 @@ void edit_voice_directive(GtkAction *action,  DenemoScriptParam *param) {
     return;
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive))
+  if(!edit_directive(directive, "voice"))
     delete_voice_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
@@ -1640,7 +1700,7 @@ void edit_staff_directive(GtkAction *action,  DenemoScriptParam *param) {
     return;
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive))
+  if(!edit_directive(directive, "staff"))
     delete_staff_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
@@ -1656,7 +1716,7 @@ void edit_clef_directive(GtkAction *action,  DenemoScriptParam *param) {
     return;
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive))
+  if(!edit_directive(directive, "clef"))
     delete_clef_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
@@ -1671,7 +1731,7 @@ void edit_keysig_directive(GtkAction *action,  DenemoScriptParam *param) {
     return;
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive))
+  if(!edit_directive(directive, "keysig"))
     delete_keysig_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
@@ -1688,7 +1748,7 @@ void edit_timesig_directive(GtkAction *action,  DenemoScriptParam *param) {
     return;
   if(directive->tag == NULL)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(!edit_directive(directive))
+  if(!edit_directive(directive, "timesig"))
     delete_timesig_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
@@ -1729,7 +1789,7 @@ void edit_score_directive(GtkAction *action,  DenemoScriptParam *param) {
       return;\
     if(directive->tag == NULL)\
       directive->tag = g_string_new(UNKNOWN_TAG);\
-    if(!edit_directive(directive))\
+    if(!edit_directive(directive, #what))\
       delete_##what##_directive(directive->tag->str);\
   score_status (Denemo.gui, TRUE);\
   }
@@ -1782,7 +1842,7 @@ void edit_movement_directive(GtkAction *action,  DenemoScriptParam *param) {
       return;\
     if(directive->tag == NULL)\
       directive->tag = g_string_new(UNKNOWN_TAG);\
-    if(!edit_directive(directive))\
+    if(!edit_directive(directive, #what))\
       delete_##what##_directive(directive->tag->str);\
   score_status (Denemo.gui, TRUE);\
   }
@@ -2051,3 +2111,26 @@ gchar * get_scoretitle(void){
   }
   return scoretitle;
 }
+
+
+#define TEXT_EDIT_DIRECTIVE(what)\
+gboolean text_edit_##what##_directive(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return text_edit_directive(directive, #what);\
+  return FALSE;\
+}
+TEXT_EDIT_DIRECTIVE(note);
+TEXT_EDIT_DIRECTIVE(chord);
+TEXT_EDIT_DIRECTIVE(staff);
+TEXT_EDIT_DIRECTIVE(voice);
+TEXT_EDIT_DIRECTIVE(score);
+TEXT_EDIT_DIRECTIVE(clef);
+TEXT_EDIT_DIRECTIVE(timesig);
+TEXT_EDIT_DIRECTIVE(keysig);
+TEXT_EDIT_DIRECTIVE(scoreheader);
+TEXT_EDIT_DIRECTIVE(header);
+TEXT_EDIT_DIRECTIVE(paper);
+TEXT_EDIT_DIRECTIVE(layout);
+TEXT_EDIT_DIRECTIVE(movementcontrol);
+#undef TEXT_EDIT_DIRECTIVE
