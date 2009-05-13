@@ -1399,7 +1399,17 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
   </para> 
  <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
 
- </para>  <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
+ </para>  
+<para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
+</sect2>
+<sect2>
+     <title>An even easier way</title>
+   <para>
+   There is an even easier way of adding your own favorite LilyPond tweaks, which is by modifying a tweak that has already been done. This can be done by using the text-edit dialog on an existing Denemo Directive (usually found under the Advanced button provided by an edit script). Here you can see the actual LilyPond text that will be inserted, and there is a button to create a script to generate whatever you choose to enter. You can also enter the name of graphic images (.png files) that are to be used to represent your item in the display, and say where it should be positioned.
+  </para>
+   <para>
+Once you have created the script, it can be saved in the menu system by right clicking on an item in the menu where you want to place the command, and choosing "Save Script as New Menu Item" as above.
+   </para>
 </sect2>
 <sect2>
  <title>Writing Scheme Scripts </title>
@@ -1678,7 +1688,15 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
    The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
   </para>
    <para>
-   There is also a low-level editing dialog which is invoked if no editing script exists. This allows you to edit and delete a directive directly. The other directive editing commands are EditScoreDirective EditMovementDirective EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective EditTimesigDirective for directives attached to the relevant objects.
+   There is also a low-level editing dialog which is invoked if no editing script exists or directly from scheme using (d-DirectiveTextEdit-* tagname). This allows you to edit and delete a directive directly. The other directive editing commands are EditScoreDirective EditMovementDirective EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective EditTimesigDirective for directives attached to the relevant objects.
+  </para>
+   <para>
+   The low level edit of directives from scheme uses the following command:
+<itemizedlist>
+<listitem>
+ (d-DirectiveTextEdit-&lt;field&gt; &lt;tagname&gt;). Where &lt;tagname&gt; specifies the directive to be edited and &lt;field&gt; is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.
+</listitem>
+</itemizedlist>
   </para>
 </sect2>
 <sect2>
@@ -1704,6 +1722,7 @@ SetRelativeFontSize tag type context. As Extra-Offset, it shifts the font size o
 <listitem>
 Useful variables defined:
 (define stop "\0")
+(define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
 (define cue-PlaceBelow "Place below staff")
 (define cue-SetRelativeFontSize "Set Relative Font Size")
@@ -1712,6 +1731,7 @@ Useful variables defined:
 (define cue-EditText "Edit Text")
 (define cue-SetPadding "Set Padding")
 (define cue-Delete "Delete")
+
 </listitem>
 </itemizedlist>
 
