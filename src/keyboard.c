@@ -490,7 +490,7 @@ load_xml_keymap (gchar * filename)
   gchar *menupath = extract_menupath(filename);
   if (doc == NULL)
     {
-      g_warning ("Could not read XML file %s", filename);
+      g_debug ("Could not read XML file %s", filename);
       return ret;
     }
 

@@ -27,8 +27,16 @@
  * depending upon the GTK version
  *
  */
-#define REDEXCL_WIDTH 3
-#define REDEXCL_HEIGHT 13
+#define EXCL_WIDTH 3
+#define EXCL_HEIGHT 13
+
+static GdkGC *bluegc;
+static GdkGC *  redgc;
+static GdkGC *  graygc;
+static GdkGC *  slategraygc;
+static GdkGC *  lightbluegc;
+static GdkGC *  blackgc;
+static GdkGC *greengc = NULL;
 
 /**
  * scorearea_configure_event
@@ -41,6 +49,13 @@ gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  bluegc = gcs_bluegc();
+  redgc = gcs_redgc();
+  graygc = gcs_graygc();
+  slategraygc = gcs_slategraygc();
+  lightbluegc = gcs_lightbluegc();
+  blackgc = gcs_blackgc();
+  greengc = gcs_greengc();
   /* Create a new backing pixmap of the appropriate size */
   if (gui->pixmap)
     gdk_pixmap_unref (gui->pixmap);
@@ -108,9 +123,8 @@ static gboolean
 draw_object (objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
-  static GdkGC *blackgc = NULL;
-  static GdkGC *redgc = NULL;
-  static GdkGC *greengc = NULL;
+
+
   static gboolean init=FALSE;
   static GdkColor white, black, blue, green, yellow;
   if(!init) {
@@ -132,11 +146,7 @@ draw_object (objnode * curobj, gint x, gint y,
   /* The current note, rest, etc. being painted */
   gint extra;
 
-  if (!blackgc)
-    blackgc = gcs_blackgc ();
 
-  if (!redgc)
-    redgc = gcs_redgc ();
   if (!greengc)
     greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
@@ -397,7 +407,7 @@ draw_object (objnode * curobj, gint x, gint y,
   gdk_gc_set_foreground (blackgc, &black);
   //g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
-  return (mudelaitem->starttickofnextnote > itp->tickspermeasure);
+  return (mudelaitem->starttickofnextnote - itp->tickspermeasure);
 } /* draw_object */
 
 /**
@@ -412,8 +422,7 @@ void
 draw_measure (measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
-  static GdkPixmap *redexclaim = NULL;
-  static GdkGC *redgc;
+  static GdkPixmap *exclam = NULL;
   static GString *mstring;
   static PangoContext *context;
   static PangoLayout *layout;
@@ -429,11 +438,10 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
       layout = pango_layout_new (context);
     }
   /* initialization */
-  if (!redexclaim)
+  if (!exclam)
     {
-      redexclaim = bitmaphelper (itp->widget, toomany);
+      exclam = bitmaphelper (itp->widget, toomany);
       mstring = g_string_new (NULL);
-      redgc = gcs_redgc ();
     }
 
   /* Set information about the state at the current measure,
@@ -526,11 +534,12 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
        );
     offend = draw_object (curobj, x, y, gui, itp);
   }
-  /* Paint the red exclamation point, if necessary */
-  if (offend)
-    drawbitmapinverse (gui->pixmap, redgc, redexclaim,
-		       x, y - 8 - REDEXCL_HEIGHT,
-		       REDEXCL_WIDTH, REDEXCL_HEIGHT);
+  /* Paint the exclamation point, if necessary */
+  GdkGC *exclamgc = (offend>0)?redgc:(offend<0)?bluegc:NULL;
+  if(exclamgc)
+    drawbitmapinverse (gui->pixmap, exclamgc, exclam,
+		       x, y - 8 - EXCL_HEIGHT,
+		       EXCL_WIDTH, EXCL_HEIGHT);
 }
 
 /**
@@ -549,8 +558,6 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   PangoContext *context;
   PangoLayout *layout;
   PangoFontDescription *desc;
-  static GdkGC *blackgc;
-  static GdkGC *graygc;
 
   DenemoScore *si = gui->si;
   gint x, i;
@@ -559,15 +566,10 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
     gdk_pango_context_get_for_screen (gdk_drawable_get_screen (gui->pixmap));
   layout = pango_layout_new (context);
 
-  if (!blackgc)
-    {
-      blackgc = gcs_blackgc ();
-      graygc = gcs_slategraygc ();
-    }
   if ((DenemoStaff *) si->currentstaff->data == curstaffstruct)
     gc = blackgc;
   else
-    gc = graygc;
+    gc = slategraygc;
 
 
 
@@ -643,7 +645,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
       if(itp->measurenum == si->rightmeasurenum+1)
-	itp->gc = gcs_slategraygc ();
+	itp->gc = slategraygc;
       draw_measure (itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
@@ -679,6 +681,7 @@ draw_score_directives (void) {
   GList *header_directives = Denemo.gui->si->header.directives;
   GList *paper_directives = Denemo.gui->paper.directives;
   GList *layout_directives = Denemo.gui->si->layout.directives;
+  GList *movement_directives = Denemo.gui->si->movementcontrol.directives;
   gint x=0, y = 0;
 
   PangoContext *context =
@@ -702,6 +705,7 @@ draw_score_directives (void) {
   OUTPUT_DIREC(header_directives);
   OUTPUT_DIREC(paper_directives);
   OUTPUT_DIREC(layout_directives);
+  OUTPUT_DIREC(movement_directives);
 #undef OUTPUT_DIREC
   pango_font_description_free (desc);
   return y;
@@ -719,20 +723,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   staffnode *curstaff;
   gint x, y=0, i;
   struct infotopass itp;
-  static GdkGC *blackgc = NULL;
-  static GdkGC *bluegc;
-  static GdkGC *graygc;
+
   GList *mwidthiterator;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
 
-  /* One-time inits */
-  if (!blackgc)
-    {
-      blackgc = gcs_blackgc ();
-      bluegc = gcs_bluegc ();
-      graygc = gcs_graygc ();
-    }
 
   /* Initialize some fields in itp */
 
@@ -743,15 +738,15 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.highy = 0;//in case there are no objects...
   y = 0;
   //draw score title etc above top staff, if it is visible and if desired by score directives
-  if(si->top_staff==1) {
+  if(si->top_staff==1 && Denemo.prefs.visible_titles) {
     static last_y;
+    curstaff = si->thescore;
+    gint space = ((DenemoStaff *) curstaff->data)->space_above;
     do {
       last_y = y;
       y = 0;
       gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, widget->allocation.width/*KEY_MARGIN*/, last_y);
-      y = draw_score_directives();
-      curstaff = si->thescore;
-      gint space = ((DenemoStaff *) curstaff->data)->space_above;
+      y = draw_score_directives();  
       if(space<y) 
 	space = ((DenemoStaff *) curstaff->data)->space_above = y;
     } while (last_y != y);
@@ -780,9 +775,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	/* draw background of clef, keysig, timesig */
 	gint key = gui->si->maxkeywidth;
 	gint cmajor = key?0:5;//allow some area for keysig in C-major
-	gdk_draw_rectangle (gui->pixmap, gcs_graygc(), TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
-	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
-	gdk_draw_rectangle (gui->pixmap, gcs_graygc(), TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+	gdk_draw_rectangle (gui->pixmap, graygc, TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
+	gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
+	gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
       }
       draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
@@ -855,15 +850,14 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 gint
 scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
-
 DenemoGUI *gui = Denemo.gui;
-  do{
-  /* Clear the backing pixmap */
-  if(Denemo.gui->input_source!=INPUTKEYBOARD &&
-     (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
-     && pitch_entry_active(gui)) {
-    gdk_draw_rectangle (gui->pixmap,
-			gcs_lightbluegc(),
+ do{
+   /* Clear the backing pixmap */
+   if(Denemo.gui->input_source!=INPUTKEYBOARD &&
+      (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
+      && pitch_entry_active(gui)) {
+     gdk_draw_rectangle (gui->pixmap,
+			 gcs_lightbluegc(),
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);

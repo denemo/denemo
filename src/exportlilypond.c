@@ -1265,7 +1265,7 @@ outputHeader (GString *str, DenemoGUI * gui)
 
   g_string_append_printf (str, "%s", "%%http://www.gnu.org/software/denemo/\n\n");
   /*Print out lilypond syntax version */
-  g_string_append_printf (str, "\\version \"%s\"\n", LILYPOND_VERSION);
+  g_string_append_printf (str, "\\version \"%s\"\n", gui->lilycontrol.lilyversion->str/*LILYPOND_VERSION*/);
 
   /* print \paper block settings for excerpt */
   if (gui->lilycontrol.excerpt == TRUE){
@@ -1459,7 +1459,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
       g_string_assign(str,"");
       gint firstobj=1, lastobj= G_MAXINT;
-      if(start && gui->si->firstobjmarked) {//firstobjmarked==0 means not set
+      if(start && gui->si->firststaffmarked) {//firststaffmarked==0 means not set
 	firstobj = 1+MIN( gui->si->firstobjmarked, gui->si->lastobjmarked);
 	lastobj =  1+MAX( gui->si->firstobjmarked, gui->si->lastobjmarked);
       }
@@ -1475,13 +1475,6 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
 	    empty_measure=FALSE; 
 
-
-
-
-	  if( (curobj->type==LILYDIRECTIVE)  &&
-	      (((lilydirective *) curobj->object)->postfix->len==0) &&
-	      (((lilydirective *) curobj->object)->prefix->len==0))
-	    continue;
 
  if(curobj->type==LILYDIRECTIVE){
 #define OUTPUT_LILY(what) \
@@ -1705,11 +1698,14 @@ void merge_lily_strings (DenemoGUI *gui) {
     if(target) { 
       gchar *lily = get_text(gui, anchor);   
       if(strcmp(lily, g_object_get_data(G_OBJECT(anchor),ORIGINAL))){
-	//g_print("Compare %s\nwith %s for target %p\n", lily, g_object_get_data(anchor,ORIGINAL), *target);
+	//	g_print("Compare %s\nwith %s for target %p\n", lily, g_object_get_data(anchor,ORIGINAL), *target);
 	if(!*target)
 	  *target = g_string_new(lily);
 	else
 	  g_string_assign(*target, lily);
+
+
+	//this does not prevent corruption!!!!! on deleting all the string...
 	/* white space becomes empty string */
 	g_strstrip(lily);
 	if(*lily == '\0')
@@ -1717,6 +1713,10 @@ void merge_lily_strings (DenemoGUI *gui) {
 	    g_string_free(*target, TRUE);
 	    *target = g_string_new("");
 	  }
+#if 0
+	g_print("target %p at %p holds %s\n", *target, target, (*target)->str);
+#endif
+	/* this is    ((DenemoDirective*)((DenemoObject*)(Denemo.gui->si->currentobject->data))->object)->postfix */
 	g_free(g_object_get_data(G_OBJECT(anchor),ORIGINAL));
 	g_object_set_data(G_OBJECT(anchor),ORIGINAL, get_text(gui, anchor));
 	
@@ -2448,7 +2448,7 @@ static lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
     return FALSE;
   // if you have a visible marker you do this gtk_text_iter_backward_cursor_position(&cursor);
   GtkTextChildAnchor *anchor = gtk_text_iter_get_child_anchor(&cursor);
-  // g_print("Got a keypress event at anchor %p\n", anchor);
+  //g_print("Got a keypress event at anchor %p\n", anchor);
   //g_print("The character is %x keyval %x at %d\n", (guint)gdk_keyval_to_unicode(event->keyval), event->keyval,  gtk_text_iter_get_line_offset(&cursor));
   if(anchor){
     gint objnum =  (gint) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);

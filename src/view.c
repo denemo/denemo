@@ -33,8 +33,7 @@
 #endif
 static void
 newview (GtkAction *action, gpointer param);
-static void
-newtab (GtkAction *action, gpointer param);
+
 static void
 closewrapper (GtkAction *action, gpointer param);
 static gboolean
@@ -111,6 +110,7 @@ SCM call_out_to_guile(char *script) {
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define TogglePrintView_STRING  "TogglePrintView"
 #define ToggleScoreView_STRING  "ToggleScoreView"
+#define ToggleScoreTitles_STRING  "ToggleScoreTitles"
 #define QuickEdits_STRING  "QuickEdits"
 #define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
@@ -605,17 +605,28 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
-#define DELETEFUNC_DEF(what) static SCM scheme_delete_##what##_directive(SCM tag) {\
+
+#define EDIT_DELETE_FN_DEF(what)\
+ static SCM scheme_delete_##what##_directive(SCM tag) {\
   if(!SCM_STRINGP(tag))\
      return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   return SCM_BOOL( delete_##what##_directive (tagname));\
+}\
+ static SCM scheme_text_edit_##what##_directive(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return SCM_BOOL( text_edit_##what##_directive (tagname));\
 }
-DELETEFUNC_DEF(note)
-DELETEFUNC_DEF(chord)
-DELETEFUNC_DEF(staff)
-DELETEFUNC_DEF(voice)
-DELETEFUNC_DEF(score)
+
+
+
+EDIT_DELETE_FN_DEF(note)
+EDIT_DELETE_FN_DEF(chord)
+EDIT_DELETE_FN_DEF(staff)
+EDIT_DELETE_FN_DEF(voice)
+EDIT_DELETE_FN_DEF(score)
 
 
 #define GETFUNC_DEF(what, field)\
@@ -872,7 +883,7 @@ INT_GETFUNC_DEF(clef, gy)
 INT_GETFUNC_DEF(clef, override)
 INT_GETFUNC_DEF(clef, width)
 INT_GETFUNC_DEF(clef, height)
-DELETEFUNC_DEF(clef)
+EDIT_DELETE_FN_DEF(clef)
      // end block
 
 GETFUNC_DEF(timesig, prefix)
@@ -899,7 +910,7 @@ INT_GETFUNC_DEF(timesig, gy)
 INT_GETFUNC_DEF(timesig, override)
 INT_GETFUNC_DEF(timesig, width)
 INT_GETFUNC_DEF(timesig, height)
-DELETEFUNC_DEF(timesig)
+EDIT_DELETE_FN_DEF(timesig)
 
 GETFUNC_DEF(keysig, prefix)
 GETFUNC_DEF(keysig, postfix)
@@ -925,7 +936,7 @@ INT_GETFUNC_DEF(keysig, gy)
 INT_GETFUNC_DEF(keysig, override)
 INT_GETFUNC_DEF(keysig, width)
 INT_GETFUNC_DEF(keysig, height)
-DELETEFUNC_DEF(keysig)
+EDIT_DELETE_FN_DEF(keysig)
 
 
 GETFUNC_DEF(scoreheader, prefix)
@@ -952,7 +963,7 @@ INT_GETFUNC_DEF(scoreheader, gy)
 INT_GETFUNC_DEF(scoreheader, override)
 INT_GETFUNC_DEF(scoreheader, width)
 INT_GETFUNC_DEF(scoreheader, height)
-DELETEFUNC_DEF(scoreheader)
+EDIT_DELETE_FN_DEF(scoreheader)
 
 
 GETFUNC_DEF(header, prefix)
@@ -979,7 +990,7 @@ INT_GETFUNC_DEF(header, gy)
 INT_GETFUNC_DEF(header, override)
 INT_GETFUNC_DEF(header, width)
 INT_GETFUNC_DEF(header, height)
-DELETEFUNC_DEF(header)
+EDIT_DELETE_FN_DEF(header)
 
 
 GETFUNC_DEF(paper, prefix)
@@ -1006,7 +1017,7 @@ INT_GETFUNC_DEF(paper, gy)
 INT_GETFUNC_DEF(paper, override)
 INT_GETFUNC_DEF(paper, width)
 INT_GETFUNC_DEF(paper, height)
-DELETEFUNC_DEF(paper)
+EDIT_DELETE_FN_DEF(paper)
 
 
 GETFUNC_DEF(layout, prefix)
@@ -1033,7 +1044,7 @@ INT_GETFUNC_DEF(layout, gy)
 INT_GETFUNC_DEF(layout, override)
 INT_GETFUNC_DEF(layout, width)
 INT_GETFUNC_DEF(layout, height)
-DELETEFUNC_DEF(layout)
+EDIT_DELETE_FN_DEF(layout)
 
 
 GETFUNC_DEF(movementcontrol, prefix)
@@ -1060,7 +1071,7 @@ INT_GETFUNC_DEF(movementcontrol, gy)
 INT_GETFUNC_DEF(movementcontrol, override)
 INT_GETFUNC_DEF(movementcontrol, width)
 INT_GETFUNC_DEF(movementcontrol, height)
-DELETEFUNC_DEF(movementcontrol)
+EDIT_DELETE_FN_DEF(movementcontrol)
 
 
 SCM scheme_get_midi(void) {
@@ -1417,23 +1428,15 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
-#define INSTALL_DELETE(what)\
- install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);
-  INSTALL_DELETE(note);
-  INSTALL_DELETE(chord);
-  INSTALL_DELETE(staff);
-  INSTALL_DELETE(voice);
-  INSTALL_DELETE(score);
-#if 0
-  INSTALL_DELETE(clef);
-  INSTALL_DELETE(timesig);
-  INSTALL_DELETE(keysig);
-  INSTALL_DELETE(scoreheader);
-  INSTALL_DELETE(header);
-  INSTALL_DELETE(paper);
-  INSTALL_DELETE(layout);
-  INSTALL_DELETE(movementcontrol);
-#endif
+
+#define INSTALL_EDIT(what)\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
+  INSTALL_EDIT(note);
+  INSTALL_EDIT(chord);
+  INSTALL_EDIT(staff);
+  INSTALL_EDIT(voice);
+  INSTALL_EDIT(score);
 
 
 #define INSTALL_PUT(what, field)\
@@ -1667,7 +1670,7 @@ INSTALL_GET(clef, override)
 INSTALL_GET(clef, width)
 INSTALL_GET(clef, height)
 
-INSTALL_DELETE(clef);
+INSTALL_EDIT(clef);
      // end of block to copy for new type of directive
 
 INSTALL_PUT(timesig, display);
@@ -1699,7 +1702,7 @@ INSTALL_GET(timesig, override)
 INSTALL_GET(timesig, width)
 INSTALL_GET(timesig, height)
 
-INSTALL_DELETE(timesig);
+INSTALL_EDIT(timesig);
 
 INSTALL_PUT(keysig, display);
 INSTALL_PUT(keysig, prefix);
@@ -1730,7 +1733,7 @@ INSTALL_GET(keysig, override)
 INSTALL_GET(keysig, width)
 INSTALL_GET(keysig, height)
 
-INSTALL_DELETE(keysig);
+INSTALL_EDIT(keysig);
 
 
 INSTALL_PUT(scoreheader, display);
@@ -1762,7 +1765,7 @@ INSTALL_GET(scoreheader, override)
 INSTALL_GET(scoreheader, width)
 INSTALL_GET(scoreheader, height)
 
-INSTALL_DELETE(scoreheader);
+INSTALL_EDIT(scoreheader);
 
 
 INSTALL_PUT(header, display);
@@ -1794,7 +1797,7 @@ INSTALL_GET(header, override)
 INSTALL_GET(header, width)
 INSTALL_GET(header, height)
 
-INSTALL_DELETE(header);
+INSTALL_EDIT(header);
 
 
 INSTALL_PUT(paper, display);
@@ -1826,7 +1829,7 @@ INSTALL_GET(paper, override)
 INSTALL_GET(paper, width)
 INSTALL_GET(paper, height)
 
-INSTALL_DELETE(paper);
+INSTALL_EDIT(paper);
 
 
 INSTALL_PUT(layout, display);
@@ -1858,7 +1861,7 @@ INSTALL_GET(layout, override)
 INSTALL_GET(layout, width)
 INSTALL_GET(layout, height)
 
-INSTALL_DELETE(layout);
+INSTALL_EDIT(layout);
 
 INSTALL_PUT(movementcontrol, display);
 INSTALL_PUT(movementcontrol, prefix);
@@ -1889,11 +1892,11 @@ INSTALL_GET(movementcontrol, override)
 INSTALL_GET(movementcontrol, width)
 INSTALL_GET(movementcontrol, height)
 
-INSTALL_DELETE(movementcontrol);
+INSTALL_EDIT(movementcontrol);
 
 
-#undef INSTALL_DELETE
-#undef DELETEFUNC_DEF
+#undef INSTALL_EDIT
+#undef EDIT_DELETE_FN_DEF
 #undef INSTALL_PUT
 #undef INSTALL_GET
 #undef GETFUNC_DEF
@@ -3903,6 +3906,18 @@ toggle_score_view (GtkAction *action, gpointer param)
   return;
 }
 /**
+ *  Function to toggle visibility of print preview pane of current gui
+ *  
+ *  
+ */
+static void
+toggle_scoretitles (GtkAction *action, gpointer param)
+{
+  Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles;
+  if(Denemo.gui && Denemo.gui->scorearea)gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return;
+}
+/**
  *  Function to toggle whether object menubar is visible 
  *  
  *  
@@ -3936,11 +3951,6 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleEntryToolbar_STRING, NULL, N_("Note and rest entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
    G_CALLBACK (toggle_entry_toolbar), FALSE}
   ,
-#if 0
-  {ToggleActionMenu_STRING, NULL, N_("Menu of actions"), NULL, N_("Show/hide a menu which is arranged by actions\nThe actions are independent of any mode set"),
-   G_CALLBACK (toggle_action_menu), FALSE}
-  ,
-#endif
   {ToggleObjectMenu_STRING, NULL, N_("Menu of objects"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), FALSE}
   ,
@@ -3958,6 +3968,8 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_print_view), FALSE},
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
+  {ToggleScoreTitles_STRING, NULL, N_("Score Titles"), NULL, NULL,
+   G_CALLBACK (toggle_scoretitles), TRUE},
 
 
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
@@ -4438,12 +4450,17 @@ get_data_dir (),
   gtk_box_pack_end (GTK_BOX (hbox), Denemo.input_source, TRUE, TRUE, 5);
   gtk_widget_show (hbox);
 
-create_scheme_window();
+  create_scheme_window();
 
   populate_opened_recent ();
   gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
+  if (!Denemo.prefs.visible_titles) {
+    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
+    Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles; 
+  }
 
 #if 1 /* bug #25562 : apparently several people have tried to fix it this way */
 
@@ -4533,7 +4550,7 @@ newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
   //should we load init.denemo here as well???
-  open_user_default_template();
+  open_user_default_template(REPLACE_SCORE);
 }
 
 /**
@@ -4588,7 +4605,6 @@ Denemo.gui = gui;
   gui->scorearea = gtk_drawing_area_new ();
 
 
-
   gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,
 		      TRUE, 0);// with this, the scorearea_expose_event is called
   gtk_widget_show (gui->scorearea);
@@ -4624,8 +4640,8 @@ Denemo.gui = gui;
   //FIXME populate_opened_recent (gui);
 
   /* create the first movement now because showing the window causes it to try to draw the scorearea
-   which it cannot do before there is a score. */
-  new_score (gui);
+   which it cannot do before there is a score. FIXME use signal blocking to control this - see importxml.c */
+  point_to_new_movement (gui);
   gui->movements = g_list_append(NULL, gui->si);
  
 
@@ -4685,33 +4701,21 @@ Denemo.gui = gui;
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_release_event",
 		      (GtkSignalFunc) scorearea_keyrelease_event, gui);
 
-
-
-
   gtk_widget_add_events/*gtk_widget_set_events*/ (gui->scorearea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
 					  | GDK_LEAVE_NOTIFY_MASK
 					  | GDK_BUTTON_PRESS_MASK
 					  | GDK_BUTTON_RELEASE_MASK));
 
-
-
-
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {
-     g_print("No autosave on new gui");
+     g_print("No autosave on new tab");
    }
    else {
      Denemo.autosaveid = g_timeout_add (Denemo.prefs.autosave_timeout * 1000 * 60,
 					(GSourceFunc) auto_save_document_timeout, Denemo.gui);
    }
  }
-
- 
-
-
-
-
 
 }
 

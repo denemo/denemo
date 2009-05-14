@@ -22,8 +22,8 @@ file_add_staffs (GtkAction *action, DenemoScriptParam * param);
 void
 file_add_movements (GtkAction *action, DenemoScriptParam * param);
 
-void
-open_user_default_template(void);
+gint
+open_user_default_template(ImportType type);
 
 void
 system_template_open_with_check (GtkAction *action, DenemoScriptParam * param);
@@ -55,6 +55,8 @@ file_saveas (DenemoGUI *gui, gboolean as_template);
 
 void
 template_save (GtkAction * action, gpointer param);
+void 
+paste_clipboard(GtkAction * action, gpointer param);
 
 void
 reload_lily_file (GtkWidget * widget, gpointer data);

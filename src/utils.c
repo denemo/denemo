@@ -603,7 +603,7 @@ initdir ()
 {
 #ifndef G_OS_WIN32
   GError *error=NULL;
-  if(!gbr_init (&error))
+  if(!gbr_init (&error)&& (error != GBR_INIT_ERROR_DISABLED))
     {
       g_print ("BinReloc failed to initialize:\n");
       g_print ("Domain: %d (%s)\n",
@@ -864,12 +864,9 @@ void write_status(DenemoGUI *gui) {
 
   gchar *status;
 
-  status = "Movement";//FIXME find which number si comes in the list gui->movements and print that
-  //  if(gui->si->headerinfo.subtitle->len)
-  //    g_print("note we have the suntitle %s\n", gui->si->headerinfo.subtitle->str);
-  //  if(gui->si->headerinfo.piece->len)
-  //  g_print("note we have the piece %s\n", gui->si->headerinfo.piece->str);
-  status = g_strdup_printf("%s: %s", status, selection);
+  status = "Movement";
+  gint index = g_list_index(gui->movements, gui->si);
+  status = g_strdup_printf("%s %d: %s", status, index+1, selection);
 
   g_free(selection);
   gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);

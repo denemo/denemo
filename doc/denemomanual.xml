@@ -286,7 +286,7 @@
     </itemizedlist>
 </para>
  </sect2>
-    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. A few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
+    <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. Quite a few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Left clicking on items in the score allows you to edit any special attributes, (called Directives, see <xref linkend="DenemoDirectives" />), that they may have. Clicking on the initial clef, key or timesignature lets you edit these, clicking to the right or left of the measures visible moves you forwards and backwards in the score. Clicking in the top left corner allows you to edit Directives that apply to the whole score. Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
   <sect1>
     <title>Overall View of Denemo</title>
@@ -299,7 +299,7 @@
     One score may contain several movements, which you can move between, insert and delete with the Movements menu. A movement is a continuous piece of music with titles etc.
  </para>
     <para>
-    Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives. The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may just print "Smaller Staff" over the staff. The directive then directs the LilyPond typesetter to make the staff smaller.
+    Within a movement there are staffs (arranged vertically) and within the staffs Denemo Objects. These can be notes, chords and Denemo Directives (see  <xref linkend="DenemoDirectives" />). The notes and chords are displayed in conventional format (though not fully typeset). The Denemo Directives are used for most things that are not chords or notes: Metronome marks, repeat barlines etc are good examples. They can also be attached to chords, individual notes in a chord, to a staff as a whole and to the score as a whole. Each Denemo Directive carries its own display method. For example the Close Repeat barline appears as a Denemo Object in the converional music notation, while a Directive attached to a staff (e.g. Smaller Staff) may just print "Smaller Staff" over the staff. The directive then directs the LilyPond typesetter to make the staff smaller.
 </para>
     <para>
     The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods. You can use the Print View to indicate the padding that you wish to apply to some item, or to show where you want to drag it to.
@@ -660,7 +660,13 @@ The menus in Denemo are unusual: they not only let you do some particular action
               <entry>A (limited) palette of expression marks etc to apply to notes. More are in the menu system under Markings.</entry>
             </row>
 
-           
+            <row>
+              <entry>Score Titles</entry>
+
+              <entry>If this is checked any Titles, indent settings etc applying to the score are shown at the top of the score. The area can be clicked on for editing them.</entry>
+            </row>
+
+              
             <row>
               <entry>Menu of Objects</entry>
 
@@ -1255,7 +1261,9 @@ When using a MIDI controller to enter pitches, you can just set the Rhythm entry
 
 	<para>Denemo provides different ways to set up scores: <itemizedlist>
             <listitem>
-              <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin.<xref linkend="initDotDenemo" /></para>
+	    <para>Create template with the special name "default.denemo". If this is placed at the top level of your templates directory (that is ~/.denemo/templates/default.denemo), then it will be opened each time you start a new score. </para> </listitem>
+            <listitem>
+              <para>Create an init.denemo  score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <xref linkend="initDotDenemo" /> for details on what actions you can have Denemo perform before you start.</para>
             </listitem>
 
             <listitem>
@@ -1375,7 +1383,7 @@ If your choice of keyboard shortcut already belongs to another command, you are 
 
 
 
- <sect1>
+<sect1>
     <title>More Commands</title>
 <sect2>
      <title>Adding More Features </title>
@@ -1391,7 +1399,17 @@ You can also get Denemo to remember a frequently used sequence of actions - it c
   </para> 
  <para>As a simple example, suppose you wanted a command to delete the next note (there are commands to delete the previous note and the current note, so why not?). You would enter some notes, put on Record Scheme Script and then from the menu Cursor select Cursor Right (to move on to the note to be deleted), and with the Notes/Rests->Delete->Delete Object menu item you would delete the note. (Each time you use a menu item you will see a new command entered into the Scheme window). Now turn off Record Scheme Script and you can experiment with your new command by pressing Execute in the Scheme Script window. To save this new command for future use, you right click on a menu item (in the menu where you would like the command to appear) and choose "Save Script as New Menu Item", this will ask you to make up a name for your new command as well as a label for the menu item etc.
 
- </para>  <para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
+ </para>  
+<para> You can save the command in your default sequence of commands (via Edit->Customize Commands...->Manage Command Set->Save as Default Command Set). If not you will be asked if you want to save your new commands when you exit. Otherwise you can re-load via the More->My Commands menu item.</para> 
+</sect2>
+<sect2>
+     <title>An even easier way</title>
+   <para>
+   There is an even easier way of adding your own favorite LilyPond tweaks, which is by modifying a tweak that has already been done. This can be done by using the text-edit dialog on an existing Denemo Directive (usually found under the Advanced button provided by an edit script). Here you can see the actual LilyPond text that will be inserted, and there is a button to create a script to generate whatever you choose to enter. You can also enter the name of graphic images (.png files) that are to be used to represent your item in the display, and say where it should be positioned.
+  </para>
+   <para>
+Once you have created the script, it can be saved in the menu system by right clicking on an item in the menu where you want to place the command, and choosing "Save Script as New Menu Item" as above.
+   </para>
 </sect2>
 <sect2>
  <title>Writing Scheme Scripts </title>
@@ -1528,33 +1546,101 @@ d-ScoreProperties (fontsize= size of font to be used for score)
 
 </itemizedlist>
   </para>
-  <sect2>
-   <title>The Types of Directives</title>
+</sect1>
 
+  <sect1 id="DenemoDirectives">
+   <title>Denemo Directives</title>
   <para>
- Denemo Directives can be attached at almost every level of a Denemo score and can modify the behavior of the element concerned. They are sufficiently important to have their own commands.
+  These give attributes to objects that are not built-in but can be changed by the user.
+  </para>
+  <para>
+ Denemo Directives can be attached at almost every level of a Denemo score and can modify the behavior of the element concerned. They contain fields to describe how the element's properties should be modified, either in the display or in the printing. Elements, such as clefs notes etc have their own built-in display and print properties; Denemo Directives allow you (or scripts you invoke) to modify them for many more purposes than the built-in set allows. This means Denemo can grow - you can add features - without getting a new version.
+  </para>
+  <para>
+For example the drum clef is not built-in to Denemo. Instead a directive attached to the clef has a field (graphic) set to an image of the drum clef, and another field (postfix) set to the LilyPond syntax for a drum clef, while another field (override) is set to indicate that these values should replace the normal ones, rather than adding to them.
+  </para>
+  <para>
+The elements that can be modified in this way are the following:
+<itemizedlist>
+<listitem>
+score: the LilyPond fields (prefix and postfix) are placed at the start of the score and just before each movement. The display field is shown at the top of the display.
+</listitem>
+
+<listitem>
+scoreheader: Attached to the score. The postfix field is put inside a \header{} block at the start of the score.
+</listitem>
+<listitem>
+movementcontrol: Attached to a movement. The prefix field is placed before the movements \score{} block, the postfix after it.
+</listitem>
+<listitem>
+header: Attached to a movement. As scoreheader but for \header[] blocks inside the movement's score block.
+</listitem>
+<listitem>
+paper: Attached to the score. The postfix is placed inside a \paper{} block.
+</listitem>
+
+<listitem>
+layout: Attached to a movement. The postfix is placed inside a \layout{} block in the movement's scoreblock.
+</listitem>
+
+<listitem>
+clef: Attached to a clef or clef change. The graphic holds the displayed icon, gx,gy its position. The postfix field is put into the music at the point where the clef is found, replacing the normal text if the override is set.
+</listitem>
+
+
+<listitem>
+timesig: Attached to a time signature or time signature change. The graphic holds the displayed icon, gx,gy its position. The postfix field is put into the music at the point where the time signature is found, replacing the normal text if the override is set.
+</listitem>
+
+<listitem>
+keysig: as timesig but for key signatures. (e.g. used to supress keysignatures in drum clef).
+</listitem>
+<listitem>
+staff: The postfix field modifies the whole staff context, with the display field printed at the start of the staff
+</listitem>
+<listitem>
+voice: The postfix field modifies the voice context, with the display field printed at the start of the staff containing the voice
+</listitem>
+<listitem>
+standalone: A directive not attached to an music element - it comes with the music and is used for things like repeat bars etc.
+</listitem>
+<listitem>
+chord: The prefix field is emitted before the LilyPond for the chord and the postfix after it.
+</listitem>
+<listitem>
+note: The prefix field is emitted before the LilyPond for the note and the postfix after it. Examples are fingerings attached to notes etc. Again the display and graphic fields a placed in the display positioned relative to the note via the coordinate fields gx, gy (for the graphic) and tx, ty for the display text.
+</listitem>
+
+</itemizedlist>
+
+  </para>
+  <para>
+The Directives are sufficiently important to have their own commands.
+  </para>
+  <para>
 <itemizedlist>
 
 <listitem>
-d-DirectivePut-type-field where type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
+d-DirectivePut-type-field where type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
 <example id="schemecalls">
  (d-DirectivePut-note-postfix "LHFinger" "3")
 </example>
 will put the fingering 3 on (after) the note at the cursor.
 </listitem>
 <listitem>
-d-DirectiveGet-type-field type is one of score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
+d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
 </listitem>
+
+<listitem>
+d-DirectiveDelete-type type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note. This function returns #t or #f if a directive with the given tag was deleted.
+</listitem>
+
+
 </itemizedlist> 
   </para>
-</sect2>
 
-  <sect2>
-   <title>Directives Attached to ...</title>
- score, scoreheader, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.
-</sect2>
 <sect2>
-   <title>The Settable Directive Fields</title>
+   <title>The Directive Fields</title>
 
  The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
   <para>
@@ -1579,7 +1665,7 @@ graphic - a .png image to be shown in the Denemo Display (the directory bitmaps 
 gx, gy - where to show thegraphic in the Denemo Display
 </listitem>
 <listitem>
-minpixels - how much space to leave for this item in the DenemoDisplay
+minpixels - how much space to leave for this item in the Denemo Display
 </listitem>
 <listitem>
 override - Contains bits to determine whether the LilyPond contained in the Directive (postfix and/or prefix fields) should override the normal LilyPond output, and whether the Graphic should replace the normal Denemo display for the item.
@@ -1600,6 +1686,17 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
  
    <para>
    The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
+  </para>
+   <para>
+   There is also a low-level editing dialog which is invoked if no editing script exists or directly from scheme using (d-DirectiveTextEdit-* tagname). This allows you to edit and delete a directive directly. The other directive editing commands are EditScoreDirective EditMovementDirective EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective EditTimesigDirective for directives attached to the relevant objects.
+  </para>
+   <para>
+   The low level edit of directives from scheme uses the following command:
+<itemizedlist>
+<listitem>
+ (d-DirectiveTextEdit-&lt;field&gt; &lt;tagname&gt;). Where &lt;tagname&gt; specifies the directive to be edited and &lt;field&gt; is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.
+</listitem>
+</itemizedlist>
   </para>
 </sect2>
 <sect2>
@@ -1625,6 +1722,7 @@ SetRelativeFontSize tag type context. As Extra-Offset, it shifts the font size o
 <listitem>
 Useful variables defined:
 (define stop "\0")
+(define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
 (define cue-PlaceBelow "Place below staff")
 (define cue-SetRelativeFontSize "Set Relative Font Size")
@@ -1633,6 +1731,7 @@ Useful variables defined:
 (define cue-EditText "Edit Text")
 (define cue-SetPadding "Set Padding")
 (define cue-Delete "Delete")
+
 </listitem>
 </itemizedlist>
 

@@ -323,6 +323,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Create working area (tab with an empty score in it)", N_("NewWindow"), "newview", N_("New Tab")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert a new movement before the current one", N_("InsertMovementBefore"), "insert_movement_before", N_("Insert Movement Before")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert a new movement after the current one", N_("InsertMovementAfter"), "insert_movement_after", N_("Insert Movement After")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Create a new movement, usign any default template", N_("NewMovement"), "append_new_movement", N_("New Movement")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Save Parts: each staff becomes a file in lilypond format", N_("SaveParts"), "file_savepartswrapper", N_("Save Parts")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE_AS", "Export the score as a PDF document file", N_("ExportPDF"), "export_pdf_action", N_("Export PDF")},
 
@@ -339,7 +340,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Extend the selection", N_("ExtendSelect"), NULL, N_("Extend Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_COPY", "Copy", N_("Copy"), "copywrapper", N_("Copy")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_CUT", "Cut", N_("Cut"), "cutwrapper", N_("Cut")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste the selected music", N_("Paste"), "pastewrapper", N_("Paste")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste the selected music", N_("Paste"), "pastewrapper", N_("Paste")},
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste LilyPond notes from the text clipboard", "PasteClipboard", "paste_clipboard", N_("Paste LilyPond notes")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change some of the properties of the current score. This will start up a dialog window", N_("ScoreProperties"), "score_properties_dialog", N_("Score Properties")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Save the selected music. Not sure if this is working", N_("SaveSelection"), "saveselwrapper", N_("Save Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PREFERENCES", "Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones", N_("Preferences"), "preferences_change", N_("Change Preferences")}, 
