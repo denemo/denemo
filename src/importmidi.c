@@ -25,17 +25,20 @@
 #include "staffops.h"
 #include "smf.h"
 
-#define NOTE_OFF                0x80
-#define NOTE_ON                 0x90
-#define CTRL_CHANGE             0xB0
-#define PGM_CHANGE              0xC0
-#define META_EVENT              0xFF
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
 #define META_TRACK_NAME         0x03
 #define META_INSTR_NAME		0x04
 #define META_TEMPO              0x51
 #define META_TIMESIG            0x58
 #define META_KEYSIG             0x59
+#define NOTE_OFF                0x80
+#define NOTE_ON                 0x90
+#define AFTERTOUCH		0xA0
+#define CTRL_CHANGE             0xB0
+#define PGM_CHANGE              0xC0
+#define CHNL_PRESSURE		0xD0
+#define PCH_WHEEL		0xE0
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define META_EVENT              0xFF
 
 typedef struct notetype
 {
@@ -92,7 +95,7 @@ void dokeysig(gint key, gint isminor, midicallback *mididata);
 void dotempo(gint tempo,  midicallback *mididata);
 void dotrackname(gchar *name, midicallback *mididata);
 void doinstrname(gchar *name, midicallback *mididata);
-void donoteon(midicallback *mididata, gint *pitchon, gint *attack, gint *timeon);
+void donoteon(midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon);
 void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
 void restcheck(GList *tmp, midicallback *mididata);
 struct notetype ConvertLength(gint endnote, midicallback *mididata);
@@ -313,8 +316,8 @@ show_event(smf_event_t *event)
 	return 0;
 }
 
-static char *
-filter_metadata(const smf_event_t *event, midicallback *mididata)
+void
+decode_metadata(const smf_event_t *event, midicallback *mididata)
 {
 	int off = 0, mspqn, flats, isminor;
 	char *buf;
@@ -445,104 +448,74 @@ filter_metadata(const smf_event_t *event, midicallback *mididata)
 			goto error;
 	}
 
-	return buf;
-
 error:
 	free(buf);
-
-	return NULL;
 }
 
-char *
-filter_midi_event(const smf_event_t *event, midicallback *mididata)
+void 
+decode_midi_event(const smf_event_t *event, midicallback *mididata)
 {
 	int off = 0, channel;
-	char *buf, note[5];
+	char note[5];
 
 	/* + 1, because user-visible channels used to be in range <1-16>. */
 	channel = (event->midi_buffer[0] & 0x0F) + 1;
 
-	switch (event->midi_buffer[0] & 0xF0) {
-		case 0x80:
+	switch (event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) {
+		case NOTE_OFF:
 			note_from_int(note, event->midi_buffer[1]);
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Note Off, channel %d, note %s, velocity %d",
+			g_debug("\nNote Off channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
 			break;
 
 		case NOTE_ON:
 			note_from_int(note, event->midi_buffer[1]);
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Note On, channel %d, note %s, velocity %d",
+			g_debug("\nNote On channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
+			donoteon(mididata, event->midi_buffer[1], event->midi_buffer[2], );
 			break;
 
-		case 0xA0:
+		case AFTERTOUCH:
 			note_from_int(note, event->midi_buffer[1]);
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Aftertouch, channel %d, note %s, pressure %d",
+			g_debug("\nAftertouch channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
 			break;
 
-		case 0xB0:
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Controller, channel %d, controller %d, value %d",
+		case CTRL_CHANGE:
+			g_debug("\nController channel %d controller %d value %d\n", 
 					channel, event->midi_buffer[1], event->midi_buffer[2]);
 			break;
 
-		case 0xC0:
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Program Change, channel %d, controller %d",
+		case PGM_CHANGE:
+			g_debug("\nProgram Change channel %d controller %d\n", 
 					channel, event->midi_buffer[1]);
 			break;
 
-		case 0xD0:
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Pressure, channel %d, pressure %d",
+		case CHNL_PRESSURE:
+			g_debug("\nChannel Pressure channel %d pressure %d\n", 
 					channel, event->midi_buffer[1]);
 			break;
 
-		case 0xE0:
-			off += snprintf(buf + off, BUFFER_SIZE - off, "Pitch Wheel, channel %d, value %d",
+		case PCH_WHEEL:
+			g_debug("\nPitch Wheel channel %d value %d\n", 
 					channel, ((int)event->midi_buffer[2] << 7) | (int)event->midi_buffer[2]);
 			break;
 
 		default:
-			free(buf);
-			return (NULL);
+			break;
 	}
 
-	return (buf);
 }
 static int
-process_midi_event(smf_event_t *event, midicallback *mididata)
+process_midi(smf_event_t *event, midicallback *mididata)
 {
 	int off = 0, i;
-	char *decoded, *type;
 
 	if (smf_event_is_metadata(event))
-		g_message("\nMetadata = %s\n", filter_metadata(event, mididata));
+		decode_metadata(event, mididata);
 	else
-		type = "Data";
-		//g_message("\nEvent = %s\n", filter_midi_event(event, mididata));
+		decode_midi_event(event, mididata);
 	
-	decoded = smf_event_decode(event);
-
-	if (decoded == NULL) {
-		decoded = malloc(BUFFER_SIZE);
-		if (decoded == NULL) {
-			g_critical("show_event: malloc failed.");
-			return -1;
-		}
-		/*
-		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
-
-		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
-			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
-			*/
-	}
-
-	if (type == "Data")
-		//g_message("\nEvent = %s\n", filter_midi_event(event, mididata));
-	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
-		event->time_seconds, event->time_pulses, event->delta_time_pulses);
-
-	free(decoded);
-
 	return 0;
 }
 
@@ -566,7 +539,7 @@ cmd_events(midicallback *mididata)
 		//show_event(event);
 #endif
 		/* Do something with the event */
-		process_midi_event(event, mididata);
+		process_midi(event, mididata);
 	}
 
 	smf_rewind(smf);
@@ -803,7 +776,7 @@ stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *measur
  */
 
 void
-donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
+donoteon (midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon)
 {
   nstack *noteon;
   int delta_time = mididata->delta_time;
@@ -889,7 +862,7 @@ donoteoff (midicallback *mididata, gint *pitchoff, gint *timeoff)
   list = g_list_find_custom (mididata->notestack, pitchoff, (GCompareFunc) (int) CompareNotes);
   if (list != NULL)
       	starttime = (int) ((nstack *) list->data)->timeon;
-      	duration = ((gint) timeoff) - starttime; /*can this can actually be obtained from the delta_time?*/
+      	duration = ((gint) timeoff) - starttime; /*can this actually be obtained from the delta_time?*/
 #ifdef DEBUG
    	g_printf("\nduration = %i\n",duration);
 #endif
