@@ -2358,6 +2358,27 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>(Print) Hide Movement</label>
         <tooltip>Hides the movement on printing.</tooltip>
       </row>
+      <row>
+        <action>Beam1234</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Beam 4 Beats</label>
+        <tooltip>Beams end on each quarter note (up to 4).</tooltip>
+      </row>
+      <row>
+        <action>ClosingBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Closing Barline</label>
+        <tooltip>Inserts a closing barline (a double bar with last one thicker).</tooltip>
+      </row>
+      <row>
+        <action>EnterRest</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Rest</label>
+        <tooltip>Inserts a rest in the prevailing duration</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
