@@ -2158,14 +2158,14 @@ simple_element:
  	| SKIPNAME optional_notemode_duration		{
 	/* denemo wants a chord with no notes */
 	DenemoObject *mud = newchord( $2.t1.a, $2.t1.b,0);
-	mud->type = SKIPNAME;
+	mud->type = CHORD;
 	mud->user_string = g_strconcat($1.user_string, $2.user_string, NULL);
 	$$ = g_list_append(NULL,mud); 
 	}
 	| MULTI_MEASURE_REST optional_notemode_duration  	{
 	/* treat as skip for the moment */
 	DenemoObject *mud = newchord( $2.t1.a, $2.t1.b,0);
-	mud->type = SKIPNAME;
+	mud->type = CHORD;
 	mud->user_string = g_strconcat($1.user_string, $2.user_string, NULL);
 	$$ = g_list_append(NULL,mud); 
 
