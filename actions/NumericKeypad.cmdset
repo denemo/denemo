@@ -1082,7 +1082,6 @@ the cursor position is the end point</tooltip>
         <tooltip>Make next rhythm pattern
 the prevailing rhythm.
 Notes entered will follow this pattern</tooltip>
-        <bind>space</bind>
       </row>
       <row>
         <action>AppendMeasuresToScore</action>
@@ -1180,6 +1179,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Insert a new movement after the current one</tooltip>
       </row>
       <row>
+        <action>NewMovement</action>
+        <label>New Movement</label>
+        <tooltip>Create a new movement, using any default template</tooltip>
+      </row>
+      <row>
         <action>SaveParts</action>
         <label>Save Parts</label>
         <tooltip>Save Parts: each staff becomes a file in lilypond format</tooltip>
@@ -1259,6 +1263,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Paste the selected music</tooltip>
         <bind>Control+v</bind>
         <bind>RlsL-Control</bind>
+      </row>
+      <row>
+        <action>PasteClipboard</action>
+        <label>Paste LilyPond notes</label>
+        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
       </row>
       <row>
         <action>ScoreProperties</action>
@@ -2407,6 +2416,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Insert Rest</label>
         <tooltip>Inserts a rest in the prevailing duration</tooltip>
+        <bind>space</bind>
       </row>
     </map>
   </commands>
