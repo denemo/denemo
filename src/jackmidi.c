@@ -9,7 +9,7 @@
 #include <string.h>
 #include <assert.h>
 #include "pitchentry.h"
-#include "libsmf/smf.h"
+#include "smf.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
