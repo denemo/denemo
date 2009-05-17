@@ -880,7 +880,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
     return;
   }
   insertion_point (si);
-  
+
   /* Now actually create the chord */
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
@@ -902,9 +902,9 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
  
   if (gui->mode&(INPUTRHYTHM)) {
     if(rest)
-      play_pitch(64.0*(1+duration), 60.0/(4.0*gui->si->tempo*(1<<duration)), 0.1, 2);//FIXME make a distinct noise
+      playpitch(64.0*(1+duration), 60.0/(4.0*gui->si->tempo*(1<<duration)), 0.1, 2);//FIXME make a distinct noise
       else
-	play_pitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.2, 1);
+	playpitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.2, 1);
   } else {
     if(Denemo.gui->input_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
@@ -1200,7 +1200,7 @@ changedots (DenemoScore * si, gint amount)
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       if (Denemo.gui->mode&(INPUTRHYTHM))
-	  play_pitch(440.0, 0.2, 0.2, 1);
+	  playpitch(440.0, 0.2, 0.2, 1);
       changenumdots (curmudelaobj, amount);
 
       if (curmudelaobj->user_string)

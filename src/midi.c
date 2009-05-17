@@ -136,10 +136,14 @@ midi_init ()
   return 0;
 }
 
-
+void playpitch(double pitch, double duration, double volume, int channel) {
+  if(!Denemo.prefs.immediateplayback)
+    return;
+  play_pitch(pitch, duration, volume, channel);
+}
 
 void play_midikey(gint key, double duration, double volume, gint channel){
- play_pitch(midi2hz(key), duration, volume, channel);
+ playpitch(midi2hz(key), duration, volume, channel);
 }
 
 /**
@@ -220,6 +224,7 @@ close_seqfd (gpointer data)
 void
 playnotes (gboolean doit, chord chord_to_play, int prognum)
 {
+  g_print("playnotes called");
   if (doit && (sequencer_absent) && chord_to_play.notes) {
     playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
     return;
