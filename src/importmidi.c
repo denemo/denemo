@@ -25,8 +25,11 @@
 #include "staffops.h"
 #include "smf.h"
 
+#define TEXT			0x01
+#define COPYRIGHT		0X02
 #define META_TRACK_NAME         0x03
 #define META_INSTR_NAME		0x04
+
 #define META_TEMPO              0x51
 #define META_TIMESIG            0x58
 #define META_KEYSIG             0x59
@@ -331,10 +334,10 @@ decode_metadata(const smf_event_t *event, midicallback *mididata)
 	//assert(smf_event_is_metadata(event));
 
 	switch (event->midi_buffer[1]) {
-		case 0x01:
+		case TEXT:
 			//return smf_event_decode_textual(event, "Text");
 
-		case 0x02:
+		case COPYRIGHT:
 			//return smf_event_decode_textual(event, "Copyright");
 
 		case META_TRACK_NAME:
@@ -466,13 +469,15 @@ decode_midi_event(const smf_event_t *event, midicallback *mididata)
 			note_from_int(note, event->midi_buffer[1]);
 			g_debug("\nNote Off channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
+			donoteoff (mididata, event->midi_buffer[1], event->time_pulses);
 			break;
 
 		case NOTE_ON:
 			note_from_int(note, event->midi_buffer[1]);
 			g_debug("\nNote On channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
-			donoteon(mididata, event->midi_buffer[1], event->midi_buffer[2], );
+			donoteon(mididata, event->midi_buffer[1], event->midi_buffer[2], 
+					event->time_pulses);
 			break;
 
 		case AFTERTOUCH:
@@ -780,7 +785,7 @@ donoteon (midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon)
 {
   nstack *noteon;
   int delta_time = mididata->delta_time;
-  if (attack == 0)
+  if (velocity == 0)
     {
       donoteoff (mididata, pitchon, timeon);
     }
@@ -1198,7 +1203,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   /* Read Track Data */ 
   readtrack(mididata);
 
-  g_free(mididata);
-  g_free(filename);
+  //g_free(mididata);
+  //g_free(filename);
   return ret;
 }
