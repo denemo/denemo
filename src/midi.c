@@ -143,7 +143,19 @@ void playpitch(double pitch, double duration, double volume, int channel) {
 }
 
 void play_midikey(gint key, double duration, double volume, gint channel){
+#ifdef _HAVE_JACK_
+  playpitch(midi2hz(key), duration, volume, channel);
+
+/* FIXME replace this with something direct based on */
+/*  buffer = jack_midi_event_reserve(port_buf, i, 3); */
+/*                                 buffer[2] = 64;         /\* velocity *\/ */
+/*                                 buffer[1] = note_frqs[j]; */
+/*                                 buffer[0] = 0x90;       /\* note on *\/ */
+/*  and a timer to turn the note off after duration */
+
+#else
  playpitch(midi2hz(key), duration, volume, channel);
+#endif
 }
 
 /**
@@ -224,7 +236,7 @@ close_seqfd (gpointer data)
 void
 playnotes (gboolean doit, chord chord_to_play, int prognum)
 {
-  g_print("playnotes called");
+  //  g_print("playnotes called");
   if (doit && (sequencer_absent) && chord_to_play.notes) {
     playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
     return;
