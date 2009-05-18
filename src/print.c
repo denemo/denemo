@@ -996,11 +996,16 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
   gtk_adjustment_changed(hadjust);
 }
 
+static gint adjust_x=0;
+static gint adjust_y=0;
+
+
 static void
 printvertical_scroll (GtkAdjustment * adjust)
 {
   DenemoGUI *gui = Denemo.gui;
   // g_print("vertical %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
+  adjust_y=(int)adjust->value;
   gtk_widget_queue_draw (gui->printarea);
 }
 
@@ -1009,6 +1014,7 @@ printhorizontal_scroll (GtkAdjustment * adjust)
 {
   DenemoGUI *gui = Denemo.gui;
   // g_print("horizontal %d to %d\n", (int)adjust->value, (int)(adjust->value+adjust->page_size));
+  adjust_x=(int)adjust->value;
 gtk_widget_queue_draw (gui->printarea);
 }
 
@@ -1146,10 +1152,11 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 
     GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
     if(alphapixbuf){
-      gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
-  
+      //   gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
+      gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx+adjust_x, marky+adjust_y, pointx+adjust_x, pointy+adjust_y);
+      g_print("Used adjust x y %d, %d\n", adjust_x, adjust_y);
       GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx, marky, width, height);
+      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx+adjust_x, marky+adjust_y, width, height);
 
       GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
       g_object_unref(sub_pixbuf);
