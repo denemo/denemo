@@ -615,7 +615,8 @@ void
 jack_midi_playback_stop ()
 {
    stop_midi_output = 1;
-   jack_transport_stop(jack_client);
+   if(jack_client)
+     jack_transport_stop(jack_client);
 }
 
 
