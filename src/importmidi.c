@@ -530,23 +530,25 @@ cmd_events(midicallback *mididata)
 	smf_event_t *event;
 
 	if (selected_track == NULL) {
-		g_critical("No track selected - please use 'track [number]' command first.");
+		g_critical("No track");
 		return -1;
 	}
 
-	g_message("List of events in track %d follows:", selected_track->track_number);
-
 	smf_rewind(smf);
-
-	while ((event = smf_track_get_next_event(selected_track)) != NULL) {
+       
+        while (mididata->track <= smf->number_of_tracks){	
+	  //cmd_track();
+	  //cmd_track(itoc(mididata->track));
+	  while ((event = smf_track_get_next_event(selected_track)) != NULL) {
 #ifdef DEBUG
 		/* print midi event */
 		//show_event(event);
 #endif
 		/* Do something with the event */
 		process_midi(event, mididata);
+	  }
+	  mididata->track++;
 	}
-
 	smf_rewind(smf);
 
 	return 0;
@@ -1190,7 +1192,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   mididata->PPQN = 200;
   mididata->bartime = 0;
   mididata->lastoff = 0;
-  mididata->track = 0;
+  mididata->track = 1;
   gint ret = 0;	// (-1 on failure)
 
   /* delete old data in the score */

@@ -1176,6 +1176,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Insert a new movement after the current one</tooltip>
       </row>
       <row>
+        <action>NewMovement</action>
+        <label>New Movement</label>
+        <tooltip>Create a new movement, usign any default template</tooltip>
+      </row>
+      <row>
         <action>SaveParts</action>
         <label>Save Parts</label>
         <tooltip>Save Parts: each staff becomes a file in lilypond format</tooltip>
@@ -1255,6 +1260,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Paste the selected music</tooltip>
         <bind>Control+v</bind>
         <bind>RlsL-Control</bind>
+      </row>
+      <row>
+        <action>PasteClipboard</action>
+        <label>Paste LilyPond notes</label>
+        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
       </row>
       <row>
         <action>ScoreProperties</action>
@@ -1473,6 +1483,31 @@ Notes entered will follow this pattern</tooltip>
         <action>EditScoreDirective</action>
         <label>Edit Score Directives</label>
         <tooltip>Edit any directives attached to score.</tooltip>
+      </row>
+      <row>
+        <action>EditMovementDirective</action>
+        <label>Edit Movement Directives</label>
+        <tooltip>Edit any directives attached to movement.</tooltip>
+      </row>
+      <row>
+        <action>EditClefDirective</action>
+        <label>Edit Clef Directives</label>
+        <tooltip>Edit any directives attached to clef.</tooltip>
+      </row>
+      <row>
+        <action>EditTimesigDirective</action>
+        <label>Edit Time Signature Directives</label>
+        <tooltip>Edit any directives attached to time signature.</tooltip>
+      </row>
+      <row>
+        <action>EditKeysigDirective</action>
+        <label>Edit Key Signature Directives</label>
+        <tooltip>Edit any directives attached to key signature.</tooltip>
+      </row>
+      <row>
+        <action>DeleteDirective</action>
+        <label>Delete a Directive</label>
+        <tooltip>Delete a directive attached to chord/note at cursor.</tooltip>
       </row>
       <row>
         <action>AttachLilyToNote</action>
@@ -2378,6 +2413,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Insert Rest</label>
         <tooltip>Inserts a rest in the prevailing duration</tooltip>
+      </row>
+      <row>
+        <action>ReadingNoteNames</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
       </row>
     </map>
   </commands>
