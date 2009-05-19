@@ -11,7 +11,7 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
- * ALTHOUGH THIS SOFTWARE IS MADE OF SCIENCE AND WIN, IT IS PROVIDED BY THE
+ * ALTHOUGH THIS SOFTWARE IS MADE OF WIN AND SCIENCE, IT IS PROVIDED BY THE
  * AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
  * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
@@ -25,15 +25,17 @@
  *
  */
 
-/*
- * This is Standard MIDI File format implementation, tempo map related part.
+/**
+ * \file
  *
- * For questions and comments, contact Edward Tomasz Napierala <trasz@FreeBSD.org>.
+ * Tempo map related part.
+ *
  */
 
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 #include "smf.h"
 #include "smf_private.h"
 
@@ -54,13 +56,13 @@ new_tempo(smf_t *smf, int pulses)
 
 		/* If previous tempo starts at the same time as new one, reuse it, updating in place. */
 		if (previous_tempo->time_pulses == pulses)
-			return previous_tempo;
+			return (previous_tempo);
 	}
 
 	tempo = malloc(sizeof(smf_tempo_t));
 	if (tempo == NULL) {
 		g_critical("Cannot allocate smf_tempo_t.");
-		return NULL;
+		return (NULL);
 	}
 
 	tempo->time_pulses = pulses;
@@ -86,7 +88,7 @@ new_tempo(smf_t *smf, int pulses)
 	else
 		tempo->time_seconds = seconds_from_pulses(smf, pulses);
 
-	return tempo;
+	return (tempo);
 }
 
 static int
@@ -94,11 +96,11 @@ add_tempo(smf_t *smf, int pulses, int tempo)
 {
 	smf_tempo_t *smf_tempo = new_tempo(smf, pulses);
 	if (smf_tempo == NULL)
-		return -1;
+		return (-1);
 
 	smf_tempo->microseconds_per_quarter_note = tempo;
 
-	return 0;
+	return (0);
 }
 
 static int
@@ -106,16 +108,19 @@ add_time_signature(smf_t *smf, int pulses, int numerator, int denominator, int c
 {
 	smf_tempo_t *smf_tempo = new_tempo(smf, pulses);
 	if (smf_tempo == NULL)
-		return -1;
+		return (-1);
 
 	smf_tempo->numerator = numerator;
 	smf_tempo->denominator = denominator;
 	smf_tempo->clocks_per_click = clocks_per_click;
 	smf_tempo->notes_per_note = notes_per_note;
 
-	return 0;
+	return (0);
 }
 
+/**
+ * \internal
+ */
 void
 maybe_add_to_tempo_map(smf_event_t *event)
 {
@@ -158,16 +163,18 @@ maybe_add_to_tempo_map(smf_event_t *event)
 }
 
 /**
-  * This is an internal function, called from smf_track_remove_event when tempo-related
-  * event being removed does not require recreation of tempo map, i.e. there are no events
-  * after that one.
-  */
+ * \internal
+ *
+ * This is an internal function, called from smf_track_remove_event when tempo-related
+ * event being removed does not require recreation of tempo map, i.e. there are no events
+ * after that one.
+ */
 void
 remove_last_tempo_with_pulses(smf_t *smf, int pulses)
 {
 	smf_tempo_t *tempo;
 
-	/* XXX: This is a workaround for the following problem: we have two tempo-related
+	/* XXX: This is a partial workaround for the following problem: we have two tempo-related
 	   events, A and B, that occur at the same time.  We remove B, then try to remove
 	   A.  However, both tempo changes got coalesced in new_tempo(), so it is impossible
 	   to remove B. */
@@ -180,6 +187,7 @@ remove_last_tempo_with_pulses(smf_t *smf, int pulses)
 	if (tempo->time_pulses != pulses)
 		return;
 
+	memset(tempo, 0, sizeof(smf_tempo_t));
 	free(tempo);
 
 	g_ptr_array_remove_index(smf->tempo_array, smf->tempo_array->len - 1);
@@ -198,7 +206,7 @@ seconds_from_pulses(const smf_t *smf, int pulses)
 	seconds = tempo->time_seconds + (double)(pulses - tempo->time_pulses) *
 		(tempo->microseconds_per_quarter_note / ((double)smf->ppqn * 1000000.0));
 
-	return seconds;
+	return (seconds);
 }
 
 static int
@@ -214,14 +222,16 @@ pulses_from_seconds(const smf_t *smf, double seconds)
 	pulses = tempo->time_pulses + (seconds - tempo->time_seconds) *
 		((double)smf->ppqn * 1000000.0 / tempo->microseconds_per_quarter_note);
 
-	return pulses;
+	return (pulses);
 }
 
 /**
+ * \internal
+ *
  * Computes value of event->time_seconds for all events in smf.
  * Warning: rewinds the smf.
  */
-int
+void
 smf_create_tempo_map_and_compute_seconds(smf_t *smf)
 {
 	smf_event_t *event;
@@ -233,7 +243,7 @@ smf_create_tempo_map_and_compute_seconds(smf_t *smf)
 		event = smf_get_next_event(smf);
 		
 		if (event == NULL)
-			return 0;
+			return;
 
 		maybe_add_to_tempo_map(event);
 
@@ -241,7 +251,6 @@ smf_create_tempo_map_and_compute_seconds(smf_t *smf)
 	}
 
 	/* Not reached. */
-	return -1;
 }
 
 smf_tempo_t *
@@ -250,9 +259,9 @@ smf_get_tempo_by_number(const smf_t *smf, int number)
 	assert(number >= 0);
 
 	if (number >= smf->tempo_array->len)
-		return NULL;
+		return (NULL);
 
-	return g_ptr_array_index(smf->tempo_array, number);
+	return (g_ptr_array_index(smf->tempo_array, number));
 }
 
 /**
@@ -267,7 +276,7 @@ smf_get_tempo_by_pulses(const smf_t *smf, int pulses)
 	assert(pulses >= 0);
 
 	if (pulses == 0)
-		return smf_get_tempo_by_number(smf, 0);
+		return (smf_get_tempo_by_number(smf, 0));
 
 	assert(smf->tempo_array != NULL);
 	
@@ -276,10 +285,10 @@ smf_get_tempo_by_pulses(const smf_t *smf, int pulses)
 
 		assert(tempo);
 		if (tempo->time_pulses < pulses)
-			return tempo;
+			return (tempo);
 	}
 
-	return NULL;
+	return (NULL);
 }
 
 /**
@@ -294,7 +303,7 @@ smf_get_tempo_by_seconds(const smf_t *smf, double seconds)
 	assert(seconds >= 0.0);
 
 	if (seconds == 0.0)
-		return smf_get_tempo_by_number(smf, 0);
+		return (smf_get_tempo_by_number(smf, 0));
 
 	assert(smf->tempo_array != NULL);
 	
@@ -303,10 +312,10 @@ smf_get_tempo_by_seconds(const smf_t *smf, double seconds)
 
 		assert(tempo);
 		if (tempo->time_seconds < seconds)
-			return tempo;
+			return (tempo);
 	}
 
-	return NULL;
+	return (NULL);
 }
 
 
@@ -321,31 +330,49 @@ smf_get_last_tempo(const smf_t *smf)
 	tempo = smf_get_tempo_by_number(smf, smf->tempo_array->len - 1);
 	assert(tempo);
 
-	return tempo;
+	return (tempo);
 }
 
 /**
- * Remove any existing tempos and add default one.
+ * \internal 
+ *
+ * Remove all smf_tempo_t structures from SMF.
  */
-int
-smf_init_tempo(smf_t *smf)
+void
+smf_fini_tempo(smf_t *smf)
 {
 	smf_tempo_t *tempo;
 
 	while (smf->tempo_array->len > 0) {
-		smf_tempo_t *tempo = g_ptr_array_index(smf->tempo_array, smf->tempo_array->len - 1);
+		tempo = g_ptr_array_index(smf->tempo_array, smf->tempo_array->len - 1);
 		assert(tempo);
+
+		memset(tempo, 0, sizeof(smf_tempo_t));
 		free(tempo);
+
 		g_ptr_array_remove_index(smf->tempo_array, smf->tempo_array->len - 1);
 	}
 
 	assert(smf->tempo_array->len == 0);
+}
+
+/**
+ * \internal
+ *
+ * Remove any existing tempos and add default one.
+ *
+ * \bug This will abort (by calling g_error) if new_tempo() (memory allocation there) fails.
+ */
+void
+smf_init_tempo(smf_t *smf)
+{
+	smf_tempo_t *tempo;
+
+	smf_fini_tempo(smf);
 
 	tempo = new_tempo(smf, 0);
 	if (tempo == NULL)
-		return -1;
-
-	return 0;
+		g_error("tempo_init failed, sorry.");
 }
 
 /**
@@ -360,10 +387,10 @@ last_event_pulses(const smf_track_t *track)
 		assert(previous_event);
 		assert(previous_event->time_pulses >= 0);
 
-		return previous_event->time_pulses;
+		return (previous_event->time_pulses);
 	}
 
-	return 0;
+	return (0);
 }
 
 /**

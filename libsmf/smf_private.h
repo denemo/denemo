@@ -11,7 +11,7 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
- * ALTHOUGH THIS SOFTWARE IS MADE OF SCIENCE AND WIN, IT IS PROVIDED BY THE
+ * ALTHOUGH THIS SOFTWARE IS MADE OF WIN AND SCIENCE, IT IS PROVIDED BY THE
  * AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
  * AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
@@ -28,33 +28,54 @@
 #ifndef SMF_PRIVATE_H
 #define SMF_PRIVATE_H
 
+#include <stdint.h>
+#include <sys/types.h>
+
 #include "config.h"
 
 #define SMF_VERSION PACKAGE_VERSION
 
-/* Structures used in smf_load.c and smf_save.c. */
+/**
+ * \file
+ *
+ * Private header.  Applications using libsmf should use smf.h.
+ *
+ */
+
+#if defined(__GNUC__)
+#define ATTRIBUTE_PACKED  __attribute__((__packed__))
+#else
+#define ATTRIBUTE_PACKED
+#pragma pack(1)
+#endif
+
+/** SMF chunk header, used only by smf_load.c and smf_save.c. */
 struct chunk_header_struct {
 	char		id[4];
 	uint32_t	length; 
-} __attribute__((__packed__));
+} ATTRIBUTE_PACKED;
 
+/** SMF chunk, used only by smf_load.c and smf_save.c. */
 struct mthd_chunk_struct {
 	struct chunk_header_struct	mthd_header;
 	uint16_t			format;
 	uint16_t			number_of_tracks;
 	uint16_t			division;
-} __attribute__((__packed__));
+} ATTRIBUTE_PACKED;
+
+#if (!defined __GNUC__)
+#pragma pack()
+#endif
 
 void smf_track_add_event(smf_track_t *track, smf_event_t *event);
-
-int smf_init_tempo(smf_t *smf);
-int smf_create_tempo_map_and_compute_seconds(smf_t *smf);
+void smf_init_tempo(smf_t *smf);
+void smf_fini_tempo(smf_t *smf);
+void smf_create_tempo_map_and_compute_seconds(smf_t *smf);
 void maybe_add_to_tempo_map(smf_event_t *event);
 void remove_last_tempo_with_pulses(smf_t *smf, int pulses);
-int smf_event_is_tempo_change_or_time_signature(const smf_event_t *event);
-int smf_event_length_is_valid(const smf_event_t *event);
-int smf_event_is_sysex(const smf_event_t *event);
-int is_status_byte(const unsigned char status);
+int smf_event_is_tempo_change_or_time_signature(const smf_event_t *event) WARN_UNUSED_RESULT;
+int smf_event_length_is_valid(const smf_event_t *event) WARN_UNUSED_RESULT;
+int is_status_byte(const unsigned char status) WARN_UNUSED_RESULT;
 
 #endif /* SMF_PRIVATE_H */
 
