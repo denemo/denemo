@@ -2384,6 +2384,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Insert Rest</label>
         <tooltip>Inserts a rest in the prevailing duration</tooltip>
       </row>
+      <row>
+        <action>AllegroAssai</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro Assai</label>
+        <tooltip>Gives Allegro Assai tempo indication</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
