@@ -1238,20 +1238,25 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
   *pdirective = get_standalone_directive(NULL);
   if(*pdirective)
     return;
+  gchar *name=NULL;
   note *curnote = get_note();
-  if(curnote==NULL)
-    return;//if we allow chord directives on rests this must change.
-  gchar *name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
-  if(curnote->mid_c_offset == Denemo.gui->si->cursor_y)
-    if(curnote->directives) {
-      *pdirectives = &curnote->directives;
-      *what = "note";
-      gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
-      *pdirective = select_directive(instr, **pdirectives);
-      g_free(instr);
-      if(*pdirective)
-	return;
-    }
+  if(curnote!=NULL) {
+    name = mid_c_offsettolily(curnote->mid_c_offset, curnote->enshift);
+    if(curnote->mid_c_offset == Denemo.gui->si->cursor_y)
+      if(curnote->directives) {
+	*pdirectives = &curnote->directives;
+	*what = "note";
+	gchar *instr = g_strdup_printf("Select a directive attached to the note \"%s\"", name);
+	*pdirective = select_directive(instr, **pdirectives);
+	g_free(instr);
+	if(*pdirective) {
+	  g_free(name);
+	  return;
+	}
+      }
+  }
+  
+
   {
   // not exactly on a note, offer any chord directives
     gchar *instr = "Select a directive attached to the chord";
@@ -1262,7 +1267,7 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
       *pdirective = select_directive(instr, **pdirectives);
     } 
   }
-  if(*pdirective==NULL)//try nearest note
+  if(*pdirective==NULL && curnote)//try nearest note
     if(curnote->directives && curnote->mid_c_offset != Denemo.gui->si->cursor_y) {
       *pdirectives = &curnote->directives;
       *what = "note";
