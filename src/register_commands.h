@@ -299,6 +299,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Help"), 
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "About"), "About", "About", "Gives the version number etc of this program", about);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoreCommands"), "MoreCommands", "More Commands", "Allows choosing standard extra commands/menu items", morecommands);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MyCommands"), "MyCommands", "My Commands", "Allows choosing extra commands/menu items from your own collection of extras", mycommands);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "FetchCommands"), "FetchCommands", "Update Commands from Internet", "Refreshes the set of commands available from Denemo.org.\nUse More Commands after this has finished", fetchcommands);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddBookmark"), "AddBookmark", "Add Bookmark", "Bookmark the current cursor position", addbookmark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GotoBookmark"), "GotoBookmark", "Goto Bookmarks", "Go to a bookmarked point in the score", gotobookmark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextBookmark"), "NextBookmark", "Next Bookmark", "Go to the next bookmarked point in the list", nextbookmark);
