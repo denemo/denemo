@@ -2073,12 +2073,17 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
 
 /**
  * callback to load system extra commands
- * 
+ * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 static void
 morecommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
+  location = g_build_filename(locatedotdenemo(), "download", "actions", "menus", " ", NULL);
+  if(!g_file_test(location, G_FILE_TEST_EXISTS)){
+    g_free(location);
+    location = NULL;
+  }
   if(location==NULL)
     location = g_build_filename(get_data_dir(), "actions", "menus", " ", NULL);
   load_keymap_dialog_location (NULL, location);
@@ -2086,7 +2091,6 @@ morecommands (GtkAction *action, gpointer param)
     g_free(location);
     location = g_strdup(Denemo.last_merged_command);
   }
-    
 }
 
 /**
