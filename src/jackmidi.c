@@ -182,12 +182,13 @@ process_midi_output(jack_nframes_t nframes)
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
 	for (i = 0; i < smf->number_of_tracks; i++) {
-		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
-
-		if (port_buffers[i] == NULL) {
-			warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
-			return;
-		}
+	  if(output_ports[i])
+	     port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
+	     
+	     if (port_buffers[i] == NULL) {
+	       warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
+	       return;
+	     }
 
 #ifdef JACK_MIDI_NEEDS_NFRAMES
 		jack_midi_clear_buffer(port_buffers[i], nframes);
