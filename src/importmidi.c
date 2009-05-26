@@ -3,29 +3,7 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 AJAnderson
  *
- */
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <denemo/denemo.h>
-#include "importmidi.h"
-#include "staffops.h"
-
-#define NOTE_OFF                0x80
-#define NOTE_ON                 0x90
-#define CTRL_CHANGE             0xB0
-#define PGM_CHANGE              0xC0
-#define META_EVENT              0xFF
-#define SYS_EXCLUSIVE_MESSAGE1  0xF0
-#define META_TRACK_NAME         0x03
-#define META_INSTR_NAME		0x04
-#define META_TEMPO              0x51
-#define META_TIMESIG            0x58
-#define META_KEYSIG             0x59
-
-
-
-/* 	TODO
+ * 	TODO
  *  
  *  check to see if memory used by malloc is freed
  *  clean up/optimise code
@@ -39,108 +17,408 @@
  *
  */
 
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <assert.h>
+#include <denemo/denemo.h>
+#include "importmidi.h"
+#include "staffops.h"
+#include "smf.h"
+
+#define TEXT			0x01
+#define COPYRIGHT		0X02
+#define META_TRACK_NAME         0x03
+#define META_INSTR_NAME		0x04
+
+#define META_TEMPO              0x51
+#define META_TIMESIG            0x58
+#define META_KEYSIG             0x59
+#define NOTE_OFF                0x80
+#define NOTE_ON                 0x90
+#define AFTERTOUCH		0xA0
+#define CTRL_CHANGE             0xB0
+#define PGM_CHANGE              0xC0
+#define CHNL_PRESSURE		0xD0
+#define PCH_WHEEL		0xE0
+#define SYS_EXCLUSIVE_MESSAGE1  0xF0
+#define META_EVENT              0xFF
+
+typedef struct notetype
+{
+	gint notetype;
+	gint numofdots;
+	gint tied;
+}notetype;
+
+typedef struct nstack 
+{
+	gint *pitch;
+   	gint *measure; /*can this be calculated on noteoff?*/
+     	gint *timeon;
+	gint *on_delta_time; /* this is time between last event and this notes start */
+     	gint *duration; 
+	gint *staffnum;	
+}nstack;
+
+typedef struct midicallback
+{
+	GList *notestack;
+	GList *chordnotes;
+	GList *currentnote;
+	DenemoGUI *gui;
+	gint leftover; /* note/rest value that is leftover across the measure */
+	gint bartime; /* time relative to barlength 0-barlength */
+	gint delta_time; /* distance between notes */
+	gint barlength; /* amount of time in measure */
+	gint lastoff; /* starttime + duration. The time when the note is finished */
+	gint trackplus;
+	gint number_of_tracks;
+	gint key;
+	gint track;
+	smf_t *smf;
+	smf_track_t *selected_track;
+}midicallback;
+
+typedef struct harmonic
+{
+	gint pitch;
+	gint enshift;
+}harmonic;
+
+
 void ProcessNote(GList *list, midicallback *mididata); 
 void process_list(GList *list, midicallback *mididata);
 void MeasureCheck(GList *list, midicallback *mididata);
+struct harmonic enharmonic(gint input, gint key);
+gint readheader(midicallback *mididata);
+void readtrack(midicallback *mididata);
+void dotimesig(gint numerator, gint denominator, midicallback *mididata);
+void dokeysig(gint key, gint isminor, midicallback *mididata);
+void dotempo(gint tempo,  midicallback *mididata);
+void dotrackname(gchar *name, midicallback *mididata);
+void doinstrname(gchar *name, midicallback *mididata);
+void donoteon(midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon);
+void donoteoff(midicallback *mididata, gint *pitchoff, gint *timeoff);
+void RestCheck(GList *tmp, midicallback *mididata);
+struct notetype ConvertLength(gint duration, midicallback *mididata);
 
-gint
-importMidi (gchar * filename, DenemoGUI * gui)
+static void
+note_from_int(char *buf, int note_number)
 {
-  midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
-  mididata->notestack = NULL;
-  mididata->chordnotes = NULL;
-  mididata->gui = gui;
-  mididata->PPQN = 200;
-  mididata->bartime = 0;
-  mididata->lastoff = 0;
-  mididata->track = 0;
-  gint ret = 0;			// (-1 on failure)
-  gint data = 0;
-  FILE *fp = 0;
-  gint tracks = 0;
+	int note, octave;
+	char *names[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
-  dnm_deletescore (NULL, gui);
+	octave = note_number / 12 - 1;
+	note = note_number % 12;
 
-  if (fopen (filename, "r") != 0)
-    fp = fopen (filename, "r");
-
-  /*scan to first track */
-  
-  while (1)
-    {
-      data = readBytes (fp, 1);
-      if (data == 0x4d)
-	{
-	  data = readBytes (fp, 3);
-	  if (data == 0x546864)
-	    {
-	      tracks = readheader (fp,mididata);
-#ifdef DEBUG
-      		printf ("\ntracks = %i\n", tracks);
-#endif
-	    };
-	  if (data == 0x54726b)
-	    {
-#ifdef DEBUG
-      	    	printf ("\nReading Track\n");
-#endif  
-	  readtrack (fp, mididata);
-	  tracks--;
-	  mididata->track++;
-	    };
-	};
-      if (tracks == 0)
-	break;
-    };
-
-  fclose (fp);
-    
-  //g_list_foreach(mididata->final_list, (GFunc) addnote, mididata);
-  g_free(mididata);
-  return ret;
+	sprintf(buf, "%s%d", names[note], octave);
 }
 
-DenemoObject * new_dnm_object(notetype length){
+static int
+cmd_load(midicallback *mididata, char *file_name)
+{
+	if (mididata->smf != NULL)
+		smf_delete(mididata->smf);
+
+	mididata->selected_track = NULL;
+
+	mididata->smf = smf_load(file_name);
+	if (mididata->smf == NULL) {
+		g_critical("Couldn't load '%s'.", file_name);
+
+		mididata->smf = smf_new();
+		if (mididata->smf == NULL) {
+			g_critical("Cannot initialize smf_t.");
+			return -1;
+		}
+
+		return -2;
+	}
+
+	g_message("File '%s' loaded.", file_name);
+	g_message("%s.", smf_decode(mididata->smf));
+
+	mididata->selected_track = smf_get_track_by_number(mididata->smf, 1);
+
+	return 0;
+}
+
+#define BUFFER_SIZE 1024
+
+static int
+show_event(smf_event_t *event)
+{
+	int off = 0, i;
+	char *decoded, *type;
+
+	if (smf_event_is_metadata(event))
+		type = "Metadata";
+	else
+		type = "Event";
+	
+	decoded = smf_event_decode(event);
+
+	if (decoded == NULL) {
+		decoded = malloc(BUFFER_SIZE);
+		if (decoded == NULL) {
+			g_critical("show_event: malloc failed.");
+			return -1;
+		}
+
+		off += snprintf(decoded + off, BUFFER_SIZE - off, "Unknown event:");
+
+		for (i = 0; i < event->midi_buffer_length && i < 5; i++)
+			off += snprintf(decoded + off, BUFFER_SIZE - off, " 0x%x", event->midi_buffer[i]);
+	}
+
+	g_message("%d: %s: %s, %f seconds, %d pulses, %d delta pulses", event->event_number, type, decoded,
+		event->time_seconds, event->time_pulses, event->delta_time_pulses);
+
+	free(decoded);
+
+	return 0;
+}
+
+void
+decode_metadata(const smf_event_t *event, midicallback *mididata)
+{
+	int off = 0, mspqn, flats, isminor;
+	char *buf;
+
+	static const char *const major_keys[] = {"Fb", "Cb", "Gb", "Db", "Ab",
+		"Eb", "Bb", "F", "C", "G", "D", "A", "E", "B", "F#", "C#", "G#"};
+
+	static const char *const minor_keys[] = {"Dbm", "Abm", "Ebm", "Bbm", "Fm",
+		"Cm", "Gm", "Dm", "Am", "Em", "Bm", "F#m", "C#m", "G#m", "D#m", "A#m", "E#m"};
+
+	//assert(smf_event_is_metadata(event));
+
+	switch (event->midi_buffer[1]) {
+		case TEXT:
+			//return smf_event_decode_textual(event, "Text");
+
+		case COPYRIGHT:
+			//return smf_event_decode_textual(event, "Copyright");
+
+		case META_TRACK_NAME:
+			//return smf_event_decode_textual(event, "Sequence/Track Name");
+			dotrackname(smf_event_extract_text(event),mididata);
+
+		case META_INSTR_NAME:
+			//printf("\nInstrument text = %s\n", smf_string_from_event(event));
+			doinstrname(smf_event_extract_text(event), mididata);
+		case 0x05:
+			//return smf_event_decode_textual(event, "Lyric");
+
+		case 0x06:
+			//return smf_event_decode_textual(event, "Marker");
+
+		case 0x07:
+			//return smf_event_decode_textual(event, "Cue Point");
+
+		case 0x08:
+			//return smf_event_decode_textual(event, "Program Name");
+
+		case 0x09:
+			//return smf_event_decode_textual(event, "Device (Port) Name");
+
+		default:
+			break;
+	}
+
+	buf = malloc(BUFFER_SIZE);
+	if (buf == NULL) {
+		g_critical("smf_event_decode_metadata: malloc failed.");
+	}
+
+	switch (event->midi_buffer[1]) {
+		case 0x00:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Sequence number");
+			break;
+
+		/* http://music.columbia.edu/pipermail/music-dsp/2004-August/061196.html */
+		case 0x20:
+			if (event->midi_buffer_length < 4) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Channel Prefix: %d.", event->midi_buffer[3]);
+			break;
+
+		case 0x21:
+			if (event->midi_buffer_length < 4) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Midi Port: %d.", event->midi_buffer[3]);
+			break;
+
+		case 0x2F:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "End Of Track");
+			break;
+
+		case META_TEMPO:
+			if (event->midi_buffer_length < 6) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			mspqn = (event->midi_buffer[3] << 16) + (event->midi_buffer[4] << 8) + event->midi_buffer[5];
+		        
+			dotempo(mspqn, mididata);
+
+			break;
+
+		case 0x54:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "SMPTE Offset");
+			break;
+
+		case META_TIMESIG:
+			if (event->midi_buffer_length < 7) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			dotimesig(event->midi_buffer[3], (int)pow(2, event->midi_buffer[4]), mididata);
+			break;
+
+		case META_KEYSIG:
+			if (event->midi_buffer_length < 5) {
+				g_critical("smf_event_decode_metadata: truncated MIDI message.");
+				goto error;
+			}
+
+			flats = event->midi_buffer[3];
+			isminor = event->midi_buffer[4];
+
+			if (isminor != 0 && isminor != 1) {
+				g_critical("smf_event_decode_metadata: last byte of the Key Signature event has invalid value %d.", isminor);
+				goto error;
+			}
+
+			dokeysig(isminor, flats, mididata);
+			break;
+
+		case 0x7F:
+			off += snprintf(buf + off, BUFFER_SIZE - off, "Proprietary (aka Sequencer) Event, length %d",
+				event->midi_buffer_length);
+			break;
+
+		default:
+			goto error;
+	}
+
+error:
+	free(buf);
+}
+
+void 
+decode_midi_event(const smf_event_t *event, midicallback *mididata)
+{
+	int off = 0, channel;
+	char note[5];
+
+	/* + 1, because user-visible channels used to be in range <1-16>. */
+	channel = (event->midi_buffer[0] & 0x0F) + 1;
+
+	switch (event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) {
+		case NOTE_OFF:
+			note_from_int(note, event->midi_buffer[1]);
+			g_debug("\nNote Off channel %d note %s velocity %d\n", 
+					channel, note, event->midi_buffer[2]);
+			donoteoff (mididata, event->midi_buffer[1], event->time_pulses);
+			break;
+
+		case NOTE_ON:
+			note_from_int(note, event->midi_buffer[1]);
+			g_debug("\nNote On channel %d note %s velocity %d\n", 
+					channel, note, event->midi_buffer[2]);
+			mididata->delta_time = event->delta_time_pulses;
+			donoteon(mididata, event->midi_buffer[1], event->midi_buffer[2], 
+					event->time_pulses);
+			break;
+
+		case AFTERTOUCH:
+			note_from_int(note, event->midi_buffer[1]);
+			g_debug("\nAftertouch channel %d note %s velocity %d\n", 
+					channel, note, event->midi_buffer[2]);
+			break;
+
+		case CTRL_CHANGE:
+			g_debug("\nController channel %d controller %d value %d\n", 
+					channel, event->midi_buffer[1], event->midi_buffer[2]);
+			break;
+
+		case PGM_CHANGE:
+			g_debug("\nProgram Change channel %d controller %d\n", 
+					channel, event->midi_buffer[1]);
+			break;
+
+		case CHNL_PRESSURE:
+			g_debug("\nChannel Pressure channel %d pressure %d\n", 
+					channel, event->midi_buffer[1]);
+			break;
+
+		case PCH_WHEEL:
+			g_debug("\nPitch Wheel channel %d value %d\n", 
+					channel, ((int)event->midi_buffer[2] << 7) | (int)event->midi_buffer[2]);
+			break;
+
+		default:
+			break;
+	}
+
+}
+static int
+process_midi(smf_event_t *event, midicallback *mididata)
+{
+	int off = 0, i;
+
+	if (smf_event_is_metadata(event))
+		decode_metadata(event, mididata);
+	else
+		decode_midi_event(event, mididata);
+	
+	return 0;
+}
+
+static int
+cmd_events(midicallback *mididata)
+{
+	smf_event_t *event;
+
+	if (mididata->selected_track == NULL) {
+		g_critical("No track");
+		return -1;
+	}
+
+	smf_rewind(mididata->smf);
+       
+        while (mididata->track <= mididata->smf->number_of_tracks){	
+	  mididata->selected_track = smf_get_track_by_number(mididata->smf, mididata->track);
+	  while ((event = smf_track_get_next_event(mididata->selected_track)) != NULL) {
+#ifdef DEBUG
+		/* print midi event */
+		show_event(event);
+#endif
+		/* Do something with the event */
+		process_midi(event, mididata);
+	  }
+	  mididata->track++;
+	}
+	smf_rewind(mididata->smf);
+
+	return 0;
+}
+
+void
+new_dnm_object(midicallback *mididata, notetype length){
 	DenemoObject *mudela_obj_new;
 	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, length.tied);
-	return mudela_obj_new;
-}
-
-/**
- * Read variable length valuue
- *
- */
-gint
-readVariable (FILE * fp)
-{
-  /*so all are 7bit numbers, and all have bit 8 high except the last */
-  gint total = 0;
-  gint last = 0;
-  do
-    {
-      last = fgetc (fp);
-      total = (total << 7) + (last & 0x7f);
-    }
-  while ((last >> 7) != 0);
-  return total;
-}
-
-/**
- * Read the number of bytes specified
- *
- * @param fp pointer to the file descriptor
- * @param numb number of bytes to read
- */
-gint
-readBytes (FILE * fp, gint numb)
-{
-  gint read = 0;
-  while (numb > 0)
-    {
-      read = (read << 8) + (gint) fgetc (fp);
-      numb--;
-    }
-  return read;
+	object_insert (mididata->gui, mudela_obj_new);	
 }
 
 /**
@@ -148,27 +426,15 @@ readBytes (FILE * fp, gint numb)
  *
  */
 gint
-readheader (FILE * fp, midicallback *mididata)
+readheader (midicallback *mididata)
 {
-  gint header_length;
-  gint midi_format;
-  gint number_of_tracks;
-  gint PPQN;
-
-  header_length = readBytes (fp, 4);
-  midi_format = readBytes (fp, 2);
-  number_of_tracks = readBytes (fp, 2);
-  PPQN = readBytes (fp, 2);
-  mididata->PPQN = PPQN;
+  mididata->number_of_tracks = mididata->smf->number_of_tracks;
 
 #ifdef DEBUG
-  printf ("\nHeader length confirmed as %d Bytes", header_length);
-  printf ("\nMidi format is %d", midi_format);
-  printf ("\nNo. of Tracks is %d", number_of_tracks);
-  printf ("\nPPQN is %d", PPQN);
+  printf ("\nNo. of Tracks is %d\n", mididata->number_of_tracks);
 #endif
   
-  return number_of_tracks;
+  return 0;
 }
 
 /**
@@ -176,142 +442,11 @@ readheader (FILE * fp, midicallback *mididata)
  *
  */
 void
-readtrack (FILE * fp, midicallback *mididata)
+readtrack (midicallback *mididata)
 {
-  DenemoScore *si = mididata->gui->si; 
-  gint stat;
-  gint data1;
-  gint data2;
-  gint tlength;			/*track length*/
-  gint time = 0;			/*track time */
-  gint dtime;			/*delta time, distance to next event */
-  gint event = 0;
-
-  tlength = readBytes (fp, 4);
- 
-  while (tlength != 0)
-    {
-      dtime = readVariable (fp);
-      time = time + dtime;
-      mididata->delta_time=dtime;
-#ifdef DEBUG
-      printf("\ntime = %d delta time = %d\n",time, dtime);
-#endif
-      tlength--;
-      if (dtime > 127)
-	tlength--;		/* 2 digit variable */
-      if (dtime > 16383)
-	tlength--;		/*  3 digit variable */
-      if (dtime > 2097151)
-	tlength--;		/*  3 digit variable */
-      /* leap of faith, all channels in track ar same */
-      stat = readBytes (fp, 1);
-      tlength--;
-      if (stat == META_EVENT)
-	{
-	  /*next Byte is command */
-	  data1 = readBytes (fp, 1);
-	  /*next Byte is length */
-	  data2 = readBytes (fp, 1);
-	  /*pretend to read it */
-	  switch (data1)
-	    {
-	    case META_TIMESIG:
-	      {
-		/*time signature */
-		dotimesig (fp, mididata);
-		tlength = tlength - 6;
-		break;
-	      }
-	    case META_KEYSIG:
-	      {
-		/*key signature */
-		dokeysig (fp, mididata);
-		tlength = tlength - 4;
-		break;
-	      }
-	    case META_TEMPO:
-	      {
-		/* set tempo */
-		if (data2 == 3)
-		  {
-		    dotempo (fp, mididata);
-		  }
-		tlength = tlength - 5;
-		break;
-	      }
-	    case META_TRACK_NAME:
-	      {
-		dotrackname (fp, mididata, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    case META_INSTR_NAME:
-	      {
-		doinstrname (fp, mididata, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    default:
-	      {
-		/*read off surplus */
-		data1 = readBytes (fp, data2);
-		tlength = tlength - (data2 + 2);
-		break;
-	      }
-	    }
-	}
-      else
-	{
-	  if (stat < 128)
-	    {
-	      /*running status event is same as before */
-	      data1 = stat;
-	    }
-	  else
-	    {
-	      event = stat;
-	      data1 = readBytes (fp, 1);
-	      tlength--;
-	    };
-
-	  switch (event & SYS_EXCLUSIVE_MESSAGE1)
-	    {
-	    case NOTE_OFF:		/*note off */
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		donoteoff (mididata, (int *) data1, (int *) time);
-		break;
-	      }
-	    case NOTE_ON:		/*note on */
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		donoteon (mididata, (int *) data1, (int *) data2, (int *) time);
-		break;
-	      }
-	    case CTRL_CHANGE:		/*midi  controller eg. volume, pan */
-	      {
-		data2 = readBytes (fp, 1);
-		//printf("\nMIDI Controller %d, value %d",data1,data2);
-		tlength--;
-		break;
-	      }
-	    case PGM_CHANGE:		/*change instrument, ignore */
-	      {
-		//printf("\nChange to Instrument% d",data1);
-		break;
-	      }
-	    default:
-	      {
-		data2 = readBytes (fp, 1);
-		tlength--;
-		break;
-	      }
-	    };
-	}
-    }
+  /* Get a listing of events 
+   and decide what to do with them */  
+  cmd_events(mididata);
 }
 
 /**
@@ -319,16 +454,15 @@ readtrack (FILE * fp, midicallback *mididata)
  *
  */
 void
-dotimesig (FILE * fp, midicallback *mididata)
+dotimesig (gint numerator, gint denominator, midicallback *mididata)
 {
   /*only does initial TS */
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
 
-  curstaffstruct->timesig.time1 = readBytes (fp, 1);
-  curstaffstruct->timesig.time2 = (gint) pow (2, (readBytes (fp, 1)));
+  curstaffstruct->timesig.time1 = numerator;
+  curstaffstruct->timesig.time2 = denominator;
 
-  mididata->barlength = mididata->PPQN * 4 * curstaffstruct->timesig.time1 / curstaffstruct->timesig.time2;
-  readBytes (fp, 2);		/*skip last two characters */
+  mididata->barlength = mididata->smf->ppqn * 4 * numerator / denominator;
 }
 
 /**
@@ -336,57 +470,41 @@ dotimesig (FILE * fp, midicallback *mididata)
  *
  */
 void
-dokeysig (FILE * fp, midicallback *mididata)
+dokeysig (gint isminor, gint key, midicallback *mididata)
 {
-  /*assume major */
-  gint isminor = 0;
-  gint key = mididata->key;
-  key = readBytes (fp, 1);	/*read in sharps */
-  isminor = readBytes (fp, 1);
 
   if (key > 7)
     key = key - 256;		/*get flat key num, see keysigdialog.cpp */
-
+#ifdef DEBUG
+  g_print("\nkey = %d\n", key); 
+#endif
+  mididata->key = key;
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;
-  dnm_setinitialkeysig (curstaffstruct, key, isminor);
 }
 
 void
-dotempo (FILE * fp, midicallback *mididata)
-{
-  gint tempo, n, x;
-  x = n = 0;
-  while (n++ < 3)
-    x = ((x & 0x007FFFFF) << 8) + (gint) readBytes (fp, 1);
-  tempo = (gint) (6.0e7 / (double) x);
-  mididata->gui->si->tempo = tempo;
+dotempo (gint tempo, midicallback *mididata)
+{ 
+  mididata->gui->si->tempo = (gint) (6.0e7 / (double) tempo);
 }
 
 void
-dotrackname (FILE * fp, midicallback *mididata, gint x)
+dotrackname (gchar *name, midicallback *mididata)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
-  GString *temp = g_string_new(""); 
-  while (x-- > 0)
-	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
-
-  curstaffstruct->denemo_name->str = g_strdup(temp->str);
+  
+  curstaffstruct->denemo_name->str = g_strdup(name);
   dnm_set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
-  g_string_free (temp, FALSE);
 }
 
 void
-doinstrname (FILE * fp,  midicallback *mididata, gint x)
+doinstrname (gchar* name,  midicallback *mididata)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
-  GString *temp = g_string_new("");  
-  while (x-- > 0)
-	temp = g_string_append_c(temp, (gchar) readBytes (fp, 1));
 
-  curstaffstruct->midi_instrument->str = g_strdup(temp->str);
-  g_string_free (temp, FALSE);
+  curstaffstruct->midi_instrument->str = g_strdup(name);
 }
 
 static nstack *
@@ -404,11 +522,11 @@ stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *measur
  */
 
 void
-donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
+donoteon (midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon)
 {
   nstack *noteon;
   int delta_time = mididata->delta_time;
-  if (attack == 0)
+  if (velocity == 0)
     {
       donoteoff (mididata, pitchon, timeon);
     }
@@ -418,7 +536,7 @@ donoteon (midicallback *mididata, gint *pitchon, gint *attack, gint *timeon)
       noteon = stack(pitchon,timeon,delta_time,NULL,NULL, NULL);
       mididata->notestack = g_list_append(mididata->notestack, noteon);
 #ifdef DEBUG
-	      printf ("\npitchon = %i timeon = %i\n", pitchon, timeon);
+	      g_print ("\npitchon = %d timeon = %d\n", pitchon, timeon);
 #endif
     }
 }
@@ -490,7 +608,7 @@ donoteoff (midicallback *mididata, gint *pitchoff, gint *timeoff)
   list = g_list_find_custom (mididata->notestack, pitchoff, (GCompareFunc) (int) CompareNotes);
   if (list != NULL)
       	starttime = (int) ((nstack *) list->data)->timeon;
-      	duration = ((gint) timeoff) - starttime; /*can this can actually be obtained from the delta_time?*/
+      	duration = ((gint) timeoff) - starttime; /*can this actually be obtained from the delta_time?*/
 #ifdef DEBUG
    	g_printf("\nduration = %i\n",duration);
 #endif
@@ -498,12 +616,20 @@ donoteoff (midicallback *mididata, gint *pitchoff, gint *timeoff)
 	/* should I get currentmeasure from gui->si or calculate that here?*/
 	((nstack *) list->data)->measure = (int *) mididata->gui->si->currentmeasurenum;
 	((nstack *) list->data)->staffnum = (int *) mididata->track;
-        /*process the found note*/
+	/*process the note found*/
 	process_list(list,mididata);	
 	/*once note is found and applied remove it from the stack*/ 	
 	mididata->notestack = g_list_remove (mididata->notestack, list);
 }
 
+void
+new_dnm_note_object (midicallback *mididata, GList *list, notetype length){
+	DenemoObject *mudela_obj_new;
+	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, length.tied);
+	struct harmonic enote = enharmonic ((int) ((nstack *) list->data)->pitch,mididata->key);
+	dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
+	object_insert (mididata->gui, mudela_obj_new);
+}
 
 void ProcessNote(GList *list, midicallback *mididata) {
 	DenemoScore *si = mididata->gui->si;
@@ -515,7 +641,7 @@ void ProcessNote(GList *list, midicallback *mididata) {
 	nstack note;
 	DenemoObject *mudela_obj_new;
 	
-	
+
 	//while (mididata->chordnotes){
 	//	   mididata->chordnotes = g_list_remove_link(mididata->chordnotes, g_list_first (mididata->chordnotes));
 	//}
@@ -528,9 +654,7 @@ void ProcessNote(GList *list, midicallback *mididata) {
 	if (starttime == mididata->lastoff) {
 		notetype length = ConvertLength(duration, mididata);
 		length.tied = mididata->leftover;
-		mudela_obj_new = new_dnm_object (length);
-		struct harmonic enote = enharmonic ((int) ((nstack *) list->data)->pitch,mididata->key);
-		dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
+		new_dnm_note_object (mididata, list, length);
 		/*while (mididata->chordnotes){
 		  struct harmonic enote = enharmonic ((int) 
 				 mididata->chordnotes->data,mididata->key);
@@ -538,17 +662,13 @@ void ProcessNote(GList *list, midicallback *mididata) {
 		  mididata->chordnotes = g_list_remove_link(mididata->chordnotes, g_list_first (mididata->chordnotes));
 		}*/
 		mididata->lastoff = starttime + duration;
-		object_insert (mididata->gui, mudela_obj_new);
 		mididata->bartime += duration;
 	}
 	if (mididata->leftover){
 		MeasureCheck(list,mididata);
 		notetype tied_length = ConvertLength(mididata->leftover, mididata);
-		mudela_obj_new = new_dnm_object (tied_length);
-		struct harmonic enote = enharmonic ((int) ((nstack *) list->data)->pitch,mididata->key);
-		dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
+		new_dnm_note_object (mididata, list, tied_length);
 		mididata->lastoff += mididata->leftover;
-		object_insert (mididata->gui, mudela_obj_new);
 		mididata->bartime += mididata->leftover;
 		mididata->leftover = 0;
 	}
@@ -563,64 +683,75 @@ void ProcessNote(GList *list, midicallback *mididata) {
 #endif
 }
 
-void restcheck(GList *list, midicallback *mididata){
+void RestCheck(GList *list, midicallback *mididata){
   gint rest = 0;
-  gint PPQN = mididata->PPQN;
+  gint PPQN = mididata->smf->ppqn;
   gint starttime = (int) ((nstack *) list->data)->timeon;
   gint duration = (int) ((nstack *) list->data)->duration;
   gint on_delta_time = (int) ((nstack *) list->data)->on_delta_time;
-  DenemoObject *mudela_obj_new;
+  gint dsq = (4 * mididata->smf->ppqn);
+
   if (starttime > mididata->lastoff){
     rest = starttime - mididata->lastoff;
     if (mididata->bartime + on_delta_time  >= (mididata->barlength)){
       while(mididata->barlength - mididata->bartime){
         rest = mididata->barlength - mididata->bartime;
         struct notetype length = ConvertLength(rest, mididata);
-	length.tied = 0;
-        mudela_obj_new = new_dnm_object(length);
-        object_insert (mididata->gui, mudela_obj_new);
-        mididata->bartime += rest;
-        mididata->lastoff += rest;
+        new_dnm_object(mididata, length);
+        mididata->bartime += ConvertNoteType2ticks(mididata, &length);
+        mididata->lastoff += ConvertNoteType2ticks(mididata, &length);
       } 
       process_list(list,mididata);		          
       rest = 0;/* I am not sure if this is the best choice here*/
     }
     if (rest){
         struct notetype length = ConvertLength(rest, mididata);
-	length.tied = 0;
-	mudela_obj_new = new_dnm_object(length);
-	object_insert (mididata->gui, mudela_obj_new);
-	mididata->bartime = mididata->bartime + (rest);
-	mididata->lastoff += rest;
+	new_dnm_object(mididata, length);
+	mididata->bartime = mididata->bartime + ConvertNoteType2ticks(mididata, &length);
+	mididata->lastoff += ConvertNoteType2ticks(mididata, &length);
 	rest = 0;
     }
   }
 }
 
-notetype ConvertLength(gint endnote, midicallback *mididata){
+int
+ConvertNoteType2ticks(midicallback *mididata, notetype *gnotetype){
+  gint ticks;
+  gint PPQN = mididata->smf->ppqn;
+  gint notetype = (int) gnotetype->notetype;
+  gint numofdots = (int) gnotetype->numofdots;
+  gint dsq = (4 * PPQN);
+  gint i = 0;
+
+  ticks = dsq >> notetype;
+  while (i++ < numofdots) 
+    ticks += dsq >> notetype + 1;
+
+  return ticks;
+}
+
+notetype ConvertLength(gint duration, midicallback *mididata){
  /*convert length to 2 = quarter, 1 = half, 0 = whole etc...... */
 	/* quarter = 384, half = 768, whole = 1536*/
   notetype gnotetype;
-  gint PPQN = mididata->PPQN;
+  gint PPQN = mididata->smf->ppqn;
   gint notetype = 0;
   gint numofdots = 0;
   gint tied = 0;
   gint leftover = 0;
   gint dsq = (4 * PPQN);
 
-  do notetype++;
-  while ((dsq >> notetype) > endnote);
+  
+  while ((dsq >> notetype) > duration)
+	  notetype++;
 	  
-  /* TODO add a do while or something to find more dots */
+  leftover = duration - (dsq >> notetype); 
 
-  if (dsq % endnote){
-    leftover = (endnote - (dsq >> notetype));            //if leftovers
-      if (leftover == (dsq >> (notetype +1))){
-        numofdots = 1;
-        leftover = 0;
-      }	
-    }
-
+  while (leftover >= (dsq >> (notetype +1))){
+  	leftover -= (dsq >> (notetype +1));
+	numofdots++;
+  }
+  
   gnotetype.notetype = notetype;
   gnotetype.numofdots = numofdots;
   gnotetype.tied = leftover;
@@ -635,7 +766,7 @@ void StaffCheck(GList *list, midicallback *mididata){
   gint track = (int) ((nstack *) list->data)->staffnum;
   gint currentstaffnum = si->currentstaffnum;
 
-  if ((track + 1) > currentstaffnum) /*if not first track add track */
+  if ((track) > currentstaffnum) /*if not first track add track */
     {
       si->currentstaffnum++;
       si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
@@ -674,23 +805,24 @@ void MeasureCheck(GList *list, midicallback *mididata){
 }
 
 /**
- * This takes a note and calculates if the note is to big to fit in the measue. 
+ * This takes a note and calculates if the note is to big to fit in the measure. 
  * If it is it fits what it can fit in the measure and ties it to the 
  * remainder in the next measure.
  */
 void TiedNoteCheck(GList *list, midicallback *mididata){
-	gint endnote = (int) ((nstack *) list->data)->duration;
+	gint duration = (int) ((nstack *) list->data)->duration;
   	gint barlength = (int) mididata->barlength;
   
-	if ((mididata->bartime + endnote) > barlength)
+	if ((mididata->bartime + duration) > barlength)
 	{
-	  	mididata->leftover = (int) (endnote - (barlength - mididata->bartime));	/*tied over bar line */
-	  	endnote = (int) (barlength - mididata->bartime); /*new value that fits in bar*/
-		((nstack *) list->data)->duration = (int *) endnote; 
+	  	mididata->leftover = (int) (duration - (barlength - mididata->bartime));	/*tied over bar line */
+	  	duration = (int) (barlength - mididata->bartime); /*new value that fits in bar*/
+		((nstack *) list->data)->duration = (int *) duration; 
 	}
       	else 
 		mididata->leftover = (int) 0;
 }
+
 
 /**
  * Add notes to the current staff
@@ -703,7 +835,7 @@ process_list(GList *list, midicallback *mididata)
   /* check to see if we need to add a measure */
   MeasureCheck(list, mididata);  	
   /*check for rests*/
-  restcheck(list,mididata);
+  RestCheck(list,mididata);
   /*check for notes tied across measure*/
   TiedNoteCheck(list, mididata);	
   /* note processing stuff */
@@ -803,3 +935,31 @@ enharmonic (gint input, gint key)
   return local;
 }
 
+gint
+importMidi (gchar *filename, DenemoGUI *gui)
+{
+  midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
+  mididata->selected_track = NULL;
+  mididata->smf = NULL;
+  mididata->notestack = NULL;
+  mididata->chordnotes = NULL;
+  mididata->gui = gui;
+  mididata->bartime = 0;
+  mididata->lastoff = 0;
+  mididata->track = 1;
+  gint ret = 0;	// (-1 on failure)
+
+  /* delete old data in the score */
+  dnm_deletescore (NULL, gui);
+
+  /* load the file */
+  ret = cmd_load(mididata, filename);
+  /* get header info */
+  readheader(mididata);
+  /* Read Track Data */ 
+  readtrack(mididata);
+
+  //g_free(mididata);
+  //g_free(filename);
+  return ret;
+}
