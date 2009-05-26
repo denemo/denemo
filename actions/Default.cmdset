@@ -1262,11 +1262,6 @@ Notes entered will follow this pattern</tooltip>
         <bind>RlsL-Control</bind>
       </row>
       <row>
-        <action>PasteClipboard</action>
-        <label>Paste LilyPond notes</label>
-        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
-      </row>
-      <row>
         <action>ScoreProperties</action>
         <label>Score Properties</label>
         <tooltip>Change some of the properties of the current score. This will start up a dialog window</tooltip>
@@ -1483,31 +1478,6 @@ Notes entered will follow this pattern</tooltip>
         <action>EditScoreDirective</action>
         <label>Edit Score Directives</label>
         <tooltip>Edit any directives attached to score.</tooltip>
-      </row>
-      <row>
-        <action>EditMovementDirective</action>
-        <label>Edit Movement Directives</label>
-        <tooltip>Edit any directives attached to movement.</tooltip>
-      </row>
-      <row>
-        <action>EditClefDirective</action>
-        <label>Edit Clef Directives</label>
-        <tooltip>Edit any directives attached to clef.</tooltip>
-      </row>
-      <row>
-        <action>EditTimesigDirective</action>
-        <label>Edit Time Signature Directives</label>
-        <tooltip>Edit any directives attached to time signature.</tooltip>
-      </row>
-      <row>
-        <action>EditKeysigDirective</action>
-        <label>Edit Key Signature Directives</label>
-        <tooltip>Edit any directives attached to key signature.</tooltip>
-      </row>
-      <row>
-        <action>DeleteDirective</action>
-        <label>Delete a Directive</label>
-        <tooltip>Delete a directive attached to chord/note at cursor.</tooltip>
       </row>
       <row>
         <action>AttachLilyToNote</action>
@@ -2415,11 +2385,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Inserts a rest in the prevailing duration</tooltip>
       </row>
       <row>
-        <action>ReadingNoteNames</action>
+        <action>AllegroAssai</action>
         <scheme></scheme>
-        <menupath>/MainMenu/Educational</menupath>
-        <label>Note Name Recognition</label>
-        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro Assai</label>
+        <tooltip>Gives Allegro Assai tempo indication</tooltip>
       </row>
     </map>
   </commands>
