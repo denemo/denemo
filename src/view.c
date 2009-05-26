@@ -4604,6 +4604,9 @@ newview (GtkAction *action, gpointer param)
  */
 void
 newtab (GtkAction *action, gpointer param) {
+#ifdef _HAVE_JACK_
+  stop_jack();
+#endif
   GtkActionGroup *action_group=Denemo.action_group;
   //  if(Denemo.guis==NULL)
   //    action_group = create_window();

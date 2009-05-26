@@ -604,6 +604,7 @@ typedef struct DenemoScore
 
 
   /* Fields used for MIDI playback */
+  gpointer smf;/*< an smf_t structure for libsmf to work with */
   gint tempo;
   gint start;
   gint end;

@@ -967,7 +967,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_at_bar = 0;
   int cur_volume;
   gboolean mute_volume;
-  int mix;
+
   int midi_channel = (-1);
   int tracknumber = 0;
   int timesigupper = 4;
@@ -1160,7 +1160,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	       curobjnode = curobjnode->next)
 	    {
 	      curobj = (DenemoObject *) curobjnode->data;
-	      g_print("<%d>", event->event_number);
 
 	/*******************************************
 	 *	huge switch:
@@ -1343,13 +1342,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 			  /* compute velocity delta */
 			  rand_delta = i_random (&rand_sigma, vel_randfact);
-
 			  /* write note on/off */
 			  if (slur_on_p (note_status, n))
 			    {
-			      mix = compress(128, cur_volume + rand_delta + beat);
-			      
-			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:mix));
+			      // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
+			      // FIXME the function compress is returning large values.
+			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 
 #if DEBUG
@@ -1360,7 +1358,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  else if (slur_kill_p (note_status, n))
 			    {// FIXME what is this 12820??????
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 12820);
-			      g_print("{%d}", event->event_number);
+			      //g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			    }
 			}
@@ -1405,7 +1403,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      /* write note off */
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
- g_print("@%d@", event->event_number);
 			    }
 			}
 		      /* end of second chord output loop */
@@ -1578,7 +1575,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    }
 	  else
 	    {
-	      fprintf (stderr, "[%d]", measurenum);
+	      ;//fprintf (stderr, "[%d]", measurenum);
 	    }
 	  fflush (stdout);
 
@@ -1593,7 +1590,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
      * Done with this track
      ***********************/
 
-      fprintf (stderr, "[%s done]\n", curstaffstruct->lily_name->str);
+      //fprintf (stderr, "[%s done]\n", curstaffstruct->lily_name->str);
       fflush (stdout);
       /*gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(si->progressbar), fraction + 
          gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(si->progressbar))); */
@@ -1606,12 +1603,18 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   /********
    * Done!
    ********/
-
-  int dummy2 = smf_save(smf, (const char*)thefilename);
-  smf_delete(smf);
+  if(thefilename) {
+    int dummy2;
+    dummy2 = smf_save(smf, (const char*)thefilename);
+  }
   /* we are done */
 
-
+  if(si->smf) {
+    smf_t *temp = si->smf;
+    si->smf = NULL;
+    smf_delete(temp);
+  }
+  si->smf = smf;
   return  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo);
 }
 
