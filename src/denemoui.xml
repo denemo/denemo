@@ -117,6 +117,7 @@
     <menu action="MoreMenu">
       <menuitem action="MoreCommands"/>
       <menuitem action="MyCommands"/>
+      <menuitem action="FetchCommands"/>
     </menu>
     <menu action="HelpMenu">
       <menuitem action="Help"/>

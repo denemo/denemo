@@ -319,6 +319,7 @@
 {"MoreMenu", NULL, N_("More"), NULL,N_("Allows choosing extra commands/menu items from disk")},
 {"MoreCommands", NULL, N_("More Commands"), NULL,N_("Allows choosing standard extra commands/menu items"),G_CALLBACK (morecommands)},
 {"MyCommands", NULL, N_("My Commands"), NULL,N_("Allows choosing extra commands/menu items from your own collection of extras"),G_CALLBACK (mycommands)},
+{"FetchCommands", NULL, N_("Update Commands from Internet"), NULL,N_("Refreshes the set of commands available from Denemo.org.\nUse More Commands after this has finished"),G_CALLBACK (fetchcommands)},
 {"AddBookmark", NULL, N_("Add Bookmark"), NULL,N_("Bookmark the current cursor position"),G_CALLBACK (addbookmark)},
 {"GotoBookmark", NULL, N_("Goto Bookmarks"), NULL,N_("Go to a bookmarked point in the score"),G_CALLBACK (gotobookmark)},
 {"NextBookmark", NULL, N_("Next Bookmark"), NULL,N_("Go to the next bookmarked point in the list"),G_CALLBACK (nextbookmark)},

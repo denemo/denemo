@@ -51,6 +51,8 @@ toggle_rest_mode (GtkAction * action, gpointer param);
 static void
 toggle_rhythm_mode (GtkAction * action, gpointer param);
 static void
+fetchcommands (GtkAction *action, gpointer param);
+static void
 morecommands (GtkAction *action, gpointer param);
 static void
 mycommands (GtkAction *action, gpointer param);
@@ -2070,15 +2072,56 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
   close_gui_with_check (NULL, NULL);
   return TRUE;
 }
+/**
+ * callback to fetch up-to-date system commands from internet, denemo.org hardwired at present
+ */
+static void
+fetchcommands (GtkAction *action, gpointer param)
+{
+  static gchar *location=NULL;
+  location = g_build_filename(locatedotdenemo(), "download", "actions", " ", NULL);
+  gboolean err = g_mkdir_with_parents(location, 0770);
+  if(err) {
+    warningdialog(g_strdup_printf("Could not make folder %s for the downloaded commands", location));
+    return;
+  }
+
+  g_print("location is %s\n", location);
+  GError *error = NULL;
+  gchar *arguments[] = {
+  "wget",
+  "-r",
+  "-np",//only below the menus directory
+  "-nH",//cut prefix
+  "--cut-dirs=1",//cut menus part of path
+  DENEMO_DEFAULT_ANON_FTP,
+  NULL
+  };
+
+  g_spawn_async (location,		/* dir */
+		 arguments, NULL,	/* env */
+		 G_SPAWN_SEARCH_PATH, /* search in path for executable */
+		 NULL,	/* child setup func */
+		 NULL,		/* user data */		
+		 NULL,
+		 &error);
+  //FIXME create a callback to tell the user the result...
+}
+
 
 /**
  * callback to load system extra commands
- * 
+ * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 static void
 morecommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
+  location = g_build_filename(locatedotdenemo(), "download", "actions", "menus", " ", NULL);
+  if(!g_file_test(location, G_FILE_TEST_EXISTS)){
+    g_free(location);
+    location = NULL;
+  }
   if(location==NULL)
     location = g_build_filename(get_data_dir(), "actions", "menus", " ", NULL);
   load_keymap_dialog_location (NULL, location);
@@ -2086,7 +2129,6 @@ morecommands (GtkAction *action, gpointer param)
     g_free(location);
     location = g_strdup(Denemo.last_merged_command);
   }
-    
 }
 
 /**
@@ -4562,6 +4604,9 @@ newview (GtkAction *action, gpointer param)
  */
 void
 newtab (GtkAction *action, gpointer param) {
+#ifdef _HAVE_JACK_
+  stop_jack();
+#endif
   GtkActionGroup *action_group=Denemo.action_group;
   //  if(Denemo.guis==NULL)
   //    action_group = create_window();

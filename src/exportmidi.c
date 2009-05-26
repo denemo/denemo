@@ -54,6 +54,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <ctype.h>
+#include "smf.h"
 
 #include "instrumentname.h"
 #include <denemo/denemo.h>
@@ -182,7 +183,7 @@ compress (int range, int invalue)
       fprintf (stderr, "compress %d %d\n", invalue, outvalue);
     }
 
-  return outvalue;
+  return outvalue & 0x7F;
 }
 
 /****************************************************************/
@@ -339,27 +340,32 @@ midi_delta (FILE * fd, long delta, int more)
 /**
  * this is used by several meta events
  */
-
-void
-midi_meta_text (FILE * fd, int metatype, char *string)
+static smf_event_t *
+midi_meta_text (int metatype, char *string)
 {
   int len;
-
-  midi_delta (fd, 0, 0);
-
+  smf_event_t *event = smf_event_new();
   len = strlen (string);
-
+  if(len>255) {
+    g_warning("Truncating string %s\n", string);
+    len = 255;
+  }
+  gchar *buffer = (gchar*)malloc(len+3);
+  event->midi_buffer = buffer;
+  event->midi_buffer_length = len+3;
   /* meta event */
-  midi_byte (fd, 0xff);
+  *buffer++ =  0xff;
 
   /* meta type */
-  midi_byte (fd, metatype);
+  *buffer++ =  metatype;
 
   /* meta size */
-  midi_byte (fd, len);
+  *buffer++ = (char)len;
 
   /* meta text */
-  fprintf (fd, string);
+  strncpy(buffer, string, len);
+  *(buffer+len) = 0;
+  return event; 
 }
 
 /**
@@ -369,6 +375,8 @@ midi_meta_text (FILE * fd, int metatype, char *string)
 void
 midi_comment (FILE * fd, char *txt1, long number, char *txt2)
 {
+#if 0
+  //disabled: size not checked
   char buf[200];
   if (number)
     {
@@ -380,6 +388,7 @@ midi_comment (FILE * fd, char *txt1, long number, char *txt2)
       sprintf (buf, "%s%s", txt1, txt2);
       midi_meta_text (fd, 1, buf);
     }
+#endif
 }
 
 /**
@@ -389,10 +398,12 @@ midi_comment (FILE * fd, char *txt1, long number, char *txt2)
 void
 midi_com2 (FILE * fd, char *txt1, long number1, long number2)
 {
+#if 0
   char buf[200];
 
   sprintf (buf, "%s %ld %ld", txt1, number1, number2);
   midi_meta_text (fd, 1, buf);
+#endif
 }
 
 /**
@@ -412,10 +423,16 @@ midi_channel_event (FILE * fd, int type, int chan, int note, int val)
  * almost only used for program change
  */
 
-void
-midi_change_event (FILE * fd, int type, int chan, int val)
+static smf_event_t *
+midi_change_event (int type, int chan, int val)
 {
-  midi_2_bytes (fd, type | chan, val);
+  smf_event_t *event = smf_event_new();
+  gchar *buffer = malloc(2);
+  event->midi_buffer = buffer;
+  event->midi_buffer_length = 2;
+  *buffer++ = type | chan;
+  *buffer++ = val;
+  return event;
 }
 
 /**
@@ -429,12 +446,16 @@ midi_end_of_track (FILE * fd)
 }
 
 /**
- * meta event: set time signature, time scale and metronome
+ * meta event: set time signature, time scale and metronome FF 58 04 nn dd cc bb Time Signature
  */
 
-void
-midi_timesig (FILE * fd, int upper, int lower)
+static smf_event_t *
+midi_timesig (int upper, int lower)
 {
+  smf_event_t *event = smf_event_new();
+  gchar *buffer = malloc(7);
+  event->midi_buffer = buffer;
+  event->midi_buffer_length = 7;
   div_t n;	
   int click = 24;
 
@@ -443,38 +464,53 @@ midi_timesig (FILE * fd, int upper, int lower)
     click = 24 * ((float) n.quot + (float) n.rem);
   }
 
-  midi_4_bytes (fd, 0, 0xff, 0x58, 4);
-  midi_4_bytes (fd, upper, twolog (lower), click, 8);
+  *buffer++ =0xff, *buffer++ =0x58, *buffer++ =4;
+  *buffer++ =upper, *buffer++ =twolog (lower), *buffer++ =click, *buffer++ =8;
+  return event;
 }
 
 /**
  * meta event: set key signature
  */
 
-void
-midi_keysig (FILE * fd, gint key, gint isminor)
+static smf_event_t *
+midi_keysig (gint key, gint isminor)
 {
-  midi_4_bytes (fd, 0, 0xff, 0x59, 2);
-  midi_2_bytes (fd, key, isminor);
+  smf_event_t *event = smf_event_new();
+  gchar *buffer = malloc(5);
+  event->midi_buffer = buffer;
+  event->midi_buffer_length = 5;
+  *buffer++ = 0xff;
+  *buffer++ = 0x59;
+  *buffer++ =2;
+  *buffer++ = key;
+  *buffer++ =isminor;
+  return event;
 }
 
 /**
  * meta event: set system clock speed
  */
 
-void
-midi_tempo (FILE * fd, long tempo)
+static smf_event_t *
+midi_tempo (long tempo)
 {
   long midi_tempo;
-
+  smf_event_t *event = smf_event_new();
+  gchar *buffer = malloc(6);
+  event->midi_buffer = buffer;
+  event->midi_buffer_length = 6;
   if (tempo == 0)
     {
       tempo = 1;
     }
-  midi_delta (fd, 0, 0);
-  midi_3_bytes (fd, 0xff, 0x51, 3);
+  *buffer++ = 0xff;
+  *buffer++ = 0x51;
+  *buffer++ =  3;
   midi_tempo = 60000000 / tempo;
-  midi_medium (fd, midi_tempo);
+  *buffer++ = (midi_tempo >> 16) & 255;
+  *buffer++ = (midi_tempo >> 8) & 255, (midi_tempo >> 0) & 255;
+return event;
 }
 
 /**
@@ -906,7 +942,7 @@ gdouble
 exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 {
   /* variables for reading and decoding the object list */
-  FILE *fd;
+  smf_event_t *event;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
   measurenode *curmeasure;
@@ -919,7 +955,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   gint mid_c_offset;
   GList *curtone;
   gdouble fraction;
-  GString *filename = g_string_new (thefilename);
+
   gint measurenum, last = 0;
 
   /* variables for generating music */
@@ -931,7 +967,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   long ticks_at_bar = 0;
   int cur_volume;
   gboolean mute_volume;
-  int mix;
+
   int midi_channel = (-1);
   int tracknumber = 0;
   int timesigupper = 4;
@@ -996,34 +1032,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   /* just curious */
   time (&starttime);
 
-  /* Append .mid to the filename */
-  /*g_string_append (filename, ".midi"); */
-
-  /* Now open the file */
-  fd = fopen (filename->str, "w");
-
-  /* verify file descriptor */
-  if (!fd)
-    {
-      perror (filename->str);
-      fprintf (stderr, "Can't open midi file %s for writing!\n",
-	       filename->str);
-      return;
-    }
-
-  /* MIDI file header */
-  midi_4_bytes (fd, 'M', 'T', 'h', 'd');
-  midi_long (fd, 6);
-
-  /* midi file type */
-  midi_short (fd, 1);
-
-  /* tracks in the file */
-  /* this gets overwritten before closing the file */
-  midi_short (fd, 0);
-
-  /* ticks in a quarter note */
-  midi_short (fd, MIDI_RESOLUTION);
+  smf_t *smf = smf_new();
+  int dummy1 = smf_set_ppqn(smf, MIDI_RESOLUTION);
 
 /*
  * end of headers and meta events, now for some real actions
@@ -1047,6 +1057,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       /* select a suitable track number */
       tracknumber++;
+      smf_track_t *track = smf_track_new();
+      smf_add_track(smf, track);
       if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
 	{
 	  midi_channel = 9;
@@ -1056,21 +1068,18 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  midi_channel = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
 	}
 
-      /* MIDI track header */
-      midi_4_bytes (fd, 'M', 'T', 'r', 'k');
-
-      /* remember track size (to be filled in later, when we know the size) */
-      midi_long (fd, 0);
-      track_start_pos[tracknumber] = ftell (fd);
 
       /* track name */
-      midi_meta_text (fd, 3, curstaffstruct->lily_name->str);
+      event = midi_meta_text (3, curstaffstruct->lily_name->str);
+      smf_track_add_event_delta_pulses(track, event, 0);
 
       /* tempo */
-      midi_tempo (fd, si->tempo);
+      event = midi_tempo (si->tempo);
+      smf_track_add_event_delta_pulses(track, event, 0);
 
       /* The midi instrument */
-      midi_meta_text (fd, 4, curstaffstruct->midi_instrument->str);
+      event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
+      smf_track_add_event_delta_pulses(track, event, 0);
 
       if (curstaffstruct->midi_prognum_override != TRUE){
       /* drums is a special case, else try to match an instrument name */
@@ -1089,11 +1098,14 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       }
 
       /* set selected midi program */
-      midi_delta (fd, 0, 0);
-      midi_change_event (fd, MIDI_PROG_CHANGE, midi_channel, prognum);
+
+      event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
+      smf_track_add_event_delta_pulses(track, event, 0);
 
       /*key signature */
-      midi_keysig (fd, curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
+
+      event = midi_keysig (curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
+      smf_track_add_event_delta_pulses(track, event, 0);
 
       /* Time signature */
       timesigupper = curstaffstruct->timesig.time1;
@@ -1102,7 +1114,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       timesiglower = curstaffstruct->timesig.time2;
       //printf("\nstime2 = %i\n", timesiglower);
 
-      midi_timesig (fd, timesigupper, timesiglower);
+       event = midi_timesig (timesigupper, timesiglower);
+       smf_track_add_event_delta_pulses(track, event, 0);
 
       /* set a default velocity value */
       cur_volume = curstaffstruct->volume;
@@ -1142,7 +1155,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  measure_has_odd_tuplet = 0;
 	  ticks_at_bar = ticks_read;
 
-	  /* iterate for over objects in measure */
+	  /* iterate over objects in measure */
 	  for (curobjnode = (objnode *) curmeasure->data; curobjnode;
 	       curobjnode = curobjnode->next)
 	    {
@@ -1312,39 +1325,41 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      /* write delta */
 		      for (n = 0; n < 128; n++)
 			{
+			  gint mididelta;
 			  if (slur_on_p (note_status, n)
 			      || slur_kill_p (note_status, n))
 			    {
 			      if (notes_in_chord++ == 0)
 				{
-				  midi_delta (fd, ticks_read - ticks_written,
-					      0);
+				  mididelta = ticks_read - ticks_written;
 				  ticks_written = ticks_read;
 				}
 			      else
 				{
-				  midi_delta (fd, 0, 0);
+				  mididelta = 0;
 				}
 			    }
 
 			  /* compute velocity delta */
 			  rand_delta = i_random (&rand_sigma, vel_randfact);
-
 			  /* write note on/off */
 			  if (slur_on_p (note_status, n))
 			    {
-			      mix = compress(128, cur_volume + rand_delta + beat);
-			      midi_channel_event (fd, MIDI_NOTE_ON,
-						  midi_channel, n,
-						  (mute_volume ? 0:mix));
+			      // int mix = cur_volume? compress(128, cur_volume + rand_delta + beat) : 0;
+			      // FIXME the function compress is returning large values.
+			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
+			      smf_track_add_event_delta_pulses(track, event, mididelta);
+
 #if DEBUG
+			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
 			      printf ("volume = %i\n", (mute_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))
-			    {
-			      midi_channel_event (fd, MIDI_NOTE_OFF,
-						  midi_channel, n, 12820);
+			    {// FIXME what is this 12820??????
+			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 12820);
+			      //g_print("{%d}", event->event_number);
+			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			    }
 			}
 		      /* end of first chord output loop */
@@ -1369,10 +1384,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			{
 			  if (slur_off_p (note_status, n))
 			    {
+			      gint mididelta;
 			      if (notes_in_chord++ == 0)
 				{
 				  width += ticks_read - ticks_written;
-				  midi_delta (fd, duration + width, 0);
+				  mididelta = duration + width;
 				  ticks_written += duration + width;
 				  if (ticks_written > ticks_read + duration)
 				    {
@@ -1382,12 +1398,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 				}
 			      else
 				{
-				  midi_delta (fd, 0, 0);
+				  mididelta = 0;
 				}
-
 			      /* write note off */
-			      midi_channel_event (fd, MIDI_NOTE_OFF,
-						  midi_channel, n, 60);
+			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
+			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			    }
 			}
 		      /* end of second chord output loop */
@@ -1432,8 +1447,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    }
 		  printf ("\nchange to timesigupper = %i\n", timesigupper);
 		  printf ("\nchange to timesiglower = %i\n", timesiglower);
+		  event = midi_timesig (timesigupper, timesiglower);
+		  smf_track_add_event_delta_pulses(track, event, 0);
 
-		  midi_timesig (fd, timesigupper, timesiglower);
 		  break;
 
 		case TUPOPEN:
@@ -1507,8 +1523,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  // curobj->object
 		  //  ((keysig *) theobj->object)->number; referenced in src/measureops.cpp       
 		  //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
-		  midi_keysig (fd, (((keysig *) curobj->object)->number),
+		  event = midi_keysig ((((keysig *) curobj->object)->number),
 			       curstaffstruct->keysig.isminor);
+		  smf_track_add_event_delta_pulses(track, event, 0);
+		  break;
 
 		case CLEF:
 
@@ -1557,7 +1575,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    }
 	  else
 	    {
-	      fprintf (stderr, "[%d]", measurenum);
+	      ;//fprintf (stderr, "[%d]", measurenum);
 	    }
 	  fflush (stdout);
 
@@ -1566,22 +1584,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
        *************************/
 
 
-	  /* end the track (required!) */
-	  if ((!curmeasure->next)
-	      || (MAX (start, 1) + curmeasurenum == last + 1))
-	    {
-	      midi_end_of_track (fd);
-	      printf ("\nend of track\n");
-	    }
-	  track_end_pos[tracknumber] = ftell (fd);
-
 	}			/* Done with this staff */
 
     /***********************
      * Done with this track
      ***********************/
 
-      fprintf (stderr, "[%s done]\n", curstaffstruct->lily_name->str);
+      //fprintf (stderr, "[%s done]\n", curstaffstruct->lily_name->str);
       fflush (stdout);
       /*gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(si->progressbar), fraction + 
          gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(si->progressbar))); */
@@ -1591,46 +1600,21 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	break;
     }
 
-  /*********************
-   * Insert track sizes
-   *********************/
-
-  /* insert track count in file header */
-  fseek (fd, 10, SEEK_SET);
-  midi_short (fd, tracknumber);
-  fflush (fd);
-
-  /* insert track byte count in track headers */
-  for (i = 1; i <= tracknumber; i++)
-    {
-      fseek (fd, track_start_pos[i] - 4, SEEK_SET);
-      midi_long (fd, track_end_pos[i] - track_start_pos[i]);
-      fflush (fd);
-
-      if (debug)
-	fprintf (stderr,
-		 "track %d from: %ld to %ld (%ld at %ld)\n", i,
-		 track_start_pos[i], track_end_pos[i],
-		 (track_end_pos[i] - track_start_pos[i]), ftell (fd) - 4);
-    }
-
   /********
    * Done!
    ********/
-
+  if(thefilename) {
+    int dummy2;
+    dummy2 = smf_save(smf, (const char*)thefilename);
+  }
   /* we are done */
-  fclose (fd);
 
-  /* just curious again
-  time (&endtime);
-  fprintf (stderr,
-	   "exportmidi %s done:\nfile: %s %s %s\ntotal elapsed time is %ld\n",
-	   EXPORTMIDI_VERSION, filename->str, __DATE__, __TIME__,
-	   endtime - starttime);
- */
-  //g_print("total duration %f seconds\n", 60.0*ticks_read/(MIDI_RESOLUTION*(gdouble)si->tempo));
-
-  g_string_free (filename, FALSE);
+  if(si->smf) {
+    smf_t *temp = si->smf;
+    si->smf = NULL;
+    smf_delete(temp);
+  }
+  si->smf = smf;
   return  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo);
 }
 

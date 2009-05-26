@@ -1203,6 +1203,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoreCommands")), "scm", (
 SCM scheme_MyCommands(SCM optional);
 install_scm_function ("d-MyCommands", scheme_MyCommands);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MyCommands")), "scm", (gpointer)1);
+/*FetchCommands fetchcommands*/
+SCM scheme_FetchCommands(SCM optional);
+install_scm_function ("d-FetchCommands", scheme_FetchCommands);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "FetchCommands")), "scm", (gpointer)1);
 /*AddBookmark addbookmark*/
 SCM scheme_AddBookmark(SCM optional);
 install_scm_function ("d-AddBookmark", scheme_AddBookmark);

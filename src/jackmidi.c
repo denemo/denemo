@@ -31,7 +31,7 @@ double          rate_limit = 0;
 int             just_one_output = 0;
 int             start_stopped = 0;
 int             use_transport = 0;
-int             be_quiet = 1;
+int             be_quiet = 0;
 
 int    playback_started = -1, song_position = 0, stop_midi_output = 0;
 
@@ -224,8 +224,8 @@ process_midi_output(jack_nframes_t nframes)
 		smf_event_t *event = smf_peek_next_event(smf);
 
 		if (event == NULL) {
-			if (!be_quiet)
-				g_debug("End of song.");
+		        if (!be_quiet)
+			  warn_from_jack_thread_context/*g_debug*/("End of song.");
 			playback_started = -1;
 
 			if (!use_transport)
@@ -244,7 +244,7 @@ process_midi_output(jack_nframes_t nframes)
 		if (smf_event_is_metadata(event)) {
 			char *decoded = smf_event_decode(event);
 			if (decoded && !be_quiet)
-				g_debug("Metadata: %s", decoded);
+				warn_from_jack_thread_context/*g_debug*/(g_strdup_printf("Metadata: %s", decoded));
 
 			smf_get_next_event(smf);
 			continue;
@@ -353,7 +353,7 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if ((smf != NULL) && (output_ports != NULL)){
+	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports){
 	  process_midi_output(nframes);
 	}
 #ifdef MEASURE_TIME
@@ -488,10 +488,13 @@ rename_jack_midi_port(int port_number, char *port_name){
 
 void 
 stop_jack(void){
+  if(!jack_client)
+    return;
   remove_all_jack_midi_ports();
   int err = jack_port_unregister(jack_client, input_port);
   jack_deactivate(jack_client);
   jack_client_close(jack_client);
+  jack_client = NULL;
 }
 
 int
@@ -537,16 +540,16 @@ jack_start_restart (void){
   }
 }
 
-void
-jack_midi_player (gchar *file_name) {
-  
-  smf = smf_load(file_name);
+static void
+jack_midi_player (void) {
+  smf = Denemo.gui->si->smf;
   if (smf == NULL) {
      g_critical("Loading SMF file failed.");
+     return;
   }
   if (!be_quiet)
      g_message("%s.", smf_decode(smf));
-
+  smf_rewind(smf);
   if (smf->number_of_tracks > MAX_NUMBER_OF_TRACKS) { 
      g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
      just_one_output = 1;
@@ -574,7 +577,6 @@ void
 jack_midi_playback_start()
 {
   DenemoGUI *gui = Denemo.gui;
-  gchar *mididata = NULL;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
   /* set tranport on/off */
   use_transport = Denemo.prefs.jacktransport; 
@@ -583,17 +585,16 @@ jack_midi_playback_start()
   g_debug("\nTransport set to %d Transport start stopped = %d\n", 
 		  use_transport, start_stopped);
   if (jack_client != NULL){
-	  mididata = get_temp_filename ("denemoplayback.mid");
 	  if(gui->si->markstaffnum)
-	   duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
+	   duration = exportmidi (NULL, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
 	  else 
 	   if(gui->si->end)
-	     exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
+	     exportmidi (NULL, gui->si, gui->si->start, gui->si->end);
 	   else
-	     duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+	     duration = exportmidi (NULL, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
 	  /* execute jackmidi player function */ 
-	  jack_midi_player(mididata);
-	  g_free (mididata);
+	  jack_midi_player();
+
 	  // first measure to play at start
 	  
 	    if(gui->si->markstaffnum)

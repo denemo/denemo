@@ -20,6 +20,9 @@
 #include "denemo_objects.h"
 #define EXT_MIDI 0
 #define EXT_CSOUND 1
+
+#define DENEMO_DEFAULT_ANON_FTP "ftp://www.denemo.org/download/menus"
+
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
 #define G_ACTIONCALLBACK(f) ((GActionCallback)(f)) 
  /* and the following typedefs are basically here for so that it's
@@ -601,6 +604,7 @@ typedef struct DenemoScore
 
 
   /* Fields used for MIDI playback */
+  gpointer smf;/*< an smf_t structure for libsmf to work with */
   gint tempo;
   gint start;
   gint end;

@@ -430,6 +430,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Allows choosing extra commands/menu items from disk", N_("MoreMenu"), NULL, N_("More")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Allows choosing standard extra commands/menu items", N_("MoreCommands"), "morecommands", N_("More Commands")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Allows choosing extra commands/menu items from your own collection of extras", N_("MyCommands"), "mycommands", N_("My Commands")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Refreshes the set of commands available from Denemo.org.\\nUse More Commands after this has finished", N_("FetchCommands"), "fetchcommands", N_("Update Commands from Internet")}, 
 
 
 

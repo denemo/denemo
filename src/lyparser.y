@@ -55,7 +55,7 @@ void lyrestart( FILE *new_file );
 extern int lylineno;
 static int parser_error_linenum = 0;
 static gchar *parser_error_message = NULL; /* NULL for no parse error */
-nodemin endcontextnode={endcontext,NULL}; /*the only instantiation of this
+nodemin endcontextnode; /*the only instantiation of this
 node, used as a marker */
 
 
@@ -2955,11 +2955,15 @@ lyinput (gchar * filename, DenemoGUI *gui)
 {
   FILE *lyin;
   GList *score_block_list = NULL;
+
+
+
   initialize_scm_identifiers ();
   name_value_pairs = g_hash_table_new (g_str_hash, g_str_equal);/* FIXME memory leak */
   default_duration_.t1.a = 2;
   default_duration_.t1.b = 0;
-  
+  endcontextnode.type = endcontext; /*the only instantiation of this
+node, used as a marker */
   init_crescendo_state();
   DenemoScore *si = gui->si;
 
