@@ -602,13 +602,14 @@ typedef struct DenemoScore
   header header;/*< Directives for the header block of the movement */
   
 
-
+  guint changecount;
   /* Fields used for MIDI playback */
   gpointer smf;/*< an smf_t structure for libsmf to work with */
   gint tempo;
   gint start;
   gint end;
   gint stafftoplay;
+  guint smfsync;/**< value of changecount when the smf MIDI data was last refreshed */
 
 
   

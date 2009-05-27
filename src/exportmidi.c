@@ -1616,6 +1616,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   }
   si->smf = smf;
   //g_print("Compare old %f with %f\n",  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo), smf_get_length_seconds(smf)) ;
+  si->smfsync = si->changecount;
   return smf_get_length_seconds(smf);
 }
 

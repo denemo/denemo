@@ -743,9 +743,9 @@ void score_status(DenemoGUI *gui, gboolean change) {
     gboolean just_changed = !gui->notsaved;
     gui->notsaved = TRUE; 
     gui->changecount++;
+    gui->si->changecount++;
     if(just_changed)
       set_title_bar(gui);
-
   } else {
     gui->notsaved=FALSE;
     set_title_bar(gui);

@@ -420,10 +420,7 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
       /*export parts as lilypond files*/
       if(Denemo.prefs.saveparts)
 	export_lilypond_parts(file,gui);
-      if(gui->lilysync==gui->changecount)
-	gui->lilysync = 0;//still in sync
       score_status(gui, FALSE);
-      
       si->readonly = FALSE;
     }
   g_free(basename);
