@@ -724,7 +724,7 @@ void  set_title_bar(DenemoGUI *gui) {
     title = gui->filename->str;
   else
     title = "(Untitled)";
-  title = g_strdup_printf("Denemo - %s%c", title, gui->changecount?'*':' ');
+  title = g_strdup_printf("Denemo - %s%c", title, gui->notsaved?'*':' ');
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title); 
   gchar *base = g_path_get_basename (title);
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK(Denemo.notebook), gui->page, base); 
@@ -739,13 +739,15 @@ void  set_title_bar(DenemoGUI *gui) {
                    FALSE = the score is to be assumed saved
 */
 void score_status(DenemoGUI *gui, gboolean change) {
-  if(change) { 
+  if(change) {
+    gboolean just_changed = !gui->notsaved;
+    gui->notsaved = TRUE; 
     gui->changecount++;
-    if(gui->changecount==1)//just changed
+    if(just_changed)
       set_title_bar(gui);
 
   } else {
-    gui->changecount=0;
+    gui->notsaved=FALSE;
     set_title_bar(gui);
   }
   write_status(gui);

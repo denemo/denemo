@@ -422,7 +422,6 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean
 	export_lilypond_parts(file,gui);
       if(gui->lilysync==gui->changecount)
 	gui->lilysync = 0;//still in sync
-      gui->changecount = 0;
       score_status(gui, FALSE);
       
       si->readonly = FALSE;
@@ -503,7 +502,7 @@ void
 system_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
   GET_1PARAM(action, param, filename);
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (filename==NULL && confirmbox (gui))
 	{
@@ -523,7 +522,7 @@ void
 system_example_open_with_check (GtkAction * action, DenemoScriptParam * param) {
   GET_1PARAM(action, param, filename);
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (confirmbox (gui))
 	{
@@ -542,7 +541,7 @@ void
 local_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
   GET_1PARAM(action, param, filename);
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (filename==NULL && confirmbox (gui))
 	{
@@ -572,7 +571,7 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
     return;
   }
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (confirmbox (gui))
 	{
@@ -792,9 +791,6 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
 	export_lilypond_parts(gui->filename->str,gui);
   
   denemo_warning (gui, guess_file_format (gui->filename->str));
-  if(gui->lilysync==gui->changecount)
-    gui->lilysync = 0;//still in sync
-  gui->changecount = 0;
   score_status(gui, FALSE);
 }
 
@@ -909,7 +905,7 @@ void
 file_newwrapper (GtkAction * action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (confirmbox (gui))
 	{

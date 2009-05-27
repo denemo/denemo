@@ -95,7 +95,7 @@ insertfigure (gboolean filter, gpointer data)
     
     
     si->has_figures = (gpointer)TRUE; //&null_info;
-    gui->changecount++;
+    score_status(gui, TRUE);
   } // if currentobject not null
   else {
     warningdialog("No current object to attach a figure to");	 

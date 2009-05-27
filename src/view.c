@@ -2175,7 +2175,7 @@ gboolean
 close_gui_with_check (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if ((!gui->changecount) || (gui->changecount && confirmbox (gui)))
+  if ((!gui->notsaved) || (gui->notsaved && confirmbox (gui)))
     close_gui (gui);
   else 
     return FALSE;
@@ -4071,7 +4071,7 @@ static void
 openrecent (GtkWidget * widget, gchar *filename)
 {
   DenemoGUI *gui = Denemo.gui;
-  if (!gui->changecount || (gui->changecount && confirmbox (gui)))
+  if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
     {
       deletescore(NULL, gui);
       if(open_for_real (filename, gui, FALSE, FALSE))

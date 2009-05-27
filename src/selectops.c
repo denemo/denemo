@@ -756,7 +756,7 @@ undo (DenemoGUI * gui)
   unre_data *undo=NULL;
   unre_data *redo = (unre_data *) g_malloc (sizeof (unre_data));//FIXME memory leak
 
-  if (gui->changecount /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
+  if (gui->notsaved /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
     {
       gui->si->undo_redo_mode = UNDO;
       undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
@@ -817,7 +817,7 @@ redo (DenemoGUI * gui)
   unre_data *redo = NULL;
   
   DenemoScore *si = gui->si;
-  if (gui->changecount && g_queue_get_length (si->redodata) > 0)
+  if (gui->notsaved && g_queue_get_length (si->redodata) > 0)
     {
       si->undo_redo_mode = REDO;
       redo = (unre_data *) g_queue_pop_head (si->redodata);

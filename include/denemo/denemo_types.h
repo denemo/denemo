@@ -688,8 +688,8 @@ typedef struct DenemoGUI
   GString *filename;/**< the filename to save to */
   GString *autosavename;/**< the filename to autosave to, full path */
 
- 
-  guint changecount;/**< number of edits since last save */
+  gboolean notsaved;/**< edited since last save */
+  guint changecount;/**< number of edits since score loaded */
   guint lilysync;/**< value of changecount when the Lily text was last refreshed */
 
  
