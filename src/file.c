@@ -908,6 +908,8 @@ file_newwrapper (GtkAction * action, gpointer param)
 	{
 	  deletescore(NULL, gui);
 	}
+      else
+	return;
     }
   else
     {
