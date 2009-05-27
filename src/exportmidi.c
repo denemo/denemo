@@ -942,7 +942,7 @@ gdouble
 exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 {
   /* variables for reading and decoding the object list */
-  smf_event_t *event;
+  smf_event_t *event = NULL;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
   measurenode *curmeasure;
@@ -1615,7 +1615,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     smf_delete(temp);
   }
   si->smf = smf;
-  return  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo);
+  //g_print("Compare old %f with %f\n",  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo), smf_get_length_seconds(smf)) ;
+  return smf_get_length_seconds(smf);
 }
 
 /*
