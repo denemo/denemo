@@ -382,7 +382,7 @@ DenemoGUI *gui = Denemo.gui;
     set_cursor_y_from_click (gui, event->y);
     if(pi.nextmeasure)
       measureright(NULL);
-    {static gboolean alternate;
+    {static gboolean alternate = TRUE;
     if(alternate && left){
       set_mark(gui);
       selecting = TRUE;
