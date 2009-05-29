@@ -434,6 +434,33 @@ pastefrombuffer (DenemoGUI * gui)
   g_debug ("End of Paste Cursor X: %d\n", si->cursor_x);
 }
 
+
+DenemoObject *get_mark_object(void){
+  DenemoGUI * gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  if(!si->markstaffnum)
+    return NULL;
+  staffnode *curstaff = g_list_nth (si->thescore, si->firststaffmarked - 1);
+  DenemoStaff *firststaff =  (DenemoStaff *) curstaff->data;
+  measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->firstmeasuremarked - 1);
+  objnode *firstobj = g_list_nth (firstmeasure->data, si->firstobjmarked);
+  g_print("First %d\n",  si->firstobjmarked);
+  return firstobj? ((GList*)firstobj->data):NULL;
+}
+DenemoObject *get_point_object(void){
+  DenemoGUI * gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  if(!si->markstaffnum)
+    return NULL;
+  staffnode *curstaff = g_list_nth (si->thescore, si->laststaffmarked - 1);
+  DenemoStaff *laststaff =  (DenemoStaff *) curstaff->data;
+  measurenode *lastmeasure = g_list_nth (laststaff->measures,  si->lastmeasuremarked - 1);
+  objnode *lastobj = g_list_nth (lastmeasure->data, si->lastobjmarked);
+  return lastobj? ((GList*)lastobj->data):NULL;
+}
+
+
+
 /**
  *  setmark
  *  Sets the current mark for the start of the buffer
@@ -659,7 +686,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
 	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
 	  if (type == NORMAL_SELECT
-	      && si->firststaffmarked == si->laststaffmarked)
+	      /*  && si->firststaffmarked == si->laststaffmarked */)
 	    {
 	      if (mark_measure < point_measure)
 		{
