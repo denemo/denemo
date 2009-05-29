@@ -382,10 +382,14 @@ DenemoGUI *gui = Denemo.gui;
     set_cursor_y_from_click (gui, event->y);
     if(pi.nextmeasure)
       measureright(NULL);
-    
-    if(left)
+    {static gboolean alternate;
+    if(alternate && left){
       set_mark(gui);
-    selecting = TRUE;
+      selecting = TRUE;
+    } else
+      gui->si->markstaffnum = 0;
+    alternate = !alternate;
+    }
     write_status(gui);
     /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
     gtk_widget_draw (gui->scorearea, NULL);

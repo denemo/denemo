@@ -870,7 +870,6 @@ The cursor position determines which note to add</tooltip>
         <label>Set Mark</label>
         <tooltip>Sets the start point for a selection,
 the cursor position is the end point</tooltip>
-        <bind>PrsL</bind>
       </row>
       <row>
         <action>UnsetMark</action>
@@ -1576,6 +1575,12 @@ Notes entered will follow this pattern</tooltip>
         <action>MyCommands</action>
         <label>My Commands</label>
         <tooltip>Allows choosing extra commands/menu items from your own collection of extras</tooltip>
+      </row>
+      <row>
+        <action>FetchCommands</action>
+        <label>Update Commands from Internet</label>
+        <tooltip>Refreshes the set of commands available from Denemo.org.
+Use More Commands after this has finished</tooltip>
       </row>
       <row>
         <action>AddBookmark</action>
