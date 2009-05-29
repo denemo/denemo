@@ -154,6 +154,7 @@ typedef struct
   gint durinticks; /**< Duration of object */
   gint starttick; /**< When the object occurs */ 
   gint starttickofnextnote; /**< When the next object occurs */
+  GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
   /**< Allots extra space for accidentals or reverse-aligned notes if
    * the stem is down */
   gint space_before; /**< Used to specify how much space is needed before the object */

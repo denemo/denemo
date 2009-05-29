@@ -22,32 +22,31 @@ initkeyaccs (gint * accs, gint number);
 void
 freeobject (DenemoObject * mudobj)
 {
-  if (mudobj)
-    switch (mudobj->type)
-      {
-      case CHORD:
-	freechord (mudobj);	/* Which also frees mudobj itself */
-	break;
-      case CLEF:
-	free_directives(((clef*)mudobj->object)->directives);
-	g_free (mudobj);
-	break;
-
-      case KEYSIG:
-	free_directives(((keysig*)mudobj->object)->directives);
-	g_free (mudobj);
-	break;
-      case TIMESIG:
-	free_directives(((timesig*)mudobj->object)->directives);
-	g_free (mudobj);
-	break;
-
-
-
-      default:
-	g_free (mudobj);
-	break;
-      }
+  if (mudobj==NULL)
+    return;
+  if(mudobj->midi_events)
+    g_list_free(mudobj->midi_events);//do not free the data it belongs to libsmf
+  switch (mudobj->type)
+    {
+    case CHORD:
+      freechord (mudobj);	/* Which also frees mudobj itself */
+      break;
+    case CLEF:
+      free_directives(((clef*)mudobj->object)->directives);
+      g_free (mudobj);
+      break;
+    case KEYSIG:
+      free_directives(((keysig*)mudobj->object)->directives);
+      g_free (mudobj);
+      break;
+    case TIMESIG:
+      free_directives(((timesig*)mudobj->object)->directives);
+      g_free (mudobj);
+      break; 
+    default:
+      g_free (mudobj);
+      break;
+    } 
 }
 
 /**
@@ -324,6 +323,7 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    }
   }
+  ret->midi_events = NULL;
   return ret;
 }
 
