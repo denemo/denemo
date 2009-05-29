@@ -31,7 +31,7 @@
 #include "jackmidi.h"
 
 static gint timeout_id = 0, kill_id=0;
-static gdouble duration;
+static gdouble duration = 0.0;
 
 static gint move_on(DenemoGUI *gui){
   if(timeout_id==0)
@@ -130,10 +130,10 @@ ext_midi_playback_control (gboolean start)
     duration = exportmidi (mididata, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
   else 
     if(gui->si->end)
-      exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
+      duration = exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
     else
       duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
-  g_print("Values are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
+  // g_print("Values are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
   gchar *argv[] = {
     Denemo.prefs.midiplayer->str,
     mididata,
@@ -173,7 +173,7 @@ ext_midi_playback_control (gboolean start)
   //FIXME add a delay before starting the timer.
   timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), 
 			       (GSourceFunc)move_on, gui);
-  kill_id = g_timeout_add (duration*1000, (GSourceFunc)kill_timer, NULL);
+  kill_id = g_timeout_add ((guint)(duration*1000), (GSourceFunc)kill_timer, NULL);
   }
   return;
 }

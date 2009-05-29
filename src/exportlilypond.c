@@ -1721,8 +1721,7 @@ void merge_lily_strings (DenemoGUI *gui) {
 	g_object_set_data(G_OBJECT(anchor),ORIGINAL, get_text(gui, anchor));
 	
 
-	gui->changecount++;
-	set_title_bar(gui);
+	score_status(gui, TRUE);
 	g_free(lily);
       }
 
@@ -1809,8 +1808,7 @@ void custom_lily_cb (GtkAction *action, gpointer param) {
     anchor = insert_scoreblock_section(gui, NULL, sb);
     gui->custom_scoreblocks = g_list_prepend(gui->custom_scoreblocks, sb);
     g_object_set_data(G_OBJECT(anchor),ORIGINAL, lily);
-    gui->changecount++;
-    set_title_bar(gui);
+    score_status(gui, TRUE);
     refresh_lily_cb(action, gui);
     GtkTextIter iter;//Place cursor at end of MUSIC which is where the score block has been placed
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, MUSIC));
@@ -2481,7 +2479,7 @@ static lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
 	  g_object_set_data(G_OBJECT(anchor),ORIGINAL, get_text(gui, anchor));
 	  //g_print("prepended %s (%x)\n", key, *key);
 	}
-	gui->changecount++;
+	score_status(gui, TRUE);
 	refresh_lily_cb(NULL, gui);
 	gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &cursor, gtk_text_buffer_get_insert(gui->textbuffer));
 	if(gtk_text_iter_forward_char (&cursor))

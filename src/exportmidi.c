@@ -757,7 +757,7 @@ slur_update (int *state, int begin, int end)
 }
 
 /**
- * insert a note and it's properties in the table
+ * insert a note and its properties in the table
  */
 
 void
@@ -942,7 +942,7 @@ gdouble
 exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 {
   /* variables for reading and decoding the object list */
-  smf_event_t *event;
+  smf_event_t *event = NULL;
   staffnode *curstaff;
   DenemoStaff *curstaffstruct;
   measurenode *curmeasure;
@@ -1121,6 +1121,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       cur_volume = curstaffstruct->volume;
       /* mute output if set */
       mute_volume = curstaffstruct->mute_volume;
+      if(cur_volume==0 && mute_volume==TRUE) {
+	g_warning("volume set to zero but not muted\nResetting volume\n");
+	cur_volume = 65;
+      }
+	
 
       /* reset measure */
       curmeasurenum = 0;
@@ -1160,7 +1165,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	       curobjnode = curobjnode->next)
 	    {
 	      curobj = (DenemoObject *) curobjnode->data;
-
+	      if(curobj->midi_events)
+		g_list_free(curobj->midi_events);//data belongs to libsmf
 	/*******************************************
 	 *	huge switch:
 	 * 	here we handle every kind of object
@@ -1175,8 +1181,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  /******************** 
 	   * one or more notes
 	   ********************/
-
-
+		  
+		 
 		  measure_is_empty = 0;
 		  if (debug)
 		    fprintf (stderr,
@@ -1300,6 +1306,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  //	  curstaffstruct->transposition);
 			  notenumber += curstaffstruct->transposition;
 			  //printf ("notenumber = %i\n", notenumber);
+			  if(notenumber>127) {
+			    g_warning("Note out of range\n", notenumber = 60);
+			  }
 			  slur_note (note_status,
 				     slur_status,
 				     notenumber,
@@ -1349,7 +1358,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      // FIXME the function compress is returning large values.
 			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
-
+			      //g_print("event on %f\n", event->time_seconds);
+			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
 			      printf ("volume = %i\n", (mute_volume ? 0:mix));
@@ -1358,8 +1368,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  else if (slur_kill_p (note_status, n))
 			    {// FIXME what is this 12820??????
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 12820);
-			      //g_print("{%d}", event->event_number);
+			      g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			    }
 			}
 		      /* end of first chord output loop */
@@ -1403,11 +1414,12 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      /* write note off */
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			    }
 			}
 		      /* end of second chord output loop */
 
-		    }
+		    }//end of for notes in chord. Note that rests have no MIDI representation, of course.
 		  width = 0;
 #if slurdebug
 		  print_slurs (stderr,
@@ -1449,7 +1461,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  printf ("\nchange to timesiglower = %i\n", timesiglower);
 		  event = midi_timesig (timesigupper, timesiglower);
 		  smf_track_add_event_delta_pulses(track, event, 0);
-
+		  curobj->midi_events = g_list_append(curobj->midi_events, event);
 		  break;
 
 		case TUPOPEN:
@@ -1526,6 +1538,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  event = midi_keysig ((((keysig *) curobj->object)->number),
 			       curstaffstruct->keysig.isminor);
 		  smf_track_add_event_delta_pulses(track, event, 0);
+		  curobj->midi_events = g_list_append(curobj->midi_events, event);
 		  break;
 
 		case CLEF:
@@ -1533,6 +1546,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  /***********
 	   * ignored!
 	   ***********/
+
+		  break;
+
+
+		case LILYDIRECTIVE:
+/*                       here we can attach repeat stuff - copy the object's event_ts and attach as a list... */
+
 
 		  break;
 		default:
@@ -1615,7 +1635,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     smf_delete(temp);
   }
   si->smf = smf;
-  return  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo);
+  //g_print("Compare old %f with %f\n",  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo), smf_get_length_seconds(smf)) ;
+  si->smfsync = si->changecount;
+  return smf_get_length_seconds(smf);
 }
 
 /*

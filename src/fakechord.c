@@ -156,7 +156,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
 	  while ((curObj != NULL) && (curObj->type != CHORD));
 
 	  si->has_fakechords = (gpointer)TRUE;//&null_info;
-	  gui->changecount++;
+	  score_status(gui, TRUE);
 	  return TRUE;
   }
   else {

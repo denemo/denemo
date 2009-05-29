@@ -8,6 +8,7 @@
 #include <math.h>
 #include <string.h>
 #include <assert.h>
+#include "exportmidi.h"
 #include "pitchentry.h"
 #include "smf.h"
 #define NOTE_OFF                0x80
@@ -24,17 +25,18 @@ jack_port_t     *input_port;
 jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
 
 static gint timeout_id = 0, kill_id=0;
-static gdouble duration;
+static gdouble duration = 0.0;
 
-smf_t           *smf = NULL;
-double          rate_limit = 0;
-int             just_one_output = 0;
-int             start_stopped = 0;
-int             use_transport = 0;
-int             be_quiet = 0;
+static smf_t           *smf = NULL;
+static double          rate_limit = 0;
+static int             just_one_output = 0;
+static int             start_stopped = 0;
+static int             use_transport = 0;
+static int             be_quiet = 1;
 
-int    playback_started = -1, song_position = 0, stop_midi_output = 0;
-
+static int    playback_started = -1, song_position = 0, stop_midi_output = 0;
+static double start_time = 0.0;//time in seconds to start at (from start of the smf)
+static double end_time = 0.0;//time in seconds to end at (from start of the smf)
 double 
 get_time(void)
 {
@@ -133,7 +135,8 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 {
 	int i, channel;
 	unsigned char *buffer;
-	g_debug("\nSending all sound off!!!\n");
+	if(!be_quiet)
+	warn_from_jack_thread_context("\nSending all sound off!!!\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		for (channel = 0; channel < 16; channel++) {
 #ifdef JACK_MIDI_NEEDS_NFRAMES
@@ -164,6 +167,7 @@ static gint move_on(DenemoGUI *gui){
 }
 
 gint jack_kill_timer(void){
+  g_print("Jack kill timer %d\n", timeout_id);
 if(timeout_id>0)
   g_source_remove(timeout_id);
 timeout_id= 0;
@@ -182,12 +186,13 @@ process_midi_output(jack_nframes_t nframes)
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
 	for (i = 0; i < smf->number_of_tracks; i++) {
-		port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
-
-		if (port_buffers[i] == NULL) {
-			warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
-			return;
-		}
+	  if(output_ports[i])
+	     port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
+	     
+	     if (port_buffers[i] == NULL) {
+	       warn_from_jack_thread_context("jack_port_get_buffer failed, cannot send anything.");
+	       return;
+	     }
 
 #ifdef JACK_MIDI_NEEDS_NFRAMES
 		jack_midi_clear_buffer(port_buffers[i], nframes);
@@ -223,7 +228,7 @@ process_midi_output(jack_nframes_t nframes)
 	for (;;) {
 		smf_event_t *event = smf_peek_next_event(smf);
 
-		if (event == NULL) {
+		if (event == NULL || (event->time_seconds>end_time)) {
 		        if (!be_quiet)
 			  warn_from_jack_thread_context/*g_debug*/("End of song.");
 			playback_started = -1;
@@ -256,7 +261,7 @@ process_midi_output(jack_nframes_t nframes)
 			break;
 		}
 
-		t = seconds_to_nframes(event->time_seconds) + playback_started - song_position + nframes - last_frame_time;
+		t = seconds_to_nframes(event->time_seconds - start_time) + playback_started - song_position + nframes - last_frame_time;
 
 		/* If computed time is too much into the future, we'll need
 		   to send it later. */
@@ -542,14 +547,7 @@ jack_start_restart (void){
 
 static void
 jack_midi_player (void) {
-  smf = Denemo.gui->si->smf;
-  if (smf == NULL) {
-     g_critical("Loading SMF file failed.");
-     return;
-  }
-  if (!be_quiet)
-     g_message("%s.", smf_decode(smf));
-  smf_rewind(smf);
+
   if (smf->number_of_tracks > MAX_NUMBER_OF_TRACKS) { 
      g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
      just_one_output = 1;
@@ -585,30 +583,64 @@ jack_midi_playback_start()
   g_debug("\nTransport set to %d Transport start stopped = %d\n", 
 		  use_transport, start_stopped);
   if (jack_client != NULL){
-	  if(gui->si->markstaffnum)
-	   duration = exportmidi (NULL, gui->si, gui->si->firstmeasuremarked, gui->si->lastmeasuremarked);
-	  else 
-	   if(gui->si->end)
-	     exportmidi (NULL, gui->si, gui->si->start, gui->si->end);
-	   else
-	     duration = exportmidi (NULL, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+     if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+       exportmidi (NULL, gui->si, 1, 0/* means to end */);
+
+	 
+
+
+	  smf = Denemo.gui->si->smf;
+	  if (smf == NULL) {
+	    g_critical("Loading SMF file failed.");
+	    return;
+	  }
+	  duration = smf_get_length_seconds(smf);
+	  if (!be_quiet)
+	    g_message("%s.", smf_decode(smf));
+
+
+
+	  DenemoObject *curobj;
+	  start_time = 0.0;
+	  curobj = get_mark_object();
+	  if(curobj==NULL && gui->si->currentobject)
+	    curobj = gui->si->currentobject->data;
+	  if(curobj && curobj->midi_events) {
+	    smf_event_t *event = curobj->midi_events->data;
+	    start_time = event->time_seconds;
+	    g_print("setting start %f\n", start_time);
+	  }
+	  end_time = duration;
+	  curobj = NULL;
+	  curobj =  get_point_object();
+	  if(curobj && curobj->midi_events) {
+	    smf_event_t *event = g_list_last(curobj->midi_events)->data;
+	    end_time = event->time_seconds;
+	    g_print("setting end %f\n", end_time);	   
+	    //could investigate to see if event is NoteOn and g_warning("Setting stop time to a NoteOn event!");
+	  } 
+
+
+	  if(start_time>end_time) {
+	    gdouble temp = start_time;
+	    start_time = end_time;
+	    end_time = temp;
+	  }
+	  duration = end_time - start_time;
+	  g_print("start %f for %f seconds\n",start_time, duration);
+	  smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
 
-	  // first measure to play at start
-	  
-	    if(gui->si->markstaffnum)
-	      set_currentmeasurenum (gui,gui->si->firstmeasuremarked);
-	    else    
-	      set_currentmeasurenum (gui, gui->si->currentmeasurenum);
+
 	    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
 	      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
 	      //FIXME add a delay before starting the timer.
-	      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), 
-				       (GSourceFunc)move_on, gui);
-	      kill_id = g_timeout_add (duration*1000, (GSourceFunc)jack_kill_timer, NULL);
+	      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)move_on, gui);
+	      // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
+	      kill_id = g_timeout_add ((guint)(duration*1000), (GSourceFunc)jack_kill_timer, NULL);
 	    }
-  }  
+  }//if jack_client  
   return;
 }
 

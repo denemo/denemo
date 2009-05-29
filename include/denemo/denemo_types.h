@@ -154,6 +154,7 @@ typedef struct
   gint durinticks; /**< Duration of object */
   gint starttick; /**< When the object occurs */ 
   gint starttickofnextnote; /**< When the next object occurs */
+  GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
   /**< Allots extra space for accidentals or reverse-aligned notes if
    * the stem is down */
   gint space_before; /**< Used to specify how much space is needed before the object */
@@ -602,13 +603,14 @@ typedef struct DenemoScore
   header header;/*< Directives for the header block of the movement */
   
 
-
+  guint changecount;
   /* Fields used for MIDI playback */
   gpointer smf;/*< an smf_t structure for libsmf to work with */
   gint tempo;
   gint start;
   gint end;
   gint stafftoplay;
+  guint smfsync;/**< value of changecount when the smf MIDI data was last refreshed */
 
 
   
@@ -688,8 +690,8 @@ typedef struct DenemoGUI
   GString *filename;/**< the filename to save to */
   GString *autosavename;/**< the filename to autosave to, full path */
 
- 
-  guint changecount;/**< number of edits since last save */
+  gboolean notsaved;/**< edited since last save */
+  guint changecount;/**< number of edits since score loaded */
   guint lilysync;/**< value of changecount when the Lily text was last refreshed */
 
  

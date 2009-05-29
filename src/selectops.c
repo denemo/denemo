@@ -434,6 +434,33 @@ pastefrombuffer (DenemoGUI * gui)
   g_debug ("End of Paste Cursor X: %d\n", si->cursor_x);
 }
 
+
+DenemoObject *get_mark_object(void){
+  DenemoGUI * gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  if(!si->markstaffnum)
+    return NULL;
+  staffnode *curstaff = g_list_nth (si->thescore, si->firststaffmarked - 1);
+  DenemoStaff *firststaff =  (DenemoStaff *) curstaff->data;
+  measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->firstmeasuremarked - 1);
+  objnode *firstobj = g_list_nth (firstmeasure->data, si->firstobjmarked);
+  g_print("First %d\n",  si->firstobjmarked);
+  return firstobj? ((GList*)firstobj->data):NULL;
+}
+DenemoObject *get_point_object(void){
+  DenemoGUI * gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  if(!si->markstaffnum)
+    return NULL;
+  staffnode *curstaff = g_list_nth (si->thescore, si->laststaffmarked - 1);
+  DenemoStaff *laststaff =  (DenemoStaff *) curstaff->data;
+  measurenode *lastmeasure = g_list_nth (laststaff->measures,  si->lastmeasuremarked - 1);
+  objnode *lastobj = g_list_nth (lastmeasure->data, si->lastobjmarked);
+  return lastobj? ((GList*)lastobj->data):NULL;
+}
+
+
+
 /**
  *  setmark
  *  Sets the current mark for the start of the buffer
@@ -659,7 +686,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
 	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
 	  if (type == NORMAL_SELECT
-	      && si->firststaffmarked == si->laststaffmarked)
+	      /*  && si->firststaffmarked == si->laststaffmarked */)
 	    {
 	      if (mark_measure < point_measure)
 		{
@@ -756,7 +783,7 @@ undo (DenemoGUI * gui)
   unre_data *undo=NULL;
   unre_data *redo = (unre_data *) g_malloc (sizeof (unre_data));//FIXME memory leak
 
-  if (gui->changecount /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
+  if (gui->notsaved /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
     {
       gui->si->undo_redo_mode = UNDO;
       undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
@@ -817,7 +844,7 @@ redo (DenemoGUI * gui)
   unre_data *redo = NULL;
   
   DenemoScore *si = gui->si;
-  if (gui->changecount && g_queue_get_length (si->redodata) > 0)
+  if (gui->notsaved && g_queue_get_length (si->redodata) > 0)
     {
       si->undo_redo_mode = REDO;
       redo = (unre_data *) g_queue_pop_head (si->redodata);

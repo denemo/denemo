@@ -869,7 +869,7 @@ void notebook_page(gpointer data)
 void scorewizard(GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
-  if (gui->changecount)
+  if (gui->notsaved)
     {
       if (confirmbox (gui))
         deletescore (NULL, gui);
