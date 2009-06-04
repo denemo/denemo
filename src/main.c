@@ -625,7 +625,7 @@ COPYING for details.\n\n") ;
           GtkWidget *label =
             gtk_label_new
             ("\nDenemo crashed, The open file has been recovered\n"
-             "do you want to contiue editing your work?\n");
+             "do you want to continue editing your work?\n");
           gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
                              label);
           gtk_widget_show_all (dialog);
