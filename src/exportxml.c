@@ -312,6 +312,7 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
     DO_DIREC(prefix);
     DO_DIREC(postfix);
     DO_DIREC(display);
+    DO_DIREC(midibytes);
     DO_DIREC(graphic_name);
     
     DO_INTDIREC(minpixels);
@@ -1213,69 +1214,11 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 			  if(curNote->directives) {
 			    newDirectivesElem(curElem, ns, curNote->directives, "directives");
-#if 0
-			    directivesElem =  xmlNewChild (curElem, ns, (xmlChar *) "directives", NULL);
-			    GList *g = curNote->directives;
-			    for(;g;g=g->next) {
-			      DenemoDirective *directive = (DenemoDirective *)g->data;
-			      directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);	
-#define DO_DIREC(field)  if (directive->field\
-                   && directive->field->len)\
-                      xmlNewChild (directiveElem, ns, (xmlChar *) #field,\
-				     (xmlChar *) directive->field->str);
 
-#define DO_INTDIREC(field)   newXMLIntChild (directiveElem, ns, (xmlChar *) #field,\
-				             directive->field);
-
-			      DO_DIREC(tag);
-			      DO_DIREC(prefix);
-			      DO_DIREC(postfix);
-			      DO_DIREC(display);
-			      DO_DIREC(graphic_name);
-
-			      DO_INTDIREC(minpixels);
-			      DO_INTDIREC(x);
-			      DO_INTDIREC(y);
-			      DO_INTDIREC(tx);
-			      DO_INTDIREC(ty);
-			      DO_INTDIREC(gx);
-			      DO_INTDIREC(gy);
-			      DO_INTDIREC(override);
-
-
-#undef DO_DIREC
-#undef DO_INTDIREC
-			    }
-#endif
 			  }
 
 			}
 		      }
-
-#if 0
-		  /* If this is the end of a beam, output a <beam-end>. */
-
-		  if (curObj->isend_beamgroup && !curObj->isstart_beamgroup)
-		    {
-		      curElem =
-			xmlNewChild (measureElem, ns, (xmlChar *) "beam-end",
-				     NULL);
-		      if (lastBeamStartXMLID == NULL)
-			{
-			  g_warning
-			    ("Encountered the end of a beam without a "
-			     "beginning");
-			}
-		      else
-			{
-			  xmlSetProp (curElem, (xmlChar *) "beam",
-				      (xmlChar *) lastBeamStartXMLID);
-			  g_free (lastBeamStartXMLID);
-			  lastBeamStartXMLID = NULL;
-			}
-		    }
-#endif
-
 		  }
 		  break;
 
@@ -1423,6 +1366,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		    SETSTRING_PROP (tag);
 		    SETSTRING_PROP (display);
+		    SETSTRING_PROP (midibytes);
 		    SETSTRING_PROP (graphic_name);
 		    SETSTRING_PROP (prefix);//postfix done above, for backward compatibility
 #undef SETSTRING_PROP

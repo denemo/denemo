@@ -54,6 +54,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <ctype.h>
+#include <errno.h>
 #include "smf.h"
 
 #include "instrumentname.h"
@@ -1167,6 +1168,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	      curobj = (DenemoObject *) curobjnode->data;
 	      if(curobj->midi_events)
 		g_list_free(curobj->midi_events);//data belongs to libsmf
+	      curobj->midi_events = NULL;
 	/*******************************************
 	 *	huge switch:
 	 * 	here we handle every kind of object
@@ -1549,11 +1551,39 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 		  break;
 
-
 		case LILYDIRECTIVE:
-/*                       here we can attach repeat stuff - copy the object's event_ts and attach as a list... */
-
-
+		  if( ((DenemoDirective*)curobj->object)->midibytes) {
+		    gchar *bytes;
+		    bytes = ((DenemoDirective*)curobj->object)->midibytes->str;
+		    //g_print("Got %s as midi bytes\n", bytes);
+		    char *next;
+		    char val;
+		    gint i, numbytes;
+		    errno = 0;
+		    for(i=0, next=bytes;*next; next++){ 
+		      val = strtol(next, &next, 16);
+		      if(i==0 && val==0)
+			errno = EINVAL;
+		      if(errno) {
+			g_warning("Bytes %s bad format for MIDI\n", bytes);
+			break;
+		      }
+		      i++;
+		      if(*next==0)
+			break;
+		    }
+		    if(errno)
+		      break;
+		    numbytes = i;
+		    gchar *buffer = (gchar*) g_malloc0(numbytes);
+		    for(i=0, next=bytes;i<numbytes;i++, next++){ 
+		      buffer[i] = (char) strtol(next, &next, 16);
+		      //g_print("byte %x\n", buffer[i]);
+		    }
+		    event = smf_event_new_from_pointer(buffer, numbytes);
+		    smf_track_add_event_delta_pulses(track, event, 0);
+		    g_free(buffer);
+		  }
 		  break;
 		default:
 		  fprintf (stderr, "ignoring type %d\n", curobj->type);

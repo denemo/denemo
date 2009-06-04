@@ -242,6 +242,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     DO_DIREC(prefix);
     DO_DIREC(postfix);
     DO_DIREC(display); 
+    DO_DIREC(midibytes);
     DO_INTDIREC(minpixels);
     DO_INTDIREC(x);
     DO_INTDIREC(y);
@@ -1347,7 +1348,8 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	  }
     DO_DIREC(prefix)
     DO_DIREC(postfix)
-    DO_DIREC(display)  
+    DO_DIREC(display) 
+    DO_DIREC(midibytes)  
 #undef DO_DIREC
 	// End 0.8.2 support
 	else if (ELEM_NAME_EQ (childElem, "chordize"))
@@ -1403,6 +1405,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
 
   GET_STR_FIELD(tag);
   GET_STR_FIELD(display);
+  GET_STR_FIELD(midibytes);
   GET_STR_FIELD(graphic_name);
   GET_STR_FIELD(prefix);
   if(thedirective->graphic_name && thedirective->graphic_name->len)

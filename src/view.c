@@ -659,6 +659,7 @@ GETFUNC_DEF(standalone, display)
 GETFUNC_DEF(staff, display)
 GETFUNC_DEF(voice, display)
 GETFUNC_DEF(score, display)
+GETFUNC_DEF(movementcontrol, display)
 
 PUTFUNC_DEF(note, display)
 PUTFUNC_DEF(chord, display)
@@ -666,8 +667,25 @@ PUTFUNC_DEF(standalone, display)
 PUTFUNC_DEF(staff, display)
 PUTFUNC_DEF(voice, display)
 PUTFUNC_DEF(score, display)
-
+PUTFUNC_DEF(movementcontrol, display)
 // end of block to clone
+
+
+GETFUNC_DEF(note, midibytes)
+GETFUNC_DEF(chord, midibytes)
+GETFUNC_DEF(standalone, midibytes)
+GETFUNC_DEF(staff, midibytes)
+GETFUNC_DEF(score, midibytes)
+GETFUNC_DEF(movementcontrol, midibytes)
+
+PUTFUNC_DEF(note, midibytes)
+PUTFUNC_DEF(chord, midibytes)
+PUTFUNC_DEF(standalone, midibytes)
+PUTFUNC_DEF(staff, midibytes)
+PUTFUNC_DEF(score, midibytes)
+PUTFUNC_DEF(movementcontrol, midibytes)
+
+
 
 GETFUNC_DEF(note, prefix)
 GETFUNC_DEF(note, postfix)
@@ -1051,10 +1069,10 @@ EDIT_DELETE_FN_DEF(layout)
 
 GETFUNC_DEF(movementcontrol, prefix)
 GETFUNC_DEF(movementcontrol, postfix)
-GETFUNC_DEF(movementcontrol, display)
+
 PUTFUNC_DEF(movementcontrol, prefix)
 PUTFUNC_DEF(movementcontrol, postfix)
-PUTFUNC_DEF(movementcontrol, display)
+
 PUTGRAPHICFUNC_DEF(movementcontrol);
 
 INT_PUTFUNC_DEF(movementcontrol, x)
@@ -1484,6 +1502,24 @@ Then
   INSTALL_PUT(movementcontrol, minpixels);
 
   //end block to repeat for new  directive fields 
+
+
+  INSTALL_GET(standalone, midibytes);
+  INSTALL_GET(chord, midibytes);
+  INSTALL_GET(note, midibytes);
+  INSTALL_GET(staff, midibytes);
+  INSTALL_GET(score, midibytes);
+  INSTALL_GET(movementcontrol, midibytes);
+  INSTALL_PUT(standalone, midibytes);
+  INSTALL_PUT(chord, midibytes);
+  INSTALL_PUT(note, midibytes);
+  INSTALL_PUT(staff, midibytes);
+  INSTALL_PUT(score, midibytes);
+  INSTALL_PUT(movementcontrol, midibytes);
+
+
+
+
 
   //  INSTALL_GET(standalone, override);
   INSTALL_GET(chord, override);

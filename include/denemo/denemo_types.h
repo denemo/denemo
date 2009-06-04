@@ -353,8 +353,8 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_LILYPOND (1<<0)
 #define DENEMO_OVERRIDE_GRAPHIC (1<<2)
   gint override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive */
+  GString *midibytes;/**< values to be used for MIDI generation; the meaning depends fields in override */
   gboolean locked;/**< If true the directive cannot be deleted easily */
-  /* MIDI attributes not done yet */
 } DenemoDirective;
 
 /**

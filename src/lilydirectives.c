@@ -760,6 +760,19 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
 #define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
 
 
+GET_STR_FIELD_FUNC(score, midibytes)
+GET_STR_FIELD_FUNC(movementcontrol, midibytes)
+GET_STR_FIELD_FUNC(note, midibytes)
+GET_STR_FIELD_FUNC(chord, midibytes)
+GET_STR_FIELD_FUNC(staff, midibytes)
+GET_STR_FIELD_FUNC(standalone, midibytes)
+
+PUT_STR_FIELD_FUNC(score, midibytes)
+PUT_STR_FIELD_FUNC(movementcontrol, midibytes)
+PUT_STR_FIELD_FUNC(note, midibytes)
+PUT_STR_FIELD_FUNC(chord, midibytes)
+PUT_STR_FIELD_FUNCS(staff, midibytes)
+
 
 GET_STR_FIELD_FUNC(chord, prefix)
 GET_STR_FIELD_FUNC(chord, postfix)
@@ -1083,6 +1096,7 @@ standalone_directive_put_##field(gchar *tag, gchar *value) {\
 STANDALONE_PUT_STR_FIELD_FUNC(prefix);
 STANDALONE_PUT_STR_FIELD_FUNC(postfix);
 STANDALONE_PUT_STR_FIELD_FUNC(display);
+STANDALONE_PUT_STR_FIELD_FUNC(midibytes);
 
 
 
@@ -1371,7 +1385,8 @@ if(directive->field)\
 ADD_TEXT(prefix);			 
 ADD_TEXT(postfix);			 
 ADD_TEXT(display);			 
-ADD_TEXT(graphic_name);			 
+ADD_TEXT(graphic_name);
+ADD_TEXT(midibytes);		 
 #undef ADD_TEXT
 #define ADD_INTTEXT(field)\
 if(directive->field)\
@@ -1473,7 +1488,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   TEXTENTRY("Graphic", graphic_name);
   ADDINTENTRY("Graphic Position", gx, gy);
   TEXTENTRY("Tag", tag);
-
+  TEXTENTRY("MidiBytes", midibytes);
   NEWINTENTRY("Override Mask", override);
 #undef TEXTENTRY
   gtk_widget_show_all (dialog);
@@ -1492,10 +1507,11 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
     free_directive(clone);
 #define REMOVEEMPTIES(field)\
 if(directive->field && directive->field->len==0) g_string_free(directive->field, TRUE), directive->field=NULL;
-  REMOVEEMPTIES( postfix);
+  REMOVEEMPTIES(postfix);
   REMOVEEMPTIES(prefix);
   REMOVEEMPTIES(display);
   REMOVEEMPTIES(graphic_name);
+  
   //REMOVEEMPTIES(tag); don't allow NULL tag
 #undef REMOVEEMPTIES
 
