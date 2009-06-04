@@ -1369,7 +1369,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    }
 			  else if (slur_kill_p (note_status, n))
 			    {// FIXME what is this 12820??????
-			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 12820);
+			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
 			      g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
@@ -1582,6 +1582,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    }
 		    event = smf_event_new_from_pointer(buffer, numbytes);
 		    smf_track_add_event_delta_pulses(track, event, 0);
+		    curobj->midi_events = g_list_append(curobj->midi_events, event);
+		    g_print("Added %p\n", event);
 		    g_free(buffer);
 		  }
 		  break;
