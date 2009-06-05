@@ -796,13 +796,13 @@ INT_GETFUNC_DEF(movementcontrol, minpixels)
 
 INT_PUTFUNC_DEF(note, override)
 INT_PUTFUNC_DEF(chord, override)
-     //INT_PUTFUNC_DEF(standalone, override)
+INT_PUTFUNC_DEF(standalone, override)
 INT_PUTFUNC_DEF(staff, override)
 INT_PUTFUNC_DEF(voice, override)
 INT_PUTFUNC_DEF(score, override)
 INT_GETFUNC_DEF(note, override)
 INT_GETFUNC_DEF(chord, override)
-     //INT_GETFUNC_DEF(standalone, override)
+INT_GETFUNC_DEF(standalone, override)
 INT_GETFUNC_DEF(staff, override)
 INT_GETFUNC_DEF(voice, override)
 INT_GETFUNC_DEF(score, override)
@@ -1521,14 +1521,14 @@ Then
 
 
 
-  //  INSTALL_GET(standalone, override);
+  INSTALL_GET(standalone, override);
   INSTALL_GET(chord, override);
   INSTALL_GET(note, override);
   INSTALL_GET(staff, override);
   INSTALL_GET(voice, override);
   INSTALL_GET(score, override);
 
-  //  INSTALL_PUT(standalone, override);
+  INSTALL_PUT(standalone, override);
   INSTALL_PUT(chord, override);
   INSTALL_PUT(note, override);
   INSTALL_PUT(staff, override);
