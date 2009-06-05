@@ -943,6 +943,12 @@ static smf_event_t* put_event(gchar *buffer, gint numbytes, DenemoObject *curobj
   return event;
 }
 
+static gint directive_get_midi_override(DenemoDirective *directive) {	
+  return directive->override&DENEMO_MIDI_MASK;
+}
+static gint directive_get_midi_interpretation(DenemoDirective *directive) {	
+  return directive->override&DENEMO_MIDI_INTERPRETATION_MASK;
+}
 
 static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes) {		    
   if(directive->midibytes) {
@@ -981,6 +987,21 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
   return NULL;
 }
 
+static gint directive_get_midi_val(DenemoDirective *directive) {
+  gint val = 0;		    
+  if(directive->midibytes) {
+    gchar *bytes;
+    bytes = directive->midibytes->str;
+    errno = 0;
+    val = strtol(bytes, NULL, 16);
+    if(errno) {
+      g_warning("String %s is bad format for MIDI value\n", bytes);
+      return 0;
+    }
+  }
+  return val;
+}
+  
 /*
  * the main midi output system (somewhat large)
  */
@@ -1623,14 +1644,42 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  {
 		    gint numbytes;
 		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes);
-		    if(buffer) {
-		      if(NULL==put_event(buffer, numbytes, curobj, track))
-			g_warning("Directive has invalid MIDI bytes\n");
-		    }
+		    gint midi_override = directive_get_midi_override(curobj->object);
+		    gint midi_interpretation = directive_get_midi_interpretation(curobj->object);
+		    switch(midi_override) 
+		      {
+		      case  DENEMO_OVERRIDE_VOLUME:
+			{
+			  gint val = directive_get_midi_val(curobj->object);
+			  // g_print("val %d cur_volume %d\n", val, cur_volume);
+			  if(midi_interpretation == DENEMO_OVERRIDE_SHIFT)
+			    cur_volume += val;
+			  else
+			    if(midi_interpretation == DENEMO_OVERRIDE_PERCENT)
+			      cur_volume *= (1.0 + val/100.0);
+			    else
+			      cur_volume = val;
+			}
+			if(cur_volume>127) cur_volume=127;
+			if(cur_volume<0) cur_volume=0;
+			//g_print("After  cur_volume %d\n",  cur_volume);
+			break;
+		      case DENEMO_OVERRIDE_DURATION: 
+		      case DENEMO_OVERRIDE_RAMP: 
+		      case DENEMO_OVERRIDE_REPEAT:
+			g_warning("Not implemented");
+			break;
+		      default:
+			if(buffer) {
+			  if(NULL==put_event(buffer, numbytes, curobj, track))
+			    g_warning("Directive has invalid MIDI bytes\n");
+			}
+			break;
+		      }
 		  }
 		  break;
 		default:
-		  fprintf (stderr, "ignoring type %d\n", curobj->type);
+		  fprintf (stderr, "midi ignoring type %d\n", curobj->type);
 		  break;
 		}
 	    }

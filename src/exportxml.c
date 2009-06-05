@@ -1381,6 +1381,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    SETINT_PROP (gx);
 		    SETINT_PROP (gy);
 		    SETINT_PROP (minpixels);
+		    SETINT_PROP (override);
 #undef SETINT_PROP		  
 		  break;
 		case BARLINE:

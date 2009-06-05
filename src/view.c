@@ -1324,9 +1324,30 @@ SCM scheme_next_note (SCM optional) {
 
 int process_command_line(int argc, char**argv);//back in main
 
+static void define_scheme_constants(void) {
+  gchar *tmp;
+#define DEF_OVERRIDE(which)\
+tmp = g_strdup_printf("(define " #which " %d)\n", which);\
+  call_out_to_guile(tmp);\
+  g_free(tmp);
+
+  DEF_OVERRIDE(DENEMO_OVERRIDE_LILYPOND);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_GRAPHIC);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_VOLUME);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_DURATION);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_RAMP);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_REPEAT);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_SHIFT);
+  DEF_OVERRIDE(DENEMO_OVERRIDE_PERCENT);
+
+  DEF_OVERRIDE(DENEMO_MIDI_MASK);
+  DEF_OVERRIDE(DENEMO_MIDI_INTERPRETATION_MASK);
+#undef DEF_OVERRIDE
+}
 
 
 static void denemo_scheme_init(void){
+  define_scheme_constants();
   gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
 
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
@@ -1339,6 +1360,7 @@ static void denemo_scheme_init(void){
     scm_c_primitive_load(filename);
   g_free(filename);
 }
+
 
 
 
@@ -1373,6 +1395,8 @@ void inner_main(void*closure, int argc, char **argv){
   
   gtk_key_snooper_install(dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
+
+
   /* create scheme identifiers for check/radio item to activate the items (ie not just run the callback) */
   for(i=0;i<G_N_ELEMENTS(activatable_commands);i++) {
     install_scm_function (g_strdup_printf(DENEMO_SCHEME_PREFIX"%s", activatable_commands[i].str), (gpointer)activatable_commands[i].p);

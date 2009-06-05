@@ -899,7 +899,6 @@ PUT_INT_FIELD_FUNC(chord, override)
 PUT_INT_FIELD_FUNCS(staff, override)
 PUT_INT_FIELD_FUNCV(voice, override)
 PUT_INT_FIELD_FUNC(score, override)
-     //standalone has nothing to override
 GET_INT_FIELD_FUNC(note, override)
 GET_INT_FIELD_FUNC(chord, override)
 GET_INT_FIELD_FUNC(staff, override)
@@ -968,7 +967,7 @@ GET_INT_FIELD_FUNC(chord, gy)
 GET_INT_FIELD_FUNC(staff, gy)
 GET_INT_FIELD_FUNC(voice, gy)
 
-
+GET_INT_FIELD_FUNC(standalone, override)
 GET_INT_FIELD_FUNC(standalone, x)
 GET_INT_FIELD_FUNC(standalone, y)
 
@@ -1126,6 +1125,8 @@ STANDALONE_PUT_INT_FIELD_FUNC(tx);
 STANDALONE_PUT_INT_FIELD_FUNC(ty);
 STANDALONE_PUT_INT_FIELD_FUNC(gx);
 STANDALONE_PUT_INT_FIELD_FUNC(gy);
+
+STANDALONE_PUT_INT_FIELD_FUNC(override);
 
 
 gboolean 
