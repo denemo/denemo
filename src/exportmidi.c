@@ -926,10 +926,64 @@ compute_beat (long ticks, long ticks_in_a_beat,
 
 #define percent(t,p)	((t*p)/100)
 
+
+/* puts an event into track if buffer contains valid midi message.
+   and frees buffer. Returns the event, or NULL if invalid buffer.
+ */
+static smf_event_t* put_event(gchar *buffer, gint numbytes, DenemoObject *curobj, smf_track_t *track) {
+  smf_event_t *event = NULL;
+  if(numbytes && is_status_byte(buffer[0]))
+    event = smf_event_new_from_pointer(buffer, numbytes);
+  if(event && smf_event_is_valid(event)) {
+    smf_track_add_event_delta_pulses(track, event, 0);
+    curobj->midi_events = g_list_append(curobj->midi_events, event);
+    //g_print("Added %x\n", event->midi_buffer[0]);
+  }
+  g_free(buffer);
+  return event;
+}
+
+
+static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes) {		    
+  if(directive->midibytes) {
+    gchar *bytes;
+    bytes = directive->midibytes->str;
+    //g_print("Got %s as midi bytes\n", bytes);
+    char *next;
+    char val;
+    gint i, numbytes;
+    errno = 0;
+    for(i=0, next=bytes;*next; next++){ 
+      val = strtol(next, &next, 16);
+#if 0
+      if(i==0 && val==0)
+	errno = EINVAL;
+#endif
+      if(errno) {
+	g_warning("Bytes %s bad format for MIDI\n", bytes);
+	return NULL;
+      }
+      i++;
+      if(*next==0)
+	break;
+    }
+    if(errno)
+      return NULL;
+    numbytes = i;
+    gchar *buffer = (gchar*) g_malloc0(numbytes);
+    for(i=0, next=bytes;i<numbytes;i++, next++){ 
+      buffer[i] = (char) strtol(next, &next, 16);
+      //g_print("byte %x\n", buffer[i]);
+    }
+    *pnumbytes = numbytes;
+    return buffer;
+  }
+  return NULL;
+}
+
 /*
  * the main midi output system (somewhat large)
  */
-
 
 /****************************************************************/
 /****************************************************************/
@@ -1099,7 +1153,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       }
 
       /* set selected midi program */
-
+      g_print("Using channel %d\n", midi_channel);
       event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
       smf_track_add_event_delta_pulses(track, event, 0);
 
@@ -1191,7 +1245,20 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			     "=============================== chord at %s\n",
 			     fmt_ticks (ticks_read));
 		  chordval = *(chord *) curobj->object;
-
+		  if(chordval.directives) {
+		        GList *g;
+			DenemoDirective *directive = NULL;
+			for(g=chordval.directives;g;g=g->next){
+			  gint numbytes;
+			  directive = (DenemoDirective *)g->data;
+			  gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+			  if(buffer) 
+			    if(NULL==put_event(buffer, numbytes, curobj, track))
+			      g_warning("Invalid midi bytes in chord directive\n");
+			}
+			  
+		  }
+		  /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
 		  if(chordval.is_grace)
 		    break;
 
@@ -1360,6 +1427,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      // FIXME the function compress is returning large values.
 			      event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      //g_print("Note on %x %x %x\n", MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      //g_print("event on %f\n", event->time_seconds);
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 #if DEBUG
@@ -1370,7 +1438,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  else if (slur_kill_p (note_status, n))
 			    {// FIXME what is this 12820??????
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
-			      g_print("{%d}", event->event_number);
+			      //g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			    }
@@ -1552,39 +1620,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  break;
 
 		case LILYDIRECTIVE:
-		  if( ((DenemoDirective*)curobj->object)->midibytes) {
-		    gchar *bytes;
-		    bytes = ((DenemoDirective*)curobj->object)->midibytes->str;
-		    //g_print("Got %s as midi bytes\n", bytes);
-		    char *next;
-		    char val;
-		    gint i, numbytes;
-		    errno = 0;
-		    for(i=0, next=bytes;*next; next++){ 
-		      val = strtol(next, &next, 16);
-		      if(i==0 && val==0)
-			errno = EINVAL;
-		      if(errno) {
-			g_warning("Bytes %s bad format for MIDI\n", bytes);
-			break;
-		      }
-		      i++;
-		      if(*next==0)
-			break;
+		  {
+		    gint numbytes;
+		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes);
+		    if(buffer) {
+		      if(NULL==put_event(buffer, numbytes, curobj, track))
+			g_warning("Directive has invalid MIDI bytes\n");
 		    }
-		    if(errno)
-		      break;
-		    numbytes = i;
-		    gchar *buffer = (gchar*) g_malloc0(numbytes);
-		    for(i=0, next=bytes;i<numbytes;i++, next++){ 
-		      buffer[i] = (char) strtol(next, &next, 16);
-		      //g_print("byte %x\n", buffer[i]);
-		    }
-		    event = smf_event_new_from_pointer(buffer, numbytes);
-		    smf_track_add_event_delta_pulses(track, event, 0);
-		    curobj->midi_events = g_list_append(curobj->midi_events, event);
-		    g_print("Added %p\n", event);
-		    g_free(buffer);
 		  }
 		  break;
 		default:
