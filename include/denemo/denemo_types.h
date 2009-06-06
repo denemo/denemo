@@ -352,18 +352,31 @@ typedef struct DenemoDirective
   gint width, height; /**< width and height of the bitmap */
   /* warning these values cannot be changed without bumping the denemo file format version */
 #define DENEMO_OVERRIDE_LILYPOND (1<<0)
+#define DENEMO_OVERRIDE_UNUSED (1<<1)
 #define DENEMO_OVERRIDE_GRAPHIC (1<<2)
 
 
 
 #define DENEMO_OVERRIDE_VOLUME (1<<8)
 #define DENEMO_OVERRIDE_DURATION (1<<9)
-#define DENEMO_OVERRIDE_RAMP (1<<10)
-#define DENEMO_OVERRIDE_REPEAT (1<<11)
-#define DENEMO_MIDI_MASK (DENEMO_OVERRIDE_VOLUME | DENEMO_OVERRIDE_DURATION | DENEMO_OVERRIDE_RAMP | DENEMO_OVERRIDE_REPEAT)
-#define DENEMO_OVERRIDE_SHIFT (1<<16)
-#define DENEMO_OVERRIDE_PERCENT (1<<17)
-#define DENEMO_MIDI_INTERPRETATION_MASK (DENEMO_OVERRIDE_SHIFT | DENEMO_OVERRIDE_PERCENT) 
+#define DENEMO_OVERRIDE_REPEAT (1<<10)
+#define DENEMO_OVERRIDE_CHANNEL (1<<11)
+
+#define DENEMO_MIDI_MASK (DENEMO_OVERRIDE_VOLUME | DENEMO_OVERRIDE_DURATION | DENEMO_OVERRIDE_REPEAT | DENEMO_OVERRIDE_CHANNEL)
+
+#define DENEMO_OVERRIDE_ONCE (1<<16)
+#define DENEMO_OVERRIDE_STEP (1<<17)
+#define DENEMO_OVERRIDE_RAMP (1<<18)
+
+#define DENEMO_MIDI_ACTION_MASK (DENEMO_OVERRIDE_ONCE | DENEMO_OVERRIDE_STEP | DENEMO_OVERRIDE_RAMP) 
+
+
+#define DENEMO_OVERRIDE_RELATIVE (1<<24)
+#define DENEMO_OVERRIDE_PERCENT (1<<25)
+
+#define DENEMO_MIDI_INTERPRETATION_MASK (DENEMO_OVERRIDE_RELATIVE | DENEMO_OVERRIDE_PERCENT) 
+
+
 
   guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */
   GString *midibytes;/**< values to be used for MIDI generation; the meaning depends fields in override */

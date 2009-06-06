@@ -949,6 +949,9 @@ static gint directive_get_midi_override(DenemoDirective *directive) {
 static gint directive_get_midi_interpretation(DenemoDirective *directive) {	
   return directive->override&DENEMO_MIDI_INTERPRETATION_MASK;
 }
+static gint directive_get_midi_action(DenemoDirective *directive) {	
+  return directive->override&DENEMO_MIDI_ACTION_MASK;
+}
 
 static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes) {		    
   if(directive->midibytes) {
@@ -1646,19 +1649,28 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes);
 		    gint midi_override = directive_get_midi_override(curobj->object);
 		    gint midi_interpretation = directive_get_midi_interpretation(curobj->object);
+		    gint midi_action = directive_get_midi_action(curobj->object);
+		    
 		    switch(midi_override) 
 		      {
 		      case  DENEMO_OVERRIDE_VOLUME:
 			{
-			  gint val = directive_get_midi_val(curobj->object);
+			  gdouble val = (gdouble)directive_get_midi_val(curobj->object);
 			  // g_print("val %d cur_volume %d\n", val, cur_volume);
-			  if(midi_interpretation == DENEMO_OVERRIDE_SHIFT)
-			    cur_volume += val;
-			  else
-			    if(midi_interpretation == DENEMO_OVERRIDE_PERCENT)
-			      cur_volume *= (1.0 + val/100.0);
+			  
+			  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+			    val = cur_volume * (val/100.0);
+			  if(midi_action == DENEMO_OVERRIDE_ONCE)
+			    g_warning("Scripting error, ONCE for standalone directive is meaningless");
+			  if(midi_action == DENEMO_OVERRIDE_RAMP)
+			    g_warning("Not implemented ramp yet");
+			  if(midi_action == DENEMO_OVERRIDE_STEP) {
+			    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+			      cur_volume += val;
 			    else
 			      cur_volume = val;
+			  }
+			  
 			}
 			if(cur_volume>127) cur_volume=127;
 			if(cur_volume<0) cur_volume=0;
