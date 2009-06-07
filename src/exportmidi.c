@@ -1453,7 +1453,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
-			      printf ("volume = %i\n", (mute_volume ? 0:mix));
+			      //printf ("volume = %i\n", (mute_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))
