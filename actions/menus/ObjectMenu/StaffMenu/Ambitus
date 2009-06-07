@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Ambitus</action>
+        <scheme>;;;;;;;;;;;;;;;;;;Ambitus
+(let ((current " "))
+  (set! current (d-DirectiveGet-score-prefix "Ambitus"))
+  (if (boolean? current)
+      (begin
+	(d-DirectivePut-score-prefix "Ambitus" (string-append "\\layout {
+                \\context { \\RemoveEmptyStaffContext 
+		\\consists \"Ambitus_engraver\"
+		}\n}\n"))
+	(d-DirectivePut-score-display "Ambitus" "Ambitus"))
+      (begin
+	(d-DirectiveDelete-score "Ambitus")))
+  (d-RefreshDisplay))
+</scheme>
+        <label>Ambitus Off/On</label>
+        <tooltip>Prints the ambitus before each staff.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

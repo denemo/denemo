@@ -2396,6 +2396,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Allegro Assai</label>
         <tooltip>Gives Allegro Assai tempo indication</tooltip>
       </row>
+      <row>
+        <action>Ambitus</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Ambitus Off/On</label>
+        <tooltip>Prints the ambitus before each staff.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

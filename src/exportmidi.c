@@ -949,6 +949,9 @@ static gint directive_get_midi_override(DenemoDirective *directive) {
 static gint directive_get_midi_interpretation(DenemoDirective *directive) {	
   return directive->override&DENEMO_MIDI_INTERPRETATION_MASK;
 }
+static gint directive_get_midi_action(DenemoDirective *directive) {	
+  return directive->override&DENEMO_MIDI_ACTION_MASK;
+}
 
 static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes) {		    
   if(directive->midibytes) {
@@ -1150,7 +1153,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       smf_track_add_event_delta_pulses(track, event, 0);
 
       /* tempo */
-      event = midi_tempo (si->tempo);
+      gint cur_tempo = si->tempo;
+      event = midi_tempo (cur_tempo);
       smf_track_add_event_delta_pulses(track, event, 0);
 
       /* The midi instrument */
@@ -1646,27 +1650,57 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes);
 		    gint midi_override = directive_get_midi_override(curobj->object);
 		    gint midi_interpretation = directive_get_midi_interpretation(curobj->object);
+		    gint midi_action = directive_get_midi_action(curobj->object);
+		    gint midi_val = directive_get_midi_val(curobj->object);
 		    switch(midi_override) 
 		      {
 		      case  DENEMO_OVERRIDE_VOLUME:
 			{
-			  gint val = directive_get_midi_val(curobj->object);
-			  // g_print("val %d cur_volume %d\n", val, cur_volume);
-			  if(midi_interpretation == DENEMO_OVERRIDE_SHIFT)
-			    cur_volume += val;
-			  else
-			    if(midi_interpretation == DENEMO_OVERRIDE_PERCENT)
-			      cur_volume *= (1.0 + val/100.0);
+			  gdouble val;
+			  // g_print("midi_val %d cur_volume %d\n", midi_val, cur_volume);
+			  val = (gdouble) midi_val;
+			  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+			    val = cur_volume * (midi_val/100.0);
+			  if(midi_action == DENEMO_OVERRIDE_ONCE)
+			    g_warning("Scripting error, ONCE for standalone directive is meaningless");
+			  if(midi_action == DENEMO_OVERRIDE_RAMP)
+			    g_warning("Not implemented ramp yet");
+			  if(midi_action == DENEMO_OVERRIDE_STEP) {
+			    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+			      cur_volume += val;
 			    else
 			      cur_volume = val;
+			  }
+			  
 			}
 			if(cur_volume>127) cur_volume=127;
 			if(cur_volume<0) cur_volume=0;
 			//g_print("After  cur_volume %d\n",  cur_volume);
 			break;
-		      case DENEMO_OVERRIDE_DURATION: 
-		      case DENEMO_OVERRIDE_RAMP: 
-		      case DENEMO_OVERRIDE_REPEAT:
+		      case DENEMO_OVERRIDE_TEMPO:
+			{
+			  gdouble val;
+			  val = (gdouble) midi_val;
+			  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+			    val = cur_tempo * (midi_val/100.0);
+			  if(midi_action == DENEMO_OVERRIDE_ONCE)
+			    g_warning("Scripting error, ONCE for standalone directive is meaningless");
+			  if(midi_action == DENEMO_OVERRIDE_RAMP)
+			    g_warning("Not implemented ramp yet");
+			  if(midi_action == DENEMO_OVERRIDE_STEP) {
+			    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+			      cur_tempo += val;
+			    else
+			      cur_tempo = val;
+			  }
+			}
+			if(cur_tempo) {
+			  event = midi_tempo (cur_tempo);
+			  smf_track_add_event_delta_pulses(track, event, 0);
+			} else
+			  g_warning("Tempo change to 0 bpm is illegal");
+			break;
+		      case DENEMO_OVERRIDE_DURATION:
 			g_warning("Not implemented");
 			break;
 		      default:
