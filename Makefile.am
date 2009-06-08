@@ -1,4 +1,4 @@
-SUBDIRS = m4 doc actions pixmaps po libsmf src \
+SUBDIRS = libsmf m4 doc actions pixmaps po src \
 	  fonts examples templates 
 
 
