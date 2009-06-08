@@ -1277,12 +1277,27 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  gint numbytes;
 			  directive = (DenemoDirective *)g->data;
 			  gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
-			  if(buffer) 
-			    if(NULL==put_event(buffer, numbytes, curobj, track))
-			      g_warning("Invalid midi bytes in chord directive\n");
-			}
-			  
-		  }
+			  gint midi_override = directive_get_midi_override(directive);
+			  gint midi_interpretation = directive_get_midi_interpretation(directive);
+			  gint midi_action = directive_get_midi_action(directive);
+			  gint midi_val = directive_get_midi_val(directive);
+			  /* handle all types of MIDI overrides attached to chord here */
+			  switch(midi_override) 
+			    {
+			    case  DENEMO_OVERRIDE_VOLUME:
+			      {
+
+				;//etc
+			      }
+			      //etc			      
+			    default:
+			      if(buffer) 
+				if(NULL==put_event(buffer, numbytes, curobj, track))
+				  g_warning("Invalid midi bytes in chord directive\n");
+			      break;
+			    }
+			}//for each directive attached to the chord
+		  }//if there are directives
 		  /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
 		  if(chordval.is_grace)
 		    break;
@@ -1457,7 +1472,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
-			      printf ("volume = %i\n", (mute_volume ? 0:mix));
+			      //printf ("volume = %i\n", (mute_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))
