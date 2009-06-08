@@ -67,6 +67,7 @@ typedef struct midicallback
 {
 	DenemoGUI *gui;
 	nstack *currentnote; /* current note being processed */
+	GList *notestack; /* polyphonic voices notes that need reprocessing */
 	gint leftover; /* note/rest value that is leftover across the measure */
 	gint bartime; /* time relative to barlength 0-barlength */
 	gint delta_time; /* distance between notes */
@@ -530,7 +531,9 @@ donoteoff (midicallback *mididata)
 }
 
 gboolean
-ChordToneCheck(nstack *currentnote, gint *pitch, gint *timeon, gint *duration){
+ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_time, gint *duration){
+  nstack *currentnote = mididata->currentnote;	
+  gint tracknum = mididata->track;
   g_print("\n***ChordToneCheck***\n");
   if ((currentnote->timeon == timeon) &&
      (currentnote->duration == duration)){
@@ -542,6 +545,9 @@ ChordToneCheck(nstack *currentnote, gint *pitch, gint *timeon, gint *duration){
   else if (currentnote->timeon <= timeon <= ((int) currentnote->timeon + (int) currentnote->duration)){
 	g_print("\n***NOTE_ON colliding between a NOTE_ON and NOTE_OFF***\n");	
   	//append to voice glist
+	nstack *noteon = stack(pitch, timeon, delta_time, duration, tracknum);
+      	/* store noteon in mididata->currentnote */
+	mididata->notestack = g_list_append(mididata->notestack, noteon);
 	return FALSE;
   }
   return FALSE;
@@ -561,7 +567,7 @@ Get_Smf_Note_OFF (gint *pitch, gint *timeon, gint *delta_time, midicallback *mid
 		    & (event->midi_buffer[1] == pitch)){
 	duration = event->time_pulses - (int) timeon; 
 	if (mididata->currentnote != NULL) 
-	   chordtone = ChordToneCheck(mididata->currentnote, pitch, timeon, duration);
+	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, duration);
 	if (!chordtone){
 	  noteon = stack(pitch, timeon, delta_time, duration, tracknum);
       	  /* store noteon in mididata->currentnote */
