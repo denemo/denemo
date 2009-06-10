@@ -197,6 +197,7 @@ typedef GList measurenode;
  */
 typedef struct 
 {
+  GtkMenu *menu; /**< a menu to popup up with the directives attached */
   measurenode *measures; /**< This is a pointer to each measure in the staff */
   clef clef; /**< The initial clef see denemo_objects.h clefs */
   keysig keysig;
@@ -658,8 +659,9 @@ typedef struct DenemoScore
   GList *bookmarks;
   gint currentbookmark;
   GList *Instruments;
+  GtkWidget *buttonbox;/*< box for buttons accessing DenemoDirectives attached to the this movement*/
   
-}DenemoScore;
+} DenemoScore;
 
 /**
  * DenemoGUI representing a musical score, with associated top level
@@ -681,7 +683,8 @@ typedef struct DenemoGUI
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
   GtkWidget *printhscrollbar;/**< scrollbar widget for printarea */
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
-
+  GtkWidget *buttonboxes;/**< box for boxes showing directives */
+  GtkWidget *buttonbox;/**< box for buttons accessing DenemoDirectives attached to the whole score */
 
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */

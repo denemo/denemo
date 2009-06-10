@@ -186,6 +186,13 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   gint ret = -1, err;
   DenemoStaff *thestaffstruct =
     (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
+
+  //CREATE a GtkMenu to popup when clicking on the staff
+  thestaffstruct->menu = gtk_menu_new();
+
+
+
+
   struct newstaffinfotopass itp;
   measurenode *themeasures = NULL;	/* Initial set of measures in staff */
   gint numstaffs = g_list_length (si->thescore);
@@ -421,6 +428,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
+  gtk_widget_destroy((curstaffstruct->menu));
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??

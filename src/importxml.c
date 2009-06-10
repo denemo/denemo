@@ -17,6 +17,7 @@
 #include "xmldefs.h"
 #include "articulations.h"
 #include "view.h"
+#include "lilydirectives.h"
 #include <string.h>
 
 
@@ -227,16 +228,19 @@ LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
     }
 }
 
-static gint
-parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
-	       DenemoDirective *directive)
-{
-  xmlNodePtr childElem;
+
+
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = g_string_new(xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
+
+static gint
+parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
+	       DenemoDirective *directive)
+{
+  xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem) {
     DO_DIREC(tag);
     DO_DIREC(prefix);
@@ -257,12 +261,66 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
 						  childElem->xmlChildrenNode, 1));
       loadGraphicItem(directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
       /* FIXME,handle not loaded */
-    }
-      
+    }      
   }
+}
+
+static gint
+parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gboolean *fn())
+{
+  DenemoDirective *directive = NULL;
+  xmlNodePtr childElem;
+  gchar *graphic_name = NULL, *tag = NULL, *display = NULL;
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    if(ELEM_NAME_EQ (childElem, "graphic_name")) {
+      graphic_name = xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode, 1);
+
+  }
+    if(ELEM_NAME_EQ (childElem, "tag")) {
+      tag =  xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode, 1);
+  }
+    if(ELEM_NAME_EQ (childElem, "display")) {
+      display =  xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode, 1);
+  }
+  }
+  directive = fn(tag, graphic_name?graphic_name:display);
+  if(directive==NULL)
+    return;
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    DO_DIREC(tag);
+    DO_DIREC(prefix);
+    DO_DIREC(postfix);
+    DO_DIREC(display);
+
+    DO_DIREC(midibytes);
+    DO_INTDIREC(override);
+    DO_INTDIREC(minpixels);
+    DO_INTDIREC(x);
+    DO_INTDIREC(y);
+    DO_INTDIREC(tx);
+    DO_INTDIREC(ty);
+    DO_INTDIREC(gx);
+    DO_INTDIREC(gy);
+  }
+
+ 
+#if  0
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    if(ELEM_NAME_EQ (childElem, "graphic_name")) {
+      directive->graphic_name =  g_string_new(xmlNodeListGetString (childElem->doc,
+						  childElem->xmlChildrenNode, 1));
+      directive = fn(directive->tag->str, directive->graphic_name->str );
+    }      
+  }
+#endif
+}
+
+
 #undef DO_DIREC 
 #undef DO_INTDIREC  
-}
 
 static GList *
 parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
@@ -275,6 +333,16 @@ parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
     directives = g_list_append(directives, directive);
   }
   return directives;
+}
+
+static void
+parseWidgetDirectives (xmlNodePtr parentElem, xmlNsPtr ns, gboolean *fn())
+{
+  GList *directives = NULL;
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    parseWidgetDirective(childElem, ns, fn);
+  }
 }
 /**
  * Return the numerator and denominator from the given XML fraction.
@@ -1619,7 +1687,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	  }
 	else if (ELEM_NAME_EQ (childElem, "score-directives"))
 	  {
-	    gui->lilycontrol.directives = parseDirectives(childElem, ns);
+	    /*gui->lilycontrol.directives =*/ parseWidgetDirectives(childElem, ns, score_directive_put_graphic);
 	  }
 
 
@@ -1972,11 +2040,11 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  }
 	else if (ELEM_NAME_EQ (childElem, "staff-directives"))
 	  {
-	    curStaff->staff_directives = parseDirectives(childElem, ns);
+	    /*curStaff->staff_directives =*/ parseWidgetDirectives(childElem, ns, staff_directive_put_graphic);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "voice-directives"))
 	  {
-	    curStaff->voice_directives = parseDirectives(childElem, ns);
+	    /*curStaff->voice_directives =*/ parseWidgetDirectives(childElem, ns, voice_directive_put_graphic);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "clef-directives"))
 	  {
@@ -2510,15 +2578,15 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
 
   childElem = getXMLChild (scoreElem, "header-directives", ns);
   if (childElem != 0)
-    si->header.directives = parseDirectives(childElem, ns);
+    /*si->header.directives =*/ parseWidgetDirectives(childElem, ns, header_directive_put_graphic);
 
   childElem = getXMLChild (scoreElem, "layout-directives", ns);
   if (childElem != 0)
-    si->layout.directives = parseDirectives(childElem, ns);
+    /*si->layout.directives =*/ parseWidgetDirectives(childElem, ns, layout_directive_put_graphic);
 
   childElem = getXMLChild (scoreElem, "movementcontrol-directives", ns);
   if (childElem != 0)
-    si->movementcontrol.directives = parseDirectives(childElem, ns);
+    /*si->movementcontrol.directives =*/ parseWidgetDirectives(childElem, ns, movementcontrol_directive_put_graphic);
 
   childElem = getXMLChild (scoreElem, "score-info", ns);
   RETURN_IF_ELEM_NOT_FOUND ("score", childElem, "score-info");
@@ -2721,10 +2789,10 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	      parseSetupInfo(childElem, ns, gui);
 	    } else
 	      if (ELEM_NAME_EQ (childElem, "scoreheader-directives")){
-		gui->scoreheader.directives = parseDirectives(childElem, ns);
+		/*gui->scoreheader.directives =*/ parseWidgetDirectives(childElem, ns, scoreheader_directive_put_graphic);
 	      } else
 		if (ELEM_NAME_EQ (childElem, "paper-directives")){
-		  gui->paper.directives = parseDirectives(childElem, ns);
+		  /*gui->paper.directives =*/ parseWidgetDirectives(childElem, ns, paper_directive_put_graphic);
 		} else
 		  if (ELEM_NAME_EQ (childElem, "custom_scoreblock")){
 		    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,

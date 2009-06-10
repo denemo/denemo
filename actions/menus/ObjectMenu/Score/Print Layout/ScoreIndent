@@ -19,7 +19,7 @@
   (set! amount (d-GetUserInput "Choose indent of first system" "Give amount in decimal" current))
   ;;(display amount)
   (d-DirectivePut-score-prefix "ScoreIndent" (string-append "\\layout {indent = " amount "}\n"))
-  (d-DirectivePut-score-display "ScoreIndent" (string-append "indent=" amount))
+  (d-DirectivePut-score-graphic "ScoreIndent" (string-append "indent=" amount))
   (d-RefreshDisplay))
 </scheme>
         <label>Indent</label>

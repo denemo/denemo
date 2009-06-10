@@ -58,6 +58,7 @@ gboolean delete_voice_directive(gchar *tag);
 #define DECL_PUT_INT(what, field) gboolean what##_directive_get_##field(gchar *tag, gint value);
 
 #define DECL_PUT_GRAPHIC(what) gboolean what##_directive_put_graphic(gchar *tag, gchar *value);
+#define DECL_PUT_GRAPHIC_WIDGET(what) gpointer what##_directive_put_graphic(gchar *tag, gchar *value);
 DECL_PUT_GRAPHIC(chord)
 DECL_PUT_GRAPHIC(note)
 DECL_PUT_GRAPHIC(standalone)
@@ -105,6 +106,15 @@ DECL_PUT_FIELD(clef, display)
 
      // end of block to copy
 
+
+DECL_PUT_GRAPHIC_WIDGET(score)
+DECL_PUT_GRAPHIC_WIDGET(staff)
+DECL_PUT_GRAPHIC_WIDGET(voice)
+DECL_PUT_GRAPHIC_WIDGET(scoreheader)
+DECL_PUT_GRAPHIC_WIDGET(header)
+DECL_PUT_GRAPHIC_WIDGET(paper)
+DECL_PUT_GRAPHIC_WIDGET(layout)
+DECL_PUT_GRAPHIC_WIDGET(movementcontrol)
      //FIXME x,y,tx,ty,gx,gy
 
 #undef DECL_PUT_FIELD

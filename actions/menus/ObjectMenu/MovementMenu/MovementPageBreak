@@ -8,7 +8,7 @@
         <action>MovementPageBreak</action>
         <scheme>;;; MovementPageBreak
 (d-DirectivePut-header-postfix "MovementPageBreak" "breakbefore = ##t\n")
-(d-DirectivePut-header-display "MovementPageBreak" "(Page Break)")
+(d-DirectivePut-header-graphic "MovementPageBreak" "(Page Break)")
 (d-RefreshDisplay)
 
 </scheme>

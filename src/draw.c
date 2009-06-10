@@ -671,47 +671,6 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 }
 
 /**
- * Draw the score directives and return the amount of vertical space they took up.
-
-*/
-static gint
-draw_score_directives (void) {
-  GList *score_directives = Denemo.gui->lilycontrol.directives;
-  GList *scoreheader_directives = Denemo.gui->scoreheader.directives;
-  GList *header_directives = Denemo.gui->si->header.directives;
-  GList *paper_directives = Denemo.gui->paper.directives;
-  GList *layout_directives = Denemo.gui->si->layout.directives;
-  GList *movement_directives = Denemo.gui->si->movementcontrol.directives;
-  gint x=0, y = 0;
-
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (Denemo.gui->pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string (FONT);
-#define OUTPUT_DIREC(g)\
-  for(g?y+=10:1;g;g=g->next) {\
-   DenemoDirective *directive = g->data;\
-    if(directive->display) {\
-      pango_layout_set_text (layout,\
-			     directive->display->str,\
-			     -1);\
-      pango_layout_set_font_description (layout, desc);\
-      gdk_draw_layout (Denemo.gui->pixmap, gcs_blackgc(), x, y, layout);\
-      x += strlen(directive->display->str) * MAX(10, directive->tx);\
-    }\
-  }
-  OUTPUT_DIREC(score_directives);
-  OUTPUT_DIREC(scoreheader_directives);
-  OUTPUT_DIREC(header_directives);
-  OUTPUT_DIREC(paper_directives);
-  OUTPUT_DIREC(layout_directives);
-  OUTPUT_DIREC(movement_directives);
-#undef OUTPUT_DIREC
-  pango_font_description_free (desc);
-  return y;
-}
-
-/**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
  * @param gui pointer to the DenemoGUI structure
@@ -737,6 +696,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.haslyrics = FALSE;
   itp.highy = 0;//in case there are no objects...
   y = 0;
+
+#if 0
   //draw score title etc above top staff, if it is visible and if desired by score directives
   if(si->top_staff==1 && Denemo.prefs.visible_titles) {
     static last_y;
@@ -751,6 +712,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	space = ((DenemoStaff *) curstaff->data)->space_above = y;
     } while (last_y != y);
   }
+#endif
+
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
 	curstaff = g_list_nth (si->thescore, si->top_staff - 1),

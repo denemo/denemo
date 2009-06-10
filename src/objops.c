@@ -245,8 +245,12 @@ free_directive_data(DenemoDirective *directive) {
     DFREE(postfix);
     DFREE(graphic_name);
 #undef DFREE
-    //if(directive->graphic)
-    //  g_object_unref(directive->graphic); we leave these in a hash table now, and never discard them
+    if(directive->graphic && GTK_IS_WIDGET(directive->graphic)) {
+      //g_print("We should destroy the widget now");
+      gtk_widget_destroy(directive->graphic);
+    }
+      else	
+   ; //  g_object_unref(directive->graphic); we leave these GdkBitmap in a hash table, and never discard them
 }
 void
 free_directive(DenemoDirective *directive) {

@@ -11,7 +11,7 @@
     \\override StaffSymbol #'staff-space = #(magstep -3)\n
   }\n")
 
-(d-DirectivePut-staff-display "StaffSize" "Small")
+(d-DirectivePut-staff-graphic "StaffSize" "Smaller Staff")
 (d-RefreshDisplay)</scheme>
         <label>Smaller Staff</label>
         <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>

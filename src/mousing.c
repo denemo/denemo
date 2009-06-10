@@ -353,7 +353,7 @@ DenemoGUI *gui = Denemo.gui;
 
 
   if(event->x<LEFT_MARGIN) {
-    popup_menu("/StaffMenuPopup");
+    gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->menu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
     return TRUE;
   } else if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {

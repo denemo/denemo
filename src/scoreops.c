@@ -28,7 +28,10 @@ point_to_empty_movement (DenemoGUI *gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
+  if(gui->si && gui->si->buttonbox)
+     gtk_widget_hide(gui->si->buttonbox);
   gui->si = newscore;
+  gtk_widget_show(gui->si->buttonbox);
 }
 /**
  * Create new DenemoScore with one empty staff
@@ -146,7 +149,9 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     warningdialog(_("No such movement"));
     return FALSE;
   }
+  gtk_widget_hide(gui->si->buttonbox);
   gui->si = this->data;
+  gtk_widget_show(gui->si->buttonbox);
   if(!set_currentstaffnum (gui, staffnum))
     {
       warningdialog(_("No such voice"));
@@ -200,8 +205,9 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
       warningdialog(_("This is the last movement"));
     return;
   }
+  gtk_widget_hide(gui->si->buttonbox);
   gui->si = this->data;
-
+  gtk_widget_show(gui->si->buttonbox);
   updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
@@ -236,7 +242,9 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
       warningdialog(_("This is the first movement"));
     return;
   }
+  gtk_widget_hide(gui->si->buttonbox);
   gui->si = this->data; 
+  gtk_widget_show(gui->si->buttonbox);
 
   updatescoreinfo (gui);
   //FIXME duplicate code
@@ -307,17 +315,12 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->undodata = g_queue_new ();
   si->redodata = g_queue_new ();
   si->undo_redo_mode = UNDO;
-  if(gui->movements) {
-    //{
-    //static int count;
-    //    if(count++==0)
-    //      warningdialog("It should really copy your staff structures over - sorry!");
-    //    }
-    // FIXME initialize from current movement    g_list_find(gui->movements, si)
-    //gint number = g_list_index( gui->movements, gui->si);
-    //g_string_printf(si->headerinfo.piece, "Movement %d", 1+g_list_length(gui->movements));
-  }
-  //gui->movements = g_list_append(gui->movements, si);
+  
+  si->buttonbox = gtk_hbox_new(FALSE, 1);
+  gtk_box_pack_end (GTK_BOX (gui->buttonboxes), si->buttonbox, FALSE, TRUE,
+		      0);
+  gtk_widget_show (si->buttonbox);
+  GTK_WIDGET_UNSET_FLAGS(si->buttonbox, GTK_CAN_FOCUS);
 }
 
 static delete_all_staffs(DenemoGUI * gui) {
@@ -345,7 +348,10 @@ free_score (DenemoGUI * gui)
   delete_all_staffs(gui);
   delete_directives(&gui->si->layout.directives);
   delete_directives(&gui->si->header.directives);
-
+  if(gui->si->buttonbox) {
+    gtk_widget_destroy(gui->si->buttonbox);
+    gui->si->buttonbox = NULL;
+  }
 
   g_queue_free (gui->si->undodata);
   g_queue_free (gui->si->redodata);

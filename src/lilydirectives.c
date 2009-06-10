@@ -20,6 +20,16 @@
 #include "utils.h"
 #include "prefops.h"
 
+static void edit_directive_callback(GtkWidget *w, gpointer what);
+
+
+static void
+gtk_menu_item_set_label_text(GtkMenuItem *item, gchar *text) {
+  GtkWidget *label = gtk_bin_get_child(item);
+  if(label)
+    gtk_label_set_text(label, text);
+}
+
 
 /**
  * If the curObj is a chord with a note(s)
@@ -104,6 +114,7 @@ new_directive(gchar *tag){
     directive->tag = g_string_new(tag);
   return directive;
 }
+
 
 static  DenemoObject *findobj(void) {
   DenemoGUI *gui = Denemo.gui;
@@ -716,12 +727,11 @@ DenemoObject *curObj = get_chordobject();
   return delete_directive(&thechord->directives, tag);
 }
 
-gboolean delete_score_directive(gchar *tag) {
-
-  DenemoDirective *directive = get_score_directive(tag);
+gboolean delete_score_directive(gchar *tagname) {
+  DenemoDirective *directive = get_score_directive(tagname);
   if(directive==NULL)
     return FALSE;
-  return delete_directive(&Denemo.gui->lilycontrol.directives, tag);
+  return delete_directive(&Denemo.gui->lilycontrol.directives, tagname);
 }
 
 #define GET_STR_FIELD_FUNC(what, field)\
@@ -1036,6 +1046,67 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
+
+static void 
+widget_for_type(DenemoDirective *directive, gchar *value, void fn()){
+  GtkWidget *box;
+  if(fn==score_directive_put_graphic ||fn==scoreheader_directive_put_graphic ||fn==paper_directive_put_graphic )  
+    box = Denemo.gui->buttonbox;
+  else
+    box = Denemo.gui->si->buttonbox;
+  if(fn==staff_directive_put_graphic) {
+    //g_print("Doing the staff case");
+    directive->graphic = gtk_menu_item_new_with_label(value);
+    /* g_print("directive-type %s.....", thetype);	*/
+    GtkWidget *menu;
+    menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->menu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
+    g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
+  }  else  {
+    //g_print("Doing the non-staff case");
+    directive->graphic = gtk_button_new_with_label(value);
+    g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
+    gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
+    gtk_widget_show(directive->graphic);
+    gtk_widget_show(box);
+  }
+
+  g_object_set_data(directive->graphic, "directive", (gpointer)directive);
+  gtk_widget_show_all(GTK_WIDGET(directive->graphic));
+  GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
+
+  if(directive->graphic_name)
+    g_string_assign(directive->graphic_name, value);
+  else
+    directive->graphic_name = g_string_new(value);
+  if(GTK_IS_BUTTON(directive->graphic))
+    gtk_button_set_label(directive->graphic, value);
+  else
+    gtk_menu_item_set_label_text(directive->graphic, value);
+}
+
+
+// create a directive for non-DenemoObject directive #what
+//if value is not NULL create a button to edit the directive as the directive->graphic
+#define PUT_GRAPHIC_WIDGET(what, directives) gpointer \
+what##_directive_put_graphic(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return NULL;\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  if(value && directive->graphic==NULL) {\
+    widget_for_type(directive, value, what##_directive_put_graphic);\
+  }\
+  return (gpointer)directive;\
+}
+
+
+
 #define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
 #define PUT_GRAPHICS(what) PUT_GRAPHIC_NAME(what, staff_directives)
 #define PUT_GRAPHICV(what) PUT_GRAPHIC_NAME(what, voice_directives)
@@ -1043,10 +1114,16 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
 
 PUT_GRAPHIC(chord);
 PUT_GRAPHIC(note);
-PUT_GRAPHIC(score);
-PUT_GRAPHICS(staff);
-PUT_GRAPHICV(voice);
 
+
+PUT_GRAPHIC_WIDGET(score, directives);
+PUT_GRAPHIC_WIDGET(staff, staff_directives);
+PUT_GRAPHIC_WIDGET(voice, voice_directives);
+PUT_GRAPHIC_WIDGET(scoreheader, directives);
+PUT_GRAPHIC_WIDGET(header, directives);
+PUT_GRAPHIC_WIDGET(paper, directives);
+PUT_GRAPHIC_WIDGET(layout, directives);
+PUT_GRAPHIC_WIDGET(movementcontrol, directives);
 
 gboolean
 standalone_directive_put_graphic(gchar *tag, gchar *value) {
@@ -1410,6 +1487,10 @@ ADD_INTTEXT(gy);
   g_string_free(scheme, TRUE);
 }
 
+
+
+
+
 /* text_edit_directive
    textually edit the directive via a dialog.
    return FALSE if the user requests deletion of the directive.
@@ -1497,15 +1578,18 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   g_print("Got response %d\n", response);
 
 
-  if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT || response ==  GTK_RESPONSE_REJECT){ 
+  if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT || response ==  GTK_RESPONSE_REJECT){
+    directive->graphic = NULL;//prevent any button being destroyed
     free_directive_data(directive);
     memcpy(directive, clone, sizeof(DenemoDirective));
     if (response ==  GTK_RESPONSE_REJECT) {
       ret = FALSE;//that is it may be deleted, we ensure it has not been changed first,as the tag is used for delelet
     }
   }
-  else
+  else {
+    clone->graphic = NULL;//prevent any button being destroyed
     free_directive(clone);
+  }
 #define REMOVEEMPTIES(field)\
 if(directive->field && directive->field->len==0) g_string_free(directive->field, TRUE), directive->field=NULL;
   REMOVEEMPTIES(postfix);
@@ -1518,8 +1602,12 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
 
   if(directive->tag && directive->tag->len==0)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(directive->graphic_name)
-    loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+  if(directive->graphic_name){
+    if(directive->graphic && GTK_IS_WIDGET(directive->graphic))
+      gtk_menu_item_set_label_text(directive->graphic, directive->graphic_name->str);
+    else
+      loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+  }
   gtk_widget_destroy (dialog);
   if(response==CREATE_SCRIPT)
     create_script(directive, what);//g_print("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
@@ -1554,8 +1642,47 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   return ret;
 }
 
+
+static void edit_directive_callback(GtkWidget *w, gpointer what) {
+  DenemoDirective *directive = g_object_get_data(w, "directive");
+  if(!edit_directive(directive, what)){
+    if(what == score_directive_put_graphic)
+      delete_score_directive(directive->tag->str);
+    else
+      if(what == staff_directive_put_graphic)
+	delete_staff_directive(directive->tag->str);
+      else
+	if(what == voice_directive_put_graphic)
+	  delete_voice_directive(directive->tag->str);
+	else
+	  if(what == scoreheader_directive_put_graphic)
+	    delete_scoreheader_directive(directive->tag->str);
+	  else
+	  if(what == header_directive_put_graphic)
+	    delete_header_directive(directive->tag->str);
+	  else
+	  if(what == paper_directive_put_graphic)
+	    delete_paper_directive(directive->tag->str);
+	  else
+	  if(what == layout_directive_put_graphic)
+	    delete_layout_directive(directive->tag->str);
+	  else
+	  if(what == movementcontrol_directive_put_graphic)
+	    delete_movementcontrol_directive(directive->tag->str);
+	  else
+
+
+
+
+	    g_warning("Not implemented");
+    
+    
+  }    
+ }
+
+
 /**
- * callback for EditDirective 
+ * callback for EditDirective on directive attached to an object.
  */
 void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
   //g_print("Edit directive called\n");
@@ -1988,7 +2115,7 @@ GET_INT_FIELD_FUNC(scoreheader, override)
 GET_INT_FIELD_FUNC(scoreheader, width)
 GET_INT_FIELD_FUNC(scoreheader, height)
 
-PUT_GRAPHIC(scoreheader)
+     //PUT_GRAPHIC(scoreheader)
 
 PUT_STR_FIELD_FUNC(scoreheader, prefix)
 PUT_STR_FIELD_FUNC(scoreheader, postfix)
@@ -2016,7 +2143,7 @@ GET_INT_FIELD_FUNC(header, override)
 GET_INT_FIELD_FUNC(header, width)
 GET_INT_FIELD_FUNC(header, height)
 
-PUT_GRAPHIC(header)
+     //PUT_GRAPHIC(header)
 
 PUT_STR_FIELD_FUNC(header, prefix)
 PUT_STR_FIELD_FUNC(header, postfix)
@@ -2044,7 +2171,7 @@ GET_INT_FIELD_FUNC(paper, override)
 GET_INT_FIELD_FUNC(paper, width)
 GET_INT_FIELD_FUNC(paper, height)
 
-PUT_GRAPHIC(paper)
+     //PUT_GRAPHIC(paper)
 
 PUT_STR_FIELD_FUNC(paper, prefix)
 PUT_STR_FIELD_FUNC(paper, postfix)
@@ -2070,7 +2197,7 @@ GET_INT_FIELD_FUNC(layout, override)
 GET_INT_FIELD_FUNC(layout, width)
 GET_INT_FIELD_FUNC(layout, height)
 
-PUT_GRAPHIC(layout)
+     //PUT_GRAPHIC(layout)
 
 PUT_STR_FIELD_FUNC(layout, prefix)
 PUT_STR_FIELD_FUNC(layout, postfix)
@@ -2099,7 +2226,7 @@ GET_INT_FIELD_FUNC(movementcontrol, override)
 GET_INT_FIELD_FUNC(movementcontrol, width)
 GET_INT_FIELD_FUNC(movementcontrol, height)
 
-PUT_GRAPHIC(movementcontrol)
+     //PUT_GRAPHIC(movementcontrol)
 
 PUT_STR_FIELD_FUNC(movementcontrol, prefix)
 PUT_STR_FIELD_FUNC(movementcontrol, postfix)

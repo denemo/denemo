@@ -2075,6 +2075,8 @@ close_gui (DenemoGUI *gui)
   free_gui(gui);
   
   gtk_widget_destroy (gui->page);
+  //  if(gui->buttonbox)
+  //   gtk_widget_destroy(gui->buttonbox);
   Denemo.guis = g_list_remove (Denemo.guis, gui);//FIXME ?? or in the destroy callback??
   g_free (gui);
 }
@@ -2100,8 +2102,8 @@ void free_gui(DenemoGUI *gui)
     g_list_free(gui->custom_scoreblocks);
     gui->custom_scoreblocks=NULL;
   }
-  //nullify_gstring(&gui->custom_prolog);
 
+ 
       /* any other free/initializations */
 }
 
@@ -4700,14 +4702,26 @@ newtab (GtkAction *action, gpointer param) {
 
   //create the tab for this gui
   GtkWidget *top_vbox = gtk_vbox_new (FALSE, 1);
-  
+  gui->buttonboxes = gtk_vbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (top_vbox), gui->buttonboxes, FALSE, TRUE,
+		      0);
+  gui->buttonbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE,
+		      0);
+  gtk_widget_show (gui->buttonboxes);
+  GTK_WIDGET_UNSET_FLAGS(gui->buttonboxes, GTK_CAN_FOCUS);
+  GTK_WIDGET_UNSET_FLAGS(gui->buttonbox, GTK_CAN_FOCUS);
+
+ 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
   gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
-Denemo.gui = gui;
+  
+  Denemo.gui = gui;
+
  if(pagenum)
    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);
@@ -4789,7 +4803,7 @@ Denemo.gui = gui;
   Denemo.gui->mode = INPUTINSERT | INPUTNORMAL;
 
   // this stops the keyboard input from getting to  scorearea_keypress_event if done after attaching the signal, why?
-  gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//if this is not done Gdk-CRITICAL **: gdk_draw_drawable: assertion `GDK_IS_DRAWABLE (drawable)' failed message results. Presumably because we have failed to block the (expose_event) drawing while we set up the new page. FIXME.
 
 
   GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
