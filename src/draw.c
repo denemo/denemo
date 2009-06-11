@@ -30,13 +30,22 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
-static GdkGC *bluegc;
+static GdkGC *  bluegc;
 static GdkGC *  redgc;
 static GdkGC *  graygc;
 static GdkGC *  slategraygc;
 static GdkGC *  lightbluegc;
 static GdkGC *  blackgc;
 static GdkGC *greengc = NULL;
+
+GdkPixbuf *StaffPixbuf;
+
+static void      
+create_tool_pixbuf(void) {
+  GtkWidget *widget = gtk_button_new();
+  StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
+}
+
 
 /**
  * scorearea_configure_event
@@ -56,6 +65,8 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
   lightbluegc = gcs_lightbluegc();
   blackgc = gcs_blackgc();
   greengc = gcs_greengc();
+  create_tool_pixbuf();
+
   /* Create a new backing pixmap of the appropriate size */
   if (gui->pixmap)
     gdk_pixmap_unref (gui->pixmap);
@@ -547,7 +558,7 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
  * TODO sort out graphics context for active polyphonic voice should 
  * do it here
  * @param curstaffstruct pointer to the staff to draw
- * @param y    y poisition of the staff
+ * @param y    y position of the staff
  * @param gui   pointer to the DenemoGUI structure
  * @param itp  pointer to the infotopass structure
  */
@@ -606,25 +617,6 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 
   gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - buffer, layout);
   gint title_highy = 0;
-  if(curstaffstruct->staff_directives) {
-    GList *g = curstaffstruct->staff_directives;
-    gint count=1;
-    for(;g;g=g->next, count++) {
-      DenemoDirective* directive = g->data;
-        if(directive->display) { 
-    pango_layout_set_text (layout,
-			   directive->display->str,
-			   -1);
-    pango_layout_set_font_description (layout, desc);
-    gint ypos = y-buffer+directive->ty - count*10;
-    gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN + directive->tx, ypos, layout);
-    //g_print("high %d %d\n", itp->highy, -ypos);
-    if(title_highy > ypos) title_highy = ypos;
-  }
-    }
-
-  }
-  //FIXME voice directives...
 
   pango_font_description_free (desc);
 
@@ -697,102 +689,101 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.highy = 0;//in case there are no objects...
   y = 0;
 
-#if 0
-  //draw score title etc above top staff, if it is visible and if desired by score directives
-  if(si->top_staff==1 && Denemo.prefs.visible_titles) {
-    static last_y;
-    curstaff = si->thescore;
-    gint space = ((DenemoStaff *) curstaff->data)->space_above;
-    do {
-      last_y = y;
-      y = 0;
-      gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, 0, widget->allocation.width/*KEY_MARGIN*/, last_y);
-      y = draw_score_directives();  
-      if(space<y) 
-	space = ((DenemoStaff *) curstaff->data)->space_above = y;
-    } while (last_y != y);
-  }
-#endif
 
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
 	curstaff = g_list_nth (si->thescore, si->top_staff - 1),
 	y += si->staffspace / 4);
-       curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++)
-    {
-      if (curstaff && ((DenemoStaff *) curstaff->data)->voicenumber == 1)
-	y += ((DenemoStaff *) curstaff->data)->space_above;
-      itp.space_above = ((DenemoStaff *) curstaff->data)->space_above;
-      gint top_y = (si->staffspace / 4) + itp.space_above;
+       curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++) {
+    if (curstaff && ((DenemoStaff *) curstaff->data)->voicenumber == 1)
+      y += ((DenemoStaff *) curstaff->data)->space_above;
+    itp.space_above = ((DenemoStaff *) curstaff->data)->space_above;
+    gint top_y = (si->staffspace / 4) + itp.space_above;
     
-      itp.top_y = top_y;
-      itp.y = y;
-      gint highy = ((DenemoStaff *) curstaff->data)->space_above;
-      gint lowy =  ((DenemoStaff *) curstaff->data)->space_below;
+    itp.top_y = top_y;
+    itp.y = y;
+    gint highy = ((DenemoStaff *) curstaff->data)->space_above;
+    gint lowy =  ((DenemoStaff *) curstaff->data)->space_below;
 
-      itp.in_highy = highy, itp.in_lowy = lowy;
-      itp.highy = 0;//do not pass on extra_space from one staff to the next
+    itp.in_highy = highy, itp.in_lowy = lowy;
+    itp.highy = 0;//do not pass on extra_space from one staff to the next
+	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
+    if(curstaff==si->currentstaff) {
+      if(((DenemoStaff *) curstaff->data)->staff_directives) {
 
-      gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
-      if(si->leftmeasurenum==1) {
-	/* draw background of clef, keysig, timesig */
-	gint key = gui->si->maxkeywidth;
-	gint cmajor = key?0:5;//allow some area for keysig in C-major
-	gdk_draw_rectangle (gui->pixmap, graygc, TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
-	gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
-	gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
+	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
+	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
-      draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
+      if(((DenemoStaff *) curstaff->data)->voice_directives) {
 
-      //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
-      if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
-	/*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
-      if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
-	((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
+	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
+	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
+	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+      }
+    }
+    
 
 
-        /* Now draw the barlines between the measures, across all the staffs */
-       mwidthiterator = g_list_nth (si->measurewidths, si->leftmeasurenum - 1);
-       for (x = KEY_MARGIN + si->maxkeywidth + 
-	      SPACE_FOR_TIME - HALF_BARLINE_SPACE,
-	      i = si->leftmeasurenum;
-	    i <= si->rightmeasurenum; mwidthiterator = mwidthiterator->next, 
-	      i++)
-	 {
-	   gint top = y + STAFF_HEIGHT; 
+    if(si->leftmeasurenum==1) {
+      /* draw background of clef, keysig, timesig */
+      gint key = gui->si->maxkeywidth;
+      gint cmajor = key?0:5;//allow some area for keysig in C-major
+      gdk_draw_rectangle (gui->pixmap, graygc, TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
+      gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
+      gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+    }
+    draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
-	   x += GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE;
+    //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
+    if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
+      /*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
+    if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
+      ((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
+
+
+    /* Now draw the barlines between the measures, across all the staffs */
+    mwidthiterator = g_list_nth (si->measurewidths, si->leftmeasurenum - 1);
+    for (x = KEY_MARGIN + si->maxkeywidth + 
+	   SPACE_FOR_TIME - HALF_BARLINE_SPACE,
+	   i = si->leftmeasurenum;
+	 i <= si->rightmeasurenum; mwidthiterator = mwidthiterator->next, 
+	   i++)
+      {
+	gint top = y + STAFF_HEIGHT; 
+
+	x += GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE;
 	   
-	   if (!mwidthiterator->next) /* Last measure - draw double-barline */
-	     x -= 3;
-	   gdk_draw_line (gui->pixmap, graygc, x, top, x, y);
+	if (!mwidthiterator->next) /* Last measure - draw double-barline */
+	  x -= 3;
+	gdk_draw_line (gui->pixmap, graygc, x, top, x, y);
 	   
-	   if (!mwidthiterator->next)
-	     {
-	       /* Again, we've reached the end of the score and should
-		* draw a double-barline */
-	       x += 3;
-	       gdk_draw_rectangle (gui->pixmap, blackgc, TRUE, x,
-				   y, 4,
-				   STAFF_HEIGHT+1);
-	     }
+	if (!mwidthiterator->next)
+	  {
+	    /* Again, we've reached the end of the score and should
+	     * draw a double-barline */
+	    x += 3;
+	    gdk_draw_rectangle (gui->pixmap, blackgc, TRUE, x,
+				y, 4,
+				STAFF_HEIGHT+1);
+	  }
 	   
-	 }
+      }
 
-       if ( itp.staffnum < si->bottom_staff
-	   &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
-	 {
-	   if (itp.haslyrics) {
-	     if(!((DenemoStaff *) curstaff->data)->haslyrics)
-	       ((DenemoStaff *) curstaff->data)->haslyrics = TRUE;//, repeat=TRUE;
-	     y += LYRICS_HEIGHT;
-	   }
-	   y +=
-	     (si->staffspace + ((DenemoStaff *) curstaff->data)->space_below);
-	 }
-       itp.haslyrics = FALSE;
-       curstaff = curstaff->next;
-    }// for all the staffs
+    if ( itp.staffnum < si->bottom_staff
+	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
+      {
+	if (itp.haslyrics) {
+	  if(!((DenemoStaff *) curstaff->data)->haslyrics)
+	    ((DenemoStaff *) curstaff->data)->haslyrics = TRUE;//, repeat=TRUE;
+	  y += LYRICS_HEIGHT;
+	}
+	y +=
+	  (si->staffspace + ((DenemoStaff *) curstaff->data)->space_below);
+      }
+    itp.haslyrics = FALSE;
+    curstaff = curstaff->next;
+  }// for all the staffs
 
 
  
@@ -856,20 +847,3 @@ DenemoGUI *gui = Denemo.gui;
 }
 
 
-
-
-/**
- * create an editable display of the passed str at the bottom 
- * of the drawing area 
- */
- /*
-    void
-    display_string (gchar * str, DenemoGUI *gui)
-    {
-
-    if (GTK_WIDGET_VISIBLE (gui->scorearea))     not in toplevel 
-    set_text_node (NULL, gui);
-
-
-    }
-  */

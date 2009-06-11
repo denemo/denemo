@@ -17,9 +17,10 @@
 #include "staffops.h"
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtk.h>
 #include "calculatepositions.h"
 #include "commandfuncs.h"
+#include "lilydirectives.h"
+
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
@@ -187,11 +188,18 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   DenemoStaff *thestaffstruct =
     (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
-  //CREATE a GtkMenu to popup when clicking on the staff
-  thestaffstruct->menu = gtk_menu_new();
-
-
-
+  //CREATE a GtkMenus to popup when clicking to left of the staff
+  {
+    //hmm, cannot populate it, why not ? FIXME GtkWidget *item;
+    thestaffstruct->staffmenu = gtk_menu_new();
+    //item = gtk_menu_item_new_with_label("Edit Attributes");
+    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->staffmenu), item);
+    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_staff_directive), NULL);
+    thestaffstruct->voicemenu = gtk_menu_new();
+    //item = gtk_menu_item_new_with_label("Edit Attributes");
+    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->voicemenu), item);
+    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_voice_directive), NULL);
+  }
 
   struct newstaffinfotopass itp;
   measurenode *themeasures = NULL;	/* Initial set of measures in staff */
@@ -428,7 +436,8 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
-  gtk_widget_destroy((curstaffstruct->menu));
+  gtk_widget_destroy((curstaffstruct->staffmenu));
+  gtk_widget_destroy((curstaffstruct->voicemenu));
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??

@@ -675,6 +675,7 @@ GETFUNC_DEF(note, midibytes)
 GETFUNC_DEF(chord, midibytes)
 GETFUNC_DEF(standalone, midibytes)
 GETFUNC_DEF(staff, midibytes)
+GETFUNC_DEF(voice, midibytes)
 GETFUNC_DEF(score, midibytes)
 GETFUNC_DEF(movementcontrol, midibytes)
 
@@ -682,6 +683,7 @@ PUTFUNC_DEF(note, midibytes)
 PUTFUNC_DEF(chord, midibytes)
 PUTFUNC_DEF(standalone, midibytes)
 PUTFUNC_DEF(staff, midibytes)
+PUTFUNC_DEF(voice, midibytes)
 PUTFUNC_DEF(score, midibytes)
 PUTFUNC_DEF(movementcontrol, midibytes)
 
@@ -1543,6 +1545,7 @@ Then
   INSTALL_GET(chord, midibytes);
   INSTALL_GET(note, midibytes);
   INSTALL_GET(staff, midibytes);
+  INSTALL_GET(voice, midibytes);
   INSTALL_GET(score, midibytes);
   INSTALL_GET(movementcontrol, midibytes);
   INSTALL_PUT(standalone, midibytes);
@@ -1583,6 +1586,8 @@ Then
 
 
   INSTALL_PUT(staff, graphic);
+  INSTALL_PUT(voice, graphic);
+
   INSTALL_PUT(score, graphic);
   //graphic
 

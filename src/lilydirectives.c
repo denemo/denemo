@@ -775,6 +775,7 @@ GET_STR_FIELD_FUNC(movementcontrol, midibytes)
 GET_STR_FIELD_FUNC(note, midibytes)
 GET_STR_FIELD_FUNC(chord, midibytes)
 GET_STR_FIELD_FUNC(staff, midibytes)
+GET_STR_FIELD_FUNC(voice, midibytes)
 GET_STR_FIELD_FUNC(standalone, midibytes)
 
 PUT_STR_FIELD_FUNC(score, midibytes)
@@ -782,6 +783,7 @@ PUT_STR_FIELD_FUNC(movementcontrol, midibytes)
 PUT_STR_FIELD_FUNC(note, midibytes)
 PUT_STR_FIELD_FUNC(chord, midibytes)
 PUT_STR_FIELD_FUNCS(staff, midibytes)
+PUT_STR_FIELD_FUNCV(voice, midibytes)
 
 
 GET_STR_FIELD_FUNC(chord, prefix)
@@ -1059,16 +1061,26 @@ widget_for_type(DenemoDirective *directive, gchar *value, void fn()){
     directive->graphic = gtk_menu_item_new_with_label(value);
     /* g_print("directive-type %s.....", thetype);	*/
     GtkWidget *menu;
-    menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->menu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
+    menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
     g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
-  }  else  {
-    //g_print("Doing the non-staff case");
-    directive->graphic = gtk_button_new_with_label(value);
-    g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
-    gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
-    gtk_widget_show(directive->graphic);
-    gtk_widget_show(box);
+  } else {   
+    if(fn==voice_directive_put_graphic) {
+      //g_print("Doing the staff case");
+      directive->graphic = gtk_menu_item_new_with_label(value);
+      /* g_print("directive-type %s.....", thetype);	*/
+      GtkWidget *menu;
+      menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
+      g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
+    }  else  {
+      //g_print("Doing the non-staff case");
+      directive->graphic = gtk_button_new_with_label(value);
+      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
+      gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
+      gtk_widget_show(directive->graphic);
+      gtk_widget_show(box);
+    }
   }
 
   g_object_set_data(directive->graphic, "directive", (gpointer)directive);

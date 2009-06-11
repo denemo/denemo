@@ -48,20 +48,20 @@ offset_from_height (gdouble height, enum clefs clef)
   return 0;
 }
 
-/**
- * Set the cursor's y position from a mouse click
- *
- */
-void
-set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
-{
-  /* Click height relative to the top of the staff.  */
+
+static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
   gdouble click_height;
   gint staffs_from_top;
   staffs_from_top = 0;
   GList *curstaff;
   DenemoStaff *staff;
   gint extra_space = 0;
+  
+  curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1);
+
+  if(((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber != 1)
+    staffs_from_top--;
+
   for(  curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1) ; curstaff;curstaff=curstaff->next) {
     //g_print("before extra space %d\n", extra_space);
     staff = (DenemoStaff *) curstaff->data;
@@ -74,6 +74,7 @@ set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
       extra_space += ((staff->space_below) + (staff->haslyrics?LYRICS_HEIGHT:0));
       staffs_from_top++;
     }
+
     //g_print("after extra space %d\n", extra_space);
   }
 
@@ -81,6 +82,21 @@ set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
     y - (gui->si->staffspace * staffs_from_top + gui->si->staffspace / 4 + extra_space);
   //  g_print("top staff is %d total %d staffs from top is %d click %f\n", gui->si->top_staff, extra_space, staffs_from_top, click_height);
 
+  return click_height;
+
+
+
+}
+
+/**
+ * Set the cursor's y position from a mouse click
+ *
+ */
+void
+set_cursor_y_from_click (DenemoGUI * gui, gdouble y)
+{
+  /* Click height relative to the top of the staff.  */
+  gdouble click_height = get_click_height(gui, y);
   gui->si->cursor_y =
     offset_from_height (click_height, (enum clefs) gui->si->cursorclef);
   gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
@@ -95,12 +111,23 @@ struct placement_info
   gboolean nextmeasure;
 };
 
+/* find the primary staff of the current staff, return its staffnum */
+static gint primary_staff(DenemoScore *si) {
+  GList *curstaff;
+  for(curstaff = si->currentstaff;  curstaff && ((DenemoStaff *) curstaff->data)->voicenumber!=1;curstaff=curstaff->prev)
+   ;//do nothing
+  //g_print("The position is %d\n", 1+g_list_position(si->thescore, curstaff));
+  return 1+g_list_position(si->thescore, curstaff);
+}
+
+
 /* find which staff in si the height y lies in, return the staff number (not counting non-primary staffs ie voices) */
 
 static gint staff_at (gint y, DenemoScore *si) {
   GList *curstaff;
   gint space = 0;
   gint count;
+  gint ret;
   for(curstaff = g_list_nth(si->thescore, si->top_staff-1), count=0; curstaff && y>space;curstaff=curstaff->next) {
     DenemoStaff *staff = (DenemoStaff *) curstaff->data;
 
@@ -110,9 +137,13 @@ static gint staff_at (gint y, DenemoScore *si) {
 	(staff)->space_below + si->staffspace; 
     //g_print("y %d and space %d count = %d\n",y,space, count);
   } 
+
   if(y<=1)
-    return 1;
-  return count+si->top_staff-1;
+    ret = 1;
+  ret = count+si->top_staff-1;
+  if(ret==primary_staff(si))
+    ret = si->currentstaffnum;
+  return ret;
 }
 
 /**
@@ -353,7 +384,11 @@ DenemoGUI *gui = Denemo.gui;
 
 
   if(event->x<LEFT_MARGIN) {
-    gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->menu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    gint offset = (gint)get_click_height(gui, event->y);
+    if(offset<STAFF_HEIGHT/2)
+      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    else
+      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
     return TRUE;
   } else if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {

@@ -197,7 +197,9 @@ typedef GList measurenode;
  */
 typedef struct 
 {
-  GtkMenu *menu; /**< a menu to popup up with the directives attached */
+  GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
+  GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
+
   measurenode *measures; /**< This is a pointer to each measure in the staff */
   clef clef; /**< The initial clef see denemo_objects.h clefs */
   keysig keysig;
@@ -582,7 +584,7 @@ typedef struct DenemoScore
   
   staffnode *currentprimarystaff;
   staffnode *currentstaff;
-  gint currentstaffnum;
+  gint currentstaffnum;/**< start at 1 */
   measurenode *currentmeasure;
   gint currentmeasurenum;/**< start at 1 */
   objnode *currentobject; /**< currentobject points to the note preceding the cursor when the
