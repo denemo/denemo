@@ -67,7 +67,7 @@ static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
     //g_print("before extra space %d\n", extra_space);
     staff = (DenemoStaff *) curstaff->data;
     if(staff->voicenumber == 1)
-      extra_space += (staff->space_above*2 );
+      extra_space += (staff->space_above);
     if(curstaff == gui->si->currentstaff)
       break;
     if(staff->voicenumber == 1){
