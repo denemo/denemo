@@ -215,7 +215,9 @@
 	    (set! current (match:substring thematch 1)))))
   (set! title (d-GetUserInput (string-append "Movement " field) 
 			      (string-append "Give a name for the " field " of the current movement") current))
-  (d-DirectivePut-header-graphic tag title)
+  (d-DirectivePut-header-graphic tag (string-append field ": "))
+  (d-DirectivePut-header-display tag title)
+
   (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
 
 ;;;;;;;;;; SetScoreHeaderField sets a field in the score header
@@ -234,6 +236,7 @@
 	    (set! current (match:substring thematch 1)))))
   (set! title (d-GetUserInput (string-append "Score " field) 
 			      (string-append "Give a name for the " field " of the whole score") current))
-  (d-DirectivePut-scoreheader-graphic tag title)
+  (d-DirectivePut-scoreheader-graphic tag (string-append field ": "))
+  (d-DirectivePut-scoreheader-display tag title)
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 

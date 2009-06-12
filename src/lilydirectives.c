@@ -805,7 +805,7 @@ PUT_STR_FIELD_FUNC(note, display)
 
 PUT_STR_FIELD_FUNC(score, prefix)
 PUT_STR_FIELD_FUNC(score, postfix)
-PUT_STR_FIELD_FUNC(score, display)
+
 
 GET_STR_FIELD_FUNC(standalone, prefix)
 GET_STR_FIELD_FUNC(standalone, postfix)
@@ -821,7 +821,7 @@ GET_STR_FIELD_FUNC(staff, display)
 
 PUT_STR_FIELD_FUNCS(staff, prefix)
 PUT_STR_FIELD_FUNCS(staff, postfix)
-PUT_STR_FIELD_FUNCS(staff, display)
+
 
 GET_STR_FIELD_FUNC(voice, prefix)
 GET_STR_FIELD_FUNC(voice, postfix)
@@ -829,7 +829,7 @@ GET_STR_FIELD_FUNC(voice, display)
 
 PUT_STR_FIELD_FUNCV(voice, prefix)
 PUT_STR_FIELD_FUNCV(voice, postfix)
-PUT_STR_FIELD_FUNCV(voice, display)
+
 #undef staff
 
 #define PUT_INT_FIELD_FUNC_NAME(what, field, name)\
@@ -1048,60 +1048,76 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
+/*
+  label_widget()
+  if directive does not have graphic:
+     fn gives the type of directive, which must be a non-DenemoObject directive: it determines where the widget goes (score or movement level, DenemoGUI or DenemoScore respectively).
+     field must be "display" or "graphic_name"
+     creates a widget (button or menu depending on fn) for editing directive, point directive->graphic to it and attach a callback to edit this directive, passing fn as data to it (to say what sort of directive it is).
+     places the widget in the appropriate buttonbox.
+  if directive does have graphic:
+     fn and field are ignored.
+  In all cases:
+     set  the label for the widget from directive->graphic_name directive->display
 
+*/
+     
 static void 
-widget_for_type(DenemoDirective *directive, gchar *value, void fn()){
+label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
   GtkWidget *box;
-  if(fn==score_directive_put_graphic ||fn==scoreheader_directive_put_graphic ||fn==paper_directive_put_graphic )  
-    box = Denemo.gui->buttonbox;
-  else
-    box = Denemo.gui->si->buttonbox;
-  if(fn==staff_directive_put_graphic) {
-    //g_print("Doing the staff case");
-    directive->graphic = gtk_menu_item_new_with_label(value);
-    /* g_print("directive-type %s.....", thetype);	*/
-    GtkWidget *menu;
-    menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
-    g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
-  } else {   
-    if(fn==voice_directive_put_graphic) {
+  gchar *value = g_strdup_printf("%s%s",directive->graphic_name?directive->graphic_name->str:"" , 
+				 directive->display?directive->display->str:"");
+
+  //  g_print("Have value %s\n", value);
+  //if this is not the display field, but the graphic that is being set, create the graphic
+  if((directive->graphic==NULL) && *value && strcmp(field, "display") ) {
+    if(fn==score_directive_put_graphic ||fn==scoreheader_directive_put_graphic ||fn==paper_directive_put_graphic)  
+      box = Denemo.gui->buttonbox;
+    else
+      box = Denemo.gui->si->buttonbox;
+    if(fn==staff_directive_put_graphic) {
       //g_print("Doing the staff case");
       directive->graphic = gtk_menu_item_new_with_label(value);
       /* g_print("directive-type %s.....", thetype);	*/
       GtkWidget *menu;
-      menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;/*gtk_ui_manager_get_widget (Denemo.ui_manager, "/StaffMenuPopup"); */ 
+      menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
       g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
-    }  else  {
-      //g_print("Doing the non-staff case");
-      directive->graphic = gtk_button_new_with_label(value);
-      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
-      gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
-      gtk_widget_show(directive->graphic);
-      gtk_widget_show(box);
-    }
+    } else    
+      if(fn==voice_directive_put_graphic) {
+	//g_print("Doing the voice case");
+	directive->graphic = gtk_menu_item_new_with_label(value);//WARNING _with_label is important
+	/* g_print("directive-type %s.....", thetype);	*/
+	GtkWidget *menu;
+	menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
+	g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
+      }  else {
+	//g_print("Doing the non-staff case");
+	directive->graphic = gtk_button_new_with_label(value);
+	g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
+	gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
+	gtk_widget_show(directive->graphic);
+	gtk_widget_show(box);
+      }
+    g_object_set_data(directive->graphic, "directive", (gpointer)directive);
+    gtk_widget_show_all(GTK_WIDGET(directive->graphic));
+    GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
+  }//not display field
+  if(directive->graphic){
+    if(GTK_IS_BUTTON(directive->graphic))
+      gtk_button_set_label(directive->graphic, value);
+    else
+      gtk_menu_item_set_label_text(directive->graphic, value);
   }
-
-  g_object_set_data(directive->graphic, "directive", (gpointer)directive);
-  gtk_widget_show_all(GTK_WIDGET(directive->graphic));
-  GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
-
-  if(directive->graphic_name)
-    g_string_assign(directive->graphic_name, value);
-  else
-    directive->graphic_name = g_string_new(value);
-  if(GTK_IS_BUTTON(directive->graphic))
-    gtk_button_set_label(directive->graphic, value);
-  else
-    gtk_menu_item_set_label_text(directive->graphic, value);
+  g_free(value);
 }
 
 
 // create a directive for non-DenemoObject directive #what
-//if value is not NULL create a button to edit the directive as the directive->graphic
-#define PUT_GRAPHIC_WIDGET(what, directives) gpointer \
-what##_directive_put_graphic(gchar *tag, gchar *value) {\
+// create a button to edit the directive as the directive->graphic
+#define PUT_GRAPHIC_WIDGET_FUNC(field, field_name, what, directives) gpointer \
+what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
   if(current->directives==NULL)\
@@ -1111,9 +1127,11 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     directive=new_directive(tag);\
     current->directives = g_list_append(current->directives, directive);\
     }\
-  if(value && directive->graphic==NULL) {\
-    widget_for_type(directive, value, what##_directive_put_graphic);\
-  }\
+  if(directive->field_name==NULL) \
+    directive->field_name = g_string_new(value);\
+  else\
+    g_string_assign(directive->field_name, value);\
+  label_widget(directive, what##_directive_put_graphic, #field);\
   return (gpointer)directive;\
 }
 
@@ -1127,7 +1145,8 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
 PUT_GRAPHIC(chord);
 PUT_GRAPHIC(note);
 
-
+#define PUT_GRAPHIC_WIDGET(what, directives) PUT_GRAPHIC_WIDGET_FUNC(graphic, graphic_name, what, directives)
+#define PUT_DISPLAY_FUNC(what, directives) PUT_GRAPHIC_WIDGET_FUNC(display, display, what, directives)
 PUT_GRAPHIC_WIDGET(score, directives);
 PUT_GRAPHIC_WIDGET(staff, staff_directives);
 PUT_GRAPHIC_WIDGET(voice, voice_directives);
@@ -1136,6 +1155,21 @@ PUT_GRAPHIC_WIDGET(header, directives);
 PUT_GRAPHIC_WIDGET(paper, directives);
 PUT_GRAPHIC_WIDGET(layout, directives);
 PUT_GRAPHIC_WIDGET(movementcontrol, directives);
+
+PUT_DISPLAY_FUNC(score, directives);
+PUT_DISPLAY_FUNC(staff, staff_directives);
+PUT_DISPLAY_FUNC(voice, voice_directives);
+PUT_DISPLAY_FUNC(scoreheader, directives);
+PUT_DISPLAY_FUNC(header, directives);
+PUT_DISPLAY_FUNC(paper, directives);
+PUT_DISPLAY_FUNC(layout, directives);
+PUT_DISPLAY_FUNC(movementcontrol, directives);
+
+#undef PUT_GRAPHIC_WIDGET
+#undef PUT_DISPLAY_FUNC
+#undef PUT_GRAPHIC_WIDGET_FUNC
+
+
 
 gboolean
 standalone_directive_put_graphic(gchar *tag, gchar *value) {
@@ -1611,15 +1645,14 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   
   //REMOVEEMPTIES(tag); don't allow NULL tag
 #undef REMOVEEMPTIES
-
+  
   if(directive->tag && directive->tag->len==0)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(directive->graphic_name){
-    if(directive->graphic && GTK_IS_WIDGET(directive->graphic))
-      gtk_menu_item_set_label_text(directive->graphic, directive->graphic_name->str);
-    else
-      loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
-  }
+  if(directive->graphic && GTK_IS_WIDGET(directive->graphic))
+    label_widget(directive, NULL, NULL);
+  else
+    loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+  
   gtk_widget_destroy (dialog);
   if(response==CREATE_SCRIPT)
     create_script(directive, what);//g_print("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
@@ -2131,7 +2164,7 @@ GET_INT_FIELD_FUNC(scoreheader, height)
 
 PUT_STR_FIELD_FUNC(scoreheader, prefix)
 PUT_STR_FIELD_FUNC(scoreheader, postfix)
-PUT_STR_FIELD_FUNC(scoreheader, display)
+
 
 GET_STR_FIELD_FUNC(scoreheader, prefix)
 GET_STR_FIELD_FUNC(scoreheader, postfix)
@@ -2159,7 +2192,7 @@ GET_INT_FIELD_FUNC(header, height)
 
 PUT_STR_FIELD_FUNC(header, prefix)
 PUT_STR_FIELD_FUNC(header, postfix)
-PUT_STR_FIELD_FUNC(header, display)
+
 
 GET_STR_FIELD_FUNC(header, prefix)
 GET_STR_FIELD_FUNC(header, postfix)
@@ -2187,7 +2220,7 @@ GET_INT_FIELD_FUNC(paper, height)
 
 PUT_STR_FIELD_FUNC(paper, prefix)
 PUT_STR_FIELD_FUNC(paper, postfix)
-PUT_STR_FIELD_FUNC(paper, display)
+
 
 GET_STR_FIELD_FUNC(paper, prefix)
 GET_STR_FIELD_FUNC(paper, postfix)
@@ -2213,7 +2246,7 @@ GET_INT_FIELD_FUNC(layout, height)
 
 PUT_STR_FIELD_FUNC(layout, prefix)
 PUT_STR_FIELD_FUNC(layout, postfix)
-PUT_STR_FIELD_FUNC(layout, display)
+
 
 GET_STR_FIELD_FUNC(layout, prefix)
 GET_STR_FIELD_FUNC(layout, postfix)
@@ -2242,7 +2275,7 @@ GET_INT_FIELD_FUNC(movementcontrol, height)
 
 PUT_STR_FIELD_FUNC(movementcontrol, prefix)
 PUT_STR_FIELD_FUNC(movementcontrol, postfix)
-PUT_STR_FIELD_FUNC(movementcontrol, display)
+
 
 GET_STR_FIELD_FUNC(movementcontrol, prefix)
 GET_STR_FIELD_FUNC(movementcontrol, postfix)
