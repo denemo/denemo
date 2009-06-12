@@ -1648,11 +1648,12 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   
   if(directive->tag && directive->tag->len==0)
     directive->tag = g_string_new(UNKNOWN_TAG);
-  if(directive->graphic && GTK_IS_WIDGET(directive->graphic))
-    label_widget(directive, NULL, NULL);
-  else
-    loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
-  
+  if(directive->graphic){
+    if(GTK_IS_WIDGET(directive->graphic))
+      label_widget(directive, NULL, NULL);
+    else
+      loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+  }
   gtk_widget_destroy (dialog);
   if(response==CREATE_SCRIPT)
     create_script(directive, what);//g_print("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);

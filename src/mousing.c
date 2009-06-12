@@ -10,6 +10,7 @@
 #include "staffops.h"
 #include "utils.h"
 #include "selectops.h"
+#include "lilydirectives.h"
 #include "mousing.h"
 /**
  * Get the mid_c_offset of an object or click from its height relative
@@ -385,10 +386,13 @@ DenemoGUI *gui = Denemo.gui;
 
   if(event->x<LEFT_MARGIN) {
     gint offset = (gint)get_click_height(gui, event->y);
-    if(offset<STAFF_HEIGHT/2)
-      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    if(offset<STAFF_HEIGHT/2) {
+      if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    }
     else
-      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+      if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
     return TRUE;
   } else if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {
