@@ -60,7 +60,7 @@ typedef struct nstack
 	gint *on_delta_time; /* Is this NEEDED? this is time between last event and this notes start */
      	gint *duration; /* length of time in ticks */ 
 	gint *tracknum;	
-	gint *voicenumber;
+	gint *voicenum;
 }nstack;
 
 typedef struct midicallback
@@ -76,6 +76,7 @@ typedef struct midicallback
 	gint event_number; /* smf event number that is currently being processed */
 	gint key;   /* current key sig */
 	gint track; /* the current track that is being read */
+	gint current_voicenum;
 	smf_t *smf;
 	smf_track_t *selected_track;
 }midicallback;
@@ -96,6 +97,8 @@ void doinstrname(gchar *name, midicallback *mididata);
 void donoteon(midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon);
 void donoteoff(midicallback *mididata);
 struct notetype ConvertLength(gint duration, midicallback *mididata);
+void ProcessNoteStack(midicallback *mididata);
+void process_list(midicallback *mididata);
 
 static void
 note_from_int(char *buf, int note_number)
@@ -332,7 +335,7 @@ decode_midi_event(const smf_event_t *event, midicallback *mididata)
 					channel, note, event->midi_buffer[2]);
 			mididata->delta_time = event->delta_time_pulses;
 			mididata->event_number = event->event_number;
-			donoteon(mididata, event->midi_buffer[1], event->midi_buffer[2], 
+			donoteon(mididata,  event->midi_buffer[1],  event->midi_buffer[2], 
 					event->time_pulses);
 			break;
 
@@ -393,6 +396,9 @@ readtrack(midicallback *mididata)
 	smf_rewind(mididata->smf);
        
         while (mididata->track <= mididata->smf->number_of_tracks){	
+	  /* process polyphonic voices */
+	  if (mididata->notestack != NULL)
+		ProcessNoteStack(mididata);
 	  mididata->selected_track = smf_get_track_by_number(mididata->smf, mididata->track);
 	  while ((event = smf_track_get_next_event(mididata->selected_track)) != NULL) {
 #ifdef DEBUG
@@ -423,7 +429,7 @@ new_dnm_object(midicallback *mididata, nstack *currentnote, notetype length, gbo
 	          dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);		
 		  mididata->currentnote->chordnotes = g_list_remove_link(mididata->currentnote->chordnotes, 
 				  g_list_first (mididata->currentnote->chordnotes));
-		}
+	  }
 	}
 	object_insert (mididata->gui, mudela_obj_new);	
 }
@@ -488,7 +494,7 @@ doinstrname (gchar* name,  midicallback *mididata)
 }
 
 static nstack *
-stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *tracknum)
+stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *tracknum, gint *voicenum)
 {
   nstack *mystack = (nstack *)g_malloc0(sizeof(nstack));
   mystack->pitch = pitch;
@@ -496,6 +502,7 @@ stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *trackn
   mystack->on_delta_time = delta_time;
   mystack->duration = duration;
   mystack->tracknum = tracknum;
+  mystack->voicenum = voicenum;
   return mystack;
 }
 
@@ -510,7 +517,7 @@ donoteon (midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon)
   /* add a note to the stack */
   Get_Smf_Note_OFF(pitchon, timeon, delta_time, mididata);
 #ifdef DEBUG
-  g_print ("\npitchon = %d timeon = %d event = %d\n", pitchon, timeon, mididata->event_number);
+  g_print ("\npitchon = %d timeon = %d event = %d\n", (gint) pitchon, (gint) timeon, (gint) mididata->event_number);
 #endif
 }
 
@@ -524,29 +531,30 @@ donoteoff (midicallback *mididata)
   if (currentnote != NULL){
 	/*process the note found*/
 	process_list(mididata);	
-	//g_free(currentnote);
+	g_free(mididata->currentnote);
   }
-  mididata->currentnote = NULL;
-  
+  mididata->currentnote = NULL; 
 }
 
 gboolean
 ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_time, gint *duration){
   nstack *currentnote = mididata->currentnote;	
-  gint tracknum = mididata->track;
-  g_print("\n***ChordToneCheck***\n");
+  gint tracknum = (int) mididata->track;
+  gint voicenum = (int) mididata->current_voicenum;
+
   if ((currentnote->timeon == timeon) &&
      (currentnote->duration == duration)){
 	  g_print("\n***Same Duration and timeon***\n");
-  	  //append note to GList
+  	  /* append note to GList */
 	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, pitch);
 	  return TRUE;
   }
   else if (currentnote->timeon <= timeon <= ((int) currentnote->timeon + (int) currentnote->duration)){
-	g_print("\n***NOTE_ON colliding between a NOTE_ON and NOTE_OFF***\n");	
-  	//append to voice glist
-	nstack *noteon = stack(pitch, timeon, delta_time, duration, tracknum);
-      	/* store noteon in mididata->currentnote */
+	  voicenum++;
+	g_print("\n***NOTE_ON colliding between a NOTE_ON and NOTE_OFF tracknum = %d voicenum = %d***\n",tracknum, voicenum);	
+  	/* append to voice glist */
+	nstack *noteon = stack(pitch, timeon, delta_time, duration, (gint *) tracknum,  (gint *) mididata->current_voicenum);
+      	/* store noteon in mididata->notestack */
 	mididata->notestack = g_list_append(mididata->notestack, noteon);
 	return FALSE;
   }
@@ -557,23 +565,22 @@ gint
 Get_Smf_Note_OFF (gint *pitch, gint *timeon, gint *delta_time, midicallback *mididata){
   gint event_number = mididata->event_number;
   smf_event_t *event;
-  nstack *noteon;
   gint duration;
   gint tracknum = mididata->track;
   gboolean chordtone = FALSE;
+  mididata->current_voicenum = 1;
 
   while ((event = smf_track_get_event_by_number(mididata->selected_track, event_number)) != NULL){
     if (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
-		    & (event->midi_buffer[1] == pitch)){
+		    & (event->midi_buffer[1] == (int) pitch)){
 	duration = event->time_pulses - (int) timeon; 
 	if (mididata->currentnote != NULL) 
-	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, duration);
+	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, (int *) duration);
 	if (!chordtone){
-	  noteon = stack(pitch, timeon, delta_time, duration, tracknum);
-      	  /* store noteon in mididata->currentnote */
-	  mididata->currentnote = noteon;
+      	  /* store note in mididata->currentnote */
+	  mididata->currentnote = stack(pitch, timeon, delta_time, (int *) duration, (int *) tracknum, (int *) mididata->current_voicenum);
 	}
-	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", pitch, timeon, duration);
+	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, (gint) timeon, (gint) duration);
     	break;
     }
     event_number++;
@@ -722,9 +729,12 @@ notetype ConvertLength(gint duration, midicallback *mididata){
 void StaffCheck(midicallback *mididata){
   DenemoScore *si = mididata->gui->si;
   gint track = (int) mididata->currentnote->tracknum;
+  gint voicenum = (int) mididata->currentnote->voicenum;
   gint currentstaffnum = si->currentstaffnum;
+  gint currentvoicenum = mididata->current_voicenum; 
 
-  if ((track) > currentstaffnum) /*if not first track add track */
+  g_print("\nmididata->currentnote->voicenum = %d  mididata->current_voicenum = %d\n", voicenum, (gint) mididata->current_voicenum);
+  if ((track > currentstaffnum) || (voicenum > currentvoicenum)) /*if not first track add track */
     {
       si->currentstaffnum++;
       si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
@@ -734,6 +744,10 @@ void StaffCheck(midicallback *mididata){
       si->cursor_x = 0;
       mididata->bartime = 0;
       si->currentmeasurenum = 1;
+      /*need to increment voicenum and tracknum to commpensate */
+      //mididata->currentnote->tracknum++;
+      if  (voicenum > currentvoicenum)
+        mididata->current_voicenum++;
     }
 }
 
@@ -843,6 +857,19 @@ void ProcessNote(midicallback *mididata) {
 	}
 }
 
+void
+ProcessNoteStack(midicallback *mididata){
+  	while (mididata->notestack){
+		/* Assign the note to currentnote */
+		mididata->currentnote = mididata->notestack->data; 
+		//mididata->current_voicenum++; //???? can I do this to pointer???
+		/* send the note on for processing */
+		process_list(mididata);
+		/* remove note from list */
+		mididata->notestack = g_list_remove_link(mididata->notestack,
+		g_list_first (mididata->notestack));
+  	}
+}
 /**
  * Add notes to the current staff
  */
@@ -882,6 +909,6 @@ importMidi (gchar *filename, DenemoGUI *gui)
   readtrack(mididata);
 
   //g_free(mididata);
-  //g_free(filename);
+  g_free(filename);
   return ret;
 }
