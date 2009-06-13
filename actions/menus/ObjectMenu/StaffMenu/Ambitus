@@ -15,7 +15,7 @@
                 \\context { \\RemoveEmptyStaffContext 
 		\\consists \"Ambitus_engraver\"
 		}\n}\n"))
-	(d-DirectivePut-score-display "Ambitus" "Ambitus"))
+	(d-DirectivePut-score-graphic "Ambitus" "Ambitus On"))
       (begin
 	(d-DirectiveDelete-score "Ambitus")))
   (d-RefreshDisplay))
