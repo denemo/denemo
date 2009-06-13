@@ -259,7 +259,7 @@ process_lilypond_errors(gchar *filename){
 	warningdialog("Spurious line number"), line = 0;
       /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
       /*     warningdialog(errmsg); */
-      infodialog(epoint);
+      infodialog(epoint);/* FIXME PUT OUTPUT IN CONSOLE WINDOW HERE */
       if(gui->textbuffer) {
 	set_lily_error(line+1, column, gui);
       } 
@@ -878,6 +878,8 @@ void refresh_print_view (void) {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
   remove (lilyfile);
+  gchar *path = g_strconcat (filename, "_.png", NULL);
+  remove (path);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
   exportlilypond (lilyfile, gui,  TRUE);
   convert_ly(lilyfile);

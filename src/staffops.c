@@ -190,15 +190,18 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 
   //CREATE a GtkMenus to popup when clicking to left of the staff
   {
-    //hmm, cannot populate it, why not ? FIXME GtkWidget *item;
+    //hmm, cannot populate it, why not ? FIXME 
+    GtkWidget *item;
     thestaffstruct->staffmenu = gtk_menu_new();
-    //item = gtk_menu_item_new_with_label("Edit Attributes");
-    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->staffmenu), item);
-    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_staff_directive), NULL);
+    item = gtk_menu_item_new_with_label("Edit Attributes");
+    gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->staffmenu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_staff_directive), NULL);
+    gtk_widget_show(item);
     thestaffstruct->voicemenu = gtk_menu_new();
-    //item = gtk_menu_item_new_with_label("Edit Attributes");
-    //gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->voicemenu), item);
-    //g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_voice_directive), NULL);
+    item = gtk_menu_item_new_with_label("Edit Attributes");
+    gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->voicemenu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_voice_directive), NULL);
+    gtk_widget_show(item);
   }
 
   struct newstaffinfotopass itp;

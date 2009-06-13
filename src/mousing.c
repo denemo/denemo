@@ -10,6 +10,7 @@
 #include "staffops.h"
 #include "utils.h"
 #include "selectops.h"
+#include "lilydirectives.h"
 #include "mousing.h"
 /**
  * Get the mid_c_offset of an object or click from its height relative
@@ -56,7 +57,7 @@ static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
   GList *curstaff;
   DenemoStaff *staff;
   gint extra_space = 0;
-  
+  gint space_below = 0;
   curstaff = g_list_nth(gui->si->thescore,gui->si->top_staff-1);
 
   if(((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber != 1)
@@ -66,16 +67,17 @@ static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
     //g_print("before extra space %d\n", extra_space);
     staff = (DenemoStaff *) curstaff->data;
     if(staff->voicenumber == 1)
-      extra_space += (staff->space_above*2 );
+      extra_space += (staff->space_above) + space_below;
     if(curstaff == gui->si->currentstaff)
       break;
+    
     if(staff->voicenumber == 1){
-      // FIXME this cannot work, different amounts of space_xxx may be stored in different voices
-      extra_space += ((staff->space_below) + (staff->haslyrics?LYRICS_HEIGHT:0));
+
+      space_below = 0;
       staffs_from_top++;
     }
-
-    //g_print("after extra space %d\n", extra_space);
+    space_below = MAX(space_below, ((staff->space_below) + (staff->haslyrics?LYRICS_HEIGHT:0)));
+    //g_print("after extra space %d space_below %d\n", extra_space, space_below);
   }
 
   click_height =
@@ -385,10 +387,13 @@ DenemoGUI *gui = Denemo.gui;
 
   if(event->x<LEFT_MARGIN) {
     gint offset = (gint)get_click_height(gui, event->y);
-    if(offset<STAFF_HEIGHT/2)
-      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    if(offset<STAFF_HEIGHT/2) {
+      if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    }
     else
-      gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+      if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
     return TRUE;
   } else if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {
