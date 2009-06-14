@@ -1742,8 +1742,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    {
 	      if ((!measure_is_empty) && curmeasure->next)
 		{
-		  fprintf (stderr,
-			   "warning: ticks_read reset in %s "
+		  g_warning(
+			   "warning: overfull measure in %s "
 			   "measure %d from %ld to %ld "
 			   "\n%sdifference is %ld, measure began at %ld)\n",
 			   curstaffstruct->lily_name->str,
@@ -1763,7 +1763,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  printf("\ninternal ticks = %d\n", internaltoticks(0));
 		}
 
-	      ticks_read = ticks_at_bar + measurewidth;//+ internaltoticks (0);
+		//ticks_read = ticks_at_bar + measurewidth;//+ internaltoticks (0);
 	    }
 	  else
 	    {
@@ -1807,8 +1807,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     smf_delete(temp);
   }
   si->smf = smf;
-  //g_print("Compare old %f with %f\n",  60.0*ticks_read/(MIDI_RESOLUTION*(double)si->tempo), smf_get_length_seconds(smf)) ;
+
   si->smfsync = si->changecount;
+
+  if(start || end)
+    return exportmidi(NULL, si, 0, 0);// recurse if we have not generated all the MIDI for si
   return smf_get_length_seconds(smf);
 }
 
