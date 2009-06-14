@@ -2437,6 +2437,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Ambitus Off/On</label>
         <tooltip>Prints the ambitus before each staff.</tooltip>
       </row>
+      <row>
+        <action>RecreateTimebase</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Create Timebase</label>
+        <tooltip>Recalculates the timing of each note.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
