@@ -12,6 +12,7 @@
 #include <denemo/denemo.h>
 #include "notewidths.h"
 #include "utils.h"
+#include "smf.h"
 #include <signal.h> /*for SIGTERM */
 
 #include "config.h"
@@ -759,11 +760,21 @@ void score_status(DenemoGUI *gui, gboolean change) {
 ********************/
 
 void write_status(DenemoGUI *gui) {
+  gint minutes = 0;
+  gdouble seconds = 0.0;
+
   gchar *selection;
   if(gui->si==NULL)
     return;
   if(gui->si->currentobject && gui->si->currentobject->data ) {
     DenemoObject *curObj = gui->si->currentobject->data;
+    if(curObj->midi_events) {
+      smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
+      gdouble time = event->time_seconds;
+      minutes = time/60.0;
+      seconds = time - 60*minutes;
+    }
+
     switch(curObj->type) {
     case CHORD: {
       chord *thechord =  ((chord *) curObj->object);
@@ -868,7 +879,7 @@ void write_status(DenemoGUI *gui) {
 
   status = "Movement";
   gint index = g_list_index(gui->movements, gui->si);
-  status = g_strdup_printf("%s %d: %s", status, index+1, selection);
+  status = g_strdup_printf("%s %d: %s: %d min %.2f sec", status, index+1, selection, minutes, seconds);
 
   g_free(selection);
   gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
