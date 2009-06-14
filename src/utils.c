@@ -768,7 +768,7 @@ void write_status(DenemoGUI *gui) {
     return;
   if(gui->si->currentobject && gui->si->currentobject->data ) {
     DenemoObject *curObj = gui->si->currentobject->data;
-    if(curObj->midi_events) {
+    if((gui->si->smfsync == gui->si->changecount) && curObj->midi_events) {
       smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
       gdouble time = event->time_seconds;
       minutes = time/60.0;
