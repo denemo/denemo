@@ -57,7 +57,7 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
 -DPKGDATADIR=\"$(pkgdatadir)/\"
 
-denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.la 
+denemo_LDADD = $(INTLLIBS) $(top_srcdir)/libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 
