@@ -2157,7 +2157,7 @@ static void
 fetchcommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
-  location = g_build_filename(locatedotdenemo(), "download", "actions", " ", NULL);
+  location = g_build_filename(locatedotdenemo(), "download", "actions", NULL);
   gboolean err = g_mkdir_with_parents(location, 0770);
   if(err) {
     warningdialog(g_strdup_printf("Could not make folder %s for the downloaded commands", location));
@@ -2195,7 +2195,7 @@ static void
 morecommands (GtkAction *action, gpointer param)
 {
   static gchar *location=NULL;
-  location = g_build_filename(locatedotdenemo(), "download", "actions", "menus", " ", NULL);
+  location = g_build_filename(locatedotdenemo(), "download", "actions", "menus", NULL);
   if(!g_file_test(location, G_FILE_TEST_EXISTS)){
     g_free(location);
     location = NULL;
