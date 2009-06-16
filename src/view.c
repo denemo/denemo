@@ -2168,6 +2168,7 @@ fetchcommands (GtkAction *action, gpointer param)
   GError *error = NULL;
   gchar *arguments[] = {
   "wget",
+  "-N",
   "-r",
   "-np",//only below the menus directory
   "-nH",//cut prefix
