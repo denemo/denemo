@@ -21,7 +21,7 @@
 #define EXT_MIDI 0
 #define EXT_CSOUND 1
 
-#define DENEMO_DEFAULT_ANON_FTP "ftp://www.denemo.org/download/menus"
+#define DENEMO_DEFAULT_ANON_FTP "ftp://www.denemo.org/download/"
 
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
 #define G_ACTIONCALLBACK(f) ((GActionCallback)(f)) 

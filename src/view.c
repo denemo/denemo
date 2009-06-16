@@ -2172,7 +2172,7 @@ fetchcommands (GtkAction *action, gpointer param)
   "-r",
   "-np",//only below the menus directory
   "-nH",//cut prefix
-  "--cut-dirs=1",//cut menus part of path
+  "--cut-dirs=1",//cut download part of path
   DENEMO_DEFAULT_ANON_FTP,
   NULL
   };
