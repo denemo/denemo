@@ -580,6 +580,12 @@ The menus in Denemo are unusual: they not only let you do some particular action
 
               <entry>Paste the copied notation at the cursor point.</entry>
             </row>
+            <row>
+              <entry>Paste LilyPond Notes</entry>
+
+              <entry>Paste text as LilyPond notes. Open a .ly file in a text editor, copy some notes and then execute this command to capture them into Denemo.</entry>
+            </row>
+
 
             <row>
               <entry>Edit Object</entry>
@@ -661,9 +667,9 @@ The menus in Denemo are unusual: they not only let you do some particular action
             </row>
 
             <row>
-              <entry>Score Titles</entry>
+              <entry>Score Titles, Controls etc</entry>
 
-              <entry>If this is checked any Titles, indent settings etc applying to the score are shown at the top of the score. The area can be clicked on for editing them.</entry>
+              <entry>If this is checked any Titles, indent settings etc applying to the score can be shown as buttons at the top of the score. They must be created with their graphic field set for this.</entry>
             </row>
 
               
@@ -1621,14 +1627,14 @@ The Directives are sufficiently important to have their own commands.
 <itemizedlist>
 
 <listitem>
-d-DirectivePut-type-field where type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix. These commands take two arguments, a tag (string) and a value to set. For example
+d-DirectivePut-type-field where type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override, midibytes. These commands take two arguments, a tag (string) and a value to set. For example
 <example id="schemecalls">
  (d-DirectivePut-note-postfix "LHFinger" "3")
 </example>
 will put the fingering 3 on (after) the note at the cursor.
 </listitem>
 <listitem>
-d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
+d-DirectiveGet-type-field type is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note  and field  is one of display, tx, ty, gx, gy, graphic, prefix, postfix, override, midibytes. This function returns the value in the field or #f if there is no directive with the given tag at the cursor.
 </listitem>
 
 <listitem>
@@ -1668,13 +1674,85 @@ gx, gy - where to show thegraphic in the Denemo Display
 minpixels - how much space to leave for this item in the Denemo Display
 </listitem>
 <listitem>
-override - Contains bits to determine whether the LilyPond contained in the Directive (postfix and/or prefix fields) should override the normal LilyPond output, and whether the Graphic should replace the normal Denemo display for the item.
+override - Contains bits to determine whether the LilyPond contained in the Directive (postfix and/or prefix fields) should override the normal LilyPond output, and whether the Graphic should replace the normal Denemo display for the item. A further tranche of bits controls MIDI output for the directive, which can override the normal MIDI interpretation of the music and provide additional information not explicit in the music notation (e.g. the tempo of an Adagio marking).
 </listitem>
-
+<listitem>
+midibytes - a string of numbers (in hexadecimal format) whose interpretation is given by the MIDI bits in the override field
+</listitem>
 
 
 </itemizedlist>
   </para>
+
+
+  <para>
+The override field contains the following bits:
+<itemizedlist>
+<listitem>
+DENEMO_OVERRIDE_LILYPOND : override the LilyPond output normally used at this point, rather than adding to the normal output. The text used is in the prefix and postfix fields.
+</listitem>
+
+
+<listitem>
+DENEMO_OVERRIDE_GRAPHIC : overrides what Denemo would normally show in the display with the image named in the graphic field of the directive
+</listitem>
+</itemizedlist>
+The MIDI bits in the override field are as follows
+<itemizedlist>
+<listitem>
+DENEMO_OVERRIDE_VOLUME : the MIDI velocity to use
+</listitem>
+
+<listitem>
+DENEMO_OVERRIDE_DURATION : affects the duration of a note. not yet implemented
+</listitem>
+<listitem>
+DENEMO_OVERRIDE_REPEAT : indicates that an earlier passage should be repeated (from a directive of the same tag). not yet implemented
+</listitem>
+
+<listitem>
+DENEMO_OVERRIDE_CHANNEL : midibytes field gives the MIDI channel to use (? implemented?)
+</listitem>
+
+<listitem>
+DENEMO_OVERRIDE_TEMPO : midibytes field gives the tempo to use.
+</listitem>
+</itemizedlist>
+The interpretation of these flags is modified by the following flags:
+<itemizedlist>
+
+<listitem>
+DENEMO_OVERRIDE_ONCE : the value in midibytes is to be used just for the item the directive is attached to. not yet implemented
+</listitem>
+<listitem>
+DENEMO_OVERRIDE_STEP : the value in midibytes is to be used from this point on
+</listitem>
+<listitem>
+DENEMO_OVERRIDE_RAMP : the value in midibytes is to be used as a starting value, a corresponding directive (i.e. with the same tag) gives the findal value, values are then interpolated between these.  not yet implemented
+</listitem>
+
+<listitem>
+DENEMO_OVERRIDE_RELATIVE : value in midibytes  is used relative to the current value (otherwise it is an absolute value; e.g. an absolute velocity etc)
+</listitem>
+<listitem>
+DENEMO_OVERRIDE_PERCENT : value in midibytes is interpreted as percentage value. not yet implemented
+</listitem>
+</itemizedlist>
+  </para>
+  <para>
+These flags are combined together to get the combination required for the directive using the scheme procedure called logior.</para>
+<para>Here is an example, making a step-change in volume of 0x40 in the MIDI output, and printing "più mosso" in the output score </para>
+<para></para>
+<para>;;;;;;;;;; piu mosso</para>
+<para>(d-DirectivePut-standalone-minpixels "StepTempo" 20)</para>
+<para>(d-CursorLeft)</para>
+<para>(d-DirectivePut-standalone-override "StepTempo" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP DENEMO_OVERRIDE_RELATIVE))</para>
+<para>(d-DirectivePut-standalone-midibytes "StepTempo" "40")</para>
+<para>(d-DirectivePut-standalone-display "StepTempo" "piu mosso")</para>
+<para>(d-DirectivePut-standalone-postfix "StepTempo" "^\\markup {\\bold \\italic \"più mosso\"}")</para>
+<para>(d-RefreshDisplay)</para>
+
+<para>In this example the directive is a standalone directive. MIDI commands are being extended to apply to chords and notes. Implementation of the commands for Voices, Movements, Score etc are not yet done.</para>
 </sect2>
 
   </sect1>
@@ -1683,13 +1761,16 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
     <title>Directive Edit Scripts</title>
 <sect2>
      <title>Introduction</title>
- 
+    <para>
+    Score and movement directives can define a value for their graphic - a button then appears at the top of the score which can be used to edit the directive. Likewise Staff and Voice directives show as a properties icon before the staff to which they apply (staff directives above, voice directives below). Clicking on these lets you edit the directive.
+  </para>
    <para>
    The command EditDirective can be used when the cursor is on a Denemo Directive object, or an object with a Denemo Directive attached to it. What happens then is determined by a script named after the "tag", or name of the directive. For example the command RehearsalMark creates a Directive with tag "RehearsalMark" and EditDirective runs a script called RehearsalMark.scm.
   </para>
    <para>
    There is also a low-level editing dialog which is invoked if no editing script exists or directly from scheme using (d-DirectiveTextEdit-* tagname). This allows you to edit and delete a directive directly. The other directive editing commands are EditScoreDirective EditMovementDirective EditStaffDirective EditVoiceDirective EditClefDirective EditKeysigDirective EditTimesigDirective for directives attached to the relevant objects.
   </para>
+
    <para>
    The low level edit of directives from scheme uses the following command:
 <itemizedlist>
@@ -1698,6 +1779,9 @@ override - Contains bits to determine whether the LilyPond contained in the Dire
 </listitem>
 </itemizedlist>
   </para>
+ <para>
+   For example     (d-DirectiveTextEdit-paper "PrintAllHeaders") gives low-level access to the directive setting the print all headers command in the paper block of the LilyPond output.
+ </para>
 </sect2>
 <sect2>
      <title>Edit Scripts</title>
