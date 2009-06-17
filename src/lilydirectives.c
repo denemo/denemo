@@ -1270,31 +1270,7 @@ standalone_directive_put_minpixels(gchar *tag, gint value) {
   return TRUE;
 }
 
-/* returns the path to a script file for editing a directive created by command of name commandname 
-   a local one takes precedence over the system one
-   caller must g_free the result */
-static gchar *
-get_script_file(gchar *commandname) {
-  gchar *name = g_strconcat(commandname, ".scm", NULL);
-  gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
-  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    g_free(filename);
-    filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      return filename;
-    g_free(filename);
-    return NULL;
-  }
-  return filename;
-}
 
-static gboolean
-script_file_exists(gchar *commandname){
-  commandname = get_script_file(commandname);
-  if(commandname==NULL) return FALSE;
-  g_free(commandname);
-  return TRUE;
-}
 
 static gboolean
 tag_choice(GtkWidget *widget, DenemoDirective **response) {
@@ -1671,11 +1647,15 @@ edit_directive(DenemoDirective *directive, gchar *what) {
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
     g_free(filename);
     filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
-    if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
-      ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
       g_free(filename);
-      score_status (Denemo.gui, TRUE);
-      return ret;
+      filename = g_build_filename (locatedotdenemo(), "download", "actions", "editscripts", name, NULL);
+      if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
+	ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+	g_free(filename);
+	score_status (Denemo.gui, TRUE);
+	return ret;
+      }
     }
   }
   GError *error = NULL;

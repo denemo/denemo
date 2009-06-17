@@ -3167,8 +3167,17 @@ locatebitmapsdir(void) {
   }
   return bitmapsdir;
 }
+static const gchar *
+locatedownloadbitmapsdir(void) {
+  static gchar *bitmapsdir = NULL;
+  if (!bitmapsdir)
+    {
+      bitmapsdir = g_build_filename (locatedotdenemo(), "download", "actions", "bitmaps", NULL);
+    }
+  return bitmapsdir;
+}
 
-/* if a graphic file for name exists (local or systemwide) create an icon for it called label
+/* if a graphic file for name exists (local or downloaded or systemwide) create an icon for it called label
 and return label, else return NULL
 */
 gchar *
@@ -3179,12 +3188,17 @@ get_icon_for_name(gchar *name, gchar *label) {
 				      NULL);
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
     g_free(filename);
-    filename = g_build_filename (get_data_dir (), "actions", "bitmaps", pngname, 
+    filename = g_build_filename (get_data_dir (), "download", "actions", "bitmaps", pngname, 
 				 NULL);
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
       g_free(filename);
-      g_free(pngname);
-      return NULL;
+      filename = g_build_filename (get_data_dir (), "actions", "bitmaps", pngname, 
+				   NULL);
+      if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+	g_free(filename);
+	g_free(pngname);
+	return NULL;
+      }
     }
   }
   GError *error = NULL;
@@ -3292,12 +3306,15 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     if(loadGraphicFromFormats(name, filename, xbm, width, height))
       return TRUE;
     g_free(filename);
-    filename = g_build_filename (get_data_dir (), "actions", "bitmaps", name,
+    filename = g_build_filename (locatedownloadbitmapsdir(), name,
 				      NULL);
   }
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
     if(loadGraphicFromFormats(name, filename, xbm, width, height))
       return TRUE;
+    g_free(filename);
+    filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
+				      NULL);
   } 
   FILE *fp = fopen(filename,"rb");
   if(fp) {
