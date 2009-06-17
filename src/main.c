@@ -414,8 +414,6 @@ main (int argc, char *argv[])
   /* gtk initialization */
   gtk_init (&argc, &argv);
 
-  
-
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);

@@ -1391,8 +1391,9 @@ void inner_main(void*closure, int argc, char **argv){
   /* Initialize preferences */
   initprefs();
   readHistory();
-  g_print("init prefs run");
-  
+  //  g_print("init prefs run");
+  if(Denemo.prefs.autoupdate)
+    fetchcommands(NULL, NULL);
   //create window system
   create_window();
   
@@ -4044,15 +4045,18 @@ toggle_score_view (GtkAction *action, gpointer param)
   return;
 }
 /**
- *  Function to toggle visibility of print preview pane of current gui
+ *  Function to toggle visibility of titles etc of current gui
  *  
  *  
  */
 static void
 toggle_scoretitles (GtkAction *action, gpointer param)
 {
-  Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles;
-  if(Denemo.gui && Denemo.gui->scorearea)gtk_widget_queue_draw (Denemo.gui->scorearea);
+  //  Denemo.prefs.visible_directive_buttons = !Denemo.prefs.visible_directive_buttons;
+  if(!GTK_WIDGET_VISIBLE(Denemo.gui->buttonboxes))
+    gtk_widget_show(Denemo.gui->buttonboxes);
+  else
+    gtk_widget_hide(Denemo.gui->buttonboxes);
   return;
 }
 /**
@@ -4106,7 +4110,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_print_view), FALSE},
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
-  {ToggleScoreTitles_STRING, NULL, N_("Score Titles"), NULL, NULL,
+  {ToggleScoreTitles_STRING, NULL, N_("Score Titles, Controls etc"), NULL, NULL,
    G_CALLBACK (toggle_scoretitles), TRUE},
 
 
@@ -4594,10 +4598,10 @@ get_data_dir (),
   gtk_widget_show(Denemo.window);
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
-  if (!Denemo.prefs.visible_titles) {
+  if (!Denemo.prefs.visible_directive_buttons) {
     widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
     g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
-    Denemo.prefs.visible_titles = !Denemo.prefs.visible_titles; 
+    Denemo.prefs.visible_directive_buttons = !Denemo.prefs.visible_directive_buttons; 
   }
 
 #if 1 /* bug #25562 : apparently several people have tried to fix it this way */
@@ -4731,7 +4735,8 @@ newtab (GtkAction *action, gpointer param) {
   gui->buttonbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE,
 		      0);
-  gtk_widget_show (gui->buttonboxes);
+  if(Denemo.prefs.visible_directive_buttons)
+    gtk_widget_show (gui->buttonboxes);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonboxes, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonbox, GTK_CAN_FOCUS);
 

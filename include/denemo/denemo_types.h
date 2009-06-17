@@ -310,13 +310,17 @@ typedef struct DenemoPrefs
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
   gboolean createclones;
-  gboolean visible_titles;/*< whether the titles should be shown at the top of the score area */
+
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
   gboolean notation_palette; /**< This switch makes the duration toolbar visable */
   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
+
+  gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
+
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< Auto save data */
   gint autosave_timeout;
+  gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
   GString *csoundcommand; /**< command used to execute csound */

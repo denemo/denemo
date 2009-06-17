@@ -33,7 +33,7 @@ struct callbackdata
   GtkWidget *notation_palette;
   GtkWidget *rhythm_palette;
   GtkWidget *articulation_palette;
-  GtkWidget *visible_titles;
+  GtkWidget *visible_directive_buttons;
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browser;
@@ -159,7 +159,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
-  ASSIGNBOOLEAN(visible_titles)
+  ASSIGNBOOLEAN(visible_directive_buttons)
   ASSIGNBOOLEAN(notation_palette)
   ASSIGNBOOLEAN(rhythm_palette)
   ASSIGNBOOLEAN(saveparts)
@@ -261,7 +261,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
   BOOLEANENTRY("Display duration toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
-  BOOLEANENTRY("Display Score Titles", visible_titles);
+  BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
 
   hbox = gtk_hbox_new (FALSE, 8);
