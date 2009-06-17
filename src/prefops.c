@@ -104,6 +104,7 @@ initprefs ()
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
   ret->visible_directive_buttons = TRUE;
+  ret->autoupdate = FALSE;
   ret->rhythm_palette = TRUE;
   ret->history = g_queue_new ();
 
@@ -232,6 +233,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(articulation_palette)
       READINTXMLENTRY(visible_directive_buttons)
       READINTXMLENTRY(rhythm_palette) 
+      READINTXMLENTRY(autoupdate) 
      
       READXMLENTRY(lilyversion) 
       READINTXMLENTRY(saveparts)
@@ -440,6 +442,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(notation_palette)
   WRITEINTXMLENTRY(articulation_palette)
   WRITEINTXMLENTRY(visible_directive_buttons)
+  WRITEINTXMLENTRY(autoupdate)
   WRITEINTXMLENTRY(rhythm_palette)
   
   WRITEXMLENTRY(browser) 

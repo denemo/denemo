@@ -34,6 +34,8 @@ struct callbackdata
   GtkWidget *rhythm_palette;
   GtkWidget *articulation_palette;
   GtkWidget *visible_directive_buttons;
+  GtkWidget *autoupdate;
+
   GtkWidget *autosave_timeout;
   GtkWidget *maxhistory;
   GtkWidget *browser;
@@ -160,6 +162,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
   ASSIGNBOOLEAN(visible_directive_buttons)
+  ASSIGNBOOLEAN(autoupdate)
   ASSIGNBOOLEAN(notation_palette)
   ASSIGNBOOLEAN(rhythm_palette)
   ASSIGNBOOLEAN(saveparts)
@@ -262,6 +265,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display duration toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
+
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
 
   hbox = gtk_hbox_new (FALSE, 8);
@@ -315,7 +319,7 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("Image Viewer", imageviewer)
   TEXTENTRY("Text Editor", texteditor)
   TEXTENTRY("Default Save Path", denemopath)
-
+  BOOLEANENTRY("Update the command set on startup", autoupdate);
   /*
    * Plugins settings
    */
