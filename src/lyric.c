@@ -95,12 +95,30 @@ insertlyric (gpointer data)
  * Insert/Edit lyric menu callback. presents user with a dialog
  * to insert the lyric
  * @param action the action event of the menuitem
- * @param gui pointer to the DenemoGUI structure
+ * @param 
  */
 void
-lyric_insert (GtkAction *action, gpointer param)
+lyric_insert (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  GET_1PARAM(action, param, lyric);
+  if(lyric) {
+  DenemoObject *curObj = (DenemoObject *) (si->currentobject ?
+					   si->currentobject->data : NULL);
+  if (curObj && curObj->type == CHORD && (((chord *) curObj->object)->notes!=NULL))
+    {
+      if (!((chord *) curObj->object)->lyric)
+	((chord *) curObj->object)->lyric = g_string_new (lyric);
+      else
+	g_string_assign (((chord *) curObj->object)->lyric, lyric);
+      param->status = TRUE;
+    } else
+      param->status = FALSE;
+  return;
+  }
+
+
   GtkWidget *dialog;
   GtkWidget *entry;
   GtkWidget *label;
@@ -111,7 +129,7 @@ lyric_insert (GtkAction *action, gpointer param)
   GtkWidget *table;
 
   static struct callbackdata cbdata;
-  DenemoScore *si = gui->si;
+
   DenemoObject *curObj = (DenemoObject *)
     (si->currentobject ? si->currentobject->data : NULL);
   if(!(curObj && curObj->type==CHORD && ((chord *) curObj->object)->notes))
