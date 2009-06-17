@@ -823,7 +823,9 @@ The menus in Denemo are unusual: they not only let you do some particular action
   
     <sect2>
       <title>More</title>
-       <para>Add commands to Denemo. Extra commands are available (those which not everyone will want) via this menu. More Commands gives commands shipped with Denemo, while My Commands gives ones that you have created locally. Note that the extra commands can also be loaded at the menu where you are looking for them (you right-click on a menu item, and if there are more commands for that menu the More Commands for this Menu item will show),</para>
+       <para>Add commands to Denemo. Extra commands are available (those which not everyone will want) via this menu. More Commands gives commands shipped with Denemo, while My Commands gives ones that you have created locally. Note that the extra commands can also be loaded at the menu where you are looking for them (you right-click on a menu item, and if there are more commands for that menu the More Commands for this Menu item will show),</para> <para>
+Update Commands from the Internet allows you to get the latest versions of commands directly from ftp://denemo.org. They are stored in the .denemo/download directory in your home directory. You can set a preference to have this happen in the background every time you start Denemo, if you prefer.
+</para>
    </sect2>
 
     
