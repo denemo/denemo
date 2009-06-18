@@ -225,14 +225,14 @@ draw_object (objnode * curobj, gint x, gint y,
 		      itp->curaccs, itp->mark);
 	}
 
-      if (((chord *) mudelaitem->object)->lyric)
+      if ( itp->haslyrics == TRUE && ((chord *) mudelaitem->object)->lyric)
 	{
 	  draw_lyric (gui->pixmap, itp->gc,
 		      gtk_style_get_font (itp->widget->style),
 		      x + mudelaitem->x,
 		      y + ((chord *) mudelaitem->object)->lowesty,
 		      mudelaitem);
-	  itp->haslyrics = TRUE;
+	 
 	}
 
       if (((chord *) mudelaitem->object)->dynamics)
@@ -733,6 +733,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
       gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
     }
+    itp.haslyrics = ((DenemoStaff *) curstaff->data)->haslyrics;
     draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
 
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
@@ -774,8 +775,6 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
       {
 	if (itp.haslyrics) {
-	  if(!((DenemoStaff *) curstaff->data)->haslyrics)
-	    ((DenemoStaff *) curstaff->data)->haslyrics = TRUE;//, repeat=TRUE;
 	  y += LYRICS_HEIGHT;
 	}
 	y +=
