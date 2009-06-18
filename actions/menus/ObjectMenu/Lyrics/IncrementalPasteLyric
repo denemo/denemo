@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>IncrementalPasteLyric</action>
+        <scheme>;;;;;;;;;;;; IncrementalPasteLyric pasting the selection as lyrics in steps
+(let ((text "") (thelist "") (proc "") (command ""))
+  (define (proc syllable)
+     (d-EditLyric syllable)
+     (d-RefreshDisplay)
+     (set! command (d-GetCommand))
+     (if (equal? command "d-CursorRight")
+     (d-NextNote)
+     #f))
+  (set! text (d-GetTextSelection))
+  (if (boolean? text)
+      (d-WarningDialog "There is no text on the clipboard")
+      (begin
+	(set! thelist (string-split text #\sp))
+	(for-each proc thelist)
+	(d-RefreshDisplay)
+	)))
+</scheme>
+        <label>Incremental Paste Lyric</label>
+        <tooltip>Pastes one syllable at a time from the clipboard as you move the cursor to the right.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -2470,6 +2470,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Copy Lyrics</label>
         <tooltip>Copies the lyrics from the current note to the end to the clipboard.</tooltip>
       </row>
+      <row>
+        <action>IncrementalPasteLyric</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <label>Incremental Paste Lyric</label>
+        <tooltip>Pastes one syllable at a time from the clipboard as you move the cursor to the right.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
