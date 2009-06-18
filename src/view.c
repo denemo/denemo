@@ -539,6 +539,25 @@ SCM scheme_get_relative_font_size(void) {
   g_object_set_data(G_OBJECT(Denemo.gui->printarea), "font-size", (gpointer)clean);
   return gh_str2scm (clean, strlen(clean));
 }
+void get_clipboard(GtkAction * action, DenemoScriptParam *param);
+/* return a string from the X selection */
+SCM scheme_get_text_selection (void) {
+  SCM ret;
+  DenemoScriptParam param;
+  get_clipboard(NULL, &param);
+  if(param.status) {
+    ret = gh_str2scm(param.string->str, param.string->len);
+    g_string_free(param.string, TRUE);
+  }
+  else
+    ret = SCM_BOOL(FALSE);
+  return ret;
+}
+
+
+
+
+
 
 /* return a string representing the padding desired for some lilypond graphic
  or #f if no printarea or user cancels*/
@@ -1433,7 +1452,7 @@ void inner_main(void*closure, int argc, char **argv){
 			
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
-			
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetTextSelection",  scheme_get_text_selection);			
   install_scm_function (DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);			
   install_scm_function (DENEMO_SCHEME_PREFIX"GetPadding",  scheme_get_padding);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetRelativeFontSize",  scheme_get_relative_font_size);			
@@ -2026,7 +2045,24 @@ INSTALL_EDIT(movementcontrol);
 }
 
 
+static void selection_received (GtkClipboard *clipboard, const gchar *text, DenemoScriptParam *param) {
+  if(!text) {
+    warningdialog("No selection text available");
+    param->status = FALSE;
+    return;
+  }
+  param->string = g_string_new(text);
+  param->status = TRUE;
+  gtk_main_quit();
+}
 
+/* get the X selection into the param->string */
+ 
+void get_clipboard(GtkAction * action, DenemoScriptParam *param) {
+  GtkClipboard* clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+  gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) selection_received, param);
+  gtk_main();
+}
 
 
 

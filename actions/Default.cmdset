@@ -2417,6 +2417,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Enter Lyrics</label>
         <tooltip>Enter lyrics on successive notes. Press return for each syllable. Use blank to finish, or cancel button</tooltip>
       </row>
+     <row>
+        <action>PasteLyrics</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <label>Paste Lyrics</label>
+        <tooltip>Pastes the lyrics from the clipboard syllable by syllable onto the notes, starting at the cursor.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

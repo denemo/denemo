@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>PasteLyrics</action>
+        <scheme>;;;;;;;;;;;; Pasting the selection as lyrics
+(let ((text "") (thelist "") (proc ""))
+  (define (proc syllable)
+     (d-EditLyric syllable)
+     (d-NextNote))
+  (set! text (d-GetTextSelection))
+  (if (boolean? text)
+      (d-WarningDialog "There is no text on the clipboard")
+      (begin
+	(set! thelist (string-split text #\sp))
+	(for-each proc thelist)
+	(d-RefreshDisplay)
+	)))
+</scheme>
+        <label>Paste Lyrics</label>
+        <tooltip>Pastes the lyrics from the clipboard syllable by syllable onto the notes, starting at the cursor.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
