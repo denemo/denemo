@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>CopyLyrics</action>
+        <scheme>;;;;;;; CopyLyrics
+(let ((text "") (syllable "") )
+  (set! syllable (d-GetLyric))
+  (while (string? syllable)
+	 (set! text (string-append text " " syllable))
+	 (if (d-NextNote)
+	 (set! syllable (d-GetLyric) )
+	 (set! syllable #f)))
+(d-PutTextClipboard text)
+)</scheme>
+        <label>Copy Lyrics</label>
+        <tooltip>Copies the lyrics from the current note to the end to the clipboard.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

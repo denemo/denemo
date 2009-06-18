@@ -1127,6 +1127,20 @@ SCM scheme_put_text_clipboard(SCM optional) {
   return SCM_BOOL(FALSE);
 }
 
+
+static
+SCM scheme_get_lyric(void) {
+  SCM scm;
+  DenemoObject *curObj;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || (((chord *) curObj->object)->lyric==NULL))
+    scm = SCM_BOOL(FALSE);
+  else
+    scm = scm_makfrom0str(((chord *) curObj->object)->lyric->str);
+ return  scm;
+}
+
+
+
 static
 SCM scheme_get_midi(void) {
  gint midi;
@@ -2026,6 +2040,7 @@ INSTALL_EDIT(movementcontrol);
 
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutTextClipboard", scheme_put_text_clipboard);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetLyric", scheme_get_lyric);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
