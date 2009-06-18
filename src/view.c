@@ -1114,7 +1114,20 @@ INT_GETFUNC_DEF(movementcontrol, width)
 INT_GETFUNC_DEF(movementcontrol, height)
 EDIT_DELETE_FN_DEF(movementcontrol)
 
+static
+SCM scheme_put_text_clipboard(SCM optional) {
+  int length;
+  char *str=NULL;
+  if(SCM_STRINGP(optional)){
+    str = gh_scm2newstr(optional, &length);//FIXME memory leak
+    GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
+    gtk_clipboard_set_text (clipboard, str, length);
+    return SCM_BOOL(TRUE);
+  } 
+  return SCM_BOOL(FALSE);
+}
 
+static
 SCM scheme_get_midi(void) {
  gint midi;
  gboolean success = intercept_midi_event(&midi);
@@ -2012,7 +2025,7 @@ INSTALL_EDIT(movementcontrol);
   /* test with (display (d-DirectiveGet-note-minpixels "LHfinger")) after attaching a LH finger directive */
 
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
-
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutTextClipboard", scheme_put_text_clipboard);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
@@ -2043,6 +2056,8 @@ INSTALL_EDIT(movementcontrol);
   /* Now launch into the main gtk event loop and we're all set */
   gtk_main();
 }
+
+
 
 
 static void selection_received (GtkClipboard *clipboard, const gchar *text, DenemoScriptParam *param) {
