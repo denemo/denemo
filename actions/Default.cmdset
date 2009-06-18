@@ -2410,6 +2410,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Create Timebase</label>
         <tooltip>Recalculates the timing of each note.</tooltip>
       </row>
+      <row>
+        <action>ContinuousLyricEntry</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <label>Enter Lyrics</label>
+        <tooltip>Enter lyrics on successive notes. Press return for each syllable. Use blank to finish, or cancel button</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

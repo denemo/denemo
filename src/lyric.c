@@ -112,6 +112,7 @@ lyric_insert (GtkAction *action, DenemoScriptParam * param)
 	((chord *) curObj->object)->lyric = g_string_new (lyric);
       else
 	g_string_assign (((chord *) curObj->object)->lyric, lyric);
+      ((DenemoStaff*)si->currentstaff->data)->haslyrics=TRUE;
       param->status = TRUE;
     } else
       param->status = FALSE;

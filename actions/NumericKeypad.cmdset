@@ -1438,6 +1438,11 @@ Notes entered will follow this pattern</tooltip>
         <bind>Control+l</bind>
       </row>
       <row>
+        <action>ToggleLyrics</action>
+        <label>Delete/Undelete Lyrics</label>
+        <tooltip>Deletes/Undeletes lyrics from current voice</tooltip>
+      </row>
+      <row>
         <action>EditFiguredBass</action>
         <label>Insert/Edit Figured Bass</label>
         <tooltip>Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation</tooltip>
@@ -2443,6 +2448,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Create Timebase</label>
         <tooltip>Recalculates the timing of each note.</tooltip>
+      </row>
+      <row>
+        <action>ContinuousLyricEntry</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <label>Enter Lyrics</label>
+        <tooltip>Enter lyrics on successive notes. Press return for each syllable. Use blank to finish, or cancel button</tooltip>
       </row>
     </map>
   </commands>
