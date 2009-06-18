@@ -190,3 +190,14 @@ lyric_insert (GtkAction *action, DenemoScriptParam * param)
   gtk_widget_destroy (dialog);
 
 }
+
+/* hide/show lyrics */
+void
+toggle_lyrics (GtkAction *action, DenemoScriptParam * param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
+  ((DenemoStaff*)si->currentstaff->data)->haslyrics =  !((DenemoStaff*)si->currentstaff->data)->haslyrics;
+  displayhelper(Denemo.gui);
+  score_status(Denemo.gui, TRUE);
+}

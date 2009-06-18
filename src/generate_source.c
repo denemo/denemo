@@ -384,6 +384,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Change the type of notehead for the current note", N_("ChangeNotehead"), "set_notehead", N_("Set Notehead")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction", N_("InsertStem"), "stem_directive_insert", N_("Auto Stemming")},
   {CMD_CATEGORY_DIRECT, NULL, "Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly", "EditLyric", "lyric_insert", "Insert/Edit Lyric", N_("Edit Lyrics")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Deletes/Undeletes lyrics from current voice", "ToggleLyrics", "toggle_lyrics", "Delete/Undelete Lyrics", NULL}, 
   {CMD_CATEGORY_DIRECT, NULL, "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation", N_("EditFiguredBass"), "figure_insert", "Insert/Edit Figured Bass", N_("Edit Figured Bass")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a dynamic marking at the cursor position", N_("InsertDynamic"), "insert_dynamic", N_("Insert Dynamics")}, 
@@ -464,6 +465,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Commands for Stringed Instruments", N_("StringedInstruments"), NULL, N_("Strings")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Entry" , N_("Note Entry")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Lyrics", N_("Lyrics"), NULL, N_("Lyrics")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Anything not previously covered", N_("AllOther"), NULL, N_("Other")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL, N_("Navigation")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Entering notes", N_("NoteEntry"), NULL, N_("Note Entry")}, 

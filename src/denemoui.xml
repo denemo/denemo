@@ -512,10 +512,12 @@
 	  <menuitem action="ToggleOpen"/>
        </menu>
     </menu>
-
-
+    <menu action="Lyrics">
+         <menuitem action="EditLyric"/>
+         <menuitem action="ToggleLyrics"/>
+    </menu>
     <menu action="Other">
-	  <menuitem action="EditLyric"/>
+	  
 	  <menuitem action="EditChords"/>
 	  <menuitem action="EditFiguredBass"/>
           <menuitem action="InsertLilyDirective"/>

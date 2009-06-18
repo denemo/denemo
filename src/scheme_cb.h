@@ -4571,6 +4571,23 @@ lyric_insert (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
+SCM scheme_ToggleLyrics (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+toggle_lyrics (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
 SCM scheme_EditFiguredBass (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
