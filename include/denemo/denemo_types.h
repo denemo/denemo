@@ -236,7 +236,8 @@ typedef struct
   gint jack_midi_out_port; /**< the port number that jackmidi has assigned */ 
   gint space_above; /**< space above the staff used in the denemo gui */
   gint space_below; /**< space below the staff used in the denemo gui */
-  gboolean haslyrics; /**< TRUE if the staff has had lyrics attached */
+  GList *verses;/**< a list of text editor widgets each containing a verse */
+  GList *currentverse;/**< verse to be displayed */
   gboolean hasfigures; /**<TRUE if the staff has had figures attached. Only one staff should have this set */
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   gint voicenumber; /**< presently set to 2 for any non-primary voices; we might want to

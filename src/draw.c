@@ -110,7 +110,7 @@ struct infotopass
   GSList *slur_stack;
   GSList *hairpin_stack;
   GdkGC *gc;
-  gboolean haslyrics;
+  GtkWidget * verse;
   gint space_above;
   gint highy;/*(return) the highest y value drawn*/
   gint lowy;/*(return) the lowest y value drawn*/
@@ -184,8 +184,9 @@ draw_object (objnode * curobj, gint x, gint y,
   switch (mudelaitem->type)
     {
     case CHORD:
-       if (((chord *) mudelaitem->object)->is_figure && ((chord *) mudelaitem->object)->figure)
-      //if (((chord *) mudelaitem->object)->is_figure)
+      { chord *thechord = ((chord *) mudelaitem->object);
+       if (thechord->is_figure && thechord->figure)
+      //if (thechord->is_figure)
 	//draw_figure (gui->pixmap, itp->gc,
 	//	     gtk_style_get_font (itp->widget->style),
 	//	     x + mudelaitem->x, y, mudelaitem);
@@ -193,7 +194,7 @@ draw_object (objnode * curobj, gint x, gint y,
 	draw_figure (gui->pixmap, itp->gc,
 		     gtk_style_get_font (itp->widget->style),
 		     x + mudelaitem->x,
-		     y + (((chord *) mudelaitem->object)->lowesty / 2),
+		     y + (thechord->lowesty / 2),
 		     mudelaitem);
   
       else
@@ -201,22 +202,22 @@ draw_object (objnode * curobj, gint x, gint y,
 	  draw_chord (gui->pixmap, itp->gc, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
-	  if((((chord *) mudelaitem->object)->highesty) < itp->highy)
- 	    itp->highy  = ((chord *) mudelaitem->object)->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
+	  if((thechord->highesty) < itp->highy)
+ 	    itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
 
-	  if((((chord *) mudelaitem->object)->lowesty) > itp->lowy+STAFF_HEIGHT)
-	    itp->lowy  = ((chord *) mudelaitem->object)->lowesty-STAFF_HEIGHT;
+	  if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
+	    itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
 
 
 
 
 	}
-       if (((chord *) mudelaitem->object)->is_fakechord)
+       if (thechord->is_fakechord)
 	draw_fakechord (gui->pixmap, itp->gc,
 		     gtk_style_get_font (itp->widget->style),
 		     x + mudelaitem->x, 
 		     y - 45,
-		     //y - (((chord *) mudelaitem->object)->highesty ), 
+		     //y - (thechord->highesty ), 
 		     mudelaitem);
        else
 	{
@@ -225,41 +226,42 @@ draw_object (objnode * curobj, gint x, gint y,
 		      itp->curaccs, itp->mark);
 	}
 
-      if ( itp->haslyrics == TRUE && ((chord *) mudelaitem->object)->lyric)
+       if (itp->verse && thechord->notes  /* && !itp->slur_stack */)
 	{
-	  draw_lyric (gui->pixmap, itp->gc,
-		      gtk_style_get_font (itp->widget->style),
-		      x + mudelaitem->x,
-		      y + ((chord *) mudelaitem->object)->lowesty,
-		      mudelaitem);
-	 
+	  gchar *syllable = next_syllable();
+	  if(syllable)
+	    draw_lyric (gui->pixmap, itp->gc,
+			gtk_style_get_font (itp->widget->style),
+			x + mudelaitem->x,
+			y + thechord->lowesty,
+			syllable);
 	}
 
-      if (((chord *) mudelaitem->object)->dynamics)
+      if (thechord->dynamics)
 	draw_dynamic (gui->pixmap, itp->gc,
 		      gtk_style_get_font (itp->widget->style),
 		      x + mudelaitem->x, y, mudelaitem);
 
-      if (((chord *) mudelaitem->object)->slur_end_p)
+      if (thechord->slur_end_p)
 	draw_slur (gui->pixmap, itp->gc, &(itp->slur_stack),
 		   x + mudelaitem->x, y);
-      if (((chord *) mudelaitem->object)->slur_begin_p)
+      if (thechord->slur_begin_p)
 	itp->slur_stack =
 	  push_slur_stack (itp->slur_stack, x + mudelaitem->x);
 
-      if (((chord *) mudelaitem->object)->crescendo_begin_p)
+      if (thechord->crescendo_begin_p)
 	itp->hairpin_stack =
 	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      else if (((chord *) mudelaitem->object)->diminuendo_begin_p)
+      else if (thechord->diminuendo_begin_p)
 	itp->hairpin_stack =
 	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
-      if (((chord *) mudelaitem->object)->crescendo_end_p)
+      if (thechord->crescendo_end_p)
 	{
 	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
 	    {
 #if 0
 	      //this is only the visible part of the cresc, the start may be off screen
-	      ((chord *) mudelaitem->object)->crescendo_end_p = FALSE;
+	      thechord->crescendo_end_p = FALSE;
 	      warningdialog
 		("Crescendo end without a corresponding start\n"
 		 "removing the crescendo end");
@@ -268,13 +270,13 @@ draw_object (objnode * curobj, gint x, gint y,
 	  draw_hairpin (gui->pixmap, itp->gc, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 1);
 	}
-      else if (((chord *) mudelaitem->object)->diminuendo_end_p)
+      else if (thechord->diminuendo_end_p)
 	{
 	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
 	    {
 #if 0
 	      //this is only the visible part of the dim, the start may be off screen
-	      ((chord *) mudelaitem->object)->diminuendo_end_p = FALSE;
+	      thechord->diminuendo_end_p = FALSE;
 	      warningdialog
 		("Diminuendo end without a corresponding start\n"
 		 "removing the diminuendo end");
@@ -284,21 +286,21 @@ draw_object (objnode * curobj, gint x, gint y,
 			x + mudelaitem->x, y, 0);
 	}
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
-      if (!((chord *) mudelaitem->object)->is_figure && ((chord *) mudelaitem->object)->figure)
-      //if (((chord *) mudelaitem->object)->figure)
+      if (!thechord->is_figure && thechord->figure)
+      //if (thechord->figure)
         draw_figure (gui->pixmap, itp->gc,
 		     gtk_style_get_font (itp->widget->style),
 		     x + mudelaitem->x,
-		     y + (((chord *) mudelaitem->object)->lowesty / 2),
+		     y + (thechord->lowesty / 2),
 		     mudelaitem);
-      if (!((chord *) mudelaitem->object)->is_fakechord && ((chord *) mudelaitem->object)->fakechord) 
+      if (!thechord->is_fakechord && thechord->fakechord) 
 	draw_fakechord (gui->pixmap, itp->gc,
 		     gtk_style_get_font (itp->widget->style),
 		     x + mudelaitem->x,
 		     y - 45,
-		     //y + (((chord *) mudelaitem->object)->highesty / 4),
+		     //y + (thechord->highesty / 4),
 		     mudelaitem);
-
+      }
       break;
     case TUPOPEN:
     case TUPCLOSE:
@@ -685,7 +687,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.widget = widget;// this is used for widget->style, it is spuriously passed to the macro bitmaphelper
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
-  itp.haslyrics = FALSE;
+
   itp.highy = 0;//in case there are no objects...
   y = 0;
 
@@ -695,27 +697,30 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	curstaff = g_list_nth (si->thescore, si->top_staff - 1),
 	y += si->staffspace / 4);
        curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++) {
-    if (curstaff && ((DenemoStaff *) curstaff->data)->voicenumber == 1)
-      y += ((DenemoStaff *) curstaff->data)->space_above;
-    itp.space_above = ((DenemoStaff *) curstaff->data)->space_above;
+    DenemoStaff *staff = (DenemoStaff *) curstaff->data;
+    itp.verse = staff->currentverse?staff->currentverse->data:NULL;
+
+    if (curstaff && staff->voicenumber == 1)
+      y += staff->space_above;
+    itp.space_above = staff->space_above;
     gint top_y = (si->staffspace / 4) + itp.space_above;
     
     itp.top_y = top_y;
     itp.y = y;
-    gint highy = ((DenemoStaff *) curstaff->data)->space_above;
-    gint lowy =  ((DenemoStaff *) curstaff->data)->space_below;
+    gint highy = staff->space_above;
+    gint lowy =  staff->space_below;
 
     itp.in_highy = highy, itp.in_lowy = lowy;
     itp.highy = 0;//do not pass on extra_space from one staff to the next
 	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
     if(curstaff==si->currentstaff) {
-      if(((DenemoStaff *) curstaff->data)->staff_directives) {
+      if(staff->staff_directives) {
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
 	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
-      if(((DenemoStaff *) curstaff->data)->voice_directives) {
+      if(staff->voice_directives) {
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
@@ -733,14 +738,14 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
       gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
     }
-    itp.haslyrics = ((DenemoStaff *) curstaff->data)->haslyrics;
-    draw_staff ((DenemoStaff *) curstaff->data, y, gui, &itp);
+    init_lyrics(staff);
+    draw_staff (staff, y, gui, &itp);
 
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
     if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
-      /*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/((DenemoStaff *) curstaff->data)->space_above = -itp.highy, repeat=TRUE;
+      /*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/staff->space_above = -itp.highy, repeat=TRUE;
     if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
-      ((DenemoStaff *) curstaff->data)->space_below = itp.lowy, repeat=TRUE;
+      staff->space_below = itp.lowy, repeat=TRUE;
 
 
     /* Now draw the barlines between the measures, across all the staffs */
@@ -774,13 +779,13 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     if ( itp.staffnum < si->bottom_staff
 	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
       {
-	if (itp.haslyrics) {
+	if (itp.verse) {
 	  y += LYRICS_HEIGHT;
 	}
 	y +=
-	  (si->staffspace + ((DenemoStaff *) curstaff->data)->space_below);
+	  (si->staffspace + staff->space_below);
       }
-    itp.haslyrics = FALSE;
+    //itp.haslyrics = FALSE;
     curstaff = curstaff->next;
   }// for all the staffs
 

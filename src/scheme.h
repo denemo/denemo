@@ -1071,14 +1071,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeNotehead")), "scm",
 SCM scheme_InsertStem(SCM optional);
 install_scm_function ("d-InsertStem", scheme_InsertStem);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertStem")), "scm", (gpointer)1);
-/*EditLyric lyric_insert*/
-SCM scheme_EditLyric(SCM optional);
-install_scm_function ("d-EditLyric", scheme_EditLyric);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditLyric")), "scm", (gpointer)1);
-/*ToggleLyrics toggle_lyrics*/
-SCM scheme_ToggleLyrics(SCM optional);
-install_scm_function ("d-ToggleLyrics", scheme_ToggleLyrics);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleLyrics")), "scm", (gpointer)1);
+/*AddVerse add_verse*/
+SCM scheme_AddVerse(SCM optional);
+install_scm_function ("d-AddVerse", scheme_AddVerse);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddVerse")), "scm", (gpointer)1);
 /*EditFiguredBass figure_insert*/
 SCM scheme_EditFiguredBass(SCM optional);
 install_scm_function ("d-EditFiguredBass", scheme_EditFiguredBass);

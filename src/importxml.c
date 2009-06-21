@@ -322,6 +322,29 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gboolean *fn())
 #undef DO_DIREC 
 #undef DO_INTDIREC  
 
+static void
+parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
+	      GtkWidget *verse)
+{
+  gchar*   text = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+
+  gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse), text, -1);
+  g_free (text);
+}
+
+static GList *
+parseVerses (xmlNodePtr parentElem, xmlNsPtr ns)
+{
+  GList *verses = NULL;
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, parentElem) {
+    GtkWidget *verse = gtk_text_view_new();
+    parseVerse(childElem, ns, verse);
+    verses = g_list_append(verses, verse);
+  }
+  return verses;
+}
+
 static GList *
 parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
 {
@@ -664,32 +687,17 @@ parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig* timesig)
  *
  *
  */
+static GString *Lyric = NULL;
+
 static void
 parseLyric (xmlNodePtr lyricElem, DenemoObject * curobj)
 {
   gchar *lyric = (gchar *) xmlNodeListGetString (lyricElem->doc,
 						 lyricElem->xmlChildrenNode,
 						 1);
-
-  gchar *extend = (gchar *) xmlGetProp (lyricElem, (xmlChar *) "extend");
-  gchar *center = (gchar *) xmlGetProp (lyricElem, (xmlChar *) "center");
-
-  ((chord *) curobj->object)->lyric = g_string_new (lyric);
-
-  if (!strcmp (extend, "true"))
-    ((chord *) curobj->object)->is_syllable = TRUE;
-  else
-    ((chord *) curobj->object)->is_syllable = FALSE;
-
-  if (!strcmp (center, "true"))
-    ((chord *) curobj->object)->center_lyric = TRUE;
-  else
-    ((chord *) curobj->object)->center_lyric = FALSE;
-
+  Lyric = g_string_append(Lyric, lyric);
+  Lyric = g_string_append(Lyric, " ");
   g_free (lyric);
-  g_free (extend);
-  g_free (center);
-
 }
 
 
@@ -1981,8 +1989,12 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  }
 	else if (ELEM_NAME_EQ (childElem, "haslyrics"))
 	  {
-	    curStaff->haslyrics = getXMLIntChild (childElem);
+	    //backward compatibility only
 	    
+	  }
+	else if (ELEM_NAME_EQ (childElem, "verses"))
+	  {
+	    curStaff->currentverse = curStaff->verses = parseVerses(childElem, ns);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "instrument"))
 	  {
@@ -2204,10 +2216,12 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 			g_warning ("<staff-ref> points to a <%s>, not a "
 				   "<staff>", staffElem->name);
 		      }
-
+		    
 		    si->currentprimarystaff = si->currentstaff;
+		    
 		    if (parseStaff (staffElem, ns, si) != 0)
 		      return -1;
+		   	      
 		  }
 
 		sPrevStaffElem = staffElem;
@@ -2324,10 +2338,8 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 				       &slurEndChordElems,
 				       &crescEndChordElems,
 				       &diminEndChordElems, &notesElem);
-		  /* old format files will not have haslyrics... fields of staff explicit
+		  /* old format files will not have has... fields of staff explicit
 		   so for backwards compatibility we reconstruct it here*/
-		  if(((chord *) curObj->object)->lyric)
-		    ((DenemoStaff *) si->currentstaff->data)->haslyrics = TRUE;
 		  if(((chord *) curObj->object)->figure)
 		    ((DenemoStaff *) si->currentstaff->data)->hasfigures = TRUE;
 		  if(((chord *) curObj->object)->fakechord)
@@ -2527,7 +2539,8 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
   newstaff (gui, ADDFROMLOAD, DENEMO_NONE);
   si->currentstaff = g_list_last (si->thescore);
   si->currentmeasurenum = 1;
-
+ Lyric = g_string_new("");
+		 
   /* Parse the child elements. */
 
   childElem = getXMLChild (voiceElem, "voice-info", ns);
@@ -2544,7 +2557,14 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
   RETURN_IF_ELEM_NOT_FOUND ("voice", childElem, "measures");
   if (parseMeasures (childElem, ns, si) != 0)
     return -1;
-
+  if(Lyric->len) {	     
+    DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
+    add_verse_to_staff(staff);
+    gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->currentverse->data), Lyric->str, Lyric->len);
+    g_print("Appended <%s>\n", Lyric->str);
+  }
+  g_string_free(Lyric, FALSE);
+  Lyric = NULL;
   /* FIXME: Handle elements in other namespaces. */
 
   return 0;

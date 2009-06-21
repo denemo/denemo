@@ -513,7 +513,7 @@
        </menu>
     </menu>
     <menu action="Lyrics">
-         <menuitem action="EditLyric"/>
+         <menuitem action="AddVerse"/>
          <menuitem action="ToggleLyrics"/>
     </menu>
     <menu action="Other">

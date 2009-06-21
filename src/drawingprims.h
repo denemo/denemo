@@ -80,7 +80,7 @@ void draw_articulations(GdkPixmap *pixmap, GdkGC *gc,
 			chord thechord, gint xx, gint y);
 
 void draw_lyric(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
-                gint xx, gint y, DenemoObject *theobj);
+                gint xx, gint y, gchar *syllable);
 
 void draw_figure(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
                         gint xx, gint y, DenemoObject *theobj);

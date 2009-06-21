@@ -1,204 +1,89 @@
-/* lyric.cpp
+/* lyric.c
  *
  * Functions for the manipulations of lyrics
  *
  * for Denemo, a gtk+ frontend for GNU Lilypond
- * (c) 2002-2005 Adam Tee
+ * (c)2009 Richard Shann
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <denemo/denemo.h>
-#include "chordops.h"
-#include "calculatepositions.h"
-#include "commandfuncs.h"
-#include "contexts.h"
-#include "dialogs.h"
-#include "draw.h"
 #include "objops.h"
 #include "staffops.h"
 #include "utils.h"
 
+static GtkWidget *DummyVerse;/* a non-existent verse */
 
-/**
- * Create new lyric object
- *
- * @param baseduration base duration of the lyric
- * @param numdots	number of dots the lyric has
- * @param lys the actual lyric
- * @return the new lyric object
- */
+static void lyric_keypress(GtkWidget *w, GdkEventKey *event) {
+DenemoGUI *gui = Denemo.gui;
+gtk_widget_queue_draw (gui->scorearea);
+}
+
+static GtkWidget *new_lyric_editor(void) {
+ GtkWidget *view = gtk_text_view_new ();
+ g_signal_connect (G_OBJECT (view), "key-press-event",
+		   G_CALLBACK (lyric_keypress), NULL);
+ return view;
+}
+
 DenemoObject *
-newlyric (gint baseduration, gint numdots, gchar * lys)
-{
-  DenemoObject *thelyric = newchord (baseduration, numdots, 0);
-  ((chord *) thelyric->object)->lyric = g_string_new (lys);
-  ((chord *) thelyric->object)->is_syllable = FALSE;
-  set_basic_numticks (thelyric);
-  return thelyric;
+newlyric (gint baseduration, gint numdots, gchar *lys) {
+  g_warning("Not implemented");
+  return NULL;
+}
+
+void add_verse_to_staff(DenemoStaff *staff) {
+  staff->verses = g_list_append(staff->verses, new_lyric_editor());
+  staff->currentverse = g_list_last(staff->verses);
+}
+
+void add_verse(GtkAction *action, gpointer param) {
+DenemoGUI *gui = Denemo.gui;
+DenemoScore *si = gui->si;
+ if(gui->si->currentstaff) 
+   add_verse_to_staff((DenemoStaff *) si->currentstaff->data);
+}
+
+gchar *get_text_from_view(GtkWidget *textview) {
+  GtkTextIter startiter, enditer; 
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (textview);    
+  gtk_text_buffer_get_start_iter (buffer, &startiter);
+  gtk_text_buffer_get_end_iter (buffer, &enditer);
+  return gtk_text_buffer_get_text (buffer, &startiter, &enditer, FALSE);
 }
 
 
-struct callbackdata
-{
-  DenemoGUI *gui;
-  GtkWidget *entry;
-  GtkWidget *extender;
-  GtkWidget *center;
-};
 
-/**
- * Lyric insertion callback function used be lyric_insert
- * 
- * @param data callback data structure contain info about the lyric and the scoreinfo 
- * structure
- */
-void
-insertlyric (gpointer data)
-{
-  struct callbackdata *cbdata = (struct callbackdata *) data;
-  DenemoGUI *gui = cbdata->gui;
-  DenemoScore *si = gui->si;
-  DenemoObject *curObj = (DenemoObject *) (si->currentobject ?
-					   si->currentobject->data : NULL);
-  gchar *lyric = (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->entry));
-  if (curObj && curObj->type == CHORD && (((chord *) curObj->object)->notes!=NULL))
-    {
-      if (!((chord *) curObj->object)->lyric)
-	((chord *) curObj->object)->lyric = g_string_new (lyric);
-      else
-	g_string_assign (((chord *) curObj->object)->lyric, lyric);
-
-      ((chord *) curObj->object)->is_syllable =
-	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->extender));
-      ((chord *) curObj->object)->center_lyric =
-	gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->center));
-    }
-    do
-      {
-	if (si->currentobject->next)
-	  cursorright (NULL);
-	else if (gui->si->currentmeasure->next)
-	  measureright (NULL);
-	else 
-	  break;
-	curObj =
-	  si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
-      }
-    while ((curObj != NULL) && 
-	   ((curObj->type != CHORD)||
-	     ((curObj->type == CHORD)&& (((chord *) curObj->object)->notes==NULL))));
-}
-
-/**
- * Insert/Edit lyric menu callback. presents user with a dialog
- * to insert the lyric
- * @param action the action event of the menuitem
- * @param 
- */
-void
-lyric_insert (GtkAction *action, DenemoScriptParam * param)
-{
-  DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
-  GET_1PARAM(action, param, lyric);
-  if(lyric) {
-  DenemoObject *curObj = (DenemoObject *) (si->currentobject ?
-					   si->currentobject->data : NULL);
-  if (curObj && curObj->type == CHORD && (((chord *) curObj->object)->notes!=NULL))
-    {
-      if (!((chord *) curObj->object)->lyric)
-	((chord *) curObj->object)->lyric = g_string_new (lyric);
-      else
-	g_string_assign (((chord *) curObj->object)->lyric, lyric);
-      ((DenemoStaff*)si->currentstaff->data)->haslyrics=TRUE;
-      param->status = TRUE;
-    } else
-      param->status = FALSE;
-  return;
+static gchar *lyric_iterator(GtkWidget *textview) {
+  static  gchar *next;
+  static gchar *lyrics;
+  static GString *gs;
+  if(gs==NULL)
+    gs = g_string_new("");
+  if(textview==NULL) {
+    g_print("next = %p, %s\n", next, next);
+    pango_scan_string(&next, gs);
+    g_print("after next = %p, %s\n", next, next);
+    if(gs->len)
+      return gs->str;
+    else
+      return NULL;
   }
-
-
-  GtkWidget *dialog;
-  GtkWidget *entry;
-  GtkWidget *label;
-  GtkWidget *extender;
-  GtkWidget *center;
-  GtkWidget *okbutton;
-  GtkWidget *cancelbutton;
-  GtkWidget *table;
-
-  static struct callbackdata cbdata;
-
-  DenemoObject *curObj = (DenemoObject *)
-    (si->currentobject ? si->currentobject->data : NULL);
-  if(!(curObj && curObj->type==CHORD && ((chord *) curObj->object)->notes))
-    return;
-
-  dialog = gtk_dialog_new_with_buttons (_("Insert Lyric"),
-					GTK_WINDOW (Denemo.window),
-					(GtkDialogFlags) (GTK_DIALOG_MODAL |
-							  GTK_DIALOG_DESTROY_WITH_PARENT),
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_STOCK_CANCEL,
-					NULL);
-
-
-  label = gtk_label_new (_("Insert Lyric:"));
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label,
-		      TRUE, TRUE, 0);
-  gtk_widget_show (label);
-  entry = gtk_entry_new ();
-  if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->lyric)
-    gtk_entry_set_text (GTK_ENTRY (entry),
-			((chord *) curObj->object)->lyric->str);
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), entry, TRUE, TRUE,
-		      0);
-
-  gtk_widget_show (entry);
-
-  extender = gtk_check_button_new_with_label ("Extend Syllable");
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), extender,
-		      TRUE, TRUE, 0);
-  gtk_widget_show (extender);
-
-  center = gtk_check_button_new_with_label ("Center");
-  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), center,
-		      TRUE, TRUE, 0);
-  gtk_widget_show (center);
-
-
-  cbdata.gui = gui;
-  cbdata.entry = entry;
-  cbdata.extender = extender;
-  cbdata.center = center;
-
-  gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
-  gtk_widget_grab_focus (entry);
-  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_widget_show (dialog);
-
-  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-    {
-      insertlyric (&cbdata);
-      ((DenemoStaff*)si->currentstaff->data)->haslyrics=TRUE;
-      score_status(gui, TRUE);
-      displayhelper (gui);
-    }
-  gtk_widget_destroy (dialog);
-
+  if(textview != DummyVerse) {
+    //FIXME free lyrics
+    lyrics = get_text_from_view(textview);
+    next = lyrics;
+ }
+  return NULL;
 }
 
-/* hide/show lyrics */
-void
-toggle_lyrics (GtkAction *action, DenemoScriptParam * param)
-{
-  DenemoGUI *gui = Denemo.gui;
-  DenemoScore *si = gui->si;
-  ((DenemoStaff*)si->currentstaff->data)->haslyrics =  !((DenemoStaff*)si->currentstaff->data)->haslyrics;
-  displayhelper(Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+gchar *next_syllable(void) {
+  return lyric_iterator(NULL);
 }
+
+void init_lyrics(DenemoStaff *staff) {
+  if(DummyVerse==NULL)
+    DummyVerse = gtk_text_view_new();
+  if(staff->currentverse)
+    lyric_iterator(staff->currentverse->data);
+  else lyric_iterator(DummyVerse);
+}
+

@@ -76,7 +76,7 @@ static gdouble get_click_height(DenemoGUI * gui, gdouble y) {
       space_below = 0;
       staffs_from_top++;
     }
-    space_below = MAX(space_below, ((staff->space_below) + (staff->haslyrics?LYRICS_HEIGHT:0)));
+    space_below = MAX(space_below, ((staff->space_below) + (staff->verses?LYRICS_HEIGHT:0)));
     //g_print("after extra space %d space_below %d\n", extra_space, space_below);
   }
 

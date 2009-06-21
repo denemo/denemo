@@ -1344,7 +1344,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   
   /* a button and mark for the lyrics of this staff */
   GString *lyrics_name = g_string_new(movement);
-  if(curstaffstruct->haslyrics) {
+  if(curstaffstruct->verses) {
     g_string_prepend(lyrics_name, "Lyrics for ");
     g_string_append_printf(lyrics_name, " Voice %d", voice_count);
     insert_music_section(gui, lyrics_name->str);
@@ -1571,8 +1571,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    /* lyrics, figures and chord symbols */
 	    if(curobj->type==CHORD) {
 	      chord *pchord = (chord *) curobj->object;
-	      if(curstaffstruct->haslyrics && pchord->notes)
-		output_lyric(lyrics, pchord, &is_syllable, &center_lyric);
+
 	       
 	      if(curstaffstruct->hasfigures)
 		output_figured_bass (si, figures, pchord);
@@ -2135,7 +2134,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      g_string_append_printf(staffdefinitions, TAB TAB"\\%s%sContext\n"TAB TAB"}\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
 
-	      if (curstaffstruct->haslyrics)
+	      if (curstaffstruct->verses)
 	      {
 		g_string_append_printf(staffdefinitions, 
 				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 

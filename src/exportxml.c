@@ -294,7 +294,14 @@ newXMLFraction (xmlNodePtr parent, xmlNsPtr ns, gint num, gint denom)
   newXMLIntChild (parent, ns, (xmlChar *) "denominator", denom);
 }
 
-
+static void
+newVersesElem(xmlNodePtr curElem,  xmlNsPtr ns, GList *verses, gchar *type) {
+  xmlNodePtr versesElem =  xmlNewChild (curElem, ns, (xmlChar *) type, NULL);
+  for(;verses;verses=verses->next) {
+    GtkWidget *textview = verses->data;
+    xmlNewChild (versesElem, ns, (xmlChar *) "verse", (xmlChar *)get_text_from_view(textview));
+  }
+}
 static void
 newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) { 
   xmlNodePtr directivesElem =  xmlNewChild (objElem, ns, (xmlChar *) type, NULL);
@@ -713,10 +720,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			  curStaffStruct->space_below);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfigures",
 			  curStaffStruct->hasfigures);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "haslyrics",
-			  curStaffStruct->haslyrics);
+
 	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfakechords",
 			  curStaffStruct->hasfakechords);
+
+	  if(curStaffStruct->verses)
+	    newVersesElem(curElem, ns, curStaffStruct->verses, "verses"); 
 	  
 	  if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
 	     xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
