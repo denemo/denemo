@@ -363,7 +363,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   gboolean left = (event->button != 3);
-
+  gtk_widget_grab_focus(widget);
   if(gui->si->top_staff==1 && 
      event->y < ((DenemoStaff *) gui->si->thescore->data)->space_above) {
     popup_menu("/ScorePopup");
