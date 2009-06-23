@@ -14,6 +14,6 @@ gchar *get_text_from_view(GtkWidget *textview);
 GtkWidget *add_verse_to_staff(DenemoScore *si, DenemoStaff *staff);
 gchar *next_syllable(void);
 void install_lyrics_preview(DenemoScore *si, GtkWidget *top_vbox);
-hide_lyrics(void);
-show_lyrics(void);
+void hide_lyrics(void);
+void show_lyrics(void);
 #endif
