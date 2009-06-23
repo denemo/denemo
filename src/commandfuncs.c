@@ -470,12 +470,14 @@ voiceup (DenemoScriptParam *param)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
-      gui->si->currentstaffnum--;
-      gui->si->currentstaff = gui->si->currentstaff->prev;
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
-      move_viewport_down (gui);
-      return param->status = TRUE;
+    hide_lyrics();
+    gui->si->currentstaffnum--;
+    gui->si->currentstaff = gui->si->currentstaff->prev;
+    setcurrentprimarystaff (gui->si);
+    setcurrents (gui->si);
+    show_lyrics();
+    move_viewport_down (gui);
+    return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
 	warningdialog("This is the first voice");
@@ -501,10 +503,12 @@ staffup (DenemoScriptParam *param)
     voiceup(param);//FIXME check param->status
   if (gui->si->currentstaff->prev)
     {
+      hide_lyrics();
       gui->si->currentstaffnum--;
       gui->si->currentstaff = gui->si->currentstaff->prev;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      show_lyrics();
       find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_up (gui);
@@ -532,10 +536,12 @@ voicedown (DenemoScriptParam *param)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
+      hide_lyrics();
       gui->si->currentstaffnum++;
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      show_lyrics();
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
@@ -563,10 +569,12 @@ staffdown (DenemoScriptParam *param)
     voicedown(param);//FIXME
   if (gui->si->currentstaff->next)
     {
+      hide_lyrics();
       gui->si->currentstaffnum++;
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      show_lyrics();
       find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_down (gui);

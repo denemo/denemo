@@ -9,8 +9,11 @@
 
 #include <denemo/denemo.h>
 void add_verse(GtkAction *action, gpointer param);
-void init_lyrics(DenemoStaff *staff);
+void reset_lyrics(DenemoStaff *staff);
 gchar *get_text_from_view(GtkWidget *textview);
-void add_verse_to_staff(DenemoStaff *staff);
+GtkWidget *add_verse_to_staff(DenemoScore *si, DenemoStaff *staff);
 gchar *next_syllable(void);
+void install_lyrics_preview(DenemoScore *si, GtkWidget *top_vbox);
+hide_lyrics(void);
+show_lyrics(void);
 #endif

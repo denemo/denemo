@@ -71,6 +71,7 @@
     <menu action="ViewMenu">
       <menuitem action="ToggleScoreView"/>
       <menuitem action="TogglePrintView"/>
+      <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleRhythmToolbar"/>
       <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleArticulationPalette"/>

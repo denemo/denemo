@@ -352,7 +352,11 @@ free_score (DenemoGUI * gui)
     gtk_widget_destroy(gui->si->buttonbox);
     gui->si->buttonbox = NULL;
   }
-
+  if(gui->si->lyricsbox) {
+    gtk_widget_destroy(gui->si->lyricsbox);
+    gui->si->lyricsbox = NULL;
+  }
+  reset_lyrics(NULL);
   g_queue_free (gui->si->undodata);
   g_queue_free (gui->si->redodata);
 }

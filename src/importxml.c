@@ -333,14 +333,13 @@ parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
 }
 
 static GList *
-parseVerses (xmlNodePtr parentElem, xmlNsPtr ns)
+parseVerses (DenemoScore *si, DenemoStaff *staff, xmlNodePtr parentElem, xmlNsPtr ns)
 {
   GList *verses = NULL;
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem) {
-    GtkWidget *verse = gtk_text_view_new();
+    GtkWidget *verse = add_verse_to_staff(si, staff);
     parseVerse(childElem, ns, verse);
-    verses = g_list_append(verses, verse);
   }
   return verses;
 }
@@ -1994,7 +1993,8 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  }
 	else if (ELEM_NAME_EQ (childElem, "verses"))
 	  {
-	    curStaff->currentverse = curStaff->verses = parseVerses(childElem, ns);
+	    
+	    parseVerses(si, curStaff, childElem, ns);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "instrument"))
 	  {
@@ -2559,7 +2559,7 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
     return -1;
   if(Lyric->len) {	     
     DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
-    add_verse_to_staff(staff);
+    add_verse_to_staff(si, staff);
     gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->currentverse->data), Lyric->str, Lyric->len);
     g_print("Appended <%s>\n", Lyric->str);
   }

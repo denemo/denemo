@@ -1348,6 +1348,11 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_prepend(lyrics_name, "Lyrics for ");
     g_string_append_printf(lyrics_name, " Voice %d", voice_count);
     insert_music_section(gui, lyrics_name->str);
+
+    lyrics = g_string_assign(lyrics, get_text_from_view(curstaffstruct->verses->data));
+			     //FIXME other verses, and memory leak on text 
+
+
   }
 
   /* a button and mark for the figures of this staff */

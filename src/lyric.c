@@ -12,9 +12,10 @@
 
 static GtkWidget *DummyVerse;/* a non-existent verse */
 
-static void lyric_keypress(GtkWidget *w, GdkEventKey *event) {
+static gboolean lyric_keypress(GtkWidget *w, GdkEventKey *event) {
 DenemoGUI *gui = Denemo.gui;
 gtk_widget_queue_draw (gui->scorearea);
+ return FALSE;
 }
 
 static GtkWidget *new_lyric_editor(void) {
@@ -30,16 +31,38 @@ newlyric (gint baseduration, gint numdots, gchar *lys) {
   return NULL;
 }
 
-void add_verse_to_staff(DenemoStaff *staff) {
-  staff->verses = g_list_append(staff->verses, new_lyric_editor());
+GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
+  GtkWidget *notebook, *textview;
+  if(staff->verses==NULL) {
+    notebook = gtk_notebook_new();
+    gtk_widget_show(notebook);
+    if(si->lyricsbox==NULL)
+      install_lyrics_preview(si, gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->scorearea)));//FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
+    gtk_box_pack_start(si->lyricsbox, notebook, TRUE, TRUE, 0);
+  } else {
+    GtkWidget *w = staff->verses->data;
+    notebook = gtk_widget_get_parent(w);
+  }
+  if(staff->currentverse)
+    gtk_widget_hide(staff->currentverse->data);
+  textview = new_lyric_editor();
+  gtk_widget_show(textview);
+  staff->verses = g_list_append(staff->verses, textview);
   staff->currentverse = g_list_last(staff->verses);
+  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), textview, NULL);
+  gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), pagenum);
+  if(pagenum)
+    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(notebook), TRUE);
+  // g_print("pagenum is %d\n", pagenum);
+  // gtk_widget_show_all(si->lyricsbox);
+  return textview;
 }
 
 void add_verse(GtkAction *action, gpointer param) {
 DenemoGUI *gui = Denemo.gui;
 DenemoScore *si = gui->si;
  if(gui->si->currentstaff) 
-   add_verse_to_staff((DenemoStaff *) si->currentstaff->data);
+   add_verse_to_staff(si, (DenemoStaff *) si->currentstaff->data);
 }
 
 gchar *get_text_from_view(GtkWidget *textview) {
@@ -59,9 +82,7 @@ static gchar *lyric_iterator(GtkWidget *textview) {
   if(gs==NULL)
     gs = g_string_new("");
   if(textview==NULL) {
-    g_print("next = %p, %s\n", next, next);
     pango_scan_string(&next, gs);
-    g_print("after next = %p, %s\n", next, next);
     if(gs->len)
       return gs->str;
     else
@@ -75,15 +96,41 @@ static gchar *lyric_iterator(GtkWidget *textview) {
   return NULL;
 }
 
+
 gchar *next_syllable(void) {
   return lyric_iterator(NULL);
 }
 
-void init_lyrics(DenemoStaff *staff) {
+
+/* rename reset_lyrics */
+void reset_lyrics(DenemoStaff *staff) {
   if(DummyVerse==NULL)
     DummyVerse = gtk_text_view_new();
-  if(staff->currentverse)
+  if(staff && staff->currentverse)
     lyric_iterator(staff->currentverse->data);
   else lyric_iterator(DummyVerse);
 }
 
+
+
+void install_lyrics_preview(DenemoScore *si, GtkWidget *top_vbox){ 
+  if(si->lyricsbox==NULL)
+    si->lyricsbox = gtk_vbox_new (FALSE, 1);//box to hold notebook of textview widgets
+  gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, TRUE, TRUE, 0);
+  //gtk_widget_show(si->lyricsbox);
+}
+
+/* hide/show lyrics for current staff */
+hide_lyrics(void) {
+DenemoGUI *gui = Denemo.gui;
+DenemoScore *si = gui->si;
+ if(gui->si->currentstaff && ((DenemoStaff *)gui->si->currentstaff->data)->currentverse)
+   gtk_widget_hide(((DenemoStaff *)gui->si->currentstaff->data)->currentverse->data);
+}
+
+show_lyrics(void) {
+DenemoGUI *gui = Denemo.gui;
+DenemoScore *si = gui->si;
+ if(gui->si->currentstaff && ((DenemoStaff *)gui->si->currentstaff->data)->currentverse)
+   gtk_widget_show(((DenemoStaff *)gui->si->currentstaff->data)->currentverse->data);
+}

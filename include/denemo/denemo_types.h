@@ -667,7 +667,7 @@ typedef struct DenemoScore
   gint currentbookmark;
   GList *Instruments;
   GtkWidget *buttonbox;/*< box for buttons accessing DenemoDirectives attached to the this movement*/
-  
+  GtkWidget *lyricsbox;/*< box for notebooks containing verses of lyrics for the movement */
 } DenemoScore;
 
 /**

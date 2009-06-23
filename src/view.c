@@ -111,6 +111,8 @@ SCM call_out_to_guile(char *script) {
 
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define TogglePrintView_STRING  "TogglePrintView"
+#define ToggleLyricsView_STRING  "ToggleLyricsView"
+
 #define ToggleScoreView_STRING  "ToggleScoreView"
 #define ToggleScoreTitles_STRING  "ToggleScoreTitles"
 #define QuickEdits_STRING  "QuickEdits"
@@ -4093,6 +4095,30 @@ toggle_print_view (GtkAction *action, gpointer param)
   }
   return;
 }
+
+/**
+ *  Function to toggle visibility of lyrics view pane of current movement
+ *  
+ *  
+ */
+void
+toggle_lyrics_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = Denemo.gui->si->lyricsbox;
+  if(!w)
+    g_warning("No lyrics");
+  else {
+    if(GTK_WIDGET_VISIBLE(w))
+      gtk_widget_hide(w);
+    else {
+      gtk_widget_show(w);
+    }
+  }
+  return;
+}
+
+
+
 /**
  *  Function to toggle visibility of print preview pane of current gui
  *  
@@ -4174,6 +4200,10 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {TogglePrintView_STRING, NULL, N_("Print View"), NULL, NULL,
    G_CALLBACK (toggle_print_view), FALSE},
+
+  {ToggleLyricsView_STRING, NULL, N_("Lyrics View"), NULL, NULL,
+   G_CALLBACK (toggle_lyrics_view), FALSE},
+
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
   {ToggleScoreTitles_STRING, NULL, N_("Score Titles, Controls etc"), NULL, NULL,
@@ -4868,6 +4898,7 @@ newtab (GtkAction *action, gpointer param) {
   point_to_new_movement (gui);
   gui->movements = g_list_append(NULL, gui->si);
  
+  install_lyrics_preview(gui->si, top_vbox);
 
   gtk_widget_show (gui->page);
   gtk_widget_grab_focus (gui->scorearea);

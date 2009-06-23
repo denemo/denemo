@@ -312,6 +312,15 @@ perform_command(gint modnum, mouse_gesture press, gboolean left)
 
 static gboolean selecting = FALSE;
 
+
+static change_staff(DenemoScore *si, gint num, GList *staff) {
+  if(si->currentstaffnum==num)
+    return;
+  hide_lyrics();
+  si->currentstaffnum = num;
+  si->currentstaff = staff;
+  show_lyrics();
+}
 /**
  * Mouse motion callback 
  *
@@ -328,9 +337,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
       else
 	get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
       if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
-	
-	gui->si->currentstaffnum = pi.staff_number;
-	gui->si->currentstaff = pi.the_staff;
+	change_staff(gui->si, pi.staff_number, pi.the_staff);
+	//gui->si->currentstaffnum = pi.staff_number;
+	//gui->si->currentstaff = pi.the_staff;
 	gui->si->currentmeasurenum = pi.measure_number;
 	gui->si->currentmeasure = pi.the_measure;
 	gui->si->currentobject = pi.the_obj;
@@ -380,10 +389,11 @@ DenemoGUI *gui = Denemo.gui;
     get_placement_from_coordinates (&pi, event->x, 0, gui->si);
   else
     get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
-
-  gui->si->currentstaff = pi.the_staff;
-  gui->si->currentstaffnum = pi.staff_number;
-
+  change_staff(gui->si, pi.staff_number, pi.the_staff);
+  //hide_lyrics();
+  //gui->si->currentstaff = pi.the_staff;
+  //gui->si->currentstaffnum = pi.staff_number;
+  // show_lyrics();
 
   if(event->x<LEFT_MARGIN) {
     gint offset = (gint)get_click_height(gui, event->y);
@@ -408,9 +418,8 @@ DenemoGUI *gui = Denemo.gui;
     }
   }
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
-	 
-    gui->si->currentstaffnum = pi.staff_number;
-    gui->si->currentstaff = pi.the_staff;
+    //gui->si->currentstaffnum = pi.staff_number;
+    //gui->si->currentstaff = pi.the_staff;
     gui->si->currentmeasurenum = pi.measure_number;
     gui->si->currentmeasure = pi.the_measure;
     gui->si->currentobject = pi.the_obj;

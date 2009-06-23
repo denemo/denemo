@@ -738,7 +738,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
       gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
     }
-    init_lyrics(staff);
+    reset_lyrics(staff);
     draw_staff (staff, y, gui, &itp);
 
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
