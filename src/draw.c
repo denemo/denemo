@@ -128,10 +128,15 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
     objnode *curobj;
     for(curobj = curmeasure->data;curobj;curobj=curobj->next) {
       DenemoObject *obj = curobj->data;
+      gboolean in_slur = FALSE;
       if(obj->type==CHORD) {
 	  chord *thechord = ((chord *) obj->object);
-	  if(thechord->notes)
+	  if(thechord->notes && !in_slur)
 	    count++;
+	  if (thechord->slur_begin_p)
+	    in_slur = TRUE;
+	  if (thechord->slur_end_p)
+	    in_slur = FALSE;
       }
     }
   }
@@ -246,7 +251,7 @@ draw_object (objnode * curobj, gint x, gint y,
 		      itp->curaccs, itp->mark);
 	}
 
-       if (si->currentstaffnum==itp->staffnum && itp->verse && thechord->notes  /* && !itp->slur_stack */)
+       if (si->currentstaffnum==itp->staffnum && itp->verse && thechord->notes   && !itp->slur_stack )
 	{
 	  gchar *syllable = next_syllable();
 	  if(syllable)
