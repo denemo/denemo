@@ -119,6 +119,26 @@ struct infotopass
   gboolean mark;//whether the region is selected
 };
 
+/* count the number of syllables up to staff->leftmeasurenum */
+static gint count_syllables(DenemoStaff *staff, gint from) {
+  gint count = 0;
+  gint i;
+  GList *curmeasure = staff->measures;
+  for(i=1;i<from;i++, curmeasure = curmeasure->next) {
+    objnode *curobj;
+    for(curobj = curmeasure->data;curobj;curobj=curobj->next) {
+      DenemoObject *obj = curobj->data;
+      if(obj->type==CHORD) {
+	  chord *thechord = ((chord *) obj->object);
+	  if(thechord->notes)
+	    count++;
+      }
+    }
+  }
+  return count;
+}
+
+
 /**
  *  draw_object
  *
@@ -226,7 +246,7 @@ draw_object (objnode * curobj, gint x, gint y,
 		      itp->curaccs, itp->mark);
 	}
 
-       if (itp->verse && thechord->notes  /* && !itp->slur_stack */)
+       if (si->currentstaffnum==itp->staffnum && itp->verse && thechord->notes  /* && !itp->slur_stack */)
 	{
 	  gchar *syllable = next_syllable();
 	  if(syllable)
@@ -738,7 +758,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
       gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
     }
-    reset_lyrics(staff);
+    if(si->currentstaffnum==itp.staffnum)
+      reset_lyrics(staff, count_syllables(staff, si->leftmeasurenum));
     draw_staff (staff, y, gui, &itp);
 
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop

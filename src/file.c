@@ -254,6 +254,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
       updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
+      select_lyrics();
       set_bottom_staff (gui);
       update_hscrollbar (gui);
       update_vscrollbar (gui);

@@ -4202,7 +4202,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_print_view), FALSE},
 
   {ToggleLyricsView_STRING, NULL, N_("Lyrics View"), NULL, NULL,
-   G_CALLBACK (toggle_lyrics_view), FALSE},
+   G_CALLBACK (toggle_lyrics_view), TRUE},
 
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
@@ -4779,6 +4779,7 @@ Really we should change the default for the class.*/
  gtk_toggle_action_set_active (action, TRUE);
  toggle_object_menu (NULL, Denemo.gui);
  }
+
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
 }   /* create window */
 

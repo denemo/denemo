@@ -329,6 +329,8 @@ parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
   gchar*   text = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
   gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse), text, -1);
+  //gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse), FALSE);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse)), "changed", G_CALLBACK (lyric_change), NULL);
   g_free (text);
 }
 
@@ -694,7 +696,8 @@ parseLyric (xmlNodePtr lyricElem, DenemoObject * curobj)
   gchar *lyric = (gchar *) xmlNodeListGetString (lyricElem->doc,
 						 lyricElem->xmlChildrenNode,
 						 1);
-  Lyric = g_string_append(Lyric, lyric);
+  if(lyric)
+    Lyric = g_string_append(Lyric, lyric);
   Lyric = g_string_append(Lyric, " ");
   g_free (lyric);
 }
@@ -2561,7 +2564,9 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
     DenemoStaff *staff = (DenemoStaff *) si->currentstaff->data;
     add_verse_to_staff(si, staff);
     gtk_text_buffer_set_text (gtk_text_view_get_buffer (staff->currentverse->data), Lyric->str, Lyric->len);
-    g_print("Appended <%s>\n", Lyric->str);
+    g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (staff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+    //allow save on backward compatibility files... gtk_text_buffer_set_modified(gtk_text_view_get_buffer(staff->currentverse->data), FALSE);
+    //g_print("Appended <%s>\n", Lyric->str);
   }
   g_string_free(Lyric, FALSE);
   Lyric = NULL;
