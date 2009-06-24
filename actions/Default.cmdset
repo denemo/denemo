@@ -2410,34 +2410,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Create Timebase</label>
         <tooltip>Recalculates the timing of each note.</tooltip>
       </row>
-      <row>
-        <action>ContinuousLyricEntry</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Lyrics</menupath>
-        <label>Enter Lyrics</label>
-        <tooltip>Enter lyrics on successive notes. Press return for each syllable. Use blank to finish, or cancel button</tooltip>
-      </row>
-     <row>
-        <action>PasteLyrics</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Lyrics</menupath>
-        <label>Paste Lyrics</label>
-        <tooltip>Pastes the lyrics from the clipboard syllable by syllable onto the notes, starting at the cursor.</tooltip>
-      </row>
-      <row>
-        <action>CopyLyrics</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Lyrics</menupath>
-        <label>Copy Lyrics</label>
-        <tooltip>Copies the lyrics from the current note to the end to the clipboard.</tooltip>
-      </row>
-      <row>
-        <action>IncrementalPasteLyric</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Lyrics</menupath>
-        <label>Incremental Paste Lyric</label>
-        <tooltip>Pastes one syllable at a time from the clipboard as you move the cursor to the right.</tooltip>
-      </row>
+
     </map>
   </commands>
 </Denemo>

@@ -658,7 +658,7 @@
 	<menuitem action="ToggleEndSlur"/>
     </menu>
     <menuitem action="ToggleTie"/>
-    <menuitem action="EditLyric"/>
+
 
   </popup>
 
