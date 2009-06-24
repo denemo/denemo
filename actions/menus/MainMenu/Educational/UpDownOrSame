@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>UpDownOrSame</action>
+        <scheme>;;;;;;;;;;;;;;;
+;;UpDownOrSame
+;; tests if the note goes higher or lower.
+(let (
+      (shiftup 0)
+      (shiftdown 0)
+      (runtest 0)
+      (directionwas #t)
+      (userinput #t)
+      (score 0)
+      (steps 0)
+      (starttime 0)
+      (endtime 0)
+      (direction 0)
+      (span 2) ;; how many steps of the scale to test.
+      (num-goes 10) ;; how many notes to present for the whole test
+      )
+  ;; set the random seed up using time of day
+  (let ((time (gettimeofday)))
+    (set! *random-state*
+	  (seed-&gt;random-state (+ (car time)
+				 (cdr time)))))
+  (set! shiftup
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(d-CursorUp)
+			(shiftup (- n 1))))))
+
+  (set! shiftdown
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(d-CursorDown)
+			(shiftdown (- n 1))))))
+;;;;;;;; the main function to run the test
+  (set! runtest 
+	(lambda (n)
+	  (if (&gt; n 0) (begin
+			(set! steps (+ 1 (random span)))
+			;;(shiftup steps)
+			;;(d-Insert2)
+			(set! direction (random 3))
+			
+			;;(d-InsertLilyDirective "directive=%Your score so far: ")
+			(d-DirectivePut-score-display "UpDownOrSame" (string-append (string-append  "Score: " (object-&gt;string score)) ". Is this note going up or down?"))
+			(if (= direction 0)
+			    (begin
+			      (shiftdown steps)
+                              (d-Insert2) 
+                              (set! directionwas "d")))
+                         (if (= direction 1)
+                            (begin
+			      (shiftup steps)
+                              (d-Insert2)
+			      (set! directionwas "u")))
+			  (if (= direction 2)
+			     (begin
+                              (d-Insert2)
+			      (set! directionwas "s")))
+
+			(set! userinput  (d-GetChar)
+			      )
+			(if (string? userinput)
+			    (begin
+			      ;;(d-DeletePreviousObject)
+			      (if  (string=? directionwas userinput)
+				   (begin
+				     (set! score (+ score 1))
+				     (d-ChangeNotehead "Diamond"))
+				   (begin
+				     (set! score (- score 1))
+				     (d-ChangeNotehead "Cross"))) 		 
+			      (runtest (- n 1))))))))
+
+  (d-PlayMidiKey #xF03001)
+  (d-PlayMidiKey #xF02A01)
+  (d-PlayMidiKey #xF04001)
+  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit *u* if the note is going up, *d* for down, and *s* for stay the same.\nHow many goes do you want?" "8"))
+  (set! starttime (car (gettimeofday)))
+  (d-NewWindow)
+  (set! num-goes (string-&gt;number num-goes))
+  (if (not (integer? num-goes))
+      (set! num-goes 10))
+  (shiftup 6)
+  (d-Insert2)
+  (runtest num-goes)
+  (d-DirectivePut-score-display  "UpDownOrSame"  (string-append  "Final Score: " (object-&gt;string score)))
+  (set! endtime (car (gettimeofday))) 
+  (display (- endtime starttime))
+  (d-RefreshDisplay)
+  (d-PlayMidiKey #xF03001)
+  (d-PlayMidiKey #xF02A01)
+  (d-PlayMidiKey #xF04001)
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+</scheme>
+        <label>Trace Note Direction</label>
+        <tooltip>%tests your note tracking ability</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
