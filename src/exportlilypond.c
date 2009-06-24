@@ -24,6 +24,7 @@
 #include "scoreops.h"
 #include "objops.h"
 #include "xmldefs.h"
+#include "lyric.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -1324,7 +1325,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gint objnum;//count of objects in measure starting at 1
   gint open_braces;//Keep track of the number of open brace "{" chars in the music, in case of imbalance.
   GString *str = g_string_new("");
-  GString * lyrics = g_string_new("");
+  GList * lyrics = NULL;
   GString * figures = g_string_new("");
   GString * fakechords = g_string_new("");
   prevduration = 0;
@@ -1348,8 +1349,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_prepend(lyrics_name, "Lyrics for ");
     g_string_append_printf(lyrics_name, " Voice %d", voice_count);
     insert_music_section(gui, lyrics_name->str);
+    GList *g;
+    for(g=curstaffstruct->verses;g;g=g->next) {
+      lyrics = g_list_append(lyrics, get_text_from_view(curstaffstruct->verses->data));
 
-    lyrics = g_string_assign(lyrics, get_text_from_view(curstaffstruct->verses->data));
 #if 0
  //FIXME other verses, and memory leak on text syntax needed is like this:
 
@@ -1359,12 +1362,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
                  \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseI
 	         \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseII
                 >>
-
-
 #endif
-
-
-
+  }
   }
 
   /* a button and mark for the figures of this staff */
@@ -1585,7 +1584,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if(curobjnode) {
 	    curobj = (DenemoObject *) curobjnode->data;
-	    /* lyrics, figures and chord symbols */
+	    /*  figures and chord symbols */
 	    if(curobj->type==CHORD) {
 	      chord *pchord = (chord *) curobj->object;
 
@@ -1595,7 +1594,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      
 	      if (curstaffstruct->hasfakechords)
 		output_fakechord(si, fakechords, pchord);
-	    /* end of lyrics, figures and chord symbols*/
+	    /* end of figures and chord symbols*/
 	    }
 	  }
 	  }//in obj range
@@ -1632,21 +1631,24 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility,NULL);
   
 
-  if (lyrics->len)
+  if (lyrics)
     {  
-      GString *temp = g_string_new("");
-      gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
-      /* output lyrics prolog */
-      if(curstaffstruct->lyrics_prolog && curstaffstruct->lyrics_prolog->len) {
-	insert_editable(&curstaffstruct->lyrics_prolog, curstaffstruct->lyrics_prolog->str, &iter, invisibility, gui);
-      } else {	
-	g_string_printf(temp, "%s%sLyrics = \\lyricmode { \n", movement,
-			voice);
-	insert_editable(&curstaffstruct->lyrics_prolog, temp->str, &iter,  invisibility, gui);
+      GList *g;
+      gint versenum;
+      for(versenum=1, g=lyrics;g;g=g->next, versenum++) {
+	GString *versename = g_string_new("");
+	GString *temp = g_string_new("");
+	g_string_printf(temp, "Verse%d", versenum);
+	set_lily_name(temp, versename);
+	gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
+	g_string_printf(temp, "%s%sLyrics%s = \\lyricmode { \n", movement,
+			voice, versename->str);
+	g_string_append_printf(temp, "%s \n}\n", g->data);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
+	g_string_free(temp, TRUE);
+	g_string_free(versename, TRUE);
+	g_free(g->data);
       }
-      g_string_printf(temp, "%s \n}\n", lyrics->str);
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
-      g_string_free(temp, TRUE);
     }
   g_string_free(lyrics_name, TRUE);
 
@@ -1689,7 +1691,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   g_string_free(fakechords_name, TRUE);
 
   g_string_free(str, TRUE);
-  g_string_free(lyrics, TRUE);
+  //g_string_free(lyrics, TRUE);
   g_string_free(figures, TRUE);
   g_string_free(fakechords, TRUE);
 } /* outputStaff */
@@ -1927,7 +1929,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   /*figured basses */
 
   /*lyrics */
-  GString *lyrics = NULL;
+  //GString *lyrics = NULL;
 
   if(gui->textbuffer && (gui->changecount==gui->lilysync)
      && !strcmp(gui->namespec, namespec)) {
@@ -2152,11 +2154,22 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      g_string_append_printf(scoreblock, "%s",thestr->str);
 
 	      if (curstaffstruct->verses)
-	      {
-		g_string_append_printf(staffdefinitions, 
-				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics\n", 
+		{
+		  GList *g;
+		  gint versenum;
+		  for(g=curstaffstruct->verses, versenum=1;g;g=g->next, versenum++) {
+		    GString *versename = g_string_new("");
+		    GString *temp = g_string_new("");
+		    g_string_printf(temp, "Verse%d", versenum);
+		    set_lily_name(temp, versename);
+		    g_string_append_printf(staffdefinitions, 
+				TAB TAB" \\lyricsto %s%s \\new Lyrics \\%s%sLyrics%s\n", 
 				voice_name->str, movement_name->str, 
-				movement_name->str, voice_name->str);
+				movement_name->str, voice_name->str, versename->str);
+		    g_string_free(versename, TRUE);
+		    g_string_free(temp, TRUE);
+		    
+		  }
 	      }
 
 	      if (curstaffstruct->hasfigures)
