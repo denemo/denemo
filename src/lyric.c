@@ -90,6 +90,23 @@ DenemoScore *si = gui->si;
  }
 }
 
+void delete_verse(GtkAction *action, gpointer param) {
+DenemoGUI *gui = Denemo.gui;
+DenemoScore *si = gui->si;
+ if(si->currentstaff) {
+   DenemoStaff *staff = si->currentstaff->data;
+   if(staff->currentverse) {
+     staff->verses = g_list_remove_link(staff->verses, staff->currentverse);
+     gtk_widget_destroy(staff->currentverse->data);
+     staff->currentverse = staff->verses;
+     score_status(gui, TRUE);
+     gtk_widget_queue_draw (gui->scorearea);
+   }
+ }
+
+}
+
+
 gchar *get_text_from_view(GtkWidget *textview) {
   GtkTextIter startiter, enditer; 
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW(textview));    
@@ -108,8 +125,8 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
   if(gs==NULL)
     gs = g_string_new("");
   if(textview==NULL) {
-    pango_scan_string(&next, gs);
-    if(gs->len)
+    gboolean result = pango_scan_string(&next, gs);
+    if(result && gs->len)
       return gs->str;
     else
       return NULL;

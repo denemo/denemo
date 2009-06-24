@@ -1075,6 +1075,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertStem")), "scm", (gp
 SCM scheme_AddVerse(SCM optional);
 install_scm_function ("d-AddVerse", scheme_AddVerse);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddVerse")), "scm", (gpointer)1);
+/*DeleteVerse delete_verse*/
+SCM scheme_DeleteVerse(SCM optional);
+install_scm_function ("d-DeleteVerse", scheme_DeleteVerse);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteVerse")), "scm", (gpointer)1);
 /*EditFiguredBass figure_insert*/
 SCM scheme_EditFiguredBass(SCM optional);
 install_scm_function ("d-EditFiguredBass", scheme_EditFiguredBass);

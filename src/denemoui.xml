@@ -515,7 +515,7 @@
     </menu>
     <menu action="Lyrics">
          <menuitem action="AddVerse"/>
-         <menuitem action="ToggleLyrics"/>
+         <menuitem action="DeleteVerse"/>
     </menu>
     <menu action="Other">
 	  

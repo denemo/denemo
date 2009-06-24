@@ -285,6 +285,7 @@
 {"ChangeNotehead", NULL, N_("Set Notehead"), NULL,N_("Change the type of notehead for the current note"),G_CALLBACK (set_notehead)},
 {"InsertStem", NULL, N_("Auto Stemming"), NULL,N_("Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction"),G_CALLBACK (stem_directive_insert)},
 {"AddVerse", NULL, N_("Add Lyric Verse"), NULL,N_("Add a verse of lyrics"),G_CALLBACK (add_verse)},
+{"DeleteVerse", NULL, N_("Delete Verse"), NULL,N_("Deletes current verse of lyrics from current voice"),G_CALLBACK (delete_verse)},
 {"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), NULL,N_("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"),G_CALLBACK (figure_insert)},
 {"EditChords", NULL, N_("Edit Chord Symbols"), NULL,N_("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"),G_CALLBACK (fakechord_insert)},
 {"InsertDynamic", NULL, N_("Insert Dynamics"), NULL,N_("Inserts a dynamic marking at the cursor position"),G_CALLBACK (insert_dynamic)},
