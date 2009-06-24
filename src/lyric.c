@@ -71,6 +71,9 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
   //  g_print("Setting verse to %p\n", staff->currentverse);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), textview, NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(notebook), pagenum);
+  gchar *tablabel = g_strdup_printf("Verse %d", pagenum+1);
+  gtk_notebook_set_tab_label_text(GTK_NOTEBOOK(notebook), textview, tablabel);
+  g_free(tablabel);
   if(pagenum)
     gtk_notebook_set_show_tabs (GTK_NOTEBOOK(notebook), TRUE);
   return textview;

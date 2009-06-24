@@ -1350,7 +1350,19 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     insert_music_section(gui, lyrics_name->str);
 
     lyrics = g_string_assign(lyrics, get_text_from_view(curstaffstruct->verses->data));
-			     //FIXME other verses, and memory leak on text 
+#if 0
+ //FIXME other verses, and memory leak on text syntax needed is like this:
+
+    MvmntIStaffI = \new Staff  << {
+                \MvmntIVoiceIContext
+                }
+                 \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseI
+	         \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseII
+                >>
+
+
+#endif
+
 
 
   }
