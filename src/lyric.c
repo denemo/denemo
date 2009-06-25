@@ -115,7 +115,13 @@ gchar *get_text_from_view(GtkWidget *textview) {
   return gtk_text_buffer_get_text (GTK_TEXT_BUFFER(buffer), &startiter, &enditer, FALSE);
 }
 
-
+gboolean scan_syllable(gchar **next, GString *gs) {
+  gboolean result;
+  result = pango_scan_string(next, gs);
+  if(result && !strcmp(gs->str, "--"))
+     return scan_syllable(next, gs);
+  return result;
+}
 
 static gchar *lyric_iterator(GtkWidget *textview, gint count) {
   static  const gchar *next;
@@ -125,7 +131,7 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
   if(gs==NULL)
     gs = g_string_new("");
   if(textview==NULL) {
-    gboolean result = pango_scan_string(&next, gs);
+    gboolean result = scan_syllable(&next, gs);
     if(result && gs->len)
       return gs->str;
     else
@@ -137,7 +143,7 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
     next = lyrics;
     start_count = count;
     while(count--)
-      pango_scan_string(&next, gs);
+      scan_syllable(&next, gs);
  }
   return NULL;
 }
