@@ -32,6 +32,7 @@ struct callbackdata
   GtkWidget *autosave;
   GtkWidget *notation_palette;
   GtkWidget *rhythm_palette;
+  GtkWidget *object_palette;
   GtkWidget *articulation_palette;
   GtkWidget *visible_directive_buttons;
   GtkWidget *autoupdate;
@@ -165,6 +166,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(autoupdate)
   ASSIGNBOOLEAN(notation_palette)
   ASSIGNBOOLEAN(rhythm_palette)
+  ASSIGNBOOLEAN(object_palette)
   ASSIGNBOOLEAN(saveparts)
   //g_print ("Timeout %d \n", prefs->autosave_timeout);
 
@@ -267,6 +269,8 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
 
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
+  BOOLEANENTRY("Display object menu toolbar", object_palette);
+
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
