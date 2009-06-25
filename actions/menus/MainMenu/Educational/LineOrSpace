@@ -51,13 +51,13 @@
 			
 			(if (odd? position)
 			   (begin
-				(set! notewas "s"))
+				(set! notewas "space"))
 			   (begin
 				(set! notewas "l")))
 			;;(d-InsertLilyDirective "directive=%Your score so far: ")
 			(d-DirectivePut-score-display "LineOrSpace" (string-append (string-append  "Score: " (object-&gt;string score)) ". Name this note"))
 			(shiftdown steps)
-			(set! userinput  (d-GetChar)
+			(set! userinput  (d-GetKeypress)
 			      )
 			(if (string? userinput)
 			    (begin
@@ -74,7 +74,7 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Line/Space Test - Instructions" "For each note, hit *l* if it is on a line and *s* if it is on a space.\nHow many goes do you want?" "8"))
+  (set! num-goes (d-GetUserInput "Line/Space Test - Instructions" "For each note, hit *L* if it is on a line and *Space* if it is on a space.\nHow many goes do you want?" "8"))
   (set! starttime (car (gettimeofday)))
   (d-NewWindow)
   (set! num-goes (string-&gt;number num-goes))
