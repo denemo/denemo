@@ -647,6 +647,11 @@ The menus in Denemo are unusual: they not only let you do some particular action
 
               <entry>Shows the score as engraved by the LilyPond typesetter. You cannot edit in this window, but you can drag items to indicate how you want an item edited.</entry>
             </row>
+            <row>
+              <entry>Lyrics View</entry>
+
+              <entry>Shows any lyrics for the current staff/voice. Each verse has its own tab, when selected the lyric placement shows in the Denemo display, so you can adjust by typing in the lyrics view window</entry>
+            </row>
 
             <row>
               <entry>Rhythms and Overlays</entry>
@@ -1138,8 +1143,13 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Create/delete or move to bookmarked positions in the current movement.</entry>
             </row>
             <row>
+              <entry>Lyrics</entry>
+              <entry>Create and delete lyrics.</entry>
+            </row>
+
+            <row>
               <entry>Other</entry>
-              <entry>Enter lyrics, chord symbols, figured basses or LilyPond directives. Clear overlays.</entry>
+              <entry>Enter chord symbols, figured basses or LilyPond directives. Clear overlays.</entry>
             </row>
 
           </tbody>
@@ -1461,9 +1471,9 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 
 <listitem>d-NextObject moves cursor to next object, returning TRUE if current object has changed
 </listitem>
-<listitem>d-NextChord as next object, but skipping non-chord objects.
+<listitem>d-NextChord as d-NextObject, but skipping non-chord objects. chords includes rests and chords with 1 or more notes.
 </listitem>
-<listitem>d-NextNote Deprecated
+<listitem>d-NextNote as d-NextChord but skipping rests (i.e. chords with 0 notes).
 </listitem>
 
 
@@ -1473,7 +1483,9 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 </listitem>
 
 
-<listitem>d-GetChar returns a string representing a keypress from the user (blocks waiting for a keypress)
+<listitem>d-GetChar returns a string containing a single character from the user (blocks waiting for a keypress)
+</listitem>
+<listitem>d-GetKeypress returns a string representing a keypress from the user (blocks waiting for a keypress) (e.g. Up for the up arrow key etc.)
 </listitem>
 <listitem>d-GetCommand returns a string containing the command name for the user's keypress (blocks waiting for a keypress)
 </listitem>
@@ -1667,7 +1679,7 @@ display - text to be shown in the Denemo Display
 tx, ty - where to show the text in the Denemo Display
 </listitem>
 <listitem>
-graphic - a .png image to be shown in the Denemo Display (the directory bitmaps holds these). The graphic can be saved for a command using the right-click -> Save Graphic command, after selecting a portion of the print preview as the image required.
+graphic - For directives that are in the music this is a .png image to be shown in the Denemo Display (the directory bitmaps holds these). The graphic can be saved for a command using the right-click -> Save Graphic command, after selecting a portion of the print preview as the image required. For directives attached to the score, movement etc the string set here will be displayed on the button in the button box for that sort of directive (see Show Score Titles etc in view menu for showing this button box).
 </listitem>
 <listitem>
 gx, gy - where to show thegraphic in the Denemo Display
@@ -2152,7 +2164,7 @@ It is possible to set silly combinations – some will not print anything. Check
     <sect2>
       <title>Entering Vocal Music</title>
 
-      <para>Choose Other->Enter Lyrics. <note>you must provide a lyric for each note. </note>The Extend Syllable and Center check boxes are not documented, but you can use double hyphen “–“ and double underscore “__” respectively for these (as described in the LilyPond documentation for syllables and extenders). You can also cut and paste lyrics into a specially written lyricmode block in the LilyPond window and use a custom score block to place it under the music. In this way multiple verses are possible.</para>
+      <para>Choose Lyrics->Add Verse. You need to have the Lyrics View visible (see View menu). Each verse has a separate tab, with the current verse for the current staff being visible at any one time. Use -- to extend syllables over more notes (see LilyPond documentation).</para>
     </sect2>
 
     <sect2>
