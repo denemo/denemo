@@ -1351,19 +1351,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     insert_music_section(gui, lyrics_name->str);
     GList *g;
     for(g=curstaffstruct->verses;g;g=g->next) {
-      lyrics = g_list_append(lyrics, get_text_from_view(curstaffstruct->verses->data));
-
-#if 0
- //FIXME other verses, and memory leak on text syntax needed is like this:
-
-    MvmntIStaffI = \new Staff  << {
-                \MvmntIVoiceIContext
-                }
-                 \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseI
-	         \lyricsto VoiceIMvmntI \new Lyrics \MvmntIVoiceILyricsVerseII
-                >>
-#endif
-  }
+      lyrics = g_list_append(lyrics, get_text_from_view(g->data));
+    }
   }
 
   /* a button and mark for the figures of this staff */
