@@ -54,18 +54,18 @@
 			    (begin
 			      (shiftdown steps)
                               (d-Insert2) 
-                              (set! directionwas "d")))
+                              (set! directionwas "Down")))
                          (if (= direction 1)
                             (begin
 			      (shiftup steps)
                               (d-Insert2)
-			      (set! directionwas "u")))
+			      (set! directionwas "Up")))
 			  (if (= direction 2)
 			     (begin
                               (d-Insert2)
-			      (set! directionwas "s")))
+			      (set! directionwas "Right")))
 
-			(set! userinput  (d-GetChar)
+			(set! userinput  (d-GetKeypress)
 			      )
 			(if (string? userinput)
 			    (begin
@@ -82,7 +82,7 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit *u* if the note is going up, *d* for down, and *s* for stay the same.\nHow many goes do you want?" "8"))
+  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit Up arrow if the note is going up, Down arrow for down, and Right arrow if the note stays the same.\nHow many goes do you want?" "8"))
   (set! starttime (car (gettimeofday)))
   (d-NewWindow)
   (set! num-goes (string-&gt;number num-goes))
