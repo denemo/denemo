@@ -13,6 +13,7 @@
       (shiftup 0)
       (shiftdown 0)
       (runtest 0)
+      (PlaceAnswerStatus 0)
       (notewas #t)
       (usernote #t)
       (score 0)
@@ -38,6 +39,14 @@
 	  (if (&gt; n 0) (begin
 			(d-CursorDown)
 			(shiftdown (- n 1))))))
+  (set! PlaceAnswerStatus
+  	(lambda (name gfx)
+	  (begin
+	    (d-DirectivePut-note-minpixels name 30)
+	    (d-DirectivePut-note-gx name -15)
+	    (d-DirectivePut-note-gy name 10)
+	    (d-DirectivePut-note-graphic name gfx))))
+ 
 ;;;;;;;; the main function to run the test
   (set! runtest 
 	(lambda (n)
@@ -57,9 +66,11 @@
 			      (if  (string=? notewas usernote)
 				   (begin
 				     (set! score (+ score 1))
+				     (PlaceAnswerStatus "NoteCorrect" "CheckMark")
 				     (d-ChangeNotehead "Diamond"))
 				   (begin
 				     (set! score (- score 1))
+ 				     (PlaceAnswerStatus "NoteWrong" "CrossSign")
 				     (d-ChangeNotehead "Cross"))) 		 
 			      (runtest (- n 1))))))))
 
