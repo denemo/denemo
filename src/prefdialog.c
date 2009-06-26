@@ -269,7 +269,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
 
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
-  BOOLEANENTRY("Display object menu toolbar", object_palette);
+  BOOLEANENTRY("Display menu of objects toolbar", object_palette);
 
 
   hbox = gtk_hbox_new (FALSE, 8);
