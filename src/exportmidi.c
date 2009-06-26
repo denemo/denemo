@@ -1004,6 +1004,48 @@ static gint directive_get_midi_val(DenemoDirective *directive) {
   }
   return val;
 }
+
+/* change the volume according to the values passed in */
+static void 
+change_volume(gint *volume, gint midi_val, gint  midi_interpretation,gint  midi_action)
+{
+  gdouble val;
+  // g_print("midi_val %d cur_volume %d\n", midi_val, cur_volume);
+  val = (gdouble) midi_val;
+  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+    val = *volume * (midi_val/100.0);
+  if(midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning("Scripting error, ONCE for standalone directive is meaningless");
+  if(midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning("Not implemented ramp yet");
+  if(midi_action == DENEMO_OVERRIDE_STEP) {
+    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+      *volume += val;
+    else
+      *volume = val;
+  }  
+  if(*volume>127) *volume=127;
+  if(*volume<0) *volume=0;
+}
+/* change the tempo according to the values passed in */
+static void 
+change_tempo(gint *tempo, gint midi_val, gint  midi_interpretation,gint  midi_action)
+{
+  gdouble val;
+  val = (gdouble) midi_val;
+  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+    val = *tempo * (midi_val/100.0);
+  if(midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning("Not implemented change of tempo for one chord");
+  if(midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning("Not implemented ramp yet");
+  if(midi_action == DENEMO_OVERRIDE_STEP) {
+    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+      *tempo += val;
+    else
+      *tempo = val;
+  }
+}
   
 /*
  * the main midi output system (somewhat large)
@@ -1284,11 +1326,17 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  /* handle all types of MIDI overrides attached to chord here */
 			  switch(midi_override) 
 			    {
-			    case  DENEMO_OVERRIDE_VOLUME:
-			      {
-
-				;//etc
-			      }
+			    case DENEMO_OVERRIDE_VOLUME:
+				change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
+			      break;
+			    case DENEMO_OVERRIDE_TEMPO:
+			      change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
+			      if(cur_tempo) {
+				event = midi_tempo (cur_tempo);
+				smf_track_add_event_delta_pulses(track, event, 0);
+			      } else
+				g_warning("Tempo change to 0 bpm is illegal");
+			      break;
 			      //etc			      
 			    default:
 			      if(buffer) 
@@ -1670,45 +1718,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    switch(midi_override) 
 		      {
 		      case  DENEMO_OVERRIDE_VOLUME:
-			{
-			  gdouble val;
-			  // g_print("midi_val %d cur_volume %d\n", midi_val, cur_volume);
-			  val = (gdouble) midi_val;
-			  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
-			    val = cur_volume * (midi_val/100.0);
-			  if(midi_action == DENEMO_OVERRIDE_ONCE)
-			    g_warning("Scripting error, ONCE for standalone directive is meaningless");
-			  if(midi_action == DENEMO_OVERRIDE_RAMP)
-			    g_warning("Not implemented ramp yet");
-			  if(midi_action == DENEMO_OVERRIDE_STEP) {
-			    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
-			      cur_volume += val;
-			    else
-			      cur_volume = val;
-			  }
-			  
-			}
-			if(cur_volume>127) cur_volume=127;
-			if(cur_volume<0) cur_volume=0;
-			//g_print("After  cur_volume %d\n",  cur_volume);
+			change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
 			break;
 		      case DENEMO_OVERRIDE_TEMPO:
-			{
-			  gdouble val;
-			  val = (gdouble) midi_val;
-			  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
-			    val = cur_tempo * (midi_val/100.0);
-			  if(midi_action == DENEMO_OVERRIDE_ONCE)
-			    g_warning("Scripting error, ONCE for standalone directive is meaningless");
-			  if(midi_action == DENEMO_OVERRIDE_RAMP)
-			    g_warning("Not implemented ramp yet");
-			  if(midi_action == DENEMO_OVERRIDE_STEP) {
-			    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
-			      cur_tempo += val;
-			    else
-			      cur_tempo = val;
-			  }
-			}
+			change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
 			if(cur_tempo) {
 			  event = midi_tempo (cur_tempo);
 			  smf_track_add_event_delta_pulses(track, event, 0);
