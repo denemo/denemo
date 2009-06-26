@@ -1341,7 +1341,17 @@ SCM scheme_next_selected_object (SCM optional) {
 //(display (d-NextSelectedObject))
 
 
-
+SCM scheme_next_standalone_directive (SCM optional) {
+  SCM ret = scheme_next_object(optional);
+  if(SCM_FALSEP(ret))
+    return ret;
+  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
+    ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
+    return SCM_BOOL(TRUE);
+  else
+    return 
+      scheme_next_standalone_directive (optional);
+}
 
 
 SCM scheme_next_chord (SCM optional) {
@@ -1502,7 +1512,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", scheme_next_selected_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
-
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
   install_scm_function (DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
