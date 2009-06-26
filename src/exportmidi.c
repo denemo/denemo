@@ -963,7 +963,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
     gint i, numbytes;
     errno = 0;
     for(i=0, next=bytes;*next; next++){ 
-      val = strtol(next, &next, 16);
+      val = strtol(next, &next, 0);
 #if 0
       if(i==0 && val==0)
 	errno = EINVAL;
@@ -981,7 +981,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
     numbytes = i;
     gchar *buffer = (gchar*) g_malloc0(numbytes);
     for(i=0, next=bytes;i<numbytes;i++, next++){ 
-      buffer[i] = (char) strtol(next, &next, 16);
+      buffer[i] = (char) strtol(next, &next, 0);
       //g_print("byte %x\n", buffer[i]);
     }
     *pnumbytes = numbytes;
@@ -996,7 +996,7 @@ static gint directive_get_midi_val(DenemoDirective *directive) {
     gchar *bytes;
     bytes = directive->midibytes->str;
     errno = 0;
-    val = strtol(bytes, NULL, 16);
+    val = strtol(bytes, NULL, 0);
     if(errno) {
       g_warning("String %s is bad format for MIDI value\n", bytes);
       return 0;
