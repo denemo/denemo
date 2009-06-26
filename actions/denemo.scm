@@ -240,3 +240,7 @@
   (d-DirectivePut-scoreheader-display tag title)
   (d-DirectivePut-scoreheader-postfix tag (string-append field " = \"" title "\"\n"))))
 
+;;;; d-DirectivePut-standalone a convenience function for standalone directives
+(define (d-DirectivePut-standalone tag)
+  (d-DirectivePut-standalone-minpixels tag 0)
+  (d-CursorLeft))
