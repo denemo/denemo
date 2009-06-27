@@ -1475,6 +1475,19 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 </listitem>
 <listitem>d-NextNote as d-NextChord but skipping rests (i.e. chords with 0 notes).
 </listitem>
+<listitem>d-NextStandaloneDirective as NextObject, stopping on a standalone directive. Using d-DirectiveGet-standalone tag a directive of a particular tag can be found.
+</listitem>
+
+
+<listitem>(d-Directive-standalone? optional-tag) returns #t if the cursor is on a standalone directive (with tag optional-tag if optional-tag is present) else #f
+</listitem>
+
+<listitem>(d-DirectivePut-standalone? tag) inserts a standalone directive with the given tag at the current cursor position and places the cursor on it.
+</listitem>
+<listitem>(d-DirectiveGetTag-standalone?) returns the tag if the cursor is on a standalone directive else #f
+</listitem>
+<listitem>(d-DirectiveGetTagForTag-standalone tag) returns the tag if the cursor is on a standalone directive else #f
+</listitem>
 
 
 <listitem>d-WarningDialog Pass a string argument to pop up a warning.

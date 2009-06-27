@@ -244,3 +244,11 @@
 (define (d-DirectivePut-standalone tag)
   (d-DirectivePut-standalone-minpixels tag 0)
   (d-CursorLeft))
+
+(define* (d-Directive-standalone?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-standalone ""))
+      (equal? tag (d-DirectiveGetForTag-standalone tag))))
+
+(define (d-DirectiveGetTag-standalone)
+  (d-DirectiveGetForTag-standalone ""))

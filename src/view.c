@@ -629,6 +629,33 @@ SCM scheme_get_option(SCM options) {
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
 
+
+#define GET_TAG_FN_DEF(what)\
+ static SCM scheme_##what##_directive_get_tag(SCM tag) {\
+  gchar *tagname;\
+  if(!SCM_STRINGP(tag))\
+     tagname = NULL;\
+  else tagname = scm_to_locale_string(tag);\
+  gchar *val = what##_directive_get_tag (tagname);\
+  if(val) return gh_str2scm (val, strlen(val));\
+  return SCM_BOOL(FALSE);\
+}
+GET_TAG_FN_DEF(standalone);
+GET_TAG_FN_DEF(chord);
+GET_TAG_FN_DEF(note);
+GET_TAG_FN_DEF(staff);
+GET_TAG_FN_DEF(voice);
+GET_TAG_FN_DEF(score);
+GET_TAG_FN_DEF(clef);
+GET_TAG_FN_DEF(timesig);
+GET_TAG_FN_DEF(keysig);
+GET_TAG_FN_DEF(scoreheader);
+GET_TAG_FN_DEF(header);
+GET_TAG_FN_DEF(paper);
+GET_TAG_FN_DEF(layout);
+GET_TAG_FN_DEF(movementcontrol);
+#undef GET_TAG_FN_DEF
+
 #define EDIT_DELETE_FN_DEF(what)\
  static SCM scheme_delete_##what##_directive(SCM tag) {\
   if(!SCM_STRINGP(tag))\
@@ -1543,6 +1570,27 @@ Then
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+
+#define INSTALL_GET_TAG(what)\
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
+
+  INSTALL_GET_TAG(standalone);
+  INSTALL_GET_TAG(chord);
+  INSTALL_GET_TAG(note);
+  INSTALL_GET_TAG(staff);
+  INSTALL_GET_TAG(voice);
+  INSTALL_GET_TAG(score);
+  INSTALL_GET_TAG(clef);
+  INSTALL_GET_TAG(timesig);
+  INSTALL_GET_TAG(keysig);
+  INSTALL_GET_TAG(scoreheader);
+  INSTALL_GET_TAG(header);
+  INSTALL_GET_TAG(paper);
+  INSTALL_GET_TAG(layout);
+  INSTALL_GET_TAG(movementcontrol);
+#undef INSTALL_GET_TAG
+
+
 
 
 #define INSTALL_EDIT(what)\

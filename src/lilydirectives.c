@@ -734,6 +734,21 @@ gboolean delete_score_directive(gchar *tagname) {
   return delete_directive(&Denemo.gui->lilycontrol.directives, tagname);
 }
 
+
+#define GET_TAG_FUNC(what)\
+gchar *\
+what##_directive_get_tag(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return directive->tag->str;\
+  else directive = get_##what##_directive(NULL);\
+  if(directive)\
+    return directive->tag->str;\
+  return NULL;\
+}
+
+
+
 #define GET_STR_FIELD_FUNC(what, field)\
 gchar *\
 what##_directive_get_##field(gchar *tag) {\
@@ -768,6 +783,29 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
 #define PUT_STR_FIELD_FUNC(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, directives)
 #define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
 #define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
+
+
+
+
+GET_TAG_FUNC(standalone);
+GET_TAG_FUNC(chord);
+GET_TAG_FUNC(note);
+GET_TAG_FUNC(staff);
+GET_TAG_FUNC(voice);
+GET_TAG_FUNC(score);
+GET_TAG_FUNC(clef);
+GET_TAG_FUNC(timesig);
+GET_TAG_FUNC(keysig);
+GET_TAG_FUNC(scoreheader);
+GET_TAG_FUNC(header);
+GET_TAG_FUNC(paper);
+GET_TAG_FUNC(layout);
+GET_TAG_FUNC(movementcontrol);
+
+
+#undef GET_TAG_FUNC
+
+
 
 
 GET_STR_FIELD_FUNC(score, midibytes)
