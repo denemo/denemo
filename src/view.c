@@ -4834,7 +4834,10 @@ Really we should change the default for the class.*/
 
  {GtkToggleAction *action;
  action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleObjectMenu");
- gtk_toggle_action_set_active (action, TRUE);
+ if (Denemo.prefs.object_palette)
+ 	gtk_toggle_action_set_active (action, TRUE);
+ else 
+	gtk_toggle_action_set_active (action, FALSE);
  toggle_object_menu (NULL, Denemo.gui);
  }
 

@@ -5,23 +5,23 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>CountSteps</action>
+        <action>StepSkipOrSame</action>
         <scheme>;;;;;;;;;;;;;;;
-;;CountSteps
-;; tests note name recognition.
+		;;StepSkipOrSame
+;; tests if the note goes higher or lower.
 (let (
       (shiftup 0)
       (shiftdown 0)
-      (runtest 0) 
+      (runtest 0)
       (PlaceAnswerStatus 0)
-      (notewas #t)
-      (userinput 0)
+      (userinput #t)
+      (stepstring #t)
       (score 0)
       (steps 0)
       (starttime 0)
       (endtime 0)
       (direction 0)
-      (span 8) ;; how many steps of the scale to test. perhaps have many cummulative levels 
+      (span 3) ;; how many steps of the scale to test.
       (num-goes 10) ;; how many notes to present for the whole test
       )
   ;; set the random seed up using time of day
@@ -48,38 +48,43 @@
 	    (d-DirectivePut-note-gy name 10)
 	    (d-DirectivePut-note-graphic name gfx))))
  
-
 ;;;;;;;; the main function to run the test
   (set! runtest 
 	(lambda (n)
 	  (if (&gt; n 0) (begin
-			(set! steps (+ 1 (random span)))
+			(set! steps (random span))
+			(set! direction (random 2))
 			
 			;;(d-InsertLilyDirective "directive=%Your score so far: ")
-			(d-DirectivePut-score-display "CountSteps" (string-append (string-append  "Score: " (object-&gt;string score)) ". Count the steps in this interval"))
-			
+			(d-DirectivePut-score-display "StepSkipOrSame" (string-append (string-append  "Score: " (object-&gt;string score)) ". Is this note going up or down?"))
 			(if (= direction 0)
 			    (begin
 			      (shiftdown steps)
-			      (set! direction 1)
-			     (d-Insert2))
+                              (d-Insert2)))
+                         (if (= direction 1)
                             (begin
-			     (shiftup steps)
-			     (set! direction 0)
-			     (d-Insert2)))
+			      (shiftup steps)
+                              (d-Insert2)))
+			     
+			(if (= steps 0)
+			    (begin
+				(set! stepstring "a")))
+                        (if (= steps 1)
+			    (begin
+			 	(set! stepstring "t")))
+			(if (= steps 2)
+			    (begin
+				(set! stepstring "k")))
 
-			(set! userinput (d-GetChar))
-			(set! userinput (string-&gt;number userinput))
-  			(if (not (integer? userinput))
-  			(set! userinput 1))
+			(set! userinput  (d-GetChar))
 
-			(if (number? userinput)
+			(if (string? userinput)
 			    (begin
 			      ;;(d-DeletePreviousObject)
-			      (if  (= steps userinput)
+			      (if  (string=? stepstring  userinput)
 				   (begin
 				     (set! score (+ score 1))
- 				     (PlaceAnswerStatus "NoteCorrect" "CheckMark") 
+  				     (PlaceAnswerStatus "NoteCorrect" "CheckMark")
 				     (d-ChangeNotehead "Diamond"))
 				   (begin
 				     (set! score (- score 1))
@@ -90,22 +95,17 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each interval, hit the number of steps in that interval.\nHow many goes do you want?" "8"))
-  (set! span (d-GetUserInput "Reading Test - Level" "What level are you on? (What is the largest inteval you can count?)" "8"))
+  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit *t* if the note is moving by step, *k* for a skip, and *a* if the note stays the same.\nHow many goes do you want?" "8"))
+  ;(set! num-goes "8")
   (set! starttime (car (gettimeofday)))
   (d-NewWindow)
   (set! num-goes (string-&gt;number num-goes))
   (if (not (integer? num-goes))
-  (set! num-goes 10))
-  
-  (set! span (string-&gt;number span))
-  (if (not (integer? span))
-  (set! span 8))
-
+      (set! num-goes 10))
   (shiftup 6)
   (d-Insert2)
   (runtest num-goes)
-  (d-DirectivePut-score-display  "ReadingNoteNames"  (string-append  "Final Score: " (object-&gt;string score)))
+  (d-DirectivePut-score-display  "StepSkipOrSame"  (string-append  "Final Score: " (object-&gt;string score)))
   (set! endtime (car (gettimeofday))) 
   (display (- endtime starttime))
   (d-RefreshDisplay)
@@ -116,8 +116,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
-        <label>Step Counting</label>
-        <tooltip>%tests your ability to count the steps between notes</tooltip>
+        <label>Beginner Interval Detection</label>
+        <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
       </row>
     </map>
   </merge>

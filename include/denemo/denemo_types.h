@@ -315,6 +315,7 @@ typedef struct DenemoPrefs
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
   gboolean notation_palette; /**< This switch makes the duration toolbar visable */
   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
+  gboolean object_palette;  /**< This option makes the object menu toolbar visable */
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 
