@@ -249,6 +249,98 @@
   (if (equal? tag #f)
       (string? (d-DirectiveGetForTag-standalone ""))
       (equal? tag (d-DirectiveGetForTag-standalone tag))))
-
 (define (d-DirectiveGetTag-standalone)
   (d-DirectiveGetForTag-standalone ""))
+
+
+(define* (d-Directive-chord?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-chord ""))
+      (equal? tag (d-DirectiveGetForTag-chord tag))))
+(define (d-DirectiveGetTag-chord)
+  (d-DirectiveGetForTag-chord ""))
+
+(define* (d-Directive-note?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-note ""))
+      (equal? tag (d-DirectiveGetForTag-note tag))))
+(define (d-DirectiveGetTag-note)
+  (d-DirectiveGetForTag-note ""))
+
+(define* (d-Directive-score?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-score ""))
+      (equal? tag (d-DirectiveGetForTag-score tag))))
+(define (d-DirectiveGetTag-score)
+  (d-DirectiveGetForTag-score ""))
+
+(define* (d-Directive-scoreheader?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-scoreheader ""))
+      (equal? tag (d-DirectiveGetForTag-scoreheader tag))))
+(define (d-DirectiveGetTag-scoreheader)
+  (d-DirectiveGetForTag-scoreheader ""))
+
+
+(define* (d-Directive-movementcontrol?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-movementcontrol ""))
+      (equal? tag (d-DirectiveGetForTag-movementcontrol tag))))
+(define (d-DirectiveGetTag-movementcontrol)
+  (d-DirectiveGetForTag-movementcontrol ""))
+
+
+(define* (d-Directive-paper?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-paper ""))
+      (equal? tag (d-DirectiveGetForTag-paper tag))))
+(define (d-DirectiveGetTag-paper)
+  (d-DirectiveGetForTag-paper ""))
+
+
+(define* (d-Directive-layout?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-layout ""))
+      (equal? tag (d-DirectiveGetForTag-layout tag))))
+(define (d-DirectiveGetTag-layout)
+  (d-DirectiveGetForTag-layout ""))
+
+
+(define* (d-Directive-staff?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-staff ""))
+      (equal? tag (d-DirectiveGetForTag-staff tag))))
+(define (d-DirectiveGetTag-staff)
+  (d-DirectiveGetForTag-staff ""))
+
+
+(define* (d-Directive-voice?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-voice ""))
+      (equal? tag (d-DirectiveGetForTag-voice tag))))
+(define (d-DirectiveGetTag-voice)
+  (d-DirectiveGetForTag-voice ""))
+
+
+(define* (d-Directive-clef?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-clef ""))
+      (equal? tag (d-DirectiveGetForTag-clef tag))))
+(define (d-DirectiveGetTag-clef)
+  (d-DirectiveGetForTag-clef ""))
+
+
+(define* (d-Directive-keysig?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-keysig ""))
+      (equal? tag (d-DirectiveGetForTag-keysig tag))))
+(define (d-DirectiveGetTag-keysig)
+  (d-DirectiveGetForTag-keysig ""))
+
+
+(define* (d-Directive-timesig?  #:optional (tag #f))
+  (if (equal? tag #f)
+      (string? (d-DirectiveGetForTag-timesig ""))
+      (equal? tag (d-DirectiveGetForTag-timesig tag))))
+(define (d-DirectiveGetTag-timesig)
+  (d-DirectiveGetForTag-timesig ""))
