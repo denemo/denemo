@@ -1479,14 +1479,14 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 </listitem>
 
 
-<listitem>(d-Directive-standalone? optional-tag) returns #t if the cursor is on a standalone directive (with tag optional-tag if optional-tag is present) else #f
+<listitem>(d-Directive-<emphasis>type</emphasis>? optional-tag) where <emphasis>type</emphasis> is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note.This  returns #t if the cursor is on a directive of <emphasis>type</emphasis> (with tag optional-tag if optional-tag is present) else #f
 </listitem>
 
 <listitem>(d-DirectivePut-standalone? tag) inserts a standalone directive with the given tag at the current cursor position and places the cursor on it.
 </listitem>
-<listitem>(d-DirectiveGetTag-standalone?) returns the tag if the cursor is on a standalone directive else #f
+<listitem>(d-DirectiveGetTag-<emphasis>type</emphasis>) where <emphasis>type</emphasis> is one of score, scoreheader, movementcontrol, header, paper, layout, clef, timesig, keysig, staff, voice, standalone, chord or note. This returns the tag if the cursor is on a directive of <emphasis>type</emphasis>  else #f
 </listitem>
-<listitem>(d-DirectiveGetTagForTag-standalone tag) returns the tag if the cursor is on a standalone directive else #f
+<listitem>(d-DirectiveGetTagForTag-<emphasis>type</emphasis> tag) returns the tag passed in if the cursor is on directive of <emphasis>type</emphasis> with that tag, else it returns the tag of the first directive of  <emphasis>type</emphasis> that is present at the cursor, else  #f
 </listitem>
 
 
