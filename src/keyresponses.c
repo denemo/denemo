@@ -262,29 +262,42 @@ go_to_G_key (DenemoGUI * gui)
 
 
 /**
- * Move cursor an octave up
+ * Move cursor by amount
  */
-void
-octave_up_key (DenemoGUI * gui)
+static void
+octave_shift_key (DenemoGUI * gui, gint amount)
 {
   if (((DenemoStaff*)gui->si->currentstaff->data)->tone_store) {
     return;//FIXME create a function modify_tone, like delete_tone in pitchentry.c to do this sort of thing
   } else {
     if(gui->mode&(INPUTEDIT))
       {
-	objnode *thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
-	if(thenote) {
-	  note copy = *((note *) thenote->data);
-	  tonechange(gui->si, TRUE);
-	  gui->si->cursor_y = copy.mid_c_offset + 7;
-	  tonechange(gui->si, FALSE);
-	  changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
+	if(gui->si->currentobject) {
+	  objnode *thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
+	  if(thenote) {
+	    note copy = *((note *) thenote->data);
+	    tonechange(gui->si, TRUE);
+	    gui->si->cursor_y = copy.mid_c_offset + amount;
+	    tonechange(gui->si, FALSE);
+	    changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
+	  }
 	}
       }
     else
-      gui->si->cursor_y += 7;
+      gui->si->cursor_y += amount;
   }
 }
+/**
+ * Move cursor an octave up
+ */
+void
+octave_up_key (DenemoGUI * gui)
+{
+  octave_shift_key(gui, 7);
+}
+
+
+
 
 /**
  * Move cursor an octave down
@@ -292,23 +305,7 @@ octave_up_key (DenemoGUI * gui)
 void
 octave_down_key (DenemoGUI * gui)
 {
-  if (((DenemoStaff*)gui->si->currentstaff->data)->tone_store) {
-    return;//FIXME create a function modify_tone, like delete_tone in pitchentry.c to do this sort of thing
-  } else {
-    if(gui->mode&(INPUTEDIT))
-      {
-	objnode *thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
-	if(thenote) {
-	  note copy = *((note *) thenote->data);
-	  tonechange(gui->si, TRUE);
-	  gui->si->cursor_y = copy.mid_c_offset - 7;
-	  tonechange(gui->si, FALSE);
-	  changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
-	}
-      }
-    else
-      gui->si->cursor_y -= 7;
-  }
+  octave_shift_key (gui, -7);
 }
 
 /**
