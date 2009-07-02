@@ -153,9 +153,9 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
  * @param y
  * @param gui
  * @param itp 
- * @return whether the DenemoObject is off the end of the measure or not 
+ * @return excess ticks in the measure at this object. (Negative means still space).
  */
-static gboolean
+static gint
 draw_object (objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
@@ -465,7 +465,7 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
   static PangoContext *context;
   static PangoLayout *layout;
   PangoFontDescription *desc;
-  gboolean offend = FALSE;
+  gint extra_ticks = 0;//number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
   if (!context)
@@ -570,10 +570,10 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
 			  (si->firstobjmarked <= itp->objnum) && 
 			  (si->lastobjmarked >= itp->objnum)))
        );
-    offend = draw_object (curobj, x, y, gui, itp);
+    extra_ticks = draw_object (curobj, x, y, gui, itp);
   }
   /* Paint the exclamation point, if necessary */
-  GdkGC *exclamgc = (offend>0)?redgc:(offend<0)?bluegc:NULL;
+  GdkGC *exclamgc = (extra_ticks>0)?redgc:(extra_ticks<0)?bluegc:NULL;
   if(exclamgc)
     drawbitmapinverse (gui->pixmap, exclamgc, exclam,
 		       x, y - 8 - EXCL_HEIGHT,
