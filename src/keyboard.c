@@ -220,8 +220,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    action = gtk_action_new(name,label,tooltip, icon_name);
 	    //g_print("New action %s\n", name);
 	    if(hidden)
-	      g_object_set_data(action, "hidden", TRUE);
-
+	      g_object_set_data(G_OBJECT(action), "hidden", TRUE);
+	    if(after)
+	      g_object_set_data(G_OBJECT(action), "after", (gpointer)after);
 	    register_command(Denemo.map, action, name, label, tooltip, activate_script);
 	    GtkActionGroup *action_group;
 	    GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
@@ -240,6 +241,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 		  instantiate_menus(menupath);
 		}
 		gchar *menupath_item = g_build_filename(menupath,after,NULL);
+		//g_print("menupath_item = %s\n", menupath_item);
 		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 				      menupath_item,
 				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
@@ -248,13 +250,15 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  } else {
 	    if(fallback) {/* no path given, use fallback */
 	      menupath = fallback;
+	      gchar *menupath_item = g_build_filename(menupath,after,NULL);
 	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
 	      if(widget==NULL) {
 		instantiate_menus(menupath);
 	      }
 	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath,
+				      menupath_item,
 				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	      g_free(menupath_item);
 	    }
 	  }
 	  if(merge && new_command) {

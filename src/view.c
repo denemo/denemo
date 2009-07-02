@@ -3094,6 +3094,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
+  g_print("Saving with %s after %s\n", myposition, after);
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
