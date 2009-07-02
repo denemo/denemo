@@ -146,7 +146,7 @@ static void hide_action_of_name(gchar *name){
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
 {
-  xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
+  xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL, *after=NULL;
   GList *menupaths = NULL;
   cur = cur->xmlChildrenNode;
   gint command_number = -1;
@@ -198,6 +198,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	label = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
       }
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "after")) {
+	after = 
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
 	tooltip = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -235,9 +239,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 		if(widget==NULL) {
 		  instantiate_menus(menupath);
 		}
-		  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath,
+		gchar *menupath_item = g_build_filename(menupath,after,NULL);
+		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
+				      menupath_item,
 				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+		g_free(menupath_item);
 	      }
 	  } else {
 	    if(fallback) {/* no path given, use fallback */
@@ -602,6 +608,7 @@ save_xml_keymap (gchar * filename)
      
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
+      gchar *after = action?g_object_get_data(action, "after"):NULL;
       gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
       gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
       if(deleted && scheme)
@@ -615,7 +622,10 @@ save_xml_keymap (gchar * filename)
       g_print ("%s \n", name);
 #endif	
       xmlNewTextChild (child, NULL, (xmlChar *) "action",
-		       (xmlChar *) name);  
+		       (xmlChar *) name); 
+      if(after)
+	xmlNewTextChild (child, NULL, (xmlChar *) "after",
+			 (xmlChar *) after);  
       if(hidden)
 	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
       if(scheme) 	
@@ -757,7 +767,7 @@ parse_paths (gchar * filename, DenemoGUI *gui)
 
 
 gint
-save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip)
+save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip, gchar *after)
 {
   xmlDocPtr doc;
   //xmlNsPtr ns;
@@ -774,7 +784,8 @@ save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *myl
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
   
   child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-  
+  xmlNewTextChild (child, NULL, (xmlChar *) "after",
+		   (xmlChar *) after);  
   
   xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		   (xmlChar *) myname);  

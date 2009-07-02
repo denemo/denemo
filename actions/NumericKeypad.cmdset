@@ -2450,10 +2450,27 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       </row>
       <row>
         <action>ForceNewMeasure</action>
+	<after>InsertMeasure</after>	
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Force New Measure</label>
         <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <scheme></scheme>
+	<after>InsertMeasure</after>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Split Measure</label>
+        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+        <scheme></scheme>
+	<after>InsertMeasure</after>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Delete Barline</label>
+        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
       </row>
     </map>
   </commands>

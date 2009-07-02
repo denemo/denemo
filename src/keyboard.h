@@ -24,5 +24,5 @@ gint load_xml_keymap(gchar *filename);
 gint save_xml_keymap(gchar *filename);
 void set_visibility_for_action(GtkAction *action, gboolean visible);
 gint parse_paths (gchar * filename, DenemoGUI *gui);
-gint save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip);
+gint save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip, gchar *after);
 #endif //KEYBOARDH

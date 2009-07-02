@@ -3089,9 +3089,11 @@ static void setMouseAction(ModifierAction *info) {
    given by the path myposition whose callback is the activate on the current scheme script.
 */
 
-static void insertScript(GtkWidget *widget, gchar *myposition) {
+static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   DenemoGUI *gui = Denemo.gui;
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
+  gchar *myposition = g_path_get_dirname (insertion_point);
+  gchar *after = g_path_get_basename (insertion_point);
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
@@ -3125,7 +3127,7 @@ static void insertScript(GtkWidget *widget, gchar *myposition) {
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
     //g_file_set_contents(filename, text, -1, NULL);
-    save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip);
+    save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, after);
     load_xml_keymap(filename);
   } else
     warningdialog("Operation cancelled");
@@ -3265,6 +3267,7 @@ static void  createMouseShortcut(GtkWidget *menu, GtkAction *action) {
 static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   gchar *name = (gchar *)gtk_action_get_name(action);
   gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
+  gchar *after = g_object_get_data(G_OBJECT(action), "after");
   gint idx = lookup_command_from_name(Denemo.map, name);
   gchar *tooltip = (gchar*)lookup_tooltip_from_idx(Denemo.map, idx);
   gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
@@ -3273,7 +3276,7 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
 				      NULL);
   gchar *scheme = getSchemeText();
   if(scheme && *scheme)
-    save_script_as_xml (filename, name, scheme, label, tooltip);
+    save_script_as_xml (filename, name, scheme, label, tooltip, after);
   else
     warningdialog("No script to save");
 }
@@ -3663,7 +3666,8 @@ static gboolean menu_click (GtkWidget      *widget,
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), myposition);
+    gchar *insertion_point = g_build_filename(myposition, func_name, NULL);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), insertion_point);
   }
 
   /* a check item for showing script window */
