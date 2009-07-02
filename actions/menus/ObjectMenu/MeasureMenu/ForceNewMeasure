@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ForceNewMeasure</action>
+        <scheme>;;;Force New Measure
+(d-AppendMeasure)
+(d-MeasureRight)
+</scheme>
+        <label>Force New Measure</label>
+        <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
