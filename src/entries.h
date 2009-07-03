@@ -378,7 +378,6 @@
 {"ChangeDuration", NULL, N_("Change Duration"), NULL,N_("Changes the duration of the current note")},
 {"ChangeRest", NULL, N_("Change Rest"), NULL,N_("Changes the duration of the current rest")},
 {"ExpressionMarks", NULL, N_("Expression Marks"), NULL,N_("Dynamics, staccato, slurs, ties and other expressive marks")},
-{"Markings", NULL, N_("Markings"), NULL,N_("Markings above and below the music")},
 {"Dynamics", NULL, N_("Dynamics"), NULL,N_("Dynamic markings")},
 {"Ornaments", NULL, N_("Ornaments"), NULL,N_("grace notes etc")},
 {"Other", NULL, N_("Other"), NULL,N_("Lyrics, chord symbols, figured basses etc")},

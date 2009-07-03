@@ -497,7 +497,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL, N_("Change Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current rest", N_("ChangeRest"), NULL, N_("Change Rest")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL, "Expression Marks", N_("Expression Marks")},
-  {CMD_CATEGORY_DIRECT, NULL, "Markings above and below the music", N_("Markings"), NULL, "Markings", N_("Markings")},
+  //  {CMD_CATEGORY_DIRECT, NULL, "Markings above and below the music", N_("Markings"), NULL, "Markings", N_("Markings")},
   {CMD_CATEGORY_DIRECT, NULL, "Dynamic markings", N_("Dynamics"), NULL, "Dynamics", N_("Dynamics")},
  
   {CMD_CATEGORY_DIRECT, NULL, "grace notes etc", N_("Ornaments"), NULL, N_("Ornaments")}, 
