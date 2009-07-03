@@ -111,17 +111,20 @@ instantiate_menus(gchar *menupath) {
   GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, up1);
   if(widget==NULL)
     instantiate_menus(up1);
-  GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
   GtkActionGroup *action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
-  gtk_action_group_add_action(action_group, action);
-  g_object_set_data(G_OBJECT(action), "menupath", up1);
+  if(NULL == gtk_action_group_get_action(action_group, name)) {
+    GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
+    gtk_action_group_add_action(action_group, action);
+    g_object_set_data(G_OBJECT(action), "menupath", up1);
+  }
   gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 			up1,
 			name, name, GTK_UI_MANAGER_MENU, FALSE);
   //g_print("Adding %s to %s\n", name, up1);
   // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
   //show_type (widget, "for menupath widget is ");
+  
 }
 
 void set_visibility_for_action(GtkAction *action, gboolean visible) {
@@ -240,24 +243,25 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 		if(widget==NULL) {
 		  instantiate_menus(menupath);
 		}
+		//We place the item after the "after" item in the menupath, unless that isn't yet
+		//installed, in which case we just append to the menu
 		gchar *menupath_item = g_build_filename(menupath,after,NULL);
-		//g_print("menupath_item = %s\n", menupath_item);
-		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath_item,
-				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+		GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
+		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
 		g_free(menupath_item);
 	      }
 	  } else {
 	    if(fallback) {/* no path given, use fallback */
 	      menupath = fallback;
-	      gchar *menupath_item = g_build_filename(menupath,after,NULL);
 	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
 	      if(widget==NULL) {
 		instantiate_menus(menupath);
 	      }
-	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath_item,
-				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	      //We place the item after the "after" item in the menupath, unless that isn't yet
+	      //installed, in which case we just append to the menu
+	      gchar *menupath_item = g_build_filename(menupath,after,NULL);
+	      GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
+	      gtk_ui_manager_add_ui(Denemo.ui_manager, gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
 	      g_free(menupath_item);
 	    }
 	  }
