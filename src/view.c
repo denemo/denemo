@@ -2873,7 +2873,7 @@ capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
 
 static void
 save_accels (void) {
-  save_default_keymap_file (NULL);
+  save_default_keymap_file ();
   Denemo.accelerator_status = FALSE;
 }
 
@@ -3610,16 +3610,16 @@ static gboolean menu_click (GtkWidget      *widget,
     item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(createMouseShortcut), action);
-
-
     item = gtk_menu_item_new_with_label("Edit Shortcuts\nSet Mouse Pointers\nHide/Delete Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(configure_keyboard_idx), (gpointer)idx);
+    item = gtk_menu_item_new_with_label("Save Command Set");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(save_default_keymap_file), action);
 
 
     item = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-   
   }//idx!=-1
 
   gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
@@ -3634,7 +3634,7 @@ static gboolean menu_click (GtkWidget      *widget,
   filepath = g_build_filename (get_data_dir(), "actions", "menus", myposition, NULL);
   if(0==g_access(filepath, 4)) {
     //g_print("We can create a menu item for the path %s\n", filepath);
-    item = gtk_menu_item_new_with_label("More Commands for this Menu");
+    item = gtk_menu_item_new_with_label("Insert Command After This One");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }

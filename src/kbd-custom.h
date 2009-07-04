@@ -179,7 +179,7 @@ void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param);
 
 void
-save_default_keymap_file (GtkWidget *widget);
+save_default_keymap_file (void);
 
 void
 set_state(gint state, gchar **value);

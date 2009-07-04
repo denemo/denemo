@@ -145,6 +145,28 @@ static void hide_action_of_name(gchar *name){
   GtkAction *action = lookup_action_from_name (name);
   set_visibility_for_action(action, FALSE);
 }
+static void
+add_ui(gchar *menupath, gchar *after, gchar *name) {
+  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+  if(widget==NULL) {
+    instantiate_menus(menupath);
+  }
+  //We place the item after the "after" item in the menupath, unless that isn't yet
+  //installed, in which case we just append to the menu
+  gchar *menupath_item = g_build_filename(menupath,after,NULL);
+  GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
+  if( (after!=NULL) & (sibling==NULL)) {
+    static gboolean once=TRUE;
+    if(once) {
+      gchar *msg = g_strdup_printf("Cannot place %s after %s as requested,\nbecause I haven't seen %s yet\nTo fix this delete the %s command save the command set,\nQuit and restart Denemo\nThen re-install %s by right clicking on the %s item\nand choosing Insert Command After This One\nAnd finally saving command set again", name, after, after, name, name, after);
+      infodialog(msg);
+      g_free(msg);
+      once = FALSE;
+    }
+  }
+  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
+  g_free(menupath_item);
+}
 
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
@@ -223,7 +245,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    action = gtk_action_new(name,label,tooltip, icon_name);
 	    //g_print("New action %s\n", name);
 	    if(hidden)
-	      g_object_set_data(G_OBJECT(action), "hidden", TRUE);
+	      g_object_set_data(G_OBJECT(action), "hidden",  (gpointer)TRUE);
 	    if(after)
 	      g_object_set_data(G_OBJECT(action), "after", (gpointer)after);
 	    register_command(Denemo.map, action, name, label, tooltip, activate_script);
@@ -239,33 +261,12 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	      for(g=menupaths;g;g=g->next){
 		menupath = g->data;
 		menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
-		GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-		if(widget==NULL) {
-		  instantiate_menus(menupath);
-		}
-		//We place the item after the "after" item in the menupath, unless that isn't yet
-		//installed, in which case we just append to the menu
-		gchar *menupath_item = g_build_filename(menupath,after,NULL);
-		GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
-		gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
-		g_free(menupath_item);
+		add_ui(menupath, after, name);
 	      }
 	  } else {
 	    if(fallback) {/* no path given, use fallback */
 	      menupath = fallback;
-	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	      if(widget==NULL) {
-		instantiate_menus(menupath);
-	      }
-	      //We place the item after the "after" item in the menupath, unless that isn't yet
-	      //installed, in which case we just append to the menu
-	      gchar *menupath_item = g_build_filename(menupath,after,NULL);
-	      GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
-	      //  if(after & !sibling)....indicate that you can't place it as requested and instruct on workaround. FIXME, also combine with code above...
-
-
-	      gtk_ui_manager_add_ui(Denemo.ui_manager, gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
-	      g_free(menupath_item);
+	      add_ui(menupath, after, name);
 	    }
 	  }
 	  if(merge && new_command) {
