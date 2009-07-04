@@ -2172,10 +2172,15 @@ simple_element:
 	}
 	| STRING_ optional_notemode_duration 	{
 		DenemoObject *mud = newlyric($2.t1.a, $2.t1.b, $1.gstr->str);
+	if(mud) {
 		mud->user_string = $1.user_string;
 	        mud->type = LYRICS;
 		stradd((*mud),$2);
 		$$ = g_list_append(NULL,mud);
+                }	else {
+		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string));	
+		$$ = g_list_append(NULL,mud);
+                }
 	}
 	| chord {
 LATER_MESSAGE(@$.first_line);
