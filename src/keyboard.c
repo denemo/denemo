@@ -261,6 +261,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	      //installed, in which case we just append to the menu
 	      gchar *menupath_item = g_build_filename(menupath,after,NULL);
 	      GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
+	      //  if(after & !sibling)....indicate that you can't place it as requested and instruct on workaround. FIXME, also combine with code above...
+
+
 	      gtk_ui_manager_add_ui(Denemo.ui_manager, gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
 	      g_free(menupath_item);
 	    }
