@@ -2108,25 +2108,27 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 				   movement_name->str, voice_name->str);
 	  
 	  GString *thestr = g_string_new("");
-	  gchar *staff_prolog_insert =  get_postfix(curstaffstruct->staff_directives);
+	  gchar *staff_prolog_insert =  get_prefix(curstaffstruct->staff_directives);
+	  gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
-	      g_string_append_printf(thestr, "\\new ChoirStaff %s << \n", staff_prolog_insert);
+	      g_string_append_printf(thestr, "\\new ChoirStaff %s << %s\n", staff_prolog_insert, staff_epilog_insert);
 	    if (curstaffstruct->context & DENEMO_GROUP_START)
-	      g_string_append_printf(thestr, "\\new StaffGroup %s << \n", staff_prolog_insert);
+	      g_string_append_printf(thestr, "\\new StaffGroup %s << %s\n", staff_prolog_insert, staff_epilog_insert);
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	      g_string_append_printf(thestr, "\\new PianoStaff %s << \n", staff_prolog_insert);
+	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_prolog_insert, staff_epilog_insert);
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
-	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << {\n",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = \\new Staff %s << %s{\n",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
 	    else
-	      g_string_append_printf(staffdefinitions, "%s%s = %s",movement_name->str, staff_name->str, staff_prolog_insert);
+	      g_string_append_printf(staffdefinitions, "%s%s = %s%s",movement_name->str, staff_name->str, staff_prolog_insert, staff_epilog_insert);
 	    g_string_append_printf(thestr, "\\%s%s\n", movement_name->str, staff_name->str);
 	  }
 	  else
 	    g_string_append_printf(staffdefinitions, "%s", "\\new Voice {\n");
 	  g_free(staff_prolog_insert);
+	  g_free(staff_epilog_insert);
 
 	  if (curstaffstruct->no_of_lines != 5)
 	    g_string_append_printf(staffdefinitions, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n",
