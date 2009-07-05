@@ -2417,6 +2417,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Force New Measure</label>
         <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
       </row>
+      <row>
+        <action>HideEmptyStaffs</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Hide Empty Staffs (Off/On)</label>
+        <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
