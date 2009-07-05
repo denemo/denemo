@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>LineBreak</after>
+        <action>PageBreak</action>
+        <scheme>;;;;;;;;PageBreak
+(d-DirectivePut-standalone "PageBreak")
+(d-DirectivePut-standalone-postfix "PageBreak" "\pageBreak")
+(d-DirectivePut-standalone-display "PageBreak" "page")
+(d-RefreshDisplay)
+</scheme>
+        <label>Page Break</label>
+        <tooltip>(Print) Forces a new page at this barline.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Anacrusis</after>
+        <action>LineBreak</action>
+        <scheme> ;;;;;;;;LineBreak
+(d-DirectivePut-standalone "LineBreak")
+(d-DirectivePut-standalone-postfix "LineBreak" "\\break")
+(d-DirectivePut-standalone-display "LineBreak" "break")
+(d-RefreshDisplay)
+</scheme>
+        <label>Line Break</label>
+        <tooltip>(Print) Start a new line (i.e. system) at this measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

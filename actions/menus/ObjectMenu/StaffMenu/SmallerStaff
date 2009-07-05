@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>SmallerStaff</action>
-        <scheme>(d-DirectivePut-staff-postfix "StaffSize" "\\with {\n
+        <scheme>(d-DirectivePut-staff-prefix "StaffSize" "\\with {\n
    fontSize = #-3\n
     \\override StaffSymbol #'staff-space = #(magstep -3)\n
   }\n")

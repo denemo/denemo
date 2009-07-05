@@ -2425,6 +2425,39 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Hide Empty Staffs (Off/On)</label>
         <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
       </row>
+ <row>
+        <action>InstrumentName</action>
+        <after>Ambitus</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Instrument Name</label>
+        <tooltip>Print Instrument name before staff at start of score,</tooltip>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+        <after>InstrumentName</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Short Instrument Name</label>
+        <tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</tooltip>
+      </row>
+      <row>
+        <action>LineBreak</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Line Break</label>
+        <tooltip>(Print) Start a new line (i.e. system) at this measure.</tooltip>
+      </row>
+      <row>
+        <action>PageBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Page Break</label>
+        <tooltip>(Print) Forces a new page at this barline.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
