@@ -5,14 +5,17 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>SmallerStaff</action>
-        <scheme>(d-DirectivePut-staff-prefix "StaffSize" "\\with {\n
+        <scheme>;;;;;;;;;;;;;;;;Smaller Staff
+(d-DirectivePut-staff-prefix "StaffSize" "\\new Staff \\with {\n
    fontSize = #-3\n
-    \\override StaffSymbol #'staff-space = #(magstep -3)\n
-  }\n")
-
+    \\override StaffSymbol #'staff-space = #(magstep -3)\n}\n &lt;&lt; {")
+(d-DirectivePut-staff-override "StaffSize" DENEMO_OVERRIDE_LILYPOND)
 (d-DirectivePut-staff-graphic "StaffSize" "Smaller Staff")
-(d-RefreshDisplay)</scheme>
+(d-RefreshDisplay)
+
+</scheme>
         <label>Smaller Staff</label>
         <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
       </row>
