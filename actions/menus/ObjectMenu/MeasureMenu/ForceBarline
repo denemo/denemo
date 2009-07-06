@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Anacrusis</after>
+        <action>ForceBarline</action>
+        <scheme>;;;ForceBarline
+(d-DirectivePut-standalone-minpixels "ForceBarline" 30)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "ForceBarline" " \\bar \"|\"")
+(d-DirectivePut-standalone-gx  "ForceBarline"  0)
+(d-DirectivePut-standalone-gy  "ForceBarline"  -3)
+(d-DirectivePut-standalone-graphic "ForceBarline" "Barline")
+(d-CursorRight)
+(d-RefreshDisplay)
+</scheme>
+        <label>Insert Barline</label>
+        <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

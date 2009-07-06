@@ -1,11 +1,11 @@
 /* 
- * exportmidi.cpp 
+ * exportmidi.c
  *
  * Functions for exporting a Standard Midi file
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (C) 2001, 2002 Per Andersson
- *
+ * (C) 2001, 2002 Per Andersson, 2009 Richard Shann
+ * 
  * License: this file may be used under the FSF GPL version 2
  */
 
@@ -930,13 +930,13 @@ compute_beat (long ticks, long ticks_in_a_beat,
 /* puts an event into track if buffer contains valid midi message.
    and frees buffer. Returns the event, or NULL if invalid buffer.
  */
-static smf_event_t* put_event(gchar *buffer, gint numbytes, DenemoObject *curobj, smf_track_t *track) {
+static smf_event_t* put_event(gchar *buffer, gint numbytes, GList **midi_events, smf_track_t *track) {
   smf_event_t *event = NULL;
   if(numbytes && is_status_byte(buffer[0]))
     event = smf_event_new_from_pointer(buffer, numbytes);
   if(event && smf_event_is_valid(event)) {
     smf_track_add_event_delta_pulses(track, event, 0);
-    curobj->midi_events = g_list_append(curobj->midi_events, event);
+    *midi_events = g_list_append(*midi_events, event);
     //g_print("Added %x\n", event->midi_buffer[0]);
   }
   g_free(buffer);
@@ -1159,6 +1159,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 /*
  * end of headers and meta events, now for some real actions
  */
+
   fraction = 1 / g_list_length (si->thescore);
 
   /* iterate over all tracks in file */
@@ -1180,6 +1181,59 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       tracknumber++;
       smf_track_t *track = smf_track_new();
       smf_add_track(smf, track);
+      if(curstaffstruct->staff_directives) {
+	GList *g;
+	DenemoDirective *directive = NULL;
+	for(g=curstaffstruct->staff_directives;g;g=g->next){
+	  gint numbytes;
+	  directive = (DenemoDirective *)g->data;
+	  gint midi_override = directive_get_midi_override(directive);
+	  gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	  if(midi_override)
+	    g_warning("No MIDI override values mean anything at Staff level");
+	      if(buffer) 
+		if(NULL==put_event(buffer, numbytes, &curstaffstruct->midi_events, track))
+		  g_warning("Invalid midi bytes in staff directive\n");
+	}
+      }
+
+      if(tracknumber==1) {
+	if (Denemo.gui->lilycontrol.directives) {
+	  //FIXME repeated code
+	  GList *g;
+	  DenemoDirective *directive = NULL;
+	  for(g=Denemo.gui->lilycontrol.directives;g;g=g->next){
+	    gint numbytes;
+	    directive = (DenemoDirective *)g->data;
+	    gint midi_override = directive_get_midi_override(directive);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	    if(midi_override)
+	      g_warning("No MIDI override values mean anything at Score level");
+	    if(buffer) 
+	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->midi_events, track))
+		g_warning("Invalid midi bytes in score directive\n");
+	  }
+	}
+
+	if (Denemo.gui->si->movementcontrol.directives) {
+	  GList *g;
+	  DenemoDirective *directive = NULL;
+	  for(g=Denemo.gui->si->movementcontrol.directives;g;g=g->next){
+	    gint numbytes;
+	    directive = (DenemoDirective *)g->data;
+	    gint midi_override = directive_get_midi_override(directive);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	    if(midi_override)
+	      g_warning("No MIDI override values mean anything at Movement level");
+	    if(buffer) 
+	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->si->midi_events, track))
+		g_warning("Invalid midi bytes in movement directive\n");
+	  }
+	}
+
+      }
+
+
       if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
 	{
 	  midi_channel = 9;
@@ -1340,7 +1394,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      //etc			      
 			    default:
 			      if(buffer) 
-				if(NULL==put_event(buffer, numbytes, curobj, track))
+				if(NULL==put_event(buffer, numbytes, &curobj->midi_events, track))
 				  g_warning("Invalid midi bytes in chord directive\n");
 			      break;
 			    }
@@ -1733,7 +1787,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			break;
 		      default:
 			if(buffer) {
-			  if(NULL==put_event(buffer, numbytes, curobj, track))
+			  if(NULL==put_event(buffer, numbytes,  &curobj->midi_events, track))
 			    g_warning("Directive has invalid MIDI bytes\n");
 			}
 			break;

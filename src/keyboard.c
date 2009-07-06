@@ -111,17 +111,20 @@ instantiate_menus(gchar *menupath) {
   GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, up1);
   if(widget==NULL)
     instantiate_menus(up1);
-  GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
   GtkActionGroup *action_group = GTK_ACTION_GROUP(groups->data); //FIXME assuming the one we want is first
-  gtk_action_group_add_action(action_group, action);
-  g_object_set_data(G_OBJECT(action), "menupath", up1);
+  if(NULL == gtk_action_group_get_action(action_group, name)) {
+    GtkAction *action = gtk_action_new(name,name,"A menu",NULL);
+    gtk_action_group_add_action(action_group, action);
+    g_object_set_data(G_OBJECT(action), "menupath", up1);
+  }
   gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
 			up1,
 			name, name, GTK_UI_MANAGER_MENU, FALSE);
   //g_print("Adding %s to %s\n", name, up1);
   // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
   //show_type (widget, "for menupath widget is ");
+  
 }
 
 void set_visibility_for_action(GtkAction *action, gboolean visible) {
@@ -142,11 +145,33 @@ static void hide_action_of_name(gchar *name){
   GtkAction *action = lookup_action_from_name (name);
   set_visibility_for_action(action, FALSE);
 }
+static void
+add_ui(gchar *menupath, gchar *after, gchar *name) {
+  GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
+  if(widget==NULL) {
+    instantiate_menus(menupath);
+  }
+  //We place the item after the "after" item in the menupath, unless that isn't yet
+  //installed, in which case we just append to the menu
+  gchar *menupath_item = g_build_filename(menupath,after,NULL);
+  GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
+  if( (after!=NULL) & (sibling==NULL)) {
+    static gboolean once=TRUE;
+    if(once) {
+      gchar *msg = g_strdup_printf("Cannot place %s after %s as requested,\nbecause I haven't seen %s yet\nTo fix this delete the %s command save the command set,\nQuit and restart Denemo\nThen re-install %s by right clicking on the %s item\nand choosing Insert Command After This One\nAnd finally saving command set again", name, after, after, name, name, after);
+      infodialog(msg);
+      g_free(msg);
+      once = FALSE;
+    }
+  }
+  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
+  g_free(menupath_item);
+}
 
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
 {
-  xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL;
+  xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL, *after=NULL;
   GList *menupaths = NULL;
   cur = cur->xmlChildrenNode;
   gint command_number = -1;
@@ -198,6 +223,10 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	label = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
       }
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "after")) {
+	after = 
+	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+      }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "tooltip")) {
 	tooltip = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
@@ -216,8 +245,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    action = gtk_action_new(name,label,tooltip, icon_name);
 	    //g_print("New action %s\n", name);
 	    if(hidden)
-	      g_object_set_data(action, "hidden", TRUE);
-
+	      g_object_set_data(G_OBJECT(action), "hidden",  (gpointer)TRUE);
+	    if(after)
+	      g_object_set_data(G_OBJECT(action), "after", (gpointer)after);
 	    register_command(Denemo.map, action, name, label, tooltip, activate_script);
 	    GtkActionGroup *action_group;
 	    GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
@@ -231,24 +261,12 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	      for(g=menupaths;g;g=g->next){
 		menupath = g->data;
 		menupath = menupath?menupath:(xmlChar*)"/MainMenu/Other";
-		GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-		if(widget==NULL) {
-		  instantiate_menus(menupath);
-		}
-		  gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath,
-				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+		add_ui(menupath, after, name);
 	      }
 	  } else {
 	    if(fallback) {/* no path given, use fallback */
 	      menupath = fallback;
-	      GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-	      if(widget==NULL) {
-		instantiate_menus(menupath);
-	      }
-	      gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager), 
-				      menupath,
-				      name, name, GTK_UI_MANAGER_AUTO, FALSE);
+	      add_ui(menupath, after, name);
 	    }
 	  }
 	  if(merge && new_command) {
@@ -602,6 +620,7 @@ save_xml_keymap (gchar * filename)
      
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
+      gchar *after = action?g_object_get_data(action, "after"):NULL;
       gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
       gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
       if(deleted && scheme)
@@ -615,7 +634,10 @@ save_xml_keymap (gchar * filename)
       g_print ("%s \n", name);
 #endif	
       xmlNewTextChild (child, NULL, (xmlChar *) "action",
-		       (xmlChar *) name);  
+		       (xmlChar *) name); 
+      if(after)
+	xmlNewTextChild (child, NULL, (xmlChar *) "after",
+			 (xmlChar *) after);  
       if(hidden)
 	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
       if(scheme) 	
@@ -757,7 +779,7 @@ parse_paths (gchar * filename, DenemoGUI *gui)
 
 
 gint
-save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip)
+save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *mylabel, gchar *mytooltip, gchar *after)
 {
   xmlDocPtr doc;
   //xmlNsPtr ns;
@@ -774,7 +796,8 @@ save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *myl
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
   
   child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-  
+  xmlNewTextChild (child, NULL, (xmlChar *) "after",
+		   (xmlChar *) after);  
   
   xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		   (xmlChar *) myname);  

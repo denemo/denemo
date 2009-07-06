@@ -1579,7 +1579,7 @@ save_keymap_dialog (GtkWidget * widget)
 void
 save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
 {
-  save_default_keymap_file (NULL);
+  save_default_keymap_file ();
 }
 
 /**
@@ -1587,7 +1587,7 @@ save_default_keymap_file_wrapper (GtkAction *action, gpointer param)
  *
  */
 void
-save_default_keymap_file (GtkWidget *widget)
+save_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();

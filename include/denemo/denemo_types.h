@@ -254,6 +254,8 @@ typedef struct
   GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
   GList *voice_directives;/**< List of DenemoDirective for the voice context */
   GString *lyrics_prolog;/**< (Unused)Customised version of the LilyPond prolog defining the lyrics of this staff */
+  GList *midi_events;/*< midi_events to be output at start of the track, after scorewide and movementwide ones */
+
   GString *figures_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the figured bass of this staff */
   GString *fakechords_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the chord symbols of this staff */
 }DenemoStaff;
@@ -637,7 +639,7 @@ typedef struct DenemoScore
   movementcontrol movementcontrol;/*< Directives for control of the whole movement */
   layout layout;/*< Directives for the layout block of the movement */
   header header;/*< Directives for the header block of the movement */
-  
+  GList *midi_events;/*< midi_events to be output at start of first track, after scorewide ones */
 
   guint changecount;
   /* Fields used for MIDI playback */
@@ -718,6 +720,7 @@ typedef struct DenemoGUI
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
+  GList *midi_events;/*< midi_events to be output at start of first track of each movement */
 
   GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
 

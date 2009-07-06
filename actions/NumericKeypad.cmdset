@@ -1432,15 +1432,14 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction</tooltip>
       </row>
       <row>
-        <action>EditLyric</action>
-        <label>Insert/Edit Lyric</label>
-        <tooltip>Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly</tooltip>
-        <bind>Control+l</bind>
+        <action>AddVerse</action>
+        <label>Add Lyric Verse</label>
+        <tooltip>Add a verse of lyrics</tooltip>
       </row>
       <row>
-        <action>ToggleLyrics</action>
-        <label>Delete/Undelete Lyrics</label>
-        <tooltip>Deletes/Undeletes lyrics from current voice</tooltip>
+        <action>DeleteVerse</action>
+        <label>Delete Verse</label>
+        <tooltip>Deletes current verse of lyrics from current voice</tooltip>
       </row>
       <row>
         <action>EditFiguredBass</action>
@@ -2449,7 +2448,78 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Create Timebase</label>
         <tooltip>Recalculates the timing of each note.</tooltip>
       </row>
-
+      <row>
+        <action>ForceNewMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Force New Measure</label>
+        <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <after>InsertMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Split Measure</label>
+        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+        <after>InsertMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Delete Barline</label>
+        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+      </row>
+      <row>
+        <action>ForceBarline</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Barline</label>
+        <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
+      </row>
+      <row>
+        <action>HideEmptyStaffs</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Hide Empty Staffs (Off/On)</label>
+        <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
+      </row>
+      <row>
+        <action>InstrumentName</action>
+        <after>Ambitus</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Instrument Name</label>
+        <tooltip>Print Instrument name before staff at start of score,</tooltip>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+        <after>InstrumentName</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Short Instrument Name</label>
+        <tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</tooltip>
+      </row>
+      <row>
+        <action>LineBreak</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Line Break</label>
+        <tooltip>(Print) Start a new line (i.e. system) at this measure.</tooltip>
+      </row>
+      <row>
+        <action>PageBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Page Break</label>
+        <tooltip>(Print) Forces a new page at this barline.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

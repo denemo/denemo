@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>NonPrintingStaff</action>
-        <scheme>(d-DirectivePut-staff-postfix "NonPrintingStaff" " { } hiddenStaff = &lt;&lt; { ")
+        <scheme>(d-DirectivePut-staff-prefix "NonPrintingStaff" " { } hiddenStaff = &lt;&lt; { ")
 (d-DirectivePut-staff-display "NonPrintingStaff" "Hidden Staff")
 (d-DirectivePut-staff-override "NonPrintingStaff" 1)
 (d-RefreshDisplay)</scheme>

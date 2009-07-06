@@ -7,7 +7,7 @@
       <row>
         <action>TimbalesStyle</action>
         <scheme>;;;;;;;;;; TimbalesStyle
-(d-DirectivePut-staff-postfix "TimbalesStyle" "&lt;&lt; { \\new DrumStaff \\with {\n
+(d-DirectivePut-staff-prefix "TimbalesStyle" "&lt;&lt; { \\new DrumStaff \\with {\n
       drumStyleTable = #timbales-style
       \\override StaffSymbol #'line-count = #2
       \\override BarLine #'bar-size = #2
