@@ -742,8 +742,10 @@ static gint get_override(GList *g) {
     DenemoDirective *d = g->data;
     ret |= d->override;
   }
-  return ret;
+  return ret & DENEMO_OVERRIDE_LILYPOND;
 }
+
+
 
 
 /**
