@@ -203,6 +203,17 @@ static void button_choice_callback(GtkWidget *w, gint *mask ){
     *mask = g_object_get_data(w, "mask");
   g_print("button choice %x\n", *mask);
 }
+#define RESPONSE_LOADED (1)
+static load_system_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
+  load_system_keymap_dialog(button);
+  gtk_dialog_response(dialog, RESPONSE_LOADED);
+}
+
+static load_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
+  load_keymap_dialog(button);
+  gtk_dialog_response(dialog, RESPONSE_LOADED);
+}
+
 
 void
 configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
@@ -419,20 +430,26 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   g_signal_connect (GTK_OBJECT (button_save_as), "clicked",
 		      G_CALLBACK(save_keymap_dialog), NULL);
   g_signal_connect (GTK_OBJECT (button_load), "clicked",
-		      G_CALLBACK(load_system_keymap_dialog), NULL);
+		      G_CALLBACK(load_system_keymap_dialog_response), dialog);
 
 
 
   g_signal_connect (GTK_OBJECT (button_load_from), "clicked",
-		      G_CALLBACK(load_keymap_dialog), NULL);
+		      G_CALLBACK(load_keymap_dialog_response), dialog);
+
 
 
   gtk_widget_show_all (dialog);
-  gtk_dialog_run (GTK_DIALOG (dialog));
+  gint val = gtk_dialog_run (GTK_DIALOG (dialog));
+  
   //When closing the dialog remove the signals that were associated to the
   //dialog
   keymap_cleanup_command_view(&cbdata);
   gtk_widget_destroy (dialog);
+  if(val==RESPONSE_LOADED) {
+    // test for if load has been performed i.e. finished, if so
+    // configure_keyboard_dialog_init_idx (action, gui, command_idx);
+  }
 }
 
 void
