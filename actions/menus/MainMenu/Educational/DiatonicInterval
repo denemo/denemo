@@ -12,6 +12,10 @@
 (let (
       (shiftup 0)
       (shiftdown 0)
+      (show-graphic 0)
+      (PlaceGraphic 0)
+      (number->graphic 0)
+      (graphic "One")
       (runtest 0)
       (PlaceAnswerStatus 0)
       (notewas #t)
@@ -48,7 +52,49 @@
 	    (d-DirectivePut-note-gx name -15)
 	    (d-DirectivePut-note-gy name 10)
 	    (d-DirectivePut-note-graphic name gfx))))
- 
+
+  (set! show-graphic (lambda (count)
+			  (cond ((zero? count)
+			       (set! graphic "LargeZero"))
+			      ((= 1 count)
+			       (set! graphic "LargeOne"))
+			      ((= 2 count)
+			       (set! graphic "LargeTwo"))
+			      ((= 3 count)
+			       (set! graphic "LargeThree"))
+			      ((= 4 count)
+			       (set! graphic "LargeFour"))
+			      ((= 5 count)
+			       (set! graphic "LargeFive"))
+			      ((= 6 count)
+			       (set! graphic "LargeSix"))
+			      ((= 7 count)
+			       (set! graphic "LargeSeven"))
+			      ((= 8 count)
+			       (set! graphic "LargeEight"))
+			      ((= 9 count)
+			       (set! graphic "LargeNine")))
+			 (d-DirectivePut-standalone-graphic "Score" graphic)
+			 ))
+	
+(set! PlaceGraphic
+  (lambda (numberstring)
+    (begin
+        (d-AppendMeasure)
+        (d-MeasureRight)
+        (show-graphic numberstring)
+        (d-RefreshDisplay))))
+
+(set! number->graphic
+  (lambda (number position)
+    (begin
+      (let ( (charnumber (number->string number)) )
+        (if (not (>= position (string-length charnumber)))
+           (begin
+             (PlaceGraphic (- (char->integer (string-ref charnumber position)) 48))
+             (number->graphic number (+ 1 position))))))))
+
+	
 ;;;;;;;; the main function to run the test
   (set! runtest 
 	(lambda (n)
@@ -108,6 +154,8 @@
   (d-Insert2)
   (runtest num-goes)
   (d-DirectivePut-score-display  "DiatonicInterval"  (string-append  "Final Score: " (object-&gt;string score)))
+  (d-InsertLilyDirective "directive=%Your score: ")
+  (number->graphic score 0)
   (set! endtime (car (gettimeofday))) 
   (display (- endtime starttime))
   (d-RefreshDisplay)
