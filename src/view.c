@@ -3319,7 +3319,7 @@ get_icon_for_name(gchar *name, gchar *label) {
 				      NULL);
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
     g_free(filename);
-    filename = g_build_filename (get_data_dir (), "download", "actions", "bitmaps", pngname, 
+    filename = g_build_filename (locatedownloadbitmapsdir(), pngname, 
 				 NULL);
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
       g_free(filename);
