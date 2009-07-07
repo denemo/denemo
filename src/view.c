@@ -3446,6 +3446,8 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     g_free(filename);
     filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
 				      NULL);
+    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+      return TRUE;
   } 
   FILE *fp = fopen(filename,"rb");
   if(fp) {
