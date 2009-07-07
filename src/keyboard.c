@@ -604,7 +604,7 @@ save_xml_keymap (gchar * filename)
 
   child = xmlNewChild (parent, NULL, (xmlChar *) "commands", NULL);
 
-  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Keymap");
+  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Command Set");
   xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
 
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
