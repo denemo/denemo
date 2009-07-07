@@ -475,34 +475,41 @@ determineAccidentalShift (gchar * accidentalName)
  * Parse the given <clef> element into a numeric clef type.
  */
 static void
-parseClef (xmlNodePtr clefElem, xmlNsPtr ns, gint * clefType)
+parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
 {
   gchar *clefTypeName = (gchar *) xmlGetProp (clefElem, (xmlChar *) "name");
   if (clefTypeName == NULL)
     {
       g_warning ("No clef name specified; defaulting to treble");
-      *clefType = DENEMO_TREBLE_CLEF;
+      clef->type = DENEMO_TREBLE_CLEF;
     }
   else if (strcmp (clefTypeName, "treble") == 0)
-    *clefType = DENEMO_TREBLE_CLEF;
+    clef->type = DENEMO_TREBLE_CLEF;
   else if (strcmp (clefTypeName, "bass") == 0)
-    *clefType = DENEMO_BASS_CLEF;
+    clef->type = DENEMO_BASS_CLEF;
   else if (strcmp (clefTypeName, "alto") == 0)
-    *clefType = DENEMO_ALTO_CLEF;
+    clef->type = DENEMO_ALTO_CLEF;
   else if (strcmp (clefTypeName, "treble-8vb") == 0)
-    *clefType = DENEMO_G_8_CLEF;
+    clef->type = DENEMO_G_8_CLEF;
   else if (strcmp (clefTypeName, "tenor") == 0)
-    *clefType = DENEMO_TENOR_CLEF;
+    clef->type = DENEMO_TENOR_CLEF;
   else if (strcmp (clefTypeName, "soprano") == 0)
-    *clefType = DENEMO_SOPRANO_CLEF;
+    clef->type = DENEMO_SOPRANO_CLEF;
   else
     {
       g_warning ("Unknown clef type \"%s\"; defaulting to treble",
 		 clefTypeName);
-      *clefType = DENEMO_TREBLE_CLEF;
+      clef->type = DENEMO_TREBLE_CLEF;
     }
   g_free (clefTypeName);
-
+  xmlNodePtr childElem;
+  FOREACH_CHILD_ELEM (childElem, clefElem)
+    {
+      if(ELEM_NAME_EQ (childElem, "directives"))
+	{
+	  clef->directives = parseDirectives(childElem, ns);
+	}
+    }
 }
 
 
@@ -2232,7 +2239,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, xmlNsPtr ns,
 	  }
 	else if (ELEM_NAME_EQ (childElem, "clef"))
 	  {
-	    parseClef (childElem, ns, &(curVoice->clef.type));
+	    parseClef (childElem, ns, &curVoice->clef);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "key-signature"))
 	  {
@@ -2358,9 +2365,10 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		}
 	      else if (ELEM_NAME_EQ (objElem, "clef"))
 		{
-		  parseClef (objElem, ns, (gint *) & newClef);
-		  curObj = dnm_newclefobj (newClef);
-		  currentClef = newClef;
+		  curObj = dnm_newclefobj (DENEMO_TREBLE_CLEF);
+		  parseClef (objElem, ns, curObj->object);
+		  
+		  currentClef = ((clef*)curObj->object)->type;
 		}
 	      else if (ELEM_NAME_EQ (objElem, "lyric"))
 		{

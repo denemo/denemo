@@ -710,9 +710,11 @@ static gchar *get_postfix(GList *g) {
   GString *ret = g_string_new("");
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
-    
     if(d->postfix && d->postfix->len)
-      g_string_append(ret, d->postfix->str);
+      if(d->override & DENEMO_OVERRIDE_LILYPOND)
+	g_string_prepend(ret, d->prefix->str);
+      else
+	g_string_append(ret, d->postfix->str);
   }
 return g_string_free(ret, FALSE);
 }
@@ -724,8 +726,10 @@ static gchar *get_prefix(GList *g) {
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
     if(d->prefix && d->prefix->len)
-      g_string_append(ret, d->prefix->str);
-    
+      if(d->override & DENEMO_OVERRIDE_LILYPOND)
+	g_string_prepend(ret, d->prefix->str);
+      else
+	g_string_append(ret, d->prefix->str);
   }
 return g_string_free(ret, FALSE);
 }
@@ -735,15 +739,17 @@ return g_string_free(ret, FALSE);
 
 
 
-/* returns the directives flags ORd together */
+/* returns if there is a directive overriding the normal LilyPond output */
 static gint get_override(GList *g) {
   gint ret = 0;
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
     ret |= d->override;
   }
-  return ret;
+  return ret & DENEMO_OVERRIDE_LILYPOND;
 }
+
+
 
 
 /**
