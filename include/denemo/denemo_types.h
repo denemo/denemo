@@ -801,6 +801,7 @@ struct DenemoRoot
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */
   GtkWidget *window;
+  GtkWidget *console;/**< GtkTextView for console output */
   GtkActionGroup *action_group;/*< The action group for the actions that are Denemo commands */
   DenemoGUI *gui; /**< The current gui */
   GtkWidget *notebook;/**< contains the gui.page widgets */

@@ -248,5 +248,6 @@ if(!action && param){\
 }
 
 gchar * get_option(gchar *str, gint length);
+void console_output(gchar *text);
 
 #endif /* UTILS_H */

@@ -44,7 +44,7 @@ typedef struct lilyversion
 
 #define GPID_NONE (-1)
 static GPid printviewpid = GPID_NONE;
-
+static gint printpreview_errors=-1;
 static GPid printpid = GPID_NONE;
 static gint output=-1;
 static gint errors=-1;
@@ -244,6 +244,8 @@ process_lilypond_errors(gchar *filename){
   gint numbytes = read(errors, bytes, bufsize-1);
   close(errors);
   errors = -1;
+#undef bufsize
+
   if(numbytes==-1) {
     g_free(bytes);
     return;
@@ -259,7 +261,7 @@ process_lilypond_errors(gchar *filename){
 	warningdialog("Spurious line number"), line = 0;
       /* gchar *errmsg = g_strdup_printf("Error at line %d column %d %d", line,column, cnv); */
       /*     warningdialog(errmsg); */
-      infodialog(epoint);/* FIXME PUT OUTPUT IN CONSOLE WINDOW HERE */
+      console_output(epoint);
       if(gui->textbuffer) {
 	set_lily_error(line+1, column, gui);
       } 
@@ -275,7 +277,7 @@ process_lilypond_errors(gchar *filename){
   if (lily_err != NULL)
     {
       if(*bytes)
-	infodialog(bytes);
+	console_output(bytes);
       warningdialog("Could not execute lilypond - check Edit->preferences->externals->lilypond setting\nand lilypond installation");
       g_warning ("%s", lily_err->message);
       if(lily_err) g_error_free (lily_err);
@@ -827,13 +829,28 @@ static void normal_cursor(void) {
 }
 
 static void
+process_printpreview_errors(void){
+  DenemoGUI *gui = Denemo.gui;
+  if (printpreview_errors == -1)
+    return;
+#define bufsize (1000)
+  gchar *bytes = g_malloc0(bufsize);
+  gint numbytes = read(printpreview_errors, bytes, bufsize-1);
+  close(printpreview_errors);
+  printpreview_errors = -1;
+#undef bufsize
+  if(*bytes)
+    console_output(bytes);
+  g_free(bytes);
+}
+static void
 printview_finished(void) {
   DenemoGUI *gui = Denemo.gui;
   g_spawn_close_pid (printviewpid);
   printviewpid = GPID_NONE;
   GError *error = NULL;
   normal_cursor();
-
+  process_printpreview_errors();
   gchar *filename = get_printfile_pathbasename();
   gchar *path = g_strconcat (filename, "_.png", NULL);
   if(gui->pixbuf)
@@ -932,11 +949,14 @@ void refresh_print_view (void) {
   busy_cursor();
   changecount = Denemo.gui->changecount;// keep track so we know it update is needed
 
-  g_spawn_async (locatedotdenemo (),		/* dir */
+  g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		 arguments, NULL,	/* env */
 		 G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
 		 NULL,		/* user data */
 		 &printviewpid,
+		 NULL,
+		 NULL,		/* stdout */
+	         &printpreview_errors,		/* stderr */
 		 &error);
   g_free(lilyfile);
   g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, NULL);

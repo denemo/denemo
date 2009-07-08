@@ -1057,3 +1057,11 @@ gchar * get_option(gchar *str, gint length) {
   gtk_widget_destroy(dialog);
   return response;
 }
+
+/* output text to the console window */
+void console_output(gchar *text) {
+  GtkTextIter enditer;
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.console));
+  gtk_text_buffer_get_end_iter (buffer,  &enditer);
+  gtk_text_buffer_insert(buffer, &enditer, text, -1);
+}

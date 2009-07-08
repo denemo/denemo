@@ -112,6 +112,7 @@ SCM call_out_to_guile(char *script) {
 #define ToggleArticulationPalette_STRING  "ToggleArticulationPalette"
 #define TogglePrintView_STRING  "TogglePrintView"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"
+#define ToggleConsoleView_STRING  "ToggleConsoleView"
 
 #define ToggleScoreView_STRING  "ToggleScoreView"
 #define ToggleScoreTitles_STRING  "ToggleScoreTitles"
@@ -4182,6 +4183,33 @@ toggle_lyrics_view (GtkAction *action, gpointer param)
   return;
 }
 
+/**
+ *  Function to toggle visibility of console view pane
+ *  
+ *  
+ */
+void
+toggle_console_view (GtkAction *action, gpointer param)
+{
+  GtkWidget *w = gtk_widget_get_parent(Denemo.console);
+  if(!w)
+    g_warning("Internal Error");
+  else {
+    if(GTK_WIDGET_VISIBLE(w))
+      gtk_widget_hide(w);
+    else {
+      gtk_widget_show(w);
+      GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.console));
+      GtkTextIter iter;
+      /* get end iter */
+      gtk_text_buffer_get_end_iter (buffer, &iter);
+      /* scroll to end iter */
+      gtk_text_view_scroll_to_iter (GTK_TEXT_VIEW (Denemo.console),
+                                      &iter, 0.0, FALSE, 0, 0); 
+    }
+  }
+  return;
+}
 
 
 /**
@@ -4268,6 +4296,9 @@ GtkToggleActionEntry toggle_menu_entries[] = {
 
   {ToggleLyricsView_STRING, NULL, N_("Lyrics View"), NULL, NULL,
    G_CALLBACK (toggle_lyrics_view), TRUE},
+
+  {ToggleConsoleView_STRING, NULL, N_("Console"), NULL, NULL,
+   G_CALLBACK (toggle_console_view), TRUE},
 
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
@@ -4587,6 +4618,22 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
 
   }
 
+static void create_console(GtkBox *box) {
+  //GtkWidget *vpaned = gtk_vpaned_new ();
+  //gtk_container_set_border_width (GTK_CONTAINER(vpaned), 5);
+  //gtk_box_pack_start (GTK_BOX (box), vpaned, FALSE, TRUE, 0);
+  Denemo.console = gtk_text_view_new ();
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_AUTOMATIC,
+				  GTK_POLICY_AUTOMATIC);
+  //gtk_paned_add1 (GTK_PANED (vpaned), sw);
+gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (sw), Denemo.console);
+  // gtk_widget_show_all(vpaned);
+ gtk_widget_show_all(sw);
+}
+
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
@@ -4738,7 +4785,7 @@ get_data_dir (),
   gtk_widget_show (Denemo.notebook);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
 
-
+  create_console(main_vbox);
   Denemo.statusbar = gtk_statusbar_new ();
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
