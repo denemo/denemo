@@ -1742,7 +1742,7 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si,
 	  {
 	    cursorposition = getXMLIntChild (childElem);
 	    //g_print ("Cursor Pos %d\n", cursorposition);
-	    si->cursor_x = cursorposition;
+	    si->cursor_x = (cursorposition>0?cursorposition:0);//Is getting over written actually...
 	  }
       }
   }
