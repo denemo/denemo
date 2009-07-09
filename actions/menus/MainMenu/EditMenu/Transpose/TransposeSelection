@@ -10,9 +10,9 @@
 (if (not (defined? 'Transpose::init))
     (d-InitializeScript CurrentScript))
 (if (not (defined? 'Transpose::Interval))
-	(define  Transpose::Interval "c d"))
+	(define  Transpose::Interval "b,"))
 (Transpose::SetTransposeInterval  (d-GetUserInput "Transposition - Instructions" 
-				     "Enter a note, a space, and the note you wish this to transpose to" Transpose::Interval))
+				     "Hypothetically if the note \"C\"was in your selection, what note would you want it to be transposed to?" Transpose::Interval))
 (ApplyToSelection "(Transpose::TransposeNote)" "(d-GoToMark)")
 </scheme>
         <label>Transpose Selection</label>
