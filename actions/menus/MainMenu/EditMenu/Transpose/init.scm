@@ -6,7 +6,7 @@
 ;;;; public variables
       (define Transpose::SetTransposeInterval 0)
       (define Transpose::TransposeNote 0)
-      (define Transpose::Interval "c d")
+      (define Transpose::Interval "b,")
 ;;;;;;;;;;; private variables
 					;original note
       (define Transpose::original-pitch '(0 0 0))
@@ -19,16 +19,16 @@
 
       (define (Transpose::SetTransposeInterval interval)
 	    (begin
-	      (Transpose::split-input interval)
+	      (set! Transpose::transpose-delta (Transpose::lily->pitch interval)) 
 	      (Transpose::get-delta)))
 
       (define (Transpose::get-interval-from-selection)
-	(let ((first-note "")
-	      (second-note ""))
-	  (set! first-note (d-GetNote))
-	  (NextChordInSelection)
-	  (set! second-note (d-GetNote))
-	  (string-append first-note " " second-note)
+	(let ((note ""))
+	  (set! note (d-GetNote))
+	  ;(NextChordInSelection)
+	  ;(set! second-note (d-GetNote))
+	  ;(string-append first-note " " second-note)
+	  (string-append note)
 	  ))
 
       (define Transpose::lily->pitch
