@@ -42,7 +42,7 @@ warningdialog (gchar * msg)
 {
   GtkWidget *dialog;
 
-  dialog = gtk_message_dialog_new (NULL,
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
@@ -60,7 +60,7 @@ void
 infodialog (gchar * msg)
 {
   GtkWidget *dialog;
-  dialog = gtk_message_dialog_new (NULL,
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   GTK_DIALOG_DESTROY_WITH_PARENT,
 				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
  g_signal_connect_swapped (dialog, "response",
@@ -924,7 +924,7 @@ confirm (gchar *primary, gchar *secondary)
   GtkWidget *dialog;
   gboolean r = 0;
 
-  dialog = gtk_message_dialog_new (NULL,
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
 				   (GtkDialogFlags)
 				   (GTK_DIALOG_MODAL |
 				    GTK_DIALOG_DESTROY_WITH_PARENT),
