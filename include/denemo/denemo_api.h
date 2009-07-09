@@ -37,7 +37,8 @@ dnm_setinitialclef(DenemoScore *si, DenemoStaff *curstaffstruct,
 void 
 dnm_setinitialtimesig (DenemoScore *si, DenemoStaff * curstaffstruct, 
 		       gint time1,gint time2, gboolean all_staves);
-
+void
+dnm_insert_timesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time1, gint time2);
 
 void dnm_setinitialkeysig(DenemoStaff *curstaff, gint tokey, gint type);
 void dnm_set_denemo_name (GString *lily_name, GString *denemo_name);
