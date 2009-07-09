@@ -315,7 +315,7 @@ typedef struct DenemoPrefs
   gboolean createclones;
 
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
-  gboolean notation_palette; /**< This switch makes the duration toolbar visable */
+  gboolean notation_palette; /**< This switch makes the Note/Rest entry toolbar visable */
   gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
   gboolean object_palette;  /**< This option makes the object menu toolbar visable */
 

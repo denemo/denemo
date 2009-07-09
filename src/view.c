@@ -4833,23 +4833,6 @@ get_data_dir (),
    }
 
 #endif
-#if 0
-  /* we have to do this properly, because it introduces a keymap - no longer true */
-  if (Denemo.prefs.rhythm_palette) {
-    GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
-    if (GTK_WIDGET_VISIBLE (widget))
-      gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
-    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
-    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
-    //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
-    }
-  // A cheap way of doing activating this toolbar, note it is called variously notation toolbar, duration toolbar and EntryToolBar FIXME
-  if (!Denemo.prefs.notation_palette)
-    {
-      //g_print ("Notation palette %d\n", Denemo.prefs.notation_palette);
-      toggle_entry_toolbar (NULL, Denemo.gui);
-    }
-#endif
 
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
@@ -4879,12 +4862,7 @@ Really we should change the default for the class.*/
  Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
 
  //gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
- gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
-
-#ifdef G_OS_WIN32
- toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
- gtk_widget_show (toolbar);
-#endif
+ //GTK bug now fixed gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
  {GtkToggleAction *action;
  action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleObjectMenu");
@@ -4893,6 +4871,14 @@ Really we should change the default for the class.*/
  else 
 	gtk_toggle_action_set_active (action, FALSE);
  toggle_object_menu (NULL, Denemo.gui);
+ }
+ {GtkToggleAction *action;
+ action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleEntryToolbar");
+ if (Denemo.prefs.notation_palette)
+ 	gtk_toggle_action_set_active (action, TRUE);
+ else 
+	gtk_toggle_action_set_active (action, FALSE);
+ toggle_entry_toolbar (NULL, Denemo.gui);
  }
 
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
