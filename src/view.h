@@ -69,6 +69,7 @@ gchar *getSchemeText(void);
 void deleteSchemeText(void);
 void appendSchemeText(gchar *text);
 void executeScript(void);
+GError *execute_script_file(gchar *filename);
 gint getNumCharsSchemeText(void);
 void
 activate_script (GtkAction *action, gpointer param);

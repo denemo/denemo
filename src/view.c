@@ -93,6 +93,16 @@ SCM call_out_to_guile(char *script) {
  return gh_eval_str_with_catch (script, gh_standard_handler);
 }
 
+GError *execute_script_file(gchar *filename) {
+  GError *error = NULL;
+  gchar *script;
+  if(g_file_get_contents (filename, &script, NULL, &error)) {
+    call_out_to_guile(script);
+    g_free(script);
+  }
+  return error;
+}
+
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
 #define CLASSICMODE_STRING "ClassicMode"
@@ -629,6 +639,20 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+/* store the script to be invoked as an action for a directive tagged with tag */
+SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
+  if(SCM_STRINGP(tag)){
+    gchar *the_tag = scm_to_locale_string(tag);
+    if(SCM_STRINGP(script)){
+      gchar *the_script = scm_to_locale_string(script);
+      set_action_script_for_tag(the_tag, the_script);
+      return SCM_BOOL(TRUE);
+    }
+  }
+  return SCM_BOOL(FALSE);
+}
+
+
 
 
 #define GET_TAG_FN_DEF(what)\
@@ -657,21 +681,25 @@ GET_TAG_FN_DEF(layout);
 GET_TAG_FN_DEF(movementcontrol);
 #undef GET_TAG_FN_DEF
 
-#define EDIT_DELETE_FN_DEF(what)\
- static SCM scheme_delete_##what##_directive(SCM tag) {\
-  if(!SCM_STRINGP(tag))\
-     return SCM_BOOL(FALSE);\
-  gchar *tagname = scm_to_locale_string(tag);\
-  return SCM_BOOL( delete_##what##_directive (tagname));\
-}\
+#define EDIT_FN_DEF(what)\
  static SCM scheme_text_edit_##what##_directive(SCM tag) {\
   if(!SCM_STRINGP(tag))\
      return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   return SCM_BOOL( text_edit_##what##_directive (tagname));\
 }
+#define DELETE_FN_DEF(what)\
+ static SCM scheme_delete_##what##_directive(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return SCM_BOOL( delete_##what##_directive (tagname));\
+}
+#define EDIT_DELETE_FN_DEF(what)\
+EDIT_FN_DEF(what)\
+DELETE_FN_DEF(what)
 
-
+EDIT_FN_DEF(standalone)
 
 EDIT_DELETE_FN_DEF(note)
 EDIT_DELETE_FN_DEF(chord)
@@ -1572,6 +1600,8 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
+  install_scm_function2(DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", (gpointer) scheme_set_action_script_for_tag);
+
 #define INSTALL_GET_TAG(what)\
  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
 
@@ -1602,7 +1632,7 @@ Then
   INSTALL_EDIT(staff);
   INSTALL_EDIT(voice);
   INSTALL_EDIT(score);
-
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
 #define INSTALL_PUT(what, field)\
   install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
@@ -3389,9 +3419,9 @@ create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int h
 }
 
 static GHashTable *bitmaps;
-static void hash_table_insert(gchar *name, GdkBitmap *xbm) {
+static void bitmap_table_insert(gchar *name, GdkBitmap *xbm) {
   if(!bitmaps)
-    bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+    bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);//FIXME is this right for GdkBitmap data?
   g_hash_table_insert(bitmaps, g_strdup(name), xbm);
 }
 
@@ -3410,7 +3440,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   *height = gdk_pixbuf_get_height(pixbufa);
   gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
   *xbm = gdk_bitmap_create_from_data (NULL, data, *width, *height);
-  hash_table_insert(basename, *xbm);
+  bitmap_table_insert(basename, *xbm);
   g_free(data);
   return TRUE;
 }
@@ -3466,7 +3496,7 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
     if(numbytes == fread(data, 1, numbytes, fp)){
       *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
-      hash_table_insert(name, *xbm);
+      bitmap_table_insert(name, *xbm);
       *width = w; *height = h;
       fclose(fp);
       return TRUE;
@@ -3800,7 +3830,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
   //if(!strcmp("ToggleRhythm", gtk_action_get_name(action)))
   //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
 #else
-  gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK));
+  gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK)); //will not work because label are NO_WINDOW
   g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), action);
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
