@@ -71,7 +71,7 @@ void appendSchemeText(gchar *text);
 void executeScript(void);
 GError *execute_script_file(gchar *filename);
 gint getNumCharsSchemeText(void);
-void
+gboolean
 activate_script (GtkAction *action, gpointer param);
 void 
 create_scheme_function_for_script(gchar *name);

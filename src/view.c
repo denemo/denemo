@@ -223,8 +223,9 @@ static SCM scheme_script_callback(SCM script) {
        GtkAction *action = lookup_action_from_name (name);
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
-	 if(text)
+	 if(text && *text)
 	   return call_out_to_guile(text);
+	 return SCM_BOOL(activate_script(action, NULL));
        }
      }
    }
@@ -3031,7 +3032,7 @@ The script may be empty, in which case it is fetched from actions/menus...
 
 This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
 */
-void
+gboolean
 activate_script (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -3054,10 +3055,11 @@ activate_script (GtkAction *action, gpointer param)
     g_free(current_script);
     if(*text==0)
       text = instantiate_script(action);
-    (void)call_out_to_guile(text);//scm_c_eval_string(text);
+    return call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
+  return FALSE;
 }
 
 
@@ -3592,7 +3594,7 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
   Left click runs default action, after recording the item in a scheme script if recording.
-  Rigth click offers pop-up menu for setting shortcuts etc
+  Right click offers pop-up menu for setting shortcuts etc
 
 */
 static gboolean menu_click (GtkWidget      *widget,
