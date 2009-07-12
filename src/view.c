@@ -93,6 +93,16 @@ SCM call_out_to_guile(char *script) {
  return gh_eval_str_with_catch (script, gh_standard_handler);
 }
 
+GError *execute_script_file(gchar *filename) {
+  GError *error = NULL;
+  gchar *script;
+  if(g_file_get_contents (filename, &script, NULL, &error)) {
+    call_out_to_guile(script);
+    g_free(script);
+  }
+  return error;
+}
+
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
 #define CLASSICMODE_STRING "ClassicMode"
@@ -213,8 +223,9 @@ static SCM scheme_script_callback(SCM script) {
        GtkAction *action = lookup_action_from_name (name);
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
-	 if(text)
+	 if(text && *text)
 	   return call_out_to_guile(text);
+	 return SCM_BOOL(activate_script(action, NULL));
        }
      }
    }
@@ -629,6 +640,20 @@ SCM scheme_get_option(SCM options) {
 
 
 /* Scheme interface to DenemoDirectives (formerly LilyPond directives attached to notes/chords) */
+/* store the script to be invoked as an action for a directive tagged with tag */
+SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
+  if(SCM_STRINGP(tag)){
+    gchar *the_tag = scm_to_locale_string(tag);
+    if(SCM_STRINGP(script)){
+      gchar *the_script = scm_to_locale_string(script);
+      set_action_script_for_tag(the_tag, the_script);
+      return SCM_BOOL(TRUE);
+    }
+  }
+  return SCM_BOOL(FALSE);
+}
+
+
 
 
 #define GET_TAG_FN_DEF(what)\
@@ -657,21 +682,25 @@ GET_TAG_FN_DEF(layout);
 GET_TAG_FN_DEF(movementcontrol);
 #undef GET_TAG_FN_DEF
 
-#define EDIT_DELETE_FN_DEF(what)\
- static SCM scheme_delete_##what##_directive(SCM tag) {\
-  if(!SCM_STRINGP(tag))\
-     return SCM_BOOL(FALSE);\
-  gchar *tagname = scm_to_locale_string(tag);\
-  return SCM_BOOL( delete_##what##_directive (tagname));\
-}\
+#define EDIT_FN_DEF(what)\
  static SCM scheme_text_edit_##what##_directive(SCM tag) {\
   if(!SCM_STRINGP(tag))\
      return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
   return SCM_BOOL( text_edit_##what##_directive (tagname));\
 }
+#define DELETE_FN_DEF(what)\
+ static SCM scheme_delete_##what##_directive(SCM tag) {\
+  if(!SCM_STRINGP(tag))\
+     return SCM_BOOL(FALSE);\
+  gchar *tagname = scm_to_locale_string(tag);\
+  return SCM_BOOL( delete_##what##_directive (tagname));\
+}
+#define EDIT_DELETE_FN_DEF(what)\
+EDIT_FN_DEF(what)\
+DELETE_FN_DEF(what)
 
-
+EDIT_FN_DEF(standalone)
 
 EDIT_DELETE_FN_DEF(note)
 EDIT_DELETE_FN_DEF(chord)
@@ -1572,6 +1601,8 @@ Then
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
 
+  install_scm_function2(DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", (gpointer) scheme_set_action_script_for_tag);
+
 #define INSTALL_GET_TAG(what)\
  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
 
@@ -1602,7 +1633,7 @@ Then
   INSTALL_EDIT(staff);
   INSTALL_EDIT(voice);
   INSTALL_EDIT(score);
-
+ install_scm_function_with_param (DENEMO_SCHEME_PREFIX"DirectiveTextEdit-standalone", scheme_text_edit_standalone_directive);
 
 #define INSTALL_PUT(what, field)\
   install_scm_function2 (DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-" #field, scheme_##what##_directive_put_##field);
@@ -3001,7 +3032,7 @@ The script may be empty, in which case it is fetched from actions/menus...
 
 This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
 */
-void
+gboolean
 activate_script (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -3024,10 +3055,11 @@ activate_script (GtkAction *action, gpointer param)
     g_free(current_script);
     if(*text==0)
       text = instantiate_script(action);
-    (void)call_out_to_guile(text);//scm_c_eval_string(text);
+    return call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
+  return FALSE;
 }
 
 
@@ -3389,9 +3421,9 @@ create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int h
 }
 
 static GHashTable *bitmaps;
-static void hash_table_insert(gchar *name, GdkBitmap *xbm) {
+static void bitmap_table_insert(gchar *name, GdkBitmap *xbm) {
   if(!bitmaps)
-    bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+    bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);//FIXME is this right for GdkBitmap data?
   g_hash_table_insert(bitmaps, g_strdup(name), xbm);
 }
 
@@ -3410,7 +3442,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   *height = gdk_pixbuf_get_height(pixbufa);
   gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
   *xbm = gdk_bitmap_create_from_data (NULL, data, *width, *height);
-  hash_table_insert(basename, *xbm);
+  bitmap_table_insert(basename, *xbm);
   g_free(data);
   return TRUE;
 }
@@ -3466,7 +3498,7 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
     if(numbytes == fread(data, 1, numbytes, fp)){
       *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
-      hash_table_insert(name, *xbm);
+      bitmap_table_insert(name, *xbm);
       *width = w; *height = h;
       fclose(fp);
       return TRUE;
@@ -3562,7 +3594,7 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
   Left click runs default action, after recording the item in a scheme script if recording.
-  Rigth click offers pop-up menu for setting shortcuts etc
+  Right click offers pop-up menu for setting shortcuts etc
 
 */
 static gboolean menu_click (GtkWidget      *widget,
@@ -3800,7 +3832,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
   //if(!strcmp("ToggleRhythm", gtk_action_get_name(action)))
   //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
 #else
-  gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK));
+  gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK)); //will not work because label are NO_WINDOW
   g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), action);
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
@@ -4833,23 +4865,6 @@ get_data_dir (),
    }
 
 #endif
-#if 0
-  /* we have to do this properly, because it introduces a keymap - no longer true */
-  if (Denemo.prefs.rhythm_palette) {
-    GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
-    if (GTK_WIDGET_VISIBLE (widget))
-      gtk_widget_hide(widget);// I do not understand why this is visible - there is no gtk_widget_show(all) in the hierarchy
-    widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleRhythmToolbar");
-    g_signal_emit_by_name(widget, "activate", NULL, Denemo.gui);
-    //g_print("type is %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget))); 
-    }
-  // A cheap way of doing activating this toolbar, note it is called variously notation toolbar, duration toolbar and EntryToolBar FIXME
-  if (!Denemo.prefs.notation_palette)
-    {
-      //g_print ("Notation palette %d\n", Denemo.prefs.notation_palette);
-      toggle_entry_toolbar (NULL, Denemo.gui);
-    }
-#endif
 
   data_dir = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
@@ -4879,12 +4894,7 @@ Really we should change the default for the class.*/
  Denemo.ModelessMenu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/NotesRests/ModelessNote");
 
  //gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/ActionMenu"));// make a prefs thing
- gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
-
-#ifdef G_OS_WIN32
- toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
- gtk_widget_show (toolbar);
-#endif
+ //GTK bug now fixed gtk_widget_hide (gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar")); //otherwise buttons only sensitive around their edges
 
  {GtkToggleAction *action;
  action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleObjectMenu");
@@ -4893,6 +4903,14 @@ Really we should change the default for the class.*/
  else 
 	gtk_toggle_action_set_active (action, FALSE);
  toggle_object_menu (NULL, Denemo.gui);
+ }
+ {GtkToggleAction *action;
+ action = (GtkToggleAction *)gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleEntryToolbar");
+ if (Denemo.prefs.notation_palette)
+ 	gtk_toggle_action_set_active (action, TRUE);
+ else 
+	gtk_toggle_action_set_active (action, FALSE);
+ toggle_entry_toolbar (NULL, Denemo.gui);
  }
 
   g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);

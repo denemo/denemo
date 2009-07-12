@@ -264,7 +264,7 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("View");
   
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
-  BOOLEANENTRY("Display duration toolbar", notation_palette);
+  BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
 

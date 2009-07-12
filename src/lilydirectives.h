@@ -11,10 +11,12 @@
 
 #include <denemo/denemo.h>
 
-gchar * get_scoretitle(void);
-
-gboolean text_edit_note_directive(gchar *tag);
-
+gchar * 
+get_scoretitle(void);
+gboolean 
+text_edit_note_directive(gchar *tag);
+void 
+set_action_script_for_tag(gchar *tag, gchar *script);
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);
 void 

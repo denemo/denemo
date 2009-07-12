@@ -23,6 +23,27 @@
 static void edit_directive_callback(GtkWidget *w, gpointer what);
 
 
+
+static DenemoDirective *get_movementcontrol_directive(gchar *tag);
+static DenemoDirective *get_score_directive(gchar *tag);
+
+static GHashTable *action_scripts;
+static void action_script_table_insert(gchar *name, gchar *script) {
+  if(!action_scripts)
+    action_scripts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+  g_hash_table_insert(action_scripts, g_strdup(name), script);
+}
+
+void set_action_script_for_tag(gchar *tag, gchar *script) {
+  action_script_table_insert(tag, script);
+}
+static  gchar *get_action_script(gchar *name) {
+  if(action_scripts)
+    return (gchar *)g_hash_table_lookup(action_scripts, name);
+  return NULL;
+}
+
+
 static void
 gtk_menu_item_set_label_text(GtkMenuItem *item, gchar *text) {
   GtkWidget *label = gtk_bin_get_child(item);
@@ -1086,6 +1107,62 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
   return TRUE;\
 }
 
+/* return a full path to an editscript for directive or NULL if there is none */
+static gchar *get_editscript_filename(DenemoDirective *directive) {
+gchar *basename = g_strconcat(directive->tag->str, ".scm", NULL);
+  gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", basename, NULL);
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename(get_data_dir(), "actions", "editscripts", basename, NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+      g_free(filename);
+      filename = g_build_filename (locatedotdenemo(), "download", "actions", "editscripts", basename, NULL);
+      if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
+	g_free(filename);
+	g_free(basename);
+	return NULL;
+      }
+    }
+  }
+  g_free(basename);
+  return filename;
+}
+
+static void
+runscript_callback (GtkWidget *w, DenemoDirective *directive){
+gchar *editscript = get_editscript_filename(directive);
+ if(editscript)
+   execute_script_file(editscript);
+ else
+   g_warning("Editscript has vanished");
+ g_free(editscript);
+}
+
+static void
+action_script_callback (GtkWidget *w, DenemoDirective *directive){
+gchar *actionscript = get_action_script(directive->tag->str);
+ if(actionscript)
+   call_out_to_guile(actionscript);
+ else
+   g_warning("action script has vanished");
+}
+
+static void
+button_callback (GtkWidget *w, DenemoDirective *directive){
+gchar *script = get_action_script(directive->tag->str);
+ if(script)
+   call_out_to_guile(script);
+ else {
+   script = get_editscript_filename(directive);
+   if(script)
+     execute_script_file(script);
+   else {
+     gpointer fn = g_object_get_data(w, "fn");
+     if(fn)
+       edit_directive_callback(w, fn);
+   }
+ }
+}
 /*
   label_widget()
   if directive does not have graphic:
@@ -1132,8 +1209,36 @@ label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
       }  else {
 	//g_print("Doing the non-staff case");
+	//DISTINGUISH TWO CASES HERE if there is an editscript for directive->tag then use that for the callback and if there is a graphic with name directive->graphic_name then use that as an icon for the button widget coming next.
+	gchar *editscript = get_editscript_filename(directive);
+	//FIXME look for a graphic of graphic_name & place it on button as icon ...
+     
 	directive->graphic = gtk_button_new_with_label(value);
-	g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
+	{
+	  GtkWidget *label = gtk_bin_get_child(directive->graphic);
+	  g_print("%s%s\n","type is", label?g_type_name(G_TYPE_FROM_INSTANCE(label)):"NULL widget");
+	  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	}
+#if 0
+	{
+	  GtkImage *image = gtk_image_new_from_pixbuf(pixbuf);
+	  gtk_button_set_image(button, image);
+	}
+#endif
+
+#if 1
+	g_object_set_data(G_OBJECT(directive->graphic), "fn", (gpointer)fn);
+	g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(button_callback), directive);
+#else
+	gchar *actionscript = get_action_script(directive->tag->str);
+	if(actionscript)
+	  g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(action_script_callback), directive); else	
+	    if(editscript) 
+	      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(runscript_callback), directive);
+	    else
+	      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
+#endif
+	g_free(editscript);
 	gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
 	gtk_widget_show(directive->graphic);
 	gtk_widget_show(box);
@@ -1143,10 +1248,10 @@ label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
     GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
   }//not display field
   if(directive->graphic){
-    if(GTK_IS_BUTTON(directive->graphic))
-      gtk_button_set_label(directive->graphic, value);
-    else
+    if(GTK_IS_MENU_ITEM(directive->graphic))
       gtk_menu_item_set_label_text(directive->graphic, value);
+    else
+      gtk_label_set_markup(gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
   }
   g_free(value);
 }
@@ -1674,34 +1779,21 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   return ret;
 }
 
+
 /* allow edit of a directive, either via script or textually if no script exists 
    return FALSE if user confirms a request to delete the directive
 */
 static gboolean
 edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
-  gchar *name = g_strconcat(directive->tag->str, ".scm", NULL);
-  gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", name, NULL);
-  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    g_free(filename);
-    filename = g_build_filename(get_data_dir(), "actions", "editscripts", name, NULL);
-    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-      g_free(filename);
-      filename = g_build_filename (locatedotdenemo(), "download", "actions", "editscripts", name, NULL);
-      if(!g_file_test(filename, G_FILE_TEST_EXISTS)){
-	ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
-	g_free(filename);
-	score_status (Denemo.gui, TRUE);
-	return ret;
-      }
-    }
+  gchar* filename = get_editscript_filename(directive);
+  if(filename == NULL) {
+    ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
+    score_status (Denemo.gui, TRUE);
+    return ret;
   }
-  GError *error = NULL;
-  gchar *script;
-  if(g_file_get_contents (filename, &script, NULL, &error)) {
-    call_out_to_guile(script);
-    g_free(script);
-  }
+  GError *error = execute_script_file(filename);
+  if(error) g_warning(error->message);
   g_free(filename);
   return ret;
 }
@@ -2346,4 +2438,7 @@ TEXT_EDIT_DIRECTIVE(header);
 TEXT_EDIT_DIRECTIVE(paper);
 TEXT_EDIT_DIRECTIVE(layout);
 TEXT_EDIT_DIRECTIVE(movementcontrol);
+TEXT_EDIT_DIRECTIVE(standalone);
+
+
 #undef TEXT_EDIT_DIRECTIVE
