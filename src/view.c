@@ -28,6 +28,7 @@
 #include "exportlilypond.h"
 #include "midi.h"
 #include "jackmidi.h"
+#include "commandfuncs.h"
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
@@ -375,6 +376,43 @@ SCM scheme_get_notes (SCM optional) {
  } 
 }
 
+SCM scheme_change_chord_notes (SCM listname) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ gchar *notename;
+ SCM s_value;
+ gint mid_c_offset;
+ gint enshift;
+ gint noteheigth;
+ gint dclef;
+
+ if (scm_is_true(scm_list_p(listname))) {
+  
+   if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return scm_makfrom0str ("");
+   
+   else {
+	   /* delete all chord tones */
+	while(thechord->notes)
+		 tonechange(gui->si, TRUE);
+	
+	/* add changed tones */
+	dclef =  find_prevailing_clef(Denemo.gui->si);
+
+	while (scm_is_false (scm_null_p (listname))){
+	   s_value  = SCM_CAR(listname);
+	   notename = scm_to_locale_string(s_value);
+           name2mid_c_offset(notename, &mid_c_offset, &enshift);
+           dnm_addtone (curObj, mid_c_offset, enshift, dclef);
+	   listname = SCM_CDR(listname);
+	}
+   }  
+ } 
+ else
+   return scm_makfrom0str ("");
+}
 
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
   gchar *title, *instruction, *initial_value;
@@ -1562,6 +1600,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
+  install_scm_function (DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", scheme_diatonic_shift);
