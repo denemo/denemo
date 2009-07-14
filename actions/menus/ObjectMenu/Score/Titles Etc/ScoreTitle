@@ -5,8 +5,9 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>ScoreTitle</action>
-        <scheme>
+        <scheme>;;;ScoreTitle
 	(if (d-PreviousMovement)
 		(d-WarningDialog "Returning to the first Movement to set this title"))
 	(while (d-PreviousMovement)

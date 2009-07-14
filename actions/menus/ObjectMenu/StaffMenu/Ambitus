@@ -5,6 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>Ambitus</action>
         <scheme>;;;;;;;;;;;;;;;;;;Ambitus
 (let ((current " "))
@@ -15,7 +16,8 @@
                 \\context { \\RemoveEmptyStaffContext 
 		\\consists \"Ambitus_engraver\"
 		}\n}\n"))
-	(d-DirectivePut-score-graphic "Ambitus" "Ambitus On"))
+        (d-DirectivePut-score-override "Ambitus" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-score-display "Ambitus" "Ambitus On"))
       (begin
 	(d-DirectiveDelete-score "Ambitus")))
   (d-RefreshDisplay))

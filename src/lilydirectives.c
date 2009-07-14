@@ -837,12 +837,9 @@ GET_STR_FIELD_FUNC(staff, midibytes)
 GET_STR_FIELD_FUNC(voice, midibytes)
 GET_STR_FIELD_FUNC(standalone, midibytes)
 
-PUT_STR_FIELD_FUNC(score, midibytes)
-PUT_STR_FIELD_FUNC(movementcontrol, midibytes)
+
 PUT_STR_FIELD_FUNC(note, midibytes)
 PUT_STR_FIELD_FUNC(chord, midibytes)
-PUT_STR_FIELD_FUNCS(staff, midibytes)
-PUT_STR_FIELD_FUNCV(voice, midibytes)
 
 
 GET_STR_FIELD_FUNC(chord, prefix)
@@ -862,8 +859,6 @@ PUT_STR_FIELD_FUNC(note, prefix)
 PUT_STR_FIELD_FUNC(note, postfix)
 PUT_STR_FIELD_FUNC(note, display)
 
-PUT_STR_FIELD_FUNC(score, prefix)
-PUT_STR_FIELD_FUNC(score, postfix)
 
 
 GET_STR_FIELD_FUNC(standalone, prefix)
@@ -878,16 +873,12 @@ GET_STR_FIELD_FUNC(staff, prefix)
 GET_STR_FIELD_FUNC(staff, postfix)
 GET_STR_FIELD_FUNC(staff, display)
 
-PUT_STR_FIELD_FUNCS(staff, prefix)
-PUT_STR_FIELD_FUNCS(staff, postfix)
 
 
 GET_STR_FIELD_FUNC(voice, prefix)
 GET_STR_FIELD_FUNC(voice, postfix)
 GET_STR_FIELD_FUNC(voice, display)
 
-PUT_STR_FIELD_FUNCV(voice, prefix)
-PUT_STR_FIELD_FUNCV(voice, postfix)
 
 #undef staff
 
@@ -926,18 +917,18 @@ what##_directive_get_##field(gchar *tag) {\
      /* block which can be copied for new int fields */
 PUT_INT_FIELD_FUNC(note, minpixels)
 PUT_INT_FIELD_FUNC(chord, minpixels)
-PUT_INT_FIELD_FUNCS(staff, minpixels)
-PUT_INT_FIELD_FUNCV(voice, minpixels)
-PUT_INT_FIELD_FUNC(score, minpixels)
+     //PUT_INT_FIELD_FUNCS(staff, minpixels)
+     //PUT_INT_FIELD_FUNCV(voice, minpixels)
+     //PUT_INT_FIELD_FUNC(score, minpixels)
 PUT_INT_FIELD_FUNC(clef, minpixels)
 PUT_INT_FIELD_FUNC(timesig, minpixels)
 PUT_INT_FIELD_FUNC(keysig, minpixels)
 
-PUT_INT_FIELD_FUNC(scoreheader, minpixels)
-PUT_INT_FIELD_FUNC(header, minpixels)
-PUT_INT_FIELD_FUNC(paper, minpixels)
-PUT_INT_FIELD_FUNC(layout, minpixels)
-PUT_INT_FIELD_FUNC(movementcontrol, minpixels)
+     //PUT_INT_FIELD_FUNC(scoreheader, minpixels)
+     //PUT_INT_FIELD_FUNC(header, minpixels)
+     //PUT_INT_FIELD_FUNC(paper, minpixels)
+     //PUT_INT_FIELD_FUNC(layout, minpixels)
+     //PUT_INT_FIELD_FUNC(movementcontrol, minpixels)
 
      //standalone needs different code for "put" see STANDALONE_PUT* below
 GET_INT_FIELD_FUNC(note, minpixels)
@@ -967,9 +958,7 @@ GET_INT_FIELD_FUNC(standalone, minpixels)
 
 PUT_INT_FIELD_FUNC(note, override)
 PUT_INT_FIELD_FUNC(chord, override)
-PUT_INT_FIELD_FUNCS(staff, override)
-PUT_INT_FIELD_FUNCV(voice, override)
-PUT_INT_FIELD_FUNC(score, override)
+
 GET_INT_FIELD_FUNC(note, override)
 GET_INT_FIELD_FUNC(chord, override)
 GET_INT_FIELD_FUNC(staff, override)
@@ -981,8 +970,7 @@ GET_INT_FIELD_FUNC(score, override)
 
 PUT_INT_FIELD_FUNC(note, x)
 PUT_INT_FIELD_FUNC(chord, x)
-PUT_INT_FIELD_FUNCS(staff, x)
-PUT_INT_FIELD_FUNCV(voice, x)
+
 
 GET_INT_FIELD_FUNC(note, x)
 GET_INT_FIELD_FUNC(chord, x)
@@ -991,8 +979,7 @@ GET_INT_FIELD_FUNC(voice, x)
  
 PUT_INT_FIELD_FUNC(note, y)
 PUT_INT_FIELD_FUNC(chord, y)
-PUT_INT_FIELD_FUNCS(staff, y)
-PUT_INT_FIELD_FUNCV(voice, y)
+
 
 GET_INT_FIELD_FUNC(note, y)
 GET_INT_FIELD_FUNC(chord, y)
@@ -1002,8 +989,7 @@ GET_INT_FIELD_FUNC(voice, y)
 
 PUT_INT_FIELD_FUNC(note, tx)
 PUT_INT_FIELD_FUNC(chord, tx)
-PUT_INT_FIELD_FUNCS(staff, tx)
-PUT_INT_FIELD_FUNCV(voice, tx)
+
 GET_INT_FIELD_FUNC(note, tx)
 GET_INT_FIELD_FUNC(chord, tx)
 GET_INT_FIELD_FUNC(staff, tx)
@@ -1011,8 +997,7 @@ GET_INT_FIELD_FUNC(voice, tx)
 
 PUT_INT_FIELD_FUNC(note, ty)
 PUT_INT_FIELD_FUNC(chord, ty)
-PUT_INT_FIELD_FUNCS(staff, ty)
-PUT_INT_FIELD_FUNCV(voice, ty)
+
 GET_INT_FIELD_FUNC(note, ty)
 GET_INT_FIELD_FUNC(chord, ty)
 GET_INT_FIELD_FUNC(staff, ty)
@@ -1021,8 +1006,7 @@ GET_INT_FIELD_FUNC(voice, ty)
 
 PUT_INT_FIELD_FUNC(note, gx)
 PUT_INT_FIELD_FUNC(chord, gx)
-PUT_INT_FIELD_FUNCS(staff, gx)
-PUT_INT_FIELD_FUNCV(voice, gx)
+
 GET_INT_FIELD_FUNC(note, gx)
 GET_INT_FIELD_FUNC(chord, gx)
 GET_INT_FIELD_FUNC(staff, gx)
@@ -1031,8 +1015,7 @@ GET_INT_FIELD_FUNC(voice, gx)
 
 PUT_INT_FIELD_FUNC(note, gy)
 PUT_INT_FIELD_FUNC(chord, gy)
-PUT_INT_FIELD_FUNCS(staff, gy)
-PUT_INT_FIELD_FUNCV(voice, gy)
+
 GET_INT_FIELD_FUNC(note, gy)
 GET_INT_FIELD_FUNC(chord, gy)
 GET_INT_FIELD_FUNC(staff, gy)
@@ -1057,18 +1040,6 @@ GET_INT_FIELD_FUNC(score, ty)
 
 GET_INT_FIELD_FUNC(score, gx)
 GET_INT_FIELD_FUNC(score, gy)
-
-PUT_INT_FIELD_FUNC(score, x)
-PUT_INT_FIELD_FUNC(score, y)
-
-PUT_INT_FIELD_FUNC(score, tx)
-PUT_INT_FIELD_FUNC(score, ty)
-
-PUT_INT_FIELD_FUNC(score, gx)
-PUT_INT_FIELD_FUNC(score, gy)
-PUT_INT_FIELD_FUNC(score, width)
-PUT_INT_FIELD_FUNC(score, height)
-
 
 
      /* width and height of graphic (if any), read only */
@@ -1106,6 +1077,9 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
       directive->graphic_name = g_string_new(value);\
   return TRUE;\
 }
+#define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
+PUT_GRAPHIC(chord);
+PUT_GRAPHIC(note);
 
 /* return a full path to an editscript for directive or NULL if there is none */
 static gchar *get_editscript_filename(DenemoDirective *directive) {
@@ -1164,28 +1138,23 @@ gchar *script = get_action_script(directive->tag->str);
  }
 }
 /*
-  label_widget()
+  widget_for_directive()
   if directive does not have graphic:
-     fn gives the type of directive, which must be a non-DenemoObject directive: it determines where the widget goes (score or movement level, DenemoGUI or DenemoScore respectively).
-     field must be "display" or "graphic_name"
-     creates a widget (button or menu depending on fn) for editing directive, point directive->graphic to it and attach a callback to edit this directive, passing fn as data to it (to say what sort of directive it is).
-     places the widget in the appropriate buttonbox.
-  if directive does have graphic:
-     fn and field are ignored.
-  In all cases:
+     fn gives the type of directive, which must be a non-DenemoObject directive: it determines where the widget goes (score or movement level, DenemoGUI or DenemoScore respectively, or in staff or voice menu)
+     
+     creates a widget (button or menu depending on fn) for editing/actioning directive, point directive->graphic to it and attach a callback to edit/action this directive, passing fn as data to it (to say what sort of directive it is) or the directive itself (for actionscripts/editscripts).
+   places the widget in the appropriate buttonbox.
+
      set  the label for the widget from directive->graphic_name directive->display
+     set  the visibility for the widget from directive->override
 
 */
      
-static void 
-label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
+void 
+widget_for_directive(DenemoDirective *directive,  void fn()) {
   GtkWidget *box;
-  gchar *value = g_strdup_printf("%s%s",directive->graphic_name?directive->graphic_name->str:"" , 
-				 directive->display?directive->display->str:"");
-
-  //  g_print("Have value %s\n", value);
-  //if this is not the display field, but the graphic that is being set, create the graphic
-  if((directive->graphic==NULL) && *value && strcmp(field, "display") ) {
+  gchar *value = directive->display?directive->display->str:"";
+  if((directive->graphic==NULL) ) {
     if(fn==score_directive_put_graphic ||fn==scoreheader_directive_put_graphic ||fn==paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
     else
@@ -1216,7 +1185,7 @@ label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
 	directive->graphic = gtk_button_new_with_label(value);
 	{
 	  GtkWidget *label = gtk_bin_get_child(directive->graphic);
-	  g_print("%s%s\n","type is", label?g_type_name(G_TYPE_FROM_INSTANCE(label)):"NULL widget");
+	  //g_print("%s%s\n","type is", label?g_type_name(G_TYPE_FROM_INSTANCE(label)):"NULL widget");
 	  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	}
 #if 0
@@ -1240,77 +1209,219 @@ label_widget(DenemoDirective *directive,  void fn(), gchar *field) {
 #endif
 	g_free(editscript);
 	gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
-	gtk_widget_show(directive->graphic);
+	g_object_set_data(directive->graphic, "directive", (gpointer)directive);
 	gtk_widget_show(box);
       }
-    g_object_set_data(directive->graphic, "directive", (gpointer)directive);
-    gtk_widget_show_all(GTK_WIDGET(directive->graphic));
     GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
-  }//not display field
-  if(directive->graphic){
-    if(GTK_IS_MENU_ITEM(directive->graphic))
-      gtk_menu_item_set_label_text(directive->graphic, value);
-    else
-      gtk_label_set_markup(gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
-  }
-  g_free(value);
+  }//no graphic
+  (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(directive->graphic):gtk_widget_hide(directive->graphic);
+  if(GTK_IS_MENU_ITEM(directive->graphic))
+    gtk_menu_item_set_label_text(directive->graphic, value);
+  else
+    gtk_label_set_markup(gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
 }
 
 
 // create a directive for non-DenemoObject directive #what
-// create a button to edit the directive as the directive->graphic
-#define PUT_GRAPHIC_WIDGET_FUNC(field, field_name, what, directives) gpointer \
+// create a button to edit/action the directive as the directive->graphic
+#define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) gpointer \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
-  if(current->directives==NULL)\
-       create_directives (&current->directives, tag);\
+  if(current->directives_name==NULL)\
+       create_directives (&current->directives_name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive==NULL){\
     directive=new_directive(tag);\
-    current->directives = g_list_append(current->directives, directive);\
+    current->directives_name = g_list_append(current->directives_name, directive);\
     }\
-  if(directive->field_name==NULL) \
-    directive->field_name = g_string_new(value);\
+  if(directive->field==NULL) \
+    directive->field = g_string_new(value);\
   else\
-    g_string_assign(directive->field_name, value);\
-  label_widget(directive, what##_directive_put_graphic, #field);\
+    g_string_assign(directive->field, value);\
+  widget_for_directive(directive, what##_directive_put_graphic);\
   return (gpointer)directive;\
 }
 
+#define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name)\
+gboolean \
+what##_directive_put_##field(gchar *tag, gint value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(current->directives_name==NULL)\
+       create_directives (&current->directives_name, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives_name = g_list_append(current->directives_name, directive);\
+    }\
+ directive->field = value;\
+ widget_for_directive(directive, what##_directive_put_graphic);\
+ return TRUE;\
+}
+
+//FIXME this is just storing the graphic name, it can be placed on the button/menu item as an icon
+#define PUT_GRAPHIC_WIDGET_GRAPHIC(what, directives_name) gpointer \
+what##_directive_put_graphic(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return NULL;\
+  if(current->directives_name==NULL)\
+       create_directives (&current->directives_name, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives_name = g_list_append(current->directives_name, directive);\
+    }\
+  if(directive->graphic_name==NULL) \
+    directive->graphic_name = g_string_new(value);\
+  else\
+    g_string_assign(directive->graphic_name, value);\
+  widget_for_directive(directive, what##_directive_put_graphic);\
+  return (gpointer)directive;\
+}
+
+PUT_GRAPHIC_WIDGET_GRAPHIC( score, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( scoreheader, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( header, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( paper, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( layout, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( staff, staff_directives)
+PUT_GRAPHIC_WIDGET_GRAPHIC( voice, voice_directives)
 
 
-#define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
-#define PUT_GRAPHICS(what) PUT_GRAPHIC_NAME(what, staff_directives)
-#define PUT_GRAPHICV(what) PUT_GRAPHIC_NAME(what, voice_directives)
+PUT_GRAPHIC_WIDGET_STR(display, score, directives)
+PUT_GRAPHIC_WIDGET_STR(display, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_STR(display, header, directives)
+PUT_GRAPHIC_WIDGET_STR(display, paper, directives)
+PUT_GRAPHIC_WIDGET_STR(display, layout, directives)
+PUT_GRAPHIC_WIDGET_STR(display, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_STR(display, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_STR(display, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_STR(prefix, score, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, header, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, paper, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, layout, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_STR(prefix, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_STR(postfix, score, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, header, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, paper, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, layout, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_STR(postfix, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_STR(midibytes, score, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, header, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, paper, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, layout, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_STR(midibytes, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(minpixels, score, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, header, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(minpixels, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(x, score, directives)
+PUT_GRAPHIC_WIDGET_INT(x, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(x, header, directives)
+PUT_GRAPHIC_WIDGET_INT(x, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(x, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(x, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(x, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(x, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(y, score, directives)
+PUT_GRAPHIC_WIDGET_INT(y, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(y, header, directives)
+PUT_GRAPHIC_WIDGET_INT(y, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(y, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(y, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(y, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(y, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(tx, score, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, header, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(tx, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(tx, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(ty, score, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, header, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(ty, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(ty, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(gx, score, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, header, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(gx, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(gx, voice, voice_directives)
+
+PUT_GRAPHIC_WIDGET_INT(gy, score, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, header, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(gy, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(gy, voice, voice_directives)
 
 
-PUT_GRAPHIC(chord);
-PUT_GRAPHIC(note);
+PUT_GRAPHIC_WIDGET_INT(override, score, directives)
+PUT_GRAPHIC_WIDGET_INT(override, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(override, header, directives)
+PUT_GRAPHIC_WIDGET_INT(override, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(override, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(override, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(override, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(override, voice, voice_directives)
 
-#define PUT_GRAPHIC_WIDGET(what, directives) PUT_GRAPHIC_WIDGET_FUNC(graphic, graphic_name, what, directives)
-#define PUT_DISPLAY_FUNC(what, directives) PUT_GRAPHIC_WIDGET_FUNC(display, display, what, directives)
-PUT_GRAPHIC_WIDGET(score, directives);
-PUT_GRAPHIC_WIDGET(staff, staff_directives);
-PUT_GRAPHIC_WIDGET(voice, voice_directives);
-PUT_GRAPHIC_WIDGET(scoreheader, directives);
-PUT_GRAPHIC_WIDGET(header, directives);
-PUT_GRAPHIC_WIDGET(paper, directives);
-PUT_GRAPHIC_WIDGET(layout, directives);
-PUT_GRAPHIC_WIDGET(movementcontrol, directives);
+PUT_GRAPHIC_WIDGET_INT(width, score, directives)
+PUT_GRAPHIC_WIDGET_INT(width, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(width, header, directives)
+PUT_GRAPHIC_WIDGET_INT(width, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(width, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(width, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(width, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(width, voice, voice_directives)
 
-PUT_DISPLAY_FUNC(score, directives);
-PUT_DISPLAY_FUNC(staff, staff_directives);
-PUT_DISPLAY_FUNC(voice, voice_directives);
-PUT_DISPLAY_FUNC(scoreheader, directives);
-PUT_DISPLAY_FUNC(header, directives);
-PUT_DISPLAY_FUNC(paper, directives);
-PUT_DISPLAY_FUNC(layout, directives);
-PUT_DISPLAY_FUNC(movementcontrol, directives);
+PUT_GRAPHIC_WIDGET_INT(height, score, directives)
+PUT_GRAPHIC_WIDGET_INT(height, scoreheader, directives)
+PUT_GRAPHIC_WIDGET_INT(height, header, directives)
+PUT_GRAPHIC_WIDGET_INT(height, paper, directives)
+PUT_GRAPHIC_WIDGET_INT(height, layout, directives)
+PUT_GRAPHIC_WIDGET_INT(height, movementcontrol, directives)
+PUT_GRAPHIC_WIDGET_INT(height, staff, staff_directives)
+PUT_GRAPHIC_WIDGET_INT(height, voice, voice_directives)
 
-#undef PUT_GRAPHIC_WIDGET
-#undef PUT_DISPLAY_FUNC
-#undef PUT_GRAPHIC_WIDGET_FUNC
+#undef PUT_GRAPHIC_WIDGET_STR
+#undef PUT_GRAPHIC_WIDGET_INT
+
+
+
 
 
 
@@ -1769,7 +1880,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(directive->graphic){
     if(GTK_IS_WIDGET(directive->graphic))
-      label_widget(directive, NULL, NULL);
+      widget_for_directive(directive, NULL);
     else
       loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
   }
@@ -1801,6 +1912,8 @@ edit_directive(DenemoDirective *directive, gchar *what) {
 
 static void edit_directive_callback(GtkWidget *w, gpointer what) {
   DenemoDirective *directive = g_object_get_data(w, "directive");
+
+#if 0
   if(!edit_directive(directive, what)){
     if(what == score_directive_put_graphic)
       delete_score_directive(directive->tag->str);
@@ -1826,14 +1939,29 @@ static void edit_directive_callback(GtkWidget *w, gpointer what) {
 	  if(what == movementcontrol_directive_put_graphic)
 	    delete_movementcontrol_directive(directive->tag->str);
 	  else
-
-
-
-
 	    g_warning("Not implemented");
-    
-    
-  }    
+  }
+#else
+#define DO_TYPE(score)\
+    if(what == score##_directive_put_graphic){\
+      if(!edit_directive(directive, #score))\
+	delete_##score##_directive(directive->tag->str);\
+    }
+
+    DO_TYPE(score);
+    DO_TYPE(staff);
+    DO_TYPE(voice);
+    DO_TYPE(scoreheader);
+    DO_TYPE(header);
+    DO_TYPE(paper);
+    DO_TYPE(layout);
+    DO_TYPE(movementcontrol);
+#undef DO_TYPE
+#endif
+
+
+
+  
  }
 
 
@@ -2254,13 +2382,7 @@ GET_STR_FIELD_FUNC(timesig, display)
 
 
 
-PUT_INT_FIELD_FUNC(scoreheader, x)
-PUT_INT_FIELD_FUNC(scoreheader, y)
-PUT_INT_FIELD_FUNC(scoreheader, tx)
-PUT_INT_FIELD_FUNC(scoreheader, ty)
-PUT_INT_FIELD_FUNC(scoreheader, gx)
-PUT_INT_FIELD_FUNC(scoreheader, gy)
-PUT_INT_FIELD_FUNC(scoreheader, override)
+
 GET_INT_FIELD_FUNC(scoreheader, x)
 GET_INT_FIELD_FUNC(scoreheader, y)
 GET_INT_FIELD_FUNC(scoreheader, tx)
@@ -2271,10 +2393,6 @@ GET_INT_FIELD_FUNC(scoreheader, override)
 GET_INT_FIELD_FUNC(scoreheader, width)
 GET_INT_FIELD_FUNC(scoreheader, height)
 
-     //PUT_GRAPHIC(scoreheader)
-
-PUT_STR_FIELD_FUNC(scoreheader, prefix)
-PUT_STR_FIELD_FUNC(scoreheader, postfix)
 
 
 GET_STR_FIELD_FUNC(scoreheader, prefix)
@@ -2282,13 +2400,7 @@ GET_STR_FIELD_FUNC(scoreheader, postfix)
 GET_STR_FIELD_FUNC(scoreheader, display)
 
 
-PUT_INT_FIELD_FUNC(header, x)
-PUT_INT_FIELD_FUNC(header, y)
-PUT_INT_FIELD_FUNC(header, tx)
-PUT_INT_FIELD_FUNC(header, ty)
-PUT_INT_FIELD_FUNC(header, gx)
-PUT_INT_FIELD_FUNC(header, gy)
-PUT_INT_FIELD_FUNC(header, override)
+
 GET_INT_FIELD_FUNC(header, x)
 GET_INT_FIELD_FUNC(header, y)
 GET_INT_FIELD_FUNC(header, tx)
@@ -2299,10 +2411,7 @@ GET_INT_FIELD_FUNC(header, override)
 GET_INT_FIELD_FUNC(header, width)
 GET_INT_FIELD_FUNC(header, height)
 
-     //PUT_GRAPHIC(header)
 
-PUT_STR_FIELD_FUNC(header, prefix)
-PUT_STR_FIELD_FUNC(header, postfix)
 
 
 GET_STR_FIELD_FUNC(header, prefix)
@@ -2310,13 +2419,6 @@ GET_STR_FIELD_FUNC(header, postfix)
 GET_STR_FIELD_FUNC(header, display)
 
 
-PUT_INT_FIELD_FUNC(paper, x)
-PUT_INT_FIELD_FUNC(paper, y)
-PUT_INT_FIELD_FUNC(paper, tx)
-PUT_INT_FIELD_FUNC(paper, ty)
-PUT_INT_FIELD_FUNC(paper, gx)
-PUT_INT_FIELD_FUNC(paper, gy)
-PUT_INT_FIELD_FUNC(paper, override)
 GET_INT_FIELD_FUNC(paper, x)
 GET_INT_FIELD_FUNC(paper, y)
 GET_INT_FIELD_FUNC(paper, tx)
@@ -2327,22 +2429,13 @@ GET_INT_FIELD_FUNC(paper, override)
 GET_INT_FIELD_FUNC(paper, width)
 GET_INT_FIELD_FUNC(paper, height)
 
-     //PUT_GRAPHIC(paper)
 
-PUT_STR_FIELD_FUNC(paper, prefix)
-PUT_STR_FIELD_FUNC(paper, postfix)
 
 
 GET_STR_FIELD_FUNC(paper, prefix)
 GET_STR_FIELD_FUNC(paper, postfix)
 GET_STR_FIELD_FUNC(paper, display)
-PUT_INT_FIELD_FUNC(layout, x)
-PUT_INT_FIELD_FUNC(layout, y)
-PUT_INT_FIELD_FUNC(layout, tx)
-PUT_INT_FIELD_FUNC(layout, ty)
-PUT_INT_FIELD_FUNC(layout, gx)
-PUT_INT_FIELD_FUNC(layout, gy)
-PUT_INT_FIELD_FUNC(layout, override)
+
 GET_INT_FIELD_FUNC(layout, x)
 GET_INT_FIELD_FUNC(layout, y)
 GET_INT_FIELD_FUNC(layout, tx)
@@ -2353,25 +2446,10 @@ GET_INT_FIELD_FUNC(layout, override)
 GET_INT_FIELD_FUNC(layout, width)
 GET_INT_FIELD_FUNC(layout, height)
 
-     //PUT_GRAPHIC(layout)
-
-PUT_STR_FIELD_FUNC(layout, prefix)
-PUT_STR_FIELD_FUNC(layout, postfix)
-
 
 GET_STR_FIELD_FUNC(layout, prefix)
 GET_STR_FIELD_FUNC(layout, postfix)
 GET_STR_FIELD_FUNC(layout, display)
-
-
-
-PUT_INT_FIELD_FUNC(movementcontrol, x)
-PUT_INT_FIELD_FUNC(movementcontrol, y)
-PUT_INT_FIELD_FUNC(movementcontrol, tx)
-PUT_INT_FIELD_FUNC(movementcontrol, ty)
-PUT_INT_FIELD_FUNC(movementcontrol, gx)
-PUT_INT_FIELD_FUNC(movementcontrol, gy)
-PUT_INT_FIELD_FUNC(movementcontrol, override)
 GET_INT_FIELD_FUNC(movementcontrol, x)
 GET_INT_FIELD_FUNC(movementcontrol, y)
 GET_INT_FIELD_FUNC(movementcontrol, tx)
@@ -2382,10 +2460,7 @@ GET_INT_FIELD_FUNC(movementcontrol, override)
 GET_INT_FIELD_FUNC(movementcontrol, width)
 GET_INT_FIELD_FUNC(movementcontrol, height)
 
-     //PUT_GRAPHIC(movementcontrol)
 
-PUT_STR_FIELD_FUNC(movementcontrol, prefix)
-PUT_STR_FIELD_FUNC(movementcontrol, postfix)
 
 
 GET_STR_FIELD_FUNC(movementcontrol, prefix)

@@ -13,6 +13,8 @@
 
 gchar * 
 get_scoretitle(void);
+void 
+widget_for_directive(DenemoDirective *directive,  void fn());
 gboolean 
 text_edit_note_directive(gchar *tag);
 void 
