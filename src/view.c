@@ -376,6 +376,25 @@ SCM scheme_get_notes (SCM optional) {
  } 
 }
 
+SCM scheme_cursor_to_note (SCM lilyname) {
+ DenemoGUI *gui = Denemo.gui;
+ gint mid_c_offset;
+ gint enshift;
+ gchar *notename;
+ gint dclef;
+
+ if(SCM_STRINGP(lilyname)){ 
+   notename = scm_to_locale_string(lilyname);
+   name2mid_c_offset(notename, &mid_c_offset, &enshift);
+   dclef =  find_prevailing_clef(gui->si);
+   gui->si->cursor_y = mid_c_offset; 
+   displayhelper (gui);
+   return  SCM_BOOL(TRUE);
+ }
+ else
+   return  SCM_BOOL(FALSE);
+}
+
 SCM scheme_change_chord_notes (SCM listname) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -391,7 +410,7 @@ SCM scheme_change_chord_notes (SCM listname) {
  if (scm_is_true(scm_list_p(listname))) {
   
    if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return scm_makfrom0str ("");
+   return  SCM_BOOL(FALSE);
    
    else {
 	   /* delete all chord tones */
@@ -408,10 +427,11 @@ SCM scheme_change_chord_notes (SCM listname) {
            dnm_addtone (curObj, mid_c_offset, enshift, dclef);
 	   listname = SCM_CDR(listname);
 	}
+	return  SCM_BOOL(TRUE);
    }  
  } 
  else
-   return scm_makfrom0str ("");
+   return  SCM_BOOL(FALSE);
 }
 
 SCM scheme_get_user_input(SCM label, SCM prompt, SCM init) {
@@ -1600,6 +1620,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
+  install_scm_function (DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
