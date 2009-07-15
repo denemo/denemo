@@ -1304,9 +1304,9 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
 
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
-  g_print("Mid c offset of %d\n", *x-'c');
+  g_print("Mid c offset of %d\n", *x-'a');
   gchar *c;
-  gint octave = -2;/* middle c is c'' */
+  gint octave = -1;/* middle c is c' */
   gint accs = 0;
 
   for(c = x+1;*c;c++){
@@ -1323,7 +1323,10 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
 	octave++;
     }
   }
-  *mid_c_offset = *x-'c' + 7*octave;
+  if (*x =='a' || *x=='b')
+    octave++;
+
+  *mid_c_offset = *x-'a' + 7*octave;
   *enshift = accs;
 }
 
