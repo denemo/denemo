@@ -395,37 +395,35 @@ SCM scheme_cursor_to_note (SCM lilyname) {
    return  SCM_BOOL(FALSE);
 }
 
-SCM scheme_change_chord_notes (SCM listname) {
+SCM scheme_change_chord_notes (SCM lilyname) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  chord *thechord;
  note *thenote;
  gchar *notename;
- SCM s_value;
+ gchar *chordtone;
  gint mid_c_offset;
  gint enshift;
- gint noteheigth;
  gint dclef;
-
- if (scm_is_true(scm_list_p(listname))) {
+ 
+ if (scm_is_true(SCM_STRINGP(lilyname))) {
   
    if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return  SCM_BOOL(FALSE);
    
    else {
-	   /* delete all chord tones */
+	/* delete all chord tones */
 	while(thechord->notes)
 		 tonechange(gui->si, TRUE);
 	
 	/* add changed tones */
 	dclef =  find_prevailing_clef(Denemo.gui->si);
-
-	while (scm_is_false (scm_null_p (listname))){
-	   s_value  = SCM_CAR(listname);
-	   notename = scm_to_locale_string(s_value);
-           name2mid_c_offset(notename, &mid_c_offset, &enshift);
-           dnm_addtone (curObj, mid_c_offset, enshift, dclef);
-	   listname = SCM_CDR(listname);
+        notename = scm_to_locale_string(lilyname);	
+	chordtone = strtok(notename, " ");
+	while (chordtone){
+          name2mid_c_offset(chordtone, &mid_c_offset, &enshift);
+	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
+	  chordtone = strtok( NULL, " " );
 	}
 	return  SCM_BOOL(TRUE);
    }  
