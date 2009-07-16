@@ -5,141 +5,116 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>ReadingNoteNames</action>
         <scheme>;;;;;;;;;;;;;;;
-;;ReadingNoteNames
+;;ReadingNoteNames NEW VERSION
 ;; tests note name recognition.
-(let (
-      (shiftup 0)
-      (shiftdown 0)
-      (show-graphic 0)
-      (PlaceGraphic 0)
-      (number->graphic 0)
-      (graphic "One")
-      (runtest 0)
-      (PlaceAnswerStatus 0)
-      (notewas #t)
-      (usernote #t)
-      (score 0)
-      (steps 0)
-      (starttime 0)
-      (endtime 0)
-      (span 8) ;; how many steps of the scale to test.
-      (num-goes 10) ;; how many notes to present for the whole test
-      )
-  ;; set the random seed up using time of day
-  (let ((time (gettimeofday)))
-    (set! *random-state*
-	  (seed-&gt;random-state (+ (car time)
-				 (cdr time)))))
-  (set! shiftup
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorUp)
-			(shiftup (- n 1))))))
 
-  (set! shiftdown
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorDown)
-			(shiftdown (- n 1))))))
-  (set! PlaceAnswerStatus
-  	(lambda (name gfx)
-	  (begin
-	    (d-DirectivePut-note-minpixels name 30)
-	    (d-DirectivePut-note-gx name -15)
-	    (d-DirectivePut-note-gy name 10)
-	    (d-DirectivePut-note-graphic name gfx))))
-	    
-  (set! show-graphic (lambda (count)
-			  (cond ((zero? count)
-			       (set! graphic "LargeZero"))
-			      ((= 1 count)
-			       (set! graphic "LargeOne"))
-			      ((= 2 count)
-			       (set! graphic "LargeTwo"))
-			      ((= 3 count)
-			       (set! graphic "LargeThree"))
-			      ((= 4 count)
-			       (set! graphic "LargeFour"))
-			      ((= 5 count)
-			       (set! graphic "LargeFive"))
-			      ((= 6 count)
-			       (set! graphic "LargeSix"))
-			      ((= 7 count)
-			       (set! graphic "LargeSeven"))
-			      ((= 8 count)
-			       (set! graphic "LargeEight"))
-			      ((= 9 count)
-			       (set! graphic "LargeNine")))
-			 (d-DirectivePut-standalone-graphic "Score" graphic)
-			 ))
-	
-(set! PlaceGraphic
-  (lambda (numberstring)
-    (begin
-        (d-AppendMeasure)
-        (d-MeasureRight)
-        (show-graphic numberstring)
-        (d-RefreshDisplay))))
+(define ReadingNoteNames::num-goes 10)
+(define ReadingNoteNames::score 0)
+(define ReadingNoteNames::notewas #f)
 
-(set! number->graphic
-  (lambda (number position)
-    (begin
-      (let ( (charnumber (number->string number)) )
-        (if (not (>= position (string-length charnumber)))
-           (begin
-             (PlaceGraphic (- (char->integer (string-ref charnumber position)) 48))
-             (number->graphic number (+ 1 position))))))))
+(define (ReadingNoteNames::showscore)
+  (d-DirectivePut-score-display "ReadingNoteNames::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string ReadingNoteNames::score) "&lt;/b&gt;")))
 
-			 
+(define ReadingNoteNames::shiftup
+  (lambda (n)
+    (if (&gt; n 0) (begin
+		  (d-CursorUp)
+		  (ReadingNoteNames::shiftup (- n 1))))))
+
+(define ReadingNoteNames::shiftdown
+  (lambda (n)
+    (if (&gt; n 0) (begin
+		  (d-CursorDown)
+		  (ReadingNoteNames::shiftdown (- n 1))))))
+
+(define (ReadingNoteNames::notechosen usernote)
+		      (begin
+			(display (string-append "the note chosen
+" usernote "the note sought
+" ReadingNoteNames::notewas))
+			(if  (string=? ReadingNoteNames::notewas usernote)
+			     (begin
+			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
+			       ;;;(PlaceAnswerStatus "NoteCorrect" "CheckMark")
+			       (d-ChangeNotehead "Diamond"))
+			     (begin
+			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
+			       ;;;(PlaceAnswerStatus "NoteWrong" "CrossSign")
+			       (d-ChangeNotehead "Cross"))) 
+			(set! ReadingNoteNames::num-goes (1-  ReadingNoteNames::num-goes))
+			(ReadingNoteNames::runtest)))
 ;;;;;;;; the main function to run the test
-  (set! runtest 
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(set! steps (+ 1 (random span)))
-			(shiftup steps)
-			(d-Insert2)
-			(set! notewas (d-GetNoteName))
-			;(d-InsertLilyDirective "directive=%Your score so far: ")
-			(d-DirectivePut-score-display "ReadingNoteNames" (string-append (string-append  "Score: " (object-&gt;string score)) ". Name this note"))
-			(shiftdown steps)
-			(set! usernote  (d-GetChar)
-			      )
-			(if (string? usernote)
-			    (begin
-			      ;;(d-DeletePreviousObject)
-			      (if  (string=? notewas usernote)
-				   (begin
-				     (set! score (+ score 1))
-				     (PlaceAnswerStatus "NoteCorrect" "CheckMark")
-				     (d-ChangeNotehead "Diamond"))
-				   (begin
-				     (set! score (- score 1))
- 				     (PlaceAnswerStatus "NoteWrong" "CrossSign")
-				     (d-ChangeNotehead "Cross"))) 		 
-			      (runtest (- n 1))))))))
+(define (ReadingNoteNames::runtest) 
+    (if (&gt; ReadingNoteNames::num-goes 0) 
+	(let (    
+	      (usernote #t)
+	      (steps 0)
+	      (span 8) ;; how many steps of the scale to test.
+	      
+	      )
+	  (set! steps (+ 1 (random span)))
+	  (ReadingNoteNames::shiftup steps)
+	  (d-Insert2)
+	  (set! ReadingNoteNames::notewas (d-GetNoteName))	  
+	  (ReadingNoteNames::showscore)
+	  (ReadingNoteNames::shiftdown steps)
+	  )
+	(begin
+	  (display "Game over")
+	  (set! ReadingNoteNames::num-goes 10)
+	  (d-PlayMidiKey #xF03001)
+	  (d-PlayMidiKey #xF02A01)
+	  (d-PlayMidiKey #xF04001))))
 
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key.\nHow many goes do you want?" "8"))
-  (set! starttime (car (gettimeofday)))
-  (d-NewWindow)
-  (set! num-goes (string-&gt;number num-goes))
-  (if (not (integer? num-goes))
-      (set! num-goes 10))
-  (runtest num-goes)
-  ;(d-DirectivePut-score-display  "ReadingNoteNames"  (string-append  "Final Score: " (object-&gt;string score)))
-  (d-InsertLilyDirective "directive=%Your score: ")
-  (number->graphic score 0)
-  (set! endtime (car (gettimeofday))) 
-  (display (- endtime starttime))
-  (d-RefreshDisplay)
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
-  )
+;; set the random seed up using time of day
+(let ((time (gettimeofday)))
+  (set! *random-state*
+	(seed-&gt;random-state (+ (car time)
+			       (cdr time)))))
+(d-PlayMidiKey #xF03001)
+(d-PlayMidiKey #xF02A01)
+(d-PlayMidiKey #xF04001)
+
+
+(define (CreateButton tag label)
+  (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-score-display tag label))
+
+
+(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"16\"&gt;Click Go to start&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
+(CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"36\"&gt;Go&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameGo" "(ReadingNoteNames::runtest)")
+
+
+(define (ReadingNoteNames::createbuttons note)
+  (CreateButton (string-append "ReadingNoteNames::" note)  (string-append " &lt;span font_desc=\"36\" foreground=\"blue\"&gt;" note  "&lt;/span&gt;"))
+  (d-SetDirectiveTagActionScript  (string-append "ReadingNoteNames::" note) (string-append "(ReadingNoteNames::notechosen \"" note "\")")))
+
+(ReadingNoteNames::createbuttons "a")
+(ReadingNoteNames::createbuttons "b")
+(ReadingNoteNames::createbuttons "c")
+(ReadingNoteNames::createbuttons "d")
+(ReadingNoteNames::createbuttons "e")
+(ReadingNoteNames::createbuttons "f")
+(ReadingNoteNames::createbuttons "g")
+
+
+
+
+(set! ReadingNoteNames::num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit the correct note-name key.\nHow many goes do you want?" "8"))
+
+(set! ReadingNoteNames::num-goes (string-&gt;number ReadingNoteNames::num-goes))
+(if (not (integer? ReadingNoteNames::num-goes))
+    (set! ReadingNoteNames::num-goes 10))
+
+(d-PlayMidiKey #xF03001)
+(d-PlayMidiKey #xF02A01)
+(d-PlayMidiKey #xF04001)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
