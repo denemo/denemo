@@ -354,6 +354,29 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
+SCM scheme_get_note_duration(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ gint duration;
+ gint numdots = 0;
+ gchar *str;
+  
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return  SCM_BOOL(FALSE);
+
+ duration = 1 << thechord->baseduration;
+ str = g_strdup_printf("%d", duration);
+ if (thechord->numdots)
+   while (numdots++ < thechord->numdots)
+     str = g_strdup_printf("%s""%c", str, '.');
+
+ SCM scm = scm_makfrom0str (str);
+ g_free(str);
+ return  scm;
+}
+
 SCM scheme_get_note (SCM optional) {
   //int length;
     //   char *str=NULL;
@@ -446,7 +469,8 @@ SCM scheme_change_chord_notes (SCM lilyname) {
    
    else {
 	/* copy directives */
-	GList *g =  g_list_copy(thechord->directives);
+	GList *g =  thenote->directives;
+	thenote->directives = NULL;
 	/* delete all chord tones */
 	while(thechord->notes)
 		 tonechange(gui->si, TRUE);
@@ -460,7 +484,7 @@ SCM scheme_change_chord_notes (SCM lilyname) {
 	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
 	  chordtone = strtok( NULL, " " );
 	}
-	thechord->directives = g_list_copy(g);
+	thenote->directives = g;
 	displayhelper (gui);
 	return  SCM_BOOL(TRUE);
    }  
@@ -1384,9 +1408,7 @@ static SCM scheme_put_note_name (SCM optional) {
      gint enshift;
      name2mid_c_offset(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-     GList *g = thechord->directives;
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
-     thechord->directives = g;
      //thenote->mid_c_offset = name2mid_c_offset(str);
      displayhelper(Denemo.gui);
    return SCM_BOOL(TRUE);
@@ -1623,7 +1645,8 @@ void inner_main(void*closure, int argc, char **argv){
   //  g_print("init prefs run");
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
-  load_default_keymap_file();
+  process_command_line(argc, argv);
+
 
   //insert mode on startup - should be a pref FIXME
   gtk_widget_show (Denemo.InsertModeMenu);
@@ -2287,7 +2310,7 @@ INSTALL_EDIT(movementcontrol);
   */
 
 
-  process_command_line(argc, argv);
+
   /* Now launch into the main gtk event loop and we're all set */
   gtk_main();
 }

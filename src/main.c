@@ -468,7 +468,7 @@ int process_command_line(int argc, char**argv) {
   GDir *dir=NULL;
   gchar *filename;
   GError *error = NULL;
-  gchar *initschemefile=NULL, *templatefile=NULL;
+  gchar *initschemefile=NULL, *templatefile=NULL, *commandsetfile=NULL;
   /* parse command line and display help messages */
   gchar *helptext  = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
@@ -479,7 +479,8 @@ It uses GNU Lilypond for music typesetting\n\
 Denemo is part of the GNU project.\n\n\
 Options:\n\
   -h,--help             print this help and exit\n\
-  -i pathtofile         process scheme commands in file on startup\n\
+  -c file               use commandset found in system file\n\
+  -i pathtofile         process scheme commands in pathtofile on startup\n\
   -s filename           process scheme commands from system file\n\
   -t pathtofile         use file as initial template file\n\
   -v,--version          print version number and exit\n\n\n\
@@ -501,11 +502,12 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 #endif
 
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "shivt:", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, "s:hi:vt:c:k:", long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "shivt:")) != -1)
+  while ((opts = getopt (argc, argv, "s:hi:vt:c:k:")) != -1)
 #endif
     {
+	  g_print("opt %c has %s\n", opts, argv[optind]);
       if (opts == 'h')
         {
           g_print (helptext);
@@ -513,15 +515,24 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
         }
       else if (opts == 's')
         {
-	  initschemefile = g_build_filename(get_data_dir(), "actions",  argv[optind], NULL);
+	  initschemefile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
         }
       else if (opts == 'i')
         {
-          initschemefile = g_strdup( argv[optind]);
+          initschemefile = g_strdup(optarg);
         }
       else if (opts == 't')
         {
-          templatefile = g_strdup( argv[optind]);
+          templatefile = g_strdup(optarg);
+        }
+
+      else if (opts == 'c')
+        {
+	  commandsetfile = g_build_filename(get_data_dir(), "actions",  optarg, NULL);
+        }
+      else if (opts == 'k')
+        {
+	  commandsetfile = g_build_filename(locatedotdenemo(), "actions",  optarg, NULL);
         }
       else if (opts == 'v')
         {
@@ -678,4 +689,8 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
     } else
       if(!templatefile)
 	open_user_default_template(REPLACE_SCORE);
+  if(commandsetfile && (0==load_xml_keymap(commandsetfile)))
+    ;
+  else
+    load_default_keymap_file();
 }
