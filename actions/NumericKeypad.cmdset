@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Denemo>
   <commands>
-    <title>A Denemo Command Set</title>
+    <title>A Denemo Keymap</title>
     <author>AT, JRR, RTS</author>
     <map>
       <cursors>
@@ -2519,13 +2519,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Page Break</label>
         <tooltip>(Print) Forces a new page at this barline.</tooltip>
-      </row>
-      <row>
-        <action>ReadingNoteNames</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational</menupath>
-        <label>Note Name Recognition</label>
-        <tooltip>%tests your ability to name the notes of the scale</tooltip>
       </row>
     </map>
   </commands>
