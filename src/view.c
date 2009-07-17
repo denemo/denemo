@@ -1572,7 +1572,7 @@ SCM scheme_next_note (SCM optional) {
       scheme_next_note (optional);
 }
 
-int process_command_line(int argc, char**argv);//back in main
+gchar* process_command_line(int argc, char**argv);//back in main
 
 static void define_scheme_constants(void) {
   gchar *tmp;
@@ -1658,7 +1658,7 @@ void inner_main(void*closure, int argc, char **argv){
   //  g_print("init prefs run");
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
-  process_command_line(argc, argv);
+  gchar *initial_file = process_command_line(argc, argv);
 
 
   //insert mode on startup - should be a pref FIXME
@@ -2325,9 +2325,21 @@ INSTALL_EDIT(movementcontrol);
   */
 
 
-
-  /* Now launch into the main gtk event loop and we're all set */
-  gtk_main();
+ if(!initial_file){    
+   gchar *init_file;
+   init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
+   if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
+     g_warning("Denemo initialization file %s not found", init_file);
+   init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
+   (void)open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE);
+   deleteSchemeText();
+   g_free(init_file);  
+ } else
+   if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
+     open_user_default_template(REPLACE_SCORE);
+ 
+ /* Now launch into the main gtk event loop and we're all set */
+ gtk_main();
 }
 
 

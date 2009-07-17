@@ -462,13 +462,13 @@ openfile (gchar * name, gboolean template)
   return result;
 }
 
-int process_command_line(int argc, char**argv) {
+gchar * process_command_line(int argc, char**argv) {
 
   gint opts;
   GDir *dir=NULL;
   gchar *filename;
   GError *error = NULL;
-  gchar *initschemefile=NULL, *templatefile=NULL, *commandsetfile=NULL;
+  gchar *initschemefile=NULL,  *commandsetfile=NULL;
   /* parse command line and display help messages */
   gchar *helptext  = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
@@ -480,9 +480,9 @@ Denemo is part of the GNU project.\n\n\
 Options:\n\
   -h,--help             print this help and exit\n\
   -c file               use commandset found in system file\n\
+  -k file               use commandset found in local file (in ~/.denemo)\n\
   -i pathtofile         process scheme commands in pathtofile on startup\n\
   -s filename           process scheme commands from system file\n\
-  -t pathtofile         use file as initial template file\n\
   -v,--version          print version number and exit\n\n\n\
 Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
@@ -502,9 +502,9 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 #endif
 
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "s:hi:vt:c:k:", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, "s:hi:vc:k:", long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "s:hi:vt:c:k:")) != -1)
+  while ((opts = getopt (argc, argv, "s:hi:vc:k:")) != -1)
 #endif
     {
 	  g_print("opt %c has %s\n", opts, argv[optind]);
@@ -520,10 +520,6 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
       else if (opts == 'i')
         {
           initschemefile = g_strdup(optarg);
-        }
-      else if (opts == 't')
-        {
-          templatefile = g_strdup(optarg);
         }
 
       else if (opts == 'c')
@@ -660,37 +656,18 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
   if (dir)
     g_dir_close (dir);
 
-  gchar *init_file;
-  if(templatefile) {
-    init_file = g_strdup(templatefile);
-    if (openfile (init_file, TRUE) == -1)
-    g_warning("Initial file %s not found", init_file);
-  }  else {
-    init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-    if (openfile (init_file, TRUE) == -1)
-      g_warning("Denemo initialization file %s not found", init_file);
-    init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-    (void)openfile (init_file, TRUE);
-  }
-  deleteSchemeText();
-  g_free(init_file);
-  /* Open a file, if it was specified on the command line. Note
-   * that this had to be done after the window was created, otherwise
-   * there wouldn't have been a titlebar to set. Also note that
-   * a blank score is created whether or not a load was specified.
-   * This is done this way because the load could bomb out. */
 
-  if (optind < argc)
-    {
-      if (openfile (argv[optind], FALSE) == -1)
-        {
-          g_warning ("Attempt to read in file %s failed\n", argv[optind]);
-        } 
-    } else
-      if(!templatefile)
-	open_user_default_template(REPLACE_SCORE);
+
   if(commandsetfile && (0==load_xml_keymap(commandsetfile)))
     ;
   else
     load_default_keymap_file();
+
+
+    if (optind < argc)
+      return argv[optind];
+    else
+      return NULL;
+
+
 }
