@@ -445,6 +445,8 @@ SCM scheme_change_chord_notes (SCM lilyname) {
    return  SCM_BOOL(FALSE);
    
    else {
+	/* copy directives */
+	GList *g =  g_list_copy(thechord->directives);
 	/* delete all chord tones */
 	while(thechord->notes)
 		 tonechange(gui->si, TRUE);
@@ -458,6 +460,8 @@ SCM scheme_change_chord_notes (SCM lilyname) {
 	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
 	  chordtone = strtok( NULL, " " );
 	}
+	thechord->directives = g_list_copy(g);
+	displayhelper (gui);
 	return  SCM_BOOL(TRUE);
    }  
  } 
@@ -1337,7 +1341,7 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
 
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
-  g_print("Mid c offset of %d\n", *x-'a');
+  g_print("Mid c offset of %d\n", *x-'c');
   gchar *c;
   gint octave = -1;/* middle c is c' */
   gint accs = 0;
@@ -1359,7 +1363,7 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   if (*x =='a' || *x=='b')
     octave++;
 
-  *mid_c_offset = *x-'a' + 7*octave;
+  *mid_c_offset = *x-'c' + 7*octave;
   *enshift = accs;
 }
 
@@ -1380,7 +1384,9 @@ static SCM scheme_put_note_name (SCM optional) {
      gint enshift;
      name2mid_c_offset(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+     GList *g = thechord->directives;
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
+     thechord->directives = g;
      //thenote->mid_c_offset = name2mid_c_offset(str);
      displayhelper(Denemo.gui);
    return SCM_BOOL(TRUE);
