@@ -413,7 +413,8 @@ SCM scheme_change_chord_notes (SCM lilyname) {
    
    else {
 	/* copy directives */
-	GList *g =  g_list_copy(thechord->directives);
+	GList *g =  thenote->directives;
+	thenote->directives = NULL;
 	/* delete all chord tones */
 	while(thechord->notes)
 		 tonechange(gui->si, TRUE);
@@ -427,7 +428,7 @@ SCM scheme_change_chord_notes (SCM lilyname) {
 	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
 	  chordtone = strtok( NULL, " " );
 	}
-	thechord->directives = g_list_copy(g);
+	thenote->directives = g;
 	displayhelper (gui);
 	return  SCM_BOOL(TRUE);
    }  
@@ -1351,9 +1352,7 @@ static SCM scheme_put_note_name (SCM optional) {
      gint enshift;
      name2mid_c_offset(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-     GList *g = thechord->directives;
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
-     thechord->directives = g;
      //thenote->mid_c_offset = name2mid_c_offset(str);
      displayhelper(Denemo.gui);
    return SCM_BOOL(TRUE);
