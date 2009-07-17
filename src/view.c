@@ -216,7 +216,20 @@ static SCM scheme_initialize_script(SCM action_name) {
   return ret;
 }
 
-
+static SCM scheme_load_command(SCM command) {
+  SCM ret;
+  //FIXME scm_dynwind_begin (0); etc
+  gchar *name = scm_to_locale_string(command);//scm_dynwind_free (name);
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", name, NULL);
+  ret = SCM_BOOL( load_xml_keymap(filename));
+  if(ret==FALSE) {
+    g_free(filename);
+    g_build_filename(get_data_dir(), "actions", name, NULL);
+    ret = SCM_BOOL(load_xml_keymap(filename));
+  }
+  g_free(filename);
+  return ret;
+}
 static void
 toggle_toolbar (GtkAction * action, gpointer param);
 static void
@@ -1703,6 +1716,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetRelativeFontSize",  scheme_get_relative_font_size);			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
