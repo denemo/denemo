@@ -1711,6 +1711,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
   install_scm_function (DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
