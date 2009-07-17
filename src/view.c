@@ -354,6 +354,29 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
+SCM scheme_get_note_duration(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ gint duration;
+ gint numdots = 0;
+ gchar *str;
+  
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return  SCM_BOOL(FALSE);
+
+ duration = 1 << thechord->baseduration;
+ str = g_strdup_printf("%d", duration);
+ if (thechord->numdots)
+   while (numdots++ < thechord->numdots)
+     str = g_strdup_printf("%s""%c", str, '.');
+
+ SCM scm = scm_makfrom0str (str);
+ g_free(str);
+ return  scm;
+}
+
 SCM scheme_get_note (SCM optional) {
   //int length;
     //   char *str=NULL;
@@ -1687,6 +1710,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
   install_scm_function (DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
