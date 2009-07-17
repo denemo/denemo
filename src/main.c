@@ -468,28 +468,29 @@ int process_command_line(int argc, char**argv) {
   GDir *dir=NULL;
   gchar *filename;
   GError *error = NULL;
+  gchar *initschemefile=NULL, *templatefile=NULL;
   /* parse command line and display help messages */
   gchar *helptext  = g_strconcat (_("\nGNU Denemo version "), VERSION, ".\n\n",
                                  _("\
 Usage: denemo [OPTION]... [FILE]\n\n\
-Run denemo, opening save file FILE\n\n\
-Denemo is a graphical music notation editor. It produces save files\n\
-in GNU Lilypond input format (suitable for immediate typesetting with GNU\n\
-Lilypond) and Adam Tee's JTF file format. Denemo is part of the GNU\n\
-project.\n\n\
+Run denemo, optionally starting with FILE\n\n\
+Denemo is a graphical music notation editor.\n\
+It uses GNU Lilypond for music typesetting\n\
+Denemo is part of the GNU project.\n\n\
 Options:\n\
   -h,--help             print this help and exit\n\
-  -s,--silent           lets just start with silent lilypond conversion\n\
+  -i pathtofile         process scheme commands in file on startup\n\
+  -s filename           process scheme commands from system file\n\
+  -t pathtofile         use file as initial template file\n\
   -v,--version          print version number and exit\n\n\n\
 Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
-  gchar *copytext = _("\
-(c) 1999-2005 Matthew Hiller, Adam Tee, and others\n\n\n\
-This program is provided with absolutely NO WARRANTY; see\n\
-the file COPYING for details.\n\n\
-This software may be redistributed and modified under the\n\
-terms of the GNU General Public License; again, see the file\n\
-COPYING for details.\n\n") ;
+  gchar *copytext = _("(c) 1999-2005, 2009 Matthew Hiller, Adam Tee, and others\n\n\n"
+"This program is provided with absolutely NO WARRANTY; see\n"
+"the file COPYING for details.\n\n"
+"This software may be redistributed and modified under the\n"
+"terms of the GNU General Public License; again, see the file\n"
+"COPYING for details.\n\n");
 
 
 #ifdef HAVE_GETOPT_H
@@ -500,9 +501,9 @@ COPYING for details.\n\n") ;
 #endif
 
 #ifdef HAVE_GETOPT_H
-  while ((opts = getopt_long (argc, argv, "shvt:", long_options, NULL)) != -1)
+  while ((opts = getopt_long (argc, argv, "shivt:", long_options, NULL)) != -1)
 #else
-  while ((opts = getopt (argc, argv, "shvt:")) != -1)
+  while ((opts = getopt (argc, argv, "shivt:")) != -1)
 #endif
     {
       if (opts == 'h')
@@ -512,9 +513,15 @@ COPYING for details.\n\n") ;
         }
       else if (opts == 's')
         {
-          g_print (copytext);
-          silentconversion (argv[optind], Denemo.gui);
-          exit (0);
+	  initschemefile = g_build_filename(get_data_dir(), "actions",  argv[optind], NULL);
+        }
+      else if (opts == 'i')
+        {
+          initschemefile = g_strdup( argv[optind]);
+        }
+      else if (opts == 't')
+        {
+          templatefile = g_strdup( argv[optind]);
         }
       else if (opts == 'v')
         {
@@ -531,20 +538,7 @@ COPYING for details.\n\n") ;
   g_free (helptext);
 
 
-
-  /* adapt stock items to denemo */
-  //register_stock_items ();
-  /* Following calls were made previously in newview. However I think they are
-   * global, and should be done once and for all when the application opens
-   * they are now done after initializing guile, at the start of inner_main()
-   * which then calls this procedure.
-   */
-  /* Initialize preferences */
-  //initprefs();
-  /* read history file */
-  //readHistory();
-  /* Set up the keymap */
-  //init_keymap();
+  denemo_scheme_init(initschemefile);
 
 #ifdef _HAVE_JACK_
   g_debug("\nDenemo.prefs.jack_at_startup = %d\n", Denemo.prefs.jack_at_startup);
@@ -576,11 +570,6 @@ COPYING for details.\n\n") ;
 		                           flags, LASH_PROTOCOL(2, 0));
   start_init_lash(lash_client);
 #endif
-
-
-
-  //DenemoPrefs prefs;
-  //  readxmlprefs("src/denemorc", &prefs);
 
 #ifdef HAVEALSA
   if (NULL == (sq = midi_seq_new ("Denemo")))
@@ -661,11 +650,17 @@ COPYING for details.\n\n") ;
     g_dir_close (dir);
 
   gchar *init_file;
-  init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-  if (openfile (init_file, TRUE) == -1)
-    g_warning("Denemo Scheme initialization file %s not found", init_file);
-  init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-  (void)openfile (init_file, TRUE);
+  if(templatefile) {
+    init_file = g_strdup(templatefile);
+    if (openfile (init_file, TRUE) == -1)
+    g_warning("Initial file %s not found", init_file);
+  }  else {
+    init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
+    if (openfile (init_file, TRUE) == -1)
+      g_warning("Denemo initialization file %s not found", init_file);
+    init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
+    (void)openfile (init_file, TRUE);
+  }
   deleteSchemeText();
   g_free(init_file);
   /* Open a file, if it was specified on the command line. Note
@@ -678,9 +673,9 @@ COPYING for details.\n\n") ;
     {
       if (openfile (argv[optind], FALSE) == -1)
         {
-          g_print ("Attempt to read in file %s failed\n", argv[optind]);
-          return 1;
+          g_warning ("Attempt to read in file %s failed\n", argv[optind]);
         } 
     } else
-      open_user_default_template(REPLACE_SCORE);
+      if(!templatefile)
+	open_user_default_template(REPLACE_SCORE);
 }
