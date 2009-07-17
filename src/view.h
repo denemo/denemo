@@ -64,7 +64,7 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 
 gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height );
 
-
+void denemo_scheme_init(gchar *initscheme);
 gchar *getSchemeText(void); 
 void deleteSchemeText(void);
 void appendSchemeText(gchar *text);

@@ -344,3 +344,7 @@
       (equal? tag (d-DirectiveGetForTag-timesig tag))))
 (define (d-DirectiveGetTag-timesig)
   (d-DirectiveGetForTag-timesig ""))
+
+(define (CreateButton tag label)
+  (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-score-display tag label))

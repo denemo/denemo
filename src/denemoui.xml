@@ -75,6 +75,7 @@
       <menuitem action="ToggleConsoleView"/>
       <menuitem action="ToggleRhythmToolbar"/>
       <menuitem action="ToggleEntryToolbar"/>
+      <menuitem action="ToggleToolbar"/>
       <menuitem action="ToggleArticulationPalette"/>
       <menuitem action="ToggleScoreTitles"/>
       <menuitem action="ToggleObjectMenu"/>
