@@ -4,7 +4,11 @@
     <title>A Denemo Command Set</title>
     <author>AT, JRR, RTS</author>
     <map>
-
+      <row>
+        <action>Quit</action>
+        <label>Quit</label>
+        <tooltip>Quit the Denemo program</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

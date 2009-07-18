@@ -2679,15 +2679,16 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   /*  xmlNodePtr rootElem, childElem; */
   xmlNodePtr rootElem;
   gchar *version = NULL;
-
+  if(sXMLIDToElemMap != NULL) {
+    g_warning ("Recursive call to importXML - ignored\n");
+    return -1;
+  }
   /* Try to parse the file. */
 
   doc = xmlParseFile (filename);
-  if (doc == NULL)
-    {
+  if (doc == NULL) {
       g_warning ("Could not read XML file %s", filename);
-      ret = -1;
-      return ret;
+      return -1;
     }
 
   /*
@@ -2872,11 +2873,11 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     g_free (version);
   if (doc != NULL)
     xmlFreeDoc (doc);
-  g_hash_table_foreach (sXMLIDToElemMap, freeHashTableKey, NULL);
-  g_hash_table_destroy (sXMLIDToElemMap);
+  if(sXMLIDToElemMap != NULL) {
+    g_hash_table_foreach (sXMLIDToElemMap, freeHashTableKey, NULL);
+    g_hash_table_destroy (sXMLIDToElemMap);
+  }
   sXMLIDToElemMap = NULL;
-
-
   //g_print("Number of movements %d\n", g_list_length(gui->movements));
   return ret;
 }
