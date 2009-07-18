@@ -548,6 +548,22 @@ if(SCM_STRINGP(msg)){
  return msg;
 }
 
+SCM scheme_infodialog(SCM msg) {
+  gchar *title;
+  gint length;
+if(SCM_STRINGP(msg)){
+  title = scm_to_locale_string(msg);//scm_dynwind_free (title)
+  msg = SCM_BOOL(TRUE);
+  }
+ else {
+   title = "Script error, wrong parameter type to d-InfoDialog";//FIXME mixed types of string, memory leaks
+   msg = SCM_BOOL(FALSE);
+ }
+ infodialog (title);
+ //scm_dynwind_end ();
+ return msg;
+}
+
 
 SCM scheme_get_char(void) {
 
@@ -1766,6 +1782,7 @@ Then
     */
 
   install_scm_function (DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
+  install_scm_function (DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetChar", scheme_get_char);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetKeypress", scheme_get_keypress);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
