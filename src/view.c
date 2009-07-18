@@ -1506,6 +1506,11 @@ SCM scheme_refresh_display (SCM optional) {
   return SCM_BOOL(TRUE);
 }
 
+SCM scheme_set_saved (SCM optional) {
+  score_status(Denemo.gui, FALSE);
+  return SCM_BOOL(TRUE);
+}
+
 /* moves currentobject to next object in the selection.
    Steps over barlines (i.e. cursor_appending).
  returns TRUE if currentobject is different after than before the call
@@ -2305,6 +2310,9 @@ INSTALL_EDIT(movementcontrol);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
+  install_scm_function (DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+
+
   install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
 
   /* test with
