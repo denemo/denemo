@@ -376,7 +376,7 @@ SCM scheme_get_note_duration(void){
  gint numdots = 0;
  gchar *str;
   
- if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
    return  SCM_BOOL(FALSE);
 
  duration = 1 << thechord->baseduration;
