@@ -20,7 +20,7 @@
 #include "prefops.h"
 
 
-gint load_xml_keymap(gchar *filename);
+gint load_xml_keymap(gchar *filename, gboolean interactive);
 gint save_xml_keymap(gchar *filename);
 void set_visibility_for_action(GtkAction *action, gboolean visible);
 gint parse_paths (gchar * filename, DenemoGUI *gui);

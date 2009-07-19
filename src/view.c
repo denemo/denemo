@@ -221,11 +221,11 @@ static SCM scheme_load_command(SCM command) {
   //FIXME scm_dynwind_begin (0); etc
   gchar *name = scm_to_locale_string(command);//scm_dynwind_free (name);
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", name, NULL);
-  ret = SCM_BOOL( load_xml_keymap(filename));
+  ret = SCM_BOOL( load_xml_keymap(filename, FALSE));
   if(ret==FALSE) {
     g_free(filename);
     g_build_filename(get_data_dir(), "actions", name, NULL);
-    ret = SCM_BOOL(load_xml_keymap(filename));
+    ret = SCM_BOOL(load_xml_keymap(filename, FALSE));
   }
   g_free(filename);
   return ret;
@@ -3216,11 +3216,11 @@ gchar *instantiate_script(GtkAction *action){
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
                                         NULL);
   g_print("Filename %s\n", filename);
-  if (load_xml_keymap (filename)== -1) {
+  if (load_xml_keymap (filename, TRUE)== -1) {
 
     filename = g_build_filename (get_data_dir (), "actions", "menus", menupath, name,
 				 NULL);
-    if (load_xml_keymap (filename)== -1)
+    if (load_xml_keymap (filename, TRUE)== -1)
       warningdialog("Unable to load the script");
   }
   g_free(filename);
@@ -3365,7 +3365,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
     g_free(dirpath);
     //g_file_set_contents(filename, text, -1, NULL);
     save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, after);
-    load_xml_keymap(filename);
+    load_xml_keymap(filename, TRUE);
   } else
     warningdialog("Operation cancelled");
   return;

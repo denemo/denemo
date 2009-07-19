@@ -3,6 +3,9 @@
 #include "view.h"
 #include <string.h>
 
+/* merge types for command sets */
+#define DENEMO_MERGING (1<<0)
+#define DENEMO_INTERACTIVE (1<<1)
 
 static 	void show_type(GtkWidget *widget, gchar *message);
 /*
@@ -169,7 +172,7 @@ add_ui(gchar *menupath, gchar *after, gchar *name) {
 }
 
 static void
-parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gboolean merge)
+parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallback, gint merge)
 {
   xmlChar *name=NULL, *menupath=NULL, *label=NULL, *tooltip=NULL, *scheme=NULL, *after=NULL;
   GList *menupaths = NULL;
@@ -198,17 +201,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
       } else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "scheme")) {
 	scheme = 
 	  xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-#if 0
-	/* this puts the loaded script into the scheme view window - useful for development work */
-	if(merge && scheme) {
-	  GtkTextIter enditer;
-	  GtkTextBuffer *buffer = gtk_text_view_get_buffer((GtkTextView*)(Denemo.ScriptView));
-	  gtk_text_buffer_get_end_iter (buffer,  &enditer);
-	  gchar *text = g_strdup_printf(";;;Scheme code for command %s\n%s",name,scheme);
-	  gtk_text_buffer_insert(buffer, &enditer, text, -1);
-	  g_free(text); 
-	} 
-#endif 
+
 	is_script = TRUE;
       }    else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden")) {
 	hidden = TRUE; 
@@ -269,7 +262,9 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	      add_ui(menupath, after, name);
 	    }
 	  }
-	  if(merge && new_command) {
+	  if((merge&DENEMO_INTERACTIVE)
+	     && (merge&DENEMO_MERGING)
+	     && new_command) {
 	    gchar *msg = g_strdup_printf("Installed a command in the menu system\nat %s\n", menupath);
 	    infodialog(msg);
 	    g_free(msg);
@@ -420,7 +415,7 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur) {
 
 
 static void
-parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
+parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gint merge)
 {
   xmlNodePtr ncur = cur->xmlChildrenNode;
   int i;
@@ -441,7 +436,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupa
 
 
 static void
-parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gboolean merge)
+parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *menupath, gint merge)
 {
   for (cur = cur->xmlChildrenNode; cur != NULL;  cur = cur->next)
     {
@@ -482,6 +477,7 @@ gchar *extract_menupath(gchar *filename) {
 
 /* 
  * load a command from filename. 
+ * if not scripted and merging with other commands, tell the user where the new command is. 
  * If an action exists but has an empty script load the scheme script,
  if action is a new action leave script as empty string for loading on demand.
  * Create a widget for the action in a menupath found in filename or failing that deduced from
@@ -490,11 +486,11 @@ gchar *extract_menupath(gchar *filename) {
  * negative on failure
  */
 gint
-load_xml_keymap (gchar * filename)
+load_xml_keymap (gchar * filename, gboolean interactive)
 {
   keymap *the_keymap = Denemo.map; 
   gint ret = -1;
-  gboolean merge = FALSE;//Whether to replace the keymap or merge with it
+  gint merge = interactive?DENEMO_INTERACTIVE:0;//merge&DENEMO_MERGING is true if merging, merge&DENEMO_INTERACTIVE is true if not scripted
   xmlDocPtr doc;
   //xmlNsPtr ns;
   xmlNodePtr rootElem;
@@ -537,16 +533,16 @@ load_xml_keymap (gchar * filename)
 
       if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands")) ||
 	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */ ||
-	   (merge = (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge")))
+	   (merge |= DENEMO_MERGING*(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge")))
 	  )
 	{
-	  if(!merge) {
+	  if(!(merge&DENEMO_MERGING)) {
 	    //g_print("Losing command set %p\n", Denemo.map);
 	    init_keymap(); 
 	    // g_print("Starting with a clean command set %p\n", Denemo.map);
 	  }
 	  parseKeymap (doc, rootElem, Denemo.map, menupath, merge);
-	  if(merge) {
+	  if(merge&DENEMO_MERGING) {
 	    if(Denemo.last_merged_command)
 	      g_free(Denemo.last_merged_command);
 	    Denemo.last_merged_command = g_strdup(filename);

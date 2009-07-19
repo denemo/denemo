@@ -658,7 +658,7 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
 
 
-  if(commandsetfile && (0==load_xml_keymap(commandsetfile)))
+  if(commandsetfile && (0==load_xml_keymap(commandsetfile, TRUE)))
     ;
   else
     load_default_keymap_file();
