@@ -13,6 +13,8 @@
 
 
 (define ReadingNoteNames::score 0)
+(define ReadingNoteNames::interval 8)
+
 (define ReadingNoteNames::notewas #f)
 
 (define (ReadingNoteNames::showscore)
@@ -30,19 +32,26 @@
 		  (d-CursorDown)
 		  (ReadingNoteNames::shiftdown (- n 1))))))
 
+(define (ReadingNoteNames::placeAnswerStatus gfx)
+  (begin
+    (d-DirectivePut-note-minpixels "ReadingNoteNames::tick" 30)
+    (d-DirectivePut-note-gx "ReadingNoteNames::tick" -15)
+    (d-DirectivePut-note-gy "ReadingNoteNames::tick" 40)
+    (d-DirectivePut-note-graphic "ReadingNoteNames::tick" gfx)))
+
+
+;;;;;;;;; callback when user chooses a note
 (define (ReadingNoteNames::notechosen usernote)
 		      (begin
-			(display (string-append "the note chosen
-" usernote "the note sought
-" ReadingNoteNames::notewas))
+			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
-			       ;;;(PlaceAnswerStatus "NoteCorrect" "CheckMark")
+			       (ReadingNoteNames::placeAnswerStatus "CheckMark")
 			       (d-ChangeNotehead "Diamond"))
 			     (begin
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
-			       ;;;(PlaceAnswerStatus "NoteWrong" "CrossSign")
+			       (ReadingNoteNames::placeAnswerStatus "CrossSign")
 			       (d-ChangeNotehead "Cross"))) 
 			(ReadingNoteNames::runtest)))
 
@@ -52,17 +61,53 @@
   (d-SetSaved))
 (define (ReadingNoteNames::quit) 
   (d-Close))
+(define (ReadingNoteNames::help) 
+  (d-InfoDialog "Click on the bottom of the range of notes you want to learn.
+Use the Interval button to choose how many notes above that you want to try.
+Print out your score when you have finished.")
+)
 
-;;;;;;;; the main function to run the test
+(define (ReadingNoteNames::plus)
+  (set! ReadingNoteNames::interval (+ ReadingNoteNames::interval 1))
+  (if (&gt; ReadingNoteNames::interval 32)
+      (set! ReadingNoteNames::interval 32))
+  (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
+				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+
+(define (ReadingNoteNames::minus)
+  (set! ReadingNoteNames::interval (- ReadingNoteNames::interval 1))
+  (if (&lt; ReadingNoteNames::interval 2)
+      (set! ReadingNoteNames::interval 2))
+  (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
+				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+
+(define (ReadingNoteNames::setInterval)
+  (set! ReadingNoteNames::interval (string-&gt;number (d-GetUserInput "Interval" "Give number of steps you want to name note over" (object-&gt;string ReadingNoteNames::interval))))
+  (if (boolean? ReadingNoteNames::interval)
+       (set! ReadingNoteNames::interval 8))
+  (if (&lt; ReadingNoteNames::interval 2)
+       (set! ReadingNoteNames::interval 2))
+  (if (&gt; ReadingNoteNames::interval 32)
+      (set! ReadingNoteNames::interval 32))
+  (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
+				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+
+
+
+
+
+
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor.
 (define (ReadingNoteNames::runtest) 
     (if #t
 	(let (    
 	      (usernote #t)
 	      (steps 0)
-	      (span 8) ;; how many steps of the scale to test.
 	      
 	      )
-	  (set! steps (+ 1 (random span)))
+	;;  (d-GoToEnd)
+	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (set! steps (+ 1 (random ReadingNoteNames::interval)))
 	  (ReadingNoteNames::shiftup steps)
 	  (d-Insert2)
 	  (set! ReadingNoteNames::notewas (d-GetNoteName))	  
@@ -82,10 +127,25 @@
 
 (d-New)
 
-(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"16\"&gt;Click Go to start&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"16\"&gt;Click to start&lt;/span&gt;")
 (CreateButton "ReadingNoteNames::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
-(CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"36\"&gt;Go&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameHelp" "(ReadingNoteNames::help)")
+
+
+
+(CreateButton "ReadingNoteNames::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GamePlus" "(ReadingNoteNames::plus)")
+(CreateButton "ReadingNoteNames::GameInterval" (string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;"))
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameInterval" "(ReadingNoteNames::setInterval)")
+(CreateButton "ReadingNoteNames::GameMinus" "&lt;b&gt;-&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameMinus" "(ReadingNoteNames::minus)")
+
+
+
+
+(CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"36\"&gt;Re-start&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameGo" "(ReadingNoteNames::runtest)")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameScore" "(ReadingNoteNames::runtest)")
 
 
 (CreateButton "ReadingNoteNames::GamePrint" "&lt;span font_desc=\"36\"&gt;Print&lt;/span&gt;")
@@ -96,9 +156,15 @@
 (d-SetDirectiveTagActionScript "ReadingNoteNames::Close" "(ReadingNoteNames::quit)")
 
 
+
+
 (define (ReadingNoteNames::createbuttons note)
   (CreateButton (string-append "ReadingNoteNames::" note)  (string-append " &lt;span font_desc=\"36\" foreground=\"blue\"&gt;" note  "&lt;/span&gt;"))
   (d-SetDirectiveTagActionScript  (string-append "ReadingNoteNames::" note) (string-append "(ReadingNoteNames::notechosen \"" note "\")")))
+
+
+(CreateButton "ReadingNoteNames::spacer1" "&lt;span font_desc=\"36\"&gt;    &lt;/span&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::spacer1" "(d-PlayMidiKey #xF03001)")
 
 (ReadingNoteNames::createbuttons "a")
 (ReadingNoteNames::createbuttons "b")
@@ -108,6 +174,8 @@
 (ReadingNoteNames::createbuttons "f")
 (ReadingNoteNames::createbuttons "g")
 
+(CreateButton "ReadingNoteNames::spacer2" "&lt;span font_desc=\"36\"&gt;    &lt;/span&gt;")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::spacer2" "(d-PlayMidiKey #xF03001)")
 
 (d-PlayMidiKey #xF03001)
 (d-PlayMidiKey #xF02A01)
