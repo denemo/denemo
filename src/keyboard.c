@@ -533,8 +533,7 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 
       if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands")) ||
 	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */ ||
-	   (merge |= DENEMO_MERGING*(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge")))
-	  )
+	   ((merge |= DENEMO_MERGING*(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge"))), merge&DENEMO_MERGING))
 	{
 	  if(!(merge&DENEMO_MERGING)) {
 	    //g_print("Losing command set %p\n", Denemo.map);

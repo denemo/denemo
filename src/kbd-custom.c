@@ -1457,10 +1457,10 @@ load_keymap_file_named (gchar *localrc, gchar *systemwide) {
 
   if(localrc) {
     g_print ("Trying local file %s as xml...", localrc);
-    if (load_xml_keymap (localrc, FALSE) == -1)
+    if (load_xml_keymap (localrc, TRUE) == -1)
       {
 	g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
-	if (load_xml_keymap (systemwide, FALSE) == -1)
+	if (load_xml_keymap (systemwide, TRUE) == -1)
 	  {
 	    g_print ("..no.\nNo useful keymaps found.\n");
 	    no_map_dialog ();
@@ -1472,7 +1472,7 @@ load_keymap_file_named (gchar *localrc, gchar *systemwide) {
       g_print ("..ok.\n");
   }
   else {
-    if (load_xml_keymap (systemwide, FALSE) == -1)
+    if (load_xml_keymap (systemwide, TRUE) == -1)
       warningdialog("Could not load command set file");
   }
 }
