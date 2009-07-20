@@ -56,9 +56,13 @@
 			(ReadingNoteNames::runtest)))
 
 
-(define (ReadingNoteNames::print) 
-  (d-PrintPreview)
-  (d-SetSaved))
+(define (ReadingNoteNames::print)
+ (SetHeaderField "title" "Note Naming Game")
+ (SetHeaderField "subtitle" (string-append "Score was: "  (object-&gt;string ReadingNoteNames::score)))
+ (SetHeaderField "piece" "user: anonymous")
+ (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+ (d-PrintPreview)
+ (d-SetSaved))
 (define (ReadingNoteNames::quit) 
   (d-Close))
 (define (ReadingNoteNames::help) 
