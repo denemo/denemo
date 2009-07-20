@@ -14,11 +14,13 @@
 
 (define ReadingNoteNames::score 0)
 (define ReadingNoteNames::interval 8)
+(define ReadingNoteNames::start (current-time))
+(define ReadingNoteNames::end (current-time))
 
 (define ReadingNoteNames::notewas #f)
 
 (define (ReadingNoteNames::showscore)
-  (d-DirectivePut-score-display "ReadingNoteNames::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string ReadingNoteNames::score) "&lt;/b&gt;")))
+  (d-DirectivePut-score-display "ReadingNoteNames::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string ReadingNoteNames::score) "&lt;/b&gt; in " (object-&gt;string (- ReadingNoteNames::end ReadingNoteNames::start)) " Secs.")))
 
 (define ReadingNoteNames::shiftup
   (lambda (n)
@@ -43,6 +45,7 @@
 ;;;;;;;;; callback when user chooses a note
 (define (ReadingNoteNames::notechosen usernote)
 		      (begin
+			(set! ReadingNoteNames::end (current-time))
 			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
@@ -59,7 +62,8 @@
 (define (ReadingNoteNames::print)
  (d-DeletePreviousObject)
  (SetHeaderField "title" "Note Naming Game")
- (SetHeaderField "subtitle" (string-append "Score was: "  (object-&gt;string ReadingNoteNames::score)))
+ (SetHeaderField "subtitle" (string-append "Score was: "  (object-&gt;string ReadingNoteNames::score) 
+  " in "  (object-&gt;string (- ReadingNoteNames::end ReadingNoteNames::start)) " Seconds"))
  (SetHeaderField "piece" "user: anonymous")
  (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
  (d-PrintPreview)
@@ -108,7 +112,11 @@ Print out your score when you have finished.")
       (let ((response #f))
 	(set! response (d-GetUserInput "Reset Score" "Do you want to reset your score" "y"))
 	(if (equal? response "y")
-	    (set! ReadingNoteNames::score 0))))
+	    (begin
+	      (set! ReadingNoteNames::start (current-time))
+	      (set! ReadingNoteNames::end (current-time))
+
+	      (set! ReadingNoteNames::score 0)))))
   (d-DeletePreviousObject)
   (ReadingNoteNames::offerNote))
 
@@ -196,8 +204,7 @@ Print out your score when you have finished.")
 
 (d-PlayMidiKey #xF03001)
 (d-PlayMidiKey #xF02A01)
-(d-PlayMidiKey #xF04001)
-</scheme>
+(d-PlayMidiKey #xF04001)</scheme>
         <label>Note Name Recognition</label>
         <tooltip>%tests your ability to name the notes of the scale</tooltip>
       </row>
