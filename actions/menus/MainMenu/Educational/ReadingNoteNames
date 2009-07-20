@@ -53,15 +53,20 @@
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
 			       (ReadingNoteNames::placeAnswerStatus "CrossSign")
 			       (d-ChangeNotehead "Cross"))) 
-			(ReadingNoteNames::runtest)))
+			(ReadingNoteNames::offerNote)))
 
 
 (define (ReadingNoteNames::print)
+ (d-DeletePreviousObject)
  (SetHeaderField "title" "Note Naming Game")
  (SetHeaderField "subtitle" (string-append "Score was: "  (object-&gt;string ReadingNoteNames::score)))
  (SetHeaderField "piece" "user: anonymous")
  (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
  (d-PrintPreview)
+ (d-DirectiveDelete-header "Movement-title")
+ (d-DirectiveDelete-header "Movement-subtitle")
+ (d-DirectiveDelete-header "Movement-piece")
+ (ReadingNoteNames::offerNote)
  (d-SetSaved))
 (define (ReadingNoteNames::quit) 
   (d-Close))
@@ -97,12 +102,20 @@ Print out your score when you have finished.")
 				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
 
 
+;;;
+(define (ReadingNoteNames::go)
+  (if (not (zero? ReadingNoteNames::score))
+      (let ((response #f))
+	(set! response (d-GetUserInput "Reset Score" "Do you want to reset your score" "y"))
+	(if (equal? response "y")
+	    (set! ReadingNoteNames::score 0))))
+  (d-DeletePreviousObject)
+  (ReadingNoteNames::offerNote))
 
 
 
-
-;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor.
-(define (ReadingNoteNames::runtest) 
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
+(define (ReadingNoteNames::offerNote) 
     (if #t
 	(let (    
 	      (usernote #t)
@@ -131,7 +144,7 @@ Print out your score when you have finished.")
 
 (d-New)
 
-(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"16\"&gt;Click to start&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"36\"&gt;Click to start&lt;/span&gt;")
 (CreateButton "ReadingNoteNames::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameHelp" "(ReadingNoteNames::help)")
 
@@ -148,8 +161,8 @@ Print out your score when you have finished.")
 
 
 (CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"36\"&gt;Re-start&lt;/span&gt;")
-(d-SetDirectiveTagActionScript "ReadingNoteNames::GameGo" "(ReadingNoteNames::runtest)")
-(d-SetDirectiveTagActionScript "ReadingNoteNames::GameScore" "(ReadingNoteNames::runtest)")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameGo" "(ReadingNoteNames::go)")
+(d-SetDirectiveTagActionScript "ReadingNoteNames::GameScore" "(ReadingNoteNames::go)")
 
 
 (CreateButton "ReadingNoteNames::GamePrint" "&lt;span font_desc=\"36\"&gt;Print&lt;/span&gt;")
