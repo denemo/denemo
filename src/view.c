@@ -2,7 +2,7 @@
  * Functions to create a top level Denemo window
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2003-2005  Adam Tee (c) 2007, 2008 Richard Shann
+ * (c) 2003-2005  Adam Tee (c) 2007, 2008 2009 Richard Shann
  * 
  */
 #include <string.h>
@@ -1699,7 +1699,7 @@ void inner_main(void*closure, int argc, char **argv){
   if (!Denemo.prefs.object_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
-  if (!Denemo.prefs.visible_directive_buttons)
+  if (Denemo.prefs.visible_directive_buttons)
    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
 
   gtk_key_snooper_install(dnm_key_snooper, NULL);
@@ -4559,7 +4559,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleScoreView_STRING, NULL, N_("Score View"), NULL, NULL,
    G_CALLBACK (toggle_score_view), TRUE},
   {ToggleScoreTitles_STRING, NULL, N_("Score Titles, Controls etc"), NULL, NULL,
-   G_CALLBACK (toggle_scoretitles), TRUE},
+   G_CALLBACK (toggle_scoretitles), FALSE},
 
 
   {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
@@ -5145,8 +5145,8 @@ newtab (GtkAction *action, gpointer param) {
   gui->buttonbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE,
 		      0);
-  if(Denemo.prefs.visible_directive_buttons)
-    gtk_widget_show (gui->buttonboxes);
+  //  if(Denemo.prefs.visible_directive_buttons)
+  //   gtk_widget_show (gui->buttonboxes);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonboxes, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonbox, GTK_CAN_FOCUS);
 
