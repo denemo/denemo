@@ -190,6 +190,8 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 /* called by a script if it requires initialization
  the initialization script is expected to be in init.scm in the menupath of the action that invoked the script*/
 static SCM scheme_initialize_script(SCM action_name) {
+  g_warning("No longer needed");
+  return SCM_BOOL(FALSE);
   SCM ret;
   gint length;
   //FIXME scm_dynwind_begin (0); etc
@@ -3224,6 +3226,11 @@ gchar *instantiate_script(GtkAction *action){
       warningdialog("Unable to load the script");
   }
   g_free(filename);
+
+  filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, "init.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    scm_c_primitive_load(filename);
+  g_free(filename);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 }
@@ -3872,7 +3879,7 @@ static gboolean menu_click (GtkWidget      *widget,
   filepath = g_build_filename (get_data_dir(), "actions", "menus", myposition, NULL);
   if(0==g_access(filepath, 4)) {
     //g_print("We can create a menu item for the path %s\n", filepath);
-    item = gtk_menu_item_new_with_label("Insert Command After This One");
+    item = gtk_menu_item_new_with_label("Insert Script as New Command");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }
