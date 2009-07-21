@@ -3229,7 +3229,7 @@ gchar *instantiate_script(GtkAction *action){
 
   filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, "init.scm", NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    scm_c_primitive_load(filename);
+    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
   g_free(filename);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
