@@ -193,8 +193,6 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 /* called by a script if it requires initialization
  the initialization script is expected to be in init.scm in the menupath of the action that invoked the script*/
 static SCM scheme_initialize_script(SCM action_name) {
-  g_warning("No longer needed");
-  return SCM_BOOL(FALSE);
   SCM ret;
   gint length;
   //FIXME scm_dynwind_begin (0); etc
