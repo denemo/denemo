@@ -32,6 +32,9 @@
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
+
+#define INIT_SCM "init.scm"
+
 static void
 newview (GtkAction *action, gpointer param);
 
@@ -203,13 +206,13 @@ static SCM scheme_initialize_script(SCM action_name) {
   }
     
   gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
-  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, "init.scm", NULL);
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
     g_print("About to load from %s\n", filename);
     ret = scm_c_primitive_load(filename);
   }
   g_free(filename);
-  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, "init.scm", NULL);
+  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
     g_print("About to load from %s\n", filename);
     ret = scm_c_primitive_load(filename);
@@ -3227,7 +3230,7 @@ gchar *instantiate_script(GtkAction *action){
   }
   g_free(filename);
 
-  filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, "init.scm", NULL);
+  filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
   g_free(filename);
@@ -3502,6 +3505,53 @@ static void  createMouseShortcut(GtkWidget *menu, GtkAction *action) {
   info.modnum = 0;
   info.left = TRUE;
   mouse_shortcut_dialog(&info);
+}
+
+/* get init.scm for the current path into the scheme text editor.
+*/
+static void get_initialization_script (GtkWidget *widget, gchar *directory) {
+  GError *error = NULL;
+  gchar *script;
+  g_print("loading %s/init.scm into Denemo.ScriptView\n", directory);
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", directory, INIT_SCM, NULL);
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+    g_free(filename);
+    filename = g_build_filename(locatedotdenemo(), "download", "actions", "menus", directory, INIT_SCM, NULL);
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+      g_free(filename);
+      filename = g_build_filename(get_data_dir(), "actions", "menus", directory, INIT_SCM, NULL);
+      if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
+	g_free(filename);
+	return;
+      }
+    }
+  }
+  if(g_file_get_contents (filename, &script, NULL, &error))
+    appendSchemeText(script);
+  else
+    g_warning("Could not get contents of %s\n", filename);
+  g_free(script);
+  g_free(filename);
+}
+
+/* write scheme script from Denemo.ScriptView into file init.scm in the user's local menupath.
+*/
+static void put_initialization_script (GtkWidget *widget, gchar *directory) {
+  gchar *scheme;
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", directory, INIT_SCM, NULL);
+  if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
+     confirm("There is already an initialization script here", "Do you want to replace it?")){
+    gchar *scheme = getSchemeText();
+    if(scheme && *scheme) {
+      FILE *fp = fopen(filename, "w");
+      if(fp) {
+	fprintf (fp, "%s", scheme);
+	fclose(fp);
+	infodialog("Wrote init.scm");
+      }
+      g_free(scheme);
+    }
+  }
 }
 
 /* save the action (which must be a script),
@@ -3915,6 +3965,20 @@ static gboolean menu_click (GtkWidget      *widget,
     gchar *insertion_point = g_build_filename(myposition, func_name, NULL);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), insertion_point);
   }
+
+
+
+  /* options for getting/putting init.scm */
+
+    item = gtk_menu_item_new_with_label("Get Initialization Script for this Menu");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(get_initialization_script), myposition);
+
+    item = gtk_menu_item_new_with_label("Put Script as Initialization Script for this Menu");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(put_initialization_script), myposition);
+
+
 
   /* a check item for showing script window */
   item = gtk_check_menu_item_new_with_label("Show Current Script");
