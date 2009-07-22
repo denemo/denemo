@@ -1059,7 +1059,7 @@ delete_chordnote (DenemoScore * si){
 }
 /**
  * Insert chord note at y cursor position 
- *//
+ */
 gboolean
 insert_chordnote (DenemoScore *si){
   notechange(si, FALSE);
