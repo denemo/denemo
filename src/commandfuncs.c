@@ -749,9 +749,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     if(theobj->type == CHORD && ((chord*)theobj->object)->notes) {
       if(g_list_length( ((chord*)theobj->object)->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
-	notechange(gui->si, TRUE);
+	delete_chordnote(gui->si);
 	gui->si->cursor_y = mid_c_offset;
-	notechange(gui->si, FALSE);
+	insert_chordnote (gui->si);
       } else {/* single-note chord - change the note */
       gint dclef = find_prevailing_clef(gui->si);	    
       modify_note((chord*)theobj->object, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
@@ -1020,7 +1020,7 @@ changeduration (DenemoScore * si, gint duration)
  * @param si pointer to the scoreinfo structure
  * @param remove whether to remove note or not
  */
-gboolean
+static gboolean
 notechange (DenemoScore * si, gboolean remove)
 {
   declarecurmudelaobj;
@@ -1056,6 +1056,13 @@ notechange (DenemoScore * si, gboolean remove)
 gboolean
 delete_chordnote (DenemoScore * si){
   notechange(si, TRUE);
+}
+/**
+ * Insert chord note at y cursor position 
+ *//
+gboolean
+insert_chordnote (DenemoScore *si){
+  notechange(si, FALSE);
 }
 
 /**

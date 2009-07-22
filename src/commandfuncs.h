@@ -78,11 +78,11 @@ setenshift (DenemoScore * si, gint enshift);
 void
 changeduration (DenemoScore  *si, gint duration);
 
-gboolean
-notechange (DenemoScore  *si, gboolean remove);
-
 gboolean                           
 delete_chordnote (DenemoScore * si);
+
+gboolean                           
+insert_chordnote (DenemoScore * si);
 
 void
 incrementenshift (DenemoGUI  *gui, gint direction);
