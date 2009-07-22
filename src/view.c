@@ -3239,22 +3239,33 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action);
 gchar *instantiate_script(GtkAction *action){
   gchar *menupath = (gchar*)g_object_get_data(G_OBJECT(action), "menupath");
   const gchar *name = gtk_action_get_name(action);
-  gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
-                                        NULL);
-  g_print("Filename %s\n", filename);
+  gchar *path =  g_build_filename (locatedotdenemo (), "actions","menus", menupath, NULL);
+  gchar *filename = g_build_filename (path, name,  NULL);
+  //  g_print("Filename %s\n", filename);
   if (load_xml_keymap (filename, TRUE)== -1) {
-
-    filename = g_build_filename (get_data_dir (), "actions", "menus", menupath, name,
-				 NULL);
-    if (load_xml_keymap (filename, TRUE)== -1)
-      warningdialog("Unable to load the script");
+    g_free(filename);
+    g_free(path);
+    path = g_build_filename (locatedotdenemo (), "download", "actions", "menus", menupath, NULL);
+    filename = g_build_filename (path, name,  NULL);				
+    if (load_xml_keymap (filename, TRUE)== -1) {
+      g_free(filename);
+      g_free(path);
+      path = g_build_filename (get_data_dir (), "actions", "menus", menupath, NULL);
+      filename = g_build_filename (path, name,  NULL);
+      if (load_xml_keymap (filename, TRUE)== -1) {
+	g_free(path);
+	g_free(filename);
+	warningdialog("Unable to load the script");
+	return NULL;
+      }
+    }
   }
   g_free(filename);
-
-  filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, INIT_SCM, NULL);
+  filename = g_build_filename (path, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
   g_free(filename);
+  g_free(path);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
   return  (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
 }
@@ -3590,10 +3601,13 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
 				      NULL);
   gchar *scheme = getSchemeText();
-  if(scheme && *scheme)
+  if(scheme && *scheme && confirm("Save Script", "Over-write previous version of this script?")) {
     save_script_as_xml (filename, name, scheme, label, tooltip, after);
+    g_object_set_data(G_OBJECT(action), "scheme", (gpointer)"");//
+    instantiate_script(action);
+  }
   else
-    warningdialog("No script to save");
+    warningdialog("No script saved");
 }
 
 static const gchar *
