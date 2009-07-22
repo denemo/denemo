@@ -219,19 +219,31 @@ static SCM scheme_initialize_script(SCM action_name) {
   return ret;
 }
 
+/* pass in a path (from below menus) to a command script. Loads the command from .denemo or system
+ *  if it can be found
+ * It is used at startup in .denemo files like ReadingNoteNames.denemo
+ * which executes
+ (d-LoadCommand "MainMenu/Educational/ReadingNoteNames")
+ * to ensure that the command it needs is in the command set.
+ */
 static SCM scheme_load_command(SCM command) {
-  SCM ret;
+  gboolean ret;
   //FIXME scm_dynwind_begin (0); etc
   gchar *name = scm_to_locale_string(command);//scm_dynwind_free (name);
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "menus", name, NULL);
-  ret = SCM_BOOL( load_xml_keymap(filename, FALSE));
+  ret = load_xml_keymap(filename, FALSE);
   if(ret==FALSE) {
     g_free(filename);
-    g_build_filename(get_data_dir(), "actions", name, NULL);
-    ret = SCM_BOOL(load_xml_keymap(filename, FALSE));
+    filename = g_build_filename(locatedotdenemo(), "download", "actions", name, NULL);
+    ret = load_xml_keymap(filename, FALSE);
+  }
+  if(ret==FALSE) {
+    g_free(filename);
+    filename = g_build_filename(get_data_dir(), "actions", name, NULL);
+    ret = load_xml_keymap(filename, FALSE);
   }
   g_free(filename);
-  return ret;
+  return SCM_BOOL(ret);
 }
 static void
 toggle_toolbar (GtkAction * action, gpointer param);
