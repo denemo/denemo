@@ -504,7 +504,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	  thenote = thechord->notes->data;
 	  g = g_list_append(g, thenote->directives);	 
 	  thenote->directives = NULL;
-	  notechange(gui->si, TRUE);
+	  delete_chordnote (gui->si);
 	}
 	/* add changed tones */
 	dclef =  find_prevailing_clef(Denemo.gui->si);

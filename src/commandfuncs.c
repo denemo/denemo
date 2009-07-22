@@ -1051,6 +1051,14 @@ notechange (DenemoScore * si, gboolean remove)
 }
 
 /**
+ * Delete chord note closest to y cursor
+ */
+gboolean
+delete_chordnote (DenemoScore * si){
+  notechange(si, TRUE);
+}
+
+/**
  * Helper function that contains calls to all the display 
  * update functions
  *
