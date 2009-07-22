@@ -1452,7 +1452,7 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
  </para>
 </sect2>
 <itemizedlist>
-<listitem>d-InitializeScript (parameter: action-name) runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
+<listitem>d-InitializeScript deprecated - init.scm is now run automatically. (parameter: action-name) runs a script init.scm in the menupath attached to the action whose name is given. Used by commands that need a time-consuming initialization step which can be skipped on subsequent calls.
 </listitem>
 
 <listitem>d-GetType returns a scheme string indicating the type of the current object
@@ -1830,6 +1830,13 @@ SetPadding tag type context. As Extra-Offset, it sets the space left around the 
 <listitem>
 SetRelativeFontSize tag type context. As Extra-Offset, it shifts the font size of the following text in the LilyPond engraving process.
 </listitem>
+<listitem>
+CreateButton tag label this is just a convenience function to put a button with the passed in label onto a button box at the top of the screen. Scripts can attach actions to such tagged buttons.
+</listitem>
+d-SetDirectiveTagActionScript tag scheme-actions. This command sets scheme-actions as the actions to be performed when the button of the given tag is clicked. The default action is to run any editscript associated with tag, and if none to run the d-DirectiveTextEdit-score on the directive that displays the button.
+<listitem>
+</listitem>
+d-DirectiveGetForTag-field tag 
 <listitem>
 Useful variables defined:
 (define stop "\0")

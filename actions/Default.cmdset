@@ -2458,6 +2458,22 @@ for second and subsequent systems</tooltip>
         <label>Page Break</label>
         <tooltip>(Print) Forces a new page at this barline.</tooltip>
       </row>
+      <row>
+        <action>TransposeScorePrint</action>
+        <after>SetFontSize</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Transposed</label>
+        <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromNote</action>
+        <after>SetTransposeIntervalFromSelection</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval from Note</label>
+        <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

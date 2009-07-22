@@ -7,17 +7,15 @@
       <row>
         <after/>
         <action>SetTransposeIntervalFromSelection</action>
-        <scheme> ;;;;;;; SetTransposeIntervalFromSelection - warning you must set CurrentScript to SetTransposeIntervalFromSelection before using this interactively
-(if (not (defined? 'Transpose::init))
-    (d-InitializeScript CurrentScript))
+        <scheme>;;;;;;; SetTransposeIntervalFromSelection
 (if (d-GoToMark)
     (begin
-      (Transpose::SetTransposeInterval (Transpose::get-interval-from-selection))
-      (d-SetDirectiveTagActionScript "SetTransposeInterval" "(d-SetTransposeIntervalFromSelection)")
-      (d-DirectivePut-score-graphic "SetTransposeInterval" (string-append "Interval: " Transpose::Interval)))
-    (d-WarningDialog "No Selection to set interval from"))
- 
-</scheme>
+      (set! Transpose::Interval (Transpose::get-interval-from-selection))
+      ;;;FIXME error check this value
+      (CreateButton "SetTransposeInterval" (string-append "Interval: " Transpose::Interval))
+      (d-SetDirectiveTagActionScript "SetTransposeInterval" "(d-SetTransposeIntervalFromSelection)"))
+      (d-WarningDialog "No Selection to set interval from"))
+ </scheme>
         <label>Set Transpose Interval</label>
         <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
       </row>

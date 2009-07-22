@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Denemo>
   <commands>
-    <title>A Denemo Keymap</title>
+    <title>A Denemo Command Set</title>
     <author>AT, JRR, RTS</author>
     <map>
       <cursors>
@@ -2519,6 +2519,22 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Page Break</label>
         <tooltip>(Print) Forces a new page at this barline.</tooltip>
+      </row>
+      <row>
+        <action>TransposeScorePrint</action>
+        <after>SetFontSize</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Transposed</label>
+        <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromNote</action>
+        <after>SetTransposeIntervalFromSelection</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval from Note</label>
+        <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
       </row>
     </map>
   </commands>
