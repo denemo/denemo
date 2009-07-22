@@ -749,9 +749,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     if(theobj->type == CHORD && ((chord*)theobj->object)->notes) {
       if(g_list_length( ((chord*)theobj->object)->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
-	tonechange(gui->si, TRUE);
+	delete_chordnote(gui->si);
 	gui->si->cursor_y = mid_c_offset;
-	tonechange(gui->si, FALSE);
+	insert_chordnote (gui->si);
       } else {/* single-note chord - change the note */
       gint dclef = find_prevailing_clef(gui->si);	    
       modify_note((chord*)theobj->object, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
@@ -1013,15 +1013,15 @@ changeduration (DenemoScore * si, gint duration)
 }
 
 /**
- *  tonechange 
+ *  notechange 
  * If REMOVE delete the note closest to si->cursor_y in a ~si->currentobject
  * else add a note at si->cursor_y to the ~si->currentobject
- * FIXME ~si->currentobject in this comment means the thing gotten by the macro declaremudelaobj. This macro is a horrible hack induced by trying to be clever with tuplets - enforcing pairing of begin/end. tonechange 
+ * FIXME ~si->currentobject in this comment means the thing gotten by the macro declaremudelaobj. This macro is a horrible hack induced by trying to be clever with tuplets - enforcing pairing of begin/end. notechange 
  * @param si pointer to the scoreinfo structure
  * @param remove whether to remove note or not
  */
-gboolean
-tonechange (DenemoScore * si, gboolean remove)
+static gboolean
+notechange (DenemoScore * si, gboolean remove)
 {
   declarecurmudelaobj;
   int prognum;
@@ -1048,6 +1048,21 @@ tonechange (DenemoScore * si, gboolean remove)
       }
     }
   return ret;
+}
+
+/**
+ * Delete chord note closest to y cursor
+ */
+gboolean
+delete_chordnote (DenemoScore * si){
+  notechange(si, TRUE);
+}
+/**
+ * Insert chord note at y cursor position 
+ *//
+gboolean
+insert_chordnote (DenemoScore *si){
+  notechange(si, FALSE);
 }
 
 /**

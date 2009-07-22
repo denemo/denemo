@@ -479,40 +479,51 @@ SCM scheme_cursor_to_note (SCM lilyname) {
    return  SCM_BOOL(FALSE);
 }
 
-SCM scheme_change_chord_notes (SCM lilyname) {
+SCM scheme_change_chord_notes (SCM lilynotes) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  chord *thechord;
  note *thenote;
  gchar *notename;
- gchar *chordtone;
+ gchar *chordnote;
  gint mid_c_offset;
  gint enshift;
  gint dclef;
- 
- if (scm_is_true(SCM_STRINGP(lilyname))) {
+ GList *g = NULL;
+ GList *n = NULL;
+ GList *directives = NULL;
+
+ if (scm_is_true(SCM_STRINGP(lilynotes))) {
   
    if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return  SCM_BOOL(FALSE);
    
    else {
-	/* copy directives */
-	GList *g =  thenote->directives;
-	thenote->directives = NULL;
 	/* delete all chord tones */
-	while(thechord->notes)
-		 tonechange(gui->si, TRUE);
-	
+	while(thechord->notes){
+	  thenote = thechord->notes->data;
+	  g = g_list_append(g, thenote->directives);	 
+	  thenote->directives = NULL;
+	  delete_chordnote (gui->si);
+	}
 	/* add changed tones */
 	dclef =  find_prevailing_clef(Denemo.gui->si);
-        notename = scm_to_locale_string(lilyname);	
-	chordtone = strtok(notename, " ");
-	while (chordtone){
-          name2mid_c_offset(chordtone, &mid_c_offset, &enshift);
+        notename = scm_to_locale_string(lilynotes);	
+	chordnote = strtok(notename, " ");
+	while (chordnote){
+	  name2mid_c_offset(chordnote, &mid_c_offset, &enshift);
 	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
-	  chordtone = strtok( NULL, " " );
+	  chordnote = strtok( NULL, " " );
 	}
-	thenote->directives = g;
+	/* paste directives over */
+	for(n=thechord->notes;n &&g;n=n->next, g=g->next) {
+	  thenote = (note *) n->data;
+	  directives = (DenemoDirective *) g->data;
+
+	  if (directives)
+	    thenote->directives = directives;
+	  
+	}
 	displayhelper (gui);
 	return  SCM_BOOL(TRUE);
    }  
