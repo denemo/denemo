@@ -79,7 +79,7 @@ void
 changeduration (DenemoScore  *si, gint duration);
 
 gboolean
-tonechange (DenemoScore  *si, gboolean remove);
+notechange (DenemoScore  *si, gboolean remove);
 
 void
 incrementenshift (DenemoGUI  *gui, gint direction);

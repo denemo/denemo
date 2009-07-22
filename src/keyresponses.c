@@ -276,9 +276,9 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	  objnode *thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
 	  if(thenote) {
 	    note copy = *((note *) thenote->data);
-	    tonechange(gui->si, TRUE);
+	    notechange(gui->si, TRUE);
 	    gui->si->cursor_y = copy.mid_c_offset + amount;
-	    tonechange(gui->si, FALSE);
+	    notechange(gui->si, FALSE);
 	    changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
 	  }
 	}
@@ -576,14 +576,14 @@ insert_septuplet (DenemoGUI * gui)
 gboolean
 add_tone_key (DenemoGUI * gui)
 {
- return tonechange (gui->si, FALSE);
+ return notechange (gui->si, FALSE);
 
 }
 
 gboolean
 remove_tone_key (DenemoGUI * gui)
 {
-  return tonechange (gui->si, TRUE);
+  return notechange (gui->si, TRUE);
 
 }
 
@@ -931,8 +931,8 @@ change_pitch (DenemoGUI * gui)
     {
       //DenemoObject *theobj =
       //  si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
-      tonechange (gui->si, TRUE);
-      tonechange (gui->si, FALSE);
+      notechange (gui->si, TRUE);
+      notechange (gui->si, FALSE);
     }
   // addtone(theobj, si->cursor_y, si->cursoraccs[si->staffletter_y],
   //       si->cursorclef);
