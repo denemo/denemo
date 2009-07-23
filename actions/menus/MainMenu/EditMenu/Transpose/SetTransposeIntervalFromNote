@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SetTransposeIntervalFromSelection</after>
+        <action>SetTransposeIntervalFromNote</action>
+        <scheme>;;;;;;; SetTransposeIntervalNote
+(set! Transpose::Note (d-GetNote))
+(if (boolean? Transpose::Note)
+    (begin 
+      (set! Transpose::Note "c")
+      (d-WarningDialog "Not on a note")))
+(Transpose::SetTransposeInterval Transpose::Note)
+(set! Transpose::Interval (string-append "c " Transpose::Note))
+(CreateButton "SetTransposeInterval" (string-append "Interval: " Transpose::Interval))
+(d-SetDirectiveTagActionScript "SetTransposeInterval" "(d-SetTransposeIntervalNote)")</scheme>
+        <label>Set Transpose Interval from Note</label>
+        <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

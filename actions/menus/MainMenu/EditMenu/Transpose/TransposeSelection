@@ -5,15 +5,17 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>TransposeSelection</action>
-        <scheme>;;;;;;;;; Get an interval from user and transpose selection
+        <scheme> ;;;;;;;;; Get an interval from user and transpose selection
 (if (not (defined? 'Transpose::init))
     (d-InitializeScript CurrentScript))
 (if (not (defined? 'Transpose::Note))
 	(define  Transpose::Note "b,"))
-(Transpose::SetTransposeInterval  (set! Transpose::Note (d-GetUserInput "Transposition - Instructions" 
+(set! Transpose::Note (d-GetUserInput "Transposition - Instructions" 
 				     "Give the note that c should transpose to.
-For example ees for up minor third." Transpose::Note)))
+For example ees for up minor third." Transpose::Note))
+(Transpose::SetTransposeInterval Transpose::Note)
 (ApplyToSelection "(Transpose::TransposeNote)" "(d-GoToMark)")
 </scheme>
         <label>Transpose Selection</label>

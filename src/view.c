@@ -374,7 +374,7 @@ SCM scheme_get_note_name (SCM optional) {
  chord *thechord;
  note *thenote;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return scm_makfrom0str ("");
+   return SCM_BOOL(FALSE);
  else {
    SCM scm = scm_makfrom0str (g_strdup_printf("%c",  mid_c_offsettoname (thenote->mid_c_offset)));//FIXME a dedicated function avoiding memory leak.
    return scm;
@@ -416,7 +416,7 @@ SCM scheme_get_note (SCM optional) {
  chord *thechord;
  note *thenote;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return scm_makfrom0str ("");
+   return SCM_BOOL(FALSE);
  else {
    SCM scm = scm_makfrom0str (g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift)));//FIXME a dedicated function avoiding memory leak.
    return scm;
@@ -446,7 +446,7 @@ SCM scheme_get_notes (SCM optional) {
  note *thenote;
  SCM scm;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
-   return scm_makfrom0str ("");
+   return SCM_BOOL(FALSE);
  else {
    GList *g;
    GString *str = g_string_new("");
