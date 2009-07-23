@@ -4975,9 +4975,14 @@ static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWid
   //g_print("action %p", action2);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/RecordScript"), wid);
   gtk_box_pack_start (GTK_BOX (main_vbox), wid, FALSE, TRUE, 0);
-  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.ScriptView , FALSE, TRUE, 0);
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_AUTOMATIC,
+				  GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
 
-
+ gtk_container_add (GTK_CONTAINER (sw), Denemo.ScriptView);
+ //gtk_box_pack_start (GTK_BOX (sw), Denemo.ScriptView , FALSE, TRUE, 0);
   }
 
 static void create_console(GtkBox *box) {
