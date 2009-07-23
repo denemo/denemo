@@ -85,14 +85,14 @@ Print out your score when you have finished.")
   (if (&gt; ReadingNoteNames::interval 32)
       (set! ReadingNoteNames::interval 32))
   (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
-				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
 
 (define (ReadingNoteNames::minus)
   (set! ReadingNoteNames::interval (- ReadingNoteNames::interval 1))
   (if (&lt; ReadingNoteNames::interval 2)
       (set! ReadingNoteNames::interval 2))
   (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
-				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
 
 (define (ReadingNoteNames::setInterval)
   (set! ReadingNoteNames::interval (string-&gt;number (d-GetUserInput "Interval" "Give number of steps you want to name note over" (object-&gt;string ReadingNoteNames::interval))))
@@ -103,7 +103,7 @@ Print out your score when you have finished.")
   (if (&gt; ReadingNoteNames::interval 32)
       (set! ReadingNoteNames::interval 32))
   (d-DirectivePut-score-display "ReadingNoteNames::GameInterval"
-				(string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;")))
 
 
 ;;;
@@ -152,7 +152,7 @@ Print out your score when you have finished.")
 
 (d-New)
 
-(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"36\"&gt;Click to start&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GameScore" "&lt;span font_desc=\"32\"&gt;Click to start&lt;/span&gt;")
 (CreateButton "ReadingNoteNames::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameHelp" "(ReadingNoteNames::help)")
 
@@ -160,7 +160,7 @@ Print out your score when you have finished.")
 
 (CreateButton "ReadingNoteNames::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GamePlus" "(ReadingNoteNames::plus)")
-(CreateButton "ReadingNoteNames::GameInterval" (string-append "&lt;span font_desc=\"16\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;"))
+(CreateButton "ReadingNoteNames::GameInterval" (string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string ReadingNoteNames::interval) "&lt;/span&gt;"))
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameInterval" "(ReadingNoteNames::setInterval)")
 (CreateButton "ReadingNoteNames::GameMinus" "&lt;b&gt;-&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameMinus" "(ReadingNoteNames::minus)")
@@ -168,27 +168,27 @@ Print out your score when you have finished.")
 
 
 
-(CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"36\"&gt;Re-start&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GameGo" "&lt;span font_desc=\"32\"&gt;Re-start&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameGo" "(ReadingNoteNames::go)")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GameScore" "(ReadingNoteNames::go)")
 
 
-(CreateButton "ReadingNoteNames::GamePrint" "&lt;span font_desc=\"36\"&gt;Print&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::GamePrint" "&lt;span font_desc=\"32\"&gt;Print&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::GamePrint" "(ReadingNoteNames::print)")
 
 
-(CreateButton "ReadingNoteNames::Close" "&lt;span font_desc=\"36\"&gt;Quit&lt;/span&gt;")
+(CreateButton "ReadingNoteNames::Close" "&lt;span font_desc=\"32\"&gt;Quit&lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::Close" "(ReadingNoteNames::quit)")
 
 
 
 
 (define (ReadingNoteNames::createbuttons note)
-  (CreateButton (string-append "ReadingNoteNames::" note)  (string-append " &lt;span font_desc=\"36\" foreground=\"blue\"&gt;" note  "&lt;/span&gt;"))
+  (CreateButton (string-append "ReadingNoteNames::" note)  (string-append " &lt;span font_desc=\"32\" foreground=\"blue\"&gt;" note  "&lt;/span&gt;"))
   (d-SetDirectiveTagActionScript  (string-append "ReadingNoteNames::" note) (string-append "(ReadingNoteNames::notechosen \"" note "\")")))
 
 
-(CreateButton "ReadingNoteNames::spacer1" "&lt;span font_desc=\"36\"&gt;    &lt;/span&gt;")
+(CreateButton "ReadingNoteNames::spacer1" "&lt;span font_desc=\"32\"&gt;    &lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::spacer1" "(d-PlayMidiKey #xF03001)")
 
 (ReadingNoteNames::createbuttons "a")
@@ -199,7 +199,7 @@ Print out your score when you have finished.")
 (ReadingNoteNames::createbuttons "f")
 (ReadingNoteNames::createbuttons "g")
 
-(CreateButton "ReadingNoteNames::spacer2" "&lt;span font_desc=\"36\"&gt;    &lt;/span&gt;")
+(CreateButton "ReadingNoteNames::spacer2" "&lt;span font_desc=\"32\"&gt;    &lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::spacer2" "(d-PlayMidiKey #xF03001)")
 
 (d-PlayMidiKey #xF03001)
