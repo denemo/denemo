@@ -21,7 +21,7 @@
 
       (define (Transpose::SetTransposeInterval note)
 	    (begin
-	      (set! Transpose::transpose-delta (Transpose::lily->pitch note)) 
+	      (set! Transpose::transpose-delta (Transpose::lilyname->pitch note)) 
 	      (Transpose::get-delta)))
 
       (define (Transpose::get-interval-from-selection)
@@ -37,7 +37,66 @@
 	(d-GetUserInput "Setting a Transposition Interval" 
 	   "Enter a note, a space, and the note you wish this to transpose to" "c d"))
 
-      (define Transpose::lily->pitch
+      (define Transpose::pitch->lilyname
+        (lambda (pitch)
+  	  (let ((octave->text 0)(accidental->text 0)(pitch->text 0))
+    	    (begin
+              (set! octave->text
+                (lambda (octave_num)
+                  (let ((octave_string "")
+                        (apply_octave 0))
+                    (set! apply_octave
+                      (lambda (string value)
+                        (begin
+                          (if (> value 0)
+                            (begin
+                              (set! octave_string (string-append octave_string ","))
+                              (apply_octave string (- value 1))))
+                          (if (< value 0)
+                            (begin
+                              (set! octave_string (string-append octave_string "'"))
+                              (apply_octave string (+ value 1))))
+                        )))
+                        (apply_octave octave_string octave_num)
+                 	octave_string
+           	   )))
+
+		(set! accidental->text
+		  (lambda (accidental_num)
+		  (let ((accidental_string "")
+			(apply_accidental 0))
+		    (set! apply_accidental
+		      (lambda (string value)
+			(begin
+			  (if (> value 0)
+			    (begin
+			      (set! accidental_string (string-append accidental_string "is"))
+			      (apply_accidental string (- value 1))))
+			   (if (< value 0)
+			    (begin
+			      (set! accidental_string (string-append accidental_string "es"))
+			      (apply_accidental string (+ value 1))))
+			 )))
+		         (apply_accidental accidental_string accidental_num)
+			 accidental_string
+		   )))
+
+		(set! pitch->text
+		  (lambda (pitch_num)
+		   (let ((pitch_string ""))
+		    (set! pitch_string (integer->char (+ (modulo (+ pitch_num 2) 7) 97)))
+		    (string pitch_string)
+		    )))
+		
+		(string-append
+		  (pitch->text (cadr pitch))
+		  (accidental->text (caddr pitch))
+		  (octave->text (car pitch)))
+
+	     )
+	     )))
+
+      (define Transpose::lilyname->pitch
 	(lambda (lilyname)
 	  (let ((accidental 0) (octave 0) (notename 0) (loop 0))
 	    (begin
@@ -102,8 +161,8 @@
 		(first (list-ref (string-split arguments #\space) 0))
 		(second (list-ref (string-split arguments #\space) 1))
 		)
-	    (set! Transpose::transpose-origin (Transpose::lily->pitch first))
-	    (set! Transpose::transpose-delta (Transpose::lily->pitch second))
+	    (set! Transpose::transpose-origin (Transpose::lilyname->pitch first))
+	    (set! Transpose::transpose-delta (Transpose::lilyname->pitch second))
 	    )))
 
       (define Transpose::transposed (lambda ()
@@ -122,7 +181,7 @@
 
       (define Transpose::TransposeNote (lambda ()
 				       (begin 
-					 (set! Transpose::original-pitch (Transpose::lily->pitch (d-GetNotes)))
+					 (set! Transpose::original-pitch (Transpose::lilyname->pitch (d-GetNotes)))
 					 (d-DiatonicShift (number->string (* 7 (list-ref (Transpose::transposed-diff) 0))))
 					 (d-DiatonicShift (number->string (list-ref (Transpose::transposed-diff) 1)))
 					 (if (= (list-ref (Transpose::transposed-diff) 2) 2) 
