@@ -166,15 +166,35 @@
       (define Transpose::TransposeNote 
         (lambda ()
 	  (let ( (numofnotes 0) 
-	  	 (notelist '())) 
+	  	 (notelist '())
+		 (eachnote 0)
+		 (process_notelist 0)
+		 (transposed_notelist ""))
+
 	    (begin
-	      (set! notelist (string-split (d-GetNotes) #\NULL))
-	      (set! numofnotes (- (length notelist) 1))
+	      (set! process_notelist
+		(lambda (note)
+		  (set! Transpose::original-pitch (Transpose::lilyname->pitch note))
+		        (set! transposed_notelist 
+		        (string-append transposed_notelist (Transpose::pitch->lilyname(Transpose::transposed))))
+			(set! transposed_notelist (string-append transposed_notelist " "))
+		      ))
+
+	      (set! notelist (string-split (d-GetNotes) #\space))
+	      (set! numofnotes (length notelist))
+	      (display "numofnotes = ")
+	      (display numofnotes)
+	      (newline)
 	      (if (= numofnotes 1)
 	        (begin
 	    	  (set! Transpose::original-pitch (Transpose::lilyname->pitch (d-GetNotes)))
 	          (d-ChangeChordNotes (Transpose::pitch->lilyname(Transpose::transposed)))))	  
-	    		))))
+	      (if (> numofnotes 1)
+	        (begin
+		  (map process_notelist notelist)
+		  (d-ChangeChordNotes transposed_notelist)
+		  )) 
+	    ))))
       
       (define Transpose::init #t)))
 
