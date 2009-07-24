@@ -2536,6 +2536,14 @@ for second and subsequent systems</tooltip>
         <label>Set Transpose Interval from Note</label>
         <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
       </row>
+      <row>
+        <action>MezzoForte</action>
+        <after>Fortissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Mezzo Forte</label>
+        <tooltip>Attach mf indication to a chord.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

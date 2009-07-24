@@ -5,14 +5,11 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>Fortissimo</action>
-        <scheme>;;;Fortissimo
-(d-DirectivePut-chord-graphic "Dynamic"  "Fortissimo" )
-(d-DirectivePut-chord-gx "Dynamic"  -10)
-(d-DirectivePut-chord-gy "Dynamic"  30)
-(d-DirectivePut-chord-postfix "Dynamic"  "\\ff")
-(d-DirectivePut-chord-minpixels  "Dynamic" 20)
-(d-RefreshDisplay)</scheme>
+        <scheme>  ;;; ff
+(Dynamics::Put "Fortissimo" "\\ff")
+</scheme>
         <label>Fortissimo</label>
         <tooltip>Places a ff sign on the chord at the cursor</tooltip>
       </row>
