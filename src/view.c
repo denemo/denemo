@@ -444,18 +444,22 @@ SCM scheme_get_notes (SCM optional) {
  DenemoObject *curObj;
  chord *thechord;
  note *thenote;
+ GString *str = g_string_new("");
  SCM scm;
+
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return SCM_BOOL(FALSE);
  else {
    GList *g;
-   GString *str = g_string_new("");
    for(g=thechord->notes;g;g=g->next) {
      thenote =  (note *) g->data;
-     gchar *name =  g_strdup_printf("%s",  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift));
-     str = g_string_insert_len (str, -1,/* at end */ name, 1+strlen(name)/*include the NULLs as delimiters for scheme */);
+     gchar *name =  mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+     str =  g_string_append(str,  name);
+     if (g->next)
+       str =  g_string_append(str,  " ");
    }
-   scm = gh_str2scm /*scm_from_locale_stringn */(str->str, str->len);
+
+   scm = scm_from_locale_string(g_string_free(str, FALSE));
    return scm;
  } 
 }
