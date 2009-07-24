@@ -48,14 +48,14 @@
                     (set! apply_octave
                       (lambda (string value)
                         (begin
-                          (if (> value 0)
-                            (begin
-                              (set! octave_string (string-append octave_string ","))
-                              (apply_octave string (- value 1))))
                           (if (< value 0)
                             (begin
-                              (set! octave_string (string-append octave_string "'"))
+                              (set! octave_string (string-append octave_string ","))
                               (apply_octave string (+ value 1))))
+                          (if (> value 0)
+                            (begin
+                              (set! octave_string (string-append octave_string "'"))
+                              (apply_octave string (- value 1))))
                         )))
                         (apply_octave octave_string octave_num)
                  	octave_string
@@ -130,7 +130,7 @@
 
 	    );end of let
 	  ))
-	;;;;copied from chord-name.scm in lilypond-1.6.5
+      ;;;;copied from chord-name.scm in lilypond-1.6.5
 
       (define Transpose::semitone-vec (list->vector '(0 2 4 5 7 9 11)))
 
@@ -154,48 +154,28 @@
 	(lambda ()
 	  (begin
 	    (set! Transpose::original-delta (Transpose::transpose Transpose::transpose-origin Transpose::transpose-delta)))))
+      
+      ;check to see if this is really needed
+      (define Transpose::transposed 
+        (lambda ()
+	  (begin
+	    (Transpose::transpose Transpose::original-pitch 
+			      Transpose::original-delta ))))
 
-      (define Transpose::split-input
-	(lambda (arguments)
-	  (let ( 
-		(first (list-ref (string-split arguments #\space) 0))
-		(second (list-ref (string-split arguments #\space) 1))
-		)
-	    (set! Transpose::transpose-origin (Transpose::lilyname->pitch first))
-	    (set! Transpose::transpose-delta (Transpose::lilyname->pitch second))
-	    )))
-
-      (define Transpose::transposed (lambda ()
-				      (begin
-					(Transpose::transpose Transpose::original-pitch 
-							      Transpose::original-delta ))))
-
-      (define Transpose::transposed-diff (lambda ()
-					   (begin
-					     (let
-						 ((octave (- (list-ref (Transpose::transposed) 0) (list-ref Transpose::original-pitch 0)))
-						  (notename (- (list-ref (Transpose::transposed) 1) (list-ref Transpose::original-pitch 1)))
-						  (accidental (list-ref (Transpose::transposed) 2))
-						  )
-					       `(,octave ,notename ,accidental)))))
-
-      (define Transpose::TransposeNote (lambda ()
-				       (begin 
-					 (set! Transpose::original-pitch (Transpose::lilyname->pitch (d-GetNotes)))
-					 (d-DiatonicShift (number->string (* 7 (list-ref (Transpose::transposed-diff) 0))))
-					 (d-DiatonicShift (number->string (list-ref (Transpose::transposed-diff) 1)))
-					 (if (= (list-ref (Transpose::transposed-diff) 2) 2) 
-					     (begin
-					       (d-Sharpen) 
-					       (d-Sharpen)
-					       ))
-					 (if (= (list-ref (Transpose::transposed-diff) 2) 1) (d-Sharpen))
-					 (if (= (list-ref (Transpose::transposed-diff) 2) -2) 
-					     (begin 
-					       (d-Flatten)
-					       (d-Flatten)
-					       ))
-					 (if (= (list-ref (Transpose::transposed-diff) 2) -1) (d-Flatten)))))
+      ;This is definately obsolete
+      (define Transpose::TransposeNote 
+        (lambda ()
+	  (let ( (numofnotes 0) 
+	  	 (notelist '())) 
+	    (begin
+	      (set! notelist (string-split (d-GetNotes) #\NULL))
+	      (set! numofnotes (- (length notelist) 1))
+	      (if (= numofnotes 1)
+	        (begin
+	    	  (set! Transpose::original-pitch (Transpose::lilyname->pitch (d-GetNotes)))
+	          (d-ChangeChordNotes (Transpose::pitch->lilyname(Transpose::transposed)))))	  
+	    		))))
+      
       (define Transpose::init #t)))
 
 
