@@ -12,10 +12,17 @@
     </legalnotice>
 
     <copyright>
-      <year>2008</year>
+      <year>2009</year>
 
       <holder>Denemo Project</holder>
-    </copyright>
+    </copyright><author>
+      <firstname>Richard</firstname>
+
+      <surname>Shann</surname>
+
+      <email>Richard.Shann**at**virgin.com</email>
+    </author>
+
 
     <author>
       <firstname>Aaron</firstname>
@@ -24,17 +31,10 @@
 
       <email>aamehl@actcom.net.il</email>
     </author>
-    <author>
-      <firstname>Richard</firstname>
-
-      <surname>Shann</surname>
-
-      <email>Richard.Shann**at**virgin.com</email>
-    </author>
-
+    
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>0.8.0</releaseinfo>
+    <releaseinfo>0.8.8</releaseinfo>
   </articleinfo>
 
   <sect1>
@@ -1810,12 +1810,29 @@ These flags are combined together to get the combination required for the direct
    For example     (d-DirectiveTextEdit-paper "PrintAllHeaders") gives low-level access to the directive setting the print all headers command in the paper block of the LilyPond output.
  </para>
 </sect2>
+
+<sect2>
+     <title>Initialization Scripts</title>
+<para>
+Each menu can have an initialization script, which can contain procedures that would be too time consuming to define every time they are needed. These scripts are guaranteed to be run before any menu item is activated within the menu. They can be read/written using the right click menu on any scripted menu item.
+</para>
+</sect2>
+
+
 <sect2>
      <title>Edit Scripts</title>
  
    <para>
-   Edit scripts are kept in a directory actions/editscripts parallel with the directory actions/menus where the commands themselves are kept. They have available functions to enable editing of directives which are defined in actions//denemo.scm executed at startup. The functions and variables for script editing are
-  </para>
+   Each directive has a tag field, so that it can be recognized by the scripts that manipulate it. In particular for each tag there can be an edit script, for editing a directive of that tag. 
+   Edit scripts are kept in a directory actions/editscripts parallel with the directory actions/menus where the commands themselves are kept. </para>   
+<para> 
+You can read and write edit scripts by using the low level editing dialog on a directive with the tag you are writing for. 
+<note>The low level editing dialog is the one that is presented if there is no edit script. Edit scripts can themselves give access to this dialog by including an option cue-Advanced which calls (d-DirectiveTextEdit-field tag) for the appropriate field and tag. For an example see the edit script for Instruments -&gt; Orchestra -&gt; RehearsalMark.
+</note>
+</para> 
+<para >
+ They have available functions to enable editing of directives which are defined in actions//denemo.scm executed at startup. The functions and variables for script editing are
+ </para>
 
 <itemizedlist>
 <listitem>
