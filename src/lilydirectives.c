@@ -1082,8 +1082,8 @@ PUT_GRAPHIC(chord);
 PUT_GRAPHIC(note);
 
 /* return a full path to an editscript for directive or NULL if there is none */
-static gchar *get_editscript_filename(DenemoDirective *directive) {
-gchar *basename = g_strconcat(directive->tag->str, ".scm", NULL);
+static gchar *get_editscript_filename(gchar *tag) {
+gchar *basename = g_strconcat(tag, ".scm", NULL);
   gchar* filename = g_build_filename (locatedotdenemo(), "actions", "editscripts", basename, NULL);
   if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
     g_free(filename);
@@ -1104,7 +1104,7 @@ gchar *basename = g_strconcat(directive->tag->str, ".scm", NULL);
 
 static void
 runscript_callback (GtkWidget *w, DenemoDirective *directive){
-gchar *editscript = get_editscript_filename(directive);
+gchar *editscript = get_editscript_filename(directive->tag->str);
  if(editscript)
    execute_script_file(editscript);
  else
@@ -1127,7 +1127,7 @@ gchar *script = get_action_script(directive->tag->str);
  if(script)
    call_out_to_guile(script);
  else {
-   script = get_editscript_filename(directive);
+   script = get_editscript_filename(directive->tag->str);
    if(script)
      execute_script_file(script);
    else {
@@ -1179,7 +1179,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       }  else {
 	//g_print("Doing the non-staff case");
 	//DISTINGUISH TWO CASES HERE if there is an editscript for directive->tag then use that for the callback and if there is a graphic with name directive->graphic_name then use that as an icon for the button widget coming next.
-	gchar *editscript = get_editscript_filename(directive);
+	gchar *editscript = get_editscript_filename(directive->tag->str);
 	//FIXME look for a graphic of graphic_name & place it on button as icon ...
      
 	directive->graphic = gtk_button_new_with_label(value);
@@ -1763,8 +1763,37 @@ ADD_INTTEXT(gy);
   g_string_free(scheme, TRUE);
 }
 
-
-
+/* callback to get an edit script of name tag */
+static void get_edit_script (GtkWidget *widget, gchar *tag) {
+  gchar *filename = get_editscript_filename(tag);
+  if(filename){
+    GError *error = NULL;
+    gchar *script;
+    if(g_file_get_contents (filename, &script, NULL, &error))
+      appendSchemeText(script);
+    else
+      g_warning("Could not get contents of %s\n", filename);
+    g_free(script);
+    g_free(filename);
+  }
+}
+/* callback to save the scheme script text buffer as an edit script of name tag in the user's local denemo directory */
+static void put_edit_script (GtkWidget *widget, gchar *tag) {
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tag, NULL);
+  if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
+     confirm("There is already an edit script for this tag", "Do you want to replace it?")){
+    gchar *scheme = getSchemeText();
+    if(scheme && *scheme) {
+      FILE *fp = fopen(filename, "w");
+      if(fp) {
+	fprintf (fp, "%s", scheme);
+	fclose(fp);
+	infodialog("Wrote edit script file to ~/.denemo/editscripts");
+      }
+      g_free(scheme);
+    }
+  }
+}
 
 
 /* text_edit_directive
@@ -1794,6 +1823,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   GString *entrycontent = g_string_new("");
   GtkWidget *entrywidget;
   GtkWidget *label;
+  GtkWidget *button;
 #define TEXTENTRY(thelabel, field) \
   GtkWidget *field;\
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -1849,6 +1879,18 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   TEXTENTRY("MidiBytes", midibytes);
   NEWINTENTRY("Override Mask", override);
 #undef TEXTENTRY
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
+  button = gtk_button_new_with_label("Get Edit Script");
+  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+  g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(get_edit_script), directive->tag->str);
+  button = gtk_button_new_with_label("Put Edit Script");
+  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+  g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(put_edit_script), directive->tag->str);
+  button = gtk_check_button_new_with_label("Show Current Script");
+  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
+
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
   g_print("Got response %d\n", response);
@@ -1897,7 +1939,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
 static gboolean
 edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
-  gchar* filename = get_editscript_filename(directive);
+  gchar* filename = get_editscript_filename(directive->tag->str);
   if(filename == NULL) {
     ret =( text_edit_directive(directive, what)  || !confirm("Directive Delete", "Are you sure you want to delete the directive?"));
     score_status (Denemo.gui, TRUE);
