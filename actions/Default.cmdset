@@ -2490,6 +2490,13 @@ for second and subsequent systems</tooltip>
         <label>Delete</label>
         <tooltip>Deletes a dynamic attached to the chord at the cursor.</tooltip>
       </row>
+      <row>
+        <action>TitlePage</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Set Movement as Title Page</label>
+        <tooltip>Makes this movement a title page (no music)</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

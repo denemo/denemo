@@ -712,7 +712,7 @@ static gchar *get_postfix(GList *g) {
     DenemoDirective *d = g->data;
     if(d->postfix && d->postfix->len)
       if(d->override & DENEMO_OVERRIDE_LILYPOND)
-	g_string_prepend(ret, d->prefix->str);
+	g_string_prepend(ret, d->postfix->str);
       else
 	g_string_append(ret, d->postfix->str);
   }
@@ -2062,18 +2062,12 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  g_free(mvmnt_string);
 	}  
       }
-
-
-
+      /* the score prefix field is at the start of the whole score, the postfix field is placed as
+	 a prolog before the music in the scoreblock, unless the DENEMO_OVERRIDE_LILYPOND flag is set, in which case
+	 the postfix field replaces the scoreblock altogether */
       gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
       g_string_append_printf (scoreblock, "%s", "\\score {\n");
-
-
-
       g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
-
-
-
       g_free(score_prolog);
     }
  
@@ -2252,9 +2246,28 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       // Put this standard scoreblock in the textbuffer
 
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
-						(partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
 
+#if 0
+      if(get_override(gui->lilycontrol.directives)) {
+	//FIXME this is being emitted for each movement, rather than just once
+	gchar *score_substitute = get_postfix(gui->lilycontrol.directives);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, score_substitute, -1, INEDITABLE, NULL);
+	g_free(score_substitute);
+      }
+#else
+      if(get_override(si->movementcontrol.directives)) {
+	gchar *scoreblock_substitute = get_postfix(si->movementcontrol.directives);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, scoreblock_substitute, -1, INEDITABLE, NULL);
+	g_free(scoreblock_substitute);
+      }
+
+#endif
+
+
+      else    
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
+						  (partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
+      
     }/* if visible movement */
 
     g_string_free(scoreblock, TRUE);
