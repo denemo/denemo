@@ -3889,6 +3889,18 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
   g_free(filename);
 }
 
+/* return a directory path for a system menu ending in menupath, or NULL if none exists
+   checking user's download then the installed menus
+   user must free the returned string*/
+static gchar * get_system_menupath( gchar *menupath) {
+  gchar * filepath = g_build_filename (locatedotdenemo(), "download", "actions", "menus", menupath, NULL);
+  //g_print("No file %s\n", filepath);
+  if(0!=g_access(filepath, 4)){
+    g_free(filepath);
+    filepath = g_build_filename (get_data_dir(), "actions", "menus", menupath, NULL);
+  }
+  return filepath;   
+}
 /*
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
@@ -3965,15 +3977,13 @@ static gboolean menu_click (GtkWidget      *widget,
   static gchar *filepath;// static so that we can free it next time we are here.
   if(filepath)
     g_free(filepath);
-  filepath = g_build_filename (get_data_dir(), "actions", "menus", myposition, NULL);
+  filepath = get_system_menupath(myposition);
   if(0==g_access(filepath, 4)) {
-    //g_print("We can create a menu item for the path %s\n", filepath);
+    //g_print("We can look for a menu item in the path %s\n", filepath);
     item = gtk_menu_item_new_with_label("Insert Additional Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }
-
-
 
   gchar *scheme = g_object_get_data(G_OBJECT(action), "scheme");
   if(scheme) {
