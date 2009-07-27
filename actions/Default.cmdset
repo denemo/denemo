@@ -2524,6 +2524,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
       </row>
+      <row>
+        <action>GoToEmptyMeasure</action>
+        <after>GoToMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Cursor</menupath>
+        <label>Go To Next Empty Measure</label>
+        <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
