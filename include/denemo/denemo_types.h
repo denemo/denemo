@@ -357,7 +357,7 @@ typedef struct DenemoDirective
   gint tx,ty; /**< x and y offsets in pixels for the display text */
   gint minpixels;/**< horizontal space needed by the display */
   gint x, y; /**< x and y offsets passed to LilyPond to control printed position */
-  GdkBitmap *graphic; /**< bitmap to draw for this directive */
+  gpointer graphic; /**< bitmap to draw for this directive, or for directives that cannot be drawn a widget to display for it */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
   GString *graphic_name; /**< name of the graphic to be drawn */
   gint width, height; /**< width and height of the bitmap */

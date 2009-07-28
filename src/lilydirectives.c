@@ -19,7 +19,7 @@
 #include "staffops.h"
 #include "utils.h"
 #include "prefops.h"
-
+#include "view.h"
 static void edit_directive_callback(GtkWidget *w, gpointer what);
 
 
@@ -46,9 +46,9 @@ static  gchar *get_action_script(gchar *name) {
 
 static void
 gtk_menu_item_set_label_text(GtkMenuItem *item, gchar *text) {
-  GtkWidget *label = gtk_bin_get_child(item);
+  GtkWidget *label = (GtkWidget *)gtk_bin_get_child(GTK_BIN(item));
   if(label)
-    gtk_label_set_text(label, text);
+    gtk_label_set_text(GTK_LABEL(label), text);
 }
 
 
@@ -1070,7 +1070,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     directive=new_directive(tag);\
     current->directives = g_list_append(current->directives, directive);\
     }\
-  loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height);\
+  loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height);\
   if(directive->graphic_name)\
      g_string_assign(directive->graphic_name, value);\
   else\
@@ -1131,7 +1131,7 @@ gchar *script = get_action_script(directive->tag->str);
    if(script)
      execute_script_file(script);
    else {
-     gpointer fn = g_object_get_data(w, "fn");
+     gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
      if(fn)
        edit_directive_callback(w, fn);
    }
@@ -1155,25 +1155,25 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
   GtkWidget *box;
   gchar *value = directive->display?directive->display->str:"";
   if((directive->graphic==NULL) ) {
-    if(fn==score_directive_put_graphic ||fn==scoreheader_directive_put_graphic ||fn==paper_directive_put_graphic)  
+    if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
     else
       box = Denemo.gui->si->buttonbox;
-    if(fn==staff_directive_put_graphic) {
+    if(fn==(void(*)())staff_directive_put_graphic) {
       //g_print("Doing the staff case");
-      directive->graphic = gtk_menu_item_new_with_label(value);
+      directive->graphic = (gpointer)gtk_menu_item_new_with_label(value);
       /* g_print("directive-type %s.....", thetype);	*/
       GtkWidget *menu;
-      menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
+      menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
       g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
     } else    
-      if(fn==voice_directive_put_graphic) {
+      if(fn==(void(*)())voice_directive_put_graphic) {
 	//g_print("Doing the voice case");
 	directive->graphic = gtk_menu_item_new_with_label(value);//WARNING _with_label is important
 	/* g_print("directive-type %s.....", thetype);	*/
 	GtkWidget *menu;
-	menu = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
+	menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
 	g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
       }  else {
@@ -1218,7 +1218,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
   if(GTK_IS_MENU_ITEM(directive->graphic))
     gtk_menu_item_set_label_text(directive->graphic, value);
   else
-    gtk_label_set_markup(gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
+    gtk_label_set_markup((GtkLabel *)gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
 }
 
 
@@ -1239,7 +1239,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     directive->field = g_string_new(value);\
   else\
     g_string_assign(directive->field, value);\
-  widget_for_directive(directive, what##_directive_put_graphic);\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   return (gpointer)directive;\
 }
 
@@ -1256,7 +1256,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
     current->directives_name = g_list_append(current->directives_name, directive);\
     }\
  directive->field = value;\
- widget_for_directive(directive, what##_directive_put_graphic);\
+ widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
  return TRUE;\
 }
 
@@ -1276,7 +1276,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     directive->graphic_name = g_string_new(value);\
   else\
     g_string_assign(directive->graphic_name, value);\
-  widget_for_directive(directive, what##_directive_put_graphic);\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   return (gpointer)directive;\
 }
 
@@ -1439,7 +1439,7 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
   }
-  if( loadGraphicItem(value, &directive->graphic, &directive->width, &directive->height)) {
+  if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height)) {
     if(directive->graphic_name)
       g_string_assign(directive->graphic_name, value);
     else
@@ -1782,7 +1782,7 @@ static void put_edit_script (GtkWidget *widget, gchar *tag) {
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tag, NULL);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
      confirm("There is already an edit script for this tag", "Do you want to replace it?")){
-    gchar *scheme = getSchemeText();
+    gchar *scheme = (gchar*)getSchemeText();
     if(scheme && *scheme) {
       FILE *fp = fopen(filename, "w");
       if(fp) {
@@ -1924,7 +1924,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
     if(GTK_IS_WIDGET(directive->graphic))
       widget_for_directive(directive, NULL);
     else
-      loadGraphicItem (directive->graphic_name->str, &directive->graphic,  &directive->width, &directive->height);
+      loadGraphicItem (directive->graphic_name->str,  (GdkBitmap **)&directive->graphic,  &directive->width, &directive->height);
   }
   gtk_widget_destroy (dialog);
   if(response==CREATE_SCRIPT)
@@ -1945,7 +1945,7 @@ edit_directive(DenemoDirective *directive, gchar *what) {
     score_status (Denemo.gui, TRUE);
     return ret;
   }
-  GError *error = execute_script_file(filename);
+  GError *error = (GError*)execute_script_file(filename);
   if(error) g_warning(error->message);
   g_free(filename);
   return ret;
@@ -1953,7 +1953,7 @@ edit_directive(DenemoDirective *directive, gchar *what) {
 
 
 static void edit_directive_callback(GtkWidget *w, gpointer what) {
-  DenemoDirective *directive = g_object_get_data(w, "directive");
+  DenemoDirective *directive = g_object_get_data(G_OBJECT(w), "directive");
 
 #if 0
   if(!edit_directive(directive, what)){
