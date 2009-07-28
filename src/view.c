@@ -497,7 +497,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
  GList *n = NULL;
  GList *directives = NULL;
 
- if (scm_is_true(SCM_STRINGP(lilynotes))) {
+ if (SCM_STRINGP(lilynotes)) {
   
    if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
    return  SCM_BOOL(FALSE);
@@ -522,7 +522,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	/* paste directives over */
 	for(n=thechord->notes;n &&g;n=n->next, g=g->next) {
 	  thenote = (note *) n->data;
-	  directives = (DenemoDirective *) g->data;
+	  directives = (GList *) g->data;
 
 	  if (directives)
 	    thenote->directives = directives;
@@ -829,16 +829,13 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
   return SCM_BOOL(FALSE);
 }
 
-
-
-
 #define GET_TAG_FN_DEF(what)\
  static SCM scheme_##what##_directive_get_tag(SCM tag) {\
   gchar *tagname;\
   if(!SCM_STRINGP(tag))\
      tagname = NULL;\
   else tagname = scm_to_locale_string(tag);\
-  gchar *val = what##_directive_get_tag (tagname);\
+  gchar *val = (gchar*)what##_directive_get_tag (tagname);\
   if(val) return gh_str2scm (val, strlen(val));\
   return SCM_BOOL(FALSE);\
 }
@@ -890,7 +887,7 @@ static SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!SCM_STRINGP(tag))\
      return SCM_BOOL(FALSE);\
   gchar *tagname = scm_to_locale_string(tag);\
-  gchar *value = what##_directive_get_##field(tagname);\
+  gchar *value = (gchar*)what##_directive_get_##field(tagname);\
   if(value)\
     return scm_makfrom0str(value);\
   return SCM_BOOL(FALSE);\
@@ -1732,7 +1729,7 @@ void inner_main(void*closure, int argc, char **argv){
   if (Denemo.prefs.visible_directive_buttons)
    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
 
-  gtk_key_snooper_install(dnm_key_snooper, NULL);
+  gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
 
 
@@ -3304,7 +3301,7 @@ activate_script (GtkAction *action, gpointer param)
     g_free(current_script);
     if(*text==0)
       text = instantiate_script(action);
-    return call_out_to_guile(text);//scm_c_eval_string(text);
+    return (gboolean)call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
@@ -4529,7 +4526,7 @@ toggle_print_view (GtkAction *action, gpointer param)
     gtk_widget_hide(w);
   else {
     gtk_widget_show(w);
-    if(g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate")<Denemo.gui->changecount)
+    if(((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate"))<Denemo.gui->changecount)
       refresh_print_view();
   }
   return;
@@ -5165,7 +5162,7 @@ get_data_dir (),
   gtk_widget_show (Denemo.notebook);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
 
-  create_console(main_vbox);
+  create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
   hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
