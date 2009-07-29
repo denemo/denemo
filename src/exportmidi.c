@@ -1012,14 +1012,14 @@ change_volume(gint *volume, gint midi_val, gint  midi_interpretation,gint  midi_
   gdouble val;
   // g_print("midi_val %d cur_volume %d\n", midi_val, cur_volume);
   val = (gdouble) midi_val;
-  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
     val = *volume * (midi_val/100.0);
   if(midi_action == DENEMO_OVERRIDE_ONCE)
     g_warning("Scripting error, ONCE for standalone directive is meaningless");
   if(midi_action == DENEMO_OVERRIDE_RAMP)
     g_warning("Not implemented ramp yet");
   if(midi_action == DENEMO_OVERRIDE_STEP) {
-    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+    if(midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
       *volume += val;
     else
       *volume = val;
@@ -1033,14 +1033,14 @@ change_tempo(gint *tempo, gint midi_val, gint  midi_interpretation,gint  midi_ac
 {
   gdouble val;
   val = (gdouble) midi_val;
-  if(midi_interpretation | DENEMO_OVERRIDE_PERCENT)
+  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
     val = *tempo * (midi_val/100.0);
   if(midi_action == DENEMO_OVERRIDE_ONCE)
     g_warning("Not implemented change of tempo for one chord");
   if(midi_action == DENEMO_OVERRIDE_RAMP)
     g_warning("Not implemented ramp yet");
   if(midi_action == DENEMO_OVERRIDE_STEP) {
-    if(midi_interpretation | DENEMO_OVERRIDE_RELATIVE)
+    if(midi_interpretation & DENEMO_OVERRIDE_RELATIVE)
       *tempo += val;
     else
       *tempo = val;
