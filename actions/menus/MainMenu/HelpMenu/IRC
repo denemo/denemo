@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Help</after>
+        <action>IRC</action>
+        <scheme>;;; IRC on freenode
+(d-Help "http://webchat.freenode.net/?nick=DenemoGuest.&amp;channels=denemo")</scheme>
+        <label>Chat to Other Users</label>
+        <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -2532,6 +2532,14 @@ for second and subsequent systems</tooltip>
         <label>Go To Next Empty Measure</label>
         <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
       </row>
+      <row>
+        <action>IRC</action>
+        <after>Help</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <label>Chat to Other Users</label>
+        <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
