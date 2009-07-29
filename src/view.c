@@ -1620,6 +1620,15 @@ SCM scheme_next_note (SCM optional) {
       scheme_next_note (optional);
 }
 
+SCM scheme_locate_dotdenemo (SCM optional) {
+  gchar *dotdenemo = locatedotdenemo();
+  if (!dotdenemo)
+    return SCM_BOOL(FALSE);
+  SCM scm = scm_makfrom0str (dotdenemo);
+  g_free(dotdenemo);
+  return scm;
+}
+
 gchar* process_command_line(int argc, char**argv);//back in main
 
 static void define_scheme_constants(void) {
@@ -1765,7 +1774,7 @@ void inner_main(void*closure, int argc, char **argv){
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
-
+  install_scm_function (DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
