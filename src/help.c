@@ -54,8 +54,9 @@ NO WARRANTY; see the file COPYING for details."));
  * uses the given web browser to display the manual
  */
 void
-browse_manual (GtkAction * action, gpointer param)
+browse_manual (GtkAction * action, DenemoScriptParam *param)
 {
+  GET_1PARAM(action, param, url);
   DenemoGUI *gui = Denemo.gui;
   gboolean retval;
   GError *error = NULL;
@@ -63,7 +64,7 @@ browse_manual (GtkAction * action, gpointer param)
   /* get the uri to the manual */
   gchar *manualpath = g_build_filename (get_data_dir (), "manual",
                                         "denemo-manual.html", NULL);
-  gchar *manualuri = g_filename_to_uri (manualpath, NULL, NULL);
+  gchar *manualuri =  url?g_strdup(url):g_filename_to_uri (manualpath, NULL, NULL);
 
   /* check that the browser exists */
   gchar *browserpath = g_find_program_in_path (Denemo.prefs.browser->str);
