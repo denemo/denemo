@@ -1625,7 +1625,6 @@ SCM scheme_locate_dotdenemo (SCM optional) {
   if (!dotdenemo)
     return SCM_BOOL(FALSE);
   SCM scm = scm_makfrom0str (dotdenemo);
-  g_free(dotdenemo);
   return scm;
 }
 
