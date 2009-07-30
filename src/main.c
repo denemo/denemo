@@ -410,10 +410,6 @@ int
 main (int argc, char *argv[])
 {
 
-  GError *error = NULL;
-  /* gtk initialization */
-  gtk_init (&argc, &argv);
-
 //#ifdef G_OS_WIN32
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
@@ -427,12 +423,47 @@ main (int argc, char *argv[])
   /* initialization of directory relocatability */
   initdir();
 #ifdef G_OS_WIN32
-  gchar *scmcode = g_build_filename(get_data_dir(), "share", "guile", NULL);
-  if(g_file_test(scmcode, G_FILE_TEST_EXISTS)) {
-  g_setenv("GUILE_LOAD_PATH", scmcode, TRUE);
-  g_print("Set environment variable GUILE_LOAD_PATH to %s\n", scmcode);
-  } else warningdialog("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+  gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+  gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
+  gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
+  if (g_file_test (guile, G_FILE_TEST_EXISTS))
+    {
+      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, NULL);
+      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);
+      g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
+    }
+  else
+    warningdialog ("You may need to set GUILE_LOAD_PATH to the directory where you have ice9 installed\n");
+  g_setenv ("PANGO_PREFIX", prefix, TRUE);
+  g_setenv ("PANGO_MODULE_VERSION", "1.6.0", TRUE);
+  g_setenv ("PANGO_SO_EXTENSION", ".dll", TRUE);
+  g_print ("Setting PANGO_PREFIX=%s\n", prefix);
+
+  g_setenv ("GTK_MODULE_VERSION", "2.10.0", TRUE);
+  g_setenv ("GTK_SO_EXTENSION", ".dll", TRUE);
+  g_setenv ("GTK_PREFIX", prefix, TRUE);
+  g_print ("Setting GTK_PREFIX=%s\n", prefix);
+
+  gchar *fc_path = g_strconcat (prefix, "/etc/fonts", NULL);
+  g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
+  g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
+  gchar *fc_file = g_strconcat (fc_path, "/fonts.conf", NULL);
+  g_setenv ("FONTCONFIG_FILE", fc_file, TRUE);
+  g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
+
+  /* Ugh, how to get/expand %ProgramFiles% ?
+     Let's hope user installs below Program Files... */
+  gchar *program_files = g_build_filename (prefix, "..", "..", NULL);
+  gchar *path = g_getenv ("PATH");
+  path = g_strconcat (path, ";", program_files, "/Windows Media Player", NULL);
+  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 8.0/Reader", NULL);
+  g_setenv ("PATH", path, TRUE);
+
 #endif
+  GError *error = NULL;
+  /* gtk initialization */
+  gtk_init (&argc, &argv);
+
   /* locale initialization */
   //setlocale (LC_CTYPE, "");
   //setlocale (LC_MESSAGES, "");

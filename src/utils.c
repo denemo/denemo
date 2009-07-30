@@ -627,6 +627,8 @@ get_data_dir ()
 #ifdef G_OS_WIN32
     gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
     datadir = g_build_filename (rootdir, "share", "denemo", NULL);
+    g_print ("rootdir=%s\n", rootdir);
+    g_print ("datadir=%s\n", datadir);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
     datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
@@ -678,7 +680,7 @@ get_locale_dir ()
   {
 #ifdef G_OS_WIN32
     gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
-    localedir = g_build_filename (rootdir, "share", "locale", "denemo", NULL);
+    localedir = g_build_filename (rootdir, "share", "locale", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
 # ifndef ENABLE_BINRELOC
