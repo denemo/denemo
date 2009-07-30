@@ -580,6 +580,25 @@ gbr_find_data_dir (const gchar * default_data_dir)
   return dir;
 }
 
+gchar *
+gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name)
+{
+  gchar *prefix, *dir;
+
+  prefix = gbr_find_prefix (NULL);
+  if (prefix == NULL)
+    {
+      /* BinReloc not initialized. */
+      if (default_pkg_data_dir != NULL)
+	return g_strdup (default_pkg_data_dir);
+      else
+	return NULL;
+    }
+
+  dir = g_build_filename (prefix, "share", pkg_name, NULL);
+  g_free (prefix);
+  return dir;
+}
 
 /** Locate the application's localization folder.
  *
@@ -599,7 +618,7 @@ gbr_find_locale_dir (const gchar * default_locale_dir)
 {
   gchar *data_dir, *dir;
 
-  data_dir = gbr_find_data_dir (NULL);
+  data_dir = gbr_find_data_dir (DATAROOTDIR);
   if (data_dir == NULL)
     {
       /* BinReloc not initialized. */

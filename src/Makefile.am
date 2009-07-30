@@ -55,7 +55,10 @@ INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
 -I$(top_srcdir)/pixmaps \
 -DLOCALEDIR=\"$(localedir)\" \
 -DSYSCONFDIR=\"$(sysconfdir)/\" \
--DPKGDATADIR=\"$(pkgdatadir)/\"
+-DPKGDATADIR=\"$(pkgdatadir)/\" \
+-DDATAROOTDIR=\"$(datarootdir)/\" \
+-DPKGNAME=\"denemo\" \
+#
 
 denemo_LDADD = $(INTLLIBS) ../libsmf/libsmf.a 
 AM_CPPFLAGS = $(BINRELOC_CFLAGS)

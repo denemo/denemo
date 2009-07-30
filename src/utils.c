@@ -629,7 +629,7 @@ get_data_dir ()
     datadir = g_build_filename (rootdir, "share", "denemo", NULL);
     g_free (rootdir);
 #else /* not G_OS_WIN32 */
-  datadir = gbr_find_data_dir (PKGDATADIR);
+    datadir = gbr_find_pkg_data_dir (PKGDATADIR, PKGNAME);
 #endif /* not G_OS_WIN32 */
   }
   return datadir;
@@ -692,9 +692,7 @@ get_locale_dir ()
      * --enable-binreloc... So, searhing falls back to
      *  $LOCALEDIR/denemo/$LANG which is not a valid path
      */
-    gchar *localedir2 = gbr_find_locale_dir (LOCALEDIR);
-    localedir = g_build_filename (localedir2, "denemo", NULL);
-    g_free (localedir2);
+    localedir = gbr_find_locale_dir (LOCALEDIR);
 # endif /* ENABLE_BINRELOC */
 #endif /* not G_OS_WIN32 */
   }
