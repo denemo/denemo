@@ -1632,10 +1632,23 @@ gchar* process_command_line(int argc, char**argv);//back in main
 
 static void define_scheme_constants(void) {
   gchar *tmp;
-#define DEF_OVERRIDE(which)\
-tmp = g_strdup_printf("(define " #which " %d)\n", which);\
+
+  gint major=0, minor=0, micro=0;
+  sscanf(VERSION, "%d.%d.%d", &major, &minor, &micro);
+  gchar *denemo_version = g_strdup_printf("%d_%d_%d", major, minor, micro);
+  g_print("Version %s", denemo_version);
+#define DEF_SCHEME_STR(which, what)\
+tmp = g_strdup_printf("(define " #which " \"%s\")\n", what);\
   call_out_to_guile(tmp);\
   g_free(tmp);
+
+#define DEF_SCHEME_CONST(which, what)\
+tmp = g_strdup_printf("(define " #which " %d)\n", what);\
+  call_out_to_guile(tmp);\
+  g_free(tmp);
+
+#define DEF_OVERRIDE(which) DEF_SCHEME_CONST(which, which)
+
 
   DEF_OVERRIDE(DENEMO_OVERRIDE_LILYPOND);
   DEF_OVERRIDE(DENEMO_OVERRIDE_GRAPHIC);
@@ -1657,7 +1670,11 @@ tmp = g_strdup_printf("(define " #which " %d)\n", which);\
   DEF_OVERRIDE(DENEMO_MIDI_INTERPRETATION_MASK);
   DEF_OVERRIDE(DENEMO_MIDI_ACTION_MASK);
 
+  DEF_SCHEME_CONST(VERSION_MAJOR, major);
+  DEF_SCHEME_CONST(VERSION_MINOR, minor);
+  DEF_SCHEME_CONST(VERSION_MICRO, micro);
 
+  DEF_SCHEME_STR(DENEMO_VERSION, denemo_version);
 
 #undef DEF_OVERRIDE
 }
