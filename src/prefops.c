@@ -71,19 +71,27 @@ initprefs ()
 
   /* Reasonable default values */
 
-  ret->lilypath = g_string_new ("lilypond");
-  ret->midiplayer = g_string_new ("playmidi");
-  ret->audioplayer = g_string_new ("play");
   ret->csoundcommand = g_string_new ("csound -dm6");
   ret->browser = g_string_new ("firefox");
   ret->csoundorcfile = g_string_new ("");
+#ifdef G_OS_WIN32
+  ret->midiplayer = g_string_new ("wmplayer");
+  ret->audioplayer = g_string_new ("wmplayer");
+  ret->lilypath = g_string_new ("lilypond-windows");
+  ret->pdfviewer = g_string_new ("acrord32");
+  ret->imageviewer = g_string_new ("mspaint");
+  ret->texteditor = g_string_new ("wordpad");
+#else /* !G_OS_WIN32 */
+  ret->midiplayer = g_string_new ("playmidi");
+  ret->audioplayer = g_string_new ("play");
+  ret->lilypath = g_string_new ("lilypond");
   ret->pdfviewer = g_string_new ("xpdf");
+  ret->imageviewer = g_string_new ("eog");
+  ret->texteditor = g_string_new ("xedit");
+#endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
   ret->midi_in = g_string_new ("/dev/midi");
 
-
-  ret->imageviewer = g_string_new ("eog");
-  ret->texteditor = g_string_new ("xedit");
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new (LILYPOND_VERSION);
   ret->temperament = g_string_new("Equal");
