@@ -221,7 +221,7 @@ static void      update_file_selection_path (gchar *file) {
 /**
  * The function that actually determines the file type and calls the
  *  function that opens the file.  (So many layers of indirection...)  
- *
+ *filename must be full path
  * @return 0 for success non zero for failure
  */
 gint
@@ -452,6 +452,7 @@ typedef enum {
  * calls file_open to create the file selection dialog
  * LOCAL whether to use the local templates or systemwide templates or examples
  * does nothing if unable to access templates
+ * filename is NULL for interactive use, otherwise file base name
  */
 static gboolean
 template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
@@ -484,7 +485,9 @@ template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
     default_template_path = system_template_path;
   }
   if(default_template_path) {
-    ret = file_open (gui, TRUE, REPLACE_SCORE, filename);
+    gchar *filepath = g_build_filename(default_template_path, filename, NULL);
+    ret = file_open (gui, TRUE, REPLACE_SCORE, filepath);
+    g_free(filepath);
     gui->filename = g_string_new("");
   }
   return ret;
@@ -638,6 +641,7 @@ static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, gbool
 /**
  * File open dialog - opened where appropriate 
  * return TRUE on success FALSE on failure.
+ * filename must be full path or NULL for dialog
  */
 static gboolean
 file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename)
@@ -916,7 +920,7 @@ file_newwrapper (GtkAction * action, gpointer param)
     {
       deletescore(NULL, gui);
     }
-  open_user_default_template(REPLACE_SCORE);
+  //open_user_default_template(REPLACE_SCORE);
   if(gui->printarea) 
     g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }

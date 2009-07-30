@@ -2419,7 +2419,7 @@ INSTALL_EDIT(movementcontrol);
    g_free(init_file);  
  } else
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
-     open_user_default_template(REPLACE_SCORE);
+     ;// open_user_default_template(REPLACE_SCORE);
  
  /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
@@ -5255,7 +5255,7 @@ newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
   //should we load init.denemo here as well???
-  open_user_default_template(REPLACE_SCORE);
+  //open_user_default_template(REPLACE_SCORE);
 }
 
 /**
