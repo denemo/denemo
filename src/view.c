@@ -1635,7 +1635,13 @@ static void define_scheme_constants(void) {
 
   gint major=0, minor=0, micro=0;
   sscanf(VERSION, "%d.%d.%d", &major, &minor, &micro);
-  gchar *denemo_version = g_strdup_printf("%d_%d_%d", major, minor, micro);
+  gchar *denemo_version = g_strdup_printf("%d_%d_%d%s", major, minor, micro,
+#ifdef G_OS_WIN32
+"_Win"
+#else
+""
+#endif
+);
   g_print("Version %s", denemo_version);
 #define DEF_SCHEME_STR(which, what)\
 tmp = g_strdup_printf("(define " #which " \"%s\")\n", what);\
@@ -2413,7 +2419,7 @@ INSTALL_EDIT(movementcontrol);
    g_free(init_file);  
  } else
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
-     open_user_default_template(REPLACE_SCORE);
+     ;// open_user_default_template(REPLACE_SCORE);
  
  /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
@@ -3636,6 +3642,31 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
     warningdialog("No script saved");
 }
 
+
+/* upload the action,
+   from the user's menu hierarchy on disk, along with editscripts bitmaps etc
+*/
+static void uploadMenuItem (GtkWidget *widget, GtkAction *action) {
+  gchar *name = (gchar *)gtk_action_get_name(action);
+  gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
+  gchar *after = g_object_get_data(G_OBJECT(action), "after");
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  gchar *tooltip = (gchar*)lookup_tooltip_from_idx(Denemo.map, idx);
+  gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
+  
+  gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
+				      NULL);
+  gchar *command = g_strdup_printf("(UploadScript \"%s\")", filename);
+  g_print("doing\n%s\nas command", command);
+  call_out_to_guile(command);
+  g_free(filename);
+  g_free(command);
+}
+
+
+
+
+
 static const gchar *
 locatebitmapsdir(void) {
   static gchar *bitmapsdir = NULL;
@@ -4027,7 +4058,9 @@ static gboolean menu_click (GtkWidget      *widget,
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
       g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveGraphicItem), action);
     }
-
+    item = gtk_menu_item_new_with_label("Upload this Script to denemo.org");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(uploadMenuItem), action);
 
   }
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
@@ -5249,7 +5282,7 @@ newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
   //should we load init.denemo here as well???
-  open_user_default_template(REPLACE_SCORE);
+  //open_user_default_template(REPLACE_SCORE);
 }
 
 /**
