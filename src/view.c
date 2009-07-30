@@ -1635,7 +1635,13 @@ static void define_scheme_constants(void) {
 
   gint major=0, minor=0, micro=0;
   sscanf(VERSION, "%d.%d.%d", &major, &minor, &micro);
-  gchar *denemo_version = g_strdup_printf("%d_%d_%d", major, minor, micro);
+  gchar *denemo_version = g_strdup_printf("%d_%d_%d%s", major, minor, micro,
+#ifdef G_OS_WIN32
+"_Win"
+#else
+""
+#endif
+);
   g_print("Version %s", denemo_version);
 #define DEF_SCHEME_STR(which, what)\
 tmp = g_strdup_printf("(define " #which " \"%s\")\n", what);\
