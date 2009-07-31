@@ -22,25 +22,6 @@
 (define (ReadingNoteNames::showscore)
   (d-DirectivePut-score-display "ReadingNoteNames::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string ReadingNoteNames::score) "&lt;/b&gt; in " (object-&gt;string (- ReadingNoteNames::end ReadingNoteNames::start)) " Secs.")))
 
-(define ReadingNoteNames::shiftup
-  (lambda (n)
-    (if (&gt; n 0) (begin
-		  (d-CursorUp)
-		  (ReadingNoteNames::shiftup (- n 1))))))
-
-(define ReadingNoteNames::shiftdown
-  (lambda (n)
-    (if (&gt; n 0) (begin
-		  (d-CursorDown)
-		  (ReadingNoteNames::shiftdown (- n 1))))))
-
-(define (ReadingNoteNames::placeAnswerStatus gfx)
-  (begin
-    (d-DirectivePut-note-minpixels "ReadingNoteNames::tick" 30)
-    (d-DirectivePut-note-gx "ReadingNoteNames::tick" -15)
-    (d-DirectivePut-note-gy "ReadingNoteNames::tick" 40)
-    (d-DirectivePut-note-graphic "ReadingNoteNames::tick" gfx)))
-
 
 ;;;;;;;;; callback when user chooses a note
 (define (ReadingNoteNames::notechosen usernote)
@@ -50,11 +31,11 @@
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
-			       (ReadingNoteNames::placeAnswerStatus "CheckMark")
+			       (EducationalGames::placeAnswerStatus "CheckMark")
 			       (d-ChangeNotehead "Diamond"))
 			     (begin
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
-			       (ReadingNoteNames::placeAnswerStatus "CrossSign")
+			       (EducationalGames::placeAnswerStatus "CrossSign")
 			       (d-ChangeNotehead "Cross"))) 
 			(ReadingNoteNames::offerNote)))
 
@@ -133,11 +114,11 @@ Print out your score when you have finished.")
 	;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 	  (set! steps (+ 1 (random ReadingNoteNames::interval)))
-	  (ReadingNoteNames::shiftup steps)
+	  (EducationalGames::shiftup steps)
 	  (d-Insert2)
 	  (set! ReadingNoteNames::notewas (d-GetNoteName))	  
 	  (ReadingNoteNames::showscore)
-	  (ReadingNoteNames::shiftdown steps)
+	  (EducationalGames::shiftdown steps)
 	  )
 	))
 
