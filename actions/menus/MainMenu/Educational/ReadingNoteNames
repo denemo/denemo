@@ -31,11 +31,11 @@
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
-			       (EducationalGames::placeAnswerStatus "CheckMark")
+			       (EducationGames::PlaceAnswerStatus "CheckMark")
 			       (d-ChangeNotehead "Diamond"))
 			     (begin
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
-			       (EducationalGames::placeAnswerStatus "CrossSign")
+			       (EducationGames::PlaceAnswerStatus "CrossSign")
 			       (d-ChangeNotehead "Cross"))) 
 			(ReadingNoteNames::offerNote)))
 
@@ -114,19 +114,14 @@ Print out your score when you have finished.")
 	;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 	  (set! steps (+ 1 (random ReadingNoteNames::interval)))
-	  (EducationalGames::shiftup steps)
+	  (EducationGames::shiftup steps)
 	  (d-Insert2)
 	  (set! ReadingNoteNames::notewas (d-GetNoteName))	  
 	  (ReadingNoteNames::showscore)
-	  (EducationalGames::shiftdown steps)
+	  (EducationGames::shiftdown steps)
 	  )
 	))
 
-;; set the random seed up using time of day
-(let ((time (gettimeofday)))
-  (set! *random-state*
-	(seed-&gt;random-state (+ (car time)
-			       (cdr time)))))
 (d-PlayMidiKey #xF03001)
 (d-PlayMidiKey #xF02A01)
 (d-PlayMidiKey #xF04001)
@@ -169,7 +164,7 @@ Print out your score when you have finished.")
   (d-SetDirectiveTagActionScript  (string-append "ReadingNoteNames::" note) (string-append "(ReadingNoteNames::notechosen \"" note "\")")))
 
 
-(CreateButton "ReadingNoteNames::spacer1" "&lt;span font_desc=\"32\"&gt;    &lt;/span&gt;")
+(CreateButton "ReadingNoteNames::spacer1" "&lt;span font_desc=\"28\"&gt;    &lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::spacer1" "(d-PlayMidiKey #xF03001)")
 
 (ReadingNoteNames::createbuttons "a")
@@ -180,7 +175,7 @@ Print out your score when you have finished.")
 (ReadingNoteNames::createbuttons "f")
 (ReadingNoteNames::createbuttons "g")
 
-(CreateButton "ReadingNoteNames::spacer2" "&lt;span font_desc=\"32\"&gt;    &lt;/span&gt;")
+(CreateButton "ReadingNoteNames::spacer2" "&lt;span font_desc=\"28\"&gt;    &lt;/span&gt;")
 (d-SetDirectiveTagActionScript "ReadingNoteNames::spacer2" "(d-PlayMidiKey #xF03001)")
 
 (d-PlayMidiKey #xF03001)
