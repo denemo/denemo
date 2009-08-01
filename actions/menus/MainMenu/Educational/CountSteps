@@ -8,155 +8,149 @@
         <action>CountSteps</action>
         <scheme>;;;;;;;;;;;;;;;
 ;;CountSteps
-;; tests note name recognition.
-(let (
-      (shiftup 0)
-      (shiftdown 0)
-      (show-graphic 0)
-      (PlaceGraphic 0)
-      (number->graphic 0)
-      (graphic "One")
-      (runtest 0) 
-      (PlaceAnswerStatus 0)
-      (notewas #t)
-      (userinput 0)
-      (score 0)
-      (steps 0)
-      (starttime 0)
-      (endtime 0)
-      (direction 0)
-      (span 8) ;; how many steps of the scale to test. perhaps have many cummulative levels 
-      (num-goes 10) ;; how many notes to present for the whole test
-      )
-  ;; set the random seed up using time of day
-  (let ((time (gettimeofday)))
-    (set! *random-state*
-	  (seed-&gt;random-state (+ (car time)
-				 (cdr time)))))
-  (set! shiftup
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorUp)
-			(shiftup (- n 1))))))
+;; tests interval recognition.
+(define CountSteps::score 0)
+(define CountSteps::interval 3)
+(define CountSteps::start (current-time))
+(define CountSteps::end (current-time))
+(define CountSteps::num-goes 30)
+(define CountSteps::intervalwas #t)
+(define CountSteps::userinput #t)
+(define CountSteps::direction 0)
 
-  (set! shiftdown
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorDown)
-			(shiftdown (- n 1))))))
-  (set! PlaceAnswerStatus
-  	(lambda (name gfx)
-	  (begin
-	    (d-DirectivePut-note-minpixels name 30)
-	    (d-DirectivePut-note-gx name -15)
-	    (d-DirectivePut-note-gy name 10)
-	    (d-DirectivePut-note-graphic name gfx))))
-  
-  (set! show-graphic (lambda (count)
-			  (cond ((zero? count)
-			       (set! graphic "LargeZero"))
-			      ((= 1 count)
-			       (set! graphic "LargeOne"))
-			      ((= 2 count)
-			       (set! graphic "LargeTwo"))
-			      ((= 3 count)
-			       (set! graphic "LargeThree"))
-			      ((= 4 count)
-			       (set! graphic "LargeFour"))
-			      ((= 5 count)
-			       (set! graphic "LargeFive"))
-			      ((= 6 count)
-			       (set! graphic "LargeSix"))
-			      ((= 7 count)
-			       (set! graphic "LargeSeven"))
-			      ((= 8 count)
-			       (set! graphic "LargeEight"))
-			      ((= 9 count)
-			       (set! graphic "LargeNine")))
-			 (d-DirectivePut-standalone-graphic "Score" graphic)
-			 ))
+(define (CountSteps::showscore)
+  (d-DirectivePut-score-display "CountSteps::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string CountSteps::score) "&lt;/b&gt; in " (object-&gt;string (- CountSteps::end CountSteps::start)) " Secs.")))
+
+(define (CountSteps::help) 
+  (d-InfoDialog "Count how many steps it takes to get to the next note. Enter this number on they keyboard..... ")
+)
+
+(define (CountSteps::GameOver)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string CountSteps::score)))
+  (d-InfoDialog BufferOne))
+)
+
+(define (CountSteps::ScoreBoard)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
+  (d-InfoDialog BufferOne))
+)
+
+(CreateButton "CountSteps::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "CountSteps::GameScore" "(CountSteps::ScoreBoard)")
+(CreateButton "CountSteps::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "CountSteps::GameHelp" "(CountSteps::help)")
+
+
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
+(define (CountSteps::offerNote) 
+(if (>= CountSteps::num-goes 0)
+	(let ( (steps 0) )
+	  ;;  (d-GoToEnd)
+	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (set! steps (random CountSteps::interval))
+	  (if (= steps 0)
+	    (set! steps (+ steps 1)))
+	  (if (= CountSteps::direction 0)
+	      (begin
+	            (EducationGames::shiftup steps)
+	            (set! CountSteps::direction 1))
+	      (begin 
+	            (EducationGames::shiftdown steps)
+	            (set! CountSteps::direction 0)))
+	    
+          (d-Insert2) 
+          (set! CountSteps::intervalwas (steps))
+
+          (CountSteps::showscore)
+	  (set! CountSteps::num-goes (-  CountSteps::num-goes 1))
+	  )
+	))
+
+;;;;;;;;; callback when user chooses a note
+(define (CountSteps::intervalchosen interval)
+		      (begin
+			(set! CountSteps::end (current-time))
+			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(if  (= CountSteps::intervalwas interval)
+			     (begin
+			       (set! CountSteps::score (+ CountSteps::score 1))
+			       (EducationGames::PlaceAnswerStatus "CheckMark")
+			       (d-ChangeNotehead "Diamond"))
+			     (begin
+			       (set! CountSteps::score (- CountSteps::score 1))
+			       (EducationGames::PlaceAnswerStatus "CrossSign")
+			       (d-ChangeNotehead "Cross"))) 
+			       (CountSteps::offerNote)
+			       ))
 	
-(set! PlaceGraphic
-  (lambda (numberstring)
-    (begin
-        (d-AppendMeasure)
-        (d-MeasureRight)
-        (show-graphic numberstring)
-        (d-RefreshDisplay))))
-
-(set! number->graphic
-  (lambda (number position)
-    (begin
-      (let ( (charnumber (number->string number)) )
-        (if (not (>= position (string-length charnumber)))
-           (begin
-             (PlaceGraphic (- (char->integer (string-ref charnumber position)) 48))
-             (number->graphic number (+ 1 position))))))))
-
-
-
 ;;;;;;;; the main function to run the test
-  (set! runtest 
+(define CountSteps::runtest 
 	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(set! steps (+ 1 (random span)))
-			
-			;;(d-InsertLilyDirective "directive=%Your score so far: ")
-			(d-DirectivePut-score-display "CountSteps" (string-append (string-append  "Score: " (object-&gt;string score)) ". Count the steps in this interval"))
-			
-			(if (= direction 0)
-			    (begin
-			      (shiftdown steps)
-			      (set! direction 1)
-			     (d-Insert2))
-                            (begin
-			     (shiftup steps)
-			     (set! direction 0)
-			     (d-Insert2)))
+	  (if (>= n 0) (begin
+	    		;(set! CountSteps::userinput (d-GetKeypress))
+	                (set! CountSteps::userinput (d-GetChar))
+			(set! CountSteps::userinput 
+                            (string-&gt;number CountSteps::userinput))
+  			(if (not (integer? CountSteps::userinput))
+  			  (set! CountSteps::userinput 1))
 
-			(set! userinput (d-GetChar))
-			(set! userinput (string-&gt;number userinput))
-  			(if (not (integer? userinput))
-  			(set! userinput 1))
+			(CountSteps::intervalchosen CountSteps::userinput)	
+			(CountSteps::runtest CountSteps::num-goes)))))
 
-			(if (number? userinput)
-			    (begin
-			      ;;(d-DeletePreviousObject)
-			      (if  (= steps userinput)
-				   (begin
-				     (set! score (+ score 1))
- 				     (PlaceAnswerStatus "NoteCorrect" "CheckMark") 
-				     (d-ChangeNotehead "Diamond"))
-				   (begin
-				     (set! score (- score 1))
-				     (PlaceAnswerStatus "NoteWrong" "CrossSign")
-				     (d-ChangeNotehead "Cross"))) 		 
-			      (runtest (- n 1))))))))
+			
+(define (CountSteps::plus)
+  (set! CountSteps::interval (+ CountSteps::interval 1))
+  (if (&gt; CountSteps::interval 32)
+      (set! CountSteps::interval 32))
+  (d-DirectivePut-score-display "CountSteps::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;")))
+
+(define (CountSteps::minus)
+  (set! CountSteps::interval (- CountSteps::interval 1))
+  (if (&lt; CountSteps::interval 2)
+      (set! CountSteps::interval 2))
+  (d-DirectivePut-score-display "CountSteps::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;")))
+
+(define (CountSteps::setInterval)
+  (set! CountSteps::interval (string-&gt;number (d-GetUserInput "Interval" "Give number of steps you want to name note over" (object-&gt;string CountSteps::interval))))
+  (if (boolean? CountSteps::interval)
+       (set! CountSteps::interval 8))
+  (if (&lt; CountSteps::interval 2)
+       (set! CountSteps::interval 2))
+  (if (&gt; CountSteps::interval 32)
+      (set! CountSteps::interval 32))
+  (d-DirectivePut-score-display "CountSteps::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;")))
+
+
+(CreateButton "CountSteps::GameMinus" "&lt;b&gt;-&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "CountSteps::GameMinus" "(CountSteps::minus)")
+(CreateButton "CountSteps::GameInterval" (string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;"))
+(d-SetDirectiveTagActionScript "CountSteps::GameInterval" "(CountSteps::setInterval)")
+(CreateButton "CountSteps::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "CountSteps::GamePlus" "(CountSteps::plus)")
+
+
+
+
+
+	  
 
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each interval, hit the number of steps in that interval.\nHow many goes do you want?" "8"))
-  (set! span (d-GetUserInput "Reading Test - Level" "What level are you on? (What is the largest inteval you can count?)" "8"))
-  (set! starttime (car (gettimeofday)))
-  (d-NewWindow)
-  (set! num-goes (string-&gt;number num-goes))
-  (if (not (integer? num-goes))
-  (set! num-goes 10))
-  
-  (set! span (string-&gt;number span))
-  (if (not (integer? span))
-  (set! span 8))
 
-  (shiftup 6)
-  (d-Insert2)
-  (runtest num-goes)
-  ;(d-DirectivePut-score-display  "ReadingNoteNames"  (string-append  "Final Score: " (object-&gt;string score)))
-  (d-InsertLilyDirective "directive=%Your score: ")
-  (number->graphic score 0)
-  (set! endtime (car (gettimeofday))) 
-  (display (- endtime starttime))
-  (d-RefreshDisplay)
+(EducationGames::shiftup 6)
+(d-Insert2)
+(CountSteps::offerNote)
+(set! CountSteps::start (current-time))
+(CountSteps::runtest CountSteps::num-goes)
+(CountSteps::GameOver)
+
+
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
@@ -164,8 +158,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
-        <label>Step Counting</label>
-        <tooltip>%tests your ability to count the steps between notes</tooltip>
+        <label>Step Counting Exercise</label>
+        <tooltip>%tests your ability to find the number of diatonic notes between two notes</tooltip>
       </row>
     </map>
   </merge>

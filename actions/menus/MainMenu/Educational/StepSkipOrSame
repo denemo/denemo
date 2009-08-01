@@ -8,163 +8,165 @@
         <action>StepSkipOrSame</action>
         <scheme>;;;;;;;;;;;;;;;
 		;;StepSkipOrSame
-;; tests if the note goes higher or lower.
-(let (
-      (shiftup 0)
-      (shiftdown 0)
-      (show-graphic 0)
-      (PlaceGraphic 0)
-      (number->graphic 0)
-      (graphic "One")
-      (runtest 0)
-      (PlaceAnswerStatus 0)
-      (userinput #t)
-      (stepstring #t)
-      (score 0)
-      (steps 0)
-      (starttime 0)
-      (endtime 0)
-      (direction 0)
-      (span 3) ;; how many steps of the scale to test.
-      (num-goes 10) ;; how many notes to present for the whole test
-      )
-  ;; set the random seed up using time of day
-  (let ((time (gettimeofday)))
-    (set! *random-state*
-	  (seed-&gt;random-state (+ (car time)
-				 (cdr time)))))
-  (set! shiftup
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorUp)
-			(shiftup (- n 1))))))
 
-  (set! shiftdown
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorDown)
-			(shiftdown (- n 1))))))
-  (set! PlaceAnswerStatus
-  	(lambda (name gfx)
-	  (begin
-	    (d-DirectivePut-note-minpixels name 30)
-	    (d-DirectivePut-note-gx name -15)
-	    (d-DirectivePut-note-gy name 10)
-	    (d-DirectivePut-note-graphic name gfx))))
- 	    
-  (set! show-graphic (lambda (count)
-			  (cond ((zero? count)
-			       (set! graphic "LargeZero"))
-			      ((= 1 count)
-			       (set! graphic "LargeOne"))
-			      ((= 2 count)
-			       (set! graphic "LargeTwo"))
-			      ((= 3 count)
-			       (set! graphic "LargeThree"))
-			      ((= 4 count)
-			       (set! graphic "LargeFour"))
-			      ((= 5 count)
-			       (set! graphic "LargeFive"))
-			      ((= 6 count)
-			       (set! graphic "LargeSix"))
-			      ((= 7 count)
-			       (set! graphic "LargeSeven"))
-			      ((= 8 count)
-			       (set! graphic "LargeEight"))
-			      ((= 9 count)
-			       (set! graphic "LargeNine")))
-			 (d-DirectivePut-standalone-graphic "Score" graphic)
-			 ))
-	
-(set! PlaceGraphic
-  (lambda (numberstring)
-    (begin
-        (d-AppendMeasure)
-        (d-MeasureRight)
-        (show-graphic numberstring)
-        (d-RefreshDisplay))))
+;;StepSkipOrSame
+;; tests interval recognition.
+(define StepSkipOrSame::score 0)
+(define StepSkipOrSame::interval 3)
+(define StepSkipOrSame::start (current-time))
+(define StepSkipOrSame::end (current-time))
+(define StepSkipOrSame::num-goes 30)
+(define StepSkipOrSame::intervalwas #t)
+(define StepSkipOrSame::stepstring #t)
+(define StepSkipOrSame::userinput #t)
+(define StepSkipOrSame::direction 0)
 
-(set! number->graphic
-  (lambda (number position)
-    (begin
-      (let ( (charnumber (number->string number)) )
-        (if (not (>= position (string-length charnumber)))
-           (begin
-             (PlaceGraphic (- (char->integer (string-ref charnumber position)) 48))
-             (number->graphic number (+ 1 position))))))))
+(define (StepSkipOrSame::showscore)
+  (d-DirectivePut-score-display "StepSkipOrSame::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string StepSkipOrSame::score) "&lt;/b&gt; in " (object-&gt;string (- StepSkipOrSame::end StepSkipOrSame::start)) " Secs.")))
 
+(define (StepSkipOrSame::help) 
+  (d-InfoDialog "Is the music moving by a step, skip or staying the same. If the note is going up by skip hit the *k* key. If it is moving by step hit the *t* key. If it is staying the same hit the *a* key")
+)
+
+(define (StepSkipOrSame::GameOver)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string StepSkipOrSame::score)))
+  (d-InfoDialog BufferOne))
+)
+
+(define (StepSkipOrSame::ScoreBoard)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
+  (d-InfoDialog BufferOne))
+)
+
+(CreateButton "StepSkipOrSame::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "StepSkipOrSame::GameScore" "(StepSkipOrSame::ScoreBoard)")
+(CreateButton "StepSkipOrSame::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "StepSkipOrSame::GameHelp" "(StepSkipOrSame::help)")
+
+
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
+(define (StepSkipOrSame::offerNote) 
+(if (>= StepSkipOrSame::num-goes 0)
+	(let ( (steps 0) )
+	  ;;  (d-GoToEnd)
+	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (set! steps (random StepSkipOrSame::interval))
+	  (if (= StepSkipOrSame::direction 0)
+	      (begin
+	            (EducationGames::shiftup steps)
+	            (set! StepSkipOrSame::direction 1))
+	      (begin 
+	            (EducationGames::shiftdown steps)
+	            (set! StepSkipOrSame::direction 0)))
+	    
+          (d-Insert2) 
+	  	     
+	  (if (= steps 0)
+	      (begin
+	        (set! StepSkipOrSame::stepstring "a")))
+          (if (= steps 1)
+	      (begin
+		(set! StepSkipOrSame::stepstring "t")))
+	  (if (>= steps 2)
+	      (begin
+		(set! StepSkipOrSame::stepstring "k")))
+
+	  
+          (StepSkipOrSame::showscore)
+	  (set! StepSkipOrSame::num-goes (-  StepSkipOrSame::num-goes 1))
+	  )
+	))
+
+;;;;;;;;; callback when user chooses a note
+(define (StepSkipOrSame::intervalchosen interval)
+		      (begin
+			(set! StepSkipOrSame::end (current-time))
+			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(if  (string=? StepSkipOrSame::stepstring interval)
+			     (begin
+			       (set! StepSkipOrSame::score (+ StepSkipOrSame::score 1))
+			       (EducationGames::PlaceAnswerStatus "CheckMark")
+			       (d-ChangeNotehead "Diamond"))
+			     (begin
+			       (set! StepSkipOrSame::score (- StepSkipOrSame::score 1))
+			       (EducationGames::PlaceAnswerStatus "CrossSign")
+			       (d-ChangeNotehead "Cross"))) 
+			       (StepSkipOrSame::offerNote)
+			       ))
 	
 ;;;;;;;; the main function to run the test
-  (set! runtest 
+(define StepSkipOrSame::runtest 
 	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(set! steps (random span))
-			(set! direction (random 2))
+	  (if (>= n 0) (begin
+	    		(set! StepSkipOrSame::userinput (d-GetChar))
+			(StepSkipOrSame::intervalchosen StepSkipOrSame::userinput)	
+			(StepSkipOrSame::runtest StepSkipOrSame::num-goes)))))
+
 			
-			;;(d-InsertLilyDirective "directive=%Your score so far: ")
-			(d-DirectivePut-score-display "StepSkipOrSame" (string-append (string-append  "Score: " (object-&gt;string score)) ". Is this note going up or down?"))
-			(if (= direction 0)
-			    (begin
-			      (shiftdown steps)
-                              (d-Insert2)))
-                         (if (= direction 1)
-                            (begin
-			      (shiftup steps)
-                              (d-Insert2)))
-			     
-			(if (= steps 0)
-			    (begin
-				(set! stepstring "a")))
-                        (if (= steps 1)
-			    (begin
-			 	(set! stepstring "t")))
-			(if (= steps 2)
-			    (begin
-				(set! stepstring "k")))
+(define (StepSkipOrSame::plus)
+  (set! StepSkipOrSame::interval (+ StepSkipOrSame::interval 1))
+  (if (&gt; StepSkipOrSame::interval 32)
+      (set! StepSkipOrSame::interval 32))
+  (d-DirectivePut-score-display "StepSkipOrSame::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string StepSkipOrSame::interval) "&lt;/span&gt;")))
 
-			(set! userinput  (d-GetChar))
+(define (StepSkipOrSame::minus)
+  (set! StepSkipOrSame::interval (- StepSkipOrSame::interval 1))
+  (if (&lt; StepSkipOrSame::interval 2)
+      (set! StepSkipOrSame::interval 2))
+  (d-DirectivePut-score-display "StepSkipOrSame::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string StepSkipOrSame::interval) "&lt;/span&gt;")))
 
-			(if (string? userinput)
-			    (begin
-			      ;;(d-DeletePreviousObject)
-			      (if  (string=? stepstring  userinput)
-				   (begin
-				     (set! score (+ score 1))
-  				     (PlaceAnswerStatus "NoteCorrect" "CheckMark")
-				     (d-ChangeNotehead "Diamond"))
-				   (begin
-				     (set! score (- score 1))
-				     (PlaceAnswerStatus "NoteWrong" "CrossSign")
-				     (d-ChangeNotehead "Cross"))) 		 
-			      (runtest (- n 1))))))))
+(define (StepSkipOrSame::setInterval)
+  (set! StepSkipOrSame::interval (string-&gt;number (d-GetUserInput "Interval" "Give number of steps you want to name note over" (object-&gt;string StepSkipOrSame::interval))))
+  (if (boolean? StepSkipOrSame::interval)
+       (set! StepSkipOrSame::interval 8))
+  (if (&lt; StepSkipOrSame::interval 2)
+       (set! StepSkipOrSame::interval 2))
+  (if (&gt; StepSkipOrSame::interval 32)
+      (set! StepSkipOrSame::interval 32))
+  (d-DirectivePut-score-display "StepSkipOrSame::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string StepSkipOrSame::interval) "&lt;/span&gt;")))
+
+
+(CreateButton "StepSkipOrSame::GameMinus" "&lt;b&gt;-&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "StepSkipOrSame::GameMinus" "(StepSkipOrSame::minus)")
+(CreateButton "StepSkipOrSame::GameInterval" (string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string StepSkipOrSame::interval) "&lt;/span&gt;"))
+(d-SetDirectiveTagActionScript "StepSkipOrSame::GameInterval" "(StepSkipOrSame::setInterval)")
+(CreateButton "StepSkipOrSame::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "StepSkipOrSame::GamePlus" "(StepSkipOrSame::plus)")	  
+
+(define (StepSkipOrSame::createbuttons position ustring)
+  (CreateButton (string-append "StepSkipOrSame::" position)  (string-append " &lt;span font_desc=\"32\" foreground=\"blue\"&gt;" position  "&lt;/span&gt;"))
+  (d-SetDirectiveTagActionScript  (string-append "StepSkipOrSame::" position) (string-append "(StepSkipOrSame::intervalchosen \"" ustring "\")")))
+
+(StepSkipOrSame::createbuttons "step" "t")
+(StepSkipOrSame::createbuttons "skip" "k")
+(StepSkipOrSame::createbuttons "same" "a")
+
+
 
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Reading Test - Instructions" "For each note, hit *t* if the note is moving by step, *k* for a skip, and *a* if the note stays the same.\nHow many goes do you want?" "8"))
-  ;(set! num-goes "8")
-  (set! starttime (car (gettimeofday)))
-  (d-NewWindow)
-  (set! num-goes (string-&gt;number num-goes))
-  (if (not (integer? num-goes))
-      (set! num-goes 10))
-  (shiftup 6)
-  (d-Insert2)
-  (runtest num-goes)
-  (d-DirectivePut-score-display  "StepSkipOrSame"  (string-append  "Final Score: " (object-&gt;string score)))
-  (d-InsertLilyDirective "directive=%Your score: ")
-  (number->graphic score 0)
-  (set! endtime (car (gettimeofday))) 
-  (display (- endtime starttime))
-  (d-RefreshDisplay)
+
+(EducationGames::shiftup 6)
+(d-Insert2)
+(StepSkipOrSame::offerNote)
+(set! StepSkipOrSame::start (current-time))
+(StepSkipOrSame::runtest StepSkipOrSame::num-goes)
+(StepSkipOrSame::GameOver)
+
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
-        <label>Beginner Interval Detection</label>
+        <label>Step, Skip, or Same?</label>
         <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
       </row>
     </map>
