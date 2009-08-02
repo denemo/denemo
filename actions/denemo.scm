@@ -352,19 +352,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (d-UploadRoutine name a b c)
+(define (d-UploadRoutine name script initscript command)
+  (d-PutTextClipboard script)
   (display (string-append "
 ;;;Your command " name " script follows
 "))
- (display a)
+ (display script)
   (display "
 ;;;init.scm script follows
 ")
- (display b)
+ (display initscript)
   (display " 
 ;;;xml which loads this command follows
 ")
- (display c)
+ (display command)
   (display "
 ")
 )
