@@ -72,9 +72,10 @@ initprefs ()
   /* Reasonable default values */
 
   ret->csoundcommand = g_string_new ("csound -dm6");
-  ret->browser = g_string_new ("firefox");
+
   ret->csoundorcfile = g_string_new ("");
 #ifdef G_OS_WIN32
+  ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("wmplayer");
   ret->audioplayer = g_string_new ("wmplayer");
   ret->lilypath = g_string_new ("lilypond-windows");
@@ -82,6 +83,7 @@ initprefs ()
   ret->imageviewer = g_string_new ("mspaint");
   ret->texteditor = g_string_new ("wordpad");
 #else /* !G_OS_WIN32 */
+  ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("playmidi");
   ret->audioplayer = g_string_new ("play");
   ret->lilypath = g_string_new ("lilypond");
