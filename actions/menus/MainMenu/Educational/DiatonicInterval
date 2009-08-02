@@ -8,157 +8,149 @@
         <action>DiatonicInterval</action>
         <scheme>;;;;;;;;;;;;;;;
 ;;DiatonicInterval
-;; tests note name recognition.
-(let (
-      (shiftup 0)
-      (shiftdown 0)
-      (show-graphic 0)
-      (PlaceGraphic 0)
-      (number->graphic 0)
-      (graphic "One")
-      (runtest 0)
-      (PlaceAnswerStatus 0)
-      (notewas #t)
-      (userinput 0)
-      (score 0)
-      (steps 0)
-      (interval 0)
-      (starttime 0)
-      (endtime 0)
-      (direction 0)
-      (span 8) ;; how many steps of the scale to test. perhaps have many cummulative levels 
-      (num-goes 10) ;; how many notes to present for the whole test
-      )
-  ;; set the random seed up using time of day
-  (let ((time (gettimeofday)))
-    (set! *random-state*
-	  (seed-&gt;random-state (+ (car time)
-				 (cdr time)))))
-  (set! shiftup
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorUp)
-			(shiftup (- n 1))))))
+;; tests interval recognition.
+(define DiatonicInterval::score 0)
+(define DiatonicInterval::interval 3)
+(define DiatonicInterval::start (current-time))
+(define DiatonicInterval::end (current-time))
+(define DiatonicInterval::num-goes 30)
+(define DiatonicInterval::intervalwas #t)
+(define DiatonicInterval::userinput #t)
+(define DiatonicInterval::direction 0)
 
-  (set! shiftdown
-	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(d-CursorDown)
-			(shiftdown (- n 1))))))
-  (set! PlaceAnswerStatus
-  	(lambda (name gfx)
-	  (begin
-	    (d-DirectivePut-note-minpixels name 30)
-	    (d-DirectivePut-note-gx name -15)
-	    (d-DirectivePut-note-gy name 10)
-	    (d-DirectivePut-note-graphic name gfx))))
+(define (DiatonicInterval::showscore)
+  (d-DirectivePut-score-display "DiatonicInterval::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string DiatonicInterval::score) "&lt;/b&gt; in " (object-&gt;string (- DiatonicInterval::end DiatonicInterval::start)) " Secs.")))
 
-  (set! show-graphic (lambda (count)
-			  (cond ((zero? count)
-			       (set! graphic "LargeZero"))
-			      ((= 1 count)
-			       (set! graphic "LargeOne"))
-			      ((= 2 count)
-			       (set! graphic "LargeTwo"))
-			      ((= 3 count)
-			       (set! graphic "LargeThree"))
-			      ((= 4 count)
-			       (set! graphic "LargeFour"))
-			      ((= 5 count)
-			       (set! graphic "LargeFive"))
-			      ((= 6 count)
-			       (set! graphic "LargeSix"))
-			      ((= 7 count)
-			       (set! graphic "LargeSeven"))
-			      ((= 8 count)
-			       (set! graphic "LargeEight"))
-			      ((= 9 count)
-			       (set! graphic "LargeNine")))
-			 (d-DirectivePut-standalone-graphic "Score" graphic)
-			 ))
-	
-(set! PlaceGraphic
-  (lambda (numberstring)
-    (begin
-        (d-AppendMeasure)
-        (d-MeasureRight)
-        (show-graphic numberstring)
-        (d-RefreshDisplay))))
+(define (DiatonicInterval::help) 
+  (d-InfoDialog "Enter the interval value that the note changes. If the note moves by a 2nd hit 2, by a 3rd hit 3 etc..... ")
+)
 
-(set! number->graphic
-  (lambda (number position)
-    (begin
-      (let ( (charnumber (number->string number)) )
-        (if (not (>= position (string-length charnumber)))
-           (begin
-             (PlaceGraphic (- (char->integer (string-ref charnumber position)) 48))
-             (number->graphic number (+ 1 position))))))))
+(define (DiatonicInterval::GameOver)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string DiatonicInterval::score)))
+  (d-InfoDialog BufferOne))
+)
 
+(define (DiatonicInterval::ScoreBoard)
+  (let ( (BufferOne "") )
+   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
+  (d-InfoDialog BufferOne))
+)
+
+(CreateButton "DiatonicInterval::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
+(d-SetDirectiveTagActionScript "DiatonicInterval::GameScore" "(DiatonicInterval::ScoreBoard)")
+(CreateButton "DiatonicInterval::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "DiatonicInterval::GameHelp" "(DiatonicInterval::help)")
+
+
+;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
+(define (DiatonicInterval::offerNote) 
+(if (>= DiatonicInterval::num-goes 0)
+	(let ( (steps 0) )
+	  ;;  (d-GoToEnd)
+	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (set! steps (random DiatonicInterval::interval))
+	  (if (= steps 0)
+	    (set! steps (+ steps 1)))
+	  (if (= DiatonicInterval::direction 0)
+	      (begin
+	            (EducationGames::shiftup steps)
+	            (set! DiatonicInterval::direction 1))
+	      (begin 
+	            (EducationGames::shiftdown steps)
+	            (set! DiatonicInterval::direction 0)))
+	    
+          (d-Insert2) 
+          (set! DiatonicInterval::intervalwas (+ 1 steps))
+
+          (DiatonicInterval::showscore)
+	  (set! DiatonicInterval::num-goes (-  DiatonicInterval::num-goes 1))
+	  )
+	))
+
+;;;;;;;;; callback when user chooses a note
+(define (DiatonicInterval::intervalchosen interval)
+		      (begin
+			(set! DiatonicInterval::end (current-time))
+			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(if  (= DiatonicInterval::intervalwas interval)
+			     (begin
+			       (set! DiatonicInterval::score (+ DiatonicInterval::score 1))
+			       (EducationGames::PlaceAnswerStatus "CheckMark")
+			       (d-ChangeNotehead "Diamond"))
+			     (begin
+			       (set! DiatonicInterval::score (- DiatonicInterval::score 1))
+			       (EducationGames::PlaceAnswerStatus "CrossSign")
+			       (d-ChangeNotehead "Cross"))) 
+			       (DiatonicInterval::offerNote)
+			       ))
 	
 ;;;;;;;; the main function to run the test
-  (set! runtest 
+(define DiatonicInterval::runtest 
 	(lambda (n)
-	  (if (&gt; n 0) (begin
-			(set! steps (+ 1 (random span)))
-			
-			;;(d-InsertLilyDirective "directive=%Your score so far: ")
-			(d-DirectivePut-score-display "CountSteps" (string-append (string-append  "Score: " (object-&gt;string score)) ". Count the steps in this interval"))
-			
-			(if (= direction 0)
-			    (begin
-			      (shiftdown steps)
-			      (set! direction 1)
-			     (d-Insert2))
-                            (begin
-			     (shiftup steps)
-			     (set! direction 0)
-			     (d-Insert2)))
-			     
-			(set! userinput (d-GetChar))
-			(set! userinput (string-&gt;number userinput))
-  			(if (not (integer? userinput))
-  			  (set! userinput 1))
+	  (if (>= n 0) (begin
+	    		;(set! DiatonicInterval::userinput (d-GetKeypress))
+	                (set! DiatonicInterval::userinput (d-GetChar))
+			(set! DiatonicInterval::userinput 
+                            (string-&gt;number DiatonicInterval::userinput))
+  			(if (not (integer? DiatonicInterval::userinput))
+  			  (set! DiatonicInterval::userinput 1))
 
-			(if (number? userinput)
-			    (begin
-			    ;;(d-DeletePreviousObject)
-			      (set! interval (+ steps 1))
-			      (if  (= interval userinput)
-				   (begin
-				     (set! score (+ score 1))
-				     (PlaceAnswerStatus "NoteCorrect" "CheckMark")
-				     (d-ChangeNotehead "Diamond"))
-				   (begin
-				     (set! score (- score 1))
-                                     (PlaceAnswerStatus "NoteWrong" "CrossSign")
-				     (d-ChangeNotehead "Cross"))) 		 
-			      (runtest (- n 1))))))))
+			(DiatonicInterval::intervalchosen DiatonicInterval::userinput)	
+			(DiatonicInterval::runtest DiatonicInterval::num-goes)))))
+
+			
+(define (DiatonicInterval::plus)
+  (set! DiatonicInterval::interval (+ DiatonicInterval::interval 1))
+  (if (&gt; DiatonicInterval::interval 32)
+      (set! DiatonicInterval::interval 32))
+  (d-DirectivePut-score-display "DiatonicInterval::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;")))
+
+(define (DiatonicInterval::minus)
+  (set! DiatonicInterval::interval (- DiatonicInterval::interval 1))
+  (if (&lt; DiatonicInterval::interval 2)
+      (set! DiatonicInterval::interval 2))
+  (d-DirectivePut-score-display "DiatonicInterval::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;")))
+
+(define (DiatonicInterval::setInterval)
+  (set! DiatonicInterval::interval (string-&gt;number (d-GetUserInput "Interval" "Give number of steps you want to name note over" (object-&gt;string DiatonicInterval::interval))))
+  (if (boolean? DiatonicInterval::interval)
+       (set! DiatonicInterval::interval 8))
+  (if (&lt; DiatonicInterval::interval 2)
+       (set! DiatonicInterval::interval 2))
+  (if (&gt; DiatonicInterval::interval 32)
+      (set! DiatonicInterval::interval 32))
+  (d-DirectivePut-score-display "DiatonicInterval::GameInterval"
+				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;")))
+
+
+(CreateButton "DiatonicInterval::GameMinus" "&lt;b&gt;-&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "DiatonicInterval::GameMinus" "(DiatonicInterval::minus)")
+(CreateButton "DiatonicInterval::GameInterval" (string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;"))
+(d-SetDirectiveTagActionScript "DiatonicInterval::GameInterval" "(DiatonicInterval::setInterval)")
+(CreateButton "DiatonicInterval::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
+(d-SetDirectiveTagActionScript "DiatonicInterval::GamePlus" "(DiatonicInterval::plus)")
+
+
+
+
+
+	  
 
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  (set! num-goes (d-GetUserInput "Diatoinic Interval - Instructions" "For each interval, hit the number corresponding to the interval name.\nHow many goes do you want?" "8"))
-  (set! span (d-GetUserInput "Reading Test - Level" "What level are you on? (What is the largest inteval you can count?)" "8"))
-  (set! starttime (car (gettimeofday)))
-  (d-NewWindow)
-  (set! num-goes (string-&gt;number num-goes))
-  (if (not (integer? num-goes))
-  (set! num-goes 10))
-  
-  (set! span (string-&gt;number span))
-  (set! span (- span 1)) 
-  (if (not (integer? span))
-    (set! span 8))
 
-  (shiftup 6)
-  (d-Insert2)
-  (runtest num-goes)
-  (d-DirectivePut-score-display  "DiatonicInterval"  (string-append  "Final Score: " (object-&gt;string score)))
-  (d-InsertLilyDirective "directive=%Your score: ")
-  (number->graphic score 0)
-  (set! endtime (car (gettimeofday))) 
-  (display (- endtime starttime))
-  (d-RefreshDisplay)
+(EducationGames::shiftup 6)
+(d-Insert2)
+(DiatonicInterval::offerNote)
+(set! DiatonicInterval::start (current-time))
+(DiatonicInterval::runtest DiatonicInterval::num-goes)
+(DiatonicInterval::GameOver)
+
+
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
