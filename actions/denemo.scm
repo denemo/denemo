@@ -349,6 +349,22 @@
 (define (CreateButton tag label)
   (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-score-display tag label))
-(define (UploadScript filename)
-  (d-Help "http://denemo.org/index.php/Special:Upload")
-  (d-WarningDialog (string-append "Wait for the browser to open, login, then\nPaste this filename into the upload box:\n" filename)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (d-UploadRoutine name a b c)
+  (display (string-append "
+;;;Your command " name " script follows
+"))
+ (display a)
+  (display "
+;;;init.scm script follows
+")
+ (display b)
+  (display " 
+;;;xml which loads this command follows
+")
+ (display c)
+  (display "
+")
+)
