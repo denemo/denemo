@@ -2171,7 +2171,7 @@ simple_element:
 
 	}
 	| STRING_ optional_notemode_duration 	{
-		DenemoObject *mud = newlyric($2.t1.a, $2.t1.b, $1.gstr->str);
+		DenemoObject *mud = NULL;//newlyric($2.t1.a, $2.t1.b, $1.gstr->str);
 	if(mud) {
 		mud->user_string = $1.user_string;
 	        mud->type = LYRICS;
@@ -2817,7 +2817,7 @@ parser_error (gchar * text, int line_number)
       if (!parser_error_dialog)
 	{
 	/*warningdialog("Unable to load this file - quitting");*/
-	return(-1);
+	return;
 	}
     }
   else
@@ -3059,7 +3059,7 @@ type_name(gint type)
 	    if (i > YYNTOKENS)
 		return("");
 	}
-	return yytname[i];
+	return (gchar*)yytname[i];
 }
 
 #endif
