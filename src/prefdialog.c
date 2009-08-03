@@ -320,6 +320,8 @@ preferences_change (GtkAction *action, gpointer param)
  
   TEXTENTRY("Path to Lilypond", lilypath)
   TEXTENTRY("Pdf Viewer", pdfviewer)
+  TEXTENTRY("File/Internet Browser", browser)
+
   TEXTENTRY("Image Viewer", imageviewer)
   TEXTENTRY("Text Editor", texteditor)
   TEXTENTRY("Default Save Path", denemopath)
@@ -398,11 +400,13 @@ preferences_change (GtkAction *action, gpointer param)
   */
  
   /*
-   * Excerpt Menu 
+   * Misc Menu 
    */
-  NEWPAGE("Excerpt");
+  NEWPAGE("Misc");
  
-  INTENTRY_LIMITS(_("resolution"), resolution, 72, 600);
+  INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
+
+  INTENTRY(_("Max recent files"), maxhistory)
 
   /*
    * Jack Menu
@@ -426,9 +430,7 @@ preferences_change (GtkAction *action, gpointer param)
   /*
    * Help settings
    */
-  NEWPAGE("Help Settings")
-  TEXTENTRY("Help Browser", browser)
-  INTENTRY(_("Max recent files"), maxhistory)
+  //  NEWPAGE("Help Settings")
 
   /* Set up the callback data */
 
