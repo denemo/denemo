@@ -82,4 +82,7 @@ gchar *
 create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int hiy);
 gchar *
 get_icon_for_name(gchar *name, gchar *label);
+
+void
+upload_edit_script(gchar *tag, gchar *script);
 #endif

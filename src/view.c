@@ -3632,6 +3632,26 @@ static void put_initialization_script (GtkWidget *widget, gchar *directory) {
   }
 }
 
+/* upload scripts for command/tag name.
+for tags:
+   xml is "" for an edit script and name is the tag
+for commands:
+   xml is the command set file for merging the cpmmand as a new menu item
+   the script is given in scheme and any initialization script for the menu is given in init_script
+*/
+static void 
+upload_scripts(gchar *name, gchar *script, gchar *init_script, gchar *command) {
+  SCM func_symbol;
+  SCM func;	
+  func_symbol = scm_c_lookup("d-UploadRoutine");
+  func = scm_variable_ref(func_symbol);    
+#define ARG(s) scm_from_locale_string(s) 
+  scm_call_4(func, ARG(command), ARG(name), ARG(script), ARG(init_script));
+#undef ARG  
+}
+
+
+
 /* save the action (which must be a script),
    setting the script text to the script currently in the ScriptView
    The save is to the user's menu hierarchy on disk
@@ -3683,99 +3703,25 @@ static void uploadMenuItem (GtkWidget *widget, GtkAction *action) {
   if(init_script==NULL) init_script = "";
   if(script==NULL) script = "";
 
-
-  gchar *output = g_build_filename(locatedotdenemo (), "upload.xml", NULL);
-  FILE *fp = fopen(output, "w");
-
 #if 0
-  gchar *prolog = "<mediawiki xmlns=\"http://www.mediawiki.org/xml/export-0.3/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.mediawiki.org/xml/export-0.3/ http://www.mediawiki.org/xml/export-0.3.xsd\" version=\"0.3\" xml:lang=\"en\">\n\
-  <siteinfo>\n\
-    <sitename>Denemo - Open Source Music Notation Editor</sitename>\n\
-    <base>http://www.denemo.org/index.php/Main_Page</base>\n\
-    <generator>MediaWiki 1.14.0</generator>\n\
-    <case>first-letter</case>\n\
-      <namespaces>\n\
-      <namespace key=\"-2\">Media</namespace>\n\
-      <namespace key=\"-1\">Special</namespace>\n\
-      <namespace key=\"0\" />\n\
-      <namespace key=\"1\">Talk</namespace>\n\
-      <namespace key=\"2\">User</namespace>\n\
-      <namespace key=\"3\">User talk</namespace>\n\
-      <namespace key=\"4\">Denemo - Open Source Music Notation Editor</namespace>\n\
-      <namespace key=\"5\">Denemo - Open Source Music Notation Editor talk</namespace>\n\
-      <namespace key=\"6\">File</namespace>\n\
-      <namespace key=\"7\">File talk</namespace>\n\
-      <namespace key=\"8\">MediaWiki</namespace>\n\
-      <namespace key=\"9\">MediaWiki talk</namespace>\n\
-      <namespace key=\"10\">Template</namespace>\n\
-      <namespace key=\"11\">Template talk</namespace>\n\
-      <namespace key=\"12\">Help</namespace>\n\
-      <namespace key=\"13\">Help talk</namespace>\n\
-      <namespace key=\"14\">Category</namespace>\n\
-      <namespace key=\"15\">Category talk</namespace>\n\
-    </namespaces>\n\
-  </siteinfo>\n\
-  <page>\n\
-    <title>Script:Test</title>\n\
-    <id>75</id>\n\
-    <revision>\n\
-      <id>421</id>\n\
-      <timestamp>2009-09-01T11:26:49Z</timestamp>\n\
-      <contributor>\n\
-        <username>Jon Hammer</username>\n\
-        <id>2</id>\n\
-      </contributor>\n\
-      <comment>Megatest</comment>\n\
-      <text xml:space=\"preserve\">\n\
-{{Script\n\
-|Name = Scripts Name\n\
-|Author =  Uli\n\
-|Label = Menu label\n\
-|License = GPL, LGPL or Public Domain\n\
-|Explanation = What does it do?\n\
-|SubLabel = Is is part of a submenu?\n\
-|Version = Denemo Version\n\
-}}\n";
-
-  gchar *highlight_scheme = "<![CDATA[<syntaxhighlight lang=\"scheme\">]]>\n";
-  gchar *highlight_xml = "<![CDATA[<syntaxhighlight lang=\"xml\">]]>\n";
-  gchar *end_highlight = "<![CDATA[</syntaxhighlight>]]>\n";
-  gchar *epilog = "</text>\n\
-    </revision>\n\
-  </page>\n\
-</mediawiki>";
-
-#endif
-
-  if(fp) {
-
-#if 1
-
-    SCM func_symbol;
-    SCM func;	
-    func_symbol = scm_c_lookup("d-UploadRoutine");
-    func = scm_variable_ref(func_symbol);
-    
-    
+  SCM func_symbol;
+  SCM func;	
+  func_symbol = scm_c_lookup("d-UploadRoutine");
+  func = scm_variable_ref(func_symbol);    
 #define ARG(s) scm_from_locale_string(s) 
-    scm_call_4(func, ARG(name), ARG(script), ARG(init_script), ARG(xml));
-#undef ARG
-    
+  scm_call_4(func, ARG(name), ARG(script), ARG(init_script), ARG(xml));
+#undef ARG  
 #else
-    fprintf(fp, "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", prolog, highlight_scheme, script, end_highlight, highlight_scheme, init_script, end_highlight, highlight_xml, xml, end_highlight, epilog);
-    fclose(fp);
-    call_out_to_guile("(d-Help \"some url\")");
-
+  upload_scripts(name, script, init_script, xml);
 #endif
-
-  }
-  else
-    g_warning("Could not open Upload.xml in .denemo\n");
-    g_free(filename);
 }
 
 
-
+/* upload editscript for tag */
+void
+upload_edit_script(gchar *tag, gchar *script) {
+  upload_scripts(tag,script,"","");
+}
 
 
 static const gchar *

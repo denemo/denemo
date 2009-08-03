@@ -351,21 +351,31 @@
   (d-DirectivePut-score-display tag label))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define (d-UploadRoutine name script initscript command)
+;;;; if command is "" then upload an ediscript in scheme for the tag name (goes in actions/editscripts/tag.scm
+;;;; otherwise command is the menu item, written in xml to be merged into a command set
+;;;; script is the script the command contains, in scheme
+;;;; init_script is the initialization script that the containing menu directory should have - init.scm
+(define (d-UploadRoutine command name script initscript)
   (d-PutTextClipboard script)
-  (display (string-append "
+
+(if (equal? "" command)
+    (begin
+ (display (string-append "
+;;;Your editscript for tag " name " follows
+"))
+ (display script))
+    (begin
+      (display (string-append "
 ;;;Your command " name " script follows
 "))
- (display script)
-  (display "
+      (display script)
+      (display "
 ;;;init.scm script follows
 ")
- (display initscript)
-  (display " 
+      (display initscript)
+      (display " 
 ;;;xml which loads this command follows
 ")
- (display command)
-  (display "
-")
-)
+      (display command)
+      (display "
+"))))

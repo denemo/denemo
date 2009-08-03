@@ -1763,6 +1763,20 @@ ADD_INTTEXT(gy);
   g_string_free(scheme, TRUE);
 }
 
+
+/* callback to get an upload script of name tag */
+static void upload_edit_script_cb (GtkWidget *widget, gchar *tag) {
+  gchar *filename = get_editscript_filename(tag);
+  if(filename){
+    GError *error = NULL;
+    gchar *script;
+    if(g_file_get_contents (filename, &script, NULL, &error))
+      upload_edit_script(tag, script);
+    g_free(script);
+    g_free(filename);
+  }
+}
+
 /* callback to get an edit script of name tag */
 static void get_edit_script (GtkWidget *widget, gchar *tag) {
   gchar *filename = get_editscript_filename(tag);
@@ -1777,6 +1791,8 @@ static void get_edit_script (GtkWidget *widget, gchar *tag) {
     g_free(filename);
   }
 }
+
+
 /* callback to save the scheme script text buffer as an edit script of name tag in the user's local denemo directory */
 static void put_edit_script (GtkWidget *widget, gchar *tag) {
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tag, NULL);
@@ -1887,6 +1903,10 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   button = gtk_button_new_with_label("Put Edit Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(put_edit_script), directive->tag->str);
+
+  button = gtk_button_new_with_label("Upload Edit Script");
+  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+  g_signal_connect(G_OBJECT(button),"clicked",  G_CALLBACK(upload_edit_script_cb), directive->tag->str);
   button = gtk_check_button_new_with_label("Show Current Script");
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"), button);
