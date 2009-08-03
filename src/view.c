@@ -1373,6 +1373,14 @@ SCM scheme_get_lyric(void) {
  return  scm;
 }
 
+static
+SCM scheme_get_username(void) {
+  return scm_makfrom0str(Denemo.prefs.username->str);
+}
+static
+SCM scheme_get_password(void) {
+  return scm_makfrom0str(Denemo.prefs.password->str);
+}
 
 
 static
@@ -2381,6 +2389,10 @@ INSTALL_EDIT(movementcontrol);
   /* test with (display (d-DirectiveGet-note-display "LHfinger")) after attaching a LH finger directive */
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutTextClipboard", scheme_put_text_clipboard);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetLyric", scheme_get_lyric);
+
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetUserName", scheme_get_username);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
+
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
