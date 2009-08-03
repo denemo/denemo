@@ -66,14 +66,27 @@ gchar * process_http(int sockfd, char *host, char *page, char *poststr)
   GString *gstr = g_string_new ("");
 	char sendline[MAXLINE + 1], recvline[MAXLINE + 1];
 	ssize_t n;
+#if 1
 	snprintf(sendline, MAXSUB,
 		 "POST %s HTTP/1.0\r\n"
 		 "Host: %s\r\n"
 		 "Content-type: application/x-www-form-urlencoded\r\n"
 		 "Content-length: %d\r\n\r\n"
 		 "%s", page, host, strlen(poststr), poststr);
-
+	g_print("about to write %s\n", sendline);
 	write(sockfd, sendline, strlen(sendline));
+#else
+	GString *out = g_string_new("");
+	g_string_append_printf(out, "POST %s HTTP/1.0\r\n"
+			       "Host: %s\r\n"
+		 "Content-type: application/x-www-form-urlencoded\r\n"
+		 "Content-length: %d\r\n\r\n"
+			       "%s", page, host, strlen(poststr), poststr);
+
+	//g_print("about to write %s\n", out->str);
+	write(sockfd, out->str, out->len);
+	g_string_free(out, TRUE);
+#endif
 	while ((n = read(sockfd, recvline, MAXLINE)) > 0) {
 		recvline[n] = '\0';
 		g_string_append(gstr,  recvline);
@@ -98,9 +111,8 @@ gchar *post_denemodotorg(char *hname, char *page, char* poststr)
 	printf("hostname: %s\n", hptr->h_name);
 	if (hptr->h_addrtype == AF_INET
 	    && (pptr = hptr->h_addr_list) != NULL) {
-		printf("address: %s\n",
-		       inet_ntop(hptr->h_addrtype, *pptr, str,
-				 sizeof(str)));
+	  inet_ntop(hptr->h_addrtype, *pptr, str,
+		    sizeof(str));
 	} else {
 		fprintf(stderr, "Error call inet_ntop \n");
 	}
