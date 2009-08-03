@@ -42,6 +42,8 @@ struct callbackdata
   GtkWidget *browser;
   GtkWidget *pdfviewer;
   GtkWidget *imageviewer;
+  GtkWidget *username;
+  GtkWidget *password;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
 #ifdef _HAVE_JACK_
@@ -141,6 +143,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
   ASSIGNTEXT(imageviewer)
+  ASSIGNTEXT(username)
+  ASSIGNTEXT(password)
   ASSIGNTEXT(texteditor)
   ASSIGNTEXT(denemopath)
   ASSIGNTEXT(sequencer)
@@ -407,7 +411,8 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
 
   INTENTRY(_("Max recent files"), maxhistory)
-
+    TEXTENTRY("User Name", username)
+    TEXTENTRY("Password for Denemo.org", password)
   /*
    * Jack Menu
    */

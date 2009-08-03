@@ -337,6 +337,8 @@ typedef struct DenemoPrefs
   gboolean *jack_at_startup; /**< toggle on and off jack initialization at startup */
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
+  GString *username; /**< Username for use on denemo.org website */
+  GString *password; /**< password  for use on denemo.org website (blank means prompt for username) */
   GString *texteditor; /**< texteditor for editing scripts and lilypond files */
   GString *denemopath; /**< path were denemo files are saved */
   GQueue *history; /**< Queue to contain recently opened files */

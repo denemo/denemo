@@ -74,6 +74,10 @@ initprefs ()
   ret->csoundcommand = g_string_new ("csound -dm6");
 
   ret->csoundorcfile = g_string_new ("");
+  const gchar *name = g_get_user_name();
+  ret->username = g_string_new (name?name:"DenemoUser");
+  ret->password = g_string_new ("");
+
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("wmplayer");
@@ -223,7 +227,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(autosave)
       
       READXMLENTRY(pdfviewer)
-      READXMLENTRY(imageviewer)           
+      READXMLENTRY(imageviewer)    
+      READXMLENTRY(username)    
+      READXMLENTRY(password)           
       READXMLENTRY(texteditor)            
       READXMLENTRY(denemopath)          
       READXMLENTRY(temperament)
@@ -425,6 +431,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(csoundorcfile)  
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
+  WRITEXMLENTRY(username)
+  WRITEXMLENTRY(password)
   WRITEXMLENTRY(texteditor) 
   WRITEXMLENTRY(denemopath)
   WRITEXMLENTRY(temperament)
