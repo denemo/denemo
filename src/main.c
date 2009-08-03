@@ -451,12 +451,12 @@ main (int argc, char *argv[])
   g_setenv ("FONTCONFIG_FILE", fc_file, TRUE);
   g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
 
-  /* Ugh, how to get/expand %ProgramFiles% ?
-     Let's hope user installs below Program Files... */
-  gchar *program_files = g_build_filename (prefix, "..", "..", NULL);
+
+  gchar *program_files =  g_get_env("PROGRAMFILES");
   gchar *path = g_getenv ("PATH");
   path = g_strconcat (path, ";", program_files, "/Windows Media Player", NULL);
   path = g_strconcat (path, ";", program_files, "/Adobe/Reader 8.0/Reader", NULL);
+  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 9.0/Reader", NULL);
   g_setenv ("PATH", path, TRUE);
 
 #endif
