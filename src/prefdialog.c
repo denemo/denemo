@@ -52,6 +52,7 @@ struct callbackdata
   GtkWidget *jack_at_startup;
 #endif
   GtkWidget *texteditor;
+  GtkWidget *midiplayer;
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
@@ -146,6 +147,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
   ASSIGNTEXT(texteditor)
+  ASSIGNTEXT(midiplayer)
   ASSIGNTEXT(denemopath)
   ASSIGNTEXT(sequencer)
   ASSIGNTEXT(midi_in)
@@ -328,6 +330,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   TEXTENTRY("Image Viewer", imageviewer)
   TEXTENTRY("Text Editor", texteditor)
+  TEXTENTRY("Midi Player", midiplayer)
+
   TEXTENTRY("Default Save Path", denemopath)
   BOOLEANENTRY("Update the command set on startup", autoupdate);
   /*
@@ -447,14 +451,6 @@ preferences_change (GtkAction *action, gpointer param)
   SETCALLBACKDATA(autosave_timeout); 
   SETCALLBACKDATA(maxhistory);
   
-  //gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  //gtk_entry_set_activates_default (GTK_ENTRY (lilypath), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (autosave_timeout), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (maxhistory), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (browser), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (pdfviewer), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (texteditor), TRUE);
-  //gtk_entry_set_activates_default (GTK_ENTRY (denemopath), TRUE);
   
   //gtk_widget_grab_focus (lilypath);
   gtk_widget_show_all (dialog);

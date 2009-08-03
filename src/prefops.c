@@ -86,6 +86,7 @@ initprefs ()
   ret->pdfviewer = g_string_new ("acrord32");
   ret->imageviewer = g_string_new ("mspaint");
   ret->texteditor = g_string_new ("wordpad");
+  ret->midiplayer = g_string_new("wmplayer");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("playmidi");
