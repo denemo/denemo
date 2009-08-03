@@ -2499,24 +2499,9 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ParenthesizeChord</action>
-        <after>D.C.AlFine</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
-        <label>Parenthesize Chord</label>
-        <tooltip>Enclose the chord in ( ) on printing.</tooltip>
-      </row>
-      <row>
-        <action>ParenthesizeChord</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu</menupath>
         <tooltip>Enclose the chord in ( ) on printing.</tooltip>
-      </row>
-      <row>
-        <action>ParenthesizeNote</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
-        <label>Parenthesize Note</label>
-        <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
       </row>
       <row>
         <action>ParenthesizeNote</action>
