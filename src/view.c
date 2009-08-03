@@ -32,7 +32,7 @@
 #if GTK_MAJOR_VERSION > 1
 #include <gtk/gtkaccelgroup.h>
 #endif
-
+#include "http.h"
 #define INIT_SCM "init.scm"
 
 static void
@@ -189,6 +189,21 @@ scm_c_define_gsubr (name, 2, 0, 0, callback);
 static void install_scm_function3(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 3, 0, 0, callback);
 
+}
+
+
+static SCM scheme_http(gchar *hname, gchar *page, gchar *poststr) {
+  gchar *name=NULL, *thepage=NULL, *post=NULL;
+ if(SCM_STRINGP(hname))
+     name = scm_to_locale_string(hname);
+ if(SCM_STRINGP(page))
+     thepage = scm_to_locale_string(page);
+ if(SCM_STRINGP(poststr))
+     post = scm_to_locale_string(poststr);
+ if(name&&thepage&&post)
+   return scm_from_locale_string(post_denemodotorg(name, thepage, post));
+ else
+  return SCM_BOOL(FALSE);
 }
 
 
@@ -1838,7 +1853,7 @@ void inner_main(void*closure, int argc, char **argv){
   (this-proc)
 
 */
-
+    install_scm_function3 (DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
 
     install_scm_function3 (DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
     /* test with
