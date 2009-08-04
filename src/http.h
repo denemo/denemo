@@ -1,4 +1,8 @@
 
+#ifndef HTTP_H
+#define HTTP_H
 
-static 
-gchar * process_http(int sockfd, char *host, char *page, char *poststr);
+gchar *post_denemodotorg(char *hname, char *page, char* poststr);
+
+
+#endif
