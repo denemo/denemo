@@ -28,7 +28,9 @@
       http://prdownloads.sourceforge.net/cpearls/spider.tar.gz?download
 
 */
-#ifdef  G_OS_WIN32
+#include <denemo/denemo.h>
+
+#ifdef G_OS_WIN32
 gchar *post_denemodotorg(char *hname, char *page, char* poststr)
 {
   g_warning("Not implented on windows");
@@ -50,7 +52,6 @@ gchar *post_denemodotorg(char *hname, char *page, char* poststr)
 #include <netdb.h>
 #include <unistd.h>
 
-#include <denemo/denemo.h>
 
 #define SA      struct sockaddr
 #define MAXLINE 4096
