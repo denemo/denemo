@@ -67,7 +67,7 @@ gchar * process_http(int sockfd, char *host, char *page, char *poststr)
   GString *gstr = g_string_new ("");
 	char sendline[MAXLINE + 1], recvline[MAXLINE + 1];
 	ssize_t n;
-#if 1
+#if 0
 	snprintf(sendline, MAXSUB,
 		 "POST %s HTTP/1.0\r\n"
 		 "Host: %s\r\n"
