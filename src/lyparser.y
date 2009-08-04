@@ -33,7 +33,7 @@ DenemoObject so that either type can appear in the parse tree.
 
 */
 #define YYDEBUG 1
-#define YYPRINT fprintf
+//#define YYPRINT fprintf
 //#define DEBUG 1
 #define YYTOKEN_TABLE 1
 #include <string.h> /*for memcpy */
