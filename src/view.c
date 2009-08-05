@@ -3471,6 +3471,8 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
     //g_file_set_contents(filename, text, -1, NULL);
     save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, after);
     load_xml_keymap(filename, TRUE);
+    if(confirm("New Command Added", "Do you want to save this with your default commands?"))
+      save_accels ();								    
   } else
     warningdialog("Operation cancelled");
   return;

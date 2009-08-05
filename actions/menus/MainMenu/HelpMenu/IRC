@@ -8,7 +8,7 @@
         <after>Help</after>
         <action>IRC</action>
         <scheme>;;; IRC on freenode
-(d-Help (string-append "http://webchat.freenode.net/?nick=V_" DENEMO_VERSION "User.&amp;channels=denemo"))</scheme>
+(d-Help (string-append "http://webchat.freenode.net/?nick=" (d-GetUserName) "-" DENEMO_VERSION "&amp;channels=denemo"))</scheme>
         <label>Chat to Other Users</label>
         <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
       </row>

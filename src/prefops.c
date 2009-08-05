@@ -106,8 +106,11 @@ initprefs ()
   ret->resolution = 300;
   ret->overlays = FALSE;
   ret->continuous = TRUE;
-
+#ifdef _HAVE_JACK_
+  ret->immediateplayback = FALSE;
+#else
   ret->immediateplayback = TRUE;
+#endif
   ret->saveparts = FALSE;
   ret->rtcs = TRUE;
   ret->playbackoutput = FALSE;

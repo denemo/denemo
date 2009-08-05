@@ -452,7 +452,7 @@ main (int argc, char *argv[])
   g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
 
 
-  gchar *program_files =  g_get_env("PROGRAMFILES");
+  gchar *program_files =  g_getenv("PROGRAMFILES");
   gchar *path = g_getenv ("PATH");
   path = g_strconcat (path, ";", program_files, "/Windows Media Player", NULL);
   path = g_strconcat (path, ";", program_files, "/Adobe/Reader 8.0/Reader", NULL);
