@@ -335,7 +335,7 @@ decode_midi_event(const smf_event_t *event, midicallback *mididata)
 					channel, note, event->midi_buffer[2]);
 			mididata->delta_time = event->delta_time_pulses;
 			mididata->event_number = event->event_number;
-			donoteon(mididata,  event->midi_buffer[1],  event->midi_buffer[2], 
+			donoteon(mididata,  (gint *)event->midi_buffer[1],  (gint *)event->midi_buffer[2], (gint *)
 					event->time_pulses);
 			break;
 
@@ -549,7 +549,7 @@ ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_ti
 	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, pitch);
 	  return TRUE;
   }
-  else if (currentnote->timeon <= timeon <= ((int) currentnote->timeon + (int) currentnote->duration)){
+  else if ((currentnote->timeon <= timeon) && (timeon <= ((int) currentnote->timeon + (int) currentnote->duration))){
 	  voicenum++;
 	g_print("\n***NOTE_ON colliding between a NOTE_ON and NOTE_OFF tracknum = %d voicenum = %d***\n",tracknum, voicenum);	
   	/* append to voice glist */

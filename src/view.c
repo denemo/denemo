@@ -288,6 +288,7 @@ static SCM scheme_hide_menus(void) {
   toggle_main_menu(NULL, NULL);
   toggle_console_view (NULL, NULL);
   toggle_print_view (NULL, NULL);
+  return SCM_BOOL(TRUE);
 }
 
 
@@ -657,7 +658,7 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
-static get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
+static void get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
   g_object_set_data(G_OBJECT(dialog), "offset-response", (gpointer)response_id);
   if(response_id < 0)
     gtk_main_quit();
@@ -669,7 +670,7 @@ static get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
   g_free(text);
 }
 
-static get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
+static void get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
   g_object_set_data(G_OBJECT(dialog), "pad-response", (gpointer)response_id);
   if(response_id < 0)
     gtk_main_quit();
@@ -1470,6 +1471,7 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
 
   *mid_c_offset = *x-'c' + 7*octave;
   *enshift = accs;
+  return *mid_c_offset;
 }
 
 static SCM scheme_put_note_name (SCM optional) {
@@ -2860,7 +2862,7 @@ static gboolean append_rhythm(RhythmPattern *r,  gpointer fn){
 }
 
 
-static gchar *add_to_pattern(gchar **p, gchar c) {
+static void add_to_pattern(gchar **p, gchar c) {
   gchar *temp = g_strdup_printf("%s%c", *p, c);
   g_free(*p);
   *p = temp;
@@ -3272,7 +3274,7 @@ void appendSchemeText(gchar *text) {
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
 }
 
-static appendSchemeText_cb(GtkWidget *widget, gchar *text) {
+static void appendSchemeText_cb(GtkWidget *widget, gchar *text) {
   appendSchemeText(text);
 }
 
@@ -3910,11 +3912,12 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
   if(fp) {
     guchar wlo, whi, hlo, hhi;
     gint w, h;
-    fread(&wlo, 1, 1, fp);
-    fread(&whi, 1, 1, fp);
+    int n;
+    n = fread(&wlo, 1, 1, fp);
+    n = fread(&whi, 1, 1, fp);
 
-    fread(&hlo, 1, 1, fp);
-    fread(&hhi, 1, 1, fp);
+    n = fread(&hlo, 1, 1, fp);
+    n = fread(&hhi, 1, 1, fp);
     w = wlo+255*whi;
     h = hlo+255*hhi;
     gint numbytes = h*((w+7)/8)*8;

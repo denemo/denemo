@@ -5,6 +5,7 @@
  * (c)2007 Richard Shann
  */
 #include <math.h>
+#include <string.h> /* for strcmp() */
 #include "audio.h"
 #include "pitchentry.h"
 #include "view.h"
@@ -822,6 +823,7 @@ static stop_tuning_callback(){
   PR_tuning = FALSE;
   collect_data_for_tuning(PR_tuning);
   PR_indicator = NULL;
+  return FALSE;
 }
 
 

@@ -226,7 +226,7 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *field =\
     gtk_check_button_new_with_label (thelabel); \
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
-				Denemo.prefs.field);\
+				(gboolean)Denemo.prefs.field);\
   gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
   cbdata.field = field;
 

@@ -697,10 +697,10 @@ DenemoDirective *get_voice_directive(gchar *tag) {
 gboolean
 delete_staff_directive(gchar *tag) {
   if(Denemo.gui->si->currentstaff==NULL)
-    return;
+    return FALSE;
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
   if(curstaff==NULL || curstaff->staff_directives==NULL)
-    return;
+    return FALSE;
   return delete_directive(&curstaff->staff_directives, tag);
 }
 
@@ -708,10 +708,10 @@ delete_staff_directive(gchar *tag) {
 gboolean
 delete_initialclef_directive(gchar *tag) {
   if(Denemo.gui->si->currentstaff==NULL)
-    return;
+    return FALSE;
   DenemoStaff *curstaff = Denemo.gui->si->currentstaff->data;
   if(curstaff==NULL || curstaff->clef.directives==NULL)
-    return;
+    return FALSE;
   return delete_directive(&curstaff->clef.directives, tag);
 }
 

@@ -190,7 +190,7 @@ void play_pitch (double pitch, double duration, double volume, int channel) {
 		      1024,            /* frames per buffer */
 #endif
 		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
-		      playCallback,
+		      (PaStreamCallback *)playCallback,
 		      &out_data );
   if( err != paNoError ) {
     g_print("Error opening stream\n");
@@ -217,7 +217,7 @@ int init_audio_out(void)
 	err = Pa_Initialize();
 	if( err != paNoError ) {
 	  g_print("Error initializing portaudio library\n");
-	  return;
+	  return 0;
 	}
 	out_data.frameIndex = 0;
 	out_data.recordedSamples = (SAMPLE *) malloc( TABLE_SIZE*sizeof(SAMPLE) );
@@ -299,6 +299,7 @@ static int recordCallback(const	void *inputBuffer,const void *outputBuffer,
 
 int collect_data_for_tuning(int ok) {
   tuning = ok;
+  return 1;
 }
 
 /******************************************************************
@@ -380,7 +381,7 @@ int pa_main(AubioCallback *fn)
 				1024,            /* frames per buffer */
 #endif
 				paClipOff,  /* we won't output out of range samples so don't bother clipping them */
-				recordCallback,
+				(PaStreamCallback *)recordCallback,
 				NULL );
 	if( err != paNoError ) goto error;
 

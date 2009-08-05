@@ -77,7 +77,7 @@ insert_dynamic (GtkAction *action, gpointer param)
   GList *directivelist = NULL;
 
 
-  dialog = dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,	/* parent window */
+  dialog = gtk_dialog_new_with_buttons (_("Insert Dynamic"), NULL,	/* parent window */
 						 (GtkDialogFlags)
 						 (GTK_DIALOG_MODAL |
 						  GTK_DIALOG_DESTROY_WITH_PARENT),

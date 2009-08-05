@@ -25,6 +25,8 @@ void modify_note (chord *thechord,  gint mid_c_offset, gint enshift, gint dclef)
 note* addtone (DenemoObject * mudelaobj, gint mid_c_offset, gint enshift,
 	      gint dclef);
 
+void addornament (DenemoObject * obj, Ornament orn);
+
 gboolean removetone (DenemoObject * mudelaobj, gint mid_c_offset, gint dclef);
 
 void shiftpitch (DenemoObject * mudelaobj, gint mid_c_offset,

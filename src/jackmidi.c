@@ -174,6 +174,7 @@ timeout_id= 0;
 if(kill_id)
   g_source_remove(kill_id);
 kill_id = 0;
+return 1;
 }
 
 static void
@@ -185,6 +186,7 @@ process_midi_output(jack_nframes_t nframes)
 	jack_nframes_t	last_frame_time;
 	jack_transport_state_t transport_state;
 	static jack_transport_state_t previous_transport_state = JackTransportStopped;
+	smf_event_t *n;
 	for (i = 0; i < smf->number_of_tracks; i++) {
 	  if(output_ports[i])
 	     port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
@@ -251,7 +253,7 @@ process_midi_output(jack_nframes_t nframes)
 			if (decoded && !be_quiet)
 				warn_from_jack_thread_context/*g_debug*/(g_strdup_printf("Metadata: %s", decoded));
 
-			smf_get_next_event(smf);
+			n = smf_get_next_event(smf);
 			continue;
 		}
 
@@ -275,7 +277,7 @@ process_midi_output(jack_nframes_t nframes)
 		assert(event->track->track_number >= 0 && event->track->track_number <= MAX_NUMBER_OF_TRACKS);
 
 		/* We will send this event; remove it from the queue. */
-		smf_get_next_event(smf);
+		n = smf_get_next_event(smf);
 
 		/* First, send it via midi_out. */
 		track_number = 0;
@@ -379,7 +381,7 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 
 	if (state == JackTransportStarting) {
 		song_position = position->frame;
-		smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
+		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
 
 		if (!be_quiet)
 			g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
@@ -422,6 +424,7 @@ create_jack_midi_port(char* port_name){
 		return i;
 	  }
 	}
+    return 0;
   }
   else 
     return -1;
@@ -474,7 +477,7 @@ remove_all_jack_midi_ports(){
 #endif
 	  }
 	}
-	return err;
+	/*return err;*/
 }
 
 int
@@ -577,9 +580,9 @@ jack_midi_playback_start()
   DenemoGUI *gui = Denemo.gui;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
   /* set tranport on/off */
-  use_transport = Denemo.prefs.jacktransport; 
+  use_transport = (int)Denemo.prefs.jacktransport; 
   /* set tranport start_stopped */
-  start_stopped = Denemo.prefs.jacktransport_start_stopped; 
+  start_stopped = (int)Denemo.prefs.jacktransport_start_stopped; 
   g_debug("\nTransport set to %d Transport start stopped = %d\n", 
 		  use_transport, start_stopped);
   if (jack_client != NULL){
@@ -628,7 +631,7 @@ jack_midi_playback_start()
 	  }
 	  duration = end_time - start_time;
 	  g_print("start %f for %f seconds\n",start_time, duration);
-	  smf_seek_to_seconds(smf, start_time);
+	  int n = smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
 

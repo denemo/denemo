@@ -388,4 +388,5 @@ gint stop_midi_input(void) {
   else
     channel = NULL;
 #endif
+  return 0;
 }

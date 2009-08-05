@@ -28,6 +28,7 @@
 #include <math.h>
 #include <aubio/aubio.h>
 #include <audio.h>
+#include <glib/gmessages.h>
 
 #ifdef HAVE_C99_VARARGS_MACROS
 #define debug(...)              if (verbose) fprintf (stderr, __VA_ARGS__)
@@ -302,6 +303,7 @@ extern int pa_main(aubio_process_func_t process_func);
 
 int set_silence(double shh) {
   silence = shh;
+  return 0;
 }
 int set_threshold(double thresh) { /* threshold requires memory allocation */
   STOP
@@ -318,7 +320,7 @@ int set_smoothing(double smooth ) { /* median requires memory allocation */
 int set_onset_type(unsigned onset) { 
   /* changing onset type requires memory allocation */
   if(onset>= sizeof(onset_types)/sizeof(aubio_onsetdetection_type))
-    return;
+    return 0;
   STOP
   type_onset = onset_types[onset];
   START
