@@ -182,16 +182,18 @@ void play_pitch (double pitch, double duration, double volume, int channel) {
 		      SAMPLE_RATE,
 		      1024,            /* frames per buffer */
 		      0,               /* number of buffers, if zero then use default minimum */
+		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
+		      playCallback,
+		      &out_data );
 #else
-
 		      NULL,		/* input parameters */
 		      &outputParameters,
 		      SAMPLE_RATE,
 		      1024,            /* frames per buffer */
-#endif
 		      paClipOff,       /* we won't output out of range samples so don't bother clipping them */
 		      (PaStreamCallback *)playCallback,
 		      &out_data );
+#endif
   if( err != paNoError ) {
     g_print("Error opening stream\n");
     return;
@@ -374,15 +376,18 @@ int pa_main(AubioCallback *fn)
 				SAMPLE_RATE,
 				1024,            /* frames per buffer */
 				0,               /* number of buffers, if zero then use default minimum */
+				paClipOff,  /* we won't output out of range samples so don't bother clipping them */
+				recordCallback,
+				NULL );
 #else
 				&inputParameters,
 				NULL,		/* output parameters */
 				SAMPLE_RATE,
 				1024,            /* frames per buffer */
-#endif
 				paClipOff,  /* we won't output out of range samples so don't bother clipping them */
 				(PaStreamCallback *)recordCallback,
 				NULL );
+#endif
 	if( err != paNoError ) goto error;
 
 	err = Pa_StartStream( stream );
