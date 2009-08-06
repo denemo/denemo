@@ -920,7 +920,7 @@ gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx)
   gboolean res = FALSE;
   command_row row;
   if (!keymap_get_command_row(keymap, &row, command_idx))
-      return 0;
+      return FALSE;
   res = row.hidden;//FIXME label is a property g_object_get_prop...
   g_object_unref(row.bindings);
   return res;

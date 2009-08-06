@@ -1001,7 +1001,7 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
   if(gui->pixbuf==NULL)
-    return TRUE;
+    return FALSE;
   gint width, height;
   gdk_drawable_get_size (gui->printarea->window, &width, &height);
   GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));

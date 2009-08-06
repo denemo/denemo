@@ -333,14 +333,14 @@ measureright (DenemoScriptParam *param)
 
 /**
  * swap the current movement for the previous one in the list of movements
- *
+ * return TRUE if movements are swapped
  */
 gboolean
 swapmovements (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
-    return TRUE;
+    return FALSE;
   GList *this = g_list_find( gui->movements, gui->si);
   if(this->prev) {
     GList * prev = this->prev;
@@ -359,6 +359,7 @@ swapmovements (GtkAction *action, gpointer param)
     gchar *str = g_strdup_printf("This movement is now number %d in the score", 1+g_list_index(gui->movements, gui->si));
     infodialog(str);
     g_free(str);
+    return TRUE;
   } else
     warningdialog("There is no previous movement to swap with");
   return FALSE;
