@@ -247,7 +247,7 @@ free_directive_data(DenemoDirective *directive) {
 #undef DFREE
     if(directive->graphic && GTK_IS_WIDGET(directive->graphic)) {
       //g_print("We should destroy the widget now");
-      gtk_widget_destroy(directive->graphic);
+      gtk_widget_destroy((GtkWidget *)directive->graphic);
     }
       else	
    ; //  g_object_unref(directive->graphic); we leave these GdkBitmap in a hash table, and never discard them
@@ -282,10 +282,10 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    
 	    case TUPOPEN:
-	      ret  = newtupopen(((tupopen*)orig->object)->numerator, ((tupopen*)orig->object)->denominator);	  
+	      ret  = (DenemoObject *)newtupopen(((tupopen*)orig->object)->numerator, ((tupopen*)orig->object)->denominator);	  
 	      break;
 	    case TUPCLOSE:
-	      ret  = newtupclose();
+	      ret  = (DenemoObject *)newtupclose();
 	      break;
 	    case CLEF:
 	      ret = dnm_newclefobj (((clef *)orig->object)->type);
@@ -312,10 +312,10 @@ dnm_clone_object (DenemoObject * orig)
 	      ret = newstaffbreakobject ();
 	      break;
 	    case GRACE_START:
-	      ret = newgracestart ();
+	      ret = (DenemoObject *)newgracestart ();
 	      break;
 	    case GRACE_END:
-	      ret = newgraceend ();
+	      ret = (DenemoObject *)newgraceend ();
 	      break;
 	    case LILYDIRECTIVE: {
 	      lilydirective *curlily = (lilydirective*)orig->object;

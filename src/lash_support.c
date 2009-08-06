@@ -32,7 +32,7 @@ restore_data(lash_config_t * config)
 
 	if (strcmp(key, "filename") == 0) {
 		g_print("\n*** Lash Open filename = %s ***\n",lash_config_get_value_string(config));
-		open_for_real (lash_config_get_value_string(config), 
+		open_for_real ((gchar *)lash_config_get_value_string(config), 
 				gui, FALSE, REPLACE_SCORE);
 		return;
 	}

@@ -340,7 +340,7 @@ swapmovements (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
-    return;
+    return TRUE;
   GList *this = g_list_find( gui->movements, gui->si);
   if(this->prev) {
     GList * prev = this->prev;
@@ -361,6 +361,7 @@ swapmovements (GtkAction *action, gpointer param)
     g_free(str);
   } else
     warningdialog("There is no previous movement to swap with");
+  return FALSE;
 }
 /**
  * 
@@ -371,7 +372,7 @@ swapstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
-    return;
+    return FALSE;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       DenemoStaff *temp;
@@ -404,7 +405,7 @@ splitstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
-    return;
+    return FALSE;
   if (gui->si->currentstaff && gui->si->currentstaff->next)
     {
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
@@ -435,7 +436,7 @@ joinstaffs (GtkAction *action, gpointer param)
 {
   DenemoGUI  *gui = Denemo.gui;
   if(!confirm_insertstaff_custom_scoreblock(gui))
-    return;
+    return FALSE;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
@@ -1056,6 +1057,7 @@ notechange (DenemoScore * si, gboolean remove)
 gboolean
 delete_chordnote (DenemoScore * si){
   notechange(si, TRUE);
+  return TRUE;
 }
 /**
  * Insert chord note at y cursor position 
@@ -1063,6 +1065,7 @@ delete_chordnote (DenemoScore * si){
 gboolean
 insert_chordnote (DenemoScore *si){
   notechange(si, FALSE);
+  return TRUE;
 }
 
 /**

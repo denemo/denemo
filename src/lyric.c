@@ -5,6 +5,7 @@
  * for Denemo, a gtk+ frontend for GNU Lilypond
  * (c)2009 Richard Shann
  */
+#include <string.h> /* for strcmp() */
 #include "lyric.h"
 #include "objops.h"
 #include "staffops.h"
@@ -117,7 +118,7 @@ gchar *get_text_from_view(GtkWidget *textview) {
 
 gboolean scan_syllable(gchar **next, GString *gs) {
   gboolean result;
-  result = pango_scan_string(next, gs);
+  result = pango_scan_string((const char **)next, gs);
   if(result && !strcmp(gs->str, "--"))
      return scan_syllable(next, gs);
   return result;
@@ -131,7 +132,7 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
   if(gs==NULL)
     gs = g_string_new("");
   if(textview==NULL) {
-    gboolean result = scan_syllable(&next, gs);
+    gboolean result = scan_syllable((gchar **)&next, gs);
     if(result && gs->len)
       return gs->str;
     else
@@ -143,7 +144,7 @@ static gchar *lyric_iterator(GtkWidget *textview, gint count) {
     next = lyrics;
     start_count = count;
     while(count--)
-      scan_syllable(&next, gs);
+      scan_syllable((gchar **)&next, gs);
  }
   return NULL;
 }

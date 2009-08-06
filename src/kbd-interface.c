@@ -181,7 +181,7 @@ static void keyboard_modifier_callback(GtkWidget *w, GdkEventButton *event, Modi
 g_string_append(str, "\n");
   g_string_append(str, POINTER_PROMPT);
   
-  gtk_button_set_label (w,str->str);
+  gtk_button_set_label ((GtkButton *)w,str->str);
   assign_cursor(state, cursor_number);
   g_string_free(str, TRUE);
 }
@@ -198,18 +198,18 @@ set_cursor_number (GtkSpinButton *widget, gint *number){
   //gdk_window_set_cursor(widget->window, cursor);   
 }
 static void button_choice_callback(GtkWidget *w, gint *mask ){
-  gint choice =  gtk_toggle_button_get_active(w);
+  gint choice =  gtk_toggle_button_get_active((GtkToggleButton *)w);
   if(choice)
-    *mask = g_object_get_data(w, "mask");
+    *mask = (gint)g_object_get_data((GObject *)w, "mask");
   g_print("button choice %x\n", *mask);
 }
 #define RESPONSE_LOADED (1)
-static load_system_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
+static void load_system_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
   load_system_keymap_dialog(button);
   gtk_dialog_response(dialog, RESPONSE_LOADED);
 }
 
-static load_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
+static void load_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
   load_keymap_dialog(button);
   gtk_dialog_response(dialog, RESPONSE_LOADED);
 }
@@ -276,7 +276,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   
   frame= gtk_frame_new( "Help for Selected Command");
-  gtk_frame_set_shadow_type(frame, GTK_SHADOW_IN);
+  gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
   text_view = gtk_text_view_new();
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
@@ -372,12 +372,12 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   } else {
     gtk_tree_model_iter_nth_child(model, &iter, NULL, command_idx);
     path = gtk_tree_model_get_path(model, &iter);
-    gtk_tree_view_scroll_to_cell(command_tree_view, path, NULL, FALSE, 0, 0);
+    gtk_tree_view_scroll_to_cell((GtkTreeView *)command_tree_view, path, NULL, FALSE, 0, 0);
     gtk_tree_path_free(path);
   }
   gtk_tree_selection_select_iter(selection, &iter);
   frame= gtk_frame_new( "Setting the mouse pointer");
-  gtk_frame_set_shadow_type(frame, GTK_SHADOW_IN);
+  gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
   gtk_container_add (GTK_CONTAINER (vbox), frame);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (frame), hbox);
@@ -394,23 +394,23 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 
   GtkWidget *mouse_state = gtk_radio_button_new_with_label(NULL, "Right Drag");
   gtk_box_pack_start (GTK_BOX (vbox), mouse_state, TRUE, TRUE, 0);
-  g_object_set_data(mouse_state, "mask", GDK_BUTTON3_MASK);
-  g_signal_connect(mouse_state, "toggled", button_choice_callback, &info.button_mask);
-  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget(mouse_state, "Mouse Move");
-  g_signal_connect(mouse_state2, "toggled", button_choice_callback, &info.button_mask);
-  g_object_set_data(mouse_state2, "mask", 0);
+  g_object_set_data((GObject *)mouse_state, "mask", (gpointer)GDK_BUTTON3_MASK);
+  g_signal_connect(mouse_state, "toggled", (GCallback)button_choice_callback, &info.button_mask);
+  GtkWidget *mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, "Mouse Move");
+  g_signal_connect(mouse_state2, "toggled", (GCallback)button_choice_callback, &info.button_mask);
+  g_object_set_data((GObject *)mouse_state2, "mask", 0);
   gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
-  mouse_state2 = gtk_radio_button_new_with_label_from_widget(mouse_state, "Left Drag");
-  g_signal_connect(mouse_state2, "toggled", button_choice_callback, &info.button_mask);
-  g_object_set_data(mouse_state2, "mask", GDK_BUTTON1_MASK);
+  mouse_state2 = gtk_radio_button_new_with_label_from_widget((GtkRadioButton *)mouse_state, "Left Drag");
+  g_signal_connect(mouse_state2, "toggled", (GCallback)button_choice_callback, &info.button_mask);
+  g_object_set_data((GObject *)mouse_state2, "mask", (gpointer)GDK_BUTTON1_MASK);
   gtk_box_pack_start (GTK_BOX (vbox), mouse_state2, TRUE, TRUE, 0);
 
   label = gtk_label_new("Mouse Pointer Number");
   gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
   GtkWidget *spinner_adj =
-    (GtkAdjustment *) gtk_adjustment_new ( info.cursor_number, 0.0,(gdouble)GDK_LAST_CURSOR-1,
+    (GtkWidget *) gtk_adjustment_new ( info.cursor_number, 0.0,(gdouble)GDK_LAST_CURSOR-1,
 					   1.0, 1.0, 1.0);
-  GtkWidget *spinner = gtk_spin_button_new (spinner_adj, 1.0, 0);
+  GtkWidget *spinner = gtk_spin_button_new ((GtkAdjustment *)spinner_adj, 1.0, 0);
   gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed",
 		    G_CALLBACK (set_cursor_number), &info.cursor_number);

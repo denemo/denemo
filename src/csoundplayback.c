@@ -54,7 +54,7 @@ csoundplayback (GtkAction *action, gpointer param)
   FILE *fp;
   int got = 0;
 
-  pidpath = g_string_new (get_temp_filename (ext_pidfiles[EXT_CSOUND]));
+  pidpath = g_string_new ((const gchar *)get_temp_filename (ext_pidfiles[EXT_CSOUND]));
   fp = fopen (pidpath->str, "rb+");
 #ifdef HAVE_FILE_LOCKS
   if (ftrylockfile (fp))	/* FIXME: is it multiprocs? */
@@ -81,13 +81,13 @@ csoundplayback (GtkAction *action, gpointer param)
       /* sleep(1); wait /dev/dsp do be *really* closed */
     }
 
-  filename = g_string_new (get_temp_filename ("denemocsoundplayback.sco"));
+  filename = g_string_new ((const gchar *)get_temp_filename ("denemocsoundplayback.sco"));
   exportcsound (filename->str, gui->si, gui->si->start, gui->si->end);
   extplayer = Denemo.prefs.rtcs;
   if (!extplayer)
     outputfile = g_string_new ("devaudio ");
   else
-    outputfile = g_string_new (get_temp_filename ("denemocsoundplayback.wav"));
+    outputfile = g_string_new ((const gchar *)get_temp_filename ("denemocsoundplayback.wav"));
   csoundline = g_string_new (Denemo.prefs.csoundcommand->str);
   g_string_append (csoundline, " -o ");
   g_string_append (csoundline, outputfile->str);

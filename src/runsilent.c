@@ -23,6 +23,6 @@ silentconversion (char *file_in, DenemoGUI *gui)
     }
 
   file_out = "silentconversion.ly";
-  exportlilypond ((gchar *) file_out, si, TRUE);
+  exportlilypond ((gchar *) file_out, gui, TRUE);
   printf ("\nWritten to %s\n\n", file_out);
 };

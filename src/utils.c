@@ -7,6 +7,7 @@
  */
 
 #include <stdio.h>
+#include <string.h> /*for SIGTERM */
 #include <gtk/gtk.h>
 #include "accwidths.h"
 #include <denemo/denemo.h>
@@ -400,14 +401,14 @@ gchar mid_c_offsettoname (gint mid_c_offset)
   return ((otn + 2) % 7) + 'a';
 }
 
-void *note2lilynotename(struct note *noteobject, GString *ret){
+void note2lilynotename(struct note *noteobject, GString *ret){
   gint mid_c_offset = noteobject->mid_c_offset;
 
   g_string_append_printf (ret, "%c",
 		    mid_c_offsettoname (mid_c_offset));
 }
 
-void *note2lilyaccidental(struct note *noteobject, GString *ret){
+void note2lilyaccidental(struct note *noteobject, GString *ret){
   gint enshift = noteobject->enshift;
   gint k;
   if (enshift < 0)
@@ -418,7 +419,7 @@ void *note2lilyaccidental(struct note *noteobject, GString *ret){
       g_string_append_printf (ret, "is");
 }
 
-void *note2lilyoctave(struct note* noteobject, GString *ret){
+void note2lilyoctave(struct note* noteobject, GString *ret){
   gint mid_c_offset = noteobject->mid_c_offset;
   gint octave = mid_c_offsettooctave (mid_c_offset);
   if (octave < 0)
@@ -429,17 +430,17 @@ void *note2lilyoctave(struct note* noteobject, GString *ret){
       g_string_append_printf (ret, "\'"); 
 }
 
-void *chord2lilyduration(struct chord *chordobject, GString *ret){
+void chord2lilyduration(struct chord *chordobject, GString *ret){
   chord2lilybaseduration(chordobject, ret);
   chord2lilynumdots(chordobject, ret);
 }
 
-void *chord2lilybaseduration(struct chord *chordobject, GString *ret){
+void chord2lilybaseduration(struct chord *chordobject, GString *ret){
   int baseduration = chordobject->baseduration;
   g_string_append_printf (ret,  "%d", baseduration);
 }
 
-void *chord2lilynumdots(struct chord *chordobject, GString *ret){
+void chord2lilynumdots(struct chord *chordobject, GString *ret){
   int numdots = chordobject->numdots;
   g_string_append_printf (ret, "%d",numdots);
 }
@@ -604,7 +605,7 @@ initdir ()
 {
 #ifndef G_OS_WIN32
   GError *error=NULL;
-  if(!gbr_init (&error)&& (error != GBR_INIT_ERROR_DISABLED))
+  if(!gbr_init (&error)&& (error != (GError *)GBR_INIT_ERROR_DISABLED))
     {
       g_print ("BinReloc failed to initialize:\n");
       g_print ("Domain: %d (%s)\n",
@@ -617,6 +618,8 @@ initdir ()
     }
 #endif /* not G_OS_WIN32 */
 }
+extern gchar *
+gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
 
 const gchar *
 get_data_dir ()
@@ -960,7 +963,7 @@ void nullify_gstring (GString **s) {
 gchar *
 string_dialog_entry (DenemoGUI *gui, gchar *title, gchar *instruction, gchar *initial_value)
 {
-  string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
+  return string_dialog_entry_with_widget (gui, title, instruction, initial_value, NULL);
 }
 
 /* as string_dialog_entry() but with extra widget */
@@ -1012,7 +1015,7 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-
+  return (gchar *)TRUE;
 }
 
 static gboolean

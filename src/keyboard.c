@@ -105,7 +105,7 @@ get_state (gchar * key)
 }
 
 /* add ui elements for menupath if missing */
-static gint
+static void
 instantiate_menus(gchar *menupath) {
   //g_print("Instantiate menus for %s\n", menupath);
  
@@ -606,7 +606,7 @@ save_xml_keymap (gchar * filename)
 
   child = xmlNewChild (parent, NULL, (xmlChar *) "cursors", NULL);
 
-  g_hash_table_foreach(Denemo.map->cursors, output_pointer_shortcut, child);
+  g_hash_table_foreach(Denemo.map->cursors, (GHFunc)output_pointer_shortcut, child);
 
 
   for (i = 0; i < keymap_size(the_keymap); i++)

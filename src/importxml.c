@@ -236,7 +236,7 @@ LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
 
-static gint
+static void
 parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
 	       DenemoDirective *directive)
 {
@@ -289,6 +289,7 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gboolean *fn(), Denemo
     DO_INTDIREC(gy);
   }
   widget_for_directive(directive,fn);
+  return TRUE;
 }
 
 
@@ -301,9 +302,9 @@ parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
 {
   gchar*   text = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
-  gtk_text_buffer_set_text (gtk_text_view_get_buffer (verse), text, -1);
+  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text, -1);
   //gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse), FALSE);
-  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (verse)), "changed", G_CALLBACK (lyric_change), NULL);
+  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer ((GtkTextView *)verse)), "changed", G_CALLBACK (lyric_change), NULL);
   g_free (text);
 }
 

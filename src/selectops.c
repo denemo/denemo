@@ -445,7 +445,7 @@ DenemoObject *get_mark_object(void){
   measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->firstmeasuremarked - 1);
   objnode *firstobj = g_list_nth (firstmeasure->data, si->firstobjmarked);
   g_print("First %d\n",  si->firstobjmarked);
-  return firstobj? ((GList*)firstobj->data):NULL;
+  return firstobj? ((DenemoObject *)firstobj->data):NULL;
 }
 DenemoObject *get_point_object(void){
   DenemoGUI * gui = Denemo.gui;
@@ -456,7 +456,7 @@ DenemoObject *get_point_object(void){
   DenemoStaff *laststaff =  (DenemoStaff *) curstaff->data;
   measurenode *lastmeasure = g_list_nth (laststaff->measures,  si->lastmeasuremarked - 1);
   objnode *lastobj = g_list_nth (lastmeasure->data, si->lastobjmarked);
-  return lastobj? ((GList*)lastobj->data):NULL;
+  return lastobj? ((DenemoObject *)lastobj->data):NULL;
 }
 
 

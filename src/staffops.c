@@ -192,12 +192,12 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   {
     //hmm, cannot populate it, why not ? FIXME 
     GtkWidget *item;
-    thestaffstruct->staffmenu = gtk_menu_new();
+    thestaffstruct->staffmenu = (GtkMenu *)gtk_menu_new();
     item = gtk_menu_item_new_with_label("Edit Attributes");
     gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->staffmenu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_staff_directive), NULL);
     gtk_widget_show(item);
-    thestaffstruct->voicemenu = gtk_menu_new();
+    thestaffstruct->voicemenu = (GtkMenu *)gtk_menu_new();
     item = gtk_menu_item_new_with_label("Edit Attributes");
     gtk_menu_shell_append(GTK_MENU_SHELL( thestaffstruct->voicemenu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(edit_voice_directive), NULL);
@@ -439,14 +439,14 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
-  gtk_widget_destroy((curstaffstruct->staffmenu));
-  gtk_widget_destroy((curstaffstruct->voicemenu));
+  gtk_widget_destroy((GtkWidget *)(curstaffstruct->staffmenu));
+  gtk_widget_destroy((GtkWidget *)(curstaffstruct->voicemenu));
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
   g_string_free (curstaffstruct->lily_name, FALSE);
   g_string_free (curstaffstruct->midi_instrument, FALSE);
-  g_list_foreach (curstaffstruct->verses, gtk_widget_destroy, NULL);
+  g_list_foreach (curstaffstruct->verses, (GFunc)gtk_widget_destroy, NULL);
   g_free (curstaffstruct);
 
   free_directives(curstaffstruct->staff_directives);

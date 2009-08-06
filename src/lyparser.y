@@ -872,7 +872,7 @@ Simple_music:
 		$$ = g_list_append(NULL,mud);
 	}
 	| LILYDIRECTIVE_TOKEN STRING_ {
-		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string));	
+		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string, NULL));	
 		$$ = g_list_append(NULL,mud);
 	}
 	| OUTPUTPROPERTY embedded_scm embedded_scm '=' embedded_scm	{
@@ -2178,7 +2178,7 @@ simple_element:
 		stradd((*mud),$2);
 		$$ = g_list_append(NULL,mud);
                 }	else {
-		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string));	
+		DenemoObject *mud = lily_directive_new (g_strconcat($1.user_string, $2.user_string, NULL));	
 		$$ = g_list_append(NULL,mud);
                 }
 	}

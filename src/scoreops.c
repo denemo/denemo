@@ -335,6 +335,7 @@ static delete_all_staffs(DenemoGUI * gui) {
 #ifdef _HAVE_JACK_
   remove_all_jack_midi_ports();
 #endif
+  return TRUE;
 }
 
 /**

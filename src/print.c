@@ -1001,7 +1001,7 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
   if(gui->pixbuf==NULL)
-    return;
+    return TRUE;
   gint width, height;
   gdk_drawable_get_size (gui->printarea->window, &width, &height);
   GtkAdjustment * vadjust = gtk_range_get_adjustment(GTK_RANGE(gui->printvscrollbar));
@@ -1016,6 +1016,7 @@ printarea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 
   gtk_adjustment_changed(vadjust);
   gtk_adjustment_changed(hadjust);
+  return TRUE;
 }
 
 static gint adjust_x=0;
@@ -1045,8 +1046,9 @@ printarea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
   DenemoGUI *gui = Denemo.gui;
   if(gui->pixbuf==NULL)
-    return;
+    return TRUE;
   draw_print(gui);
+  return TRUE;
 }
 
 
@@ -1117,7 +1119,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
       g_free(msg);
     }
     offsetting = FALSE;
-    return;
+    return TRUE;
   }
   /*( creating a padding value? */
   if(padding) {
@@ -1132,7 +1134,7 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
       g_free(msg);
     }
     padding = FALSE;
-    return;
+    return TRUE;
   }
 
 

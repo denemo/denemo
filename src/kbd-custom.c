@@ -594,9 +594,9 @@ register_command(keymap *the_keymap, GtkAction *action, const gchar *name, const
 {
     guint i;
     guint *value;
-    GtkTreeIter iter;
+    GtkTreeIter iter ={0,NULL,NULL,NULL};
     GtkListStore *bindings;
-    KeymapCommandType type;//We may need to use this to distinguish scheme scripts from built ins.
+    KeymapCommandType type = 0;//We may need to use this to distinguish scheme scripts from built ins.
         //get the index of the new row
         value = (guint *) g_malloc(sizeof(guint));
         *value = gtk_tree_model_iter_n_children(
@@ -920,7 +920,7 @@ gboolean lookup_hidden_from_idx (keymap * keymap, guint command_idx)
   gboolean res = FALSE;
   command_row row;
   if (!keymap_get_command_row(keymap, &row, command_idx))
-      return NULL;
+      return 0;
   res = row.hidden;//FIXME label is a property g_object_get_prop...
   g_object_unref(row.bindings);
   return res;
@@ -932,7 +932,7 @@ gboolean lookup_deleted_from_idx (keymap * keymap, guint command_idx)
   gboolean res = FALSE;
   command_row row;
   if (!keymap_get_command_row(keymap, &row, command_idx))
-      return NULL;
+      return 0;
   res = row.deleted;//FIXME label is a property g_object_get_prop...
   g_object_unref(row.bindings);
   return res;
@@ -1128,7 +1128,7 @@ add_keybinding_to_named_command(keymap * the_keymap, gint keyval,
   guint command_idx;
   value = g_hash_table_lookup(the_keymap->idx_from_name, command_name);
   if (!value) {
-      g_warning("add_keybinding: %s, command does not exist");
+      g_warning("add_keybinding: %s, command does not exist", command_name);
       return -1;
   }
   command_idx = *(guint *) value;
@@ -1275,7 +1275,7 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
   if (!keymap_get_command_row(the_keymap, &row, command_idx))
       return FALSE;
   g_object_unref(row.bindings);
-  res = row.callback;
+  res = (gboolean)row.callback;
   return res;
 }
 
@@ -1297,7 +1297,7 @@ gboolean
 execute_callback_from_name(keymap *the_keymap, const gchar* command_name)
 {
   gboolean res = TRUE;
-  GtkAction *action = action_of_name(the_keymap, command_name);
+  GtkAction *action = action_of_name(the_keymap, (gchar *)command_name);
   gtk_action_activate(action);
   return res;
 }
@@ -1662,7 +1662,7 @@ command_hidden_data_function (GtkTreeViewColumn *col,
             COL_TYPE, &type,
             COL_ACTION, &action,
             -1);
-    hidden = g_object_get_data(G_OBJECT(action), "hidden");   
+    hidden = (gboolean)g_object_get_data(G_OBJECT(action), "hidden");   
     g_object_set(renderer, "active", hidden, NULL);
 }
 
@@ -1680,7 +1680,7 @@ command_deleted_data_function (GtkTreeViewColumn *col,
             COL_TYPE, &type,
             COL_ACTION, &action,
             -1);
-    deleted = g_object_get_data(G_OBJECT(action), "deleted");   
+    deleted = (gboolean)g_object_get_data(G_OBJECT(action), "deleted");   
     g_object_set(renderer, "active", deleted, NULL);
 }
 
@@ -1709,9 +1709,9 @@ search_equal_func(GtkTreeModel *model, gint column, const gchar *key,
 static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
                                             gchar *path)  {
   gint command_idx = atoi(path);
-  GtkAction *action = lookup_action_from_idx (Denemo.map, command_idx);
+  GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean hidden = (gboolean)g_object_get_data(action, "hidden");
+    gboolean hidden = (gboolean)g_object_get_data(G_OBJECT(action), "hidden");
     set_visibility_for_action(action, hidden);
   }
 }
@@ -1720,11 +1720,11 @@ static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
 static void toggle_deleted_on_action (GtkCellRendererToggle *cell_renderer,
                                             gchar *path)  {
   gint command_idx = atoi(path);
-  GtkAction *action = lookup_action_from_idx (Denemo.map, command_idx);
+  GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean deleted = (gboolean)g_object_get_data(action, "deleted");
+    gboolean deleted = (gboolean)g_object_get_data(G_OBJECT(action), "deleted");
     //set_visibility_for_action(action, deleted);
-    g_object_set_data(action, "deleted", !deleted);
+    g_object_set_data(G_OBJECT(action), "deleted", (gboolean *)!deleted);
   }
 }
 
@@ -1762,7 +1762,7 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_add_attribute(col, renderer, "active", COL_HIDDEN);
   gtk_tree_view_column_set_cell_data_func(col, renderer,
 					  command_hidden_data_function, NULL, NULL);
-  g_signal_connect(renderer, "toggled", toggle_hidden_on_action, NULL);
+  g_signal_connect(renderer, "toggled", (GCallback)toggle_hidden_on_action, NULL);
 
 
   col = gtk_tree_view_column_new();
@@ -1774,7 +1774,7 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_add_attribute(col, renderer, "active", COL_DELETED);
   gtk_tree_view_column_set_cell_data_func(col, renderer,
 					  command_deleted_data_function, NULL, NULL);
-  g_signal_connect(renderer, "toggled", toggle_deleted_on_action, NULL);
+  g_signal_connect(renderer, "toggled", (GCallback)toggle_deleted_on_action, NULL);
 
 
 

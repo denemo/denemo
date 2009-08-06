@@ -88,7 +88,7 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 measurenode *
 dnm_addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 {
-	addmeasures (si,pos,nummeasures,all);
+  return addmeasures (si,pos,nummeasures,all);
 }
 /**
  * g_list_foreach function called by freeobjlist

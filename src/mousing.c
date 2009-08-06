@@ -315,11 +315,12 @@ static gboolean selecting = FALSE;
 
 static change_staff(DenemoScore *si, gint num, GList *staff) {
   if(si->currentstaffnum==num)
-    return;
+    return FALSE;
   hide_lyrics();
   si->currentstaffnum = num;
   si->currentstaff = staff;
   show_lyrics();
+  return TRUE;
 }
 /**
  * Mouse motion callback 
@@ -358,7 +359,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	gtk_widget_queue_draw (gui->scorearea);
       }
     }
-
+  return TRUE;
 }
 
 

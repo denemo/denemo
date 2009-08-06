@@ -58,6 +58,7 @@ findreversealigns (DenemoObject * thechord)
 
   ((chord *) thechord->object)->is_reversealigned = FALSE;
   if (((chord *) thechord->object)->notes)
+    {
     if (((chord *) thechord->object)->is_stemup)
       {
 	/* note clusters are painted left-right from bottom to top */
@@ -103,6 +104,7 @@ findreversealigns (DenemoObject * thechord)
 	      curnote->reversealign = FALSE;
 	  }			/* End for */
       }				/* End else */
+  }
   setpixelmin (thechord);
 }
 
@@ -157,8 +159,9 @@ newchord (gint baseduration, gint numdots, int tied)
   return thechord;
 }
 DenemoObject *
-dnm_newchord (gint baseduration, gint numdots, int tied){
-		newchord (baseduration, numdots, tied);
+dnm_newchord (gint baseduration, gint numdots, int tied)
+{
+  return newchord (baseduration, numdots, tied);
 }
 /**
  * Set the invisible flag for the DenemoObject
@@ -183,8 +186,8 @@ void
 addornament (DenemoObject * obj, Ornament orn)
 {
   if (obj && obj->type == CHORD && ((chord *) obj->object)->notes)
-    ((chord *) obj->object)->ornamentlist =
-      insert_ornament_list (orn, ((chord *) obj->object)->ornamentlist);
+    ((chord *) obj->object)->ornamentlist = 
+      (GList *) insert_ornament_list (orn, ((chord *) obj->object)->ornamentlist);
 }
 
 /**
@@ -350,6 +353,7 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
     {
       tone = (note *) tnode->data;
       if (!tnode->next)		/* That is, we're removing the highest pitch */
+	{
 	if (tnode->prev)
 	  {
 	    ((chord *) thechord->object)->highestpitch =
@@ -364,8 +368,10 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 	    /* Had to take care of this somewhere - perhaps not needed - when passing through an edit with no notes...
 	    ((chord *) thechord->object)->is_tied = FALSE; */
 	  }
+	}
       if (!tnode->prev)		/* That is, we're removing the lowest pitch */
-	if (tnode->next)
+	{
+	  if (tnode->next)
 	  {
 	    ((chord *) thechord->object)->lowestpitch =
 	      ((note *) tnode->next->data)->mid_c_offset;
@@ -375,6 +381,7 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
 	  }
 	else
 	  ((chord *) thechord->object)->lowestpitch = G_MAXINT;
+	}
       ((chord *) thechord->object)->sum_mid_c_offset -= tone->mid_c_offset;
 
       /* Now that we no longer need any info in tnode or tone, 
@@ -464,9 +471,9 @@ changenumdots (DenemoObject * thechord, gint number)
 
 
 static void 
-freenote(note *thenote) {
-  if(thenote->directives) {
-    free_directives(thenote->directives);
+freenote(gpointer thenote) {
+  if(((note *)thenote)->directives) {
+    free_directives(((note *)thenote)->directives);
     //g_list_free(thenote->directives);
   }
   g_free(thenote);
@@ -479,7 +486,7 @@ freenote(note *thenote) {
 void
 freechord (DenemoObject * thechord)
 {
-  g_list_foreach (((chord *) thechord->object)->notes, freenote, NULL);
+  g_list_foreach (((chord *) thechord->object)->notes, (GFunc)freenote, NULL);
   g_list_free (((chord *) thechord->object)->notes);
   g_list_free(((chord *) thechord->object)->dynamics);
   g_list_free(((chord *) thechord->object)->ornamentlist);

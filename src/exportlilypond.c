@@ -1786,7 +1786,7 @@ void delete_lily_cb (GtkAction *action, gpointer param) {
 
   gtk_text_buffer_delete(gui->textbuffer, &start, &end);
 }
-static gboolean print_lily_cb (GtkWidget *item, DenemoGUI *gui){
+static void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   FILE *fp = fopen(lilyfile, "w");

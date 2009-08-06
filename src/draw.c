@@ -253,7 +253,7 @@ draw_object (objnode * curobj, gint x, gint y,
 
        if (si->currentstaffnum==itp->staffnum && itp->verse && thechord->notes   && !itp->slur_stack )
 	{
-	  gchar *syllable = next_syllable();
+	  gchar *syllable = (gchar *) next_syllable();
 	  if(syllable)
 	    draw_lyric (gui->pixmap, itp->gc,
 			gtk_style_get_font (itp->widget->style),
