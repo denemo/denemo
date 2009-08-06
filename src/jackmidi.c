@@ -167,7 +167,7 @@ static gint move_on(DenemoGUI *gui){
 }
 
 gint jack_kill_timer(void){
-  g_print("Jack kill timer %d\n", timeout_id);
+  g_debug("Jack kill timer %d\n", timeout_id);
 if(timeout_id>0)
   g_source_remove(timeout_id);
 timeout_id= 0;

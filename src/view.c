@@ -3280,7 +3280,7 @@ static void appendSchemeText_cb(GtkWidget *widget, gchar *text) {
 /* execute the script that is in the Scheme script window */
 void executeScript(void) {
   gchar *text = getSchemeText();
-  g_print("Calling script %s\n", text);
+  g_debug("Calling script %s\n", text);
   (void)call_out_to_guile(text);
   g_free(text);
 }
