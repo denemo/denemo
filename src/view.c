@@ -197,7 +197,7 @@ scm_c_define_gsubr (name, 4, 0, 0, callback);
 }
 
 
-static SCM scheme_http(gchar *hname, gchar *page, gchar *other, gchar *poststr) {
+static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
   gchar *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
  if(SCM_STRINGP(hname))
      name = scm_to_locale_string(hname);
@@ -1657,7 +1657,7 @@ SCM scheme_next_note (SCM optional) {
 }
 
 SCM scheme_locate_dotdenemo (SCM optional) {
-  gchar *dotdenemo = locatedotdenemo();
+  const gchar *dotdenemo = locatedotdenemo();
   if (!dotdenemo)
     return SCM_BOOL(FALSE);
   SCM scm = scm_makfrom0str (dotdenemo);
