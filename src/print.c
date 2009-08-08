@@ -372,7 +372,8 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   /* Check Lilypond Version */
   //if (get_lily_version("2.12") != SAME)
     convert_ly(lilyfile);
-#if GLIB_MINOR_VERSION >= 14
+#if 0 
+// GLIB_MINOR_VERSION >= 14
    gchar *backend;
   if (get_lily_version("2.12") >= 1)
     backend = "-dbackend=eps";
@@ -428,6 +429,10 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		NULL,		/* stdout */
 		&errors,		/* stderr */
 		&lily_err);
+  if (gui->lilycontrol.excerpt == TRUE)
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
+  else
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
 }
 
 /* Run the LilyPond interpreter on the file (filename).ly
@@ -460,10 +465,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   g_free(printfile);
   run_lilypond(filename, gui);
   //  g_print("print pid is %d\n", printpid);
-  if (gui->lilycontrol.excerpt == TRUE)
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
-  else
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
+
 }
 
 /* returns the base name (~/.denemo/denemoprint usually) used as a base
