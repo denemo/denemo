@@ -647,7 +647,7 @@ static gboolean
 file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename)
 {
   gboolean ret = FALSE;
-  if(filename)
+  if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
     return (0==open_for_real(filename, gui, template, type));
 
   GtkWidget *file_selection;
