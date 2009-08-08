@@ -187,7 +187,7 @@ cuttobuffer (DenemoScore * si)
   staffnode *curstaff;
   measurenode *curmeasure;
   objnode *tempobj;
-  gint i, j, max;
+  gint i, jcounter, max;
   if (!si->firstmeasuremarked)
     return;
   copytobuffer (si);
@@ -195,8 +195,8 @@ cuttobuffer (DenemoScore * si)
   if (staffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
-      j = si->firstmeasuremarked;
-      curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), j - 1);
+      jcounter = si->firstmeasuremarked;
+      curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), jcounter - 1);
 
       /* Clear the relevant part of the first measure selected */
       if (measurebreaksinbuffer)
@@ -212,7 +212,7 @@ cuttobuffer (DenemoScore * si)
 	  freeobject ((DenemoObject *) tempobj->data);
 	  g_list_free_1 (tempobj);
 	}
-      j++;
+      jcounter++;
       curmeasure = curmeasure->next;
 
       if (!si->thescore->next)
@@ -221,19 +221,19 @@ cuttobuffer (DenemoScore * si)
 	  if (measurebreaksinbuffer - 1 > 0)
 	    {
 	      curmeasure =
-		removemeasures (si, j - 1, measurebreaksinbuffer - 1, TRUE);
-	      j += measurebreaksinbuffer - 1;
+		removemeasures (si, jcounter - 1, measurebreaksinbuffer - 1, TRUE);
+	      jcounter += measurebreaksinbuffer - 1;
 	    }
 	}
       else
-	for (; curmeasure && j < si->lastmeasuremarked;
-	     curmeasure = curmeasure->next, j++)
+	for (; curmeasure && jcounter < si->lastmeasuremarked;
+	     curmeasure = curmeasure->next, jcounter++)
 	  {
 	    freeobjlist (curmeasure->data, NULL);
 	    curmeasure->data = NULL;
 	  }
       /* Now clear the relevant part of the last measure selected */
-      if (j <= si->lastmeasuremarked)
+      if (jcounter <= si->lastmeasuremarked)
 	{
 	  for (i = 0; curmeasure->data && i <= si->lastobjmarked; i++)
 	    {
@@ -246,7 +246,7 @@ cuttobuffer (DenemoScore * si)
 	  /* And delete it, if the measure's been cleared and there's only
 	     one staff.  */
 	  if (!curmeasure->data && !si->thescore->next)
-	    removemeasures (si, j - 1, 1, TRUE);
+	    removemeasures (si, jcounter - 1, 1, TRUE);
 	}
       showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
@@ -276,11 +276,11 @@ cuttobuffer (DenemoScore * si)
 	      if (((DenemoStaff *) curstaff->data)->is_parasite)
 		continue;
 	      /* Measure loop */
-	      for (j = si->firstmeasuremarked,
+	      for (jcounter = si->firstmeasuremarked,
 		   curmeasure = g_list_nth (firstmeasurenode (curstaff),
-					    j - 1);
-		   curmeasure && j <= si->lastmeasuremarked;
-		   curmeasure = curmeasure->next, j++)
+					    jcounter - 1);
+		   curmeasure && jcounter <= si->lastmeasuremarked;
+		   curmeasure = curmeasure->next, jcounter++)
 		{
 		  freeobjlist (curmeasure->data, NULL);
 		  curmeasure->data = NULL;
@@ -315,10 +315,14 @@ cuttobuffer (DenemoScore * si)
   //if clef has been deleted we need to re-validate leftmost clef - would only apply if the clef being deleted was off the left side of screen - some sort of scripting scenario...
   find_leftmost_allcontexts(si);
 
+  
+  isoffleftside(Denemo.gui);
+  isoffrightside(Denemo.gui);
+
   /*   isoffleftside;  */
   /*find_xes_in_all_measures (si);
-     nudgerightward (si);
-     gtk_widget_draw (si->scorearea, NULL); */
+    nudgerightward (Denemo.gui);
+    gtk_widget_draw (si->scorearea, NULL);  */
 }
 
 /**
