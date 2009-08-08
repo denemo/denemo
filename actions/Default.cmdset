@@ -2525,6 +2525,21 @@ for second and subsequent systems</tooltip>
         <label>Chat to Other Users</label>
         <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
       </row>
+      <row>
+        <action>ReadingNoteNames</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+      </row>
+      <row>
+        <action>ReBar</action>
+        <after>ForceNewMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Adjust the Barlines</label>
+        <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
