@@ -53,6 +53,14 @@
 struct DenemoRoot Denemo;
 midi_seq *sq;
 
+/* just a simple check, if the user has never run denemo before
+   better, keep this for whole first session? */
+gboolean first_time_user(void) {
+  gchar *filename = g_build_filename(locatedotdenemo(), "denemorc", NULL);
+  gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
+  g_free(filename);
+  return ret;
+}
 
 static const GtkStockItem denemo_stock_items[] = {
   {"denemo-staccato", N_("Staccato"), (GdkModifierType) 0, 0, NULL},
@@ -114,7 +122,8 @@ register_stock_icon (GtkIconFactory * icon_factory, const gchar * stock_id,
       g_warning (_("Could not load specified pixbuf:\n%s\n"),
                  error->message);
       g_error_free (error);
-      warningdialog("some icons will not display properly, but program will run ok.");
+      if(first_time_user())
+	warningdialog("some icons will not display properly, but program will run ok.");
       warned = TRUE;
     }
   if(pixbuf != NULL) {
@@ -474,6 +483,8 @@ main (int argc, char *argv[])
   textdomain (PACKAGE);
 
   register_stock_items ();
+  if(first_time_user())
+    infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more");
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
   
