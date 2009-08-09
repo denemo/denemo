@@ -350,32 +350,192 @@
   (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-score-display tag label))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;; String Escaper
+;;;;;;;;; Escapes Strings.
+;;; from brlewis http://srfi.schemers.org/srfi-13/mail-archive/msg00025.html
+
+(define (string-escaper esc)
+  (let ((spec (char-escape-spec esc)))
+    (lambda (str) (string-escape str spec))))
+
+(define (string-needs-escape? str esc)
+  (let ((len (string-length str)))
+    (let loop ((i 0))
+      (if (= i len)
+	  #f
+	  (let ((c (string-ref str i)))
+	    (if (and (char>=? c (car esc))
+		     (char<=? c (cadr esc)))
+		#t
+		(loop (+ 1 i))))))))
+
+(define (string-escape str esc)
+  (if (string-needs-escape? str esc)
+      (list->string
+       (reverse
+	(let ((len (string-length str)))
+	  (let loop ((i 0)
+		     (li '()))
+	    (if (= i len)
+		li
+		(loop (+ 1 i)
+		      (let ((c (string-ref str i)))
+			(if (and (char>=? c (car esc))
+				 (char<=? c (cadr esc)))
+			    (let ((li2 (vector-ref
+					(caddr esc)
+					(- (char->integer c)
+					   (char->integer (car esc))))))
+			      (if li2
+				  (append li2 li)
+				  (cons c li)))
+			    (cons c li)))))))))
+      str))
+
+(define (char-escape-spec speclist)
+  (let ((minchar (caar speclist))
+	(maxchar (caar speclist)))
+    (let loop ((li (cdr speclist)))
+      (if (not (null? li))
+	  (begin
+	    (let ((testchar (caar li)))
+	      (if (char<? testchar minchar)
+		  (set! minchar testchar))
+	      (if (char>? testchar maxchar)
+		  (set! maxchar testchar)))
+	    (loop (cdr li)))))
+    (list
+     minchar
+     maxchar
+     (let ((specv (make-vector (+ 1 (- (char->integer maxchar)
+				       (char->integer minchar))) #f)))
+      (map (lambda (specpair)
+	     (vector-set! specv
+			  (- (char->integer (car specpair))
+			     (char->integer minchar))
+			  (reverse (string->list (cdr specpair)))))
+	   speclist)
+      specv))))
+	  
+;; examples of use
+
+(define html-escape (string-escaper '((#\< . "&lt;")
+				      (#\> . "&gt;")
+				      (#\& . "&amp;"))))
+
+(define scheme-escape (string-escaper '((#\\ . "\\\\")
+					(#\" . "\\\""))))
+
+(define latex-escape (string-escaper '((#\\ . "\\\\")
+				       (#\~ . "\\~")
+				       (#\# . "\\#")
+				       (#\$ . "\\$")
+				       (#\% . "\\%")
+				       (#\^ . "\\^")
+				       (#\& . "\\&")
+				       (#\{ . "\\{")
+				       (#\} . "\\}")
+				       (#\_ . "\\_"))))
+
+;;;;;;;;;; Parse strings for json values
+(define (ParseJson target key)
+  (let ((theregexp #f) (thematch #f))
+
+ ;;; this is the regexp to find "key":"something" with the something being the match, ie in ()
+(set! theregexp (string-append "\"" key "\":\"([^\"]*)\""))
+
+;;;;; this gets a match structure for target, so if there is a match
+(set! thematch (string-match theregexp target))
+
+(if (regexp-match? thematch) ;;; if there was a match return it
+   (match:substring thematch 1)
+    ;;;if there was no match return #f
+    #f)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; This is Denemos interface to access the MediaWiki API (http://www.mediawiki.org/wiki/API), which is used for the current Denemo-Website
+;;;; Currently its only used to create/overwrite a page with a new script.
+;;;; It uses the User-Rights System so its very secure. Vandalism in only possible in the same degree as allowed on the website itself.
+;;;; All API access is done via (d-HTTP). The C function behind it sends HTTP-POST data to the given Server/Website and returns the HTTP-header and MediaWiki Data. 
+;;;;
+;;;; The basic steps are 1)Login with Username/PW given in Denemos Preferences and 2)Create a HTTP-Cookie .
+;;;; After that allowed Manipulation is possible. Currently we create request an Edit-Token and create a new Page.
+;;;; 
 ;;;; if command is "" then upload an ediscript in scheme for the tag name (goes in actions/editscripts/tag.scm
 ;;;; otherwise command is the menu item, written in xml to be merged into a command set
 ;;;; script is the script the command contains, in scheme
 ;;;; init_script is the initialization script that the containing menu directory should have - init.scm
-(define (d-UploadRoutine command name script initscript)
-  (d-PutTextClipboard script)
 
-(if (equal? "" command)
-    (begin
- (display (string-append "
-;;;Your editscript for tag " name " follows
-"))
- (display script))
-    (begin
-      (display (string-append "
-;;;Your command " name " script follows
-"))
-      (display script)
-      (display "
-;;;init.scm script follows
-")
-      (display initscript)
-      (display " 
-;;;xml which loads this command follows
-")
-      (display command)
-      (display "
-"))))
+
+;Some constants. Change these only if the Website moves.
+(define HTTPHostname "www.denemo.org") ; don't use http:// . No tailing /
+(define HTTPSite "/api.php")
+
+
+(define (d-UploadRoutine list)
+  (define command (list-ref list 0))
+  (define name (list-ref list 1))
+  (define script (list-ref list 2))
+  (define initscript (list-ref list 3))
+  (define menupath (list-ref list 4))
+  (define label (list-ref list 5))
+  (define tooltip (list-ref list 6))
+  (define after (list-ref list 7))
+	   
+	; Prepare Login. Use this only once in (CookieString) because all tokens change on any new login.
+	(define (LogMeIn) 
+		(d-HTTP ;Parameters are hostname, site, cookies/header and POST-body
+		HTTPHostname
+		HTTPSite
+		"" ; Cookie entrypoint. No Cookie for now.
+		(string-append "format=json&action=login&lgname=" (scheme-escape(d-GetUserName)) "&lgpassword=" (scheme-escape(d-GetPassword)) ))
+	)
+
+	; Actually logs you in and prepares a HTTP-Cookie you have to use in all other Media-Wiki Actions as third (d-HTTP) parameter.
+	(define (CookieString) 
+		(define LogMeInReturn (LogMeIn))
+		(string-append 
+		"Cookie: "(ParseJson LogMeInReturn "cookieprefix")"UserName=" (ParseJson LogMeInReturn "lgusername")
+		"; "(ParseJson LogMeInReturn "cookieprefix")"UserID=" (ParseJson LogMeInReturn "lguserid") 
+		"; "(ParseJson LogMeInReturn "cookieprefix")"Token=" (ParseJson LogMeInReturn "lgtoken")
+		"; "(ParseJson LogMeInReturn "cookieprefix")"_session=" (ParseJson LogMeInReturn "sessionid") 
+		"\n")
+	)	
+	
+
+	; Prepare request Edit-Token.
+	; First send d-HTTP, then parse the token, then modify it to the right format.
+	(define (GetEditToken name CookieStringReturn)
+		(define (ReceiveRawToken)
+			(d-HTTP 
+			HTTPHostname
+			HTTPSite
+			CookieStringReturn
+			(string-append "format=json&action=query&prop=info|revisions&intoken=edit&titles="name))
+		)	
+		
+		;json gives you +\\ @ Tokens end, but you need only +\ which is %2B%5C in url-endcoded format. 
+                (string-append (string-trim-both (string-trim-both (ParseJson (ReceiveRawToken) "edittoken" ) #\\) #\+) "%2B%5C"))	
+	
+	;This will overwrite the page named like the parameter "name". If it is not existend it will be created.
+	;Any OverwritePage call has to be made in (d-UploadRoutine)'s body.
+	(define (OverwritePage name CookieStringReturn ContentString)
+		(d-HTTP
+			HTTPHostname
+			HTTPSite
+			CookieStringReturn
+			(string-append "action=edit&title=" (scheme-escape name) "&format=json&summary=NewScript&text=" ContentString "&token=" (GetEditToken name CookieStringReturn))
+		)					
+	)
+		
+	;;;; The real action happens here.	This is the only place where (CookieString) is called so we have only one Login at all.
+	;(d-Save) ; Save before try.
+
+	(display (OverwritePage name (CookieString) script )) ;show and execute
+	
+	;Logout
+	(d-HTTP HTTPHostname HTTPSite "" "format=json&action=logout")
+	(display "\nLogout\n")
+) ; End Of (d-UploadRoutine)
