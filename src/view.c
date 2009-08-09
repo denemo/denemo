@@ -3670,13 +3670,14 @@ for commands:
    the script is given in scheme and any initialization script for the menu is given in init_script
 */
 static void 
-upload_scripts(gchar *name, gchar *script, gchar *init_script, gchar *command) {
+upload_scripts(gchar *name, gchar *script, gchar *init_script, gchar *command, gchar *menupath, gchar *label, gchar *tooltip, gchar *after) {
   SCM func_symbol;
   SCM func;	
   func_symbol = scm_c_lookup("d-UploadRoutine");
   func = scm_variable_ref(func_symbol);    
-#define ARG(s) scm_from_locale_string(s) 
-  scm_call_4(func, ARG(command), ARG(name), ARG(script), ARG(init_script));
+#define ARG(s) s?scm_from_locale_string(s):scm_from_locale_string("")
+  SCM list = scm_list_n( ARG(command), ARG(name), ARG(script), ARG(init_script),  ARG(menupath), ARG(label), ARG(tooltip), ARG(after), SCM_UNDEFINED);
+  scm_call_1(func, list);
 #undef ARG  
 }
 
@@ -3733,24 +3734,16 @@ static void uploadMenuItem (GtkWidget *widget, GtkAction *action) {
   if(init_script==NULL) init_script = "";
   if(script==NULL) script = "";
 
-#if 0
-  SCM func_symbol;
-  SCM func;	
-  func_symbol = scm_c_lookup("d-UploadRoutine");
-  func = scm_variable_ref(func_symbol);    
-#define ARG(s) scm_from_locale_string(s) 
-  scm_call_4(func, ARG(name), ARG(script), ARG(init_script), ARG(xml));
-#undef ARG  
-#else
-  upload_scripts(name, script, init_script, xml);
-#endif
+
+  upload_scripts(name, script, init_script, xml, menupath, label, tooltip, after);
+
 }
 
 
 /* upload editscript for tag */
 void
 upload_edit_script(gchar *tag, gchar *script) {
-  upload_scripts(tag,script,"","");
+  upload_scripts(tag,script,"","","","","","");
 }
 
 
