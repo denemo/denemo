@@ -919,8 +919,7 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
-#if 0
-  //GLIB_MINOR_VERSION >= 14
+#if GLIB_MINOR_VERSION >= 14
   gchar **arguments;
   gchar *arguments1[] = {
     Denemo.prefs.lilypath->str,
