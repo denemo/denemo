@@ -3659,10 +3659,14 @@ static void put_initialization_script (GtkWidget *widget, gchar *directory) {
 }
 
 /* upload scripts for command/tag name.
+Parameters: name the name of a command or a tag
+            script the scheme script that the command runs, or an editscript for directives with tag name
+	    init_script the scheme script that is run before the command runs, not used for tags
+	    command the xml description of that command, or "" for tags
 for tags:
-   xml is "" for an edit script and name is the tag
+   command is "" for an editscript and name is the tag for directives that the script edits
 for commands:
-   xml is the command set file for merging the cpmmand as a new menu item
+   command is the command set file for merging the command as a new menu item
    the script is given in scheme and any initialization script for the menu is given in init_script
 */
 static void 
