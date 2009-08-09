@@ -223,6 +223,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SavePart
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExportPDF"), "ExportPDF", "Export PDF", "Export the score as a PDF document file", export_pdf_action);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ConfigureScore"), "ConfigureScore", "Score Wizard", "Start up a wizard to create a new score. This allows you to set various properties of the score", scorewizard);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPreview"), "PrintPreview", "Print Preview", "Displays the final finished score in your pdf viewer", printpreview_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintSelection"), "PrintSelection", "Print Selection", "Displays selected music from score in your pdf viewer", printselection_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintExcerptPreview"), "PrintExcerptPreview", "Print Excerpt", "Displays a musical excerpt in your image viewer", printexcerptpreview_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Print"), "Print", "Print", "Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer", printall_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrintPart"), "PrintPart", "Print Part", "Displays the final finished score for the current part (that is current staff", printpart_cb);

@@ -899,6 +899,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ConfigureScore")), "scm",
 SCM scheme_PrintPreview(SCM optional);
 install_scm_function ("d-PrintPreview", scheme_PrintPreview);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PrintPreview")), "scm", (gpointer)1);
+/*PrintSelection printselection_cb*/
+SCM scheme_PrintSelection(SCM optional);
+install_scm_function ("d-PrintSelection", scheme_PrintSelection);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PrintSelection")), "scm", (gpointer)1);
 /*PrintExcerptPreview printexcerptpreview_cb*/
 SCM scheme_PrintExcerptPreview(SCM optional);
 install_scm_function ("d-PrintExcerptPreview", scheme_PrintExcerptPreview);

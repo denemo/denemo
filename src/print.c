@@ -600,12 +600,25 @@ void
 printpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   gui->lilycontrol.excerpt = FALSE;
-  if(gui->si->markstaffnum)
-    if(confirm("A range of music is selected","Print whole file?")){
-      gui->si->markstaffnum=0;
-    }
-  print(gui, FALSE, TRUE);
+  gui->si->markstaffnum=0;//FIXME save and restore selection?    
+  if((gui->movements && g_list_length(gui->movements)>1) && 
+     (confirm("This piece has several movements", "Print all of them?")))
+    print(gui, FALSE, TRUE);
+  else
+    print(gui, FALSE, FALSE);
 }
+
+void
+printselection_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  gui->lilycontrol.excerpt = FALSE;
+  if(gui->si->markstaffnum)
+    print(gui, FALSE, FALSE);
+  else
+    warningdialog(_("No selection to print"));
+}
+
+
 void
 printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -906,7 +919,8 @@ void refresh_print_view (void) {
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
-#if GLIB_MINOR_VERSION >= 14
+#if 0
+  //GLIB_MINOR_VERSION >= 14
   gchar **arguments;
   gchar *arguments1[] = {
     Denemo.prefs.lilypath->str,

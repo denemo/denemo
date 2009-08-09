@@ -234,6 +234,7 @@
 {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), NULL,N_("Export the score as a PDF document file"),G_CALLBACK (export_pdf_action)},
 {"ConfigureScore", GTK_STOCK_PROPERTIES, N_("Score Wizard"), NULL,N_("Start up a wizard to create a new score. This allows you to set various properties of the score"),G_CALLBACK (scorewizard)},
 {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Preview"), NULL,N_("Displays the final finished score in your pdf viewer"),G_CALLBACK (printpreview_cb)},
+{"PrintSelection", GTK_STOCK_PRINT, N_("Print Selection"), NULL,N_("Displays selected music from score in your pdf viewer"),G_CALLBACK (printselection_cb)},
 {"PrintExcerptPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Excerpt"), NULL,N_("Displays a musical excerpt in your image viewer"),G_CALLBACK (printexcerptpreview_cb)},
 {"Print", GTK_STOCK_PRINT, N_("Print"), NULL,N_("Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer"),G_CALLBACK (printall_cb)},
 {"PrintPart", GTK_STOCK_PRINT, N_("Print Part"), NULL,N_("Displays the final finished score for the current part (that is current staff"),G_CALLBACK (printpart_cb)},

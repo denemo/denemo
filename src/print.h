@@ -8,6 +8,8 @@ printall_cb(GtkAction *action, gpointer param);
 void
 printpreview_cb(GtkAction *action, gpointer param);
 void
+printselection_cb(GtkAction *action, gpointer param);
+void
 printexcerptpreview_cb(GtkAction *action, gpointer param);
 void
 printpart_cb(GtkAction *action, gpointer param);
