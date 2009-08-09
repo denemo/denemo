@@ -812,7 +812,7 @@ static void draw_print(DenemoGUI *gui) {
 			gcs_graygc(), TRUE, markx, marky, w, h);
 
       gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
-		  markx, marky, curx, cury,/* x, y in pixbuf, x,y in window */
+		  markx+x, marky+y, curx, cury,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
@@ -826,7 +826,7 @@ static void draw_print(DenemoGUI *gui) {
       gdk_draw_rectangle (Denemo.gui->printarea->window,
 			gcs_graygc(), TRUE, markx-pad/2, marky-pad/2, w+pad, h+pad);
       gdk_draw_pixbuf(gui->printarea->window, NULL, GDK_PIXBUF(gui->pixbuf),
-		      markx, marky, markx, marky,/* x, y in pixbuf, x,y in window FIXME after scrolling */
+		      markx+x, marky+y, markx, marky,/* x, y in pixbuf, x,y in window */
 		w,  h, GDK_RGB_DITHER_NONE,0,0);
 
     }
