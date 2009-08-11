@@ -29,15 +29,12 @@
 )
 
 (define (StepSkipOrSame::GameOver)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string StepSkipOrSame::score)))
-  (d-InfoDialog BufferOne))
+   (d-InfoDialog (string-append "Game Over\n" "Your Score = " (number->string StepSkipOrSame::score)))
 )
 
 (define (StepSkipOrSame::ScoreBoard)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
-  (d-InfoDialog BufferOne))
+   (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print
+         (EducationGames::ScoreboardFile "StepSkipOrSame")))
 )
 
 (CreateButton "StepSkipOrSame::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
@@ -157,7 +154,11 @@
 (StepSkipOrSame::offerNote)
 (set! StepSkipOrSame::start (current-time))
 (StepSkipOrSame::runtest StepSkipOrSame::num-goes)
-(StepSkipOrSame::GameOver)
+(if (not                                                                                                                                           (EducationGames::Write_Scoreboard_File
+  (EducationGames::ScoreboardFile "StepSkipOrSame") StepSkipOrSame::score))
+  (StepSkipOrSame::GameOver)
+  (StepSkipOrSame::ScoreBoard)
+  )
 
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)

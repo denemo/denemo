@@ -26,15 +26,12 @@
 )
 
 (define (UpDownOrSame::GameOver)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string UpDownOrSame::score)))
-  (d-InfoDialog BufferOne))
+   (d-InfoDialog (string-append "Game Over\n" "Your Score = " (number->string UpDownOrSame::score)))
 )
 
 (define (UpDownOrSame::ScoreBoard)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
-  (d-InfoDialog BufferOne))
+   (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print
+         (EducationGames::ScoreboardFile "UpDownOrSame")))
 )
 
 (CreateButton "UpDownOrSame::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
@@ -95,7 +92,6 @@
 			(if (string=? UpDownOrSame::userinput "Right")
 			  (set! UpDownOrSame::userinput "Same"))
 			(UpDownOrSame::directionchosen UpDownOrSame::userinput)	
-			;(set! UpDownOrSame::num-goes (-  UpDownOrSame::num-goes 1))
 			(UpDownOrSame::runtest UpDownOrSame::num-goes)))))
 
 
@@ -117,7 +113,13 @@
 (UpDownOrSame::offerNote)
 (set! UpDownOrSame::start (current-time))
 (UpDownOrSame::runtest UpDownOrSame::num-goes)
-(UpDownOrSame::GameOver)
+(if (not                                                                                                                                           (EducationGames::Write_Scoreboard_File
+  (EducationGames::ScoreboardFile "UpDownOrSame") UpDownOrSame::score))
+  (UpDownOrSame::GameOver)
+  (UpDownOrSame::ScoreBoard)
+  )
+
+
 
 (d-PlayMidiKey #xF03001)
 (d-PlayMidiKey #xF02A01)

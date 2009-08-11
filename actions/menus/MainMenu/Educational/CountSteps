@@ -26,15 +26,12 @@
 )
 
 (define (CountSteps::GameOver)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "Game Over\n" "Your Score = " (number->string CountSteps::score)))
-  (d-InfoDialog BufferOne))
+  (d-InfoDialog (string-append "Game Over\n" "Your Score = " (number->string CountSteps::score)))
 )
 
 (define (CountSteps::ScoreBoard)
-  (let ( (BufferOne "") )
-   (set! BufferOne (string-append "This is Where the scoreboard will be in the future."))
-  (d-InfoDialog BufferOne))
+    (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print
+          (EducationGames::ScoreboardFile "CountSteps")))
 )
 
 (CreateButton "CountSteps::GameScore" "&lt;span font_desc=\"12\"&gt;Score&lt;/span&gt;")
@@ -45,7 +42,7 @@
 
 ;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
 (define (CountSteps::offerNote) 
-(if (>= CountSteps::num-goes 0)
+  (if (>= CountSteps::num-goes 0)
 	(let ( (steps 0) )
 	  ;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
@@ -61,7 +58,7 @@
 	            (set! CountSteps::direction 0)))
 	    
           (d-Insert2) 
-          (set! CountSteps::intervalwas (steps))
+          (set! CountSteps::intervalwas steps)
 
           (CountSteps::showscore)
 	  (set! CountSteps::num-goes (-  CountSteps::num-goes 1))
@@ -148,7 +145,12 @@
 (CountSteps::offerNote)
 (set! CountSteps::start (current-time))
 (CountSteps::runtest CountSteps::num-goes)
-(CountSteps::GameOver)
+(if (not
+  (EducationGames::Write_Scoreboard_File
+  (EducationGames::ScoreboardFile "CountSteps") CountSteps::score))
+  (CountSteps::GameOver)
+  (CountSteps::ScoreBoard)
+  )
 
 
   (d-PlayMidiKey #xF03001)
