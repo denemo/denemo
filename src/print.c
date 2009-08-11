@@ -299,7 +299,7 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   process_lilypond_errors(filename); 
 
   if (is_png)
-	printfile = g_strconcat (filename, ".png", NULL);
+	printfile = g_strconcat (filename, "_.png", NULL);
   else
   	printfile = g_strconcat (filename, ".pdf", NULL);
   
@@ -365,46 +365,54 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 void
 run_lilypond(gchar *filename, DenemoGUI *gui){
 
-  gchar **arguments;
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-
+  gchar *printfile = g_strconcat (filename, "_", NULL);
   /* Check Lilypond Version */
   //if (get_lily_version("2.12") != SAME)
     convert_ly(lilyfile);
-#if 0 
-// GLIB_MINOR_VERSION >= 14
-   gchar *backend;
-  if (get_lily_version("2.12") >= 1)
-    backend = "-dbackend=eps";
-  else
-    backend = "-b eps";
 
-  gchar *png[] = {
+#if GLIB_MINOR_VERSION >= 14
+  gchar **arguments; 
+  gchar *png_arguments1[] = {
     Denemo.prefs.lilypath->str,
     "--png",
-    backend,
+    "-dbackend=eps",
     resolution,
     "-o",
-    filename,
+    printfile,
     lilyfile,
     NULL
   };
-#else
-  gchar *png[] = {
+  gchar *png_arguments2[] = {
     Denemo.prefs.lilypath->str,
     "--png",
     "-b",
     "eps",
     resolution,
     "-o",
-    filename,
+    printfile,
+    lilyfile,
+    NULL
+  };
+  
+  if (get_lily_version("2.12") >= 1)
+     arguments = png_arguments1;
+  else
+     arguments = png_arguments2;
+#else
+  gchar *png_arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    printfile,
     lilyfile,
     NULL
   };
 #endif
-
-
 
   gchar *pdf[] = {
     Denemo.prefs.lilypath->str,
@@ -414,12 +422,9 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     lilyfile,
     NULL
   };
-  if (gui->lilycontrol.excerpt){	  
-	  arguments = png;
-  }
-  else {
+  if (!gui->lilycontrol.excerpt)	  
 	  arguments = pdf;
-  }
+  
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
@@ -456,7 +461,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   /* remove old output files to avoid confusion */
   gchar *printfile;
   if (gui->lilycontrol.excerpt == TRUE)
-    printfile = g_strconcat (filename, ".png", NULL);
+    printfile = g_strconcat (filename, "_.png", NULL);
   else
     printfile = g_strconcat (filename, ".pdf", NULL);
   FILE *fp = fopen(printfile, "w");
