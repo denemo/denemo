@@ -313,16 +313,18 @@ key_from_string(GString *scheme_string, gint *tokey, gint *isminor) {
  * and returns the key in it
  */
 void
-key_change_insert (GtkAction * action, gpointer param)
+key_change_insert (GtkAction * action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, keyname);
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  if(action || param==NULL)
+  if(keyname==NULL)
     key_change (gui, INSERT);
   else {
-    GString *values = (GString *)param;
     gint tokey, isminor;
-    gboolean valid = key_from_string(values, &tokey, &isminor);
+    GString *scheme_str = g_string_new(keyname);
+    gboolean valid = key_from_string(scheme_str, &tokey, &isminor);
+    g_string_free(scheme_str, TRUE);
     if(valid) {
       object_insert (gui, dnm_newkeyobj (tokey, isminor, 0));
       showwhichaccidentalswholestaff (gui->si->currentstaff->data);
@@ -346,7 +348,7 @@ key_change_insert (GtkAction * action, gpointer param)
       key = g_strdup_printf( "%s %s",minorkeys[number], "Minor");
     else
       key = g_strdup_printf( "%s %s",majorkeys[number], "Major");
-    g_string_assign(values, key);
+    g_string_assign(param->string, key);
     g_free(key);
   }
 }
@@ -356,16 +358,18 @@ key_change_insert (GtkAction * action, gpointer param)
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
-key_change_initial (GtkAction * action, gpointer param)
+key_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, keyname);
   DenemoGUI *gui = Denemo.gui;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  if(action || param==NULL)
+  if(keyname==NULL)
     key_change (gui, CHANGEINITIAL);
   else {
-    GString *values = (GString *)param;
     gint tokey, isminor;
-    gboolean valid = key_from_string(values, &tokey, &isminor);
+    GString *scheme_str = g_string_new(keyname);
+    gboolean valid = key_from_string(scheme_str, &tokey, &isminor);
+    g_string_free(scheme_str, TRUE);
     if(valid) {
       dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
       displayhelper (gui);
@@ -376,7 +380,7 @@ key_change_initial (GtkAction * action, gpointer param)
       key = g_strdup_printf( "%s %s",minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
     else
       key = g_strdup_printf( "%s %s",majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
-    g_string_assign(values, key);
+    g_string_assign(param->string, key);
     g_free(key);
 
   }

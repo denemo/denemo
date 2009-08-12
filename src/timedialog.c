@@ -145,10 +145,14 @@ insert_timesig (DenemoScore * si, DenemoStaff * curstaffstruct, gint time1,
  * Calls timesig_change with the INSERT argument
  */
 void
-timesig_change_insert (GtkAction *action, gpointer param)
+timesig_change_insert (GtkAction *action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, timesigname);
   DenemoGUI *gui = Denemo.gui;
-  timesig_change (gui, INSERT);
+  if(timesigname==NULL)
+    timesig_change (gui, INSERT);
+  else
+    g_warning("not implemented yet");
 }
 
 /**
@@ -156,10 +160,14 @@ timesig_change_insert (GtkAction *action, gpointer param)
  * Calls timesig_change with the CHANGEINITIAL argument
  */
 void
-timesig_change_initial (GtkAction *action, gpointer param)
+timesig_change_initial (GtkAction *action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, timesigname);
   DenemoGUI *gui = Denemo.gui;
-  timesig_change (gui, CHANGEINITIAL);
+  if(timesigname==NULL)
+    timesig_change (gui, CHANGEINITIAL);
+  else
+    g_warning("not implemented yet");
 }
 
 /**

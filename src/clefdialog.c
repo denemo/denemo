@@ -54,14 +54,14 @@ static enum clefs get_clef_from_name(gchar *name) {
  * calls clef change with the INSERT argument
  */
 void
-clef_change_insert (GtkAction *action, gpointer param)
+clef_change_insert (GtkAction *action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, clefname);
   DenemoGUI *gui = Denemo.gui;
-  if(action || param==NULL)
+  if(clefname==NULL)
     clef_change (gui, INSERT);
  else {
-   GString *values = (GString *)param;
-   enum clefs clef = get_clef_from_name(values->str);
+   enum clefs clef = get_clef_from_name(clefname);
    if(clef!=DENEMO_INVALID_CLEF)
      object_insert (gui, dnm_newclefobj (clef));
    displayhelper (gui);
@@ -73,14 +73,14 @@ clef_change_insert (GtkAction *action, gpointer param)
  * calls clef change with the CHANGEINITIAL argument
  */
 void
-clef_change_initial (GtkAction * action, gpointer param)
+clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 {
+  GET_1PARAM(action, param, clefname);
   DenemoGUI *gui = Denemo.gui;
-  if(action || param==NULL)
+  if(clefname==NULL)
     clef_change (gui, CHANGEINITIAL);
   else {
-    GString *values = (GString *)param;
-    enum clefs clef = get_clef_from_name(values->str);
+    enum clefs clef = get_clef_from_name(clefname);
    if(clef!=DENEMO_INVALID_CLEF)
      dnm_setinitialclef (gui->si, gui->si->currentstaff->data, clef);
    displayhelper (gui);
