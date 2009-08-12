@@ -18,14 +18,14 @@ typedef enum actiontype
 { CHANGEINITIAL, INSERT } 
 actiontype;
 
-void clef_change_initial(GtkAction *action, gpointer param);
-void clef_change_insert(GtkAction *action, gpointer param);
+void clef_change_initial(GtkAction *action, DenemoScriptParam * param);
+void clef_change_insert(GtkAction *action, DenemoScriptParam * param);
 
-void key_change_initial(GtkAction *action, gpointer param);
-void key_change_insert(GtkAction *action, gpointer param);
+void key_change_initial(GtkAction *action, DenemoScriptParam * param);
+void key_change_insert(GtkAction *action, DenemoScriptParam * param);
 
-void timesig_change_initial(GtkAction *action, gpointer param);
-void timesig_change_insert(GtkAction *action, gpointer param);
+void timesig_change_initial(GtkAction *action, DenemoScriptParam * param);
+void timesig_change_insert(GtkAction *action, DenemoScriptParam * param);
 
 void
 clef_change (DenemoGUI *gui,actiontype action);
