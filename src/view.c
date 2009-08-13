@@ -3651,7 +3651,13 @@ static void put_initialization_script (GtkWidget *widget, gchar *directory) {
       if(fp) {
 	fprintf (fp, "%s", scheme);
 	fclose(fp);
-	infodialog("Wrote init.scm");
+	if(confirm("Wrote init.scm", "Shall I execute it now?"))
+	  call_out_to_guile(scheme);
+      }
+      else {
+	warningdialog("Could not create init.scm;\n"
+		      "you will need at least one scripted menu item in the menu\n"
+		      "before you create the initialization script.");
       }
       g_free(scheme);
     }
