@@ -173,25 +173,55 @@ cb_string_pairs activatable_commands[] = {
 
 
 #define DENEMO_SCHEME_PREFIX "d-"
+
+#ifdef DEVELOPER
+static FILE *DEV_fp;
+#define CHECK_OPEN   if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+#endif
 static void install_scm_function(gchar *name, gpointer callback) {
+#ifdef DEVELOPER
+  CHECK_OPEN;
+  if(DEV_fp)
+    fprintf(DEV_fp, "<listitem>%s no parameters </listitem>\n",name);
+#endif
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
 
 }
 static void install_scm_function_with_param(gchar *name, gpointer callback) {
+#ifdef DEVELOPER
+  CHECK_OPEN;
+  if(DEV_fp)
+    fprintf(DEV_fp, "<listitem>%s one parameter </listitem>\n",name);
+#endif
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
 static void install_scm_function2(gchar *name, gpointer callback) {
+#ifdef DEVELOPER
+  CHECK_OPEN;
+  if(DEV_fp)
+    fprintf(DEV_fp, "<listitem>%s two parameters </listitem>\n",name);
+#endif
 scm_c_define_gsubr (name, 2, 0, 0, callback);
 
 }
 
 static void install_scm_function3(gchar *name, gpointer callback) {
+#ifdef DEVELOPER
+  CHECK_OPEN;
+  if(DEV_fp)
+    fprintf(DEV_fp, "<listitem>%s three parameters </listitem>\n",name);
+#endif
 scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 }
 
 static void install_scm_function4(gchar *name, gpointer callback) {
+#ifdef DEVELOPER
+  CHECK_OPEN;
+  if(DEV_fp)
+    fprintf(DEV_fp, "<listitem>%s four parameters </listitem>\n",name);
+#endif
 scm_c_define_gsubr (name, 4, 0, 0, callback);
 
 }
