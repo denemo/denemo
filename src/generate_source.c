@@ -444,7 +444,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode", N_("Toggle Edit Mode")},
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode", N_("Toggle Rest Mode")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rhythm entry", N_("ToggleRhythm"),  "toggle_rhythm_mode", N_("Toggle Rhythm Mode")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Toggle audible feedback on/off", N_("ToggleRhythm"),  "toggle_rhythm_mode", N_("Toggle Audible Feedback")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Clear the list of pitches that overlay the notes", N_("ClearOverlay"),  "clear_overlay", N_("Clear Overlay")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Copy selection as a rhythm pattern for notes to follow as they are entered", N_("CreateRhythm"), "create_rhythm_cb", N_("Create Rhythm")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Delete the selected rhythm pattern", N_("DeleteRhythm"), "delete_rhythm_cb", N_("Delete Rhythm")}, 

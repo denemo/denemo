@@ -329,7 +329,7 @@
 {"OpenRecent", GTK_STOCK_OPEN, N_("Open Recent"), NULL,N_("Open previously used files")},
 {"ToggleEdit", NULL, N_("Toggle Edit Mode"), NULL,N_("Toggle between current mode and edit mode"),G_CALLBACK (toggle_edit_mode)},
 {"ToggleRest", NULL, N_("Toggle Rest Mode"), NULL,N_("Toggle between note entry and rest entry"),G_CALLBACK (toggle_rest_mode)},
-{"ToggleRhythm", NULL, N_("Toggle Rhythm Mode"), NULL,N_("Toggle between note entry and rhythm entry"),G_CALLBACK (toggle_rhythm_mode)},
+{"ToggleRhythm", NULL, N_("Toggle Audible Feedback"), NULL,N_("Toggle audible feedback on/off"),G_CALLBACK (toggle_rhythm_mode)},
 {"ClearOverlay", NULL, N_("Clear Overlay"), NULL,N_("Clear the list of pitches that overlay the notes"),G_CALLBACK (clear_overlay)},
 {"CreateRhythm", NULL, N_("Create Rhythm"), NULL,N_("Copy selection as a rhythm pattern for notes to follow as they are entered"),G_CALLBACK (create_rhythm_cb)},
 {"DeleteRhythm", NULL, N_("Delete Rhythm"), NULL,N_("Delete the selected rhythm pattern"),G_CALLBACK (delete_rhythm_cb)},
