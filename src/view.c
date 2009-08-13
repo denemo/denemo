@@ -175,32 +175,36 @@ cb_string_pairs activatable_commands[] = {
 #define DENEMO_SCHEME_PREFIX "d-"
 
 #ifdef DEVELOPER
+#define MUSIC_FONT(a) "music-sign ("a")"
 static FILE *DEV_fp;
-#define CHECK_OPEN   if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+#define DEV_CODE  gint idx = lookup_command_from_name(Denemo.map, name+strlen(DENEMO_SCHEME_PREFIX));\
+  gchar *tooltip =  (idx<0)? "To be documented":(gchar*)lookup_tooltip_from_idx(Denemo.map, idx);\
+  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
 #endif
 static void install_scm_function(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-  CHECK_OPEN;
+
+  DEV_CODE;
   if(DEV_fp)
-    fprintf(DEV_fp, "<listitem>%s no parameters </listitem>\n",name);
+    fprintf(DEV_fp, "<listitem>%s one optional parameter: %s </listitem>\n",name, tooltip);
 #endif
   scm_c_define_gsubr (name, 0, 1, 0, callback); // one optional parameter
 
 }
 static void install_scm_function_with_param(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-  CHECK_OPEN;
+  DEV_CODE;
   if(DEV_fp)
-    fprintf(DEV_fp, "<listitem>%s one parameter </listitem>\n",name);
+    fprintf(DEV_fp, "<listitem>%s one required and one optional parameter: %s </listitem>\n",name, tooltip);
 #endif
 scm_c_define_gsubr (name, 1, 1, 0, callback);
 
 }
 static void install_scm_function2(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-  CHECK_OPEN;
+  DEV_CODE;
   if(DEV_fp)
-    fprintf(DEV_fp, "<listitem>%s two parameters </listitem>\n",name);
+    fprintf(DEV_fp, "<listitem>%s two parameters: %s </listitem>\n",name, tooltip);
 #endif
 scm_c_define_gsubr (name, 2, 0, 0, callback);
 
@@ -208,9 +212,9 @@ scm_c_define_gsubr (name, 2, 0, 0, callback);
 
 static void install_scm_function3(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-  CHECK_OPEN;
+  DEV_CODE;
   if(DEV_fp)
-    fprintf(DEV_fp, "<listitem>%s three parameters </listitem>\n",name);
+    fprintf(DEV_fp, "<listitem>%s three parameters: %s </listitem>\n",name, tooltip);
 #endif
 scm_c_define_gsubr (name, 3, 0, 0, callback);
 
@@ -218,14 +222,14 @@ scm_c_define_gsubr (name, 3, 0, 0, callback);
 
 static void install_scm_function4(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-  CHECK_OPEN;
+  DEV_CODE;
   if(DEV_fp)
-    fprintf(DEV_fp, "<listitem>%s four parameters </listitem>\n",name);
+    fprintf(DEV_fp, "<listitem>%s four parameters: %s </listitem>\n",name, tooltip);
 #endif
 scm_c_define_gsubr (name, 4, 0, 0, callback);
 
 }
-
+#undef DEV_CODE
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
   gchar *name=NULL, *thepage=NULL, *oth=NULL, *post=NULL;
@@ -1783,9 +1787,6 @@ void inner_main(void*closure, int argc, char **argv){
   
   gint i;
   GError *error = NULL;
-  
-  
-  
 
   //create window system
   create_window();
@@ -2458,24 +2459,6 @@ INSTALL_EDIT(movementcontrol);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
 
-  /* test with
-
-  (display (d-GetNoteAsMidi))
-
-  (define command (lambda ()
-            (d-WarningDialog "To use this function correctly you need to give a duration.")
-	    ))
-     (define duration (d-GetCommand))
-     (cond ((equal? duration "d-3") (set! command d-Change3))
-           ((equal? duration "d-4") (set! command d-Change4))
-      )
-     (d-InsertTiedNote)
-     (command)
-
-    
-  */
-
-
  if(!initial_file){    
    gchar *init_file;
    init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
@@ -2492,8 +2475,6 @@ INSTALL_EDIT(movementcontrol);
  /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
-
-
 
 
 static void selection_received (GtkClipboard *clipboard, const gchar *text, DenemoScriptParam *param) {

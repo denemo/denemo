@@ -1583,799 +1583,860 @@ d-ScoreProperties (fontsize= size of font to be used for score)
 <sect1>
   <title>Complete List of Functions Callable from Scheme</title>
 <itemizedlist>
-<listitem>d-Modeless no parameters </listitem>
-<listitem>d-ClassicMode no parameters </listitem>
-<listitem>d-InsertMode no parameters </listitem>
-<listitem>d-EditMode no parameters </listitem>
-<listitem>d-Note no parameters </listitem>
-<listitem>d-Rest no parameters </listitem>
-<listitem>d-Blank no parameters </listitem>
-<listitem>d-Rhythm no parameters </listitem>
-<listitem>d-CursorLeft no parameters </listitem>
-<listitem>d-CursorDown no parameters </listitem>
-<listitem>d-CursorUp no parameters </listitem>
-<listitem>d-CursorRight no parameters </listitem>
-<listitem>d-GoToMark no parameters </listitem>
-<listitem>d-StaffUp no parameters </listitem>
-<listitem>d-StaffDown no parameters </listitem>
-<listitem>d-MeasureLeft no parameters </listitem>
-<listitem>d-MeasureRight no parameters </listitem>
-<listitem>d-A no parameters </listitem>
-<listitem>d-B no parameters </listitem>
-<listitem>d-C no parameters </listitem>
-<listitem>d-D no parameters </listitem>
-<listitem>d-E no parameters </listitem>
-<listitem>d-F no parameters </listitem>
-<listitem>d-G no parameters </listitem>
-<listitem>d-OctaveUp no parameters </listitem>
-<listitem>d-OctaveDown no parameters </listitem>
-<listitem>d-WholeNote no parameters </listitem>
-<listitem>d-HalfNote no parameters </listitem>
-<listitem>d-QuarterNote no parameters </listitem>
-<listitem>d-EighthNote no parameters </listitem>
-<listitem>d-SixteenthNote no parameters </listitem>
-<listitem>d-ThirtysecondNote no parameters </listitem>
-<listitem>d-SixtyfourthNote no parameters </listitem>
-<listitem>d-InsertBlankWholeNote no parameters </listitem>
-<listitem>d-InsertBlankHalfNote no parameters </listitem>
-<listitem>d-InsertBlankQuarterNote no parameters </listitem>
-<listitem>d-InsertBlankEighthNote no parameters </listitem>
-<listitem>d-InsertBlankSixteenthNote no parameters </listitem>
-<listitem>d-InsertBlankThirtysecondNote no parameters </listitem>
-<listitem>d-InsertBlankSixtyfourthNote no parameters </listitem>
-<listitem>d-ToggleRestMode no parameters </listitem>
-<listitem>d-ToggleBlankMode no parameters </listitem>
-<listitem>d-InsertWholeRest no parameters </listitem>
-<listitem>d-InsertHalfRest no parameters </listitem>
-<listitem>d-InsertQuarterRest no parameters </listitem>
-<listitem>d-InsertEighthRest no parameters </listitem>
-<listitem>d-InsertSixteenthRest no parameters </listitem>
-<listitem>d-InsertThirtysecondRest no parameters </listitem>
-<listitem>d-InsertSixtyfourthRest no parameters </listitem>
-<listitem>d-InsertDuplet no parameters </listitem>
-<listitem>d-InsertTriplet no parameters </listitem>
-<listitem>d-StartTriplet no parameters </listitem>
-<listitem>d-EndTuplet no parameters </listitem>
-<listitem>d-InsertQuadtuplet no parameters </listitem>
-<listitem>d-InsertQuintuplet no parameters </listitem>
-<listitem>d-InsertSextuplet no parameters </listitem>
-<listitem>d-InsertSeptuplet no parameters </listitem>
-<listitem>d-AddNoteToChord no parameters </listitem>
-<listitem>d-RemoveNoteFromChord no parameters </listitem>
-<listitem>d-Sharpen no parameters </listitem>
-<listitem>d-Flatten no parameters </listitem>
-<listitem>d-StemUp no parameters </listitem>
-<listitem>d-StemDown no parameters </listitem>
-<listitem>d-AddDot no parameters </listitem>
-<listitem>d-RemoveDot no parameters </listitem>
-<listitem>d-InsertTiedNote no parameters </listitem>
-<listitem>d-ToggleTie no parameters </listitem>
-<listitem>d-DeleteObject no parameters </listitem>
-<listitem>d-DeletePreviousObject no parameters </listitem>
-<listitem>d-InsertMeasure no parameters </listitem>
-<listitem>d-AppendMeasure no parameters </listitem>
-<listitem>d-DeleteMeasure no parameters </listitem>
-<listitem>d-DeleteMeasureAllStaffs no parameters </listitem>
-<listitem>d-ShrinkMeasures no parameters </listitem>
-<listitem>d-WidenMeasures no parameters </listitem>
-<listitem>d-ShorterStaffs no parameters </listitem>
-<listitem>d-TallerStaffs no parameters </listitem>
-<listitem>d-InsertTrebleClef no parameters </listitem>
-<listitem>d-InsertBassClef no parameters </listitem>
-<listitem>d-Insertg8clef no parameters </listitem>
-<listitem>d-InsertAltoClef no parameters </listitem>
-<listitem>d-InsertTenorClef no parameters </listitem>
-<listitem>d-InsertSopranoClef no parameters </listitem>
-<listitem>d-SetInitialTrebleClef no parameters </listitem>
-<listitem>d-SetInitialBassClef no parameters </listitem>
-<listitem>d-SetInitialg8clef no parameters </listitem>
-<listitem>d-SetInitialAltoClef no parameters </listitem>
-<listitem>d-SetInitialTenorClef no parameters </listitem>
-<listitem>d-SetInitialSopranoClef no parameters </listitem>
-<listitem>d-Insert22Time no parameters </listitem>
-<listitem>d-Insert32Time no parameters </listitem>
-<listitem>d-Insert42Time no parameters </listitem>
-<listitem>d-Insert44Time no parameters </listitem>
-<listitem>d-Insert34Time no parameters </listitem>
-<listitem>d-Insert24Time no parameters </listitem>
-<listitem>d-Insert64Time no parameters </listitem>
-<listitem>d-Insert38Time no parameters </listitem>
-<listitem>d-Insert68Time no parameters </listitem>
-<listitem>d-Insert128Time no parameters </listitem>
-<listitem>d-Insert98Time no parameters </listitem>
-<listitem>d-Set22Time no parameters </listitem>
-<listitem>d-Set32Time no parameters </listitem>
-<listitem>d-Set42Time no parameters </listitem>
-<listitem>d-Set44Time no parameters </listitem>
-<listitem>d-Set34Time no parameters </listitem>
-<listitem>d-Set24Time no parameters </listitem>
-<listitem>d-Set64Time no parameters </listitem>
-<listitem>d-Set38Time no parameters </listitem>
-<listitem>d-Set68Time no parameters </listitem>
-<listitem>d-Set128Time no parameters </listitem>
-<listitem>d-Set98Time no parameters </listitem>
-<listitem>d-InsertCmaj no parameters </listitem>
-<listitem>d-InsertGmaj no parameters </listitem>
-<listitem>d-InsertDmaj no parameters </listitem>
-<listitem>d-InsertAmaj no parameters </listitem>
-<listitem>d-InsertEmaj no parameters </listitem>
-<listitem>d-InsertBmaj no parameters </listitem>
-<listitem>d-InsertFSharpmaj no parameters </listitem>
-<listitem>d-InsertCSharpmaj no parameters </listitem>
-<listitem>d-InsertFmaj no parameters </listitem>
-<listitem>d-InsertBflatmaj no parameters </listitem>
-<listitem>d-InsertEflatmaj no parameters </listitem>
-<listitem>d-InsertAflatmaj no parameters </listitem>
-<listitem>d-InsertDflatmaj no parameters </listitem>
-<listitem>d-InsertGflatmaj no parameters </listitem>
-<listitem>d-InsertCflatmaj no parameters </listitem>
-<listitem>d-InsertAmin no parameters </listitem>
-<listitem>d-InsertEmin no parameters </listitem>
-<listitem>d-InsertBmin no parameters </listitem>
-<listitem>d-InsertFSharpmin no parameters </listitem>
-<listitem>d-InsertCSharpmin no parameters </listitem>
-<listitem>d-InsertGSharpmin no parameters </listitem>
-<listitem>d-InsertDSharpmin no parameters </listitem>
-<listitem>d-InsertASharpmin no parameters </listitem>
-<listitem>d-InsertDmin no parameters </listitem>
-<listitem>d-InsertGmin no parameters </listitem>
-<listitem>d-InsertCmin no parameters </listitem>
-<listitem>d-InsertFmin no parameters </listitem>
-<listitem>d-InsertBflatmin no parameters </listitem>
-<listitem>d-InsertEflatmin no parameters </listitem>
-<listitem>d-InsertAflatmin no parameters </listitem>
-<listitem>d-SetInitialCmaj no parameters </listitem>
-<listitem>d-SetInitialGmaj no parameters </listitem>
-<listitem>d-SetInitialDmaj no parameters </listitem>
-<listitem>d-SetInitialAmaj no parameters </listitem>
-<listitem>d-SetInitialEmaj no parameters </listitem>
-<listitem>d-SetInitialBmaj no parameters </listitem>
-<listitem>d-SetInitialFSharpmaj no parameters </listitem>
-<listitem>d-SetInitialCSharpmaj no parameters </listitem>
-<listitem>d-SetInitialFmaj no parameters </listitem>
-<listitem>d-SetInitialBflatmaj no parameters </listitem>
-<listitem>d-SetInitialEflatmaj no parameters </listitem>
-<listitem>d-SetInitialAflatmaj no parameters </listitem>
-<listitem>d-SetInitialDflatmaj no parameters </listitem>
-<listitem>d-SetInitialGflatmaj no parameters </listitem>
-<listitem>d-SetInitialCflatmaj no parameters </listitem>
-<listitem>d-SetInitialAmin no parameters </listitem>
-<listitem>d-SetInitialEmin no parameters </listitem>
-<listitem>d-SetInitialBmin no parameters </listitem>
-<listitem>d-SetInitialFSharpmin no parameters </listitem>
-<listitem>d-SetInitialCSharpmin no parameters </listitem>
-<listitem>d-SetInitialGSharpmin no parameters </listitem>
-<listitem>d-SetInitialDSharpmin no parameters </listitem>
-<listitem>d-SetInitialASharpmin no parameters </listitem>
-<listitem>d-SetInitialDmin no parameters </listitem>
-<listitem>d-SetInitialGmin no parameters </listitem>
-<listitem>d-SetInitialCmin no parameters </listitem>
-<listitem>d-SetInitialFmin no parameters </listitem>
-<listitem>d-SetInitialBflatmin no parameters </listitem>
-<listitem>d-SetInitialEflatmin no parameters </listitem>
-<listitem>d-SetInitialAflatmin no parameters </listitem>
-<listitem>d-SetMark no parameters </listitem>
-<listitem>d-UnsetMark no parameters </listitem>
-<listitem>d-ToggleBeginSlur no parameters </listitem>
-<listitem>d-ToggleEndSlur no parameters </listitem>
-<listitem>d-ToggleStartCrescendo no parameters </listitem>
-<listitem>d-ToggleEndCrescendo no parameters </listitem>
-<listitem>d-ToggleStartDiminuendo no parameters </listitem>
-<listitem>d-ToggleEndDiminuendo no parameters </listitem>
-<listitem>d-ToggleAccent no parameters </listitem>
-<listitem>d-ToggleFermata no parameters </listitem>
-<listitem>d-ToggleStaccato no parameters </listitem>
-<listitem>d-ToggleTenuto no parameters </listitem>
-<listitem>d-ToggleTrill no parameters </listitem>
-<listitem>d-ToggleTurn no parameters </listitem>
-<listitem>d-ToggleMordent no parameters </listitem>
-<listitem>d-ToggleStaccatissimo no parameters </listitem>
-<listitem>d-ToggleCoda no parameters </listitem>
-<listitem>d-ToggleFlageolet no parameters </listitem>
-<listitem>d-ToggleOpen no parameters </listitem>
-<listitem>d-TogglePrallMordent no parameters </listitem>
-<listitem>d-TogglePrallPrall no parameters </listitem>
-<listitem>d-TogglePrall no parameters </listitem>
-<listitem>d-ToggleReverseTurn no parameters </listitem>
-<listitem>d-ToggleSegno no parameters </listitem>
-<listitem>d-ToggleSforzato no parameters </listitem>
-<listitem>d-ToggleStopped no parameters </listitem>
-<listitem>d-ToggleThumb no parameters </listitem>
-<listitem>d-ToggleUpprall no parameters </listitem>
-<listitem>d-ToggleArpeggio no parameters </listitem>
-<listitem>d-SetGrace no parameters </listitem>
-<listitem>d-ForceCaution no parameters </listitem>
-<listitem>d-ChangePitch no parameters </listitem>
-<listitem>d-DoubleBar no parameters </listitem>
-<listitem>d-EndBar no parameters </listitem>
-<listitem>d-OpenRepeat no parameters </listitem>
-<listitem>d-CloseRepeat no parameters </listitem>
-<listitem>d-OpenCloseRepeat no parameters </listitem>
-<listitem>d-InsertRhythm no parameters </listitem>
-<listitem>d-NextRhythm no parameters </listitem>
-<listitem>d-AppendMeasuresToScore no parameters </listitem>
-<listitem>d-SharpenEnharmonicSet no parameters </listitem>
-<listitem>d-FlattenEnharmonicSet no parameters </listitem>
-<listitem>d-New no parameters </listitem>
-<listitem>d-Open no parameters </listitem>
-<listitem>d-AddStaffs no parameters </listitem>
-<listitem>d-AddMovements no parameters </listitem>
-<listitem>d-MovementProps no parameters </listitem>
-<listitem>d-OpenNewWindow no parameters </listitem>
-<listitem>d-Save no parameters </listitem>
-<listitem>d-SaveAs no parameters </listitem>
-<listitem>d-OpenTemplate no parameters </listitem>
-<listitem>d-OpenExample no parameters </listitem>
-<listitem>d-OpenMyTemplate no parameters </listitem>
-<listitem>d-SaveTemplate no parameters </listitem>
-<listitem>d-NewWindow no parameters </listitem>
-<listitem>d-InsertMovementBefore no parameters </listitem>
-<listitem>d-InsertMovementAfter no parameters </listitem>
-<listitem>d-NewMovement no parameters </listitem>
-<listitem>d-SaveParts no parameters </listitem>
-<listitem>d-ExportPDF no parameters </listitem>
-<listitem>d-ConfigureScore no parameters </listitem>
-<listitem>d-PrintPreview no parameters </listitem>
-<listitem>d-PrintSelection no parameters </listitem>
-<listitem>d-PrintExcerptPreview no parameters </listitem>
-<listitem>d-Print no parameters </listitem>
-<listitem>d-PrintPart no parameters </listitem>
-<listitem>d-Close no parameters </listitem>
-<listitem>d-Quit no parameters </listitem>
-<listitem>d-Undo no parameters </listitem>
-<listitem>d-Redo no parameters </listitem>
-<listitem>d-Copy no parameters </listitem>
-<listitem>d-Cut no parameters </listitem>
-<listitem>d-Paste no parameters </listitem>
-<listitem>d-PasteClipboard no parameters </listitem>
-<listitem>d-ScoreProperties no parameters </listitem>
-<listitem>d-SaveSelection no parameters </listitem>
-<listitem>d-Preferences no parameters </listitem>
-<listitem>d-SaveAccels no parameters </listitem>
-<listitem>d-CommandManagement no parameters </listitem>
-<listitem>d-LoadPlugins no parameters </listitem>
-<listitem>d-UnloadPlugins no parameters </listitem>
-<listitem>d-ListPlugins no parameters </listitem>
-<listitem>d-ListAvailablePlugins no parameters </listitem>
-<listitem>d-SwapStaffs no parameters </listitem>
-<listitem>d-SplitVoices no parameters </listitem>
-<listitem>d-JoinVoices no parameters </listitem>
-<listitem>d-SwapMovements no parameters </listitem>
-<listitem>d-VoiceUp no parameters </listitem>
-<listitem>d-VoiceDown no parameters </listitem>
-<listitem>d-AddBefore no parameters </listitem>
-<listitem>d-AddAfter no parameters </listitem>
-<listitem>d-AddInitial no parameters </listitem>
-<listitem>d-AddLast no parameters </listitem>
-<listitem>d-DeleteBefore no parameters </listitem>
-<listitem>d-DeleteStaff no parameters </listitem>
-<listitem>d-DeleteAfter no parameters </listitem>
-<listitem>d-AddVoice no parameters </listitem>
-<listitem>d-StaffProperties no parameters </listitem>
-<listitem>d-InitialClef no parameters </listitem>
-<listitem>d-InsertClef no parameters </listitem>
-<listitem>d-InitialKey no parameters </listitem>
-<listitem>d-InsertKey no parameters </listitem>
-<listitem>d-InitialTimeSig no parameters </listitem>
-<listitem>d-InsertTimeSig no parameters </listitem>
-<listitem>d-ChangeNotehead no parameters </listitem>
-<listitem>d-InsertStem no parameters </listitem>
-<listitem>d-AddVerse no parameters </listitem>
-<listitem>d-DeleteVerse no parameters </listitem>
-<listitem>d-EditFiguredBass no parameters </listitem>
-<listitem>d-EditChords no parameters </listitem>
-<listitem>d-InsertDynamic no parameters </listitem>
-<listitem>d-InsertLilyDirective no parameters </listitem>
-<listitem>d-EditObject no parameters </listitem>
-<listitem>d-EditDirective no parameters </listitem>
-<listitem>d-EditStaffDirective no parameters </listitem>
-<listitem>d-EditVoiceDirective no parameters </listitem>
-<listitem>d-EditScoreDirective no parameters </listitem>
-<listitem>d-EditMovementDirective no parameters </listitem>
-<listitem>d-EditClefDirective no parameters </listitem>
-<listitem>d-EditTimesigDirective no parameters </listitem>
-<listitem>d-EditKeysigDirective no parameters </listitem>
-<listitem>d-DeleteDirective no parameters </listitem>
-<listitem>d-AttachLilyToNote no parameters </listitem>
-<listitem>d-AttachLilyToChord no parameters </listitem>
-<listitem>d-InsertBarline no parameters </listitem>
-<listitem>d-GoToMeasure no parameters </listitem>
-<listitem>d-GoToBeginning no parameters </listitem>
-<listitem>d-GoToEnd no parameters </listitem>
-<listitem>d-NextMovement no parameters </listitem>
-<listitem>d-PreviousMovement no parameters </listitem>
-<listitem>d-DeleteMovement no parameters </listitem>
-<listitem>d-DeleteBookmarks no parameters </listitem>
-<listitem>d-Play no parameters </listitem>
-<listitem>d-Stop no parameters </listitem>
-<listitem>d-PlayCSound no parameters </listitem>
-<listitem>d-PlaybackProperties no parameters </listitem>
-<listitem>d-Help no parameters </listitem>
-<listitem>d-About no parameters </listitem>
-<listitem>d-MoreCommands no parameters </listitem>
-<listitem>d-MyCommands no parameters </listitem>
-<listitem>d-FetchCommands no parameters </listitem>
-<listitem>d-AddBookmark no parameters </listitem>
-<listitem>d-GotoBookmark no parameters </listitem>
-<listitem>d-NextBookmark no parameters </listitem>
-<listitem>d-PrevBookmark no parameters </listitem>
-<listitem>d-ToggleEdit no parameters </listitem>
-<listitem>d-ToggleRest no parameters </listitem>
-<listitem>d-ToggleRhythm no parameters </listitem>
-<listitem>d-ClearOverlay no parameters </listitem>
-<listitem>d-CreateRhythm no parameters </listitem>
-<listitem>d-DeleteRhythm no parameters </listitem>
-<listitem>d-ChangeToA no parameters </listitem>
-<listitem>d-InsertA no parameters </listitem>
-<listitem>d-ChangeToB no parameters </listitem>
-<listitem>d-InsertB no parameters </listitem>
-<listitem>d-ChangeToC no parameters </listitem>
-<listitem>d-InsertC no parameters </listitem>
-<listitem>d-ChangeToD no parameters </listitem>
-<listitem>d-InsertD no parameters </listitem>
-<listitem>d-ChangeToE no parameters </listitem>
-<listitem>d-InsertE no parameters </listitem>
-<listitem>d-ChangeToF no parameters </listitem>
-<listitem>d-InsertF no parameters </listitem>
-<listitem>d-ChangeToG no parameters </listitem>
-<listitem>d-InsertG no parameters </listitem>
-<listitem>d-0 no parameters </listitem>
-<listitem>d-Insert0 no parameters </listitem>
-<listitem>d-Change0 no parameters </listitem>
-<listitem>d-InsertRest0 no parameters </listitem>
-<listitem>d-ChangeRest0 no parameters </listitem>
-<listitem>d-1 no parameters </listitem>
-<listitem>d-Insert1 no parameters </listitem>
-<listitem>d-Change1 no parameters </listitem>
-<listitem>d-InsertRest1 no parameters </listitem>
-<listitem>d-ChangeRest1 no parameters </listitem>
-<listitem>d-2 no parameters </listitem>
-<listitem>d-Insert2 no parameters </listitem>
-<listitem>d-Change2 no parameters </listitem>
-<listitem>d-InsertRest2 no parameters </listitem>
-<listitem>d-ChangeRest2 no parameters </listitem>
-<listitem>d-3 no parameters </listitem>
-<listitem>d-Insert3 no parameters </listitem>
-<listitem>d-Change3 no parameters </listitem>
-<listitem>d-InsertRest3 no parameters </listitem>
-<listitem>d-ChangeRest3 no parameters </listitem>
-<listitem>d-4 no parameters </listitem>
-<listitem>d-Insert4 no parameters </listitem>
-<listitem>d-Change4 no parameters </listitem>
-<listitem>d-InsertRest4 no parameters </listitem>
-<listitem>d-ChangeRest4 no parameters </listitem>
-<listitem>d-5 no parameters </listitem>
-<listitem>d-Insert5 no parameters </listitem>
-<listitem>d-Change5 no parameters </listitem>
-<listitem>d-InsertRest5 no parameters </listitem>
-<listitem>d-ChangeRest5 no parameters </listitem>
-<listitem>d-6 no parameters </listitem>
-<listitem>d-Insert6 no parameters </listitem>
-<listitem>d-Change6 no parameters </listitem>
-<listitem>d-InsertRest6 no parameters </listitem>
-<listitem>d-ChangeRest6 no parameters </listitem>
-<listitem>d-HideMenus no parameters </listitem>
-<listitem>d-ScriptCallback one parameter </listitem>
-<listitem>d-GetOption one parameter </listitem>
-<listitem>d-GetTextSelection no parameters </listitem>
-<listitem>d-GetOffset no parameters </listitem>
-<listitem>d-GetPadding no parameters </listitem>
-<listitem>d-GetRelativeFontSize no parameters </listitem>
-<listitem>d-InitializeScript one parameter </listitem>
-<listitem>d-LoadCommand one parameter </listitem>
-<listitem>d-LocateDotDenemo no parameters </listitem>
-<listitem>d-GetType no parameters </listitem>
-<listitem>d-GetCursorNote no parameters </listitem>
-<listitem>d-DebugObject no parameters </listitem>
-<listitem>d-GetNoteName no parameters </listitem>
-<listitem>d-GetNote no parameters </listitem>
-<listitem>d-GetNotes no parameters </listitem>
-<listitem>d-GetNoteDuration no parameters </listitem>
-<listitem>d-CursorToNote no parameters </listitem>
-<listitem>d-ChangeChordNotes no parameters </listitem>
-<listitem>d-PutNoteName no parameters </listitem>
-<listitem>d-DiatonicShift no parameters </listitem>
-<listitem>d-NextObject no parameters </listitem>
-<listitem>d-NextSelectedObject no parameters </listitem>
-<listitem>d-NextChord no parameters </listitem>
-<listitem>d-NextNote no parameters </listitem>
-<listitem>d-NextStandaloneDirective no parameters </listitem>
-<listitem>d-Chordize no parameters </listitem>
-<listitem>d-HTTP four parameters </listitem>
-<listitem>d-GetUserInput three parameters </listitem>
-<listitem>d-WarningDialog no parameters </listitem>
-<listitem>d-InfoDialog no parameters </listitem>
-<listitem>d-GetChar no parameters </listitem>
-<listitem>d-GetKeypress no parameters </listitem>
-<listitem>d-GetCommandKeypress no parameters </listitem>
-<listitem>d-GetCommand no parameters </listitem>
-<listitem>d-SetDirectiveTagActionScript two parameters </listitem>
-<listitem>d-DirectiveGetForTag-standalone one parameter </listitem>
-<listitem>d-DirectiveGetForTag-chord one parameter </listitem>
-<listitem>d-DirectiveGetForTag-note one parameter </listitem>
-<listitem>d-DirectiveGetForTag-staff one parameter </listitem>
-<listitem>d-DirectiveGetForTag-voice one parameter </listitem>
-<listitem>d-DirectiveGetForTag-score one parameter </listitem>
-<listitem>d-DirectiveGetForTag-clef one parameter </listitem>
-<listitem>d-DirectiveGetForTag-timesig one parameter </listitem>
-<listitem>d-DirectiveGetForTag-keysig one parameter </listitem>
-<listitem>d-DirectiveGetForTag-scoreheader one parameter </listitem>
-<listitem>d-DirectiveGetForTag-header one parameter </listitem>
-<listitem>d-DirectiveGetForTag-paper one parameter </listitem>
-<listitem>d-DirectiveGetForTag-layout one parameter </listitem>
-<listitem>d-DirectiveGetForTag-movementcontrol one parameter </listitem>
-<listitem>d-DirectiveDelete-note one parameter </listitem>
-<listitem>d-DirectiveTextEdit-note one parameter </listitem>
-<listitem>d-DirectiveDelete-chord one parameter </listitem>
-<listitem>d-DirectiveTextEdit-chord one parameter </listitem>
-<listitem>d-DirectiveDelete-staff one parameter </listitem>
-<listitem>d-DirectiveTextEdit-staff one parameter </listitem>
-<listitem>d-DirectiveDelete-voice one parameter </listitem>
-<listitem>d-DirectiveTextEdit-voice one parameter </listitem>
-<listitem>d-DirectiveDelete-score one parameter </listitem>
-<listitem>d-DirectiveTextEdit-score one parameter </listitem>
-<listitem>d-DirectiveTextEdit-standalone one parameter </listitem>
-<listitem>d-DirectiveGet-standalone-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-chord-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-note-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-staff-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-voice-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-score-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-clef-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-header-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-paper-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-layout-minpixels one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-minpixels one parameter </listitem>
-<listitem>d-DirectivePut-standalone-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-chord-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-note-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-staff-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-voice-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-score-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-clef-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-timesig-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-keysig-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-header-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-paper-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-layout-minpixels two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-minpixels two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-chord-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-note-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-staff-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-voice-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-score-midibytes one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-midibytes one parameter </listitem>
-<listitem>d-DirectivePut-standalone-midibytes two parameters </listitem>
-<listitem>d-DirectivePut-chord-midibytes two parameters </listitem>
-<listitem>d-DirectivePut-note-midibytes two parameters </listitem>
-<listitem>d-DirectivePut-staff-midibytes two parameters </listitem>
-<listitem>d-DirectivePut-score-midibytes two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-midibytes two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-override one parameter </listitem>
-<listitem>d-DirectiveGet-chord-override one parameter </listitem>
-<listitem>d-DirectiveGet-note-override one parameter </listitem>
-<listitem>d-DirectiveGet-staff-override one parameter </listitem>
-<listitem>d-DirectiveGet-voice-override one parameter </listitem>
-<listitem>d-DirectiveGet-score-override one parameter </listitem>
-<listitem>d-DirectivePut-standalone-override two parameters </listitem>
-<listitem>d-DirectivePut-chord-override two parameters </listitem>
-<listitem>d-DirectivePut-note-override two parameters </listitem>
-<listitem>d-DirectivePut-staff-override two parameters </listitem>
-<listitem>d-DirectivePut-voice-override two parameters </listitem>
-<listitem>d-DirectivePut-score-override two parameters </listitem>
-<listitem>d-DirectivePut-note-graphic two parameters </listitem>
-<listitem>d-DirectivePut-chord-graphic two parameters </listitem>
-<listitem>d-DirectivePut-standalone-graphic two parameters </listitem>
-<listitem>d-DirectivePut-staff-graphic two parameters </listitem>
-<listitem>d-DirectivePut-voice-graphic two parameters </listitem>
-<listitem>d-DirectivePut-score-graphic two parameters </listitem>
-<listitem>d-DirectivePut-chord-display two parameters </listitem>
-<listitem>d-DirectivePut-chord-prefix two parameters </listitem>
-<listitem>d-DirectivePut-chord-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-chord-display one parameter </listitem>
-<listitem>d-DirectiveGet-chord-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-chord-postfix one parameter </listitem>
-<listitem>d-DirectivePut-note-display two parameters </listitem>
-<listitem>d-DirectivePut-note-prefix two parameters </listitem>
-<listitem>d-DirectivePut-note-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-note-display one parameter </listitem>
-<listitem>d-DirectiveGet-note-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-note-postfix one parameter </listitem>
-<listitem>d-DirectivePut-standalone-display two parameters </listitem>
-<listitem>d-DirectivePut-standalone-prefix two parameters </listitem>
-<listitem>d-DirectivePut-standalone-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-display one parameter </listitem>
-<listitem>d-DirectiveGet-standalone-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-standalone-postfix one parameter </listitem>
-<listitem>d-DirectivePut-staff-display two parameters </listitem>
-<listitem>d-DirectivePut-staff-prefix two parameters </listitem>
-<listitem>d-DirectivePut-staff-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-staff-display one parameter </listitem>
-<listitem>d-DirectiveGet-staff-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-staff-postfix one parameter </listitem>
-<listitem>d-DirectivePut-voice-display two parameters </listitem>
-<listitem>d-DirectivePut-voice-prefix two parameters </listitem>
-<listitem>d-DirectivePut-voice-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-voice-display one parameter </listitem>
-<listitem>d-DirectiveGet-voice-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-voice-postfix one parameter </listitem>
-<listitem>d-DirectivePut-score-display two parameters </listitem>
-<listitem>d-DirectivePut-score-prefix two parameters </listitem>
-<listitem>d-DirectivePut-score-postfix two parameters </listitem>
-<listitem>d-DirectiveGet-score-display one parameter </listitem>
-<listitem>d-DirectiveGet-score-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-score-postfix one parameter </listitem>
-<listitem>d-DirectiveGet-score-x one parameter </listitem>
-<listitem>d-DirectiveGet-score-gx one parameter </listitem>
-<listitem>d-DirectiveGet-score-tx one parameter </listitem>
-<listitem>d-DirectivePut-score-x two parameters </listitem>
-<listitem>d-DirectivePut-score-gx two parameters </listitem>
-<listitem>d-DirectivePut-score-tx two parameters </listitem>
-<listitem>d-DirectiveGet-score-y one parameter </listitem>
-<listitem>d-DirectiveGet-score-gy one parameter </listitem>
-<listitem>d-DirectiveGet-score-ty one parameter </listitem>
-<listitem>d-DirectivePut-score-y two parameters </listitem>
-<listitem>d-DirectivePut-score-gy two parameters </listitem>
-<listitem>d-DirectivePut-score-ty two parameters </listitem>
-<listitem>d-DirectivePut-note-x two parameters </listitem>
-<listitem>d-DirectiveGet-note-x one parameter </listitem>
-<listitem>d-DirectivePut-chord-x two parameters </listitem>
-<listitem>d-DirectiveGet-chord-x one parameter </listitem>
-<listitem>d-DirectivePut-note-y two parameters </listitem>
-<listitem>d-DirectiveGet-note-y one parameter </listitem>
-<listitem>d-DirectivePut-chord-y two parameters </listitem>
-<listitem>d-DirectiveGet-chord-y one parameter </listitem>
-<listitem>d-DirectivePut-note-tx two parameters </listitem>
-<listitem>d-DirectiveGet-note-tx one parameter </listitem>
-<listitem>d-DirectivePut-chord-tx two parameters </listitem>
-<listitem>d-DirectiveGet-chord-tx one parameter </listitem>
-<listitem>d-DirectivePut-note-ty two parameters </listitem>
-<listitem>d-DirectiveGet-note-ty one parameter </listitem>
-<listitem>d-DirectivePut-chord-ty two parameters </listitem>
-<listitem>d-DirectiveGet-chord-ty one parameter </listitem>
-<listitem>d-DirectivePut-note-gx two parameters </listitem>
-<listitem>d-DirectiveGet-note-gx one parameter </listitem>
-<listitem>d-DirectivePut-chord-gx two parameters </listitem>
-<listitem>d-DirectiveGet-chord-gx one parameter </listitem>
-<listitem>d-DirectivePut-note-gy two parameters </listitem>
-<listitem>d-DirectiveGet-note-gy one parameter </listitem>
-<listitem>d-DirectivePut-chord-gy two parameters </listitem>
-<listitem>d-DirectiveGet-chord-gy one parameter </listitem>
-<listitem>d-DirectivePut-standalone-x two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-x one parameter </listitem>
-<listitem>d-DirectivePut-standalone-y two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-y one parameter </listitem>
-<listitem>d-DirectivePut-standalone-tx two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-tx one parameter </listitem>
-<listitem>d-DirectivePut-standalone-ty two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-ty one parameter </listitem>
-<listitem>d-DirectivePut-standalone-gx two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-gx one parameter </listitem>
-<listitem>d-DirectivePut-standalone-gy two parameters </listitem>
-<listitem>d-DirectiveGet-standalone-gy one parameter </listitem>
-<listitem>d-DirectiveGet-note-width one parameter </listitem>
-<listitem>d-DirectiveGet-chord-width one parameter </listitem>
-<listitem>d-DirectiveGet-standalone-width one parameter </listitem>
-<listitem>d-DirectiveGet-note-height one parameter </listitem>
-<listitem>d-DirectiveGet-chord-height one parameter </listitem>
-<listitem>d-DirectiveGet-standalone-height one parameter </listitem>
-<listitem>d-DirectivePut-clef-display two parameters </listitem>
-<listitem>d-DirectivePut-clef-prefix two parameters </listitem>
-<listitem>d-DirectivePut-clef-postfix two parameters </listitem>
-<listitem>d-DirectivePut-clef-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-clef-display one parameter </listitem>
-<listitem>d-DirectiveGet-clef-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-clef-postfix one parameter </listitem>
-<listitem>d-DirectivePut-clef-x two parameters </listitem>
-<listitem>d-DirectivePut-clef-y two parameters </listitem>
-<listitem>d-DirectivePut-clef-tx two parameters </listitem>
-<listitem>d-DirectivePut-clef-ty two parameters </listitem>
-<listitem>d-DirectivePut-clef-gx two parameters </listitem>
-<listitem>d-DirectivePut-clef-gy two parameters </listitem>
-<listitem>d-DirectivePut-clef-override two parameters </listitem>
-<listitem>d-DirectiveGet-clef-x one parameter </listitem>
-<listitem>d-DirectiveGet-clef-y one parameter </listitem>
-<listitem>d-DirectiveGet-clef-tx one parameter </listitem>
-<listitem>d-DirectiveGet-clef-ty one parameter </listitem>
-<listitem>d-DirectiveGet-clef-gx one parameter </listitem>
-<listitem>d-DirectiveGet-clef-gy one parameter </listitem>
-<listitem>d-DirectiveGet-clef-override one parameter </listitem>
-<listitem>d-DirectiveGet-clef-width one parameter </listitem>
-<listitem>d-DirectiveGet-clef-height one parameter </listitem>
-<listitem>d-DirectiveDelete-clef one parameter </listitem>
-<listitem>d-DirectiveTextEdit-clef one parameter </listitem>
-<listitem>d-DirectivePut-timesig-display two parameters </listitem>
-<listitem>d-DirectivePut-timesig-prefix two parameters </listitem>
-<listitem>d-DirectivePut-timesig-postfix two parameters </listitem>
-<listitem>d-DirectivePut-timesig-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-timesig-display one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-postfix one parameter </listitem>
-<listitem>d-DirectivePut-timesig-x two parameters </listitem>
-<listitem>d-DirectivePut-timesig-y two parameters </listitem>
-<listitem>d-DirectivePut-timesig-tx two parameters </listitem>
-<listitem>d-DirectivePut-timesig-ty two parameters </listitem>
-<listitem>d-DirectivePut-timesig-gx two parameters </listitem>
-<listitem>d-DirectivePut-timesig-gy two parameters </listitem>
-<listitem>d-DirectivePut-timesig-override two parameters </listitem>
-<listitem>d-DirectiveGet-timesig-x one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-y one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-tx one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-ty one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-gx one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-gy one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-override one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-width one parameter </listitem>
-<listitem>d-DirectiveGet-timesig-height one parameter </listitem>
-<listitem>d-DirectiveDelete-timesig one parameter </listitem>
-<listitem>d-DirectiveTextEdit-timesig one parameter </listitem>
-<listitem>d-DirectivePut-keysig-display two parameters </listitem>
-<listitem>d-DirectivePut-keysig-prefix two parameters </listitem>
-<listitem>d-DirectivePut-keysig-postfix two parameters </listitem>
-<listitem>d-DirectivePut-keysig-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-keysig-display one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-postfix one parameter </listitem>
-<listitem>d-DirectivePut-keysig-x two parameters </listitem>
-<listitem>d-DirectivePut-keysig-y two parameters </listitem>
-<listitem>d-DirectivePut-keysig-tx two parameters </listitem>
-<listitem>d-DirectivePut-keysig-ty two parameters </listitem>
-<listitem>d-DirectivePut-keysig-gx two parameters </listitem>
-<listitem>d-DirectivePut-keysig-gy two parameters </listitem>
-<listitem>d-DirectivePut-keysig-override two parameters </listitem>
-<listitem>d-DirectiveGet-keysig-x one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-y one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-tx one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-ty one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-gx one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-gy one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-override one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-width one parameter </listitem>
-<listitem>d-DirectiveGet-keysig-height one parameter </listitem>
-<listitem>d-DirectiveDelete-keysig one parameter </listitem>
-<listitem>d-DirectiveTextEdit-keysig one parameter </listitem>
-<listitem>d-DirectivePut-scoreheader-display two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-prefix two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-postfix two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-scoreheader-display one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-postfix one parameter </listitem>
-<listitem>d-DirectivePut-scoreheader-x two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-y two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-tx two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-ty two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-gx two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-gy two parameters </listitem>
-<listitem>d-DirectivePut-scoreheader-override two parameters </listitem>
-<listitem>d-DirectiveGet-scoreheader-x one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-y one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-tx one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-ty one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-gx one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-gy one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-override one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-width one parameter </listitem>
-<listitem>d-DirectiveGet-scoreheader-height one parameter </listitem>
-<listitem>d-DirectiveDelete-scoreheader one parameter </listitem>
-<listitem>d-DirectiveTextEdit-scoreheader one parameter </listitem>
-<listitem>d-DirectivePut-header-display two parameters </listitem>
-<listitem>d-DirectivePut-header-prefix two parameters </listitem>
-<listitem>d-DirectivePut-header-postfix two parameters </listitem>
-<listitem>d-DirectivePut-header-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-header-display one parameter </listitem>
-<listitem>d-DirectiveGet-header-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-header-postfix one parameter </listitem>
-<listitem>d-DirectivePut-header-x two parameters </listitem>
-<listitem>d-DirectivePut-header-y two parameters </listitem>
-<listitem>d-DirectivePut-header-tx two parameters </listitem>
-<listitem>d-DirectivePut-header-ty two parameters </listitem>
-<listitem>d-DirectivePut-header-gx two parameters </listitem>
-<listitem>d-DirectivePut-header-gy two parameters </listitem>
-<listitem>d-DirectivePut-header-override two parameters </listitem>
-<listitem>d-DirectiveGet-header-x one parameter </listitem>
-<listitem>d-DirectiveGet-header-y one parameter </listitem>
-<listitem>d-DirectiveGet-header-tx one parameter </listitem>
-<listitem>d-DirectiveGet-header-ty one parameter </listitem>
-<listitem>d-DirectiveGet-header-gx one parameter </listitem>
-<listitem>d-DirectiveGet-header-gy one parameter </listitem>
-<listitem>d-DirectiveGet-header-override one parameter </listitem>
-<listitem>d-DirectiveGet-header-width one parameter </listitem>
-<listitem>d-DirectiveGet-header-height one parameter </listitem>
-<listitem>d-DirectiveDelete-header one parameter </listitem>
-<listitem>d-DirectiveTextEdit-header one parameter </listitem>
-<listitem>d-DirectivePut-paper-display two parameters </listitem>
-<listitem>d-DirectivePut-paper-prefix two parameters </listitem>
-<listitem>d-DirectivePut-paper-postfix two parameters </listitem>
-<listitem>d-DirectivePut-paper-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-paper-display one parameter </listitem>
-<listitem>d-DirectiveGet-paper-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-paper-postfix one parameter </listitem>
-<listitem>d-DirectivePut-paper-x two parameters </listitem>
-<listitem>d-DirectivePut-paper-y two parameters </listitem>
-<listitem>d-DirectivePut-paper-tx two parameters </listitem>
-<listitem>d-DirectivePut-paper-ty two parameters </listitem>
-<listitem>d-DirectivePut-paper-gx two parameters </listitem>
-<listitem>d-DirectivePut-paper-gy two parameters </listitem>
-<listitem>d-DirectivePut-paper-override two parameters </listitem>
-<listitem>d-DirectiveGet-paper-x one parameter </listitem>
-<listitem>d-DirectiveGet-paper-y one parameter </listitem>
-<listitem>d-DirectiveGet-paper-tx one parameter </listitem>
-<listitem>d-DirectiveGet-paper-ty one parameter </listitem>
-<listitem>d-DirectiveGet-paper-gx one parameter </listitem>
-<listitem>d-DirectiveGet-paper-gy one parameter </listitem>
-<listitem>d-DirectiveGet-paper-override one parameter </listitem>
-<listitem>d-DirectiveGet-paper-width one parameter </listitem>
-<listitem>d-DirectiveGet-paper-height one parameter </listitem>
-<listitem>d-DirectiveDelete-paper one parameter </listitem>
-<listitem>d-DirectiveTextEdit-paper one parameter </listitem>
-<listitem>d-DirectivePut-layout-display two parameters </listitem>
-<listitem>d-DirectivePut-layout-prefix two parameters </listitem>
-<listitem>d-DirectivePut-layout-postfix two parameters </listitem>
-<listitem>d-DirectivePut-layout-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-layout-display one parameter </listitem>
-<listitem>d-DirectiveGet-layout-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-layout-postfix one parameter </listitem>
-<listitem>d-DirectivePut-layout-x two parameters </listitem>
-<listitem>d-DirectivePut-layout-y two parameters </listitem>
-<listitem>d-DirectivePut-layout-tx two parameters </listitem>
-<listitem>d-DirectivePut-layout-ty two parameters </listitem>
-<listitem>d-DirectivePut-layout-gx two parameters </listitem>
-<listitem>d-DirectivePut-layout-gy two parameters </listitem>
-<listitem>d-DirectivePut-layout-override two parameters </listitem>
-<listitem>d-DirectiveGet-layout-x one parameter </listitem>
-<listitem>d-DirectiveGet-layout-y one parameter </listitem>
-<listitem>d-DirectiveGet-layout-tx one parameter </listitem>
-<listitem>d-DirectiveGet-layout-ty one parameter </listitem>
-<listitem>d-DirectiveGet-layout-gx one parameter </listitem>
-<listitem>d-DirectiveGet-layout-gy one parameter </listitem>
-<listitem>d-DirectiveGet-layout-override one parameter </listitem>
-<listitem>d-DirectiveGet-layout-width one parameter </listitem>
-<listitem>d-DirectiveGet-layout-height one parameter </listitem>
-<listitem>d-DirectiveDelete-layout one parameter </listitem>
-<listitem>d-DirectiveTextEdit-layout one parameter </listitem>
-<listitem>d-DirectivePut-movementcontrol-display two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-prefix two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-postfix two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-graphic two parameters </listitem>
-<listitem>d-DirectiveGet-movementcontrol-display one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-prefix one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-postfix one parameter </listitem>
-<listitem>d-DirectivePut-movementcontrol-x two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-y two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-tx two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-ty two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-gx two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-gy two parameters </listitem>
-<listitem>d-DirectivePut-movementcontrol-override two parameters </listitem>
-<listitem>d-DirectiveGet-movementcontrol-x one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-y one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-tx one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-ty one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-gx one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-gy one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-override one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-width one parameter </listitem>
-<listitem>d-DirectiveGet-movementcontrol-height one parameter </listitem>
-<listitem>d-DirectiveDelete-movementcontrol one parameter </listitem>
-<listitem>d-DirectiveTextEdit-movementcontrol one parameter </listitem>
-<listitem>d-PutTextClipboard one parameter </listitem>
-<listitem>d-GetLyric no parameters </listitem>
-<listitem>d-GetUserName no parameters </listitem>
-<listitem>d-GetPassword no parameters </listitem>
-<listitem>d-GetMidi no parameters </listitem>
-<listitem>d-PutMidi one parameter </listitem>
-<listitem>d-PlayMidiKey one parameter </listitem>
-<listitem>d-BassFigure two parameters </listitem>
-<listitem>d-GetNoteAsMidi no parameters </listitem>
-<listitem>d-RefreshDisplay no parameters </listitem>
-<listitem>d-SetSaved no parameters </listitem>
-<listitem>d-InputFilterNames no parameters </listitem>
+<listitem>d-Modeless one optional parameter: To be documented </listitem>
+<listitem>d-ClassicMode one optional parameter: To be documented </listitem>
+<listitem>d-InsertMode one optional parameter: To be documented </listitem>
+<listitem>d-EditMode one optional parameter: To be documented </listitem>
+<listitem>d-Note one optional parameter: To be documented </listitem>
+<listitem>d-Rest one optional parameter: To be documented </listitem>
+<listitem>d-Blank one optional parameter: To be documented </listitem>
+<listitem>d-Rhythm one optional parameter: To be documented </listitem>
+<listitem>d-CursorLeft one optional parameter: Moves the cursor one object left, altering the selection if any </listitem>
+<listitem>d-CursorDown one optional parameter: Moves the cursor one scale step down </listitem>
+<listitem>d-CursorUp one optional parameter: Moves the cursor one scale step up </listitem>
+<listitem>d-CursorRight one optional parameter: Moves the cursor one object right, altering the selection if any </listitem>
+<listitem>d-GoToMark one optional parameter: Moves the cursor to the Mark without altering the selection </listitem>
+<listitem>d-StaffUp one optional parameter: Moves the cursor to the staff above </listitem>
+<listitem>d-StaffDown one optional parameter: Moves the cursor to the staff below </listitem>
+<listitem>d-MeasureLeft one optional parameter: Moves the cursor to the first object in the next measure </listitem>
+<listitem>d-MeasureRight one optional parameter: Moves the cursor to the first object in the previous measure </listitem>
+<listitem>d-A one optional parameter: Action for note A (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-B one optional parameter: Action for note B (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-C one optional parameter: Action for note C (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-D one optional parameter: Action for note D (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-E one optional parameter: Action for note E (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-F one optional parameter: Action for note F (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-G one optional parameter: Action for note G (Insert, Edit or Move Cursor, depending on Mode) </listitem>
+<listitem>d-OctaveUp one optional parameter: Octave Up </listitem>
+<listitem>d-OctaveDown one optional parameter: Octave Down </listitem>
+<listitem>d-WholeNote one optional parameter: Insert whole-note </listitem>
+<listitem>d-HalfNote one optional parameter: Insert half-note </listitem>
+<listitem>d-QuarterNote one optional parameter: Insert quarter-note </listitem>
+<listitem>d-EighthNote one optional parameter: Insert eighth-note </listitem>
+<listitem>d-SixteenthNote one optional parameter: Insert sixteenth-note </listitem>
+<listitem>d-ThirtysecondNote one optional parameter: Insert thirty-second-note </listitem>
+<listitem>d-SixtyfourthNote one optional parameter: Insert sixty-fourth-note </listitem>
+<listitem>d-InsertBlankWholeNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankHalfNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankQuarterNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankEighthNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankSixteenthNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankThirtysecondNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBlankSixtyfourthNote one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleRestMode one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleBlankMode one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertWholeRest one optional parameter: Insert whole-note rest </listitem>
+<listitem>d-InsertHalfRest one optional parameter: Insert half-note rest </listitem>
+<listitem>d-InsertQuarterRest one optional parameter: Insert quarter-note rest </listitem>
+<listitem>d-InsertEighthRest one optional parameter: Insert eighth-note rest </listitem>
+<listitem>d-InsertSixteenthRest one optional parameter: Insert sixteenth-note rest </listitem>
+<listitem>d-InsertThirtysecondRest one optional parameter: Insert thirty-second note rest </listitem>
+<listitem>d-InsertSixtyfourthRest one optional parameter: Insert sixty-fourth note rest </listitem>
+<listitem>d-InsertDuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertTriplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-StartTriplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-EndTuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertQuadtuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertQuintuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertSextuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertSeptuplet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-AddNoteToChord one optional parameter: Add a note to the current chord
+The cursor position determines which note to add </listitem>
+<listitem>d-RemoveNoteFromChord one optional parameter: Remove a note from the current chord </listitem>
+<listitem>d-Sharpen one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Flatten one optional parameter: No Tooltip yet </listitem>
+<listitem>d-StemUp one optional parameter: Alters a StemNeutral object to stem up. </listitem>
+<listitem>d-StemDown one optional parameter: Alters a StemNeutral object to stem down. </listitem>
+<listitem>d-AddDot one optional parameter: No Tooltip yet </listitem>
+<listitem>d-RemoveDot one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertTiedNote one optional parameter: Inserts a duplicate of the current note, tied </listitem>
+<listitem>d-ToggleTie one optional parameter: Ties/unties the note at the cursor </listitem>
+<listitem>d-DeleteObject one optional parameter: Delete the object at the cursor </listitem>
+<listitem>d-DeletePreviousObject one optional parameter: Delete to the left of the cursor. </listitem>
+<listitem>d-InsertMeasure one optional parameter: Insert a blank measure before the current one (in all staffs) </listitem>
+<listitem>d-AppendMeasure one optional parameter: No Tooltip yet </listitem>
+<listitem>d-DeleteMeasure one optional parameter: Delete the current measure in this staff, leaving the staff short </listitem>
+<listitem>d-DeleteMeasureAllStaffs one optional parameter: Delete the current measure in all staffs </listitem>
+<listitem>d-ShrinkMeasures one optional parameter: No Tooltip yet </listitem>
+<listitem>d-WidenMeasures one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ShorterStaffs one optional parameter: No Tooltip yet </listitem>
+<listitem>d-TallerStaffs one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertTrebleClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBassClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insertg8clef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertAltoClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertTenorClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertSopranoClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialTrebleClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialBassClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialg8clef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialAltoClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialTenorClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialSopranoClef one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert22Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert32Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert42Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert44Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert34Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert24Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert64Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert38Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert68Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert128Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Insert98Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set22Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set32Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set42Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set44Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set34Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set24Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set64Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set38Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set68Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set128Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-Set98Time one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertCmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertGmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertDmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertAmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertEmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertFSharpmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertCSharpmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertFmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertEflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertAflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertDflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertGflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertCflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertAmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertEmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertFSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertCSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertGSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertDSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertASharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertDmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertGmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertCmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertFmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertBflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertEflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertAflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialCmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialGmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialDmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialAmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialEmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialBmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialFSharpmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialCSharpmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialFmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialBflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialEflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialAflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialDflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialGflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialCflatmaj one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialAmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialEmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialBmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialFSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialCSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialGSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialDSharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialASharpmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialDmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialGmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialCmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialFmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialBflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialEflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetInitialAflatmin one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetMark one optional parameter: Sets the start point for a selection,
+the cursor position is the end point </listitem>
+<listitem>d-UnsetMark one optional parameter: Gets rid of the selection. </listitem>
+<listitem>d-ToggleBeginSlur one optional parameter: Insert/delete begin slur on this note </listitem>
+<listitem>d-ToggleEndSlur one optional parameter: Insert/delete end slur on this note </listitem>
+<listitem>d-ToggleStartCrescendo one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleEndCrescendo one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleStartDiminuendo one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleEndDiminuendo one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleAccent one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleFermata one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleStaccato one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleTenuto one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleTrill one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleTurn one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleMordent one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleStaccatissimo one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleCoda one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleFlageolet one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleOpen one optional parameter: No Tooltip yet </listitem>
+<listitem>d-TogglePrallMordent one optional parameter: No Tooltip yet </listitem>
+<listitem>d-TogglePrallPrall one optional parameter: No Tooltip yet </listitem>
+<listitem>d-TogglePrall one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleReverseTurn one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleSegno one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleSforzato one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleStopped one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleThumb one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleUpprall one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ToggleArpeggio one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SetGrace one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ForceCaution one optional parameter: No Tooltip yet </listitem>
+<listitem>d-ChangePitch one optional parameter: No Tooltip yet </listitem>
+<listitem>d-DoubleBar one optional parameter: No Tooltip yet </listitem>
+<listitem>d-EndBar one optional parameter: No Tooltip yet </listitem>
+<listitem>d-OpenRepeat one optional parameter: No Tooltip yet </listitem>
+<listitem>d-CloseRepeat one optional parameter: No Tooltip yet </listitem>
+<listitem>d-OpenCloseRepeat one optional parameter: No Tooltip yet </listitem>
+<listitem>d-InsertRhythm one optional parameter: No Tooltip yet </listitem>
+<listitem>d-NextRhythm one optional parameter: Make next rhythm pattern
+the prevailing rhythm.
+Notes entered will follow this pattern </listitem>
+<listitem>d-AppendMeasuresToScore one optional parameter: No Tooltip yet </listitem>
+<listitem>d-SharpenEnharmonicSet one optional parameter: Shifts the set of accidentals one step sharper </listitem>
+<listitem>d-FlattenEnharmonicSet one optional parameter: Shifts the set of accidentals one step flatter </listitem>
+<listitem>d-New one optional parameter: Start a new musical score </listitem>
+<listitem>d-Open one optional parameter: Open a file containing a music score for editing </listitem>
+<listitem>d-AddStaffs one optional parameter: Add staffs from a Denemo file </listitem>
+<listitem>d-AddMovements one optional parameter: Add movements from a Denemo file </listitem>
+<listitem>d-MovementProps one optional parameter: Change properties of this movement </listitem>
+<listitem>d-OpenNewWindow one optional parameter: Open a file containing a music score for editing in a separate working area (tab </listitem>
+<listitem>d-Save one optional parameter: Save the score </listitem>
+<listitem>d-SaveAs one optional parameter: Save the score under a new name </listitem>
+<listitem>d-OpenTemplate one optional parameter: Start a new score from a built-in template file </listitem>
+<listitem>d-OpenExample one optional parameter: Start a new score from a built-in example </listitem>
+<listitem>d-OpenMyTemplate one optional parameter: Start a new score from one of your own template files </listitem>
+<listitem>d-SaveTemplate one optional parameter: Save the score as a template for re-use as a starting point for new scores </listitem>
+<listitem>d-NewWindow one optional parameter: Create working area (tab with an empty score in it) </listitem>
+<listitem>d-InsertMovementBefore one optional parameter: Insert a new movement before the current one </listitem>
+<listitem>d-InsertMovementAfter one optional parameter: Insert a new movement after the current one </listitem>
+<listitem>d-NewMovement one optional parameter: Create a new movement, usign any default template </listitem>
+<listitem>d-SaveParts one optional parameter: Save Parts: each staff becomes a file in lilypond format </listitem>
+<listitem>d-ExportPDF one optional parameter: Export the score as a PDF document file </listitem>
+<listitem>d-ConfigureScore one optional parameter: Start up a wizard to create a new score. This allows you to set various properties of the score </listitem>
+<listitem>d-PrintPreview one optional parameter: Displays the final finished score in your pdf viewer </listitem>
+<listitem>d-PrintSelection one optional parameter: Displays selected music from score in your pdf viewer </listitem>
+<listitem>d-PrintExcerptPreview one optional parameter: Displays a musical excerpt in your image viewer </listitem>
+<listitem>d-Print one optional parameter: Displays the final finished score in a pdf viewer. From this you can print the file using the print command of the viewer </listitem>
+<listitem>d-PrintPart one optional parameter: Displays the final finished score for the current part (that is current staff </listitem>
+<listitem>d-Close one optional parameter: Close the current score. Other windows will stay open </listitem>
+<listitem>d-Quit one optional parameter: Quit the Denemo program </listitem>
+<listitem>d-Undo one optional parameter: Undo </listitem>
+<listitem>d-Redo one optional parameter: Redo </listitem>
+<listitem>d-Copy one optional parameter: Copy </listitem>
+<listitem>d-Cut one optional parameter: Cut </listitem>
+<listitem>d-Paste one optional parameter: Paste the selected music </listitem>
+<listitem>d-PasteClipboard one optional parameter: Paste LilyPond notes from the text clipboard </listitem>
+<listitem>d-ScoreProperties one optional parameter: Change some of the properties of the current score. This will start up a dialog window </listitem>
+<listitem>d-SaveSelection one optional parameter: Save the selected music. Not sure if this is working </listitem>
+<listitem>d-Preferences one optional parameter: Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones </listitem>
+<listitem>d-SaveAccels one optional parameter: Save the current commands and keyboard shortcuts as the default </listitem>
+<listitem>d-CommandManagement one optional parameter: View help, change and save keyboard shortcuts </listitem>
+<listitem>d-LoadPlugins one optional parameter: Load Plugins </listitem>
+<listitem>d-UnloadPlugins one optional parameter: Unload Plugins </listitem>
+<listitem>d-ListPlugins one optional parameter: List the loaded plugins </listitem>
+<listitem>d-ListAvailablePlugins one optional parameter: List the available plugins </listitem>
+<listitem>d-SwapStaffs one optional parameter: Swap this staff with the one higher up. Note this actually swaps voices. </listitem>
+<listitem>d-SplitVoices one optional parameter: Split off the next voice as a separate staff </listitem>
+<listitem>d-JoinVoices one optional parameter: Merge this staff as a voice on the previous staff </listitem>
+<listitem>d-SwapMovements one optional parameter: Swap this movement with the one before </listitem>
+<listitem>d-VoiceUp one optional parameter: Go to the higher numbered voice on staff </listitem>
+<listitem>d-VoiceDown one optional parameter: Go to the lower numbered voice on this staff </listitem>
+<listitem>d-AddBefore one optional parameter: Inserts a new staff before the current staff </listitem>
+<listitem>d-AddAfter one optional parameter: Inserts/Adds a new staff after the current staff </listitem>
+<listitem>d-AddInitial one optional parameter: Inserts a new staff at the top of the score </listitem>
+<listitem>d-AddLast one optional parameter: Inserts a new staff at the end of the score </listitem>
+<listitem>d-DeleteBefore one optional parameter: Deletes the staff before the current staff </listitem>
+<listitem>d-DeleteStaff one optional parameter: Deletes the current staff </listitem>
+<listitem>d-DeleteAfter one optional parameter: Deletes the staff after the current staff </listitem>
+<listitem>d-AddVoice one optional parameter: Adds a new voice (part), to the current staff. It is tricky to switch between the voices. Suggest to use merge staffs </listitem>
+<listitem>d-StaffProperties one optional parameter: Change the properties of the current staff </listitem>
+<listitem>d-InitialClef one optional parameter: Change the initial clef of the current staff </listitem>
+<listitem>d-InsertClef one optional parameter: Insert/Edit a change of clef at the cursor </listitem>
+<listitem>d-InitialKey one optional parameter: Set the initial key signature of the current staff </listitem>
+<listitem>d-InsertKey one optional parameter: Insert/Edit a key change at the cursor position </listitem>
+<listitem>d-InitialTimeSig one optional parameter: Set the initial time signature of the current staff </listitem>
+<listitem>d-InsertTimeSig one optional parameter: Edit/Insert a time signature change for the current measure </listitem>
+<listitem>d-ChangeNotehead one optional parameter: Change the type of notehead for the current note </listitem>
+<listitem>d-InsertStem one optional parameter: Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction </listitem>
+<listitem>d-AddVerse one optional parameter: Add a verse of lyrics </listitem>
+<listitem>d-DeleteVerse one optional parameter: Deletes current verse of lyrics from current voice </listitem>
+<listitem>d-EditFiguredBass one optional parameter: Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation </listitem>
+<listitem>d-EditChords one optional parameter: Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation </listitem>
+<listitem>d-InsertDynamic one optional parameter: Inserts a dynamic marking at the cursor position </listitem>
+<listitem>d-InsertLilyDirective one optional parameter: Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas. </listitem>
+<listitem>d-EditObject one optional parameter: Edit the object at the cursor. </listitem>
+<listitem>d-EditDirective one optional parameter: Edit any directives attached to chord/note at cursor. </listitem>
+<listitem>d-EditStaffDirective one optional parameter: Edit any directives attached to staff. </listitem>
+<listitem>d-EditVoiceDirective one optional parameter: Edit any directives attached to voice. </listitem>
+<listitem>d-EditScoreDirective one optional parameter: Edit any directives attached to score. </listitem>
+<listitem>d-EditMovementDirective one optional parameter: Edit any directives attached to movement. </listitem>
+<listitem>d-EditClefDirective one optional parameter: Edit any directives attached to clef. </listitem>
+<listitem>d-EditTimesigDirective one optional parameter: Edit any directives attached to time signature. </listitem>
+<listitem>d-EditKeysigDirective one optional parameter: Edit any directives attached to key signature. </listitem>
+<listitem>d-DeleteDirective one optional parameter: Delete a directive attached to chord/note at cursor. </listitem>
+<listitem>d-AttachLilyToNote one optional parameter: Attach or edit attached LilyPond text to the note at the cursor. This can be used for guitar fingerings, cautionary accidentals and much more. See LilyPond documentation. </listitem>
+<listitem>d-AttachLilyToChord one optional parameter: Attach or edit attached LilyPond text to the chord at the cursor. This can be used for attaching and placing text and much more. See LilyPond documentation. </listitem>
+<listitem>d-InsertBarline one optional parameter: Inserts specialized barline at the cursor position. Mostly not working </listitem>
+<listitem>d-GoToMeasure one optional parameter: Opens a dialog for going to a numbered measure </listitem>
+<listitem>d-GoToBeginning one optional parameter: Go To Beginning </listitem>
+<listitem>d-GoToEnd one optional parameter: Go To End </listitem>
+<listitem>d-NextMovement one optional parameter: Go to the next movement </listitem>
+<listitem>d-PreviousMovement one optional parameter: Go to the previous movement </listitem>
+<listitem>d-DeleteMovement one optional parameter: Delete the current movement </listitem>
+<listitem>d-DeleteBookmarks one optional parameter: Delete all bookmarks in current movement </listitem>
+<listitem>d-Play one optional parameter: Play </listitem>
+<listitem>d-Stop one optional parameter: Stop </listitem>
+<listitem>d-PlayCSound one optional parameter: Play using CSound... </listitem>
+<listitem>d-PlaybackProperties one optional parameter: Allows you to specify properties used in playing back (midi and csound </listitem>
+<listitem>d-Help one optional parameter: Opens a browser on the user manual </listitem>
+<listitem>d-About one optional parameter: Gives the version number etc of this program </listitem>
+<listitem>d-MoreCommands one optional parameter: Allows choosing standard extra commands/menu items </listitem>
+<listitem>d-MyCommands one optional parameter: Allows choosing extra commands/menu items from your own collection of extras </listitem>
+<listitem>d-FetchCommands one optional parameter: Refreshes the set of commands available from Denemo.org.
+Use More Commands after this has finished </listitem>
+<listitem>d-AddBookmark one optional parameter: Bookmark the current cursor position </listitem>
+<listitem>d-GotoBookmark one optional parameter: Go to a bookmarked point in the score </listitem>
+<listitem>d-NextBookmark one optional parameter: Go to the next bookmarked point in the list </listitem>
+<listitem>d-PrevBookmark one optional parameter: Go to the previous bookmarked point in the list </listitem>
+<listitem>d-ToggleEdit one optional parameter: Toggle between current mode and edit mode </listitem>
+<listitem>d-ToggleRest one optional parameter: Toggle between note entry and rest entry </listitem>
+<listitem>d-ToggleRhythm one optional parameter: Toggle between note entry and rhythm entry </listitem>
+<listitem>d-ClearOverlay one optional parameter: Clear the list of pitches that overlay the notes </listitem>
+<listitem>d-CreateRhythm one optional parameter: Copy selection as a rhythm pattern for notes to follow as they are entered </listitem>
+<listitem>d-DeleteRhythm one optional parameter: Delete the selected rhythm pattern </listitem>
+<listitem>d-ChangeToA one optional parameter: Changes note at cursor to nearest note A
+Rhythm is unchanged </listitem>
+<listitem>d-InsertA one optional parameter: Inserts note A before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToB one optional parameter: Changes note at cursor to nearest note B
+Rhythm is unchanged </listitem>
+<listitem>d-InsertB one optional parameter: Inserts note B before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToC one optional parameter: Changes note at cursor to nearest note C
+Rhythm is unchanged </listitem>
+<listitem>d-InsertC one optional parameter: Inserts note C before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToD one optional parameter: Changes note at cursor to nearest note D
+Rhythm is unchanged </listitem>
+<listitem>d-InsertD one optional parameter: Inserts note D before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToE one optional parameter: Changes note at cursor to nearest note E
+Rhythm is unchanged </listitem>
+<listitem>d-InsertE one optional parameter: Inserts note E before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToF one optional parameter: Changes note at cursor to nearest note F
+Rhythm is unchanged </listitem>
+<listitem>d-InsertF one optional parameter: Inserts note F before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-ChangeToG one optional parameter: Changes note at cursor to nearest note G
+Rhythm is unchanged </listitem>
+<listitem>d-InsertG one optional parameter: Inserts note G before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm </listitem>
+<listitem>d-0 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (0)
+In edit mode changes the current note to music-sign (0)
+ or appends a music-sign (0) if no current note
+In classic mode inserts a music-sign (0) at the cursor </listitem>
+<listitem>d-Insert0 one optional parameter: Insert a music-sign (0) </listitem>
+<listitem>d-Change0 one optional parameter: Change the current note to a music-sign (0) </listitem>
+<listitem>d-InsertRest0 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (0) </listitem>
+<listitem>d-ChangeRest0 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (0) </listitem>
+<listitem>d-1 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (1)
+In edit mode changes the current note to music-sign (1)
+ or appends a music-sign (1) if no current note
+In classic mode inserts a music-sign (1) at the cursor </listitem>
+<listitem>d-Insert1 one optional parameter: Insert a music-sign (1) </listitem>
+<listitem>d-Change1 one optional parameter: Change the current note to a music-sign (1) </listitem>
+<listitem>d-InsertRest1 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (1) </listitem>
+<listitem>d-ChangeRest1 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (1) </listitem>
+<listitem>d-2 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (2)
+In edit mode changes the current note to music-sign (2)
+ or appends a music-sign (2) if no current note
+In classic mode inserts a music-sign (2) at the cursor </listitem>
+<listitem>d-Insert2 one optional parameter: Insert a music-sign (2) </listitem>
+<listitem>d-Change2 one optional parameter: Change the current note to a music-sign (2) </listitem>
+<listitem>d-InsertRest2 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (2) </listitem>
+<listitem>d-ChangeRest2 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (2) </listitem>
+<listitem>d-3 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (3)
+In edit mode changes the current note to music-sign (3)
+ or appends a music-sign (3) if no current note
+In classic mode inserts a music-sign (3) at the cursor </listitem>
+<listitem>d-Insert3 one optional parameter: Insert a music-sign (3) </listitem>
+<listitem>d-Change3 one optional parameter: Change the current note to a music-sign (3) </listitem>
+<listitem>d-InsertRest3 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (3) </listitem>
+<listitem>d-ChangeRest3 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (3) </listitem>
+<listitem>d-4 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (4)
+In edit mode changes the current note to music-sign (4)
+ or appends a music-sign (4) if no current note
+In classic mode inserts a music-sign (4) at the cursor </listitem>
+<listitem>d-Insert4 one optional parameter: Insert a music-sign (4) </listitem>
+<listitem>d-Change4 one optional parameter: Change the current note to a music-sign (4) </listitem>
+<listitem>d-InsertRest4 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (4) </listitem>
+<listitem>d-ChangeRest4 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (4) </listitem>
+<listitem>d-5 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (5)
+In edit mode changes the current note to music-sign (5)
+ or appends a music-sign (5) if no current note
+In classic mode inserts a music-sign (5) at the cursor </listitem>
+<listitem>d-Insert5 one optional parameter: Insert a music-sign (5) </listitem>
+<listitem>d-Change5 one optional parameter: Change the current note to a music-sign (5) </listitem>
+<listitem>d-InsertRest5 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (5) </listitem>
+<listitem>d-ChangeRest5 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (5) </listitem>
+<listitem>d-6 one optional parameter: In insert mode, changes prevailing rhythm to music-sign (6)
+In edit mode changes the current note to music-sign (6)
+ or appends a music-sign (6) if no current note
+In classic mode inserts a music-sign (6) at the cursor </listitem>
+<listitem>d-Insert6 one optional parameter: Insert a music-sign (6) </listitem>
+<listitem>d-Change6 one optional parameter: Change the current note to a music-sign (6) </listitem>
+<listitem>d-InsertRest6 one optional parameter: Inserts a rest at cursor position
+Sets prevailing rhythm to music-sign (6) </listitem>
+<listitem>d-ChangeRest6 one optional parameter: Changes a rest at cursor position
+Sets prevailing rhythm to music-sign (6) </listitem>
+<listitem>d-HideMenus one optional parameter: To be documented </listitem>
+<listitem>d-ScriptCallback one required and one optional parameter: To be documented </listitem>
+<listitem>d-GetOption one required and one optional parameter: To be documented </listitem>
+<listitem>d-GetTextSelection one optional parameter: To be documented </listitem>
+<listitem>d-GetOffset one optional parameter: To be documented </listitem>
+<listitem>d-GetPadding one optional parameter: To be documented </listitem>
+<listitem>d-GetRelativeFontSize one optional parameter: To be documented </listitem>
+<listitem>d-InitializeScript one required and one optional parameter: To be documented </listitem>
+<listitem>d-LoadCommand one required and one optional parameter: To be documented </listitem>
+<listitem>d-LocateDotDenemo one optional parameter: To be documented </listitem>
+<listitem>d-GetType one optional parameter: To be documented </listitem>
+<listitem>d-GetCursorNote one optional parameter: To be documented </listitem>
+<listitem>d-DebugObject one optional parameter: To be documented </listitem>
+<listitem>d-GetNoteName one optional parameter: To be documented </listitem>
+<listitem>d-GetNote one optional parameter: To be documented </listitem>
+<listitem>d-GetNotes one optional parameter: To be documented </listitem>
+<listitem>d-GetNoteDuration one optional parameter: To be documented </listitem>
+<listitem>d-CursorToNote one optional parameter: To be documented </listitem>
+<listitem>d-ChangeChordNotes one optional parameter: To be documented </listitem>
+<listitem>d-PutNoteName one optional parameter: To be documented </listitem>
+<listitem>d-DiatonicShift one optional parameter: To be documented </listitem>
+<listitem>d-NextObject one optional parameter: To be documented </listitem>
+<listitem>d-NextSelectedObject one optional parameter: To be documented </listitem>
+<listitem>d-NextChord one optional parameter: To be documented </listitem>
+<listitem>d-NextNote one optional parameter: To be documented </listitem>
+<listitem>d-NextStandaloneDirective one optional parameter: To be documented </listitem>
+<listitem>d-Chordize one optional parameter: To be documented </listitem>
+<listitem>d-HTTP four parameters: To be documented </listitem>
+<listitem>d-GetUserInput three parameters: To be documented </listitem>
+<listitem>d-WarningDialog one optional parameter: To be documented </listitem>
+<listitem>d-InfoDialog one optional parameter: To be documented </listitem>
+<listitem>d-GetChar one optional parameter: To be documented </listitem>
+<listitem>d-GetKeypress one optional parameter: To be documented </listitem>
+<listitem>d-GetCommandKeypress one optional parameter: To be documented </listitem>
+<listitem>d-GetCommand one optional parameter: To be documented </listitem>
+<listitem>d-SetDirectiveTagActionScript two parameters: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-standalone one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-chord one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-note one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-staff one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-voice one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-score one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-clef one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-timesig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-keysig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-scoreheader one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-header one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-paper one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-layout one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGetForTag-movementcontrol one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-note one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-note one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-chord one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-chord one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-staff one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-staff one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-voice one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-voice one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-score one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-score one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-standalone one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-minpixels one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-voice-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-minpixels two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-midibytes one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-midibytes two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-voice-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-override two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-voice-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-chord-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-staff-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-staff-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-staff-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-voice-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-voice-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-voice-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-voice-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-score-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-score-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-score-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-tx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-score-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-score-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-score-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-score-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-note-x two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-x two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-y two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-y two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-tx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-tx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-ty two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-ty two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-gx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-gx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-note-gy two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-note-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-chord-gy two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-x two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-y two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-tx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-ty two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-gx two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-standalone-gy two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-note-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-chord-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-standalone-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-clef-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-clef-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-clef-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-clef-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-clef one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-clef one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-timesig-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-timesig-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-timesig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-timesig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-keysig-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-keysig-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-keysig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-keysig one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-scoreheader-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-scoreheader-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-scoreheader one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-scoreheader one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-header-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-header-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-header-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-header-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-header-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-header-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-header one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-header one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-paper-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-paper-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-paper-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-paper-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-paper one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-paper one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-layout-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-layout-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-layout-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-layout-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-layout one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-layout one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-display two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-prefix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-postfix two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-graphic two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-display one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-prefix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-postfix one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-x two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-y two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-tx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-ty two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-gx two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-gy two parameters: To be documented </listitem>
+<listitem>d-DirectivePut-movementcontrol-override two parameters: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-x one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-y one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-tx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-ty one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-gx one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-gy one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-override one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-width one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveGet-movementcontrol-height one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveDelete-movementcontrol one required and one optional parameter: To be documented </listitem>
+<listitem>d-DirectiveTextEdit-movementcontrol one required and one optional parameter: To be documented </listitem>
+<listitem>d-PutTextClipboard one required and one optional parameter: To be documented </listitem>
+<listitem>d-GetLyric one optional parameter: To be documented </listitem>
+<listitem>d-GetUserName one optional parameter: To be documented </listitem>
+<listitem>d-GetPassword one optional parameter: To be documented </listitem>
+<listitem>d-GetMidi one optional parameter: To be documented </listitem>
+<listitem>d-PutMidi one required and one optional parameter: To be documented </listitem>
+<listitem>d-PlayMidiKey one required and one optional parameter: To be documented </listitem>
+<listitem>d-BassFigure two parameters: To be documented </listitem>
+<listitem>d-GetNoteAsMidi one optional parameter: To be documented </listitem>
+<listitem>d-RefreshDisplay one optional parameter: To be documented </listitem>
+<listitem>d-SetSaved one optional parameter: To be documented </listitem>
+<listitem>d-InputFilterNames one optional parameter: To be documented </listitem>
 
 </itemizedlist>
 </sect1>
