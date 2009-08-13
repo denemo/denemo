@@ -654,7 +654,7 @@ The menus in Denemo are unusual: they not only let you do some particular action
             </row>
 
             <row>
-              <entry>Rhythms and Overlays</entry>
+              <entry>Rhythms Patterns</entry>
 
               <entry>Allows custom rhythm patterns. Enter rhythms by setting up patterns and then overlay the rhythms with pitches via MIDI or microphone</entry>
             </row>
@@ -733,7 +733,7 @@ The menus in Denemo are unusual: they not only let you do some particular action
 		 </para>
           </listitem>
        	  <listitem>
-	         <para> Entry types: Note, Rest, Non-Printing Rests, Rhythm. These are used with the above modes to control what is entered. The unusual one here is Rhythm entry, which gives audio feedback when entering pure rhythms, enabling you to enter rhythms without looking at the screen to check that you have entered the correct duration. Non-Printing rests allows you to make a part vanish and return when writing several parts to a staff.
+	         <para> Entry types: Note, Rest, Non-Printing Rests, Audible Feedback. These are used with the above modes to control what is entered. The unusual one here is Audible Feedback, which gives audio feedback when entering note durations, enabling you to enter rhythms without looking at the screen to check that you have entered the correct duration. Non-Printing rests allows you to make a part vanish and return when writing several parts to a staff.
 		 </para>
           </listitem>
        
@@ -793,9 +793,9 @@ The menus in Denemo are unusual: they not only let you do some particular action
               <entry>Switch to entering rests.</entry>
             </row>
            <row>
-              <entry>Rhythm</entry>
+              <entry>Audible Feedback</entry>
 
-              <entry>Switch to mode for Rhythm entry via keyboard (pitch entry via Audio or MIDI). Each duration has its own audio feedback.</entry>
+              <entry>Switch to Audible Feedback for entry via keyboard. Each duration has its own audio feedback. During pitch entry via Audio or MIDI the cursor advances automatically</entry>
             </row>
 
             <row>
@@ -811,9 +811,9 @@ The menus in Denemo are unusual: they not only let you do some particular action
             </row>
 
             <row>
-              <entry>Toggle Rhythm</entry>
+              <entry>Toggle Audible Feedback</entry>
 
-              <entry>Toggle between Note and Rhythm entry.</entry>
+              <entry>Toggle Audible Feedback off/on.</entry>
             </row>
 
           </tbody>
@@ -1198,8 +1198,8 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
 
  <sect1>
-    <title>Rhythms and Overlays</title>
-    <para>The Rhythms and Overlays toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the mode->Rhythm Mode option for this, so that you get a bell to confirm when you have completed a measure.</para>
+    <title>Rhythm Patterns</title>
+    <para>The Rhythm Pattern toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the Mode->Audible Feedback option for this, so that you get a bell to confirm when you have completed a measure.</para>
  <para>Using Input->Midi or Audio allows you to enter pitches directly. If you have entered your piece of music as pure rhythm you can overlay with the pitches using a MIDI controller or musical instrument with mic, headphones out or pickup attached to your soundcard.
 </para>
 
@@ -1241,9 +1241,9 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
     <para>Modes in Denemo are optional. Denemo has a large number of actions (functions) that it can execute for you, and these are to be found in the View-\>Objects Menu (grouped by objects such as note, measure, clef etc. Some of these functions do different things in different modes. For example the key A is usually bound to a function that moves the cursor to the nearest note A, or inserts a note A, or changes the current note to an A, all depending on which mode is chosen. (There are also entry modes, in rest entry mode instead of a note a rest would be inserted). </para>
  <para>If you dislike modal programs, you will set your shortcuts to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
 <para>
-When using a MIDI controller to enter pitches, you can just set the Rhythm entry mode, and never have to switch modes. You select rhythms via the keyboard and edit their pitch with the MIDI in.
+When using a MIDI controller to enter pitches, you can just check Audible Feedback, and never have to switch modes, as the cursor automatically moves on for you with this setting. You select rhythms via the keyboard and edit their pitch with the MIDI in.
 </para>
-<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, while in Rhythm entry the different durations have varied audio feedback and a beep is sounded when Denemo moves to the next measure – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
+<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, and if you check the Audible Feedback checkbox the different durations have varied audio feedback and a beep is sounded when Denemo moves to the next measure – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
   </sect1>
 
   <sect1>
@@ -1263,7 +1263,7 @@ When using a MIDI controller to enter pitches, you can just set the Rhythm entry
       </para>
 
       <para role="persom">For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method. </para>
-      <para>One way to do this is to choose Rhythm entry mode and enter the music as pure rhythm, ignoring the note names. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
+      <para>One way to do this is to check the Audible Feedback checkbox and enter the music as pure rhythm, ignoring the note names. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
       <para>Once you have entered the rhythms you choose an external source from the Input menu, placing the cursor in the first measure, play the notes via MIDI or a microphone plugged into the mic input of your soundcard. The Audio Input button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
 
 
@@ -1583,6 +1583,9 @@ d-ScoreProperties (fontsize= size of font to be used for score)
 <sect1>
   <title>Complete List of Functions Callable from Scheme</title>
 <itemizedlist>
+	<!-- insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
+
+
 <listitem>d-Modeless one optional parameter: To be documented </listitem>
 <listitem>d-ClassicMode one optional parameter: To be documented </listitem>
 <listitem>d-InsertMode one optional parameter: To be documented </listitem>
@@ -1906,7 +1909,7 @@ Use More Commands after this has finished </listitem>
 <listitem>d-PrevBookmark one optional parameter: Go to the previous bookmarked point in the list </listitem>
 <listitem>d-ToggleEdit one optional parameter: Toggle between current mode and edit mode </listitem>
 <listitem>d-ToggleRest one optional parameter: Toggle between note entry and rest entry </listitem>
-<listitem>d-ToggleRhythm one optional parameter: Toggle between note entry and rhythm entry </listitem>
+<listitem>d-ToggleRhythm one optional parameter: Toggle audible feedback on/off </listitem>
 <listitem>d-ClearOverlay one optional parameter: Clear the list of pitches that overlay the notes </listitem>
 <listitem>d-CreateRhythm one optional parameter: Copy selection as a rhythm pattern for notes to follow as they are entered </listitem>
 <listitem>d-DeleteRhythm one optional parameter: Delete the selected rhythm pattern </listitem>
@@ -2437,6 +2440,8 @@ Sets prevailing rhythm to music-sign (6) </listitem>
 <listitem>d-RefreshDisplay one optional parameter: To be documented </listitem>
 <listitem>d-SetSaved one optional parameter: To be documented </listitem>
 <listitem>d-InputFilterNames one optional parameter: To be documented </listitem>
+
+	<!-- end of insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
 
 </itemizedlist>
 </sect1>
