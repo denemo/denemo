@@ -175,6 +175,7 @@ cb_string_pairs activatable_commands[] = {
 #define DENEMO_SCHEME_PREFIX "d-"
 
 #ifdef DEVELOPER
+
 #define MUSIC_FONT(a) "music-sign ("a")"
 static FILE *DEV_fp;
 #define DEV_CODE  gint idx = lookup_command_from_name(Denemo.map, name+strlen(DENEMO_SCHEME_PREFIX));\
@@ -229,6 +230,8 @@ static void install_scm_function4(gchar *name, gpointer callback) {
 scm_c_define_gsubr (name, 4, 0, 0, callback);
 
 }
+
+#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 #undef DEV_CODE
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
