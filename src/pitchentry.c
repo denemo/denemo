@@ -700,7 +700,12 @@ gint pitchentry(DenemoGUI *gui) {
 	if(!Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
 	  if(gui->mode & INPUTRHYTHM) {
+	    static beep = FALSE;
+	    gint measure = gui->si->currentmeasurenum;
 	    scheme_next_note(NULL);
+	    if(measure != gui->si->currentmeasurenum)
+	      beep=TRUE;
+	    else if(beep) gdk_beep(), beep=FALSE;
 	  }
 	}
 	else
@@ -1135,7 +1140,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   label = gtk_label_new("Lowest Pitch");
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   spinner_adj =
-    (GtkAdjustment *) gtk_adjustment_new (DEFAULT_LOW, 60.0, 2080.0,
+    (GtkAdjustment *) gtk_adjustment_new (DEFAULT_LOW, 10.0, 2080.0,
 					   10.0, 1.0, 1.0);
   spinner = gtk_spin_button_new (spinner_adj, 100.0, 1);
   gtk_box_pack_start (GTK_BOX (hbox), spinner, TRUE, TRUE, 0);
@@ -1148,8 +1153,8 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   label = gtk_label_new("Highest Pitch");
   gtk_box_pack_start (GTK_BOX (hbox2), label, TRUE, TRUE, 0);
   spinner_adj =
-    (GtkAdjustment *) gtk_adjustment_new (DEFAULT_HIGH, 120.0, 2400.0,
-					   0.01, 1.0, 1.0);
+    (GtkAdjustment *) gtk_adjustment_new (DEFAULT_HIGH, 120.0, 9600.0,
+					   10.0, 1.0, 1.0);
   spinner = gtk_spin_button_new (spinner_adj, 100.0, 1);
   gtk_box_pack_start (GTK_BOX (hbox2), spinner, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed",
