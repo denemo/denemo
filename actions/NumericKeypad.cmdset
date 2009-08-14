@@ -2141,7 +2141,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
         <label>Finger 3</label>
         <tooltip>Inserts fingering for finger 3</tooltip>
-        <bind>3</bind>
       </row>
       <row>
         <action>Finger4</action>
@@ -2603,6 +2602,15 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Adjust the Barlines</label>
         <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
+      </row>
+      <row>
+        <action>ToggleTripleting</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Toggle Triplet Entry Off/On</label>
+        <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
+        <bind>3</bind>
       </row>
     </map>
   </commands>

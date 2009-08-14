@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleTupletNumbering</after>
+        <action>ToggleTripleting</action>
+        <scheme>;;;ToggleTripleting
+(if (not (defined? 'ToggleTripleting::InsideTriplet))
+    (define ToggleTripleting::InsideTriplet #f))
+(if  ToggleTripleting::InsideTriplet
+       (d-StartTriplet)
+       (d-EndTuplet))
+(set! ToggleTripleting::InsideTriplet (not ToggleTripleting::InsideTriplet))
+</scheme>
+        <label>Toggle Triplet Entry Off/On</label>
+        <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

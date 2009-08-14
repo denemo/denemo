@@ -2540,6 +2540,15 @@ for second and subsequent systems</tooltip>
         <label>Adjust the Barlines</label>
         <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
       </row>
+      <row>
+        <action>ToggleTripleting</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Toggle Triplet Entry Off/On</label>
+        <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
+        <bind>3</bind>
+      </row>
     </map>
   </commands>
 </Denemo>
