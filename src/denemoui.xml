@@ -91,12 +91,13 @@
       <menuitem action="Note"/>
       <menuitem action="Blank"/>
       <menuitem action="Rest"/>
-      <menuitem action="Rhythm"/>
+
 	<separator/>
       <menuitem action="ToggleEdit"/>
       <menuitem action="ToggleRest"/>
-      <menuitem action="ToggleRhythm"/>
+
 	<separator/>
+      <menuitem action="Rhythm"/>
       <menuitem action="RecordScript"/>
     </menu>
 

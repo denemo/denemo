@@ -4514,6 +4514,16 @@ static void toggle_rest_mode (GtkAction * action, gpointer param){
 /* callback: if rhythm entry make note entry and vv */
 static void toggle_rhythm_mode (GtkAction * action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
+#if 1
+  //g_print("Was mode %x\n", gui->mode);
+   if(gui->mode&INPUTRHYTHM)
+     gui->mode &= ~INPUTRHYTHM;
+   else {
+     gui->mode |= INPUTRHYTHM;
+    activate_action( "/MainMenu/ModeMenu/EditMode"); 
+   }
+   // g_print("Now mode %x\n", gui->mode);
+#else
   static gint mode=INPUTNORMAL;
   if(gui->mode&INPUTRHYTHM){
     switch(mode & ~ENTRY_TYPE_MASK ) {
@@ -4527,6 +4537,7 @@ static void toggle_rhythm_mode (GtkAction * action, gpointer param){
     mode = gui->mode;// remember mode for switching back, breaks with multi gui FIXME
     activate_action( "/MainMenu/ModeMenu/Rhythm");
   }
+#endif
 }
 
 /**
@@ -4801,7 +4812,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
-  {ToggleRhythmToolbar_STRING, NULL, N_("Rhythms Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
   {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),
@@ -4839,8 +4850,9 @@ GtkToggleActionEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_quick_edits), FALSE},
   {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording menu clicks into the Scheme script text window",
    G_CALLBACK (toggle_record_script), FALSE},
-
-
+ 
+  {RHYTHM_E_STRING, NULL, N_("Audible Feedback\nInsert Duration/Edit Note"), NULL, N_("Gives feedback as you enter durations. N.B. durations are entered in Edit mode"),
+   G_CALLBACK (toggle_rhythm_mode), FALSE},
   {ReadOnly_STRING, NULL, N_("Read Only"), NULL, "Make score read only\nNot working",
    G_CALLBACK (default_mode), FALSE}
 };
@@ -4863,9 +4875,11 @@ static GtkRadioActionEntry mode_menu_entries[] = {
 static GtkRadioActionEntry type_menu_entries[] = {
   {NOTE_E_STRING, NULL, N_("Note"), NULL,  N_("Normal (note) entry"), INPUTNORMAL},
   {REST_E_STRING, NULL, N_("Rest"), NULL,  N_("Entering rests not notes"), INPUTREST},
-  {BLANK_E_STRING, NULL, N_("Non printing rests"), NULL,  N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK},
-  {RHYTHM_E_STRING, NULL, N_("Audible Feedback"), NULL, N_("Gives feedback as you enter durations"),
-   INPUTRHYTHM|INPUTNORMAL}
+  {BLANK_E_STRING, NULL, N_("Non printing rests"), NULL,  N_("Enters rests which will not be printed (just take up space)\nUsed for positioning polyphonic voice entries"), INPUTBLANK}
+#if 0
+,
+  {RHYTHM_E_STRING, NULL, N_("Audible Feedback"), NULL, N_("Gives feedback as you enter durations"),  INPUTRHYTHM|INPUTNORMAL}
+#endif
 };
 
 static GtkRadioActionEntry input_menu_entries[] = {
@@ -5058,9 +5072,11 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     case INPUTREST:
       activate_action( "/MainMenu/ModeMenu/Rest");
       break;
+#if 0
     case INPUTRHYTHM:
-      activate_action( "/MainMenu/ModeMenu/Rhythm");
+          activate_action( "/MainMenu/ModeMenu/Rhythm");
       break;
+#endif
     default:
       ;
     }
