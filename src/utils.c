@@ -658,24 +658,6 @@ get_conf_dir ()
 }
 
 const gchar *
-get_plugin_dir ()
-{
-  static gchar *plugindir = NULL;
-  if (plugindir == NULL)
-  {
-#ifdef G_OS_WIN32
-    gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
-    plugindir = g_build_filename (rootdir, "lib", "denemo", NULL);
-    g_free (rootdir);
-#else /* not G_OS_WIN32 */
-    plugindir = gbr_find_lib_dir (PACKAGE_PLUGIN_DIR);
-#endif /* not G_OS_WIN32 */
-  }
-  return plugindir;
-}
-
-
-const gchar *
 get_locale_dir ()
 {
   static gchar *localedir = NULL;
