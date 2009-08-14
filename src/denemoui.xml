@@ -61,13 +61,7 @@
 
         <menuitem action="CommandManagement"/>
       </menu>
-      <!--
-      <menuitem action="LoadPlugins"/>
-      <menuitem action="UnloadPlugins"/>
-      <menuitem action="ListPlugins"/>
-      <menuitem action="ListAvailPlugins"/>
-      -->
-    </menu>
+        </menu>
     <menu action="ViewMenu">
       <menuitem action="ToggleScoreView"/>
       <menuitem action="TogglePrintView"/>

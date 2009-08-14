@@ -240,10 +240,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveSele
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Preferences"), "Preferences", "Change Preferences", "Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones", preferences_change);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveAccels"), "SaveAccels", "Save Command Set", "Save the current commands and keyboard shortcuts as the default", save_default_keymap_file_wrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CommandManagement"), "CommandManagement", "Manage Command Set", "View help, change and save keyboard shortcuts", configure_keyboard_dialog);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "LoadPlugins"), "LoadPlugins", "Load Plugins", "Load Plugins", load_plugin);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "UnloadPlugins"), "UnloadPlugins", "Unload Plugins", "Unload Plugins", unloadplugins);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ListPlugins"), "ListPlugins", "List Plugins", "List the loaded plugins", list_loaded_plugins);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "ListAvailablePlugins"), "ListAvailablePlugins", "List Available Pluigins", "List the available plugins", list_available_plugins);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SwapStaffs"), "SwapStaffs", "Swap Staffs", "Swap this staff with the one higher up. Note this actually swaps voices.", swapstaffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SplitVoices"), "SplitVoices", "Split Voices", "Split off the next voice as a separate staff", splitstaffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "JoinVoices"), "JoinVoices", "Join Voices", "Merge this staff as a voice on the previous staff", joinstaffs);

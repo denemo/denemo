@@ -1062,21 +1062,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Merge this staff as a voice on the previous staff</tooltip>
       </builtin>
       <builtin>
-        <command>ListAvailablePlugins</command>
-        <label>ListAvailablePlugins</label>
-        <tooltip>List the available plugins</tooltip>
-      </builtin>
-      <builtin>
-        <command>ListPlugins</command>
-        <label>ListPlugins</label>
-        <tooltip>List the loaded plugins</tooltip>
-      </builtin>
-      <builtin>
-        <command>LoadPlugins</command>
-        <label>LoadPlugins</label>
-        <tooltip>Load Plugins</tooltip>
-      </builtin>
-      <builtin>
         <command>MeasureLeft</command>
         <label>MeasureLeft</label>
         <tooltip>No Tooltip yet</tooltip>

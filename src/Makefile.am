@@ -13,7 +13,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
 	jackmidi.c jackmidi.h lash_support.c lash_support.h \
 	playback.c drawfakechord.c fakechord.c \
-	playbackprops.c plugin.c prefdialog.c prefops.c	processstaffname.c \
+	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
 	csoundplayback.c lyric.c scoreops.c scoreprops.c \
 	selectops.c staffops.c \
 	staffpropdialog.c drawbarline.c slurs.c \
@@ -32,17 +32,16 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	keyresponses.h lyparserfuncs.h \
 	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
 	objops.h \
-	playbackprops.h plugin.h prefops.h processstaffname.h \
+	playbackprops.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
 	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	exportcsound.h \
 	lyric.h playback.h runsilent.h binreloc.c  binreloc.h \
-	alsaplayback.c alsaplayback.h bookmarks.c bookmarks.h scorewizard.c \
+	bookmarks.c bookmarks.h scorewizard.c \
 	external.h scorewizard.h fakechord.h \
 	parseinstruments.c parseinstruments.h keyboard.c \
-	midiseq.h alsaseq.h alsaseq.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \

@@ -39,7 +39,6 @@
 //#include "csoundplayback.h"
 #include "print.h"
 #include "barline.h"
-#include "plugin.h"
 #include "runsilent.h"
 
 #define EXTRA_ACCELS "extra.accels"

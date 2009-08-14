@@ -17,8 +17,6 @@
 #include <glib/gstdio.h>
 #include "scorewizard.h"
 #include "playback.h"
-#include "alsaplayback.h"
-#include "midiseq.h"
 #include "pitchentry.h"
 #include "exportlilypond.h"
 #include "print.h"
@@ -74,8 +72,6 @@ populate_opened_recent (void);
 
 GtkAction *sharpaction, *flataction;
 
-
-extern midi_seq *sq;		/* global denemo sequencer FIXME: should not be global */
 
 static void   activate_action(gchar *path);
 typedef enum 
@@ -2513,24 +2509,6 @@ GString *get_widget_path(GtkWidget *widget) {
   return str;
 }
 
-
-
-
-/**
- * close the application and shut down the sequencer if open
- *
- */
-static void
-quit (void)
-{
-#ifdef HAVEALSA
-  midi_seq_delete (sq);
-#endif
-  //gtk_main_quit ();
-  exit(0);//do not use gtk_main_quit, as there may be inner loops active.
-}
-
-
 /**
  * Close the movement gui, releasing its memory and removing it from the list
  * Do not close the sequencer
@@ -2735,7 +2713,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
     writeHistory ();
     writeXMLPrefs(&Denemo.prefs);
     ext_quit (); /* clean players pidfiles (see external.c) */
-    quit (); 
+    exit(0); 
   } else {
     Denemo.gui = Denemo.guis->data;
     g_print("Setting the first piece as your score\n");

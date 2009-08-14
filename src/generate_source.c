@@ -349,10 +349,6 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Set actions to take in response to keypresses", N_("KeyBindings"), NULL, "Customize Commands, Shortcuts ...", N_("Customize Key Bindings")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_SAVE", "Save the current commands and keyboard shortcuts as the default", N_("SaveAccels"), "save_default_keymap_file_wrapper", "Save Command Set", N_("Save Command Set")}, 
   {CMD_CATEGORY_DIRECT, NULL, "View help, change and save keyboard shortcuts", "CommandManagement", "configure_keyboard_dialog", "Manage Command Set", N_("Manage Command Set")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Load Plugins", N_("LoadPlugins"), "load_plugin", N_("Load Plugins")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Unload Plugins", N_("UnloadPlugins"), "unloadplugins", N_("Unload Plugins")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "List the loaded plugins", N_("ListPlugins"), "list_loaded_plugins", N_("List Plugins")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "List the available plugins", N_("ListAvailablePlugins"), "list_available_plugins", N_("List Available Pluigins")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Swap this staff with the one higher up. Note this actually swaps voices.", N_("SwapStaffs"), "swapstaffs", N_("Swap Staffs")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Split off the next voice as a separate staff", N_("SplitVoices"), "splitstaffs", N_("Split Voices")}, 

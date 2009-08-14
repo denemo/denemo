@@ -25,46 +25,10 @@ GUILE_FLAGS
 dnl AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
 
-dnl GTK_DOC_CHECK([1.0])
-dnl AC_ARG_ENABLE(
-dnl   gtk-doc,
-dnl   [  --enable-gtk-doc		Use gtk-doc to build documentation [
-dnl default=auto]], enable_gtk_doc="$enableval", enable_gtk_doc=auto)
-dnl if test x$enable_gtk_doc = xauto ; then
-dnl   if test x$GTKDOC = xtrue ; then
-dnl     enable_gtk_doc=yes
-dnl   else
-dnl     enable_gtk_doc=no
-dnl   fi
-dnl fi
-dnl AM_CONDITIONAL(ENABLE_GTK_DOC, test x$enable_gtk_doc = xyes)
-dnl AM_CONDITIONAL(GTK_DOC_USE_LIBTOOL, no)
-
-dnl turnoff binreloc by default
-dnl $br_cv_binreloc=no
-
-
-dnl Checks for libraries.
-dnl Why asking if gtk is enabled when it's required anyway?
-dnl usegtk2=yes
-dnl AC_ARG_ENABLE(
-dnl   gtk2,
-dnl   [  --enable-gtk2		Use GTK2 "[default=yes]"],
-dnl   [
-dnl     if test "x$enable_gtk2" != "xno"; then
-dnl       usegtk2=yes
-dnl     fi
-dnl   ])
-
-
 PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= 2.0.3)
 CFLAGS="$CFLAGS $GTK2_CFLAGS"
 LIBS="$GTK2_LIBS"
 
-#PKG_CHECK_MODULES(GWRAP, g-wrap-2.0-guile >= 1.9)
-#CFLAGS="$CFLAGS $GWRAP_CFLAGS"
-#LIBS="$LIBS $GWRAP_LIBS"
-#LIBS="$LIBS -lguile"
 PKG_CHECK_MODULES(GUILE, guile-1.8 >= 1.8)
 LIBS="$LIBS $GUILE_LIBS"
 CFLAGS="$CFLAGS $GUILE_CFLAGS"
@@ -76,11 +40,6 @@ LIBS="$LIBS $LIBAUBIO_LIBS"
 PKG_CHECK_MODULES(PORTAUDIO, portaudio-2.0 >= 19)
 dnl CFLAGS="$CFLAGS $PORTAUDIO_CFLAGS"
 LIBS="$LIBS $PORTAUDIO_LIBS"
-
-#dnl PKG_CHECK_MODULES(PORTAUDIO, portaudio >= 18)
-#dnl CFLAGS="$CFLAGS $PORTAUDIO_CFLAGS"
-#LIBS="$LIBS libportaudio.a"
-#LIBS="$LIBS -lportaudio"
 
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
@@ -109,9 +68,6 @@ if test "x$usejack" = "xyes"; then
   CFLAGS="$CFLAGS $samplerate_CFLAGS"
   LIBS="$LIBS $samplerate_LIBS"
 
- # PKG_CHECK_MODULES(JACK_MIDI_NEEDS_NFRAMES, jack < 0.105.00, 
- # AC_DEFINE(JACK_MIDI_NEEDS_NFRAMES, 1, [whether or not JACK routines need nframes parameter]), true)
-  
 fi
 
 AC_ARG_ENABLE(
@@ -129,40 +85,6 @@ if test "x$uselash" = "xyes"; then
   LIBS="$LIBS -DWITH_LASH $LASH_LIBS"
 
 fi
-
-
-#AM_PATH_XML2(
-#  2.0.0,
-#  [
-#    LIBS="$LIBS $XML_LIBS"
-#    CPPFLAGS="$CPPFLAGS $XML_CPPFLAGS"
-#    LDFLAGS="$LDFLAGS $XML_LDFLAGS"
-#  ],
-#  AC_MSG_ERROR(Cannot find libxml: Is xml-config in path?))
-
-
-#usealsa=no
-#AC_ARG_ENABLE(
-#  alsa,
-#  AC_HELP_STRING([--enable-alsa], [use ALSA @<:@default=no@:>@]),
-#  [
-#    if test "x$enableval" != "xno"; then
-#      usealsa=yes
-#    fi
-#  ])
-
-#if test "x$usealsa" = "xyes"; then
-#  AM_PATH_ALSA(
-#    0.9.0,
-#    [
-#      LIBS="$LIBS $ALSA_LIBS"
-#      CFLAGS="$CFLAGS -DHAVEALSA $ALSA_CFLAGS"
-#      LDFLAGS="$LDFLAGS $ALSA_LDFLAGS"
-#    ],
-#    AC_MSG_ERROR(Cannot find Alsa))
-#  AC_DEFINE(HAVEALSA, 1,[Use alsa])
-#fi
-
 
 dnl Options for configuration
 build_debug=no

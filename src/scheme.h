@@ -967,22 +967,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SaveAccels")), "scm", (gp
 SCM scheme_CommandManagement(SCM optional);
 install_scm_function ("d-CommandManagement", scheme_CommandManagement);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CommandManagement")), "scm", (gpointer)1);
-/*LoadPlugins load_plugin*/
-SCM scheme_LoadPlugins(SCM optional);
-install_scm_function ("d-LoadPlugins", scheme_LoadPlugins);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "LoadPlugins")), "scm", (gpointer)1);
-/*UnloadPlugins unloadplugins*/
-SCM scheme_UnloadPlugins(SCM optional);
-install_scm_function ("d-UnloadPlugins", scheme_UnloadPlugins);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "UnloadPlugins")), "scm", (gpointer)1);
-/*ListPlugins list_loaded_plugins*/
-SCM scheme_ListPlugins(SCM optional);
-install_scm_function ("d-ListPlugins", scheme_ListPlugins);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ListPlugins")), "scm", (gpointer)1);
-/*ListAvailablePlugins list_available_plugins*/
-SCM scheme_ListAvailablePlugins(SCM optional);
-install_scm_function ("d-ListAvailablePlugins", scheme_ListAvailablePlugins);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ListAvailablePlugins")), "scm", (gpointer)1);
 /*SwapStaffs swapstaffs*/
 SCM scheme_SwapStaffs(SCM optional);
 install_scm_function ("d-SwapStaffs", scheme_SwapStaffs);

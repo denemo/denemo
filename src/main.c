@@ -35,13 +35,11 @@
 #include <dirent.h>
 #include <glib.h>
 #include <glib/gstdio.h>
-#include "midiseq.h"
 #include <libguile.h>
 #include "view.h"
 #include "exportxml.h"
 #include "runsilent.h"
 #include "utils.h"
-#include "alsaplayback.h"
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
@@ -51,7 +49,6 @@
 #endif
 
 struct DenemoRoot Denemo;
-midi_seq *sq;
 
 /* just a simple check, if the user has never run denemo before
    better, keep this for whole first session? */
@@ -619,14 +616,6 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 		                           flags, LASH_PROTOCOL(2, 0));
   start_init_lash(lash_client);
 #endif
-
-#ifdef HAVEALSA
-  if (NULL == (sq = midi_seq_new ("Denemo")))
-    {
-      g_print ("Sequencer Error.\n");
-    }
-#endif
-
 
   /* Set up the signal handler */
   signal (SIGSEGV, denemo_signal_handler);

@@ -18,7 +18,6 @@
 #include <denemo/denemo_version.h>
 #include "prefops.h"
 #include "utils.h"
-#include "plugin.h"
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
@@ -461,25 +460,4 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_widget_destroy (dialog);
 }
 
-GList *
-get_plugins_list (GList * plugins)
-{
-  DIR *dir;
-  struct dirent *dirent;
-  char *name;
-  //dirname = g_strconcat(dirname, "/denemo/", NULL);
-  //g_print ("Directory %s\n", get_plugin_dir ());
-  dir = opendir (get_plugin_dir ());
 
-  if (!dir)
-    return NULL;
-
-  while ((dirent = readdir (dir)) != NULL)
-    {
-      //g_print ("Filename is %s\n", dirent->d_name);
-      if ((name = stripname (dirent->d_name)) != NULL)
-	plugins = g_list_append (plugins, name);
-    }
-
-  return (plugins);
-}
