@@ -2549,6 +2549,21 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
         <bind>3</bind>
       </row>
+      <row>
+        <action>NonPrintingStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Non-Printing Staff</label>
+        <tooltip>Hides the staff in LilyPond print out.</tooltip>
+      </row>
+      <row>
+        <action>Largo</action>
+        <after>MezzoForte</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Largo</label>
+        <tooltip>Print Largo above note at cursor</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
