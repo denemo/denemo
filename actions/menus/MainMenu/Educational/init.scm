@@ -25,6 +25,29 @@
     (d-DirectivePut-note-gy "EducationGames::tick" 40)
     (d-DirectivePut-note-graphic "EducationGames::tick" gfx)))
 
+;;; Returns a lilypond string when givin a integer middle_c_offset
+;;; 0 returns c' 1, returns d', -1 returns b
+(define (EducationalGames::middle_c_offset->lily num)
+  (let (
+  	(octave 0)
+	(note 0)
+	(anotenames '("c" "d" "e" "f" "g" "a" "b"))
+	(lily "")
+	(pad 0)
+	)
+
+  (if (>= num 0) 
+    (set! octave (+  (quotient num 7) 1))
+    (set! octave (quotient (+ num 1) 7))
+    ) 
+  (set! note (modulo num 7))
+  (set! lily (list-ref anotenames note))
+  (set! pad (+ (abs octave) 1))
+  (if (> octave 0)
+    (string-pad-right lily pad #\')
+    (string-pad-right lily pad #\,))
+  ))
+
 
 ;;;; Read File ;;;;
 

@@ -16,7 +16,9 @@
 (define LineOrSpace::end (current-time))
 (define LineOrSpace::score 0)
 (define LineOrSpace::steps 0)
-(define LineOrSpace::position 0)
+(define LineOrSpace::position 6) ;in middle c offset
+(define LineOrSpace::note_highest 12)
+(define LineOrSpace::note_lowest 0)
 (define LineOrSpace::span 8) ;; how many LineOrSpace::steps of the scale to test.
 (define LineOrSpace::num-goes 30) ;; how many notes to present for the whole test
 (define LineOrSpace::input_device 1) ;0 = mouse 1 = keyboard
@@ -41,26 +43,39 @@
 (d-SetDirectiveTagActionScript "LineOrSpace::GameScore" "(LineOrSpace::ScoreBoard)")
 (CreateButton "LineOrSpace::GameHelp" "&lt;b&gt;Help&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "LineOrSpace::GameHelp" "(LineOrSpace::help)")
-
+	  
 (define (LineOrSpace::offerNote) 
-          (let (    
-	      (steps 0)
-	      (direction 0)
+	(let (    
+	      (outofrange? 0)
+	      (seed 0)
+	      (interval 0)
 	      )
-	;;  (d-GoToEnd)
+	      (set! outofrange?
+	        (lambda ()
+		  (or (> LineOrSpace::position LineOrSpace::note_highest) 
+		      (> LineOrSpace::note_lowest LineOrSpace::position)) 
+			))
+	      (set! seed 
+	        (lambda ()
+                  (set! interval (random 4))
+	          (if (= (random 2) 0)
+	            (set! LineOrSpace::position (+ LineOrSpace::position interval))
+		    (set! LineOrSpace::position (- LineOrSpace::position interval)))
+		    (if (outofrange?)
+		      (seed))
+		    ))
+
+          (seed)
+	  ;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-	  (set! LineOrSpace::steps (+ 1 (random LineOrSpace::span)))
-	  (EducationGames::shiftup LineOrSpace::steps)
-	  (set! LineOrSpace::position (+ LineOrSpace::steps))
-	  (d-Insert2)
-		
-	  (if (odd? LineOrSpace::position)
-	    (begin
-        	(set! LineOrSpace::positionwas "space"))
-	    (begin
-		(set! LineOrSpace::positionwas "line")))
-		(EducationGames::shiftdown LineOrSpace::steps)
-	        (set! LineOrSpace::position (- LineOrSpace::steps))
+
+	  (d-CursorToNote (EducationalGames::middle_c_offset->lily LineOrSpace::position))
+	  (d-Insert1)
+	  (if (or (even? LineOrSpace::position) 
+	          (= 0 LineOrSpace::position))
+	      (set! LineOrSpace::positionwas "line")
+	      (set! LineOrSpace::positionwas "space"))
+ 
 	  (LineOrSpace::showscore)
 	  ))
 
