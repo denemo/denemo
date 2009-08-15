@@ -2654,6 +2654,7 @@ morecommands (GtkAction *action, gpointer param)
   if(location==NULL)
     location = g_build_filename(get_data_dir(), "actions", "menus", NULL);
   load_keymap_dialog_location (NULL, location);
+  warningdialog("Some commands will not work until you have exited\nand re-started denemo");
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, get_data_dir())) {
     g_free(location);
     location = g_strdup(Denemo.last_merged_command);
@@ -2676,7 +2677,7 @@ mycommands (GtkAction *action, gpointer param)
     location = g_strdup(Denemo.last_merged_command);
   }
   load_keymap_dialog_location (NULL, location);
-
+  warningdialog("Some commands will not work until you have exited\nand re-started denemo");
   //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  locatedotdenemo());
 }
 
@@ -3325,7 +3326,7 @@ gchar *instantiate_script(GtkAction *action){
   g_free(filename);
   filename = g_build_filename (path, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
   g_free(filename);
   g_free(path);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
@@ -3723,7 +3724,7 @@ static void uploadMenuItem (GtkWidget *widget, GtkAction *action) {
   gchar *xml;
   GError *error = NULL;
   g_file_get_contents(filename, &xml, NULL, &error);
-  filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, "init.scm",
+  filename = g_build_filename (locatedotdenemo (), "actions", "menus", menupath, INIT_SCM,
 					NULL);
   gchar *init_script;
   g_file_get_contents(filename, &init_script, NULL, &error);
