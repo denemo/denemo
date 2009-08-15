@@ -2713,7 +2713,7 @@ close_gui_with_check (GtkAction *action, gpointer param)
     writeHistory ();
     writeXMLPrefs(&Denemo.prefs);
     ext_quit (); /* clean players pidfiles (see external.c) */
-    exit(0); 
+    exit(0);//do not use gtk_main_quit, as there may be inner loops active.
   } else {
     Denemo.gui = Denemo.guis->data;
     g_print("Setting the first piece as your score\n");
