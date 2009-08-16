@@ -84,4 +84,6 @@ get_icon_for_name(gchar *name, gchar *label);
 
 void
 upload_edit_script(gchar *tag, gchar *script);
+void 
+execute_init_scripts(gchar *menupath);
 #endif

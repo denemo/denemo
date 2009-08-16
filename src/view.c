@@ -249,6 +249,29 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
 }
 
 
+
+/*
+  execute init scripts in system and local directories for menupath
+*/
+static SCM scheme_execute_init(gchar *menupath) {
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+    g_print("About to load from %s\n", filename);
+    gh_eval_file_with_catch(filename, gh_standard_handler);//ret = scm_c_primitive_load(filename);
+  }
+  g_free(filename);
+  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
+    g_print("About to load from %s\n", filename);
+    gh_eval_file_with_catch(filename, gh_standard_handler);//ret = scm_c_primitive_load(filename);
+  }
+  g_free(filename);
+}
+
+void execute_init_scripts(gchar *menupath) {
+  (void)scheme_execute_init(menupath);
+}
+
 /* called by a script if it requires initialization
  the initialization script is expected to be in init.scm in the menupath of the action that invoked the script*/
 static SCM scheme_initialize_script(SCM action_name) {
@@ -261,20 +284,8 @@ static SCM scheme_initialize_script(SCM action_name) {
     g_warning("Non-existent action %s", name);
     return SCM_BOOL(FALSE);
   }
-    
   gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
-  gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
-  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
-    g_print("About to load from %s\n", filename);
-    ret = scm_c_primitive_load(filename);
-  }
-  g_free(filename);
-  filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
-  if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
-    g_print("About to load from %s\n", filename);
-    ret = scm_c_primitive_load(filename);
-  }
-  g_free(filename);
+  ret = scheme_execute_init(menupath);
   return ret;
 }
 
@@ -1757,20 +1768,20 @@ void denemo_scheme_init(gchar *initscheme){
   define_scheme_constants();
   if(initscheme) {
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
-      scm_c_primitive_load(initscheme);
+      gh_eval_file_with_catch(initscheme, gh_standard_handler);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   } else {
     gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
     
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      scm_c_primitive_load(filename);
+      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
     else
       g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
     g_free(filename);
     filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      scm_c_primitive_load(filename);
+      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
     g_free(filename);
   }
 }
@@ -2654,7 +2665,8 @@ morecommands (GtkAction *action, gpointer param)
   if(location==NULL)
     location = g_build_filename(get_data_dir(), "actions", "menus", NULL);
   load_keymap_dialog_location (NULL, location);
-  warningdialog("Some commands will not work until you have exited\nand re-started denemo");
+  //#define WARNING_NEW_MENUS "Note: if you load a command that creates a new menu\nSome of the new commands may not work until you have exited\nand re-started denemo"
+  //warningdialog(WARNING_NEW_MENUS);
   if(Denemo.last_merged_command && g_str_has_prefix(Denemo.last_merged_command, get_data_dir())) {
     g_free(location);
     location = g_strdup(Denemo.last_merged_command);
@@ -2677,7 +2689,7 @@ mycommands (GtkAction *action, gpointer param)
     location = g_strdup(Denemo.last_merged_command);
   }
   load_keymap_dialog_location (NULL, location);
-  warningdialog("Some commands will not work until you have exited\nand re-started denemo");
+  // warningdialog(WARNING_NEW_MENUS);
   //g_print("The last was %s %s %s\n", Denemo.last_merged_command, location,  locatedotdenemo());
 }
 

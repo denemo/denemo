@@ -1454,22 +1454,21 @@ load_system_keymap_dialog (GtkWidget * widget)
  */
 static void
 load_keymap_file_named (gchar *localrc, gchar *systemwide) {
-
   if(localrc) {
-    g_print ("Trying local file %s as xml...", localrc);
+    g_debug ("Trying local file %s as xml...", localrc);
     if (load_xml_keymap (localrc, TRUE) == -1)
       {
-	g_print ("..no.\nTrying systemwide file %s as xml...", systemwide);
+	g_debug ("..no.\nTrying systemwide file %s as xml...", systemwide);
 	if (load_xml_keymap (systemwide, TRUE) == -1)
 	  {
-	    g_print ("..no.\nNo useful keymaps found.\n");
+	    g_debug ("..no.\nNo useful keymaps found.\n");
 	    no_map_dialog ();
 	  }
 	else
-	  g_print ("..ok.\n");
+	  g_debug ("..ok.\n");
       }
     else
-      g_print ("..ok.\n");
+      g_debug ("..ok.\n");
   }
   else {
     if (load_xml_keymap (systemwide, TRUE) == -1)
