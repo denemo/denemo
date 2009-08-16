@@ -494,9 +494,11 @@
 		
 			; Raise Error. Sorry, I don't know how to make Blocks and if/else does only allow one statement.
 			(define	(RaiseError)
+			  (begin
+			    (d-WarningDialog "Login Error - Please check your username and password in Edit->prefs->misc")
 				(display "\nLogin Error - Please check your username and password in Denemos Preferences")
 				;return CookieError
-				(string-append "CookieError")		
+				(string-append "CookieError"))		
 			)
 			
 			; Test if hostname is ok
