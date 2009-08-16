@@ -240,6 +240,19 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, TRUE, TRUE, 0);\
   cbdata.field = field;
 
+#define PASSWORDENTRY(thelabel, field) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (_(thelabel));\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  GtkWidget *field = gtk_entry_new ();\
+  gtk_entry_set_visibility(GTK_ENTRY(field), FALSE);\
+  gtk_entry_set_invisible_char(GTK_ENTRY(field), '*');\
+  gtk_entry_set_text (GTK_ENTRY (field), Denemo.prefs.field->str);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, TRUE, TRUE, 0);\
+  cbdata.field = field;
+
 #define INTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
@@ -414,8 +427,8 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
 
   INTENTRY(_("Max recent files"), maxhistory)
-    TEXTENTRY("User Name", username)
-    TEXTENTRY("Password for Denemo.org", password)
+  TEXTENTRY("User Name", username)
+  PASSWORDENTRY("Password for Denemo.org", password)
   /*
    * Jack Menu
    */
