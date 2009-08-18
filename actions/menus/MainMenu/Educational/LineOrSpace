@@ -11,6 +11,7 @@
 ;; tests note name recognition.
 
 (define LineOrSpace::positionwas #t)
+(define LineOrSpace::acceptable_input (list "l" "space"))
 (define LineOrSpace::userinput #t)
 (define LineOrSpace::start (current-time))
 (define LineOrSpace::end (current-time))
@@ -110,7 +111,7 @@
 (define LineOrSpace::runtest 
 	(lambda (n)
 	  (if (> n 0) (begin
-	      (set! LineOrSpace::userinput (d-GetKeypress))
+	      (set! LineOrSpace::userinput (EducationGames::GetAcceptableKeyInput LineOrSpace::acceptable_input))
 	      (if (string=? LineOrSpace::userinput "l")
 	           (set! LineOrSpace::userinput "line"))
 	      (LineOrSpace::positionchosen LineOrSpace::userinput)	

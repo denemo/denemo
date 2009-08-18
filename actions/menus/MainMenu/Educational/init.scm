@@ -169,3 +169,21 @@
 
      )))
 
+(define (EducationGames::GetAcceptableKeyInput acceptable_list)
+  (let (
+        (input 0)
+        (getinput 0)
+        )
+
+  (set! getinput
+        (lambda ()
+          (set! input (d-GetKeypress))
+          (if (not (member input acceptable_list))
+                (getinput))
+          ))
+  (getinput)
+  input
+  ))
+
+
+
