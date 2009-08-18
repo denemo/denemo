@@ -2547,7 +2547,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <label>Toggle Triplet Entry Off/On</label>
         <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
-        <bind>3</bind>
       </row>
       <row>
         <action>NonPrintingStaff</action>
