@@ -20,6 +20,7 @@
 (define NoteNameSpeedTest::end 0)
 (define NoteNameSpeedTest::TimeLimit 120)
 (define NoteNameSpeedTest::notewas #f)
+(define NoteNameSpeedTest::acceptable_list (list "a" "b" "c" "d" "e" "f" "g"))
 
 (define (NoteNameSpeedTest::ElapsedTime)
   (- NoteNameSpeedTest::end NoteNameSpeedTest::start))
@@ -81,7 +82,7 @@
 	  (begin
 	    (NoteNameSpeedTest::GameOver))
 	  (begin
-            (NoteNameSpeedTest::notechosen (d-GetKeypress))
+            (NoteNameSpeedTest::notechosen (EducationGames::GetAcceptableKeyInput NoteNameSpeedTest::acceptable_list))
 	    (NoteNameSpeedTest::GetKeyBoardInput)))
 	  )
 

@@ -17,6 +17,7 @@
 (define StepSkipOrSame::end (current-time))
 (define StepSkipOrSame::num-goes 30)
 (define StepSkipOrSame::intervalwas #t)
+(define StepSkipOrSame::acceptable_list (list "a" "k" "t"))
 (define StepSkipOrSame::stepstring #t)
 (define StepSkipOrSame::userinput #t)
 (define StepSkipOrSame::direction 0)
@@ -97,7 +98,7 @@
 (define StepSkipOrSame::runtest 
 	(lambda (n)
 	  (if (>= n 0) (begin
-	    		(set! StepSkipOrSame::userinput (d-GetChar))
+	    		(set! StepSkipOrSame::userinput (EducationGames::GetAcceptableKeyInput StepSkipOrSame::acceptable_list))
 			(StepSkipOrSame::intervalchosen StepSkipOrSame::userinput)	
 			(StepSkipOrSame::runtest StepSkipOrSame::num-goes)))))
 
