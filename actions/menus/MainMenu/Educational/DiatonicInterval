@@ -50,12 +50,13 @@
   	(outofrange? 0)
 	(seed 0)
 	(steps 0)
+	(position 0)
 	)
 	
 	(set! outofrange?
 	  (lambda ()
-	    (or (> DiatonicInterval::note_position DiatonicInterval::note_highest) 
-	        (> DiatonicInterval::note_lowest DiatonicInterval::note_position)) 
+	    (or (> position DiatonicInterval::note_highest) 
+		(< DiatonicInterval::note_lowest position)) 
 		))
         (set! seed 
 	  (lambda ()
@@ -63,10 +64,11 @@
 	    (if (= steps 0)
 	      (set! steps (+ steps 1)))
 	    (if (= (random 2) 0)
-	      (set! DiatonicInterval::note_position (+ DiatonicInterval::note_position steps))
-	      (set! DiatonicInterval::note_position (- DiatonicInterval::note_position steps)))
+	      (set! position (+ position steps))
+	      (set! position (- position steps)))
 	      (if (outofrange?)
-	        (seed))
+		(seed)
+		(set! DiatonicInterval::note_position position))
 	      ))
   (if (>= DiatonicInterval::num-goes 0)
     (begin

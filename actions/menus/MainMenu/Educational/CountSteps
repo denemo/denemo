@@ -50,12 +50,13 @@
   	(outofrange? 0)
 	(seed 0)
 	(steps 0)
+	(position 0)
 	)
 	
 	(set! outofrange?
 	  (lambda ()
-	    (or (> CountSteps::note_position CountSteps::note_highest) 
-	        (> CountSteps::note_lowest CountSteps::note_position)) 
+	    (or (> position CountSteps::note_highest) 
+		(< CountSteps::note_lowest position)) 
 		))
         (set! seed 
 	  (lambda ()
@@ -63,10 +64,11 @@
 	    (if (= steps 0)
 	      (set! steps (+ steps 1)))
 	    (if (= (random 2) 0)
-	      (set! CountSteps::note_position (+ CountSteps::note_position steps))
-	      (set! CountSteps::note_position (- CountSteps::note_position steps)))
+	      (set! position (+ position steps))
+	      (set! position (- position steps)))
 	      (if (outofrange?)
-	        (seed))
+		(seed)
+		(set! CountSteps::note_position position))
 	      ))
   (if (>= CountSteps::num-goes 0)
     (begin
@@ -171,7 +173,7 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  )
+  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
