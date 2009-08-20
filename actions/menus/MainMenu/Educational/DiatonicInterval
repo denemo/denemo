@@ -56,7 +56,7 @@
 	(set! outofrange?
 	  (lambda ()
 	    (or (> position DiatonicInterval::note_highest) 
-		(< DiatonicInterval::note_lowest position)) 
+	        (> DiatonicInterval::note_lowest position)) 
 		))
         (set! seed 
 	  (lambda ()
@@ -72,6 +72,7 @@
 	      ))
   (if (>= DiatonicInterval::num-goes 0)
     (begin
+	(set! position DiatonicInterval::note_position)
 	(seed)
 	;;  (d-GoToEnd)
 	(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
@@ -152,7 +153,7 @@
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
 
-(EducationGames::shiftup DiatonicInterval::note_position)
+(d-CursorToNote (EducationalGames::middle_c_offset->lily DiatonicInterval::note_position))
 (d-Insert2)
 (DiatonicInterval::offerNote)
 (set! DiatonicInterval::start (current-time))
