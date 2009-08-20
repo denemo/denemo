@@ -140,16 +140,9 @@
     (set! TopTen?
       (lambda ()
         (or 
-	  (< (length scoretable) 10)
+	 (< (length scoretable) 10)
 	  (AboveLowestScore?))
       ))
-    (if (file-exists? scoreboard_file)
-      (set! scoretable (EducationGames::ReadScoreboard scoreboard_file)))
-    (if (TopTen?)
-      (begin
-        (set! scorefile (open-output-file scoreboard_file))
-        (set! scoretable (acons (getusername) score scoretable))
-        ;;truncate scoretable
     (set! OnlyTenInList
       (lambda (lst)
         (let ( (list_truncate 0) 
@@ -163,6 +156,17 @@
 	    (map list_truncate lst)
 	    TheList
 	    )))
+     (if (file-exists? scoreboard_file)
+       (set! scoretable (EducationGames::ReadScoreboard scoreboard_file)))
+     (display "TopTen? =")
+     (display (TopTen?))
+     (newline)
+     (if (TopTen?)
+      (begin
+        (set! scorefile (open-output-file scoreboard_file))
+        (set! scoretable (acons (getusername) score scoretable))
+        ;;truncate scoretable
+
 	(set! scoretable (OnlyTenInList scoretable))
 	(map write_user_score scoretable)
         (close-output-port scorefile)#t)#f)
