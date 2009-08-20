@@ -16,6 +16,7 @@
 (define UpDownOrSame::num-goes 30)
 (define UpDownOrSame::directionwas #t)
 (define UpDownOrSame::userinput #t)
+(define UpDownOrSame::acceptable_list (list "Up" "Down" "Right"))
 
 (define (UpDownOrSame::showscore)
   (d-DirectivePut-score-display "UpDownOrSame::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string UpDownOrSame::score) "&lt;/b&gt; in " (object-&gt;string (- UpDownOrSame::end UpDownOrSame::start)) " Secs.")))
@@ -88,7 +89,7 @@
 (define UpDownOrSame::runtest 
 	(lambda (n)
 	  (if (>= n 0) (begin
-	    		(set! UpDownOrSame::userinput (d-GetKeypress))
+	    		(set! UpDownOrSame::userinput (EducationGames::GetAcceptableKeyInput UpDownOrSame::acceptable_list))
 			(if (string=? UpDownOrSame::userinput "Right")
 			  (set! UpDownOrSame::userinput "Same"))
 			(UpDownOrSame::directionchosen UpDownOrSame::userinput)	

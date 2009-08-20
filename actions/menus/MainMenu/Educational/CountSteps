@@ -15,6 +15,10 @@
 (define CountSteps::end (current-time))
 (define CountSteps::num-goes 30)
 (define CountSteps::intervalwas #t)
+(define CountSteps::acceptable_list (list "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"))
+(define CountSteps::note_highest 12)
+(define CountSteps::note_lowest 0)
+(define CountSteps::note_position 6)
 (define CountSteps::userinput #t)
 (define CountSteps::direction 0)
 
@@ -42,27 +46,44 @@
 
 ;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
 (define (CountSteps::offerNote) 
+  (let (
+  	(outofrange? 0)
+	(seed 0)
+	(steps 0)
+	(position 0)
+	)
+	
+	(set! outofrange?
+	  (lambda ()
+	    (or (> position CountSteps::note_highest) 
+	        (> CountSteps::note_lowest position)) 
+		))
+        (set! seed 
+	  (lambda ()
+	    (set! steps (random CountSteps::interval))
+	    (if (= steps 0)
+	      (set! steps (+ steps 1)))
+	    (if (= (random 2) 0)
+	      (set! position (+ position steps))
+	      (set! position (- position steps)))
+	      (if (outofrange?)
+		(seed)
+		(set! CountSteps::note_position position))
+	      ))
   (if (>= CountSteps::num-goes 0)
-	(let ( (steps 0) )
-	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-	  (set! steps (random CountSteps::interval))
-	  (if (= steps 0)
-	    (set! steps (+ steps 1)))
-	  (if (= CountSteps::direction 0)
-	      (begin
-	            (EducationGames::shiftup steps)
-	            (set! CountSteps::direction 1))
-	      (begin 
-	            (EducationGames::shiftdown steps)
-	            (set! CountSteps::direction 0)))
-	    
-          (d-Insert2) 
-          (set! CountSteps::intervalwas steps)
+    (begin
+    	(set! position CountSteps::note_position)
+        (seed)
+	;;  (d-GoToEnd)
+	(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 
-          (CountSteps::showscore)
-	  (set! CountSteps::num-goes (-  CountSteps::num-goes 1))
-	  )
+	(d-CursorToNote (EducationalGames::middle_c_offset->lily CountSteps::note_position))
+	(d-Insert2)
+	(set! CountSteps::intervalwas steps)
+	   
+	(CountSteps::showscore)
+	(set! CountSteps::num-goes (-  CountSteps::num-goes 1))
+	)) ;if
 	))
 
 ;;;;;;;;; callback when user chooses a note
@@ -86,12 +107,9 @@
 (define CountSteps::runtest 
 	(lambda (n)
 	  (if (>= n 0) (begin
-	    		;(set! CountSteps::userinput (d-GetKeypress))
-	                (set! CountSteps::userinput (d-GetChar))
+	                (set! CountSteps::userinput (EducationGames::GetAcceptableKeyInput CountSteps::acceptable_list))
 			(set! CountSteps::userinput 
                             (string-&gt;number CountSteps::userinput))
-  			(if (not (integer? CountSteps::userinput))
-  			  (set! CountSteps::userinput 1))
 
 			(CountSteps::intervalchosen CountSteps::userinput)	
 			(CountSteps::runtest CountSteps::num-goes)))))
@@ -99,8 +117,8 @@
 			
 (define (CountSteps::plus)
   (set! CountSteps::interval (+ CountSteps::interval 1))
-  (if (&gt; CountSteps::interval 32)
-      (set! CountSteps::interval 32))
+  (if (&gt; CountSteps::interval 9)
+      (set! CountSteps::interval 9))
   (d-DirectivePut-score-display "CountSteps::GameInterval"
 				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;")))
 
@@ -117,8 +135,8 @@
        (set! CountSteps::interval 8))
   (if (&lt; CountSteps::interval 2)
        (set! CountSteps::interval 2))
-  (if (&gt; CountSteps::interval 32)
-      (set! CountSteps::interval 32))
+  (if (&gt; CountSteps::interval 9)
+      (set! CountSteps::interval 9))
   (d-DirectivePut-score-display "CountSteps::GameInterval"
 				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string CountSteps::interval) "&lt;/span&gt;")))
 
@@ -140,7 +158,7 @@
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
 
-(EducationGames::shiftup 6)
+(d-CursorToNote (EducationalGames::middle_c_offset->lily CountSteps::note_position))
 (d-Insert2)
 (CountSteps::offerNote)
 (set! CountSteps::start (current-time))
@@ -156,7 +174,7 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  )
+  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>

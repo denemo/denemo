@@ -279,6 +279,7 @@ process_midi_output(jack_nframes_t nframes)
 		/* We will send this event; remove it from the queue. */
 		n = smf_get_next_event(smf);
 
+#if 1
 		/* First, send it via midi_out. */
 		track_number = 0;
 
@@ -294,11 +295,13 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
-
+#endif
 		/* Ignore per-track outputs? */
 		if (just_one_output)
 			continue;
 
+
+#if 0
 		/* Send it via proper output port. */
 		track_number = event->track->track_number -1;
 
@@ -312,7 +315,9 @@ process_midi_output(jack_nframes_t nframes)
 			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
 			break;
 		}
+#endif
 
+#if 0
 		/* Before sending, reset channel to 0. XXX: Not very pretty. */
 		assert(event->midi_buffer_length >= 1);
 
@@ -324,6 +329,7 @@ process_midi_output(jack_nframes_t nframes)
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
 
 		event->midi_buffer[0] = tmp_status;
+#endif
 	}
 }
 void
@@ -381,6 +387,7 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 
 	if (state == JackTransportStarting) {
 		song_position = position->frame;
+		//g_print("seeking to %f time %ld\n", nframes_to_seconds(position->frame), position->usecs);
 		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
 
 		if (!be_quiet)

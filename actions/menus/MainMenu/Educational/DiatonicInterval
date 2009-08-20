@@ -11,11 +11,15 @@
 ;; tests interval recognition.
 (define DiatonicInterval::score 0)
 (define DiatonicInterval::interval 3)
+(define DiatonicInterval::acceptable_list (list "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"))
 (define DiatonicInterval::start (current-time))
 (define DiatonicInterval::end (current-time))
 (define DiatonicInterval::num-goes 30)
 (define DiatonicInterval::intervalwas #t)
 (define DiatonicInterval::userinput #t)
+(define DiatonicInterval::note_highest 12)
+(define DiatonicInterval::note_lowest 0)
+(define DiatonicInterval::note_position 6)
 (define DiatonicInterval::direction 0)
 
 (define (DiatonicInterval::showscore)
@@ -42,27 +46,44 @@
 
 ;;;;;;;; the main function to run the test - just goes to end and places a note at a random height above the cursor, returning the cursor to where it was.
 (define (DiatonicInterval::offerNote) 
-(if (>= DiatonicInterval::num-goes 0)
-	(let ( (steps 0) )
-	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-	  (set! steps (random DiatonicInterval::interval))
-	  (if (= steps 0)
-	    (set! steps (+ steps 1)))
-	  (if (= DiatonicInterval::direction 0)
-	      (begin
-	            (EducationGames::shiftup steps)
-	            (set! DiatonicInterval::direction 1))
-	      (begin 
-	            (EducationGames::shiftdown steps)
-	            (set! DiatonicInterval::direction 0)))
-	    
-          (d-Insert2) 
-          (set! DiatonicInterval::intervalwas (+ 1 steps))
+  (let (
+  	(outofrange? 0)
+	(seed 0)
+	(steps 0)
+	(position 0)
+	)
+	
+	(set! outofrange?
+	  (lambda ()
+	    (or (> position DiatonicInterval::note_highest) 
+	        (> DiatonicInterval::note_lowest position)) 
+		))
+        (set! seed 
+	  (lambda ()
+	    (set! steps (random DiatonicInterval::interval))
+	    (if (= steps 0)
+	      (set! steps (+ steps 1)))
+	    (if (= (random 2) 0)
+	      (set! position (+ position steps))
+	      (set! position (- position steps)))
+	      (if (outofrange?)
+		(seed)
+		(set! DiatonicInterval::note_position position))
+	      ))
+  (if (>= DiatonicInterval::num-goes 0)
+    (begin
+	(set! position DiatonicInterval::note_position)
+	(seed)
+	;;  (d-GoToEnd)
+	(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 
-          (DiatonicInterval::showscore)
-	  (set! DiatonicInterval::num-goes (-  DiatonicInterval::num-goes 1))
-	  )
+	(d-CursorToNote (EducationalGames::middle_c_offset->lily DiatonicInterval::note_position))
+	(d-Insert2)
+	(set! DiatonicInterval::intervalwas (+ 1 steps))
+	   
+	(DiatonicInterval::showscore)
+	(set! DiatonicInterval::num-goes (-  DiatonicInterval::num-goes 1))
+	)) ;if
 	))
 
 ;;;;;;;;; callback when user chooses a note
@@ -86,12 +107,9 @@
 (define DiatonicInterval::runtest 
 	(lambda (n)
 	  (if (>= n 0) (begin
-	    		;(set! DiatonicInterval::userinput (d-GetKeypress))
-	                (set! DiatonicInterval::userinput (d-GetChar))
+	                (set! DiatonicInterval::userinput (EducationGames::GetAcceptableKeyInput DiatonicInterval::acceptable_list))
 			(set! DiatonicInterval::userinput 
-                            (string-&gt;number DiatonicInterval::userinput))
-  			(if (not (integer? DiatonicInterval::userinput))
-  			  (set! DiatonicInterval::userinput 1))
+			    (string->number DiatonicInterval::userinput))
 
 			(DiatonicInterval::intervalchosen DiatonicInterval::userinput)	
 			(DiatonicInterval::runtest DiatonicInterval::num-goes)))))
@@ -99,8 +117,8 @@
 			
 (define (DiatonicInterval::plus)
   (set! DiatonicInterval::interval (+ DiatonicInterval::interval 1))
-  (if (&gt; DiatonicInterval::interval 32)
-      (set! DiatonicInterval::interval 32))
+  (if (&gt; DiatonicInterval::interval 9)
+      (set! DiatonicInterval::interval 9))
   (d-DirectivePut-score-display "DiatonicInterval::GameInterval"
 				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;")))
 
@@ -117,8 +135,8 @@
        (set! DiatonicInterval::interval 8))
   (if (&lt; DiatonicInterval::interval 2)
        (set! DiatonicInterval::interval 2))
-  (if (&gt; DiatonicInterval::interval 32)
-      (set! DiatonicInterval::interval 32))
+  (if (&gt; DiatonicInterval::interval 9)
+      (set! DiatonicInterval::interval 9))
   (d-DirectivePut-score-display "DiatonicInterval::GameInterval"
 				(string-append "&lt;span font_desc=\"12\"&gt;Interval: " (object-&gt;string DiatonicInterval::interval) "&lt;/span&gt;")))
 
@@ -131,21 +149,16 @@
 (d-SetDirectiveTagActionScript "DiatonicInterval::GamePlus" "(DiatonicInterval::plus)")
 
 
-
-
-
-	  
-
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
 
-(EducationGames::shiftup 6)
+(d-CursorToNote (EducationalGames::middle_c_offset->lily DiatonicInterval::note_position))
 (d-Insert2)
 (DiatonicInterval::offerNote)
 (set! DiatonicInterval::start (current-time))
 (DiatonicInterval::runtest DiatonicInterval::num-goes)
-(if (not                                                                                                                                           (EducationGames::Write_Scoreboard_File
+(if (not (EducationGames::Write_Scoreboard_File
   (EducationGames::ScoreboardFile "DiatonicInterval") DiatonicInterval::score))
   (DiatonicInterval::GameOver)
   (DiatonicInterval::ScoreBoard)
@@ -154,7 +167,7 @@
   (d-PlayMidiKey #xF03001)
   (d-PlayMidiKey #xF02A01)
   (d-PlayMidiKey #xF04001)
-  )
+  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 </scheme>
