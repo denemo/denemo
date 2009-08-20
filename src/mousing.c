@@ -240,7 +240,7 @@ set_cursor_for(guint state) {
   if(cursor)
     gdk_window_set_cursor(Denemo.window->window, cursor);
    else 
-    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_RIGHT_PTR));//FIXME? does this take time/hog memory
+     gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 }
 
 
