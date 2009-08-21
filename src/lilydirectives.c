@@ -107,6 +107,8 @@ delete_directive(GList **directives, gchar *tag) {
       if(directive->tag && !strcmp(tag, directive->tag->str)){
 	*directives = g_list_remove(*directives, directive);
 	free_directive(directive);
+	score_status(Denemo.gui, TRUE);
+	displayhelper (Denemo.gui);
 	return TRUE;
       }
     }
@@ -2045,8 +2047,15 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive, what)) {
     if(directives && *directives) {
+#if 0
+//FIXME use delete_directive above
       *directives = g_list_remove(*directives, directive);
       free_directive(directive);
+	score_status(Denemo.gui, TRUE);
+	displayhelper (Denemo.gui);
+#else
+	delete_directive(directives, directive->tag->str);
+#endif
     } else {//standalone directive
       dnm_deleteobject(Denemo.gui->si);
     }
