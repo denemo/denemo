@@ -5,8 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>CautionaryAccidental</action>
-        <scheme>(d-DirectivePut-note-postfix "CautionaryAccidental" "!")
+        <scheme>;;;CautionaryAccidental
+(d-DirectivePut-note-postfix "WarnAccidental" "!")
 (d-RefreshDisplay)
 </scheme>
         <label>Cautionary Accidental</label>

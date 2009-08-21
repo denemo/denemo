@@ -5,8 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>ReminderAccidental</action>
-        <scheme>(d-DirectivePut-note-postfix "ReminderAccidental" "?")
+        <scheme>;;;ReminderAccidental
+(d-DirectivePut-note-postfix "WarnAccidental" "?")
 (d-RefreshDisplay)
 </scheme>
         <label>Reminder Accidental</label>
