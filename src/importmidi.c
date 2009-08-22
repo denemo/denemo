@@ -55,12 +55,12 @@ typedef struct notetype
 typedef struct nstack 
 {
 	GList *chordnotes; /* list of notes that go along with that object */
-	gint *pitch;	/* base pitch or lowest pitch possibly redundant because of chordnotes */
-     	gint *timeon;  /* tick number when the note starts*/
-	gint *on_delta_time; /* Is this NEEDED? this is time between last event and this notes start */
-     	gint *duration; /* length of time in ticks */ 
-	gint *tracknum;	
-	gint *voicenum;
+	gint pitch;	/* base pitch or lowest pitch possibly redundant because of chordnotes */
+     	gint timeon;  /* tick number when the note starts*/
+	gint on_delta_time; /* Is this NEEDED? this is time between last event and this notes start */
+     	gint duration; /* length of time in ticks */ 
+	gint tracknum;	
+	gint voicenum;
 }nstack;
 
 typedef struct midicallback
@@ -94,7 +94,7 @@ void dokeysig(gint key, gint isminor, midicallback *mididata);
 void dotempo(gint tempo,  midicallback *mididata);
 void dotrackname(gchar *name, midicallback *mididata);
 void doinstrname(gchar *name, midicallback *mididata);
-void donoteon(midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon);
+void donoteon(midicallback *mididata, gint pitchon, gint velocity, gint timeon);
 void donoteoff(midicallback *mididata);
 struct notetype ConvertLength(gint duration, midicallback *mididata);
 void ProcessNoteStack(midicallback *mididata);
@@ -335,8 +335,7 @@ decode_midi_event(const smf_event_t *event, midicallback *mididata)
 					channel, note, event->midi_buffer[2]);
 			mididata->delta_time = event->delta_time_pulses;
 			mididata->event_number = event->event_number;
-			donoteon(mididata,  (gint *)event->midi_buffer[1],  (gint *)event->midi_buffer[2], (gint *)
-					event->time_pulses);
+			donoteon(mididata,  event->midi_buffer[1],  event->midi_buffer[2], event->time_pulses);
 			break;
 
 		case AFTERTOUCH:
@@ -494,7 +493,7 @@ doinstrname (gchar* name,  midicallback *mididata)
 }
 
 static nstack *
-stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *tracknum, gint *voicenum)
+stack (gint pitch, gint timeon, gint delta_time, gint duration, gint tracknum, gint voicenum)
 {
   nstack *mystack = (nstack *)g_malloc0(sizeof(nstack));
   mystack->pitch = pitch;
@@ -510,7 +509,7 @@ stack (gint *pitch, gint *timeon, gint *delta_time, gint *duration, gint *trackn
  * Process note on command 
  */
 void
-donoteon (midicallback *mididata, gint *pitchon, gint *velocity, gint *timeon)
+donoteon (midicallback *mididata, gint pitchon, gint velocity, gint timeon)
 {
   gint delta_time = mididata->delta_time; /*is this needed????*/
   
@@ -537,7 +536,7 @@ donoteoff (midicallback *mididata)
 }
 
 gboolean
-ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_time, gint *duration){
+ChordToneCheck(midicallback *mididata, gint pitch, gint timeon, gint delta_time, gint duration){
   nstack *currentnote = mididata->currentnote;	
   gint tracknum = (int) mididata->track;
   gint voicenum = (int) mididata->current_voicenum;
@@ -546,14 +545,14 @@ ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_ti
      (currentnote->duration == duration)){
 	  g_print("\n***Same Duration and timeon***\n");
   	  /* append note to GList */
-	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, pitch);
+	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, (gpointer)pitch);
 	  return TRUE;
   }
   else if ((currentnote->timeon <= timeon) && (timeon <= ((int) currentnote->timeon + (int) currentnote->duration))){
 	  voicenum++;
 	g_print("\n***NOTE_ON colliding between a NOTE_ON and NOTE_OFF tracknum = %d voicenum = %d***\n",tracknum, voicenum);	
   	/* append to voice glist */
-	nstack *noteon = stack(pitch, timeon, delta_time, duration, (gint *) tracknum,  (gint *) mididata->current_voicenum);
+	nstack *noteon = stack(pitch, timeon, delta_time, duration, tracknum, mididata->current_voicenum);
       	/* store noteon in mididata->notestack */
 	mididata->notestack = g_list_append(mididata->notestack, noteon);
 	return FALSE;
@@ -562,7 +561,7 @@ ChordToneCheck(midicallback *mididata, gint *pitch, gint *timeon, gint *delta_ti
 }
 
 gint
-Get_Smf_Note_OFF (gint *pitch, gint *timeon, gint *delta_time, midicallback *mididata){
+Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *mididata){
   gint event_number = mididata->event_number;
   smf_event_t *event;
   gint duration;
@@ -573,14 +572,14 @@ Get_Smf_Note_OFF (gint *pitch, gint *timeon, gint *delta_time, midicallback *mid
   while ((event = smf_track_get_event_by_number(mididata->selected_track, event_number)) != NULL){
     if (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
 		    & (event->midi_buffer[1] == (int) pitch)){
-	duration = event->time_pulses - (int) timeon; 
+	duration = event->time_pulses - timeon; 
 	if (mididata->currentnote != NULL) 
-	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, (int *) duration);
+	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, duration);
 	if (!chordtone){
       	  /* store note in mididata->currentnote */
-	  mididata->currentnote = stack(pitch, timeon, delta_time, (int *) duration, (int *) tracknum, (int *) mididata->current_voicenum);
+	  mididata->currentnote = stack(pitch, timeon, delta_time, duration, tracknum, mididata->current_voicenum);
 	}
-	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, (gint) timeon, (gint) duration);
+	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, timeon, (gint) duration);
     	break;
     }
     event_number++;
@@ -820,7 +819,7 @@ void TiedNoteCheck(midicallback *mididata){
 	{
 	  	mididata->leftover = (int) (duration - (barlength - mididata->bartime));	/*tied over bar line */
 	  	duration = (int) (barlength - mididata->bartime); /*new value that fits in bar*/
-		mididata->currentnote->duration = (int *) duration; 
+		mididata->currentnote->duration = duration; 
 	}
       	else 
 		mididata->leftover = (int) 0;
@@ -852,7 +851,7 @@ void ProcessNote(midicallback *mididata) {
 	/* if the starttime of noteon is not were we left off we need to do something */
 	if ((starttime != mididata->lastoff) && (mididata->leftover !=0)){
 		mididata->leftover = 0;
-		mididata->currentnote->timeon = (int *) mididata->lastoff;
+		mididata->currentnote->timeon = mididata->lastoff;
 		process_list(mididata);
 	}
 }
