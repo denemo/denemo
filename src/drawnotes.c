@@ -241,8 +241,8 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
     DenemoDirective *directive = (DenemoDirective *)g->data;
     if(directive->graphic) {
       gint width, height;
-      gdk_drawable_get_size(directive->graphic, &width, &height);
-      drawbitmapinverse (pixmap, gc, directive->graphic,
+      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+      drawbitmapinverse (pixmap, gc, (GdkBitmap *)directive->graphic,
 			 xx+directive->gx+count,  y+thenote->y+directive->gy/*thechord.highesty*/, width, height);
 
     }
@@ -564,8 +564,8 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	DenemoDirective *directive = (DenemoDirective *)g->data;
 	if(directive->graphic) {
 	  gint width, height;
-	  gdk_drawable_get_size(directive->graphic, &width, &height);
-	  drawbitmapinverse (pixmap, gc, directive->graphic,
+	  gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+	  drawbitmapinverse (pixmap, gc, (GdkBitmap*)directive->graphic,
 			     xx+directive->gx, thechord.highesty+directive->gy, width, height);
 
 	}

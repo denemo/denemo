@@ -28,7 +28,7 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   if(lily->graphic){
     gint width = lily->width;
     gint  height = lily->height;  
-    drawbitmapinverse (pixmap, gc, lily->graphic,
+    drawbitmapinverse (pixmap, gc, (GdkBitmap *)lily->graphic,
 		     xx + lily->gx, y + lily->gy, width, height);
   }
   else

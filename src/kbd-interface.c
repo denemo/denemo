@@ -205,13 +205,13 @@ static void button_choice_callback(GtkWidget *w, gint *mask ){
 }
 #define RESPONSE_LOADED (1)
 static void load_system_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
-  load_system_keymap_dialog(button);
-  gtk_dialog_response(dialog, RESPONSE_LOADED);
+  load_system_keymap_dialog(GTK_WIDGET(button));
+  gtk_dialog_response(GTK_DIALOG(dialog), RESPONSE_LOADED);
 }
 
 static void load_keymap_dialog_response(GtkButton *button, GtkWidget *dialog) {
-  load_keymap_dialog(button);
-  gtk_dialog_response(dialog, RESPONSE_LOADED);
+  load_keymap_dialog(GTK_WIDGET(button));
+  gtk_dialog_response(GTK_DIALOG(dialog), RESPONSE_LOADED);
 }
 
 

@@ -1168,25 +1168,25 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       GtkWidget *menu;
       menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
       g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->graphic));
     } else    
       if(fn==(void(*)())voice_directive_put_graphic) {
 	//g_print("Doing the voice case");
-	directive->graphic = gtk_menu_item_new_with_label(value);//WARNING _with_label is important
+	directive->graphic = G_OBJECT(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
 	/* g_print("directive-type %s.....", thetype);	*/
 	GtkWidget *menu;
 	menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
 	g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), directive->graphic);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->graphic));
       }  else {
 	//g_print("Doing the non-staff case");
 	//DISTINGUISH TWO CASES HERE if there is an editscript for directive->tag then use that for the callback and if there is a graphic with name directive->graphic_name then use that as an icon for the button widget coming next.
 	gchar *editscript = get_editscript_filename(directive->tag->str);
 	//FIXME look for a graphic of graphic_name & place it on button as icon ...
      
-	directive->graphic = gtk_button_new_with_label(value);
+	directive->graphic = G_OBJECT(gtk_button_new_with_label(value));
 	{
-	  GtkWidget *label = gtk_bin_get_child(directive->graphic);
+	  GtkWidget *label = gtk_bin_get_child(GTK_BIN(directive->graphic));
 	  //g_print("%s%s\n","type is", label?g_type_name(G_TYPE_FROM_INSTANCE(label)):"NULL widget");
 	  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	}
@@ -1210,15 +1210,15 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
 #endif
 	g_free(editscript);
-	gtk_box_pack_start (GTK_BOX (box), directive->graphic, FALSE, TRUE,0);
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->graphic), FALSE, TRUE,0);
 	g_object_set_data(directive->graphic, "directive", (gpointer)directive);
 	gtk_widget_show(box);
       }
     GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
   }//no graphic
-  (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(directive->graphic):gtk_widget_hide(directive->graphic);
+  (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->graphic)):gtk_widget_hide(GTK_WIDGET(directive->graphic));
   if(GTK_IS_MENU_ITEM(directive->graphic))
-    gtk_menu_item_set_label_text(directive->graphic, value);
+    gtk_menu_item_set_label_text((GtkMenuItem*)directive->graphic, value);
   else
     gtk_label_set_markup((GtkLabel *)gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
 }
