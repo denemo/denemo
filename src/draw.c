@@ -738,7 +738,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.in_highy = highy, itp.in_lowy = lowy;
     itp.highy = 0;//do not pass on extra_space from one staff to the next
 	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
-    if(curstaff==si->currentstaff) {
+
       if(staff->staff_directives) {
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
@@ -751,7 +751,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
 	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
-    }
+    
     
 
 
