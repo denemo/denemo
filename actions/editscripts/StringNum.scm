@@ -1,4 +1,5 @@
 ;;; tweak position of StringNumber inserted by StringNum
+;;; note SetPadding and SetRelativeFontSize and ExtraOffset take the grob name "StringNumber", not the tag which is StringNum
 ;; FIXME common code with LHFinger.scm
 (let ((choice #f))
   (begin
@@ -8,7 +9,7 @@
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
      ((equal? choice  cue-Advanced)
-      (d-DirectiveTextEdit-note "StringNumber"))
+      (d-DirectiveTextEdit-note "StringNum"))
      ((equal? choice  cue-OffsetPositionAll)
       (ExtraOffset "StringNumber"))
      ((equal? choice cue-SetRelativeFontSize)
@@ -17,23 +18,3 @@
       (SetPadding "StringNumber")))))
 (d-RefreshDisplay)
 
-
-
-
-
-
-
-
-
-
-
-
-;;(ExtraOffset "StringNumber")
-;;(d-RefreshDisplay)
-
-;;(d-DirectivePut-chord-prefix "StringNum"  "\\set fingeringOrientations = #'(left)")
-
-;;;(d-DirectivePut-chord-prefix "StringNum"  "\\set fingeringOrientations = #'(left) \\override Fingering #'padding = #4")
-
-;;\override Fingering #'font-size = #-7
-;;\override Fingering #'padding = #4
