@@ -8,7 +8,7 @@
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
      ((equal? choice  cue-Advanced)
-      (d-DirectiveTextEdit-standalone "StringNumber"))
+      (d-DirectiveTextEdit-note "StringNumber"))
      ((equal? choice  cue-OffsetPositionAll)
       (ExtraOffset "StringNumber"))
      ((equal? choice cue-SetRelativeFontSize)
