@@ -3,10 +3,12 @@
 (let ((choice #f))
   (begin
     (set! choice 
-	  (d-GetOption (string-append cue-OffsetPositionAll stop cue-SetPadding stop cue-SetRelativeFontSize stop)))
+	  (d-GetOption (string-append cue-OffsetPositionAll stop cue-SetPadding stop cue-SetRelativeFontSize stop cue-Advanced stop)))
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
+     ((equal? choice  cue-Advanced)
+      (d-DirectiveTextEdit-standalone "StringNumber"))
      ((equal? choice  cue-OffsetPositionAll)
       (ExtraOffset "StringNumber"))
      ((equal? choice cue-SetRelativeFontSize)
