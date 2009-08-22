@@ -223,9 +223,10 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(display);
   CLONE(graphic_name);
 #undef CLONE
-  if(directive->graphic) {    
+  if(directive->graphic && GDK_IS_DRAWABLE(directive->graphic)) {
     ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
-  }
+  } else
+    ret->graphic = NULL;
   return ret;
 }
 
