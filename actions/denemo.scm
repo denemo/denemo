@@ -40,6 +40,7 @@
 
 
 ;;;;;;;;;;;;;;;;; ExtraOffset
+;;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
 (define* (ExtraOffset what  #:optional (type "chord") (context ""))
   (let ((tag "")(oldstr #f) (start "") (end "") (get-command d-DirectiveGet-chord-prefix)  (put-command d-DirectivePut-chord-prefix))
     (cond
