@@ -8,7 +8,6 @@
 
 
 
-#include "config.h"
 #include <denemo/denemo.h>
 #include "utils.h"
 #include <stdlib.h>
@@ -25,6 +24,7 @@
 #include "objops.h"
 #include "xmldefs.h"
 #include "lyric.h"
+#include "config.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
