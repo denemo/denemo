@@ -1114,14 +1114,6 @@ gchar *editscript = get_editscript_filename(directive->tag->str);
  g_free(editscript);
 }
 
-static void
-action_script_callback (GtkWidget *w, DenemoDirective *directive){
-gchar *actionscript = get_action_script(directive->tag->str);
- if(actionscript)
-   call_out_to_guile(actionscript);
- else
-   g_warning("action script has vanished");
-}
 
 static void
 button_callback (GtkWidget *w, DenemoDirective *directive){
@@ -1143,12 +1135,13 @@ gchar *script = get_action_script(directive->tag->str);
   widget_for_directive()
   if directive does not have graphic:
      fn gives the type of directive, which must be a non-DenemoObject directive: it determines where the widget goes (score or movement level, DenemoGUI or DenemoScore respectively, or in staff or voice menu)
-     
      creates a widget (button or menu depending on fn) for editing/actioning directive, point directive->graphic to it and attach a callback to edit/action this directive, passing fn as data to it (to say what sort of directive it is) or the directive itself (for actionscripts/editscripts).
    places the widget in the appropriate buttonbox.
 
-     set  the label for the widget from directive->graphic_name directive->display
+     set  the label for the widget from directive->display
      set  the visibility for the widget from directive->override
+PLANNED:
+     use an override flag to say whether this directive should be a button or a text editor. Use a text editor to edit the display field. Then call this function for DenemoObject type directives as well, so that textual annotations can be added to notes and chords and placed standalone in the music.
 
 */
      
@@ -1190,33 +1183,20 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	  //g_print("%s%s\n","type is", label?g_type_name(G_TYPE_FROM_INSTANCE(label)):"NULL widget");
 	  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	}
-#if 0
-	{
-	  GtkImage *image = gtk_image_new_from_pixbuf(pixbuf);
-	  gtk_button_set_image(button, image);
-	}
-#endif
 
-#if 1
 	g_object_set_data(G_OBJECT(directive->graphic), "fn", (gpointer)fn);
 	g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(button_callback), directive);
-#else
-	gchar *actionscript = get_action_script(directive->tag->str);
-	if(actionscript)
-	  g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(action_script_callback), directive); else	
-	    if(editscript) 
-	      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(runscript_callback), directive);
-	    else
-	      g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(edit_directive_callback), fn);
-#endif
 	g_free(editscript);
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->graphic), FALSE, TRUE,0);
 	g_object_set_data(directive->graphic, "directive", (gpointer)directive);
 	gtk_widget_show(box);
       }
     GTK_WIDGET_UNSET_FLAGS(directive->graphic, GTK_CAN_FOCUS);
-  }//no graphic
+  }//end of no graphic
+
   (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->graphic)):gtk_widget_hide(GTK_WIDGET(directive->graphic));
+
+  // here handle the case where graphic is a GtkTextView editing the text in value
   if(GTK_IS_MENU_ITEM(directive->graphic))
     gtk_menu_item_set_label_text((GtkMenuItem*)directive->graphic, value);
   else
@@ -1225,7 +1205,8 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 
 
 // create a directive for non-DenemoObject directive #what
-// create a button to edit/action the directive as the directive->graphic
+// assigning the string VALUE to the field ##field
+// also create a button if it does not already exist to edit/action the directive as the directive->graphic
 #define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) gpointer \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
@@ -1245,6 +1226,9 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
   return (gpointer)directive;\
 }
 
+// create a directive for non-DenemoObject directive #what
+// assigning the int VALUE to the field ##field
+// also create a button if it does not already exist to edit/action the directive as the directive->graphic
 #define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
@@ -1262,7 +1246,8 @@ what##_directive_put_##field(gchar *tag, gint value) {\
  return TRUE;\
 }
 
-//FIXME this is just storing the graphic name, it can be placed on the button/menu item as an icon
+//As the above (for string and int) but for the graphic name field
+//FIXME this is just storing the graphic name, any bitmap of that name could be placed on the button/menu item as an icon
 #define PUT_GRAPHIC_WIDGET_GRAPHIC(what, directives_name) gpointer \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
@@ -1441,6 +1426,8 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
   }
+  //PLANNED intervene here if the override flag is set (must be set first! or can we simply replace ->graphic with a text editor when it *is* set?) to ask for a text editor
+  //the draw.c code needs to recognise this override flag to, and draw a textedit icon on the display
   if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height)) {
     if(directive->graphic_name)
       g_string_assign(directive->graphic_name, value);
@@ -1976,36 +1963,6 @@ edit_directive(DenemoDirective *directive, gchar *what) {
 
 static void edit_directive_callback(GtkWidget *w, gpointer what) {
   DenemoDirective *directive = g_object_get_data(G_OBJECT(w), "directive");
-
-#if 0
-  if(!edit_directive(directive, what)){
-    if(what == score_directive_put_graphic)
-      delete_score_directive(directive->tag->str);
-    else
-      if(what == staff_directive_put_graphic)
-	delete_staff_directive(directive->tag->str);
-      else
-	if(what == voice_directive_put_graphic)
-	  delete_voice_directive(directive->tag->str);
-	else
-	  if(what == scoreheader_directive_put_graphic)
-	    delete_scoreheader_directive(directive->tag->str);
-	  else
-	  if(what == header_directive_put_graphic)
-	    delete_header_directive(directive->tag->str);
-	  else
-	  if(what == paper_directive_put_graphic)
-	    delete_paper_directive(directive->tag->str);
-	  else
-	  if(what == layout_directive_put_graphic)
-	    delete_layout_directive(directive->tag->str);
-	  else
-	  if(what == movementcontrol_directive_put_graphic)
-	    delete_movementcontrol_directive(directive->tag->str);
-	  else
-	    g_warning("Not implemented");
-  }
-#else
 #define DO_TYPE(score)\
     if(what == score##_directive_put_graphic){\
       if(!edit_directive(directive, #score))\
@@ -2020,13 +1977,8 @@ static void edit_directive_callback(GtkWidget *w, gpointer what) {
     DO_TYPE(paper);
     DO_TYPE(layout);
     DO_TYPE(movementcontrol);
-#undef DO_TYPE
-#endif
-
-
-
-  
- }
+#undef DO_TYPE 
+}
 
 
 /**
@@ -2047,15 +1999,7 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive, what)) {
     if(directives && *directives) {
-#if 0
-//FIXME use delete_directive above
-      *directives = g_list_remove(*directives, directive);
-      free_directive(directive);
-	score_status(Denemo.gui, TRUE);
-	displayhelper (Denemo.gui);
-#else
-	delete_directive(directives, directive->tag->str);
-#endif
+      delete_directive(directives, directive->tag->str);
     } else {//standalone directive
       dnm_deleteobject(Denemo.gui->si);
     }
