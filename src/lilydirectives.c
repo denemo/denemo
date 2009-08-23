@@ -1104,15 +1104,6 @@ gchar *basename = g_strconcat(tag, ".scm", NULL);
   return filename;
 }
 
-static void
-runscript_callback (GtkWidget *w, DenemoDirective *directive){
-gchar *editscript = get_editscript_filename(directive->tag->str);
- if(editscript)
-   execute_script_file(editscript);
- else
-   g_warning("Editscript has vanished");
- g_free(editscript);
-}
 
 
 static void
