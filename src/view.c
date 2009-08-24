@@ -3375,7 +3375,8 @@ activate_script (GtkAction *action, gpointer param)
     g_free(current_script);
     if(*text==0)
       text = instantiate_script(action);
-    return (gboolean)call_out_to_guile(text);//scm_c_eval_string(text);
+    if(text)
+      return (gboolean)call_out_to_guile(text);//scm_c_eval_string(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
@@ -4134,9 +4135,11 @@ static gboolean menu_click (GtkWidget      *widget,
   if(scheme) {
     if(*scheme==0)
       scheme = instantiate_script(action);
-    item = gtk_menu_item_new_with_label("Get Script");
-    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(appendSchemeText_cb), scheme);
+    if(scheme) {
+      item = gtk_menu_item_new_with_label("Get Script");
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(appendSchemeText_cb), scheme);
+    }
     item = gtk_menu_item_new_with_label("Save Script");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(saveMenuItem), action);
