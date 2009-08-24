@@ -1108,20 +1108,86 @@ gchar *basename = g_strconcat(tag, ".scm", NULL);
 
 static void
 button_callback (GtkWidget *w, DenemoDirective *directive){
-gchar *script = get_action_script(directive->tag->str);
- if(script)
-   call_out_to_guile(script);
- else {
-   script = get_editscript_filename(directive->tag->str);
-   if(script)
-     execute_script_file(script);
-   else {
-     gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
-     if(fn)
-       edit_directive_callback(w, fn);
-   }
- }
+  if(directive->override&DENEMO_OVERRIDE_EDITOR)
+    {
+#if 0
+      if(directive->display)
+	g_string_assign( directive->display, string_dialog_entry (Denemo.gui, "Textual Editor", "edit your text", directive->display->str));
+#else
+      GtkWidget *texteditor = (GtkWidget*)g_object_get_data(directive->graphic, "texteditor");
+      if(texteditor) {
+	gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
+      }
+#endif
+
+    } else {
+      gchar *script = get_action_script(directive->tag->str);
+      if(script)
+	call_out_to_guile(script);
+      else {
+	script = get_editscript_filename(directive->tag->str);
+	if(script)
+	  execute_script_file(script);
+	else {
+	  gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
+	  if(fn)
+	    edit_directive_callback(w, fn);
+	}
+      }
+    }
 }
+
+/* return a GtkTextView which has been installed inside a scrolled window */
+static GtkWidget * create_text_window(void) {
+  GtkWidget *textview = gtk_text_view_new();
+  GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor");
+  g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
+  GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (w), main_vbox);
+
+  GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+				  GTK_POLICY_AUTOMATIC,
+				  GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (sw), textview);
+  return textview;
+}
+
+static assign_text(GtkWidget *w, gchar *text) {
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(w);
+  if(textbuffer)
+    gtk_text_buffer_set_text(textbuffer, text, -1);
+}
+static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *directive) {
+  GtkTextIter startiter, enditer;
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(w);
+  gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+  gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+  gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+  if(directive->display)
+    g_string_assign(directive->display, text);
+  else
+    directive->display = g_string_new(text);
+  return TRUE;
+}
+static void
+attach_textedit_widget(DenemoDirective *directive) {
+  if(directive->override&DENEMO_OVERRIDE_EDITOR){
+    GtkWidget *texteditor = create_text_window();
+    //    g_signal_connect (G_OBJECT (texteditor), "key-press-event",
+    //		      G_CALLBACK (editor_keypress), directive);
+    g_signal_connect_after (G_OBJECT (texteditor), "key-release-event",
+		      G_CALLBACK (editor_keypress), directive);
+    if(directive->display==NULL)
+      directive->display = g_string_new("");
+    assign_text(texteditor, directive->display->str);
+    // g_object_set_data(texteditor, "gstring", directive->display);
+    g_object_set_data(directive->graphic, "texteditor", texteditor);
+  }
+}
+
 /*
   widget_for_directive()
   if directive does not have graphic:
@@ -1139,7 +1205,15 @@ PLANNED:
 void 
 widget_for_directive(DenemoDirective *directive,  void fn()) {
   GtkWidget *box;
-  gchar *value = directive->display?directive->display->str:"";
+  gchar *value = "";
+
+  if (directive->override&DENEMO_OVERRIDE_EDITOR) {
+    value = directive->tag->str;
+  } else
+    if(directive->display) 
+      value = directive->display->str;
+
+
   if((directive->graphic==NULL) ) {
     if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
@@ -1147,12 +1221,19 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       box = Denemo.gui->si->buttonbox;
     if(fn==(void(*)())staff_directive_put_graphic) {
       //g_print("Doing the staff case");
-      directive->graphic = (gpointer)gtk_menu_item_new_with_label(value);
       /* g_print("directive-type %s.....", thetype);	*/
       GtkWidget *menu;
       menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
-      g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
-      gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->graphic));
+      // g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
+
+      directive->graphic = (gpointer)gtk_menu_item_new_with_label(value);
+        g_object_set_data(directive->graphic, "directive", (gpointer)directive);
+        g_object_set_data(G_OBJECT(directive->graphic), "fn", (gpointer)fn);
+	attach_textedit_widget(directive);
+        g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(button_callback), directive);
+
+      gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->graphic));
+      // gtk_widget_show(directive->graphic); done by caller depending on override flag
     } else    
       if(fn==(void(*)())voice_directive_put_graphic) {
 	//g_print("Doing the voice case");
@@ -1800,6 +1881,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
 #define CREATE_SCRIPT (2)
   DenemoDirective *clone = clone_directive(directive);//for reset
+  GObject *cloned_graphic = directive->graphic;//may be a widget, not cloned
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Primitive Denemo Directive Edit",
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
@@ -1900,6 +1982,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
     directive->graphic = NULL;//prevent any button being destroyed
     free_directive_data(directive);
     memcpy(directive, clone, sizeof(DenemoDirective));
+    directive->graphic = cloned_graphic;
     if (response ==  GTK_RESPONSE_REJECT) {
       ret = FALSE;//that is it may be deleted, we ensure it has not been changed first,as the tag is used for delelet
     }

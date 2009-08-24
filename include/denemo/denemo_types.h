@@ -367,6 +367,7 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_LILYPOND (1<<0)
 #define DENEMO_OVERRIDE_UNUSED (1<<1)
 #define DENEMO_OVERRIDE_GRAPHIC (1<<2)
+#define DENEMO_OVERRIDE_EDITOR (1<<3)
 
 
 

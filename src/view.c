@@ -1735,6 +1735,8 @@ tmp = g_strdup_printf("(define " which " %d)\n", what);\
 
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_LILYPOND", DENEMO_OVERRIDE_LILYPOND);
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_GRAPHIC", DENEMO_OVERRIDE_GRAPHIC);
+  DEF_SCHEME_CONST("DENEMO_OVERRIDE_EDITOR", DENEMO_OVERRIDE_EDITOR);
+
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_VOLUME", DENEMO_OVERRIDE_VOLUME);
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_DURATION", DENEMO_OVERRIDE_DURATION);
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_REPEAT", DENEMO_OVERRIDE_REPEAT);
@@ -3375,7 +3377,8 @@ activate_script (GtkAction *action, gpointer param)
     g_free(current_script);
     if(*text==0)
       text = instantiate_script(action);
-    return (gboolean)call_out_to_guile(text);//scm_c_eval_string(text);
+    if(text)
+      return (gboolean)call_out_to_guile(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
