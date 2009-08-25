@@ -796,7 +796,7 @@ parse_mtrk_chunk(smf_track_t *track)
 static int
 load_file_into_buffer(void **file_buffer, int *file_buffer_length, const char *file_name)
 {
-	FILE *stream = fopen(file_name, "r");
+	FILE *stream = fopen(file_name, "rb");
 
 	if (stream == NULL) {
 		g_critical("Cannot open input file: %s", strerror(errno));
