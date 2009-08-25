@@ -399,7 +399,7 @@ write_file(smf_t *smf, const char *file_name)
 {
 	FILE *stream;
 
-	stream = fopen(file_name, "w+");
+	stream = fopen(file_name, "wb+");
 	if (stream == NULL) {
 		g_critical("Cannot open input file: %s", strerror(errno));
 
