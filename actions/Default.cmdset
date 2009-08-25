@@ -2563,6 +2563,13 @@ for second and subsequent systems</tooltip>
         <label>Largo</label>
         <tooltip>Print Largo above note at cursor</tooltip>
       </row>
+      <row>
+        <action>DrumGM2Custom</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Drum GM2 Custom </label>
+        <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

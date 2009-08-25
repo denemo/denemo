@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ForceNewMeasure</after>
+        <action>ReBar</action>
+        <scheme>;;; ReBar
+(d-GoToBeginning)
+(d-SetMark)
+(d-GoToEnd)
+(d-Cut)
+(d-Paste)
+ </scheme>
+        <label>Adjust the Barlines</label>
+        <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

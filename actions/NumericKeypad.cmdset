@@ -1204,6 +1204,11 @@ Notes entered will follow this pattern</tooltip>
         <bind>Control+P</bind>
       </row>
       <row>
+        <action>PrintSelection</action>
+        <label>Print Selection</label>
+        <tooltip>Displays selected music from score in your pdf viewer</tooltip>
+      </row>
+      <row>
         <action>PrintExcerptPreview</action>
         <label>Print Excerpt</label>
         <tooltip>Displays a musical excerpt in your image viewer</tooltip>
@@ -1292,26 +1297,6 @@ Notes entered will follow this pattern</tooltip>
         <action>CommandManagement</action>
         <label>Manage Command Set</label>
         <tooltip>View help, change and save keyboard shortcuts</tooltip>
-      </row>
-      <row>
-        <action>LoadPlugins</action>
-        <label>Load Plugins</label>
-        <tooltip>Load Plugins</tooltip>
-      </row>
-      <row>
-        <action>UnloadPlugins</action>
-        <label>Unload Plugins</label>
-        <tooltip>Unload Plugins</tooltip>
-      </row>
-      <row>
-        <action>ListPlugins</action>
-        <label>List Plugins</label>
-        <tooltip>List the loaded plugins</tooltip>
-      </row>
-      <row>
-        <action>ListAvailablePlugins</action>
-        <label>List Available Pluigins</label>
-        <tooltip>List the available plugins</tooltip>
       </row>
       <row>
         <action>SwapStaffs</action>
@@ -1656,8 +1641,8 @@ Use More Commands after this has finished</tooltip>
       </row>
       <row>
         <action>ToggleRhythm</action>
-        <label>Toggle Rhythm Mode</label>
-        <tooltip>Toggle between note entry and rhythm entry</tooltip>
+        <label>Toggle Audible Feedback</label>
+        <tooltip>Toggle audible feedback on/off</tooltip>
       </row>
       <row>
         <action>ClearOverlay</action>
@@ -2588,7 +2573,6 @@ for second and subsequent systems</tooltip>
         <label>Chat to Other Users</label>
         <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
       </row>
-
       <row>
         <action>ReBar</action>
         <after>ForceNewMeasure</after>
@@ -2620,6 +2604,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Largo</label>
         <tooltip>Print Largo above note at cursor</tooltip>
+      </row>
+      <row>
+        <action>DrumGM2Custom</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <label>Drum GM2 Custom </label>
+        <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
     </map>
   </commands>
