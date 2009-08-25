@@ -551,7 +551,7 @@
 |Name = " name "
 |Author =  " (scheme-escape(d-GetUserName)) "  
 |Label = " label  "
-|License = " GPL "
+|License =  GPL 
 |Explanation = " tooltip "
 |SubLabel = " menupath "
 |Version = " DENEMO_VERSION "
@@ -582,7 +582,7 @@
 			)	
 			
 			;Show script in browser
-			(d-Help (string-append "http://" hostname "/index.php/" name))				
+			(d-Help (string-append "http://" HTTPHostname "/index.php/" name))				
 	
 		); End of GetLicenseAndBuildString
 	
@@ -601,4 +601,3 @@
 	(display (OverwritePage (CookieString) )) ;show and execute
 
 ) ; End Of (d-UploadRoutine)
-
