@@ -1114,9 +1114,11 @@ button_callback (GtkWidget *w, DenemoDirective *directive){
       if(directive->display)
 	g_string_assign( directive->display, string_dialog_entry (Denemo.gui, "Textual Editor", "edit your text", directive->display->str));
 #else
-      GtkWidget *texteditor = (GtkWidget*)g_object_get_data(directive->graphic, "texteditor");
+      GtkWidget *texteditor = (GtkWidget*)g_object_get_data(directive->graphic, DENEMO_TEXTEDITOR_TAG);
       if(texteditor) {
+	//FIXME position at cursor if a toplevel window
 	gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
+	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
       }
 #endif
 
@@ -1142,6 +1144,8 @@ static GtkWidget * create_text_window(void) {
   GtkWidget *textview = gtk_text_view_new();
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor");
+  gtk_window_set_default_size(GTK_WINDOW (w), 200, 100);
+  gtk_window_set_position(GTK_WINDOW (w),GTK_WIN_POS_MOUSE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (w), main_vbox);
@@ -1156,13 +1160,13 @@ static GtkWidget * create_text_window(void) {
 }
 
 static assign_text(GtkWidget *w, gchar *text) {
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(w);
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
   if(textbuffer)
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *directive) {
   GtkTextIter startiter, enditer;
-  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(w);
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
   gtk_text_buffer_get_start_iter (textbuffer, &startiter);
   gtk_text_buffer_get_end_iter (textbuffer, &enditer);
   gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
@@ -1184,7 +1188,7 @@ attach_textedit_widget(DenemoDirective *directive) {
       directive->display = g_string_new("");
     assign_text(texteditor, directive->display->str);
     // g_object_set_data(texteditor, "gstring", directive->display);
-    g_object_set_data(directive->graphic, "texteditor", texteditor);
+    g_object_set_data(directive->graphic, DENEMO_TEXTEDITOR_TAG, texteditor);
   }
 }
 
@@ -1208,7 +1212,12 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
   gchar *value = "";
 
   if (directive->override&DENEMO_OVERRIDE_EDITOR) {
-    value = directive->tag->str;
+    //we might like to use the start of the editable text, but it won't re-draw itself on editing...
+    //likewise it would be nice to use the display text as a tooltip, but it would need renewing
+    //    if(directive->display)
+    //      value = g_strdup_printf("%20s", directive->display->str);
+    //   else
+      value = directive->tag->str;
   } else
     if(directive->display) 
       value = directive->display->str;
@@ -1227,9 +1236,14 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       // g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(edit_directive_callback), fn);
 
       directive->graphic = (gpointer)gtk_menu_item_new_with_label(value);
+
+      //FIXME roll these together
         g_object_set_data(directive->graphic, "directive", (gpointer)directive);
         g_object_set_data(G_OBJECT(directive->graphic), "fn", (gpointer)fn);
 	attach_textedit_widget(directive);
+	//until here...
+
+
         g_signal_connect(G_OBJECT(directive->graphic), "activate",  G_CALLBACK(button_callback), directive);
 
       gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->graphic));
@@ -1246,7 +1260,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       }  else {
 	//g_print("Doing the non-staff case");
 	//DISTINGUISH TWO CASES HERE if there is an editscript for directive->tag then use that for the callback and if there is a graphic with name directive->graphic_name then use that as an icon for the button widget coming next.
-	gchar *editscript = get_editscript_filename(directive->tag->str);
+
 	//FIXME look for a graphic of graphic_name & place it on button as icon ...
      
 	directive->graphic = G_OBJECT(gtk_button_new_with_label(value));
@@ -1256,9 +1270,12 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	  gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	}
 
+        g_object_set_data(directive->graphic, "directive", (gpointer)directive);
 	g_object_set_data(G_OBJECT(directive->graphic), "fn", (gpointer)fn);
+	attach_textedit_widget(directive);
+
 	g_signal_connect(G_OBJECT(directive->graphic), "clicked",  G_CALLBACK(button_callback), directive);
-	g_free(editscript);
+
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->graphic), FALSE, TRUE,0);
 	g_object_set_data(directive->graphic, "directive", (gpointer)directive);
 	gtk_widget_show(box);
@@ -1269,6 +1286,11 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
   (directive->override&DENEMO_OVERRIDE_GRAPHIC)?gtk_widget_show(GTK_WIDGET(directive->graphic)):gtk_widget_hide(GTK_WIDGET(directive->graphic));
 
   // here handle the case where graphic is a GtkTextView editing the text in value
+  if(directive->display) { 
+    GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->graphic, DENEMO_TEXTEDITOR_TAG);
+    if(texteditor)
+      assign_text(texteditor, directive->display->str);
+  }
   if(GTK_IS_MENU_ITEM(directive->graphic))
     gtk_menu_item_set_label_text((GtkMenuItem*)directive->graphic, value);
   else
