@@ -15,7 +15,6 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <denemo/denemo.h>
-#include <denemo/denemo_version.h>
 #include "prefops.h"
 #include "utils.h"
 #ifdef _HAVE_JACK_
@@ -66,9 +65,6 @@ struct callbackdata1
   GtkListStore *model;
 };
 
-#define COLUMN_LOADED (0)
-#define COLUMN_PLUGIN (1)
-
 /**
  * Callback to enable/disable the autosave entry when the auto save button is 
  * clicked
@@ -80,44 +76,6 @@ toggle_autosave (GtkToggleButton * togglebutton, GtkWidget * autosave_timeout)
      gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(autosave_timeout)));
   gtk_widget_set_sensitive (autosave_timeout,
 			    gtk_toggle_button_get_active (togglebutton));
-}
-
-/**
- * Callback to load/unload a plugin
- */
-static void
-toggle_plugin (GtkCellRendererToggle * cell, gchar * path_str, gpointer data)
-{
-  GtkListStore *model = ((struct callbackdata1 *) data)->model;
-  DenemoGUI *gui = ((struct callbackdata1 *) data)->gui;
-  GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
-  GtkTreeIter iter;
-  gboolean enabled;
-  gchar *plugin;
-
-  gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-  gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, COLUMN_LOADED, &enabled,
-		      -1);
-
-  //g_print ("Path str %s \n", path_str);
-  gtk_tree_model_get (GTK_TREE_MODEL (model), &iter, COLUMN_PLUGIN, &plugin,
-		      -1);
-  //g_print ("plugin %s\n", plugin);
-  enabled ^= 1;
-  if (enabled)
-    {
-      denemo_plugin_init (plugin, gui);
-      // g_warning ("TODO: Load plugin");
-    }
-  else
-    {
-      denemo_plugin_cleanup (plugin, gui);
-      //g_warning ("TODO: Unload plugin\n");
-    }
-
-  gtk_list_store_set (model, &iter, COLUMN_LOADED, enabled, -1);
-  g_free (plugin);
-  gtk_tree_path_free (path);
 }
 
 static void
@@ -346,80 +304,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   TEXTENTRY("Default Save Path", denemopath)
   BOOLEANENTRY("Update the command set on startup", autoupdate);
-  /*
-   * Plugins settings
-   */
-  /*
-  vbox = gtk_vbox_new (FALSE, 8);
-  gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), vbox, NULL);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (notebook), vbox,
-				   _("Plugins"));
-
-  list_store = gtk_list_store_new (2, G_TYPE_BOOLEAN, G_TYPE_STRING);
-
-  if (gui->plugins)
-    {
-      GList *tmp;
-      for (tmp = gui->plugins; tmp; tmp = tmp->next)
-	{
-	  gtk_list_store_append (list_store, &iter);
-	  gtk_list_store_set (list_store, &iter,
-			      COLUMN_LOADED, TRUE,
-			      COLUMN_PLUGIN,
-			      (gchar *) ((PluginData *) tmp->data)->title,
-			      -1);
-
-	}
-    }
-
-  GList *plugins = NULL;
-  plugins = get_plugins_list (plugins);
-  if (plugins)
-    {
-      GList *tmp;
-      //g_print ("list of plugins is populated\n");
-      for (tmp = plugins; tmp; tmp = tmp->next)
-	{
-	  gtk_list_store_append (list_store, &iter);
-	  gtk_list_store_set (list_store, &iter,
-			      COLUMN_LOADED, FALSE,
-			      COLUMN_PLUGIN, (gchar *) tmp->data, -1);
-	}
-    }
-
-  gtk_list_store_append (list_store, &iter);
-  gtk_list_store_set (list_store, &iter,
-		      COLUMN_LOADED, FALSE,
-		      COLUMN_PLUGIN, "Dummy plugin 1", -1);
-
-  gtk_list_store_append (list_store, &iter);
-  gtk_list_store_set (list_store, &iter,
-		      COLUMN_LOADED, TRUE,
-		      COLUMN_PLUGIN, "Dummy plugin 2", -1);
-
-  tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL (list_store));
-  gtk_box_pack_start (GTK_BOX (vbox), tree, TRUE, TRUE, 0);
-  g_object_unref (G_OBJECT (list_store));
-  cbdata1.gui = gui;
-  cbdata1.model = list_store;
-  renderer = gtk_cell_renderer_toggle_new ();
-  g_signal_connect (renderer, "toggled", G_CALLBACK (toggle_plugin),
-		    &cbdata1);
-  column =
-    gtk_tree_view_column_new_with_attributes ("Enabled", renderer, "active",
-					      COLUMN_LOADED, NULL);
-  gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-
-  column = gtk_tree_view_column_new_with_attributes ("Plugin",
-						     gtk_cell_renderer_text_new
-						     (), "text",
-						     COLUMN_PLUGIN, NULL);
-
-  gtk_tree_view_append_column (GTK_TREE_VIEW (tree), column);
-  */
- 
-  /*
+   /*
    * Misc Menu 
    */
   NEWPAGE("Misc");
