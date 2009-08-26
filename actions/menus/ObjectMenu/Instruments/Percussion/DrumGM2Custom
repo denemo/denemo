@@ -8,7 +8,9 @@
         <after>TimbalesStyle</after>
         <action>DrumGM2Custom</action>
         <scheme>(define (DrumGM2Custom)
- 
+
+;This is not very usefull currently.
+
 ;GM Midi Drumtable
 (define gmAcousticBasedrum "b,,") ;35
 (define gmBassDrum "c,") ;36 low c c, 

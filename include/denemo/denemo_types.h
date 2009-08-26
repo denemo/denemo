@@ -23,6 +23,8 @@
 
 #define DENEMO_DEFAULT_ANON_FTP "ftp://www.denemo.org/download/"
 
+#define DENEMO_TEXTEDITOR_TAG "texteditor"
+
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
 #define G_ACTIONCALLBACK(f) ((GActionCallback)(f)) 
  /* and the following typedefs are basically here for so that it's

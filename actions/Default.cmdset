@@ -2570,6 +2570,30 @@ for second and subsequent systems</tooltip>
         <label>Drum GM2 Custom </label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
+      <row>
+        <action>ScoreComment</action>
+        <after>EditScoreDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Comment</label>
+        <tooltip>Stores any textual commentary you may have for this score.</tooltip>
+      </row>
+      <row>
+        <action>MvntComment</action>
+        <after>SwapMovements</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Comment</label>
+        <tooltip>Stores textual comments for this movement</tooltip>
+      </row>
+      <row>
+        <action>StaffComment</action>
+        <after>NonPrintingStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Comment</label>
+        <tooltip>Saves textual comments for this staff</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
