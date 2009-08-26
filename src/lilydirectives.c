@@ -1110,18 +1110,12 @@ static void
 button_callback (GtkWidget *w, DenemoDirective *directive){
   if(directive->override&DENEMO_OVERRIDE_EDITOR)
     {
-#if 0
-      if(directive->display)
-	g_string_assign( directive->display, string_dialog_entry (Denemo.gui, "Textual Editor", "edit your text", directive->display->str));
-#else
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(directive->graphic, DENEMO_TEXTEDITOR_TAG);
       if(texteditor) {
 	//FIXME position at cursor if a toplevel window
 	gtk_widget_show_all(gtk_widget_get_toplevel(texteditor));
 	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
       }
-#endif
-
     } else {
       gchar *script = get_action_script(directive->tag->str);
       if(script)
@@ -1143,7 +1137,7 @@ button_callback (GtkWidget *w, DenemoDirective *directive){
 static GtkWidget * create_text_window(void) {
   GtkWidget *textview = gtk_text_view_new();
   GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor");
+  gtk_window_set_title (GTK_WINDOW (w), "Denemo Editor:Newline to update, Esc for Advanced Edit");
   gtk_window_set_default_size(GTK_WINDOW (w), 200, 100);
   gtk_window_set_position(GTK_WINDOW (w),GTK_WIN_POS_MOUSE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), w);
@@ -1164,6 +1158,32 @@ static assign_text(GtkWidget *w, gchar *text) {
   if(textbuffer)
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
+
+/* create a label up to 20 characters long.
+Use the display string up to the first newline, if it is long enough
+eles use tag
+*/
+static void
+set_directive_graphic_label(DenemoDirective *directive) {
+  gchar *value;
+  if(directive->display && directive->display->len>1)
+    value = g_strdup_printf("%.20s", directive->display->str);
+  else
+    value = g_strdup(directive->tag->str);
+  gchar *c;
+  for(c=value;*c;c++)
+    if(*c=='\n') {
+      *c = 0;
+      break;
+    }
+  if(GTK_IS_MENU_ITEM(directive->graphic))
+    gtk_menu_item_set_label_text((GtkMenuItem*)directive->graphic, value);
+  else
+    gtk_label_set_markup((GtkLabel *)gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
+  g_free(value);
+}
+static gboolean text_edit_directive(DenemoDirective *directive, gchar *what);
+
 static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *directive) {
   GtkTextIter startiter, enditer;
   GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
@@ -1174,6 +1194,16 @@ static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *direct
     g_string_assign(directive->display, text);
   else
     directive->display = g_string_new(text);
+  //if the GdkEventKey is newline, run the editscript for the directive
+
+  if(event->keyval==GDK_Escape)
+    text_edit_directive (directive, NULL);
+  if(event->keyval==GDK_Return) {
+    gchar *filename = get_editscript_filename(directive->tag->str);
+    if(filename)
+      execute_script_file(filename);
+    set_directive_graphic_label(directive);
+  }
   return TRUE;
 }
 static void
@@ -1210,7 +1240,7 @@ void
 widget_for_directive(DenemoDirective *directive,  void fn()) {
   GtkWidget *box;
   gchar *value = "";
-
+  //FIXME we don't need value now...
   if (directive->override&DENEMO_OVERRIDE_EDITOR) {
     //we might like to use the start of the editable text, but it won't re-draw itself on editing...
     //likewise it would be nice to use the display text as a tooltip, but it would need renewing
@@ -1291,10 +1321,8 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
     if(texteditor)
       assign_text(texteditor, directive->display->str);
   }
-  if(GTK_IS_MENU_ITEM(directive->graphic))
-    gtk_menu_item_set_label_text((GtkMenuItem*)directive->graphic, value);
-  else
-    gtk_label_set_markup((GtkLabel *)gtk_bin_get_child(GTK_BIN(directive->graphic)), value);
+  set_directive_graphic_label(directive);
+
 }
 
 
@@ -1860,7 +1888,7 @@ static void upload_edit_script_cb (GtkWidget *widget, gchar *tag) {
   }
 }
 
-/* callback to get an edit script of name tag */
+/* callback to get an edit script of name tag into the Scheme Script window */
 static void get_edit_script (GtkWidget *widget, gchar *tag) {
   gchar *filename = get_editscript_filename(tag);
   if(filename){
@@ -1878,7 +1906,8 @@ static void get_edit_script (GtkWidget *widget, gchar *tag) {
 
 /* callback to save the scheme script text buffer as an edit script of name tag in the user's local denemo directory */
 static void put_edit_script (GtkWidget *widget, gchar *tag) {
-  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tag, NULL);
+  gchar *tagscm = g_strconcat(tag, ".scm", NULL);
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "editscripts", tagscm, NULL);
   if((!g_file_test(filename, G_FILE_TEST_EXISTS)) ||
      confirm("There is already an edit script for this tag", "Do you want to replace it?")){
     gchar *scheme = (gchar*)getSchemeText();
@@ -1892,6 +1921,8 @@ static void put_edit_script (GtkWidget *widget, gchar *tag) {
       g_free(scheme);
     }
   }
+  g_free(tagscm);
+  g_free(filename);
 }
 
 
