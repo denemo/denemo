@@ -228,6 +228,7 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
     ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
   } else
     ret->graphic = NULL;
+  ret->widget = NULL;
   return ret;
 }
 
@@ -247,15 +248,17 @@ free_directive_data(DenemoDirective *directive) {
     DFREE(postfix);
     DFREE(graphic_name);
 #undef DFREE
-    if(directive->graphic && GTK_IS_WIDGET(directive->graphic)) {
+ 
+    if(directive->widget) {
       //g_print("We should destroy the widget now");
-      GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->graphic, DENEMO_TEXTEDITOR_TAG);
+      GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->widget, DENEMO_TEXTEDITOR_TAG);
       if(texteditor)
 	gtk_widget_destroy(texteditor);//FIXME we may need to destroy its parents
-      gtk_widget_destroy((GtkWidget *)directive->graphic);
+      gtk_widget_destroy((GtkWidget *)directive->widget);
     }
-      else	
-   ; //  g_object_unref(directive->graphic); we leave these GdkBitmap in a hash table, and never discard them
+
+
+
 }
 void
 free_directive(DenemoDirective *directive) {
