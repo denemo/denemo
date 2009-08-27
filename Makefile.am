@@ -4,8 +4,8 @@ SUBDIRS = libsmf m4 doc actions pixmaps po src \
 
 dist_sysconf_DATA = denemo.conf 
 
-EXTRA_DIST = mkinstalldirs  actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
-	     doc/DESIGN.lilypond README.lilypond include actions \
+EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
+	     doc/DESIGN.lilypond actions \
 	     guile-1.8.pc fonts/LICENSE_OFL.txt
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \

@@ -22,7 +22,6 @@ AC_PROG_YACC
 AM_PROG_LEX
 GUILE_FLAGS
 
-dnl AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
 
 PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= 2.0.3)
@@ -63,12 +62,12 @@ if test "x$usejack" = "xyes"; then
   PKG_CHECK_MODULES(JACK, jack >= 0.102.0)
   CFLAGS="$CFLAGS -D_HAVE_JACK_ $JACK_CFLAGS"
   LIBS="$LIBS -D_HAVE_JACK_ $JACK_LIBS"
-
-  PKG_CHECK_MODULES(samplerate, samplerate >= 0.1.2)
-  CFLAGS="$CFLAGS $samplerate_CFLAGS"
-  LIBS="$LIBS $samplerate_LIBS"
-
 fi
+
+PKG_CHECK_MODULES(samplerate, samplerate >= 0.1.2)
+CFLAGS="$CFLAGS $samplerate_CFLAGS"
+LIBS="$LIBS $samplerate_LIBS"
+
 
 AC_ARG_ENABLE(
   lash,
@@ -155,7 +154,7 @@ dnl Checks for library functions.
 dnl Set PACKAGE_LOCALE_DIR in config.h.
 
 
-if test "${prefix}" == "NONE"; then
+if test "${prefix}" = "NONE"; then
   prefix=${ac_default_prefix}
   AC_SUBST(prefix)
 fi
@@ -179,10 +178,6 @@ dnl Set PACKAGE_SOURCE_DIR in config.h.
 packagesrcdir=`cd $srcdir && pwd`
 AC_DEFINE_UNQUOTED(
   PACKAGE_SOURCE_DIR, "${packagesrcdir}", [set package source dir])
-
-
-dnl GTK_DOC_CHECK([1.4])
-
 
 dnl Gettext stuff
 
