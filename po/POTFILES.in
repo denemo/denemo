@@ -42,7 +42,6 @@ src/midi.c
 src/mwidthdialog.c
 src/playback.c
 src/playbackprops.c
-src/plugin.c
 src/prefdialog.c
 src/print.c
 src/prefops.c
@@ -57,5 +56,3 @@ src/tomeasuredialog.c
 src/tupletops.c
 src/view.c
 src/entries.h
-plugins/midiinput/midiinput.c
-#plugins/niff/niffexporter.c
