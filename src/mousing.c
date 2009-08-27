@@ -374,11 +374,11 @@ DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   gboolean left = (event->button != 3);
   gtk_widget_grab_focus(widget);
-  if(gui->si->top_staff==1 && 
-     event->y < ((DenemoStaff *) gui->si->thescore->data)->space_above) {
-    popup_menu("/ScorePopup");
-    return TRUE;
-  }
+  //  if(gui->si->top_staff==1 && 
+  //    event->y < ((DenemoStaff *) gui->si->thescore->data)->space_above) {
+  //   popup_menu("/ScorePopup");
+  //   return TRUE;
+  //  }
   gint key = gui->si->maxkeywidth;
   gint cmajor = key?0:5;//allow some area for keysig in C-major
   if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
