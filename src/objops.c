@@ -228,7 +228,12 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
     ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
   } else
     ret->graphic = NULL;
-  ret->widget = NULL;
+
+ if(directive->widget) {
+   gpointer fn = g_object_get_data(G_OBJECT(directive->widget), "fn");
+   ret->widget = NULL;//FIXME call widget_for_directive here???
+   widget_for_directive(ret, fn);
+ }
   return ret;
 }
 

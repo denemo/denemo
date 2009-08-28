@@ -2,6 +2,7 @@
  * Implements lilydirectives which are not notes 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
+ * Richard Shann 2009
  * A Tee  (c) 2000-2005
  */
 #include <stdio.h>
@@ -784,6 +785,37 @@ what##_directive_get_##field(gchar *tag) {\
 typedef DenemoStaff staff;
 typedef DenemoStaff voice;
 typedef DenemoLilyControl score;
+
+
+
+     //note I think you cannot change the graphic once you have set it.
+#define PUT_GRAPHIC_NAME(what, directives) gboolean \
+what##_directive_put_graphic(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height);\
+  if(directive->graphic_name)\
+     g_string_assign(directive->graphic_name, value);\
+  else\
+      directive->graphic_name = g_string_new(value);\
+  return TRUE;\
+}
+#define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
+PUT_GRAPHIC(chord);
+PUT_GRAPHIC(note);
+
+PUT_GRAPHIC(keysig)
+PUT_GRAPHIC(timesig)
+
+
+
 #define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
@@ -800,6 +832,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
     g_string_assign(directive->field, value);\
   else\
     directive->field = g_string_new(value);\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   return TRUE;\
 }
 
@@ -897,6 +930,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
     current->name = g_list_append(current->name, directive);\
     }\
   directive->field = value;\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   return TRUE;\
 }
 #define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
@@ -1058,30 +1092,6 @@ GET_INT_FIELD_FUNC(voice, height)
 GET_INT_FIELD_FUNC(standalone, height)
 GET_INT_FIELD_FUNC(score, height)
 
-
-
-     //note I think you cannot change the graphic once you have set it.
-#define PUT_GRAPHIC_NAME(what, directives) gboolean \
-what##_directive_put_graphic(gchar *tag, gchar *value) {\
-  what *current = get_##what();\
-  if(current==NULL) return FALSE;\
-  if(current->directives==NULL)\
-       create_directives (&current->directives, tag);\
-  DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive==NULL){\
-    directive=new_directive(tag);\
-    current->directives = g_list_append(current->directives, directive);\
-    }\
-  loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height);\
-  if(directive->graphic_name)\
-     g_string_assign(directive->graphic_name, value);\
-  else\
-      directive->graphic_name = g_string_new(value);\
-  return TRUE;\
-}
-#define PUT_GRAPHIC(what) PUT_GRAPHIC_NAME(what, directives)
-PUT_GRAPHIC(chord);
-PUT_GRAPHIC(note);
 
 /* return a full path to an editscript for directive or NULL if there is none */
 static gchar *get_editscript_filename(gchar *tag) {
@@ -1245,7 +1255,6 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
     if(directive->display) 
       value = directive->display->str;
 
-
   if((directive->widget==NULL) ) {
     if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
@@ -1314,48 +1323,11 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 // create a directive for non-DenemoObject directive #what
 // assigning the string VALUE to the field ##field
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive
-// FIXME - create a new field directive->widget to hold this, and extend to DenemoObject directives, so they can be given editors. The graphic field can then be used for icons on buttons/menus items
 // Compare this with the macros above which create the what##_directive_put_##field() without calling widget_for_directive() and so do not create a widget in the graphic field, except via the user setting graphic_name.
-//FIXME separate off these two uses of the graphic field, creating a edit widget for all directives.
 
-#define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) gpointer \
-what##_directive_put_##field(gchar *tag, gchar *value) {\
-  what *current = get_##what();\
-  if(current==NULL) return NULL;\
-  if(current->directives_name==NULL)\
-       create_directives (&current->directives_name, tag);\
-  DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive==NULL){\
-    directive=new_directive(tag);\
-    current->directives_name = g_list_append(current->directives_name, directive);\
-    }\
-  if(directive->field==NULL) \
-    directive->field = g_string_new(value);\
-  else\
-    g_string_assign(directive->field, value);\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  return (gpointer)directive;\
-}
+#define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) PUT_STR_FIELD_FUNC_NAME(what, field, directives_name)
+#define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name) PUT_INT_FIELD_FUNC_NAME(what, field, directives_name)
 
-// create a directive for non-DenemoObject directive #what
-// assigning the int VALUE to the field ##field
-// also create a button if it does not already exist to edit/action the directive as the directive->widget
-#define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name)\
-gboolean \
-what##_directive_put_##field(gchar *tag, gint value) {\
-  what *current = get_##what();\
-  if(current==NULL) return FALSE;\
-  if(current->directives_name==NULL)\
-       create_directives (&current->directives_name, tag);\
-  DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive==NULL){\
-    directive=new_directive(tag);\
-    current->directives_name = g_list_append(current->directives_name, directive);\
-    }\
- directive->field = value;\
- widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
- return TRUE;\
-}
 
 //As the above (for string and int) but for the graphic name field
 //FIXME this is just storing the graphic name, any bitmap of that name could be placed on the button/menu item as an icon
@@ -1537,8 +1509,6 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
   }
-  //PLANNED intervene here if the override flag is set (must be set first! or can we simply replace ->graphic with a text editor when it *is* set?) to ask for a text editor
-  //the draw.c code needs to recognise this override flag to, and draw a textedit icon on the display
   if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height)) {
     if(directive->graphic_name)
       g_string_assign(directive->graphic_name, value);
@@ -1760,23 +1730,37 @@ void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoD
 
 
 static void populate_menu_for_directive(GtkWidget *menu, DenemoDirective *directive) {
- 
-
+  if(directive->widget) {
+  if(!gtk_widget_get_parent(directive->widget))
+      gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
+  //g_print("now add %p\n", directive->widget);
+    gtk_widget_show(directive->widget);
+  }
 }
 static void populate_menu_for_directives(GtkWidget *menu, GList *directives) {
+  g_object_set_data(G_OBJECT(menu), "directives", directives);
+  //g_print("setting directives %p for menu %p\n", directives, menu);
   for(;directives;directives=directives->next) {
     populate_menu_for_directive(menu, directives->data);
   }
 }
-static void unpopulate_menu_for_directive(GtkWidget *menu, DenemoDirective *directive) {
- 
 
-}
-static void unpopulate_menu_for_directives(GtkWidget *menu, GList *directives) {
+/* callback for deactivate signal installed at startup on the NoteEditPopup menu
+   it removes the menu items for the specific note 
+ */
+gboolean unpopulate_menu(GtkWidget *menu) {
+  GList *directives = g_object_get_data(G_OBJECT(menu), "directives");
+  //g_print("removing directives %p for menu %p\n", directives, menu);
   for(;directives;directives=directives->next) {
-    populate_menu_for_directive(menu, directives->data);
+    DenemoDirective *directive = directives->data;
+    //g_print("now remove %p\n", directive->widget);
+    if(directive->widget)
+      gtk_container_remove(GTK_CONTAINER(menu), directive->widget);
   }
+  g_object_set_data(G_OBJECT(menu), "directives", NULL);
+  return FALSE;
 }
+
 
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   DenemoObject *obj = findobj();
@@ -1806,10 +1790,12 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   case CHORD:
     {
       GList *directives =  ((chord *)obj->object)->directives;
+      note *curnote = findnote(obj, Denemo.gui->si->cursor_y); 
+      if(curnote && (curnote->mid_c_offset == Denemo.gui->si->cursor_y))
+	directives = curnote->directives;
       GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup"); 
       populate_menu_for_directives(menu, directives);
       popup_menu( "/NoteEditPopup");
-      unpopulate_menu_for_directives(menu, directives);
     }
     return;
 
@@ -2114,6 +2100,8 @@ static void edit_directive_callback(GtkWidget *w, gpointer what) {
     DO_TYPE(paper);
     DO_TYPE(layout);
     DO_TYPE(movementcontrol);
+    DO_TYPE(chord);
+    DO_TYPE(note);
 #undef DO_TYPE 
 }
 
@@ -2495,7 +2483,7 @@ GET_INT_FIELD_FUNC(keysig, override)
 GET_INT_FIELD_FUNC(keysig, width)
 GET_INT_FIELD_FUNC(keysig, height)
 
-PUT_GRAPHIC(keysig)
+
 
 PUT_STR_FIELD_FUNC(keysig, prefix)
 PUT_STR_FIELD_FUNC(keysig, postfix)
@@ -2521,8 +2509,6 @@ GET_INT_FIELD_FUNC(timesig, gy)
 GET_INT_FIELD_FUNC(timesig, override)
 GET_INT_FIELD_FUNC(timesig, width)
 GET_INT_FIELD_FUNC(timesig, height)
-
-PUT_GRAPHIC(timesig)
 
 PUT_STR_FIELD_FUNC(timesig, prefix)
 PUT_STR_FIELD_FUNC(timesig, postfix)

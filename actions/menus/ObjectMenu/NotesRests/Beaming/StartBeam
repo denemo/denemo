@@ -5,9 +5,12 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>StartBeam</action>
-        <scheme>(d-AttachLilyToChord "postfix=[\0display=[")
-
+        <scheme>;;; StartBeam
+(d-DirectivePut-chord-postfix "Beam" "[")
+(d-DirectivePut-chord-display "Beam"  "[")
+(d-RefreshDisplay)
 </scheme>
         <label>Start Beam</label>
         <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>

@@ -11,6 +11,10 @@
 
 #include <denemo/denemo.h>
 
+
+gboolean 
+unpopulate_menu(GtkWidget *menu);
+
 gchar * 
 get_scoretitle(void);
 void 
