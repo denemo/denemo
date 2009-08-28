@@ -1323,55 +1323,10 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 // create a directive for non-DenemoObject directive #what
 // assigning the string VALUE to the field ##field
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive
-// FIXME - create a new field directive->widget to hold this, and extend to DenemoObject directives, so they can be given editors. The graphic field can then be used for icons on buttons/menus items
 // Compare this with the macros above which create the what##_directive_put_##field() without calling widget_for_directive() and so do not create a widget in the graphic field, except via the user setting graphic_name.
-//SEE IF THIS WORKS NOW, and fix name of button_callback, and make it fire on chords...
 
-#if 0
 #define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) PUT_STR_FIELD_FUNC_NAME(what, field, directives_name)
 #define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name) PUT_INT_FIELD_FUNC_NAME(what, field, directives_name)
-#else
-
-#define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) gpointer \
-what##_directive_put_##field(gchar *tag, gchar *value) {\
-  what *current = get_##what();\
-  if(current==NULL) return NULL;\
-  if(current->directives_name==NULL)\
-       create_directives (&current->directives_name, tag);\
-  DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive==NULL){\
-    directive=new_directive(tag);\
-    current->directives_name = g_list_append(current->directives_name, directive);\
-    }\
-  if(directive->field==NULL) \
-    directive->field = g_string_new(value);\
-  else\
-    g_string_assign(directive->field, value);\
-  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  return (gpointer)directive;\
-}
-
-// create a directive for non-DenemoObject directive #what
-// assigning the int VALUE to the field ##field
-// also create a button if it does not already exist to edit/action the directive as the directive->widget
-#define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name)\
-gboolean \
-what##_directive_put_##field(gchar *tag, gint value) {\
-  what *current = get_##what();\
-  if(current==NULL) return FALSE;\
-  if(current->directives_name==NULL)\
-       create_directives (&current->directives_name, tag);\
-  DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive==NULL){\
-    directive=new_directive(tag);\
-    current->directives_name = g_list_append(current->directives_name, directive);\
-    }\
- directive->field = value;\
- widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
- return TRUE;\
-}
-
-#endif
 
 
 //As the above (for string and int) but for the graphic name field
@@ -1778,7 +1733,7 @@ static void populate_menu_for_directive(GtkWidget *menu, DenemoDirective *direct
   if(directive->widget) {
   if(!gtk_widget_get_parent(directive->widget))
       gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
-    g_print("now add %p\n", directive->widget);
+  //g_print("now add %p\n", directive->widget);
     gtk_widget_show(directive->widget);
   }
 }
@@ -1800,7 +1755,7 @@ gboolean unpopulate_menu(GtkWidget *menu) {
     DenemoDirective *directive = directives->data;
     //g_print("now remove %p\n", directive->widget);
     if(directive->widget)
-      gtk_container_remove(menu, directive->widget);
+      gtk_container_remove(GTK_CONTAINER(menu), directive->widget);
   }
   g_object_set_data(G_OBJECT(menu), "directives", NULL);
   return FALSE;
