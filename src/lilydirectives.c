@@ -1298,7 +1298,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	    gtk_widget_show(box);
 	  }
 	} else {
-	  //g_print("Doing directive attached to DenemoObject case");
+	  g_print("Doing directive attached to DenemoObject case");
 	  directive->widget = gtk_menu_item_new_with_label(value);
 	  attach_textedit_widget(directive);
 	  g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), directive);
@@ -1325,9 +1325,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive
 // FIXME - create a new field directive->widget to hold this, and extend to DenemoObject directives, so they can be given editors. The graphic field can then be used for icons on buttons/menus items
 // Compare this with the macros above which create the what##_directive_put_##field() without calling widget_for_directive() and so do not create a widget in the graphic field, except via the user setting graphic_name.
-//FIXME separate off these two uses of the graphic field, creating a edit widget for all directives.
-
-
+//SEE IF THIS WORKS NOW, and fix name of button_callback, and make it fire on chords...
 
 #if 0
 #define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) PUT_STR_FIELD_FUNC_NAME(what, field, directives_name)
@@ -1837,10 +1835,12 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   case CHORD:
     {
       GList *directives =  ((chord *)obj->object)->directives;
+      note *curnote = findnote(obj, Denemo.gui->si->cursor_y); 
+      if(curnote && (curnote->mid_c_offset == Denemo.gui->si->cursor_y))
+	directives = curnote->directives;
       GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup"); 
       populate_menu_for_directives(menu, directives);
       popup_menu( "/NoteEditPopup");
-     
     }
     return;
 
@@ -2145,6 +2145,8 @@ static void edit_directive_callback(GtkWidget *w, gpointer what) {
     DO_TYPE(paper);
     DO_TYPE(layout);
     DO_TYPE(movementcontrol);
+    DO_TYPE(chord);
+    DO_TYPE(note);
 #undef DO_TYPE 
 }
 
