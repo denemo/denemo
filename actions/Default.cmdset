@@ -2594,6 +2594,14 @@ for second and subsequent systems</tooltip>
         <label>Comment</label>
         <tooltip>Saves textual comments for this staff</tooltip>
       </row>
+      <row>
+        <action>ChordComment</action>
+        <after>ParenthesizeNote</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Comment</label>
+        <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

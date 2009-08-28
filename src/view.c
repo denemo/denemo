@@ -5291,6 +5291,12 @@ get_data_dir (),
     }
   g_free (data_dir);
 
+
+  {//pops up with menu items for the directives attached to the current note
+    GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopup");
+    g_signal_connect(menu, "deactivate", G_CALLBACK(unpopulate_menu), NULL);
+  }
+
   //menubar = gtk_item_factory_get_widget (item_factory, "<main>");
   Denemo.menubar = gtk_ui_manager_get_widget (ui_manager, "/MainMenu");// this triggers Lily... missing action
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.menubar, FALSE, TRUE, 0);
