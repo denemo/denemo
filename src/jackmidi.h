@@ -11,6 +11,7 @@ int jackmidi(void);
 void  jackstop(void);
 void jack_midi_playback_start(void);
 void jack_midi_playback_stop(void);
+void jack_playpitch(gint key, double duration, double volume, gint channel);
 int jack_kill_timer(void);
 int create_jack_midi_port(char *port_name);
 int rename_jack_midi_port(int port_number, char *port_name);

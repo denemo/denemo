@@ -23,6 +23,9 @@
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
+unsigned char global_midi_buffer[3]; 
+jack_nframes_t loop_index;
+static gint global_duration;
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
@@ -177,6 +180,57 @@ kill_id = 0;
 return 1;
 }
 
+//FIXME volume should be gint
+void 
+jack_playpitch(gint key, double duration, double volume, gint channel){
+  global_midi_buffer[0] = NOTE_ON;
+  global_midi_buffer[1] = key; //freq
+  global_midi_buffer[2] = 127;
+  global_duration = 44100;
+  loop_index = 0;
+}
+
+
+static void
+send_midi_event(jack_nframes_t nframes){
+  unsigned char *buffer;
+  gint i,n,j, duration;
+  unsigned char notenum, velocity;
+  void *port_buffers[MAX_NUMBER_OF_TRACKS];
+  jack_nframes_t loop_nsamp;
+  jack_nframes_t num_notes;
+
+  notenum = global_midi_buffer[1];
+  velocity = global_midi_buffer[2];
+  duration = global_duration;
+  num_notes = 1;
+  i = n = 0;
+
+  if (output_ports[i]){
+    port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
+    jack_midi_clear_buffer(port_buffers[i]);
+      for(n=0; n<nframes; n++){
+	for(j=0; j<num_notes; j++){
+	  if(0 == loop_index){
+	    buffer = jack_midi_event_reserve(port_buffers[i], n, 3); 
+	    buffer[2] = velocity;
+	    buffer[1] = notenum;
+	    buffer[0] = NOTE_ON;    
+
+	  }
+	  else if(duration == loop_index){
+	    buffer = jack_midi_event_reserve(port_buffers[i], n, 3);
+	    buffer[2] = 0;
+	    buffer[1] = notenum;
+	    buffer[0] = NOTE_OFF;    
+	  }
+	}
+	loop_index = loop_index+1 >= (duration +2) ? 1 : loop_index+1;
+      }
+  }
+}
+  
+
 static void
 process_midi_output(jack_nframes_t nframes)
 {
@@ -293,7 +347,6 @@ process_midi_output(jack_nframes_t nframes)
 			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
 			break;
 		}
-
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
 #endif
 		/* Ignore per-track outputs? */
@@ -366,9 +419,10 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports){
+	if (Denemo.gui->si && output_ports)
+	  send_midi_event(nframes);
+	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports)
 	  process_midi_output(nframes);
-	}
 #ifdef MEASURE_TIME
 	if (get_delta_time() > MAX_PROCESSING_TIME) {
 		warn_from_jack_thread_context("Processing took too long; scheduling problem?");
