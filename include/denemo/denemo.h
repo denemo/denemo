@@ -39,21 +39,6 @@ extern "C" {
 
 
 
-/*Forward Declaration*/
-typedef struct _PluginData PluginData;
-/**
- * Structure borrowed from Gnumeric which 
- * allows us to unload a plugin.
- * This should render the denemo_plugin struct redundant.
- */
-struct _PluginData {
-  GModule *handle;
-  void (*initialise) (DenemoGUI *si, PluginData *pd);
-  void (*clean_up)   (DenemoGUI *si, PluginData *pd);
-  gchar *title;
-};
-
-
 #define g_malloc(a) g_malloc0(a) /* for extensible debuggable code */
 #if 0
   //use this to detect bad access to G_OBJECT

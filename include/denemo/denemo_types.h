@@ -659,7 +659,6 @@ typedef struct DenemoScore
 
   
   GList *savebuffer;
-  /* Holds List of Plugin Names */
   
 
 
@@ -710,8 +709,6 @@ typedef struct DenemoGUI
   gchar *namespec;/**< A spec of which parts/movements to print */
   
 
-  GList *plugins;
-  gint plugincounter;
 
   GtkWidget* articulation_palette; /**< Articulation palette window */
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
