@@ -31,10 +31,11 @@
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))
+			       ) 
 			(ReadingNoteNames::offerNote)))
 
 
