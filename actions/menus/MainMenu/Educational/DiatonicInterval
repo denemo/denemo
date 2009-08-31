@@ -94,12 +94,10 @@
 			(if  (= DiatonicInterval::intervalwas interval)
 			     (begin
 			       (set! DiatonicInterval::score (+ DiatonicInterval::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! DiatonicInterval::score (- DiatonicInterval::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			       (DiatonicInterval::offerNote)
 			       ))
 	

@@ -89,12 +89,10 @@
 			(if  (string=? LineOrSpace::positionwas userinput)
 			     (begin
 			       (set! LineOrSpace::score (+ LineOrSpace::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! LineOrSpace::score (- LineOrSpace::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			
 			(if (= LineOrSpace::input_device 0)
 			        (begin

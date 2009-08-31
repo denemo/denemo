@@ -85,12 +85,10 @@
 			(if  (string=? StepSkipOrSame::stepstring interval)
 			     (begin
 			       (set! StepSkipOrSame::score (+ StepSkipOrSame::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! StepSkipOrSame::score (- StepSkipOrSame::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			       (StepSkipOrSame::offerNote)
 			       ))
 	

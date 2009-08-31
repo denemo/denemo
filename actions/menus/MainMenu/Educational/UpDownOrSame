@@ -76,12 +76,10 @@
 			(if  (string=? UpDownOrSame::directionwas usernote)
 			     (begin
 			       (set! UpDownOrSame::score (+ UpDownOrSame::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! UpDownOrSame::score (- UpDownOrSame::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			       (UpDownOrSame::offerNote)
 			       ))
 	

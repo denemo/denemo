@@ -94,12 +94,10 @@
 			(if  (= CountSteps::intervalwas interval)
 			     (begin
 			       (set! CountSteps::score (+ CountSteps::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! CountSteps::score (- CountSteps::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			       (CountSteps::offerNote)
 			       ))
 	

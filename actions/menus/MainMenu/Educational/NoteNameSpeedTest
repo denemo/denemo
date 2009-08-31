@@ -50,12 +50,10 @@
 			(if  (string=? NoteNameSpeedTest::notewas usernote)
 			     (begin
 			       (set! NoteNameSpeedTest::score (+ NoteNameSpeedTest::score 1))
-			       (EducationGames::PlaceAnswerStatus "CheckMark")
-			       (d-ChangeNotehead "Diamond"))
+			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! NoteNameSpeedTest::score (- NoteNameSpeedTest::score 1))
-			       (EducationGames::PlaceAnswerStatus "CrossSign")
-			       (d-ChangeNotehead "Cross"))) 
+			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			(NoteNameSpeedTest::offerNote)))
 
 
