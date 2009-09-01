@@ -1169,7 +1169,7 @@ static assign_text(GtkWidget *w, gchar *text) {
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 
-/* create a label up to 30 characters long.
+/* create a label. FIXME escape markup
 Use the display string up to the first newline, if it is long enough
 eles use tag
 */
@@ -1177,7 +1177,7 @@ static void
 set_directive_graphic_label(DenemoDirective *directive) {
   gchar *value;
   if(directive->display && directive->display->len>1)
-    value = g_strdup_printf("%.30s", directive->display->str);
+    value = g_strdup_printf("%s", directive->display->str);
   else
     value = g_strdup(directive->tag->str);
   gchar *c;
