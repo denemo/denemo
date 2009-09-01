@@ -1274,7 +1274,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       }
 
       /* set selected midi program */
-      g_print("Using channel %d\n", midi_channel);
+      g_print("Using channel %d prognum %d\n", midi_channel, prognum);
       event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
       smf_track_add_event_delta_pulses(track, event, 0);
 
