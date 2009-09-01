@@ -40,11 +40,7 @@
 #include <math.h>
 #include <errno.h>
 #include <ctype.h>
-#ifdef __MINGW32__
-#include <windows.h>
-#else /* ! __MINGW32__ */
 #include <arpa/inet.h>
-#endif /* ! __MINGW32__ */
 #include "smf.h"
 #include "smf_private.h"
 
