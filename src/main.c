@@ -43,10 +43,6 @@
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
-#ifdef WITH_LASH
-#include <lash/lash.h>
-#include "lash_support.h"
-#endif
 
 struct DenemoRoot Denemo;
 
@@ -605,16 +601,6 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
     }
   }
-#endif
-
-#ifdef WITH_LASH
-  lash_client_t* lash_client;
-  int flags = 0;
-  flags = LASH_Config_Data_Set;
-
-  lash_client = lash_init(lash_extract_args(&argc, &argv), "denemo",
-		                           flags, LASH_PROTOCOL(2, 0));
-  start_init_lash(lash_client);
 #endif
 
   /* Set up the signal handler */
