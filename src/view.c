@@ -706,7 +706,7 @@ SCM scheme_get_command(void) {
      name = g_string_append(name, lookup_name_from_idx (Denemo.map, cmd));//FIXME NULL?, memory leaks
    name = g_string_prepend (name, DENEMO_SCHEME_PREFIX);
   }
- SCM scm = scm_makfrom0str (name->str);
+ SCM scm = success? scm_makfrom0str (name->str): SCM_BOOL(FALSE);
  g_string_free(name, TRUE);
  return  scm;
 }

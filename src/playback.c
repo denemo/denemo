@@ -132,7 +132,10 @@ ext_midi_playback_control (gboolean start)
     if(gui->si->end)
       duration = exportmidi (mididata, gui->si, gui->si->start, gui->si->end);
     else
-      duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+      if(gui->si->currentmeasurenum>1)
+	duration = exportmidi (mididata, gui->si, gui->si->currentmeasurenum, 0/* means to end */);
+      else
+	duration = exportmidi (mididata, gui->si, 0, 0/* means whole file */);
   // g_print("Values are %d %d %d\n", gui->si->end,gui->si->start, gui->si->currentmeasurenum);
   gchar *argv[] = {
     Denemo.prefs.midiplayer->str,
