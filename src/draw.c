@@ -117,6 +117,7 @@ struct infotopass
   gint in_highy; // FIXME these are passed in so that highy, lowy do not need to be passed back
   gint in_lowy;
   gboolean mark;//whether the region is selected
+  gboolean *wronglengths;// array of indicators for each measure drawn whether it is correct length 
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -455,8 +456,9 @@ draw_object (objnode * curobj, gint x, gint y,
  * @param y
  * @param gui
  * @param itp
+ * return TRUE if measure has correct number of beats
  */
-void
+static gboolean
 draw_measure (measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
@@ -578,6 +580,7 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
     drawbitmapinverse (gui->pixmap, exclamgc, exclam,
 		       x, y - 8 - EXCL_HEIGHT,
 		       EXCL_WIDTH, EXCL_HEIGHT);
+  return exclamgc!=NULL;
 }
 
 /**
@@ -665,7 +668,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
     {
       if(itp->measurenum == si->rightmeasurenum+1)
 	itp->gc = slategraygc;
-      draw_measure (itp->curmeasure, x, y, gui, itp);
+      itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
@@ -765,6 +768,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     }
     if(si->currentstaffnum==itp.staffnum)
       reset_lyrics(staff, count_syllables(staff, si->leftmeasurenum));
+    
+    //allocate wronglength[] large enough for si->rightmeasurenum - si->leftmeasurenum entries then put it in itp
+    // and set it in draw_measure
+
+    gboolean *wronglength = (gboolean *)g_malloc((sizeof(gboolean))*(2+si->rightmeasurenum - si->leftmeasurenum));
+    itp.wronglengths = wronglength;
     draw_staff (staff, y, gui, &itp);
 
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
@@ -788,7 +797,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	   
 	if (!mwidthiterator->next) /* Last measure - draw double-barline */
 	  x -= 3;
-	gdk_draw_line (gui->pixmap, graygc, x, top, x, y);
+	gdk_draw_line (gui->pixmap, wronglength[i-si->leftmeasurenum]?graygc:blackgc, x, top, x, y);
 	   
 	if (!mwidthiterator->next)
 	  {
@@ -801,7 +810,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	  }
 	   
       }
-
+    g_free(wronglength);
     if ( itp.staffnum < si->bottom_staff
 	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
       {
