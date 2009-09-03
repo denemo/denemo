@@ -670,19 +670,27 @@ SCM scheme_get_char(void) {
 
   GdkEventKey event;
  gboolean success = intercept_scorearea_keypress(&event);
+ if(success) {
  gchar *str = g_strdup_printf("%c", success?event.keyval:0);
  SCM scm = scm_makfrom0str (str);
  g_free(str);
  return  scm;
+ }
+ else
+   return SCM_BOOL(FALSE);
 }
 
 SCM scheme_get_keypress(void) {
  GdkEventKey event;
- (void) intercept_scorearea_keypress(&event);
+ gboolean success =  intercept_scorearea_keypress(&event);
+ if(success) {
  gchar *str = dnm_accelerator_name(event.keyval, event.state);
  SCM scm = scm_makfrom0str (str);
  g_free(str);
  return  scm;
+ }
+ else
+   return SCM_BOOL(FALSE);
 }
 
 /* get last keypress that successfully invoked a command */
