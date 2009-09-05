@@ -1272,7 +1272,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
     if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
     else
-      if(fn==(void(*)())movementcontrol_directive_put_graphic)
+      if(fn==(void(*)())movementcontrol_directive_put_graphic  ||fn==(void(*)())header_directive_put_graphic )
 	box = Denemo.gui->si->buttonbox;
       else
 	box = NULL;
