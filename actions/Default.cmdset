@@ -2588,7 +2588,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
       </row>
       <row>
-        <action>Next-BookmarkR</action>
+        <action>NextBookmarkR</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Next Bookmark</label>
@@ -2596,7 +2596,7 @@ for second and subsequent systems</tooltip>
         <bind>F12</bind>
       </row>
       <row>
-        <action>Prev-BookmarkR</action>
+        <action>PrevBookmarkR</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Prev Bookmark</label>
@@ -2612,7 +2612,7 @@ for second and subsequent systems</tooltip>
         <bind>F9</bind>
       </row>
       <row>
-        <action>BookmarkR-Named</action>
+        <action>BookmarkRNamed</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Add named Bookmark</label>
@@ -2620,7 +2620,7 @@ for second and subsequent systems</tooltip>
         <bind>Shift+F9</bind>
       </row>
       <row>
-        <action>BookmarkR-NonPrinting</action>
+        <action>BookmarkRNonPrinting</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Add non-printing Bookmark</label>
