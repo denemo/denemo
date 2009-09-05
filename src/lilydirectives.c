@@ -1214,7 +1214,11 @@ static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *direct
       /* I have used "unknown" here because we would need to get the name e.g. "score" "movementcontrol" etc from fn, but this is only used for the create a script thing...
 	 g_object_get_data(G_OBJECT(directive->widget), "fn") 
       */
-      delete_directive(g_object_get_data(G_OBJECT(directive->widget), "directives-pointer"), directive->tag->str);
+      GList **directives_ptr = g_object_get_data(G_OBJECT(directive->widget), "directives-pointer");
+      if(directives_ptr)
+	delete_directive(g_object_get_data(G_OBJECT(directive->widget), "directives-pointer"), directive->tag->str);
+      else
+	warningdialog("Cannot delete via this mechanism, sorry");
       return TRUE;
     }
   if(event->keyval==GDK_Return) {
