@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BookmarkR-Named</action>
+        <action>BookmarkRNamed</action>
         <scheme>;;; Bookmark + Named RehearsalMark by Nils Gey
 (define user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
 

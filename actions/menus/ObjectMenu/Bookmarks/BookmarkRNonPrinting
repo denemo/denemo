@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BookmarkR-NonPrinting</action>
+        <action>BookmarkRNonPrinting</action>
         <scheme>;;;Non Printing Bookmark by Nils Gey
 (define user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
 
