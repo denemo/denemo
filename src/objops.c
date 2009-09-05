@@ -251,7 +251,10 @@ free_directive_data(DenemoDirective *directive) {
     DFREE(postfix);
     DFREE(graphic_name);
 #undef DFREE
- 
+  
+    if(directive->widget && !G_IS_OBJECT(directive->widget)) {
+      g_debug("Found non-gobject widget %p\n", directive->widget);
+    }
     if(directive->widget && G_IS_OBJECT(directive->widget)) {
       g_print("We should destroy the widget now ");
       GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->widget, DENEMO_TEXTEDITOR_TAG);

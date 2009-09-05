@@ -439,8 +439,15 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
+
+  free_directives(curstaffstruct->staff_directives);
+  free_directives(curstaffstruct->timesig.directives);
+  free_directives(curstaffstruct->keysig.directives);
+
   gtk_widget_destroy((GtkWidget *)(curstaffstruct->staffmenu));
   gtk_widget_destroy((GtkWidget *)(curstaffstruct->voicemenu));
+
+
   g_list_foreach (curstaffstruct->measures, freeobjlist, NULL);
   g_list_free (curstaffstruct->measures);
   g_string_free (curstaffstruct->denemo_name, FALSE);//FIXME these should all be TRUE??
@@ -449,9 +456,8 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
   g_list_foreach (curstaffstruct->verses, (GFunc)gtk_widget_destroy, NULL);
   g_free (curstaffstruct);
 
-  free_directives(curstaffstruct->staff_directives);
-  free_directives(curstaffstruct->timesig.directives);
-  free_directives(curstaffstruct->keysig.directives);
+
+
 
   if(si->currentstaff==g_list_last(si->thescore))
     si->currentstaffnum--;//deleting the last, so the currentstaffnum must decrease

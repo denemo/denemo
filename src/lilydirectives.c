@@ -1311,7 +1311,6 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	    gtk_widget_show(box);
 	  }
 	} else {
-	  g_print("Doing directive attached to DenemoObject case");
 	  directive->widget = gtk_menu_item_new_with_label(value);
 	  attach_textedit_widget(directive);
 	  g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), directive);
@@ -1678,7 +1677,7 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
   }
   gtk_widget_destroy (dialog);
   if(response && response->tag)
-    g_print("Came back with response %s\n", response->tag->str);
+    ;//g_print("Came back with response %s\n", response->tag->str);
   return response;
 }
 
@@ -1878,7 +1877,7 @@ ADD_INTTEXT(gy);
 #undef ADD_INTTEXT
  g_string_append(scheme,  "(d-RefreshDisplay)\n;;;End of scheme script");
  // quote_scheme(scheme);
- g_print("Scheme is %s\n", scheme->str);
+ //g_print("Scheme is %s\n", scheme->str);
   appendSchemeText(scheme->str);
   g_string_free(scheme, TRUE);
 }
@@ -2037,7 +2036,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
-  g_print("Got response %d\n", response);
+  // g_print("Got response %d\n", response);
 
 
   if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT || response ==  GTK_RESPONSE_REJECT){
@@ -2051,7 +2050,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
     }
   }
   else {
-    clone->widget = NULL;//prevent any button being destroyed
+    clone->widget = NULL;//prevent any button being destroyed FIXME ???
     free_directive(clone);
   }
 #define REMOVEEMPTIES(field)\
