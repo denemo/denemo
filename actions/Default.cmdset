@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <Denemo>
   <commands>
-    <title>A Denemo Keymap</title>
+    <title>A Denemo Command Set</title>
     <author>AT, JRR, RTS</author>
     <map>
       <cursors>
@@ -1177,7 +1177,7 @@ Notes entered will follow this pattern</tooltip>
       <row>
         <action>NewMovement</action>
         <label>New Movement</label>
-        <tooltip>Create a new movement, using any default template</tooltip>
+        <tooltip>Create a new movement, usign any default template</tooltip>
       </row>
       <row>
         <action>SaveParts</action>
@@ -1199,6 +1199,11 @@ Notes entered will follow this pattern</tooltip>
         <label>Print Preview</label>
         <tooltip>Displays the final finished score in your pdf viewer</tooltip>
         <bind>Control+P</bind>
+      </row>
+      <row>
+        <action>PrintSelection</action>
+        <label>Print Selection</label>
+        <tooltip>Displays selected music from score in your pdf viewer</tooltip>
       </row>
       <row>
         <action>PrintExcerptPreview</action>
@@ -1261,6 +1266,11 @@ Notes entered will follow this pattern</tooltip>
         <bind>RlsL-Control</bind>
       </row>
       <row>
+        <action>PasteClipboard</action>
+        <label>Paste LilyPond notes</label>
+        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
+      </row>
+      <row>
         <action>ScoreProperties</action>
         <label>Score Properties</label>
         <tooltip>Change some of the properties of the current score. This will start up a dialog window</tooltip>
@@ -1284,26 +1294,6 @@ Notes entered will follow this pattern</tooltip>
         <action>CommandManagement</action>
         <label>Manage Command Set</label>
         <tooltip>View help, change and save keyboard shortcuts</tooltip>
-      </row>
-      <row>
-        <action>LoadPlugins</action>
-        <label>Load Plugins</label>
-        <tooltip>Load Plugins</tooltip>
-      </row>
-      <row>
-        <action>UnloadPlugins</action>
-        <label>Unload Plugins</label>
-        <tooltip>Unload Plugins</tooltip>
-      </row>
-      <row>
-        <action>ListPlugins</action>
-        <label>List Plugins</label>
-        <tooltip>List the loaded plugins</tooltip>
-      </row>
-      <row>
-        <action>ListAvailablePlugins</action>
-        <label>List Available Pluigins</label>
-        <tooltip>List the available plugins</tooltip>
       </row>
       <row>
         <action>SwapStaffs</action>
@@ -1424,10 +1414,14 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction</tooltip>
       </row>
       <row>
-        <action>EditLyric</action>
-        <label>Insert/Edit Lyric</label>
-        <tooltip>Add a lyric to current note. Beware: all previous notes must have lyrics for printing correctly</tooltip>
-        <bind>Control+l</bind>
+        <action>AddVerse</action>
+        <label>Add Lyric Verse</label>
+        <tooltip>Add a verse of lyrics</tooltip>
+      </row>
+      <row>
+        <action>DeleteVerse</action>
+        <label>Delete Verse</label>
+        <tooltip>Deletes current verse of lyrics from current voice</tooltip>
       </row>
       <row>
         <action>EditFiguredBass</action>
@@ -1477,6 +1471,31 @@ Notes entered will follow this pattern</tooltip>
         <action>EditScoreDirective</action>
         <label>Edit Score Directives</label>
         <tooltip>Edit any directives attached to score.</tooltip>
+      </row>
+      <row>
+        <action>EditMovementDirective</action>
+        <label>Edit Movement Directives</label>
+        <tooltip>Edit any directives attached to movement.</tooltip>
+      </row>
+      <row>
+        <action>EditClefDirective</action>
+        <label>Edit Clef Directives</label>
+        <tooltip>Edit any directives attached to clef.</tooltip>
+      </row>
+      <row>
+        <action>EditTimesigDirective</action>
+        <label>Edit Time Signature Directives</label>
+        <tooltip>Edit any directives attached to time signature.</tooltip>
+      </row>
+      <row>
+        <action>EditKeysigDirective</action>
+        <label>Edit Key Signature Directives</label>
+        <tooltip>Edit any directives attached to key signature.</tooltip>
+      </row>
+      <row>
+        <action>DeleteDirective</action>
+        <label>Delete a Directive</label>
+        <tooltip>Delete a directive attached to chord/note at cursor.</tooltip>
       </row>
       <row>
         <action>AttachLilyToNote</action>
@@ -1529,11 +1548,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Delete the current movement</tooltip>
       </row>
       <row>
-        <action>DeleteBookmarks</action>
-        <label>Delete Bookmarks</label>
-        <tooltip>Delete all bookmarks in current movement</tooltip>
-      </row>
-      <row>
         <action>Play</action>
         <label>Play</label>
         <tooltip>Play</tooltip>
@@ -1583,30 +1597,6 @@ Notes entered will follow this pattern</tooltip>
 Use More Commands after this has finished</tooltip>
       </row>
       <row>
-        <action>AddBookmark</action>
-        <label>Add Bookmark</label>
-        <tooltip>Bookmark the current cursor position</tooltip>
-        <bind>F9</bind>
-      </row>
-      <row>
-        <action>GotoBookmark</action>
-        <label>Goto Bookmarks</label>
-        <tooltip>Go to a bookmarked point in the score</tooltip>
-        <bind>F10</bind>
-      </row>
-      <row>
-        <action>NextBookmark</action>
-        <label>Next Bookmark</label>
-        <tooltip>Go to the next bookmarked point in the list</tooltip>
-        <bind>F11</bind>
-      </row>
-      <row>
-        <action>PrevBookmark</action>
-        <label>Prev Bookmark</label>
-        <tooltip>Go to the previous bookmarked point in the list</tooltip>
-        <bind>F12</bind>
-      </row>
-      <row>
         <action>ToggleEdit</action>
         <label>Toggle Edit Mode</label>
         <tooltip>Toggle between current mode and edit mode</tooltip>
@@ -1619,8 +1609,8 @@ Use More Commands after this has finished</tooltip>
       </row>
       <row>
         <action>ToggleRhythm</action>
-        <label>Toggle Rhythm Mode</label>
-        <tooltip>Toggle between note entry and rhythm entry</tooltip>
+        <label>Toggle Audible Feedback</label>
+        <tooltip>Toggle audible feedback on/off</tooltip>
       </row>
       <row>
         <action>ClearOverlay</action>
@@ -2124,13 +2114,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>
       <row>
-        <action>NamedBookmarkInsert</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
-        <label>Insert Named Bookmark</label>
-        <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
-      </row>
-      <row>
         <action>StartBeam</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
@@ -2425,7 +2408,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Hide Empty Staffs (Off/On)</label>
         <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
       </row>
- <row>
+      <row>
         <action>InstrumentName</action>
         <after>Ambitus</after>
         <scheme></scheme>
@@ -2501,12 +2484,14 @@ for second and subsequent systems</tooltip>
         <action>ParenthesizeChord</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu</menupath>
+        <label>No label</label>
         <tooltip>Enclose the chord in ( ) on printing.</tooltip>
       </row>
       <row>
         <action>ParenthesizeNote</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>No label</label>
         <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
       </row>
       <row>
@@ -2601,6 +2586,46 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Comment</label>
         <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
+      </row>
+      <row>
+        <action>Next-BookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Next Bookmark</label>
+        <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
+        <bind>F12</bind>
+      </row>
+      <row>
+        <action>Prev-BookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Prev Bookmark</label>
+        <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
+        <bind>F11</bind>
+      </row>
+      <row>
+        <action>BookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Lilypond Rehearsal Mark</tooltip>
+        <bind>F9</bind>
+      </row>
+      <row>
+        <action>BookmarkR-Named</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add named Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
+        <bind>Shift+F9</bind>
+      </row>
+      <row>
+        <action>BookmarkR-NonPrinting</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add non-printing Bookmark</label>
+        <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
+        <bind>Shift+Control+F9</bind>
       </row>
     </map>
   </commands>
