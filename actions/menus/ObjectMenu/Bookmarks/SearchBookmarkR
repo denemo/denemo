@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Bookmarks</after>
+        <action>SearchBookmarkR</action>
+        <scheme>;;;Find BookmarkR by Nils Gey
+(define user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
+(if user-input   ;in case the user pressed Escape do nothing
+ (begin
+  (let searchBookmarkRWithStringReturn((EndOfStaffSwitch #f))
+  (if (d-CursorRight)
+	(if (and (string? (d-DirectiveGet-standalone-display "BookmarkR" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "BookmarkR" user-input) user-input))
+	 #t
+	 (searchBookmarkRWithStringReturn EndOfStaffSwitch)
+	)
+
+  ;CursorRight #f:
+   (if EndOfStaffSwitch
+    #f
+    (begin (d-GoToBeginning)(searchBookmarkRWithStringReturn #t))
+)))))
+</scheme>
+        <label>Search Bookmark</label>
+        <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

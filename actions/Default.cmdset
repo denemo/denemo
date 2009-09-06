@@ -2636,7 +2636,7 @@ for second and subsequent systems</tooltip>
         <bind>Shift+Control+F9</bind>
       </row>
       <row>
-        <action>SeachBookmarkR</action>
+        <action>SearchBookmarkR</action>
         <after>Bookmarks</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
