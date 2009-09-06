@@ -1609,7 +1609,6 @@ Use More Commands after this has finished</tooltip>
         <action>AddBookmark</action>
         <label>Add Bookmark</label>
         <tooltip>Bookmark the current cursor position</tooltip>
-        <bind>F9</bind>
       </row>
       <row>
         <action>GotoBookmark</action>
@@ -1621,13 +1620,11 @@ Use More Commands after this has finished</tooltip>
         <action>NextBookmark</action>
         <label>Next Bookmark</label>
         <tooltip>Go to the next bookmarked point in the list</tooltip>
-        <bind>F11</bind>
       </row>
       <row>
         <action>PrevBookmark</action>
         <label>Prev Bookmark</label>
         <tooltip>Go to the previous bookmarked point in the list</tooltip>
-        <bind>F12</bind>
       </row>
       <row>
         <action>ToggleEdit</action>
@@ -2150,13 +2147,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/Instruments/Orchestral</menupath>
         <label>Insert Rehearsal Mark</label>
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
-      </row>
-      <row>
-        <action>NamedBookmarkInsert</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
-        <label>Insert Named Bookmark</label>
-        <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
       </row>
       <row>
         <action>StartBeam</action>

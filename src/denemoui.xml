@@ -489,17 +489,10 @@
        <menuitem action="GoToMark"/>
        
 		<separator/>
-	   <menuitem action="NextBookmark"/>
-	   <menuitem action="PrevBookmark"/>
 
      </menu> 
 	<menu action="Bookmarks">
-	   <menuitem action="AddBookmark"/>
-	   <menuitem action="GotoBookmark"/>
-	   <menuitem action="NextBookmark"/>
-	   <menuitem action="PrevBookmark"/>
-<separator/>
-	   <menuitem action="DeleteBookmarks"/>
+	 
 	</menu>
 
     <menu action="Instruments">

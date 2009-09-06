@@ -412,7 +412,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Go to the next movement", N_("NextMovement"), "next_movement", N_("Next Movement")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Go to the previous movement", N_("PreviousMovement"), "prev_movement", N_("Previous Movement")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Delete the current movement", N_("DeleteMovement"), "delete_movement", N_("Delete Movement")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Delete all bookmarks in current movement", N_("DeleteBookmarks"), "deletebookmarks", N_("Delete Bookmarks")}, 
+
 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_PLAY", "Play", N_("Play"), "ext_midi_playback", N_("Play")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_MEDIA_STOP", "Stop", N_("Stop"), "stop_midi_playback", N_("Stop")}, 
@@ -432,10 +432,7 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_DIRECT, NULL, "Bookmark the current cursor position", N_("AddBookmark"), "addbookmark", "Add Bookmark", N_("Add Bookmarks")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Go to a bookmarked point in the score", N_("GotoBookmark"), "gotobookmark", N_("Goto Bookmarks")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Go to the next bookmarked point in the list", N_("NextBookmark"), "nextbookmark", N_("Next Bookmark")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Go to the previous bookmarked point in the list", N_("PrevBookmark"), "prevbookmark", N_("Prev Bookmark")}, 
+
  
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_OPEN", "Open previously used files", N_("OpenRecent"), NULL, N_("Open Recent")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between current mode and edit mode", N_("ToggleEdit"), "toggle_edit_mode", N_("Toggle Edit Mode")},

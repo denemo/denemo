@@ -1159,10 +1159,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PreviousMovement")), "scm
 SCM scheme_DeleteMovement(SCM optional);
 install_scm_function ("d-DeleteMovement", scheme_DeleteMovement);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteMovement")), "scm", (gpointer)1);
-/*DeleteBookmarks deletebookmarks*/
-SCM scheme_DeleteBookmarks(SCM optional);
-install_scm_function ("d-DeleteBookmarks", scheme_DeleteBookmarks);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteBookmarks")), "scm", (gpointer)1);
 /*Play ext_midi_playback*/
 SCM scheme_Play(SCM optional);
 install_scm_function ("d-Play", scheme_Play);
@@ -1199,22 +1195,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MyCommands")), "scm", (gp
 SCM scheme_FetchCommands(SCM optional);
 install_scm_function ("d-FetchCommands", scheme_FetchCommands);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "FetchCommands")), "scm", (gpointer)1);
-/*AddBookmark addbookmark*/
-SCM scheme_AddBookmark(SCM optional);
-install_scm_function ("d-AddBookmark", scheme_AddBookmark);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddBookmark")), "scm", (gpointer)1);
-/*GotoBookmark gotobookmark*/
-SCM scheme_GotoBookmark(SCM optional);
-install_scm_function ("d-GotoBookmark", scheme_GotoBookmark);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GotoBookmark")), "scm", (gpointer)1);
-/*NextBookmark nextbookmark*/
-SCM scheme_NextBookmark(SCM optional);
-install_scm_function ("d-NextBookmark", scheme_NextBookmark);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NextBookmark")), "scm", (gpointer)1);
-/*PrevBookmark prevbookmark*/
-SCM scheme_PrevBookmark(SCM optional);
-install_scm_function ("d-PrevBookmark", scheme_PrevBookmark);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PrevBookmark")), "scm", (gpointer)1);
 /*ToggleEdit toggle_edit_mode*/
 SCM scheme_ToggleEdit(SCM optional);
 install_scm_function ("d-ToggleEdit", scheme_ToggleEdit);
