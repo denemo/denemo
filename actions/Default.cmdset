@@ -2637,7 +2637,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>SearchBookmarkR</action>
-        <after>Bookmarks</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Search Bookmark</label>

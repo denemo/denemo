@@ -5,7 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>Bookmarks</after>
         <action>SearchBookmarkR</action>
         <scheme>;;;Find BookmarkR by Nils Gey
 (define user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
