@@ -2635,6 +2635,14 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
         <bind>Shift+Control+F9</bind>
       </row>
+      <row>
+        <action>SearchBookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Search Bookmark</label>
+        <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
+        <bind>F10</bind>
+      </row>
     </map>
   </commands>
 </Denemo>
