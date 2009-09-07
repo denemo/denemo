@@ -5144,7 +5144,7 @@ static void save_scheme_text_as(GtkWidget *widget, gchar **pfilename) {
   GtkWidget *label;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
   GtkWidget *dialog = gtk_file_chooser_dialog_new("Save Scheme Text as...",
-						  GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)),
+						  NULL/*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET))*/,
 						  GTK_FILE_CHOOSER_ACTION_SAVE,
 						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						  GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
@@ -5156,7 +5156,7 @@ static void save_scheme_text_as(GtkWidget *widget, gchar **pfilename) {
 	if(g_file_test(*pfilename, G_FILE_TEST_EXISTS)) {
 		gtk_widget_destroy(dialog);
 		dialog = gtk_dialog_new_with_buttons("File already exists",
-						     GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)),
+						     NULL/*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET))*/,
 						     GTK_DIALOG_DESTROY_WITH_PARENT,
 						     GTK_STOCK_OK,
 						     GTK_RESPONSE_OK,
@@ -5204,7 +5204,7 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, gchar **pfilename) {
 
   if(gtk_text_buffer_get_modified(buffer)) {
 	  dialog = gtk_dialog_new_with_buttons("Scheme text changed",
-						GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET)),
+					       NULL/*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView), GTK_TEXT_WINDOW_WIDGET))*/,
 						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_STOCK_YES,
 						GTK_RESPONSE_YES,
@@ -5243,7 +5243,7 @@ static void load_scheme_from_file(GtkWidget *widget, gchar **pfilename) {
   gchar *text = NULL;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
   GtkWidget *dialog = gtk_file_chooser_dialog_new("Open File",
-						GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView),GTK_TEXT_WINDOW_WIDGET)),
+						  NULL/*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.ScriptView),GTK_TEXT_WINDOW_WIDGET))*/,
 						GTK_FILE_CHOOSER_ACTION_OPEN,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_OK, NULL);
