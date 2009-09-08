@@ -4316,7 +4316,7 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
   //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
 #else
   gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK)); //will not work because label are NO_WINDOW
-  g_signal_connect(G_OBJECT(widget), "button-press-event", G_CALLBACK (menu_click), action);
+  g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK (menu_click), action);
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
 #endif
@@ -5094,11 +5094,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
 
 
 
-/*  proxy_connected
-    callback to set callback for right click on menu items and
-    set the shortcut label 
 
-*/
 static gboolean  thecallback      (GtkWidget      *widget,
                                             GdkEventButton *event,
 				   GtkAction *action) {
@@ -5108,6 +5104,12 @@ static gboolean  thecallback      (GtkWidget      *widget,
   event->button = 3;
   return menu_click(widget, event, action);
 }
+
+/*  proxy_connected
+    callback to set callback for right click on menu items and
+    set the shortcut label 
+
+*/
 static void  proxy_connected (GtkUIManager *uimanager, GtkAction *action, GtkWidget    *proxy) {
   int command_idx;
 
