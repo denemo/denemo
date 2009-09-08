@@ -2643,6 +2643,22 @@ for second and subsequent systems</tooltip>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
         <bind>F10</bind>
       </row>
+      <row>
+        <action>Diminish</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Diminish</label>
+        <tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </tooltip>
+        <bind>KP_Subtract</bind>
+      </row>
+      <row>
+        <action>Augment</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Augment</label>
+        <tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</tooltip>
+        <bind>KP_Add</bind>
+      </row>
     </map>
   </commands>
 </Denemo>
