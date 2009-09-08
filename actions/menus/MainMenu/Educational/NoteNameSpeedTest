@@ -37,11 +37,6 @@
     (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print 
       (EducationGames::ScoreboardFile "NoteNameSpeedTest"))))
 
-(define (NoteNameSpeedTest::Chime)
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001))
-
 ;;;;;;;;; callback when user chooses a note
 (define (NoteNameSpeedTest::notechosen usernote)
 		      (begin
@@ -92,7 +87,7 @@
 	      (set! NoteNameSpeedTest::score 0))))
   
   (d-DeletePreviousObject)
-  (NoteNameSpeedTest::Chime)
+  (EducationGames::Chime)
   (set! NoteNameSpeedTest::start (current-time))
   (set! NoteNameSpeedTest::end (current-time))
   (NoteNameSpeedTest::offerNote)
@@ -143,7 +138,7 @@
 
 
 (define (NoteNameSpeedTest::GameOver)
-   (NoteNameSpeedTest::Chime)
+   (EducationGames::Chime)
     (if (not 
       (EducationGames::Write_Scoreboard_File 
       (EducationGames::ScoreboardFile "NoteNameSpeedTest") NoteNameSpeedTest::score))

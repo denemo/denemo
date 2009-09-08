@@ -146,10 +146,7 @@
 (CreateButton "DiatonicInterval::GamePlus" "&lt;b&gt;+&lt;/b&gt;")
 (d-SetDirectiveTagActionScript "DiatonicInterval::GamePlus" "(DiatonicInterval::plus)")
 
-
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
 
 (d-CursorToNote (EducationalGames::middle_c_offset->lily DiatonicInterval::note_position))
 (d-Insert2)
@@ -162,9 +159,7 @@
   (DiatonicInterval::ScoreBoard)
   )
 
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 

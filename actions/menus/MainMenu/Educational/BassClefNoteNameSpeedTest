@@ -38,11 +38,6 @@
     (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print 
       (EducationGames::ScoreboardFile "BassClefNoteNameSpeedTest"))))
 
-(define (BassClefNoteNameSpeedTest::Chime)
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001))
-
 ;;;;;;;;; callback when user chooses a note
 (define (BassClefNoteNameSpeedTest::notechosen usernote)
 		      (begin
@@ -95,7 +90,7 @@
   
   (d-DeletePreviousObject)
   (d-InitialClef BassClefNoteNameSpeedTest::clef)
-  (BassClefNoteNameSpeedTest::Chime)
+  (EducationGames::Chime)
   (set! BassClefNoteNameSpeedTest::start (current-time))
   (set! BassClefNoteNameSpeedTest::end (current-time))
   (BassClefNoteNameSpeedTest::offerNote)
@@ -146,7 +141,7 @@
 
 
 (define (BassClefNoteNameSpeedTest::GameOver)
-   (BassClefNoteNameSpeedTest::Chime)
+   (EducationGames::Chime)
     (if (not 
       (EducationGames::Write_Scoreboard_File 
       (EducationGames::ScoreboardFile "BassClefNoteNameSpeedTest") BassClefNoteNameSpeedTest::score))

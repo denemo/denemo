@@ -189,5 +189,10 @@
   input
   ))
 
+(define (EducationGames::Chime)
+  (d-PlayMidiKey #xF03001)
+  (d-PlayMidiKey #xF02A01)
+  (d-PlayMidiKey #xF04001))
+
 
 

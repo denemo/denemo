@@ -151,10 +151,7 @@
 
 
 	  
-
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
 
 (d-CursorToNote (EducationalGames::middle_c_offset->lily CountSteps::note_position))
 (d-Insert2)
@@ -168,10 +165,7 @@
   (CountSteps::ScoreBoard)
   )
 
-
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
   
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 

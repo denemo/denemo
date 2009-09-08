@@ -142,11 +142,7 @@
 (StepSkipOrSame::createbuttons "skip" "k")
 (StepSkipOrSame::createbuttons "same" "a")
 
-
-
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
 
 (EducationGames::shiftup 6)
 (d-Insert2)
@@ -159,9 +155,7 @@
   (StepSkipOrSame::ScoreBoard)
   )
 
-  (d-PlayMidiKey #xF03001)
-  (d-PlayMidiKey #xF02A01)
-  (d-PlayMidiKey #xF04001)
+(EducationGames::Chime)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 
