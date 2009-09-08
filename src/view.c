@@ -5163,7 +5163,7 @@ static void save_scheme_text_as(GtkWidget *widget, gchar **pfilename) {
 						     GTK_STOCK_CANCEL,
 						     GTK_RESPONSE_CANCEL,
 						     NULL);
-		gchar *labeltext = g_strjoin(NULL, "\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
+		gchar *labeltext = g_strconcat("\nThe file ", *pfilename, " already exists.\n Do you want to overwrite it?\n\n", NULL);
 		label = gtk_label_new(labeltext);
 		g_free(labeltext);
 		gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), label);
@@ -5217,7 +5217,7 @@ gboolean save_scheme_dialog(GtkTextBuffer *buffer, gchar **pfilename) {
 	  if(*pfilename == NULL) 
 		  label = gtk_label_new("\nDo you want to save the changes in a new file?\n\n");
 	  else {
-	    gchar *labeltext = g_strjoin(NULL, "\nDo you want to save the changes in ",	  *pfilename, "?\n\n", NULL);
+	    gchar *labeltext = g_strconcat("\nDo you want to save the changes in ", *pfilename, "?\n\n", NULL);
 	    label = gtk_label_new(labeltext);
 	    g_free(labeltext);
 	  }
