@@ -945,6 +945,7 @@ the cursor position is the end point</tooltip>
         <action>ToggleTrill</action>
         <label>Trill  (Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>backslash</bind>
       </row>
       <row>
         <action>ToggleTurn</action>
@@ -1608,7 +1609,6 @@ Use More Commands after this has finished</tooltip>
         <action>AddBookmark</action>
         <label>Add Bookmark</label>
         <tooltip>Bookmark the current cursor position</tooltip>
-        <bind>F9</bind>
       </row>
       <row>
         <action>GotoBookmark</action>
@@ -1620,13 +1620,11 @@ Use More Commands after this has finished</tooltip>
         <action>NextBookmark</action>
         <label>Next Bookmark</label>
         <tooltip>Go to the next bookmarked point in the list</tooltip>
-        <bind>F11</bind>
       </row>
       <row>
         <action>PrevBookmark</action>
         <label>Prev Bookmark</label>
         <tooltip>Go to the previous bookmarked point in the list</tooltip>
-        <bind>F12</bind>
       </row>
       <row>
         <action>ToggleEdit</action>
@@ -2151,13 +2149,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
       </row>
       <row>
-        <action>NamedBookmarkInsert</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
-        <label>Insert Named Bookmark</label>
-        <tooltip>Inserts a named bookmark (a LilyPond comment) at the cursor position.</tooltip>
-      </row>
-      <row>
         <action>StartBeam</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
@@ -2643,6 +2634,82 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Comment</label>
         <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
+      </row>
+      <row>
+        <action>ReadingNoteNames</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+      </row>
+      <row>
+        <action>StepSkipOrSame</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Beginner Interval Detection</label>
+        <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
+      </row>
+      <row>
+        <action>CountSteps</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Step Counting Exercise</label>
+        <tooltip>%tests your ability to find the number of diatonic notes between two notes</tooltip>
+      </row>
+      <row>
+        <action>BassClefNoteNameSpeedTest</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Bass Clef Note Name Speed Recognition</label>
+        <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
+      </row>
+      <row>
+        <action>TransposeStaffPrint</action>
+        <after>Ambitus</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Transpose</label>
+        <tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</tooltip>
+      </row>
+      <row>
+        <action>NextBookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Next Bookmark</label>
+        <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
+        <bind>F12</bind>
+      </row>
+      <row>
+        <action>PrevBookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Prev Bookmark</label>
+        <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
+        <bind>F11</bind>
+      </row>
+      <row>
+        <action>BookmarkR</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Lilypond Rehearsal Mark</tooltip>
+        <bind>F9</bind>
+      </row>
+      <row>
+        <action>BookmarkRNamed</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add named Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
+        <bind>Shift+F9</bind>
+      </row>
+      <row>
+        <action>BookmarkRNonPrinting</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <label>Add non-printing Bookmark</label>
+        <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
+        <bind>Shift+Control+F9</bind>
       </row>
     </map>
   </commands>

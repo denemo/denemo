@@ -288,7 +288,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToEnd"
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextMovement"), "NextMovement", "Next Movement", "Go to the next movement", next_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PreviousMovement"), "PreviousMovement", "Previous Movement", "Go to the previous movement", prev_movement);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMovement"), "DeleteMovement", "Delete Movement", "Delete the current movement", delete_movement);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteBookmarks"), "DeleteBookmarks", "Delete Bookmarks", "Delete all bookmarks in current movement", deletebookmarks);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Play"), "Play", "Play", "Play", ext_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Stop"), "Stop", "Stop", "Stop", stop_midi_playback);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PlayCSound"), "PlayCSound", "Csound Playback", "Play using CSound...", csoundplayback);
@@ -298,10 +297,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "About"),
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoreCommands"), "MoreCommands", "More Commands", "Allows choosing standard extra commands/menu items", morecommands);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MyCommands"), "MyCommands", "My Commands", "Allows choosing extra commands/menu items from your own collection of extras", mycommands);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "FetchCommands"), "FetchCommands", "Update Commands from Internet", "Refreshes the set of commands available from Denemo.org.\nUse More Commands after this has finished", fetchcommands);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddBookmark"), "AddBookmark", "Add Bookmark", "Bookmark the current cursor position", addbookmark);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "GotoBookmark"), "GotoBookmark", "Goto Bookmarks", "Go to a bookmarked point in the score", gotobookmark);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextBookmark"), "NextBookmark", "Next Bookmark", "Go to the next bookmarked point in the list", nextbookmark);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "PrevBookmark"), "PrevBookmark", "Prev Bookmark", "Go to the previous bookmarked point in the list", prevbookmark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEdit"), "ToggleEdit", "Toggle Edit Mode", "Toggle between current mode and edit mode", toggle_edit_mode);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRest"), "ToggleRest", "Toggle Rest Mode", "Toggle between note entry and rest entry", toggle_rest_mode);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRhythm"), "ToggleRhythm", "Toggle Audible Feedback", "Toggle audible feedback on/off", toggle_rhythm_mode);

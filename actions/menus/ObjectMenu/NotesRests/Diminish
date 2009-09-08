@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Diminish</action>
+        <scheme> (if (d-GetNoteDuration) 
+ (d-ChangeDurationByFactorTwo *)  )</scheme>
+        <label>Diminish</label>
+        <tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

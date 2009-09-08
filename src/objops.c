@@ -209,7 +209,7 @@ newstaffbreakobject ()
   return ret;
 }
 
-/* clone the directive, setting the graphic to NULL if it is a widget (not a bitmap) */
+/* clone the directive, excluding the widget */
 DenemoDirective *clone_directive(DenemoDirective *directive) {
   DenemoDirective *ret = (DenemoDirective *)g_malloc0(sizeof(DenemoDirective));
   memcpy(ret, directive, sizeof(DenemoDirective));//BEWARE all pointers in DenemoDirective require code, as follows:
@@ -224,15 +224,13 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(display);
   CLONE(graphic_name);
 #undef CLONE
-  if(directive->graphic && GDK_IS_DRAWABLE(directive->graphic)) {
+  if(directive->graphic) {
     ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
-  } else
-    ret->graphic = NULL;
-
+  }
  if(directive->widget) {
-   gpointer fn = g_object_get_data(G_OBJECT(directive->widget), "fn");
+   //  gpointer fn = g_object_get_data(G_OBJECT(directive->widget), "fn");
    ret->widget = NULL;//FIXME call widget_for_directive here???
-   widget_for_directive(ret, fn);
+   //   widget_for_directive(ret, fn);
  }
   return ret;
 }
@@ -253,9 +251,12 @@ free_directive_data(DenemoDirective *directive) {
     DFREE(postfix);
     DFREE(graphic_name);
 #undef DFREE
- 
-    if(directive->widget) {
-      //g_print("We should destroy the widget now");
+  
+    if(directive->widget && !G_IS_OBJECT(directive->widget)) {
+      g_debug("Found non-gobject widget %p\n", directive->widget);
+    }
+    if(directive->widget && G_IS_OBJECT(directive->widget)) {
+      //g_print("We should destroy the widget now ");
       GtkWidget *texteditor =  (GtkWidget*)g_object_get_data(directive->widget, DENEMO_TEXTEDITOR_TAG);
       if(texteditor)
 	gtk_widget_destroy(texteditor);//FIXME we may need to destroy its parents

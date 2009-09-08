@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>PrevBookmarkR</action>
+        <scheme>;;;Previous BookmarkR by Nils Gey
+(if (d-DirectiveGet-standalone-display "BookmarkR")
+(d-CursorLeft) 
+)
+(let gotoBookmark ()
+ (if  (and (not (d-DirectiveGet-standalone-display "BookmarkR")) (d-CursorLeft)  )
+	(gotoBookmark))
+)</scheme>
+        <label>Prev Bookmark</label>
+        <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

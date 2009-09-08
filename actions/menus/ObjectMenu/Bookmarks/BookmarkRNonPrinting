@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BookmarkRNonPrinting</action>
+        <scheme>;;;Non Printing Bookmark by Nils Gey
+(define user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
+
+(if user-input   ;in case the user pressed Escape do nothing
+ (begin
+  (d-DirectivePut-standalone-display "BookmarkR" user-input)
+  (d-CursorLeft)
+  (d-DirectivePut-standalone-ty  "BookmarkR" -40)
+  (d-DirectivePut-standalone-tx  "BookmarkR" 10)
+  (d-CursorRight)
+ )
+)
+(d-RefreshDisplay)
+</scheme>
+        <label>Add non-printing Bookmark</label>
+        <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

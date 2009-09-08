@@ -4928,23 +4928,6 @@ delete_movement (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
-SCM scheme_DeleteBookmarks (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-deletebookmarks (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
 SCM scheme_Play (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
@@ -5095,74 +5078,6 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 fetchcommands (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_AddBookmark (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-addbookmark (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_GotoBookmark (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-gotobookmark (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_NextBookmark (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-nextbookmark (NULL, &param);
-         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
-return SCM_BOOL(param.status);
-}
-SCM scheme_PrevBookmark (SCM optional) {
-gboolean query=FALSE;
-DenemoScriptParam param;
-GString *gstr=NULL;
-int length;
-   char *str=NULL;
-if(SCM_STRINGP(optional)){
-str = gh_scm2newstr(optional, &length);
-gstr = g_string_new_len(str, length);
-if(!strncmp("query",str,5)) query = TRUE;          }
-         param.string = gstr;
-         param.status = FALSE;
-         
-prevbookmark (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }

@@ -833,6 +833,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
   else\
     directive->field = g_string_new(value);\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   return TRUE;\
 }
 
@@ -931,6 +932,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
     }\
   directive->field = value;\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   return TRUE;\
 }
 #define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
@@ -1206,8 +1208,19 @@ static editor_keypress(GtkWidget *w, GdkEventKey *event, DenemoDirective *direct
     directive->display = g_string_new(text);
   //if the GdkEventKey is newline, run the editscript for the directive
 
+  //FIXME use switch
   if(event->keyval==GDK_Escape)
-    text_edit_directive (directive, NULL);
+    if(!text_edit_directive (directive, "unknown")) {
+      /* I have used "unknown" here because we would need to get the name e.g. "score" "movementcontrol" etc from fn, but this is only used for the create a script thing...
+	 g_object_get_data(G_OBJECT(directive->widget), "fn") 
+      */
+      GList **directives_ptr = g_object_get_data(G_OBJECT(directive->widget), "directives-pointer");
+      if(directives_ptr)
+	delete_directive(g_object_get_data(G_OBJECT(directive->widget), "directives-pointer"), directive->tag->str);
+      else
+	warningdialog("Cannot delete via this mechanism, sorry");
+      return TRUE;
+    }
   if(event->keyval==GDK_Return) {
     gchar *filename = get_editscript_filename(directive->tag->str);
     if(filename)
@@ -1259,7 +1272,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
     if(fn==(void(*)())score_directive_put_graphic ||fn==(void(*)())scoreheader_directive_put_graphic ||fn==(void(*)())paper_directive_put_graphic)  
       box = Denemo.gui->buttonbox;
     else
-      if(fn==(void(*)())movementcontrol_directive_put_graphic)
+      if(fn==(void(*)())movementcontrol_directive_put_graphic  ||fn==(void(*)())header_directive_put_graphic )
 	box = Denemo.gui->si->buttonbox;
       else
 	box = NULL;
@@ -1298,7 +1311,6 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	    gtk_widget_show(box);
 	  }
 	} else {
-	  g_print("Doing directive attached to DenemoObject case");
 	  directive->widget = gtk_menu_item_new_with_label(value);
 	  attach_textedit_widget(directive);
 	  g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), directive);
@@ -1331,22 +1343,23 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 
 //As the above (for string and int) but for the graphic name field
 //FIXME this is just storing the graphic name, any bitmap of that name could be placed on the button/menu item as an icon
-#define PUT_GRAPHIC_WIDGET_GRAPHIC(what, directives_name) gpointer \
+#define PUT_GRAPHIC_WIDGET_GRAPHIC(what, name) gpointer \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
-  if(current->directives_name==NULL)\
-       create_directives (&current->directives_name, tag);\
+  if(current->name==NULL)\
+       create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive==NULL){\
     directive=new_directive(tag);\
-    current->directives_name = g_list_append(current->directives_name, directive);\
+    current->name = g_list_append(current->name, directive);\
     }\
   if(directive->graphic_name==NULL) \
     directive->graphic_name = g_string_new(value);\
   else\
     g_string_assign(directive->graphic_name, value);\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
   return (gpointer)directive;\
 }
 
@@ -1664,7 +1677,7 @@ DenemoDirective *select_directive(gchar *instr, GList *directives) {
   }
   gtk_widget_destroy (dialog);
   if(response && response->tag)
-    g_print("Came back with response %s\n", response->tag->str);
+    ;//g_print("Came back with response %s\n", response->tag->str);
   return response;
 }
 
@@ -1864,7 +1877,7 @@ ADD_INTTEXT(gy);
 #undef ADD_INTTEXT
  g_string_append(scheme,  "(d-RefreshDisplay)\n;;;End of scheme script");
  // quote_scheme(scheme);
- g_print("Scheme is %s\n", scheme->str);
+ //g_print("Scheme is %s\n", scheme->str);
   appendSchemeText(scheme->str);
   g_string_free(scheme, TRUE);
 }
@@ -1929,7 +1942,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   gboolean ret = TRUE;
 #define CREATE_SCRIPT (2)
   DenemoDirective *clone = clone_directive(directive);//for reset
-  GtkWidget *cloned_graphic = directive->widget;//not cloned
+ 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Primitive Denemo Directive Edit",
                                         GTK_WINDOW (Denemo.window),
                                         (GtkDialogFlags) (GTK_DIALOG_MODAL |
@@ -2023,20 +2036,21 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
 
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
-  g_print("Got response %d\n", response);
+  // g_print("Got response %d\n", response);
 
 
   if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT || response ==  GTK_RESPONSE_REJECT){
+    GtkWidget *ref_widget = directive->widget;//not cloned
     directive->widget = NULL;//prevent any button being destroyed
     free_directive_data(directive);
     memcpy(directive, clone, sizeof(DenemoDirective));
-    directive->widget = cloned_graphic;
+    directive->widget = ref_widget;
     if (response ==  GTK_RESPONSE_REJECT) {
       ret = FALSE;//that is it may be deleted, we ensure it has not been changed first,as the tag is used for delelet
     }
   }
   else {
-    clone->widget = NULL;//prevent any button being destroyed
+    clone->widget = NULL;//prevent any button being destroyed FIXME ???
     free_directive(clone);
   }
 #define REMOVEEMPTIES(field)\
@@ -2053,7 +2067,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(directive->widget){
     if(GTK_IS_WIDGET(directive->widget))
-      widget_for_directive(directive, NULL);
+      widget_for_directive(directive, NULL/* no need to pass fn in as it is only needed if there is not widget, g_object_get_data(directive->widget, "fn") */);
   }
   if(directive->graphic){
       loadGraphicItem (directive->graphic_name->str,  (GdkBitmap **)&directive->graphic,  &directive->width, &directive->height);

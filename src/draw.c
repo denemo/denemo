@@ -138,6 +138,8 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
 	    in_slur = TRUE;
 	  if (thechord->slur_end_p)
 	    in_slur = FALSE;
+	  if (thechord->is_tied)
+	    count--;
       }
     }
   }
@@ -252,7 +254,10 @@ draw_object (objnode * curobj, gint x, gint y,
 		      itp->curaccs, itp->mark);
 	}
 
-       if (si->currentstaffnum==itp->staffnum && itp->verse && thechord->notes   && !itp->slur_stack )
+       if (si->currentstaffnum==itp->staffnum 
+	   && itp->verse && thechord->notes   
+	   && !itp->slur_stack
+	   && !thechord->is_tied)
 	{
 	  gchar *syllable = (gchar *) next_syllable();
 	  if(syllable)

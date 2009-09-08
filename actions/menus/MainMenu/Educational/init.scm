@@ -182,7 +182,7 @@
   (set! getinput
         (lambda ()
           (set! input (d-GetKeypress))
-          (if (not (member input acceptable_list))
+          (if (not (or (boolean? input) (member input acceptable_list)))
                 (getinput))
           ))
   (getinput)
