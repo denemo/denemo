@@ -34,7 +34,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#ifdef __MINGW32__
+#define EX_OK 0
+#define EX_USAGE 64
+#else /* ! __MINGW32__ */
 #include <sysexits.h>
+#endif /* ! __MINGW32__ */
 #include <string.h>
 #include <ctype.h>
 #include <assert.h>
