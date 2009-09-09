@@ -64,12 +64,11 @@ void	  highlight_rest(DenemoGUI *gui, gint dur);
 gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height );
 
 void denemo_scheme_init(gchar *initscheme);
-gchar *getSchemeText(void); 
-void deleteSchemeText(void);
-void appendSchemeText(gchar *text);
-void executeScript(void);
+
+void activate_action(gchar *path);
+
 GError *execute_script_file(gchar *filename);
-gint getNumCharsSchemeText(void);
+
 gboolean
 activate_script (GtkAction *action, gpointer param);
 void 

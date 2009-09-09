@@ -34,7 +34,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	objops.h \
 	playbackprops.h prefops.h processstaffname.h \
 	redefs.h scoreops.h \
-	selectops.h staffops.h slurs.h twoints.h  tupletops.h utils.h \
+	selectops.h staffops.h slurs.h texteditors.h texteditors.c twoints.h  tupletops.h utils.h \
 	exportxml.h \
 	xmldefs.h exportmidi.h instrumentname.h  print.h \
 	exportcsound.h \
@@ -45,7 +45,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	scheme_cb.h scheme.h register_commands.h
+	scheme_cb.h scheme.h register_commands.h 
 EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
