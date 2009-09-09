@@ -805,14 +805,6 @@ int stop_pitch_input(void) {
   return 0;
 }
 
-static void   activate_action(gchar *path) {
-   GtkAction *a;
-   a = gtk_ui_manager_get_action (Denemo.ui_manager, path);
-   if(a)
-   gtk_action_activate(a);
-   else 
-     g_warning("Internal error, denemogui.xml out of step with literal %s in %s\n", path, __FILE__);
- }
 
 
 static gboolean window_destroy_callback(void){
