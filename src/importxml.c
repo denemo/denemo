@@ -17,6 +17,7 @@
 #include "xmldefs.h"
 #include "articulations.h"
 #include "view.h"
+#include "texteditors.h"
 #include "lilydirectives.h"
 #include <string.h>
 
