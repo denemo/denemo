@@ -62,13 +62,16 @@
 	  (lambda ()
 	    (set! steps (random CountSteps::interval))
 	    (if (= steps 0)
-	      (set! steps (+ steps 1)))
+	      (set! steps 1))
 	    (if (= (random 2) 0)
 	      (set! position (+ position steps))
 	      (set! position (- position steps)))
 	      (if (outofrange?)
-		(seed)
-		(set! CountSteps::note_position position))
+	        (begin
+		  (set! position CountSteps::note_position)
+	          (seed))
+		(begin
+		  (set! CountSteps::note_position position)))
 	      ))
   (if (>= CountSteps::num-goes 0)
     (begin

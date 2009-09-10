@@ -62,13 +62,16 @@
 	  (lambda ()
 	    (set! steps (random DiatonicInterval::interval))
 	    (if (= steps 0)
-	      (set! steps (+ steps 1)))
+	      (set! steps 1))
 	    (if (= (random 2) 0)
 	      (set! position (+ position steps))
 	      (set! position (- position steps)))
 	      (if (outofrange?)
-		(seed)
-		(set! DiatonicInterval::note_position position))
+	        (begin 
+                  (set! position DiatonicInterval::note_position)
+		  (seed))
+		(begin
+		  (set! DiatonicInterval::note_position position)))
 	      ))
   (if (>= DiatonicInterval::num-goes 0)
     (begin
