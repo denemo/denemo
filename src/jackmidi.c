@@ -15,7 +15,8 @@
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 #define MIDI_CONTROLLER         0xB0
-#define MIDI_ALL_SOUND_OFF      120
+#define MIDI_ALL_SOUND_OFF      0x78  //Bn 78 00	
+#define MIDI_ALL_NOTE_OFF	0x7b      //Bn 7B 00
 #define MAX_NUMBER_OF_TRACKS    128
 
 #define INPUT_PORT_NAME         "midi_in"
@@ -84,9 +85,9 @@ get_delta_time(void)
 static gboolean
 warning_async(gpointer s)
 {
-	const char *str = (const char *)s;
+	gchar *str = (gchar *)s;
 
-	g_warning(str);
+	g_warning("%s", str);
 
 	return FALSE;
 }
@@ -182,51 +183,58 @@ return 1;
 
 //FIXME volume should be gint
 void 
-jack_playpitch(gint key, double duration, double volume, gint channel){
+jack_playpitch(gint key, gint duration, gint volume, gint channel){
+  loop_index = 0;
   global_midi_buffer[0] = NOTE_ON;
   global_midi_buffer[1] = key; //freq
-  global_midi_buffer[2] = 127;
-  global_duration = 44100;
-  loop_index = 0;
+  global_midi_buffer[2] = volume;
+  global_duration = duration;
 }
 
 
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
-  gint i,n,j, duration;
+  gint i,n, channel, duration;
   unsigned char notenum, velocity;
   void *port_buffers[MAX_NUMBER_OF_TRACKS];
-  jack_nframes_t loop_nsamp;
-  jack_nframes_t num_notes;
 
   notenum = global_midi_buffer[1];
   velocity = global_midi_buffer[2];
   duration = global_duration;
-  num_notes = 1;
-  i = n = 0;
-
+  
+  i = 0;
+  channel = i;
   if (output_ports[i]){
     port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
     jack_midi_clear_buffer(port_buffers[i]);
-      for(n=0; n<nframes; n++){
-	for(j=0; j<num_notes; j++){
-	  if(0 == loop_index){
-	    buffer = jack_midi_event_reserve(port_buffers[i], n, 3); 
+    //do this only if there is a midi message to process
+    for (n=0;n<nframes;n++){
+      if (global_midi_buffer[0] != 0) { 
+	  if(0 == loop_index){ 
+      	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);	 
+	    buffer[0] = MIDI_CONTROLLER | channel;
+	    buffer[1] = MIDI_ALL_NOTE_OFF;
+	    buffer[2] = 0;
+	  }
+	  else if(1 == loop_index){  
+	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+	    g_debug("\nSending Note_ON\n");
 	    buffer[2] = velocity;
 	    buffer[1] = notenum;
 	    buffer[0] = NOTE_ON;    
-
 	  }
 	  else if(duration == loop_index){
-	    buffer = jack_midi_event_reserve(port_buffers[i], n, 3);
+	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+	    g_debug("\nSending Note_OFF\n");
 	    buffer[2] = 0;
 	    buffer[1] = notenum;
-	    buffer[0] = NOTE_OFF;    
+	    buffer[0] = NOTE_OFF;
+	    global_midi_buffer[0] = 0;    
 	  }
-	}
-	loop_index = loop_index+1 >= (duration +2) ? 1 : loop_index+1;
-      }
+	loop_index++;
+     }
+    }
   }
 }
   
@@ -318,7 +326,13 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		t = seconds_to_nframes(event->time_seconds - start_time) + playback_started - song_position + nframes - last_frame_time;
-
+		g_debug("\nt = %d\n",t);
+		g_debug("\nevent->time_seconds =%f\n", event->time_seconds);
+		g_debug("\nstart_time = %f\n", start_time);
+		g_debug("\nplayback_started = %d\n", playback_started);
+		g_debug("\nsong_position = %d\n",song_position);
+		g_debug("\nnframes = %d\n",nframes);
+		g_debug("\nlast_frame_time = %d\n",last_frame_time);
 		/* If computed time is too much into the future, we'll need
 		   to send it later. */
 		if (t >= (int)nframes)
