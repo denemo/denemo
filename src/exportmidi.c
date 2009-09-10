@@ -1027,6 +1027,31 @@ change_volume(gint *volume, gint midi_val, gint  midi_interpretation,gint  midi_
   if(*volume>127) *volume=127;
   if(*volume<0) *volume=0;
 }
+
+
+/* change the channel according to the values passed in */
+static void 
+change_channel(gint *channel, gint midi_val, gint  midi_interpretation,gint  midi_action)
+{
+  gdouble val;
+  // g_print("midi_val %d cur_channel %d\n", midi_val, cur_channel);
+  val = (gdouble) midi_val;
+  if(midi_interpretation & DENEMO_OVERRIDE_PERCENT)
+    g_warning("Percent meaningless with channel change");
+  if(midi_action == DENEMO_OVERRIDE_ONCE)
+    g_warning("Scripting error, ONCE for standalone directive is meaningless");
+  if(midi_action == DENEMO_OVERRIDE_RAMP)
+    g_warning("Ramp meaningless with channel change");
+  if(midi_action == DENEMO_OVERRIDE_STEP) {
+      *channel = val;
+  }  
+  if(*channel>127) *channel=127;
+  if(*channel<0) *channel=0;
+}
+
+
+
+
 /* change the tempo according to the values passed in */
 static void 
 change_tempo(gint *tempo, gint midi_val, gint  midi_interpretation,gint  midi_action)
@@ -1382,6 +1407,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    {
 			    case DENEMO_OVERRIDE_VOLUME:
 				change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
+			      break;
+			    case DENEMO_OVERRIDE_CHANNEL:
+				change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
 			      break;
 			    case DENEMO_OVERRIDE_TEMPO:
 			      change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
@@ -1773,6 +1801,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      {
 		      case  DENEMO_OVERRIDE_VOLUME:
 			change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
+			break;
+		      case  DENEMO_OVERRIDE_CHANNEL:
+			change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
 			break;
 		      case DENEMO_OVERRIDE_TEMPO:
 			change_tempo(&cur_tempo, midi_val, midi_interpretation, midi_action);
