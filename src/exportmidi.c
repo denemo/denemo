@@ -952,11 +952,22 @@ static gint directive_get_midi_interpretation(DenemoDirective *directive) {
 static gint directive_get_midi_action(DenemoDirective *directive) {	
   return directive->override&DENEMO_MIDI_ACTION_MASK;
 }
-
-static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes) {		    
+static gchar *substitute_values(gchar* str, gint channel, gint volume) {
+  gchar *bytes = g_strdup(str);
+  gchar *c;
+  for(c=bytes;*c;c++) {
+    if(*c=='$')
+      *c = '0'+channel-1;
+    if(*c=="%")
+      *c = '0'+volume;
+  }
+  g_print("We have transformed %s to %s\n", str, bytes);
+  return bytes;
+}
+static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes, gint channel, gint volume) {		    
   if(directive->midibytes) {
     gchar *bytes;
-    bytes = directive->midibytes->str;
+    bytes = substitute_values(directive->midibytes->str, channel, volume);
     //g_print("Got %s as midi bytes\n", bytes);
     char *next;
     char val;
@@ -985,6 +996,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
       //g_print("byte %x\n", buffer[i]);
     }
     *pnumbytes = numbytes;
+    g_free(bytes);
     return buffer;
   }
   return NULL;
@@ -1213,7 +1225,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  gint numbytes;
 	  directive = (DenemoDirective *)g->data;
 	  gint midi_override = directive_get_midi_override(directive);
-	  gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	  gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
 	  if(midi_override)
 	    g_warning("No MIDI override values mean anything at Staff level");
 	      if(buffer) 
@@ -1231,7 +1243,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    gint numbytes;
 	    directive = (DenemoDirective *)g->data;
 	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
 	    if(midi_override)
 	      g_warning("No MIDI override values mean anything at Score level");
 	    if(buffer) 
@@ -1247,7 +1259,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    gint numbytes;
 	    directive = (DenemoDirective *)g->data;
 	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
 	    if(midi_override)
 	      g_warning("No MIDI override values mean anything at Movement level");
 	    if(buffer) 
@@ -1397,7 +1409,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			for(g=chordval.directives;g;g=g->next){
 			  gint numbytes;
 			  directive = (DenemoDirective *)g->data;
-			  gchar *buffer = directive_get_midi_buffer(directive, &numbytes);
+			  gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
 			  gint midi_override = directive_get_midi_override(directive);
 			  gint midi_interpretation = directive_get_midi_interpretation(directive);
 			  gint midi_action = directive_get_midi_action(directive);
@@ -1792,7 +1804,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		case LILYDIRECTIVE:
 		  {
 		    gint numbytes;
-		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes);
+		    gchar *buffer = directive_get_midi_buffer(curobj->object, &numbytes, midi_channel, cur_volume);
 		    gint midi_override = directive_get_midi_override(curobj->object);
 		    gint midi_interpretation = directive_get_midi_interpretation(curobj->object);
 		    gint midi_action = directive_get_midi_action(curobj->object);
