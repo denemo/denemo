@@ -958,8 +958,8 @@ static gchar *substitute_values(gchar* str, gint channel, gint volume) {
   for(c=bytes;*c;c++) {
     if(*c=='$')
       *c = '0'+channel-1;
-    if(*c=="%")
-      *c = '0'+volume;
+    if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
+      sprintf(c, "%3d", volume);//*c = itoa(volume);
   }
   g_print("We have transformed %s to %s\n", str, bytes);
   return bytes;
