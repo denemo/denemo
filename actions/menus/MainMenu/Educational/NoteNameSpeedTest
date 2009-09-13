@@ -20,6 +20,8 @@
 (define NoteNameSpeedTest::end 0)
 (define NoteNameSpeedTest::TimeLimit 120)
 (define NoteNameSpeedTest::notewas #f)
+(define NoteNameSpeedTest::LastNoteCorrect? #t)
+(define NoteNameSpeedTest::ExtraChances 2)
 (define NoteNameSpeedTest::acceptable_list (list "a" "b" "c" "d" "e" "f" "g"))
 
 (define (NoteNameSpeedTest::ElapsedTime)
@@ -36,7 +38,13 @@
 (define (NoteNameSpeedTest::ScoreBoard)
     (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print 
       (EducationGames::ScoreboardFile "NoteNameSpeedTest"))))
-
+      
+;#t give differnt note
+(define (NoteNameSpeedTest::AnotherChance?)
+  (and
+    (not NoteNameSpeedTest::LastNoteCorrect?)
+    (>=  NoteNameSpeedTest::ExtraChances 0)))
+    
 ;;;;;;;;; callback when user chooses a note
 (define (NoteNameSpeedTest::notechosen usernote)
 		      (begin
@@ -45,9 +53,12 @@
 			(if  (string=? NoteNameSpeedTest::notewas usernote)
 			     (begin
 			       (set! NoteNameSpeedTest::score (+ NoteNameSpeedTest::score 1))
+			       (set! NoteNameSpeedTest::LastNoteCorrect? #t)
 			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! NoteNameSpeedTest::score (- NoteNameSpeedTest::score 1))
+			       (set! NoteNameSpeedTest::LastNoteCorrect? #f)
+			       (set! NoteNameSpeedTest::ExtraChances (- NoteNameSpeedTest::ExtraChances 1))
 			       (EducationGames::PlaceAnswerStatus "CrossSign"))) 
 			(NoteNameSpeedTest::offerNote)))
 
@@ -112,12 +123,16 @@
 		      (seed))
 		    ))
 
-          (seed)
 	  ;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-
-	  (d-CursorToNote (EducationalGames::middle_c_offset->lily NoteNameSpeedTest::note_position))
-	  (d-Insert1)
+	  (if (NoteNameSpeedTest::AnotherChance?)
+	    (begin
+	      (d-Insert1))
+	    (begin 
+	      (seed)
+	      (d-CursorToNote (EducationalGames::middle_c_offset->lily NoteNameSpeedTest::note_position))
+	      (d-Insert1)
+	      (set! NoteNameSpeedTest::ExtraChances 2)))
 	  (set! NoteNameSpeedTest::notewas (d-GetNoteName))
 	   
 	  (NoteNameSpeedTest::showscore)
