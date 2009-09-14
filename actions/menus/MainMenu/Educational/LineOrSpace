@@ -98,7 +98,7 @@
 			        (begin
 				  (set! LineOrSpace::num-goes (- LineOrSpace::num-goes 1)) 
 				  (if (= LineOrSpace::num-goes 0)
-				    (LineOrSpace::GameOver))
+				    (LineOrSpace::EndGame))
 				    ))
 		        (if (> LineOrSpace::num-goes 0)
 			  (LineOrSpace::offerNote))
@@ -120,7 +120,7 @@
   (CreateButton (string-append "LineOrSpace::" position)  (string-append " &lt;span font_desc=\"32\" foreground=\"blue\"&gt;" position  "&lt;/span&gt;"))
   (d-SetDirectiveTagActionScript  (string-append "LineOrSpace::" position) (string-append "(LineOrSpace::positionchosen \"" position "\")")))
 
-(define (LineOrSpace::GameOver)
+(define (LineOrSpace::EndGame)
     (EducationGames::Chime)  
     (if (not 
       (EducationGames::Write_Scoreboard_File 
@@ -153,7 +153,7 @@
       (EducationGames::Chime)
       (LineOrSpace::offerNote)
       (LineOrSpace::runtest LineOrSpace::num-goes)
-      (LineOrSpace::GameOver))
+      (LineOrSpace::EndGame))
       )
    )
 
