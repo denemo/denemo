@@ -145,9 +145,20 @@ void playpitch(double pitch, double duration, double volume, int channel) {
 void play_midikey(gint key, double duration, double volume, gint channel){
 #ifdef _HAVE_JACK_
   //playpitch(midi2hz(key), duration, volume, channel);	
-#define NOTEDURATION 44100 * /*duration in seconds*/ 1
-#define NOTEVOLUME 127 /*note volume 0-127*/
+#define NOTEDURATION 1000 * /*duration in seconds*/ 1
+#define NOTEVOLUME 64 /*note volume 0-127*/
+  
+  /*do something with this stuff somewhere*/
 	
+  //DenemoStaff *curstaffstruct = (DenemoStaff *) denemo.gui->si->currentstaff->data;
+  //curstaffstruct->jack_midi_out_port;
+  //curstaffstruct->volume;
+  //curstaffstruct->midi_prognum_override;
+  //curstaffstruct->midi_instrument;	
+  //channel = curstaffstruct->midi_channel;
+  //curstaffstruct->midi_prognum
+
+
   jack_playpitch(key, NOTEDURATION, NOTEVOLUME, channel);
 
 #else

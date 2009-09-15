@@ -24,9 +24,17 @@
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
+
+static volatile gboolean BufferEmpty = TRUE;
+static volatile gboolean AllSoundOff=FALSE;
+
+/*TODO 
+  replace with structure containing
+  global_midi_buffer[3];
+  channel
+  jack_port
+*/
 unsigned char global_midi_buffer[3]; 
-jack_nframes_t loop_index;
-static gint global_duration;
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
@@ -181,63 +189,51 @@ kill_id = 0;
 return 1;
 }
 
-//FIXME volume should be gint
-void 
-jack_playpitch(gint key, gint duration, gint volume, gint channel){
-  loop_index = 0;
-  global_midi_buffer[0] = NOTE_ON;
-  global_midi_buffer[1] = key; //freq
-  global_midi_buffer[2] = volume;
-  global_duration = duration;
+static gboolean
+timer_callback(gpointer key){
+       gint notenum = (gint) key;
+       global_midi_buffer[0] = NOTE_OFF;
+       global_midi_buffer[1] = notenum;
+       global_midi_buffer[2] = 0;
+       BufferEmpty=FALSE;
+       return FALSE;
 }
 
+void 
+jack_playpitch(gint key, gint duration, gint volume, gint channel){
+ if (BufferEmpty==TRUE){
+    global_midi_buffer[0] = NOTE_ON;
+    global_midi_buffer[1] = key; 
+    global_midi_buffer[2] = volume;
+    BufferEmpty=FALSE;
+    g_timeout_add(duration, timer_callback, key);
+  }
+}
 
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
-  gint i,n, channel, duration;
-  unsigned char notenum, velocity;
+  gint i=0;
+
   void *port_buffers[MAX_NUMBER_OF_TRACKS];
 
-  notenum = global_midi_buffer[1];
-  velocity = global_midi_buffer[2];
-  duration = global_duration;
-  
-  i = 0;
-  channel = i;
   if (output_ports[i]){
-    port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
-    jack_midi_clear_buffer(port_buffers[i]);
-    //do this only if there is a midi message to process
-    for (n=0;n<nframes;n++){
-      if (global_midi_buffer[0] != 0) { 
-	  if(0 == loop_index){ 
-      	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);	 
-	    buffer[0] = MIDI_CONTROLLER | channel;
-	    buffer[1] = MIDI_ALL_NOTE_OFF;
-	    buffer[2] = 0;
-	  }
-	  else if(1 == loop_index){  
-	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
-	    g_debug("\nSending Note_ON\n");
-	    buffer[2] = velocity;
-	    buffer[1] = notenum;
-	    buffer[0] = NOTE_ON;    
-	  }
-	  else if(duration == loop_index){
-	    buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
-	    g_debug("\nSending Note_OFF\n");
-	    buffer[2] = 0;
-	    buffer[1] = notenum;
-	    buffer[0] = NOTE_OFF;
-	    global_midi_buffer[0] = 0;    
-	  }
-	loop_index++;
+   port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
+   jack_midi_clear_buffer(port_buffers[i]);
+   if (BufferEmpty==FALSE){
+     buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+     if (buffer == NULL){
+       warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
+       return;
      }
-    }
+     buffer[0] = global_midi_buffer[0];
+     buffer[1] = global_midi_buffer[1];
+     buffer[2] = global_midi_buffer[2];
+     warn_from_jack_thread_context("Setting TRUE\n");
+     BufferEmpty=TRUE;
+   }
   }
 }
-  
 
 static void
 process_midi_output(jack_nframes_t nframes)
@@ -326,13 +322,6 @@ process_midi_output(jack_nframes_t nframes)
 		}
 
 		t = seconds_to_nframes(event->time_seconds - start_time) + playback_started - song_position + nframes - last_frame_time;
-		g_debug("\nt = %d\n",t);
-		g_debug("\nevent->time_seconds =%f\n", event->time_seconds);
-		g_debug("\nstart_time = %f\n", start_time);
-		g_debug("\nplayback_started = %d\n", playback_started);
-		g_debug("\nsong_position = %d\n",song_position);
-		g_debug("\nnframes = %d\n",nframes);
-		g_debug("\nlast_frame_time = %d\n",last_frame_time);
 		/* If computed time is too much into the future, we'll need
 		   to send it later. */
 		if (t >= (int)nframes)
@@ -348,27 +337,6 @@ process_midi_output(jack_nframes_t nframes)
 		n = smf_get_next_event(smf);
 
 #if 1
-		/* First, send it via midi_out. */
-		track_number = 0;
-
-#ifdef JACK_MIDI_NEEDS_NFRAMES
-		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length, nframes);
-#else
-		buffer = jack_midi_event_reserve(port_buffers[track_number], t, event->midi_buffer_length);
-#endif
-
-		if (buffer == NULL) {
-			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
-			break;
-		}
-		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
-#endif
-		/* Ignore per-track outputs? */
-		if (just_one_output)
-			continue;
-
-
-#if 0
 		/* Send it via proper output port. */
 		track_number = event->track->track_number -1;
 
@@ -383,20 +351,7 @@ process_midi_output(jack_nframes_t nframes)
 			break;
 		}
 #endif
-
-#if 0
-		/* Before sending, reset channel to 0. XXX: Not very pretty. */
-		assert(event->midi_buffer_length >= 1);
-
-		tmp_status = event->midi_buffer[0];
-
-		if (event->midi_buffer[0] >= 0x80 && event->midi_buffer[0] <= 0xEF)
-			event->midi_buffer[0] &= 0xF0;
-
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
-
-		event->midi_buffer[0] = tmp_status;
-#endif
 	}
 }
 void
@@ -433,8 +388,9 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
-	if (Denemo.gui->si && output_ports)
+	if (Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback){
 	  send_midi_event(nframes);
+	}
 	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports)
 	  process_midi_output(nframes);
 #ifdef MEASURE_TIME
