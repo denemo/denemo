@@ -32,7 +32,7 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
 		     xx + lily->gx, y + lily->gy, width, height);
   }
   else
-    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx, y, 2, STAFF_HEIGHT);
+    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx-2, y, 4, STAFF_HEIGHT);
   if(lily->display) {  //store display position x,y as well
     pango_layout_set_text (layout,
 			   lily->display->str,

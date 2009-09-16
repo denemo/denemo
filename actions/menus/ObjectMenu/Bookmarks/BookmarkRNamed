@@ -5,24 +5,26 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>BookmarkRNamed</action>
-        <scheme>;;; Bookmark + Named RehearsalMark by Nils Gey
-(define user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
-
-(if user-input   ;in case the user pressed Escape do nothing
- (begin
-  (d-DirectivePut-standalone-display "BookmarkR" user-input)
-  (d-CursorLeft)
-  (d-DirectivePut-standalone-ty  "BookmarkR" -40)
-  (d-DirectivePut-standalone-tx  "BookmarkR" 30)
-  (d-DirectivePut-standalone-postfix "BookmarkR"  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #left"  "\r \\mark \\markup {\\bold " user-input "}" ) )
-  (d-DirectivePut-standalone-gx  "BookmarkR"  0)
-  (d-DirectivePut-standalone-gy  "BookmarkR" -30)
-  (d-DirectivePut-standalone-graphic "BookmarkR" "RehearsalMark")
-  (d-CursorRight)
- )
-)
-(d-RefreshDisplay)
+        <scheme>;;; BookmarkRNamed
+;;; Named RehearsalMark searchable as bookmark.
+;;; by Nils Gey. RTS Modified to avoid poluting the global namespace with the variable user-input
+(let ((user-input "XXX"))
+	(set! user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
+	(if user-input   ;in case the user pressed Escape do nothing	
+ 	(begin	
+	  (d-DirectivePut-standalone-display "BookmarkR" user-input)
+	  (d-CursorLeft)
+	  (d-DirectivePut-standalone-ty  "BookmarkR" -40)
+	  (d-DirectivePut-standalone-tx  "BookmarkR" 10)
+	  (d-DirectivePut-standalone-postfix "BookmarkR"  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #left"  "\r \\mark \\markup {\\bold " user-input "}" ) )
+	  (d-DirectivePut-standalone-gx  "BookmarkR"  -20)
+	  (d-DirectivePut-standalone-gy  "BookmarkR" -30)
+	  (d-DirectivePut-standalone-minpixels  "BookmarkR"  10)
+	  (d-DirectivePut-standalone-graphic "BookmarkR" "RehearsalMark")
+	  (d-CursorRight)))
+	(d-RefreshDisplay))
 </scheme>
         <label>Add named Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
