@@ -26,7 +26,7 @@ jack_port_t     *input_port;
 jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
 
 static volatile gboolean BufferEmpty = TRUE;
-static volatile gboolean AllSoundOff=FALSE;
+static volatile gboolean IMMEDIATE = TRUE;
 
 /*TODO 
   replace with structure containing
@@ -292,10 +292,9 @@ process_midi_output(jack_nframes_t nframes)
 		        if (!be_quiet)
 			  warn_from_jack_thread_context/*g_debug*/("End of song.");
 			playback_started = -1;
-
 			if (!use_transport)
 				stop_midi_output = 1;
-
+			IMMEDIATE=TRUE;
 			break;
 		}
 
@@ -388,9 +387,11 @@ process_callback(jack_nframes_t nframes, void *notused)
 	}
 
 	process_midi_input(nframes);
+      if (IMMEDIATE)
 	if (Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback){
 	  send_midi_event(nframes);
 	}
+      if (!IMMEDIATE)
 	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports)
 	  process_midi_output(nframes);
 #ifdef MEASURE_TIME
@@ -405,13 +406,14 @@ process_callback(jack_nframes_t nframes, void *notused)
 static int
 sync_callback(jack_transport_state_t state, jack_position_t *position, void *notused)
 {
-	assert(jack_client);
-
+	if(jack_client==NULL)
+	  warn_from_jack_thread_context("no jack_client");
+	
 	/* XXX: We should probably adapt to external tempo changes. */
 
 	if (state == JackTransportStarting) {
 		song_position = position->frame;
-		//g_print("seeking to %f time %ld\n", nframes_to_seconds(position->frame), position->usecs);
+		
 		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
 
 		if (!be_quiet)
@@ -610,6 +612,7 @@ jack_midi_playback_start()
 {
   DenemoGUI *gui = Denemo.gui;
   playback_started = -1, song_position = 0, stop_midi_output = 0;
+  IMMEDIATE=FALSE;
   /* set tranport on/off */
   use_transport = (int)Denemo.prefs.jacktransport; 
   /* set tranport start_stopped */
@@ -684,6 +687,7 @@ jack_midi_playback_stop ()
    stop_midi_output = 1;
    if(jack_client)
      jack_transport_stop(jack_client);
+   IMMEDIATE=TRUE;
 }
 
 
