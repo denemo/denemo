@@ -1552,11 +1552,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Delete the current movement</tooltip>
       </row>
       <row>
-        <action>DeleteBookmarks</action>
-        <label>Delete Bookmarks</label>
-        <tooltip>Delete all bookmarks in current movement</tooltip>
-      </row>
-      <row>
         <action>Play</action>
         <label>Play</label>
         <tooltip>Play</tooltip>
@@ -1604,27 +1599,6 @@ Notes entered will follow this pattern</tooltip>
         <label>Update Commands from Internet</label>
         <tooltip>Refreshes the set of commands available from Denemo.org.
 Use More Commands after this has finished</tooltip>
-      </row>
-      <row>
-        <action>AddBookmark</action>
-        <label>Add Bookmark</label>
-        <tooltip>Bookmark the current cursor position</tooltip>
-      </row>
-      <row>
-        <action>GotoBookmark</action>
-        <label>Goto Bookmarks</label>
-        <tooltip>Go to a bookmarked point in the score</tooltip>
-        <bind>F10</bind>
-      </row>
-      <row>
-        <action>NextBookmark</action>
-        <label>Next Bookmark</label>
-        <tooltip>Go to the next bookmarked point in the list</tooltip>
-      </row>
-      <row>
-        <action>PrevBookmark</action>
-        <label>Prev Bookmark</label>
-        <tooltip>Go to the previous bookmarked point in the list</tooltip>
       </row>
       <row>
         <action>ToggleEdit</action>
@@ -2710,6 +2684,14 @@ for second and subsequent systems</tooltip>
         <label>Add non-printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
         <bind>Shift+Control+F9</bind>
+      </row>
+      <row>
+        <action>WholeMeasureRest</action>
+        <after>EnterRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Whole Measure Rest</label>
+        <tooltip>Inserts a whole measure rest at the cursor</tooltip>
       </row>
     </map>
   </commands>

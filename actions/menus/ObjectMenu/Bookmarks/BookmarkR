@@ -5,13 +5,16 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>BookmarkR</action>
-        <scheme>;;; Bookmark + RehearsalMark by Nils Gey
+        <scheme>;;; Bookmark + RehearsalMark
+;;; by Nils Gey Modified RTS
 (d-DirectivePut-standalone-display "BookmarkR" "")
 (d-CursorLeft)
 (d-DirectivePut-standalone-postfix "BookmarkR"  " \\mark \\default" )
-(d-DirectivePut-standalone-gx  "BookmarkR"  0)
+(d-DirectivePut-standalone-gx  "BookmarkR"  -20)
 (d-DirectivePut-standalone-gy  "BookmarkR"  -30)
+(d-DirectivePut-standalone-minpixels  "BookmarkR"  10)
 (d-DirectivePut-standalone-graphic "BookmarkR" "RehearsalMark")
 (d-CursorRight)
 (d-RefreshDisplay)

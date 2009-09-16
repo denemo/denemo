@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>EnterRest</after>
+        <action>WholeMeasureRest</action>
+        <scheme>;;;MeasureRest
+(d-DirectivePut-standalone-postfix "MeasureRest" "  R1*1 ")
+(d-DirectivePut-standalone-display "MeasureRest" "  R ")
+(d-DirectivePut-standalone-minpixels "MeasureRest" 30)
+(d-RefreshDisplay)
+;;;End of scheme script</scheme>
+        <label>Whole Measure Rest</label>
+        <tooltip>Inserts a whole measure rest at the cursor</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
