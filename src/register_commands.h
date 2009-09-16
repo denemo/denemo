@@ -193,11 +193,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleAr
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetGrace"), "SetGrace", "Set Grace", "No Tooltip yet", set_grace);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ForceCaution"), "ForceCaution", "Force Cautionary Accidental", "No Tooltip yet", force_cautionary);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePitch"), "ChangePitch", "Change Pitch", "No Tooltip yet", change_pitch);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "DoubleBar"), "DoubleBar", "Insert Double Bar", "No Tooltip yet", insert_doublebar);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "EndBar"), "EndBar", "Insert Endbar", "No Tooltip yet", insert_endbar);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenRepeat"), "OpenRepeat", "Insert Open Repeat", "No Tooltip yet", insert_openrepeat);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CloseRepeat"), "CloseRepeat", "Insert Close Repeat", "No Tooltip yet", insert_closerepeat);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenCloseRepeat"), "OpenCloseRepeat", "Insert Open Close Repeat", "No Tooltip yet", insert_opencloserepeat);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Rhythm", "No Tooltip yet", insert_rhythm_pattern);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextRhythm"), "NextRhythm", "Next Rhythm", "Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern", nextrhythm);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasuresToScore"), "AppendMeasuresToScore", "Append Measure To Score", "No Tooltip yet", append_measure_score);
