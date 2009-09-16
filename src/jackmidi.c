@@ -44,7 +44,6 @@ static double          rate_limit = 0;
 static int             just_one_output = 0;
 static int             start_stopped = 0;
 static int             use_transport = 0;
-static int             be_quiet = 1;
 
 static int    playback_started = -1, song_position = 0, stop_midi_output = 0;
 static double start_time = 0.0;//time in seconds to start at (from start of the smf)
@@ -103,7 +102,9 @@ warning_async(gpointer s)
 static void
 warn_from_jack_thread_context(const char *str)
 {
+#ifdef DEBUG
 	g_idle_add(warning_async, (gpointer)str);
+#endif
 }
 
 static double
@@ -147,7 +148,6 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 {
 	int i, channel;
 	unsigned char *buffer;
-	if(!be_quiet)
 	warn_from_jack_thread_context("\nSending all sound off!!!\n");
 	for (i = 0; i < smf->number_of_tracks; i++) {
 		for (channel = 0; channel < 16; channel++) {
@@ -289,8 +289,7 @@ process_midi_output(jack_nframes_t nframes)
 		smf_event_t *event = smf_peek_next_event(smf);
 
 		if (event == NULL || (event->time_seconds>end_time)) {
-		        if (!be_quiet)
-			  warn_from_jack_thread_context/*g_debug*/("End of song.");
+			warn_from_jack_thread_context/*g_debug*/("End of song.");
 			playback_started = -1;
 			if (!use_transport)
 				stop_midi_output = 1;
@@ -307,7 +306,7 @@ process_midi_output(jack_nframes_t nframes)
 		/* Skip over metadata events. */
 		if (smf_event_is_metadata(event)) {
 			char *decoded = smf_event_decode(event);
-			if (decoded && !be_quiet)
+			if (decoded)
 				warn_from_jack_thread_context/*g_debug*/(g_strdup_printf("Metadata: %s", decoded));
 
 			n = smf_get_next_event(smf);
@@ -416,8 +415,7 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 		
 		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
 
-		if (!be_quiet)
-			g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
+		g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
 
 		playback_started = jack_frame_time(jack_client);
 
@@ -632,8 +630,7 @@ jack_midi_playback_start()
 	    return;
 	  }
 	  duration = smf_get_length_seconds(smf);
-	  if (!be_quiet)
-	    g_message("%s.", smf_decode(smf));
+	  g_debug("%s.", smf_decode(smf));
 
 
 
