@@ -150,6 +150,13 @@ timesig_change_insert (GtkAction *action, DenemoScriptParam * param)
 {
   GET_1PARAM(action, param, timesigname);
   DenemoGUI *gui = Denemo.gui;
+  if(query) {
+    gchar *curtimesig = g_strdup_printf("%d/%d", gui->si->cursortime1, gui->si->cursortime2);
+    g_string_assign(param->string, curtimesig);
+    g_free(curtimesig);
+    param->status = TRUE;
+    return;
+  }
   if(timesigname==NULL)
     timesig_change (gui, INSERT);
   else
@@ -165,6 +172,16 @@ timesig_change_initial (GtkAction *action, DenemoScriptParam * param)
 {
   GET_1PARAM(action, param, timesigname);
   DenemoGUI *gui = Denemo.gui;
+  if(query) {
+    GList *curstaff = gui->si->thescore;
+    DenemoStaff *curstaffstruct = (DenemoStaff *) curstaff->data;
+    gchar *curtimesig = g_strdup_printf("%d/%d", curstaffstruct->timesig.time1, curstaffstruct->timesig.time2);
+    g_string_assign(param->string, curtimesig);
+    g_free(curtimesig);
+    param->status = TRUE;
+    return;
+  }
+
   if(timesigname==NULL)
     timesig_change (gui, CHANGEINITIAL);
   else
