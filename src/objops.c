@@ -338,6 +338,7 @@ dnm_clone_object (DenemoObject * orig)
 	      break;
 	    default:
 	      g_warning("Unknown object type"); 
+	      ret = lily_directive_new ("%unknown object\n");
 	      break;
 	    }
   }

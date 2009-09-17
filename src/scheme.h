@@ -779,26 +779,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ForceCaution")), "scm", (
 SCM scheme_ChangePitch(SCM optional);
 install_scm_function ("d-ChangePitch", scheme_ChangePitch);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangePitch")), "scm", (gpointer)1);
-/*DoubleBar insert_doublebar*/
-SCM scheme_DoubleBar(SCM optional);
-install_scm_function ("d-DoubleBar", scheme_DoubleBar);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DoubleBar")), "scm", (gpointer)1);
-/*EndBar insert_endbar*/
-SCM scheme_EndBar(SCM optional);
-install_scm_function ("d-EndBar", scheme_EndBar);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EndBar")), "scm", (gpointer)1);
-/*OpenRepeat insert_openrepeat*/
-SCM scheme_OpenRepeat(SCM optional);
-install_scm_function ("d-OpenRepeat", scheme_OpenRepeat);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "OpenRepeat")), "scm", (gpointer)1);
-/*CloseRepeat insert_closerepeat*/
-SCM scheme_CloseRepeat(SCM optional);
-install_scm_function ("d-CloseRepeat", scheme_CloseRepeat);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CloseRepeat")), "scm", (gpointer)1);
-/*OpenCloseRepeat insert_opencloserepeat*/
-SCM scheme_OpenCloseRepeat(SCM optional);
-install_scm_function ("d-OpenCloseRepeat", scheme_OpenCloseRepeat);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "OpenCloseRepeat")), "scm", (gpointer)1);
 /*InsertRhythm insert_rhythm_pattern*/
 SCM scheme_InsertRhythm(SCM optional);
 install_scm_function ("d-InsertRhythm", scheme_InsertRhythm);

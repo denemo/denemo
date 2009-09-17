@@ -1043,31 +1043,6 @@ the cursor position is the end point</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>DoubleBar</action>
-        <label>Insert Double Bar</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>EndBar</action>
-        <label>Insert Endbar</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>OpenRepeat</action>
-        <label>Insert Open Repeat</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>CloseRepeat</action>
-        <label>Insert Close Repeat</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
-        <action>OpenCloseRepeat</action>
-        <label>Insert Open Close Repeat</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>InsertRhythm</action>
         <label>Insert Rhythm</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -2658,6 +2633,54 @@ for second and subsequent systems</tooltip>
         <label>Augment</label>
         <tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</tooltip>
         <bind>KP_Add</bind>
+      </row>
+      <row>
+        <action>WholeMeasureRest</action>
+        <after>EnterRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Whole Measure Rest</label>
+        <tooltip>Inserts a whole measure rest at the cursor</tooltip>
+      </row>
+      <row>
+        <action>OpenRepeat</action>
+        <after>RepeatEndStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Open Repeat Section</label>
+        <tooltip>Marks the point where a repeat will start. A correspond close, or first and second time bars are needed.</tooltip>
+      </row>
+      <row>
+        <action>CloseRepeat</action>
+        <after>OpenRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close an Open Repeat Section</label>
+        <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
+      </row>
+      <row>
+        <action>FirstTimeBar</action>
+        <after>CloseRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>First Time Bar</label>
+        <tooltip>Closes a repeated section and starts a first time bar (printing)</tooltip>
+      </row>
+      <row>
+        <action>SecondTimeBar</action>
+        <after>FirstTimeBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Second Time Bar</label>
+        <tooltip>Closes first time bars and starts second time bar(s) (printing)</tooltip>
+      </row>
+      <row>
+        <action>EndSecondTimeBar</action>
+        <after>SecondTimeBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close Second Time Bar</label>
+        <tooltip>Closes the second time bar peviously opened (printing)</tooltip>
       </row>
     </map>
   </commands>

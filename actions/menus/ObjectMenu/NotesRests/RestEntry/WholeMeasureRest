@@ -7,12 +7,16 @@
       <row>
         <after>EnterRest</after>
         <action>WholeMeasureRest</action>
-        <scheme>;;;MeasureRest
-(d-DirectivePut-standalone-postfix "MeasureRest" "  R1*1 ")
+        <scheme> ;;;MeasureRest
+
+(d-DirectivePut-standalone-postfix "MeasureRest" (string-append "  R1*" (d-InsertTimeSig "query=timesigname") " "))
 (d-DirectivePut-standalone-display "MeasureRest" "  R ")
 (d-DirectivePut-standalone-minpixels "MeasureRest" 30)
 (d-RefreshDisplay)
-;;;End of scheme script</scheme>
+;;;End of scheme script 
+ 
+ 
+</scheme>
         <label>Whole Measure Rest</label>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
       </row>

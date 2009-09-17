@@ -218,6 +218,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		  curobj->x = *base_x + extra_advance + non_chord_pixels
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
+
 #ifndef GRACE_NOTES_BUG_FIXED
 		  if (curobj->type==GRACE_START) {
 		    curobj->x -= 10;

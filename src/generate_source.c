@@ -282,11 +282,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("ChangePitch"), "change_pitch", N_("Change Pitch")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("DoubleBar"), "insert_doublebar", N_("Insert Double Bar")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("EndBar"), "insert_endbar", N_("Insert Endbar")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenRepeat"), "insert_openrepeat", N_("Insert Open Repeat")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("CloseRepeat"), "insert_closerepeat", N_("Insert Close Repeat")},
-  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("OpenCloseRepeat"), "insert_opencloserepeat", N_("Insert Open Close Repeat")},
+
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Rhythm")},
   {CMD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm", N_("Next Rhythm")},
   {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasuresToScore"), "append_measure_score", N_("Append Measure To Score")},

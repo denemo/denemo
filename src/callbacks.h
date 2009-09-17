@@ -1323,41 +1323,6 @@ change_pitch (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*DoubleBar insert_doublebar*/
-static void insert_doublebar_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_doublebar (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
-/*EndBar insert_endbar*/
-static void insert_endbar_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_endbar (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
-/*OpenRepeat insert_openrepeat*/
-static void insert_openrepeat_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_openrepeat (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
-/*CloseRepeat insert_closerepeat*/
-static void insert_closerepeat_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_closerepeat (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
-/*OpenCloseRepeat insert_opencloserepeat*/
-static void insert_opencloserepeat_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-insert_opencloserepeat (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
 /*InsertRhythm insert_rhythm_pattern*/
 static void insert_rhythm_pattern_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

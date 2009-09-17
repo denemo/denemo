@@ -938,35 +938,6 @@ change_pitch (DenemoGUI * gui)
 }
 
 
-void
-insert_doublebar (DenemoGUI * gui)
-{
-  object_insert (gui, newbarline (barlinefromname (_("Double"))));
-}
-
-void
-insert_endbar (DenemoGUI * gui)
-{
-  object_insert (gui, newbarline (barlinefromname (_("End"))));
-}
-
-void
-insert_openrepeat (DenemoGUI * gui)
-{
-  object_insert (gui, newbarline (barlinefromname (_("Open Repeat"))));
-}
-
-void
-insert_closerepeat (DenemoGUI * gui)
-{
-  object_insert (gui, newbarline (barlinefromname (_("Close Repeat"))));
-}
-
-void
-insert_opencloserepeat (DenemoGUI * gui)
-{
-  object_insert (gui, newbarline (barlinefromname (_("Double"))));
-}
 
 
 /**

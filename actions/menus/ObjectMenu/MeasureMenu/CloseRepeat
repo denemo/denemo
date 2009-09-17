@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OpenRepeat</after>
+        <action>CloseRepeat</action>
+        <scheme>;;;CloseRepeat
+(d-DirectivePut-standalone-minpixels "Repeat" 30)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "Repeat" " }")
+(d-DirectivePut-standalone-gx  "Repeat"  0)
+(d-DirectivePut-standalone-gy  "Repeat"  -10)
+(d-DirectivePut-standalone-graphic "Repeat" "RepeatEnd")
+(d-DirectivePut-standalone-display "Repeat" "Close Repeat")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
+        <label>Close an Open Repeat Section</label>
+        <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
