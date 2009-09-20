@@ -1479,6 +1479,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	  /********************************
 	   * compute real duration of note
 	   ********************************/
+#if 0
+		  //this is not working - it causes the delta to be -ve later
 		  for (tmp = chordval.ornamentlist; tmp; tmp = tmp->next)
 		    {
 		      if (*(enum ornament *) tmp->data ==
@@ -1493,16 +1495,20 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			  width = percent (duration, pref_staccato);
 			  tmpstaccato = 1;
 			}
-#if 0
+
 		      else
 			{
 			  width = percent (duration, pref_width);
 			}
-#endif
+
 		    }
 		  if (debug)
 		    fprintf (stderr, "duration is %s\n",
 			     fmt_ticks (duration));
+
+#endif
+
+
 		  if (chordval.notes)
 		    {
 
@@ -1655,8 +1661,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 				  ticks_written += duration + width;
 				  if (ticks_written > ticks_read + duration)
 				    {
-				      fprintf (stderr, "BAD WIDTH %d\n"
-					       "(should not happen!)", width);
+				      fprintf (stderr, "BAD WIDTH %d so delta %d\n"
+					       "(should not happen!)", width, mididelta);
+				      mididelta = 0;
 				    }
 				}
 			      else
