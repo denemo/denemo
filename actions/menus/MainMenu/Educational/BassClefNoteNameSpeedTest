@@ -21,6 +21,8 @@
 (define BassClefNoteNameSpeedTest::end 0)
 (define BassClefNoteNameSpeedTest::TimeLimit 120)
 (define BassClefNoteNameSpeedTest::notewas #f)
+(define BassClefNoteNameSpeedTest::LastNoteCorrect? #t)
+(define BassClefNoteNameSpeedTest::ExtraChances 2)
 (define BassClefNoteNameSpeedTest::acceptable_list (list "a" "b" "c" "d" "e" "f" "g"))
 
 (define (BassClefNoteNameSpeedTest::ElapsedTime)
@@ -38,6 +40,12 @@
     (d-InfoDialog (EducationGames::Scoreboard_Pretty_Print 
       (EducationGames::ScoreboardFile "BassClefNoteNameSpeedTest"))))
 
+;#t give differnt note
+(define (BassClefNoteNameSpeedTest::AnotherChance?)
+  (and
+    (not BassClefNoteNameSpeedTest::LastNoteCorrect?)
+    (>=  BassClefNoteNameSpeedTest::ExtraChances 0)))
+
 ;;;;;;;;; callback when user chooses a note
 (define (BassClefNoteNameSpeedTest::notechosen usernote)
 		      (begin
@@ -46,9 +54,12 @@
 			(if  (string=? BassClefNoteNameSpeedTest::notewas usernote)
 			     (begin
 			       (set! BassClefNoteNameSpeedTest::score (+ BassClefNoteNameSpeedTest::score 1))
+			       (set! BassClefNoteNameSpeedTest::LastNoteCorrect? #t)
 			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! BassClefNoteNameSpeedTest::score (- BassClefNoteNameSpeedTest::score 1))
+			       (set! BassClefNoteNameSpeedTest::LastNoteCorrect? #f)
+			       (set! BassClefNoteNameSpeedTest::ExtraChances (- BassClefNoteNameSpeedTest::ExtraChances 1))
 			       (EducationGames::PlaceAnswerStatus "CrossSign"))
 			       ) 
 			(BassClefNoteNameSpeedTest::offerNote)))
@@ -115,12 +126,16 @@
 		      (seed))
 		    ))
 
-          (seed)
 	  ;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-
-	  (d-CursorToNote (EducationalGames::middle_c_offset->lily BassClefNoteNameSpeedTest::note_position))
-	  (d-Insert1)
+          (if (BassClefNoteNameSpeedTest::AnotherChance?)
+  	    (begin
+              (d-Insert1))
+            (begin
+              (seed)
+	      (d-CursorToNote (EducationalGames::middle_c_offset->lily BassClefNoteNameSpeedTest::note_position))
+	      (d-Insert1)
+	      (set! BassClefNoteNameSpeedTest::ExtraChances 2)))
 	  (set! BassClefNoteNameSpeedTest::notewas (d-GetNoteName))
 	   
 	  (BassClefNoteNameSpeedTest::showscore)

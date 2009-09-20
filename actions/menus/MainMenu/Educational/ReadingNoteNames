@@ -16,11 +16,19 @@
 (define ReadingNoteNames::interval 8)
 (define ReadingNoteNames::start (current-time))
 (define ReadingNoteNames::end (current-time))
-
+(define ReadingNoteNames::note_position 0)
 (define ReadingNoteNames::notewas #f)
+(define ReadingNoteNames::LastNoteCorrect? #t)
+(define ReadingNoteNames::ExtraChances 2)
 
 (define (ReadingNoteNames::showscore)
   (d-DirectivePut-score-display "ReadingNoteNames::GameScore" (string-append "&lt;b&gt;Score: " (object-&gt;string ReadingNoteNames::score) "&lt;/b&gt; in " (object-&gt;string (- ReadingNoteNames::end ReadingNoteNames::start)) " Secs.")))
+
+;#t give differnt note
+(define (ReadingNoteNames::AnotherChance?)
+  (and
+    (not ReadingNoteNames::LastNoteCorrect?)
+    (>=  ReadingNoteNames::ExtraChances 0)))
 
 
 ;;;;;;;;; callback when user chooses a note
@@ -31,9 +39,12 @@
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
+			       (set! ReadingNoteNames::LastNoteCorrect? #t)
 			       (EducationGames::PlaceAnswerStatus "CheckMark"))
 			     (begin
 			       (set! ReadingNoteNames::score (- ReadingNoteNames::score 1))
+			       (set! ReadingNoteNames::LastNoteCorrect? #f)
+			       (set! ReadingNoteNames::ExtraChances (- ReadingNoteNames::ExtraChances 1))
 			       (EducationGames::PlaceAnswerStatus "CrossSign"))
 			       ) 
 			(ReadingNoteNames::offerNote)))
@@ -112,12 +123,22 @@ Print out your score when you have finished.")
 	      )
 	;;  (d-GoToEnd)
 	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-	  (set! steps (+ 1 (random ReadingNoteNames::interval)))
-	  (EducationGames::shiftup steps)
-	  (d-Insert2)
-	  (set! ReadingNoteNames::notewas (d-GetNoteName))	  
+	  (if (ReadingNoteNames::AnotherChance?)
+	    (begin
+	      ;(d-CursorToNote (EducationalGames::middle_c_offset->lily ReadingNoteNames::note_position))
+	      (d-Insert2))
+	    (begin
+	      (set! steps (+ 1 (random ReadingNoteNames::interval)))      
+	      ;(EducationGames::shiftup steps)
+	      (set! ReadingNoteNames::note_position (+ ReadingNoteNames::note_position steps))
+	      (d-CursorToNote (EducationalGames::middle_c_offset->lily ReadingNoteNames::note_position))
+	      (d-Insert2)
+	      (set! ReadingNoteNames::ExtraChances 2)))
+	  (set! ReadingNoteNames::notewas (d-GetNoteName))	
 	  (ReadingNoteNames::showscore)
-	  (EducationGames::shiftdown steps)
+	  ;(EducationGames::shiftdown steps)
+	  (if ReadingNoteNames::LastNoteCorrect?
+	    (set! ReadingNoteNames::note_position (- ReadingNoteNames::note_position steps)))
 	  )
 	))
 (EducationGames::Chime)

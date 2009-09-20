@@ -307,7 +307,7 @@ process_midi_output(jack_nframes_t nframes)
 		if (smf_event_is_metadata(event)) {
 			char *decoded = smf_event_decode(event);
 			if (decoded)
-				warn_from_jack_thread_context/*g_debug*/(g_strdup_printf("Metadata: %s", decoded));
+			  g_debug("Metadata: %s", decoded);
 
 			n = smf_get_next_event(smf);
 			continue;
@@ -334,7 +334,6 @@ process_midi_output(jack_nframes_t nframes)
 		/* We will send this event; remove it from the queue. */
 		n = smf_get_next_event(smf);
 
-#if 1
 		/* Send it via proper output port. */
 		track_number = event->track->track_number -1;
 
@@ -348,7 +347,6 @@ process_midi_output(jack_nframes_t nframes)
 			warn_from_jack_thread_context("jack_midi_event_reserve failed, NOTE LOST.");
 			break;
 		}
-#endif
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
 	}
 }
@@ -642,7 +640,7 @@ jack_midi_playback_start()
 	  if(curobj && curobj->midi_events) {
 	    smf_event_t *event = curobj->midi_events->data;
 	    start_time = event->time_seconds;
-	    g_print("setting start %f\n", start_time);
+	    g_debug("setting start %f\n", start_time);
 	  }
 	  end_time = duration;
 	  curobj = NULL;
@@ -650,7 +648,7 @@ jack_midi_playback_start()
 	  if(curobj && curobj->midi_events) {
 	    smf_event_t *event = g_list_last(curobj->midi_events)->data;
 	    end_time = event->time_seconds;
-	    g_print("setting end %f\n", end_time);	   
+	    g_debug("setting end %f\n", end_time);	   
 	    //could investigate to see if event is NoteOn and g_warning("Setting stop time to a NoteOn event!");
 	  } 
 
@@ -661,7 +659,7 @@ jack_midi_playback_start()
 	    end_time = temp;
 	  }
 	  duration = end_time - start_time;
-	  g_print("start %f for %f seconds\n",start_time, duration);
+	  g_debug("start %f for %f seconds\n",start_time, duration);
 	  int n = smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
