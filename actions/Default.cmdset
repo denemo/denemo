@@ -2682,6 +2682,14 @@ for second and subsequent systems</tooltip>
         <label>Close Second Time Bar</label>
         <tooltip>Closes the second time bar peviously opened (printing)</tooltip>
       </row>
+      <row>
+        <action>ClefChooser</action>
+        <after>InsertClef</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>Clef Chooser</label>
+        <tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
