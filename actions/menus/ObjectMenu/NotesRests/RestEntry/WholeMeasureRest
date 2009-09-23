@@ -7,15 +7,22 @@
       <row>
         <after>EnterRest</after>
         <action>WholeMeasureRest</action>
-        <scheme> ;;;MeasureRest
-
-(d-DirectivePut-standalone-postfix "MeasureRest" (string-append "  R1*" (d-InsertTimeSig "query=timesigname") " "))
-(d-DirectivePut-standalone-display "MeasureRest" "  R ")
-(d-DirectivePut-standalone-minpixels "MeasureRest" 30)
-(d-RefreshDisplay)
-;;;End of scheme script 
- 
- 
+        <scheme>;;;MeasureRest with spacer
+(let ((timesig #f) (rests 0))
+  (set! timesig (d-InsertTimeSig "query=timesigname"))
+  (set! rests (d-PutWholeMeasureRests))
+  (cond 
+   ((= 1 rests)
+    (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
+    (d-DirectivePut-chord-postfix "WholeMeasureRest" "%} "))
+   ((= 2 rests)
+    (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
+    (d-CursorRight)
+    (d-DirectivePut-chord-postfix "WholeMeasureRest" "%} "))
+   (#t
+    (d-WarningDialog "Not supported in this timesig")))
+(d-RefreshDisplay))
+;;;End of scheme script
 </scheme>
         <label>Whole Measure Rest</label>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>

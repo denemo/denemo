@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ParenthesizeChord</after>
+        <action>HideLilyPond</action>
+        <scheme>;;;;;;HideLilyPond
+(d-DirectivePut-chord-prefix "HideLilyPond" "%{")
+(d-DirectivePut-chord-postfix "HideLilyPond" "%}")
+(d-DirectivePut-chord-display "HideLilyPond" "hide")
+(d-RefreshDisplay)</scheme>
+        <label>Hide on Printing</label>
+        <tooltip>Comments out the chord in the LilyPond output.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
