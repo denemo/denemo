@@ -453,6 +453,55 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
+//Insert rests to the value of the keysig and return the number of rests inserted.
+SCM scheme_put_whole_measure_rests (void) {
+  DenemoGUI *gui = Denemo.gui;
+  SCM scm;
+  if(!Denemo.gui || !(Denemo.gui->si))
+    return SCM_MAKINUM(0);
+  else {
+    DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+    gint numerator = gui->si->cursortime1;// staff->timesig.time1;
+    gint denominator = gui->si->cursortime2;//staff->timesig.time2;
+    gboolean dot = TRUE;
+    if(numerator%3)
+      dot = FALSE;
+    else
+      numerator = 2*numerator/3;
+    gint length = (numerator*4)/denominator;
+    gchar *str=NULL;
+    scm = SCM_MAKINUM(1);
+    switch(length){
+    case 1: // e.g.  2/8 timesig
+      str = g_strdup_printf("(d-InsertRest2)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      break;
+    case 2:
+      str = g_strdup_printf("(d-InsertRest1)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      break;
+    case 3:// e.g. 9/8 timesig
+      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest3)(d-CursorLeft)(d-CursorLeft)");
+      scm = SCM_MAKINUM(2);
+      break;
+    case 4:
+      str = g_strdup_printf("(d-InsertRest0)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      break;
+    case 8:
+      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest0)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      scm = SCM_MAKINUM(2);
+      break;   
+    default:
+      g_warning("Not implemented %d %s", length, dot?"dotted":"");
+      scm = SCM_MAKINUM(0);
+      break;  
+    }  
+    if(str) {
+      call_out_to_guile(str);
+    }
+    g_free(str);
+    return scm;
+  }
+}
+
 SCM scheme_get_note_duration(void){
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -1887,6 +1936,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteName",  scheme_get_note_name);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
