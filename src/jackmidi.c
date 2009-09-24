@@ -34,7 +34,15 @@ static volatile gboolean IMMEDIATE = TRUE;
   channel
   jack_port
 */
-unsigned char global_midi_buffer[3]; 
+typedef struct midi_buffer
+{
+  unsigned char buffer[3];
+  gint channel;
+  gint jack_port;
+}midi_buffer;
+
+
+struct midi_buffer global_midi_buffer; 
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
@@ -190,31 +198,38 @@ return 1;
 }
 
 static gboolean
-timer_callback(gpointer key){
-       gint notenum = (gint) key;
-       global_midi_buffer[0] = NOTE_OFF;
-       global_midi_buffer[1] = notenum;
-       global_midi_buffer[2] = 0;
+timer_callback(gpointer mbuffer){
+       struct midi_buffer *data = (midi_buffer *) mbuffer;
+       global_midi_buffer.buffer[0] = NOTE_OFF | data->channel;
+       global_midi_buffer.buffer[1] = data->buffer[1];
+       global_midi_buffer.buffer[2] = data->buffer[2];
        BufferEmpty=FALSE;
+       g_free(data);
        return FALSE;
 }
 
 void 
 jack_playpitch(gint key, gint duration, gint volume, gint channel){
- if (BufferEmpty==TRUE){
-    global_midi_buffer[0] = NOTE_ON;
-    global_midi_buffer[1] = key; 
-    global_midi_buffer[2] = volume;
+ if (BufferEmpty==TRUE){ 
+    DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+      //curstaffstruct->midi_instrument;    
+      //curstaffstruct->midi_prognum
+    global_midi_buffer.buffer[0] = NOTE_ON | curstaffstruct->midi_channel;
+    global_midi_buffer.buffer[1] = key; 
+    global_midi_buffer.buffer[2] = curstaffstruct->volume;
+    global_midi_buffer.channel = curstaffstruct->midi_channel;
+    global_midi_buffer.jack_port = curstaffstruct->jack_midi_out_port;
     BufferEmpty=FALSE;
-    g_timeout_add(duration, timer_callback, key);
+    midi_buffer *data = (midi_buffer *) g_malloc0 (sizeof (midi_buffer));
+    memcpy(data, &global_midi_buffer, sizeof(midi_buffer));
+    g_timeout_add(duration, timer_callback, (gpointer) data);
   }
 }
 
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
-  gint i=0;
-
+  gint i=global_midi_buffer.jack_port;
   void *port_buffers[MAX_NUMBER_OF_TRACKS];
 
   if (output_ports[i]){
@@ -226,9 +241,9 @@ send_midi_event(jack_nframes_t nframes){
        warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
        return;
      }
-     buffer[0] = global_midi_buffer[0];
-     buffer[1] = global_midi_buffer[1];
-     buffer[2] = global_midi_buffer[2];
+     buffer[0] = global_midi_buffer.buffer[0];
+     buffer[1] = global_midi_buffer.buffer[1];
+     buffer[2] = global_midi_buffer.buffer[2];
      warn_from_jack_thread_context("Setting TRUE\n");
      BufferEmpty=TRUE;
    }
