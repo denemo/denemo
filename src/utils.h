@@ -249,4 +249,6 @@ if(!action && param){\
 gchar * get_option(gchar *str, gint length);
 void console_output(gchar *text);
 
+gint get_override(GList *g);
+
 #endif /* UTILS_H */

@@ -740,13 +740,8 @@ return g_string_free(ret, FALSE);
 
 
 /* returns if there is a directive overriding the normal LilyPond output */
-static gint get_override(GList *g) {
-  gint ret = 0;
-  for(;g;g=g->next) {
-    DenemoDirective *d = g->data;
-    ret |= d->override;
-  }
-  return ret & DENEMO_OVERRIDE_LILYPOND;
+static gint get_lily_override(GList *g) {
+  return get_override(g) & DENEMO_OVERRIDE_LILYPOND;
 }
 
 
@@ -1052,7 +1047,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	}
 	break;
       case CLEF:
-	{gboolean override = get_override(((clef *) curobj->object)->directives);
+	{gboolean override = get_lily_override(((clef *) curobj->object)->directives);
 	if(((clef *) curobj->object)->directives) {
 	  g_string_append_printf (ret, "%s", get_postfix(((clef *) curobj->object)->directives));//FIXME memory leak get_postfix
 	}
@@ -1067,7 +1062,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	gchar *keysig_string = "";
 	GList *directives =  ((keysig *) curobj->object)->directives;
 	if(directives) {
-	  override = get_override(directives);
+	  override = get_lily_override(directives);
 	  keysig_string = get_postfix(directives);	 
 	}
 	if(override) 
@@ -1089,7 +1084,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	gchar *timesig_string = "";
 	GList *directives =  ((timesig *) curobj->object)->directives;
 	if(directives) {
-	  override = get_override(directives);
+	  override = get_lily_override(directives);
 	  timesig_string = get_postfix(directives);	 
 	}
 	if(override) 
@@ -1388,7 +1383,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     
     /* Time signature */
     {
-      gboolean override = get_override(curstaffstruct->timesig.directives);
+      gboolean override = get_lily_override(curstaffstruct->timesig.directives);
       gchar *timesig_string = get_postfix(curstaffstruct->timesig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sTimeSig = %s", movement, voice, timesig_string);
@@ -1404,7 +1399,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     /* key signature name */
 
     {
-      gboolean override = get_override(curstaffstruct->keysig.directives);
+      gboolean override = get_lily_override(curstaffstruct->keysig.directives);
       gchar *keysig_string = get_postfix(curstaffstruct->keysig.directives);
       if(override)
 	g_string_append_printf(definitions, "%s%sKeySig = %s", movement, voice, keysig_string);
@@ -1421,7 +1416,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
     /* Determine the clef */
     determineclef (curstaffstruct->clef.type, &clefname);
-    gboolean clef_override = get_override(curstaffstruct->clef.directives);
+    gboolean clef_override = get_lily_override(curstaffstruct->clef.directives);
     gchar *clef_postfix_insert = get_postfix(curstaffstruct->clef.directives);
     if(clef_override)
       g_string_append_printf(definitions, "%s%sClef = %s\n", movement, voice, clef_postfix_insert);
@@ -1604,7 +1599,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
   // str is empty again now FIXME
   g_string_append_printf(str, "%s", "}\n");
-  gint voice_override = get_override(curstaffstruct->voice_directives);
+  gint voice_override = get_lily_override(curstaffstruct->voice_directives);
   gchar *voice_prolog_insert = get_postfix(curstaffstruct->voice_directives);
   if(invisibility==NULL) {
     g_string_append_printf(definitions, "%s%sMusic =  {\\%s%sProlog \\%s%s}\n",
@@ -2075,7 +2070,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       {
 	gint visible_part=1;/* 1 for visible -1 for invisible */ 
 	curstaffstruct = (DenemoStaff *) curstaff->data;
-	gint staff_override = get_override(curstaffstruct->staff_directives);
+	gint staff_override = get_lily_override(curstaffstruct->staff_directives);
 	GString *voice_name = g_string_new("");
 	GString *staff_name = g_string_new("");
 	GString *name = g_string_new("");
@@ -2248,14 +2243,14 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
 
 #if 0
-      if(get_override(gui->lilycontrol.directives)) {
+      if(get_lily_override(gui->lilycontrol.directives)) {
 	//FIXME this is being emitted for each movement, rather than just once
 	gchar *score_substitute = get_postfix(gui->lilycontrol.directives);
 	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, score_substitute, -1, INEDITABLE, NULL);
 	g_free(score_substitute);
       }
 #else
-      if(get_override(si->movementcontrol.directives)) {
+      if(get_lily_override(si->movementcontrol.directives)) {
 	gchar *scoreblock_substitute = get_postfix(si->movementcontrol.directives);
 	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, scoreblock_substitute, -1, INEDITABLE, NULL);
 	g_free(scoreblock_substitute);

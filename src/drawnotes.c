@@ -219,20 +219,19 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
       xx += headwidths[noteheadtype];
     else
       xx -= headwidths[noteheadtype];
-
-
-  drawbitmapinverse (pixmap, gc, heads[noteheadtype],
-		     xx, y + height - headsemiheights[noteheadtype],
-		     headwidths[noteheadtype], headheights[noteheadtype]);
-
-  /* Now draw any trailing dots */
-  if ((height % LINE_SPACE) == 0)
-    draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
-	       y + height - HALF_LINE_SPACE, numdots);
-  else
-    draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
-	       y + height, numdots);
-
+  if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
+    drawbitmapinverse (pixmap, gc, heads[noteheadtype],
+		       xx, y + height - headsemiheights[noteheadtype],
+		       headwidths[noteheadtype], headheights[noteheadtype]);
+    /* Now draw any trailing dots */
+    if ((height % LINE_SPACE) == 0)
+      draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
+		 y + height - HALF_LINE_SPACE, numdots);
+    else
+      draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
+		 y + height, numdots);
+  }
+  
   /* any display for attached LilyPond */
  { GList *g = thenote->directives;
  GString *gstr=g_string_new("");
@@ -362,8 +361,9 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   if (mudelaitem->isinvisible)
     gc = selected?gcs_bluegc():gcs_yellowgc ();
 
-  if (!thechord.notes)		/* We have a rest here */
-    draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);
+  if (!thechord.notes/* a rest */ &&
+      !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC))
+    draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);  
   else
     {
       /* Draw the noteheads and accidentals */

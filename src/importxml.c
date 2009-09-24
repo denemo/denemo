@@ -939,6 +939,8 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
 static DenemoObject *
 parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
 {
+  DenemoObject *chordObj;
+  xmlNodePtr childElem;
   gchar *showProp = (gchar *) xmlGetProp (restElem, (xmlChar *) "show");
   gboolean show = TRUE;
   if (showProp != NULL)
@@ -954,11 +956,18 @@ parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
 	  show = FALSE;
 	}
     }
-
   if (show)
-    return parseBaseChord (restElem, ns, si);
+    chordObj = parseBaseChord (restElem, ns, si);
   else
-    return (hidechord (parseBaseChord (restElem, ns, si)));
+    chordObj = hidechord (parseBaseChord (restElem, ns, si));
+  FOREACH_CHILD_ELEM (childElem, restElem)  {
+    if (childElem->ns == ns) {
+      if (ELEM_NAME_EQ (childElem, "directives"))  {
+	((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
+      }
+    }
+  }
+  return chordObj;
 }
 
 /**
