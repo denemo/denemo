@@ -13,6 +13,9 @@
   (set! rests (d-PutWholeMeasureRests))
   (cond 
    ((= 1 rests)
+   (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRest" )
+   (d-DirectivePut-chord-gy "WholeMeasureRest" 17)
+    (d-DirectivePut-chord-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
     (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
     (d-DirectivePut-chord-postfix "WholeMeasureRest" "%} "))
    ((= 2 rests)
