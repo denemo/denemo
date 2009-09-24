@@ -145,7 +145,7 @@ static gint staff_at (gint y, DenemoScore *si) {
   ret = count+si->top_staff-1;
   if(ret==primary_staff(si))
     ret = si->currentstaffnum;
-  return ret;
+  return ret>0?ret:1;
 }
 
 /**
