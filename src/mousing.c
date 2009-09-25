@@ -200,6 +200,8 @@ get_placement_from_coordinates (struct placement_info *pi,
 		     closer to current.
 
 		     Do the math - it really does work out.  */
+
+		  //???modify current->x by gx where graphic_override is set????
 		  if (x_to_explain - (current->x + current->minpixelsalloted)
 		      < next->x - x_to_explain)
 		    {

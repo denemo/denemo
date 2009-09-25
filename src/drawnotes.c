@@ -361,227 +361,210 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   if (mudelaitem->isinvisible)
     gc = selected?gcs_bluegc():gcs_yellowgc ();
 
-  if (!thechord.notes/* a rest */ &&
-      !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC))
-    draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);  
-  else
-    {
-      /* Draw the noteheads and accidentals */
-
-      for (curnode = thechord.notes; curnode; curnode = curnode->next)
-	draw_notehead (pixmap, gc, (note *) curnode->data, duration,
-		       thechord.numdots, xx, y, accs, thechord.is_stemup);
-
-      /* Now the stem and beams. This is complicated. */
-
-      if (thechord.is_stemup)
-	{
-	  if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
-	    {
-	      if (duration >= 3)
-		/* Up-pointing stem pixmap */
-		drawbitmapinverse (pixmap, gc, upstems[duration],
-				   xx + NOTEHEAD_WIDTH - 1,
-				   thechord.highesty + y
-				   - (duration == 6 ? EXTRA_STEM_HEIGHT
-				      : STEM_HEIGHT),
-				   STEM_WIDTH, stemheights[duration]);
-	    }
-	  else if (!mudelaitem->isend_beamgroup)
-	    {
-	      /* Draw the thin beam across the gap */
-	      gdk_draw_rectangle (pixmap, gc, TRUE,
-				  xx + headwidths[noteheadtype] - 1,
-				  y + thechord.stemy,
-				  nextmuditem->x - mudelaitem->x,
-				  THINBEAM_HEIGHT);
-	      if (mudelaitem->isstart_beamgroup)
-		prevbaseduration = 0;
-	      else
-		prevbaseduration =
-		  ((chord *) prevmuditem->object)->baseduration;
-	      nextbaseduration =
-		((chord *) nextmuditem->object)->baseduration;
-	      for (i = 4, beampainty = thechord.stemy + FIRSTBEAMSPACE;
-		   i <= thechord.baseduration;
-		   i++, beampainty += SUBSQBEAMSPACE)
-		{
-		  if (nextbaseduration >= i)
-		    /* Draw a thick beam across the gap */
-		    gdk_draw_rectangle (pixmap, gc, TRUE,
-					xx + headwidths[noteheadtype] - 1,
-					y + beampainty,
-					nextmuditem->x - mudelaitem->x,
-					THICKBEAM_HEIGHT);
-		  else if (prevbaseduration < i)
-		    /* Draw a stub to the right of the staff */
-		    gdk_draw_rectangle (pixmap, gc, TRUE,
-					xx + headwidths[noteheadtype] - 1,
-					y + beampainty, STUB_WIDTH,
-					THICKBEAM_HEIGHT);
-		}		/* end for loop */
-	    }			/* end drawing for non-end-beamgroup notes */
-	  else
-	    {			/* We're at the end of a beamgroup */
-	      for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
-			    4),
+  if (!thechord.notes/* a rest */) {
+     if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC))
+       draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);  
+  }  else {
+    /* Draw the noteheads and accidentals */
+    
+    for (curnode = thechord.notes; curnode; curnode = curnode->next)
+      draw_notehead (pixmap, gc, (note *) curnode->data, duration,
+		     thechord.numdots, xx, y, accs, thechord.is_stemup);
+    
+    /* Now the stem and beams. This is complicated. */
+    
+    if (thechord.is_stemup)
+      {
+	if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
+	  {
+	    if (duration >= 3)
+	      /* Up-pointing stem pixmap */
+	      drawbitmapinverse (pixmap, gc, upstems[duration],
+				 xx + NOTEHEAD_WIDTH - 1,
+				 thechord.highesty + y
+				 - (duration == 6 ? EXTRA_STEM_HEIGHT
+				    : STEM_HEIGHT),
+				 STEM_WIDTH, stemheights[duration]);
+	  }
+	else if (!mudelaitem->isend_beamgroup)
+	  {
+	    /* Draw the thin beam across the gap */
+	    gdk_draw_rectangle (pixmap, gc, TRUE,
+				xx + headwidths[noteheadtype] - 1,
+				y + thechord.stemy,
+				nextmuditem->x - mudelaitem->x,
+				THINBEAM_HEIGHT);
+	    if (mudelaitem->isstart_beamgroup)
+	      prevbaseduration = 0;
+	    else
+	      prevbaseduration =
+		((chord *) prevmuditem->object)->baseduration;
+	    nextbaseduration =
+	      ((chord *) nextmuditem->object)->baseduration;
+	    for (i = 4, beampainty = thechord.stemy + FIRSTBEAMSPACE;
+		 i <= thechord.baseduration;
+		 i++, beampainty += SUBSQBEAMSPACE)
+	      {
+		if (nextbaseduration >= i)
+		  /* Draw a thick beam across the gap */
+		  gdk_draw_rectangle (pixmap, gc, TRUE,
+				      xx + headwidths[noteheadtype] - 1,
+				      y + beampainty,
+				      nextmuditem->x - mudelaitem->x,
+				      THICKBEAM_HEIGHT);
+		else if (prevbaseduration < i)
+		  /* Draw a stub to the right of the staff */
+		  gdk_draw_rectangle (pixmap, gc, TRUE,
+				      xx + headwidths[noteheadtype] - 1,
+				      y + beampainty, STUB_WIDTH,
+				      THICKBEAM_HEIGHT);
+	      }		/* end for loop */
+	  }			/* end drawing for non-end-beamgroup notes */
+	else
+	  {			/* We're at the end of a beamgroup */
+	    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
+			  4),
 		   beampainty = thechord.stemy + FIRSTBEAMSPACE +
 		   (SUBSQBEAMSPACE * (i - 4));
-		   i <= thechord.baseduration;
-		   i++, beampainty += SUBSQBEAMSPACE)
-		{
-		  /* Draw a stub to the left of the staff */
-		  gdk_draw_rectangle (pixmap, gc, TRUE,
-				      xx + headwidths[noteheadtype] - 1 -
-				      STUB_WIDTH, y + beampainty, STUB_WIDTH,
-				      THICKBEAM_HEIGHT);
-		}
-	    }
-
-	  if (duration > 0)
-	    /* Vertical line */
-	    gdk_draw_line (pixmap, gc, xx + headwidths[noteheadtype] - 1,
-			   thechord.stemy + y,
-			   xx + headwidths[noteheadtype] - 1,
-			   thechord.lowesty + y);
-
-	  /* Now draw the tie, if appropriate */
-	  if (thechord.is_tied)
-	    {
-	      if (nextmuditem)
-		arcwidth = nextmuditem->x - mudelaitem->x;
-	      else
-		arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-	      gdk_draw_arc (pixmap, gc, FALSE,
-			    xx + headwidths[noteheadtype] / 2,
-			    y + thechord.lowesty + 3,
-			    arcwidth, 8, 64 * 180, 64 * 180);
-	    }
-	}			/* End stemup stuff */
-      else
-	{			/* chord is stemdown */
-	  if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
-	    {
-	      if (duration >= 3)
-		/* Down-pointing stem */
-		drawbitmapinverse (pixmap, gc, downstems[duration],
-				   xx,
-				   thechord.lowesty + y
-				   + (duration == 6 ? EXTRA_STEM_HEIGHT
-				      : STEM_HEIGHT)
-				   - stemheights[duration],
-				   STEM_WIDTH, stemheights[duration]);
-	    }
-	  else if (!mudelaitem->isend_beamgroup)
-	    {
-	      /* Draw the thin beam across the gap */
-	      gdk_draw_rectangle (pixmap, gc, TRUE, xx,
-				  y + thechord.stemy - THINBEAM_HEIGHT + 1,
-				  nextmuditem->x - mudelaitem->x,
-				  THINBEAM_HEIGHT);
-	      if (mudelaitem->isstart_beamgroup)
-		prevbaseduration = 0;
-	      else
-		prevbaseduration =
-		  ((chord *) prevmuditem->object)->baseduration;
-
-	      nextbaseduration =
-		((chord *) nextmuditem->object)->baseduration;
-	      for (i = 4, beampainty =
+		 i <= thechord.baseduration;
+		 i++, beampainty += SUBSQBEAMSPACE)
+	      {
+		/* Draw a stub to the left of the staff */
+		gdk_draw_rectangle (pixmap, gc, TRUE,
+				    xx + headwidths[noteheadtype] - 1 -
+				    STUB_WIDTH, y + beampainty, STUB_WIDTH,
+				    THICKBEAM_HEIGHT);
+	      }
+	  }
+	
+	if (duration > 0)
+	  /* Vertical line */
+	  gdk_draw_line (pixmap, gc, xx + headwidths[noteheadtype] - 1,
+			 thechord.stemy + y,
+			 xx + headwidths[noteheadtype] - 1,
+			 thechord.lowesty + y);
+	
+	/* Now draw the tie, if appropriate */
+	if (thechord.is_tied)
+	  {
+	    if (nextmuditem)
+	      arcwidth = nextmuditem->x - mudelaitem->x;
+	    else
+	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
+	    gdk_draw_arc (pixmap, gc, FALSE,
+			  xx + headwidths[noteheadtype] / 2,
+			  y + thechord.lowesty + 3,
+			  arcwidth, 8, 64 * 180, 64 * 180);
+	  }
+      }			/* End stemup stuff */
+    else
+      {			/* chord is stemdown */
+	if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
+	  {
+	    if (duration >= 3)
+	      /* Down-pointing stem */
+	      drawbitmapinverse (pixmap, gc, downstems[duration],
+				 xx,
+				 thechord.lowesty + y
+				 + (duration == 6 ? EXTRA_STEM_HEIGHT
+				    : STEM_HEIGHT)
+				 - stemheights[duration],
+				 STEM_WIDTH, stemheights[duration]);
+	  }
+	else if (!mudelaitem->isend_beamgroup)
+	  {
+	    /* Draw the thin beam across the gap */
+	    gdk_draw_rectangle (pixmap, gc, TRUE, xx,
+				y + thechord.stemy - THINBEAM_HEIGHT + 1,
+				nextmuditem->x - mudelaitem->x,
+				THINBEAM_HEIGHT);
+	    if (mudelaitem->isstart_beamgroup)
+	      prevbaseduration = 0;
+	    else
+	      prevbaseduration =
+		((chord *) prevmuditem->object)->baseduration;
+	    
+	    nextbaseduration =
+	      ((chord *) nextmuditem->object)->baseduration;
+	    for (i = 4, beampainty =
 		   thechord.stemy - FIRSTBEAMSPACE - THICKBEAM_HEIGHT + 1;
-		   i <= thechord.baseduration;
-		   i++, beampainty -= SUBSQBEAMSPACE)
-		{
-		  if (nextbaseduration >= i)
-		    /* Draw a thick beam across the gap */
-		    gdk_draw_rectangle (pixmap, gc, TRUE, xx,
-					y + beampainty,
-					nextmuditem->x - mudelaitem->x,
-					THICKBEAM_HEIGHT);
-		  else if (prevbaseduration < i)
-		    /* Draw a stub to the right of the staff */
-		    gdk_draw_rectangle (pixmap, gc, TRUE, xx, y + beampainty,
-					STUB_WIDTH, THICKBEAM_HEIGHT);
-		}		/* End for loop */
-	    }			/* End drawing for non-end-beamgroup notes */
-	  else
-	    {			/* We're at the end of a beamgroup */
-	      for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
-			    4),
+		 i <= thechord.baseduration;
+		 i++, beampainty -= SUBSQBEAMSPACE)
+	      {
+		if (nextbaseduration >= i)
+		  /* Draw a thick beam across the gap */
+		  gdk_draw_rectangle (pixmap, gc, TRUE, xx,
+				      y + beampainty,
+				      nextmuditem->x - mudelaitem->x,
+				      THICKBEAM_HEIGHT);
+		else if (prevbaseduration < i)
+		  /* Draw a stub to the right of the staff */
+		  gdk_draw_rectangle (pixmap, gc, TRUE, xx, y + beampainty,
+				      STUB_WIDTH, THICKBEAM_HEIGHT);
+	      }		/* End for loop */
+	  }			/* End drawing for non-end-beamgroup notes */
+	else
+	  {			/* We're at the end of a beamgroup */
+	    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
+			  4),
 		   beampainty = thechord.stemy - FIRSTBEAMSPACE -
 		   THICKBEAM_HEIGHT + 1 -
 		   (SUBSQBEAMSPACE * (i - 4));
-		   i <= thechord.baseduration;
-		   i++, beampainty += SUBSQBEAMSPACE)
-		{
-		  /* Draw a stub to the left of the staff */
-		  gdk_draw_rectangle (pixmap, gc, TRUE, xx - STUB_WIDTH,
-				      y + beampainty, STUB_WIDTH,
-				      THICKBEAM_HEIGHT);
-		}
-	    }
-
-	  if (duration > 0)
-	    /* Vertical line */
-	    gdk_draw_line (pixmap, gc, xx, thechord.highesty + y, xx,
-			   thechord.stemy + y);
-	  /* Now draw the tie, if appropriate */
-	  if (thechord.is_tied)
-	    {
-	      if (nextmuditem)
-		arcwidth = nextmuditem->x - mudelaitem->x;
-	      else
-		arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-	      gdk_draw_arc (pixmap, gc, FALSE,
-			    xx + headwidths[noteheadtype] / 2,
-			    y + thechord.highesty - 13,
-			    arcwidth, 8, 0, 64 * 180);
-	    }
-	}
-      /* End stemdown stuff */
-
-      draw_articulations (pixmap, gc, thechord, xx, y);
-
-/*#ifdef DEBUG
-      g_print ("(lower height) lowest y %d, (greater height) highest y %d\n", thechord.lowesty,
-	       thechord.highesty);
-#endif*/
-
-      draw_ledgers (pixmap, gc, thechord.highesty, thechord.lowesty, xx, y,
-		    headwidths[noteheadtype]);
-
-      /* PLAN: here we will need to access the x,y, bitmap, width & height elements to display anything attached to the chord
-       *The GdkBitmap will be created by the user specifying a file that contains it. The things attached should be in lists with each tagged with a string, the name of the command that created it, so that they can be independently edited.
-       The same mechanism will apply to things attached to notes, and to standalone LilyPond directives.
-      */
-
+		 i <= thechord.baseduration;
+		 i++, beampainty += SUBSQBEAMSPACE)
+	      {
+		/* Draw a stub to the left of the staff */
+		gdk_draw_rectangle (pixmap, gc, TRUE, xx - STUB_WIDTH,
+				    y + beampainty, STUB_WIDTH,
+				    THICKBEAM_HEIGHT);
+	      }
+	  }
 	
-
-    }				/* end else if there are notes in the chord*/
+	if (duration > 0)
+	  /* Vertical line */
+	  gdk_draw_line (pixmap, gc, xx, thechord.highesty + y, xx,
+			 thechord.stemy + y);
+	/* Now draw the tie, if appropriate */
+	if (thechord.is_tied)
+	  {
+	    if (nextmuditem)
+	      arcwidth = nextmuditem->x - mudelaitem->x;
+	    else
+	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
+	    gdk_draw_arc (pixmap, gc, FALSE,
+			  xx + headwidths[noteheadtype] / 2,
+			  y + thechord.highesty - 13,
+			  arcwidth, 8, 0, 64 * 180);
+	  }
+      }
+    /* End stemdown stuff */
+    
+    draw_articulations (pixmap, gc, thechord, xx, y);   
+    
+  }				/* end else if there are notes in the chord*/
   { GList *g = thechord.directives;
-      gint count = 0;
-      for(;g;g=g->next) {
-	DenemoDirective *directive = (DenemoDirective *)g->data;
-	if(directive->graphic) {
-	  gint width, height;
-	  gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-	  drawbitmapinverse (pixmap, gc, (GdkBitmap*)directive->graphic,
-			     xx+directive->gx, thechord.highesty+directive->gy, width, height);
-
-	}
-	if(directive->display) {
-	  PangoContext *context =
-	    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-	  PangoLayout *layout = pango_layout_new (context);
-	  PangoFontDescription *desc = pango_font_description_from_string (FONT);
-	  pango_layout_set_text (layout,
-				 directive->display->str,
-				 -1);
-	  pango_layout_set_font_description (layout, desc);
-	  gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
-	  count += 16;
-	}
-      } //for each chord directive
+  gint count = 0;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive->graphic) {
+      gint width, height;
+      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+      drawbitmapinverse (pixmap, gc, (GdkBitmap*)directive->graphic,
+			 xx+directive->gx, y+directive->gy, width, height);
+    }
+    if(directive->display) {
+      PangoContext *context =
+	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+      PangoLayout *layout = pango_layout_new (context);
+      PangoFontDescription *desc = pango_font_description_from_string (FONT);
+      pango_layout_set_text (layout,
+			     directive->display->str,
+			     -1);
+      pango_layout_set_font_description (layout, desc);
+      gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
+      count += 16;
+    }
+  } //for each chord directive
   }//block displaying chord directives
 }
 
