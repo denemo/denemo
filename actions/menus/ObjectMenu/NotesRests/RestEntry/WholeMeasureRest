@@ -11,21 +11,29 @@
 (let ((timesig #f) (rests 0))
   (set! timesig (d-InsertTimeSig "query=timesigname"))
   (set! rests (d-PutWholeMeasureRests))
-  (cond 
+  (cond
    ((= 1 rests)
-   (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRest" )
-      (d-DirectivePut-chord-gx "WholeMeasureRest" 30)
-      (d-DirectivePut-chord-gy "WholeMeasureRest" 17)
+    (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRest" )
+    (d-DirectivePut-chord-gx "WholeMeasureRest" 30)
+    (d-DirectivePut-chord-gy "WholeMeasureRest" 17)
     (d-DirectivePut-chord-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
     (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
     (d-DirectivePut-chord-postfix "WholeMeasureRest" "%} "))
    ((= 2 rests)
+    (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRestLH" )
+    (d-DirectivePut-chord-gx "WholeMeasureRest" 30)
+    (d-DirectivePut-chord-gy "WholeMeasureRest" 17)
+    (d-DirectivePut-chord-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
     (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
     (d-CursorRight)
+    (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRestRH" )
+    (d-DirectivePut-chord-gx "WholeMeasureRest" -113)
+    (d-DirectivePut-chord-gy "WholeMeasureRest" 17)
+    (d-DirectivePut-chord-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
     (d-DirectivePut-chord-postfix "WholeMeasureRest" "%} "))
    (#t
     (d-WarningDialog "Not supported in this timesig")))
-(d-RefreshDisplay))
+  (d-RefreshDisplay))
 ;;;End of scheme script
 </scheme>
         <label>Whole Measure Rest</label>
