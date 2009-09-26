@@ -539,7 +539,9 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       }
     /* End stemdown stuff */
     
-    draw_articulations (pixmap, gc, thechord, xx, y);   
+    draw_articulations (pixmap, gc, thechord, xx, y); 
+    draw_ledgers (pixmap, gc, thechord.highesty, thechord.lowesty, xx, y,
+		  headwidths[noteheadtype]);  
     
   }				/* end else if there are notes in the chord*/
   { GList *g = thechord.directives;
