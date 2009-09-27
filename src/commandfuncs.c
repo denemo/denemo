@@ -96,9 +96,21 @@ void nextrhythm(DenemoGUI *gui) {
  * isstart/end_beamgroup, is_stemup, stemy, is_reversealigned. reversealign, minpixelsalloted, space_before
  * si->curmeasureclef is also set: it is set to the value prevailing at the end of the measure.
  */
+
 void
 beamandstemdirhelper (DenemoScore * si)
 {
+  DenemoObject *theclef=NULL;
+  if(si->currentmeasure->prev){
+    objnode *curobj = lastobjnode(si->currentmeasure->prev);
+    if(curobj)
+      theclef = get_clef_before_object(curobj);
+  }
+  if(theclef)
+    si->curmeasureclef = ((clef*)theclef->object)->type;
+  else
+    si->curmeasureclef =  ((DenemoStaff*)si->currentstaff->data)->clef.type;
+
   calculatebeamsandstemdirs
     ((objnode *) si->currentmeasure->data, &(si->curmeasureclef),
      &(si->cursortime1), &(si->cursortime2),
@@ -224,6 +236,23 @@ jumpcursor (gint cursor_y, gint fromnote, gint tonote)
 }
 
 /**
+ * Reset the cursor stats 
+ * @param si pointer to the scoreinfo structure
+ * @return none
+ */
+static void
+reset_cursor_stats (DenemoScore * si)
+{
+  si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
+				  si->cursor_x);
+  if (!si->currentobject)
+    {
+      si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
+      si->cursor_appending = TRUE;
+    }
+}
+
+/**
  *  General function for inserting a DenemoObject
  *  into the score
  */
@@ -250,6 +279,27 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
   si->currentmeasure->data =
     g_list_insert ((objnode *) si->currentmeasure->data,
 		   mudela_obj_new, si->cursor_x);
+#if 0
+  if(mudela_obj_new->type == CHORD) {
+    chord *newchord = (chord *) mudela_obj_new->object;
+there is a function newclefify and fixnoteheights...
+    if(newchord->notes){
+      gint dclef = find_prevailing_clef(si);
+      newchord->lowesty = calculateheight (newchord->lowestpitch, dclef);
+      newchord->highesty = calculateheight (newchord->highestpitch, dclef);
+      newchord->stemy = calculateheight (stemoffset, dclef);
+ beamsandstemdirswholestaff is the only thing I think???
+    }
+  }
+#endif
+
+
+  if(mudela_obj_new->type == CLEF) {
+	  reset_cursor_stats (si);
+	  fixnoteheights ((DenemoStaff *) si->currentstaff->data);
+	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+	  find_xes_in_all_measures (si);
+  }
 
   /* update undo information */
   undo->position = si->cursor_x;
@@ -1425,23 +1475,6 @@ remove_object (measurenode * cur_measure, objnode * cur_objnode)
   }
 }
 
-
-/**
- * Reset the cursor stats 
- * @param si pointer to the scoreinfo structure
- * @return none
- */
-static void
-reset_cursor_stats (DenemoScore * si)
-{
-  si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
-				  si->cursor_x);
-  if (!si->currentobject)
-    {
-      si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
-      si->cursor_appending = TRUE;
-    }
-}
 
 /**
  * Helper to remove the current object an reset cursor stats

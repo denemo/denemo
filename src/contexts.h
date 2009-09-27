@@ -17,4 +17,6 @@ void find_leftmost_staffcontext (DenemoStaff * curstaffstruct,
 void find_leftmost_allcontexts (DenemoScore *si);
 gint 
 find_prevailing_clef(DenemoScore *si);
+DenemoObject *
+get_clef_before_object(objnode *curobj);
 #endif /* __CONTEXTS_H__ */

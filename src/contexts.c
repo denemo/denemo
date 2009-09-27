@@ -81,7 +81,14 @@ find_context_of_object (DenemoScore *si, gint thetype)
 }
 
 
-
+DenemoObject *get_clef_before_object(objnode *obj) {
+  DenemoObject *ret;
+  objnode *curobj = Denemo.gui->si->currentobject;
+  Denemo.gui->si->currentobject = obj;
+  ret = find_context_of_object(Denemo.gui->si, CLEF);
+  Denemo.gui->si->currentobject = curobj;
+  return ret;
+}
 
 /* find the clef in which the currentobject lies */
 gint 

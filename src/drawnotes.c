@@ -386,7 +386,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				    : STEM_HEIGHT),
 				 STEM_WIDTH, stemheights[duration]);
 	  }
-	else if (!mudelaitem->isend_beamgroup)
+	else if (nextmuditem && !mudelaitem->isend_beamgroup)
 	  {
 	    /* Draw the thin beam across the gap */
 	    gdk_draw_rectangle (pixmap, gc, TRUE,
@@ -394,7 +394,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				y + thechord.stemy,
 				nextmuditem->x - mudelaitem->x,
 				THINBEAM_HEIGHT);
-	    if (mudelaitem->isstart_beamgroup)
+	    if (mudelaitem->isstart_beamgroup || !prevmuditem)
 	      prevbaseduration = 0;
 	    else
 	      prevbaseduration =
@@ -422,19 +422,20 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  }			/* end drawing for non-end-beamgroup notes */
 	else
 	  {			/* We're at the end of a beamgroup */
-	    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
-			  4),
-		   beampainty = thechord.stemy + FIRSTBEAMSPACE +
-		   (SUBSQBEAMSPACE * (i - 4));
-		 i <= thechord.baseduration;
-		 i++, beampainty += SUBSQBEAMSPACE)
-	      {
-		/* Draw a stub to the left of the staff */
-		gdk_draw_rectangle (pixmap, gc, TRUE,
-				    xx + headwidths[noteheadtype] - 1 -
-				    STUB_WIDTH, y + beampainty, STUB_WIDTH,
-				    THICKBEAM_HEIGHT);
-	      }
+	    if (prevmuditem)
+	      for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
+			    4),
+		     beampainty = thechord.stemy + FIRSTBEAMSPACE +
+		     (SUBSQBEAMSPACE * (i - 4));
+		   i <= thechord.baseduration;
+		   i++, beampainty += SUBSQBEAMSPACE)
+		{
+		  /* Draw a stub to the left of the staff */
+		  gdk_draw_rectangle (pixmap, gc, TRUE,
+				      xx + headwidths[noteheadtype] - 1 -
+				      STUB_WIDTH, y + beampainty, STUB_WIDTH,
+				      THICKBEAM_HEIGHT);
+		}
 	  }
 	
 	if (duration > 0)
@@ -471,7 +472,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				 - stemheights[duration],
 				 STEM_WIDTH, stemheights[duration]);
 	  }
-	else if (!mudelaitem->isend_beamgroup)
+	else if ((nextmuditem) && !mudelaitem->isend_beamgroup)
 	  {
 	    /* Draw the thin beam across the gap */
 	    gdk_draw_rectangle (pixmap, gc, TRUE, xx,

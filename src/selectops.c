@@ -368,39 +368,33 @@ pastefrombuffer (DenemoGUI * gui)
 	       " CurBuf %x, CurBuf Next %x\n",
 	       curstaff, curstaff->next, curbuffernode, curbuffernode->next);
 
+      //gint prevailing_clef = find_prevailing_clef(si);
+
       curmeasure = g_list_nth (firstmeasurenode (curstaff),
 			       si->currentmeasurenum - 1);
       insertat = initialinsertat;
+      
       for (curbufferobj = (objnode *) curbuffernode->data;
 	   curbufferobj && curmeasure; curbufferobj = curbufferobj->next)
 	{
-	  if (((DenemoObject *) curbufferobj->data)->type == STAFFBREAK)
+	  DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
+	  if (curobj->type == STAFFBREAK)
 	    {
 	      break;
 	    }
-	  else if (((DenemoObject *) curbufferobj->data)->type ==
+	  else if (curobj->type ==
 		   MEASUREBREAK)
 	    {
 	      /*Do nothing as we will not insert a new barline at 
 		this point. It is done automatically */
 	      g_debug("Have measurebreak object\n");
-	      /*if (!si->currentmeasure->next && si->cursor_appending)
-		/* Add a measure and make it currentmeasure *
-		if (staffsinbuffer == 1)
-		  si->currentmeasure =
-		    dnm_addmeasures (si, si->currentmeasurenum, 1, FALSE);
-		else
-		  si->currentmeasure =
-		    dnm_addmeasures (si, si->currentmeasurenum, 1, TRUE);
-	      else if(si->cursor_appending)
-		si->currentmeasure = si->currentmeasure->next;*/
-	      /*curmeasure = curmeasure->next;*/
+	    
 	    }
 	  else
 	    {
 	      g_debug("Paste: Cursor Position %d\n", si->cursor_x);
 	      clonedobject =
-		dnm_clone_object ((DenemoObject *) curbufferobj->data);
+		dnm_clone_object (curobj);
 	      
 	      clonedobject->starttick = (si->currentobject?
 					 ((DenemoObject *)si->currentobject->data)->starttickofnextnote: 0);//guess
@@ -412,7 +406,23 @@ pastefrombuffer (DenemoGUI * gui)
 	      /*	      curmeasure->data =
 	      g_list_insert ((objnode *) curmeasure->data, clonedobject,
 	      insertat);*/
-	      beamandstemdirhelper(si);
+#if 0
+	      switch(curobj->type) {
+	      case CHORD:
+		newclefify (curobj, prevailing_clef);
+		break;
+	      case CLEF:
+		prevailing_clef = ((clef*)curobj->object)->type;
+		fixnoteheights((DenemoStaff *) curstaff->data);
+		break;
+	      case TIMESIG:
+		g_warning("Display may be strange");
+		break;
+
+	      }
+
+#endif
+	      // beamandstemdirhelper(si);
 	      
 	      si->cursoroffend = (si->currentobject?
 		((DenemoObject *)si->currentobject->data)->starttickofnextnote
@@ -421,6 +431,7 @@ pastefrombuffer (DenemoGUI * gui)
 	      insertat++;
 	    }
 	}			/* End bufferobj loop */
+      fixnoteheights(curstaff->data);
       showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
     }				/* End staff loop */
