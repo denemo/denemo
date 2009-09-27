@@ -351,6 +351,15 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
   gboolean is_stemup = TRUE;
   gint stemoffset;
   gint stemy;
+#ifdef DEBUG
+  {static gint count = 0;
+  count++;
+  g_print("Call %d ++++++++++++++++++++++++++++++++\n\
+          Stem directive %s\n\
+          Clef %d\n\
+          ------------------------------\n", count, stem_directive==2?"Neutral":stem_directive==1?"Down":"Up", clef);
+ }
+#endif
 
   switch (stem_directive)
     {
@@ -415,6 +424,16 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
   gint next_stem_directive = *stem_directive;
   gboolean isrest;
 
+#ifdef DEBUG
+  {static gint count = 0;
+  count++;
+  gint stem = *stem_directive;
+  g_print("Call calc %d #################################\n\
+          Stem directive %s\n\
+          Clef %d\n\
+          ------------------------------\n", count, stem==2?"Neutral":stem==1?"Down":"Up", next_clef);
+ }
+#endif
   /* Check to see if first item is a time signature indiactor */
   curobjnode = theobjs;
   if (curobjnode)
