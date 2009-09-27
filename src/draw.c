@@ -505,10 +505,10 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
       si->cursortime2 = itp->time2;
     }
 
-  /* If this is the current staff, paint the measure number at the
+  /*  paint the measure number at the
    * preceding barline */
 
-  if (si->currentstaffnum == itp->staffnum)
+  //  if (si->currentstaffnum == itp->staffnum)
     {
       g_string_sprintf (mstring, "%d", itp->measurenum);
       pango_layout_set_text (layout, mstring->str, -1);
