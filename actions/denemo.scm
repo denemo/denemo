@@ -603,6 +603,6 @@
 ) ; End Of (d-UploadRoutine)
 
 (define (PlayNote pitch duration)
-  (d-OutputMIDI (string-append "0x90 " pitch " 0x41"))
- (d-OneShotTimer duration (string-append "(d-OutputMIDI " "\"" "0x80 " pitch " 0x41" "\"" ")" )) 
+  (d-OutputMIDI (string-append "0x9$ " pitch " %%%"))
+ (d-OneShotTimer duration (string-append "(d-OutputMIDI " "\"" "0x8$ " pitch " %%%" "\"" ")" )) 
   )

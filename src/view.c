@@ -1534,12 +1534,30 @@ SCM scheme_put_midi (SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+static gchar *substitute_values(gchar* str, gint channel, gint volume) {
+  gchar *bytes = g_strdup(str);
+  gchar *c;
+  g_debug("\n***midi channel = %d\n",channel);
+  for(c=bytes;*c;c++) {
+    if(*c=='$')
+      *c = '0'+channel;
+    if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
+      sprintf(c, "%3d", volume);//*c = itoa(volume);
+  }
+  g_print("We have transformed %s to %s\n", str, bytes);
+  return bytes;
+}
+
 SCM scheme_output_midi (SCM input) {
   char *next;
   char val;
   gint i, numbytes;
-  gchar *bytes = scm_to_locale_string(input);
-  
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  gint channel = curstaffstruct->midi_channel;
+  gint volume = curstaffstruct->volume;
+  gchar *string_input = scm_to_locale_string(input);
+  gchar *bytes = substitute_values(string_input, channel, volume);
+
   for(i=0, next=bytes;*next; next++){
     val = strtol(next, &next, 0);
     i++;
