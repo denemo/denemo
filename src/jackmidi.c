@@ -226,6 +226,17 @@ jack_playpitch(gint key, gint duration, gint volume, gint channel){
   }
 }
 
+void jack_output_midi_event(unsigned char *buffer){
+ if (BufferEmpty==TRUE){ 
+   /*needs replacing with something like this:*/
+   //memcpy(&global_midi_buffer.buffer, buffer, sizeof(buffer));
+   global_midi_buffer.buffer[0] = buffer[0];
+   global_midi_buffer.buffer[1] = buffer[1];
+   global_midi_buffer.buffer[2] = buffer[2];
+   BufferEmpty=FALSE;
+ }   
+}
+
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;

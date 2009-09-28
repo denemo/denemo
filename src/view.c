@@ -1534,6 +1534,32 @@ SCM scheme_put_midi (SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+SCM scheme_output_midi (SCM input) {
+  char *next;
+  char val;
+  gint i, numbytes;
+  gchar *bytes = scm_to_locale_string(input);
+  
+  for(i=0, next=bytes;*next; next++){
+    val = strtol(next, &next, 0);
+    i++;
+    if(*next==0)
+         break;
+  }
+
+  numbytes = i;
+  unsigned char *buffer = (unsigned char*) g_malloc0(numbytes);
+  for(i=0, next=bytes;i<numbytes;i++, next++)
+    buffer[i] = (unsigned char) strtol(next, &next, 0);
+			    
+  g_free(bytes); 
+   
+  g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
+#ifdef _HAVE_JACK_
+  jack_output_midi_event(buffer);
+#endif 
+  return  SCM_BOOL(TRUE);
+}
 
 static SCM scheme_play_midikey(SCM scm) {
     guint midi = scm_num2int(scm, 0, 0);
@@ -1545,6 +1571,22 @@ static SCM scheme_play_midikey(SCM scm) {
     g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
+
+static gboolean scheme_callback_timer(gpointer scheme_code){
+    char *scheme = (char *)scheme_code;	
+    scm_c_eval_string(scheme); 
+    return FALSE; 
+}
+
+static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
+  char *scheme_code = scm_to_locale_string(callback);	
+  gint duration = scm_num2int(duration_amount, 0, 0);
+  g_timeout_add(duration, scheme_callback_timer, (gpointer) scheme_code); 
+  return SCM_BOOL(TRUE);
+}
+
+
+
 
 static SCM scheme_bass_figure(SCM bass, SCM harmony) {
   gint bassnum = scm_num2int(bass, 0, 0);
@@ -2520,7 +2562,9 @@ INSTALL_EDIT(movementcontrol);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"OutputMIDI", scheme_output_midi);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
+  install_scm_function_with_param (DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
