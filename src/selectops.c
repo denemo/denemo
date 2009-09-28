@@ -350,7 +350,11 @@ pastefrombuffer (DenemoGUI * gui)
 
   gint i, j;
   gint measurestoadd = 0;
+  g_print("Adding %d measures at %d\n", measurebreaksinbuffer+1, si->currentmeasurenum - 1);
+  addmeasures (si, si->currentmeasurenum - 1, measurebreaksinbuffer+1, TRUE);
 
+  //gui->si->currentmeasurenum -= measurebreaksinbuffer+1;
+  setcurrents (gui->si);
   /* All right. Any necessary measures have been inserted - now paste away */
 
   if (staffsinbuffer == 1)
