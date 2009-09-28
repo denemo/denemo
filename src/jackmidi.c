@@ -234,7 +234,9 @@ void jack_output_midi_event(unsigned char *buffer){
    global_midi_buffer.buffer[1] = buffer[1];
    global_midi_buffer.buffer[2] = buffer[2];
    BufferEmpty=FALSE;
- }   
+ } 
+ else 
+  jack_output_midi_event(buffer); 
 }
 
 static void
