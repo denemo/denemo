@@ -318,10 +318,9 @@ process_midi_output(jack_nframes_t nframes)
 
 		if (event == NULL || (event->time_seconds>end_time)) {
 			warn_from_jack_thread_context/*g_debug*/("End of song.");
-			playback_started = -1;
+			jack_midi_playback_stop();
 			if (!use_transport)
 				stop_midi_output = 1;
-			IMMEDIATE=TRUE;
 			break;
 		}
 
@@ -710,6 +709,7 @@ jack_midi_playback_stop ()
    stop_midi_output = 1;
    if(jack_client)
      jack_transport_stop(jack_client);
+   playback_started = -1;
    IMMEDIATE=TRUE;
 }
 
