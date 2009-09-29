@@ -416,7 +416,7 @@ process_callback(jack_nframes_t nframes, void *notused)
 	  send_midi_event(nframes);
 	}
       if (!IMMEDIATE)
-	if (Denemo.gui->si && Denemo.gui->si->smf && output_ports)
+	if (Denemo.gui->si && smf && output_ports)
 	  process_midi_output(nframes);
 #ifdef MEASURE_TIME
 	if (get_delta_time() > MAX_PROCESSING_TIME) {
