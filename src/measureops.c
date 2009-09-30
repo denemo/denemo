@@ -81,8 +81,12 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 
     }
 
-
-  return g_list_nth (firstmeasurenode (si->currentstaff), pos);
+  measurenode *ret =  g_list_nth (firstmeasurenode (si->currentstaff), pos);
+//check not returning NULL!!!!
+  if(ret)
+    return ret;
+  g_warning("Add measures was going to return NULL");
+  return g_list_last(firstmeasurenode (si->currentstaff));
 }
 
 measurenode *

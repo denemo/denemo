@@ -236,7 +236,7 @@ jumpcursor (gint cursor_y, gint fromnote, gint tonote)
 }
 
 /**
- * Reset the cursor stats 
+ * Reset the cursor stats: sets currentobject to the si->cursor_x'th object in currentmeasure, if no such object sets cursor_appending. NOTE does not set cursor appending false if there is an object... 
  * @param si pointer to the scoreinfo structure
  * @return none
  */
