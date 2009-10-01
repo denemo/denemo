@@ -18,44 +18,41 @@
 #define MIDI_ALL_SOUND_OFF      0x78  //Bn 78 00	
 #define MIDI_ALL_NOTE_OFF	0x7b      //Bn 7B 00
 #define MAX_NUMBER_OF_TRACKS    128
-
+#define BUFFER_MAX_INDEX	100
 #define INPUT_PORT_NAME         "midi_in"
 #define PROGRAM_NAME            "denemo"
 jack_client_t   *jack_client = NULL;
 jack_port_t     *input_port;
 jack_port_t	*output_ports[MAX_NUMBER_OF_TRACKS];
 
+static volatile gint BufferIndex;
+static gint BufferFillIndex;
 static volatile gboolean BufferEmpty = TRUE;
 static volatile gboolean IMMEDIATE = TRUE;
 
-/*TODO 
-  replace with structure containing
-  global_midi_buffer[3];
-  channel
-  jack_port
-*/
-typedef struct midi_buffer
+struct midi_buffer
 {
   unsigned char buffer[3];
   gint channel;
   gint jack_port;
-}midi_buffer;
+};
 
-
-struct midi_buffer global_midi_buffer; 
+struct midi_buffer global_midi_buffer[BUFFER_MAX_INDEX]; 
 
 static gint timeout_id = 0, kill_id=0;
-static gdouble duration = 0.0;
+static gdouble playback_duration = 0.0;
 
 static smf_t           *smf = NULL;
 static double          rate_limit = 0;
-static int             just_one_output = 0;
-static int             start_stopped = 0;
-static int             use_transport = 0;
+static gboolean        just_one_output = FALSE;
+static gboolean        start_stopped = FALSE;
+static gboolean        use_transport = FALSE;
 
-static int    playback_started = -1, song_position = 0, stop_midi_output = 0;
+static int    		playback_started = -1, song_position = 0;
+static gboolean 	stop_midi_output = FALSE;
 static double start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double end_time = 0.0;//time in seconds to end at (from start of the smf)
+
 double 
 get_time(void)
 {
@@ -178,33 +175,33 @@ send_all_sound_off(void *port_buffers[MAX_NUMBER_OF_TRACKS], jack_nframes_t nfra
 			break;
 	}
 }
-static gint move_on(DenemoGUI *gui){
-	  if(timeout_id==0)
-		      return FALSE;
-	    set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
 
-	      return TRUE;
+static gint move_on(DenemoGUI *gui){
+  if(timeout_id==0)
+    return FALSE;
+  set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
+  return TRUE;
 }
 
 gint jack_kill_timer(void){
   g_debug("Jack kill timer %d\n", timeout_id);
-if(timeout_id>0)
-  g_source_remove(timeout_id);
-timeout_id= 0;
-if(kill_id)
-  g_source_remove(kill_id);
-kill_id = 0;
-return 1;
+  if(timeout_id>0)
+    g_source_remove(timeout_id);
+  timeout_id = 0;
+  if(kill_id)
+    g_source_remove(kill_id);
+  kill_id = 0;
+  return 1;
 }
 
 static gboolean
-timer_callback(gpointer mbuffer){
-       struct midi_buffer *data = (midi_buffer *) mbuffer;
-       global_midi_buffer.buffer[0] = NOTE_OFF | data->channel;
-       global_midi_buffer.buffer[1] = data->buffer[1];
-       global_midi_buffer.buffer[2] = data->buffer[2];
+timer_callback(gpointer bufferindex){
+       gint index = (gint) bufferindex;
+       global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_OFF | global_midi_buffer[index].channel;
+       global_midi_buffer[BufferFillIndex].buffer[1] = global_midi_buffer[index].buffer[1];
+       global_midi_buffer[BufferFillIndex].buffer[2] = global_midi_buffer[index].buffer[2];
+       BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
        BufferEmpty=FALSE;
-       g_free(data);
        return FALSE;
 }
 
@@ -214,15 +211,14 @@ jack_playpitch(gint key, gint duration, gint volume, gint channel){
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
       //curstaffstruct->midi_instrument;    
       //curstaffstruct->midi_prognum
-    global_midi_buffer.buffer[0] = NOTE_ON | curstaffstruct->midi_channel;
-    global_midi_buffer.buffer[1] = key; 
-    global_midi_buffer.buffer[2] = curstaffstruct->volume;
-    global_midi_buffer.channel = curstaffstruct->midi_channel;
-    global_midi_buffer.jack_port = curstaffstruct->jack_midi_out_port;
+    global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_ON | curstaffstruct->midi_channel;
+    global_midi_buffer[BufferFillIndex].buffer[1] = key; 
+    global_midi_buffer[BufferFillIndex].buffer[2] = curstaffstruct->volume;
+    global_midi_buffer[BufferFillIndex].channel = curstaffstruct->midi_channel;
+    global_midi_buffer[BufferFillIndex].jack_port = curstaffstruct->jack_midi_out_port;
+    g_timeout_add(duration, timer_callback, (gpointer) BufferFillIndex);
+    BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
     BufferEmpty=FALSE;
-    midi_buffer *data = (midi_buffer *) g_malloc0 (sizeof (midi_buffer));
-    memcpy(data, &global_midi_buffer, sizeof(midi_buffer));
-    g_timeout_add(duration, timer_callback, (gpointer) data);
   }
 }
 
@@ -230,9 +226,12 @@ void jack_output_midi_event(unsigned char *buffer){
  if (BufferEmpty==TRUE){ 
    /*needs replacing with something like this:*/
    //memcpy(&global_midi_buffer.buffer, buffer, sizeof(buffer));
-   global_midi_buffer.buffer[0] = buffer[0];
-   global_midi_buffer.buffer[1] = buffer[1];
-   global_midi_buffer.buffer[2] = buffer[2];
+   global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
+   global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
+   global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
+   BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
+   if (BufferFillIndex == BufferIndex)
+     g_debug("\nBuffer Overrun\n");
    BufferEmpty=FALSE;
  } 
  else 
@@ -242,7 +241,7 @@ void jack_output_midi_event(unsigned char *buffer){
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
-  gint i=global_midi_buffer.jack_port;
+  gint i=global_midi_buffer[BufferIndex].jack_port;
   void *port_buffers[MAX_NUMBER_OF_TRACKS];
 
   if (output_ports[i]){
@@ -254,10 +253,11 @@ send_midi_event(jack_nframes_t nframes){
        warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
        return;
      }
-     buffer[0] = global_midi_buffer.buffer[0];
-     buffer[1] = global_midi_buffer.buffer[1];
-     buffer[2] = global_midi_buffer.buffer[2];
-     warn_from_jack_thread_context("Setting TRUE\n");
+     buffer[0] = global_midi_buffer[BufferIndex].buffer[0];
+     buffer[1] = global_midi_buffer[BufferIndex].buffer[1];
+     buffer[2] = global_midi_buffer[BufferIndex].buffer[2];
+     BufferIndex = BufferIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferIndex+1; 
+     //warn_from_jack_thread_context("Setting TRUE\n");
      BufferEmpty=TRUE;
    }
   }
@@ -294,22 +294,28 @@ process_midi_output(jack_nframes_t nframes)
  
 	if (use_transport) {
 		transport_state = jack_transport_query(jack_client, NULL);
+		g_debug("\nTranport state = %d\n", transport_state);
 		if (transport_state == JackTransportStopped) {
-			if (previous_transport_state == JackTransportRolling)
+			/*if (previous_transport_state == JackTransportRolling){
 				send_all_sound_off(port_buffers, nframes);
+				 warn_from_jack_thread_context("\nprevious_transport_state == JackTransportRolling\n");
+			}
 
 			previous_transport_state = transport_state;
-
+			*/
 			return;
 		}
 
-		previous_transport_state = transport_state;
+		//previous_transport_state = transport_state;
 	}
 	
 	last_frame_time = jack_last_frame_time(jack_client);
 	/* End of song already? */
-	if (playback_started < 0)
+	if (playback_started < 0){
+	  g_debug("\nPlayback_started == %d\n", playback_started);
+		//jack_midi_playback_stop();
 		return;
+	}
 	/* We may push at most one byte per 0.32ms to stay below 31.25 Kbaud limit. */
 	bytes_remaining = nframes_to_ms(nframes) * rate_limit;
 
@@ -319,12 +325,11 @@ process_midi_output(jack_nframes_t nframes)
 		if (event == NULL || (event->time_seconds>end_time)) {
 			warn_from_jack_thread_context/*g_debug*/("End of song.");
 			jack_midi_playback_stop();
-			if (!use_transport)
-				stop_midi_output = 1;
 			break;
 		}
 
-	        if (stop_midi_output > 0) {
+	        if (stop_midi_output) {
+			 warn_from_jack_thread_context/*g_debug*/("stop_midi_output = TRUE");
 			send_all_sound_off(port_buffers, nframes);
 			jack_transport_stop(jack_client);	
 			return;
@@ -398,19 +403,12 @@ static process_midi_input(jack_nframes_t nframes)
 static int 
 process_callback(jack_nframes_t nframes, void *notused)
 {
-#ifdef MEASURE_TIME
-	if (get_delta_time() > MAX_TIME_BETWEEN_CALLBACKS) {
-		warn_from_jack_thread_context("Had to wait too long for JACK callback; scheduling problem?");
-	}
-#endif
+      if (nframes <= 0) {
+	warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
+	return 0;
+      }
 
-	/* Check for impossible condition that actually happened to me, caused by some problem between jackd and OSS4. */
-	if (nframes <= 0) {
-		warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
-		return 0;
-	}
-
-	process_midi_input(nframes);
+      process_midi_input(nframes);
       if (IMMEDIATE)
 	if (Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback){
 	  send_midi_event(nframes);
@@ -418,13 +416,7 @@ process_callback(jack_nframes_t nframes, void *notused)
       if (!IMMEDIATE)
 	if (Denemo.gui->si && smf && output_ports)
 	  process_midi_output(nframes);
-#ifdef MEASURE_TIME
-	if (get_delta_time() > MAX_PROCESSING_TIME) {
-		warn_from_jack_thread_context("Processing took too long; scheduling problem?");
-	}
-#endif
-
-	return 0;
+      return 0;
 }
 
 static int
@@ -437,7 +429,6 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 
 	if (state == JackTransportStarting) {
 		song_position = position->frame;
-		
 		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
 
 		g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
@@ -446,6 +437,7 @@ sync_callback(jack_transport_state_t state, jack_position_t *position, void *not
 
 	} else if (state == JackTransportStopped) {
 		playback_started = -1;
+		 warn_from_jack_thread_context("Jack Transport Stopped");
 	}
 
 	return TRUE;
@@ -609,22 +601,25 @@ jack_midi_player (void) {
 
   if (smf->number_of_tracks > MAX_NUMBER_OF_TRACKS) { 
      g_warning("Number of tracks (%d) exceeds maximum for per-track output; implying '-s' option.", smf->number_of_tracks);
-     just_one_output = 1;
+     just_one_output = TRUE;
   }
   g_debug("\nNumber of tracks = %d\n", smf->number_of_tracks);
- 
+
+ if (use_transport && !start_stopped) {
+    jack_transport_locate(jack_client, 0);
+    jack_transport_start(jack_client);
+  }
+
   if (use_transport) {
     gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
     if (err) {
       g_critical("Could not register JACK sync callback.");
     }
   }
+
   assert(smf->number_of_tracks >= 1);
 
-  if (use_transport && !start_stopped) {
-    jack_transport_locate(jack_client, 0);
-    jack_transport_start(jack_client);
-  }
+  
   
   if (!use_transport)
     playback_started = jack_frame_time(jack_client);
@@ -634,19 +629,17 @@ void
 jack_midi_playback_start()
 {
   DenemoGUI *gui = Denemo.gui;
-  playback_started = -1, song_position = 0, stop_midi_output = 0;
+  playback_started = -1, song_position = 0, stop_midi_output = FALSE;
   IMMEDIATE=FALSE;
   /* set tranport on/off */
-  use_transport = (int)Denemo.prefs.jacktransport; 
-  /* set tranport start_stopped */
-  start_stopped = (int)Denemo.prefs.jacktransport_start_stopped; 
-  g_debug("\nTransport set to %d Transport start stopped = %d\n", 
-		  use_transport, start_stopped);
+  use_transport = (gboolean)Denemo.prefs.jacktransport; 
+  /* set transport start_stopped */
+  start_stopped = (gboolean) Denemo.prefs.jacktransport_start_stopped; 
   if (jack_client != NULL){
      if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
        exportmidi (NULL, gui->si, 1, 0/* means to end */);
 
-	 
+ 
 
 
 	  smf = Denemo.gui->si->smf;
@@ -654,8 +647,8 @@ jack_midi_playback_start()
 	    g_critical("Loading SMF file failed.");
 	    return;
 	  }
-	  duration = smf_get_length_seconds(smf);
-	  g_debug("%s.", smf_decode(smf));
+	  playback_duration = smf_get_length_seconds(smf);
+	  g_debug("%s.\n", smf_decode(smf));
 
 
 
@@ -667,15 +660,15 @@ jack_midi_playback_start()
 	  if(curobj && curobj->midi_events) {
 	    smf_event_t *event = curobj->midi_events->data;
 	    start_time = event->time_seconds;
-	    g_debug("setting start %f\n", start_time);
+	    g_debug("\nsetting start %f\n", start_time);
 	  }
-	  end_time = duration;
+	  end_time = playback_duration;
 	  curobj = NULL;
 	  curobj =  get_point_object();
-	  if(curobj && curobj->midi_events) {
+	  if(curobj && curobj->midi_events)/*is this ever true?*/ { 
 	    smf_event_t *event = g_list_last(curobj->midi_events)->data;
 	    end_time = event->time_seconds;
-	    g_debug("setting end %f\n", end_time);	   
+	    g_debug("\nsetting end %f\n", end_time);	   
 	    //could investigate to see if event is NoteOn and g_warning("Setting stop time to a NoteOn event!");
 	  } 
 
@@ -685,9 +678,10 @@ jack_midi_playback_start()
 	    start_time = end_time;
 	    end_time = temp;
 	  }
-	  duration = end_time - start_time;
-	  g_debug("start %f for %f seconds\n",start_time, duration);
-	  int n = smf_seek_to_seconds(smf, start_time);
+	  playback_duration = end_time - start_time;
+	  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
+	  if (use_transport)
+	    smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
 
@@ -697,7 +691,7 @@ jack_midi_playback_start()
 	      //FIXME add a delay before starting the timer.
 	      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)move_on, gui);
 	      // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
-	      kill_id = g_timeout_add ((guint)(duration*1000), (GSourceFunc)jack_kill_timer, NULL);
+	      kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)jack_kill_timer, NULL);
 	    }
   }//if jack_client  
   return;
@@ -706,9 +700,10 @@ jack_midi_playback_start()
 void
 jack_midi_playback_stop ()
 {
-   stop_midi_output = 1;
+   stop_midi_output = TRUE;
    if(jack_client)
      jack_transport_stop(jack_client);
+   g_debug("\nStopping Transport and midi playback\n");
    playback_started = -1;
    IMMEDIATE=TRUE;
 }
