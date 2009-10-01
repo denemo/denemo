@@ -20,7 +20,7 @@
 #include "prefops.h"
 /*For save selection function*/
 #include "utils.h"
-
+#define DEBUG 1
 /**
  * The copy buffer is a GList of objnode *s -- at first, I was going
  * to use staffnode *s, measurenode *s, and then objnode *s, but I
@@ -151,12 +151,8 @@ copytobuffer (DenemoScore * si)
 	      theobjs = g_list_append (theobjs, clonedobject);
 	    }			/* End object loop */
 	  g_debug ("cloned objects on staff \n");
-	  if (staffsinbuffer > 1)
-	    {
-	      theobjs = g_list_append (theobjs, newstaffbreakobject ());
-	      g_debug ("Inserting Staffbreak object in copybuffer");
-	    }
-	  else if (j < si->lastmeasuremarked || k < si->lastobjmarked)
+	  
+	  if (j < si->lastmeasuremarked || k < si->lastobjmarked)
 	    {
 	      g_debug ("Insert measurebreak obj in copybuffer");
 	      /* That is, there's another measure, the cursor is in appending
@@ -167,9 +163,13 @@ copytobuffer (DenemoScore * si)
 		measurebreaksinbuffer++;
 	    }
 	  k = 0;		/* Set it for next run through object loop */
-
+	  
 	}			/* End measure loop */
-
+      if (staffsinbuffer > 1)
+	{
+	  theobjs = g_list_append (theobjs, newstaffbreakobject ());
+	  g_debug ("Inserting Staffbreak object in copybuffer");
+	}
       copybuffer = g_list_append (copybuffer, theobjs);
     }				/* End staff loop */
 }
@@ -188,10 +188,10 @@ cuttobuffer (DenemoScore * si)
   measurenode *curmeasure;
   objnode *tempobj;
   gint i, jcounter, max;
-  if (!si->firstmeasuremarked)
+  if (!si->firststaffmarked)
     return;
   copytobuffer (si);
-
+  gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
   if (staffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
@@ -233,7 +233,7 @@ cuttobuffer (DenemoScore * si)
 	    curmeasure->data = NULL;
 	  }
       /* Now clear the relevant part of the last measure selected */
-      if (jcounter <= si->lastmeasuremarked)
+      if (curmeasure && (jcounter <= si->lastmeasuremarked))
 	{
 	  for (i = 0; curmeasure->data && i <= si->lastobjmarked; i++)
 	    {
@@ -257,10 +257,20 @@ cuttobuffer (DenemoScore * si)
 	{
 	  /* Every staff was part of the selection */
 	  if (measurebreaksinbuffer > 0)
-	    removemeasures (si, si->firstmeasuremarked - 1,
+	    {
+	      
+	      removemeasures (si, si->firstmeasuremarked - 1,
 			    measurebreaksinbuffer, TRUE);
+	      staffs_removed_measures = measurebreaksinbuffer;
+	    }
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	    {
+	      if(measurebreaksinbuffer==0)
+		{
+		  curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->firstmeasuremarked-1);
+		  freeobjlist (curmeasure->data, NULL);
+		  curmeasure->data = NULL;
+		}
 	      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
 	      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
 	    }
@@ -296,9 +306,22 @@ cuttobuffer (DenemoScore * si)
    * what's here is more-or-less copied from dnm_deleteobject in
    * commandfuncs */
 
-  si->currentmeasurenum = si->firstmeasuremarked;
+  si->currentmeasurenum = si->firstmeasuremarked - (staffs_removed_measures?1:0);
+
+  if(si->currentmeasurenum<1) {
+    si->currentmeasurenum = 1;
+  }
+
+
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
 				   si->currentmeasurenum - 1);
+#if 0
+  if(si->currentmeasure==NULL)
+    si->currentmeasure = g_list_last (firstmeasurenode (si->currentstaff));
+#endif
+
+
+
   si->cursor_x = si->firstobjmarked;
   if (si->cursor_x <
       (gint) (g_list_length ((objnode *) si->currentmeasure->data)))
@@ -329,17 +352,19 @@ cuttobuffer (DenemoScore * si)
  * pastefrombuffer
  * Pastes the current buffer to the score
  *
- * @param gui the DenemoGUI to be used.
+
  *
  * The updates that are done towards the bottom of this function -
  * beamsandstemdirswholestaff, find_xes_in_all_measures, etc. - are
  * too much gruntwork and are inefficient in terms of everything
  * but additional lines-of-code required for implementation. 
+ * return FALSE if no pasting was done.
  */
 
-static void
-pastefrombuffer (DenemoGUI * gui)
+static gboolean
+pastefrombuffer (void)
 {
+  DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
   staffnode *curstaff;
   measurenode *curmeasure;
@@ -347,14 +372,30 @@ pastefrombuffer (DenemoGUI * gui)
   objnode *curbufferobj;
   gint insertat, initialinsertat;
   DenemoObject *clonedobject;
-
+  gint staffs_used = 0;//number of staffs we have pasted into after the first
   gint i, j;
-  gint measurestoadd = 0;
-  g_print("Adding %d measures at %d\n", measurebreaksinbuffer+1, si->currentmeasurenum - 1);
-  addmeasures (si, si->currentmeasurenum - 1, measurebreaksinbuffer+1, TRUE);
+  gint measuretoaddat = si->currentmeasurenum;
+  if((staffsinbuffer>1) || (measurebreaksinbuffer>0)) {
 
-  //gui->si->currentmeasurenum -= measurebreaksinbuffer+1;
-  setcurrents (gui->si);
+    /* g_print("si->appending=%d si->cursoroffend=%d curobjnot1st=%d\n", si->cursor_appending, si->cursoroffend, 
+       (si->currentobject!=si->currentmeasure->data));*/
+
+    if((!si->cursor_appending) && (si->currentobject!=si->currentmeasure->data))
+      return FALSE;
+
+
+    //g_print("Adding %d measures at %d\n", measurebreaksinbuffer+1, si->currentmeasurenum);
+    if(si->cursor_appending) {
+    addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+1, (staffsinbuffer>1));
+    measureright(NULL);measuretoaddat++;//Better check measureright worked
+    } else {
+      addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+1, (staffsinbuffer>1));
+    }
+    setcurrents (gui->si);//currentobject is NULL, currentmeasure is first of added measures
+    //   if(si->cursoroffend)
+    //   insertion_point(si);
+  }
+
   /* All right. Any necessary measures have been inserted - now paste away */
 
   if (staffsinbuffer == 1)
@@ -365,7 +406,7 @@ pastefrombuffer (DenemoGUI * gui)
   g_debug ("Insert At position %d\n", initialinsertat);
 
   for (curstaff = si->currentstaff; curstaff && curbuffernode;
-       curstaff = curstaff->next, curbuffernode = curbuffernode->next)
+       curstaff? curstaff = si->currentstaff:0, curbuffernode = curbuffernode->next)
     {
 
       g_debug ("Current staff %x, Current Staff Next %x,"
@@ -376,7 +417,7 @@ pastefrombuffer (DenemoGUI * gui)
 
       curmeasure = g_list_nth (firstmeasurenode (curstaff),
 			       si->currentmeasurenum - 1);
-      insertat = initialinsertat;
+      insertat = initialinsertat;//UNUSED
       
       for (curbufferobj = (objnode *) curbuffernode->data;
 	   curbufferobj && curmeasure; curbufferobj = curbufferobj->next)
@@ -384,7 +425,8 @@ pastefrombuffer (DenemoGUI * gui)
 	  DenemoObject *curobj = (DenemoObject *) curbufferobj->data;
 	  if (curobj->type == STAFFBREAK)
 	    {
-	      break;
+
+	     break;
 	    }
 	  else if (curobj->type ==
 		   MEASUREBREAK)
@@ -432,15 +474,28 @@ pastefrombuffer (DenemoGUI * gui)
 		((DenemoObject *)si->currentobject->data)->starttickofnextnote
 				  >= (WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2): 0);   // guess  
 
-	      insertat++;
-	    }
+	      insertat++;//UNUSED
+	    } //not a staff break
 	}			/* End bufferobj loop */
       fixnoteheights(curstaff->data);
       showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-    }				/* End staff loop */
-
-
+      si->currentmeasurenum =  measuretoaddat;
+      curstaff = si->currentstaff->next;
+      if(staffsinbuffer>1) {
+	DenemoScriptParam param; 
+	if(!staffdown(&param))
+	  break;//FIXME wrap this function up to be called from C
+	staffs_used++;
+      }
+      setcurrents (gui->si);
+    } /* End staff loop */
+  g_print("check %d against %d\n", staffsinbuffer, staffs_used);
+  while(staffs_used--)
+    {
+      DenemoScriptParam param; 
+      staffup(&param);
+    }
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
 				   si->currentmeasurenum - 1);
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
@@ -451,6 +506,7 @@ pastefrombuffer (DenemoGUI * gui)
   else
     si->cursor_appending = FALSE;
   g_debug ("End of Paste Cursor X: %d\n", si->cursor_x);
+  return TRUE;
 }
 
 
@@ -587,7 +643,7 @@ goto_nearestnote (GtkAction *action, gpointer param) {
  * 
  */
 void
-goto_mark (GtkAction *action, gpointer param)
+goto_mark (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoScore *si = Denemo.gui->si;
   if(!action)
@@ -614,7 +670,7 @@ goto_mark (GtkAction *action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-copywrapper (GtkAction *action, gpointer param)
+copywrapper (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   copytobuffer (gui->si);
@@ -628,10 +684,11 @@ copywrapper (GtkAction *action, gpointer param)
  * @param gui pointer to the DenemoGUI structure 
  */
 void
-cutwrapper (GtkAction *action, gpointer param)
+cutwrapper (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   cuttobuffer (gui->si);
+  //check that measurewidths is long enough after cutting empty measures
   displayhelper (gui);
 }
 
@@ -643,12 +700,22 @@ cutwrapper (GtkAction *action, gpointer param)
  * @param action pointer to the GtkAction event
  */
 void
-pastewrapper (GtkAction *action, gpointer param)
-{
+pastewrapper (GtkAction *action, DenemoScriptParam *param)
+{  
   DenemoGUI *gui = Denemo.gui;
-  pastefrombuffer (gui);
+  gboolean pasted = pastefrombuffer ();
+  if(pasted) {
   score_status(gui, TRUE);
   displayhelper (gui);
+  } else {
+    if(!action && param)
+      param->status = FALSE;
+    else
+      if(copybuffer)
+	warningdialog("Cannot paste multiple measures into middle of a measure");
+      else
+	warningdialog("Nothing to paste");
+  }
 }
 
 
@@ -660,7 +727,7 @@ pastewrapper (GtkAction *action, gpointer param)
  * @param gui pointer to the DenemoGUI structure
  */
 void
-saveselwrapper (GtkAction *action, gpointer param)
+saveselwrapper (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   saveselection (gui->si);
@@ -705,7 +772,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
 	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
 	  if (type == NORMAL_SELECT
-	      /*  && si->firststaffmarked == si->laststaffmarked */)
+	        && si->firststaffmarked == si->laststaffmarked )
 	    {
 	      if (mark_measure < point_measure)
 		{
@@ -832,7 +899,7 @@ undo (DenemoGUI * gui)
 
 	  g_debug ("UNDO Delete Object %d\n",
 		   ((DenemoObject *) undo->object)->type);
-	  g_debug ("Cursur position before UNDO %d\n", gui->si->cursor_x);
+	  g_debug ("Cursor position before UNDO %d\n", gui->si->cursor_x);
 	  g_debug ("Cursor Position %d\n", gui->si->cursor_x);
 
 	  setcurrents (gui->si);

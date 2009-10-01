@@ -952,7 +952,7 @@ static gint directive_get_midi_interpretation(DenemoDirective *directive) {
 static gint directive_get_midi_action(DenemoDirective *directive) {	
   return directive->override&DENEMO_MIDI_ACTION_MASK;
 }
-static gchar *substitute_values(gchar* str, gint channel, gint volume) {
+gchar *substitute_midi_values(gchar* str, gint channel, gint volume) {
   gchar *bytes = g_strdup(str);
   gchar *c;
   for(c=bytes;*c;c++) {
@@ -961,13 +961,13 @@ static gchar *substitute_values(gchar* str, gint channel, gint volume) {
     if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
       sprintf(c, "%3d", volume);//*c = itoa(volume);
   }
-  g_print("We have transformed %s to %s\n", str, bytes);
+  //  g_print("We have transformed %s to %s\n", str, bytes);
   return bytes;
 }
 static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumbytes, gint channel, gint volume) {		    
   if(directive->midibytes) {
     gchar *bytes;
-    bytes = substitute_values(directive->midibytes->str, channel, volume);
+    bytes = substitute_midi_values(directive->midibytes->str, channel, volume);
     //g_print("Got %s as midi bytes\n", bytes);
     char *next;
     char val;
