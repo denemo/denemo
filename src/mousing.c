@@ -12,6 +12,10 @@
 #include "selectops.h"
 #include "lilydirectives.h"
 #include "mousing.h"
+
+
+static gboolean lh_down;
+
 /**
  * Get the mid_c_offset of an object or click from its height relative
  * to the top of the staff.  
@@ -324,6 +328,8 @@ static change_staff(DenemoScore *si, gint num, GList *staff) {
   show_lyrics();
   return TRUE;
 }
+
+
 /**
  * Mouse motion callback 
  *
@@ -333,7 +339,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
   //  g_print("Marked %d\n", gui->si->markstaffnum);
-    if (selecting && gui->si->markstaffnum){
+
+    if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi; 
       if (event->y < 0)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
@@ -353,6 +360,10 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	   (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
 	
 	set_cursor_y_from_click (gui, event->y);
+	if(lh_down & !selecting){
+	  set_mark(gui);
+	  selecting=TRUE;
+	}
 	calcmarkboundaries (gui->si);
 	if(event->state&(GDK_BUTTON1_MASK|GDK_BUTTON2_MASK|GDK_BUTTON3_MASK))
 	   perform_command(event->state, GESTURE_MOVE, event->state&GDK_BUTTON1_MASK);
@@ -420,6 +431,14 @@ DenemoGUI *gui = Denemo.gui;
       return TRUE;
     }
   }
+
+  // clicking outside the selection
+  if(left) {
+    if(!in_selection(gui->si))
+      gui->si->markstaffnum = 0;
+    lh_down = TRUE;
+  }
+
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
     //gui->si->currentstaffnum = pi.staff_number;
     //gui->si->currentstaff = pi.the_staff;
@@ -434,14 +453,7 @@ DenemoGUI *gui = Denemo.gui;
     set_cursor_y_from_click (gui, event->y);
     if(pi.nextmeasure)
       measureright(NULL);
-    {static gboolean alternate = TRUE;
-    if(alternate && left){
-      set_mark(gui);
-      selecting = TRUE;
-    } else
-      gui->si->markstaffnum = 0;
-    alternate = !alternate;
-    }
+
     write_status(gui);
     /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
     gtk_widget_draw (gui->scorearea, NULL);
@@ -465,6 +477,8 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 DenemoGUI *gui = Denemo.gui;
  gboolean left = (event->button != 3);
  //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+ if(left)
+   lh_down = FALSE;
  selecting = FALSE;
  set_cursor_for(event->state&DENEMO_MODIFIER_MASK);
  perform_command(event->state, GESTURE_RELEASE, left);
