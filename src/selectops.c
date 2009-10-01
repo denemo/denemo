@@ -188,10 +188,10 @@ cuttobuffer (DenemoScore * si)
   measurenode *curmeasure;
   objnode *tempobj;
   gint i, jcounter, max;
-  if (!si->firstmeasuremarked)
+  if (!si->firststaffmarked)
     return;
   copytobuffer (si);
-
+  gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
   if (staffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
@@ -233,7 +233,7 @@ cuttobuffer (DenemoScore * si)
 	    curmeasure->data = NULL;
 	  }
       /* Now clear the relevant part of the last measure selected */
-      if (jcounter <= si->lastmeasuremarked)
+      if (curmeasure && (jcounter <= si->lastmeasuremarked))
 	{
 	  for (i = 0; curmeasure->data && i <= si->lastobjmarked; i++)
 	    {
@@ -257,10 +257,20 @@ cuttobuffer (DenemoScore * si)
 	{
 	  /* Every staff was part of the selection */
 	  if (measurebreaksinbuffer > 0)
-	    removemeasures (si, si->firstmeasuremarked - 1,
+	    {
+	      
+	      removemeasures (si, si->firstmeasuremarked - 1,
 			    measurebreaksinbuffer, TRUE);
+	      staffs_removed_measures = measurebreaksinbuffer;
+	    }
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	    {
+	      if(measurebreaksinbuffer==0)
+		{
+		  curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->firstmeasuremarked-1);
+		  freeobjlist (curmeasure->data, NULL);
+		  curmeasure->data = NULL;
+		}
 	      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
 	      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
 	    }
@@ -296,9 +306,22 @@ cuttobuffer (DenemoScore * si)
    * what's here is more-or-less copied from dnm_deleteobject in
    * commandfuncs */
 
-  si->currentmeasurenum = si->firstmeasuremarked;
+  si->currentmeasurenum = si->firstmeasuremarked - (staffs_removed_measures?1:0);
+
+  if(si->currentmeasurenum<1) {
+    si->currentmeasurenum = 1;
+  }
+
+
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
 				   si->currentmeasurenum - 1);
+#if 0
+  if(si->currentmeasure==NULL)
+    si->currentmeasure = g_list_last (firstmeasurenode (si->currentstaff));
+#endif
+
+
+
   si->cursor_x = si->firstobjmarked;
   if (si->cursor_x <
       (gint) (g_list_length ((objnode *) si->currentmeasure->data)))
@@ -349,7 +372,7 @@ pastefrombuffer (void)
   objnode *curbufferobj;
   gint insertat, initialinsertat;
   DenemoObject *clonedobject;
-
+  gint staffs_used = 0;//number of staffs we have pasted into after the first
   gint i, j;
   gint measuretoaddat = si->currentmeasurenum;
   if((staffsinbuffer>1) || (measurebreaksinbuffer>0)) {
@@ -461,12 +484,18 @@ pastefrombuffer (void)
       curstaff = si->currentstaff->next;
       if(staffsinbuffer>1) {
 	DenemoScriptParam param; 
-	staffdown(&param);//FIXME wrap this function up to be called from C
+	if(!staffdown(&param))
+	  break;//FIXME wrap this function up to be called from C
+	staffs_used++;
       }
       setcurrents (gui->si);
-    }				/* End staff loop */
-
-
+    } /* End staff loop */
+  g_print("check %d against %d\n", staffsinbuffer, staffs_used);
+  while(staffs_used--)
+    {
+      DenemoScriptParam param; 
+      staffup(&param);
+    }
   si->currentmeasure = g_list_nth (firstmeasurenode (si->currentstaff),
 				   si->currentmeasurenum - 1);
   si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
@@ -659,6 +688,7 @@ cutwrapper (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
   cuttobuffer (gui->si);
+  //check that measurewidths is long enough after cutting empty measures
   displayhelper (gui);
 }
 
@@ -742,7 +772,7 @@ mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
 	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
 	  if (type == NORMAL_SELECT
-	      /*  && si->firststaffmarked == si->laststaffmarked */)
+	        && si->firststaffmarked == si->laststaffmarked )
 	    {
 	      if (mark_measure < point_measure)
 		{
