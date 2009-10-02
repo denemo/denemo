@@ -3,20 +3,20 @@
 #include <jack/jack.h>
 #include <jack/midiport.h>
 #include "midi.h"
-
 #include <glib.h>
 #include <math.h>
 #include <string.h>
 #include <assert.h>
 #include "exportmidi.h"
+#include "jackmidi.h"
 #include "pitchentry.h"
 #include "smf.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 #define MIDI_CONTROLLER         0xB0
-#define MIDI_ALL_SOUND_OFF      0x78  //Bn 78 00	
-#define MIDI_ALL_NOTE_OFF	0x7b      //Bn 7B 00
+#define MIDI_ALL_SOUND_OFF      0x78 
+#define MIDI_ALL_NOTE_OFF	0x7b
 #define MAX_NUMBER_OF_TRACKS    128
 #define BUFFER_MAX_INDEX	100
 #define INPUT_PORT_NAME         "midi_in"
@@ -42,16 +42,16 @@ struct midi_buffer global_midi_buffer[BUFFER_MAX_INDEX];
 static gint timeout_id = 0, kill_id=0;
 static gdouble playback_duration = 0.0;
 
-static smf_t           *smf = NULL;
-static double          rate_limit = 0;
-static gboolean        just_one_output = FALSE;
-static gboolean        start_stopped = FALSE;
-static gboolean        use_transport = FALSE;
+static smf_t           	*smf = NULL;
+static double          	rate_limit = 0;
+static gboolean        	just_one_output = FALSE;
+static gboolean        	start_stopped = FALSE;
+static gboolean        	use_transport = FALSE;
 
 static int    		playback_started = -1, song_position = 0;
 static gboolean 	stop_midi_output = FALSE;
-static double start_time = 0.0;//time in seconds to start at (from start of the smf)
-static double end_time = 0.0;//time in seconds to end at (from start of the smf)
+static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
+static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
 
 double 
 get_time(void)
@@ -270,8 +270,6 @@ process_midi_output(jack_nframes_t nframes)
 	unsigned char  *buffer, tmp_status;
 	void		*port_buffers[MAX_NUMBER_OF_TRACKS];
 	jack_nframes_t	last_frame_time;
-	jack_transport_state_t transport_state;
-	static jack_transport_state_t previous_transport_state = JackTransportStopped;
 	smf_event_t *n;
 	for (i = 0; i < smf->number_of_tracks; i++) {
 	  if(output_ports[i])
@@ -292,28 +290,14 @@ process_midi_output(jack_nframes_t nframes)
 			break;
 	}
  
-	if (use_transport) {
-		transport_state = jack_transport_query(jack_client, NULL);
-		g_debug("\nTranport state = %d\n", transport_state);
-		if (transport_state == JackTransportStopped) {
-			/*if (previous_transport_state == JackTransportRolling){
-				send_all_sound_off(port_buffers, nframes);
-				 warn_from_jack_thread_context("\nprevious_transport_state == JackTransportRolling\n");
-			}
-
-			previous_transport_state = transport_state;
-			*/
-			return;
-		}
-
-		//previous_transport_state = transport_state;
-	}
-	
+	if (use_transport) 
+	  if (JackTransportStopped == jack_transport_query(jack_client, NULL))
+		  return;
+		
 	last_frame_time = jack_last_frame_time(jack_client);
 	/* End of song already? */
 	if (playback_started < 0){
-	  g_debug("\nPlayback_started == %d\n", playback_started);
-		//jack_midi_playback_stop();
+		warn_from_jack_thread_context/*g_debug*/("playback_started < 0");
 		return;
 	}
 	/* We may push at most one byte per 0.32ms to stay below 31.25 Kbaud limit. */
@@ -325,22 +309,12 @@ process_midi_output(jack_nframes_t nframes)
 		if (event == NULL || (event->time_seconds>end_time)) {
 			warn_from_jack_thread_context/*g_debug*/("End of song.");
 			jack_midi_playback_stop();
-			break;
-		}
-
-	        if (stop_midi_output) {
-			 warn_from_jack_thread_context/*g_debug*/("stop_midi_output = TRUE");
 			send_all_sound_off(port_buffers, nframes);
-			jack_transport_stop(jack_client);	
-			return;
+			break;
 		}
 		
 		/* Skip over metadata events. */
 		if (smf_event_is_metadata(event)) {
-			char *decoded = smf_event_decode(event);
-			if (decoded)
-			  g_debug("Metadata: %s", decoded);
-
 			n = smf_get_next_event(smf);
 			continue;
 		}
@@ -361,8 +335,6 @@ process_midi_output(jack_nframes_t nframes)
 		if (t < 0)
 			t = 0;
 
-		assert(event->track->track_number >= 0 && event->track->track_number <= MAX_NUMBER_OF_TRACKS);
-
 		/* We will send this event; remove it from the queue. */
 		n = smf_get_next_event(smf);
 
@@ -382,6 +354,7 @@ process_midi_output(jack_nframes_t nframes)
 		memcpy(buffer, event->midi_buffer, event->midi_buffer_length);
 	}
 }
+
 void
 static process_midi_input(jack_nframes_t nframes)
 {
@@ -623,6 +596,7 @@ jack_midi_player (void) {
   
   if (!use_transport)
     playback_started = jack_frame_time(jack_client);
+  IMMEDIATE=FALSE;
 }
 
 void
@@ -630,7 +604,7 @@ jack_midi_playback_start()
 {
   DenemoGUI *gui = Denemo.gui;
   playback_started = -1, song_position = 0, stop_midi_output = FALSE;
-  IMMEDIATE=FALSE;
+  
   /* set tranport on/off */
   use_transport = (gboolean)Denemo.prefs.jacktransport; 
   /* set transport start_stopped */
@@ -644,9 +618,10 @@ jack_midi_playback_start()
 
 	  smf = Denemo.gui->si->smf;
 	  if (smf == NULL) {
-	    g_critical("Loading SMF file failed.");
+	    g_critical("Loading SMF failed.");
 	    return;
 	  }
+	  smf_rewind(smf);
 	  playback_duration = smf_get_length_seconds(smf);
 	  g_debug("%s.\n", smf_decode(smf));
 
@@ -680,8 +655,8 @@ jack_midi_playback_start()
 	  }
 	  playback_duration = end_time - start_time;
 	  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
-	  if (use_transport)
-	    smf_seek_to_seconds(smf, start_time);
+	  //if (use_transport)
+	    //smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
 
