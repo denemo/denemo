@@ -392,30 +392,6 @@ process_callback(jack_nframes_t nframes, void *notused)
       return 0;
 }
 
-static int
-sync_callback(jack_transport_state_t state, jack_position_t *position, void *notused)
-{
-	if(jack_client==NULL)
-	  warn_from_jack_thread_context("no jack_client");
-	
-	/* XXX: We should probably adapt to external tempo changes. */
-
-	if (state == JackTransportStarting) {
-		song_position = position->frame;
-		int n = smf_seek_to_seconds(smf, nframes_to_seconds(position->frame));
-
-		g_debug("Seeking to %f seconds.", nframes_to_seconds(position->frame));
-
-		playback_started = jack_frame_time(jack_client);
-
-	} else if (state == JackTransportStopped) {
-		playback_started = -1;
-		 warn_from_jack_thread_context("Jack Transport Stopped");
-	}
-
-	return TRUE;
-}
-
 /* returns the jack midi port number that
  *  has been assigned
  */
@@ -583,19 +559,7 @@ jack_midi_player (void) {
     jack_transport_start(jack_client);
   }
 
-  if (use_transport) {
-    gint err = jack_set_sync_callback(jack_client, sync_callback, 0);
-    if (err) {
-      g_critical("Could not register JACK sync callback.");
-    }
-  }
-
-  assert(smf->number_of_tracks >= 1);
-
-  
-  
-  if (!use_transport)
-    playback_started = jack_frame_time(jack_client);
+  playback_started = jack_frame_time(jack_client);
   IMMEDIATE=FALSE;
 }
 
@@ -655,8 +619,6 @@ jack_midi_playback_start()
 	  }
 	  playback_duration = end_time - start_time;
 	  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
-	  //if (use_transport)
-	    //smf_seek_to_seconds(smf, start_time);
 	  /* execute jackmidi player function */ 
 	  jack_midi_player();
 
