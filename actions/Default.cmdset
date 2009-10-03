@@ -2698,6 +2698,22 @@ for second and subsequent systems</tooltip>
         <label>Hide on Printing</label>
         <tooltip>Comments out the chord in the LilyPond output.</tooltip>
       </row>
+      <row>
+        <action>MezzoPiano</action>
+        <after>MezzoForte</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Mezzo Piano</label>
+        <tooltip>prints mp and outputs MIDI vol change#</tooltip>
+      </row>
+      <row>
+        <action>Forte</action>
+        <after>Fortissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Forte</label>
+        <tooltip>Attaches Forte to chord and MIDI volume</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
