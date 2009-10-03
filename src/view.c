@@ -5224,19 +5224,19 @@ create_window(void) {
   GtkAccelGroup *accel_group;
   GError *error;
   GtkWidget *widget;
-  gchar *data_dir;
+  gchar *data_file;
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
   loadWindowState(/* it accesses Denemo.window */);
 #ifdef G_OS_WIN32
-  data_dir = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
+  data_file = g_build_filename (get_data_dir (), "icons","denemo.png", NULL);
 #else
-  data_dir = g_strconcat (get_data_dir (), "/../icons/denemo.png", NULL);//FIXME installed in wrong place
+  data_file = g_strconcat (get_data_dir (), "/../pixmaps/denemo.png", NULL);//FIXME installed in wrong place?
 #endif
-  gtk_window_set_default_icon_from_file (data_dir, NULL);
+  gtk_window_set_default_icon_from_file (data_file, NULL);
   gtk_signal_connect (GTK_OBJECT (Denemo.window), "delete_event",
 		      (GtkSignalFunc) delete_callback, NULL);
-  g_free (data_dir);
+  g_free (data_file);
 
   gtk_window_set_resizable (GTK_WINDOW (Denemo.window), TRUE);
 
@@ -5306,21 +5306,21 @@ create_window(void) {
     {"LilyDelete", NULL, N_("Delete Block"),NULL, N_("Delete this block"),G_CALLBACK (delete_lily_cb)}
   };
 
-  data_dir = g_build_filename (
+  data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),
 #endif
  "denemoui.xml", NULL);
   error = NULL;
-  if (!gtk_ui_manager_add_ui_from_file (ui_manager, data_dir, &error))
+  if (!gtk_ui_manager_add_ui_from_file (ui_manager, data_file, &error))
     {
       g_message ("building menu failed: %s", error->message);
       g_error_free (error);
-      gchar *message = g_strdup_printf("The denemoui.xml %s file could not be used - exiting", data_dir);
+      gchar *message = g_strdup_printf("The denemoui.xml %s file could not be used - exiting", data_file);
       warningdialog(message);
       exit (EXIT_FAILURE);
     }
-  g_free (data_dir);
+  g_free (data_file);
 
 
   {//pops up with menu items for the directives attached to the current note
@@ -5392,13 +5392,13 @@ get_data_dir (),
   /* Now that the window is shown, initialize the gcs */
   gcs_init (Denemo.window->window);
 
-  data_dir = g_build_filename (
+  data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),
 #endif
  "denemoui.xml", NULL);
-  parse_paths(data_dir, Denemo.gui);
-
+  parse_paths(data_file, Denemo.gui);
+  g_free(data_file);
 
   use_markup(Denemo.window);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.
