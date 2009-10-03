@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Preferences</after>
+        <action>SetImmediatePlayback</action>
+        <scheme>;;;;; SetImmediatePlayback
+(d-SetPrefs "
+&lt;immediateplayback&gt;1&lt;/immediateplayback&gt;"
+)
+;;;;</scheme>
+        <label>Turn On Immediate Playback</label>
+        <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -15,6 +15,7 @@
 const gchar *locatedotdenemo ();
 
 void initprefs (void);
+gint readxmlprefsString (gchar * xmlprefs);
 gint writeXMLPrefs( DenemoPrefs *prefs);
 void writeHistory(void);
 gint readHistory(void);

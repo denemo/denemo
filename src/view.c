@@ -32,6 +32,7 @@
 #include "commandfuncs.h"
 #include "http.h"
 #include "texteditors.h"
+#include "prefops.h"
 #define INIT_SCM "init.scm"
 
 static void
@@ -414,6 +415,17 @@ SCM scheme_get_cursor_note (SCM optional) {
  SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
    return scm;
 }
+
+SCM scheme_set_prefs (SCM xml) {
+  DenemoGUI *gui = Denemo.gui;
+  if(SCM_STRINGP(xml)){ 
+    gchar *xmlprefs = scm_to_locale_string(xml);
+    gint fail = readxmlprefsString(xmlprefs);
+    return SCM_BOOL(!fail);     
+  }
+  return SCM_BOOL(FALSE);
+}
+
 
 
 SCM scheme_chordize (SCM setting) {
@@ -1998,6 +2010,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
   install_scm_function (DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
+  install_scm_function (DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
   // test with  (d-PutNoteName "e,,") (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-CursorRight) 
   // test with (d-DiatonicShift "3")  (d-NextNote)
