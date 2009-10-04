@@ -496,8 +496,8 @@ staff_properties_change (gpointer callback_data)
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
   BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
-  INTENTRY_LIMITS("Channel:", midi_channel, 0, 15);
-  INTENTRY_LIMITS("Program:", midi_prognum, 0, 127);
+  INTENTRY_LIMITS("Channel:", midi_channel, 1, 16);
+  INTENTRY_LIMITS("Program:", midi_prognum, 1, 128);
   
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \
