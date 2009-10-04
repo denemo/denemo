@@ -432,12 +432,6 @@ DenemoGUI *gui = Denemo.gui;
     }
   }
 
-  // clicking outside the selection
-  if(left) {
-    if(!in_selection(gui->si))
-      gui->si->markstaffnum = 0;
-    lh_down = TRUE;
-  }
 
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
     //gui->si->currentstaffnum = pi.staff_number;
@@ -455,11 +449,19 @@ DenemoGUI *gui = Denemo.gui;
       measureright(NULL);
 
     write_status(gui);
-    /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
-    gtk_widget_draw (gui->scorearea, NULL);
 
-    //g_signal_handlers_unblock_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);   
+
   }
+
+  // clicking outside the selection
+  if(left) {
+    if(!in_selection(gui->si))
+      gui->si->markstaffnum = 0;
+    lh_down = TRUE;
+  }
+  /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
+  gtk_widget_draw (gui->scorearea, NULL);
+    
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
   

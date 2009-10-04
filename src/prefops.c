@@ -12,6 +12,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include "config.h"
 #include <denemo/denemo.h>
 #include <libxml/parser.h>
@@ -20,7 +21,7 @@
 #include "prefops.h"
 
 static gint
-readxmlprefs (gchar * filename, DenemoPrefs * prefs);
+readxmlprefsFile (gchar * filename);
 
 /**
  * This checks to see if there's a .denemo/ directory in the user's
@@ -65,7 +66,7 @@ void
 initprefs ()
 {
   gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
-  DenemoPrefs *ret = &Denemo.prefs;
+  #define ret (&Denemo.prefs)
   gchar * dotdenemo = (gchar*)locatedotdenemo ();
   gchar *localrc = dotdenemo?g_build_filename (dotdenemo, "denemorc", NULL):NULL;
 
@@ -129,19 +130,20 @@ initprefs ()
 
   /* Read values from systemwide preferences file */
 
-  readxmlprefs (systemwide, ret);
+  readxmlprefsFile (systemwide);
 
   /* Read values from personal preferences file */
 
   //readpreffile (localrc, ret);
   if(localrc) {
     if(g_file_test(localrc,  G_FILE_TEST_EXISTS))
-      readxmlprefs (localrc, ret);
+      readxmlprefsFile (localrc);
     else
       writeXMLPrefs(ret);
   }
   g_free (systemwide);
   g_free (localrc);
+#undef ret
 }
 
 
@@ -322,26 +324,52 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
   return;
 }
 
+
+static gint
+readxmlprefs (gchar * xmlsource, gboolean from_file);
+
 /**
- * Top-level function to read the denemotc xml file.
+ * Read a denemo preferences xml file.
  * @param filename - denemorc file name 
  * @param prefs - struct to populate data into
-
  *
  */
+
 static gint
-readxmlprefs (gchar * filename, DenemoPrefs * prefs)
+readxmlprefsFile (gchar * filename) {
+  return readxmlprefs(filename,  TRUE);
+}
+
+/**
+ * Read denemo preferences from an xml string.
+ * @param content - a string containing prefs in xml 
+ *
+ */
+gint
+readxmlprefsString (gchar * content) {
+  gchar *xml = g_strconcat("<?xml version=\"1.0\"?><Denemo><Config>", content, "</Config></Denemo>", NULL);
+  gint ret= readxmlprefs(xml, FALSE);
+  g_free(xml);
+  return ret;
+}
+
+
+
+static gint
+readxmlprefs (gchar * xmlsource,  gboolean from_file)
 {
+  DenemoPrefs * prefs = &Denemo.prefs;
   gint ret = -1;
   xmlDocPtr doc = NULL;
   xmlNodePtr rootElem;
 
-
-  doc = xmlParseFile (filename);
-
+  if(from_file) 
+    doc = xmlParseFile (xmlsource);
+  else
+    doc = xmlReadMemory(xmlsource, strlen(xmlsource), "noname.xml", NULL, 0);
   if (doc == NULL)
     {
-      g_warning ("Could not read XML file %s", filename);
+      g_warning ("Could not read XML %s %s\n", from_file?"File: ":":\n", xmlsource);
       return ret;
     }
 
