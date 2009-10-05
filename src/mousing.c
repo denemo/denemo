@@ -453,11 +453,14 @@ DenemoGUI *gui = Denemo.gui;
 
   }
 
-  // clicking outside the selection
+
   if(left) {
-    if(!in_selection(gui->si))
+    // if(!(GDK_CONTROL_MASK&event->state))
       gui->si->markstaffnum = 0;
-    lh_down = TRUE;
+    //    else
+    //  calcmarkboundaries (gui->si);
+     lh_down = TRUE;
+ 
   }
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
   gtk_widget_draw (gui->scorearea, NULL);
