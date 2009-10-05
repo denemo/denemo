@@ -849,6 +849,11 @@ gint
 scorearea_expose_event (GtkWidget * widget, GdkEventExpose * event)
 {
 DenemoGUI *gui = Denemo.gui;
+ if((!Denemo.gui->si)||(!Denemo.gui->si->currentmeasure)){
+   g_warning("Cannot draw!\n");
+   return TRUE;
+ }
+
  do{
    /* Clear the backing pixmap */
    if(Denemo.gui->input_source!=INPUTKEYBOARD &&
