@@ -490,7 +490,7 @@ pastefrombuffer (void)
       }
       setcurrents (gui->si);
     } /* End staff loop */
-  g_print("check %d against %d\n", staffsinbuffer, staffs_used);
+  // g_print("check %d against %d\n", staffsinbuffer, staffs_used);
   while(staffs_used--)
     {
       DenemoScriptParam param; 
