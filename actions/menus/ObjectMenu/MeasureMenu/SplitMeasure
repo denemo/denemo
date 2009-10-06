@@ -2,17 +2,25 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>RTS</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after>InsertMeasure</after>
         <action>SplitMeasure</action>
-        <scheme>(d-CursorLeft)
-(d-SetMark)
-(d-MeasureLeft)
-(d-Cut)
-(d-InsertMeasure)
-(d-Paste)
-</scheme>
+        <scheme> ;;;SplitMeasure
+(if (d-CursorLeft)
+    (begin 
+      (d-SetMark)
+      (if (d-MeasureLeft)
+	  (begin
+	    (d-Cut)
+	    (d-InsertMeasure)
+	    (d-Paste))
+	  (begin
+	    (d-Cut)
+	    (d-InsertMeasure)
+	    (d-Paste))))
+    (d-WarningDialog "Sorry cannot split here"))</scheme>
         <label>Split Measure</label>
         <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>

@@ -1235,14 +1235,12 @@ Notes entered will follow this pattern</tooltip>
         <label>Cut</label>
         <tooltip>Cut</tooltip>
         <bind>Control+x</bind>
-        <bind>PrsL-Control</bind>
       </row>
       <row>
         <action>Paste</action>
         <label>Paste</label>
         <tooltip>Paste the selected music</tooltip>
         <bind>Control+v</bind>
-        <bind>RlsL-Control</bind>
       </row>
       <row>
         <action>PasteClipboard</action>
