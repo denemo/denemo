@@ -348,7 +348,11 @@ measureleft (DenemoScriptParam *param)
     param = &dummy;
   param->status = FALSE;
 
-  if (!gui->si->cursor_x && gui->si->currentmeasure->prev)
+  if (
+#if 0 //this prevents deletion going past empty measures
+!gui->si->cursor_x && 
+#endif
+gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
       isoffleftside (gui);

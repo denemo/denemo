@@ -596,33 +596,41 @@ deletepreviousobject(DenemoGUI * gui)
       cursorleft (NULL);
       /* And delete */
       deleteobject (gui);
+      /* if you are following a rhythmic pattern then backup the pattern */
+#define g  (gui->rstep)
+      if((gui->mode&(INPUTEDIT) && g)) 
+	{
+#define CURRP ((RhythmPattern *)gui->currhythm->data) 
+	  g = g->prev; /* list is circular - should we stop at beginning? */
+	  if(((RhythmElement*)g->data)->icon) {
+	    GtkWidget *label = LABEL(CURRP->button);
+	    gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
+	  }
+#undef CURRP
+#undef g
+	}
+      
     }
   else
-    {/* go to the previous measure and start deleting there */
+    {/* go to the previous measure, go to end of it, and start deleting there */
       if(gui->si->currentmeasure->prev) {
-	measureleft(NULL);
-	while (gui->si->currentobject && (gui->si->currentobject->next))
-	  {
+	DenemoScriptParam param;
+	
+	do {
+	  measureleft(&param);
+	//go to end
+	while (gui->si->currentobject && (gui->si->currentobject->next))  {
 	    gui->si->currentobject = gui->si->currentobject->next;
 	    gui->si->cursor_x++;
 	  }
-	cursorright(NULL);
-	if(gui->si->currentobject)
+	} while(param.status && !gui->si->currentobject);
+	
+
+	if(gui->si->currentobject) {
+	  cursorright(NULL);
 	  deletepreviousobject(gui);
+	}
       }
-    }
-  /* if you are following a rhythmic pattern then backup the pattern */
-#define g  (gui->rstep)
-  if((gui->mode&(INPUTEDIT) && g)) 
-    {
-#define CURRP ((RhythmPattern *)gui->currhythm->data) 
-      g = g->prev; /* list is circular - should we stop at beginning? */
-      if(((RhythmElement*)g->data)->icon) {
-	GtkWidget *label = LABEL(CURRP->button);
-	gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
-      }
-#undef CURRP
-#undef g
     }
 }
 

@@ -188,7 +188,7 @@ cuttobuffer (DenemoScore * si)
   measurenode *curmeasure;
   objnode *tempobj;
   gint i, jcounter, max;
-  if (!si->firststaffmarked)
+  if (!si->markstaffnum)
     return;
   copytobuffer (si);
   gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
@@ -300,7 +300,7 @@ cuttobuffer (DenemoScore * si)
 	    }
 	}
     }
-  si->markstaffnum = 0;
+  si->firststaffmarked = si->markstaffnum = 0;//only the latter is needed, but there was some confusion at one time...
   /* And set some currents. This would probably be better to split off
    * into a more-generalized version of setcurrents or something;
    * what's here is more-or-less copied from dnm_deleteobject in
@@ -376,24 +376,22 @@ pastefrombuffer (void)
   gint i, j;
   gint measuretoaddat = si->currentmeasurenum;
   if((staffsinbuffer>1) || (measurebreaksinbuffer>0)) {
-
     /* g_print("si->appending=%d si->cursoroffend=%d curobjnot1st=%d\n", si->cursor_appending, si->cursoroffend, 
        (si->currentobject!=si->currentmeasure->data));*/
 
     if((!si->cursor_appending) && (si->currentobject!=si->currentmeasure->data))
       return FALSE;
-
-
-    // g_print("Adding %d measures at %d\n", measurebreaksinbuffer+(staffsinbuffer==0), si->currentmeasurenum);
-    if(si->cursor_appending) {
-    addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+(staffsinbuffer==0), (staffsinbuffer>1));
-    measureright(NULL);measuretoaddat++;//Better check measureright worked
-    } else {
-      addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+(staffsinbuffer==0), (staffsinbuffer>1));
+    if(si->currentobject) {
+      //g_print("Adding %d measures at %d\n", measurebreaksinbuffer+(staffsinbuffer==1), si->currentmeasurenum);
+      if(si->cursor_appending) {
+	addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+(staffsinbuffer==1), (staffsinbuffer>1));
+	measureright(NULL);measuretoaddat++;//Better check measureright worked
+      } else {
+	addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+(staffsinbuffer==1), (staffsinbuffer>1));
+      }
+      setcurrents (gui->si);
     }
-    setcurrents (gui->si);//currentobject is NULL, currentmeasure is first of added measures
-    //   if(si->cursoroffend)
-    //   insertion_point(si);
+    //currentobject is NULL, currentmeasure is first of added measures
   }
 
   /* All right. Any necessary measures have been inserted - now paste away */
@@ -499,7 +497,7 @@ DenemoObject *get_mark_object(void){
   DenemoStaff *firststaff =  (DenemoStaff *) curstaff->data;
   measurenode *firstmeasure = g_list_nth (firststaff->measures,  si->firstmeasuremarked - 1);
   objnode *firstobj = g_list_nth (firstmeasure->data, si->firstobjmarked);
-  g_print("First %d\n",  si->firstobjmarked);
+  //g_print("First %d\n",  si->firstobjmarked);
   return firstobj? ((DenemoObject *)firstobj->data):NULL;
 }
 DenemoObject *get_point_object(void){
