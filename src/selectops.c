@@ -370,7 +370,7 @@ pastefrombuffer (void)
   measurenode *curmeasure;
   GList *curbuffernode = copybuffer;
   objnode *curbufferobj;
-  gint insertat, initialinsertat;
+  gint initialinsertat;
   DenemoObject *clonedobject;
   gint staffs_used = 0;//number of staffs we have pasted into after the first
   gint i, j;
@@ -384,12 +384,12 @@ pastefrombuffer (void)
       return FALSE;
 
 
-    //g_print("Adding %d measures at %d\n", measurebreaksinbuffer+1, si->currentmeasurenum);
+    // g_print("Adding %d measures at %d\n", measurebreaksinbuffer+(staffsinbuffer==0), si->currentmeasurenum);
     if(si->cursor_appending) {
-    addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+1, (staffsinbuffer>1));
+    addmeasures (si, si->currentmeasurenum, measurebreaksinbuffer+(staffsinbuffer==0), (staffsinbuffer>1));
     measureright(NULL);measuretoaddat++;//Better check measureright worked
     } else {
-      addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+1, (staffsinbuffer>1));
+      addmeasures (si, si->currentmeasurenum-1, measurebreaksinbuffer+(staffsinbuffer==0), (staffsinbuffer>1));
     }
     setcurrents (gui->si);//currentobject is NULL, currentmeasure is first of added measures
     //   if(si->cursoroffend)
@@ -417,7 +417,7 @@ pastefrombuffer (void)
 
       curmeasure = g_list_nth (firstmeasurenode (curstaff),
 			       si->currentmeasurenum - 1);
-      insertat = initialinsertat;//UNUSED
+
       
       for (curbufferobj = (objnode *) curbuffernode->data;
 	   curbufferobj && curmeasure; curbufferobj = curbufferobj->next)
@@ -449,32 +449,12 @@ pastefrombuffer (void)
 		       si->cursoroffend, clonedobject->starttick);
 	      insertion_point (si);
 	      object_insert(gui, clonedobject);
-	      /*	      curmeasure->data =
-	      g_list_insert ((objnode *) curmeasure->data, clonedobject,
-	      insertat);*/
-#if 0
-	      switch(curobj->type) {
-	      case CHORD:
-		newclefify (curobj, prevailing_clef);
-		break;
-	      case CLEF:
-		prevailing_clef = ((clef*)curobj->object)->type;
-		fixnoteheights((DenemoStaff *) curstaff->data);
-		break;
-	      case TIMESIG:
-		g_warning("Display may be strange");
-		break;
 
-	      }
-
-#endif
-	      // beamandstemdirhelper(si);
-	      
 	      si->cursoroffend = (si->currentobject?
 		((DenemoObject *)si->currentobject->data)->starttickofnextnote
 				  >= (WHOLE_NUMTICKS * si->cursortime1 / si->cursortime2): 0);   // guess  
 
-	      insertat++;//UNUSED
+
 	    } //not a staff break
 	}			/* End bufferobj loop */
       fixnoteheights(curstaff->data);
