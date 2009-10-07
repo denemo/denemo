@@ -187,7 +187,8 @@ cuttobuffer (DenemoScore * si)
   staffnode *curstaff;
   measurenode *curmeasure;
   objnode *tempobj;
-  gint i, jcounter, max;
+  gint i, jcounter, //jcounter is marking the position of the measure currently being cleared I think
+    max;
   if (!si->markstaffnum)
     return;
   copytobuffer (si);
@@ -195,7 +196,7 @@ cuttobuffer (DenemoScore * si)
   if (staffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
-      jcounter = si->firstmeasuremarked;
+      jcounter = si->firstmeasuremarked; //currently clearing stuff from the firstmeasuremarked
       curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), jcounter - 1);
 
       /* Clear the relevant part of the first measure selected */
@@ -212,17 +213,18 @@ cuttobuffer (DenemoScore * si)
 	  freeobject ((DenemoObject *) tempobj->data);
 	  g_list_free_1 (tempobj);
 	}
-      jcounter++;
+      jcounter++; //move on to the second measure being cleared
       curmeasure = curmeasure->next;
 
       if (!si->thescore->next)
 	{
-	  /* That is, the score has only this one staff */
+	  /* That is, the score has only this one staff
+	   remove the (whole) measures between the first and last - which may be partial.*/
 	  if (measurebreaksinbuffer - 1 > 0)
 	    {
 	      curmeasure =
 		removemeasures (si, jcounter - 1, measurebreaksinbuffer - 1, TRUE);
-	      jcounter += measurebreaksinbuffer - 1;
+	      jcounter += measurebreaksinbuffer - 1;// increased by the number of measures *between* first and last marked
 	    }
 	}
       else
@@ -245,8 +247,16 @@ cuttobuffer (DenemoScore * si)
 	    }
 	  /* And delete it, if the measure's been cleared and there's only
 	     one staff.  */
+#if 0
 	  if (!curmeasure->data && !si->thescore->next)
-	    removemeasures (si, jcounter - 1, 1, TRUE);
+	    removemeasures (si, jcounter - 1, 1, TRUE);//WRONG the other measures have been removed, so jcounter no longer indexes anything in the staff!
+#else
+	  if (!curmeasure->data && !si->thescore->next)
+	    removemeasures (si, g_list_position(firstmeasurenode(si->currentstaff), curmeasure), 1, TRUE);
+#endif
+
+
+
 	}
       showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->data);
       beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
