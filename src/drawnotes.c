@@ -506,6 +506,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  }			/* End drawing for non-end-beamgroup notes */
 	else
 	  {			/* We're at the end of a beamgroup */
+	    if(prevmuditem)//sanity check
 	    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
 			  4),
 		   beampainty = thechord.stemy - FIRSTBEAMSPACE -
