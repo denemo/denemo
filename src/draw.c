@@ -125,7 +125,7 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
   gint count = 0;
   gint i;
   GList *curmeasure = staff->measures;
-  for(i=1;i<from;i++, curmeasure = curmeasure->next) {
+  for(i=1;curmeasure && (i<from);i++, curmeasure = curmeasure->next) {
     objnode *curobj;
     for(curobj = curmeasure->data;curobj;curobj=curobj->next) {
       DenemoObject *obj = curobj->data;
@@ -787,34 +787,38 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
       staff->space_below = itp.lowy, repeat=TRUE;
 
-
+    gint measures_in_staff = g_list_length(staff->measures);
     /* Now draw the barlines between the measures, across all the staffs */
     mwidthiterator = g_list_nth (si->measurewidths, si->leftmeasurenum - 1);
     for (x = KEY_MARGIN + si->maxkeywidth + 
 	   SPACE_FOR_TIME - HALF_BARLINE_SPACE,
-	   i = si->leftmeasurenum;
-	 i <= si->rightmeasurenum; mwidthiterator = mwidthiterator->next, 
+	   i = si->leftmeasurenum; mwidthiterator && 
+	   (i <= si->rightmeasurenum); mwidthiterator = mwidthiterator->next, 
 	   i++)
       {
+
 	gint top = y + STAFF_HEIGHT; 
 
 	x += GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE;
-	   
-	if (!mwidthiterator->next) /* Last measure - draw double-barline */
+	if(i==measures_in_staff)
+	  mwidthiterator = g_list_last(si->measurewidths);//do not draw barlines for short staffs
+	if (!mwidthiterator->next) /* Last measure - draw light line 3 pixels early */
 	  x -= 3;
 	gdk_draw_line (gui->pixmap, wronglength[i-si->leftmeasurenum]?graygc:blackgc, x, top, x, y);
-	   
+	
 	if (!mwidthiterator->next)
 	  {
-	    /* Again, we've reached the end of the score and should
-	     * draw a double-barline */
+	    /* we've reached the end of the score and should
+	     * draw the heavy part of double-barline at regular position */
 	    x += 3;
-	    gdk_draw_rectangle (gui->pixmap, blackgc, TRUE, x,
+	    gdk_draw_rectangle (gui->pixmap, wronglength[i-si->leftmeasurenum]?graygc:blackgc, TRUE, x,
 				y, 4,
 				STAFF_HEIGHT+1);
 	  }
 	   
       }
+
+
     g_free(wronglength);
     if ( itp.staffnum < si->bottom_staff
 	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
