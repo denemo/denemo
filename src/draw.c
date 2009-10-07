@@ -524,7 +524,8 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
 	{
 	  /* That is, the cursor's at the beginning of this blank measure */
 	  si->cursoroffend = FALSE;
-	  draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
+	  if (si->currentstaffnum == itp->staffnum)
+	    draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
 	  si->cursorclef = itp->clef->type;
 	}
