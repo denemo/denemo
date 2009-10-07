@@ -493,6 +493,8 @@ pastefrombuffer (void)
     si->cursor_appending = TRUE;
   else
     si->cursor_appending = FALSE;
+  find_xes_in_all_measures (si);
+
   g_debug ("End of Paste Cursor X: %d\n", si->cursor_x);
   return TRUE;
 }
