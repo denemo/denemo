@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>MovementSubtitle</action>
+        <scheme>(SetHeaderField "subtitle")
+(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+(d-RefreshDisplay)</scheme>
+        <label>Title (subtitle of score)</label>
+        <tooltip>Prints the name given as a title above this movement.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
