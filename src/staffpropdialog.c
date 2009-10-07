@@ -275,9 +275,9 @@ set_properties (struct callbackdata *cbdata)
 
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
-  g_print("first %d\t", staffstruct->space_above);
+  //g_print("first %d\t", staffstruct->space_above);
   ASSIGNNUMBER(space_above);
-  g_print("then %d\t", staffstruct->space_above);
+  //g_print("then %d\t", staffstruct->space_above);
   ASSIGNNUMBER(space_below);
   ASSIGNNUMBER(no_of_lines);
   ASSIGNNUMBER(transposition);
