@@ -200,6 +200,7 @@ timer_callback(gpointer bufferindex){
        global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_OFF | global_midi_buffer[index].channel;
        global_midi_buffer[BufferFillIndex].buffer[1] = global_midi_buffer[index].buffer[1];
        global_midi_buffer[BufferFillIndex].buffer[2] = global_midi_buffer[index].buffer[2];
+       global_midi_buffer[BufferFillIndex].jack_port = global_midi_buffer[index].jack_port;
        BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
        BufferEmpty=FALSE;
        return FALSE;
@@ -376,20 +377,17 @@ static process_midi_input(jack_nframes_t nframes)
 static int 
 process_callback(jack_nframes_t nframes, void *notused)
 {
-      if (nframes <= 0) {
-	warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
-	return 0;
-      }
-
-      process_midi_input(nframes);
-      if (IMMEDIATE)
-	if (Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback){
-	  send_midi_event(nframes);
-	}
-      if (!IMMEDIATE)
-	if (Denemo.gui->si && smf && output_ports)
-	  process_midi_output(nframes);
-      return 0;
+  if (nframes <= 0) {
+    warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
+    return 0;
+  }
+  if(Denemo.gui->input_source==INPUTMIDI && input_port)
+    process_midi_input(nframes);
+  if (IMMEDIATE && Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback)
+      send_midi_event(nframes);
+  if (!IMMEDIATE && Denemo.gui->si && smf && output_ports)
+      process_midi_output(nframes);
+  return 0;
 }
 
 /* returns the jack midi port number that
