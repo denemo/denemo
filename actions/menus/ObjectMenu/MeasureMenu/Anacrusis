@@ -5,21 +5,32 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>Anacrusis</action>
-        <scheme>
-	;;;Scheme code for command Anacrusis
-	(d-GoToBeginning)
-	(while (d-StaffUp)
-		(display "going up"))
-	(d-InsertMeasure)
-	(d-InsertLilyDirective "directive=\\partial 8\0display=Upbeat")
-	(d-Insert3)
-	(while (d-StaffDown)
-		(begin (d-InsertLilyDirective "directive=\\partial 8\0display=Upbeat")
-		(d-Insert3)))
-	(while (d-StaffUp)
-		(display "going up"))
-	(d-MeasureRight)
+        <scheme>;;;;;;;;;;Anacrusis
+(d-GoToBeginning)
+(let ((duration (d-GetDurationInTicks)))
+  (if (boolean? duration)
+      (set! duration 0))
+  (while (d-NextObjectInMeasure) 
+	 (set! duration (+ duration (d-GetDurationInTicks))))
+  (d-GoToBeginning)
+  (set! duration (/ duration 12))
+  (if (equal? 0 duration)
+      (begin
+	(d-WarningDialog "Put notes/rests in the first measure for the upbeat required\nThen issue this command"))
+      (begin
+	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number-&gt;string duration) " " ))
+	(d-CursorLeft)
+	(d-DirectivePut-standalone-minpixels "Anacrusis" 60)
+	(d-DirectivePut-standalone-display "Anacrusis" "Upbeat")
+	(d-RefreshDisplay)
+	(if (not (d-MeasureRight))
+	    (begin
+	      (d-AppendMeasure)
+	      (d-MeasureRight))))))
+
+       
 </scheme>
         <label>Insert Anacrusis</label>
         <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>

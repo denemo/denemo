@@ -538,6 +538,15 @@ SCM scheme_get_note_duration(void){
  return  scm;
 }
 
+SCM scheme_get_duration_in_ticks(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+   return SCM_BOOL(FALSE);
+ return scm_int2num(curObj->basic_durinticks);
+}
+
 SCM scheme_get_note (SCM optional) {
   //int length;
     //   char *str=NULL;
@@ -1729,11 +1738,8 @@ SCM scheme_diatonic_shift (SCM optional) {
 }
 
 
-static gboolean to_next_object(void) {
+static gboolean to_next_object(gboolean within_measure) {
   DenemoGUI *gui = Denemo.gui;
-  DenemoObject *curObj;
-  chord *thechord;
-  note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
@@ -1742,10 +1748,12 @@ static gboolean to_next_object(void) {
   cursorright (NULL);//FIXME use value param->status
   if(this!= Denemo.gui->si->currentobject)
     return TRUE;
-  if(Denemo.gui->si->cursor_appending)
-    cursorright (NULL);
-  if(this!= Denemo.gui->si->currentobject)
-    return TRUE;
+  if(!within_measure) {
+    if(Denemo.gui->si->cursor_appending)
+      cursorright (NULL);
+    if(this!= Denemo.gui->si->currentobject)
+      return TRUE;
+  }
   return FALSE;  
 }
 
@@ -1753,10 +1761,16 @@ static gboolean to_next_object(void) {
    Steps over barlines (i.e. cursor_appending).
    returns TRUE if currentobject is different after than before doing the call
 */
-SCM scheme_next_object (SCM optional) {
-return SCM_BOOL(to_next_object());
+SCM scheme_next_object (void) {
+return SCM_BOOL(to_next_object(FALSE));
 }
 
+/* moves currentobject to next object in measure, if any
+   returns TRUE if currentobject is different after than before doing the call
+*/
+SCM scheme_next_object_in_measure (void) {
+return SCM_BOOL(to_next_object(TRUE));
+}
 
 
 SCM scheme_refresh_display (SCM optional) {
@@ -1782,9 +1796,9 @@ SCM scheme_next_selected_object (SCM optional) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return SCM_BOOL(FALSE);
   save_selection(Denemo.gui->si);
-  gboolean success = to_next_object();
+  gboolean success = to_next_object(FALSE);
   if(!success)
-    success = to_next_object();//if at first you don't succeed. Better might be to examine cursor_appending...
+    success = to_next_object(FALSE);//FIXME THIS IS NOT NEEDED if at first you don't succeed. Better might be to examine cursor_appending...
   restore_selection(Denemo.gui->si);
   //g_print("success %d\n", success);
   if( (success) && in_selection(Denemo.gui->si))
@@ -1796,7 +1810,7 @@ SCM scheme_next_selected_object (SCM optional) {
 
 
 SCM scheme_next_standalone_directive (SCM optional) {
-  SCM ret = scheme_next_object(optional);
+  SCM ret = scheme_next_object();
   if(SCM_FALSEP(ret))
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -1809,7 +1823,7 @@ SCM scheme_next_standalone_directive (SCM optional) {
 
 
 SCM scheme_next_chord (SCM optional) {
-  SCM ret = scheme_next_object(optional);
+  SCM ret = scheme_next_object();
   if(SCM_FALSEP(ret))
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -1819,6 +1833,10 @@ SCM scheme_next_chord (SCM optional) {
     return 
       scheme_next_chord (optional);
 }
+
+
+
+
   // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
 //This next note is next chord that is not a rest.
@@ -2019,12 +2037,15 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
+
   install_scm_function (DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", scheme_diatonic_shift);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", scheme_next_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"NextObjectInMeasure", scheme_next_object_in_measure);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", scheme_next_selected_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
