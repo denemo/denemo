@@ -566,7 +566,7 @@ staffup (DenemoScriptParam *param)
       setcurrents (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
+      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set I think it just needs si->cursorclef = si->curmeasureclef (? after beamandstemdirhelper(si)??)
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
