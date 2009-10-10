@@ -4251,7 +4251,7 @@ static gboolean menu_click (GtkWidget      *widget,
   filepath = get_system_menupath(myposition);
   if(0==g_access(filepath, 4)) {
     //g_print("We can look for a menu item in the path %s\n", filepath);
-    item = gtk_menu_item_new_with_label("Insert Additional Menu Item");
+    item = gtk_menu_item_new_with_label("More Commands");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(load_command_from_location), (gpointer)filepath);
   }

@@ -161,7 +161,7 @@ add_ui(gchar *menupath, gchar *after, gchar *name) {
   if( (after!=NULL) & (sibling==NULL)) {
     static gboolean once=TRUE;
     if(once) {
-      gchar *msg = g_strdup_printf("Cannot place %s after %s as requested,\nbecause I haven't seen %s yet\nTo fix this delete the %s command save the command set,\nQuit and restart Denemo\nThen re-install %s by right clicking on the %s item\nand choosing Insert Command After This One\nAnd finally saving command set again", name, after, after, name, name, after);
+      gchar *msg = g_strdup_printf("Cannot place %s after %s as requested,\nbecause I haven't seen %s yet\nTo fix this delete the %s command save the command set,\nQuit and restart Denemo\nThen re-install %s by right clicking on the %s item\nand choosing More Commands\nAnd finally saving command set again", name, after, after, name, name, after);
       infodialog(msg);
       g_free(msg);
       once = FALSE;
