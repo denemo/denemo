@@ -235,8 +235,6 @@ void jack_output_midi_event(unsigned char *buffer){
      g_debug("\nBuffer Overrun\n");
    BufferEmpty=FALSE;
  } 
- else 
-  jack_output_midi_event(buffer); 
 }
 
 static void
