@@ -5,13 +5,17 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after/>
         <action>SetFontSize</action>
         <scheme>;;; d-SetFontSize
-(d-ScoreProperties (string-append "fontsize=" (d-GetUserInput "Overall Score Sizing" 
-			       "Give font size to use" "20")))
+(set! SetScoreSize::Size (d-ScoreProperties "query=fontsize"))	
+(set! SetScoreSize::Size  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" SetScoreSize::Size))
+(if (boolean? SetScoreSize::Size)		
+	(set! SetScoreSize::Size (d-ScoreProperties "query=fontsize")))						       
+(d-ScoreProperties (string-append "fontsize="   SetScoreSize::Size))		
 </scheme>
-        <label>(Print) Set Score Size</label>
-        <tooltip>Sets the font size for the score, by which the whole score is scaled on printing.</tooltip>
+        <label>(Print)Set Overall Score Size</label>
+        <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
       </row>
     </map>
   </merge>
