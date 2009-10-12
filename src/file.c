@@ -265,6 +265,7 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
       refresh_lily_cb(NULL, gui);
     }
   g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+  load_local_scheme_init();//to re-instate any user defined directives for whole score
   return result;
 }
 

@@ -1946,23 +1946,28 @@ void denemo_scheme_init(gchar *initscheme){
 }
 
 /*
+  load denemo.scm from user's .denemo 
+*/
+void load_local_scheme_init(void)  {
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+  g_free(filename);
+}
+/*
   load denemo.scm from system,and then, if present from user's .denemo 
 
 */
 static void load_scheme_init(void)  {
-    gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
-    
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
-    else
-      g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
-    g_free(filename);
-
-    filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
-    g_free(filename);
-  }
+  gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
+  
+  if(g_file_test(filename, G_FILE_TEST_EXISTS))
+    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+  else
+    g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
+  g_free(filename);
+  load_local_scheme_init();
+}
 
 
 
@@ -2753,9 +2758,8 @@ void free_gui(DenemoGUI *gui)
     g_list_free(gui->custom_scoreblocks);
     gui->custom_scoreblocks=NULL;
   }
-
- 
       /* any other free/initializations */
+
 }
 
 /**
@@ -2889,7 +2893,6 @@ openinnew (GtkAction *action, gpointer param)
 {
   newtab (NULL, param);
   file_open_with_check (NULL, param);
-  load_scheme_init();
 }
 
 

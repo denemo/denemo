@@ -85,4 +85,9 @@ void
 upload_edit_script(gchar *tag, gchar *script);
 void 
 execute_init_scripts(gchar *menupath);
+
+void
+load_local_scheme_init(void);
+
+
 #endif
