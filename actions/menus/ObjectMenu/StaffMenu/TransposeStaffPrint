@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>Ambitus</after>
+        <after>SmallerStaff</after>
         <action>TransposeStaffPrint</action>
         <scheme> ;;;;;;;;;;; TransposeStaffPrint
 (if (not (defined? 'Transpose::init))

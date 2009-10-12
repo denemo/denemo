@@ -2385,6 +2385,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       </row>
       <row>
         <action>InstrumentName</action>
+	<after>SmallerStaff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <label>Instrument Name</label>

@@ -2410,22 +2410,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
       </row>
       <row>
-        <action>InstrumentName</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Instrument Name</label>
-        <tooltip>Print Instrument name before staff at start of score,</tooltip>
-      </row>
-      <row>
-        <action>ShortInstrumentName</action>
-        <after>InstrumentName</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Short Instrument Name</label>
-        <tooltip>Prints shortened form of instrument name before this staff
-for second and subsequent systems</tooltip>
-      </row>
-      <row>
         <action>LineBreak</action>
         <after>Anacrusis</after>
         <scheme></scheme>
@@ -2765,6 +2749,23 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Turn On Immediate Playback</label>
         <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
+      </row>
+      <row>
+        <action>InstrumentName</action>
+        <after>SmallerStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Instrument Name</label>
+        <tooltip>Print Instrument name before staff at start of score,</tooltip>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+        <after>InstrumentName</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Short Instrument Name</label>
+        <tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</tooltip>
       </row>
     </map>
   </commands>
