@@ -1946,6 +1946,18 @@ void denemo_scheme_init(gchar *initscheme){
 }
 
 /*
+  append scheme to user's denemo.scm
+*/
+void append_to_local_scheme_init(gchar *scheme)  {
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
+  FILE *fp = fopen(filename, "a+");
+  if(fp)
+    fprintf(fp, "%s", scheme);
+  fclose(fp);
+  g_free(filename);
+}
+
+/*
   load denemo.scm from user's .denemo 
 */
 void load_local_scheme_init(void)  {
@@ -1968,6 +1980,7 @@ static void load_scheme_init(void)  {
   g_free(filename);
   load_local_scheme_init();
 }
+
 
 
 
@@ -3590,6 +3603,20 @@ static void setMouseAction(ModifierAction *info) {
   g_string_free(modname, TRUE);
 }
 
+
+static void placeOnButtonBar(GtkWidget *widget,  GtkAction *action) {
+  gchar *name = (gchar *)gtk_action_get_name(action);
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
+
+  gchar *scheme = g_strdup_printf(";To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, label, name, name, name);
+  g_print("the scheme is \n%s\n", scheme);
+  if(call_out_to_guile(scheme))//actually there seems to be no boolean returned here
+    append_to_local_scheme_init(scheme);
+  else
+    warningdialog("Could not create button");
+  g_free(scheme);
+}
 /* gets a name label and tooltip from the user, then creates a menuitem in the menu 
    given by the path myposition whose callback is the activate on the current scheme script.
 */
@@ -4249,6 +4276,13 @@ static gboolean menu_click (GtkWidget      *widget,
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(popup_help), (gpointer)action);
 
 
+  /* "drag" menu item onto button bar */
+
+   item = gtk_menu_item_new_with_label("Place Command on Button Bar");
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(placeOnButtonBar), action);
+
+
   if(idx!=-1) {
     item = gtk_menu_item_new_with_label("Create Mouse Shortcut");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
@@ -4315,7 +4349,6 @@ static gboolean menu_click (GtkWidget      *widget,
     gchar *insertion_point = g_build_filename(myposition, func_name, NULL);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), insertion_point);
   }
-
 
 
   /* options for getting/putting init.scm */
