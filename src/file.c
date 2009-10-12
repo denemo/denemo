@@ -1081,7 +1081,7 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
     fprintf(fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
     fclose(fp);
     gint theclef = find_prevailing_clef(Denemo.gui->si);
-    newtab(NULL, NULL);
+    newview(NULL, NULL);
     gint fail = open_for_real(filename, Denemo.gui, TRUE, REPLACE_SCORE);
     //thescore can be NULL after failed load....
     if(fail) {

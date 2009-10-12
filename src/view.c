@@ -36,7 +36,7 @@
 #define INIT_SCM "init.scm"
 
 static void
-newview (GtkAction *action, gpointer param);
+newtab (GtkAction *action, gpointer param);
 
 static void
 closewrapper (GtkAction *action, gpointer param);
@@ -1928,6 +1928,7 @@ void denemo_scheme_init(gchar *initscheme){
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   } else {
+#if 0
     gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
     
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
@@ -1935,13 +1936,33 @@ void denemo_scheme_init(gchar *initscheme){
     else
       g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
     g_free(filename);
+
+    filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+    g_free(filename);
+#endif
+  }
+}
+
+/*
+  load denemo.scm from system,and then, if present from user's .denemo 
+
+*/
+static void load_scheme_init(void)  {
+    gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
+    
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+    else
+      g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
+    g_free(filename);
+
     filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
       gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
     g_free(filename);
   }
-}
-
 
 
 
@@ -2645,6 +2666,7 @@ INSTALL_EDIT(movementcontrol);
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
      ;// open_user_default_template(REPLACE_SCORE);
  
+ load_scheme_init();
  /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
@@ -2867,6 +2889,7 @@ openinnew (GtkAction *action, gpointer param)
 {
   newtab (NULL, param);
   file_open_with_check (NULL, param);
+  load_scheme_init();
 }
 
 
@@ -5481,10 +5504,11 @@ Really we should change the default for the class.*/
 }   /* create window */
 
 
-static void
+void
 newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
+  load_scheme_init();
   //should we load init.denemo here as well???
   //open_user_default_template(REPLACE_SCORE);
 }
@@ -5496,7 +5520,7 @@ newview (GtkAction *action, gpointer param)
  * A single movement (DenemoScore) is instantiated in the gui.
  * 
  */
-void
+static void
 newtab (GtkAction *action, gpointer param) {
 #ifdef _HAVE_JACK_
   stop_jack();
@@ -5669,6 +5693,7 @@ newtab (GtkAction *action, gpointer param) {
 					(GSourceFunc) auto_save_document_timeout, Denemo.gui);
    }
  }
+
 
 }
 
