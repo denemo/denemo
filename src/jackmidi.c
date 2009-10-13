@@ -207,11 +207,9 @@ timer_callback(gpointer bufferindex){
 }
 
 void 
-jack_playpitch(gint key, gint duration, gint volume, gint channel){
+jack_playpitch(gint key, gint duration){
  if (BufferEmpty==TRUE){ 
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-      //curstaffstruct->midi_instrument;    
-      //curstaffstruct->midi_prognum
     global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_ON | curstaffstruct->midi_channel;
     global_midi_buffer[BufferFillIndex].buffer[1] = key; 
     global_midi_buffer[BufferFillIndex].buffer[2] = curstaffstruct->volume;
@@ -225,8 +223,6 @@ jack_playpitch(gint key, gint duration, gint volume, gint channel){
 
 void jack_output_midi_event(unsigned char *buffer){
  if (BufferEmpty==TRUE){ 
-   /*needs replacing with something like this:*/
-   //memcpy(&global_midi_buffer.buffer, buffer, sizeof(buffer));
    global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
    global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
    global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
@@ -234,7 +230,13 @@ void jack_output_midi_event(unsigned char *buffer){
    if (BufferFillIndex == BufferIndex)
      g_debug("\nBuffer Overrun\n");
    BufferEmpty=FALSE;
- } 
+ }
+ else {
+   global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
+   global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
+   global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
+   BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
+ }
 }
 
 static void
@@ -246,19 +248,20 @@ send_midi_event(jack_nframes_t nframes){
   if (output_ports[i]){
    port_buffers[i] = jack_port_get_buffer(output_ports[i], nframes);
    jack_midi_clear_buffer(port_buffers[i]);
-   if (BufferEmpty==FALSE){
-     buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
-     if (buffer == NULL){
-       warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
-       return;
+   if (BufferEmpty==FALSE)
+     while (BufferIndex != BufferFillIndex){
+       buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+       if (buffer == NULL){
+         warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
+         return;
+       }
+       buffer[0] = global_midi_buffer[BufferIndex].buffer[0];
+       buffer[1] = global_midi_buffer[BufferIndex].buffer[1];
+       buffer[2] = global_midi_buffer[BufferIndex].buffer[2];
+       BufferIndex = BufferIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferIndex+1; 
      }
-     buffer[0] = global_midi_buffer[BufferIndex].buffer[0];
-     buffer[1] = global_midi_buffer[BufferIndex].buffer[1];
-     buffer[2] = global_midi_buffer[BufferIndex].buffer[2];
-     BufferIndex = BufferIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferIndex+1; 
-     //warn_from_jack_thread_context("Setting TRUE\n");
      BufferEmpty=TRUE;
-   }
+   
   }
 }
 
@@ -381,7 +384,7 @@ process_callback(jack_nframes_t nframes, void *notused)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  if (IMMEDIATE && Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback)
+  if (IMMEDIATE && Denemo.gui->si && output_ports)
       send_midi_event(nframes);
   if (!IMMEDIATE && Denemo.gui->si && smf && output_ports)
       process_midi_output(nframes);
