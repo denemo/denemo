@@ -171,6 +171,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
+              gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", tmp);\
+              call_out_to_guile(def);\
+              g_free(def);\
 	      prefs->field =\
 		g_string_assign (prefs->field, (gchar *) tmp);\
 	      xmlFree (tmp);\
@@ -184,16 +187,22 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
+              gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", tmp);\
+              call_out_to_guile(def);\
+              g_free(def);\
 	      prefs->field = atoi ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
 	}\
 
-      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypondpath"))
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypath"))
 	{
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
+              gchar *def = g_strdup_printf("(define DenemoPref_lilypath"  " \"%s\")\n", tmp);
+              call_out_to_guile(def);
+              g_free(def);
 	      prefs->lilypath = 
 		g_string_assign (prefs->lilypath, (gchar *) tmp);
 	      //g_print ("Lilypond Path %s\n", tmp);
@@ -209,6 +218,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
+              gchar *def = g_strdup_printf("(define DenemoPref_" "autosavetimeout"  " \"%s\")\n", tmp);\
+              call_out_to_guile(def);\
+              g_free(def);\
 	      prefs->autosave_timeout = atoi ((gchar *) tmp);
 	      if(prefs->autosave_timeout <1) prefs->autosave_timeout = 1;
 	      //g_print ("Autosave Timeout %s\n", tmp);
@@ -221,6 +233,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
+              gchar *def = g_strdup_printf("(define DenemoPref_" "maxhistory"  " \"%s\")\n", tmp);\
+              call_out_to_guile(def);\
+              g_free(def);\
 	      prefs->maxhistory = atoi ((gchar *) tmp);
 	      if(prefs->maxhistory <1) prefs->maxhistory = 1;
 	      xmlFree (tmp);
@@ -452,9 +467,12 @@ writeXMLPrefs (DenemoPrefs * prefs)
   child = xmlNewChild (parent, NULL, (xmlChar *) "Config", NULL);
 
 #define WRITEXMLENTRY(field) \
-  if (prefs->field)\
+  if (prefs->field){\
+    gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", prefs->field->str);\
+    call_out_to_guile(def);\
+    g_free(def);\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
-		 (xmlChar *) prefs->field->str);
+		 (xmlChar *) prefs->field->str);}
 
   WRITEXMLENTRY(lilypath)
   WRITEXMLENTRY(midiplayer)
@@ -472,9 +490,12 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(sequencer)
   WRITEXMLENTRY(lilyversion)
  
-#define WRITEINTXMLENTRY(field) \
+#define WRITEINTXMLENTRY(field){ \
+    gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%d\")\n", prefs->field);\
+    call_out_to_guile(def);\
+    g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
-		  prefs->field);
+		  prefs->field);}
 
   WRITEINTXMLENTRY(autosave)
   WRITEINTXMLENTRY(autosave_timeout)
