@@ -171,9 +171,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", tmp);\
-              call_out_to_guile(def);\
-              g_free(def);\
+              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
 	      prefs->field =\
 		g_string_assign (prefs->field, (gchar *) tmp);\
 	      xmlFree (tmp);\
@@ -187,9 +185,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", tmp);\
-              call_out_to_guile(def);\
-              g_free(def);\
+              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
 	      prefs->field = atoi ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
@@ -200,9 +196,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
-              gchar *def = g_strdup_printf("(define DenemoPref_lilypath"  " \"%s\")\n", tmp);
-              call_out_to_guile(def);
-              g_free(def);
+	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
+	      define_scheme_variable(curname, tmp, NULL); 
+	      g_free(curname);
 	      prefs->lilypath = 
 		g_string_assign (prefs->lilypath, (gchar *) tmp);
 	      //g_print ("Lilypond Path %s\n", tmp);
@@ -218,9 +214,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
-              gchar *def = g_strdup_printf("(define DenemoPref_" "autosavetimeout"  " \"%s\")\n", tmp);\
-              call_out_to_guile(def);\
-              g_free(def);\
+	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
+	      define_scheme_variable(curname, tmp, NULL); 
+	      g_free(curname);
 	      prefs->autosave_timeout = atoi ((gchar *) tmp);
 	      if(prefs->autosave_timeout <1) prefs->autosave_timeout = 1;
 	      //g_print ("Autosave Timeout %s\n", tmp);
@@ -233,9 +229,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
-              gchar *def = g_strdup_printf("(define DenemoPref_" "maxhistory"  " \"%s\")\n", tmp);\
-              call_out_to_guile(def);\
-              g_free(def);\
+	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
+	      define_scheme_variable(curname, tmp, NULL); 
+	      g_free(curname);
 	      prefs->maxhistory = atoi ((gchar *) tmp);
 	      if(prefs->maxhistory <1) prefs->maxhistory = 1;
 	      xmlFree (tmp);
@@ -468,8 +464,10 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
 #define WRITEXMLENTRY(field) \
   if (prefs->field){\
-    gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%s\")\n", prefs->field->str);\
-    call_out_to_guile(def);\
+    gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
+    gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
+    define_scheme_variable(curname, prefs->field->str, def);\
+    g_free(curname);\
     g_free(def);\
     xmlNewChild (child, NULL, (xmlChar *) #field,\
 		 (xmlChar *) prefs->field->str);}
@@ -491,8 +489,12 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(lilyversion)
  
 #define WRITEINTXMLENTRY(field){ \
-    gchar *def = g_strdup_printf("(define DenemoPref_" #field  " \"%d\")\n", prefs->field);\
-    call_out_to_guile(def);\
+    gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
+    gchar *value = g_strdup_printf("%d", prefs->field);\
+    gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
+    define_scheme_variable(curname, value, def);\
+    g_free(curname);\
+    g_free(value);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}

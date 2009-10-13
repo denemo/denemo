@@ -69,8 +69,12 @@ dnm_key_snooper(GtkWidget *grab_widget, GdkEventKey *event);
 static void
 populate_opened_recent (void);
 
-#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 
+#ifdef DEVELOPER
+#define MUSIC_FONT(a) "music-sign ("a")"
+#else
+#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
+#endif
 
 GtkAction *sharpaction, *flataction;
 
@@ -97,9 +101,55 @@ static void save_accels (void);
 
 #include "scheme_cb.h"
 
+
+
+
+#ifdef DEVELOPER
+static FILE *DEV_fp;
+#define DEV_CODE  gint idx = lookup_command_from_name(Denemo.map, name+strlen(DENEMO_SCHEME_PREFIX));\
+  gchar *tooltip =  (idx<0)? "To be documented":(gchar*)lookup_tooltip_from_idx(Denemo.map, idx);\
+  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+#endif
+
+
 SCM call_out_to_guile(char *script) {
  return gh_eval_str_with_catch (script, gh_standard_handler);
 }
+//FIXME common up these!!!
+void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
+ gchar *def = g_strdup_printf("(define %s \"%s\")\n", varname, value);
+ g_print("Defining %s\n", def);
+ call_out_to_guile(def);
+ g_free(def);
+#ifdef DEVELOPER
+ if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+ if(DEV_fp) if(tooltip)
+    fprintf(DEV_fp, "<listitem>%s: %s: value is a string </listitem>\n", varname, tooltip);
+#endif
+}
+void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip) {
+ gchar *def = g_strdup_printf("(define %s %s)\n", varname, value);
+ g_print("Defining %s\n", def);
+ call_out_to_guile(def);
+ g_free(def);
+#ifdef DEVELOPER
+ if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+ if(DEV_fp) if(tooltip)
+    fprintf(DEV_fp, "<listitem>%s: %s: value is an expression  </listitem>\n", varname, tooltip);
+#endif
+}
+void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
+ gchar *def = g_strdup_printf("(define %s %d)\n", varname, value);
+ g_print("Defining %s\n", def);
+ call_out_to_guile(def);
+ g_free(def);
+#ifdef DEVELOPER
+ if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
+ if(DEV_fp) if(tooltip)
+    fprintf(DEV_fp, "<listitem>%s: %s: value is a number </listitem>\n", varname, tooltip);
+#endif
+}
+
 
 GError *execute_script_file(gchar *filename) {
   GError *error = NULL;
@@ -172,17 +222,9 @@ cb_string_pairs activatable_commands[] = {
 
 #define DENEMO_SCHEME_PREFIX "d-"
 
-#ifdef DEVELOPER
 
-#define MUSIC_FONT(a) "music-sign ("a")"
-static FILE *DEV_fp;
-#define DEV_CODE  gint idx = lookup_command_from_name(Denemo.map, name+strlen(DENEMO_SCHEME_PREFIX));\
-  gchar *tooltip =  (idx<0)? "To be documented":(gchar*)lookup_tooltip_from_idx(Denemo.map, idx);\
-  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
-#endif
 static void install_scm_function(gchar *name, gpointer callback) {
 #ifdef DEVELOPER
-
   DEV_CODE;
   if(DEV_fp)
     fprintf(DEV_fp, "<listitem>%s one optional parameter: %s </listitem>\n",name, tooltip);
@@ -229,7 +271,6 @@ scm_c_define_gsubr (name, 4, 0, 0, callback);
 
 }
 
-#define MUSIC_FONT(a) "<span  size=\"10000\" face=\"Denemo\">"a"</span>"
 #undef DEV_CODE
 
 static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
@@ -367,9 +408,9 @@ static SCM scheme_script_callback(SCM script) {
 return  SCM_BOOL(FALSE);
 }
 void create_scheme_function_for_script(gchar *name) {
-  gchar *proc = g_strdup_printf("(define (d-%s) (d-ScriptCallback \"%s\"))\n", name, name, name);
-   (void)call_out_to_guile(proc);
-   g_free(proc);
+  gchar *proc = g_strdup_printf("(d-%s)", name);
+  gchar *value = g_strdup_printf("(d-ScriptCallback \"%s\")", name);
+  define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
 }
 
 
@@ -1877,15 +1918,13 @@ static void define_scheme_constants(void) {
 #endif
 );
   g_print("Version %s", denemo_version);
-#define DEF_SCHEME_STR(which, what)\
-tmp = g_strdup_printf("(define " #which " \"%s\")\n", what);\
-  call_out_to_guile(tmp);\
-  g_free(tmp);
+
+#define DEF_SCHEME_STR(which, what, tooltip)\
+  define_scheme_variable(which, what, tooltip);
 
 #define DEF_SCHEME_CONST(which, what)\
-tmp = g_strdup_printf("(define " which " %d)\n", what);\
-  call_out_to_guile(tmp);\
-  g_free(tmp);
+  define_scheme_int_variable(which, what, "See documentation elsewhere");
+
 
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_LILYPOND", DENEMO_OVERRIDE_LILYPOND);
   DEF_SCHEME_CONST("DENEMO_OVERRIDE_GRAPHIC", DENEMO_OVERRIDE_GRAPHIC);
@@ -1913,7 +1952,7 @@ tmp = g_strdup_printf("(define " which " %d)\n", what);\
   DEF_SCHEME_CONST("VERSION_MINOR", minor);
   DEF_SCHEME_CONST("VERSION_MICRO", micro);
 
-  DEF_SCHEME_STR(DENEMO_VERSION, denemo_version);
+  DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
 
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST

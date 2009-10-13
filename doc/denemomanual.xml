@@ -1574,18 +1574,141 @@ d-Open filename
 d-ScoreProperties (fontsize= size of font to be used for score)
 </listitem>
 
-
-
-
-</itemizedlist>
-  </para>
-</sect1>
-<sect1>
-  <title>Complete List of Functions Callable from Scheme</title>
-<itemizedlist>
-	<!-- insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
-
-
+<listitem>DENEMO_OVERRIDE_LILYPOND: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_GRAPHIC: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_EDITOR: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_VOLUME: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_DURATION: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_REPEAT: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_CHANNEL: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_TEMPO: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_ONCE: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_STEP: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_RAMP: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_RELATIVE: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_OVERRIDE_PERCENT: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_MIDI_MASK: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_MIDI_INTERPRETATION_MASK: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_MIDI_ACTION_MASK: See documentation elsewhere: value is a number </listitem>
+<listitem>VERSION_MAJOR: See documentation elsewhere: value is a number </listitem>
+<listitem>VERSION_MINOR: See documentation elsewhere: value is a number </listitem>
+<listitem>VERSION_MICRO: See documentation elsewhere: value is a number </listitem>
+<listitem>DENEMO_VERSION: Holds the denemo version major.minor.micro: value is a string </listitem>
+<listitem>(d-MoveNoteToCursor): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StartDownStems): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StartUpStems): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-InsertTiedNoteDuration): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MidiFilterOff): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-CheckPitches): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MidiAdvanceOnEdit): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-AngryDelete): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-OpenOctaveUp): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-CloseLilyBlock): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TransposeOctaveUp): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SetTransposeIntervalFromSelection): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TransposeNote): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TransposeSelection): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-D.C.AlFine): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Allegro): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Andante): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Presto): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger0): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger1): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger2): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger3): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger4): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Finger5): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-RehearsalMark): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StartBeam): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-EndBeam): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DeleteLilyPondOnNote): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DeleteLilyPondOnChord): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MetronomeMarking): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Anacrusis): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-RepeatStart): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-RepeatEnd): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-RepeatEndStart): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ApplyToSelection): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SetFontSize): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-LHFinger): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StringNum): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DoubleBarline): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Glissando): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SmallerStaff): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Fortissimo): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-CautionaryAccidental): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ReminderAccidental): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreTitle): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreComposer): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreTagline): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MovementSubtitle): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MovementPiece): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MovementTitle): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreCopyright): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Indent): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreIndent): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ToggleTupletNumbering): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-NoBeam): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TimbalesStyle): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MovementPageBreak): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-HideMovement): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Beam1234): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ClosingBarline): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-EnterRest): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-AllegroAssai): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Ambitus): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-RecreateTimebase): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ForceNewMeasure): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SplitMeasure): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DeleteBarline): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ForceBarline): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-HideEmptyStaffs): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-LineBreak): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-PageBreak): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TransposeScorePrint): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SetTransposeIntervalFromNote): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MezzoForte): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DeleteDynamic): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TitlePage): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ParenthesizeChord): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ParenthesizeNote): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-GoToEmptyMeasure): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-IRC): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ReBar): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ToggleTripleting): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-NonPrintingStaff): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Largo): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-DrumGM2Custom): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ScoreComment): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MvntComment): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StaffComment): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ChordComment): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ReadingNoteNames): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-StepSkipOrSame): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-CountSteps): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-BassClefNoteNameSpeedTest): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-TransposeStaffPrint): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-NextBookmarkR): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-PrevBookmarkR): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-BookmarkR): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-BookmarkRNamed): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-BookmarkRNonPrinting): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SearchBookmarkR): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Diminish): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Augment): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-WholeMeasureRest): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-OpenRepeat): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-CloseRepeat): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-FirstTimeBar): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SecondTimeBar): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-EndSecondTimeBar): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ClefChooser): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-HideLilyPond): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-MezzoPiano): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-Forte): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-SetImmediatePlayback): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-InstrumentName): A scheme procedure to call the script of that name: value is an expression  </listitem>
+<listitem>(d-ShortInstrumentName): A scheme procedure to call the script of that name: value is an expression  </listitem>
 <listitem>d-Modeless one optional parameter: To be documented </listitem>
 <listitem>d-ClassicMode one optional parameter: To be documented </listitem>
 <listitem>d-InsertMode one optional parameter: To be documented </listitem>
@@ -1791,11 +1914,6 @@ the cursor position is the end point </listitem>
 <listitem>d-SetGrace one optional parameter: No Tooltip yet </listitem>
 <listitem>d-ForceCaution one optional parameter: No Tooltip yet </listitem>
 <listitem>d-ChangePitch one optional parameter: No Tooltip yet </listitem>
-<listitem>d-DoubleBar one optional parameter: No Tooltip yet </listitem>
-<listitem>d-EndBar one optional parameter: No Tooltip yet </listitem>
-<listitem>d-OpenRepeat one optional parameter: No Tooltip yet </listitem>
-<listitem>d-CloseRepeat one optional parameter: No Tooltip yet </listitem>
-<listitem>d-OpenCloseRepeat one optional parameter: No Tooltip yet </listitem>
 <listitem>d-InsertRhythm one optional parameter: No Tooltip yet </listitem>
 <listitem>d-NextRhythm one optional parameter: Make next rhythm pattern
 the prevailing rhythm.
@@ -1840,10 +1958,6 @@ Notes entered will follow this pattern </listitem>
 <listitem>d-Preferences one optional parameter: Set and save your preferences for how Denemo operates on startup. Edit .denemo/denemorc for missing ones </listitem>
 <listitem>d-SaveAccels one optional parameter: Save the current commands and keyboard shortcuts as the default </listitem>
 <listitem>d-CommandManagement one optional parameter: View help, change and save keyboard shortcuts </listitem>
-<listitem>d-LoadPlugins one optional parameter: Load Plugins </listitem>
-<listitem>d-UnloadPlugins one optional parameter: Unload Plugins </listitem>
-<listitem>d-ListPlugins one optional parameter: List the loaded plugins </listitem>
-<listitem>d-ListAvailablePlugins one optional parameter: List the available plugins </listitem>
 <listitem>d-SwapStaffs one optional parameter: Swap this staff with the one higher up. Note this actually swaps voices. </listitem>
 <listitem>d-SplitVoices one optional parameter: Split off the next voice as a separate staff </listitem>
 <listitem>d-JoinVoices one optional parameter: Merge this staff as a voice on the previous staff </listitem>
@@ -1892,7 +2006,6 @@ Notes entered will follow this pattern </listitem>
 <listitem>d-NextMovement one optional parameter: Go to the next movement </listitem>
 <listitem>d-PreviousMovement one optional parameter: Go to the previous movement </listitem>
 <listitem>d-DeleteMovement one optional parameter: Delete the current movement </listitem>
-<listitem>d-DeleteBookmarks one optional parameter: Delete all bookmarks in current movement </listitem>
 <listitem>d-Play one optional parameter: Play </listitem>
 <listitem>d-Stop one optional parameter: Stop </listitem>
 <listitem>d-PlayCSound one optional parameter: Play using CSound... </listitem>
@@ -1903,10 +2016,6 @@ Notes entered will follow this pattern </listitem>
 <listitem>d-MyCommands one optional parameter: Allows choosing extra commands/menu items from your own collection of extras </listitem>
 <listitem>d-FetchCommands one optional parameter: Refreshes the set of commands available from Denemo.org.
 Use More Commands after this has finished </listitem>
-<listitem>d-AddBookmark one optional parameter: Bookmark the current cursor position </listitem>
-<listitem>d-GotoBookmark one optional parameter: Go to a bookmarked point in the score </listitem>
-<listitem>d-NextBookmark one optional parameter: Go to the next bookmarked point in the list </listitem>
-<listitem>d-PrevBookmark one optional parameter: Go to the previous bookmarked point in the list </listitem>
 <listitem>d-ToggleEdit one optional parameter: Toggle between current mode and edit mode </listitem>
 <listitem>d-ToggleRest one optional parameter: Toggle between note entry and rest entry </listitem>
 <listitem>d-ToggleRhythm one optional parameter: Toggle audible feedback on/off </listitem>
@@ -2032,19 +2141,23 @@ Sets prevailing rhythm to music-sign (6) </listitem>
 <listitem>d-GetCursorNote one optional parameter: To be documented </listitem>
 <listitem>d-DebugObject one optional parameter: To be documented </listitem>
 <listitem>d-GetNoteName one optional parameter: To be documented </listitem>
+<listitem>d-PutWholeMeasureRests one optional parameter: To be documented </listitem>
 <listitem>d-GetNote one optional parameter: To be documented </listitem>
 <listitem>d-GetNotes one optional parameter: To be documented </listitem>
 <listitem>d-GetNoteDuration one optional parameter: To be documented </listitem>
+<listitem>d-GetDurationInTicks one optional parameter: To be documented </listitem>
 <listitem>d-CursorToNote one optional parameter: To be documented </listitem>
 <listitem>d-ChangeChordNotes one optional parameter: To be documented </listitem>
 <listitem>d-PutNoteName one optional parameter: To be documented </listitem>
 <listitem>d-DiatonicShift one optional parameter: To be documented </listitem>
 <listitem>d-NextObject one optional parameter: To be documented </listitem>
+<listitem>d-NextObjectInMeasure one optional parameter: To be documented </listitem>
 <listitem>d-NextSelectedObject one optional parameter: To be documented </listitem>
 <listitem>d-NextChord one optional parameter: To be documented </listitem>
 <listitem>d-NextNote one optional parameter: To be documented </listitem>
 <listitem>d-NextStandaloneDirective one optional parameter: To be documented </listitem>
 <listitem>d-Chordize one optional parameter: To be documented </listitem>
+<listitem>d-SetPrefs one optional parameter: To be documented </listitem>
 <listitem>d-HTTP four parameters: To be documented </listitem>
 <listitem>d-GetUserInput three parameters: To be documented </listitem>
 <listitem>d-WarningDialog one optional parameter: To be documented </listitem>
@@ -2434,12 +2547,62 @@ Sets prevailing rhythm to music-sign (6) </listitem>
 <listitem>d-GetPassword one optional parameter: To be documented </listitem>
 <listitem>d-GetMidi one optional parameter: To be documented </listitem>
 <listitem>d-PutMidi one required and one optional parameter: To be documented </listitem>
+<listitem>d-OutputMIDI one required and one optional parameter: To be documented </listitem>
 <listitem>d-PlayMidiKey one required and one optional parameter: To be documented </listitem>
+<listitem>d-OneShotTimer one required and one optional parameter: To be documented </listitem>
 <listitem>d-BassFigure two parameters: To be documented </listitem>
 <listitem>d-GetNoteAsMidi one optional parameter: To be documented </listitem>
 <listitem>d-RefreshDisplay one optional parameter: To be documented </listitem>
 <listitem>d-SetSaved one optional parameter: To be documented </listitem>
 <listitem>d-InputFilterNames one optional parameter: To be documented </listitem>
+<listitem>DenemoPref_lilypath: Holds the value of the user's lilypath preference: value is a string </listitem>
+<listitem>DenemoPref_midiplayer: Holds the value of the user's midiplayer preference: value is a string </listitem>
+<listitem>DenemoPref_audioplayer: Holds the value of the user's audioplayer preference: value is a string </listitem>
+<listitem>DenemoPref_csoundcommand: Holds the value of the user's csoundcommand preference: value is a string </listitem>
+<listitem>DenemoPref_csoundorcfile: Holds the value of the user's csoundorcfile preference: value is a string </listitem>
+<listitem>DenemoPref_pdfviewer: Holds the value of the user's pdfviewer preference: value is a string </listitem>
+<listitem>DenemoPref_imageviewer: Holds the value of the user's imageviewer preference: value is a string </listitem>
+<listitem>DenemoPref_username: Holds the value of the user's username preference: value is a string </listitem>
+<listitem>DenemoPref_password: Holds the value of the user's password preference: value is a string </listitem>
+<listitem>DenemoPref_texteditor: Holds the value of the user's texteditor preference: value is a string </listitem>
+<listitem>DenemoPref_denemopath: Holds the value of the user's denemopath preference: value is a string </listitem>
+<listitem>DenemoPref_temperament: Holds the value of the user's temperament preference: value is a string </listitem>
+<listitem>DenemoPref_midi_in: Holds the value of the user's midi_in preference: value is a string </listitem>
+<listitem>DenemoPref_sequencer: Holds the value of the user's sequencer preference: value is a string </listitem>
+<listitem>DenemoPref_lilyversion: Holds the value of the user's lilyversion preference: value is a string </listitem>
+<listitem>DenemoPref_autosave: Holds the value of the user's autosave preference: value is a string </listitem>
+<listitem>DenemoPref_autosave_timeout: Holds the value of the user's autosave_timeout preference: value is a string </listitem>
+<listitem>DenemoPref_maxhistory: Holds the value of the user's maxhistory preference: value is a string </listitem>
+<listitem>DenemoPref_saveparts: Holds the value of the user's saveparts preference: value is a string </listitem>
+<listitem>DenemoPref_createclones: Holds the value of the user's createclones preference: value is a string </listitem>
+<listitem>DenemoPref_lilyentrystyle: Holds the value of the user's lilyentrystyle preference: value is a string </listitem>
+<listitem>DenemoPref_immediateplayback: Holds the value of the user's immediateplayback preference: value is a string </listitem>
+<listitem>DenemoPref_strictshortcuts: Holds the value of the user's strictshortcuts preference: value is a string </listitem>
+<listitem>DenemoPref_resolution: Holds the value of the user's resolution preference: value is a string </listitem>
+<listitem>DenemoPref_overlays: Holds the value of the user's overlays preference: value is a string </listitem>
+<listitem>DenemoPref_continuous: Holds the value of the user's continuous preference: value is a string </listitem>
+<listitem>DenemoPref_jacktransport: Holds the value of the user's jacktransport preference: value is a string </listitem>
+<listitem>DenemoPref_jacktransport_start_stopped: Holds the value of the user's jacktransport_start_stopped preference: value is a string </listitem>
+<listitem>DenemoPref_jack_at_startup: Holds the value of the user's jack_at_startup preference: value is a string </listitem>
+<listitem>DenemoPref_rtcs: Holds the value of the user's rtcs preference: value is a string </listitem>
+<listitem>DenemoPref_notation_palette: Holds the value of the user's notation_palette preference: value is a string </listitem>
+<listitem>DenemoPref_articulation_palette: Holds the value of the user's articulation_palette preference: value is a string </listitem>
+<listitem>DenemoPref_visible_directive_buttons: Holds the value of the user's visible_directive_buttons preference: value is a string </listitem>
+<listitem>DenemoPref_autoupdate: Holds the value of the user's autoupdate preference: value is a string </listitem>
+<listitem>DenemoPref_rhythm_palette: Holds the value of the user's rhythm_palette preference: value is a string </listitem>
+<listitem>DenemoPref_object_palette: Holds the value of the user's object_palette preference: value is a string </listitem>
+<listitem>DenemoPref_browser: Holds the value of the user's browser preference: value is a string </listitem>
+
+
+</itemizedlist>
+  </para>
+</sect1>
+<sect1>
+  <title>Complete List of Functions Callable from Scheme</title>
+<itemizedlist>
+	<!-- insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
+
+
 
 	<!-- end of insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
 
