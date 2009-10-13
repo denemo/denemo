@@ -384,7 +384,7 @@ process_callback(jack_nframes_t nframes, void *notused)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  if (IMMEDIATE && Denemo.gui->si && output_ports && Denemo.prefs.immediateplayback)
+  if (IMMEDIATE && Denemo.gui->si && output_ports)
       send_midi_event(nframes);
   if (!IMMEDIATE && Denemo.gui->si && smf && output_ports)
       process_midi_output(nframes);
