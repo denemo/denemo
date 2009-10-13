@@ -118,7 +118,7 @@ SCM call_out_to_guile(char *script) {
 //FIXME common up these!!!
 void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
  gchar *def = g_strdup_printf("(define %s \"%s\")\n", varname, value);
- g_print("Defining %s\n", def);
+ // g_print("Defining %s\n", def);
  call_out_to_guile(def);
  g_free(def);
 #ifdef DEVELOPER
@@ -129,7 +129,7 @@ void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
 }
 void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip) {
  gchar *def = g_strdup_printf("(define %s %s)\n", varname, value);
- g_print("Defining %s\n", def);
+ // g_print("Defining %s\n", def);
  call_out_to_guile(def);
  g_free(def);
 #ifdef DEVELOPER
@@ -140,7 +140,7 @@ void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip
 }
 void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
  gchar *def = g_strdup_printf("(define %s %d)\n", varname, value);
- g_print("Defining %s\n", def);
+ // g_print("Defining %s\n", def);
  call_out_to_guile(def);
  g_free(def);
 #ifdef DEVELOPER
