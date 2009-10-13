@@ -207,7 +207,7 @@ timer_callback(gpointer bufferindex){
 }
 
 void 
-jack_playpitch(gint key, gint duration, gint volume, gint channel){
+jack_playpitch(gint key, gint duration){
  if (BufferEmpty==TRUE){ 
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
       //curstaffstruct->midi_instrument;    

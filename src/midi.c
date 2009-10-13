@@ -145,9 +145,8 @@ void playpitch(double pitch, double duration, double volume, int channel) {
 void play_midikey(gint key, double duration, double volume, gint channel){
 #ifdef _HAVE_JACK_
   //playpitch(midi2hz(key), duration, volume, channel);	
-#define NOTEDURATION 1000 * /*duration in seconds*/ 1
-#define NOTEVOLUME 64 /*note volume 0-127*/
-  jack_playpitch(key, NOTEDURATION, NOTEVOLUME, channel);
+#define NOTEDURATION 1000 /*duration in mseconds*/ 
+  jack_playpitch(key, NOTEDURATION);
 
 #else
   playpitch(midi2hz(key), duration, volume, channel);
