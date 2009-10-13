@@ -1574,6 +1574,15 @@ d-Open filename
 d-ScoreProperties (fontsize= size of font to be used for score)
 </listitem>
 
+
+</itemizedlist>
+  </para>
+</sect1>
+<sect1>
+  <title>Complete List of Functions Callable from Scheme</title>
+<itemizedlist>
+	<!-- insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
+
 <listitem>DENEMO_OVERRIDE_LILYPOND: See documentation elsewhere: value is a number </listitem>
 <listitem>DENEMO_OVERRIDE_GRAPHIC: See documentation elsewhere: value is a number </listitem>
 <listitem>DENEMO_OVERRIDE_EDITOR: See documentation elsewhere: value is a number </listitem>
@@ -2592,15 +2601,6 @@ Sets prevailing rhythm to music-sign (6) </listitem>
 <listitem>DenemoPref_rhythm_palette: Holds the value of the user's rhythm_palette preference: value is a string </listitem>
 <listitem>DenemoPref_object_palette: Holds the value of the user's object_palette preference: value is a string </listitem>
 <listitem>DenemoPref_browser: Holds the value of the user's browser preference: value is a string </listitem>
-
-
-</itemizedlist>
-  </para>
-</sect1>
-<sect1>
-  <title>Complete List of Functions Callable from Scheme</title>
-<itemizedlist>
-	<!-- insert file functions.xml here, created by running denemo built with -DDEVELOPER --> 
 
 
 
