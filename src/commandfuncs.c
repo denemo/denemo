@@ -536,7 +536,7 @@ voiceup (DenemoScriptParam *param)
     return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-	warningdialog("This is the first voice");
+	warningmessage("This is the first voice");
   return param->status = FALSE;
 }
 
@@ -571,7 +571,7 @@ staffup (DenemoScriptParam *param)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-	warningdialog("This is the first staff");
+	warningmessage("This is the first staff");
   return param->status = FALSE;
 }
 
@@ -602,7 +602,7 @@ voicedown (DenemoScriptParam *param)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-      warningdialog("This is the last voice");
+      warningmessage("This is the last voice");
   return param->status = FALSE;
 }
 /**
@@ -637,7 +637,7 @@ staffdown (DenemoScriptParam *param)
       return param->status = TRUE;
     } else
       if(param==&dummy)//is interactive
-      warningdialog("This is the last staff");
+      warningmessage("This is the last staff");
   return param->status = FALSE;
 }
 
