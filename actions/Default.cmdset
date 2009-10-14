@@ -2721,6 +2721,13 @@ for second and subsequent systems</tooltip>
         <label>Turn On Immediate Playback</label>
         <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
       </row>
+      <row>
+        <action>ShortMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Short Measure</label>
+        <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

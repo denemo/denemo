@@ -2767,6 +2767,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Prints shortened form of instrument name before this staff
 for second and subsequent systems</tooltip>
       </row>
+      <row>
+        <action>ShortMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Short Measure</label>
+        <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
