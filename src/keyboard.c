@@ -792,8 +792,9 @@ save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *myl
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
   
   child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-  xmlNewTextChild (child, NULL, (xmlChar *) "after",
-		   (xmlChar *) after);  
+  if(after)
+    xmlNewTextChild (child, NULL, (xmlChar *) "after",
+		     (xmlChar *) after);  
   
   xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		   (xmlChar *) myname);  

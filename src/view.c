@@ -3665,7 +3665,9 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   gchar *myname, *mylabel, *myscheme, *mytooltip, *submenu;
   gchar *myposition = g_path_get_dirname (insertion_point);
   gchar *after = g_path_get_basename (insertion_point);
-  g_print("Saving with %s after %s\n", myposition, after);
+  gint idx = lookup_command_from_name (Denemo.map, after);
+  //g_print("Saving with %s after %s\n", myposition, after);
+
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
@@ -3699,7 +3701,7 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
     //g_file_set_contents(filename, text, -1, NULL);
-    save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, after);
+    save_script_as_xml (filename, myname, myscheme, mylabel, mytooltip, idx<0?NULL:after);
     load_xml_keymap(filename, TRUE);
     if(confirm("New Command Added", "Do you want to save this with your default commands?"))
       save_accels ();								    
@@ -3879,8 +3881,8 @@ static void put_initialization_script (GtkWidget *widget, gchar *directory) {
       }
       else {
 	warningdialog("Could not create init.scm;\n"
-		      "you will need at least one scripted menu item in the menu\n"
-		      "before you create the initialization script.");
+		      "you must create your scripted menu item in the menu\n"
+		      "before you create the initialization script for it, sorry.");
       }
       g_free(scheme);
     }
@@ -4386,6 +4388,7 @@ static gboolean menu_click (GtkWidget      *widget,
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     gchar *insertion_point = g_build_filename(myposition, func_name, NULL);
+    //g_print("using %s for %d\n", insertion_point, idx);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), insertion_point);
   }
 
