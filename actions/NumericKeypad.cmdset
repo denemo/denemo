@@ -2126,7 +2126,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>MetronomeMarking</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Metronome-Markings</menupath>
+        <menupath>/ObjectMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
