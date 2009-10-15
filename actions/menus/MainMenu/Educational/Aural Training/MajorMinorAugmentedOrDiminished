@@ -9,7 +9,7 @@
         <action>MajorMinorAugmentedOrDiminished</action>
         <scheme>
 
-(ChordComparison::ChordComparison (list Major Minor Augmented Diminished))
+(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Minor ChordComparison::Augmented ChordComparison::Diminished))
 
 </scheme>
         <label>MajorMinorAugmentedDiminished</label>

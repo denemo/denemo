@@ -9,7 +9,7 @@
         <action>Major7Minor7OrDominant7</action>
         <scheme>
 
-(ChordComparison::ChordComparison (list Major7 Minor7 Dominant7))
+(ChordComparison::ChordComparison (list ChordComparison::Major7 ChordComparison::Minor7 ChordComparison::Dominant7))
 
 </scheme>
         <label>Major7Minor7Dominant7</label>

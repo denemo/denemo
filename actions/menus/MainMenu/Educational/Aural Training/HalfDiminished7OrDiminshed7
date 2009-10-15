@@ -9,7 +9,7 @@
         <action>HalfDiminished7OrDiminshed7</action>
         <scheme>
 
-(ChordComparison::ChordComparison (list HalfDiminished7 Diminished7))
+(ChordComparison::ChordComparison (list ChordComparison::HalfDiminished7 ChordComparison::Diminished7))
 
 </scheme>
         <label>HalfDiminshed7Diminished7</label>

@@ -1,16 +1,16 @@
 
-(define Major (cons "Major" "c e g"))
-(define Minor (cons "Minor" "c ees g"))
-(define Augmented (cons "Augmented" "c e gis"))
-(define Diminished (cons "Diminished" "c ees ges"))
-(define Major7 (cons "Major7" "c e g b"))
-(define Dominant7 (cons "Dominant7" "c e g bes"))
-(define Minor7 (cons "Minor7" "c ees g bes"))
-(define HalfDiminished7 (cons "HalfDiminished7" "c ees ges bes"))
-(define Diminished7 (cons "Diminished7" "c ees ges beses"))
+(define ChordComparison::Major (cons "Major" "c e g"))
+(define ChordComparison::Minor (cons "Minor" "c ees g"))
+(define ChordComparison::Augmented (cons "Augmented" "c e gis"))
+(define ChordComparison::Diminished (cons "Diminished" "c ees ges"))
+(define ChordComparison::Major7 (cons "Major7" "c e g b"))
+(define ChordComparison::Dominant7 (cons "Dominant7" "c e g bes"))
+(define ChordComparison::Minor7 (cons "Minor7" "c ees g bes"))
+(define ChordComparison::HalfDiminished7 (cons "HalfDiminished7" "c ees ges bes"))
+(define ChordComparison::Diminished7 (cons "Diminished7" "c ees ges beses"))
 
 
-(define ChordComparison::ChordPossibilities (list Major Minor))
+(define ChordComparison::ChordPossibilities (list ChordComparison::Major ChordComparison::Minor))
 
 (define ChordComparison::HighestNote 80)
 (define ChordComparison::LowestNote 55)
@@ -25,7 +25,7 @@
     (seed->random-state (+ (car time)
       (cdr time)))))
 
-(define (lilyname->midikey lilyname)
+(define (ChordComparison::lilyname->midikey lilyname)
   (let (
   		(naturual_notenum '(0 2 4 5 7 9 11))
   		(accidental 0) 
@@ -62,7 +62,7 @@
 	  )
 
 
-(define (midinum->lilyname num)
+(define (ChordComparison::midinum->lilyname num)
   (let ( 	(octave 0) 
   		(notename "")
   		(OctaveString "")
@@ -102,7 +102,7 @@
  	)
 (set! SetOctave 
   (lambda (lilystring)
-    (- (lilyname->midikey lilystring) 48)))
+    (- (ChordComparison::lilyname->midikey lilystring) 48)))
   (set! ChordNoteList (string-split (ChordComparison::GetChordSpelling) #\space))
   (set! IntervalList (map SetOctave ChordNoteList))
   IntervalList
@@ -134,7 +134,7 @@
   (d-CursorToNote "c")
   (d-Insert2)
   (d-ChangeChordNotes (ChordComparison::GetChordSpelling))
-  (ChordComparison::TransposeChord (midinum->lilyname ChordComparison::ChordChordComparison::LowestNote)))
+  (ChordComparison::TransposeChord (ChordComparison::midinum->lilyname ChordComparison::ChordChordComparison::LowestNote)))
 
 ;TODO perhaps inherit this from EducationGames
 (define (ChordComparison::PlaceAnswerStatus gfx)

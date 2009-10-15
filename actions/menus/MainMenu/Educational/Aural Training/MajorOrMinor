@@ -7,10 +7,10 @@
       <row>
         <action>MajorOrMinor</action>
         <scheme>
-(define Major (cons "Major" "c e g"))
-(define Minor (cons "Minor" "c ees g"))
+(define ChordComparison::Major (cons "Major" "c e g"))
+(define ChordComparison::Minor (cons "Minor" "c ees g"))
 
-(ChordComparison::ChordComparison (list Major Minor))
+(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Minor))
 
 </scheme>
         <label>MajorMinor</label>

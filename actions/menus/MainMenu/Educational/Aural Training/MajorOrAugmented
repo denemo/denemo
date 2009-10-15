@@ -9,7 +9,7 @@
         <action>MajorOrAugmented</action>
         <scheme>
 
-(ChordComparison::ChordComparison (list Major Augmented))
+(ChordComparison::ChordComparison (list ChordComparison::Major ChordComparison::Augmented))
 
 </scheme>
         <label>MajorAugmented</label>
