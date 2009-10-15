@@ -32,6 +32,16 @@ void popup_menu(gchar *name) {
  gtk_menu_popup (GTK_MENU(menu), NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()); 
 }
 
+/**
+ * outputs a warning and sounds bell
+ * @return none
+ */
+void
+warningmessage (gchar * msg)
+{
+  gdk_beep();
+  g_message("%s", msg);
+}
 
 /**
  * Pops up a warning dialog and blocks until it is dismissed

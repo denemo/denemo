@@ -202,7 +202,7 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
     if(param)
       param->status = FALSE;
     else
-      warningdialog(_("This is the last movement"));
+      warningmessage(_("This is the last movement"));
     return;
   }
   gtk_widget_hide(gui->si->buttonbox);
@@ -239,7 +239,7 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
     if(param)
       param->status = FALSE;
     else
-      warningdialog(_("This is the first movement"));
+      warningmessage(_("This is the first movement"));
     return;
   }
   gtk_widget_hide(gui->si->buttonbox);

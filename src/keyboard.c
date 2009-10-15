@@ -162,9 +162,10 @@ add_ui(gchar *menupath, gchar *after, gchar *name) {
     static gboolean once=TRUE;
     if(once) {
       gchar *msg = g_strdup_printf("Cannot place %s after %s as requested,\nbecause I haven't seen %s yet\nTo fix this delete the %s command save the command set,\nQuit and restart Denemo\nThen re-install %s by right clicking on the %s item\nand choosing More Commands\nAnd finally saving command set again", name, after, after, name, name, after);
-      infodialog(msg);
+      // infodialog(msg);
+      g_warning("%s", msg);
       g_free(msg);
-      once = FALSE;
+      //once = FALSE;
     }
   }
   gtk_ui_manager_add_ui(Denemo.ui_manager,gtk_ui_manager_new_merge_id(Denemo.ui_manager),  sibling?menupath_item:menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
@@ -792,8 +793,9 @@ save_script_as_xml (gchar * filename, gchar *myname, gchar *myscheme, gchar *myl
   parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
   
   child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-  xmlNewTextChild (child, NULL, (xmlChar *) "after",
-		   (xmlChar *) after);  
+  if(after)
+    xmlNewTextChild (child, NULL, (xmlChar *) "after",
+		     (xmlChar *) after);  
   
   xmlNewTextChild (child, NULL, (xmlChar *) "action",
 		   (xmlChar *) myname);  

@@ -99,6 +99,9 @@ void
 popup_menu(gchar *name);
 
 void
+warningmessage (gchar * msg);
+
+void
 warningdialog(gchar *msg);
 void
 infodialog(gchar *msg);

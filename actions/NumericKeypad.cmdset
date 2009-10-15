@@ -2126,7 +2126,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>MetronomeMarking</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Metronome-Markings</menupath>
+        <menupath>/ObjectMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
@@ -2766,6 +2766,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Short Instrument Name</label>
         <tooltip>Prints shortened form of instrument name before this staff
 for second and subsequent systems</tooltip>
+      </row>
+      <row>
+        <action>ShortMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Short Measure</label>
+        <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
       </row>
     </map>
   </commands>
