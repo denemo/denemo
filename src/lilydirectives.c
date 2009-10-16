@@ -1778,7 +1778,7 @@ gboolean unpopulate_menu(GtkWidget *menu) {
 void edit_object(GtkAction *action,  DenemoScriptParam *param) {
   DenemoObject *obj = findobj();
   if(obj==NULL){
-      warningdialog("No object here to edit");
+      warningmessage("No object here to edit");
     return;
   }
   switch(obj->type){
