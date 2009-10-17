@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after/>
+        <action>BookmarkNamed</action>
+        <scheme>;;; BookmarkNamed
+;;; Named RehearsalMark searchable as bookmark.
+;;; by Nils Gey. RTS Modified to avoid poluting the global namespace with the variable user-input
+(let ((user-input "XXX"))
+	(set! user-input (d-GetUserInput "Named Bookmark" "Give a name" "X"))
+	(if user-input   ;in case the user pressed Escape do nothing	
+ 	(begin	
+	  (d-DirectivePut-standalone-display "Bookmark" user-input)
+	  (d-CursorLeft)
+	  (d-DirectivePut-standalone-ty  "Bookmark" -40)
+	  (d-DirectivePut-standalone-tx  "Bookmark" 10)
+	  (d-DirectivePut-standalone-postfix "Bookmark"  (string-append  " \\once \\override Score.RehearsalMark #'self-alignment-X = #left"  "\r \\mark \\markup {\\bold " user-input "}" ) )
+	  (d-DirectivePut-standalone-gx  "Bookmark"  -20)
+	  (d-DirectivePut-standalone-gy  "Bookmark" -30)
+	  (d-DirectivePut-standalone-minpixels  "Bookmark"  10)
+	  (d-DirectivePut-standalone-graphic "Bookmark" "RehearsalMark")
+	  (d-CursorRight)))
+	(d-RefreshDisplay))
+</scheme>
+        <label>Add named Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

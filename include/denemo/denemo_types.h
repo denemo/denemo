@@ -726,7 +726,7 @@ typedef struct DenemoGUI
   GList *midi_events;/*< midi_events to be output at start of first track of each movement */
 
   GList *custom_scoreblocks; /**< List of customized texts for LilyPond output, replaces standard score blocks, elements are DenemoScoreblock * */
-
+  GList *callbacks;/**< scheme callbacks on deletion */
   gpointer lilystart, lilyend; /**<range of lilytext  */
   GString **target; /**< pointer to target string for modification in lilytext  */
   GList *anchors;/**< anchors in the LilyPond text at points where that can be edited */

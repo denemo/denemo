@@ -468,7 +468,24 @@ SCM scheme_set_prefs (SCM xml) {
   return SCM_BOOL(FALSE);
 }
 
-
+SCM scheme_attach_quit_callback (SCM callback) {
+  DenemoGUI *gui = Denemo.gui;
+  if(SCM_STRINGP(callback)){ 
+    gchar *scheme = scm_to_locale_string(callback);
+    gui->callbacks = g_list_prepend(gui->callbacks, scheme);
+  }
+  return SCM_BOOL(TRUE);
+}
+SCM scheme_detach_quit_callback (void) {
+  DenemoGUI *gui = Denemo.gui;
+  if( gui->callbacks) {
+    g_free(gui->callbacks->data);
+    gui->callbacks = g_list_delete_link(gui->callbacks, gui->callbacks);
+    return SCM_BOOL(TRUE);
+  } else
+    g_warning("No callback registered");
+  return SCM_BOOL(FALSE);
+}
 
 SCM scheme_chordize (SCM setting) {
   DenemoGUI *gui = Denemo.gui;
@@ -2133,28 +2150,12 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
   install_scm_function (DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   install_scm_function (DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
-  // test with  (d-PutNoteName "e,,") (d-CursorRight) 
-  // test with (d-DiatonicShift "3")  (d-CursorRight) 
-  // test with (d-DiatonicShift "3")  (d-NextNote)
-  /* test with 
-(define this-proc (lambda () 
-         (if (d-NextNote) 
-	      (begin (d-DiatonicShift "2") (this-proc)))))
-
-  (d-DiatonicShift "2")
-  (this-proc)
-
-*/
-    install_scm_function4 (DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
-
-    install_scm_function3 (DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
-    /* test with
-       (d-GetUserInput "Named Bookmark" "Give a name" "XXX")
-
-Then 
-     (define user-input (d-GetUserInput "Named Bookmark" "Give a name" "XXX"))
-     (d-InsertLilyDirective (string-append "%" user-input))
-    */
+  install_scm_function (DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
+  install_scm_function (DENEMO_SCHEME_PREFIX"DetachQuitCallback",  scheme_detach_quit_callback);
+  
+  install_scm_function4 (DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
+  
+  install_scm_function3 (DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
 
   install_scm_function (DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
   install_scm_function (DENEMO_SCHEME_PREFIX"InfoDialog", scheme_infodialog);
@@ -2765,6 +2766,15 @@ GString *get_widget_path(GtkWidget *widget) {
   return str;
 }
 
+static void action_callbacks(GList *callbacks) {
+  for(;callbacks;callbacks=g_list_delete_link(callbacks, callbacks)){
+    call_out_to_guile(callbacks->data);
+    g_free(callbacks->data);
+  }
+}
+
+
+
 /**
  * Close the movement gui, releasing its memory and removing it from the list
  * Do not close the sequencer
@@ -2782,7 +2792,8 @@ close_gui (DenemoGUI *gui)
   }
 
   storeWindowState ();
- //stop_pitch_recognition();
+
+
   free_gui(gui);
   
   gtk_widget_destroy (gui->page);
@@ -2796,6 +2807,9 @@ close_gui (DenemoGUI *gui)
 void free_gui(DenemoGUI *gui)
 {
   GList *g;
+  //Here action any script callbacks in order
+  action_callbacks(gui->callbacks);//calls and frees any scripts
+  gui->callbacks = NULL;
   for(g=gui->movements;g;g=g->next) {
     gui->si = g->data;
     free_score(gui);
