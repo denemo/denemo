@@ -2082,13 +2082,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Inserts fingering for finger 5</tooltip>
       </row>
       <row>
-        <action>RehearsalMark</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Orchestral</menupath>
-        <label>Insert Rehearsal Mark</label>
-        <tooltip>Inserts a rehearsal mark at the cursor.</tooltip>
-      </row>
-      <row>
         <action>StartBeam</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
@@ -2570,7 +2563,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</tooltip>
       </row>
       <row>
-        <action>NextBookmarkR</action>
+        <action>NextBookmark</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Next Bookmark</label>
@@ -2578,7 +2571,7 @@ for second and subsequent systems</tooltip>
         <bind>F12</bind>
       </row>
       <row>
-        <action>PrevBookmarkR</action>
+        <action>PrevBookmark</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Prev Bookmark</label>
@@ -2586,7 +2579,7 @@ for second and subsequent systems</tooltip>
         <bind>F11</bind>
       </row>
       <row>
-        <action>BookmarkR</action>
+        <action>Bookmark</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Add Bookmark</label>
@@ -2594,7 +2587,7 @@ for second and subsequent systems</tooltip>
         <bind>F9</bind>
       </row>
       <row>
-        <action>BookmarkRNamed</action>
+        <action>BookmarkNamed</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Add named Bookmark</label>
@@ -2602,7 +2595,7 @@ for second and subsequent systems</tooltip>
         <bind>Shift+F9</bind>
       </row>
       <row>
-        <action>BookmarkRNonPrinting</action>
+        <action>BookmarkNonPrinting</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Add non-printing Bookmark</label>
@@ -2610,7 +2603,7 @@ for second and subsequent systems</tooltip>
         <bind>Shift+Control+F9</bind>
       </row>
       <row>
-        <action>SearchBookmarkR</action>
+        <action>SearchBookmark</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Bookmarks</menupath>
         <label>Search Bookmark</label>
