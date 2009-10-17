@@ -149,7 +149,8 @@ void play_midikey(gint key, double duration, double volume, gint channel){
   jack_playpitch(key, NOTEDURATION);
 
 #else
-  playpitch(midi2hz(key), duration, volume, channel);
+   fluid_playpitch(key, 1000 /*duration*/);
+  //playpitch(midi2hz(key), duration, volume, channel);
 #endif
 }
 
