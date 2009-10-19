@@ -277,12 +277,15 @@ static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
 
 static gint *divert_midi_event;
+static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
+
+
 #define command ((*buf)&0xFF)
 #define notenumber ((*(buf+1))&0xFF)
 #define velocity ((*(buf+2))&0xFF)
 void process_midi_event(gchar *buf) {
   //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
-  if(divert_midi_event){
+  if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
     // this is only good for one endianness - FIXME
     *divert_midi_event = 0;//clear 4th byte
     memcpy(divert_midi_event, buf, 3);//midi events are up to three bytes long
@@ -300,6 +303,7 @@ gboolean intercept_midi_event(gint *midi) {
     return FALSE;
   }
   divert_midi_event = midi;
+  divert_midi_id = Denemo.gui->id;
   gtk_main();
   divert_midi_event = NULL;
   return TRUE;

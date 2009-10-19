@@ -25,12 +25,14 @@ static GdkEventKey ** divert_key_event;/* Non null if key events are being inter
 					* in which case the kyval, state pair are returned
 					*/
 
+static gint divert_key_id=0;
 gboolean intercept_scorearea_keypress (GdkEventKey *pevent) {
   if(divert_key_event) {
     warningdialog("Recursive key capture not possible!");/* we could make a stack of them instead ... */
     return FALSE;
   }
   GdkEventKey *event;
+  divert_key_id = Denemo.gui->id;
   divert_key_event = &event;
   gtk_main();
   divert_key_event = NULL;
@@ -104,7 +106,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
-  if(divert_key_event && !isModifier(event)) {
+  if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
