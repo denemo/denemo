@@ -45,7 +45,7 @@
 
 
 void newview (GtkAction *action, gpointer param);
-void free_gui(DenemoGUI *gui);/* frees all movement data from gui, leaving gui interface intact */
+void free_movements(DenemoGUI *gui);/* frees all movement data (i.e. the DenemoScore objects) from gui, leaving gui interface intact */
 void addhistorymenuitem(gchar *filename);
 
 //TODO Fix for automatic updating during operation

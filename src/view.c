@@ -2763,22 +2763,28 @@ GString *get_widget_path(GtkWidget *widget) {
   return str;
 }
 
-static void action_callbacks(GList *callbacks) {
+static gboolean action_callbacks(DenemoGUI* gui) {
+  GList *callbacks = gui->callbacks;
+  if(callbacks==NULL)
+    return FALSE;
+  gui->callbacks = NULL;//do this before calling the callbacks, so they cannot run twice
   for(;callbacks;callbacks=g_list_delete_link(callbacks, callbacks)){
     call_out_to_guile(callbacks->data);
     g_free(callbacks->data);
   }
+  return TRUE;
 }
 
 
 
 /**
- * Close the movement gui, releasing its memory and removing it from the list
+ * Close the current musical score (Denemo.gui) freeing all its movements (DenemoScore), releasing its memory and removing it from the global list Denemo.guis
  * Do not close the sequencer
  */
-static void
-close_gui (DenemoGUI *gui)
+static gboolean
+close_gui ()
 {
+
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
   activate_action("/MainMenu/InputMenu/KeyboardOnly");
   if(Denemo.autosaveid) {
@@ -2787,30 +2793,36 @@ close_gui (DenemoGUI *gui)
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
+  g_print("si is %p\n", Denemo.gui->si);//madness the next line changes Denemo.gui!!!!!!!!
+  free_movements(Denemo.gui);
+  g_print("si is %p\n", Denemo.gui->si);//madness the next line changes Denemo.gui!!!!!!!!
+  DenemoGUI *oldgui = Denemo.gui;
+  gtk_widget_destroy (Denemo.gui->page);// it will be this that is the problem - it will do a callback
+  //changing something - Denemo.gui I expect!!!!!
+  //switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  g_print("is %p\n", Denemo.gui);//madness the next line changes Denemo.gui!!!!!!!!
+  Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
+  g_print("now is %p\n", Denemo.gui);
 
-  storeWindowState ();
-
-
-  free_gui(gui);
-  
-  gtk_widget_destroy (gui->page);
-  //  if(gui->buttonbox)
-  //   gtk_widget_destroy(gui->buttonbox);
-  Denemo.guis = g_list_remove (Denemo.guis, gui);//FIXME ?? or in the destroy callback??
-  g_free (gui);
+  g_free (oldgui);
+  if(Denemo.guis) {
+    //  Denemo.gui = Denemo.guis->data;
+    //  g_print("Setting the first piece as your score\n");
+    // gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
+  } else
+    Denemo.gui = NULL; 
 }
 
-/* remove all the music data from a gui */
-void free_gui(DenemoGUI *gui)
+/* remove all the movements (ie the DenemoScore) leaving it with gui->si NULL */
+void free_movements(DenemoGUI *gui)
 {
   GList *g;
-  //Here action any script callbacks in order
-  action_callbacks(gui->callbacks);//calls and frees any scripts
-  gui->callbacks = NULL;
+
   for(g=gui->movements;g;g=g->next) {
     gui->si = g->data;
     free_score(gui);
   }
+  gui->si = NULL;
   delete_directives(&gui->lilycontrol.directives);
   delete_directives(&gui->scoreheader.directives);
   delete_directives(&gui->paper.directives);
@@ -2837,8 +2849,8 @@ void free_gui(DenemoGUI *gui)
 static void
 closewrapper (GtkAction *action, gpointer param)
 {
-  GList *display = NULL;
-  //stop_pitch_recognition();
+  GList *display;
+
   if(Denemo.accelerator_status) {
     if(confirm("You have made changes to the commands you have","Do you want to save the changes?"))
       save_accels();
@@ -2846,7 +2858,6 @@ closewrapper (GtkAction *action, gpointer param)
   for (display = Denemo.guis; display != NULL;
        display = g_list_next (display))
     {
-     
      Denemo.gui = (DenemoGUI *) display->data;
      if(close_gui_with_check (NULL, NULL) == FALSE)
        break;
@@ -2862,7 +2873,6 @@ closewrapper (GtkAction *action, gpointer param)
 static gboolean
 delete_callback (GtkWidget * widget, GdkEvent * event)
 {
-
   close_gui_with_check (NULL, NULL);
   return TRUE;
 }
@@ -2972,22 +2982,21 @@ gboolean
 close_gui_with_check (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(action_callbacks(Denemo.gui))
+    return FALSE; //Denemo.gui may have been closed, depends on script callbacks;
+
+  //do not ask for confirm if scripted FIXME
   if ((!gui->notsaved) || (gui->notsaved && confirmbox (gui)))
-    close_gui (gui);
+    close_gui ();
   else 
     return FALSE;
   if(Denemo.guis==NULL) {
-   
+    storeWindowState ();
     writeHistory ();
     writeXMLPrefs(&Denemo.prefs);
     ext_quit (); /* clean players pidfiles (see external.c) */
     exit(0);//do not use gtk_main_quit, as there may be inner loops active.
-  } else {
-    Denemo.gui = Denemo.guis->data;
-    g_print("Setting the first piece as your score\n");
-    gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
   }
-    
   return TRUE;
 }
 
@@ -5140,7 +5149,7 @@ openrecent (GtkWidget * widget, gchar *filename)
   DenemoGUI *gui = Denemo.gui;
   if (!gui->notsaved || (gui->notsaved && confirmbox (gui)))
     {
-      deletescore(NULL, gui);
+      // deletescore(NULL, gui);
       if(open_for_real (filename, gui, FALSE, FALSE))
 	{
 	  gchar *warning = g_strdup_printf("Load of recently used file %s failed", filename);
@@ -5253,7 +5262,7 @@ void init_keymap(void)
 
 static void
 switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
-  //g_print("switching pagenum %d\n",pagenum);
+  g_print("switching pagenum %d\n",pagenum);
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return;

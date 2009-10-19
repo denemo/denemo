@@ -249,7 +249,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	  set_gui_filename (gui, filename);
 	if(type==ADD_STAFFS || type==ADD_MOVEMENTS)
 	  score_status(gui, TRUE);
-      }
+      } else
+	g_string_assign (gui->filename, "");
       if(gui->printarea) 
 	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
       updatescoreinfo (gui);
@@ -573,17 +574,9 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
     return;
   }
   DenemoGUI *gui = Denemo.gui;
-  if (gui->notsaved)
+  if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
-      if (confirmbox (gui))
-	{
-	  deletescore (NULL, gui);
-	  param->status = file_open (gui, FALSE, REPLACE_SCORE, filename);
-	}
-    }
-  else
-    {
-      deletescore (NULL, gui);
+      //deletescore (NULL, gui);
       param->status = file_open (gui, FALSE, REPLACE_SCORE, filename);
     }
 }
@@ -901,7 +894,7 @@ file_saveas (DenemoGUI * gui, gboolean template)
 }
 
 /**
- * Wrapper function for creating a new file
+ * Wrapper function for command New which asks to delete the current gui and on success creates an empty score
  *
  */
 void
@@ -942,14 +935,14 @@ open_user_default_template(ImportType type) {
 }
 
 /**
- * Delete the given score and create a new one
- * with one movement and empty music data
+ * Delete the movements of the given score and create a new one
+ * with one movement and empty music data, no title
  *
  */
 void
 deletescore (GtkWidget * widget, DenemoGUI * gui)
 {
-  free_gui(gui);
+  free_movements(gui);
   score_status(gui, FALSE);
   if(gui->filename) {
     g_string_free(gui->filename, TRUE);
@@ -1088,7 +1081,7 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
     if(fail) {
       DenemoGUI *gui = Denemo.gui;
       //FIXME repeated code
-      free_gui(gui);  
+      free_movements(gui);  
       gtk_widget_destroy (gui->page);
       Denemo.guis = g_list_remove (Denemo.guis, gui);
       g_free (gui);
@@ -1102,7 +1095,7 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
       set_mark(gui);
       toend(NULL, NULL);
       copywrapper(NULL, NULL);
-      free_gui(gui);  
+      free_movements(gui);  
       gtk_widget_destroy (gui->page);
       Denemo.guis = g_list_remove (Denemo.guis, gui);
       g_free (gui);
