@@ -354,9 +354,9 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	}
       else
 	{
-	  thestaffstruct->jack_midi_out_port = -1;
-	  ret = staff_properties_change (&itp);
-	  if (ret)
+	  //	  thestaffstruct->jack_midi_out_port = -1;
+	  //	  ret = staff_properties_change (&itp);
+	  //	  if (ret)
 	    {
 	      /* 
 	         If staff_properties_change returns false,
@@ -371,14 +371,14 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 	       */
 	      si->leftmeasurenum = 1;
 	    }
-	  else
-	    {
-	      /*
+	    //	  else
+	    //	    {
+	      	      /*
 	       *  Free the staff struct as it has not been inserted 
 	       *  into the score
 	       */
-	      g_free (thestaffstruct);
-	    }
+	    //     g_free (thestaffstruct);
+	    //  }
 	}
     }
   else // is INITIAL or ADDFROMLOAD
