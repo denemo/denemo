@@ -40,7 +40,9 @@
 #include "exportxml.h"
 #include "runsilent.h"
 #include "utils.h"
-//#include "fluid.h"
+#ifdef _HAVE_FLUIDSYNTH_
+#include "fluid.h"
+#endif
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
@@ -589,8 +591,11 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
     init_jack();
 #else
   /* audio initialization */
-  //ext_init ();                  /* external players (midi...) */
-  // fluidsynth_init(); 
+  //ext_init (); 
+  /* external players (midi...) */
+#ifdef _HAVE_FLUIDSYNTH_
+  fluidsynth_init(); 
+#endif
 
   /* Immediate Playback */
   if(Denemo.prefs.immediateplayback) {

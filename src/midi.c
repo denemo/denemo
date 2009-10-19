@@ -148,9 +148,10 @@ void play_midikey(gint key, double duration, double volume, gint channel){
 #define NOTEDURATION 1000 /*duration in mseconds*/ 
   jack_playpitch(key, NOTEDURATION);
 
-#else
-  //fluid_playpitch(key, 1000 /*duration*/);
-  playpitch(midi2hz(key), duration, volume, channel);
+#endif //TODO make a selection between jack and fluid
+#ifdef _HAVE_FLUIDSYNTH_
+  fluid_playpitch(key, 1000 /*duration*/);
+  //playpitch(midi2hz(key), duration, volume, channel);
 #endif
 }
 

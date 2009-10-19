@@ -20,6 +20,9 @@
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
+#ifdef _HAVE_FLUIDSYNTH_
+#include "fluid.h"
+#endif
 
 struct callbackdata
 {
@@ -48,6 +51,9 @@ struct callbackdata
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
   GtkWidget *jack_at_startup;
+#endif
+#ifdef _HAVE_FLUIDSYNTH_
+  GtkWidget *fluid_audio_driver;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -114,6 +120,9 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(jacktransport)
   ASSIGNBOOLEAN(jacktransport_start_stopped)
   ASSIGNBOOLEAN(jack_at_startup)
+#endif
+#ifdef _HAVE_FLUIDSYNTH_
+  ASSIGNTEXT(fluid_audio_driver);
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
