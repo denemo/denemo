@@ -29,7 +29,7 @@
 #include "exportmidi.h"
 #include "midi.h"
 #include "jackmidi.h"
-#include "fluid.h"
+//#include "fluid.h"
 #include "commandfuncs.h"
 #include "http.h"
 #include "texteditors.h"
@@ -1663,7 +1663,7 @@ SCM scheme_output_midi (SCM input) {
 #ifdef _HAVE_JACK_
   jack_output_midi_event(buffer);
 #else 
-  fluid_output_midi_event(buffer);
+  // fluid_output_midi_event(buffer);
 #endif 
   return  SCM_BOOL(TRUE);
 }
