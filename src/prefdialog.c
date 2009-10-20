@@ -248,6 +248,14 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
+#define BUTTON(thelabel, thecallback) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  GtkWidget *thecallback_activate = gtk_button_new_with_label(thelabel);\
+  gtk_box_pack_start (GTK_BOX (hbox), thecallback_activate, FALSE, FALSE, 0);\
+  g_signal_connect (G_OBJECT (thecallback_activate), "clicked",\
+  G_CALLBACK (thecallback), (gpointer) NULL);
+
   /*
    * Note entry settings
    */
@@ -338,12 +346,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
   /* Start/Restart Button */
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
-  gtk_box_pack_start (GTK_BOX (hbox), jack_activate, FALSE, FALSE, 0);
-  g_signal_connect (G_OBJECT (jack_activate), "clicked",
-  G_CALLBACK (jack_start_restart), (gpointer) NULL);
+  BUTTON("Start/Restart Jack Client", jack_start_restart);
 #endif
   /*
    * Fluidsynth Menu
@@ -351,12 +354,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_FLUIDSYNTH_
   NEWPAGE("FLUIDSYNTH");
   /* Start/Restart Button */
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  GtkWidget *fluidsynth_activate = gtk_button_new_with_label("Start/Restart FLUIDSYNTH");
-  gtk_box_pack_start (GTK_BOX (hbox), fluidsynth_activate, FALSE, FALSE, 0);
-  g_signal_connect (G_OBJECT (fluidsynth_activate), "clicked",
-  G_CALLBACK (fluidsynth_start_restart), (gpointer) NULL);
+  BUTTON("Start/Restart FLUIDSYNTH", fluidsynth_start_restart)
 
   TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
