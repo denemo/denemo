@@ -337,9 +337,12 @@ typedef struct DenemoPrefs
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
   gboolean jack_at_startup; /**< toggle on and off jack initialization at startup */
+  
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
-
+  gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
+  gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
+  
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */

@@ -55,6 +55,8 @@ struct callbackdata
 #ifdef _HAVE_FLUIDSYNTH_
   GtkWidget *fluidsynth_audio_driver;
   GtkWidget *fluidsynth_soundfont;
+  GtkWidget *fluidsynth_reverb;
+  GtkWidget *fluidsynth_chorus;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -125,6 +127,8 @@ set_preferences (struct callbackdata *cbdata)
 #ifdef _HAVE_FLUIDSYNTH_
   ASSIGNTEXT(fluidsynth_audio_driver);
   ASSIGNTEXT(fluidsynth_soundfont);
+  ASSIGNBOOLEAN(fluidsynth_reverb)
+  ASSIGNBOOLEAN(fluidsynth_chorus)
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -355,7 +359,9 @@ preferences_change (GtkAction *action, gpointer param)
   G_CALLBACK (fluidsynth_start_restart), (gpointer) NULL);
 
   TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
-  TEXTENTRY("Soundfont", fluidsynth_soundfont)	  
+  TEXTENTRY("Soundfont", fluidsynth_soundfont)	
+  BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
+  BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
 #endif
 
 

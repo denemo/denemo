@@ -276,6 +276,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
      
       READXMLENTRY(fluidsynth_audio_driver)
       READXMLENTRY(fluidsynth_soundfont)
+      READINTXMLENTRY(fluidsynth_reverb)
+      READINTXMLENTRY(fluidsynth_chorus)
 
       READXMLENTRY(lilyversion) 
       READINTXMLENTRY(saveparts)
@@ -530,6 +532,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
   WRITEXMLENTRY(fluidsynth_audio_driver)
   WRITEXMLENTRY(fluidsynth_soundfont)
+  WRITEINTXMLENTRY(fluidsynth_reverb)
+  WRITEINTXMLENTRY(fluidsynth_chorus)
 
   WRITEXMLENTRY(browser) 
   
