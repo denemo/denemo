@@ -54,6 +54,7 @@ struct callbackdata
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   GtkWidget *fluidsynth_audio_driver;
+  GtkWidget *fluidsynth_soundfont;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -123,6 +124,7 @@ set_preferences (struct callbackdata *cbdata)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   ASSIGNTEXT(fluidsynth_audio_driver);
+  ASSIGNTEXT(fluidsynth_soundfont);
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -352,7 +354,8 @@ preferences_change (GtkAction *action, gpointer param)
   g_signal_connect (G_OBJECT (fluidsynth_activate), "clicked",
   G_CALLBACK (fluidsynth_start_restart), (gpointer) NULL);
 
-  TEXTENTRY("Audio Driver", fluidsynth_audio_driver) 
+  TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
+  TEXTENTRY("Soundfont", fluidsynth_soundfont)	  
 #endif
 
 
