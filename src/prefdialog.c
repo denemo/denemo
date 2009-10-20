@@ -53,7 +53,7 @@ struct callbackdata
   GtkWidget *jack_at_startup;
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
-  GtkWidget *fluid_audio_driver;
+  GtkWidget *fluidsynth_audio_driver;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -122,7 +122,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(jack_at_startup)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
-  ASSIGNTEXT(fluid_audio_driver);
+  ASSIGNTEXT(fluidsynth_audio_driver);
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -337,8 +337,22 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
   gtk_box_pack_start (GTK_BOX (hbox), jack_activate, FALSE, FALSE, 0);
   g_signal_connect (G_OBJECT (jack_activate), "clicked",
-    G_CALLBACK (jack_start_restart), (gpointer) NULL);
+  G_CALLBACK (jack_start_restart), (gpointer) NULL);
+#endif
+  /*
+   * Fluidsynth Menu
+   */
+#ifdef _HAVE_FLUIDSYNTH_
+  NEWPAGE("FLUIDSYNTH");
+  /* Start/Restart Button */
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  GtkWidget *fluidsynth_activate = gtk_button_new_with_label("Start/Restart FLUIDSYNTH");
+  gtk_box_pack_start (GTK_BOX (hbox), fluidsynth_activate, FALSE, FALSE, 0);
+  g_signal_connect (G_OBJECT (fluidsynth_activate), "clicked",
+  G_CALLBACK (fluidsynth_start_restart), (gpointer) NULL);
 
+  TEXTENTRY("Audio Driver", fluidsynth_audio_driver) 
 #endif
 
 
