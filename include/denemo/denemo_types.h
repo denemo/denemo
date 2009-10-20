@@ -691,6 +691,7 @@ typedef struct DenemoScore
  */
 typedef struct DenemoGUI
 {
+  gint id; /* A unique id, not repeated for this run of the Denemo program */
   /* Fields used fairly directly for drawing */
   GtkWidget *page;
   GtkWidget *scorearea;

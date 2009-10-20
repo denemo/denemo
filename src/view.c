@@ -1682,16 +1682,25 @@ static SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
-static gboolean scheme_callback_timer(gpointer scheme_code){
-    char *scheme = (char *)scheme_code;	
-    scm_c_eval_string(scheme); 
+typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
+
+static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
+    char *scheme_code = scheme->scheme_code;
+    if(scheme->id == Denemo.gui->id)
+      scm_c_eval_string(scheme_code);
+    else
+      g_warning("Timer missed for gui %d\n", scheme->id);
+    g_free(scheme);
     return FALSE; 
 }
 
 static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   char *scheme_code = scm_to_locale_string(callback);	
   gint duration = scm_num2int(duration_amount, 0, 0);
-  g_timeout_add(duration, scheme_callback_timer, (gpointer) scheme_code); 
+  cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
+  scheme->scheme_code = scheme_code;
+  scheme->id = Denemo.gui->id;
+  g_timeout_add(duration, scheme_callback_timer, (gpointer) scheme); 
   return SCM_BOOL(TRUE);
 }
 
@@ -5268,7 +5277,7 @@ void init_keymap(void)
 
 static void
 switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
-  g_print("switching pagenum %d\n",pagenum);
+  //g_print("switching pagenum %d\n",pagenum);
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return;
@@ -5621,14 +5630,14 @@ newview (GtkAction *action, gpointer param)
 }
 
 /**
- * Creates a new DenemoGUI structure represented by a tab in a notebook to control one musical score
- * of possibly several movements. 
+ * Creates a new DenemoGUI structure represented by a tab in a notebook: the DenemoGUI can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoGUI* gui is appended to the global list Denemo.guis.
  * A single movement (DenemoScore) is instantiated in the gui.
  * 
  */
 static void
 newtab (GtkAction *action, gpointer param) {
+  static gint id=1;
 #ifdef _HAVE_JACK_
   stop_jack();
 #endif
@@ -5636,6 +5645,7 @@ newtab (GtkAction *action, gpointer param) {
   //  if(Denemo.guis==NULL)
   //    action_group = create_window();
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
+  gui->id = id++;//uniquely identifies this musical score editor for duration of program.
   Denemo.guis = g_list_append (Denemo.guis, gui);
 
 
