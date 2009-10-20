@@ -338,6 +338,8 @@ midi_delta (FILE * fd, long delta, int more)
   return sz;
 }
 
+
+#if 0
 /**
  * this is used by several meta events
  */
@@ -368,6 +370,11 @@ midi_meta_text (int metatype, char *string)
   *(buffer+len) = 0;
   return event; 
 }
+
+#else
+#define midi_meta_text(a,b) smf_event_new_textual(a,b)
+#endif
+
 
 /**
  * put two strings and a number in a midi comment (debug)
