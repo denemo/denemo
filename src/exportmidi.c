@@ -337,37 +337,7 @@ midi_delta (FILE * fd, long delta, int more)
 
   return sz;
 }
-
-/**
- * this is used by several meta events
- */
-static smf_event_t *
-midi_meta_text (int metatype, char *string)
-{
-  int len;
-  smf_event_t *event = smf_event_new();
-  len = strlen (string);
-  if(len>255) {
-    g_warning("Truncating string %s\n", string);
-    len = 255;
-  }
-  gchar *buffer = (gchar*)malloc(len+3);
-  event->midi_buffer = buffer;
-  event->midi_buffer_length = len+3;
-  /* meta event */
-  *buffer++ =  0xff;
-
-  /* meta type */
-  *buffer++ =  metatype;
-
-  /* meta size */
-  *buffer++ = (char)len;
-
-  /* meta text */
-  strncpy(buffer, string, len);
-  *(buffer+len) = 0;
-  return event; 
-}
+#define midi_meta_text(a,b) smf_event_new_textual(a,b)
 
 /**
  * put two strings and a number in a midi comment (debug)
