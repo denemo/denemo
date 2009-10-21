@@ -44,40 +44,34 @@ point_to_new_movement (DenemoGUI *gui)
   newstaff (gui, INITIAL, DENEMO_NONE);
 }
 
-
 static void
-new_movement(DenemoGUI *gui, gboolean before) {
-  point_to_new_movement(gui);
-  if(before) 
-    gui->movements = g_list_prepend(gui->movements, gui->si);//FIXME insert before g_list_find(gui->movements, si)
-  else
-    gui->movements = g_list_append(gui->movements, gui->si);//ditto after
-  // It would be good to keep a record of the template used to open the music (relative to templates) and try and open that
-  //  if(open_user_default_template(ADD_MOVEMENTS))   {//no default template
-    set_width_to_work_with(gui);
-    //FIXME duplicate code
-    set_rightmeasurenum (gui->si);
-    find_leftmost_allcontexts (gui->si);
-    set_bottom_staff (gui);
-    update_hscrollbar (gui);
-    update_vscrollbar (gui);
-    gtk_widget_queue_draw (gui->scorearea);
-    gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
-    gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
-    displayhelper(gui);
-    score_status(gui, TRUE);
-    //  }
+new_movement(GtkAction *action, DenemoScriptParam *param, gboolean before) {
+  DenemoGUI *gui = Denemo.gui;
+  gint pos = g_list_index(gui->movements, gui->si);
+  append_new_movement(action, param);
+  DenemoScore *newsi = g_list_last(gui->movements)->data;
+  gui->movements = g_list_delete_link(gui->movements, g_list_last(gui->movements));
+  gui->movements = g_list_insert(gui->movements, newsi, before?pos:pos+1);
+  setcurrentprimarystaff (gui->si);
+  write_status(gui);
 }
 
 
 void
 append_new_movement(GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  //It would be good to keep a record of the template used to open the music (relative to templates) and try and open that
-  //  if(open_user_default_template(ADD_MOVEMENTS))   {//no default template
-    point_to_new_movement(gui);
-    gui->movements = g_list_append(gui->movements, gui->si);
-    //  }
+  DenemoScore *source_movement = gui->si;
+  GList *g;
+  point_to_empty_movement(gui);
+  for(g=source_movement->thescore;g;g=g->next) {
+    DenemoStaff *source_staff = g->data;
+    newstaff (gui, LAST, DENEMO_NONE);
+    GList *dest = g_list_last(gui->si->thescore);
+    DenemoStaff *dest_staff = dest->data;
+    copy_staff(source_staff, dest_staff);
+  }
+  gui->movements = g_list_append(gui->movements, gui->si);
+
   set_width_to_work_with(gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
@@ -94,14 +88,12 @@ append_new_movement(GtkAction *action, gpointer param) {
 
 
 void
-insert_movement_before(GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  new_movement(gui, TRUE);
+insert_movement_before(GtkAction *action, DenemoScriptParam *param) {
+  new_movement(action, param, TRUE);
 }
 void
-insert_movement_after(GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  new_movement(gui, FALSE);
+insert_movement_after(GtkAction *action, DenemoScriptParam *param) {
+  new_movement(action, param, FALSE);
 }
 
 void

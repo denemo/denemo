@@ -114,7 +114,7 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
   dest->volume = 65;
   dest->no_of_lines = 5;
   dest->transposition = 0;
-  dest->pos_in_half_lines = 0;
+
   dest->space_above = 0;
   dest->space_below = 0;
   dest->context = DENEMO_NONE;
@@ -129,7 +129,7 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
 static void
 copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
 {
-  set_lily_name (dest->denemo_name, dest->lily_name);
+  set_lily_name (dest->denemo_name, dest->lily_name);//???? is this a bug for src dest???FIXME
 
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
@@ -139,13 +139,50 @@ copy_staff_properties (DenemoStaff * src, DenemoStaff * dest)
   dest->space_below = src->space_below;
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;
-  dest->pos_in_half_lines = src->pos_in_half_lines;
+
   dest->volume = src->volume;
   dest->voicenumber = 2;
   beamsandstemdirswholestaff (dest);
 
 }
 
+
+
+/* copies a staff without its music data to another staff */
+void
+copy_staff (DenemoStaff * src, DenemoStaff * dest)
+{
+  dest->denemo_name = g_string_new(src->denemo_name->str);
+  dest->lily_name = g_string_new(src->lily_name->str);
+  dest->midi_instrument = g_string_new (src->midi_instrument->str);
+  dest->transposition = src->transposition;
+
+  dest->volume = src->volume;
+  dest->voicenumber = src->voicenumber;
+  dest->clef.type = src->clef.type;
+  dest->leftmost_clefcontext = &dest->clef;
+ 
+  dest->staff_directives = clone_directives(src->staff_directives);
+  dest->voice_directives = clone_directives(src->voice_directives);
+  dest->clef.directives = clone_directives(src->clef.directives);
+  dest->keysig.directives = clone_directives(src->keysig.directives);
+  dest->timesig.directives = clone_directives(src->timesig.directives);
+
+
+  dest->keysig.number = src->keysig.number;
+  dest->keysig.isminor = src->keysig.isminor;
+  memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);
+  dest->leftmost_keysig = &dest->keysig;
+
+  dest->timesig.time1 = src->timesig.time1;
+  dest->timesig.time2 = src->timesig.time2;
+
+  dest->transposition = src->transposition;
+
+  dest->space_above = 0;
+  dest->space_below = 0;
+  dest->context = src->context;
+}
 /**
  * Insert a new staff into the score
  * @param si the scoreinfo structure
@@ -227,7 +264,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       thestaffstruct->volume = 65;
       thestaffstruct->no_of_lines = 5;
       thestaffstruct->transposition = 0;
-      thestaffstruct->pos_in_half_lines = 0;
+
       thestaffstruct->space_above = 0;
       thestaffstruct->space_below = 0;
       thestaffstruct->nummeasures = 1;
@@ -475,16 +512,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     } else {
       setcurrentprimarystaff (si);
     }
-
-  //FIXME none of this works to get the current measure stem direction correct
   setcurrents (si);
-      //     find_xes_in_all_measures (si);
-      //   beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
-      //   si->markstaffnum = 0;
-      //  displayhelper (gui);
-  //  if(gui->si->currentstaffnum > gui->si->top_staff)
-  //    gui->si->top_staff++;
-  //  else
   if(gui->si->currentstaffnum < gui->si->top_staff)
     gui->si->top_staff = gui->si->currentstaffnum; 
   update_vscrollbar (gui);

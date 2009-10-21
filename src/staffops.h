@@ -60,4 +60,6 @@ gboolean confirm_insertstaff_custom_scoreblock(DenemoGUI *gui);
 
 gboolean confirm_deletestaff_custom_scoreblock(DenemoGUI *gui);
 
+void copy_staff (DenemoStaff * src, DenemoStaff * dest);
+
 #endif /* __STAFFOPS_H__ */
