@@ -204,7 +204,7 @@ struct callbackdata
   GtkWidget *transposition;
   GtkWidget *volume;
   GtkWidget *mute_volume;
-  GtkWidget *pos_in_half_lines;
+
   GtkWidget *context;
   GtkWidget *staff_prolog_insert;
   GtkWidget *voice_prolog_insert;
@@ -281,7 +281,7 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNNUMBER(space_below);
   ASSIGNNUMBER(no_of_lines);
   ASSIGNNUMBER(transposition);
-  ASSIGNNUMBER(pos_in_half_lines);
+
  
   /* set MIDI channel/prognum */
   ASSIGNTEXT(midi_instrument);
@@ -478,7 +478,7 @@ staff_properties_change (gpointer callback_data)
   INTENTRY_LIMITS("Space below:", space_below, 0, MAXEXTRASPACE); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
   INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
-  INTENTRY_LIMITS("Position in half-lines:", pos_in_half_lines, -5, 5);
+
   
   /*print appearance tab */
   NEWPAGE("Printout Appearance");
@@ -516,7 +516,7 @@ staff_properties_change (gpointer callback_data)
   gtk_entry_set_activates_default (GTK_ENTRY (space_below), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (no_of_lines), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (transposition), TRUE);
-  gtk_entry_set_activates_default (GTK_ENTRY (pos_in_half_lines), TRUE);
+
 */
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 

@@ -220,7 +220,7 @@ typedef struct
    */
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
-  gint pos_in_half_lines; /**< I believe this maybe broken. It does not seem to do much*/ 
+
   gint volume;	/**< Volume used for midi/csound playback */
   gboolean mute_volume; /**< mute Volume of voices playback */
   /* Back to Hiller stuff */
