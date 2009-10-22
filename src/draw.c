@@ -38,12 +38,13 @@ static GdkGC *  lightbluegc;
 static GdkGC *  blackgc;
 static GdkGC *greengc = NULL;
 
-GdkPixbuf *StaffPixbuf;
+GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
 
 static void      
 create_tool_pixbuf(void) {
   GtkWidget *widget = gtk_button_new();
   StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
+  StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU, "denemo");
 }
 
 
@@ -733,6 +734,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
        curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++) {
     DenemoStaff *staff = (DenemoStaff *) curstaff->data;
     itp.verse = staff->currentverse?staff->currentverse->data:NULL;
+    GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum==itp.staffnum)?StaffPixbuf:StaffPixbufSmall;
+      
 
     if (curstaff && staff->voicenumber == 1)
       y += staff->space_above;
@@ -750,15 +753,15 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       if(staff->staff_directives) {
 
-	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
-	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
-	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffDirectivesPixbuf));
+	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffDirectivesPixbuf));
+	gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
       if(staff->voice_directives) {
 
-	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffPixbuf));
-	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffPixbuf));
-	gdk_draw_pixbuf(gui->pixmap, NULL, StaffPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffDirectivesPixbuf));
+	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffDirectivesPixbuf));
+	gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
     
     
