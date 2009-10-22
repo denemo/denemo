@@ -7,8 +7,8 @@
       <row>
         <action>NonPrintingStaff</action>
         <scheme>(d-DirectivePut-staff-prefix "NonPrintingStaff" " { } hiddenStaff = &lt;&lt; { ")
+(d-DirectivePut-staff-override "NonPrintingStaff" DENEMO_OVERRIDE_GRAPHIC)
 (d-DirectivePut-staff-display "NonPrintingStaff" "Hidden Staff")
-(d-DirectivePut-staff-override "NonPrintingStaff" 1)
 (d-RefreshDisplay)</scheme>
         <label>Non-Printing Staff</label>
         <tooltip>Hides the staff in LilyPond print out.</tooltip>
