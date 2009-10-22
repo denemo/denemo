@@ -340,21 +340,20 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   DenemoGUI *gui = Denemo.gui;
   //  g_print("Marked %d\n", gui->si->markstaffnum);
 
-
   if(event->x<LEFT_MARGIN) {
-    gint offset = (gint)get_click_height(gui, event->y);
-    if(offset<STAFF_HEIGHT/2) {
-      if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
-	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    }
+    struct placement_info pi; //FIXME duplicate code
+    if (event->y < 0)
+      get_placement_from_coordinates (&pi, event->x, 0, gui->si);
     else
-      if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
-	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
-    return TRUE;
+      get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+    if(pi.staff_number==gui->si->currentstaffnum) {
+      gint offset = (gint)get_click_height(gui, event->y);
+      if(offset<STAFF_HEIGHT/2) {
+	if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+	  gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+      }
+    }
   }
-
-
-
 
     if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi; 
@@ -362,12 +361,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
       else
 	get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
-
-
       if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
 	change_staff(gui->si, pi.staff_number, pi.the_staff);
-	//gui->si->currentstaffnum = pi.staff_number;
-	//gui->si->currentstaff = pi.the_staff;
 	gui->si->currentmeasurenum = pi.measure_number;
 	gui->si->currentmeasure = pi.the_measure;
 	gui->si->currentobject = pi.the_obj;
@@ -405,7 +400,6 @@ DenemoGUI *gui = Denemo.gui;
   struct placement_info pi;
   gboolean left = (event->button != 3);
   gtk_widget_grab_focus(widget);
-
   gint key = gui->si->maxkeywidth;
   gint cmajor = key?0:5;//allow some area for keysig in C-major
   if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
@@ -419,7 +413,17 @@ DenemoGUI *gui = Denemo.gui;
     get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
-  if(gui->si->leftmeasurenum==1) {
+  if(event->x<LEFT_MARGIN) {
+    gint offset = (gint)get_click_height(gui, event->y);
+    if(offset<STAFF_HEIGHT/2) {
+      if(((DenemoStaff*)gui->si->currentstaff->data)->staff_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    }
+    else
+      if(((DenemoStaff*)gui->si->currentstaff->data)->voice_directives)
+	gtk_menu_popup (((DenemoStaff*)gui->si->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL,0, gtk_get_current_event_time()) ;
+    return TRUE;
+  } else if(gui->si->leftmeasurenum==1) {
     if(event->x<KEY_MARGIN-cmajor) {
       popup_menu("/InitialClefEditPopup");
       return TRUE;
@@ -432,7 +436,10 @@ DenemoGUI *gui = Denemo.gui;
     }
   }
 
+
   if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
+    //gui->si->currentstaffnum = pi.staff_number;
+    //gui->si->currentstaff = pi.the_staff;
     gui->si->currentmeasurenum = pi.measure_number;
     gui->si->currentmeasure = pi.the_measure;
     gui->si->currentobject = pi.the_obj;
@@ -444,7 +451,10 @@ DenemoGUI *gui = Denemo.gui;
     set_cursor_y_from_click (gui, event->y);
     if(pi.nextmeasure)
       measureright(NULL);
+
     write_status(gui);
+
+
   }
 
 
