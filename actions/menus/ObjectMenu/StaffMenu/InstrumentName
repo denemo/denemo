@@ -11,7 +11,7 @@
 (let ((current "") (thematch ""))
   (set! current (d-DirectiveGet-staff-postfix "InstrumentName" ))
   (if (boolean? current)
-      (set! current "myname")
+      (set! current "Violin")
       (begin
 	(set! thematch (string-match "\\\\set Staff.instrumentName = \"([^\"]*)\"" current))
 	;;(display thematch)
@@ -19,6 +19,8 @@
 	    (set! current (match:substring thematch 1))
 	    (set! current "myname"))))
   (set! current (d-GetUserInput "InstrumentName" "Give Instrument Name:" current))
+  (d-DirectivePut-staff-display "InstrumentName" current)
+  (d-DirectivePut-staff-override "InstrumentName"  DENEMO_OVERRIDE_GRAPHIC)
   (d-DirectivePut-staff-postfix "InstrumentName"  (string-append "\\set Staff.instrumentName = \"" current "\"")))
 </scheme>
         <label>Instrument Name</label>
