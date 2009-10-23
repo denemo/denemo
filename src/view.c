@@ -1697,7 +1697,7 @@ static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
-  g_timeout_add(duration, scheme_callback_timer, (gpointer) scheme); 
+  g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme); 
   return SCM_BOOL(TRUE);
 }
 
@@ -2805,17 +2805,12 @@ close_gui ()
     g_source_remove(Denemo.autosaveid);
     Denemo.autosaveid = 0;
   }
-  g_print("si is %p\n", Denemo.gui->si);//madness the next line changes Denemo.gui!!!!!!!!
-  free_movements(Denemo.gui);
-  g_print("si is %p\n", Denemo.gui->si);//madness the next line changes Denemo.gui!!!!!!!!
-  DenemoGUI *oldgui = Denemo.gui;
-  gtk_widget_destroy (Denemo.gui->page);// it will be this that is the problem - it will do a callback
-  //changing something - Denemo.gui I expect!!!!!
-  //switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
-  g_print("is %p\n", Denemo.gui);//madness the next line changes Denemo.gui!!!!!!!!
-  Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
-  g_print("now is %p\n", Denemo.gui);
 
+  free_movements(Denemo.gui);
+
+  DenemoGUI *oldgui = Denemo.gui;
+  gtk_widget_destroy (Denemo.gui->page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
   if(Denemo.guis) {
     //  Denemo.gui = Denemo.guis->data;
