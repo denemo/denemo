@@ -506,31 +506,28 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
       si->cursortime2 = itp->time2;
     }
 
-  /*  paint the measure number at the
-   * preceding barline */
+  /*  paint the measure number at the preceding barline 
+      - do not do measure 1 as it clashes with the name (and is not needed) */
 
-  //  if (si->currentstaffnum == itp->staffnum)
+  if(itp->measurenum>1) {
+    g_string_sprintf (mstring, "%d", itp->measurenum);
+    pango_layout_set_text (layout, mstring->str, -1);
+    desc = pango_font_description_from_string (FONT);
+    pango_layout_set_font_description (layout, desc);
+    pango_font_description_free (desc);
+    gdk_draw_layout (gui->pixmap, itp->gc, x - SPACE_FOR_BARLINE,
+		     y - 12, layout);
+  }
+  // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
+  if (!si->currentobject && (si->currentstaffnum == itp->staffnum && si->currentmeasurenum == itp->measurenum))
     {
-      g_string_sprintf (mstring, "%d", itp->measurenum);
-      pango_layout_set_text (layout, mstring->str, -1);
-      desc = pango_font_description_from_string (FONT);
-      pango_layout_set_font_description (layout, desc);
-      pango_font_description_free (desc);
-      gdk_draw_layout (gui->pixmap, itp->gc, x - SPACE_FOR_BARLINE,
-		       y - 12, layout);
-
-      //gdk_draw_text (si->pixmap, mnumfont, itp->gc, x - SPACE_FOR_BARLINE,
-      // y - 2, mstring->str, mstring->len);
-      if (si->currentmeasurenum == itp->measurenum && !si->currentobject && (si->currentstaffnum == itp->staffnum))
-	{
-	  /* That is, the cursor's at the beginning of this blank measure */
-	  si->cursoroffend = FALSE; 
-	  draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
-	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
-	  si->cursorclef = itp->clef->type;
-	  
-	}
+      /* That is, the cursor's at the beginning of this blank measure */
+      si->cursoroffend = FALSE; 
+      draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
+      memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
+      si->cursorclef = itp->clef->type;     
     }
+  
   curobj = (objnode *) curmeasure->data;
   /* These default values for the markx'es may be necessary down
    * the road */
@@ -642,7 +639,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   if (si->laststaffmarked == itp->staffnum)
     itp->marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
 
-  gint buffer = (curstaffstruct->voicenumber == 1) ? 24 :
+  gint staffname_offset = (curstaffstruct->voicenumber == 1) ? 24 :
     (curstaffstruct->voicenumber == 2
      || curstaffstruct->voicenumber == 3) ? 12 : 0;
 
@@ -650,9 +647,9 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   pango_layout_set_text (layout, curstaffstruct->denemo_name->str, -1);
   desc = pango_font_description_from_string (FONT);
   pango_layout_set_font_description (layout, desc);
+  gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - staffname_offset, layout);
 
 
-  gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - buffer, layout);
   gint title_highy = 0;
 
   pango_font_description_free (desc);
@@ -751,7 +748,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.highy = 0;//do not pass on extra_space from one staff to the next
 	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
 
-      if(staff->staff_directives) {
+      if(staff->staff_directives){
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffDirectivesPixbuf));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffDirectivesPixbuf));
