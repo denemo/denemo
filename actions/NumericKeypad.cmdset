@@ -2780,7 +2780,7 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Find</menupath>
         <label>Next Lower</label>
-        <tooltip>Moves cursor to next note lower than the current note.</tooltip>
+        <tooltip>Moves cursor to next note that is lower than the current note.</tooltip>
       </row>
     </map>
   </commands>

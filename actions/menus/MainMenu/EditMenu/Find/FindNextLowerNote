@@ -19,7 +19,7 @@
 
   </scheme>
         <label>Next Lower</label>
-        <tooltip>Moves cursor to next note lower than the current note.</tooltip>
+        <tooltip>Moves cursor to next note that is lower than the current note.</tooltip>
       </row>
     </map>
   </merge>

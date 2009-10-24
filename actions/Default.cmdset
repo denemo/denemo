@@ -2721,6 +2721,14 @@ for second and subsequent systems</tooltip>
         <label>Short Measure</label>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
       </row>
+      <row>
+        <action>FindNextLowerNote</action>
+        <after>PasteClipboard</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Next Lower</label>
+        <tooltip>Moves cursor to next note that is lower than the current note.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
