@@ -625,6 +625,15 @@ SCM scheme_get_note (SCM optional) {
    
 }
 
+SCM scheme_get_cursor_note_as_midi (SCM optional) {
+
+ DenemoGUI *gui = Denemo.gui;
+ gint midi = dia_to_midinote (gui->si->cursor_y);
+   SCM scm = scm_int2num (midi);
+   return scm;
+}
+
+
 SCM scheme_get_note_as_midi(void) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -2716,6 +2725,7 @@ INSTALL_EDIT(movementcontrol);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   install_scm_function2 (DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   install_scm_function (DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
