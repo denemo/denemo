@@ -2347,7 +2347,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Insert Rest</label>
         <tooltip>Inserts a rest in the prevailing duration</tooltip>
-        <bind>space</bind>
       </row>
       <row>
         <action>AllegroAssai</action>
@@ -2669,6 +2668,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Whole Measure Rest</label>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
+        <bind>space</bind>
       </row>
       <row>
         <action>OpenRepeat</action>
@@ -2773,6 +2773,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Short Measure</label>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
+      </row>
+      <row>
+        <action>FindNextLowerNote</action>
+        <after>PasteClipboard</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Next Lower</label>
+        <tooltip>Moves cursor to next note lower than the current note.</tooltip>
       </row>
     </map>
   </commands>
