@@ -2723,11 +2723,10 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>FindNextLowerNote</action>
-        <after>PasteClipboard</after>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Find</menupath>
         <label>Next Lower</label>
-        <tooltip>Moves cursor to next note that is lower than the current note.</tooltip>
+        <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
       </row>
     </map>
   </commands>

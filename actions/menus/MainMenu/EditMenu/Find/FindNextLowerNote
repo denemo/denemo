@@ -5,10 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>PasteClipboard</after>
         <action>FindNextLowerNote</action>
         <scheme> ;;;;;;;; FindNextNoteLower
-(let loop ((lowest (d-GetNoteAsMidi)) (current 0))
+ (d-CursorRight)
+(let loop ((lowest (d-GetCursorNoteAsMidi)) (current 0))
   (set! current (d-GetNoteAsMidi))
   (if (or (zero? current) (&gt;= current lowest))
       (begin
@@ -19,7 +19,7 @@
 
   </scheme>
         <label>Next Lower</label>
-        <tooltip>Moves cursor to next note that is lower than the current note.</tooltip>
+        <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
       </row>
     </map>
   </merge>
