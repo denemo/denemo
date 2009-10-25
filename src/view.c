@@ -29,7 +29,9 @@
 #include "exportmidi.h"
 #include "midi.h"
 #include "jackmidi.h"
-//#include "fluid.h"
+#ifdef _HAVE_FLUIDSYNTH_
+#include "fluid.h"
+#endif
 #include "commandfuncs.h"
 #include "http.h"
 #include "texteditors.h"
@@ -1671,8 +1673,9 @@ SCM scheme_output_midi (SCM input) {
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
 #ifdef _HAVE_JACK_
   jack_output_midi_event(buffer);
-#else 
-  // fluid_output_midi_event(buffer);
+#endif //TODO this needs to be fixed to allow jack also  
+#ifdef _HAVE_FLUIDSYNTH_  
+  fluid_output_midi_event(buffer);
 #endif 
   return  SCM_BOOL(TRUE);
 }
