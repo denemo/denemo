@@ -2518,14 +2518,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Hides the staff in LilyPond print out.</tooltip>
       </row>
       <row>
-        <action>Largo</action>
-        <after>MezzoForte</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
-        <label>Largo</label>
-        <tooltip>Print Largo above note at cursor</tooltip>
-      </row>
-      <row>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Instruments/Percussion</menupath>
@@ -2780,6 +2772,15 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu/Find</menupath>
         <label>Next Lower</label>
         <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
+        <bind>Control+f</bind>
+      </row>
+      <row>
+        <action>Largo</action>
+        <after>Andante</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Largo</label>
+        <tooltip>Attaches Largo to chord</tooltip>
       </row>
     </map>
   </commands>
