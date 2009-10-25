@@ -69,12 +69,8 @@ fi
 
 AC_ARG_ENABLE(
   fluidsynth,
-  AC_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      usefluidsynth=yes
-    fi
-  ])
+  AC_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=yes@:>@]),
+  [ usefluidsynth=no ], [ usefluidsynth=yes ])
 
 if test "x$usefluidsynth" = "xyes"; then
   PKG_CHECK_MODULES(FLUIDSYNTH, fluidsynth >= 1.0.8)
