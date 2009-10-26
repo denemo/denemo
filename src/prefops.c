@@ -112,6 +112,10 @@ initprefs ()
 #else
   ret->immediateplayback = TRUE;
 #endif
+#ifdef _HAVE_FLUIDSYNTH_
+  ret->fluidsynth_audio_driver = g_string_new (fluidsynth_get_default_audio_driver());
+  ret->fluidsynth_soundfont = g_string_new("/usr/share/sounds/sf2/FluidR3_GM.sf2");
+#endif
   ret->saveparts = FALSE;
   ret->rtcs = TRUE;
   ret->playbackoutput = FALSE;
@@ -270,6 +274,11 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(object_palette)
       READINTXMLENTRY(autoupdate) 
      
+      READXMLENTRY(fluidsynth_audio_driver)
+      READXMLENTRY(fluidsynth_soundfont)
+      READINTXMLENTRY(fluidsynth_reverb)
+      READINTXMLENTRY(fluidsynth_chorus)
+
       READXMLENTRY(lilyversion) 
       READINTXMLENTRY(saveparts)
       
@@ -521,7 +530,11 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(rhythm_palette)
   WRITEINTXMLENTRY(object_palette)
 
-  
+  WRITEXMLENTRY(fluidsynth_audio_driver)
+  WRITEXMLENTRY(fluidsynth_soundfont)
+  WRITEINTXMLENTRY(fluidsynth_reverb)
+  WRITEINTXMLENTRY(fluidsynth_chorus)
+
   WRITEXMLENTRY(browser) 
   
   xmlSaveFormatFile (localrc->str, doc, 1);

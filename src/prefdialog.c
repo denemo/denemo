@@ -20,6 +20,9 @@
 #ifdef _HAVE_JACK_
 #include "jackmidi.h"
 #endif
+#ifdef _HAVE_FLUIDSYNTH_
+#include "fluid.h"
+#endif
 
 struct callbackdata
 {
@@ -48,6 +51,12 @@ struct callbackdata
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
   GtkWidget *jack_at_startup;
+#endif
+#ifdef _HAVE_FLUIDSYNTH_
+  GtkWidget *fluidsynth_audio_driver;
+  GtkWidget *fluidsynth_soundfont;
+  GtkWidget *fluidsynth_reverb;
+  GtkWidget *fluidsynth_chorus;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -114,6 +123,12 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(jacktransport)
   ASSIGNBOOLEAN(jacktransport_start_stopped)
   ASSIGNBOOLEAN(jack_at_startup)
+#endif
+#ifdef _HAVE_FLUIDSYNTH_
+  ASSIGNTEXT(fluidsynth_audio_driver);
+  ASSIGNTEXT(fluidsynth_soundfont);
+  ASSIGNBOOLEAN(fluidsynth_reverb)
+  ASSIGNBOOLEAN(fluidsynth_chorus)
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -233,6 +248,14 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
+#define BUTTON(thelabel, thecallback) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  GtkWidget *thecallback_activate = gtk_button_new_with_label(thelabel);\
+  gtk_box_pack_start (GTK_BOX (hbox), thecallback_activate, FALSE, FALSE, 0);\
+  g_signal_connect (G_OBJECT (thecallback_activate), "clicked",\
+  G_CALLBACK (thecallback), (gpointer) NULL);
+
   /*
    * Note entry settings
    */
@@ -323,13 +346,20 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
   /* Start/Restart Button */
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  GtkWidget *jack_activate = gtk_button_new_with_label("Start/Restart Jack Client");
-  gtk_box_pack_start (GTK_BOX (hbox), jack_activate, FALSE, FALSE, 0);
-  g_signal_connect (G_OBJECT (jack_activate), "clicked",
-    G_CALLBACK (jack_start_restart), (gpointer) NULL);
+  BUTTON("Start/Restart Jack Client", jack_start_restart);
+#endif
+  /*
+   * Fluidsynth Menu
+   */
+#ifdef _HAVE_FLUIDSYNTH_
+  NEWPAGE("FLUIDSYNTH");
+  /* Start/Restart Button */
+  BUTTON("Start/Restart FLUIDSYNTH", fluidsynth_start_restart)
 
+  TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
+  TEXTENTRY("Soundfont", fluidsynth_soundfont)	
+  BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
+  BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
 #endif
 
 
