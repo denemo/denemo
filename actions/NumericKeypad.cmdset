@@ -2660,7 +2660,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Whole Measure Rest</label>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
-        <bind>space</bind>
       </row>
       <row>
         <action>OpenRepeat</action>
@@ -2781,6 +2780,15 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Largo</label>
         <tooltip>Attaches Largo to chord</tooltip>
+      </row>
+      <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+        <bind>space</bind>
       </row>
     </map>
   </commands>
