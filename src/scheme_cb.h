@@ -5166,6 +5166,10 @@ SCM scheme_ChangeDur0 (SCM optional) {
 ChangeDur0 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_SetDur0 (SCM optional) {
+SetDur0 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_InsertRest0 (SCM optional) {
 InsertRest0 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5184,6 +5188,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeDur1 (SCM optional) {
 ChangeDur1 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_SetDur1 (SCM optional) {
+SetDur1 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest1 (SCM optional) {
@@ -5206,6 +5214,10 @@ SCM scheme_ChangeDur2 (SCM optional) {
 ChangeDur2 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_SetDur2 (SCM optional) {
+SetDur2 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_InsertRest2 (SCM optional) {
 InsertRest2 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5224,6 +5236,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeDur3 (SCM optional) {
 ChangeDur3 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_SetDur3 (SCM optional) {
+SetDur3 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest3 (SCM optional) {
@@ -5246,6 +5262,10 @@ SCM scheme_ChangeDur4 (SCM optional) {
 ChangeDur4 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_SetDur4 (SCM optional) {
+SetDur4 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_InsertRest4 (SCM optional) {
 InsertRest4 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5266,6 +5286,10 @@ SCM scheme_ChangeDur5 (SCM optional) {
 ChangeDur5 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_SetDur5 (SCM optional) {
+SetDur5 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_InsertRest5 (SCM optional) {
 InsertRest5 (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5284,6 +5308,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeDur6 (SCM optional) {
 ChangeDur6 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_SetDur6 (SCM optional) {
+SetDur6 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertRest6 (SCM optional) {

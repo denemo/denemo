@@ -47,3 +47,10 @@
 <menuitem action="ChangeToE"/>
 <menuitem action="ChangeToF"/>
 <menuitem action="ChangeToG"/>
+<menuitem action="Set0"/>
+<menuitem action="Set1"/>
+<menuitem action="Set2"/>
+<menuitem action="Set3"/>
+<menuitem action="Set4"/>
+<menuitem action="Set5"/>
+<menuitem action="Set6"/>

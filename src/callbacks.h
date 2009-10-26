@@ -1401,6 +1401,11 @@ static void ChangeDur0(GtkAction *action, gpointer param){
     cursorright(NULL);
   displayhelper(gui);
 }
+static void SetDur0(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 0);
+//  displayhelper(gui);
+}
 static void Dur0  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
  if(gui->mode&INPUTINSERT)
@@ -1460,6 +1465,11 @@ static void ChangeDur1(GtkAction *action, gpointer param){
   if(appending)
     cursorright(NULL);
   displayhelper(gui);
+}
+static void SetDur1(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 1);
+//  displayhelper(gui);
 }
 static void Dur1  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -1521,6 +1531,11 @@ static void ChangeDur2(GtkAction *action, gpointer param){
     cursorright(NULL);
   displayhelper(gui);
 }
+static void SetDur2(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 2);
+//  displayhelper(gui);
+}
 static void Dur2  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
  if(gui->mode&INPUTINSERT)
@@ -1580,6 +1595,11 @@ static void ChangeDur3(GtkAction *action, gpointer param){
   if(appending)
     cursorright(NULL);
   displayhelper(gui);
+}
+static void SetDur3(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 3);
+//  displayhelper(gui);
 }
 static void Dur3  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -1641,6 +1661,11 @@ static void ChangeDur4(GtkAction *action, gpointer param){
     cursorright(NULL);
   displayhelper(gui);
 }
+static void SetDur4(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 4);
+//  displayhelper(gui);
+}
 static void Dur4  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
  if(gui->mode&INPUTINSERT)
@@ -1701,6 +1726,11 @@ static void ChangeDur5(GtkAction *action, gpointer param){
     cursorright(NULL);
   displayhelper(gui);
 }
+static void SetDur5(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 5);
+//  displayhelper(gui);
+}
 static void Dur5  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
  if(gui->mode&INPUTINSERT)
@@ -1760,6 +1790,11 @@ static void ChangeDur6(GtkAction *action, gpointer param){
   if(appending)
     cursorright(NULL);
   displayhelper(gui);
+}
+static void SetDur6(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 6);
+//  displayhelper(gui);
 }
 static void Dur6  (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
