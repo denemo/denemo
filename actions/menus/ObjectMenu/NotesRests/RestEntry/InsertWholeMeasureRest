@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>WholeMeasureRest</after>
+        <action>InsertWholeMeasureRest</action>
+        <scheme> ;;;;InsertWholeMeasureRest
+ ;;; note that it works in edit mode properly
+(if (d-MeasureRight)
+    (begin
+      (d-MeasureLeft)
+      (if (d-NextObject)
+	  (begin	    
+	    (d-ForceNewMeasure)
+	    (d-WholeMeasureRest))
+	  (d-WholeMeasureRest)))
+    (begin	
+    	(display "no right measure")    
+	    (d-ForceNewMeasure)
+	    (d-MeasureLeft)
+	    (d-WholeMeasureRest)))
+(d-MeasureRight)
+(d-Set2)</scheme>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

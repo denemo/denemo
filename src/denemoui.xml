@@ -251,7 +251,16 @@
               <menuitem action="NextRhythm"/> 
            </menu>
 
+	  <menu action="SelectDuration">
+<menuitem action="Set0"/>
+<menuitem action="Set1"/>
+<menuitem action="Set2"/>
+<menuitem action="Set3"/>
+<menuitem action="Set4"/>
+<menuitem action="Set5"/>
+<menuitem action="Set6"/>
 
+	  </menu>  
 
 </menu> <!-- end of modeless note object menu -->
 

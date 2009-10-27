@@ -579,7 +579,7 @@ int main() {
      include code for this */
 
   for(i=0;i<7;i++) {
-    /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
+    /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
     fprintf(callbacks, 
 "static void InsertRest%d(GtkAction *action, gpointer param){\n"
 "  DenemoGUI *gui = Denemo.gui;\n"
@@ -630,7 +630,18 @@ int main() {
 "  if(appending)\n"
 "    cursorright(NULL);\n"
 "  displayhelper(gui);\n"
-"}\n",i,i,i,i,i,i,i,i,i,i);
+"}\n"
+
+"static void SetDur%d(GtkAction *action, gpointer param){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
+"  highlight_duration(gui, %d);\n"
+"//  displayhelper(gui);\n"
+"}\n"
+
+
+
+
+,i,i,i,i,i,i,i,i,i,i, i, i);
 
 
     /* callbacks for mode sensitive  duration actions, Dur0,1,2 ... */
@@ -661,8 +672,12 @@ int main() {
  "{\"Insert%d\", NULL, N_(\"Insert a \"MUSIC_FONT(\"%d\")\"\"), NULL, N_(\"Inserts a \"MUSIC_FONT(\"%d\")\" at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
   "G_CALLBACK (InsertDur%d)},\n"
  "{\"InsertRest%d\", NULL, N_(\"Insert a \"MUSIC_FONT(\"%d\")\"rest\"), NULL, N_(\"Inserts a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
-	    "G_CALLBACK (InsertRest%d)},\n",
-     i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i,i,i );
+	    "G_CALLBACK (InsertRest%d)},\n"
+ "{\"Set%d\", NULL, N_(\"Set Duration to \"MUSIC_FONT(\"%d\")\"\"), NULL, N_(\"Sets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
+  "G_CALLBACK (SetDur%d)},\n"
+
+
+     ,i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i,i,i  , i,i,i,i );
   }
 
 
@@ -682,7 +697,8 @@ int main() {
   for(i='A';i<='G';i++) 
     fprintf(xml, "<menuitem action=\"ChangeTo%c\"/>\n", i);
 
-
+  for(i=0;i<7;i++) 
+    fprintf(xml, "<menuitem action=\"Set%d\"/>\n", i);
 
   /* menu_entries for the mode    note name    */
   for(i='A';i<='G';i++) {
@@ -765,6 +781,11 @@ int main() {
     fprintf(register_commands, 
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  N_(\"Change a \"MUSIC_FONT(\"%d\")\"rest\") ,  N_(\"Changes a rest at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")), ChangeRest%d);\n", i, i, i, i, i);
 
+    fprintf(register_commands, 
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Set%d\"), \"Set%d\", N_(MUSIC_FONT(\"%d\")), N_(\"Set the prevailing duration to \"MUSIC_FONT(\"%d\")), SetDur%d);\n", i, i, i, i, i);
+
+
+
       fprintf(scheme, "/*%d */\n", i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
 
@@ -775,9 +796,17 @@ int main() {
       fprintf(scheme, "SCM scheme_InsertDur%d(SCM optional);\ninstall_scm_function (\"d-Insert%d\", scheme_InsertDur%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_InsertDur%d (SCM optional) {\nInsertDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
+
+
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Change%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
-      fprintf(scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (\"d-Change%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme, "SCM scheme_ChangeDur%d(SCM optional);\ninstall_scm_function (\"d-Change%d\", scheme_ChangeDur%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeDur%d (SCM optional) {\nChangeDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Set%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+      fprintf(scheme, "SCM scheme_SetDur%d(SCM optional);\ninstall_scm_function (\"d-Set%d\", scheme_SetDur%d);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_SetDur%d (SCM optional) {\nSetDur%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+
+
 
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"InsertRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_InsertRest%d(SCM optional);\ninstall_scm_function (\"d-InsertRest%d\", scheme_InsertRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
@@ -786,8 +815,6 @@ int main() {
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"ChangeRest%d\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_ChangeRest%d(SCM optional);\ninstall_scm_function (\"d-ChangeRest%d\", scheme_ChangeRest%d);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_ChangeRest%d (SCM optional) {\nChangeRest%d (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
-
-
   }
 
 
