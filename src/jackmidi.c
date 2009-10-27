@@ -643,7 +643,8 @@ jack_midi_playback_stop ()
    playback_started = -1;
    IMMEDIATE=TRUE;
 }
-
-
-#endif // _HAVE_JACK_
+#else //If not _HAVE_JACK_
+void jack_playpitch(int key, int duration){}
+void jack_output_midi_event(unsigned char *buffer){}
+#endif 
 

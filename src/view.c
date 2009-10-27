@@ -1671,12 +1671,10 @@ SCM scheme_output_midi (SCM input) {
   g_free(bytes); 
    
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
-#ifdef _HAVE_JACK_
-  jack_output_midi_event(buffer);
-#endif //TODO this needs to be fixed to allow jack also  
-#ifdef _HAVE_FLUIDSYNTH_  
-  fluid_output_midi_event(buffer);
-#endif 
+  if (Denemo.prefs.midi_audio_output == JACK)
+    jack_output_midi_event(buffer);
+  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+    fluid_output_midi_event(buffer);
   return  SCM_BOOL(TRUE);
 }
 

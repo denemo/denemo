@@ -78,7 +78,16 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-
+  //char midi_audio_string[][24] = {"portaudio", "jack", "fluidsynth"};
+//#ifdef _HAVE_PORTAUDIO_
+  ret->midi_audio_output = PORTAUDIO;
+//#endif
+#ifdef _HAVE_JACK_
+  ret->midi_audio_output = JACK;
+#endif
+#ifdef _HAVE_FLUIDSYNTH_ 
+  ret->midi_audio_output = FLUIDSYNTH;	  
+#endif
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("wmplayer");

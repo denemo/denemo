@@ -24,10 +24,22 @@
 #include "fluid.h"
 #endif
 
+//TODO move this to playback properties
+gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
+
+gint FindStringIndex(gchar *output_selection){
+  gint i;
+  for (i=0;i<3;i++) //replace with sizeof
+    if (g_strcmp0(output_selection, output_options[i]) == 0)
+      return i;
+}
+//uncut
+
 struct callbackdata
 {
   DenemoPrefs *prefs;
   GtkWidget *lilypath;
+  GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
   GtkWidget *saveparts;
   GtkWidget *autosave;
@@ -136,6 +148,28 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
+  //TODO temp assignment put in playbackproperties
+  gchar *AudioMidiOut =
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->midi_audio_output)->entry));
+  /* need something here to decide what to do when there is a change
+   * if portaudio->fluidsynth 
+  	release /dev/midi, /dev/dsp, /dev/sequencer
+    	startfluidsynth
+     if portaudio->jack
+        release /dev/midi, /dev/dsp, /dev/sequencer
+	startjack?
+     if jack->portaudio
+	stopjack
+   	reinit portaudio
+     if jack->fluidsynth 
+	stopjack //maybe not needed if fluidsynth is using jack driver
+   	startfluid
+     if fluidsynth->jack
+ 	stop fluidsynth 
+   	startjack?
+  */
+  prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
+  //uncut here
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
@@ -261,8 +295,31 @@ preferences_change (GtkAction *action, gpointer param)
    */
   
   NEWPAGE("View");
+  //TODO cut here; move this section to playback properties
+  //Doesnt GList need to be freed
+  GList *output_option_list = NULL;
+  int i;
+  for (i=0;i<3;i++)
+    output_option_list = g_list_append (output_option_list, output_options[i]);
   
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0); 
+  label = gtk_label_new ("Midi/Audio output");
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  GtkWidget *audio_output_combo = gtk_combo_new ();
+  gtk_combo_set_popdown_strings (GTK_COMBO (audio_output_combo), output_option_list);
+  gtk_box_pack_start (GTK_BOX (hbox), audio_output_combo, FALSE, FALSE, 0); 
+  gtk_entry_set_text
+    (GTK_ENTRY (GTK_COMBO (audio_output_combo)->entry), output_options[Denemo.prefs.midi_audio_output]);
+  gtk_widget_show (audio_output_combo);
+  cbdata.midi_audio_output = audio_output_combo;
+
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
+  // end cut
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);

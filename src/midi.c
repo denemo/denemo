@@ -37,7 +37,7 @@
 #include <denemo/denemo.h>
 #include "draw.h"
 #include "audio.h"
-
+#include "jackmidi.h"
 
 #define SEQ_DEV    (Denemo.prefs.sequencer->str)
 #define SEQ_DEV_N  0
@@ -143,16 +143,12 @@ void playpitch(double pitch, double duration, double volume, int channel) {
 }
 
 void play_midikey(gint key, double duration, double volume, gint channel){
-#ifdef _HAVE_JACK_
-  //playpitch(midi2hz(key), duration, volume, channel);	
-#define NOTEDURATION 1000 /*duration in mseconds*/ 
-  jack_playpitch(key, NOTEDURATION);
-
-#endif //TODO make a selection between jack and fluid
-#ifdef _HAVE_FLUIDSYNTH_
-  fluid_playpitch(key, 1000 /*duration*/);
-  //playpitch(midi2hz(key), duration, volume, channel);
-#endif
+  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
+    playpitch(midi2hz(key), duration, volume, channel);
+  else if (Denemo.prefs.midi_audio_output == JACK)
+    jack_playpitch(key, 1000 /*duration*/);
+  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+    fluid_playpitch(key, 1000 /*duration*/);
 }
 
 /**
