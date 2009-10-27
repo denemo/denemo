@@ -72,6 +72,7 @@ struct callbackdata
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
+  GtkWidget *audioplayer;
   GtkWidget *denemopath;
   GtkWidget *temperament;
   GtkWidget *strictshortcuts;
@@ -104,7 +105,6 @@ set_preferences (struct callbackdata *cbdata)
 {
   DenemoPrefs *prefs = cbdata->prefs;
 
-
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
                    gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
@@ -117,7 +117,6 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
-
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -126,6 +125,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(password)
   ASSIGNTEXT(texteditor)
   ASSIGNTEXT(midiplayer)
+  ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
   ASSIGNTEXT(sequencer)
   ASSIGNTEXT(midi_in)
@@ -381,6 +381,7 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("Image Viewer", imageviewer)
   TEXTENTRY("Text Editor", texteditor)
   TEXTENTRY("Midi Player", midiplayer)
+  TEXTENTRY("Audio Player", audioplayer)
 
   TEXTENTRY("Default Save Path", denemopath)
   BOOLEANENTRY("Update the command set on startup", autoupdate);
