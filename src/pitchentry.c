@@ -695,8 +695,16 @@ gint pitchentry(DenemoGUI *gui) {
       // Enter the note in the score
       if(!PR_tuning){
 	display_pitch(note, gui);
-	if(gui->input_source==INPUTMIDI)
-	  playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
+	if(gui->input_source==INPUTMIDI) {
+	  gint key=(gint)(69+12 * log((found->pitch * (pow(2,(octave))))/440)/log(2));
+	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
+	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
+	  // playpitch(midi2hz(key), duration, volume, channel);
+	  else if (Denemo.prefs.midi_audio_output == JACK)
+	    jack_playpitch(key, 300 /*duration*/);
+	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+	    fluid_playpitch(key, 300 /*duration*/);
+	}
 	if(!Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
 	  if(gui->mode & INPUTRHYTHM) {
