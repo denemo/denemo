@@ -652,6 +652,15 @@ static gint measure_pitch_accurately (DenemoGUI *gui) {
 
   return TRUE;
 }
+
+
+static float Freq2Pitch(float freq)
+{
+   return 0.5 + (69.0 + 12.0 * (log(freq / 440.0) / log(2.0)));
+}
+
+
+
 /* look for a new note played into audio input, if
    present insert it into the score/store */
 gint pitchentry(DenemoGUI *gui) {
@@ -696,7 +705,8 @@ gint pitchentry(DenemoGUI *gui) {
       if(!PR_tuning){
 	display_pitch(note, gui);
 	if(gui->input_source==INPUTMIDI) {
-	  gint key=(gint)(69+12 * log((found->pitch * (pow(2,(octave))))/440)/log(2));
+	  gint key=(gint)(Freq2Pitch(found->pitch * (pow(2,(octave)))));
+	  g_print("pitch %f key number %d\n",found->pitch, key);
 	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
 	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
 	  // playpitch(midi2hz(key), duration, volume, channel);
@@ -705,7 +715,7 @@ gint pitchentry(DenemoGUI *gui) {
 	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
 	    fluid_playpitch(key, 300 /*duration*/);
 	}
-	if(!Denemo.prefs.overlays) {
+	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
 	  if(gui->mode & INPUTRHYTHM) {
 	    static beep = FALSE;
