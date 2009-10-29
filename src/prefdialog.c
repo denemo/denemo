@@ -29,7 +29,7 @@ gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
 
 gint FindStringIndex(gchar *output_selection){
   gint i;
-  for (i=0;i<3;i++) //replace with sizeof
+  for (i=0;i<sizeof(output_selection);i++) //replace with sizeof
     if (g_strcmp0(output_selection, output_options[i]) == 0)
       return i;
 }
