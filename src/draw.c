@@ -861,7 +861,7 @@ DenemoGUI *gui = Denemo.gui;
 
  do{
    /* Clear the backing pixmap */
-   if(Denemo.gui->input_source!=INPUTKEYBOARD &&
+   if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
       (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
       && pitch_entry_active(gui)) {
      gdk_draw_rectangle (gui->pixmap,
