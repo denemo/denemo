@@ -16,16 +16,30 @@ fluid_audio_driver_t* adriver;
 int sfont_id;
 static gint timeout_id = 0, kill_id=0;
 
-int fluidsynth_init()
-{ 
-  g_debug("\nStarting FLUIDSYNTH\n"); 
-  /* Create the settings. */
+static gint start_fluid_settings()
+{
   settings = new_fluid_settings();
   if (!settings){
     g_warning("\nFailed to create the settings\n");
     fluidsynth_shutdown();
     return 1;
   }
+  return 0;
+}
+
+gchar * fluidsynth_get_default_audio_driver()
+{
+  if (!settings)
+    start_fluid_settings(); 
+  return fluid_settings_getstr_default(settings, "audio.driver");
+}
+
+int fluidsynth_init()
+{ 
+  g_debug("\nStarting FLUIDSYNTH\n"); 
+  /* Create the settings. */
+  if (!settings)
+    start_fluid_settings(); 
 
   /* Change the settings if necessary*/
   fluid_settings_setstr(settings, "audio.driver", Denemo.prefs.fluidsynth_audio_driver->str);
@@ -36,7 +50,8 @@ int fluidsynth_init()
   synth = new_fluid_synth(settings);
   if (!synth){
     g_warning("\nFailed to create the settings\n");
-    fluidsynth_shutdown();
+    //fluidsynth_shutdown();
+    delete_fluid_synth(synth);
     return 1;
   }
 
@@ -115,10 +130,6 @@ void fluid_output_midi_event(unsigned char *buffer)
   }
 }
 
-gchar * fluidsynth_get_default_audio_driver()
-{
-  return fluid_settings_getstr_default(settings, "audio.driver");
-}
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
 void fluid_output_midi_event(unsigned char *buffer){}
