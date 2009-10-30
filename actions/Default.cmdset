@@ -1404,6 +1404,11 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation</tooltip>
       </row>
       <row>
+        <action>DeleteFiguredBass</action>
+        <label>Delete Figures</label>
+        <tooltip>Delete the figured bass on the current staff</tooltip>
+      </row>
+      <row>
         <action>EditChords</action>
         <label>Edit Chord Symbols</label>
         <tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</tooltip>
@@ -1725,6 +1730,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>Set0</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</tooltip>
+      </row>
+      <row>
         <action>1</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;
@@ -1754,6 +1764,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;
         <label>Change a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;rest</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set1</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</tooltip>
       </row>
       <row>
         <action>2</action>
@@ -1787,6 +1802,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>Set2</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</tooltip>
+      </row>
+      <row>
         <action>3</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;
@@ -1816,6 +1836,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;
         <label>Change a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;rest</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set3</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</tooltip>
       </row>
       <row>
         <action>4</action>
@@ -1849,6 +1874,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>Set4</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</tooltip>
+      </row>
+      <row>
         <action>5</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;
@@ -1880,6 +1910,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>Set5</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</tooltip>
+      </row>
+      <row>
         <action>6</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</label>
         <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
@@ -1909,6 +1944,11 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Change a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;rest</label>
         <tooltip>Changes a rest at cursor position
 Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set6</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
@@ -2378,7 +2418,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       </row>
       <row>
         <action>InstrumentName</action>
-	<after>SmallerStaff</after>
+        <after>SmallerStaff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <label>Instrument Name</label>

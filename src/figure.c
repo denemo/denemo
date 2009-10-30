@@ -102,6 +102,28 @@ insertfigure (gboolean filter, gpointer data)
   } 
 }
 
+
+
+
+void delete_figured_bass  (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff* thestaff = (DenemoStaff*)gui->si->currentstaff->data;
+  if(confirm("Figured Bass Deletion", "Delete all figured bass markings from this staff?")) {
+    thestaff->hasfigures=FALSE;
+    measurenode *curmeasure;
+    for(curmeasure = thestaff->measures;curmeasure;curmeasure=curmeasure->next) {
+      objnode *curobj;
+      for(curobj = curmeasure->data;curobj;curobj=curobj->next) {    
+	DenemoObject *curObj=(DenemoObject*)curobj->data;
+	if (curObj && curObj->type == CHORD) {
+	  GString *s= ((chord *) curObj->object)->figure;
+	  if(s) g_string_free(s, TRUE);
+	  ((chord *) curObj->object)->figure = NULL;
+	}
+      }
+    }
+  }
+}
 /**
  * Creates figured bass entry dialog
  *
