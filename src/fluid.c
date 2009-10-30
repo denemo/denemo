@@ -16,16 +16,30 @@ fluid_audio_driver_t* adriver;
 int sfont_id;
 static gint timeout_id = 0, kill_id=0;
 
-int fluidsynth_init()
-{ 
-  g_debug("\nStarting FLUIDSYNTH\n"); 
-  /* Create the settings. */
+static gint start_fluid_settings()
+{
   settings = new_fluid_settings();
   if (!settings){
     g_warning("\nFailed to create the settings\n");
     fluidsynth_shutdown();
     return 1;
   }
+  return 0;
+}
+
+gchar * fluidsynth_get_default_audio_driver()
+{
+  if (!settings)
+    start_fluid_settings(); 
+  return fluid_settings_getstr_default(settings, "audio.driver");
+}
+
+int fluidsynth_init()
+{ 
+  g_debug("\nStarting FLUIDSYNTH\n"); 
+  /* Create the settings. */
+  if (!settings)
+    start_fluid_settings(); 
 
   /* Change the settings if necessary*/
   fluid_settings_setstr(settings, "audio.driver", Denemo.prefs.fluidsynth_audio_driver->str);
@@ -36,7 +50,8 @@ int fluidsynth_init()
   synth = new_fluid_synth(settings);
   if (!synth){
     g_warning("\nFailed to create the settings\n");
-    fluidsynth_shutdown();
+    //fluidsynth_shutdown();
+    delete_fluid_synth(synth);
     return 1;
   }
 
@@ -115,10 +130,42 @@ void fluid_output_midi_event(unsigned char *buffer)
   }
 }
 
-gchar * fluidsynth_get_default_audio_driver()
+/**
+ * Select the soundfont to use for playback
+ */
+void
+choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 {
-  return fluid_settings_getstr_default(settings, "audio.driver");
+  GtkWidget *sf;
+  GtkFileFilter *filter;
+
+  sf = gtk_file_chooser_dialog_new (_("Choose SoundFont File"),
+				     GTK_WINDOW (Denemo.window),
+				    GTK_FILE_CHOOSER_ACTION_OPEN,
+				    GTK_STOCK_CANCEL,
+				    GTK_RESPONSE_REJECT,
+				    GTK_STOCK_OPEN,
+				    GTK_RESPONSE_ACCEPT, NULL);
+
+  //TODO Should we filter????
+  //filter = gtk_file_filter_new ();
+  //gtk_file_filter_set_name (filter, "Soundfont file");
+  //gtk_file_filter_add_pattern (filter, "*.sf");
+  //gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (fs), filter);
+
+  gtk_widget_show_all (sf);
+  if (gtk_dialog_run (GTK_DIALOG (sf)) == GTK_RESPONSE_ACCEPT)
+    {
+      g_string_assign (Denemo.prefs.fluidsynth_soundfont,
+		       gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (sf)));
+  	/* this will only work for 1 sound font */
+        gtk_entry_set_text (GTK_ENTRY (fluidsynth_soundfont), Denemo.prefs.fluidsynth_soundfont->str);
+
+    }
+  gtk_widget_destroy (sf);
 }
+
+
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
 void fluid_output_midi_event(unsigned char *buffer){}
