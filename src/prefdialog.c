@@ -29,7 +29,7 @@ gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
 
 gint FindStringIndex(gchar *output_selection){
   gint i;
-  for (i=0;i<sizeof(output_selection);i++) //replace with sizeof
+  for (i=0;i<3;i++) //replace with sizeof
     if (g_strcmp0(output_selection, output_options[i]) == 0)
       return i;
 }
@@ -169,6 +169,12 @@ set_preferences (struct callbackdata *cbdata)
    	startjack?
   */
   prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
+
+  //TODO this should be integer instead of string assignment 
+  gchar *AudioDriver =
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fluidsynth_audio_driver)->entry));
+  prefs->fluidsynth_audio_driver = g_string_new(AudioDriver); 
+
   //uncut here
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)
@@ -301,23 +307,24 @@ preferences_change (GtkAction *action, gpointer param)
   int i;
   for (i=0;i<3;i++)
     output_option_list = g_list_append (output_option_list, output_options[i]);
-  
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0); 
-  label = gtk_label_new ("Midi/Audio output");
-  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  GtkWidget *audio_output_combo = gtk_combo_new ();
-  gtk_combo_set_popdown_strings (GTK_COMBO (audio_output_combo), output_option_list);
-  gtk_box_pack_start (GTK_BOX (hbox), audio_output_combo, FALSE, FALSE, 0); 
-  gtk_entry_set_text
-    (GTK_ENTRY (GTK_COMBO (audio_output_combo)->entry), output_options[Denemo.prefs.midi_audio_output]);
-  gtk_widget_show (audio_output_combo);
-  cbdata.midi_audio_output = audio_output_combo;
+#define COMBOBOX(thelable, field, thelist, settext)\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelable);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  GtkWidget *field = gtk_combo_new ();\
+  gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  gtk_entry_set_text\
+    (GTK_ENTRY (GTK_COMBO (field)->entry), settext);\
+  gtk_widget_show (field);\
+  cbdata.field = field;
 
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, output_options[Denemo.prefs.midi_audio_output]) 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
   // end cut
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
@@ -414,7 +421,18 @@ preferences_change (GtkAction *action, gpointer param)
   /* Start/Restart Button */
   BUTTON("Start/Restart FLUIDSYNTH", fluidsynth_start_restart)
 
-  TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
+  /*TODO ifdef differnet os's and support
+   *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
+   *defaults are:
+   *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
+   */
+  gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
+  GList *driver_option_list = NULL;
+  for (i=0;i<5;i++)
+    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
+
+  //TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
+  COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
   hbox = gtk_hbox_new (FALSE, 8);
