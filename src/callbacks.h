@@ -1337,7 +1337,7 @@ nextrhythm (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*AppendMeasuresToScore append_measure_score*/
+/*AppendMeasureAllStaffs append_measure_score*/
 static void append_measure_score_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 append_measure_score (gui);
