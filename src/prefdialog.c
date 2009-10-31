@@ -29,7 +29,7 @@ gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
 
 gint FindStringIndex(gchar *output_selection){
   gint i;
-  for (i=0;i<3;i++) //replace with sizeof
+  for (i=0;i<G_N_ELEMENTS(output_options);i++) //replace with sizeof
     if (g_strcmp0(output_selection, output_options[i]) == 0)
       return i;
 }
@@ -428,10 +428,9 @@ preferences_change (GtkAction *action, gpointer param)
    */
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
   GList *driver_option_list = NULL;
-  for (i=0;i<5;i++)
+  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
     driver_option_list = g_list_append (driver_option_list, driver_options[i]);
 
-  //TEXTENTRY("Audio Driver", fluidsynth_audio_driver)
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
