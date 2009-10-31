@@ -196,7 +196,7 @@
 {"ChangePitch", NULL, N_("Change Pitch"), NULL,N_("No Tooltip yet"),G_CALLBACK (change_pitch_cb)},
 {"InsertRhythm", NULL, N_("Insert Rhythm"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_rhythm_pattern_cb)},
 {"NextRhythm", NULL, N_("Next Rhythm"), NULL,N_("Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern"),G_CALLBACK (nextrhythm_cb)},
-{"AppendMeasuresToScore", NULL, N_("Append Measure To Score"), NULL,N_("No Tooltip yet"),G_CALLBACK (append_measure_score_cb)},
+{"AppendMeasuresToScore", NULL, N_("Append Measure (All Staffs)"), NULL,N_("Appends a blank measure to every staff in this movement"),G_CALLBACK (append_measure_score_cb)},
 {"FileMenu", NULL, N_("File"), NULL,N_("Creating, saving, loading, displaying and printing musical scores")},
 {"Bookmarks", NULL, N_("Bookmarks"), NULL,N_("Creating, saving places in musical scores")},
 {"ModeMenu", NULL, N_("Mode"), NULL,N_("Different keyboard and MIDI entry modes")},

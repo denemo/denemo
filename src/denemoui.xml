@@ -188,6 +188,7 @@
 	   	<separator/>
 	   <menuitem action="InsertMeasure"/>
 	   <menuitem action="AppendMeasure"/>
+	   <menuitem action="AppendMeasuresToScore"/>
            <menuitem action="DeleteMeasureAllStaffs"/>
 	   <menuitem action="DeleteMeasure"/>
 	<separator/>

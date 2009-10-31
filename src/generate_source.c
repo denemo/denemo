@@ -285,7 +285,7 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Rhythm")},
   {CMD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm", N_("Next Rhythm")},
-  {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasuresToScore"), "append_measure_score", N_("Append Measure To Score")},
+  {CMD_CATEGORY_MEASURE, NULL, "Appends a blank measure to every staff in this movement",	N_("AppendMeasuresToScore"), "append_measure_score", N_("Append Measure (All Staffs)")},
   
   /* from view.c menu_entries[]  */
   {CMD_CATEGORY_DIRECT, NULL, "Creating, saving, loading, displaying and printing musical scores", N_("FileMenu"), NULL, "File", N_("File Menu")},
