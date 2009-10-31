@@ -282,7 +282,8 @@ setpixelmin (DenemoObject * theobj)
     case LILYDIRECTIVE:
       {
 	DenemoDirective *directive = (DenemoDirective*)theobj->object;	
-	theobj->minpixelsalloted = directive->minpixels;
+	theobj->minpixelsalloted = directive->minpixels?directive->minpixels:16;
+	theobj->space_before = theobj->minpixelsalloted/2;
       }
       break;
     case CLEF:
