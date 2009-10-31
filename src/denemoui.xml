@@ -521,6 +521,7 @@
 	  <menuitem action="EditChords"/>
 	  <menuitem action="EditFiguredBass"/>
 	  <menuitem action="DeleteFiguredBass"/>
+	  <menuitem action="HideFiguredBass"/>
           <menuitem action="InsertLilyDirective"/>
           <menuitem action="AttachLilyToChord"/>
           <menuitem action="AttachLilyToNote"/>

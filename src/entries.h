@@ -280,6 +280,7 @@
 {"DeleteVerse", NULL, N_("Delete Verse"), NULL,N_("Deletes current verse of lyrics from current voice"),G_CALLBACK (delete_verse)},
 {"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), NULL,N_("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"),G_CALLBACK (figure_insert)},
 {"DeleteFiguredBass", NULL, N_("Delete Figures"), NULL,N_("Delete the figured bass on the current staff"),G_CALLBACK (delete_figured_bass)},
+{"HideFiguredBass", NULL, N_("Hide Figures (Print)"), NULL,N_("Hide the figured bass on the current staff on printing"),G_CALLBACK (hide_figured_bass)},
 {"EditChords", NULL, N_("Edit Chord Symbols"), NULL,N_("Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"),G_CALLBACK (fakechord_insert)},
 {"InsertDynamic", NULL, N_("Insert Dynamics"), NULL,N_("Inserts a dynamic marking at the cursor position"),G_CALLBACK (insert_dynamic)},
 {"InsertLilyDirective", NULL, N_("Insert Lilypond"), NULL,N_("Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."),G_CALLBACK (standalone_directive)},
