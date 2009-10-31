@@ -12,6 +12,7 @@
     \\override StaffSymbol #'staff-space = #(magstep -3)\n}\n &lt;&lt; {")
 (d-DirectivePut-staff-override "StaffSize" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))
 (d-DirectivePut-staff-display "StaffSize" "Smaller Staff")
+(d-HideFiguredBass)
 (d-RefreshDisplay)
 
 
