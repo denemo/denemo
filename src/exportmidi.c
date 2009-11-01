@@ -1903,9 +1903,7 @@ void free_midi_data(DenemoScore *si) {
   if(si->smf) {
     smf_t *temp = si->smf;
     si->smf = NULL;
-#ifdef DANGLING_SMF_POINTER_FIXED
     smf_delete(temp);
-#endif
   }
 }
 
