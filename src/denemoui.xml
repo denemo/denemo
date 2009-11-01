@@ -188,6 +188,7 @@
 	   	<separator/>
 	   <menuitem action="InsertMeasure"/>
 	   <menuitem action="AppendMeasure"/>
+	   <menuitem action="AppendMeasureAllStaffs"/>
            <menuitem action="DeleteMeasureAllStaffs"/>
 	   <menuitem action="DeleteMeasure"/>
 	<separator/>
@@ -521,6 +522,7 @@
 	  <menuitem action="EditChords"/>
 	  <menuitem action="EditFiguredBass"/>
 	  <menuitem action="DeleteFiguredBass"/>
+	  <menuitem action="HideFiguredBass"/>
           <menuitem action="InsertLilyDirective"/>
           <menuitem action="AttachLilyToChord"/>
           <menuitem action="AttachLilyToNote"/>

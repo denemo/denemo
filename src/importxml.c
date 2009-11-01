@@ -1497,7 +1497,8 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
   GET_INT_FIELD(gy);
   GET_INT_FIELD(override);
   GET_INT_FIELD(minpixels);
-  curobj->minpixelsalloted = thedirective->minpixels;
+  // curobj->minpixelsalloted = thedirective->minpixels?thedirective->minpixels:16;//FIXME setpixelmin
+  setpixelmin(curobj);
   return curobj;
 }
 

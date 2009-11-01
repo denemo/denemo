@@ -495,3 +495,32 @@ DenemoGUI *gui = Denemo.gui;
   return TRUE;
 }
 
+gint
+scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
+  switch(event->direction) {
+    DenemoScriptParam param;
+  case GDK_SCROLL_UP:
+    staffup (&param);
+    if(!param.status)
+      warningmessage("This is the top staff");
+    break;
+  case GDK_SCROLL_DOWN:
+    staffdown (&param);
+    if(!param.status)
+      warningmessage("This is the bottom staff");
+    break;
+  case GDK_SCROLL_LEFT:
+    measureleft (&param);
+    if(!param.status)
+      warningmessage("This is the first measure");
+    break;
+  case GDK_SCROLL_RIGHT:
+    measureright (&param);
+    if(!param.status)
+      warningmessage("This is the last measure");
+    break;
+
+
+  }
+  displayhelper(Denemo.gui);
+}

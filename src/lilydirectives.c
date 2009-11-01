@@ -290,12 +290,12 @@ void insert_lily_directive(gchar *postfix, gchar *display, gboolean locked, gint
   gboolean is_new = FALSE;
     if (curObj && curObj->type == LILYDIRECTIVE) {
       g_string_assign((lilyobj=(lilydirective *) curObj->object)->postfix, postfix);
-      curObj->minpixelsalloted = minpixels;
+      setpixelmin(curObj);//curObj->minpixelsalloted = minpixels;
     }  else {  
       lily = lily_directive_new (postfix);
       is_new= TRUE;
       lilyobj = (lilydirective *) lily->object;
-      lily->minpixelsalloted = minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
+      setpixelmin(lily);//lily->minpixelsalloted = minpixels;// g_print("min pixels %d\n", lily->minpixelsalloted);
     }
     if(lilyobj) {
       lilyobj->locked = locked;
@@ -2017,6 +2017,7 @@ static gboolean text_edit_directive(DenemoDirective *directive, gchar *what) {
   TEXTENTRY("Tag", tag);
   TEXTENTRY("MidiBytes", midibytes);
   NEWINTENTRY("Override Mask", override);
+  NEWINTENTRY("Minimum pixel width", minpixels);
 #undef TEXTENTRY
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
@@ -2062,7 +2063,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   
   //REMOVEEMPTIES(tag); don't allow NULL tag
 #undef REMOVEEMPTIES
-  
+
   if(directive->tag && directive->tag->len==0)
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(directive->widget){
@@ -2143,6 +2144,8 @@ void edit_object_directive(GtkAction *action,  DenemoScriptParam *param) {
       dnm_deleteobject(Denemo.gui->si);
     }
   }
+  if(Denemo.gui->si->currentobject)//for standalone directive
+    setpixelmin(Denemo.gui->si->currentobject->data);
 }
 
 /**

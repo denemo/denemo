@@ -5787,6 +5787,9 @@ newtab (GtkAction *action, gpointer param) {
   g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
 		      G_CALLBACK (scorearea_motion_notify), NULL);
 
+  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "scroll_event",
+		      (GtkSignalFunc) scorearea_scroll_event, NULL);
+
   //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
 		      G_CALLBACK (scorearea_button_press), NULL);
@@ -5797,6 +5800,8 @@ newtab (GtkAction *action, gpointer param) {
 
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_release_event",
 		      (GtkSignalFunc) scorearea_keyrelease_event, gui);
+
+
 
   gtk_widget_add_events/*gtk_widget_set_events*/ (gui->scorearea, (GDK_EXPOSURE_MASK
 					  | GDK_POINTER_MOTION_MASK
