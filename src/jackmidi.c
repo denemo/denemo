@@ -646,5 +646,8 @@ jack_midi_playback_stop ()
 #else //If not _HAVE_JACK_
 void jack_playpitch(int key, int duration){}
 void jack_output_midi_event(unsigned char *buffer){}
+int jack_kill_timer(void){}
+void jack_midi_playback_stop (){}
+void jack_midi_playback_start (){}
 #endif 
 

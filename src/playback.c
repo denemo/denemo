@@ -188,23 +188,24 @@ ext_midi_playback_control (gboolean start)
 void
 ext_midi_playback (GtkAction * action, gpointer param)
 {
-#ifdef _HAVE_JACK_
-  jack_midi_playback_start();
-#else
-  fluid_midi_play();
-  //ext_midi_playback_control (TRUE);
-#endif
+  if (Denemo.prefs.midi_audio_output == JACK)
+    jack_midi_playback_start();
+  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+    fluid_midi_play();
+  else  
+    ext_midi_playback_control (TRUE);
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
-#ifdef _HAVE_JACK_
- jack_midi_playback_stop();
- jack_kill_timer();
-#else
- fluid_midi_stop();
- //ext_midi_playback_control (FALSE);
+ if (Denemo.prefs.midi_audio_output == JACK){
+   jack_midi_playback_stop();
+   jack_kill_timer();
+ }
+ else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+   fluid_midi_stop();
+ else 
+   ext_midi_playback_control (FALSE);
  kill_timer();
-#endif
 }
 
 
