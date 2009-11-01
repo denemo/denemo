@@ -1,6 +1,7 @@
 #ifdef _HAVE_FLUIDSYNTH_
 #include <glib.h>
 #include <fluidsynth.h>
+#include <sys/time.h>
 #include "midi.h"
 #include "smf.h"
 #include "fluid.h"
@@ -14,10 +15,27 @@ fluid_settings_t* settings;
 fluid_synth_t* synth;
 fluid_audio_driver_t* adriver;
 int sfont_id;
-double global_timer;
+static double start_time = 0.0;
 static gint timeout_id = 0, kill_id=0;
 static volatile gboolean playing_piece;
 static smf_t *smf = NULL;
+
+static double get_time(void)
+{
+  double          seconds;
+  int             ret;
+  struct timeval  tv;
+
+  ret = gettimeofday(&tv, NULL);
+  if (ret) {
+    perror("gettimeofday");
+  }
+  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
+  return seconds;
+}
+
+
+
 
 static gint start_fluid_settings()
 {
@@ -168,17 +186,6 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
   gtk_widget_destroy (sf);
 }
 
-
-static gboolean
-tick_timer_callback()
-{
-  global_timer += .001;
-  if (playing_piece)
-    return TRUE;
-  else
-    return FALSE;
-}
-
 gboolean fluidsynth_read_smf_events()
 {
 
@@ -203,7 +210,7 @@ gboolean fluidsynth_read_smf_events()
     return TRUE; 
   } 
      
-  if (global_timer >= event->time_seconds){
+  if ((get_time() - start_time) >= event->time_seconds){
     //event->time_pulses, event->delta_time_pulses 
      n = smf_get_next_event(smf);
 
@@ -246,7 +253,7 @@ but this is not intended to take midi event data - you have to fill in quite a f
 void fluid_midi_play(void)
 {
   DenemoGUI *gui = Denemo.gui;
-  global_timer = 0;
+  start_time = get_time();
   playing_piece = TRUE;
   if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
@@ -258,8 +265,6 @@ void fluid_midi_play(void)
   smf_rewind(smf);
   //returns guint
   gtk_idle_add(fluidsynth_read_smf_events, NULL);
-  //TODO check to see how well this performs
-  g_timeout_add(2, tick_timer_callback, NULL);
 }
 
 void

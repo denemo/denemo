@@ -310,7 +310,7 @@ preferences_change (GtkAction *action, gpointer param)
   //Doesnt GList need to be freed
   GList *output_option_list = NULL;
   int i;
-  for (i=0;i<3;i++)
+  for (i=0;i<G_N_ELEMENTS(output_options);i++)
     output_option_list = g_list_append (output_option_list, output_options[i]);
 
 #define COMBOBOX(thelable, field, thelist, settext)\
