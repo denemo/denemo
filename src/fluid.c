@@ -18,7 +18,6 @@ int sfont_id;
 static double start_time = 0.0;
 static gint timeout_id = 0, kill_id=0;
 static volatile gboolean playing_piece;
-static smf_t *smf = NULL;
 
 static double get_time(void)
 {
@@ -189,13 +188,11 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 gboolean fluidsynth_read_smf_events()
 {
 
-  smf_event_t *event = smf_peek_next_event(smf);
-  smf_event_t *n;
+  smf_event_t *event = smf_peek_next_event(Denemo.gui->si->smf);
 
 
-  //  DO NOT use separate n and event!!!!!!!!!
 
-  int end_time; smf_get_length_seconds(smf);
+  int end_time; smf_get_length_seconds(Denemo.gui->si->smf);
   /* this is how we determine if it is the endof piece */
   if (event == NULL){// (event->time_seconds>end_time)) //does second argument ever happen?
     playing_piece = FALSE;
@@ -206,13 +203,13 @@ gboolean fluidsynth_read_smf_events()
   
    /* Skip over metadata events. */
   if (smf_event_is_metadata(event)) {
-    n = smf_get_next_event(smf);
+    event = smf_get_next_event(Denemo.gui->si->smf);
     return TRUE; 
   } 
      
   if ((get_time() - start_time) >= event->time_seconds){
     //event->time_pulses, event->delta_time_pulses 
-     n = smf_get_next_event(smf);
+     event = smf_get_next_event(Denemo.gui->si->smf);
 
  
 
@@ -257,12 +254,11 @@ void fluid_midi_play(void)
   playing_piece = TRUE;
   if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
-  smf = Denemo.gui->si->smf;
-  if (smf == NULL) {
+  if (Denemo.gui->si->smf == NULL) {
     g_critical("Loading SMF failed.");
       return 1;			            
   }
-  smf_rewind(smf);
+  smf_rewind(Denemo.gui->si->smf);
   //returns guint
   gtk_idle_add(fluidsynth_read_smf_events, NULL);
 }
