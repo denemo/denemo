@@ -184,6 +184,10 @@ gboolean fluidsynth_read_smf_events()
 
   smf_event_t *event = smf_peek_next_event(smf);
   smf_event_t *n;
+
+
+  //  DO NOT use separate n and event!!!!!!!!!
+
   int end_time; smf_get_length_seconds(smf);
   /* this is how we determine if it is the endof piece */
   if (event == NULL){// (event->time_seconds>end_time)) //does second argument ever happen?
@@ -203,8 +207,21 @@ gboolean fluidsynth_read_smf_events()
     //event->time_pulses, event->delta_time_pulses 
      n = smf_get_next_event(smf);
 
+ 
+
    /* Doesn't compile 
       fluid_midi_event_t *midi_event;
+no memory allocated here.
+    needed here: create a fluid_midi_event_t from a smf_event_t
+       then call fluid_synth_handle_midi_event which calls fluid_synth_noteon or off as needed.
+ the creation is   fluid_event_t *evt = new_fluid_event();
+but this is not intended to take midi event data - you have to fill in quite a few things which are not exposed - perhaps there are setters e.g.
+   fluid_event_set_source(evt, -1);
+    fluid_event_set_dest(evt, synthSeqID);
+    fluid_event_noteon(evt, chan, key, 127);
+    fluid_res = fluid_sequencer_send_at(sequencer, evt, date, 1);
+ which looks bad - fluidynth could replace smf....
+
     midi_event->dtime = event->delta_time_pulses;
     midi_event->type = event->midi_buffer[0];
     midi_event->channel = (char) 0; 

@@ -191,8 +191,11 @@ ext_midi_playback (GtkAction * action, gpointer param)
 #ifdef _HAVE_JACK_
   jack_midi_playback_start();
 #else
+#ifdef  _HAVE_FLUIDSYNTH_
   fluid_midi_play();
-  //ext_midi_playback_control (TRUE);
+#else
+  ext_midi_playback_control (TRUE);
+#endif
 #endif
 }
 
@@ -201,9 +204,13 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
  jack_midi_playback_stop();
  jack_kill_timer();
 #else
+#ifdef  _HAVE_FLUIDSYNTH_
  fluid_midi_stop();
- //ext_midi_playback_control (FALSE);
  kill_timer();
+#else
+ ext_midi_playback_control (FALSE);
+ kill_timer();
+#endif
 #endif
 }
 

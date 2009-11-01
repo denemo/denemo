@@ -10,3 +10,5 @@
 gdouble exportmidi( gchar * filename, DenemoScore *si, gint start, gint end);
 
 gchar *substitute_midi_values(gchar* str, gint channel, gint volume);
+
+void free_midi_data(DenemoScore *si);

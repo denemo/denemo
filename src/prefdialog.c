@@ -25,7 +25,11 @@
 #endif
 
 
-gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
+gchar *output_options[] = {"Portaudio", "Jack"
+#ifdef _HAVE_FLUIDSYNTH_
+, "Fluidsynth"
+#endif
+};
 
 gint FindStringIndex(gchar *output_selection){
   gint i;
@@ -170,11 +174,12 @@ set_preferences (struct callbackdata *cbdata)
   */
   prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
 
+#ifdef _HAVE_FLUIDSYNTH_
   //TODO this should be integer instead of string assignment 
   gchar *AudioDriver =
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fluidsynth_audio_driver)->entry));
   prefs->fluidsynth_audio_driver = g_string_new(AudioDriver); 
-
+#endif
 
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)

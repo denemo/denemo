@@ -55,11 +55,11 @@
 #include <time.h>
 #include <ctype.h>
 #include <errno.h>
-#include "smf.h"
 
-#include "instrumentname.h"
 #include <denemo/denemo.h>
-
+#include "exportmidi.h"
+#include "smf.h"
+#include "instrumentname.h"
 
 /* 
  * only for developers
@@ -1888,11 +1888,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   }
   /* we are done */
 
-  if(si->smf) {
-    smf_t *temp = si->smf;
-    si->smf = NULL;
-    smf_delete(temp);
-  }
+
+  free_midi_data(si);
   si->smf = smf;
 
   si->smfsync = si->changecount;
@@ -1901,6 +1898,17 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
     return exportmidi(NULL, si, 0, 0);// recurse if we have not generated all the MIDI for si
   return smf_get_length_seconds(smf);
 }
+
+void free_midi_data(DenemoScore *si) {
+  if(si->smf) {
+    smf_t *temp = si->smf;
+    si->smf = NULL;
+#ifdef DANGLING_SMF_POINTER_FIXED
+    smf_delete(temp);
+#endif
+  }
+}
+
 
 /*
  * That's all, folks!

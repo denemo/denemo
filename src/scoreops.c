@@ -341,6 +341,7 @@ free_score (DenemoGUI * gui)
   delete_all_staffs(gui);
   delete_directives(&gui->si->layout.directives);
   delete_directives(&gui->si->header.directives);
+  free_midi_data(gui->si);
   if(gui->si->buttonbox) {
     gtk_widget_destroy(gui->si->buttonbox);
     gui->si->buttonbox = NULL;
