@@ -260,7 +260,7 @@ void fluid_midi_play(void)
   }
   smf_rewind(Denemo.gui->si->smf);
   //returns guint
-  gtk_idle_add(fluidsynth_read_smf_events, NULL);
+  g_idle_add(fluidsynth_read_smf_events, NULL);
 }
 
 void
