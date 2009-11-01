@@ -188,11 +188,11 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 gboolean fluidsynth_read_smf_events()
 {
 
-  smf_event_t *event = smf_peek_next_event(Denemo.gui->si->smf);
+  smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
 
 
 
-  int end_time; smf_get_length_seconds(Denemo.gui->si->smf);
+  // int end_time; smf_get_length_seconds(Denemo.gui->si->smf);
   /* this is how we determine if it is the endof piece */
   if (event == NULL){// (event->time_seconds>end_time)) //does second argument ever happen?
     playing_piece = FALSE;
