@@ -24,16 +24,16 @@
 #include "fluid.h"
 #endif
 
-//TODO move this to playback properties
+
 gchar *output_options[3] = {"Portaudio", "Jack", "Fluidsynth"};
 
 gint FindStringIndex(gchar *output_selection){
   gint i;
-  for (i=0;i<G_N_ELEMENTS(output_options);i++) //replace with sizeof
+  for (i=0;i<G_N_ELEMENTS(output_options);i++) 
     if (g_strcmp0(output_selection, output_options[i]) == 0)
       return i;
 }
-//uncut
+
 
 struct callbackdata
 {
@@ -148,7 +148,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
-  //TODO temp assignment put in playbackproperties
+
   gchar *AudioMidiOut =
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->midi_audio_output)->entry));
   /* need something here to decide what to do when there is a change
@@ -175,7 +175,7 @@ set_preferences (struct callbackdata *cbdata)
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fluidsynth_audio_driver)->entry));
   prefs->fluidsynth_audio_driver = g_string_new(AudioDriver); 
 
-  //uncut here
+
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
@@ -301,7 +301,7 @@ preferences_change (GtkAction *action, gpointer param)
    */
   
   NEWPAGE("View");
-  //TODO cut here; move this section to playback properties
+  
   //Doesnt GList need to be freed
   GList *output_option_list = NULL;
   int i;
@@ -326,7 +326,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, output_options[Denemo.prefs.midi_audio_output]) 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
-  // end cut
+ 
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);

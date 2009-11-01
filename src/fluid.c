@@ -14,7 +14,10 @@ fluid_settings_t* settings;
 fluid_synth_t* synth;
 fluid_audio_driver_t* adriver;
 int sfont_id;
+double global_timer;
 static gint timeout_id = 0, kill_id=0;
+static volatile gboolean playing_piece;
+static smf_t *smf = NULL;
 
 static gint start_fluid_settings()
 {
@@ -164,6 +167,92 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
     }
   gtk_widget_destroy (sf);
 }
+
+
+static gboolean
+tick_timer_callback()
+{
+  global_timer += .001;
+  if (playing_piece)
+    return TRUE;
+  else
+    return FALSE;
+}
+
+gboolean fluidsynth_read_smf_events()
+{
+
+  smf_event_t *event = smf_peek_next_event(smf);
+  smf_event_t *n;
+  int end_time; smf_get_length_seconds(smf);
+  /* this is how we determine if it is the endof piece */
+  if (event == NULL){// (event->time_seconds>end_time)) //does second argument ever happen?
+    playing_piece = FALSE;
+    return FALSE;
+  }
+  else 
+    playing_piece = TRUE;
+  
+   /* Skip over metadata events. */
+  if (smf_event_is_metadata(event)) {
+    n = smf_get_next_event(smf);
+    return TRUE; 
+  } 
+     
+  if (global_timer >= event->time_seconds){
+    //event->time_pulses, event->delta_time_pulses 
+     n = smf_get_next_event(smf);
+
+   /* Doesn't compile 
+      fluid_midi_event_t *midi_event;
+    midi_event->dtime = event->delta_time_pulses;
+    midi_event->type = event->midi_buffer[0];
+    midi_event->channel = (char) 0; 
+    midi_event->param_1 = event->midi_buffer[1];
+    midi_event->param_2 = event->midi_buffer[2];
+    fluid_synth_handle_midi_event(synth, midi_event);
+    */
+	  /* Temporary fix */
+    g_debug("\n****event midi buffer = %d\n",event->midi_buffer[1]);
+    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
+      fluid_synth_noteon(synth, 0, event->midi_buffer[1], event->midi_buffer[2]);
+    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
+      fluid_synth_noteoff(synth, 0, event->midi_buffer[1]);
+  }
+  
+  if (playing_piece)
+    return TRUE;
+  if (!playing_piece) 
+    return FALSE;
+}
+
+int 
+fluid_midi_play()
+{
+  DenemoGUI *gui = Denemo.gui;
+  global_timer = 0;
+  playing_piece = TRUE;
+  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+    exportmidi (NULL, gui->si, 1, 0/* means to end */);
+  smf = Denemo.gui->si->smf;
+  if (smf == NULL) {
+    g_critical("Loading SMF failed.");
+      return 1;			            
+  }
+  smf_rewind(smf);
+  //returns guint
+  gtk_idle_add(fluidsynth_read_smf_events, NULL);
+  //TODO check to see how well this performs
+  g_timeout_add(2, tick_timer_callback, NULL);
+}
+
+int
+fluid_midi_stop()
+{
+  playing_piece = FALSE;  
+}
+
+
 
 
 #else // _HAVE_FLUIDSYNTH_

@@ -29,6 +29,7 @@
 #endif
 #include <errno.h>
 #include "jackmidi.h"
+#include "fluid.h"
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
@@ -190,7 +191,8 @@ ext_midi_playback (GtkAction * action, gpointer param)
 #ifdef _HAVE_JACK_
   jack_midi_playback_start();
 #else
-  ext_midi_playback_control (TRUE);
+  fluid_midi_play();
+  //ext_midi_playback_control (TRUE);
 #endif
 }
 
@@ -199,7 +201,8 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
  jack_midi_playback_stop();
  jack_kill_timer();
 #else
- ext_midi_playback_control (FALSE);
+ fluid_midi_stop();
+ //ext_midi_playback_control (FALSE);
  kill_timer();
 #endif
 }
