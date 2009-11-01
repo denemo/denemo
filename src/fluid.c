@@ -243,8 +243,7 @@ but this is not intended to take midi event data - you have to fill in quite a f
     return FALSE;
 }
 
-int 
-fluid_midi_play()
+void fluid_midi_play(void)
 {
   DenemoGUI *gui = Denemo.gui;
   global_timer = 0;
@@ -263,8 +262,8 @@ fluid_midi_play()
   g_timeout_add(2, tick_timer_callback, NULL);
 }
 
-int
-fluid_midi_stop()
+void
+fluid_midi_stop(void)
 {
   playing_piece = FALSE;  
 }
@@ -275,5 +274,7 @@ fluid_midi_stop()
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
 void fluid_output_midi_event(unsigned char *buffer){}
+void  fluid_midi_play(void){}
+void  fluid_midi_stop(void){}
 #endif 
 
