@@ -11,13 +11,13 @@
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 
-fluid_settings_t* settings;
-fluid_synth_t* synth;
-fluid_audio_driver_t* adriver;
-int sfont_id;
+static fluid_settings_t* settings;
+static fluid_synth_t* synth;
+static fluid_audio_driver_t* adriver;
+
 static double start_time = 0.0;
-static gint timeout_id = 0, kill_id=0;
-static volatile gboolean playing_piece;
+
+static gboolean playing_piece;
 
 static double get_time(void)
 {
@@ -84,7 +84,7 @@ int fluidsynth_init()
   }
   
   /* Load a SoundFont*/
-  sfont_id = fluid_synth_sfload(synth, Denemo.prefs.fluidsynth_soundfont->str, 0);
+gint  sfont_id = fluid_synth_sfload(synth, Denemo.prefs.fluidsynth_soundfont->str, 0);
   if (sfont_id == -1){
     g_warning("\nFailed to load the soundfont\n");
     fluidsynth_shutdown();
@@ -104,11 +104,13 @@ void fluidsynth_shutdown()
   g_debug("\nStopping FLUIDSYNTH\n");
   if (adriver)
     delete_fluid_audio_driver(adriver);
+  adriver = NULL;
   if (synth)
     delete_fluid_synth(synth);
+  synth = NULL;
   if (settings)
     delete_fluid_settings(settings); 
-  adriver = synth = settings = NULL;
+  settings = NULL;
 }
 
 void
@@ -256,11 +258,11 @@ void fluid_midi_play(void)
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
   if (Denemo.gui->si->smf == NULL) {
     g_critical("Loading SMF failed.");
-      return 1;			            
+ 			            
+  } else {
+    smf_rewind(Denemo.gui->si->smf);
+    g_idle_add(fluidsynth_read_smf_events, NULL);
   }
-  smf_rewind(Denemo.gui->si->smf);
-  //returns guint
-  g_idle_add(fluidsynth_read_smf_events, NULL);
 }
 
 void
