@@ -136,7 +136,8 @@ void fluid_playpitch(int key, int duration)
 #ifdef _HAVE_FLUIDSYNTH_
   /* Play a note */
   if (synth){
-    fluid_synth_noteon(synth, 0, key, 80);
+    DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+    fluid_synth_noteon(synth, curstaffstruct->midi_channel, key, 80);
     g_timeout_add(duration, timer_callback, (gpointer) key); 
   }
 #endif
@@ -146,9 +147,9 @@ void fluid_output_midi_event(unsigned char *buffer)
 {
   if (synth){
     if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON)
-      fluid_synth_noteon(synth, 0, buffer[1], 80);
+      fluid_synth_noteon(synth, buffer[0] & 0x0f, buffer[1], 80);
     if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
-      fluid_synth_noteoff(synth, 0, buffer[1]);
+      fluid_synth_noteoff(synth, buffer[0] & 0x0f, buffer[1]);
   }
 }
 
@@ -228,19 +229,43 @@ but this is not intended to take midi event data - you have to fill in quite a f
     fluid_res = fluid_sequencer_send_at(sequencer, evt, date, 1);
  which looks bad - fluidynth could replace smf....
 
-    midi_event->dtime = event->delta_time_pulses;
-    midi_event->type = event->midi_buffer[0];
-    midi_event->channel = (char) 0; 
-    midi_event->param_1 = event->midi_buffer[1];
-    midi_event->param_2 = event->midi_buffer[2];
-    fluid_synth_handle_midi_event(synth, midi_event);
     */
-	  /* Temporary fix */
+#if 0
+    fluid_midi_event_t *evt = new_fluid_midi_event();
+    fluid_event_set_source(evt, 0);
+    
+    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON){
+      //fluid_midi_event_set_type(evt, 1);
+      fluid_event_noteon(evt, 0, event->midi_buffer[1], 127);
+      //fluid_midi_event_set_key(evt, event->midi_buffer[1]);
+      //fluid_midi_event_set_pitch(evt, event->midi_buffer[1]);
+      //fluid_midi_event_set_velocity(evt, event->midi_buffer[2]);
+    }
+    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF){
+      fluid_event_noteoff(evt, 0, event->midi_buffer[1]);
+      //fluid_midi_event_set_type(evt, 2);
+      //fluid_midi_event_set_key(evt, event->midi_buffer[1]);
+      //fluid_midi_event_set_pitch(evt, event->midi_buffer[1]);
+      //fluid_midi_event_set_velocity(evt, event->midi_buffer[2]);
+    }
+    /* set this to current staff number unless override */
+    //fluid_midi_event_set_channel(evt, 0);
+
+    /* change to staff's program number */
+    fluid_midi_event_set_program(evt, 0);
+    fluid_synth_handle_midi_event(synth, evt);
+#endif
+#if 1
+	 /* Temporary fix */
+    /*this should go in a function that assigns after staff options or preferences */
+    //fluid_synth_program_change(synth, 0, 5);
+
     g_debug("\n****event midi buffer = %d\n",event->midi_buffer[1]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
-      fluid_synth_noteon(synth, 0, event->midi_buffer[1], event->midi_buffer[2]);
+      fluid_synth_noteon(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1], event->midi_buffer[2]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
-      fluid_synth_noteoff(synth, 0, event->midi_buffer[1]);
+      fluid_synth_noteoff(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1]);
+#endif
   }
   
   if (playing_piece)
