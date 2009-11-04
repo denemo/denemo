@@ -1059,9 +1059,9 @@ the prevailing rhythm.
 Notes entered will follow this pattern</tooltip>
       </row>
       <row>
-        <action>AppendMeasuresToScore</action>
-        <label>Append Measure To Score</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <action>AppendMeasureAllStaffs</action>
+        <label>Append Measure All Staffs</label>
+        <tooltip>Appends a blank measure to every staff in this movement</tooltip>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
@@ -1409,6 +1409,11 @@ Notes entered will follow this pattern</tooltip>
         <action>DeleteFiguredBass</action>
         <label>Delete Figures</label>
         <tooltip>Delete the figured bass on the current staff</tooltip>
+      </row>
+      <row>
+        <action>HideFiguredBass</action>
+        <label>Hide Figures (Print)</label>
+        <tooltip>Hide the figured bass on the current staff on printing</tooltip>
       </row>
       <row>
         <action>EditChords</action>
@@ -2844,6 +2849,22 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Adagio</label>
         <tooltip>Attaches tempo marking to chord at cursor</tooltip>
+      </row>
+      <row>
+        <action>NextHigher</action>
+        <after>FindNextLowerNote</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Next Higher</label>
+        <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveDown</action>
+        <after>OpenOctaveUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Open { Octave Down</label>
+        <tooltip>Opens a block printing an octave lower</tooltip>
       </row>
     </map>
   </commands>
