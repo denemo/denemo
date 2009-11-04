@@ -857,17 +857,18 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    {
 		      objElem = xmlNewChild (measureElem, ns,
 					     (xmlChar *) "rest", NULL);
-		      if (curObj->isinvisible)
-			xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
-				    "false");
-		      else
-			xmlSetProp (objElem, (xmlChar *) "show",
-				    (xmlChar *) "true");
+
 		    }
 		  else
 		    objElem =
 		      xmlNewChild (measureElem, ns, (xmlChar *) "chord",
 				   NULL);
+		  if (curObj->isinvisible)
+		    xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *)
+				"false");
+		  else
+		    xmlSetProp (objElem, (xmlChar *) "show",
+				(xmlChar *) "true");
 		  chordXMLID = getXMLID (curObj);
 		  xmlSetProp (objElem, (xmlChar *) "id",
 			      (xmlChar *) chordXMLID);

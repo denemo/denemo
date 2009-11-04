@@ -869,6 +869,21 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
   gchar *durationType;
   gint baseDuration = 2, numDots = 0;
 
+  gchar *showProp = (gchar *) xmlGetProp (chordElem, (xmlChar *) "show");
+  gboolean show = TRUE;
+  if (showProp != NULL)
+    {
+      if (strcmp (showProp, "true") == 0)
+	show = TRUE;
+      else if (strcmp (showProp, "false") == 0)
+	show = FALSE;
+      else
+	{
+	  g_warning ("Invalid value for show attribute of <rest> or <chord>: \"%s\"; "
+		     "defaulting to false", showProp);
+	  show = FALSE;
+	}
+    }
   /*
    * First, in order to actually create a chord object, we must figure out the
    * Denemo duration and number of dots from the XML duration.
@@ -929,7 +944,7 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
       numDots = 0;
     }
 
-  return newchord (baseDuration, numDots, 0);
+  return show?newchord (baseDuration, numDots, 0):hidechord(newchord (baseDuration, numDots, 0));
 }
 
 
@@ -941,25 +956,9 @@ parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
 {
   DenemoObject *chordObj;
   xmlNodePtr childElem;
-  gchar *showProp = (gchar *) xmlGetProp (restElem, (xmlChar *) "show");
-  gboolean show = TRUE;
-  if (showProp != NULL)
-    {
-      if (strcmp (showProp, "true") == 0)
-	show = TRUE;
-      else if (strcmp (showProp, "false") == 0)
-	show = FALSE;
-      else
-	{
-	  g_warning ("Invalid value for show attribute of <rest>: \"%s\"; "
-		     "defaulting to false", showProp);
-	  show = FALSE;
-	}
-    }
-  if (show)
-    chordObj = parseBaseChord (restElem, ns, si);
-  else
-    chordObj = hidechord (parseBaseChord (restElem, ns, si));
+
+  chordObj = parseBaseChord (restElem, ns, si);
+
   FOREACH_CHILD_ELEM (childElem, restElem)  {
     if (childElem->ns == ns) {
       if (ELEM_NAME_EQ (childElem, "directives"))  {
