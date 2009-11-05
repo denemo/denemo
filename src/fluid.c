@@ -14,10 +14,19 @@
 static fluid_settings_t* settings;
 static fluid_synth_t* synth;
 static fluid_audio_driver_t* adriver;
+static double start_player = 0.0;
 
+/*related to moving the cursor along with playback*/
 static double start_time = 0.0;
+static double end_time = 0.0;//time in seconds to end at (from start of the smf)
+static gdouble playback_duration = 0.0;
+static gint timeout_id = 0, kill_id=0;
+
 
 static gboolean playing_piece;
+
+
+
 
 static double get_time(void)
 {
@@ -137,7 +146,7 @@ void fluid_playpitch(int key, int duration)
   /* Play a note */
   if (synth){
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-    fluid_synth_noteon(synth, curstaffstruct->midi_channel, key, 80);
+    fluid_synth_noteon(synth, 0, key, 80);
     g_timeout_add(duration, timer_callback, (gpointer) key); 
   }
 #endif
@@ -193,11 +202,7 @@ gboolean fluidsynth_read_smf_events()
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
 
-
-
-  // int end_time; smf_get_length_seconds(Denemo.gui->si->smf);
-  /* this is how we determine if it is the endof piece */
-  if (event == NULL){// (event->time_seconds>end_time)) //does second argument ever happen?
+  if (event == NULL || event->time_seconds>end_time){ 
     playing_piece = FALSE;
     return FALSE;
   }
@@ -210,8 +215,7 @@ gboolean fluidsynth_read_smf_events()
     return TRUE; 
   } 
      
-  if ((get_time() - start_time) >= event->time_seconds){
-    //event->time_pulses, event->delta_time_pulses 
+  if ((get_time() - start_player) >= event->time_seconds){
      event = smf_get_next_event(Denemo.gui->si->smf);
 
  
@@ -260,11 +264,10 @@ but this is not intended to take midi event data - you have to fill in quite a f
     /*this should go in a function that assigns after staff options or preferences */
     //fluid_synth_program_change(synth, 0, 5);
 
-    g_debug("\n****event midi buffer = %d\n",event->midi_buffer[1]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
-      fluid_synth_noteon(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1], event->midi_buffer[2]);
+      fluid_synth_noteon(synth, 0, event->midi_buffer[1], event->midi_buffer[2]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
-      fluid_synth_noteoff(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1]);
+      fluid_synth_noteoff(synth, 0, event->midi_buffer[1]);
 #endif
   }
   
@@ -274,20 +277,83 @@ but this is not intended to take midi event data - you have to fill in quite a f
     return FALSE;
 }
 
+static gint move_on(DenemoGUI *gui){
+  if(timeout_id==0 || playing_piece==FALSE)
+    return FALSE;
+  set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
+  return TRUE;
+}
+
+gint fluid_kill_timer(void){
+  g_debug("fluidsynth kill timer %d\n", timeout_id);
+  if(timeout_id>0)
+    g_source_remove(timeout_id);
+  timeout_id = 0;
+  if(kill_id)
+    g_source_remove(kill_id);
+  kill_id = 0;
+  return 1;
+}
+
+
 void fluid_midi_play(void)
 {
   DenemoGUI *gui = Denemo.gui;
-  start_time = get_time();
+  start_player = get_time();
   playing_piece = TRUE;
+  
   if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
   if (Denemo.gui->si->smf == NULL) {
     g_critical("Loading SMF failed.");
- 			            
   } else {
     smf_rewind(Denemo.gui->si->smf);
     g_idle_add(fluidsynth_read_smf_events, NULL);
   }
+#if 1
+  playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
+  
+  /* TODO make the below some sort of function this is copy  
+     pasted section from jackmidi.c which was copied from 
+     somewhere else also
+   */
+  DenemoObject *curobj;
+  start_time = 0.0;
+  curobj = get_mark_object();
+  if(curobj==NULL && gui->si->currentobject)
+    curobj = gui->si->currentobject->data;
+  if(curobj && curobj->midi_events) {
+    smf_event_t *event = curobj->midi_events->data;
+    start_time = event->time_seconds;
+    g_debug("\nsetting start %f\n", start_time);
+  }
+  end_time = playback_duration;
+  curobj = NULL;
+  curobj =  get_point_object();
+  if(curobj && curobj->midi_events)/*is this ever true?*/ { 
+    smf_event_t *event = g_list_last(curobj->midi_events)->data;
+    end_time = event->time_seconds;
+    g_debug("\nsetting end %f\n", end_time);	   
+  } 
+
+
+  if(start_time>end_time) {
+    gdouble temp = start_time;
+    start_time = end_time;
+    end_time = temp;
+  }
+  playback_duration = end_time - start_time;
+  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
+
+    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
+      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
+      //FIXME add a delay before starting the timer.
+      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)move_on, gui);
+      // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
+      kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)fluid_kill_timer, NULL);
+    }
+#endif  
+  
 }
 
 void
@@ -302,7 +368,8 @@ fluid_midi_stop(void)
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
 void fluid_output_midi_event(unsigned char *buffer){}
-void  fluid_midi_play(void){}
-void  fluid_midi_stop(void){}
+void fluid_midi_play(void){}
+void fluid_midi_stop(void){}
+int fluid_kill_timer(void){}
 #endif 
 

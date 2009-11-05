@@ -9,4 +9,5 @@ void fluid_output_midi_event(unsigned char *buffer);
 void choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont);
 void fluid_midi_play(void);
 void fluid_midi_stop(void);
+gint fluid_kill_timer(void);
 #endif // FLUID_H

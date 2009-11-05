@@ -201,11 +201,14 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
    jack_midi_playback_stop();
    jack_kill_timer();
  }
- else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+ else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH){
    fluid_midi_stop();
- else 
+   fluid_kill_timer();
+ }
+ else {
    ext_midi_playback_control (FALSE);
- kill_timer();
+   kill_timer();
+ }
 }
 
 
