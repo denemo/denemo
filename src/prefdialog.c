@@ -111,7 +111,7 @@ set_preferences (struct callbackdata *cbdata)
 
 #define ASSIGNTEXT(field) \
   g_string_assign (prefs->field,\
-                   gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
+    gtk_entry_get_text (GTK_ENTRY (cbdata->field)));
 
 #define ASSIGNBOOLEAN(field) \
   prefs->field =\
@@ -120,6 +120,10 @@ set_preferences (struct callbackdata *cbdata)
 #define ASSIGNINT(field) \
    prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
+
+#define ASSIGNCOMBO(field) \
+  g_string_assign (prefs->field,\
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
@@ -141,7 +145,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(jack_at_startup)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
-  ASSIGNTEXT(fluidsynth_audio_driver);
+  /*TODO save combo as int????*/
+  ASSIGNCOMBO(fluidsynth_audio_driver);
   ASSIGNTEXT(fluidsynth_soundfont);
   ASSIGNBOOLEAN(fluidsynth_reverb)
   ASSIGNBOOLEAN(fluidsynth_chorus)
@@ -152,6 +157,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
+
 
   gchar *AudioMidiOut =
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->midi_audio_output)->entry));
@@ -173,13 +179,6 @@ set_preferences (struct callbackdata *cbdata)
    	startjack?
   */
   prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
-
-#ifdef _HAVE_FLUIDSYNTH_
-  //TODO this should be integer instead of string assignment 
-  gchar *AudioDriver =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->fluidsynth_audio_driver)->entry));
-  prefs->fluidsynth_audio_driver = g_string_new(AudioDriver); 
-#endif
 
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)
