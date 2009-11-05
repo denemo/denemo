@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OpenOctaveUp</after>
+        <action>OpenOctaveDown</action>
+        <scheme>  ;;;;OpenOctaveDown
+(d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c,{")
+(d-CursorLeft)
+(d-DirectivePut-standalone-display "OpenPrintTransposed" "Down8va")
+(d-RefreshDisplay)</scheme>
+        <label>(Print) Open { Octave Down</label>
+        <tooltip>Opens a block printing an octave lower</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

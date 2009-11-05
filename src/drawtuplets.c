@@ -23,7 +23,7 @@ draw_tupbracket (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
     gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
   PangoLayout *layout = pango_layout_new (context);
   PangoFontDescription *desc = pango_font_description_from_string (FONT);
-
+  gint pos;
 
   if (!tupopentext)
     tupopentext = g_string_new (NULL);
@@ -32,34 +32,18 @@ draw_tupbracket (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   if (theobj->type == TUPOPEN)
     {
       g_string_sprintf (tupopentext,
-#if 0
- _("Times %d/%d"),
-			((tupopen *) theobj->object)->numerator,
-			((tupopen *) theobj->object)->denominator
-#else
-"~"
-#endif
-
-);
+			"~%d", 	((tupopen *) theobj->object)->denominator);
       pango_layout_set_text (layout, tupopentext->str, -1);
-
+      pos = xx-4;
     }
   else if (theobj->type == TUPCLOSE)
     {
-#if 0
-      pango_layout_set_text (layout, _("End Tuplet"), -1);
-#else
+
       pango_layout_set_text (layout, "|", -1);
-#endif
+      pos = xx+4;
     }
   pango_layout_set_font_description (layout, desc);
-  gdk_draw_layout (pixmap, gc, xx
-#if 0
--0
-#else
--4
-#endif
-, y - 4, layout);
+  gdk_draw_layout (pixmap, gc, pos, y - 4, layout);
 
   pango_font_description_free (desc);
 }

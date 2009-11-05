@@ -275,9 +275,9 @@ setpixelmin (DenemoObject * theobj)
 #if 0
  40;
 #else
-      8;
+      16;
 #endif
-      theobj->space_before = 0;
+      theobj->space_before = theobj->minpixelsalloted/2;
       break;
     case LILYDIRECTIVE:
       {
@@ -310,7 +310,7 @@ setpixelmin (DenemoObject * theobj)
     case GRACE_START:
     case GRACE_END:
       theobj->minpixelsalloted = 16;
-      theobj->space_before = 0;
+      theobj->space_before = theobj->minpixelsalloted/2;
       break;
     default:
       theobj->minpixelsalloted = 0;

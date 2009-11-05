@@ -802,15 +802,17 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   /* in edit mode edit the current note name */
   if((gui->mode & INPUTEDIT) && gui->si->currentobject) {
     DenemoObject *theobj =  (DenemoObject *)(gui->si->currentobject->data);
-    if(theobj->type == CHORD && ((chord*)theobj->object)->notes) {
-      if(g_list_length( ((chord*)theobj->object)->notes)>1) {/* multi-note chord - remove and add a note */
+    chord *thechord;
+    if(theobj->type == CHORD && (thechord = (chord*)theobj->object)->notes) {
+      theobj->isinvisible=FALSE;
+      if(g_list_length(thechord->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
 	delete_chordnote(gui->si);
 	gui->si->cursor_y = mid_c_offset;
 	insert_chordnote (gui->si);
       } else {/* single-note chord - change the note */
       gint dclef = find_prevailing_clef(gui->si);	    
-      modify_note((chord*)theobj->object, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
+      modify_note(thechord, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
       showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
 			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
       }
@@ -950,7 +952,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
 	     si->cursorclef);
-  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK))
+  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest &&(gui->mode&(INPUTRHYTHM))))
     mudela_obj_new->isinvisible = TRUE;
 
   //  if (si->is_grace_mode)
