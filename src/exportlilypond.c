@@ -799,6 +799,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
 	  if(directive->prefix && directive->prefix->len) {
+	    prevduration = -1;
 	    open_braces += brace_count(directive->prefix->str); 
 	    insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
 	  }
@@ -852,6 +853,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		    for(;g;g=g->next) {
 		      DenemoDirective *directive = (DenemoDirective *)g->data;
 		      if(directive->prefix ) {
+			prevduration = -1;
 			insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
 		      }
 		    }
@@ -916,6 +918,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		      DenemoDirective *directive = (DenemoDirective *)g->data;
 		      if(directive->postfix ) {
 			insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
+			prevduration = -1;
 		      }	else
 		      if (notenode->next)
 			output(" ");
@@ -1041,6 +1044,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
 	  if(directive->postfix && directive->postfix->len) {
+	    prevduration = -1;
 	    open_braces += brace_count(directive->postfix->str);
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
 	  }
@@ -1329,7 +1333,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   GList * lyrics = NULL;
   GString * figures = g_string_new("");
   GString * fakechords = g_string_new("");
-  prevduration = 0;
+  prevduration = -1;
   prevnumdots = -1;
   GtkTextIter iter;
   GtkTextMark *curmark;/* movable mark for insertion point of the music of the staff */
