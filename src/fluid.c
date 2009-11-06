@@ -201,6 +201,9 @@ gboolean fluidsynth_read_smf_events()
 {
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
+  
+  if (!synth)
+    return FALSE;
 
   if (event == NULL || event->time_seconds>end_time){ 
     playing_piece = FALSE;
@@ -302,6 +305,9 @@ void fluid_midi_play(void)
   start_player = get_time();
   playing_piece = TRUE;
   
+  if (!synth)
+    return;
+
   if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
   if (Denemo.gui->si->smf == NULL) {
