@@ -161,23 +161,7 @@ set_preferences (struct callbackdata *cbdata)
 
   gchar *AudioMidiOut =
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->midi_audio_output)->entry));
-  /* need something here to decide what to do when there is a change
-   * if portaudio->fluidsynth 
-  	release /dev/midi, /dev/dsp, /dev/sequencer
-    	startfluidsynth
-     if portaudio->jack
-        release /dev/midi, /dev/dsp, /dev/sequencer
-	startjack?
-     if jack->portaudio
-	stopjack
-   	reinit portaudio
-     if jack->fluidsynth 
-	stopjack //maybe not needed if fluidsynth is using jack driver
-   	startfluid
-     if fluidsynth->jack
- 	stop fluidsynth 
-   	startjack?
-  */
+  
   prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
 
   ASSIGNBOOLEAN(immediateplayback)
