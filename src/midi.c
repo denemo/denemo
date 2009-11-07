@@ -63,16 +63,15 @@ static gint ttag;
 /* 
  *  get the midi channel of the currently selected staff
  */
-gint get_midi_channel(){
+gint get_midi_channel()
+{
   gint tracknumber;
   gint channel;
 
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   if (curstaffstruct->midi_prognum_override != TRUE){
     if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-      {
-        channel = 9;
-      }
+      channel = 9;
     else
       {
 	tracknumber = Denemo.gui->si->currentstaffnum;
@@ -82,6 +81,23 @@ gint get_midi_channel(){
   else
     channel = curstaffstruct->midi_channel;
   return channel; 
+}
+
+gint get_midi_prognum()
+{
+  gint prognum;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+
+  if (curstaffstruct->midi_prognum_override != TRUE){
+    if (get_midi_channel() == 9)
+      prognum = 0;
+    else
+      prognum = select_program (curstaffstruct->midi_instrument->str);
+  }
+  else
+    prognum = curstaffstruct->midi_prognum;
+  
+  return prognum;
 }
 
 /**

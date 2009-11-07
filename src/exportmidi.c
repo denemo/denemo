@@ -1240,17 +1240,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       }
 
-
-      if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-	{
-	  midi_channel = 9;
-	}
-      else
-	{
-	  midi_channel = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
-	}
-
-
       /* track name */
       event = midi_meta_text (3, curstaffstruct->lily_name->str);
       smf_track_add_event_delta_pulses(track, event, 0);
@@ -1264,21 +1253,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
       smf_track_add_event_delta_pulses(track, event, 0);
 
-      if (curstaffstruct->midi_prognum_override != TRUE){
-      /* drums is a special case, else try to match an instrument name */
-      	      if (midi_channel == 9)
-		{
-		  prognum = 0;
-		}
-	      else
-		{
-		  prognum = select_program (curstaffstruct->midi_instrument->str);
-		}
-      }
-      else{
-	      prognum = curstaffstruct->midi_prognum;
-	      midi_channel = curstaffstruct->midi_channel;
-      }
+      midi_channel = get_midi_channel();
+      prognum = get_midi_prognum();
 
       /* set selected midi program */
       g_print("Using channel %d prognum %d\n", midi_channel, prognum);
