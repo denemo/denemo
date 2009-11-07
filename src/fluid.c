@@ -145,7 +145,6 @@ void fluid_playpitch(int key, int duration)
 #ifdef _HAVE_FLUIDSYNTH_
   /* Play a note */
   if (synth){
-    DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
     fluid_synth_noteon(synth, 0, key, 80);
     g_timeout_add(duration, timer_callback, (gpointer) key); 
   }
@@ -268,9 +267,9 @@ but this is not intended to take midi event data - you have to fill in quite a f
     //fluid_synth_program_change(synth, 0, 5);
 
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
-      fluid_synth_noteon(synth, 0, event->midi_buffer[1], event->midi_buffer[2]);
+      fluid_synth_noteon(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1], event->midi_buffer[2]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
-      fluid_synth_noteoff(synth, 0, event->midi_buffer[1]);
+      fluid_synth_noteoff(synth, event->midi_buffer[0] & 0x0f, event->midi_buffer[1]);
 #endif
   }
   

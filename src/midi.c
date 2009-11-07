@@ -60,9 +60,29 @@ SEQ_DEFINEBUF (128);
 
 static gint ttag;
 
+/* 
+ *  get the midi channel of the currently selected staff
+ */
+gint get_midi_channel(){
+  gint tracknumber;
+  gint channel;
 
-
-
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  if (curstaffstruct->midi_prognum_override != TRUE){
+    if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
+      {
+        channel = 9;
+      }
+    else
+      {
+	tracknumber = Denemo.gui->si->currentstaffnum;
+        channel = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+      }
+  }
+  else
+    channel = curstaffstruct->midi_channel;
+  return channel; 
+}
 
 /**
  * Dump the global buffer to the sequencer device

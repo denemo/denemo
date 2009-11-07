@@ -1633,25 +1633,9 @@ SCM scheme_output_midi (SCM input) {
   gint channel;
   gint volume;
   gint tracknumber;
-   /* the following should perhaps go into its own function */
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (curstaffstruct->midi_prognum_override != TRUE){
-    if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-      {
-        channel = 9;
-      }
-    else
-      {
-	tracknumber = Denemo.gui->si->currentstaffnum;
-        channel = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
-      }
-      //prognum=?
-  }
-  else{
-    //prognum = curstaffstruct->midi_prognum;
-    channel = curstaffstruct->midi_channel;
-  }
 
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  channel = get_midi_channel();
   volume = curstaffstruct->volume;
   gchar *string_input = scm_to_locale_string(input);
   gchar *bytes = substitute_midi_values(string_input, channel, volume);

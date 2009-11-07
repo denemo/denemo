@@ -210,10 +210,10 @@ void
 jack_playpitch(gint key, gint duration){
  if (BufferEmpty==TRUE){ 
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-    global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_ON | curstaffstruct->midi_channel;
+    global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_ON | get_midi_channel();
     global_midi_buffer[BufferFillIndex].buffer[1] = key; 
     global_midi_buffer[BufferFillIndex].buffer[2] = curstaffstruct->volume;
-    global_midi_buffer[BufferFillIndex].channel = curstaffstruct->midi_channel;
+    global_midi_buffer[BufferFillIndex].channel = get_midi_channel();
     global_midi_buffer[BufferFillIndex].jack_port = curstaffstruct->jack_midi_out_port;
     g_timeout_add(duration, timer_callback, (gpointer) BufferFillIndex);
     BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
