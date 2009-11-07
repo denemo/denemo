@@ -142,13 +142,11 @@ static gboolean timer_callback(gpointer notenum){
 
 void fluid_playpitch(int key, int duration)
 {
-#ifdef _HAVE_FLUIDSYNTH_
   /* Play a note */
   if (synth){
     fluid_synth_noteon(synth, 0, key, 80);
     g_timeout_add(duration, timer_callback, (gpointer) key); 
   }
-#endif
 }
 
 void fluid_output_midi_event(unsigned char *buffer)
