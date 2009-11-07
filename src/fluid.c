@@ -202,6 +202,9 @@ gboolean fluidsynth_read_smf_events()
   if (!synth)
     return FALSE;
 
+  if (!playing_piece)
+    return FALSE;
+
   if (event == NULL || event->time_seconds>end_time){ 
     playing_piece = FALSE;
     return FALSE;
@@ -271,10 +274,7 @@ but this is not intended to take midi event data - you have to fill in quite a f
 #endif
   }
   
-  if (playing_piece)
-    return TRUE;
-  if (!playing_piece) 
-    return FALSE;
+  return TRUE;
 }
 
 static gint move_on(DenemoGUI *gui){
