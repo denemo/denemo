@@ -8,19 +8,22 @@
         <after>InsertMeasure</after>
         <action>SplitMeasure</action>
         <scheme> ;;;SplitMeasure
-(if (d-CursorLeft)
-    (begin 
-      (d-SetMark)
-      (if (d-MeasureLeft)
-	  (begin
-	    (d-Cut)
-	    (d-InsertMeasure)
-	    (d-Paste))
-	  (begin
-	    (d-Cut)
-	    (d-InsertMeasure)
-	    (d-Paste))))
-    (d-WarningDialog "Sorry cannot split here"))</scheme>
+(d-SetMark)
+(if   (d-MeasureRight)  
+   (begin  (d-CursorLeft)  
+                (d-Cut)
+                (d-CursorRight)
+                (d-InsertMeasure)       
+        )
+   (begin
+           (d-GoToEnd)
+           (d-Cut)
+        (d-AppendMeasure)
+        (d-MeasureRight)
+        )
+ )
+(d-Paste)
+</scheme>
         <label>Split Measure</label>
         <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>
