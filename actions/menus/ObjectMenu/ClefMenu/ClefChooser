@@ -7,9 +7,9 @@
       <row>
         <after>InsertClef</after>
         <action>ClefChooser</action>
-        <scheme>;;;; clefs
+        <scheme> ;;;; clefs
 (let ((choice "Bass"))
-  (set! choice (d-GetOption  (string-append "Treble" stop "Alto" stop "Tenor" stop "Octava bassa" stop "Soprano" stop  "Drum" stop)))
+  (set! choice (d-GetOption  (string-append "Treble" stop "Alto" stop "Tenor" stop "Bass" stop "Octava bassa" stop "Soprano" stop  "Drum" stop)))
     (cond
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
