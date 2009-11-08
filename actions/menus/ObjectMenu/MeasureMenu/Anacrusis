@@ -21,7 +21,7 @@
       (begin
 	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number-&gt;string duration) " " ))
 	(d-CursorLeft)
-	(d-DirectivePut-standalone-override "Anacrusis" DENEMO_OVERRIDE_DYN_LILY)
+	(d-DirectivePut-standalone-override "Anacrusis" DENEMO_OVERRIDE_DYNAMIC)
 	(d-DirectivePut-standalone-minpixels "Anacrusis" 60)
 	(d-DirectivePut-standalone-display "Anacrusis" "Upbeat")
 	(d-RefreshDisplay)
