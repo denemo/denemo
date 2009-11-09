@@ -121,7 +121,10 @@ static FILE *DEV_fp;
 static SCM
 standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
-  fprintf (stderr, "\nA script error; tag is\n");
+  printf ("\nA script error; the throw arguments are\n");
+  scm_display (throw_args, scm_current_output_port ());
+  scm_newline (scm_current_output_port ());
+  printf ("\nThe tag is\n");
   scm_display (tag, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   scm_newline (scm_current_output_port ());
