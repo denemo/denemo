@@ -4,12 +4,12 @@
   <articleinfo>
     <title></title>
 
-    <legalnotice>
-      <para>This Manual is released under the Creative Commons License, this
-      manual may be quoted, and freely distributed as long as credit is given
-      in written form to http://www.denemo.org. If it is placed on a web page
-      a link to the denemo site should also appear.</para>
-    </legalnotice>
+
+<legalnotice>
+      <para>This Manual is released under the <ulink
+    url="http://creativecommons.org/licenses/by-sa/3.0">Creative Commons
+Attribution-Share Alike 3.0 Unported</ulink> license.</para>
+</legalnotice>
 
     <copyright>
       <year>2009</year>
