@@ -75,7 +75,8 @@ gint get_midi_channel()
     else
       {
 	tracknumber = Denemo.gui->si->currentstaffnum;
-        channel = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+	tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+	channel = (tracknumber % 16 == 0) ? 16 : (tracknumber % 16);
       }
   }
   else
