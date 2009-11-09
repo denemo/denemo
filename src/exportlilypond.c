@@ -710,11 +710,13 @@ static gchar *get_postfix(GList *g) {
   GString *ret = g_string_new("");
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
-    if(d->postfix && d->postfix->len)
-      if(d->override & DENEMO_OVERRIDE_LILYPOND)
-	g_string_prepend(ret, d->postfix->str);
-      else
-	g_string_append(ret, d->postfix->str);
+    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
+      if(d->postfix && d->postfix->len)
+	if(d->override & DENEMO_OVERRIDE_LILYPOND)
+	  g_string_prepend(ret, d->postfix->str);
+	else
+	  g_string_append(ret, d->postfix->str);
+    }
   }
 return g_string_free(ret, FALSE);
 }
@@ -725,11 +727,13 @@ static gchar *get_prefix(GList *g) {
   GString *ret = g_string_new("");
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
-    if(d->prefix && d->prefix->len)
-      if(d->override & DENEMO_OVERRIDE_LILYPOND)
-	g_string_prepend(ret, d->prefix->str);
-      else
-	g_string_append(ret, d->prefix->str);
+    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
+      if(d->prefix && d->prefix->len)
+	if(d->override & DENEMO_OVERRIDE_LILYPOND)
+	  g_string_prepend(ret, d->prefix->str);
+	else
+	  g_string_append(ret, d->prefix->str);
+    }
   }
 return g_string_free(ret, FALSE);
 }
@@ -1486,9 +1490,12 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    empty_measure=FALSE; 
 
 
+
  if(curobj->type==LILYDIRECTIVE){
 #define OUTPUT_LILY(what) \
-  if(((lilydirective *) curobj->object)->what && ((lilydirective *) curobj->object)->what->len) {\
+  if(((lilydirective *) curobj->object)->what && ((lilydirective *) curobj->object)->what->len\
+     && (!( ((lilydirective *) curobj->object)->override & DENEMO_OVERRIDE_HIDDEN)) \
+     ) {								\
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);\
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
 	  g_object_set_data(G_OBJECT(objanc), OBJECT, (gpointer)curobjnode);\

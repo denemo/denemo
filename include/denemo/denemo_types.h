@@ -412,10 +412,9 @@ typedef struct DenemoDirective
 
 #define DENEMO_MIDI_INTERPRETATION_MASK (DENEMO_OVERRIDE_RELATIVE | DENEMO_OVERRIDE_PERCENT) 
 
-#define DENEMO_OVERRIDE_DYN_LILY (1<<28)
-#define DENEMO_OVERRIDE_DYN_MIDI (1<<29)
+#define DENEMO_OVERRIDE_DYNAMIC (1<<28)
+#define DENEMO_OVERRIDE_HIDDEN (1<<29)
 
-#define DENEMO_DYNAMIC_DIRECTIVE_MASK (DENEMO_OVERRIDE_DYN_LILY | DENEMO_OVERRIDE_DYN_MIDI) 
 
 
   guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */

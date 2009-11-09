@@ -1062,12 +1062,14 @@ void console_output(gchar *text) {
   gtk_text_buffer_insert(buffer, &enditer, text, -1);
 }
 
-/* returns an override flag ORd from all those in the list of directives */
+/* returns an override flag ORd from all those in the list of directives, 
+   excluding ones with DENEMO_OVERRIDE_HIDDEN set */
 gint get_override(GList *g) {
   gint ret = 0;
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
-    ret |= d->override;
+    if(!(d->override&DENEMO_OVERRIDE_HIDDEN))
+      ret |= d->override;
   }
   return ret;
 }
