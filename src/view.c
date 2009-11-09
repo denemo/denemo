@@ -93,6 +93,8 @@ typedef enum
 
 #define gh_scm2newstr scm_to_locale_stringn 
 
+#define gh_str2scm scm_from_locale_stringn
+
 //FIXME remove these - use for the other way... scm_from_locale_stringn (const char *str, size_t len)
 
 static void use_markup(GtkWidget *widget);
@@ -100,7 +102,7 @@ static void save_accels (void);
 
 #include "callbacks.h" /* callback functions menuitems that can be called by scheme */
 #include <libguile.h>
-#include <guile/gh.h>
+//#include <guile/gh.h>
 
 #include "scheme_cb.h"
 
@@ -115,9 +117,38 @@ static FILE *DEV_fp;
 #endif
 
 
-SCM call_out_to_guile(char *script) {
- return gh_eval_str_with_catch (script, gh_standard_handler);
+
+static SCM
+standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
+{
+  fprintf (stderr, "\nA script error; tag is\n");
+  scm_display (tag, scm_current_output_port ());
+  scm_newline (scm_current_output_port ());
+  scm_newline (scm_current_output_port ());
+  return SCM_BOOL_F;
 }
+
+gint eval_file_with_catch(gchar *filename) {
+  scm_internal_catch (SCM_BOOL_T,
+		      (scm_t_catch_body)  scm_primitive_load, (void *) filename,
+		      (scm_t_catch_handler) standard_handler, (void *) filename);
+  return 0;
+}
+
+
+gint
+call_out_to_guile (const char *script)
+{
+  scm_internal_catch (SCM_BOOL_T,
+                      (scm_t_catch_body)  scm_c_eval_string, (void *) script,
+                      (scm_t_catch_handler) standard_handler, (void *) script);
+  return 0;
+}
+
+
+
+
+
 //FIXME common up these!!!
 void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
  gchar *def = g_strdup_printf("(define %s \"%s\")\n", varname, value);
@@ -303,13 +334,13 @@ static SCM scheme_execute_init(gchar *menupath) {
   gchar *filename = g_build_filename(get_data_dir(), "actions", "menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
     g_print("About to load from %s\n", filename);
-    gh_eval_file_with_catch(filename, gh_standard_handler);//ret = scm_c_primitive_load(filename);
+    eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
   }
   g_free(filename);
   filename = g_build_filename(locatedotdenemo(), "actions", "menus", menupath, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) { 
     g_print("About to load from %s\n", filename);
-    gh_eval_file_with_catch(filename, gh_standard_handler);//ret = scm_c_primitive_load(filename);
+    eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
   }
   g_free(filename);
 }
@@ -403,7 +434,7 @@ static SCM scheme_script_callback(SCM script) {
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text && *text)
-	   return call_out_to_guile(text);
+	   return SCM_BOOL(call_out_to_guile(text));
 	 return SCM_BOOL(activate_script(action, NULL));
        }
      }
@@ -1802,25 +1833,51 @@ SCM scheme_diatonic_shift (SCM optional) {
 }
 
 
-static gboolean to_next_object(gboolean within_measure) {
+static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   DenemoGUI *gui = Denemo.gui;
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
   if(!this)
     return FALSE;
-  cursorright (NULL);//FIXME use value param->status
-  if(this!= Denemo.gui->si->currentobject)
-    return TRUE;
-  if(!within_measure) {
-    if(Denemo.gui->si->cursor_appending)
-      cursorright (NULL);
+  DenemoScriptParam param;
+  if(right)
+    cursorright (&param);
+  else
+    cursorleft (&param);
+  if(right) {
     if(this!= Denemo.gui->si->currentobject)
       return TRUE;
+    if(!within_measure) {
+      if(Denemo.gui->si->cursor_appending)
+	cursorright (NULL);
+      if(this!= Denemo.gui->si->currentobject)
+	return TRUE;
+    }
+  }
+  else {
+    if(this!= Denemo.gui->si->currentobject)
+      return TRUE;
+    if(!within_measure) {
+      if(Denemo.gui->si->cursor_appending)
+	cursorleft (NULL);
+      if(this!= Denemo.gui->si->currentobject)
+	return TRUE;
+    }
   }
   return FALSE;  
 }
 
+
+
+static gboolean to_next_object(gboolean within_measure) {
+ 
+  return to_object_direction(within_measure, TRUE);  
+}
+static gboolean to_prev_object(gboolean within_measure) {
+ 
+  return to_object_direction(within_measure, FALSE);  
+}
 /* moves currentobject to next object by calling cursorright.
    Steps over barlines (i.e. cursor_appending).
    returns TRUE if currentobject is different after than before doing the call
@@ -1829,11 +1886,27 @@ SCM scheme_next_object (void) {
 return SCM_BOOL(to_next_object(FALSE));
 }
 
+/* moves currentobject to prev object by calling cursorleft.
+   Steps over barlines (i.e. cursor_appending).
+   returns TRUE if currentobject is different after than before doing the call
+*/
+SCM scheme_prev_object (void) {
+return SCM_BOOL(to_prev_object(FALSE));
+}
+
+
 /* moves currentobject to next object in measure, if any
    returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_next_object_in_measure (void) {
 return SCM_BOOL(to_next_object(TRUE));
+}
+
+/* moves currentobject to previous object in measure, if any
+   returns TRUE if currentobject is different after than before doing the call
+*/
+SCM scheme_prev_object_in_measure (void) {
+return SCM_BOOL(to_prev_object(TRUE));
 }
 
 
@@ -1848,75 +1921,122 @@ SCM scheme_set_saved (SCM optional) {
   return SCM_BOOL(TRUE);
 }
 
-/* moves currentobject to next object in the selection.
+
+/* moves currentobject to object in the selection in the direction indicated by right.
    Steps over barlines (i.e. cursor_appending).
  returns TRUE if currentobject is different after than before the call
 */
-SCM scheme_next_selected_object (SCM optional) {
+static gboolean to_selected_object_direction (gboolean right) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
-    return SCM_BOOL(FALSE);
+    return FALSE;
   save_selection(Denemo.gui->si);
-  gboolean success = to_next_object(FALSE);
+  gboolean success = to_object_direction(FALSE, right);
   if(!success)
-    success = to_next_object(FALSE);//FIXME THIS IS NOT NEEDED if at first you don't succeed. Better might be to examine cursor_appending...
+    success = to_object_direction(FALSE, right);
   restore_selection(Denemo.gui->si);
   //g_print("success %d\n", success);
-  if( (success) && in_selection(Denemo.gui->si))
-    return SCM_BOOL(TRUE);
-  return SCM_BOOL(FALSE);  
+  if((success) && in_selection(Denemo.gui->si))
+    return TRUE;
+  return FALSE;  
 }
 
-//(display (d-NextSelectedObject))
 
 
-SCM scheme_next_standalone_directive (SCM optional) {
-  SCM ret = scheme_next_object();
-  if(SCM_FALSEP(ret))
+
+
+/* moves currentobject to next object in the selection.
+   Steps over barlines (i.e. cursor_appending).
+ returns TRUE if currentobject is different after than before the call
+*/
+SCM scheme_next_selected_object (SCM optional) {
+  return SCM_BOOL(to_selected_object_direction(TRUE));
+}
+
+/* moves currentobject to previous object in the selection.
+   Steps over barlines (i.e. cursor_appending).
+ returns TRUE if currentobject is different after than before the call
+*/
+SCM scheme_prev_selected_object (SCM optional) {
+  return SCM_BOOL(to_selected_object_direction(FALSE));
+}
+
+
+static gboolean to_standalone_directive_direction (gboolean right) {
+  gboolean ret = to_object_direction(FALSE, right);
+  if(!ret)
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
     ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == LILYDIRECTIVE)
-    return SCM_BOOL(TRUE);
+    return TRUE;
   else
     return 
-      scheme_next_standalone_directive (optional);
+      to_standalone_directive_direction (right);
 }
 
 
-SCM scheme_next_chord (SCM optional) {
-  SCM ret = scheme_next_object();
-  if(SCM_FALSEP(ret))
+SCM scheme_next_standalone_directive (SCM optional) {
+  return SCM_BOOL(to_standalone_directive_direction(TRUE));
+}
+
+SCM scheme_prev_standalone_directive (SCM optional) {
+  return SCM_BOOL(to_standalone_directive_direction(FALSE));
+}
+
+static gboolean to_chord_direction (gboolean right) {
+  gboolean ret = to_object_direction(FALSE, right);
+  if(!ret)
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
     ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD)
-    return SCM_BOOL(TRUE);
+    return TRUE;
   else
     return 
-      scheme_next_chord (optional);
+      to_chord_direction (right);
 }
 
 
+
+
+
+
+SCM scheme_next_chord (SCM optional) {
+  return SCM_BOOL(to_chord_direction(TRUE));
+}
+
+SCM scheme_prev_chord (SCM optional) {
+  return SCM_BOOL(to_chord_direction(FALSE));
+}
 
 
   // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
-//This next note is next chord that is not a rest.
-SCM scheme_next_note (SCM optional) {
- SCM ret = scheme_next_chord(optional);
- if(SCM_FALSEP(ret))
+//This next note is next chord that is not a rest in the given direction.
+static gboolean to_note_direction(gboolean right) {
+  gboolean ret = to_chord_direction(right);
+ if(!ret)
     return ret;
  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
     ((DenemoObject*) Denemo.gui->si->currentobject->data)->type == CHORD && 
     ((((chord *)(((DenemoObject*) Denemo.gui->si->currentobject->data)->object))->notes))
     && (!Denemo.gui->si->cursor_appending))
-   return SCM_BOOL(TRUE);
+   return TRUE;
   else
-    return 
-      scheme_next_note (optional);
+    return to_note_direction (right);
 }
+
+
+SCM scheme_next_note (SCM optional) {
+  return SCM_BOOL(to_note_direction(TRUE));
+}
+
+SCM scheme_prev_note (SCM optional) {
+  return SCM_BOOL(to_note_direction(FALSE));
+}
+
 
 SCM scheme_locate_dotdenemo (SCM optional) {
   const gchar *dotdenemo = locatedotdenemo();
@@ -1989,7 +2109,7 @@ void denemo_scheme_init(gchar *initscheme){
   define_scheme_constants();
   if(initscheme) {
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
-      gh_eval_file_with_catch(initscheme, gh_standard_handler);//scm_c_primitive_load(initscheme);
+      eval_file_with_catch(initscheme);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
   } else {
@@ -1997,14 +2117,14 @@ void denemo_scheme_init(gchar *initscheme){
     gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
     
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+      eval_file_with_catch(filename);//scm_c_primitive_load(filename);
     else
       g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
     g_free(filename);
 
     filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+      eval_file_with_catch(filename);//scm_c_primitive_load(filename);
     g_free(filename);
 #endif
   }
@@ -2028,7 +2148,7 @@ void append_to_local_scheme_init(gchar *scheme)  {
 void load_local_scheme_init(void)  {
   gchar *filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+    eval_file_with_catch(filename);//scm_c_primitive_load(filename);
   g_free(filename);
 }
 /*
@@ -2039,7 +2159,7 @@ static void load_scheme_init(void)  {
   gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
   
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);
+    eval_file_with_catch(filename);//scm_c_primitive_load(filename);
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
@@ -2149,11 +2269,17 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
   install_scm_function (DENEMO_SCHEME_PREFIX"DiatonicShift", scheme_diatonic_shift);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextObject", scheme_next_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevObject", scheme_prev_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextObjectInMeasure", scheme_next_object_in_measure);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevObjectInMeasure", scheme_prev_object_in_measure);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextSelectedObject", scheme_next_selected_object);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevSelectedObject", scheme_prev_selected_object);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextChord", scheme_next_chord);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevChord", scheme_prev_chord);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevNote", scheme_prev_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PrevStandaloneDirective", scheme_prev_standalone_directive);
   install_scm_function (DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
   install_scm_function (DENEMO_SCHEME_PREFIX"SetPrefs",  scheme_set_prefs);
   install_scm_function (DENEMO_SCHEME_PREFIX"AttachQuitCallback",  scheme_attach_quit_callback);
@@ -3569,7 +3695,7 @@ gchar *instantiate_script(GtkAction *action){
   g_free(filename);
   filename = g_build_filename (path, INIT_SCM, NULL);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
-    gh_eval_file_with_catch(filename, gh_standard_handler);//scm_c_primitive_load(filename);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
+    eval_file_with_catch(filename);//scm_c_primitive_load(filename);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
   g_free(filename);
   g_free(path);
   //g_print("Command loaded is following script:\n%s\n;;; end of loaded command script.\n", (gchar*)g_object_get_data(G_OBJECT(action), "scheme"));
