@@ -132,11 +132,11 @@ standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 }
 
 gint eval_file_with_catch(gchar *filename) {
- scm_c_primitive_load(filename);
- /*
+  // scm_c_primitive_load(filename);
+  SCM name = scm_from_locale_string(filename);
   scm_internal_catch (SCM_BOOL_T,
-		      (scm_t_catch_body)  scm_primitive_load, (void *) filename,
-		      (scm_t_catch_handler) standard_handler, (void *) filename);*/
+		      (scm_t_catch_body)  scm_primitive_load, (void *) name,
+		      (scm_t_catch_handler) standard_handler, (void *) name);
   return 0;
 }
 
