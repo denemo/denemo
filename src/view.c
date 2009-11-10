@@ -1846,6 +1846,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   if(!this)
     return FALSE;
   DenemoScriptParam param;
+  gboolean was_appending = Denemo.gui->si->cursor_appending;
   if(right)
     cursorright (&param);
   else
@@ -1864,7 +1865,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
     if(this!= Denemo.gui->si->currentobject)
       return TRUE;
     if(!within_measure) {
-      if(Denemo.gui->si->cursor_appending)
+      if(was_appending)
 	cursorleft (NULL);
       if(this!= Denemo.gui->si->currentobject)
 	return TRUE;
