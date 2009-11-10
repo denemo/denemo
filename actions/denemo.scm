@@ -24,6 +24,24 @@
 				 (begin
 				    (eval-string  command)
 				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
+(define (PrevDirectiveOfTag tag)
+  (let loop ()
+    (if (d-PrevStandaloneDirective)
+       (if (not (d-Directive-standalone? tag))
+	   (loop)
+	   #t
+	   )
+       #f)))
+(define (NextDirectiveOfTag tag)
+  (let loop ()
+    (if (d-NextStandaloneDirective)
+       (if (not (d-Directive-standalone? tag))
+	   (loop)
+	   #t
+	   )
+       #f)))
+
+
 (define stop "\0")
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
