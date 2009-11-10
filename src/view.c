@@ -121,7 +121,7 @@ static FILE *DEV_fp;
 static SCM
 standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
-  printf ("\nA script error; the throw arguments are\n");
+  printf ("\nA script error for file/script %s; the throw arguments are\n", data);
   scm_display (throw_args, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   printf ("\nThe tag is\n");
@@ -132,9 +132,11 @@ standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 }
 
 gint eval_file_with_catch(gchar *filename) {
+ scm_c_primitive_load(filename);
+ /*
   scm_internal_catch (SCM_BOOL_T,
 		      (scm_t_catch_body)  scm_primitive_load, (void *) filename,
-		      (scm_t_catch_handler) standard_handler, (void *) filename);
+		      (scm_t_catch_handler) standard_handler, (void *) filename);*/
   return 0;
 }
 
