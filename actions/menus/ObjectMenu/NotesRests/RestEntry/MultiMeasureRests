@@ -23,13 +23,16 @@
 		   (d-DirectivePut-chord-prefix "WholeMeasureRest" "%{")
 		   (d-DirectivePut-chord-postfix "WholeMeasureRest" "%}")
 		   (d-DirectivePut-chord-graphic "WholeMeasureRest" "BracketedWholeMeasureRest")
+		   
 		   (d-DirectivePut-chord-display "WholeMeasureRest" "grouped\nas mm rest")
+		   (d-DirectivePut-chord-tx "WholeMeasureRest" 25)
+		   (d-DirectivePut-chord-ty "WholeMeasureRest" -25)
 
 		   (loop))))))
      (if (PrevDirectiveOfTag "MultiMeasureRests")
      	(begin
      		(d-DirectivePut-standalone-display "MultiMeasureRests" (string-append "Rest " (number-&gt;string count)))
-     		(d-DirectivePut-standalone-ty "MultiMeasureRests" 20)    		
+     		(d-DirectivePut-standalone-ty "MultiMeasureRests" -20)    		
 		 (d-DirectivePut-standalone-postfix "MultiMeasureRests" (string-append "\\set Score.skipBars = ##t R1*" (d-InsertTimeSig "query=timesigname") "*" (number-&gt;string count))))))
 	(d-RefreshDisplay)	 </scheme>
         <label>Multi-Measure Rests</label>
