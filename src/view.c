@@ -1843,7 +1843,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
-  if(!this)
+  if(right && !this)
     return FALSE;
   DenemoScriptParam param;
   gboolean was_appending = Denemo.gui->si->cursor_appending;
