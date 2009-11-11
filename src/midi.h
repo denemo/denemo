@@ -12,6 +12,7 @@ void midi_cleanup ();
 gint midi_init ();
 gint get_midi_channel();
 gint get_midi_prognum();
+gint get_midi_port();
 void playnotes (gboolean doit, chord chord_to_play,int prognum);
 
 void play_midikey(gint key, double duration, double volume, gint channel);

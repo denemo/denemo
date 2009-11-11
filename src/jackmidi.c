@@ -147,7 +147,7 @@ jack_playpitch(gint key, gint duration){
     global_midi_buffer[BufferFillIndex].buffer[1] = key; 
     global_midi_buffer[BufferFillIndex].buffer[2] = curstaffstruct->volume;
     global_midi_buffer[BufferFillIndex].channel = get_midi_channel();
-    global_midi_buffer[BufferFillIndex].jack_port = curstaffstruct->jack_midi_out_port;
+    global_midi_buffer[BufferFillIndex].jack_port = get_midi_port();
     g_timeout_add(duration, timer_callback, (gpointer) BufferFillIndex);
     BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
     BufferEmpty=FALSE;
@@ -267,59 +267,54 @@ process_callback(jack_nframes_t nframes, void *notused)
  */
 int 
 create_jack_midi_port(char* port_name){
-  if (jack_client != NULL){
-    gint i;
-    jack_nframes_t nframes = jack_get_buffer_size(jack_client);
-    /* only assign it if the port has not been assigned already */	
-    for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++){
-      if (output_ports[i] == NULL){
-	output_ports[i] = jack_port_register(jack_client, 
+  if (!jack_client)
+    return -1;
+    
+  gint i;
+  jack_nframes_t nframes = jack_get_buffer_size(jack_client);
+  
+  /* only assign it if the port has not been assigned already */	
+  for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++)
+    if (!output_ports[i]){
+      output_ports[i] = jack_port_register(jack_client, 
 	port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
 
-        if (output_ports[i] == NULL) 
-	  g_critical("Could not register JACKMIDI output_port[%d] '%s'.",i, port_name);
-  
-        /* clear buffer */
-        if (output_ports[i])
-	  jack_midi_clear_buffer(jack_port_get_buffer(output_ports[i], nframes));
-	
-        if (output_ports[i] != NULL)	
-	  g_debug("\nassigning jackmidi port output_port[%d]\n", i);
-	  return i;
-      }
-    }
-    return 0;
-  }
-  else 
-    return -1;
+      if (output_ports[i]){
+	/* clear buffer */
+	jack_midi_clear_buffer(jack_port_get_buffer(output_ports[i], nframes));
+	g_debug("\nassigning jackmidi port output_port[%d]\n", i);
+	return i;
+      } else {
+	 g_critical("Could not register JACKMIDI output_port[%d] '%s'.",i, port_name);
+         return -1;
+        }
+    } 
+  return -1;
 }
 
 void
-create_jack_midi_ports_from_score(){
-  staffnode *curstaff;
-  DenemoStaff *curstaffstruct;
-  curstaff = Denemo.gui->si->thescore;
-  
-  while (curstaff)
-  {
-    curstaffstruct = (DenemoStaff *) curstaff->data;
-    g_debug("\nStaff name = %s\n", curstaffstruct->denemo_name->str);
-    /* Create port and assign jack port number */
-    curstaffstruct->jack_midi_out_port = create_jack_midi_port(curstaffstruct->denemo_name->str);
-    curstaff = curstaff->next;
+create_default_jack_midi_ports(){
+ 
+  gint i = 0;
+  gint default_number_of_ports = 10;
+  char str[10];
+
+  while (i++<default_number_of_ports){
+    sprintf(str, "denemo:%d", i);
+    create_jack_midi_port(str);
   }
 }
 
 int 
 remove_jack_midi_port(int port_number){
-	int err;
-	err = 0;
-	if (output_ports[port_number] != NULL){
-		err = jack_port_unregister(jack_client, output_ports[port_number]);
-		output_ports[port_number] = NULL;
-		g_debug("\nremove jackmidi port number = %d\n", port_number);
-	}
-	return err;
+  int err;
+  err = 0;
+  if (output_ports[port_number] != NULL){
+    err = jack_port_unregister(jack_client, output_ports[port_number]);
+    output_ports[port_number] = NULL;
+    g_debug("\nremove jackmidi port number = %d\n", port_number);
+  }
+  return err;
 }
 
 void
@@ -327,13 +322,12 @@ remove_all_jack_midi_ports(){
   int err,i;
   err = 0;
 	
-  for (i=0;i < MAX_NUMBER_OF_TRACKS;i++){
+  for (i=0;i < MAX_NUMBER_OF_TRACKS;i++)
     if (output_ports[i] != NULL){
       err = jack_port_unregister(jack_client, output_ports[i]);
       output_ports[i] = NULL;
       g_debug("\nremoving jackmidi port number = %d\n", i);
     }
-  }
 }
 
 int
@@ -365,24 +359,22 @@ init_jack(void){
   
   jack_client = jack_client_open(PROGRAM_NAME, JackNullOption, NULL);
  
-  if (jack_client == NULL) {
+  if (jack_client == NULL) 
     g_critical("Could not connect to the JACK server; run jackd first?");
-  }
+  
   err = jack_set_process_callback(jack_client, process_callback, 0);
-  if (err) {
+  if (err) 
     g_critical("Could not register JACK process callback.");
-  }
   
   input_port = jack_port_register(jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
    
-  if (input_port == NULL) {
+  if (input_port == NULL) 
     g_critical("Could not register JACK input port.");
-  }
-
-  if (jack_activate(jack_client)) {
+  
+  if (jack_activate(jack_client)) 
     g_critical("Cannot activate JACK client.");
-  }
+  
   return err;
 }
 
@@ -392,19 +384,18 @@ jack_start_restart (void){
   if (jack_client == NULL){
     g_debug("\nStarting Jack\n");
     init_jack();
-    create_jack_midi_ports_from_score();
+    create_default_jack_midi_ports();
   }
   if (jack_client != NULL){
     g_debug("\nRestarting Jack\n");
     stop_jack();
     init_jack();
-    create_jack_midi_ports_from_score();
+    create_default_jack_midi_ports();
   }
 }
 
 void
-jack_midi_playback_start()
-{
+jack_midi_playback_start(){
   DenemoGUI *gui = Denemo.gui;
  
   start_player = get_time();

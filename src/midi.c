@@ -101,6 +101,17 @@ gint get_midi_prognum()
   return prognum;
 }
 
+gint get_midi_port()
+{
+  gint portnumber;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  
+  if (curstaffstruct->midi_prognum_override != TRUE)
+    portnumber = Denemo.gui->si->currentstaffnum;
+  else
+    portnumber = curstaffstruct->midi_port;
+  return portnumber; 
+}
 /**
  * Dump the global buffer to the sequencer device
  *

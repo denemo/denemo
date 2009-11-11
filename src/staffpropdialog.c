@@ -267,12 +267,6 @@ set_properties (struct callbackdata *cbdata)
      staffstruct->denemo_name);
   set_lily_name (staffstruct->denemo_name, staffstruct->lily_name);
 
-#ifdef _HAVE_JACK_
-  /* check to make sure jack actually assigned a port before renaming */
-  if (staffstruct->jack_midi_out_port >= 0)
-    err = rename_jack_midi_port(staffstruct->jack_midi_out_port, staffstruct->denemo_name->str);
-#endif  
-
   /* !!!! Insert advisory function for detecting colliding staff names
    * here */
   //g_print("first %d\t", staffstruct->space_above);
