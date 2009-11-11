@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InsertWholeMeasureRest</after>
+        <action>MultiMeasureRests</action>
+        <scheme>;;;MultiMeasureRests
+  (let ((tag #f))
+    (define count 0)
+    (d-DirectivePut-standalone "MultiMeasureRests")
+    (d-DirectivePut-standalone-minpixels "MultiMeasureRests" 50)
+       (d-DirectivePut-standalone-graphic "MultiMeasureRests"  "MultiMeasureRests")
+       (d-DirectivePut-standalone-gy "MultiMeasureRests"  -5)
+     (let loop ()
+       (if (d-NextObject)
+	   (begin	    
+	     (if (d-Directive-chord? "WholeMeasureRest")
+		 (begin
+		   (set! count (1+ count))
+		   (d-DirectivePut-chord-prefix "WholeMeasureRest" "%{")
+		   (d-DirectivePut-chord-postfix "WholeMeasureRest" "%}")
+		   (d-DirectivePut-chord-graphic "WholeMeasureRest" "BracketedWholeMeasureRest")
+		   (d-DirectivePut-chord-display "WholeMeasureRest" "grouped\nas mm rest")
+
+		   (loop))))))
+     (if (PrevDirectiveOfTag "MultiMeasureRests")
+     	(begin
+     		(d-DirectivePut-standalone-display "MultiMeasureRests" (string-append "Rest " (number-&gt;string count)))
+     		(d-DirectivePut-standalone-ty "MultiMeasureRests" 20)    		
+		 (d-DirectivePut-standalone-postfix "MultiMeasureRests" (string-append "\\set Score.skipBars = ##t R1*" (d-InsertTimeSig "query=timesigname") "*" (number-&gt;string count))))))
+	(d-RefreshDisplay)	 </scheme>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

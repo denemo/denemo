@@ -2866,6 +2866,14 @@ for second and subsequent systems</tooltip>
         <label>(Print) Open { Octave Down</label>
         <tooltip>Opens a block printing an octave lower</tooltip>
       </row>
+      <row>
+        <action>MultiMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

@@ -119,9 +119,9 @@ static FILE *DEV_fp;
 
 
 static SCM
-standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
+standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
-  printf ("\nA script error; the throw arguments are\n");
+  printf ("\nA script error for file/script %s; the throw arguments are\n", data);
   scm_display (throw_args, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   printf ("\nThe tag is\n");
@@ -132,8 +132,10 @@ standard_handler (void *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 }
 
 gint eval_file_with_catch(gchar *filename) {
+  // scm_c_primitive_load(filename);
+  SCM name = scm_from_locale_string(filename);
   scm_internal_catch (SCM_BOOL_T,
-		      (scm_t_catch_body)  scm_primitive_load, (void *) filename,
+		      (scm_t_catch_body)  scm_primitive_load, (void *) name,
 		      (scm_t_catch_handler) standard_handler, (void *) filename);
   return 0;
 }
@@ -1841,9 +1843,10 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   GList *this = Denemo.gui->si->currentobject;
-  if(!this)
+  if(right && !this)
     return FALSE;
   DenemoScriptParam param;
+  gboolean was_appending = Denemo.gui->si->cursor_appending;
   if(right)
     cursorright (&param);
   else
@@ -1862,7 +1865,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
     if(this!= Denemo.gui->si->currentobject)
       return TRUE;
     if(!within_measure) {
-      if(Denemo.gui->si->cursor_appending)
+      if(was_appending)
 	cursorleft (NULL);
       if(this!= Denemo.gui->si->currentobject)
 	return TRUE;

@@ -24,6 +24,24 @@
 				 (begin
 				    (eval-string  command)
 				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
+(define (PrevDirectiveOfTag tag)
+  (let loop ()
+    (if (d-PrevStandaloneDirective)
+       (if (not (d-Directive-standalone? tag))
+	   (loop)
+	   #t
+	   )
+       #f)))
+(define (NextDirectiveOfTag tag)
+  (let loop ()
+    (if (d-NextStandaloneDirective)
+       (if (not (d-Directive-standalone? tag))
+	   (loop)
+	   #t
+	   )
+       #f)))
+
+
 (define stop "\0")
 (define cue-Advanced "Advanced")
 (define cue-PlaceAbove "Place above staff")
@@ -606,3 +624,23 @@
   (d-OutputMIDI (string-append "0x9$ " pitch " %%%"))
  (d-OneShotTimer duration (string-append "(d-OutputMIDI " "\"" "0x8$ " pitch " %%%" "\"" ")" )) 
   )
+
+;;;;;;;;;;;;;; Refresh Procedures.
+;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag
+
+(define (D-Anacrusis)
+(let ((duration (d-GetDurationInTicks)))
+  (if (boolean? duration)
+      (set! duration 0))
+  (while (d-NextObjectInMeasure) 
+	 (set! duration (+ duration (d-GetDurationInTicks))))
+  (PrevDirectiveOfTag "Anacrusis")
+  (set! duration (/ duration 12))
+  (if (equal? 0 duration)
+      (begin
+	(HideStandaloneDirective))
+      (begin
+	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number->string duration) " " ))))))
+
+
+;;;;;;;;;;;;;;;;;Multi-Measure Rests
