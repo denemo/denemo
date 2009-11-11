@@ -2762,11 +2762,43 @@ for second and subsequent systems</tooltip>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
       </row>
       <row>
+        <action>Adagio</action>
+        <after>Largo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Adagio</label>
+        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
+      </row>
+      <row>
+        <action>NextHigher</action>
+        <after>FindNextLowerNote</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Next Higher</label>
+        <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveDown</action>
+        <after>OpenOctaveUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Open { Octave Down</label>
+        <tooltip>Opens a block printing an octave lower</tooltip>
+      </row>
+      <row>
         <action>FindNextLowerNote</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Find</menupath>
         <label>Next Lower</label>
         <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
+      </row>
+     <row>
+        <action>MultiMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
       </row>
     </map>
   </commands>
