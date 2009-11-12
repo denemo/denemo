@@ -10,9 +10,6 @@
 #include "staffops.h"
 #include "scoreops.h"
 #include "prefops.h"
-#ifdef _HAVE_JACK_
-#include "jackmidi.h"
-#endif
 #define INITIAL_WHOLEWIDTH 160
 #define INITIAL_STAFFHEIGHT 100
 
@@ -324,9 +321,6 @@ static delete_all_staffs(DenemoGUI * gui) {
       si->currentstaff = g_list_nth (si->thescore, i - 1);
       deletestaff (gui, FALSE);
     }
-#ifdef _HAVE_JACK_
-  remove_all_jack_midi_ports();
-#endif
   return TRUE;
 }
 
