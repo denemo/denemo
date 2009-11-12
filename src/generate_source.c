@@ -133,9 +133,13 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_EDIT, NULL, "Delete the object at the cursor",	N_("DeleteObject"), "deleteobject", N_("Delete Object")},
   {CMD_CATEGORY_EDIT, NULL, "Delete to the left of the cursor.",	N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
 
-  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in all staffs)",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure")},
-  {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasure"), "append_measure_key", N_("Append Measure")},
-  {CMD_CATEGORY_MEASURE, NULL, "Delete the current measure in this staff, leaving the staff short",	N_("DeleteMeasure"), "deletemeasure", N_("Delete Measure")},
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in all staffs)",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure All Staffs")},
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in current staff)",	N_("InsertMeasureBefore"), "insertmeasurebefore", N_("Staff Insert Measure")},
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure in current staff after the current measure",	N_("InsertMeasureAfter"), "insertmeasureafter", N_("Staff Insert Measure After")},
+
+
+  {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("AppendMeasure"), "append_measure_key", N_("Staff Append Measure")},
+  {CMD_CATEGORY_MEASURE, NULL, "Delete the current measure in this staff, leaving the staff short",	N_("DeleteMeasure"), "deletemeasure", N_("Staff Delete Measure")},
   {CMD_CATEGORY_MEASURE, NULL, "Delete the current measure in all staffs",	N_("DeleteMeasureAllStaffs"), "deletemeasureallstaffs", N_("Delete Measure All Staffs")},
   {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("ShrinkMeasures"), "adjust_measure_less_width_key", N_("Shrink Measure")},
   {CMD_CATEGORY_MEASURE, NULL, "No Tooltip yet",	N_("WidenMeasures"), "adjust_measure_more_width_key", N_("Widen Measures")},

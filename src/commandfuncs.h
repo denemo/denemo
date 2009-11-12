@@ -154,6 +154,8 @@ void delete_staff_after(GtkAction *action, gpointer param);
 void
 appendmeasurestoentirescore(DenemoScore *si, gint number);
 
+void insertmeasureafter(DenemoGUI *gui);
+void insertmeasurebefore(DenemoGUI *gui);
 
 void deletemeasure(DenemoGUI * gui);
 void deletemeasureallstaffs(DenemoGUI * gui);

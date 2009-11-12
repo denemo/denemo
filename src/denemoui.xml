@@ -187,6 +187,8 @@
 	   <menuitem action="GoToMeasure"/>
 	   	<separator/>
 	   <menuitem action="InsertMeasure"/>
+	   <menuitem action="InsertMeasureBefore"/>
+	   <menuitem action="InsertMeasureAfter"/>
 	   <menuitem action="AppendMeasure"/>
 	   <menuitem action="AppendMeasureAllStaffs"/>
            <menuitem action="DeleteMeasureAllStaffs"/>
