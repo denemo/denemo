@@ -433,14 +433,55 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
 #endif
+  NEWPAGE("MIDI Device Manager");
+  hbox = gtk_hbox_new(TRUE, 5);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  
+  /* device view */
 
+  GtkListStore *device_store;
+  GtkWidget *device_list;
 
-  /*
-   * Help settings
-   */
-  //  NEWPAGE("Help Settings")
+  device_store = gtk_list_store_new (1, G_TYPE_STRING);
+  device_list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (device_store));
+  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (device_list),
+    0, "Client Devices", gtk_cell_renderer_text_new (),
+    "text", 0, NULL);
+  
+  for(i=0;i<3;i++){ 
+    gtk_list_store_append (device_store, &iter);
+    gtk_list_store_set (device_store, &iter,
+      0, "Jack:0", -1);
+  }
 
-  /* Set up the callback data */
+  gtk_box_pack_start (GTK_BOX (hbox), device_list, TRUE, TRUE, 0);
+  
+  /* port view */
+
+  GtkListStore *port_store;
+  GtkWidget *port_list;
+
+  port_store = gtk_list_store_new (1, G_TYPE_STRING);       
+  port_list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (port_store));
+  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (port_list),
+    0, "Ports", gtk_cell_renderer_text_new (), 
+    "text", 0, NULL);  
+  
+  for(i=0;i<3;i++){ 
+    gtk_list_store_append (port_store, &iter);
+    gtk_list_store_set (port_store, &iter,
+      0, "midi_output:0", -1);
+  }
+
+  gtk_box_pack_start (GTK_BOX (hbox), port_list, TRUE, TRUE, 0);
+    
+  /* add remove buttons */
+
+  BUTTON("Add Device", midi_add_device, NULL); 
+  BUTTON("Remove Device", midi_remove_device, NULL); 
+ 
+  BUTTON("Add Port", midi_device_add_port, NULL);
+  BUTTON("Remove Port", midi_device_remove_port, NULL);
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
