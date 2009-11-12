@@ -8,7 +8,7 @@
         <after>ParenthesizeNote</after>
         <action>ChordComment</action>
         <scheme>;;; ChordComment
-(d-DirectivePut-chord-override "ChordComment" (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_EDITOR))
+(d-DirectivePut-chord-override "ChordComment" DENEMO_OVERRIDE_EDITOR)
 (d-DirectivePut-chord-display "ChordComment" "comment")
 (d-RefreshDisplay)
 </scheme>
