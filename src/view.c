@@ -2163,7 +2163,7 @@ void load_local_scheme_init(void)  {
 */
 static void load_scheme_init(void)  {
   gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
-  
+  g_debug("System wide denemo.scm %s\n", filename);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
     eval_file_with_catch(filename);//scm_c_primitive_load(filename);
   else
@@ -2852,7 +2852,7 @@ INSTALL_EDIT(movementcontrol);
 
 
   install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
-
+ load_scheme_init();
  if(!initial_file){    
    gchar *init_file;
    init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
@@ -2866,7 +2866,7 @@ INSTALL_EDIT(movementcontrol);
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
      ;// open_user_default_template(REPLACE_SCORE);
  
- load_scheme_init();
+
  /* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }

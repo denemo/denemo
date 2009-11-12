@@ -394,6 +394,20 @@ insert_measure_key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
+/*InsertMeasureBefore insertmeasurebefore*/
+static void insertmeasurebefore_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insertmeasurebefore (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*InsertMeasureAfter insertmeasureafter*/
+static void insertmeasureafter_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insertmeasureafter (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
 /*AppendMeasure append_measure_key*/
 static void append_measure_key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

@@ -59,9 +59,11 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertTi
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTie"), "ToggleTie", "Toggle Tie", "Ties/unties the note at the cursor", toggle_tie);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteObject"), "DeleteObject", "Delete Object", "Delete the object at the cursor", deleteobject);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeletePreviousObject"), "DeletePreviousObject", "Delete Previous Object", "Delete to the left of the cursor.", deletepreviousobject);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasure"), "InsertMeasure", "Insert Measure", "Insert a blank measure before the current one (in all staffs)", insert_measure_key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasure"), "AppendMeasure", "Append Measure", "No Tooltip yet", append_measure_key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMeasure"), "DeleteMeasure", "Delete Measure", "Delete the current measure in this staff, leaving the staff short", deletemeasure);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasure"), "InsertMeasure", "Insert Measure All Staffs", "Insert a blank measure before the current one (in all staffs)", insert_measure_key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasureBefore"), "InsertMeasureBefore", "Staff Insert Measure", "Insert a blank measure before the current one (in current staff)", insertmeasurebefore);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasureAfter"), "InsertMeasureAfter", "Staff Insert Measure After", "Insert a blank measure in current staff after the current measure", insertmeasureafter);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasure"), "AppendMeasure", "Staff Append Measure", "No Tooltip yet", append_measure_key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMeasure"), "DeleteMeasure", "Staff Delete Measure", "Delete the current measure in this staff, leaving the staff short", deletemeasure);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMeasureAllStaffs"), "DeleteMeasureAllStaffs", "Delete Measure All Staffs", "Delete the current measure in all staffs", deletemeasureallstaffs);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ShrinkMeasures"), "ShrinkMeasures", "Shrink Measure", "No Tooltip yet", adjust_measure_less_width_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "WidenMeasures"), "WidenMeasures", "Widen Measures", "No Tooltip yet", adjust_measure_more_width_key);
