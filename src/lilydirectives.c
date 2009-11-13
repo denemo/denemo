@@ -2070,7 +2070,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
     if(GTK_IS_WIDGET(directive->widget))
       widget_for_directive(directive, NULL/* no need to pass fn in as it is only needed if there is not widget, g_object_get_data(directive->widget, "fn") */);
   }
-  if(directive->graphic){
+  if(directive->graphic_name && directive->graphic){
       loadGraphicItem (directive->graphic_name->str,  (GdkBitmap **)&directive->graphic,  &directive->width, &directive->height);
   }
   gtk_widget_destroy (dialog);
