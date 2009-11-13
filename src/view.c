@@ -348,6 +348,7 @@ static SCM scheme_execute_init(gchar *menupath) {
     eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
   }
   g_free(filename);
+  return SCM_BOOL(TRUE);
 }
 
 void execute_init_scripts(gchar *menupath) {
@@ -5760,9 +5761,6 @@ newview (GtkAction *action, gpointer param)
 static void
 newtab (GtkAction *action, gpointer param) {
   static gint id=1;
-#ifdef _HAVE_JACK_
-  stop_jack();
-#endif
   GtkActionGroup *action_group=Denemo.action_group;
   //  if(Denemo.guis==NULL)
   //    action_group = create_window();
