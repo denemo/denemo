@@ -348,6 +348,7 @@ static SCM scheme_execute_init(gchar *menupath) {
     eval_file_with_catch(filename);//ret = scm_c_primitive_load(filename);
   }
   g_free(filename);
+  return SCM_BOOL(TRUE);
 }
 
 void execute_init_scripts(gchar *menupath) {

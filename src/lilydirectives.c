@@ -1165,7 +1165,8 @@ static GtkWidget * create_text_window(void) {
   return textview;
 }
 
-static assign_text(GtkWidget *w, gchar *text) {
+static void
+assign_text(GtkWidget *w, gchar *text) {
   GtkTextBuffer *textbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(w));
   if(textbuffer)
     gtk_text_buffer_set_text(textbuffer, text, -1);
