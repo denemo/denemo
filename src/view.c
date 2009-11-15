@@ -1809,6 +1809,14 @@ static SCM scheme_get_type (SCM optional) {
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
+static SCM scheme_get_nonprinting (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || curObj->isinvisible)
+    return SCM_BOOL_T;
+  return SCM_BOOL_F;
+}
+
 
 
 
@@ -1850,14 +1858,17 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   gboolean was_appending = Denemo.gui->si->cursor_appending;
   if(right)
     cursorright (&param);
-  else
+  else {
     cursorleft (&param);
+    if(Denemo.gui->si->cursor_appending)
+	cursorleft (&param);
+  }
   if(right) {
     if(this!= Denemo.gui->si->currentobject)
       return TRUE;
     if(!within_measure) {
       if(Denemo.gui->si->cursor_appending)
-	cursorright (NULL);
+	cursorright (&param);
       if(this!= Denemo.gui->si->currentobject)
 	return TRUE;
     }
@@ -1867,7 +1878,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
       return TRUE;
     if(!within_measure) {
       if(was_appending)
-	cursorleft (NULL);
+	cursorleft (&param);
       if(this!= Denemo.gui->si->currentobject)
 	return TRUE;
     }
@@ -2260,6 +2271,7 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
   install_scm_function (DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
+install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
