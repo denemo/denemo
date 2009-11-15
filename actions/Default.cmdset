@@ -2819,6 +2819,29 @@ for second and subsequent systems</tooltip>
         <tooltip>Searches backward for the start of non-printing notes.</tooltip>
         <bind>Alt+Left</bind>
       </row>
+      <row>
+        <action>CreateOssiaStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+        <label>Create Ossia Staff</label>
+        <tooltip>Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures.</tooltip>
+      </row>
+      <row>
+        <action>ShowOssia</action>
+        <after>CreateOssiaStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+	<label>Show Ossia</label>
+        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+      </row>
+      <row>
+        <action>HideOssia</action>
+        <after>ShowOssia</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+        <label>Hide Ossia</label>
+        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
