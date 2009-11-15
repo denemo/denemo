@@ -302,28 +302,24 @@ set_properties (struct callbackdata *cbdata)
   score_status(cbdata->gui, TRUE);
 }
 
-void staff_properties_change_cb (GtkAction *action, gpointer param) {
-  if(action)
-    (void) staff_properties_change(NULL);
-  else if(param==NULL)
-    (void) staff_properties_change(NULL);
-  else {
-    GString *values = (GString *)param;
-    gchar *str;
-    DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-#define SET_STRING(a, b)     if( (str = g_strstr_len(values->str+i,strlen(values->str+i), a))) {\
-      if(staff->b)\
-	g_string_free(staff->b, TRUE);\
-      staff->b = g_string_new(str+strlen(a)+1);\
-    }
-    gint i;
-    for(i=0;i<values->len;i+=strlen(values->str+i)+1) {
-      // SET_STRING("staff-prolog-insert", staff_prolog_insert); 
-      //SET_STRING("voice-prolog-insert", voice_prolog_insert);
-    // others ....
-    }
-#undef SET_STRING
-  }
+void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
+  GET_1PARAM(action, param, denemo_name);
+  DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+
+ if(query) {
+   if(*query) if(!strcmp("denemo_name", query)) {
+     g_string_assign(param->string, staff->denemo_name->str);
+     param->status = TRUE;
+   }
+   return;
+ }
+ if(denemo_name) {
+   g_string_assign(staff->denemo_name, denemo_name);
+    param->status = TRUE;
+    return;
+
+ }
+ (void) staff_properties_change(NULL);
 }
 
 
