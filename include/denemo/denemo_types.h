@@ -169,14 +169,13 @@ typedef struct
   GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
   /**< Allots extra space for accidentals or reverse-aligned notes if
    * the stem is down */
-  gint space_before; /**< Used to specify how much space is needed before the object */
-  gint minpixelsalloted; 
+  gint space_before; /**< Used to specify how much space is needed before the object in display */
+  gint minpixelsalloted;  /**< horizontal space allowed for this object in display */
   gint x; /**< Holds x co-ordinate relative to the beginning of the measure. used in mousing.c */
   gboolean isstart_beamgroup; /**< TRUE if object is the start of a beam group */
   gboolean isend_beamgroup; /**< TRUE if this is the end of a beam group */
-  /* Mudelaobjunion u; has become a pointer*/
   gpointer object; /**< the structures pointed to are given in denemo_objects.h */
-  gboolean isinvisible; /**< If  TRUE it will be rendered white and will not be seen. If it is set FALSE then it will be drawn normally. */
+  gboolean isinvisible; /**< If  TRUE it will be drawn in a distinctive color and will be printed transparent. */
 } DenemoObject;
 
 
