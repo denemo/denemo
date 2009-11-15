@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>CreateOssiaStaff</action>
-        <scheme> ;;;;;; CreateOssiaStaff
+        <scheme>;;;;;; CreateOssiaStaff
 (let ((current "voice 1"))
   (set! current (d-StaffProperties "query=denemo_name"))
   (d-AddBefore)
@@ -21,13 +21,10 @@
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
     firstClef = ##f
-  }"
+  }&lt;&lt;{ \\stopStaff "
 			       )
   )
 (d-DirectivePut-staff-override "ossia" DENEMO_OVERRIDE_LILYPOND)
-(d-DirectivePut-standalone "StopStaff")
-(d-DirectivePut-standalone-postfix "StopStaff" "\\stopStaff ")
-(d-DirectivePut-standalone-display "StopStaff" "Ossia hide")
 (d-RefreshDisplay)
 </scheme>
         <label>Create Ossia Staff</label>

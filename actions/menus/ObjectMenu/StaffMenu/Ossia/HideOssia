@@ -7,12 +7,12 @@
       <row>
         <after>ShowOssia</after>
         <action>HideOssia</action>
-        <scheme> ;;;HideOssia
+        <scheme>;;;StopOssia
 (d-DirectivePut-standalone "StopStaff")
 (d-DirectivePut-standalone-postfix "StopStaff" "\\stopStaff ")
 (d-DirectivePut-standalone-display "StopStaff" "Hide")
-(d-RefreshDisplay)
-</scheme>
+(d-DirectivePut-standalone-ty "StopStaff" 40)
+(d-RefreshDisplay)</scheme>
         <label>Hide Ossia</label>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
       </row>
