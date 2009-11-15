@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CreateOssiaStaff</after>
+        <action>ShowOssia</action>
+        <scheme> ;;; ShowOssia
+(d-DirectivePut-standalone "StartStaff")
+(d-DirectivePut-standalone-postfix "StartStaff" "\\startStaff ")
+(d-DirectivePut-standalone-display "StartStaff" "Show")
+(d-RefreshDisplay)
+</scheme>
+        <label>Show Ossia</label>
+        <tooltip>Start showing the ossia staff from the cursor position when printing. Stop the ossia passage with HideOssia</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
