@@ -356,18 +356,28 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertMeasure</action>
-        <label>Insert Measure</label>
+        <label>Insert Measure All Staffs</label>
         <tooltip>Insert a blank measure before the current one (in all staffs)</tooltip>
         <bind>m</bind>
       </row>
       <row>
+        <action>InsertMeasureBefore</action>
+        <label>Staff Insert Measure</label>
+        <tooltip>Insert a blank measure before the current one (in current staff)</tooltip>
+      </row>
+      <row>
+        <action>InsertMeasureAfter</action>
+        <label>Staff Insert Measure After</label>
+        <tooltip>Insert a blank measure in current staff after the current measure</tooltip>
+      </row>
+      <row>
         <action>AppendMeasure</action>
-        <label>Append Measure</label>
+        <label>Staff Append Measure</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <label>Delete Measure</label>
+        <label>Staff Delete Measure</label>
         <tooltip>Delete the current measure in this staff, leaving the staff short</tooltip>
         <bind>Control+m</bind>
       </row>
@@ -883,6 +893,7 @@ the cursor position is the end point</tooltip>
         <action>ToggleBeginSlur</action>
         <label>Begin Slur</label>
         <tooltip>Insert/delete begin slur on this note</tooltip>
+        <bind>KP_Home</bind>
         <bind>parenleft</bind>
         <bind>PrsL-CapsLock</bind>
       </row>
@@ -890,6 +901,7 @@ the cursor position is the end point</tooltip>
         <action>ToggleEndSlur</action>
         <label>End Slur</label>
         <tooltip>Insert/delete end slur on this note</tooltip>
+        <bind>KP_Up</bind>
         <bind>parenright</bind>
         <bind>RlsL-CapsLock</bind>
       </row>
@@ -2873,6 +2885,15 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Multi-Measure Rests</label>
         <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
+      <row>
+        <action>FindEditPoint</action>
+        <after>NextHigher</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Find Edit Point</label>
+        <tooltip>Searches backward for the start of non-printing notes.</tooltip>
+        <bind>Alt+Left</bind>
       </row>
     </map>
   </commands>

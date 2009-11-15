@@ -354,9 +354,19 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertMeasure</action>
-        <label>Insert Measure</label>
+        <label>Insert Measure All Staffs</label>
         <tooltip>Insert a blank measure before the current one (in all staffs)</tooltip>
         <bind>m</bind>
+      </row>
+      <row>
+        <action>InsertMeasureBefore</action>
+        <label>Staff Insert Measure</label>
+        <tooltip>Insert a blank measure before the current one (in current staff)</tooltip>
+      </row>
+      <row>
+        <action>InsertMeasureAfter</action>
+        <label>Staff Insert Measure After</label>
+        <tooltip>Insert a blank measure in current staff after the current measure</tooltip>
       </row>
       <row>
         <action>AppendMeasure</action>
@@ -2799,6 +2809,15 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Multi-Measure Rests</label>
         <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
+      <row>
+        <action>FindEditPoint</action>
+        <after>NextHigher</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Find Edit Point</label>
+        <tooltip>Searches backward for the start of non-printing notes.</tooltip>
+        <bind>Alt+Left</bind>
       </row>
     </map>
   </commands>
