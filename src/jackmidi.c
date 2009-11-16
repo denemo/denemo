@@ -234,10 +234,12 @@ jackmidi_read_smf_events(){
     event = smf_get_next_event(Denemo.gui->si->smf);
     return TRUE;
   }
-
+  //TODO set a way to set client_number to use device $x
+  //maybe something than selects that track before note is played?
+  //or a function returning an int for device used on that track
   if ((get_time() - start_player) >= event->time_seconds){
     event = smf_get_next_event(Denemo.gui->si->smf);
-    jack_output_midi_event(event->midi_buffer);
+    jack_output_midi_event(event->midi_buffer); //Are these in the correct order?
   }
   return TRUE;
 }
@@ -355,14 +357,14 @@ remove_jack_midi_port(int client_number){
 }
 
 void
-remove_all_jack_midi_ports(gint index){
+remove_all_jack_midi_ports(int client_number){
   int err,i;
   err = 0;
 	
   for (i=0;i < MAX_NUMBER_OF_TRACKS;i++)
-    if (midi_device[index].output_ports[i]){
-      err = jack_port_unregister(midi_device[index].jack_client, midi_device[index].output_ports[i]);
-      midi_device[index].output_ports[i] = NULL;
+    if (midi_device[client_number].output_ports[i]){
+      err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
+      midi_device[client_number].output_ports[i] = NULL;
       g_debug("\nremoving jackmidi port number = %d\n", i);
     }
 }
@@ -379,11 +381,11 @@ remove_all_jack_midi_clients(){
 }
 
 int
-rename_jack_midi_port(int port_number, char *port_name){
+rename_jack_midi_port(int client_number, int port_number, char *port_name){
   int err = 0;
 
-  if (midi_device[0].output_ports[port_number] != NULL) //TODO needs changed
-    err = jack_port_set_name (midi_device[0].output_ports[port_number], port_name); //TODO
+  if (midi_device[client_number].output_ports[port_number] != NULL) //TODO needs changed
+    err = jack_port_set_name (midi_device[client_number].output_ports[port_number], port_name); //TODO
   g_debug("Trying to rename JACK port output_ports[%d] to %s\n",port_number, port_name);
   if (err)
     g_critical("Could not rename JACK port output_ports[%d] to %s",port_number, port_name);
