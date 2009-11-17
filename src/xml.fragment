@@ -5,6 +5,8 @@
 <menuitem action="4"/>
 <menuitem action="5"/>
 <menuitem action="6"/>
+<menuitem action="7"/>
+<menuitem action="8"/>
 <menuitem action="Change0"/>
 <menuitem action="Change1"/>
 <menuitem action="Change2"/>
@@ -12,6 +14,8 @@
 <menuitem action="Change4"/>
 <menuitem action="Change5"/>
 <menuitem action="Change6"/>
+<menuitem action="Change7"/>
+<menuitem action="Change8"/>
 <menuitem action="Insert0"/>
 <menuitem action="Insert1"/>
 <menuitem action="Insert2"/>
@@ -19,6 +23,8 @@
 <menuitem action="Insert4"/>
 <menuitem action="Insert5"/>
 <menuitem action="Insert6"/>
+<menuitem action="Insert7"/>
+<menuitem action="Insert8"/>
 <menuitem action="ChangeRest0"/>
 <menuitem action="ChangeRest1"/>
 <menuitem action="ChangeRest2"/>
@@ -26,6 +32,8 @@
 <menuitem action="ChangeRest4"/>
 <menuitem action="ChangeRest5"/>
 <menuitem action="ChangeRest6"/>
+<menuitem action="ChangeRest7"/>
+<menuitem action="ChangeRest8"/>
 <menuitem action="InsertRest0"/>
 <menuitem action="InsertRest1"/>
 <menuitem action="InsertRest2"/>
@@ -33,6 +41,8 @@
 <menuitem action="InsertRest4"/>
 <menuitem action="InsertRest5"/>
 <menuitem action="InsertRest6"/>
+<menuitem action="InsertRest7"/>
+<menuitem action="InsertRest8"/>
 <menuitem action="InsertA"/>
 <menuitem action="InsertB"/>
 <menuitem action="InsertC"/>
@@ -54,3 +64,5 @@
 <menuitem action="Set4"/>
 <menuitem action="Set5"/>
 <menuitem action="Set6"/>
+<menuitem action="Set7"/>
+<menuitem action="Set8"/>

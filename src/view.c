@@ -3210,7 +3210,7 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
 /* duration_code(gpointer function)
  * return an ascii code to indicate what duration (if any) function gives.
  * '0x0' means not a duration
- * chars 0123456 are the standard note durations
+ * chars 012345678 are the standard note durations
  * 
  */
 gchar duration_code(gpointer fn) {
@@ -3220,7 +3220,9 @@ gchar duration_code(gpointer fn) {
     fn==(gpointer)insert_chord_3key ? '3':
     fn==(gpointer)insert_chord_4key ? '4':
     fn==(gpointer)insert_chord_5key ? '5':
-    fn==(gpointer)insert_chord_6key ? '6':0;
+    fn==(gpointer)insert_chord_6key ? '6':
+    fn==(gpointer)insert_chord_7key ? '7':
+    fn==(gpointer)insert_chord_8key ? '8':0;
 }
 /* modifier_code(gpointer function)
  * return an ascii code to indicate what modifier (if any) function gives.
@@ -3242,7 +3244,9 @@ gchar modifier_code(gpointer fn) {
     fn==(gpointer)insert_rest_3key ? 'u':
     fn==(gpointer)insert_rest_4key ? 'v':
     fn==(gpointer)insert_rest_5key ? 'w':
-    fn==(gpointer)insert_rest_6key ? 'x':0;
+    fn==(gpointer)insert_rest_6key ? 'x':
+    fn==(gpointer)insert_rest_7key ? 'y':
+    fn==(gpointer)insert_rest_8key ? 'z':0;
 }
 
 gboolean code_is_a_duration(gchar code) {
@@ -3336,6 +3340,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       pattern = g_strdup("5");
     if(action ==  (gpointer)insert_chord_6key)
       pattern = g_strdup("6");
+    if(action ==  (gpointer)insert_chord_7key)
+      pattern = g_strdup("7");
+    if(action ==  (gpointer)insert_chord_8key)
+      pattern = g_strdup("8");
 
     if(action ==  (gpointer)insert_rest_0key)
       pattern = g_strdup("r");
@@ -3351,6 +3359,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       pattern = g_strdup("w");
     if(action ==  (gpointer)insert_rest_6key)
       pattern = g_strdup("x");
+    if(action ==  (gpointer)insert_rest_7key)
+      pattern = g_strdup("y");
+    if(action ==  (gpointer)insert_rest_8key)
+      pattern = g_strdup("z");
     if(pattern) {/* if we already have it globally we don't need it again
 		    note we never delete the singleton rhythms */
       if(Denemo.singleton_rhythms[*pattern]) {
@@ -3445,6 +3457,12 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		    case 6:
 		      fn = insert_chord_6key;
 		      break;
+		    case 7:
+		      fn = insert_chord_7key;
+		      break;
+		    case 8:
+		      fn = insert_chord_8key;
+		      break;
 		    }
 		    add_to_pattern(&pattern, duration_code(fn));
 		    append_rhythm(r, fn);
@@ -3471,6 +3489,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		      break;
 		      case 6:
 		      fn = insert_rest_6key;
+		      break;
+		      fn = insert_rest_7key;
+		      break;
+		      fn = insert_rest_8key;
 		      break;
 		    }
 		    add_to_pattern(&pattern, modifier_code(fn));
@@ -3532,9 +3554,9 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     gint i;
     for(g=r->rsteps, i=0;g;g=g->next, i++) {
       el = (RhythmElement*)g->data;
-      if(i==0 && (*(pattern)<'0' || *(pattern)>'6') && g->next)
+      if(i==0 && (*(pattern)<'0' || *(pattern)>'8') && g->next)
 	g  = g->next;// pattern does not start with a note, so we skip to the second element, unless there are no notes
-      while(*(pattern+i) && (*(pattern+i)<'0' || *(pattern+i)>'6'))
+      while(*(pattern+i) && (*(pattern+i)<'0' || *(pattern+i)>'8'))
 	i++;
       if(*(pattern+i)) {
 	*(pattern+i) += 20;
@@ -5883,6 +5905,8 @@ newtab (GtkAction *action, gpointer param) {
  create_rhythm_cb((gpointer)insert_chord_4key, NULL);   
  create_rhythm_cb((gpointer)insert_chord_5key, NULL); 
  create_rhythm_cb((gpointer)insert_chord_6key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_7key, NULL);   
+ create_rhythm_cb((gpointer)insert_chord_8key, NULL);   
 
 
  create_rhythm_cb((gpointer)insert_rest_0key, NULL); 
@@ -5892,6 +5916,8 @@ newtab (GtkAction *action, gpointer param) {
  create_rhythm_cb((gpointer)insert_rest_4key, NULL);   
  create_rhythm_cb((gpointer)insert_rest_5key, NULL); 
  create_rhythm_cb((gpointer)insert_rest_6key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_7key, NULL);   
+ create_rhythm_cb((gpointer)insert_rest_8key, NULL);   
 
 
   if (Denemo.prefs.articulation_palette)

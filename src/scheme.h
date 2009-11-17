@@ -99,6 +99,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ThirtysecondNote")), "scm
 SCM scheme_SixtyfourthNote(SCM optional);
 install_scm_function ("d-SixtyfourthNote", scheme_SixtyfourthNote);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SixtyfourthNote")), "scm", (gpointer)1);
+/*OneHundredTwentyEighthNote insert_chord_7key*/
+SCM scheme_OneHundredTwentyEighthNote(SCM optional);
+install_scm_function ("d-OneHundredTwentyEighthNote", scheme_OneHundredTwentyEighthNote);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "OneHundredTwentyEighthNote")), "scm", (gpointer)1);
+/*TwoHundredFiftySixthNote insert_chord_8key*/
+SCM scheme_TwoHundredFiftySixthNote(SCM optional);
+install_scm_function ("d-TwoHundredFiftySixthNote", scheme_TwoHundredFiftySixthNote);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "TwoHundredFiftySixthNote")), "scm", (gpointer)1);
 /*InsertBlankWholeNote insert_blankchord_0key*/
 SCM scheme_InsertBlankWholeNote(SCM optional);
 install_scm_function ("d-InsertBlankWholeNote", scheme_InsertBlankWholeNote);
@@ -127,6 +135,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertBlankThirtysecondNo
 SCM scheme_InsertBlankSixtyfourthNote(SCM optional);
 install_scm_function ("d-InsertBlankSixtyfourthNote", scheme_InsertBlankSixtyfourthNote);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertBlankSixtyfourthNote")), "scm", (gpointer)1);
+/*InsertBlankOneHundredTwentyEighthNote insert_blankchord_7key*/
+SCM scheme_InsertBlankOneHundredTwentyEighthNote(SCM optional);
+install_scm_function ("d-InsertBlankOneHundredTwentyEighthNote", scheme_InsertBlankOneHundredTwentyEighthNote);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertBlankOneHundredTwentyEighthNote")), "scm", (gpointer)1);
+/*InsertBlankTwoHundredFiftySixthNote insert_blankchord_8key*/
+SCM scheme_InsertBlankTwoHundredFiftySixthNote(SCM optional);
+install_scm_function ("d-InsertBlankTwoHundredFiftySixthNote", scheme_InsertBlankTwoHundredFiftySixthNote);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertBlankTwoHundredFiftySixthNote")), "scm", (gpointer)1);
 /*ToggleRestMode rest_toggle_key*/
 SCM scheme_ToggleRestMode(SCM optional);
 install_scm_function ("d-ToggleRestMode", scheme_ToggleRestMode);
@@ -1390,3 +1406,41 @@ install_scm_function ("d-InsertRest6", scheme_InsertRest6);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest6")), "scm", (gpointer)1);
 SCM scheme_ChangeRest6(SCM optional);
 install_scm_function ("d-ChangeRest6", scheme_ChangeRest6);
+/*7 */
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "7")), "scm", (gpointer)1);
+SCM scheme_7(SCM optional);
+install_scm_function ("d-7", scheme_7);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Insert7")), "scm", (gpointer)1);
+SCM scheme_InsertDur7(SCM optional);
+install_scm_function ("d-Insert7", scheme_InsertDur7);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Change7")), "scm", (gpointer)1);
+SCM scheme_ChangeDur7(SCM optional);
+install_scm_function ("d-Change7", scheme_ChangeDur7);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Set7")), "scm", (gpointer)1);
+SCM scheme_SetDur7(SCM optional);
+install_scm_function ("d-Set7", scheme_SetDur7);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest7")), "scm", (gpointer)1);
+SCM scheme_InsertRest7(SCM optional);
+install_scm_function ("d-InsertRest7", scheme_InsertRest7);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest7")), "scm", (gpointer)1);
+SCM scheme_ChangeRest7(SCM optional);
+install_scm_function ("d-ChangeRest7", scheme_ChangeRest7);
+/*8 */
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "8")), "scm", (gpointer)1);
+SCM scheme_8(SCM optional);
+install_scm_function ("d-8", scheme_8);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Insert8")), "scm", (gpointer)1);
+SCM scheme_InsertDur8(SCM optional);
+install_scm_function ("d-Insert8", scheme_InsertDur8);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Change8")), "scm", (gpointer)1);
+SCM scheme_ChangeDur8(SCM optional);
+install_scm_function ("d-Change8", scheme_ChangeDur8);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Set8")), "scm", (gpointer)1);
+SCM scheme_SetDur8(SCM optional);
+install_scm_function ("d-Set8", scheme_SetDur8);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertRest8")), "scm", (gpointer)1);
+SCM scheme_InsertRest8(SCM optional);
+install_scm_function ("d-InsertRest8", scheme_InsertRest8);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ChangeRest8")), "scm", (gpointer)1);
+SCM scheme_ChangeRest8(SCM optional);
+install_scm_function ("d-ChangeRest8", scheme_ChangeRest8);

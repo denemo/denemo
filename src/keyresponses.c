@@ -427,6 +427,23 @@ insert_chord_6key (DenemoGUI * gui)
 }
 
 void
+insert_chord_7key (DenemoGUI * gui)
+{
+
+    dnm_insertchord (gui, 7, gui->mode, FALSE);
+}
+
+void
+insert_chord_8key (DenemoGUI * gui)
+{
+
+    dnm_insertchord (gui, 8, gui->mode, FALSE);
+}
+
+
+
+
+void
 insert_rest_0key (DenemoGUI * gui)
 {
   dnm_insertchord (gui, 0, INPUTREST, TRUE);
@@ -468,6 +485,19 @@ insert_rest_6key (DenemoGUI * gui)
 {
   dnm_insertchord (gui, 6, INPUTREST, TRUE);
 }
+
+void
+insert_rest_7key (DenemoGUI * gui)
+{
+  dnm_insertchord (gui, 7, INPUTREST, TRUE);
+}
+
+void
+insert_rest_8key (DenemoGUI * gui)
+{
+  dnm_insertchord (gui, 8, INPUTREST, TRUE);
+}
+
 
 
 void
@@ -524,6 +554,21 @@ insert_blankchord_6key (DenemoGUI * gui)
 
 }
 
+void
+insert_blankchord_7key (DenemoGUI * gui)
+{
+
+  dnm_insertchord (gui, 7, INPUTBLANK, FALSE);
+
+}
+
+void
+insert_blankchord_8key (DenemoGUI * gui)
+{
+
+  dnm_insertchord (gui, 8, INPUTBLANK, FALSE);
+
+}
 
 
 void

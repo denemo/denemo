@@ -76,7 +76,7 @@
 
 gint restwidths[SMALLESTDURATION + 1] =
   { WHOLEREST_WIDTH, HALFREST_WIDTH, QUARTERREST_WIDTH, EIGHTHREST_WIDTH,
-  SIXTEENTHREST_WIDTH, THIRTYSECONDREST_WIDTH, SIXTYFOURTHREST_WIDTH
+  SIXTEENTHREST_WIDTH, THIRTYSECONDREST_WIDTH, SIXTYFOURTHREST_WIDTH, HUNDREDTWENTYEIGHTHREST_WIDTH, TWOHUNDREDFIFTYSIXTHREST_WIDTH
 };
 gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 };
@@ -117,13 +117,15 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
   static gint restheights[SMALLESTDURATION + 1] =
     { WHOLEREST_HEIGHT, HALFREST_HEIGHT, QUARTERREST_HEIGHT,
     EIGHTHREST_HEIGHT,
-    SIXTEENTHREST_HEIGHT, THIRTYSECONDREST_HEIGHT, SIXTYFOURTHREST_HEIGHT
+    SIXTEENTHREST_HEIGHT, THIRTYSECONDREST_HEIGHT, SIXTYFOURTHREST_HEIGHT, HUNDREDTWENTYEIGHTHREST_HEIGHT, TWOHUNDREDFIFTYSIXTHREST_HEIGHT
   };
   static gint restoffsets[SMALLESTDURATION + 1] =
     { WHOLEREST_OFFSETFROMTOP, HALFREST_OFFSETFROMTOP,
     QUARTERREST_OFFSETFROMTOP, EIGHTHREST_OFFSETFROMTOP,
     SIXTEENTHREST_OFFSETFROMTOP, THIRTYSECONDREST_OFFSETFROMTOP,
-    SIXTYFOURTHREST_OFFSETFROMTOP
+    SIXTYFOURTHREST_OFFSETFROMTOP,
+    HUNDREDTWENTYEIGHTHREST_OFFSETFROMTOP,
+    TWOHUNDREDFIFTYSIXTHREST_OFFSETFROMTOP
   };
 
   if (!rests[0])
@@ -135,6 +137,8 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
       rests[4] = bitmaphelper (NULL, feta26_rests_4);
       rests[5] = bitmaphelper (NULL, feta26_rests_5);
       rests[6] = bitmaphelper (NULL, feta26_rests_6);
+      rests[7] = bitmaphelper (NULL, feta26_rests_6);
+      rests[8] = bitmaphelper (NULL, feta26_rests_6);
     }
   drawbitmapinverse (pixmap, gc, rests[duration],
 		     xx, y + restoffsets[duration],
@@ -316,8 +320,10 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   static GdkBitmap *graceflags[2];
   static gint stemheights[SMALLESTDURATION + 1] =
     { 0, 0, 0, EIGHTHSTEM_HEIGHT, SIXTEENTHSTEM_HEIGHT,
-    THIRTYSECONDSTEM_HEIGHT,
-    SIXTYFOURTHSTEM_HEIGHT
+      THIRTYSECONDSTEM_HEIGHT,
+      SIXTYFOURTHSTEM_HEIGHT,
+      HUNDREDTWENTYEIGHTHSTEM_HEIGHT,
+      TWOHUNDREDFIFTYSIXTHSTEM_HEIGHT
   };
 
 
@@ -345,10 +351,14 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       upstems[4] = bitmaphelper (NULL, feta26_flags_u4);
       upstems[5] = bitmaphelper (NULL, feta26_flags_u5);
       upstems[6] = bitmaphelper (NULL, feta26_flags_u6);
+      upstems[7] = bitmaphelper (NULL, feta26_flags_u6);
+      upstems[8] = bitmaphelper (NULL, feta26_flags_u6);
       downstems[3] = bitmaphelper (NULL, feta26_flags_d3);
       downstems[4] = bitmaphelper (NULL, feta26_flags_d4);
       downstems[5] = bitmaphelper (NULL, feta26_flags_d5);
       downstems[6] = bitmaphelper (NULL, feta26_flags_d6);
+      downstems[7] = bitmaphelper (NULL, feta26_flags_d6);
+      downstems[8] = bitmaphelper (NULL, feta26_flags_d6);
       graceflags[0] = bitmaphelper (NULL, feta26_flags_ugrace);
       graceflags[1] = bitmaphelper (NULL, feta26_flags_dgrace);
 

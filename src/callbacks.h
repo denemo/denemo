@@ -142,6 +142,20 @@ insert_chord_6key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
+/*OneHundredTwentyEighthNote insert_chord_7key*/
+static void insert_chord_7key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_chord_7key (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*TwoHundredFiftySixthNote insert_chord_8key*/
+static void insert_chord_8key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_chord_8key (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
 /*InsertBlankWholeNote insert_blankchord_0key*/
 static void insert_blankchord_0key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
@@ -188,6 +202,20 @@ displayhelper (gui);
 static void insert_blankchord_6key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
 insert_blankchord_6key (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*InsertBlankOneHundredTwentyEighthNote insert_blankchord_7key*/
+static void insert_blankchord_7key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_blankchord_7key (gui);
+displayhelper (gui);
+  score_status(gui, TRUE);
+}
+/*InsertBlankTwoHundredFiftySixthNote insert_blankchord_8key*/
+static void insert_blankchord_8key_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+insert_blankchord_8key (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
@@ -1819,6 +1847,136 @@ static void Dur6  (GtkAction *action, gpointer param) {
    ChangeDur6 (action, param);
 else {
  insert_chord_6key(gui);
+  score_status(gui, TRUE);
+ displayhelper(gui);
+ }
+}
+static void InsertRest7(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_rest(gui, 7);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTREST;
+  insert_chord_7key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void ChangeRest7(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    cursorleft(NULL);
+  gui->mode = INPUTEDIT|INPUTREST;
+  insert_chord_7key(gui);
+  gui->mode = mode;
+  if(appending)
+    cursorright(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+void InsertDur7(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 7);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  insert_chord_7key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void ChangeDur7(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    cursorleft(NULL);
+  gui->mode = INPUTEDIT|INPUTNORMAL;
+  insert_chord_7key(gui);
+  gui->mode = mode;
+  if(appending)
+    cursorright(NULL);
+  displayhelper(gui);
+}
+static void SetDur7(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 7);
+//  displayhelper(gui);
+}
+static void Dur7  (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+ if(gui->mode&INPUTINSERT)
+   highlight_duration(gui, 7);
+ else 
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+   ChangeDur7 (action, param);
+else {
+ insert_chord_7key(gui);
+  score_status(gui, TRUE);
+ displayhelper(gui);
+ }
+}
+static void InsertRest8(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_rest(gui, 8);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTREST;
+  insert_chord_8key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void ChangeRest8(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    cursorleft(NULL);
+  gui->mode = INPUTEDIT|INPUTREST;
+  insert_chord_8key(gui);
+  gui->mode = mode;
+  if(appending)
+    cursorright(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+void InsertDur8(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 8);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  insert_chord_8key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void ChangeDur8(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gboolean appending = gui->si->cursor_appending;
+  if(appending)
+    cursorleft(NULL);
+  gui->mode = INPUTEDIT|INPUTNORMAL;
+  insert_chord_8key(gui);
+  gui->mode = mode;
+  if(appending)
+    cursorright(NULL);
+  displayhelper(gui);
+}
+static void SetDur8(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  highlight_duration(gui, 8);
+//  displayhelper(gui);
+}
+static void Dur8  (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+ if(gui->mode&INPUTINSERT)
+   highlight_duration(gui, 8);
+ else 
+ if( (!gui->mode&INPUTRHYTHM) && (gui->mode&INPUTEDIT) && (!gui->si->cursor_appending))
+   ChangeDur8 (action, param);
+else {
+ insert_chord_8key(gui);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
