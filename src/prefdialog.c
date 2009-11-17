@@ -193,8 +193,6 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *notebook;
   GtkWidget *hbox;
   GtkWidget *vbox;
-  GtkListStore *list_store;
-  GtkWidget *tree;
   GtkTreeIter iter;
   GtkTreeViewColumn *column;
   GtkCellRenderer *renderer;

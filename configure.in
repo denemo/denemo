@@ -200,6 +200,7 @@ AC_OUTPUT(
   actions/Makefile
   po/Makefile.in
   fonts/Makefile
+  soundfonts/Makefile
   examples/Makefile
   templates/Makefile
   templates/band/Makefile
