@@ -595,15 +595,16 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
  * @param y    y position of the staff
  * @param gui   pointer to the DenemoGUI structure
  * @param itp  pointer to the infotopass structure
+ * return TRUE if the staff has had to made taller
  */
-static void
+static gboolean
 draw_staff (DenemoStaff * curstaffstruct, gint y,
 	    DenemoGUI * gui, struct infotopass *itp)
 {
   PangoContext *context;
   PangoLayout *layout;
   PangoFontDescription *desc;
-
+  gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint x, i;
   GdkGC *gc;
@@ -650,7 +651,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - staffname_offset, layout);
 
 
-  gint title_highy = 0;
+  // gint title_highy = 0;
 
   pango_font_description_free (desc);
 
@@ -677,10 +678,19 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
       itp->measurenum++;
+
+      if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE){
+	curstaffstruct->space_above = -itp->highy;
+	repeat = TRUE;
+      }
+      if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
+	curstaffstruct->space_below = itp->lowy;
+	repeat=TRUE;
+      }				      
     }
 
-  if(itp->highy > title_highy)
-    itp->highy = title_highy;
+  // if(itp->highy > title_highy)
+  //  itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
   for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE)
@@ -694,6 +704,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
+  return repeat;
 }
 
 /**
@@ -780,14 +791,15 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     gboolean *wronglength = (gboolean *)g_malloc((sizeof(gboolean))*(2+si->rightmeasurenum - si->leftmeasurenum));
     itp.wronglengths = wronglength;
-    draw_staff (staff, y, gui, &itp);
+    repeat = draw_staff (staff, y, gui, &itp);
 
+#if 0
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
     if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
       /*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/staff->space_above = -itp.highy, repeat=TRUE;
     if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
       staff->space_below = itp.lowy, repeat=TRUE;
-
+#endif
     gint measures_in_staff = g_list_length(staff->measures);
     /* Now draw the barlines between the measures, across all the staffs */
     mwidthiterator = g_list_nth (si->measurewidths, si->leftmeasurenum - 1);

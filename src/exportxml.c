@@ -714,10 +714,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
           PUTCHILD(DENEMO_GROUP_START, GROUP_START_STRING);
           PUTCHILD(DENEMO_GROUP_END, GROUP_END_STRING);
 #undef PUTCHILD
-	  newXMLIntChild (curElem, ns, (xmlChar *) "space_above",
-			  curStaffStruct->space_above);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "space_below",
-			  curStaffStruct->space_below);
+	  //  newXMLIntChild (curElem, ns, (xmlChar *) "space_above",
+	  //		  curStaffStruct->space_above);
+	  // newXMLIntChild (curElem, ns, (xmlChar *) "space_below",
+	  //		  curStaffStruct->space_below);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "hasfigures",
 			  curStaffStruct->hasfigures);
 

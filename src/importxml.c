@@ -1963,14 +1963,14 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	else if (ELEM_NAME_EQ (childElem, "transpose"))
 	  {
 	    curStaff->transposition = getXMLIntChild (childElem);
-	  }
+	  }	
 	else if (ELEM_NAME_EQ (childElem, "space_above"))
-	  {
-	    curStaff->space_above = getXMLIntChild (childElem);
+	  {//  set dynamically now
+	    //   curStaff->space_above = getXMLIntChild (childElem);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "space_below"))
-	  {
-	    curStaff->space_below = getXMLIntChild (childElem);
+	  {//  set dynamically now
+	    //    curStaff->space_below = getXMLIntChild (childElem);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "hasfigures"))
 	  {
