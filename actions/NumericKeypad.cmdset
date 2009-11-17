@@ -157,6 +157,16 @@
         <tooltip>Insert sixty-fourth-note</tooltip>
       </row>
       <row>
+        <action>OneHundredTwentyEighthNote</action>
+        <label>128th</label>
+        <tooltip>Insert 128th-note</tooltip>
+      </row>
+      <row>
+        <action>TwoHundredFiftySixthNote</action>
+        <label>256th</label>
+        <tooltip>Insert 256th-note</tooltip>
+      </row>
+      <row>
         <action>InsertBlankWholeNote</action>
         <label>Insert Blank Whole Note</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -189,6 +199,16 @@
       <row>
         <action>InsertBlankSixtyfourthNote</action>
         <label>Insert Blank Sixty Forth Note</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>InsertBlankOneHundredTwentyEighthNote</action>
+        <label>Insert Blank one hundred and twenty eighth Note</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>InsertBlankTwoHundredFiftySixthNote</action>
+        <label>Insert Blank two hundred and fifty sixth Note</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -1970,6 +1990,76 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;
+In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;
+ or appends a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt; if no current note
+In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt; at the cursor</tooltip>
+      </row>
+      <row>
+        <action>Change7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Insert7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>InsertRest7</action>
+        <label>Insert a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;rest</label>
+        <tooltip>Inserts a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>ChangeRest7</action>
+        <label>Change a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;rest</label>
+        <tooltip>Changes a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
+In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
+ or appends a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt; if no current note
+In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt; at the cursor</tooltip>
+      </row>
+      <row>
+        <action>Change8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Insert8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>InsertRest8</action>
+        <label>Insert a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;rest</label>
+        <tooltip>Inserts a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>ChangeRest8</action>
+        <label>Change a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;rest</label>
+        <tooltip>Changes a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
@@ -2907,7 +2997,7 @@ for second and subsequent systems</tooltip>
         <after>CreateOssiaStaff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
-	<label>Show Ossia</label>
+        <label>Show Ossia</label>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
       </row>
       <row>
@@ -2917,6 +3007,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
         <label>Hide Ossia</label>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+      </row>
+      <row>
+        <action>NineEightTuplet</action>
+        <after>ToggleTripleting</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>9 in time of 8</label>
+        <tooltip>Starts 9/8 tuplet, use EndTuplet to finish. Note Denemo will not display as tuplet, but printing will be correct.</tooltip>
       </row>
     </map>
   </commands>

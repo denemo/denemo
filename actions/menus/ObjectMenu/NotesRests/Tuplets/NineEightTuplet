@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ToggleTripleting</after>
+        <action>NineEightTuplet</action>
+        <scheme>;;;NineEightTuplet
+(d-DirectivePut-standalone-minpixels "NineEightTuplet" 20)
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "NineEightTuplet" " \\times 8/9 { ")
+(d-DirectivePut-standalone-display "NineEightTuplet" "~9/8")
+(d-CursorRight)
+(d-RefreshDisplay)</scheme>
+        <label>9 in time of 8</label>
+        <tooltip>Starts 9/8 tuplet, use EndTuplet to finish. Note Denemo will not display as tuplet, but printing will be correct.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
