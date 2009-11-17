@@ -423,6 +423,40 @@ insert_chord_6key_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
+SCM scheme_OneHundredTwentyEighthNote (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_chord_7key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_TwoHundredFiftySixthNote (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_chord_8key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
 SCM scheme_InsertBlankWholeNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
@@ -539,6 +573,40 @@ if(!strncmp("query",str,5)) query = TRUE;          }
          param.status = FALSE;
          
 insert_blankchord_6key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertBlankOneHundredTwentyEighthNote (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_blankchord_7key_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_InsertBlankTwoHundredFiftySixthNote (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(SCM_STRINGP(optional)){
+str = gh_scm2newstr(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+insert_blankchord_8key_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
@@ -5388,5 +5456,53 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeRest6 (SCM optional) {
 ChangeRest6 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_7 (SCM optional) {
+Dur7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_InsertDur7 (SCM optional) {
+InsertDur7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_ChangeDur7 (SCM optional) {
+ChangeDur7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_SetDur7 (SCM optional) {
+SetDur7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_InsertRest7 (SCM optional) {
+InsertRest7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_ChangeRest7 (SCM optional) {
+ChangeRest7 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_8 (SCM optional) {
+Dur8 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_InsertDur8 (SCM optional) {
+InsertDur8 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_ChangeDur8 (SCM optional) {
+ChangeDur8 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_SetDur8 (SCM optional) {
+SetDur8 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_InsertRest8 (SCM optional) {
+InsertRest8 (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_ChangeRest8 (SCM optional) {
+ChangeRest8 (NULL, NULL);
 return SCM_BOOL(TRUE);
 }

@@ -89,6 +89,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert sixteenth-note",	N_("SixteenthNote"), "insert_chord_4key", "\"MUSIC_FONT(\"4\")\"", N_("Insert Sixteenth Note")},
   {CMD_CATEGORY_NOTE_ENTRY,NULL, "Insert thirty-second-note",	N_("ThirtysecondNote"), "insert_chord_5key", "\"MUSIC_FONT(\"5\")\"", N_("Insert Thirty Second Note")},
   {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert sixty-fourth-note",	N_("SixtyfourthNote"), "insert_chord_6key", "\"MUSIC_FONT(\"6\")\"", N_("Insert Sixty Forth Note")},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert 128th-note",	N_("OneHundredTwentyEighthNote"), "insert_chord_7key", "128th", N_("Insert Sixty Forth Note")},
+  {CMD_CATEGORY_NOTE_ENTRY,NULL , "Insert 256th-note",	N_("TwoHundredFiftySixthNote"), "insert_chord_8key", "256th", N_("Insert Two Hundred Sixth Fourth Note")},
+
+
+
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankWholeNote"), "insert_blankchord_0key", N_("Insert Blank Whole Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankHalfNote"), "insert_blankchord_1key", N_("Insert Blank Half Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankQuarterNote"), "insert_blankchord_2key", N_("Insert Blank Quarter Note")},
@@ -96,6 +101,12 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixteenthNote"), "insert_blankchord_4key", N_("Insert Blank Sixteenth Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankThirtysecondNote"), "insert_blankchord_5key", N_("Insert Blank Thirty Second Note")},
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankSixtyfourthNote"), "insert_blankchord_6key", N_("Insert Blank Sixty Forth Note")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankOneHundredTwentyEighthNote"), "insert_blankchord_7key", N_("Insert Blank one hundred and twenty eighth Note")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertBlankTwoHundredFiftySixthNote"), "insert_blankchord_8key", N_("Insert Blank two hundred and fifty sixth Note")},
+
+
+
+
   {CMD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleRestMode"), "rest_toggle_key", N_("Toggle Rest Mode")},
   {CMD_CATEGORY_EDIT, NULL, "No Tooltip yet",	N_("ToggleBlankMode"), "toggle_blank", N_("Toggle Blank Mode")},
 
@@ -584,7 +595,7 @@ int main() {
      typed at the keyboard to set prevailing rhythm, so the callback has to
      include code for this */
 
-  for(i=0;i<7;i++) {
+  for(i=0;i<9;i++) {
     /* callbacks for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... SetDur0,1,2... */
     fprintf(callbacks, 
 "static void InsertRest%d(GtkAction *action, gpointer param){\n"
@@ -687,15 +698,15 @@ int main() {
   }
 
 
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"%d\"/>\n", i);
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"Change%d\"/>\n", i);
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"Insert%d\"/>\n", i);
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"ChangeRest%d\"/>\n", i);
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"InsertRest%d\"/>\n", i);
   
   for(i='A';i<='G';i++) 
@@ -703,7 +714,7 @@ int main() {
   for(i='A';i<='G';i++) 
     fprintf(xml, "<menuitem action=\"ChangeTo%c\"/>\n", i);
 
-  for(i=0;i<7;i++) 
+  for(i=0;i<9;i++) 
     fprintf(xml, "<menuitem action=\"Set%d\"/>\n", i);
 
   /* menu_entries for the mode    note name    */
@@ -770,7 +781,7 @@ int main() {
 
   }
 
-  for(i=0;i<7;i++) {
+  for(i=0;i<9;i++) {
     /* registering commands for mode independent duration actions InsertRest0,1,2... ChangeRest0,1,2... InsertDur,ChangeDur0,1,2... */
     fprintf(register_commands, 
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"%d\"), \"%d\", N_(MUSIC_FONT(\"%d\")), N_(\"In insert mode, changes prevailing rhythm to \"MUSIC_FONT(\"%d\")\"\\nIn edit mode changes the current note to \"MUSIC_FONT(\"%d\")\"\\n or appends a \"MUSIC_FONT(\"%d\")\" if no current note\\nIn classic mode inserts a \"MUSIC_FONT(\"%d\")\" at the cursor\"), Dur%d);\n", i, i, i, i, i, i, i, i);
