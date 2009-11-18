@@ -307,13 +307,13 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
-#define BUTTON(thelabel, field, thecallback) \
+#define BUTTON(thelabel, field, thecallback, data) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
   GtkWidget *field = gtk_button_new_with_label(thelabel);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   g_signal_connect (G_OBJECT (field), "clicked",\
-  G_CALLBACK (thecallback), (gpointer) NULL);
+  G_CALLBACK (thecallback), (gpointer) data);
 
   /*
    * Note entry settings
@@ -430,7 +430,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
   /* Start/Restart Button */
-  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart);
+  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
 #endif
   /*
    * Fluidsynth Menu
@@ -438,7 +438,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_FLUIDSYNTH_
   NEWPAGE("FLUIDSYNTH");
   /* Start/Restart Button */
-  BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart)
+  BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
 
   /*TODO ifdef differnet os's and support
    *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
@@ -508,11 +508,11 @@ preferences_change (GtkAction *action, gpointer param)
     
   /* add remove buttons */
 
-  BUTTON("Add Device", midi_add_device, device_manager_create_device); 
-  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device); 
+  BUTTON("Add Device", midi_add_device, device_manager_create_device, NULL); 
+  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
  
-  BUTTON("Add Port", midi_device_add_port, NULL);
-  BUTTON("Remove Port", midi_device_remove_port, NULL);
+  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, 1);//TODO replace 1 with selection variable 
+  BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, 1);
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
