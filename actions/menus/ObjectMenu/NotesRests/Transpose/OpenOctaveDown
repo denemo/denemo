@@ -8,8 +8,8 @@
         <after>OpenOctaveUp</after>
         <action>OpenOctaveDown</action>
         <scheme>  ;;;;OpenOctaveDown
-(d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c,{")
-(d-CursorLeft)
+ (d-Directive-standalone "OpenPrintTransposed")
+ (d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c,{")
 (d-DirectivePut-standalone-display "OpenPrintTransposed" "Down8va")
 (d-RefreshDisplay)</scheme>
         <label>(Print) Open { Octave Down</label>
