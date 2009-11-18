@@ -11,9 +11,11 @@
 ( let ((top #f) (bottom #f) (DirectiveText #f) (DirectiveDisplay #f) )
 (set! top (d-GetUserInput "Enter tuplet numerator " "Enter the fraction to multiply the duration by,\nnumerator first. E.g., for triplets, enter 2, then 3. \nNumerator:" "2" ) )
 (set! bottom (d-GetUserInput "Enter tuplet denominator" "Enter the fraction's denominator:" "3" ) )
+
+(if (not (d-Directive-standalone? "Tuplet"))
+	(d-DirectivePut-standalone "Tuplet"))
 (d-DirectivePut-standalone-minpixels "Tuplet" 20)
-(d-CursorLeft)
-(set! DirectiveText (string-append "\\times " top "/" bottom " { ") )
+(set! DirectiveText (string-append "\\times " top "/" bottom " { ") )	
 (set! DirectiveDisplay (string-append "~" bottom "/" top) )
 (d-DirectivePut-standalone-postfix "Tuplet" DirectiveText)
 (d-DirectivePut-standalone-display "Tuplet" DirectiveDisplay )
