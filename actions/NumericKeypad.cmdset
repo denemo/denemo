@@ -3009,12 +3009,12 @@ for second and subsequent systems</tooltip>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
       </row>
       <row>
-        <action>NineEightTuplet</action>
-        <after>ToggleTripleting</after>
+        <action>StartTuplet</action>
+        <after>StartTriplet</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
-        <label>9 in time of 8</label>
-        <tooltip>Starts 9/8 tuplet, use EndTuplet to finish. Note Denemo will not display as tuplet, but printing will be correct.</tooltip>
+        <label>Start Arbitrary Tuplet</label>
+        <tooltip>Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc.</tooltip>
       </row>
     </map>
   </commands>

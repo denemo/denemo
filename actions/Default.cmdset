@@ -2842,6 +2842,14 @@ for second and subsequent systems</tooltip>
         <label>Hide Ossia</label>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
       </row>
+      <row>
+        <action>StartTuplet</action>
+        <after>StartTriplet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Start Arbitrary Tuplet</label>
+        <tooltip>Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
