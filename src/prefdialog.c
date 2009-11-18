@@ -180,6 +180,39 @@ set_preferences (struct callbackdata *cbdata)
   writeXMLPrefs (prefs);
 }
 
+//TODO Maybe this belongs somewhere else. Perhaps its own file
+void device_manager_create_device()
+{
+  if(create_jack_midi_client() >= 0){
+    g_debug("\nJust added device\n");
+    //add to or refresh GtkTree 
+  }
+}
+
+void device_manager_remove_device()
+{
+  if(remove_jack_midi_client() >= 0){
+    g_debug("\nJust removed device\n");
+    //remove or refresh GtkTree 
+  }
+}
+
+void device_manager_create_port(gint client_number)
+{
+  if(create_jack_midi_port(client_number) >= 0){
+    g_debug("\nJust removed device\n");
+    //add to or refresh GtkTree 
+  }
+}
+
+void device_manager_remove_port(gint client_number)
+{
+  if(remove_jack_midi_port(client_number) >= 0){
+    g_debug("\nJust removed device\n");
+    //remove or refresh GtkTree 
+  }
+}
+
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -475,8 +508,8 @@ preferences_change (GtkAction *action, gpointer param)
     
   /* add remove buttons */
 
-  BUTTON("Add Device", midi_add_device, NULL); 
-  BUTTON("Remove Device", midi_remove_device, NULL); 
+  BUTTON("Add Device", midi_add_device, device_manager_create_device); 
+  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device); 
  
   BUTTON("Add Port", midi_device_add_port, NULL);
   BUTTON("Remove Port", midi_device_remove_port, NULL);
