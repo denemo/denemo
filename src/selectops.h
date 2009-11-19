@@ -17,6 +17,8 @@ enum drag_selection_type
   WHOLE_STAFFS
 };
  
+DenemoObjType  get_nth_type(gint n);
+
 void clearbuffer ();
 
 void saveselection(DenemoScore *si);

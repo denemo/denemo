@@ -1799,6 +1799,21 @@ static SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+//return the type of the nth object in the copybuffer
+static SCM scheme_get_nth(SCM n) {
+ gint value = scm_num2int(n, 0, 0);
+ DenemoObjType type = get_nth_type(value);
+ return  scm_int2num(type);
+}
+
+//insert the nth object from the denemo copybuffer
+static SCM scheme_put_nth(SCM n) {
+ gint value = scm_num2int(n, 0, 0);
+ return SCM_BOOL(insert_nth(value));
+}
+
+
+
 static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -2118,6 +2133,13 @@ static void define_scheme_constants(void) {
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
 
+  {
+    gint i;
+    for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 
+      DEF_SCHEME_CONST(DenemoObjTypeNames[i], i);
+  }
+
+
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST
 }
@@ -2271,6 +2293,10 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function_with_param (DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
   install_scm_function (DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
+
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNth",  scheme_get_nth);
+  install_scm_function (DENEMO_SCHEME_PREFIX"PutNth",  scheme_put_nth);
+
 install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
