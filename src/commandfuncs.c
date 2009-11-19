@@ -315,7 +315,7 @@ there is a function newclefify and fixnoteheights...
   else
     si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				    si->cursor_x);
-
+  // g_print("object %p cursorx %d length %d\n", si->currentobject, si->cursor_x, g_list_length(si->currentmeasure->data));
   update_undo_info (si, undo);
 
   score_status(gui, TRUE);
@@ -1321,7 +1321,7 @@ void
 insertmeasureafter (DenemoGUI *gui)
 {
   DenemoScore *si = Denemo.gui->si;
-  si->currentmeasure = addmeasures (si, si->currentmeasurenum, 1, 0);
+  si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 0);
   si->cursor_x = 0;
   si->cursor_appending = TRUE;
   si->currentobject = NULL;
@@ -1348,9 +1348,6 @@ insertmeasurebefore (DenemoGUI *gui)
   calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
-
-
-
 
 /**
  * Add measure to the end of the score
