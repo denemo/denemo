@@ -101,7 +101,7 @@ static gchar *DenemoObjTypeNames[] =
   "FAKECHORD",
   "PARTIAL"
 };
-#define DENEMO_OBJECT_TYPE_NAME(obj) (obj?((obj->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[obj->type]:NULL):NULL)
+#define DENEMO_OBJECT_TYPE_NAME(obj) ((obj)?(((obj)->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[(obj)->type]:NULL):NULL)
 
 
 /**

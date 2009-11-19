@@ -358,6 +358,43 @@ cuttobuffer (DenemoScore * si)
     gtk_widget_draw (si->scorearea, NULL);  */
 }
 
+
+
+DenemoObjType get_nth_type(gint n) {
+  if(copybuffer==NULL)
+    return -1;
+  GList *curbufferobj = g_list_nth(copybuffer->data, n);
+  if(curbufferobj==NULL || curbufferobj->data==NULL )
+    return -1;
+  return ((DenemoObject*)(curbufferobj->data))->type;
+}
+
+// insert the nth object from the copybuffer into music at the cursor position
+// return TRUE if inserted
+gboolean insert_nth(gint n) {
+  DenemoScore *si = Denemo.gui->si;
+  if(copybuffer==NULL)
+    return FALSE;
+  objnode *curbufferobj = g_list_nth(copybuffer->data, n);
+  if(curbufferobj==NULL)
+    return FALSE;
+  DenemoObject *clonedobj; 
+  DenemoObject *curobj = (DenemoObject*)curbufferobj->data; 
+  clonedobj = dnm_clone_object (curobj);
+  
+  clonedobj->starttick = (si->currentobject?
+			     ((DenemoObject *)si->currentobject->data)->starttickofnextnote: 0);
+  Denemo.gui->si->currentmeasure->data =
+    g_list_insert ((objnode *)si->currentmeasure->data,
+		   clonedobj, si->cursor_x);
+  si->cursor_x++;
+  if (si->cursor_appending)
+    si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);
+  else
+    si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
+				    si->cursor_x);
+  return TRUE;
+}
 /**
  * pastefrombuffer
  * Pastes the current buffer to the score
