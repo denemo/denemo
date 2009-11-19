@@ -765,7 +765,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		       gint * pcur_stime2)
 {
   GString *ret = g_string_new ("");
-#define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), g_string_assign(ret, "")
+#define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), \
+    open_braces +=  brace_count(ret->str), \
+    g_string_assign(ret, "")
 #define output(astring) (gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, astring, -1, INEDITABLE, invisibility, NULL))
   gint prevduration = *pprevduration;
   gint prevnumdots = *pprevnumdots;
@@ -787,7 +789,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
   GString *dynamic_string = NULL;
 
-  {
+
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, " ", -1, INEDITABLE, HIGHLIGHT, invisibility, NULL);
 
     switch (curobj->type)
@@ -1199,7 +1201,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 
     outputret;
-  }//not a LilyPond directive
+
     *pprevduration = prevduration;
     *pprevnumdots = prevnumdots;
 
@@ -1551,7 +1553,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
 				 &cur_stime1, &cur_stime2);
-			   }
+ }// end not lilydirective
 
 
 
