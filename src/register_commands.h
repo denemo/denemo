@@ -3,6 +3,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDo
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "Moves the cursor one scale step up", cursorup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "Moves the cursor one object right, altering the selection if any", cursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PushPosition"), "PushPosition", "Push Position", "Pushes the current cursor position onto a stack", PushPosition);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PopPosition"), "PopPosition", "Pop Position", "Pops a position from the stack of cursor positions, moving the cursor there", PopPosition);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PopPushPosition"), "PopPushPosition", "Pop and Push Position", "Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position", PopPushPosition);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Moves the cursor to the staff above", staffup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Moves the cursor to the staff below", staffdown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "Moves the cursor to the first object in the next measure", measureleft);

@@ -555,6 +555,16 @@ typedef struct DenemoScriptParam { /**< commands called by scripts use one of th
 
 
 
+typedef struct DenemoPosition { /**<Represents a position in a Score */
+  gint movement;
+  gint staff;
+  gint measure;
+  gint object;/**< 0 means no object */
+} DenemoPosition;
+
+
+
+
 typedef struct DenemoScoreblock {
   GString *scoreblock;/**< text of the scoreblock */
   gboolean visible;/**< Whether the scoreblock should be used by default */

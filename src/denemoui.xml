@@ -501,7 +501,12 @@
        <menuitem action="GoToEnd"/>
        <menuitem action="GoToMark"/>
        
-		<separator/>
+	<separator/>
+
+       <menuitem action="PushPosition"/>
+       <menuitem action="PopPosition"/>
+       <menuitem action="PopPushPosition"/>
+ 
 
      </menu> 
 	<menu action="Bookmarks">

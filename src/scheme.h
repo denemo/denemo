@@ -19,6 +19,18 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorRight")), "scm", (g
 SCM scheme_GoToMark(SCM optional);
 install_scm_function ("d-GoToMark", scheme_GoToMark);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToMark")), "scm", (gpointer)1);
+/*PushPosition PushPosition*/
+SCM scheme_PushPosition(SCM optional);
+install_scm_function ("d-PushPosition", scheme_PushPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PushPosition")), "scm", (gpointer)1);
+/*PopPosition PopPosition*/
+SCM scheme_PopPosition(SCM optional);
+install_scm_function ("d-PopPosition", scheme_PopPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPosition")), "scm", (gpointer)1);
+/*PopPushPosition PopPushPosition*/
+SCM scheme_PopPushPosition(SCM optional);
+install_scm_function ("d-PopPushPosition", scheme_PopPushPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPushPosition")), "scm", (gpointer)1);
 /*StaffUp staffup*/
 SCM scheme_StaffUp(SCM optional);
 install_scm_function ("d-StaffUp", scheme_StaffUp);

@@ -23,4 +23,8 @@ void delete_movement (GtkAction *action, gpointer param);
 void movement_props_dialog (GtkAction *action, gpointer param);
 gboolean
 goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum);
+
+void PopPosition (GtkAction * action, DenemoScriptParam *param);
+void PushPosition (GtkAction * action, DenemoScriptParam *param);
+void PopPushPosition (GtkAction * action, DenemoScriptParam *param);
 #endif

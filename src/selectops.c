@@ -686,7 +686,30 @@ goto_mark (GtkAction *action, DenemoScriptParam *param)
   } 
 }
 
+static GSList *positions=NULL;
+DenemoPosition *pop_position(void) {
+  DenemoPosition *pos;
+  if(positions) {
+    pos = positions->data;
+    positions = g_slist_delete_link(positions, positions);
+    return pos;
+  }
+  return NULL;
+}
 
+void push_position(void) {
+  DenemoScore *si = Denemo.gui->si;
+  DenemoPosition *pos = ( DenemoPosition *)g_malloc(sizeof(DenemoPosition));
+  pos->movement =  g_list_index(Denemo.gui->movements, si)+1;
+  pos->staff =  si->currentstaffnum;
+  pos->measure = si->currentmeasurenum;
+  pos->object =  si->currentobject?si->cursor_x+1:0;
+  if(pos->movement)
+     positions = g_slist_prepend(positions, pos);
+  else
+    g_free(pos);
+  //g_print("%d %d %d %d \n", pos->movement, pos->staff, pos->measure, pos->object);
+}
 
 
 /**
