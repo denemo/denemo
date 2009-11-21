@@ -2279,11 +2279,25 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
       <row>
+        <action>ScoreArranger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Arranger</label>
+        <tooltip>Prints Arranger-name given to right above first movement of the score.</tooltip>
+      </row>
+      <row>
         <action>ScoreComposer</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Composer</label>
-        <tooltip>Prints name given to left above first movement of the score.</tooltip>
+        <tooltip>Prints Composer-name given to right above first movement of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScorePoet</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Poet</label>
+        <tooltip>Prints Poet-name given to left above first movement of the score.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>
