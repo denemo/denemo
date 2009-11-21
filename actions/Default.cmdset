@@ -2283,42 +2283,84 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Arranger</label>
-        <tooltip>Prints Arranger-name given to right above first movement of the score.</tooltip>
+        <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
       </row>
       <row>
         <action>ScoreComposer</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Composer</label>
-        <tooltip>Prints Composer-name given to right above first movement of the score.</tooltip>
+        <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
+      </row>
+       <row>
+        <action>ScoreDedication</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Dedication</label>
+        <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
+      </row>
+      <row>
+        <action>ScoreSubtitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Subtitle</label>
+        <tooltip>Subtitle, centered below the title.</tooltip>
+      </row>
+      <row>
+        <action>ScoreSubsubtitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Subsubtitle</label>
+        <tooltip>Subsubtitle, centered below the subtitle.</tooltip>
+      </row>
+      <row>
+        <action>ScoreInstrument</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Instrument</label>
+        <tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</tooltip>
+      </row>
+      <row>
+        <action>ScoreMeter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Meter</label>
+        <tooltip>Meter string, flush-left below the poet.</tooltip>
+      </row>
+      <row>
+        <action>ScorePiece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Piece</label>
+        <tooltip>Name of the piece, flush-left below the meter.</tooltip>
+      </row>
+      <row>
+        <action>ScoreOpus</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Opus</label>
+        <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
+      </row>
+      <row>
+        <action>ScoreBreakbefore</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Breakbefore</label>
+        <tooltip>This forces the title to start on a new page (set to ##t or ##f).</tooltip>
       </row>
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Poet</label>
-        <tooltip>Prints Poet-name given to left above first movement of the score.</tooltip>
+        <tooltip>Name of the poet, flush-left below the subsubtitle.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Tagline</label>
-        <tooltip>Prints a line of text at the end of the score.</tooltip>
-      </row>
-      <row>
-        <action>MovementSubtitle</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
-        <label>Title (subtitle of score)</label>
-        <tooltip>Prints the name given as a title above this movement.</tooltip>
-      </row>
-      <row>
-        <action>MovementPiece</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
-        <label>Piece</label>
-        <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
+        <tooltip> Centered at the bottom of the last page.</tooltip>
       </row>
       <row>
         <action>MovementTitle</action>
@@ -2332,7 +2374,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Copyright</label>
-        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+        <tooltip>Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</tooltip>
       </row>
       <row>
         <action>Indent</action>
