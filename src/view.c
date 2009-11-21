@@ -1800,16 +1800,18 @@ static SCM scheme_put_note_name (SCM optional) {
 }
 
 //return the type of the nth object in the copybuffer
-static SCM scheme_get_nth(SCM n) {
- gint value = scm_num2int(n, 0, 0);
- DenemoObjType type = get_nth_type(value);
+static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
+ gint value = scm_num2int(n, 0, 0); 
+ gint staff = scm_num2int(m, 0, 0);
+ DenemoObjType type = get_clip_obj_type(staff, value);
  return  scm_int2num(type);
 }
 
 //insert the nth object from the denemo copybuffer
-static SCM scheme_put_nth(SCM n) {
+static SCM scheme_put_clip_obj(SCM m, SCM n) {
  gint value = scm_num2int(n, 0, 0);
- return SCM_BOOL(insert_nth(value));
+ gint staff = scm_num2int(m, 0, 0);
+ return SCM_BOOL(insert_clip_obj(staff, value));
 }
 
 
@@ -2294,10 +2296,10 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
-  install_scm_function (DENEMO_SCHEME_PREFIX"GetNth",  scheme_get_nth);
-  install_scm_function (DENEMO_SCHEME_PREFIX"PutNth",  scheme_put_nth);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
 
-install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 

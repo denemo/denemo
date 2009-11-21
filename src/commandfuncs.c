@@ -1332,6 +1332,24 @@ insertmeasureafter (DenemoGUI *gui)
 }
 
 /**
+ *  Insert measure into the staffs after the current position
+ 
+ */
+void
+addmeasureafter (DenemoGUI *gui)
+{
+  DenemoScore *si = Denemo.gui->si;
+  si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 1);
+  si->cursor_x = 0;
+  si->cursor_appending = TRUE;
+  si->currentobject = NULL;
+  set_rightmeasurenum (si);
+  si->markstaffnum = 0;
+  calcmarkboundaries (si);
+  /* update_hscrollbar (si); */
+}
+
+/**
  *  Insert measure into the staff before the current position
  
  */

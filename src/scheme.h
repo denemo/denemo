@@ -275,6 +275,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeletePreviousObject")), 
 SCM scheme_InsertMeasure(SCM optional);
 install_scm_function ("d-InsertMeasure", scheme_InsertMeasure);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertMeasure")), "scm", (gpointer)1);
+/*AddMeasure addmeasureafter*/
+SCM scheme_AddMeasure(SCM optional);
+install_scm_function ("d-AddMeasure", scheme_AddMeasure);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddMeasure")), "scm", (gpointer)1);
 /*InsertMeasureBefore insertmeasurebefore*/
 SCM scheme_InsertMeasureBefore(SCM optional);
 install_scm_function ("d-InsertMeasureBefore", scheme_InsertMeasureBefore);

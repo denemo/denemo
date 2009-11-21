@@ -149,8 +149,12 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_EDIT, NULL, "Delete the object at the cursor",	N_("DeleteObject"), "deleteobject", N_("Delete Object")},
   {CMD_CATEGORY_EDIT, NULL, "Delete to the left of the cursor.",	N_("DeletePreviousObject"), "deletepreviousobject", N_("Delete Previous Object")},
 
-  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in all staffs)",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure All Staffs")},
-  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in current staff)",	N_("InsertMeasureBefore"), "insertmeasurebefore", N_("Staff Insert Measure")},
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in all staffs)",	N_("InsertMeasure"), "insert_measure_key", N_("Insert Measure Before")},
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure after the current one (in all staffs)",	N_("AddMeasure"), "addmeasureafter", N_("Insert Measure After")},
+
+
+
+  {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure before the current one (in current staff)",	N_("InsertMeasureBefore"), "insertmeasurebefore", N_("Staff Insert Measure Before")},
   {CMD_CATEGORY_MEASURE, NULL, "Insert a blank measure in current staff after the current measure",	N_("InsertMeasureAfter"), "insertmeasureafter", N_("Staff Insert Measure After")},
 
 

@@ -17,8 +17,8 @@ enum drag_selection_type
   WHOLE_STAFFS
 };
  
-DenemoObjType  get_nth_type(gint n);
-
+DenemoObjType  get_clip_obj_type(gint staff, gint object);
+gboolean insert_clip_obj(gint staff, gint object);
 void clearbuffer ();
 
 void saveselection(DenemoScore *si);

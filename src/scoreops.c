@@ -152,7 +152,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     warningdialog(_("No such measure"));
     return FALSE;
   }
-  while(--objnum>0 && gui->si->currentobject->next) {
+  while(--objnum>0  && gui->si->currentobject && gui->si->currentobject->next) {
     gui->si->currentobject = gui->si->currentobject->next;
     gui->si->cursor_x++;
   }
