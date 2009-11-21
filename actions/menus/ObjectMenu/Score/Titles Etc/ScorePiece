@@ -6,18 +6,18 @@
     <map>
       <row>
         <after/>
-        <action>ScoreTitle</action>
-        <scheme>;;;ScoreTitle
+        <action>ScorePiece</action>
+        <scheme>;;;ScorePiece
 	(if (d-PreviousMovement)
-		(d-WarningDialog "Returning to the first Movement to set this title"))
+		(d-WarningDialog "Returning to the first Movement to set this."))
 	(while (d-PreviousMovement)
 		(display "Seeking first movement"))
-        (SetHeaderField "title")
+        (SetHeaderField "piece")
         (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
         (d-RefreshDisplay)
         </scheme>
-        <label>Title</label>
-        <tooltip>The title of the music, centered just below the dedication.</tooltip>
+        <label>Piece</label>
+        <tooltip>Name of the piece, flush-left below the meter.</tooltip>
       </row>
     </map>
   </merge>

@@ -14,8 +14,8 @@
         (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
         (d-RefreshDisplay)        
 </scheme>
-        <label>Arranger</label>
-        <tooltip>Sets the Poet/Lyricist </tooltip>
+        <label>Poet</label>
+        <tooltip>Name of the poet, flush-left below the subsubtitle.</tooltip>
       </row>
     </map>
   </merge>
