@@ -1196,7 +1196,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    directive = (DenemoDirective *)g->data;
 	    gint midi_override = directive_get_midi_override(directive);
 	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 	      if(buffer) 
 		if(NULL==put_event(buffer, numbytes, &curstaffstruct->midi_events, track))
 		  g_warning("Invalid midi bytes in staff directive\n");
@@ -1214,7 +1214,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    directive = (DenemoDirective *)g->data;
 	    gint midi_override = directive_get_midi_override(directive);
 	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 	    if(buffer) 
 	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->midi_events, track))
 		g_warning("Invalid midi bytes in score directive\n");
@@ -1229,7 +1229,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	    directive = (DenemoDirective *)g->data;
 	    gint midi_override = directive_get_midi_override(directive);
 	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 	    if(buffer) 
 	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->si->midi_events, track))
 		g_warning("Invalid midi bytes in movement directive\n");
@@ -1377,7 +1377,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      break;
 			      //etc			      
 			    default:
-			      if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+			      if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 			      if(buffer) 
 				if(NULL==put_event(buffer, numbytes, &curobj->midi_events, track))
 				  g_warning("Invalid midi bytes in chord directive\n");
@@ -1781,7 +1781,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			g_warning("Not implemented");
 			break;
 		      default:
-			      if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+			if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 			if(buffer) {
 			  if(NULL==put_event(buffer, numbytes,  &curobj->midi_events, track))
 			    g_warning("Directive has invalid MIDI bytes\n");
