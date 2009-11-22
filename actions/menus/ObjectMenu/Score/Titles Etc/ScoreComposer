@@ -16,7 +16,7 @@
         (d-RefreshDisplay)
         </scheme>
         <label>Composer</label>
-        <tooltip>Prints name given to left above first movement of the score.</tooltip>
+        <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
     </map>
   </merge>

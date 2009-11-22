@@ -12,7 +12,7 @@
 		(d-RefreshDisplay)
 	</scheme>
         <label>Tagline</label>
-        <tooltip>Prints a line of text at the end of the score.</tooltip>
+        <tooltip>Centered at the bottom of the last page.</tooltip>
       </row>
     </map>
   </merge>

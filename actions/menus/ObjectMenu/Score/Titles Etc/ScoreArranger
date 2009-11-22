@@ -15,7 +15,7 @@
         (d-RefreshDisplay)        
 </scheme>
         <label>Arranger</label>
-        <tooltip>Sets the Arranger </tooltip>
+        <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
       </row>
     </map>
   </merge>
