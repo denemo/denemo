@@ -2619,11 +2619,19 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>Largo</action>
-        <after>MezzoForte</after>
+        <after>Andante</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Largo</label>
-        <tooltip>Print Largo above note at cursor</tooltip>
+        <tooltip>Attaches Largo to chord</tooltip>
+      </row>
+      <row>
+        <action>Adagio</action>
+        <after>Largo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Adagio</label>
+        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
       </row>
       <row>
         <action>DrumGM2Custom</action>
@@ -2744,6 +2752,22 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
       </row>
       <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+      </row>
+     <row>
+        <action>MultiMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
+      <row>
         <action>OpenRepeat</action>
         <after>RepeatEndStart</after>
         <scheme></scheme>
@@ -2830,22 +2854,8 @@ for second and subsequent systems</tooltip>
         <label>Short Measure</label>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
       </row>
-      <row>
-        <action>Adagio</action>
-        <after>Largo</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
-        <label>Adagio</label>
-        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
-      </row>
-      <row>
-        <action>NextHigher</action>
-        <after>FindNextLowerNote</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Find</menupath>
-        <label>Next Higher</label>
-        <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
-      </row>
+
+
       <row>
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
@@ -2861,14 +2871,15 @@ for second and subsequent systems</tooltip>
         <label>Next Lower</label>
         <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
       </row>
-     <row>
-        <action>MultiMeasureRests</action>
-        <after>InsertWholeMeasureRest</after>
+      <row>
+        <action>NextHigher</action>
+        <after>FindNextLowerNote</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <label>Multi-Measure Rests</label>
-        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <label>Next Higher</label>
+        <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
       </row>
+
       <row>
         <action>FindEditPoint</action>
         <after>NextHigher</after>
