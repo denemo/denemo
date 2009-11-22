@@ -9,11 +9,11 @@
 #define MAX_NUMBER_OF_TRACKS    128
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
-#define KEY_PRESSURE      	0xA
-#define CONTROL_CHANGE  	0xB
-#define PROGRAM_CHANGE  	0xC
-#define	CHANNEL_PRESSURE 	0xD
-#define PITCH_BEND      	0xE
+#define KEY_PRESSURE      	0xA0
+#define CONTROL_CHANGE  	0xB0
+#define PROGRAM_CHANGE  	0xC0
+#define	CHANNEL_PRESSURE 	0xD0
+#define PITCH_BEND      	0xE0
 #define MIDI_SYSTEM_RESET       0xFF
 
 /*********************
@@ -268,11 +268,13 @@ gboolean fluidsynth_read_smf_events()
 
 #else
     gint chan = (event->midi_buffer[0] & 0x0f);
-    g_print("message %x\n", event->midi_buffer[0]);
+    //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
+    int success;
     switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
  {
        case NOTE_ON:
-         fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
+         success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
+	 //g_print("success = %d\n", success);
 	 break;
        case NOTE_OFF:
          fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
@@ -283,7 +285,8 @@ gboolean fluidsynth_read_smf_events()
                              
        case PROGRAM_CHANGE:
 	 g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
-         fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+         success = fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+	 // g_print("success = %d\n", success);
 	 break;
  
 	 //     case CHANNEL_PRESSURE:
