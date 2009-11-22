@@ -48,7 +48,8 @@
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
-      <menuitem action="Paste"/>
+
+      
      <menuitem action="PasteClipboard"/>
       <separator/>
       <menuitem action="EditObject"/>
@@ -562,7 +563,7 @@
     <separator/>
     <toolitem action="Cut"/>
     <toolitem action="Copy"/>
-    <toolitem action="Paste"/>
+
     <separator/>
 	 <!--<toolitem action="GoToMeasure"/> -->
     <toolitem action="GoToBeginning"/>

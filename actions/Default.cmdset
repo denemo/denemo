@@ -1245,8 +1245,11 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>Paste</action>
+	<after>Copy</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
         <label>Paste</label>
-        <tooltip>Paste the selected music</tooltip>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
         <bind>Control+v</bind>
         <bind>RlsL-Control</bind>
       </row>

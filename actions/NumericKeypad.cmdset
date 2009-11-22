@@ -44,6 +44,21 @@
         <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
       </row>
       <row>
+        <action>PushPosition</action>
+        <label>Push Position</label>
+        <tooltip>Pushes the current cursor position onto a stack</tooltip>
+      </row>
+      <row>
+        <action>PopPosition</action>
+        <label>Pop Position</label>
+        <tooltip>Pops a position from the stack of cursor positions, moving the cursor there</tooltip>
+      </row>
+      <row>
+        <action>PopPushPosition</action>
+        <label>Pop and Push Position</label>
+        <tooltip>Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position</tooltip>
+      </row>
+      <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
         <tooltip>Moves the cursor to the staff above</tooltip>
@@ -376,13 +391,18 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertMeasure</action>
-        <label>Insert Measure All Staffs</label>
+        <label>Insert Measure Before</label>
         <tooltip>Insert a blank measure before the current one (in all staffs)</tooltip>
         <bind>m</bind>
       </row>
       <row>
+        <action>AddMeasure</action>
+        <label>Insert Measure After</label>
+        <tooltip>Insert a blank measure after the current one (in all staffs)</tooltip>
+      </row>
+      <row>
         <action>InsertMeasureBefore</action>
-        <label>Staff Insert Measure</label>
+        <label>Staff Insert Measure Before</label>
         <tooltip>Insert a blank measure before the current one (in current staff)</tooltip>
       </row>
       <row>
@@ -1262,17 +1282,21 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Copy</tooltip>
         <bind>Control+c</bind>
       </row>
+     <row>
+        <action>Paste</action>
+	<after>Copy</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Paste</label>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
+        <bind>Control+v</bind>
+        <bind>RlsL-Control</bind>
+      </row>
       <row>
         <action>Cut</action>
         <label>Cut</label>
         <tooltip>Cut</tooltip>
         <bind>Control+x</bind>
-      </row>
-      <row>
-        <action>Paste</action>
-        <label>Paste</label>
-        <tooltip>Paste the selected music</tooltip>
-        <bind>Control+v</bind>
       </row>
       <row>
         <action>PasteClipboard</action>
@@ -2059,6 +2083,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
       </row>
+ 
       <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
@@ -2389,6 +2414,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Composer</label>
         <tooltip>Prints name given to left above first movement of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScorePoet</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Poet</label>
+        <tooltip>Prints Poet-name given to left above first movement of the score.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>

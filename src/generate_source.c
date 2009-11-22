@@ -361,7 +361,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Extend the selection", N_("ExtendSelect"), NULL, N_("Extend Selection")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_COPY", "Copy", N_("Copy"), "copywrapper", N_("Copy")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_CUT", "Cut", N_("Cut"), "cutwrapper", N_("Cut")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste the selected music", N_("Paste"), "pastewrapper", N_("Paste")},
+  // {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste the selected music", N_("Paste"), "pastewrapper", N_("Paste")},
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PASTE", "Paste LilyPond notes from the text clipboard", "PasteClipboard", "paste_clipboard", N_("Paste LilyPond notes")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PROPERTIES", "Change some of the properties of the current score. This will start up a dialog window", N_("ScoreProperties"), "score_properties_dialog", N_("Score Properties")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Save the selected music. Not sure if this is working", N_("SaveSelection"), "saveselwrapper", N_("Save Selection")}, 
