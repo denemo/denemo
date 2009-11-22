@@ -267,28 +267,36 @@ gboolean fluidsynth_read_smf_events()
       fluid_synth_noteoff(synth, 0 /*(event->midi_buffer[0] & 0x0f)*/, event->midi_buffer[1]);
 
 #else
-    gint chan = (event->midi_buffer[0] & 0x0f);// +1???
+    gint chan = (event->midi_buffer[0] & 0x0f);
+    g_print("message %x\n", event->midi_buffer[0]);
     switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
  {
        case NOTE_ON:
-         return fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
+         fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
+	 break;
        case NOTE_OFF:
-         return fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]); 
+         fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
+	 break; 
        case CONTROL_CHANGE:
-         return fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]); 
+         return fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]);
+	 break; 
                              
        case PROGRAM_CHANGE:
-         return fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+	 g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
+         fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+	 break;
  
 	 //     case CHANNEL_PRESSURE:
 	 //return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
  
        case PITCH_BEND:
-         return fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<8)
+         fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<8)
 				       /*I think! fluid_midi_event_get_pitch(event)*/);
+	 break;
  
        case MIDI_SYSTEM_RESET:
-         return fluid_synth_system_reset(synth);
+         fluid_synth_system_reset(synth);
+	 break;
  }
 
 #endif
