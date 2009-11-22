@@ -81,7 +81,7 @@ gint get_midi_channel()
   }
   else
     channel = curstaffstruct->midi_channel;
-  return channel; 
+  return channel - 1; //staff struct uses user-side encoding 1-16
 }
 
 gint get_midi_prognum()
@@ -96,7 +96,7 @@ gint get_midi_prognum()
       prognum = select_program (curstaffstruct->midi_instrument->str);
   }
   else
-    prognum = curstaffstruct->midi_prognum;
+    prognum = curstaffstruct->midi_prognum - 1;//staff struct uses user-side encoding 1-16
   
   return prognum;
 }
