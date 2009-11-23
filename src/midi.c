@@ -81,7 +81,7 @@ gint get_midi_channel()
   }
   else
     channel = curstaffstruct->midi_channel;
-  return channel; 
+  return channel - 1; //staff struct uses user-side encoding 1-16
 }
 
 gint get_midi_prognum()
@@ -96,7 +96,7 @@ gint get_midi_prognum()
       prognum = select_program (curstaffstruct->midi_instrument->str);
   }
   else
-    prognum = curstaffstruct->midi_prognum;
+    prognum = curstaffstruct->midi_prognum - 1;//staff struct uses user-side encoding 1-16
   
   return prognum;
 }
@@ -406,6 +406,9 @@ gint init_midi_input(void) {
 #ifdef _HAVE_JACK_
  return init_jack();
 #else
+#ifdef _HAVE_FLUIDSYNTH_
+ return fluid_start_midi_in();
+#else
   GError *error = NULL;
   if(!channel)
     channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
@@ -419,11 +422,15 @@ gint init_midi_input(void) {
   //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
   return 0;
 #endif
+#endif
 }
 
 gint stop_midi_input(void) {
 #ifdef _HAVE_JACK_
   stop_jack();
+#else
+#ifdef _HAVE_FLUIDSYNTH_
+ return fluid_stop_midi_in();
 #else
   GError *error = NULL;
   if(channel)
@@ -432,6 +439,7 @@ gint stop_midi_input(void) {
     g_warning(error->message);
   else
     channel = NULL;
+#endif
 #endif
   return 0;
 }

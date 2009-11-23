@@ -967,10 +967,17 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   object_insert (gui, mudela_obj_new);
  
   if (gui->mode&(INPUTRHYTHM)) {
+
+#ifdef _HAVE_FLUIDSYNTH_
+    fluid_rhythm_feedback(duration, rest, FALSE);
+#else
     if(rest)
       playpitch(64.0*(1+duration), 60.0/(4.0*gui->si->tempo*(1<<duration)), 0.1, 2);//FIXME make a distinct noise
       else
 	playpitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.2, 1);
+#endif
+
+
   } else {
     if(Denemo.gui->input_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
@@ -1283,7 +1290,15 @@ changedots (DenemoScore * si, gint amount)
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
       if (Denemo.gui->mode&(INPUTRHYTHM))
+#ifdef _HAVE_FLUIDSYNTH_
+	{
+	  chord *thechord = (chord *) curmudelaobj->object;
+	  gboolean rest =  (thechord->notes == NULL);
+	  fluid_rhythm_feedback(thechord->baseduration, rest, TRUE);
+	}
+#else
 	  playpitch(440.0, 0.2, 0.2, 1);
+#endif
       changenumdots (curmudelaobj, amount);
 
       if (curmudelaobj->user_string)
@@ -1322,6 +1337,24 @@ insertmeasureafter (DenemoGUI *gui)
 {
   DenemoScore *si = Denemo.gui->si;
   si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 0);
+  si->cursor_x = 0;
+  si->cursor_appending = TRUE;
+  si->currentobject = NULL;
+  set_rightmeasurenum (si);
+  si->markstaffnum = 0;
+  calcmarkboundaries (si);
+  /* update_hscrollbar (si); */
+}
+
+/**
+ *  Insert measure into the staffs after the current position
+ 
+ */
+void
+addmeasureafter (DenemoGUI *gui)
+{
+  DenemoScore *si = Denemo.gui->si;
+  si->currentmeasure = addmeasures (si, si->currentmeasurenum++, 1, 1);
   si->cursor_x = 0;
   si->cursor_appending = TRUE;
   si->currentobject = NULL;

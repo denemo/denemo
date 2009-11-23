@@ -12,7 +12,7 @@
 		(d-RefreshDisplay)
 	</scheme>
         <label>Copyright</label>
-        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+        <tooltip> Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</tooltip>
       </row>
     </map>
   </merge>

@@ -17,8 +17,8 @@ enum drag_selection_type
   WHOLE_STAFFS
 };
  
-DenemoObjType  get_nth_type(gint n);
-
+DenemoObjType  get_clip_obj_type(gint staff, gint object);
+gboolean insert_clip_obj(gint staff, gint object);
 void clearbuffer ();
 
 void saveselection(DenemoScore *si);
@@ -60,6 +60,11 @@ void redowrapper(GtkAction *action, gpointer param);
 void update_undo_info(DenemoScore *si, unre_data *undo);
 void update_redo_info(DenemoScore *si, unre_data *redo);
 void goto_mark (GtkAction *action,  DenemoScriptParam *param);
+
+DenemoPosition *pop_position(void);
+void push_position(void);
+
+
 DenemoObject *get_mark_object(void);
 DenemoObject *get_point_object(void);
 void save_selection(DenemoScore *si);

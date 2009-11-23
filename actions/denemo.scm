@@ -3,6 +3,23 @@
 (use-modules (ice-9 optargs))
 
 
+;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
+;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
+;;;;;;;;;;;;;; Returns #f if not a chord
+(define (d-GetLowestNote)
+(if (d-GetNotes)
+ (list-ref (string-tokenize(d-GetNotes)) 0 )
+ #f
+ ))
+
+(define (d-GetHighestNote)
+ (if (d-GetNotes)
+ (list-ref (string-tokenize(d-GetNotes)) (- (length (string-tokenize(d-GetNotes)) ) 1 ))
+ #f
+ ))
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 
 (define Chord? (lambda ()
 		  (string=? (d-GetType) "CHORD")))
@@ -628,6 +645,7 @@
   (d-OutputMIDI (string-append "0x9$ " pitch " %%%"))
  (d-OneShotTimer duration (string-append "(d-OutputMIDI " "\"" "0x8$ " pitch " %%%" "\"" ")" )) 
   )
+
 
 ;;;;;;;;;;;;;; Refresh Procedures.
 ;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag

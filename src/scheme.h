@@ -19,6 +19,18 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorRight")), "scm", (g
 SCM scheme_GoToMark(SCM optional);
 install_scm_function ("d-GoToMark", scheme_GoToMark);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToMark")), "scm", (gpointer)1);
+/*PushPosition PushPosition*/
+SCM scheme_PushPosition(SCM optional);
+install_scm_function ("d-PushPosition", scheme_PushPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PushPosition")), "scm", (gpointer)1);
+/*PopPosition PopPosition*/
+SCM scheme_PopPosition(SCM optional);
+install_scm_function ("d-PopPosition", scheme_PopPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPosition")), "scm", (gpointer)1);
+/*PopPushPosition PopPushPosition*/
+SCM scheme_PopPushPosition(SCM optional);
+install_scm_function ("d-PopPushPosition", scheme_PopPushPosition);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPushPosition")), "scm", (gpointer)1);
 /*StaffUp staffup*/
 SCM scheme_StaffUp(SCM optional);
 install_scm_function ("d-StaffUp", scheme_StaffUp);
@@ -263,6 +275,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeletePreviousObject")), 
 SCM scheme_InsertMeasure(SCM optional);
 install_scm_function ("d-InsertMeasure", scheme_InsertMeasure);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertMeasure")), "scm", (gpointer)1);
+/*AddMeasure addmeasureafter*/
+SCM scheme_AddMeasure(SCM optional);
+install_scm_function ("d-AddMeasure", scheme_AddMeasure);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AddMeasure")), "scm", (gpointer)1);
 /*InsertMeasureBefore insertmeasurebefore*/
 SCM scheme_InsertMeasureBefore(SCM optional);
 install_scm_function ("d-InsertMeasureBefore", scheme_InsertMeasureBefore);
@@ -943,10 +959,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Copy")), "scm", (gpointer
 SCM scheme_Cut(SCM optional);
 install_scm_function ("d-Cut", scheme_Cut);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Cut")), "scm", (gpointer)1);
-/*Paste pastewrapper*/
-SCM scheme_Paste(SCM optional);
-install_scm_function ("d-Paste", scheme_Paste);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Paste")), "scm", (gpointer)1);
 /*PasteClipboard paste_clipboard*/
 SCM scheme_PasteClipboard(SCM optional);
 install_scm_function ("d-PasteClipboard", scheme_PasteClipboard);

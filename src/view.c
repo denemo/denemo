@@ -156,10 +156,13 @@ call_out_to_guile (const char *script)
 
 //FIXME common up these!!!
 void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s \"%s\")\n", varname, value);
+
+ gchar *def = g_strdup_printf("\"%s\"", value);
  // g_print("Defining %s\n", def);
- call_out_to_guile(def);
+ scm_c_define(varname, scm_from_locale_string(def));
  g_free(def);
+
+
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -167,10 +170,7 @@ void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
 #endif
 }
 void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s %s)\n", varname, value);
- // g_print("Defining %s\n", def);
- call_out_to_guile(def);
- g_free(def);
+scm_c_define(varname, scm_from_locale_string(value));
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -178,10 +178,9 @@ void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip
 #endif
 }
 void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s %d)\n", varname, value);
- // g_print("Defining %s\n", def);
- call_out_to_guile(def);
- g_free(def);
+
+scm_c_define(varname, scm_int2num(value));
+
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -1800,16 +1799,18 @@ static SCM scheme_put_note_name (SCM optional) {
 }
 
 //return the type of the nth object in the copybuffer
-static SCM scheme_get_nth(SCM n) {
- gint value = scm_num2int(n, 0, 0);
- DenemoObjType type = get_nth_type(value);
+static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
+ gint value = scm_num2int(n, 0, 0); 
+ gint staff = scm_num2int(m, 0, 0);
+ DenemoObjType type = get_clip_obj_type(staff, value);
  return  scm_int2num(type);
 }
 
 //insert the nth object from the denemo copybuffer
-static SCM scheme_put_nth(SCM n) {
+static SCM scheme_put_clip_obj(SCM m, SCM n) {
  gint value = scm_num2int(n, 0, 0);
- return SCM_BOOL(insert_nth(value));
+ gint staff = scm_num2int(m, 0, 0);
+ return SCM_BOOL(insert_clip_obj(staff, value));
 }
 
 
@@ -2294,10 +2295,10 @@ void inner_main(void*closure, int argc, char **argv){
   install_scm_function (DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
-  install_scm_function (DENEMO_SCHEME_PREFIX"GetNth",  scheme_get_nth);
-  install_scm_function (DENEMO_SCHEME_PREFIX"PutNth",  scheme_put_nth);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
+  install_scm_function2 (DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
 
-install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   install_scm_function (DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
 
@@ -3791,12 +3792,17 @@ activate_script (GtkAction *action, gpointer param)
       }
     }
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
+
+
+    //FIXME use define_scheme_variable for this
     //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
     gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
     /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
       need it */
     scm_c_eval_string(current_script);
     g_free(current_script);
+
+
     if(*text==0)
       text = instantiate_script(action);
     if(text)

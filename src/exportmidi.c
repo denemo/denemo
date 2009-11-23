@@ -927,7 +927,7 @@ gchar *substitute_midi_values(gchar* str, gint channel, gint volume) {
   gchar *c;
   for(c=bytes;*c;c++) {
     if(*c=='$')
-      *c = '0'+channel-1;
+      *c = '0'+channel;
     if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
       sprintf(c, "%3d", volume);//*c = itoa(volume);
   }
@@ -938,7 +938,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
   if(directive->midibytes) {
     gchar *bytes;
     bytes = substitute_midi_values(directive->midibytes->str, channel, volume);
-    //g_print("Got %s as midi bytes\n", bytes);
+    g_print("Got %s as midi bytes\n", bytes);
     char *next;
     char val;
     gint i, numbytes;
@@ -1188,55 +1188,6 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       tracknumber++;
       smf_track_t *track = smf_track_new();
       smf_add_track(smf, track);
-      if(curstaffstruct->staff_directives) {
-	GList *g=curstaffstruct->staff_directives;
-	DenemoDirective *directive = NULL;	
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
-	      if(buffer) 
-		if(NULL==put_event(buffer, numbytes, &curstaffstruct->midi_events, track))
-		  g_warning("Invalid midi bytes in staff directive\n");
-	  }
-      }
-      
-      if(tracknumber==1) {
-	if (Denemo.gui->lilycontrol.directives) {
-	  //FIXME repeated code
-	  GList *g=Denemo.gui->lilycontrol.directives;
-	  DenemoDirective *directive = NULL;
-
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
-	    if(buffer) 
-	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->midi_events, track))
-		g_warning("Invalid midi bytes in score directive\n");
-	  }
-	}
-
-	if (Denemo.gui->si->movementcontrol.directives) {
-	  GList *g=Denemo.gui->si->movementcontrol.directives;
-	  DenemoDirective *directive = NULL;
-	  for(;g;g=g->next){
-	    gint numbytes;
-	    directive = (DenemoDirective *)g->data;
-	    gint midi_override = directive_get_midi_override(directive);
-	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
-	    if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
-	    if(buffer) 
-	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->si->midi_events, track))
-		g_warning("Invalid midi bytes in movement directive\n");
-	  }
-	}
-
-      }
 
       /* track name */
       event = midi_meta_text (3, curstaffstruct->lily_name->str);
@@ -1283,6 +1234,61 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	cur_volume = 65;
       }
 	
+
+      //Now that we have the channel and volume we can interpret any score and staff-wide directives for midi
+      if(curstaffstruct->staff_directives) {
+	GList *g=curstaffstruct->staff_directives;
+	DenemoDirective *directive = NULL;	
+	  for(;g;g=g->next){
+	    gint numbytes;
+	    directive = (DenemoDirective *)g->data;
+	    gint midi_override = directive_get_midi_override(directive);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
+	      if(buffer) 
+		if(NULL==put_event(buffer, numbytes, &curstaffstruct->midi_events, track))
+		  g_warning("Invalid midi bytes in staff directive\n");
+	  }
+      }
+      
+      if(tracknumber==1) {
+	if (Denemo.gui->lilycontrol.directives) {
+	  //FIXME repeated code
+	  GList *g=Denemo.gui->lilycontrol.directives;
+	  DenemoDirective *directive = NULL;
+
+	  for(;g;g=g->next){
+	    gint numbytes;
+	    directive = (DenemoDirective *)g->data;
+	    gint midi_override = directive_get_midi_override(directive);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
+	    if(buffer) 
+	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->midi_events, track))
+		g_warning("Invalid midi bytes in score directive\n");
+	  }
+	}
+
+	if (Denemo.gui->si->movementcontrol.directives) {
+	  GList *g=Denemo.gui->si->movementcontrol.directives;
+	  DenemoDirective *directive = NULL;
+	  for(;g;g=g->next){
+	    gint numbytes;
+	    directive = (DenemoDirective *)g->data;
+	    gint midi_override = directive_get_midi_override(directive);
+	    gchar *buffer = directive_get_midi_buffer(directive, &numbytes, midi_channel, cur_volume);
+	    if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
+	    if(buffer) 
+	      if(NULL==put_event(buffer, numbytes, &Denemo.gui->si->midi_events, track))
+		g_warning("Invalid midi bytes in movement directive\n");
+	  }
+	}
+
+      }
+
+
+
+
 
       /* reset measure */
       curmeasurenum = 0;
@@ -1377,7 +1383,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      break;
 			      //etc			      
 			    default:
-			      if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+			      if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 			      if(buffer) 
 				if(NULL==put_event(buffer, numbytes, &curobj->midi_events, track))
 				  g_warning("Invalid midi bytes in chord directive\n");
@@ -1781,7 +1787,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			g_warning("Not implemented");
 			break;
 		      default:
-			      if(!midi_override&DENEMO_OVERRIDE_HIDDEN)
+			if(!(midi_override&DENEMO_OVERRIDE_HIDDEN))
 			if(buffer) {
 			  if(NULL==put_event(buffer, numbytes,  &curobj->midi_events, track))
 			    g_warning("Directive has invalid MIDI bytes\n");

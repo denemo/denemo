@@ -48,7 +48,8 @@
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
-      <menuitem action="Paste"/>
+
+      
      <menuitem action="PasteClipboard"/>
       <separator/>
       <menuitem action="EditObject"/>
@@ -188,6 +189,7 @@
 	   <menuitem action="GoToMeasure"/>
 	   	<separator/>
 	   <menuitem action="InsertMeasure"/>
+	   <menuitem action="AddMeasure"/>
 	   <menuitem action="InsertMeasureBefore"/>
 	   <menuitem action="InsertMeasureAfter"/>
 	   <menuitem action="AppendMeasure"/>
@@ -501,7 +503,12 @@
        <menuitem action="GoToEnd"/>
        <menuitem action="GoToMark"/>
        
-		<separator/>
+	<separator/>
+
+       <menuitem action="PushPosition"/>
+       <menuitem action="PopPosition"/>
+       <menuitem action="PopPushPosition"/>
+ 
 
      </menu> 
 	<menu action="Bookmarks">
@@ -556,7 +563,7 @@
     <separator/>
     <toolitem action="Cut"/>
     <toolitem action="Copy"/>
-    <toolitem action="Paste"/>
+
     <separator/>
 	 <!--<toolitem action="GoToMeasure"/> -->
     <toolitem action="GoToBeginning"/>

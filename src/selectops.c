@@ -165,7 +165,7 @@ copytobuffer (DenemoScore * si)
 	  k = 0;		/* Set it for next run through object loop */
 	  
 	}			/* End measure loop */
-      if (staffsinbuffer > 1)
+      if ((staffsinbuffer > 1) && (i < si->laststaffmarked))
 	{
 	  theobjs = g_list_append (theobjs, newstaffbreakobject ());
 	  g_debug ("Inserting Staffbreak object in copybuffer");
@@ -360,10 +360,13 @@ cuttobuffer (DenemoScore * si)
 
 
 
-DenemoObjType get_nth_type(gint n) {
+DenemoObjType get_clip_obj_type(gint m, gint n) {
   if(copybuffer==NULL)
     return -1;
-  GList *curbufferobj = g_list_nth(copybuffer->data, n);
+  GList *stafflist = g_list_nth(copybuffer, m);
+  if(stafflist==NULL)
+    return -1;
+  GList *curbufferobj = g_list_nth(stafflist->data, n);
   if(curbufferobj==NULL || curbufferobj->data==NULL )
     return -1;
   return ((DenemoObject*)(curbufferobj->data))->type;
@@ -371,11 +374,14 @@ DenemoObjType get_nth_type(gint n) {
 
 // insert the nth object from the copybuffer into music at the cursor position
 // return TRUE if inserted
-gboolean insert_nth(gint n) {
+gboolean insert_clip_obj(gint m, gint n) {
   DenemoScore *si = Denemo.gui->si;
   if(copybuffer==NULL)
     return FALSE;
-  objnode *curbufferobj = g_list_nth(copybuffer->data, n);
+  GList *stafflist = g_list_nth(copybuffer, m);
+  if(stafflist==NULL)
+    return FALSE;
+  objnode *curbufferobj = g_list_nth(stafflist->data, n);
   if(curbufferobj==NULL)
     return FALSE;
   DenemoObject *clonedobj; 
@@ -686,7 +692,30 @@ goto_mark (GtkAction *action, DenemoScriptParam *param)
   } 
 }
 
+static GSList *positions=NULL;
+DenemoPosition *pop_position(void) {
+  DenemoPosition *pos;
+  if(positions) {
+    pos = positions->data;
+    positions = g_slist_delete_link(positions, positions);
+    return pos;
+  }
+  return NULL;
+}
 
+void push_position(void) {
+  DenemoScore *si = Denemo.gui->si;
+  DenemoPosition *pos = ( DenemoPosition *)g_malloc(sizeof(DenemoPosition));
+  pos->movement =  g_list_index(Denemo.gui->movements, si)+1;
+  pos->staff =  si->currentstaffnum;
+  pos->measure = si->currentmeasurenum;
+  pos->object =  si->currentobject?si->cursor_x+1:0;
+  if(pos->movement)
+     positions = g_slist_prepend(positions, pos);
+  else
+    g_free(pos);
+  //g_print("%d %d %d %d \n", pos->movement, pos->staff, pos->measure, pos->object);
+}
 
 
 /**

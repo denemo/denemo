@@ -155,6 +155,7 @@ void
 appendmeasurestoentirescore(DenemoScore *si, gint number);
 
 void insertmeasureafter(DenemoGUI *gui);
+void addmeasureafter(DenemoGUI *gui);
 void insertmeasurebefore(DenemoGUI *gui);
 
 void deletemeasure(DenemoGUI * gui);

@@ -3,6 +3,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDo
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "Moves the cursor one scale step up", cursorup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "Moves the cursor one object right, altering the selection if any", cursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PushPosition"), "PushPosition", "Push Position", "Pushes the current cursor position onto a stack", PushPosition);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PopPosition"), "PopPosition", "Pop Position", "Pops a position from the stack of cursor positions, moving the cursor there", PopPosition);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "PopPushPosition"), "PopPushPosition", "Pop and Push Position", "Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position", PopPushPosition);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"), "StaffUp", "Staff Up", "Moves the cursor to the staff above", staffup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Moves the cursor to the staff below", staffdown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "Moves the cursor to the first object in the next measure", measureleft);
@@ -63,8 +66,9 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertTi
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTie"), "ToggleTie", "Toggle Tie", "Ties/unties the note at the cursor", toggle_tie);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteObject"), "DeleteObject", "Delete Object", "Delete the object at the cursor", deleteobject);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeletePreviousObject"), "DeletePreviousObject", "Delete Previous Object", "Delete to the left of the cursor.", deletepreviousobject);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasure"), "InsertMeasure", "Insert Measure All Staffs", "Insert a blank measure before the current one (in all staffs)", insert_measure_key);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasureBefore"), "InsertMeasureBefore", "Staff Insert Measure", "Insert a blank measure before the current one (in current staff)", insertmeasurebefore);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasure"), "InsertMeasure", "Insert Measure Before", "Insert a blank measure before the current one (in all staffs)", insert_measure_key);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "AddMeasure"), "AddMeasure", "Insert Measure After", "Insert a blank measure after the current one (in all staffs)", addmeasureafter);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasureBefore"), "InsertMeasureBefore", "Staff Insert Measure Before", "Insert a blank measure before the current one (in current staff)", insertmeasurebefore);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMeasureAfter"), "InsertMeasureAfter", "Staff Insert Measure After", "Insert a blank measure in current staff after the current measure", insertmeasureafter);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasure"), "AppendMeasure", "Staff Append Measure", "No Tooltip yet", append_measure_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteMeasure"), "DeleteMeasure", "Staff Delete Measure", "Delete the current measure in this staff, leaving the staff short", deletemeasure);
@@ -234,7 +238,6 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Undo"), 
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Redo"), "Redo", "Redo", "Redo", redowrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Copy"), "Copy", "Copy", "Copy", copywrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Cut"), "Cut", "Cut", "Cut", cutwrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "Paste"), "Paste", "Paste", "Paste the selected music", pastewrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PasteClipboard"), "PasteClipboard", "Paste LilyPond notes", "Paste LilyPond notes from the text clipboard", paste_clipboard);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ScoreProperties"), "ScoreProperties", "Score Properties", "Change some of the properties of the current score. This will start up a dialog window", score_properties_dialog);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveSelection"), "SaveSelection", "Save Selection", "Save the selected music. Not sure if this is working", saveselwrapper);

@@ -706,7 +706,7 @@ gint pitchentry(DenemoGUI *gui) {
 	display_pitch(note, gui);
 	if(gui->input_source==INPUTMIDI) {
 	  gint key=(gint)(Freq2Pitch(found->pitch * (pow(2,(octave)))));
-	  g_print("pitch %f key number %d\n",found->pitch, key);
+	  //g_print("pitch %f key number %d\n",found->pitch, key);
 	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
 	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
 	  // playpitch(midi2hz(key), duration, volume, channel);

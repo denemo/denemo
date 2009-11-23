@@ -10,6 +10,7 @@
 #include "staffops.h"
 #include "scoreops.h"
 #include "prefops.h"
+#include "selectops.h"
 #define INITIAL_WHOLEWIDTH 160
 #define INITIAL_STAFFHEIGHT 100
 
@@ -151,12 +152,13 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     warningdialog(_("No such measure"));
     return FALSE;
   }
-  while(--objnum>0 && gui->si->currentobject->next) {
+  while(--objnum>0  && gui->si->currentobject && gui->si->currentobject->next) {
     gui->si->currentobject = gui->si->currentobject->next;
     gui->si->cursor_x++;
   }
   if(objnum)
     return FALSE;
+  write_status(gui);
 #if 0
   //something bad here re-sets the staff to 1
   updatescoreinfo (gui);
@@ -170,6 +172,35 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
   gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
   gtk_widget_queue_draw (gui->scorearea);
   return TRUE;
+}
+
+void PopPosition (GtkAction * action, DenemoScriptParam *param) {
+  DenemoPosition *pos = pop_position();
+  DenemoScriptParam dummy;
+  if(action || !param)
+    param = &dummy;
+  if(pos==NULL) {
+    param->status = FALSE;
+    return;
+  }
+  param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+  g_free(pos);
+}
+
+void PushPosition (GtkAction * action, DenemoScriptParam *param) {
+  push_position();
+}
+
+void PopPushPosition (GtkAction * action, DenemoScriptParam *param) {
+  DenemoPosition *pos = pop_position();
+  DenemoScriptParam dummy;
+  if(action || !param)
+    param = &dummy;
+  if(pos) {
+    push_position();
+    param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+  } else
+    param->status = FALSE;
 }
 
 

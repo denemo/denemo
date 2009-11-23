@@ -9,6 +9,40 @@
 #define MAX_NUMBER_OF_TRACKS    128
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
+#define KEY_PRESSURE      	0xA0
+#define CONTROL_CHANGE  	0xB0
+#define PROGRAM_CHANGE  	0xC0
+#define	CHANNEL_PRESSURE 	0xD0
+#define PITCH_BEND      	0xE0
+#define MIDI_SYSTEM_RESET       0xFF
+
+/*********************
+NOTE_OFF = 0x80,
+46	  NOTE_ON = 0x90,
+47	  KEY_PRESSURE = 0xa0,
+48	  CONTROL_CHANGE = 0xb0,
+49	  PROGRAM_CHANGE = 0xc0,
+50	  CHANNEL_PRESSURE = 0xd0,
+51	  PITCH_BEND = 0xe0,
+case CONTROL_CHANGE:
+         return fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]); 
+                             
+       case PROGRAM_CHANGE:
+         return fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+ 
+       case CHANNEL_PRESSURE:
+       return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
+ 
+       case PITCH_BEND:
+         return fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<8
+				      );
+ 
+       case MIDI_SYSTEM_RESET:
+***********************/
+
+
+
+
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 
 static fluid_settings_t* settings;
@@ -222,47 +256,7 @@ gboolean fluidsynth_read_smf_events()
      event = smf_get_next_event(Denemo.gui->si->smf);
 
  
-
-   /* Doesn't compile 
-      fluid_midi_event_t *midi_event;
-no memory allocated here.
-    needed here: create a fluid_midi_event_t from a smf_event_t
-       then call fluid_synth_handle_midi_event which calls fluid_synth_noteon or off as needed.
- the creation is   fluid_event_t *evt = new_fluid_event();
-but this is not intended to take midi event data - you have to fill in quite a few things which are not exposed - perhaps there are setters e.g.
-   fluid_event_set_source(evt, -1);
-    fluid_event_set_dest(evt, synthSeqID);
-    fluid_event_noteon(evt, chan, key, 127);
-    fluid_res = fluid_sequencer_send_at(sequencer, evt, date, 1);
- which looks bad - fluidynth could replace smf....
-
-    */
 #if 0
-    fluid_midi_event_t *evt = new_fluid_midi_event();
-    fluid_event_set_source(evt, 0);
-    
-    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON){
-      //fluid_midi_event_set_type(evt, 1);
-      fluid_event_noteon(evt, 0, event->midi_buffer[1], 127);
-      //fluid_midi_event_set_key(evt, event->midi_buffer[1]);
-      //fluid_midi_event_set_pitch(evt, event->midi_buffer[1]);
-      //fluid_midi_event_set_velocity(evt, event->midi_buffer[2]);
-    }
-    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF){
-      fluid_event_noteoff(evt, 0, event->midi_buffer[1]);
-      //fluid_midi_event_set_type(evt, 2);
-      //fluid_midi_event_set_key(evt, event->midi_buffer[1]);
-      //fluid_midi_event_set_pitch(evt, event->midi_buffer[1]);
-      //fluid_midi_event_set_velocity(evt, event->midi_buffer[2]);
-    }
-    /* set this to current staff number unless override */
-    //fluid_midi_event_set_channel(evt, 0);
-
-    /* change to staff's program number */
-    fluid_midi_event_set_program(evt, 0);
-    fluid_synth_handle_midi_event(synth, evt);
-#endif
-#if 1
 	 /* Temporary fix */
     /*this should go in a function that assigns after staff options or preferences */
     //fluid_synth_program_change(synth, 0, 5);
@@ -271,6 +265,43 @@ but this is not intended to take midi event data - you have to fill in quite a f
       fluid_synth_noteon(synth, 0 /*(event->midi_buffer[0] & 0x0f)*/, event->midi_buffer[1], event->midi_buffer[2]);
     if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
       fluid_synth_noteoff(synth, 0 /*(event->midi_buffer[0] & 0x0f)*/, event->midi_buffer[1]);
+
+#else
+    gint chan = (event->midi_buffer[0] & 0x0f);
+    //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
+    int success;
+    switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
+ {
+       case NOTE_ON:
+         success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
+	 //g_print("success = %d\n", success);
+	 break;
+       case NOTE_OFF:
+         fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
+	 break; 
+       case CONTROL_CHANGE:
+         return fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]);
+	 break; 
+                             
+       case PROGRAM_CHANGE:
+	 g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
+         success = fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
+	 // g_print("success = %d\n", success);
+	 break;
+ 
+	 //     case CHANNEL_PRESSURE:
+	 //return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
+ 
+       case PITCH_BEND:
+         fluid_synth_pitch_bend(synth, chan, event->midi_buffer[1] + (event->midi_buffer[2]<<8)
+				       /*I think! fluid_midi_event_get_pitch(event)*/);
+	 break;
+ 
+       case MIDI_SYSTEM_RESET:
+         fluid_synth_system_reset(synth);
+	 break;
+ }
+
 #endif
   }
   
@@ -365,8 +396,88 @@ fluid_midi_stop(void)
   playing_piece = FALSE;  
 }
 
+/* give audible feedback for entering a rhythmic element */
+void
+fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
+  fluid_playpitch(64+(1+duration), 200);
+  g_print("playing %d %d\n", 64+(1+duration), (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+
+}
 
 
+static fluid_midi_driver_t* midi_in;
+
+static void handle_midi_in(void* data, fluid_midi_event_t* event)
+{
+  gchar buf[3];
+  int type = 
+    fluid_midi_event_get_type(event);
+  //g_print("event type: %x\n", type);
+  switch(type) {
+  case NOTE_ON:
+  case NOTE_OFF:
+  case KEY_PRESSURE:
+  case CONTROL_CHANGE:
+  case PITCH_BEND:
+  case 0xF2:    
+    {
+      int key = fluid_midi_event_get_key(event);
+      int velocity = fluid_midi_event_get_velocity(event);
+      buf[0] = type;
+      buf[1] = key;
+      buf[2] = velocity;
+      if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+	buf[0]=NOTE_OFF;
+	buf[2]=128;
+      }
+      //g_print("key is %d\n", key);
+      process_midi_event(buf);
+    }
+    break;
+
+  
+    
+  case PROGRAM_CHANGE:
+  case CHANNEL_PRESSURE:
+  case 0xF3: 
+    {
+      int key = fluid_midi_event_get_key(event);
+      buf[0] = type;
+      buf[1] = key;
+      process_midi_event(buf);
+    }
+    break;
+  default:
+    g_warning("not handled type %x\n", type);
+  }
+}
+
+
+int
+fluid_start_midi_in(void)
+{
+  fluid_settings_t* settings = new_fluid_settings();
+#ifdef OSS_DRIVER
+  int success = fluid_settings_setstr(settings, "midi.driver", "oss");
+  g_print("success %d\n", success);
+#endif
+  midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
+  g_print("midi in on %p\n", midi_in);
+  if(midi_in)
+    return 0;
+  else
+    return -1;
+}
+int
+fluid_stop_midi_in(void)
+{
+  if(midi_in)
+    delete_fluid_midi_driver(midi_in);
+  else
+    return -1;
+  midi_in = NULL;
+  return 0;
+}
 
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
