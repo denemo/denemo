@@ -156,10 +156,13 @@ call_out_to_guile (const char *script)
 
 //FIXME common up these!!!
 void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s \"%s\")\n", varname, value);
+
+ gchar *def = g_strdup_printf("\"%s\"", value);
  // g_print("Defining %s\n", def);
- call_out_to_guile(def);
+ scm_c_define(varname, scm_from_locale_string(def));
  g_free(def);
+
+
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -167,10 +170,7 @@ void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
 #endif
 }
 void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s %s)\n", varname, value);
- // g_print("Defining %s\n", def);
- call_out_to_guile(def);
- g_free(def);
+scm_c_define(varname, scm_from_locale_string(value));
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -178,10 +178,9 @@ void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip
 #endif
 }
 void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
- gchar *def = g_strdup_printf("(define %s %d)\n", varname, value);
- // g_print("Defining %s\n", def);
- call_out_to_guile(def);
- g_free(def);
+
+scm_c_define(varname, scm_int2num(value));
+
 #ifdef DEVELOPER
  if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
  if(DEV_fp) if(tooltip)
@@ -3793,12 +3792,17 @@ activate_script (GtkAction *action, gpointer param)
       }
     }
     gchar *text = (gchar*)g_object_get_data(G_OBJECT(action), "scheme");
+
+
+    //FIXME use define_scheme_variable for this
     //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
     gchar *current_script = g_strdup_printf("(define CurrentScript \"%s\")\n", gtk_action_get_name(action));
     /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
       need it */
     scm_c_eval_string(current_script);
     g_free(current_script);
+
+
     if(*text==0)
       text = instantiate_script(action);
     if(text)
