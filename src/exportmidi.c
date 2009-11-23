@@ -927,7 +927,7 @@ gchar *substitute_midi_values(gchar* str, gint channel, gint volume) {
   gchar *c;
   for(c=bytes;*c;c++) {
     if(*c=='$')
-      *c = '0'+channel-1;
+      *c = '0'+channel;
     if(*c=='%' && *(c+1)=='%' && *(c+2)=='%')
       sprintf(c, "%3d", volume);//*c = itoa(volume);
   }
@@ -938,7 +938,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
   if(directive->midibytes) {
     gchar *bytes;
     bytes = substitute_midi_values(directive->midibytes->str, channel, volume);
-    //g_print("Got %s as midi bytes\n", bytes);
+    g_print("Got %s as midi bytes\n", bytes);
     char *next;
     char val;
     gint i, numbytes;
@@ -1188,6 +1188,54 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       tracknumber++;
       smf_track_t *track = smf_track_new();
       smf_add_track(smf, track);
+
+      /* track name */
+      event = midi_meta_text (3, curstaffstruct->lily_name->str);
+      smf_track_add_event_delta_pulses(track, event, 0);
+
+      /* tempo */
+      gint cur_tempo = si->tempo;
+      event = midi_tempo (cur_tempo);
+      smf_track_add_event_delta_pulses(track, event, 0);
+
+      /* The midi instrument */
+      event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
+      smf_track_add_event_delta_pulses(track, event, 0);
+
+      midi_channel = get_midi_channel();
+      prognum = get_midi_prognum();
+
+      /* set selected midi program */
+      g_print("Using channel %d prognum %d\n", midi_channel, prognum);
+      event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
+      smf_track_add_event_delta_pulses(track, event, 0);
+
+      /*key signature */
+
+      event = midi_keysig (curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
+      smf_track_add_event_delta_pulses(track, event, 0);
+
+      /* Time signature */
+      timesigupper = curstaffstruct->timesig.time1;
+      //printf("\nstime1 = %i\n", timesigupper);
+
+      timesiglower = curstaffstruct->timesig.time2;
+      //printf("\nstime2 = %i\n", timesiglower);
+
+       event = midi_timesig (timesigupper, timesiglower);
+       smf_track_add_event_delta_pulses(track, event, 0);
+
+      /* set a default velocity value */
+      cur_volume = curstaffstruct->volume;
+      /* mute output if set */
+      mute_volume = curstaffstruct->mute_volume;
+      if(cur_volume==0 && mute_volume==TRUE) {
+	g_warning("volume set to zero but not muted\nResetting volume\n");
+	cur_volume = 65;
+      }
+	
+
+      //Now that we have the channel and volume we can interpret any score and staff-wide directives for midi
       if(curstaffstruct->staff_directives) {
 	GList *g=curstaffstruct->staff_directives;
 	DenemoDirective *directive = NULL;	
@@ -1238,51 +1286,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
       }
 
-      /* track name */
-      event = midi_meta_text (3, curstaffstruct->lily_name->str);
-      smf_track_add_event_delta_pulses(track, event, 0);
 
-      /* tempo */
-      gint cur_tempo = si->tempo;
-      event = midi_tempo (cur_tempo);
-      smf_track_add_event_delta_pulses(track, event, 0);
 
-      /* The midi instrument */
-      event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
-      smf_track_add_event_delta_pulses(track, event, 0);
 
-      midi_channel = get_midi_channel();
-      prognum = get_midi_prognum();
-
-      /* set selected midi program */
-      g_print("Using channel %d prognum %d\n", midi_channel, prognum);
-      event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
-      smf_track_add_event_delta_pulses(track, event, 0);
-
-      /*key signature */
-
-      event = midi_keysig (curstaffstruct->keysig.number, curstaffstruct->keysig.isminor);
-      smf_track_add_event_delta_pulses(track, event, 0);
-
-      /* Time signature */
-      timesigupper = curstaffstruct->timesig.time1;
-      //printf("\nstime1 = %i\n", timesigupper);
-
-      timesiglower = curstaffstruct->timesig.time2;
-      //printf("\nstime2 = %i\n", timesiglower);
-
-       event = midi_timesig (timesigupper, timesiglower);
-       smf_track_add_event_delta_pulses(track, event, 0);
-
-      /* set a default velocity value */
-      cur_volume = curstaffstruct->volume;
-      /* mute output if set */
-      mute_volume = curstaffstruct->mute_volume;
-      if(cur_volume==0 && mute_volume==TRUE) {
-	g_warning("volume set to zero but not muted\nResetting volume\n");
-	cur_volume = 65;
-      }
-	
 
       /* reset measure */
       curmeasurenum = 0;
