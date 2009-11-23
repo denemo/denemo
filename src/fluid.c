@@ -396,6 +396,13 @@ fluid_midi_stop(void)
   playing_piece = FALSE;  
 }
 
+/* give audible feedback for entering a rhythmic element */
+void
+fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
+  fluid_playpitch(64+(1+duration), 200);
+  g_print("playing %d %d\n", 64+(1+duration), (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+
+}
 
 
 
