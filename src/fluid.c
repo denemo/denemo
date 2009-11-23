@@ -405,6 +405,77 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 }
 
 
+static fluid_midi_driver_t* midi_in;
+
+static void handle_midi_in(void* data, fluid_midi_event_t* event)
+{
+  gchar buf[3];
+  int type = 
+    fluid_midi_event_get_type(event);
+  //g_print("event type: %x\n", type);
+  switch(type) {
+  case NOTE_ON:
+  case NOTE_OFF:
+  case KEY_PRESSURE:
+  case CONTROL_CHANGE:
+  case PITCH_BEND:
+  case 0xF2:    
+    {
+      int key = fluid_midi_event_get_key(event);
+      int velocity = fluid_midi_event_get_velocity(event);
+      buf[0] = type;
+      buf[1] = key;
+      buf[2] = velocity;
+      if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+	buf[0]=NOTE_OFF;
+	buf[2]=128;
+      }
+      //g_print("key is %d\n", key);
+      process_midi_event(buf);
+    }
+    break;
+
+  
+    
+  case PROGRAM_CHANGE:
+  case CHANNEL_PRESSURE:
+  case 0xF3: 
+    {
+      int key = fluid_midi_event_get_key(event);
+      buf[0] = type;
+      buf[1] = key;
+      process_midi_event(buf);
+    }
+    break;
+  default:
+    g_warning("not handled type %x\n", type);
+  }
+}
+
+
+int
+fluid_start_midi_in(void)
+{
+  fluid_settings_t* settings = new_fluid_settings();
+  int success = fluid_settings_setstr(settings, "midi.driver", "oss");
+  g_print("success %d\n", success);
+  midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
+  g_print("midi in on %p\n", midi_in);
+  if(midi_in)
+    return 0;
+  else
+    return -1;
+}
+int
+fluid_stop_midi_in(void)
+{
+  if(midi_in)
+    delete_fluid_midi_driver(midi_in);
+  else
+    return -1;
+  midi_in = NULL;
+  return 0;
+}
 
 #else // _HAVE_FLUIDSYNTH_
 void fluid_playpitch(int key, int duration){}
