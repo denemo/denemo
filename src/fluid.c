@@ -457,8 +457,10 @@ int
 fluid_start_midi_in(void)
 {
   fluid_settings_t* settings = new_fluid_settings();
+#ifdef OSS_DRIVER
   int success = fluid_settings_setstr(settings, "midi.driver", "oss");
   g_print("success %d\n", success);
+#endif
   midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
   g_print("midi in on %p\n", midi_in);
   if(midi_in)
