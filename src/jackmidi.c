@@ -62,6 +62,16 @@ static gboolean        	use_transport = FALSE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
 
+gint
+maxnumber_of_clients(){
+  return MAX_NUMBER_OF_CLIENTS;
+}
+
+gint
+maxnumber_of_ports(){
+  return MAX_NUMBER_OF_TRACKS;
+}
+
 double 
 get_time(void)
 {
@@ -321,7 +331,7 @@ create_default_jack_midi_ports(){
     create_jack_midi_port(1);
 }
 
-static int
+int
 create_jack_midi_client(){
   gint i;
   char str[10];
@@ -346,7 +356,7 @@ remove_jack_midi_port(int client_number){
   int err,i;
   err = 0;
   
-  for (i=MAX_NUMBER_OF_TRACKS;i>0;i--)
+  for (i=MAX_NUMBER_OF_TRACKS;i>=0;i--)
     if (midi_device[client_number].output_ports[i]){
       err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
       midi_device[client_number].output_ports[i] = NULL;
@@ -361,7 +371,7 @@ remove_all_jack_midi_ports(int client_number){
   int err,i;
   err = 0;
 	
-  for (i=0;i < MAX_NUMBER_OF_TRACKS;i++)
+  for (i=MAX_NUMBER_OF_TRACKS;i>=0;i--)
     if (midi_device[client_number].output_ports[i]){
       err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
       midi_device[client_number].output_ports[i] = NULL;
@@ -369,15 +379,25 @@ remove_all_jack_midi_ports(int client_number){
     }
 }
 
+int
+remove_jack_midi_client(){
+  gint i;
+  char str[10];
+  for (i=MAX_NUMBER_OF_CLIENTS;i>=0;i--)
+    if (midi_device[i].output_ports[i]){
+      remove_all_jack_midi_ports(i);
+      jack_deactivate(midi_device[i].jack_client);
+      jack_client_close(midi_device[i].jack_client);
+      midi_device[i].jack_client = NULL;
+      return i;
+    }
+  return -1;
+}
+
 void
 remove_all_jack_midi_clients(){
-  int i;
-  for (i=0;i < MAX_NUMBER_OF_CLIENTS;i++){
-    remove_all_jack_midi_ports(i);
-    jack_deactivate(midi_device[i].jack_client);
-    jack_client_close(midi_device[i].jack_client);
-    midi_device[i].jack_client = NULL;
-  }
+  while (remove_jack_midi_client() >= 0)
+    g_debug("\nRemoving Jack Midi client\n");
 }
 
 int
@@ -422,15 +442,14 @@ init_jack(void){
 
 void
 jack_start_restart (void){
-  g_debug("\nJack Start/Restart button pressed\n");
-  if (midi_device[0].jack_client == NULL){ //TODO check if this is correct
-    g_debug("\nStarting Jack\n");
+  if (midi_device[0].jack_client){ 
+    g_debug("\nRestarting Jack\n");
+    stop_jack();
     init_jack();
     create_default_jack_midi_ports();
   }
-  if (midi_device[0].jack_client != NULL){ //TODO check if this is correct
-    g_debug("\nRestarting Jack\n");
-    stop_jack();
+  else { 
+    g_debug("\nStarting Jack\n");
     init_jack();
     create_default_jack_midi_ports();
   }

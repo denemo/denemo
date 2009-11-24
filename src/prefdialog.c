@@ -17,13 +17,9 @@
 #include <denemo/denemo.h>
 #include "prefops.h"
 #include "utils.h"
-#ifdef _HAVE_JACK_
 #include "jackmidi.h"
-#endif
-#ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
-#endif
-
+#include "device_manager.h"
 
 gchar *output_options[] = {"Portaudio", "Jack"
 #ifdef _HAVE_FLUIDSYNTH_
@@ -193,9 +189,6 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *notebook;
   GtkWidget *hbox;
   GtkWidget *vbox;
-  GtkTreeIter iter;
-  GtkTreeViewColumn *column;
-  GtkCellRenderer *renderer;
   GtkWidget *entrywidget;
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
@@ -274,13 +267,13 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
-#define BUTTON(thelabel, field, thecallback) \
+#define BUTTON(thelabel, field, thecallback, data) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
   GtkWidget *field = gtk_button_new_with_label(thelabel);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   g_signal_connect (G_OBJECT (field), "clicked",\
-  G_CALLBACK (thecallback), (gpointer) NULL);
+  G_CALLBACK (thecallback), (gpointer) data);
 
   /*
    * Note entry settings
@@ -397,7 +390,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
   BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
   /* Start/Restart Button */
-  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart);
+  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
 #endif
   /*
    * Fluidsynth Menu
@@ -405,7 +398,7 @@ preferences_change (GtkAction *action, gpointer param)
 #ifdef _HAVE_FLUIDSYNTH_
   NEWPAGE("FLUIDSYNTH");
   /* Start/Restart Button */
-  BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart)
+  BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
 
   /*TODO ifdef differnet os's and support
    *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
@@ -431,55 +424,19 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
 #endif
+  /* device manager */
   NEWPAGE("MIDI Device Manager");
   hbox = gtk_hbox_new(TRUE, 5);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  GtkWidget *view = DeviceManager();
+  gtk_box_pack_start (GTK_BOX (hbox), view, FALSE, FALSE, 0);
+  gtk_widget_show (view);
+  /* add/remove/rename buttons */
   
-  /* device view */
-
-  GtkListStore *device_store;
-  GtkWidget *device_list;
-
-  device_store = gtk_list_store_new (1, G_TYPE_STRING);
-  device_list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (device_store));
-  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (device_list),
-    0, "Client Devices", gtk_cell_renderer_text_new (),
-    "text", 0, NULL);
-  
-  for(i=0;i<3;i++){ 
-    gtk_list_store_append (device_store, &iter);
-    gtk_list_store_set (device_store, &iter,
-      0, "Jack:0", -1);
-  }
-
-  gtk_box_pack_start (GTK_BOX (hbox), device_list, TRUE, TRUE, 0);
-  
-  /* port view */
-
-  GtkListStore *port_store;
-  GtkWidget *port_list;
-
-  port_store = gtk_list_store_new (1, G_TYPE_STRING);       
-  port_list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (port_store));
-  gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (port_list),
-    0, "Ports", gtk_cell_renderer_text_new (), 
-    "text", 0, NULL);  
-  
-  for(i=0;i<3;i++){ 
-    gtk_list_store_append (port_store, &iter);
-    gtk_list_store_set (port_store, &iter,
-      0, "midi_output:0", -1);
-  }
-
-  gtk_box_pack_start (GTK_BOX (hbox), port_list, TRUE, TRUE, 0);
-    
-  /* add remove buttons */
-
-  BUTTON("Add Device", midi_add_device, NULL); 
-  BUTTON("Remove Device", midi_remove_device, NULL); 
- 
-  BUTTON("Add Port", midi_device_add_port, NULL);
-  BUTTON("Remove Port", midi_device_remove_port, NULL);
+  BUTTON("Add Device", midi_add_device, device_manager_create_device, NULL); 
+  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
+  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, NULL);
+  BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, NULL);
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
@@ -498,5 +455,4 @@ preferences_change (GtkAction *action, gpointer param)
     }
   gtk_widget_destroy (dialog);
 }
-
 
