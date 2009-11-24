@@ -13,6 +13,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
 	jackmidi.c jackmidi.h \
 	fluid.c fluid.h \
+	device_manager.c device_manager.h \
 	playback.c drawfakechord.c fakechord.c \
 	playbackprops.c prefdialog.c prefops.c	processstaffname.c \
 	csoundplayback.c lyric.c scoreops.c scoreprops.c \
