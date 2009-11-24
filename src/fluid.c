@@ -252,7 +252,7 @@ gboolean fluidsynth_read_smf_events()
     return TRUE; 
   } 
      
-  if ((get_time() - start_player) >= event->time_seconds){
+  if ((get_time() - start_player) > event->time_seconds){
      event = smf_get_next_event(Denemo.gui->si->smf);
 
  
@@ -345,6 +345,7 @@ void fluid_midi_play(void)
     g_idle_add(fluidsynth_read_smf_events, NULL);
   }
 #if 1
+#define g_debug g_print
   playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
   
   /* TODO make the below some sort of function this is copy  
@@ -362,8 +363,8 @@ void fluid_midi_play(void)
     g_debug("\nsetting start %f\n", start_time);
   }
   end_time = playback_duration;
-  curobj = NULL;
   curobj =  get_point_object();
+  g_print("curobj %p\n", curobj);
   if(curobj && curobj->midi_events)/*is this ever true?*/ { 
     smf_event_t *event = g_list_last(curobj->midi_events)->data;
     end_time = event->time_seconds;
@@ -377,8 +378,9 @@ void fluid_midi_play(void)
     end_time = temp;
   }
   playback_duration = end_time - start_time;
+  start_player -= start_time;
   g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
-
+  smf_seek_to_seconds(gui->si->smf, start_time);
     if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
       DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
       //FIXME add a delay before starting the timer.
