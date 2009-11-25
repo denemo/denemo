@@ -449,7 +449,11 @@ return  SCM_BOOL(FALSE);
 void create_scheme_function_for_script(gchar *name) {
   gchar *proc = g_strdup_printf("(d-%s)", name);
   gchar *value = g_strdup_printf("(d-ScriptCallback \"%s\")", name);
-  define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
+  gchar *def = g_strdup_printf("(define %s %s)\n", proc, value);
+  // g_print("Defining %s\n", def);
+  call_out_to_guile(def);
+  g_free(def);
+  // define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
 }
 
 
