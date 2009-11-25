@@ -575,15 +575,164 @@ printrangedialog(DenemoGUI * gui){
 }
 
 
+static   cairo_surface_t *surface;
+
+static void
+begin_print (GtkPrintOperation *operation,
+	     GtkPrintContext   *context)
+{
+
+  gchar *filename = get_printfile_pathbasename();
+  gchar *path = g_strconcat (filename, "_.png", NULL);
+  g_free(filename);
+ 
+
+  cairo_t * cr = gtk_print_context_get_cairo_context (context);
+  surface = cairo_image_surface_create_from_png (path);
+  g_free(path);
+  int src_width = cairo_image_surface_get_width(surface);//PIXELS
+  int src_height = cairo_image_surface_get_height(surface);
+
+  int width = 595;
+  int height = 842;
+  int page_height =  height*((double)src_width)/width;
+  int num_pages = src_height/page_height;
+
+  gtk_print_operation_set_n_pages (operation, num_pages);
+}
+
+
+/***********************************
+We will need to respond to the paginate signal by dividing the .png image into pages.
+(alternatively, we could use the page_nr parameter to choose the n'th page-sized chunk of the .png surface.
+ paper size in points:
+
+Letter		 612x792
+LetterSmall	 612x792
+Tabloid		 792x1224
+Ledger		1224x792
+Legal		 612x1008
+Statement	 396x612
+Executive	 540x720
+A0               2384x3371
+A1              1685x2384
+A2		1190x1684
+A3		 842x1190
+A4		 595x842
+A4Small		 595x842
+A5		 420x595
+B4		 729x1032
+B5		 516x729
+Envelope	 ???x???
+Folio		 612x936
+Quarto		 610x780
+10x14		 720x1008
+
+This may help:
+
+How do I paint from one surface to another?
+
+If you have some surface source which you'd like to paint to some surface destination at position (x, y) you would use code as follows:
+
+cairo_t *cr = cairo_create (destination);
+cairo_set_source_surface (cr, source, x, y);
+cairo_paint (cr);
+
+Note that the paint operation will copy the entire surface. If you'd like to instead copy some (width, height) rectangle from (source_x, source_y) to some point (dest_x, dest_y) on the destination you would instead compute a new position for the source surface origin and then use cairo_fill instead of cairo_paint:
+
+cairo_set_source_surface (cr, !!!! something missing!!! dest_x - source_x, dest_y - source_y)
+cairo_rectangle (cr, dest_x, dest_y, width, height);
+cairo_fill (cr);
+
+And note that using a surface as the source pattern will work with any other cairo drawing operation as well. You can use cairo_set_source_surface to get patterned effects from cairo_stroke or cairo_show_text just as easily.
+
+Finally, by default cairo uses the OVER operator when drawing, so if the source surface contains alpha content, then it will be used to blend the source over the destination. This is often exactly what is desired, but if you would like to directly copy alpha information from the source to the destination without blending, then you can use cairo_set_operator with CAIRO_OPERATOR_SOURCE to do that, (see clearing a surface for some examples using CAIRO_OPERATOR_SOURCE).
+
+
+*********************/
+static void
+draw_page (GtkPrintOperation *operation,
+	   GtkPrintContext   *context,
+	   gint               page_nr)
+{
+
+
+
+  cairo_t * cr = gtk_print_context_get_cairo_context (context);
+
+  int src_width = cairo_image_surface_get_width(surface);//PIXELS
+  int src_height = cairo_image_surface_get_height(surface);
+
+  int page_origin_x = 0;
+  int page_origin_y = 0;
+  int width = 595;
+  int height = 842;
+  int page_height =  height*((double)src_width)/width;
+  int num_pages = src_height/page_height;
+
+  g_print("Have %d pages of page height %d at page number %d\n", num_pages, page_height, page_nr);
+  cairo_status_t  status = cairo_surface_status(surface);
+  if(status != CAIRO_STATUS_SUCCESS)
+    g_print("An error %d\n", status);
+  if(page_nr>num_pages)
+    gtk_print_operation_cancel (operation);
+  else {
+    cairo_set_source_surface (cr, surface, page_origin_x,  page_origin_y);
+    cairo_rectangle (cr, 0, page_height*page_nr, width, page_height);
+    cairo_fill (cr);
+  }
+
+// cairo_paint (cr);
+  //cairo_surface_destroy (surface);
+
+  g_print("returning from draw\n");
+
+}
+
+
 /* callback to print whole of score */
+static GtkPrintSettings *settings;
 void
 printall_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   gui->lilycontrol.excerpt = FALSE;
-  gchar *str = g_strdup_printf("No direct printing yet\nWe will run the PDF viewer program %s so you can use its print command.\nYou can change the PDF viewer using \nEdit->Preferences->Externals->Pdf viewer.", Denemo.prefs.pdfviewer->str);
+  gchar *str = g_strdup_printf("Direct printing is experimental - use print preview otherwise after setting pdf viewer in prefs (currently %s).", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
   g_free(str);
-  print(gui, FALSE, TRUE);
+  //print(gui, FALSE, TRUE);
+  GtkPrintOperation *operation;
+  gint res;
+  GError *error = NULL;
+  operation = gtk_print_operation_new ();
+  if (settings != NULL)
+    gtk_print_operation_set_print_settings (operation, settings);
+  // gtk_print_operation_set_use_full_page(operation, TRUE); ie no margins
+    gtk_print_operation_set_unit(operation, GTK_UNIT_POINTS);
+    // gtk_print_operation_set_unit (operation, GTK_UNIT_MM);
+
+  g_signal_connect (operation, "begin-print",
+		    G_CALLBACK (begin_print), NULL);
+  g_signal_connect (operation, "draw-page",
+		    G_CALLBACK (draw_page), NULL);
+
+  res = gtk_print_operation_run (operation, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
+				 GTK_WINDOW (Denemo.window), &error);
+  if (res == GTK_PRINT_OPERATION_RESULT_APPLY) {
+    if (settings != NULL)
+      g_object_unref (settings);
+    settings = g_object_ref (gtk_print_operation_get_print_settings (operation));
+  }
+  else if (error) {
+    GtkWidget *dialog;
+    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window),
+				     GTK_DIALOG_NO_SEPARATOR,
+				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+				     "%s", error->message);
+    g_error_free (error);
+    gtk_dialog_run (GTK_DIALOG (dialog));
+    gtk_widget_destroy (dialog);
+  }
+  g_object_unref (operation);
 }
 /* callback to print current part (staff) of score */
 void
@@ -923,7 +1072,10 @@ void refresh_print_view (void) {
 
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
-  gchar *resolution = "-dresolution=180";
+  // gchar *resolution = "-dresolution=180";
+  gchar *resolution = "-dresolution=78";
+
+
 #if GLIB_MINOR_VERSION >= 14
   gchar **arguments;
   gchar *arguments1[] = {
