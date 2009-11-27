@@ -1029,6 +1029,7 @@ change_channel(gint *channel, gint midi_val, gint  midi_interpretation,gint  mid
   }  
   if(*channel>127) *channel=127;
   if(*channel<0) *channel=0;
+  g_print("After channel change channel = %d\n", *channel);
 }
 
 
