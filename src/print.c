@@ -575,8 +575,8 @@ printrangedialog(DenemoGUI * gui){
 }
 
 
-static   cairo_surface_t *surface;
-
+static   cairo_surface_t *the_surface;
+static gdouble repeat_length;
 static void
 begin_print (GtkPrintOperation *operation,
 	     GtkPrintContext   *context)
@@ -585,26 +585,24 @@ begin_print (GtkPrintOperation *operation,
   gchar *filename = get_printfile_pathbasename();
   gchar *path = g_strconcat (filename, "_.png", NULL);
   g_free(filename);
- 
-
-  cairo_t * cr = gtk_print_context_get_cairo_context (context);
-  surface = cairo_image_surface_create_from_png (path);
+  the_surface = cairo_image_surface_create_from_png (path);
   g_free(path);
-  int src_width = cairo_image_surface_get_width(surface);//PIXELS
-  int src_height = cairo_image_surface_get_height(surface);
+  int src_width = cairo_image_surface_get_width(the_surface);//PIXELS
+  int src_height = cairo_image_surface_get_height(the_surface);
 
-  int width = 595;
-  int height = 842;
-  int page_height =  height*((double)src_width)/width;
-  int num_pages = src_height/page_height;
-
+  double page_height =  1.414*((double)src_width);
+  //g_print("Estimated page height from width %f giving %f pages\n", page_height, src_height/page_height);
+  int num_pages = (int)(0.5+src_height/page_height);
+  repeat_length = src_height/num_pages +1.0;
+  //g_print("Estimated page height from width %f giving %f pages\nRepeat length %f", page_height, src_height/page_height, repeat_length);
   gtk_print_operation_set_n_pages (operation, num_pages);
+  gtk_print_operation_set_use_full_page(operation, TRUE);
 }
 
 
 /***********************************
-We will need to respond to the paginate signal by dividing the .png image into pages.
-(alternatively, we could use the page_nr parameter to choose the n'th page-sized chunk of the .png surface.
+We divide the .png image into pages.
+ we use the page_nr parameter to choose the n'th page-sized chunk of the .png surface.
  paper size in points:
 
 Letter		 612x792
@@ -628,26 +626,6 @@ Folio		 612x936
 Quarto		 610x780
 10x14		 720x1008
 
-This may help:
-
-How do I paint from one surface to another?
-
-If you have some surface source which you'd like to paint to some surface destination at position (x, y) you would use code as follows:
-
-cairo_t *cr = cairo_create (destination);
-cairo_set_source_surface (cr, source, x, y);
-cairo_paint (cr);
-
-Note that the paint operation will copy the entire surface. If you'd like to instead copy some (width, height) rectangle from (source_x, source_y) to some point (dest_x, dest_y) on the destination you would instead compute a new position for the source surface origin and then use cairo_fill instead of cairo_paint:
-
-cairo_set_source_surface (cr, !!!! something missing!!! dest_x - source_x, dest_y - source_y)
-cairo_rectangle (cr, dest_x, dest_y, width, height);
-cairo_fill (cr);
-
-And note that using a surface as the source pattern will work with any other cairo drawing operation as well. You can use cairo_set_source_surface to get patterned effects from cairo_stroke or cairo_show_text just as easily.
-
-Finally, by default cairo uses the OVER operator when drawing, so if the source surface contains alpha content, then it will be used to blend the source over the destination. This is often exactly what is desired, but if you would like to directly copy alpha information from the source to the destination without blending, then you can use cairo_set_operator with CAIRO_OPERATOR_SOURCE to do that, (see clearing a surface for some examples using CAIRO_OPERATOR_SOURCE).
-
 
 *********************/
 static void
@@ -655,38 +633,37 @@ draw_page (GtkPrintOperation *operation,
 	   GtkPrintContext   *context,
 	   gint               page_nr)
 {
-
-
-
   cairo_t * cr = gtk_print_context_get_cairo_context (context);
 
-  int src_width = cairo_image_surface_get_width(surface);//PIXELS
-  int src_height = cairo_image_surface_get_height(surface);
-
+  int src_width = cairo_image_surface_get_width(the_surface);//PIXELS
+  int src_height = cairo_image_surface_get_height(the_surface);
   int page_origin_x = 0;
   int page_origin_y = 0;
-  int width = 595;
-  int height = 842;
-  int page_height =  height*((double)src_width)/width;
-  int num_pages = src_height/page_height;
+  static double scale = 1.414;
+  //g_print("width %d height %d\n", src_width, src_height);
+  double page_height =  scale*src_width;
+  int num_pages = (int)(0.5 + src_height/page_height);
+  //g_print("Have %d pages of page height %f at page number %d\n", num_pages, page_height, page_nr);
 
-  g_print("Have %d pages of page height %d at page number %d\n", num_pages, page_height, page_nr);
-  cairo_status_t  status = cairo_surface_status(surface);
+  cairo_status_t  status = cairo_surface_status(the_surface);
   if(status != CAIRO_STATUS_SUCCESS)
     g_print("An error %d\n", status);
-  if(page_nr>num_pages)
+  if(page_nr>=num_pages) {
+    g_warning("called for page_nr %d\n", page_nr+1);
     gtk_print_operation_cancel (operation);
+    //cairo_surface_destroy (the_surface); the_surface = NULL;
+  }
   else {
-    cairo_set_source_surface (cr, surface, page_origin_x,  page_origin_y);
-    cairo_rectangle (cr, 0, page_height*page_nr, width, page_height);
+
+    double margin = 15.0;
+    //cairo_rotate (cr, 45* 3.1418/180); works
+    cairo_scale (cr, 70.0/180.0, 70.0/180.0);
+    cairo_translate(cr, 4*margin,  4*margin   );
+    cairo_set_source_surface (cr, the_surface, 0.0 /*2*margin*/,   - (double)(repeat_length*page_nr));
+    cairo_rectangle (cr, 0.0, 0.0, (double)src_width+2*margin, (double)repeat_length);
     cairo_fill (cr);
   }
-
-// cairo_paint (cr);
-  //cairo_surface_destroy (surface);
-
-  g_print("returning from draw\n");
-
+  g_print("returning from drawing page %d\n", page_nr+1);
 }
 
 
@@ -706,8 +683,13 @@ printall_cb (GtkAction *action, gpointer param) {
   operation = gtk_print_operation_new ();
   if (settings != NULL)
     gtk_print_operation_set_print_settings (operation, settings);
-  // gtk_print_operation_set_use_full_page(operation, TRUE); ie no margins
-    gtk_print_operation_set_unit(operation, GTK_UNIT_POINTS);
+
+
+
+  //FIXME move these to the begin print callback - neater.
+  // gtk_print_operation_set_use_full_page(operation, TRUE);// ie no margins
+  //  gtk_print_operation_set_unit(operation, GTK_UNIT_POINTS);
+  //gtk_print_operation_set_unit(operation, GTK_UNIT_PIXEL);
     // gtk_print_operation_set_unit (operation, GTK_UNIT_MM);
 
   g_signal_connect (operation, "begin-print",
@@ -1072,8 +1054,7 @@ void refresh_print_view (void) {
 
   // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
-  // gchar *resolution = "-dresolution=180";
-  gchar *resolution = "-dresolution=78";
+  gchar *resolution = "-dresolution=180";
 
 
 #if GLIB_MINOR_VERSION >= 14
@@ -1279,7 +1260,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   /* creating an offset? */
   if(offsetting) {
     offsetx = curx - markx;
-    offsety = cury - marky;   
+    offsety = cury - marky;  
+
     GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog");
     g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsetx", (gpointer)offsetx);
     g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offsety", (gpointer)offsety);
@@ -1295,7 +1277,8 @@ printarea_button_press (GtkWidget * widget, GdkEventButton * event)
   }
   /*( creating a padding value? */
   if(padding) {
-    gint pad = ABS(curx - markx);
+    gint pad = ABS(curx - markx); 
+
     GtkWidget *thedialog = g_object_get_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog");
     g_object_set_data(G_OBJECT(Denemo.gui->printarea), "padding", (gpointer)pad);
     if(thedialog){
@@ -1332,9 +1315,6 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(!left) {
         return TRUE;
   }
-
-
-
   if(Denemo.gui->pixbuf==NULL)
     return TRUE;
   if(selecting) {
@@ -1345,14 +1325,13 @@ printarea_button_release (GtkWidget * widget, GdkEventButton * event)
 
     width = pointx-markx;
     height = pointy-marky;
+    GtkIconFactory *icon_factory = gtk_icon_factory_new ();
+    GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx+adjust_x, marky+adjust_y, width, height);
 
-    GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (Denemo.gui->pixbuf, TRUE, 255, 255, 255);
-    if(alphapixbuf){
-      //   gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx, marky, pointx, pointy);
-      gchar *data =  create_xbm_data_from_pixbuf(alphapixbuf, markx+adjust_x, marky+adjust_y, pointx+adjust_x, pointy+adjust_y);
-      g_print("Used adjust x y %d, %d\n", adjust_x, adjust_y);
-      GtkIconFactory *icon_factory = gtk_icon_factory_new ();
-      GdkPixbuf *sub_pixbuf = gdk_pixbuf_new_subpixbuf (Denemo.gui->pixbuf, markx+adjust_x, marky+adjust_y, width, height);
+    GdkPixbuf *alphapixbuf = gdk_pixbuf_add_alpha (sub_pixbuf, TRUE, 255, 255, 255);
+    GdkPixbuf *scaledpixbuf = gdk_pixbuf_scale_simple(alphapixbuf, width, height,GDK_INTERP_BILINEAR);
+    if(scaledpixbuf) {
+      gchar *data =  create_xbm_data_from_pixbuf(scaledpixbuf, 0, 0, width, height);
 
       GtkIconSet *icon_set = gtk_icon_set_new_from_pixbuf (sub_pixbuf);
       g_object_unref(sub_pixbuf);
