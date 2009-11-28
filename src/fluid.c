@@ -138,6 +138,10 @@ gint  sfont_id = fluid_synth_sfload(synth, Denemo.prefs.fluidsynth_soundfont->st
   channel 0 */
   fluid_synth_program_select(synth, 0, sfont_id, 0, 0);
 
+
+  gint i;
+  for(i=0;i<16;i++)
+    fluid_synth_program_change(synth, i, 0);
    return 0;
 }                                                                                                                              
                     
@@ -287,7 +291,7 @@ gboolean fluidsynth_read_smf_events()
        case PROGRAM_CHANGE:
 	 g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
          success = fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
-	 // g_print("success = %d\n", success);
+	 g_print("success = %d\n", success);
 	 break;
  
 	 //     case CHANNEL_PRESSURE:
