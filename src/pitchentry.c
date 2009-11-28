@@ -716,12 +716,10 @@ gint pitchentry(DenemoGUI *gui) {
 	  //g_print("pitch %f key number %d\n",found->pitch, key);
 	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
 	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
-#if 0
 	  else if (Denemo.prefs.midi_audio_output == JACK)
 	    jack_playpitch(key, 300 /*duration*/);
 	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
-	    fluid_playpitch(key, 300 /*duration*/, 0);
-#endif
+	    fluid_playpitch(key, 300 /*duration*/,  ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel);
 	}
 	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
