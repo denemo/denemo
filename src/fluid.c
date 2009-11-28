@@ -174,7 +174,7 @@ fluidsynth_start_restart (void){
 static gboolean noteoff_callback(gint notenum){
   gint key = notenum&0xFF;
   gint chan = notenum>>8;
-  g_print("turning off %d on channel %d\n", key, chan);
+  //g_print("turning off %d on channel %d\n", key, chan);
   if (synth)
     fluid_synth_noteoff(synth, chan, key);
   return FALSE;
@@ -184,7 +184,7 @@ void fluid_playpitch(int key, int duration, int channel)
 {
   /* Play a note */
   if (synth){
-    g_print("Emitting key %d\n", key);
+    //g_print("Emitting key %d\n", key);
     fluid_synth_noteon(synth, channel, key, 80);
     g_timeout_add(duration, noteoff_callback, (gpointer)( (channel<<8) + key)); 
   }
@@ -291,9 +291,9 @@ gboolean fluidsynth_read_smf_events()
 	 break; 
                              
        case PROGRAM_CHANGE:
-	 g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
+	 //g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
          success = fluid_synth_program_change(synth, chan,  event->midi_buffer[1]);
-	 g_print("success = %d\n", success);
+	 //g_print("success = %d\n", success);
 	 break;
  
 	 //     case CHANNEL_PRESSURE:
@@ -352,7 +352,7 @@ void fluid_midi_play(void)
     g_idle_add(fluidsynth_read_smf_events, NULL);
   }
 #if 1
-#define g_debug g_print
+
   playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
   
   /* TODO make the below some sort of function this is copy  
@@ -371,7 +371,6 @@ void fluid_midi_play(void)
   }
   end_time = playback_duration;
   curobj =  get_point_object();
-  g_print("curobj %p\n", curobj);
   if(curobj && curobj->midi_events)/*is this ever true?*/ { 
     smf_event_t *event = g_list_last(curobj->midi_events)->data;
     end_time = event->time_seconds;
@@ -416,7 +415,7 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
   if(rest)
     fluid_playpitch(46, 300, 9);
   
-  g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+  //  g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
 
 }
 
@@ -475,10 +474,10 @@ fluid_start_midi_in(void)
   fluid_settings_t* settings = new_fluid_settings();
 #ifdef OSS_DRIVER
   int success = fluid_settings_setstr(settings, "midi.driver", "oss");
-  g_print("success %d\n", success);
+  //g_print("success %d\n", success);
 #endif
   midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
-  g_print("midi in on %p\n", midi_in);
+  //g_print("midi in on %p\n", midi_in);
   if(midi_in)
     return 0;
   else
