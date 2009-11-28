@@ -5143,7 +5143,7 @@ toggle_print_view (GtkAction *action, gpointer param)
   else {
     gtk_widget_show(w);
     if(((gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "printviewupdate"))<Denemo.gui->changecount)
-      refresh_print_view();
+      refresh_print_view(TRUE);
   }
   return;
 }

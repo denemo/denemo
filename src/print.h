@@ -20,5 +20,6 @@ run_lilypond_and_viewer(gchar *basename, DenemoGUI *gui);
 void export_pdf_action (GtkAction *action, gpointer param);
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *vbox);
-
+void
+refresh_print_view(gboolean interactive);
 #endif /*PRINT_H*/	
