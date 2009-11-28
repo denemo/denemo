@@ -713,7 +713,7 @@ gint pitchentry(DenemoGUI *gui) {
 	  else if (Denemo.prefs.midi_audio_output == JACK)
 	    jack_playpitch(key, 300 /*duration*/);
 	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
-	    fluid_playpitch(key, 300 /*duration*/);
+	    fluid_playpitch(key, 300 /*duration*/, 0);
 	}
 	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
