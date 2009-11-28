@@ -979,7 +979,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
 
 
   } else {
-    if(Denemo.gui->input_source==INPUTKEYBOARD) {
+    if(Denemo.gui->input_source==INPUTKEYBOARD || Denemo.gui->input_source==INPUTMIDI) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,  curstaffstruct->midi_channel);
     }

@@ -171,10 +171,12 @@ fluidsynth_start_restart (void){
   }
 }
 
-static gboolean timer_callback(gpointer notenum){
-  gint key = (gint) notenum;
+static gboolean noteoff_callback(gint notenum){
+  gint key = notenum&0xFF;
+  gint chan = notenum>>8;
+  g_print("turning off %d on channel %d\n", key, chan);
   if (synth)
-    fluid_synth_noteoff(synth, 0, key);
+    fluid_synth_noteoff(synth, chan, key);
   return FALSE;
 }
 
@@ -182,9 +184,9 @@ void fluid_playpitch(int key, int duration, int channel)
 {
   /* Play a note */
   if (synth){
-    g_print("Emitting channel %d\n", channel);
+    g_print("Emitting key %d\n", key);
     fluid_synth_noteon(synth, channel, key, 80);
-    g_timeout_add(duration, timer_callback, (gpointer) key); 
+    g_timeout_add(duration, noteoff_callback, (gpointer)( (channel<<8) + key)); 
   }
 }
 
@@ -404,10 +406,17 @@ fluid_midi_stop(void)
 }
 
 /* give audible feedback for entering a rhythmic element */
+static gint rhythm_sounds[] = {41,48,60,64,62,70, 81, 69, 79};
 void
 fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
-  fluid_playpitch(64+(1+duration), 200, 9);
-  g_print("playing %d %d\n", 64+(1+duration), (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+  if(dot)
+    fluid_playpitch(67, 100, 9);
+  else
+    fluid_playpitch( rhythm_sounds[duration], rest?100:200, 9);
+  if(rest)
+    fluid_playpitch(46, 300, 9);
+  
+  g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
 
 }
 

@@ -660,6 +660,13 @@ static float Freq2Pitch(float freq)
 }
 
 
+static void
+signal_measure_end(void) {
+if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+  fluid_playpitch(74, 300, 9);
+ else
+   gdk_beep();
+}
 
 /* look for a new note played into audio input, if
    present insert it into the score/store */
@@ -709,11 +716,12 @@ gint pitchentry(DenemoGUI *gui) {
 	  //g_print("pitch %f key number %d\n",found->pitch, key);
 	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
 	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
-	  // playpitch(midi2hz(key), duration, volume, channel);
+#if 0
 	  else if (Denemo.prefs.midi_audio_output == JACK)
 	    jack_playpitch(key, 300 /*duration*/);
 	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
 	    fluid_playpitch(key, 300 /*duration*/, 0);
+#endif
 	}
 	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {
 	  enter_note_in_score(gui, found, octave);
@@ -723,7 +731,7 @@ gint pitchentry(DenemoGUI *gui) {
 	    scheme_next_note(NULL);
 	    if(measure != gui->si->currentmeasurenum)
 	      beep=TRUE;
-	    else if(beep) gdk_beep(), beep=FALSE;
+	    else if(beep) signal_measure_end(), beep=FALSE;
 	  }
 	}
 	else
