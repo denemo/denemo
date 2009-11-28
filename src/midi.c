@@ -81,7 +81,7 @@ gint get_midi_channel()
   }
   else
     channel = curstaffstruct->midi_channel;
-  return channel - 1; //staff struct uses user-side encoding 1-16
+  return channel ; //staff struct uses encoding 0-15
 }
 
 gint get_midi_prognum()
@@ -196,15 +196,15 @@ void play_midikey(gint key, double duration, double volume, gint channel){
   else if (Denemo.prefs.midi_audio_output == JACK)
     jack_playpitch(key, 1000 /*duration*/);
   else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
-    fluid_playpitch(key, 1000 /*duration*/);
+    fluid_playpitch(key, 1000 /*duration*/, channel);
 }
 
 /**
- *  Used to play each tone in the given chord
+ *  Used to play each note in the given chord
  *  (a g_list_foreach function)
  */
 static void
-playtone (gpointer tone, gpointer chord, int prognum)
+playnote (gpointer tone, gpointer chord, int channel)
 {
   gint offset;
   gchar key;
@@ -220,10 +220,10 @@ playtone (gpointer tone, gpointer chord, int prognum)
   key += ((note *) tone)->enshift;
   voice = g_list_index ((GList *) chord, tone);
   if(sequencer_fd == -1)
-    play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, 0/*prognum*/);
+    play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, channel);
 #ifdef HAVE_SYS_SOUNDCARD_H
   else {
-    SEQ_SET_PATCH (SEQ_DEV_N, voice, prognum);
+    SEQ_SET_PATCH (SEQ_DEV_N, voice, channel);
     SEQ_START_NOTE (SEQ_DEV_N, voice, key, 127);
     SEQ_DUMPBUF ();
   }
@@ -275,11 +275,11 @@ close_seqfd (gpointer data)
  * write, as a separate process for performance-type reasons 
  */
 void
-playnotes (gboolean doit, chord chord_to_play, int prognum)
+playnotes (gboolean doit, chord chord_to_play, int channel)
 {
-  //  g_print("playnotes called");
+  //g_print("playnotes called for channel %d\n", channel);
   if (doit && (sequencer_absent) && chord_to_play.notes) {
-    playtone( chord_to_play.notes->data, chord_to_play.notes, 0);
+    playnote( chord_to_play.notes->data, chord_to_play.notes, channel);
     return;
   }
 #ifdef HAVE_SYS_SOUNDCARD_H
@@ -296,7 +296,7 @@ playnotes (gboolean doit, chord chord_to_play, int prognum)
 	tone = chord_to_play.notes;
 	while (tone)
 	  {
-	    playtone (tone->data, chord_to_play.notes, prognum);
+	    playnote (tone->data, chord_to_play.notes, channel);
 	    tone = tone->next;
 	  }
 	SEQ_DELTA_TIME (50);

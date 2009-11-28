@@ -256,6 +256,9 @@ set_properties (struct callbackdata *cbdata)
 #define ASSIGNNUMBER(field) \
     staffstruct->field = \
       atoi(gtk_entry_get_text(GTK_ENTRY (cbdata->field)))
+#define ASSIGNNUMBER_1(field) \
+    staffstruct->field = \
+      atoi(gtk_entry_get_text(GTK_ENTRY (cbdata->field)))-1
 
 #define ASSIGNBOOLEAN(field) \
     staffstruct->field = \
@@ -282,8 +285,8 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(mute_volume);
   ASSIGNNUMBER(volume);
   ASSIGNBOOLEAN(midi_prognum_override);
-  ASSIGNNUMBER(midi_prognum);
-  ASSIGNNUMBER(midi_channel);
+  ASSIGNNUMBER_1(midi_prognum);
+  ASSIGNNUMBER_1(midi_channel);
 
   /* staff context */
   DenemoContext old = staffstruct->context;
@@ -438,6 +441,18 @@ staff_properties_change (gpointer callback_data)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
+#define INTENTRY_LIMITS_1(thelabel, field, min, max) \
+  GtkWidget *field;\
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  label = gtk_label_new (thelabel);\
+  gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
+  field = gtk_spin_button_new_with_range (min, max, 1.0);\
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), staffstruct->field+1);\
+  gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  cbdata.field = field;
+
 #define BOOLEANENTRY(thelabel, field) \
   GtkWidget *field;\
   field =\
@@ -486,8 +501,8 @@ staff_properties_change (gpointer callback_data)
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
   BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
-  INTENTRY_LIMITS("Channel:", midi_channel, 1, 16);
-  INTENTRY_LIMITS("Program:", midi_prognum, 1, 128);
+  INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
+  INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
   
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \
