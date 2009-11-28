@@ -366,9 +366,19 @@ void set_sharper(GtkAction *action, gpointer param) {
 void set_flatter(GtkAction *action, gpointer param) {
   enharmonic_step (FALSE);
 }
+
+void
+signal_measure_end(void) {
+if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+  fluid_playpitch(74, 300, 9);
+ else
+   gdk_beep();
+}
+
+
 static void sound_click(void) {
   if(PR_click)
-    gdk_beep();
+    signal_measure_end();
 }
 
 static GList *get_tones(GList *tone_store, gint measurenum) {
@@ -660,13 +670,6 @@ static float Freq2Pitch(float freq)
 }
 
 
-static void
-signal_measure_end(void) {
-if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
-  fluid_playpitch(74, 300, 9);
- else
-   gdk_beep();
-}
 
 /* look for a new note played into audio input, if
    present insert it into the score/store */

@@ -914,7 +914,7 @@ insertion_point (DenemoScore * si)
       else
 	si->currentmeasure = si->currentmeasure->next;
       if(Denemo.gui->mode&(INPUTRHYTHM))
-	gdk_beep();
+	signal_measure_end();
       /* Now the stuff that needs to be done for each case */
       si->currentmeasurenum++;
       si->currentobject = (objnode *) si->currentmeasure->data;
