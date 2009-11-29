@@ -3047,6 +3047,30 @@ for second and subsequent systems</tooltip>
         <label>Start Arbitrary Tuplet</label>
         <tooltip>Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc.</tooltip>
       </row>
+      <row>
+        <action>SlurDown</action>
+        <after>ToggleEndSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <label>Slur Down</label>
+        <tooltip>Prints slur below</tooltip>
+      </row>
+      <row>
+        <action>SlurUp</action>
+        <after>SlurDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <label>Slur Up</label>
+        <tooltip>Prints slurs up</tooltip>
+      </row>
+      <row>
+        <action>SlurNeutral</action>
+        <after>SlurUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <label>Auto Slur Directions</label>
+        <tooltip>Prints slurs as normal</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
