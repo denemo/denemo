@@ -1282,16 +1282,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Copy</tooltip>
         <bind>Control+c</bind>
       </row>
-     <row>
-        <action>Paste</action>
-	<after>Copy</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Paste</label>
-        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
-        <bind>Control+v</bind>
-        <bind>RlsL-Control</bind>
-      </row>
       <row>
         <action>Cut</action>
         <label>Cut</label>
@@ -2083,7 +2073,16 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
       </row>
- 
+      <row>
+        <action>Paste</action>
+        <after>Copy</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Paste</label>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
+        <bind>Control+v</bind>
+        <bind>RlsL-Control</bind>
+      </row>
       <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
@@ -2300,7 +2299,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
-        <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
+        <tooltip>Adds a metronome marking to chord. Give the duration in LilyPond notation.</tooltip>
       </row>
       <row>
         <action>Anacrusis</action>

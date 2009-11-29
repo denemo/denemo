@@ -6,17 +6,34 @@
     <map>
       <row>
         <action>MetronomeMarking</action>
-        <scheme> ;; ;;;;;;;;;;;;
-(let ((bpm 60))
-  (set! bpm (d-GetUserInput "Metronome Setting"  "Give Beats per Minute" "60"))
-  (d-DirectivePut-chord-prefix "MM"  (string-append "\\override Score.MetronomeMark #'padding = #3
-  \\tempo 4 = " bpm))
-  (d-DirectivePut-chord-override "MM" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-  (d-DirectivePut-chord-midibytes "MM" bpm)
-  (d-DirectivePut-chord-display "MM" (string-append "MM" bpm)))
-</scheme>
-        <label>Add Metronome Marking to Chord</label>
-        <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
+        <scheme> ;; ;;;;;;;;;;;;MetronomeMarking
+ (let ((input "") (len 1) (dotted #f)(duration "4")(bpm 60)(midiBpm 60)(valid #f) )
+(set! input (d-GetUserInput "Metronome Marking" "Give unit beat duration \n(e.g., 4. for dotted-quarter):" "4" ))
+(set! len (string-length input) )
+(set! dotted (equal? "." (substring input (- len 1) len )) ) ;see if a dot at end
+(if (equal? dotted #t)
+(set! duration (substring input 0 (- len 1))) ;if there's a dot, cut it off from input to get base duration.
+(set! duration input) )
+(set! bpm (d-GetUserInput "Metronome Marking"
+"Give number of these beats per minute:" "60" ) )
+(set! valid (not (equal? (and (string-&gt;number duration) (string-&gt;number bpm) ) #f))) ;don't go unless both are numbers.
+;don't go unless base duration is valid lilypond: (could go higher if wanted):
+(if (and (equal? valid #t) (or (equal? duration "1")(equal? duration "2")(equal? duration "4")(equal? duration "8")(equal? duration "16")) )
+(begin
+;want * 3/2 for dotted,*4 since midi uses quarters and divide by duration,
+(if (equal? dotted #t) (set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration)) 6 ) ) ) )
+(set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration) ) 4)) ) )
+)
+(d-DirectivePut-chord-prefix "MM" (string-append "\\override Score.MetronomeMark #'padding = #3
+\\tempo " input " = " bpm))
+(d-DirectivePut-chord-override "MM" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+(d-DirectivePut-chord-midibytes "MM" midiBpm)
+(d-DirectivePut-chord-display "MM" (string-append input "=" bpm))
+)
+(d-WarningDialog "Incorrect syntax.")
+))</scheme>
+        <label>Add Metronome Marking to Mote/Chord</label>
+        <tooltip>Adds a metronome marking to note/chord. Cursor must be on a note/chord Give the duration in LilyPond syntax.</tooltip>
       </row>
     </map>
   </merge>
