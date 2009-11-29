@@ -307,6 +307,12 @@ typedef struct DenemoKeymap
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
 }keymap;
 
+/* structure for device manager */
+typedef struct DeviceManagerDevice
+{
+  GString *client_name;
+  GList *port_names;
+}device_manager_device;
 
 /**
  * DenemoPrefs holds information on user preferences. 
@@ -348,7 +354,7 @@ typedef struct DenemoPrefs
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
   gboolean jack_at_startup; /**< toggle on and off jack initialization at startup */
-  
+  device_manager_device midi_device[50]; /**< contains a GList of port names for each device */ 
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */

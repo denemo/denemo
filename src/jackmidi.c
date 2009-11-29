@@ -11,6 +11,7 @@
 #include "jackmidi.h"
 #include "pitchentry.h"
 #include "smf.h"
+#include "device_manager.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -21,7 +22,9 @@
 #define MAX_NUMBER_OF_CLIENTS	50
 #define BUFFER_MAX_INDEX	100
 #define INPUT_PORT_NAME         "midi_in"
-#define PROGRAM_NAME            "denemo"
+#define OUTPUT_PORT_NAME         "midi_out"
+#define CLIENT_NAME            "denemo"
+#define MD Denemo.prefs.midi_device
 
 jack_port_t     *input_port;
 
@@ -31,7 +34,7 @@ jack_port_t     *input_port;
 struct midi_output_device
 {
   jack_client_t *jack_client;	
-  GList *port_names;
+  //GList *port_names;
   jack_port_t *output_ports[MAX_NUMBER_OF_TRACKS];
 };
 
@@ -72,7 +75,17 @@ maxnumber_of_ports(){
   return MAX_NUMBER_OF_TRACKS;
 }
 
-double 
+gchar *
+jackmidi_default_client_name(){
+  return CLIENT_NAME;
+}
+
+gchar *
+jackmidi_default_port_name(){
+  return OUTPUT_PORT_NAME;
+}
+
+	double 
 get_time(void)
 {
   double seconds;
@@ -294,14 +307,14 @@ create_jack_midi_port(gint client_number){
   if (!midi_device[client_number].jack_client)
     return -1;
   
-  char port_name[10];  
+  char port_name[12];  
   gint i;
   jack_nframes_t nframes = jack_get_buffer_size(midi_device[client_number].jack_client);
   
   /* only assign it if the port has not been assigned already */	
   for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++)
     if (!midi_device[client_number].output_ports[i]){ 
-      sprintf(port_name, "denemo:%d", i);
+      sprintf(port_name, "%s:%d",OUTPUT_PORT_NAME, i);
       midi_device[client_number].output_ports[i] = jack_port_register(midi_device[client_number].jack_client, 
 	port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
 
@@ -309,9 +322,10 @@ create_jack_midi_port(gint client_number){
 	/* clear buffer */
 	jack_midi_clear_buffer(jack_port_get_buffer(midi_device[client_number].output_ports[i], nframes));
 	g_debug("\nassigning jackmidi port output_port[%d]\n", i);
+        MD[client_number].port_names = g_list_append(MD[client_number].port_names, g_string_new(port_name));	
 	return i;
       } else {
-	 g_critical("Could not register JACKMIDI denemo:[%d]",i);
+	 g_critical("Could not register JACKMIDI %s:[%d]",OUTPUT_PORT_NAME,i);
          return -1;
         }
     } 
@@ -320,29 +334,23 @@ create_jack_midi_port(gint client_number){
 
 void
 create_default_jack_midi_ports(){
- 
-  gint i;
-  gint default_number_of_ports = 10;
-
-  for (i=0;i<default_number_of_ports;i++)
-    create_jack_midi_port(0);
-
-  for (i=0;i<default_number_of_ports;i++)
-    create_jack_midi_port(1);
+  create_jack_midi_port(0);
 }
 
 int
 create_jack_midi_client(){
   gint i;
-  char str[10];
+  char client_name[12];
   for (i=0;i <= MAX_NUMBER_OF_CLIENTS;i++)
     if (!midi_device[i].jack_client){
-      sprintf(str, "%s:%d",PROGRAM_NAME, i); 
-      midi_device[i].jack_client = jack_client_open(str, JackNullOption, NULL);
+      sprintf(client_name, "%s:%d",CLIENT_NAME, i); 
+      midi_device[i].jack_client = jack_client_open(client_name, JackNullOption, NULL);
 
       if (midi_device[i].jack_client){
 	jack_activate(midi_device[i].jack_client);
-	g_debug("\nassigning jackmidi client %s\n", str); 
+	g_debug("\nassigning jackmidi client %s\n", client_name);
+	MD[i].client_name = g_string_new(client_name);
+	MD[i].port_names = NULL;
 	return i;
       } 
       else
@@ -423,8 +431,6 @@ stop_jack(void){
 int
 init_jack(void){
   int err = 0;
-  
-  create_jack_midi_client();
   create_jack_midi_client();
 
   err = jack_set_process_callback(midi_device[0].jack_client, process_callback, 0);
@@ -537,6 +543,8 @@ void remove_jack_midi_port (){}
 void create_jack_midi_port (){}
 void remove_jack_midi_client (){}
 void create_jack_midi_client (){}
+jackmidi_default_client_name(){}
+jackmidi_default_port_name(){}
 int maxnumber_of_clients(){ return 0;}
 #endif 
 
