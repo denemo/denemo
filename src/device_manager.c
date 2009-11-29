@@ -9,6 +9,8 @@
 GtkWidget           *view;
 GtkTreeSelection *selection;
 GtkTreeModel        *model;
+GtkTreeStore  *treestore;
+GtkTreeIter    toplevel, child;
 
 enum
 {
@@ -70,15 +72,21 @@ get_port_number(){
 }
 
 static GtkTreeModel *
-refresh_model (void)
+create_model (void)
 {
-  GtkTreeStore  *treestore;
-  GtkTreeIter    toplevel, child;
-  gint i;
-
+ 
   treestore = gtk_tree_store_new(NUM_COLS,
                                  G_TYPE_STRING);
 
+  return GTK_TREE_MODEL(treestore);
+}
+
+void
+refresh_model(void)
+{
+  gint i;
+  gtk_tree_store_clear(treestore); //clear list
+  
   for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
     gtk_tree_store_append(treestore, &toplevel, NULL);
     gtk_tree_store_set(treestore, &toplevel,
@@ -98,7 +106,6 @@ refresh_model (void)
       n = n->next;
     }
   }
-  return GTK_TREE_MODEL(treestore);
 }
 
 void device_manager_create_device()
@@ -164,8 +171,8 @@ DeviceManager (void)
    *  model column that contains the first name */
   gtk_tree_view_column_add_attribute(col, renderer, "text", COL_DEVICE);
 
-  model = refresh_model();
-
+  model = create_model();
+  
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
 
   g_object_unref(model); /* destroy model automatically with view */
