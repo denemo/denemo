@@ -6,7 +6,9 @@
     <map>
       <row>
         <action>FiguredBassFilterOn</action>
-        <scheme>;;; Figured Bass filter
+        <scheme>;;;;;;;;;;;;;;;;;;
+;;;Advanced MIDI FIGURE BASS filter
+;;; Figured Bass filter
 (d-Note)
 (d-EditMode)
 (if (not (defined? 'ToggleFiguredBassMode::Active))
@@ -34,19 +36,38 @@
 				(command (bit-extract midi 0 8)))
 			   ;; body of the let*
 			       (begin
+ 
+				 (if (boolean? (d-GetNoteName))
+				     (d-NextNote))
+				 
 				 (if (or (= command #x90) (= command #x80))
 				     (begin
 				       (if (and (= command #x90)(= bassnote 0))
 					   (begin 
 					     (set! bassnote note)
 					     (set! Figures '())
-					     (d-PutMidi midi))
+					   ;;  (d-PutMidi midi)
+					     (if (or (d-GetNonprinting) (= bassnote (d-GetNoteAsMidi)))
+					      (begin                  ;; note ok
+						(d-PushPosition)
+					     (d-PutMidi midi);;; (d-PlayMidiKey midi)
+					     ;;this will have advanced so go back
+					     (d-PopPosition)
+					     )				   
+				    	      (begin                    ;; note wrong
+				    	  	 (set! bassnote 0)
+				    	  	 (d-PlayMidiKey #xF06001))
+				    	  )	    
+					     )
 			     ;;; not bass note on 
 					   (begin
 					     (if (and (= command #x80)(= note bassnote))
 						 (begin 
 						   (set! bassnote 0)
 						   (d-EditFiguredBass (GetFigures))
+  (if (boolean? (d-GetNoteName))
+		   (d-NextNote))
+
 						   ;;(d-PutMidi midi)
 									)
 				 ;;; not bass note off
@@ -58,7 +79,7 @@
 				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
 				     (begin
 				       	(display "Pedal down")
-					(if (and (> bassnote 0) (null? Figures))
+					(if (and (&gt; bassnote 0) (null? Figures))
 						(begin (d-PlayMidiKey #xF05A01)
 							(set! Figures (cons "~"  Figures))
 							(d-EditFiguredBass (GetFigures))
@@ -76,7 +97,7 @@
 	   ));;; end of not active block
     );;; end of if active/not active if
 
-</scheme>
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</scheme>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>
