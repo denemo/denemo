@@ -471,6 +471,22 @@ SCM scheme_debug_object (SCM optional) {
  return SCM_BOOL(TRUE);
 }
 
+
+static SCM scheme_get_help(SCM command) {
+  gchar *name;
+  if(SCM_STRINGP(command))
+     name = scm_to_locale_string(command);
+  if(name==NULL)
+    return SCM_BOOL_F;
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  if(idx<0)
+    return SCM_BOOL_F;
+  gchar *tooltip = (gchar*)lookup_tooltip_from_idx(Denemo.map, idx);
+  return scm_makfrom0str(tooltip);
+}
+
+
+
 /* write MIDI/Audio filter status */
 static SCM scheme_input_filter_names(SCM filtername) {
     int length;
@@ -2893,6 +2909,7 @@ INSTALL_EDIT(movementcontrol);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   install_scm_function (DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
 
 
   install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
