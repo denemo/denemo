@@ -29,12 +29,11 @@
 jack_port_t     *input_port;
 
 //maybe use this instead of looking through ports
-//static gint jack_client_index = 0; 
+static gint jack_client_index = 0; 
 
 struct midi_output_device
 {
   jack_client_t *jack_client;	
-  //GList *port_names;
   jack_port_t *output_ports[MAX_NUMBER_OF_TRACKS];
 };
 
@@ -351,6 +350,7 @@ create_jack_midi_client(){
 	g_debug("\nassigning jackmidi client %s\n", client_name);
 	MD[i].client_name = g_string_new(client_name);
 	MD[i].port_names = NULL;
+	jack_client_index++;
 	return i;
       } 
       else
@@ -368,6 +368,9 @@ remove_jack_midi_port(int client_number){
     if (midi_device[client_number].output_ports[i]){
       err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
       midi_device[client_number].output_ports[i] = NULL;
+      GList *n = g_list_nth(MD[client_number].port_names, (int) i);
+      MD[client_number].port_names = g_list_remove(MD[client_number].port_names, 
+		      n->data);
       g_debug("\nremove jackmidi port number = %d\n", i);
       return err;
     }
@@ -378,34 +381,31 @@ void
 remove_all_jack_midi_ports(int client_number){
   int err,i;
   err = 0;
-	
+
   for (i=MAX_NUMBER_OF_TRACKS;i>=0;i--)
     if (midi_device[client_number].output_ports[i]){
-      err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
+      jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[i]);
       midi_device[client_number].output_ports[i] = NULL;
       g_debug("\nremoving jackmidi port number = %d\n", i);
     }
 }
 
 int
-remove_jack_midi_client(){
-  gint i;
-  char str[10];
-  for (i=MAX_NUMBER_OF_CLIENTS;i>=0;i--)
-    if (midi_device[i].output_ports[i]){
-      remove_all_jack_midi_ports(i);
-      jack_deactivate(midi_device[i].jack_client);
-      jack_client_close(midi_device[i].jack_client);
-      midi_device[i].jack_client = NULL;
-      return i;
-    }
-  return -1;
+remove_jack_midi_client(gint i){
+  remove_all_jack_midi_ports(i);
+  jack_deactivate(midi_device[i].jack_client);
+  jack_client_close(midi_device[i].jack_client);
+  midi_device[i].jack_client = NULL;
+  g_string_free(MD[i].client_name, TRUE);
+  MD[i].client_name = NULL;
+  jack_client_index--;
+  return i;
 }
 
 void
 remove_all_jack_midi_clients(){
-  while (remove_jack_midi_client() >= 0)
-    g_debug("\nRemoving Jack Midi client\n");
+  while (jack_client_index)
+    remove_jack_midi_client(jack_client_index-1);
 }
 
 int
@@ -459,6 +459,7 @@ jack_start_restart (void){
     init_jack();
     create_default_jack_midi_ports();
   }
+  device_manager_refresh_model();
 }
 
 void
@@ -541,7 +542,7 @@ void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}
 void remove_jack_midi_port (){}
 void create_jack_midi_port (){}
-void remove_jack_midi_client (){}
+void remove_jack_midi_client (gint i){}
 void create_jack_midi_client (){}
 jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}

@@ -9,6 +9,8 @@
 GtkWidget           *view;
 GtkTreeSelection *selection;
 GtkTreeModel        *model;
+GtkTreeStore  *treestore;
+GtkTreeIter    toplevel, child;
 
 enum
 {
@@ -70,15 +72,21 @@ get_port_number(){
 }
 
 static GtkTreeModel *
-refresh_model (void)
+create_model (void)
 {
-  GtkTreeStore  *treestore;
-  GtkTreeIter    toplevel, child;
-  gint i;
-
+ 
   treestore = gtk_tree_store_new(NUM_COLS,
                                  G_TYPE_STRING);
 
+  return GTK_TREE_MODEL(treestore);
+}
+
+void
+device_manager_refresh_model(void)
+{
+  gint i;
+  gtk_tree_store_clear(treestore); //clear list
+  
   for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
     gtk_tree_store_append(treestore, &toplevel, NULL);
     gtk_tree_store_set(treestore, &toplevel,
@@ -98,23 +106,24 @@ refresh_model (void)
       n = n->next;
     }
   }
-  return GTK_TREE_MODEL(treestore);
 }
 
 void device_manager_create_device()
 {
   if(create_jack_midi_client() >= 0){
     g_debug("\nJust added device\n");
-    refresh_model();
+    device_manager_refresh_model();
   }
 }
 
 void device_manager_remove_device()
 {
-  if(remove_jack_midi_client() >= 0){
-    g_debug("\nJust removed device\n");
-    refresh_model();
-  }
+  gint device_number = get_device_number();
+  if (device_number<0)
+    return;
+  remove_jack_midi_client(get_device_number()); 
+  g_debug("\nJust removed device\n");
+  device_manager_refresh_model();
 }
 
 void device_manager_create_port()
@@ -124,7 +133,7 @@ void device_manager_create_port()
     return;
   if(create_jack_midi_port(device_number) >= 0){
     g_debug("\nJust created midi device\n");
-    refresh_model();
+    device_manager_refresh_model();
   }
 }
 
@@ -136,7 +145,7 @@ void device_manager_remove_port()
   get_selection_as_char();
   if(remove_jack_midi_port(device_number) >= 0){
     g_debug("\nJust removed midi device\n");
-    //remove or refresh GtkTree 
+    device_manager_refresh_model();
   }
 }
 
@@ -164,8 +173,8 @@ DeviceManager (void)
    *  model column that contains the first name */
   gtk_tree_view_column_add_attribute(col, renderer, "text", COL_DEVICE);
 
-  model = refresh_model();
-
+  model = create_model();
+  
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
 
   g_object_unref(model); /* destroy model automatically with view */

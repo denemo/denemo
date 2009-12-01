@@ -396,7 +396,7 @@ preferences_change (GtkAction *action, gpointer param)
    * Fluidsynth Menu
    */
 #ifdef _HAVE_FLUIDSYNTH_
-  NEWPAGE("FLUIDSYNTH");
+  NEWPAGE("Fluidsynth");
   /* Start/Restart Button */
   BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
 
