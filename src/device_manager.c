@@ -18,15 +18,30 @@ enum
   NUM_COLS
 } ;
 
+ 
 static gchar *
 get_selection_as_char(){
   GtkTreeIter iter;
-
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			     (GtkTreeModel **) &view, &iter))
     return NULL;
   gchar *name;
   gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0,
+		                           &name, -1);
+  g_debug("\n***name = %s\n",name);
+  return name;
+}
+
+/**
+ * Get the parent of the tree even if child is selected
+ */
+static gchar *
+get_device_selection_as_char(){
+  if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
+			     (GtkTreeModel **) &view, &child))
+    return NULL;
+  gchar *name;
+  gtk_tree_model_get(GTK_TREE_MODEL(model), &toplevel, 0,
 		                           &name, -1);
   return name;
 }
