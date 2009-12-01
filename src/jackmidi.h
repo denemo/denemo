@@ -15,7 +15,7 @@ void jack_playpitch(gint key, gint duration);
 void jack_output_midi_event(unsigned char *buffer);
 int jack_kill_timer(void);
 int create_jack_midi_client(void);
-int remove_jack_midi_client(void);
+int remove_jack_midi_client(gint i);
 int create_jack_midi_port(int client_number);
 int remove_jack_midi_port(int client_number);
 int rename_jack_midi_port(int client_number, int port_number, char *port_name);

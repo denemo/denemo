@@ -82,7 +82,7 @@ create_model (void)
 }
 
 void
-refresh_model(void)
+device_manager_refresh_model(void)
 {
   gint i;
   gtk_tree_store_clear(treestore); //clear list
@@ -112,16 +112,18 @@ void device_manager_create_device()
 {
   if(create_jack_midi_client() >= 0){
     g_debug("\nJust added device\n");
-    refresh_model();
+    device_manager_refresh_model();
   }
 }
 
 void device_manager_remove_device()
 {
-  if(remove_jack_midi_client() >= 0){
-    g_debug("\nJust removed device\n");
-    refresh_model();
-  }
+  gint device_number = get_device_number();
+  if (device_number<0)
+    return;
+  remove_jack_midi_client(get_device_number()); 
+  g_debug("\nJust removed device\n");
+  device_manager_refresh_model();
 }
 
 void device_manager_create_port()
@@ -131,7 +133,7 @@ void device_manager_create_port()
     return;
   if(create_jack_midi_port(device_number) >= 0){
     g_debug("\nJust created midi device\n");
-    refresh_model();
+    device_manager_refresh_model();
   }
 }
 
@@ -143,7 +145,7 @@ void device_manager_remove_port()
   get_selection_as_char();
   if(remove_jack_midi_port(device_number) >= 0){
     g_debug("\nJust removed midi device\n");
-    //remove or refresh GtkTree 
+    device_manager_refresh_model();
   }
 }
 
