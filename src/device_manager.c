@@ -17,7 +17,6 @@ enum
   COL_DEVICE = 0,
   NUM_COLS
 } ;
-
  
 static gchar *
 get_selection_as_char(){
@@ -37,12 +36,17 @@ get_selection_as_char(){
  */
 static gchar *
 get_device_selection_as_char(){
+  GtkTreeIter iter;
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &child))
+			     (GtkTreeModel **) &view, &iter))
     return NULL;
+  gtk_tree_model_iter_parent (model, 
+		  		&iter, &child);
+
   gchar *name;
   gtk_tree_model_get(GTK_TREE_MODEL(model), &toplevel, 0,
 		                           &name, -1);
+  g_debug("\n***name = %s\n",name);
   return name;
 }
 
@@ -52,7 +56,7 @@ get_device_selection_as_char(){
 static gint
 get_device_number(){
   gint i;
-  gchar *name = get_selection_as_char();
+  gchar *name = get_device_selection_as_char();
   if (!name)
     return -1;
   else { 
