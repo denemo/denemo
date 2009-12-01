@@ -3,6 +3,11 @@
 (use-modules (ice-9 optargs))
 
 
+;;;;;;;;;; create documentation for a command - this version just prints out basic info
+(define (DocumentCommand name)
+(format #t "Command: ~A~%Tooltip: ~A~%Label: ~A~%Menu Path: ~A~%" name (d-GetHelp name) (d-GetLabel name) (d-GetMenuPath name)))
+
+
 ;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
 ;;;;;;;;;;;;;; Returns #f if not a chord

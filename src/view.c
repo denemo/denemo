@@ -471,6 +471,51 @@ SCM scheme_debug_object (SCM optional) {
  return SCM_BOOL(TRUE);
 }
 
+
+static SCM scheme_get_help(SCM command) {
+  gchar *name;
+  if(SCM_STRINGP(command))
+     name = scm_to_locale_string(command);
+  if(name==NULL)
+    return SCM_BOOL_F;
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  if(idx<0)
+    return SCM_BOOL_F;
+   
+  return scm_makfrom0str ((gchar*)lookup_tooltip_from_idx(Denemo.map, idx));
+}
+static SCM scheme_get_label(SCM command) {
+  gchar *name;
+  if(SCM_STRINGP(command))
+     name = scm_to_locale_string(command);
+  if(name==NULL)
+    return SCM_BOOL_F;
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  if(idx<0)
+    return SCM_BOOL_F;
+  return scm_makfrom0str ((gchar*)lookup_label_from_idx(Denemo.map, idx));
+}
+
+static SCM scheme_get_menu_path(SCM command) {
+  gchar *name;
+  if(SCM_STRINGP(command))
+     name = scm_to_locale_string(command);
+  if(name==NULL)
+    return SCM_BOOL_F;
+  gint idx = lookup_command_from_name(Denemo.map, name);
+  if(idx<0)
+    return SCM_BOOL_F;
+  GtkAction *action = (GtkAction *)lookup_action_from_idx(Denemo.map, idx);
+  if(action==NULL)
+    return SCM_BOOL_F;
+  gchar *menupath = g_object_get_data(G_OBJECT(action), "menupath");
+  if(menupath==NULL)
+    return SCM_BOOL_F;
+  return scm_makfrom0str (menupath);
+}
+
+
+
 /* write MIDI/Audio filter status */
 static SCM scheme_input_filter_names(SCM filtername) {
     int length;
@@ -2893,6 +2938,10 @@ INSTALL_EDIT(movementcontrol);
   install_scm_function (DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   install_scm_function (DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
+  install_scm_function (DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);
+
 
 
   install_scm_function (DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);

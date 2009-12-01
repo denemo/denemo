@@ -542,7 +542,7 @@ void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}
 void remove_jack_midi_port (){}
 void create_jack_midi_port (){}
-void remove_jack_midi_client (gint i){}
+void remove_jack_midi_client (){}
 void create_jack_midi_client (){}
 jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}
