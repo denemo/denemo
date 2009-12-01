@@ -360,7 +360,24 @@ create_jack_midi_client(){
 }
 
 int 
-remove_jack_midi_port(int client_number){
+remove_jack_midi_port(int client_number, int port_number){
+  int err,i;
+  err = 0;
+  
+    if (midi_device[client_number].output_ports[port_number]){
+      err = jack_port_unregister(midi_device[client_number].jack_client, midi_device[client_number].output_ports[port_number]);
+      midi_device[client_number].output_ports[port_number] = NULL;
+      GList *n = g_list_nth(MD[client_number].port_names, port_number);
+      MD[client_number].port_names = g_list_remove(MD[client_number].port_names, 
+		      n->data);
+      g_debug("\nremove jackmidi device number %d, port number = %d\n", client_number, port_number);
+      return err;
+    }
+  return err;
+}
+
+int 
+remove_last_jack_midi_port(int client_number){
   int err,i;
   err = 0;
   
@@ -540,7 +557,7 @@ void jack_output_midi_event(unsigned char *buffer){}
 int jack_kill_timer(void){}
 void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}
-void remove_jack_midi_port (){}
+void remove_last_jack_midi_port (){}
 void create_jack_midi_port (){}
 void remove_jack_midi_client (){}
 void create_jack_midi_client (){}

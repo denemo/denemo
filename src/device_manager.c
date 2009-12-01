@@ -159,10 +159,11 @@ void device_manager_create_port()
 void device_manager_remove_port()
 {
   gint device_number = get_device_number();
-  if (device_number <0)            
+  gint port_number = get_port_number();
+  if (device_number <0 || port_number <0)          
     return;
-  get_selection_as_char();
-  if(remove_jack_midi_port(device_number) >= 0){
+  //get_selection_as_char();
+  if(remove_jack_midi_port(device_number, port_number) >= 0){
     g_debug("\nJust removed midi device\n");
     device_manager_refresh_model();
   }
