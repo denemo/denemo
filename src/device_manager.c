@@ -50,6 +50,16 @@ get_device_selection_as_char(){
   return name;
 }
 
+static void
+remove_selection(){
+   GtkTreeIter iter;
+  if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
+			     (GtkTreeModel **) &view, &iter))
+    return NULL;
+
+  gtk_tree_store_remove(model, &iter);
+}
+
 /** TODO this is obsolete. Search through the array instead 
  * Get the device number of the selected device
  */
@@ -142,7 +152,7 @@ void device_manager_remove_device()
     return;
   remove_jack_midi_client(get_device_number()); 
   g_debug("\nJust removed device\n");
-  device_manager_refresh_model();
+  remove_selection();
 }
 
 void device_manager_create_port()
@@ -165,7 +175,7 @@ void device_manager_remove_port()
   //get_selection_as_char();
   if(remove_jack_midi_port(device_number, port_number) >= 0){
     g_debug("\nJust removed midi device\n");
-    device_manager_refresh_model();
+    remove_selection();
   }
 }
 
