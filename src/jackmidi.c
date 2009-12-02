@@ -560,9 +560,11 @@ void jack_midi_playback_start (){}
 void remove_last_jack_midi_port (){}
 void create_jack_midi_port (){}
 void remove_jack_midi_client (){}
+void remove_jack_midi_port (){}
 void create_jack_midi_client (){}
 jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}
+int maxnumber_of_ports(){ return 0;}
 int maxnumber_of_clients(){ return 0;}
 #endif 
 
