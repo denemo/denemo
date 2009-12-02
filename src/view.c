@@ -91,9 +91,6 @@ typedef enum
   ACCELS_MAY_HAVE_CHANGED = 0x1<<2
 } AccelStatus;
 
-#define gh_scm2newstr scm_to_locale_stringn 
-
-#define gh_str2scm scm_from_locale_stringn
 
 //FIXME remove these - use for the other way... scm_from_locale_stringn (const char *str, size_t len)
 
@@ -607,7 +604,7 @@ SCM scheme_chordize (SCM setting) {
     return SCM_BOOL(FALSE);
   gboolean val;
   if(SCM_BOOLP(setting)){
-    val = gh_scm2bool(setting);
+    val = scm_to_bool(setting);
   }
   if( thechord->chordize != val) {
     thechord->chordize = val;
@@ -621,7 +618,7 @@ SCM scheme_get_note_name (SCM optional) {
     int length;
     //char *str=NULL;
    //if(SCM_STRINGP(optional)){
-   //str = gh_scm2newstr(optional, &length);
+   //str = scm_to_locale_stringn(optional, &length);
    //  }
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -721,7 +718,7 @@ SCM scheme_get_note (SCM optional) {
   //int length;
     //   char *str=NULL;
     //if(SCM_STRINGP(optional)){
-    //str = gh_scm2newstr(optional, &length);
+    //str = scm_to_locale_stringn(optional, &length);
     //  }
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -1056,7 +1053,7 @@ SCM scheme_get_relative_font_size(void) {
   gchar *clean = g_strdup_printf("%d", atoi(value));
   g_free(value);
   g_object_set_data(G_OBJECT(Denemo.gui->printarea), "font-size", (gpointer)clean);
-  return gh_str2scm (clean, strlen(clean));
+  return scm_from_locale_stringn (clean, strlen(clean));
 }
 void get_clipboard(GtkAction * action, DenemoScriptParam *param);
 /* return a string from the X selection */
@@ -1065,7 +1062,7 @@ SCM scheme_get_text_selection (void) {
   DenemoScriptParam param;
   get_clipboard(NULL, &param);
   if(param.status) {
-    ret = gh_str2scm(param.string->str, param.string->len);
+    ret = scm_from_locale_stringn(param.string->str, param.string->len);
     g_string_free(param.string, TRUE);
   }
   else
@@ -1134,11 +1131,11 @@ SCM scheme_get_option(SCM options) {
   gint length;
   gchar *str=NULL;
   if(SCM_STRINGP(options)){
-    str = gh_scm2newstr(options, &length);
+    str = scm_to_locale_stringn(options, &length);
     response = get_option(str, length);
   }
   if(response)
-    scm = gh_str2scm (response, strlen(response));
+    scm = scm_from_locale_stringn (response, strlen(response));
   else scm = SCM_BOOL(FALSE);
   return  scm;
 }
@@ -1165,7 +1162,7 @@ SCM scheme_set_action_script_for_tag(SCM tag, SCM script) {
      tagname = NULL;\
   else tagname = scm_to_locale_string(tag);\
   gchar *val = (gchar*)what##_directive_get_tag (tagname);\
-  if(val) return gh_str2scm (val, strlen(val));\
+  if(val) return scm_from_locale_stringn (val, strlen(val));\
   return SCM_BOOL(FALSE);\
 }
 GET_TAG_FN_DEF(standalone);
@@ -1680,7 +1677,7 @@ SCM scheme_put_text_clipboard(SCM optional) {
   int length;
   char *str=NULL;
   if(SCM_STRINGP(optional)){
-    str = gh_scm2newstr(optional, &length);//FIXME memory leak
+    str = scm_to_locale_stringn(optional, &length);//FIXME memory leak
     GtkClipboard *clipboard = gtk_clipboard_get(GDK_SELECTION_CLIPBOARD);
     gtk_clipboard_set_text (clipboard, str, length);
     return SCM_BOOL(TRUE);
