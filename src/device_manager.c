@@ -31,21 +31,26 @@ get_selection_as_char(){
   return name;
 }
 
-/**
- * Get the parent of the tree even if child is selected
+/** 
+ * Get the parent of the tree when child is selected
  */
 static gchar *
 get_device_selection_as_char(){
-  GtkTreeIter iter;
-  if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &iter))
-    return NULL;
-  gtk_tree_model_iter_parent (model, 
-		  		&iter, &child);
-
+  gint err;
   gchar *name;
-  gtk_tree_model_get(GTK_TREE_MODEL(model), &toplevel, 0,
+  GtkTreeIter iter, iter_child;
+
+  if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
+			     (GtkTreeModel **) &view, &iter_child))
+    return NULL;
+  if(gtk_tree_model_iter_parent (model, &iter, &iter_child))
+      gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0,
 		                           &name, -1);
+  else 
+      gtk_tree_model_get(GTK_TREE_MODEL(model), &iter_child, 0,
+				           &name, -1);
+
+  
   g_debug("\n***name = %s\n",name);
   return name;
 }
@@ -55,9 +60,25 @@ remove_selection(){
    GtkTreeIter iter;
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			     (GtkTreeModel **) &view, &iter))
-    return NULL;
+    return;
 
   gtk_tree_store_remove(model, &iter);
+}
+
+add_device_to_tree(gchar *device_name){
+  gtk_tree_store_append(treestore, &toplevel, NULL);
+  gtk_tree_store_set(treestore, &toplevel,
+  				COL_DEVICE, 
+  				device_name, 
+				-1);
+}
+
+add_port_to_tree(gchar *port_name){
+  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_set(treestore, &child,
+  				COL_DEVICE, 
+  				port_name, 
+				-1);
 }
 
 /** TODO this is obsolete. Search through the array instead 
@@ -66,13 +87,14 @@ remove_selection(){
 static gint
 get_device_number(){
   gint i;
+  //gchar *name = get_selection_as_char();
   gchar *name = get_device_selection_as_char();
   if (!name)
     return -1;
   else { 
     gchar port_name[12];
     for(i=0;i<maxnumber_of_clients();i++){
-      sprintf(port_name, "%s:%d", jackmidi_default_client_name(), i);
+      sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_client_name(), i);
       if (!strcmp(name, port_name))
 	return i;
     }
@@ -92,7 +114,7 @@ get_port_number(){
   else { 
     gchar port_name[12];
     for(i=0;i<maxnumber_of_ports();i++){
-      sprintf(port_name, "%s:%d", jackmidi_default_port_name(), i);
+      sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_port_name(), i);
       if (!strcmp(name, port_name))
 	return i;
     }
@@ -139,9 +161,11 @@ device_manager_refresh_model(void)
 
 void device_manager_create_device()
 {
-  if(create_jack_midi_client() >= 0){
+  gint client_number = create_jack_midi_client();
+  
+  if (client_number >= 0){
     g_debug("\nJust added device\n");
-    device_manager_refresh_model();
+    add_device_to_tree(Denemo.prefs.midi_device[client_number].client_name->str);
   }
 }
 
@@ -158,7 +182,7 @@ void device_manager_remove_device()
 void device_manager_create_port()
 {
   gint device_number = get_device_number();
-  if (device_number <0)
+  if (device_number<0)
     return;
   if(create_jack_midi_port(device_number) >= 0){
     g_debug("\nJust created midi device\n");
