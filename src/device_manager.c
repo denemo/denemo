@@ -62,7 +62,7 @@ remove_selection(){
 			     (GtkTreeModel **) &view, &iter))
     return;
 
-  gtk_tree_store_remove(model, &iter);
+  gtk_tree_store_remove(treestore, &iter);
 }
 
 add_device_to_tree(gchar *device_name){
