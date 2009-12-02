@@ -69,6 +69,7 @@ struct callbackdata
   GtkWidget *fluidsynth_soundfont;
   GtkWidget *fluidsynth_reverb;
   GtkWidget *fluidsynth_chorus;
+  GtkWidget *fluidsynth_sample_rate;
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -146,6 +147,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(fluidsynth_soundfont);
   ASSIGNBOOLEAN(fluidsynth_reverb)
   ASSIGNBOOLEAN(fluidsynth_chorus)
+    ASSIGNINT(fluidsynth_sample_rate)
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -423,6 +425,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
+    INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 22050, 96000);
+
 #endif
   /* device manager */
   NEWPAGE("MIDI Device Manager");

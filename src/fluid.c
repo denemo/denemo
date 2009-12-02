@@ -108,7 +108,8 @@ int fluidsynth_init()
   fluid_settings_setstr(settings, "audio.driver", Denemo.prefs.fluidsynth_audio_driver->str);
   fluid_settings_setstr(settings, "synth.reverb.active" , Denemo.prefs.fluidsynth_reverb == TRUE ? "yes":"no");
   fluid_settings_setstr(settings, "synth.chorus.active" , Denemo.prefs.fluidsynth_chorus == TRUE ? "yes":"no");
-  
+    fluid_settings_setint(settings, "synth.sample-rate" , Denemo.prefs.fluidsynth_sample_rate);
+    g_print("Setting synth.sample-rate to %d\n", Denemo.prefs.fluidsynth_sample_rate);
   /* Create the synthesizer. */
   synth = new_fluid_synth(settings);
   if (!synth){
