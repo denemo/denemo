@@ -4,9 +4,19 @@
 
 
 ;;;;;;;;;; create documentation for a command - this version just prints out basic info
+;;;;;;;;;;;;;DocumentCommand
 (define (DocumentCommand name)
-(format #t "Command: ~A~%Tooltip: ~A~%Label: ~A~%Menu Path: ~A~%" name (d-GetHelp name) (d-GetLabel name) (d-GetMenuPath name)))
-
+  (let ((help (d-GetHelp name)))
+    (if (boolean? help)
+	(begin
+	  (set! help (string-append "Help-d-" name))	  
+	  (let ((sym (with-input-from-string help read)))
+	    (if (defined? sym)
+		(set! help (eval sym (current-module)))
+		(set! help "No help")
+		))))
+    (format #t "~%~%Command ~A~%Tooltip ~A~%Label ~A~%Menu Path ~A~%" name help (d-GetLabel name) (d-GetMenuPath name))))
+;;;;;;;;;;;;;;; 
 
 ;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.

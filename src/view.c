@@ -2350,18 +2350,17 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   INSTALL_SCM_FUNCTION ("Hides all the menus", DENEMO_SCHEME_PREFIX"HideMenus",  scheme_hide_menus);
-  /* install the scheme function for calling actions which are scripts */
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
+  INSTALL_SCM_FUNCTION1 ("Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX"ScriptCallback", scheme_script_callback);
 			
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
+  INSTALL_SCM_FUNCTION1 ("create a dialog with the options & return the one chosen, of #f if the user cancels", DENEMO_SCHEME_PREFIX"GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
   INSTALL_SCM_FUNCTION ("Returns the text on the clipboard",DENEMO_SCHEME_PREFIX"GetTextSelection",  scheme_get_text_selection);			
   INSTALL_SCM_FUNCTION ("Returns the offset that has been set by dragging in the Print view window",DENEMO_SCHEME_PREFIX"GetOffset",  scheme_get_offset);			
   INSTALL_SCM_FUNCTION ("Returns the padding that has been set by dragging in the Print view window",DENEMO_SCHEME_PREFIX"GetPadding",  scheme_get_padding);
   INSTALL_SCM_FUNCTION ("Deprecated - gets an integer from the user via a dialog",DENEMO_SCHEME_PREFIX"GetRelativeFontSize",  scheme_get_relative_font_size);			
 			/* install the scheme functions for calling extra Denemo functions created for the scripting interface */
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
+  INSTALL_SCM_FUNCTION1 ("Takes a command name. called by a script if it requires initialization the initialization script is expected to be in init.scm in the menupath of the command passed in.", DENEMO_SCHEME_PREFIX"InitializeScript", scheme_initialize_script);
+  INSTALL_SCM_FUNCTION1 (" pass in a path (from below menus) to a command script. Loads the command from .denemo or system if it can be found. It is used at startup in .denemo files like ReadingNoteNames.denemo which executes (d-LoadCommand \"MainMenu/Educational/ReadingNoteNames\") to ensure that the command it needs is in the command set.", DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
   INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences",DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
@@ -2416,7 +2415,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", (gpointer) scheme_set_action_script_for_tag);
 
 #define INSTALL_GET_TAG(what)\
- install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
+  INSTALL_SCM_FUNCTION1 ("Takes a optional tag. Returns that tag if a "#what" directive exists at the cursor, else returns the tag of the first such directive at the cursor, or #f if none", DENEMO_SCHEME_PREFIX"DirectiveGetForTag"  "-" #what, scheme_##what##_directive_get_tag);
 
   INSTALL_GET_TAG(standalone);
   INSTALL_GET_TAG(chord);
@@ -2438,8 +2437,8 @@ void inner_main(void*closure, int argc, char **argv){
 
 
 #define INSTALL_EDIT(what)\
- install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive);\
- install_scm_function1 (DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
+  INSTALL_SCM_FUNCTION1 ("Deletes a "#what" directive of the passed in tag. Returns #f if not deleted", DENEMO_SCHEME_PREFIX"DirectiveDelete"  "-" #what, scheme_delete_##what##_directive); \
+  INSTALL_SCM_FUNCTION1 ("Takes a tag. Lets the user edit (by running the editscript named by the tag) a "#what" directive of the passed in tag. Returns #f if none", DENEMO_SCHEME_PREFIX"DirectiveTextEdit"  "-" #what, scheme_text_edit_##what##_directive);
   INSTALL_EDIT(note);
   INSTALL_EDIT(chord);
   INSTALL_EDIT(staff);
