@@ -10,7 +10,7 @@ GtkWidget           *view;
 GtkTreeSelection *selection;
 GtkTreeModel        *model;
 GtkTreeStore  *treestore;
-GtkTreeIter    toplevel, child;
+GtkTreeIter    toplevel, child, iter_parent;
 
 enum
 {
@@ -38,16 +38,16 @@ static gchar *
 get_device_selection_as_char(){
   gint err;
   gchar *name;
-  GtkTreeIter iter, iter_child;
+  GtkTreeIter iter;
 
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &iter_child))
+			     (GtkTreeModel **) &view, &iter_parent))
     return NULL;
-  if(gtk_tree_model_iter_parent (model, &iter, &iter_child))
+  if(gtk_tree_model_iter_parent (model, &iter, &iter_parent))
       gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0,
 		                           &name, -1);
   else 
-      gtk_tree_model_get(GTK_TREE_MODEL(model), &iter_child, 0,
+      gtk_tree_model_get(GTK_TREE_MODEL(model), &iter_parent, 0,
 				           &name, -1);
 
   
@@ -74,7 +74,7 @@ add_device_to_tree(gchar *device_name){
 }
 
 add_port_to_tree(gchar *port_name){
-  gtk_tree_store_append(treestore, &child, &toplevel);
+  gtk_tree_store_append(treestore, &child, &iter_parent);
   gtk_tree_store_set(treestore, &child,
   				COL_DEVICE, 
   				port_name, 
@@ -87,7 +87,6 @@ add_port_to_tree(gchar *port_name){
 static gint
 get_device_number(){
   gint i;
-  //gchar *name = get_selection_as_char();
   gchar *name = get_device_selection_as_char();
   if (!name)
     return -1;
@@ -181,12 +180,21 @@ void device_manager_remove_device()
 
 void device_manager_create_port()
 {
-  gint device_number = get_device_number();
+  gint port_number;
+  gint device_number;
+  GList *n;
+  gchar *port_name;
+  device_number = get_device_number();
+  
   if (device_number<0)
     return;
-  if(create_jack_midi_port(device_number) >= 0){
+  port_number = create_jack_midi_port(device_number);
+  if (port_number >= 0){
+    n = g_list_nth(Denemo.prefs.midi_device[device_number].port_names, port_number);
+    port_name = ((GString *) ((GList *) n)->data)->str; 
     g_debug("\nJust created midi device\n");
-    device_manager_refresh_model();
+    add_port_to_tree(port_name);
+    //device_manager_refresh_model();
   }
 }
 
@@ -196,7 +204,6 @@ void device_manager_remove_port()
   gint port_number = get_port_number();
   if (device_number <0 || port_number <0)          
     return;
-  //get_selection_as_char();
   if(remove_jack_midi_port(device_number, port_number) >= 0){
     g_debug("\nJust removed midi device\n");
     remove_selection();
