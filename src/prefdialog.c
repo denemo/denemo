@@ -70,6 +70,8 @@ struct callbackdata
   GtkWidget *fluidsynth_reverb;
   GtkWidget *fluidsynth_chorus;
   GtkWidget *fluidsynth_sample_rate;
+  GtkWidget *fluidsynth_period_size;
+
 #endif
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
@@ -148,6 +150,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(fluidsynth_reverb)
   ASSIGNBOOLEAN(fluidsynth_chorus)
     ASSIGNINT(fluidsynth_sample_rate)
+    ASSIGNINT(fluidsynth_period_size)
 #endif
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
@@ -425,7 +428,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Enable Reverb on soundfont", fluidsynth_reverb)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
-    INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 22050, 96000);
+    INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 0, 96000);
+   INTENTRY_LIMITS(_("Period Size"), fluidsynth_period_size, 0, 2048);
 
 #endif
   /* device manager */

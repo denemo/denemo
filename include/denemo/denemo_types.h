@@ -359,7 +359,9 @@ typedef struct DenemoPrefs
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
-  gint fluidsynth_sample_rate;/**< in Hz > */
+  gint fluidsynth_sample_rate;/**< sample rate in Hz > */
+  gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
+
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */

@@ -128,7 +128,8 @@ initprefs ()
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
 		                                           "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
-  ret->fluidsynth_sample_rate = 44100;
+  ret->fluidsynth_sample_rate = 0;//do not set
+
 #endif
   ret->saveparts = FALSE;
   ret->rtcs = TRUE;
@@ -293,6 +294,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(fluidsynth_reverb)
       READINTXMLENTRY(fluidsynth_chorus)
       READINTXMLENTRY(fluidsynth_sample_rate)
+      READINTXMLENTRY(fluidsynth_period_size)
 
       READXMLENTRY(lilyversion) 
       READINTXMLENTRY(saveparts)
@@ -550,6 +552,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(fluidsynth_reverb)
   WRITEINTXMLENTRY(fluidsynth_chorus)
   WRITEINTXMLENTRY(fluidsynth_sample_rate)
+  WRITEINTXMLENTRY(fluidsynth_period_size)
 
   WRITEXMLENTRY(browser) 
   
