@@ -91,7 +91,7 @@ get_device_number(){
   if (!name)
     return -1;
   else { 
-    gchar port_name[12];
+    gchar port_name[15]; //TODO replace with gstring for resizinging purposes
     for(i=0;i<maxnumber_of_clients();i++){
       sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_client_name(), i);
       if (!strcmp(name, port_name))
@@ -111,7 +111,7 @@ get_port_number(){
   if (!name)
     return -1;
   else { 
-    gchar port_name[12];
+    gchar port_name[15]; //TODO replace with gstring for resizinging purposes
     for(i=0;i<maxnumber_of_ports();i++){
       sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_port_name(), i);
       if (!strcmp(name, port_name))
