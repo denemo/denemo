@@ -23,9 +23,9 @@ e.g. c c' means octave up.
 " Transpose::Interval))
   (set! lily (string-append  "\\transpose " Transpose::Interval " "))
   (set! text (string-append  "Print transposed:  " Transpose::Interval " "))
-  (d-DirectivePut-score-postfix  "TransposeScore" lily)
-  (d-DirectivePut-score-display  "TransposeScore" text)
-  (d-DirectivePut-score-override  "TransposeScore" DENEMO_OVERRIDE_GRAPHIC)
+  (d-DirectivePut-score-postfix  "TransposeScorePrint" lily)
+  (d-DirectivePut-score-display  "TransposeScorePrint" text)
+  (d-DirectivePut-score-override  "TransposeScorePrint" DENEMO_OVERRIDE_GRAPHIC)
   (d-RefreshDisplay))
 </scheme>
         <label>(Print) Transposed</label>
