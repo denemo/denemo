@@ -1141,31 +1141,39 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
 	gtk_window_present(GTK_WINDOW(gtk_widget_get_toplevel(texteditor)));
       }
     } else {
-      gchar *script = get_action_script(directive->tag->str);
+    gchar *script = get_action_script(directive->tag->str);
+    if(script)
+      call_out_to_guile(script);
+    else {
+      if(left)
+	script = get_editscript_filename(directive->tag->str);
+      else
+	script = NULL;
       if(script)
-	call_out_to_guile(script);
+	execute_script_file(script);
       else {
-	if(left)
-	  script = get_editscript_filename(directive->tag->str);
-	else
-	  script = NULL;
-	if(script)
-	  execute_script_file(script);
-	else {
+	/* if there is an action of this tag with scheme script, run it again
+	   else do text edit of the directives fields
+
+	*/
+	GtkAction *action;
+	if(left && ((action = lookup_action_from_name((gchar *)directive->tag->str))!=NULL))
+	  gtk_action_activate(action); else {
 	  gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
 	  if(fn) {
-	   gboolean delete = !text_edit_directive_by_fn(directive, fn);
-	   if(delete) {
-	     GList *directives = (GList*)g_object_get_data(w, "directives-pointer");
-	     if(directives)
-	       delete_directive(directives, directive->tag->str);
-	     else
-	       g_warning("Could not get directives list to delete from");
-	   }
+	    gboolean delete = !text_edit_directive_by_fn(directive, fn);
+	    if(delete) {
+	      GList *directives = (GList*)g_object_get_data(w, "directives-pointer");
+	      if(directives)
+		delete_directive(directives, directive->tag->str);
+	      else
+		g_warning("Could not get directives list to delete from");
+	    }
 	  }
 	}
       }
     }
+  }
 }
 
 /* return a GtkTextView which has been installed inside a scrolled window */
