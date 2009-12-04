@@ -2913,6 +2913,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
       </row>
       <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff (On/Off)</label>
+        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
+      <row>
         <action>InstrumentName</action>
         <after>SmallerStaff</after>
         <scheme></scheme>
@@ -3064,13 +3071,7 @@ for second and subsequent systems</tooltip>
         <label>Auto Slur Directions</label>
         <tooltip>Prints slurs as normal</tooltip>
       </row>
-      <row>
-        <action>SmallerStaff</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Smaller Staff (On/Off)</label>
-        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
-      </row>
+
     </map>
   </commands>
 </Denemo>
