@@ -387,17 +387,6 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("User Name", username)
   PASSWORDENTRY("Password for Denemo.org", password)
   /*
-   * Jack Menu
-   */
-#ifdef _HAVE_JACK_
-  NEWPAGE("JACK");
-  BOOLEANENTRY("Enable Jack Transport", jacktransport);
-  BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
-  BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
-  /* Start/Restart Button */
-  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
-#endif
-  /*
    * Fluidsynth Menu
    */
 #ifdef _HAVE_FLUIDSYNTH_
@@ -432,8 +421,18 @@ preferences_change (GtkAction *action, gpointer param)
    INTENTRY_LIMITS(_("Period Size"), fluidsynth_period_size, 0, 2048);
 
 #endif
-  /* device manager */
+  /**
+   * Device Manager
+   */
+#ifdef _HAVE_JACK_
   NEWPAGE("MIDI Device Manager");
+
+  BOOLEANENTRY("Enable Jack Transport", jacktransport);
+  BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
+  BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
+  /* Start/Restart Button */
+  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
+
   hbox = gtk_hbox_new(TRUE, 5);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   GtkWidget *view = DeviceManager();
@@ -445,6 +444,7 @@ preferences_change (GtkAction *action, gpointer param)
   BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
   BUTTON("Add Port", midi_device_add_port, device_manager_create_port, NULL);
   BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, NULL);
+#endif
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
