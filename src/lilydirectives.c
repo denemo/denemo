@@ -1117,9 +1117,21 @@ gchar *basename = g_strconcat(tag, ".scm", NULL);
 }
 
 
+/*
+instead of the "activate"  "button-release-event" signal
 
+gboolean            user_function                      (GtkWidget      *widget,
+                                                        GdkEventButton *event,
+                                                        gpointer        user_data)      : Run Last
+the look at event to see if left or right button pressed
+and allow advanced edit if right button.
+
+*/
+static gboolean
+text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn);
 static void
-button_callback (GtkWidget *w, DenemoDirective *directive){
+button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directive) {
+  gboolean left = (event->button != 3);                  
   if(directive->override&DENEMO_OVERRIDE_EDITOR)
     {
       GtkWidget *texteditor = (GtkWidget*)g_object_get_data(G_OBJECT(directive->widget), DENEMO_TEXTEDITOR_TAG);
@@ -1133,13 +1145,24 @@ button_callback (GtkWidget *w, DenemoDirective *directive){
       if(script)
 	call_out_to_guile(script);
       else {
-	script = get_editscript_filename(directive->tag->str);
+	if(left)
+	  script = get_editscript_filename(directive->tag->str);
+	else
+	  script = NULL;
 	if(script)
 	  execute_script_file(script);
 	else {
 	  gpointer fn = g_object_get_data(G_OBJECT(w), "fn");
-	  if(fn)
-	    edit_directive_callback(w, fn);
+	  if(fn) {
+	   gboolean delete = !text_edit_directive_by_fn(directive, fn);
+	   if(delete) {
+	     GList *directives = (GList*)g_object_get_data(w, "directives-pointer");
+	     if(directives)
+	       delete_directive(directives, directive->tag->str);
+	     else
+	       g_warning("Could not get directives list to delete from");
+	   }
+	  }
 	}
       }
     }
@@ -1286,7 +1309,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
       directive->widget = gtk_menu_item_new_with_label(value);
       attach_textedit_widget(directive);
-      g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), directive);
+      g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
       gtk_menu_shell_prepend(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
     } else    
       if(fn==(void(*)())voice_directive_put_graphic) {
@@ -1295,7 +1318,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	attach_textedit_widget(directive);
 	GtkWidget *menu;
 	menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
-	g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), fn);
+	g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
 	if(box)  {
@@ -1306,7 +1329,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	  }
 	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), "clicked",  G_CALLBACK(button_callback), directive);
+	  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
 	  if(box){
 	    gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET(directive->widget), FALSE, TRUE,0);
 	    gtk_widget_show(box);
@@ -1314,7 +1337,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	} else {
 	  directive->widget = gtk_menu_item_new_with_label(value);
 	  attach_textedit_widget(directive);
-	  g_signal_connect(G_OBJECT(directive->widget), "activate",  G_CALLBACK(button_callback), directive);
+	  g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
 	}
     g_object_set_data(G_OBJECT(directive->widget), "directive", (gpointer)directive);
     g_object_set_data(G_OBJECT(directive->widget), "fn", (gpointer)fn);
@@ -2080,7 +2103,27 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   return ret;
 }
 
-
+#define TEXT_EDIT_IF(what)\
+  if(fn == (void(*)())what##_directive_put_graphic)\
+    return text_edit_directive(directive, #what);
+static gboolean
+text_edit_directive_by_fn(DenemoDirective *directive, gpointer fn) {
+TEXT_EDIT_IF(note);
+TEXT_EDIT_IF(chord);
+TEXT_EDIT_IF(staff);
+TEXT_EDIT_IF(voice);
+TEXT_EDIT_IF(score);
+TEXT_EDIT_IF(clef);
+TEXT_EDIT_IF(timesig);
+TEXT_EDIT_IF(keysig);
+TEXT_EDIT_IF(scoreheader);
+TEXT_EDIT_IF(header);
+TEXT_EDIT_IF(paper);
+TEXT_EDIT_IF(layout);
+TEXT_EDIT_IF(movementcontrol);
+TEXT_EDIT_IF(standalone);
+}
+#undef TEXT_EDIT_IF
 /* allow edit of a directive, either via script or textually if no script exists 
    return FALSE if user confirms a request to delete the directive
 */
