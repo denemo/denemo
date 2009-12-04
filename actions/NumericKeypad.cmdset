@@ -2372,13 +2372,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Inserts a glissando</tooltip>
       </row>
       <row>
-        <action>SmallerStaff</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Smaller Staff</label>
-        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
-      </row>
-      <row>
         <action>Fortissimo</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
@@ -3070,6 +3063,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Markings/Slurs</menupath>
         <label>Auto Slur Directions</label>
         <tooltip>Prints slurs as normal</tooltip>
+      </row>
+      <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff (On/Off)</label>
+        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
       </row>
     </map>
   </commands>
