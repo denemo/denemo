@@ -6,11 +6,11 @@
     <map>
       <row>
         <action>MovementTitle</action>
-        <scheme>(SetHeaderField "title")
+        <scheme>(SetHeaderField "subtitle")
 (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
 (d-RefreshDisplay)</scheme>
-        <label>Score Title</label>
-        <tooltip>Prints the name given as a grand title above this movement. Suggested use: first movement only, see (Sub)title.</tooltip>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title above this movement. </tooltip>
       </row>
     </map>
   </merge>

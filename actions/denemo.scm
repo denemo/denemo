@@ -251,10 +251,25 @@
 
 
 ;;;;;;;;;; SetHeaderField sets a field in the movement header
+;;;;;;;;;; the directive created is tagged Score or Movement depending on the field
 
 (define* (SetHeaderField field #:optional (title #f))
-  (let ((current "") (thematch #f) (tag ""))
-    (set! tag (string-append "Movement-" field))
+  (let ((current "") (thematch #f) (tag "") (type "") (fieldname ""))
+    (if 
+     (or (equal? field "subtitle") (equal? field "subsubtitle") (equal? field "piece"))
+     (begin
+       (set! type "Movement")
+       (if (equal? field "subtitle")
+	   (set! fieldname "Title"))
+        (if (equal? field "subsubtitle")
+	   (set! fieldname "Subtitle"))
+	(if (equal? field "piece")
+	   (set! fieldname "Piece")) )
+     (begin
+       (set! type "Score")
+       (set! fieldname (string-capitalize field))))
+     
+    (set! tag (string-append type fieldname)) 
     (set! current (d-DirectiveGet-header-postfix tag))
     (if (boolean? current)
 	(set! current "") 
@@ -265,10 +280,10 @@
 	  (if (regexp-match? thematch)
 	      (set! current (match:substring thematch 1)))))
     (if (boolean? title)
-	(set! title (d-GetUserInput (string-append "Movement " field) 
-				    (string-append "Give a name for the " field " of the current movement") current)))
+	(set! title (d-GetUserInput (string-append type " " fieldname)
+				    (string-append "Give a name for the " fieldname " of the " type) current)))
     (d-DirectivePut-header-override tag DENEMO_OVERRIDE_GRAPHIC)
-    (d-DirectivePut-header-display tag (string-append field ": " title))
+    (d-DirectivePut-header-display tag (string-append type " " fieldname ": " title))
     
     (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
 
@@ -276,7 +291,7 @@
 
 (define (SetScoreHeaderField field)
 (let ((title "") (current "") (thematch #f) (tag ""))
-  (set! tag (string-append "Score" field))
+  (set! tag (string-append "Score" (string-capitalize field)))
   (set! current (d-DirectiveGet-scoreheader-postfix tag))
   (if (boolean? current)
       (set! current "") 

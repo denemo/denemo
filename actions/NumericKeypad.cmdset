@@ -2401,12 +2401,48 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
       </row>
       <row>
+        <action>ScoreArranger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Arranger</label>
+        <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
+      </row>
+      <row>
         <action>ScoreComposer</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Composer</label>
-        <tooltip>Prints name given to left above first movement of the score.</tooltip>
+        <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
+       <row>
+        <action>ScoreDedication</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Dedication</label>
+        <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
+      </row>
+      <row>
+        <action>ScoreInstrument</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Instrument</label>
+        <tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</tooltip>
+      </row>
+      <row>
+        <action>ScoreMeter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Meter</label>
+        <tooltip>Meter string, flush-left below the poet.</tooltip>
+      </row>
+      <row>
+        <action>ScoreOpus</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Opus</label>
+        <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
+      </row>
+ 
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
@@ -2422,11 +2458,18 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Prints a line of text at the end of the score.</tooltip>
       </row>
       <row>
+        <action>MovementTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title above the current movement.</tooltip>
+      </row>
+      <row>
         <action>MovementSubtitle</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
-        <label>Title (subtitle of score)</label>
-        <tooltip>Prints the name given as a title above this movement.</tooltip>
+        <label>Subtitle</label>
+        <tooltip>Prints the given name below the title of the current movement.</tooltip>
       </row>
       <row>
         <action>MovementPiece</action>
@@ -2434,13 +2477,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
         <label>Piece</label>
         <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
-      </row>
-      <row>
-        <action>MovementTitle</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
-        <label>Score Title</label>
-        <tooltip>Prints the name given as a grand title above this movement. Suggested use: first movement only, see (Sub)title.</tooltip>
       </row>
       <row>
         <action>ScoreCopyright</action>
@@ -3071,7 +3107,13 @@ for second and subsequent systems</tooltip>
         <label>Auto Slur Directions</label>
         <tooltip>Prints slurs as normal</tooltip>
       </row>
-
+      <row>
+        <action>ScoreDedication</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Dedication</label>
+        <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

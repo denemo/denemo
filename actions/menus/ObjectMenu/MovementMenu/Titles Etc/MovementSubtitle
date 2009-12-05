@@ -2,15 +2,15 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>AT, JRR, RTS</author>
+    <author>RTS</author>
     <map>
       <row>
         <action>MovementSubtitle</action>
-        <scheme>(SetHeaderField "subtitle")
+        <scheme>(SetHeaderField "subsubtitle")
 (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
 (d-RefreshDisplay)</scheme>
-        <label>Title (subtitle of score)</label>
-        <tooltip>Prints the name given as a title above this movement.</tooltip>
+        <label>Subtitle</label>
+        <tooltip>Prints the name given below the title of this movement.</tooltip>
       </row>
     </map>
   </merge>
