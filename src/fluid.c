@@ -413,7 +413,7 @@ fluid_midi_stop(void)
 }
 
 /* give audible feedback for entering a rhythmic element */
-static gint rhythm_sounds[] = {41,48,60,64,62,70, 81, 69, 79};
+static gint rhythm_sounds[] = {41,48,64,60,62,70, 81, 69, 79};
 void
 fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
   if(dot)
