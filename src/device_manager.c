@@ -178,6 +178,33 @@ device_manager_refresh_model(void)
   }
 }
 
+DevicePort device_manager_get_DevicePort(gchar *staff_DP){
+  DevicePort dp;
+  GList *n;
+  gint i;
+  gint port_number = 0;
+  gchar *DP_string;
+
+  for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
+    GList *n = Denemo.prefs.midi_device[i].port_names;
+    while (n){
+      DP_string = g_strconcat(Denemo.prefs.midi_device[i].client_name->str,
+		"->",
+		((GString *) ((GList *) n)->data)->str,
+		NULL);
+
+      if (!strcmp(staff_DP, DP_string)){
+        dp.device_number = i;
+	dp.port_number = port_number;
+	g_free(DP_string);
+	return dp;
+      }
+      port_number++; 
+      g_free(DP_string);     
+    }
+  }
+}
+
 GList *
 device_manager_DevicePort_list(){
   device_manager_refresh_model();
