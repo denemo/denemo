@@ -308,6 +308,17 @@ newDirectivesElem(xmlNodePtr objElem, xmlNsPtr ns, GList *g, gchar *type) {
   //GList *g = ((chord *) curObj->object)->directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
+
+/*      hhmmmm the set_action_script_for_tag is not modifying the directive - just associating a script with the tag. It is when we try to invoke the directive that we find there is an action script */
+/* We Decline to store any directive that has a tag for which an action script is defined in this run of denemo 
+*  this implies people need to be careful in the tags they use for action scripts*/
+
+/*      We have some serious thought needed here!!!!!!!!!!!!!!!!!!!!!!!! */
+/* could be */
+    if(directive->tag && get_action_script (directive->tag->str))
+       continue;
+
+
      xmlNodePtr directiveElem =  xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
