@@ -201,7 +201,11 @@ DevicePort device_manager_get_DevicePort(gchar *staff_DP){
       }
       port_number++; 
       g_free(DP_string);     
-    }
+    } 
+    /* If it does not match any */
+    dp.device_number = -1;
+    dp.port_number = -1;
+    return dp;
   }
 }
 
