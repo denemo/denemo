@@ -241,6 +241,7 @@ typedef struct
   GString *denemo_name; /**< denemo_name gets copied into lily_name */
   GString *lily_name; /**< this is the name of the staff that is export to lilypond */
   GString *midi_instrument; /**< midi instrument name used for the staff when exported via midi */
+  GString *device_port; /**< Device name and Port name conctatinated into one string */ 
   gboolean midi_prognum_override; /**< override to allow manually setting prognum + channel */
   guint8 midi_prognum; /**< midi prognum assigned to the staff voice */
   guint8 midi_channel; /**< midi channel assigned to the staff voice */

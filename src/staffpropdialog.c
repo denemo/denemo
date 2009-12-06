@@ -198,7 +198,7 @@ struct callbackdata
   GtkWidget *midi_prognum;
   GtkWidget *midi_channel;
   GtkWidget *midi_prognum_override;
-  GtkWidget *midi_device;
+  GtkWidget *device_port;
   GtkWidget *space_above;
   GtkWidget *space_below;
   GtkWidget *no_of_lines;
@@ -283,6 +283,7 @@ set_properties (struct callbackdata *cbdata)
  
   /* set MIDI channel/prognum */
   ASSIGNTEXT(midi_instrument);
+  ASSIGNTEXT(device_port);
   ASSIGNBOOLEAN(mute_volume);
   ASSIGNNUMBER(volume);
   ASSIGNBOOLEAN(midi_prognum_override);
@@ -505,9 +506,8 @@ staff_properties_change (gpointer callback_data)
   INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
   INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
   
-  GString *l = g_string_new("NULL"); 
   GList *md = device_manager_DevicePort_list();
-  COMBOBOXENTRY("Midi Devices", midi_device, md, l)
+  COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \
     cbdata.field = field;
