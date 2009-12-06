@@ -1992,7 +1992,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     // containing the fixed stuff. for example:
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-default-paper-size \"", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.papersize, gui->lilycontrol.papersize->str, &iter, NULL, gui);
-    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\")\n", -1, INEDITABLE, NULL, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "\"\n", -1, INEDITABLE, NULL, NULL);
+    if(!gui->lilycontrol.orientation)
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "'landscape", -1, INEDITABLE, NULL, NULL);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, ")\n", -1, INEDITABLE, NULL, NULL);
     
     gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, "#(set-global-staff-size ", -1, INEDITABLE, NULL, NULL);
     insert_editable(&gui->lilycontrol.staffsize, gui->lilycontrol.staffsize->str, &iter, NULL, gui);
