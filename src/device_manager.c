@@ -11,6 +11,7 @@ GtkTreeSelection *selection;
 GtkTreeModel        *model;
 GtkTreeStore  *treestore;
 GtkTreeIter    toplevel, child, iter_parent;
+GList *DevicePort_list;
 
 enum
 {
@@ -131,12 +132,30 @@ create_model (void)
   return GTK_TREE_MODEL(treestore);
 }
 
+static void 
+append_to_drop_down_list(gint device_number, GList *n){
+  gchar *DevicePortName;
+  DevicePortName = g_strconcat(Denemo.prefs.midi_device[device_number].client_name->str,
+		"->",
+		((GString *) ((GList *) n)->data)->str,
+		NULL);
+  DevicePort_list = g_list_append(DevicePort_list, DevicePortName);
+}
+
+static void
+clear_DevicePort_list(){
+  g_list_foreach(DevicePort_list, (GFunc) g_free, NULL);
+  //g_list_free(DevicePort_list);
+  DevicePort_list = NULL;
+}
+
 void
 device_manager_refresh_model(void)
 {
   gint i;
-  gtk_tree_store_clear(treestore); //clear list
-  
+  gtk_tree_store_clear(treestore); //clear tree
+  clear_DevicePort_list();       //clear list
+
   for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
     gtk_tree_store_append(treestore, &toplevel, NULL);
     gtk_tree_store_set(treestore, &toplevel,
@@ -153,9 +172,16 @@ device_manager_refresh_model(void)
                      COL_DEVICE, 
 		     ((GString *) ((GList *) n)->data)->str,
                      -1);
+      append_to_drop_down_list(i, n);
       n = n->next;
     }
   }
+}
+
+GList *
+device_manager_DevicePort_list(){
+  device_manager_refresh_model();
+  return DevicePort_list;
 }
 
 void device_manager_create_device()

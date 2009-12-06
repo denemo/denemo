@@ -198,13 +198,14 @@ struct callbackdata
   GtkWidget *midi_prognum;
   GtkWidget *midi_channel;
   GtkWidget *midi_prognum_override;
+  GtkWidget *midi_device;
   GtkWidget *space_above;
   GtkWidget *space_below;
   GtkWidget *no_of_lines;
   GtkWidget *transposition;
   GtkWidget *volume;
   GtkWidget *mute_volume;
-
+ 
   GtkWidget *context;
   GtkWidget *staff_prolog_insert;
   GtkWidget *voice_prolog_insert;
@@ -504,6 +505,9 @@ staff_properties_change (gpointer callback_data)
   INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
   INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
   
+  GString *l = g_string_new("NULL"); 
+  GList *md = device_manager_DevicePort_list();
+  COMBOBOXENTRY("Midi Devices", midi_device, md, l)
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \
     cbdata.field = field;
