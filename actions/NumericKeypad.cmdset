@@ -2414,7 +2414,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Composer</label>
         <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
-       <row>
+      <row>
         <action>ScoreDedication</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
@@ -2442,7 +2442,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Opus</label>
         <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
       </row>
- 
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
@@ -3108,11 +3107,12 @@ for second and subsequent systems</tooltip>
         <tooltip>Prints slurs as normal</tooltip>
       </row>
       <row>
-        <action>ScoreDedication</action>
+        <action>PaperSize</action>
+        <after>ScoreIndent</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
-        <label>Dedication</label>
-        <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Paper Size and Orientation</label>
+        <tooltip>Specifies how the printed page should be.</tooltip>
       </row>
     </map>
   </commands>
