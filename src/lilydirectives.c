@@ -38,7 +38,9 @@ static void action_script_table_insert(gchar *name, gchar *script) {
 void set_action_script_for_tag(gchar *tag, gchar *script) {
   action_script_table_insert(tag, script);
 }
-static  gchar *get_action_script(gchar *name) {
+
+
+gchar *get_action_script(gchar *name) {
   if(action_scripts)
     return (gchar *)g_hash_table_lookup(action_scripts, name);
   return NULL;

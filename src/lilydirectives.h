@@ -23,6 +23,8 @@ gboolean
 text_edit_note_directive(gchar *tag);
 void 
 set_action_script_for_tag(gchar *tag, gchar *script);
+gchar *
+get_action_script(gchar *name);
 void 
 edit_object_directive(GtkAction *action,  DenemoScriptParam *param);
 void 
