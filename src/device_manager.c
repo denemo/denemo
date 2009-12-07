@@ -269,15 +269,28 @@ void device_manager_remove_port()
 
 static void 
 cell_edited (GtkCellRendererText* cellrenderertext,
-	gchar* path_string, gchar* new_text,
+	gchar* path_string, gchar* new_name,
 	GtkTreeModel* treemodel)
 {
+  gint device_number;
+  gint port_number;
   GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
   GtkTreeIter iter;
-
+  
   gtk_tree_model_get_iter (model, &iter, path);
-  g_debug("\n***new text == %s\n", new_text);
-  gtk_tree_store_set (treestore, &iter, 0, new_text, -1);
+  g_debug("\n***path_string = %s, new text == %s\n", path_string, new_name);
+ 
+     gchar **device_path_str = g_strsplit(path_string,":",2);
+     device_number = atoi(device_path_str[0]);
+     if (device_path_str[1]){
+	port_number = atoi(device_path_str[1]);
+	if(!rename_jack_midi_port(device_number, port_number, new_name))
+	  gtk_tree_store_set (treestore, &iter, 0, new_name, -1);
+     } else {
+	g_debug("can't change device name yet");
+     }
+
+  g_free(device_path_str);
   gtk_tree_path_free (path);
 }
 

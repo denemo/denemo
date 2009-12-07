@@ -44,7 +44,6 @@ static volatile gint BufferIndex;
 static gint BufferFillIndex;
 static volatile gboolean BufferEmpty = TRUE;
 static gboolean playing_piece = FALSE;
-
 struct midi_buffer
 {
   unsigned char buffer[3];
@@ -427,13 +426,17 @@ remove_all_jack_midi_clients(){
 
 int
 rename_jack_midi_port(int client_number, int port_number, char *port_name){
-  int err = 0;
+  int err = -1;
 
-  if (midi_device[client_number].output_ports[port_number] != NULL) //TODO needs changed
-    err = jack_port_set_name (midi_device[client_number].output_ports[port_number], port_name); //TODO
-  g_debug("Trying to rename JACK port output_ports[%d] to %s\n",port_number, port_name);
-  if (err)
-    g_critical("Could not rename JACK port output_ports[%d] to %s",port_number, port_name);
+  if (midi_device[client_number].output_ports[port_number] != NULL) //TODO is there a better way to check?
+    err = jack_port_set_name (midi_device[client_number].output_ports[port_number], port_name);
+  if (!err){
+    MD[client_number].port_names = g_list_nth(MD[client_number].port_names, port_number);
+    MD[client_number].port_names->data = g_string_new(port_name);
+    g_debug("Renamed JACK device %d output_ports[%d] to %s\n",client_number, port_number, port_name);
+  } else	  
+    g_critical("Could not rename JACK device %d output_ports[%d] to %s",client_number, port_number, port_name);
+  
   return err;	
 }
 
