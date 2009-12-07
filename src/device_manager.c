@@ -267,6 +267,20 @@ void device_manager_remove_port()
   }
 }
 
+static void 
+cell_edited (GtkCellRendererText* cellrenderertext,
+	gchar* path_string, gchar* new_text,
+	GtkTreeModel* treemodel)
+{
+  GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+  GtkTreeIter iter;
+
+  gtk_tree_model_get_iter (model, &iter, path);
+  g_debug("\n***new text == %s\n", new_text);
+  gtk_tree_store_set (treestore, &iter, 0, new_text, -1);
+  gtk_tree_path_free (path);
+}
+
 GtkWidget *
 DeviceManager (void)
 {
@@ -283,6 +297,8 @@ DeviceManager (void)
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   renderer = gtk_cell_renderer_text_new();
+  g_object_set(renderer, "editable", TRUE, NULL);
+  g_signal_connect(renderer, "edited", (GCallback)cell_edited, model); 
 
   /* pack cell renderer into tree view column */
   gtk_tree_view_column_pack_start(col, renderer, TRUE);
