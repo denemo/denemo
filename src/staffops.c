@@ -349,6 +349,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 		      numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
   thestaffstruct->midi_instrument = g_string_new ("acoustic grand");
+  thestaffstruct->device_port = g_string_new ("NONE");
   thestaffstruct->leftmost_timesig = &thestaffstruct->timesig;
 
   /* In what position should the scrollbar be added?  */
