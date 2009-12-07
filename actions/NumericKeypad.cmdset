@@ -3114,6 +3114,13 @@ for second and subsequent systems</tooltip>
         <label>Paper Size and Orientation</label>
         <tooltip>Specifies how the printed page should be.</tooltip>
       </row>
+      <row>
+        <action>BarNumbers</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Numbering</menupath>
+        <label>Bar Numbers On/Off</label>
+        <tooltip>Turns bar numbering on/off in print out.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
