@@ -444,6 +444,7 @@ preferences_change (GtkAction *action, gpointer param)
   BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
   BUTTON("Add Port", midi_device_add_port, device_manager_create_port, NULL);
   BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, NULL);
+  device_manager_refresh_model();
 #endif
 
 #define SETCALLBACKDATA(field) \
