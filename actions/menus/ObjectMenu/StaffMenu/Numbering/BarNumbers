@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BarNumbers</action>
+        <scheme>;;;;;;;;;;;;;;;BarNumbers
+(if (d-Directive-staff? "BarNumbers")
+    (d-DirectiveDelete-staff "BarNumbers")
+    (begin
+      (d-DirectivePut-staff-postfix "BarNumbers" "\\context Score \\applyContext #(set-bar-number-visibility 4000)")
+      (d-DirectivePut-staff-override "BarNumbers" DENEMO_OVERRIDE_GRAPHIC)
+      (d-DirectivePut-staff-display "BarNumbers" "Bar numbering off")))
+(d-RefreshDisplay)
+;;;;
+  </scheme>
+        <label>Bar Numbers On/Off</label>
+        <tooltip>Turns bar numbering on/off in print out.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
