@@ -564,6 +564,8 @@ void remove_last_jack_midi_port (){}
 void create_jack_midi_port (){}
 void remove_jack_midi_client (){}
 void remove_jack_midi_port (){}
+void rename_jack_midi_port (){}
+
 void create_jack_midi_client (){}
 jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}
