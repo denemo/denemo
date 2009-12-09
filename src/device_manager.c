@@ -153,7 +153,8 @@ void
 device_manager_refresh_model(void)
 {
   gint i;
-  gtk_tree_store_clear(treestore); //clear tree
+  if(treestore)
+    gtk_tree_store_clear(treestore); //clear tree
   clear_DevicePort_list();       //clear list
 
   for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
