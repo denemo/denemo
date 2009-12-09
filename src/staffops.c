@@ -348,7 +348,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
     g_string_sprintf (thestaffstruct->denemo_name, _("voice %d"),
 		      numstaffs + 1);
   set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
-  thestaffstruct->midi_instrument = g_string_new ("acoustic grand");
+  thestaffstruct->midi_instrument = g_string_new ("");
   thestaffstruct->device_port = g_string_new ("NONE");
   thestaffstruct->leftmost_timesig = &thestaffstruct->timesig;
 

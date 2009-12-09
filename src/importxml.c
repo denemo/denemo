@@ -1997,7 +1997,10 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  {
 	    gchar *temp = (gchar *) xmlNodeListGetString
 	      (childElem->doc, childElem->xmlChildrenNode, 1);
-	    g_string_assign (curStaff->midi_instrument, temp);
+	    if(temp)
+	      g_string_assign (curStaff->midi_instrument, temp);
+	    else
+	      curStaff->midi_instrument = g_string_new("");
 	    g_free (temp);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "context"))

@@ -251,17 +251,21 @@ set_properties (struct callbackdata *cbdata)
   gint err;
 
 #define ASSIGNTEXT(field) \
+  if(cbdata->field)\
     g_string_assign (staffstruct->field,\
     gtk_entry_get_text (GTK_ENTRY (cbdata->field)))
 
 #define ASSIGNNUMBER(field) \
+  if(cbdata->field)\
     staffstruct->field = \
       atoi(gtk_entry_get_text(GTK_ENTRY (cbdata->field)))
 #define ASSIGNNUMBER_1(field) \
+  if(cbdata->field)\
     staffstruct->field = \
       atoi(gtk_entry_get_text(GTK_ENTRY (cbdata->field)))-1
 
 #define ASSIGNBOOLEAN(field) \
+  if(cbdata->field)\
     staffstruct->field = \
     (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->field)));
 
@@ -286,10 +290,15 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNTEXT(device_port);
   ASSIGNBOOLEAN(mute_volume);
   ASSIGNNUMBER(volume);
-  ASSIGNBOOLEAN(midi_prognum_override);
-  ASSIGNNUMBER_1(midi_prognum);
-  ASSIGNNUMBER_1(midi_channel);
-
+  // ASSIGNBOOLEAN(midi_prognum_override);
+  if(staffstruct->midi_instrument->len) {
+    staffstruct->midi_channel = get_midi_channel();
+    staffstruct->midi_prognum = get_midi_prognum();
+  } else {
+    ASSIGNNUMBER_1(midi_prognum);
+    ASSIGNNUMBER_1(midi_channel);
+  }
+  g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
   /* staff context */
   DenemoContext old = staffstruct->context;
   staffstruct->context =
@@ -307,41 +316,17 @@ set_properties (struct callbackdata *cbdata)
   score_status(cbdata->gui, TRUE);
 }
 
-void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, denemo_name);
-  DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
- if(query) {
-   if(*query) if(!strcmp("denemo_name", query)) {
-     g_string_assign(param->string, staff->denemo_name->str);
-     param->status = TRUE;
-   }
-   return;
- }
- if(denemo_name) {
-   g_string_assign(staff->denemo_name, denemo_name);
-    param->status = TRUE;
-    return;
-
- }
- (void) staff_properties_change(NULL);
-}
-
 
 /**
- * Create Dialog to allow the user to set the staffs parameters
+ * Create Dialog to allow the user to set the current staff's parameters
  * 
- * @param action Gtk Action event or NULL if called programatically
- * @param callback_data if action==NULL this holds newstaffinfotopass structure otherwise unused.
- * @return success or failure 
  */
-gboolean
-staff_properties_change (gpointer callback_data)
+static gboolean
+staff_properties_change (void)
 {
   DenemoScore *si;
   DenemoGUI *gui;
-  DenemoStaff *thestaff;
-  guint callback_action = 0;
+
   gboolean result = FALSE;
   DenemoStaff *staffstruct;
   GtkWidget *dialog;
@@ -358,6 +343,7 @@ staff_properties_change (gpointer callback_data)
   if (!instrument_list)
     {
       int i=0;
+      instrument_list = g_list_append (instrument_list, "");
       do {
 	   instrument_list = g_list_append (instrument_list, instruments[i++]);
       } while (instruments[i]);
@@ -372,7 +358,6 @@ staff_properties_change (gpointer callback_data)
 	}
     }
 
-  if (callback_data==NULL)
     {
       gui = Denemo.gui;
       si = gui->si;
@@ -383,16 +368,7 @@ staff_properties_change (gpointer callback_data)
 		      "to see them in the print-out.");
       }
     }
-  else
-    {
-      struct newstaffinfotopass *cbdata1 =
-	(struct newstaffinfotopass *) callback_data;
-      /* si =  cbdata1->si; */
-      gui = cbdata1->gui;
-      staffstruct = cbdata1->staff;
-      callback_action = cbdata1->addat;
-    }
-
+ 
 
   if (!entrycontent)
     {
@@ -502,12 +478,16 @@ staff_properties_change (gpointer callback_data)
   COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
-  BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
+  // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
   INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
   INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
-  
+  g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
   GList *md = device_manager_DevicePort_list();
-  COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
+  if(md) {
+    COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
+  }
+  else
+    cbdata.device_port = NULL;
   /* Set up the callback data */
 #define SETCALLBACKDATA(field) \
     cbdata.field = field;
@@ -538,4 +518,25 @@ staff_properties_change (gpointer callback_data)
   gtk_widget_destroy (dialog);
 
   return result;
+}
+
+
+void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
+  GET_1PARAM(action, param, denemo_name);
+  DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+
+ if(query) {
+   if(*query) if(!strcmp("denemo_name", query)) {
+     g_string_assign(param->string, staff->denemo_name->str);
+     param->status = TRUE;
+   }
+   return;
+ }
+ if(denemo_name) {
+   g_string_assign(staff->denemo_name, denemo_name);
+    param->status = TRUE;
+    return;
+
+ }
+ (void) staff_properties_change();
 }

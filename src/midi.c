@@ -67,20 +67,15 @@ gint get_midi_channel()
 {
   gint tracknumber;
   gint channel;
-
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (curstaffstruct->midi_prognum_override != TRUE){
-    if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-      channel = 9;
-    else
-      {
-	tracknumber = Denemo.gui->si->currentstaffnum;
-	tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
-	channel = (tracknumber % 16 == 0) ? 16 : (tracknumber % 16);
-      }
-  }
+  if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
+    channel = 9;
   else
-    channel = curstaffstruct->midi_channel;
+    {
+      tracknumber = Denemo.gui->si->currentstaffnum-1;
+      tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+      channel = tracknumber&0xF;
+    }
   return channel ; //staff struct uses encoding 0-15
 }
 
@@ -88,16 +83,10 @@ gint get_midi_prognum()
 {
   gint prognum;
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
-  if (curstaffstruct->midi_prognum_override != TRUE){
-    if (get_midi_channel() == 9)
-      prognum = 0;
-    else
-      prognum = select_program (curstaffstruct->midi_instrument->str);
-  }
+  if (curstaffstruct->midi_channel == 9)
+    prognum = 0;
   else
-    prognum = curstaffstruct->midi_prognum ;//staff struct uses encoding 0-15
-  
+    prognum = select_program (curstaffstruct->midi_instrument->str);  
   return prognum;
 }
 

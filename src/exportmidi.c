@@ -1203,8 +1203,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
       smf_track_add_event_delta_pulses(track, event, 0);
 
-      midi_channel = get_midi_channel();
-      prognum = get_midi_prognum();
+      midi_channel = curstaffstruct->midi_channel;
+      prognum = curstaffstruct->midi_prognum;
 
       /* set selected midi program */
       g_print("Using channel %d prognum %d\n", midi_channel, prognum);
