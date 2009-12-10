@@ -709,8 +709,6 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		       (xmlChar *) curStaffStruct->midi_instrument->str);
 	   newXMLIntChild (curElem, ns, (xmlChar *) "volume",
 			   			  curStaffStruct->volume);
-	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum_override",
-	               curStaffStruct->midi_prognum_override);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum",
 	               curStaffStruct->midi_prognum);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_channel",

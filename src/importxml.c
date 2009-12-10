@@ -1950,7 +1950,7 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
   	  }	    
         else if (ELEM_NAME_EQ (childElem, "midi_prognum_override"))
 	  {
-  	    curStaff->midi_prognum_override = getXMLIntChild (childElem);
+	    /*obsolete*/;
   	  }	    
   	else if (ELEM_NAME_EQ (childElem, "midi_prognum"))
 	  {
