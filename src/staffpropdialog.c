@@ -522,7 +522,7 @@ staff_properties_change (void)
 
 
 void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
-  GET_1PARAM(action, param, denemo_name);
+  GET_4PARAMS(action, param, denemo_name, device_port, midi_prognum, midi_channel);
   DenemoStaff *staff = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
 
  if(query) {
@@ -535,8 +535,22 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
  if(denemo_name) {
    g_string_assign(staff->denemo_name, denemo_name);
     param->status = TRUE;
-    return;
+   return;
 
+ }
+ if(device_port) {
+   g_string_assign(staff->device_port, device_port);
+    param->status = TRUE;
+    return;
+ }
+  
+ if(midi_prognum) {
+   staff->midi_prognum = atoi(midi_prognum);
+   return;
+ }
+ if(midi_channel) {
+   staff->midi_channel = atoi(midi_channel);
+   return;
  }
  (void) staff_properties_change();
 }
