@@ -179,8 +179,9 @@ device_manager_refresh_model(void)
   }
 }
 
-DevicePort device_manager_get_DevicePort(gchar *staff_DP){
-  DevicePort dp;
+DevicePort *
+device_manager_get_DevicePort(gchar *staff_DP){
+  DevicePort *dp = (DevicePort*)g_malloc0(sizeof(DevicePort));
   GList *n;
   gint i;
   gint port_number = 0;
@@ -195,19 +196,20 @@ DevicePort device_manager_get_DevicePort(gchar *staff_DP){
 		NULL);
 
       if (!strcmp(staff_DP, DP_string)){
-        dp.device_number = i;
-	dp.port_number = port_number;
+        dp->device_number = i;
+	dp->port_number = port_number;
 	g_free(DP_string);
 	return dp;
       }
       port_number++; 
-      g_free(DP_string);     
-    } 
+      g_free(DP_string);
+      n=n->next;
+    }
+  } 
     /* If it does not match any */
-    dp.device_number = -1;
-    dp.port_number = -1;
+    dp->device_number = -1;
+    dp->port_number = -1;
     return dp;
-  }
 }
 
 GList *

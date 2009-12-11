@@ -47,8 +47,9 @@ static gboolean playing_piece = FALSE;
 struct midi_buffer
 {
   unsigned char buffer[3];
+  gint device_number;
+  gint port_number;
   gint channel;
-  gint jack_port;
 };
 
 struct midi_buffer global_midi_buffer[BUFFER_MAX_INDEX]; 
@@ -166,7 +167,8 @@ timer_callback(gpointer bufferindex){
   global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_OFF | global_midi_buffer[index].channel;
   global_midi_buffer[BufferFillIndex].buffer[1] = global_midi_buffer[index].buffer[1];
   global_midi_buffer[BufferFillIndex].buffer[2] = global_midi_buffer[index].buffer[2];
-  global_midi_buffer[BufferFillIndex].jack_port = global_midi_buffer[index].jack_port;
+  global_midi_buffer[BufferFillIndex].device_number = global_midi_buffer[index].device_number;
+  global_midi_buffer[BufferFillIndex].port_number = global_midi_buffer[index].port_number;
   BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
   BufferEmpty=FALSE;
   return FALSE;
@@ -180,7 +182,8 @@ jack_playpitch(gint key, gint duration){
     global_midi_buffer[BufferFillIndex].buffer[1] = key; 
     global_midi_buffer[BufferFillIndex].buffer[2] = curstaffstruct->volume;
     global_midi_buffer[BufferFillIndex].channel = get_midi_channel();
-    global_midi_buffer[BufferFillIndex].jack_port = get_midi_port();
+    //global_midi_buffer[BufferFillIndex].device_number = //TODO
+    global_midi_buffer[BufferFillIndex].port_number = get_midi_port();
     g_timeout_add(duration, timer_callback, (gpointer) BufferFillIndex);
     BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
     BufferEmpty=FALSE;
@@ -188,20 +191,24 @@ jack_playpitch(gint key, gint duration){
 }
 
 void 
-jack_output_midi_event(unsigned char *buffer){
+jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number){
   if (BufferEmpty==TRUE){ 
     global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
     global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
     global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
+    global_midi_buffer[BufferFillIndex].device_number = client_number;
+    global_midi_buffer[BufferFillIndex].port_number = port_number;
     BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
     if (BufferFillIndex == BufferIndex)
       g_debug("\nBuffer Overrun\n");
     BufferEmpty=FALSE;
   }
-  else {
+  else {  //TODO is this correct here? should we increment BufferFillIndex?
     global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
     global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
     global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
+    global_midi_buffer[BufferFillIndex].device_number = client_number;
+    global_midi_buffer[BufferFillIndex].port_number = port_number;
     BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
   }
 }
@@ -209,17 +216,22 @@ jack_output_midi_event(unsigned char *buffer){
 static void
 send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
-  gint i=global_midi_buffer[BufferIndex].jack_port;
-  void *port_buffers[MAX_NUMBER_OF_TRACKS];
+  gint device_number;
+  gint port_number;
+  void *port_buffers[MAX_NUMBER_OF_TRACKS];//TODO is this correct? Should it be in a struct?
 
-  if (!midi_device[0].output_ports[i])//TODO check
-    return;
+  device_number = global_midi_buffer[BufferIndex].device_number;
+  port_number = global_midi_buffer[BufferIndex].port_number;
   
-  port_buffers[i] = jack_port_get_buffer(midi_device[0].output_ports[i], nframes);
-  jack_midi_clear_buffer(port_buffers[i]);
+  if (!midi_device[device_number].output_ports[port_number])//TODO is this the best check?
+    return;
+  warn_from_jack_thread_context("\n***send_midi_event device check pass***\n");
+  port_buffers[port_number] = jack_port_get_buffer(midi_device[device_number].output_ports[port_number], nframes);
+  jack_midi_clear_buffer(port_buffers[port_number]);
   if (BufferEmpty==FALSE)
     while (BufferIndex != BufferFillIndex){
-      buffer = jack_midi_event_reserve(port_buffers[i], 0, 3);
+      warn_from_jack_thread_context("\n****output jack buffer*****\n");
+      buffer = jack_midi_event_reserve(port_buffers[port_number], 0, 3);
       if (buffer == NULL){
         warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
         return;
@@ -236,7 +248,7 @@ gboolean
 jackmidi_read_smf_events(){
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
-
+  DevicePort *DP; 
   if (!midi_device[0].jack_client)
     return FALSE;
 
@@ -255,12 +267,10 @@ jackmidi_read_smf_events(){
     event = smf_get_next_event(Denemo.gui->si->smf);
     return TRUE;
   }
-  //TODO set a way to set client_number to use device $x
-  //maybe something than selects that track before note is played?
-  //or a function returning an int for device used on that track
   if ((get_time() - start_player) >= event->time_seconds){
+    DP = event->track->user_pointer;
+    jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
     event = smf_get_next_event(Denemo.gui->si->smf);
-    jack_output_midi_event(event->midi_buffer); //Are these in the correct order?
   }
   return TRUE;
 }
@@ -292,7 +302,7 @@ process_callback(jack_nframes_t nframes, void *notused)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  if (Denemo.gui->si && midi_device[0].output_ports)
+  if (Denemo.gui->si->smf && midi_device[0].output_ports)
     send_midi_event(nframes);
   return 0;
 }
@@ -453,7 +463,7 @@ init_jack(void){
   int err = 0;
   create_jack_midi_client();
 
-  err = jack_set_process_callback(midi_device[0].jack_client, process_callback, 0);
+  err = jack_set_process_callback(midi_device[0].jack_client, process_callback, NULL);
   if (err) 
     g_critical("Could not register JACK process callback.");
   
@@ -556,7 +566,7 @@ jack_midi_playback_stop ()
 }
 #else //If not _HAVE_JACK_
 void jack_playpitch(int key, int duration){}
-void jack_output_midi_event(unsigned char *buffer){}
+void jack_output_midi_event(unsigned char *buffer, gint client_number, port_number){}
 int jack_kill_timer(void){}
 void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}

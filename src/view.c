@@ -29,6 +29,7 @@
 #include "exportmidi.h"
 #include "midi.h"
 #include "jackmidi.h"
+#include "device_manager.h"
 #ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
 #endif
@@ -1743,6 +1744,7 @@ SCM scheme_output_midi (SCM input) {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   channel = get_midi_channel();
   volume = curstaffstruct->volume;
+  DevicePort *DP = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
   gchar *string_input = scm_to_locale_string(input);
   gchar *bytes = substitute_midi_values(string_input, channel, volume);
 
@@ -1762,7 +1764,7 @@ SCM scheme_output_midi (SCM input) {
    
   g_debug("\nbuffer[0] = %d buffer[1] = %d buffer[2] = %d\n", buffer[0], buffer[1], buffer[2]);
   if (Denemo.prefs.midi_audio_output == JACK)
-    jack_output_midi_event(buffer);
+    jack_output_midi_event(buffer, 0, 0);
   else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
     fluid_output_midi_event(buffer);
   return  SCM_BOOL(TRUE);
@@ -1786,7 +1788,7 @@ static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
     if(scheme->id == Denemo.gui->id)
       scm_c_eval_string(scheme_code);
     else
-      g_warning("Timer missed for gui %d\n", scheme->id);
+     g_warning("Timer missed for gui %d\n", scheme->id);
     g_free(scheme);
     return FALSE; 
 }
