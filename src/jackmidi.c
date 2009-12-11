@@ -35,6 +35,7 @@ struct midi_output_device
 {
   jack_client_t *jack_client;	
   jack_port_t *output_ports[MAX_NUMBER_OF_TRACKS];
+  void *port_buffers[MAX_NUMBER_OF_TRACKS];
 };
 
 struct midi_output_device midi_device[MAX_NUMBER_OF_CLIENTS];
@@ -218,20 +219,17 @@ send_midi_event(jack_nframes_t nframes){
   unsigned char *buffer;
   gint device_number;
   gint port_number;
-  void *port_buffers[MAX_NUMBER_OF_TRACKS];//TODO is this correct? Should it be in a struct?
 
   device_number = global_midi_buffer[BufferIndex].device_number;
   port_number = global_midi_buffer[BufferIndex].port_number;
   
   if (!midi_device[device_number].output_ports[port_number])//TODO is this the best check?
     return;
-  warn_from_jack_thread_context("\n***send_midi_event device check pass***\n");
-  port_buffers[port_number] = jack_port_get_buffer(midi_device[device_number].output_ports[port_number], nframes);
-  jack_midi_clear_buffer(port_buffers[port_number]);
+  midi_device[device_number].port_buffers[port_number] = jack_port_get_buffer(midi_device[device_number].output_ports[port_number], nframes);
+  jack_midi_clear_buffer(midi_device[device_number].port_buffers[port_number]);
   if (BufferEmpty==FALSE)
     while (BufferIndex != BufferFillIndex){
-      warn_from_jack_thread_context("\n****output jack buffer*****\n");
-      buffer = jack_midi_event_reserve(port_buffers[port_number], 0, 3);
+      buffer = jack_midi_event_reserve(midi_device[device_number].port_buffers[port_number], 0, 3);
       if (buffer == NULL){
         warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
         return;
@@ -348,12 +346,18 @@ create_default_jack_midi_ports(){
 int
 create_jack_midi_client(){
   gint i;
+  gint err;
   char client_name[12];
   for (i=0;i <= MAX_NUMBER_OF_CLIENTS;i++)
     if (!midi_device[i].jack_client){
       sprintf(client_name, "%s:%d",CLIENT_NAME, i); 
       midi_device[i].jack_client = jack_client_open(client_name, JackNullOption, NULL);
-
+      
+      /* start callback */
+      if (i==0)
+        if (jack_set_process_callback(midi_device[i].jack_client, process_callback, NULL))
+          g_critical("Could not register JACK process callback.");
+      /* activate client */
       if (midi_device[i].jack_client){
 	jack_activate(midi_device[i].jack_client);
 	g_debug("\nassigning jackmidi client %s\n", client_name);
@@ -463,10 +467,6 @@ init_jack(void){
   int err = 0;
   create_jack_midi_client();
 
-  err = jack_set_process_callback(midi_device[0].jack_client, process_callback, NULL);
-  if (err) 
-    g_critical("Could not register JACK process callback.");
-  
   input_port = jack_port_register(midi_device[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
    
