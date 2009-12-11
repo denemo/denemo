@@ -2918,7 +2918,7 @@ for second and subsequent systems</tooltip>
         <action>MidiTempo</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Midi</menupath>
-        <label>Set Tempo, Midi only</label>
+        <label>Set Tempo</label>
         <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
       </row>    
     </map>
