@@ -115,6 +115,19 @@ int fluidsynth_init()
    fluid_settings_setint(settings, "audio.period-size" , Denemo.prefs.fluidsynth_period_size);
     g_print("Setting audio.period-size to %d\n", Denemo.prefs.fluidsynth_period_size);
   }
+
+#ifdef G_OS_WIN32
+  if(Denemo.prefs.fluidsynth_sample_rate<22050) {
+    fluid_settings_setint(settings, "synth.sample-rate" , 44100);
+    g_print("Setting sample rate to %d Hz\n", 44100);
+  }
+  if(Denemo.prefs.fluidsynth_period_size<64) {
+   fluid_settings_setint(settings, "audio.period-size" , 1024);
+    g_print("Setting audio.period-size to %d\n", 1024);
+  }
+#endif
+
+
   /* Create the synthesizer. */
   synth = new_fluid_synth(settings);
   if (!synth){

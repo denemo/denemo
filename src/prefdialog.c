@@ -399,7 +399,11 @@ preferences_change (GtkAction *action, gpointer param)
    *defaults are:
    *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
    */
+#ifdef G_OS_WIN32
+  gchar *driver_options[5] = {"portaudio", "jack"};
+#else
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
+#endif
   GList *driver_option_list = NULL;
   for (i=0;i<G_N_ELEMENTS(driver_options);i++)
     driver_option_list = g_list_append (driver_option_list, driver_options[i]);
