@@ -124,7 +124,11 @@ initprefs ()
 #ifdef _HAVE_FLUIDSYNTH_
   /*TODO needs to check if linux and set fluidsynth_audio_driver = alsa
   	for some reason the default for linux is jack */
+#ifdef G_OS_WIN32
+  ret->fluidsynth_audio_driver = g_string_new ("portaudio");
+#else
   ret->fluidsynth_audio_driver = g_string_new ((char *)fluidsynth_get_default_audio_driver());
+#endif
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
 		                                           "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
