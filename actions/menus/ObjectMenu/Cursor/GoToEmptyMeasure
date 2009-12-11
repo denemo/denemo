@@ -8,11 +8,13 @@
         <after>GoToMeasure</after>
         <action>GoToEmptyMeasure</action>
         <scheme>;;;GoToEmptyMeasure
-(d-CursorRight)
-(let gotoEnd ()
- (if  (d-NextObject) 
-	(gotoEnd)))
-(d-RefreshDisplay)</scheme>
+(if (not (equal? "None" (d-GetType)))
+(begin
+	(d-CursorRight)
+	(let gotoEnd ()
+ 	(if  (and (d-CursorRight) (not (equal? "None" (d-GetType))))
+		(gotoEnd)))
+	(d-RefreshDisplay)))</scheme>
         <label>Go To Next Empty Measure</label>
         <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
       </row>

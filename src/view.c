@@ -1939,42 +1939,74 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   DenemoGUI *gui = Denemo.gui;
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
-  GList *this = Denemo.gui->si->currentobject;
-  if(right && !this)
+  GList *start_obj = Denemo.gui->si->currentobject;
+  GList *start_measure = Denemo.gui->si->currentmeasure;
+  if(start_obj && Denemo.gui->si->cursor_appending)
+    cursorleft(NULL);
+  if(start_obj==NULL){
+    if(within_measure)
+      return FALSE;
+    // start object is NULL, not restricted to current measure
+    if(right) {
+      if(start_measure->next) {
+	measureright(NULL);
+	if(Denemo.gui->si->currentobject)
+	  return TRUE;
+	else
+	  return to_object_direction(within_measure, right);
+      } else
+	return FALSE;
+    }
+    // start object is NULL, not restricted to current measure, going previous
+    if(start_measure->prev) {
+      cursorleft(NULL);
+      if(Denemo.gui->si->currentobject==NULL)
+	return to_object_direction(within_measure, right);
+      cursorleft(NULL);
+      return TRUE;
+    }
     return FALSE;
-  DenemoScriptParam param;
-  gboolean was_appending = Denemo.gui->si->cursor_appending;
-  if(right)
-    cursorright (&param);
-  else {
-    cursorleft (&param);
-    if(Denemo.gui->si->cursor_appending)
-	cursorleft (&param);
   }
+  //start object is not NULL
+  if(within_measure){
+    if(right) {
+      if(start_obj->next) {
+	cursorright(NULL);
+	return TRUE;
+      }
+      return FALSE;
+    }
+    //left
+    if(start_obj->prev==NULL)
+      return FALSE;
+  }
+  //not restricted to this measure
   if(right) {
-    if(this!= Denemo.gui->si->currentobject)
+    if(start_obj->next) {
+      cursorright(NULL);
+      return TRUE;}
+    if(start_measure->next) {
+      measureright(NULL);
+      if(Denemo.gui->si->currentobject==NULL)
+	return to_object_direction(within_measure, right);
       return TRUE;
-    if(!within_measure) {
-      if(Denemo.gui->si->cursor_appending)
-	cursorright (&param);
-      if(this!= Denemo.gui->si->currentobject)
-	return TRUE;
     }
+    return FALSE;
   }
-  else {
-    if(this!= Denemo.gui->si->currentobject)
-      return TRUE;
-    if(!within_measure) {
-      if(was_appending)
-	cursorleft (&param);
-      if(this!= Denemo.gui->si->currentobject)
-	return TRUE;
-    }
+  //left
+  if(start_obj->prev) {
+    cursorleft(NULL);
+    return TRUE;
   }
-  return FALSE;  
+  if(start_measure->prev) {
+    cursorleft(NULL);
+    if(Denemo.gui->si->currentobject==NULL)
+      return to_object_direction(within_measure, right);
+    cursorleft(NULL);
+    return TRUE;
+  }
+  return FALSE;
 }
-
-
 
 static gboolean to_next_object(gboolean within_measure) {
  
