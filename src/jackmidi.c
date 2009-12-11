@@ -565,9 +565,9 @@ jack_midi_playback_stop ()
   playing_piece = FALSE;    
 }
 #else //If not _HAVE_JACK_
-void jack_playpitch(int key, int duration){}
-void jack_output_midi_event(unsigned char *buffer, gint client_number, port_number){}
-int jack_kill_timer(void){}
+void jack_playpitch(){}
+void jack_output_midi_event(){}
+int jack_kill_timer(){}
 void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}
 void remove_last_jack_midi_port (){}
