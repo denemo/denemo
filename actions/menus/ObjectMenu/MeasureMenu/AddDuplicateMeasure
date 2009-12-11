@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>AddMeasure</after>
+        <action>AddDuplicateMeasure</action>
+        <scheme>;;;AddDuplicateMeasure
+(while (d-PrevObjectInMeasure)
+       #t)
+ (d-SetMark)
+(while (d-NextObjectInMeasure)
+       #t)
+(d-Copy)
+(d-AddMeasure)
+(d-Paste)</scheme>
+        <label>Insert Duplicate Measure After</label>
+        <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
