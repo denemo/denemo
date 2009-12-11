@@ -207,6 +207,7 @@
 {"InsertRhythm", NULL, N_("Insert Rhythm"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_rhythm_pattern_cb)},
 {"NextRhythm", NULL, N_("Next Rhythm"), NULL,N_("Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern"),G_CALLBACK (nextrhythm_cb)},
 {"AppendMeasureAllStaffs", NULL, N_("Append Measure All Staffs"), NULL,N_("Appends a blank measure to every staff in this movement"),G_CALLBACK (append_measure_score_cb)},
+{"ExecuteScheme", NULL, N_("Execute Scheme"), NULL,N_("Execute the scheme code from the scripting window"),G_CALLBACK (execute_scheme)},
 {"FileMenu", NULL, N_("File"), NULL,N_("Creating, saving, loading, displaying and printing musical scores")},
 {"Bookmarks", NULL, N_("Bookmarks"), NULL,N_("Creating, saving places in musical scores")},
 {"ModeMenu", NULL, N_("Mode"), NULL,N_("Different keyboard and MIDI entry modes")},

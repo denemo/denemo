@@ -537,6 +537,7 @@
           <menuitem action="AttachLilyToChord"/>
           <menuitem action="AttachLilyToNote"/>
           <menuitem action="ClearOverlay"/>
+	  <menuitem action="ExecuteScheme"/>
 	  
     </menu>
 

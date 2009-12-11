@@ -197,6 +197,10 @@ GError *execute_script_file(gchar *filename) {
   return error;
 }
 
+void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
+  executeScript();
+}
+
 /***************** definitions to implement calling radio/check items from scheme *******************/
 #define MODELESS_STRING "Modeless"
 #define CLASSICMODE_STRING "ClassicMode"

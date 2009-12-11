@@ -206,6 +206,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePi
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Rhythm", "No Tooltip yet", insert_rhythm_pattern);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NextRhythm"), "NextRhythm", "Next Rhythm", "Make next rhythm pattern\nthe prevailing rhythm.\nNotes entered will follow this pattern", nextrhythm);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "AppendMeasureAllStaffs"), "AppendMeasureAllStaffs", "Append Measure All Staffs", "Appends a blank measure to every staff in this movement", append_measure_score);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ExecuteScheme"), "ExecuteScheme", "Execute Scheme", "Execute the scheme code from the scripting window", execute_scheme);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SharpenEnharmonicSet"), "SharpenEnharmonicSet", "Shift Accidentals Sharpwise", "Shifts the set of accidentals one step sharper", set_sharper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "FlattenEnharmonicSet"), "FlattenEnharmonicSet", "Shift Accidentals Flatwise", "Shifts the set of accidentals one step flatter", set_flatter);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "New"), "New", "New File", "Start a new musical score", file_newwrapper);

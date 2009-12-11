@@ -311,6 +311,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm", N_("Next Rhythm")},
   {CMD_CATEGORY_MEASURE, NULL, "Appends a blank measure to every staff in this movement",	N_("AppendMeasureAllStaffs"), "append_measure_score", N_("Append Measure All Staffs")},
   
+
+ {CMD_CATEGORY_DIRECT, NULL, "Execute the scheme code from the scripting window",	N_("ExecuteScheme"), "execute_scheme", N_("Execute Scheme")},
+
+
+
   /* from view.c menu_entries[]  */
   {CMD_CATEGORY_DIRECT, NULL, "Creating, saving, loading, displaying and printing musical scores", N_("FileMenu"), NULL, "File", N_("File Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Creating, saving places in musical scores", N_("Bookmarks"), NULL, "Bookmarks", N_("Bookmarks")},

@@ -831,6 +831,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "NextRhythm")), "scm", (gp
 SCM scheme_AppendMeasureAllStaffs(SCM optional);
 install_scm_function ("d-AppendMeasureAllStaffs", scheme_AppendMeasureAllStaffs);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "AppendMeasureAllStaffs")), "scm", (gpointer)1);
+/*ExecuteScheme execute_scheme*/
+SCM scheme_ExecuteScheme(SCM optional);
+install_scm_function ("d-ExecuteScheme", scheme_ExecuteScheme);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExecuteScheme")), "scm", (gpointer)1);
 /*SharpenEnharmonicSet set_sharper*/
 SCM scheme_SharpenEnharmonicSet(SCM optional);
 install_scm_function ("d-SharpenEnharmonicSet", scheme_SharpenEnharmonicSet);

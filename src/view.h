@@ -89,5 +89,6 @@ execute_init_scripts(gchar *menupath);
 void
 load_local_scheme_init(void);
 
-
+void 
+execute_scheme(GtkAction *action, DenemoScriptParam *param);
 #endif
