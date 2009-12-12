@@ -218,7 +218,7 @@ parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }
 
 	}
-      if (xmlStrcmp (cur->name, (const xmlChar *) "port") == 0)
+      if (xmlStrcmp (cur->name, (const xmlChar *) "ports") == 0)
 	{
 	  parsePorts(doc, cur, &prefs->midi_device[i]);
 	}
@@ -534,6 +534,32 @@ newXMLIntChild (xmlNodePtr parent, const xmlChar * name, gint content)
  * @param prefs a pointer to the preferences structure
  *
  */
+static void
+writeDevices(xmlDocPtr doc, xmlNodePtr parent, DenemoPrefs * prefs) {
+  gint i;
+  xmlNodePtr child;
+  if(prefs->midi_device[0].client_name) {
+    child =  xmlNewChild (parent, NULL, (xmlChar *) "midi-devices", NULL);
+    for(i=0;i<DENEMO_MAX_DEVICES;i++){
+      if(prefs->midi_device[i].client_name) {
+	xmlNodePtr device = xmlNewChild (child, NULL, (xmlChar *) "client",
+					 (xmlChar *) 	prefs->midi_device[i].client_name->str);
+	GList *g = prefs->midi_device[i].port_names;
+	if(g) {
+	  xmlNodePtr ports = xmlNewChild (device, NULL, (xmlChar *) "ports", NULL);
+	  for(;g;g=g->next) {
+	    if(g->data) {
+	      GString *port_name = (GString*)g->data;
+	      xmlNewChild (ports, NULL, (xmlChar *)"port", (xmlChar *)port_name->str);
+	    } else
+	      break;
+	  }
+	}
+      } else
+	break;
+    } 
+  }
+}
 
 gint
 writeXMLPrefs (DenemoPrefs * prefs)
@@ -553,6 +579,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   doc->xmlRootNode = parent =
     xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
   child = xmlNewChild (parent, NULL, (xmlChar *) "Config", NULL);
+
+    writeDevices(doc, child, prefs);
 
 #define WRITEXMLENTRY(field) \
   if (prefs->field){\
