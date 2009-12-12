@@ -174,6 +174,57 @@ initprefs ()
  *  Local function definitions to parse denemorc file
  */
 
+static void
+parsePorts (xmlDocPtr doc, xmlNodePtr cur, DeviceManagerDevice *device)
+{
+ for (cur = cur->xmlChildrenNode;cur != NULL;cur = cur->next)
+    {
+      if (xmlStrcmp (cur->name, (const xmlChar *) "port") == 0)
+	{
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  if(tmp)
+	    {
+	      device->port_names = g_list_append(device->port_names,g_string_new(tmp)); 
+	      xmlFree (tmp); 
+	    }
+	}
+    }
+}
+
+/**
+ * parseDevices - reads midi device prefs
+ * 
+ * @param  doc	document pointer
+ * @param cur pointer to the current XML Node
+ * @param prefs pointer to the preferences structure
+ */
+
+static void
+parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
+{
+  gint i;
+  for (i=0, cur = cur->xmlChildrenNode;cur != NULL && i<DENEMO_MAX_DEVICES;cur = cur->next, i++)
+    {
+      if (xmlStrcmp (cur->name, (const xmlChar *) "client") == 0)
+	{
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  if(tmp)
+	    {
+	      if(prefs->midi_device[i].client_name)
+		g_string_assign (prefs->midi_device[i].client_name, (gchar *) tmp);
+	      else
+		prefs->midi_device[i].client_name = g_string_new ((gchar *) tmp);
+	      xmlFree (tmp);
+	    }
+
+	}
+      if (xmlStrcmp (cur->name, (const xmlChar *) "port") == 0)
+	{
+	  parsePorts(doc, cur, &prefs->midi_device[i]);
+	}
+    }
+}
+
 /**
  * parseConfig searches the rc file for the configuration settings.
  *
@@ -228,6 +279,13 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	      xmlFree (tmp);
 	    }
 	}
+
+      if (0 == xmlStrcmp (cur->name, (const xmlChar *) "midi-devices"))
+	{
+	  parseDevices(doc, cur, &Denemo.prefs);
+
+	}
+
 	READXMLENTRY(midiplayer)      
 	READXMLENTRY(audioplayer)        
 	READXMLENTRY(browser)
@@ -320,6 +378,10 @@ writeHistoryEntry (gpointer data, gpointer user_data)
   xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file",
 		   (xmlChar *) data);
 }
+
+
+
+
 
 /**
  * parseHistory - reads history entry from xml node and adds it to the history queue
