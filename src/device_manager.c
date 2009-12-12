@@ -167,12 +167,15 @@ device_manager_refresh_model(void)
 
     /* Append port name as child to the second top level row*/
     GList *n = Denemo.prefs.midi_device[i].port_names;
+    g_print("Putting client %s into model first port %p\n", Denemo.prefs.midi_device[i].client_name->str, n);
+
     while (n){
       gtk_tree_store_append(treestore, &child, &toplevel);
       gtk_tree_store_set(treestore, &child,
                      COL_DEVICE, 
 		     ((GString *) ((GList *) n)->data)->str,
                      -1);
+      g_print("Putting port %s into model\n", ((GString *) ((GList *) n)->data)->str);
       append_to_drop_down_list(i, n);
       n = n->next;
     }
