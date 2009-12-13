@@ -19,7 +19,7 @@
 #define MIDI_ALL_SOUND_OFF      0x78 
 #define MIDI_ALL_NOTE_OFF	0x7b
 #define MAX_NUMBER_OF_TRACKS    128
-#define MAX_NUMBER_OF_CLIENTS	50
+
 #define BUFFER_MAX_INDEX	100
 #define INPUT_PORT_NAME         "midi_in"
 #define OUTPUT_PORT_NAME         "midi_out"
@@ -38,7 +38,7 @@ struct midi_output_device
   void *port_buffers[MAX_NUMBER_OF_TRACKS];
 };
 
-struct midi_output_device midi_device[MAX_NUMBER_OF_CLIENTS];
+struct midi_output_device midi_device[DENEMO_MAX_DEVICES];
 
 static double start_player = 0.0;
 static volatile gint BufferIndex;
@@ -67,7 +67,7 @@ static double 		end_time = 0.0;//time in seconds to end at (from start of the sm
 
 gint
 maxnumber_of_clients(){
-  return MAX_NUMBER_OF_CLIENTS;
+  return DENEMO_MAX_DEVICES;
 }
 
 gint
@@ -348,7 +348,7 @@ create_jack_midi_client(){
   gint i;
   gint err;
   char client_name[12];
-  for (i=0;i <= MAX_NUMBER_OF_CLIENTS;i++)
+  for (i=0;i <= DENEMO_MAX_DEVICES;i++)
     if (!midi_device[i].jack_client){
       sprintf(client_name, "%s:%d",CLIENT_NAME, i); 
       midi_device[i].jack_client = jack_client_open(client_name, JackNullOption, NULL);
