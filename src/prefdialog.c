@@ -139,9 +139,9 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(sequencer)
   ASSIGNTEXT(midi_in)
 #ifdef _HAVE_JACK_
-  ASSIGNBOOLEAN(jacktransport)
-  ASSIGNBOOLEAN(jacktransport_start_stopped)
-  ASSIGNBOOLEAN(jack_at_startup)
+    // ASSIGNBOOLEAN(jacktransport)
+    //  ASSIGNBOOLEAN(jacktransport_start_stopped)
+    //  ASSIGNBOOLEAN(jack_at_startup)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   /*TODO save combo as int????*/
