@@ -80,7 +80,7 @@ check_lilypond_path (DenemoGUI * gui){
       return 1;
 }
 
-#if GLIB_MINOR_VERSION >= 14
+#if 1 // lilypond -v command should be good for all versions. was GLIB_MINOR_VERSION >= 14
 int
 version_check(lilyversion base, lilyversion installed)
 {
@@ -139,8 +139,8 @@ regex_parse_version_number (const gchar *string)
   return g_string_free(lilyversion, FALSE); 	  
 }
 
-int
-get_lily_version (gchar *version)
+gchar *
+get_lily_version_string (void)
 {
   GError *error = NULL;
   gchar *version_string;
@@ -166,10 +166,15 @@ get_lily_version (gchar *version)
   &error);
 
   read(standard_output, buf, sizeof(buf));
-  version_string = regex_parse_version_number(buf);
+  return regex_parse_version_number(buf);
+
+}
+int
+check_lily_version (gchar *version)
+{
+  gchar *  version_string = get_lily_version_string();
   lilyversion installed_version = string_to_lilyversion(version_string);
   lilyversion check_version = string_to_lilyversion(version);
-
   return version_check(check_version, installed_version);
 }
 #endif
@@ -368,8 +373,8 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
   gchar *printfile = g_strconcat (filename, "_", NULL);
-  /* Check Lilypond Version */
-  //if (get_lily_version("2.12") != SAME)
+  /* Check if Lilypond Version is set for this file, if so it may need conversion */
+  if(gui->lilycontrol.lilyversion->len)
     convert_ly(lilyfile);
 
 #if GLIB_MINOR_VERSION >= 14
@@ -396,7 +401,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     NULL
   };
   
-  if (get_lily_version("2.12") >= 1)
+  if (check_lily_version("2.12") >= 1)
      arguments = png_arguments1;
   else
      arguments = png_arguments2;
@@ -1078,7 +1083,7 @@ void refresh_print_view (gboolean preview_only) {
     lilyfile,
     NULL
   };
-  if (get_lily_version("2.12") >= 1)
+  if (check_lily_version("2.12") >= 1)
    arguments = arguments1;
   else
     arguments = arguments2;

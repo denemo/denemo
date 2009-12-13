@@ -1640,14 +1640,14 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 	    tmp = (gchar *) xmlNodeListGetString (childElem->doc,
 						  childElem->
 						  xmlChildrenNode, 1);
-	    if (tmp != NULL)
+	    if (tmp != NULL && strcmp(tmp, "2.8.7"))//2.8.7 is ignored, it was the value used when version was mandated, but did not mean anything.
 	      {
 		//g_print ("lilypond version %s", tmp);
 		//g_string_assign (gui->lilycontrol.lilyversion, tmp);
 		if(strcmp(tmp, LILYPOND_VERSION))
-		   warningdialog("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
+		   g_warning("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
 		g_free (tmp);
-	      }
+	      } else g_warning("ignoring version %s", tmp);
 	  }
 	if (ELEM_NAME_EQ (childElem, "lilypond"))//backward compatibility only
 	  {

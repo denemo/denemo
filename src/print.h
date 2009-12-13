@@ -22,4 +22,6 @@ void export_pdf_action (GtkAction *action, gpointer param);
 void install_printpreview(DenemoGUI *gui, GtkWidget *vbox);
 void
 refresh_print_view(gboolean interactive);
+gchar *
+get_lily_version_string (void);
 #endif /*PRINT_H*/	

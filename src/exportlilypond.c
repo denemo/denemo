@@ -1277,8 +1277,11 @@ outputHeader (GString *str, DenemoGUI * gui)
 
   g_string_append_printf (str, "%s", "%%http://www.gnu.org/software/denemo/\n\n");
   /*Print out lilypond syntax version */
-  g_string_append_printf (str, "\\version \"%s\"\n", gui->lilycontrol.lilyversion->str/*LILYPOND_VERSION*/);
-
+  if(gui->lilycontrol.lilyversion->len)
+    g_string_append_printf (str, "\\version \"%s\"\n", gui->lilycontrol.lilyversion->str/*LILYPOND_VERSION*/);
+  else
+    g_string_append_printf (str, "\\version \"%s\"\n", get_lily_version_string());
+  
   /* print \paper block settings for excerpt */
   if (gui->lilycontrol.excerpt == TRUE){
     g_string_append_printf (str, "%s", "\\paper {printallheaders = ##f\n");

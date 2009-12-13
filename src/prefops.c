@@ -110,7 +110,7 @@ initprefs ()
   ret->midi_in = g_string_new ("/dev/midi");
 
   ret->denemopath = g_string_new (g_get_home_dir());
-  ret->lilyversion = g_string_new (LILYPOND_VERSION);
+  ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
@@ -361,7 +361,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READINTXMLENTRY(fluidsynth_sample_rate)
       READINTXMLENTRY(fluidsynth_period_size)
 
-      READXMLENTRY(lilyversion) 
+
       READINTXMLENTRY(saveparts)
       
       cur = cur->next;
@@ -608,8 +608,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(temperament)
   WRITEXMLENTRY(midi_in)
   WRITEXMLENTRY(sequencer)
-  WRITEXMLENTRY(lilyversion)
- 
+
 #define WRITEINTXMLENTRY(field){ \
     gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
     gchar *value = g_strdup_printf("%d", prefs->field);\
