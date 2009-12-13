@@ -2003,6 +2003,20 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	      curStaff->midi_instrument = g_string_new("");
 	    g_free (temp);
 	  }
+
+	else if (ELEM_NAME_EQ (childElem, "device-port"))
+	  {
+	    gchar *temp = (gchar *) xmlNodeListGetString
+	      (childElem->doc, childElem->xmlChildrenNode, 1);
+	    if(temp)
+	      g_string_assign (curStaff->device_port, temp);
+	    else
+	      curStaff->device_port = g_string_new("");
+	    g_free (temp);
+	  }
+
+
+
 	else if (ELEM_NAME_EQ (childElem, "context"))
 	  {
 	    gchar *temp = NULL;

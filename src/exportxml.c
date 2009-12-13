@@ -707,6 +707,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			  curStaffStruct->transposition);
 	  xmlNewChild (curElem, ns, (xmlChar *) "instrument",
 		       (xmlChar *) curStaffStruct->midi_instrument->str);
+
+	  //FIXME this is only being done for staffs not voices is that good????
+	  if(curStaffStruct->device_port->len)
+	    xmlNewChild (curElem, ns, (xmlChar *) "device-port",
+			 (xmlChar *) curStaffStruct->device_port->str);
+
 	   newXMLIntChild (curElem, ns, (xmlChar *) "volume",
 			   			  curStaffStruct->volume);
 	  newXMLIntChild (curElem, ns, (xmlChar *) "midi_prognum",
