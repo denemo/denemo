@@ -452,6 +452,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (mhbox), vbox2, FALSE, FALSE, 0);
   
   GtkWidget *view = DeviceManager();
+  g_print("the view %p is %d\n", view, GTK_IS_WIDGET(view));
   gtk_box_pack_start (GTK_BOX (vbox2), view, FALSE, FALSE, 0);
   
   gtk_widget_show (view);
@@ -473,6 +474,9 @@ preferences_change (GtkAction *action, gpointer param)
     {
       set_preferences (&cbdata);
     }
+#ifdef _HAVE_JACK_
+  gtk_container_remove(GTK_CONTAINER(vbox2), view);
+#endif
   gtk_widget_destroy (dialog);
 }
 

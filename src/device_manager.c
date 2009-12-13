@@ -6,7 +6,7 @@
 #include "pitchentry.h"
 #include "device_manager.h"
 
-GtkWidget           *view;
+GtkWidget           *theview;
 GtkTreeSelection *selection;
 GtkTreeModel        *model;
 GtkTreeStore  *treestore;
@@ -23,7 +23,7 @@ static gchar *
 get_selection_as_char(){
   GtkTreeIter iter;
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &iter))
+			     (GtkTreeModel **) &treestore, &iter))
     return NULL;
   gchar *name;
   gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0,
@@ -42,8 +42,9 @@ get_device_selection_as_char(){
   GtkTreeIter iter;
 
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &iter_parent))
+			     (GtkTreeModel **) &treestore, &iter_parent))
     return NULL;
+
   if(gtk_tree_model_iter_parent (model, &iter, &iter_parent))
       gtk_tree_model_get(GTK_TREE_MODEL(model), &iter, 0,
 		                           &name, -1);
@@ -60,7 +61,7 @@ static void
 remove_selection(){
    GtkTreeIter iter;
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-			     (GtkTreeModel **) &view, &iter))
+			     (GtkTreeModel **) &treestore, &iter))
     return;
 
   gtk_tree_store_remove(treestore, &iter);
@@ -88,12 +89,16 @@ add_port_to_tree(gchar *port_name){
 static gint
 get_device_number(){
   gint i;
+
   gchar *name = get_device_selection_as_char();
+
   if (!name)
     return -1;
   else { 
+
     gchar port_name[15]; //TODO replace with gstring for resizinging purposes
     for(i=0;i<maxnumber_of_clients();i++){
+
       sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_client_name(), i);
       if (!strcmp(name, port_name))
 	return i;
@@ -229,20 +234,24 @@ void device_manager_create_device()
     g_debug("\nJust added device\n");
     add_device_to_tree(Denemo.prefs.midi_device[client_number].client_name->str);
   }
+
 }
 
 void device_manager_remove_device()
 {
+
   gint device_number = get_device_number();
   if (device_number<0)
     return;
   remove_jack_midi_client(get_device_number()); 
   g_debug("\nJust removed device\n");
   remove_selection();
+
 }
 
 void device_manager_create_port()
 {
+
   gint port_number;
   gint device_number;
   GList *n;
@@ -251,14 +260,19 @@ void device_manager_create_port()
   
   if (device_number<0)
     return;
+
   port_number = create_jack_midi_port(device_number);
   if (port_number >= 0){
+
     n = g_list_nth(Denemo.prefs.midi_device[device_number].port_names, port_number);
     port_name = ((GString *) ((GList *) n)->data)->str; 
     g_debug("\nJust created midi device\n");
+
     add_port_to_tree(port_name);
+
     //device_manager_refresh_model();
   }
+
 }
 
 void device_manager_remove_port()
@@ -305,15 +319,16 @@ DeviceManager (void)
 {
   GtkTreeViewColumn   *col;
   GtkCellRenderer     *renderer;
-
-  view = gtk_tree_view_new();
+  if(theview)
+    return theview;
+  theview = gtk_tree_view_new();
 
   col = gtk_tree_view_column_new();
 
   gtk_tree_view_column_set_title(col, "Device/Port");
 
   /* pack tree view column into tree view */
-  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(theview), col);
 
   renderer = gtk_cell_renderer_text_new();
   g_object_set(renderer, "editable", TRUE, NULL);
@@ -328,16 +343,17 @@ DeviceManager (void)
 
   model = create_model();
   
-  gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
+  gtk_tree_view_set_model(GTK_TREE_VIEW(theview), model);
 
-  g_object_unref(model); /* destroy model automatically with view */
+  /* never destroy the view  g_object_unref(model);  destroy model automatically with view */
 
-  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(view)),
+  gtk_tree_selection_set_mode(gtk_tree_view_get_selection(GTK_TREE_VIEW(theview)),
                               GTK_SELECTION_SINGLE);
   
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view)); 
-
-  return view;
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(theview)); 
+   /* do not let it be destroyed */
+  g_object_ref(theview);
+  return theview;
 }
 
 
