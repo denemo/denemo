@@ -310,7 +310,7 @@ cell_edited (GtkCellRendererText* cellrenderertext,
 	g_debug("can't change device name yet");
      }
 
-  g_free(device_path_str);
+     //FIXME memory leak - use g_strrstr() instead g_free(device_path_str);
   gtk_tree_path_free (path);
 }
 
