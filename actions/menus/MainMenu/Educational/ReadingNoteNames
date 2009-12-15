@@ -35,7 +35,8 @@
 (define (ReadingNoteNames::notechosen usernote)
 		      (begin
 			(set! ReadingNoteNames::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+			(EducationGames::gotoEnd)
 			(if  (string=? ReadingNoteNames::notewas usernote)
 			     (begin
 			       (set! ReadingNoteNames::score (+ ReadingNoteNames::score 1))
@@ -122,7 +123,8 @@ Print out your score when you have finished.")
 	      
 	      )
 	;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
 	  (if (ReadingNoteNames::AnotherChance?)
 	    (begin
 	      ;(d-CursorToNote (EducationalGames::middle_c_offset->lily ReadingNoteNames::note_position))

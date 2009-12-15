@@ -78,8 +78,8 @@
 	(set! position DiatonicInterval::note_position)
 	(seed)
 	;;  (d-GoToEnd)
-	(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-
+	;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	(EducationGames::gotoEnd)
 	(d-CursorToNote (EducationalGames::middle_c_offset->lily DiatonicInterval::note_position))
 	(d-Insert2)
 	(set! DiatonicInterval::intervalwas (+ 1 steps))
@@ -93,7 +93,8 @@
 (define (DiatonicInterval::intervalchosen interval)
 		      (begin
 			(set! DiatonicInterval::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(EducationGames::gotoEnd)
 			(if  (= DiatonicInterval::intervalwas interval)
 			     (begin
 			       (set! DiatonicInterval::score (+ DiatonicInterval::score 1))

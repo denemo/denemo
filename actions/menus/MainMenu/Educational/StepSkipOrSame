@@ -49,7 +49,8 @@
 (if (>= StepSkipOrSame::num-goes 0)
 	(let ( (steps 0) )
 	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
 	  (set! steps (random StepSkipOrSame::interval))
 	  (if (= StepSkipOrSame::direction 0)
 	      (begin
@@ -81,7 +82,8 @@
 (define (StepSkipOrSame::intervalchosen interval)
 		      (begin
 			(set! StepSkipOrSame::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(EducationGames::gotoEnd)
 			(if  (string=? StepSkipOrSame::stepstring interval)
 			     (begin
 			       (set! StepSkipOrSame::score (+ StepSkipOrSame::score 1))

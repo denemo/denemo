@@ -78,8 +78,8 @@
     	(set! position CountSteps::note_position)
         (seed)
 	;;  (d-GoToEnd)
-	(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-
+	;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	(EducationGames::gotoEnd)
 	(d-CursorToNote (EducationalGames::middle_c_offset->lily CountSteps::note_position))
 	(d-Insert2)
 	(set! CountSteps::intervalwas steps)
@@ -93,7 +93,8 @@
 (define (CountSteps::intervalchosen interval)
 		      (begin
 			(set! CountSteps::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(EducationGames::gotoEnd)
 			(if  (= CountSteps::intervalwas interval)
 			     (begin
 			       (set! CountSteps::score (+ CountSteps::score 1))
