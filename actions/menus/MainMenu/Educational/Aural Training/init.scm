@@ -25,6 +25,12 @@
     (seed->random-state (+ (car time)
       (cdr time)))))
 
+(define (ChordComparison::gotoEnd)
+    (d-CursorRight)
+    (if (d-NextObject)
+      (ChordComparison::gotoEnd) 
+      (d-CursorRight)))
+
 (define (ChordComparison::lilyname->midikey lilyname)
   (let (
   		(naturual_notenum '(0 2 4 5 7 9 11))
@@ -147,7 +153,8 @@
 ;;;;;;;;; callback when user chooses a chord
 (define (ChordComparison::chordchosen chord)
   (ChordComparison::PlaceNotes) 
-  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+  (ChordComparison::gotoEnd)
   (if  (string=? (ChordComparison::GetChordQuality) chord)
     (begin
       (set! ChordComparison::score (+ ChordComparison::score 1))

@@ -50,7 +50,8 @@
 (define (BassClefNoteNameSpeedTest::notechosen usernote)
 		      (begin
 			(set! BassClefNoteNameSpeedTest::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+			(EducationGames::gotoEnd)
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 			(if  (string=? BassClefNoteNameSpeedTest::notewas usernote)
 			     (begin
 			       (set! BassClefNoteNameSpeedTest::score (+ BassClefNoteNameSpeedTest::score 1))
@@ -127,7 +128,8 @@
 		    ))
 
 	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
           (if (BassClefNoteNameSpeedTest::AnotherChance?)
   	    (begin
               (d-Insert1))

@@ -68,8 +68,8 @@
 
           (seed)
 	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
-
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
 	  (d-CursorToNote (EducationalGames::middle_c_offset->lily LineOrSpace::position))
 	  (d-Insert1)
 	  (if (or (even? LineOrSpace::position) 
@@ -85,7 +85,8 @@
 	 (if (> LineOrSpace::num-goes 0)
 		(begin
 			(set! LineOrSpace::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(EducationGames::gotoEnd)
 			(if  (string=? LineOrSpace::positionwas userinput)
 			     (begin
 			       (set! LineOrSpace::score (+ LineOrSpace::score 1))

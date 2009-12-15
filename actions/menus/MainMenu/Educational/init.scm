@@ -6,6 +6,12 @@
           (seed->random-state (+ (car time)
 	                         (cdr time)))))
 
+(define (EducationGames::gotoEnd)
+    (d-CursorRight)
+    (if (d-NextObject)
+      (EducationGames::gotoEnd) 
+      (d-CursorRight)))
+
 (define EducationGames::shiftup
   (lambda (n)
     (if (> n 0) (begin

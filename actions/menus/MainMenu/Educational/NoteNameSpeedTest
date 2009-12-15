@@ -49,7 +49,8 @@
 (define (NoteNameSpeedTest::notechosen usernote)
 		      (begin
 			(set! NoteNameSpeedTest::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+			(EducationGames::gotoEnd)
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 			(if  (string=? NoteNameSpeedTest::notewas usernote)
 			     (begin
 			       (set! NoteNameSpeedTest::score (+ NoteNameSpeedTest::score 1))
@@ -124,7 +125,8 @@
 		    ))
 
 	  ;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
 	  (if (NoteNameSpeedTest::AnotherChance?)
 	    (begin
 	      (d-Insert1))

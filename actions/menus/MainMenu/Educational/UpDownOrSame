@@ -49,7 +49,8 @@
 	      (direction 0)
 	      )
 	;;  (d-GoToEnd)
-	  (let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+	  (EducationGames::gotoEnd)
 	  (set! steps (+ 1 (random UpDownOrSame::interval)))
 	  (set! direction (random 3))
 	  (cond ((= direction 0)
@@ -72,7 +73,8 @@
 (define (UpDownOrSame::directionchosen usernote)
 		      (begin
 			(set! UpDownOrSame::end (current-time))
-			(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))	
+			(EducationGames::gotoEnd)
 			(if  (string=? UpDownOrSame::directionwas usernote)
 			     (begin
 			       (set! UpDownOrSame::score (+ UpDownOrSame::score 1))
