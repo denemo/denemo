@@ -2129,12 +2129,16 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	  gchar *staff_prolog_insert =  get_prefix(curstaffstruct->staff_directives);
 	  gchar *staff_epilog_insert =  get_postfix(curstaffstruct->staff_directives);
 	  if(partname==NULL) {//when printing just one part, do not start/stop contexts
+	    gchar *staff_group_prolog_insert = "";//these are just to mark a place where a further directive type could be used to control staff groups
+	    gchar *staff_group_epilog_insert = "";
+
+
 	    if (curstaffstruct->context & DENEMO_CHOIR_START)
-	      g_string_append_printf(thestr, "\\new ChoirStaff %s << %s\n", staff_prolog_insert, staff_epilog_insert);
+	      g_string_append_printf(thestr, "\\new ChoirStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
 	    if (curstaffstruct->context & DENEMO_GROUP_START)
-	      g_string_append_printf(thestr, "\\new StaffGroup %s << %s\n", staff_prolog_insert, staff_epilog_insert);
+	      g_string_append_printf(thestr, "\\new StaffGroup %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
 	    if (curstaffstruct->context & DENEMO_PIANO_START) /* Piano staff cannot start before Group */
-	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_prolog_insert, staff_epilog_insert);
+	      g_string_append_printf(thestr, "\\new PianoStaff %s << %s\n", staff_group_prolog_insert, staff_group_epilog_insert);
 	  }
 	  if(curstaffstruct->voicenumber == 1) {
 	    if(!staff_override)
