@@ -519,6 +519,8 @@ init_jack(void){
   for (i=0;MD[i].client_name;i++){
     g_debug("\njack init *** client name == %s \n",MD[i].client_name->str);
     create_jack_midi_client_from_load(MD[i].client_name->str);
+
+    port_number = 0;
     GList *n = MD[i].port_names;
     while (n){
       g_debug("\njack init *** registering port name == %s \n",((GString *) ((GList *) n)->data)->str);
