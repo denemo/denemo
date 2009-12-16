@@ -62,7 +62,6 @@ struct callbackdata
 #ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
-  GtkWidget *jack_at_startup;
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   GtkWidget *fluidsynth_audio_driver;
@@ -141,7 +140,6 @@ set_preferences (struct callbackdata *cbdata)
 #ifdef _HAVE_JACK_
     // ASSIGNBOOLEAN(jacktransport)
     //  ASSIGNBOOLEAN(jacktransport_start_stopped)
-    //  ASSIGNBOOLEAN(jack_at_startup)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   /*TODO save combo as int????*/
@@ -442,7 +440,7 @@ preferences_change (GtkAction *action, gpointer param)
   //BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
   //BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
 
-  BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
+  //BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
   BUTTON("Add Device", midi_add_device, device_manager_create_device, NULL); 
   BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
   BUTTON("Add Port", midi_device_add_port, device_manager_create_port, NULL);
