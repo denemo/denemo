@@ -469,20 +469,6 @@ init_jack(void){
 }
 
 void
-jack_start_restart (void){
-  if (midi_device[0].jack_client){ 
-    g_debug("\nRestarting Jack\n");
-    stop_jack();
-    init_jack();
-  }
-  else { 
-    g_debug("\nStarting Jack\n");
-    init_jack();
-  }
-  device_manager_refresh_model();
-}
-
-void
 jack_midi_playback_start(){
   DenemoGUI *gui = Denemo.gui;
 
