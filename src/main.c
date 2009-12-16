@@ -586,9 +586,7 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
   denemo_scheme_init(initschemefile);
 
 #ifdef _HAVE_JACK_
-  g_debug("\nDenemo.prefs.jack_at_startup = %d\n", Denemo.prefs.jack_at_startup);
-  if (Denemo.prefs.jack_at_startup)
-    init_jack();
+  init_jack();
 #endif
   /* audio initialization */
   //ext_init (); 

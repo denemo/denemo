@@ -61,7 +61,7 @@ static gdouble playback_duration = 0.0;
 static double          	rate_limit = 0;
 static gboolean        	start_stopped = FALSE;
 static gboolean        	use_transport = FALSE;
-
+static gboolean		jack_server_running = TRUE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
 
@@ -117,30 +117,6 @@ warn_from_jack_thread_context(const char *str)
 #endif
 }
 
-static double
-nframes_to_ms(jack_nframes_t nframes)
-{
-  jack_nframes_t sr;
-  sr = jack_get_sample_rate(midi_device[0].jack_client);
-  assert(sr > 0);
-  return (nframes * 1000.0) / (double)sr;
-}
-
-static jack_nframes_t
-ms_to_nframes(double ms)
-{
-  jack_nframes_t sr;
-  sr = jack_get_sample_rate(midi_device[0].jack_client);
-  assert(sr > 0);
-  return ((double)sr * ms) / 1000.0;
-}
-
-static jack_nframes_t
-seconds_to_nframes(double seconds)
-{
-  return ms_to_nframes(seconds * 1000.0);
-}
-
 /* this will be become obsolete when we have a playback bar*/ 
 static gint 
 move_on(DenemoGUI *gui){
@@ -177,7 +153,9 @@ timer_callback(gpointer bufferindex){
 
 void 
 jack_playpitch(gint key, gint duration){
- if (BufferEmpty==TRUE){ 
+  if (!jack_server_running)
+    return;
+  if (BufferEmpty==TRUE){ 
     DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
     global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_ON | get_midi_channel();
     global_midi_buffer[BufferFillIndex].buffer[1] = key; 
@@ -193,6 +171,8 @@ jack_playpitch(gint key, gint duration){
 
 void 
 jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number){
+  if (!jack_server_running)
+    return;
   if (BufferEmpty==TRUE){ 
     global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
     global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
@@ -242,7 +222,7 @@ send_midi_event(jack_nframes_t nframes){
   BufferEmpty=TRUE;
 }
 
-gboolean 
+static gboolean 
 jackmidi_read_smf_events(){
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
@@ -273,15 +253,15 @@ jackmidi_read_smf_events(){
   return TRUE;
 }
 
-void
-static process_midi_input(jack_nframes_t nframes)
+static void
+process_midi_input(jack_nframes_t nframes)
 {
   int read, events, i, channel;
   void           *port_buffer;
   jack_midi_event_t event;
   int             last_frame_time;
   static int      time_of_first_event = -1;
-
+  
   last_frame_time = jack_last_frame_time(midi_device[0].jack_client);
   port_buffer = jack_port_get_buffer(input_port, nframes);
   events = jack_midi_get_event_count(port_buffer);
@@ -312,7 +292,10 @@ int
 create_jack_midi_port(gint client_number){
   if (!midi_device[client_number].jack_client)
     return -1;
-  
+
+  if (!jack_server_running)
+    return -1;
+
   char port_name[12];  
   gint i;
   jack_nframes_t nframes = jack_get_buffer_size(midi_device[client_number].jack_client);
@@ -338,24 +321,30 @@ create_jack_midi_port(gint client_number){
   return -1;
 }
 
-void
-create_default_jack_midi_ports(){
-  create_jack_midi_port(0);
-}
-
 int
 create_jack_midi_client(){
   gint i;
   gint err;
   char client_name[12];
+  
+  if (!jack_server_running)
+    return -1;
+  
   for (i=0;i <= DENEMO_MAX_DEVICES;i++)
     if (!midi_device[i].jack_client){
       sprintf(client_name, "%s:%d",CLIENT_NAME, i); 
-      midi_device[i].jack_client = jack_client_open(client_name, JackNullOption, NULL);
+      midi_device[i].jack_client = jack_client_open(client_name, JackNoStartServer, NULL);
       
+      if (!midi_device[i].jack_client){
+        jack_server_running = FALSE;
+	return -1;
+      }
       /* start callback */
       if (i==0)
-        if (jack_set_process_callback(midi_device[i].jack_client, process_callback, NULL))
+        if (jack_set_process_callback(midi_device[i].jack_client, process_callback, NULL)){
+	  jack_server_running = FALSE;
+	  return -1;
+	}
           g_critical("Could not register JACK process callback.");
       /* activate client */
       if (midi_device[i].jack_client){
@@ -365,9 +354,10 @@ create_jack_midi_client(){
 	MD[i].port_names = NULL;
 	jack_client_index++;
 	return i;
-      } 
-      else
-        g_critical("Could not connect to the JACK server; run jackd first?");
+      } else {
+        jack_server_running = FALSE;
+	g_critical("Could not connect to the JACK server; run jackd first?");
+      }
     }
   return -1;
 }
@@ -465,14 +455,16 @@ stop_jack(void){
 int
 init_jack(void){
   int err = 0;
-  create_jack_midi_client();
+#if 0
+  //create_jack_midi_client();
 
-  input_port = jack_port_register(midi_device[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
+  if (jack_server_running)
+    input_port = jack_port_register(midi_device[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 	                  JackPortIsInput, 0);
    
   if (input_port == NULL) 
     g_critical("Could not register JACK input port.");
-  
+#endif 
   return err;
 }
 
@@ -482,12 +474,10 @@ jack_start_restart (void){
     g_debug("\nRestarting Jack\n");
     stop_jack();
     init_jack();
-    create_default_jack_midi_ports();
   }
   else { 
     g_debug("\nStarting Jack\n");
     init_jack();
-    create_default_jack_midi_ports();
   }
   device_manager_refresh_model();
 }
@@ -495,11 +485,13 @@ jack_start_restart (void){
 void
 jack_midi_playback_start(){
   DenemoGUI *gui = Denemo.gui;
- 
+
   start_player = get_time();
   playing_piece = TRUE;
 
   if (!midi_device[0].jack_client) //TODO check if this is correct
+    return;
+  if (!jack_server_running)
     return;
 
   /* set tranport on/off */

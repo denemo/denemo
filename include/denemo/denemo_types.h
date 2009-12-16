@@ -353,7 +353,6 @@ typedef struct DenemoPrefs
   GString *midi_in;  /**< path to midi_in device */
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
-  gboolean jack_at_startup; /**< toggle on and off jack initialization at startup */
 #define DENEMO_MAX_DEVICES (50)
   DeviceManagerDevice midi_device[DENEMO_MAX_DEVICES]; /**< contains a GList of port names for each device */ 
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
