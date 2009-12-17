@@ -485,7 +485,7 @@ rename_jack_midi_port(int client_number, int port_number, char *port_name){
     err = jack_port_set_name (midi_device[client_number].output_ports[port_number], port_name);
   if (!err){
     MD[client_number].port_names = g_list_nth(MD[client_number].port_names, port_number);
-    MD[client_number].port_names->data = g_string_new(port_name);
+    MD[client_number].port_names = g_string_new(port_name);
     g_debug("Renamed JACK device %d output_ports[%d] to %s\n",client_number, port_number, port_name);
   } else	  
     g_critical("Could not rename JACK device %d output_ports[%d] to %s",client_number, port_number, port_name);

@@ -287,6 +287,36 @@ void device_manager_remove_port()
   }
 }
 
+static int
+check_for_duplicate(gint device_number, gchar *port_name)
+{
+  gchar *string;
+  gchar *rename;
+#define MD Denemo.prefs.midi_device[device_number]
+  GList *n = MD.port_names;
+  
+  while (n){
+    string = g_strconcat(MD.client_name->str,
+	((GString *) ((GList *) n)->data)->str,
+	NULL);
+
+    rename = g_strconcat(MD.client_name->str,
+	port_name,
+	NULL);
+    
+    if (!strcmp(string, rename)){
+      g_free(string);
+      g_free(rename);
+      return 0;
+    }
+    
+    n=n->next;
+  }
+  g_free(string);
+  g_free(rename);
+  return -1;
+}
+
 static void 
 cell_edited (GtkCellRendererText* cellrenderertext,
 	gchar* path_string, gchar* new_name,
@@ -302,6 +332,8 @@ cell_edited (GtkCellRendererText* cellrenderertext,
  
      gchar **device_path_str = g_strsplit(path_string,":",2);
      device_number = atoi(device_path_str[0]);
+     if (!check_for_duplicate(device_number, new_name))
+	return;
      if (device_path_str[1]){
 	port_number = atoi(device_path_str[1]);
 	if(!rename_jack_midi_port(device_number, port_number, new_name))
