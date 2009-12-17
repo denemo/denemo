@@ -290,30 +290,13 @@ void device_manager_remove_port()
 static int
 check_for_duplicate(gint device_number, gchar *port_name)
 {
-  gchar *string;
-  gchar *rename;
-#define MD Denemo.prefs.midi_device[device_number]
-  GList *n = MD.port_names;
+  GList *n;
   
-  while (n){
-    string = g_strconcat(MD.client_name->str,
-	((GString *) ((GList *) n)->data)->str,
-	NULL);
-
-    rename = g_strconcat(MD.client_name->str,
-	port_name,
-	NULL);
-    
-    if (!strcmp(string, rename)){
-      g_free(string);
-      g_free(rename);
+  for (n=Denemo.prefs.midi_device[device_number].port_names;n;n=n->next){	
+    gchar *s = (((GString *) ((GList *) n)->data)->str);
+    if (!duplicate = strcmp(s, port_name));
       return 0;
-    }
-    
-    n=n->next;
-  }
-  g_free(string);
-  g_free(rename);
+  } 
   return -1;
 }
 
