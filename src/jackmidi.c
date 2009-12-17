@@ -280,11 +280,23 @@ process_callback(jack_nframes_t nframes, void *notused)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  if (Denemo.gui->si->smf && midi_device[0].output_ports)
+  if (Denemo.gui->si->smf && midi_device[0].output_ports[0]) //FIXME
     send_midi_event(nframes);
   return 0;
 }
 
+static void
+register_jack_midi_port(gint client_number, gint port_number, gchar *port_name){
+  if (!midi_device[client_number].jack_client)
+    return -1;
+  if (!jack_server_running)
+    return -1;
+
+  midi_device[client_number].output_ports[port_number] = jack_port_register(midi_device[client_number].jack_client,
+		          port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+  jack_nframes_t nframes = jack_get_buffer_size(midi_device[client_number].jack_client);
+  jack_midi_clear_buffer(jack_port_get_buffer(midi_device[client_number].output_ports[port_number], nframes));
+}
 /* returns the jack midi port number that
  *  has been assigned
  */
@@ -298,18 +310,14 @@ create_jack_midi_port(gint client_number){
 
   char port_name[12];  
   gint i;
-  jack_nframes_t nframes = jack_get_buffer_size(midi_device[client_number].jack_client);
   
   /* only assign it if the port has not been assigned already */	
   for (i=0;i <= MAX_NUMBER_OF_TRACKS;i++)
     if (!midi_device[client_number].output_ports[i]){ 
       sprintf(port_name, "%s:%d",OUTPUT_PORT_NAME, i);
-      midi_device[client_number].output_ports[i] = jack_port_register(midi_device[client_number].jack_client, 
-	port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
-
+      register_jack_midi_port(client_number,i, port_name);      
       if (midi_device[client_number].output_ports[i]){
 	/* clear buffer */
-	jack_midi_clear_buffer(jack_port_get_buffer(midi_device[client_number].output_ports[i], nframes));
 	g_debug("\nassigning jackmidi port output_port[%d]\n", i);
         MD[client_number].port_names = g_list_append(MD[client_number].port_names, g_string_new(port_name));	
 	return i;
@@ -343,9 +351,10 @@ create_jack_midi_client(){
       if (i==0)
         if (jack_set_process_callback(midi_device[i].jack_client, process_callback, NULL)){
 	  jack_server_running = FALSE;
+	  g_critical("Could not register JACK process callback.");
 	  return -1;
 	}
-          g_critical("Could not register JACK process callback.");
+         
       /* activate client */
       if (midi_device[i].jack_client){
 	jack_activate(midi_device[i].jack_client);
@@ -361,6 +370,46 @@ create_jack_midi_client(){
     }
   return -1;
 }
+
+static int
+create_jack_midi_client_from_load(gchar *client_name){
+  gint i;
+  gint err;
+  
+  if (!jack_server_running)
+    return -1;
+  
+  for (i=0;i <= DENEMO_MAX_DEVICES;i++)
+    if (!midi_device[jack_client_index].jack_client){
+      midi_device[jack_client_index].jack_client = jack_client_open(client_name, JackNoStartServer, NULL);
+      
+      if (!midi_device[jack_client_index].jack_client){
+        jack_server_running = FALSE;
+	return -1;
+      }
+      /* start callback */
+      if (jack_client_index == 0) //FIXME process callback for every device
+        if (jack_set_process_callback(midi_device[jack_client_index].jack_client, process_callback, NULL)){
+	  jack_server_running = FALSE;
+	  g_critical("Could not register JACK process callback.");
+	  return -1;
+	}
+         
+      /* activate client */
+      if (midi_device[jack_client_index].jack_client){
+	jack_activate(midi_device[jack_client_index].jack_client);
+	g_debug("\nassigning jackmidi client %s\n", client_name);
+	jack_client_index++;
+	return 0;
+      } else {
+        jack_server_running = FALSE;
+	g_critical("Could not connect to the JACK server; run jackd first?");
+      }
+    }
+  return -1;
+}
+
+
 
 int 
 remove_jack_midi_port(int client_number, int port_number){
@@ -454,7 +503,9 @@ stop_jack(void){
 
 int
 init_jack(void){
-  int err = 0;
+  int i, err, port_number;
+  i = err = port_number = 0;
+
 #if 0
   //create_jack_midi_client();
 
@@ -464,22 +515,22 @@ init_jack(void){
    
   if (input_port == NULL) 
     g_critical("Could not register JACK input port.");
-#endif 
-  return err;
-}
+#endif
+  for (i=0;MD[i].client_name;i++){
+    g_debug("\njack init *** client name == %s \n",MD[i].client_name->str);
+    create_jack_midi_client_from_load(MD[i].client_name->str);
 
-void
-jack_start_restart (void){
-  if (midi_device[0].jack_client){ 
-    g_debug("\nRestarting Jack\n");
-    stop_jack();
-    init_jack();
-  }
-  else { 
-    g_debug("\nStarting Jack\n");
-    init_jack();
-  }
-  device_manager_refresh_model();
+    port_number = 0;
+    GList *n = MD[i].port_names;
+    while (n){
+      g_debug("\njack init *** registering port name == %s \n",((GString *) ((GList *) n)->data)->str);
+      register_jack_midi_port(i, port_number, ((GString *) ((GList *) n)->data)->str);
+      port_number++;
+      n=n->next;
+    }
+  }    
+  
+  return err;
 }
 
 void

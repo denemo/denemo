@@ -21,7 +21,6 @@ int remove_jack_midi_port(int client_number, int port_number);
 int remove_last_jack_midi_port(int client_number);
 int rename_jack_midi_port(int client_number, int port_number, char *port_name);
 void remove_all_jack_midi_ports(gint client_number); 
-void jack_start_restart (void);
 int maxnumber_of_clients(void);
 int maxnumber_of_ports(void);
 
