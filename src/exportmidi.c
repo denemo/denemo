@@ -1234,7 +1234,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       cur_volume = curstaffstruct->volume;
       /* mute output if set */
       mute_volume = curstaffstruct->mute_volume;
-      if(cur_volume==0 && mute_volume==TRUE) {
+      if(cur_volume==0 && mute_volume!=TRUE) {
 	g_warning("volume set to zero but not muted\nResetting volume\n");
 	cur_volume = 65;
       }
