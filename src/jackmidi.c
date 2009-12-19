@@ -280,17 +280,17 @@ process_callback(jack_nframes_t nframes, void *notused)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  if (Denemo.gui->si->smf && midi_device[0].output_ports[0]) //FIXME
-    send_midi_event(nframes);
+  
+  send_midi_event(nframes);
   return 0;
 }
 
 static void
 register_jack_midi_port(gint client_number, gint port_number, gchar *port_name){
   if (!midi_device[client_number].jack_client)
-    return -1;
+    return;
   if (!jack_server_running)
-    return -1;
+    return;
 
   midi_device[client_number].output_ports[port_number] = jack_port_register(midi_device[client_number].jack_client,
 		          port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);

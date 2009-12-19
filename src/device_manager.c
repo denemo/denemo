@@ -288,13 +288,13 @@ void device_manager_remove_port()
 }
 
 static int
-check_for_duplicate(gint device_number, gchar *port_name)
+check_for_duplicate(gint device_number, gchar *new_name)
 {
   GList *n;
   
   for (n=Denemo.prefs.midi_device[device_number].port_names;n;n=n->next){	
     gchar *s = (((GString *) ((GList *) n)->data)->str);
-    if (!duplicate = strcmp(s, port_name));
+    if (!strcmp(s, new_name));
       return 0;
   } 
   return -1;
@@ -315,8 +315,6 @@ cell_edited (GtkCellRendererText* cellrenderertext,
  
      gchar **device_path_str = g_strsplit(path_string,":",2);
      device_number = atoi(device_path_str[0]);
-     if (!check_for_duplicate(device_number, new_name))
-	return;
      if (device_path_str[1]){
 	port_number = atoi(device_path_str[1]);
 	if(!rename_jack_midi_port(device_number, port_number, new_name))
@@ -324,7 +322,7 @@ cell_edited (GtkCellRendererText* cellrenderertext,
      } else {
 	g_debug("can't change device name yet");
      }
-
+     g_strfreev(device_path_str);
      //FIXME memory leak - use g_strrstr() instead g_free(device_path_str);
   gtk_tree_path_free (path);
 }
