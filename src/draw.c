@@ -126,11 +126,12 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
   gint count = 0;
   gint i;
   GList *curmeasure = staff->measures;
+  gboolean in_slur = FALSE;
   for(i=1;curmeasure && (i<from);i++, curmeasure = curmeasure->next) {
     objnode *curobj;
     for(curobj = curmeasure->data;curobj;curobj=curobj->next) {
       DenemoObject *obj = curobj->data;
-      gboolean in_slur = FALSE;
+      
       if(obj->type==CHORD) {
 	  chord *thechord = ((chord *) obj->object);
 	  if(thechord->notes && !in_slur)
@@ -142,8 +143,10 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
 	  if (thechord->is_tied)
 	    count--;
       }
-    }
-  }
+    }//for objs
+  }//for measures
+  if(in_slur)
+    return -count;
   return count;
 }
 
@@ -783,8 +786,16 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
       gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
     }
-    if(si->currentstaffnum==itp.staffnum)
-      reset_lyrics(staff, count_syllables(staff, si->leftmeasurenum));
+    if(si->currentstaffnum==itp.staffnum) {
+
+      gint count =  count_syllables(staff, si->leftmeasurenum);
+      if(count<0) {
+	count = -count;
+	itp.slur_stack =
+	  push_slur_stack (itp.slur_stack, 0);
+      }
+      reset_lyrics(staff, count);
+    }
     
     //allocate wronglength[] large enough for si->rightmeasurenum - si->leftmeasurenum entries then put it in itp
     // and set it in draw_measure
