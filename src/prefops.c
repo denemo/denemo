@@ -82,12 +82,14 @@ initprefs ()
 //#ifdef _HAVE_PORTAUDIO_
   ret->midi_audio_output = PORTAUDIO;
 //#endif
-#ifdef _HAVE_JACK_
-  ret->midi_audio_output = JACK;
-#endif
+
 #ifdef _HAVE_FLUIDSYNTH_ 
   ret->midi_audio_output = FLUIDSYNTH;	  
 #endif
+#ifdef _HAVE_JACK_
+  ret->midi_audio_output = JACK;
+#endif
+
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("wmplayer");
@@ -175,17 +177,37 @@ initprefs ()
  */
 
 static void
-parsePorts (xmlDocPtr doc, xmlNodePtr cur, DeviceManagerDevice *device)
+parsePorts (xmlDocPtr doc, xmlNodePtr cur, gint i)
 {
- for (cur = cur->xmlChildrenNode;cur != NULL;cur = cur->next)
+  gint j=0;
+  xmlNodePtr child;
+  //first count the ports
+  for (j=0, child = cur->xmlChildrenNode;child != NULL;child = child->next)
     {
-      if (xmlStrcmp (cur->name, (const xmlChar *) "port") == 0)
+      if (xmlStrcmp (child->name, (const xmlChar *) "port") == 0)
 	{
-	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	  xmlChar *tmp = xmlNodeListGetString (doc, child->xmlChildrenNode, 1);
+	  if(tmp)
+	    {
+	      j++;
+	      xmlFree (tmp); 
+	    }
+	}
+    }
+  g_debug("We have %d ports for client %s\n", Denemo.prefs.midi_device[i].client_name->str);
+  Denemo.prefs.midi_device[i].ports = g_malloc0((j+1) * sizeof(DeviceManagerPort));
+  for (j=0,child = cur->xmlChildrenNode;child != NULL;child = child->next)
+    {
+      if (xmlStrcmp (child->name, (const xmlChar *) "port") == 0)
+	{
+	  xmlChar *tmp = xmlNodeListGetString (doc, child->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
 	      g_print("storing port %s into client\n", tmp);
-	      device->port_names = g_list_append(device->port_names,g_string_new(tmp)); 
+	      Denemo.prefs.midi_device[i].ports[j].midi_buffer = g_malloc0(DENEMO_BUFFER_MAX_INDEX*sizeof(MidiBuffer));
+	      Denemo.prefs.midi_device[i].ports[j].port_name = g_string_new(tmp);
+	      j++;
+	      //FIXME check j<max
 	      xmlFree (tmp); 
 	    }
 	}
@@ -204,11 +226,23 @@ static void
 parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 {
   gint i;
-  for (i=0, cur = cur->xmlChildrenNode;cur != NULL && i<DENEMO_MAX_DEVICES;cur = cur->next, i++)
+  xmlNodePtr child;
+  //first count the client devices
+  for (i=0, child = cur->xmlChildrenNode;child != NULL && i<DENEMO_MAX_DEVICES;child = child->next)
     {
-      if (xmlStrcmp (cur->name, (const xmlChar *) "device") == 0)
+      if (xmlStrcmp (child->name, (const xmlChar *) "device") == 0)
 	{
-	  gchar *tmp = (gchar *) xmlGetProp (cur, (xmlChar *) "client");
+	  i++;	  
+	}
+    }
+  
+  prefs->midi_device = (DeviceManagerDevice *)g_malloc0((i+1)*sizeof(DeviceManagerDevice));
+
+  for (i=0, child = cur->xmlChildrenNode;child != NULL && i<DENEMO_MAX_DEVICES;child = child->next, i++)
+    {
+      if (xmlStrcmp (child->name, (const xmlChar *) "device") == 0)
+	{
+	  gchar *tmp = (gchar *) xmlGetProp (child, (xmlChar *) "client");
 g_print("storing client name %s\n", tmp);
 	  if(tmp)
 	    {
@@ -219,11 +253,11 @@ g_print("storing client name %s\n", tmp);
 	      xmlFree (tmp);
 	    }
 	}
-      xmlNodePtr ports = cur->xmlChildrenNode;
+      xmlNodePtr ports = child->xmlChildrenNode;
       g_print("for client ports is %p\n", ports);   
       if (ports && xmlStrcmp (ports->name, (const xmlChar *) "ports") == 0)
 	{
-	  parsePorts(doc, ports, &prefs->midi_device[i]);
+	  parsePorts(doc, ports, i);
 	}
     }
 }
@@ -542,25 +576,21 @@ writeDevices(xmlDocPtr doc, xmlNodePtr parent, DenemoPrefs * prefs) {
   xmlNodePtr child;
   if(prefs->midi_device[0].client_name) {
     child =  xmlNewChild (parent, NULL, (xmlChar *) "midi-devices", NULL);
-    for(i=0;i<DENEMO_MAX_DEVICES;i++){
-      if(prefs->midi_device[i].client_name) {
+    for(i=0;i<DENEMO_MAX_DEVICES && prefs->midi_device[i].client_name;i++){
 	xmlNodePtr device = xmlNewChild (child, NULL, "device", NULL);
 	xmlSetProp (device, (xmlChar *) "client",
 		    (xmlChar *) prefs->midi_device[i].client_name->str);
-	GList *g = prefs->midi_device[i].port_names;
-	if(g) {
+	
+	if(prefs->midi_device[i].ports[0].port_name) {
+	  gint j;
 	  xmlNodePtr ports = xmlNewChild (device, NULL, (xmlChar *) "ports", NULL);
-	  for(;g;g=g->next) {
-	    if(g->data) {
-	      GString *port_name = (GString*)g->data;
-	      xmlNewChild (ports, NULL, (xmlChar *)"port", (xmlChar *)port_name->str);
-	    } 
-	  }
-	}
-      } 
-    } 
+	  for(j=0; prefs->midi_device[i].ports[j].port_name;j++)
+	    xmlNewChild (ports, NULL, (xmlChar *)"port", (xmlChar *)prefs->midi_device[i].ports[j].port_name->str);
+	} 
+    }
   }
 }
+
 
 gint
 writeXMLPrefs (DenemoPrefs * prefs)

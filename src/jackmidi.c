@@ -18,42 +18,45 @@
 #define MIDI_CONTROLLER         0xB0
 #define MIDI_ALL_SOUND_OFF      0x78 
 #define MIDI_ALL_NOTE_OFF	0x7b
-#define MAX_NUMBER_OF_TRACKS    128
 
-#define BUFFER_MAX_INDEX	100
+#define DENEMO_MAX_PORTS (128)
+
+#define MAX_NUMBER_OF_TRACKS   DENEMO_MAX_PORTS 
+
+//   #define BUFFER_MAX_INDEX	100  rename DENEMO_BUFFER_MAX_INDEX
 #define INPUT_PORT_NAME         "midi_in"
 #define OUTPUT_PORT_NAME         "midi_out"
 #define CLIENT_NAME            "denemo"
 #define MD Denemo.prefs.midi_device
-
+#define g_debug g_print
 jack_port_t     *input_port;
 
 //maybe use this instead of looking through ports
-static gint jack_client_index = 0; 
+//static gint jack_client_index = 0; 
 
-struct midi_output_device
-{
-  jack_client_t *jack_client;	
-  jack_port_t *output_ports[MAX_NUMBER_OF_TRACKS];
-  void *port_buffers[MAX_NUMBER_OF_TRACKS];
-};
+//struct midi_output_device
+//{
+//  jack_client_t *jack_client;	
+//  jack_port_t *output_ports[MAX_NUMBER_OF_TRACKS];
+//  void *port_buffers[MAX_NUMBER_OF_TRACKS];//this is not needed, the value stored in it is looked up always
+//};
 
-struct midi_output_device midi_device[DENEMO_MAX_DEVICES];
+//struct midi_output_device midi_device[DENEMO_MAX_DEVICES];
 
 static double start_player = 0.0;
-static volatile gint BufferIndex;
-static gint BufferFillIndex;
-static volatile gboolean BufferEmpty = TRUE;
+//static volatile gint BufferIndex;
+//static gint BufferFillIndex;
+//static volatile gboolean BufferEmpty = TRUE;
 static gboolean playing_piece = FALSE;
-struct midi_buffer
-{
-  unsigned char buffer[3];
-  gint device_number;
-  gint port_number;
-  gint channel;
-};
+//struct midi_buffer
+//{
+//  unsigned char buffer[3];
+  //gint device_number;
+  //gint port_number;
+//  gint channel;
+//};
 
-struct midi_buffer global_midi_buffer[BUFFER_MAX_INDEX]; 
+//struct midi_buffer global_midi_buffer[BUFFER_MAX_INDEX]; 
 
 static gint timeout_id = 0, kill_id=0;
 static gdouble playback_duration = 0.0;
@@ -140,19 +143,22 @@ jack_kill_timer(void){
 
 static gboolean
 timer_callback(gpointer bufferindex){
+#if 0
   gint index = (gint) bufferindex;
   global_midi_buffer[BufferFillIndex].buffer[0] = NOTE_OFF | global_midi_buffer[index].channel;
   global_midi_buffer[BufferFillIndex].buffer[1] = global_midi_buffer[index].buffer[1];
   global_midi_buffer[BufferFillIndex].buffer[2] = global_midi_buffer[index].buffer[2];
   global_midi_buffer[BufferFillIndex].device_number = global_midi_buffer[index].device_number;
   global_midi_buffer[BufferFillIndex].port_number = global_midi_buffer[index].port_number;
-  BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
+  BufferFillIndex = BufferFillIndex+1 > DENEMO_BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
   BufferEmpty=FALSE;
+#endif
   return FALSE;
 }
 
 void 
 jack_playpitch(gint key, gint duration){
+#if 0
   if (!jack_server_running)
     return;
   if (BufferEmpty==TRUE){ 
@@ -164,70 +170,64 @@ jack_playpitch(gint key, gint duration){
     //global_midi_buffer[BufferFillIndex].device_number = //TODO
     global_midi_buffer[BufferFillIndex].port_number = get_midi_port();
     g_timeout_add(duration, timer_callback, (gpointer) BufferFillIndex);
-    BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
+    BufferFillIndex = BufferFillIndex+1 > DENEMO_BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
     BufferEmpty=FALSE;
   }
+#endif
 }
 
+#define MDC MD[client_number].ports[port_number]
 void 
 jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number){
   if (!jack_server_running)
-    return;
-  if (BufferEmpty==TRUE){ 
-    global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
-    global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
-    global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
-    global_midi_buffer[BufferFillIndex].device_number = client_number;
-    global_midi_buffer[BufferFillIndex].port_number = port_number;
-    BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
-    if (BufferFillIndex == BufferIndex)
-      g_debug("\nBuffer Overrun\n");
-    BufferEmpty=FALSE;
-  }
-  else {  //TODO is this correct here? should we increment BufferFillIndex?
-    global_midi_buffer[BufferFillIndex].buffer[0] = buffer[0];
-    global_midi_buffer[BufferFillIndex].buffer[1] = buffer[1];
-    global_midi_buffer[BufferFillIndex].buffer[2] = buffer[2];
-    global_midi_buffer[BufferFillIndex].device_number = client_number;
-    global_midi_buffer[BufferFillIndex].port_number = port_number;
-    BufferFillIndex = BufferFillIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferFillIndex+1;
-  }
+    return; 
+  MDC.midi_buffer[ MDC.FillIndex].buffer[0] = buffer[0];
+  MDC.midi_buffer[ MDC.FillIndex].buffer[1] = buffer[1];
+  MDC.midi_buffer[ MDC.FillIndex].buffer[2] = buffer[2];
+  MDC.FillIndex++;
+  if(MDC.FillIndex > DENEMO_BUFFER_MAX_INDEX) 
+    MDC.FillIndex = 0;
+  if ( MDC.FillIndex ==  MDC.Index)
+    g_debug("\nBuffer Overrun\n");
+  MDC.BufferEmpty=FALSE;
+  g_print("output to client %d port %d\n", client_number, port_number);
 }
 
 static void
-send_midi_event(jack_nframes_t nframes){
+send_midi_event(jack_nframes_t nframes, gint client_number){
   unsigned char *buffer;
-  gint device_number;
   gint port_number;
-
-  device_number = global_midi_buffer[BufferIndex].device_number;
-  port_number = global_midi_buffer[BufferIndex].port_number;
-  
-  if (!midi_device[device_number].output_ports[port_number])//TODO is this the best check?
+  if(MD[client_number].jack_client==NULL)
     return;
-  midi_device[device_number].port_buffers[port_number] = jack_port_get_buffer(midi_device[device_number].output_ports[port_number], nframes);
-  jack_midi_clear_buffer(midi_device[device_number].port_buffers[port_number]);
-  if (BufferEmpty==FALSE)
-    while (BufferIndex != BufferFillIndex){
-      buffer = jack_midi_event_reserve(midi_device[device_number].port_buffers[port_number], 0, 3);
+  if(MD[client_number].ports==NULL)
+    return;
+  for(port_number = 0;MDC.output_port;port_number++) {
+  gchar *outbuffer  = jack_port_get_buffer(MDC.output_port, nframes);
+  jack_midi_clear_buffer(outbuffer);
+  if (MDC.BufferEmpty==FALSE)
+    while (MDC.Index != MDC.FillIndex){
+      buffer = jack_midi_event_reserve(outbuffer, 0, 3);
       if (buffer == NULL){
         warn_from_jack_thread_context("jack_midi_event_reserve_failed, NOTE_LOST.");
         return;
       }
-      buffer[0] = global_midi_buffer[BufferIndex].buffer[0];
-      buffer[1] = global_midi_buffer[BufferIndex].buffer[1];
-      buffer[2] = global_midi_buffer[BufferIndex].buffer[2];
-      BufferIndex = BufferIndex+1 > BUFFER_MAX_INDEX ? 0 : BufferIndex+1; 
+      buffer[0] = MDC.midi_buffer[MDC.Index].buffer[0];
+      buffer[1] = MDC.midi_buffer[MDC.Index].buffer[1];
+      buffer[2] = MDC.midi_buffer[MDC.Index].buffer[2];
+      MDC.Index++;
+      if(MDC.Index > DENEMO_BUFFER_MAX_INDEX)
+	MDC.Index=0; 
     }
-  BufferEmpty=TRUE;
+  MDC.BufferEmpty=TRUE;
+  }
 }
-
+#undef MDC
 static gboolean 
 jackmidi_read_smf_events(){
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
   DevicePort *DP; 
-  if (!midi_device[0].jack_client)
+  if (!MD[0].jack_client)
     return FALSE;
 
   if (!playing_piece)
@@ -247,7 +247,9 @@ jackmidi_read_smf_events(){
   }
   if ((get_time() - start_player) >= event->time_seconds){
     DP = event->track->user_pointer;
-    jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
+    if(DP) {
+      jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
+    }
     event = smf_get_next_event(Denemo.gui->si->smf);
   }
   return TRUE;
@@ -262,7 +264,7 @@ process_midi_input(jack_nframes_t nframes)
   int             last_frame_time;
   static int      time_of_first_event = -1;
   
-  last_frame_time = jack_last_frame_time(midi_device[0].jack_client);
+  //last_frame_time = jack_last_frame_time(midi_device[0].jack_client);
   port_buffer = jack_port_get_buffer(input_port, nframes);
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
@@ -272,7 +274,7 @@ process_midi_input(jack_nframes_t nframes)
 }
 
 static int 
-process_callback(jack_nframes_t nframes, void *notused)
+process_callback(jack_nframes_t nframes, gint client_number)
 {
   if (nframes <= 0) {
     warn_from_jack_thread_context("Process callback called with nframes = 0; bug in JACK?");
@@ -281,12 +283,13 @@ process_callback(jack_nframes_t nframes, void *notused)
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
   
-  send_midi_event(nframes);
+  send_midi_event(nframes, client_number);
   return 0;
 }
 
 static void
 register_jack_midi_port(gint client_number, gint port_number, gchar *port_name){
+#if 0
   if (!midi_device[client_number].jack_client)
     return;
   if (!jack_server_running)
@@ -296,12 +299,14 @@ register_jack_midi_port(gint client_number, gint port_number, gchar *port_name){
 		          port_name, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
   jack_nframes_t nframes = jack_get_buffer_size(midi_device[client_number].jack_client);
   jack_midi_clear_buffer(jack_port_get_buffer(midi_device[client_number].output_ports[port_number], nframes));
+#endif
 }
 /* returns the jack midi port number that
  *  has been assigned
  */
 int 
 create_jack_midi_port(gint client_number){
+#if 0
   if (!midi_device[client_number].jack_client)
     return -1;
 
@@ -325,12 +330,15 @@ create_jack_midi_port(gint client_number){
 	 g_critical("Could not register JACKMIDI %s:[%d]",OUTPUT_PORT_NAME,i);
          return -1;
         }
-    } 
+    }
+
+#endif 
   return -1;
 }
 
 int
 create_jack_midi_client(){
+#if 0
   gint i;
   gint err;
   char client_name[12];
@@ -347,9 +355,9 @@ create_jack_midi_client(){
         jack_server_running = FALSE;
 	return -1;
       }
-      /* start callback */
-      if (i==0)
-        if (jack_set_process_callback(midi_device[i].jack_client, process_callback, NULL)){
+      
+      //  if (i==0)
+        if (jack_set_process_callback(midi_device[i].jack_client, process_callback, i)){
 	  jack_server_running = FALSE;
 	  g_critical("Could not register JACK process callback.");
 	  return -1;
@@ -368,44 +376,7 @@ create_jack_midi_client(){
 	g_critical("Could not connect to the JACK server; run jackd first?");
       }
     }
-  return -1;
-}
-
-static int
-create_jack_midi_client_from_load(gchar *client_name){
-  gint i;
-  gint err;
-  
-  if (!jack_server_running)
-    return -1;
-  
-  for (i=0;i <= DENEMO_MAX_DEVICES;i++)
-    if (!midi_device[jack_client_index].jack_client){
-      midi_device[jack_client_index].jack_client = jack_client_open(client_name, JackNoStartServer, NULL);
-      
-      if (!midi_device[jack_client_index].jack_client){
-        jack_server_running = FALSE;
-	return -1;
-      }
-      /* start callback */
-      if (jack_client_index == 0) //FIXME process callback for every device
-        if (jack_set_process_callback(midi_device[jack_client_index].jack_client, process_callback, NULL)){
-	  jack_server_running = FALSE;
-	  g_critical("Could not register JACK process callback.");
-	  return -1;
-	}
-         
-      /* activate client */
-      if (midi_device[jack_client_index].jack_client){
-	jack_activate(midi_device[jack_client_index].jack_client);
-	g_debug("\nassigning jackmidi client %s\n", client_name);
-	jack_client_index++;
-	return 0;
-      } else {
-        jack_server_running = FALSE;
-	g_critical("Could not connect to the JACK server; run jackd first?");
-      }
-    }
+#endif
   return -1;
 }
 
@@ -413,6 +384,7 @@ create_jack_midi_client_from_load(gchar *client_name){
 
 int 
 remove_jack_midi_port(int client_number, int port_number){
+#if 0
   int err,i;
   err = 0;
   
@@ -426,10 +398,13 @@ remove_jack_midi_port(int client_number, int port_number){
       return err;
     }
   return err;
+#endif
+  return -1;
 }
 
 int 
 remove_last_jack_midi_port(int client_number){
+#if 0
   int err,i;
   err = 0;
   
@@ -444,10 +419,13 @@ remove_last_jack_midi_port(int client_number){
       return err;
     }
   return err;
+#endif
+  return -1;
 }
 
 void
 remove_all_jack_midi_ports(int client_number){
+#if 0
   int err,i;
   err = 0;
 
@@ -457,10 +435,12 @@ remove_all_jack_midi_ports(int client_number){
       midi_device[client_number].output_ports[i] = NULL;
       g_debug("\nremoving jackmidi port number = %d\n", i);
     }
+#endif
 }
 
 int
 remove_jack_midi_client(gint i){
+#if 0
   remove_all_jack_midi_ports(i);
   jack_deactivate(midi_device[i].jack_client);
   jack_client_close(midi_device[i].jack_client);
@@ -468,17 +448,21 @@ remove_jack_midi_client(gint i){
   g_string_free(MD[i].client_name, TRUE);
   MD[i].client_name = NULL;
   jack_client_index--;
+#endif
   return i;
 }
 
 void
 remove_all_jack_midi_clients(){
+#if 0
   while (jack_client_index)
     remove_jack_midi_client(jack_client_index-1);
+#endif
 }
 
 int
 rename_jack_midi_port(int client_number, int port_number, char *port_name){
+#if 0
   int err = -1;
 
   if (midi_device[client_number].output_ports[port_number] != NULL) //TODO is there a better way to check?
@@ -490,46 +474,53 @@ rename_jack_midi_port(int client_number, int port_number, char *port_name){
   } else	  
     g_critical("Could not rename JACK device %d output_ports[%d] to %s",client_number, port_number, port_name);
   
-  return err;	
+  return err;
+#endif
+  return -1;	
 }
 
 void 
 stop_jack(void){
-
+#if 0
   if (midi_device[0].jack_client)
     jack_port_unregister(midi_device[0].jack_client, input_port);
   remove_all_jack_midi_clients();
+#endif
 }
 
 int
 init_jack(void){
   int i, err, port_number;
   i = err = port_number = 0;
-
-#if 0
-  //create_jack_midi_client();
-
-  if (jack_server_running)
-    input_port = jack_port_register(midi_device[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
-	                  JackPortIsInput, 0);
-   
-  if (input_port == NULL) 
-    g_critical("Could not register JACK input port.");
-#endif
+  DeviceManager();
   for (i=0;MD[i].client_name;i++){
     g_debug("\njack init *** client name == %s \n",MD[i].client_name->str);
-    create_jack_midi_client_from_load(MD[i].client_name->str);
-
-    port_number = 0;
-    GList *n = MD[i].port_names;
-    while (n){
-      g_debug("\njack init *** registering port name == %s \n",((GString *) ((GList *) n)->data)->str);
-      register_jack_midi_port(i, port_number, ((GString *) ((GList *) n)->data)->str);
-      port_number++;
-      n=n->next;
+    //create_jack_midi_client_from_load(MD[i].client_name->str);
+    MD[i].jack_client = (gpointer)jack_client_open(MD[i].client_name->str, JackNoStartServer, NULL);
+    if(MD[i].jack_client == NULL) {
+      g_critical("Could not open JACK client %s", MD[i].client_name->str );
+      return -1;
     }
-  }    
-  
+    if (jack_set_process_callback(MD[i].jack_client, process_callback, i)){
+      jack_server_running = FALSE;
+      g_critical("Could not register JACK process callback.");
+      return -1;
+    }
+
+    if(MD[i].jack_client) {
+      gint j;
+      for(j=0; MD[i].ports && j<DENEMO_MAX_PORTS && MD[i].ports[j].port_name; j++) {
+	MD[i].ports[j].output_port = 
+	  (gpointer) jack_port_register(MD[i].jack_client,
+					MD[i].ports[j].port_name->str, JACK_DEFAULT_MIDI_TYPE, JackPortIsOutput, 0);
+	MD[i].ports[j].Index = MD[i].ports[j].FillIndex = 0;
+	MD[i].ports[j].BufferEmpty = TRUE;   
+      }
+      
+      /* activate client */
+      jack_activate(MD[i].jack_client);
+    }
+  }  
   return err;
 }
 
@@ -540,7 +531,7 @@ jack_midi_playback_start(){
   start_player = get_time();
   playing_piece = TRUE;
 
-  if (!midi_device[0].jack_client) //TODO check if this is correct
+  if (!MD[0].jack_client) //TODO check if this is correct
     return;
   if (!jack_server_running)
     return;

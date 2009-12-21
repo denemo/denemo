@@ -12,6 +12,9 @@ GtkTreeModel        *model;
 GtkTreeStore  *treestore;
 GtkTreeIter    toplevel, child, iter_parent;
 GList *DevicePort_list;
+#define MD Denemo.prefs.midi_device
+
+#define g_debug g_print
 
 enum
 {
@@ -138,18 +141,18 @@ create_model (void)
 }
 
 static void 
-append_to_drop_down_list(gint device_number, GList *n){
+append_to_drop_down_list(gint device_number, gchar *portname){
   gchar *DevicePortName;
   DevicePortName = g_strconcat(Denemo.prefs.midi_device[device_number].client_name->str,
 		"->",
-		((GString *) ((GList *) n)->data)->str,
+		portname,
 		NULL);
   DevicePort_list = g_list_append(DevicePort_list, DevicePortName);
 }
 
 static void
 clear_DevicePort_list(){
-  g_list_foreach(DevicePort_list, (GFunc) g_free, NULL);
+  //g_list_foreach(DevicePort_list, (GFunc) g_free, NULL);
   //g_list_free(DevicePort_list);
   DevicePort_list = NULL;
 }
@@ -169,55 +172,55 @@ device_manager_refresh_model(void)
 		   Denemo.prefs.midi_device[i].client_name->str, 
 		   -1);
 
-
+    if( Denemo.prefs.midi_device[i].ports==NULL)
+      return;
     /* Append port name as child to the second top level row*/
-    GList *n = Denemo.prefs.midi_device[i].port_names;
-    g_print("Putting client %s into model first port %p\n", Denemo.prefs.midi_device[i].client_name->str, n);
+    gint j;
+    for(j=0;MD[i].ports[j].port_name;j++)
+      {
+	g_print("Putting client %s into model  port %d\n", Denemo.prefs.midi_device[i].client_name->str, j);
 
-    while (n){
+  
       gtk_tree_store_append(treestore, &child, &toplevel);
       gtk_tree_store_set(treestore, &child,
-                     COL_DEVICE, 
-		     ((GString *) ((GList *) n)->data)->str,
+                     COL_DEVICE,
+			 MD[i].ports[j].port_name->str,
                      -1);
-      g_print("Putting port %s into model\n", ((GString *) ((GList *) n)->data)->str);
-      append_to_drop_down_list(i, n);
-      n = n->next;
-    }
+      g_print("Putting port %s into model\n", MD[i].ports[j].port_name->str);
+      append_to_drop_down_list(i, MD[i].ports[j].port_name->str);
+    
+      }
   }
 }
-
 DevicePort *
 device_manager_get_DevicePort(gchar *staff_DP){
   DevicePort *dp = (DevicePort*)g_malloc0(sizeof(DevicePort));
+
   GList *n;
-  gint i;
+  gint i, j;
   gint port_number = 0;
   gchar *DP_string;
 
-  for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
-    GList *n = Denemo.prefs.midi_device[i].port_names;
-    while (n){
-      DP_string = g_strconcat(Denemo.prefs.midi_device[i].client_name->str,
+  for (i=0;MD[i].client_name;i++){
+    for(j=0;MD[i].ports[j].port_name;j++) {
+      DP_string = g_strconcat(MD[i].client_name->str,
 		"->",
-		((GString *) ((GList *) n)->data)->str,
+		MD[i].ports[j].port_name->str,
 		NULL);
 
       if (!strcmp(staff_DP, DP_string)){
         dp->device_number = i;
-	dp->port_number = port_number;
+	dp->port_number = j;
 	g_free(DP_string);
 	return dp;
       }
-      port_number++; 
       g_free(DP_string);
-      n=n->next;
     }
-  } 
+  }
+
     /* If it does not match any */
-    dp->device_number = -1;
-    dp->port_number = -1;
-    return dp;
+  
+    return NULL;
 }
 
 GList *
@@ -231,10 +234,10 @@ void device_manager_create_device()
   gint client_number = create_jack_midi_client();
   
   if (client_number >= 0){
-    g_debug("\nJust added device\n");
+    g_debug("\nJust added device number %d name %s\n", client_number, Denemo.prefs.midi_device[client_number].client_name->str);
     add_device_to_tree(Denemo.prefs.midi_device[client_number].client_name->str);
-  }
-
+  } else
+    g_debug("\nNo device added\n");
 }
 
 void device_manager_remove_device()
@@ -251,7 +254,7 @@ void device_manager_remove_device()
 
 void device_manager_create_port()
 {
-
+#if 0
   gint port_number;
   gint device_number;
   GList *n;
@@ -272,11 +275,12 @@ void device_manager_create_port()
 
     //device_manager_refresh_model();
   }
-
+#endif
 }
 
 void device_manager_remove_port()
 {
+#if 0
   gint device_number = get_device_number();
   gint port_number = get_port_number();
   if (device_number <0 || port_number <0)          
@@ -285,11 +289,13 @@ void device_manager_remove_port()
     g_debug("\nJust removed midi device\n");
     remove_selection();
   }
+#endif
 }
 
 static int
 check_for_duplicate(gint device_number, gchar *new_name)
 {
+#if 0
   GList *n;
   
   for (n=Denemo.prefs.midi_device[device_number].port_names;n;n=n->next){	
@@ -297,6 +303,7 @@ check_for_duplicate(gint device_number, gchar *new_name)
     if (!strcmp(s, new_name));
       return 0;
   } 
+#endif
   return -1;
 }
 
@@ -305,6 +312,7 @@ cell_edited (GtkCellRendererText* cellrenderertext,
 	gchar* path_string, gchar* new_name,
 	GtkTreeModel* treemodel)
 {
+#if 0
   gint device_number;
   gint port_number;
   GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
@@ -325,6 +333,7 @@ cell_edited (GtkCellRendererText* cellrenderertext,
      g_strfreev(device_path_str);
      //FIXME memory leak - use g_strrstr() instead g_free(device_path_str);
   gtk_tree_path_free (path);
+#endif
 }
 
 GtkWidget *
