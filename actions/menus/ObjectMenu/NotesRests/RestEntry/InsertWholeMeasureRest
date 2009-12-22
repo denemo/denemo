@@ -20,7 +20,7 @@
     (begin	
     	(display "no right measure")    
 	    (d-ForceNewMeasure)
-	    (d-MeasureLeft)
+	    (d-MeasureRight)
 	    (d-WholeMeasureRest)))
 (d-MeasureRight)
 (d-Set2)</scheme>
