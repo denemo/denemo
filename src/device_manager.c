@@ -154,6 +154,8 @@ void
 device_manager_refresh_model(void)
 {
   gint i;
+  if(Denemo.prefs.midi_device==NULL)
+    return;
   if(treestore)
     gtk_tree_store_clear(treestore); //clear tree
   clear_DevicePort_list();       //clear list
@@ -222,10 +224,13 @@ device_manager_DevicePort_list(){
   return DevicePort_list;
 }
 
+
+#define ARRAY Denemo.prefs.midi_device_array
 void device_manager_create_device()
 {
-#define ARRAY Denemo.prefs.midi_device_array
   stop_jack();
+  if(ARRAY == NULL)
+    ARRAY = g_array_new(TRUE, TRUE, sizeof(DeviceManagerDevice));
   g_array_set_size(ARRAY, ARRAY->len+1);
   Denemo.prefs.midi_device = (DeviceManagerDevice *)ARRAY->data;
   DeviceManagerDevice *d = &g_array_index(ARRAY, DeviceManagerDevice, ARRAY->len-1);
@@ -234,45 +239,24 @@ void device_manager_create_device()
   // add_device_to_tree(Denemo.prefs.midi_device[client_number]client_name->str);
  add_device_to_tree(d->client_name->str);
  g_print("added device index %d\n", ARRAY->len-1);
-#undef ARRAY
 }
 
 void device_manager_remove_device()
 {
-
-  gint device_number = get_device_number();
-  if (device_number<0)
+  stop_jack();
+  gint j = get_device_number();
+  if (j<0)
     return;
-  remove_jack_midi_client(get_device_number()); 
-  g_debug("\nJust removed device\n");
+  g_array_remove_index(ARRAY, j);
+  Denemo.prefs.midi_device = (DeviceManagerDevice *)ARRAY->data;  
+  g_debug("\nJust removed device %d\n", j);
   remove_selection();
-
 }
+#undef ARRAY
+
 
 void device_manager_create_port()
 {
-#if 0
-  gint port_number;
-  gint device_number;
-  GList *n;
-  gchar *port_name;
-  device_number = get_device_number();
-  
-  if (device_number<0)
-    return;
-
-  port_number = create_jack_midi_port(device_number);
-  if (port_number >= 0){
-
-    n = g_list_nth(Denemo.prefs.midi_device[device_number].port_names, port_number);
-    port_name = ((GString *) ((GList *) n)->data)->str; 
-    g_debug("\nJust created midi device\n");
-
-    add_port_to_tree(port_name);
-
-    //device_manager_refresh_model();
-  }
-#else
 #define ARRAY Denemo.prefs.midi_device[j].ports_array
   stop_jack();
   gint j = get_device_number();
@@ -289,7 +273,6 @@ void device_manager_create_port()
   add_port_to_tree(p->port_name->str);
   g_print("added port index %d\n", ARRAY->len-1);
 #undef ARRAY
-#endif
 }
 
 void device_manager_remove_port()

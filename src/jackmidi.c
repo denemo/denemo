@@ -493,17 +493,21 @@ init_jack(void){
   int i, err, port_number;
   i = err = port_number = 0;
   DeviceManager();
+  if(MD==NULL) {
+    jack_server_running = FALSE;
+    g_warning("No devices in preferences, edit->preferences->MIDI add devices and re-start");
+    return -1;}
   for (i=0;MD[i].client_name;i++){
     g_debug("\njack init *** client name == %s \n",MD[i].client_name->str);
     //create_jack_midi_client_from_load(MD[i].client_name->str);
     MD[i].jack_client = (gpointer)jack_client_open(MD[i].client_name->str, JackNoStartServer, NULL);
     if(MD[i].jack_client == NULL) {
-      g_critical("Could not open JACK client %s", MD[i].client_name->str );
+      g_warning("Could not open JACK client %s, no jack server running?", MD[i].client_name->str );
       return -1;
     }
     if (jack_set_process_callback(MD[i].jack_client, process_callback, i)){
       jack_server_running = FALSE;
-      g_critical("Could not register JACK process callback.");
+      g_warning("Could not register JACK process callback.");
       return -1;
     }
 
@@ -527,14 +531,14 @@ init_jack(void){
 void
 jack_midi_playback_start(){
   DenemoGUI *gui = Denemo.gui;
-
+  if (!jack_server_running)
+    return;
   start_player = get_time();
   playing_piece = TRUE;
 
   if (!MD[0].jack_client) //TODO check if this is correct
     return;
-  if (!jack_server_running)
-    return;
+
 
   /* set tranport on/off */
   use_transport = (gboolean)Denemo.prefs.jacktransport; 
