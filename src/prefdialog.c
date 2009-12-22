@@ -21,6 +21,7 @@
 #include "fluid.h"
 #include "device_manager.h"
 
+//WARNING the order of these has to be kept fixed as it matches an enum in denemo_types.h and is in user prefs.
 gchar *output_options[] = {"Portaudio", "Jack"
 #ifdef _HAVE_FLUIDSYNTH_
 , "Fluidsynth"
