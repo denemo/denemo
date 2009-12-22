@@ -307,11 +307,29 @@ typedef struct DenemoKeymap
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
 }keymap;
 
+typedef struct MidiBuffer
+{
+  unsigned char buffer[3];
+  gint channel;
+} MidiBuffer;
+
+#define DENEMO_BUFFER_MAX_INDEX	(100)
+typedef struct DeviceManagerPort
+{
+  GString *port_name;
+  gpointer output_port;
+  MidiBuffer *midi_buffer;/*< an array of midi events queueing for output */
+  gint Index;
+  gint FillIndex;
+  gint BufferEmpty;
+} DeviceManagerPort;
+
 /* structure for device manager */
 typedef struct DeviceManagerDevice
 {
   GString *client_name;
-  GList *port_names;/*< data are GString * */
+  gpointer jack_client;/**< Jack handle for the client with this name */
+  DeviceManagerPort *ports;/*< ports for this client, NULL terminated */
 } DeviceManagerDevice;
 
 /**
@@ -354,7 +372,7 @@ typedef struct DenemoPrefs
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
 #define DENEMO_MAX_DEVICES (50)
-  DeviceManagerDevice midi_device[DENEMO_MAX_DEVICES]; /**< contains a GList of port names for each device */ 
+  DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
