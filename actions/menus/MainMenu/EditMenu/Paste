@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Paste</after>
+        <action>Paste</action>
+        <scheme>;;;;;;;;;;;;;;;;;;;; Paste
+(d-PushPosition)
+(let loop ((type #f) (staff 0) (count 0))
+  (set! type (d-GetClipObjType staff count))
+  (format #t "type is ~a staff ~a count ~a~%" type staff count)
+   (cond 
+    ((= type MEASUREBREAK)      
+        (if (= staff 0)
+            (d-AddMeasure))
+        (loop type staff (1+ count)))
+   ((= type STAFFBREAK)
+           (d-PopPosition)
+           (if (d-StaffDown)
+               (begin 
+                 (d-PushPosition)
+                 (loop type (1+ staff) 0))))
+    ((&gt;= type 0)
+     (d-PutClipObj staff count)
+     (loop type staff (1+ count)))))
+(d-PopPushPosition)
+(d-PopPosition)
+(d-RefreshDisplay)
+</scheme>
+        <label>Paste</label>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
