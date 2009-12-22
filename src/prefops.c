@@ -591,6 +591,8 @@ static void
 writeDevices(xmlDocPtr doc, xmlNodePtr parent, DenemoPrefs * prefs) {
   gint i;
   xmlNodePtr child;
+  if(!prefs->midi_device)
+    return;
   if(prefs->midi_device[0].client_name) {
     child =  xmlNewChild (parent, NULL, (xmlChar *) "midi-devices", NULL);
     for(i=0;i<DENEMO_MAX_DEVICES && prefs->midi_device[i].client_name;i++){
