@@ -101,6 +101,8 @@ ext_midi_playback_control (gboolean start)
     }
 
   fp = fopen (pidpath, "rb+");
+  if(!fp)
+    return;
 #ifdef HAVE_FILE_LOCKS
   if (ftrylockfile (fp))	/* might not exist on old BSD's */
     {
