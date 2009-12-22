@@ -1065,6 +1065,16 @@ the prevailing rhythm.
 Notes entered will follow this pattern</tooltip>
       </row>
       <row>
+        <action>AppendMeasureAllStaffs</action>
+        <label>Append Measure All Staffs</label>
+        <tooltip>Appends a blank measure to every staff in this movement</tooltip>
+      </row>
+      <row>
+        <action>ExecuteScheme</action>
+        <label>Execute Scheme</label>
+        <tooltip>Execute the scheme code from the scripting window</tooltip>
+      </row>
+      <row>
         <action>AppendMeasuresToScore</action>
         <label>Append Measure To Score</label>
         <tooltip>No Tooltip yet</tooltip>

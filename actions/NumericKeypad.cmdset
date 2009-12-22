@@ -1101,7 +1101,6 @@ the cursor position is the end point</tooltip>
         <action>InsertRhythm</action>
         <label>Insert Rhythm</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>KP_Enter</bind>
       </row>
       <row>
         <action>NextRhythm</action>
@@ -1114,6 +1113,16 @@ Notes entered will follow this pattern</tooltip>
         <action>AppendMeasureAllStaffs</action>
         <label>Append Measure All Staffs</label>
         <tooltip>Appends a blank measure to every staff in this movement</tooltip>
+      </row>
+      <row>
+        <action>ExecuteScheme</action>
+        <label>Execute Scheme</label>
+        <tooltip>Execute the scheme code from the scripting window</tooltip>
+      </row>
+      <row>
+        <action>AppendMeasuresToScore</action>
+        <label>Append Measure To Score</label>
+        <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
@@ -3128,6 +3137,7 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Insert Duplicate Measure After</label>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
+        <bind>KP_Enter</bind>
       </row>
     </map>
   </commands>
