@@ -321,7 +321,7 @@ typedef struct DeviceManagerPort
   MidiBuffer *midi_buffer;/*< an array of midi events queueing for output */
   gint Index;
   gint FillIndex;
-  gint BufferEmpty;
+volatile  gint BufferEmpty;
 } DeviceManagerPort;
 
 /* structure for device manager */
@@ -329,6 +329,7 @@ typedef struct DeviceManagerDevice
 {
   GString *client_name;
   gpointer jack_client;/**< Jack handle for the client with this name */
+  GArray *ports_array;/**< holds the ports array for resizing purposes */
   DeviceManagerPort *ports;/*< ports for this client, NULL terminated */
 } DeviceManagerDevice;
 
@@ -372,6 +373,7 @@ typedef struct DenemoPrefs
   gboolean jacktransport; /**< toggle on and off jack transport */
   gboolean jacktransport_start_stopped; /**< toggle if you don't want transport to play immediately but rely on the transport controls */
 #define DENEMO_MAX_DEVICES (50)
+  GArray *midi_device_array;/**< holds the midi_device array for re-sizing purposes */
   DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */

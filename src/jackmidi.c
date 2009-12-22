@@ -28,7 +28,7 @@
 #define OUTPUT_PORT_NAME         "midi_out"
 #define CLIENT_NAME            "denemo"
 #define MD Denemo.prefs.midi_device
-#define g_debug g_print
+
 jack_port_t     *input_port;
 
 //maybe use this instead of looking through ports
@@ -190,7 +190,7 @@ jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_numb
   if ( MDC.FillIndex ==  MDC.Index)
     g_debug("\nBuffer Overrun\n");
   MDC.BufferEmpty=FALSE;
-  g_print("output to client %d port %d\n", client_number, port_number);
+  g_debug("output to client %d port %d\n", client_number, port_number);
 }
 
 static void
