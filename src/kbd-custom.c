@@ -36,7 +36,13 @@
 #define  GDK_META_MASK   (1 << 28)
 #endif
 
+
+#ifdef G_OS_WIN32
+#define DEFAULT_KEYMAP "Windows.cmdset"
+#else
 #define DEFAULT_KEYMAP "Default.cmdset"
+#endif
+
 //index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
 enum {
     COL_TYPE = 0,
