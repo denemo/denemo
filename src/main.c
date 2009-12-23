@@ -591,15 +591,17 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
   denemo_scheme_init(initschemefile);
 
 #ifdef _HAVE_JACK_
+if (Denemo.prefs.midi_audio_output == Jack)
   init_jack();
 #endif
   /* audio initialization */
   //ext_init (); 
   /* external players (midi...) */
 #ifdef _HAVE_FLUIDSYNTH_
+if (Denemo.prefs.midi_audio_output == Fluidsynth)
   fluidsynth_init(); 
 #else 
-
+if (Denemo.prefs.midi_audio_output == Portaudio)
   /* Immediate Playback */
   if(Denemo.prefs.immediateplayback) {
     if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
@@ -610,6 +612,7 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
     }
   }
+}
 #endif
 
   /* Set up the signal handler */
