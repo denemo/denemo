@@ -17,24 +17,10 @@
 #include <denemo/denemo.h>
 #include "prefops.h"
 #include "utils.h"
+#include "playback.h"
 #include "jackmidi.h"
 #include "fluid.h"
 #include "device_manager.h"
-
-//WARNING the order of these has to be kept fixed as it matches an enum in denemo_types.h and is in user prefs.
-gchar *output_options[] = {"Portaudio", "Jack"
-#ifdef _HAVE_FLUIDSYNTH_
-, "Fluidsynth"
-#endif
-};
-
-gint FindStringIndex(gchar *output_selection){
-  gint i;
-  for (i=0;i<G_N_ELEMENTS(output_options);i++) 
-    if (g_strcmp0(output_selection, output_options[i]) == 0)
-      return i;
-}
-
 
 struct callbackdata
 {
@@ -124,6 +110,10 @@ set_preferences (struct callbackdata *cbdata)
   g_string_assign (prefs->field,\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
 
+#define ASSIGNCOMBO2(field) \
+  prefs->field = get_midi_audio_pointer(\
+    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
+
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -159,11 +149,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNINT(maxhistory)
 
 
-  gchar *AudioMidiOut =
-    (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->midi_audio_output)->entry));
+  ASSIGNCOMBO2(midi_audio_output); 
   
-  prefs->midi_audio_output = FindStringIndex(AudioMidiOut);
-
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
@@ -287,9 +274,14 @@ preferences_change (GtkAction *action, gpointer param)
   
   //Doesnt GList need to be freed
   GList *output_option_list = NULL;
-  int i;
-  for (i=0;i<G_N_ELEMENTS(output_options);i++)
-    output_option_list = g_list_append (output_option_list, output_options[i]);
+  output_option_list = g_list_append (output_option_list, (gpointer) Portaudio);
+#ifdef _HAVE_JACK_
+  output_option_list = g_list_append (output_option_list, (gpointer) Jack);
+#endif 
+#ifdef _HAVE_FLUIDSYNTH_
+  output_option_list = g_list_append (output_option_list, (gpointer) Fluidsynth);
+#endif 
+
 
 #define COMBOBOX(thelable, field, thelist, settext)\
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -302,12 +294,14 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *field = gtk_combo_new ();\
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
+  g_debug("\nCOMBOBOX == %s\n",settext);\
+  g_debug("\nCOMBOBOX == %s\n",Denemo.prefs.midi_audio_output);\
   gtk_entry_set_text\
-    (GTK_ENTRY (GTK_COMBO (field)->entry), settext);\
+    (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
   gtk_widget_show (field);\
   cbdata.field = field;
 
-  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, output_options[Denemo.prefs.midi_audio_output]) 
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output) 
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
  
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
@@ -404,6 +398,7 @@ preferences_change (GtkAction *action, gpointer param)
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
 #endif
   GList *driver_option_list = NULL;
+  gint i;
   for (i=0;i<G_N_ELEMENTS(driver_options);i++)
     driver_option_list = g_list_append (driver_option_list, driver_options[i]);
 

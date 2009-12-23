@@ -34,6 +34,19 @@
 static gint timeout_id = 0, kill_id=0;
 static gdouble duration = 0.0;
 
+gchar *
+get_midi_audio_pointer(gchar *audio_device)
+{
+  if (!strcmp(audio_device, Fluidsynth))
+    return Fluidsynth;
+  else if (!strcmp(audio_device, Jack))
+    return Jack;
+  else if (!strcmp(audio_device, Portaudio))
+    return Portaudio;
+   
+  return Portaudio;
+}
+
 static gint move_on(DenemoGUI *gui){
   if(timeout_id==0)
     return FALSE;
@@ -190,20 +203,20 @@ ext_midi_playback_control (gboolean start)
 void
 ext_midi_playback (GtkAction * action, gpointer param)
 {
-  if (Denemo.prefs.midi_audio_output == JACK)
+  if (Denemo.prefs.midi_audio_output == Jack)
     jack_midi_playback_start();
-  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_midi_play();
   else  
     ext_midi_playback_control (TRUE);
 }
 
 void stop_midi_playback (GtkAction * action, gpointer param) {
- if (Denemo.prefs.midi_audio_output == JACK){
+ if (Denemo.prefs.midi_audio_output == Jack){
    jack_midi_playback_stop();
    jack_kill_timer();
  }
- else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH){
+ else if (Denemo.prefs.midi_audio_output == Fluidsynth){
    fluid_midi_stop();
    fluid_kill_timer();
  }

@@ -369,7 +369,7 @@ void set_flatter(GtkAction *action, gpointer param) {
 
 void
 signal_measure_end(void) {
-if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+if (Denemo.prefs.midi_audio_output == Fluidsynth)
   fluid_playpitch(74, 300, 9, 40);
  else
    gdk_beep();
@@ -717,11 +717,11 @@ gint pitchentry(DenemoGUI *gui) {
 	if(gui->input_source==INPUTMIDI) {
 	  gint key=(gint)(Freq2Pitch(found->pitch * (pow(2,(octave)))));
 	  //g_print("pitch %f key number %d\n",found->pitch, key);
-	  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
+	  if (Denemo.prefs.midi_audio_output == Portaudio)
 	    playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
-	  else if (Denemo.prefs.midi_audio_output == JACK)
+	  else if (Denemo.prefs.midi_audio_output == Jack)
 	    jack_playpitch(key, 300 /*duration*/);
-	  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+	  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
 	    fluid_playpitch(key, 300 /*duration*/,  ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel, 0);
 	}
 	if(gui->input_source==INPUTMIDI || !Denemo.prefs.overlays) {

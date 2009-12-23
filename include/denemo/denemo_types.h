@@ -134,16 +134,6 @@ typedef enum input_mode {
 }input_mode;
 
 /**
- * Enumeration for Denemo's Audio/Midi output
- */
-typedef enum MidiAudioOutput {
-  PORTAUDIO,
-  JACK,
-  FLUIDSYNTH
-}MidiAudioOutput;
-
-
-/**
  * Denemo Action type currently used for undo/redo 
  * 
  */
@@ -364,7 +354,7 @@ typedef struct DenemoPrefs
   gint maxhistory;/**< how long a history of used files to retain */
   GString *browser; /**< Default browser string */
   
-  MidiAudioOutput midi_audio_output; /**< How the user wants to deal with audio/midi output */
+  gchar *midi_audio_output; /**< How the user wants to deal with audio/midi output */
   GString *csoundcommand; /**< command used to execute csound */
   GString *csoundorcfile; /**< Path to .orc file used for csound playback */
   gboolean rtcs; /**< Real time csound */

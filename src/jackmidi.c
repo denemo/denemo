@@ -495,7 +495,7 @@ init_jack(void){
   DeviceManager();
   if(MD==NULL) {
     jack_server_running = FALSE;
-    if(Denemo.prefs.midi_audio_output==JACK)
+    if(Denemo.prefs.midi_audio_output==Jack)
       g_warning("No devices in preferences, edit->preferences->MIDI add devices and re-start");
     return -1;}
   for (i=0;MD[i].client_name;i++){
@@ -503,7 +503,7 @@ init_jack(void){
     //create_jack_midi_client_from_load(MD[i].client_name->str);
     MD[i].jack_client = (gpointer)jack_client_open(MD[i].client_name->str, JackNoStartServer, NULL);
     if(MD[i].jack_client == NULL) {
-      if(Denemo.prefs.midi_audio_output==JACK)
+      if(Denemo.prefs.midi_audio_output==Jack)
 	g_warning("Could not open JACK client %s, no jack server running?", MD[i].client_name->str );
       return -1;
     }

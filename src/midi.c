@@ -177,11 +177,11 @@ void playpitch(double pitch, double duration, double volume, int channel) {
 }
 
 void play_midikey(gint key, double duration, double volume, gint channel){
-  if (Denemo.prefs.midi_audio_output == PORTAUDIO)
+  if (Denemo.prefs.midi_audio_output == Portaudio)
     playpitch(midi2hz(key), duration, volume, channel);
-  else if (Denemo.prefs.midi_audio_output == JACK)
+  else if (Denemo.prefs.midi_audio_output == Jack)
     jack_playpitch(key, 1000 /*duration*/);
-  else if (Denemo.prefs.midi_audio_output == FLUIDSYNTH)
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_playpitch(key, 1000 /*duration*/, channel, (int)(0x7f&(int)(volume*127)));
 }
 

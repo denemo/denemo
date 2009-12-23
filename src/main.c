@@ -49,6 +49,12 @@
 
 struct DenemoRoot Denemo;
 
+/* set strings for midi_audio_output */
+const gchar *Jack = "Jack";
+const gchar *Portaudio = "Portaudio";
+const gchar *Fluidsynth = "InternalSynth";
+
+
 /* just a simple check, if the user has never run denemo before
    better, keep this for whole first session? */
 gboolean first_time_user(void) {
@@ -419,9 +425,8 @@ main (int argc, char *argv[])
 //  /* workaround necessary for compilation on Cygwin */
 //  g_set_print_handler ((GPrintFunc)printf);
 //#endif
-
-
-  /* set the default handler for debug messages */
+  
+   /* set the default handler for debug messages */
   g_log_set_handler (NULL, G_LOG_LEVEL_DEBUG, debug_handler, NULL);
 
 

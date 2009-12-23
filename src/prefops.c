@@ -19,6 +19,7 @@
 #include <libxml/tree.h>
 #include "utils.h"
 #include "prefops.h"
+#include "playback.h"
 
 static gint
 readxmlprefsFile (gchar * filename);
@@ -78,16 +79,15 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-  //char midi_audio_string[][24] = {"portaudio", "jack", "fluidsynth"};
 //#ifdef _HAVE_PORTAUDIO_
-  ret->midi_audio_output = PORTAUDIO;
+  ret->midi_audio_output = "Portaudio";
 //#endif
 
 #ifdef _HAVE_FLUIDSYNTH_ 
-  ret->midi_audio_output = FLUIDSYNTH;	  
+  ret->midi_audio_output = "InternalSynth";	  
 #endif
 #ifdef _HAVE_JACK_
-  ret->midi_audio_output = JACK;
+  ret->midi_audio_output = "Jack";
 #endif
 
 #ifdef G_OS_WIN32
@@ -194,7 +194,7 @@ parsePorts (xmlDocPtr doc, xmlNodePtr cur, gint i)
 	    }
 	}
     }
-  g_debug("We have %d ports for client %s\n", Denemo.prefs.midi_device[i].client_name->str);
+  g_debug("We have %d ports for client %s\n",j, Denemo.prefs.midi_device[i].client_name->str);
 
 #if 1
   {GArray *arr = g_array_new(TRUE, TRUE, sizeof(DeviceManagerPort));
@@ -306,6 +306,18 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }\
 	}
 
+#define READXMLENTRY2(field)  \
+      else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
+	      prefs->field = get_midi_audio_pointer(tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}
+
 #define READINTXMLENTRY(field) \
       else if (0 ==\
 	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
@@ -387,10 +399,10 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
       READXMLENTRY(sequencer)
+      READXMLENTRY2(midi_audio_output)
       
       READINTXMLENTRY(createclones)
       READINTXMLENTRY(immediateplayback) 
-      READINTXMLENTRY(midi_audio_output) 
   
       READINTXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
@@ -644,6 +656,16 @@ writeXMLPrefs (DenemoPrefs * prefs)
     xmlNewChild (child, NULL, (xmlChar *) #field,\
 		 (xmlChar *) prefs->field->str);}
 
+ #define WRITEXMLENTRY2(field) \
+  if (prefs->field){\
+    gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
+    gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
+    define_scheme_variable(curname, prefs->field, def);\
+    g_free(curname);\
+    g_free(def);\
+    xmlNewChild (child, NULL, (xmlChar *) #field,\
+		 (xmlChar *) prefs->field);}
+   
   WRITEXMLENTRY(lilypath)
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
@@ -677,7 +699,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(createclones)
   WRITEINTXMLENTRY(lilyentrystyle)
   WRITEINTXMLENTRY(immediateplayback)
-  WRITEINTXMLENTRY(midi_audio_output)
   WRITEINTXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
   WRITEINTXMLENTRY(overlays)
@@ -691,7 +712,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(autoupdate)
   WRITEINTXMLENTRY(rhythm_palette)
   WRITEINTXMLENTRY(object_palette)
-
+  WRITEXMLENTRY2(midi_audio_output)
   WRITEXMLENTRY(fluidsynth_audio_driver)
   WRITEXMLENTRY(fluidsynth_soundfont)
   WRITEINTXMLENTRY(fluidsynth_reverb)
