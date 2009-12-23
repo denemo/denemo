@@ -294,8 +294,6 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *field = gtk_combo_new ();\
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
-  g_debug("\nCOMBOBOX == %s\n",settext);\
-  g_debug("\nCOMBOBOX == %s\n",Denemo.prefs.midi_audio_output);\
   gtk_entry_set_text\
     (GTK_ENTRY (GTK_COMBO (field)->entry),  settext);\
   gtk_widget_show (field);\
