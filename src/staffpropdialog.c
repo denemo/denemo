@@ -482,9 +482,12 @@ staff_properties_change (void)
   INTENTRY_LIMITS_1("Channel:", midi_channel, 1, 16);
   INTENTRY_LIMITS_1("Program:", midi_prognum, 1, 128);
   g_print("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum); 
+
   GList *md = device_manager_DevicePort_list();
   if(md) {
+#ifdef _HAVE_JACK_
     COMBOBOXENTRY("Midi Devices", device_port, md, staffstruct->device_port);
+#endif
   }
   else
     cbdata.device_port = NULL;
