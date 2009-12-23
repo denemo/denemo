@@ -105,6 +105,9 @@ int fluidsynth_init()
     start_fluid_settings(); 
 
   /* Change the settings if necessary*/
+  fluid_settings_setstr(settings, "audio.jack.id", "Denemo");
+  fluid_settings_setint(settings, "audio.jack.multi", 1);
+
   fluid_settings_setstr(settings, "audio.driver", Denemo.prefs.fluidsynth_audio_driver->str);
   fluid_settings_setstr(settings, "synth.reverb.active" , Denemo.prefs.fluidsynth_reverb == TRUE ? "yes":"no");
   fluid_settings_setstr(settings, "synth.chorus.active" , Denemo.prefs.fluidsynth_chorus == TRUE ? "yes":"no");
