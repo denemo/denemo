@@ -235,7 +235,7 @@ void device_manager_create_device()
   Denemo.prefs.midi_device = (DeviceManagerDevice *)ARRAY->data;
   DeviceManagerDevice *d = &g_array_index(ARRAY, DeviceManagerDevice, ARRAY->len-1);
   d->client_name = g_string_new("denemo");
-  g_string_append_printf(d->client_name, ":%d", ARRAY->len);
+  g_string_append_printf(d->client_name, "_%d", ARRAY->len);
   // add_device_to_tree(Denemo.prefs.midi_device[client_number]client_name->str);
  add_device_to_tree(d->client_name->str);
  g_print("added device index %d\n", ARRAY->len-1);
@@ -269,7 +269,7 @@ void device_manager_create_port()
   Denemo.prefs.midi_device[j].ports = (DeviceManagerPort *)ARRAY->data;
   DeviceManagerPort *p = &g_array_index(ARRAY, DeviceManagerPort, ARRAY->len-1);
   p->port_name = g_string_new("midi_out");
-  g_string_append_printf(p->port_name, ":%d", ARRAY->len);
+  g_string_append_printf(p->port_name, "_%d", ARRAY->len);
   add_port_to_tree(p->port_name->str);
   g_print("added port index %d\n", ARRAY->len-1);
 #undef ARRAY
