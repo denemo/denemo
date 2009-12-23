@@ -600,8 +600,8 @@ if (Denemo.prefs.midi_audio_output == Jack)
 #ifdef _HAVE_FLUIDSYNTH_
 if (Denemo.prefs.midi_audio_output == Fluidsynth)
   fluidsynth_init(); 
-#else 
-if (Denemo.prefs.midi_audio_output == Portaudio)
+#endif
+if (Denemo.prefs.midi_audio_output == Portaudio){
   /* Immediate Playback */
   if(Denemo.prefs.immediateplayback) {
     if( midi_init ()  )  {           /* Opens Denemo.prefs.sequencer, if this is set to an empty
@@ -613,7 +613,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio)
     }
   }
 }
-#endif
+
 
   /* Set up the signal handler */
   signal (SIGSEGV, denemo_signal_handler);
