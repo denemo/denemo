@@ -124,10 +124,10 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(midiplayer)
   ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
-  ASSIGNTEXT(sequencer)
+    // ASSIGNTEXT(sequencer)
+#ifndef _HAVE_FLUIDSYNTH_
   ASSIGNTEXT(midi_in)
-  ASSIGNTEXT(sequencer)
-  ASSIGNTEXT(midi_in)
+#endif
 #ifdef _HAVE_JACK_
     // ASSIGNBOOLEAN(jacktransport)
     //  ASSIGNBOOLEAN(jacktransport_start_stopped)
@@ -330,9 +330,10 @@ preferences_change (GtkAction *action, gpointer param)
 
 
   BOOLEANENTRY("Autosave Parts", saveparts);
-  TEXTENTRY("Sequencer Device", sequencer)
+  //TEXTENTRY("Sequencer Device", sequencer)
+#ifndef _HAVE_FLUIDSYNTH_
   TEXTENTRY("Midi Input Device", midi_in)
-
+#endif
 
   /*
    * Pitch Entry Parameters 
