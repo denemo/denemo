@@ -138,7 +138,7 @@
 
 (define (ChordComparison::PlaceNotes)
   (d-CursorToNote "c")
-  (d-Insert2)
+  (d-Insert0)
   (d-ChangeChordNotes (ChordComparison::GetChordSpelling))
   (ChordComparison::TransposeChord (ChordComparison::midinum->lilyname ChordComparison::ChordChordComparison::LowestNote)))
 
@@ -167,19 +167,19 @@
   (ChordComparison::OfferChord))
 
 (define (ChordComparison::createbuttons chord)
-  (CreateButton (string-append "ChordComparison::" (car chord))  (string-append " <span font_desc=\"32\" foreground=\"blue\">" (car chord)  "</span>"))
+  (CreateButton (string-append "ChordComparison::" (car chord))  (string-append " <span font_desc=\"22\" foreground=\"blue\">" (car chord)  "</span>"))
     (d-SetDirectiveTagActionScript  (string-append "ChordComparison::" (car chord)) (string-append "(ChordComparison::chordchosen \"" (car chord) "\")")))
 
 ;;;;main procedure to call for ChordComparison
 (define (ChordComparison::ChordComparison chordlist) 
 
   (set! ChordComparison::ChordPossibilities chordlist)
-  (CreateButton "ChordComparison::GameScore" "<span font_desc=\"32\">Click to start</span>")
+  (CreateButton "ChordComparison::GameScore" "<span font_desc=\"22\">Click to start</span>")
   (d-SetDirectiveTagActionScript "ChordComparison::GameScore" "(ChordComparison::OfferChord)")
 
   (map ChordComparison::createbuttons ChordComparison::ChordPossibilities)
 
-  (CreateButton "ChordComparison::replay" "<span font_desc=\"32\">Re-Play</span>")
+  (CreateButton "ChordComparison::replay" "<span font_desc=\"22\">Re-Play</span>")
   (d-SetDirectiveTagActionScript "ChordComparison::replay" "(ChordComparison::Play)" )
 )
 
