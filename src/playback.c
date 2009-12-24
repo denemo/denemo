@@ -43,8 +43,12 @@ get_midi_audio_pointer(gchar *audio_device)
     return Jack;
   else if (!strcmp(audio_device, Portaudio))
     return Portaudio;
-   
+
+#ifdef _HAVE_FLUIDSYNTH_
+  return Fluidsynth;
+#else 
   return Portaudio;
+#endif
 }
 
 static gint move_on(DenemoGUI *gui){
