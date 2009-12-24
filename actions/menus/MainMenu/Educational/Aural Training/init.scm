@@ -16,6 +16,7 @@
 (define ChordComparison::LowestNote 55)
 (define ChordComparison::ChordChordComparison::LowestNote 60)
 (define ChordComparison::ChordQuality 0)
+(define ChordComparison::ArpTimer 0)
 (define ChordComparison::score 0)
 
 
@@ -120,6 +121,17 @@
 (define (ChordComparison::Play)  
   (map ChordComparison::PlayChord (ChordComparison::GetIntervalList)))
 
+(define (ChordComparison::ArpegChord note)
+  (let ( (newnote "") )
+    (set! newnote (number->string (+ ChordComparison::ChordChordComparison::LowestNote note)))
+    (d-OneShotTimer ChordComparison::ArpTimer (string-append "(PlayNote " "\"" newnote "\"" " 1000)"))
+    )
+  (set! ChordComparison::ArpTimer (+ ChordComparison::ArpTimer 1000)))
+
+(define (ChordComparison::PlayArpeggio)
+  (map ChordComparison::ArpegChord (ChordComparison::GetIntervalList))
+  (set! ChordComparison::ArpTimer 0))
+
 (define (ChordComparison::OfferChord)
   (ChordComparison::showscore)
   (ChordComparison::GetNewChord)
@@ -181,6 +193,9 @@
 
   (CreateButton "ChordComparison::replay" "<span font_desc=\"22\">Re-Play</span>")
   (d-SetDirectiveTagActionScript "ChordComparison::replay" "(ChordComparison::Play)" )
+
+  (CreateButton "ChordComparison::play_arpeggio" "<span font_desc=\"22\">Arpeggio</span>")
+  (d-SetDirectiveTagActionScript "ChordComparison::play_arpeggio" "(ChordComparison::PlayArpeggio)" )
 )
 
 
