@@ -11,68 +11,6 @@
 #include "notewidths.h"
 #include "gcs.h"
 
-/* Include the bitmaps; they'll actually be made into GdkBitmaps with the
- * GDK create_from_xbm_d functions. Doing things this way circumvents the need
- * to install the pixmaps into a /usr/share directory of some kind before
- * the program can be run from anywhere on the system. */
-
-#include "../pixmaps/feta26-noteheads-0.xbm"
-#include "../pixmaps/feta26-noteheads-1.xbm"
-#include "../pixmaps/feta26-noteheads-2.xbm"
-#include "../pixmaps/feta26-noteheads-1diamond.xbm"
-#include "../pixmaps/feta26-noteheads-2cross.xbm"
-#include "../pixmaps/feta26-noteheads-2harmonic.xbm"
-#include "../pixmaps/feta26-flags-u3.xbm"
-#include "../pixmaps/feta26-flags-u4.xbm"
-#include "../pixmaps/feta26-flags-u5.xbm"
-#include "../pixmaps/feta26-flags-u6.xbm"
-#include "../pixmaps/feta26-flags-d3.xbm"
-#include "../pixmaps/feta26-flags-d4.xbm"
-#include "../pixmaps/feta26-flags-d5.xbm"
-#include "../pixmaps/feta26-flags-d6.xbm"
-#include "../pixmaps/feta26-flags-ugrace.xbm"
-#include "../pixmaps/feta26-flags-dgrace.xbm"
-#include "../pixmaps/feta26-rests-0.xbm"
-#include "../pixmaps/feta26-rests-1.xbm"
-#include "../pixmaps/feta26-rests-2.xbm"
-#include "../pixmaps/feta26-rests-3.xbm"
-#include "../pixmaps/feta26-rests-4.xbm"
-#include "../pixmaps/feta26-rests-5.xbm"
-#include "../pixmaps/feta26-rests-6.xbm"
-
-#include "../pixmaps/feta26-scripts-ufermata.xbm"
-#include "../pixmaps/feta26-scripts-dfermata.xbm"
-#include "../pixmaps/feta26-scripts-staccato.xbm"
-#include "../pixmaps/feta26-scripts-umarcato.xbm"
-#include "../pixmaps/feta26-scripts-dmarcato.xbm"
-#include "../pixmaps/feta26-scripts-accent.xbm"
-#include "../pixmaps/feta26-scripts-tenuto.xbm"
-#include "../pixmaps/feta26-scripts-ustaccatissimo.xbm"
-#include "../pixmaps/feta26-scripts-dstaccatissimo.xbm"
-#include "../pixmaps/feta26-scripts-trill.xbm"
-#include "../pixmaps/feta26-scripts-turn.xbm"
-#include "../pixmaps/feta26-scripts-mordent.xbm"
-#include "../pixmaps/feta26-scripts-downbow.xbm"
-#include "../pixmaps/feta26-scripts-upbow.xbm"
-#include "../pixmaps/feta26-scripts-upedalheel.xbm"
-#include "../pixmaps/feta26-scripts-dpedalheel.xbm"
-#include "../pixmaps/feta26-scripts-upedaltoe.xbm"
-#include "../pixmaps/feta26-scripts-dpedaltoe.xbm"
-#include "../pixmaps/feta26-scripts-coda.xbm"
-#include "../pixmaps/feta26-scripts-flageolet.xbm"
-#include "../pixmaps/feta26-scripts-open.xbm"
-#include "../pixmaps/feta26-scripts-prallmordent.xbm"
-#include "../pixmaps/feta26-scripts-prallprall.xbm"
-#include "../pixmaps/feta26-scripts-prall.xbm"
-#include "../pixmaps/feta26-scripts-reverseturn.xbm"
-#include "../pixmaps/feta26-scripts-segno.xbm"
-#include "../pixmaps/feta26-scripts-sforzato.xbm"
-#include "../pixmaps/feta26-scripts-stopped.xbm"
-#include "../pixmaps/feta26-scripts-thumb.xbm"
-#include "../pixmaps/feta26-scripts-trilelement.xbm"
-#include "../pixmaps/feta26-scripts-trill-element.xbm"
-#include "../pixmaps/feta26-scripts-upprall.xbm"
-#include "../pixmaps/feta26-scripts-arpeggio.xbm"
 
 gint restwidths[SMALLESTDURATION + 1] =
   { WHOLEREST_WIDTH, HALFREST_WIDTH, QUARTERREST_WIDTH, EIGHTHREST_WIDTH,
@@ -111,14 +49,6 @@ void
 draw_rest (GdkPixmap * pixmap, GdkGC * gc,
 	   gint duration, gint numdots, gint xx, gint y)
 {
-  static GdkBitmap *rests[SMALLESTDURATION + 1] = { NULL, NULL, NULL, NULL,
-    NULL, NULL, NULL
-  };
-  static gint restheights[SMALLESTDURATION + 1] =
-    { WHOLEREST_HEIGHT, HALFREST_HEIGHT, QUARTERREST_HEIGHT,
-    EIGHTHREST_HEIGHT,
-    SIXTEENTHREST_HEIGHT, THIRTYSECONDREST_HEIGHT, SIXTYFOURTHREST_HEIGHT, HUNDREDTWENTYEIGHTHREST_HEIGHT, TWOHUNDREDFIFTYSIXTHREST_HEIGHT
-  };
   static gint restoffsets[SMALLESTDURATION + 1] =
     { WHOLEREST_OFFSETFROMTOP, HALFREST_OFFSETFROMTOP,
     QUARTERREST_OFFSETFROMTOP, EIGHTHREST_OFFSETFROMTOP,
@@ -132,23 +62,8 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
     { 0x20, 0x21, 0x27, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e
   };
 
-  if (!rests[0])
-    {
-      rests[0] = bitmaphelper (NULL, feta26_rests_0);
-      rests[1] = bitmaphelper (NULL, feta26_rests_1);
-      rests[2] = bitmaphelper (NULL, feta26_rests_2);
-      rests[3] = bitmaphelper (NULL, feta26_rests_3);
-      rests[4] = bitmaphelper (NULL, feta26_rests_4);
-      rests[5] = bitmaphelper (NULL, feta26_rests_5);
-      rests[6] = bitmaphelper (NULL, feta26_rests_6);
-      rests[7] = bitmaphelper (NULL, feta26_rests_6);
-      rests[8] = bitmaphelper (NULL, feta26_rests_6);
-    }
   drawfetachar (pixmap, gc, rest_char[duration],
 		     xx, y + restoffsets[duration]);
-//  drawbitmapinverse (pixmap, gc, rests[duration],
-//		     xx, y + restoffsets[duration],
-//		     restwidths[duration], restheights[duration]);
   /* Now draw any trailing dots and we're done */
   draw_dots (pixmap, gc, xx + restwidths[duration],
 	     y + restoffsets[duration] , numdots);
@@ -168,23 +83,13 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
      three elements.  The change has defeated what had been semi-elegance;
      grrr.  */
 
-  static GdkBitmap *heads[6] = { NULL, NULL, NULL, NULL, NULL, NULL };
   static gint headwidths[6] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH,
     NOTEHEAD_WIDTH, DIAMOND_WIDTH,
     CROSS_WIDTH, HARMONIC_WIDTH,
   };
-  static gint headheights[6] = { WHOLEHEAD_HEIGHT, HALFHEAD_HEIGHT,
-    NOTEHEAD_HEIGHT, DIAMOND_HEIGHT,
-    CROSS_HEIGHT, HARMONIC_HEIGHT
-  };
-  static gint headsemiheights[6] =
-    { WHOLEHEAD_SEMI_HEIGHT, HALFHEAD_SEMI_HEIGHT, NOTEHEAD_SEMI_HEIGHT,
-    DIAMOND_SEMI_HEIGHT, CROSS_SEMI_HEIGHT, HARMONIC_SEMI_HEIGHT
-  };
 
   static gunichar head_char[6] =
-    { 0x54, 0x55, 0x56,
-    0x58, 0x64, 0x92
+    { 0x54, 0x55, 0x56, 0x58, 0x64, 0x92
   };
   gint height = thenote->y;
   gint noteheadtype = 1;
@@ -208,15 +113,6 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
       noteheadtype = 3;
     }
 
-  if (!heads[0])
-    {
-      heads[0] = bitmaphelper (NULL, feta26_noteheads_0);
-      heads[1] = bitmaphelper (NULL, feta26_noteheads_1);
-      heads[2] = bitmaphelper (NULL, feta26_noteheads_2);
-      heads[3] = bitmaphelper (NULL, feta26_noteheads_1diamond);
-      heads[4] = bitmaphelper (NULL, feta26_noteheads_2cross);
-      heads[5] = bitmaphelper (NULL, feta26_noteheads_2harmonic);
-    }
 
   /* Draw the accidental, if necessary.  Note that this has to be
      done before xx is modified, as the the value in
@@ -237,9 +133,6 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
     drawfetachar (pixmap, gc, head_char[noteheadtype],
 		       xx, y + height);
-//    drawbitmapinverse (pixmap, gc, heads[noteheadtype],
-//		       xx, y + height - headsemiheights[noteheadtype],
-//		       headwidths[noteheadtype], headheights[noteheadtype]);
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
       draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
@@ -327,19 +220,6 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	    gint mwidth, gint * accs, gboolean selected)
 {
 
-  static GdkBitmap *upstems[SMALLESTDURATION + 1] =
-    { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-  static GdkBitmap *downstems[SMALLESTDURATION + 1];
-  static GdkBitmap *graceflags[2];
-  static gint stemheights[SMALLESTDURATION + 1] =
-    { 0, 0, 0, EIGHTHSTEM_HEIGHT, SIXTEENTHSTEM_HEIGHT,
-      THIRTYSECONDSTEM_HEIGHT,
-      SIXTYFOURTHSTEM_HEIGHT,
-      HUNDREDTWENTYEIGHTHSTEM_HEIGHT,
-      TWOHUNDREDFIFTYSIXTHSTEM_HEIGHT
-  };
-
-
   static gunichar upstem_char[SMALLESTDURATION + 1] =
     { 0, 0, 0, 0xb9, 0xba,
       0xbb,
@@ -373,25 +253,6 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   GList *curnode;
 
 
-  if (!upstems[3])
-    {
-      upstems[3] = bitmaphelper (NULL, feta26_flags_u3);
-      upstems[4] = bitmaphelper (NULL, feta26_flags_u4);
-      upstems[5] = bitmaphelper (NULL, feta26_flags_u5);
-      upstems[6] = bitmaphelper (NULL, feta26_flags_u6);
-      upstems[7] = bitmaphelper (NULL, feta26_flags_u6);
-      upstems[8] = bitmaphelper (NULL, feta26_flags_u6);
-      downstems[3] = bitmaphelper (NULL, feta26_flags_d3);
-      downstems[4] = bitmaphelper (NULL, feta26_flags_d4);
-      downstems[5] = bitmaphelper (NULL, feta26_flags_d5);
-      downstems[6] = bitmaphelper (NULL, feta26_flags_d6);
-      downstems[7] = bitmaphelper (NULL, feta26_flags_d6);
-      downstems[8] = bitmaphelper (NULL, feta26_flags_d6);
-      graceflags[0] = bitmaphelper (NULL, feta26_flags_ugrace);
-      graceflags[1] = bitmaphelper (NULL, feta26_flags_dgrace);
-
-    }
-
 #if 0
   if (thechord.is_highlighted)
     gc = gcs_bluegc ();
@@ -422,12 +283,6 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				 thechord.highesty + y + 3
 				 - (duration == 6 ? EXTRA_STEM_HEIGHT
 				    : STEM_HEIGHT));
-//	      drawbitmapinverse (pixmap, gc, upstems[duration],
-//				 xx + NOTEHEAD_WIDTH - 1,
-//				 thechord.highesty + y
-//				 - (duration == 6 ? EXTRA_STEM_HEIGHT
-//				    : STEM_HEIGHT),
-//				 STEM_WIDTH, stemheights[duration]);
 	  }
 	else if (nextmuditem && !mudelaitem->isend_beamgroup)
 	  {
@@ -513,13 +368,6 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 				 + (duration == 6 ? EXTRA_STEM_HEIGHT
 				    : STEM_HEIGHT)
 				 );
-//	      drawbitmapinverse (pixmap, gc, downstems[duration],
-//				 xx,
-//				 thechord.lowesty + y
-//				 + (duration == 6 ? EXTRA_STEM_HEIGHT
-//				    : STEM_HEIGHT)
-//				 - stemheights[duration],
-//				 STEM_WIDTH, stemheights[duration]);
 	  }
 	else if ((nextmuditem) && !mudelaitem->isend_beamgroup)
 	  {
@@ -631,10 +479,6 @@ void
 draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
 		    chord thechord, gint xx, gint y)
 {
-  static GdkBitmap *options[25];
-  static GdkBitmap *noteoptions[3];
-  static GdkBitmap *strings[2];
-  static GdkBitmap *organ[4];
 
   static gunichar options_char[25] = { 0x81, 0x82, 0x8a, 0x8a, 0x8c, 0x8f, 0x8d, 0x8e,
 	                               0x92, 0x93, 0xa1, 0x9f, 0x94, 0xaf, 0xae, 0xac, 
@@ -649,43 +493,6 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
   gint extra = 0;
   GList *tmp;
 
-  if (!options[0])
-    {
-      noteoptions[0] = bitmaphelper (NULL, feta26_scripts_trill);
-      noteoptions[1] = bitmaphelper (NULL, feta26_scripts_turn);
-      noteoptions[2] = bitmaphelper (NULL, feta26_scripts_mordent);
-      options[0] = bitmaphelper (NULL, feta26_scripts_ufermata);
-      options[1] = bitmaphelper (NULL, feta26_scripts_dfermata);
-      options[2] = bitmaphelper (NULL, feta26_scripts_accent);
-      options[3] = bitmaphelper (NULL, feta26_scripts_accent);
-      options[4] = bitmaphelper (NULL, feta26_scripts_staccato);
-      options[5] = bitmaphelper (NULL, feta26_scripts_tenuto);
-      options[6] = bitmaphelper (NULL, feta26_scripts_ustaccatissimo);
-      options[7] = bitmaphelper (NULL, feta26_scripts_dstaccatissimo);
-      options[8] = bitmaphelper (NULL, feta26_scripts_umarcato);
-      options[9] = bitmaphelper (NULL, feta26_scripts_dmarcato);
-      options[10] = bitmaphelper (NULL, feta26_scripts_coda);
-      options[11] = bitmaphelper (NULL, feta26_scripts_flageolet);
-      options[12] = bitmaphelper (NULL, feta26_scripts_open);
-      options[13] = bitmaphelper (NULL, feta26_scripts_prallmordent);
-      options[14] = bitmaphelper (NULL, feta26_scripts_prallprall);
-      options[15] = bitmaphelper (NULL, feta26_scripts_prall);
-      options[16] = bitmaphelper (NULL, feta26_scripts_reverseturn);
-      options[17] = bitmaphelper (NULL, feta26_scripts_segno);
-      options[18] = bitmaphelper (NULL, feta26_scripts_sforzato);
-      options[19] = bitmaphelper (NULL, feta26_scripts_stopped);
-      options[20] = bitmaphelper (NULL, feta26_scripts_thumb);
-      options[21] = bitmaphelper (NULL, feta26_scripts_trilelement);
-      options[22] = bitmaphelper (NULL, feta26_scripts_trill_element);
-      options[23] = bitmaphelper (NULL, feta26_scripts_upprall);
-      options[24] = bitmaphelper (NULL, feta26_scripts_arpeggio);
-      strings[0] = bitmaphelper (NULL, feta26_scripts_downbow);
-      strings[1] = bitmaphelper (NULL, feta26_scripts_upbow);
-      organ[0] = bitmaphelper (NULL, feta26_scripts_upedalheel);
-      organ[1] = bitmaphelper (NULL, feta26_scripts_dpedalheel);
-      organ[2] = bitmaphelper (NULL, feta26_scripts_upedaltoe);
-      organ[3] = bitmaphelper (NULL, feta26_scripts_dpedaltoe);
-    }
   /* Fermata, Accents, Staccato, tenuto stuff.  */
 
   /* The following code ought to see some serious reorganization.
