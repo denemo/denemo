@@ -21,13 +21,13 @@
 #define NUMCLEFTYPES 6
 #define TREBLE_WIDTH 26
 #define TREBLE_HEIGHT 76
-#define TREBLE_TOPOFFSET -16
+#define TREBLE_TOPOFFSET 30 
 #define BASS_WIDTH 27
 #define BASS_HEIGHT 32
-#define BASS_TOPOFFSET 1
+#define BASS_TOPOFFSET 10
 #define ALTO_WIDTH 27
 #define ALTO_HEIGHT 41
-#define ALTO_TOPOFFSET 0
+#define ALTO_TOPOFFSET 21
 #define G_8_TOPOFFSET -8
 #define TENOR_TOPOFFSET -9
 #define SOPRANO_TOPOFFSET 20
@@ -53,6 +53,9 @@ draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, clef *clef)
   static gint clefoffsets[NUMCLEFTYPES] =
     { TREBLE_TOPOFFSET, BASS_TOPOFFSET, ALTO_TOPOFFSET, G_8_TOPOFFSET,
     TENOR_TOPOFFSET, SOPRANO_TOPOFFSET
+  };
+  static gunichar clef_char[NUMCLEFTYPES] =
+    { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5 
   };
 
   if (!clefs[0])
@@ -91,8 +94,13 @@ draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, clef *clef)
       }
     }
   }
-  if(!override)
-      drawbitmapinverse (pixmap, gc, clefs[type],
-		     xx, y + clefoffsets[type],
-		     clefwidths[type], clefheights[type]);
+  if(!override) {
+    drawfetachar( pixmap, gc, clef_char[type], xx, y+clefoffsets[type] );
+
+
+
+      //drawbitmapinverse (pixmap, gc, clefs[type],
+      //	     xx, y + clefoffsets[type],
+      // 	     clefwidths[type], clefheights[type]);
+  }
 }

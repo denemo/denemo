@@ -26,6 +26,10 @@ gint accwidths[NUMACCTYPES] =
   DOUBLESHARP_WIDTH
 };
 
+gunichar acc_char[NUMACCTYPES] =
+  { 0x43, 0x3a, 0x36, 0x2e, 0x45
+};
+
 /**
  * Draw an accidental given the specific enshift value
  *
@@ -56,7 +60,9 @@ draw_accidental (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint aggheight,
       accidentals[4] = bitmaphelper (NULL, feta26_accidentals_2);
     }
 
-  drawbitmapinverse (pixmap, gc, accidentals[n],
-		     xx, aggheight - accoffsets[n],
-		     accwidths[n], accheights[n]);
+  drawfetachar (pixmap, gc, acc_char[n],
+		     xx, aggheight);
+//  drawbitmapinverse (pixmap, gc, accidentals[n],
+//		     xx, aggheight - accoffsets[n],
+//		     accwidths[n], accheights[n]);
 }

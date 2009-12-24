@@ -53,6 +53,8 @@ void
 drawbitmapinverse (GdkPixmap *pixmap, GdkGC *gc, GdkBitmap *mask,
 		   gint x, gint y, gint width, gint height);
 
+void
+drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y);
 /* Gives space after a note or rest */
 
 gint

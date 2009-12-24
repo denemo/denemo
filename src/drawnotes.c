@@ -128,6 +128,10 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
     TWOHUNDREDFIFTYSIXTHREST_OFFSETFROMTOP
   };
 
+  static gunichar rest_char[SMALLESTDURATION + 1] =
+    { 0x20, 0x21, 0x27, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e
+  };
+
   if (!rests[0])
     {
       rests[0] = bitmaphelper (NULL, feta26_rests_0);
@@ -140,12 +144,14 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
       rests[7] = bitmaphelper (NULL, feta26_rests_6);
       rests[8] = bitmaphelper (NULL, feta26_rests_6);
     }
-  drawbitmapinverse (pixmap, gc, rests[duration],
-		     xx, y + restoffsets[duration],
-		     restwidths[duration], restheights[duration]);
+  drawfetachar (pixmap, gc, rest_char[duration],
+		     xx, y + restoffsets[duration]);
+//  drawbitmapinverse (pixmap, gc, rests[duration],
+//		     xx, y + restoffsets[duration],
+//		     restwidths[duration], restheights[duration]);
   /* Now draw any trailing dots and we're done */
   draw_dots (pixmap, gc, xx + restwidths[duration],
-	     y + restoffsets[duration] + restheights[duration] / 2, numdots);
+	     y + restoffsets[duration] , numdots);
 }
 
 /**
@@ -174,6 +180,11 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
   static gint headsemiheights[6] =
     { WHOLEHEAD_SEMI_HEIGHT, HALFHEAD_SEMI_HEIGHT, NOTEHEAD_SEMI_HEIGHT,
     DIAMOND_SEMI_HEIGHT, CROSS_SEMI_HEIGHT, HARMONIC_SEMI_HEIGHT
+  };
+
+  static gunichar head_char[6] =
+    { 0x54, 0x55, 0x56,
+    0x58, 0x64, 0x92
   };
   gint height = thenote->y;
   gint noteheadtype = 1;
@@ -224,9 +235,11 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
     else
       xx -= headwidths[noteheadtype];
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
-    drawbitmapinverse (pixmap, gc, heads[noteheadtype],
-		       xx, y + height - headsemiheights[noteheadtype],
-		       headwidths[noteheadtype], headheights[noteheadtype]);
+    drawfetachar (pixmap, gc, head_char[noteheadtype],
+		       xx, y + height);
+//    drawbitmapinverse (pixmap, gc, heads[noteheadtype],
+//		       xx, y + height - headsemiheights[noteheadtype],
+//		       headwidths[noteheadtype], headheights[noteheadtype]);
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
       draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
@@ -327,6 +340,21 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   };
 
 
+  static gunichar upstem_char[SMALLESTDURATION + 1] =
+    { 0, 0, 0, 0xb9, 0xba,
+      0xbb,
+      0xbc,
+      0xbd,
+      0xbd
+  };
+
+  static gunichar downstem_char[SMALLESTDURATION + 1] =
+    { 0, 0, 0, 0xbe, 0xc1,
+      0xc2,
+      0xc3,
+      0xc4,
+      0xc4
+  };
 
   DenemoObject *prevmuditem =
     (DenemoObject *) (curobj->prev ? curobj->prev->data : NULL);
@@ -389,12 +417,17 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  {
 	    if (duration >= 3)
 	      /* Up-pointing stem pixmap */
-	      drawbitmapinverse (pixmap, gc, upstems[duration],
-				 xx + NOTEHEAD_WIDTH - 1,
-				 thechord.highesty + y
+	      drawfetachar (pixmap, gc, upstem_char[duration],
+				 xx + NOTEHEAD_WIDTH,
+				 thechord.highesty + y + 3
 				 - (duration == 6 ? EXTRA_STEM_HEIGHT
-				    : STEM_HEIGHT),
-				 STEM_WIDTH, stemheights[duration]);
+				    : STEM_HEIGHT));
+//	      drawbitmapinverse (pixmap, gc, upstems[duration],
+//				 xx + NOTEHEAD_WIDTH - 1,
+//				 thechord.highesty + y
+//				 - (duration == 6 ? EXTRA_STEM_HEIGHT
+//				    : STEM_HEIGHT),
+//				 STEM_WIDTH, stemheights[duration]);
 	  }
 	else if (nextmuditem && !mudelaitem->isend_beamgroup)
 	  {
@@ -474,13 +507,19 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  {
 	    if (duration >= 3)
 	      /* Down-pointing stem */
-	      drawbitmapinverse (pixmap, gc, downstems[duration],
-				 xx,
-				 thechord.lowesty + y
+	      drawfetachar (pixmap, gc, downstem_char[duration],
+				 xx + 1,
+				 thechord.lowesty + y 
 				 + (duration == 6 ? EXTRA_STEM_HEIGHT
 				    : STEM_HEIGHT)
-				 - stemheights[duration],
-				 STEM_WIDTH, stemheights[duration]);
+				 );
+//	      drawbitmapinverse (pixmap, gc, downstems[duration],
+//				 xx,
+//				 thechord.lowesty + y
+//				 + (duration == 6 ? EXTRA_STEM_HEIGHT
+//				    : STEM_HEIGHT)
+//				 - stemheights[duration],
+//				 STEM_WIDTH, stemheights[duration]);
 	  }
 	else if ((nextmuditem) && !mudelaitem->isend_beamgroup)
 	  {
@@ -596,6 +635,16 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
   static GdkBitmap *noteoptions[3];
   static GdkBitmap *strings[2];
   static GdkBitmap *organ[4];
+
+  static gunichar options_char[25] = { 0x81, 0x82, 0x8a, 0x8a, 0x8c, 0x8f, 0x8d, 0x8e,
+	                               0x92, 0x93, 0xa1, 0x9f, 0x94, 0xaf, 0xae, 0xac, 
+				       0x98, 0xa0, 0x8a, 0x95, 0x89, 0xab, 0xa8, 0xb0,
+				       0xa7 };
+
+  static gunichar noteoptions_char[3] = { 0x9a, 0x99, 0xad };
+  static gunichar strings_char[2] = { 0x97, 0x96 };
+  static gunichar organ_char[4] = { 0x9b, 0x9c, 0x9d, 0x9e };
+
   /* extra y position for staccato, accent, tenuto, fermata when stacked */
   gint extra = 0;
   GList *tmp;
@@ -657,26 +706,25 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
       g_print ("ornament %d\n", *(enum ornament *) (tmp->data));
 #endif
       if (*(enum ornament *) tmp->data == (enum ornament) STACCATO)
-	drawbitmapinverse (pixmap, gc, options[4],
+	drawfetachar (pixmap, gc, options_char[4],
 			   xx + NOTEHEAD_WIDTH / 2,
-			   y + extra, STACATTO, STACATTO);
+			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TENUTO)
-	drawbitmapinverse (pixmap, gc,
-			   options[5], xx,
-			   y + extra, TENUTO_WIDTH, TENUTO_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   options_char[5], xx,
+			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) STACCATISSIMO)
-	drawbitmapinverse (pixmap, gc, options[6],
+	drawfetachar (pixmap, gc, options_char[6],
 			   xx + NOTEHEAD_WIDTH / 2,
-			   y + extra, STACCATISSIMO_WIDTH,
-			   STACCATISSIMO_HEIGHT);
+			   y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) D_ACCENT)
-	drawbitmapinverse (pixmap, gc, options[2],
-			   xx + 2, y + extra, ACCENT_WIDTH, ACCENT_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[2],
+			   xx + 2, y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) MARCATO)
-	drawbitmapinverse (pixmap, gc, options[8],
-			   xx + 2, y + extra, MARCATO_WIDTH, MARCATO_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[8],
+			   xx + 2, y + extra);
 
 
       /* 
@@ -684,110 +732,100 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
        * effect.
        */
       if (*(enum ornament *) tmp->data == (enum ornament) FERMATA)
-	drawbitmapinverse (pixmap, gc,
-			   options[0], xx - FERMATA_WIDTH / 4,
-			   y + extra, FERMATA_WIDTH, FERMATA_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   options_char[0], xx - FERMATA_WIDTH / 4,
+			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) CODA)
-	drawbitmapinverse (pixmap, gc,
-			   options[10], xx - CODA_WIDTH / 4,
-			   y + extra, CODA_WIDTH, CODA_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   options_char[10], xx - CODA_WIDTH / 4,
+			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILL)
-	drawbitmapinverse (pixmap, gc,
-			   noteoptions[0], xx - TRILL_WIDTH / 4,
-			   y + extra, TRILL_WIDTH, TRILL_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   noteoptions_char[0], xx - TRILL_WIDTH / 4,
+			   y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) TURN)
-	drawbitmapinverse (pixmap, gc,
-			   noteoptions[1], xx - TURN_WIDTH / 4,
-			   y + extra, TURN_WIDTH, TURN_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   noteoptions_char[1], xx - TURN_WIDTH / 4,
+			   y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) MORDENT)
-	drawbitmapinverse (pixmap, gc,
-			   noteoptions[2], xx - MORDENT_WIDTH / 4,
-			   y + extra, MORDENT_WIDTH, MORDENT_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   noteoptions_char[2], xx - MORDENT_WIDTH / 4,
+			   y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) DBOW)
-	drawbitmapinverse (pixmap, gc,
-			   strings[0], xx, y + extra, DBOW_WIDTH,
-			   DBOW_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   strings_char[0], xx, y + extra);
       else if (*(enum ornament *) tmp->data == (enum ornament) UBOW)
-	drawbitmapinverse (pixmap, gc,
-			   strings[1], xx, y + extra, UBOW_WIDTH,
-			   UBOW_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   strings_char[1], xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) RHEEL)
 	{
-	  drawbitmapinverse (pixmap, gc,
-			     organ[1], xx, y + extra, HEEL_WIDTH,
-			     HEEL_HEIGHT);
+	  drawfetachar (pixmap, gc,
+			     organ_char[1], xx, y + extra);
 	}
       else if (*(enum ornament *) tmp->data == (enum ornament) LHEEL)
 	{
-	  drawbitmapinverse (pixmap, gc,
-			     organ[0], xx, y + extra, HEEL_WIDTH,
-			     HEEL_HEIGHT);
+	  drawfetachar (pixmap, gc,
+			     organ_char[0], xx, y + extra);
 	}
 
       if (*(enum ornament *) tmp->data == (enum ornament) RTOE)
 	{
-	  drawbitmapinverse (pixmap, gc,
-			     organ[3], xx, y + extra, TOE_WIDTH, TOE_HEIGHT);
+	  drawfetachar (pixmap, gc,
+			     organ_char[3], xx, y + extra);
 	}
       else if (*(enum ornament *) tmp->data == (enum ornament) LTOE)
 	{
-	  drawbitmapinverse (pixmap, gc,
-			     organ[2], xx, y + extra, TOE_WIDTH, TOE_HEIGHT);
+	  drawfetachar (pixmap, gc,
+			     organ_char[2], xx, y + extra);
 	}
       if (*(enum ornament *) tmp->data == (enum ornament) D_ARPEGGIO)
-	drawbitmapinverse (pixmap, gc,
-			   options[24], xx, y + extra, ARPEGGIO_WIDTH,
-			   ARPEGGIO_HEIGHT);
+	drawfetachar (pixmap, gc,
+			   options_char[24], xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) UPPRALL)
-	drawbitmapinverse (pixmap, gc, options[23],
-			   xx, y + extra, UPPRALL_WIDTH, UPPRALL_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[23],
+			   xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) FLAGEOLET)
-	drawbitmapinverse (pixmap, gc, options[11],
-			   xx, y + extra, FLAGEOLET_SIZE, FLAGEOLET_SIZE);
+	drawfetachar (pixmap, gc, options_char[11],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) OPEN)
-	drawbitmapinverse (pixmap, gc, options[12],
-			   xx, y + extra, OPEN_WIDTH, OPEN_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[12],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALLMORDENT)
-	drawbitmapinverse (pixmap, gc, options[13],
-			   xx, y + extra, PRALLMORDENT_WIDTH,
-			   PRALLMORDENT_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[13],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALLPRALL)
-	drawbitmapinverse (pixmap, gc, options[14],
-			   xx, y + extra, PRALLPRALL_WIDTH,
-			   PRALLPRALL_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[14],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALL)
-	drawbitmapinverse (pixmap, gc, options[15],
-			   xx, y + extra, PRALL_WIDTH, PRALL_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[15],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) REVERSETURN)
-	drawbitmapinverse (pixmap, gc, options[16],
-			   xx, y + extra, REVERSETURN_WIDTH,
-			   REVERSETURN_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[16],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) SEGNO)
-	drawbitmapinverse (pixmap, gc, options[17],
-			   xx, y + extra, SEGNO_WIDTH, SEGNO_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[17],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) SFORZATO)
-	drawbitmapinverse (pixmap, gc, options[18],
-			   xx, y + extra, SFORZATO_WIDTH, SFORZATO_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[18],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) STOPPED)
-	drawbitmapinverse (pixmap, gc, options[19],
-			   xx, y + extra, STOPPED_SIZE, STOPPED_SIZE);
+	drawfetachar (pixmap, gc, options_char[19],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) THUMB)
-	drawbitmapinverse (pixmap, gc, options[20],
-			   xx, y + extra, THUMB_WIDTH, THUMB_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[20],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILLELEMENT)
-	drawbitmapinverse (pixmap, gc, options[21],
-			   xx, y + extra, TRILLELEMENT_WIDTH,
-			   TRILLELEMENT_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[21],
+			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILL_ELEMENT)
-	drawbitmapinverse (pixmap, gc, options[22],
-			   xx, y + extra, TRILL_ELEMENT_WIDTH,
-			   TRILL_ELEMENT_HEIGHT);
+	drawfetachar (pixmap, gc, options_char[22],
+			   xx, y + extra);
 
     }				//end for loop
 

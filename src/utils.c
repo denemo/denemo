@@ -105,6 +105,28 @@ drawbitmapinverse (GdkPixmap * pixmap, GdkGC * gc, GdkBitmap * mask, gint x,
   gdk_gc_set_clip_mask (gc, NULL);	/* Removes clip mask */
 }
 
+void
+drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
+{
+  int len;
+  char utf_string[8];
+  PangoContext *context =
+    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
+  PangoLayout *layout = pango_layout_new (context);
+  PangoFontDescription *desc = pango_font_description_from_string ( "feta26 35px" );
+  pango_context_load_font( context, desc );
+
+  len = g_unichar_to_utf8( uc, utf_string );
+
+  pango_layout_set_font_description (layout, desc);
+  pango_layout_set_text (layout,
+			 utf_string,
+			 len);
+  PangoLayoutLine *line = pango_layout_get_line_readonly( layout, 0 );
+
+  gdk_draw_layout_line (pixmap, gc, x, y, line);
+}
+
 /**
  * Utility function to set the number of ticks used by the given object
  * if it is within a given tuplet
