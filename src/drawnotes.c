@@ -346,14 +346,20 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
+	    cairo_t *cr = gdk_cairo_create( pixmap );
 	    if (nextmuditem)
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
 	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-	    gdk_draw_arc (pixmap, gc, FALSE,
-			  xx + headwidths[noteheadtype] / 2,
-			  y + thechord.lowesty + 3,
-			  arcwidth, 8, 64 * 180, 64 * 180);
+	    cairo_set_line_width( cr, 1.0 );
+	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
+	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
+	    cairo_stroke( cr );
+	    cairo_destroy( cr );
+//	    gdk_draw_arc (pixmap, gc, FALSE,
+//			  xx + headwidths[noteheadtype] / 2,
+//			  y + thechord.lowesty + 3,
+//			  arcwidth, 8, 64 * 180, 64 * 180);
 	  }
       }			/* End stemup stuff */
     else
@@ -426,14 +432,22 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
+	    cairo_t *cr = gdk_cairo_create( pixmap );
+
 	    if (nextmuditem)
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
 	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-	    gdk_draw_arc (pixmap, gc, FALSE,
-			  xx + headwidths[noteheadtype] / 2,
-			  y + thechord.highesty - 13,
-			  arcwidth, 8, 0, 64 * 180);
+	    cairo_set_line_width( cr, 1.0 );
+	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
+	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
+	    cairo_stroke( cr );
+	    cairo_destroy( cr );
+
+//	    gdk_draw_arc (pixmap, gc, FALSE,
+//			  xx + headwidths[noteheadtype] / 2,
+//			  y + thechord.highesty - 13,
+//			  arcwidth, 8, 0, 64 * 180);
 	  }
       }
     /* End stemdown stuff */
