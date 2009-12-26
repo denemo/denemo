@@ -195,6 +195,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  {
 	    name = 
 	      xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	    menupaths = NULL;//We allow multiple menupaths for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
 #ifdef DEBUG
 	    g_print ("Action %s\n", (gchar *) name);
 #endif /*DEBUG*/
@@ -249,7 +250,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	    gtk_action_group_add_action(action_group, action);
 	    /* create a scheme function to call this script */
 	    create_scheme_function_for_script(name);
-	  } 
+	  }
 	  if(menupath) {
 	      GList *g;
 	      for(g=menupaths;g;g=g->next){
