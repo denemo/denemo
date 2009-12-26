@@ -1120,11 +1120,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Execute the scheme code from the scripting window</tooltip>
       </row>
       <row>
-        <action>AppendMeasuresToScore</action>
-        <label>Append Measure To Score</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>SharpenEnharmonicSet</action>
         <label>Shift Accidentals Sharpwise</label>
         <tooltip>Shifts the set of accidentals one step sharper</tooltip>
@@ -2196,28 +2191,28 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>D.C.AlFine</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>D. C. al fine</label>
         <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>
       <row>
         <action>Allegro</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Allegro</label>
         <tooltip>Print Allegro in bold italics above the chord.</tooltip>
       </row>
       <row>
         <action>Andante</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Andante</label>
         <tooltip>Print Andante in bold italics above the chord.</tooltip>
       </row>
       <row>
         <action>Presto</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Presto</label>
         <tooltip>Print Presto in bold italics above the chord.</tooltip>
       </row>
@@ -2306,7 +2301,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>MetronomeMarking</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Metronome Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Give the duration in LilyPond notation.</tooltip>
       </row>
@@ -2376,14 +2371,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>Glissando</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>Glissando</label>
         <tooltip>Inserts a glissando</tooltip>
       </row>
       <row>
         <action>Fortissimo</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Fortissimo</label>
         <tooltip>Places a ff sign on the chord at the cursor</tooltip>
       </row>
@@ -2566,7 +2561,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>AllegroAssai</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Allegro Assai</label>
         <tooltip>Gives Allegro Assai tempo indication</tooltip>
       </row>
@@ -2659,7 +2654,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>MezzoForte</action>
         <after>Fortissimo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Mezzo Forte</label>
         <tooltip>Attach mf indication to a chord.</tooltip>
       </row>
@@ -2667,7 +2662,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>DeleteDynamic</action>
         <after>MezzoForte</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Delete</label>
         <tooltip>Deletes a dynamic attached to the chord at the cursor.</tooltip>
       </row>
@@ -2936,7 +2931,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>MezzoPiano</action>
         <after>MezzoForte</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Mezzo Piano</label>
         <tooltip>prints mp and outputs MIDI vol change#</tooltip>
       </row>
@@ -2944,7 +2939,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>Forte</action>
         <after>Fortissimo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Forte</label>
         <tooltip>Attaches Forte to chord and MIDI volume</tooltip>
       </row>
@@ -2999,7 +2994,7 @@ for second and subsequent systems</tooltip>
         <action>Largo</action>
         <after>Andante</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Largo</label>
         <tooltip>Attaches Largo to chord</tooltip>
       </row>
@@ -3023,7 +3018,7 @@ for second and subsequent systems</tooltip>
         <action>Adagio</action>
         <after>Largo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Adagio</label>
         <tooltip>Attaches tempo marking to chord at cursor</tooltip>
       </row>
@@ -3095,7 +3090,7 @@ for second and subsequent systems</tooltip>
         <action>SlurDown</action>
         <after>ToggleEndSlur</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
         <label>Slur Down</label>
         <tooltip>Prints slur below</tooltip>
       </row>
@@ -3103,7 +3098,7 @@ for second and subsequent systems</tooltip>
         <action>SlurUp</action>
         <after>SlurDown</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
         <label>Slur Up</label>
         <tooltip>Prints slurs up</tooltip>
       </row>
@@ -3111,7 +3106,7 @@ for second and subsequent systems</tooltip>
         <action>SlurNeutral</action>
         <after>SlurUp</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Slurs</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
         <label>Auto Slur Directions</label>
         <tooltip>Prints slurs as normal</tooltip>
       </row>

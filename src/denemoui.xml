@@ -415,24 +415,7 @@
      <menu action="ChordMenu">
          <menuitem action="AddNoteToChord"/>
          <menuitem action="RemoveNoteFromChord"/>
-     </menu>
-
-    <menu action="ClefMenu">
-        <menuitem action="InitialClef"/>
-        <menuitem action="InsertClef"/>
-    </menu>
-
-    <menu action="Key">
-        <menuitem action="InitialKey"/>
-        <menuitem action="InsertKey"/>
-    </menu>
-
-    <menu action="TimeSig">
-        <menuitem action="InitialTimeSig"/>
-        <menuitem action="InsertTimeSig"/>
-    </menu>
-
-     <menu action="Markings">
+    <menu action="Markings">
      <menu action="Dynamics">
 	<menuitem action="InsertDynamic"/>
 	<menuitem action="ToggleStartCrescendo"/>
@@ -444,13 +427,13 @@
      <menu action="Slurs">
 	<menuitem action="ToggleBeginSlur"/>
 	<menuitem action="ToggleEndSlur"/>
-    </menu>
-    <menu action="Articulations">
+     </menu>
+     <menu action="Articulations">
 		<menuitem action="ToggleStaccato"/>
 		<menuitem action="ToggleStaccatissimo"/>
 		<menuitem action="ToggleTenuto"/>
 		<menuitem action="ToggleAccent"/>
-    </menu>
+     </menu>
 
 	<menu action="Ornaments">
 	  <menuitem action="ToggleFermata"/>
@@ -476,8 +459,25 @@
 	  <menuitem action="ToggleCoda"/>
 	  <menuitem action="ToggleFermata"/>
         </menu>
-
      </menu>
+     </menu>
+
+    <menu action="ClefMenu">
+        <menuitem action="InitialClef"/>
+        <menuitem action="InsertClef"/>
+    </menu>
+
+    <menu action="Key">
+        <menuitem action="InitialKey"/>
+        <menuitem action="InsertKey"/>
+    </menu>
+
+    <menu action="TimeSig">
+        <menuitem action="InitialTimeSig"/>
+        <menuitem action="InsertTimeSig"/>
+    </menu>
+
+
 
 
 
