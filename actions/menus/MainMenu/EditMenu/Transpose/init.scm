@@ -6,6 +6,7 @@
 ;;;; public variables
       (define Transpose::SetTransposeInterval 0)
       (define Transpose::TransposeNote 0)
+      (define Transpose::TransposeNoteList 0)
       (define Transpose::Note "b,")
       (define Transpose::Interval "c b,")
 
@@ -195,7 +196,39 @@
 		  (d-ChangeChordNotes transposed_notelist)
 		  )) 
 	    ))))
-      
+     
+      (define Transpose::TransposeNoteList 
+        (lambda (string_of_notes)
+	  (let ( (numofnotes 0) 
+	  	 (outputlist '())
+		 (eachnote 0)
+		 (process_notelist 0)
+		 (transposed_notelist ""))
+
+	    (begin
+	      (set! process_notelist
+		(lambda (note)
+		  (set! Transpose::original-pitch (Transpose::lilyname->pitch note))
+		        (set! transposed_notelist 
+		        (string-append transposed_notelist (Transpose::pitch->lilyname(Transpose::transposed))))
+			(set! transposed_notelist (string-append transposed_notelist " "))
+		      ))
+
+	      (set! outputlist (string-split string_of_notes #\space))
+	      (set! numofnotes (length outputlist))
+	      (display "numofnotes = ")
+	      (display numofnotes)
+	      (newline)
+	      (if (= numofnotes 1)
+	        (begin
+	    	  (set! Transpose::original-pitch (Transpose::lilyname->pitch string_of_notes))
+	          (set! transposed_notelist (string-append (Transpose::pitch->lilyname(Transpose::transposed))))
+		  ))	  
+	      (if (> numofnotes 1)
+		  (map process_notelist outputlist))
+		  transposed_notelist
+	    ))))
+
       (define Transpose::init #t)))
 
 
