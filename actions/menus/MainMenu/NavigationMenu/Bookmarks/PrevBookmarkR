@@ -6,14 +6,14 @@
     <map>
       <row>
         <action>PrevBookmarkR</action>
-        <scheme>;;;Previous BookmarkR by Nils Gey
-(if (d-DirectiveGet-standalone-display "BookmarkR")
-(d-CursorLeft) 
-)
+        <scheme>;;;PrevBookMarkR by Nils Gey RTS
+(if (d-DirectiveGet-standalone-display "RehearsalMark")
+(d-CursorLeft) )
+;;; FIXME this fails if bookmark is at end of measure
 (let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "BookmarkR")) (d-CursorLeft)  )
-	(gotoBookmark))
-)</scheme>
+ (if  (and (not (d-DirectiveGet-standalone-display "RehearsalMark")) (d-PrevObject)  )
+	(gotoBookmark)))
+(d-RefreshDisplay)</scheme>
         <label>Prev Bookmark</label>
         <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
       </row>

@@ -34,6 +34,41 @@
       <menuitem action="Close"/>
       <menuitem action="Quit"/>
     </menu>
+    <menu action="NavigationMenu">
+      <menu action="Bookmarks">
+      </menu>
+      <menu action="Cursor">
+	<menuitem action="CursorLeft"/>
+	<menuitem action="CursorDown"/>
+	<menuitem action="CursorUp"/>
+	<menuitem action="CursorRight"/>
+	<separator/>
+	<menuitem action="OctaveUp"/>
+	<menuitem action="OctaveDown"/>
+	<separator/>
+	<menuitem action="StaffUp"/>
+	<menuitem action="StaffDown"/>
+        <menuitem action="VoiceUp"/>
+	<menuitem action="VoiceDown"/>
+	<separator/>
+	<menuitem action="MeasureLeft"/>
+	<menuitem action="MeasureRight"/>
+	<menuitem action="GoToMeasure"/>
+	<menuitem action="GoToBeginning"/>
+	<menuitem action="GoToEnd"/>
+	<menuitem action="GoToMark"/>
+	
+	<separator/>
+	
+	<menuitem action="PushPosition"/>
+	<menuitem action="PopPosition"/>
+	<menuitem action="PopPushPosition"/>
+      </menu> 
+      
+      
+    </menu>
+
+
     <menu action="EditMenu">
       <menuitem action="Undo"/>
       <menuitem action="Redo"/>
@@ -63,7 +98,10 @@
 
         <menuitem action="CommandManagement"/>
       </menu>
-        </menu>
+        <separator/>
+      <menuitem action="ClearOverlay"/>
+      <menuitem action="ExecuteScheme"/>
+    </menu>
     <menu action="ViewMenu">
       <menuitem action="ToggleScoreView"/>
       <menuitem action="TogglePrintView"/>
@@ -182,26 +220,98 @@
 	  <menuitem action="VoiceDown"/> 
     </menu>
 
+    <menu action="ClefMenu">
+        <menuitem action="InitialClef"/>
+        <menuitem action="InsertClef"/>
+    </menu>
 
-     <menu action="MeasureMenu">
-       <menuitem action="MeasureLeft"/>
-       <menuitem action="MeasureRight"/>
-	   <menuitem action="GoToMeasure"/>
-	   	<separator/>
-	   <menuitem action="InsertMeasure"/>
-	   <menuitem action="AddMeasure"/>
-	   <menuitem action="InsertMeasureBefore"/>
-	   <menuitem action="InsertMeasureAfter"/>
-	   <menuitem action="AppendMeasure"/>
-	   <menuitem action="AppendMeasureAllStaffs"/>
-           <menuitem action="DeleteMeasureAllStaffs"/>
-	   <menuitem action="DeleteMeasure"/>
-	<separator/>
-	<menu action="DisplayEffects">
-	   <menuitem action="ShrinkMeasures"/>
-	   <menuitem action="WidenMeasures"/>
+    <menu action="Key">
+        <menuitem action="InitialKey"/>
+        <menuitem action="InsertKey"/>
+    </menu>
+
+    <menu action="TimeSig">
+        <menuitem action="InitialTimeSig"/>
+        <menuitem action="InsertTimeSig"/>
+    </menu>
+
+
+    <menu action="MeasureMenu">
+      <menuitem action="MeasureLeft"/>
+      <menuitem action="MeasureRight"/>
+      <menuitem action="GoToMeasure"/>
+      <separator/>
+      <menuitem action="InsertMeasure"/>
+      <menuitem action="AddMeasure"/>
+      <menuitem action="InsertMeasureBefore"/>
+      <menuitem action="InsertMeasureAfter"/>
+      <menuitem action="AppendMeasure"/>
+      <menuitem action="AppendMeasureAllStaffs"/>
+      <menuitem action="DeleteMeasureAllStaffs"/>
+      <menuitem action="DeleteMeasure"/>
+      <separator/>
+      <menu action="DisplayEffects">
+	<menuitem action="ShrinkMeasures"/>
+	<menuitem action="WidenMeasures"/>
+      </menu>
+    </menu>
+    
+    <menu action="ChordMenu">
+      <menuitem action="AddNoteToChord"/>
+      <menuitem action="RemoveNoteFromChord"/>
+      <menuitem action="AttachLilyToChord"/>
+      
+      <menu action="Markings">
+	<menu action="Dynamics">
+	  <menuitem action="InsertDynamic"/>
+	  <menuitem action="ToggleStartCrescendo"/>
+	  <menuitem action="ToggleEndCrescendo"/>
+	  <menuitem action="ToggleStartDiminuendo"/>
+	  <menuitem action="ToggleEndDiminuendo"/>
 	</menu>
+	
+	<menu action="Slurs">
+	  <menuitem action="ToggleBeginSlur"/>
+	  <menuitem action="ToggleEndSlur"/>
+	</menu>
+	<menu action="Articulations">
+	  <menuitem action="ToggleStaccato"/>
+	  <menuitem action="ToggleStaccatissimo"/>
+	  <menuitem action="ToggleTenuto"/>
+	  <menuitem action="ToggleAccent"/>
+	</menu>	
+	<menu action="Ornaments">
+	  <menuitem action="ToggleFermata"/>
+	  <menuitem action="ToggleTrill"/>
+	  <menuitem action="ToggleTurn"/>
+	  <menuitem action="ToggleMordent"/>
+	  <menuitem action="TogglePrallMordent"/>
+	  <menuitem action="TogglePrallPrall"/>
+	  <menuitem action="TogglePrall"/>
+	  <menuitem action="ToggleReverseTurn"/>	  
+	  <menuitem action="ToggleUpprall"/>
+	  <menuitem action="ToggleArpeggio"/>
+	  <menuitem action="SetGrace"/>
+        </menu>
+        <menu action="TextMarks">
+	  <menuitem action="ToggleSegno"/>
+	  <menuitem action="ToggleCoda"/>
+	  <menuitem action="ToggleFermata"/>
+        </menu>
+	<menu action="ChordSymbols">
+	  <menuitem action="EditChords"/>
+	</menu>
+	<menu action="FiguredBass">
+	  <menuitem action="EditFiguredBass"/>
+	  <menuitem action="DeleteFiguredBass"/>
+	  <menuitem action="HideFiguredBass"/>
+	</menu>
+	
      </menu>
+     </menu>
+
+
+
 
      <menu action="NotesRests">
      <menu action="ModelessNote"> <!-- modeless note object menu -->
@@ -383,6 +493,10 @@
 	    <menuitem action="DeleteObject"/>
 	    <menuitem action="DeletePreviousObject"/>
           </menu>
+	  <menu action="Slurs">
+	    <menuitem action="ToggleBeginSlur"/>
+	    <menuitem action="ToggleEndSlur"/>
+	  </menu>
           <menu action="TiedNotes">
               <menuitem action="ToggleTie"/>
               <menuitem action="InsertTiedNote"/>
@@ -411,45 +525,22 @@
 	        <menuitem action="SetGrace"/>
            </menu>
 
-     </menu>  <!-- notes/rests object menu -->
-     <menu action="ChordMenu">
-         <menuitem action="AddNoteToChord"/>
-         <menuitem action="RemoveNoteFromChord"/>
-    <menu action="Markings">
-     <menu action="Dynamics">
-	<menuitem action="InsertDynamic"/>
-	<menuitem action="ToggleStartCrescendo"/>
-	<menuitem action="ToggleEndCrescendo"/>
-	<menuitem action="ToggleStartDiminuendo"/>
-	<menuitem action="ToggleEndDiminuendo"/>
-     </menu>
-
-     <menu action="Slurs">
-	<menuitem action="ToggleBeginSlur"/>
-	<menuitem action="ToggleEndSlur"/>
-     </menu>
-     <menu action="Articulations">
-		<menuitem action="ToggleStaccato"/>
-		<menuitem action="ToggleStaccatissimo"/>
-		<menuitem action="ToggleTenuto"/>
-		<menuitem action="ToggleAccent"/>
-     </menu>
-
+	   <menu action="Markings">
+	<menu action="Articulations">
+	  <menuitem action="ToggleStaccato"/>
+	  <menuitem action="ToggleStaccatissimo"/>
+	  <menuitem action="ToggleTenuto"/>
+	  <menuitem action="ToggleAccent"/>
+	</menu>	
 	<menu action="Ornaments">
 	  <menuitem action="ToggleFermata"/>
 	  <menuitem action="ToggleTrill"/>
 	  <menuitem action="ToggleTurn"/>
 	  <menuitem action="ToggleMordent"/>
-
-
-
 	  <menuitem action="TogglePrallMordent"/>
 	  <menuitem action="TogglePrallPrall"/>
 	  <menuitem action="TogglePrall"/>
-	  <menuitem action="ToggleReverseTurn"/>
-	 
-
-
+	  <menuitem action="ToggleReverseTurn"/>	  
 	  <menuitem action="ToggleUpprall"/>
 	  <menuitem action="ToggleArpeggio"/>
 	  <menuitem action="SetGrace"/>
@@ -459,89 +550,29 @@
 	  <menuitem action="ToggleCoda"/>
 	  <menuitem action="ToggleFermata"/>
         </menu>
-     </menu>
-     </menu>
+	     <menu action="Instruments">
+	       <menu action="StringedInstruments">
+       		 <menuitem action="ToggleFlageolet"/>
+		 <menuitem action="ToggleStopped"/>
+		 <menuitem action="ToggleThumb"/>
+		 <menuitem action="ToggleOpen"/>
+	       </menu>
+	     </menu>
+	   </menu>
+	   <menu action="Directives">
+	     <menuitem action="AttachLilyToNote"/>
+	   </menu>
+     </menu>  <!-- notes/rests object menu -->
 
-    <menu action="ClefMenu">
-        <menuitem action="InitialClef"/>
-        <menuitem action="InsertClef"/>
+
+    <menu action="Directives">
+      <menuitem action="InsertLilyDirective"/>	  
     </menu>
 
-    <menu action="Key">
-        <menuitem action="InitialKey"/>
-        <menuitem action="InsertKey"/>
-    </menu>
-
-    <menu action="TimeSig">
-        <menuitem action="InitialTimeSig"/>
-        <menuitem action="InsertTimeSig"/>
-    </menu>
-
-
-
-
-
-
-     <menu action="Cursor">
-       <menuitem action="CursorLeft"/>
-       <menuitem action="CursorDown"/>
-       <menuitem action="CursorUp"/>
-       <menuitem action="CursorRight"/>
-	<separator/>
-       <menuitem action="OctaveUp"/>
-       <menuitem action="OctaveDown"/>
-	<separator/>
-       <menuitem action="StaffUp"/>
-       <menuitem action="StaffDown"/>
-           <menuitem action="VoiceUp"/>
-       <menuitem action="VoiceDown"/>
-	<separator/>
-       <menuitem action="MeasureLeft"/>
-       <menuitem action="MeasureRight"/>
-       <menuitem action="GoToMeasure"/>
-       <menuitem action="GoToBeginning"/>
-       <menuitem action="GoToEnd"/>
-       <menuitem action="GoToMark"/>
-       
-	<separator/>
-
-       <menuitem action="PushPosition"/>
-       <menuitem action="PopPosition"/>
-       <menuitem action="PopPushPosition"/>
- 
-
-     </menu> 
-	<menu action="Bookmarks">
-	 
-	</menu>
-
-    <menu action="Instruments">
-       <menu action="StringedInstruments">
-       	  <menuitem action="ToggleFlageolet"/>
-	  <menuitem action="ToggleStopped"/>
-	  <menuitem action="ToggleThumb"/>
-	  <menuitem action="ToggleOpen"/>
-       </menu>
-    </menu>
     <menu action="Lyrics">
          <menuitem action="AddVerse"/>
          <menuitem action="DeleteVerse"/>
     </menu>
-    <menu action="Other">
-	  
-	  <menuitem action="EditChords"/>
-	  <menuitem action="EditFiguredBass"/>
-	  <menuitem action="DeleteFiguredBass"/>
-	  <menuitem action="HideFiguredBass"/>
-          <menuitem action="InsertLilyDirective"/>
-          <menuitem action="AttachLilyToChord"/>
-          <menuitem action="AttachLilyToNote"/>
-          <menuitem action="ClearOverlay"/>
-	  <menuitem action="ExecuteScheme"/>
-	  
-    </menu>
-
-
 
  </menubar>   
 

@@ -2105,42 +2105,42 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>Finger0</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 0</label>
         <tooltip>Inserts fingering for open string</tooltip>
       </row>
       <row>
         <action>Finger1</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 1</label>
         <tooltip>Inserts fingering for finger 1</tooltip>
       </row>
       <row>
         <action>Finger2</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 2</label>
         <tooltip>Inserts fingering for finger 2</tooltip>
       </row>
       <row>
         <action>Finger3</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 3</label>
         <tooltip>Inserts fingering for finger 3</tooltip>
       </row>
       <row>
         <action>Finger4</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 4</label>
         <tooltip>Inserts fingering for finger 4</tooltip>
       </row>
       <row>
         <action>Finger5</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
         <label>Finger 5</label>
         <tooltip>Inserts fingering for finger 5</tooltip>
       </row>
@@ -2161,14 +2161,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>DeleteLilyPondOnNote</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Other</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
         <label>Delete LilyPond on Note</label>
         <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
       </row>
       <row>
         <action>DeleteLilyPondOnChord</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Other</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Delete LilyPond on Chord</label>
         <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
       </row>
@@ -2224,14 +2224,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>LHFinger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings</menupath>
         <label>Left Hand Fingering</label>
         <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
       </row>
       <row>
         <action>StringNum</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives/Strings</menupath>
         <label>String Number</label>
         <tooltip>Followed by a number, places string number on note.</tooltip>
       </row>
@@ -2259,7 +2259,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>TmbalesStyle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <menupath>/MainMenu/EditMenu/MIDI</menupath>
         <label>Tmbales Style Staff</label>
         <tooltip>Changes to a drum staff</tooltip>
       </row>
@@ -2404,13 +2404,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>No Beam Here</label>
         <tooltip>Prints note without any beam attached.</tooltip>
       </row>
-      <row>
-        <action>TimbalesStyle</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
-        <label>Timbales Style Staff</label>
-        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
-      </row>
+
       <row>
         <action>MovementPageBreak</action>
         <scheme></scheme>
@@ -2633,7 +2627,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <menupath>/MainMenu/Edit/MIDI</menupath>
         <label>Drum GM2 Custom </label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
@@ -2679,7 +2673,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>NextBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Next Bookmark</label>
         <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
         <bind>F12</bind>
@@ -2687,23 +2681,24 @@ for second and subsequent systems</tooltip>
       <row>
         <action>PrevBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Prev Bookmark</label>
         <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
         <bind>F11</bind>
       </row>
       <row>
-        <action>Bookmark</action>
+        <action>RehearsalMark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
-        <label>Add Bookmark</label>
-        <tooltip>Adds a Denemo bookmark combined with a default Lilypond Rehearsal Mark</tooltip>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
+	<menupath>/ObjectMenu/Directives</menupath>
+        <label>Add Rehearsal/Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</tooltip>
         <bind>F9</bind>
       </row>
       <row>
         <action>BookmarkNamed</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add named Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
         <bind>Shift+F9</bind>
@@ -2711,7 +2706,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>BookmarkNonPrinting</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add non-printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
         <bind>Shift+Control+F9</bind>
@@ -2719,7 +2714,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SearchBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Search Bookmark</label>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
         <bind>F10</bind>

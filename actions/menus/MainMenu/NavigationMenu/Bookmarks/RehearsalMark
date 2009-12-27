@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>RehearsalMark</action>
+        <scheme>;;; BookmarkR
+;;; Bookmark + RehearsalMark
+;;; by Nils Gey Modified RTS
+(d-DirectivePut-standalone-display "RehearsalMark" "")
+(d-CursorLeft)
+(d-DirectivePut-standalone-postfix "RehearsalMark"  " \\mark \\default" )
+(d-DirectivePut-standalone-gx  "RehearsalMark"  -20)
+(d-DirectivePut-standalone-gy  "RehearsalMark"  -30)
+(d-DirectivePut-standalone-minpixels  "RehearsalMark"  10)
+(d-DirectivePut-standalone-graphic "RehearsalMark" "RehearsalMark")
+(d-CursorRight)
+(d-RefreshDisplay)
+</scheme>
+        <label>Add Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Lilypond Rehearsal Mark</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
