@@ -3122,7 +3122,13 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
         <bind>KP_Enter</bind>
       </row>
-
+      <row>
+        <action>MidiTempo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Set Tempo</label>
+        <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
+      </row>
 
     </map>
   </commands>

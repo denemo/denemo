@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Tempo</action>
+        <action>MidiTempo</action>
         <scheme>;;; Tempo Change, Midi only.
 (let ((DurationFromInput "1" ) (TempoFromInput "120"))
 (set! DurationFromInput (d-GetOption (string-append "Quarter" stop "Dotted Quarter" stop)))
@@ -24,7 +24,7 @@
 (d-DirectivePut-standalone-ty "Tempo" -40))
 
 (d-RefreshDisplay)</scheme>
-        <label>Tempochange</label>
+        <label>Tempo Change</label>
         <tooltip>Adds a Tempo Change, non-printing.</tooltip>
       </row>
     </map>

@@ -2566,7 +2566,7 @@ for second and subsequent systems</tooltip>
         <action>GoToEmptyMeasure</action>
         <after>GoToMeasure</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <label>Go To Next Empty Measure</label>
         <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
       </row>
@@ -2922,7 +2922,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>MidiTempo</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Midi</menupath>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Set Tempo</label>
         <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
       </row>    
