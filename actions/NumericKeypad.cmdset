@@ -3129,7 +3129,22 @@ for second and subsequent systems</tooltip>
         <label>Set Tempo</label>
         <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
       </row>
-
+      <row>
+        <action>Tempo</action>
+        <after>RehearsalMark</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Tempo Chooser</label>
+        <tooltip>Allows selection of a tempo indication for printing.</tooltip>
+      </row>
+      <row>
+        <action>MM</action>
+        <after>Tempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Metronome Mark</label>
+        <tooltip>Prints a metronome mark.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
