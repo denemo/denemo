@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>RehearsalMark</after>
+        <action>Tempo</action>
+        <scheme>;;;Tempo
+(let ((choice #f) (replace #f))
+(if (equal? (d-GetType) "LILYDIRECTIVE" )
+(if (equal? (d-DirectiveGetTag-standalone) "Tempo" )
+(set! replace #t )
+)
+)
+(set! choice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop "Andante" stop "Adagio" stop "Largo" stop "Other" stop )))
+
+(if (equal? choice "Other") (set! choice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) ) )
+( if (not (boolean? choice) )
+(begin
+( if (equal? replace #f ) (d-DirectivePut-standalone "Tempo" ) )
+(d-DirectivePut-standalone-postfix "Tempo" (string-append "\\tempo " choice ))
+(d-DirectivePut-standalone-display "Tempo" choice)
+(d-DirectivePut-standalone-minpixels "Tempo" 10 )
+(d-DirectivePut-standalone-ty "Tempo" 90 )
+(d-RefreshDisplay)
+(d-CursorRight)
+)
+))</scheme>
+        <label>Tempo Chooser</label>
+        <tooltip>Allows selection of a tempo indication for printing.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
