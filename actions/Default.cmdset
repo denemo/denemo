@@ -2105,42 +2105,42 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>Finger0</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 0</label>
         <tooltip>Inserts fingering for open string</tooltip>
       </row>
       <row>
         <action>Finger1</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 1</label>
         <tooltip>Inserts fingering for finger 1</tooltip>
       </row>
       <row>
         <action>Finger2</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 2</label>
         <tooltip>Inserts fingering for finger 2</tooltip>
       </row>
       <row>
         <action>Finger3</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 3</label>
         <tooltip>Inserts fingering for finger 3</tooltip>
       </row>
       <row>
         <action>Finger4</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 4</label>
         <tooltip>Inserts fingering for finger 4</tooltip>
       </row>
       <row>
         <action>Finger5</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 5</label>
         <tooltip>Inserts fingering for finger 5</tooltip>
       </row>
@@ -2168,7 +2168,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>DeleteLilyPondOnChord</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Directives</menupath>
+	<menupath>/ObjectMenu/ChordMenu/Directives</menupath>
         <label>Delete LilyPond on Chord</label>
         <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
       </row>
@@ -2224,14 +2224,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>LHFinger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>Left Hand Fingering</label>
         <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
       </row>
       <row>
         <action>StringNum</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Directives/Strings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>String Number</label>
         <tooltip>Followed by a number, places string number on note.</tooltip>
       </row>
@@ -2552,14 +2552,14 @@ for second and subsequent systems</tooltip>
         <action>ParenthesizeChord</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu</menupath>
-        <label>No label</label>
+        <label>Parenthesize Chord</label>
         <tooltip>Enclose the chord in ( ) on printing.</tooltip>
       </row>
       <row>
         <action>ParenthesizeNote</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
-        <label>No label</label>
+        <label>Parenthesize Note</label>
         <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
       </row>
       <row>
