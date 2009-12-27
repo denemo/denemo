@@ -19,7 +19,7 @@
  *
  */
 void
-draw_cursor (GdkPixmap * pixmap, DenemoScore * si,
+draw_cursor (cairo_t *cr, DenemoScore * si,
 	     gint xx, gint y, input_mode mode, gint dclef)
 {
   gint height = calculateheight (si->cursor_y, dclef);
@@ -45,9 +45,13 @@ draw_cursor (GdkPixmap * pixmap, DenemoScore * si,
   paintgc = (mode & INPUTREST) ? graygc :
     (mode & INPUTBLANK) ? bluegc :
     (mode & INPUTEDIT) ? purplegc : si->cursoroffend ? redgc : greengc;
-  gdk_draw_rectangle (pixmap, paintgc, TRUE, xx, height + y - CURSOR_MINUS,
-		      CURSOR_WIDTH, CURSOR_HEIGHT);
+
+  cairo_save( cr );
+  setcairocolor( cr, paintgc );
+  cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
+  cairo_fill( cr );
+  cairo_restore( cr );
 
   /* Now draw ledgers if necessary and we're done */
-  draw_ledgers (pixmap, blackgc, height, height, xx, y, CURSOR_WIDTH);
+  draw_ledgers (cr, height, height, xx, y, CURSOR_WIDTH);
 }

@@ -29,11 +29,11 @@ gunichar acc_char[NUMACCTYPES] =
  *
  */
 void
-draw_accidental (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint aggheight,
+draw_accidental (cairo_t *cr, gint xx, gint aggheight,
 		 gint enshift)
 {
   gint n = enshift + 2;		/* convenient index into arrays */
 
-  drawfetachar (pixmap, gc, acc_char[n],
+  drawfetachar_cr (cr, acc_char[n],
 		     xx, aggheight);
 }

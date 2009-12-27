@@ -10,6 +10,7 @@
 #include "drawingprims.h"
 #include "notewidths.h"
 #include "gcs.h"
+#include <math.h>
 
 
 gint restwidths[SMALLESTDURATION + 1] =
@@ -25,18 +26,16 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
  *
  */
 static void
-draw_dots (GdkPixmap * pixmap, GdkGC * gc,
+draw_dots (cairo_t *cr,
 	   gint xstart, gint ystart, gint numdots)
 {
   gint thinrecty = ystart - 2, shortrecty = ystart - 1;
 
-  xstart += 2;
+  xstart += 4;
   for (; numdots; numdots--, xstart += 6)
     {
-      /* Thin rectangle */
-      gdk_draw_rectangle (pixmap, gc, TRUE, xstart + 1, thinrecty, 2, 4);
-      /* Short rectangle */
-      gdk_draw_rectangle (pixmap, gc, TRUE, xstart, shortrecty, 4, 2);
+      cairo_arc( cr, xstart, ystart, 1.5, 0.0, 2*M_PI );
+      cairo_fill( cr );
     }
 }
 
@@ -46,7 +45,7 @@ draw_dots (GdkPixmap * pixmap, GdkGC * gc,
  *
  */
 void
-draw_rest (GdkPixmap * pixmap, GdkGC * gc,
+draw_rest (cairo_t *cr,
 	   gint duration, gint numdots, gint xx, gint y)
 {
   static gint restoffsets[SMALLESTDURATION + 1] =
@@ -62,10 +61,11 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
     { 0x20, 0x21, 0x27, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e
   };
 
-  drawfetachar (pixmap, gc, rest_char[duration],
+  drawfetachar_cr (cr, rest_char[duration],
 		     xx, y + restoffsets[duration]);
   /* Now draw any trailing dots and we're done */
-  draw_dots (pixmap, gc, xx + restwidths[duration],
+
+  draw_dots (cr, xx + restwidths[duration],
 	     y + restoffsets[duration] , numdots);
 }
 
@@ -75,7 +75,7 @@ draw_rest (GdkPixmap * pixmap, GdkGC * gc,
  *
  */
 void
-draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
+draw_notehead (cairo_t *cr,
 	       note * thenote, gint duration, gint numdots,
 	       gint xx, gint y, gint * accs, gint is_stemup)
 {
@@ -120,7 +120,7 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
      in the chord.  */
   if (thenote->showaccidental)
     {
-      draw_accidental (pixmap, gc, xx - thenote->position_of_accidental,
+      draw_accidental (cr, xx - thenote->position_of_accidental,
 		       y + height, enshift);
       accs[pitch] = enshift;
     }
@@ -131,14 +131,14 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
     else
       xx -= headwidths[noteheadtype];
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
-    drawfetachar (pixmap, gc, head_char[noteheadtype],
+    drawfetachar_cr ( cr, head_char[noteheadtype],
 		       xx, y + height);
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
-      draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
+      draw_dots (cr, xx + headwidths[noteheadtype],
 		 y + height - HALF_LINE_SPACE, numdots);
     else
-      draw_dots (pixmap, gc, xx + headwidths[noteheadtype],
+      draw_dots (cr, xx + headwidths[noteheadtype],
 		 y + height, numdots);
   }
   
@@ -151,37 +151,14 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
     if(directive->graphic) {
       gint width, height;
       gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-      drawbitmapinverse (pixmap, gc, (GdkBitmap *)directive->graphic,
+      drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
 			 xx+directive->gx+count,  y+thenote->y+directive->gy/*thechord.highesty*/, width, height);
 
     }
     if(directive->display) {
-      //      g_string_append(gstr, directive->display->str);
-      PangoContext *context =
-	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-      PangoLayout *layout = pango_layout_new (context);
-      PangoFontDescription *desc = pango_font_description_from_string (FONT);
-      pango_layout_set_text (layout,
-			     directive->display->str,
-			     -1);
-      pango_layout_set_font_description (layout, desc);
-      gdk_draw_layout (pixmap, gc, xx+directive->tx+count, y+thenote->y+directive->ty, layout);
+      drawnormaltext_cr (cr, directive->display->str, xx+directive->tx+count, y+thenote->y+directive->ty ); 
     }
   }
-#if 0
-  if(gstr->len) {
-      PangoContext *context =
-	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-      PangoLayout *layout = pango_layout_new (context);
-      PangoFontDescription *desc = pango_font_description_from_string (FONT);
-      pango_layout_set_text (layout,
-			     gstr->str,
-			     -1);
-      pango_layout_set_font_description (layout, desc);
-      gdk_draw_layout (pixmap, gc, xx+20, y+thenote->y, layout);
-      g_string_free(gstr, TRUE);
-  }
-#endif
  }
 }
 
@@ -190,7 +167,7 @@ draw_notehead (GdkPixmap * pixmap, GdkGC * gc,
  *
  */
 void
-draw_ledgers (GdkPixmap * pixmap, GdkGC * gc,
+draw_ledgers (cairo_t *cr,
 	      gint greaterheight, gint lesserheight,
 	      gint xx, gint y, gint width)
 {
@@ -198,17 +175,24 @@ draw_ledgers (GdkPixmap * pixmap, GdkGC * gc,
 
 #define EXTRA_ON_LEDGER 3
 
+  cairo_set_line_width( cr, 1.0 );
   /* Draw the top ledger lines */
   for (ledgerheight = -LINE_SPACE; ledgerheight >= greaterheight;
        ledgerheight -= LINE_SPACE)
-    gdk_draw_line (pixmap, gc, xx - EXTRA_ON_LEDGER, ledgerheight + y,
-		   xx + width + EXTRA_ON_LEDGER, ledgerheight + y);
+  {
+    cairo_move_to( cr, xx - EXTRA_ON_LEDGER+0.5, ledgerheight + y+0.5 );
+    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER-0.5, ledgerheight + y+0.5 );
+  }
 
   /* Almost identically, draw the bottom ones */
   for (ledgerheight = STAFF_HEIGHT + LINE_SPACE;
        ledgerheight <= lesserheight; ledgerheight += LINE_SPACE)
-    gdk_draw_line (pixmap, gc, xx - 2, ledgerheight + y, xx + width + 2,
-		   ledgerheight + y);
+  {
+    cairo_move_to( cr, xx - EXTRA_ON_LEDGER+0.5, ledgerheight + y+0.5 );
+    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER-0.5, ledgerheight + y+0.5 );
+  }
+
+  cairo_stroke( cr );
 }
 
 /**
@@ -216,7 +200,7 @@ draw_ledgers (GdkPixmap * pixmap, GdkGC * gc,
  *
  */
 void
-draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
+draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    gint mwidth, gint * accs, gboolean selected)
 {
 
@@ -252,22 +236,28 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
   gint prevbaseduration, nextbaseduration;
   GList *curnode;
 
+  cairo_save(cr);
+  cairo_set_line_width( cr, 1.0 );
 
 #if 0
   if (thechord.is_highlighted)
     gc = gcs_bluegc ();
 #endif
   if (mudelaitem->isinvisible)
-    gc = selected?gcs_bluegc():gcs_yellowgc ();
+    if (selected)
+      cairo_set_source_rgb( cr, 0, 1, 0 ); 
+    else
+      cairo_set_source_rgb( cr, 1, 0, 1 ); 
+
 
   if (!thechord.notes/* a rest */) {
      if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC))
-       draw_rest (pixmap, gc, duration, thechord.numdots, xx, y);  
+       draw_rest (cr, duration, thechord.numdots, xx, y);  
   }  else {
     /* Draw the noteheads and accidentals */
     
     for (curnode = thechord.notes; curnode; curnode = curnode->next)
-      draw_notehead (pixmap, gc, (note *) curnode->data, duration,
+      draw_notehead (cr, (note *) curnode->data, duration,
 		     thechord.numdots, xx, y, accs, thechord.is_stemup);
     
     /* Now the stem and beams. This is complicated. */
@@ -278,7 +268,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  {
 	    if (duration >= 3)
 	      /* Up-pointing stem pixmap */
-	      drawfetachar (pixmap, gc, upstem_char[duration],
+	      drawfetachar_cr (cr, upstem_char[duration],
 				 xx + NOTEHEAD_WIDTH,
 				 thechord.highesty + y + 3
 				 - (duration == 6 ? EXTRA_STEM_HEIGHT
@@ -287,11 +277,12 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	else if (nextmuditem && !mudelaitem->isend_beamgroup)
 	  {
 	    /* Draw the thin beam across the gap */
-	    gdk_draw_rectangle (pixmap, gc, TRUE,
+	    cairo_rectangle (cr,
 				xx + headwidths[noteheadtype] - 1,
 				y + thechord.stemy,
 				nextmuditem->x - mudelaitem->x,
 				THINBEAM_HEIGHT);
+	    cairo_fill(cr);
 	    if (mudelaitem->isstart_beamgroup || !prevmuditem)
 	      prevbaseduration = 0;
 	    else
@@ -303,19 +294,23 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 		 i <= thechord.baseduration;
 		 i++, beampainty += SUBSQBEAMSPACE)
 	      {
-		if (nextbaseduration >= i)
+		if (nextbaseduration >= i) {
 		  /* Draw a thick beam across the gap */
-		  gdk_draw_rectangle (pixmap, gc, TRUE,
+		  cairo_rectangle (cr,
 				      xx + headwidths[noteheadtype] - 1,
 				      y + beampainty,
 				      nextmuditem->x - mudelaitem->x,
 				      THICKBEAM_HEIGHT);
-		else if (prevbaseduration < i)
+		  cairo_fill(cr);
+
+		} else if (prevbaseduration < i) {
 		  /* Draw a stub to the right of the staff */
-		  gdk_draw_rectangle (pixmap, gc, TRUE,
+		  cairo_rectangle (cr,
 				      xx + headwidths[noteheadtype] - 1,
 				      y + beampainty, STUB_WIDTH,
 				      THICKBEAM_HEIGHT);
+		  cairo_fill( cr );
+		}
 	      }		/* end for loop */
 	  }			/* end drawing for non-end-beamgroup notes */
 	else
@@ -329,28 +324,32 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 		   i++, beampainty += SUBSQBEAMSPACE)
 		{
 		  /* Draw a stub to the left of the staff */
-		  gdk_draw_rectangle (pixmap, gc, TRUE,
+		  cairo_rectangle (cr,
 				      xx + headwidths[noteheadtype] - 1 -
 				      STUB_WIDTH, y + beampainty, STUB_WIDTH,
 				      THICKBEAM_HEIGHT);
+		  cairo_fill(cr);
 		}
 	  }
 	
-	if (duration > 0)
+	if (duration > 0) {
 	  /* Vertical line */
-	  gdk_draw_line (pixmap, gc, xx + headwidths[noteheadtype] - 1,
-			 thechord.stemy + y,
-			 xx + headwidths[noteheadtype] - 1,
-			 thechord.lowesty + y);
+	  cairo_move_to( cr, xx + headwidths[noteheadtype] - 0.5, thechord.stemy + y );
+	  cairo_line_to( cr, xx + headwidths[noteheadtype] - 0.5, thechord.lowesty + y );
+	  cairo_stroke( cr );
+	}
+
 	
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
-	    cairo_t *cr = gdk_cairo_create( pixmap );
+	    //setcairocolor( cr, gc );
+
 	    if (nextmuditem)
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
 	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
+
 	    cairo_set_line_width( cr, 1.0 );
 	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
 	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
@@ -368,7 +367,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	  {
 	    if (duration >= 3)
 	      /* Down-pointing stem */
-	      drawfetachar (pixmap, gc, downstem_char[duration],
+	      drawfetachar_cr (cr, downstem_char[duration],
 				 xx + 1,
 				 thechord.lowesty + y 
 				 + (duration == 6 ? EXTRA_STEM_HEIGHT
@@ -378,10 +377,11 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 	else if ((nextmuditem) && !mudelaitem->isend_beamgroup)
 	  {
 	    /* Draw the thin beam across the gap */
-	    gdk_draw_rectangle (pixmap, gc, TRUE, xx,
-				y + thechord.stemy - THINBEAM_HEIGHT + 1,
-				nextmuditem->x - mudelaitem->x,
-				THINBEAM_HEIGHT);
+	    cairo_rectangle( cr, xx, y + thechord.stemy - THINBEAM_HEIGHT + 1,
+			     nextmuditem->x - mudelaitem->x,
+			     THINBEAM_HEIGHT);
+	    cairo_fill( cr );
+
 	    if (mudelaitem->isstart_beamgroup)
 	      prevbaseduration = 0;
 	    else
@@ -395,16 +395,19 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 		 i <= thechord.baseduration;
 		 i++, beampainty -= SUBSQBEAMSPACE)
 	      {
-		if (nextbaseduration >= i)
+		if (nextbaseduration >= i) {
 		  /* Draw a thick beam across the gap */
-		  gdk_draw_rectangle (pixmap, gc, TRUE, xx,
-				      y + beampainty,
-				      nextmuditem->x - mudelaitem->x,
-				      THICKBEAM_HEIGHT);
-		else if (prevbaseduration < i)
+		  cairo_rectangle( cr, xx, y + beampainty,
+		      nextmuditem->x - mudelaitem->x,
+		      THICKBEAM_HEIGHT);
+		  cairo_fill( cr );
+
+		} else if (prevbaseduration < i) {
 		  /* Draw a stub to the right of the staff */
-		  gdk_draw_rectangle (pixmap, gc, TRUE, xx, y + beampainty,
+		  cairo_rectangle (cr, xx, y + beampainty,
 				      STUB_WIDTH, THICKBEAM_HEIGHT);
+		  cairo_fill(cr);
+		}
 	      }		/* End for loop */
 	  }			/* End drawing for non-end-beamgroup notes */
 	else
@@ -419,21 +422,22 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
 		 i++, beampainty += SUBSQBEAMSPACE)
 	      {
 		/* Draw a stub to the left of the staff */
-		gdk_draw_rectangle (pixmap, gc, TRUE, xx - STUB_WIDTH,
+		cairo_rectangle (cr, xx - STUB_WIDTH,
 				    y + beampainty, STUB_WIDTH,
 				    THICKBEAM_HEIGHT);
+		cairo_fill(cr);
 	      }
 	  }
 	
-	if (duration > 0)
+	if (duration > 0) {
 	  /* Vertical line */
-	  gdk_draw_line (pixmap, gc, xx, thechord.highesty + y, xx,
-			 thechord.stemy + y);
+	  cairo_move_to( cr, xx+0.5, thechord.highesty + y );
+	  cairo_line_to( cr, xx+0.5, thechord.stemy + y );
+	  cairo_stroke( cr );
+	}
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
-	    cairo_t *cr = gdk_cairo_create( pixmap );
-
 	    if (nextmuditem)
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
@@ -452,8 +456,8 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
       }
     /* End stemdown stuff */
     
-    draw_articulations (pixmap, gc, thechord, xx, y); 
-    draw_ledgers (pixmap, gc, thechord.highesty, thechord.lowesty, xx, y,
+    draw_articulations (cr, thechord, xx, y); 
+    draw_ledgers (cr, thechord.highesty, thechord.lowesty, xx, y,
 		  headwidths[noteheadtype]);  
     
   }				/* end else if there are notes in the chord*/
@@ -464,23 +468,16 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
     if(directive->graphic) {
       gint width, height;
       gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-      drawbitmapinverse (pixmap, gc, (GdkBitmap*)directive->graphic,
+      drawbitmapinverse_cr (cr, (GdkBitmap*)directive->graphic,
 			 xx+directive->gx, y+directive->gy, width, height);
     }
     if(directive->display) {
-      PangoContext *context =
-	gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-      PangoLayout *layout = pango_layout_new (context);
-      PangoFontDescription *desc = pango_font_description_from_string (FONT);
-      pango_layout_set_text (layout,
-			     directive->display->str,
-			     -1);
-      pango_layout_set_font_description (layout, desc);
-      gdk_draw_layout (pixmap, gc, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty, layout);
+      drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
       count += 16;
     }
   } //for each chord directive
   }//block displaying chord directives
+  cairo_restore (cr);
 }
 
 
@@ -490,7 +487,7 @@ draw_chord (GdkPixmap * pixmap, GdkGC * gc, objnode * curobj, gint xx, gint y,
  *
  */
 void
-draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
+draw_articulations (cairo_t * cr,
 		    chord thechord, gint xx, gint y)
 {
 
@@ -527,24 +524,24 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
       g_print ("ornament %d\n", *(enum ornament *) (tmp->data));
 #endif
       if (*(enum ornament *) tmp->data == (enum ornament) STACCATO)
-	drawfetachar (pixmap, gc, options_char[4],
+	drawfetachar_cr (cr, options_char[4],
 			   xx + NOTEHEAD_WIDTH / 2,
 			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TENUTO)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   options_char[5], xx,
 			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) STACCATISSIMO)
-	drawfetachar (pixmap, gc, options_char[6],
+	drawfetachar_cr (cr, options_char[6],
 			   xx + NOTEHEAD_WIDTH / 2,
 			   y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) D_ACCENT)
-	drawfetachar (pixmap, gc, options_char[2],
+	drawfetachar_cr (cr, options_char[2],
 			   xx + 2, y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) MARCATO)
-	drawfetachar (pixmap, gc, options_char[8],
+	drawfetachar_cr (cr, options_char[8],
 			   xx + 2, y + extra);
 
 
@@ -553,99 +550,99 @@ draw_articulations (GdkPixmap * pixmap, GdkGC * gc,
        * effect.
        */
       if (*(enum ornament *) tmp->data == (enum ornament) FERMATA)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   options_char[0], xx - FERMATA_WIDTH / 4,
 			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) CODA)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   options_char[10], xx - CODA_WIDTH / 4,
 			   y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILL)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   noteoptions_char[0], xx - TRILL_WIDTH / 4,
 			   y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) TURN)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   noteoptions_char[1], xx - TURN_WIDTH / 4,
 			   y + extra);
 
       else if (*(enum ornament *) tmp->data == (enum ornament) MORDENT)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   noteoptions_char[2], xx - MORDENT_WIDTH / 4,
 			   y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) DBOW)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   strings_char[0], xx, y + extra);
       else if (*(enum ornament *) tmp->data == (enum ornament) UBOW)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   strings_char[1], xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) RHEEL)
 	{
-	  drawfetachar (pixmap, gc,
+	  drawfetachar_cr (cr,
 			     organ_char[1], xx, y + extra);
 	}
       else if (*(enum ornament *) tmp->data == (enum ornament) LHEEL)
 	{
-	  drawfetachar (pixmap, gc,
+	  drawfetachar_cr (cr,
 			     organ_char[0], xx, y + extra);
 	}
 
       if (*(enum ornament *) tmp->data == (enum ornament) RTOE)
 	{
-	  drawfetachar (pixmap, gc,
+	  drawfetachar_cr (cr,
 			     organ_char[3], xx, y + extra);
 	}
       else if (*(enum ornament *) tmp->data == (enum ornament) LTOE)
 	{
-	  drawfetachar (pixmap, gc,
+	  drawfetachar_cr (cr,
 			     organ_char[2], xx, y + extra);
 	}
       if (*(enum ornament *) tmp->data == (enum ornament) D_ARPEGGIO)
-	drawfetachar (pixmap, gc,
+	drawfetachar_cr (cr,
 			   options_char[24], xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) UPPRALL)
-	drawfetachar (pixmap, gc, options_char[23],
+	drawfetachar_cr (cr, options_char[23],
 			   xx, y + extra);
 
       if (*(enum ornament *) tmp->data == (enum ornament) FLAGEOLET)
-	drawfetachar (pixmap, gc, options_char[11],
+	drawfetachar_cr (cr, options_char[11],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) OPEN)
-	drawfetachar (pixmap, gc, options_char[12],
+	drawfetachar_cr (cr, options_char[12],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALLMORDENT)
-	drawfetachar (pixmap, gc, options_char[13],
+	drawfetachar_cr (cr, options_char[13],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALLPRALL)
-	drawfetachar (pixmap, gc, options_char[14],
+	drawfetachar_cr (cr, options_char[14],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) PRALL)
-	drawfetachar (pixmap, gc, options_char[15],
+	drawfetachar_cr (cr, options_char[15],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) REVERSETURN)
-	drawfetachar (pixmap, gc, options_char[16],
+	drawfetachar_cr (cr, options_char[16],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) SEGNO)
-	drawfetachar (pixmap, gc, options_char[17],
+	drawfetachar_cr (cr, options_char[17],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) SFORZATO)
-	drawfetachar (pixmap, gc, options_char[18],
+	drawfetachar_cr (cr, options_char[18],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) STOPPED)
-	drawfetachar (pixmap, gc, options_char[19],
+	drawfetachar_cr (cr, options_char[19],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) THUMB)
-	drawfetachar (pixmap, gc, options_char[20],
+	drawfetachar_cr (cr, options_char[20],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILLELEMENT)
-	drawfetachar (pixmap, gc, options_char[21],
+	drawfetachar_cr (cr, options_char[21],
 			   xx, y + extra);
       if (*(enum ornament *) tmp->data == (enum ornament) TRILL_ELEMENT)
-	drawfetachar (pixmap, gc, options_char[22],
+	drawfetachar_cr (cr, options_char[22],
 			   xx, y + extra);
 
     }				//end for loop

@@ -41,20 +41,17 @@ pop_slur_stack (GSList * slur_stack)
 }
 
 void
-draw_slur (GdkPixmap * pixmap, GdkGC * gc, GSList ** slur_stack,
+draw_slur (cairo_t * cr, GSList ** slur_stack,
 	   gint x2, gint y)
 {
   gint x1 = top_slur_stack (*slur_stack);
   if (x1 != -1)
     {
-      cairo_t *cr = gdk_cairo_create( pixmap );
       *slur_stack = pop_slur_stack (*slur_stack);
-      //gdk_draw_arc (pixmap, gc, FALSE, x1, y - 15, x2 - x1, 8, 0, 64 * 180);
 
       cairo_set_line_width( cr, 1.0 );
       cairo_move_to( cr, x1, y - 15 );
       cairo_rel_curve_to( cr, (x2-x1)/3, -8, (x2-x1)*2/3, -8, (x2-x1), 0 );
       cairo_stroke( cr );
-      cairo_destroy( cr );
     }
 }

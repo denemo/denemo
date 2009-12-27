@@ -15,50 +15,40 @@
  *
  */
 void
-draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
+draw_lily_dir (cairo_t *cr,
 	       gint xx, gint y, gint highy, gint lowy, DenemoObject * theobj, gboolean selected)
 {
   lilydirective *lily = ((lilydirective *) theobj->object);
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string (FONT);
   gchar *first = (lily->postfix && lily->postfix->len)? lily->postfix->str:" ";
 
   if(lily->graphic){
     gint width = lily->width;
     gint  height = lily->height;  
-    drawbitmapinverse (pixmap, gc, (GdkBitmap *)lily->graphic,
+    drawbitmapinverse_cr (cr, (GdkBitmap *)lily->graphic,
 		     xx + lily->gx, y + lily->gy, width, height);
   }
   else
-    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx/*-2*/, y, 10, STAFF_HEIGHT);
+  {
+    cairo_save(cr);
+    if(selected)
+      cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );
+    else
+      cairo_set_source_rgb( cr, 0.0, 1.0, 0.0 );
+
+    cairo_rectangle (cr, xx/*-2*/, y, 10, STAFF_HEIGHT);
+    cairo_fill( cr );
+    cairo_restore(cr);
+  }
   if(lily->display) {  //store display position x,y as well
-    pango_layout_set_text (layout,
-			   lily->display->str,
-			   -1);
-    pango_layout_set_font_description (layout, desc);
-    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx+ lily->tx/*+display x */, y+lowy+lily->ty/*+display y */, layout);
+    drawnormaltext_cr( cr, lily->display->str, xx+ lily->tx, y+lowy+lily->ty );
   }
 #if 1
   else
   //do this by creating a display field
 
   if( *first == '%' || *first == '^' || *first == '_' ) { //display comments, and markup above and below
-    pango_layout_set_text (layout,
-			   first+1,
-			   -1);
-    pango_layout_set_font_description (layout, desc);
-     
-    gdk_draw_layout (pixmap, selected?gcs_bluegc():gc, xx, *first=='_'?y+lowy+20:y-highy-20 /*y+(*first=='_'?STAFF_HEIGHT+20:-20)*/, layout);
+    drawnormaltext_cr( cr, first+1, xx, *first=='_'?y+lowy+20:y-highy-20 );
   }
 #endif
 
-
-
-   pango_font_description_free (desc); 
-
-
-   
-    
 }

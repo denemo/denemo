@@ -7,12 +7,9 @@
  *
  */
 void
-draw_fakechord (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
+draw_fakechord (cairo_t *cr,
 	     gint xx, gint y, DenemoObject * theobj)
 {
-  PangoContext *context;
-  PangoLayout *layout;
-  PangoFontDescription *desc;
   gchar *text = NULL;
   GString *temp = g_string_new("");
   gint length = 0;
@@ -47,15 +44,7 @@ draw_fakechord (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   g_print ("%s, %d\n", text, length);
 #endif
 
-  context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  layout = pango_layout_new (context);
-  pango_layout_set_text (layout, text, -1);
-  desc = pango_font_description_from_string (FONT);
-  pango_layout_set_font_description (layout, desc);
-  pango_font_description_free (desc);
-  //gdk_draw_text (pixmap, lyricfont, gc, xx, y+STAFF_HEIGHT+10, text, length);
-  gdk_draw_layout (pixmap, gc, xx, y + STAFF_HEIGHT - 10, layout);
+  drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT - 10 );
 
 
 }

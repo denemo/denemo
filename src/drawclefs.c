@@ -26,7 +26,7 @@
  * onto the backing pixmap 
  */
 void
-draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, clef *clef)
+draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
 {
   gint type = clef->type;
   static gint clefoffsets[NUMCLEFTYPES] =
@@ -45,25 +45,17 @@ draw_clef (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y, clef *clef)
       DenemoDirective* directive = g->data;
       override = override || directive->override;
       if(directive->display) { 
-	PangoContext *context =
-	  gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-	PangoLayout *layout = pango_layout_new (context);
-	PangoFontDescription *desc = pango_font_description_from_string (FONT);
-	pango_layout_set_text (layout,
-			       directive->display->str,
-			       -1);
-	pango_layout_set_font_description (layout, desc);
-	gdk_draw_layout (Denemo.gui->pixmap, gc, xx + directive->tx, y+count*10, layout);
+	drawnormaltext_cr( cr, directive->display->str, xx + directive->tx, y+count*10 );
       }
       if(directive->graphic) {
 	gint width, height;
 	gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-	drawbitmapinverse (pixmap, gc, directive->graphic,
+	drawbitmapinverse_cr (cr, directive->graphic,
 			   xx+directive->gx+count,  y+directive->gy, width, height);
       }
     }
   }
   if(!override) {
-    drawfetachar( pixmap, gc, clef_char[type], xx, y+clefoffsets[type] );
+    drawfetachar_cr( cr, clef_char[type], xx, y+clefoffsets[type] );
   }
 }

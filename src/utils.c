@@ -106,6 +106,16 @@ drawbitmapinverse (GdkPixmap * pixmap, GdkGC * gc, GdkBitmap * mask, gint x,
 }
 
 void
+drawbitmapinverse_cr (cairo_t * cr, GdkBitmap * mask, gint x,
+		   gint y, gint width, gint height)
+{
+  cairo_save(cr);
+  gdk_cairo_set_source_pixmap( cr, mask, x,y );
+  cairo_rectangle( cr, x,y, width, height );
+  cairo_paint( cr );
+  cairo_restore( cr );
+}
+void
 drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
 {
   int len;
@@ -125,6 +135,40 @@ drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
   PangoLayoutLine *line = pango_layout_get_line_readonly( layout, 0 );
 
   gdk_draw_layout_line (pixmap, gc, x, y, line);
+}
+
+void
+drawfetachar_cr (cairo_t * cr, gunichar uc, gint x, gint y)
+{
+  int len;
+  char utf_string[8];
+  len = g_unichar_to_utf8( uc, utf_string );
+  utf_string[len] = '\0';
+  cairo_select_font_face( cr, "feta26", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
+  cairo_set_font_size( cr, 35.0 );
+
+
+  cairo_move_to( cr, x,y );
+  cairo_show_text( cr, utf_string );
+}
+
+void drawnormaltext_cr (cairo_t *cr, const char *text, gint x, gint y)
+{
+  cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
+  cairo_set_font_size( cr, 9.0 );
+
+  cairo_move_to( cr, x,y );
+  cairo_show_text( cr, text );
+
+}
+void
+setcairocolor (cairo_t * cr, GdkGC * gc)
+{
+  GdkGCValues vals;
+  GdkColor col;
+  gdk_gc_get_values( gc, &vals );
+  gdk_colormap_query_color( gdk_colormap_get_system(), vals.foreground.pixel, &col );
+  gdk_cairo_set_source_color( cr, &col );
 }
 
 /**

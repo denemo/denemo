@@ -32,7 +32,7 @@ get_temp_filename (const gchar * name)
   if (name != NULL)
     path = g_build_filename (locatedotdenemo (), name, NULL);
   else
-    path = tempnam (locatedotdenemo (), NULL);
+    path = g_build_filename (locatedotdenemo (), "bla", NULL);
 
 #ifdef DEBUG
   fprintf (stderr, "temp filename: %s\n", path);

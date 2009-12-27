@@ -13,11 +13,9 @@
  *
  */
 void
-drawbarline (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint top_y, gint y,
+drawbarline (cairo_t *cr, gint xx, gint top_y, gint y,
 	     gint type)
 {
-  cairo_t *cr = gdk_cairo_create( pixmap );
-
   if (type == ORDINARY_BARLINE)
     {
       g_print ("Ordinary Co-ords (%d,%d) - (%d,%d) ", xx, top_y, xx, y);
@@ -48,7 +46,4 @@ drawbarline (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint top_y, gint y,
       //gdk_draw_line (pixmap, gc, xx - 3, top_y, xx - 3, y);
       //gdk_draw_rectangle (pixmap, gc, TRUE, xx, top_y, 4, y);
     }
-
-  cairo_destroy( cr );
-
 }

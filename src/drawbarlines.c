@@ -26,7 +26,7 @@
  */
 
 void
-draw_repeat (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y)
+draw_repeat (cairo_t *cr, gint xx, gint y)
 {
     
   if (!repeat[0])

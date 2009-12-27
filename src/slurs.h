@@ -18,5 +18,5 @@ GSList
 pop_slur_stack (GSList *slur_stack);
 
 void
-draw_slur (GdkPixmap *pixmap, GdkGC *gc, GSList **slur_stack,
+draw_slur (cairo_t *cr, GSList **slur_stack,
 	   gint x2, gint y);
