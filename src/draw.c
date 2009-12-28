@@ -564,9 +564,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   else
     cairo_set_source_rgb( cr, 0, 0, 1 );
   if(extra_ticks != 0)
-    drawbitmapinverse_cr (cr, exclam,
-		       x, y - 8 - EXCL_HEIGHT,
-		       EXCL_WIDTH, EXCL_HEIGHT);
+    drawnormaltext_cr( cr, "!", x, y - 8 );
   cairo_restore(cr);
   return extra_ticks!=0;
 }
@@ -711,7 +709,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
 
-  cairo_scale( cr, 0.7, 0.7 );
+  cairo_scale( cr, 4.0, 4.0 );
   //cairo_rotate( cr, M_PI/6.0 );
 
   /* Draw each staff */
