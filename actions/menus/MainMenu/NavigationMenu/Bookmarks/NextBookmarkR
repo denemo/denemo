@@ -6,12 +6,12 @@
     <map>
       <row>
         <action>NextBookmarkR</action>
-        <scheme>;;;Next BookmarkR by Nils Gey
-(if (d-DirectiveGet-standalone-display "BookmarkR")
+        <scheme>;;;NextBookMarkR by Nils Gey
+(if (d-DirectiveGet-standalone-display "RehearsalMark")
 (d-CursorRight) 
 )
 (let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "BookmarkR")) (d-CursorRight) )
+ (if  (and (not (d-DirectiveGet-standalone-display "RehearsalMark")) (d-CursorRight) )
 	(gotoBookmark))
 )</scheme>
         <label>Next Bookmark</label>

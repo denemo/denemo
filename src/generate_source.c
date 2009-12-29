@@ -487,7 +487,7 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Entry" , N_("Note Entry")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Lyrics", N_("Lyrics"), NULL, N_("Lyrics")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Anything not previously covered", N_("AllOther"), NULL, N_("Other")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Standalone Directives", N_("Directives"), NULL, N_("Directives")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL, N_("Navigation")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Entering notes", N_("NoteEntry"), NULL, N_("Note Entry")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Various expressive marks", N_("Articulation"), NULL, N_("Articulation")}, 
@@ -503,6 +503,10 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor", N_("Cursor"), NULL, N_("Cursor")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert/change clef Set initial clef", N_("ClefMenu"), NULL, N_("Clefs")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordMenu"), NULL, "Chords", N_("Chords")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Adding Chord Symbols over music", N_("ChordSymbols"), NULL, "Chords Symbols", N_("Chord Symbols")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Adding Figured Bass Figures", N_("FiguredBass"), NULL, "Figured Bass", N_("Figured Bass")}, 
+
+
   {CMD_CATEGORY_DIRECT, NULL, "Measures: adding, deleting, navigating etc", N_("MeasureMenu"), NULL, N_("Measures")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserting notes, measures, staffs, keysigs etc", N_("Insert"), NULL, N_("Insert")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert a Staff relative to current staff", N_("InsertStaff"), NULL, N_("Insert Staff")}, 

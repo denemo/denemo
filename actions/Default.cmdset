@@ -44,6 +44,21 @@
         <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
       </row>
       <row>
+        <action>PushPosition</action>
+        <label>Push Position</label>
+        <tooltip>Pushes the current cursor position onto a stack</tooltip>
+      </row>
+      <row>
+        <action>PopPosition</action>
+        <label>Pop Position</label>
+        <tooltip>Pops a position from the stack of cursor positions, moving the cursor there</tooltip>
+      </row>
+      <row>
+        <action>PopPushPosition</action>
+        <label>Pop and Push Position</label>
+        <tooltip>Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position</tooltip>
+      </row>
+      <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
         <tooltip>Moves the cursor to the staff above</tooltip>
@@ -157,6 +172,16 @@
         <tooltip>Insert sixty-fourth-note</tooltip>
       </row>
       <row>
+        <action>OneHundredTwentyEighthNote</action>
+        <label>128th</label>
+        <tooltip>Insert 128th-note</tooltip>
+      </row>
+      <row>
+        <action>TwoHundredFiftySixthNote</action>
+        <label>256th</label>
+        <tooltip>Insert 256th-note</tooltip>
+      </row>
+      <row>
         <action>InsertBlankWholeNote</action>
         <label>Insert Blank Whole Note</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -189,6 +214,16 @@
       <row>
         <action>InsertBlankSixtyfourthNote</action>
         <label>Insert Blank Sixty Forth Note</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>InsertBlankOneHundredTwentyEighthNote</action>
+        <label>Insert Blank one hundred and twenty eighth Note</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
+        <action>InsertBlankTwoHundredFiftySixthNote</action>
+        <label>Insert Blank two hundred and fifty sixth Note</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
@@ -354,13 +389,18 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>InsertMeasure</action>
-        <label>Insert Measure All Staffs</label>
+        <label>Insert Measure Before</label>
         <tooltip>Insert a blank measure before the current one (in all staffs)</tooltip>
         <bind>m</bind>
       </row>
       <row>
+        <action>AddMeasure</action>
+        <label>Insert Measure After</label>
+        <tooltip>Insert a blank measure after the current one (in all staffs)</tooltip>
+      </row>
+      <row>
         <action>InsertMeasureBefore</action>
-        <label>Staff Insert Measure</label>
+        <label>Staff Insert Measure Before</label>
         <tooltip>Insert a blank measure before the current one (in current staff)</tooltip>
       </row>
       <row>
@@ -370,12 +410,12 @@ The cursor position determines which note to add</tooltip>
       </row>
       <row>
         <action>AppendMeasure</action>
-        <label>Append Measure</label>
+        <label>Staff Append Measure</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <label>Delete Measure</label>
+        <label>Staff Delete Measure</label>
         <tooltip>Delete the current measure in this staff, leaving the staff short</tooltip>
         <bind>Control+m</bind>
       </row>
@@ -1075,11 +1115,6 @@ Notes entered will follow this pattern</tooltip>
         <tooltip>Execute the scheme code from the scripting window</tooltip>
       </row>
       <row>
-        <action>AppendMeasuresToScore</action>
-        <label>Append Measure To Score</label>
-        <tooltip>No Tooltip yet</tooltip>
-      </row>
-      <row>
         <action>SharpenEnharmonicSet</action>
         <label>Shift Accidentals Sharpwise</label>
         <tooltip>Shifts the set of accidentals one step sharper</tooltip>
@@ -1254,16 +1289,6 @@ Notes entered will follow this pattern</tooltip>
         <bind>PrsL-Control</bind>
       </row>
       <row>
-        <action>Paste</action>
-	<after>Copy</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Paste</label>
-        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
-        <bind>Control+v</bind>
-        <bind>RlsL-Control</bind>
-      </row>
-      <row>
         <action>PasteClipboard</action>
         <label>Paste LilyPond notes</label>
         <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
@@ -1430,6 +1455,11 @@ Notes entered will follow this pattern</tooltip>
         <action>DeleteFiguredBass</action>
         <label>Delete Figures</label>
         <tooltip>Delete the figured bass on the current staff</tooltip>
+      </row>
+      <row>
+        <action>HideFiguredBass</action>
+        <label>Hide Figures (Print)</label>
+        <tooltip>Hide the figured bass on the current staff on printing</tooltip>
       </row>
       <row>
         <action>EditChords</action>
@@ -1974,6 +2004,86 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;
+In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;
+ or appends a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt; if no current note
+In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt; at the cursor</tooltip>
+      </row>
+      <row>
+        <action>Change7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Insert7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>InsertRest7</action>
+        <label>Insert a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;rest</label>
+        <tooltip>Inserts a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>ChangeRest7</action>
+        <label>Change a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;rest</label>
+        <tooltip>Changes a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set7</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>In insert mode, changes prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
+In edit mode changes the current note to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
+ or appends a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt; if no current note
+In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt; at the cursor</tooltip>
+      </row>
+      <row>
+        <action>Change8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Insert8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Insert a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>InsertRest8</action>
+        <label>Insert a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;rest</label>
+        <tooltip>Inserts a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>ChangeRest8</action>
+        <label>Change a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;rest</label>
+        <tooltip>Changes a rest at cursor position
+Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Set8</action>
+        <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
+        <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Paste</action>
+        <after>Copy</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Paste</label>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
+        <bind>Control+v</bind>
+        <bind>RlsL-Control</bind>
+      </row>
+      <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
@@ -2077,70 +2187,70 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>D.C.AlFine</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>D. C. al fine</label>
         <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
       </row>
       <row>
         <action>Allegro</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Allegro</label>
         <tooltip>Print Allegro in bold italics above the chord.</tooltip>
       </row>
       <row>
         <action>Andante</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Andante</label>
         <tooltip>Print Andante in bold italics above the chord.</tooltip>
       </row>
       <row>
         <action>Presto</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Presto</label>
         <tooltip>Print Presto in bold italics above the chord.</tooltip>
       </row>
       <row>
         <action>Finger0</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 0</label>
         <tooltip>Inserts fingering for open string</tooltip>
       </row>
       <row>
         <action>Finger1</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 1</label>
         <tooltip>Inserts fingering for finger 1</tooltip>
       </row>
       <row>
         <action>Finger2</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 2</label>
         <tooltip>Inserts fingering for finger 2</tooltip>
       </row>
       <row>
         <action>Finger3</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 3</label>
         <tooltip>Inserts fingering for finger 3</tooltip>
       </row>
       <row>
         <action>Finger4</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 4</label>
         <tooltip>Inserts fingering for finger 4</tooltip>
       </row>
       <row>
         <action>Finger5</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar/Fingerings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 5</label>
         <tooltip>Inserts fingering for finger 5</tooltip>
       </row>
@@ -2161,21 +2271,21 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>DeleteLilyPondOnNote</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Other</menupath>
+        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
         <label>Delete LilyPond on Note</label>
         <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
       </row>
       <row>
         <action>DeleteLilyPondOnChord</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Other</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
         <label>Delete LilyPond on Chord</label>
         <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
       </row>
       <row>
         <action>MetronomeMarking</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/Metronome Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
@@ -2224,14 +2334,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>LHFinger</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>Left Hand Fingering</label>
         <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
       </row>
       <row>
         <action>StringNum</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Guitar</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>String Number</label>
         <tooltip>Followed by a number, places string number on note.</tooltip>
       </row>
@@ -2245,7 +2355,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>Glissando</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>Glissando</label>
         <tooltip>Inserts a glissando</tooltip>
       </row>
@@ -2259,14 +2369,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>TmbalesStyle</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <menupath>/MainMenu/EditMenu/MIDI</menupath>
         <label>Tmbales Style Staff</label>
         <tooltip>Changes to a drum staff</tooltip>
       </row>
       <row>
         <action>Fortissimo</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Fortissimo</label>
         <tooltip>Places a ff sign on the chord at the cursor</tooltip>
       </row>
@@ -2305,7 +2415,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Composer</label>
         <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
       </row>
-       <row>
+      <row>
         <action>ScoreDedication</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
@@ -2333,7 +2443,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <label>Opus</label>
         <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
       </row>
-
       <row>
         <action>ScorePoet</action>
         <scheme></scheme>
@@ -2405,13 +2514,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <tooltip>Prints note without any beam attached.</tooltip>
       </row>
       <row>
-        <action>TimbalesStyle</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
-        <label>Timbales Style Staff</label>
-        <tooltip>Changes to print as a drum staff in timbales style</tooltip>
-      </row>
-      <row>
         <action>MovementPageBreak</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MovementMenu</menupath>
@@ -2449,7 +2551,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
       <row>
         <action>AllegroAssai</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Allegro Assai</label>
         <tooltip>Gives Allegro Assai tempo indication</tooltip>
       </row>
@@ -2535,7 +2637,7 @@ for second and subsequent systems</tooltip>
         <action>MezzoForte</action>
         <after>Fortissimo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Mezzo Forte</label>
         <tooltip>Attach mf indication to a chord.</tooltip>
       </row>
@@ -2543,7 +2645,7 @@ for second and subsequent systems</tooltip>
         <action>DeleteDynamic</action>
         <after>MezzoForte</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Delete</label>
         <tooltip>Deletes a dynamic attached to the chord at the cursor.</tooltip>
       </row>
@@ -2558,21 +2660,21 @@ for second and subsequent systems</tooltip>
         <action>ParenthesizeChord</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu</menupath>
-        <label>No label</label>
+        <label>Parenthesize Chord</label>
         <tooltip>Enclose the chord in ( ) on printing.</tooltip>
       </row>
       <row>
         <action>ParenthesizeNote</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
-        <label>No label</label>
+        <label>Parenthesize Note</label>
         <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
       </row>
       <row>
         <action>GoToEmptyMeasure</action>
         <after>GoToMeasure</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <label>Go To Next Empty Measure</label>
         <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
       </row>
@@ -2618,7 +2720,7 @@ for second and subsequent systems</tooltip>
         <action>Largo</action>
         <after>Andante</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Largo</label>
         <tooltip>Attaches Largo to chord</tooltip>
       </row>
@@ -2626,14 +2728,14 @@ for second and subsequent systems</tooltip>
         <action>Adagio</action>
         <after>Largo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
         <label>Adagio</label>
         <tooltip>Attaches tempo marking to chord at cursor</tooltip>
       </row>
       <row>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Instruments/Percussion</menupath>
+        <menupath>/MainMenu/Edit/MIDI</menupath>
         <label>Drum GM2 Custom </label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
@@ -2679,7 +2781,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>NextBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Next Bookmark</label>
         <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
         <bind>F12</bind>
@@ -2687,23 +2789,23 @@ for second and subsequent systems</tooltip>
       <row>
         <action>PrevBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Prev Bookmark</label>
         <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
         <bind>F11</bind>
       </row>
       <row>
-        <action>Bookmark</action>
+        <action>RehearsalMark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
-        <label>Add Bookmark</label>
-        <tooltip>Adds a Denemo bookmark combined with a default Lilypond Rehearsal Mark</tooltip>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Add Rehearsal/Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</tooltip>
         <bind>F9</bind>
       </row>
       <row>
         <action>BookmarkNamed</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add named Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
         <bind>Shift+F9</bind>
@@ -2711,7 +2813,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>BookmarkNonPrinting</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add non-printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
         <bind>Shift+Control+F9</bind>
@@ -2719,7 +2821,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SearchBookmark</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Bookmarks</menupath>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Search Bookmark</label>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
         <bind>F10</bind>
@@ -2756,7 +2858,7 @@ for second and subsequent systems</tooltip>
         <label>Insert Whole Measure Rest</label>
         <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
       </row>
-     <row>
+      <row>
         <action>MultiMeasureRests</action>
         <after>InsertWholeMeasureRest</after>
         <scheme></scheme>
@@ -2824,7 +2926,7 @@ for second and subsequent systems</tooltip>
         <action>MezzoPiano</action>
         <after>MezzoForte</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Mezzo Piano</label>
         <tooltip>prints mp and outputs MIDI vol change#</tooltip>
       </row>
@@ -2832,7 +2934,7 @@ for second and subsequent systems</tooltip>
         <action>Forte</action>
         <after>Fortissimo</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
         <label>Forte</label>
         <tooltip>Attaches Forte to chord and MIDI volume</tooltip>
       </row>
@@ -2851,8 +2953,6 @@ for second and subsequent systems</tooltip>
         <label>Short Measure</label>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
       </row>
-
-
       <row>
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
@@ -2876,7 +2976,6 @@ for second and subsequent systems</tooltip>
         <label>Next Higher</label>
         <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
       </row>
-
       <row>
         <action>FindEditPoint</action>
         <after>NextHigher</after>
@@ -2898,7 +2997,7 @@ for second and subsequent systems</tooltip>
         <after>CreateOssiaStaff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
-	<label>Show Ossia</label>
+        <label>Show Ossia</label>
         <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
       </row>
       <row>
@@ -2927,10 +3026,26 @@ for second and subsequent systems</tooltip>
       <row>
         <action>MidiTempo</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Midi</menupath>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Set Tempo</label>
         <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
-      </row>    
+      </row>
+      <row>
+        <action>Tempo</action>
+        <after>RehearsalMark</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Tempo Chooser</label>
+        <tooltip>Allows selection of a tempo indication for printing.</tooltip>
+      </row>
+      <row>
+        <action>MM</action>
+        <after>Tempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Metronome Mark</label>
+        <tooltip>Prints a metronome mark.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

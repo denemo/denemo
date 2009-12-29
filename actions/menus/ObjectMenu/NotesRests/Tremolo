@@ -6,9 +6,9 @@
     <map>
       <row>
         <action>Tremolo</action>
-        <scheme>;;;Scheme code for command Tremolo  tremolo aka abbreviated notes
+        <scheme>;;;Tremolo
 (define command (lambda ()
-		 (d-WarningDialog "To use this function correctly you need to give a duration for the tremolo note length.")	
+		 (d-WarningDialog "To use this function correctly you need to press a keyboard shortcut for a duration command\nThe duration will be used to divide the note at the cursor when printed.")	
 	    ))
 
    	  (define duration (d-GetCommand))
@@ -21,7 +21,7 @@
 		 ((equal? duration "d-7") (set! dur ":128"))
  	     )
           (if (string? dur)
-   	  (d-InsertLilyDirective (string-append "directive=" dur))
+   	  (d-InsertLilyDirective (string-append "directive=" dur));;;;;;;;;fixme! use a chord directive postfix
 	  (command))
 
  
