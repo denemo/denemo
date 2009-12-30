@@ -9,23 +9,24 @@
         <scheme>;;; Tempo Change, Midi only.
 (let ((DurationFromInput "1" ) (TempoFromInput "120"))
 (set! DurationFromInput (d-GetOption (string-append "Quarter" stop "Dotted Quarter" stop)))
-(set! TempoFromInput (d-GetUserInput "Tempo" "Please enter a tempo value" "120"))
-(d-DirectivePut-standalone-minpixels "Tempo" 20)
+(set! TempoFromInput (d-GetUserInput "MidiTempo" "Please enter a tempo value" "120"))
+(d-DirectivePut-standalone-minpixels "MidiTempo" 20)
 (d-CursorLeft)
-(d-DirectivePut-standalone-override "Tempo" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-
+(d-DirectivePut-standalone-override "MidiTempo" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+;(format #t "The tempo is ~A~%ok" TempoFromInput)
 ;Calculate the dotted tempo but display the userone
 (if (string-ci=? DurationFromInput "Dotted Quarter" )
-  (d-DirectivePut-standalone-midibytes "Tempo" (number-> string (* 1.5 (string->number TempoFromInput))))
-  (d-DirectivePut-standalone-midibytes "Tempo" TempoFromInput)
+  (d-DirectivePut-standalone-midibytes "MidiTempo" (number-&gt;string (* 1.5 (string-&gt;number TempoFromInput))))
+  (d-DirectivePut-standalone-midibytes "MidiTempo" TempoFromInput)
+)
+(format #t "Displaying  ~A ~%" (string-append DurationFromInput " = "  TempoFromInput) )
+(d-DirectivePut-standalone-display "MidiTempo" (string-append DurationFromInput " = "  TempoFromInput))
+(d-DirectivePut-standalone-ty "MidiTempo" -20)
 )
 
-(d-DirectivePut-standalone-display "Tempo" (string-append DurationFromInput "= "  TempoFromInput))
-(d-DirectivePut-standalone-ty "Tempo" -40))
-
 (d-RefreshDisplay)</scheme>
-        <label>Tempo Change</label>
-        <tooltip>Adds a Tempo Change, non-printing.</tooltip>
+        <label>Set Tempo</label>
+        <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
       </row>
     </map>
   </merge>

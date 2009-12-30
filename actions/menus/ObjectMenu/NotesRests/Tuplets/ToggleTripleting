@@ -9,7 +9,7 @@
         <action>ToggleTripleting</action>
         <scheme>;;;ToggleTripleting
 (if (not (defined? 'ToggleTripleting::InsideTriplet))
-    (define ToggleTripleting::InsideTriplet #f))
+    (define ToggleTripleting::InsideTriplet #t))
 (if  ToggleTripleting::InsideTriplet
        (d-StartTriplet)
        (d-EndTuplet))

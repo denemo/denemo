@@ -22,7 +22,7 @@
 	    (d-ForceNewMeasure)
 	    (d-MeasureRight)
 	    (d-WholeMeasureRest)))
-(d-MeasureRight)
+(d-CursorRight)
 (d-Set2)</scheme>
         <label>Insert Whole Measure Rest</label>
         <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>

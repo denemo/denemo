@@ -2351,7 +2351,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>StringNum</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Markings/Instruments/Strings</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
         <label>String Number</label>
         <tooltip>Followed by a number, places string number on note.</tooltip>
       </row>
