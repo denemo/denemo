@@ -28,13 +28,13 @@ draw_stem_directive (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
   switch (((stemdirective *) theobj->object)->type)
     {
     case DENEMO_STEMUP:
-      text = _("stemup");
+      text = _("stem\nup");
       break;
     case DENEMO_STEMBOTH:
-      text = _("stemneutral");
+      text = _("auto\nstems");
       break;
     case DENEMO_STEMDOWN:
-      text = _("stemdown");
+      text = _("stem\ndown");
       break;
     }
   pango_layout_set_text (layout, text, -1);
