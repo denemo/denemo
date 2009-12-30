@@ -2981,7 +2981,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>FindNextLowerNote</action>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
         <label>Next Lower</label>
         <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
         <bind>Control+f</bind>
@@ -3022,7 +3022,7 @@ for second and subsequent systems</tooltip>
         <action>NextHigher</action>
         <after>FindNextLowerNote</after>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
         <label>Next Higher</label>
         <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
       </row>
@@ -3046,7 +3046,7 @@ for second and subsequent systems</tooltip>
         <action>FindEditPoint</action>
         <after>NextHigher</after>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Find</menupath>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
         <label>Find Edit Point</label>
         <tooltip>Searches backward for the start of non-printing notes.</tooltip>
         <bind>Alt+Left</bind>

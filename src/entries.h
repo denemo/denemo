@@ -345,7 +345,7 @@
 {"Instruments", NULL, N_("Instruments"), NULL,N_("Instruments")},
 {"Markings", NULL, N_("Markings"), NULL,N_("Markings")},
 {"TextMarks", NULL, N_("Text/Symbol"), NULL,N_("Text and symbol Markings")},
-{"StringedInstruments", NULL, N_("Strings"), NULL,N_("Commands for Stringed Instruments")},
+{"Strings", NULL, N_("Strings"), NULL,N_("Commands for Stringed Instruments")},
 {"InsertNote", NULL, N_("Note Entry"), NULL,N_("Inserting the note ...")},
 {"Lyrics", NULL, N_("Lyrics"), NULL,N_("Lyrics")},
 {"Directives", NULL, N_("Directives"), NULL,N_("Standalone Directives")},

@@ -483,7 +483,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Instruments", N_("Instruments"), NULL, N_("Instruments")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Markings", N_("Markings"), NULL, N_("Markings")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Text and symbol Markings", N_("TextMarks"), NULL, N_("Text/Symbol")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Commands for Stringed Instruments", N_("StringedInstruments"), NULL, N_("Strings")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Commands for Stringed Instruments", "Strings", NULL, N_("Strings")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Entry" , N_("Note Entry")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Lyrics", N_("Lyrics"), NULL, N_("Lyrics")}, 
