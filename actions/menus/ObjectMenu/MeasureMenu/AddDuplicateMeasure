@@ -14,7 +14,7 @@
 (while (d-NextObjectInMeasure)
        #t)
 (d-Copy)
-(d-AddMeasure)
+(d-InsertMeasureAfter)
 (d-Paste)
 (d-CursorRight)</scheme>
         <label>Insert Duplicate Measure After</label>
