@@ -2238,7 +2238,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
         <label>Finger 2</label>
         <tooltip>Inserts fingering for finger 2</tooltip>
-        <bind>2</bind>
       </row>
       <row>
         <action>Finger3</action>
@@ -2263,7 +2262,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Inserts fingering for finger 5</tooltip>
         <bind>5</bind>
       </row>
-
       <row>
         <action>StartBeam</action>
         <scheme></scheme>
@@ -2807,8 +2805,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>RehearsalMark</action>
         <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
-	<menupath>/ObjectMenu/Directives</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Add Rehearsal/Bookmark</label>
         <tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</tooltip>
         <bind>F9</bind>
@@ -3152,6 +3149,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
         <label>Designate Voice</label>
         <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
+      </row>
+      <row>
+        <action>SlurTwo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Slur with Next Note</label>
+        <tooltip>Creates a slur from current note to next note.</tooltip>
+        <bind>2</bind>
       </row>
     </map>
   </commands>
