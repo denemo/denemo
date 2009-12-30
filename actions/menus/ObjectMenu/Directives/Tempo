@@ -20,7 +20,7 @@
 ( if (not (boolean? choice) )
 (begin
 ( if (equal? replace #f ) (d-DirectivePut-standalone "Tempo" ) )
-(d-DirectivePut-standalone-postfix "Tempo" (string-append "\\tempo " choice ))
+(d-DirectivePut-standalone-postfix "Tempo" (string-append "s8*0 ^\\markup \\bold {" choice "}" ))
 (d-DirectivePut-standalone-display "Tempo" choice)
 (d-DirectivePut-standalone-minpixels "Tempo" 10 )
 (d-DirectivePut-standalone-ty "Tempo" 90 )
