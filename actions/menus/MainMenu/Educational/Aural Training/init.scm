@@ -17,6 +17,7 @@
 (define ChordComparison::ChordChordComparison::LowestNote 60)
 (define ChordComparison::ChordQuality 0)
 (define ChordComparison::ArpTimer 0)
+(define TransposedChordNotes '())
 (define ChordComparison::score 0)
 
 
@@ -27,10 +28,15 @@
       (cdr time)))))
 
 (define (ChordComparison::gotoEnd)
-    (d-CursorRight)
-    (if (d-NextObject)
-      (ChordComparison::gotoEnd) 
-      (d-CursorRight)))
+  (d-CursorRight)
+  (if (d-NextObject)
+    (ChordComparison::gotoEnd) 
+    (d-CursorRight)))
+
+(define (ChordComparison::gotoLastObject)
+  (d-CursorRight)
+  (if (d-NextObject)
+    (ChordComparison::gotoLastObject)))
 
 (define (ChordComparison::lilyname->midikey lilyname)
   (let (
@@ -143,16 +149,37 @@
     (d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromNote")
     (d-InitializeScript "SetTransposeIntervalFromNote")))
 
-(define (ChordComparison::TransposeChord lilyname)
+(define (ChordComparison::TransposeChord notestring lilyname)
   (set! Transpose::Note lilyname)
-  (Transpose::SetTransposeInterval Transpose::Note)
-  (Transpose::TransposeNote))
+    (Transpose::SetTransposeInterval Transpose::Note)
+  (set! TransposedChordNotes (string-split (Transpose::TransposeNoteList notestring) #\space))
+  )
+  ;(set! TransposedChordNotes (Transpose::TransposeNoteList notestring)))
 
-(define (ChordComparison::PlaceNotes)
-  (d-CursorToNote "c")
+(define (ChordComparison::AddNoteToChord notes)
+  (ChordComparison::gotoLastObject)
+  (d-ChangeChordNotes notes))
+
+(define (ChordComparison::DrawAnimatedArpeggio)
+  (let ( (addnotes 0)
+         (tindex 0)
+         (currentnotes "")
+       )
+  (set! addnotes
+    (lambda (note)
+      (begin
+        (set! currentnotes (string-append currentnotes " " note))
+        (d-OneShotTimer tindex (string-append "(ChordComparison::AddNoteToChord " "\"" currentnotes "\"" ")"))
+	(if (not (string=? note ""))
+          (d-OneShotTimer tindex (string-append "(PlayNote " "\"" (number->string (ChordComparison::lilyname->midikey note)) "\"" " 1000)")))
+        (set! tindex (+ tindex 1000))
+	            )))
+  (set! tindex 0)
+  (ChordComparison::gotoEnd)
+  (d-CursorToNote (list-ref TransposedChordNotes 0))
   (d-Insert0)
-  (d-ChangeChordNotes (ChordComparison::GetChordSpelling))
-  (ChordComparison::TransposeChord (ChordComparison::midinum->lilyname ChordComparison::ChordChordComparison::LowestNote)))
+  (map addnotes TransposedChordNotes)
+				))
 
 ;TODO perhaps inherit this from EducationGames
 (define (ChordComparison::PlaceAnswerStatus gfx)
@@ -164,8 +191,9 @@
 
 ;;;;;;;;; callback when user chooses a chord
 (define (ChordComparison::chordchosen chord)
-  (ChordComparison::PlaceNotes) 
-  ;(let gotoEnd () (if  (d-NextObject) (gotoEnd)))
+  (ChordComparison::TransposeChord (ChordComparison::GetChordSpelling)
+    (ChordComparison::midinum->lilyname ChordComparison::ChordChordComparison::LowestNote))
+  (ChordComparison::DrawAnimatedArpeggio)
   (ChordComparison::gotoEnd)
   (if  (string=? (ChordComparison::GetChordQuality) chord)
     (begin
@@ -176,7 +204,8 @@
       (set! ChordComparison::score (- ChordComparison::score 1))
       (ChordComparison::PlaceAnswerStatus "CrossSign")
   ))
-  (ChordComparison::OfferChord))
+  (d-OneShotTimer (* 1000 (length TransposedChordNotes)) "(ChordComparison::OfferChord)")
+  )
 
 (define (ChordComparison::createbuttons chord)
   (CreateButton (string-append "ChordComparison::" (car chord))  (string-append " <span font_desc=\"22\" foreground=\"blue\">" (car chord)  "</span>"))
