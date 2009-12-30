@@ -2114,6 +2114,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <bind>t</bind>
       </row>
       <row>
+        <action>FiguredBassFilterOn</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Figured Bass Filter On</label>
+        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
+      </row>
+      <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
         <menupath>/MainMenu/ModeMenu/MIDI</menupath>
@@ -2735,7 +2742,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
-        <menupath>/MainMenu/Edit/MIDI</menupath>
+        <menupath>/MainMenu/EditMenu/MIDI</menupath>
         <label>Drum GM2 Custom </label>
         <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
       </row>
@@ -3045,6 +3052,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Metronome Mark</label>
         <tooltip>Prints a metronome mark.</tooltip>
+      </row>
+      <row>
+        <action>DesignateVoice</action>
+        <after>StartUpStems</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Designate Voice</label>
+        <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
       </row>
     </map>
   </commands>
