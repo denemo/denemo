@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>StartUpStems</after>
+        <action>DesignateVoice</action>
+        <scheme>;;;DesignateVoice
+(let ((choice #f)(label #f))
+(set! choice (d-GetOption (string-append "OneVoice" stop "VoiceOne" stop "VoiceTwo" stop "VoiceThree" stop "VoiceFour" stop) ) )
+(cond
+( (equal? choice "VoiceOne" ) (begin (set! choice "voiceOne") (set! label "Voice1") ))
+( (equal? choice "VoiceTwo" ) (begin (set! choice "voiceTwo") (set! label "Voice2") ))
+( (equal? choice "VoiceThree" ) (begin (set! choice "voiceThree") (set! label "Voice3") ))
+( (equal? choice "VoiceFour" ) (begin (set! choice "voiceFour") (set! label "Voice4") ))
+( (equal? choice "OneVoice" ) (begin (set! choice "oneVoice") (set! label "1Voice") ) )
+
+)
+(d-DirectivePut-standalone "Voice" )
+(d-DirectivePut-standalone-display "Voice" label )
+(d-DirectivePut-standalone-ty "Voice" 60 )
+(d-DirectivePut-standalone-postfix "Voice" (string-append "\\" choice ) )
+(d-DirectivePut-standalone-minpixels "Voice" 10 )
+)</scheme>
+        <label>Designate Voice</label>
+        <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
