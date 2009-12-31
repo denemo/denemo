@@ -3161,6 +3161,13 @@ for second and subsequent systems</tooltip>
         <label>Designate Voice</label>
         <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
       </row>
+      <row>
+        <action>DynamicsDialog</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Dynamics</label>
+        <tooltip>Choose dynamics and midi volume level.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

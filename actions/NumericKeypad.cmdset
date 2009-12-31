@@ -3158,6 +3158,13 @@ for second and subsequent systems</tooltip>
         <tooltip>Creates a slur from current note to next note.</tooltip>
         <bind>2</bind>
       </row>
+      <row>
+        <action>DynamicsDialog</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Dynamics</label>
+        <tooltip>Choose dynamics and midi volume level.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
