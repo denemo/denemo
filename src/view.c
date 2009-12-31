@@ -510,6 +510,24 @@ static SCM scheme_get_help(SCM command) {
   }
   return scm_makfrom0str ((gchar*)lookup_tooltip_from_idx(Denemo.map, idx));
 }
+
+static SCM scheme_get_lily_version(SCM optional) {
+  gchar *version = get_lily_version_string ();
+  return scm_makfrom0str (version);
+}
+
+static SCM scheme_check_lily_version(SCM check_version) {
+  gchar *version;
+ if(SCM_STRINGP(check_version))
+   version = scm_to_locale_string(check_version);
+  gint result = check_lily_version (version);
+  if(result>0)
+    return SCM_BOOL_T;
+  else
+    return SCM_BOOL_F;
+}
+
+
 static SCM scheme_get_label(SCM command) {
   gchar *name;
   if(SCM_STRINGP(command))
@@ -3004,6 +3022,10 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none",DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);
+
+
+  INSTALL_SCM_FUNCTION ("Returns the installed LilyPond version",DENEMO_SCHEME_PREFIX"GetLilyVersion", scheme_get_lily_version);
+  INSTALL_SCM_FUNCTION ("Returns a boolean if the installed version of LilyPond is greater than or equal to the passed in version string",DENEMO_SCHEME_PREFIX"CheckLilyVersion", scheme_check_lily_version);
 
 
 

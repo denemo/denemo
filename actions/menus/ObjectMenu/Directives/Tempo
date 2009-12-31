@@ -2,34 +2,86 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>AT, JRR, RTS</author>
+    <author>DRW</author>
     <map>
       <row>
-        <after>RehearsalMark</after>
         <action>Tempo</action>
-        <scheme>;;;Tempo
-(let ((choice #f) (replace #f))
-(if (equal? (d-GetType) "LILYDIRECTIVE" )
-(if (equal? (d-DirectiveGetTag-standalone) "Tempo" )
-(set! replace #t )
+        <scheme>(let ((TempoChoice #f) (replace #f) (input "") (len 1) (dotted #f)(duration "4")(bpm 60)(midiBpm 60)(ValidBPM #f)(MetronomeMarkVisible #f) (BPMString "") (LilyString "\\tempo ") (defaultBPM "60") (DisplayString "") (InQuotes "") (OldLily (not (d-CheckLilyVersion "2.12.0"))))
+(if OldLily (set! LilyString "s8*0^ \\markup \\bold {" ) )
+(if (equal? (d-GetType) "LILYDIRECTIVE" ) 
+	(if (equal? (d-DirectiveGetTag-standalone) "TempoMark" ) (set! replace #t ))
 )
+;defaults: Presto 168   Vivace 140  Allegro 120  Moderato 108  Andante 84  Adagio 72 Largo 60 Lento 40
+(set! TempoChoice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop "Moderato" stop "Andante" stop "Adagio" stop "Largo" stop  "Lento" stop "Other" stop "No Tempo Text" stop)))
+(if (equal? TempoChoice "No Tempo Text") (set! TempoChoice "" ) )
+(if (equal? TempoChoice "Other") (begin (set! InQuotes "\"") (set! TempoChoice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) )))
+(set! LilyString (string-append LilyString InQuotes TempoChoice InQuotes) );if more than 1 word, may need quotes.
+(if OldLily (set! LilyString (string-append LilyString "}" )))
+(if (equal? LilyString "s8*0^\\markup \\bold {}") (set! LilyString ""))
+(set! DisplayString TempoChoice)
+(set! defaultBPM  
+   (cond 
+             ( (equal? TempoChoice "Presto" ) "168" )
+             ( (equal? TempoChoice "Vivace" ) "140" )
+             ( (equal? TempoChoice "Allegro" ) "120" )
+             ( (equal? TempoChoice "Moderato" ) "108" )
+             ( (equal? TempoChoice "Andante" ) "84" )
+             ( (equal? TempoChoice "Adagio" ) "72" )
+             ( (equal? TempoChoice "Largo" ) "60" )
+             ( (equal? TempoChoice "Lento" ) "40" )
+             (else "60" )
+))
+(set! input (d-GetUserInput "Metronome Marking" "Give unit beat duration (e.g., 4. for dotted-quarter) \n or enter n for none:" "4" ))
+(if (not (equal? input "n" ) ) 
+  (begin 
+  (set! len (string-length input) ) 
+  (set! dotted (equal? "." (substring input (- len 1) len ))  ) ;see if a dot at end
+  (if dotted
+      (set! duration (substring input 0 (- len 1)))  ;if there's a dot, cut it off from input to get base duration.
+      (set! duration input)  )
+  (if replace (set! defaultBPM (d-DirectiveGet-standalone-midibytes "TempoMark" ))) ;use old BPM if there. Bug: Only good for 4=...   
+  (set! bpm (d-GetUserInput "Metronome Marking"  "Give number of these beats per minute:" defaultBPM ) )
+  (set! ValidBPM   (not (equal? (and (string-&gt;number duration) (string-&gt;number bpm) ) #f)))  ;don't go unless both are numbers.
+  ;don't go unless base duration is ValidBPM lilypond: (could go higher if wanted):
+  (set! ValidBPM (and ValidBPM (or   (equal? duration "1")(equal? duration "2")(equal? duration "4")(equal? duration "8")(equal? duration "16")) ) )
+  (if (equal? ValidBPM #t)       
+    (begin
+       (if dotted (set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration)) 6 ) ) ) ) 
+         (set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration) ) 4))  ) )
+       );want * 3/2 for dotted,*4 since midi uses quarters and divide by duration,     
+       (set! MetronomeMarkVisible (d-GetOption (string-append "BPM Printed" stop "BPM Not Printed" stop)))
+       (set! BPMString (string-append  input "=" bpm ))
+       (if (equal? MetronomeMarkVisible "BPM Printed" ) 
+         (begin   ;if we print the BPM:
+           (if (equal? TempoChoice "") (set! DisplayString BPMString) (set! DisplayString (string-append DisplayString "(" BPMString ")" )) )
+           (if OldLily
+             (set! LilyString (string-append "\\tempo " BPMString " " LilyString))
+             (set! LilyString  (string-append LilyString " " BPMString )) ;add a space for separation, and tempo if nec.
+           )
+         )
+         (set! DisplayString (string-append DisplayString "[" BPMString "]" ) )  ;for the display, if BPM not printed, put in brackets.        
+       ) ;don't include BPM in lilystring if not wanted.
+    ) ;begin
+    (d-WarningDialog "Incorrect BPM syntax.")
+  )
+  )
+  (set! LilyString (string-append "\\tempo " TempoChoice )) ;if user entered n
 )
-(set! choice (d-GetOption (string-append "Presto" stop "Vivace" stop "Allegro" stop "Andante" stop "Adagio" stop "Largo" stop "Other" stop )))
-
-(if (equal? choice "Other") (set! choice (d-GetUserInput "Tempo setting" "Enter tempo text:" "Allegro assai" ) ) )
-( if (not (boolean? choice) )
-(begin
-( if (equal? replace #f ) (d-DirectivePut-standalone "Tempo" ) )
-(d-DirectivePut-standalone-postfix "Tempo" (string-append "s8*0 ^\\markup \\bold {" choice "}" ))
-(d-DirectivePut-standalone-display "Tempo" choice)
-(d-DirectivePut-standalone-minpixels "Tempo" 10 )
-(d-DirectivePut-standalone-ty "Tempo" 90 )
+(if replace (d-DirectivePut-standalone "TempoMark" ) )
+(if (equal? LilyString "\\tempo ")  (d-DirectivePut-standalone-postfix "TempoMark" "" )(d-DirectivePut-standalone-postfix "TempoMark" LilyString ) )
+(d-DirectivePut-standalone-display  "TempoMark" DisplayString)
+(d-DirectivePut-standalone-minpixels "TempoMark" 10 )
+(d-DirectivePut-standalone-ty "TempoMark" 85 ) ;;try -40 instead of 85 for above-the-staff
+(if (equal? ValidBPM #t) (begin 
+   (d-DirectivePut-standalone-override "TempoMark" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+   (d-DirectivePut-standalone-midibytes "TempoMark" midiBpm)
+   )
+)
 (d-RefreshDisplay)
 (d-CursorRight)
-)
-))</scheme>
-        <label>Tempo Chooser</label>
-        <tooltip>Allows selection of a tempo indication for printing.</tooltip>
+)</scheme>
+        <label>Tempo</label>
+        <tooltip>Insert tempi and/or metronome marks, printed or not.</tooltip>
       </row>
     </map>
   </merge>

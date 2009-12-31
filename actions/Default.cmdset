@@ -3039,11 +3039,10 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>Tempo</action>
-        <after>RehearsalMark</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
-        <label>Tempo Chooser</label>
-        <tooltip>Allows selection of a tempo indication for printing.</tooltip>
+        <label>Tempo</label>
+        <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
       </row>
       <row>
         <action>MM</action>
