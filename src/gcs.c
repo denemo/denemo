@@ -37,7 +37,7 @@ GdkGC *blackgc;
 GdkGC *graygc;
 GdkGC *slategraygc;
 GdkGC *greengc;
-GdkGC *darkgreengc;
+GdkGC *green3gc;
 GdkGC *redgc;
 GdkGC *bluegc;
 GdkGC *purplegc;
@@ -57,7 +57,7 @@ gcs_init (GdkWindow * window)
   autocolor (gray);
   autocolor (slategray);
   autocolor (green);
-  autocolor (darkgreen);
+  autocolor (green3);
   autocolor (red);
   autocolor (blue);
   autocolor (lightblue);
@@ -107,7 +107,7 @@ gcs_greengc ()
 GdkGC *
 gcs_darkgreengc ()
 {
-  return darkgreengc;
+  return green3gc;
 }
 
 

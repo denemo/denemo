@@ -11,7 +11,7 @@
 #include <string.h>
 #include "gcs.h"
 /**
- * Draw a lilypond directive on the score as a vertical green line and text if appropriate
+ * Draw a lilypond directive on the score as a vertical bar and text if appropriate
  *
  */
 void
@@ -32,7 +32,7 @@ draw_lily_dir (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
 		     xx + lily->gx, y + lily->gy, width, height);
   }
   else
-    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_greengc(), TRUE, xx/*-2*/, y, 10, STAFF_HEIGHT);
+    gdk_draw_rectangle (pixmap, selected?gcs_bluegc():gcs_darkgreengc(), TRUE, xx/*-2*/, y, 10, STAFF_HEIGHT);
   if(lily->display) {  //store display position x,y as well
     pango_layout_set_text (layout,
 			   lily->display->str,
