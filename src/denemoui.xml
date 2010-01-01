@@ -88,8 +88,6 @@
      <menuitem action="PasteClipboard"/>
       <separator/>
       <menuitem action="EditObject"/>
-      <separator/>
-      <menuitem action="ScoreProperties"/>
 	   <separator/>
       <menuitem action="Preferences"/>
       <menu action="KeyBindings">
