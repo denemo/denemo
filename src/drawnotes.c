@@ -345,8 +345,6 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
 	  {
-	    //setcairocolor( cr, gc );
-
 	    if (nextmuditem)
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
@@ -356,11 +354,6 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
 	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
 	    cairo_stroke( cr );
-	    cairo_destroy( cr );
-//	    gdk_draw_arc (pixmap, gc, FALSE,
-//			  xx + headwidths[noteheadtype] / 2,
-//			  y + thechord.lowesty + 3,
-//			  arcwidth, 8, 64 * 180, 64 * 180);
 	  }
       }			/* End stemup stuff */
     else
@@ -448,12 +441,6 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
 	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
 	    cairo_stroke( cr );
-	    cairo_destroy( cr );
-
-//	    gdk_draw_arc (pixmap, gc, FALSE,
-//			  xx + headwidths[noteheadtype] / 2,
-//			  y + thechord.highesty - 13,
-//			  arcwidth, 8, 0, 64 * 180);
 	  }
       }
     /* End stemdown stuff */
