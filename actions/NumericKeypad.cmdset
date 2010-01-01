@@ -2674,9 +2674,8 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       </row>
       <row>
         <action>GoToEmptyMeasure</action>
-        <after>GoToMeasure</after>
         <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
         <label>Go To Next Empty Measure</label>
         <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
       </row>
