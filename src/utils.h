@@ -61,10 +61,13 @@ void
 drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y);
 
 void
-drawfetachar_cr (cairo_t * cr, gunichar uc, gint x, gint y);
+drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y);
 
 void
 setcairocolor (cairo_t * cr, GdkGC * gc);
+
+void 
+drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y);
 
 /* Gives space after a note or rest */
 

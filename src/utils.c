@@ -138,7 +138,7 @@ drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y)
 }
 
 void
-drawfetachar_cr (cairo_t * cr, gunichar uc, gint x, gint y)
+drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
 {
   int len;
   char utf_string[8];
@@ -152,7 +152,7 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, gint x, gint y)
   cairo_show_text( cr, utf_string );
 }
 
-void drawnormaltext_cr (cairo_t *cr, const char *text, gint x, gint y)
+void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
 {
   cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
   cairo_set_font_size( cr, 9.0 );
