@@ -113,8 +113,8 @@ int fluidsynth_init()
   fluid_settings_setint(settings, "synth.chorus.active" , Denemo.prefs.fluidsynth_chorus?1:0);
   if(Denemo.prefs.fluidsynth_sample_rate>(22050-1)) {
     gint success = 
-    fluid_settings_setint(settings, "synth.sample-rate" , Denemo.prefs.fluidsynth_sample_rate);
-    g_print("Setting sample rate %d %s\n", Denemo.prefs.fluidsynth_sample_rate, success?"- success":"- FAILURE");
+      fluid_settings_setnum(settings, "synth.sample-rate" ,(double) Denemo.prefs.fluidsynth_sample_rate);
+    g_print("Setting sample rate %f %s\n",(double) Denemo.prefs.fluidsynth_sample_rate, success?"- success":"- FAILURE");
   }
 
   if(Denemo.prefs.fluidsynth_period_size>(64-1)) {
@@ -124,8 +124,8 @@ int fluidsynth_init()
 
 #ifdef G_OS_WIN32
   if(Denemo.prefs.fluidsynth_sample_rate<22050) {
-    fluid_settings_setint(settings, "synth.sample-rate" , 44100);
-    g_print("Setting sample rate to %d Hz\n", 44100);
+    fluid_settings_setnum(settings, "synth.sample-rate" , 44100.0);
+    g_print("Setting sample rate to %f Hz\n", 44100.0);
   }
   if(Denemo.prefs.fluidsynth_period_size<64) {
    fluid_settings_setint(settings, "audio.period-size" , 1024);
