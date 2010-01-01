@@ -664,8 +664,8 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
   for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE) {
     cairo_set_line_width( cr, 1.0 );
-    cairo_move_to( cr, LEFT_MARGIN, y+0.5 );
-    cairo_line_to( cr, x - HALF_BARLINE_SPACE, y+0.5 );
+    cairo_move_to( cr, LEFT_MARGIN, y );
+    cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
     cairo_stroke( cr );
   }
   /* Initialize the slur_stack for this staff. For the time being,
@@ -840,7 +840,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	    /* we've reached the end of the score and should
 	     * draw the heavy part of double-barline at regular position */
 	    x += 3;
-	    cairo_rectangle (cr, x, y, 4, STAFF_HEIGHT+1);
+	    cairo_rectangle (cr, x, y-0.5, 4, STAFF_HEIGHT+1);
 	    cairo_fill(cr);
 	  }
 	   

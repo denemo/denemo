@@ -131,8 +131,10 @@ draw_notehead (cairo_t *cr,
     else
       xx -= headwidths[noteheadtype];
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
-    drawfetachar_cr ( cr, head_char[noteheadtype],
-		       xx, y + height);
+    if (is_stemup)
+      drawfetachar_cr ( cr, head_char[noteheadtype], xx, y + height);
+    else
+      drawfetachar_cr ( cr, head_char[noteheadtype], xx-0.5, y + height);
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
       draw_dots (cr, xx + headwidths[noteheadtype],
@@ -180,16 +182,16 @@ draw_ledgers (cairo_t *cr,
   for (ledgerheight = -LINE_SPACE; ledgerheight >= greaterheight;
        ledgerheight -= LINE_SPACE)
   {
-    cairo_move_to( cr, xx - EXTRA_ON_LEDGER+0.5, ledgerheight + y+0.5 );
-    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER-0.5, ledgerheight + y+0.5 );
+    cairo_move_to( cr, xx - EXTRA_ON_LEDGER, ledgerheight + y );
+    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER, ledgerheight + y );
   }
 
   /* Almost identically, draw the bottom ones */
   for (ledgerheight = STAFF_HEIGHT + LINE_SPACE;
        ledgerheight <= lesserheight; ledgerheight += LINE_SPACE)
   {
-    cairo_move_to( cr, xx - EXTRA_ON_LEDGER+0.5, ledgerheight + y+0.5 );
-    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER-0.5, ledgerheight + y+0.5 );
+    cairo_move_to( cr, xx - EXTRA_ON_LEDGER, ledgerheight + y );
+    cairo_line_to( cr, xx + width + EXTRA_ON_LEDGER, ledgerheight + y );
   }
 
   cairo_stroke( cr );
@@ -334,8 +336,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	
 	if (duration > 0) {
 	  /* Vertical line */
-	  cairo_move_to( cr, xx + headwidths[noteheadtype] - 0.5, thechord.stemy + y );
-	  cairo_line_to( cr, xx + headwidths[noteheadtype] - 0.5, thechord.lowesty + y );
+	  cairo_move_to( cr, xx + headwidths[noteheadtype], thechord.stemy + y );
+	  cairo_line_to( cr, xx + headwidths[noteheadtype], thechord.lowesty + y - 2 );
 	  cairo_stroke( cr );
 	}
 
@@ -368,7 +370,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    if (duration >= 3)
 	      /* Down-pointing stem */
 	      drawfetachar_cr (cr, downstem_char[duration],
-				 xx + 1,
+				 xx,
 				 thechord.lowesty + y 
 				 + (duration == 6 ? EXTRA_STEM_HEIGHT
 				    : STEM_HEIGHT)
@@ -431,8 +433,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	
 	if (duration > 0) {
 	  /* Vertical line */
-	  cairo_move_to( cr, xx+0.5, thechord.highesty + y );
-	  cairo_line_to( cr, xx+0.5, thechord.stemy + y );
+	  cairo_move_to( cr, xx, thechord.highesty + y + 2 );
+	  cairo_line_to( cr, xx, thechord.stemy + y );
 	  cairo_stroke( cr );
 	}
 	/* Now draw the tie, if appropriate */
