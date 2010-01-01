@@ -112,8 +112,9 @@ int fluidsynth_init()
   fluid_settings_setint(settings, "synth.reverb.active" , Denemo.prefs.fluidsynth_reverb?1:0);
   fluid_settings_setint(settings, "synth.chorus.active" , Denemo.prefs.fluidsynth_chorus?1:0);
   if(Denemo.prefs.fluidsynth_sample_rate>(22050-1)) {
+    gint success = 
     fluid_settings_setint(settings, "synth.sample-rate" , Denemo.prefs.fluidsynth_sample_rate);
-    g_print("Setting sample rate %d\n", Denemo.prefs.fluidsynth_sample_rate);
+    g_print("Setting sample rate %d %s\n", Denemo.prefs.fluidsynth_sample_rate, success?"- success":"- FAILURE");
   }
 
   if(Denemo.prefs.fluidsynth_period_size>(64-1)) {
