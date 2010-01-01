@@ -709,7 +709,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
 
-  cairo_scale( cr, 4.0, 4.0 );
+  cairo_scale( cr, 1.0, 1.0 );
+  cairo_translate( cr, 0.5, 0.5 );
   //cairo_rotate( cr, M_PI/6.0 );
 
   /* Draw each staff */
