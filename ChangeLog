@@ -1,3 +1,15 @@
+2010-01-01 Release 0.8.12:    
+	* MIDI playback by internal synth (Fluidsynth)
+	* MIDI input available from all platforms (using Fluidsynth)
+	* Uses latest LilyPond version
+	* New Paste command Paste Command Script
+	* Adding movements keeps the staff/voice arrangements of the current movement.
+	* Find routines. Find next note lower than cursor.
+	* Support for wheel-mouse
+	* Rhythm entry now creates non-printing notes until pitches are applied
+	* Metronome markings for any duration, slur direction control, memorize and return to the cursor position,
+	* Set up multiple JACK output devices with multiple ports on each. Assign staffs to these device/port names.
+	* Bug fixes: cursor position on directives 
 2008-07-17 <rshann>
 	   view.c more internationalization fixes, and minor improvements to tooltips.
 	   denemoui.xml apply RR's fix for order of menu items.
