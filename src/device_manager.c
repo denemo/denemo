@@ -189,6 +189,8 @@ device_manager_refresh_model(void)
 }
 DevicePort *
 device_manager_get_DevicePort(gchar *staff_DP){
+  if(Denemo.prefs.midi_device==NULL)
+    return NULL;
   DevicePort *dp = (DevicePort*)g_malloc0(sizeof(DevicePort));
 
   GList *n;
