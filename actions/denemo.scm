@@ -699,7 +699,7 @@
    (d-DirectivePut-standalone-override "ChannelChange" (logior DENEMO_OVERRIDE_CHANNEL DENEMO_OVERRIDE_STEP))
    (d-DirectivePut-standalone-midibytes "ChannelChange" (number->string (- (abs channumber) 1 )) )
    (d-DirectivePut-standalone-minpixels "ChannelChange" 20) 
-   (d-DirectivePut-standalone-display "ChannelChange" (string-append "Channel  = " (number->string (abs channumber) )))
+   (d-DirectivePut-standalone-display "ChannelChange" (string-append "chan" (number->string (abs channumber) )))
    (d-DirectivePut-standalone-ty "ChannelChange" -20)
    (d-RefreshDisplay)
   ) 
