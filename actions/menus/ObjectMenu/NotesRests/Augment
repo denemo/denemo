@@ -8,8 +8,7 @@
         <action>Augment</action>
         <scheme> (if (d-GetNoteDuration) 
  (d-ChangeDurationByFactorTwo /) )
- (d-RefreshScreen)
- 
+ (d-RefreshDisplay) 
  </scheme>
         <label>Augment</label>
         <tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</tooltip>

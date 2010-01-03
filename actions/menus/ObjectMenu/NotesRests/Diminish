@@ -8,7 +8,7 @@
         <action>Diminish</action>
         <scheme> (if (d-GetNoteDuration) 
  (d-ChangeDurationByFactorTwo *)  )
- (d-RefreshScreen)
+ (d-RefreshDisplay)
   </scheme>
         <label>Diminish</label>
         <tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </tooltip>
