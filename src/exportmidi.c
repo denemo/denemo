@@ -1811,7 +1811,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
        * Do some checking
        *******************/
 
+	    
 	  measurewidth = bars2ticks (1, timesigupper, timesiglower);
+
+	  if(curmeasure->data == NULL)//An empty measure - treat as whole measure silence
+	    ticks_read = ticks_at_bar + measurewidth;
 	  if (ticks_at_bar + measurewidth != ticks_read)
 	    {
 	      if ((!measure_is_empty) && curmeasure->next)
