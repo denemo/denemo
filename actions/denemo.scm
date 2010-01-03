@@ -688,6 +688,24 @@
  (d-OneShotTimer duration (string-append "(d-OutputMIDI " "\"" "0x8$ " pitch " %%%" "\"" ")" )) 
   )
 
+;;;;;;;;;;;;; Midi Channel Change
+;;Change the Channel of a staff. By Nils Gey 01/2010
+;;;;Can be used standalone without a parameter. Script will call a dialog-box to get a number from the user
+;;;;Can be used in other scripts with an optional parameter which must be a non-negative number.
+(define* (ChangeChannel::Set #:optional (channumber (string->number (d-GetUserInput "Channel Number" "Please enter a channel number. Normally 1-16" "1"))))
+(if  (and (number? channumber)(> (abs channumber) 0) )
+  (begin
+   (d-Directive-standalone "ChannelChange")
+   (d-DirectivePut-standalone-override "ChannelChange" (logior DENEMO_OVERRIDE_CHANNEL DENEMO_OVERRIDE_STEP))
+   (d-DirectivePut-standalone-midibytes "ChannelChange" (number->string (- (abs channumber) 1 )) )
+   (d-DirectivePut-standalone-minpixels "ChannelChange" 20) 
+   (d-DirectivePut-standalone-display "ChannelChange" (string-append "Channel  = " (number->string (abs channumber) )))
+   (d-DirectivePut-standalone-ty "ChannelChange" -20)
+   (d-RefreshDisplay)
+  ) 
+  (display "Change Channel parameter must be a non-negative number. First Channel is 1 ")
+))
+
 
 ;;;;;;;;;;;;;; Refresh Procedures.
 ;;;;;;;;;;;;;; Naming convention D-<tag> is the refresh proc for tag
