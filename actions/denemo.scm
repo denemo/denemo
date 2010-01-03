@@ -21,6 +21,7 @@
 ;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
 ;;;;;;;;;;;;;; Returns #f if not a chord
+
 (define (d-GetLowestNote)
 (if (d-GetNotes)
  (list-ref (string-tokenize(d-GetNotes)) 0 )
@@ -32,8 +33,19 @@
  (list-ref (string-tokenize(d-GetNotes)) (- (length (string-tokenize(d-GetNotes)) ) 1 ))
  #f
  ))
-;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(define (d-CursorGoUp x x-max dx) ;Cursor goes up a specific amount
+   (if (<= x x-max)
+      (begin
+      	(d-CursorUp)
+        (d-CursorGoUp (+ x dx) x-max dx))))
+
+(define (d-CursorGoDown x x-max dx)  ;Cursor goes down a specific amount
+   (if (<= x x-max)
+      (begin
+         (d-CursorDown)
+         (d-CursorGoDown (+ x dx) x-max dx))))
 
 
 (define Chord? (lambda ()

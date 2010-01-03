@@ -3066,6 +3066,20 @@ for second and subsequent systems</tooltip>
         <label>Dynamics</label>
         <tooltip>Choose dynamics and midi volume level.</tooltip>
       </row>
+      <row>
+        <action>CursorToLowestNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Cursor to lowest note</label>
+        <tooltip>Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)</tooltip>
+      </row>
+      <row>
+        <action>CursorToHighestNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Cursor to highest note</label>
+        <tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
