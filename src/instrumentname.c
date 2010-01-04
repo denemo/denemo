@@ -405,7 +405,7 @@ select_program (char *instr)
     }
 
   /* then select the best match */
-  winner = 1;
+  winner = 0;
 
   for (i = 0; i < 128; i++)
     {
@@ -416,7 +416,8 @@ select_program (char *instr)
     }
 
   /* we have a winner */
-  return (winner - 1) & 127;
+  g_print("For %s choose prog %d\n", instr, winner&127);
+  return winner & 127;
 }
 
 /****************************************************************/

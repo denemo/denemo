@@ -292,8 +292,17 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNNUMBER(volume);
   // ASSIGNBOOLEAN(midi_prognum_override);
   if(staffstruct->midi_instrument->len) {
-    staffstruct->midi_channel = get_midi_channel();
     staffstruct->midi_prognum = get_midi_prognum();
+    gint i;
+    for(i=0;instruments[i];i++) {
+      if(!strcmp(instruments[i],staffstruct->midi_instrument->str)) {
+	staffstruct->midi_prognum = i;
+	break;
+      }
+    }
+    if(staffstruct->midi_prognum != i)
+      ASSIGNNUMBER_1(midi_prognum);
+    ASSIGNNUMBER_1(midi_channel);
   } else {
     ASSIGNNUMBER_1(midi_prognum);
     ASSIGNNUMBER_1(midi_channel);
