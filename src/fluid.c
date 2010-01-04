@@ -314,7 +314,7 @@ gboolean fluidsynth_read_smf_events()
          fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
 	 break; 
        case CONTROL_CHANGE:
-         return fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]);
+         fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]);
 	 break; 
                              
        case PROGRAM_CHANGE:
