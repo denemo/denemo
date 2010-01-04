@@ -128,8 +128,8 @@ int fluidsynth_init()
     g_print("Setting sample rate to %f Hz\n", 44100.0);
   }
   if(Denemo.prefs.fluidsynth_period_size<64) {
-   fluid_settings_setint(settings, "audio.period-size" , 1024);
-    g_print("Setting audio.period-size to %d\n", 1024);
+   fluid_settings_setint(settings, "audio.period-size" , 2048);
+    g_print("Setting audio.period-size to %d\n", 2048);
   }
 #endif
 
