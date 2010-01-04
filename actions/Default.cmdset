@@ -3080,6 +3080,14 @@ for second and subsequent systems</tooltip>
         <label>Cursor to highest note</label>
         <tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
+      <row>
+        <action>ChannelChange</action>
+        <after>MidiTempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Change Midi Channel</label>
+        <tooltip>Changes the MIDI channel of a staff </tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
