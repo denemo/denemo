@@ -499,8 +499,9 @@ init_jack(void){
       g_warning("No devices in preferences, edit->preferences->MIDI add devices and re-start");
     return -1;}
   if(MD[0].jack_client) {
-    input_port = jack_port_register(MD[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
-				    JackPortIsInput, 0);
+    if(input_port==NULL)
+      input_port = jack_port_register(MD[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
+				      JackPortIsInput, 0);
     return input_port == NULL;
   }
   for (i=0;MD[i].client_name;i++){
