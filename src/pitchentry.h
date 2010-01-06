@@ -27,4 +27,6 @@ double get_pitch(void);
 void set_sharper (GtkAction *action, gpointer param);
 void set_flatter (GtkAction *action, gpointer param);
 gchar *determine_interval(gint bass, gint harmony);
+void signal_measure_end(void);
+gboolean pitch_entry_active(DenemoGUI *gui);
 #endif //PITCHENTRY_H

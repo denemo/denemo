@@ -57,7 +57,7 @@ pop_hairpin_stack (GSList * hairpin_stack)
  *
  */
 void
-draw_hairpin (GdkPixmap * pixmap, GdkGC * gc, GSList ** hairpin_stack,
+draw_hairpin (cairo_t *cr, GSList ** hairpin_stack,
 	      gint x2, gint y, gint dir)
 {
   gint x1 = top_hairpin_stack (*hairpin_stack);
@@ -69,13 +69,17 @@ draw_hairpin (GdkPixmap * pixmap, GdkGC * gc, GSList ** hairpin_stack,
 	x2 += 5;
       if (dir)
 	{
-	  gdk_draw_line (pixmap, gc, x1, y - 15, x2, y - 20);
-	  gdk_draw_line (pixmap, gc, x1, y - 15, x2, y - 10);
+	  cairo_move_to( cr, x2, y-20 );
+	  cairo_line_to( cr, x1, y-15 );
+	  cairo_line_to( cr, x2, y-10 );
+	  cairo_stroke( cr );
 	}
       else
 	{
-	  gdk_draw_line (pixmap, gc, x1, y - 20, x2, y - 15);
-	  gdk_draw_line (pixmap, gc, x1, y - 10, x2, y - 15);
+	  cairo_move_to( cr, x1, y-20 );
+	  cairo_line_to( cr, x2, y-15 );
+	  cairo_line_to( cr, x1, y-10 );
+	  cairo_stroke( cr );
 	}
     }
 }

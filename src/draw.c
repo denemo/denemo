@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "calculatepositions.h"
 #include "commandfuncs.h"
 #include "contexts.h"
@@ -22,6 +23,8 @@
 #include "exportlilypond.h"	/* to generate lily text for display */
 #include "lyparserfuncs.h"	/* to generate lily text for display */
 #include "pitchentry.h"
+#include "lyric.h"
+
 /**
  * defines function to choose the correct 
  * depending upon the GTK version
@@ -163,7 +166,7 @@ static gint count_syllables(DenemoStaff *staff, gint from) {
  * @return excess ticks in the measure at this object. (Negative means still space).
  */
 static gint
-draw_object (objnode * curobj, gint x, gint y,
+draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	     DenemoGUI * gui, struct infotopass *itp)
 {
 
@@ -189,7 +192,6 @@ draw_object (objnode * curobj, gint x, gint y,
   /* The current note, rest, etc. being painted */
   gint extra;
 
-
   if (!greengc)
     greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
@@ -210,6 +212,7 @@ draw_object (objnode * curobj, gint x, gint y,
     else
       thecolor =/* (mudelaitem->isinvisible) ? &white :*/ itp->mark?&blue:&black;
     gdk_gc_set_foreground (blackgc, thecolor);
+    gdk_cairo_set_source_color( cr, thecolor );
   }
 
 
@@ -223,15 +226,14 @@ draw_object (objnode * curobj, gint x, gint y,
 	//	     gtk_style_get_font (itp->widget->style),
 	//	     x + mudelaitem->x, y, mudelaitem);
   
-	draw_figure (gui->pixmap, itp->gc,
-		     gtk_style_get_font (itp->widget->style),
+	draw_figure ( cr,
 		     x + mudelaitem->x,
 		     y + (thechord->lowesty / 2),
 		     mudelaitem);
   
       else
 	{
-	  draw_chord (gui->pixmap, itp->gc, curobj, x + mudelaitem->x, y,
+	  draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
 	  if((thechord->highesty) < itp->highy)
@@ -245,15 +247,14 @@ draw_object (objnode * curobj, gint x, gint y,
 
 	}
        if (thechord->is_fakechord)
-	draw_fakechord (gui->pixmap, itp->gc,
-		     gtk_style_get_font (itp->widget->style),
+	draw_fakechord (cr,
 		     x + mudelaitem->x, 
 		     y - 45,
 		     //y - (thechord->highesty ), 
 		     mudelaitem);
        else
 	{
-	  draw_chord (gui->pixmap, itp->gc, curobj, x + mudelaitem->x, y,
+	  draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
 	}
@@ -263,22 +264,20 @@ draw_object (objnode * curobj, gint x, gint y,
 	   && !itp->slur_stack
 	   && !thechord->is_tied)
 	{
-	  gchar *syllable = (gchar *) next_syllable();
+	  gchar *syllable = (gchar *) next_syllable(0);
 	  if(syllable)
-	    draw_lyric (gui->pixmap, itp->gc,
-			gtk_style_get_font (itp->widget->style),
+	    draw_lyric (cr,
 			x + mudelaitem->x,
 			y + thechord->lowesty,
 			syllable);
 	}
 
       if (thechord->dynamics)
-	draw_dynamic (gui->pixmap, itp->gc,
-		      gtk_style_get_font (itp->widget->style),
+	draw_dynamic (cr,
 		      x + mudelaitem->x, y, mudelaitem);
 
       if (thechord->slur_end_p)
-	draw_slur (gui->pixmap, itp->gc, &(itp->slur_stack),
+	draw_slur (cr, &(itp->slur_stack),
 		   x + mudelaitem->x, y);
       if (thechord->slur_begin_p)
 	itp->slur_stack =
@@ -302,7 +301,7 @@ draw_object (objnode * curobj, gint x, gint y,
 		 "removing the crescendo end");
 #endif
 	    }
-	  draw_hairpin (gui->pixmap, itp->gc, &(itp->hairpin_stack),
+	  draw_hairpin (cr, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 1);
 	}
       else if (thechord->diminuendo_end_p)
@@ -317,20 +316,18 @@ draw_object (objnode * curobj, gint x, gint y,
 		 "removing the diminuendo end");
 #endif
 	    }
-	  draw_hairpin (gui->pixmap, itp->gc, &(itp->hairpin_stack),
+	  draw_hairpin (cr, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 0);
 	}
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
       if (!thechord->is_figure && thechord->figure)
       //if (thechord->figure)
-        draw_figure (gui->pixmap, itp->gc,
-		     gtk_style_get_font (itp->widget->style),
+        draw_figure (cr,
 		     x + mudelaitem->x,
 		     y + (thechord->lowesty / 2),
 		     mudelaitem);
       if (!thechord->is_fakechord && thechord->fakechord) 
-	draw_fakechord (gui->pixmap, itp->gc,
-		     gtk_style_get_font (itp->widget->style),
+	draw_fakechord (cr,
 		     x + mudelaitem->x,
 		     y - 45,
 		     //y + (thechord->highesty / 4),
@@ -339,24 +336,22 @@ draw_object (objnode * curobj, gint x, gint y,
       break;
     case TUPOPEN:
     case TUPCLOSE:
-      draw_tupbracket (gui->pixmap, itp->gc,
-		       gtk_style_get_font (itp->widget->style),
+      draw_tupbracket (cr,
 		       x + mudelaitem->x, y, mudelaitem);
       break;
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
-      draw_lily_dir(gui->pixmap, itp->gc,
-		       gtk_style_get_font (itp->widget->style),
+      draw_lily_dir(cr,
 		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
       break;
     case CLEF:
-      draw_clef (gui->pixmap, itp->gc, x + mudelaitem->x, y,
+      draw_clef (cr, x + mudelaitem->x, y,
 		 itp->clef = ((clef *) mudelaitem->object));
       if (si->currentobject == curobj && si->cursor_appending)
 	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;
     case KEYSIG:
-      draw_key (gui->pixmap, itp->gc, x + mudelaitem->x, y,
+      draw_key (cr, x + mudelaitem->x, y,
 		((keysig *) mudelaitem->object)->number, itp->key,
 		itp->clef->type, TRUE);
       itp->key = ((keysig *) mudelaitem->object)->number;
@@ -368,8 +363,7 @@ draw_object (objnode * curobj, gint x, gint y,
 	memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
       break;
     case TIMESIG:
-      draw_timesig (gui->pixmap, itp->gc,
-		    gtk_style_get_font (itp->widget->style),
+      draw_timesig (cr,
 		    x + mudelaitem->x, y, itp->time1 =
 		    ((timesig *) mudelaitem->object)->time1, itp->time2 =
 		    ((timesig *) mudelaitem->object)->time2);
@@ -383,15 +377,13 @@ draw_object (objnode * curobj, gint x, gint y,
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
       break;
     case STEMDIRECTIVE:
-      draw_stem_directive (gui->pixmap, itp->gc,
-			   gtk_style_get_font (itp->widget->style),
+      draw_stem_directive (cr,
 			   x + mudelaitem->x, y, mudelaitem);
       itp->stem_directive = ((stemdirective *) mudelaitem->object)->type;
       break;
     case GRACE_START:
     case GRACE_END:
-      draw_gracebracket (gui->pixmap, itp->gc,
-			 gtk_style_get_font (itp->widget->style),
+      draw_gracebracket (cr,
 			 x + mudelaitem->x, y, mudelaitem);
       break;
     case BARLINE:
@@ -400,7 +392,7 @@ draw_object (objnode * curobj, gint x, gint y,
 	x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 	g_print ("possible y values top_y %d, y %d itp->y %d\n", itp->top_y,
 		 y, itp->y);
-	drawbarline (gui->pixmap, itp->gc, x, itp->y, itp->y + STAFF_HEIGHT,
+	drawbarline (cr, x, itp->y, itp->y + STAFF_HEIGHT,
 		     ((barline *) mudelaitem->object)->type);
 #ifdef DEBUG
 	g_print ("Draw barline\n");
@@ -425,13 +417,13 @@ draw_object (objnode * curobj, gint x, gint y,
 	  extra = MAX (mudelaitem->minpixelsalloted,
 		       space_after (mudelaitem->durinticks,
 				    itp->wholenotewidth));
-	  draw_cursor (gui->pixmap, si, x + mudelaitem->x + extra, y,
+	  draw_cursor (cr, si, x + mudelaitem->x + extra, y,
 		       gui->mode, si->cursorclef);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
 	}
       else
 	{
-	  draw_cursor (gui->pixmap, si, x + mudelaitem->x, y, gui->mode,
+	  draw_cursor (cr, si, x + mudelaitem->x, y, gui->mode,
 		       si->cursorclef);
 	}
     }
@@ -468,24 +460,14 @@ draw_object (objnode * curobj, gint x, gint y,
  * return TRUE if measure has correct number of beats
  */
 static gboolean
-draw_measure (measurenode * curmeasure, gint x, gint y,
+draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
   static GdkPixmap *exclam = NULL;
   static GString *mstring;
-  static PangoContext *context;
-  static PangoLayout *layout;
-  PangoFontDescription *desc;
   gint extra_ticks = 0;//number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
-  if (!context)
-    {
-      context =
-	gdk_pango_context_get_for_screen (gdk_drawable_get_screen
-					  (gui->pixmap));
-      layout = pango_layout_new (context);
-    }
   /* initialization */
   if (!exclam)
     {
@@ -514,19 +496,14 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
 
   if(itp->measurenum>1) {
     g_string_sprintf (mstring, "%d", itp->measurenum);
-    pango_layout_set_text (layout, mstring->str, -1);
-    desc = pango_font_description_from_string (FONT);
-    pango_layout_set_font_description (layout, desc);
-    pango_font_description_free (desc);
-    gdk_draw_layout (gui->pixmap, itp->gc, x - SPACE_FOR_BARLINE,
-		     y - 12, layout);
+    drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE, y - 12);
   }
   // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
   if (!si->currentobject && (si->currentstaffnum == itp->staffnum && si->currentmeasurenum == itp->measurenum))
     {
       /* That is, the cursor's at the beginning of this blank measure */
       si->cursoroffend = FALSE; 
-      draw_cursor (gui->pixmap, si, x, y, gui->mode, itp->clef->type);
+      draw_cursor (cr, si, x, y, gui->mode, itp->clef->type);
       memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
       si->cursorclef = itp->clef->type;     
     }
@@ -579,15 +556,18 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
 			  (si->firstobjmarked <= itp->objnum) && 
 			  (si->lastobjmarked >= itp->objnum)))
        );
-    extra_ticks = draw_object (curobj, x, y, gui, itp);
+    extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
   }
   /* Paint the exclamation point, if necessary */
-  GdkGC *exclamgc = (extra_ticks>0)?redgc:(extra_ticks<0)?bluegc:NULL;
-  if(exclamgc)
-    drawbitmapinverse (gui->pixmap, exclamgc, exclam,
-		       x, y - 8 - EXCL_HEIGHT,
-		       EXCL_WIDTH, EXCL_HEIGHT);
-  return exclamgc!=NULL;
+  cairo_save(cr);
+  if( extra_ticks > 0 )
+    cairo_set_source_rgb( cr, 1.0, 0, 0 );
+  else
+    cairo_set_source_rgb( cr, 0, 0, 1 );
+  if(extra_ticks != 0)
+    drawnormaltext_cr( cr, "!", x, y - 8 );
+  cairo_restore(cr);
+  return extra_ticks!=0;
 }
 
 /**
@@ -601,37 +581,31 @@ draw_measure (measurenode * curmeasure, gint x, gint y,
  * return TRUE if the staff has had to made taller
  */
 static gboolean
-draw_staff (DenemoStaff * curstaffstruct, gint y,
+draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 	    DenemoGUI * gui, struct infotopass *itp)
 {
-  PangoContext *context;
-  PangoLayout *layout;
-  PangoFontDescription *desc;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint x, i;
-  GdkGC *gc;
-  context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (gui->pixmap));
-  layout = pango_layout_new (context);
+
+  cairo_save(cr);
 
   if ((DenemoStaff *) si->currentstaff->data == curstaffstruct)
-    gc = blackgc;
+    cairo_set_source_rgb( cr, 0,0,0 );
   else
-    gc = slategraygc;
+    cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
 
 
-
-  draw_clef (gui->pixmap, gc, LEFT_MARGIN, y,
+  draw_clef (cr, LEFT_MARGIN, y,
 	     itp->clef = curstaffstruct->leftmost_clefcontext);
   x = KEY_MARGIN;
-  draw_key (gui->pixmap, gc, x, y,
+  draw_key (cr, x, y,
 	    itp->key = curstaffstruct->leftmost_keysig->number,
 	    0, itp->clef->type, TRUE);
   memcpy (itp->keyaccs, curstaffstruct->leftmost_keysig->accs, SEVENGINTS);
   x += si->maxkeywidth;
 
-  draw_timesig (gui->pixmap, gc, gtk_style_get_font (itp->widget->style), x,
+  draw_timesig (cr, x,
 		y, itp->time1 =
 		curstaffstruct->leftmost_timesig->time1, itp->time2 =
 		curstaffstruct->leftmost_timesig->time2);
@@ -648,15 +622,8 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
      || curstaffstruct->voicenumber == 3) ? 12 : 0;
 
   /* Draw staff name */
-  pango_layout_set_text (layout, curstaffstruct->denemo_name->str, -1);
-  desc = pango_font_description_from_string (FONT);
-  pango_layout_set_font_description (layout, desc);
-  gdk_draw_layout (gui->pixmap, gc, KEY_MARGIN, y - staffname_offset, layout);
+  drawnormaltext_cr( cr, curstaffstruct->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
 
-
-  // gint title_highy = 0;
-
-  pango_font_description_free (desc);
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
@@ -670,13 +637,13 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
 
 
 
-  itp->gc = gc;
+  //itp->gc = gc;
   while (itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
       if(itp->measurenum == si->rightmeasurenum+1)
-	itp->gc = slategraygc;
-      itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (itp->curmeasure, x, y, gui, itp);
+	cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
+      itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (cr, itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
@@ -696,9 +663,12 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
   //  itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
-  for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE)
-    gdk_draw_line (gui->pixmap, blackgc, LEFT_MARGIN, y,
-		   x - HALF_BARLINE_SPACE, y);
+  for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE) {
+    cairo_set_line_width( cr, 1.0 );
+    cairo_move_to( cr, LEFT_MARGIN, y );
+    cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
+    cairo_stroke( cr );
+  }
   /* Initialize the slur_stack for this staff. For the time being,
      slurs that begin and/or end after the portion of the music
      that is shown are not drawn. */
@@ -707,6 +677,7 @@ draw_staff (DenemoStaff * curstaffstruct, gint y,
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
+  cairo_restore(cr);
   return repeat;
 }
 
@@ -737,6 +708,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.highy = 0;//in case there are no objects...
   y = 0;
 
+  cairo_t *cr = gdk_cairo_create( gui->pixmap );
+
+  cairo_scale( cr, gui->si->zoom, gui->si->zoom );
+  cairo_translate( cr, 0.5, 0.5 );
+  //cairo_rotate( cr, M_PI/6.0 );
 
   /* Draw each staff */
   for ((itp.staffnum = si->top_staff,
@@ -760,19 +736,34 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     itp.in_highy = highy, itp.in_lowy = lowy;
     itp.highy = 0;//do not pass on extra_space from one staff to the next
-	gdk_draw_rectangle (gui->pixmap, gcs_lightbluegc(), TRUE, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
+
+    cairo_save(cr);
+    cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+    cairo_rectangle (cr, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
+    cairo_fill(cr);
+    cairo_restore(cr);
 
       if(staff->staff_directives){
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffDirectivesPixbuf));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffDirectivesPixbuf));
-	gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	cairo_save( cr );
+	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffDirectivesPixbuf), 0,y );
+	cairo_rectangle( cr,0,y, width, height );
+	cairo_paint( cr );
+	cairo_restore( cr );
+	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
       if(staff->voice_directives) {
 
 	guint width = gdk_pixbuf_get_width( GDK_PIXBUF(StaffDirectivesPixbuf));
 	guint height = gdk_pixbuf_get_height( GDK_PIXBUF(StaffDirectivesPixbuf));
-	gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	cairo_save( cr );
+	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffDirectivesPixbuf), 0,y+STAFF_HEIGHT/2 );
+	cairo_rectangle( cr,0,y+STAFF_HEIGHT/2, width, height );
+	cairo_paint( cr );
+	cairo_restore( cr );
+	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
     
     
@@ -782,9 +773,18 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       /* draw background of clef, keysig, timesig */
       gint key = gui->si->maxkeywidth;
       gint cmajor = key?0:5;//allow some area for keysig in C-major
-      gdk_draw_rectangle (gui->pixmap, graygc, TRUE, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
-      gdk_draw_rectangle (gui->pixmap, lightbluegc, TRUE, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
-      gdk_draw_rectangle (gui->pixmap, graygc, TRUE, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+      cairo_save(cr);
+
+      cairo_set_source_rgb( cr, 0.7, 0.7, 0.7 );
+      cairo_rectangle (cr, LEFT_MARGIN,y,KEY_MARGIN-LEFT_MARGIN - cmajor,STAFF_HEIGHT);/*clef edit*/
+      cairo_rectangle (cr, KEY_MARGIN+key+cmajor,y,SPACE_FOR_TIME-cmajor,STAFF_HEIGHT);/*timesig edit*/
+      cairo_fill(cr);
+
+      cairo_set_source_rgb( cr, 0.7, 0.7, 1 );
+      cairo_rectangle (cr, KEY_MARGIN-cmajor,y,key+2*cmajor,STAFF_HEIGHT);/*keysig edit*/
+      cairo_fill(cr);
+
+      cairo_restore(cr);
     }
     if(si->currentstaffnum==itp.staffnum) {
 
@@ -802,7 +802,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     gboolean *wronglength = (gboolean *)g_malloc((sizeof(gboolean))*(2+si->rightmeasurenum - si->leftmeasurenum));
     itp.wronglengths = wronglength;
-    repeat = draw_staff (staff, y, gui, &itp);
+    repeat = draw_staff (cr, staff, y, gui, &itp);
 
 #if 0
     //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
@@ -828,16 +828,22 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	  mwidthiterator = g_list_last(si->measurewidths);//do not draw barlines for short staffs
 	if (!mwidthiterator->next) /* Last measure - draw light line 3 pixels early */
 	  x -= 3;
-	gdk_draw_line (gui->pixmap, wronglength[i-si->leftmeasurenum]?graygc:blackgc, x, top, x, y);
+	if (wronglength[i-si->leftmeasurenum])
+	  cairo_set_source_rgb( cr, 0.3, 0.3, 0.3 );
+	else
+	  cairo_set_source_rgb( cr, 0.0, 0.0, 0.0 );
+
+	cairo_move_to (cr, x, top);
+	cairo_line_to (cr, x, y);
+	cairo_stroke (cr);
 	
 	if (!mwidthiterator->next)
 	  {
 	    /* we've reached the end of the score and should
 	     * draw the heavy part of double-barline at regular position */
 	    x += 3;
-	    gdk_draw_rectangle (gui->pixmap, wronglength[i-si->leftmeasurenum]?graygc:blackgc, TRUE, x,
-				y, 4,
-				STAFF_HEIGHT+1);
+	    cairo_rectangle (cr, x, y-0.5, 4, STAFF_HEIGHT+1);
+	    cairo_fill(cr);
 	  }
 	   
       }
@@ -861,7 +867,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
  
   /* Draw the selection rectangle */
   if (si->markstaffnum)
-    draw_selection (gui->pixmap, bluegc, itp.markx1, itp.marky1, itp.markx2,
+    draw_selection (cr, itp.markx1, itp.marky1, itp.markx2,
 		    itp.marky2);
   return repeat;
 

@@ -2,7 +2,7 @@ SCM scheme_CursorLeft (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -19,7 +19,7 @@ SCM scheme_CursorDown (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -36,7 +36,7 @@ SCM scheme_CursorUp (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -53,7 +53,7 @@ SCM scheme_CursorRight (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -70,7 +70,7 @@ SCM scheme_GoToMark (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -87,7 +87,7 @@ SCM scheme_PushPosition (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -104,7 +104,7 @@ SCM scheme_PopPosition (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -121,7 +121,7 @@ SCM scheme_PopPushPosition (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -138,7 +138,7 @@ SCM scheme_StaffUp (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -155,7 +155,7 @@ SCM scheme_StaffDown (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -172,7 +172,7 @@ SCM scheme_MeasureLeft (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -189,7 +189,7 @@ SCM scheme_MeasureRight (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -206,7 +206,7 @@ SCM scheme_A (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -223,7 +223,7 @@ SCM scheme_B (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -240,7 +240,7 @@ SCM scheme_C (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -257,7 +257,7 @@ SCM scheme_D (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -274,7 +274,7 @@ SCM scheme_E (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -291,7 +291,7 @@ SCM scheme_F (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -308,7 +308,7 @@ SCM scheme_G (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -325,7 +325,7 @@ SCM scheme_OctaveUp (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -342,7 +342,7 @@ SCM scheme_OctaveDown (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -359,7 +359,7 @@ SCM scheme_WholeNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -376,7 +376,7 @@ SCM scheme_HalfNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -393,7 +393,7 @@ SCM scheme_QuarterNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -410,7 +410,7 @@ SCM scheme_EighthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -427,7 +427,7 @@ SCM scheme_SixteenthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -444,7 +444,7 @@ SCM scheme_ThirtysecondNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -461,7 +461,7 @@ SCM scheme_SixtyfourthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -478,7 +478,7 @@ SCM scheme_OneHundredTwentyEighthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -495,7 +495,7 @@ SCM scheme_TwoHundredFiftySixthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -512,7 +512,7 @@ SCM scheme_InsertBlankWholeNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -529,7 +529,7 @@ SCM scheme_InsertBlankHalfNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -546,7 +546,7 @@ SCM scheme_InsertBlankQuarterNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -563,7 +563,7 @@ SCM scheme_InsertBlankEighthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -580,7 +580,7 @@ SCM scheme_InsertBlankSixteenthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -597,7 +597,7 @@ SCM scheme_InsertBlankThirtysecondNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -614,7 +614,7 @@ SCM scheme_InsertBlankSixtyfourthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -631,7 +631,7 @@ SCM scheme_InsertBlankOneHundredTwentyEighthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -648,7 +648,7 @@ SCM scheme_InsertBlankTwoHundredFiftySixthNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -665,7 +665,7 @@ SCM scheme_ToggleRestMode (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -682,7 +682,7 @@ SCM scheme_ToggleBlankMode (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -699,7 +699,7 @@ SCM scheme_InsertWholeRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -716,7 +716,7 @@ SCM scheme_InsertHalfRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -733,7 +733,7 @@ SCM scheme_InsertQuarterRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -750,7 +750,7 @@ SCM scheme_InsertEighthRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -767,7 +767,7 @@ SCM scheme_InsertSixteenthRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -784,7 +784,7 @@ SCM scheme_InsertThirtysecondRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -801,7 +801,7 @@ SCM scheme_InsertSixtyfourthRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -818,7 +818,7 @@ SCM scheme_InsertDuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -835,7 +835,7 @@ SCM scheme_InsertTriplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -852,7 +852,7 @@ SCM scheme_StartTriplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -869,7 +869,7 @@ SCM scheme_EndTuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -886,7 +886,7 @@ SCM scheme_InsertQuadtuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -903,7 +903,7 @@ SCM scheme_InsertQuintuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -920,7 +920,7 @@ SCM scheme_InsertSextuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -937,7 +937,7 @@ SCM scheme_InsertSeptuplet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -954,7 +954,7 @@ SCM scheme_AddNoteToChord (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -971,7 +971,7 @@ SCM scheme_RemoveNoteFromChord (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -988,7 +988,7 @@ SCM scheme_Sharpen (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1005,7 +1005,7 @@ SCM scheme_Flatten (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1022,7 +1022,7 @@ SCM scheme_StemUp (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1039,7 +1039,7 @@ SCM scheme_StemDown (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1056,7 +1056,7 @@ SCM scheme_AddDot (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1073,7 +1073,7 @@ SCM scheme_RemoveDot (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1090,7 +1090,7 @@ SCM scheme_InsertTiedNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1107,7 +1107,7 @@ SCM scheme_ToggleTie (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1124,7 +1124,7 @@ SCM scheme_DeleteObject (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1141,7 +1141,7 @@ SCM scheme_DeletePreviousObject (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1158,7 +1158,7 @@ SCM scheme_InsertMeasure (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1175,7 +1175,7 @@ SCM scheme_AddMeasure (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1192,7 +1192,7 @@ SCM scheme_InsertMeasureBefore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1209,7 +1209,7 @@ SCM scheme_InsertMeasureAfter (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1226,7 +1226,7 @@ SCM scheme_AppendMeasure (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1243,7 +1243,7 @@ SCM scheme_DeleteMeasure (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1260,7 +1260,7 @@ SCM scheme_DeleteMeasureAllStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1277,7 +1277,7 @@ SCM scheme_ShrinkMeasures (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1294,7 +1294,7 @@ SCM scheme_WidenMeasures (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1311,7 +1311,7 @@ SCM scheme_ShorterStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1328,7 +1328,7 @@ SCM scheme_TallerStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1345,7 +1345,7 @@ SCM scheme_InsertTrebleClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1362,7 +1362,7 @@ SCM scheme_InsertBassClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1379,7 +1379,7 @@ SCM scheme_Insertg8clef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1396,7 +1396,7 @@ SCM scheme_InsertAltoClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1413,7 +1413,7 @@ SCM scheme_InsertTenorClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1430,7 +1430,7 @@ SCM scheme_InsertSopranoClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1447,7 +1447,7 @@ SCM scheme_SetInitialTrebleClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1464,7 +1464,7 @@ SCM scheme_SetInitialBassClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1481,7 +1481,7 @@ SCM scheme_SetInitialg8clef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1498,7 +1498,7 @@ SCM scheme_SetInitialAltoClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1515,7 +1515,7 @@ SCM scheme_SetInitialTenorClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1532,7 +1532,7 @@ SCM scheme_SetInitialSopranoClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1549,7 +1549,7 @@ SCM scheme_Insert22Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1566,7 +1566,7 @@ SCM scheme_Insert32Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1583,7 +1583,7 @@ SCM scheme_Insert42Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1600,7 +1600,7 @@ SCM scheme_Insert44Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1617,7 +1617,7 @@ SCM scheme_Insert34Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1634,7 +1634,7 @@ SCM scheme_Insert24Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1651,7 +1651,7 @@ SCM scheme_Insert64Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1668,7 +1668,7 @@ SCM scheme_Insert38Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1685,7 +1685,7 @@ SCM scheme_Insert68Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1702,7 +1702,7 @@ SCM scheme_Insert128Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1719,7 +1719,7 @@ SCM scheme_Insert98Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1736,7 +1736,7 @@ SCM scheme_Set22Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1753,7 +1753,7 @@ SCM scheme_Set32Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1770,7 +1770,7 @@ SCM scheme_Set42Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1787,7 +1787,7 @@ SCM scheme_Set44Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1804,7 +1804,7 @@ SCM scheme_Set34Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1821,7 +1821,7 @@ SCM scheme_Set24Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1838,7 +1838,7 @@ SCM scheme_Set64Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1855,7 +1855,7 @@ SCM scheme_Set38Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1872,7 +1872,7 @@ SCM scheme_Set68Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1889,7 +1889,7 @@ SCM scheme_Set128Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1906,7 +1906,7 @@ SCM scheme_Set98Time (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1923,7 +1923,7 @@ SCM scheme_InsertCmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1940,7 +1940,7 @@ SCM scheme_InsertGmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1957,7 +1957,7 @@ SCM scheme_InsertDmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1974,7 +1974,7 @@ SCM scheme_InsertAmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -1991,7 +1991,7 @@ SCM scheme_InsertEmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2008,7 +2008,7 @@ SCM scheme_InsertBmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2025,7 +2025,7 @@ SCM scheme_InsertFSharpmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2042,7 +2042,7 @@ SCM scheme_InsertCSharpmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2059,7 +2059,7 @@ SCM scheme_InsertFmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2076,7 +2076,7 @@ SCM scheme_InsertBflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2093,7 +2093,7 @@ SCM scheme_InsertEflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2110,7 +2110,7 @@ SCM scheme_InsertAflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2127,7 +2127,7 @@ SCM scheme_InsertDflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2144,7 +2144,7 @@ SCM scheme_InsertGflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2161,7 +2161,7 @@ SCM scheme_InsertCflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2178,7 +2178,7 @@ SCM scheme_InsertAmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2195,7 +2195,7 @@ SCM scheme_InsertEmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2212,7 +2212,7 @@ SCM scheme_InsertBmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2229,7 +2229,7 @@ SCM scheme_InsertFSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2246,7 +2246,7 @@ SCM scheme_InsertCSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2263,7 +2263,7 @@ SCM scheme_InsertGSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2280,7 +2280,7 @@ SCM scheme_InsertDSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2297,7 +2297,7 @@ SCM scheme_InsertASharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2314,7 +2314,7 @@ SCM scheme_InsertDmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2331,7 +2331,7 @@ SCM scheme_InsertGmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2348,7 +2348,7 @@ SCM scheme_InsertCmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2365,7 +2365,7 @@ SCM scheme_InsertFmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2382,7 +2382,7 @@ SCM scheme_InsertBflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2399,7 +2399,7 @@ SCM scheme_InsertEflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2416,7 +2416,7 @@ SCM scheme_InsertAflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2433,7 +2433,7 @@ SCM scheme_SetInitialCmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2450,7 +2450,7 @@ SCM scheme_SetInitialGmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2467,7 +2467,7 @@ SCM scheme_SetInitialDmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2484,7 +2484,7 @@ SCM scheme_SetInitialAmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2501,7 +2501,7 @@ SCM scheme_SetInitialEmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2518,7 +2518,7 @@ SCM scheme_SetInitialBmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2535,7 +2535,7 @@ SCM scheme_SetInitialFSharpmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2552,7 +2552,7 @@ SCM scheme_SetInitialCSharpmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2569,7 +2569,7 @@ SCM scheme_SetInitialFmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2586,7 +2586,7 @@ SCM scheme_SetInitialBflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2603,7 +2603,7 @@ SCM scheme_SetInitialEflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2620,7 +2620,7 @@ SCM scheme_SetInitialAflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2637,7 +2637,7 @@ SCM scheme_SetInitialDflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2654,7 +2654,7 @@ SCM scheme_SetInitialGflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2671,7 +2671,7 @@ SCM scheme_SetInitialCflatmaj (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2688,7 +2688,7 @@ SCM scheme_SetInitialAmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2705,7 +2705,7 @@ SCM scheme_SetInitialEmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2722,7 +2722,7 @@ SCM scheme_SetInitialBmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2739,7 +2739,7 @@ SCM scheme_SetInitialFSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2756,7 +2756,7 @@ SCM scheme_SetInitialCSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2773,7 +2773,7 @@ SCM scheme_SetInitialGSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2790,7 +2790,7 @@ SCM scheme_SetInitialDSharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2807,7 +2807,7 @@ SCM scheme_SetInitialASharpmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2824,7 +2824,7 @@ SCM scheme_SetInitialDmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2841,7 +2841,7 @@ SCM scheme_SetInitialGmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2858,7 +2858,7 @@ SCM scheme_SetInitialCmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2875,7 +2875,7 @@ SCM scheme_SetInitialFmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2892,7 +2892,7 @@ SCM scheme_SetInitialBflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2909,7 +2909,7 @@ SCM scheme_SetInitialEflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2926,7 +2926,7 @@ SCM scheme_SetInitialAflatmin (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2943,7 +2943,7 @@ SCM scheme_SetMark (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2960,7 +2960,7 @@ SCM scheme_UnsetMark (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2977,7 +2977,7 @@ SCM scheme_ToggleBeginSlur (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -2994,7 +2994,7 @@ SCM scheme_ToggleEndSlur (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3011,7 +3011,7 @@ SCM scheme_ToggleStartCrescendo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3028,7 +3028,7 @@ SCM scheme_ToggleEndCrescendo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3045,7 +3045,7 @@ SCM scheme_ToggleStartDiminuendo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3062,7 +3062,7 @@ SCM scheme_ToggleEndDiminuendo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3079,7 +3079,7 @@ SCM scheme_ToggleAccent (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3096,7 +3096,7 @@ SCM scheme_ToggleFermata (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3113,7 +3113,7 @@ SCM scheme_ToggleStaccato (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3130,7 +3130,7 @@ SCM scheme_ToggleTenuto (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3147,7 +3147,7 @@ SCM scheme_ToggleTrill (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3164,7 +3164,7 @@ SCM scheme_ToggleTurn (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3181,7 +3181,7 @@ SCM scheme_ToggleMordent (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3198,7 +3198,7 @@ SCM scheme_ToggleStaccatissimo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3215,7 +3215,7 @@ SCM scheme_ToggleCoda (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3232,7 +3232,7 @@ SCM scheme_ToggleFlageolet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3249,7 +3249,7 @@ SCM scheme_ToggleOpen (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3266,7 +3266,7 @@ SCM scheme_TogglePrallMordent (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3283,7 +3283,7 @@ SCM scheme_TogglePrallPrall (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3300,7 +3300,7 @@ SCM scheme_TogglePrall (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3317,7 +3317,7 @@ SCM scheme_ToggleReverseTurn (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3334,7 +3334,7 @@ SCM scheme_ToggleSegno (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3351,7 +3351,7 @@ SCM scheme_ToggleSforzato (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3368,7 +3368,7 @@ SCM scheme_ToggleStopped (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3385,7 +3385,7 @@ SCM scheme_ToggleThumb (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3402,7 +3402,7 @@ SCM scheme_ToggleUpprall (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3419,7 +3419,7 @@ SCM scheme_ToggleArpeggio (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3436,7 +3436,7 @@ SCM scheme_SetGrace (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3453,7 +3453,7 @@ SCM scheme_ForceCaution (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3470,7 +3470,7 @@ SCM scheme_ChangePitch (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3487,7 +3487,7 @@ SCM scheme_InsertRhythm (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3504,7 +3504,7 @@ SCM scheme_NextRhythm (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3521,7 +3521,7 @@ SCM scheme_AppendMeasureAllStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3538,7 +3538,7 @@ SCM scheme_ExecuteScheme (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3555,7 +3555,7 @@ SCM scheme_SharpenEnharmonicSet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3572,7 +3572,7 @@ SCM scheme_FlattenEnharmonicSet (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3589,7 +3589,7 @@ SCM scheme_New (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3606,7 +3606,7 @@ SCM scheme_Open (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3623,7 +3623,7 @@ SCM scheme_AddStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3640,7 +3640,7 @@ SCM scheme_AddMovements (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3657,7 +3657,7 @@ SCM scheme_MovementProps (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3674,7 +3674,7 @@ SCM scheme_OpenNewWindow (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3691,7 +3691,7 @@ SCM scheme_Save (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3708,7 +3708,7 @@ SCM scheme_SaveAs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3725,7 +3725,7 @@ SCM scheme_OpenTemplate (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3742,7 +3742,7 @@ SCM scheme_OpenExample (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3759,7 +3759,7 @@ SCM scheme_OpenMyTemplate (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3776,7 +3776,7 @@ SCM scheme_SaveTemplate (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3793,7 +3793,7 @@ SCM scheme_NewWindow (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3810,7 +3810,7 @@ SCM scheme_InsertMovementBefore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3827,7 +3827,7 @@ SCM scheme_InsertMovementAfter (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3844,7 +3844,7 @@ SCM scheme_NewMovement (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3861,7 +3861,7 @@ SCM scheme_SaveParts (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3878,7 +3878,7 @@ SCM scheme_ExportPDF (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3895,7 +3895,7 @@ SCM scheme_ConfigureScore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3912,7 +3912,7 @@ SCM scheme_PrintPreview (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3929,7 +3929,7 @@ SCM scheme_PrintSelection (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3946,7 +3946,7 @@ SCM scheme_PrintExcerptPreview (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3963,7 +3963,7 @@ SCM scheme_Print (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3980,7 +3980,7 @@ SCM scheme_PrintPart (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -3997,7 +3997,7 @@ SCM scheme_Close (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4014,7 +4014,7 @@ SCM scheme_Quit (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4031,7 +4031,7 @@ SCM scheme_Undo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4048,7 +4048,7 @@ SCM scheme_Redo (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4065,7 +4065,7 @@ SCM scheme_Copy (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4082,7 +4082,7 @@ SCM scheme_Cut (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4099,7 +4099,7 @@ SCM scheme_PasteClipboard (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4116,7 +4116,7 @@ SCM scheme_ScoreProperties (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4133,7 +4133,7 @@ SCM scheme_SaveSelection (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4150,7 +4150,7 @@ SCM scheme_Preferences (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4167,7 +4167,7 @@ SCM scheme_SaveAccels (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4184,7 +4184,7 @@ SCM scheme_CommandManagement (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4201,7 +4201,7 @@ SCM scheme_SwapStaffs (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4218,7 +4218,7 @@ SCM scheme_SplitVoices (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4235,7 +4235,7 @@ SCM scheme_JoinVoices (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4252,7 +4252,7 @@ SCM scheme_SwapMovements (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4269,7 +4269,7 @@ SCM scheme_VoiceUp (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4286,7 +4286,7 @@ SCM scheme_VoiceDown (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4303,7 +4303,7 @@ SCM scheme_AddBefore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4320,7 +4320,7 @@ SCM scheme_AddAfter (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4337,7 +4337,7 @@ SCM scheme_AddInitial (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4354,7 +4354,7 @@ SCM scheme_AddLast (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4371,7 +4371,7 @@ SCM scheme_DeleteBefore (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4388,7 +4388,7 @@ SCM scheme_DeleteStaff (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4405,7 +4405,7 @@ SCM scheme_DeleteAfter (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4422,7 +4422,7 @@ SCM scheme_AddVoice (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4439,7 +4439,7 @@ SCM scheme_StaffProperties (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4456,7 +4456,7 @@ SCM scheme_InitialClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4473,7 +4473,7 @@ SCM scheme_InsertClef (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4490,7 +4490,7 @@ SCM scheme_InitialKey (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4507,7 +4507,7 @@ SCM scheme_InsertKey (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4524,7 +4524,7 @@ SCM scheme_InitialTimeSig (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4541,7 +4541,7 @@ SCM scheme_InsertTimeSig (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4558,7 +4558,7 @@ SCM scheme_ChangeNotehead (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4575,7 +4575,7 @@ SCM scheme_InsertStem (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4592,7 +4592,7 @@ SCM scheme_AddVerse (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4609,7 +4609,7 @@ SCM scheme_DeleteVerse (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4626,7 +4626,7 @@ SCM scheme_EditFiguredBass (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4643,7 +4643,7 @@ SCM scheme_DeleteFiguredBass (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4660,7 +4660,7 @@ SCM scheme_HideFiguredBass (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4677,7 +4677,7 @@ SCM scheme_EditChords (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4694,7 +4694,7 @@ SCM scheme_InsertDynamic (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4711,7 +4711,7 @@ SCM scheme_InsertLilyDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4728,7 +4728,7 @@ SCM scheme_EditObject (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4745,7 +4745,7 @@ SCM scheme_EditDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4762,7 +4762,7 @@ SCM scheme_EditStaffDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4779,7 +4779,7 @@ SCM scheme_EditVoiceDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4796,7 +4796,7 @@ SCM scheme_EditScoreDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4813,7 +4813,7 @@ SCM scheme_EditMovementDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4830,7 +4830,7 @@ SCM scheme_EditClefDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4847,7 +4847,7 @@ SCM scheme_EditTimesigDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4864,7 +4864,7 @@ SCM scheme_EditKeysigDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4881,7 +4881,7 @@ SCM scheme_DeleteDirective (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4898,7 +4898,7 @@ SCM scheme_AttachLilyToNote (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4915,7 +4915,7 @@ SCM scheme_AttachLilyToChord (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4932,7 +4932,7 @@ SCM scheme_InsertBarline (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4949,7 +4949,7 @@ SCM scheme_GoToMeasure (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4966,7 +4966,7 @@ SCM scheme_GoToBeginning (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -4983,7 +4983,7 @@ SCM scheme_GoToEnd (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5000,7 +5000,7 @@ SCM scheme_NextMovement (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5017,7 +5017,7 @@ SCM scheme_PreviousMovement (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5034,7 +5034,7 @@ SCM scheme_DeleteMovement (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5051,7 +5051,7 @@ SCM scheme_Play (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5068,7 +5068,7 @@ SCM scheme_Stop (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5085,7 +5085,7 @@ SCM scheme_PlayCSound (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5102,7 +5102,7 @@ SCM scheme_PlaybackProperties (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5119,7 +5119,7 @@ SCM scheme_Help (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5136,7 +5136,7 @@ SCM scheme_About (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5153,7 +5153,7 @@ SCM scheme_MoreCommands (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5170,7 +5170,7 @@ SCM scheme_MyCommands (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5187,7 +5187,7 @@ SCM scheme_FetchCommands (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5204,7 +5204,7 @@ SCM scheme_ToggleEdit (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5221,7 +5221,7 @@ SCM scheme_ToggleRest (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5238,7 +5238,7 @@ SCM scheme_ToggleRhythm (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5255,7 +5255,7 @@ SCM scheme_ClearOverlay (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5272,7 +5272,7 @@ SCM scheme_CreateRhythm (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);
@@ -5289,7 +5289,7 @@ SCM scheme_DeleteRhythm (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;
 GString *gstr=NULL;
-int length;
+size_t length;
    char *str=NULL;
 if(SCM_STRINGP(optional)){
 str = scm_to_locale_stringn(optional, &length);

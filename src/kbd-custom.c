@@ -740,10 +740,13 @@ catname(gchar *name, GString *str, gchar *separator) {
     g_string_append_printf(str, "%s%s", name, separator);
 }
 
+#if 0
 static void
 newlinename(gchar *name, GString *str) {
  catname(name, str, "\n");
 }
+#endif
+
 static void
 listname(gchar *name, GString *str) {
   catname(name, str, " ");
@@ -962,6 +965,7 @@ lookup_label_from_idx (keymap * keymap, guint command_idx)
 
 //returns the accel, "" if no accel defined. free the result
 //the accel is the first keybinding of the list
+#if 0
 static gchar *
 keymap_get_accel(keymap *the_keymap, guint command_idx)
 {
@@ -981,7 +985,9 @@ keymap_get_accel(keymap *the_keymap, guint command_idx)
   g_object_unref(row.bindings);
   return res;
 }
+#endif
 
+#if 0
 static gint
 findActionGroupByName(gconstpointer a, gconstpointer b)
 {
@@ -989,6 +995,7 @@ findActionGroupByName(gconstpointer a, gconstpointer b)
     const gchar * searched_name = (const gchar *) b;
     return strcmp(gtk_action_group_get_name(action_group), b);
 }
+#endif
 
 
 
@@ -1281,7 +1288,7 @@ idx_has_callback(keymap *the_keymap, guint command_idx)
   if (!keymap_get_command_row(the_keymap, &row, command_idx))
       return FALSE;
   g_object_unref(row.bindings);
-  res = (gboolean)row.callback;
+  res = (gboolean)(intptr_t)row.callback;
   return res;
 }
 
@@ -1391,10 +1398,12 @@ load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
   Denemo.accelerator_status = TRUE;
 }
 
-
+#if 0
 static 	void show_type(GtkWidget *widget, gchar *message) {
     g_print("%s%s\n",message, widget?g_type_name(G_TYPE_FROM_INSTANCE(widget)):"NULL widget");
   }
+#endif
+
 /**
  * Function for loading a command set (aka keymap) from location by way of
  * a user dialog. 
@@ -1667,7 +1676,7 @@ command_hidden_data_function (GtkTreeViewColumn *col,
             COL_TYPE, &type,
             COL_ACTION, &action,
             -1);
-    hidden = (gboolean)g_object_get_data(G_OBJECT(action), "hidden");   
+    hidden = g_object_get_data(G_OBJECT(action), "hidden") ? TRUE : FALSE;   
     g_object_set(renderer, "active", hidden, NULL);
 }
 
@@ -1685,7 +1694,7 @@ command_deleted_data_function (GtkTreeViewColumn *col,
             COL_TYPE, &type,
             COL_ACTION, &action,
             -1);
-    deleted = (gboolean)g_object_get_data(G_OBJECT(action), "deleted");   
+    deleted = g_object_get_data(G_OBJECT(action), "deleted") ? TRUE : FALSE;   
     g_object_set(renderer, "active", deleted, NULL);
 }
 
@@ -1716,7 +1725,7 @@ static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
   gint command_idx = atoi(path);
   GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean hidden = (gboolean)g_object_get_data(G_OBJECT(action), "hidden");
+    gboolean hidden = ( g_object_get_data(G_OBJECT(action), "hidden") == NULL);
     set_visibility_for_action(action, hidden);
   }
 }
@@ -1727,9 +1736,9 @@ static void toggle_deleted_on_action (GtkCellRendererToggle *cell_renderer,
   gint command_idx = atoi(path);
   GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean deleted = (gboolean)g_object_get_data(G_OBJECT(action), "deleted");
+    gboolean deleted = (g_object_get_data(G_OBJECT(action), "deleted") == NULL);
     //set_visibility_for_action(action, deleted);
-    g_object_set_data(G_OBJECT(action), "deleted", (gboolean *)!deleted);
+    g_object_set_data(G_OBJECT(action), "deleted", (gboolean *)(intptr_t) !deleted);
   }
 }
 

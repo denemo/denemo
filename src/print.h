@@ -24,4 +24,6 @@ void
 refresh_print_view(gboolean interactive);
 gchar *
 get_lily_version_string (void);
+void
+run_lilypond(gchar *filename, DenemoGUI *gui);
 #endif /*PRINT_H*/	

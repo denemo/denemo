@@ -20,7 +20,7 @@
  */
 
 gint
-draw_key (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y,
+draw_key (cairo_t *cr, gint xx, gint y,
 	  gint number, gint prevnumber, gint dclef, gboolean wetrun)
 {
   /* These are just hard-coded offsets in pixels from the top of the staff.
@@ -93,7 +93,7 @@ draw_key (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y,
       for (i = startindex; i < endindex; i++, xx += NATURAL_WIDTH + 2)
 	{
 	  if (wetrun)
-	    draw_accidental (pixmap, gc, xx, y + theprevys[i], 0);
+	    draw_accidental (cr, xx, y + theprevys[i], 0);
 	}
     }
   else if (prevnumber > 0)
@@ -106,7 +106,7 @@ draw_key (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y,
       for (i = startindex; i < prevnumber; i++, xx += NATURAL_WIDTH + 2)
 	{
 	  if (wetrun)
-	    draw_accidental (pixmap, gc, xx, y + theprevys[i], 0);
+	    draw_accidental (cr, xx, y + theprevys[i], 0);
 	}
     }
 
@@ -116,11 +116,11 @@ draw_key (GdkPixmap * pixmap, GdkGC * gc, gint xx, gint y,
       number = -number;
       for (i = 0; i < number; i++, xx += FLAT_WIDTH + 2)
 	if (wetrun)
-	  draw_accidental (pixmap, gc, xx, y + theys[i], -1);
+	  draw_accidental (cr, xx, y + theys[i], -1);
     }
   else
     for (i = 0; i < number; i++, xx += SHARP_WIDTH + 2)
       if (wetrun)
-	draw_accidental (pixmap, gc, xx, y + theys[i], 1);
+	draw_accidental (cr, xx, y + theys[i], 1);
   return xx - origx;
 }

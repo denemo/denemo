@@ -990,23 +990,23 @@ SCM scheme_get_command(void) {
 }
 
 static void get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
-  g_object_set_data(G_OBJECT(dialog), "offset-response", (gpointer)response_id);
+  g_object_set_data(G_OBJECT(dialog), "offset-response", (gpointer)(intptr_t)response_id);
   if(response_id < 0)
     gtk_main_quit();
   gint offsetx, offsety;
-  offsetx =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  offsety =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  offsetx =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  offsety =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
   gchar *text = g_strdup_printf("Offset now %d %d. Drag again in the print window to change\nOr click OK to apply the position shift", offsetx, offsety);
   gtk_label_set_text(label, text);
   g_free(text);
 }
 
 static void get_drag_pad(GtkWidget *dialog, gint response_id, GtkLabel *label) {
-  g_object_set_data(G_OBJECT(dialog), "pad-response", (gpointer)response_id);
+  g_object_set_data(G_OBJECT(dialog), "pad-response", (gpointer)(intptr_t)response_id);
   if(response_id < 0)
     gtk_main_quit();
   gint padding;
-  padding =  (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  padding =  (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
   gchar *text = g_strdup_printf("Padding now %d. Drag again in the print window to change\nOr click OK to apply the padding to the graphical object belonging to the directive", padding);
   gtk_label_set_text(label, text);
   g_free(text);
@@ -1024,8 +1024,8 @@ SCM scheme_get_offset(void) {
     warningdialog("Already in a padding dialog");
     return SCM_BOOL_F;
   }
-  gint offsetx = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  gint offsety = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  gint offsetx = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  gint offsety = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
 
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Offset in Print Window",
@@ -1049,9 +1049,9 @@ SCM scheme_get_offset(void) {
   g_signal_connect(dialog, "response", G_CALLBACK(get_drag_offset), label);
   gtk_widget_show_all(dialog);
   gtk_main();
-  offsetx = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
-  offsety = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
-  val =  (gint)g_object_get_data(G_OBJECT(dialog), "offset-response");
+  offsetx = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsetx");
+  offsety = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "offsety");
+  val =  (intptr_t)g_object_get_data(G_OBJECT(dialog), "offset-response");
   g_object_set_data(G_OBJECT(Denemo.gui->printarea), "offset-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
@@ -1109,7 +1109,7 @@ SCM scheme_get_padding(void) {
     return SCM_BOOL_F;
   }
      
-  gint padding = (gint)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  gint padding = (intptr_t)g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
 
   GtkWidget *dialog = gtk_dialog_new_with_buttons ("Select Padding in Print Window",
                                         GTK_WINDOW (Denemo.window),
@@ -1132,8 +1132,8 @@ SCM scheme_get_padding(void) {
   g_signal_connect(dialog, "response", G_CALLBACK(get_drag_pad), label);
   gtk_widget_show_all(dialog);
   gtk_main();
-  padding = (gint) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
-  val =  (gint)g_object_get_data(G_OBJECT(dialog), "pad-response");
+  padding = (intptr_t) g_object_get_data(G_OBJECT(Denemo.gui->printarea), "padding");
+  val =  (intptr_t)g_object_get_data(G_OBJECT(dialog), "pad-response");
   g_object_set_data(G_OBJECT(Denemo.gui->printarea), "pad-dialog", NULL);
   gtk_widget_destroy(dialog);
   if(val == GTK_RESPONSE_ACCEPT) {
@@ -1151,7 +1151,7 @@ SCM scheme_get_padding(void) {
 SCM scheme_get_option(SCM options) {
   SCM scm;
   gchar *response;
-  gint length;
+  size_t length;
   gchar *str=NULL;
   if(SCM_STRINGP(options)){
     str = scm_to_locale_stringn(options, &length);
@@ -1697,7 +1697,7 @@ EDIT_DELETE_FN_DEF(movementcontrol)
 
 static
 SCM scheme_put_text_clipboard(SCM optional) {
-  int length;
+  size_t length;
   char *str=NULL;
   if(SCM_STRINGP(optional)){
     str = scm_to_locale_stringn(optional, &length);//FIXME memory leak

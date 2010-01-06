@@ -301,6 +301,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->cursor_y = 0;
   si->staffletter_y = 0;
   si->cursor_appending = TRUE;
+  si->zoom = 1.0;
 
   si->cursoroffend = FALSE;
   si->cursortime1=si->cursortime2=4;

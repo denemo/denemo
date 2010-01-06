@@ -15,26 +15,19 @@
  *
  */
 void
-draw_gracebracket (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
+draw_gracebracket (cairo_t *cr,
 		   gint xx, gint y, DenemoObject * theobj)
 {
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string (FONT);
-
+  char *text="";
 
   if (theobj->type == GRACE_START)
     {
-      pango_layout_set_text (layout, _("\\"), -1);
+      text = _("\\");
     }
   else if (theobj->type == GRACE_END)
     {
-      pango_layout_set_text (layout, _("'"), -1);
-
+      text = _("'");
     }
 
-  pango_layout_set_font_description (layout, desc);
-  gdk_draw_layout (pixmap, gc, xx, y - 4, layout);
-  pango_font_description_free (desc);
+  drawnormaltext_cr( cr, text, xx, y - 4 );
 }

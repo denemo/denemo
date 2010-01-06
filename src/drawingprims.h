@@ -11,82 +11,82 @@
 
 
 void
-draw_rest (GdkPixmap *pixmap, GdkGC *gc, gint baseduration, gint numdots,
+draw_rest (cairo_t *cr, gint baseduration, gint numdots,
 	   gint xx, gint y);
 
 void
-draw_notehead (GdkPixmap *pixmap, GdkGC *gc,
+draw_notehead (cairo_t *cr,
 	       note *thenote, gint baseduration,
 	       gint numdots, gint xx, gint y, gint *accs, gint is_stemup);
 
 void
-draw_ledgers (GdkPixmap *pixmap, GdkGC *gc,
+draw_ledgers (cairo_t *cr,
 	      gint greaterheight, gint lesserheight,
 	      gint xx, gint y, gint width);
 
 void
-draw_chord (GdkPixmap *pixmap, GdkGC *gc,
+draw_chord (cairo_t * cr,
 	    objnode *curobj, gint xx, gint y, gint mwidth, gint *accs, gboolean selected);
 void
-draw_tuplet (GdkPixmap *pixmap, GdkGC *gc,
+draw_tuplet (cairo_t *cr,
 	     objnode *curobj, gint xx, gint y, gint mwidth, gint *accs);
 
 void
-draw_clef (GdkPixmap *pixmap, GdkGC *gc, gint xx, gint y, clef* type);
+draw_clef (cairo_t *cr, gint xx, gint y, clef* type);
 
 gint
-draw_key (GdkPixmap *pixmap, GdkGC *gc, gint xx, gint y,
+draw_key (cairo_t *cr, gint xx, gint y,
 	  gint number, gint prevnumber, gint dclef, gint wetrun);
 
 void
-draw_timesig (GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+draw_timesig (cairo_t *cr,
 	      gint xx, gint y, gint time1, gint time2);
 
 void
-draw_tupbracket (GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+draw_tupbracket (cairo_t *cr,
 		 gint xx, gint y, DenemoObject *theobj);
 
 void
-draw_cursor (GdkPixmap *pixmap, DenemoScore *si,
+draw_cursor (cairo_t *cr, DenemoScore *si,
 	     gint xx, gint y, input_mode mode, gint dclef);
 
 void
-draw_accidental (GdkPixmap *pixmap, GdkGC *gc,
+draw_accidental (cairo_t *cr,
 		 gint xx, gint aggheight, gint enshift);
 
 void
-draw_selection (GdkPixmap *pixmap, GdkGC *gc, gint x1, gint y1,
+draw_selection (cairo_t *cr, gint x1, gint y1,
 		gint x2, gint y2);
 
 void
-draw_stem_directive (GdkPixmap * pixmap, GdkGC * gc, GdkFont *font,
+draw_stem_directive (cairo_t *cr,
 		     gint xx, gint y, DenemoObject * theobj);
 
 void
-draw_dynamic(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+draw_dynamic(cairo_t *cr,
 	      gint xx, gint y, DenemoObject *theobj);
 
 void
-draw_lily_dir(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+draw_lily_dir(cairo_t *cr,
 	      gint xx, gint y, gint highy, gint lowy, DenemoObject *theobj, gboolean selected);
 
 void
-draw_gracebracket (GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+draw_gracebracket (cairo_t *cr,
 		   gint xx, gint y, DenemoObject *theobj);
 
 
 gint calc_offset(chord thechord, gint stemdir);
-void draw_articulations(GdkPixmap *pixmap, GdkGC *gc,
+void draw_articulations(cairo_t *cr,
 			chord thechord, gint xx, gint y);
 
-void draw_lyric(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+void draw_lyric(cairo_t *cr,
                 gint xx, gint y, gchar *syllable);
 
-void draw_figure(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+void draw_figure(cairo_t *cr,
                         gint xx, gint y, DenemoObject *theobj);
 
-void draw_fakechord(GdkPixmap *pixmap, GdkGC *gc, GdkFont *font,
+void draw_fakechord(cairo_t *cr,
                         gint xx, gint y, DenemoObject *theobj);
 
 void
-drawbarline(GdkPixmap *pixmap, GdkGC *gc,gint xx, gint top_y,gint y, gint type);
+drawbarline(cairo_t *cr,gint xx, gint top_y,gint y, gint type);

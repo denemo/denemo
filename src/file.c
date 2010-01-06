@@ -29,6 +29,8 @@
 #include "binreloc.h"
 #include "view.h"
 #include "lilydirectives.h"
+#include "texteditors.h"
+#include "print.h"
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>		/* check existance and type of files */

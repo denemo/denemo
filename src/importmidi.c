@@ -18,6 +18,7 @@
  */
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 #include <string.h>
 #include <assert.h>
@@ -25,6 +26,9 @@
 #include "importmidi.h"
 #include "staffops.h"
 #include "smf.h"
+#include "file.h"
+#include "commandfuncs.h"
+#include "processstaffname.h"
 
 #define TEXT			0x01
 #define COPYRIGHT		0X02
@@ -97,6 +101,7 @@ void donoteoff(midicallback *mididata);
 struct notetype ConvertLength(gint duration, midicallback *mididata);
 void ProcessNoteStack(midicallback *mididata);
 void process_list(midicallback *mididata);
+static gint Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *mididata);
 
 static void
 note_from_int(char *buf, int note_number)
@@ -141,6 +146,7 @@ cmd_load(midicallback *mididata, char *file_name)
 
 #define BUFFER_SIZE 1024
 
+#if 0
 static int
 show_event(smf_event_t *event)
 {
@@ -174,6 +180,7 @@ show_event(smf_event_t *event)
 
 	return 0;
 }
+#endif
 
 void
 decode_metadata(const smf_event_t *event, midicallback *mididata)
@@ -421,7 +428,7 @@ new_dnm_object(midicallback *mididata, nstack *currentnote, notetype length, gbo
 	  harmonic enote = enharmonic ((int) mididata->currentnote->pitch,mididata->key);
 	  dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
 	  while (mididata->currentnote->chordnotes){
-		  struct harmonic enote = enharmonic ((int) 
+		  struct harmonic enote = enharmonic ((intptr_t) 
 				 mididata->currentnote->chordnotes->data,mididata->key);
 	          dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);		
 		  mididata->currentnote->chordnotes = g_list_remove_link(mididata->currentnote->chordnotes, 
@@ -479,7 +486,7 @@ dotrackname (gchar *name, midicallback *mididata)
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   
   curstaffstruct->denemo_name->str = g_strdup(name);
-  dnm_set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
+  set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
 }
 
 void
@@ -541,7 +548,7 @@ ChordToneCheck(midicallback *mididata, gint pitch, gint timeon, gint delta_time,
      (currentnote->duration == duration)){
 	  g_print("\n***Same Duration and timeon***\n");
   	  /* append note to GList */
-	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, (gpointer)pitch);
+	  currentnote->chordnotes = g_list_append(currentnote->chordnotes, (gpointer)(intptr_t)pitch);
 	  return TRUE;
   }
   else if ((currentnote->timeon <= timeon) && (timeon <= ((int) currentnote->timeon + (int) currentnote->duration))){
@@ -555,7 +562,7 @@ ChordToneCheck(midicallback *mididata, gint pitch, gint timeon, gint delta_time,
   return FALSE;
 }
 
-gint
+static gint
 Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *mididata){
   gint event_number = mididata->event_number;
   smf_event_t *event;
@@ -683,7 +690,7 @@ ConvertNoteType2ticks(midicallback *mididata, notetype *gnotetype){
 
   ticks = dsq >> notetype;
   while (i++ < numofdots) 
-    ticks += dsq >> notetype + 1;
+    ticks += dsq >> (notetype + 1);
 
   return ticks;
 }
@@ -886,7 +893,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   gint ret = 0;	// (-1 on failure)
 
   /* delete old data in the score */
-  dnm_deletescore (NULL, gui);
+  deletescore (NULL, gui);
 
   /* load the file */
   ret = cmd_load(mididata, filename);

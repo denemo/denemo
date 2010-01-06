@@ -18,5 +18,5 @@ GSList
 pop_hairpin_stack (GSList *hairpin_stack);
 
 void
-draw_hairpin (GdkPixmap *pixmap, GdkGC *gc, GSList **hairpin_stack,
+draw_hairpin (cairo_t *cr, GSList **hairpin_stack,
            gint x2, gint y, gint dir);

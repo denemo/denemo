@@ -116,6 +116,12 @@ DECL_PUT_FIELD(clef, display)
 
      // end of block to copy
 
+DECL_PUT_FIELD(header, postfix)
+DECL_PUT_FIELD(header, display)
+
+DECL_PUT_FIELD(paper, postfix)
+DECL_PUT_FIELD(scoreheader, postfix)
+
 
 DECL_PUT_GRAPHIC_WIDGET(score)
 DECL_PUT_GRAPHIC_WIDGET(staff)

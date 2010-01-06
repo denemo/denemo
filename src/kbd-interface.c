@@ -18,6 +18,7 @@
 #include "prefops.h"
 #include "mousing.h"
 
+#if 0
 static void
 validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
 {
@@ -25,6 +26,7 @@ validate_keymap_name (GtkEntry * entry, GtkDialog * dialog)
   gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog),
 				     GTK_RESPONSE_ACCEPT, strlen (name) > 0);
 }
+#endif
 
 static gboolean
 capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
@@ -200,7 +202,7 @@ set_cursor_number (GtkSpinButton *widget, gint *number){
 static void button_choice_callback(GtkWidget *w, gint *mask ){
   gint choice =  gtk_toggle_button_get_active((GtkToggleButton *)w);
   if(choice)
-    *mask = (gint)g_object_get_data((GObject *)w, "mask");
+    *mask = (intptr_t)g_object_get_data((GObject *)w, "mask");
   g_print("button choice %x\n", *mask);
 }
 #define RESPONSE_LOADED (1)
