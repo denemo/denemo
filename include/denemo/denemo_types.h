@@ -80,7 +80,6 @@ typedef enum DenemoObjType
   PARTIAL /* WARNING when adding to this list, add also to the type names that follow
 	  *  keep the numeration ordered to allow access ny array index. */
 }DenemoObjType;
-#if 0
 static gchar *DenemoObjTypeNames[] =
 {
   "CHORD",
@@ -102,7 +101,6 @@ static gchar *DenemoObjTypeNames[] =
   "FAKECHORD",
   "PARTIAL"
 };
-#endif
 #define DENEMO_OBJECT_TYPE_NAME(obj) ((obj)?(((obj)->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[(obj)->type]:NULL):NULL)
 
 

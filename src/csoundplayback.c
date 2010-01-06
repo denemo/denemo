@@ -12,7 +12,7 @@
 //#include "exportcsound.h"
 //#include "prefops.h"
 //#include "utils.h"
-//#include "external.h"
+#include "external.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
