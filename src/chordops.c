@@ -10,9 +10,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include "objops.h"
 #include "chordops.h"
 #include "utils.h"
+#include "articulations.h"
 
 /* Calculates the height of a notehead */
 static void
@@ -195,6 +197,7 @@ addornament (DenemoObject * obj, Ornament orn)
  * 
  * if equal return FALSE(0) else return TRUE (1)
  */
+#if 0
 static gint
 findcomparefunc (gconstpointer a, gconstpointer b)
 {
@@ -206,6 +209,7 @@ findcomparefunc (gconstpointer a, gconstpointer b)
   else
     return 1;			/* Not identical */
 }
+#endif
 
 /**
  * Compare two notes 
@@ -393,7 +397,7 @@ removetone (DenemoObject * thechord, gint mid_c_offset, gint dclef)
       g_list_free_1 (tnode);
     }
 
-    return (gboolean)tnode;
+    return (gboolean)(intptr_t)tnode;
 }
 
 //void

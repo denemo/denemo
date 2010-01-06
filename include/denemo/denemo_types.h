@@ -80,6 +80,7 @@ typedef enum DenemoObjType
   PARTIAL /* WARNING when adding to this list, add also to the type names that follow
 	  *  keep the numeration ordered to allow access ny array index. */
 }DenemoObjType;
+#if 0
 static gchar *DenemoObjTypeNames[] =
 {
   "CHORD",
@@ -101,6 +102,7 @@ static gchar *DenemoObjTypeNames[] =
   "FAKECHORD",
   "PARTIAL"
 };
+#endif
 #define DENEMO_OBJECT_TYPE_NAME(obj) ((obj)?(((obj)->type<G_N_ELEMENTS(DenemoObjTypeNames))?DenemoObjTypeNames[(obj)->type]:NULL):NULL)
 
 
@@ -766,8 +768,6 @@ typedef struct DenemoGUI
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
 
-
-
   GList *movements;   /**< a list of DenemoScore, NULL if just one movement */
   DenemoScore *si;  /**< the (current)  movement in the musical score controlled by this gui */
   DenemoLilyControl lilycontrol; /**< Directives for the start of the score and before every movement */
@@ -833,7 +833,7 @@ struct cs_callback
 	
 };
 
-static gchar* ext_pidfiles[] = {"midiplayer.pid", "csoundplayer.pid", NULL};
+//static gchar* ext_pidfiles[] = {"midiplayer.pid", "csoundplayer.pid", NULL};
 
 /** 
  * The (singleton) root object for the program

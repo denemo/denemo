@@ -6,6 +6,7 @@
  */
 
 #include <string.h>
+#include <stdint.h>
 #include "commandfuncs.h"
 #include "calculatepositions.h"
 #include "chordops.h"
@@ -27,6 +28,12 @@
 #include "prefops.h"
 #include "keyresponses.h"
 #include "view.h"
+#include "pitchentry.h"
+
+#ifdef _HAVE_FLUIDSYNTH_
+#include "fluid.h"
+#endif
+
 /**
  * Macro to get the current DenemoObject
  */
@@ -201,8 +208,8 @@ set_width_to_work_with (DenemoGUI * gui)
   GList *g; 
   for(g = gui->movements;g;g=g->next)
  ((DenemoScore*) g->data)->widthtoworkwith
-    = (gui->scorearea->allocation.width
-       - (RIGHT_MARGIN + KEY_MARGIN + gui->si->maxkeywidth + SPACE_FOR_TIME));
+    = (double)(gui->scorearea->allocation.width
+       - (RIGHT_MARGIN + KEY_MARGIN + gui->si->maxkeywidth + SPACE_FOR_TIME))/gui->si->zoom;
 }
 
 /**
@@ -1096,7 +1103,7 @@ notechange (DenemoScore * si, gboolean remove)
       if (remove == TRUE)
 	ret = removetone (curmudelaobj, si->cursor_y/*mid_c_offset*/, si->cursorclef/*dclef*/);
       else
-	ret = (gboolean)addtone (curmudelaobj, si->cursor_y/* mid_c_offset*/,
+	ret = (gboolean)(intptr_t)addtone (curmudelaobj, si->cursor_y/* mid_c_offset*/,
 		 si->cursoraccs[si->staffletter_y]/* enshift */, si->cursorclef /*dclef*/);
 
       if (curmudelaobj->user_string)
@@ -1689,6 +1696,11 @@ dnm_deleteobject (DenemoScore * si)
 	case BARLINE:
 	  //    case COMMENT:
 	case MEASUREBREAK:
+	  break;
+	// XXX: unhandled... 
+	case STAFFBREAK:
+	case FAKECHORD:
+	case PARTIAL:
 	  break;
 	}
       si->markstaffnum = 0;

@@ -23,6 +23,7 @@
 #include "exportlilypond.h"	/* to generate lily text for display */
 #include "lyparserfuncs.h"	/* to generate lily text for display */
 #include "pitchentry.h"
+#include "lyric.h"
 
 /**
  * defines function to choose the correct 
@@ -263,7 +264,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	   && !itp->slur_stack
 	   && !thechord->is_tied)
 	{
-	  gchar *syllable = (gchar *) next_syllable();
+	  gchar *syllable = (gchar *) next_syllable(0);
 	  if(syllable)
 	    draw_lyric (cr,
 			x + mudelaitem->x,

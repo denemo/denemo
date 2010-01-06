@@ -10,6 +10,9 @@
 #include <denemo/denemo.h>
 #include "exportxml.h"
 #include "utils.h"
+#include "lyric.h"
+#include "lilydirectives.h"
+#include "texteditors.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -620,7 +623,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   
   if(getNumCharsSchemeText()) {
     gchar *text = (gchar*) getSchemeText();
-    xmlNewChild (scoreElem, ns, "scheme", (xmlChar *)text);
+    xmlNewChild (scoreElem, ns, (xmlChar *)"scheme", (xmlChar *)text);
     g_free(text);
   }
 
@@ -648,9 +651,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
   GList *custom;
   for(custom=g_list_last(gui->custom_scoreblocks);custom;custom=custom->prev) {
-    xmlNewChild (scoreElem, ns, "custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
+    xmlNewChild (scoreElem, ns, (xmlChar *)"custom_scoreblock", (xmlChar *)((GString*)(((DenemoScoreblock*)custom->data)->scoreblock)->str));
     if(((DenemoScoreblock*)custom->data)->visible)
-      xmlNewChild (scoreElem, ns, "visible_scoreblock", NULL);
+      xmlNewChild (scoreElem, ns, (xmlChar *)"visible_scoreblock", NULL);
   }
   //  if(gui->custom_prolog && gui->custom_prolog->len)
   //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
@@ -721,7 +724,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	               curStaffStruct->midi_channel);
 	  
 
-#define PUTCHILD(A,B) if(curStaffStruct->context & A) xmlNewChild (curElem, ns, (xmlChar *) "context", B);
+#define PUTCHILD(A,B) if(curStaffStruct->context & A) xmlNewChild (curElem, ns, (xmlChar *) "context", (xmlChar *)B);
           PUTCHILD(DENEMO_PIANO_START, PIANO_START_STRING);
           PUTCHILD(DENEMO_PIANO_END, PIANO_END_STRING);
           PUTCHILD(DENEMO_CHOIR_START, CHOIR_START_STRING);

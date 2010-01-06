@@ -125,11 +125,12 @@ draw_notehead (cairo_t *cr,
       accs[pitch] = enshift;
     }
 
-  if (thenote->reversealign)
+  if (thenote->reversealign) {
     if (is_stemup)
       xx += headwidths[noteheadtype];
     else
       xx -= headwidths[noteheadtype];
+  }
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
     if (is_stemup)
       drawfetachar_cr ( cr, head_char[noteheadtype], xx, y + height);
@@ -245,11 +246,12 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   if (thechord.is_highlighted)
     gc = gcs_bluegc ();
 #endif
-  if (mudelaitem->isinvisible)
+  if (mudelaitem->isinvisible) {
     if (selected)
       cairo_set_source_rgb( cr, 0, 1, 0 ); 
     else
       cairo_set_source_rgb( cr, 1, 0, 1 ); 
+  }
 
 
   if (!thechord.notes/* a rest */) {
@@ -655,9 +657,9 @@ calc_offset (chord thechord, gint stemdir)
 	  *(enum ornament *) tmp->data == (enum ornament) TRILL ||
 	  *(enum ornament *) tmp->data == (enum ornament) MORDENT)
 	offset = -LINE_SPACE - 7;
-      else if (*(enum ornament *) tmp->data == (enum ornament) STACCATO ||
-	       *(enum ornament *) tmp->data == (enum ornament) TENUTO
-	       && stemdir)
+      else if (( *(enum ornament *) tmp->data == (enum ornament) STACCATO ||
+	         *(enum ornament *) tmp->data == (enum ornament) TENUTO      )
+	         && stemdir)
 	offset = thechord.lowesty + 10;
       else if (*(enum ornament *) tmp->data == (enum ornament) STACCATO ||
 	       *(enum ornament *) tmp->data == (enum ornament) TENUTO)

@@ -50,7 +50,7 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
       if(directive->graphic) {
 	gint width, height;
 	gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-	drawbitmapinverse_cr (cr, directive->graphic,
+	drawbitmapinverse_cr (cr, (GdkBitmap *)directive->graphic,
 			   xx+directive->gx+count,  y+directive->gy, width, height);
       }
     }

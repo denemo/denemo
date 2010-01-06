@@ -232,7 +232,7 @@ LOOKUP(GROUP_END_STRING,DENEMO_GROUP_END)
 
 
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
-         directive->field = g_string_new(xmlNodeListGetString (childElem->doc,\
+         directive->field = g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
@@ -258,7 +258,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     DO_INTDIREC(gy);
 
     if(ELEM_NAME_EQ (childElem, "graphic_name")) {
-      directive->graphic_name =  g_string_new(xmlNodeListGetString (childElem->doc,\
+      directive->graphic_name =  g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
       loadGraphicItem(directive->graphic_name->str, (GdkBitmap**)&directive->graphic,  &directive->width, &directive->height);
       /* FIXME,handle not loaded */
@@ -301,7 +301,7 @@ static void
 parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
 	      GtkWidget *verse)
 {
-  gchar*   text = xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  gchar*   text = (gchar *)xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
 
   gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) verse), text, -1);
   //gtk_text_buffer_set_modified(gtk_text_view_get_buffer(verse), FALSE);
@@ -1415,7 +1415,7 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	  ((chord *) chordObj->object)->directives = g_list_append(NULL, directive) ;\
 	  }\
 	    ((DenemoDirective*) (((chord *) chordObj->object)->directives)->data)->field = \
-		 g_string_new(xmlNodeListGetString (childElem->doc,\
+		 g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
 		 childElem->xmlChildrenNode, 1));\
 	  }
     DO_DIREC(prefix)

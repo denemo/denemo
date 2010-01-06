@@ -11,6 +11,8 @@
 #include "utils.h"
 #include "selectops.h"
 #include "lilydirectives.h"
+#include "lyric.h"
+#include "moveviewport.h"
 #include "mousing.h"
 
 
@@ -47,6 +49,9 @@ offset_from_height (gdouble height, enum clefs clef)
       break;
     case DENEMO_SOPRANO_CLEF:
       R (8);
+      break;
+    default:
+      R (0);
       break;
     }
 #undef R
@@ -319,7 +324,7 @@ perform_command(gint modnum, mouse_gesture press, gboolean left)
 static gboolean selecting = FALSE;
 
 
-static change_staff(DenemoScore *si, gint num, GList *staff) {
+static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
   if(si->currentstaffnum==num)
     return FALSE;
   hide_lyrics();
@@ -523,4 +528,5 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
 
   }
   displayhelper(Denemo.gui);
+  return FALSE;
 }

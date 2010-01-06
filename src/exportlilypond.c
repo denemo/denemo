@@ -25,6 +25,8 @@
 #include "objops.h"
 #include "xmldefs.h"
 #include "lyric.h"
+#include "processstaffname.h"
+#include "commandfuncs.h"
 
 #define ENTER_NOTIFY_EVENT "focus-in-event"
 #define LEAVE_NOTIFY_EVENT "focus-out-event"
@@ -66,8 +68,8 @@ highlight_lily_error(DenemoGUI *gui) {
   gtk_text_buffer_get_start_iter (gui->textbuffer, &iter);
   gtk_text_buffer_remove_tag_by_name(gui->textbuffer, ERRORTEXT, &enditer, &iter);
   gint line, column;
-  line = (gint)g_object_get_data(G_OBJECT(gui->textbuffer), "error line");
-  column = (gint)g_object_get_data(G_OBJECT(gui->textbuffer), "error column");
+  line = (intptr_t)g_object_get_data(G_OBJECT(gui->textbuffer), "error line");
+  column = (intptr_t)g_object_get_data(G_OBJECT(gui->textbuffer), "error column");
   line--;
   if(line>0) {
 #ifdef BUG_COLUMN_OFFSET_TOO_LARGE_FIXED
@@ -104,8 +106,8 @@ highlight_lily_error(DenemoGUI *gui) {
 void
 set_lily_error(gint line, gint column, DenemoGUI *gui) {
   if(gui->textbuffer){
-    g_object_set_data(G_OBJECT(gui->textbuffer),"error line", (gpointer)line);
-    g_object_set_data(G_OBJECT(gui->textbuffer),"error column", (gpointer)column);
+    g_object_set_data(G_OBJECT(gui->textbuffer),"error line", (gpointer)(intptr_t)line);
+    g_object_set_data(G_OBJECT(gui->textbuffer),"error column", (gpointer)(intptr_t)column);
   }
 }
 
@@ -316,6 +318,7 @@ append_duration (GString * figures, gint duration, gint numdots)
     figures = g_string_append (figures, ".");
 }
 
+#if 0
 static void output_lyric(GString *lyrics, chord *pchord, gboolean *pis_syllable, gboolean *pcenter_lyric) {
   /*Lyrics */
 		 
@@ -364,7 +367,7 @@ static void output_lyric(GString *lyrics, chord *pchord, gboolean *pis_syllable,
     } else
       lyrics = g_string_append (lyrics, " _ ");//FIXME is this right?
 }
-
+#endif
 
 
 /**
@@ -711,11 +714,12 @@ static gchar *get_postfix(GList *g) {
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
     if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
-      if(d->postfix && d->postfix->len)
+      if(d->postfix && d->postfix->len) {
 	if(d->override & DENEMO_OVERRIDE_LILYPOND)
 	  g_string_prepend(ret, d->postfix->str);
 	else
 	  g_string_append(ret, d->postfix->str);
+      }
     }
   }
 return g_string_free(ret, FALSE);
@@ -728,11 +732,12 @@ static gchar *get_prefix(GList *g) {
   for(;g;g=g->next) {
     DenemoDirective *d = g->data;
     if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){
-      if(d->prefix && d->prefix->len)
+      if(d->prefix && d->prefix->len) {
 	if(d->override & DENEMO_OVERRIDE_LILYPOND)
 	  g_string_prepend(ret, d->prefix->str);
 	else
 	  g_string_append(ret, d->prefix->str);
+      }
     }
   }
 return g_string_free(ret, FALSE);
@@ -1504,10 +1509,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);\
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);\
 	  g_object_set_data(G_OBJECT(objanc), OBJECT, (gpointer)curobjnode);\
-	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)ABS(movement_count));\
-	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)measurenum);\
-	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)ABS(voice_count));\
-	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)ABS(objnum));\
+	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));\
+	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);\
+	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));\
+	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));\
 	  GtkTextIter back;\
 	  back = iter;\
 	  (void)gtk_text_iter_backward_char(&back);\
@@ -1541,10 +1546,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 	  GtkTextChildAnchor *objanc = gtk_text_buffer_create_child_anchor (gui->textbuffer, &iter);
 	  g_object_set_data(G_OBJECT(objanc), OBJECT, (gpointer)curobjnode);//store objnode here
-	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)ABS(movement_count));
-	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)measurenum);
-	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)ABS(voice_count));
-	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)ABS(objnum));
+	  g_object_set_data(G_OBJECT(objanc), MOVEMENTNUM, (gpointer)(intptr_t)ABS(movement_count));
+	  g_object_set_data(G_OBJECT(objanc), MEASURENUM, (gpointer)(intptr_t)measurenum);
+	  g_object_set_data(G_OBJECT(objanc), STAFFNUM, (gpointer)(intptr_t)ABS(voice_count));
+	  g_object_set_data(G_OBJECT(objanc), OBJECTNUM, (gpointer)(intptr_t)ABS(objnum));
 
 	  GtkTextIter back;
 	  back = iter;
@@ -1582,10 +1587,12 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      g_string_append(fakechords, "\n");
 	    
 	    if((curobjnode!=NULL) && ((curobj == NULL) || curobj->type!=LILYDIRECTIVE)) /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
+	    {
 	      if (curmeasure->next)
 		g_string_append_printf(endstr,"%s", "%|\n");
 	      else
 		g_string_append_printf(endstr, "%s"," \\bar \"|.\"\n");
+	    }
 	    
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
 	    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, endstr->str, -1, INEDITABLE, invisibility,NULL);
@@ -1653,7 +1660,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, lyrics_name->str));
 	g_string_printf(temp, "%s%sLyrics%s = \\lyricmode { \n", movement,
 			voice, versename->str);
-	g_string_append_printf(temp, "%s \n}\n", g->data);
+	g_string_append_printf(temp, "%s \n}\n", (char *)g->data);
 	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
 	g_string_free(temp, TRUE);
 	g_string_free(versename, TRUE);
@@ -1916,7 +1923,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
   GString *staffdefinitions = g_string_new("");
 
   if(gui->namespec==NULL)
-    gui->namespec=g_strdup_printf("");/* to check if the scoreblocks to make visible are different */
+    gui->namespec=g_strdup("");/* to check if the scoreblocks to make visible are different */
 
   gchar *namespec;
   gchar *movementname;
@@ -2481,7 +2488,7 @@ static gboolean populate_called(GtkWidget *view, GtkMenuShell *menu, DenemoGUI *
 }
 
 
-static lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
+static gboolean lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
   GtkTextIter cursor;
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &cursor, gtk_text_buffer_get_insert(gui->textbuffer));
 
@@ -2510,10 +2517,10 @@ static lily_keypress(GtkWidget *w, GdkEventKey *event, DenemoGUI *gui) {
   //g_print("Got a keypress event at anchor %p\n", anchor);
   //g_print("The character is %x keyval %x at %d\n", (guint)gdk_keyval_to_unicode(event->keyval), event->keyval,  gtk_text_iter_get_line_offset(&cursor));
   if(anchor){
-    gint objnum =  (gint) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
-    gint measurenum =  (gint) g_object_get_data(G_OBJECT(anchor), MEASURENUM);
-    gint staffnum =  (gint) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
-    gint movementnum =  (gint) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
+    gint objnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), OBJECTNUM);
+    gint measurenum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MEASURENUM);
+    gint staffnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), STAFFNUM);
+    gint movementnum =  (intptr_t) g_object_get_data(G_OBJECT(anchor), MOVEMENTNUM);
     //g_print("location %d %d %d %d\n", objnum, measurenum, staffnum, movementnum);
     if(movementnum<1)
       return FALSE;
@@ -2639,7 +2646,7 @@ static void create_lilywindow(DenemoGUI *gui) {
   gtk_text_view_set_buffer (GTK_TEXT_VIEW(gui->textview), gui->textbuffer);
   gui->lilysync = G_MAXUINT;//buffer not yet up to date
 
-  gboolean has_signal = (gboolean)g_object_get_data(G_OBJECT (SIGNAL_WIDGET),"has signal");
+  gboolean has_signal = (gboolean)(intptr_t)g_object_get_data(G_OBJECT (SIGNAL_WIDGET),"has signal");
   if(has_signal)     
     g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), gui);//FIXME is it blocked?
   else {

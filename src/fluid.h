@@ -10,4 +10,5 @@ void choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont);
 void fluid_midi_play(void);
 void fluid_midi_stop(void);
 gint fluid_kill_timer(void);
+void fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot);
 #endif // FLUID_H

@@ -91,4 +91,9 @@ load_local_scheme_init(void);
 
 void 
 execute_scheme(GtkAction *action, DenemoScriptParam *param);
+
+gchar
+modifier_code(gpointer fn);
+gboolean
+code_is_a_duration(gchar code);
 #endif

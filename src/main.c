@@ -40,6 +40,7 @@
 #include "exportxml.h"
 #include "runsilent.h"
 #include "utils.h"
+#include "keyboard.h"
 #ifdef _HAVE_FLUIDSYNTH_
 #include "fluid.h"
 #endif

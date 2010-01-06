@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <math.h>
+#include <string.h>
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 #include <sys/soundcard.h>
@@ -38,6 +40,7 @@
 #include "draw.h"
 #include "audio.h"
 #include "jackmidi.h"
+#include "instrumentname.h"
 
 #define SEQ_DEV    (Denemo.prefs.sequencer->str)
 #define SEQ_DEV_N  0

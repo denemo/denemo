@@ -12,8 +12,8 @@
 void
 freeobject (DenemoObject *mudobj);
 
-//void
-//initkeyaccs (gint *accs, gint number);
+void
+initkeyaccs (gint *accs, gint number);
 
 //void dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type);
 	

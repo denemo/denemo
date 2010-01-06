@@ -12,6 +12,7 @@
 #include "utils.h"
 #include "tupletops.h"
 #include "view.h"
+#include "commandfuncs.h"
 
 
 
