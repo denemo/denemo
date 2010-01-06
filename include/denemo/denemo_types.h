@@ -639,6 +639,8 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
+  double zoom;
+
   /* Fields that have more to do with the data model and its manipulation,
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;

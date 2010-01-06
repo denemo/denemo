@@ -709,7 +709,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
 
-  cairo_scale( cr, 1.0, 1.0 );
+  cairo_scale( cr, gui->si->zoom, gui->si->zoom );
   cairo_translate( cr, 0.5, 0.5 );
   //cairo_rotate( cr, M_PI/6.0 );
 
