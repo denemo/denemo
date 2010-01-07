@@ -112,7 +112,7 @@ drawbitmapinverse_cr (cairo_t * cr, GdkBitmap * mask, gint x,
   cairo_save(cr);
   gdk_cairo_set_source_pixmap( cr, mask, x,y );
   cairo_rectangle( cr, x,y, width, height );
-  cairo_paint( cr );
+  cairo_fill( cr );
   cairo_restore( cr );
 }
 void
