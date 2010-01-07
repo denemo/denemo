@@ -761,7 +761,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_save( cr );
 	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffDirectivesPixbuf), 0,y );
 	cairo_rectangle( cr,0,y, width, height );
-	cairo_paint( cr );
+	cairo_fill( cr );
 	cairo_restore( cr );
 	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
@@ -772,7 +772,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_save( cr );
 	gdk_cairo_set_source_pixbuf( cr, GDK_PIXBUF(StaffDirectivesPixbuf), 0,y+STAFF_HEIGHT/2 );
 	cairo_rectangle( cr,0,y+STAFF_HEIGHT/2, width, height );
-	cairo_paint( cr );
+	cairo_fill( cr );
 	cairo_restore( cr );
 	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
