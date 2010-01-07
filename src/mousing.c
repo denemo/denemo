@@ -343,6 +343,9 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  event->x /= gui->si->zoom;
+  event->y /= gui->si->zoom;
+
   //  g_print("Marked %d\n", gui->si->markstaffnum);
 
   if(event->x<LEFT_MARGIN) {
@@ -401,7 +404,10 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
-DenemoGUI *gui = Denemo.gui;
+  DenemoGUI *gui = Denemo.gui;
+  event->x /= gui->si->zoom;
+  event->y /= gui->si->zoom;
+
   struct placement_info pi;
   gboolean left = (event->button != 3);
   gtk_widget_grab_focus(widget);
