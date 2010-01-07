@@ -16,10 +16,10 @@
 #define NUMCLEFTYPES 6
 #define TREBLE_TOPOFFSET 30 
 #define BASS_TOPOFFSET 10
-#define ALTO_TOPOFFSET 21
+#define ALTO_TOPOFFSET 20
 #define G_8_TOPOFFSET 30 
-#define TENOR_TOPOFFSET -9
-#define SOPRANO_TOPOFFSET 20
+#define TENOR_TOPOFFSET 10
+#define SOPRANO_TOPOFFSET 40
 
 /**
  * This function draws the clef appropriate for the current context
