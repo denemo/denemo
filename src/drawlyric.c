@@ -15,18 +15,8 @@
  *
  */
 void
-draw_lyric (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
+draw_lyric (cairo_t *cr,
 	    gint xx, gint y, gchar *text)
 {
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));;
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string (FONT);
-
-  pango_layout_set_text (layout, text, -1);
-  pango_layout_set_font_description (layout, desc);
-  pango_font_description_free (desc);
-
-  gdk_draw_layout (pixmap, gc, xx, y + STAFF_HEIGHT + 10, layout);
-
+  drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT + 10);
 }
