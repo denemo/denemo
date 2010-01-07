@@ -3088,6 +3088,13 @@ for second and subsequent systems</tooltip>
         <label>Change Midi Channel</label>
         <tooltip>Changes the MIDI channel of a staff </tooltip>
       </row>
+      <row>
+        <action>ZoomDialog</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>Set Display Scale</label>
+        <tooltip>Scales the display by value given by user.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
