@@ -205,7 +205,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     }
 
   {
-    
+#if 0
     GdkColor *thecolor;
     if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
       thecolor = &yellow;
@@ -213,6 +213,17 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       thecolor =/* (mudelaitem->isinvisible) ? &white :*/ itp->mark?&blue:&black;
     gdk_gc_set_foreground (blackgc, thecolor);
     gdk_cairo_set_source_color( cr, thecolor );
+#else
+
+    if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
+      cairo_set_source_rgb( cr, 1.0, 1.0, 0 );//thecolor = &yellow;
+    else {
+      if(itp->mark)
+	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
+      else
+	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
+    }
+#endif
   }
 
 
