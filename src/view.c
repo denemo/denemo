@@ -477,7 +477,7 @@ void create_scheme_function_for_script(gchar *name) {
 }
 
 
-SCM scheme_debug_object (SCM optional) {
+static SCM scheme_debug_object (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
 
@@ -491,6 +491,14 @@ SCM scheme_debug_object (SCM optional) {
  return SCM_BOOL(TRUE);
 }
 
+static SCM scheme_zoom (SCM factor) {
+  if(scm_is_real(factor))
+    Denemo.gui->si->zoom = scm_to_double(factor);
+  if(Denemo.gui->si->zoom > 0.01)
+    return SCM_BOOL_T;
+    Denemo.gui->si->zoom =  1.0;
+    return SCM_BOOL_F;
+}
 
 static SCM scheme_get_help(SCM command) {
   gchar *name;
@@ -3020,6 +3028,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   INSTALL_SCM_FUNCTION ("Gets the status of the current musical score",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
+  INSTALL_SCM_FUNCTION ("Takes a double and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
+
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none",DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);
 
