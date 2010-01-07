@@ -10,7 +10,7 @@
         <scheme> ;;;;;;;;;;; TransposeScorePrint
 (if (not (defined? 'Transpose::init))
     (begin
-    (d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromSelection")
+   ;;;(d-LoadCommand "/MainMenu/EditMenu/Transpose/SetTransposeIntervalFromSelection")
     (d-InitializeScript "SetTransposeIntervalFromSelection")))
 (let ((lily #f) (text #f))
   (set! Transpose::Interval (d-GetUserInput "Set Transpose Interval" "Give Interval to transpose by
