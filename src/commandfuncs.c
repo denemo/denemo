@@ -206,10 +206,13 @@ void
 set_width_to_work_with (DenemoGUI * gui)
 {
   GList *g; 
-  for(g = gui->movements;g;g=g->next)
- ((DenemoScore*) g->data)->widthtoworkwith
-    = (double)(gui->scorearea->allocation.width
-       - (RIGHT_MARGIN + KEY_MARGIN + gui->si->maxkeywidth + SPACE_FOR_TIME))/gui->si->zoom;
+  
+    for(g = gui->movements;g;g=g->next) {
+      DenemoScore *si =  ((DenemoScore*) g->data);
+      si->widthtoworkwith
+	= (double)(gui->scorearea->allocation.width/gui->si->zoom
+		   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
+    }
 }
 
 /**
