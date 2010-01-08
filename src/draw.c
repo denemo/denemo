@@ -564,6 +564,14 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 			  (si->firstobjmarked <= itp->objnum) && 
 			  (si->lastobjmarked >= itp->objnum)))
        );
+
+    if(itp->measurenum == si->rightmeasurenum+1)
+      cairo_set_source_rgb( cr, 0.5,0.5,0.5 );
+    else 
+      if(itp->mark)
+	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
+      else
+	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
   }
   /* Paint the exclamation point, if necessary */
@@ -649,13 +657,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   while (itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
-      if(itp->measurenum == si->rightmeasurenum+1)
-	cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
-      else 
-	if(itp->mark)
-	  cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
-	else
-	  cairo_set_source_rgb( cr, 0, 0, 0 );//black;
+
       itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (cr, itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
