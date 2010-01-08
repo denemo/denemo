@@ -217,12 +217,14 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
     if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
       cairo_set_source_rgb( cr, 1.0, 1.0, 0 );//thecolor = &yellow;
+#if 0
     else {
       if(itp->mark)
 	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
       else
 	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     }
+#endif
 #endif
   }
 
@@ -649,6 +651,11 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
     {
       if(itp->measurenum == si->rightmeasurenum+1)
 	cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
+      else 
+	if(itp->mark)
+	  cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
+	else
+	  cairo_set_source_rgb( cr, 0, 0, 0 );//black;
       itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (cr, itp->curmeasure, x, y, gui, itp);
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
