@@ -474,18 +474,13 @@ static gboolean
 draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 	      DenemoGUI * gui, struct infotopass *itp)
 {
-  static GdkPixmap *exclam = NULL;
   static GString *mstring;
   gint extra_ticks = 0;//number of ticks by which measure is over-full
   DenemoScore *si = gui->si;
   objnode *curobj;
   /* initialization */
-  if (!exclam)
-    {
-      exclam = bitmaphelper (itp->widget, toomany);
-      mstring = g_string_new (NULL);
-    }
-
+  if (!mstring)
+    mstring = g_string_new (NULL);
   /* Set information about the state at the current measure,
      if necessary */
 
