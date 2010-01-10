@@ -639,8 +639,8 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
-  double zoom;
-
+  gdouble zoom;
+  gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in the score, the same for all lines */
   /* Fields that have more to do with the data model and its manipulation,
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;

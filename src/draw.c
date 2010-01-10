@@ -104,9 +104,10 @@ struct infotopass
   gint measurenum;//would need measurenum_adj to allow control of numbering after pickup etc...
   gint staffnum;
   gint top_y;
-  gint y;
+  //gint y;
   gint markx1, markx2;
   gint marky1, marky2;
+  gboolean line_end;//set true when an object is drawn off the right hand edge
   /*GString *dynamic; */
   GtkWidget *widget;
   measurenode *curmeasure;
@@ -399,19 +400,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       draw_gracebracket (cr,
 			 x + mudelaitem->x, y, mudelaitem);
       break;
-    case BARLINE:
-      {
-	gint top_y = (si->staffspace / 4) + itp->space_above;
-	x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
-	g_print ("possible y values top_y %d, y %d itp->y %d\n", itp->top_y,
-		 y, itp->y);
-	drawbarline (cr, x, itp->y, itp->y + STAFF_HEIGHT,
-		     ((barline *) mudelaitem->object)->type);
-#ifdef DEBUG
-	g_print ("Draw barline\n");
-#endif
-      }
-      break;
+
     default:
       /* Nothing */
       break;
@@ -458,6 +447,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
 
   gdk_gc_set_foreground (blackgc, &black);
+
+  //  g_print("obj at %d %d\n",  x + mudelaitem->x + mudelaitem->minpixelsalloted, (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
+  //  itp->line_end = itp->markx2 > (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
+
+
+
   //g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
   return (mudelaitem->starttickofnextnote - itp->tickspermeasure);
@@ -506,6 +501,8 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     g_string_sprintf (mstring, "%d", itp->measurenum);
     drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE, y - 12);
   }
+
+
   // draw the cursor and set the side effects up if this didn't happen when drawing the currentobject
   if (!si->currentobject && (si->currentstaffnum == itp->staffnum && si->currentmeasurenum == itp->measurenum))
     {
@@ -565,14 +562,19 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 			  (si->lastobjmarked >= itp->objnum)))
        );
 
-    if(itp->measurenum == si->rightmeasurenum+1)
+      if(itp->measurenum == si->rightmeasurenum+1)
+#if 0
+    g_print("equal %d x=%d out of %d from %d\n", itp->measurenum == si->rightmeasurenum+1, x,
+	    (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)), (int) (gui->scorearea->allocation.width/gui->si->zoom ) ); 
+      if(x > (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))//x here is the start of the measure I think.
+#endif
       cairo_set_source_rgb( cr, 0.5,0.5,0.5 );
     else 
       if(itp->mark)
 	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
       else
 	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
-    extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
+    extra_ticks = draw_object (cr, curobj, x, y, gui, itp);    
   }
   /* Paint the exclamation point, if necessary */
   cairo_save(cr);
@@ -580,9 +582,26 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     cairo_set_source_rgb( cr, 1.0, 0, 0 );
   else
     cairo_set_source_rgb( cr, 0, 0, 1 );
-  if(extra_ticks != 0)
+  if(extra_ticks != 0) {
     drawnormaltext_cr( cr, "!", x, y - 8 );
+    cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
+  } else
+    cairo_set_source_rgb( cr, 0, 0, 0 );
+  //draw the barline
+  cairo_move_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y+STAFF_HEIGHT);
+  cairo_line_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y);
+  cairo_stroke (cr);
+  if (!curmeasure->next)
+    {
+      /* we've reached the end of the score and should
+       * draw the heavy part of double-barline at regular position */
+      x += 3;
+      cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
+      cairo_fill(cr);
+    }	
   cairo_restore(cr);
+
+
   return extra_ticks!=0;
 }
 
@@ -603,7 +622,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint x, i;
-
+  //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   cairo_save(cr);
 
   if ((DenemoStaff *) si->currentstaff->data == curstaffstruct)
@@ -628,10 +647,13 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   x += SPACE_FOR_TIME;
   itp->stem_directive = curstaffstruct->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
+
+#if 0
   if (si->firststaffmarked == itp->staffnum)
     itp->marky1 = y - EXTRAFORSELECTRECT;
   if (si->laststaffmarked == itp->staffnum)
     itp->marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
+#endif
 
   gint staffname_offset = (curstaffstruct->voicenumber == 1) ? 24 :
     (curstaffstruct->voicenumber == 2
@@ -643,7 +665,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
-  itp->measurenum = si->leftmeasurenum;
+
   itp->curmeasure =
     g_list_nth (curstaffstruct->measures, itp->measurenum - 1);
 
@@ -654,24 +676,32 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 
 
   //itp->gc = gc;
-  while (itp->measurenum <= si->rightmeasurenum+1
+  itp->line_end = FALSE;
+  while ( (!itp->line_end)  //       itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
     {
+      
+       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 
-      itp->wronglengths[itp->measurenum-si->leftmeasurenum] = draw_measure (cr, itp->curmeasure, x, y, gui, itp);
+       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
+	   (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+	 if(itp->curmeasure->next)
+	   itp->line_end=TRUE;
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
       itp->measurenum++;
-
-      if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE){
-	curstaffstruct->space_above = -itp->highy;
-	repeat = TRUE;
-      }
-      if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
-	curstaffstruct->space_below = itp->lowy;
-	repeat=TRUE;
-      }				      
+      //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
+      if(!itp->line_end) {
+	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE){
+	  curstaffstruct->space_above = -itp->highy;
+	  repeat = TRUE;
+	}
+	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
+	  curstaffstruct->space_below = itp->lowy;
+	  repeat=TRUE;
+	}
+      }			      
     }
 
   // if(itp->highy > title_highy)
@@ -695,7 +725,18 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   cairo_restore(cr);
   return repeat;
 }
-
+static void
+print_system_separator (cairo_t *cr, gdouble position){
+  //g_print("At %f for %d\n", position, Denemo.gui->scorearea->allocation.height);
+#define SYSTEM_SEP (6)
+  cairo_save(cr);
+  cairo_set_source_rgb( cr, 0.5, 0.0, 0.0 );
+  cairo_rectangle (cr, 0, position-SYSTEM_SEP, Denemo.gui->scorearea->allocation.width/Denemo.gui->si->zoom, SYSTEM_SEP);
+  cairo_set_source_rgb( cr, 0.7, 0.0, 0.0 );
+  cairo_fill(cr);
+#undef SYSTEM_SEP
+  cairo_restore(cr);
+}
 /**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
@@ -712,7 +753,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   GList *mwidthiterator;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
-
+  gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
 
   /* Initialize some fields in itp */
 
@@ -730,10 +771,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   //cairo_rotate( cr, M_PI/6.0 );
 
   /* Draw each staff */
-  for ((itp.staffnum = si->top_staff,
-	curstaff = g_list_nth (si->thescore, si->top_staff - 1),
-	y += si->staffspace / 4);
-       curstaff && itp.staffnum <= si->bottom_staff; itp.staffnum++) {
+  for (itp.staffnum = si->top_staff,
+	 curstaff = g_list_nth (si->thescore, si->top_staff - 1),
+	 (y += si->staffspace / 4);
+       curstaff && itp.staffnum <= si->bottom_staff; 
+       itp.staffnum++) {
     DenemoStaff *staff = (DenemoStaff *) curstaff->data;
     itp.verse = staff->currentverse?staff->currentverse->data:NULL;
     GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum==itp.staffnum)?StaffPixbuf:StaffPixbufSmall;
@@ -741,11 +783,13 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     if (curstaff && staff->voicenumber == 1)
       y += staff->space_above;
+
+    //g_print("Incrementing vertically %d\n", y);
     itp.space_above = staff->space_above;
     gint top_y = (si->staffspace / 4) + itp.space_above;
     
     itp.top_y = top_y;
-    itp.y = y;
+    //itp.y = y;
     gint highy = staff->space_above;
     gint lowy =  staff->space_below;
 
@@ -812,61 +856,43 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       reset_lyrics(staff, count);
     }
     
-    //allocate wronglength[] large enough for si->rightmeasurenum - si->leftmeasurenum entries then put it in itp
-    // and set it in draw_measure
-
-    gboolean *wronglength = (gboolean *)g_malloc((sizeof(gboolean))*(2+si->rightmeasurenum - si->leftmeasurenum));
-    itp.wronglengths = wronglength;
+  
+    itp.measurenum = si->leftmeasurenum;
     repeat = draw_staff (cr, staff, y, gui, &itp);
+    if (si->firststaffmarked == itp.staffnum)
+      itp.marky1 = y - EXTRAFORSELECTRECT;
+    if (si->laststaffmarked == itp.staffnum)
+      itp.marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
+    gint system_num;
+    system_num = 1;
+    // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
 
-#if 0
-    //IN FACT itp.highy is only set by one measure, it is reset to zero in the measure loop
-    if(-itp.highy>highy && -itp.highy<MAXEXTRASPACE) //FIXME this should be done before draw_staff returns
-      /*g_print("setting space above %d staff %d\n", -itp.highy, itp.staffnum),*/staff->space_above = -itp.highy, repeat=TRUE;
-    if(itp.lowy>lowy && itp.lowy<MAXEXTRASPACE)
-      staff->space_below = itp.lowy, repeat=TRUE;
-#endif
-    gint measures_in_staff = g_list_length(staff->measures);
-    /* Now draw the barlines between the measures, across all the staffs */
-    mwidthiterator = g_list_nth (si->measurewidths, si->leftmeasurenum - 1);
-    for (x = KEY_MARGIN + si->maxkeywidth + 
-	   SPACE_FOR_TIME - HALF_BARLINE_SPACE,
-	   i = si->leftmeasurenum; mwidthiterator && 
-	   (i <= si->rightmeasurenum); mwidthiterator = mwidthiterator->next, 
-	   i++)
-      {
-
-	gint top = y + STAFF_HEIGHT; 
-
-	x += GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE;
-	if(i==measures_in_staff)
-	  mwidthiterator = g_list_last(si->measurewidths);//do not draw barlines for short staffs
-	if (!mwidthiterator->next) /* Last measure - draw light line 3 pixels early */
-	  x -= 3;
-	if (wronglength[i-si->leftmeasurenum])
-	  cairo_set_source_rgb( cr, 0.3, 0.3, 0.3 );
-	else
-	  cairo_set_source_rgb( cr, 0.0, 0.0, 0.0 );
-
-	cairo_move_to (cr, x, top);
-	cairo_line_to (cr, x, y);
-	cairo_stroke (cr);
-	
-	if (!mwidthiterator->next)
-	  {
-	    /* we've reached the end of the score and should
-	     * draw the heavy part of double-barline at regular position */
-	    x += 3;
-	    cairo_rectangle (cr, x, y-0.5, 4, STAFF_HEIGHT+1);
-	    cairo_fill(cr);
-	  }
-	   
-      }
+    if (itp.staffnum==si->top_staff)
+      print_system_separator (cr, line_height*system_num++);
 
 
-    g_free(wronglength);
-    if ( itp.staffnum < si->bottom_staff
-	 &&    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
+    // This block prints out continuations of the staff just printed
+    {
+    int yy;
+    yy = y + line_height;
+
+    while(itp.line_end && (yy<gui->scorearea->allocation.height)) {
+      if (itp.staffnum==si->top_staff)
+	print_system_separator (cr, line_height*system_num++);
+
+      if(draw_staff (cr, staff, yy, gui, &itp))
+	repeat = TRUE;
+      // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height);
+     
+      yy += line_height;
+     
+
+    }
+    }//end of block printing continuations
+
+
+    if ( (!curstaff->next)
+	 ||    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
       {
 	if (itp.verse) {
 	  y += LYRICS_HEIGHT;
@@ -874,7 +900,6 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	y +=
 	  (si->staffspace + staff->space_below);
       }
-    //itp.haslyrics = FALSE;
     curstaff = curstaff->next;
   }// for all the staffs
 

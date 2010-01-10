@@ -119,7 +119,7 @@ set_bottom_staff (DenemoGUI * gui)
   /* With that settled, now determine how many additional (primary)
      staves will fit into the window.  */
   staff_number = gui->si->top_staff;
-  space_left = gui->scorearea->allocation.height/gui->si->zoom;
+  space_left = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
   do
     {
       space_left -= gui->si->staffspace;

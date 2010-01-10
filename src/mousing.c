@@ -322,6 +322,7 @@ perform_command(gint modnum, mouse_gesture press, gboolean left)
 }  
 
 static gboolean selecting = FALSE;
+static gboolean dragging_separator = FALSE;
 
 
 static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
@@ -343,6 +344,16 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(dragging_separator) {
+    gui->si->system_height =  event->y/gui->scorearea->allocation.height;
+    if(gui->si->system_height>1.0)
+      gui->si->system_height = 1.0;
+    //g_print("line height now %f\n",  gui->scorearea->allocation.height*gui->si->system_height);
+    gtk_widget_queue_draw (gui->scorearea);
+    return TRUE;
+  }
+
+
   event->x /= gui->si->zoom;
   event->y /= gui->si->zoom;
 
@@ -405,6 +416,16 @@ gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  //if the cursor is at a system separator start dragging it
+  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
+  if(dragging_separator == FALSE)
+  if(line_height - ((int)event->y)%line_height<8) {
+    dragging_separator = TRUE;
+    return TRUE;
+  }
+  dragging_separator = FALSE;
+
   event->x /= gui->si->zoom;
   event->y /= gui->si->zoom;
 
@@ -496,6 +517,12 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
  gboolean left = (event->button != 3);
+
+  if(dragging_separator) {
+    dragging_separator = FALSE;
+    return TRUE;
+  }
+
  //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
  if(left)
    lh_down = FALSE;
