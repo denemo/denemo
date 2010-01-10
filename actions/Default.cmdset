@@ -3081,19 +3081,123 @@ for second and subsequent systems</tooltip>
         <tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
       <row>
-        <action>ChannelChange</action>
-        <after>MidiTempo</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>Change Midi Channel</label>
-        <tooltip>Changes the MIDI channel of a staff </tooltip>
-      </row>
-      <row>
         <action>ZoomDialog</action>
         <scheme></scheme>
         <menupath>/MainMenu/ViewMenu/Zoom</menupath>
         <label>Set Display Scale</label>
         <tooltip>Scales the display by value given by user.</tooltip>
+      </row>
+      <row>
+        <action>ChangeChannel</action>
+        <after>MidiTempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Channel</label>
+        <tooltip>Change the Channel of a staff</tooltip>
+      </row>
+      <row>
+        <action>ChangeProgram</action>
+        <after>ChangeChannel</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Program</label>
+        <tooltip>Change the Program of the current channel/staff</tooltip>
+      </row>
+      <row>
+        <action>ChangeVolume</action>
+        <after>ChangeProgram</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Volume</label>
+        <tooltip>Change the Volume of a channel/staff</tooltip>
+      </row>
+      <row>
+        <action>ChangeGeneric</action>
+        <after>ChangeChannel</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Generic Control Change</label>
+        <tooltip>Generic 0xB Control Change - User can give the midi bytes, too. </tooltip>
+      </row>
+      <row>
+        <action>ChangeModwheel</action>
+        <after>ChangeVolume</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>1 Modwheel</label>
+        <tooltip>Change the Modwheel value of a channel/staff</tooltip>
+      </row>
+      <row>
+        <action>ChangeBalance</action>
+        <after>ChangeModwheel</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>8 Balance</label>
+        <tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </tooltip>
+      </row>
+      <row>
+        <action>ChangePan</action>
+        <after>ChangeBalance</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>10 Pan</label>
+        <tooltip>Where in the stereo field the channel sound will be placed.</tooltip>
+      </row>
+      <row>
+        <action>ChangeExpression</action>
+        <after>ChangePan</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>11 Expression</label>
+        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
+      </row>
+      <row>
+        <action>ChangeHoldPedal</action>
+        <after>ChangeExpression</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>64 Hold Pedal (Right Piano Pedal)</label>
+        <tooltip>Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to "Off"</tooltip>
+      </row>
+      <row>
+        <action>ChangePortamento</action>
+        <after>ChangeHoldPedal</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>65 Portamento On/Off</label>
+        <tooltip>Slides between 2 notes. Can be adjusted with 5 - Portamento Time</tooltip>
+      </row>
+      <row>
+        <action>ChangeSustenutoPedal</action>
+        <after>ChangePortamento</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>66 Sustenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
+        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
+      </row>
+      <row>
+        <action>ChangeSoftPedal</action>
+        <after>ChangeSustenutoPedal</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>67 Soft Pedal On/Off (Left Piano Pedal)</label>
+        <tooltip>Left Piano Pedal. Lowers the volume of any notes played.</tooltip>
+      </row>
+      <row>
+        <action>ChangeLegatoPedal</action>
+        <after>ChangeSoftPedal</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>68 Legato Pedal On/Off</label>
+        <tooltip>Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on.</tooltip>
+      </row>
+      <row>
+        <action>ChangeHold2Pedal</action>
+        <after>ChangeLegatoPedal</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>69 Hold Pedal #2 On/Off</label>
+        <tooltip>Longer release time but notes will fade out eventually.</tooltip>
       </row>
     </map>
   </commands>

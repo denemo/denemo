@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ChangePan</after>
+        <action>ChangeExpression</action>
+        <scheme>(ChangeExpression::Set)</scheme>
+        <label>11 Expression</label>
+        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
