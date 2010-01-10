@@ -15,35 +15,17 @@
  *
  */
 void
-draw_tupbracket (GdkPixmap * pixmap, GdkGC * gc, GdkFont * font,
+draw_tupbracket (cairo_t *cr,
 		 gint xx, gint y, DenemoObject * theobj)
 {
-  static GString *tupopentext;
-  PangoContext *context =
-    gdk_pango_context_get_for_screen (gdk_drawable_get_screen (pixmap));
-  PangoLayout *layout = pango_layout_new (context);
-  PangoFontDescription *desc = pango_font_description_from_string (FONT);
-  gint pos;
-
+  static GString *tupopentext=NULL;
   if (!tupopentext)
     tupopentext = g_string_new (NULL);
-
-
-  if (theobj->type == TUPOPEN)
-    {
-      g_string_sprintf (tupopentext,
-			"~%d", 	((tupopen *) theobj->object)->denominator);
-      pango_layout_set_text (layout, tupopentext->str, -1);
-      pos = xx-4;
-    }
-  else if (theobj->type == TUPCLOSE)
-    {
-
-      pango_layout_set_text (layout, "|", -1);
-      pos = xx+4;
-    }
-  pango_layout_set_font_description (layout, desc);
-  gdk_draw_layout (pixmap, gc, pos, y - 4, layout);
-
-  pango_font_description_free (desc);
+  if (theobj->type == TUPOPEN) {
+    g_string_sprintf (tupopentext,
+		      "~%d", 	((tupopen *) theobj->object)->denominator);
+    drawnormaltext_cr( cr, tupopentext->str, xx-4, y - 4);
+  }
+  else
+    drawnormaltext_cr( cr, "|", xx+4, y - 4);
 }
