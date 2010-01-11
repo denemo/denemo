@@ -210,8 +210,9 @@ set_width_to_work_with (DenemoGUI * gui)
     for(g = gui->movements;g;g=g->next) {
       DenemoScore *si =  ((DenemoScore*) g->data);
       si->widthtoworkwith
-	= (double)(gui->scorearea->allocation.width/gui->si->zoom
+	= (double)(gui->scorearea->allocation.width*((int)(1/gui->si->system_height ))/gui->si->zoom
 		   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
+      g_print("Width %d\n", si->widthtoworkwith);
     }
 }
 

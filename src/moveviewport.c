@@ -63,8 +63,8 @@ update_vscrollbar (DenemoGUI * gui)
 }
 
 /**
- * Sets the si->rigthmeasurenum to the largest
- * value in the score
+ * Sets the si->rigthmeasurenum to use
+ * all the space si->widthtoworkwith assumeing si->leftmeasurenum, as determined by the si->measurewidths
  */
 void
 set_rightmeasurenum (DenemoScore * si)
@@ -131,7 +131,7 @@ set_bottom_staff (DenemoGUI * gui)
 }
 
 /**
- * Find out if measure is past the current leftmeasurenum
+ * inverse of the below
  *
  */
 void
@@ -151,8 +151,8 @@ isoffleftside (DenemoGUI * gui)
 }
 
 /**
- * Find out if measure is past the current rightmeasurenum
- *
+ * Advance the leftmeasurenum until currentmeasurenum is before rightmeasurenum
+ * then adjust rightmeasurenum to match.
  */
 void
 isoffrightside (DenemoGUI * gui)

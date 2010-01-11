@@ -494,6 +494,7 @@ static SCM scheme_debug_object (SCM optional) {
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
+  scorearea_configure_event(Denemo.gui->scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01)
     return SCM_BOOL_T;
     Denemo.gui->si->zoom =  1.0;

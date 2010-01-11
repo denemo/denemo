@@ -349,6 +349,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     if(gui->si->system_height>1.0)
       gui->si->system_height = 1.0;
     //g_print("line height now %f\n",  gui->scorearea->allocation.height*gui->si->system_height);
+    scorearea_configure_event(gui->scorearea, NULL);
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   }
