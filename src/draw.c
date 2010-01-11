@@ -95,6 +95,8 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 struct infotopass
 {
   clef* clef;
+  clef *prevailing_clef;
+  gint prevailing_key;
   gint key;
   gint curaccs[7];
   gint keyaccs[7];
@@ -623,7 +625,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 {
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
-  gint x, i;
+  gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   cairo_save(cr);
 
@@ -633,20 +635,27 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
     cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
 
 
-  draw_clef (cr, LEFT_MARGIN, y,
-	     itp->clef = curstaffstruct->leftmost_clefcontext);
-  x = KEY_MARGIN;
-  draw_key (cr, x, y,
-	    itp->key = curstaffstruct->leftmost_keysig->number,
-	    0, itp->clef->type, TRUE);
+  if(!itp->line_end) {//not a continuation
+    draw_clef (cr, LEFT_MARGIN, y,
+	       itp->clef = curstaffstruct->leftmost_clefcontext);
+    draw_key (cr, x, y,
+	      itp->key = curstaffstruct->leftmost_keysig->number,
+	      0, itp->clef->type, TRUE);
+    x += si->maxkeywidth;
+    draw_timesig (cr, x,
+		  y, itp->time1 =
+		  curstaffstruct->leftmost_timesig->time1, itp->time2 =
+		  curstaffstruct->leftmost_timesig->time2);
+    x += SPACE_FOR_TIME;
+  } else {
+    draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+    draw_key (cr, x, y,
+	      itp->key, 0, itp->clef->type, TRUE);
+    x += si->maxkeywidth;
+  }
   memcpy (itp->keyaccs, curstaffstruct->leftmost_keysig->accs, SEVENGINTS);
-  x += si->maxkeywidth;
 
-  draw_timesig (cr, x,
-		y, itp->time1 =
-		curstaffstruct->leftmost_timesig->time1, itp->time2 =
-		curstaffstruct->leftmost_timesig->time2);
-  x += SPACE_FOR_TIME;
+
   itp->stem_directive = curstaffstruct->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
@@ -670,12 +679,12 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 
   itp->curmeasure =
     g_list_nth (curstaffstruct->measures, itp->measurenum - 1);
-
+  // g_print("measurenum %d\nx=%d\n", itp->measurenum, x);
 
   //FIX in measureops.c for case where si->measurewidths is too short
   itp->mwidthiterator = g_list_nth (si->measurewidths, itp->measurenum - 1);
 
-
+  // g_print("Width is %d\n", itp->mwidthiterator->data);
 
   //itp->gc = gc;
   itp->line_end = FALSE;
@@ -764,6 +773,10 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.hairpin_stack = NULL;
 
   itp.highy = 0;//in case there are no objects...
+  itp.lowy = 0;
+  itp.measurenum = 1;
+
+
   y = 0;
 
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
@@ -860,6 +873,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     
   
     itp.measurenum = si->leftmeasurenum;
+    itp.line_end = FALSE;
     repeat = draw_staff (cr, staff, y, gui, &itp);
     if (si->firststaffmarked == itp.staffnum)
       itp.marky1 = y - EXTRAFORSELECTRECT;

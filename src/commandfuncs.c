@@ -212,7 +212,7 @@ set_width_to_work_with (DenemoGUI * gui)
       si->widthtoworkwith
 	= (double)(gui->scorearea->allocation.width*((int)(1/gui->si->system_height ))/gui->si->zoom
 		   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
-      g_print("Width %d\n", si->widthtoworkwith);
+      // g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/gui->si->system_height )));
     }
 }
 

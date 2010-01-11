@@ -344,19 +344,21 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
   if(dragging_separator) {
     gui->si->system_height =  event->y/gui->scorearea->allocation.height;
     if(gui->si->system_height>1.0)
       gui->si->system_height = 1.0;
-    //g_print("line height now %f\n",  gui->scorearea->allocation.height*gui->si->system_height);
     scorearea_configure_event(gui->scorearea, NULL);
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   }
 
-
+  gint system = ((int)event->y)/line_height;
+  event->y -= system * line_height;
   event->x /= gui->si->zoom;
   event->y /= gui->si->zoom;
+  event->x += system * gui->si->system_height * gui->si->widthtoworkwith;//not quite right FIXME
 
   //  g_print("Marked %d\n", gui->si->markstaffnum);
 
@@ -427,8 +429,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   }
   dragging_separator = FALSE;
 
+  gint system = ((int)event->y)/line_height;
+  //  g_print("num systems %d\n", system+1);
+  event->y -= system * line_height;
   event->x /= gui->si->zoom;
   event->y /= gui->si->zoom;
+  event->x += system * gui->si->system_height * gui->si->widthtoworkwith;//not quite right FIXME
 
   struct placement_info pi;
   gboolean left = (event->button != 3);
