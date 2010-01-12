@@ -19,7 +19,6 @@
 #include "hairpin.h"
 #include "staffops.h"
 #include "utils.h"
-#include "../pixmaps/toomany.xbm"
 #include "exportlilypond.h"	/* to generate lily text for display */
 #include "lyparserfuncs.h"	/* to generate lily text for display */
 #include "pitchentry.h"
@@ -95,8 +94,6 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 struct infotopass
 {
   clef* clef;
-  clef *prevailing_clef;
-  gint prevailing_key;
   gint key;
   gint curaccs[7];
   gint keyaccs[7];
@@ -758,10 +755,8 @@ static gboolean
 draw_score (GtkWidget * widget, DenemoGUI * gui)
 {
   staffnode *curstaff;
-  gint x, y=0, i;
+  gint y=0;
   struct infotopass itp;
-
-  GList *mwidthiterator;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
