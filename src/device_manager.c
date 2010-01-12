@@ -68,6 +68,7 @@ remove_selection(){
   gtk_tree_store_remove(treestore, &iter);
 }
 
+static void 
 add_device_to_tree(gchar *device_name){
   gtk_tree_store_append(treestore, &toplevel, NULL);
   gtk_tree_store_set(treestore, &toplevel,
@@ -76,6 +77,7 @@ add_device_to_tree(gchar *device_name){
 				-1);
 }
 
+static void
 add_port_to_tree(gchar *port_name){
   gtk_tree_store_append(treestore, &child, &iter_parent);
   gtk_tree_store_set(treestore, &child,

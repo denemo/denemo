@@ -1938,6 +1938,7 @@ static SCM scheme_get_nonprinting (SCM optional) {
 
 static SCM scheme_clear_clipboard(SCM optional) {
   clearbuffer();
+  return SCM_BOOL(TRUE);
 }
 
 
@@ -3137,6 +3138,7 @@ close_gui ()
     // gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
   } else
     Denemo.gui = NULL; 
+  return TRUE;
 }
 
 /* remove all the movements (ie the DenemoScore) leaving it with gui->si NULL */

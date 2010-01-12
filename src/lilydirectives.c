@@ -2132,6 +2132,7 @@ TEXT_EDIT_IF(paper);
 TEXT_EDIT_IF(layout);
 TEXT_EDIT_IF(movementcontrol);
 TEXT_EDIT_IF(standalone);
+return TRUE;
 }
 #undef TEXT_EDIT_IF
 /* allow edit of a directive, either via script or textually if no script exists 

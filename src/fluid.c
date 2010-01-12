@@ -388,7 +388,7 @@ void fluid_midi_play(void)
    */
   DenemoObject *curobj;
   start_time = 0.0;
-  curobj = get_mark_object();
+  curobj = (DenemoObject *)get_mark_object();
   if(curobj==NULL && gui->si->currentobject)
     curobj = gui->si->currentobject->data;
   if(curobj && curobj->midi_events) {
@@ -397,7 +397,7 @@ void fluid_midi_play(void)
     g_debug("\nsetting start %f\n", start_time);
   }
   end_time = playback_duration;
-  curobj =  get_point_object();
+  curobj =  (DenemoObject *)get_point_object();
   if(curobj && curobj->midi_events)/*is this ever true?*/ { 
     smf_event_t *event = g_list_last(curobj->midi_events)->data;
     end_time = event->time_seconds;

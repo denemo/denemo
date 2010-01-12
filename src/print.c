@@ -1115,7 +1115,7 @@ void refresh_print_view (gboolean preview_only) {
 	         &printpreview_errors,		/* stderr */
 		 &error);
   g_free(lilyfile);
-  g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, preview_only);
+  g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, (gpointer)preview_only);
 }
 
 /* callback to print whole of score */
@@ -1152,7 +1152,7 @@ popup_print_preview_menu(void) {
   GtkWidget *item = gtk_menu_item_new_with_label("Refresh Print Preview");
 
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(refresh_print_view), TRUE);
+  g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(refresh_print_view), (gpointer)TRUE);
   item = gtk_menu_item_new_with_label("Drag to desired offset");
   gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
   g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(start_drag), &offsetting);

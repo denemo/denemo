@@ -67,6 +67,7 @@ static gint kill_timer(void){
   if(kill_id)
     g_source_remove(kill_id);
   kill_id = 0;
+  return TRUE;
 }
 
 

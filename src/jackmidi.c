@@ -513,7 +513,7 @@ init_jack(void){
 	g_warning("Could not open JACK client %s, no jack server running?", MD[i].client_name->str );
       return -1;
     }
-    if (jack_set_process_callback(MD[i].jack_client, process_callback, i)){
+    if (jack_set_process_callback(MD[i].jack_client, (JackProcessCallback)process_callback, (void *)i)){
       jack_server_running = FALSE;
       g_warning("Could not register JACK process callback.");
       return -1;

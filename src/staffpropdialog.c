@@ -9,6 +9,7 @@
 #include "calculatepositions.h"
 #include "chordops.h"
 #include "contexts.h"
+#include "device_manager.h"
 #include <denemo/denemo.h>
 #include "processstaffname.h"
 #include "staffops.h"
