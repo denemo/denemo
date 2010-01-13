@@ -579,7 +579,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   GString *filename = g_string_new (thefilename);
   xmlDocPtr doc;
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
-  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem, directivesElem, directiveElem;
+  xmlNodePtr measuresElem, measureElem, objElem, prevTieElem;
   xmlNodePtr curElem, parentElem;
   xmlNsPtr ns;
   staffnode *curStaff;
@@ -589,7 +589,6 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   gchar *lastTupletStartXMLID, *lastGraceStartXMLID;
   //gchar *clefname, *baseKeyName, *accidental;
   measurenode *curMeasure;
-  gboolean emptyMeasure;
   objnode *curObjNode;
   DenemoObject *curObj;
   GList *curNoteNode;
@@ -657,7 +656,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   }
   //  if(gui->custom_prolog && gui->custom_prolog->len)
   //   xmlNewChild (scoreElem, ns, "custom_prolog", (xmlChar *)gui->custom_prolog->str);
-  
+  gint movement_number =  1+g_list_index(gui->movements, gui->si);
+  if(movement_number)
+    newXMLIntChild (scoreElem, ns,(xmlChar *) "movement-number", movement_number);
   GList *g;
   for(g=gui->movements;g;g=g->next) {
     DenemoScore *si = g->data;
@@ -665,8 +666,17 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   mvmntElem = xmlNewChild (scoreElem, ns, (xmlChar *) "movement", NULL);
   parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "edit-info", NULL);
   newXMLIntChild (parentElem, ns, (xmlChar *) "staffno", si->currentstaffnum);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "measureno", si->currentmeasurenum);
+
   newXMLIntChild (parentElem, ns, (xmlChar *) "cursorposition",
 		  si->cursor_x - 1);
+  newXMLIntChild (parentElem, ns, (xmlChar *) "zoom",
+		  (int)(100*si->zoom));
+  newXMLIntChild (parentElem, ns, (xmlChar *) "system-height",
+		  (int)(100*si->system_height));
+
+
+
 
 
   if(si->header.directives) {
@@ -835,13 +845,12 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
       newXMLTimeSignature (parentElem, ns, &curStaffStruct->timesig);
 
       /* Write out the measures. */
-      gboolean warning_given = FALSE;//No warning yet about empty measures
       measuresElem =
 	xmlNewChild (voiceElem, ns, (xmlChar *) "measures", NULL);
       for (curMeasure = curStaffStruct->measures; curMeasure != NULL;
 	   curMeasure = curMeasure->next)
 	{
-	  emptyMeasure = TRUE;
+
 	  measureElem = xmlNewChild (measuresElem, ns, (xmlChar *) "measure",
 				     NULL);
 
@@ -854,24 +863,11 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		{
 		case CHORD:
 		  {chord *thechord = (chord *) curObj->object;
-		  emptyMeasure = FALSE;
 
-#if 0		  
-		  /* FIXME WHY DO WE EXPORT THIS INFO: it is derived from the data
-		     If this is the start of a beam, output a <beam-start>. */
 
-		  if (curObj->isstart_beamgroup && !curObj->isend_beamgroup)
-		    {
-		      curElem = xmlNewChild (measureElem, ns,
-					     (xmlChar *) "beam-start", NULL);
-		      lastBeamStartXMLID = newXMLID ();
-		      xmlSetProp (curElem, (xmlChar *) "id",
-				  (xmlChar *) lastBeamStartXMLID);
-		    }
-#endif
 		  /* Output the root element, "rest" or "chord". */
 
-		  if (((chord *) curObj->object)->notes == NULL)
+		  if ((thechord)->notes == NULL)
 		    {
 		      objElem = xmlNewChild (measureElem, ns,
 					     (xmlChar *) "rest", NULL);
@@ -893,38 +889,38 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  /* Output the duration. */
 
-		  determineDuration (((chord *) curObj->object)->baseduration,
+		  determineDuration ((thechord)->baseduration,
 				     &durationType);
 		  parentElem = xmlNewChild (objElem, ns,
 					    (xmlChar *) "duration", NULL);
 		  xmlSetProp (parentElem, (xmlChar *) "base",
 			      (xmlChar *) durationType);
-		  if (((chord *) curObj->object)->numdots != 0)
+		  if ((thechord)->numdots != 0)
 		    newXMLIntChild (parentElem, ns, (xmlChar *) "dots",
-				    ((chord *) curObj->object)->numdots);
+				    (thechord)->numdots);
 
 		  /* Output the DenemoDirectives on the chord */
-		  if(((chord *) curObj->object)->directives) {
-		    newDirectivesElem(objElem, ns,  ((chord *) curObj->object)->directives, "directives");
+		  if((thechord)->directives) {
+		    newDirectivesElem(objElem, ns,  (thechord)->directives, "directives");
 		  }
-		  if(((chord *) curObj->object)->chordize)
+		  if((thechord)->chordize)
 		    newXMLIntChild (objElem, ns, (xmlChar *) "chordize", TRUE);
 
 		  /*Output Lyric */
-		  if (((chord *) curObj->object)->lyric)
+		  if ((thechord)->lyric)
 		    {
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "lyric",
-				     (xmlChar *) ((chord *) curObj->object)->
+				     (xmlChar *) (thechord)->
 				     lyric->str);
-		      if (((chord *) curObj->object)->is_syllable)
+		      if ((thechord)->is_syllable)
 			xmlSetProp (parentElem, (xmlChar *) "extend",
 				    (xmlChar *) "true");
 		      else
 			xmlSetProp (parentElem, (xmlChar *) "extend",
 				    (xmlChar *) "false");
 
-		      if (((chord *) curObj->object)->center_lyric)
+		      if ((thechord)->center_lyric)
 			xmlSetProp (parentElem, (xmlChar *) "center",
 				    (xmlChar *) "true");
 		      else
@@ -933,28 +929,28 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		    }
 		  /*Output Figured Bass */
-		  if (((chord *) curObj->object)->figure)
+		  if ((thechord)->figure)
 		    {
-		    //DenemoObject *mud = (DenemoObject *) ((GList *) (((chord *) curObj->object)->figure)->data);
+		    //DenemoObject *mud = (DenemoObject *) ((GList *) ((thechord)->figure)->data);
 		    //chord *mych = (chord *) mud->object;
 		  
 		   	parentElem = xmlNewChild (objElem, ns, (xmlChar *) "figure",
-						(xmlChar *) ((GString *) ((chord *) curObj->object)->figure)->str);
+						(xmlChar *) ((GString *) (thechord)->figure)->str);
 			
-			// printf("\nfigure in exportxml == %s\n", ((GString *) ((chord *) curObj->object)->figure)->str);
+			// printf("\nfigure in exportxml == %s\n", ((GString *) (thechord)->figure)->str);
 		  } 
-		    //((chord *) curObj->object)->is_figure = FALSE;
+		    //(thechord)->is_figure = FALSE;
 		 //     parentElem = xmlNewChild (objElem, ns, (xmlChar *) "figure",
 		//				(GString *) mych->figure);
 		    
 		  /*Output Fakechords*/
-		  if (((chord *) curObj->object)->fakechord && ((GString *) ((chord *) curObj->object)->fakechord)->len)
+		  if ((thechord)->fakechord && ((GString *) (thechord)->fakechord)->len)
 		    {
 		    	
   			   GString *temp = g_string_new("");
-		           temp = g_string_append(temp, ((GString *) ((chord *) curObj->object)->fakechord)->str);
-			   if (((chord *) curObj->object)->fakechord_extension != NULL)
-			   	temp = g_string_append(temp, ((GString *) ((chord *) curObj->object)->fakechord_extension)->str);
+		           temp = g_string_append(temp, ((GString *) (thechord)->fakechord)->str);
+			   if ((thechord)->fakechord_extension != NULL)
+			   	temp = g_string_append(temp, ((GString *) (thechord)->fakechord_extension)->str);
 			   
 
 		      parentElem = xmlNewChild (objElem, ns, (xmlChar *) "fakechord",
@@ -966,10 +962,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  /* Output all the decorations. */
 
-		  if (((chord *) curObj->object)->ornamentlist)
+		  if ((thechord)->ornamentlist)
 		    {
 		      GList *tmp;
-		      for (tmp = ((chord *) curObj->object)->ornamentlist;
+		      for (tmp = (thechord)->ornamentlist;
 			   tmp; tmp = tmp->next)
 			{
 			  parentElem = xmlNewChild (objElem, ns,
@@ -1039,10 +1035,10 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   *  Output Dynamic which is now part of note 
 		   *
 		   */
-		  if (((chord *) curObj->object)->dynamics)
+		  if ((thechord)->dynamics)
 		    {
 		      GString *string =
-			(GString *) ((chord *) curObj->object)->dynamics->
+			(GString *) (thechord)->dynamics->
 			data;
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "dynamic",
@@ -1055,7 +1051,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * <slur> element.
 		   */
 
-		  if (((chord *) curObj->object)->slur_end_p)
+		  if ((thechord)->slur_end_p)
 		    {
 		      if (slurElemStack == NULL)
 			{
@@ -1080,7 +1076,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * <crescendo> element.
 		   */
 
-		  if (((chord *) curObj->object)->crescendo_end_p)
+		  if ((thechord)->crescendo_end_p)
 		    {
 		      if (crescElemStack == NULL)
 			{
@@ -1106,7 +1102,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * <diminuendo> element.
 		   */
 
-		  if (((chord *) curObj->object)->diminuendo_end_p)
+		  if ((thechord)->diminuendo_end_p)
 		    {
 		      if (diminElemStack == NULL)
 			{
@@ -1132,7 +1128,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * the slur) if there's a slur beginning on this chord.
 		   */
 
-		  if (((chord *) curObj->object)->slur_begin_p)
+		  if ((thechord)->slur_begin_p)
 		    {
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "slurs", NULL);
@@ -1150,7 +1146,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * the crescendo) if there's a crescendo beginning on this chord.
 		   */
 
-		  if (((chord *) curObj->object)->crescendo_begin_p)
+		  if ((thechord)->crescendo_begin_p)
 		    {
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "crescendos",
@@ -1170,7 +1166,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		   * the diminuendo) if there's a diminuendo beginning on this chord.
 		   */
 
-		  if (((chord *) curObj->object)->diminuendo_begin_p)
+		  if ((thechord)->diminuendo_begin_p)
 		    {
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "diminuendos",
@@ -1199,7 +1195,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  /* Output a <tie> element if this chord is tied. */
 
-		  if (((chord *) curObj->object)->is_tied)
+		  if ((thechord)->is_tied)
 		    {
 		      prevTieElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "tie", NULL);
@@ -1210,11 +1206,11 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 
 		  /* Output all the notes, if this isn't a rest. */
 
-		  if (((chord *) curObj->object)->notes != NULL)
+		  if ((thechord)->notes != NULL)
 		    {
 		      parentElem =
 			xmlNewChild (objElem, ns, (xmlChar *) "notes", NULL);
-		      for (curNoteNode = ((chord *) curObj->object)->notes;
+		      for (curNoteNode = (thechord)->notes;
 			   curNoteNode != NULL;
 			   curNoteNode = curNoteNode->next)
 			{
@@ -1425,21 +1421,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		}		/* end switch on object type */
 	    }			/* end for each object in measure */
 
-	  if (emptyMeasure)
-	    {
-#if 0
-	      curElem =
-		xmlNewChild (measureElem, ns, (xmlChar *) "rest", NULL);
-	      xmlSetProp (curElem, (xmlChar *) "show", (xmlChar *) "false");
-	      newXMLFraction (xmlNewChild
-			      (curElem, ns, (xmlChar *) "duration", NULL), ns,
-			      curTime1, curTime2);
-	      if(!warning_given)
-		if(strcmp(filename->str, gui->autosavename->str))
-		warningdialog("Empty measure - putting a non-printing rest into it");
-	      warning_given = TRUE;
-#endif
-	    }
+
 	}			/* end for each measure in voice */
 
       /* Clean up voice-specific variables. */

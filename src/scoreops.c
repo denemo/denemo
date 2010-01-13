@@ -228,7 +228,7 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
   gtk_widget_hide(gui->si->buttonbox);
   gui->si = this->data;
   gtk_widget_show(gui->si->buttonbox);
-  updatescoreinfo (gui);
+  //!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
   find_leftmost_allcontexts (gui->si);
@@ -266,7 +266,7 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
   gui->si = this->data; 
   gtk_widget_show(gui->si->buttonbox);
 
-  updatescoreinfo (gui);
+  //!!!!!!!!!!!!!updatescoreinfo (gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
   set_bottom_staff (gui);

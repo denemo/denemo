@@ -19,6 +19,7 @@
 #include "view.h"
 #include "texteditors.h"
 #include "lilydirectives.h"
+#include "calculatepositions.h"
 #include <string.h>
 
 
@@ -26,6 +27,7 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+static gint current_movement = 0, current_staff=0, current_measure=0, current_position = 0;
 
 /* Defines for making traversing XML trees easier */
 
@@ -501,7 +503,6 @@ parseKeySignature (xmlNodePtr keySigElem, xmlNsPtr ns, keysig *keysig)
   gint * keySig = &keysig->number;
   gboolean * isMinor = &keysig->isminor;
   xmlNodePtr childElem;
-  gint childCount = 0;
   gboolean successful = FALSE;
   gchar *noteName, *accidentalName, *modeName;
   gint note, accidental;
@@ -633,7 +634,6 @@ static void
 parseTimeSignature (xmlNodePtr timeSigElem, xmlNsPtr ns, timesig* timesig)
 {
   xmlNodePtr childElem;
-  gint childCount = 0;
   gboolean successful = FALSE;
   gint *numerator =  &timesig->time1;
   gint *denominator =  &timesig->time2;
@@ -1628,7 +1628,6 @@ static gint
 parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
 {
   xmlNodePtr childElem;
-  gint cursorposition = 0;
   gchar *tmp;
 
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
@@ -1711,26 +1710,41 @@ parseSetupInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoGUI * gui)
  * @return 0 on success, -1 on failure
  */
 static gint
-parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si,
-	       gint * staffnoPtr)
+parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
 {
   xmlNodePtr childElem;
-  gint cursorposition = 0;
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
   {
     if (childElem->ns == ns)
       {
 	if (ELEM_NAME_EQ (childElem, "staffno"))
 	  {
-	    *staffnoPtr = getXMLIntChild (childElem);
-	    //g_print ("Staff no %d\t", *staffnoPtr);
+	    current_staff = getXMLIntChild (childElem);
+	    //g_print ("Staff no %d\t", current_staff);
+	  }
+	if (ELEM_NAME_EQ (childElem, "measureno"))
+	  {
+	    current_measure = getXMLIntChild (childElem);
+	    //g_print ("Staff no %d\t", current_staff);
 	  }
 	else if (ELEM_NAME_EQ (childElem, "cursorposition"))
 	  {
-	    cursorposition = getXMLIntChild (childElem);
-	    //g_print ("Cursor Pos %d\n", cursorposition);
-	    si->cursor_x = (cursorposition>0?cursorposition:0);//Is getting over written actually...
+	    current_position = getXMLIntChild (childElem);
+	    if(current_position<0)
+	      current_position = 0;
 	  }
+	else if (ELEM_NAME_EQ (childElem, "zoom"))
+	  {
+	    si->zoom = getXMLIntChild (childElem)/100.0;
+	    if(si->zoom < 0.01) si->zoom = 1.0;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "system-height"))
+	  {
+	    si->system_height = getXMLIntChild (childElem)/100.0;
+	    if(si->system_height < 0.01) si->system_height = 1.0;
+	  }
+
+
       }
   }
   return 0;
@@ -1750,9 +1764,9 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 {
   xmlNodePtr childElem, grandchildElem;
   gint bpm;
-  gchar *title, *subtitle, *composer, *poet, *meter, *arranger, *opus;
-  gchar *instrument, *dedication, *piece, *head, *copyright, *footer,
-    *tagline, *mvmnt_header, *markup_before, *markup_after, *layout_markup;
+  // gchar *title, *subtitle, *composer, *poet, *meter, *arranger, *opus;
+  // gchar *instrument, *dedication, *piece, *head, *copyright, *footer,
+  gchar *title, *tagline, *mvmnt_header, *markup_before, *markup_after, *layout_markup;
 
   FOREACH_CHILD_ELEM (childElem, scoreInfoElem)
   {
@@ -2286,10 +2300,6 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
   DenemoObject *curObj, *prevChord = NULL;
   gboolean startedBeam = FALSE;
   gint currentClef = ((DenemoStaff *) si->currentstaff->data)->clef.type;
-  enum clefs newClef;
-  gint keySig;
-  gboolean isMinor;
-  gint numerator, denominator;
   GList *slurEndChordElems = NULL;
   GList *crescEndChordElems = NULL;
   GList *diminEndChordElems = NULL;
@@ -2594,13 +2604,11 @@ parseVoice (xmlNodePtr voiceElem, xmlNsPtr ns, DenemoGUI * gui)
  * @param scoreElem the score element to process
  * @param ns Denemo's xml namespaces
  * @param si the DenemoScore structure to populate
- * @param staffnoPtr a pointer to contain the staff number
  * 
  * @return 0 on success ,-1 on failure
  */
 static gint
-parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
-	    gint * staffnoPtr, ImportType type)
+parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui, ImportType type)
 {
   DenemoScore *si = gui->si;
   xmlNodePtr childElem, voiceElem;
@@ -2609,9 +2617,7 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
   childElem = getXMLChild (scoreElem, "edit-info", ns);
 
   if (childElem != 0)
-    parseEditInfo (childElem, ns, si, staffnoPtr);
-  //if (parseEditInfo (childElem, ns, si, staffnoPtr) != 0)
-  //  return -1;
+    parseEditInfo (childElem, ns, si);
 
   childElem = getXMLChild (scoreElem, "header-directives", ns);
   if (childElem != 0)
@@ -2667,21 +2673,42 @@ parseScore (xmlNodePtr scoreElem, xmlNsPtr ns, DenemoGUI * gui,
 
 /* parse the movement (ie DenemoScore) from childElem */
 static gint   parseMovement(xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI *gui, ImportType type) {
-  int ret= 0, staffno = 0;
+  int ret= 0;
 
    DenemoScore *si = gui->si;
    if(type!=ADD_STAFFS)
      gui->movements = g_list_append(gui->movements, gui->si);
    si->currentstaffnum = 0;
    sPrevStaffElem = NULL;
-   ret = parseScore (childElem, ns, gui, &staffno, type);
+   ret = parseScore (childElem, ns, gui, type);
    sPrevStaffElem = NULL;
-   gui->si->currentstaffnum = staffno;
-   updatescoreinfo (gui);
-   set_rightmeasurenum (gui->si);
-   set_bottom_staff (gui);
-   set_width_to_work_with(gui);
-   return ret;
+   staffnode *curstaff;
+  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+    {
+      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+    }
+  find_xes_in_all_measures (si);
+  find_leftmost_allcontexts (si);
+  
+  si->currentstaffnum = current_staff?current_staff:1;
+  
+  si->currentmeasurenum = current_measure?current_measure:1;
+  si->currentstaff = g_list_nth(si->thescore, current_staff-1);
+  setcurrents(si);
+  si->cursor_x = current_position + 1;
+  si->currentobject = (objnode *)g_list_nth(si->currentmeasure->data, si->cursor_x);
+  
+  if (!si->currentobject)
+    si->cursor_appending = TRUE;
+  else
+    si->cursor_appending = FALSE;
+  // si->leftmeasurenum = si->currentstaffnum = si->currentmeasurenum = 1;
+  
+  set_rightmeasurenum (gui->si);
+  set_bottom_staff (gui);
+  set_width_to_work_with(gui);
+  return ret;
 }
 
 
@@ -2707,6 +2734,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
   /*  xmlNodePtr rootElem, childElem; */
   xmlNodePtr rootElem;
   gchar *version = NULL;
+  current_movement = 0, current_staff=0, current_measure=0, current_position = 0;//0 means is not set.
+
   if(sXMLIDToElemMap != NULL) {
     g_warning ("Recursive call to importXML - ignored\n");
     return -1;
@@ -2813,6 +2842,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 	    appendSchemeText(tmp);
 	    g_free (tmp);
 	  }
+	}  else if (ELEM_NAME_EQ (childElem, "movement-number")){
+	  current_movement = getXMLIntChild (childElem);
 	} else
 	  if (ELEM_NAME_EQ (childElem, "custom_prolog")){
 	    gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
@@ -2894,7 +2925,11 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       goto cleanup;
     }
   }
-  //gui->si = gui->movements->data;
+
+  while(--current_movement>0)
+    next_movement(NULL, NULL);
+  score_status(gui, FALSE);
+
  cleanup:
   
   if (version != NULL)

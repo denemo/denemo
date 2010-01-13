@@ -231,12 +231,13 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 {
   g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint result;
+  gboolean xml = FALSE;
   result = 1;//FAILURE
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
     if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
-      result = importXML (filename, gui, type);
+      xml=TRUE, result = importXML (filename, gui, type);
     else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
-      result = importXML (filename, gui, type);
+      xml=TRUE, result = importXML (filename, gui, type);
     else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
       result = lyinput (filename, gui);
     else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
@@ -255,7 +256,8 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
 	g_string_assign (gui->filename, "");
       if(gui->printarea) 
 	g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
-      updatescoreinfo (gui);
+      if(!xml)
+	updatescoreinfo (gui);
       set_rightmeasurenum (gui->si);
       select_lyrics();
       set_bottom_staff (gui);
