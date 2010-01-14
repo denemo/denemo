@@ -49,7 +49,6 @@ void
 chord_directive (GtkAction *action, DenemoScriptParam * param);
 void
 standalone_directive (GtkAction *action, DenemoScriptParam *param);
-
 void 
 delete_object_directive(GtkAction *action,  DenemoScriptParam *param);
 
@@ -65,10 +64,10 @@ gboolean delete_voice_directive(gchar *tag);
 #define DECL_PUT_FIELD(what, field) gboolean what##_directive_put_##field(gchar *tag, gchar *value);
 #define DECL_GET_FIELD(what, field) gchar *what##_directive_get_##field(gchar *tag);
 #define DECL_GET_INT(what, field) gint what##_directive_get_##field(gchar *tag);
-#define DECL_PUT_INT(what, field) gboolean what##_directive_get_##field(gchar *tag, gint value);
+#define DECL_PUT_INT(what, field) gboolean what##_directive_put_##field(gchar *tag, gint value);
 
 #define DECL_PUT_GRAPHIC(what) gboolean what##_directive_put_graphic(gchar *tag, gchar *value);
-#define DECL_PUT_GRAPHIC_WIDGET(what) gpointer what##_directive_put_graphic(gchar *tag, gchar *value);
+
 DECL_PUT_GRAPHIC(chord)
 DECL_PUT_GRAPHIC(note)
 DECL_PUT_GRAPHIC(standalone)
@@ -123,14 +122,14 @@ DECL_PUT_FIELD(paper, postfix)
 DECL_PUT_FIELD(scoreheader, postfix)
 
 
-DECL_PUT_GRAPHIC_WIDGET(score)
-DECL_PUT_GRAPHIC_WIDGET(staff)
-DECL_PUT_GRAPHIC_WIDGET(voice)
-DECL_PUT_GRAPHIC_WIDGET(scoreheader)
-DECL_PUT_GRAPHIC_WIDGET(header)
-DECL_PUT_GRAPHIC_WIDGET(paper)
-DECL_PUT_GRAPHIC_WIDGET(layout)
-DECL_PUT_GRAPHIC_WIDGET(movementcontrol)
+DECL_PUT_GRAPHIC(score)
+DECL_PUT_GRAPHIC(staff)
+DECL_PUT_GRAPHIC(voice)
+DECL_PUT_GRAPHIC(scoreheader)
+DECL_PUT_GRAPHIC(header)
+DECL_PUT_GRAPHIC(paper)
+DECL_PUT_GRAPHIC(layout)
+DECL_PUT_GRAPHIC(movementcontrol)
      //FIXME x,y,tx,ty,gx,gy
 
 #undef DECL_PUT_FIELD

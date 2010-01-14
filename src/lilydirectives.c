@@ -1377,7 +1377,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 
 //As the above (for string and int) but for the graphic name field
 //FIXME this is just storing the graphic name, any bitmap of that name could be placed on the button/menu item as an icon
-#define PUT_GRAPHIC_WIDGET_GRAPHIC(what, name) gpointer \
+#define PUT_GRAPHIC_WIDGET_GRAPHIC(what, name) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
@@ -1394,7 +1394,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     g_string_assign(directive->graphic_name, value);\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
   g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
-  return (gpointer)directive;\
+  return (gboolean)directive;\
 }
 
 PUT_GRAPHIC_WIDGET_GRAPHIC( score, directives)
