@@ -161,29 +161,32 @@ static gint staff_at (gint y, DenemoScore *si) {
  * Gets the position from the clicked position
  *
  */
-void
+static void
 get_placement_from_coordinates (struct placement_info *pi,
-				gdouble x, gdouble y, DenemoScore * si)
+				gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum )
 {
+  DenemoScore *si = Denemo.gui->si;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
-				      si->leftmeasurenum - 1);
+				      leftmeasurenum - 1);
   objnode *obj_iterator;
   gint x_to_explain = (gint) (x);
 
   pi->staff_number = staff_at((gint)y, si);
-/*   g_print("get staff number %d\n",pi->staff_number); */
-  pi->measure_number = si->leftmeasurenum;
+  //g_print("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
+  pi->measure_number = leftmeasurenum;
   x_to_explain -= (KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME);
+  //g_print("Explaining %d\n", x_to_explain);
   while (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)
-	 && pi->measure_number < si->rightmeasurenum)
+	 && pi->measure_number < rightmeasurenum)
     {
       x_to_explain -= (GPOINTER_TO_INT (mwidthiterator->data)
 		       + SPACE_FOR_BARLINE);
       mwidthiterator = mwidthiterator->next;
       pi->measure_number++;
     }
+  //g_print("got to measure %d\n", pi->measure_number);
   pi->nextmeasure = (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)
-		     && pi->measure_number >= si->rightmeasurenum);
+		     && pi->measure_number >= rightmeasurenum);
     
   pi->the_staff = g_list_nth (si->thescore, pi->staff_number - 1);
   pi->the_measure
@@ -230,6 +233,7 @@ get_placement_from_coordinates (struct placement_info *pi,
 		    pi->cursor_x++;
 		}
 	    }
+	  //g_print("got to cursor x %d\n", pi->cursor_x);
   }
 }
 
@@ -335,6 +339,20 @@ static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
   return TRUE;
 }
 
+static void
+transform_coords(double* x, double* y) {
+  DenemoGUI *gui = Denemo.gui;
+  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_num = ((int)*y)/line_height;
+  *y -= line_num * line_height;
+  *x /= gui->si->zoom;
+  *y /= gui->si->zoom;
+  // *x += ((double)line_num * gui->si->widthtoworkwith / ((int)(1/gui->si->system_height))) - 1.0* (line_num?(double)LEFT_MARGIN:0.0);
+}
+
+
+
+
 
 /**
  * Mouse motion callback 
@@ -345,6 +363,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_num = ((int)event->y)/line_height;
   if(dragging_separator) {
     gui->si->system_height =  event->y/gui->scorearea->allocation.height;
     if(gui->si->system_height>1.0)
@@ -354,20 +373,18 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
   }
 
-  gint system = ((int)event->y)/line_height;
-  event->y -= system * line_height;
-  event->x /= gui->si->zoom;
-  event->y /= gui->si->zoom;
-  event->x += system * gui->si->system_height * gui->si->widthtoworkwith;//not quite right FIXME
-
+  transform_coords(&event->x, &event->y);
   //  g_print("Marked %d\n", gui->si->markstaffnum);
+  if(gui->lefts[line_num] == 0)
+    return TRUE;
+
 
   if(event->x<LEFT_MARGIN) {
     struct placement_info pi; //FIXME duplicate code
     if (event->y < 0)
-      get_placement_from_coordinates (&pi, event->x, 0, gui->si);
+      get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
     else
-      get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+      get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
     if(pi.staff_number==gui->si->currentstaffnum) {
       gint offset = (gint)get_click_height(gui, event->y);
       if(offset<STAFF_HEIGHT/2) {
@@ -380,9 +397,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi; 
       if (event->y < 0)
-	get_placement_from_coordinates (&pi, event->x, 0, gui->si);
+	get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
       else
-	get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+	get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
       if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
 	change_staff(gui->si, pi.staff_number, pi.the_staff);
 	gui->si->currentmeasurenum = pi.measure_number;
@@ -421,6 +438,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   DenemoGUI *gui = Denemo.gui;
   //if the cursor is at a system separator start dragging it
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if(dragging_separator == FALSE)
   if(line_height - ((int)event->y)%line_height<8) {
@@ -428,13 +446,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
   }
   dragging_separator = FALSE;
-
-  gint system = ((int)event->y)/line_height;
-  //  g_print("num systems %d\n", system+1);
-  event->y -= system * line_height;
-  event->x /= gui->si->zoom;
-  event->y /= gui->si->zoom;
-  event->x += system * gui->si->system_height * gui->si->widthtoworkwith;//not quite right FIXME
+  //g_print("before %f %f\n", event->x, event->y);
+  transform_coords(&event->x, &event->y);
+  //g_print("after %f %f\n", event->x, event->y);
 
   struct placement_info pi;
   gboolean left = (event->button != 3);
@@ -446,10 +460,15 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   } 
+
+  if(gui->lefts[line_num] == 0)
+    return TRUE;//On an empty system at the bottom where there is not enough room to draw another staff.
+
+
   if (event->y < 0)
-    get_placement_from_coordinates (&pi, event->x, 0, gui->si);
+    get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
   else
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->si);
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
   if(event->x<LEFT_MARGIN) {

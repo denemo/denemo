@@ -123,7 +123,7 @@ struct infotopass
   gint in_highy; // FIXME these are passed in so that highy, lowy do not need to be passed back
   gint in_lowy;
   gboolean mark;//whether the region is selected
-  gboolean *wronglengths;// array of indicators for each measure drawn whether it is correct length 
+  gint *left, *right;//location of right and left measurenum for current system(line)
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -644,12 +644,16 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 		  curstaffstruct->leftmost_timesig->time1, itp->time2 =
 		  curstaffstruct->leftmost_timesig->time2);
     x += SPACE_FOR_TIME;
+
   } else {
     draw_clef (cr, LEFT_MARGIN, y, itp->clef);
     draw_key (cr, x, y,
 	      itp->key, 0, itp->clef->type, TRUE);
     x += si->maxkeywidth;
+    x += SPACE_FOR_TIME;// to allow the same margin ??
   }
+
+  *itp->left = itp->measurenum;
   memcpy (itp->keyaccs, curstaffstruct->leftmost_keysig->accs, SEVENGINTS);
 
 
@@ -712,6 +716,9 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
       }			      
     }
 
+  *itp->right = itp->measurenum-1;
+  
+
   // if(itp->highy > title_highy)
   //  itp->highy = title_highy;
 
@@ -769,7 +776,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   itp.highy = 0;//in case there are no objects...
   itp.lowy = 0;
-  itp.measurenum = 1;
+
 
 
   y = 0;
@@ -869,6 +876,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   
     itp.measurenum = si->leftmeasurenum;
     itp.line_end = FALSE;
+    itp.left = &gui->lefts[0];
+    itp.right = &gui->rights[0];
     repeat = draw_staff (cr, staff, y, gui, &itp);
     if (si->firststaffmarked == itp.staffnum)
       itp.marky1 = y - EXTRAFORSELECTRECT;
@@ -883,11 +892,16 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
 
     // This block prints out continuations of the staff just printed
+    // we are going to have to store an x-count for each continuation so that mousing.c will know
+    // the correct value. LEFT_MARGIN only works for all same value notes...
     {
     int yy;
     yy = y + line_height;
+    itp.left++;
+    itp.right++;
 
-    while(itp.line_end && (yy<gui->scorearea->allocation.height)) {
+
+    while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<gui->scorearea->allocation.height)) {
       if (itp.staffnum==si->top_staff)
 	print_system_separator (cr, line_height*system_num++);
 
@@ -896,11 +910,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height);
      
       yy += line_height;
-     
-
+      itp.left++;
+      itp.right++;
     }
     }//end of block printing continuations
-
+    *itp.left=0;//To signal end of valid systems
 
     if ( (!curstaff->next)
 	 ||    ((DenemoStaff *) curstaff->next->data)->voicenumber !=2)
