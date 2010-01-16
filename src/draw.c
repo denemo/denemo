@@ -439,13 +439,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       && si->firstmeasuremarked == itp->measurenum
       && si->firstobjmarked == itp->objnum)
     itp->markx1 = x + mudelaitem->x - EXTRAFORSELECTRECT;
+
   if (si->laststaffmarked == itp->staffnum
       && si->lastmeasuremarked == itp->measurenum
       && si->lastobjmarked == itp->objnum)
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted
       + EXTRAFORSELECTRECT;
-
-
 
   gdk_gc_set_foreground (blackgc, &black);
 
@@ -660,12 +659,6 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   itp->stem_directive = curstaffstruct->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
-#if 0
-  if (si->firststaffmarked == itp->staffnum)
-    itp->marky1 = y - EXTRAFORSELECTRECT;
-  if (si->laststaffmarked == itp->staffnum)
-    itp->marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
-#endif
 
   gint staffname_offset = (curstaffstruct->voicenumber == 1) ? 24 :
     (curstaffstruct->voicenumber == 2
@@ -675,6 +668,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   drawnormaltext_cr( cr, curstaffstruct->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
 
 
+  cairo_save(cr);
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
 
@@ -719,6 +713,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   *itp->right = itp->measurenum-1;
   
 
+  cairo_restore(cr);
   // if(itp->highy > title_highy)
   //  itp->highy = title_highy;
 
@@ -878,11 +873,17 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.line_end = FALSE;
     itp.left = &gui->lefts[0];
     itp.right = &gui->rights[0];
+
+
     repeat = draw_staff (cr, staff, y, gui, &itp);
+
     if (si->firststaffmarked == itp.staffnum)
       itp.marky1 = y - EXTRAFORSELECTRECT;
     if (si->laststaffmarked == itp.staffnum)
       itp.marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
+
+
+
     gint system_num;
     system_num = 1;
     // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
@@ -931,7 +932,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
  
   /* Draw the selection rectangle */
-  if (si->markstaffnum)
+  if ( (itp.left==gui->lefts+1) && //just one system
+      si->markstaffnum)
     draw_selection (cr, itp.markx1, itp.marky1, itp.markx2,
 		    itp.marky2);
   return repeat;
