@@ -704,12 +704,17 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	 && itp->measurenum <= g_list_length (thestaff->measures))
     {
       
-       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 
-       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
-	   (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
-	 if(itp->curmeasure->next)
-	   itp->line_end=TRUE;
+
+      if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
+	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+	if(itp->curmeasure->next) {
+	  itp->line_end=TRUE;
+	  continue;//do not show part measures on right any more - we could perhaps should do this on the last system though
+	}
+      
+      draw_measure (cr, itp->curmeasure, x, y, gui, itp);
+
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
@@ -939,12 +944,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       if (itp.staffnum==si->top_staff)
 	print_system_separator (cr, line_height*system_num++);
 
-
-
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
 
-      //!!!!!!!!! draw line up from here to previous staff at the end of the line?????
       // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
      
       yy += line_height;
