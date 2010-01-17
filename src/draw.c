@@ -624,28 +624,23 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   DenemoScore *si = gui->si;
   gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
+  cairo_save(cr);
 
       if(curstaff->prev)
 	{
-	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);
-	  cairo_save(cr);
+	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
 	  cairo_set_source_rgb( cr, 0, 0, 0);
 	  cairo_rectangle (cr, LEFT_MARGIN, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
-	  cairo_fill(cr);
-	  cairo_restore(cr);
+	  cairo_fill(cr);	 
 	}
-
       if(curstaff->next)
 	{
 	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
 	  cairo_save(cr);
 	  cairo_set_source_rgb( cr, 0, 0, 0);
 	  cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
-	  cairo_fill(cr);
-	  cairo_restore(cr);
+	  cairo_fill(cr);	 
 	}
-
-  cairo_save(cr);
 
   if ((DenemoStaff *) si->currentstaff->data == thestaff)
     cairo_set_source_rgb( cr, 0,0,0 );

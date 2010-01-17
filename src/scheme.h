@@ -19,6 +19,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorRight")), "scm", (g
 SCM scheme_GoToMark(SCM optional);
 install_scm_function ("d-GoToMark", scheme_GoToMark);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToMark")), "scm", (gpointer)1);
+/*GoToSelectionStart goto_selection_start*/
+SCM scheme_GoToSelectionStart(SCM optional);
+install_scm_function ("d-GoToSelectionStart", scheme_GoToSelectionStart);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToSelectionStart")), "scm", (gpointer)1);
 /*PushPosition PushPosition*/
 SCM scheme_PushPosition(SCM optional);
 install_scm_function ("d-PushPosition", scheme_PushPosition);

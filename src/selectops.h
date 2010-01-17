@@ -60,6 +60,7 @@ void redowrapper(GtkAction *action, gpointer param);
 void update_undo_info(DenemoScore *si, unre_data *undo);
 void update_redo_info(DenemoScore *si, unre_data *redo);
 void goto_mark (GtkAction *action,  DenemoScriptParam *param);
+void goto_selection_start (GtkAction *action,  DenemoScriptParam *param);
 
 DenemoPosition *pop_position(void);
 void push_position(void);
