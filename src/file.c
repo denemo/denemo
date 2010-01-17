@@ -38,7 +38,7 @@
 
 
 
-static gboolean
+static gint
 file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename);
 
 
@@ -460,7 +460,7 @@ typedef enum {
  * does nothing if unable to access templates
  * filename is NULL for interactive use, otherwise file base name
  */
-static gboolean
+static gint
 template_open (DenemoGUI * gui, TemplateType local, gchar *filename)
 {
   gboolean ret = FALSE;
@@ -513,12 +513,12 @@ system_template_open_with_check (GtkAction * action, DenemoScriptParam * param) 
     {
       if (filename==NULL && confirmbox (gui))
 	{
-	  param->status = template_open (gui, SYSTEM, filename);
+	  param->status = !template_open (gui, SYSTEM, filename);
 	}
     }
   else
     {
-      param->status = template_open (gui, SYSTEM, filename);
+      param->status = !template_open (gui, SYSTEM, filename);
     }
 }
 
@@ -533,12 +533,12 @@ system_example_open_with_check (GtkAction * action, DenemoScriptParam * param) {
     {
       if (confirmbox (gui))
 	{
-	  param->status = template_open (gui, EXAMPLE, filename);
+	  param->status = !template_open (gui, EXAMPLE, filename);
 	}
     }
   else
     {
-      param->status = template_open (gui, EXAMPLE, filename);
+      param->status = !template_open (gui, EXAMPLE, filename);
     }
 }
 /*
@@ -552,12 +552,12 @@ local_template_open_with_check (GtkAction * action, DenemoScriptParam * param) {
     {
       if (filename==NULL && confirmbox (gui))
 	{
-	  param->status = template_open (gui, LOCAL, filename);
+	  param->status = !template_open (gui, LOCAL, filename);
 	}
     }
   else
     {
-      param->status = template_open (gui, LOCAL, filename);
+      param->status = !template_open (gui, LOCAL, filename);
     }
 }
 
@@ -581,7 +581,7 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
   if (!gui->notsaved ||  (gui->notsaved && (confirmbox (gui))))
     {
       //deletescore (NULL, gui);
-      param->status = file_open (gui, FALSE, REPLACE_SCORE, filename);
+      param->status = !file_open (gui, FALSE, REPLACE_SCORE, filename);
     }
 }
 
@@ -596,7 +596,7 @@ file_add_movements(GtkAction * action,  DenemoScriptParam * param){
   GET_1PARAM(action, param, filename);
   if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))
     return;
-  param->status = file_open(gui, FALSE, ADD_MOVEMENTS, filename);
+  param->status = !file_open(gui, FALSE, ADD_MOVEMENTS, filename);
   score_status(gui, TRUE);
 }
 /**
@@ -609,7 +609,7 @@ file_add_staffs(GtkAction * action,  DenemoScriptParam * param){
   DenemoGUI *gui = Denemo.gui;
   if(filename==NULL && !confirm_insertstaff_custom_scoreblock(gui))
     return;
-   param->status = file_open(gui, FALSE, ADD_STAFFS, filename);
+   param->status = !file_open(gui, FALSE, ADD_STAFFS, filename);
   score_status(gui, TRUE);
 }
 
@@ -638,15 +638,15 @@ static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, gbool
 }
 /**
  * File open dialog - opened where appropriate 
- * return TRUE on success FALSE on failure.
+ * return 0 on success non-zero on failure.
  * filename must be full path or NULL for dialog
  */
-static gboolean
+static gint
 file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename)
 {
-  gboolean ret = FALSE;
+  gboolean ret = -1;
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
-    return (0==open_for_real(filename, gui, template, type));
+    return (open_for_real(filename, gui, template, type));
 
   GtkWidget *file_selection;
   GtkFileFilter *filter;
