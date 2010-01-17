@@ -729,6 +729,22 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   *itp->right = itp->measurenum-1;
   
+      if(curstaff->prev)
+	{
+	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
+	  cairo_fill(cr);	 
+	}
+      if(curstaff->next)
+	{
+	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
+	  cairo_save(cr);
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
+	  cairo_fill(cr);	 
+	}
+
 
   cairo_restore(cr);
   // if(itp->highy > title_highy)
