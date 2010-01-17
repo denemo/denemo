@@ -47,7 +47,7 @@ closewrapper (GtkAction *action, gpointer param);
 static gboolean
 close_gui_with_check (GtkAction *action, gpointer param);
 static void
-openinnew (GtkAction *action, gpointer param);
+openinnew (GtkAction *action, DenemoScriptParam *param);
 static void 
 create_rhythm_cb (GtkAction* action, gpointer param);
 static void
@@ -3314,10 +3314,12 @@ mycommands (GtkAction *action, gpointer param)
  * Creates new view then opens file in the view
  */
 void
-openinnew (GtkAction *action, gpointer param)
+openinnew (GtkAction *action, DenemoScriptParam *param)
 {
   newtab (NULL, param);
   file_open_with_check (NULL, param);
+  if(param && (param->status == FALSE))
+     close_gui();
 }
 
 
