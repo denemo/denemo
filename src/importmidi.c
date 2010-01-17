@@ -405,10 +405,6 @@ readtrack(midicallback *mididata)
 		ProcessNoteStack(mididata);
 	  mididata->selected_track = smf_get_track_by_number(mididata->smf, mididata->track);
 	  while ((event = smf_track_get_next_event(mididata->selected_track)) != NULL) {
-#ifdef DEBUG
-		/* print midi event */
-		show_event(event);
-#endif
 		/* Do something with the event */
 		process_midi(event, mididata);
 	  }
