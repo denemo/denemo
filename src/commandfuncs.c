@@ -226,7 +226,7 @@ set_width_to_work_with (DenemoGUI * gui)
 
 
 
-      g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
+      //g_print("Width %d from num systems%d\n", si->widthtoworkwith, ((int)(1/si->system_height )));
     }
 }
 
