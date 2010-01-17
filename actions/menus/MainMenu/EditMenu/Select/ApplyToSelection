@@ -14,7 +14,7 @@
     (d-WarningDialog "This keypress is not a shortcut")	
     (begin
       (set! command (string-append "(" command ")"))	
-      (ApplyToSelection command "(d-GoToMark)")))))
+      (ApplyToSelection command "(d-GoToSelectionStart)")))))
 </scheme>
         <label>Apply Shortcut to Notes in Selection</label>
         <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>
