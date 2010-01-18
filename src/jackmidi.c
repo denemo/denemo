@@ -88,6 +88,11 @@ jackmidi_default_port_name(){
   return OUTPUT_PORT_NAME;
 }
 
+gboolean
+jackmidi_server_running(){
+  return jack_server_running;
+}
+
 	double 
 get_time(void)
 {
@@ -498,12 +503,7 @@ init_jack(void){
     if(Denemo.prefs.midi_audio_output==Jack)
       g_warning("No devices in preferences, edit->preferences->MIDI add devices and re-start");
     return -1;}
-  if(MD[0].jack_client) {
-    if(input_port==NULL)
-      input_port = jack_port_register(MD[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
-				      JackPortIsInput, 0);
-    return input_port == NULL;
-  }
+
   for (i=0;MD[i].client_name;i++){
     g_debug("\njack init *** client name == %s \n",MD[i].client_name->str);
     //create_jack_midi_client_from_load(MD[i].client_name->str);
@@ -528,7 +528,10 @@ init_jack(void){
 	MD[i].ports[j].Index = MD[i].ports[j].FillIndex = 0;
 	MD[i].ports[j].BufferEmpty = TRUE;   
       }
-      
+      if (i==0 && MD[0].jack_client && input_port==NULL)
+        input_port = jack_port_register(MD[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
+				      JackPortIsInput, 0);
+  
       /* activate client */
       jack_activate(MD[i].jack_client);
     }
@@ -627,6 +630,7 @@ jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}
 int maxnumber_of_ports(){ return 0;}
 int maxnumber_of_clients(){ return 0;}
+gboolean jackmidi_server_running(){ return FALSE;}
 stop_jack(){}
 #endif 
 
