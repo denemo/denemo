@@ -630,7 +630,7 @@ jackmidi_default_client_name(){}
 jackmidi_default_port_name(){}
 int maxnumber_of_ports(){ return 0;}
 int maxnumber_of_clients(){ return 0;}
-gboolean jackmidi_server_running(){ return FALSE;}
-stop_jack(){}
+int jackmidi_server_running(){ return 0;}
+void stop_jack(){}
 #endif 
 
