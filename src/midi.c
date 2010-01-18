@@ -393,7 +393,7 @@ process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
 
 gint init_midi_input(void) {
 #ifdef _HAVE_JACK_
- return init_jack();
+ return jackmidi_server_running() ? 0 : -1;
 #else
 #ifdef _HAVE_FLUIDSYNTH_
  return fluid_start_midi_in();
