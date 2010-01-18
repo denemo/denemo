@@ -16,7 +16,7 @@
 				     "Give the note that c should transpose to.
 For example ees for up minor third." Transpose::Note))
 (Transpose::SetTransposeInterval Transpose::Note)
-(ApplyToSelection "(Transpose::TransposeNote)" "(d-GoToMark)")
+(ApplyToSelection "(Transpose::TransposeNote)" "(d-GoToSelectionStart)")
 </scheme>
         <label>Transpose Selection</label>
         <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>

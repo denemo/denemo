@@ -8,7 +8,7 @@
         <after/>
         <action>SetTransposeIntervalFromSelection</action>
         <scheme>;;;;;;; SetTransposeIntervalFromSelection
-(if (d-GoToMark)
+(if (d-GoToSelectionStart)
     (begin
       (set! Transpose::Interval (Transpose::get-interval-from-selection))
       ;;;FIXME error check this value
