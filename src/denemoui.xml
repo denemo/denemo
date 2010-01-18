@@ -101,7 +101,7 @@
       <menuitem action="ExecuteScheme"/>
     </menu>
     <menu action="ViewMenu">
-      <menuitem action="ToggleScoreView"/>
+
       <menuitem action="TogglePrintView"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleConsoleView"/>
@@ -113,6 +113,7 @@
       <menuitem action="ToggleObjectMenu"/>
       <menuitem action="ToggleLilyText"/>
       <menuitem action="ToggleScript"/>
+      <menuitem action="ToggleScoreView"/>
     </menu>
     <menu action="ModeMenu">
       <menuitem action="Modeless"/>
@@ -570,6 +571,7 @@
     <menu action="Lyrics">
          <menuitem action="AddVerse"/>
          <menuitem action="DeleteVerse"/>
+	 <menuitem action="ToggleLyricsView"/>
     </menu>
 
  </menubar>   
