@@ -363,15 +363,28 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  if (event->y < 0)
+    event->y = 0.0;
   gint line_num = ((int)event->y)/line_height;
+  
+#define DENEMO_MINIMUM_SYSTEM_HEIGHT (0.01)
+
+
   if(dragging_separator) {
     gui->si->system_height =  event->y/gui->scorearea->allocation.height;
+    if(gui->si->system_height<DENEMO_MINIMUM_SYSTEM_HEIGHT)
+      gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
     if(gui->si->system_height>1.0)
       gui->si->system_height = 1.0;
     scorearea_configure_event(gui->scorearea, NULL);
     gtk_widget_queue_draw (gui->scorearea);
     return TRUE;
   }
+
+  if(line_height - ((int)event->y - 6)%line_height<8)
+    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
+  else
+    gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
 
   transform_coords(&event->x, &event->y);
   //  g_print("Marked %d\n", gui->si->markstaffnum);
@@ -381,10 +394,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
   if(event->x<LEFT_MARGIN) {
     struct placement_info pi; //FIXME duplicate code
-    if (event->y < 0)
-      get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
-    else
-      get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
     if(pi.staff_number==gui->si->currentstaffnum) {
       gint offset = (gint)get_click_height(gui, event->y);
       if(offset<STAFF_HEIGHT/2) {
