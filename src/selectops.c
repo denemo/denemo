@@ -706,10 +706,11 @@ goto_selection_start (GtkAction *action, DenemoScriptParam *param)
   if(!action)
     ((DenemoScriptParam *)param)->status = si->markstaffnum;
   if(si->markstaffnum){
+    gint first = si->firstobjmarked;
     save_selection(si);
     set_currentmeasurenum (Denemo.gui, si->firstmeasuremarked);
     set_currentstaffnum (Denemo.gui,si->firststaffmarked);
-    while(si->cursor_x < si->firstobjmarked)
+    while(si->cursor_x < first)
       cursorright(param);
     restore_selection(si);
     if(!action)
