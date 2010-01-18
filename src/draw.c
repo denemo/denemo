@@ -616,16 +616,33 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
  * return TRUE if the staff has had to made taller
  */
 static gboolean
-draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
+draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	    DenemoGUI * gui, struct infotopass *itp)
 {
+  DenemoStaff *thestaff = (DenemoStaff*)curstaff->data;
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   cairo_save(cr);
 
-  if ((DenemoStaff *) si->currentstaff->data == curstaffstruct)
+      if(curstaff->prev)
+	{
+	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, LEFT_MARGIN, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
+	  cairo_fill(cr);	 
+	}
+      if(curstaff->next)
+	{
+	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
+	  cairo_save(cr);
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
+	  cairo_fill(cr);	 
+	}
+
+  if ((DenemoStaff *) si->currentstaff->data == thestaff)
     cairo_set_source_rgb( cr, 0,0,0 );
   else
     cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
@@ -633,15 +650,15 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 
   if(!itp->line_end) {//not a continuation
     draw_clef (cr, LEFT_MARGIN, y,
-	       itp->clef = curstaffstruct->leftmost_clefcontext);
+	       itp->clef = thestaff->leftmost_clefcontext);
     draw_key (cr, x, y,
-	      itp->key = curstaffstruct->leftmost_keysig->number,
+	      itp->key = thestaff->leftmost_keysig->number,
 	      0, itp->clef->type, TRUE);
     x += si->maxkeywidth;
     draw_timesig (cr, x,
 		  y, itp->time1 =
-		  curstaffstruct->leftmost_timesig->time1, itp->time2 =
-		  curstaffstruct->leftmost_timesig->time2);
+		  thestaff->leftmost_timesig->time1, itp->time2 =
+		  thestaff->leftmost_timesig->time2);
     x += SPACE_FOR_TIME;
 
   } else {
@@ -653,19 +670,19 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   }
 
   *itp->left = itp->measurenum;
-  memcpy (itp->keyaccs, curstaffstruct->leftmost_keysig->accs, SEVENGINTS);
+  memcpy (itp->keyaccs, thestaff->leftmost_keysig->accs, SEVENGINTS);
 
 
-  itp->stem_directive = curstaffstruct->leftmost_stem_directive;
+  itp->stem_directive = thestaff->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
 
-  gint staffname_offset = (curstaffstruct->voicenumber == 1) ? 24 :
-    (curstaffstruct->voicenumber == 2
-     || curstaffstruct->voicenumber == 3) ? 12 : 0;
+  gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
+    (thestaff->voicenumber == 2
+     || thestaff->voicenumber == 3) ? 12 : 0;
 
   /* Draw staff name */
-  drawnormaltext_cr( cr, curstaffstruct->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
+  drawnormaltext_cr( cr, thestaff->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
 
 
   cairo_save(cr);
@@ -673,7 +690,7 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
    * when written that way.  */
 
   itp->curmeasure =
-    g_list_nth (curstaffstruct->measures, itp->measurenum - 1);
+    g_list_nth (thestaff->measures, itp->measurenum - 1);
   // g_print("measurenum %d\nx=%d\n", itp->measurenum, x);
 
   //FIX in measureops.c for case where si->measurewidths is too short
@@ -684,15 +701,20 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
   //itp->gc = gc;
   itp->line_end = FALSE;
   while ( (!itp->line_end)  //       itp->measurenum <= si->rightmeasurenum+1
-	 && itp->measurenum <= g_list_length (curstaffstruct->measures))
+	 && itp->measurenum <= g_list_length (thestaff->measures))
     {
       
-       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 
-       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
-	   (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
-	 if(itp->curmeasure->next)
-	   itp->line_end=TRUE;
+
+      if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
+	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+	if(itp->curmeasure->next) {
+	  itp->line_end=TRUE;
+	  continue;//do not show part measures on right any more - we could perhaps should do this on the last system though
+	}
+      
+      draw_measure (cr, itp->curmeasure, x, y, gui, itp);
+
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
@@ -700,11 +722,11 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
       //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
       if(!itp->line_end) {
 	if(-itp->highy>itp->in_highy && -itp->highy<MAXEXTRASPACE){
-	  curstaffstruct->space_above = -itp->highy;
+	  thestaff->space_above = -itp->highy;
 	  repeat = TRUE;
 	}
 	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
-	  curstaffstruct->space_below = itp->lowy;
+	  thestaff->space_below = itp->lowy;
 	  repeat=TRUE;
 	}
       }			      
@@ -712,13 +734,29 @@ draw_staff (cairo_t *cr, DenemoStaff * curstaffstruct, gint y,
 
   *itp->right = itp->measurenum-1;
   
+      if(curstaff->prev)
+	{
+	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
+	  cairo_fill(cr);	 
+	}
+      if(curstaff->next)
+	{
+	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
+	  cairo_save(cr);
+	  cairo_set_source_rgb( cr, 0, 0, 0);
+	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
+	  cairo_fill(cr);	 
+	}
+
 
   cairo_restore(cr);
   // if(itp->highy > title_highy)
   //  itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
-  for (i = 0; i < curstaffstruct->no_of_lines; i++, y += LINE_SPACE) {
+  for (i = 0; i < thestaff->no_of_lines; i++, y += LINE_SPACE) {
     cairo_set_line_width( cr, 1.0 );
     cairo_move_to( cr, LEFT_MARGIN, y );
     cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
@@ -741,7 +779,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 #define SYSTEM_SEP (6)
   cairo_save(cr);
   cairo_set_source_rgb( cr, 0.5, 0.0, 0.0 );
-  cairo_rectangle (cr, 0, position-SYSTEM_SEP, Denemo.gui->scorearea->allocation.width/Denemo.gui->si->zoom, SYSTEM_SEP);
+  cairo_rectangle (cr, 0, position-SYSTEM_SEP/2, Denemo.gui->scorearea->allocation.width/Denemo.gui->si->zoom, SYSTEM_SEP);
   cairo_set_source_rgb( cr, 0.7, 0.0, 0.0 );
   cairo_fill(cr);
 #undef SYSTEM_SEP
@@ -875,7 +913,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.right = &gui->rights[0];
 
 
-    repeat = draw_staff (cr, staff, y, gui, &itp);
+    repeat = draw_staff (cr, curstaff, y, gui, &itp);
 
     if (si->firststaffmarked == itp.staffnum)
       itp.marky1 = y - EXTRAFORSELECTRECT;
@@ -902,13 +940,14 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.right++;
 
 
-    while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<gui->scorearea->allocation.height)) {
+    while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
       if (itp.staffnum==si->top_staff)
 	print_system_separator (cr, line_height*system_num++);
 
-      if(draw_staff (cr, staff, yy, gui, &itp))
+      if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
-      // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height);
+
+      // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
      
       yy += line_height;
       itp.left++;

@@ -688,9 +688,37 @@ goto_mark (GtkAction *action, DenemoScriptParam *param)
     while(si->cursor_x < si->markcursor_x)
       cursorright(param);
     restore_selection(si);
-    displayhelper(Denemo.gui);
+    if(!action)
+      displayhelper(Denemo.gui);
   } 
 }
+
+/**
+ * goto_selection_start
+ * move cursor the first object in the selection without changing the selection
+ *
+ * 
+ */
+void
+goto_selection_start (GtkAction *action, DenemoScriptParam *param)
+{
+  DenemoScore *si = Denemo.gui->si;
+  if(!action)
+    ((DenemoScriptParam *)param)->status = si->markstaffnum;
+  if(si->markstaffnum){
+    save_selection(si);
+    set_currentmeasurenum (Denemo.gui, si->firstmeasuremarked);
+    set_currentstaffnum (Denemo.gui,si->firststaffmarked);
+    while(si->cursor_x < si->firstobjmarked)
+      cursorright(param);
+    restore_selection(si);
+    if(!action)
+      displayhelper(Denemo.gui);
+  } 
+}
+
+
+
 
 static GSList *positions=NULL;
 DenemoPosition *pop_position(void) {

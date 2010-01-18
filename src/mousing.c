@@ -441,7 +441,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if(dragging_separator == FALSE)
-  if(line_height - ((int)event->y)%line_height<8) {
+  if(line_height - ((int)event->y - 6)%line_height<8) {
     dragging_separator = TRUE;
     return TRUE;
   }
