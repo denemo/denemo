@@ -2,7 +2,7 @@
 <Denemo>
   <merge>
     <title>A Denemo Keymap</title>
-    <author>DRW</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <row>
         <action>Tempo</action>
@@ -67,7 +67,7 @@
   )
   (set! LilyString (string-append "\\tempo " TempoChoice )) ;if user entered n
 )
-(if replace (d-DirectivePut-standalone "TempoMark" ) )
+(if (not replace) (d-DirectivePut-standalone "TempoMark" ) )
 (if (equal? LilyString "\\tempo ")  (d-DirectivePut-standalone-postfix "TempoMark" "" )(d-DirectivePut-standalone-postfix "TempoMark" LilyString ) )
 (d-DirectivePut-standalone-display  "TempoMark" DisplayString)
 (d-DirectivePut-standalone-minpixels "TempoMark" 10 )
@@ -81,7 +81,7 @@
 (d-CursorRight)
 )</scheme>
         <label>Tempo</label>
-        <tooltip>Insert tempi and/or metronome marks, printed or not.</tooltip>
+        <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
       </row>
     </map>
   </merge>
