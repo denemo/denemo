@@ -351,8 +351,11 @@ transform_coords(double* x, double* y) {
 }
 
 
-
-
+gint 
+scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event) {
+   gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
+   return FALSE;//allow other handlers (specifically the pitch entry one)
+}
 
 /**
  * Mouse motion callback 

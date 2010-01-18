@@ -14,7 +14,8 @@ gint
 scorearea_motion_notify (GtkWidget *widget, GdkEventButton *event);
 gint
 scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event);
-
+gint 
+scorearea_leave_event(GtkWidget *widget, GdkEventCrossing *event);
 typedef enum mouse_gesture {
   GESTURE_PRESS,
   GESTURE_RELEASE,

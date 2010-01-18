@@ -6147,6 +6147,10 @@ newtab (GtkAction *action, gpointer param) {
   g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
 		      G_CALLBACK (scorearea_motion_notify), NULL);
 
+  g_signal_connect (G_OBJECT (gui->scorearea), "leave-notify-event",
+			       G_CALLBACK (scorearea_leave_event), NULL);
+
+
   gtk_signal_connect (GTK_OBJECT (gui->scorearea), "scroll_event",
 		      (GtkSignalFunc) scorearea_scroll_event, NULL);
 
