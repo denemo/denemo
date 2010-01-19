@@ -562,13 +562,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 			  (si->lastobjmarked >= itp->objnum)))
        );
 
-      if(itp->measurenum == si->rightmeasurenum+1)
-#if 0
-    g_print("equal %d x=%d out of %d from %d\n", itp->measurenum == si->rightmeasurenum+1, x,
-	    (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)), (int) (gui->scorearea->allocation.width/gui->si->zoom ) ); 
-      if(x > (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))//x here is the start of the measure I think.
-#endif
-      cairo_set_source_rgb( cr, 0.5,0.5,0.5 );
+
+    
+    if(itp->measurenum >= si->rightmeasurenum+1)
+      cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
     else 
       if(itp->mark)
 	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
@@ -583,7 +580,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   else
     cairo_set_source_rgb( cr, 0, 0, 1 );
   if(extra_ticks != 0) {
-    drawnormaltext_cr( cr, "!", x, y - 8 );
+    drawlargetext_cr( cr, "!", x, y - 8 );
     cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
   } else
     cairo_set_source_rgb( cr, 0, 0, 0 );
