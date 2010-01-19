@@ -681,13 +681,22 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
 
-  gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
-    (thestaff->voicenumber == 2
-     || thestaff->voicenumber == 3) ? 12 : 0;
-
-  /* Draw staff name */
-  drawnormaltext_cr( cr, thestaff->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
-
+  /* Draw staff name on first system */
+  if(!itp->line_end) {
+    gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
+      (thestaff->voicenumber == 2
+       || thestaff->voicenumber == 3) ? 12 : 0;
+    drawnormaltext_cr( cr, thestaff->denemo_name->str, KEY_MARGIN, y - staffname_offset+10 );
+  } else {
+ cairo_save(cr);
+   gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
+      (thestaff->voicenumber == 2
+       || thestaff->voicenumber == 3) ? 12 : 0;
+   cairo_translate(cr, 2, (y - staffname_offset+30) );
+   cairo_rotate( cr,- M_PI/5.0 );
+    drawnormaltext_cr( cr, thestaff->denemo_name->str, 0,0 );
+ cairo_restore(cr);
+  }
 
   cairo_save(cr);
   /* Loop that will draw each measure. Basically a for loop, but was uglier
