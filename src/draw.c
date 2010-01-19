@@ -581,13 +581,20 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     cairo_set_source_rgb( cr, 0, 0, 1 );
   if(extra_ticks != 0) {
     drawlargetext_cr( cr, "!", x, y - 8 );
-    cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
+    //cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
   } else
     cairo_set_source_rgb( cr, 0, 0, 0 );
   //draw the barline
+#if 0
+  //This barline changes appearance depending on where the cursor is
   cairo_move_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y+STAFF_HEIGHT);
   cairo_line_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y);
   cairo_stroke (cr);
+#else
+  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
+  cairo_fill(cr);
+#endif
+
   if (!curmeasure->next)
     {
       /* we've reached the end of the score and should
