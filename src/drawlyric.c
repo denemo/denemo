@@ -18,5 +18,5 @@ void
 draw_lyric (cairo_t *cr,
 	    gint xx, gint y, gchar *text)
 {
-  drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT + 10);
+  drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT + 12);
 }
