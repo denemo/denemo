@@ -6,8 +6,7 @@
     <map>
       <row>
         <action>Diminish</action>
-        <scheme> (if (d-GetNoteDuration) 
- (d-ChangeDurationByFactorTwo *)  )
+        <scheme> (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
  (d-RefreshDisplay)
   </scheme>
         <label>Diminish</label>

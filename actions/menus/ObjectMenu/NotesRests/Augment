@@ -6,8 +6,7 @@
     <map>
       <row>
         <action>Augment</action>
-        <scheme> (if (d-GetNoteDuration) 
- (d-ChangeDurationByFactorTwo /) )
+        <scheme> (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo /)" "(d-ChangeDurationByFactorTwo /)")
  (d-RefreshDisplay) 
  </scheme>
         <label>Augment</label>

@@ -48,6 +48,30 @@
          (d-CursorGoDown (+ x dx) x-max dx))))
 
 
+;SingleAndSelectionSwitcher by Nils Gey Jan/2010
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
+;But attention! SingleAndSelectionSwitcher will still try to apply the given script to each of the single items alone. If you need a script which differs completly in beaviour for single/selection you have to write your own. You have to take out the (let loop () section for this and write your own selection part there.
+;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
+;Return values are the return values the script itself gives.
+;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
+
+(define (SingleAndSelectionSwitcher commandsingle commandselection)
+
+(if (d-GoToSelectionStart)
+(begin
+	(eval-string  commandselection)
+	(let loop ()
+	(if (d-NextSelectedObject)
+	 	(begin (eval-string  commandselection) (loop))
+	))
+	(d-GoToSelectionStart)
+	)
+(begin	
+	(eval-string commandsingle)	)
+))
+;; End of SingleAndSelectionSwitcher
+
 (define Chord? (lambda ()
 		  (string=? (d-GetType) "CHORD")))
 
