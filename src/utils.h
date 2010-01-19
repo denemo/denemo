@@ -69,6 +69,12 @@ setcairocolor (cairo_t * cr, GdkGC * gc);
 void 
 drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y);
 
+void 
+drawlargetext_cr (cairo_t *cr, const char *text, double x, double y);
+
+void 
+drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size);
+
 /* Gives space after a note or rest */
 
 gint

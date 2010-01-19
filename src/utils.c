@@ -152,14 +152,23 @@ drawfetachar_cr (cairo_t * cr, gunichar uc, double x, double y)
   cairo_show_text( cr, utf_string );
 }
 
-void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
+void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size)
 {
-  cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL );
-  cairo_set_font_size( cr, 9.0 );
+  cairo_select_font_face( cr, "Sans", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD );
+  cairo_set_font_size( cr, size );
 
   cairo_move_to( cr, x,y );
   cairo_show_text( cr, text );
 
+}
+void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
+{
+  drawtext_cr(cr, text, x, y, 9.0);
+
+}
+void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
+{
+ drawtext_cr(cr, text, x, y, 18.0);
 }
 void
 setcairocolor (cairo_t * cr, GdkGC * gc)
