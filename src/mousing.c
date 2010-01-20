@@ -384,7 +384,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return TRUE;
   }
 
-  if(line_height - ((int)event->y - 6)%line_height<8)
+  if(line_height - ((int)event->y - 8)%line_height<12)
     gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_SB_V_DOUBLE_ARROW));
   else
     gdk_window_set_cursor(Denemo.window->window, gdk_cursor_new(GDK_LEFT_PTR));//FIXME? does this take time/hog memory
@@ -454,7 +454,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if(dragging_separator == FALSE)
-  if(line_height - ((int)event->y - 6)%line_height<8) {
+  if(line_height - ((int)event->y - 8)%line_height<12) {
     dragging_separator = TRUE;
     return TRUE;
   }
