@@ -362,6 +362,7 @@ The cursor position determines which note to add</tooltip>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
@@ -971,6 +972,7 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleAccent</action>
+        <hidden>true</hidden>
         <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -982,11 +984,13 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleStaccato</action>
+        <hidden>true</hidden>
         <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleTenuto</action>
+        <hidden>true</hidden>
         <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1007,6 +1011,7 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
+        <hidden>true</hidden>
         <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -3374,7 +3379,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/InsertModeNote/SelectDuration</menupath>
         <label>Add Dot</label>
         <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
-        <bind>period</bind>
       </row>
       <row>
         <action>StaccatoSelectionSwitcher</action>
@@ -3413,7 +3417,7 @@ for second and subsequent systems</tooltip>
         <bind>greater</bind>
         <bind>exclam</bind>
       </row>
-     <row>
+      <row>
         <action>DrumGm2User</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
