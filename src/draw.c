@@ -723,7 +723,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
 	if(itp->curmeasure->next) {
 	  itp->line_end=TRUE;
-	  continue;//do not show part measures on right any more - we could perhaps should do this on the last system though
+	  //continue; continue is not good here, you cannot see things that Denemo thinks you can on the right.
 	}
       
       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
