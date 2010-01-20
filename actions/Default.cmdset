@@ -44,6 +44,11 @@
         <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
       </row>
       <row>
+        <action>GoToSelectionStart</action>
+        <label>To Selection Start</label>
+        <tooltip>Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection</tooltip>
+      </row>
+      <row>
         <action>PushPosition</action>
         <label>Push Position</label>
         <tooltip>Pushes the current cursor position onto a stack</tooltip>
@@ -357,7 +362,6 @@ The cursor position determines which note to add</tooltip>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
@@ -969,7 +973,6 @@ the cursor position is the end point</tooltip>
         <action>ToggleAccent</action>
         <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>greater</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
@@ -981,13 +984,11 @@ the cursor position is the end point</tooltip>
         <action>ToggleStaccato</action>
         <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
         <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>underscore</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
@@ -1008,7 +1009,6 @@ the cursor position is the end point</tooltip>
         <action>ToggleStaccatissimo</action>
         <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>colon</bind>
       </row>
       <row>
         <action>ToggleCoda</action>
@@ -1113,6 +1113,7 @@ Notes entered will follow this pattern</tooltip>
         <action>ExecuteScheme</action>
         <label>Execute Scheme</label>
         <tooltip>Execute the scheme code from the scripting window</tooltip>
+        <bind>Control+Tab</bind>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
@@ -3365,6 +3366,66 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>Major7Minor7Dominant7</label>
         <tooltip>Determine which seventh chord is sounded</tooltip>
+      </row>
+      <row>
+        <action>AddDotSelectionSwitcher</action>
+        <after>AddDot</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/InsertModeNote/SelectDuration</menupath>
+        <label>Add Dot</label>
+        <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
+        <bind>period</bind>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccato (On/Off)</label>
+        <tooltip>Adds the staccato dot or removes it</tooltip>
+        <bind>semicolon</bind>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <after>ToggleStaccatissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccatissimo (On/Off)</label>
+        <tooltip>Toggles Staccatissimo</tooltip>
+        <bind>colon</bind>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <after>ToggleTenuto</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Tenuto (On/Off)</label>
+        <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
+        <bind>underscore</bind>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Accent (On/Off)</label>
+        <tooltip>Adds the &gt; accent</tooltip>
+        <bind>greater</bind>
+        <bind>exclam</bind>
+      </row>
+     <row>
+        <action>DrumGm2User</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Convert GM Drums to User Notation</label>
+        <tooltip>Converts a note from GM Drum Notation to users Drum Notation, defined in an external .denemo file (see manual)</tooltip>
+      </row>
+      <row>
+        <action>ReloadDrumHash</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Reload the "Drum GM to User" map</label>
+        <tooltip>Reloads the drum map which is needed for DrumGm2User</tooltip>
       </row>
     </map>
   </commands>
