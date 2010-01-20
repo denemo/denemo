@@ -1725,7 +1725,7 @@ static void toggle_hidden_on_action (GtkCellRendererToggle *cell_renderer,
   gint command_idx = atoi(path);
   GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean hidden = ( g_object_get_data(G_OBJECT(action), "hidden") == NULL);
+    gboolean hidden = ( g_object_get_data(G_OBJECT(action), "hidden") != NULL);
     set_visibility_for_action(action, hidden);
   }
 }
@@ -1736,7 +1736,7 @@ static void toggle_deleted_on_action (GtkCellRendererToggle *cell_renderer,
   gint command_idx = atoi(path);
   GtkAction *action = (GtkAction *)lookup_action_from_idx (Denemo.map, command_idx);
   if(GTK_IS_ACTION(action)){
-    gboolean deleted = (g_object_get_data(G_OBJECT(action), "deleted") == NULL);
+    gboolean deleted = (g_object_get_data(G_OBJECT(action), "deleted") != NULL);
     //set_visibility_for_action(action, deleted);
     g_object_set_data(G_OBJECT(action), "deleted", (gboolean *)(intptr_t) !deleted);
   }
