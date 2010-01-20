@@ -283,7 +283,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  if(syllable)
 	    draw_lyric (cr,
 			x + mudelaitem->x,
-			y + itp->in_lowy/* thechord->lowesty*/,
+			y + itp->in_lowy,
 			syllable);
 	}
 
