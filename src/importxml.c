@@ -291,6 +291,8 @@ parseWidgetDirective (xmlNodePtr parentElem, xmlNsPtr ns, gpointer fn, DenemoDir
     DO_INTDIREC(gx);
     DO_INTDIREC(gy);
   }
+  if(directive->tag==NULL)
+    directive->tag = g_string_new("<Unknown Tag>");
   widget_for_directive(directive, fn);
   return TRUE;
 }
