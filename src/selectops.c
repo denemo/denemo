@@ -35,10 +35,39 @@ static void
 undo (DenemoGUI * gui);
 static void
 redo (DenemoGUI * gui);
-static GList *copybuffer = NULL;
+static GList *copybuffer = NULL; // this is a list one for each staff of lists of objects
 
 static gint staffsinbuffer = 0;
 static gint measurebreaksinbuffer = 0;
+
+static GList *clipboards = NULL;
+
+static GList *clone_obj_list(GList *g) {
+  GList *ret=NULL;
+  do {
+    ret = g_list_append(ret, dnm_clone_object(g->data));
+  } while((g=g->next));
+  return ret;
+}
+void push_clipboard (void) {
+  GList *thecopy = NULL;
+  GList *g;
+  for(g=copybuffer;g;g=g->next) {
+    thecopy = g_list_append(thecopy, clone_obj_list(g->data));
+  }
+  clipboards = g_list_prepend(clipboards, thecopy);
+}
+
+gboolean pop_clipboard(void) {
+
+  GList *thecopy = NULL;
+  if(clipboards==NULL)
+    return FALSE;
+  thecopy = clipboards->data;
+  clipboards = g_list_remove(clipboards, thecopy);
+  clearbuffer();
+  copybuffer = thecopy;
+}
 
 
 /**
