@@ -336,6 +336,7 @@ typedef struct DenemoPrefs
 			     wav file after rendering or not */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
+  gboolean applytoselection; /**< apply commands to selection */
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
