@@ -125,12 +125,13 @@ typedef enum input_mode {
   INPUTCLASSIC = 1<<0, /* classic mode */
   INPUTEDIT = 1<<1, /* edit mode */
   INPUTINSERT = 1<<2, /* insert mode */
-#define ENTRY_TYPE_MASK (~(INPUTNORMAL|INPUTREST|INPUTBLANK|INPUTRHYTHM))
+#define ENTRY_TYPE_MASK (~(INPUTNORMAL|INPUTREST|INPUTBLANK))
   INPUTNORMAL = 1<<3, /* entry type notes */
   INPUTREST = 1<<4, /* entry type rests */
   INPUTBLANK = 1<<5,/* entry type non-printing rests */
   TRAVERSE = 1<<6, /* read-only */
-  INPUTRHYTHM = 1<<7, /*Input rhythms without pitches*/
+#define ENTRY_FEEDBACK_MASK (~(INPUTRHYTHM))
+  INPUTRHYTHM = 1<<7, /*Input rhythms gives feedback*/
 }input_mode;
 
 /**
@@ -339,6 +340,7 @@ typedef struct DenemoPrefs
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean lilyentrystyle;  
   gboolean createclones;
+  gint mode; /**< mode to start in */
 
   gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
   gboolean notation_palette; /**< This switch makes the Note/Rest entry toolbar visable */

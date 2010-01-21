@@ -403,6 +403,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       READINTXMLENTRY(createclones)
       READINTXMLENTRY(immediateplayback) 
+      READINTXMLENTRY(mode) 
   
       READINTXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
@@ -632,7 +633,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   xmlDocPtr doc;
   xmlNodePtr parent, child;
   static GString *localrc = NULL;
-
   if (!localrc)
     {
       localrc = g_string_new (locatedotdenemo ());
@@ -699,6 +699,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(createclones)
   WRITEINTXMLENTRY(lilyentrystyle)
   WRITEINTXMLENTRY(immediateplayback)
+  WRITEINTXMLENTRY(mode)
   WRITEINTXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
   WRITEINTXMLENTRY(overlays)
