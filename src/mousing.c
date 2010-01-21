@@ -365,6 +365,10 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(gui==NULL)
+    return FALSE;
+  if(gui->scorearea==NULL)
+    return FALSE;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
   if (event->y < 0)
     event->y = 0.0;
