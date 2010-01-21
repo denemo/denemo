@@ -2406,7 +2406,7 @@ void inner_main(void*closure, int argc, char **argv){
   //FIXME same code in switch page
 
 
-  g_print("Mode values %x %x %x our test %x\n", Denemo.prefs.mode, Denemo.prefs.mode & ~MODE_MASK, Denemo.prefs.mode & ~ENTRY_TYPE_MASK, INPUTRHYTHM);
+  //g_print("Mode values %x %x %x our test %x\n", Denemo.prefs.mode, Denemo.prefs.mode & ~MODE_MASK, Denemo.prefs.mode & ~ENTRY_TYPE_MASK, INPUTRHYTHM);
   switch (Denemo.prefs.mode & ~MODE_MASK) {
   case INPUTINSERT:
     activate_action( "/MainMenu/ModeMenu/InsertMode");
@@ -2442,7 +2442,7 @@ void inner_main(void*closure, int argc, char **argv){
   switch(Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK ) {
 
     case INPUTRHYTHM:
-      g_print("Activating rhythm Mode\n");
+      //g_print("Activating rhythm Mode\n");
       activate_action( "/MainMenu/ModeMenu/Rhythm");
       break;
 
