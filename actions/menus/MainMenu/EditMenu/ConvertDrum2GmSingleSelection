@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>DrumGm2User</after>
+        <action>ConvertDrum2GmSingleSelection</action>
+        <scheme>(define (ConvertDrumGm2UserSingleNote)
+
+(if (d-GetNoteName)
+(begin
+	(if (defined? 'DrumHash)
+	  (d-PutNoteName (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
+	  (begin 
+	    (display "\nNo DrumHash existent. Force Reload!\n")
+	    (d-ReloadDrumHash)
+	    (d-PutNoteName (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
+	  )
+	)
+#t
+)
+#f
+)
+)
+
+(SingleAndSelectionSwitcher "(ConvertDrumGm2UserSingleNote)"  "(ConvertDrumGm2UserSingleNote)")
+(d-RefreshDisplay)
+
+</scheme>
+        <label>Convert GM-Drum to User-Drum</label>
+        <tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
