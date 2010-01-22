@@ -2397,14 +2397,59 @@ void inner_main(void*closure, int argc, char **argv){
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
   gchar *initial_file = process_command_line(argc, argv);
-
-
-  //insert mode on startup - should be a pref FIXME
-  gtk_widget_show (Denemo.InsertModeMenu);
+  gtk_widget_hide (Denemo.InsertModeMenu);
   gtk_widget_hide (Denemo.EditModeMenu);
   gtk_widget_hide (Denemo.ClassicModeMenu);
   gtk_widget_hide (Denemo.ModelessMenu);
-  
+
+  //insert mode on startup - should be a pref FIXME
+  //FIXME same code in switch page
+
+
+  //g_print("Mode values %x %x %x our test %x\n", Denemo.prefs.mode, Denemo.prefs.mode & ~MODE_MASK, Denemo.prefs.mode & ~ENTRY_TYPE_MASK, INPUTRHYTHM);
+  switch (Denemo.prefs.mode & ~MODE_MASK) {
+  case INPUTINSERT:
+    activate_action( "/MainMenu/ModeMenu/InsertMode");
+    break;
+  case INPUTEDIT:
+    activate_action( "/MainMenu/ModeMenu/EditMode");
+    break;
+  case INPUTCLASSIC:
+    activate_action( "/MainMenu/ModeMenu/ClassicMode");
+    break;
+  case 0:
+    activate_action( "/MainMenu/ModeMenu/Modeless");
+    break;
+  default:
+    activate_action( "/MainMenu/ModeMenu/Modeless");
+    break;
+  }
+
+  switch(Denemo.prefs.mode & ~ENTRY_TYPE_MASK ) {
+    case INPUTNORMAL:
+      activate_action( "/MainMenu/ModeMenu/Note");
+      break;
+    case INPUTBLANK:
+      activate_action( "/MainMenu/ModeMenu/Blank");
+      break;
+    case INPUTREST:
+      activate_action( "/MainMenu/ModeMenu/Rest");
+      break;
+
+    default:
+      break;
+  }
+  switch(Denemo.prefs.mode & ~ENTRY_FEEDBACK_MASK ) {
+
+    case INPUTRHYTHM:
+      //g_print("Activating rhythm Mode\n");
+      activate_action( "/MainMenu/ModeMenu/Rhythm");
+      break;
+
+    default:
+      break;
+  }
+
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
 
@@ -3349,6 +3394,7 @@ gboolean
 close_gui_with_check (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
+  Denemo.prefs.mode = Denemo.gui->mode;
   if(action_callbacks(Denemo.gui))
     return FALSE; //Denemo.gui may have been closed, depends on script callbacks;
 
@@ -5235,8 +5281,8 @@ toggle_rhythm_toolbar (GtkAction * action, gpointer param)
 
       gtk_widget_show (widget);
       /* make sure we are in Insert and Note for rhythm toolbar */
-      activate_action( "/MainMenu/ModeMenu/Note");
-      activate_action( "/MainMenu/ModeMenu/InsertMode");
+      // activate_action( "/MainMenu/ModeMenu/Note");
+      //activate_action( "/MainMenu/ModeMenu/InsertMode");
     }
 }
 
@@ -5679,7 +5725,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
   }
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
   Denemo.gui = gui = (DenemoGUI*)(g->data);
-
+     g_print("switch page\n");
   switch(gui->mode & ~MODE_MASK ) {
     case INPUTINSERT:
       activate_action( "/MainMenu/ModeMenu/InsertMode");
@@ -5707,11 +5753,11 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     case INPUTREST:
       activate_action( "/MainMenu/ModeMenu/Rest");
       break;
-#if 0
     case INPUTRHYTHM:
-          activate_action( "/MainMenu/ModeMenu/Rhythm");
+      g_print("activating rhythm\n");
+      activate_action( "/MainMenu/ModeMenu/Rhythm");
       break;
-#endif
+
     default:
       ;
     }
@@ -6021,6 +6067,7 @@ newtab (GtkAction *action, gpointer param) {
   //    action_group = create_window();
   DenemoGUI *gui = (DenemoGUI *) g_malloc0 (sizeof (DenemoGUI));
   gui->id = id++;//uniquely identifies this musical score editor for duration of program.
+  gui->mode = Denemo.prefs.mode;
   Denemo.guis = g_list_append (Denemo.guis, gui);
 
 

@@ -28,6 +28,7 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
+  GtkWidget *applytoselection;
   GtkWidget *saveparts;
   GtkWidget *autosave;
   GtkWidget *notation_palette;
@@ -152,6 +153,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
@@ -179,8 +181,8 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
-  GtkWidget *vbox;
-  GtkWidget *entrywidget;
+
+
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
 
@@ -299,9 +301,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_widget_show (field);\
   cbdata.field = field;
 
-  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output) 
-  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
- 
+
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
@@ -310,26 +310,6 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
 
 
-  hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  autosave = gtk_check_button_new_with_label (_("Autosave every"));
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
-				Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
-
-  autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
-  gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout),
-			     Denemo.prefs.autosave_timeout);
-  gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
-  gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
-  g_debug("autosave %p\n", autosave);
-  label = gtk_label_new (_("minute(s)"));
-  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-  g_signal_connect (GTK_OBJECT (autosave),
-		    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
-
-
-  BOOLEANENTRY("Autosave Parts", saveparts);
   //TEXTENTRY("Sequencer Device", sequencer)
 #ifndef _HAVE_FLUIDSYNTH_
   TEXTENTRY("Midi Input Device", midi_in)
@@ -339,17 +319,19 @@ preferences_change (GtkAction *action, gpointer param)
    * Pitch Entry Parameters 
    */
   NEWPAGE("Pitch Entry");
+  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
 
   TEXTENTRY("Temperament", temperament)
   BOOLEANENTRY("Use Overlays", overlays);
   BOOLEANENTRY("Continuous Entry", continuous);
 
   /*
-   * Shortcut control 
+   * Preferences to do with commands
    */
-  NEWPAGE("Shortcuts");
+  NEWPAGE("Command Behavior");
 
   //  TEXTENTRY("Strict", strictshortcuts)
+  BOOLEANENTRY("Apply commands to selection if present", applytoselection);  
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
 
   /*
@@ -372,17 +354,44 @@ preferences_change (GtkAction *action, gpointer param)
    * Misc Menu 
    */
   NEWPAGE("Misc");
- 
+
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output) 
+
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
 
   INTENTRY(_("Max recent files"), maxhistory)
   TEXTENTRY("User Name", username)
   PASSWORDENTRY("Password for Denemo.org", password)
+
+
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  autosave = gtk_check_button_new_with_label (_("Autosave every"));
+  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave),
+				Denemo.prefs.autosave);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave, FALSE, FALSE, 0);
+
+  autosave_timeout = gtk_spin_button_new_with_range (1, 50, 1.0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (autosave_timeout),
+			     Denemo.prefs.autosave_timeout);
+  gtk_widget_set_sensitive (autosave_timeout, Denemo.prefs.autosave);
+  gtk_box_pack_start (GTK_BOX (hbox), autosave_timeout, FALSE, FALSE, 0);
+  g_debug("autosave %p\n", autosave);
+  label = gtk_label_new (_("minute(s)"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+  g_signal_connect (GTK_OBJECT (autosave),
+		    "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
+
+
+  BOOLEANENTRY("Autosave Parts", saveparts);
+
+
+
   /*
    * Fluidsynth Menu
    */
 #ifdef _HAVE_FLUIDSYNTH_
-  NEWPAGE("Fluidsynth");
+  NEWPAGE("Internal Synth");
   /* Start/Restart Button */
   //BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
 

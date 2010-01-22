@@ -3418,18 +3418,37 @@ for second and subsequent systems</tooltip>
         <bind>exclam</bind>
       </row>
       <row>
-        <action>DrumGm2User</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Convert GM Drums to User Notation</label>
-        <tooltip>Converts a note from GM Drum Notation to users Drum Notation, defined in an external .denemo file (see manual)</tooltip>
-      </row>
-      <row>
         <action>ReloadDrumHash</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Reload the "Drum GM to User" map</label>
         <tooltip>Reloads the drum map which is needed for DrumGm2User</tooltip>
+      </row>
+      <row>
+        <action>ConvertDrum2GmSingleSelection</action>
+        <after>ReloadDrumHash</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Convert GM-Drum to User-Drum</label>
+        <tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible.</tooltip>
+      </row>
+      <row>
+        <action>SelectStaff</action>
+        <after>UnsetMark</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select Staff</label>
+        <tooltip>Selects the whole staff</tooltip>
+        <bind>Control+a</bind>
+      </row>
+      <row>
+        <action>SelectAllStaffs</action>
+        <after>SelectStaff</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Select All Staffs</label>
+        <tooltip>Selects the whole movement / All staffs</tooltip>
+        <bind>Control+A</bind>
       </row>
     </map>
   </commands>
