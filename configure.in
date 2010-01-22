@@ -201,11 +201,5 @@ AC_OUTPUT(
   po/Makefile.in
   fonts/Makefile
   soundfonts/Makefile
-  examples/Makefile
-  templates/Makefile
-  templates/band/Makefile
-  templates/chamber/Makefile
-  templates/choral/Makefile
-  templates/jazz/Makefile
   libsmf/Makefile
 ])
