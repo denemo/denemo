@@ -158,31 +158,16 @@ void define_scheme_variable(gchar *varname, gchar *value, gchar *tooltip) {
  // g_print("Defining %s\n", def);
  scm_c_define(varname, scm_from_locale_string(def));
  g_free(def);
-
-
-#ifdef DEVELOPER
- if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
- if(DEV_fp) if(tooltip)
-    fprintf(DEV_fp, "<listitem>%s: %s: value is a string </listitem>\n", varname, tooltip);
-#endif
 }
 void define_scheme_literal_variable(gchar *varname, gchar *value, gchar *tooltip) {
-scm_c_define(varname, scm_from_locale_string(value));
-#ifdef DEVELOPER
- if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
- if(DEV_fp) if(tooltip)
-    fprintf(DEV_fp, "<listitem>%s: %s: value is an expression  </listitem>\n", varname, tooltip);
-#endif
+  scm_c_define(varname, scm_from_locale_string(value));
 }
 void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
+  scm_c_define(varname, scm_int2num(value));
+}
 
-scm_c_define(varname, scm_int2num(value));
-
-#ifdef DEVELOPER
- if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
- if(DEV_fp) if(tooltip)
-    fprintf(DEV_fp, "<listitem>%s: %s: value is a number </listitem>\n", varname, tooltip);
-#endif
+void define_scheme_bool_variable(gchar *varname, gint value, gchar *tooltip) {
+  scm_c_define(varname, SCM_BOOL(value));
 }
 
 

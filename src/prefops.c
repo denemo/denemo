@@ -325,11 +325,28 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
 	  if(tmp)\
 	    {\
-              define_scheme_variable("DenemoPref_" #field, tmp, NULL);\
+              define_scheme_int_variable("DenemoPref_" #field, atoi(tmp), NULL); \
 	      prefs->field = atoi ((gchar *) tmp);\
 	      xmlFree (tmp);\
 	    }\
-	}\
+	}
+
+
+#define READBOOLXMLENTRY(field) \
+      else if (0 ==\
+	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+              define_scheme_bool_variable("DenemoPref_" #field, atoi(tmp), NULL); \
+	      prefs->field = atoi ((gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}
+
+
+
 
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypath"))
 	{
@@ -362,7 +379,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  if(tmp)
 	    {
 	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
-	      define_scheme_variable(curname, tmp, NULL); 
+	      define_scheme_int_variable(curname, atoi(tmp), NULL); 
 	      g_free(curname);
 	      prefs->autosave_timeout = atoi ((gchar *) tmp);
 	      if(prefs->autosave_timeout <1) prefs->autosave_timeout = 1;
@@ -377,7 +394,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  if(tmp)
 	    {
 	      gchar *curname = g_strdup_printf("DenemoPref_%s", cur->name);
-	      define_scheme_variable(curname, tmp, NULL); 
+	      define_scheme_int_variable(curname, atoi(tmp), NULL); 
 	      g_free(curname);
 	      prefs->maxhistory = atoi ((gchar *) tmp);
 	      if(prefs->maxhistory <1) prefs->maxhistory = 1;
@@ -387,8 +404,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(csoundcommand)
       READXMLENTRY(csoundorcfile)
 	
-      READINTXMLENTRY(rtcs)
-      READINTXMLENTRY(autosave)
+      READBOOLXMLENTRY(rtcs)
+      READBOOLXMLENTRY(autosave)
       
       READXMLENTRY(pdfviewer)
       READXMLENTRY(imageviewer)    
@@ -401,34 +418,34 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(sequencer)
       READXMLENTRY2(midi_audio_output)
       
-      READINTXMLENTRY(createclones)
-      READINTXMLENTRY(immediateplayback) 
-      READINTXMLENTRY(applytoselection) 
+      READBOOLXMLENTRY(createclones)
+      READBOOLXMLENTRY(immediateplayback) 
+      READBOOLXMLENTRY(applytoselection) 
       READINTXMLENTRY(mode) 
   
-      READINTXMLENTRY(strictshortcuts)
+      READBOOLXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
-      READINTXMLENTRY(overlays)
-      READINTXMLENTRY(continuous)
-      READINTXMLENTRY(jacktransport)
-      READINTXMLENTRY(jacktransport_start_stopped)
-      READINTXMLENTRY(lilyentrystyle)
-      READINTXMLENTRY(notation_palette)
-      READINTXMLENTRY(articulation_palette)
-      READINTXMLENTRY(visible_directive_buttons)
-      READINTXMLENTRY(rhythm_palette) 
-      READINTXMLENTRY(object_palette)
-      READINTXMLENTRY(autoupdate) 
+      READBOOLXMLENTRY(overlays)
+      READBOOLXMLENTRY(continuous)
+      READBOOLXMLENTRY(jacktransport)
+      READBOOLXMLENTRY(jacktransport_start_stopped)
+      READBOOLXMLENTRY(lilyentrystyle)
+      READBOOLXMLENTRY(notation_palette)
+      READBOOLXMLENTRY(articulation_palette)
+      READBOOLXMLENTRY(visible_directive_buttons)
+      READBOOLXMLENTRY(rhythm_palette) 
+      READBOOLXMLENTRY(object_palette)
+      READBOOLXMLENTRY(autoupdate) 
      
       READXMLENTRY(fluidsynth_audio_driver)
       READXMLENTRY(fluidsynth_soundfont)
-      READINTXMLENTRY(fluidsynth_reverb)
-      READINTXMLENTRY(fluidsynth_chorus)
+      READBOOLXMLENTRY(fluidsynth_reverb)
+      READBOOLXMLENTRY(fluidsynth_chorus)
       READINTXMLENTRY(fluidsynth_sample_rate)
       READINTXMLENTRY(fluidsynth_period_size)
 
 
-      READINTXMLENTRY(saveparts)
+      READBOOLXMLENTRY(saveparts)
       
       cur = cur->next;
     }
@@ -683,43 +700,54 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(sequencer)
 
 #define WRITEINTXMLENTRY(field){ \
-    gchar *def = g_strdup("Holds the value of the user's " #field " preference");\
-    gchar *value = g_strdup_printf("%d", prefs->field);\
+    gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
+    gint value = prefs->field;\
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
-    define_scheme_variable(curname, value, def);\
+    define_scheme_int_variable(curname, value, def);\
     g_free(curname);\
     g_free(value);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
 
-  WRITEINTXMLENTRY(autosave)
+#define WRITEBOOLXMLENTRY(field){ \
+    gchar *def = g_strdup("Holds #t or #f, the user's " #field " preference");\
+    gboolean value = prefs->field;\
+    gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
+    define_scheme_bool_variable(curname, value, def);\
+    g_free(curname);\
+    g_free(value);\
+    g_free(def);\
+  newXMLIntChild (child, (xmlChar *) #field,\
+		  prefs->field);}
+
+  WRITEBOOLXMLENTRY(autosave)
   WRITEINTXMLENTRY(autosave_timeout)
   WRITEINTXMLENTRY(maxhistory)
-  WRITEINTXMLENTRY(saveparts)
-  WRITEINTXMLENTRY(createclones)
-  WRITEINTXMLENTRY(lilyentrystyle)
-  WRITEINTXMLENTRY(immediateplayback)
-  WRITEINTXMLENTRY(applytoselection)
+  WRITEBOOLXMLENTRY(saveparts)
+  WRITEBOOLXMLENTRY(createclones)
+  WRITEBOOLXMLENTRY(lilyentrystyle)
+  WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEBOOLXMLENTRY(applytoselection)
   WRITEINTXMLENTRY(mode)
-  WRITEINTXMLENTRY(strictshortcuts)
+  WRITEBOOLXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
-  WRITEINTXMLENTRY(overlays)
-  WRITEINTXMLENTRY(continuous)
-  WRITEINTXMLENTRY(jacktransport)
-  WRITEINTXMLENTRY(jacktransport_start_stopped)
+  WRITEBOOLXMLENTRY(overlays)
+  WRITEBOOLXMLENTRY(continuous)
+  WRITEBOOLXMLENTRY(jacktransport)
+  WRITEBOOLXMLENTRY(jacktransport_start_stopped)
   WRITEINTXMLENTRY(rtcs)
-  WRITEINTXMLENTRY(notation_palette)
-  WRITEINTXMLENTRY(articulation_palette)
-  WRITEINTXMLENTRY(visible_directive_buttons)
-  WRITEINTXMLENTRY(autoupdate)
-  WRITEINTXMLENTRY(rhythm_palette)
-  WRITEINTXMLENTRY(object_palette)
+  WRITEBOOLXMLENTRY(notation_palette)
+  WRITEBOOLXMLENTRY(articulation_palette)
+  WRITEBOOLXMLENTRY(visible_directive_buttons)
+  WRITEBOOLXMLENTRY(autoupdate)
+  WRITEBOOLXMLENTRY(rhythm_palette)
+  WRITEBOOLXMLENTRY(object_palette)
   WRITEXMLENTRY2(midi_audio_output)
   WRITEXMLENTRY(fluidsynth_audio_driver)
   WRITEXMLENTRY(fluidsynth_soundfont)
-  WRITEINTXMLENTRY(fluidsynth_reverb)
-  WRITEINTXMLENTRY(fluidsynth_chorus)
+  WRITEBOOLXMLENTRY(fluidsynth_reverb)
+  WRITEBOOLXMLENTRY(fluidsynth_chorus)
   WRITEINTXMLENTRY(fluidsynth_sample_rate)
   WRITEINTXMLENTRY(fluidsynth_period_size)
 
