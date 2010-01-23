@@ -336,6 +336,7 @@ typedef struct DenemoPrefs
 			     wav file after rendering or not */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
+  gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
@@ -343,10 +344,11 @@ typedef struct DenemoPrefs
   gboolean createclones;
   gint mode; /**< mode to start in */
 
-  gboolean articulation_palette; /**< This switch makes the articulation pallete visable */
-  gboolean notation_palette; /**< This switch makes the Note/Rest entry toolbar visable */
-  gboolean rhythm_palette; /**< This option makes the rhythm toolbar visable */
-  gboolean object_palette;  /**< This option makes the object menu toolbar visable */
+  gboolean articulation_palette; /**< makes the articulation pallete visible */
+  gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
+  gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
+  gboolean object_palette;  /**< makes the object menu toolbar visible */
+  gboolean console_pane;  /**< makes the console pane visible */
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 

@@ -147,6 +147,7 @@ initprefs ()
   ret->maxhistory = 20;
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
+  ret->console_pane = TRUE;
   ret->visible_directive_buttons = TRUE;
   ret->autoupdate = FALSE;
   ret->rhythm_palette = TRUE;
@@ -421,6 +422,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback) 
       READBOOLXMLENTRY(applytoselection) 
+      READBOOLXMLENTRY(startmidiin) 
       READINTXMLENTRY(mode) 
   
       READBOOLXMLENTRY(strictshortcuts)
@@ -432,6 +434,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(notation_palette)
       READBOOLXMLENTRY(articulation_palette)
+      READBOOLXMLENTRY(console_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
       READBOOLXMLENTRY(rhythm_palette) 
       READBOOLXMLENTRY(object_palette)
@@ -705,7 +708,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
     define_scheme_int_variable(curname, value, def);\
     g_free(curname);\
-    g_free(value);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
@@ -716,7 +718,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
     gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
     define_scheme_bool_variable(curname, value, def);\
     g_free(curname);\
-    g_free(value);\
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
@@ -729,6 +730,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
   WRITEBOOLXMLENTRY(applytoselection)
+  WRITEBOOLXMLENTRY(startmidiin)
   WRITEINTXMLENTRY(mode)
   WRITEBOOLXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
@@ -739,6 +741,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(rtcs)
   WRITEBOOLXMLENTRY(notation_palette)
   WRITEBOOLXMLENTRY(articulation_palette)
+  WRITEBOOLXMLENTRY(console_pane)
   WRITEBOOLXMLENTRY(visible_directive_buttons)
   WRITEBOOLXMLENTRY(autoupdate)
   WRITEBOOLXMLENTRY(rhythm_palette)

@@ -2435,8 +2435,16 @@ void inner_main(void*closure, int argc, char **argv){
       break;
   }
 
+#ifndef _HAVE_JACK_
+  if (Denemo.prefs.startmidiin)
+    activate_action("/MainMenu/InputMenu/JackMidi");
+#endif
+
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
+
+  if (!Denemo.prefs.console_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
 
 
   if (!Denemo.prefs.rhythm_palette)

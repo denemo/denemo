@@ -28,6 +28,7 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
+  GtkWidget *startmidiin;
   GtkWidget *applytoselection;
   GtkWidget *saveparts;
   GtkWidget *autosave;
@@ -35,6 +36,7 @@ struct callbackdata
   GtkWidget *rhythm_palette;
   GtkWidget *object_palette;
   GtkWidget *articulation_palette;
+  GtkWidget *console_pane;
   GtkWidget *visible_directive_buttons;
   GtkWidget *autoupdate;
 
@@ -153,10 +155,12 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
+  ASSIGNBOOLEAN(console_pane)
   ASSIGNBOOLEAN(visible_directive_buttons)
   ASSIGNBOOLEAN(autoupdate)
   ASSIGNBOOLEAN(notation_palette)
@@ -304,6 +308,7 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
+  BOOLEANENTRY("Display console pane", console_pane);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
 
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
@@ -320,6 +325,7 @@ preferences_change (GtkAction *action, gpointer param)
    */
   NEWPAGE("Pitch Entry");
   BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
+  BOOLEANENTRY("Auto-start midi in", startmidiin);
 
   TEXTENTRY("Temperament", temperament)
   BOOLEANENTRY("Use Overlays", overlays);
