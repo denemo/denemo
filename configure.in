@@ -198,6 +198,8 @@ AC_OUTPUT(
   doc/transformations/Makefile
   doc/images/Makefile
   actions/Makefile
+  examples/Makefile
+  templates/Makefile
   po/Makefile.in
   fonts/Makefile
   soundfonts/Makefile

@@ -1,12 +1,13 @@
 SUBDIRS = libsmf m4 doc actions pixmaps po src \
-	  fonts soundfonts examples templates 
+	  fonts soundfonts 
 
 
 dist_sysconf_DATA = denemo.conf 
 
 EXTRA_DIST = actions/menus doc/DESIGN doc/GOALS @PACKAGE@.spec.in  \
 	     doc/DESIGN.lilypond actions include \
-	     guile-1.8.pc fonts/LICENSE_OFL.txt
+	     guile-1.8.pc fonts/LICENSE_OFL.txt \
+	     examples templates
 
 MAINTAINERCLEANFILES =  Makefile.in aclocal.m4 configure config.h.in \
 	stamp-h.in \
