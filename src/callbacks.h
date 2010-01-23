@@ -4,6 +4,11 @@ static void cursorleft_cb (GtkAction *action, DenemoScriptParam *param) {
 cursorleft (param);
 displayhelper (Denemo.gui);
 }
+/*MoveCursorLeft movecursorleft*/
+static void movecursorleft_cb (GtkAction *action, DenemoScriptParam *param) {
+movecursorleft (param);
+displayhelper (Denemo.gui);
+}
 /*CursorDown cursordown*/
 static void cursordown_cb (GtkAction *action, DenemoScriptParam *param) {
 cursordown (param);
@@ -17,6 +22,11 @@ displayhelper (Denemo.gui);
 /*CursorRight cursorright*/
 static void cursorright_cb (GtkAction *action, DenemoScriptParam *param) {
 cursorright (param);
+displayhelper (Denemo.gui);
+}
+/*MoveCursorRight movecursorright*/
+static void movecursorright_cb (GtkAction *action, DenemoScriptParam *param) {
+movecursorright (param);
 displayhelper (Denemo.gui);
 }
 /*StaffUp staffup*/

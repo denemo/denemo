@@ -57,11 +57,17 @@ voiceup (DenemoScriptParam *param);
 gboolean
 voicedown (DenemoScriptParam *param);
 
-void
+gboolean
 cursorleft (DenemoScriptParam *param);
 
 gboolean
 cursorright (DenemoScriptParam *param);
+
+gboolean
+movecursorleft (DenemoScriptParam *param);
+
+gboolean
+movecursorright (DenemoScriptParam *param);
 
 void
 cursorup (DenemoScriptParam *param);

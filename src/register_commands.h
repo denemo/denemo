@@ -1,7 +1,9 @@
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorLeft"), "CursorLeft", "Cursor Left", "Moves the cursor one object left, altering the selection if any", cursorleft);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveCursorLeft"), "MoveCursorLeft", "Move Cursor Left", "Moves the cursor one object left, without altering the selection", movecursorleft);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorDown"), "CursorDown", "Cursor Down", "Moves the cursor one scale step down", cursordown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp"), "CursorUp", "Cursor Up", "Moves the cursor one scale step up", cursorup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "Moves the cursor one object right, altering the selection if any", cursorright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveCursorRight"), "MoveCursorRight", "Move Cursor Right", "Moves the cursor one object right, without altering the selection", movecursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToSelectionStart"), "GoToSelectionStart", "To Selection Start", "Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection", goto_selection_start);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PushPosition"), "PushPosition", "Push Position", "Pushes the current cursor position onto a stack", PushPosition);

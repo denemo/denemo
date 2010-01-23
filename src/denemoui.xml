@@ -38,10 +38,10 @@
       <menu action="Bookmarks">
       </menu>
       <menu action="Cursor">
-	<menuitem action="CursorLeft"/>
+	<menuitem action="MoveCursorLeft"/>
 	<menuitem action="CursorDown"/>
 	<menuitem action="CursorUp"/>
-	<menuitem action="CursorRight"/>
+	<menuitem action="MoveCursorRight"/>
 	<separator/>
 	<menuitem action="OctaveUp"/>
 	<menuitem action="OctaveDown"/>
@@ -77,7 +77,9 @@
          <menuitem action="SetMark"/>
 	 <menu action="ExtendSelect">
 	        <menuitem action="CursorLeft"/>
-                 <menuitem action="CursorRight"/>
+                <menuitem action="CursorRight"/>
+		<menuitem action="StaffUp"/>
+		<menuitem action="StaffDown"/> 
          </menu>
 	 <menuitem action="UnsetMark"/>
       </menu>

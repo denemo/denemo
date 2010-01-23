@@ -672,8 +672,8 @@ staffdown (DenemoScriptParam *param)
  * move the cursor one position to the left
  *
  */
-void
-cursorleft (DenemoScriptParam *param)
+gboolean
+move_left (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -720,16 +720,19 @@ cursorleft (DenemoScriptParam *param)
 	  param->status = TRUE;
 	}
     }
-  calcmarkboundaries (si);
+  if(extend_selection)
+    calcmarkboundaries (si);
   write_status(gui);
+  return param->status;
 }
 
 /**
  * move the cursor one position to the right
- * sets param->status TRUE if cursor could still move right.
+ * selection (if any) is extended if extend_selection is TRUE
+ * sets param->status TRUE if cursor could still move right, and returns that value.
  */
 gboolean
-cursorright (DenemoScriptParam *param)
+move_right (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -765,10 +768,42 @@ cursorright (DenemoScriptParam *param)
 	}
       else return param->status = FALSE;
     }
-  calcmarkboundaries (si);
+  if(extend_selection)
+    calcmarkboundaries (si);
   write_status(gui);
   return (param->status = (si->currentobject || (!si->cursor_appending) || si->currentmeasure->next));
 }
+
+/**
+ * move the cursor one position to the right extending the selection if any
+ * sets param->status TRUE if cursor could still move right, and returns that value.
+ */
+gboolean
+cursorright (DenemoScriptParam *param)
+{
+return  move_right(param, TRUE);
+}
+/**
+ * move the cursor one position to the left extending the selection if any
+ * sets param->status TRUE if cursor could still move left, and returns that value.
+ */
+gboolean
+cursorleft (DenemoScriptParam *param)
+{
+return  move_left(param, TRUE);
+}
+// cursor move without altering selection
+gboolean
+movecursorright (DenemoScriptParam *param)
+{
+return  move_right(param, FALSE);
+}
+gboolean
+movecursorleft (DenemoScriptParam *param)
+{
+return  move_left(param, FALSE);
+}
+
 
 /**
  * Move the cursor up one position 

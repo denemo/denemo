@@ -1,8 +1,10 @@
 /******** generated automatically from generate_source. See generate_source.c */
 {"CursorLeft", NULL, N_("Cursor Left"), NULL,N_("Moves the cursor one object left, altering the selection if any"),G_CALLBACK (cursorleft_cb)},
+{"MoveCursorLeft", NULL, N_("Move Cursor Left"), NULL,N_("Moves the cursor one object left, without altering the selection"),G_CALLBACK (movecursorleft_cb)},
 {"CursorDown", NULL, N_("Cursor Down"), NULL,N_("Moves the cursor one scale step down"),G_CALLBACK (cursordown_cb)},
 {"CursorUp", NULL, N_("Cursor Up"), NULL,N_("Moves the cursor one scale step up"),G_CALLBACK (cursorup_cb)},
 {"CursorRight", NULL, N_("Cursor Right"), NULL,N_("Moves the cursor one object right, altering the selection if any"),G_CALLBACK (cursorright_cb)},
+{"MoveCursorRight", NULL, N_("Move Cursor Right"), NULL,N_("Moves the cursor one object right, without altering the selection"),G_CALLBACK (movecursorright_cb)},
 {"GoToMark", NULL, N_("To Mark"), NULL,N_("Moves the cursor to the Mark without altering the selection"),G_CALLBACK (goto_mark)},
 {"GoToSelectionStart", NULL, N_("To Selection Start"), NULL,N_("Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection"),G_CALLBACK (goto_selection_start)},
 {"PushPosition", NULL, N_("Push Position"), NULL,N_("Pushes the current cursor position onto a stack"),G_CALLBACK (PushPosition)},

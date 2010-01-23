@@ -62,10 +62,14 @@ struct name_and_function
 
 
 struct name_and_function denemo_commands[] = {
+
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one object left, altering the selection if any",	N_("CursorLeft"), "cursorleft", N_("Cursor Left")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one object left, without altering the selection",	N_("MoveCursorLeft"), "movecursorleft", N_("Move Cursor Left")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one scale step down",	N_("CursorDown"), "cursordown", N_("Cursor Down")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one scale step up",	N_("CursorUp"), "cursorup", N_("Cursor Up")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one object right, altering the selection if any",	N_("CursorRight"), "cursorright", N_("Cursor Right")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one object right, without altering the selection",	N_("MoveCursorRight"), "movecursorright", N_("Move Cursor Right")},
+
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Moves the cursor to the Mark without altering the selection",	N_("GoToMark"), "goto_mark", N_("To Mark")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection",	N_("GoToSelectionStart"), "goto_selection_start", N_("To Selection Start")},
 

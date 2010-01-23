@@ -3,6 +3,10 @@ gchar *text;
 SCM scheme_CursorLeft(SCM optional);
 install_scm_function ("d-CursorLeft", scheme_CursorLeft);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorLeft")), "scm", (gpointer)1);
+/*MoveCursorLeft movecursorleft*/
+SCM scheme_MoveCursorLeft(SCM optional);
+install_scm_function ("d-MoveCursorLeft", scheme_MoveCursorLeft);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveCursorLeft")), "scm", (gpointer)1);
 /*CursorDown cursordown*/
 SCM scheme_CursorDown(SCM optional);
 install_scm_function ("d-CursorDown", scheme_CursorDown);
@@ -15,6 +19,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorUp")), "scm", (gpoi
 SCM scheme_CursorRight(SCM optional);
 install_scm_function ("d-CursorRight", scheme_CursorRight);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "CursorRight")), "scm", (gpointer)1);
+/*MoveCursorRight movecursorright*/
+SCM scheme_MoveCursorRight(SCM optional);
+install_scm_function ("d-MoveCursorRight", scheme_MoveCursorRight);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveCursorRight")), "scm", (gpointer)1);
 /*GoToMark goto_mark*/
 SCM scheme_GoToMark(SCM optional);
 install_scm_function ("d-GoToMark", scheme_GoToMark);
