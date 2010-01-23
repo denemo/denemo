@@ -49,6 +49,10 @@ struct callbackdata
   GtkWidget *password;
   GtkWidget *sequencer;
   GtkWidget *midi_in;
+
+  GtkWidget *zoom;
+  GtkWidget *system_height;
+
 #ifdef _HAVE_JACK_
   GtkWidget *jacktransport;
   GtkWidget *jacktransport_start_stopped;
@@ -150,6 +154,9 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(continuous)
   ASSIGNINT(resolution)
   ASSIGNINT(maxhistory)
+
+  ASSIGNINT(zoom)
+  ASSIGNINT(system_height)
 
 
   ASSIGNCOMBO2(midi_audio_output); 
@@ -313,6 +320,8 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
+  INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
+  INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
 
 
   //TEXTENTRY("Sequencer Device", sequencer)

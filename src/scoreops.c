@@ -287,6 +287,7 @@ void
 init_score (DenemoScore * si, DenemoGUI *gui)
 {
   gchar *dir = (gchar*)locatedotdenemo ();
+
   si->readonly = 0;
   si->leftmeasurenum = si->rightmeasurenum = 1;
   si->top_staff = si->bottom_staff = 1;
@@ -301,8 +302,8 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->cursor_y = 0;
   si->staffletter_y = 0;
   si->cursor_appending = TRUE;
-  si->zoom = 1.0;
-  si->system_height = 1.0;
+  si->zoom = Denemo.prefs.zoom>0?Denemo.prefs.zoom/100.0:1.0;
+  si->system_height = Denemo.prefs.system_height>0?Denemo.prefs.system_height/100.0:1.0;
 
   si->cursoroffend = FALSE;
   si->cursortime1=si->cursortime2=4;

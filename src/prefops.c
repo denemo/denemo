@@ -153,6 +153,8 @@ initprefs ()
   ret->rhythm_palette = TRUE;
   ret->object_palette = TRUE;
   ret->history = g_queue_new ();
+  ret->zoom = 100;
+  ret->system_height = 100;
 
   /* Read values from systemwide preferences file */
 
@@ -446,6 +448,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(fluidsynth_chorus)
       READINTXMLENTRY(fluidsynth_sample_rate)
       READINTXMLENTRY(fluidsynth_period_size)
+      READINTXMLENTRY(zoom)
+      READINTXMLENTRY(system_height)
 
 
       READBOOLXMLENTRY(saveparts)
@@ -753,6 +757,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(fluidsynth_chorus)
   WRITEINTXMLENTRY(fluidsynth_sample_rate)
   WRITEINTXMLENTRY(fluidsynth_period_size)
+  WRITEINTXMLENTRY(zoom)
+  WRITEINTXMLENTRY(system_height)
 
   WRITEXMLENTRY(browser) 
   

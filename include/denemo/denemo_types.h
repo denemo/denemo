@@ -344,6 +344,10 @@ typedef struct DenemoPrefs
   gboolean createclones;
   gint mode; /**< mode to start in */
 
+  gint zoom; /**< percent zoom  1-100 */
+  gint system_height; /**< percent of display height per system  1-100 */
+
+
   gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
