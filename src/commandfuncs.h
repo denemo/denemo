@@ -52,10 +52,22 @@ gboolean
 staffdown (DenemoScriptParam *param);
 
 gboolean
+movetostaffup (DenemoScriptParam *param);
+
+gboolean
+movetostaffdown (DenemoScriptParam *param);
+
+gboolean
 voiceup (DenemoScriptParam *param);
 
 gboolean
 voicedown (DenemoScriptParam *param);
+
+gboolean
+movetovoiceup (DenemoScriptParam *param);
+
+gboolean
+movetovoicedown (DenemoScriptParam *param);
 
 gboolean
 cursorleft (DenemoScriptParam *param);

@@ -506,6 +506,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
       setcurrentprimarystaff (si);
     }
   setcurrents (si);
+calcmarkboundaries (si);
   if(gui->si->currentstaffnum < gui->si->top_staff)
     gui->si->top_staff = gui->si->currentstaffnum; 
   update_vscrollbar (gui);
@@ -697,6 +698,7 @@ dnm_newstaffvoice (GtkAction *action, gpointer param)
   set_bottom_staff (gui);
   update_vscrollbar (gui);
   setcurrents(gui->si);
+calcmarkboundaries (gui->si);
   displayhelper (gui);
 }
 

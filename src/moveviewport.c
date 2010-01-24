@@ -221,6 +221,7 @@ set_currentmeasurenum (DenemoGUI * gui, gint dest)
       gui->si->leftmeasurenum = dest;
       gui->si->currentmeasurenum = dest;
       setcurrents (gui->si);
+calcmarkboundaries (gui->si);
       set_rightmeasurenum (gui->si);
       find_leftmost_allcontexts (gui->si);
       update_hscrollbar (gui);
@@ -245,6 +246,7 @@ set_currentstaffnum (DenemoGUI * gui, gint dest)
 	g_list_nth (gui->si->thescore, gui->si->currentstaffnum - 1);
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+calcmarkboundaries (gui->si);
       find_leftmost_allcontexts (gui->si);
       update_vscrollbar (gui);
       gtk_widget_queue_draw (gui->scorearea);
@@ -274,6 +276,7 @@ vertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
 	    g_list_nth (gui->si->thescore, gui->si->bottom_staff - 1);
 	  setcurrentprimarystaff (gui->si);
 	  setcurrents (gui->si);
+calcmarkboundaries (gui->si);
 	}
       else if (gui->si->currentstaffnum < gui->si->top_staff)
 	{
@@ -282,6 +285,7 @@ vertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
 	    g_list_nth (gui->si->thescore, gui->si->top_staff - 1);
 	  setcurrentprimarystaff (gui->si);
 	  setcurrents (gui->si);
+calcmarkboundaries (gui->si);
 	}
       gtk_widget_queue_draw (gui->scorearea);
     }
@@ -313,6 +317,7 @@ horizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
 	}
       find_leftmost_allcontexts (gui->si);
       setcurrents (gui->si);
+calcmarkboundaries (gui->si);
       gtk_widget_queue_draw (gui->scorearea);
     }
   update_hscrollbar (gui);

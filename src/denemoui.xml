@@ -46,10 +46,11 @@
 	<menuitem action="OctaveUp"/>
 	<menuitem action="OctaveDown"/>
 	<separator/>
-	<menuitem action="StaffUp"/>
-	<menuitem action="StaffDown"/>
-        <menuitem action="VoiceUp"/>
-	<menuitem action="VoiceDown"/>
+	<menuitem action="MoveToStaffUp"/>
+	<menuitem action="MoveToStaffDown"/>
+
+        <menuitem action="MoveToVoiceUp"/>
+	<menuitem action="MoveToVoiceDown"/>
 	<separator/>
 	<menuitem action="MeasureLeft"/>
 	<menuitem action="MeasureRight"/>
@@ -80,6 +81,8 @@
                 <menuitem action="CursorRight"/>
 		<menuitem action="StaffUp"/>
 		<menuitem action="StaffDown"/> 
+		<menuitem action="VoiceUp"/>
+		<menuitem action="VoiceDown"/>
          </menu>
 	 <menuitem action="UnsetMark"/>
       </menu>
@@ -214,11 +217,11 @@
           <menuitem action="SwapStaffs"/>
           <menuitem action="SplitVoices"/>
           <menuitem action="JoinVoices"/>
-          <menuitem action="StaffUp"/>
-          <menuitem action="StaffDown"/> 
+          <menuitem action="MoveToStaffUp"/>
+          <menuitem action="MoveToStaffDown"/> 
           <menuitem action="AddVoice"/>
-          <menuitem action="VoiceUp"/>
-	  <menuitem action="VoiceDown"/> 
+          <menuitem action="MoveToVoiceUp"/>
+	  <menuitem action="MoveToVoiceDown"/> 
     </menu>
 
     <menu action="ClefMenu">

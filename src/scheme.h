@@ -51,6 +51,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "StaffUp")), "scm", (gpoin
 SCM scheme_StaffDown(SCM optional);
 install_scm_function ("d-StaffDown", scheme_StaffDown);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "StaffDown")), "scm", (gpointer)1);
+/*MoveToStaffUp movetostaffup*/
+SCM scheme_MoveToStaffUp(SCM optional);
+install_scm_function ("d-MoveToStaffUp", scheme_MoveToStaffUp);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToStaffUp")), "scm", (gpointer)1);
+/*MoveToStaffDown movetostaffdown*/
+SCM scheme_MoveToStaffDown(SCM optional);
+install_scm_function ("d-MoveToStaffDown", scheme_MoveToStaffDown);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToStaffDown")), "scm", (gpointer)1);
 /*MeasureLeft measureleft*/
 SCM scheme_MeasureLeft(SCM optional);
 install_scm_function ("d-MeasureLeft", scheme_MeasureLeft);
@@ -1023,6 +1031,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "VoiceUp")), "scm", (gpoin
 SCM scheme_VoiceDown(SCM optional);
 install_scm_function ("d-VoiceDown", scheme_VoiceDown);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "VoiceDown")), "scm", (gpointer)1);
+/*MoveToVoiceUp movetovoiceup*/
+SCM scheme_MoveToVoiceUp(SCM optional);
+install_scm_function ("d-MoveToVoiceUp", scheme_MoveToVoiceUp);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToVoiceUp")), "scm", (gpointer)1);
+/*MoveToVoiceDown movetovoicedown*/
+SCM scheme_MoveToVoiceDown(SCM optional);
+install_scm_function ("d-MoveToVoiceDown", scheme_MoveToVoiceDown);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToVoiceDown")), "scm", (gpointer)1);
 /*AddBefore newstaffbefore*/
 SCM scheme_AddBefore(SCM optional);
 install_scm_function ("d-AddBefore", scheme_AddBefore);

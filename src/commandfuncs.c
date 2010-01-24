@@ -128,7 +128,7 @@ beamandstemdirhelper (DenemoScore * si)
 /**
  * Set si->current* variables from currentmeasurenum
  * the current object is set to the first in the measure
- * the selection is updated
+ * the selection is not updated
  *
  */
 void
@@ -162,7 +162,7 @@ setcurrents (DenemoScore * si)
     si->cursor_appending = FALSE;
   else
     si->cursor_appending = TRUE;
-  calcmarkboundaries (si);
+  // calcmarkboundaries (si);
 }
 
 /**
@@ -384,6 +384,7 @@ gui->si->currentmeasure->prev)
       param->status = TRUE;
     }
   setcurrents (gui->si);
+  calcmarkboundaries (gui->si);
 }
 
 /**
@@ -406,6 +407,7 @@ measureright (DenemoScriptParam *param)
       isoffrightside (gui);
       setcurrents (gui->si);
       param->status = TRUE;
+      calcmarkboundaries (gui->si);
     }
 }
 
@@ -538,9 +540,10 @@ joinstaffs (GtkAction *action, gpointer param)
 /**
  * Move si->currentstaff up an one voice, return TRUE if successful
  * param is NULL for interactive calls, otherwise status is returned in param->status;
+ * alter selection if extend_selection
  */
-gboolean
-voiceup (DenemoScriptParam *param)
+static gboolean
+govoiceup (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -566,11 +569,11 @@ voiceup (DenemoScriptParam *param)
 }
 
 /**
- * Move si->currentstaff up an one staff/voice, return TRUE if successful
+ * Move si->currentstaff up an one staff, return TRUE if successful
  *
  */
-gboolean
-staffup (DenemoScriptParam *param)
+static gboolean
+gostaffup (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -581,7 +584,7 @@ staffup (DenemoScriptParam *param)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
-    voiceup(param);//FIXME check param->status
+    govoiceup(param, extend_selection);//FIXME check param->status
   if (gui->si->currentstaff->prev)
     {
       hide_lyrics();
@@ -589,6 +592,8 @@ staffup (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->prev;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set I think it just needs si->cursorclef = si->curmeasureclef (? after beamandstemdirhelper(si)??)
@@ -602,11 +607,11 @@ staffup (DenemoScriptParam *param)
 
 
 /**
- * Move si->currentstaff down an one staff/voice, return TRUE if successful
- *
+ * Move si->currentstaff down one voice, return TRUE if successful
+ * alter selection if extend_selection
  */
-gboolean
-voicedown (DenemoScriptParam *param)
+static gboolean
+govoicedown (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -622,6 +627,8 @@ voicedown (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
       show_lyrics();
       move_viewport_down (gui);
       return param->status = TRUE;
@@ -630,12 +637,43 @@ voicedown (DenemoScriptParam *param)
       warningmessage("This is the last voice");
   return param->status = FALSE;
 }
+
+gboolean
+movetovoicedown (DenemoScriptParam *param)
+{
+  
+  return govoicedown(param, FALSE);
+}
+
+gboolean
+voicedown (DenemoScriptParam *param)
+{
+  
+  return govoicedown(param, TRUE);
+}
+
+gboolean
+movetovoiceup (DenemoScriptParam *param)
+{
+  
+  return govoiceup(param, FALSE);
+}
+
+gboolean
+voiceup (DenemoScriptParam *param)
+{
+  
+  return govoiceup(param, TRUE);
+}
+
+
+
 /**
- * Move si->currentstaff down an one staff/voice, return TRUE if successful
+ * Move si->currentstaff down one staff/voice, return TRUE if successful
  *
  */
-gboolean
-staffdown (DenemoScriptParam *param)
+static gboolean
+gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -647,7 +685,7 @@ staffdown (DenemoScriptParam *param)
   if(!gui->si->currentstaff)
     return param->status = FALSE;
   while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2)
-    voicedown(param);//FIXME
+    govoicedown(param, extend_selection);//FIXME
   if (gui->si->currentstaff->next)
     {
       hide_lyrics();
@@ -655,6 +693,8 @@ staffdown (DenemoScriptParam *param)
       gui->si->currentstaff = gui->si->currentstaff->next;
       setcurrentprimarystaff (gui->si);
       setcurrents (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
       gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
@@ -664,6 +704,34 @@ staffdown (DenemoScriptParam *param)
       if(param==&dummy)//is interactive
       warningmessage("This is the last staff");
   return param->status = FALSE;
+}
+
+gboolean
+movetostaffdown (DenemoScriptParam *param)
+{
+  
+  return gostaffdown(param, FALSE);
+}
+
+gboolean
+staffdown (DenemoScriptParam *param)
+{
+  
+  return gostaffdown(param, TRUE);
+}
+
+gboolean
+movetostaffup (DenemoScriptParam *param)
+{
+  
+  return gostaffup(param, FALSE);
+}
+
+gboolean
+staffup (DenemoScriptParam *param)
+{
+  
+  return gostaffup(param, TRUE);
 }
 
 
@@ -806,7 +874,7 @@ return  move_left(param, FALSE);
 
 
 /**
- * Move the cursor up one position 
+ * Move the cursor up one diatonic step 
  */
 void
 cursorup (DenemoScriptParam *param)
@@ -824,7 +892,7 @@ cursorup (DenemoScriptParam *param)
 }
 
 /**
- * Move the cursor down one position 
+ * Move the cursor down one diatonic step 
  */
 void
 cursordown (DenemoScriptParam *param)
@@ -1560,6 +1628,7 @@ void deletemeasureallstaffs(DenemoGUI * gui)
   si->currentmeasure =
     removemeasures (si, si->currentmeasurenum - 1, 1, TRUE);
   setcurrents (si);
+calcmarkboundaries (si);
   score_status(gui, TRUE);
   si->markstaffnum = 0;
   isoffleftside (gui);
@@ -1586,6 +1655,7 @@ dnm_deletemeasure (DenemoScore * si)
    * the current measure to be the left of what's displayed */
 
   setcurrents (si);
+calcmarkboundaries (si);
   si->markstaffnum = 0;
 
 
@@ -1806,19 +1876,20 @@ toggle_tie (GtkAction *action, gpointer param)
 
 
 /**
- * Move cursor to the end of the score 
- * @param action - Gtk Action event 
- * @param gui - pointer to the DenemoGUI structure
+ * Move cursor to the end of the score  extending the selection if extend_selection is TRUE
+ * @param param - pointer to a script parameter structure
  * @return none
  */
-void
-toend (GtkAction *action, gpointer param)
+static void
+gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum =
     gui->si->rightmeasurenum =
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
+  if(extend_selection)
+    calcmarkboundaries (gui->si);
   tolastobject(gui);
   cursorright(param);
   find_leftmost_allcontexts (gui->si);
@@ -1827,23 +1898,78 @@ toend (GtkAction *action, gpointer param)
 }
 
 /**
- * Move the cursor to the beginning of the score 
- * @param action - Gtk Action event
- * @param gui - pointer to the DenemoGUI structure
+ * Move the cursor to the beginning of the score extending the selection if extend_selection is TRUE
+ * @param param - pointer to a script parameter structure
  * @return none
 */
-void
-tohome (GtkAction *action, gpointer param)
+static void
+gotohome (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
   set_rightmeasurenum (gui->si);
   setcurrents (gui->si);
+  if(extend_selection)
+    calcmarkboundaries (gui->si);
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   /*gtk_widget_draw (gui->scorearea, NULL);*/
   gtk_widget_queue_draw (gui->scorearea);
 }
+
+
+/**
+ * Move the cursor to the beginning of the score, extending the selection if any. 
+ * @param action - Gtk Action event
+ * @param 
+ * @return none
+*/
+void
+tohome (GtkAction *action, gpointer param)
+{
+  gotohome(param, TRUE);
+}
+
+
+/**
+ * Move the cursor to the end of the score, extending the selection if any. 
+ * @param action - Gtk Action event
+ * @param 
+ * @return none
+*/
+void
+toend (GtkAction *action, gpointer param)
+{
+  gotoend(param, TRUE);
+}
+
+
+
+
+/**
+ * Move the cursor to the beginning of the staff, without extending the selection if any. 
+ * @param action - Gtk Action event
+ * @param 
+ * @return none
+*/
+void
+movetostart (GtkAction *action, gpointer param)
+{
+  gotohome(param, FALSE);
+}
+
+/**
+ * Move the cursor to the end of the staff, without extending the selection if any. 
+ * @param action - Gtk Action event
+ * @param 
+ * @return none
+*/
+void
+movetoend (GtkAction *action, gpointer param)
+{
+  gotoend(param, FALSE);
+}
+
 
 
 /**

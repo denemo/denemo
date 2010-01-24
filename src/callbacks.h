@@ -39,6 +39,16 @@ static void staffdown_cb (GtkAction *action, DenemoScriptParam *param) {
 staffdown (param);
 displayhelper (Denemo.gui);
 }
+/*MoveToStaffUp movetostaffup*/
+static void movetostaffup_cb (GtkAction *action, DenemoScriptParam *param) {
+movetostaffup (param);
+displayhelper (Denemo.gui);
+}
+/*MoveToStaffDown movetostaffdown*/
+static void movetostaffdown_cb (GtkAction *action, DenemoScriptParam *param) {
+movetostaffdown (param);
+displayhelper (Denemo.gui);
+}
 /*MeasureLeft measureleft*/
 static void measureleft_cb (GtkAction *action, DenemoScriptParam *param) {
 measureleft (param);
@@ -1411,6 +1421,16 @@ displayhelper (Denemo.gui);
 /*VoiceDown voicedown*/
 static void voicedown_cb (GtkAction *action, DenemoScriptParam *param) {
 voicedown (param);
+displayhelper (Denemo.gui);
+}
+/*MoveToVoiceUp movetovoiceup*/
+static void movetovoiceup_cb (GtkAction *action, DenemoScriptParam *param) {
+movetovoiceup (param);
+displayhelper (Denemo.gui);
+}
+/*MoveToVoiceDown movetovoicedown*/
+static void movetovoicedown_cb (GtkAction *action, DenemoScriptParam *param) {
+movetovoicedown (param);
 displayhelper (Denemo.gui);
 }
 static void InsertRest0(GtkAction *action, gpointer param){

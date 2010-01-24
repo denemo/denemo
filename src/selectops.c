@@ -992,6 +992,7 @@ undo (DenemoGUI * gui)
       gui->si->currentstaffnum = undo->staffnum;
       gui->si->currentmeasurenum = undo->measurenum;
       setcurrents (gui->si);
+calcmarkboundaries (gui->si);
       gui->si->cursor_x = undo->position;
       if (undo->action == ACTION_INSERT)
 	{
@@ -1017,6 +1018,7 @@ undo (DenemoGUI * gui)
 	  g_debug ("Cursor Position %d\n", gui->si->cursor_x);
 
 	  setcurrents (gui->si);
+calcmarkboundaries (gui->si);
 	}
       else if (undo->action == ACTION_CHANGE)
 	{
@@ -1058,6 +1060,7 @@ redo (DenemoGUI * gui)
 	  si->currentmeasurenum = redo->measurenum;
 	  si->cursor_x = redo->position;
 	  setcurrents (si);
+calcmarkboundaries (si);
 
 	  g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
 
@@ -1074,6 +1077,7 @@ redo (DenemoGUI * gui)
 	  si->currentmeasurenum = redo->measurenum;
 	  si->cursor_x = redo->position;
 	  setcurrents (si);
+calcmarkboundaries (si);
 	  object_insert (gui, (DenemoObject *) redo->object);
 
 	  redo->action = ACTION_DELETE;

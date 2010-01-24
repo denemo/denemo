@@ -78,8 +78,14 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position",	N_("PopPushPosition"), "PopPushPosition", N_("Pop and Push Position")},
 
 
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above",	N_("StaffUp"), "staffup", N_("Staff Up")},
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below",	N_("StaffDown"), "staffdown", N_("Staff Down")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above, extending selection if any",	N_("StaffUp"), "staffup", N_("Staff Up")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below, extending selection if any",	N_("StaffDown"), "staffdown", N_("Staff Down")},
+
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above without altering selection",	N_("MoveToStaffUp"), "movetostaffup", N_("Move to Staff Up")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below  without altering selection",	N_("MoveToStaffDown"), "movetostaffdown", N_("Move to Staff Down")},
+
+
+
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the next measure",	N_("MeasureLeft"), "measureleft", N_("Measure Left")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measure",	N_("MeasureRight"), "measureright", N_("Measure Right")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Action for note A (Insert, Edit or Move Cursor, depending on Mode)",	N_("A"), "go_to_A_key", N_("A")},
@@ -384,9 +390,14 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Split off the next voice as a separate staff", N_("SplitVoices"), "splitstaffs", N_("Split Voices")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Merge this staff as a voice on the previous staff", N_("JoinVoices"), "joinstaffs", N_("Join Voices")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Swap this movement with the one before", N_("SwapMovements"), "swapmovements", N_("Swap Movements")}, 
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the higher numbered voice on staff", N_("VoiceUp"),
-    "voiceup", N_("Voice Up")}, 
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the lower numbered voice on this staff", N_("VoiceDown"), "voicedown", N_("Voice Down")}, 
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the higher numbered voice on staff, extending selection if any", N_("VoiceUp"), "voiceup", N_("Voice Up")}, 
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the lower numbered voice on this staff, extending selection if any", N_("VoiceDown"), "voicedown", N_("Voice Down")}, 
+
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the higher numbered voice on staff without altering selection", N_("MoveToVoiceUp"), "movetovoiceup", N_("Move to Voice Up")}, 
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Go to the lower numbered voice on this staff without altering selection", N_("MoveToVoiceDown"), "movetovoicedown", N_("Move to Voice Down")}, 
+
+
+
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a new staff before the current staff", N_("AddBefore"), "newstaffbefore", N_("Add Staff Before")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts/Adds a new staff after the current staff", N_("AddAfter"), "dnm_newstaffafter", N_("Add Staff After")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a new staff at the top of the score", N_("AddInitial"), "newstaffinitial", N_("Add Initial Staff")}, 
