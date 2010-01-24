@@ -289,23 +289,11 @@ gboolean fluidsynth_read_smf_events()
   if ((get_time() - start_player) > event->time_seconds){
      event = smf_get_next_event(Denemo.gui->si->smf);
 
- 
-#if 0
-	 /* Temporary fix */
-    /*this should go in a function that assigns after staff options or preferences */
-    //fluid_synth_program_change(synth, 0, 5);
-
-    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
-      fluid_synth_noteon(synth, 0 /*(event->midi_buffer[0] & 0x0f)*/, event->midi_buffer[1], event->midi_buffer[2]);
-    if ((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF)
-      fluid_synth_noteoff(synth, 0 /*(event->midi_buffer[0] & 0x0f)*/, event->midi_buffer[1]);
-
-#else
     gint chan = (event->midi_buffer[0] & 0x0f);
     //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
     int success;
     switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
- {
+      {
        case NOTE_ON:
          success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
 	 //g_print("success = %d\n", success);
@@ -334,9 +322,8 @@ gboolean fluidsynth_read_smf_events()
        case MIDI_SYSTEM_RESET:
          fluid_synth_system_reset(synth);
 	 break;
- }
+      }
 
-#endif
   }
   
   return TRUE;
@@ -374,6 +361,7 @@ void fluid_midi_play(void)
     exportmidi (NULL, gui->si, 1, 0/* means to end */);
   if (Denemo.gui->si->smf == NULL) {
     g_critical("Loading SMF failed.");
+    return;
   } else {
     smf_rewind(Denemo.gui->si->smf);
     g_idle_add(fluidsynth_read_smf_events, NULL);
