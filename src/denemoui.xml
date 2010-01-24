@@ -71,14 +71,14 @@
 
 
     <menu action="EditMenu">
-      <menuitem action="Undo"/>
-      <menuitem action="Redo"/>
       <separator/>
       <menu action="Select">
          <menuitem action="SetMark"/>
 	 <menu action="ExtendSelect">
 	        <menuitem action="CursorLeft"/>
                 <menuitem action="CursorRight"/>
+		<menuitem action="MeasureLeft"/>
+		<menuitem action="MeasureRight"/>
 		<menuitem action="StaffUp"/>
 		<menuitem action="StaffDown"/> 
 		<menuitem action="VoiceUp"/>
@@ -241,8 +241,9 @@
 
 
     <menu action="MeasureMenu">
-      <menuitem action="MeasureLeft"/>
-      <menuitem action="MeasureRight"/>
+
+      <menuitem action="MoveToMeasureLeft"/>
+      <menuitem action="MoveToMeasureRight"/>
       <menuitem action="GoToMeasure"/>
       <separator/>
       <menuitem action="InsertMeasure"/>
@@ -595,9 +596,7 @@
     <toolitem action="Print"/>
     <toolitem action="PrintPreview"/>
     <separator/>
-    <toolitem action="Undo"/>
-    <toolitem action="Redo"/>
-    <separator/>
+
     <toolitem action="Cut"/>
     <toolitem action="Copy"/>
 

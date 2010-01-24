@@ -34,6 +34,11 @@ measureleft (DenemoScriptParam *param);
 void
 measureright (DenemoScriptParam *param);
 
+void
+movetomeasureleft (DenemoScriptParam *param);
+
+void
+movetomeasureright (DenemoScriptParam *param);
 
 gboolean
 swapstaffs (GtkAction *action, gpointer param);

@@ -363,8 +363,8 @@ adjuststaffheight (DenemoScore * si, gint amount)
  * Move an entire measure to the left
  *
  */
-void
-measureleft (DenemoScriptParam *param)
+static void
+gomeasureleft (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -373,26 +373,32 @@ measureleft (DenemoScriptParam *param)
     param = &dummy;
   param->status = FALSE;
 
-  if (
-#if 0 //this prevents deletion going past empty measures
-!gui->si->cursor_x && 
-#endif
-gui->si->currentmeasure->prev)
+  if (gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
       isoffleftside (gui);
       param->status = TRUE;
     }
   setcurrents (gui->si);
-  calcmarkboundaries (gui->si);
+  if(extend_selection)
+    calcmarkboundaries (gui->si);
+}
+/**
+ * Move an entire measure to the left
+ *
+ */
+void
+measureleft (DenemoScriptParam *param)
+{
+  gomeasureleft(param, TRUE);
 }
 
 /**
  * Move an entire measure to the right
  *
  */
-void
-measureright (DenemoScriptParam *param)
+static void
+gomeasureright (DenemoScriptParam *param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *si = gui->si;
@@ -407,8 +413,26 @@ measureright (DenemoScriptParam *param)
       isoffrightside (gui);
       setcurrents (gui->si);
       param->status = TRUE;
-      calcmarkboundaries (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
     }
+}
+
+void
+measureright (DenemoScriptParam *param)
+{
+  gomeasureright(param, TRUE);
+}
+
+void
+movetomeasureright (DenemoScriptParam *param)
+{
+  gomeasureright(param, FALSE);
+}
+void
+movetomeasureleft (DenemoScriptParam *param)
+{
+  gomeasureleft(param, FALSE);
 }
 
 

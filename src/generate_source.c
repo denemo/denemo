@@ -86,8 +86,14 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the next measure",	N_("MeasureLeft"), "measureleft", N_("Measure Left")},
-  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measure",	N_("MeasureRight"), "measureright", N_("Measure Right")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the next measure, extending selection if any",	N_("MeasureLeft"), "measureleft", N_("Measure Left")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measure, extending selection if any",	N_("MeasureRight"), "measureright", N_("Measure Right")},
+
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the next measure leaving selection, if any, unchanged",	N_("MoveToMeasureLeft"), "movetomeasureleft", N_("Move to Measure Left")},
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged",	N_("MoveToMeasureRight"), "movetomeasureright", N_("Move to Measure Right")},
+
+
+
   {CMD_CATEGORY_NAVIGATION, NULL, "Action for note A (Insert, Edit or Move Cursor, depending on Mode)",	N_("A"), "go_to_A_key", N_("A")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Action for note B (Insert, Edit or Move Cursor, depending on Mode)",	N_("B"), "go_to_B_key", N_("B")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Action for note C (Insert, Edit or Move Cursor, depending on Mode)",	N_("C"), "go_to_C_key", N_("C")},

@@ -287,6 +287,40 @@ measureright_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
+SCM scheme_MoveToMeasureLeft (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+movetomeasureleft_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
+SCM scheme_MoveToMeasureRight (SCM optional) {
+gboolean query=FALSE;
+DenemoScriptParam param;
+GString *gstr=NULL;
+int length;
+   char *str=NULL;
+if(scm_is_string(optional)){
+str = scm_to_locale_stringn(optional, &length);
+gstr = g_string_new_len(str, length);
+if(!strncmp("query",str,5)) query = TRUE;          }
+         param.string = gstr;
+         param.status = FALSE;
+         
+movetomeasureright_cb (NULL, &param);
+         if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
+return SCM_BOOL(param.status);
+}
 SCM scheme_A (SCM optional) {
 gboolean query=FALSE;
 DenemoScriptParam param;

@@ -13,8 +13,10 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffUp"
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "StaffDown"), "StaffDown", "Staff Down", "Moves the cursor to the staff below, extending selection if any", staffdown);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToStaffUp"), "MoveToStaffUp", "Move to Staff Up", "Moves the cursor to the staff above without altering selection", movetostaffup);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToStaffDown"), "MoveToStaffDown", "Move to Staff Down", "Moves the cursor to the staff below  without altering selection", movetostaffdown);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "Moves the cursor to the first object in the next measure", measureleft);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", "Measure Right", "Moves the cursor to the first object in the previous measure", measureright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureLeft"), "MeasureLeft", "Measure Left", "Moves the cursor to the first object in the next measure, extending selection if any", measureleft);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MeasureRight"), "MeasureRight", "Measure Right", "Moves the cursor to the first object in the previous measure, extending selection if any", measureright);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToMeasureLeft"), "MoveToMeasureLeft", "Move to Measure Left", "Moves the cursor to the first object in the next measure leaving selection, if any, unchanged", movetomeasureleft);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToMeasureRight"), "MoveToMeasureRight", "Move to Measure Right", "Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged", movetomeasureright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "A"), "A", "A", "Action for note A (Insert, Edit or Move Cursor, depending on Mode)", go_to_A_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "B"), "B", "B", "Action for note B (Insert, Edit or Move Cursor, depending on Mode)", go_to_B_key);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "C"), "C", "C", "Action for note C (Insert, Edit or Move Cursor, depending on Mode)", go_to_C_key);

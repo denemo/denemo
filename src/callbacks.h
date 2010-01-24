@@ -59,6 +59,16 @@ static void measureright_cb (GtkAction *action, DenemoScriptParam *param) {
 measureright (param);
 displayhelper (Denemo.gui);
 }
+/*MoveToMeasureLeft movetomeasureleft*/
+static void movetomeasureleft_cb (GtkAction *action, DenemoScriptParam *param) {
+movetomeasureleft (param);
+displayhelper (Denemo.gui);
+}
+/*MoveToMeasureRight movetomeasureright*/
+static void movetomeasureright_cb (GtkAction *action, DenemoScriptParam *param) {
+movetomeasureright (param);
+displayhelper (Denemo.gui);
+}
 /*A go_to_A_key*/
 static void go_to_A_key_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

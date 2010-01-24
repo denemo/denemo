@@ -67,6 +67,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MeasureLeft")), "scm", (g
 SCM scheme_MeasureRight(SCM optional);
 install_scm_function ("d-MeasureRight", scheme_MeasureRight);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MeasureRight")), "scm", (gpointer)1);
+/*MoveToMeasureLeft movetomeasureleft*/
+SCM scheme_MoveToMeasureLeft(SCM optional);
+install_scm_function ("d-MoveToMeasureLeft", scheme_MoveToMeasureLeft);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToMeasureLeft")), "scm", (gpointer)1);
+/*MoveToMeasureRight movetomeasureright*/
+SCM scheme_MoveToMeasureRight(SCM optional);
+install_scm_function ("d-MoveToMeasureRight", scheme_MoveToMeasureRight);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToMeasureRight")), "scm", (gpointer)1);
 /*A go_to_A_key*/
 SCM scheme_A(SCM optional);
 install_scm_function ("d-A", scheme_A);
