@@ -18,6 +18,12 @@
         <action>CursorLeft</action>
         <label>Cursor Left</label>
         <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
+        <bind>Shift+Left</bind>
+      </row>
+      <row>
+        <action>MoveCursorLeft</action>
+        <label>Move Cursor Left</label>
+        <tooltip>Moves the cursor one object left, without altering the selection</tooltip>
         <bind>Left</bind>
       </row>
       <row>
@@ -25,17 +31,25 @@
         <label>Cursor Down</label>
         <tooltip>Moves the cursor one scale step down</tooltip>
         <bind>Down</bind>
+        <bind>Shift+Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
         <label>Cursor Up</label>
         <tooltip>Moves the cursor one scale step up</tooltip>
         <bind>Up</bind>
+        <bind>Shift+Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
+        <bind>Shift+Right</bind>
+      </row>
+      <row>
+        <action>MoveCursorRight</action>
+        <label>Move Cursor Right</label>
+        <tooltip>Moves the cursor one object right, without altering the selection</tooltip>
         <bind>Right</bind>
       </row>
       <row>
@@ -66,25 +80,49 @@
       <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
-        <tooltip>Moves the cursor to the staff above</tooltip>
-        <bind>Control+Up</bind>
+        <tooltip>Moves the cursor to the staff above, extending selection if any</tooltip>
+        <bind>Shift+Control+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <label>Staff Down</label>
-        <tooltip>Moves the cursor to the staff below</tooltip>
+        <tooltip>Moves the cursor to the staff below, extending selection if any</tooltip>
+        <bind>Shift+Control+Down</bind>
+      </row>
+      <row>
+        <action>MoveToStaffUp</action>
+        <label>Move to Staff Up</label>
+        <tooltip>Moves the cursor to the staff above without altering selection</tooltip>
+        <bind>Control+Up</bind>
+      </row>
+      <row>
+        <action>MoveToStaffDown</action>
+        <label>Move to Staff Down</label>
+        <tooltip>Moves the cursor to the staff below  without altering selection</tooltip>
         <bind>Control+Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
         <label>Measure Left</label>
-        <tooltip>Moves the cursor to the first object in the next measure</tooltip>
-        <bind>Control+Left</bind>
+        <tooltip>Moves the cursor to the first object in the next measure, extending selection if any</tooltip>
+        <bind>Shift+Control+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
         <label>Measure Right</label>
-        <tooltip>Moves the cursor to the first object in the previous measure</tooltip>
+        <tooltip>Moves the cursor to the first object in the previous measure, extending selection if any</tooltip>
+        <bind>Shift+Control+Right</bind>
+      </row>
+      <row>
+        <action>MoveToMeasureLeft</action>
+        <label>Move to Measure Left</label>
+        <tooltip>Moves the cursor to the first object in the next measure leaving selection, if any, unchanged</tooltip>
+        <bind>Control+Left</bind>
+      </row>
+      <row>
+        <action>MoveToMeasureRight</action>
+        <label>Move to Measure Right</label>
+        <tooltip>Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged</tooltip>
         <bind>Control+Right</bind>
       </row>
       <row>
@@ -1347,14 +1385,24 @@ Notes entered will follow this pattern</tooltip>
       <row>
         <action>VoiceUp</action>
         <label>Voice Up</label>
-        <tooltip>Go to the higher numbered voice on staff</tooltip>
+        <tooltip>Go to the higher numbered voice on staff, extending selection if any</tooltip>
         <bind>Page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
         <label>Voice Down</label>
-        <tooltip>Go to the lower numbered voice on this staff</tooltip>
+        <tooltip>Go to the lower numbered voice on this staff, extending selection if any</tooltip>
         <bind>Page_Down</bind>
+      </row>
+      <row>
+        <action>MoveToVoiceUp</action>
+        <label>Move to Voice Up</label>
+        <tooltip>Go to the higher numbered voice on staff without altering selection</tooltip>
+      </row>
+      <row>
+        <action>MoveToVoiceDown</action>
+        <label>Move to Voice Down</label>
+        <tooltip>Go to the lower numbered voice on this staff without altering selection</tooltip>
       </row>
       <row>
         <action>AddBefore</action>
@@ -1573,13 +1621,11 @@ Notes entered will follow this pattern</tooltip>
         <action>NextMovement</action>
         <label>Next Movement</label>
         <tooltip>Go to the next movement</tooltip>
-        <bind>Shift+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
         <label>Previous Movement</label>
         <tooltip>Go to the previous movement</tooltip>
-        <bind>Shift+Left</bind>
       </row>
       <row>
         <action>DeleteMovement</action>
