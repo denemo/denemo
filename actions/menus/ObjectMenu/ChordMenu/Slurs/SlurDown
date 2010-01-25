@@ -9,10 +9,10 @@
         <action>SlurDown</action>
         <scheme>;Slur Down:
 (d-DirectivePut-standalone-display "SlurDirection" "SlurDown")
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "SlurDirection" " \\slurDown" )
 (d-DirectivePut-standalone-minpixels "SlurDirection" 60)
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay) </scheme>
         <label>Slur Down</label>
         <tooltip>Prints slur below</tooltip>

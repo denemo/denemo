@@ -15,7 +15,7 @@
 (begin
 ;;Go to first Staff
 (let gotoTopStaff ()
-	(if  (d-StaffUp)
+	(if  (d-MoveToStaffUp)
 	(gotoTopStaff)))
 
 (define DrumHash (make-hash-table 50))
@@ -23,7 +23,7 @@
 (let createDrumHashTable ()
 	(d-GoToBeginning)
 	(hashq-set! DrumHash (string-&gt;symbol (d-GetLowestNote)) (begin (d-NextNote) (d-GetLowestNote) ))
-	(if (and (d-StaffDown) (d-GetLowestNote) )
+	(if (and (d-MoveToStaffDown) (d-GetLowestNote) )
 		(createDrumHashTable))
 		)
 ))

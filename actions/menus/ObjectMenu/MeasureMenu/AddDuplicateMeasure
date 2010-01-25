@@ -16,7 +16,7 @@
 (d-Copy)
 (d-InsertMeasureAfter)
 (d-Paste)
-(d-CursorRight)</scheme>
+(d-MoveCursorRight)</scheme>
         <label>Insert Duplicate Measure After</label>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
       </row>

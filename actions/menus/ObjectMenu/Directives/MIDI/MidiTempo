@@ -11,7 +11,7 @@
 (set! DurationFromInput (d-GetOption (string-append "Quarter" stop "Dotted Quarter" stop)))
 (set! TempoFromInput (d-GetUserInput "MidiTempo" "Please enter a tempo value" "120"))
 (d-DirectivePut-standalone-minpixels "MidiTempo" 20)
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-override "MidiTempo" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
 ;(format #t "The tempo is ~A~%ok" TempoFromInput)
 ;Calculate the dotted tempo but display the userone

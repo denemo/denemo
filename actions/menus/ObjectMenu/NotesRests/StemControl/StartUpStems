@@ -8,9 +8,9 @@
         <action>StartUpStems</action>
         <scheme>
 		(d-InsertStem)
-		(d-CursorLeft)
+		(d-MoveCursorLeft)
 		(d-StemUp)
-		(d-CursorRight)
+		(d-MoveCursorRight)
 	</scheme>
         <label>Stems Up</label>
         <tooltip>Stems from now on point upward.</tooltip>

@@ -14,7 +14,7 @@
 ((boolean? choice) () )
 ((equal? choice "Drum")
 (begin
-;(d-CursorRight)
+;(d-MoveCursorRight)
 (d-InitialClef "Bass")
 (d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
 (d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
@@ -30,9 +30,9 @@
 ;; (d-DirectivePut-staff-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
 ))
 (#t
-(if (d-CursorLeft)
+(if (d-MoveCursorLeft)
 (begin
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-InsertClef choice))
 (begin
 (if (equal? (d-DirectiveGetTag-clef ) "DrumClef" ) (d-DirectiveDelete-clef "DrumClef") )

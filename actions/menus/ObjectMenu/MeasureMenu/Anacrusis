@@ -20,15 +20,15 @@
 	(d-WarningDialog "Put notes/rests in the first measure for the upbeat required\nThen issue this command"))
       (begin
 	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number-&gt;string duration) " " ))
-	(d-CursorLeft)
+	(d-MoveCursorLeft)
 	(d-DirectivePut-standalone-override "Anacrusis" DENEMO_OVERRIDE_DYNAMIC)
 	(d-DirectivePut-standalone-minpixels "Anacrusis" 60)
 	(d-DirectivePut-standalone-display "Anacrusis" "Upbeat")
 	(d-RefreshDisplay)
-	(if (not (d-MeasureRight))
+	(if (not (d-MoveToMeasureRight))
 	    (begin
 	      (d-AppendMeasure)
-	      (d-MeasureRight))))))
+	      (d-MoveToMeasureRight))))))
 
        
 </scheme>

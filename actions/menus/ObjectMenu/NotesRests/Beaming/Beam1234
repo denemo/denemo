@@ -8,14 +8,14 @@
         <action>Beam1234</action>
         <scheme>;;;;;;;;Beam1234
 (d-DirectivePut-standalone-minpixels "Beam1234" 30)
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "Beam1234"  "
 #(override-auto-beam-setting '(end * * * *) 1 4)
 #(override-auto-beam-setting '(end * * * *) 2 4)
 #(override-auto-beam-setting '(end * * * *) 3 4)
 #(override-auto-beam-setting '(end * * * *) 3 4)" )
 (d-DirectivePut-standalone-display "Beam1234"  "Beam")
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Beam 4 Beats</label>

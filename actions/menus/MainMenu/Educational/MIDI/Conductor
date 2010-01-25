@@ -74,9 +74,9 @@
 					    (begin
 					      (set! oldtens tens)
                                               ;;; step to previous measure and show tens
-					      (d-MeasureLeft)
+					      (d-MoveToMeasureLeft)
 					      (show-graphic tens)
-					      (d-MeasureRight)
+					      (d-MoveToMeasureRight)
 					      );;end begin
 					    );;end if
                                         (set! units (- measure (* oldtens 10)))
@@ -91,7 +91,7 @@
 
 (d-InsertMeasure)
 (d-InsertMeasure)
-(d-MeasureLeft)
+(d-MoveToMeasureLeft)
 	   (loop 0)
 	  ))
 </scheme>

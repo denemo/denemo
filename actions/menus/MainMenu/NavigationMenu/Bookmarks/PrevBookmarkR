@@ -8,7 +8,7 @@
         <action>PrevBookmarkR</action>
         <scheme>;;;PrevBookMarkR by Nils Gey RTS
 (if (d-DirectiveGet-standalone-display "RehearsalMark")
-(d-CursorLeft) )
+(d-MoveCursorLeft) )
 ;;; FIXME this fails if bookmark is at end of measure
 (let gotoBookmark ()
  (if  (and (not (d-DirectiveGet-standalone-display "RehearsalMark")) (d-PrevObject)  )

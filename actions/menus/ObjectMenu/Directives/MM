@@ -33,7 +33,7 @@
 (d-DirectivePut-standalone-display "MM" (string-append input "=" bpm))
 (d-DirectivePut-standalone-ty "MM" 80)
 (d-DirectivePut-standalone-minpixels "MM" 10)
-(d-CursorRight)
+(d-MoveCursorRight)
 )
 (d-WarningDialog "Incorrect syntax.")
 ))</scheme>

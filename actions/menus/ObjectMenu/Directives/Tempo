@@ -78,7 +78,7 @@
    )
 )
 (d-RefreshDisplay)
-(d-CursorRight)
+(d-MoveCursorRight)
 )</scheme>
         <label>Tempo</label>
         <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>

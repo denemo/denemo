@@ -346,7 +346,7 @@
 ;;;; d-DirectivePut-standalone a convenience function for standalone directives
 (define (d-DirectivePut-standalone tag)
   (d-DirectivePut-standalone-minpixels tag 0)
-  (d-CursorLeft))
+  (d-MoveCursorLeft))
 
 (define (d-Directive-standalone tag)
   (if (not (d-Directive-standalone? tag))

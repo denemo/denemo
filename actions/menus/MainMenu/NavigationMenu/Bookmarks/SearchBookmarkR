@@ -13,7 +13,7 @@
 (if user-input   ;in case the user pressed Escape do nothing
  (begin
   (let searchRehearsalMarkWithStringReturn((EndOfStaffSwitch #f))
-  (if (d-CursorRight)
+  (if (d-MoveCursorRight)
 	(if (and (string? (d-DirectiveGet-standalone-display "RehearsalMark" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "RehearsalMark" user-input) user-input))
 	 #t
 	 (searchRehearsalMarkWithStringReturn EndOfStaffSwitch)

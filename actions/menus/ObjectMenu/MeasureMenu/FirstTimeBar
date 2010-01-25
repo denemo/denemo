@@ -9,13 +9,13 @@
         <action>FirstTimeBar</action>
         <scheme>;;;FirstTimeBar
 (d-DirectivePut-standalone-minpixels "Repeat" 30)
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "Repeat" "
 } \\alternative{{
 	")
   (d-DirectivePut-standalone-graphic "Repeat" "FirstTimeBar")
  (d-DirectivePut-standalone-gy  "Repeat" -33)
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>First Time Bar</label>
         <tooltip>Closes a repeated section and starts a first time bar (printing)</tooltip>

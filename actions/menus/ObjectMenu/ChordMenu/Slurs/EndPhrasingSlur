@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>EndPhrasingSlur</action>
-        <scheme>(d-CursorRight)
+        <scheme>(d-MoveCursorRight)
 (d-InsertLilyDirective "directive=\\)")
 </scheme>
         <label>End Phrasing Slur</label>

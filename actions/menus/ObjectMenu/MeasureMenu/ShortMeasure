@@ -8,22 +8,22 @@
         <action>ShortMeasure</action>
         <scheme>;;;;;;;;;;ShortMeasure
 (let ((duration 0))
-   (if (d-MeasureLeft)
-  	(d-MeasureRight))
+   (if (d-MoveToMeasureLeft)
+  	(d-MoveToMeasureRight))
   (set! duration (d-GetDurationInTicks))
   (if (boolean? duration)
       (set! duration 0))
   (while (d-NextObjectInMeasure) 
 	 (set! duration (+ duration (d-GetDurationInTicks))))
-  (if (d-MeasureLeft)
-  	(d-MeasureRight))
+  (if (d-MoveToMeasureLeft)
+  	(d-MoveToMeasureRight))
   (set! duration (/ duration 12))
   (if (equal? 0 duration)
       (begin
 	(d-WarningDialog "No notes/rests in this measure"))
       (begin
 	(d-DirectivePut-standalone-postfix "ShortMeasure" (string-append "\\partial 128*" (number-&gt;string duration) " " ))
-	(d-CursorLeft)
+	(d-MoveCursorLeft)
 	(d-DirectivePut-standalone-minpixels "ShortMeasure" 60)
 	(d-DirectivePut-standalone-display "ShortMeasure" "Short")
 	(d-RefreshDisplay))))

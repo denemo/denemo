@@ -9,17 +9,17 @@
         <action>SplitMeasure</action>
         <scheme> ;;;SplitMeasure
 (d-SetMark)
-(if   (d-MeasureRight)  
-   (begin  (d-CursorLeft)  
+(if   (d-MoveToMeasureRight)  
+   (begin  (d-MoveCursorLeft)  
                 (d-Cut)
-                (d-CursorRight)
+                (d-MoveCursorRight)
                 (d-InsertMeasure)       
         )
    (begin
            (d-GoToEnd)
            (d-Cut)
         (d-AppendMeasure)
-        (d-MeasureRight)
+        (d-MoveToMeasureRight)
         )
  )
 (d-Paste)
