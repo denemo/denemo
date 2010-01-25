@@ -58,7 +58,7 @@
 
 (define (SingleAndSelectionSwitcher commandsingle commandselection)
 
-(if (and (d-GoToSelectionStart) DenemoPref_applytoselection)
+(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
 	(eval-string  commandselection)
 	(let loop ()

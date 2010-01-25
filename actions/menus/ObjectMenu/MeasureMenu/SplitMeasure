@@ -16,7 +16,7 @@
                 (d-InsertMeasure)       
         )
    (begin
-           (d-GoToEnd)
+           (d-MoveToEnd)
            (d-Cut)
         (d-AppendMeasure)
         (d-MoveToMeasureRight)

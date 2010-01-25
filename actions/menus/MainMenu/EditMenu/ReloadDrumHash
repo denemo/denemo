@@ -21,7 +21,7 @@
 (define DrumHash (make-hash-table 50))
 
 (let createDrumHashTable ()
-	(d-GoToBeginning)
+	(d-MoveToBeginning)
 	(hashq-set! DrumHash (string-&gt;symbol (d-GetLowestNote)) (begin (d-NextNote) (d-GetLowestNote) ))
 	(if (and (d-MoveToStaffDown) (d-GetLowestNote) )
 		(createDrumHashTable))

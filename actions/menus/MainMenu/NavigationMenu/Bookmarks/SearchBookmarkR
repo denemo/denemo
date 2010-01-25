@@ -22,7 +22,7 @@
   ;CursorRight #f:
    (if EndOfStaffSwitch
     #f
-    (begin (d-GoToBeginning)(searchRehearsalMarkWithStringReturn #t))
+    (begin (d-MoveToBeginning)(searchRehearsalMarkWithStringReturn #t))
 ))))))
 </scheme>
         <label>Search Bookmark</label>

@@ -21,7 +21,7 @@
 (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
 (d-StaffProperties "midi_channel=9")
 (d-PushPosition)
-(d-GoToBeginning)
+(d-MoveToBeginning)
 (d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6")
 (d-PopPosition)
 ;; (d-DirectivePut-voice-postfix "DrumClef" "\\drummode ")
