@@ -39,7 +39,10 @@ movetomeasureleft (DenemoScriptParam *param);
 
 void
 movetomeasureright (DenemoScriptParam *param);
-
+void
+movetostart (GtkAction *action, gpointer param);
+void
+movetoend (GtkAction *action, gpointer param);
 gboolean
 swapstaffs (GtkAction *action, gpointer param);
 gboolean

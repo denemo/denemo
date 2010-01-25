@@ -456,8 +456,15 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Inserts specialized barline at the cursor position. Mostly not working", N_("InsertBarline"), "insert_barline", N_("Insert Barline")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Getting around the score", N_("NavigationMenu"), NULL, "Navigation", N_("Navigation Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Opens a dialog for going to a numbered measure", N_("GoToMeasure"), "tomeasurenum", "Go to Measure", N_("Go To Measure")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Go To Beginning", N_("GoToBeginning"), "tohome","Go To Beginning", N_("Go To Beginning")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST", "Go To End", N_("GoToEnd"), "toend",  "Go To End", N_("Go To End")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, extending selection if any", N_("GoToBeginning"), "tohome","Go to Beginning", N_("Go To Beginning")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST",  "Cursor to end of staff/voice, extending selection if any", N_("GoToEnd"), "toend",  "Go to End", N_("Go to End")},
+
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_FIRST", "Cursor to start of staff/voice, without extending selection if any" , N_("MoveToBeginning"), "movetostart","Move to Beginning", N_("Move to Beginning")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_GOTO_LAST", "Cursor to end of staff/voice, without extending selection if any", N_("MoveToEnd"), "movetoend",  "Move to End", N_("Move to End")},
+
+
+
+ 
   {CMD_CATEGORY_DIRECT, NULL, "Go to the next movement", N_("NextMovement"), "next_movement", N_("Next Movement")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Go to the previous movement", N_("PreviousMovement"), "prev_movement", N_("Previous Movement")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Delete the current movement", N_("DeleteMovement"), "delete_movement", N_("Delete Movement")}, 
