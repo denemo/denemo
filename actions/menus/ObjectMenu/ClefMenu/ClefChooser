@@ -14,14 +14,14 @@
 ((boolean? choice) () )
 ((equal? choice "Drum")
 (begin
-;(d-CursorRight)
+;(d-MoveCursorRight)
 (d-InitialClef "Bass")
 (d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
 (d-DirectivePut-clef-postfix "DrumClef" "\\clef percussion\n ")
 (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
 (d-StaffProperties "midi_channel=9")
 (d-PushPosition)
-(d-GoToBeginning)
+(d-MoveToBeginning)
 (d-DirectivePut-standalone-postfix "MiddleCPosition" "\\set Staff.middleCPosition = #6")
 (d-PopPosition)
 ;; (d-DirectivePut-voice-postfix "DrumClef" "\\drummode ")
@@ -30,9 +30,9 @@
 ;; (d-DirectivePut-staff-override "DrumClef" DENEMO_OVERRIDE_LILYPOND)
 ))
 (#t
-(if (d-CursorLeft)
+(if (d-MoveCursorLeft)
 (begin
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-InsertClef choice))
 (begin
 (if (equal? (d-DirectiveGetTag-clef ) "DrumClef" ) (d-DirectiveDelete-clef "DrumClef") )

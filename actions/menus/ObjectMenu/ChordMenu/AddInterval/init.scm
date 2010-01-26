@@ -24,7 +24,8 @@
      (d-AddNoteToChord))
   ); end if
 
-(if cursorright (d-CursorRight))
+;;FIXME: Remove Cursor Right at all and let the SelectSwitcher handle this.
+(if cursorright (d-MoveCursorRight))
 )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

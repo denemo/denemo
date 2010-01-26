@@ -17,7 +17,7 @@
 (set! DirectiveDisplay (string-append "~" bottom "/" top) )
 (d-DirectivePut-standalone-postfix "Tuplet" DirectiveText)
 (d-DirectivePut-standalone-display "Tuplet" DirectiveDisplay )
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)) 
 </scheme>
         <label>Start Arbitrary Tuplet</label>

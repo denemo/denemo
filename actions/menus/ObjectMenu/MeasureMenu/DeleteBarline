@@ -11,8 +11,8 @@
 (let  ((type (d-GetType)) );don't try it if not at the end of bar
   (if (or (equal? type "Appending" ) (equal? type "None" ) )
       (begin (d-SetMark)
-	     (if (d-MeasureRight) ;;we don't want to delete next bar if there isn't one!
-		 (begin (d-MeasureLeft) ;; Now we're at the beginning of that measure
+	     (if (d-MoveToMeasureRight) ;;we don't want to delete next bar if there isn't one!
+		 (begin (d-MoveToMeasureLeft) ;; Now we're at the beginning of that measure
 			(d-Cut)
 			(d-DeleteMeasure)
 			(d-Paste) )

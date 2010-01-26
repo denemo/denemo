@@ -10,13 +10,13 @@
 ;;; Bookmark + RehearsalMark
 ;;; by Nils Gey Modified RTS
 (d-DirectivePut-standalone-display "RehearsalMark" "")
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RehearsalMark"  " \\mark \\default" )
 (d-DirectivePut-standalone-gx  "RehearsalMark"  -20)
 (d-DirectivePut-standalone-gy  "RehearsalMark"  -30)
 (d-DirectivePut-standalone-minpixels  "RehearsalMark"  10)
 (d-DirectivePut-standalone-graphic "RehearsalMark" "RehearsalMark")
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Add Bookmark</label>

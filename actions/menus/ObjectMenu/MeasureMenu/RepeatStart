@@ -8,12 +8,12 @@
         <action>RepeatStart</action>
         <scheme>;;;RepeatStart
 (d-DirectivePut-standalone-minpixels "RepeatStart" 30)
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
 (d-DirectivePut-standalone-gx  "RepeatStart"  -15)
 (d-DirectivePut-standalone-gy  "RepeatStart"  -7)
 (d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>Repeat Start Barline</label>
         <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>

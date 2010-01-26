@@ -11,7 +11,7 @@
 (if user-input   ;in case the user pressed Escape do nothing
  (begin
   (let searchBookmarkWithStringReturn((EndOfStaffSwitch #f))
-  (if (d-CursorRight)
+  (if (d-MoveCursorRight)
 	(if (and (string? (d-DirectiveGet-standalone-display "Bookmark" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "Bookmark" user-input) user-input))
 	 #t
 	 (searchBookmarkWithStringReturn EndOfStaffSwitch)
@@ -20,7 +20,7 @@
   ;CursorRight #f:
    (if EndOfStaffSwitch
     #f
-    (begin (d-GoToBeginning)(searchBookmarkWithStringReturn #t))
+    (begin (d-MoveToBeginning)(searchBookmarkWithStringReturn #t))
 )))))
 </scheme>
         <label>Search Bookmark</label>

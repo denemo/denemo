@@ -372,7 +372,7 @@ gomeasureleft (DenemoScriptParam *param, gboolean extend_selection)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   if (gui->si->currentmeasure->prev)
     {
       gui->si->currentmeasurenum--;
@@ -406,7 +406,7 @@ gomeasureright (DenemoScriptParam *param, gboolean extend_selection)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
-
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   if (gui->si->currentmeasure->next)
     {
       gui->si->currentmeasurenum++;
@@ -577,6 +577,7 @@ govoiceup (DenemoScriptParam *param, gboolean extend_selection)
   param->status = FALSE;
   if(!gui->si->currentstaff)
     return param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   if (gui->si->currentstaff && (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber==2))  {
     hide_lyrics();
     gui->si->currentstaffnum--;
@@ -607,6 +608,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
   param->status = FALSE;
   if(!gui->si->currentstaff)
     return param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   while (((DenemoStaff *)(gui->si->currentstaff->data))->voicenumber!=1)
     govoiceup(param, extend_selection);//FIXME check param->status
   if (gui->si->currentstaff->prev)
@@ -645,6 +647,7 @@ govoicedown (DenemoScriptParam *param, gboolean extend_selection)
   param->status = FALSE;
   if(!gui->si->currentstaff)
     return param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   if (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2) {
       hide_lyrics();
       gui->si->currentstaffnum++;
@@ -708,6 +711,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
 
   if(!gui->si->currentstaff)
     return param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   while (gui->si->currentstaff->next && ((DenemoStaff *)(gui->si->currentstaff->next->data))->voicenumber==2)
     govoicedown(param, extend_selection);//FIXME
   if (gui->si->currentstaff->next)
@@ -773,6 +777,7 @@ move_left (DenemoScriptParam *param, gboolean extend_selection)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   g_debug("cursorleft: cursorpos %d\n", si->cursor_x);
   if (!si->cursor_x)
     {
@@ -832,6 +837,7 @@ move_right (DenemoScriptParam *param, gboolean extend_selection)
   if(param==NULL)
     param = &dummy;
   param->status = FALSE;
+  if(extend_selection && !si->markstaffnum) set_mark(gui);
   if (si->cursor_appending && si->currentmeasure->next)
     {
       /* Go to the next measure */
@@ -1908,6 +1914,7 @@ static void
 gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(extend_selection && !gui->si->markstaffnum) set_mark(gui);
   gui->si->currentmeasurenum = gui->si->leftmeasurenum =
     gui->si->rightmeasurenum =
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
@@ -1915,7 +1922,10 @@ gotoend (gpointer param, gboolean extend_selection)
   if(extend_selection)
     calcmarkboundaries (gui->si);
   tolastobject(gui);
-  cursorright(param);
+  if(extend_selection)
+    cursorright(param);
+  else
+    movecursorright(param);
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
@@ -1930,6 +1940,7 @@ static void
 gotohome (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(extend_selection && !gui->si->markstaffnum) set_mark(gui);
   gui->si->currentmeasurenum = gui->si->leftmeasurenum = 1;
   set_rightmeasurenum (gui->si);
   setcurrents (gui->si);

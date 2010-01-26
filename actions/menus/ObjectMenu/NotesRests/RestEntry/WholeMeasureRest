@@ -27,7 +27,7 @@
     (d-DirectivePut-chord-minpixels "WholeMeasureRest" 100)
     (d-DirectivePut-chord-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
     (d-DirectivePut-chord-prefix "WholeMeasureRest" (string-append "R1*" timesig " %{"))
-    (d-CursorRight)
+    (d-MoveCursorRight)
     (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRestRH" )
     (d-DirectivePut-chord-gx "WholeMeasureRest" -113)
     (d-DirectivePut-chord-gy "WholeMeasureRest" -7)

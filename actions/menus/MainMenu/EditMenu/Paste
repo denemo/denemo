@@ -19,7 +19,7 @@
         (loop type staff (1+ count)))
    ((= type STAFFBREAK)
            (d-PopPosition)
-           (if (d-StaffDown)
+           (if (d-MoveToStaffDown)
                (begin 
                  (d-PushPosition)
                  (loop type (1+ staff) 0))))

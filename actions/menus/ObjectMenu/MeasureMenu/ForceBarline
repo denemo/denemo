@@ -9,12 +9,12 @@
         <action>ForceBarline</action>
         <scheme>;;;ForceBarline
 (d-DirectivePut-standalone-minpixels "ForceBarline" 30)
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "ForceBarline" " \\bar \"|\"")
 (d-DirectivePut-standalone-gx  "ForceBarline"  0)
 (d-DirectivePut-standalone-gy  "ForceBarline"  -3)
 (d-DirectivePut-standalone-graphic "ForceBarline" "Barline")
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Insert Barline</label>

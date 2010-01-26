@@ -55,8 +55,9 @@
 	<menuitem action="MeasureLeft"/>
 	<menuitem action="MeasureRight"/>
 	<menuitem action="GoToMeasure"/>
-	<menuitem action="GoToBeginning"/>
-	<menuitem action="GoToEnd"/>
+	<menuitem action="MoveToBeginning"/>
+	<menuitem action="MoveToEnd"/>
+
 	<menuitem action="GoToMark"/>
 	
 	<separator/>
@@ -79,6 +80,8 @@
                 <menuitem action="CursorRight"/>
 		<menuitem action="MeasureLeft"/>
 		<menuitem action="MeasureRight"/>
+		<menuitem action="GoToBeginning"/>
+		<menuitem action="GoToEnd"/>
 		<menuitem action="StaffUp"/>
 		<menuitem action="StaffDown"/> 
 		<menuitem action="VoiceUp"/>
@@ -602,8 +605,8 @@
 
     <separator/>
 	 <!--<toolitem action="GoToMeasure"/> -->
-    <toolitem action="GoToBeginning"/>
-    <toolitem action="GoToEnd"/>
+    <toolitem action="MoveToBeginning"/>
+    <toolitem action="MoveToEnd"/>
     <separator/>
     <toolitem action="Play"/>
     <toolitem action="Stop"/>

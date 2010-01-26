@@ -7,12 +7,12 @@
       <row>
         <action>FindNextLowerNote</action>
         <scheme> ;;;;;;;; FindNextNoteLower
- (d-CursorRight)
+ (d-MoveCursorRight)
 (let loop ((lowest (d-GetCursorNoteAsMidi)) (current 0))
   (set! current (d-GetNoteAsMidi))
   (if (or (zero? current) (&gt;= current lowest))
       (begin
-	(if (d-CursorRight)
+	(if (d-MoveCursorRight)
 	    (loop lowest current)
 	    #t))))
       

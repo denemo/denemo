@@ -8,7 +8,7 @@
         <action>TransposeStaffOutput</action>
         <scheme>;; transpose output
 (define start (d-GetNote))
-(d-CursorRight)
+(d-MoveCursorRight)
 (define end (d-GetNote))
 
 (if (or (string=? start "") (string=? end ""))

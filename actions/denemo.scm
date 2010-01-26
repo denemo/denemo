@@ -58,7 +58,7 @@
 
 (define (SingleAndSelectionSwitcher commandsingle commandselection)
 
-(if (and (d-GoToSelectionStart) DenemoPref_applytoselection)
+(if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
 	(eval-string  commandselection)
 	(let loop ()
@@ -346,7 +346,7 @@
 ;;;; d-DirectivePut-standalone a convenience function for standalone directives
 (define (d-DirectivePut-standalone tag)
   (d-DirectivePut-standalone-minpixels tag 0)
-  (d-CursorLeft))
+  (d-MoveCursorLeft))
 
 (define (d-Directive-standalone tag)
   (if (not (d-Directive-standalone? tag))
