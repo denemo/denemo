@@ -648,6 +648,8 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
+  DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */
+  gdouble rightmost_time; /**< MIDI time of rightmost visible object */
   gdouble zoom;
   gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in the score, the same for all lines */
   /* Fields that have more to do with the data model and its manipulation,
