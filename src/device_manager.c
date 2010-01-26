@@ -6,7 +6,6 @@
 #include "pitchentry.h"
 #include "device_manager.h"
 
-GtkWidget       *theview;
 #define MD Denemo.prefs.midi_device
 
 enum
@@ -16,12 +15,12 @@ enum
 } ;
  
 static gchar *
-get_selection_as_char(){
+get_selection_as_char(GtkWidget *view){
   GtkTreeIter iter;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
 
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(theview));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			     &model, &iter))
     return NULL;
@@ -38,15 +37,16 @@ get_selection_as_char(){
  * Get the parent of the tree when child is selected
  */
 static gchar *
-get_device_selection_as_char(){
+get_device_selection_as_char(gpointer v){
   gint err;
   gchar *name;
   GtkTreeIter iter;
   GtkTreeIter parent;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
+  GtkWidget *view = (GtkWidget *) v;
 
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(theview));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			     &model, &parent))
     return NULL;
@@ -63,29 +63,29 @@ get_device_selection_as_char(){
 }
 
 static void
-remove_selection(){
+remove_selection(GtkWidget *view){
   GtkTreeIter iter;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeStore *store;
   
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(theview));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			     &model, &iter))
     return;
   store = GTK_TREE_STORE(gtk_tree_view_get_model
-		(GTK_TREE_VIEW(theview)));
+		(GTK_TREE_VIEW(view)));
 
   gtk_tree_store_remove(store, &iter);
 }
 
 static void 
-add_device_to_tree(gchar *device_name){
+add_device_to_tree(gchar *device_name, GtkWidget *view){
   GtkTreeIter iter;
   GtkTreeStore *store;
  
   store = GTK_TREE_STORE(gtk_tree_view_get_model
-		(GTK_TREE_VIEW(theview)));
+		(GTK_TREE_VIEW(view)));
 
   gtk_tree_store_append(store, &iter, NULL);
   gtk_tree_store_set(store, &iter,
@@ -95,14 +95,14 @@ add_device_to_tree(gchar *device_name){
 }
 
 static void
-add_port_to_tree(gchar *port_name){
+add_port_to_tree(gchar *port_name, GtkWidget *view){
   GtkTreeIter iter;
   GtkTreeIter parent;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeStore *store;
 
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(theview));
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   if(!gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
 			   &model, &parent))
     return;
@@ -111,7 +111,7 @@ add_port_to_tree(gchar *port_name){
      if(gtk_tree_model_iter_parent (GTK_TREE_MODEL(store), &iter, &parent))
   */
   store = GTK_TREE_STORE(gtk_tree_view_get_model
-		(GTK_TREE_VIEW(theview)));
+		(GTK_TREE_VIEW(view)));
   gtk_tree_store_append(store, &iter, &parent);
   gtk_tree_store_set(store, &iter,
   				COL_DEVICE, 
@@ -123,9 +123,9 @@ add_port_to_tree(gchar *port_name){
  * Get the device number of the selected device
  */
 static gint
-get_device_number(){
+get_device_number(GtkWidget *view){
   gint i;
-  gchar *name = get_device_selection_as_char();
+  gchar *name = get_device_selection_as_char(view);
 
   if (!name)
     return -1;
@@ -142,9 +142,9 @@ get_device_number(){
  * Get the port number of the selected port 
  */
 static gint
-get_port_number(){
+get_port_number(GtkWidget *view){
   gint i;
-  gchar *name = get_selection_as_char();
+  gchar *name = get_selection_as_char(view);
   if (!name)
     return -1;
   else { 
@@ -159,7 +159,7 @@ get_port_number(){
 }
 
 void
-device_manager_refresh_model(void)
+device_manager_refresh_model(GtkWidget *view)
 {
   GtkTreeIter parent; 
   GtkTreeIter child;
@@ -167,7 +167,7 @@ device_manager_refresh_model(void)
   gint i,j;
 
   treestore = GTK_TREE_STORE(gtk_tree_view_get_model
-		       (GTK_TREE_VIEW(theview)));
+		       (GTK_TREE_VIEW(view)));
   if(MD==NULL)
     return;
   if(treestore)
@@ -251,7 +251,7 @@ device_manager_DevicePort_list(){
 }
 
 #define ARRAY Denemo.prefs.midi_device_array
-void device_manager_create_device()
+void device_manager_create_device(GtkWidget *view)
 {
   stop_jack();
   if(ARRAY == NULL)
@@ -262,29 +262,30 @@ void device_manager_create_device()
   d->client_name = g_string_new("denemo");
   g_string_append_printf(d->client_name, "_%d", ARRAY->len);
   // add_device_to_tree(Denemo.prefs.midi_device[client_number]client_name->str);
- add_device_to_tree(d->client_name->str);
+ add_device_to_tree(d->client_name->str, view);
  g_print("added device index %d\n", ARRAY->len-1);
 }
 
-void device_manager_remove_device()
+void device_manager_remove_device(gpointer v)
 {
+  GtkWidget *view = (GtkWidget *) v;
   stop_jack();
-  gint j = get_device_number();
+  gint j = get_device_number(view);
   if (j<0)
     return;
   g_array_remove_index(ARRAY, j);
   Denemo.prefs.midi_device = (DeviceManagerDevice *)ARRAY->data;  
   g_debug("\nJust removed device %d\n", j);
-  remove_selection();
+  remove_selection(view);
 }
 #undef ARRAY
 
 
-void device_manager_create_port()
+void device_manager_create_port(GtkWidget *view)
 {
 #define ARRAY Denemo.prefs.midi_device[j].ports_array
   stop_jack();
-  gint j = get_device_number();
+  gint j = get_device_number(view);
   if(j<0)
     return;
   if(ARRAY==NULL) {
@@ -295,16 +296,16 @@ void device_manager_create_port()
   DeviceManagerPort *p = &g_array_index(ARRAY, DeviceManagerPort, ARRAY->len-1);
   p->port_name = g_string_new("midi_out");
   g_string_append_printf(p->port_name, "_%d", ARRAY->len);
-  add_port_to_tree(p->port_name->str);
+  add_port_to_tree(p->port_name->str, view);
   g_print("added port index %d\n", ARRAY->len-1);
 #undef ARRAY
 }
 
-void device_manager_remove_port()
+void device_manager_remove_port(GtkWidget *view)
 {
-  gint device_number = get_device_number();
-  gint port_number = get_port_number();
-  g_debug("\nRemove port #%d on device #%d\n", port_number, device_number);
+  gint device_number = get_device_number(view);
+  //gint port_number = get_port_number(view);
+  //g_debug("\nRemove port #%d on device #%d\n", port_number, device_number);
 #if 0
   if (device_number <0 || port_number <0)          
     return;
@@ -335,6 +336,7 @@ cell_edited (GtkCellRendererText* cellrenderertext,
 	gchar* path_string, gchar* new_name,
 	GtkTreeModel* treemodel)
 {
+  g_debug("\n***path_string = %s***\n", path_string);
 #if 0
   gint device_number;
   gint port_number;
@@ -359,23 +361,31 @@ cell_edited (GtkCellRendererText* cellrenderertext,
 #endif
 }
 
-GtkWidget *
-DeviceManager (void)
+void 
+DeviceManager (GtkWidget *main_vbox)
 {
   GtkTreeViewColumn   *col;
   GtkCellRenderer     *renderer;
   GtkTreeStore        *treestore;
+  GtkWidget 	      *hbox;
+  GtkWidget	      *view;
 
-  if(theview)
-    return theview;
-  theview = gtk_tree_view_new();
+  view = gtk_tree_view_new();
+
+#define BUTTON(thelabel, field, thecallback, data) \
+  hbox = gtk_hbox_new (FALSE, 8);\
+  gtk_box_pack_start (GTK_BOX (vbox1), hbox, FALSE, FALSE, 0);\
+  GtkWidget *field = gtk_button_new_with_label(thelabel);\
+  gtk_box_pack_start (GTK_BOX (vbox1), field, FALSE, FALSE, 0);\
+  g_signal_connect (G_OBJECT (field), "clicked",\
+  G_CALLBACK (thecallback), (gpointer) data);
 
   col = gtk_tree_view_column_new();
 
   gtk_tree_view_column_set_title(col, "Device/Port");
 
   /* pack tree view column into tree view */
-  gtk_tree_view_append_column(GTK_TREE_VIEW(theview), col);
+  gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
 
   renderer = gtk_cell_renderer_text_new();
   g_object_set(renderer, "editable", TRUE, NULL);
@@ -390,12 +400,29 @@ DeviceManager (void)
 
   treestore = gtk_tree_store_new(NUM_COLS, G_TYPE_STRING);
 
-  gtk_tree_view_set_model(GTK_TREE_VIEW(theview), GTK_TREE_MODEL(treestore));
+  gtk_tree_view_set_model(GTK_TREE_VIEW(view), GTK_TREE_MODEL(treestore));
 
   /* never destroy the view  g_object_unref(model);  destroy model automatically with view */
   /* do not let it be destroyed */
-  g_object_ref(theview);
-  return theview;
+  g_object_ref(view);
+
+  GtkWidget *mhbox = gtk_hbox_new(FALSE, 5);
+  gtk_box_pack_start (GTK_BOX (main_vbox), mhbox, FALSE, FALSE, 0);
+
+  GtkWidget *vbox1 = gtk_vbox_new(FALSE, 5);
+  gtk_box_pack_start (GTK_BOX (mhbox), vbox1, FALSE, FALSE, 0);
+
+  BUTTON("Add Device", midi_add_device, device_manager_create_device, view); 
+  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, view); 
+  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, view);
+  BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, GTK_TREE_VIEW(view));
+
+  GtkWidget *vbox2 = gtk_vbox_new(FALSE, 5);
+  gtk_box_pack_start (GTK_BOX (mhbox), vbox2, FALSE, FALSE, 0);
+
+  gtk_box_pack_start (GTK_BOX (vbox2), view, FALSE, FALSE, 0);
+  gtk_widget_show (view);
+  device_manager_refresh_model(view);
 }
 
 
