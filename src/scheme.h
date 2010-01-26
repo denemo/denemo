@@ -1211,6 +1211,14 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToBeginning")), "scm", 
 SCM scheme_GoToEnd(SCM optional);
 install_scm_function ("d-GoToEnd", scheme_GoToEnd);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToEnd")), "scm", (gpointer)1);
+/*MoveToBeginning movetostart*/
+SCM scheme_MoveToBeginning(SCM optional);
+install_scm_function ("d-MoveToBeginning", scheme_MoveToBeginning);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToBeginning")), "scm", (gpointer)1);
+/*MoveToEnd movetoend*/
+SCM scheme_MoveToEnd(SCM optional);
+install_scm_function ("d-MoveToEnd", scheme_MoveToEnd);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveToEnd")), "scm", (gpointer)1);
 /*NextMovement next_movement*/
 SCM scheme_NextMovement(SCM optional);
 install_scm_function ("d-NextMovement", scheme_NextMovement);

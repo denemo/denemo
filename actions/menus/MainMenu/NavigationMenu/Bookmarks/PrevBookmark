@@ -8,10 +8,10 @@
         <action>PrevBookmark</action>
         <scheme>;;;Previous Bookmark by Nils Gey
 (if (d-DirectiveGet-standalone-display "Bookmark")
-(d-CursorLeft) 
+(d-MoveCursorLeft) 
 )
 (let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "Bookmark")) (d-CursorLeft)  )
+ (if  (and (not (d-DirectiveGet-standalone-display "Bookmark")) (d-MoveCursorLeft)  )
 	(gotoBookmark))
 )</scheme>
         <label>Prev Bookmark</label>

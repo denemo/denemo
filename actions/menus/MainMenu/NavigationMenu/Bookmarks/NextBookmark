@@ -8,10 +8,10 @@
         <action>NextBookmark</action>
         <scheme>;;;Next Bookmark by Nils Gey
 (if (d-DirectiveGet-standalone-display "Bookmark")
-(d-CursorRight) 
+(d-MoveCursorRight) 
 )
 (let gotoBookmark ()
- (if  (and (not (d-DirectiveGet-standalone-display "Bookmark")) (d-CursorRight) )
+ (if  (and (not (d-DirectiveGet-standalone-display "Bookmark")) (d-MoveCursorRight) )
 	(gotoBookmark))
 )</scheme>
         <label>Next Bookmark</label>

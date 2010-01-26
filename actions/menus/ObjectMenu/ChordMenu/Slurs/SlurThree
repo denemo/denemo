@@ -8,10 +8,10 @@
         <action>SlurThree</action>
         <scheme>
 (d-ToggleBeginSlur)
-(d-CursorRight)
-(d-CursorRight)
+(d-MoveCursorRight)
+(d-MoveCursorRight)
 (d-ToggleEndSlur)
-(d-CursorRight)
+(d-MoveCursorRight)
 </scheme>
         <label>Slur with Next Two Notes</label>
         <tooltip>Slur over next two notes.</tooltip>

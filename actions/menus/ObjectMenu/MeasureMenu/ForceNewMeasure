@@ -7,12 +7,12 @@
       <row>
         <action>ForceNewMeasure</action>
         <scheme>;;;Force New Measure
-(if (d-MeasureRight)
+(if (d-MoveToMeasureRight)
     (begin
       (d-InsertMeasure))
     (begin
       (d-AppendMeasure)
-      (d-MeasureRight)))
+      (d-MoveToMeasureRight)))
       
 </scheme>
         <label>Force New Measure</label>

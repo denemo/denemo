@@ -8,9 +8,9 @@
         <after>ForceNewMeasure</after>
         <action>ReBar</action>
         <scheme>;;; ReBar
-(d-GoToBeginning)
+(d-MoveToBeginning)
 (d-SetMark)
-(d-GoToEnd)
+(d-MoveToEnd)
 (d-Cut)
 (d-Paste)
  </scheme>

@@ -7,28 +7,28 @@
       <row>
         <action>Anacrusis</action>
         <scheme>;;;;;;;;;;Anacrusis
-(d-GoToBeginning)
+(d-MoveToBeginning)
 (let ((duration (d-GetDurationInTicks)))
   (if (boolean? duration)
       (set! duration 0))
   (while (d-NextObjectInMeasure) 
 	 (set! duration (+ duration (d-GetDurationInTicks))))
-  (d-GoToBeginning)
+  (d-MoveToBeginning)
   (set! duration (/ duration 12))
   (if (equal? 0 duration)
       (begin
 	(d-WarningDialog "Put notes/rests in the first measure for the upbeat required\nThen issue this command"))
       (begin
 	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number-&gt;string duration) " " ))
-	(d-CursorLeft)
+	(d-MoveCursorLeft)
 	(d-DirectivePut-standalone-override "Anacrusis" DENEMO_OVERRIDE_DYNAMIC)
 	(d-DirectivePut-standalone-minpixels "Anacrusis" 60)
 	(d-DirectivePut-standalone-display "Anacrusis" "Upbeat")
 	(d-RefreshDisplay)
-	(if (not (d-MeasureRight))
+	(if (not (d-MoveToMeasureRight))
 	    (begin
 	      (d-AppendMeasure)
-	      (d-MeasureRight))))))
+	      (d-MoveToMeasureRight))))))
 
        
 </scheme>

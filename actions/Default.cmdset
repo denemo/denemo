@@ -1607,14 +1607,26 @@ Notes entered will follow this pattern</tooltip>
       </row>
       <row>
         <action>GoToBeginning</action>
-        <label>Go To Beginning</label>
-        <tooltip>Go To Beginning</tooltip>
-        <bind>Home</bind>
+        <label>Go to Beginning</label>
+        <tooltip>Cursor to start of staff/voice, extending selection if any</tooltip>
+        <bind>Shift+Home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
-        <label>Go To End</label>
-        <tooltip>Go To End</tooltip>
+        <label>Go to End</label>
+        <tooltip>Cursor to end of staff/voice, extending selection if any</tooltip>
+        <bind>Shift+End</bind>
+      </row>
+      <row>
+        <action>MoveToBeginning</action>
+        <label>Move to Beginning</label>
+        <tooltip>Cursor to start of staff/voice, without extending selection if any</tooltip>
+        <bind>Home</bind>
+      </row>
+      <row>
+        <action>MoveToEnd</action>
+        <label>Move to End</label>
+        <tooltip>Cursor to end of staff/voice, without extending selection if any</tooltip>
         <bind>End</bind>
       </row>
       <row>

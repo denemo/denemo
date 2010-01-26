@@ -9,10 +9,10 @@
         <action>SlurNeutral</action>
         <scheme> ;SlurNeutral:
 (d-DirectivePut-standalone-display "SlurDirection" "Auto Slur Direction")
-(d-CursorLeft)
+(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "SlurDirection" " \\slurNeutral" )
 (d-DirectivePut-standalone-minpixels "SlurDirection" 75)
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>Auto Slur Directions</label>
         <tooltip>Prints slurs as normal</tooltip>

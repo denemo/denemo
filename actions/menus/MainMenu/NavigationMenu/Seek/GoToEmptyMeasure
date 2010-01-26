@@ -10,9 +10,9 @@
         <scheme>;;;GoToEmptyMeasure
 (if (not (equal? "None" (d-GetType)))
 (begin
-	(d-CursorRight)
+	(d-MoveCursorRight)
 	(let gotoEnd ()
- 	(if  (and (d-CursorRight) (not (equal? "None" (d-GetType))))
+ 	(if  (and (d-MoveCursorRight) (not (equal? "None" (d-GetType))))
 		(gotoEnd)))
 	(d-RefreshDisplay)))</scheme>
         <label>Go To Next Empty Measure</label>

@@ -8,9 +8,9 @@
         <action>SlurTwo</action>
         <scheme>
 (d-ToggleBeginSlur)
-(d-CursorRight)
+(d-MoveCursorRight)
 (d-ToggleEndSlur)
-(d-CursorRight)
+(d-MoveCursorRight)
 </scheme>
         <label>Slur with Next Note</label>
         <tooltip>Creates a slur from current note to next note.</tooltip>

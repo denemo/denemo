@@ -62,7 +62,7 @@
 	)
 	(d-DirectivePut-standalone-minpixels "Dynamic" 10 )
 	(d-RefreshDisplay)
-	(d-CursorRight)
+	(d-MoveCursorRight)
     )
  )
  )</scheme>
