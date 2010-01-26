@@ -251,8 +251,9 @@ device_manager_DevicePort_list(){
 }
 
 #define ARRAY Denemo.prefs.midi_device_array
-void device_manager_create_device(GtkWidget *view)
+void device_manager_create_device(GtkWidget *button, gpointer v)
 {
+  GtkWidget *view = GTK_WIDGET(v);
   stop_jack();
   if(ARRAY == NULL)
     ARRAY = g_array_new(TRUE, TRUE, sizeof(DeviceManagerDevice));
@@ -266,9 +267,9 @@ void device_manager_create_device(GtkWidget *view)
  g_print("added device index %d\n", ARRAY->len-1);
 }
 
-void device_manager_remove_device(gpointer v)
+void device_manager_remove_device(GtkWidget *button, gpointer v)
 {
-  GtkWidget *view = (GtkWidget *) v;
+  GtkWidget *view = GTK_WIDGET(v);
   stop_jack();
   gint j = get_device_number(view);
   if (j<0)
@@ -281,9 +282,10 @@ void device_manager_remove_device(gpointer v)
 #undef ARRAY
 
 
-void device_manager_create_port(GtkWidget *view)
+void device_manager_create_port(GtkWidget *button, gpointer v)
 {
 #define ARRAY Denemo.prefs.midi_device[j].ports_array
+  GtkWidget *view = GTK_WIDGET(v);
   stop_jack();
   gint j = get_device_number(view);
   if(j<0)
@@ -301,11 +303,12 @@ void device_manager_create_port(GtkWidget *view)
 #undef ARRAY
 }
 
-void device_manager_remove_port(GtkWidget *view)
+void device_manager_remove_port(GtkWidget *button, gpointer v)
 {
+  GtkWidget *view = GTK_WIDGET(v);
   gint device_number = get_device_number(view);
-  //gint port_number = get_port_number(view);
-  //g_debug("\nRemove port #%d on device #%d\n", port_number, device_number);
+  gint port_number = get_port_number(view);
+  g_debug("\nRemove port #%d on device #%d\n", port_number, device_number);
 #if 0
   if (device_number <0 || port_number <0)          
     return;
@@ -412,9 +415,9 @@ DeviceManager (GtkWidget *main_vbox)
   GtkWidget *vbox1 = gtk_vbox_new(FALSE, 5);
   gtk_box_pack_start (GTK_BOX (mhbox), vbox1, FALSE, FALSE, 0);
 
-  BUTTON("Add Device", midi_add_device, device_manager_create_device, view); 
-  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, view); 
-  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, view);
+  BUTTON("Add Device", midi_add_device, device_manager_create_device, GTK_TREE_VIEW(view)); 
+  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, GTK_TREE_VIEW(view)); 
+  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, GTK_TREE_VIEW(view));
   BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, GTK_TREE_VIEW(view));
 
   GtkWidget *vbox2 = gtk_vbox_new(FALSE, 5);
