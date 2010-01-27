@@ -497,7 +497,7 @@ int
 init_jack(void){
   int i, err, port_number;
   i = err = port_number = 0;
-  DeviceManager();
+  //DeviceManager();
   if(MD==NULL) {
     jack_server_running = FALSE;
     if(Denemo.prefs.midi_audio_output==Jack)

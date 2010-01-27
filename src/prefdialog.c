@@ -464,33 +464,7 @@ preferences_change (GtkAction *action, gpointer param)
    */
 #ifdef _HAVE_JACK_
   NEWPAGE("MIDI Device Manager");
-  
-  GtkWidget *mhbox = gtk_hbox_new(FALSE, 5);
-  gtk_box_pack_start (GTK_BOX (main_vbox), mhbox, FALSE, FALSE, 0);
-
-  GtkWidget *vbox1 = gtk_vbox_new(FALSE, 5);
-  gtk_box_pack_start (GTK_BOX (mhbox), vbox1, FALSE, FALSE, 0);
-  
-  //None of this is working right now anyway  
-  //BOOLEANENTRY("Enable Jack Transport", jacktransport);
-  //BOOLEANENTRY("Jack Transport starts stopped", jacktransport_start_stopped);
-  //BOOLEANENTRY("Enable Jack at startup", jack_at_startup);
-
-  //BUTTON("Start/Restart Jack Client", jack_restart, jack_start_restart, NULL);
-  BUTTON("Add Device", midi_add_device, device_manager_create_device, NULL); 
-  BUTTON("Remove Device", midi_remove_device, device_manager_remove_device, NULL); 
-  BUTTON("Add Port", midi_device_add_port, device_manager_create_port, NULL);
-  BUTTON("Remove Port", midi_device_remove_port, device_manager_remove_port, NULL);
-  
-  GtkWidget *vbox2 = gtk_vbox_new(FALSE, 5);
-  gtk_box_pack_start (GTK_BOX (mhbox), vbox2, FALSE, FALSE, 0);
-  
-  GtkWidget *view = DeviceManager();
-  g_print("the view %p is %d\n", view, GTK_IS_WIDGET(view));
-  gtk_box_pack_start (GTK_BOX (vbox2), view, FALSE, FALSE, 0);
-  
-  gtk_widget_show (view);
-  device_manager_refresh_model();
+  DeviceManager(main_vbox);
 #endif
 
 #define SETCALLBACKDATA(field) \
@@ -509,7 +483,7 @@ preferences_change (GtkAction *action, gpointer param)
       set_preferences (&cbdata);
     }
 #ifdef _HAVE_JACK_
-  gtk_container_remove(GTK_CONTAINER(vbox2), view);
+  //gtk_container_remove(GTK_CONTAINER(vbox2), view);
 #endif
   gtk_widget_destroy (dialog);
 }
