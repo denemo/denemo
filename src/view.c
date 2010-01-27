@@ -4998,7 +4998,9 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
 
 
 static void dummy(void) {
-
+  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  if(adj->value + adj->step_increment < adj->upper)
+    gtk_adjustment_set_value(adj, adj->value + adj->step_increment);
   return;
 }
 

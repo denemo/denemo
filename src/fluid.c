@@ -262,7 +262,37 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
   gtk_widget_destroy (sf);
 }
 
-gboolean fluidsynth_read_smf_events()
+
+void
+set_last_midi_time(GList *events) {
+  smf_event_t *event = g_list_last(events)->data;
+  Denemo.gui->si->rightmost_time =  event->time_seconds;
+  // g_print("setting last time %f\n", event->time_seconds);
+}
+
+
+static gint move_on() {
+  if(playing_piece==FALSE)
+    return FALSE;
+  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum)/2;
+  if(adj->value + amount < adj->upper) {    
+      gtk_adjustment_set_value(adj, adj->value + amount);
+  } else
+    gtk_adjustment_set_value(adj, adj->upper);
+  //gtk_widget_queue_draw (Denemo.gui->scorearea);
+  // gtk_widget_draw (Denemo.gui->scorearea, NULL);
+  return TRUE;
+}
+
+static gint redraw(){
+  if(playing_piece==FALSE)
+    return FALSE;
+  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return TRUE;
+}
+static gdouble last_draw_time;
+static gboolean fluidsynth_play_smf_event()
 {
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
@@ -285,10 +315,18 @@ gboolean fluidsynth_read_smf_events()
     event = smf_get_next_event(Denemo.gui->si->smf);
     return TRUE; 
   } 
-     
+
+  if(Denemo.gui->si->rightmost_time>0.0 && event->time_seconds>Denemo.gui->si->rightmost_time)
+     move_on();
   if ((get_time() - start_player) > event->time_seconds){
      event = smf_get_next_event(Denemo.gui->si->smf);
-
+     Denemo.gui->si->playingnow = event->user_pointer;
+     //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
+     if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
+	event->time_seconds - last_draw_time>0.01) {
+       last_draw_time = event->time_seconds;
+       gtk_widget_queue_draw (Denemo.gui->scorearea);
+     }
     gint chan = (event->midi_buffer[0] & 0x0f);
     //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
     int success;
@@ -323,18 +361,10 @@ gboolean fluidsynth_read_smf_events()
          fluid_synth_system_reset(synth);
 	 break;
       }
-
   }
-  
   return TRUE;
 }
 
-static gint move_on(DenemoGUI *gui){
-  if(timeout_id==0 || playing_piece==FALSE)
-    return FALSE;
-  set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
-  return TRUE;
-}
 
 gint fluid_kill_timer(void){
   g_debug("fluidsynth kill timer %d\n", timeout_id);
@@ -364,9 +394,9 @@ void fluid_midi_play(void)
     return;
   } else {
     smf_rewind(Denemo.gui->si->smf);
-    g_idle_add(fluidsynth_read_smf_events, NULL);
+    last_draw_time = 0.0;
+    g_idle_add(fluidsynth_play_smf_event, NULL);
   }
-#if 1
 
   playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
   
@@ -404,12 +434,17 @@ void fluid_midi_play(void)
   smf_seek_to_seconds(gui->si->smf, start_time);
     if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
       DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-      //FIXME add a delay before starting the timer.
-      timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)move_on, gui);
+      // timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)redraw, NULL);
+
+
+      //timeout_id = g_timeout_add (100, (GSourceFunc)redraw, NULL);
+
+
+
       // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
-      kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)fluid_kill_timer, NULL);
+      // kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)fluid_kill_timer, NULL);
     }
-#endif  
+ 
   
 }
 

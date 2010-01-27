@@ -124,6 +124,8 @@ struct infotopass
   gint in_lowy;
   gboolean mark;//whether the region is selected
   gint *left, *right;//location of right and left measurenum for current system(line)
+  GList *last_midi;
+  gint playposition;//x coordinate of currently played music
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -193,7 +195,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
   /* The current note, rest, etc. being painted */
   gint extra;
-
+  if(mudelaitem == Denemo.gui->si->playingnow)
+    itp->playposition = x + mudelaitem->x;
+  //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
   if (!greengc)
     greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
@@ -206,30 +210,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
     }
 
-  {
-#if 0
-    GdkColor *thecolor;
-    if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
-      thecolor = &yellow;
-    else
-      thecolor =/* (mudelaitem->isinvisible) ? &white :*/ itp->mark?&blue:&black;
-    gdk_gc_set_foreground (blackgc, thecolor);
-    gdk_cairo_set_source_color( cr, thecolor );
-#else
-
-    if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
-      cairo_set_source_rgb( cr, 1.0, 1.0, 0 );//thecolor = &yellow;
-#if 0
-    else {
-      if(itp->mark)
-	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
-      else
-	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
-    }
-#endif
-#endif
+  
+  if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
+    cairo_set_source_rgb( cr, 1.0, 1.0, 0 );//thecolor = &yellow;
+  
+  if(mudelaitem->midi_events) {
+    itp->last_midi = mudelaitem->midi_events;
   }
-
 
   switch (mudelaitem->type)
     {
@@ -629,7 +616,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   cairo_save(cr);
-
+  //Draw vertical lines to bind the staffs of the system together
       if(curstaff->prev)
 	{
 	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
@@ -775,6 +762,9 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
     cairo_stroke( cr );
   }
+
+ 
+
   /* Initialize the slur_stack for this staff. For the time being,
      slurs that begin and/or end after the portion of the music
      that is shown are not drawn. */
@@ -798,6 +788,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 #undef SYSTEM_SEP
   cairo_restore(cr);
 }
+
 /**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
@@ -822,9 +813,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   itp.highy = 0;//in case there are no objects...
   itp.lowy = 0;
-
-
-
+  itp.last_midi = NULL;
+  itp.playposition = -1;
   y = 0;
 
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
@@ -928,6 +918,17 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     repeat = draw_staff (cr, curstaff, y, gui, &itp);
 
+    //FIXME repeated code!!!!!!!!!
+      if(itp.playposition>0) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.playposition, y-STAFF_HEIGHT);
+	cairo_line_to( cr, itp.playposition, y-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.playposition = 0;
+      }
+
+
+
     if (si->firststaffmarked == itp.staffnum)
       itp.marky1 = y - EXTRAFORSELECTRECT;
     if (si->laststaffmarked == itp.staffnum)
@@ -960,6 +961,13 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
 
+      if(itp.playposition>0) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.playposition, yy-STAFF_HEIGHT );
+	cairo_line_to( cr, itp.playposition, yy-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.playposition = 0;
+      }
       // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
      
       yy += line_height;
@@ -982,7 +990,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   }// for all the staffs
 
 
- 
+  if(itp.last_midi)
+    set_last_midi_time(itp.last_midi);
   /* Draw the selection rectangle */
   if ( (itp.left==gui->lefts+1) && //just one system
       si->markstaffnum)

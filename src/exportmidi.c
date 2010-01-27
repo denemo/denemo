@@ -1573,6 +1573,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      //g_print("Note on %x %x %x\n", MIDI_NOTE_ON | midi_channel, n, (mute_volume ? 0:cur_volume/*FIXME as above, mix*/));
 			      //g_print("event on %f\n", event->time_seconds);
+			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
@@ -1584,6 +1585,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
 			      //g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			    }
 			}
@@ -1629,6 +1631,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      /* write note off */
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			    }
 			}
@@ -1676,6 +1679,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  printf ("\nchange to timesiglower = %i\n", timesiglower);
 		  event = midi_timesig (timesigupper, timesiglower);
 		  smf_track_add_event_delta_pulses(track, event, 0);
+		  event->user_pointer = curobj;
 		  curobj->midi_events = g_list_append(curobj->midi_events, event);
 		  break;
 
@@ -1753,6 +1757,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  event = midi_keysig ((((keysig *) curobj->object)->number),
 			       curstaffstruct->keysig.isminor);
 		  smf_track_add_event_delta_pulses(track, event, 0);
+		  event->user_pointer = curobj;
 		  curobj->midi_events = g_list_append(curobj->midi_events, event);
 		  break;
 
