@@ -18,39 +18,35 @@
         <action>CursorLeft</action>
         <label>Cursor Left</label>
         <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
-        <bind>Shift+Left</bind>
+        <bind>Left</bind>
       </row>
       <row>
         <action>MoveCursorLeft</action>
         <label>Move Cursor Left</label>
         <tooltip>Moves the cursor one object left, without altering the selection</tooltip>
-        <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
         <label>Cursor Down</label>
         <tooltip>Moves the cursor one scale step down</tooltip>
-        <bind>Shift+Down</bind>
         <bind>Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
         <label>Cursor Up</label>
         <tooltip>Moves the cursor one scale step up</tooltip>
-        <bind>Shift+Up</bind>
         <bind>Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
-        <bind>Shift+Right</bind>
+        <bind>Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
         <label>Move Cursor Right</label>
         <tooltip>Moves the cursor one object right, without altering the selection</tooltip>
-        <bind>Right</bind>
       </row>
       <row>
         <action>GoToMark</action>
@@ -81,49 +77,45 @@
         <action>StaffUp</action>
         <label>Staff Up</label>
         <tooltip>Moves the cursor to the staff above, extending selection if any</tooltip>
-        <bind>Shift+Control+Up</bind>
+        <bind>Control+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <label>Staff Down</label>
         <tooltip>Moves the cursor to the staff below, extending selection if any</tooltip>
-        <bind>Shift+Control+Down</bind>
+        <bind>Control+Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
         <label>Move to Staff Up</label>
         <tooltip>Moves the cursor to the staff above without altering selection</tooltip>
-        <bind>Control+Up</bind>
       </row>
       <row>
         <action>MoveToStaffDown</action>
         <label>Move to Staff Down</label>
         <tooltip>Moves the cursor to the staff below  without altering selection</tooltip>
-        <bind>Control+Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
         <label>Measure Left</label>
         <tooltip>Moves the cursor to the first object in the next measure, extending selection if any</tooltip>
-        <bind>Shift+Control+Left</bind>
+        <bind>Control+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
         <label>Measure Right</label>
         <tooltip>Moves the cursor to the first object in the previous measure, extending selection if any</tooltip>
-        <bind>Shift+Control+Right</bind>
+        <bind>Control+Right</bind>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
         <label>Move to Measure Left</label>
         <tooltip>Moves the cursor to the first object in the next measure leaving selection, if any, unchanged</tooltip>
-        <bind>Control+Left</bind>
       </row>
       <row>
         <action>MoveToMeasureRight</action>
         <label>Move to Measure Right</label>
         <tooltip>Moves the cursor to the first object in the previous measureleaving selection, if any, unchanged</tooltip>
-        <bind>Control+Right</bind>
       </row>
       <row>
         <action>A</action>
@@ -970,7 +962,6 @@ the cursor position is the end point</tooltip>
         <action>UnsetMark</action>
         <label>Unset Mark</label>
         <tooltip>Gets rid of the selection.</tooltip>
-        <bind>space</bind>
         <bind>Escape</bind>
       </row>
       <row>
@@ -1015,7 +1006,6 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleAccent</action>
-        <hidden>true</hidden>
         <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>greater</bind>
@@ -1028,14 +1018,12 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <hidden>true</hidden>
         <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <hidden>true</hidden>
         <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>underscore</bind>
@@ -1058,7 +1046,6 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <hidden>true</hidden>
         <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
         <bind>colon</bind>
@@ -1617,35 +1604,35 @@ Notes entered will follow this pattern</tooltip>
         <action>GoToBeginning</action>
         <label>Go to Beginning</label>
         <tooltip>Cursor to start of staff/voice, extending selection if any</tooltip>
-        <bind>Shift+Home</bind>
+        <bind>Home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
         <label>Go to End</label>
         <tooltip>Cursor to end of staff/voice, extending selection if any</tooltip>
-        <bind>Shift+End</bind>
+        <bind>End</bind>
       </row>
       <row>
         <action>MoveToBeginning</action>
         <label>Move to Beginning</label>
         <tooltip>Cursor to start of staff/voice, without extending selection if any</tooltip>
-        <bind>Home</bind>
       </row>
       <row>
         <action>MoveToEnd</action>
         <label>Move to End</label>
         <tooltip>Cursor to end of staff/voice, without extending selection if any</tooltip>
-        <bind>End</bind>
       </row>
       <row>
         <action>NextMovement</action>
         <label>Next Movement</label>
         <tooltip>Go to the next movement</tooltip>
+        <bind>Shift+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
         <label>Previous Movement</label>
         <tooltip>Go to the previous movement</tooltip>
+        <bind>Shift+Left</bind>
       </row>
       <row>
         <action>DeleteMovement</action>
@@ -2146,6 +2133,500 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
       </row>
       <row>
+        <action>Paste</action>
+        <after>Copy</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Paste</label>
+        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
+        <bind>Control+v</bind>
+        <bind>RlsL-Control</bind>
+      </row>
+      <row>
+        <action>MoveNoteToCursor</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>To Cursor</label>
+        <tooltip>Moves the nearest note to join the cursor</tooltip>
+        <bind>MveL-Shift</bind>
+      </row>
+      <row>
+        <action>StartDownStems</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Stems Down</label>
+        <tooltip>Stems from now on point downward.</tooltip>
+      </row>
+      <row>
+        <action>StartUpStems</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Stems Up</label>
+        <tooltip>Stems from now on point upward.</tooltip>
+      </row>
+      <row>
+        <action>InsertTiedNoteDuration</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
+        <label>Attach Tied Note</label>
+        <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
+        <bind>t</bind>
+      </row>
+      <row>
+        <action>MidiFilterOff</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>MIDI Filter Off</label>
+        <tooltip>Turn off any MIDI filter script currently active.</tooltip>
+      </row>
+      <row>
+        <action>CheckPitches</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Check Note Pitches</label>
+        <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
+      </row>
+      <row>
+        <action>MidiAdvanceOnEdit</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>MIDI Advance on Edit</label>
+        <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
+      </row>
+      <row>
+        <action>AngryDelete</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Angry Delete</label>
+        <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Open { Octave Up</label>
+        <tooltip>Opens a block to be transposed up one octave
+	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
+      </row>
+      <row>
+        <action>CloseLilyBlock</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Close } a LilyPond Block</label>
+        <tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</tooltip>
+      </row>
+      <row>
+        <action>TransposeOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Transpose Octave Up</label>
+        <tooltip>Instructs the LilyPond Engraver to transpose this score one octave up.</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval</label>
+        <tooltip>Sets the interval for a transpose operation from the first two notes of the current selection.</tooltip>
+      </row>
+      <row>
+        <action>TransposeNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Note</label>
+        <tooltip>Transposes the note at the cursor by the amount set by other commands.</tooltip>
+      </row>
+      <row>
+        <action>TransposeSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Transpose Selection</label>
+        <tooltip>Opens a dialog to get an interval, then transposes by that interval.</tooltip>
+      </row>
+      <row>
+        <action>D.C.AlFine</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
+        <label>D. C. al fine</label>
+        <tooltip>Puts a da capo in the score. Position is adjusted via the numbers in the script.</tooltip>
+      </row>
+      <row>
+        <action>Allegro</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro</label>
+        <tooltip>Print Allegro in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Andante</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Andante</label>
+        <tooltip>Print Andante in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Presto</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Presto</label>
+        <tooltip>Print Presto in bold italics above the chord.</tooltip>
+      </row>
+      <row>
+        <action>Finger0</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 0</label>
+        <tooltip>Inserts fingering for open string</tooltip>
+        <bind>0</bind>
+      </row>
+      <row>
+        <action>Finger1</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 1</label>
+        <tooltip>Inserts fingering for finger 1</tooltip>
+        <bind>1</bind>
+      </row>
+      <row>
+        <action>Finger2</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 2</label>
+        <tooltip>Inserts fingering for finger 2</tooltip>
+      </row>
+      <row>
+        <action>Finger3</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 3</label>
+        <tooltip>Inserts fingering for finger 3</tooltip>
+      </row>
+      <row>
+        <action>Finger4</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 4</label>
+        <tooltip>Inserts fingering for finger 4</tooltip>
+        <bind>4</bind>
+      </row>
+      <row>
+        <action>Finger5</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings/Fingerings</menupath>
+        <label>Finger 5</label>
+        <tooltip>Inserts fingering for finger 5</tooltip>
+        <bind>5</bind>
+      </row>
+      <row>
+        <action>StartBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Start Beam</label>
+        <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
+      </row>
+      <row>
+        <action>EndBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>End Beam</label>
+        <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>
+      </row>
+      <row>
+        <action>DeleteLilyPondOnNote</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
+        <label>Delete LilyPond on Note</label>
+        <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
+      </row>
+      <row>
+        <action>DeleteLilyPondOnChord</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
+        <label>Delete LilyPond on Chord</label>
+        <tooltip>Deletes the LilyPond attached to the chord at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>MetronomeMarking</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Metronome Markings</menupath>
+        <label>Add Metronome Marking to Chord</label>
+        <tooltip>Adds a metronome marking to chord. Give the duration in LilyPond notation.</tooltip>
+      </row>
+      <row>
+        <action>Anacrusis</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Anacrusis</label>
+        <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>
+      </row>
+      <row>
+        <action>RepeatStart</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Repeat Start Barline</label>
+        <tooltip>Insert a barline indicating the start of a repeated section.</tooltip>
+      </row>
+      <row>
+        <action>RepeatEnd</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Repeat End Barline</label>
+        <tooltip>Insert a barline indicating the end of a repeated section.</tooltip>
+      </row>
+      <row>
+        <action>RepeatEndStart</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Repeat End-Start</label>
+        <tooltip>Inserts a barline ending one repeated section and starting another</tooltip>
+      </row>
+      <row>
+        <action>ApplyToSelection</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <label>Apply Shortcut to Notes in Selection</label>
+        <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>
+      </row>
+      <row>
+        <action>SetFontSize</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print)Set Overall Score Size</label>
+        <tooltip>Choose the font size of for the score, and hence how much space it takes up.</tooltip>
+      </row>
+      <row>
+        <action>LHFinger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
+        <label>Left Hand Fingering</label>
+        <tooltip>Followed by a number, print Left Hand fingering on note</tooltip>
+      </row>
+      <row>
+        <action>StringNum</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Strings</menupath>
+        <label>String Number</label>
+        <tooltip>Followed by a number, places string number on note.</tooltip>
+      </row>
+      <row>
+        <action>DoubleBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Double Bar</label>
+        <tooltip>Insert a double barline at cursor position.</tooltip>
+      </row>
+      <row>
+        <action>Glissando</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
+        <label>Glissando</label>
+        <tooltip>Inserts a glissando</tooltip>
+      </row>
+      <row>
+        <action>Fortissimo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Fortissimo</label>
+        <tooltip>Places a ff sign on the chord at the cursor</tooltip>
+      </row>
+      <row>
+        <action>CautionaryAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Cautionary Accidental</label>
+        <tooltip>Forces the accidental on the note to be printed.</tooltip>
+        <bind>exclam</bind>
+      </row>
+      <row>
+        <action>ReminderAccidental</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <label>Reminder Accidental</label>
+        <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
+      </row>
+      <row>
+        <action>ScoreTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title centered at the start of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreArranger</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Arranger</label>
+        <tooltip>Name of the arranger, flush-right below the composer.</tooltip>
+      </row>
+      <row>
+        <action>ScoreComposer</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Composer</label>
+        <tooltip>Name of the composer, flush-right below the subsubtitle.</tooltip>
+      </row>
+      <row>
+        <action>ScoreDedication</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Dedication</label>
+        <tooltip>The dedicatee of the music, centered at the top of the first page.</tooltip>
+      </row>
+      <row>
+        <action>ScoreInstrument</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Instrument</label>
+        <tooltip>Name of the instrument, centered below the subsubtitle. Also centered at the top of pages (other than the first page).</tooltip>
+      </row>
+      <row>
+        <action>ScoreMeter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Meter</label>
+        <tooltip>Meter string, flush-left below the poet.</tooltip>
+      </row>
+      <row>
+        <action>ScoreOpus</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Opus</label>
+        <tooltip>Name of the opus, flush-right below the arranger.</tooltip>
+      </row>
+      <row>
+        <action>ScorePoet</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Poet</label>
+        <tooltip>Prints Poet-name given to left above first movement of the score.</tooltip>
+      </row>
+      <row>
+        <action>ScoreTagline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Tagline</label>
+        <tooltip>Prints a line of text at the end of the score.</tooltip>
+      </row>
+      <row>
+        <action>MovementTitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Title</label>
+        <tooltip>Prints the name given as a title above the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Subtitle</label>
+        <tooltip>Prints the given name below the title of the current movement.</tooltip>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Titles Etc</menupath>
+        <label>Piece</label>
+        <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>
+      </row>
+      <row>
+        <action>ScoreCopyright</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Copyright</label>
+        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
+      </row>
+      <row>
+        <action>Indent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Alter the indent of the opening system for the current movement.</tooltip>
+      </row>
+      <row>
+        <action>ScoreIndent</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Indent</label>
+        <tooltip>Indent the first system of every movement by the given amount.</tooltip>
+      </row>
+      <row>
+        <action>ToggleTupletNumbering</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Numbering on/off</label>
+        <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
+      </row>
+      <row>
+        <action>NoBeam</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>No Beam Here</label>
+        <tooltip>Prints note without any beam attached.</tooltip>
+      </row>
+      <row>
+        <action>MovementPageBreak</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Page Break Before</label>
+        <tooltip>Prints this movement starting on a new page</tooltip>
+      </row>
+      <row>
+        <action>HideMovement</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Hide Movement</label>
+        <tooltip>Hides the movement on printing.</tooltip>
+      </row>
+      <row>
+        <action>Beam1234</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <label>Beam 4 Beats</label>
+        <tooltip>Beams end on each quarter note (up to 4).</tooltip>
+      </row>
+      <row>
+        <action>ClosingBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Closing Barline</label>
+        <tooltip>Inserts a closing barline (a double bar with last one thicker).</tooltip>
+      </row>
+      <row>
+        <action>EnterRest</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Rest</label>
+        <tooltip>Inserts a rest in the prevailing duration</tooltip>
+      </row>
+      <row>
+        <action>AllegroAssai</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Allegro Assai</label>
+        <tooltip>Gives Allegro Assai tempo indication</tooltip>
+      </row>
+      <row>
+        <action>Ambitus</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Ambitus Off/On</label>
+        <tooltip>Prints the ambitus before each staff of the score.</tooltip>
+      </row>
+      <row>
+        <action>RecreateTimebase</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Create Timebase</label>
+        <tooltip>Recalculates the timing of each note.</tooltip>
+      </row>
+      <row>
+        <action>ForceNewMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Force New Measure</label>
+        <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
+      </row>
+      <row>
         <action>SplitMeasure</action>
         <after>InsertMeasure</after>
         <scheme></scheme>
@@ -2170,6 +2651,196 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
       </row>
       <row>
+        <action>HideEmptyStaffs</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Hide Empty Staffs (Off/On)</label>
+        <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
+      </row>
+      <row>
+        <action>LineBreak</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Line Break</label>
+        <tooltip>(Print) Start a new line (i.e. system) at this measure.</tooltip>
+      </row>
+      <row>
+        <action>PageBreak</action>
+        <after>LineBreak</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Page Break</label>
+        <tooltip>(Print) Forces a new page at this barline.</tooltip>
+      </row>
+      <row>
+        <action>TransposeScorePrint</action>
+        <after>SetFontSize</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Transposed</label>
+        <tooltip>Prints the score transposed by the interval selected by SetTransposeIntervalFromSelection</tooltip>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromNote</action>
+        <after>SetTransposeIntervalFromSelection</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Transpose</menupath>
+        <label>Set Transpose Interval from Note</label>
+        <tooltip>Sets the current note as the note that c should transpose to.</tooltip>
+      </row>
+      <row>
+        <action>MezzoForte</action>
+        <after>Fortissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Mezzo Forte</label>
+        <tooltip>Attach mf indication to a chord.</tooltip>
+      </row>
+      <row>
+        <action>DeleteDynamic</action>
+        <after>MezzoForte</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Delete</label>
+        <tooltip>Deletes a dynamic attached to the chord at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>TitlePage</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Titles Etc</menupath>
+        <label>Set Movement as Title Page</label>
+        <tooltip>Makes this movement a title page (no music)</tooltip>
+      </row>
+      <row>
+        <action>ParenthesizeChord</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <label>Parenthesize Chord</label>
+        <tooltip>Enclose the chord in ( ) on printing.</tooltip>
+      </row>
+      <row>
+        <action>ParenthesizeNote</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Parenthesize Note</label>
+        <tooltip>Enclose the note at the cursor in ( ) when printed.</tooltip>
+      </row>
+      <row>
+        <action>GoToEmptyMeasure</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Go To Next Empty Measure</label>
+        <tooltip>Move cursor to the next point in the current staff where the music ends.</tooltip>
+      </row>
+      <row>
+        <action>IRC</action>
+        <after>Help</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <label>Chat to Other Users</label>
+        <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
+      </row>
+      <row>
+        <action>ReBar</action>
+        <after>ForceNewMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Adjust the Barlines</label>
+        <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
+      </row>
+      <row>
+        <action>ToggleTripleting</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Toggle Triplet Entry Off/On</label>
+        <tooltip>Inserts a start triplet or end tuple alternately.</tooltip>
+        <bind>3</bind>
+      </row>
+      <row>
+        <action>NonPrintingStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Non-Printing Staff</label>
+        <tooltip>Hides the staff in LilyPond print out.</tooltip>
+      </row>
+      <row>
+        <action>DrumGM2Custom</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/MIDI</menupath>
+        <label>Drum GM2 Custom </label>
+        <tooltip>Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values.</tooltip>
+      </row>
+      <row>
+        <action>ScoreComment</action>
+        <after>EditScoreDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Comment</label>
+        <tooltip>Stores any textual commentary you may have for this score.</tooltip>
+      </row>
+      <row>
+        <action>MvntComment</action>
+        <after>SwapMovements</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>Comment</label>
+        <tooltip>Stores textual comments for this movement</tooltip>
+      </row>
+      <row>
+        <action>StaffComment</action>
+        <after>NonPrintingStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Comment</label>
+        <tooltip>Saves textual comments for this staff</tooltip>
+      </row>
+      <row>
+        <action>ChordComment</action>
+        <after>ParenthesizeNote</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Comment</label>
+        <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
+      </row>
+      <row>
+        <action>ReadingNoteNames</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+      </row>
+      <row>
+        <action>StepSkipOrSame</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Beginner Interval Detection</label>
+        <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
+      </row>
+      <row>
+        <action>CountSteps</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Step Counting Exercise</label>
+        <tooltip>%tests your ability to find the number of diatonic notes between two notes</tooltip>
+      </row>
+      <row>
+        <action>BassClefNoteNameSpeedTest</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Bass Clef Note Name Speed Recognition</label>
+        <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
+      </row>
+      <row>
+        <action>TransposeStaffPrint</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Transpose</label>
+        <tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</tooltip>
+      </row>
+      <row>
         <action>NextBookmarkR</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
@@ -2184,6 +2855,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Prev Bookmark</label>
         <tooltip>Seach backward for bookmarks in the current staff.</tooltip>
         <bind>F11</bind>
+      </row>
+      <row>
+        <action>RehearsalMark</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Add Rehearsal/Bookmark</label>
+        <tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</tooltip>
+        <bind>F9</bind>
       </row>
       <row>
         <action>BookmarkRNamed</action>
@@ -2208,6 +2887,243 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Search Bookmark</label>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
         <bind>F10</bind>
+      </row>
+      <row>
+        <action>Diminish</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Diminish</label>
+        <tooltip>Diminishs the note/chord/rest. Quarter Note becomes Eight Note. </tooltip>
+      </row>
+      <row>
+        <action>Augment</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Augment</label>
+        <tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</tooltip>
+      </row>
+      <row>
+        <action>WholeMeasureRest</action>
+        <after>EnterRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Whole Measure Rest</label>
+        <tooltip>Inserts a whole measure rest at the cursor</tooltip>
+      </row>
+      <row>
+        <action>OpenRepeat</action>
+        <after>RepeatEndStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Open Repeat Section</label>
+        <tooltip>Marks the point where a repeat will start. A correspond close, or first and second time bars are needed.</tooltip>
+      </row>
+      <row>
+        <action>CloseRepeat</action>
+        <after>OpenRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close an Open Repeat Section</label>
+        <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
+      </row>
+      <row>
+        <action>FirstTimeBar</action>
+        <after>CloseRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>First Time Bar</label>
+        <tooltip>Closes a repeated section and starts a first time bar (printing)</tooltip>
+      </row>
+      <row>
+        <action>SecondTimeBar</action>
+        <after>FirstTimeBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Second Time Bar</label>
+        <tooltip>Closes first time bars and starts second time bar(s) (printing)</tooltip>
+      </row>
+      <row>
+        <action>EndSecondTimeBar</action>
+        <after>SecondTimeBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close Second Time Bar</label>
+        <tooltip>Closes the second time bar peviously opened (printing)</tooltip>
+      </row>
+      <row>
+        <action>ClefChooser</action>
+        <after>InsertClef</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <label>Clef Chooser</label>
+        <tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</tooltip>
+      </row>
+      <row>
+        <action>HideLilyPond</action>
+        <after>ParenthesizeChord</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <label>Hide on Printing</label>
+        <tooltip>Comments out the chord in the LilyPond output.</tooltip>
+      </row>
+      <row>
+        <action>MezzoPiano</action>
+        <after>MezzoForte</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Mezzo Piano</label>
+        <tooltip>prints mp and outputs MIDI vol change#</tooltip>
+      </row>
+      <row>
+        <action>Forte</action>
+        <after>Fortissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Dynamic Markings</menupath>
+        <label>Forte</label>
+        <tooltip>Attaches Forte to chord and MIDI volume</tooltip>
+      </row>
+      <row>
+        <action>SetImmediatePlayback</action>
+        <after>Preferences</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Turn On Immediate Playback</label>
+        <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
+      </row>
+      <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff (On/Off)</label>
+        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
+      <row>
+        <action>InstrumentName</action>
+        <after>SmallerStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Instrument Name</label>
+        <tooltip>Print Instrument name before staff at start of score,</tooltip>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+        <after>InstrumentName</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Short Instrument Name</label>
+        <tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</tooltip>
+      </row>
+      <row>
+        <action>ShortMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Short Measure</label>
+        <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
+      </row>
+      <row>
+        <action>FindNextLowerNote</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Next Lower</label>
+        <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
+        <bind>Control+f</bind>
+      </row>
+      <row>
+        <action>Largo</action>
+        <after>Andante</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Largo</label>
+        <tooltip>Attaches Largo to chord</tooltip>
+      </row>
+      <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+        <bind>space</bind>
+      </row>
+      <row>
+        <action>FiguredBassFilterOn</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Figured Bass Filter On</label>
+        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
+      </row>
+      <row>
+        <action>Adagio</action>
+        <after>Largo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Adagio</label>
+        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
+      </row>
+      <row>
+        <action>NextHigher</action>
+        <after>FindNextLowerNote</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Next Higher</label>
+        <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveDown</action>
+        <after>OpenOctaveUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <label>(Print) Open { Octave Down</label>
+        <tooltip>Opens a block printing an octave lower</tooltip>
+      </row>
+      <row>
+        <action>MultiMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
+      </row>
+      <row>
+        <action>FindEditPoint</action>
+        <after>NextHigher</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Find Edit Point</label>
+        <tooltip>Searches backward for the start of non-printing notes.</tooltip>
+        <bind>Alt+Left</bind>
+      </row>
+      <row>
+        <action>CreateOssiaStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+        <label>Create Ossia Staff</label>
+        <tooltip>Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures.</tooltip>
+      </row>
+      <row>
+        <action>ShowOssia</action>
+        <after>CreateOssiaStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+        <label>Show Ossia</label>
+        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+      </row>
+      <row>
+        <action>HideOssia</action>
+        <after>ShowOssia</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Ossia</menupath>
+        <label>Hide Ossia</label>
+        <tooltip>Place this at the end of the music to be printed from the Ossia staff</tooltip>
+      </row>
+      <row>
+        <action>StartTuplet</action>
+        <after>StartTriplet</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Start Arbitrary Tuplet</label>
+        <tooltip>Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc.</tooltip>
       </row>
       <row>
         <action>SlurDown</action>
@@ -2242,6 +3158,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Specifies how the printed page should be.</tooltip>
       </row>
       <row>
+        <action>BarNumbers</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Numbering</menupath>
+        <label>Bar Numbers On/Off</label>
+        <tooltip>Turns bar numbering on/off in print out.</tooltip>
+      </row>
+      <row>
         <action>AddDuplicateMeasure</action>
         <after>AddMeasure</after>
         <scheme></scheme>
@@ -2251,12 +3174,64 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <bind>KP_Enter</bind>
       </row>
       <row>
+        <action>MidiTempo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/MIDI</menupath>
+        <label>Set Tempo</label>
+        <tooltip>Send a Midi command to change the tempo to a new bpm. No printout.</tooltip>
+      </row>
+      <row>
+        <action>Tempo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Tempo</label>
+        <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
+      </row>
+      <row>
+        <action>MM</action>
+        <after>Tempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Metronome Mark</label>
+        <tooltip>Prints a metronome mark.</tooltip>
+      </row>
+      <row>
+        <action>DesignateVoice</action>
+        <after>StartUpStems</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <label>Designate Voice</label>
+        <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
+      </row>
+      <row>
         <action>SlurTwo</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <label>Slur with Next Note</label>
         <tooltip>Creates a slur from current note to next note.</tooltip>
         <bind>2</bind>
+      </row>
+      <row>
+        <action>DynamicsDialog</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Dynamics</label>
+        <tooltip>Choose dynamics and midi volume level.</tooltip>
+      </row>
+      <row>
+        <action>ZoomDialog</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>Set Display Scale</label>
+        <tooltip>Scales the display by value given by user.</tooltip>
+      </row>
+      <row>
+        <action>Zoom70</action>
+        <after>ZoomDialog</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>70%</label>
+        <tooltip>Zoom to 70%</tooltip>
       </row>
     </map>
   </commands>

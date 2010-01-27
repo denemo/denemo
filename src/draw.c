@@ -124,7 +124,11 @@ struct infotopass
   gint in_lowy;
   gboolean mark;//whether the region is selected
   gint *left, *right;//location of right and left measurenum for current system(line)
-  GList *last_midi;
+  GList *last_midi;//last list of midi events for object at right of window
+  DenemoObject *startobj;//pointer values - if drawing such an object mark as playback start
+  DenemoObject *endobj;//pointer values - if drawing such an object mark as playback end
+  gint startposition;//x coordinate where to start playing
+  gint endposition;//x coordinate where to end playing
   gint playposition;//x coordinate of currently played music
 };
 
@@ -197,6 +201,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   gint extra;
   if(mudelaitem == Denemo.gui->si->playingnow)
     itp->playposition = x + mudelaitem->x;
+  
+  if(mudelaitem == itp->startobj)
+    itp->startposition = x + mudelaitem->x;
+  if(mudelaitem == itp->endobj)
+    itp->endposition = x + mudelaitem->x;
+
   //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
   if (!greengc)
     greengc = gcs_greengc ();
@@ -815,8 +825,17 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.lowy = 0;
   itp.last_midi = NULL;
   itp.playposition = -1;
+  itp.startposition = -1;
+  itp.endposition = -1;
+
   y = 0;
 
+  if(gui->si->smf) {
+    itp.startobj =
+      get_obj_for_time(gui->si->smf, gui->si->start_time);
+    itp.endobj =
+      get_obj_for_time(gui->si->smf, gui->si->end_time);
+  }
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
 
   cairo_scale( cr, gui->si->zoom, gui->si->zoom );
@@ -927,6 +946,23 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	itp.playposition = 0;
       }
 
+   //FIXME repeated code!!!!!!!!!
+      if(itp.startposition>-1) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.startposition, y-STAFF_HEIGHT);
+	cairo_line_to( cr, itp.startposition, y-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.startposition = -1;
+      }
+   //FIXME repeated code!!!!!!!!!
+      if(itp.endposition>-1) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.endposition, y-STAFF_HEIGHT);
+	cairo_line_to( cr, itp.endposition, y-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.endposition = -1;
+      }
+
 
 
     if (si->firststaffmarked == itp.staffnum)
@@ -961,6 +997,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
 
+
+      //FIXME REPEATED CODE
       if(itp.playposition>0) {
 	cairo_set_line_width( cr, 4.0 );
 	cairo_move_to( cr, itp.playposition, yy-STAFF_HEIGHT );
@@ -968,6 +1006,29 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_stroke( cr );
 	itp.playposition = 0;
       }
+
+     //FIXME REPEATED CODE
+      if(itp.startposition>0) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.startposition, yy-STAFF_HEIGHT );
+	cairo_line_to( cr, itp.startposition, yy-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.startposition = -1;
+      }
+
+     //FIXME REPEATED CODE
+      if(itp.endposition>0) {
+	cairo_set_line_width( cr, 4.0 );
+	cairo_move_to( cr, itp.endposition, yy-STAFF_HEIGHT );
+	cairo_line_to( cr, itp.endposition, yy-STAFF_HEIGHT+line_height);
+	cairo_stroke( cr );
+	itp.endposition = -1;
+      }
+
+
+
+
+
       // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
      
       yy += line_height;
@@ -991,7 +1052,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
 
   if(itp.last_midi)
-    set_last_midi_time(itp.last_midi);
+    si->rightmost_time = get_midi_time(itp.last_midi);
   /* Draw the selection rectangle */
   if ( (itp.left==gui->lefts+1) && //just one system
       si->markstaffnum)

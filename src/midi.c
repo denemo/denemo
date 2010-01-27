@@ -65,17 +65,27 @@ SEQ_DEFINEBUF (128);
 static gint ttag;
 
 
-/* record the time of the last midi event on the right side of the display
- to a value from the list of events passed in */
-void
-set_last_midi_time(GList *events) {
+
+
+/* return the time of the last event on the list events */
+gdouble get_midi_time(GList *events) {
   smf_event_t *event = g_list_last(events)->data;
-  Denemo.gui->si->rightmost_time =  event->time_seconds;
-  // g_print("setting last time %f\n", event->time_seconds);
+return event->time_seconds;
 }
 
-
-
+DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
+  if(time<0.0)
+    return NULL;
+  smf_event_t *event = smf_peek_next_event(smf);
+  if(event) {
+  gdouble initial = event->time_seconds;
+  smf_seek_to_seconds(smf, time);
+  event = smf_peek_next_event(smf);
+  smf_seek_to_seconds(smf, initial);
+  return (DenemoObject *)(event->user_pointer);
+  }
+  return NULL;
+}
 
 /* 
  *  get the midi channel of the currently selected staff

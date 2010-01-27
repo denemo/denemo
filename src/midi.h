@@ -6,7 +6,7 @@
  */
 
 #include <denemo/denemo.h>
-
+#include "smf.h"
 void midi_cleanup ();
 
 gint midi_init ();
@@ -19,4 +19,5 @@ void play_midikey(gint key, double duration, double volume, gint channel);
 void process_midi_event(gchar *buf);
 void playpitch(double pitch, double duration, double volume, int channel);
 
-void set_last_midi_time(GList *events);
+gdouble get_midi_time(GList *events);
+DenemoObject *get_obj_for_time(smf_t *smf, gdouble time);

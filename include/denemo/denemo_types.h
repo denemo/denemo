@@ -650,6 +650,8 @@ typedef struct DenemoScore
   gint widthtoworkwith;
   gint staffspace;
 
+  gdouble start_time; /**< time to start playing at */
+  gdouble end_time; /**< time to end playing at */
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
   gdouble zoom;

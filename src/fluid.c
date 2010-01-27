@@ -48,7 +48,7 @@ case CONTROL_CHANGE:
 static fluid_settings_t* settings;
 static fluid_synth_t* synth;
 static fluid_audio_driver_t* adriver;
-static double start_player = 0.0;
+static double start_player = 0.0;//system time when play started
 
 /*related to moving the cursor along with playback*/
 static double start_time = 0.0;
@@ -292,6 +292,7 @@ static gboolean fluidsynth_play_smf_event()
     return FALSE;
 
   if (event == NULL || event->time_seconds>end_time){ 
+    Denemo.gui->si->playingnow = NULL;
     playing_piece = FALSE;
     return FALSE;
   }
@@ -388,8 +389,10 @@ void fluid_midi_play(void)
     g_idle_add(fluidsynth_play_smf_event, NULL);
   }
 
+
   playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
-  
+
+#if 0  
   /* TODO make the below some sort of function this is copy  
      pasted section from jackmidi.c which was copied from 
      somewhere else also
@@ -411,13 +414,19 @@ void fluid_midi_play(void)
     end_time = event->time_seconds;
     g_debug("\nsetting end %f\n", end_time);	   
   } 
+#else
+  start_time = gui->si->start_time;
+  end_time = gui->si->end_time;
 
+#endif
 
   if(start_time>end_time) {
     gdouble temp = start_time;
     start_time = end_time;
     end_time = temp;
   }
+  if(end_time - start_time >playback_duration)
+    end_time = start_time + playback_duration;
   playback_duration = end_time - start_time;
   start_player -= start_time;
   g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
