@@ -66,6 +66,7 @@ struct callbackdata
   GtkWidget *fluidsynth_period_size;
 
 #endif
+  GtkWidget *display_refresh;
   GtkWidget *texteditor;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
@@ -113,6 +114,10 @@ set_preferences (struct callbackdata *cbdata)
    prefs->field =\
     gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(cbdata->field));
 
+#define ASSIGNDOUBLE(field) \
+   prefs->field =\
+     gtk_spin_button_get_value (GTK_SPIN_BUTTON(cbdata->field));
+
 #define ASSIGNCOMBO(field) \
   g_string_assign (prefs->field,\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
@@ -148,6 +153,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT(fluidsynth_sample_rate)
     ASSIGNINT(fluidsynth_period_size)
 #endif
+  ASSIGNDOUBLE(display_refresh)
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
   ASSIGNBOOLEAN(overlays)
@@ -260,16 +266,24 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
 
-#define INTENTRY_LIMITS(thelabel, field, min, max) \
+
+#define ENTRY_LIMITS(thelabel, field, min, max, step)	\
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  GtkWidget *field = gtk_spin_button_new_with_range (min, max, 1.0);\
+  GtkWidget *field = gtk_spin_button_new_with_range (min, max, step);\
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (field), Denemo.prefs.field);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
   cbdata.field = field;
+
+
+
+#define INTENTRY_LIMITS(thelabel, field, min, max) ENTRY_LIMITS(thelabel, field, min, max, 0.1)
+
+#define DOUBLEENTRY_LIMITS  ENTRY_LIMITS
+
 
 #define BUTTON(thelabel, field, thecallback, data) \
   hbox = gtk_hbox_new (FALSE, 8);\
@@ -371,6 +385,9 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Misc");
 
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output) 
+
+  DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
+
 
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
 

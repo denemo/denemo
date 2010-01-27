@@ -166,6 +166,13 @@ void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
   scm_c_define(varname, scm_int2num(value));
 }
 
+void define_scheme_double_variable(gchar *varname, gdouble value, gchar *tooltip) {
+  scm_c_define(varname, scm_double2num(value));
+}
+
+
+
+
 void define_scheme_bool_variable(gchar *varname, gint value, gchar *tooltip) {
   scm_c_define(varname, SCM_BOOL(value));
 }

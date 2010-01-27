@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <string.h>
+#include "smf.h"
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 #include <sys/soundcard.h>
@@ -62,6 +63,19 @@ SEQ_DEFINEBUF (128);
 
 
 static gint ttag;
+
+
+/* record the time of the last midi event on the right side of the display
+ to a value from the list of events passed in */
+void
+set_last_midi_time(GList *events) {
+  smf_event_t *event = g_list_last(events)->data;
+  Denemo.gui->si->rightmost_time =  event->time_seconds;
+  // g_print("setting last time %f\n", event->time_seconds);
+}
+
+
+
 
 /* 
  *  get the midi channel of the currently selected staff

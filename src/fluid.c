@@ -263,13 +263,6 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 }
 
 
-void
-set_last_midi_time(GList *events) {
-  smf_event_t *event = g_list_last(events)->data;
-  Denemo.gui->si->rightmost_time =  event->time_seconds;
-  // g_print("setting last time %f\n", event->time_seconds);
-}
-
 
 static gint move_on() {
   if(playing_piece==FALSE)
@@ -285,12 +278,7 @@ static gint move_on() {
   return TRUE;
 }
 
-static gint redraw(){
-  if(playing_piece==FALSE)
-    return FALSE;
-  gtk_widget_queue_draw (Denemo.gui->scorearea);
-  return TRUE;
-}
+
 static gdouble last_draw_time;
 static gboolean fluidsynth_play_smf_event()
 {
@@ -323,8 +311,10 @@ static gboolean fluidsynth_play_smf_event()
      Denemo.gui->si->playingnow = event->user_pointer;
      //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
      if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
-	event->time_seconds - last_draw_time>0.01) {
+	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
+       //       g_print("drawing because %f %f\n", event->time_seconds, last_draw_time);
        last_draw_time = event->time_seconds;
+       
        gtk_widget_queue_draw (Denemo.gui->scorearea);
      }
     gint chan = (event->midi_buffer[0] & 0x0f);
@@ -432,20 +422,7 @@ void fluid_midi_play(void)
   start_player -= start_time;
   g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
   smf_seek_to_seconds(gui->si->smf, start_time);
-    if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
-      DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-      // timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)redraw, NULL);
 
-
-      //timeout_id = g_timeout_add (100, (GSourceFunc)redraw, NULL);
-
-
-
-      // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
-      // kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)fluid_kill_timer, NULL);
-    }
- 
-  
 }
 
 void

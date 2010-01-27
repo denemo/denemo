@@ -381,6 +381,8 @@ typedef struct DenemoPrefs
   gint fluidsynth_sample_rate;/**< sample rate in Hz > */
   gint fluidsynth_period_size;/**< The size of the audio buffers (in frames).> */
 
+  gdouble display_refresh;/**< time in ms between refresh of display during playback */
+
   GString *pdfviewer; /**< PDF viewer */
   GString *imageviewer; /**< Image Viewer */
   GString *username; /**< Username for use on denemo.org website */
