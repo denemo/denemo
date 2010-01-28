@@ -5137,11 +5137,13 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTMIDI;
+/*
    if(setup_pitch_input()){
      warningdialog("Could not start MIDI input");
      gui->input_source=INPUTKEYBOARD;
    } else
-     start_pitch_input();
+*/
+     start_midi_input();
    break;
  default:
    g_warning("Bad Value\n");

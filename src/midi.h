@@ -18,6 +18,6 @@ void playnotes (gboolean doit, chord chord_to_play,int prognum);
 void play_midikey(gint key, double duration, double volume, gint channel);
 void process_midi_event(gchar *buf);
 void playpitch(double pitch, double duration, double volume, int channel);
-
+void start_midi_input(void);
 gdouble get_midi_time(GList *events);
 DenemoObject *get_obj_for_time(smf_t *smf, gdouble time);

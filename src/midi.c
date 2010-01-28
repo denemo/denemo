@@ -331,6 +331,220 @@ playnotes (gboolean doit, chord chord_to_play, int channel)
 #include <glib.h>
 static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
+#define MAX_MIDI_NOTES (20)
+static gint midi_notes[MAX_MIDI_NOTES];
+static volatile int count;
+
+static void store_midi_note(gint pitch)
+{ 
+  if( ++count < MAX_MIDI_NOTES)
+    midi_notes[count] = pitch;
+}
+
+gint get_midi_note(void) {
+  gint ret=-1;
+  if(count) {
+    ret=midi_notes[count];
+    count = 0;
+  }
+  return ret;
+}
+
+/**
+ * enter_midi_note_in_score
+ * @mid_c_offset enters the midi note steps above/below mid-c
+ * @enshift enharmonic adjustment -1 is one flat etc.. 
+ */
+static void enter_midi_note_in_score (DenemoGUI *gui, gint mid_c_offset, gint enshift) {
+  gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
+  shiftcursor(gui, mid_c_offset);
+  setenshift(gui->si, enshift);
+  displayhelper (gui);
+}
+
+typedef struct enharmonic
+{
+  gint mid_c_offset;
+  gint enshift;
+}enharmonic;
+
+
+enharmonic
+notenum2enharmonic (gint input, gint key)
+{
+  enharmonic local;
+  local.mid_c_offset = (input / 12) - 5;
+  local.enshift = input % 12;
+  
+  switch (local.enshift)
+    {
+case 0:			//c
+      {
+	local.mid_c_offset = (key > 6) ? (-1 + local.mid_c_offset * 7) : (local.mid_c_offset * 7);
+	local.enshift = (key > 6) ? (1) : (0);
+	break;
+      }
+    case 1:			//c#
+      {
+	local.mid_c_offset = (key < -3) ? (1 + local.mid_c_offset * 7) : (local.mid_c_offset * 7);
+	local.enshift = (key < -3) ? (-1) : (1);
+	break;
+      }
+    case 2:			//D
+      {
+	local.mid_c_offset = 1 + local.mid_c_offset * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 3:			//D#
+      {
+	local.mid_c_offset =
+	  (key < -1) ? (2 + local.mid_c_offset * 7) : (1 + local.mid_c_offset * 7);
+	local.enshift = (key < -1) ? (-1) : (1);
+	break;
+      }
+    case 4:			//E
+      {
+	local.mid_c_offset =
+	  (key < -6) ? (3 + local.mid_c_offset * 7) : (2 + local.mid_c_offset * 7);
+	local.enshift = (key < -6) ? (-1) : (0);
+	break;
+      }
+    case 5:			//F
+      {
+	local.mid_c_offset =
+	  (key > 5) ? (2 + local.mid_c_offset * 7) : (3 + local.mid_c_offset * 7);
+	local.enshift = (key > 5) ? (1) : (0);
+	break;
+      }
+    case 6:			//F#
+      {
+	local.mid_c_offset =
+	  (key < -4) ? (4 + local.mid_c_offset * 7) : (3 + local.mid_c_offset * 7);
+	local.enshift = (key < -4) ? (-1) : (1);
+	break;
+      }
+    case 7:			//G
+      {
+	local.mid_c_offset = 4 + local.mid_c_offset * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 8:			//G#
+      {
+	local.mid_c_offset =
+	  (key < -2) ? (5 + local.mid_c_offset * 7) : (4 + local.mid_c_offset * 7);
+	local.enshift = (key < -2) ? (-1) : (1);
+	break;
+      }
+    case 9:			//A
+      {
+	local.mid_c_offset = 5 + local.mid_c_offset * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 10:			//A#
+      {
+	local.mid_c_offset =
+	  (key < 0) ? (6 + local.mid_c_offset * 7) : (5 + local.mid_c_offset * 7);
+	local.enshift = (key < 0) ? (-1) : (1);
+	break;
+      }
+    case 11:			//B
+      {
+	local.mid_c_offset =
+	  (key < -5) ? (7 + local.mid_c_offset * 7) : (6 + local.mid_c_offset * 7);
+	local.enshift = (key < -5) ? (-1) : (0);
+	break;
+      }
+    };
+  return local;
+}
+#if 0
+static GList * put_notenum(GList *store, gint measurenum, enharmonic *enote) {
+  // extend store if too small
+  gint i = measurenum + 1 - g_list_length(store);
+  for(;i>0;i--) {
+    store = g_list_append(store,NULL);
+  }
+  GList *g = g_list_nth(store, measurenum);
+  if(g)
+    g->data = g_list_append(g->data, enote);
+  return store;
+}
+
+/**
+ * enter_midi_notenum_in_store
+ * enters the notes as a tone in the tone store
+ */
+static void enter_midi_notenum_in_store (DenemoGUI *gui, gint mid_c_offset, gint enshift) {
+  gboolean nextmeasure;
+  enharmonic *enote = (enote*)g_malloc0(sizeof(enote));
+  enote->mid_c_offset = mid_c_offset;
+  enote->mid_c_offset = enshift;
+#define store  (((DenemoStaff*)gui->si->currentstaff->data)->midi_notenum_store)
+  store = put_notenum(store, gui->si->currentmeasurenum - 1, enote);
+  nextmeasure = apply_tones(gui->si);
+  displayhelper (gui);
+  if(Denemo.prefs.continuous && nextmeasure) {
+    sound_click();
+    measureright(NULL);
+  }
+#undef store
+}
+#endif
+
+/* look for a new note played into midi input, if
+   present insert it into the score/store */
+gint midientry(DenemoGUI *gui) {
+  gint notenum;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  notenum = get_midi_note();
+  if(notenum < 0) 
+    return TRUE;
+  enharmonic enote = notenum2enharmonic (notenum, curstaffstruct->keysig.number);
+  //if (Denemo.prefs.midi_audio_output == Portaudio)
+    //playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
+  if (Denemo.prefs.midi_audio_output == Jack)
+    jack_playpitch(notenum, 300 /*duration*/);
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
+  if(!Denemo.prefs.overlays) { 
+      enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift);
+    if(gui->mode & INPUTRHYTHM) {
+      static beep = FALSE;
+      gint measure = gui->si->currentmeasurenum;
+      scheme_next_note(NULL);
+      if(measure != gui->si->currentmeasurenum)
+        beep=TRUE;
+      else if(beep) signal_measure_end(), beep=FALSE;
+    }
+  }
+  //else
+    //enter_midi_notenum_in_store(gui, enote.mid_c_offset, enote.enshift);
+  
+  return TRUE;
+}
+
+static guint PR_timer;// timer id
+#define DEFAULT_TIMER_RATE (5)
+
+void start_midi_input(void) {
+  DenemoGUI *gui = Denemo.gui;
+  if(PR_timer)
+    g_source_remove(PR_timer);
+
+  PR_timer = g_timeout_add (DEFAULT_TIMER_RATE, (GSourceFunc)midientry, Denemo.gui);
+
+  if(PR_timer==0)
+    g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
+  //PR_enable = TRUE;/* for midi input you are unlikely to enter notes by accident */
+  //PR_gui = gui;
+}
+
+
+
+
 
 
 
@@ -351,7 +565,7 @@ void process_midi_event(gchar *buf) {
     return;// not reached
   } 
   if(command==MIDI_NOTEON)
-    store_pitch(midi2hz(notenumber));
+    store_midi_note(notenumber);
 }
 
 gboolean intercept_midi_event(gint *midi) {
