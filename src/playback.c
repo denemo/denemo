@@ -206,12 +206,13 @@ ext_midi_playback_control (gboolean start)
  * trying avoid multiple instances of it
  */
 void
-ext_midi_playback (GtkAction * action, gpointer param)
+ext_midi_playback (GtkAction * action, DenemoScriptParam *param)
 {
+  GET_1PARAM(action, param, callback);
   if (Denemo.prefs.midi_audio_output == Jack)
     jack_midi_playback_start();
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_midi_play();
+    fluid_midi_play(callback);
   else  
     ext_midi_playback_control (TRUE);
 }
@@ -232,10 +233,3 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
 }
 
 
-void
-playback_local (gpointer callback_data, guint callback_action,
-		GtkWidget * widget)
-{
-  /* what is it ? */
-  return;
-}

@@ -7,7 +7,7 @@ gchar * fluidsynth_get_default_audio_driver();
 void fluid_playpitch(int key, int duration, int channel, int vol);
 void fluid_output_midi_event(unsigned char *buffer);
 void choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont);
-void fluid_midi_play(void);
+void fluid_midi_play(gchar *scheme_callback);
 void fluid_midi_stop(void);
 gint fluid_kill_timer(void);
 void fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot);
