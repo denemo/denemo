@@ -64,7 +64,9 @@ SEQ_DEFINEBUF (128);
 
 static gint ttag;
 
-
+gdouble generate_midi(void) {
+  return exportmidi(NULL, Denemo.gui->si, 0, 0);
+}
 
 
 /* return the time of the last event on the list events */

@@ -21,3 +21,4 @@ void playpitch(double pitch, double duration, double volume, int channel);
 
 gdouble get_midi_time(GList *events);
 DenemoObject *get_obj_for_time(smf_t *smf, gdouble time);
+gdouble generate_midi(void);

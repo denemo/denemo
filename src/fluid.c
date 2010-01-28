@@ -279,8 +279,16 @@ static gint move_on() {
 }
 
 
+static gboolean finish_play(gchar *callback) {
+  if(callback && *callback)
+    call_out_to_guile (callback);
+  return FALSE;
+}
+
+
+
 static gdouble last_draw_time;
-static gboolean fluidsynth_play_smf_event()
+static gboolean fluidsynth_play_smf_event(gchar *callback)
 {
 
   smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
@@ -289,12 +297,12 @@ static gboolean fluidsynth_play_smf_event()
     return FALSE;
 
   if (!playing_piece)
-    return FALSE;
+    return finish_play(callback);
 
   if (event == NULL || event->time_seconds>end_time){ 
     Denemo.gui->si->playingnow = NULL;
     playing_piece = FALSE;
-    return FALSE;
+    return  finish_play(callback);
   }
   else 
     playing_piece = TRUE;
@@ -369,8 +377,21 @@ gint fluid_kill_timer(void){
 }
 
 
-void fluid_midi_play(void)
+void fluid_midi_play(gchar *callback)
 {
+  static GString *callback_string;
+  if(playing_piece) {
+    if(callback==NULL)
+      warningdialog("Already playing, use Stop");
+    else
+      g_warning("Already playing, script error");
+  }
+  if(callback_string==NULL)
+    callback_string=g_string_new("");
+  if(callback)
+    g_string_assign(callback_string, callback);
+  else
+    g_string_assign(callback_string,"(display \"Stopped Playing\")");
   DenemoGUI *gui = Denemo.gui;
   start_player = get_time();
   playing_piece = TRUE;
@@ -379,14 +400,16 @@ void fluid_midi_play(void)
     return;
 
   if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
-    exportmidi (NULL, gui->si, 1, 0/* means to end */);
+    // exportmidi (NULL, gui->si, 1, 0/* means to end */);
+    //shouldn't have been 1
+    generate_midi();
   if (Denemo.gui->si->smf == NULL) {
     g_critical("Loading SMF failed.");
     return;
   } else {
     smf_rewind(Denemo.gui->si->smf);
     last_draw_time = 0.0;
-    g_idle_add(fluidsynth_play_smf_event, NULL);
+    g_idle_add(fluidsynth_play_smf_event, callback_string->str);
   }
 
 
