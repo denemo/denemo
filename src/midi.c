@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <string.h>
+#include "smf.h"
 
 #ifdef HAVE_SYS_SOUNDCARD_H
 #include <sys/soundcard.h>
@@ -62,6 +63,29 @@ SEQ_DEFINEBUF (128);
 
 
 static gint ttag;
+
+
+
+
+/* return the time of the last event on the list events */
+gdouble get_midi_time(GList *events) {
+  smf_event_t *event = g_list_last(events)->data;
+return event->time_seconds;
+}
+
+DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
+  if(time<0.0)
+    return NULL;
+  smf_event_t *event = smf_peek_next_event(smf);
+  if(event) {
+  gdouble initial = event->time_seconds;
+  smf_seek_to_seconds(smf, time);
+  event = smf_peek_next_event(smf);
+  smf_seek_to_seconds(smf, initial);
+  return (DenemoObject *)(event->user_pointer);
+  }
+  return NULL;
+}
 
 /* 
  *  get the midi channel of the currently selected staff

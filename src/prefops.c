@@ -116,6 +116,7 @@ initprefs ()
   ret->temperament = g_string_new("Equal");
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
+  ret->display_refresh = 0.01;
   ret->overlays = FALSE;
   ret->continuous = TRUE;
 #ifdef _HAVE_JACK_
@@ -334,6 +335,19 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	    }\
 	}
 
+#define READDOUBLEXMLENTRY(field) \
+      else if (0 ==\
+	       xmlStrcmp (cur->name, (const xmlChar *) #field))\
+	{\
+	  xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+	  if(tmp)\
+	    {\
+              define_scheme_int_variable("DenemoPref_" #field, atof(tmp), NULL); \
+	      prefs->field = atof ((gchar *) tmp);\
+	      xmlFree (tmp);\
+	    }\
+	}
+
 
 #define READBOOLXMLENTRY(field) \
       else if (0 ==\
@@ -429,6 +443,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
   
       READBOOLXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
+      READDOUBLEXMLENTRY(display_refresh)
       READBOOLXMLENTRY(overlays)
       READBOOLXMLENTRY(continuous)
       READBOOLXMLENTRY(jacktransport)
@@ -622,6 +637,24 @@ newXMLIntChild (xmlNodePtr parent, const xmlChar * name, gint content)
 }
 
 /**
+ * Output an double child as a child of the given node.
+ *
+ * @param parent - pointer to child nodes parent
+ * @param name -  name for the child node
+ * @param content - data to add to the child node
+ */
+static xmlNodePtr
+newXMLDoubleChild (xmlNodePtr parent, const xmlChar * name, gdouble content)
+{
+  static GString* str;
+  if(str==NULL)
+    str = g_string_new("");
+  g_string_printf(str, "%f", content);
+  return xmlNewChild (parent, NULL, name, (xmlChar *) str->str);
+}
+
+
+/**
  * Write the denemorc file
  *
  * @param prefs a pointer to the preferences structure
@@ -716,6 +749,20 @@ writeXMLPrefs (DenemoPrefs * prefs)
   newXMLIntChild (child, (xmlChar *) #field,\
 		  prefs->field);}
 
+#define WRITEDOUBLEXMLENTRY(field){ \
+    gchar *def = g_strdup("Holds the interger value of the user's " #field " preference");\
+    gdouble value = prefs->field;\
+    gchar *curname = g_strdup_printf("DenemoPref_%s", #field);\
+    define_scheme_double_variable(curname, value, def);\
+    g_free(curname);\
+    g_free(def);\
+  newXMLDoubleChild (child, (xmlChar *) #field,\
+		  prefs->field);}
+
+
+
+
+
 #define WRITEBOOLXMLENTRY(field){ \
     gchar *def = g_strdup("Holds #t or #f, the user's " #field " preference");\
     gboolean value = prefs->field;\
@@ -738,6 +785,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEINTXMLENTRY(mode)
   WRITEBOOLXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
+  WRITEDOUBLEXMLENTRY(display_refresh)
+
   WRITEBOOLXMLENTRY(overlays)
   WRITEBOOLXMLENTRY(continuous)
   WRITEBOOLXMLENTRY(jacktransport)

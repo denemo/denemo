@@ -1890,8 +1890,16 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
   si->smfsync = si->changecount;
 
+
+
   if(start || end)
     return exportmidi(NULL, si, 0, 0);// recurse if we have not generated all the MIDI for si
+  else {
+    if(si->start_time<0.0)
+      si->start_time = 0.0;
+    if(si->end_time<0.0)
+      si->end_time = smf_get_length_seconds(smf);
+  }
   return smf_get_length_seconds(smf);
 }
 

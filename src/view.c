@@ -166,6 +166,13 @@ void define_scheme_int_variable(gchar *varname, gint value, gchar *tooltip) {
   scm_c_define(varname, scm_int2num(value));
 }
 
+void define_scheme_double_variable(gchar *varname, gdouble value, gchar *tooltip) {
+  scm_c_define(varname, scm_double2num(value));
+}
+
+
+
+
 void define_scheme_bool_variable(gchar *varname, gint value, gchar *tooltip) {
   scm_c_define(varname, SCM_BOOL(value));
 }
@@ -496,6 +503,35 @@ static SCM scheme_zoom (SCM factor) {
     Denemo.gui->si->zoom =  1.0;
     return SCM_BOOL_F;
 }
+
+
+static SCM scheme_get_obj_time(void) {
+  if(!(Denemo.gui->si->currentobject))
+    return SCM_BOOL_F;
+  DenemoObject *curobj = Denemo.gui->si->currentobject->data;
+  if(!curobj->midi_events)
+    return SCM_BOOL_F;
+  return scm_double2num(get_midi_time(curobj->midi_events));
+}
+
+static SCM scheme_set_playback_interval (SCM start, SCM end) {
+  if(scm_is_real(start) && scm_is_real(end) ) {
+    Denemo.gui->si->start_time = scm_to_double(start);
+    Denemo.gui->si->end_time = scm_to_double(end);
+    return SCM_BOOL_T;
+  }
+  if(scm_is_real(start)){
+    Denemo.gui->si->start_time = scm_to_double(start);
+    return SCM_BOOL_T;
+  }
+  if(scm_is_real(end) ) {
+    Denemo.gui->si->end_time = scm_to_double(end);
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
+
 
 static SCM scheme_get_help(SCM command) {
   gchar *name;
@@ -3102,6 +3138,10 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Gets the status of the current musical score",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
   INSTALL_SCM_FUNCTION ("Takes a double and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
+
+  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiTime", scheme_get_obj_time);
+
+  INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX"SetPlaybackInterval", scheme_set_playback_interval);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
