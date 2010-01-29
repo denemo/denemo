@@ -392,7 +392,7 @@ static GList *get_tones(GList *tone_store, gint measurenum) {
 * return TRUE if measure has enough tones for all its notes
 */
 
-static gboolean  apply_tones(DenemoScore *si) { 
+gboolean  apply_tones(DenemoScore *si) { 
   gboolean ret=FALSE;
   DenemoStaff* curstaff = ((DenemoStaff*)si->currentstaff->data);
   GList *store;

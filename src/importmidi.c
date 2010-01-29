@@ -89,7 +89,7 @@ typedef struct harmonic
 	gint enshift;
 }harmonic;
 
-struct harmonic enharmonic(gint input, gint key);
+static struct harmonic enharmonic(gint input, gint key);
 static int readtrack(midicallback *mididata);
 void dotimesig(gint numerator, gint denominator, midicallback *mididata);
 void dokeysig(gint key, gint isminor, midicallback *mididata);
@@ -584,7 +584,7 @@ Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *midida
   return 0;
 }
 
-harmonic
+static harmonic
 enharmonic (gint input, gint key)
 {
   harmonic local;
