@@ -291,7 +291,7 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
      move_on();
   gdouble thetime = get_time() - si->start_player;
-  g_print("thetime %f\n", thetime);
+  //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
   thetime *= si->master_tempo;
   thetime +=  si->tempo_change_time - si->start_player;
