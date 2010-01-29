@@ -462,8 +462,8 @@ case 0:			//c
     };
   return local;
 }
-#if 0
-static GList * put_notenum(GList *store, gint measurenum, enharmonic *enote) {
+
+static GList * put_tone(GList *store, gint measurenum, tone *thetone) {
   // extend store if too small
   gint i = measurenum + 1 - g_list_length(store);
   for(;i>0;i--) {
@@ -471,7 +471,7 @@ static GList * put_notenum(GList *store, gint measurenum, enharmonic *enote) {
   }
   GList *g = g_list_nth(store, measurenum);
   if(g)
-    g->data = g_list_append(g->data, enote);
+    g->data = g_list_append(g->data, thetone);
   return store;
 }
 
@@ -481,20 +481,22 @@ static GList * put_notenum(GList *store, gint measurenum, enharmonic *enote) {
  */
 static void enter_midi_notenum_in_store (DenemoGUI *gui, gint mid_c_offset, gint enshift) {
   gboolean nextmeasure;
-  enharmonic *enote = (enote*)g_malloc0(sizeof(enote));
-  enote->mid_c_offset = mid_c_offset;
-  enote->mid_c_offset = enshift;
-#define store  (((DenemoStaff*)gui->si->currentstaff->data)->midi_notenum_store)
-  store = put_notenum(store, gui->si->currentmeasurenum - 1, enote);
+  tone *thetone = (tone*)g_malloc0(sizeof(tone));
+  thetone->enshift = enshift;
+  thetone->step = mid_c_offset;
+  thetone->octave = (mid_c_offset / 7) - 1;
+  thetone->valid = TRUE;
+#define store  (((DenemoStaff*)gui->si->currentstaff->data)->tone_store)
+
+  store = put_tone(store, gui->si->currentmeasurenum - 1, thetone);
   nextmeasure = apply_tones(gui->si);
   displayhelper (gui);
   if(Denemo.prefs.continuous && nextmeasure) {
-    sound_click();
+    //sound_click();
     measureright(NULL);
   }
 #undef store
 }
-#endif
 
 /* look for a new note played into midi input, if
    present insert it into the score/store */
@@ -505,8 +507,8 @@ gint midientry(DenemoGUI *gui) {
   if(notenum < 0) 
     return TRUE;
   enharmonic enote = notenum2enharmonic (notenum, curstaffstruct->keysig.number);
-  //if (Denemo.prefs.midi_audio_output == Portaudio)
-    //playpitch(found->pitch * (pow(2,(octave))), 0.3, 0.5, 0);
+  if (Denemo.prefs.midi_audio_output == Portaudio)
+    playpitch(midi2hz(notenum), 0.3, 0.5, 0);
   if (Denemo.prefs.midi_audio_output == Jack)
     jack_playpitch(notenum, 300 /*duration*/);
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
@@ -522,8 +524,8 @@ gint midientry(DenemoGUI *gui) {
       else if(beep) signal_measure_end(), beep=FALSE;
     }
   }
-  //else
-    //enter_midi_notenum_in_store(gui, enote.mid_c_offset, enote.enshift);
+  else
+    enter_midi_notenum_in_store(gui, enote.mid_c_offset, enote.enshift);
   
   return TRUE;
 }
@@ -540,8 +542,6 @@ void start_midi_input(void) {
 
   if(PR_timer==0)
     g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
-  //PR_enable = TRUE;/* for midi input you are unlikely to enter notes by accident */
-  //PR_gui = gui;
 }
 
 

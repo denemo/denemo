@@ -21,6 +21,7 @@ gint stop_pitch_input(void);
 void start_pitch_input(void);
 gboolean pitch_recognition_system_active(void);
 gboolean delete_tone(DenemoScore *si, chord *thechord);
+gboolean  apply_tones(DenemoScore *si);
 void clear_overlay(GtkAction *action, gpointer param);
 void store_pitch(double pitch);
 double get_pitch(void);
