@@ -64,6 +64,22 @@ SEQ_DEFINEBUF (128);
 
 static gint ttag;
 
+/* returns the system time in seconds */
+gdouble get_time(void)
+{
+  double          seconds;
+  int             ret;
+  struct timeval  tv;
+
+  ret = gettimeofday(&tv, NULL);
+  if (ret) {
+    perror("gettimeofday");
+  }
+  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
+  return seconds;
+}
+
+
 gdouble generate_midi(void) {
   return exportmidi(NULL, Denemo.gui->si, 0, 0);
 }
@@ -74,6 +90,7 @@ gdouble get_midi_time(GList *events) {
   smf_event_t *event = g_list_last(events)->data;
 return event->time_seconds;
 }
+
 
 DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
   if(time<0.0)

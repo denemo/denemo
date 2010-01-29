@@ -48,35 +48,10 @@ case CONTROL_CHANGE:
 static fluid_settings_t* settings;
 static fluid_synth_t* synth;
 static fluid_audio_driver_t* adriver;
-static double start_player = 0.0;//system time when play started
 
-/*related to moving the cursor along with playback*/
-static double start_time = 0.0;
-static double end_time = 0.0;//time in seconds to end at (from start of the smf)
-static gdouble playback_duration = 0.0;
-static gint timeout_id = 0, kill_id=0;
 
 
 static gboolean playing_piece;
-
-
-
-
-static double get_time(void)
-{
-  double          seconds;
-  int             ret;
-  struct timeval  tv;
-
-  ret = gettimeofday(&tv, NULL);
-  if (ret) {
-    perror("gettimeofday");
-  }
-  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
-  return seconds;
-}
-
-
 
 
 static gint start_fluid_settings()
@@ -290,8 +265,8 @@ static gboolean finish_play(gchar *callback) {
 static gdouble last_draw_time;
 static gboolean fluidsynth_play_smf_event(gchar *callback)
 {
-
-  smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
+  DenemoScore *si = Denemo.gui->si;
+  smf_event_t *event = si->smf?smf_peek_next_event(si->smf):NULL;
   
   if (!synth)
     return FALSE;
@@ -299,8 +274,8 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   if (!playing_piece)
     return finish_play(callback);
 
-  if (event == NULL || event->time_seconds>end_time){ 
-    Denemo.gui->si->playingnow = NULL;
+  if (event == NULL || event->time_seconds>si->end_time){ 
+    si->playingnow = NULL;
     playing_piece = FALSE;
     return  finish_play(callback);
   }
@@ -309,15 +284,21 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   
    /* Skip over metadata events. */
   if (smf_event_is_metadata(event)) {
-    event = smf_get_next_event(Denemo.gui->si->smf);
+    event = smf_get_next_event(si->smf);
     return TRUE; 
   } 
 
-  if(Denemo.gui->si->rightmost_time>0.0 && event->time_seconds>Denemo.gui->si->rightmost_time)
+  if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
      move_on();
-  if ((get_time() - start_player) > event->time_seconds){
-     event = smf_get_next_event(Denemo.gui->si->smf);
-     Denemo.gui->si->playingnow = event->user_pointer;
+  gdouble thetime = get_time() - si->start_player;
+  g_print("thetime %f\n", thetime);
+  thetime -= si->tempo_change_time - si->start_player;
+  thetime *= si->master_tempo;
+  thetime +=  si->tempo_change_time - si->start_player;
+  //g_print("transformed to %f\n", thetime);
+  if (thetime > event->time_seconds){
+     event = smf_get_next_event(si->smf);
+     si->playingnow = event->user_pointer;
      //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
      if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
 	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
@@ -365,25 +346,13 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 }
 
 
-gint fluid_kill_timer(void){
-  g_debug("fluidsynth kill timer %d\n", timeout_id);
-  if(timeout_id>0)
-    g_source_remove(timeout_id);
-  timeout_id = 0;
-  if(kill_id)
-    g_source_remove(kill_id);
-  kill_id = 0;
-  return 1;
-}
 
 
 void fluid_midi_play(gchar *callback)
 {
   static GString *callback_string;
   if(playing_piece) {
-    if(callback==NULL)
-      warningdialog("Already playing, use Stop");
-    else
+    if(callback!=NULL)
       g_warning("Already playing, script error");
   }
   if(callback_string==NULL)
@@ -393,8 +362,12 @@ void fluid_midi_play(gchar *callback)
   else
     g_string_assign(callback_string,"(display \"Stopped Playing\")");
   DenemoGUI *gui = Denemo.gui;
-  start_player = get_time();
+
+  if(gui->si->start_time>gui->si->end_time)
+    gui->si->start_time =  0.0;
+  gui->si->start_player = get_time() - gui->si->start_time;
   playing_piece = TRUE;
+  gui->si->tempo_change_time = gui->si->start_player;
   
   if (!synth)
     return;
@@ -412,48 +385,7 @@ void fluid_midi_play(gchar *callback)
     g_idle_add(fluidsynth_play_smf_event, callback_string->str);
   }
 
-
-  playback_duration = smf_get_length_seconds(Denemo.gui->si->smf);
-
-#if 0  
-  /* TODO make the below some sort of function this is copy  
-     pasted section from jackmidi.c which was copied from 
-     somewhere else also
-   */
-  DenemoObject *curobj;
-  start_time = 0.0;
-  curobj = (DenemoObject *)get_mark_object();
-  if(curobj==NULL && gui->si->currentobject)
-    curobj = gui->si->currentobject->data;
-  if(curobj && curobj->midi_events) {
-    smf_event_t *event = curobj->midi_events->data;
-    start_time = event->time_seconds;
-    g_debug("\nsetting start %f\n", start_time);
-  }
-  end_time = playback_duration;
-  curobj =  (DenemoObject *)get_point_object();
-  if(curobj && curobj->midi_events)/*is this ever true?*/ { 
-    smf_event_t *event = g_list_last(curobj->midi_events)->data;
-    end_time = event->time_seconds;
-    g_debug("\nsetting end %f\n", end_time);	   
-  } 
-#else
-  start_time = gui->si->start_time;
-  end_time = gui->si->end_time;
-
-#endif
-
-  if(start_time>end_time) {
-    gdouble temp = start_time;
-    start_time = end_time;
-    end_time = temp;
-  }
-  if(end_time - start_time >playback_duration)
-    end_time = start_time + playback_duration;
-  playback_duration = end_time - start_time;
-  start_player -= start_time;
-  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
-  smf_seek_to_seconds(gui->si->smf, start_time);
+  smf_seek_to_seconds(gui->si->smf, gui->si->start_time);
 
 }
 

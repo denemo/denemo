@@ -224,7 +224,6 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
  }
  else if (Denemo.prefs.midi_audio_output == Fluidsynth){
    fluid_midi_stop();
-   fluid_kill_timer();
  }
  else {
    ext_midi_playback_control (FALSE);

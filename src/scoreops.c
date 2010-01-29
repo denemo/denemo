@@ -320,6 +320,8 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->stafftoplay = 0;
   si->start_time = -1.0;
   si->end_time = -1.0;//ie unset
+  si->master_tempo=1.0;
+  si->tempo_change_time=0.0;
 
   si->savebuffer = NULL;
   si->bookmarks = NULL;
