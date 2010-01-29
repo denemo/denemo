@@ -93,21 +93,6 @@ jackmidi_server_running(){
   return jack_server_running;
 }
 
-	double 
-get_time(void)
-{
-  double seconds;
-  int ret;
-  struct timeval tv;
-
-  ret = gettimeofday(&tv, NULL);
-
-  if (ret) 
-    perror("gettimeofday");
-	
-  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
-  return seconds;
-}
 
 static gboolean
 warning_async(gpointer s)
