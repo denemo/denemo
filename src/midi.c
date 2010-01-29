@@ -653,21 +653,23 @@ gint init_midi_input(void) {
  return jackmidi_server_running() ? 0 : -1;
 #else
 #ifdef _HAVE_FLUIDSYNTH_
- return fluid_start_midi_in();
+ gint ret = fluid_start_midi_in();
 #else
   GError *error = NULL;
   if(!channel)
     channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
   if(error)
-    return -1;
+    ret = -1;
   g_io_channel_set_encoding       (channel,NULL/* raw binary */,
                                              &error);
   if(error)
-    return -2;
+    ret = -2;
   g_io_add_watch_full(channel, G_PRIORITY_HIGH,G_IO_IN|G_IO_PRI, (GIOFunc) process_callback,NULL, NULL);
   //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
-  return 0;
+  ret = 0;
 #endif
+  start_midi_input();
+  return ret;
 #endif
 }
 
