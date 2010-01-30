@@ -621,6 +621,22 @@ static notepitch * determine_note(gdouble pitch, temperament *t, gint* which_oct
   return NULL;
 }
 
+
+//Computes the mid_c_offset and enshift for the MIDI notenum passed in
+void
+notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {
+
+  *penshift = notenum % 12;  
+  temperament *t = PR_temperament;
+  
+  *poffset = t->notepitches[*penshift].spec.step;
+  *penshift =  t->notepitches[*penshift].spec.alteration;
+  return;
+}
+
+
+
+
 static void display_pitch(double note, DenemoGUI *gui) {
   gint octave;
   double deviation;
