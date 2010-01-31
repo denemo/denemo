@@ -64,86 +64,7 @@ SEQ_DEFINEBUF (128);
 
 static gint ttag;
 
-/* returns the system time in seconds */
-gdouble get_time(void)
-{
-  double          seconds;
-  int             ret;
-  struct timeval  tv;
 
-  ret = gettimeofday(&tv, NULL);
-  if (ret) {
-    perror("gettimeofday");
-  }
-  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
-  return seconds;
-}
-
-
-gdouble generate_midi(void) {
-  return exportmidi(NULL, Denemo.gui->si, 0, 0);
-}
-
-
-/* return the time of the last event on the list events */
-gdouble get_midi_time(GList *events) {
-  smf_event_t *event = g_list_last(events)->data;
-return event->time_seconds;
-}
-
-
-DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
-  if(time<0.0)
-    return NULL;
-  smf_event_t *event = smf_peek_next_event(smf);
-  if(event) {
-  gdouble initial = event->time_seconds;
-  smf_seek_to_seconds(smf, time);
-  event = smf_peek_next_event(smf);
-  smf_seek_to_seconds(smf, initial);
-  return (DenemoObject *)(event->user_pointer);
-  }
-  return NULL;
-}
-
-/* 
- *  get the midi channel of the currently selected staff
- */
-gint get_midi_channel()
-{
-  gint tracknumber;
-  gint channel;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
-    channel = 9;
-  else
-    {
-      tracknumber = Denemo.gui->si->currentstaffnum-1;
-      tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
-      channel = tracknumber&0xF;
-    }
-  return channel ; //staff struct uses encoding 0-15
-}
-
-gint get_midi_prognum()
-{
-  gint prognum;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-  if (curstaffstruct->midi_channel == 9)
-    prognum = 0;
-  else
-    prognum = select_program (curstaffstruct->midi_instrument->str);  
-  return prognum;
-}
-
-gint get_midi_port()
-{
-  gint portnumber;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
-
-  portnumber = curstaffstruct->midi_port;
-  return portnumber; 
-}
 /**
  * Dump the global buffer to the sequencer device
  *
@@ -561,4 +482,86 @@ gint stop_midi_input(void) {
 #endif
 #endif
   return 0;
+}
+
+
+/* returns the system time in seconds */
+gdouble get_time(void)
+{
+  double          seconds;
+  int             ret;
+  struct timeval  tv;
+
+  ret = gettimeofday(&tv, NULL);
+  if (ret) {
+    perror("gettimeofday");
+  }
+  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
+  return seconds;
+}
+
+
+gdouble generate_midi(void) {
+  return exportmidi(NULL, Denemo.gui->si, 0, 0);
+}
+
+
+/* return the time of the last event on the list events */
+gdouble get_midi_time(GList *events) {
+  smf_event_t *event = g_list_last(events)->data;
+return event->time_seconds;
+}
+
+
+DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
+  if(time<0.0)
+    return NULL;
+  smf_event_t *event = smf_peek_next_event(smf);
+  if(event) {
+  gdouble initial = event->time_seconds;
+  smf_seek_to_seconds(smf, time);
+  event = smf_peek_next_event(smf);
+  smf_seek_to_seconds(smf, initial);
+  return (DenemoObject *)(event->user_pointer);
+  }
+  return NULL;
+}
+
+/* 
+ *  get the midi channel of the currently selected staff
+ */
+gint get_midi_channel()
+{
+  gint tracknumber;
+  gint channel;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  if (!strcmp (curstaffstruct->midi_instrument->str, "drums"))
+    channel = 9;
+  else
+    {
+      tracknumber = Denemo.gui->si->currentstaffnum-1;
+      tracknumber = (tracknumber >= 9) ? tracknumber + 1 : tracknumber;
+      channel = tracknumber&0xF;
+    }
+  return channel ; //staff struct uses encoding 0-15
+}
+
+gint get_midi_prognum()
+{
+  gint prognum;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+  if (curstaffstruct->midi_channel == 9)
+    prognum = 0;
+  else
+    prognum = select_program (curstaffstruct->midi_instrument->str);  
+  return prognum;
+}
+
+gint get_midi_port()
+{
+  gint portnumber;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
+
+  portnumber = curstaffstruct->midi_port;
+  return portnumber; 
 }
