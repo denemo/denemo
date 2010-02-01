@@ -67,6 +67,7 @@ static gboolean        	use_transport = FALSE;
 static gboolean		jack_server_running = TRUE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
+static gdouble 		last_draw_time;
 
 gint
 maxnumber_of_clients(){
@@ -110,12 +111,17 @@ warn_from_jack_thread_context(const char *str)
 #endif
 }
 
-/* this will be become obsolete when we have a playback bar*/ 
-static gint 
-move_on(DenemoGUI *gui){
-  if(timeout_id==0)
+static gint move_on() {
+  if(playing_piece==FALSE)
     return FALSE;
-  set_currentmeasurenum (gui, gui->si->currentmeasurenum+1);
+  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum)/2;
+  if(adj->value + amount < adj->upper) {    
+      gtk_adjustment_set_value(adj, adj->value + amount);
+  } else
+    gtk_adjustment_set_value(adj, adj->upper);
+  //gtk_widget_queue_draw (Denemo.gui->scorearea);
+  // gtk_widget_draw (Denemo.gui->scorearea, NULL);
   return TRUE;
 }
 
@@ -212,35 +218,65 @@ send_midi_event(jack_nframes_t nframes, gint client_number){
   }
 }
 #undef MDC
-static gboolean 
-jackmidi_read_smf_events(){
 
-  smf_event_t *event = Denemo.gui->si->smf?smf_peek_next_event(Denemo.gui->si->smf):NULL;
+static gboolean finish_play(gchar *callback) {
+  if(callback && *callback)
+    call_out_to_guile (callback);
+  return FALSE;
+}
+
+static gboolean 
+jackmidi_play_smf_event(gchar *callback)
+{
   DevicePort *DP; 
+  DenemoScore *si = Denemo.gui->si;
+  smf_event_t *event = si->smf?smf_peek_next_event(si->smf):NULL;
+  
+  if (!jack_server_running)
+    return FALSE;
   if (!MD[0].jack_client)
     return FALSE;
-
   if (!playing_piece)
-    return FALSE;
+    return finish_play(callback);
 
-  if (event == NULL || event->time_seconds>end_time){
+  if (event == NULL || event->time_seconds>si->end_time){ 
+    DP = si->playingnow = NULL;
     playing_piece = FALSE;
-    return FALSE;
+    return  finish_play(callback);
   }
-  else
+  else 
     playing_piece = TRUE;
-
-  /* Skip over metadata events. */
+  
+   /* Skip over metadata events. */
   if (smf_event_is_metadata(event)) {
-    event = smf_get_next_event(Denemo.gui->si->smf);
-    return TRUE;
-  }
-  if ((get_time() - start_player) >= event->time_seconds){
-    DP = event->track->user_pointer;
-    if(DP) {
+    event = smf_get_next_event(si->smf);
+    return TRUE; 
+  } 
+
+  if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
+     move_on();
+  gdouble thetime = get_time() - si->start_player;
+  //g_print("thetime %f\n", thetime);
+  thetime -= si->tempo_change_time - si->start_player;
+  thetime *= si->master_tempo;
+  thetime +=  si->tempo_change_time - si->start_player;
+  //g_print("transformed to %f\n", thetime);
+  if (thetime > event->time_seconds){
+     event = smf_get_next_event(si->smf);
+     DP = si->playingnow = event->user_pointer;
+     //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
+     if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
+	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
+       //       g_print("drawing because %f %f\n", event->time_seconds, last_draw_time);
+       last_draw_time = event->time_seconds;
+       
+       gtk_widget_queue_draw (Denemo.gui->scorearea);
+     }
+    gint chan = (event->midi_buffer[0] & 0x0f);
+    //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
+    int success;
+    if (DP)
       jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
-    }
-    event = smf_get_next_event(Denemo.gui->si->smf);
   }
   return TRUE;
 }
@@ -524,6 +560,7 @@ init_jack(void){
   return err;
 }
 
+#if 0
 void
 jack_midi_playback_start(){
   DenemoGUI *gui = Denemo.gui;
@@ -590,6 +627,46 @@ jack_midi_playback_start(){
   }
   return;
 }
+#endif 
+
+void jack_midi_play(gchar *callback)
+{
+  static GString *callback_string;
+  if(playing_piece) {
+    if(callback!=NULL)
+      g_warning("Already playing, script error");
+  }
+  if(callback_string==NULL)
+    callback_string=g_string_new("");
+  if(callback)
+    g_string_assign(callback_string, callback);
+  else
+    g_string_assign(callback_string,"(display \"Stopped Playing\")");
+  DenemoGUI *gui = Denemo.gui;
+
+  if(gui->si->start_time>gui->si->end_time)
+    gui->si->start_time =  0.0;
+  gui->si->start_player = get_time() - gui->si->start_time;
+  playing_piece = TRUE;
+  gui->si->tempo_change_time = gui->si->start_player;
+  
+  if (!jack_server_running)
+    return;
+
+  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+    generate_midi();
+  if (Denemo.gui->si->smf == NULL) {
+    g_critical("Loading SMF failed.");
+    return;
+  } else {
+    smf_rewind(Denemo.gui->si->smf);
+    last_draw_time = 0.0;
+    g_idle_add(jackmidi_play_smf_event, callback_string->str);
+  }
+
+  smf_seek_to_seconds(gui->si->smf, gui->si->start_time);
+
+}
 
 void
 jack_midi_playback_stop ()
@@ -604,6 +681,7 @@ void jack_output_midi_event(){}
 int jack_kill_timer(){}
 void jack_midi_playback_stop (){}
 void jack_midi_playback_start (){}
+void jack_midi_play(){}
 void remove_last_jack_midi_port (){}
 void create_jack_midi_port (){}
 void remove_jack_midi_client (){}

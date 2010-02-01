@@ -9,7 +9,7 @@
 int init_jack(void);
 int jackmidi(void);
 void  jackstop(void);
-void jack_midi_playback_start(void);
+void jack_midi_play(gchar *scheme_callback);
 void jack_midi_playback_stop(void);
 void jack_playpitch(gint key, gint duration);
 void jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number);

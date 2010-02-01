@@ -210,7 +210,7 @@ ext_midi_playback (GtkAction * action, DenemoScriptParam *param)
 {
   GET_1PARAM(action, param, callback);
   if (Denemo.prefs.midi_audio_output == Jack)
-    jack_midi_playback_start();
+    jack_midi_play(callback);
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_midi_play(callback);
   else  
