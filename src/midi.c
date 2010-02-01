@@ -14,9 +14,7 @@
 #include <string.h>
 #include "smf.h"
 
-#ifdef HAVE_SYS_SOUNDCARD_H
-#include <sys/soundcard.h>
-#else
+
 #define MIDI_NOTEOFF		0x80
 #define MIDI_NOTEON		0x90
 #define MIDI_KEY_PRESSURE	0xA0
@@ -27,26 +25,19 @@
 #define MIDI_PITCH_BEND		0xE0
 
 #define MIDI_SYSTEM_PREFIX	0xF0
-#endif
 
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//#include <fcntl.h>
 #include <gtk/gtk.h>
-#ifndef G_OS_WIN32
-#include <sys/ioctl.h>
-#endif
+
 #include <denemo/denemo.h>
 #include "draw.h"
 #include "audio.h"
 #include "jackmidi.h"
 #include "instrumentname.h"
 
-#define SEQ_DEV    (Denemo.prefs.sequencer->str)
-#define SEQ_DEV_N  0
-static int sequencer_fd = -1;
-static gboolean shouldremove = FALSE;
 static double
 midi2hz(int midinum)
 {
@@ -55,14 +46,6 @@ midi2hz(int midinum)
   return 440 * pow(2, expon);
 }
 
-#ifdef HAVE_SYS_SOUNDCARD_H
-struct synth_info card_info;
-
-SEQ_DEFINEBUF (128);
-
-
-
-static gint ttag;
 
 
 /* 
@@ -105,35 +88,6 @@ gint get_midi_port()
 }
 
 
-/**
- * Dump the global buffer to the sequencer device
- *
- */
-void
-seqbuf_dump ()
-{
-  if (_seqbufptr)
-    if (write (sequencer_fd, _seqbuf, _seqbufptr) == -1)
-      {
-	perror (_("Error during seqbuf_dump"));
-	//exit (-1);
-      }
-  _seqbufptr = 0;
-}
-
-#endif
-/**
- * Close the sequencer device
- *
- */
-void
-midi_cleanup ()
-{
-  (void) close (sequencer_fd);
-}
-
-
-
 static gboolean sequencer_absent = TRUE;
 /**
  * Initialise the sequencer device ready for immediate playback
@@ -142,38 +96,7 @@ static gboolean sequencer_absent = TRUE;
 gint
 midi_init ()
 {
-#ifdef HAVE_SYS_SOUNDCARD_H
-  if ((sequencer_fd = open (SEQ_DEV, O_WRONLY)) == -1)
-    {
-      perror (_("Error opening sequencer"));
-      return -1;
-    }
 
-  card_info.device = 0;
-
-  if (ioctl (sequencer_fd, SNDCTL_SYNTH_INFO, &card_info) == -1)
-    {
-      perror (_("Cannot get info on soundcard"));
-      close (sequencer_fd);
-      sequencer_fd = -1;
-      return -1;
-    }
-
-  printf (_("Synthesizer detected: %s\n"), card_info.name);
-  printf (_("Synthesizer supports %d voices.\n"), card_info.nr_voices);
-
-  /* Reset the sequencer */
-  if (ioctl (sequencer_fd, SNDCTL_SEQ_RESET) == -1)
-    {
-      perror (_("Error resetting sequencer"));
-      sequencer_fd = -1;
-      return -1;
-    }
-  sequencer_absent = FALSE;
-  SEQ_DUMPBUF ();
-  close (sequencer_fd);
-  sequencer_fd = -1;
-#endif
   return 0;
 }
 
@@ -212,55 +135,9 @@ playnote (gpointer tone, gpointer chord, int channel)
   key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
   key += ((note *) tone)->enshift;
   voice = g_list_index ((GList *) chord, tone);
-  if(sequencer_fd == -1)
-    play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, channel);
-#ifdef HAVE_SYS_SOUNDCARD_H
-  else {
-    SEQ_SET_PATCH (SEQ_DEV_N, voice, channel);
-    SEQ_START_NOTE (SEQ_DEV_N, voice, key, 127);
-    SEQ_DUMPBUF ();
-  }
-#endif
-}
-#ifdef HAVE_SYS_SOUNDCARD_H
-/**
- *  Used to stop each tone in the given chord
- *  (a g_list_foreach function)
- */
-static void
-stoptone (gpointer tone, gpointer chord)
-{
-  gint offset;
-  gint voice;
-  gchar key;
-  /* Because mid_c_offset is a measure of notes and we need a measure of
-   * half-steps, this array will help */
-  const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
 
-  offset = ((note *) tone)->mid_c_offset;
+  play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, channel);
 
-  /* 60 is middle-C in MIDI keys */
-  key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
-  key += ((note *) tone)->enshift;
-  voice = g_list_index ((GList *) chord, tone);
-
-  SEQ_STOP_NOTE (0, voice, key, 127);
-  SEQ_DUMPBUF ();
-}
-
-#endif
-
-/**
- * Close the sequencer device.  This is used by playnotes
- *
- */
-static gint
-close_seqfd (gpointer data)
-{
-  close (sequencer_fd);
-  sequencer_fd = -1;
-  shouldremove = FALSE;
-  return FALSE;			/* Timeout function won't be called again */
 }
 
 /** 
@@ -275,34 +152,7 @@ playnotes (gboolean doit, chord chord_to_play, int channel)
     playnote( chord_to_play.notes->data, chord_to_play.notes, channel);
     return;
   }
-#ifdef HAVE_SYS_SOUNDCARD_H
-  if (doit)
-    if (sequencer_fd != -1
-	|| (sequencer_fd = open (SEQ_DEV, O_WRONLY)) != -1)
-      {
-	GList *tone;
-	SEQ_START_TIMER ();
-	/*
-	   g_list_foreach (chord_to_play.notes,
-	   (GFunc) playtone, chord_to_play.notes);
-	 */
-	tone = chord_to_play.notes;
-	while (tone)
-	  {
-	    playnote (tone->data, chord_to_play.notes, channel);
-	    tone = tone->next;
-	  }
-	SEQ_DELTA_TIME (50);
 
-
-	g_list_foreach (chord_to_play.notes,
-			(GFunc) stoptone, chord_to_play.notes);
-	if (shouldremove)
-	  gtk_timeout_remove (ttag);
-	ttag = gtk_timeout_add (1000, close_seqfd, NULL);
-	/*shouldremove = TRUE; */
-      }
-#endif
 }
 
 // MIDI input
