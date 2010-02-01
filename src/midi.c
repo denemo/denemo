@@ -378,14 +378,11 @@ gint stop_midi_input(void) {
 /* returns the system time in seconds */
 gdouble get_time(void)
 {
+  GTimeVal tv;
+  
   double          seconds;
-  int             ret;
-  struct timeval  tv;
-
-  ret = gettimeofday(&tv, NULL);
-  if (ret) {
-    perror("gettimeofday");
-  }
+  g_get_current_time(&tv);
+  
   seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
   return seconds;
 }
