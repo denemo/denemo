@@ -48,6 +48,9 @@ vertical_scroll (GtkAdjustment *adjust, DenemoGUI *si);
 void
 horizontal_scroll (GtkAdjustment *adjust, DenemoGUI *si);
 
+void scroll_left(void);
+void scroll_right (void);
+
 gboolean
 set_currentstaffnum(DenemoGUI *si, gint dest);
 
