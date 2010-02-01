@@ -5,6 +5,7 @@
 #include "midi.h"
 #include "smf.h"
 #include "fluid.h"
+#include "moveviewport.h"
 
 #define MAX_NUMBER_OF_TRACKS    128
 #define NOTE_OFF                0x80
@@ -239,19 +240,6 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 
 
 
-static gint move_on() {
-  if(playing_piece==FALSE)
-    return FALSE;
-  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
-  gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum)/2;
-  if(adj->value + amount < adj->upper) {    
-      gtk_adjustment_set_value(adj, adj->value + amount);
-  } else
-    gtk_adjustment_set_value(adj, adj->upper);
-  //gtk_widget_queue_draw (Denemo.gui->scorearea);
-  // gtk_widget_draw (Denemo.gui->scorearea, NULL);
-  return TRUE;
-}
 
 
 static gboolean finish_play(gchar *callback) {
@@ -287,9 +275,9 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
     event = smf_get_next_event(si->smf);
     return TRUE; 
   } 
-
+  // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
-     move_on();
+     center_viewport();
   gdouble thetime = get_time() - si->start_player;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;

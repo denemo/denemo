@@ -189,6 +189,18 @@ move_viewport_up (DenemoGUI * gui)
 }
 
 
+
+void center_viewport(void) {
+  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum)/2;
+  if(adj->value + amount < adj->upper) {    
+      gtk_adjustment_set_value(adj, adj->value + amount);
+  } else
+    gtk_adjustment_set_value(adj, adj->upper);
+  return TRUE;
+}
+
+
 /**
  * Move viewable part of the score down
  *

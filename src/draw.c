@@ -23,6 +23,7 @@
 #include "lyparserfuncs.h"	/* to generate lily text for display */
 #include "pitchentry.h"
 #include "lyric.h"
+#include "midi.h"
 
 /**
  * defines function to choose the correct 

@@ -32,6 +32,8 @@ void
 isoffrightside (DenemoGUI *gui);
 
 void
+center_viewport(void);
+void
 move_viewport_up (DenemoGUI *gui);
 
 void

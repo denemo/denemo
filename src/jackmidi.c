@@ -12,6 +12,7 @@
 #include "pitchentry.h"
 #include "smf.h"
 #include "device_manager.h"
+#include "moveviewport.h"
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
@@ -111,19 +112,6 @@ warn_from_jack_thread_context(const char *str)
 #endif
 }
 
-static gint move_on() {
-  if(playing_piece==FALSE)
-    return FALSE;
-  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
-  gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum)/2;
-  if(adj->value + amount < adj->upper) {    
-      gtk_adjustment_set_value(adj, adj->value + amount);
-  } else
-    gtk_adjustment_set_value(adj, adj->upper);
-  //gtk_widget_queue_draw (Denemo.gui->scorearea);
-  // gtk_widget_draw (Denemo.gui->scorearea, NULL);
-  return TRUE;
-}
 
 gint 
 jack_kill_timer(void){
@@ -254,7 +242,7 @@ jackmidi_play_smf_event(gchar *callback)
   } 
 
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
-     move_on();
+     center_viewport();
   gdouble thetime = get_time() - si->start_player;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
@@ -560,74 +548,7 @@ init_jack(void){
   return err;
 }
 
-#if 0
-void
-jack_midi_playback_start(){
-  DenemoGUI *gui = Denemo.gui;
-  if (!jack_server_running)
-    return;
-  start_player = get_time();
-  playing_piece = TRUE;
 
-  if (!MD[0].jack_client) //TODO check if this is correct
-    return;
-
-
-  /* set tranport on/off */
-  use_transport = (gboolean)Denemo.prefs.jacktransport; 
-  /* set transport start_stopped */
-  start_stopped = (gboolean) Denemo.prefs.jacktransport_start_stopped; 
-
-  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
-    exportmidi (NULL, gui->si, 1, 0/* means to end */);
-	  
-  if (Denemo.gui->si->smf == NULL) {
-    g_critical("Loading SMF failed.");
-  } else {
-    smf_rewind(Denemo.gui->si->smf);
-    g_idle_add(jackmidi_read_smf_events, NULL);
-  }
-  
-  playback_duration = smf_get_length_seconds(gui->si->smf);
-  
-  DenemoObject *curobj;
-  start_time = 0.0;
-  curobj = get_mark_object();
-  if(curobj==NULL && gui->si->currentobject)
-    curobj = gui->si->currentobject->data;
-  if(curobj && curobj->midi_events) {
-    smf_event_t *event = curobj->midi_events->data;
-    start_time = event->time_seconds;
-    g_debug("\nsetting start %f\n", start_time);
-  }
-  end_time = playback_duration;
-  curobj = NULL;
-  curobj =  get_point_object();
-  if(curobj && curobj->midi_events)/*is this ever true?*/ { 
-    smf_event_t *event = g_list_last(curobj->midi_events)->data;
-    end_time = event->time_seconds;
-    g_debug("\nsetting end %f\n", end_time);	   
-    //could investigate to see if event is NoteOn and g_warning("Setting stop time to a NoteOn event!");
-  } 
-
-  if(start_time>end_time) {
-    gdouble temp = start_time;
-    start_time = end_time;
-    end_time = temp;
-  }
-  playback_duration = end_time - start_time;
-  g_debug("\nstart %f for %f seconds\n",start_time, playback_duration);
-
-  if(gui->si->end==0) {//0 means not set, we move the cursor on unless the specific range was specified
-    DenemoStaff *staff = (DenemoStaff *) gui->si->currentstaff->data;
-    //FIXME add a delay before starting the timer.
-    timeout_id = g_timeout_add ( 4*((double)staff->timesig.time1/(double)staff->timesig.time2)/(gui->si->tempo/(60.0*1000.0)), (GSourceFunc)move_on, gui);
-    // g_print("Setting end time to %f %u\n", duration*1000, (guint)(duration*1000));
-    kill_id = g_timeout_add ((guint)(playback_duration*1000), (GSourceFunc)jack_kill_timer, NULL);
-  }
-  return;
-}
-#endif 
 
 void jack_midi_play(gchar *callback)
 {
