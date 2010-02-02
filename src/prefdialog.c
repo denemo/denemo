@@ -67,7 +67,6 @@ struct callbackdata
 
 #endif
   GtkWidget *display_refresh;
-  GtkWidget *texteditor;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
   GtkWidget *denemopath;
@@ -132,7 +131,6 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(imageviewer)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
-  ASSIGNTEXT(texteditor)
   ASSIGNTEXT(midiplayer)
   ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
@@ -373,7 +371,6 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("File/Internet Browser", browser)
 
   TEXTENTRY("Image Viewer", imageviewer)
-  TEXTENTRY("Text Editor", texteditor)
   TEXTENTRY("Midi Player", midiplayer)
   TEXTENTRY("Audio Player", audioplayer)
 
