@@ -202,7 +202,13 @@ typedef struct enharmonic
 
 /* look for a new note played into midi input, if
    present insert it into the score */
-gint midientry(DenemoGUI *gui) {
+gint midientry(void) {
+  
+  DenemoGUI *gui = Denemo.gui;
+  if(gui==NULL)
+    return TRUE;
+  if(gui->si==NULL)
+    return TRUE;
   gint notenum;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   notenum = get_midi_note();
@@ -229,17 +235,17 @@ gint midientry(DenemoGUI *gui) {
   return TRUE;
 }
 
-static guint PR_timer;// timer id
+static guint midi_timer;// timer id
 #define DEFAULT_TIMER_RATE (5)
 
 void start_midi_input(void) {
-  DenemoGUI *gui = Denemo.gui;
-  if(PR_timer)
-    g_source_remove(PR_timer);
+  
+  if(midi_timer)
+    g_source_remove(midi_timer);
 
-  PR_timer = g_timeout_add (DEFAULT_TIMER_RATE, (GSourceFunc)midientry, Denemo.gui);
+  midi_timer = g_timeout_add (DEFAULT_TIMER_RATE, (GSourceFunc)midientry, NULL);
 
-  if(PR_timer==0)
+  if(midi_timer==0)
     g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
 }
 

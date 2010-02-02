@@ -578,17 +578,37 @@ DenemoGUI *gui = Denemo.gui;
 
 gint
 scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
+  DenemoGUI *gui = Denemo.gui;
   switch(event->direction) {
     DenemoScriptParam param;
   case GDK_SCROLL_UP:
-    staffup (&param);
-    if(!param.status)
-      warningmessage("This is the top staff");
+    if(event->state&GDK_CONTROL_MASK) {
+      Denemo.gui->si->zoom *= 1.1;
+      displayhelper(gui);
+    } else
+    if(event->state&GDK_SHIFT_MASK) {
+      scroll_left ();
+
+    } else {
+      staffup (&param);
+      if(!param.status)
+	warningmessage("This is the top staff");
+    }
     break;
   case GDK_SCROLL_DOWN:
+    if(event->state&GDK_CONTROL_MASK) {
+      Denemo.gui->si->zoom /= 1.1;
+      if(Denemo.gui->si->zoom <0.01)
+	Denemo.gui->si->zoom = 0.01;
+      displayhelper(gui);
+    } else
+    if(event->state&GDK_SHIFT_MASK) {
+      scroll_right ();
+    } else {
     staffdown (&param);
     if(!param.status)
       warningmessage("This is the bottom staff");
+    }
     break;
   case GDK_SCROLL_LEFT:
     measureleft (&param);

@@ -308,12 +308,12 @@ calcmarkboundaries (gui->si);
  * Scroll score horizontally
  *
  */
-void
-horizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+static void
+h_scroll (gdouble value, DenemoGUI * gui)
 {
   gint dest;
-
-  if ((dest = (gint) (adjust->value + 0.5)) != gui->si->leftmeasurenum)
+  g_print("value %f\n", value);
+  if ((dest = (gint) (value + 0.5)) != gui->si->leftmeasurenum)
     {
       gui->si->leftmeasurenum = dest;
       set_rightmeasurenum (gui->si);
@@ -333,4 +333,18 @@ calcmarkboundaries (gui->si);
       gtk_widget_queue_draw (gui->scorearea);
     }
   update_hscrollbar (gui);
+}
+
+void
+horizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+{
+  h_scroll (adjust->value, gui);
+}
+void scroll_left(void) {
+  if(Denemo.gui->si->leftmeasurenum>1)
+    h_scroll(Denemo.gui->si->leftmeasurenum-1.0, Denemo.gui);
+}
+
+void scroll_right (void) {
+  h_scroll(Denemo.gui->si->leftmeasurenum+1.0, Denemo.gui);
 }

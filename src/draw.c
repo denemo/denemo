@@ -62,7 +62,10 @@ gint
 scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
 {
   DenemoGUI *gui = Denemo.gui;
-
+  if(gui==NULL)
+    return TRUE;
+  if(gui->si==NULL)
+    return TRUE;
 
   bluegc = gcs_bluegc();
   redgc = gcs_redgc();
