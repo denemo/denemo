@@ -222,21 +222,72 @@ move_viewport_down (DenemoGUI * gui)
 
 /**
  * Sets the si->currentmeasurenum to the given value
- * if exists, making it the leftmost measure visible
+ * if exists, making it the leftmost measure visible, extending selection or not
  *
  */
 gboolean
-set_currentmeasurenum (DenemoGUI * gui, gint dest)
+goto_currentmeasurenum (DenemoGUI * gui, gint dest, gboolean extend_selection)
 {
   if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->measurewidths))))
     {
       gui->si->leftmeasurenum = dest;
       gui->si->currentmeasurenum = dest;
       setcurrents (gui->si);
-calcmarkboundaries (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
       set_rightmeasurenum (gui->si);
       find_leftmost_allcontexts (gui->si);
       update_hscrollbar (gui);
+      gtk_widget_queue_draw (gui->scorearea);
+      return TRUE;
+    }
+  return FALSE;
+}
+
+/**
+ * Sets the si->currentmeasurenum to the given value
+ * if exists, making it the leftmost measure visible
+ *
+ */
+gboolean
+set_currentmeasurenum (DenemoGUI * gui, gint dest)
+{
+  return goto_currentmeasurenum (gui, dest, TRUE);
+}
+
+/**
+ * Sets the si->currentmeasurenum to the given value
+ * if exists, making it the leftmost measure visible, leaving selection
+ *
+ */
+gboolean
+moveto_currentmeasurenum (DenemoGUI * gui, gint dest)
+{
+  return goto_currentmeasurenum (gui, dest, FALSE);
+}
+
+
+
+
+/**
+ * Sets the si->currentstaffnum to the given value
+ * if it exists, extending selection if extend_selection
+ *
+ */
+gboolean
+goto_currentstaffnum (DenemoGUI * gui, gint dest, gboolean extend_selection)
+{
+  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->thescore))))
+    {
+      gui->si->currentstaffnum = dest;
+      gui->si->currentstaff =
+	g_list_nth (gui->si->thescore, gui->si->currentstaffnum - 1);
+      setcurrentprimarystaff (gui->si);
+      setcurrents (gui->si);
+      if(extend_selection)
+	calcmarkboundaries (gui->si);
+      find_leftmost_allcontexts (gui->si);
+      update_vscrollbar (gui);
       gtk_widget_queue_draw (gui->scorearea);
       return TRUE;
     }
@@ -251,20 +302,13 @@ calcmarkboundaries (gui->si);
 gboolean
 set_currentstaffnum (DenemoGUI * gui, gint dest)
 {
-  if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->thescore))))
-    {
-      gui->si->currentstaffnum = dest;
-      gui->si->currentstaff =
-	g_list_nth (gui->si->thescore, gui->si->currentstaffnum - 1);
-      setcurrentprimarystaff (gui->si);
-      setcurrents (gui->si);
-calcmarkboundaries (gui->si);
-      find_leftmost_allcontexts (gui->si);
-      update_vscrollbar (gui);
-      gtk_widget_queue_draw (gui->scorearea);
-      return TRUE;
-    }
-  return FALSE;
+  return goto_currentstaffnum(gui, dest, TRUE);
+}
+
+gboolean
+moveto_currentstaffnum (DenemoGUI * gui, gint dest)
+{
+  return goto_currentstaffnum(gui, dest, FALSE);
 }
 
 /**
