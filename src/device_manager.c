@@ -119,44 +119,44 @@ add_port_to_tree(gchar *port_name, GtkWidget *view){
 				-1);
 }
 
-/** TODO this is obsolete. Search through the array instead 
- * Get the device number of the selected device
- */
+#define ARRAY Denemo.prefs.midi_device_array
 static gint
 get_device_number(GtkWidget *view){
   gint i;
   gchar *name = get_device_selection_as_char(view);
-
+  DeviceManagerDevice *d;
   if (!name)
-    return -1;
+    return -1; 
   else { 
-    for (i=0;Denemo.prefs.midi_device[i].client_name;i++){
-      if(!strcmp(name, Denemo.prefs.midi_device[i].client_name->str))
+    for (i=0;i<ARRAY->len;i++){
+      d = &g_array_index(ARRAY, DeviceManagerDevice, i);
+      if(!strcmp(name, d->client_name->str))
 	return i;
     }
   }
   return -1;  
 }
+#undef ARRAY
 
-/** TODO this is obsolete. This should search the GList and find position
- * Get the port number of the selected port 
- */
+#define ARRAY Denemo.prefs.midi_device[get_device_number(view)].ports_array
 static gint
 get_port_number(GtkWidget *view){
   gint i;
+  DeviceManagerPort *p;
   gchar *name = get_selection_as_char(view);
+  
   if (!name)
     return -1;
   else { 
-    gchar port_name[15]; //TODO replace with gstring for resizinging purposes
-    for(i=0;i<maxnumber_of_ports();i++){
-      sprintf(port_name, "%s:%d", (gchar *) jackmidi_default_port_name(), i);
-      if (!strcmp(name, port_name))
+    for(i=0;i<ARRAY->len;i++){
+      p = &g_array_index(ARRAY, DeviceManagerPort, i);
+      if (!strcmp(name, p->port_name->str))
 	return i;
     }
   }
   return -1;  
 }
+#undef ARRAY
 
 void
 device_manager_refresh_model(GtkWidget *view)
@@ -300,7 +300,6 @@ void device_manager_create_port(GtkWidget *button, gpointer v)
   g_string_append_printf(p->port_name, "_%d", ARRAY->len);
   add_port_to_tree(p->port_name->str, view);
   g_print("added port index %d\n", ARRAY->len-1);
-#undef ARRAY
 }
 
 void device_manager_remove_port(GtkWidget *button, gpointer v)
@@ -308,7 +307,7 @@ void device_manager_remove_port(GtkWidget *button, gpointer v)
   GtkWidget *view = GTK_WIDGET(v);
   gint device_number = get_device_number(view);
   gint port_number = get_port_number(view);
-  g_debug("\nRemove port #%d on device #%d\n", port_number, device_number);
+  g_debug("\nRemove device #%d port #%d\n", device_number, port_number);
 #if 0
   if (device_number <0 || port_number <0)          
     return;
@@ -318,6 +317,7 @@ void device_manager_remove_port(GtkWidget *button, gpointer v)
   }
 #endif
 }
+#undef ARRAY
 
 static int
 check_for_duplicate(gint device_number, gchar *new_name)

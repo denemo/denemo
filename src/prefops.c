@@ -97,7 +97,6 @@ initprefs ()
   ret->lilypath = g_string_new ("lilypond-windows");
   ret->pdfviewer = g_string_new ("acrord32");
   ret->imageviewer = g_string_new ("mspaint");
-  ret->texteditor = g_string_new ("wordpad");
   ret->midiplayer = g_string_new("wmplayer");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
@@ -106,7 +105,6 @@ initprefs ()
   ret->lilypath = g_string_new ("lilypond");
   ret->pdfviewer = g_string_new ("xpdf");
   ret->imageviewer = g_string_new ("eog");
-  ret->texteditor = g_string_new ("xedit");
 #endif /* !G_OS_WIN32 */
   ret->sequencer = g_string_new ("/dev/sequencer");
   ret->midi_in = g_string_new ("/dev/midi");
@@ -428,7 +426,6 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY(imageviewer)    
       READXMLENTRY(username)    
       READXMLENTRY(password)           
-      READXMLENTRY(texteditor)            
       READXMLENTRY(denemopath)          
       READXMLENTRY(temperament)
       READXMLENTRY(midi_in)
@@ -733,7 +730,6 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(imageviewer)
   WRITEXMLENTRY(username)
   WRITEXMLENTRY(password)
-  WRITEXMLENTRY(texteditor) 
   WRITEXMLENTRY(denemopath)
   WRITEXMLENTRY(temperament)
   WRITEXMLENTRY(midi_in)
