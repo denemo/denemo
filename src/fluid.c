@@ -300,10 +300,13 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
     int success;
     switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
       {
-       case NOTE_ON:
-         success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], event->midi_buffer[2]);
-	 //g_print("success = %d\n", success);
-	 break;
+      case NOTE_ON: {
+	gint velocity =  ((gint)(si->master_volume * event->midi_buffer[2]));
+	if(velocity>0x7F) velocity = 0x7F;
+	success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
+	//g_print("success = %d\n", success);
+      }
+	break;
        case NOTE_OFF:
          fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
 	 break; 

@@ -42,6 +42,9 @@ move_viewport_down (DenemoGUI *si);
 gboolean
 set_currentmeasurenum (DenemoGUI *si, gint dest);
 
+gboolean
+moveto_currentmeasurenum(DenemoGUI *si, gint dest);
+
 void
 vertical_scroll (GtkAdjustment *adjust, DenemoGUI *si);
 
@@ -53,5 +56,8 @@ void scroll_right (void);
 
 gboolean
 set_currentstaffnum(DenemoGUI *si, gint dest);
+
+gboolean
+moveto_currentstaffnum(DenemoGUI *si, gint dest);
 
 #endif

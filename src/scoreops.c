@@ -142,12 +142,12 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
   gtk_widget_hide(gui->si->buttonbox);
   gui->si = this->data;
   gtk_widget_show(gui->si->buttonbox);
-  if(!set_currentstaffnum (gui, staffnum))
+  if(!moveto_currentstaffnum (gui, staffnum))
     {
       warningdialog(_("No such voice"));
       return FALSE;
     }
-  if(!set_currentmeasurenum(gui, measurenum))
+  if(!moveto_currentmeasurenum(gui, measurenum))
   {
     warningdialog(_("No such measure"));
     return FALSE;
@@ -320,6 +320,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->stafftoplay = 0;
   si->start_time = -1.0;
   si->end_time = -1.0;//ie unset
+  si->master_volume=1.0;
   si->master_tempo=1.0;
   si->tempo_change_time=0.0;
 

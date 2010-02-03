@@ -518,6 +518,15 @@ static SCM scheme_master_tempo (SCM factor) {
   return scm_double2num(si->master_tempo);
 }
 
+static SCM scheme_master_volume (SCM factor) {
+  DenemoScore *si = Denemo.gui->si;
+  if(scm_is_real(factor))
+    si->master_volume = scm_to_double(factor);
+  if(si->master_volume < 0.0)
+    si->master_volume =  1.0;
+  return scm_double2num(si->master_volume);
+}
+
 
 static SCM scheme_get_obj_time(void) {
   if(!(Denemo.gui->si->currentobject))
@@ -3152,6 +3161,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Takes a double and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
 
   INSTALL_SCM_FUNCTION ("Takes a double and scales the tempo; returns the tempo set ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
+  INSTALL_SCM_FUNCTION ("Takes a double and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
 
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiTime", scheme_get_obj_time);
 
