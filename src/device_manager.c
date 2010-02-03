@@ -107,9 +107,6 @@ add_port_to_tree(gchar *port_name, GtkWidget *view){
 			   &model, &parent))
     return;
 
-  /* we can choose the parent for them with something like
-     if(gtk_tree_model_iter_parent (GTK_TREE_MODEL(store), &iter, &parent))
-  */
   store = GTK_TREE_STORE(gtk_tree_view_get_model
 		(GTK_TREE_VIEW(view)));
   gtk_tree_store_append(store, &iter, &parent);
@@ -121,7 +118,7 @@ add_port_to_tree(gchar *port_name, GtkWidget *view){
 
 #define ARRAY Denemo.prefs.midi_device_array
 static gint
-get_device_number(GtkWidget *view){
+get_parent_device_number(GtkWidget *view){
   gint i;
   gchar *name = get_device_selection_as_char(view);
   DeviceManagerDevice *d;
@@ -138,7 +135,26 @@ get_device_number(GtkWidget *view){
 }
 #undef ARRAY
 
-#define ARRAY Denemo.prefs.midi_device[get_device_number(view)].ports_array
+#define ARRAY Denemo.prefs.midi_device_array
+static gint
+get_device_number(GtkWidget *view){
+  gint i;
+  gchar *name = get_selection_as_char(view);
+  DeviceManagerDevice *d;
+  if (!name)
+    return -1; 
+  else { 
+    for (i=0;i<ARRAY->len;i++){
+      d = &g_array_index(ARRAY, DeviceManagerDevice, i);
+      if(!strcmp(name, d->client_name->str))
+	return i;
+    }
+  }
+  return -1;  
+}
+#undef ARRAY
+
+#define ARRAY Denemo.prefs.midi_device[get_parent_device_number(view)].ports_array
 static gint
 get_port_number(GtkWidget *view){
   gint i;
@@ -305,7 +321,7 @@ void device_manager_create_port(GtkWidget *button, gpointer v)
 void device_manager_remove_port(GtkWidget *button, gpointer v)
 {
   GtkWidget *view = GTK_WIDGET(v);
-  gint device_number = get_device_number(view);
+  gint device_number = get_parent_device_number(view);
   gint port_number = get_port_number(view);
   g_debug("\nRemove device #%d port #%d\n", device_number, port_number);
 #if 0
