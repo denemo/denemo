@@ -112,6 +112,10 @@ instantiate_menus(gchar *menupath) {
   gchar *up1 = g_path_get_dirname(menupath);
   gchar *name=g_path_get_basename(menupath);
   GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, up1);
+  if(!strcmp(up1, "/")) {
+    g_critical("bad menu path");
+    return;
+  }
   if(widget==NULL)
     instantiate_menus(up1);
   GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
