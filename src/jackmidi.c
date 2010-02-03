@@ -216,7 +216,7 @@ static gboolean finish_play(gchar *callback) {
 static gboolean 
 jackmidi_play_smf_event(gchar *callback)
 {
-  DevicePort *DP; 
+  DevicePort *DP;
   DenemoScore *si = Denemo.gui->si;
   smf_event_t *event = si->smf?smf_peek_next_event(si->smf):NULL;
   
@@ -228,7 +228,7 @@ jackmidi_play_smf_event(gchar *callback)
     return finish_play(callback);
 
   if (event == NULL || event->time_seconds>si->end_time){ 
-    DP = si->playingnow = NULL;
+    si->playingnow = NULL;
     playing_piece = FALSE;
     return  finish_play(callback);
   }
@@ -251,7 +251,8 @@ jackmidi_play_smf_event(gchar *callback)
   //g_print("transformed to %f\n", thetime);
   if (thetime > event->time_seconds){
      event = smf_get_next_event(si->smf);
-     DP = si->playingnow = event->user_pointer;
+     si->playingnow = event->user_pointer;
+     DP = event->track->user_pointer;
      //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
      if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
 	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
