@@ -412,10 +412,15 @@ DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
   smf_event_t *event = smf_peek_next_event(smf);
   if(event) {
   gdouble initial = event->time_seconds;
+  gdouble total = smf_get_length_seconds(smf);
+  time = (time>total?total:time);
   smf_seek_to_seconds(smf, time);
-  event = smf_peek_next_event(smf);
+  event = smf_get_next_event(smf);
+  if(event && !smf_event_is_last(event))
+    event = smf_get_next_event(smf);
   smf_seek_to_seconds(smf, initial);
-  return (DenemoObject *)(event->user_pointer);
+  if(event)
+    return (DenemoObject *)(event->user_pointer);
   }
   return NULL;
 }

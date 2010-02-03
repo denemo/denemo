@@ -356,6 +356,8 @@ void fluid_midi_play(gchar *callback)
 
   if(gui->si->start_time>gui->si->end_time)
     gui->si->start_time =  0.0;
+  if(gui->si->start_time<0.0)
+    gui->si->start_time = 0.0;
   gui->si->start_player = get_time() - gui->si->start_time;
   playing_piece = TRUE;
   gui->si->tempo_change_time = gui->si->start_player;

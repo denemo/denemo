@@ -803,6 +803,43 @@ print_system_separator (cairo_t *cr, gdouble position){
   cairo_restore(cr);
 }
 
+typedef enum colors {BLACK, RED, GREEN} colors;
+static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
+  cairo_save(cr);
+  cairo_set_line_width( cr, 4.0 );
+  switch(color) {
+  case BLACK:
+    cairo_set_source_rgb( cr, 0.0, 0.0, 0.0 );
+    break;
+  case GREEN:
+    cairo_set_source_rgb( cr, 0.0, 1.0, 0.0 );
+    break;
+  case RED:
+    cairo_set_source_rgb( cr, 1.0, 0.0, 0.0 );
+    break;
+  }
+  cairo_move_to( cr, pos, yy-STAFF_HEIGHT );
+  cairo_line_to( cr, pos, yy-STAFF_HEIGHT+line_height);
+  cairo_stroke( cr );
+  cairo_restore(cr);
+
+}
+
+static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, gint line_height) {
+  if(itp->playposition>-1)
+    draw_playback_marker(cr, BLACK, itp->playposition, yy, line_height);
+  itp->playposition = -1;
+  
+  if(itp->startposition>0)
+    draw_playback_marker(cr, GREEN, itp->startposition, yy, line_height);
+  itp->startposition = -1;
+  
+  if(itp->endposition>0)
+    draw_playback_marker(cr, RED, itp->endposition, yy, line_height);
+  itp->endposition = -1;
+}
+
+
 /**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
@@ -941,40 +978,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     repeat = draw_staff (cr, curstaff, y, gui, &itp);
 
-    //FIXME repeated code!!!!!!!!!
-      if(itp.playposition>0) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.playposition, y-STAFF_HEIGHT);
-	cairo_line_to( cr, itp.playposition, y-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.playposition = 0;
-      }
-
-   //FIXME repeated code!!!!!!!!!
-      if(itp.startposition>-1) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.startposition, y-STAFF_HEIGHT);
-	cairo_line_to( cr, itp.startposition, y-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.startposition = -1;
-      }
-   //FIXME repeated code!!!!!!!!!
-      if(itp.endposition>-1) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.endposition, y-STAFF_HEIGHT);
-	cairo_line_to( cr, itp.endposition, y-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.endposition = -1;
-      }
-
-
-
-    if (si->firststaffmarked == itp.staffnum)
-      itp.marky1 = y - EXTRAFORSELECTRECT;
-    if (si->laststaffmarked == itp.staffnum)
-      itp.marky2 = y + STAFF_HEIGHT + EXTRAFORSELECTRECT;
-
-
+    draw_playback_markers(cr, &itp, y, line_height);
 
     gint system_num;
     system_num = 1;
@@ -1000,38 +1004,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
-
-
-      //FIXME REPEATED CODE
-      if(itp.playposition>0) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.playposition, yy-STAFF_HEIGHT );
-	cairo_line_to( cr, itp.playposition, yy-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.playposition = 0;
-      }
-
-     //FIXME REPEATED CODE
-      if(itp.startposition>0) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.startposition, yy-STAFF_HEIGHT );
-	cairo_line_to( cr, itp.startposition, yy-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.startposition = -1;
-      }
-
-     //FIXME REPEATED CODE
-      if(itp.endposition>0) {
-	cairo_set_line_width( cr, 4.0 );
-	cairo_move_to( cr, itp.endposition, yy-STAFF_HEIGHT );
-	cairo_line_to( cr, itp.endposition, yy-STAFF_HEIGHT+line_height);
-	cairo_stroke( cr );
-	itp.endposition = -1;
-      }
-
-
-
-
+      draw_playback_markers(cr, &itp, yy, line_height);
 
       // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
      
