@@ -317,21 +317,23 @@ void device_manager_create_port(GtkWidget *button, gpointer v)
   add_port_to_tree(p->port_name->str, view);
   g_print("added port index %d\n", ARRAY->len-1);
 }
+#undef ARRAY
 
+#define ARRAY Denemo.prefs.midi_device[device_number].ports_array
 void device_manager_remove_port(GtkWidget *button, gpointer v)
 {
   GtkWidget *view = GTK_WIDGET(v);
   gint device_number = get_parent_device_number(view);
   gint port_number = get_port_number(view);
   g_debug("\nRemove device #%d port #%d\n", device_number, port_number);
-#if 0
+
   if (device_number <0 || port_number <0)          
     return;
-  if(remove_jack_midi_port(device_number, port_number) >= 0){
-    g_debug("\nJust removed midi device\n");
-    remove_selection();
-  }
-#endif
+  g_array_remove_index(ARRAY, port_number);
+  Denemo.prefs.midi_device = (DeviceManagerDevice *)Denemo.prefs.midi_device_array->data;
+  
+  //if(remove_jack_midi_port(device_number, port_number) >= 0)
+    remove_selection(view);
 }
 #undef ARRAY
 
