@@ -71,4 +71,8 @@ DenemoObject *get_point_object(void);
 void save_selection(DenemoScore *si);
 void restore_selection(DenemoScore *si);
 gboolean in_selection(DenemoScore *si);
+
+void
+swap_point_and_mark(GtkAction *action, gpointer param);
+
 #endif

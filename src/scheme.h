@@ -27,6 +27,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "MoveCursorRight")), "scm"
 SCM scheme_GoToMark(SCM optional);
 install_scm_function ("d-GoToMark", scheme_GoToMark);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "GoToMark")), "scm", (gpointer)1);
+/*SwapPointAndMark swap_point_and_mark*/
+SCM scheme_SwapPointAndMark(SCM optional);
+install_scm_function ("d-SwapPointAndMark", scheme_SwapPointAndMark);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SwapPointAndMark")), "scm", (gpointer)1);
 /*GoToSelectionStart goto_selection_start*/
 SCM scheme_GoToSelectionStart(SCM optional);
 install_scm_function ("d-GoToSelectionStart", scheme_GoToSelectionStart);

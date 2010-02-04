@@ -71,6 +71,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor one object right, without altering the selection",	N_("MoveCursorRight"), "movecursorright", N_("Move Cursor Right")},
 
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Moves the cursor to the Mark without altering the selection",	N_("GoToMark"), "goto_mark", N_("To Mark")},
+
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Swaps the active end of the selection",	N_("SwapPointAndMark"), "swap_point_and_mark", N_("Swap Ends of Selection")},
+
+
+
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection",	N_("GoToSelectionStart"), "goto_selection_start", N_("To Selection Start")},
 
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Pushes the current cursor position onto a stack",	N_("PushPosition"), "PushPosition", N_("Push Position")},

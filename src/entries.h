@@ -6,6 +6,7 @@
 {"CursorRight", NULL, N_("Cursor Right"), NULL,N_("Moves the cursor one object right, altering the selection if any"),G_CALLBACK (cursorright_cb)},
 {"MoveCursorRight", NULL, N_("Move Cursor Right"), NULL,N_("Moves the cursor one object right, without altering the selection"),G_CALLBACK (movecursorright_cb)},
 {"GoToMark", NULL, N_("To Mark"), NULL,N_("Moves the cursor to the Mark without altering the selection"),G_CALLBACK (goto_mark)},
+{"SwapPointAndMark", NULL, N_("Swap Ends of Selection"), NULL,N_("Swaps the active end of the selection"),G_CALLBACK (swap_point_and_mark)},
 {"GoToSelectionStart", NULL, N_("To Selection Start"), NULL,N_("Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection"),G_CALLBACK (goto_selection_start)},
 {"PushPosition", NULL, N_("Push Position"), NULL,N_("Pushes the current cursor position onto a stack"),G_CALLBACK (PushPosition)},
 {"PopPosition", NULL, N_("Pop Position"), NULL,N_("Pops a position from the stack of cursor positions, moving the cursor there"),G_CALLBACK (PopPosition)},

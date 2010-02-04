@@ -5,6 +5,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorUp
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "CursorRight"), "CursorRight", "Cursor Right", "Moves the cursor one object right, altering the selection if any", cursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveCursorRight"), "MoveCursorRight", "Move Cursor Right", "Moves the cursor one object right, without altering the selection", movecursorright);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToMark"), "GoToMark", "To Mark", "Moves the cursor to the Mark without altering the selection", goto_mark);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SwapPointAndMark"), "SwapPointAndMark", "Swap Ends of Selection", "Swaps the active end of the selection", swap_point_and_mark);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "GoToSelectionStart"), "GoToSelectionStart", "To Selection Start", "Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection", goto_selection_start);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PushPosition"), "PushPosition", "Push Position", "Pushes the current cursor position onto a stack", PushPosition);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "PopPosition"), "PopPosition", "Pop Position", "Pops a position from the stack of cursor positions, moving the cursor there", PopPosition);

@@ -59,7 +59,7 @@
 	<menuitem action="MoveToEnd"/>
 
 	<menuitem action="GoToMark"/>
-	
+
 	<separator/>
 	
 	<menuitem action="PushPosition"/>
@@ -88,6 +88,7 @@
 		<menuitem action="VoiceDown"/>
          </menu>
 	 <menuitem action="UnsetMark"/>
+	<menuitem action="SwapPointAndMark"/>
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>

@@ -684,19 +684,6 @@ void restore_selection(DenemoScore *si) {
 }
 
 
-void
-goto_nearestnote (GtkAction *action, gpointer param) {
-#if 0
-  if(gui->si->currentobject) {
-    objnode *thenotenode =  nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
-    if(thenotenode) {
-      note *thenote =  *((note *) thenotenode->data);
-      //thenote->mid_c_offset!!!!!!!!!!!
-    }
-
-  }
-#endif
-}
 
 /**
  * goto_mark
@@ -935,6 +922,24 @@ calcmarkboundaries (DenemoScore * si)
 			  si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
 }
 
+void
+swap_point_and_mark(GtkAction *action, gpointer param) {
+  DenemoScore * si = Denemo.gui->si;
+  gint temp =  si->currentstaffnum;
+  si->currentstaffnum = si->markstaffnum;
+  si->markstaffnum = temp;
+
+  temp =  si->currentmeasurenum;
+  si->currentmeasurenum = si->markmeasurenum;
+  si->markmeasurenum = temp;
+
+  temp =  si->cursor_x;
+  si->cursor_x = si->markcursor_x;
+  si->markcursor_x = temp;
+  setcurrentobject (si, si->cursor_x);
+  calcmarkboundaries (si);
+  displayhelper(Denemo.gui);
+}
 /**
  * undowrapper
  * Wrapper function for the undo command
