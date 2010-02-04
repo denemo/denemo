@@ -3233,6 +3233,14 @@ for second and subsequent systems</tooltip>
         <label>70%</label>
         <tooltip>Zoom to 70%</tooltip>
       </row>
+      <row>
+        <action>SetMovementTempo</action>
+        <after>SwapMovements</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>MIDI Tempo</label>
+        <tooltip>Sets the (initial) tempo in quarter notes per minute.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

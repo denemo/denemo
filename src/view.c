@@ -497,6 +497,12 @@ static SCM scheme_pop_clipboard (SCM optional) {
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
+  if(scm_is_string(factor)) {
+    gchar *name = scm_to_locale_string(factor);
+    if(name)
+      Denemo.gui->si->zoom = atof(name);
+  }
+     
   scorearea_configure_event(Denemo.gui->scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01)
     return SCM_BOOL_T;
@@ -512,16 +518,42 @@ static SCM scheme_master_tempo (SCM factor) {
 
   if(scm_is_real(factor))
     si->master_tempo = scm_to_double(factor);
+  if(scm_is_string(factor)) {
+    gchar *name = scm_to_locale_string(factor);
+    if(name)
+     si->master_tempo = atof(name);
+  }
+ 
   if(si->master_tempo < 0.0)
     si->master_tempo =  1.0;
   si->tempo_change_time = request_time;
   return scm_double2num(si->master_tempo);
 }
 
+static SCM scheme_movement_tempo (SCM bpm) {
+  DenemoScore *si = Denemo.gui->si;
+  if(scm_is_real(bpm))
+    si->tempo = scm_to_int(bpm);
+  if(scm_is_string(bpm)) {
+    gchar *name = scm_to_locale_string(bpm);
+    if(name)
+     si->tempo = atof(name);
+  }
+
+  if(si->tempo < 1)
+    si->tempo =  120;
+  return scm_int2num(si->tempo);
+}
+
 static SCM scheme_master_volume (SCM factor) {
   DenemoScore *si = Denemo.gui->si;
   if(scm_is_real(factor))
     si->master_volume = scm_to_double(factor);
+  if(scm_is_string(factor)) {
+    gchar *name = scm_to_locale_string(factor);
+    if(name)
+     si->master_volume = atof(name);
+  }
   if(si->master_volume < 0.0)
     si->master_volume =  1.0;
   return scm_double2num(si->master_volume);
@@ -549,6 +581,27 @@ static SCM scheme_set_playback_interval (SCM start, SCM end) {
   }
   if(scm_is_real(end) ) {
     Denemo.gui->si->end_time = scm_to_double(end);
+    return SCM_BOOL_T;
+  }
+  if(scm_is_string(start) && scm_is_string(end) ) {
+    gchar *name = scm_to_locale_string(start);
+    if(name)
+     Denemo.gui->si->start_time = atof(name);
+    name = scm_to_locale_string(end);
+    if(name)
+      Denemo.gui->si->end_time = atof(name);
+    return SCM_BOOL_T;
+  }
+  if(scm_is_string(start)){
+    gchar *name = scm_to_locale_string(start);
+    if(name)
+      Denemo.gui->si->start_time = atof(name);
+    return SCM_BOOL_T;
+  }
+  if(scm_is_string(end) ) {
+    gchar *name = scm_to_locale_string(end);
+    if(name)
+      Denemo.gui->si->end_time = atof(name);
     return SCM_BOOL_T;
   }
   return SCM_BOOL_F;
@@ -3158,14 +3211,18 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   INSTALL_SCM_FUNCTION ("Gets the status of the current musical score",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
-  INSTALL_SCM_FUNCTION ("Takes a double and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
+  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
 
-  INSTALL_SCM_FUNCTION ("Takes a double and scales the tempo; returns the tempo set ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
-  INSTALL_SCM_FUNCTION ("Takes a double and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
+  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the tempo; returns the tempo set ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
+
+  INSTALL_SCM_FUNCTION ("Takes an integer or string number of beats (quarter notes) per minute as the tempo for the current movement; returns the tempo set ", DENEMO_SCHEME_PREFIX"MovementTempo", scheme_movement_tempo);
+
+
+  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
 
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiTime", scheme_get_obj_time);
 
-  INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX"SetPlaybackInterval", scheme_set_playback_interval);
+  INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX"SetPlaybackInterval", scheme_set_playback_interval);
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
@@ -4187,7 +4244,6 @@ static void insertScript(GtkWidget *widget, gchar *insertion_point) {
   gchar *after = g_path_get_basename (insertion_point);
   gint idx = lookup_command_from_name (Denemo.map, after);
   //g_print("Saving with %s after %s\n", myposition, after);
-
   myname = string_dialog_entry (gui, "Create a new menu item", "Give item name (avoid clashes): ", "MyName");
   //FIXME check for name clashes
 
@@ -4861,11 +4917,16 @@ static gboolean menu_click (GtkWidget      *widget,
   }//idx!=-1
 
   gchar *myposition = g_object_get_data(G_OBJECT(widget), "menupath");// applies if it is a built-in command
+ g_print("position from built in is %s\n", myposition);
   if(!myposition)
     myposition = g_object_get_data(G_OBJECT(action), "menupath");//menu item runs a script
   //g_print("Connecting to %s\n", g_object_get_data(G_OBJECT(widget), "menupath"));
 
-
+  //g_print("position is %s\n", myposition);
+  if(myposition == NULL) {
+    g_critical("Cannot find the position of this menu item in the menu system\n");
+    return TRUE;
+  }
   static gchar *filepath;// static so that we can free it next time we are here.
   if(filepath)
     g_free(filepath);
@@ -4907,8 +4968,11 @@ static gboolean menu_click (GtkWidget      *widget,
   if (GTK_WIDGET_VISIBLE(gtk_widget_get_toplevel(Denemo.ScriptView))) {
     item = gtk_menu_item_new_with_label("Save Script as New Menu Item");
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-    gchar *insertion_point = g_build_filename(myposition, func_name, NULL);
-    //g_print("using %s for %d\n", insertion_point, idx);
+    static gchar *insertion_point;
+    if(insertion_point)
+      g_free(insertion_point);
+    insertion_point = g_build_filename(myposition, func_name, NULL);
+    //g_print("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
     g_signal_connect(G_OBJECT(item), "activate", G_CALLBACK(insertScript), insertion_point);
   }
 

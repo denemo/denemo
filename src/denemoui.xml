@@ -156,8 +156,8 @@
       <menuitem action="Play"/>
       <menuitem action="Stop"/>
       <!--		<menuitem action="PlayALSA"/> -->
-      <menuitem action="PlayCSound"/>
-      <menuitem action="PlaybackProperties"/>
+      <!-- <menuitem action="PlayCSound"/>  -->
+       <!-- <menuitem action="PlaybackProperties"/> -->
     </menu>
     <menu action="MoreMenu">
       <menuitem action="MoreCommands"/>
@@ -198,6 +198,7 @@
              <separator/>
        <menuitem action="AddMovements"/>
        <menuitem action="SwapMovements"/>
+
     </menu>
 
     <menu action="StaffMenu">
