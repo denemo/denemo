@@ -590,7 +590,7 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
       scroll_left ();
 
     } else {
-      staffup (&param);
+      movetostaffup (&param);
       if(!param.status)
 	warningmessage("This is the top staff");
     }
@@ -605,18 +605,18 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
     if(event->state&GDK_SHIFT_MASK) {
       scroll_right ();
     } else {
-    staffdown (&param);
+      movetostaffdown (&param);
     if(!param.status)
       warningmessage("This is the bottom staff");
     }
     break;
   case GDK_SCROLL_LEFT:
-    measureleft (&param);
+    movetomeasureleft (&param);
     if(!param.status)
       warningmessage("This is the first measure");
     break;
   case GDK_SCROLL_RIGHT:
-    measureright (&param);
+    movetomeasureright (&param);
     if(!param.status)
       warningmessage("This is the last measure");
     break;
