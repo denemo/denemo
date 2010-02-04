@@ -376,7 +376,7 @@ h_scroll (gdouble value, DenemoGUI * gui)
 	}
       find_leftmost_allcontexts (gui->si);
       setcurrents (gui->si);
-calcmarkboundaries (gui->si);
+      //calcmarkboundaries (gui->si);
       gtk_widget_queue_draw (gui->scorearea);
     }
   update_hscrollbar (gui);
