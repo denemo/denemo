@@ -1915,8 +1915,7 @@ gotoend (gpointer param, gboolean extend_selection)
 {
   DenemoGUI *gui = Denemo.gui;
   if(extend_selection && !gui->si->markstaffnum) set_mark(gui);
-  gui->si->currentmeasurenum = gui->si->leftmeasurenum =
-    gui->si->rightmeasurenum =
+  gint dest = gui->si->currentmeasurenum = 
     g_list_length (((DenemoStaff *) gui->si->currentstaff->data)->measures);
   setcurrents (gui->si);
   if(extend_selection)

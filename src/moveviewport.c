@@ -230,8 +230,11 @@ goto_currentmeasurenum (DenemoGUI * gui, gint dest, gboolean extend_selection)
 {
   if ((dest > 0) && (dest <= (gint) (g_list_length (gui->si->measurewidths))))
     {
-      gui->si->leftmeasurenum = dest;
+      //gui->si->leftmeasurenum = dest;
       gui->si->currentmeasurenum = dest;
+      if((dest < gui->si->leftmeasurenum) ||
+	 (dest > gui->si->rightmeasurenum))
+	 center_viewport();
       setcurrents (gui->si);
       if(extend_selection)
 	calcmarkboundaries (gui->si);
@@ -356,7 +359,7 @@ static void
 h_scroll (gdouble value, DenemoGUI * gui)
 {
   gint dest;
-  g_print("value %f\n", value);
+
   if ((dest = (gint) (value + 0.5)) != gui->si->leftmeasurenum)
     {
       gui->si->leftmeasurenum = dest;
