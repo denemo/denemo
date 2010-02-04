@@ -201,6 +201,28 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   itp->highy = itp->lowy = 0;
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
+
+  //FIXME too much save and restore for trifling reasons...
+  if(itp->mark) {
+    cairo_save(cr);
+    cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+    cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
+    cairo_fill(cr);
+    cairo_restore(cr);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* The current note, rest, etc. being painted */
   gint extra;
   if(mudelaitem == Denemo.gui->si->playingnow)
@@ -568,9 +590,9 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     if(itp->measurenum >= si->rightmeasurenum+1)
       cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
     else 
-      if(itp->mark)
-	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
-      else
+      //  if(itp->mark)
+      //	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
+      //  else
 	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);    
   }
@@ -1030,11 +1052,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   if(itp.last_midi)
     si->rightmost_time = get_midi_time(itp.last_midi);
-  /* Draw the selection rectangle */
-  if ( (itp.left==gui->lefts+1) && //just one system
-      si->markstaffnum)
-    draw_selection (cr, itp.markx1, itp.marky1, itp.markx2,
-		    itp.marky2);
+
   return repeat;
 
   /* And we're done */
