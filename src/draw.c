@@ -33,6 +33,7 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 
+#if 0
 static GdkGC *  bluegc;
 static GdkGC *  redgc;
 static GdkGC *  graygc;
@@ -40,7 +41,7 @@ static GdkGC *  slategraygc;
 static GdkGC *  lightbluegc;
 static GdkGC *  blackgc;
 static GdkGC *greengc = NULL;
-
+#endif
 GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
 
 static void      
@@ -66,16 +67,10 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
     return TRUE;
   if(gui->si==NULL)
     return TRUE;
-
-  bluegc = gcs_bluegc();
-  redgc = gcs_redgc();
-  graygc = gcs_graygc();
-  slategraygc = gcs_slategraygc();
-  lightbluegc = gcs_lightbluegc();
-  blackgc = gcs_blackgc();
-  greengc = gcs_greengc();
-  create_tool_pixbuf();
-
+  static gboolean init = FALSE;
+  if(init) {
+    create_tool_pixbuf();
+  }
   /* Create a new backing pixmap of the appropriate size */
   if (gui->pixmap)
     gdk_pixmap_unref (gui->pixmap);
@@ -234,8 +229,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     itp->endposition = x + mudelaitem->x;
 
   //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
-  if (!greengc)
-    greengc = gcs_greengc ();
+  // if (!greengc)
+  //   greengc = gcs_greengc ();
   /* Should we set cursor-context info before drawing? */
 
   /************ FIXME the drawing is side-effecting the DenemoScore si here *******************/
@@ -469,7 +464,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     itp->markx2 = x + mudelaitem->x + mudelaitem->minpixelsalloted
       + EXTRAFORSELECTRECT;
 
-  gdk_gc_set_foreground (blackgc, &black);
+  //gdk_gc_set_foreground (blackgc, &black);
 
   //  g_print("obj at %d %d\n",  x + mudelaitem->x + mudelaitem->minpixelsalloted, (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
   //  itp->line_end = itp->markx2 > (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
