@@ -584,7 +584,10 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   case GDK_SCROLL_UP:
     if(event->state&GDK_CONTROL_MASK) {
       Denemo.gui->si->zoom *= 1.1;
-      displayhelper(gui);
+      scorearea_configure_event(Denemo.gui->scorearea, NULL);
+      // displayhelper(gui);
+      //update_vscrollbar (gui); these do not seem to work ...
+      //update_hscrollbar (gui);
     } else
     if(event->state&GDK_SHIFT_MASK) {
       scroll_left ();
@@ -600,7 +603,8 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
       Denemo.gui->si->zoom /= 1.1;
       if(Denemo.gui->si->zoom <0.01)
 	Denemo.gui->si->zoom = 0.01;
-      displayhelper(gui);
+      scorearea_configure_event(Denemo.gui->scorearea, NULL);
+      //displayhelper(gui);
     } else
     if(event->state&GDK_SHIFT_MASK) {
       scroll_right ();
