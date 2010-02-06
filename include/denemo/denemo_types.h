@@ -347,7 +347,7 @@ typedef struct DenemoPrefs
   gint zoom; /**< percent zoom  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
 
-  gboolean playback_palette; /**< makes the playback pallete visible */
+  gboolean playback_controls; /**< makes the playback controls visible */
   gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
@@ -775,6 +775,7 @@ typedef struct DenemoGUI
   GtkWidget *buttonboxes;/**< box for boxes showing directives */
   GtkWidget *buttonbox;/**< box for buttons accessing DenemoDirectives attached to the whole score */
 
+
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */
   GtkWidget *textwindow; /**< LilyPond output window */
@@ -881,6 +882,7 @@ struct DenemoRoot
   DenemoGUI *gui; /**< The current gui */
   GtkWidget *notebook;/**< contains the gui.page widgets */
   GtkWidget *statusbar;
+  GtkWidget *playback_control;/**< frame containing controls for playback */
   gint status_context_id;
   GtkWidget *input_source; /**< A label widget advising of source of external input */
   GString *input_filters; /**< Description of any filters operating on external input */

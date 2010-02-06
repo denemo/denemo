@@ -730,4 +730,8 @@
 	(d-DirectivePut-standalone-postfix "Anacrusis" (string-append "\\partial 128*" (number->string duration) " " ))))))
 
 
-;;;;;;;;;;;;;;;;;Multi-Measure Rests
+;;;;;;;;;;;;;;;;;
+
+(define (DenemoPlay)
+  (begin
+    (d-Play "(display \"Here endeth a scripted playback\")")))

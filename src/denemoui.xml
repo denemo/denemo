@@ -611,10 +611,7 @@
     <toolitem action="MoveToBeginning"/>
     <toolitem action="MoveToEnd"/>
   </toolbar>
-  <toolbar name="PlaybackToolBar">
-    <toolitem action="Play"/>
-    <toolitem action="Stop"/>
-  </toolbar>
+ 
   <toolbar name="EntryToolBar">
            <toolitem action="AddDot"/>
 	   <toolitem action="RemoveDot"/>

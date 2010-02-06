@@ -278,7 +278,10 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
      center_viewport();
-  gdouble thetime = get_time() - si->start_player;
+  gdouble thetime = get_time()
+    //   if we are paused we should use pause_time here, when we re-start we should use get_time()-cumulative_pause_time; cumulative_pause_time=0 at start of play, and is set to the difference get_time()-pause_time when paused status changes back to false. 
+
+ - si->start_player;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
   thetime *= si->master_tempo;
