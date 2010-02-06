@@ -117,6 +117,7 @@
       <menuitem action="ToggleRhythmToolbar"/>
       <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleToolbar"/>
+      <menuitem action="TogglePlaybackToolbar"/>
       <menuitem action="ToggleArticulationPalette"/>
       <menuitem action="ToggleScoreTitles"/>
       <menuitem action="ToggleObjectMenu"/>
@@ -609,7 +610,8 @@
 	 <!--<toolitem action="GoToMeasure"/> -->
     <toolitem action="MoveToBeginning"/>
     <toolitem action="MoveToEnd"/>
-    <separator/>
+  </toolbar>
+  <toolbar name="PlaybackToolBar">
     <toolitem action="Play"/>
     <toolitem action="Stop"/>
   </toolbar>

@@ -347,7 +347,7 @@ typedef struct DenemoPrefs
   gint zoom; /**< percent zoom  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
 
-
+  gboolean playback_palette; /**< makes the playback pallete visible */
   gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */

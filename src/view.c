@@ -202,6 +202,7 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define BLANK_E_STRING "Blank"
 #define RHYTHM_E_STRING "Rhythm"
 #define ToggleToolbar_STRING "ToggleToolbar"
+#define TogglePlaybackToolbar_STRING "TogglePlaybackToolbar"
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
 #define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
 #define ToggleActionMenu_STRING  "ToggleActionMenu"
@@ -411,6 +412,8 @@ static SCM scheme_load_command(SCM command) {
 static void
 toggle_toolbar (GtkAction * action, gpointer param);
 static void
+toggle_playback_toolbar (GtkAction * action, gpointer param);
+static void
 toggle_rhythm_toolbar (GtkAction * action, gpointer param);
 static void
 toggle_entry_toolbar (GtkAction * action, gpointer param);
@@ -428,6 +431,7 @@ toggle_scoretitles (GtkAction *action, gpointer param);
 
 static SCM scheme_hide_menus(void) {
   toggle_toolbar(NULL, NULL);
+  toggle_playback_toolbar(NULL, NULL);
   toggle_rhythm_toolbar(NULL, NULL);
   toggle_entry_toolbar(NULL, NULL);
   toggle_object_menu(NULL, NULL);
@@ -2549,6 +2553,9 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
+
+  if (Denemo.prefs.notation_palette)
+    activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
 
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
@@ -5435,7 +5442,20 @@ toggle_toolbar (GtkAction * action, gpointer param) {
       gtk_widget_show (widget);
 }
 
-
+/**
+ *  Function to toggle whether playback toolbar is visible 
+ *  
+ * 
+ */
+static void
+toggle_playback_toolbar (GtkAction * action, gpointer param) {
+  GtkWidget *widget;
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/PlaybackToolBar");
+  if ((!action) ||GTK_WIDGET_VISIBLE (widget))
+      gtk_widget_hide (widget);
+  else
+      gtk_widget_show (widget);
+}
 /**
  *  Function to toggle whether entry toolbar is visible 
  *  
@@ -5626,6 +5646,9 @@ toggle_object_menu (GtkAction * action, gpointer param)
 GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
+  ,
+   {TogglePlaybackToolbar_STRING, NULL, N_("Playback Tools"), NULL, N_("Show/hide a toolbar to manage playback"),
+   G_CALLBACK (toggle_playback_toolbar), TRUE}
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
@@ -6093,6 +6116,13 @@ get_data_dir (),
   gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
   GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
   gtk_widget_show (toolbar);
+
+  toolbar = gtk_ui_manager_get_widget (ui_manager, "/PlaybackToolBar");
+  gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
+  gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
+  GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
+  gtk_widget_show (toolbar);
+
   toolbar = gtk_ui_manager_get_widget (ui_manager, "/EntryToolBar");
   //g_print("EntryToolbar is %p\n", toolbar);
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_TEXT);
