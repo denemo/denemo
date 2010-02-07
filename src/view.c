@@ -1886,7 +1886,11 @@ SCM scheme_put_midi (SCM scm) {
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
+#if 0
   pitchentry(Denemo.gui);// this ensures any note is acted on before returning
+#else
+  midientry();
+#endif
  return SCM_BOOL(TRUE);
 }
 
