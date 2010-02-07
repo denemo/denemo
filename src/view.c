@@ -1886,7 +1886,11 @@ SCM scheme_put_midi (SCM scm) {
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   process_midi_event(buf);
+#if 0
   pitchentry(Denemo.gui);// this ensures any note is acted on before returning
+#else
+  midientry();
+#endif
  return SCM_BOOL(TRUE);
 }
 
@@ -2102,14 +2106,14 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   GList *start_obj = Denemo.gui->si->currentobject;
   GList *start_measure = Denemo.gui->si->currentmeasure;
   if(start_obj && Denemo.gui->si->cursor_appending)
-    cursorleft(NULL);
+    movecursorleft(NULL);
   if(start_obj==NULL){
     if(within_measure)
       return FALSE;
     // start object is NULL, not restricted to current measure
     if(right) {
       if(start_measure->next) {
-	measureright(NULL);
+	movetomeasureright(NULL);
 	if(Denemo.gui->si->currentobject)
 	  return TRUE;
 	else
@@ -2119,10 +2123,10 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
     }
     // start object is NULL, not restricted to current measure, going previous
     if(start_measure->prev) {
-      cursorleft(NULL);
+      movecursorleft(NULL);
       if(Denemo.gui->si->currentobject==NULL)
 	return to_object_direction(within_measure, right);
-      cursorleft(NULL);
+      movecursorleft(NULL);
       return TRUE;
     }
     return FALSE;
@@ -2131,7 +2135,7 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   if(within_measure){
     if(right) {
       if(start_obj->next) {
-	cursorright(NULL);
+	movecursorright(NULL);
 	return TRUE;
       }
       return FALSE;
@@ -2143,10 +2147,10 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   //not restricted to this measure
   if(right) {
     if(start_obj->next) {
-      cursorright(NULL);
+      movecursorright(NULL);
       return TRUE;}
     if(start_measure->next) {
-      measureright(NULL);
+      movetomeasureright(NULL);
       if(Denemo.gui->si->currentobject==NULL)
 	return to_object_direction(within_measure, right);
       return TRUE;
@@ -2155,14 +2159,14 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   }
   //left
   if(start_obj->prev) {
-    cursorleft(NULL);
+    movecursorleft(NULL);
     return TRUE;
   }
   if(start_measure->prev) {
-    cursorleft(NULL);
+    movecursorleft(NULL);
     if(Denemo.gui->si->currentobject==NULL)
       return to_object_direction(within_measure, right);
-    cursorleft(NULL);
+    movecursorleft(NULL);
     return TRUE;
   }
   return FALSE;
@@ -2231,11 +2235,11 @@ static gboolean to_selected_object_direction (gboolean right) {
   note *thenote;
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
-  save_selection(Denemo.gui->si);
+  // save_selection(Denemo.gui->si);
   gboolean success = to_object_direction(FALSE, right);
   if(!success)
     success = to_object_direction(FALSE, right);
-  restore_selection(Denemo.gui->si);
+  // restore_selection(Denemo.gui->si);
   //g_print("success %d\n", success);
   if((success) && in_selection(Denemo.gui->si))
     return TRUE;
