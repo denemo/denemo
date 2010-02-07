@@ -3559,14 +3559,37 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef g
 #undef MODE
 }
-
-
+void playback_control_last_rehearsal (GtkWidget *button) {
+  //call_out_to_guile("()");
+}
+void playback_control_back (GtkWidget *button) {
+  call_out_to_guile("(d-MeasureLeft)");
+}
 void playback_control_play (GtkWidget *button) {
   call_out_to_guile("(DenemoPlay)");
 }
 void playback_control_stop (GtkWidget *button) {
   call_out_to_guile("(d-Stop)");
 }
+void playback_control_forward (GtkWidget *button) {
+  call_out_to_guile("(d-MeasureRight)");
+}
+void playback_control_next_rehearsal (GtkWidget *button) {
+  //call_out_to_guile("()");
+}
+void playback_control_tempo (GtkWidget *button) {
+  call_out_to_guile("(d-SetMovementTempo)");
+}
+void playback_control_volume (GtkWidget *button) {
+  //call_out_to_guile("(d-SetMasterVolume)");
+}
+void playback_control_range (GtkWidget *button) {
+  PlaybackRangeDialog();
+}
+void playback_control_panic (GtkWidget *button) {
+  //call_out_to_guile("(d-PlaybackPanic)");
+}
+
 /**
  * Rhythm callback select rhythm
  * inserts the rhythm if pitchless
@@ -6132,13 +6155,26 @@ get_data_dir (),
     Denemo.playback_control = gtk_hbox_new(FALSE, 1);
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GTK_WIDGET_UNSET_FLAGS(Denemo.playback_control, GTK_CAN_FOCUS);//If we want to enter times will this be ok? 
-    GtkWidget *button = gtk_button_new_with_label("Play");
-    g_signal_connect(button, "clicked", G_CALLBACK(playback_control_play), NULL);
+    GtkWidget *button;
+
+#define PLAYBUTTON(thelabel, callback) \
+    button = gtk_button_new_with_label(thelabel);\
+    g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);\
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
-    button = gtk_button_new_with_label("Stop");
-    g_signal_connect(button, "clicked", G_CALLBACK(playback_control_stop), NULL);
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
+
+    PLAYBUTTON("Last Rehearsal Mark", playback_control_last_rehearsal);
+    PLAYBUTTON("Back", playback_control_back);
+    PLAYBUTTON("Play", playback_control_play);
+    PLAYBUTTON("Stop", playback_control_stop);
+    PLAYBUTTON("Forward", playback_control_forward);
+    PLAYBUTTON("Next Rehearsal Mark", playback_control_next_rehearsal);
+    PLAYBUTTON("Tempo", playback_control_tempo);
+    PLAYBUTTON("Volume", playback_control_volume);
+    PLAYBUTTON("Playback Range", playback_control_range);
+    PLAYBUTTON("Panic", playback_control_panic);
+
     gtk_widget_show_all (Denemo.playback_control);
+
   }
 
 
