@@ -18,12 +18,12 @@
         <action>CursorLeft</action>
         <label>Cursor Left</label>
         <tooltip>Moves the cursor one object left, altering the selection if any</tooltip>
-        <bind>Left</bind>
       </row>
       <row>
         <action>MoveCursorLeft</action>
         <label>Move Cursor Left</label>
         <tooltip>Moves the cursor one object left, without altering the selection</tooltip>
+        <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
@@ -41,17 +41,22 @@
         <action>CursorRight</action>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
-        <bind>Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
         <label>Move Cursor Right</label>
         <tooltip>Moves the cursor one object right, without altering the selection</tooltip>
+        <bind>Right</bind>
       </row>
       <row>
         <action>GoToMark</action>
         <label>To Mark</label>
         <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
+      </row>
+      <row>
+        <action>SwapPointAndMark</action>
+        <label>Swap Ends of Selection</label>
+        <tooltip>Swaps the active end of the selection</tooltip>
       </row>
       <row>
         <action>GoToSelectionStart</action>
