@@ -232,3 +232,67 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
 }
 
 
+/** 
+ * Dialog function used to select measure range 
+ * This is similar to printrangedialog in print.c
+ */
+
+void
+PlaybackRangeDialog(){
+  DenemoGUI *gui = Denemo.gui;	
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  GtkWidget *from_time;
+  GtkWidget *to_time;
+  
+  dialog = gtk_dialog_new_with_buttons (_("Play range in seconds:"),
+	 GTK_WINDOW (Denemo.window),
+	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
+	      GTK_DIALOG_DESTROY_WITH_PARENT),
+	 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+
+  //TODO calculate hightest number in seconds
+  gdouble max_end_time = 7200.0;
+  //g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
+
+  label = gtk_label_new (_("Play from time"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+ 
+  from_time =
+  gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
+  gtk_box_pack_start (GTK_BOX (hbox), from_time, TRUE, TRUE, 0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (from_time),
+	     (gdouble) gui->si->start_time);
+
+  label = gtk_label_new (_("to"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+
+  to_time =
+  gtk_spin_button_new_with_range (0.0, max_end_time, 0.1);
+  gtk_box_pack_start (GTK_BOX (hbox), to_time, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), to_time, TRUE, TRUE, 0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (to_time),
+	      (gdouble) gui->si->end_time);
+
+  gtk_widget_show (hbox);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_widget_show_all (dialog);
+
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+      gui->si->start_time =
+	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (from_time));
+      gui->si->end_time =
+	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (to_time));
+      //gtk_widget_destroy (dialog);
+    }
+  
+  gtk_widget_destroy (dialog);
+}
+

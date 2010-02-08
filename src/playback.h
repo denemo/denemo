@@ -10,5 +10,7 @@ void
 ext_midi_playback (GtkAction *action, DenemoScriptParam *param);
 void
 stop_midi_playback (GtkAction *action, gpointer param);
+void
+PlaybackRangeDialog();
 
 #endif //PLAYBACKH
