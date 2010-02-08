@@ -3563,8 +3563,8 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef g
 #undef MODE
 }
-void playback_control_last_rehearsal (GtkWidget *button) {
-  //call_out_to_guile("()");
+void playback_control_prev_rehearsal (GtkWidget *button) {
+  call_out_to_guile("(d-PrevBookmark)");
 }
 void playback_control_back (GtkWidget *button) {
   call_out_to_guile("(d-MeasureLeft)");
@@ -3579,7 +3579,7 @@ void playback_control_forward (GtkWidget *button) {
   call_out_to_guile("(d-MeasureRight)");
 }
 void playback_control_next_rehearsal (GtkWidget *button) {
-  //call_out_to_guile("()");
+  call_out_to_guile("(d-NextBookmark)");
 }
 void playback_control_tempo (GtkWidget *button) {
   call_out_to_guile("(d-SetMovementTempo)");
@@ -3591,7 +3591,7 @@ void playback_control_range (GtkWidget *button) {
   PlaybackRangeDialog();
 }
 void playback_control_panic (GtkWidget *button) {
-  //call_out_to_guile("(d-PlaybackPanic)");
+  jack_midi_panic();
 }
 
 /**
@@ -6166,7 +6166,7 @@ get_data_dir (),
     g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);\
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
 
-    PLAYBUTTON("Last Rehearsal Mark", playback_control_last_rehearsal);
+    PLAYBUTTON("Prev Rehearsal Mark", playback_control_prev_rehearsal);
     PLAYBUTTON("Back", playback_control_back);
     PLAYBUTTON("Play", playback_control_play);
     PLAYBUTTON("Stop", playback_control_stop);
