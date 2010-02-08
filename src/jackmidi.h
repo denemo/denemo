@@ -24,4 +24,5 @@ void remove_all_jack_midi_ports(gint client_number);
 int maxnumber_of_clients(void);
 int maxnumber_of_ports(void);
 gboolean jackmidi_server_running(void);
+void jack_midi_panic();
 #endif //JACKMIDI_H

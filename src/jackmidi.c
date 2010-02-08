@@ -600,6 +600,27 @@ jack_midi_playback_stop ()
      //jack_transport_stop(jack_client);
   playing_piece = FALSE;    
 }
+
+void
+jack_midi_panic()
+{
+  gint i,j,c;
+  gint client_number, port_number;
+  jack_midi_playback_stop ();
+  unsigned char *buffer;
+
+  //flush buffers, stop callback?
+#define MD Denemo.prefs.midi_device
+  for (i=0;MD[i].client_name;i++)
+    for(j=0;MD[i].ports[j].port_name;j++) 
+      for (c=0;c<16;c++){
+        buffer[0] = 0xb0 + c;
+        buffer[1] = MIDI_ALL_SOUND_OFF;
+        buffer[2] = 0x00;  
+        jack_output_midi_event(buffer, i, j);
+      }
+}
+
 #else //If not _HAVE_JACK_
 void jack_playpitch(){}
 void jack_output_midi_event(){}
@@ -620,5 +641,6 @@ int maxnumber_of_ports(){ return 0;}
 int maxnumber_of_clients(){ return 0;}
 int jackmidi_server_running(){ return 0;}
 void stop_jack(){}
+void jack_midi_panic(){}
 #endif 
 
