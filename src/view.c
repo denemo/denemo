@@ -3585,7 +3585,7 @@ void playback_control_tempo (GtkWidget *button) {
   call_out_to_guile("(d-SetMovementTempo)");
 }
 void playback_control_volume (GtkWidget *button) {
-  //call_out_to_guile("(d-SetMasterVolume)");
+  MasterVolumeDialog();
 }
 void playback_control_range (GtkWidget *button) {
   PlaybackRangeDialog();
