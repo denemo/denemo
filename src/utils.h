@@ -276,4 +276,6 @@ void console_output(gchar *text);
 
 gint get_override(GList *g);
 
+void add_font_directory(gchar *fontpath);
+
 #endif /* UTILS_H */

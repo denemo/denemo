@@ -24,6 +24,15 @@
 #endif
 
 
+
+void add_font_directory(gchar *fontpath) {
+#ifdef G_OS_WIN32
+  AddFontResource(fontpath);
+#else
+  ;
+#endif
+}
+
 /**
    Popups up the menu named.
  */
