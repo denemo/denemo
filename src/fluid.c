@@ -391,6 +391,13 @@ fluid_midi_stop(void)
   playing_piece = FALSE;  
 }
 
+void
+fluid_midi_panic(void)
+{
+  fluid_synth_system_reset(synth); //I am not sure if this is correct
+}
+
+
 /* give audible feedback for entering a rhythmic element */
 static gint rhythm_sounds[] = {41,48,64,60,62,70, 81, 69, 79};
 void
@@ -487,6 +494,7 @@ void fluid_playpitch(int key, int duration, int channel, int vol){}
 void fluid_output_midi_event(unsigned char *buffer){}
 void fluid_midi_play(void){}
 void fluid_midi_stop(void){}
+void fluid_midi_panic(void){}
 int fluid_kill_timer(void){}
 #endif 
 

@@ -231,6 +231,16 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
  }
 }
 
+void
+playback_panic()
+{
+  if (Denemo.prefs.midi_audio_output == Jack)
+    jack_midi_panic();
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    fluid_midi_panic();   
+  else
+    g_debug("\nI Don't know what to do here!\n");
+}
 
 /** 
  * Dialog function used to select measure range 

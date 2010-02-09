@@ -3591,7 +3591,7 @@ void playback_control_range (GtkWidget *button) {
   PlaybackRangeDialog();
 }
 void playback_control_panic (GtkWidget *button) {
-  jack_midi_panic();
+  playback_panic();
 }
 
 /**
