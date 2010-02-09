@@ -231,6 +231,16 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
  }
 }
 
+void
+playback_panic()
+{
+  if (Denemo.prefs.midi_audio_output == Jack)
+    jack_midi_panic();
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    fluid_midi_panic();   
+  else
+    g_debug("\nI Don't know what to do here!\n");
+}
 
 /** 
  * Dialog function used to select measure range 
@@ -291,6 +301,54 @@ PlaybackRangeDialog(){
       gui->si->end_time =
 	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (to_time));
       //gtk_widget_destroy (dialog);
+    }
+  
+  gtk_widget_destroy (dialog);
+}
+
+/** 
+ * Dialog function used to select measure range 
+ * This is similar to printrangedialog in print.c
+ */
+
+void
+MasterVolumeDialog(){
+  DenemoGUI *gui = Denemo.gui;	
+  GtkWidget *dialog;
+  GtkWidget *label;
+  GtkWidget *hbox;
+  GtkWidget *MVolume;
+  
+  dialog = gtk_dialog_new_with_buttons (_("Set master volume:"),
+	 GTK_WINDOW (Denemo.window),
+	 (GtkDialogFlags) (GTK_DIALOG_MODAL |
+	      GTK_DIALOG_DESTROY_WITH_PARENT),
+	 GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+	 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+
+  hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
+
+  gdouble max_volume = 1.0;
+
+  label = gtk_label_new (_("Volume"));
+  gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+ 
+  MVolume =
+  gtk_spin_button_new_with_range (0.0, max_volume, 0.1);
+  gtk_box_pack_start (GTK_BOX (hbox), MVolume, TRUE, TRUE, 0);
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON (MVolume),
+	     (float) gui->si->master_volume);
+
+  gtk_widget_show (hbox);
+  gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
+  gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+  gtk_widget_show_all (dialog);
+
+  if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
+    {
+      gui->si->master_volume =
+	gtk_spin_button_get_value_as_float (GTK_SPIN_BUTTON (MVolume));
     }
   
   gtk_widget_destroy (dialog);

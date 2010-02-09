@@ -1,4 +1,4 @@
-include_HEADERS = smf.h
+noinst_HEADERS = smf.h
 noinst_LIBRARIES = libsmf.a
 
 libsmf_a_SOURCES = smf.h smf_private.h smf.c smf_decode.c smf_load.c smf_save.c smf_tempo.c
