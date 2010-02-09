@@ -470,7 +470,9 @@ main (int argc, char *argv[])
   path = g_strconcat (path, ";", program_files, "/Adobe/Reader 9.0/Reader", NULL);
   g_setenv ("PATH", path, TRUE);
 
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", NULL);
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
+  add_font_directory(fontpath);
+  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
 #endif
   GError *error = NULL;
