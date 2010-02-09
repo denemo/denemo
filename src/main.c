@@ -472,7 +472,7 @@ main (int argc, char *argv[])
 
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
   add_font_directory(fontpath);
-  gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
+  fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
 #endif
   GError *error = NULL;
