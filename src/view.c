@@ -2365,7 +2365,7 @@ static void define_scheme_constants(void) {
   g_print("Version %s", denemo_version);
 
 #define DEF_SCHEME_STR(which, what, tooltip)\
-  define_scheme_variable(which, what, tooltip);
+  scm_c_define(which, scm_from_locale_string(what));
 
 #define DEF_SCHEME_CONST(which, what)\
   define_scheme_int_variable(which, what, "See documentation elsewhere");
