@@ -767,7 +767,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		       gint * pprevduration, gint * pprevnumdots,
 		       gchar ** pclefname,
 		       gchar ** pkeyname, gint * pcur_stime1,
-		       gint * pcur_stime2)
+		       gint * pcur_stime2, GString *figures)
 {
   GString *ret = g_string_new ("");
 #define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), \
@@ -1124,9 +1124,13 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	break;
       case GRACE_START:
 	g_string_append_printf (ret, "\\grace {");
+	if(figures->len)
+	  g_string_append_printf (figures, "\\grace {");
 	break;
       case GRACE_END:
 	g_string_append_printf (ret, "}");
+	if(figures->len)
+	  g_string_append_printf (figures, "}");
 	break;
       case STEMDIRECTIVE:
 	switch (((stemdirective *) curobj->object)->type)
@@ -1560,7 +1564,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  open_braces += generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
-				 &cur_stime1, &cur_stime2);
+						&cur_stime1, &cur_stime2, figures);
  }// end not lilydirective
 
 
