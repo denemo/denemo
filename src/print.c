@@ -336,8 +336,10 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 
     arguments = pdf;  
   }
-  if(!is_png && (Denemo.prefs.pdfviewer->len==0))
-    run_file_association(printfile);
+  if(!is_png && (Denemo.prefs.pdfviewer->len==0)) {
+   gint value =  run_file_association(printfile);
+   g_print("file assoc returned %d\n", value);
+  }
   else
   g_spawn_async (locatedotdenemo (),		/* dir */
 		 arguments, NULL,	/* env */
