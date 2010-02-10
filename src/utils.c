@@ -33,6 +33,16 @@ void add_font_directory(gchar *fontpath) {
 #endif
 }
 
+
+
+gboolean run_file_association(gchar *filename) {
+#ifdef G_OS_WIN32
+  return ShellExecute(NULL, NULL, filename, NULL, NULL, 0);
+#else
+  g_warning("No file assoc code - set pref in externals tab of prefs dialog");
+#endif
+
+}
 /**
    Popups up the menu named.
  */

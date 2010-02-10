@@ -336,7 +336,9 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 
     arguments = pdf;  
   }
-
+  if(!is_png && (Denemo.prefs.pdfviewer->len==0))
+    run_file_association(printfile);
+  else
   g_spawn_async (locatedotdenemo (),		/* dir */
 		 arguments, NULL,	/* env */
 		 G_SPAWN_SEARCH_PATH, /* search in path for executable */
