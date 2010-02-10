@@ -70,6 +70,8 @@ browse_manual (GtkAction * action, DenemoScriptParam *param)
   gchar *browserpath = g_find_program_in_path (Denemo.prefs.browser->str);
   if (browserpath == NULL)
     {
+      if(run_file_association(manualpath))
+	return;
       /* show a warning dialog */
       GtkWidget *dialog =
         gtk_message_dialog_new (GTK_WINDOW (Denemo.window),

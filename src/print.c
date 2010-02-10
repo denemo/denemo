@@ -336,27 +336,28 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
 
     arguments = pdf;  
   }
-  if(!is_png && (Denemo.prefs.pdfviewer->len==0)) {
-   gint value =  run_file_association(printfile);
-   g_print("file assoc returned %d\n", value);
+  if((!is_png && (Denemo.prefs.pdfviewer->len==0))||
+     (is_png && (Denemo.prefs.imageviewer->len==0))) {
+    gboolean ok =  run_file_association(printfile);
+    if(!ok)
+      g_warning("Could not run the file association for a %s file\n", is_png?".png":".pdf");
   }
-  else
-  g_spawn_async (locatedotdenemo (),		/* dir */
-		 arguments, NULL,	/* env */
-		 G_SPAWN_SEARCH_PATH, /* search in path for executable */
-		 NULL,	/* child setup func */
-		 NULL,		/* user data */		
-		 NULL, /* FIXME &pid see g_spawn_close_pid(&pid) */
-		 &err);
-  
-  if (err != NULL)
-    {
+  else {
+    g_spawn_async (locatedotdenemo (),		/* dir */
+		   arguments, NULL,	/* env */
+		   G_SPAWN_SEARCH_PATH, /* search in path for executable */
+		   NULL,	/* child setup func */
+		   NULL,		/* user data */		
+		   NULL, /* FIXME &pid see g_spawn_close_pid(&pid) */
+		   &err);
+    if (err != NULL) {
       g_warning ("Failed to find %s", Denemo.prefs.pdfviewer->str);
       warningdialog("Cannot display: Check Edit->Preferences->externals\nfor your PDF viewer");
       g_warning ("%s", err->message);
       err = NULL;
       if(err) g_error_free (err);
     }
+  }
   g_free(printfile);
 }
 
