@@ -52,6 +52,7 @@ NO WARRANTY; see the file COPYING for details."));
 /** 
  * Function to allow browsing the user manual
  * uses the given web browser to display the manual
+ * If param contains a url it opens that
  */
 void
 browse_manual (GtkAction * action, DenemoScriptParam *param)
@@ -70,7 +71,7 @@ browse_manual (GtkAction * action, DenemoScriptParam *param)
   gchar *browserpath = g_find_program_in_path (Denemo.prefs.browser->str);
   if (browserpath == NULL)
     {
-      if(run_file_association(manualpath))
+      if(run_file_association(manualuri))
 	return;
       /* show a warning dialog */
       GtkWidget *dialog =
