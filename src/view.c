@@ -4715,14 +4715,15 @@ static void bitmap_table_insert(gchar *name, GdkBitmap *xbm) {
 }
 
 static  GdkBitmap * create_bitmap_from_data(gchar *data, gint width, gint height) {
-  static GdkColor white, black;gboolean init = FALSE;
-  if(!init) {
-    gdk_color_parse ("white", &white);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
-    gdk_color_parse ("black", &black);
-    gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
-  }
-  return gdk_pixmap_create_from_data(NULL,data,  width, height, 1, &white, &black);
+/*   static GdkColor white, black;gboolean init = FALSE; */
+/*   if(!init) { */
+/*     gdk_color_parse ("white", &white); */
+/*     gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE); */
+/*     gdk_color_parse ("black", &black); */
+/*     gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE); */
+/*   } */
+  // return gdk_pixmap_create_from_data(NULL,data,  width, height, 1, &white, &black);
+  return gdk_bitmap_create_from_data(NULL,data,  width, height);
 }
 
 static gboolean
