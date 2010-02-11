@@ -735,3 +735,7 @@
 (define (DenemoPlay)
   (begin
     (d-Play "(display \"Here endeth a scripted playback\")")))
+
+(define (DenemoVolume volume)
+  (begin
+    (d-MasterVolume volume)))
