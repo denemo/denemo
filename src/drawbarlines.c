@@ -28,14 +28,14 @@
 void
 draw_repeat (cairo_t *cr, gint xx, gint y)
 {
-    
+  /*    
   if (!repeat[0])
     {
       repeat[0] = bitmaphelper (NULL, repeat_open);
       repeat[1] = bitmaphelper (NULL, repeat_close);
     }
 
-  /*drawbitmapinverse (pixmap, gc, rests[duration],
+drawbitmapinverse (pixmap, gc, rests[duration],
 		     xx, y + restoffsets[duration],
 		     restwidths[duration], restheights[duration]);
 */

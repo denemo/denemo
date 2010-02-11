@@ -4711,6 +4711,17 @@ static void bitmap_table_insert(gchar *name, GdkBitmap *xbm) {
   g_hash_table_insert(bitmaps, g_strdup(name), xbm);
 }
 
+static  GdkBitmap * create_bitmap_from_data(gchar *data, gint width, gint height) {
+  static GdkColor white, black;gboolean init = FALSE;
+  if(!init) {
+    gdk_color_parse ("white", &white);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
+    gdk_color_parse ("black", &black);
+    gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
+  }
+  return gdk_pixmap_create_from_data(NULL,data,  width, height, 1, &white, &black);
+}
+
 static gboolean
 loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
 
@@ -4725,7 +4736,13 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   *width = gdk_pixbuf_get_width(pixbufa);
   *height = gdk_pixbuf_get_height(pixbufa);
   gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
-  *xbm = gdk_bitmap_create_from_data (NULL, data, *width, *height);
+
+
+
+  
+  *xbm = create_bitmap_from_data(data, *width, *height);
+
+
   bitmap_table_insert(basename, *xbm);
   g_free(data);
   return TRUE;
@@ -4782,7 +4799,25 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
     gchar *data = g_malloc(numbytes);    
     //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
     if(numbytes == fread(data, 1, numbytes, fp)){
-      *xbm = gdk_bitmap_create_from_data(NULL, data, w, h);
+      *xbm = create_bitmap_from_data(data, w, h);
+
+#if 0
+gdk_bitmap_create_from_data(NULL, data, w, h);
+
+
+    static GdkColor white, black;gboolean init = FALSE;
+    if(!init) {
+      gdk_color_parse ("white", &white);
+      gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
+      gdk_color_parse ("black", &black);
+      gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
+    }
+    *xbm = gdk_pixmap_create_from_data(NULL,data, w, h, 1, &black, &white);
+
+    g_print("data pixmap create");
+#endif
+
+
       bitmap_table_insert(name, *xbm);
       *width = w; *height = h;
       fclose(fp);
@@ -4813,7 +4848,27 @@ static void saveGraphicItem (GtkWidget *widget, GtkAction *action) {
     guint height = Denemo.gui->xbm_height;
     
     
-    GdkBitmap *bitmap = gdk_bitmap_create_from_data(NULL, Denemo.gui->xbm, width, height);
+    GdkBitmap *bitmap = create_bitmap_from_data(Denemo.gui->xbm, width, height);
+
+#if 0
+
+    //  GdkBitmap *bitmap = gdk_bitmap_create_from_data(NULL, Denemo.gui->xbm, width, height);
+
+    static GdkColor white, black;gboolean init = FALSE;
+    if(!init) {
+      gdk_color_parse ("white", &white);
+      gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
+      gdk_color_parse ("black", &black);
+      gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
+    }
+    // GdkBitmap *bitmap = gdk_pixmap_create_from_data(NULL, Denemo.gui->xbm, width, height, 1, &white, &black);
+GdkBitmap *bitmap = gdk_pixmap_create_from_data(NULL, Denemo.gui->xbm, width, height, 1, &black, &white);
+
+ g_print("pixmap create");
+
+#endif
+
+
     GdkPixbuf *pixbuf1 = gdk_pixbuf_get_from_drawable (NULL,  bitmap, NULL, 0,0,0,0, width, height);
 
     GdkPixbuf *pixbuf = gdk_pixbuf_add_alpha (pixbuf1, TRUE, 0,0,0);// 255, 255, 255);

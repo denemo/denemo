@@ -108,8 +108,7 @@ struct infotopass
   gint markx1, markx2;
   gint marky1, marky2;
   gboolean line_end;//set true when an object is drawn off the right hand edge
-  /*GString *dynamic; */
-  GtkWidget *widget;
+
   measurenode *curmeasure;
   GList *mwidthiterator;
   GSList *slur_stack;
@@ -875,7 +874,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   /* Initialize some fields in itp */
 
-  itp.widget = widget;// this is used for widget->style, it is spuriously passed to the macro bitmaphelper
+
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
 
