@@ -91,13 +91,13 @@ initprefs ()
 #endif
 
 #ifdef G_OS_WIN32
-  ret->browser = g_string_new ("firefox");
-  ret->midiplayer = g_string_new ("wmplayer");
-  ret->audioplayer = g_string_new ("wmplayer");
-  ret->lilypath = g_string_new ("lilypond-windows");
-  ret->pdfviewer = g_string_new ("acrord32");
-  ret->imageviewer = g_string_new ("mspaint");
-  ret->midiplayer = g_string_new("wmplayer");
+  ret->browser = g_string_new ("");//use file association
+  ret->midiplayer = g_string_new ("");
+  ret->audioplayer = g_string_new ("");
+  ret->lilypath = g_string_new ("lilypond-windows");//We don't assume the file assoc works - we are installing this anyway to a known place
+  ret->pdfviewer = g_string_new ("");
+  ret->imageviewer = g_string_new ("");
+  ret->midiplayer = g_string_new("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->midiplayer = g_string_new ("playmidi");

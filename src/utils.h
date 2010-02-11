@@ -278,4 +278,5 @@ gint get_override(GList *g);
 
 void add_font_directory(gchar *fontpath);
 
+gboolean run_file_association(gchar *filenam);
 #endif /* UTILS_H */
