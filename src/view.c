@@ -4700,6 +4700,10 @@ create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int h
       for(x=lox;x<hix;x++, i++) {
 	this = chars + (i/8);
 	gint set = ((pixels + y * rowstride + x * n_channels)[3]>0);
+#ifdef G_OS_WIN32
+	set = (set?0:1);//bizarrely the bitmaps come out inverted on windows
+#endif
+
 	*this += set<<i%8;
       }
       i = ((i+7)/8)*8;
