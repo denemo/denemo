@@ -3584,8 +3584,11 @@ void playback_control_next_rehearsal (GtkWidget *button) {
 void playback_control_tempo (GtkWidget *button) {
   call_out_to_guile("(d-SetMovementTempo)");
 }
-void playback_control_volume (GtkWidget *button) {
-  MasterVolumeDialog();
+void playback_control_volume (GtkAdjustment *adjustment, gpointer b) {
+  gdouble volume = gtk_adjustment_get_value(adjustment);
+  gchar *proc = g_strdup_printf("(DenemoVolume %0.1f)", volume);
+  call_out_to_guile(proc);
+  g_free(proc);
 }
 void playback_control_range (GtkWidget *button) {
   PlaybackRangeDialog();
@@ -6228,7 +6231,16 @@ get_data_dir (),
     PLAYBUTTON("Forward", playback_control_forward);
     PLAYBUTTON("Next Rehearsal Mark", playback_control_next_rehearsal);
     PLAYBUTTON("Tempo", playback_control_tempo);
-    PLAYBUTTON("Volume", playback_control_volume);
+    /* Volume */
+    GtkWidget *label = gtk_label_new (_("Volume"));
+    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
+    GtkObject *adj;
+    adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
+
+    GtkWidget *mvolume = gtk_hscale_new(GTK_ADJUSTMENT(adj));
+    g_signal_connect(GTK_OBJECT(adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
+    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), mvolume, TRUE, TRUE, 0);
+    
     PLAYBUTTON("Playback Range", playback_control_range);
     PLAYBUTTON("Panic", playback_control_panic);
 
