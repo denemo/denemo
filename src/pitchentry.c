@@ -94,6 +94,26 @@ Equal Temperament
 261.6	277.2	293.7 	311.1	329.6	349.2 	370.0	392.0	415.3 	440.0	466.2	493.9
 HARPSICHORD TUNING - A COURSE OUTLINE, by G.C. Klop, distributed by The Sunbury Press, P.O. Box 1778, Raleigh, NC 27602.
 #endif
+
+  static temperament Rameau = {
+  "Rameau", 8,3,
+    { 
+      {261.6, {0, 0}},
+      {276.9, {0, 1}},
+      {293.3, {1, 0}},
+      {309.7, {2, -1}},
+      {330.4, {2, 0}},
+      {348.8, {3, 0}},
+      {369.2, {3, 1}},
+      {391.1, {4, 0}},
+      {413.9, {4, 1}},
+      {438.5, {5, 0}},
+      {463.0, {6, -1}},
+      {493.9, {6, 0}}
+  }
+};
+
+
 static temperament Equal = {
   "Equal", 8,3,
     { 
@@ -182,7 +202,7 @@ static temperament WerckmeisterIV = {
 
 static temperament *PR_temperament=&Equal; /* the currently used temperament */
 
-static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman};
+static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman, &Rameau};
 
 static void switch_back_to_main_window(void) {
 
