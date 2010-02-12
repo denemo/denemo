@@ -731,10 +731,49 @@
 
 
 ;;;;;;;;;;;;;;;;;
+(define (DenemoFirst)
+  (begin
+    (display "DenemoFirst")))
+
+(define (DenemoGoBack)
+  (begin
+    (display "DenemoGoBack")))
+
+(define (DenemoPrevious)
+  (begin
+    (display "DenemoPrevious")))
+
+(define (DenemoRewind)
+  (begin
+    (display "DenemoRewind")))
+
+(define (DenemoStop)
+  (begin
+    (d-Stop)))
 
 (define (DenemoPlay)
   (begin
     (d-Play "(display \"Here endeth a scripted playback\")")))
+
+(define (DenemoPause)
+  (begin
+    (display "DenemoPause")))
+
+(define (DenemoForward)
+  (begin
+    (display "DenemoForward")))
+
+(define (DenemoNext)
+  (begin
+    (display "DenemoNext")))
+
+(define (DenemoGoForward)
+  (begin
+    (display "DenemoGoForward")))
+
+(define (DenemoLast)
+  (begin
+    (display "DenemoLast")))
 
 (define (DenemoTempo tempo)
   (begin

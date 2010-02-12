@@ -3563,38 +3563,38 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef g
 #undef MODE
 }
-void playback_control_prev_rehearsal (GtkWidget *button) {
-  call_out_to_guile("(d-PrevBookmark)");
+void playback_control_first (GtkWidget *button) {
+  call_out_to_guile("(DenemoFirst)");
+}
+void playback_control_go_back (GtkWidget *button) {
+  call_out_to_guile("(DenemoGoBack)");
+}
+void playback_control_previous (GtkWidget *button) {
+  call_out_to_guile("(DenemoPrevious)");
 }
 void playback_control_rewind (GtkWidget *button) {
-  //call_out_to_guile("(d-PrevBookmark)");
+  call_out_to_guile("(DenemoRewind)");
 }
-void playback_control_first (GtkWidget *button) {
-  //call_out_to_guile("(d-PrevBookmark)");
-}
-void playback_control_back (GtkWidget *button) {
-  call_out_to_guile("(d-MeasureLeft)");
+void playback_control_stop (GtkWidget *button) {
+  call_out_to_guile("(DenemoStop)");
 }
 void playback_control_play (GtkWidget *button) {
   call_out_to_guile("(DenemoPlay)");
 }
-void playback_control_stop (GtkWidget *button) {
-  call_out_to_guile("(d-Stop)");
-}
 void playback_control_pause (GtkWidget *button) {
-  call_out_to_guile("(d-PrevBookmark)");
+  call_out_to_guile("(DenemoPause)");
 }
 void playback_control_forward (GtkWidget *button) {
-  call_out_to_guile("(d-MeasureRight)");
+  call_out_to_guile("(DenemoForward)");
 }
-void playback_control_last (GtkWidget *button) {
-  //call_out_to_guile("(d-PrevBookmark)");
-}
-void playback_control_next_rehearsal (GtkWidget *button) {
-  call_out_to_guile("(d-NextBookmark)");
+void playback_control_next (GtkWidget *button) {
+  call_out_to_guile("(DenemoNext)");
 }
 void playback_control_go_forward (GtkWidget *button) {
-  //call_out_to_guile("(d-PrevBookmark)");
+  call_out_to_guile("(DenemoGoForward)");
+}
+void playback_control_last (GtkWidget *button) {
+  call_out_to_guile("(DenemoLast)");
 }
 void playback_control_tempo (GtkWidget *button) {
   gint tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (button));
@@ -6256,14 +6256,14 @@ get_data_dir (),
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
 
     PLAYBUTTON(NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
-    PLAYBUTTON(NULL, playback_control_back, GTK_STOCK_GO_BACK);
-    PLAYBUTTON(NULL, playback_control_prev_rehearsal, GTK_STOCK_MEDIA_PREVIOUS);
+    PLAYBUTTON(NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
+    PLAYBUTTON(NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
     PLAYBUTTON(NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
     PLAYBUTTON(NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
     PLAYBUTTON(NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
     PLAYBUTTON(NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
     PLAYBUTTON(NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
-    PLAYBUTTON(NULL, playback_control_next_rehearsal, GTK_STOCK_MEDIA_NEXT);
+    PLAYBUTTON(NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
     PLAYBUTTON(NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
     PLAYBUTTON(NULL, playback_control_last, GTK_STOCK_GOTO_LAST);
     
