@@ -29,12 +29,6 @@
 #define WHOLE_NUMTICKS 1536
 #define FONT "Sans 9"
 #define TIMESIGFONT "Sans 24"
-/* Wrapper macro for creating bitmaps */
-
-#define bitmaphelper(widget, name) \
-   gdk_bitmap_create_from_data (NULL, \
-                                (gchar *) name##_bits, \
-                                name##_width, name##_height)
 
 /* Adds a callback that processes the "activate" signal coming from
  * a widget */

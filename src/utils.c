@@ -117,22 +117,14 @@ infodialog (gchar * msg)
  * 
  * @return none
  */
-void
-drawbitmapinverse (GdkPixmap * pixmap, GdkGC * gc, GdkBitmap * mask, gint x,
-		   gint y, gint width, gint height)
-{
-  gdk_gc_set_clip_mask (gc, mask);
-  gdk_gc_set_clip_origin (gc, x, y);
-  gdk_draw_rectangle (pixmap, gc, TRUE, x, y, width, height);
-  gdk_gc_set_clip_mask (gc, NULL);	/* Removes clip mask */
-}
+
 
 void
 drawbitmapinverse_cr (cairo_t * cr, GdkBitmap * mask, gint x,
 		   gint y, gint width, gint height)
 {
   cairo_save(cr);
-  gdk_cairo_set_source_pixmap( cr, mask, x,y );
+  gdk_cairo_set_source_pixmap( cr, mask, x,y );//??? bitmap???? asks torbenh
   cairo_rectangle( cr, x,y, width, height );
   cairo_fill( cr );
   cairo_restore( cr );
