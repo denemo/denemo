@@ -3597,7 +3597,10 @@ void playback_control_go_forward (GtkWidget *button) {
   //call_out_to_guile("(d-PrevBookmark)");
 }
 void playback_control_tempo (GtkWidget *button) {
-  call_out_to_guile("(d-SetMovementTempo)");
+  gint tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (button));
+  gchar *proc = g_strdup_printf("(DenemoTempo %d)", tempo);
+  call_out_to_guile(proc);
+  g_free(proc);
 }
 void playback_control_volume (GtkAdjustment *adjustment, gpointer b) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
@@ -6238,6 +6241,7 @@ get_data_dir (),
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GTK_WIDGET_UNSET_FLAGS(Denemo.playback_control, GTK_CAN_FOCUS);//If we want to enter times will this be ok? 
     GtkWidget *button;
+    GtkWidget *label;
 
 #define PLAYBUTTON(thelabel, callback, image) \
     if (thelabel)\
@@ -6262,9 +6266,18 @@ get_data_dir (),
     PLAYBUTTON(NULL, playback_control_next_rehearsal, GTK_STOCK_MEDIA_NEXT);
     PLAYBUTTON(NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
     PLAYBUTTON(NULL, playback_control_last, GTK_STOCK_GOTO_LAST);
-    PLAYBUTTON("Tempo", playback_control_tempo, NULL);
+    
+    /* Tempo */
+    label = gtk_label_new (_("Tempo:"));
+    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
+    GtkWidget *tempo = gtk_spin_button_new_with_range (0, 300, 1);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo),
+	                 (gint) 120);
+    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), tempo, FALSE, TRUE, 0);
+    g_signal_connect(GTK_OBJECT(tempo), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
+    
     /* Volume */
-    GtkWidget *label = gtk_label_new (_("Volume"));
+    label = gtk_label_new (_("Volume"));
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
     GtkObject *adj;
     adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);

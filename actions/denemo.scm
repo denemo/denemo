@@ -736,6 +736,12 @@
   (begin
     (d-Play "(display \"Here endeth a scripted playback\")")))
 
+(define (DenemoTempo tempo)
+  (begin
+    (display tempo)))
+
 (define (DenemoVolume volume)
   (begin
     (d-MasterVolume volume)))
+
+    
