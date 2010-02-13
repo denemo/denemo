@@ -57,10 +57,9 @@
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
 
 (define (SingleAndSelectionSwitcher commandsingle commandselection)
-
+(d-PushPosition)
 (if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
-	(d-PushPosition)
 	(eval-string  commandselection)
 	(let loop ()
 	(if (d-NextSelectedObject)
