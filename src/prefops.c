@@ -254,7 +254,7 @@ parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
     g_array_set_size(arr, i);
     prefs->midi_device =  (DeviceManagerDevice *)arr->data;
     prefs->midi_device_array = arr;
-  a}
+  }
 #else
   prefs->midi_device = (DeviceManagerDevice *)g_malloc0((i+1)*sizeof(DeviceManagerDevice));
 #endif
