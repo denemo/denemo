@@ -60,12 +60,14 @@
 
 (if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
+	(d-PushPosition)
 	(eval-string  commandselection)
 	(let loop ()
 	(if (d-NextSelectedObject)
 	 	(begin (eval-string  commandselection) (loop))
 	))
 	(d-GoToSelectionStart)
+	(d-PopPosition)
 	)
 (begin	
 	(eval-string commandsingle)	)
