@@ -482,7 +482,7 @@ dotrackname (gchar *name, midicallback *mididata)
   DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
   
   curstaffstruct->denemo_name->str = g_strdup(name);
-  set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
+  //set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
 }
 
 void
