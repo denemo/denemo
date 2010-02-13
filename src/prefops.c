@@ -154,7 +154,8 @@ initprefs ()
   ret->history = g_queue_new ();
   ret->zoom = 100;
   ret->system_height = 100;
-
+  ret->applytoselection = TRUE;
+  
   /* Read values from systemwide preferences file */
 
   readxmlprefsFile (systemwide);
@@ -253,7 +254,7 @@ parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
     g_array_set_size(arr, i);
     prefs->midi_device =  (DeviceManagerDevice *)arr->data;
     prefs->midi_device_array = arr;
-  }
+  a}
 #else
   prefs->midi_device = (DeviceManagerDevice *)g_malloc0((i+1)*sizeof(DeviceManagerDevice));
 #endif
