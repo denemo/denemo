@@ -174,6 +174,9 @@ determineClef (gint type, gchar ** clefName)
     case DENEMO_G_8_CLEF:
       *clefName = "treble-8vb";
       break;
+    case DENEMO_F_8_CLEF:
+      *clefName = "bass-8vb";
+      break;
     case DENEMO_TENOR_CLEF:
       *clefName = "tenor";
       break;

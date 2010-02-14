@@ -49,10 +49,12 @@ draw_key (cairo_t *cr, gint xx, gint y,
       switch (dclef)
 	{
 	case DENEMO_TREBLE_CLEF:
+	case DENEMO_G_8_CLEF:
 	  theprevys = (prevnumber < 0) ? treble_flat_ys : treble_sharp_ys;
 	  theys = (number < 0) ? treble_flat_ys : treble_sharp_ys;
 	  break;
 	case DENEMO_BASS_CLEF:
+	case DENEMO_F_8_CLEF:
 	  theprevys = (prevnumber < 0) ? bass_flat_ys : bass_sharp_ys;
 	  theys = (number < 0) ? bass_flat_ys : bass_sharp_ys;
 	  break;
@@ -60,10 +62,7 @@ draw_key (cairo_t *cr, gint xx, gint y,
 	  theprevys = (prevnumber < 0) ? alto_flat_ys : alto_sharp_ys;
 	  theys = (number < 0) ? alto_flat_ys : alto_sharp_ys;
 	  break;
-	case DENEMO_G_8_CLEF:
-	  theprevys = (prevnumber < 0) ? treble_flat_ys : treble_sharp_ys;
-	  theys = (number < 0) ? treble_flat_ys : treble_sharp_ys;
-	  break;
+
 	case DENEMO_TENOR_CLEF:
 	  theprevys = (prevnumber < 0) ? tenor_flat_ys : tenor_sharp_ys;
 	  theys = (number < 0) ? tenor_flat_ys : tenor_sharp_ys;

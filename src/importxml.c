@@ -473,6 +473,8 @@ parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
     clef->type = DENEMO_ALTO_CLEF;
   else if (strcmp (clefTypeName, "treble-8vb") == 0)
     clef->type = DENEMO_G_8_CLEF;
+  else if (strcmp (clefTypeName, "bass-8vb") == 0)
+    clef->type = DENEMO_F_8_CLEF;
   else if (strcmp (clefTypeName, "tenor") == 0)
     clef->type = DENEMO_TENOR_CLEF;
   else if (strcmp (clefTypeName, "soprano") == 0)

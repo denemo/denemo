@@ -44,6 +44,9 @@ offset_from_height (gdouble height, enum clefs clef)
     case DENEMO_G_8_CLEF:
       R (3);
       break;
+    case DENEMO_F_8_CLEF:
+      R (-9);
+      break;
     case DENEMO_TENOR_CLEF:
       R (2);
       break;

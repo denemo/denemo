@@ -13,7 +13,7 @@
  * to install the pixmaps into a /usr/share directory of some kind before
  * the program can be run from anywhere on the system. */
 
-#define NUMCLEFTYPES 6
+#define NUMCLEFTYPES DENEMO_INVALID_CLEF
 #define TREBLE_TOPOFFSET 30 
 #define BASS_TOPOFFSET 10
 #define ALTO_TOPOFFSET 20
@@ -31,10 +31,10 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
   gint type = clef->type;
   static gint clefoffsets[NUMCLEFTYPES] =
     { TREBLE_TOPOFFSET, BASS_TOPOFFSET, ALTO_TOPOFFSET, G_8_TOPOFFSET,
-    TENOR_TOPOFFSET, SOPRANO_TOPOFFSET
+    TENOR_TOPOFFSET, SOPRANO_TOPOFFSET, BASS_TOPOFFSET
   };
   static gunichar clef_char[NUMCLEFTYPES] =
-    { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5 
+    { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7 
   };
 
   gboolean override = FALSE;
@@ -57,5 +57,9 @@ draw_clef (cairo_t *cr, gint xx, gint y, clef *clef)
   }
   if(!override) {
     drawfetachar_cr( cr, clef_char[type], xx, y+clefoffsets[type] );
+    if(type==DENEMO_G_8_CLEF)
+      drawnormaltext_cr( cr, "8", xx+8,  y+65 );
+   if(type==DENEMO_F_8_CLEF)
+      drawnormaltext_cr( cr, "8", xx+8,  y+55 );
   }
 }

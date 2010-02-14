@@ -1033,6 +1033,15 @@ newclefg8 (DenemoGUI * gui)
 }
 
 /**
+ * Wrapper function to create new bass_8 clef and insert into the score
+ */
+void
+newcleff8 (DenemoGUI * gui)
+{
+  object_insert (gui, dnm_newclefobj (DENEMO_F_8_CLEF));
+}
+
+/**
  * Wrapper function to create new tenor clef and insert into the score
  */
 void
@@ -1673,6 +1682,13 @@ setclefg8 (DenemoGUI * gui)
   DenemoStaff *curstaff = (DenemoStaff *) gui->si->currentstaff->data;
   if (curstaff)
     dnm_setinitialclef (gui->si, curstaff, DENEMO_G_8_CLEF);
+}
+void
+setcleff8 (DenemoGUI * gui)
+{
+  DenemoStaff *curstaff = (DenemoStaff *) gui->si->currentstaff->data;
+  if (curstaff)
+    dnm_setinitialclef (gui->si, curstaff, DENEMO_F_8_CLEF);
 }
 
 void

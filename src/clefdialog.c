@@ -35,9 +35,10 @@ static ClefInfo clef_info[] = {
   {DENEMO_TREBLE_CLEF, N_("Treble")},
   {DENEMO_BASS_CLEF, N_("Bass")},
   {DENEMO_ALTO_CLEF, N_("Alto")},
-  {DENEMO_G_8_CLEF, N_("Octava bassa")},
+  {DENEMO_G_8_CLEF, N_("Treble Octava bassa")},
   {DENEMO_TENOR_CLEF, N_("Tenor")},
-  {DENEMO_SOPRANO_CLEF, N_("Soprano")}
+  {DENEMO_SOPRANO_CLEF, N_("Soprano")},
+  {DENEMO_F_8_CLEF, N_("Bass Octava bassa")},
 };
 
 

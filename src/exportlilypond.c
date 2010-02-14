@@ -277,7 +277,11 @@ determineclef (gint type, gchar ** clefname)
       *clefname = "alto";
       break;
     case DENEMO_G_8_CLEF:
-      *clefname = "\"G_8\"";
+      // *clefname = "\"G_8\"";
+ *clefname = "\"treble_8\"";
+      break;
+    case DENEMO_F_8_CLEF:
+ *clefname = "\"bass_8\"";
       break;
     case DENEMO_TENOR_CLEF:
       *clefname = "tenor";

@@ -432,6 +432,9 @@ calculateheight (gint mid_c_offset, gint dclef)
     case DENEMO_BASS_CLEF:
       return -LINE_SPACE - HALF_LINE_SPACE * mid_c_offset;
       break;
+    case DENEMO_F_8_CLEF:
+      return -5*LINE_SPACE - HALF_LINE_SPACE * (mid_c_offset - 1);
+      break;
     case DENEMO_TENOR_CLEF:
       return LINE_SPACE - HALF_LINE_SPACE * mid_c_offset;
       break;
