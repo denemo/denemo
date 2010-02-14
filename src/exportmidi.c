@@ -1468,6 +1468,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  if (chordval.notes)
 		    {
 
+		      gint tmp_volume = cur_volume;
+		      if (curobj->isinvisible)
+			cur_volume = 0;
+
 	    /**************************
 	     * prepare for note output
 	     **************************/
@@ -1495,18 +1499,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      for (curtone = chordval.notes; curtone;
 			   curtone = curtone->next)
 			{
-			  gint tmp = cur_volume;
-			  if (curobj->isinvisible)
-			    cur_volume = 0;
-			  else if (chordval.has_dynamic){
+			  if (chordval.has_dynamic){
 			      g_debug("\nThis chord has a dynamic marking attatched\n");
 			      GList *dynamic = g_list_first(chordval.dynamics);	
 			      cur_volume =
 		              string_to_vol (((GString *) dynamic->data)->str,
 				   cur_volume);
 			  }
-			  else
-			    cur_volume = tmp;
 
 			  mid_c_offset =
 			    ((note *) curtone->data)->mid_c_offset;
@@ -1527,7 +1526,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 				     notenumber,
 				     tmpstaccato,
 				     tmpstaccatissimo, chordval.is_tied);
-
+			  
 			}
 		      /* End chord read loop */
 #if slurdebug
@@ -1636,7 +1635,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    }
 			}
 		      /* end of second chord output loop */
-
+		      cur_volume = tmp_volume;
 		    }//end of for notes in chord. Note that rests have no MIDI representation, of course.
 		  width = 0;
 #if slurdebug
