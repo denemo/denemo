@@ -6239,7 +6239,7 @@ get_data_dir (),
   {
     Denemo.playback_control = gtk_hbox_new(FALSE, 1);
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
-    GTK_WIDGET_UNSET_FLAGS(Denemo.playback_control, GTK_CAN_FOCUS);//If we want to enter times will this be ok? 
+    GTK_WIDGET_UNSET_FLAGS(Denemo.playback_control, GTK_CAN_FOCUS);
     GtkWidget *button;
     GtkWidget *label;
 
@@ -6248,6 +6248,7 @@ get_data_dir (),
       button = gtk_button_new_with_label(thelabel);\
     else \
       button = gtk_button_new();\
+    GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);\
     if (image){ \
       gtk_button_set_image (GTK_BUTTON(button), \
       gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));\
@@ -6269,8 +6270,10 @@ get_data_dir (),
     
     /* Tempo */
     label = gtk_label_new (_("Tempo:"));
+    GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
     GtkWidget *tempo = gtk_spin_button_new_with_range (0, 300, 1);
+    //GTK_WIDGET_UNSET_FLAGS(tempo, GTK_CAN_FOCUS); letting this get typed text - bad effect is that trying to enter note names will make denemo appear to have lost keyboard entry - you have to click on the drawing area, or tab to it.
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo),
 	                 (gint) 120);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), tempo, FALSE, TRUE, 0);
@@ -6278,11 +6281,13 @@ get_data_dir (),
     
     /* Volume */
     label = gtk_label_new (_("Volume"));
+    GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
     GtkObject *adj;
     adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
     GtkWidget *mvolume = gtk_hscale_new(GTK_ADJUSTMENT(adj));
+    GTK_WIDGET_UNSET_FLAGS(mvolume, GTK_CAN_FOCUS);
     g_signal_connect(GTK_OBJECT(adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), mvolume, TRUE, TRUE, 0);
     
