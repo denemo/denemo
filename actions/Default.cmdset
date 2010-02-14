@@ -58,6 +58,11 @@
         <tooltip>Moves the cursor to the Mark without altering the selection</tooltip>
       </row>
       <row>
+        <action>SwapPointAndMark</action>
+        <label>Swap Ends of Selection</label>
+        <tooltip>Swaps the active end of the selection</tooltip>
+      </row>
+      <row>
         <action>GoToSelectionStart</action>
         <label>To Selection Start</label>
         <tooltip>Moves the cursor to the first object in the selection without altering the selection. returns #f if no selection</tooltip>
@@ -3515,6 +3520,22 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MovementMenu</menupath>
         <label>MIDI Tempo</label>
         <tooltip>Sets the (initial) tempo in quarter notes per minute.</tooltip>
+      </row>
+      <row>
+        <action>LineNumber</action>
+        <after>LineOrSpace</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Note-Reading</menupath>
+        <label>Identify line number</label>
+        <tooltip>Identify the line number in which the note is displayed</tooltip>
+      </row>
+      <row>
+        <action>SpaceNumber</action>
+        <after>LineNumber</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Note-Reading</menupath>
+        <label>Identify space number</label>
+        <tooltip>Identify the space number in which the note is display on</tooltip>
       </row>
     </map>
   </commands>
