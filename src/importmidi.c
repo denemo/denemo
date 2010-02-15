@@ -338,9 +338,15 @@ decode_midi_event(const smf_event_t *event, midicallback *mididata)
 			note_from_int(note, event->midi_buffer[1]);
 			g_debug("\nNote On channel %d note %s velocity %d\n", 
 					channel, note, event->midi_buffer[2]);
-			mididata->delta_time = event->delta_time_pulses;
-			mididata->event_number = event->event_number;
-			donoteon(mididata,  event->midi_buffer[1],  event->midi_buffer[2], event->time_pulses);
+
+                        if (0 == event->midi_buffer[2]) { // actually note off
+			    donoteoff (mididata);
+                        } // actually note off
+                        else { // really note on
+			    mididata->delta_time = event->delta_time_pulses;
+			    mididata->event_number = event->event_number;
+			    donoteon(mididata,  event->midi_buffer[1],  event->midi_buffer[2], event->time_pulses);
+                        } // really note on
 			break;
 
 		case AFTERTOUCH:
@@ -502,6 +508,7 @@ stack (gint pitch, gint timeon, gint delta_time, gint duration, gint tracknum)
   mystack->on_delta_time = delta_time;
   mystack->duration = duration;
   mystack->tracknum = tracknum;
+  mystack->chordnotes = NULL;
   return mystack;
 }
 
@@ -567,8 +574,12 @@ Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *midida
   gboolean chordtone = FALSE;
 
   while ((event = smf_track_get_event_by_number(mididata->selected_track, event_number)) != NULL){
-    if (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
-		    & (event->midi_buffer[1] == (int) pitch)){
+    if (   (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
+		    && (event->midi_buffer[1] == (int) pitch))
+        || (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
+		    && (event->midi_buffer[1] == (int) pitch)
+		    && (0 == event->midi_buffer[2]))
+       ){
 	duration = event->time_pulses - timeon; 
 	if (mididata->currentnote != NULL) 
 	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, duration);
@@ -701,7 +712,7 @@ notetype ConvertLength(gint duration, midicallback *mididata){
   gint tied = 0;
   gint leftover = 0;
   gint dsq = (4 * PPQN);
-
+  g_debug("\nDuration = %d ticks\n", duration);
   
   while ((dsq >> notetype) > duration)
 	  notetype++;
@@ -767,31 +778,39 @@ void MeasureCheck(midicallback *mididata){
 
 void RestCheck(midicallback *mididata){
   gint rest = 0;
+  gint ticks;
   gint PPQN = mididata->smf->ppqn;
   gint starttime = (int) mididata->currentnote->timeon;
   gint duration = (int) mididata->currentnote->duration;
   gint on_delta_time = (int) mididata->currentnote->on_delta_time;
   gint dsq = (4 * mididata->smf->ppqn);
 
+  if (duration == 0)
+    return;
   if (starttime > mididata->lastoff){
     rest = starttime - mididata->lastoff;
+    g_debug("\nRest = %d\n",rest);
     if (mididata->bartime + on_delta_time  >= (mididata->barlength)){
+      g_debug("\nmididata->bartime + on_delta_time  >= mididata->barlength\n");
       while(mididata->barlength - mididata->bartime){
         rest = mididata->barlength - mididata->bartime;
         struct notetype length = ConvertLength(rest, mididata);
         new_dnm_object(mididata, mididata->currentnote, length, FALSE);
-        mididata->bartime += ConvertNoteType2ticks(mididata, &length);
-        mididata->lastoff += ConvertNoteType2ticks(mididata, &length);
+	ticks = ConvertNoteType2ticks(mididata, &length);
+        mididata->bartime += ticks;
+        mididata->lastoff += ticks;
       } 
       process_list(mididata);		          
       rest = 0;/* I am not sure if this is the best choice here*/
     }
-    if (rest){
+    while (rest){
         struct notetype length = ConvertLength(rest, mididata);
 	new_dnm_object(mididata, mididata->currentnote, length, FALSE);
-	mididata->bartime = mididata->bartime + ConvertNoteType2ticks(mididata, &length);
-	mididata->lastoff += ConvertNoteType2ticks(mididata, &length);
-	rest = 0;
+	ticks = ConvertNoteType2ticks(mididata, &length);
+	mididata->bartime += ticks;
+	mididata->lastoff += ticks;
+	rest -= ticks;
+	g_debug("\nbartime = %d, lastoff = %d\n", mididata->bartime, mididata->lastoff);
     }
   }
 }
@@ -821,7 +840,9 @@ void ProcessNote(midicallback *mididata) {
 	gint lastoff = mididata->lastoff;
 	gint duration = (int) mididata->currentnote->duration;
 	gint pitch = (int) mididata->currentnote->pitch;
-	        
+	if (duration == 0)
+  	  return;
+        g_debug("\nProcessing pitch %d\n",pitch);	        
 	/*if a noteon event happends just after anouther note finishes just add the next note */
 	if (starttime == mididata->lastoff) {
 		notetype length = ConvertLength(duration, mididata);
@@ -880,6 +901,7 @@ gint
 importMidi (gchar *filename, DenemoGUI *gui)
 {
   midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
+  mididata->notestack = NULL;
   mididata->selected_track = NULL;
   mididata->smf = NULL;
   mididata->gui = gui;
