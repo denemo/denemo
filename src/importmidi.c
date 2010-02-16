@@ -26,6 +26,8 @@
 #include "importmidi.h"
 #include "staffops.h"
 #include "smf.h"
+#include "view.h"
+#include "utils.h"
 #include "file.h"
 #include "commandfuncs.h"
 #include "processstaffname.h"
@@ -404,6 +406,78 @@ new_dnm_object(midicallback *mididata, nstack *currentnote, notetype length, gbo
 	object_insert (mididata->gui, mudela_obj_new);	
 }
 
+static void
+insert_note_into_score(midicallback *mididata, notetype length)
+{
+  DenemoGUI *gui = Denemo.gui;
+  gint i;
+
+  /* 0-8 accepted bellow */
+  gchar *proc = g_strdup_printf("(d-Insert%d)", length.notetype);
+  call_out_to_guile(proc);
+  g_free(proc);
+  
+  /* get correct note name */
+  harmonic enote = enharmonic ((int) mididata->currentnote->pitch,mididata->key);
+  gchar *name =  mid_c_offsettolily (enote.pitch, enote.enshift);
+  
+  /* Rename note to the correct note */
+  gchar *accidental = g_strdup_printf("(d-ChangeChordNotes \"%s\")", name);
+  call_out_to_guile(accidental);
+  g_free(accidental);
+
+  /* Add dots */
+  for (i=0;i<length.numofdots;i++)
+    add_dot_key (gui);
+
+  /* insert tie */
+  if (length.tied)
+    call_out_to_guile("(d-ToggleTie)");
+}	
+
+static void
+insert_rest_into_score(midicallback *mididata, notetype length)
+{
+  DenemoGUI *gui = Denemo.gui;
+  gint i;
+
+  switch (length.notetype)
+  {
+     case 0:
+       insert_rest_0key (gui);
+       break;
+     case 1:
+       insert_rest_1key (gui);
+       break;
+     case 2:
+       insert_rest_2key (gui);
+       break;
+     case 3:
+       insert_rest_3key (gui);
+       break;
+     case 4:
+       insert_rest_4key (gui);
+       break;
+     case 5:
+       insert_rest_5key (gui);
+       break;
+     case 6:
+       insert_rest_6key (gui);
+       break;
+     default:
+       break;
+  }
+  displayhelper (gui);
+
+  /* add dots */
+  for (i=0;i<length.numofdots;i++)
+    add_dot_key (gui);
+  
+  /* Insert tie */
+  if (length.tied)
+    call_out_to_guile("(d-ToggleTie)");
+
+}
 /**
  * Insert time signature into current staff 
  *
@@ -759,7 +833,8 @@ void RestCheck(midicallback *mididata){
       while(mididata->barlength - mididata->bartime){
         rest = mididata->barlength - mididata->bartime;
         struct notetype length = ConvertLength(rest, mididata);
-        new_dnm_object(mididata, mididata->currentnote, length, FALSE);
+        insert_rest_into_score(mididata, length);
+	//new_dnm_object(mididata, mididata->currentnote, length, FALSE);
 	ticks = ConvertNoteType2ticks(mididata, &length);
         mididata->bartime += ticks;
         mididata->lastoff += ticks;
@@ -769,7 +844,8 @@ void RestCheck(midicallback *mididata){
     }
     while (rest){
         struct notetype length = ConvertLength(rest, mididata);
-	new_dnm_object(mididata, mididata->currentnote, length, FALSE);
+	insert_rest_into_score(mididata, length);
+	//new_dnm_object(mididata, mididata->currentnote, length, FALSE);
 	ticks = ConvertNoteType2ticks(mididata, &length);
 	mididata->bartime += ticks;
 	mididata->lastoff += ticks;
@@ -811,14 +887,16 @@ void ProcessNote(midicallback *mididata) {
 	if (starttime == mididata->lastoff) {
 		notetype length = ConvertLength(duration, mididata);
 		length.tied = mididata->leftover;
-		new_dnm_object (mididata, mididata->currentnote, length, TRUE);
+		insert_note_into_score(mididata, length);
+		//new_dnm_object (mididata, mididata->currentnote, length, TRUE);
 		mididata->lastoff = starttime + duration;
 		mididata->bartime += duration;
 	}
 	if (mididata->leftover){
 		MeasureCheck(mididata);
 		notetype tied_length = ConvertLength(mididata->leftover, mididata);
-		new_dnm_object (mididata, mididata->currentnote, tied_length, TRUE);
+		insert_note_into_score(mididata, tied_length);
+		//new_dnm_object (mididata, mididata->currentnote, tied_length, TRUE);
 		mididata->lastoff += mididata->leftover;
 		mididata->bartime += mididata->leftover;
 		mididata->leftover = 0;

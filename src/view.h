@@ -96,4 +96,7 @@ gchar
 modifier_code(gpointer fn);
 gboolean
 code_is_a_duration(gchar code);
+
+gint
+call_out_to_guile (const char *script);
 #endif
