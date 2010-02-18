@@ -6134,7 +6134,7 @@ gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
  gtk_widget_show_all(sw);
 }
 
-GtkWidget* create_playbutton(gchar *thelabel, gpointer callback, gchar *image) {
+GtkWidget* create_playbutton(GtkBox *box, gchar *thelabel, gpointer callback, gchar *image) {
   GtkWidget *button;
   if (thelabel)
     button = gtk_button_new_with_label(thelabel);
@@ -6146,7 +6146,7 @@ GtkWidget* create_playbutton(gchar *thelabel, gpointer callback, gchar *image) {
 			  gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));
   }									
   g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
-  gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
+  gtk_box_pack_start (box, button, FALSE, TRUE, 0);
   return button;
 }
 
@@ -6300,39 +6300,47 @@ get_data_dir (),
   gtk_widget_show (toolbar);
 
   {
-    Denemo.playback_control = gtk_hbox_new(FALSE, 1);
+    Denemo.playback_control = gtk_vbox_new(FALSE, 1);
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
-    GTK_WIDGET_UNSET_FLAGS(Denemo.playback_control, GTK_CAN_FOCUS);
+    GtkFrame *frame= gtk_frame_new( "Midi Playback Control");
+    gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
+    gtk_container_add (GTK_CONTAINER (Denemo.playback_control), frame);
+
+    GtkWidget *inner = gtk_hbox_new(FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), inner);
+
+    //gtk_box_pack_start (GTK_BOX (main_vbox), inner, FALSE, TRUE, 0);
+    GTK_WIDGET_UNSET_FLAGS(inner, GTK_CAN_FOCUS);
     GtkWidget *button;
     GtkWidget *label;
 
 
-    //create_playbutton(NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
-    create_playbutton(NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
-    create_playbutton(NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
-    create_playbutton(NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
-    create_playbutton(NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
-    //create_playbutton(NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
-    playbutton = create_playbutton(NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
-    create_playbutton(NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
-    create_playbutton(NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
-    create_playbutton(NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
-    create_playbutton("Loop", playback_control_loop, NULL);
+    //create_playbutton(inner, NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
+    create_playbutton(inner,NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
+    create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
+    create_playbutton(inner,NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
+    create_playbutton(inner,NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
+    //create_playbutton(inner,NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
+    playbutton = create_playbutton(inner,NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
+    create_playbutton(inner,NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
+    create_playbutton(inner,NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
+    create_playbutton(inner,NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
+    create_playbutton(inner,"Loop", playback_control_loop, NULL);
     
     /* Tempo */
     label = gtk_label_new (_("Tempo:"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
     GtkWidget *tempo = gtk_spin_button_new_with_range (0.0, 10.0, 0.1);
     //GTK_WIDGET_UNSET_FLAGS(tempo, GTK_CAN_FOCUS); letting this get typed text - bad effect is that trying to enter note names will make denemo appear to have lost keyboard entry - you have to click on the drawing area, or tab to it.
     gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo), 1.0);
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), tempo, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner), tempo, FALSE, TRUE, 0);
     g_signal_connect(GTK_OBJECT(tempo), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
     
     /* Volume */
     label = gtk_label_new (_("Volume"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
 
     master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
@@ -6340,18 +6348,17 @@ get_data_dir (),
     gtk_scale_set_digits (mvolume, 2);
     GTK_WIDGET_UNSET_FLAGS(mvolume, GTK_CAN_FOCUS);
     g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), mvolume, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner), mvolume, TRUE, TRUE, 0);
 
 
-    create_playbutton("Set", playback_set_range, NULL);
-    create_playbutton("Playback Range", playback_control_range, NULL);
-    create_playbutton(
+    create_playbutton(inner, "Set", playback_set_range, NULL);
+    create_playbutton(inner, "Playback Range", playback_control_range, NULL);
+    create_playbutton(inner,
 #ifdef _HAVE_JACK_
 "Panic"
 #else
 "Reset"
 #endif
-
 , playback_control_panic, NULL);
 
     gtk_widget_show_all (Denemo.playback_control);
