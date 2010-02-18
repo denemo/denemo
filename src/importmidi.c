@@ -465,8 +465,9 @@ insert_rest_into_score(midicallback *mididata, notetype length)
 void
 dotimesig (gint numerator, gint denominator, midicallback *mididata)
 {
+  DenemoGUI *gui = Denemo.gui;
   /*only does initial TS */
-  DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
 
   curstaffstruct->timesig.time1 = numerator;
   curstaffstruct->timesig.time2 = denominator;
@@ -481,14 +482,14 @@ dotimesig (gint numerator, gint denominator, midicallback *mididata)
 void
 dokeysig (gint isminor, gint key, midicallback *mididata)
 {
-
+  DenemoGUI *gui = Denemo.gui;
   if (key > 7)
     key = key - 256;		/*get flat key num, see keysigdialog.cpp */
 #ifdef DEBUG
   g_print("\nkey = %d\n", key); 
 #endif
   mididata->key = key;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   curstaffstruct->keysig.number = key;
   curstaffstruct->keysig.isminor = isminor;
   dnm_setinitialkeysig (curstaffstruct, key, isminor);
@@ -497,13 +498,15 @@ dokeysig (gint isminor, gint key, midicallback *mididata)
 void
 dotempo (gint tempo, midicallback *mididata)
 { 
-  mididata->gui->si->tempo = (gint) (6.0e7 / (double) tempo);
+  DenemoGUI *gui = Denemo.gui;
+  gui->si->tempo = (gint) (6.0e7 / (double) tempo);
 }
 
 void
 dotrackname (gchar *name, midicallback *mididata)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
   
   curstaffstruct->denemo_name->str = g_strdup(name);
   //set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
@@ -512,7 +515,8 @@ dotrackname (gchar *name, midicallback *mididata)
 void
 doinstrname (gchar* name,  midicallback *mididata)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) mididata->gui->si->currentstaff->data;
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
 
   curstaffstruct->midi_instrument->str = g_strdup(name);
 }
@@ -766,9 +770,9 @@ notetype ConvertLength(gint duration, midicallback *mididata){
  * check to see if a new staff needs to be added
  */
 void StaffCheck(midicallback *mididata){
-  DenemoScore *si = mididata->gui->si;
+  DenemoGUI *gui = Denemo.gui;	
   gint track = (int) mididata->currentnote->tracknum;
-  gint currentstaffnum = si->currentstaffnum;
+  gint currentstaffnum = gui->si->currentstaffnum;
 
   if (track > currentstaffnum) /*if not first track add track */
     {
@@ -783,22 +787,23 @@ void StaffCheck(midicallback *mididata){
  * to see if we need to add a new measure 
  */
 void MeasureCheck(midicallback *mididata){
+  DenemoGUI *gui = Denemo.gui;
   if (mididata->bartime >= mididata->barlength)	
   {			/* mididata->bartime >= barlenth will be true if there are rests  or notes
 			   going over end of measures. */
-    if (!mididata->gui->si->currentmeasure->next)
+    if (!gui->si->currentmeasure->next)
       /* Add a measure and make it currentmeasure */
-      mididata->gui->si->currentmeasure =
-      dnm_addmeasures (mididata->gui->si, mididata->gui->si->currentmeasurenum, 1, 1);
+      gui->si->currentmeasure =
+      dnm_addmeasures (gui->si, gui->si->currentmeasurenum, 1, 1);
     else
-      mididata->gui->si->currentmeasure = mididata->gui->si->currentmeasure->next;
+      gui->si->currentmeasure = gui->si->currentmeasure->next;
     /* Now the stuff that needs to be done for each case */
-    mididata->gui->si->currentmeasurenum++;
-    mididata->gui->si->currentobject = NULL;
-    mididata->gui->si->cursor_x = 0;
-    memcpy (mididata->gui->si->cursoraccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
-    memcpy (mididata->gui->si->curmeasureaccs, mididata->gui->si->nextmeasureaccs, SEVENGINTS);
-    mididata->gui->si->curmeasureclef = mididata->gui->si->cursorclef;
+    gui->si->currentmeasurenum++;
+    gui->si->currentobject = NULL;
+    gui->si->cursor_x = 0;
+    memcpy (gui->si->cursoraccs, gui->si->nextmeasureaccs, SEVENGINTS);
+    memcpy (gui->si->curmeasureaccs, gui->si->nextmeasureaccs, SEVENGINTS);
+    gui->si->curmeasureclef = gui->si->cursorclef;
     mididata->bartime = 0;
   }
 }
@@ -862,7 +867,8 @@ void TiedNoteCheck(midicallback *mididata){
 }
 
 void ProcessNote(midicallback *mididata) {
-	DenemoScore *si = mididata->gui->si;
+	DenemoGUI *gui = Denemo.gui;
+	DenemoScore *si = gui->si;
 	gint starttime = (int) mididata->currentnote->timeon;
 	gint lastoff = mididata->lastoff;
 	gint duration = (int) mididata->currentnote->duration;
@@ -931,7 +937,6 @@ importMidi (gchar *filename, DenemoGUI *gui)
   mididata->notestack = NULL;
   mididata->selected_track = NULL;
   mididata->smf = NULL;
-  mididata->gui = gui;
   mididata->bartime = 0;
   mididata->lastoff = 0;
   mididata->track = 1;
