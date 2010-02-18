@@ -626,6 +626,27 @@ static SCM scheme_set_playback_interval (SCM start, SCM end) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_adjust_playback_start(SCM adj) {
+  if(scm_is_real(adj)){
+    Denemo.gui->si->start_time += scm_to_double(adj);
+    if(Denemo.gui->si->start_time<0.0)
+      Denemo.gui->si->start_time = 0.0;
+    else
+      return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
+static SCM scheme_adjust_playback_end(SCM adj) {
+  if(scm_is_real(adj)){
+    Denemo.gui->si->end_time += scm_to_double(adj);
+    if(Denemo.gui->si->end_time<0.0)
+      Denemo.gui->si->end_time = 0.0;
+    else
+      return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
 
 
 static SCM scheme_get_help(SCM command) {
@@ -3256,6 +3277,12 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOffTime", scheme_get_midi_off_time);
 
   INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX"SetPlaybackInterval", scheme_set_playback_interval);
+
+  INSTALL_SCM_FUNCTION ("Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackStart", scheme_adjust_playback_start);
+
+  INSTALL_SCM_FUNCTION ("Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX"AdjustPlaybackEnd", scheme_adjust_playback_end);
+
+
 
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 

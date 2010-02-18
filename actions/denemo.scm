@@ -736,13 +736,19 @@
   (begin
     (display "DenemoFirst")))
 
+
+;;;;;;;;;;;;
 (define (DenemoGoBack)
   (begin
-    (display "DenemoGoBack")))
+    (d-AdjustPlaybackStart -1.0)
+    (d-RefreshDisplay)))
+
 
 (define (DenemoPrevious)
   (begin
-    (display "DenemoPrevious")))
+    (d-AdjustPlaybackEnd -1.0)
+    (d-RefreshDisplay)))
+
 
 (define (DenemoRewind)
   (begin
@@ -761,17 +767,22 @@
   (begin
     (display "DenemoPause")))
 
-(define (DenemoForward)
+(define (DenemoGoForward)
   (begin
-    (display "DenemoForward")))
+    (d-AdjustPlaybackEnd 1.0)
+    (d-RefreshDisplay)))
+
 
 (define (DenemoNext)
   (begin
-    (display "DenemoNext")))
+    (d-AdjustPlaybackStart 1.0)
+    (d-RefreshDisplay)))
 
-(define (DenemoGoForward)
+
+
+(define (DenemoForward)
   (begin
-    (display "DenemoGoForward")))
+    (display "DenemoForward")))
 
 (define (DenemoLast)
   (begin
@@ -838,3 +849,5 @@
     (if (d-CheckLilyVersion "2.11.59")
 	(set! lily "print-all-headers"))
      (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
+
+
