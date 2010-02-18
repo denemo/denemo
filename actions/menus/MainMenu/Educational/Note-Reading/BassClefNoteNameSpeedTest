@@ -71,7 +71,7 @@
  (SetHeaderField "subtitle" (string-append "Score was: "  (object-&gt;string BassClefNoteNameSpeedTest::score) 
   " in "  (object-&gt;string (- BassClefNoteNameSpeedTest::end BassClefNoteNameSpeedTest::start)) " Seconds"))
  (SetHeaderField "piece" "user: anonymous")
- (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+ (DenemoPrintAllHeaders)
  (d-PrintPreview)
  (d-DirectiveDelete-header "Movement-title")
  (d-DirectiveDelete-header "Movement-subtitle")

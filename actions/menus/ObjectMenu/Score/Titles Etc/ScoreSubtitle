@@ -13,7 +13,7 @@
 	(while (d-PreviousMovement)
 		(display "Seeking first movement"))
         (SetHeaderField "subtitle")
-        (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+        (DenemoPrintAllHeaders)
         (d-RefreshDisplay)
         </scheme>
         <label>Subtitle</label>

@@ -7,7 +7,7 @@
       <row>
         <action>MovementSubtitle</action>
         <scheme>(SetHeaderField "subsubtitle")
-(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+(DenemoPrintAllHeaders)
 (d-RefreshDisplay)</scheme>
         <label>Subtitle</label>
         <tooltip>Prints the name given below the title of this movement.</tooltip>
