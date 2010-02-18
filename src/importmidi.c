@@ -792,18 +792,9 @@ void MeasureCheck(midicallback *mididata){
   {			/* mididata->bartime >= barlenth will be true if there are rests  or notes
 			   going over end of measures. */
     if (!gui->si->currentmeasure->next)
-      /* Add a measure and make it currentmeasure */
-      gui->si->currentmeasure =
-      dnm_addmeasures (gui->si, gui->si->currentmeasurenum, 1, 1);
+      call_out_to_guile("(d-AddMeasure)");
     else
-      gui->si->currentmeasure = gui->si->currentmeasure->next;
-    /* Now the stuff that needs to be done for each case */
-    gui->si->currentmeasurenum++;
-    gui->si->currentobject = NULL;
-    gui->si->cursor_x = 0;
-    memcpy (gui->si->cursoraccs, gui->si->nextmeasureaccs, SEVENGINTS);
-    memcpy (gui->si->curmeasureaccs, gui->si->nextmeasureaccs, SEVENGINTS);
-    gui->si->curmeasureclef = gui->si->cursorclef;
+      call_out_to_guile("(d-MeasureRight)");
     mididata->bartime = 0;
   }
 }
