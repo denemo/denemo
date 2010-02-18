@@ -70,7 +70,6 @@ typedef struct nstack
 
 typedef struct midicallback
 {
-	DenemoGUI *gui;
 	nstack *currentnote; /* current note being processed */
 	GList *notestack; /* polyphonic voices notes that need reprocessing */
 	gint leftover; /* note/rest value that is leftover across the measure */
@@ -385,25 +384,6 @@ readtrack(midicallback *mididata)
 	smf_rewind(mididata->smf);
 
 	return 0;
-}
-
-/* TODO consolidate this into one function */
-void
-new_dnm_object(midicallback *mididata, nstack *currentnote, notetype length, gboolean is_note){
-	DenemoObject *mudela_obj_new;
-	mudela_obj_new = dnm_newchord (length.notetype, length.numofdots, length.tied);
-	if (is_note){
-	  harmonic enote = enharmonic ((int) mididata->currentnote->pitch,mididata->key);
-	  dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);
-	  while (mididata->currentnote->chordnotes){
-		  struct harmonic enote = enharmonic ((intptr_t) 
-				 mididata->currentnote->chordnotes->data,mididata->key);
-	          dnm_addtone (mudela_obj_new, enote.pitch, enote.enshift, mididata->gui->si->cursorclef);		
-		  mididata->currentnote->chordnotes = g_list_remove_link(mididata->currentnote->chordnotes, 
-				  g_list_first (mididata->currentnote->chordnotes));
-	  }
-	}
-	object_insert (mididata->gui, mudela_obj_new);	
 }
 
 static void
@@ -793,7 +773,6 @@ void StaffCheck(midicallback *mididata){
   if (track > currentstaffnum) /*if not first track add track */
     {
      call_out_to_guile("(d-AddAfter)");
-     //set_bottom_staff (mididata->gui);
      mididata->lastoff = 0;
      mididata->bartime = 0;
     }
