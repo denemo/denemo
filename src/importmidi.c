@@ -603,10 +603,23 @@ ChordToneCheck(midicallback *mididata, gint pitch, gint timeon, gint delta_time,
   return FALSE;
 }
 
+/** 
+ * extremely simple quantizer that rounds 
+ * to the closest granule size
+ */
+static int
+round2granule(int tick)
+{
+  gint smallestgrain = 48;
+  gdouble div = ((gdouble) tick / (gdouble) smallestgrain);
+  return smallestgrain * (gint) round(div);
+}
+
 static gint
 Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *mididata){
   gint event_number = mididata->event_number;
   smf_event_t *event;
+  gint starttime;
   gint duration;
   gint tracknum = mididata->track;
   gboolean chordtone = FALSE;
@@ -618,12 +631,13 @@ Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time, midicallback *midida
 		    && (event->midi_buffer[1] == (int) pitch)
 		    && (0 == event->midi_buffer[2]))
        ){
-	duration = event->time_pulses - timeon; 
+	duration = round2granule(event->time_pulses - timeon); 
+	starttime = round2granule(timeon); //simple quantize timeon
 	if (mididata->currentnote != NULL) 
-	   chordtone = ChordToneCheck(mididata, pitch, timeon, delta_time, duration);
+	   chordtone = ChordToneCheck(mididata, pitch, starttime, delta_time, duration);
 	if (!chordtone){
       	  /* store note in mididata->currentnote */
-	  mididata->currentnote = stack(pitch, timeon, delta_time, duration, tracknum);
+	  mididata->currentnote = stack(pitch, starttime, delta_time, duration, tracknum);
 	}
 	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, timeon, (gint) duration);
     	break;
@@ -834,7 +848,6 @@ void RestCheck(midicallback *mididata){
         rest = mididata->barlength - mididata->bartime;
         struct notetype length = ConvertLength(rest, mididata);
         insert_rest_into_score(mididata, length);
-	//new_dnm_object(mididata, mididata->currentnote, length, FALSE);
 	ticks = ConvertNoteType2ticks(mididata, &length);
         mididata->bartime += ticks;
         mididata->lastoff += ticks;
@@ -845,7 +858,6 @@ void RestCheck(midicallback *mididata){
     while (rest){
         struct notetype length = ConvertLength(rest, mididata);
 	insert_rest_into_score(mididata, length);
-	//new_dnm_object(mididata, mididata->currentnote, length, FALSE);
 	ticks = ConvertNoteType2ticks(mididata, &length);
 	mididata->bartime += ticks;
 	mididata->lastoff += ticks;
@@ -888,7 +900,6 @@ void ProcessNote(midicallback *mididata) {
 		notetype length = ConvertLength(duration, mididata);
 		length.tied = mididata->leftover;
 		insert_note_into_score(mididata, length);
-		//new_dnm_object (mididata, mididata->currentnote, length, TRUE);
 		mididata->lastoff = starttime + duration;
 		mididata->bartime += duration;
 	}
@@ -896,7 +907,6 @@ void ProcessNote(midicallback *mididata) {
 		MeasureCheck(mididata);
 		notetype tied_length = ConvertLength(mididata->leftover, mididata);
 		insert_note_into_score(mididata, tied_length);
-		//new_dnm_object (mididata, mididata->currentnote, tied_length, TRUE);
 		mididata->lastoff += mididata->leftover;
 		mididata->bartime += mididata->leftover;
 		mididata->leftover = 0;
