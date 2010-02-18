@@ -831,3 +831,10 @@
 		      (d-SetPlaybackInterval end start)
 		      (d-SetPlaybackInterval start end))
 		  (d-RefreshDisplay))))))))
+
+
+(define (DenemoPrintAllHeaders)
+  (let ((lily "printallheaders"))
+    (if (d-CheckLilyVersion "2.11.59")
+	(set! lily "print-all-headers"))
+     (d-DirectivePut-paper-postfix "PrintAllHeaders" (string-append lily " = ##t\n"))))
