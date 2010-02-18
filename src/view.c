@@ -39,6 +39,12 @@
 #include "prefops.h"
 #define INIT_SCM "init.scm"
 
+
+static GtkWidget *playbutton;
+static GtkAdjustment *master_vol_adj;
+
+
+
 static void
 newtab (GtkAction *action, gpointer param);
 
@@ -564,13 +570,22 @@ static SCM scheme_master_volume (SCM factor) {
 }
 
 
-static SCM scheme_get_obj_time(void) {
+static SCM scheme_get_midi_on_time(void) {
   if(!(Denemo.gui->si->currentobject))
     return SCM_BOOL_F;
   DenemoObject *curobj = Denemo.gui->si->currentobject->data;
   if(!curobj->midi_events)
     return SCM_BOOL_F;
-  return scm_double2num(get_midi_time(curobj->midi_events));
+  return scm_double2num(get_midi_on_time(curobj->midi_events));
+}
+
+static SCM scheme_get_midi_off_time(void) {
+  if(!(Denemo.gui->si->currentobject))
+    return SCM_BOOL_F;
+  DenemoObject *curobj = Denemo.gui->si->currentobject->data;
+  if(!curobj->midi_events)
+    return SCM_BOOL_F;
+  return scm_double2num(get_midi_off_time(curobj->midi_events));
 }
 
 static SCM scheme_set_playback_interval (SCM start, SCM end) {
@@ -2214,9 +2229,11 @@ return SCM_BOOL(to_prev_object(TRUE));
 
 SCM scheme_refresh_display (SCM optional) {
   displayhelper(Denemo.gui);
-  score_status(Denemo.gui, TRUE);
+  write_status(Denemo.gui);
   return SCM_BOOL(TRUE);
 }
+
+
 
 SCM scheme_set_saved (SCM optional) {
   score_status(Denemo.gui, FALSE);
@@ -3224,7 +3241,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
-  INSTALL_SCM_FUNCTION ("Gets the status of the current musical score",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+  INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
 
@@ -3235,7 +3252,8 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
 
-  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiTime", scheme_get_obj_time);
+  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOnTime", scheme_get_midi_on_time);
+  INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOffTime", scheme_get_midi_off_time);
 
   INSTALL_SCM_FUNCTION2 ("Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX"SetPlaybackInterval", scheme_set_playback_interval);
 
@@ -3596,9 +3614,14 @@ void playback_control_go_forward (GtkWidget *button) {
 void playback_control_last (GtkWidget *button) {
   call_out_to_guile("(DenemoLast)");
 }
+
+void playback_control_loop (GtkWidget *button) {
+  call_out_to_guile("(DenemoLoop)");
+}
+
 void playback_control_tempo (GtkWidget *button) {
-  gint tempo = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (button));
-  gchar *proc = g_strdup_printf("(DenemoTempo %d)", tempo);
+  gdouble tempo = gtk_spin_button_get_value (GTK_SPIN_BUTTON (button));
+  gchar *proc = g_strdup_printf("(DenemoTempo %f)", tempo);
   call_out_to_guile(proc);
   g_free(proc);
 }
@@ -3607,6 +3630,9 @@ void playback_control_volume (GtkAdjustment *adjustment, gpointer b) {
   gchar *proc = g_strdup_printf("(DenemoVolume %0.1f)", volume);
   call_out_to_guile(proc);
   g_free(proc);
+}
+void playback_set_range (GtkWidget *button) {
+  call_out_to_guile("(DenemoSetPlaybackIntervalToSelection)");
 }
 void playback_control_range (GtkWidget *button) {
   PlaybackRangeDialog();
@@ -6108,6 +6134,43 @@ gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
  gtk_widget_show_all(sw);
 }
 
+GtkWidget* create_playbutton(gchar *thelabel, gpointer callback, gchar *image) {
+  GtkWidget *button;
+  if (thelabel)
+    button = gtk_button_new_with_label(thelabel);
+  else 
+    button = gtk_button_new();
+  GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
+  if (image){ 
+    gtk_button_set_image (GTK_BUTTON(button), 
+			  gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));
+  }									
+  g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
+  gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
+  return button;
+}
+
+void toggle_playbutton(void) {
+  static gboolean pause = TRUE;
+  if(pause) {
+    gtk_button_set_image (GTK_BUTTON(playbutton), 
+			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_BUTTON));
+  } else {
+    gtk_button_set_image (GTK_BUTTON(playbutton), 
+			  gtk_image_new_from_stock(GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON));
+ }
+  pause = !pause;
+}
+
+
+void set_master_volume(DenemoScore *si, gdouble volume) {
+  si->master_volume = volume;
+  if(master_vol_adj) {
+    master_vol_adj->value = volume;
+    gtk_adjustment_changed(master_vol_adj);
+  }
+}
+
 /* create_window() creates the toplevel window and all the menus - it only
    called once per invocation of Denemo */
 static void
@@ -6243,39 +6306,26 @@ get_data_dir (),
     GtkWidget *button;
     GtkWidget *label;
 
-#define PLAYBUTTON(thelabel, callback, image) \
-    if (thelabel)\
-      button = gtk_button_new_with_label(thelabel);\
-    else \
-      button = gtk_button_new();\
-    GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);\
-    if (image){ \
-      gtk_button_set_image (GTK_BUTTON(button), \
-      gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));\
-    }\
-    g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);\
-    gtk_box_pack_start (GTK_BOX (Denemo.playback_control), button, FALSE, TRUE, 0);
 
-    PLAYBUTTON(NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
-    PLAYBUTTON(NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
-    PLAYBUTTON(NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
-    PLAYBUTTON(NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
-    PLAYBUTTON(NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
-    PLAYBUTTON(NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
-    PLAYBUTTON(NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
-    PLAYBUTTON(NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
-    PLAYBUTTON(NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
-    PLAYBUTTON(NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
-    PLAYBUTTON(NULL, playback_control_last, GTK_STOCK_GOTO_LAST);
+    //create_playbutton(NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
+    create_playbutton(NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
+    create_playbutton(NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
+    create_playbutton(NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
+    create_playbutton(NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
+    //create_playbutton(NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
+    playbutton = create_playbutton(NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
+    create_playbutton(NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
+    create_playbutton(NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
+    create_playbutton(NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
+    create_playbutton("Loop", playback_control_loop, NULL);
     
     /* Tempo */
     label = gtk_label_new (_("Tempo:"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
-    GtkWidget *tempo = gtk_spin_button_new_with_range (0, 300, 1);
+    GtkWidget *tempo = gtk_spin_button_new_with_range (0.0, 10.0, 0.1);
     //GTK_WIDGET_UNSET_FLAGS(tempo, GTK_CAN_FOCUS); letting this get typed text - bad effect is that trying to enter note names will make denemo appear to have lost keyboard entry - you have to click on the drawing area, or tab to it.
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo),
-	                 (gint) 120);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo), 1.0);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), tempo, FALSE, TRUE, 0);
     g_signal_connect(GTK_OBJECT(tempo), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
     
@@ -6283,19 +6333,28 @@ get_data_dir (),
     label = gtk_label_new (_("Volume"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), label, FALSE, TRUE, 0);
-    GtkObject *adj;
-    adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
-    GtkWidget *mvolume = gtk_hscale_new(GTK_ADJUSTMENT(adj));
+    master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
+
+    GtkWidget *mvolume = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
+    gtk_scale_set_digits (mvolume, 2);
     GTK_WIDGET_UNSET_FLAGS(mvolume, GTK_CAN_FOCUS);
-    g_signal_connect(GTK_OBJECT(adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
+    g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
     gtk_box_pack_start (GTK_BOX (Denemo.playback_control), mvolume, TRUE, TRUE, 0);
-    
-    PLAYBUTTON("Playback Range", playback_control_range, NULL);
-    PLAYBUTTON("Panic", playback_control_panic, NULL);
+
+
+    create_playbutton("Set", playback_set_range, NULL);
+    create_playbutton("Playback Range", playback_control_range, NULL);
+    create_playbutton(
+#ifdef _HAVE_JACK_
+"Panic"
+#else
+"Reset"
+#endif
+
+, playback_control_panic, NULL);
 
     gtk_widget_show_all (Denemo.playback_control);
-
   }
 
 

@@ -181,6 +181,19 @@ static gboolean noteoff_callback(gint notenum){
   return FALSE;
 }
 
+
+void fluid_all_notes_off_channel(gint chan) {
+  fluid_synth_cc(synth, chan, 123, 0);
+}
+
+void fluid_all_notes_off(void) {
+  gint chan;
+  for(chan=0;chan<16;chan++)
+  fluid_all_notes_off_channel(chan);
+}
+
+
+
 // play the midipitch key for duration with volume (0-> default, 80) on channel
 
 void fluid_playpitch(int key, int duration, int channel, int volume)
@@ -245,12 +258,14 @@ choose_sound_font (GtkWidget * widget, GtkWidget *fluidsynth_soundfont)
 static gboolean finish_play(gchar *callback) {
   if(callback && *callback)
     call_out_to_guile (callback);
+  fluid_all_notes_off();
   return FALSE;
 }
 
 
 
 static gdouble last_draw_time;
+static gdouble pause_time = -1.0;
 static gboolean fluidsynth_play_smf_event(gchar *callback)
 {
   DenemoScore *si = Denemo.gui->si;
@@ -262,9 +277,11 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   if (!playing_piece)
     return finish_play(callback);
 
-  if (event == NULL || event->time_seconds>si->end_time){ 
+  if (event == NULL || (event->time_seconds > si->end_time)){ 
     si->playingnow = NULL;
     playing_piece = FALSE;
+    pause_time = -1.0;
+    toggle_playbutton();
     return  finish_play(callback);
   }
   else 
@@ -278,10 +295,8 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
      center_viewport();
-  gdouble thetime = get_time()
-    //   if we are paused we should use pause_time here, when we re-start we should use get_time()-cumulative_pause_time; cumulative_pause_time=0 at start of play, and is set to the difference get_time()-pause_time when paused status changes back to false. 
-
- - si->start_player;
+  gdouble thetime = get_time() - si->start_player;
+  pause_time = thetime;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
   thetime *= si->master_tempo;
@@ -306,12 +321,13 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
       case NOTE_ON: {
 	gint velocity =  ((gint)(si->master_volume * event->midi_buffer[2]));
 	if(velocity>0x7F) velocity = 0x7F;
-	success = fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
-	//g_print("success = %d\n", success);
+	fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
+	//g_print("play %d on %f\n", chan, event->time_seconds);
       }
 	break;
        case NOTE_OFF:
          fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
+	 //g_print("play %d off %f\n", chan, event->time_seconds);
 	 break; 
        case CONTROL_CHANGE:
          fluid_synth_cc(synth, chan, event->midi_buffer[1], event->midi_buffer[2]);
@@ -344,57 +360,72 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 
 void fluid_midi_play(gchar *callback)
 {
-  static GString *callback_string;
-  if(playing_piece) {
-    if(callback!=NULL)
-      g_warning("Already playing, script error");
+  DenemoGUI *gui = Denemo.gui;
+  if (!synth)
+    return;
+  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+    generate_midi();
+  if (Denemo.gui->si->smf == NULL) {
+    g_critical("Loading SMF failed.");
+    return;
   }
+  static GString *callback_string;
+
   if(callback_string==NULL)
     callback_string=g_string_new("");
   if(callback)
     g_string_assign(callback_string, callback);
   else
     g_string_assign(callback_string,"(display \"Stopped Playing\")");
-  DenemoGUI *gui = Denemo.gui;
+
+
+  if(playing_piece) {
+    // pause
+    toggle_playbutton();
+    playing_piece = FALSE;
+    (void)finish_play(callback);
+    return;
+  }
+  if(gui->si->end_time<0.0)
+    gui->si->end_time = smf_get_length_seconds(Denemo.gui->si->smf);
 
   if(gui->si->start_time>gui->si->end_time)
     gui->si->start_time =  0.0;
   if(gui->si->start_time<0.0)
     gui->si->start_time = 0.0;
-  gui->si->start_player = get_time() - gui->si->start_time;
+  if( (pause_time>0.0) && (pause_time<gui->si->end_time))
+    gui->si->start_player = get_time() - pause_time;
+  else
+    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;
   playing_piece = TRUE;
+  toggle_playbutton();
   gui->si->tempo_change_time = gui->si->start_player;
-  
-  if (!synth)
-    return;
 
-  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
-    // exportmidi (NULL, gui->si, 1, 0/* means to end */);
-    //shouldn't have been 1
-    generate_midi();
-  if (Denemo.gui->si->smf == NULL) {
-    g_critical("Loading SMF failed.");
-    return;
-  } else {
-    smf_rewind(Denemo.gui->si->smf);
-    last_draw_time = 0.0;
-    g_idle_add(fluidsynth_play_smf_event, callback_string->str);
-  }
-
-  smf_seek_to_seconds(gui->si->smf, gui->si->start_time);
+  smf_rewind(Denemo.gui->si->smf);
+  last_draw_time = 0.0;
+  g_idle_add(fluidsynth_play_smf_event, callback_string->str);
+  smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 
 }
 
 void
 fluid_midi_stop(void)
 {
-  playing_piece = FALSE;  
+
+  if(playing_piece)
+    toggle_playbutton();
+  Denemo.gui->si->playingnow = NULL;
+  playing_piece = FALSE;
+  pause_time = -1.0;
 }
 
 void
 fluid_midi_panic(void)
 {
-  fluid_synth_system_reset(synth); //I am not sure if this is correct
+  fluid_synth_system_reset(synth);
+  Denemo.gui->si->end_time = pause_time = -1.0;
+  Denemo.gui->si->start_time =  0.0;
+  displayhelper(Denemo.gui);
 }
 
 

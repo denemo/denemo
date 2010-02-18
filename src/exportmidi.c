@@ -1586,6 +1586,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
+			      // g_print("event off lur kill %f\n", event->time_seconds);
 			    }
 			}
 		      /* end of first chord output loop */
@@ -1632,6 +1633,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
+			      //print("event off %f\n", event->time_seconds);
 			    }
 			}
 		      /* end of second chord output loop */
@@ -1898,6 +1900,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       si->start_time = 0.0;
     if(si->end_time<0.0)
       si->end_time = smf_get_length_seconds(smf);
+    g_print("Start time %f end time %f\n", si->start_time, si->end_time);
   }
   return smf_get_length_seconds(smf);
 }

@@ -202,12 +202,11 @@ ext_midi_playback_control (gboolean start)
   return;
 }
 
-/* start or restart an external midi player
- * trying avoid multiple instances of it
+/* start playing the current movement as MIDI
+ * the name ext_... is anachronistic, Fluidsynth or Jack are normally used.
  */
 void
-ext_midi_playback (GtkAction * action, DenemoScriptParam *param)
-{
+ext_midi_playback (GtkAction * action, DenemoScriptParam *param) {
   GET_1PARAM(action, param, callback);
   if (Denemo.prefs.midi_audio_output == Jack)
     jack_midi_play(callback);
@@ -229,6 +228,7 @@ void stop_midi_playback (GtkAction * action, gpointer param) {
    ext_midi_playback_control (FALSE);
    kill_timer();
  }
+ gtk_widget_queue_draw (Denemo.gui->scorearea);//update playhead on screen
 }
 
 void
