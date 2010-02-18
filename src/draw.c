@@ -225,7 +225,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   if(mudelaitem == itp->startobj)
     itp->startposition = x + mudelaitem->x;
   if(mudelaitem == itp->endobj)
-    itp->endposition = x + mudelaitem->x;
+    itp->endposition = x + mudelaitem->x +  mudelaitem->minpixelsalloted;
 
   //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
   // if (!greengc)
@@ -821,6 +821,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 
 typedef enum colors {BLACK, RED, GREEN} colors;
 static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
+  //g_print("drawing marker %x at %d %d\n", color, pos, yy);
   cairo_save(cr);
   cairo_set_line_width( cr, 4.0 );
   switch(color) {
@@ -884,14 +885,15 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   itp.playposition = -1;
   itp.startposition = -1;
   itp.endposition = -1;
-
+  itp.startobj =  itp.endobj = NULL;
   y = 0;
 
   if(gui->si->smf) {
     itp.startobj =
-      get_obj_for_time(gui->si->smf, gui->si->start_time);
+      get_obj_for_start_time(gui->si->smf, gui->si->start_time);
     itp.endobj =
-      get_obj_for_time(gui->si->smf, gui->si->end_time);
+      get_obj_for_end_time(gui->si->smf, gui->si->end_time);
+    //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
   cairo_t *cr = gdk_cairo_create( gui->pixmap );
 
@@ -1045,7 +1047,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
 
   if(itp.last_midi)
-    si->rightmost_time = get_midi_time(itp.last_midi);
+    si->rightmost_time = get_midi_off_time(itp.last_midi);
 
   return repeat;
 

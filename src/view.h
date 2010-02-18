@@ -99,4 +99,12 @@ code_is_a_duration(gchar code);
 
 gint
 call_out_to_guile (const char *script);
+
+void 
+toggle_playbutton(void);
+
+void 
+set_master_volume(DenemoScore *si, gdouble volume);
+
+
 #endif

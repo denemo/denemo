@@ -750,6 +750,7 @@
 
 (define (DenemoStop)
   (begin
+    (set! Playback::Loop #f)
     (d-Stop)))
 
 (define (DenemoPlay)
@@ -776,12 +777,57 @@
   (begin
     (display "DenemoLast")))
 
+
+(define Playback::Loop #f)
+(define (DenemoLoop)
+  (begin
+    (display "DenemoLoop")
+    (set! Playback::Loop #t)
+    (d-Play "(if Playback::Loop (DenemoLoop))")
+))
+
 (define (DenemoTempo tempo)
   (begin
-    (display tempo)))
+    (d-MasterTempo tempo)))
 
 (define (DenemoVolume volume)
   (begin
     (d-MasterVolume volume)))
 
     
+(define (DenemoSetPlaybackStart)
+  (begin
+    (if (boolean? (d-GetMidiOnTime))
+	(d-RecreateTimebase))
+    (if (number? (d-GetMidiOnTime))
+	(d-SetPlaybackInterval (d-GetMidiOnTime) #t)
+	(d-RefreshDisplay))))
+
+(define (DenemoSetPlaybackEnd)
+  (begin
+    (if (boolean? (d-GetMidiOffTime))
+	(d-RecreateTimebase))
+    (if (number? (d-GetMidiOffTime))
+	(d-SetPlaybackInterval #t (d-GetMidiOffTime))
+	(d-RefreshDisplay))))
+
+(define (DenemoSetPlaybackIntervalToSelection)
+  (begin
+    
+    (let ((start #f)(end #f))
+      (set! end (d-GetMidiOffTime))
+      (if (boolean? end)
+	  (d-RecreateTimebase))
+      (set! end (d-GetMidiOffTime))
+      (if (boolean? end)
+	  (d-WarningDialog "End the selection at a note")
+	  (begin
+	    (d-GoToMark)
+	    (set! start (d-GetMidiOnTime))
+	    (if (boolean? start)
+		(d-WarningDialog "Start the selection at a note")
+		(begin
+		  (if (< end start)
+		      (d-SetPlaybackInterval end start)
+		      (d-SetPlaybackInterval start end))
+		  (d-RefreshDisplay))))))))

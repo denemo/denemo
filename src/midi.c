@@ -400,27 +400,51 @@ gdouble generate_midi(void) {
 
 
 /* return the time of the last event on the list events */
-gdouble get_midi_time(GList *events) {
+gdouble get_midi_off_time(GList *events) {
   smf_event_t *event = g_list_last(events)->data;
 return event->time_seconds;
 }
 
+/* return the time of the first event on the list events */
+gdouble get_midi_on_time(GList *events) {
+  smf_event_t *event = events->data;
+return event->time_seconds;
+}
 
-DenemoObject *get_obj_for_time(smf_t *smf, gdouble time) {
+
+
+DenemoObject *get_obj_for_start_time(smf_t *smf, gdouble time) {
+  smf_event_t *event;
+  smf_event_t *initial = smf_peek_next_event(smf);
   if(time<0.0)
     return NULL;
-  smf_event_t *event = smf_peek_next_event(smf);
-  if(event) {
-  gdouble initial = event->time_seconds;
   gdouble total = smf_get_length_seconds(smf);
   time = (time>total?total:time);
   smf_seek_to_seconds(smf, time);
-  event = smf_get_next_event(smf);
-  if(event && !smf_event_is_last(event))
+  do {
     event = smf_get_next_event(smf);
-  smf_seek_to_seconds(smf, initial);
+  } while(event && (!(event->midi_buffer[0] & MIDI_NOTEON) || !event->user_pointer));
+  if(initial)
+    smf_seek_to_event(smf, initial);
   if(event)
     return (DenemoObject *)(event->user_pointer);
-  }
+  return NULL;
+}
+
+DenemoObject *get_obj_for_end_time(smf_t *smf, gdouble time) {
+  smf_event_t *event;
+  smf_event_t *initial = smf_peek_next_event(smf);
+  if(time<0.0)
+    return NULL;
+  gdouble total = smf_get_length_seconds(smf);
+  time = (time>total?total:time);
+  smf_seek_to_seconds(smf, time);
+  do {
+    event = smf_get_next_event(smf);
+  } while(event && (!(event->midi_buffer[0] & MIDI_NOTEOFF) || !event->user_pointer));
+  if(initial)
+    smf_seek_to_event(smf, initial);
+  if(event)
+    return (DenemoObject *)(event->user_pointer);
   return NULL;
 }

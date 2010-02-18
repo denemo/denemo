@@ -1791,14 +1791,13 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 		      bpm = getXMLIntChild (grandchildElem);
 		      if (bpm == G_MAXINT)
 			{
-			  bpm = 60;
+			  bpm = 120;
 			  g_warning
 			    ("Bad value for <bpm>: must be an integer");
 			}
-		      else
-			{
-			  si->tempo = bpm;
-			}
+		      si->tempo = bpm;
+		      if(si->tempo<1 || si->tempo>1000)
+			si->tempo = 120;
 		    }
 		  else
 		    {
