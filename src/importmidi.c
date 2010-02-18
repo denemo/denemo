@@ -792,14 +792,10 @@ void StaffCheck(midicallback *mididata){
 
   if (track > currentstaffnum) /*if not first track add track */
     {
-      si->currentstaffnum++;
-      si->currentstaff = g_list_first (si->thescore); /* set the first track to be copied */
-      newstaff (mididata->gui, ADDFROMLOAD, DENEMO_NONE); /* add track */
-      si->currentstaff = g_list_last (si->thescore); /* make last staff the current */
-      mididata->lastoff = 0;
-      si->cursor_x = 0;
-      mididata->bartime = 0;
-      si->currentmeasurenum = 1;
+     call_out_to_guile("(d-AddAfter)");
+     //set_bottom_staff (mididata->gui);
+     mididata->lastoff = 0;
+     mididata->bartime = 0;
     }
 }
 
