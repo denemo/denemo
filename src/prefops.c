@@ -133,8 +133,13 @@ initprefs ()
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
 		                                           "A320U.sf2", NULL);
   ret->fluidsynth_soundfont = g_string_new(soundfontpath);
-  ret->fluidsynth_sample_rate = 0;//do not set
 
+
+#ifdef G_OS_WIN32
+  ret->fluidsynth_sample_rate = 22050;//the worst case slow machine
+#else
+  ret->fluidsynth_sample_rate = 0;//do not set
+#endif
 #endif
   ret->saveparts = FALSE;
   ret->rtcs = TRUE;
