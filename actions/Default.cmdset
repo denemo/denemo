@@ -3543,6 +3543,7 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu/Shift</menupath>
         <label>Shift Up</label>
         <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
+        <bind>Alt+Up</bind>
       </row>
      <row>
         <action>ShiftDown</action>
@@ -3551,6 +3552,7 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu/Shift</menupath>
         <label>Shift Down</label>
         <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
+        <bind>Alt+Down</bind>
       </row>
     </map>
   </commands>
