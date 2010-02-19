@@ -8,7 +8,7 @@
         <action>ScoreTagline</action>
         <scheme>
 		(SetScoreHeaderField "tagline")
-		(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+		(DenemoPrintAllHeaders)
 		(d-RefreshDisplay)
 	</scheme>
         <label>Tagline</label>

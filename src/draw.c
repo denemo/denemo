@@ -821,7 +821,7 @@ print_system_separator (cairo_t *cr, gdouble position){
 
 typedef enum colors {BLACK, RED, GREEN} colors;
 static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gint line_height) {
-  //g_print("drawing marker %x at %d %d\n", color, pos, yy);
+  //g_print("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
   cairo_save(cr);
   cairo_set_line_width( cr, 4.0 );
   switch(color) {
@@ -843,6 +843,7 @@ static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gin
 }
 
 static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, gint line_height) {
+
   if(itp->playposition>-1)
     draw_playback_marker(cr, BLACK, itp->playposition, yy, line_height);
   itp->playposition = -1;
@@ -997,7 +998,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     repeat = draw_staff (cr, curstaff, y, gui, &itp);
 
     draw_playback_markers(cr, &itp, y, line_height);
-
+    
     gint system_num;
     system_num = 1;
     // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");

@@ -1676,8 +1676,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      fprintf (stderr, "timesig change to %d:%d\n",
 			       timesigupper, timesiglower);
 		    }
-		  printf ("\nchange to timesigupper = %i\n", timesigupper);
-		  printf ("\nchange to timesiglower = %i\n", timesiglower);
+
 		  event = midi_timesig (timesigupper, timesiglower);
 		  smf_track_add_event_delta_pulses(track, event, 0);
 		  event->user_pointer = curobj;
@@ -1808,7 +1807,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  }
 		  break;
 		default:
+#if DEBUG
 		  fprintf (stderr, "midi ignoring type %d\n", curobj->type);
+#endif
 		  break;
 		}
 	    }

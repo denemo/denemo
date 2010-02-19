@@ -7,7 +7,7 @@
       <row>
         <action>MovementPiece</action>
         <scheme>(SetHeaderField "piece")
-(d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+(DenemoPrintAllHeaders)
 (d-RefreshDisplay)</scheme>
         <label>Piece</label>
         <tooltip>Prints the name given above and to the left at the start of the movement.</tooltip>

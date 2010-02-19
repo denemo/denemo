@@ -12,7 +12,7 @@
 	(while (d-PreviousMovement)
 		(display "Seeking first movement"))
         (SetHeaderField "composer")
-        (d-DirectivePut-paper-postfix "PrintAllHeaders" "printallheaders = ##t\n")
+        (DenemoPrintAllHeaders)
         (d-RefreshDisplay)
         </scheme>
         <label>Composer</label>
