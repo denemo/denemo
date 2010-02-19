@@ -321,7 +321,8 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
       case NOTE_ON: {
 	gint velocity =  ((gint)(si->master_volume * event->midi_buffer[2]));
 	if(velocity>0x7F) velocity = 0x7F;
-	fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
+	if( si->end_time - event->time_seconds > 0.01)//Do not turn notes on too close to the end
+	  fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
 	//g_print("play %d on %f\n", chan, event->time_seconds);
       }
 	break;
