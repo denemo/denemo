@@ -68,7 +68,6 @@ static gboolean        	use_transport = FALSE;
 static gboolean		jack_server_running = TRUE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
-static gdouble 		last_draw_time;
 
 gint
 maxnumber_of_clients(){
@@ -213,8 +212,9 @@ static gboolean finish_play(gchar *callback) {
   return FALSE;
 }
 
-static gboolean 
-jackmidi_play_smf_event(gchar *callback)
+static gdouble 		last_draw_time;
+static gdouble 		pause_time = -1.0;
+static gboolean jackmidi_play_smf_event(gchar *callback)
 {
   DevicePort *DP;
   DenemoScore *si = Denemo.gui->si;
@@ -227,9 +227,11 @@ jackmidi_play_smf_event(gchar *callback)
   if (!playing_piece)
     return finish_play(callback);
 
-  if (event == NULL || event->time_seconds>si->end_time){ 
+  if (event == NULL || (event->time_seconds > si->end_time)){  
     si->playingnow = NULL;
     playing_piece = FALSE;
+    pause_time = -1.0;
+    toggle_playbutton();
     return  finish_play(callback);
   }
   else 
@@ -240,10 +242,11 @@ jackmidi_play_smf_event(gchar *callback)
     event = smf_get_next_event(si->smf);
     return TRUE; 
   } 
-
+  // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
      center_viewport();
   gdouble thetime = get_time() - si->start_player;
+  pause_time = thetime;
   //g_print("thetime %f\n", thetime);
   thetime -= si->tempo_change_time - si->start_player;
   thetime *= si->master_tempo;
@@ -553,44 +556,51 @@ init_jack(void){
 
 void jack_midi_play(gchar *callback)
 {
-  static GString *callback_string;
-  if(playing_piece) {
-    if(callback!=NULL)
-      g_warning("Already playing, script error");
+  DenemoGUI *gui = Denemo.gui;
+  if (!jack_server_running)
+    return;
+  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
+    generate_midi();
+  if (Denemo.gui->si->smf == NULL) {
+    g_critical("Loading SMF failed.");
+    return;
   }
+  static GString *callback_string;
+
   if(callback_string==NULL)
     callback_string=g_string_new("");
   if(callback)
     g_string_assign(callback_string, callback);
   else
     g_string_assign(callback_string,"(display \"Stopped Playing\")");
-  DenemoGUI *gui = Denemo.gui;
+  
 
+  if(playing_piece) {
+    // pause
+    toggle_playbutton();
+    playing_piece = FALSE;
+    (void)finish_play(callback);
+    return;
+  }
+  if(gui->si->end_time<0.0)
+    gui->si->end_time = smf_get_length_seconds(Denemo.gui->si->smf);
+  
   if(gui->si->start_time>gui->si->end_time)
     gui->si->start_time =  0.0;
   if(gui->si->start_time<0.0)
     gui->si->start_time = 0.0;
-
-  gui->si->start_player = get_time() - gui->si->start_time;
+  if( (pause_time>0.0) && (pause_time<gui->si->end_time))
+    gui->si->start_player = get_time() - pause_time;
+  else
+    pause_time = -1.0, gui->si->start_player = get_time() - gui->si->start_time;
   playing_piece = TRUE;
+  toggle_playbutton();
   gui->si->tempo_change_time = gui->si->start_player;
   
-  if (!jack_server_running)
-    return;
-
-  if((gui->si->smf==NULL) || (gui->si->smfsync!=gui->si->changecount))
-    generate_midi();
-  if (Denemo.gui->si->smf == NULL) {
-    g_critical("Loading SMF failed.");
-    return;
-  } else {
-    smf_rewind(Denemo.gui->si->smf);
-    last_draw_time = 0.0;
-    g_idle_add(jackmidi_play_smf_event, callback_string->str);
-  }
-
-  smf_seek_to_seconds(gui->si->smf, gui->si->start_time);
-
+  smf_rewind(Denemo.gui->si->smf);
+  last_draw_time = 0.0;
+  g_idle_add(jackmidi_play_smf_event, callback_string->str);
+  smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 }
 
 void
@@ -598,7 +608,11 @@ jack_midi_playback_stop ()
 {
    //if(jack_client)
      //jack_transport_stop(jack_client);
-  playing_piece = FALSE;    
+  if(playing_piece)
+    toggle_playbutton();
+  Denemo.gui->si->playingnow = NULL;
+  playing_piece = FALSE;
+  pause_time = -1.0;
 }
 
 void
@@ -619,6 +633,10 @@ jack_midi_panic()
         buffer[2] = 0x00;  
         jack_output_midi_event(buffer, i, j);
       }
+  
+  Denemo.gui->si->end_time = pause_time = -1.0;
+  Denemo.gui->si->start_time =  0.0;
+  displayhelper(Denemo.gui);
 }
 
 #else //If not _HAVE_JACK_
