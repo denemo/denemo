@@ -271,6 +271,15 @@ You should exit and re-start Denemo after creating a new command set to be sure 
 <title>Some Common Mouse Shortcuts</title>
 <para>Here are a few of the mouse shortcuts that are commonly used in Denemo.
     <itemizedlist>
+            <listitem>
+      Scroll Wheel pans up/down to bring staffs out of view into the window.
+      </listitem>
+            <listitem>
+      Shift Key and Scroll Wheel pans the score left/right.
+      </listitem>
+            <listitem>
+      Control Key and Scroll Wheel zooms.
+      </listitem>
       <listitem>
       Shift Key and Left mouse button drags notes up and down.
       </listitem>
@@ -358,6 +367,11 @@ The menus in Denemo are unusual: they not only let you do some particular action
       </listitem>
 
       <listitem>
+        <para>Navigation</para>
+      </listitem>
+
+
+      <listitem>
         <para>Edit</para>
       </listitem>
 
@@ -369,6 +383,10 @@ The menus in Denemo are unusual: they not only let you do some particular action
 
       <listitem>
         <para>Mode</para>
+      </listitem>
+
+      <listitem>
+        <para>Input</para>
       </listitem>
 
  
@@ -385,6 +403,13 @@ The menus in Denemo are unusual: they not only let you do some particular action
       <listitem>
         <para>Help</para>
       </listitem>
+
+
+      <listitem>
+        <para>Educational</para>
+      </listitem>
+
+
     </itemizedlist>
 
     <sect2>
@@ -858,7 +883,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
             <row>
               <entry>Play</entry>
 
-              <entry>Plays the selected measures or starting from the current measure</entry>
+              <entry>Plays from the start marker to the end marker</entry>
             </row>
            <row>
               <entry>Stop</entry>
@@ -873,12 +898,7 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <guisubmenu>Playback Properties</guisubmenu>.</entry>
             </row>
 
-            <row>
-              <entry>Playback Properties</entry>
-
-              <entry>Set playback tempo, select an .orc file for Csound
-              playback</entry>
-            </row>
+         
           </tbody>
         </tgroup>
       </informaltable>
@@ -904,6 +924,11 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Help</entry>
 
               <entry>Launch a browser to view this manual.</entry>
+            </row>
+           <row>
+              <entry>Chat to Other Users</entry>
+
+              <entry>Connects you to a site with other users to give advice.</entry>
             </row>
 
             <row>
@@ -1057,28 +1082,155 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Jumps to the last measure of the movement.</entry>
             </row>
 
-            <row>
-              <entry><mediaobject>
-                  <imageobject>
-                    <imagedata fileref="images/playmidi.png" />
-                  </imageobject>
-                </mediaobject></entry>
-
-              <entry>Plays the current piece using MIDI</entry>
-            </row>
-           <row>
-              <entry><mediaobject>
-                  <imageobject>
-                    <imagedata fileref="images/stopmidi.png" />
-                  </imageobject>
-                </mediaobject></entry>
-
-              <entry>Stops the MIDI playback</entry>
-            </row>
+ 
           </tbody>
         </tgroup>
       </informaltable>
   </sect1>
+
+
+
+    <sect1>
+      <title>Playback Controls</title>
+
+      <para>Use this frame to control MIDI playback of the current movement. It has  the following controls:</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Icon</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/first.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoFirst script.</entry>
+            </row>
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/goback.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoGoBack script.</entry>
+            </row>
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/goback.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoGoBack script.</entry>
+            </row>
+
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/prev.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoPrevious script.</entry>
+            </row>
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/rewind.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoRewind script.</entry>
+            </row>
+
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/stop.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoStop script.</entry>
+            </row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/play.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoPlay script.</entry>
+            </row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/forward.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoGoForward script.</entry>
+            </row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/last.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Runs DenemoLast script.</entry>
+            </row>
+	    <row>
+              <entry>Loop</entry>
+              <entry>Runs DenemoLoop script.</entry>
+            </row>
+	    
+	    <row>
+              <entry>Tempo</entry>
+              <entry>Multiplies the current tempo by the factor set 2 = double speed, 0.5 half speed.</entry>
+            </row>
+	    
+	    <row>
+              <entry>Volume</entry>
+              <entry>Reduces the current volume by the % set.</entry>
+            </row>
+	    <row>
+              <entry>Set</entry>
+              <entry>Calls the DenemoSetPlaybackIntervalToSelection script.</entry>
+            </row>
+	    <row>
+              <entry>Playback Range</entry>
+              <entry>Runs a dialog to get start and end times for playback.</entry>
+            </row>
+	    <row>
+              <entry>Reset</entry>
+              <entry>Internal Synth only. Performs a reset on the synth.</entry>
+            </row>
+	    <row>
+              <entry>Panic</entry>
+              <entry>Jack only. Emits jack panic.</entry>
+            </row>
+
+	   
+          </tbody>
+        </tgroup>
+      </informaltable>
+  </sect1>
+
   <sect1>
 
       <title>Object Menu</title>
