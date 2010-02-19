@@ -2,7 +2,7 @@
 <Denemo>
   <commands>
     <title>A Denemo Command Set</title>
-    <author>AT, JRR, RTS</author>
+    <author>AT, JRR, RTS, NG</author>
     <map>
       <cursors>
         <cursor-binding>
@@ -3536,6 +3536,21 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/Educational/Note-Reading</menupath>
         <label>Identify space number</label>
         <tooltip>Identify the space number in which the note is display on</tooltip>
+      </row>
+      <row>
+        <action>ShiftUp</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Shift</menupath>
+        <label>Shift Up</label>
+        <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
+      </row>
+     <row>
+        <action>ShiftDown</action>
+        <after>ShiftUp</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu/Shift</menupath>
+        <label>Shift Down</label>
+        <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
       </row>
     </map>
   </commands>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ShiftDown</action>
+        <scheme>(define (ShiftDown)
+(if (d-GetNotes)
+	(d-PutNoteName (hashq-ref DiatonicDownwardHashtable (string-&gt;symbol (d-GetNote)))) ; Needs upgrade to work with whole chords. d-PutNoteNames
+	#f
+))
+
+
+(SingleAndSelectionSwitcher "(ShiftDown)" "(ShiftDown)")
+(d-RefreshDisplay)</scheme>
+        <label>Shift Down</label>
+        <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

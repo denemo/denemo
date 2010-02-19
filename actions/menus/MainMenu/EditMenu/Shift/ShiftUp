@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>ShiftDown</after>
+        <action>ShiftUp</action>
+        <scheme>(define (ShiftUp)
+(if (d-GetNotes)
+	(d-PutNoteName (hashq-ref DiatonicUpwardHashtable (string-&gt;symbol (d-GetNote)))) ; Needs upgrade to work with whole chords. d-PutNoteNames
+	#f
+))
+
+
+(SingleAndSelectionSwitcher "(ShiftUp)" "(ShiftUp)")
+(d-RefreshDisplay)</scheme>
+        <label>Shift Up</label>
+        <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
