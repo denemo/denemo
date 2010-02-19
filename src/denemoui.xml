@@ -613,8 +613,8 @@
   </toolbar>
  
   <toolbar name="EntryToolBar">
-           <toolitem action="AddDot"/>
-	   <toolitem action="RemoveDot"/>
+           <!--<toolitem action="AddDot"/>-->
+	   <!--<toolitem action="RemoveDot"/>-->
   </toolbar>
   <toolbar name="RhythmToolBar">
     <toolitem action="CreateRhythm"/>
