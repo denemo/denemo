@@ -5,15 +5,24 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after>ShiftUp</after>
         <action>ShiftDown</action>
-        <scheme>(define (ShiftDown)
+        <scheme> (define newList (string-tokenize(d-GetNotes)) )
+ 
+ (let transformChordList ((i 0))
+  (if (&lt;= i (-(length newList )1)) 
+      (begin
+        (set! newList (replace-nth newList i (hashq-ref DiatonicDownwardHashtable (string-&gt;symbol (list-ref newList i)))))
+        (transformChordList (+ i 1)))
+))
+
+(define (ShiftUp)
 (if (d-GetNotes)
-	(d-PutNoteName (hashq-ref DiatonicDownwardHashtable (string-&gt;symbol (d-GetNote)))) ; Needs upgrade to work with whole chords. d-PutNoteNames
+	(d-ChangeChordNotes (d-ChangeChordNotes (string-join newList)))
 	#f
 ))
 
-
-(SingleAndSelectionSwitcher "(ShiftDown)" "(ShiftDown)")
+(SingleAndSelectionSwitcher "(ShiftUp)" "(ShiftUp)")
 (d-RefreshDisplay)</scheme>
         <label>Shift Down</label>
         <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
