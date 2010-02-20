@@ -18,6 +18,15 @@
     (format #t "~%~%Command ~A~%Tooltip ~A~%Label ~A~%Menu Path ~A~%" name help (d-GetLabel name) (d-GetMenuPath name))))
 ;;;;;;;;;;;;;;; 
 
+;;;;;;;;;;;;Replace a part of a string
+
+(define (replace-nth list n elem)
+  (cond 
+    ((null? list) ())
+    ((eq? n 0) (cons elem (cdr list)))
+    (#t (cons(car list) (replace-nth (cdr list) (- n 1) elem)))))
+
+
 ;;;;;;;;;;;;;; Get highest and lowest note as lilypond syntax. Works on Chords and Single Notes.
 ;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
 ;;;;;;;;;;;;;; Returns #f if not a chord
