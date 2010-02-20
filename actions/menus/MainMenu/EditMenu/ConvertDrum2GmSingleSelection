@@ -7,36 +7,36 @@
       <row>
         <after>ReloadDrumHash</after>
         <action>ConvertDrum2GmSingleSelection</action>
-        <scheme>(define (ConvertDrumGm2UserSingleNote)
+        <scheme>
+   (if (defined? 'DrumHash)
+	   #t
+	  (begin  (display "\nNo DrumHash existent. Force Reload!\n")    (d-ReloadDrumHash) ))
+  
 
- (define newList (string-tokenize(d-GetNotes)) )
+(define (ConvertDrumGm2UserSingleNote)
+(if (and (d-GetNotes) (hashq-ref DrumHash (string-&gt;symbol (d-GetHighestNote))) (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
  
+(let  ((newDrumList (string-tokenize(d-GetNotes)) ))
+
  (let transformChordList ((i 0))
-  (if (&lt;= i (-(length newList )1)) 
-      (begin
-        (set! newList (replace-nth newList i (hashq-ref DrumHash (string-&gt;symbol (list-ref newList i)))))
-        (transformChordList (+ i 1)))
+    (if (&lt;= i (-(length newDrumList )1)) 
+       (begin
+         (set! newDrumList (replace-nth newDrumList i (hashq-ref DrumHash (string-&gt;symbol (list-ref newDrumList i)))))
+          (transformChordList (+ i 1) )
+        )
+      )
+  (d-ChangeChordNotes (string-join newDrumList)))
+
+)
+
 ))
 
-(if (d-GetNotes)
-(begin
-	(if (defined? 'DrumHash)
-	  (d-ChangeChordNotes (string-join newList))
-	  (begin 
-	    (display "\nNo DrumHash existent. Force Reload!\n")
-	    (d-ReloadDrumHash)
-	    (d-ChangeChordNotes (string-join newList))
-	  )
-	)
-#t
+(if (defined? 'DrumHash)
+  (SingleAndSelectionSwitcher "(ConvertDrumGm2UserSingleNote)"  "(ConvertDrumGm2UserSingleNote)")
+  (begin (display "No DrumHash was loaded. Please copy and use the template that comes with Denemo. Abort.\n")#f)
 )
-#f
-)
-
-)
-
-(SingleAndSelectionSwitcher "(ConvertDrumGm2UserSingleNote)"  "(ConvertDrumGm2UserSingleNote)")
 (d-RefreshDisplay)
+
 
 </scheme>
         <label>Convert GM-Drum to User-Drum</label>
