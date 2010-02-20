@@ -7,7 +7,9 @@
       <row>
         <after>ShiftUp</after>
         <action>ShiftDown</action>
-        <scheme> (define newList (string-tokenize(d-GetNotes)) )
+        <scheme>(define (ShiftUp)
+
+ (define newList (string-tokenize(d-GetNotes)) )
  
  (let transformChordList ((i 0))
   (if (&lt;= i (-(length newList )1)) 
@@ -16,7 +18,7 @@
         (transformChordList (+ i 1)))
 ))
 
-(define (ShiftUp)
+
 (if (d-GetNotes)
 	(d-ChangeChordNotes (d-ChangeChordNotes (string-join newList)))
 	#f
