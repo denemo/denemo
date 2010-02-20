@@ -5,24 +5,34 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>DrumGm2User</after>
+        <after>ReloadDrumHash</after>
         <action>ConvertDrum2GmSingleSelection</action>
         <scheme>(define (ConvertDrumGm2UserSingleNote)
 
-(if (d-GetNoteName)
+ (define newList (string-tokenize(d-GetNotes)) )
+ 
+ (let transformChordList ((i 0))
+  (if (&lt;= i (-(length newList )1)) 
+      (begin
+        (set! newList (replace-nth newList i (hashq-ref DrumHash (string-&gt;symbol (list-ref newList i)))))
+        (transformChordList (+ i 1)))
+))
+
+(if (d-GetNotes)
 (begin
 	(if (defined? 'DrumHash)
-	  (d-PutNoteName (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
+	  (d-ChangeChordNotes (string-join newList))
 	  (begin 
 	    (display "\nNo DrumHash existent. Force Reload!\n")
 	    (d-ReloadDrumHash)
-	    (d-PutNoteName (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
+	    (d-ChangeChordNotes (string-join newList))
 	  )
 	)
 #t
 )
 #f
 )
+
 )
 
 (SingleAndSelectionSwitcher "(ConvertDrumGm2UserSingleNote)"  "(ConvertDrumGm2UserSingleNote)")
