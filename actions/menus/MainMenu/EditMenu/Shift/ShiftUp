@@ -19,7 +19,7 @@
 
 
 (if (d-GetNotes)
-	(d-ChangeChordNotes (d-ChangeChordNotes (string-join newList)))
+	(d-ChangeChordNotes (string-join newList))
 	#f
 ))
 
