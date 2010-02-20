@@ -569,6 +569,79 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 }
 
 
+
+
+
+gint
+load_xml_keybindings (gchar * filename)
+{
+  keymap *the_keymap = Denemo.map; 
+  gint ret = -1;
+  xmlDocPtr doc;
+  //xmlNsPtr ns;
+  xmlNodePtr rootElem;
+  if(filename==NULL)
+    return ret;
+  if(!g_file_test(filename, G_FILE_TEST_EXISTS))
+    return ret;
+  doc = xmlParseFile (filename);
+  if (doc == NULL) {
+    g_debug ("Could not read XML file %s", filename);
+    return ret;
+  }
+  rootElem = xmlDocGetRootElement (doc);
+  if (rootElem == NULL) {
+    g_warning ("Empty Document\n");
+    xmlFreeDoc (doc);
+    return ret;
+  }
+  //g_print ("RootElem %s\n", rootElem->name);
+  if (xmlStrcmp (rootElem->name, (const xmlChar *) "Denemo"))
+    {
+      g_warning ("Document has wrong type\n");
+      xmlFreeDoc (doc);
+      return ret;
+    }
+  rootElem = rootElem->xmlChildrenNode;
+
+  while (rootElem != NULL) {
+    if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge"))) {
+      xmlNodePtr cur;
+      for (cur = rootElem->xmlChildrenNode; cur != NULL;  cur = cur->next) {
+	if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map")) {
+	  parseBindings (doc, cur->xmlChildrenNode, Denemo.map);
+	  ret = 0;
+	}
+      }
+      update_all_labels(Denemo.map);
+    }
+    rootElem = rootElem->next;
+  }
+  xmlFreeDoc (doc);
+  return ret;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 static void
 write_xml_keybinding_info (gchar *kb_name, xmlNodePtr node)
 {

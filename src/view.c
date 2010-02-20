@@ -492,6 +492,17 @@ static SCM scheme_debug_object (SCM optional) {
  return SCM_BOOL(TRUE);
 }
 
+
+static SCM scheme_load_keybindings (SCM name) {
+  gchar * filename;
+  if(scm_is_string(name)) {
+    filename = scm_to_locale_string(name);
+    if(load_xml_keybindings (filename) == 0)
+      return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
 static SCM scheme_push_clipboard (SCM optional) {
   push_clipboard();
   return SCM_BOOL_T;
@@ -3264,6 +3275,9 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
+
+  INSTALL_SCM_FUNCTION ("Takes a file name, loads keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadKeybindings", scheme_load_keybindings);
+
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the tempo; returns the tempo set ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
@@ -6161,7 +6175,7 @@ gtk_box_pack_start (GTK_BOX (box), sw, FALSE, TRUE, 0);
  gtk_widget_show_all(sw);
 }
 
-GtkWidget* create_playbutton(GtkBox *box, gchar *thelabel, gpointer callback, gchar *image) {
+GtkWidget* create_playbutton(GtkWidget *box, gchar *thelabel, gpointer callback, gchar *image) {
   GtkWidget *button;
   if (thelabel)
     button = gtk_button_new_with_label(thelabel);
@@ -6173,7 +6187,7 @@ GtkWidget* create_playbutton(GtkBox *box, gchar *thelabel, gpointer callback, gc
 			  gtk_image_new_from_stock(image, GTK_ICON_SIZE_BUTTON));
   }									
   g_signal_connect(button, "clicked", G_CALLBACK(callback), NULL);
-  gtk_box_pack_start (box, button, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX(box), button, FALSE, TRUE, 0);
   return button;
 }
 
