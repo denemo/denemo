@@ -1798,6 +1798,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, xmlNsPtr ns, DenemoScore * si)
 		      si->tempo = bpm;
 		      if(si->tempo<1 || si->tempo>1000)
 			si->tempo = 120;
+		      set_master_tempo(si, 1.0);
 		    }
 		  else
 		    {

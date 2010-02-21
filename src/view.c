@@ -42,6 +42,7 @@
 
 static GtkWidget *playbutton;
 static GtkAdjustment *master_vol_adj;
+static GtkAdjustment *master_tempo_adj;
 
 
 
@@ -3660,13 +3661,16 @@ void playback_control_loop (GtkWidget *button) {
   call_out_to_guile("(DenemoLoop)");
 }
 
-void playback_control_tempo (GtkWidget *button) {
-  gdouble tempo = gtk_spin_button_get_value (GTK_SPIN_BUTTON (button));
+void playback_control_tempo (GtkAdjustment *adjustment) {
+  gdouble tempo;
+  gdouble bpm =  gtk_adjustment_get_value(adjustment);
+  tempo = (Denemo.gui->si->tempo>0)?
+    bpm/Denemo.gui->si->tempo:1.0;
   gchar *proc = g_strdup_printf("(DenemoTempo %f)", tempo);
   call_out_to_guile(proc);
   g_free(proc);
 }
-void playback_control_volume (GtkAdjustment *adjustment, gpointer b) {
+void playback_control_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
   gchar *proc = g_strdup_printf("(DenemoVolume %0.1f)", volume);
   call_out_to_guile(proc);
@@ -6203,12 +6207,21 @@ void toggle_playbutton(void) {
   pause = !pause;
 }
 
-
+//Set the master volume of the passed score and change the slider to suit
 void set_master_volume(DenemoScore *si, gdouble volume) {
   si->master_volume = volume;
   if(master_vol_adj) {
     master_vol_adj->value = volume;
     gtk_adjustment_changed(master_vol_adj);
+  }
+}
+
+//Set the master tempo of the passed score and change the slider to suit
+void set_master_tempo(DenemoScore *si, gdouble tempo) {
+  si->master_tempo = tempo;
+  if(master_tempo_adj) {
+    master_tempo_adj->value = tempo * si->tempo;
+    gtk_adjustment_changed(master_tempo_adj);
   }
 }
 
@@ -6372,12 +6385,14 @@ get_data_dir (),
     label = gtk_label_new (_("Tempo:"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
-    GtkWidget *tempo = gtk_spin_button_new_with_range (0.0, 10.0, 0.1);
-    //GTK_WIDGET_UNSET_FLAGS(tempo, GTK_CAN_FOCUS); letting this get typed text - bad effect is that trying to enter note names will make denemo appear to have lost keyboard entry - you have to click on the drawing area, or tab to it.
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON (tempo), 1.0);
-    gtk_box_pack_start (GTK_BOX (inner), tempo, FALSE, TRUE, 0);
-    g_signal_connect(GTK_OBJECT(tempo), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
-    
+    master_tempo_adj = gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
+    GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
+    gtk_scale_set_digits (hscale, 0);
+    GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
+
+    g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
+    gtk_box_pack_start (GTK_BOX (inner), hscale, TRUE, TRUE, 0);
+
     /* Volume */
     label = gtk_label_new (_("Volume"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
@@ -6385,11 +6400,11 @@ get_data_dir (),
 
     master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
-    GtkWidget *mvolume = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
-    gtk_scale_set_digits (mvolume, 2);
-    GTK_WIDGET_UNSET_FLAGS(mvolume, GTK_CAN_FOCUS);
+    hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
+    gtk_scale_set_digits (hscale, 2);
+    GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
     g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
-    gtk_box_pack_start (GTK_BOX (inner), mvolume, TRUE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (inner), hscale, TRUE, TRUE, 0);
 
 
     create_playbutton(inner, "Set", playback_set_range, NULL);
