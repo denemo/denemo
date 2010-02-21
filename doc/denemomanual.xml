@@ -244,13 +244,20 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 
   <sect1>
     <title>Getting Started</title>
-    <para>On starting a Denemo up to three music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory). Finally (and every time you ask for a new blank score) your default template (~/.denemo/templates/default.denemo) is loaded. In this file you can keep your favorite paper margins etc.
+     <para>Most people will start with playing around with Denemo via the pc keyboard. The default setup means that the keys a-g will move the small green cursor to the note position and the keys 0-6 will insert notes of various durations. The arrow keys move the cursor around, the period key adds a dot the Enter key adds further notes to make a chord.
+ </para>
+     <para>You can find more shortcuts by exploring the menu system - e.g. under the Note menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
+ </para>
+ <sect2>
+<title>What Happens at Startup</title>
+    <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
 </para>
     <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. If you have a Numeric Keypad you may wish to start with an alternative set (Edit-&gt;Customize Commands Shortcuts...-&gt;Manage Command Set and click on "Load a Standard Command Set" to get this. Save it for next time using "Save as Default Command Set").
 <note>
 You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
 </note>
 </para>
+ </sect2>
  <sect2>
 <title>Some Common Keyboard Shortcuts</title>
 <para>Here are a few of the keyboard shortcuts that are commonly used in Denemo.
@@ -264,6 +271,19 @@ You should exit and re-start Denemo after creating a new command set to be sure 
       <listitem>
       "." dots a note, Ctrl-"." undots it.
       </listitem>
+      <listitem>
+      Alt-0-6 inserts a rest.
+      </listitem>
+      <listitem>
+      Enter adds notes to a chord, Ctrl-Enter removes them.
+      </listitem>
+      <listitem>
+      "(" begins a slur ")" ends it
+      </listitem>
+      <listitem>
+      "!" inserts a cautionary accidental
+      </listitem>
+
     </itemizedlist>
 </para>
  </sect2>
@@ -327,7 +347,7 @@ Each Denemo file represents a piece of music which may consist of several “mov
 
 
          <note>
-            <para>When a file is loaded it opens with the final movement set as the current movement.</para>
+            <para>When a file is loaded it opens at the point where you left off editing it.</para>
           </note>
   </sect2>
   </sect1>
@@ -343,7 +363,7 @@ Each Denemo file represents a piece of music which may consist of several “mov
       </mediaobject>
     </figure>
 <para>
-The main window has menus and toolbars at the top. With View->Score View checked there is next the drawing area where the music input is displayed - just the few measures you are working on. With View->Print View checked there is another pane showing the print preview of your score. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next. Selected music is colored blue and outlined with a blue rectangle.
+The main window has menus and toolbars at the top. The Titles Etc appear next, along with any extra menu items which you may have placed there (e.g. the Print Part button). With View->Score View checked there is next the drawing area where the music input is displayed. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still drag the red bar upwards to see several lines of just one or two staffs for instance. With View->Print View checked there is another pane showing the print preview of your score. Below this is a "Console Pane" showing any LilyPond messages while typesetting the music. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. The small colored rectangle is the Denemo Cursor, which shows where notes etc will be added/edited next. Selected music on a blue background.
 </para>
 <para>
 The menus in Denemo are unusual: they not only let you do some particular action, but also each menu item lets you enquire what the action does in more detail and lets you set keyboard/mouse shortcuts for the actions. All this extra functionality &amp; more comes with right-clicking the menu item, while the usual left click is for executing the action itself. The menus can always be torn off for working with particular items (e.g. working with different movements or with measures, dynamics etc.). Also available by right-clicking is creating new actions - often by modifying ones that are already there.
@@ -1201,12 +1221,12 @@ Update Commands from the Internet allows you to get the latest versions of comma
 	    
 	    <row>
               <entry>Tempo</entry>
-              <entry>Multiplies the current tempo by the factor set 2 = double speed, 0.5 half speed.</entry>
+              <entry>For movements with a single tempo this tempo is changed for rest of the playback. If the movement has an embedded MIDI tempo change, the change will be altered proportionally. The movement tempo setting itself is not altered - you are just altering the playback.(See Movements->MIDI Tempo for setting that)</entry>
             </row>
 	    
 	    <row>
               <entry>Volume</entry>
-              <entry>Reduces the current volume by the % set.</entry>
+              <entry>Reduces the current volume by the % set. Again, this applies only to playback and proportionally affects embedded dynamics.</entry>
             </row>
 	    <row>
               <entry>Set</entry>
@@ -9403,7 +9423,7 @@ create a next measure if one didn't already exist.</para></note>
     <sect2>
       <title>Inserting LilyPond Directives</title>
 
-      <para><productname>Denemo</productname> allow you to insert LilyPond directives between notes, prefixing and postfixing the individual notes of a chord or the whole chord itself and at the start of each staff in a score and at the start of each score. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful).
+      <para><productname>Denemo</productname> allow you to insert LilyPond directives between notes, prefixing and postfixing the individual notes of a chord or the whole chord itself and at the start of each staff in a score and at the start of each score. This means that the score can be tailored to a great extent without ever resorting to editing LilyPond files themselves. (Re-loading from an edited LilyPond file is generally unsuccessful). These LilyPond directives are now just a special case of DenemoDirectives - see discussion elsewhere.
 </para> 
 <para>
 To put a LilyPond directive on an individual note of a chord, put the cursor on that note and invoke 
@@ -9426,31 +9446,12 @@ When you have inserted a LilyPond directive a green bar is printed at that point
 
 
 
- 
-<sect1 revision="0.75" id="playing"><title id="xg">Score Playback</title><para></para>
-<sect2 revision="0.75" id="midi"><title id="xh">Midi</title><para></para><formalpara><title>Midi playback</title>
-
-		<para>
-			Denemo uses external midi player to play back your score. You can choose which program to use as follows. Go to the Playback menu and choosePlayback Properties and Externals tab. In the External Midi Player text box enter the name of your midi player. When you click on the Play item of the toobar the current movement is played starting from the measure with the cursor in it. If there is a selection then the measures containing the selection are played, otherwise play continues until you click stop or the movement ends.
-
-</para>
-<para>While playing, the music scrolls automatically so that you can watch and either bookmark or stop the music if you hear something you want to re-visit. You can make corrections to the synchronism by using the measure forwards or backwards keypresses (usually bound to Ctrl right/left arrow). </para>
-<para>This automatic scrolling is turned off if you explicitly set the range of measures in the Playback->Playback Properties dialog</para>
-</formalpara>
-
-
-</sect2>
-
-<sect2 revision="0.75" id="csound"><title>Csound</title><para>In addition to permitting midi playback, Denemo permits playback using csound. Denemo will play your file with a .orc file. In the playback properties make sure the command: <command> csound -d -W</command> is set. Next use the navigation box to choose your .orc file. Denemo will soon come with a few demo .orc files which you will find in XXX. The csound module of Denemo is currently under construction. It is not tested for this release.
- </para></sect2>
-</sect1>
-
   <sect1 revision="0.75">
     <title>Publishing</title>
 
     <para>Creating paper scores with <productname>Denemo</productname> is done via an intermediate PDF file. <productname>Denemo</productname> takes care of this for you, provided you have set the name of a PDF view in the Preferences. Once this is done click on Print Preview, or Print Part, wait for LilyPond to typeset your score the PDF viewer will pop-up, and you can print using the facilities of that program.
 <note>
-            <para>Denemo is unresponsive while LilyPond is working - be patient!</para>
+            <para>LilyPond is quite slow - be patient!</para>
           </note>
     </para>
 
@@ -9461,7 +9462,7 @@ When you have inserted a LilyPond directive a green bar is printed at that point
     <title>Advanced Features</title>
 
 
-  <sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes  us Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
+  <sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes use Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
 </para>
 </sect2>
 
