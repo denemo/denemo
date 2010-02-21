@@ -2293,6 +2293,8 @@ static gboolean to_selected_object_direction (gboolean right) {
   //g_print("success %d\n", success);
   if((success) && in_selection(Denemo.gui->si))
     return TRUE;
+ if(success)
+   to_object_direction(FALSE, !right);
   return FALSE;  
 }
 
