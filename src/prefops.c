@@ -83,11 +83,12 @@ initprefs ()
   ret->midi_audio_output = Portaudio;
 //#endif
 
-#ifdef _HAVE_FLUIDSYNTH_ 
-  ret->midi_audio_output = Fluidsynth;	  
-#endif
 #ifdef _HAVE_JACK_
   ret->midi_audio_output = Jack;
+#endif
+
+#ifdef _HAVE_FLUIDSYNTH_ 
+  ret->midi_audio_output = Fluidsynth;	  
 #endif
 
 #ifdef G_OS_WIN32
