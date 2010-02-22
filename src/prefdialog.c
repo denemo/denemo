@@ -83,6 +83,13 @@ struct callbackdata1
   GtkListStore *model;
 };
 
+struct audio_callback_data
+{
+  GtkWidget *main_vbox;
+  GtkWidget *fs;
+  GtkWidget *DM;
+};
+
 /**
  * Callback to enable/disable the autosave entry when the auto save button is 
  * clicked
@@ -184,6 +191,25 @@ set_preferences (struct callbackdata *cbdata)
   writeXMLPrefs (prefs);
 }
 
+static void
+midi_audio_tab_update(GtkWidget *box, gpointer data)
+{
+  struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
+  gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
+  if (output == Fluidsynth){
+    gtk_widget_hide(cbdata->DM);
+    gtk_widget_show(cbdata->fs);
+  }
+  else if (output == Jack){
+    gtk_widget_hide(cbdata->fs);
+    gtk_widget_show(cbdata->DM);
+  }
+  else if (output == Portaudio){
+    gtk_widget_hide(cbdata->fs);
+    gtk_widget_hide(cbdata->DM);
+  }
+}
+
 void
 preferences_change (GtkAction *action, gpointer param)
 {
@@ -196,7 +222,8 @@ preferences_change (GtkAction *action, gpointer param)
   GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
-
+  GtkWidget *fs;
+  GtkWidget *DM; 
 
   static struct callbackdata cbdata;
   g_assert (gui != NULL);
@@ -214,6 +241,7 @@ preferences_change (GtkAction *action, gpointer param)
   notebook = gtk_notebook_new ();
   gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), notebook, TRUE,
 		      TRUE, 0);
+#define VBOX main_vbox
 
 #define NEWPAGE(thelabel) \
     main_vbox = gtk_vbox_new (FALSE, 1);\
@@ -226,12 +254,12 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_check_button_new_with_label (thelabel); \
   gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (field),\
 				(gboolean)Denemo.prefs.field);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), field, FALSE, TRUE, 0);\
+  gtk_box_pack_start (GTK_BOX (VBOX), field, FALSE, TRUE, 0);\
   cbdata.field = field;
 
 #define TEXTENTRY(thelabel, field) \
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
@@ -267,7 +295,7 @@ preferences_change (GtkAction *action, gpointer param)
 
 #define ENTRY_LIMITS(thelabel, field, min, max, step)	\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelabel);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
@@ -310,12 +338,12 @@ preferences_change (GtkAction *action, gpointer param)
 
 #define COMBOBOX(thelable, field, thelist, settext)\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   label = gtk_label_new (thelable);\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
   hbox = gtk_hbox_new (FALSE, 8);\
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);\
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);\
   GtkWidget *field = gtk_combo_new ();\
   gtk_combo_set_popdown_strings (GTK_COMBO (field), thelist);\
   gtk_box_pack_start (GTK_BOX (hbox), field, FALSE, FALSE, 0);\
@@ -381,8 +409,6 @@ preferences_change (GtkAction *action, gpointer param)
    */
   NEWPAGE("Misc");
 
-  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output) 
-
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
 
 
@@ -414,32 +440,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Autosave Parts", saveparts);
 
-
-
-  /*
-   * Fluidsynth Menu
-   */
-#ifdef _HAVE_FLUIDSYNTH_
-  NEWPAGE("Internal Synth");
-  /* Start/Restart Button */
-  //BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
-
-  /*TODO ifdef differnet os's and support
-   *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
-   *defaults are:
-   *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
-   */
-#ifdef G_OS_WIN32
-  gchar *driver_options[5] = {"portaudio", "jack"};
-#else
-  gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
-#endif
-  GList *driver_option_list = NULL;
-  gint i;
-  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
-    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
-
-
+  static struct audio_callback_data audio_cbdata;
+  NEWPAGE("Audio/MIDI")
+ 
   {
     hbox = gtk_hbox_new (FALSE, 8);
     gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
@@ -450,11 +453,43 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
 
+  COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
+  g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
+  G_CALLBACK( GTK_SIGNAL_FUNC(midi_audio_tab_update) ), &audio_cbdata);
+ 
+  /*
+   * Fluidsynth Menu
+   */
+#ifdef _HAVE_FLUIDSYNTH_
+#undef VBOX
+#define VBOX fs
+
+  /* Start/Restart Button */
+  //BUTTON("Start/Restart FLUIDSYNTH", fluid_restart, fluidsynth_start_restart, NULL)
+
+  /*TODO ifdef differnet os's and support
+   *jack, alsa, oss, pulseaudio, coreaudio, dsound, portaudio, sndman, dart, file 
+   *defaults are:
+   *jack (Linux), dsound (Windows), sndman (MacOS9), coreaudio (Mac OS X), dart (OS/2) 
+   */
+  fs = gtk_vbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), fs, FALSE, TRUE, 0);
+  //gtk_widget_show(fs);
+#ifdef G_OS_WIN32
+  gchar *driver_options[5] = {"portaudio", "jack"};
+#else
+  gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
+#endif
+  GList *driver_option_list = NULL;
+  gint i;
+  for (i=0;i<G_N_ELEMENTS(driver_options);i++)
+    driver_option_list = g_list_append (driver_option_list, driver_options[i]);
+ 
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
   hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (VBOX), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Choose Soundfont"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   gtk_signal_connect (GTK_OBJECT (button), "clicked",
@@ -465,15 +500,32 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Enable Chorus on soundfont", fluidsynth_chorus)
     INTENTRY_LIMITS(_("Sample Rate"), fluidsynth_sample_rate, 0, 96000);
    INTENTRY_LIMITS(_("Period Size"), fluidsynth_period_size, 0, 2048);
+#undef VBOX
+#endif
 
-#endif
-  /**
-   * Device Manager
-   */
 #ifdef _HAVE_JACK_
-  NEWPAGE("MIDI Device Manager");
-  DeviceManager(main_vbox);
+  DM = DeviceManager();
+  gtk_box_pack_start (GTK_BOX (main_vbox), DM, FALSE, TRUE, 0);
+  //gtk_widget_show(DM);
 #endif
+  gtk_widget_show_all (dialog);
+
+  if (Denemo.prefs.midi_audio_output == Fluidsynth){
+    gtk_widget_hide(DM);
+    gtk_widget_show(fs);
+  }
+  else if (Denemo.prefs.midi_audio_output == Jack){
+    gtk_widget_hide(fs);
+    gtk_widget_show(DM);
+  }
+  else if (Denemo.prefs.midi_audio_output == Portaudio){
+    gtk_widget_hide(fs);
+    gtk_widget_hide(DM);
+  }
+
+  audio_cbdata.main_vbox = main_vbox;
+  audio_cbdata.fs = fs;
+  audio_cbdata.DM = DM;
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
@@ -485,7 +537,7 @@ preferences_change (GtkAction *action, gpointer param)
   
   
   //gtk_widget_grab_focus (lilypath);
-  gtk_widget_show_all (dialog);
+  
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
       set_preferences (&cbdata);

@@ -56,6 +56,25 @@
          (d-CursorDown)
          (d-CursorGoDown (+ x dx) x-max dx))))
 
+;Next Selected Object for all Staffs by Nils Gey Feb/2010
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Moves the cursor to the right. If there is no selection, If that returns #f it will move down one staff and rewind to the start of the selection in this staff..
+;FIXME: After the last selected Item the cursor will move down one staff even outside the selection and will stay there. But a script with SingleAndSelectionSwitcher will NOT be applied to this outside-object and the user will not see this because the cursor is returned to the starting position afterwards.
+
+(define (NextSelectedObjectAllStaffs)
+	(if  (not (d-NextSelectedObject)) 
+		(if  (and (d-MoveToStaffDown) (d-NextSelectedObject) (d-PrevSelectedObject))
+		(begin 
+		 (let loop ()
+			(if (d-PrevSelectedObject)
+				(loop)))
+		#t); block end. 
+		#f ; if !StaffDown
+		); fi StaffDown
+	#t ;NextSelecetedObject was succesful
+	)
+)
+
 
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -71,7 +90,7 @@
 (begin
 	(eval-string  commandselection)
 	(let loop ()
-	(if (d-NextSelectedObject)
+	(if (NextSelectedObjectAllStaffs)
 	 	(begin (eval-string  commandselection) (loop))
 	))
 	(d-GoToSelectionStart)

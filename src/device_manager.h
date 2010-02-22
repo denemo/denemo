@@ -4,7 +4,7 @@ typedef struct DevicePort{
 } DevicePort;
 
 DevicePort *device_manager_get_DevicePort(gchar *staff_DP);
-void DeviceManager (GtkWidget *main_vbox);
+GtkWidget * DeviceManager (void);
 GList *device_manager_DevicePort_list();
 
 

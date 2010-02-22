@@ -382,17 +382,18 @@ cell_edited (GtkCellRendererText* cellrenderertext,
 #endif
 }
 
-void 
-DeviceManager (GtkWidget *main_vbox)
+GtkWidget *
+DeviceManager ()
 {
   GtkTreeViewColumn   *col;
   GtkCellRenderer     *renderer;
   GtkTreeStore        *treestore;
   GtkWidget 	      *hbox;
+  GtkWidget	      *vbox;
   GtkWidget	      *view;
-
+  
   view = gtk_tree_view_new();
-
+  vbox = gtk_vbox_new(FALSE, 5);
 #define BUTTON(thelabel, field, thecallback, data) \
   hbox = gtk_hbox_new (FALSE, 8);\
   gtk_box_pack_start (GTK_BOX (vbox1), hbox, FALSE, FALSE, 0);\
@@ -428,7 +429,7 @@ DeviceManager (GtkWidget *main_vbox)
   g_object_ref(view);
 
   GtkWidget *mhbox = gtk_hbox_new(FALSE, 5);
-  gtk_box_pack_start (GTK_BOX (main_vbox), mhbox, FALSE, FALSE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), mhbox, FALSE, FALSE, 0);
 
   GtkWidget *vbox1 = gtk_vbox_new(FALSE, 5);
   gtk_box_pack_start (GTK_BOX (mhbox), vbox1, FALSE, FALSE, 0);
@@ -444,6 +445,7 @@ DeviceManager (GtkWidget *main_vbox)
   gtk_box_pack_start (GTK_BOX (vbox2), view, FALSE, FALSE, 0);
   gtk_widget_show (view);
   device_manager_refresh_model(view);
+  return vbox;
 }
 
 
