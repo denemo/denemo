@@ -197,16 +197,19 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
   gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
   if (output == Fluidsynth){
-    gtk_widget_hide(cbdata->DM);
+    if(cbdata->DM)
+      gtk_widget_hide(cbdata->DM);
     gtk_widget_show(cbdata->fs);
   }
   else if (output == Jack){
     gtk_widget_hide(cbdata->fs);
-    gtk_widget_show(cbdata->DM);
+    if(cbdata->DM)
+      gtk_widget_show(cbdata->DM);
   }
   else if (output == Portaudio){
     gtk_widget_hide(cbdata->fs);
-    gtk_widget_hide(cbdata->DM);
+    if(cbdata->DM)
+      gtk_widget_hide(cbdata->DM);
   }
 }
 
@@ -507,20 +510,25 @@ preferences_change (GtkAction *action, gpointer param)
   DM = DeviceManager();
   gtk_box_pack_start (GTK_BOX (main_vbox), DM, FALSE, TRUE, 0);
   //gtk_widget_show(DM);
+#else
+  DM = NULL;
 #endif
   gtk_widget_show_all (dialog);
 
   if (Denemo.prefs.midi_audio_output == Fluidsynth){
-    gtk_widget_hide(DM);
+    if(DM)
+      gtk_widget_hide(DM);
     gtk_widget_show(fs);
   }
   else if (Denemo.prefs.midi_audio_output == Jack){
     gtk_widget_hide(fs);
-    gtk_widget_show(DM);
+    if(DM)
+      gtk_widget_show(DM);
   }
   else if (Denemo.prefs.midi_audio_output == Portaudio){
     gtk_widget_hide(fs);
-    gtk_widget_hide(DM);
+    if(DM)
+      gtk_widget_hide(DM);
   }
 
   audio_cbdata.main_vbox = main_vbox;
