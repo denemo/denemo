@@ -630,29 +630,31 @@ unset_mark (DenemoGUI * gui)
 
 
 gboolean in_selection(DenemoScore *si) {
-  if(si->currentstaffnum >= si->firststaffmarked &&
-     si->currentstaffnum <= si->laststaffmarked) {
-    if(si->currentmeasurenum == si->firstmeasuremarked) {
-      if (si->currentmeasurenum == si->lastmeasuremarked) {
-	if((si->cursor_x >= si->firstobjmarked) &&
-	   (si->cursor_x <= si->lastobjmarked))
-	  return TRUE;
-	else return FALSE;
+  if(si->markstaffnum) {
+    if(si->currentstaffnum >= si->firststaffmarked &&
+       si->currentstaffnum <= si->laststaffmarked) {
+      if(si->currentmeasurenum == si->firstmeasuremarked) {
+	if (si->currentmeasurenum == si->lastmeasuremarked) {
+	  if((si->cursor_x >= si->firstobjmarked) &&
+	     (si->cursor_x <= si->lastobjmarked))
+	    return TRUE;
+	  else return FALSE;
+	}
+	if (si->currentmeasurenum < si->lastmeasuremarked){
+	  if(si->cursor_x >= si->firstobjmarked)
+	    return TRUE;
+	  return FALSE;
+	}
       }
-      if (si->currentmeasurenum < si->lastmeasuremarked){
-	if(si->cursor_x >= si->firstobjmarked)
+      if(si->currentmeasurenum > si->firstmeasuremarked) {
+	if (si->currentmeasurenum == si->lastmeasuremarked) {
+	  if((si->cursor_x <= si->lastobjmarked))
+	    return TRUE;
+	  else return FALSE;
+	}
+	if (si->currentmeasurenum < si->lastmeasuremarked)
 	  return TRUE;
-	return FALSE;
       }
-    }
-    if(si->currentmeasurenum > si->firstmeasuremarked) {
-      if (si->currentmeasurenum == si->lastmeasuremarked) {
-	if((si->cursor_x <= si->lastobjmarked))
-	  return TRUE;
-	else return FALSE;
-      }
-      if (si->currentmeasurenum < si->lastmeasuremarked)
-	return TRUE;
     }
   }
   return FALSE;  
