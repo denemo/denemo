@@ -3565,6 +3565,14 @@ for second and subsequent systems</tooltip>
         <label>Identify space number</label>
         <tooltip>Identify the space number in which the note is display on</tooltip>
       </row>
+      <row>
+        <action>CloseReopenRepeat</action>
+        <after>CloseRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close and Reopen Repeat</label>
+        <tooltip>Closes and open repeat block and opens a new one.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

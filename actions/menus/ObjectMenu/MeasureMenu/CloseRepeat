@@ -7,17 +7,15 @@
       <row>
         <after>OpenRepeat</after>
         <action>CloseRepeat</action>
-        <scheme>;;;CloseRepeat
-(d-DirectivePut-standalone-minpixels "Repeat" 30)
-(d-MoveCursorLeft)
-(d-DirectivePut-standalone-postfix "Repeat" " }")
+        <scheme> ;;;;;;;;;;CloseOpenRepeat
+(d-DirectivePut-standalone-postfix "Repeat" "}\n")
+(d-DirectivePut-standalone-minpixels "Repeat" 50)
 (d-DirectivePut-standalone-gx  "Repeat"  0)
-(d-DirectivePut-standalone-gy  "Repeat"  -10)
+(d-DirectivePut-standalone-gy  "Repeat"  -9)
 (d-DirectivePut-standalone-graphic "Repeat" "RepeatEnd")
-(d-DirectivePut-standalone-display "Repeat" "Close Repeat")
-(d-MoveCursorRight)
-(d-RefreshDisplay)</scheme>
-        <label>Close an Open Repeat Section</label>
+(d-RefreshDisplay)
+</scheme>
+        <label>Close a Repeat Section</label>
         <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
       </row>
     </map>

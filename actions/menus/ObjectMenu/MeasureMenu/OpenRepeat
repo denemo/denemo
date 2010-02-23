@@ -7,21 +7,14 @@
       <row>
         <after>RepeatEndStart</after>
         <action>OpenRepeat</action>
-        <scheme>;;;OpenRepeat
-(let ((current #f))
-  (set! current (d-DirectiveGet-standalone-postfix "Repeat"))
-  (if (boolean? current)
-      (begin 
-	(d-DirectivePut-standalone-minpixels "Repeat" 30)
-	(d-MoveCursorLeft)
-	(d-DirectivePut-standalone-postfix "Repeat" " \\repeat volta 2 {
-"))
-      (begin ;;; there is already a Repeat tag here, must be a close
-	(d-DirectivePut-standalone-postfix "Repeat" "}} \\repeat volta 2 {")))
-(d-DirectivePut-standalone-display "Repeat" "Repeat")
-(d-MoveCursorRight)
-(d-RefreshDisplay))
-</scheme>
+        <scheme>
+;;;;;;;;;;OpenRepeat
+(d-DirectivePut-standalone-postfix "Repeat" " \\repeat volta 2 {\n") 
+(d-DirectivePut-standalone-minpixels "Repeat" 50)
+(d-DirectivePut-standalone-gx  "Repeat"  0)
+(d-DirectivePut-standalone-gy  "Repeat"  -8)
+(d-DirectivePut-standalone-graphic "Repeat" "RepeatStart")
+(d-RefreshDisplay)</scheme>
         <label>Open Repeat Section</label>
         <tooltip>Marks the point where a repeat will start. A correspond close, or first and second time bars are needed.</tooltip>
       </row>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CloseRepeat</after>
+        <action>CloseReopenRepeat</action>
+        <scheme> ;;;;;;;;;;CloseReopenRepeat
+(d-DirectivePut-standalone-postfix "Repeat" "} \\repeat volta 2 {\n")
+(d-DirectivePut-standalone-minpixels "Repeat" 50)
+(d-DirectivePut-standalone-gx  "Repeat"  0)
+(d-DirectivePut-standalone-gy  "Repeat"  -9)
+(d-DirectivePut-standalone-graphic "Repeat" "RepeatEndStart")
+(d-RefreshDisplay)</scheme>
+        <label>Close and Reopen Repeat</label>
+        <tooltip>Closes and open repeat block and opens a new one.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

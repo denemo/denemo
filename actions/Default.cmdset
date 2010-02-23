@@ -2947,7 +2947,7 @@ for second and subsequent systems</tooltip>
         <after>OpenRepeat</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Close an Open Repeat Section</label>
+        <label>Close a Repeat Section</label>
         <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
       </row>
       <row>
@@ -3553,6 +3553,14 @@ for second and subsequent systems</tooltip>
         <label>Shift Down</label>
         <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
         <bind>Alt+Down</bind>
+      </row>
+      <row>
+        <action>CloseReopenRepeat</action>
+        <after>CloseRepeat</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Close and Reopen Repeat</label>
+        <tooltip>Closes and open repeat block and opens a new one.</tooltip>
       </row>
     </map>
   </commands>
