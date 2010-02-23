@@ -7,14 +7,14 @@
       <row>
         <after>CloseRepeat</after>
         <action>FirstTimeBar</action>
-        <scheme>;;;FirstTimeBar
+        <scheme> ;;;FirstTimeBar
+ (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-minpixels "Repeat" 30)
-(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "Repeat" "
 } \\alternative{{
 	")
-  (d-DirectivePut-standalone-graphic "Repeat" "FirstTimeBar")
- (d-DirectivePut-standalone-gy  "Repeat" -33)
+(d-DirectivePut-standalone-graphic "Repeat" "FirstTimeBar")
+(d-DirectivePut-standalone-gy  "Repeat" -33)
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>First Time Bar</label>

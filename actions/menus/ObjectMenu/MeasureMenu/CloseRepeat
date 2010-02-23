@@ -7,12 +7,14 @@
       <row>
         <after>OpenRepeat</after>
         <action>CloseRepeat</action>
-        <scheme> ;;;;;;;;;;CloseOpenRepeat
+        <scheme> ;;;;;;;;;;CloseRepeat
+ (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-postfix "Repeat" "}\n")
 (d-DirectivePut-standalone-minpixels "Repeat" 50)
 (d-DirectivePut-standalone-gx  "Repeat"  0)
 (d-DirectivePut-standalone-gy  "Repeat"  -9)
-(d-DirectivePut-standalone-graphic "Repeat" "RepeatEnd")
+(d-DirectivePut-standalone-graphic "Repeat" "RepeatClose")
+(d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Close a Repeat Section</label>

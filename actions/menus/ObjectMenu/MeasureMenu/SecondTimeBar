@@ -8,12 +8,11 @@
         <after>FirstTimeBar</after>
         <action>SecondTimeBar</action>
         <scheme>;;;SecondTimeBar
+ (d-Directive-standalone  "Repeat")
 (d-DirectivePut-standalone-minpixels "Repeat" 30)
-(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "Repeat" "
 }{
 	")
-
  (d-DirectivePut-standalone-graphic "Repeat" "SecondTimeBar")
  (d-DirectivePut-standalone-gy  "Repeat" -33)
 (d-MoveCursorRight)
