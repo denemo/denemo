@@ -3668,15 +3668,14 @@ void playback_control_tempo (GtkAdjustment *adjustment) {
   gdouble bpm =  gtk_adjustment_get_value(adjustment);
   tempo = (Denemo.gui->si->tempo>0)?
     bpm/Denemo.gui->si->tempo:1.0;
-  gchar *proc = g_strdup_printf("(DenemoTempo %f)", tempo);
-  call_out_to_guile(proc);
-  g_free(proc);
+  scm_c_define("DenemoTempo::Value", scm_double2num(tempo));
+  call_out_to_guile("(DenemoTempo)");
+ 
 }
 void playback_control_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
-  gchar *proc = g_strdup_printf("(DenemoVolume %0.1f)", volume);
-  call_out_to_guile(proc);
-  g_free(proc);
+  scm_c_define("DenemoVolume::Value", scm_double2num(volume));
+  call_out_to_guile("(DenemoVolume)");
 }
 void playback_set_range (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackIntervalToSelection)");
