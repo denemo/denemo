@@ -2938,7 +2938,7 @@ for second and subsequent systems</tooltip>
         <action>OpenRepeat</action>
         <after>RepeatEndStart</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Open Repeat Section</label>
         <tooltip>Marks the point where a repeat will start. A correspond close, or first and second time bars are needed.</tooltip>
       </row>
@@ -2946,7 +2946,7 @@ for second and subsequent systems</tooltip>
         <action>CloseRepeat</action>
         <after>OpenRepeat</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close a Repeat Section</label>
         <tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</tooltip>
       </row>
@@ -2954,7 +2954,7 @@ for second and subsequent systems</tooltip>
         <action>FirstTimeBar</action>
         <after>CloseRepeat</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>First Time Bar</label>
         <tooltip>Closes a repeated section and starts a first time bar (printing)</tooltip>
       </row>
@@ -2962,7 +2962,7 @@ for second and subsequent systems</tooltip>
         <action>SecondTimeBar</action>
         <after>FirstTimeBar</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Second Time Bar</label>
         <tooltip>Closes first time bars and starts second time bar(s) (printing)</tooltip>
       </row>
@@ -2970,7 +2970,7 @@ for second and subsequent systems</tooltip>
         <action>EndSecondTimeBar</action>
         <after>SecondTimeBar</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close Second Time Bar</label>
         <tooltip>Closes the second time bar peviously opened (printing)</tooltip>
       </row>
@@ -3558,7 +3558,7 @@ for second and subsequent systems</tooltip>
         <action>CloseReopenRepeat</action>
         <after>CloseRepeat</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close and Reopen Repeat</label>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
       </row>
