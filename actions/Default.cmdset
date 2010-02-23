@@ -2936,7 +2936,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpenRepeat</action>
-        <after>RepeatEndStart</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Open Repeat Section</label>

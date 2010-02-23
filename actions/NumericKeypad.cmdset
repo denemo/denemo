@@ -2917,7 +2917,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       </row>
       <row>
         <action>OpenRepeat</action>
-        <after>RepeatEndStart</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Open Repeat Section</label>
