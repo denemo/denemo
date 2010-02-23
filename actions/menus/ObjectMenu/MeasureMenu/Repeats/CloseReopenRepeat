@@ -9,7 +9,7 @@
         <action>CloseReopenRepeat</action>
         <scheme> ;;;;;;;;;;CloseReopenRepeat
  (d-Directive-standalone "Repeat")
-(d-DirectivePut-standalone-postfix "Repeat" "}\n")
+(d-DirectivePut-standalone-postfix "Repeat" "}\n\\repeat volta 2 {\n")
 (d-DirectivePut-standalone-minpixels "Repeat" 50)
 (d-DirectivePut-standalone-gx  "Repeat"  0)
 (d-DirectivePut-standalone-gy  "Repeat"  -9)
