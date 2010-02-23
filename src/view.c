@@ -6371,15 +6371,21 @@ get_data_dir (),
 
 
     //create_playbutton(inner, NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
+   
+
+    
+    //create_playbutton(inner,NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
+
     create_playbutton(inner,NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
-    create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_MEDIA_PREVIOUS);
-    create_playbutton(inner,NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
+    create_playbutton(inner,NULL, playback_control_next, GTK_STOCK_GO_FORWARD );
     create_playbutton(inner,NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
-    //create_playbutton(inner,NULL, playback_control_pause, GTK_STOCK_MEDIA_PAUSE);
     playbutton = create_playbutton(inner,NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
-    create_playbutton(inner,NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
-    create_playbutton(inner,NULL, playback_control_next, GTK_STOCK_MEDIA_NEXT);
+    create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_GO_BACK);
     create_playbutton(inner,NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
+    
+
+    //create_playbutton(inner,NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
+ 
     create_playbutton(inner,"Loop", playback_control_loop, NULL);
     
     /* Tempo */
