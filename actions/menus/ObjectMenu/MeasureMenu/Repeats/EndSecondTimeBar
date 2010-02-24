@@ -8,8 +8,8 @@
         <after>SecondTimeBar</after>
         <action>EndSecondTimeBar</action>
         <scheme>;;;EndSecondTimeBar
+(d-DirectivePut-standalone "Repeat")
 (d-DirectivePut-standalone-minpixels "Repeat" 30)
-(d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "Repeat" "
 }}
 	")

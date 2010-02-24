@@ -825,13 +825,15 @@
     (d-Play "(if Playback::Loop (DenemoLoop))")
 ))
 
-(define (DenemoTempo tempo)
+(define DenemoTempo::Value 1.0)
+(define (DenemoTempo)
   (begin
-    (d-MasterTempo tempo)))
+    (d-MasterTempo DenemoTempo::Value)))
 
-(define (DenemoVolume volume)
+(define DenemoVolume::Value 1.0)
+(define (DenemoVolume)
   (begin
-    (d-MasterVolume volume)))
+    (d-MasterVolume DenemoVolume::Value)))
 
     
 (define (DenemoSetPlaybackStart)

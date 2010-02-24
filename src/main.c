@@ -126,7 +126,7 @@ register_stock_icon (GtkIconFactory * icon_factory, const gchar * stock_id,
                  error->message);
       g_error_free (error);
       if(first_time_user())
-	warningdialog("some icons will not display properly, but program will run ok.");
+	g_warning("some icons will not display properly, but program will run ok.");
       warned = TRUE;
     }
   if(pixbuf != NULL) {
@@ -490,7 +490,8 @@ main (int argc, char *argv[])
 
   register_stock_items ();
   if(first_time_user())
-    infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more");
+    ;
+    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this does not always appear on top of the main window so leave it out for now.
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
   
