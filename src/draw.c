@@ -223,9 +223,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     itp->playposition = x + mudelaitem->x;
   
   if(mudelaitem == itp->startobj)
-    itp->startposition = x + mudelaitem->x;
+    itp->startposition = x + mudelaitem->x +  mudelaitem->minpixelsalloted;
   if(mudelaitem == itp->endobj)
-    itp->endposition = x + mudelaitem->x +  mudelaitem->minpixelsalloted;
+    itp->endposition = x + mudelaitem->x;
 
   //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
   // if (!greengc)
