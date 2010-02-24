@@ -503,6 +503,9 @@ fluid_start_midi_in(void)
   int success = fluid_settings_setstr(settings, "midi.driver", "oss");
   //g_print("success %d\n", success);
 #endif
+#ifdef ALSA_DRIVER
+  int success = fluid_settings_setstr(settings, "midi.driver", "alsa_seq");
+#endif
   midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
   //g_print("midi in on %p\n", midi_in);
   if(midi_in)

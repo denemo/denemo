@@ -337,47 +337,44 @@ process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
 
 
 gint init_midi_input(void) {
-#ifdef _HAVE_JACK_
- return jackmidi_server_running() ? 0 : -1;
-#else
-#ifdef _HAVE_FLUIDSYNTH_
- gint ret = fluid_start_midi_in();
-#else
-  GError *error = NULL;
-  if(!channel)
-    channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
-  if(error)
-    ret = -1;
-  g_io_channel_set_encoding       (channel,NULL/* raw binary */,
+  gint ret = -1;
+  if (Denemo.prefs.midi_audio_output == Jack)
+    ret = jackmidi_server_running() ? 0 : -1;
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    ret = fluid_start_midi_in();
+  else if (Denemo.prefs.midi_audio_output == Portaudio){
+    GError *error = NULL;
+    if(!channel)
+      channel =  g_io_channel_new_file (Denemo.prefs.midi_in->str,"r", &error);
+    if(error)
+      ret = -1;
+    g_io_channel_set_encoding       (channel,NULL/* raw binary */,
                                              &error);
-  if(error)
-    ret = -2;
-  g_io_add_watch_full(channel, G_PRIORITY_HIGH,G_IO_IN|G_IO_PRI, (GIOFunc) process_callback,NULL, NULL);
-  //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
-  ret = 0;
-#endif
+    if(error)
+      ret = -2;
+    g_io_add_watch_full(channel, G_PRIORITY_HIGH,G_IO_IN|G_IO_PRI, (GIOFunc) process_callback,NULL, NULL);
+    //  g_io_add_watch (channel,G_IO_IN, (GIOFunc) process_callback,NULL, NULL);
+    ret = 0;
+  }
   start_midi_input();
   return ret;
-#endif
 }
 
 gint stop_midi_input(void) {
-#ifdef _HAVE_JACK_
-  stop_jack();
-#else
-#ifdef _HAVE_FLUIDSYNTH_
- return fluid_stop_midi_in();
-#else
-  GError *error = NULL;
-  if(channel)
-    g_io_channel_shutdown(channel, FALSE, &error);
-  if(error)
-    g_warning(error->message);
-  else
-    channel = NULL;
-#endif
-#endif
-  return 0;
+  if (Denemo.prefs.midi_audio_output == Jack)
+    stop_jack();
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    return fluid_stop_midi_in();
+  else if (Denemo.prefs.midi_audio_output == Portaudio){
+    GError *error = NULL;
+    if(channel)
+      g_io_channel_shutdown(channel, FALSE, &error);
+    if(error)
+      g_warning(error->message);
+    else
+      channel = NULL;
+    return 0;
+  }
 }
 
 
