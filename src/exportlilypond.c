@@ -1122,9 +1122,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	g_string_append_printf (ret, "\\times %d/%d {",
 				((tupopen *) curobj->object)->numerator,
 				((tupopen *) curobj->object)->denominator);
+	if(figures->len)
+	  g_string_append_printf (figures, "\\times %d/%d {",
+				((tupopen *) curobj->object)->numerator,
+				((tupopen *) curobj->object)->denominator);
+
 	break;
       case TUPCLOSE:
 	g_string_append_printf (ret, "}");
+	if(figures->len)
+	  g_string_append_printf (figures, "}");
 	break;
       case GRACE_START:
 	g_string_append_printf (ret, "\\grace {");
