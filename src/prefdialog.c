@@ -59,6 +59,7 @@ struct callbackdata
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
   GtkWidget *fluidsynth_audio_driver;
+  GtkWidget *fluidsynth_midi_driver;
   GtkWidget *fluidsynth_soundfont;
   GtkWidget *fluidsynth_reverb;
   GtkWidget *fluidsynth_chorus;
@@ -479,16 +480,22 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_box_pack_start (GTK_BOX (main_vbox), fs, FALSE, TRUE, 0);
   //gtk_widget_show(fs);
 #ifdef G_OS_WIN32
-  gchar *driver_options[5] = {"portaudio", "jack"};
+  gchar *driver_options[5] = {"portaudio", "jack"}; //Isn't there more options?
+  gchar *midi_driver_options[1] = {"portaudio"}; //Is this correct?
 #else
   gchar *driver_options[5] = {"alsa", "jack", "oss", "pulseaudio", "portaudio"};
+  gchar *midi_driver_options[2] = {"alsa_seq", "oss"};
 #endif
   GList *driver_option_list = NULL;
+  GList *midi_driver_option_list = NULL;
   gint i;
   for (i=0;i<G_N_ELEMENTS(driver_options);i++)
     driver_option_list = g_list_append (driver_option_list, driver_options[i]);
+  for (i=0;i<G_N_ELEMENTS(midi_driver_options);i++)
+    midi_driver_option_list = g_list_append (midi_driver_option_list, midi_driver_options[i]);
  
   COMBOBOX("Audio Driver", fluidsynth_audio_driver, driver_option_list, Denemo.prefs.fluidsynth_audio_driver->str)
+  COMBOBOX("Midi Driver", fluidsynth_midi_driver, midi_driver_option_list, Denemo.prefs.fluidsynth_midi_driver->str)	  
   TEXTENTRY("Soundfont", fluidsynth_soundfont)	
   
   hbox = gtk_hbox_new (FALSE, 8);

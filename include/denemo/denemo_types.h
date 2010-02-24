@@ -375,6 +375,7 @@ typedef struct DenemoPrefs
   GArray *midi_device_array;/**< holds the midi_device array for re-sizing purposes */
   DeviceManagerDevice *midi_device; /**< contains device name and output ports */ 
   GString *fluidsynth_audio_driver; /**< Audio driver used by fluidsynth */
+  GString *fluidsynth_midi_driver; /**< MIDI driver used by fluidsynth */
   GString *fluidsynth_soundfont; /**< Default soundfont for fluidsynth */
   gboolean fluidsynth_reverb; /**< Toggle if reverb is applied to fluidsynth */
   gboolean fluidsynth_chorus; /**< Toggle if chorus is applied to fluidsynth */
