@@ -153,6 +153,7 @@ set_preferences (struct callbackdata *cbdata)
 #ifdef _HAVE_FLUIDSYNTH_
   /*TODO save combo as int????*/
   ASSIGNCOMBO(fluidsynth_audio_driver);
+  ASSIGNCOMBO(fluidsynth_midi_driver);
   ASSIGNTEXT(fluidsynth_soundfont);
   ASSIGNBOOLEAN(fluidsynth_reverb)
   ASSIGNBOOLEAN(fluidsynth_chorus)
