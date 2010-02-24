@@ -500,6 +500,14 @@ fluid_start_midi_in(void)
 {
   fluid_settings_t* settings = new_fluid_settings();
   int success = fluid_settings_setstr(settings, "midi.driver", Denemo.prefs.fluidsynth_midi_driver->str);
+#ifdef OSS_DRIVER
+  success = fluid_settings_setstr(settings, "midi.driver", "oss");
+#endif
+  
+#ifdef ALSA_DRIVER
+  success = fluid_settings_setstr(settings, "midi.driver", "alsa_seq");
+#endif
+  //g_print("success %d\n", success);
   midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
   //g_print("midi in on %p\n", midi_in);
   if(midi_in)
