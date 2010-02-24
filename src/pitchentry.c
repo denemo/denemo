@@ -982,6 +982,33 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
   g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
 }
 
+GtkWidget *get_enharmonic_frame(void) {
+  GtkWidget *frame = gtk_frame_new( "Enharmonic selection");
+  //gtk_container_add (GTK_CONTAINER (main_vbox), frame);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (frame), hbox);
+  GtkWidget *label = gtk_label_new("");
+  PR_label = label;
+  GtkWidget *button = gtk_button_new_with_label("flatten");
+  gtk_box_pack_start (GTK_BOX (hbox), button,
+		      TRUE, TRUE, 0);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+  gchar *names = notenames(PR_temperament);
+  
+  gtk_label_set_markup(GTK_LABEL(label),names);
+  g_free(names);
+  gtk_box_pack_start (GTK_BOX (hbox), label,
+		      TRUE, TRUE, 0);
+  
+  button = gtk_button_new_with_label("sharpen");
+  gtk_box_pack_start (GTK_BOX (hbox), button,
+		      TRUE, TRUE, 0);
+  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+  return frame;
+}
+
+
+
 static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *hbox, *hbox2;
   GtkWidget *button;
@@ -1086,27 +1113,14 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   }// if audio input allow use of overlay mechanism, MIDI can use MIDIAdvanceOnEdit filter.
 
 
-  frame = gtk_frame_new( "Enharmonic selection");
-  gtk_container_add (GTK_CONTAINER (main_vbox), frame);
-  hbox = gtk_hbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (frame), hbox);
-  label = gtk_label_new("");
-  PR_label = label;
-  button = gtk_button_new_with_label("flatten");
-  gtk_box_pack_start (GTK_BOX (hbox), button,
-		      TRUE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
-  gchar *names = notenames(PR_temperament);
-  
-  gtk_label_set_markup(GTK_LABEL(label),names);
-  g_free(names);
-  gtk_box_pack_start (GTK_BOX (hbox), label,
-		      TRUE, TRUE, 0);
-  
-  button = gtk_button_new_with_label("sharpen");
-  gtk_box_pack_start (GTK_BOX (hbox), button,
-		      TRUE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+  frame = get_enharmonic_frame();
+  if(!gtk_widget_get_parent(frame))
+    gtk_container_add (GTK_CONTAINER (main_vbox), frame);
+
+
+
+
+
 
   frame = gtk_frame_new( "Detected note");
   gtk_container_add (GTK_CONTAINER (main_vbox), frame);

@@ -6355,8 +6355,10 @@ get_data_dir (),
     gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
     gtk_container_add (GTK_CONTAINER (Denemo.playback_control), frame);
 
+    GtkWidget *inner1 = gtk_vbox_new(FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), inner1);
     GtkWidget *inner = gtk_hbox_new(FALSE, 1);
-    gtk_container_add (GTK_CONTAINER (frame), inner);
+    gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
 
     //gtk_box_pack_start (GTK_BOX (main_vbox), inner, FALSE, TRUE, 0);
     GTK_WIDGET_UNSET_FLAGS(inner, GTK_CAN_FOCUS);
@@ -6417,7 +6419,9 @@ get_data_dir (),
 "Reset"
 #endif
 , playback_control_panic, NULL);
-
+    GtkWidget *enharmonic_control = get_enharmonic_frame();
+    if(!gtk_widget_get_parent(enharmonic_control))
+      gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
     gtk_widget_show_all (Denemo.playback_control);
   }
 
