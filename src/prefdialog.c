@@ -377,9 +377,7 @@ preferences_change (GtkAction *action, gpointer param)
    * Pitch Entry Parameters 
    */
   NEWPAGE("Pitch Entry");
-  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
-  BOOLEANENTRY("Auto-start midi in", startmidiin);
-
+  
   TEXTENTRY("Temperament", temperament)
   BOOLEANENTRY("Use Overlays", overlays);
   BOOLEANENTRY("Continuous Entry", continuous);
@@ -456,6 +454,8 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
+  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
+  BOOLEANENTRY("Auto-start midi in", startmidiin);
 
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)
   g_signal_connect(G_OBJECT(GTK_COMBO(midi_audio_output)->entry), "changed",
