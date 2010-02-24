@@ -129,7 +129,7 @@ initprefs ()
 #ifdef G_OS_WIN32
   ret->fluidsynth_audio_driver = g_string_new ("portaudio");
 #else
-  ret->fluidsynth_audio_driver = g_string_new ((char *)fluidsynth_get_default_audio_driver());
+  ret->fluidsynth_audio_driver = g_string_new ("alsa");
   ret->fluidsynth_midi_driver = g_string_new ("alsa_seq");
 #endif
   gchar *soundfontpath = g_build_filename (get_data_dir (), "soundfonts",
