@@ -5427,18 +5427,12 @@ gint val = gtk_radio_action_get_current_value (current);
      gui->input_source=INPUTKEYBOARD;
    } else
 */
-#ifndef _HAVE_JACK_
-#ifndef  _HAVE_FLUIDSYNTH_
-     start_midi_input();
-#endif
-#endif
-#ifdef _HAVE_JACK_
+  if (Denemo.prefs.midi_audio_output == Portaudio)
+   start_midi_input();
+  else if (Denemo.prefs.midi_audio_output == Jack)
    init_midi_input();
-#else
-#ifdef _HAVE_FLUIDSYNTH_
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
    init_midi_input();
-#endif
-#endif
 
    break;
  default:
