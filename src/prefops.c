@@ -128,6 +128,7 @@ initprefs ()
   	for some reason the default for linux is jack */
 #ifdef G_OS_WIN32
   ret->fluidsynth_audio_driver = g_string_new ("portaudio");
+  ret->fluidsynth_midi_driver = g_string_new ("");
 #else
   ret->fluidsynth_audio_driver = g_string_new ("alsa");
   ret->fluidsynth_midi_driver = g_string_new ("alsa_seq");

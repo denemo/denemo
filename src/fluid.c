@@ -499,7 +499,7 @@ int
 fluid_start_midi_in(void)
 {
   fluid_settings_t* settings = new_fluid_settings();
-  int success = fluid_settings_setstr(settings, "midi.driver", Denemo.prefs.fluidsynth_midi_driver->str);
+  int success = Denemo.prefs.fluidsynth_midi_driver->len?fluid_settings_setstr(settings, "midi.driver", Denemo.prefs.fluidsynth_midi_driver->str):0;
 #ifdef OSS_DRIVER
   success = fluid_settings_setstr(settings, "midi.driver", "oss");
 #endif

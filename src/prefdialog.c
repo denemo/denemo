@@ -139,7 +139,9 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(denemopath)
     // ASSIGNTEXT(sequencer)
 #ifndef _HAVE_FLUIDSYNTH_
+#ifndef G_OS_WIN32
   ASSIGNTEXT(midi_in)
+#endif
 #endif
 #ifdef _HAVE_JACK_
     // ASSIGNBOOLEAN(jacktransport)
