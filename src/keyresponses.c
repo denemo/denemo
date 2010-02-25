@@ -265,7 +265,7 @@ go_to_G_key (DenemoGUI * gui)
 
 
 /**
- * Move cursor by amount
+ * Move cursor by amount or in EDIT mode change the note by one octave
  */
 static void
 octave_shift_key (DenemoGUI * gui, gint amount)
@@ -283,6 +283,7 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	    gui->si->cursor_y = copy.mid_c_offset + amount;
 	    insert_chordnote(gui->si);
 	    changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
+	    score_status(gui, TRUE);
 	  }
 	}
       }
