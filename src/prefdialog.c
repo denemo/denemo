@@ -78,12 +78,6 @@ struct callbackdata
   GtkWidget *continuous;
 };
 
-struct callbackdata1
-{
-  DenemoGUI *gui;
-  GtkListStore *model;
-};
-
 struct audio_callback_data
 {
   GtkWidget *main_vbox;
