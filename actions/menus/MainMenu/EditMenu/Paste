@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>Paste</after>
+        <after>Copy</after>
         <action>Paste</action>
         <scheme>;;;;;;;;;;;;;;;;;;;; Paste
 (d-PushPosition)
@@ -28,6 +28,7 @@
      (loop type staff (1+ count)))))
 (d-PopPushPosition)
 (d-PopPosition)
+(d-MoveCursorRight)
 (d-RefreshDisplay)
 </scheme>
         <label>Paste</label>
