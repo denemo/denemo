@@ -991,18 +991,18 @@ GtkWidget *get_enharmonic_frame(void) {
   PR_label = label;
   GtkWidget *button = gtk_button_new_with_label("flatten");
   gtk_box_pack_start (GTK_BOX (hbox), button,
-		      TRUE, TRUE, 0);
+		      FALSE, TRUE, 0);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
   gchar *names = notenames(PR_temperament);
   
   gtk_label_set_markup(GTK_LABEL(label),names);
   g_free(names);
   gtk_box_pack_start (GTK_BOX (hbox), label,
-		      TRUE, TRUE, 0);
+		      FALSE, TRUE, 0);
   
   button = gtk_button_new_with_label("sharpen");
   gtk_box_pack_start (GTK_BOX (hbox), button,
-		      TRUE, TRUE, 0);
+		      FALSE, TRUE, 0);
   gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
   return frame;
 }
