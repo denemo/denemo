@@ -318,7 +318,7 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
 #undef g
   PR_temperament->sharp = PR_temperament->flat;
   PR_temperament->flat = (PR_temperament->flat+7)%12;
-  if(PR_window) {
+  if(1 /*PR_window*/) {
     gchar *names = notenames(PR_temperament);
     gtk_label_set_markup((GtkLabel*)label, names);
     g_free(names);
@@ -346,7 +346,7 @@ if(t.alteration-1<-2)
 #undef t
   PR_temperament->flat = PR_temperament->sharp;
   PR_temperament->sharp = (PR_temperament->sharp+5)%12;
-  if(PR_window) {
+  if(1/*PR_window*/) {
   gchar *names = notenames(PR_temperament);
   gtk_label_set_markup((GtkLabel*)label, names);
   g_free(names);
@@ -983,27 +983,34 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
 }
 
 GtkWidget *get_enharmonic_frame(void) {
-  GtkWidget *frame = gtk_frame_new( "Enharmonic selection");
-  //gtk_container_add (GTK_CONTAINER (main_vbox), frame);
-  GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
-  gtk_container_add (GTK_CONTAINER (frame), hbox);
-  GtkWidget *label = gtk_label_new("");
-  PR_label = label;
-  GtkWidget *button = gtk_button_new_with_label("flatten");
-  gtk_box_pack_start (GTK_BOX (hbox), button,
-		      FALSE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
-  gchar *names = notenames(PR_temperament);
+  static GtkWidget *frame;
+  if(frame==NULL) {
+    frame = gtk_frame_new( "Enharmonic selection");
+    g_object_ref(frame);
+    //gtk_container_add (GTK_CONTAINER (main_vbox), frame);
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), hbox);
+    GtkWidget *label = gtk_label_new("");
+    PR_label = label;
+    GtkWidget *button = gtk_button_new_with_label("flatten");
+    gtk_box_pack_start (GTK_BOX (hbox), button,
+			FALSE, TRUE, 0);
+    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet"), button);
+    gchar *names = notenames(PR_temperament);
   
-  gtk_label_set_markup(GTK_LABEL(label),names);
-  g_free(names);
-  gtk_box_pack_start (GTK_BOX (hbox), label,
-		      FALSE, TRUE, 0);
+    gtk_label_set_markup(GTK_LABEL(label),names);
+    g_free(names);
+    gtk_box_pack_start (GTK_BOX (hbox), label,
+			FALSE, TRUE, 0);
   
-  button = gtk_button_new_with_label("sharpen");
-  gtk_box_pack_start (GTK_BOX (hbox), button,
-		      FALSE, TRUE, 0);
-  gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+    button = gtk_button_new_with_label("sharpen");
+    gtk_box_pack_start (GTK_BOX (hbox), button,
+			FALSE, TRUE, 0);
+    gtk_action_connect_proxy(gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet"), button);
+  }
+  GtkContainer *cont = gtk_widget_get_parent(frame);
+  if(cont)
+    gtk_container_remove(cont, frame);
   return frame;
 }
 
