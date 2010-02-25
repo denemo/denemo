@@ -83,6 +83,7 @@ struct audio_callback_data
   GtkWidget *main_vbox;
   GtkWidget *fs;
   GtkWidget *DM;
+  GtkWidget *pas;
 };
 
 /**
@@ -193,11 +194,13 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
   gchar *output = get_midi_audio_pointer((gchar *)gtk_entry_get_text (GTK_ENTRY (box))); 
   if (output == Fluidsynth){
+    gtk_widget_hide(cbdata->pas);
     if(cbdata->DM)
       gtk_widget_hide(cbdata->DM);
     gtk_widget_show(cbdata->fs);
   }
   else if (output == Jack){
+    gtk_widget_hide(cbdata->pas);
     gtk_widget_hide(cbdata->fs);
     if(cbdata->DM)
       gtk_widget_show(cbdata->DM);
@@ -206,6 +209,7 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
     gtk_widget_hide(cbdata->fs);
     if(cbdata->DM)
       gtk_widget_hide(cbdata->DM);
+    gtk_widget_show(cbdata->pas);
   }
 }
 
@@ -362,12 +366,6 @@ preferences_change (GtkAction *action, gpointer param)
   INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
   INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
 
-
-  //TEXTENTRY("Sequencer Device", sequencer)
-#ifndef _HAVE_FLUIDSYNTH_
-  TEXTENTRY("Midi Input Device", midi_in)
-#endif
-
   /*
    * Pitch Entry Parameters 
    */
@@ -515,14 +513,26 @@ preferences_change (GtkAction *action, gpointer param)
 #else
   DM = NULL;
 #endif
+#define VBOX pas
+  GtkWidget *pas;
+  pas = gtk_vbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (main_vbox), pas, FALSE, TRUE, 0);
+  //TEXTENTRY("Sequencer Device", sequencer)
+#ifndef G_OS_WIN32
+  TEXTENTRY("Midi Input Device", midi_in) 
+#endif
+#undef VBOX
+
   gtk_widget_show_all (dialog);
 
   if (Denemo.prefs.midi_audio_output == Fluidsynth){
+    gtk_widget_hide(pas);
     if(DM)
       gtk_widget_hide(DM);
     gtk_widget_show(fs);
   }
   else if (Denemo.prefs.midi_audio_output == Jack){
+    gtk_widget_hide(pas);
     gtk_widget_hide(fs);
     if(DM)
       gtk_widget_show(DM);
@@ -531,11 +541,13 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_widget_hide(fs);
     if(DM)
       gtk_widget_hide(DM);
+    gtk_widget_show(pas);
   }
 
   audio_cbdata.main_vbox = main_vbox;
   audio_cbdata.fs = fs;
   audio_cbdata.DM = DM;
+  audio_cbdata.pas = pas;
 
 #define SETCALLBACKDATA(field) \
   cbdata.field = field;
