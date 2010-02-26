@@ -248,9 +248,9 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 #endif
   if (mudelaitem->isinvisible) {
     if (selected)
-      cairo_set_source_rgb( cr, 0, 1, 0 ); 
+      cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
     else
-      cairo_set_source_rgb( cr, 1, 0, 1 ); 
+      cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );// yellow for non printing
   }
 
 
