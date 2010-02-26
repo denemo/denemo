@@ -5388,6 +5388,7 @@ static void
 change_input_type (GtkRadioAction * action, GtkRadioAction * current) {
   DenemoGUI *gui = Denemo.gui;
 gint val = gtk_radio_action_get_current_value (current);
+ gboolean fail=FALSE;
  switch(val) {
  case INPUTKEYBOARD:
    if(gui->input_source==INPUTAUDIO) {
@@ -5399,6 +5400,7 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTKEYBOARD;
+   g_print("Input keyboard");
    break;
  case INPUTAUDIO:
    //g_print("Starting audio\n");
@@ -5408,8 +5410,9 @@ gint val = gtk_radio_action_get_current_value (current);
    }
    gui->input_source=INPUTAUDIO;
    if(setup_pitch_input()){
+     fail = TRUE;
      warningdialog("Could not start Audio input");
-     gui->input_source=INPUTKEYBOARD;
+     gtk_radio_action_set_current_value(current, INPUTKEYBOARD);
    } else
      start_pitch_input();
    break;
@@ -5420,27 +5423,22 @@ gint val = gtk_radio_action_get_current_value (current);
      stop_pitch_input();
    }
    gui->input_source=INPUTMIDI;
-/*
-   if(setup_pitch_input()){
-     warningdialog("Could not start MIDI input");
-     gui->input_source=INPUTKEYBOARD;
-   } else
-*/
   if (Denemo.prefs.midi_audio_output == Portaudio)
    start_midi_input();
   else if (Denemo.prefs.midi_audio_output == Jack)
-   init_midi_input();
+   fail = init_midi_input();
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-   init_midi_input();
-
+   fail = init_midi_input();
+  //g_print("Midi start - %d\n", fail);
    break;
  default:
    g_warning("Bad Value\n");
    break;
-
  }
-
- write_input_status();
+ if(fail)
+   gtk_radio_action_set_current_value(current, INPUTKEYBOARD);
+   else
+     write_input_status();
 }
 /**
  *  callback changing type of entry part of gui->mode,
