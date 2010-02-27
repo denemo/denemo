@@ -563,7 +563,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
       ||
       (((GString
 	 *) ((chord *) pchord->fakechord))->str) == NULL)
-    fig_str = g_string_new (" r");	/* the no-fakechord figure */
+    fig_str = g_string_new (" s");	/* the no-fakechord figure */
   else {
     fig_str =
        g_string_ascii_down (
