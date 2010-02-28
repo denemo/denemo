@@ -285,13 +285,16 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		    }
 		  else if (in_grace)
 		    {
-		      ((chord *)theobj->object)->is_grace = TRUE;
+
+		      ((chord *)theobj->object)->is_grace |= GRACE_SECTION;//  means grace inside bracketed start/end markers
+
 		      theobj->durinticks = 0;
 		    }
 		  else
 		    {
-		      ((chord *)theobj->object)->is_grace = FALSE;//DO NOT DO THIS IF YOU WANT TO SUPPORT is_grace as a first class attribute, so that grace notes can be inserted without bracketed grace start end objects. People will have to delete the grace attribute. *OR* have some flags here - one for a standalone grace, another for grace bracketed, and only take off the one.
-		      
+
+		      ((chord *)theobj->object)->is_grace &= GRACED_NOTE;//leave any fixed grace, changed by toggle.
+		 
 		      theobj->durinticks =  theobj->basic_durinticks;
 		      ticks_so_far += theobj->durinticks;
 		    }

@@ -969,6 +969,18 @@ set_grace (DenemoGUI * gui)
 }
 
 void
+toggle_grace (DenemoGUI * gui)
+{
+ DenemoObject *curmudelaobj = (DenemoObject *)
+    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+ if(curmudelaobj && (curmudelaobj->type==CHORD)) {
+   ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
+   g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
+ }
+}
+
+
+void
 force_cautionary (DenemoGUI * gui)
 {
   DenemoObject *theobj =

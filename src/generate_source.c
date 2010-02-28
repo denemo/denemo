@@ -324,6 +324,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleUpprall"), "add_upprall", N_("Up Prall (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleArpeggio"), "add_arpeggio", N_("Apreggio (Off/On)")},
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("SetGrace"), "set_grace", N_("Set Grace")},
+  {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ToggleGrace"), "toggle_grace", N_("Grace Note Off/On")},
 
   {CMD_CATEGORY_ARTICULATION, NULL, "No Tooltip yet",	N_("ForceCaution"), "force_cautionary", N_("Force Cautionary Accidental")},
 

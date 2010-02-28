@@ -853,6 +853,10 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    GList *tmpornament;
 	    if (!curobj->isinvisible)
 	      {
+		if (pchord->is_grace & GRACED_NOTE)
+		  g_string_append_printf (ret,"\\grace ");
+		
+		
 		if (pchord->notes->next || pchord->chordize )//multinote chord
 		  {
 		    is_chordmode = TRUE;

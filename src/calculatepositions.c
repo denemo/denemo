@@ -13,7 +13,7 @@
 #include "utils.h"
 
 #define mudobj(x) ((DenemoObject *) x->data)
-#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace==TRUE)))
+#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
 /**
  *  Check to see if there is any more music in 
  *  the datastructures
