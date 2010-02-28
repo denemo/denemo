@@ -1113,10 +1113,6 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest &&(gui->mode&(INPUTRHYTHM))))
     mudela_obj_new->isinvisible = TRUE;
 
-  //  if (si->is_grace_mode)
-  //   ((chord *) mudela_obj_new->object)->is_grace = TRUE;
-
-
   /* Insert the new note into the score.  Note that while we may have
      added a measure above, object_insert will invoke nudgerightward,
      which will in turn invoke update_hscrollbar, so we

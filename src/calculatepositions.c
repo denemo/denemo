@@ -13,7 +13,7 @@
 #include "utils.h"
 
 #define mudobj(x) ((DenemoObject *) x->data)
-
+#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace==TRUE)))
 /**
  *  Check to see if there is any more music in 
  *  the datastructures
@@ -202,13 +202,9 @@ allocate_xes (objnode ** block_start_obj_nodes,
 	  while (this_staff_obj_node)
 	    {
 	      curobj = (DenemoObject *) this_staff_obj_node->data;
-#define GRACE 9923412
-	      if(curobj->type == CHORD && (((chord *)curobj->object)->is_grace == TRUE)) {
-		curobj->type = GRACE;//HIDE GRACE NOTES
-	      }
 
-
-	      while (non_chords_node && curobj->type == CHORD
+	      while (non_chords_node && 
+		     !CHORDTEST(this_staff_obj_node)
 		     && (starts_at_tick
 			 >=
 			 ((list_info *) non_chords_node->data)->
@@ -219,7 +215,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		  non_chords_node = non_chords_node->next;
 		}
 
-	      if (curobj->type != CHORD)
+		if (CHORDTEST(this_staff_obj_node))
 		{
 		  curobj->x = *base_x + extra_advance + non_chord_pixels
 		    + ((starts_at_tick - *base_tick) * block_width
@@ -242,10 +238,6 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		}
 	      starts_at_tick = curobj->starttickofnextnote;
 
-
-	      if(curobj->type == GRACE){//LET GRACE NOTES UNHIDE
-		curobj->type = CHORD;//((chord *)curobj->object)->is_grace = TRUE;
-	      }
 
 	      if (this_staff_obj_node == block_end_obj_nodes[i])
 		break;
@@ -276,7 +268,6 @@ allocate_xes (objnode ** block_start_obj_nodes,
 }
 
 
-#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
 
 
 /**
