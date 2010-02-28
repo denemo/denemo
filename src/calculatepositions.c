@@ -202,6 +202,12 @@ allocate_xes (objnode ** block_start_obj_nodes,
 	  while (this_staff_obj_node)
 	    {
 	      curobj = (DenemoObject *) this_staff_obj_node->data;
+#define GRACE 9923412
+	      if(curobj->type == CHORD && (((chord *)curobj->object)->is_grace == TRUE)) {
+		curobj->type = GRACE;//HIDE GRACE NOTES
+	      }
+
+
 	      while (non_chords_node && curobj->type == CHORD
 		     && (starts_at_tick
 			 >=
@@ -219,16 +225,7 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		    + ((starts_at_tick - *base_tick) * block_width
 		       / (ticks_in_block ? ticks_in_block : 1));
 
-#ifndef GRACE_NOTES_BUG_FIXED
-		  if (curobj->type==GRACE_START) {
-		    curobj->x -= 10;
-		    non_chord_pixels -=10;
-		  }
-		  if (curobj->type==GRACE_END) {
-		    curobj->x -= 15;
-		    non_chord_pixels -=15;
-		  }
-#endif
+
 		    
 		  non_chord_pixels += curobj->minpixelsalloted;
 		   /*g_print("*curobj->x %d *base %d, *base_tick %d, extra %d non chord %d\n", curobj->x, *base_x,*base_tick, extra_advance, non_chord_pixels);*/
@@ -240,27 +237,16 @@ allocate_xes (objnode ** block_start_obj_nodes,
 		       / (ticks_in_block ? ticks_in_block : 1));
 		  non_chord_pixels = 0;
 
-#ifndef GRACE_NOTES_BUG_FIXED
-		  
-		  //need to shift note after grace
-		  if(this_staff_obj_node->prev){
-		    DenemoObject *last = (DenemoObject*)(this_staff_obj_node->prev->data);
-		    if(last->type==GRACE_END)
-		      /* g_print("shifted %d\n", curobj->x),*/ last->x -=10,curobj->x -= 5;
-		  }
-		  if( ((chord*)curobj->object)->is_grace)
-		    /* g_print("shifted grace %d\n", curobj->x),*/ curobj->x -= 15;
 
-#endif
-		  /*base_tick is getting bigger every note for grace but not for tuplet...
-no 0, 384,640, 896 for triplet, 0, 384, 768, 1152 for grace
-curobj->starttickofnextnot is one ahead of these for grace & triplet, as is Max advance
-
- */
-		  /*g_print("chord *curobj->starttickofnextnote %d extra %d starts_at_tick %d, base_x %d *base_tick %d\n", curobj->starttickofnextnote, extra_advance,
-		    starts_at_tick, *base_x, *base_tick );*/
+		
 		}
 	      starts_at_tick = curobj->starttickofnextnote;
+
+
+	      if(curobj->type == GRACE){//LET GRACE NOTES UNHIDE
+		curobj->type = CHORD;//((chord *)curobj->object)->is_grace = TRUE;
+	      }
+
 	      if (this_staff_obj_node == block_end_obj_nodes[i])
 		break;
 	      else
@@ -289,6 +275,10 @@ curobj->starttickofnextnot is one ahead of these for grace & triplet, as is Max 
   g_list_free (non_chords);
 }
 
+
+#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
+
+
 /**
  * This function calculates the horizontal position of every chord in
  * the measure.  I'm foreseeing only some minor complications
@@ -307,7 +297,7 @@ curobj->starttickofnextnot is one ahead of these for grace & triplet, as is Max 
   start_tick = 0;\
   if (cur_obj_nodes[i])  \
     start_tick = mudobj (cur_obj_nodes[i])->starttick;  \
-  while (cur_obj_nodes[i] && mudobj (cur_obj_nodes[i])->type != CHORD)  \
+  while (cur_obj_nodes[i] && CHORDTEST(cur_obj_nodes[i])/*mudobj (cur_obj_nodes[i])->type != CHORD*/) \
     {  \
       curobj = (DenemoObject *)cur_obj_nodes[i]->data;  \
       accumulator += curobj->minpixelsalloted;  \
@@ -378,6 +368,7 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
     (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
   cur_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
 
+
   for (i = 0, cur_staff = si->thescore;
        cur_staff; i++, cur_staff = cur_staff->next)
     {
@@ -431,7 +422,13 @@ find_xes_in_measure (DenemoScore * si, gint measurenum,
 	      if (cur_obj_nodes[i]
 		  && ((mudobj (cur_obj_nodes[i])->starttickofnextnote
 		       < max_advance_ticks)
-		      || mudobj (cur_obj_nodes[i])->type != CHORD))
+		      || CHORDTEST(cur_obj_nodes[i])
+
+
+		      //mudobj (cur_obj_nodes[i])->type != CHORD
+
+
+))
 		{
 		  cur_obj_nodes[i] = cur_obj_nodes[i]->next;
 		  fxim_utility;

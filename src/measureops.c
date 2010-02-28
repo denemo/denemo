@@ -286,14 +286,13 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		  else if (in_grace)
 		    {
 		      ((chord *)theobj->object)->is_grace = TRUE;
-		      set_grace_numticks (theobj, 1/*8*/);/*8 =  sets durinticks too small */
-		      basic_ticks_in_grace_group += theobj->basic_durinticks;
+		      theobj->durinticks = 0;
 		    }
 		  else
 		    {
 		      ((chord *)theobj->object)->is_grace = FALSE;
-		      set_tuplefied_numticks (theobj, 1, 1);//These two overwrite each other...
-		      set_grace_numticks (theobj, 1);
+		      
+		      theobj->durinticks =  theobj->basic_durinticks;
 		      ticks_so_far += theobj->durinticks;
 		    }
 		}
