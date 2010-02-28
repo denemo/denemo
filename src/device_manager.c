@@ -250,7 +250,8 @@ device_manager_DevicePort_list(){
   GList *DevicePort_list = NULL;
   gchar *DevicePortName;
   gint i,j;
-
+  if(MD==NULL)
+    return NULL;
   for (i=0;MD[i].client_name;i++){
 
    
