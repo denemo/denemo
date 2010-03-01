@@ -295,7 +295,10 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 
 		      ((chord *)theobj->object)->is_grace &= GRACED_NOTE;//leave any fixed grace, changed by toggle.
 		 
-		      theobj->durinticks =  theobj->basic_durinticks;
+		      if(((chord *)theobj->object)->is_grace)
+			theobj->durinticks = 0;
+		      else
+			theobj->durinticks =  theobj->basic_durinticks;
 		      ticks_so_far += theobj->durinticks;
 		    }
 		}
