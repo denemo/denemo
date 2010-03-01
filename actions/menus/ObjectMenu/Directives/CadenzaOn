@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>Tempo</after>
+        <action>CadenzaOn</action>
+        <scheme>;;; StartCadenza
+(d-Directive-standalone "Cadenza")
+(d-DirectivePut-standalone-postfix "Cadenza" "\\cadenzaOn s8*0^\\markup \\bold {Cadenza ad lib.}")
+(d-DirectivePut-standalone-display "Cadenza"  "Cadenza")
+(d-RefreshDisplay)
+</scheme>
+        <label>Start Cadenza</label>
+        <tooltip>Turns off barlines etc for cadenza</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
