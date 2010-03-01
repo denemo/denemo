@@ -238,14 +238,18 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 
   gint prevbaseduration, nextbaseduration;
   GList *curnode;
+  gboolean is_grace = thechord.is_grace && thechord.notes;
 
   cairo_save(cr);
   cairo_set_line_width( cr, 1.0 );
 
-#if 0
-  if (thechord.is_highlighted)
-    gc = gcs_bluegc ();
-#endif
+  if(is_grace) {
+    note *thenote = (note *) thechord.notes->data;
+    cairo_translate( cr, xx, y+thenote->y);
+    cairo_scale( cr, 0.8, 0.8);
+    cairo_translate( cr, -xx, -(y+thenote->y));
+  }
+
   if (mudelaitem->isinvisible) {
     if (selected)
       cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
@@ -260,10 +264,13 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   }  else {
     /* Draw the noteheads and accidentals */
     
-    for (curnode = thechord.notes; curnode; curnode = curnode->next)
-      draw_notehead (cr, (note *) curnode->data, duration,
+    for (curnode = thechord.notes; curnode; curnode = curnode->next){
+      note *thenote = (note *)curnode->data;
+
+      draw_notehead (cr, thenote, duration,
 		     thechord.numdots, xx, y, accs, thechord.is_stemup);
-    
+
+    }
     /* Now the stem and beams. This is complicated. */
     
     if (thechord.is_stemup)
@@ -448,8 +455,10 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
     /* End stemdown stuff */
     
     draw_articulations (cr, thechord, xx, y); 
+    if(is_grace) cairo_restore(cr);
     draw_ledgers (cr, thechord.highesty, thechord.lowesty, xx, y,
-		  headwidths[noteheadtype]);  
+		  headwidths[noteheadtype]);
+    if(is_grace) cairo_save(cr);
     
   }				/* end else if there are notes in the chord*/
   { GList *g = thechord.directives;

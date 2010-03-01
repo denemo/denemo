@@ -25,6 +25,11 @@
 
 #define DENEMO_TEXTEDITOR_TAG "texteditor"
 
+/* values for is_grace attribute of CHORD type */
+#define GRACE_SECTION (1<<0) /*Note is in grace section */
+#define GRACED_NOTE (1<<1) /*Note has been individually designated a grace note */
+
+
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
 #define G_ACTIONCALLBACK(f) ((GActionCallback)(f)) 
  /* and the following typedefs are basically here for so that it's

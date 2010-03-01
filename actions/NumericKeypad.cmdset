@@ -3253,6 +3253,22 @@ for second and subsequent systems</tooltip>
         <label>Close and Reopen Repeat</label>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
       </row>
+      <row>
+        <action>CadenzaOn</action>
+        <after>Tempo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Start Cadenza</label>
+        <tooltip>Turns off barlines etc for cadenza</tooltip>
+      </row>
+      <row>
+        <action>FinishCadenza</action>
+        <after>CadenzaOn</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>End Cadenza</label>
+        <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

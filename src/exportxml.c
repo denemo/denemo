@@ -886,9 +886,21 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  else
 		    xmlSetProp (objElem, (xmlChar *) "show",
 				(xmlChar *) "true");
+
+
+
 		  chordXMLID = getXMLID (curObj);
 		  xmlSetProp (objElem, (xmlChar *) "id",
 			      (xmlChar *) chordXMLID);
+
+		  if (thechord->is_grace)
+		    xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *)
+				"true");
+		  // else
+		  //  xmlSetProp (objElem, (xmlChar *) "grace",
+		  //		(xmlChar *) "true");
+
+
 
 		  /* Output the duration. */
 
@@ -1309,44 +1321,11 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  break;
 
 		case GRACE_START:
-		  objElem =
-		    xmlNewChild (measureElem, ns, (xmlChar *) "grace-start",
-				 NULL);
-
-		  /*
-		   * FIXME: This code does not yet handle nested grace note
-		   *        passages.  For that, we'd need a stack of
-		   *        "grace-start" IDs instead of just a single "last
-		   *        ID."
-		   */
-
-		  lastGraceStartXMLID = getXMLID (curObj);
-		  xmlSetProp (objElem, (xmlChar *) "id",
-			      (xmlChar *) lastGraceStartXMLID);
-		  xmlSetProp (objElem, (xmlChar *) "on-beat",
-			      ((grace *) curObj->object)->on_beat ?
-			      (xmlChar *) "true" : (xmlChar *) "false");
-		  /*
-		   * FIXME: What's curObj->u.graceval.duration for?  It
-		   *        doesn't seem to be used.
-		   */
+		  //obsolete
 		  break;
 
 		case GRACE_END:
-		  objElem =
-		    xmlNewChild (measureElem, ns, (xmlChar *) "grace-end",
-				 NULL);
-		  if (lastGraceStartXMLID == NULL)
-		    {
-		      g_warning ("Encountered nested grace note passages or "
-				 "grace note end without start");
-		    }
-		  else
-		    {
-		      xmlSetProp (objElem, (xmlChar *) "grace",
-				  (xmlChar *) lastGraceStartXMLID);
-		      lastGraceStartXMLID = NULL;
-		    }
+		  //obsolete
 		  break;
 		case LYRIC:
 		  objElem = xmlNewChild (measureElem, ns, (xmlChar *) "lyric",

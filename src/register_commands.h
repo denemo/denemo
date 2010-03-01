@@ -209,6 +209,7 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleTh
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleUpprall"), "ToggleUpprall", "Up Prall (Off/On)", "No Tooltip yet", add_upprall);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleArpeggio"), "ToggleArpeggio", "Apreggio (Off/On)", "No Tooltip yet", add_arpeggio);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SetGrace"), "SetGrace", "Set Grace", "No Tooltip yet", set_grace);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleGrace"), "ToggleGrace", "Grace Note Off/On", "No Tooltip yet", toggle_grace);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ForceCaution"), "ForceCaution", "Force Cautionary Accidental", "No Tooltip yet", force_cautionary);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangePitch"), "ChangePitch", "Change Pitch", "No Tooltip yet", change_pitch);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertRhythm"), "InsertRhythm", "Insert Rhythm", "No Tooltip yet", insert_rhythm_pattern);

@@ -304,7 +304,7 @@
 	  <menuitem action="ToggleReverseTurn"/>	  
 	  <menuitem action="ToggleUpprall"/>
 	  <menuitem action="ToggleArpeggio"/>
-	  <menuitem action="SetGrace"/>
+	  <menuitem action="ToggleGrace"/>
         </menu>
 
         <menu action="TextMarks">
@@ -535,7 +535,7 @@
       
       
       <menu action="GraceNotes">
-	<menuitem action="SetGrace"/>
+	<menuitem action="ToggleGrace"/>
       </menu>
       
       <menu action="Markings">
@@ -556,7 +556,7 @@
 	  <menuitem action="ToggleReverseTurn"/>	  
 	  <menuitem action="ToggleUpprall"/>
 	  <menuitem action="ToggleArpeggio"/>
-	  <menuitem action="SetGrace"/>
+	  <menuitem action="ToggleGrace"/>
         </menu>
         <menu action="TextMarks">
 	  <menuitem action="ToggleSegno"/>

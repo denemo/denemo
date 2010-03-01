@@ -771,7 +771,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		       gint * pprevduration, gint * pprevnumdots,
 		       gchar ** pclefname,
 		       gchar ** pkeyname, gint * pcur_stime1,
-		       gint * pcur_stime2, GString *figures)
+		       gint * pcur_stime2, gint *pgrace_status, GString *figures)
 {
   GString *ret = g_string_new ("");
 #define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), \
@@ -810,6 +810,19 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
+	if(!curobj->isinvisible) {
+	    if((!*pgrace_status) && pchord->is_grace) {
+	      *pgrace_status = TRUE;
+	      g_string_append_printf (ret,"\\grace {  ");
+	      if(figures->len)
+		g_string_append_printf (figures, "\\grace {");
+	    } else  
+	      if ((!pchord->is_grace) && *pgrace_status) {
+		*pgrace_status = FALSE, g_string_append_printf (ret,"} ");
+		if(figures->len)
+		  g_string_append_printf (figures, "}");
+	      }
+	  }
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -853,6 +866,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    GList *tmpornament;
 	    if (!curobj->isinvisible)
 	      {
+		
 		if (pchord->notes->next || pchord->chordize )//multinote chord
 		  {
 		    is_chordmode = TRUE;
@@ -940,11 +954,12 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		   
 		    }
 		  }		/* End notes in chord loop */
-
+		
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
 		  g_string_append_printf (ret, ">");
+	
 	      } //end of note(s) that is(are) not invisible
-	    else //invisible note - does this case exist??
+	    else //invisible note - rhythm only
 	      {
 		g_string_append_printf (ret, "s");
 		
@@ -1050,6 +1065,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    if (pchord->is_tied)
 	      g_string_append_printf (ret, " ~");
 
+
+	
+	  
 	    outputret;
 
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
@@ -1134,14 +1152,14 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  g_string_append_printf (figures, "}");
 	break;
       case GRACE_START:
-	g_string_append_printf (ret, "\\grace {");
-	if(figures->len)
-	  g_string_append_printf (figures, "\\grace {");
+	//	g_string_append_printf (ret, "\\grace {");
+	//	if(figures->len)
+	//	  g_string_append_printf (figures, "\\grace {");
 	break;
       case GRACE_END:
-	g_string_append_printf (ret, "}");
-	if(figures->len)
-	  g_string_append_printf (figures, "}");
+	//	g_string_append_printf (ret, "}");
+	//	if(figures->len)
+	//	  g_string_append_printf (figures, "}");
 	break;
       case STEMDIRECTIVE:
 	switch (((stemdirective *) curobj->object)->type)
@@ -1364,6 +1382,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
   GString * fakechords = g_string_new("");
   prevduration = -1;
   prevnumdots = -1;
+  gint grace_status = 0;
   GtkTextIter iter;
   GtkTextMark *curmark;/* movable mark for insertion point of the music of the staff */
   /* a button and mark for the music of this staff */
@@ -1575,7 +1594,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  open_braces += generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
-						&cur_stime1, &cur_stime2, figures);
+						&cur_stime1, &cur_stime2, &grace_status, figures);
+	  
+
+
  }// end not lilydirective
 
 
