@@ -383,6 +383,10 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
       break;
     }
   theobj = (DenemoObject *) starter->data;
+
+  if (theobj->type == CHORD && (((chord *) theobj->object)->is_grace))
+    is_stemup = TRUE;
+
   if (is_stemup)
     stemoffset = MAX (beamgroup_lowest + 7, beamgroup_highest + 5);
   else
@@ -398,12 +402,17 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
       theobj = (DenemoObject *) curobjnode->data;
       if (theobj->type == CHORD)
 	{
-	  if (((chord *) theobj->object)->baseduration == 0)
-	    /* Whole notes are always laid out stemup */
+	  if (/* ((chord *) theobj->object)->is_grace || */
+	      (((chord *) theobj->object)->baseduration == 0))
+	    /* Whole notes are always laid out stemup - and grace notes but that would need more work */
 	    ((chord *) theobj->object)->is_stemup = TRUE;
 	  else
 	    {
-	      ((chord *) theobj->object)->is_stemup = is_stemup;
+	      if(((chord *) theobj->object)->is_grace)
+		((chord *) theobj->object)->is_stemup = TRUE;
+	      else
+		((chord *) theobj->object)->is_stemup = is_stemup;
+
 	      ((chord *) theobj->object)->stemy = stemy;
 	    }
 	  findreversealigns (theobj);
@@ -431,7 +440,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
   gint next_clef = *pclef;	/* Useful for when a clef intrudes
 				   mid-beamgroup */
   gint next_stem_directive = *stem_directive;
-  gboolean isrest;
+  gboolean isbeambreak;
 
 #ifdef DEBUG
   {static gint count = 0;
@@ -463,8 +472,8 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
   for (; curobjnode; prevobj = theobj, curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
-      isrest = (theobj->type == CHORD) && !((chord *) theobj->object)->notes;
-      if (theobj->type != CHORD || isrest)
+      isbeambreak = (theobj->type == CHORD) && (!((chord *) theobj->object)->notes || ((chord *) theobj->object)->is_grace);
+      if (theobj->type != CHORD || isbeambreak)
 	{
 	  /* A non-chord or rest always breaks up a beam group */
 	  /* LilyPond directives can have their own behaviour,
