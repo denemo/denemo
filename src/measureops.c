@@ -402,9 +402,8 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
       theobj = (DenemoObject *) curobjnode->data;
       if (theobj->type == CHORD)
 	{
-	  if (/* ((chord *) theobj->object)->is_grace || */
-	      (((chord *) theobj->object)->baseduration == 0))
-	    /* Whole notes are always laid out stemup - and grace notes but that would need more work */
+	  if ( (((chord *) theobj->object)->baseduration == 0))
+	    /* Whole notes are always laid out stemup */
 	    ((chord *) theobj->object)->is_stemup = TRUE;
 	  else
 	    {
