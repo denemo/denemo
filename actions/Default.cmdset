@@ -2,7 +2,7 @@
 <Denemo>
   <commands>
     <title>A Denemo Command Set</title>
-    <author>AT, JRR, RTS, NG</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <cursors>
         <cursor-binding>
@@ -1126,9 +1126,15 @@ the cursor position is the end point</tooltip>
       </row>
       <row>
         <action>SetGrace</action>
+        <hidden>true</hidden>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>slash</bind>
+      </row>
+      <row>
+        <action>ToggleGrace</action>
+        <hidden>true</hidden>
+        <label>Grace Note Off/On</label>
+        <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -3544,7 +3550,7 @@ for second and subsequent systems</tooltip>
         <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
         <bind>Alt+Up</bind>
       </row>
-     <row>
+      <row>
         <action>ShiftDown</action>
         <after>ShiftUp</after>
         <scheme></scheme>
@@ -3560,6 +3566,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close and Reopen Repeat</label>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
+      </row>
+      <row>
+        <action>GraceNoteSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Grace Note (On/Off)</label>
+        <tooltip>Transforms the current selected notes into grace notes.</tooltip>
+        <bind>slash</bind>
       </row>
     </map>
   </commands>
