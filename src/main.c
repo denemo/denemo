@@ -455,10 +455,10 @@ main (int argc, char *argv[])
   g_setenv ("GTK_PREFIX", prefix, TRUE);
   g_print ("Setting GTK_PREFIX=%s\n", prefix);
 
-  gchar *fc_path = g_strconcat (prefix, "/etc/fonts", NULL);
+  gchar *fc_path = g_build_filename (prefix, "etc","fonts", NULL);
   g_setenv ("FONTCONFIG_PATH", fc_path, TRUE);
   g_print ("Setting FONTCONFIG_PATH=%s\n", fc_path);
-  gchar *fc_file = g_strconcat (fc_path, "/fonts.conf", NULL);
+  gchar *fc_file = g_build_filename (fc_path, "fonts.conf", NULL);
   g_setenv ("FONTCONFIG_FILE", fc_file, TRUE);
   g_print ("Setting FONTCONFIG_FILE=%s\n", fc_file);
 
