@@ -1495,6 +1495,7 @@ static void ChangeDur0(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur0(GtkAction *action, gpointer param){
@@ -1560,6 +1561,7 @@ static void ChangeDur1(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur1(GtkAction *action, gpointer param){
@@ -1625,6 +1627,7 @@ static void ChangeDur2(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur2(GtkAction *action, gpointer param){
@@ -1690,6 +1693,7 @@ static void ChangeDur3(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur3(GtkAction *action, gpointer param){
@@ -1755,6 +1759,7 @@ static void ChangeDur4(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur4(GtkAction *action, gpointer param){
@@ -1820,6 +1825,7 @@ static void ChangeDur5(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur5(GtkAction *action, gpointer param){
@@ -1885,6 +1891,7 @@ static void ChangeDur6(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur6(GtkAction *action, gpointer param){
@@ -1950,6 +1957,7 @@ static void ChangeDur7(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur7(GtkAction *action, gpointer param){
@@ -2015,6 +2023,7 @@ static void ChangeDur8(GtkAction *action, gpointer param){
   gui->mode = mode;
   if(appending)
     cursorright(NULL);
+  score_status(gui, TRUE);
   displayhelper(gui);
 }
 static void SetDur8(GtkAction *action, gpointer param){

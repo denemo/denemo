@@ -699,6 +699,7 @@ int main() {
 "  gui->mode = mode;\n"
 "  if(appending)\n"
 "    cursorright(NULL);\n"
+"  score_status(gui, TRUE);\n"
 "  displayhelper(gui);\n"
 "}\n"
 
