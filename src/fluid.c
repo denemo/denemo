@@ -209,10 +209,57 @@ void fluid_playpitch(int key, int duration, int channel, int volume)
 void fluid_output_midi_event(unsigned char *buffer)
 {
   if (synth){
+#if 0
     if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON)
       fluid_synth_noteon(synth, buffer[0] & 0x0f, buffer[1], 80);
     if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
       fluid_synth_noteoff(synth, buffer[0] & 0x0f, buffer[1]);
+#else
+
+    gint chan = (buffer[0] & 0x0f);
+   
+    int success;
+    switch((buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
+      {
+      case NOTE_ON: {
+	gint velocity =  ((gint)(Denemo.gui->si->master_volume * buffer[2]));
+	if(velocity>0x7F) velocity = 0x7F;
+	fluid_synth_noteon(synth, chan,  buffer[1], velocity);
+	//g_print("play %d on %f\n", chan, event->time_seconds);
+      }
+	break;
+       case NOTE_OFF:
+         fluid_synth_noteoff(synth, chan, buffer[1]);
+	 //g_print("play %d off %f\n", chan, event->time_seconds);
+	 break; 
+       case CONTROL_CHANGE:
+         fluid_synth_cc(synth, chan, buffer[1], buffer[2]);
+	 break; 
+                             
+       case PROGRAM_CHANGE:
+	 //g_print("changing on chan %d to prog? %d\n", chan,  event->midi_buffer[1]);
+         success = fluid_synth_program_change(synth, chan,  buffer[1]);
+	 //g_print("success = %d\n", success);
+	 break;
+ 
+	 //     case CHANNEL_PRESSURE:
+	 //return fluid_synth_channel_pressure(synth, chan,  event->midi_buffer[1]);
+ 
+       case PITCH_BEND:
+         fluid_synth_pitch_bend(synth, chan, buffer[1] + (buffer[2]<<8)
+				       /*I think! fluid_midi_event_get_pitch(event)*/);
+	 break;
+ 
+       case MIDI_SYSTEM_RESET:
+         fluid_synth_system_reset(synth);
+	 break;
+      }
+
+
+
+
+
+#endif
   }
 }
 

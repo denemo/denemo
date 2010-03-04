@@ -1128,6 +1128,11 @@ the cursor position is the end point</tooltip>
         <bind>slash</bind>
       </row>
       <row>
+        <action>ToggleGrace</action>
+        <label>Grace Note Off/On</label>
+        <tooltip>No Tooltip yet</tooltip>
+      </row>
+      <row>
         <action>ForceCaution</action>
         <label>Force Cautionary Accidental</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -2187,7 +2192,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
@@ -3268,6 +3273,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>End Cadenza</label>
         <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
+      </row>
+      <row>
+        <action>DiminishedOrAugmented</action>
+        <after>MajorOrMinor</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training</menupath>
+        <label>DiminishedAugmented</label>
+        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
     </map>
   </commands>

@@ -736,9 +736,11 @@
 
 ) ; End Of (d-UploadRoutine)
 
+
+;;; play a note a mid-volume 80
 (define (PlayNote pitch duration)
-  (d-OutputMidiBytes (string-append "0x9$ " pitch " %%%"))
- (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " %%%" "\"" ")" )) 
+  (d-OutputMidiBytes (string-append "0x9$ " pitch " 80"))
+ (d-OneShotTimer duration (string-append "(d-OutputMidiBytes " "\"" "0x8$ " pitch " 0" "\"" ")" )) 
   )
 
 ;;;;;;;;;;;;;; Refresh Procedures.
