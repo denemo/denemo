@@ -1942,14 +1942,16 @@ SCM scheme_put_midi (SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
-SCM scheme_output_midi (SCM input) {
+/* outputs a midibytes string to MIDI out. Format of midibytes as in DenemoDirective->midibytes */
+SCM scheme_output_midi_bytes (SCM input) {
   char *next;
   char val;
   gint i, numbytes;
   gint channel;
   gint volume;
   gint tracknumber;
-
+  if(!scm_is_string(input))
+    return SCM_BOOL_F;
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.gui->si->currentstaff->data;
   channel = get_midi_channel();
   volume = curstaffstruct->volume;
@@ -3269,7 +3271,7 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMIDI", scheme_output_midi);
+  install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
   INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
