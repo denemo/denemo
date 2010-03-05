@@ -1475,8 +1475,8 @@ dnm_insertmeasures (DenemoScore * si, gint number)
   si->cursor_appending = TRUE;
   si->currentobject = NULL;
   set_rightmeasurenum (si);
-  si->markstaffnum = 0;
-  calcmarkboundaries (si);
+  //si->markstaffnum = 0;
+  //calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
 
@@ -1493,8 +1493,8 @@ insertmeasureafter (DenemoGUI *gui)
   si->cursor_appending = TRUE;
   si->currentobject = NULL;
   set_rightmeasurenum (si);
-  si->markstaffnum = 0;
-  calcmarkboundaries (si);
+  //si->markstaffnum = 0;
+  //calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
 
@@ -1511,8 +1511,8 @@ addmeasureafter (DenemoGUI *gui)
   si->cursor_appending = TRUE;
   si->currentobject = NULL;
   set_rightmeasurenum (si);
-  si->markstaffnum = 0;
-  calcmarkboundaries (si);
+  //si->markstaffnum = 0;
+  // calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
 
@@ -1530,7 +1530,8 @@ insertmeasurebefore (DenemoGUI *gui)
   si->currentobject = NULL;
   set_rightmeasurenum (si);
   si->markstaffnum = 0;
-  calcmarkboundaries (si);
+  if(si->markstaffnum)
+    calcmarkboundaries (si);
   /* update_hscrollbar (si); */
 }
 
@@ -1654,7 +1655,8 @@ void deletemeasureallstaffs(DenemoGUI * gui)
   si->currentmeasure =
     removemeasures (si, si->currentmeasurenum - 1, 1, TRUE);
   setcurrents (si);
-calcmarkboundaries (si);
+  if(si->markstaffnum)
+    calcmarkboundaries (si);
   score_status(gui, TRUE);
   si->markstaffnum = 0;
   isoffleftside (gui);
@@ -1681,7 +1683,8 @@ dnm_deletemeasure (DenemoScore * si)
    * the current measure to be the left of what's displayed */
 
   setcurrents (si);
-calcmarkboundaries (si);
+  if(si->markstaffnum)
+    calcmarkboundaries (si);
   si->markstaffnum = 0;
 
 
