@@ -80,6 +80,7 @@ typedef struct midicallback
 	gint event_number; /* smf event number that is currently being processed */
 	gint key;   /* current key sig */
 	gint track; /* the current track that is being read */
+	smf_t *smf;
 	smf_track_t *selected_track;
 }midicallback;
 
@@ -115,29 +116,33 @@ note_from_int(char *buf, int note_number)
 	sprintf(buf, "%s%d", names[note], octave);
 }
 
-gint
-load_midi_into_smf(char *file_name)
+static int
+cmd_load(midicallback *mididata, char *file_name)
 {
-  DenemoGUI *gui = Denemo.gui;
-  if (gui->si->smf != NULL)     
-    smf_delete(gui->si->smf);//I delete it first correct?
+	if (mididata->smf != NULL)
+		smf_delete(mididata->smf);
 
-  gui->si->smf = smf_load(file_name);
-  if (gui->si->smf == NULL) {
-    g_critical("Couldn't load '%s'.", file_name);
+	mididata->selected_track = NULL;
 
-    gui->si->smf = smf_new();
-    if (gui->si->smf == NULL) {
-      g_critical("Cannot initialize smf_t.");
-      return -1;
-    }
-      return -2;
-  }
+	mididata->smf = smf_load(file_name);
+	if (mididata->smf == NULL) {
+		g_critical("Couldn't load '%s'.", file_name);
 
-    g_message("File '%s' loaded.", file_name);
-    g_message("%s.", smf_decode(gui->si->smf));
+		mididata->smf = smf_new();
+		if (mididata->smf == NULL) {
+			g_critical("Cannot initialize smf_t.");
+			return -1;
+		}
 
-    return 0;
+		return -2;
+	}
+
+	g_message("File '%s' loaded.", file_name);
+	g_message("%s.", smf_decode(mididata->smf));
+
+	mididata->selected_track = smf_get_track_by_number(mididata->smf, 1);
+
+	return 0;
 }
 
 #define BUFFER_SIZE 1024
@@ -356,7 +361,6 @@ process_midi(smf_event_t *event, midicallback *mididata)
 static int
 readtrack(midicallback *mididata)
 {
-	DenemoGUI *gui = Denemo.gui;
 	smf_event_t *event;
 
 	if (mididata->selected_track == NULL) {
@@ -364,20 +368,20 @@ readtrack(midicallback *mididata)
 		return -1;
 	}
 
-	smf_rewind(gui->si->smf);
+	smf_rewind(mididata->smf);
        
-        while (mididata->track <= ((smf_t *) gui->si->smf)->number_of_tracks){	
+        while (mididata->track <= mididata->smf->number_of_tracks){	
 	  /* process polyphonic voices */
 	  if (mididata->notestack != NULL)
 		ProcessNoteStack(mididata);
-	  mididata->selected_track = smf_get_track_by_number(gui->si->smf, mididata->track);
+	  mididata->selected_track = smf_get_track_by_number(mididata->smf, mididata->track);
 	  while ((event = smf_track_get_next_event(mididata->selected_track)) != NULL) {
 		/* Do something with the event */
 		process_midi(event, mididata);
 	  }
 	  mididata->track++;
 	}
-	smf_rewind(gui->si->smf);
+	smf_rewind(mididata->smf);
 
 	return 0;
 }
@@ -468,7 +472,7 @@ dotimesig (gint numerator, gint denominator, midicallback *mididata)
   curstaffstruct->timesig.time1 = numerator;
   curstaffstruct->timesig.time2 = denominator;
 
-  mididata->barlength = ((smf_t *) gui->si->smf)->ppqn * 4 * numerator / denominator;
+  mididata->barlength = mididata->smf->ppqn * 4 * numerator / denominator;
 }
 
 /**
@@ -720,9 +724,8 @@ enharmonic (gint input, gint key)
 }
 int
 ConvertNoteType2ticks(midicallback *mididata, notetype *gnotetype){
-  DenemoGUI *gui = Denemo.gui;
   gint ticks;
-  gint PPQN = ((smf_t *) gui->si->smf)->ppqn;
+  gint PPQN = mididata->smf->ppqn;
   gint notetype = (int) gnotetype->notetype;
   gint numofdots = (int) gnotetype->numofdots;
   gint dsq = (4 * PPQN);
@@ -738,9 +741,8 @@ ConvertNoteType2ticks(midicallback *mididata, notetype *gnotetype){
 notetype ConvertLength(gint duration, midicallback *mididata){
  /*convert length to 2 = quarter, 1 = half, 0 = whole etc...... */
 	/* quarter = 384, half = 768, whole = 1536*/
-  DenemoGUI *gui = Denemo.gui;
   notetype gnotetype;
-  gint PPQN = ((smf_t *) gui->si->smf)->ppqn;
+  gint PPQN = mididata->smf->ppqn;
   gint notetype = 0;
   gint numofdots = 0;
   gint tied = 0;
@@ -798,14 +800,13 @@ void MeasureCheck(midicallback *mididata){
 }
 
 void RestCheck(midicallback *mididata){
-  DenemoGUI *gui = Denemo.gui;
   gint rest = 0;
   gint ticks;
-  gint PPQN = ((smf_t *) gui->si->smf)->ppqn;
+  gint PPQN = mididata->smf->ppqn;
   gint starttime = (int) mididata->currentnote->timeon;
   gint duration = (int) mididata->currentnote->duration;
   gint on_delta_time = (int) mididata->currentnote->on_delta_time;
-  gint dsq = (4 * ((smf_t *) gui->si->smf)->ppqn);
+  gint dsq = (4 * mididata->smf->ppqn);
 
   if (duration == 0)
     return;
@@ -926,6 +927,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   midicallback *mididata = (midicallback *)g_malloc0(sizeof(midicallback));
   mididata->notestack = NULL;
   mididata->selected_track = NULL;
+  mididata->smf = NULL;
   mididata->bartime = 0;
   mididata->lastoff = 0;
   mididata->track = 1;
@@ -935,9 +937,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   deletescore (NULL, gui);
 
   /* load the file */
-  ret = load_midi_into_smf(filename);
-  mididata->selected_track = smf_get_track_by_number(gui->si->smf, 1);
-  //ret = cmd_load(mididata, filename);
+  ret = cmd_load(mididata, filename);
   /* Read Track Data */ 
   readtrack(mididata);
 
