@@ -358,6 +358,16 @@ process_midi(smf_event_t *event, midicallback *mididata)
 	return 0;
 }
 
+int
+process_track(smf_track_t *track, midicallback *mididata) //TODO remove mididata here
+{
+	smf_event_t *event;
+
+  	while (event = smf_track_get_next_event(track)) {
+	  process_midi(event, mididata); 
+	}
+}
+
 static int
 readtrack(midicallback *mididata)
 {
@@ -377,9 +387,11 @@ readtrack(midicallback *mididata)
 	  mididata->selected_track = smf_get_track_by_number(mididata->smf, mididata->track);
 	  while ((event = smf_track_get_next_event(mididata->selected_track)) != NULL) {
 		/* Do something with the event */
-		process_midi(event, mididata);
+		process_track(mididata->selected_track, mididata);
 	  }
 	  mididata->track++;
+	  if (mididata->track+1 <= mididata->smf->number_of_tracks)
+	    AddStaff(mididata);
 	}
 	smf_rewind(mididata->smf);
 
@@ -766,20 +778,10 @@ notetype ConvertLength(gint duration, midicallback *mididata){
   return gnotetype;
 }
 
-/**
- * check to see if a new staff needs to be added
- */
-void StaffCheck(midicallback *mididata){
-  DenemoGUI *gui = Denemo.gui;	
-  gint track = (int) mididata->currentnote->tracknum;
-  gint currentstaffnum = gui->si->currentstaffnum;
-
-  if (track > currentstaffnum) /*if not first track add track */
-    {
-     call_out_to_guile("(d-AddAfter)");
-     mididata->lastoff = 0;
-     mididata->bartime = 0;
-    }
+void AddStaff(midicallback *mididata){
+  call_out_to_guile("(d-AddAfter)");
+  mididata->lastoff = 0;
+  mididata->bartime = 0;
 }
 
 /** 
@@ -909,8 +911,6 @@ ProcessNoteStack(midicallback *mididata){
 void
 process_list(midicallback *mididata)
 {
-  /* check to see if we need to add a new staff */
-  StaffCheck(mididata);
   /* check to see if we need to add a measure */
   MeasureCheck(mididata);  	
   /*check for rests*/
