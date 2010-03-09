@@ -850,17 +850,20 @@ void score_status(DenemoGUI *gui, gboolean change) {
 void write_status(DenemoGUI *gui) {
   gint minutes = 0;
   gdouble seconds = 0.0;
-
+  gdouble early=0.0, late=0.0;
   gchar *selection;
   if(gui->si==NULL)
     return;
   if(gui->si->currentobject && gui->si->currentobject->data ) {
     DenemoObject *curObj = gui->si->currentobject->data;
-    if((gui->si->smfsync == gui->si->changecount) && curObj->midi_events) {
-      smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
-      gdouble time = event->time_seconds;
-      minutes = time/60.0;
-      seconds = time - 60*minutes;
+    if((gui->si->smfsync == gui->si->changecount)) {
+      if(curObj->midi_events) {
+	smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
+	gdouble time = event->time_seconds;
+	minutes = time/60.0;
+	seconds = time - 60*minutes;
+      }
+      early = curObj->earliest_time, late = curObj->latest_time;
     }
 
     switch(curObj->type) {
@@ -967,7 +970,7 @@ void write_status(DenemoGUI *gui) {
 
   status = "Movement";
   gint index = g_list_index(gui->movements, gui->si);
-  status = g_strdup_printf("%s %d: %s: %d min %.2f sec", status, index+1, selection, minutes, seconds);
+  status = g_strdup_printf("%s %d: %s: %d min %.2f sec %.2f %.2f", status, index+1, selection, minutes, seconds, early, late);
 
   g_free(selection);
   gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);

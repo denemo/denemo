@@ -163,6 +163,8 @@ typedef struct
   gint starttick; /**< When the object occurs */ 
   gint starttickofnextnote; /**< When the next object occurs */
   GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
+  gdouble earliest_time;/**< cached value of earliest time in midi_events, if no midi_events it holds time of preceding/following midi event   */
+  gdouble latest_time;/**< cached value of latest time in midi_events, if no midi_events it holds time of preceding/following midi event */
   /**< Allots extra space for accidentals or reverse-aligned notes if
    * the stem is down */
   gint space_before; /**< Used to specify how much space is needed before the object in display */
@@ -660,6 +662,7 @@ typedef struct DenemoScore
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */
+  gdouble playhead; /**< MIDI time in seconds of playhead, ie point when last MIDI event was processed for output */
   gdouble start_player;/**< system time when MIDI player started */
   gdouble master_volume;/**< the volume (velocity) used is this times the nominal vol */
   gdouble master_tempo;/**< the tempo used is this times the nominal tempo */

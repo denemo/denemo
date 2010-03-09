@@ -128,6 +128,8 @@ struct infotopass
   gint startposition;//x coordinate where to start playing
   gint endposition;//x coordinate where to end playing
   gint playposition;//x coordinate of currently played music
+  gdouble leftmosttime;//MIDI time of left most object on last system line displayed
+  gdouble rightmosttime;//MIDI time of last object  displayed
 };
 
 /* count the number of syllables up to staff->leftmeasurenum */
@@ -221,7 +223,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   gint extra;
   if(mudelaitem == Denemo.gui->si->playingnow)
     itp->playposition = x + mudelaitem->x;
-  
+
   if(mudelaitem == itp->startobj)
     itp->startposition = x + mudelaitem->x +  mudelaitem->minpixelsalloted;
   if(mudelaitem == itp->endobj)
@@ -469,6 +471,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   //  itp->line_end = itp->markx2 > (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
 
 
+  itp->rightmosttime = mudelaitem->latest_time;
 
   //g_print("returning with %d\n", itp->highy);
   /* And give a return value and we're done */
@@ -588,7 +591,8 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
       //	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
       //  else
 	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
-    extra_ticks = draw_object (cr, curobj, x, y, gui, itp);    
+    extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
+    //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   }
   /* Paint the exclamation point, if necessary */
   cairo_save(cr);
@@ -718,7 +722,6 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   cairo_save(cr);
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
-
   itp->curmeasure =
     g_list_nth (thestaff->measures, itp->measurenum - 1);
   // g_print("measurenum %d\nx=%d\n", itp->measurenum, x);
@@ -729,6 +732,24 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   // g_print("Width is %d\n", itp->mwidthiterator->data);
 
   //itp->gc = gc;
+
+
+
+  {
+  //compute itp->leftmosttime here - the time at the start of this system
+  
+    objnode *curobj = (objnode *) itp->curmeasure->data;
+    if(curobj) {
+    DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
+    if(mudelaitem)
+      itp->leftmosttime = mudelaitem->earliest_time;
+    else
+      itp->leftmosttime = 1000000.0;
+    }
+    //g_print("Drawing staff %d leftmost time %f, measurenum %d\n",itp->staffnum, itp->leftmosttime, itp->measurenum);
+  }
+
+
   itp->line_end = FALSE;
   while ( (!itp->line_end)  //       itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (thestaff->measures))
@@ -857,7 +878,6 @@ static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, 
   itp->endposition = -1;
 }
 
-
 /**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
@@ -873,7 +893,6 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
-
   /* Initialize some fields in itp */
 
 
@@ -1008,14 +1027,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
 
     // This block prints out continuations of the staff just printed
-    // we are going to have to store an x-count for each continuation so that mousing.c will know
-    // the correct value. LEFT_MARGIN only works for all same value notes...
     {
     int yy;
     yy = y + line_height;
     itp.left++;
     itp.right++;
-
 
     while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
       if (itp.staffnum==si->top_staff)
@@ -1023,14 +1039,50 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
-      draw_playback_markers(cr, &itp, yy, line_height);
-
-      // g_print("Drawn successively staffnum %d, at %d %s. Aloc %d,%d yy now %d line height %d\n", itp.staffnum,  yy, itp.line_end?" another line":"End", gui->scorearea->allocation.width, gui->scorearea->allocation.height, yy, line_height);
-     
+      draw_playback_markers(cr, &itp, yy, line_height);   
       yy += line_height;
       itp.left++;
       itp.right++;
+
+    } //end while printing out all the systems for this staff
+
+    // g_print("playhead %f left time %f\nheight %d\n", si->playhead, itp.leftmosttime, yy);
+    
+    si->rightmost_time = itp.rightmosttime;
+ 
+#if 1
+    if(Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
+
+      //put the next line of music at the top with a break marker
+   
+   
+      itp.left = &gui->lefts[0];
+      itp.right = &gui->rights[0];
+      
+      {
+	//clear the previously drawn version FIXME? do not draw in first place, will that be faster?
+	cairo_save(cr);
+	cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
+
+	cairo_rectangle (cr, 0, y /*- (si->staffspace / 4)*/ - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace / 2));
+
+
+
+	cairo_fill(cr);
+	cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );//Strong Blue Line to break pages
+	cairo_rectangle (cr, 0, line_height-10, gui->scorearea->allocation.width/Denemo.gui->si->zoom, 10);
+	cairo_fill(cr);
+	cairo_restore(cr);
+      }
+      itp.line_end = FALSE;//to force print of timesig
+      if(itp.measurenum > (si->rightmeasurenum+1))
+	itp.measurenum = si->rightmeasurenum+1;
+      if(draw_staff (cr, curstaff, y, gui, &itp))
+	repeat = TRUE;     
+      //draw_break_marker();
     }
+#endif
+
     }//end of block printing continuations
     *itp.left=0;//To signal end of valid systems
 
@@ -1046,9 +1098,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     curstaff = curstaff->next;
   }// for all the staffs
 
-
-  if(itp.last_midi)
-    si->rightmost_time = get_midi_off_time(itp.last_midi);
+  //g_print("Right most time %f\n", si->rightmost_time);
+  //  if(itp.last_midi)
+  //  si->rightmost_time = get_midi_off_time(itp.last_midi);
 
   return repeat;
 

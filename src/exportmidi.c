@@ -1336,6 +1336,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	      if(curobj->midi_events)
 		g_list_free(curobj->midi_events);//data belongs to libsmf
 	      curobj->midi_events = NULL;
+	      curobj->earliest_time = ticks_read/(double)MIDI_RESOLUTION;//smf_get_length_seconds(smf);
+
+
 	/*******************************************
 	 *	huge switch:
 	 * 	here we handle every kind of object
@@ -1464,6 +1467,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 #endif
 
+		  if (!chordval.notes) {
+		    //MUST GIVE OFF TIME FOR RESTS HERE
+		    curobj->latest_time = curobj->earliest_time + duration/(double)MIDI_RESOLUTION;
+		    //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
+		  }
 
 		  if (chordval.notes)
 		    {
@@ -1574,18 +1582,25 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      //g_print("event on %f\n", event->time_seconds);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
+			      curobj->earliest_time = event->time_seconds;
+			      curobj->latest_time = curobj->earliest_time + duration/(double)MIDI_RESOLUTION;
+
+
 #if DEBUG
 			      g_print("'%d len %d'", event->event_number, event->midi_buffer_length);
 			      //printf ("volume = %i\n", (mute_volume ? 0:mix));
 #endif
 			    }
 			  else if (slur_kill_p (note_status, n))
-			    {// FIXME what is this 12820??????
+			    {
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 0);
 			      //g_print("{%d}", event->event_number);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
+			      
+			      curobj->latest_time = event->time_seconds;
+			      curobj->earliest_time = curobj->latest_time - duration/(double)MIDI_RESOLUTION;
 			      // g_print("event off lur kill %f\n", event->time_seconds);
 			    }
 			}
@@ -1633,6 +1648,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
+			      curobj->latest_time = event->time_seconds;
+			      curobj->earliest_time = curobj->latest_time - duration/(double)MIDI_RESOLUTION;
 			      //print("event off %f\n", event->time_seconds);
 			    }
 			}
@@ -1681,6 +1698,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  smf_track_add_event_delta_pulses(track, event, 0);
 		  event->user_pointer = curobj;
 		  curobj->midi_events = g_list_append(curobj->midi_events, event);
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//= smf_get_length_seconds(smf);
 		  break;
 
 		case TUPOPEN:
@@ -1710,7 +1728,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      break;
 		    }
 		  tuplet++;
-
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
 		  break;
 		case TUPCLOSE:
 
@@ -1736,7 +1754,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		    case 0:
 		      break;
 		    }
-
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
 		  break;
 
 		case DYNAMIC:
@@ -1748,6 +1766,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  cur_volume =
 		    string_to_vol (((dynamic *) curobj->object)->type->str,
 				   cur_volume);
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//the last event
 		  break;
 
 		case KEYSIG:
@@ -1759,6 +1778,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  smf_track_add_event_delta_pulses(track, event, 0);
 		  event->user_pointer = curobj;
 		  curobj->midi_events = g_list_append(curobj->midi_events, event);
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;//= smf_get_length_seconds(smf);
 		  break;
 
 		case CLEF:
@@ -1805,6 +1825,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			break;
 		      }
 		  }
+		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;// can be the last event
 		  break;
 		default:
 #if DEBUG
@@ -1812,7 +1833,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 #endif
 		  break;
 		}
-	    }
+	      
+	      //g_print("Object Starts at %f Finishes %f\n", curobj->earliest_time, curobj->latest_time);
+	    } // end of objects
 
       /*******************
        * Do some checking
