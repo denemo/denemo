@@ -244,7 +244,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
   } 
   // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
-     center_viewport();
+    page_viewport();
   gdouble thetime = get_time() - si->start_player;
   pause_time = thetime;
   //g_print("thetime %f\n", thetime);
@@ -255,6 +255,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
   if (thetime > event->time_seconds){
      event = smf_get_next_event(si->smf);
      si->playingnow = event->user_pointer;
+     si->playhead = event->time_seconds;//the time of the playhead used in draw.c
      DP = event->track->user_pointer;
      //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
      if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
