@@ -87,20 +87,7 @@ typedef struct harmonic
 	gint enshift;
 }harmonic;
 
-static struct harmonic enharmonic(gint input, gint key);
-static int readtrack();
-void AddStaff();
-void dotimesig(gint numerator, gint denominator);
-void dokeysig(gint key, gint isminor);
-void dotempo(gint tempo);
-void dotrackname(gchar *name);
-void doinstrname(gchar *name);
-void donoteon(gint pitchon, gint velocity, gint timeon);
-void donoteoff();
-struct notetype ConvertLength(gint duration);
 void process_list();
-static gint Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time);
-
 
 mididata mdata;	
 	
@@ -116,6 +103,171 @@ note_from_int(char *buf, int note_number)
 	sprintf(buf, "%s%d", names[note], octave);
 }
 
+static harmonic
+enharmonic (gint input, gint key)
+{
+  harmonic local;
+  local.pitch = (input / 12) - 5;
+  local.enshift = input % 12;
+  
+  switch (local.enshift)
+    {
+    case 0:			//c
+      {
+	local.pitch = (key > 6) ? (-1 + local.pitch * 7) : (local.pitch * 7);
+	local.enshift = (key > 6) ? (1) : (0);
+	break;
+      }
+    case 1:			//c#
+      {
+	local.pitch = (key < -3) ? (1 + local.pitch * 7) : (local.pitch * 7);
+	local.enshift = (key < -3) ? (-1) : (1);
+	break;
+      }
+    case 2:			//D
+      {
+	local.pitch = 1 + local.pitch * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 3:			//D#
+      {
+	local.pitch =
+	  (key < -1) ? (2 + local.pitch * 7) : (1 + local.pitch * 7);
+	local.enshift = (key < -1) ? (-1) : (1);
+	break;
+      }
+    case 4:			//E
+      {
+	local.pitch =
+	  (key < -6) ? (3 + local.pitch * 7) : (2 + local.pitch * 7);
+	local.enshift = (key < -6) ? (-1) : (0);
+	break;
+      }
+    case 5:			//F
+      {
+	local.pitch =
+	  (key > 5) ? (2 + local.pitch * 7) : (3 + local.pitch * 7);
+	local.enshift = (key > 5) ? (1) : (0);
+	break;
+      }
+    case 6:			//F#
+      {
+	local.pitch =
+	  (key < -4) ? (4 + local.pitch * 7) : (3 + local.pitch * 7);
+	local.enshift = (key < -4) ? (-1) : (1);
+	break;
+      }
+    case 7:			//G
+      {
+	local.pitch = 4 + local.pitch * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 8:			//G#
+      {
+	local.pitch =
+	  (key < -2) ? (5 + local.pitch * 7) : (4 + local.pitch * 7);
+	local.enshift = (key < -2) ? (-1) : (1);
+	break;
+      }
+    case 9:			//A
+      {
+	local.pitch = 5 + local.pitch * 7;
+	local.enshift = 0;
+	break;
+      }
+    case 10:			//A#
+      {
+	local.pitch =
+	  (key < 0) ? (6 + local.pitch * 7) : (5 + local.pitch * 7);
+	local.enshift = (key < 0) ? (-1) : (1);
+	break;
+      }
+    case 11:			//B
+      {
+	local.pitch =
+	  (key < -5) ? (7 + local.pitch * 7) : (6 + local.pitch * 7);
+	local.enshift = (key < -5) ? (-1) : (0);
+	break;
+      }
+    };
+  return local;
+}
+
+/**
+ * Insert time signature into current staff 
+ *
+ */
+void
+dotimesig (gint numerator, gint denominator)
+{
+  DenemoGUI *gui = Denemo.gui;
+  /*only does initial TS */
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+
+  curstaffstruct->timesig.time1 = numerator;
+  curstaffstruct->timesig.time2 = denominator;
+
+  mdata.barlength = mdata.smf->ppqn * 4 * numerator / denominator;
+}
+
+/**
+ * Insert key signature into the current staff
+ *
+ */
+void
+dokeysig (gint isminor, gint key)
+{
+  DenemoGUI *gui = Denemo.gui;
+  if (key > 7)
+    key = key - 256;		/*get flat key num, see keysigdialog.cpp */
+#ifdef DEBUG
+  g_print("\nkey = %d\n", key); 
+#endif
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  curstaffstruct->keysig.number = key;
+  curstaffstruct->keysig.isminor = isminor;
+  dnm_setinitialkeysig (curstaffstruct, key, isminor);
+}
+
+void
+dotempo (gint tempo)
+{ 
+  DenemoGUI *gui = Denemo.gui;
+  gui->si->tempo = (gint) (6.0e7 / (double) tempo);
+}
+
+void
+dotrackname (gchar *name)
+{
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+  
+  curstaffstruct->denemo_name->str = g_strdup(name);
+  //set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
+}
+
+void
+doinstrname (gchar* name)
+{
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+
+  curstaffstruct->midi_instrument->str = g_strdup(name);
+}
+
+static nstack 
+stack (gint pitch, gint timeon, gint delta_time, gint duration, gint tracknum)
+{
+  nstack mystack;
+  mystack.pitch = pitch;
+  mystack.timeon = timeon;
+  mystack.on_delta_time = delta_time;
+  mystack.duration = duration;
+  mystack.tracknum = tracknum;
+  return mystack;
+}
 static int
 cmd_load(char *file_name)
 {
@@ -282,6 +434,64 @@ error:
 	free(buf);
 }
 
+/** 
+ * extremely simple quantizer that rounds 
+ * to the closest granule size
+ */
+static int
+round2granule(int tick)
+{
+  gint smallestgrain = 48;
+  gdouble div = ((gdouble) tick / (gdouble) smallestgrain);
+  return smallestgrain * (gint) round(div);
+}
+
+static gint //TODO remove this and replace this with [128] buffer will be much faster
+Get_Smf_Note_OFF (gint pitch, gint timeon){
+  gint event_number = mdata.event_number;
+  smf_event_t *event;
+  gint starttime;
+  gint duration;
+
+  while ((event = smf_track_get_event_by_number(mdata.selected_track, event_number)) != NULL){
+    if (   (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
+		    && (event->midi_buffer[1] == (int) pitch))
+        || (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
+		    && (event->midi_buffer[1] == (int) pitch)
+		    && (0 == event->midi_buffer[2]))
+       ){
+	duration = round2granule(event->time_pulses - timeon); 
+	starttime = round2granule(timeon); //simple quantize timeon
+	mdata.currentnote = stack(pitch, starttime, mdata.delta_time, duration, mdata.track);
+	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, timeon, (gint) duration);
+    	break;
+    }
+    event_number++;
+  }
+  return 0;
+}
+
+
+/**
+ * Process note on command 
+ */
+void
+donoteon (gint pitchon, gint velocity, gint timeon)
+{
+  /* find corresponding noteoff */
+  Get_Smf_Note_OFF(pitchon, timeon);
+}
+
+/**
+ * Process note off command
+ */
+void
+donoteoff ()
+{
+  process_list();
+}
+
+
 void 
 decode_midi_event(const smf_event_t *event)
 {
@@ -368,31 +578,37 @@ process_track(smf_track_t *track) //TODO remove mdata here
 	}
 }
 
+void AddStaff(){
+  call_out_to_guile("(d-AddAfter)");
+  mdata.lastoff = 0;
+  mdata.bartime = 0;
+}
+
+
 static int
 readtrack()
 {
-	smf_event_t *event;
+  smf_event_t *event;
 
-	if (mdata.selected_track == NULL) {
-		g_critical("No track");
-		return -1;
-	}
+  if (mdata.selected_track == NULL) {
+    g_critical("No track");
+    return -1;
+  }
 
-	smf_rewind(mdata.smf);
+  smf_rewind(mdata.smf);
        
-        while (mdata.track <= mdata.smf->number_of_tracks){	
-	  mdata.selected_track = smf_get_track_by_number(mdata.smf, mdata.track);
-	  while ((event = smf_track_get_next_event(mdata.selected_track)) != NULL) {
-		/* Do something with the event */
-		process_track(mdata.selected_track);
-	  }
-	  mdata.track++;
-	  if (mdata.track+1 <= mdata.smf->number_of_tracks)
-	    AddStaff();
-	}
-	smf_rewind(mdata.smf);
-
-	return 0;
+  while (mdata.track <= mdata.smf->number_of_tracks){	
+    mdata.selected_track = smf_get_track_by_number(mdata.smf, mdata.track);
+    while ((event = smf_track_get_next_event(mdata.selected_track)) != NULL) {
+      /* Do something with the event */
+      process_track(mdata.selected_track);
+    }
+    mdata.track++;
+    if (mdata.track+1 <= mdata.smf->number_of_tracks)
+      AddStaff();
+  }
+  //smf_rewind(mdata.smf);
+  return 0;
 }
 
 static void
@@ -469,234 +685,7 @@ insert_rest_into_score(notetype length)
     call_out_to_guile("(d-ToggleTie)");
 
 }
-/**
- * Insert time signature into current staff 
- *
- */
-void
-dotimesig (gint numerator, gint denominator)
-{
-  DenemoGUI *gui = Denemo.gui;
-  /*only does initial TS */
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
 
-  curstaffstruct->timesig.time1 = numerator;
-  curstaffstruct->timesig.time2 = denominator;
-
-  mdata.barlength = mdata.smf->ppqn * 4 * numerator / denominator;
-}
-
-/**
- * Insert key signature into the current staff
- *
- */
-void
-dokeysig (gint isminor, gint key)
-{
-  DenemoGUI *gui = Denemo.gui;
-  if (key > 7)
-    key = key - 256;		/*get flat key num, see keysigdialog.cpp */
-#ifdef DEBUG
-  g_print("\nkey = %d\n", key); 
-#endif
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  curstaffstruct->keysig.number = key;
-  curstaffstruct->keysig.isminor = isminor;
-  dnm_setinitialkeysig (curstaffstruct, key, isminor);
-}
-
-void
-dotempo (gint tempo)
-{ 
-  DenemoGUI *gui = Denemo.gui;
-  gui->si->tempo = (gint) (6.0e7 / (double) tempo);
-}
-
-void
-dotrackname (gchar *name)
-{
-  DenemoGUI *gui = Denemo.gui;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  
-  curstaffstruct->denemo_name->str = g_strdup(name);
-  //set_lily_name (curstaffstruct->denemo_name, curstaffstruct->lily_name);
-}
-
-void
-doinstrname (gchar* name)
-{
-  DenemoGUI *gui = Denemo.gui;
-  DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-
-  curstaffstruct->midi_instrument->str = g_strdup(name);
-}
-
-static nstack 
-stack (gint pitch, gint timeon, gint delta_time, gint duration, gint tracknum)
-{
-  nstack mystack;
-  mystack.pitch = pitch;
-  mystack.timeon = timeon;
-  mystack.on_delta_time = delta_time;
-  mystack.duration = duration;
-  mystack.tracknum = tracknum;
-  return mystack;
-}
-
-/**
- * Process note on command 
- */
-void
-donoteon (gint pitchon, gint velocity, gint timeon)
-{
-  gint delta_time = mdata.delta_time; /*is this needed????*/
-  
-  /* add a note to the stack */
-  Get_Smf_Note_OFF(pitchon, timeon, delta_time);
-#ifdef DEBUG
-  g_print ("\npitchon = %d timeon = %d event = %d\n", (gint) pitchon, (gint) timeon, (gint) mdata.event_number);
-#endif
-}
-
-/**
- * Process note off command
- */
-void
-donoteoff ()
-{
-   /*process the note found*/
-   process_list(mdata);	
-}
-
-/** 
- * extremely simple quantizer that rounds 
- * to the closest granule size
- */
-static int
-round2granule(int tick)
-{
-  gint smallestgrain = 48;
-  gdouble div = ((gdouble) tick / (gdouble) smallestgrain);
-  return smallestgrain * (gint) round(div);
-}
-
-static gint
-Get_Smf_Note_OFF (gint pitch, gint timeon, gint delta_time){
-  gint event_number = mdata.event_number;
-  smf_event_t *event;
-  gint starttime;
-  gint duration;
-  gint tracknum = mdata.track;
-  gboolean chordtone = FALSE;
-
-  while ((event = smf_track_get_event_by_number(mdata.selected_track, event_number)) != NULL){
-    if (   (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
-		    && (event->midi_buffer[1] == (int) pitch))
-        || (((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) 
-		    && (event->midi_buffer[1] == (int) pitch)
-		    && (0 == event->midi_buffer[2]))
-       ){
-	duration = round2granule(event->time_pulses - timeon); 
-	starttime = round2granule(timeon); //simple quantize timeon
-	g_print("\nFound corresponding note off to pitch %d timeon = %d duration = %d\n", (gint) pitch, timeon, (gint) duration);
-    	break;
-    }
-    event_number++;
-  }
-  return 0;
-}
-
-static harmonic
-enharmonic (gint input, gint key)
-{
-  harmonic local;
-  local.pitch = (input / 12) - 5;
-  local.enshift = input % 12;
-  
-  switch (local.enshift)
-    {
-    case 0:			//c
-      {
-	local.pitch = (key > 6) ? (-1 + local.pitch * 7) : (local.pitch * 7);
-	local.enshift = (key > 6) ? (1) : (0);
-	break;
-      }
-    case 1:			//c#
-      {
-	local.pitch = (key < -3) ? (1 + local.pitch * 7) : (local.pitch * 7);
-	local.enshift = (key < -3) ? (-1) : (1);
-	break;
-      }
-    case 2:			//D
-      {
-	local.pitch = 1 + local.pitch * 7;
-	local.enshift = 0;
-	break;
-      }
-    case 3:			//D#
-      {
-	local.pitch =
-	  (key < -1) ? (2 + local.pitch * 7) : (1 + local.pitch * 7);
-	local.enshift = (key < -1) ? (-1) : (1);
-	break;
-      }
-    case 4:			//E
-      {
-	local.pitch =
-	  (key < -6) ? (3 + local.pitch * 7) : (2 + local.pitch * 7);
-	local.enshift = (key < -6) ? (-1) : (0);
-	break;
-      }
-    case 5:			//F
-      {
-	local.pitch =
-	  (key > 5) ? (2 + local.pitch * 7) : (3 + local.pitch * 7);
-	local.enshift = (key > 5) ? (1) : (0);
-	break;
-      }
-    case 6:			//F#
-      {
-	local.pitch =
-	  (key < -4) ? (4 + local.pitch * 7) : (3 + local.pitch * 7);
-	local.enshift = (key < -4) ? (-1) : (1);
-	break;
-      }
-    case 7:			//G
-      {
-	local.pitch = 4 + local.pitch * 7;
-	local.enshift = 0;
-	break;
-      }
-    case 8:			//G#
-      {
-	local.pitch =
-	  (key < -2) ? (5 + local.pitch * 7) : (4 + local.pitch * 7);
-	local.enshift = (key < -2) ? (-1) : (1);
-	break;
-      }
-    case 9:			//A
-      {
-	local.pitch = 5 + local.pitch * 7;
-	local.enshift = 0;
-	break;
-      }
-    case 10:			//A#
-      {
-	local.pitch =
-	  (key < 0) ? (6 + local.pitch * 7) : (5 + local.pitch * 7);
-	local.enshift = (key < 0) ? (-1) : (1);
-	break;
-      }
-    case 11:			//B
-      {
-	local.pitch =
-	  (key < -5) ? (7 + local.pitch * 7) : (6 + local.pitch * 7);
-	local.enshift = (key < -5) ? (-1) : (0);
-	break;
-      }
-    };
-  return local;
-}
 int
 ConvertNoteType2ticks(notetype *gnotetype){
   gint ticks;
@@ -739,12 +728,6 @@ notetype ConvertLength(gint duration){
   gnotetype.numofdots = numofdots;
   gnotetype.tied = leftover;
   return gnotetype;
-}
-
-void AddStaff(){
-  call_out_to_guile("(d-AddAfter)");
-  mdata.lastoff = 0;
-  mdata.bartime = 0;
 }
 
 /** 
@@ -884,7 +867,7 @@ importMidi (gchar *filename, DenemoGUI *gui)
   deletescore (NULL, gui);
 
   /* load the file */
-  ret = cmd_load(mdata, filename);
+  ret = cmd_load(filename);
   /* Read Track Data */ 
   readtrack(mdata);
 
