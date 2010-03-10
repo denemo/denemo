@@ -23,7 +23,7 @@ update_hscrollbar (DenemoGUI * gui)
 {
   GtkAdjustment *adj = GTK_ADJUSTMENT (gui->hadjustment);
 
-  adj->upper = g_list_length (gui->si->measurewidths) + 0.1/*1.0*/;
+  adj->upper = g_list_length (gui->si->measurewidths) + 1.0;
   adj->page_size = adj->page_increment
     = gui->si->rightmeasurenum - gui->si->leftmeasurenum + 1.0;
   adj->value = gui->si->leftmeasurenum;
@@ -196,8 +196,7 @@ void center_viewport(void) {
   if(adj->value + amount < adj->upper) {    
       gtk_adjustment_set_value(adj, adj->value + amount);
   } else
-    gtk_adjustment_set_value(adj, adj->upper);
-  return TRUE;
+    gtk_adjustment_set_value(adj, adj->upper-1);
 }
 
 void page_viewport(void) {
@@ -206,8 +205,7 @@ void page_viewport(void) {
   if(adj->value + amount < adj->upper) {    
       gtk_adjustment_set_value(adj, adj->value + amount);
   } else
-    gtk_adjustment_set_value(adj, adj->upper);
-  return TRUE;
+    gtk_adjustment_set_value(adj, adj->upper -1);
 }
 
 
