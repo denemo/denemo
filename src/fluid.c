@@ -201,7 +201,7 @@ void fluid_playpitch(int key, int duration, int channel, int volume)
   /* Play a note */
   if (synth){
     //g_print("Emitting key %d\n", key);
-    fluid_synth_noteon(synth, channel, key, volume?volume:80);
+    fluid_synth_noteon(synth, channel, key, (volume?volume:127)*Denemo.gui->si->master_volume);
     g_timeout_add(duration, noteoff_callback, (gpointer)( (channel<<8) + key)); 
   }
 }
