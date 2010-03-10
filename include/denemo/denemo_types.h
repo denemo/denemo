@@ -516,6 +516,12 @@ typedef enum InputSource {
   INPUTMIDI
 } InputSource;
 
+typedef enum MidiDestination {
+  MIDITOSCORE = 0,
+  MIDITHRU = (1<<1),
+  MIDIRECORD = (1<<2),
+} MidiDestination;
+
 
 /**
  * Structure to contain the list of Instruments for the score
@@ -796,6 +802,7 @@ typedef struct DenemoGUI
 
   GtkWidget* articulation_palette; /**< Articulation palette window */
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
+  MidiDestination midi_destination;/**< Where MIDI in should go */
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
 

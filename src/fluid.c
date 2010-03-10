@@ -209,12 +209,6 @@ void fluid_playpitch(int key, int duration, int channel, int volume)
 void fluid_output_midi_event(unsigned char *buffer)
 {
   if (synth){
-#if 0
-    if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON)
-      fluid_synth_noteon(synth, buffer[0] & 0x0f, buffer[1], 80);
-    if ((buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_OFF) 
-      fluid_synth_noteoff(synth, buffer[0] & 0x0f, buffer[1]);
-#else
 
     gint chan = (buffer[0] & 0x0f);
    
@@ -254,12 +248,6 @@ void fluid_output_midi_event(unsigned char *buffer)
          fluid_synth_system_reset(synth);
 	 break;
       }
-
-
-
-
-
-#endif
   }
 }
 
@@ -497,6 +485,14 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 
 static fluid_midi_driver_t* midi_in;
 
+static void handle_midi_event(gchar *buf) {
+  if(Denemo.gui->midi_destination & MIDITHRU)
+    fluid_output_midi_event(buf);
+  else
+    process_midi_event(buf);
+}
+
+
 static void handle_midi_in(void* data, fluid_midi_event_t* event)
 {
   gchar buf[3];
@@ -521,7 +517,7 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
 	buf[2]=128;
       }
       //g_print("key is %d\n", key);
-      process_midi_event(buf);
+      handle_midi_event(buf);
     }
     break;
 
@@ -534,7 +530,7 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
       int key = fluid_midi_event_get_key(event);
       buf[0] = type;
       buf[1] = key;
-      process_midi_event(buf);
+      handle_midi_event(buf);
     }
     break;
   default:

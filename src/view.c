@@ -3689,6 +3689,17 @@ void playback_control_panic (GtkWidget *button) {
   playback_panic();
 }
 
+void playback_midi_thru (GtkWidget *button) {
+  Denemo.gui->midi_destination ^= MIDITHRU;
+  g_print("Midi thru %s\n", Denemo.gui->midi_destination & MIDITHRU?"On":"Off");
+}
+
+void playback_midi_record (GtkWidget *button) {
+  Denemo.gui->midi_destination ^= MIDIRECORD;
+  g_print("Midi Record %s\n", Denemo.gui->midi_destination & MIDIRECORD?"On":"Off");
+}
+
+
 /**
  * Rhythm callback select rhythm
  * inserts the rhythm if pitchless
@@ -6422,6 +6433,12 @@ get_data_dir (),
     GtkWidget *enharmonic_control = get_enharmonic_frame();
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
+
+    
+    create_playbutton(inner1, "MIDI Thru", playback_midi_thru, NULL);
+    create_playbutton(inner1, "Record", playback_midi_record, NULL);
+
+
     gtk_widget_show_all (Denemo.playback_control);
   }
 
