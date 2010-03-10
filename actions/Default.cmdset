@@ -42,6 +42,7 @@
       </row>
       <row>
         <action>CursorRight</action>
+        <hidden>true</hidden>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
         <bind>Shift+Right</bind>
@@ -1322,13 +1323,11 @@ Notes entered will follow this pattern</tooltip>
         <action>Undo</action>
         <label>Undo</label>
         <tooltip>Undo</tooltip>
-        <bind>Control+z</bind>
       </row>
       <row>
         <action>Redo</action>
         <label>Redo</label>
         <tooltip>Redo</tooltip>
-        <bind>Control+Z</bind>
       </row>
       <row>
         <action>Copy</action>
@@ -1341,7 +1340,6 @@ Notes entered will follow this pattern</tooltip>
         <label>Cut</label>
         <tooltip>Cut</tooltip>
         <bind>Control+x</bind>
-        <bind>PrsL-Control</bind>
       </row>
       <row>
         <action>PasteClipboard</action>
@@ -2156,7 +2154,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
         <bind>Control+v</bind>
-        <bind>RlsL-Control</bind>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
