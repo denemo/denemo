@@ -585,12 +585,9 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 
     
     if(itp->measurenum >= si->rightmeasurenum+1)
-      cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
+	cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
     else 
-      //  if(itp->mark)
-      //	cairo_set_source_rgb( cr, 0, 0, 1.0 );//blue
-      //  else
-	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
+      cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   }
@@ -761,7 +758,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
 	if(itp->curmeasure->next) {
 	  itp->line_end=TRUE;
-	  //continue; continue is not good here, you cannot see things that Denemo thinks you can on the right.
+	  // if(Denemo.gui->si->playingnow)
+	  //	continue;//don't show grayed out measures while playing.
 	}
       
       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
@@ -1032,6 +1030,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     yy = y + line_height;
     itp.left++;
     itp.right++;
+    if(Denemo.gui->si->playingnow && itp.measurenum >= si->rightmeasurenum)
+      itp.line_end = FALSE;//don't print whole lines of grayed out music during playback
 
     while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
       if (itp.staffnum==si->top_staff)
@@ -1064,7 +1064,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_save(cr);
 	cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
 
-	cairo_rectangle (cr, 0, y /*- (si->staffspace / 4)*/ - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace / 2));
+	cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
 
 
 
