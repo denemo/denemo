@@ -403,5 +403,6 @@ void scroll_left(void) {
 }
 
 void scroll_right (void) {
-  h_scroll(Denemo.gui->si->leftmeasurenum+1.0, Denemo.gui);
+  if(Denemo.gui->si->leftmeasurenum < g_list_length (Denemo.gui->si->measurewidths))
+    h_scroll(Denemo.gui->si->leftmeasurenum+1.0, Denemo.gui);
 }
