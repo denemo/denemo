@@ -1021,8 +1021,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
 
     if (itp.staffnum==si->top_staff)
-      print_system_separator (cr, line_height*system_num++);
-
+      print_system_separator (cr, line_height*system_num);
+    system_num++;
 
     // This block prints out continuations of the staff just printed
     {
@@ -1035,8 +1035,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
       if (itp.staffnum==si->top_staff)
-	print_system_separator (cr, line_height*system_num++);
-
+	print_system_separator (cr, line_height*system_num);
+      system_num++;
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
       draw_playback_markers(cr, &itp, yy, line_height);   
@@ -1046,12 +1046,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     } //end while printing out all the systems for this staff
 
-    // g_print("playhead %f left time %f\nheight %d\n", si->playhead, itp.leftmosttime, yy);
+    //g_print("playhead %f left time %f\nheight %d system_num %d\n", si->playhead, itp.leftmosttime, yy, system_num);
     
     si->rightmost_time = itp.rightmosttime;
  
 #if 1
-    if(Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
+    if( (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
 
       //put the next line of music at the top with a break marker
    
