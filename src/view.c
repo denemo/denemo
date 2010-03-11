@@ -994,6 +994,16 @@ SCM scheme_get_notes (SCM optional) {
  } 
 }
 
+
+SCM scheme_get_accidentals(SCM optional) {
+  //return
+  //curstaff->keysig.accs
+
+  //do we need a find_prevailing_key like the
+  // find_prevailing_clef(), or just return the keysigs of the currentobjec if it is type KEYSIG and #f in not???
+}
+
+
 SCM scheme_cursor_to_note (SCM lilyname) {
  DenemoGUI *gui = Denemo.gui;
  gint mid_c_offset;
@@ -5352,6 +5362,11 @@ static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) 
 
 
 static void dummy(void) {
+  call_out_to_guile("(d-Insert2)");
+  call_out_to_guile("(d-Insert2)");
+  call_out_to_guile("(d-Insert2)");
+  call_out_to_guile("(d-Insert2)");
+  call_out_to_guile("(d-Insert2)");
   return;
 }
 
