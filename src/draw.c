@@ -198,22 +198,23 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   DenemoScore *si = gui->si;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
+
+  //this is the selection being given a blue background I guess
   //FIXME too much save and restore for trifling reasons...
-  if(itp->mark) {
+  if(Denemo.gui->si->playingnow==NULL && itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
     cairo_fill(cr);
     cairo_restore(cr);
   }
-
-
-
-
-
-
-
-
+  if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time) && (Denemo.gui->si->playhead < mudelaitem->latest_time)) {
+    cairo_save(cr);
+    cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
+    cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
+    cairo_fill(cr);
+    cairo_restore(cr);
+  }
 
 
 
@@ -863,9 +864,9 @@ static void draw_playback_marker(cairo_t *cr, gint color, gint pos, gint yy, gin
 
 static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, gint line_height) {
 
-  if(itp->playposition>-1)
-    draw_playback_marker(cr, BLACK, itp->playposition, yy, line_height);
-  itp->playposition = -1;
+  //  if(itp->playposition>-1)
+  //   draw_playback_marker(cr, BLACK, itp->playposition, yy, line_height);
+  //  itp->playposition = -1;
   
   if(itp->startposition>0)
     draw_playback_marker(cr, GREEN, itp->startposition, yy, line_height);
