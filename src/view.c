@@ -3716,6 +3716,10 @@ void playback_control_panic (GtkWidget *button) {
 
 void playback_midi_thru (GtkWidget *button) {
   Denemo.gui->midi_destination ^= MIDITHRU;
+  if(Denemo.gui->midi_destination & MIDITHRU)
+    gtk_button_set_label (GTK_BUTTON(button), _("MIDI Thru is ON"));
+  else
+    gtk_button_set_label (GTK_BUTTON(button), _("MIDI Thru is OFF"));
   g_print("Midi thru %s\n", Denemo.gui->midi_destination & MIDITHRU?"On":"Off");
 }
 
@@ -6392,9 +6396,9 @@ get_data_dir (),
   {
     Denemo.playback_control = gtk_vbox_new(FALSE, 1);
     gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
-    GtkFrame *frame= gtk_frame_new( "Midi Playback Control");
+    GtkFrame *frame= (GtkFrame *)gtk_frame_new(_("Playback Control"));
     gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
-    gtk_container_add (GTK_CONTAINER (Denemo.playback_control), frame);
+    gtk_container_add (GTK_CONTAINER (Denemo.playback_control), GTK_WIDGET(frame));
 
     GtkWidget *inner1 = gtk_vbox_new(FALSE, 1);
     gtk_container_add (GTK_CONTAINER (frame), inner1);
@@ -6429,7 +6433,7 @@ get_data_dir (),
     label = gtk_label_new (_("Tempo:"));
     GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
     gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
-    master_tempo_adj = gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
+    master_tempo_adj = (GtkAdjustment*)gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
     GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
     gtk_scale_set_digits (hscale, 0);
     GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
@@ -6464,11 +6468,12 @@ get_data_dir (),
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
 
-    
-    create_playbutton(inner1, "MIDI Thru", playback_midi_thru, NULL);
-    create_playbutton(inner1, "Record", playback_midi_record, NULL);
-
-
+    {GtkWidget *hbox;
+      hbox = gtk_hbox_new(FALSE, 1);
+      gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
+      create_playbutton(hbox, "MIDI Thru is OFF", playback_midi_thru, NULL);
+      create_playbutton(hbox, "Record", playback_midi_record, NULL);
+    }
     gtk_widget_show_all (Denemo.playback_control);
   }
 
