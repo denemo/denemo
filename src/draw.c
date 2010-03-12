@@ -1121,7 +1121,11 @@ DenemoGUI *gui = Denemo.gui;
    g_warning("Cannot draw!\n");
    return TRUE;
  }
-
+ if(widget==NULL) {
+   draw_score (NULL, gui);
+   return TRUE;
+ }
+  
  do{
    /* Clear the backing pixmap */
    if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&

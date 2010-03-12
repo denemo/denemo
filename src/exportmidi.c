@@ -1204,9 +1204,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
 
       /* The midi instrument */
-      event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
-      smf_track_add_event_delta_pulses(track, event, 0);
-
+      if(curstaffstruct->midi_instrument && curstaffstruct->midi_instrument->len) {
+	event = midi_meta_text (4, curstaffstruct->midi_instrument->str);
+	smf_track_add_event_delta_pulses(track, event, 0);
+      }
       midi_channel = curstaffstruct->midi_channel;
       prognum = curstaffstruct->midi_prognum;
 
