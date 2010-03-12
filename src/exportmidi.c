@@ -1910,7 +1910,11 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
    ********/
   if(thefilename) {
     int dummy2;
+    if(Denemo.gui->si->recorded_midi_track)
+      smf_add_track(smf, Denemo.gui->si->recorded_midi_track);
     dummy2 = smf_save(smf, (const char*)thefilename);
+    if(Denemo.gui->si->recorded_midi_track)
+      smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
   }
   /* we are done */
 

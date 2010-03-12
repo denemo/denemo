@@ -200,6 +200,15 @@ typedef struct enharmonic
 }enharmonic;
 
 
+//Add the passed midi to a recording in Denemo.gui->si
+void record_midi(gchar *buf, gdouble time) {
+  smf_event_t *event = smf_event_new_from_pointer(buf, 3);
+  if(event && smf_event_is_valid(event)) {
+    if(Denemo.gui->si->recorded_midi_track)
+      smf_track_add_event_seconds(Denemo.gui->si->recorded_midi_track, event, time);
+  }
+}
+
 /* look for a new note played into midi input, if
    present insert it into the score */
 gint midientry(void) {

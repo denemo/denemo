@@ -294,6 +294,8 @@ static gboolean finish_play(gchar *callback) {
   if(callback && *callback)
     call_out_to_guile (callback);
   fluid_all_notes_off();
+  if(Denemo.gui->si->recorded_midi_track)
+    smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
   return FALSE;
 }
 
@@ -406,6 +408,8 @@ void fluid_midi_play(gchar *callback)
     g_critical("Loading SMF failed.");
     return;
   }
+  if(gui->si->recorded_midi_track)
+    smf_add_track(gui->si->smf, gui->si->recorded_midi_track);
   static GString *callback_string;
 
   if(callback_string==NULL)
@@ -486,6 +490,8 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 static fluid_midi_driver_t* midi_in;
 
 static void handle_midi_event(gchar *buf) {
+  if(Denemo.gui->midi_destination & MIDIRECORD)
+    record_midi(buf,  get_time() - Denemo.gui->si->start_player);
   if(Denemo.gui->midi_destination & MIDITHRU)
     fluid_output_midi_event(buf);
   else

@@ -3725,6 +3725,14 @@ void playback_midi_thru (GtkWidget *button) {
 
 void playback_midi_record (GtkWidget *button) {
   Denemo.gui->midi_destination ^= MIDIRECORD;
+  if(Denemo.gui->midi_destination & MIDIRECORD) {
+    if(Denemo.gui->si->recorded_midi_track)
+      smf_track_delete(Denemo.gui->si->recorded_midi_track);
+    Denemo.gui->si->recorded_midi_track = smf_track_new();
+    gtk_button_set_label (GTK_BUTTON(button), _("RECORDING..."));
+  } else {
+    gtk_button_set_label (GTK_BUTTON(button), _("RECORD"));
+  }
   g_print("Midi Record %s\n", Denemo.gui->midi_destination & MIDIRECORD?"On":"Off");
 }
 
