@@ -939,7 +939,7 @@ static gchar *directive_get_midi_buffer(DenemoDirective *directive, gint *pnumby
   if(directive->midibytes) {
     gchar *bytes;
     bytes = substitute_midi_values(directive->midibytes->str, channel, volume);
-    g_print("Got %s as midi bytes\n", bytes);
+    //g_print("Got %s as midi bytes\n", bytes);
     char *next;
     char val;
     gint i, numbytes;
@@ -1336,7 +1336,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	      if(curobj->midi_events)
 		g_list_free(curobj->midi_events);//data belongs to libsmf
 	      curobj->midi_events = NULL;
-	      curobj->earliest_time = ticks_read/(double)MIDI_RESOLUTION;//smf_get_length_seconds(smf);
+	      curobj->earliest_time = ticks_read*60.0/(cur_tempo*MIDI_RESOLUTION);//smf_get_length_seconds(smf);
 
 
 	/*******************************************
@@ -1464,12 +1464,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  if (debug)
 		    fprintf (stderr, "duration is %s\n",
 			     fmt_ticks (duration));
-
+#else
+		  width = 0;
 #endif
 
 		  if (!chordval.notes) {
 		    //MUST GIVE OFF TIME FOR RESTS HERE
-		    curobj->latest_time = curobj->earliest_time + duration/(double)MIDI_RESOLUTION;
+		    curobj->latest_time = curobj->earliest_time + duration*60.0/(cur_tempo*MIDI_RESOLUTION);
 		    //g_print("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
 		  }
 
@@ -1583,7 +1584,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      curobj->earliest_time = event->time_seconds;
-			      curobj->latest_time = curobj->earliest_time + duration/(double)MIDI_RESOLUTION;
+			      curobj->latest_time = curobj->earliest_time + duration*60.0/(cur_tempo*MIDI_RESOLUTION);
 
 
 #if DEBUG
@@ -1600,7 +1601,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      
 			      curobj->latest_time = event->time_seconds;
-			      curobj->earliest_time = curobj->latest_time - duration/(double)MIDI_RESOLUTION;
+			      curobj->earliest_time = curobj->latest_time - duration*60.0/(cur_tempo*MIDI_RESOLUTION);
 			      // g_print("event off lur kill %f\n", event->time_seconds);
 			    }
 			}
@@ -1645,12 +1646,15 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 				}
 			      /* write note off */
 			      event = smf_event_new_from_bytes ( MIDI_NOTE_OFF | midi_channel, n, 60);
+			      //g_print("smf length before %d %f mididelta %d",smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
 			      smf_track_add_event_delta_pulses(track, event, mididelta);
+			      //g_print("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
 			      event->user_pointer = curobj;
 			      curobj->midi_events = g_list_append(curobj->midi_events, event);
 			      curobj->latest_time = event->time_seconds;
-			      curobj->earliest_time = curobj->latest_time - duration/(double)MIDI_RESOLUTION;
-			      //print("event off %f\n", event->time_seconds);
+			      curobj->earliest_time = curobj->latest_time - duration*60.0/(cur_tempo*MIDI_RESOLUTION);
+			      //g_print("event off %f mididelta %d duration %d for curobj->type = %d\n", event->time_seconds, mididelta, duration, curobj->type);
+
 			    }
 			}
 		      /* end of second chord output loop */
@@ -1834,7 +1838,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  break;
 		}
 	      
-	      //g_print("Object Starts at %f Finishes %f\n", curobj->earliest_time, curobj->latest_time);
+	      //g_print("Object Starts %x at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
 	    } // end of objects
 
       /*******************

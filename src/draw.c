@@ -1046,7 +1046,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     } //end while printing out all the systems for this staff
 
-    //g_print("playhead %f left time %f\nheight %d system_num %d\n", si->playhead, itp.leftmosttime, yy, system_num);
+    // g_print("playhead %f left time %f\nheight %d system_num %d\n", si->playhead, itp.leftmosttime, yy, system_num);
     
     si->rightmost_time = itp.rightmosttime;
  
@@ -1078,7 +1078,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       if(itp.measurenum > (si->rightmeasurenum+1))
 	itp.measurenum = si->rightmeasurenum+1;
       if(draw_staff (cr, curstaff, y, gui, &itp))
-	repeat = TRUE;     
+	repeat = TRUE;  
+      // draw_playback_markers(cr, &itp, y, line_height);   
       //draw_break_marker();
     }
 #endif
