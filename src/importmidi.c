@@ -5,7 +5,6 @@
  *
  * 	TODO
  *
- *  free smf data
  *  multi voice support
  *  lyrics 
  *  triplet support
@@ -278,6 +277,7 @@ insert_rest_into_score(notetype length)
        insert_rest_6key (gui);
        break;
      default:
+       insert_rest_2key (gui);
        break;
   }
   displayhelper (gui);
@@ -312,12 +312,6 @@ insert_note_into_score(gint pitch, notetype length)
   gint i;
 
   /* 0-8 accepted bellow */
-#if 0
-  gchar *proc = g_strdup_printf("(d-Insert%d)", length.notetype);
-  call_out_to_guile(proc);
-  g_free(proc);
-#endif
-#if 1
   DenemoScriptParam param;
   switch(length.notetype) {
   case 0:
@@ -351,7 +345,6 @@ insert_note_into_score(gint pitch, notetype length)
   }
  
   g_debug("DenemoScriptParam = %d",param.status);
-#endif 
   /* get correct note name */
   gint key = curstaffstruct->keysig.number;
   harmonic enote = enharmonic (pitch, (gint) key);
@@ -377,7 +370,7 @@ AddNote(gint pitch, gint duration)
 }
 
 static smf_t*
-cmd_load(char *file_name)
+cmd_load(gchar *file_name)
 {
   smf_t *smf;
 	
@@ -390,6 +383,7 @@ cmd_load(char *file_name)
   g_message("File '%s' loaded.", file_name);
   g_message("%s.", smf_decode(smf));
 
+  g_free(file_name);
   return smf;
 }
 
@@ -698,6 +692,5 @@ importMidi (gchar *filename, DenemoGUI *gui)
     return -1;
   /* Delete data...Does it free it? */
   smf_delete(smf);
-
   return ret;
 }
