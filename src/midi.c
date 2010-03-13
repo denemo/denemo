@@ -204,8 +204,12 @@ typedef struct enharmonic
 void record_midi(gchar *buf, gdouble time) {
   smf_event_t *event = smf_event_new_from_pointer(buf, 3);
   if(event && smf_event_is_valid(event)) {
-    if(Denemo.gui->si->recorded_midi_track)
+    if(Denemo.gui->si->recorded_midi_track && ((smf_track_t *)Denemo.gui->si->recorded_midi_track)->smf ) {
       smf_track_add_event_seconds(Denemo.gui->si->recorded_midi_track, event, time);
+    } else {
+      smf_event_delete(event);
+      gdk_beep();
+    }
   }
 }
 
