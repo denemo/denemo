@@ -343,7 +343,6 @@ insert_note_into_score(gint pitch, notetype length)
       g_warning("Cannot handle size %d",length.notetype);
       break;
   }
-#if 0 
   g_debug("DenemoScriptParam = %d",param.status);
   /* get correct note name */
   gint key = curstaffstruct->keysig.number;
@@ -354,7 +353,6 @@ insert_note_into_score(gint pitch, notetype length)
   gchar *accidental = g_strdup_printf("(d-ChangeChordNotes \"%s\")", name);
   call_out_to_guile(accidental);
   g_free(accidental);
-#endif
   /* Add dots */
   for (i=0;i<length.numofdots;i++)
     add_dot_key (gui);
