@@ -356,6 +356,8 @@ insert_note_into_score(gint pitch, notetype length)
   /* Add dots */
   for (i=0;i<length.numofdots;i++)
     add_dot_key (gui);
+
+  displayhelper(gui);
 }
 
 static void
