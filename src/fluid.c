@@ -583,5 +583,7 @@ void fluid_midi_play(void){}
 void fluid_midi_stop(void){}
 void fluid_midi_panic(void){}
 int fluid_kill_timer(void){}
+int fluid_stop_midi_in(void){}
+int fluid_start_midi_in(void){}
 #endif 
 
