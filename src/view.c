@@ -3760,6 +3760,10 @@ void playback_midi_convert (GtkWidget *button) {
     exportmidi (file, Denemo.gui->si, 0, 0);
     newview(NULL, NULL);
     scorearea_configure_event(Denemo.gui->scorearea, NULL);
+    //extern gint smallestgrain; 
+    //smallestgrain = atoi(string_dialog_entry(Denemo.gui, "Quantization Control", "Give granularity", "48"));
+    // smallestgrain = (smallestgrain>0)?smallestgrain:48;
+    // need to check it is a multiple of what?????
     importMidi(file, Denemo.gui);
   }
 }
