@@ -255,6 +255,10 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     {
     case CHORD:
       { chord *thechord = ((chord *) mudelaitem->object);
+
+
+
+#if 0
        if (thechord->is_figure && thechord->figure)
       //if (thechord->is_figure)
 	//draw_figure (gui->pixmap, itp->gc,
@@ -268,6 +272,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
   
       else
 	{
+
+#endif
 	  draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
@@ -277,6 +283,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
 	    itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
 
+#if 0
 
 
 
@@ -293,6 +300,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		      GPOINTER_TO_INT (itp->mwidthiterator->data),
 		      itp->curaccs, itp->mark);
 	}
+#endif
+
+
+
+
+
 
        if (si->currentstaffnum==itp->staffnum 
 	   && itp->verse && thechord->notes   
