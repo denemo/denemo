@@ -256,54 +256,21 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case CHORD:
       { chord *thechord = ((chord *) mudelaitem->object);
 
-
-
-#if 0
-       if (thechord->is_figure && thechord->figure)
-      //if (thechord->is_figure)
-	//draw_figure (gui->pixmap, itp->gc,
-	//	     gtk_style_get_font (itp->widget->style),
-	//	     x + mudelaitem->x, y, mudelaitem);
-  
-	draw_figure ( cr,
-		     x + mudelaitem->x,
-		     y + (thechord->lowesty / 2),
-		     mudelaitem);
-  
-      else
-	{
-
-#endif
-	  draw_chord ( cr, curobj, x + mudelaitem->x, y,
-		      GPOINTER_TO_INT (itp->mwidthiterator->data),
-		      itp->curaccs, itp->mark);
-	  if((thechord->highesty) < itp->highy)
- 	    itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
-
-	  if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
-	    itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
-
-#if 0
-
-
-
-	}
-       if (thechord->is_fakechord)
-	draw_fakechord (cr,
-		     x + mudelaitem->x, 
-		     y - 45,
-		     //y - (thechord->highesty ), 
-		     mudelaitem);
-       else
-	{
-	  draw_chord ( cr, curobj, x + mudelaitem->x, y,
-		      GPOINTER_TO_INT (itp->mwidthiterator->data),
-		      itp->curaccs, itp->mark);
-	}
-#endif
-
-
-
+	draw_chord ( cr, curobj, x + mudelaitem->x, y,
+		     GPOINTER_TO_INT (itp->mwidthiterator->data),
+		     itp->curaccs, itp->mark);
+	if((thechord->highesty) < itp->highy)
+	  itp->highy  = thechord->highesty/*, g_print("setting highy %d\n", itp->highy)*/;
+	
+	if((thechord->lowesty) > itp->lowy+STAFF_HEIGHT)
+	  itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
+	
+	if (thechord->is_fakechord)
+	  draw_fakechord (cr,
+			  x + mudelaitem->x, 
+			  y - 45,
+			  mudelaitem);
+	
 
 
 
