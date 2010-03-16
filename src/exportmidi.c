@@ -1839,7 +1839,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  break;
 		}
 	      
-	      //g_print("Object Starts %x at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
+	      //g_print("Object type  0x%x Starts at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
 	    } // end of objects
 
       /*******************
