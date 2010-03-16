@@ -3769,6 +3769,12 @@ void playback_midi_convert (GtkWidget *button) {
 }
 
 
+void playback_set_tempo (GtkWidget *button) {
+  Denemo.gui->si->tempo *= Denemo.gui->si->master_tempo;
+  Denemo.gui->si->master_tempo = 1.0;
+  score_status (Denemo.gui, TRUE); 
+}
+
 /**
  * Rhythm callback select rhythm
  * inserts the rhythm if pitchless
@@ -6469,34 +6475,7 @@ get_data_dir (),
  
     create_playbutton(inner,"Loop", playback_control_loop, NULL);
     
-    /* Tempo */
-    label = gtk_label_new (_("Tempo:"));
-    GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-    gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
-    master_tempo_adj = (GtkAdjustment*)gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
-    GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
-    gtk_scale_set_digits (hscale, 0);
-    GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-
-    g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
-    gtk_box_pack_start (GTK_BOX (inner), hscale, TRUE, TRUE, 0);
-
-    /* Volume */
-    label = gtk_label_new (_("Volume"));
-    GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-    gtk_box_pack_start (GTK_BOX (inner), label, FALSE, TRUE, 0);
-
-    master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
-
-    hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
-    gtk_scale_set_digits (hscale, 2);
-    GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
-    gtk_box_pack_start (GTK_BOX (inner), hscale, TRUE, TRUE, 0);
-
-
-    create_playbutton(inner, "Set", playback_set_range, NULL);
-    create_playbutton(inner, "Playback Range", playback_control_range, NULL);
+   
     create_playbutton(inner,
 #ifdef _HAVE_JACK_
 "Panic"
@@ -6504,6 +6483,43 @@ get_data_dir (),
 "Reset"
 #endif
 , playback_control_panic, NULL);
+
+
+      create_playbutton(inner, "Set From Selection", playback_set_range, NULL);
+      create_playbutton(inner, "Playback Range", playback_control_range, NULL);
+
+    {GtkWidget *hbox;
+      hbox = gtk_hbox_new(FALSE, 1);
+      gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
+      /* Tempo */
+      label = gtk_label_new (_("Tempo:"));
+      GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+      master_tempo_adj = (GtkAdjustment*)gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
+      GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
+      gtk_scale_set_digits (hscale, 0);
+      GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
+
+      g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
+      gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
+
+      create_playbutton(hbox, "Set Tempo", playback_set_tempo, NULL);
+
+      /* Volume */
+      label = gtk_label_new (_("Volume"));
+      GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
+      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+
+      master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
+
+      hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
+      gtk_scale_set_digits (hscale, 2);
+      GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
+      g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
+      gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
+
+    }
+
     GtkWidget *enharmonic_control = get_enharmonic_frame();
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
