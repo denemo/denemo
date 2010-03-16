@@ -1125,12 +1125,12 @@ the cursor position is the end point</tooltip>
         <action>SetGrace</action>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
-        <bind>slash</bind>
       </row>
       <row>
         <action>ToggleGrace</action>
         <label>Grace Note Off/On</label>
         <tooltip>No Tooltip yet</tooltip>
+        <bind>slash</bind>
       </row>
       <row>
         <action>ForceCaution</action>
