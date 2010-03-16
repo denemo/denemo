@@ -271,9 +271,6 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 			  y - 45,
 			  mudelaitem);
 	
-
-
-
        if (si->currentstaffnum==itp->staffnum 
 	   && itp->verse && thechord->notes   
 	   && !itp->slur_stack
@@ -570,6 +567,10 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     else 
       cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
+    {DenemoObject *obj = (DenemoObject *) curobj->data;
+      if(Denemo.gui->si->smf)
+	;//g_print("Latest %f earliest %f Obj type %d\n", obj->latest_time, obj->earliest_time, obj->type);
+    }
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   }
   /* Paint the exclamation point, if necessary */
@@ -1027,7 +1028,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     } //end while printing out all the systems for this staff
 
-    // g_print("playhead %f left time %f\nheight %d system_num %d\n", si->playhead, itp.leftmosttime, yy, system_num);
+    //g_print("staff num %d measure %d playhead %f left time %f\nheight %d system_num %d\n", itp.staffnum,itp.measurenum, si->playhead, itp.leftmosttime, yy, system_num);
     
     si->rightmost_time = itp.rightmosttime;
  
