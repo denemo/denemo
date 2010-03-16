@@ -288,9 +288,6 @@ process_midi_input(jack_nframes_t nframes)
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
-    if (((event.buffer[0] & SYS_EXCLUSIVE_MESSAGE1) == NOTE_ON) &&
-            (event.buffer[2] == 0))
-      event.buffer[0] = NOTE_OFF;
     process_midi_event(event.buffer);
   }
 }
