@@ -256,6 +256,17 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 <note>
 You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
 </note>
+<note>
+The "Score Titles, Controls etc" checkbox is undocumented, unfortunately.
+What it does is to show/hide a button bar where Titles and such can be displayed.
+The menu items you need are under Score->Titles etc
+and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
+</note>
+<note>
+The Playback Controls are undocumented, unfortunately.
+See the links from the features list "To-do List" on the website.
+</note>
+
 </para>
  </sect2>
  <sect2>
