@@ -356,31 +356,27 @@ check_for_duplicate(gint device_number, gchar *new_name)
 static void 
 cell_edited (GtkCellRendererText* cellrenderertext,
 	gchar* path_string, gchar* new_name,
-	GtkTreeModel* treemodel)
+	gpointer data)
 {
-  g_debug("\n***path_string = %s***\n", path_string);
-#if 0
-  gint device_number;
-  gint port_number;
-  GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+  GtkWidget *view = GTK_WIDGET(data);
+  gint device_number = get_parent_device_number(view);
+  gint port_number = get_port_number(view);
+  GtkTreeStore *store;
+  GtkTreeModel *model;
   GtkTreeIter iter;
-  
-  gtk_tree_model_get_iter (model, &iter, path);
-  g_debug("\n***path_string = %s, new text == %s\n", path_string, new_name);
+  GtkTreePath *path; 
  
-     gchar **device_path_str = g_strsplit(path_string,":",2);
-     device_number = atoi(device_path_str[0]);
-     if (device_path_str[1]){
-	port_number = atoi(device_path_str[1]);
-	if(!rename_jack_midi_port(device_number, port_number, new_name))
-	  gtk_tree_store_set (treestore, &iter, 0, new_name, -1);
-     } else {
-	g_debug("can't change device name yet");
-     }
-     g_strfreev(device_path_str);
-     //FIXME memory leak - use g_strrstr() instead g_free(device_path_str);
-  gtk_tree_path_free (path);
-#endif
+  model = gtk_tree_view_get_model(GTK_TREE_VIEW(view));
+  path = gtk_tree_path_new_from_string (path_string);
+
+  gtk_tree_model_get_iter (model, &iter, path);
+  store = GTK_TREE_STORE(gtk_tree_view_get_model
+		         (GTK_TREE_VIEW(view)));
+  
+  if(!rename_jack_midi_port(device_number, port_number, new_name))
+    gtk_tree_store_set (store, &iter, 0, new_name, -1);
+  else 
+    g_debug("can't change device %d port %d name\n", device_number, port_number);
 }
 
 GtkWidget *
@@ -412,7 +408,7 @@ DeviceManager ()
 
   renderer = gtk_cell_renderer_text_new();
   g_object_set(renderer, "editable", TRUE, NULL);
-  g_signal_connect(renderer, "edited", (GCallback)cell_edited, GTK_TREE_MODEL(treestore)); 
+  g_signal_connect(renderer, "edited", (GCallback)cell_edited, GTK_TREE_VIEW(view)); 
 
   /* pack cell renderer into tree view column */
   gtk_tree_view_column_pack_start(col, renderer, TRUE);

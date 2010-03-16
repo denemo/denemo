@@ -479,24 +479,21 @@ remove_all_jack_midi_clients(){
 #endif
 }
 
+#define MDC MD[client_number].ports[port_number]
 int
 rename_jack_midi_port(int client_number, int port_number, char *port_name){
-#if 0
   int err = -1;
 
-  if (midi_device[client_number].output_ports[port_number] != NULL) //TODO is there a better way to check?
-    err = jack_port_set_name (midi_device[client_number].output_ports[port_number], port_name);
-  if (!err){
-    MD[client_number].port_names = g_list_nth(MD[client_number].port_names, port_number);
-    MD[client_number].port_names = g_string_new(port_name);
-    g_debug("Renamed JACK device %d output_ports[%d] to %s\n",client_number, port_number, port_name);
-  } else	  
+  if (MD[client_number].ports[port_number].port_name) 
+    err = jack_port_set_name (MDC.output_port, port_name);
+  if (!err)
+    MD[client_number].ports[port_number].port_name = g_string_new(port_name);
+  else	  
     g_critical("Could not rename JACK device %d output_ports[%d] to %s",client_number, port_number, port_name);
   
   return err;
-#endif
-  return -1;	
 }
+#undef MDC
 
 void 
 stop_jack(void){
