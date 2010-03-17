@@ -3755,9 +3755,18 @@ void playback_midi_delete (GtkWidget *button) {
 }
 
 void playback_midi_convert (GtkWidget *button) {
-#if 1
-  if(Denemo.gui->si->recorded_midi_track)
-    process_track(Denemo.gui->si->recorded_midi_track);
+#if 0
+  if(Denemo.gui->si->recorded_midi_track){
+    DenemoGUI *gui = Denemo.gui;
+    DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+    gint tracknumber = g_list_index(gui->si->thescore, gui->si->currentstaff);
+    g_print("Tracknumber %d\n", tracknumber);
+    if(gui->si->smf) {
+      //add_events_from_track needs to be written. It should add all the events in the one track to the other
+      add_events_from_track(smf_get_track_by_number(gui->si->smf, tracknumber), Denemo.gui->si->recorded_midi_track);
+      process_track(smf_get_track_by_number(gui->si->smf, tracknumber));
+    }
+  }
 #else
   if(Denemo.gui->si->recorded_midi_track) {
     gchar *file = g_build_filename(locatedotdenemo (), "denemomidi.mid", NULL);
