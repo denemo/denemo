@@ -3755,6 +3755,10 @@ void playback_midi_delete (GtkWidget *button) {
 }
 
 void playback_midi_convert (GtkWidget *button) {
+#if 1
+  if(Denemo.gui->si->recorded_midi_track)
+    process_track(Denemo.gui->si->recorded_midi_track);
+#else
   if(Denemo.gui->si->recorded_midi_track) {
     gchar *file = g_build_filename(locatedotdenemo (), "denemomidi.mid", NULL);
     exportmidi (file, Denemo.gui->si, 0, 0);
@@ -3766,6 +3770,8 @@ void playback_midi_convert (GtkWidget *button) {
     // need to check it is a multiple of what?????
     importMidi(file, Denemo.gui);
   }
+#endif
+  g_print("Finished midi convert\n");
 }
 
 
