@@ -162,11 +162,11 @@ enharmonic (gint input, gint key)
   return local;
 }
 
-static notetype 
-ConvertLength(gint duration){
+static void
+ConvertLength(gint duration, notetype *pnotetype){
  /*convert length to 2 = quarter, 1 = half, 0 = whole etc...... */
 	/* quarter = 384, half = 768, whole = 1536*/
-  notetype gnotetype;
+  
   gint notetype = 0;
   gint numofdots = 0;
   gint leftover = 0;
@@ -177,15 +177,14 @@ ConvertLength(gint duration){
 	  notetype++;
 	  
   leftover = duration - (dsq >> notetype); 
-
-  while (leftover >= (dsq >> (notetype +1))){
-  	leftover -= (dsq >> (notetype +1));
-	numofdots++;
-  }
+  if((dsq >> notetype+1)>0)
+    while (leftover >= (dsq >> (notetype +1))){
+      leftover -= (dsq >> (notetype +1));
+      numofdots++;
+    }
   
-  gnotetype.notetype = notetype;
-  gnotetype.numofdots = numofdots;
-  return gnotetype;
+  pnotetype->notetype = notetype;
+  pnotetype->numofdots = numofdots;
 }
 
 /**
@@ -297,7 +296,8 @@ AddRest(gint duration)
   rest = duration;
 
   while (rest){
-    notetype length = ConvertLength(rest);
+    notetype length;
+    ConvertLength(rest, &length);
     insert_rest_into_score(length);
     ticks = ConvertNoteType2ticks(&length);
     rest -= ticks;
@@ -365,7 +365,8 @@ AddNote(gint pitch, gint duration)
 {
   if (duration == 0)
     return;
-  notetype length = ConvertLength(duration);
+  notetype length;
+  ConvertLength(duration, &length);
   insert_note_into_score(pitch, length);
 }
 
@@ -632,9 +633,21 @@ gint
 process_track(smf_track_t *track) 
 {
   smf_event_t *event;
-
+  smf_t *smf = track->smf;//tracks can't be processed except inside an smf_t so create one if needed
+  gboolean delete_smf_after = FALSE;
+  if(smf==NULL){
+    delete_smf_after = TRUE;
+    smf = smf_new();
+    PPQN = smf->ppqn;
+    smf_add_track(smf, track);
+    smf_rewind(smf);
+  }
   while (event = smf_track_get_next_event(track)) 
-    process_midi(event); 
+    process_midi(event);
+  if(delete_smf_after) {
+    smf_track_remove_from_smf(track);
+    smf_delete(smf);
+  }
 }
 
 void AddStaff(){
