@@ -388,7 +388,7 @@ gint stop_midi_input(void) {
     if(channel)
       g_io_channel_shutdown(channel, FALSE, &error);
     if(error)
-      g_warning(error->message);
+      g_warning("%s", error->message);
     else
       channel = NULL; 
   }

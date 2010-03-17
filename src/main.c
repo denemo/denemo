@@ -559,7 +559,7 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 	  g_print("opt %c has %s\n", opts, argv[optind]);
       if (opts == 'h')
         {
-          g_print (helptext);
+          g_print ("%s", helptext);
           exit (0);
         }
       else if (opts == 's')
@@ -583,13 +583,13 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
         {
           g_print (_("\nGNU Denemo version "));
           g_print (VERSION ".\n\n");
-          g_print (copytext);
+          g_print ("%s", copytext);
           exit (0);
         }
     }
 
   g_print (_("\nGNU Denemo, a gtk+ frontend for GNU Lilypond\n"));
-  g_print (copytext);
+  g_print ("%s", copytext);
 
   g_free (helptext);
 

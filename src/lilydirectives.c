@@ -2152,7 +2152,8 @@ edit_directive(DenemoDirective *directive, gchar *what) {
     return ret;
   }
   GError *error = (GError*)execute_script_file(filename);
-  if(error) g_warning(error->message);
+  if(error) 
+    g_warning("%s", error->message);
   g_free(filename);
   return ret;
 }
