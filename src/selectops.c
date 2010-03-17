@@ -59,7 +59,6 @@ void push_clipboard (void) {
 }
 
 gboolean pop_clipboard(void) {
-
   GList *thecopy = NULL;
   if(clipboards==NULL)
     return FALSE;
@@ -67,6 +66,7 @@ gboolean pop_clipboard(void) {
   clipboards = g_list_remove(clipboards, thecopy);
   clearbuffer();
   copybuffer = thecopy;
+  return TRUE;
 }
 
 

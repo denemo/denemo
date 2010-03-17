@@ -341,15 +341,16 @@ process_callback (GIOChannel *source, GIOCondition condition, gchar * data)
 	buf[2]=128;
       }
       process_midi_event(buf);
-      return TRUE;//means do not remove event source
+      break;
     case MIDI_PGM_CHANGE:
     case MIDI_CHN_PRESSURE:
     case 0xF3:
       g_io_channel_read_chars (source, buf+1, 1, &bytes_read, &error);
-      return TRUE;
+      break;
     default:
-      return TRUE; 
+      break; 
     }
+  return TRUE; 
 }
 
 
@@ -389,9 +390,9 @@ gint stop_midi_input(void) {
     if(error)
       g_warning(error->message);
     else
-      channel = NULL;
-    return 0;
+      channel = NULL; 
   }
+return 0;
 }
 
 
