@@ -14,12 +14,6 @@
 #include "view.h"
 #include "commandfuncs.h"
 
-
-
-
-
-
-
 static GdkEventKey ** divert_key_event;/* Non null if key events are being intercepted by a function
 					* (which is running a gtk_mail_loop() for this reason).
 					* return TRUE if a key press successfully captured
@@ -129,7 +123,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       execute_callback_from_name(the_keymap, command_name);
       gui = Denemo.gui;
       displayhelper (gui);
-      gtk_widget_draw (gui->scorearea, NULL);   
+      //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
       return TRUE;
     } else {
       g_warning("No action %i has no name", command_idx);
