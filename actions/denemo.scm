@@ -843,16 +843,16 @@
     (if (boolean? (d-GetMidiOnTime))
 	(d-RecreateTimebase))
     (if (number? (d-GetMidiOnTime))
-	(d-SetPlaybackInterval (d-GetMidiOnTime) #t)
-	(d-RefreshDisplay))))
+	(begin (d-SetPlaybackInterval (d-GetMidiOnTime) #t)
+	(d-RefreshDisplay)))))
 
 (define (DenemoSetPlaybackEnd)
   (begin
     (if (boolean? (d-GetMidiOffTime))
 	(d-RecreateTimebase))
     (if (number? (d-GetMidiOffTime))
-	(d-SetPlaybackInterval #t (d-GetMidiOffTime))
-	(d-RefreshDisplay))))
+	(begin (d-SetPlaybackInterval #t (d-GetMidiOffTime))
+	(d-RefreshDisplay)))))
 
 (define (DenemoSetPlaybackIntervalToSelection)
   (begin

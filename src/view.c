@@ -3686,6 +3686,10 @@ void playback_control_last (GtkWidget *button) {
   call_out_to_guile("(DenemoLast)");
 }
 
+void playback_control_to_cursor (GtkWidget *button) {
+  call_out_to_guile("(DenemoSetPlaybackStart)");
+}
+
 void playback_control_loop (GtkWidget *button) {
   call_out_to_guile("(DenemoLoop)");
 }
@@ -6484,6 +6488,7 @@ get_data_dir (),
     playbutton = create_playbutton(inner,NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
     create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_GO_BACK);
     create_playbutton(inner,NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
+    create_playbutton(inner,NULL, playback_control_to_cursor, GTK_STOCK_GO_DOWN);
     
 
     //create_playbutton(inner,NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
