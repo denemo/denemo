@@ -479,6 +479,7 @@ gboolean  apply_tones(DenemoScore *si) {
  */
 static void enter_note_in_score (DenemoGUI *gui, notepitch * found, gint octave) {
   //printf("Cursor_y %d and staffletter = %d\n", gui->si->cursor_y, gui->si->staffletter_y);
+  gui->last_source = INPUTAUDIO;
   gui->si->cursor_y = gui->si->staffletter_y = found->spec.step;
   gui->si->cursor_y += 7*octave;
   shiftcursor(gui, found->spec.step);

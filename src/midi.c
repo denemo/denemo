@@ -186,6 +186,7 @@ gint get_midi_note(void) {
  * @enshift enharmonic adjustment -1 is one flat etc.. 
  */
 static void enter_midi_note_in_score (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+  gui->last_source = INPUTMIDI;
   gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
   gui->si->cursor_y += 7*octave; 
   shiftcursor(gui, mid_c_offset);

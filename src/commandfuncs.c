@@ -1136,9 +1136,11 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
 
 
   } else {
-    if(Denemo.gui->input_source==INPUTKEYBOARD) {
+    if(Denemo.gui->last_source==INPUTKEYBOARD) {
       DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
       playnotes (Denemo.prefs.immediateplayback, *(chord *) mudela_obj_new->object,  curstaffstruct->midi_channel);
+    } else {
+      Denemo.gui->last_source = INPUTKEYBOARD;
     }
   }
 }
@@ -1261,12 +1263,14 @@ notechange (DenemoScore * si, gboolean remove)
 	  g_free (curmudelaobj->user_string);
 	  curmudelaobj->user_string = NULL;
 	}
-      if(Denemo.gui->input_source==INPUTKEYBOARD) {
+      if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
 	playnotes (Denemo.prefs.immediateplayback,
 	 *(chord *) curmudelaobj->object, curstaffstruct->midi_channel);
-      }
+      } else {
+      Denemo.gui->last_source = INPUTKEYBOARD;
+    }
     }
   return ret;
 }
@@ -1340,11 +1344,13 @@ incrementenshift (DenemoGUI * gui, gint direction)
 	  g_free (curmudelaobj->user_string);
 	  curmudelaobj->user_string = NULL;
 	}
-      if(Denemo.gui->input_source==INPUTKEYBOARD) {
+      if(Denemo.gui->last_source==INPUTKEYBOARD) {
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 
 	playnotes (Denemo.prefs.immediateplayback,
 		   *(chord *) curmudelaobj->object, curstaffstruct->midi_channel);
+      } else {
+	Denemo.gui->last_source = INPUTKEYBOARD;
       }
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = curmudelaobj;
