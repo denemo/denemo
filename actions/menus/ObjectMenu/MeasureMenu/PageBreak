@@ -9,7 +9,7 @@
         <action>PageBreak</action>
         <scheme>;;;;;;;;PageBreak
 (d-DirectivePut-standalone "PageBreak")
-(d-DirectivePut-standalone-postfix "PageBreak" "\pageBreak")
+(d-DirectivePut-standalone-postfix "PageBreak" "\\pageBreak")
 (d-DirectivePut-standalone-display "PageBreak" "page")
 (d-RefreshDisplay)
 </scheme>
