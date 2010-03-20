@@ -3688,6 +3688,7 @@ void playback_control_last (GtkWidget *button) {
 
 void playback_control_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackStart)");
+  gtk_widget_draw(Denemo.gui->scorearea, NULL);
 }
 
 void playback_control_loop (GtkWidget *button) {
