@@ -268,7 +268,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       thestaffstruct->space_above = 0;
       thestaffstruct->space_below = 0;
       thestaffstruct->nummeasures = 1;
-
+      thestaffstruct->midi_channel = 0;
 #if 0
       si->measurewidths = g_list_append (si->measurewidths,
 					 GINT_TO_POINTER (si->measurewidth));
@@ -281,6 +281,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
       thestaffstruct->nummeasures = g_list_length (firstmeasurenode (si->thescore));
       copy_staff_bits ((DenemoStaff *) si->currentstaff->data,
 		       thestaffstruct);
+      thestaffstruct->midi_channel = (numstaffs<9?numstaffs:numstaffs+1)&0xF;
     }
 
   if (action == NEWVOICE)
