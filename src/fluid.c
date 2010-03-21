@@ -294,8 +294,10 @@ static gboolean finish_play(gchar *callback) {
   if(callback && *callback)
     call_out_to_guile (callback);
   fluid_all_notes_off();
-  if(Denemo.gui->si->recorded_midi_track)
-    smf_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
+  if(Denemo.gui->si->recorded_midi_track) {
+    safely_track_remove_from_smf(Denemo.gui->si->recorded_midi_track);
+    finish_recording();
+  }
   return FALSE;
 }
 
@@ -409,7 +411,7 @@ void fluid_midi_play(gchar *callback)
     return;
   }
   if(gui->si->recorded_midi_track)
-    smf_add_track(gui->si->smf, gui->si->recorded_midi_track);
+    safely_add_track(gui->si->smf, gui->si->recorded_midi_track);
   static GString *callback_string;
 
   if(callback_string==NULL)
@@ -452,7 +454,6 @@ void fluid_midi_play(gchar *callback)
 void
 fluid_midi_stop(void)
 {
-
   if(playing_piece)
     toggle_playbutton();
   Denemo.gui->si->playingnow = NULL;

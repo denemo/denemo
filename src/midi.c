@@ -180,6 +180,15 @@ gint get_midi_note(void) {
   return ret;
 }
 
+void safely_add_track(smf_t *smf, smf_track_t *track) {
+  if(track->smf==NULL)
+    smf_add_track(smf, track);
+}
+
+void safely_track_remove_from_smf(smf_track_t *track) {
+ if(track->smf!=NULL)
+   smf_track_remove_from_smf(track);
+}
 /**
  * enter_midi_note_in_score
  * @mid_c_offset enters the midi note steps above/below mid-c
