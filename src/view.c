@@ -210,6 +210,8 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define RHYTHM_E_STRING "Rhythm"
 #define ToggleToolbar_STRING "ToggleToolbar"
 #define TogglePlaybackToolbar_STRING "TogglePlaybackToolbar"
+#define ToggleMidiInToolbar_STRING "ToggleMidiInToolbar"
+
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
 #define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
 #define ToggleActionMenu_STRING  "ToggleActionMenu"
@@ -421,6 +423,8 @@ toggle_toolbar (GtkAction * action, gpointer param);
 static void
 toggle_playback_controls (GtkAction * action, gpointer param);
 static void
+toggle_midi_in_controls (GtkAction * action, gpointer param);
+static void
 toggle_rhythm_toolbar (GtkAction * action, gpointer param);
 static void
 toggle_entry_toolbar (GtkAction * action, gpointer param);
@@ -439,6 +443,7 @@ toggle_scoretitles (GtkAction *action, gpointer param);
 static SCM scheme_hide_menus(void) {
   toggle_toolbar(NULL, NULL);
   toggle_playback_controls(NULL, NULL);
+  toggle_midi_in_controls(NULL, NULL);
   toggle_rhythm_toolbar(NULL, NULL);
   toggle_entry_toolbar(NULL, NULL);
   toggle_object_menu(NULL, NULL);
@@ -2637,12 +2642,17 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.playback_controls)
     activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
+  if (Denemo.prefs.midi_in_controls)
+    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
 
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
 
   if (!Denemo.prefs.console_pane)
     activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+
+  if (!Denemo.prefs.lyrics_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
 
 
   if (!Denemo.prefs.rhythm_palette)
@@ -2658,6 +2668,9 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.playback_controls)
     toggle_playback_controls(NULL, NULL);
+
+  if (Denemo.prefs.midi_in_controls)
+    toggle_midi_in_controls(NULL, NULL);
 
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
@@ -5753,6 +5766,20 @@ toggle_playback_controls (GtkAction * action, gpointer param) {
       gtk_widget_show (widget);
 }
 /**
+ *  Function to toggle whether playback toolbar is visible 
+ *  
+ * 
+ */
+static void
+toggle_midi_in_controls (GtkAction * action, gpointer param) {
+  GtkWidget *widget;
+  widget = Denemo.midi_in_control;
+  if ((!action) ||GTK_WIDGET_VISIBLE (widget))
+      gtk_widget_hide (widget);
+  else
+      gtk_widget_show (widget);
+}
+/**
  *  Function to toggle whether entry toolbar is visible 
  *  
  * 
@@ -5943,8 +5970,11 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
-  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide a playback controls"),
+  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
    G_CALLBACK (toggle_playback_controls), TRUE}
+  ,
+  {ToggleMidiInToolbar_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
+   G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
@@ -6541,6 +6571,16 @@ get_data_dir (),
 
     }
 
+
+    Denemo.midi_in_control = gtk_vbox_new(FALSE, 1);
+    gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
+    frame= (GtkFrame *)gtk_frame_new(_("Midi In Control"));
+    gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
+    gtk_container_add (GTK_CONTAINER (Denemo.midi_in_control), GTK_WIDGET(frame));
+    inner1 = gtk_vbox_new(FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), inner1);
+    inner = gtk_hbox_new(FALSE, 1);
+    gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
     GtkWidget *enharmonic_control = get_enharmonic_frame();
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
@@ -6553,7 +6593,7 @@ get_data_dir (),
       GtkWidget *delete = create_playbutton(hbox, "Delete", playback_midi_delete, NULL);
       g_object_set_data(G_OBJECT(record), "delete-button", (gpointer)delete);
       create_playbutton(hbox, "Convert", playback_midi_convert, NULL);
-    
+      gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide(delete);
       }

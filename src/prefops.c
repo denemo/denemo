@@ -155,6 +155,7 @@ initprefs ()
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
   ret->console_pane = TRUE;
+  ret->lyrics_pane = TRUE;
   ret->visible_directive_buttons = TRUE;
   ret->autoupdate = FALSE;
   ret->rhythm_palette = TRUE;
@@ -458,6 +459,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(notation_palette)
       READBOOLXMLENTRY(articulation_palette)
       READBOOLXMLENTRY(console_pane)
+      READBOOLXMLENTRY(lyrics_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
       READBOOLXMLENTRY(rhythm_palette) 
       READBOOLXMLENTRY(object_palette)
@@ -801,6 +803,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(notation_palette)
   WRITEBOOLXMLENTRY(articulation_palette)
   WRITEBOOLXMLENTRY(console_pane)
+  WRITEBOOLXMLENTRY(lyrics_pane)
   WRITEBOOLXMLENTRY(visible_directive_buttons)
   WRITEBOOLXMLENTRY(autoupdate)
   WRITEBOOLXMLENTRY(rhythm_palette)
