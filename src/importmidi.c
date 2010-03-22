@@ -56,7 +56,6 @@ typedef struct harmonic
 	gint enshift;
 }harmonic;
 
-gint PPQN;
 
 static void
 note_from_int(char *buf, int note_number)
@@ -163,14 +162,14 @@ enharmonic (gint input, gint key)
 }
 
 static void
-ConvertLength(gint duration, notetype *pnotetype){
+ConvertLength(gint ppqn, gint duration, notetype *pnotetype){
  /*convert length to 2 = quarter, 1 = half, 0 = whole etc...... */
 	/* quarter = 384, half = 768, whole = 1536*/
   
   gint notetype = 0;
   gint numofdots = 0;
   gint leftover = 0;
-  gint dsq = (4 * PPQN);
+  gint dsq = (4 * ppqn);
   g_debug("\nDuration = %d ticks\n", duration);
   
   while ((dsq >> notetype) > duration)
@@ -287,7 +286,7 @@ insert_rest_into_score(notetype length)
 }
 
 static void 
-AddRest(gint duration)
+AddRest(gint ppqn, gint duration)
 {
   gint rest;
   gint ticks;
@@ -297,9 +296,9 @@ AddRest(gint duration)
 
   while (rest){
     notetype length;
-    ConvertLength(rest, &length);
+    ConvertLength(ppqn, rest, &length);
     insert_rest_into_score(length);
-    ticks = ConvertNoteType2ticks(&length);
+    ticks = ConvertNoteType2ticks(ppqn, &length);
     rest -= ticks;
   }
 }
@@ -361,12 +360,12 @@ insert_note_into_score(gint pitch, notetype length)
 }
 
 static void
-AddNote(gint pitch, gint duration)
+AddNote(gint ppqn, gint pitch, gint duration)
 {
   if (duration == 0)
     return;
   notetype length;
-  ConvertLength(duration, &length);
+  ConvertLength(ppqn, duration, &length);
   insert_note_into_score(pitch, length);
 }
 
@@ -380,7 +379,6 @@ cmd_load(gchar *file_name)
     g_critical("Couldn't load '%s'.", file_name);
     return NULL;
   }
-  PPQN = smf->ppqn;
   g_message("File '%s' loaded.", file_name);
   g_message("%s.", smf_decode(smf));
 
@@ -543,10 +541,12 @@ void
 donoteoff (const smf_event_t *event)
 {
   gint duration;
+  gint ppqn; 
   
+  ppqn = event->track->smf->ppqn;
   duration = event->delta_time_pulses;
   duration = round2granule(duration);
-  AddNote(event->midi_buffer[1], duration);
+  AddNote(ppqn, event->midi_buffer[1], duration);
 }
 
 /**
@@ -555,8 +555,10 @@ donoteoff (const smf_event_t *event)
 void
 donoteon (const smf_event_t *event)
 {
+  gint ppqn;
+  ppqn = event->track->smf->ppqn;
   if (event->delta_time_pulses)
-    AddRest(round2granule(event->delta_time_pulses));
+    AddRest(ppqn, round2granule(event->delta_time_pulses));
 }
 
 void 
@@ -638,7 +640,6 @@ process_track(smf_track_t *track)
   if(smf==NULL){
     delete_smf_after = TRUE;
     smf = smf_new();
-    PPQN = smf->ppqn;
     smf_add_track(smf, track);
     smf_rewind(smf);
   }
@@ -673,11 +674,11 @@ readtrack(smf_t *smf)
 }
 
 gint
-ConvertNoteType2ticks(notetype *gnotetype){
+ConvertNoteType2ticks(gint ppqn, notetype *gnotetype){
   gint ticks;
   gint notetype = (int) gnotetype->notetype;
   gint numofdots = (int) gnotetype->numofdots;
-  gint dsq = (4 * PPQN);
+  gint dsq = (4 * ppqn);
   gint i = 0;
 
   ticks = dsq >> notetype;

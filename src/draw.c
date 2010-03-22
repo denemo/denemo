@@ -332,8 +332,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 			x + mudelaitem->x, y, 0);
 	}
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
-      if (!thechord->is_figure && thechord->figure)
-      //if (thechord->figure)
+      //if (!thechord->is_figure && thechord->figure)
+      if (thechord->figure)
         draw_figure (cr,
 		     x + mudelaitem->x,
 		     y + (thechord->lowesty / 2),

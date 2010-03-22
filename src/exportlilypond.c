@@ -771,7 +771,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		       gint * pprevduration, gint * pprevnumdots,
 		       gchar ** pclefname,
 		       gchar ** pkeyname, gint * pcur_stime1,
-		       gint * pcur_stime2, gint *pgrace_status, GString *figures)
+		       gint * pcur_stime2, gint *pgrace_status, GString *figures, GString *fakechords)
 {
   GString *ret = g_string_new ("");
 #define outputret gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, iter, ret->str, -1, INEDITABLE, invisibility, NULL), \
@@ -816,11 +816,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret,"\\grace {  ");
 	      if(figures->len)
 		g_string_append_printf (figures, "\\grace {");
+	      if(fakechords->len)
+		g_string_append_printf (fakechords, "\\grace {");
 	    } else  
 	      if ((!pchord->is_grace) && *pgrace_status) {
 		*pgrace_status = FALSE, g_string_append_printf (ret,"} ");
 		if(figures->len)
 		  g_string_append_printf (figures, "}");
+		if(fakechords->len)
+		  g_string_append_printf (fakechords, "}");
+
 	      }
 	  }
 	GList *g = pchord->directives;
@@ -1144,12 +1149,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	  g_string_append_printf (figures, "\\times %d/%d {",
 				((tupopen *) curobj->object)->numerator,
 				((tupopen *) curobj->object)->denominator);
+	if(fakechords->len)
+	  g_string_append_printf (fakechords, "\\times %d/%d {",
+				((tupopen *) curobj->object)->numerator,
+				((tupopen *) curobj->object)->denominator);
 
 	break;
       case TUPCLOSE:
 	g_string_append_printf (ret, "}");
 	if(figures->len)
 	  g_string_append_printf (figures, "}");
+	if(fakechords->len)
+	  g_string_append_printf (fakechords, "}");
 	break;
       case GRACE_START:
 	//	g_string_append_printf (ret, "\\grace {");
@@ -1594,7 +1605,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  open_braces += generate_lily_for_obj (gui, &iter, invisibility, curobj, objanc, 
 				 &prevduration, &prevnumdots, &clefname,
 				 &keyname,
-						&cur_stime1, &cur_stime2, &grace_status, figures);
+						&cur_stime1, &cur_stime2, &grace_status, figures, fakechords);
 	  
 
 

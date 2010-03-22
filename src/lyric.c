@@ -170,7 +170,8 @@ void install_lyrics_preview(DenemoScore *si, GtkWidget *top_vbox){
   if(si->lyricsbox==NULL)
     si->lyricsbox = gtk_vbox_new (FALSE, 1);//box to hold notebook of textview widgets
   gtk_box_pack_start (GTK_BOX (top_vbox), si->lyricsbox, FALSE, TRUE, 0);
-  gtk_widget_show(si->lyricsbox);
+  if (Denemo.prefs.lyrics_pane)
+    gtk_widget_show(si->lyricsbox);
 }
 
 /* hide the notebook of verses for the current staff */

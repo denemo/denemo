@@ -118,6 +118,7 @@
       <menuitem action="ToggleEntryToolbar"/>
       <menuitem action="ToggleToolbar"/>
       <menuitem action="TogglePlaybackToolbar"/>
+      <menuitem action="ToggleMidiInToolbar"/>
       <menuitem action="ToggleArticulationPalette"/>
       <menuitem action="ToggleScoreTitles"/>
       <menuitem action="ToggleObjectMenu"/>

@@ -355,11 +355,13 @@ typedef struct DenemoPrefs
   gint system_height; /**< percent of display height per system  1-100 */
 
   gboolean playback_controls; /**< makes the playback controls visible */
+  gboolean midi_in_controls; /**< makes the midi in controls visible */
   gboolean articulation_palette; /**< makes the articulation pallete visible */
   gboolean notation_palette; /**< makes the Note/Rest entry toolbar visible */
   gboolean rhythm_palette; /**< makes the rhythm toolbar visable */
   gboolean object_palette;  /**< makes the object menu toolbar visible */
   gboolean console_pane;  /**< makes the console pane visible */
+  gboolean lyrics_pane;  /**< makes the lyrics pane visible */
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 
@@ -803,6 +805,7 @@ typedef struct DenemoGUI
 
   GtkWidget* articulation_palette; /**< Articulation palette window */
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
+  InputSource last_source;/**< Where the last input came from */
   MidiDestination midi_destination;/**< Where MIDI in should go */
   input_mode mode; /**< Input mode for Score */
   GtkWidget *progressbar;
@@ -900,6 +903,7 @@ struct DenemoRoot
   GtkWidget *notebook;/**< contains the gui.page widgets */
   GtkWidget *statusbar;
   GtkWidget *playback_control;/**< frame containing controls for playback */
+  GtkWidget *midi_in_control;/**< frame containing controls for midi in */
   gint status_context_id;
   GtkWidget *input_source; /**< A label widget advising of source of external input */
   GString *input_filters; /**< Description of any filters operating on external input */

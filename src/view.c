@@ -41,6 +41,11 @@
 
 
 static GtkWidget *playbutton;
+static GtkWidget *recordbutton;
+static GtkWidget *midithrubutton;
+static GtkWidget *deletebutton;
+static GtkWidget *convertbutton;
+
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *master_tempo_adj;
 
@@ -210,6 +215,8 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define RHYTHM_E_STRING "Rhythm"
 #define ToggleToolbar_STRING "ToggleToolbar"
 #define TogglePlaybackToolbar_STRING "TogglePlaybackToolbar"
+#define ToggleMidiInToolbar_STRING "ToggleMidiInToolbar"
+
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
 #define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
 #define ToggleActionMenu_STRING  "ToggleActionMenu"
@@ -421,6 +428,8 @@ toggle_toolbar (GtkAction * action, gpointer param);
 static void
 toggle_playback_controls (GtkAction * action, gpointer param);
 static void
+toggle_midi_in_controls (GtkAction * action, gpointer param);
+static void
 toggle_rhythm_toolbar (GtkAction * action, gpointer param);
 static void
 toggle_entry_toolbar (GtkAction * action, gpointer param);
@@ -439,6 +448,7 @@ toggle_scoretitles (GtkAction *action, gpointer param);
 static SCM scheme_hide_menus(void) {
   toggle_toolbar(NULL, NULL);
   toggle_playback_controls(NULL, NULL);
+  toggle_midi_in_controls(NULL, NULL);
   toggle_rhythm_toolbar(NULL, NULL);
   toggle_entry_toolbar(NULL, NULL);
   toggle_object_menu(NULL, NULL);
@@ -2637,12 +2647,17 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.playback_controls)
     activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
+  if (Denemo.prefs.midi_in_controls)
+    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
 
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
 
   if (!Denemo.prefs.console_pane)
     activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+
+  if (!Denemo.prefs.lyrics_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
 
 
   if (!Denemo.prefs.rhythm_palette)
@@ -2658,6 +2673,9 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.playback_controls)
     toggle_playback_controls(NULL, NULL);
+
+  if (Denemo.prefs.midi_in_controls)
+    toggle_midi_in_controls(NULL, NULL);
 
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
@@ -3666,8 +3684,10 @@ void playback_control_rewind (GtkWidget *button) {
 }
 void playback_control_stop (GtkWidget *button) {
   call_out_to_guile("(DenemoStop)");
+
 }
 void playback_control_play (GtkWidget *button) {
+
   call_out_to_guile("(DenemoPlay)");
 }
 void playback_control_pause (GtkWidget *button) {
@@ -3688,6 +3708,7 @@ void playback_control_last (GtkWidget *button) {
 
 void playback_control_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackStart)");
+  gtk_widget_draw(Denemo.gui->scorearea, NULL);
 }
 
 void playback_control_loop (GtkWidget *button) {
@@ -3717,16 +3738,6 @@ void playback_control_range (GtkWidget *button) {
 void playback_control_panic (GtkWidget *button) {
   playback_panic();
 }
-
-void playback_midi_thru (GtkWidget *button) {
-  Denemo.gui->midi_destination ^= MIDITHRU;
-  if(Denemo.gui->midi_destination & MIDITHRU)
-    gtk_button_set_label (GTK_BUTTON(button), _("MIDI Thru is ON"));
-  else
-    gtk_button_set_label (GTK_BUTTON(button), _("MIDI Thru is OFF"));
-  g_print("Midi thru %s\n", Denemo.gui->midi_destination & MIDITHRU?"On":"Off");
-}
-
 static track_delete(smf_track_t *track) {
   if(track==NULL)
     return;
@@ -3737,24 +3748,44 @@ static track_delete(smf_track_t *track) {
   } else
     smf_track_delete(track);
 }
-void playback_midi_record (GtkWidget *button) {
-  Denemo.gui->midi_destination ^= MIDIRECORD;
-  if(Denemo.gui->midi_destination & MIDIRECORD) {
-    track_delete(Denemo.gui->si->recorded_midi_track );
-    Denemo.gui->si->recorded_midi_track = smf_track_new();
-    gtk_button_set_label (GTK_BUTTON(button), _("Stop Recording"));
-    GtkWidget *delete_button = (GtkWidget*)g_object_get_data(G_OBJECT(button), "delete-button");
-    if(delete_button)
-      gtk_widget_show(delete_button);
-  } else {
-    gtk_button_set_label (GTK_BUTTON(button), _("RECORD"));
+
+void finish_recording(void) {
+  if((Denemo.gui->midi_destination & MIDIRECORD)) {
+    Denemo.gui->midi_destination ^= MIDIRECORD;
+    g_print("Showing");
+    gtk_widget_show(deletebutton);
+    gtk_widget_show(convertbutton);
   }
-  g_print("Midi Record %s\n", Denemo.gui->midi_destination & MIDIRECORD?"On":"Off");
 }
+
+static void playback_midi_thru (GtkWidget *button) {
+ Denemo.gui->midi_destination ^= MIDITHRU;
+ if(Denemo.gui->midi_destination & MIDITHRU)
+   gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Recorder"));
+ else
+   gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Score"));
+}
+
+static void playback_control_record (GtkWidget *button) {
+ if( Denemo.gui->si->recorded_midi_track && !confirm("MIDI Recording", "Delete last recording?")) {
+    return;
+  }
+ if(!(Denemo.gui->midi_destination & MIDITHRU))
+   playback_midi_thru(midithrubutton);
+ Denemo.gui->midi_destination |= MIDIRECORD;
+ track_delete(Denemo.gui->si->recorded_midi_track);
+ Denemo.gui->si->recorded_midi_track = smf_track_new();
+ gtk_widget_hide(deletebutton);
+ gtk_widget_hide(convertbutton);
+ playback_control_play(playbutton);
+ return;
+}
+
 
 void playback_midi_delete (GtkWidget *button) {
   track_delete(Denemo.gui->si->recorded_midi_track);
-  Denemo.gui->si->recorded_midi_track = NULL;   
+  Denemo.gui->si->recorded_midi_track = NULL; 
+  gtk_widget_hide (convertbutton);  
   gtk_widget_hide (button);
 }
 
@@ -4302,10 +4333,10 @@ static void configure_keyboard_idx (GtkWidget*w, gint idx) {
   configure_keyboard_dialog_init_idx (NULL, gui, idx);
 }
 
-static void toggleRecording (GtkWidget*w, gboolean *record) {
-  g_print("Recording was %d\n", *record);
-  *record = !*record;
-}
+//static void toggleRecording (GtkWidget*w, gboolean *record) {
+//  g_print("Recording was %d\n", *record);
+//  *record = !*record;
+//}
 
 static void 
 toggle_record_script(GtkAction *action, gpointer param) {
@@ -5752,6 +5783,20 @@ toggle_playback_controls (GtkAction * action, gpointer param) {
       gtk_widget_show (widget);
 }
 /**
+ *  Function to toggle whether playback toolbar is visible 
+ *  
+ * 
+ */
+static void
+toggle_midi_in_controls (GtkAction * action, gpointer param) {
+  GtkWidget *widget;
+  widget = Denemo.midi_in_control;
+  if ((!action) ||GTK_WIDGET_VISIBLE (widget))
+      gtk_widget_hide (widget);
+  else
+      gtk_widget_show (widget);
+}
+/**
  *  Function to toggle whether entry toolbar is visible 
  *  
  * 
@@ -5942,8 +5987,11 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
-  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide a playback controls"),
+  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
    G_CALLBACK (toggle_playback_controls), TRUE}
+  ,
+  {ToggleMidiInToolbar_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
+   G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
@@ -6486,6 +6534,7 @@ get_data_dir (),
     create_playbutton(inner,NULL, playback_control_next, GTK_STOCK_GO_FORWARD );
     create_playbutton(inner,NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
     playbutton = create_playbutton(inner,NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
+    recordbutton = create_playbutton(inner,NULL, playback_control_record,  GTK_STOCK_MEDIA_RECORD);
     create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_GO_BACK);
     create_playbutton(inner,NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
     create_playbutton(inner,NULL, playback_control_to_cursor, GTK_STOCK_GO_DOWN);
@@ -6540,6 +6589,16 @@ get_data_dir (),
 
     }
 
+
+    Denemo.midi_in_control = gtk_vbox_new(FALSE, 1);
+    gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
+    frame= (GtkFrame *)gtk_frame_new(_("Midi In Control"));
+    gtk_frame_set_shadow_type((GtkFrame *)frame, GTK_SHADOW_IN);
+    gtk_container_add (GTK_CONTAINER (Denemo.midi_in_control), GTK_WIDGET(frame));
+    inner1 = gtk_vbox_new(FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), inner1);
+    inner = gtk_hbox_new(FALSE, 1);
+    gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
     GtkWidget *enharmonic_control = get_enharmonic_frame();
     if(!gtk_widget_get_parent(enharmonic_control))
       gtk_container_add (GTK_CONTAINER (inner1), enharmonic_control);
@@ -6547,14 +6606,13 @@ get_data_dir (),
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
-      create_playbutton(hbox, "MIDI Thru is OFF", playback_midi_thru, NULL);
-      GtkWidget *record = create_playbutton(hbox, "Record", playback_midi_record, NULL);
-      GtkWidget *delete = create_playbutton(hbox, "Delete", playback_midi_delete, NULL);
-      g_object_set_data(G_OBJECT(record), "delete-button", (gpointer)delete);
-      create_playbutton(hbox, "Convert", playback_midi_convert, NULL);
-    
+      midithrubutton = create_playbutton(hbox, _("MIDI in -> Score"), playback_midi_thru, NULL);
+      deletebutton = create_playbutton(hbox, "Delete", playback_midi_delete, NULL);
+      convertbutton = create_playbutton(hbox, "Convert", playback_midi_convert, NULL);
+      gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
-      gtk_widget_hide(delete);
+      gtk_widget_hide(deletebutton);
+      gtk_widget_hide(convertbutton);
       }
   }
 

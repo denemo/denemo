@@ -180,12 +180,22 @@ gint get_midi_note(void) {
   return ret;
 }
 
+void safely_add_track(smf_t *smf, smf_track_t *track) {
+  if(track->smf==NULL)
+    smf_add_track(smf, track);
+}
+
+void safely_track_remove_from_smf(smf_track_t *track) {
+ if(track->smf!=NULL)
+   smf_track_remove_from_smf(track);
+}
 /**
  * enter_midi_note_in_score
  * @mid_c_offset enters the midi note steps above/below mid-c
  * @enshift enharmonic adjustment -1 is one flat etc.. 
  */
 static void enter_midi_note_in_score (DenemoGUI *gui, gint mid_c_offset, gint enshift, gint octave) {
+  gui->last_source = INPUTMIDI;
   gui->si->cursor_y = gui->si->staffletter_y = mid_c_offset;
   gui->si->cursor_y += 7*octave; 
   shiftcursor(gui, mid_c_offset);
