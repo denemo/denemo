@@ -465,9 +465,9 @@ main (int argc, char *argv[])
 
   gchar *program_files =  g_getenv("PROGRAMFILES");
   gchar *path = g_getenv ("PATH");
-  path = g_strconcat (path, ";", program_files, "/Windows Media Player", NULL);
-  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 8.0/Reader", NULL);
-  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 9.0/Reader", NULL);
+  gchar *lilypond_path = g_build_filename(prefix, "bin", NULL);
+  path = g_strconcat (path, ";", lilypond_path, NULL);
+
   g_setenv ("PATH", path, TRUE);
 
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
