@@ -308,10 +308,8 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   else
   	printfile = g_strconcat (filename, ".pdf", NULL);
   
-  FILE *fp = fopen(printfile, "r");
-  if(fp)
-    fclose(fp);
-  else {
+ 
+  if(!g_file_test (printfile, G_FILE_TEST_EXISTS)) {
     //FIXME use filename in message
     //warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
     g_warning ("Failed to find %s, check permissions", (gchar *) printfile);
@@ -473,7 +471,8 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       return;
     }
   }
-  /* remove old output files to avoid confusion */
+#ifndef G_OS_WIN32
+  /* remove old output files to avoid confusion - this may trip file locking problems on windows */
   gchar *printfile;
   if (gui->lilycontrol.excerpt == TRUE)
     printfile = g_strconcat (filename, "_.png", NULL);
@@ -483,6 +482,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   if(fp)
     fclose(fp);
   g_free(printfile);
+#endif
   run_lilypond(filename, gui);
   //  g_print("print pid is %d\n", printpid);
 
@@ -763,9 +763,11 @@ export_pdf (const gchar * filename, DenemoGUI * gui)
   gint exit_status;
   gboolean ok;
 
-  /* look for lilypond */
+  /* look for lilypond may cause file locking problems on windows */
   check_lilypond_path(gui);
-  /* create a temp (and not existing) filepath in .denemo folder */
+
+  /* create a temp (and not existing WHY???) filepath in .denemo folder */
+
   do
     {
       tmpfile = get_temp_filename (NULL);

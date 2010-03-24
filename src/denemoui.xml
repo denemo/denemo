@@ -21,7 +21,7 @@
       <menuitem action="SaveParts"/>
 		<!-- <menuitem action="SaveSelection"/> -->
       <menuitem action="SaveTemplate"/>
-      <menuitem action="ExportPDF"/>
+      	<!-- <menuitem action="ExportPDF"/>  -->
       <separator/>
       <menuitem action="ConfigureScore"/> 
       <separator/> 
