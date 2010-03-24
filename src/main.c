@@ -468,11 +468,13 @@ main (int argc, char *argv[])
   gchar *path = g_getenv ("PATH");
   gchar *lilypond_path = g_build_filename(prefix, "bin", NULL);
   gchar *lib_path = g_build_filename(prefix, "lib", NULL);
-  path = g_strconcat (path, ";", lib_path, NULL);
+  path = g_strconcat (path,";", lilypond_path, ";", lib_path, NULL);
 
   g_setenv ("PATH", path, TRUE);
+  g_print("PATH set to %s\n", path);
   gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
   g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
+  g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
   g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   add_font_directory(fontpath);
