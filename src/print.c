@@ -409,10 +409,27 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     NULL
   };
   
+  gchar *png_arguments3[] = {
+    Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    printfile,
+    lilyfile,
+    NULL
+  };
+  
   if (check_lily_version("2.12") >= 1)
-     arguments = png_arguments1;
-  else
-     arguments = png_arguments2;
+    arguments = png_arguments1;
+  else {
+    if (check_lily_version("2.13") >= 1)
+      arguments = png_arguments3;
+    else
+      arguments = png_arguments2;
+  }
 #else
   gchar *png_arguments[] = {
     Denemo.prefs.lilypath->str,
@@ -435,9 +452,24 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     lilyfile,
     NULL
   };
-  if (!gui->lilycontrol.excerpt)	  
-	  arguments = pdf;
-  
+
+  gchar *pdf2[] = {
+    Denemo.prefs.lilypath->str,
+    "-dgui",
+    "--pdf",
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+
+
+  if (!gui->lilycontrol.excerpt) {
+    if (check_lily_version("2.13") >= 1)	  
+      arguments = pdf2;
+    else 
+      arguments = pdf;
+  }
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
@@ -471,8 +503,8 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
       return;
     }
   }
-#ifndef G_OS_WIN32
-  /* remove old output files to avoid confusion - this may trip file locking problems on windows */
+
+  /* remove old output files to avoid confusion */
   gchar *printfile;
   if (gui->lilycontrol.excerpt == TRUE)
     printfile = g_strconcat (filename, "_.png", NULL);
@@ -482,7 +514,7 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   if(fp)
     fclose(fp);
   g_free(printfile);
-#endif
+
   run_lilypond(filename, gui);
   //  g_print("print pid is %d\n", printpid);
 
