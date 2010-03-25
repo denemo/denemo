@@ -411,7 +411,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   
   gchar *png_arguments3[] = {
     Denemo.prefs.lilypath->str,
-    "-dgui",
+    "-dgui ",
     "--png",
     "-b",
     "eps",
@@ -455,7 +455,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 
   gchar *pdf2[] = {
     Denemo.prefs.lilypath->str,
-    "-dgui",
+    "-dgui ",
     "--pdf",
     "-o",
     filename,
@@ -470,6 +470,8 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     else 
       arguments = pdf;
   }
+
+  g_print("Call starts %s %s %s \n", arguments[0],  arguments[1],  arguments[2]);
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
