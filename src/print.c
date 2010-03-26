@@ -409,27 +409,10 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     NULL
   };
   
-  gchar *png_arguments3[] = {
-    Denemo.prefs.lilypath->str,
-    "-dgui ",
-    "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-  
   if (check_lily_version("2.12") >= 1)
-    arguments = png_arguments1;
-  else {
-    if (check_lily_version("2.13") >= 1)
-      arguments = png_arguments3;
-    else
-      arguments = png_arguments2;
-  }
+     arguments = png_arguments1;
+  else
+     arguments = png_arguments2;
 #else
   gchar *png_arguments[] = {
     Denemo.prefs.lilypath->str,
@@ -452,26 +435,9 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     lilyfile,
     NULL
   };
-
-  gchar *pdf2[] = {
-    Denemo.prefs.lilypath->str,
-    "-dgui ",
-    "--pdf",
-    "-o",
-    filename,
-    lilyfile,
-    NULL
-  };
-
-
-  if (!gui->lilycontrol.excerpt) {
-    if (check_lily_version("2.13") >= 1)	  
-      arguments = pdf2;
-    else 
-      arguments = pdf;
-  }
-
-  g_print("Call starts %s %s %s \n", arguments[0],  arguments[1],  arguments[2]);
+  if (!gui->lilycontrol.excerpt)	  
+	  arguments = pdf;
+  
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
@@ -516,7 +482,6 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
   if(fp)
     fclose(fp);
   g_free(printfile);
-
   run_lilypond(filename, gui);
   //  g_print("print pid is %d\n", printpid);
 
