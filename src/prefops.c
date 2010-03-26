@@ -95,7 +95,7 @@ initprefs ()
   ret->browser = g_string_new ("");//use file association
   ret->midiplayer = g_string_new ("");
   ret->audioplayer = g_string_new ("");
-  ret->lilypath = g_string_new ("lilypond-windows");//We don't assume the file assoc works - we are installing this anyway to a known place
+  ret->lilypath = g_string_new ("denemo-lilypond");//We don't assume the file assoc works - we are installing this anyway to a known place, this calls a .bat file that adds -dgui
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
   ret->midiplayer = g_string_new("");
