@@ -208,6 +208,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     cairo_fill(cr);
     cairo_restore(cr);
   }
+  //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
   if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time) && (Denemo.gui->si->playhead < mudelaitem->latest_time)) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
