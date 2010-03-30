@@ -268,8 +268,19 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
     gint chan = (event->midi_buffer[0] & 0x0f);
     //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
     int success;
-    if (DP && (si->end_time - event->time_seconds > 0.01)) //Do not turn notes on too close to the end
-      jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
+    switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
+    {
+      case NOTE_ON: {
+        if (DP && (si->end_time - event->time_seconds > 0.01)) //Do not turn notes on too close to the end
+        jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
+      }
+      si->playhead += 0.001;//Make sure playhead is inside duration of note
+      break;
+      case NOTE_OFF:
+	si->playhead -= 0.001;//Make sure playhead is inside duration of note
+	break;
+    }
+
   }
   return TRUE;
 }
