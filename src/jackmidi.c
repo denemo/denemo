@@ -162,11 +162,15 @@ jack_playpitch(gint key, gint duration){
 #define MDC MD[client_number].ports[port_number]
 void 
 jack_output_midi_event(unsigned char *buffer, gint client_number, gint port_number){
+  DenemoScore *si = Denemo.gui->si;
+
   if (!jack_server_running)
     return; 
+  gint velocity = ((gint)(si->master_volume * buffer[2]));
+  if(velocity>0x7F) velocity = 0x7F;
   MDC.midi_buffer[ MDC.FillIndex].buffer[0] = buffer[0];
   MDC.midi_buffer[ MDC.FillIndex].buffer[1] = buffer[1];
-  MDC.midi_buffer[ MDC.FillIndex].buffer[2] = buffer[2];
+  MDC.midi_buffer[ MDC.FillIndex].buffer[2] = velocity;
   MDC.FillIndex++;
   if(MDC.FillIndex > DENEMO_BUFFER_MAX_INDEX) 
     MDC.FillIndex = 0;
@@ -279,6 +283,9 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
       case NOTE_OFF:
         jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
 	si->playhead -= 0.001;//Make sure playhead is inside duration of note
+	break;
+      default:
+	jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
 	break;
     }
 
