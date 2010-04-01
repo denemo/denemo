@@ -277,6 +277,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
       si->playhead += 0.001;//Make sure playhead is inside duration of note
       break;
       case NOTE_OFF:
+        jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
 	si->playhead -= 0.001;//Make sure playhead is inside duration of note
 	break;
     }
