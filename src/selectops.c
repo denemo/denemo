@@ -696,14 +696,18 @@ void restore_selection(DenemoScore *si) {
 void
 goto_mark (GtkAction *action, DenemoScriptParam *param)
 {
+  DenemoScriptParam local_param;
+  local_param.status = TRUE;
   DenemoScore *si = Denemo.gui->si;
   if(!action)
     ((DenemoScriptParam *)param)->status = si->markstaffnum;
+  else
+    param = &local_param;
   if(si->markstaffnum){
     save_selection(si);
     set_currentmeasurenum (Denemo.gui, si->markmeasurenum);
     set_currentstaffnum (Denemo.gui,si->markstaffnum);
-    while(si->cursor_x < si->markcursor_x)
+    while(si->cursor_x < si->markcursor_x && param->status)
       cursorright(param);
     restore_selection(si);
     if(!action)
