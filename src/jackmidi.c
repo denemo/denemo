@@ -261,6 +261,8 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
      si->playingnow = event->user_pointer;
      si->playhead = event->time_seconds;//the time of the playhead used in draw.c
      DP = event->track->user_pointer;
+     if (!DP)
+       return FALSE;
      //g_print("current object %p %x\n", event->user_pointer,((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)) );
      if(((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)==NOTE_ON) &&
 	event->time_seconds - last_draw_time>Denemo.prefs.display_refresh) {
@@ -275,7 +277,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
     switch((event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1))
     {
       case NOTE_ON: {
-        if (DP && (si->end_time - event->time_seconds > 0.01)) //Do not turn notes on too close to the end
+        if (si->end_time - event->time_seconds > 0.01) //Do not turn notes on too close to the end
         jack_output_midi_event(event->midi_buffer, DP->device_number, DP->port_number);
       }
       si->playhead += 0.001;//Make sure playhead is inside duration of note
