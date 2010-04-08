@@ -201,7 +201,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
   //this is the selection being given a blue background I guess
   //FIXME too much save and restore for trifling reasons...
-  if(Denemo.gui->si->playingnow==NULL && itp->mark) {
+  if(cr) if(Denemo.gui->si->playingnow==NULL && itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
@@ -209,7 +209,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     cairo_restore(cr);
   }
   //g_print("%x %f %f %f\n", Denemo.gui->si->playingnow, Denemo.gui->si->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
-  if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time) && (Denemo.gui->si->playhead < mudelaitem->latest_time)) {
+  
+  // draw playhead as green background
+  if(cr) if( Denemo.gui->si->playingnow && (Denemo.gui->si->playhead > mudelaitem->earliest_time) && (Denemo.gui->si->playhead < mudelaitem->latest_time)) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 1.0, 0.5 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );
@@ -245,7 +247,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     }
 
   
-  if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
+  if(cr) if(mudelaitem->type==CHORD && ((chord *) mudelaitem->object)->tone_node)
     cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );//thecolor = &yellow;
   
   if(mudelaitem->midi_events) {
@@ -257,7 +259,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     case CHORD:
       { chord *thechord = ((chord *) mudelaitem->object);
 
-	draw_chord ( cr, curobj, x + mudelaitem->x, y,
+	if(cr) draw_chord ( cr, curobj, x + mudelaitem->x, y,
 		     GPOINTER_TO_INT (itp->mwidthiterator->data),
 		     itp->curaccs, itp->mark);
 	if((thechord->highesty) < itp->highy)
@@ -267,7 +269,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  itp->lowy  = thechord->lowesty-STAFF_HEIGHT;
 	
 	if (thechord->is_fakechord)
-	  draw_fakechord (cr,
+	  	if(cr) draw_fakechord (cr,
 			  x + mudelaitem->x, 
 			  y - 45,
 			  mudelaitem);
@@ -278,18 +280,18 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	   && !thechord->is_tied)
 	{
 	  gchar *syllable = (gchar *) next_syllable(0);
-	  if(syllable)
+	  	if(cr) if(syllable)
 	    draw_lyric (cr,
 			x + mudelaitem->x,
 			y + itp->in_lowy,
 			syllable);
 	}
 
-      if (thechord->dynamics)
+      	if(cr) if (thechord->dynamics)
 	draw_dynamic (cr,
 		      x + mudelaitem->x, y, mudelaitem);
 
-      if (thechord->slur_end_p)
+      	if(cr) if (thechord->slur_end_p)
 	draw_slur (cr, &(itp->slur_stack),
 		   x + mudelaitem->x, y);
       if (thechord->slur_begin_p)
@@ -302,6 +304,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       else if (thechord->diminuendo_begin_p)
 	itp->hairpin_stack =
 	  push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
+      if(cr) {
       if (thechord->crescendo_end_p)
 	{
 	  if (top_hairpin_stack (itp->hairpin_stack) <= -1)
@@ -332,14 +335,15 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  draw_hairpin (cr, &(itp->hairpin_stack),
 			x + mudelaitem->x, y, 0);
 	}
+      } // if cr
 	/* notice the following does not check is_figure but checks if figure is not VOID) */      
       //if (!thechord->is_figure && thechord->figure)
-      if (thechord->figure)
+      	if(cr) if (thechord->figure)
         draw_figure (cr,
 		     x + mudelaitem->x,
 		     y + (thechord->lowesty / 2),
 		     mudelaitem);
-      if (!thechord->is_fakechord && thechord->fakechord) 
+      if(cr) if (!thechord->is_fakechord && thechord->fakechord) 
 	draw_fakechord (cr,
 		     x + mudelaitem->x,
 		     y - 45,
@@ -349,22 +353,22 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       break;
     case TUPOPEN:
     case TUPCLOSE:
-      draw_tupbracket (cr,
+      if(cr) draw_tupbracket (cr,
 		       x + mudelaitem->x, y, mudelaitem);
       break;
     case LILYDIRECTIVE:
       // if(si->markstaffnum) not available
-      draw_lily_dir(cr,
+      if(cr) draw_lily_dir(cr,
 		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
       break;
     case CLEF:
-      draw_clef (cr, x + mudelaitem->x, y,
+      if(cr) draw_clef (cr, x + mudelaitem->x, y,
 		 itp->clef = ((clef *) mudelaitem->object));
       if (si->currentobject == curobj && si->cursor_appending)
 	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;
     case KEYSIG:
-      draw_key (cr, x + mudelaitem->x, y,
+      if(cr) draw_key (cr, x + mudelaitem->x, y,
 		((keysig *) mudelaitem->object)->number, itp->key,
 		itp->clef->type, TRUE);
       itp->key = ((keysig *) mudelaitem->object)->number;
@@ -376,7 +380,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
       break;
     case TIMESIG:
-      draw_timesig (cr,
+      if(cr) draw_timesig (cr,
 		    x + mudelaitem->x, y, itp->time1 =
 		    ((timesig *) mudelaitem->object)->time1, itp->time2 =
 		    ((timesig *) mudelaitem->object)->time2);
@@ -390,13 +394,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
       break;
     case STEMDIRECTIVE:
-      draw_stem_directive (cr,
+      if(cr) draw_stem_directive (cr,
 			   x + mudelaitem->x, y, mudelaitem);
       itp->stem_directive = ((stemdirective *) mudelaitem->object)->type;
       break;
     case GRACE_START:
     case GRACE_END:
-      draw_gracebracket (cr,
+      if(cr) draw_gracebracket (cr,
 			 x + mudelaitem->x, y, mudelaitem);
       break;
 
@@ -496,7 +500,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
   /*  paint the measure number at the preceding barline 
       - do not do measure 1 as it clashes with the name (and is not needed) */
 
-  if(itp->measurenum>1) {
+  if(cr) if(itp->measurenum>1) {
     g_string_sprintf (mstring, "%d", itp->measurenum);
     drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE, y - 12);
   }
@@ -562,18 +566,22 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
        );
 
 
-    
+    if(cr) {
     if(itp->measurenum >= si->rightmeasurenum+1)
 	cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
     else 
       cairo_set_source_rgb( cr, 0, 0, 0 );//black;
+    }// if cr
+
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
+
     {DenemoObject *obj = (DenemoObject *) curobj->data;
       if(Denemo.gui->si->smf)
 	;//g_print("Latest %f earliest %f Obj type %d\n", obj->latest_time, obj->earliest_time, obj->type);
     }
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
-  }
+  } // for each object
+  if(cr) {
   /* Paint the exclamation point, if necessary */
   cairo_save(cr);
   if( extra_ticks > 0 )
@@ -605,7 +613,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
       cairo_fill(cr);
     }	
   cairo_restore(cr);
-
+  } //if cr
 
   return extra_ticks!=0;
 }
@@ -629,7 +637,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   DenemoScore *si = gui->si;
   gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
-  cairo_save(cr);
+  if(cr) {
+	  cairo_save(cr);
   //Draw vertical lines to bind the staffs of the system together
       if(curstaff->prev)
 	{
@@ -651,24 +660,27 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     cairo_set_source_rgb( cr, 0,0,0 );
   else
     cairo_set_source_rgb( cr, 0.3,0.3,0.3 );
-
+  } //if cr
 
   if(!itp->line_end) {//not a continuation
-    draw_clef (cr, LEFT_MARGIN, y,
-	       itp->clef = thestaff->leftmost_clefcontext);
-    draw_key (cr, x, y,
-	      itp->key = thestaff->leftmost_keysig->number,
+    itp->clef = thestaff->leftmost_clefcontext;
+    if(cr) draw_clef (cr, LEFT_MARGIN, y,
+	       itp->clef);
+    itp->key = thestaff->leftmost_keysig->number;
+    if(cr) draw_key (cr, x, y,
+	      itp->key,
 	      0, itp->clef->type, TRUE);
     x += si->maxkeywidth;
-    draw_timesig (cr, x,
-		  y, itp->time1 =
-		  thestaff->leftmost_timesig->time1, itp->time2 =
-		  thestaff->leftmost_timesig->time2);
+    itp->time1 =
+      thestaff->leftmost_timesig->time1;
+    itp->time2 =
+      thestaff->leftmost_timesig->time2;
+    if(cr) draw_timesig (cr, x, y, itp->time1, itp->time2);
     x += SPACE_FOR_TIME;
 
   } else {
-    draw_clef (cr, LEFT_MARGIN, y, itp->clef);
-    draw_key (cr, x, y,
+    if(cr) draw_clef (cr, LEFT_MARGIN, y, itp->clef);
+    if(cr) draw_key (cr, x, y,
 	      itp->key, 0, itp->clef->type, TRUE);
     x += si->maxkeywidth;
     x += SPACE_FOR_TIME;// to allow the same margin ??
@@ -681,7 +693,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   itp->stem_directive = thestaff->leftmost_stem_directive;
   itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
 
-
+  if(cr) {
   /* Draw staff name on first system */
   if(!itp->line_end) {
     gint staffname_offset = (thestaff->voicenumber == 1) ? 24 :
@@ -700,6 +712,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   }
 
   cairo_save(cr);
+  }//if cr
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
   itp->curmeasure =
@@ -708,12 +721,6 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   //FIX in measureops.c for case where si->measurewidths is too short
   itp->mwidthiterator = g_list_nth (si->measurewidths, itp->measurenum - 1);
-
-  // g_print("Width is %d\n", itp->mwidthiterator->data);
-
-  //itp->gc = gc;
-
-
 
   {
   //compute itp->leftmosttime here - the time at the start of this system
@@ -766,14 +773,14 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   *itp->right = itp->measurenum-1;
   
-      if(curstaff->prev)
+  if(cr) if(curstaff->prev)
 	{
 	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
 	  cairo_set_source_rgb( cr, 0, 0, 0);
 	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y - STAFF_HEIGHT - prev->space_below - thestaff->space_above, 2, 2*STAFF_HEIGHT + prev->space_below + thestaff->space_above);
 	  cairo_fill(cr);	 
 	}
-      if(curstaff->next)
+      if(cr) if(curstaff->next)
 	{
 	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
 	  cairo_save(cr);
@@ -783,12 +790,12 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	}
 
 
-  cairo_restore(cr);
+  if(cr) cairo_restore(cr);
   // if(itp->highy > title_highy)
   //  itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
-  for (i = 0; i < thestaff->no_of_lines; i++, y += LINE_SPACE) {
+  if(cr) for (i = 0; i < thestaff->no_of_lines; i++, y += LINE_SPACE) {
     cairo_set_line_width( cr, 1.0 );
     cairo_move_to( cr, LEFT_MARGIN, y );
     cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
@@ -805,7 +812,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-  cairo_restore(cr);
+  if(cr) cairo_restore(cr);
   return repeat;
 }
 static void
@@ -859,7 +866,6 @@ static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, 
   itp->endposition = -1;
 }
 
-
 #define MAX_FLIP_STAGES (Denemo.prefs.animation_steps>0?Denemo.prefs.animation_steps:1)
 static gboolean schedule_draw(gint *flip_count) {
   if(*flip_count==-1)
@@ -910,10 +916,10 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       get_obj_for_end_time(gui->si->smf, gui->si->end_time);
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
-  cairo_t *cr = gdk_cairo_create( gui->pixmap );
+  cairo_t *cr = widget?gdk_cairo_create( gui->pixmap ): NULL;
 
-  cairo_scale( cr, gui->si->zoom, gui->si->zoom );
-  cairo_translate( cr, 0.5, 0.5 );
+  if(cr) cairo_scale( cr, gui->si->zoom, gui->si->zoom );
+  if(cr) cairo_translate( cr, 0.5, 0.5 );
   //cairo_rotate( cr, M_PI/6.0 );
 
   /* Draw each staff */
@@ -942,11 +948,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.in_highy = highy, itp.in_lowy = lowy;
     itp.highy = 0;//do not pass on extra_space from one staff to the next
 
-    cairo_save(cr);
-    cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
-    cairo_rectangle (cr, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
-    cairo_fill(cr);
-    cairo_restore(cr);
+    if(cr) {
+      cairo_save(cr);
+      cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
+      cairo_rectangle (cr, 0, y, LEFT_MARGIN, STAFF_HEIGHT/*staff edit*/);
+      cairo_fill(cr);
+      cairo_restore(cr);
 
       if(staff->staff_directives){
 
@@ -991,6 +998,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
       cairo_restore(cr);
     }
+    }//if cr
     if(si->currentstaffnum==itp.staffnum) {
 
       gint count =  count_syllables(staff, si->leftmeasurenum);
@@ -1011,13 +1019,13 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     repeat = draw_staff (cr, curstaff, y, gui, &itp);
 
-    draw_playback_markers(cr, &itp, y, line_height);
+    if(cr) draw_playback_markers(cr, &itp, y, line_height);
     
     gint system_num;
     system_num = 1;
     // g_print("Drawn staffnum %d, at %d %s.\n", itp.staffnum,  y, itp.line_end?" another line":"End");
 
-    if (itp.staffnum==si->top_staff)
+    if(cr) if (itp.staffnum==si->top_staff)
       print_system_separator (cr, line_height*system_num);
 
     system_num++;
@@ -1032,12 +1040,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       itp.line_end = FALSE;//don't print whole lines of grayed out music during playback
 
     while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
-      if (itp.staffnum==si->top_staff)
+      if(cr) if (itp.staffnum==si->top_staff)
 	print_system_separator (cr, line_height*system_num);
       system_num++;
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
-      draw_playback_markers(cr, &itp, yy, line_height);   
+      if(cr) draw_playback_markers(cr, &itp, yy, line_height);   
       yy += line_height;
       itp.left++;
       itp.right++;
@@ -1048,7 +1056,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     
     si->rightmost_time = itp.rightmosttime;
     
-    if( (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
+     if(cr && (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
       //put the next line of music at the top with a break marker
       itp.left = &gui->lefts[0];
       itp.right = &gui->rights[0];     
