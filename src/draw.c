@@ -859,6 +859,19 @@ static void draw_playback_markers(cairo_t *cr, struct infotopass *itp, gint yy, 
   itp->endposition = -1;
 }
 
+
+#define MAX_FLIP_STAGES (Denemo.prefs.animation_steps>0?Denemo.prefs.animation_steps:1)
+static gboolean schedule_draw(gint *flip_count) {
+  if(*flip_count==-1)
+    return FALSE;
+  *flip_count += 1;
+  //g_print("flip count %d\n", *flip_count);
+  if(*flip_count>MAX_FLIP_STAGES) {
+    return FALSE;
+  }
+  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return TRUE;
+}
 /**
  * This actually draws the score, staff-by-staff 
  * @param widget pointer to the parent widget
@@ -874,6 +887,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   gboolean repeat = FALSE;
   DenemoScore *si = gui->si;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
+  static gint flip_count;//passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
   /* Initialize some fields in itp */
 
 
@@ -1005,6 +1019,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     if (itp.staffnum==si->top_staff)
       print_system_separator (cr, line_height*system_num);
+
     system_num++;
 
     // This block prints out continuations of the staff just printed
@@ -1032,25 +1047,16 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     //g_print("staff num %d measure %d playhead %f left time %f\nheight %d system_num %d\n", itp.staffnum,itp.measurenum, si->playhead, itp.leftmosttime, yy, system_num);
     
     si->rightmost_time = itp.rightmosttime;
- 
-#if 1
+    
     if( (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
-
       //put the next line of music at the top with a break marker
-   
-   
       itp.left = &gui->lefts[0];
-      itp.right = &gui->rights[0];
-      
+      itp.right = &gui->rights[0];     
       {
 	//clear the previously drawn version FIXME? do not draw in first place, will that be faster?
 	cairo_save(cr);
 	cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
-
 	cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
-
-
-
 	cairo_fill(cr);
 	cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );//Strong Blue Line to break pages
 	cairo_rectangle (cr, 0, line_height-10, gui->scorearea->allocation.width/Denemo.gui->si->zoom, 10);
@@ -1060,12 +1066,28 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       itp.line_end = FALSE;//to force print of timesig
       if(itp.measurenum > (si->rightmeasurenum+1))
 	itp.measurenum = si->rightmeasurenum+1;
+      gdouble flip;
+      flip=1.0;
+      if ((itp.staffnum==si->top_staff)
+	  && (flip_count == -1)) {
+	flip=0.1;     	
+	flip_count = 0;
+	//g_print("Adding timeout");
+	g_timeout_add(1000/MAX_FLIP_STAGES, (GSourceFunc) schedule_draw, &flip_count);
+      }
+      // g_print("drawing %d\n", flip_count);
+      if(flip_count>0 && flip_count<MAX_FLIP_STAGES)
+	flip = flip_count/(gdouble)MAX_FLIP_STAGES;
+      cairo_translate( cr, gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
+      cairo_scale( cr, flip, 1.0);
       if(draw_staff (cr, curstaff, y, gui, &itp))
-	repeat = TRUE;  
-      // draw_playback_markers(cr, &itp, y, line_height);   
+	repeat = TRUE; 
+      cairo_scale( cr, 1/flip, 1.0);
+      cairo_translate( cr, -gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);
       //draw_break_marker();
-    }
-#endif
+    } else
+      flip_count = -1;
+
 
     }//end of block printing continuations
     *itp.left=0;//To signal end of valid systems

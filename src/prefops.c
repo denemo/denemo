@@ -116,6 +116,7 @@ initprefs ()
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
   ret->display_refresh = 0.01;
+  ret->animation_steps = 10;
   ret->overlays = FALSE;
   ret->continuous = TRUE;
 #ifdef _HAVE_JACK_
@@ -451,6 +452,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(strictshortcuts)
       READINTXMLENTRY(resolution)
       READDOUBLEXMLENTRY(display_refresh)
+      READINTXMLENTRY(animation_steps)
       READBOOLXMLENTRY(overlays)
       READBOOLXMLENTRY(continuous)
       READBOOLXMLENTRY(jacktransport)
@@ -794,7 +796,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(strictshortcuts)
   WRITEINTXMLENTRY(resolution)
   WRITEDOUBLEXMLENTRY(display_refresh)
-
+  WRITEINTXMLENTRY(animation_steps)
   WRITEBOOLXMLENTRY(overlays)
   WRITEBOOLXMLENTRY(continuous)
   WRITEBOOLXMLENTRY(jacktransport)

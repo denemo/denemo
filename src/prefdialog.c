@@ -69,6 +69,7 @@ struct callbackdata
 
 #endif
   GtkWidget *display_refresh;
+  GtkWidget *animation_steps;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
   GtkWidget *denemopath;
@@ -159,6 +160,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT(fluidsynth_period_size)
 #endif
   ASSIGNDOUBLE(display_refresh)
+  ASSIGNINT(animation_steps)
   ASSIGNTEXT(temperament)
   ASSIGNBOOLEAN(strictshortcuts)
   ASSIGNBOOLEAN(overlays)
@@ -410,7 +412,7 @@ preferences_change (GtkAction *action, gpointer param)
   NEWPAGE("Misc");
 
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
-
+  INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 
   INTENTRY_LIMITS(_("Excerpt Resolution"), resolution, 72, 600);
 
