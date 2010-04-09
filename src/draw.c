@@ -896,7 +896,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   static gint flip_count;//passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
   /* Initialize some fields in itp */
 
-
+  //g_print("Printing for %d\n", flip_count);
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
 
@@ -947,7 +947,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
     itp.in_highy = highy, itp.in_lowy = lowy;
     itp.highy = 0;//do not pass on extra_space from one staff to the next
-
+    if(flip_count<=0)
     if(cr) {
       cairo_save(cr);
       cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
@@ -1017,7 +1017,9 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.right = &gui->rights[0];
 
 
-    repeat = draw_staff (cr, curstaff, y, gui, &itp);
+
+    if(draw_staff (flip_count>0?NULL:cr, curstaff, y, gui, &itp))
+      repeat = TRUE;
 
     if(cr) draw_playback_markers(cr, &itp, y, line_height);
     
@@ -1060,17 +1062,19 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       //put the next line of music at the top with a break marker
       itp.left = &gui->lefts[0];
       itp.right = &gui->rights[0];     
-      {
-	//clear the previously drawn version FIXME? do not draw in first place, will that be faster?
+
 	cairo_save(cr);
-	cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
-	cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
-	cairo_fill(cr);
+	if(0)   {
+	  //clear the previously drawn version FIXME? do not draw in first place, will that be faster?
+	  cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
+	  cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
+	  cairo_fill(cr);
+      }
 	cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );//Strong Blue Line to break pages
 	cairo_rectangle (cr, 0, line_height-10, gui->scorearea->allocation.width/Denemo.gui->si->zoom, 10);
 	cairo_fill(cr);
 	cairo_restore(cr);
-      }
+     
       itp.line_end = FALSE;//to force print of timesig
       if(itp.measurenum > (si->rightmeasurenum+1))
 	itp.measurenum = si->rightmeasurenum+1;
@@ -1088,15 +1092,17 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	flip = flip_count/(gdouble)MAX_FLIP_STAGES;
       cairo_translate( cr, gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
       cairo_scale( cr, flip, 1.0);
-      if(draw_staff (cr, curstaff, y, gui, &itp))
+      if(draw_staff (flip_count>0?cr:NULL, curstaff, y, gui, &itp))
 	repeat = TRUE; 
       cairo_scale( cr, 1/flip, 1.0);
       cairo_translate( cr, -gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);
       //draw_break_marker();
-    } else
-      flip_count = -1;
-
-
+     } else {
+        if(flip_count!=-1)
+       	 repeat = TRUE;
+	//g_print("Repeating %d\n", repeat);
+       flip_count = -1;
+     }
     }//end of block printing continuations
     *itp.left=0;//To signal end of valid systems
 
