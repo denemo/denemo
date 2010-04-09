@@ -49,6 +49,7 @@ static double start_player = 0.0;
 //static gint BufferFillIndex;
 //static volatile gboolean BufferEmpty = TRUE;
 static gboolean playing_piece = FALSE;
+static gboolean jack_transport = TRUE;
 //struct midi_buffer
 //{
 //  unsigned char buffer[3];
