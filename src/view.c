@@ -2562,7 +2562,40 @@ static void load_scheme_init(void)  {
   load_local_scheme_init();
 }
 
+/* show the user's preferred view. Assumes all hidden on entry */
+static void  show_preferred_view(void) {
+  if (Denemo.prefs.playback_controls)
+    activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
+  if (Denemo.prefs.midi_in_controls)
+    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
 
+  if (!Denemo.prefs.notation_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
+
+  if (!Denemo.prefs.console_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+
+  if (!Denemo.prefs.lyrics_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
+
+
+  if (!Denemo.prefs.rhythm_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+
+
+  if (!Denemo.prefs.object_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
+
+  if (Denemo.prefs.visible_directive_buttons)
+   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+
+
+  if (Denemo.prefs.playback_controls)
+    toggle_playback_controls(NULL, NULL);
+
+  if (Denemo.prefs.midi_in_controls)
+    toggle_midi_in_controls(NULL, NULL);
+}
 
 
 /* Called from main for scheme initialization reasons.
@@ -2644,38 +2677,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
-
-  if (Denemo.prefs.playback_controls)
-    activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
-  if (Denemo.prefs.midi_in_controls)
-    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
-
-  if (!Denemo.prefs.notation_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
-
-  if (!Denemo.prefs.console_pane)
-    activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
-
-  if (!Denemo.prefs.lyrics_pane)
-    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
-
-
-  if (!Denemo.prefs.rhythm_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
-
-
-  if (!Denemo.prefs.object_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
-
-  if (Denemo.prefs.visible_directive_buttons)
-   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
-
-
-  if (Denemo.prefs.playback_controls)
-    toggle_playback_controls(NULL, NULL);
-
-  if (Denemo.prefs.midi_in_controls)
-    toggle_midi_in_controls(NULL, NULL);
+  show_preferred_view();
 
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
