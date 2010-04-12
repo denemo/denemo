@@ -65,7 +65,6 @@ static gdouble playback_duration = 0.0;
 
 static double          	rate_limit = 0;
 static gboolean        	start_stopped = FALSE;
-static gboolean        	use_transport = FALSE;
 static gboolean		jack_server_running = TRUE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
@@ -573,7 +572,6 @@ init_jack(void){
 }
 
 
-
 void jack_midi_play(gchar *callback)
 {
   DenemoGUI *gui = Denemo.gui;
@@ -619,6 +617,8 @@ void jack_midi_play(gchar *callback)
   
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
+  if (jack_transport)
+    jack_transport_start(MD[0].jack_client);
   g_idle_add(jackmidi_play_smf_event, callback_string->str);
   smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 }
@@ -630,6 +630,8 @@ jack_midi_playback_stop ()
      //jack_transport_stop(jack_client);
   if(playing_piece)
     toggle_playbutton();
+  if (jack_transport)
+    jack_transport_stop(MD[0].jack_client);
   Denemo.gui->si->playingnow = NULL;
   playing_piece = FALSE;
   pause_time = -1.0;
