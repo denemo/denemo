@@ -1067,11 +1067,11 @@ SCM scheme_get_notes (SCM optional) {
 
 
 SCM scheme_get_accidentals(SCM optional) {
-  //return
-  //curstaff->keysig.accs
-
-  //do we need a find_prevailing_key like the
-  // find_prevailing_clef(), or just return the keysigs of the currentobjec if it is type KEYSIG and #f in not???
+ GString *str = g_string_new(" ");
+ keysig *keysig = get_prevailing_context(KEYSIG);
+ gint i;
+ for(i=0;i<7;i++) g_string_append_printf(str, "%d ", keysig->accs[i]);
+ return scm_from_locale_string(g_string_free(str, FALSE));
 }
 
 
@@ -2796,6 +2796,10 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
+
+  INSTALL_SCM_FUNCTION ("Returns The accidentals of the staff",DENEMO_SCHEME_PREFIX"GetAccidentals", scheme_get_accidentals);
+
+
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);

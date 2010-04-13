@@ -19,4 +19,8 @@ gint
 find_prevailing_clef(DenemoScore *si);
 DenemoObject *
 get_clef_before_object(objnode *curobj);
+
+gpointer 
+get_prevailing_context(DenemoObjType type);
+
 #endif /* __CONTEXTS_H__ */
