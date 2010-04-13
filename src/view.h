@@ -110,4 +110,6 @@ set_master_tempo(DenemoScore *si, gdouble tempo);
 
 void 
 toggle_to_drawing_area(gboolean show);
+
+void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param);
 #endif

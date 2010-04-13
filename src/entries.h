@@ -11,6 +11,7 @@
 {"PushPosition", NULL, N_("Push Position"), NULL,N_("Pushes the current cursor position onto a stack"),G_CALLBACK (PushPosition)},
 {"PopPosition", NULL, N_("Pop Position"), NULL,N_("Pops a position from the stack of cursor positions, moving the cursor there"),G_CALLBACK (PopPosition)},
 {"PopPushPosition", NULL, N_("Pop and Push Position"), NULL,N_("Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position"),G_CALLBACK (PopPushPosition)},
+{"ToggleReduceToDrawingArea", NULL, N_("Hide/Show Menus"), NULL,N_("Hides/Shows menus, panes etc. The ones shown are those checked in the view menu."),G_CALLBACK (ToggleReduceToDrawingArea)},
 {"StaffUp", NULL, N_("Staff Up"), NULL,N_("Moves the cursor to the staff above, extending selection if any"),G_CALLBACK (staffup_cb)},
 {"StaffDown", NULL, N_("Staff Down"), NULL,N_("Moves the cursor to the staff below, extending selection if any"),G_CALLBACK (staffdown_cb)},
 {"MoveToStaffUp", NULL, N_("Move to Staff Up"), NULL,N_("Moves the cursor to the staff above without altering selection"),G_CALLBACK (movetostaffup_cb)},

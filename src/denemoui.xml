@@ -110,7 +110,7 @@
       <menuitem action="ExecuteScheme"/>
     </menu>
     <menu action="ViewMenu">
-
+      <menuitem action="ToggleReduceToDrawingArea"/>
       <menuitem action="TogglePrintView"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleConsoleView"/>

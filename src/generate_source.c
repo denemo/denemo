@@ -83,6 +83,9 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position",	N_("PopPushPosition"), "PopPushPosition", N_("Pop and Push Position")},
 
 
+  {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_DIRECT, NULL, "Hides/Shows menus, panes etc. The ones shown are those checked in the view menu.", N_("ToggleReduceToDrawingArea"), "ToggleReduceToDrawingArea", N_("Hide/Show Menus")},
+
+
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff above, extending selection if any",	N_("StaffUp"), "staffup", N_("Staff Up")},
   {CMD_CATEGORY_NAVIGATION|CMD_CATEGORY_BOOLEAN, NULL, "Moves the cursor to the staff below, extending selection if any",	N_("StaffDown"), "staffdown", N_("Staff Down")},
 

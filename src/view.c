@@ -504,6 +504,11 @@ void toggle_to_drawing_area(gboolean show) {
   //widget = Denemo.gui->si->lyricsbox;
 }
 
+void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
+  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
+  toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
+}
+
 /* hide all menus, leaving only the score titles, used for educational games */
 static SCM scheme_hide_menus(SCM hide) {
   gboolean show = FALSE;

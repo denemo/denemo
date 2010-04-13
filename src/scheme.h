@@ -47,6 +47,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPosition")), "scm", (g
 SCM scheme_PopPushPosition(SCM optional);
 install_scm_function ("d-PopPushPosition", scheme_PopPushPosition);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "PopPushPosition")), "scm", (gpointer)1);
+/*ToggleReduceToDrawingArea ToggleReduceToDrawingArea*/
+SCM scheme_ToggleReduceToDrawingArea(SCM optional);
+install_scm_function ("d-ToggleReduceToDrawingArea", scheme_ToggleReduceToDrawingArea);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ToggleReduceToDrawingArea")), "scm", (gpointer)1);
 /*StaffUp staffup*/
 SCM scheme_StaffUp(SCM optional);
 install_scm_function ("d-StaffUp", scheme_StaffUp);
