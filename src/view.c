@@ -1066,7 +1066,7 @@ SCM scheme_get_notes (SCM optional) {
 }
 
 
-SCM scheme_get_accidentals(SCM optional) {
+SCM scheme_get_prevailing_keysig(SCM optional) {
  GString *str = g_string_new(" ");
  keysig *keysig = get_prevailing_context(KEYSIG);
  gint i;
@@ -2797,7 +2797,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
-  INSTALL_SCM_FUNCTION ("Returns The accidentals of the staff",DENEMO_SCHEME_PREFIX"GetAccidentals", scheme_get_accidentals);
+  INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
 
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
