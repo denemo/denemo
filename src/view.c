@@ -214,8 +214,8 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define BLANK_E_STRING "Blank"
 #define RHYTHM_E_STRING "Rhythm"
 #define ToggleToolbar_STRING "ToggleToolbar"
-#define TogglePlaybackToolbar_STRING "TogglePlaybackToolbar"
-#define ToggleMidiInToolbar_STRING "ToggleMidiInToolbar"
+#define TogglePlaybackControls_STRING "TogglePlaybackToolbar"
+#define ToggleMidiInControls_STRING "ToggleMidiInToolbar"
 
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
 #define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
@@ -445,16 +445,72 @@ toggle_print_view (GtkAction *action, gpointer param);
 static void
 toggle_scoretitles (GtkAction *action, gpointer param);
 
-static SCM scheme_hide_menus(void) {
-  toggle_toolbar(NULL, NULL);
-  toggle_playback_controls(NULL, NULL);
-  toggle_midi_in_controls(NULL, NULL);
-  toggle_rhythm_toolbar(NULL, NULL);
-  toggle_entry_toolbar(NULL, NULL);
-  toggle_object_menu(NULL, NULL);
-  toggle_main_menu(NULL, NULL);
-  toggle_console_view (NULL, NULL);
-  toggle_print_view (NULL, NULL);
+/* Hide/show everything except the drawing area */
+void toggle_to_drawing_area(gboolean show) {
+  static gboolean hidden = FALSE;
+  // NOTE  lyrics are per movement
+  GtkWidget *widget;
+  gboolean hide = !show;
+  if(hidden & hide)
+    return;
+  hidden = hide;
+#define TOG(name, item, menu)\
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  static gboolean item=TRUE;\
+  if(hide)\
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if((hide && item) || (show && item))\
+    activate_action(menu);
+
+  TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
+  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+
+
+#define TOG2(name, item)\
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  static gboolean item=TRUE;\
+  if(hide)\
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if(hide && item)\
+    gtk_widget_hide(widget);\
+  if(!hide && item)\
+    gtk_widget_show(widget);		  
+
+#define TOG3(name, item, menu)\
+  widget = name;\
+  static gboolean item=TRUE;\
+  if(hide) \
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if((hide && item) || (show && item))\
+    activate_action(menu);
+
+  TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
+
+  TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
+
+  TOG2("/EntryToolBar", entrymenu);
+
+  TOG("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
+
+  TOG2("/MainMenu", mainmenu);
+
+  TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+
+  TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
+
+  TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+
+  // toggle_lyrics_view (NULL, NULL);
+  //widget = Denemo.gui->si->lyricsbox;
+}
+
+/* hide all menus, leaving only the score titles, used for educational games */
+static SCM scheme_hide_menus(SCM hide) {
+  gboolean show = FALSE;
+  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+    show = TRUE;
+  toggle_to_drawing_area(show);
+  activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   return SCM_BOOL(TRUE);
 }
 
@@ -2563,11 +2619,11 @@ static void load_scheme_init(void)  {
 }
 
 /* show the user's preferred view. Assumes all hidden on entry */
-static void  show_preferred_view(void) {
+void  show_preferred_view(void) {
   if (Denemo.prefs.playback_controls)
-    activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
+    activate_action("/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
   if (Denemo.prefs.midi_in_controls)
-    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
+    activate_action("/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
@@ -5989,10 +6045,10 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
-  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
+  {TogglePlaybackControls_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
    G_CALLBACK (toggle_playback_controls), TRUE}
   ,
-  {ToggleMidiInToolbar_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
+  {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
@@ -6391,6 +6447,7 @@ create_window(void) {
   GError *error;
   GtkWidget *widget;
   gchar *data_file;
+
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
   loadWindowState(/* it accesses Denemo.window */);
