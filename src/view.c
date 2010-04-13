@@ -451,7 +451,7 @@ void toggle_to_drawing_area(gboolean show) {
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
-  if(hidden & hide)
+  if((hidden & hide) || (show & !hidden))
     return;
   hidden = hide;
 #define TOG(name, item, menu)\
