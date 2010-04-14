@@ -448,23 +448,27 @@ toggle_scoretitles (GtkAction *action, gpointer param);
 /* Hide/show everything except the drawing area */
 void toggle_to_drawing_area(gboolean show) {
   static gboolean hidden = FALSE;
+  gint height;
+  gint win_width, win_height;
+  //GtkAllocation allocation;
+
+  height = 0;
+  gtk_window_get_size ( GTK_WINDOW (Denemo.window), &win_width, &win_height);
+
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
   if((hidden & hide) || (show & !hidden))
     return;
   hidden = hide;
+#define ACCUM height += widget->allocation.height
 #define TOG(name, item, menu)\
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
   static gboolean item=TRUE;\
   if(hide)\
     item = GTK_WIDGET_VISIBLE (widget);\
   if((hide && item) || (show && item))\
-    activate_action(menu);
-
-  TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
-  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
-
+    ACCUM, activate_action(menu);
 
 #define TOG2(name, item)\
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
@@ -472,9 +476,9 @@ void toggle_to_drawing_area(gboolean show) {
   if(hide)\
     item = GTK_WIDGET_VISIBLE (widget);\
   if(hide && item)\
-    gtk_widget_hide(widget);\
+    ACCUM, gtk_widget_hide(widget);		\
   if(!hide && item)\
-    gtk_widget_show(widget);		  
+    ACCUM, gtk_widget_show(widget);		  
 
 #define TOG3(name, item, menu)\
   widget = name;\
@@ -482,26 +486,22 @@ void toggle_to_drawing_area(gboolean show) {
   if(hide) \
     item = GTK_WIDGET_VISIBLE (widget);\
   if((hide && item) || (show && item))\
-    activate_action(menu);
+    ACCUM, activate_action(menu);
 
-  TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
-
-  TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
-
-  TOG2("/EntryToolBar", entrymenu);
-
+  TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
+  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
   TOG("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
+  TOG2("/EntryToolBar", entrymenu);
   TOG2("/MainMenu", mainmenu);
 
   TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
-
   TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
-
   TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+  TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
+  TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
-  // toggle_lyrics_view (NULL, NULL);
-  //widget = Denemo.gui->si->lyricsbox;
+  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (hidden?-height:height));
 }
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
