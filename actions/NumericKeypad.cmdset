@@ -2338,6 +2338,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <label>Start Beam</label>
         <tooltip>Instructs the LilyPond engraver to start a beam here. (Print effect only)</tooltip>
+        <bind>bracketleft</bind>
       </row>
       <row>
         <action>EndBeam</action>
@@ -2345,6 +2346,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <label>End Beam</label>
         <tooltip>Instructs LilyPond engraver to stop previously started manual beaming. Print effect only.</tooltip>
+        <bind>bracketright</bind>
       </row>
       <row>
         <action>DeleteLilyPondOnNote</action>
