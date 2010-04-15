@@ -66,7 +66,7 @@ draw_rest (cairo_t *cr,
   /* Now draw any trailing dots and we're done */
 
   draw_dots (cr, xx + restwidths[duration],
-	     y + restoffsets[duration] , numdots);
+	     y + restoffsets[duration]  - HALF_LINE_SPACE, numdots);
 }
 
 /**
