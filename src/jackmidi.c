@@ -49,6 +49,15 @@ static double start_player = 0.0;
 //static gint BufferFillIndex;
 //static volatile gboolean BufferEmpty = TRUE;
 static gboolean playing_piece = FALSE;
+static gboolean jack_transport = TRUE;
+static gboolean jack_transport_master = TRUE;
+
+float time_beats_per_bar = 4.0;
+float time_beat_type = 0.25;
+double time_ticks_per_beat = 1920.0;
+double time_beats_per_minute = 120.0;
+volatile int time_reset = 1;            /* true when time value change */
+
 //struct midi_buffer
 //{
 //  unsigned char buffer[3];
@@ -64,7 +73,6 @@ static gdouble playback_duration = 0.0;
 
 static double          	rate_limit = 0;
 static gboolean        	start_stopped = FALSE;
-static gboolean        	use_transport = FALSE;
 static gboolean		jack_server_running = TRUE;
 static double 		start_time = 0.0;//time in seconds to start at (from start of the smf)
 static double 		end_time = 0.0;//time in seconds to end at (from start of the smf)
@@ -109,6 +117,19 @@ warn_from_jack_thread_context(const char *str)
 #ifdef DEBUG
   g_idle_add(warning_async, (gpointer)str);
 #endif
+}
+
+/* Change the tempo for the entire timeline, not just from the current
+   location */
+void com_tempo(gint tempo)
+{
+  time_beats_per_minute = tempo;
+  time_reset = 1;
+}
+
+void com_locate(jack_nframes_t frame)
+{
+  jack_transport_locate(MD[0].jack_client, frame);
 }
 
 
@@ -255,6 +276,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
   thetime -= si->tempo_change_time - si->start_player;
   thetime *= si->master_tempo;
   thetime +=  si->tempo_change_time - si->start_player;
+  com_tempo(si->tempo * si->master_tempo);
   //g_print("transformed to %f\n", thetime);
   if (thetime > event->time_seconds){
      event = smf_get_next_event(si->smf);
@@ -313,6 +335,51 @@ process_midi_input(jack_nframes_t nframes)
   }
 }
 
+/* Jack timebase callback.    
+ * Runs in the process thread.  Realtime, must not wait.
+ * This code was from tranport.c transport example  
+ */
+void timebase(jack_transport_state_t state, jack_nframes_t nframes,
+		                jack_position_t *pos, int new_pos, void *arg)
+{
+  double min;  /* minutes since frame 0 */
+  long abs_tick;  /* ticks since frame 0 */
+  long abs_beat;  /* beats since frame 0 */
+  
+  if (new_pos || time_reset) {
+    pos->valid = JackPositionBBT;
+    pos->beats_per_bar = time_beats_per_bar;
+    pos->beat_type = time_beat_type;
+    pos->ticks_per_beat = time_ticks_per_beat;
+    pos->beats_per_minute = time_beats_per_minute;
+    time_reset = 0;  /* time change complete */
+    /* Compute BBT info from frame number.  This is relatively 	
+     * simple here, but would become complex if we support tempo
+     * or time signature change at specific locations in the
+     * transport timeline. 
+     */
+    min = pos->frame / ((double) pos->frame_rate * 60.0);
+    abs_tick = min * pos->beats_per_minute * pos->ticks_per_beat;
+    abs_beat = abs_tick / pos->ticks_per_beat;
+    pos->bar = abs_beat / pos->beats_per_bar;
+    pos->beat = abs_beat - (pos->bar * pos->beats_per_bar) + 1;
+    pos->tick = abs_tick - (abs_beat * pos->ticks_per_beat);
+    pos->bar_start_tick = pos->bar * pos->beats_per_bar * pos->ticks_per_beat;
+    pos->bar++;  /* adjust start to bar 1 */
+  } else {
+    /* Compute BBT info based on previous period. */
+    pos->tick += nframes * pos->ticks_per_beat * pos->beats_per_minute / (pos->frame_rate * 60);
+    while (pos->tick >= pos->ticks_per_beat) {
+      pos->tick -= pos->ticks_per_beat;
+      if (++pos->beat > pos->beats_per_bar) {
+	pos->beat = 1;
+	++pos->bar;
+	pos->bar_start_tick += pos->beats_per_bar * pos->ticks_per_beat;
+      }
+    }
+  }
+}
+					
 static int 
 process_callback(jack_nframes_t nframes, gint client_number)
 {
@@ -322,7 +389,7 @@ process_callback(jack_nframes_t nframes, gint client_number)
   }
   if(Denemo.gui->input_source==INPUTMIDI && input_port)
     process_midi_input(nframes);
-  
+   
   send_midi_event(nframes, client_number);
   return 0;
 }
@@ -550,6 +617,9 @@ init_jack(void){
       g_warning("Could not register JACK process callback.");
       return -1;
     }
+    if (jack_transport_master)
+      if (jack_set_timebase_callback(MD[i].jack_client, TRUE, timebase, NULL) != 0)
+	g_warning("Unable to take over timebase.");
 
     if(MD[i].jack_client) {
       gint j;
@@ -570,7 +640,6 @@ init_jack(void){
   }  
   return err;
 }
-
 
 
 void jack_midi_play(gchar *callback)
@@ -618,6 +687,8 @@ void jack_midi_play(gchar *callback)
   
   smf_rewind(Denemo.gui->si->smf);
   last_draw_time = 0.0;
+  if (jack_transport)
+    jack_transport_start(MD[0].jack_client);
   g_idle_add(jackmidi_play_smf_event, callback_string->str);
   smf_seek_to_seconds(gui->si->smf, pause_time>0.0? pause_time:gui->si->start_time);
 }
@@ -625,10 +696,10 @@ void jack_midi_play(gchar *callback)
 void
 jack_midi_playback_stop ()
 {
-   //if(jack_client)
-     //jack_transport_stop(jack_client);
   if(playing_piece)
     toggle_playbutton();
+  if (jack_transport)
+    jack_transport_stop(MD[0].jack_client);
   Denemo.gui->si->playingnow = NULL;
   playing_piece = FALSE;
   pause_time = -1.0;
