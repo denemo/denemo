@@ -1805,8 +1805,9 @@ dnm_deleteobject (DenemoScore * si)
 	  find_xes_in_all_measures (si);
 	  break;
 	case TIMESIG:
-	  /* For time signatures, deletion is linked to all
-	   * the staffs on the score */
+	  delete_object_helper (si);
+	  /* For time signature changes remove from all other staffs 
+	   * if in the conventional, first, position */
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	    {
 	      curmeasure = g_list_nth (firstmeasurenode (curstaff),
@@ -1816,10 +1817,8 @@ dnm_deleteobject (DenemoScore * si)
 		//g_print("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
 		if(first_obj->type == TIMESIG) {
 		  remove_object (curmeasure, (objnode *) curmeasure->data);
-		beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+		  beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
 		}
-		else
-		  g_warning("Timesig change not found at start of measure");
 	      }
 	    }
 	  reset_cursor_stats (si);
