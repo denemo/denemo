@@ -869,6 +869,7 @@ static DenemoObject *
 parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
 {
   xmlNodePtr durationElem, dotsElem;
+  xmlNodePtr childElem;
   gboolean successful = FALSE;
   gchar *durationType;
   gint baseDuration = 2, numDots = 0;
@@ -955,6 +956,28 @@ DenemoObject *chordObj =
   show?newchord (baseDuration, numDots, 0):hidechord(newchord (baseDuration, numDots, 0));
  if(grace)
    ((chord *) chordObj->object)->is_grace = GRACED_NOTE;
+
+
+  FOREACH_CHILD_ELEM (childElem, chordElem)  {
+    if (childElem->ns == ns) {
+      if (ELEM_NAME_EQ (childElem, "directives"))  {
+	((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
+      }
+      else if (ELEM_NAME_EQ (childElem, "figure"))
+	{
+	  parseFigure (childElem, chordObj);
+	  si->has_figures = (gpointer) TRUE;
+	}
+      else if (ELEM_NAME_EQ (childElem, "fakechord"))
+	{
+	  parseFakechord (childElem, chordObj);
+	  si->has_fakechords = (gpointer) TRUE;
+	}
+    }
+  }
+  
+
+
  return chordObj;
 }
 
@@ -970,13 +993,7 @@ parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
 
   chordObj = parseBaseChord (restElem, ns, si);
 
-  FOREACH_CHILD_ELEM (childElem, restElem)  {
-    if (childElem->ns == ns) {
-      if (ELEM_NAME_EQ (childElem, "directives"))  {
-	((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
-      }
-    }
-  }
+
   return chordObj;
 }
 
@@ -1404,20 +1421,8 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	  {
 	    parseLyric (childElem, chordObj);
 	  }
-	else if (ELEM_NAME_EQ (childElem, "figure"))
-	  {
-	    parseFigure (childElem, chordObj);
-	    si->has_figures = (gpointer) TRUE;
-	  }
-	else if (ELEM_NAME_EQ (childElem, "fakechord"))
-	  {
-	    parseFakechord (childElem, chordObj);
-	    si->has_fakechords = (gpointer) TRUE;
-	  }
-	else if (ELEM_NAME_EQ (childElem, "directives")) 
-	  {
-	  ((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
-	  }
+
+	
 	//Support for old files 0.8.2 only
 #define DO_DIREC(field) else if (ELEM_NAME_EQ (childElem, #field))\
 	  {\
@@ -1440,10 +1445,17 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	    ((chord *) chordObj->object)->chordize = TRUE;
 	  }
 
-
-
-
-
+	else if (ELEM_NAME_EQ (childElem, "directives"))  {
+	  ;//done in base
+	}
+	else if (ELEM_NAME_EQ (childElem, "figure"))
+	  {
+	    ;//done in base
+	  }
+	else if (ELEM_NAME_EQ (childElem, "fakechord"))
+	  {
+	    ;//done in base
+	  }
 	else
 	  {
 	    ILLEGAL_ELEM ("chord", childElem);
