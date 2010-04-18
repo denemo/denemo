@@ -642,6 +642,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 	g_error_free (error);
       }
   }
+#if 0
   while (dir && (filename = (gchar *) g_dir_read_name (dir)) != NULL)
     {
       if (0 == strcmp ("crashrecovery.denemo", filename))
@@ -693,6 +694,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
           gtk_widget_destroy (dialog);
         }
     }
+#endif
 
   if (dir)
     g_dir_close (dir);

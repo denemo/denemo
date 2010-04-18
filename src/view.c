@@ -3338,17 +3338,20 @@ INSTALL_PUT(movementcontrol, gx)
 INSTALL_PUT(movementcontrol, gy)
 INSTALL_PUT(movementcontrol, override)
 
-
+  
 INSTALL_GET(movementcontrol, x)
 INSTALL_GET(movementcontrol, y)
 INSTALL_GET(movementcontrol, tx)
 INSTALL_GET(movementcontrol, ty)
+  
 INSTALL_GET(movementcontrol, gx)
 INSTALL_GET(movementcontrol, gy)
 INSTALL_GET(movementcontrol, override)
+  
 INSTALL_GET(movementcontrol, width)
+  
 INSTALL_GET(movementcontrol, height)
-
+  
 INSTALL_EDIT(movementcontrol);
 
 
@@ -3441,8 +3444,47 @@ INSTALL_EDIT(movementcontrol);
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
      ;// open_user_default_template(REPLACE_SCORE);
  
-
- /* Now launch into the main gtk event loop and we're all set */
+ {
+   gchar *crash_file = g_build_filename(locatedotdenemo (), "crashrecovery.denemo", NULL);
+   if(g_file_test(crash_file, G_FILE_TEST_EXISTS)) {
+     GtkWidget *dialog = 
+       gtk_dialog_new_with_buttons (NULL,
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_YES,
+				    GTK_RESPONSE_ACCEPT,
+				    GTK_STOCK_SAVE_AS,
+				    GTK_RESPONSE_CANCEL,
+				    GTK_STOCK_DELETE,
+				    GTK_RESPONSE_REJECT,
+				    NULL);
+     GtkWidget *label =
+       gtk_label_new
+       ("\nDenemo crashed, The open file has been recovered\n"
+	"do you want to continue editing your work?\n");
+     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
+			label);
+     gtk_widget_show_all (dialog);
+     gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+     g_debug ("Dialog result is %d\n", result);
+     
+     switch (result)
+       {
+       case GTK_RESPONSE_ACCEPT:
+	 open_for_real (crash_file,  Denemo.gui, TRUE, REPLACE_SCORE);
+	 score_status(Denemo.gui, TRUE);
+	 //openfile (name, FALSE);
+	 g_remove (crash_file);
+	 break;
+       case GTK_RESPONSE_CANCEL:
+       case GTK_RESPONSE_REJECT:
+	 g_remove (crash_file);
+	 break;
+       }
+     gtk_widget_destroy (dialog);
+   }
+ }
+/* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
 
