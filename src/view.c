@@ -3453,8 +3453,7 @@ INSTALL_EDIT(movementcontrol);
 				    GTK_DIALOG_DESTROY_WITH_PARENT,
 				    GTK_STOCK_YES,
 				    GTK_RESPONSE_ACCEPT,
-				    GTK_STOCK_SAVE_AS,
-				    GTK_RESPONSE_CANCEL,
+				    
 				    GTK_STOCK_DELETE,
 				    GTK_RESPONSE_REJECT,
 				    NULL);
@@ -3477,6 +3476,7 @@ INSTALL_EDIT(movementcontrol);
 	 g_remove (crash_file);
 	 break;
        case GTK_RESPONSE_CANCEL:
+	 break;
        case GTK_RESPONSE_REJECT:
 	 g_remove (crash_file);
 	 break;
