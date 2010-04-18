@@ -725,7 +725,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   {
   //compute itp->leftmosttime here - the time at the start of this system
   
-    objnode *curobj = (objnode *) itp->curmeasure->data;
+    objnode *curobj = itp->curmeasure?(objnode *) itp->curmeasure->data:NULL;
     if(curobj) {
     DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
     if(mudelaitem)
