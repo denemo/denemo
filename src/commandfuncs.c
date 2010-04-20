@@ -1812,10 +1812,10 @@ dnm_deleteobject (DenemoScore * si)
 	    {
 	      curmeasure = g_list_nth (firstmeasurenode (curstaff),
 				       si->currentmeasurenum - 1);
-	      if(curmeasure){
+	      if(curmeasure && curmeasure->data){
 		DenemoObject *first_obj = ((objnode *) curmeasure->data)->data;
 		//g_print("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
-		if(first_obj->type == TIMESIG) {
+		if(first_obj && first_obj->type == TIMESIG) {
 		  remove_object (curmeasure, (objnode *) curmeasure->data);
 		  beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
 		}
@@ -1926,6 +1926,7 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright(param);
   else
     movecursorright(param);
+scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
