@@ -362,8 +362,9 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 		       x + mudelaitem->x, y, itp->in_highy, itp->in_lowy, mudelaitem, itp->mark);  
       break;
     case CLEF:
+      itp->clef = ((clef *) mudelaitem->object);
       if(cr) draw_clef (cr, x + mudelaitem->x, y,
-		 itp->clef = ((clef *) mudelaitem->object));
+		 itp->clef);
       if (si->currentobject == curobj && si->cursor_appending)
 	si->cursorclef = itp->clef->type;//FIXME drawing is side-effecting the data, presumably to economize on searching for the prevailing clef at the cursor.
       break;
@@ -380,10 +381,12 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	memcpy (si->nextmeasureaccs, itp->keyaccs, SEVENGINTS);
       break;
     case TIMESIG:
+      itp->time1 =
+	((timesig *) mudelaitem->object)->time1;
+      itp->time2 =
+	((timesig *) mudelaitem->object)->time2;
       if(cr) draw_timesig (cr,
-		    x + mudelaitem->x, y, itp->time1 =
-		    ((timesig *) mudelaitem->object)->time1, itp->time2 =
-		    ((timesig *) mudelaitem->object)->time2);
+		    x + mudelaitem->x, y, itp->time1, itp->time2);
       if (si->currentmeasure == itp->curmeasure)
 	{
 	  /* This is the current measure */
