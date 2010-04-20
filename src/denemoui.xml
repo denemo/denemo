@@ -43,6 +43,15 @@
 	<menuitem action="CursorUp"/>
 	<menuitem action="MoveCursorRight"/>
 	<separator/>
+	<menu action="CursorToNote">
+	  <menuitem action="MoveToA"/>
+	  <menuitem action="MoveToB"/>
+	  <menuitem action="MoveToC"/>
+	  <menuitem action="MoveToD"/>
+	  <menuitem action="MoveToE"/>
+	  <menuitem action="MoveToF"/>
+	  <menuitem action="MoveToG"/>
+	</menu>
 	<menuitem action="OctaveUp"/>
 	<menuitem action="OctaveDown"/>
 	<separator/>

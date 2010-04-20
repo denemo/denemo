@@ -2142,6 +2142,62 @@ static void ChangeToG(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
+static void MoveToA(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_A_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToB(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_B_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToC(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_C_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToD(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_D_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToE(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_E_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToF(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_F_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
+static void MoveToG(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_G_key(gui);
+  gui->mode = mode;
+  displayhelper(gui);
+}
 static void InsertA(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;

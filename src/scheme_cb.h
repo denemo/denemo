@@ -5540,60 +5540,88 @@ delete_rhythm_cb (NULL, &param);
          if(param.status && query) return scm_makfrom0str (gstr->str);         if(gstr) g_string_free(gstr, TRUE);
 return SCM_BOOL(param.status);
 }
-SCM scheme_ChangeToA (SCM optional) {
-ChangeToA (NULL, NULL);
-return SCM_BOOL(TRUE);
-}
 SCM scheme_InsertA (SCM optional) {
 InsertA (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToB (SCM optional) {
-ChangeToB (NULL, NULL);
+SCM scheme_ChangeToA (SCM optional) {
+ChangeToA (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToA (SCM optional) {
+MoveToA (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertB (SCM optional) {
 InsertB (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToC (SCM optional) {
-ChangeToC (NULL, NULL);
+SCM scheme_ChangeToB (SCM optional) {
+ChangeToB (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToB (SCM optional) {
+MoveToB (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertC (SCM optional) {
 InsertC (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToD (SCM optional) {
-ChangeToD (NULL, NULL);
+SCM scheme_ChangeToC (SCM optional) {
+ChangeToC (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToC (SCM optional) {
+MoveToC (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertD (SCM optional) {
 InsertD (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToE (SCM optional) {
-ChangeToE (NULL, NULL);
+SCM scheme_ChangeToD (SCM optional) {
+ChangeToD (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToD (SCM optional) {
+MoveToD (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertE (SCM optional) {
 InsertE (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToF (SCM optional) {
-ChangeToF (NULL, NULL);
+SCM scheme_ChangeToE (SCM optional) {
+ChangeToE (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToE (SCM optional) {
+MoveToE (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertF (SCM optional) {
 InsertF (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
-SCM scheme_ChangeToG (SCM optional) {
-ChangeToG (NULL, NULL);
+SCM scheme_ChangeToF (SCM optional) {
+ChangeToF (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToF (SCM optional) {
+MoveToF (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertG (SCM optional) {
 InsertG (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_ChangeToG (SCM optional) {
+ChangeToG (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_MoveToG (SCM optional) {
+MoveToG (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_0 (SCM optional) {
