@@ -1949,6 +1949,7 @@ gotohome (gpointer param, gboolean extend_selection)
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   /*gtk_widget_draw (gui->scorearea, NULL);*/
+  scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
   gtk_widget_queue_draw (gui->scorearea);
 }
 
