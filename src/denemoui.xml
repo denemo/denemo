@@ -359,9 +359,7 @@
 	  <menuitem action="ChangeToF"/>
 	  <menuitem action="ChangeToG"/>
 	  <menuitem action="Sharpen"/>
-	  <menuitem action="Flatten"/>
-	  <menuitem action="StemDown"/>
-	  <menuitem action="StemUp"/>  
+	  <menuitem action="Flatten"/>	 
         </menu>
 	<menu action="InsertDuration">
 	  
@@ -399,7 +397,16 @@
 	  <menuitem action="Set5"/>
 	  <menuitem action="Set6"/>
 	  
-	</menu>  
+	</menu>
+	<menu action="CursorToNote">
+	  <menuitem action="MoveToA"/>
+	  <menuitem action="MoveToB"/>
+	  <menuitem action="MoveToC"/>
+	  <menuitem action="MoveToD"/>
+	  <menuitem action="MoveToE"/>
+	  <menuitem action="MoveToF"/>
+	  <menuitem action="MoveToG"/>
+	</menu>
 	
       </menu> <!-- end of modeless note object menu -->
       
