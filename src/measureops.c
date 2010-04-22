@@ -280,8 +280,10 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		{
 		  if (in_tuplet)
 		    {
-		      set_tuplefied_numticks (theobj, numerator, denominator);
-		      basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		      if(!((chord *)theobj->object)->is_grace) {
+			set_tuplefied_numticks (theobj, numerator, denominator);
+			basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		      }
 		    }
 		  else if (in_grace)
 		    {
