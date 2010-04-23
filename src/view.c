@@ -917,7 +917,7 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
-//Insert rests to the value of the keysig and return the number of rests inserted.
+//Insert rests to the value of the timesig and return the number of rests inserted.
 SCM scheme_put_whole_measure_rests (void) {
   DenemoGUI *gui = Denemo.gui;
   SCM scm;
@@ -1073,6 +1073,22 @@ SCM scheme_get_prevailing_keysig(SCM optional) {
  gint i;
  for(i=0;i<7;i++) g_string_append_printf(str, "%d ", keysig->accs[i]);
  return scm_from_locale_string(g_string_free(str, FALSE));
+}
+
+SCM scheme_set_prevailing_keysig(SCM keyaccs) {
+  //keysigs have a field called "number" which determines how it is drawn, setting like this does not get a keysig drawn, nor does it affect lilypond output
+  gchar *accs=NULL;
+  if(scm_is_string(keyaccs)){ 
+    accs = scm_to_locale_string(keyaccs);
+  }
+  if(!accs)
+    return SCM_BOOL_F;
+  keysig *keysig = get_prevailing_context(KEYSIG);
+  sscanf(accs, "%d%d%d%d%d%d%d", keysig->accs+0,keysig->accs+1,keysig->accs+2,keysig->accs+3,keysig->accs+4,keysig->accs+5,keysig->accs+6);
+  showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.gui->si->currentstaff->
+				  data);
+  displayhelper (Denemo.gui);//score_status(Denemo.gui, TRUE);
+  return SCM_BOOL_T;
 }
 
 
@@ -2799,6 +2815,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
   INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+ 
+ //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
