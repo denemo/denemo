@@ -2219,6 +2219,18 @@ static SCM scheme_get_type (SCM optional) {
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
+static SCM scheme_get_tuplet (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=TUPOPEN))
+   return SCM_BOOL_F;
+ GString *ratio = g_string_new("");
+ g_string_printf(ratio, "%d/%d", ((tupopen*)curObj->object)->numerator, ((tupopen*)curObj->object)->denominator);
+ return  scm_makfrom0str(g_string_free(ratio, FALSE));
+}
+
+
+
 static SCM scheme_get_nonprinting (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
@@ -2794,6 +2806,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION1 (" pass in a path (from below menus) to a command script. Loads the command from .denemo or system if it can be found. It is used at startup in .denemo files like ReadingNoteNames.denemo which executes (d-LoadCommand \"MainMenu/Educational/ReadingNoteNames\") to ensure that the command it needs is in the command set.", DENEMO_SCHEME_PREFIX"LoadCommand", scheme_load_command);
   INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences",DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
+
+  INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
 
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the name of the type of object at the (m, n)th position on the Denemo Clipboard.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
