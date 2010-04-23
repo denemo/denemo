@@ -102,7 +102,6 @@ void add_turn(DenemoGUI *gui);
 void add_trill(DenemoGUI *gui);
 void add_staccatissimo(DenemoGUI *gui);
 void set_grace(DenemoGUI *gui);
-void toggle_grace(DenemoGUI *gui);
 
 void force_cautionary(DenemoGUI *gui);
 void change_pitch(DenemoGUI *gui);

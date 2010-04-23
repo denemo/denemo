@@ -1388,13 +1388,6 @@ set_grace (gui);
 displayhelper (gui);
   score_status(gui, TRUE);
 }
-/*ToggleGrace toggle_grace*/
-static void toggle_grace_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-toggle_grace (gui);
-displayhelper (gui);
-  score_status(gui, TRUE);
-}
 /*ForceCaution force_cautionary*/
 static void force_cautionary_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

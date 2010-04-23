@@ -22,6 +22,7 @@
 #include "pitchentry.h"
 #include "exportlilypond.h"
 #include "print.h"
+#include "graceops.h"
 #include "kbd-custom.h"
 #include "keyboard.h"
 #include "csoundplayback.h"
