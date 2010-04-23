@@ -1425,6 +1425,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_prepend(figures_name, "Figured Bass for ");
     g_string_append_printf(figures_name, " Voice %d", voice_count);
     insert_music_section(gui, figures_name->str);
+    g_string_append(figures, "%figures follow\n");
   }
   /* a button and mark for the chord symbols of this staff */
   GString *fakechords_name = g_string_new(movement);
@@ -1432,6 +1433,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
     g_string_prepend(fakechords_name, "Chord symbols for ");
     g_string_append_printf(fakechords_name, " Voice %d", voice_count);
     insert_music_section(gui, fakechords_name->str);
+    g_string_append(fakechords, "%chord symbols follow\n");
   }
 
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);

@@ -22,6 +22,7 @@ void
 draw_cursor (cairo_t *cr, DenemoScore * si,
 	     gint xx, gint y, input_mode mode, gint dclef)
 {
+  if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
 
   static GdkGC *blackgc = NULL;

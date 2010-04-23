@@ -21,7 +21,7 @@
       <menuitem action="SaveParts"/>
 		<!-- <menuitem action="SaveSelection"/> -->
       <menuitem action="SaveTemplate"/>
-      <menuitem action="ExportPDF"/>
+      	<!-- <menuitem action="ExportPDF"/>  -->
       <separator/>
       <menuitem action="ConfigureScore"/> 
       <separator/> 
@@ -43,6 +43,15 @@
 	<menuitem action="CursorUp"/>
 	<menuitem action="MoveCursorRight"/>
 	<separator/>
+	<menu action="CursorToNote">
+	  <menuitem action="MoveToA"/>
+	  <menuitem action="MoveToB"/>
+	  <menuitem action="MoveToC"/>
+	  <menuitem action="MoveToD"/>
+	  <menuitem action="MoveToE"/>
+	  <menuitem action="MoveToF"/>
+	  <menuitem action="MoveToG"/>
+	</menu>
 	<menuitem action="OctaveUp"/>
 	<menuitem action="OctaveDown"/>
 	<separator/>
@@ -110,7 +119,7 @@
       <menuitem action="ExecuteScheme"/>
     </menu>
     <menu action="ViewMenu">
-
+      <menuitem action="ToggleReduceToDrawingArea"/>
       <menuitem action="TogglePrintView"/>
       <menuitem action="ToggleLyricsView"/>
       <menuitem action="ToggleConsoleView"/>
@@ -350,9 +359,7 @@
 	  <menuitem action="ChangeToF"/>
 	  <menuitem action="ChangeToG"/>
 	  <menuitem action="Sharpen"/>
-	  <menuitem action="Flatten"/>
-	  <menuitem action="StemDown"/>
-	  <menuitem action="StemUp"/>  
+	  <menuitem action="Flatten"/>	 
         </menu>
 	<menu action="InsertDuration">
 	  
@@ -390,7 +397,16 @@
 	  <menuitem action="Set5"/>
 	  <menuitem action="Set6"/>
 	  
-	</menu>  
+	</menu>
+	<menu action="CursorToNote">
+	  <menuitem action="MoveToA"/>
+	  <menuitem action="MoveToB"/>
+	  <menuitem action="MoveToC"/>
+	  <menuitem action="MoveToD"/>
+	  <menuitem action="MoveToE"/>
+	  <menuitem action="MoveToF"/>
+	  <menuitem action="MoveToG"/>
+	</menu>
 	
       </menu> <!-- end of modeless note object menu -->
       

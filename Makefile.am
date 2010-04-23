@@ -1,5 +1,5 @@
 SUBDIRS = libsmf m4 doc actions pixmaps po src \
-	  fonts soundfonts 
+	  fonts soundfonts bin 
 
 
 dist_sysconf_DATA = denemo.conf 

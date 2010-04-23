@@ -289,6 +289,8 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 
   declarecurmudelaobj;
 
+#if 0
+  //this makes writing scripts difficult, and anyway assumes Denemo knows where the barlines are
   /* First, check to see if the operation would add something before an
    * indicator of a time signature change. This would be bad, so don't
    * allow it to happen */
@@ -300,24 +302,10 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
       else
 	si->cursor_appending = TRUE;
     }
-
+#endif
   si->currentmeasure->data =
     g_list_insert ((objnode *) si->currentmeasure->data,
 		   mudela_obj_new, si->cursor_x);
-#if 0
-  if(mudela_obj_new->type == CHORD) {
-    chord *newchord = (chord *) mudela_obj_new->object;
-there is a function newclefify and fixnoteheights...
-    if(newchord->notes){
-      gint dclef = find_prevailing_clef(si);
-      newchord->lowesty = calculateheight (newchord->lowestpitch, dclef);
-      newchord->highesty = calculateheight (newchord->highestpitch, dclef);
-      newchord->stemy = calculateheight (stemoffset, dclef);
- beamsandstemdirswholestaff is the only thing I think???
-    }
-  }
-#endif
-
 
   if(mudela_obj_new->type == CLEF) {
 	  reset_cursor_stats (si);
@@ -1817,15 +1805,20 @@ dnm_deleteobject (DenemoScore * si)
 	  find_xes_in_all_measures (si);
 	  break;
 	case TIMESIG:
-	  /* For time signatures, deletion is linked to all
-	   * the staffs on the score */
+	  delete_object_helper (si);
+	  /* For time signature changes remove from all other staffs 
+	   * if in the conventional, first, position */
 	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
 	    {
 	      curmeasure = g_list_nth (firstmeasurenode (curstaff),
 				       si->currentmeasurenum - 1);
-	      if(curmeasure){
-		remove_object (curmeasure, (objnode *) curmeasure->data);
-		beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+	      if(curmeasure && curmeasure->data){
+		DenemoObject *first_obj = ((objnode *) curmeasure->data)->data;
+		//g_print("Deleting object of type %s\n", DenemoObjTypeNames[first_obj->type]);
+		if(first_obj && first_obj->type == TIMESIG) {
+		  remove_object (curmeasure, (objnode *) curmeasure->data);
+		  beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+		}
 	      }
 	    }
 	  reset_cursor_stats (si);
@@ -1933,6 +1926,7 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright(param);
   else
     movecursorright(param);
+scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   displayhelper (gui);
@@ -1956,6 +1950,7 @@ gotohome (gpointer param, gboolean extend_selection)
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
   /*gtk_widget_draw (gui->scorearea, NULL);*/
+  scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
   gtk_widget_queue_draw (gui->scorearea);
 }
 

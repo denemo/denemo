@@ -126,9 +126,11 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
       return TRUE;
     } else {
+      
       g_warning("No action %i has no name", command_idx);
     }
-  }
+  } else if (!isModifier(event))
+    toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
   return TRUE;
 }
 

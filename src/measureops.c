@@ -280,8 +280,10 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		{
 		  if (in_tuplet)
 		    {
-		      set_tuplefied_numticks (theobj, numerator, denominator);
-		      basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		      if(!((chord *)theobj->object)->is_grace) {
+			set_tuplefied_numticks (theobj, numerator, denominator);
+			basic_ticks_in_tuplet_group += theobj->basic_durinticks;
+		      }
 		    }
 		  else if (in_grace)
 		    {
@@ -451,9 +453,10 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
           ------------------------------\n", count, stem==2?"Neutral":stem==1?"Down":"Up", next_clef);
  }
 #endif
-  /* Check to see if first item is a time signature indiactor */
-  curobjnode = theobjs;
-  if (curobjnode)
+  /* Check to see there is a time signature change indicator, is so use for whole measure
+   */
+  for(curobjnode = theobjs;
+      curobjnode; curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
 
@@ -468,7 +471,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
   settickvalsinmeasure (theobjs, ticksperbeat);
   beatendsat = ticksperbeat;
 
-  for (; curobjnode; prevobj = theobj, curobjnode = curobjnode->next)
+  for (curobjnode = theobjs; curobjnode; prevobj = theobj, curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
       isbeambreak = (theobj->type == CHORD) && (!((chord *) theobj->object)->notes || ((chord *) theobj->object)->is_grace);

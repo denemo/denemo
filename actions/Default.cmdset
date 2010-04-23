@@ -84,6 +84,12 @@
         <tooltip>Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position</tooltip>
       </row>
       <row>
+        <action>ToggleReduceToDrawingArea</action>
+        <label>Hide/Show Menus</label>
+        <tooltip>Hides/Shows menus, panes etc. The ones shown are those checked in the view menu.</tooltip>
+        <bind>Escape</bind>
+      </row>
+      <row>
         <action>StaffUp</action>
         <label>Staff Up</label>
         <tooltip>Moves the cursor to the staff above, extending selection if any</tooltip>

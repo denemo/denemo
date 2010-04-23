@@ -365,9 +365,11 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 	  fluid_synth_noteon(synth, chan,  event->midi_buffer[1], velocity);
 	//g_print("play %d on %f\n", chan, event->time_seconds);
       }
+	si->playhead += 0.001;//Make sure playhead is inside duration of note
 	break;
        case NOTE_OFF:
          fluid_synth_noteoff(synth, chan,  event->midi_buffer[1]);
+	 si->playhead -= 0.001;//Make sure playhead is inside duration of note
 	 //g_print("play %d off %f\n", chan, event->time_seconds);
 	 break; 
        case CONTROL_CHANGE:

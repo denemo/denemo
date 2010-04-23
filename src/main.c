@@ -437,10 +437,11 @@ main (int argc, char *argv[])
   gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
   gchar *guile = g_build_filename (prefix, "share", "guile", NULL);
   gchar *guile_1_8 = g_build_filename (guile, "1.8", NULL);
+  gchar *lilypond_current_scm = g_build_filename (prefix, "share", "lilypond", "current", "scm", NULL);
   if (g_file_test (guile, G_FILE_TEST_EXISTS))
     {
-      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, NULL);
-      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);
+      gchar *guile_path = g_strconcat (guile, ";", guile_1_8, ";", lilypond_current_scm, NULL);
+      g_setenv ("GUILE_LOAD_PATH", guile_path, TRUE);//FIXME TRUE means we overwrite any installed version of lilyponds scm, FALSE risks not putting denemos scm in the path...
       g_print ("Setting GUILE_LOAD_PATH=%s\n", guile_path);
     }
   else
@@ -465,12 +466,17 @@ main (int argc, char *argv[])
 
   gchar *program_files =  g_getenv("PROGRAMFILES");
   gchar *path = g_getenv ("PATH");
-  path = g_strconcat (path, ";", program_files, "/Windows Media Player", NULL);
-  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 8.0/Reader", NULL);
-  path = g_strconcat (path, ";", program_files, "/Adobe/Reader 9.0/Reader", NULL);
-  g_setenv ("PATH", path, TRUE);
+  gchar *lilypond_path = g_build_filename(prefix, "bin", NULL);
+  gchar *lib_path = g_build_filename(prefix, "lib", NULL);
+  path = g_strconcat (path,";", lilypond_path, ";", lib_path, NULL);
 
+  g_setenv ("PATH", path, TRUE);
+  g_print("PATH set to %s\n", path);
+  gchar *lilypond_data_path = g_build_filename (prefix, "share", "lilypond", "current", NULL);
+  g_setenv ("LILYPOND_DATA_PATH", lilypond_data_path, FALSE);
+  g_print("LILYPOND_DATA_PATH will be %s if not already set", lilypond_data_path);
   gchar *fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "fetta.ttf", NULL);
+  g_setenv ("LILYPOND_VERBOSE", "1", FALSE);
   add_font_directory(fontpath);
   fontpath = g_build_filename (prefix, "share", "fonts", "truetype","denemo", "denemo.ttf", NULL);
   add_font_directory(fontpath);
@@ -636,6 +642,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 	g_error_free (error);
       }
   }
+#if 0
   while (dir && (filename = (gchar *) g_dir_read_name (dir)) != NULL)
     {
       if (0 == strcmp ("crashrecovery.denemo", filename))
@@ -687,6 +694,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
           gtk_widget_destroy (dialog);
         }
     }
+#endif
 
   if (dir)
     g_dir_close (dir);

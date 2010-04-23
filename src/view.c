@@ -214,8 +214,8 @@ void execute_scheme(GtkAction *action, DenemoScriptParam *param) {
 #define BLANK_E_STRING "Blank"
 #define RHYTHM_E_STRING "Rhythm"
 #define ToggleToolbar_STRING "ToggleToolbar"
-#define TogglePlaybackToolbar_STRING "TogglePlaybackToolbar"
-#define ToggleMidiInToolbar_STRING "ToggleMidiInToolbar"
+#define TogglePlaybackControls_STRING "TogglePlaybackToolbar"
+#define ToggleMidiInControls_STRING "ToggleMidiInToolbar"
 
 #define ToggleRhythmToolbar_STRING "ToggleRhythmToolbar"
 #define ToggleEntryToolbar_STRING  "ToggleEntryToolbar"
@@ -445,16 +445,77 @@ toggle_print_view (GtkAction *action, gpointer param);
 static void
 toggle_scoretitles (GtkAction *action, gpointer param);
 
-static SCM scheme_hide_menus(void) {
-  toggle_toolbar(NULL, NULL);
-  toggle_playback_controls(NULL, NULL);
-  toggle_midi_in_controls(NULL, NULL);
-  toggle_rhythm_toolbar(NULL, NULL);
-  toggle_entry_toolbar(NULL, NULL);
-  toggle_object_menu(NULL, NULL);
-  toggle_main_menu(NULL, NULL);
-  toggle_console_view (NULL, NULL);
-  toggle_print_view (NULL, NULL);
+/* Hide/show everything except the drawing area */
+void toggle_to_drawing_area(gboolean show) {
+  static gboolean hidden = FALSE;
+  gint height;
+  gint win_width, win_height;
+  //GtkAllocation allocation;
+
+  height = 0;
+  gtk_window_get_size ( GTK_WINDOW (Denemo.window), &win_width, &win_height);
+
+  // NOTE  lyrics are per movement
+  GtkWidget *widget;
+  gboolean hide = !show;
+  if((hidden & hide) || (show & !hidden))
+    return;
+  hidden = hide;
+#define ACCUM height += widget->allocation.height
+#define TOG(name, item, menu)\
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  static gboolean item=TRUE;\
+  if(hide)\
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if((hide && item) || (show && item))\
+    ACCUM, activate_action(menu);
+
+#define TOG2(name, item)\
+  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  static gboolean item=TRUE;\
+  if(hide)\
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if(hide && item)\
+    ACCUM, gtk_widget_hide(widget);		\
+  if(!hide && item)\
+    ACCUM, gtk_widget_show(widget);		  
+
+#define TOG3(name, item, menu)\
+  widget = name;\
+  static gboolean item=TRUE;\
+  if(hide) \
+    item = GTK_WIDGET_VISIBLE (widget);\
+  if((hide && item) || (show && item))\
+    ACCUM, activate_action(menu);
+
+  TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
+  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+  TOG("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
+
+  TOG2("/EntryToolBar", entrymenu);
+  TOG2("/MainMenu", mainmenu);
+
+  TOG3(gtk_widget_get_parent(Denemo.console), console_view, "/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+  TOG3(gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->printarea)), print_view, "/MainMenu/ViewMenu/"TogglePrintView_STRING);
+  TOG3(Denemo.gui->buttonboxes, scoretitles, "/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+  TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
+  TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
+
+  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (hidden?-height:height));
+}
+
+void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
+  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
+  toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
+}
+
+/* hide all menus, leaving only the score titles, used for educational games */
+static SCM scheme_hide_menus(SCM hide) {
+  gboolean show = FALSE;
+  if(scm_is_bool(hide) && hide==SCM_BOOL_F)
+    show = TRUE;
+  toggle_to_drawing_area(show);
+  activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
   return SCM_BOOL(TRUE);
 }
 
@@ -1005,12 +1066,12 @@ SCM scheme_get_notes (SCM optional) {
 }
 
 
-SCM scheme_get_accidentals(SCM optional) {
-  //return
-  //curstaff->keysig.accs
-
-  //do we need a find_prevailing_key like the
-  // find_prevailing_clef(), or just return the keysigs of the currentobjec if it is type KEYSIG and #f in not???
+SCM scheme_get_prevailing_keysig(SCM optional) {
+ GString *str = g_string_new(" ");
+ keysig *keysig = get_prevailing_context(KEYSIG);
+ gint i;
+ for(i=0;i<7;i++) g_string_append_printf(str, "%d ", keysig->accs[i]);
+ return scm_from_locale_string(g_string_free(str, FALSE));
 }
 
 
@@ -2562,7 +2623,40 @@ static void load_scheme_init(void)  {
   load_local_scheme_init();
 }
 
+/* show the user's preferred view. Assumes all hidden on entry */
+void  show_preferred_view(void) {
+  if (Denemo.prefs.playback_controls)
+    activate_action("/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
+  if (Denemo.prefs.midi_in_controls)
+    activate_action("/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
+  if (!Denemo.prefs.notation_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
+
+  if (!Denemo.prefs.console_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
+
+  if (!Denemo.prefs.lyrics_pane)
+    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
+
+
+  if (!Denemo.prefs.rhythm_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+
+
+  if (!Denemo.prefs.object_palette)
+    activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
+
+  if (Denemo.prefs.visible_directive_buttons)
+   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+
+
+  if (Denemo.prefs.playback_controls)
+    toggle_playback_controls(NULL, NULL);
+
+  if (Denemo.prefs.midi_in_controls)
+    toggle_midi_in_controls(NULL, NULL);
+}
 
 
 /* Called from main for scheme initialization reasons.
@@ -2644,38 +2738,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
-
-  if (Denemo.prefs.playback_controls)
-    activate_action("/MainMenu/ViewMenu/"TogglePlaybackToolbar_STRING);
-  if (Denemo.prefs.midi_in_controls)
-    activate_action("/MainMenu/ViewMenu/"ToggleMidiInToolbar_STRING);
-
-  if (!Denemo.prefs.notation_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
-
-  if (!Denemo.prefs.console_pane)
-    activate_action("/MainMenu/ViewMenu/"ToggleConsoleView_STRING);
-
-  if (!Denemo.prefs.lyrics_pane)
-    activate_action("/MainMenu/ViewMenu/"ToggleLyricsView_STRING);
-
-
-  if (!Denemo.prefs.rhythm_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
-
-
-  if (!Denemo.prefs.object_palette)
-    activate_action("/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
-
-  if (Denemo.prefs.visible_directive_buttons)
-   activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
-
-
-  if (Denemo.prefs.playback_controls)
-    toggle_playback_controls(NULL, NULL);
-
-  if (Denemo.prefs.midi_in_controls)
-    toggle_midi_in_controls(NULL, NULL);
+  show_preferred_view();
 
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
@@ -2733,6 +2796,10 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
+
+  INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+
+
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
@@ -3271,17 +3338,20 @@ INSTALL_PUT(movementcontrol, gx)
 INSTALL_PUT(movementcontrol, gy)
 INSTALL_PUT(movementcontrol, override)
 
-
+  
 INSTALL_GET(movementcontrol, x)
 INSTALL_GET(movementcontrol, y)
 INSTALL_GET(movementcontrol, tx)
 INSTALL_GET(movementcontrol, ty)
+  
 INSTALL_GET(movementcontrol, gx)
 INSTALL_GET(movementcontrol, gy)
 INSTALL_GET(movementcontrol, override)
+  
 INSTALL_GET(movementcontrol, width)
+  
 INSTALL_GET(movementcontrol, height)
-
+  
 INSTALL_EDIT(movementcontrol);
 
 
@@ -3374,8 +3444,47 @@ INSTALL_EDIT(movementcontrol);
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
      ;// open_user_default_template(REPLACE_SCORE);
  
-
- /* Now launch into the main gtk event loop and we're all set */
+ {
+   gchar *crash_file = g_build_filename(locatedotdenemo (), "crashrecovery.denemo", NULL);
+   if(g_file_test(crash_file, G_FILE_TEST_EXISTS)) {
+     GtkWidget *dialog = 
+       gtk_dialog_new_with_buttons (NULL,
+				    NULL,
+				    GTK_DIALOG_DESTROY_WITH_PARENT,
+				    GTK_STOCK_YES,
+				    GTK_RESPONSE_ACCEPT,
+				    
+				    GTK_STOCK_DELETE,
+				    GTK_RESPONSE_REJECT,
+				    NULL);
+     GtkWidget *label =
+       gtk_label_new
+       ("\nDenemo crashed, The open file has been recovered\n"
+	"do you want to continue editing your work?\n");
+     gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox),
+			label);
+     gtk_widget_show_all (dialog);
+     gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+     g_debug ("Dialog result is %d\n", result);
+     
+     switch (result)
+       {
+       case GTK_RESPONSE_ACCEPT:
+	 open_for_real (crash_file,  Denemo.gui, TRUE, REPLACE_SCORE);
+	 score_status(Denemo.gui, TRUE);
+	 //openfile (name, FALSE);
+	 g_remove (crash_file);
+	 break;
+       case GTK_RESPONSE_CANCEL:
+	 break;
+       case GTK_RESPONSE_REJECT:
+	 g_remove (crash_file);
+	 break;
+       }
+     gtk_widget_destroy (dialog);
+   }
+ }
+/* Now launch into the main gtk event loop and we're all set */
  gtk_main();
 }
 
@@ -5987,10 +6096,10 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleToolbar_STRING, NULL, N_("General Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
    G_CALLBACK (toggle_toolbar), TRUE}
   ,
-  {TogglePlaybackToolbar_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
+  {TogglePlaybackControls_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
    G_CALLBACK (toggle_playback_controls), TRUE}
   ,
-  {ToggleMidiInToolbar_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
+  {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
   {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
@@ -6389,6 +6498,7 @@ create_window(void) {
   GError *error;
   GtkWidget *widget;
   gchar *data_file;
+
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), "Denemo Main Window");
   loadWindowState(/* it accesses Denemo.window */);

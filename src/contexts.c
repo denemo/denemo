@@ -100,6 +100,34 @@ return obj? ((clef *) obj->object)->type:
   curstaff->clef.type;
 }
 
+/* returns a pointer to a CLEF TIMESIG or KEYSIG structure which holds the information on the prevailing context for the current object */
+gpointer get_prevailing_context(DenemoObjType type) {
+  DenemoStaff *curstaff = ((DenemoStaff*)Denemo.gui->si->currentstaff->data);
+  DenemoObject* obj;
+  switch(type) {
+  case CLEF:
+    obj = find_context_of_object(Denemo.gui->si, CLEF);
+    if(obj==NULL) obj = &curstaff->clef;
+    else obj = obj->object;
+    break;
+  case KEYSIG:
+    obj = find_context_of_object(Denemo.gui->si, KEYSIG);
+    if(obj==NULL) obj = &curstaff->keysig;
+else obj = obj->object;
+    break;
+  case TIMESIG:
+    obj = find_context_of_object(Denemo.gui->si, TIMESIG);
+    if(obj==NULL) obj = &curstaff->timesig;
+else obj = obj->object;
+    break;
+  default:
+    g_critical("Wrong type in call to get_prevailing_context");
+    obj = NULL;
+    break;
+  }
+  return obj;
+}
+
 /**
  * Finds the first occurrences of the clef, keysig and timesig of the 
  * current staff  inserting them into the passed CURSTAFFSTRUCT
