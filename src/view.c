@@ -2229,6 +2229,20 @@ static SCM scheme_get_tuplet (SCM optional) {
  return  scm_makfrom0str(g_string_free(ratio, FALSE));
 }
 
+static SCM scheme_set_tuplet (SCM ratio) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=TUPOPEN))
+   return SCM_BOOL_F;
+ gchar *theratio = scm_to_locale_string(ratio);
+ sscanf(theratio, "%d/%d", &((tupopen*)curObj->object)->numerator, &((tupopen*)curObj->object)->denominator);
+ g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
+   if(((tupopen*)curObj->object)->denominator);
+   return  SCM_BOOL_T;
+ ((tupopen*)curObj->object)->denominator = 1;
+ return  SCM_BOOL_F;
+}
+
 
 
 static SCM scheme_get_nonprinting (SCM optional) {
@@ -2808,6 +2822,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
   INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
+  INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
 
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the name of the type of object at the (m, n)th position on the Denemo Clipboard.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
