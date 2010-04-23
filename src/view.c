@@ -995,7 +995,7 @@ SCM scheme_get_duration_in_ticks(void){
  chord *thechord;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
- return scm_int2num(curObj->basic_durinticks);
+ return scm_int2num(curObj->durinticks);
 }
 
 SCM scheme_get_note (SCM optional) {
