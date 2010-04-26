@@ -2502,7 +2502,8 @@ lily_save(GtkWidget *item, GdkEventCrossing *e, DenemoGUI *gui){
   if(gui->textwindow) {
     g_signal_handlers_unblock_by_func (G_OBJECT (gui->textwindow), G_CALLBACK (lily_refresh), gui);
     merge_lily_strings(gui);
-    gtk_widget_queue_draw (gui->scorearea);
+    if(gui->si)
+      scorearea_expose_event(NULL, NULL);//!gtk_widget_queue_draw (gui->scorearea);
   }
   return FALSE;
 }
