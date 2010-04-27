@@ -22,6 +22,7 @@
 #include "pitchentry.h"
 #include "exportlilypond.h"
 #include "print.h"
+#include "graceops.h"
 #include "kbd-custom.h"
 #include "keyboard.h"
 #include "csoundplayback.h"
@@ -916,7 +917,7 @@ SCM scheme_get_note_name (SCM optional) {
    
 }
 
-//Insert rests to the value of the keysig and return the number of rests inserted.
+//Insert rests to the value of the timesig and return the number of rests inserted.
 SCM scheme_put_whole_measure_rests (void) {
   DenemoGUI *gui = Denemo.gui;
   SCM scm;
@@ -994,7 +995,7 @@ SCM scheme_get_duration_in_ticks(void){
  chord *thechord;
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
- return scm_int2num(curObj->basic_durinticks);
+ return scm_int2num(curObj->durinticks);
 }
 
 SCM scheme_get_note (SCM optional) {
@@ -1072,6 +1073,22 @@ SCM scheme_get_prevailing_keysig(SCM optional) {
  gint i;
  for(i=0;i<7;i++) g_string_append_printf(str, "%d ", keysig->accs[i]);
  return scm_from_locale_string(g_string_free(str, FALSE));
+}
+
+SCM scheme_set_prevailing_keysig(SCM keyaccs) {
+  //keysigs have a field called "number" which determines how it is drawn, setting like this does not get a keysig drawn, nor does it affect lilypond output
+  gchar *accs=NULL;
+  if(scm_is_string(keyaccs)){ 
+    accs = scm_to_locale_string(keyaccs);
+  }
+  if(!accs)
+    return SCM_BOOL_F;
+  keysig *keysig = get_prevailing_context(KEYSIG);
+  sscanf(accs, "%d%d%d%d%d%d%d", keysig->accs+0,keysig->accs+1,keysig->accs+2,keysig->accs+3,keysig->accs+4,keysig->accs+5,keysig->accs+6);
+  showwhichaccidentalswholestaff ((DenemoStaff *) Denemo.gui->si->currentstaff->
+				  data);
+  displayhelper (Denemo.gui);//score_status(Denemo.gui, TRUE);
+  return SCM_BOOL_T;
 }
 
 
@@ -2202,6 +2219,32 @@ static SCM scheme_get_type (SCM optional) {
  return  scm_makfrom0str(DENEMO_OBJECT_TYPE_NAME(curObj));
 }
 
+static SCM scheme_get_tuplet (SCM optional) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=TUPOPEN))
+   return SCM_BOOL_F;
+ GString *ratio = g_string_new("");
+ g_string_printf(ratio, "%d/%d", ((tupopen*)curObj->object)->numerator, ((tupopen*)curObj->object)->denominator);
+ return  scm_makfrom0str(g_string_free(ratio, FALSE));
+}
+
+static SCM scheme_set_tuplet (SCM ratio) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=TUPOPEN))
+   return SCM_BOOL_F;
+ gchar *theratio = scm_to_locale_string(ratio);
+ sscanf(theratio, "%d/%d", &((tupopen*)curObj->object)->numerator, &((tupopen*)curObj->object)->denominator);
+ g_print("Set %d/%d\n", (((tupopen*)curObj->object)->numerator), (((tupopen*)curObj->object)->denominator));
+   if(((tupopen*)curObj->object)->denominator);
+   return  SCM_BOOL_T;
+ ((tupopen*)curObj->object)->denominator = 1;
+ return  SCM_BOOL_F;
+}
+
+
+
 static SCM scheme_get_nonprinting (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
   DenemoObject *curObj;
@@ -2778,6 +2821,9 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the directory holding the user's preferences",DENEMO_SCHEME_PREFIX"LocateDotDenemo", scheme_locate_dotdenemo);
   INSTALL_SCM_FUNCTION ("Returns the name of the type of object at the cursor",DENEMO_SCHEME_PREFIX"GetType",  scheme_get_type);
 
+  INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
+  INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
+
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the name of the type of object at the (m, n)th position on the Denemo Clipboard.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
@@ -2798,6 +2844,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
   INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+ 
+ //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);

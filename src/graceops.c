@@ -50,3 +50,19 @@ newgraceend ()
 
   return thegrace;
 }
+
+void
+toggle_grace (GtkAction *action, DenemoScriptParam * param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  GET_1PARAM(action, param, grace);
+ DenemoObject *curmudelaobj = (DenemoObject *)
+    (gui->si->currentobject ? gui->si->currentobject->data : NULL);
+ if(curmudelaobj && (curmudelaobj->type==CHORD)) {
+   if(query)
+     param->status =  ((chord *)curmudelaobj->object)->is_grace, g_string_assign(param->string, "gracenote");
+   else
+     ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
+   //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
+ }
+}

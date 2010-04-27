@@ -211,7 +211,7 @@
 {"ToggleUpprall", NULL, N_("Up Prall (Off/On)"), NULL,N_("No Tooltip yet"),G_CALLBACK (add_upprall_cb)},
 {"ToggleArpeggio", NULL, N_("Apreggio (Off/On)"), NULL,N_("No Tooltip yet"),G_CALLBACK (add_arpeggio_cb)},
 {"SetGrace", NULL, N_("Set Grace"), NULL,N_("No Tooltip yet"),G_CALLBACK (set_grace_cb)},
-{"ToggleGrace", NULL, N_("Grace Note Off/On"), NULL,N_("No Tooltip yet"),G_CALLBACK (toggle_grace_cb)},
+{"ToggleGrace", NULL, N_("Grace Note Off/On"), NULL,N_("Makes the note at the cursor a grace note, if it is one, makes it normal"),G_CALLBACK (toggle_grace)},
 {"ForceCaution", NULL, N_("Force Cautionary Accidental"), NULL,N_("No Tooltip yet"),G_CALLBACK (force_cautionary_cb)},
 {"ChangePitch", NULL, N_("Change Pitch"), NULL,N_("No Tooltip yet"),G_CALLBACK (change_pitch_cb)},
 {"InsertRhythm", NULL, N_("Insert Rhythm"), NULL,N_("No Tooltip yet"),G_CALLBACK (insert_rhythm_pattern_cb)},
