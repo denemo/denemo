@@ -7,24 +7,8 @@
       <row>
         <after>ShiftUp</after>
         <action>ShiftDown</action>
-        <scheme>(define (ShiftUp)
-
- (define newList (string-tokenize(d-GetNotes)) )
- 
- (let transformChordList ((i 0))
-  (if (&lt;= i (-(length newList )1)) 
-      (begin
-        (set! newList (replace-nth newList i (hashq-ref DiatonicDownwardHashtable (string-&gt;symbol (list-ref newList i)))))
-        (transformChordList (+ i 1)))
-))
-
-
-(if (d-GetNotes)
-	(d-ChangeChordNotes (string-join newList))
-	#f
-))
-
-(SingleAndSelectionSwitcher "(ShiftUp)" "(ShiftUp)")
+        <scheme>
+(SingleAndSelectionSwitcher "(ShiftDown)" "(ShiftDown)")
 (d-RefreshDisplay)</scheme>
         <label>Shift Down</label>
         <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>

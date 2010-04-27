@@ -6,23 +6,7 @@
     <map>
       <row>
         <action>ShiftUp</action>
-        <scheme>(define (ShiftUp)
-
- (define newList (string-tokenize(d-GetNotes)) )
- 
- (let transformChordList ((i 0))
-  (if (&lt;= i (-(length newList )1)) 
-      (begin
-        (set! newList (replace-nth newList i (hashq-ref DiatonicUpwardHashtable (string-&gt;symbol (list-ref newList i)))))
-        (transformChordList (+ i 1)))
-))
-
-
-(if (d-GetNotes)
-	(d-ChangeChordNotes (string-join newList))
-	#f
-))
-
+        <scheme>
 (SingleAndSelectionSwitcher "(ShiftUp)" "(ShiftUp)")
 (d-RefreshDisplay)</scheme>
         <label>Shift Up</label>
