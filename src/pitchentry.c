@@ -1419,7 +1419,7 @@ gchar *determine_interval(gint bass, gint harmony){
  gint inflection = harmonynote.spec.alteration - accs[harmonynote.spec.step];
 
 
- g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
+// g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
  gchar *modifier="";
  if(interval==5 && semitones==6)
    modifier = "/";
@@ -1427,6 +1427,8 @@ gchar *determine_interval(gint bass, gint harmony){
        if(inflection<0) modifier = "-";
        else
 	 if(inflection>0) modifier = "+";
+ if(harmony<bass)
+   return g_strdup_printf("%s", "0");//A non printing figure
  if(interval==3 && inflection)
    return g_strdup_printf("%c%s", '_', modifier);
  else
