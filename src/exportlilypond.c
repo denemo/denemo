@@ -2243,7 +2243,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	      }
 
 	      if (curstaffstruct->hasfigures)
-		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
+		g_string_append_printf(staffdefinitions, TAB TAB" \\context FiguredBass \\with {implicitBassFigures = #'(0) } \\%s%sBassFiguresLine\n", movement_name->str, voice_name->str);
 	      g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
 	    }
 	  else if (curstaffstruct->voicenumber == 2)
