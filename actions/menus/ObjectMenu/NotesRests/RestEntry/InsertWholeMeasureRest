@@ -7,20 +7,14 @@
       <row>
         <after>WholeMeasureRest</after>
         <action>InsertWholeMeasureRest</action>
-        <scheme> ;;;;InsertWholeMeasureRest
+        <scheme>;;;;InsertWholeMeasureRest
  ;;; note that it works in edit mode properly
-(if (d-MoveToMeasureRight)
-    (begin
-      (d-MoveToMeasureLeft)
-      (if (d-NextObject)
-	  (begin	    
-	    (d-ForceNewMeasure)
-	    (d-WholeMeasureRest))
-	  (d-WholeMeasureRest)))
-    (begin	
-    	(display "no right measure")    
-	    (d-ForceNewMeasure)
-	    (d-MoveToMeasureRight)
+ (if (equal? (d-GetType) "None")
+ 	(begin
+ 		(d-WholeMeasureRest))
+ 	(begin	
+           (d-InsertMeasureAfter)
+	   
 	    (d-WholeMeasureRest)))
 (d-MoveCursorRight)
 (d-Set2)</scheme>
