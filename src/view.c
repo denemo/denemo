@@ -2253,6 +2253,29 @@ static SCM scheme_get_nonprinting (SCM optional) {
   return SCM_BOOL_F;
 }
 
+
+static SCM scheme_is_slur_start (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_begin_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+
+static SCM scheme_is_slur_end (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  chord *thechord;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)  || !(thechord = (chord *)  curObj->object) || !(thechord->slur_end_p))
+    return SCM_BOOL_F;
+  return SCM_BOOL_T;
+}
+
+
+
+
+
 static SCM scheme_clear_clipboard(SCM optional) {
   clearbuffer();
   return SCM_BOOL(TRUE);
@@ -2829,6 +2852,11 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is an object at the cursor which has any printing behavior it may have overridden",DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
+
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurStart",  scheme_is_slur_start);
+
+  INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurEnd",  scheme_is_slur_end);
+
 
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
