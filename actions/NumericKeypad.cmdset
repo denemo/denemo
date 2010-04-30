@@ -1134,7 +1134,7 @@ the cursor position is the end point</tooltip>
       <row>
         <action>ToggleGrace</action>
         <label>Grace Note Off/On</label>
-        <tooltip>No Tooltip yet</tooltip>
+        <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
         <bind>slash</bind>
       </row>
       <row>
@@ -1742,11 +1742,33 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>ChangeToA</action>
+        <label>Change to A</label>
+        <tooltip>Changes note at cursor to nearest note A
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToA</action>
+        <label>Move to A</label>
+        <tooltip>Moves cursor to nearest note A</tooltip>
+      </row>
+      <row>
         <action>InsertB</action>
         <label>Insert B</label>
         <tooltip>Inserts note B before note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>ChangeToB</action>
+        <label>Change to B</label>
+        <tooltip>Changes note at cursor to nearest note B
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToB</action>
+        <label>Move to B</label>
+        <tooltip>Moves cursor to nearest note B</tooltip>
       </row>
       <row>
         <action>InsertC</action>
@@ -1756,11 +1778,33 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>ChangeToC</action>
+        <label>Change to C</label>
+        <tooltip>Changes note at cursor to nearest note C
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToC</action>
+        <label>Move to C</label>
+        <tooltip>Moves cursor to nearest note C</tooltip>
+      </row>
+      <row>
         <action>InsertD</action>
         <label>Insert D</label>
         <tooltip>Inserts note D before note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>ChangeToD</action>
+        <label>Change to D</label>
+        <tooltip>Changes note at cursor to nearest note D
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToD</action>
+        <label>Move to D</label>
+        <tooltip>Moves cursor to nearest note D</tooltip>
       </row>
       <row>
         <action>InsertE</action>
@@ -1770,11 +1814,33 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>ChangeToE</action>
+        <label>Change to E</label>
+        <tooltip>Changes note at cursor to nearest note E
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToE</action>
+        <label>Move to E</label>
+        <tooltip>Moves cursor to nearest note E</tooltip>
+      </row>
+      <row>
         <action>InsertF</action>
         <label>Insert F</label>
         <tooltip>Inserts note F before note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>ChangeToF</action>
+        <label>Change to F</label>
+        <tooltip>Changes note at cursor to nearest note F
+Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToF</action>
+        <label>Move to F</label>
+        <tooltip>Moves cursor to nearest note F</tooltip>
       </row>
       <row>
         <action>InsertG</action>
@@ -1784,46 +1850,15 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
-        <action>ChangeToA</action>
-        <label>Change to A</label>
-        <tooltip>Changes note at cursor to nearest note A
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
-        <action>ChangeToB</action>
-        <label>Change to B</label>
-        <tooltip>Changes note at cursor to nearest note B
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
-        <action>ChangeToC</action>
-        <label>Change to C</label>
-        <tooltip>Changes note at cursor to nearest note C
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
-        <action>ChangeToD</action>
-        <label>Change to D</label>
-        <tooltip>Changes note at cursor to nearest note D
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
-        <action>ChangeToE</action>
-        <label>Change to E</label>
-        <tooltip>Changes note at cursor to nearest note E
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
-        <action>ChangeToF</action>
-        <label>Change to F</label>
-        <tooltip>Changes note at cursor to nearest note F
-Rhythm is unchanged</tooltip>
-      </row>
-      <row>
         <action>ChangeToG</action>
         <label>Change to G</label>
         <tooltip>Changes note at cursor to nearest note G
 Rhythm is unchanged</tooltip>
+      </row>
+      <row>
+        <action>MoveToG</action>
+        <label>Move to G</label>
+        <tooltip>Moves cursor to nearest note G</tooltip>
       </row>
       <row>
         <action>0</action>
@@ -3288,6 +3323,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/Educational/Aural Training</menupath>
         <label>DiminishedAugmented</label>
         <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
+      </row>
+      <row>
+        <action>ToggleTupletBrackets</action>
+        <after>ToggleTupletNumbering</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Brackets On/Off</label>
+        <tooltip>Turns tuplet brackets off or on.</tooltip>
       </row>
     </map>
   </commands>
