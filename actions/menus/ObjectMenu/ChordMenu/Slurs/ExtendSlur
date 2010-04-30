@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SlurTwo</after>
+        <action>ExtendSlur</action>
+        <scheme>  ;;;ExtendSlur
+  (if (d-IsSlurEnd)
+  (begin 
+(d-ToggleEndSlur)
+(d-MoveCursorRight)
+(d-ToggleEndSlur)))
+
+</scheme>
+        <label>Extend Slur</label>
+        <tooltip>Extends the slur finishing at the cursor.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

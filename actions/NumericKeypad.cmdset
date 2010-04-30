@@ -978,7 +978,6 @@ the cursor position is the end point</tooltip>
         <action>ToggleBeginSlur</action>
         <label>Begin Slur</label>
         <tooltip>Insert/delete begin slur on this note</tooltip>
-        <bind>KP_Home</bind>
         <bind>parenleft</bind>
         <bind>PrsL-CapsLock</bind>
       </row>
@@ -986,7 +985,6 @@ the cursor position is the end point</tooltip>
         <action>ToggleEndSlur</action>
         <label>End Slur</label>
         <tooltip>Insert/delete end slur on this note</tooltip>
-        <bind>KP_Up</bind>
         <bind>parenright</bind>
         <bind>RlsL-CapsLock</bind>
       </row>
@@ -3331,6 +3329,24 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <label>Tuplet Brackets On/Off</label>
         <tooltip>Turns tuplet brackets off or on.</tooltip>
+      </row>
+      <row>
+        <action>ExtendSlur</action>
+        <after>SlurTwo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Extend Slur</label>
+        <tooltip>Extends the slur finishing at the cursor.</tooltip>
+        <bind>KP_Up</bind>
+      </row>
+      <row>
+        <action>ReduceSlur</action>
+        <after>ExtendSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Shorten Slur from End</label>
+        <tooltip>Shorten a slur that ends at the cursor.</tooltip>
+        <bind>KP_Home</bind>
       </row>
     </map>
   </commands>
