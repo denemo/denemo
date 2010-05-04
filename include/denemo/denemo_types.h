@@ -524,6 +524,12 @@ typedef enum MidiDestination {
   MIDIRECORD = (1<<2),
 } MidiDestination;
 
+typedef enum DenemoViewType {
+  DENEMO_MENU_VIEW,//menus are visible
+  DENEMO_LINE_VIEW,//menus not visible, 
+  DENEMO_PAGE_VIEW //menus not visible, defaults to full screen and several systems
+} DenemoViewType;
+
 
 /**
  * Structure to contain the list of Instruments for the score
@@ -677,8 +683,18 @@ typedef struct DenemoScore
   gdouble master_tempo;/**< the tempo used is this times the nominal tempo */
   gdouble tempo_change_time;/**< system time from which the master_tempo is to be used */
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
-  gdouble zoom;
-  gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in the score, the same for all lines */
+
+  gdouble zoom;/**< zoom setting for this movement */
+  gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in this movement of the score, the same for all lines */
+  //Settings for the views on this movement
+  DenemoViewType view;/**< The current view */
+  gdouble page_zoom;/**< zoom for page view */
+  gdouble page_system_height;/**< system height for page view */ 
+  gint page_width;/**< width to use for window in page view. 0 means use full screen */
+  gint page_height;/**< height to use for window in page view */
+  gint stored_width;/**< width to use for window returning from page view */
+  gint stored_height;/**< height to use for window returning from page view */
+
   /* Fields that have more to do with the data model and its manipulation,
    * though they may be modified by side-effects of the drawing routines */
   // score thescore;

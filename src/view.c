@@ -446,22 +446,57 @@ toggle_print_view (GtkAction *action, gpointer param);
 static void
 toggle_scoretitles (GtkAction *action, gpointer param);
 
+static void
+toggle_page_view(void) {
+  
+  static gdouble zoom;
+  static gdouble system_height;
+  DenemoScore *si = Denemo.gui->si;
+  if(si->page_width==0) {
+    si->page_width = gdk_screen_get_width(gtk_window_get_screen( GTK_WINDOW (Denemo.window)));
+    si->page_height = gdk_screen_get_height(gtk_window_get_screen( GTK_WINDOW (Denemo.window)));
+    si->page_zoom = 0.5;
+    si->page_system_height = 0.25;
+  }
+  if(si->view==DENEMO_PAGE_VIEW){
+    si->zoom = zoom;
+    si->system_height = system_height;
+    si->view=DENEMO_LINE_VIEW;
+    gtk_window_resize (GTK_WINDOW (Denemo.window), si->stored_width, si->stored_height);
+  } else {
+    gtk_window_get_size ( GTK_WINDOW (Denemo.window), &si->stored_width, &si->stored_height);
+    zoom = si->zoom;
+    system_height = si->system_height;
+    si->zoom = si->page_zoom;
+    si->system_height = si->page_system_height;
+    si->view=DENEMO_PAGE_VIEW;
+    gtk_window_resize (GTK_WINDOW (Denemo.window), si->page_width, si->page_height);
+  }
+}
 /* Hide/show everything except the drawing area */
 void toggle_to_drawing_area(gboolean show) {
-  static gboolean hidden = FALSE;
-  gint height;
+#define hidden Denemo.gui->si->view   
+  gint height;// height of menus that are hidden
   gint win_width, win_height;
-  //GtkAllocation allocation;
-
   height = 0;
-  gtk_window_get_size ( GTK_WINDOW (Denemo.window), &win_width, &win_height);
 
+  if(hidden==DENEMO_LINE_VIEW) {
+    toggle_page_view();
+    return;
+  }
+  if(hidden==DENEMO_PAGE_VIEW) {
+    toggle_page_view();
+    win_width = Denemo.gui->si->stored_width;
+    win_height = Denemo.gui->si->stored_height;
+  } else
+    gtk_window_get_size ( GTK_WINDOW (Denemo.window), &win_width, &win_height);
+  //g_print("window width is %d\n", win_width);
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
-  if((hidden & hide) || (show & !hidden))
+  if((hidden==DENEMO_PAGE_VIEW & hide) || (show & !hidden))
     return;
-  hidden = hide;
+  hidden = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
 #define ACCUM height += widget->allocation.height
 #define TOG(name, item, menu)\
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
@@ -503,6 +538,7 @@ void toggle_to_drawing_area(gboolean show) {
   TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
   gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (hidden?-height:height));
+#undef hidden
 }
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
@@ -512,6 +548,11 @@ void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
 
 /* hide all menus, leaving only the score titles, used for educational games */
 static SCM scheme_hide_menus(SCM hide) {
+  if(Denemo.gui->si->view!=DENEMO_MENU_VIEW) {
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+    ToggleReduceToDrawingArea(NULL, NULL);
+    return  SCM_BOOL(TRUE);
+  }
   gboolean show = FALSE;
   if(scm_is_bool(hide) && hide==SCM_BOOL_F)
     show = TRUE;
