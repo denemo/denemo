@@ -678,7 +678,16 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   newXMLIntChild (parentElem, ns, (xmlChar *) "system-height",
 		  (int)(100*si->system_height));
 
-
+  newXMLIntChild (parentElem, ns, (xmlChar *) "page-zoom",
+		  (int)(100*si->page_zoom));
+  newXMLIntChild (parentElem, ns, (xmlChar *) "page-system-height",
+		  (int)(100*si->page_system_height));
+  if(si->page_width)
+    newXMLIntChild (parentElem, ns, (xmlChar *) "page-width",
+		    si->page_width);
+  if(si->page_height)
+    newXMLIntChild (parentElem, ns, (xmlChar *) "page-height",
+		    si->page_height);
 
 
 

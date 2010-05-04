@@ -459,6 +459,7 @@ toggle_page_view(void) {
     si->page_system_height = 0.25;
   }
   if(si->view==DENEMO_PAGE_VIEW){
+    gtk_window_get_size ( GTK_WINDOW (Denemo.window), &si->page_width, &si->page_height);
     si->zoom = zoom;
     si->system_height = system_height;
     si->view=DENEMO_LINE_VIEW;
@@ -475,16 +476,16 @@ toggle_page_view(void) {
 }
 /* Hide/show everything except the drawing area */
 void toggle_to_drawing_area(gboolean show) {
-#define hidden Denemo.gui->si->view   
+#define current_view Denemo.gui->si->view   
   gint height;// height of menus that are hidden
   gint win_width, win_height;
   height = 0;
 
-  if(hidden==DENEMO_LINE_VIEW) {
+  if(current_view==DENEMO_LINE_VIEW) {
     toggle_page_view();
     return;
   }
-  if(hidden==DENEMO_PAGE_VIEW) {
+  if(current_view==DENEMO_PAGE_VIEW) {
     toggle_page_view();
     win_width = Denemo.gui->si->stored_width;
     win_height = Denemo.gui->si->stored_height;
@@ -494,9 +495,9 @@ void toggle_to_drawing_area(gboolean show) {
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
-  if((hidden==DENEMO_PAGE_VIEW & hide) || (show & !hidden))
+  if((current_view==DENEMO_PAGE_VIEW & hide) || (show & !current_view))
     return;
-  hidden = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
+  current_view = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
 #define ACCUM height += widget->allocation.height
 #define TOG(name, item, menu)\
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
@@ -537,8 +538,8 @@ void toggle_to_drawing_area(gboolean show) {
   TOG3(Denemo.playback_control, playback_control, "/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
   TOG3(Denemo.midi_in_control, midi_in_control, "/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
-  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (hidden?-height:height));
-#undef hidden
+  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (current_view?-height:height));
+#undef current_view
 }
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {

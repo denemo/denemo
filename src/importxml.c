@@ -1765,6 +1765,26 @@ parseEditInfo (xmlNodePtr editInfoElem, xmlNsPtr ns, DenemoScore * si)
 	  {
 	    si->system_height = getXMLIntChild (childElem)/100.0;
 	    if(si->system_height < 0.01) si->system_height = 1.0;
+	  }	
+	else if (ELEM_NAME_EQ (childElem, "page-zoom"))
+	  {
+	    si->page_zoom = getXMLIntChild (childElem)/100.0;
+	    if(si->page_zoom < 0.01) si->page_zoom = 1.0;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "page-system-height"))
+	  {
+	    si->page_system_height = getXMLIntChild (childElem)/100.0;
+	    if(si->page_system_height < 0.01) si->page_system_height = 1.0;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "page-width"))
+	  {
+	    si->page_width = getXMLIntChild (childElem);
+	    if(si->page_width < 0) si->page_width = 0;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "page-height"))
+	  {
+	    si->page_height = getXMLIntChild (childElem);
+	    if(si->page_height < 0) si->page_height = 0;
 	  }
 
 
