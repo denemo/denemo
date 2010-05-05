@@ -460,6 +460,8 @@ toggle_page_view(void) {
   }
   if(si->view==DENEMO_PAGE_VIEW){
     gtk_window_get_size ( GTK_WINDOW (Denemo.window), &si->page_width, &si->page_height);
+    si->page_zoom = si->zoom;
+    si->page_system_height = si->system_height;
     si->zoom = zoom;
     si->system_height = system_height;
     si->view=DENEMO_LINE_VIEW;
@@ -4036,9 +4038,10 @@ void playback_midi_convert (GtkWidget *button) {
     newview(NULL, NULL);
     scorearea_configure_event(Denemo.gui->scorearea, NULL);
     //extern gint smallestgrain; 
-    //smallestgrain = atoi(string_dialog_entry(Denemo.gui, "Quantization Control", "Give granularity", "48"));
-    // smallestgrain = (smallestgrain>0)?smallestgrain:48;
-    // need to check it is a multiple of what?????
+    // smallestgrain = atoi(string_dialog_entry(Denemo.gui, "Quantization Control", "Give granularity", "48"));
+    //need to check it is a multiple of what?????
+    // smallestgrain = (smallestgrain/48)*48;
+    //smallestgrain = (smallestgrain>0)?smallestgrain:48;
     importMidi(file, Denemo.gui);
   }
 #endif
