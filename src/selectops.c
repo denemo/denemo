@@ -183,13 +183,15 @@ copytobuffer (DenemoScore * si)
 	  
 	  if (j < si->lastmeasuremarked || k < si->lastobjmarked)
 	    {
-	      g_debug ("Insert measurebreak obj in copybuffer");
-	      /* That is, there's another measure, the cursor is in appending
-	         position, or the selection spans multiple staffs, in which 
-	         case another measure boundary should be added.  */
-	      theobjs = g_list_append (theobjs, newmeasurebreakobject ());
-	      if (i == si->firststaffmarked)
-		measurebreaksinbuffer++;
+	      if(!((j==si->lastmeasuremarked+1))) {
+		g_debug ("Insert measurebreak obj in copybuffer");
+		/* ???outdated comment??? That is, there's another measure, the cursor is in appending
+		   position, or the selection spans multiple staffs, in which 
+		   case another measure boundary should be added.  */
+		theobjs = g_list_append (theobjs, newmeasurebreakobject ());
+		if (i == si->firststaffmarked)
+		  measurebreaksinbuffer++;
+	      }
 	    }
 	  k = 0;		/* Set it for next run through object loop */
 	  
