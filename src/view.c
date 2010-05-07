@@ -2263,7 +2263,10 @@ static SCM scheme_put_clip_obj(SCM m, SCM n) {
  return SCM_BOOL(insert_clip_obj(staff, value));
 }
 
-
+static SCM scheme_adjust_xes (SCM optional) {
+  find_xes_in_all_measures (Denemo.gui->si);
+  return SCM_BOOL_T;
+}
 
 static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
@@ -2906,6 +2909,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
+
+  INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is an object at the cursor which has any printing behavior it may have overridden",DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
 
