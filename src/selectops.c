@@ -183,7 +183,7 @@ copytobuffer (DenemoScore * si)
 	  
 	  if (j < si->lastmeasuremarked || k < si->lastobjmarked)
 	    {
-	      if(!((j==si->lastmeasuremarked+1))) {
+	      if(!((j==si->lastmeasuremarked))) {
 		g_debug ("Insert measurebreak obj in copybuffer");
 		/* ???outdated comment??? That is, there's another measure, the cursor is in appending
 		   position, or the selection spans multiple staffs, in which 
