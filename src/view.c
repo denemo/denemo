@@ -1042,6 +1042,15 @@ SCM scheme_get_duration_in_ticks(void){
  return scm_int2num(curObj->durinticks);
 }
 
+
+SCM scheme_get_measure_number(void){
+ DenemoGUI *gui = Denemo.gui;
+ return scm_int2num(Denemo.gui->si->currentmeasurenum);
+}
+
+
+
+
 SCM scheme_get_note (SCM optional) {
   //int length;
     //   char *str=NULL;
@@ -2915,6 +2924,9 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
+
+  INSTALL_SCM_FUNCTION ("Returns the measure number at cursor position.",DENEMO_SCHEME_PREFIX"GetMeasureNumber", scheme_get_measure_number);
+
 
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
