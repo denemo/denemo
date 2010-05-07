@@ -2241,7 +2241,10 @@ static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
  gint value = scm_num2int(n, 0, 0); 
  gint staff = scm_num2int(m, 0, 0);
  DenemoObjType type = get_clip_obj_type(staff, value);
- return  scm_int2num(type);
+ if(type==-1)
+   return SCM_BOOL_F;
+ else
+   return  scm_int2num(type);
 }
 
 //insert the nth object from the denemo copybuffer
