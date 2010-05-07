@@ -2894,7 +2894,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open",DENEMO_SCHEME_PREFIX"GetTuplet",  scheme_get_tuplet);
   INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
 
-  INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the name of the type of object at the (m, n)th position on the Denemo Clipboard.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
+  INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
 
