@@ -407,6 +407,7 @@ DenemoObjType get_clip_obj_type(gint m, gint n) {
 // return TRUE if inserted
 gboolean insert_clip_obj(gint m, gint n) {
   DenemoScore *si = Denemo.gui->si;
+  staffnode *curstaff = si->currentstaff;
   if(copybuffer==NULL)
     return FALSE;
   GList *stafflist = g_list_nth(copybuffer, m);
@@ -430,6 +431,8 @@ gboolean insert_clip_obj(gint m, gint n) {
   else
     si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				    si->cursor_x);
+  beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+  find_xes_in_all_measures (si);
   return TRUE;
 }
 /**
