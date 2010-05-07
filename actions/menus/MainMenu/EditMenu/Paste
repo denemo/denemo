@@ -15,9 +15,9 @@
 (d-PushPosition) 
  ;Its possible that this is a hack:
  ;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
-(if (= -1 (d-GetClipObjType 1 0))
-	#f
+(if (d-GetClipObjType 1 0)
 	(d-InsertMeasureAfter)
+	#f
 	)
  
  (let loopy ((staff 0) (count 0))
@@ -60,7 +60,8 @@
   
 ; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
  (case (d-GetClipObjType staff count) 
-	((-1) (endthis) ) ; No object left
+	((#f) (endthis) ) ; No object left
+	((-1) (display "No object")); should not happen anymore
 	((0) (pasty)) ; note, rest, gracenote, chord
 	((1) (pasty)) ;tuplet open
 	((2) (pasty)) ;tuplet close
@@ -70,7 +71,7 @@
 	((6) (display "barline"))
 	((7) (pasty))	;stem directive
 	((8) (d-InsertMeasureAfter) (nextplease) ) ; Measurebreak
-	((9) (begin (display "Staffbreak!\n") (nextstaff)) ) ; staffbreak 
+	((9) (nextstaff) ) ; staffbreak 
 	((10) (display "dynamic"))	
 	((11) (display "grace start")) ;deprecated
 	((12) (display "grace end")) ;deprecated
@@ -79,7 +80,7 @@
 	((15) (pasty)) ; Lilypond-Directive
 	((16) (display "fakechord"))				
 	((17) (display "partial"))
-	(else (begin (display "Error! Object to paste unknown") #f))
+	(else (begin (display "Error! Object to paste unknown\n") #f))
    )
  ) 
  (d-RefreshDisplay)
