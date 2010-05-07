@@ -7,29 +7,82 @@
       <row>
         <after>Copy</after>
         <action>Paste</action>
-        <scheme>;;;;;;;;;;;;;;;;;;;; Paste
-(d-PushPosition)
-(let loop ((type #f) (staff 0) (count 0))
-  (set! type (d-GetClipObjType staff count))
-  (format #t "type is ~a staff ~a count ~a~%" type staff count)
-   (cond 
-    ((= type MEASUREBREAK)      
-        (if (= staff 0)
-            (d-AddMeasure))
-        (loop type staff (1+ count)))
-   ((= type STAFFBREAK)
-           (d-PopPosition)
-           (if (d-MoveToStaffDown)
-               (begin 
-                 (d-PushPosition)
-                 (loop type (1+ staff) 0))))
-    ((&gt;= type 0)
-     (d-PutClipObj staff count)
-     (loop type staff (1+ count)))))
-(d-PopPushPosition)
-(d-PopPosition)
-(d-MoveCursorRight)
-(d-RefreshDisplay)
+        <scheme>;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
+; Singlestaff pasting will begin where the cursor is, resulting easily in overfull measures, but it turned out that exactly this is often intended.
+; Multistaff-Pasting always adds the complete part after the current measure. It will never paste into an existing measure
+
+(d-UnsetMark)
+(d-PushPosition) 
+ ;Its possible that this is a hack:
+ ;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
+(if (= -1 (d-GetClipObjType 1 0))
+	#f
+	(d-InsertMeasureAfter)
+	)
+ 
+ (let loopy ((staff 0) (count 0))
+  ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
+  (define (pasty)
+  	(d-PutClipObj staff count)
+  	(set! count (+ 1 count))
+  	(loopy staff count))
+
+ ; Nextplease increases the object-counter without pasting anything.
+  (define (nextplease)
+	(set! count (+ 1 count))
+  	(loopy staff count))
+ 
+ ;Nextstaff inserts a new measure only in this new staff! It is not possible to add a measure in all staffs because its possible to copy&amp;paste only 2 out of n staffs. In such cases it would lead to empty measure in other staffs. Afterwards reset the object-counter to zero and increase the staff-counter to start a new pasting round.
+;First go to the initial cursor position, then move staff down.
+ (define (nextstaff)
+   (if (= staff 0)  
+          (d-PopPushPosition) ; remember the  end-position of the cursor only for the first staff to return there after paste
+ 	  (d-PopPosition)
+    )
+
+   (if (d-MoveToStaffDown) 
+	(begin	(d-InsertMeasureAfter)
+			(d-PushPosition) 
+			(set! count 0)
+			(set! staff (+ 1 staff))
+		  	(loopy staff count))
+  	(begin  (d-PopPosition) (d-MoveCursorRight) (display "Paste: Not possible to go a staff down, pasting whats possible.\n") #f) ; Warn about not enough staffs to paste in and place the cursor after the pasted section (duplicate of case -1)
+    )
+  )
+
+; In the end move cusor to the initial staff, after the pasted part to allow direct pasting and editing again.
+ (define (endthis)
+ 	(if (&gt; staff 0) 
+		(begin (d-PopPosition) (d-PopPosition) ))
+	(d-MoveCursorRight)
+	#t
+ )
+  
+; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
+ (case (d-GetClipObjType staff count) 
+	((-1) (endthis) ) ; No object left
+	((0) (pasty)) ; note, rest, gracenote, chord
+	((1) (pasty)) ;tuplet open
+	((2) (pasty)) ;tuplet close
+	((3) (pasty)) ; Clef
+	((4) (pasty)) ;Timesignature
+	((5) (pasty)) ;Keysignature
+	((6) (display "barline"))
+	((7) (pasty))	;stem directive
+	((8) (d-InsertMeasureAfter) (nextplease) ) ; Measurebreak
+	((9) (begin (display "Staffbreak!\n") (nextstaff)) ) ; staffbreak 
+	((10) (display "dynamic"))	
+	((11) (display "grace start")) ;deprecated
+	((12) (display "grace end")) ;deprecated
+	((13) (display "lyric")) ;deprecated
+	((14) (display "figure")) 
+	((15) (pasty)) ; Lilypond-Directive
+	((16) (display "fakechord"))				
+	((17) (display "partial"))
+	(else (begin (display "Error! Object to paste unknown") #f))
+   )
+ ) 
+ (d-RefreshDisplay)
 </scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
