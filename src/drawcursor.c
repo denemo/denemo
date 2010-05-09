@@ -51,6 +51,15 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   setcairocolor( cr, paintgc );
   cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
   cairo_fill( cr );
+  if(Denemo.cursor_highlight) {
+    cairo_set_line_width (cr, 2.0);
+    cairo_set_source_rgba (cr, 0, 1, 0, 0.60);
+    cairo_move_to( cr, xx+ CURSOR_WIDTH/2-20, height + y -20);
+    cairo_rel_line_to( cr, 40, 40);
+    cairo_rel_move_to( cr, 0, -40);
+    cairo_rel_line_to( cr, -40, 40);
+    cairo_stroke( cr );
+  }
   cairo_restore( cr );
 
   /* Now draw ledgers if necessary and we're done */

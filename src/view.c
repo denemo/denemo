@@ -2268,6 +2268,12 @@ static SCM scheme_adjust_xes (SCM optional) {
   return SCM_BOOL_T;
 }
 
+static SCM scheme_highlight_cursor (SCM optional) {
+  Denemo.cursor_highlight = !Denemo.cursor_highlight;
+  displayhelper(Denemo.gui);
+  return SCM_BOOL_T;
+}
+
 static SCM scheme_get_type (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -2911,6 +2917,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
 
   INSTALL_SCM_FUNCTION ("Adjusts the horizontal (x-) positioning of notes etc after paste",DENEMO_SCHEME_PREFIX"AdjustXes",  scheme_adjust_xes);
+
+  INSTALL_SCM_FUNCTION ("Turn highlighting of cursor off/on",DENEMO_SCHEME_PREFIX"HighlightCursor",  scheme_highlight_cursor);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is an object at the cursor which has any printing behavior it may have overridden",DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
 

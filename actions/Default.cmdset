@@ -3578,6 +3578,15 @@ for second and subsequent systems</tooltip>
         <tooltip>Transforms the current selected notes into grace notes.</tooltip>
         <bind>slash</bind>
       </row>
+      <row>
+        <action>ToggleCursorHighlight</action>
+        <after>OctaveDown</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Cursor Highlighting Off/On</label>
+        <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
+        <bind>grave</bind>
+      </row>
     </map>
   </commands>
 </Denemo>
