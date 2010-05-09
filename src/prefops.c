@@ -119,6 +119,7 @@ initprefs ()
   ret->animation_steps = 10;
   ret->overlays = FALSE;
   ret->continuous = TRUE;
+  ret->cursor_highlight = TRUE;
 #ifdef _HAVE_JACK_
   ret->immediateplayback = FALSE;
 #else
@@ -445,6 +446,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback) 
+      READBOOLXMLENTRY(cursor_highlight) 
       READBOOLXMLENTRY(applytoselection) 
       READBOOLXMLENTRY(startmidiin) 
       READINTXMLENTRY(mode) 
@@ -790,6 +792,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(createclones)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(applytoselection)
   WRITEBOOLXMLENTRY(startmidiin)
   WRITEINTXMLENTRY(mode)

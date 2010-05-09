@@ -51,7 +51,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   setcairocolor( cr, paintgc );
   cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
   cairo_fill( cr );
-  if(Denemo.cursor_highlight) {
+  if(Denemo.prefs.cursor_highlight) {
     gdouble length = 40/si->zoom;
     cairo_set_line_width (cr, 6.0/si->zoom);
     cairo_set_source_rgba (cr, 0, 1, 0, 0.60);

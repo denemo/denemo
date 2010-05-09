@@ -28,6 +28,7 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
+  GtkWidget *cursor_highlight;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
   GtkWidget *saveparts;
@@ -175,6 +176,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
   ASSIGNBOOLEAN(autosave)
@@ -333,7 +335,7 @@ preferences_change (GtkAction *action, gpointer param)
    */
   
   NEWPAGE("View");
-  
+  BOOLEANENTRY("Highlight the cursor", cursor_highlight); 
   //Doesnt GList need to be freed
   GList *output_option_list = NULL;
   output_option_list = g_list_append (output_option_list, (gpointer) Portaudio);
@@ -454,7 +456,8 @@ preferences_change (GtkAction *action, gpointer param)
     gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   }
-  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);  
+
+  BOOLEANENTRY("Play back entered notes immediately", immediateplayback);   
   BOOLEANENTRY("Auto-start midi in", startmidiin);
 
   COMBOBOX("Midi/Audio output", midi_audio_output, output_option_list, Denemo.prefs.midi_audio_output)

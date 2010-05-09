@@ -353,6 +353,7 @@ typedef struct DenemoPrefs
 
   gint zoom; /**< percent zoom  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
+  gboolean cursor_highlight; /** Should the cursor be highlighted */
 
   gboolean playback_controls; /**< makes the playback controls visible */
   gboolean midi_in_controls; /**< makes the midi in controls visible */
@@ -903,7 +904,6 @@ struct DenemoRoot
   gint width;
   gint height;
   gboolean maximized;
-  gboolean cursor_highlight; /** Should the cursor be highlighted */
   keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
   gint last_keyval, last_keystate;/**< most recent keypress which successfully invoked a command */

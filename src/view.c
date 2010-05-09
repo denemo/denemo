@@ -2269,7 +2269,7 @@ static SCM scheme_adjust_xes (SCM optional) {
 }
 
 static SCM scheme_highlight_cursor (SCM optional) {
-  Denemo.cursor_highlight = !Denemo.cursor_highlight;
+  Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
   displayhelper(Denemo.gui);
   return SCM_BOOL_T;
 }
@@ -2802,7 +2802,7 @@ void inner_main(void*closure, int argc, char **argv){
   //create window system
   create_window();
   
-  Denemo.cursor_highlight = TRUE;//prehaps a pref??
+  Denemo.prefs.cursor_highlight = TRUE;
 
   /* create the first tab */
   newtab (NULL, NULL);
