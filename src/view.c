@@ -2802,6 +2802,8 @@ void inner_main(void*closure, int argc, char **argv){
   //create window system
   create_window();
   
+  Denemo.cursor_highlight = TRUE;//prehaps a pref??
+
   /* create the first tab */
   newtab (NULL, NULL);
 
