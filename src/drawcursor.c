@@ -52,12 +52,13 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
   cairo_fill( cr );
   if(Denemo.cursor_highlight) {
-    cairo_set_line_width (cr, 2.0);
+    gdouble length = 40/si->zoom;
+    cairo_set_line_width (cr, 6.0/si->zoom);
     cairo_set_source_rgba (cr, 0, 1, 0, 0.60);
-    cairo_move_to( cr, xx+ CURSOR_WIDTH/2-20, height + y -20);
-    cairo_rel_line_to( cr, 40, 40);
-    cairo_rel_move_to( cr, 0, -40);
-    cairo_rel_line_to( cr, -40, 40);
+    cairo_move_to( cr, xx+ CURSOR_WIDTH/2 - length/2, height + y - length/2);
+    cairo_rel_line_to( cr, length, length);
+    cairo_rel_move_to( cr, 0, -length);
+    cairo_rel_line_to( cr, -length, length);
     cairo_stroke( cr );
   }
   cairo_restore( cr );
