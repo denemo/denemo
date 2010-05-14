@@ -762,6 +762,9 @@
 
 
 ;;;;;;;;;;;;;;;;;
+(define (d-MeasureEmpty?) (equal? "None" (d-GetType)))
+
+;;;;;;;;;;;;;;;;;
 (define (DenemoFirst)
   (begin
     (display "DenemoFirst")))
