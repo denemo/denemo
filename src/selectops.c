@@ -212,8 +212,8 @@ copytobuffer (DenemoScore * si)
  *
  *  @param si pointer to score information structure
  */
-void
-cuttobuffer (DenemoScore * si)
+static void
+cuttobuffer (DenemoScore * si, gboolean copyfirst)
 {
   staffnode *curstaff;
   measurenode *curmeasure;
@@ -222,7 +222,8 @@ cuttobuffer (DenemoScore * si)
     max;
   if (!si->markstaffnum)
     return;
-  copytobuffer (si);
+  if(copyfirst)
+    copytobuffer (si);
   gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
   if (staffsinbuffer == 1)
     {
@@ -799,11 +800,17 @@ void
 cutwrapper (GtkAction *action, DenemoScriptParam *param)
 {
   DenemoGUI *gui = Denemo.gui;
-  cuttobuffer (gui->si);
+  cuttobuffer (gui->si, TRUE);
   //check that measurewidths is long enough after cutting empty measures
   displayhelper (gui);
 }
 
+void
+delete_selection(void) {
+  DenemoGUI *gui = Denemo.gui;
+  cuttobuffer (gui->si, FALSE);
+  displayhelper (gui);
+}
 /**
  * pastewrapper
  * Wrapper function for the paste command

@@ -645,6 +645,13 @@ static SCM scheme_pop_clipboard (SCM optional) {
     return SCM_BOOL_F;
 }
 
+static SCM scheme_delete_selection(SCM optional) {
+  if ((!Denemo.gui->si) || (!Denemo.gui->si->markstaffnum))
+    return SCM_BOOL_F;
+  delete_selection();
+  return SCM_BOOL_T;
+}
+
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
@@ -3569,6 +3576,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX"PushClipboard", scheme_push_clipboard);
 
   INSTALL_SCM_FUNCTION ("Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returs #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX"PopClipboard", scheme_pop_clipboard);
+
+  INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX"DeleteSelection", scheme_delete_selection);
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none",DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);

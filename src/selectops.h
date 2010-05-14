@@ -21,11 +21,14 @@ DenemoObjType  get_clip_obj_type(gint staff, gint object);
 gboolean insert_clip_obj(gint staff, gint object);
 void clearbuffer ();
 
-void saveselection(DenemoScore *si);
+void 
+saveselection(DenemoScore *si);
 
-void copytobuffer (DenemoScore *si);
+void 
+copytobuffer (DenemoScore *si);
 
-void cuttobuffer (DenemoScore *si);
+void
+delete_selection(void);
 
 
 
