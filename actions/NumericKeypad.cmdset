@@ -2188,7 +2188,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
         <bind>Control+v</bind>
-        <bind>RlsL-Control</bind>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
