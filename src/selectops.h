@@ -47,11 +47,7 @@ cutwrapper (GtkAction *action, DenemoScriptParam *param);
 void
 pastewrapper (GtkAction *action, DenemoScriptParam *param);
 
-void
-mark_boundaries_helper (DenemoScore *si, gint mark_staff,
-			gint mark_measure, gint mark_object, gint point_staff,
-			gint point_measure, gint point_object,
-			enum drag_selection_type type);
+
 
 void
 calcmarkboundaries (DenemoScore *si);

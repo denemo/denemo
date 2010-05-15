@@ -225,14 +225,20 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
   if(copyfirst)
     copytobuffer (si);
   gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
-  if (staffsinbuffer == 1)
+  gint lmeasurebreaksinbuffer = si->lastmeasuremarked - si->firstmeasuremarked;
+  gint lstaffsinbuffer = si->laststaffmarked - si->firststaffmarked + 1;
+  if(copyfirst) {
+    g_assert( lmeasurebreaksinbuffer == measurebreaksinbuffer);
+    g_assert(lstaffsinbuffer == staffsinbuffer);
+  }
+  if (lstaffsinbuffer == 1)
     {
       /* Just a single staff is a special case, again.  */
       jcounter = si->firstmeasuremarked; //currently clearing stuff from the firstmeasuremarked
       curmeasure = g_list_nth (firstmeasurenode (si->currentstaff), jcounter - 1);
 
       /* Clear the relevant part of the first measure selected */
-      if (measurebreaksinbuffer)
+      if (lmeasurebreaksinbuffer)
 	max = G_MAXINT;
       else
 	max = si->lastobjmarked;
@@ -252,11 +258,11 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
 	{
 	  /* That is, the score has only this one staff
 	   remove the (whole) measures between the first and last - which may be partial.*/
-	  if (measurebreaksinbuffer - 1 > 0)
+	  if (lmeasurebreaksinbuffer - 1 > 0)
 	    {
 	      curmeasure =
-		removemeasures (si, jcounter - 1, measurebreaksinbuffer - 1, TRUE);
-	      jcounter += measurebreaksinbuffer - 1;// increased by the number of measures *between* first and last marked
+		removemeasures (si, jcounter - 1, lmeasurebreaksinbuffer - 1, TRUE);
+	      jcounter += lmeasurebreaksinbuffer - 1;// increased by the number of measures *between* first and last marked
 	    }
 	}
       else
@@ -295,27 +301,26 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
     } // end of single staff
   else
     {				/* Multiple staff selection */
-      if (staffsinbuffer == (gint) (g_list_length (si->thescore)))
+      if (lstaffsinbuffer == (gint) (g_list_length (si->thescore)))
 	{
 	  /* Every staff was part of the selection */
-	  if (measurebreaksinbuffer > 0)
+	  if (lmeasurebreaksinbuffer > 0)
 	    {
 	      
 	      removemeasures (si, si->firstmeasuremarked - 1,
-			    measurebreaksinbuffer, TRUE);
-	      staffs_removed_measures = measurebreaksinbuffer;
+			    lmeasurebreaksinbuffer+1, TRUE);
+	      staffs_removed_measures = lmeasurebreaksinbuffer;
 	    }
-	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
-	    {
-	      if(measurebreaksinbuffer==0)
-		{
-		  curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->firstmeasuremarked-1);
-		  freeobjlist (curmeasure->data, NULL);
-		  curmeasure->data = NULL;
-		}
-	      showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
-	      beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
-	    }
+	  else
+	    for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+	      {
+		curmeasure = g_list_nth (firstmeasurenode (curstaff),  si->firstmeasuremarked-1);
+		freeobjlist (curmeasure->data, NULL);
+		curmeasure->data = NULL;
+		
+		showwhichaccidentalswholestaff ((DenemoStaff *) curstaff->data);
+		beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
+	      }
 	}
       else
 	{
@@ -867,7 +872,7 @@ saveselwrapper (GtkAction *action, DenemoScriptParam *param)
  * @param point_object -
  * @param type -
  */
-void
+static void
 mark_boundaries_helper (DenemoScore * si, gint mark_staff,
 			gint mark_measure, gint mark_object, gint point_staff,
 			gint point_measure, gint point_object,
