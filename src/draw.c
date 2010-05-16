@@ -585,37 +585,45 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
   } // for each object
   if(cr) {
-  /* Paint the exclamation point, if necessary */
-  cairo_save(cr);
-  if( extra_ticks > 0 )
-    cairo_set_source_rgb( cr, 1.0, 0, 0 );
-  else
-    cairo_set_source_rgb( cr, 0, 0, 1 );
-  if(extra_ticks != 0) {
-    drawlargetext_cr( cr, "!", x, y - 8 );
-    //cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
-  } else
-    cairo_set_source_rgb( cr, 0, 0, 0 );
-  //draw the barline
-#if 0
-  //This barline changes appearance depending on where the cursor is
-  cairo_move_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y+STAFF_HEIGHT);
-  cairo_line_to (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y);
-  cairo_stroke (cr);
-#else
-  cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
-  cairo_fill(cr);
-#endif
+    cairo_save(cr);
+    if(si->markstaffnum && 
+       (curmeasure->data==NULL) &&
+       (si->firststaffmarked <= itp->staffnum) &&
+       (si->laststaffmarked >= itp->staffnum) &&
+       (si->firstmeasuremarked <= itp->measurenum) &&
+       (si->lastmeasuremarked >= itp->measurenum))
+      {
+	cairo_set_source_rgb( cr, 0, 0, 1 );
+	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y, 20, STAFF_HEIGHT+1); 
+	cairo_fill(cr);
+      }
+    
+    /* Paint the exclamation point, if necessary */
+    
+    if( extra_ticks > 0 )
+      cairo_set_source_rgb( cr, 1.0, 0, 0 );
+    else
+      cairo_set_source_rgb( cr, 0, 0, 1 );
+    if(extra_ticks != 0) {
+      drawlargetext_cr( cr, "!", x, y - 8 );
+      //cairo_set_source_rgb( cr, 0.5, 0.5, 0.5 );
+    } else
+      cairo_set_source_rgb( cr, 0, 0, 0 );
+    //draw the barline
 
-  if (!curmeasure->next)
-    {
-      /* we've reached the end of the score and should
-       * draw the heavy part of double-barline at regular position */
-      x += 3;
-      cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
-      cairo_fill(cr);
-    }	
-  cairo_restore(cr);
+    cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 1.5, STAFF_HEIGHT+1);
+    cairo_fill(cr);
+
+
+    if (!curmeasure->next)
+      {
+	/* we've reached the end of the score and should
+	 * draw the heavy part of double-barline at regular position */
+	x += 3;
+	cairo_rectangle (cr, x + GPOINTER_TO_INT (itp->mwidthiterator->data), y-0.5, 4, STAFF_HEIGHT+1);
+	cairo_fill(cr);
+      }	
+    cairo_restore(cr);
   } //if cr
 
   return extra_ticks!=0;
