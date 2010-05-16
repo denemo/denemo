@@ -5529,7 +5529,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
   //g_print("position is %s\n", myposition);
   if(myposition == NULL) {
-    g_critical("Cannot find the position of this menu item in the menu system\n");
+    g_warning("Cannot find the position of this menu item %s in the menu system\n", func_name);
     return TRUE;
   }
   static gchar *filepath;// static so that we can free it next time we are here.
