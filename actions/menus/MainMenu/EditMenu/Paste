@@ -7,19 +7,29 @@
       <row>
         <after>Copy</after>
         <action>Paste</action>
-        <scheme>;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
+        <scheme>
+;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Singlestaff pasting will begin where the cursor is, resulting easily in overfull measures, but it turned out that exactly this is often intended.
 ; Multistaff-Pasting always adds the complete part after the current measure. It will never paste into an existing measure
 
 (d-UnsetMark)
 (d-PushPosition) 
- ;Its possible that this is a hack:
- ;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
+
+;;;;;Preparation. Check if the user only wants to paste a part of a measure or at least one complete measure and add an initial blank measure for that.
+;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
 (if (d-GetClipObjType 1 0)
 	(d-InsertMeasureAfter)
-	#f
+	(let searchformeasurebreak ((counter 0))  ; If there is no measurebreak at all in the clipboard: Do not create a blank one
+		(case (d-GetClipObjType 0 counter) 
+		  ((#f) #f ) ; No object left
+		  ((8) (d-InsertMeasureAfter)) ; Measurebreak
+		  (else (searchformeasurebreak (+ 1 counter)))
+   		)
 	)
- 
+)
+
+
+;;;;;; Main Loop. 
  (let loopy ((staff 0) (count 0))
   ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
   (define (pasty)
@@ -60,7 +70,7 @@
   
 ; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
  (case (d-GetClipObjType staff count) 
-	((#f) (endthis) ) ; No object left
+	((#f) (endthis) ) ; No object left. Means "no clipboard", too.
 	((-1) (display "No object")); should not happen anymore
 	((0) (pasty)) ; note, rest, gracenote, chord
 	((1) (pasty)) ;tuplet open
@@ -83,7 +93,7 @@
 	(else (begin (display "Error! Object to paste unknown\n") #f))
    )
  ) 
- (d-RefreshDisplay)
+ (d-RefreshDisplay)        
 </scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
