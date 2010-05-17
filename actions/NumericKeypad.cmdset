@@ -1171,11 +1171,13 @@ Notes entered will follow this pattern</tooltip>
         <action>SharpenEnharmonicSet</action>
         <label>Shift Accidentals Sharpwise</label>
         <tooltip>Shifts the set of accidentals one step sharper</tooltip>
+        <bind>equal</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
         <label>Shift Accidentals Flatwise</label>
         <tooltip>Shifts the set of accidentals one step flatter</tooltip>
+        <bind>minus</bind>
       </row>
       <row>
         <action>New</action>
