@@ -5265,6 +5265,9 @@ loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *widt
 
 
 gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+
+  if (!name || !*name)
+    return FALSE;
   if(bitmaps && (*xbm = (GdkBitmap *) g_hash_table_lookup(bitmaps, name))) {
     gdk_drawable_get_size(*xbm, width, height);
     return TRUE;
