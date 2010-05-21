@@ -1566,8 +1566,11 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
     else
       directive->graphic_name = g_string_new(value);
     return TRUE;
-  } else 
+  } else  {
+    directive->graphic = directive->graphic_name = NULL;
+    directive->width = directive->height = 0;
     return FALSE;
+  }
 }
 
 
