@@ -1103,7 +1103,7 @@ string_dialog_entry_with_widget (DenemoGUI *gui, gchar *wlabel, gchar *direction
 		gtk_widget_destroy (dialog);
 		return NULL;
 	}
-  return (gchar *)TRUE;
+  return NULL;
 }
 
 static gboolean
