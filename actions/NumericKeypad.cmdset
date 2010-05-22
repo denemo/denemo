@@ -445,6 +445,7 @@ The cursor position determines which note to add</tooltip>
         <action>AddMeasure</action>
         <label>Insert Measure After</label>
         <tooltip>Insert a blank measure after the current one (in all staffs)</tooltip>
+        <bind>n</bind>
       </row>
       <row>
         <action>InsertMeasureBefore</action>
@@ -3349,14 +3350,6 @@ for second and subsequent systems</tooltip>
         <label>Cursor Highlighting Off/On</label>
         <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
         <bind>grave</bind>
-      </row>
-      <row>
-        <action>SplitMeasure</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Split Measure (insert barline)</label>
-        <bind>n</bind>
-        <tooltip>Insert a barline before cursor.</tooltip>
       </row>
     </map>
   </commands>
