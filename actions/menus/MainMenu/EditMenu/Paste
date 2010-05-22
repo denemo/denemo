@@ -7,27 +7,36 @@
       <row>
         <after>Copy</after>
         <action>Paste</action>
-        <scheme>
+        <scheme>(system "clear")
+
 ;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
-; Singlestaff pasting will begin where the cursor is, resulting easily in overfull measures, but it turned out that exactly this is often intended.
-; Multistaff-Pasting always adds the complete part after the current measure. It will never paste into an existing measure
+; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
+; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered.
 
 (d-UnsetMark)
 (d-PushPosition) 
 
-;;;;;Preparation. Check if the user only wants to paste a part of a measure or at least one complete measure and add an initial blank measure for that.
 ;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
+
 (if (d-GetClipObjType 1 0)
 	(d-InsertMeasureAfter)
-	(let searchformeasurebreak ((counter 0))  ; If there is no measurebreak at all in the clipboard: Do not create a blank one
-		(case (d-GetClipObjType 0 counter) 
-		  ((#f) #f ) ; No object left
-		  ((8) (d-InsertMeasureAfter)) ; Measurebreak
-		  (else (searchformeasurebreak (+ 1 counter)))
-   		)
-	)
 )
 
+; If a user wants to paste a multi-measure section between two objects the remaining objects (after the cursor -&gt; until the next barline) need to put in an extra measure. d-SplitMeasure takes care of that.
+; The conditions that need to met are quite a few:
+	(if (and 
+	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
+	(not (d-GetClipObjType 1 0)) ; Only for single-staff
+	(not (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "Appending"))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
+	(let searchformeasurebreak ((counter 1))  ; If there is no measurebreak there is no need to split, start at the second position to avoid leading measurebreaks, which do not count. 
+		(case (d-GetClipObjType 0 counter) 
+		  ((#f) #f ) ; No object left
+		  ((8) #t) ; Measurebreak found
+		  (else (searchformeasurebreak (+ 1 counter)))
+   		))
+   	) 
+		(d-SplitMeasure)
+		#f)
 
 ;;;;;; Main Loop. 
  (let loopy ((staff 0) (count 0))
@@ -59,12 +68,24 @@
   	(begin  (d-PopPosition) (d-MoveCursorRight) (display "Paste: Not possible to go a staff down, pasting whats possible.\n") #f) ; Warn about not enough staffs to paste in and place the cursor after the pasted section (duplicate of case -1)
     )
   )
+  
+ (define (measurebreak)
+ 
+   (if (d-GetClipObjType 1 0) ;Multistaff?
+	(begin (d-InsertMeasureAfter) (nextplease))  ;Yes it is, just go on and paste
+      
+        (if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
+		(nextplease)
+		(if (d-MoveToMeasureRight) ; End of Staff?
+			(if (d-MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
+			(begin (d-InsertMeasureAfter) (nextplease))))
+)) 
 
 ; In the end move cusor to the initial staff, after the pasted part to allow direct pasting and editing again.
  (define (endthis)
  	(if (&gt; staff 0) 
 		(begin (d-PopPosition) (d-PopPosition) ))
-	(d-MoveCursorRight)
+	(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
 	#t
  )
   
@@ -80,7 +101,7 @@
 	((5) (pasty)) ;Keysignature
 	((6) (display "barline"))
 	((7) (pasty))	;stem directive
-	((8) (d-InsertMeasureAfter) (nextplease) ) ; Measurebreak
+	((8) (measurebreak) ) ; Measurebreak
 	((9) (nextstaff) ) ; staffbreak 
 	((10) (display "dynamic"))	
 	((11) (display "grace start")) ;deprecated
@@ -93,8 +114,8 @@
 	(else (begin (display "Error! Object to paste unknown\n") #f))
    )
  ) 
- (d-RefreshDisplay)        
-</scheme>
+ (d-RefreshDisplay)
+ </scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
       </row>
