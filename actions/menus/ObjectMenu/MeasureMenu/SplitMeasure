@@ -8,6 +8,7 @@
         <after>InsertMeasure</after>
         <action>SplitMeasure</action>
         <scheme> ;;;SplitMeasure
+ (d-PushClipboard)
 (d-SetMark)
 (if   (d-MeasureRight)  
    (begin  (d-CursorLeft)  
@@ -23,7 +24,7 @@
         )
  )
 (d-Paste)
-</scheme>
+(d-PopClipboard)</scheme>
         <label>Split Measure</label>
         <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>
