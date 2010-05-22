@@ -2800,7 +2800,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ReBar</action>
-        <after>ForceNewMeasure</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Adjust the Barlines</label>
@@ -3626,7 +3625,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SplitMeasure</action>
         <scheme></scheme>
-        <menupath>ObjectMenu/MeasureMenu/SplitMeasure</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/SplitMeasure</menupath>
         <label>Split Measure (insert barline)</label>
         <bind>n</bind>
         <tooltip>Insert a barline before cursor.</tooltip>

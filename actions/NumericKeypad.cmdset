@@ -2788,7 +2788,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       </row>
       <row>
         <action>ReBar</action>
-        <after>ForceNewMeasure</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Adjust the Barlines</label>
@@ -3350,6 +3349,14 @@ for second and subsequent systems</tooltip>
         <label>Cursor Highlighting Off/On</label>
         <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
         <bind>grave</bind>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu/SplitMeasure</menupath>
+        <label>Split Measure (insert barline)</label>
+        <bind>n</bind>
+        <tooltip>Insert a barline before cursor.</tooltip>
       </row>
     </map>
   </commands>
