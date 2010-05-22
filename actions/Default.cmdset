@@ -3625,7 +3625,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SplitMeasure</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu/SplitMeasure</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Split Measure (insert barline)</label>
         <bind>n</bind>
         <tooltip>Insert a barline before cursor.</tooltip>
