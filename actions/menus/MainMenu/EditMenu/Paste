@@ -37,7 +37,11 @@
 		(d-SplitMeasure)
 		#f)
 
-;;;;;; Main Loop. 
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;; Main Loop ;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;;;
+
  (let loopy ((staff 0) (count 0))
   ;Pasty is the default command which just inserts the clipboard-object and increases the object-counter, but does not touch the staff-counter
   (define (pasty)
@@ -84,7 +88,9 @@
  (define (endthis)
  	(if (&gt; staff 0) 
 		(begin (d-PopPosition) (d-PopPosition) ))
-	(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
+	
+	;This was needed at some type, after an (unrelated?) upgrade of the script it was not needed anymore.  Better keep it in...
+	;(if (d-GetClipObjType 0 0) (d-MoveCursorRight)) ; Only move cursor right if there was a clipboard to paste.
 	#t
  )
   
