@@ -2690,13 +2690,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Recalculates the timing of each note.</tooltip>
       </row>
       <row>
-        <action>ForceNewMeasure</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Force New Measure</label>
-        <tooltip>Force a new measure when appending music, where Denemo would put the notes in the current measure.</tooltip>
-      </row>
-      <row>
         <action>HideEmptyStaffs</action>
         <after>ScoreIndent</after>
         <scheme></scheme>
@@ -3629,6 +3622,14 @@ for second and subsequent systems</tooltip>
         <label>Delete</label>
         <bind>Delete</bind>
         <tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</tooltip>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <scheme></scheme>
+        <menupath>ObjectMenu/MeasureMenu/SplitMeasure</menupath>
+        <label>Split Measure (insert barline)</label>
+        <bind>n</bind>
+        <tooltip>Insert a barline before cursor.</tooltip>
       </row>
     </map>
   </commands>

@@ -5,7 +5,6 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>ForceNewMeasure</after>
         <action>ReBar</action>
         <scheme>;;; ReBar
 (d-MoveToBeginning)
