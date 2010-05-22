@@ -8,23 +8,29 @@
         <after>InsertMeasure</after>
         <action>SplitMeasure</action>
         <scheme> ;;;SplitMeasure
- (d-PushClipboard)
+(d-PushClipboard) 
+(d-PushPosition) 
 (d-SetMark)
-(if   (d-MeasureRight)  
-   (begin  (d-CursorLeft)  
-                (d-Cut)
-                (d-CursorRight)
-                (d-InsertMeasure)       
+(if (d-MeasureRight)  
+   (begin
+		(d-CursorLeft)  
+        (d-Cut)
+        (d-CursorRight)
+        (d-InsertMeasureBefore)       
         )
    (begin
-           (d-GoToEnd)
-           (d-Cut)
-        (d-AppendMeasure)
+        (d-GoToEnd)
+        (d-Cut)
+        (d-InsertMeasureAfter)
         (d-MeasureRight)
-        )
- )
+      )
+ ) 
 (d-Paste)
-(d-PopClipboard)</scheme>
+(d-PopPosition)
+(d-MoveCursorLeft) ; Cursor Position after Pop is still on the old note which is now in a new measure, go one step left to return to the editing position.
+(d-PopClipboard) ; Restore old Clipboard
+
+</scheme>
         <label>Split Measure</label>
         <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>
