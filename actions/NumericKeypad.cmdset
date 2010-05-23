@@ -2253,7 +2253,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>OpenOctaveUp</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Open { Octave Up</label>
         <tooltip>Opens a block to be transposed up one octave
 	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
@@ -2261,7 +2261,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CloseLilyBlock</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+	<menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Close } a LilyPond Block</label>
         <tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</tooltip>
       </row>
@@ -3116,7 +3116,7 @@ for second and subsequent systems</tooltip>
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Transpose</menupath>
+	<menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Open { Octave Down</label>
         <tooltip>Opens a block printing an octave lower</tooltip>
       </row>
