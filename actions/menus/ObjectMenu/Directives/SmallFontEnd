@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SmallFontStart</after>
+        <action>SmallFontEnd</action>
+        <scheme>;;;StartSmallFont
+(d-Directive-standalone "SmallFont")
+(d-DirectivePut-standalone-postfix "SmallFont" "%Restore normal note size
+	\\revert NoteHead #'font-size
+	\\revert Accidental #'font-size
+")
+(d-DirectivePut-standalone-display "SmallFont" "normal")
+(d-DirectivePut-standalone-minpixels  "SmallFont" 30)
+(d-RefreshDisplay)
+</scheme>
+        <label>End Small Size</label>
+        <tooltip>Printing resumes normal size music.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
