@@ -1192,6 +1192,12 @@ static void unset_mark_cb (GtkAction *action, gpointer param) {
 unset_mark (gui);
 displayhelper (gui);
 }
+/*SetPoint set_point*/
+static void set_point_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+set_point (gui);
+displayhelper (gui);
+}
 /*ToggleBeginSlur toggle_begin_slur*/
 static void toggle_begin_slur_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;

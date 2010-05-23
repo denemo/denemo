@@ -607,6 +607,77 @@ DenemoObject *get_point_object(void){
   return lastobj? ((DenemoObject *)lastobj->data):NULL;
 }
 
+/**
+ * mark_boundaries_helper
+ * Helper function which marks the boundaries of the 
+ * mark
+ *
+ * Inputs 
+ * @param si pointer to the DenemoScore structure
+ * @param mark_staff  
+ * @param mark_measure -
+ * @param mark_object -
+ * @param point_staff -
+ * @param point_measure -
+ * @param point_object -
+ * @param type -
+ */
+static void
+mark_boundaries_helper (DenemoScore * si, gint mark_staff,
+			gint mark_measure, gint mark_object, gint point_staff,
+			gint point_measure, gint point_object,
+			enum drag_selection_type type)
+{
+  if (mark_staff)
+    {
+      si->firststaffmarked = MIN (mark_staff, point_staff);
+      si->laststaffmarked = MAX (mark_staff, point_staff);
+
+      switch (type)
+	{
+	case NO_DRAG:
+	  /* error, really.  */
+	  break;
+	case NORMAL_SELECT:
+	case WHOLE_MEASURES:
+	  /* I was thinking of handling these with a fallthrough, but
+	     the commonality in setting si->firstmeasuremarked and
+	     si->lastmeasuremarked caused it not to work out cleanly.  */
+	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
+	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
+	  if (type == NORMAL_SELECT
+	        && si->firststaffmarked == si->laststaffmarked )
+	    {
+	      if (mark_measure < point_measure)
+		{
+		  si->firstobjmarked = mark_object;
+		  si->lastobjmarked = point_object;
+		}
+	      else if (mark_measure > point_measure)
+		{
+		  si->firstobjmarked = point_object;
+		  si->lastobjmarked = mark_object;
+		}
+	      else
+		{		/* Same measure */
+		  si->firstobjmarked = MIN (mark_object, point_object);
+		  si->lastobjmarked = MAX (mark_object, point_object);
+		}
+	    }
+	  else
+	    {
+	      si->firstobjmarked = 0;
+	      si->lastobjmarked = G_MAXINT;
+	    }
+	  break;
+	case WHOLE_STAFFS:
+	  si->firstmeasuremarked = 1;
+	  si->lastmeasuremarked = g_list_length (si->measurewidths);
+	  si->firstobjmarked = 0;
+	  si->lastobjmarked = G_MAXINT;
+	}
+    }
+}
 
 
 /**
@@ -624,6 +695,26 @@ set_mark (DenemoGUI * gui)
   si->markcursor_x = si->cursor_x;
   calcmarkboundaries (si);
 }
+
+/**
+ *  set_point
+ *  Sets the current cursor position as the end of the selection
+ *
+ *  @param gui pointer to the DenemoGUI structure
+ */
+void
+set_point (DenemoGUI * gui)
+{
+  DenemoScore *si = gui->si;
+  if(si->markstaffnum) {
+    mark_boundaries_helper (si, si->markstaffnum, si->markmeasurenum,
+			  si->markcursor_x, si->currentstaffnum,
+			  si->currentmeasurenum, si->cursor_x, NORMAL_SELECT);
+ 
+  }
+}
+
+
 
 /**
  * unset_mark
@@ -857,77 +948,6 @@ saveselwrapper (GtkAction *action, DenemoScriptParam *param)
   saveselection (gui->si);
 }
 
-/**
- * mark_boundaries_helper
- * Helper function which marks the boundaries of the 
- * mark
- *
- * Inputs 
- * @param si pointer to the DenemoScore structure
- * @param mark_staff  
- * @param mark_measure -
- * @param mark_object -
- * @param point_staff -
- * @param point_measure -
- * @param point_object -
- * @param type -
- */
-static void
-mark_boundaries_helper (DenemoScore * si, gint mark_staff,
-			gint mark_measure, gint mark_object, gint point_staff,
-			gint point_measure, gint point_object,
-			enum drag_selection_type type)
-{
-  if (mark_staff)
-    {
-      si->firststaffmarked = MIN (mark_staff, point_staff);
-      si->laststaffmarked = MAX (mark_staff, point_staff);
-
-      switch (type)
-	{
-	case NO_DRAG:
-	  /* error, really.  */
-	  break;
-	case NORMAL_SELECT:
-	case WHOLE_MEASURES:
-	  /* I was thinking of handling these with a fallthrough, but
-	     the commonality in setting si->firstmeasuremarked and
-	     si->lastmeasuremarked caused it not to work out cleanly.  */
-	  si->firstmeasuremarked = MIN (mark_measure, point_measure);
-	  si->lastmeasuremarked = MAX (mark_measure, point_measure);
-	  if (type == NORMAL_SELECT
-	        && si->firststaffmarked == si->laststaffmarked )
-	    {
-	      if (mark_measure < point_measure)
-		{
-		  si->firstobjmarked = mark_object;
-		  si->lastobjmarked = point_object;
-		}
-	      else if (mark_measure > point_measure)
-		{
-		  si->firstobjmarked = point_object;
-		  si->lastobjmarked = mark_object;
-		}
-	      else
-		{		/* Same measure */
-		  si->firstobjmarked = MIN (mark_object, point_object);
-		  si->lastobjmarked = MAX (mark_object, point_object);
-		}
-	    }
-	  else
-	    {
-	      si->firstobjmarked = 0;
-	      si->lastobjmarked = G_MAXINT;
-	    }
-	  break;
-	case WHOLE_STAFFS:
-	  si->firstmeasuremarked = 1;
-	  si->lastmeasuremarked = g_list_length (si->measurewidths);
-	  si->firstobjmarked = 0;
-	  si->lastobjmarked = G_MAXINT;
-	}
-    }
-}
 
 /**
  * calcmarkboundaries

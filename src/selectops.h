@@ -37,6 +37,8 @@ set_mark (DenemoGUI *gui);
 
 void
 unset_mark (DenemoGUI *gui);
+void
+set_point (DenemoGUI *gui);
 
 void
 copywrapper (GtkAction *action, DenemoScriptParam *param);

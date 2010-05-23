@@ -735,6 +735,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SetMark")), "scm", (gpoin
 SCM scheme_UnsetMark(SCM optional);
 install_scm_function ("d-UnsetMark", scheme_UnsetMark);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "UnsetMark")), "scm", (gpointer)1);
+/*SetPoint set_point*/
+SCM scheme_SetPoint(SCM optional);
+install_scm_function ("d-SetPoint", scheme_SetPoint);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SetPoint")), "scm", (gpointer)1);
 /*ToggleBeginSlur toggle_begin_slur*/
 SCM scheme_ToggleBeginSlur(SCM optional);
 install_scm_function ("d-ToggleBeginSlur", scheme_ToggleBeginSlur);

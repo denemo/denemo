@@ -292,9 +292,9 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_STAFF, NULL, "No Tooltip yet",	N_("SetInitialAflatmin"), "setkeysigaflatmin", N_("Set Ab Minor as Initial Keysig")},
 
 
-  {CMD_CATEGORY_NAVIGATION, NULL, "Sets the start point for a selection,\\nthe cursor position is the end point",	N_("SetMark"), "set_mark", N_("Set Mark")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Sets the start point for a selection,\\nthe end point of the selection is unaltered",	N_("SetMark"), "set_mark", N_("Set Mark")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Gets rid of the selection.",	N_("UnsetMark"), "unset_mark", N_("Unset Mark")},
-
+  {CMD_CATEGORY_NAVIGATION, NULL, "Extends the selection to the current cursor position",	N_("SetPoint"), "set_point", N_("Set Point")},
   {CMD_CATEGORY_ARTICULATION, NULL, "Insert/delete begin slur on this note",	N_("ToggleBeginSlur"), "toggle_begin_slur", N_("Begin Slur")},
   {CMD_CATEGORY_ARTICULATION, NULL, "Insert/delete end slur on this note",	N_("ToggleEndSlur"), "toggle_end_slur", N_("End Slur")},
 

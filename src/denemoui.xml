@@ -84,6 +84,7 @@
       <separator/>
       <menu action="Select">
          <menuitem action="SetMark"/>
+	 <menuitem action="SetPoint"/>
 	 <menu action="ExtendSelect">
 	        <menuitem action="CursorLeft"/>
                 <menuitem action="CursorRight"/>
