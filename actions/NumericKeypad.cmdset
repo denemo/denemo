@@ -3351,6 +3351,22 @@ for second and subsequent systems</tooltip>
         <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
         <bind>grave</bind>
       </row>
+      <row>
+        <action>SmallFontStart</action>
+        <after>FinishCadenza</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Small Size</label>
+        <tooltip>Music after this is printed in a small size.</tooltip>
+      </row>
+      <row>
+        <action>SmallFontEnd</action>
+        <after>SmallFontStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>End Small Size</label>
+        <tooltip>Printing resumes normal size music.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
