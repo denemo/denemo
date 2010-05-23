@@ -409,6 +409,15 @@ DenemoObjType get_clip_obj_type(gint m, gint n) {
   return ((DenemoObject*)(curbufferobj->data))->type;
 }
 
+gint get_clip_objs(gint m) {
+  if(copybuffer==NULL)
+    return -1;
+  GList *stafflist = g_list_nth(copybuffer, m);
+  if(stafflist==NULL)
+    return -1;
+  return g_list_length(stafflist->data);
+}
+
 // insert the nth object from the copybuffer into music at the cursor position
 // return TRUE if inserted
 gboolean insert_clip_obj(gint m, gint n) {

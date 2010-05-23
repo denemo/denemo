@@ -2265,6 +2265,16 @@ static SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+//return the number of objects in the copybuffer at staff m
+static SCM scheme_get_clip_objects(SCM m) {
+ gint staff = scm_num2int(m, 0, 0);
+ gint num = get_clip_objs(staff);
+ if(num==-1)
+   return SCM_BOOL_F;
+ else
+   return  scm_int2num(num);
+}
+
 //return the type of the nth object in the copybuffer
 static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
  gint value = scm_num2int(n, 0, 0); 
@@ -2275,6 +2285,7 @@ static SCM scheme_get_clip_obj_type(SCM m, SCM n) {
  else
    return  scm_int2num(type);
 }
+
 
 //insert the nth object from the denemo copybuffer
 static SCM scheme_put_clip_obj(SCM m, SCM n) {
@@ -2935,6 +2946,9 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Set passed string as numerator/denominator for a tuplet open at cursor",DENEMO_SCHEME_PREFIX"SetTuplet",  scheme_set_tuplet);
 
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Returns the type of object at the (m, n)th position on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjType",  scheme_get_clip_obj_type);
+  INSTALL_SCM_FUNCTION1 ("Takes a staff number m, Returns the number of objects in the mth staff on the Denemo Clipboard or #f if none.", DENEMO_SCHEME_PREFIX"GetClipObjects",  scheme_get_clip_objects);
+
+
   INSTALL_SCM_FUNCTION2 ("Takes a staff number m and a object number n. Inserts the (m, n)th Denemo Object from Denemo Clipboard into the staff at the cursor position", DENEMO_SCHEME_PREFIX"PutClipObj",  scheme_put_clip_obj);
   INSTALL_SCM_FUNCTION ("Clears the Denemo Music Clipboard",DENEMO_SCHEME_PREFIX"ClearClipboard",  scheme_clear_clipboard);
 
