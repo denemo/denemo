@@ -497,7 +497,7 @@ void toggle_to_drawing_area(gboolean show) {
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
-  if((current_view==DENEMO_PAGE_VIEW & hide) || (show & !current_view))
+  if(((current_view==DENEMO_PAGE_VIEW) && hide) || (show && (!current_view)))
     return;
   current_view = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
 #define ACCUM height += widget->allocation.height
