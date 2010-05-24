@@ -546,6 +546,11 @@ void toggle_to_drawing_area(gboolean show) {
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
+  gboolean visibile =  GTK_WIDGET_VISIBLE (widget);
+  if(Denemo.gui->si->view == DENEMO_MENU_VIEW && !visibile){
+    g_warning("Out of step");
+    Denemo.gui->si->view == DENEMO_LINE_VIEW;
+  }
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
 
