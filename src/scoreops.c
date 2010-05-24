@@ -156,7 +156,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     gui->si->currentobject = gui->si->currentobject->next;
     gui->si->cursor_x++;
   }
-  if(objnum)
+  if(!gui->si->currentobject)
     return FALSE;
   write_status(gui);
 #if 0
@@ -184,6 +184,8 @@ void PopPosition (GtkAction * action, DenemoScriptParam *param) {
     return;
   }
   param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+  if(param->status)
+    Denemo.gui->si->cursor_appending = pos->appending;
   g_free(pos);
 }
 
@@ -199,6 +201,8 @@ void PopPushPosition (GtkAction * action, DenemoScriptParam *param) {
   if(pos) {
     push_position();
     param->status = goto_movement_staff_obj(Denemo.gui, pos->movement, pos->staff, pos->measure, pos->object);
+    if(param->status)
+      Denemo.gui->si->cursor_appending = pos->appending;
   } else
     param->status = FALSE;
 }

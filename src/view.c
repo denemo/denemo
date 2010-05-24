@@ -497,7 +497,7 @@ void toggle_to_drawing_area(gboolean show) {
   // NOTE  lyrics are per movement
   GtkWidget *widget;
   gboolean hide = !show;
-  if((current_view==DENEMO_PAGE_VIEW & hide) || (show & !current_view))
+  if(((current_view==DENEMO_PAGE_VIEW) && hide) || (show && (!current_view)))
     return;
   current_view = hide?DENEMO_LINE_VIEW:DENEMO_MENU_VIEW;
 #define ACCUM height += widget->allocation.height
@@ -546,6 +546,11 @@ void toggle_to_drawing_area(gboolean show) {
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param) {
   GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
+  gboolean visibile =  GTK_WIDGET_VISIBLE (widget);
+  if(Denemo.gui->si->view == DENEMO_MENU_VIEW && !visibile){
+    g_warning("Out of step");
+    Denemo.gui->si->view == DENEMO_LINE_VIEW;
+  }
   toggle_to_drawing_area(!GTK_WIDGET_VISIBLE (widget));
 }
 
@@ -5080,6 +5085,9 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
 				      NULL);
   gchar *scheme = getSchemeText();
   if(scheme && *scheme && confirm("Save Script", "Over-write previous version of this script?")) {
+    gchar *dirpath = g_path_get_dirname(filename);
+    g_mkdir_with_parents(dirpath, 0770);
+    g_free(dirpath);
     save_script_as_xml (filename, name, scheme, label, tooltip, after);
     g_object_set_data(G_OBJECT(action), "scheme", (gpointer)"");//
     instantiate_script(action);
