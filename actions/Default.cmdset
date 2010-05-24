@@ -2,7 +2,7 @@
 <Denemo>
   <commands>
     <title>A Denemo Command Set</title>
-    <author>AT, JRR, RTS, NG</author>
+    <author>AT, JRR, RTS</author>
     <map>
       <cursors>
         <cursor-binding>
@@ -434,7 +434,6 @@ The cursor position determines which note to add</tooltip>
         <action>DeleteObject</action>
         <label>Delete Object</label>
         <tooltip>Delete the object at the cursor</tooltip>
-        <hidden>true</hidden>
       </row>
       <row>
         <action>DeletePreviousObject</action>
@@ -974,13 +973,18 @@ The cursor position determines which note to add</tooltip>
         <action>SetMark</action>
         <label>Set Mark</label>
         <tooltip>Sets the start point for a selection,
-the cursor position is the end point</tooltip>
+the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>UnsetMark</action>
         <label>Unset Mark</label>
         <tooltip>Gets rid of the selection.</tooltip>
         <bind>space</bind>
+      </row>
+      <row>
+        <action>SetPoint</action>
+        <label>Set Point</label>
+        <tooltip>Extends the selection to the current cursor position</tooltip>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
@@ -2264,7 +2268,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>OpenOctaveUp</action>
         <scheme></scheme>
-	<menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
+        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Open { Octave Up</label>
         <tooltip>Opens a block to be transposed up one octave
 	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
@@ -2272,7 +2276,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CloseLilyBlock</action>
         <scheme></scheme>
-	<menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
+        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Close } a LilyPond Block</label>
         <tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</tooltip>
       </row>
@@ -3060,7 +3064,7 @@ for second and subsequent systems</tooltip>
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
         <scheme></scheme>
-	<menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
+        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Open { Octave Down</label>
         <tooltip>Opens a block printing an octave lower: must be terminated with CloseLilyBlock</tooltip>
       </row>
@@ -3619,16 +3623,23 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Delete</label>
-        <bind>Delete</bind>
         <tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</tooltip>
+        <bind>Delete</bind>
       </row>
       <row>
         <action>SplitMeasure</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Split Measure (insert barline)</label>
-        <bind>n</bind>
         <tooltip>Insert a barline before cursor.</tooltip>
+        <bind>n</bind>
+      </row>
+      <row>
+        <action>GoToMeasureEnd</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Go To Measure End</label>
+        <tooltip>Move the Cursor to the end of the measure</tooltip>
       </row>
     </map>
   </commands>
