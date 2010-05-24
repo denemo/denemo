@@ -612,6 +612,7 @@ typedef struct DenemoPosition { /**<Represents a position in a Score */
   gint staff;
   gint measure;
   gint object;/**< 0 means no object */
+  gboolean appending;/**< if cursor is in appending position */
 } DenemoPosition;
 
 
