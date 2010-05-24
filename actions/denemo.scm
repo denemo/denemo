@@ -765,7 +765,7 @@
 (define (d-MeasureEmpty?) (equal? "None" (d-GetType)))
 
 ;;;;;;;;;;;;;;;;;;
-(define (d-GetTimeSignature #:optional (numberorstring #f) ) 
+(define* (d-GetTimeSignature #:optional (numberorstring #f) ) 
 	(if numberorstring
 		(string->number (d-InsertTimeSig "query=timesigname"))
 		(d-InsertTimeSig "query=timesigname")
