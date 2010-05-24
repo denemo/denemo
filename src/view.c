@@ -5080,6 +5080,9 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
 				      NULL);
   gchar *scheme = getSchemeText();
   if(scheme && *scheme && confirm("Save Script", "Over-write previous version of this script?")) {
+    gchar *dirpath = g_path_get_dirname(filename);
+    g_mkdir_with_parents(dirpath, 0770);
+    g_free(dirpath);
     save_script_as_xml (filename, name, scheme, label, tooltip, after);
     g_object_set_data(G_OBJECT(action), "scheme", (gpointer)"");//
     instantiate_script(action);
