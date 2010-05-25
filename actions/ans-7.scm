@@ -642,7 +642,7 @@
 		 (case (string->number (list-ref listi thirdDigit))
 		   ((0)		(set! nextNumber (ANS-7::+ nextNumber  "0"))) ; natural
 		   ((1)		(set! nextNumber (ANS-7::+ nextNumber  "30"))) ;sharp
-		   ((-1)		(set! nextNumber (ANS-7::+ nextNumber  "30"))) ;flat
+		   ((-1)		(set! nextNumber (ANS-7::+ nextNumber  "20"))) ;flat
 		   (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
 		  )
 		   (ANS-7::Ans2Ly nextNumber) ; Return note as Lilypond-sytanx
