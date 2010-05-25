@@ -873,6 +873,7 @@ void push_position(void) {
   pos->measure = si->currentmeasurenum;
   pos->object =  si->currentobject?si->cursor_x+1:0;
   pos->appending = si->cursor_appending;
+  pos->offend = si->cursoroffend;
   if(pos->movement)
      positions = g_slist_prepend(positions, pos);
   else
