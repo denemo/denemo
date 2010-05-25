@@ -764,6 +764,35 @@
 ;;;;;;;;;;;;;;;;;
 (define (d-MeasureEmpty?) (equal? "None" (d-GetType)))
 
+;;;;;;;;;;;;;;;;;;
+(define* (d-GetTimeSignature #:optional (numberorstring #f) ) 
+	(if numberorstring
+		(string->number (d-InsertTimeSig "query=timesigname"))
+		(d-InsertTimeSig "query=timesigname")
+	))
+
+
+
+;;;;;;;Get Measure Filling Status
+(define (d-MeasureFull?)
+(let script ((MaxTicks 0) (return #f))
+(d-PushPosition)
+(d-GoToMeasureEnd)
+(set! MaxTicks (* 1536 (d-GetTimeSignature #t) )) ; How many ticks are in a 100% filled measure?
+
+(set! return (cond 
+ 	((not(d-GetEndTick)) #f) ; empty
+ 	((< (d-GetEndTick) MaxTicks) #f) ; underful
+ 	((= MaxTicks (d-GetEndTick)) 1)  ; 100% filled
+ 	((< MaxTicks (d-GetEndTick)) 2) ; >100% filled
+	(else  (display "strange!")) ; ?
+ 	))
+  (d-PopPosition)
+  return
+))
+ 
+
+
 ;;;;;;;;;;;;;;;;;
 (define (DenemoFirst)
   (begin

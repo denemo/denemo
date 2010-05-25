@@ -6,11 +6,12 @@
     <map>
       <row>
         <action>GoToMeasureEnd</action>
-        <scheme>(let loop ()
-	(d-MoveCursorRight)
-	(if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
-		#t
-		(loop)))</scheme>
+        <scheme>
+(let loop ()
+    (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
+	#t
+	(begin (d-MoveCursorRight) (loop))))
+		</scheme>
         <label>Go To End of Measure</label>
         <tooltip></tooltip>
       </row>
