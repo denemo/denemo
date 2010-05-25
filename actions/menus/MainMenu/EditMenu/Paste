@@ -7,19 +7,31 @@
       <row>
         <after>Copy</after>
         <action>Paste</action>
-        <scheme>
-;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
+        <scheme>;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
-; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered.
+; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered. For snippet pasting (&lt; one full measure) it will automatically create new measures if needed. 
+
+
 
 (d-UnsetMark)
 (d-PushPosition) 
+(define paste::break?  (Paste::MeasureBreakInClipboard?))
 
 ;Multi staff selection is only possible for complete measures, not for parts. But In this case the first thing that needs to happen before beginning pasting to a new staff (including the first one) is to create an empty measure.
 
 (if (d-GetClipObjType 1 0)
-	(d-InsertMeasureAfter)
+	(d-InsertMeasureAfter) ; Multistaff
 )
+
+ ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
+
+(if (and  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (d-MeasureFull?) (string-ci=? (d-GetType) "Appending")  paste::break? )
+        (if (d-MoveToMeasureRight) ; End of Staff?
+			(if (d-MeasureEmpty?) 
+				#t
+				(d-InsertMeasureBefore) ) 
+			(d-InsertMeasureAfter)))
+7
 
 ; If a user wants to paste a multi-measure section between two objects the remaining objects (after the cursor -&gt; until the next barline) need to put in an extra measure. d-SplitMeasure takes care of that.
 ; The conditions that need to met are quite a few:
@@ -27,13 +39,8 @@
 	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
 	(not (d-GetClipObjType 1 0)) ; Only for single-staff
 	(not (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "Appending"))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
-	(let searchformeasurebreak ((counter 1))  ; If there is no measurebreak there is no need to split, start at the second position to avoid leading measurebreaks, which do not count. 
-		(case (d-GetClipObjType 0 counter) 
-		  ((#f) #f ) ; No object left
-		  ((8) #t) ; Measurebreak found
-		  (else (searchformeasurebreak (+ 1 counter)))
-   		))
-   	) 
+       paste::break?  ; If there is no measurebreak there is no need to split
+	) 
 		(d-SplitMeasure)
 		#f)
 
@@ -94,6 +101,17 @@
 	#t
  )
   
+  
+ ; For clipboards smaller than one full measure Denemo will automatically add barlines if needed 
+ (if (and (d-GetClipObjType staff count) (string-ci=?  (d-GetType) "Appending")  (not paste::break?) (d-MeasureFull?))
+            (if (d-MoveToMeasureRight) ; End of Staff?
+			(if (d-MeasureEmpty?) 
+				#t
+				(d-InsertMeasureBefore) ) 
+			(d-InsertMeasureAfter)))
+ 
+ 
+  
 ; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
  (case (d-GetClipObjType staff count) 
 	((#f) (endthis) ) ; No object left. Means "no clipboard", too.
@@ -120,7 +138,8 @@
    )
  ) 
  (d-RefreshDisplay)
- </scheme>
+ 
+</scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
       </row>
