@@ -690,7 +690,7 @@ typedef struct DenemoScore
   gdouble zoom;/**< zoom setting for this movement */
   gdouble system_height;/**< fraction of scorearea height allotted to one system (line) in this movement of the score, the same for all lines */
   //Settings for the views on this movement
-  DenemoViewType view;/**< The current view */
+
   gdouble page_zoom;/**< zoom for page view */
   gdouble page_system_height;/**< system height for page view */ 
   gint page_width;/**< width to use for window in page view. 0 means use full screen */
@@ -801,6 +801,7 @@ typedef struct DenemoGUI
   GtkWidget *vscrollbar;
   GtkObject *hadjustment;
   GtkWidget *hscrollbar;
+  DenemoViewType view;/**< The current view */
 #define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
   gint lefts[DENEMO_MAX_SYSTEMS];/**< an array to hold the leftmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint rights[DENEMO_MAX_SYSTEMS];/**< an array to hold the rightmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
