@@ -792,6 +792,14 @@
 ))
  
 
+(define (Paste::MeasureBreakInClipboard?)
+(let searchformeasurebreak ((counter 1))  ;start at the second position to avoid leading measurebreaks, which do not count. 
+		(case (d-GetClipObjType 0 counter) 
+		  ((#f) #f ) ; No object left
+		  ((8) #t) ; Measurebreak found
+		  (else (searchformeasurebreak (+ 1 counter)))
+   		)))
+
 
 ;;;;;;;;;;;;;;;;;
 (define (DenemoFirst)
