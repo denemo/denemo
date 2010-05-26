@@ -246,15 +246,30 @@ gint midientry(void) {
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
  
-  enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-  if(gui->mode & INPUTRHYTHM) {
-    static beep = FALSE;
-    gint measure = gui->si->currentmeasurenum;
-    scheme_next_note(NULL);
-    if(measure != gui->si->currentmeasurenum)
-      beep=TRUE;
-    else if(beep) signal_measure_end(), beep=FALSE;
-  }
+  if(gui->mode & INPUTEDIT)
+    {
+      static gboolean beep = FALSE;
+      gboolean is_tied = FALSE;
+      gint measure = gui->si->currentmeasurenum;
+      if(Denemo.gui->si->currentobject) {
+	DenemoObject *curObj = Denemo.gui->si->currentobject->data;
+	if(curObj->type==CHORD) {
+	  do {
+	    curObj = Denemo.gui->si->currentobject->data;
+	    chord *thechord = (chord *)  curObj->object;
+	    is_tied = thechord->is_tied;
+	    enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	  } while(next_editable_note() && is_tied);
+	} else 
+	  gdk_beep();
+	if(gui->mode & INPUTRHYTHM) {
+	  if(measure != gui->si->currentmeasurenum)
+	    beep=TRUE;
+	  else if(beep) signal_measure_end(), beep=FALSE;
+	}
+      }
+    } else
+    enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
   return TRUE;
 }
 

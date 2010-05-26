@@ -2667,6 +2667,15 @@ SCM scheme_prev_note (SCM optional) {
 }
 
 
+/******** advances the cursor to the next note,  stopping
+ at empty measures. The cursor is left on the last object */
+gboolean next_editable_note(void) {
+  gboolean  ret = to_note_direction(TRUE);
+  if((!ret) && Denemo.gui->si->currentobject==NULL)
+    to_note_direction(FALSE);
+  return ret;
+}
+
 SCM scheme_locate_dotdenemo (SCM optional) {
   const gchar *dotdenemo = locatedotdenemo();
   if (!dotdenemo)
