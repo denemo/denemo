@@ -173,7 +173,10 @@ get_placement_from_coordinates (struct placement_info *pi,
 				      leftmeasurenum - 1);
   objnode *obj_iterator;
   gint x_to_explain = (gint) (x);
-
+  if(mwidthiterator==NULL) {
+    g_critical("Array of measurewidths too small for leftmeasure %d\n", leftmeasurenum);
+    return;
+  }
   pi->staff_number = staff_at((gint)y, si);
   //g_print("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
   pi->measure_number = leftmeasurenum;
