@@ -2354,6 +2354,18 @@ static SCM scheme_get_nonprinting (SCM optional) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_set_nonprinting (SCM optional) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoObject *curObj;
+  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) ||  (curObj->type!=CHORD))
+    return SCM_BOOL_F;
+  if(scm_is_bool(optional) && optional==SCM_BOOL_F)
+    curObj->isinvisible = FALSE;
+  else
+    curObj->isinvisible = TRUE;
+  return SCM_BOOL_T;
+}
+
 
 static SCM scheme_is_slur_start (SCM optional) {
   DenemoGUI *gui = Denemo.gui;
@@ -2962,6 +2974,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Turn highlighting of cursor off/on",DENEMO_SCHEME_PREFIX"HighlightCursor",  scheme_highlight_cursor);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is an object at the cursor which has any printing behavior it may have overridden",DENEMO_SCHEME_PREFIX"GetNonprinting",  scheme_get_nonprinting);
+
+  INSTALL_SCM_FUNCTION ("Sets the Non Printing attribute of a chord (or note/rest) at the cursor. For a rest this makes a non printing rest, for a note it makes it ia pure rhythm (which will not print, but can be assigned pitch, e.g. via a MIDI keyboard. Pass in #f to unset the attribute",DENEMO_SCHEME_PREFIX"SetNonprinting",  scheme_set_nonprinting);
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur starting at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurStart",  scheme_is_slur_start);
 
