@@ -69,6 +69,15 @@ gboolean pop_clipboard(void) {
   return TRUE;
 }
 
+/* returns the top clipboard popped off the stack.
+   The caller must free the clipboard with 
+   when done */
+GList *pop_off_clipboard(void) {
+  GList *thecopy = NULL;
+  thecopy = clipboards->data;
+  clipboards = g_list_remove(clipboards, thecopy);
+  return thecopy;
+}
 
 /**
  *  sets current object to the given cursor position
@@ -92,7 +101,7 @@ setcurrentobject (DenemoScore * si, gint cursorpos)
  *  return - none
  */
 void
-clearbuffer ()
+clearbuffer (void)
 {
   g_list_foreach (copybuffer, freeobjlist, NULL);
   g_list_free (copybuffer);
@@ -101,7 +110,26 @@ clearbuffer ()
   measurebreaksinbuffer = 0;
 }
 
+void
+free_clipboard(GList *clipboard) {
+  if(clipboard) {
+    push_clipboard();
+    copybuffer = clipboard;
+    clearbuffer();
+    pop_clipboard();
+  }
+}
 
+void
+insert_clipboard(GList *clipboard) {
+  if(clipboard) {
+    push_clipboard();
+    copybuffer = clipboard;
+    call_out_to_guile("(d-Paste)");
+    copybuffer = NULL;
+    pop_clipboard();
+  }
+}
 /**
  *  saveselection 
  *  Saves the current selection to a given file
@@ -201,7 +229,8 @@ copytobuffer (DenemoScore * si)
 	  theobjs = g_list_append (theobjs, newstaffbreakobject ());
 	  g_debug ("Inserting Staffbreak object in copybuffer");
 	}
-      copybuffer = g_list_append (copybuffer, theobjs);
+      if(theobjs)
+	copybuffer = g_list_append (copybuffer, theobjs);
     }				/* End staff loop */
 }
 

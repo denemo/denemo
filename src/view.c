@@ -4151,6 +4151,7 @@ void playback_set_tempo (GtkWidget *button) {
   score_status (Denemo.gui, TRUE); 
 }
 
+
 /**
  * Rhythm callback select rhythm
  * inserts the rhythm if pitchless
@@ -4179,8 +4180,13 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
 /* #undef a */
   }
   highlight_rhythm(CURRP);
-  if((MODE&INPUTEDIT))
+
+  if((MODE&INPUTRHYTHM))
+     insert_clipboard(r->clipboard);
+  else   if((MODE&INPUTEDIT))
     insert_rhythm_pattern(gui);
+
+
 #undef CURRP
 #undef g
 #undef MODE
@@ -4277,7 +4283,18 @@ static void add_to_pattern(gchar **p, gchar c) {
   *p = temp;
 }
 
-
+static void
+attach_clipboard(RhythmPattern *r) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoScore *si = gui->si;
+ if(si->markstaffnum) {
+   push_clipboard ();
+   copytobuffer(si);
+   push_clipboard ();
+   r->clipboard = pop_off_clipboard();
+   pop_clipboard();
+ }
+}
 
 /* create_rhythm_cb
    This is overloaded for use as a callback (ACTION is a GtkAction) and
@@ -4290,9 +4307,10 @@ static void add_to_pattern(gchar **p, gchar c) {
         a button is created in "/RhythmToolbar"
         and the pattern is added to gui->rhythms 
          with the first step of it put in gui->rstep
+	add a clipboard with the selected music to the created rhythm pattern.
    if ACTION is one of the insert_chord_xkey insert_rest_xkey)
    functions
-        a button is created in the /EntryToolbar (if not alread present)
+        a button is created in the /EntryToolbar (if not already present)
    
 
 */
@@ -4304,6 +4322,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
   gboolean default_rhythm = FALSE;
   DenemoScore * si= gui->si;
   RhythmPattern *r = (RhythmPattern*)g_malloc0(sizeof(RhythmPattern));
+
   gchar *pattern = NULL;
     if(action ==  (gpointer)insert_chord_0key)
       pattern = g_strdup("0");
@@ -4373,6 +4392,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     staffnode *curstaff;
     measurenode *curmeasure;
     gint i = si->firststaffmarked;
+    attach_clipboard(r);
     curstaff = g_list_nth (si->thescore, i - 1);
     if(curstaff && i <= si->laststaffmarked) {
       int j,k;
@@ -5735,6 +5755,10 @@ delete_rhythm_cb (GtkAction * action, gpointer param)
   if(gui->currhythm==NULL)
     return;
   RhythmPattern *r =(RhythmPattern *)gui->currhythm->data;
+  
+  free_clipboard(r->clipboard);
+  r->clipboard = NULL;
+
   gtk_widget_destroy(GTK_WIDGET(r->button));
   /* list is circular, so before we free it we have to break it */
   r->rsteps->prev->next = NULL;
@@ -6325,7 +6349,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
-  {ToggleRhythmToolbar_STRING, NULL, N_("Rhythm Patterns"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes using rhythm patterns and\nto overlay these with pitches"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Music Samples"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter samples of music or to enter notes using rhythm patterns and\nto overlay these with pitches"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
   {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),

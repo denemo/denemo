@@ -19,7 +19,12 @@ enum drag_selection_type
  
 DenemoObjType  get_clip_obj_type(gint staff, gint object);
 gboolean insert_clip_obj(gint staff, gint object);
-void clearbuffer ();
+
+/* clear the Primary Denemo Clipboard */
+void clearbuffer (void);
+
+/* destroy the passed clipboard */
+void free_clipboard(GList *clipboard);
 
 void 
 saveselection(DenemoScore *si);
@@ -75,5 +80,11 @@ gboolean in_selection(DenemoScore *si);
 
 void
 swap_point_and_mark(GtkAction *action, gpointer param);
+
+GList *pop_off_clipboard(void);
+
+gboolean pop_clipboard(void);
+
+void push_clipboard (void);
 
 #endif

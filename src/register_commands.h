@@ -323,8 +323,8 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleEd
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRest"), "ToggleRest", "Toggle Rest Mode", "Toggle between note entry and rest entry", toggle_rest_mode);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ToggleRhythm"), "ToggleRhythm", "Toggle Audible Feedback", "Toggle audible feedback on/off", toggle_rhythm_mode);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ClearOverlay"), "ClearOverlay", "Clear Overlay", "Clear the list of pitches that overlay the notes", clear_overlay);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "CreateRhythm"), "CreateRhythm", "Create Rhythm", "Copy selection as a rhythm pattern for notes to follow as they are entered", create_rhythm_cb);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteRhythm"), "DeleteRhythm", "Delete Rhythm", "Delete the selected rhythm pattern", delete_rhythm_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "CreateRhythm"), "CreateRhythm", "Create Sample", "Copy selection as music sample or rhythm pattern for notes to follow as they are entered", create_rhythm_cb);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "DeleteRhythm"), "DeleteRhythm", "Delete Sample", "Delete the selected music sample/rhythm pattern", delete_rhythm_cb);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertA"), "InsertA", "Insert A","Inserts note A before note at cursor\nCursor determines which octave\nNote is inserted in the prevailing rhythm",  InsertA);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "ChangeToA"), "ChangeToA", N_("Change to A"),N_("Changes note at cursor to nearest note A\nRhythm is unchanged"),  ChangeToA);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "MoveToA"), "MoveToA", N_("Move to A"),N_("Moves cursor to nearest note A"),  MoveToA);
