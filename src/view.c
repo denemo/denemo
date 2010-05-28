@@ -4520,7 +4520,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 	} /* End measure loop */
     }//looking at selection
   if(strlen(pattern)==0) { // nothing useful selected
-      warningdialog("No selection to create a rhythm pattern from\nSee Edit->Select menu for selecting notes/rests");
+      warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
       gtk_widget_destroy(GTK_WIDGET(r->button));
       g_free(pattern);
       g_free(r);
