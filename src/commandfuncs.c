@@ -997,6 +997,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
 
 void
 insert_rhythm_pattern(DenemoGUI  *gui) {
+#if 0
 #define g  (gui->rstep)
   if((gui->mode&(INPUTEDIT)) && g) {
     GList *start = g;
@@ -1019,6 +1020,12 @@ insert_rhythm_pattern(DenemoGUI  *gui) {
     } while(g!=start);
   }
 #undef g
+#else
+
+  if(gui->currhythm==NULL)
+    return;
+  insert_clipboard(((RhythmPattern *)gui->currhythm->data)->clipboard);
+#endif
 }
 
 /**

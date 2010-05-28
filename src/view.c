@@ -528,7 +528,7 @@ void toggle_to_drawing_area(gboolean show) {
     ACCUM, activate_action(menu);
 
   TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
-  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+  //TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
   TOG("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
   TOG2("/EntryToolBar", entrymenu);
@@ -4181,11 +4181,8 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   }
   highlight_rhythm(CURRP);
 
-  if((MODE&INPUTRHYTHM))
+  if((MODE&INPUTEDIT))
      insert_clipboard(r->clipboard);
-  else   if((MODE&INPUTEDIT))
-    insert_rhythm_pattern(gui);
-
 
 #undef CURRP
 #undef g
@@ -4523,7 +4520,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 	} /* End measure loop */
     }//looking at selection
   if(strlen(pattern)==0) { // nothing useful selected
-      warningdialog("No selection to create a rhythm pattern from\nSee Edit->Select menu for selecting notes/rests");
+      warningdialog("No selection to create a music snippet from\nSee Edit->Select menu for selecting music to snip");
       gtk_widget_destroy(GTK_WIDGET(r->button));
       g_free(pattern);
       g_free(r);
@@ -6349,7 +6346,7 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), TRUE}
   ,
-  {ToggleRhythmToolbar_STRING, NULL, N_("Music Samples"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter samples of music or to enter notes using rhythm patterns and\nto overlay these with pitches"),
+  {ToggleRhythmToolbar_STRING, NULL, N_("Music Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), TRUE}
   ,
   {ToggleEntryToolbar_STRING, NULL, N_("Note and Rest Entry"), NULL, N_("Show/hide a toolbar which allows\nyou to enter notes and rests using the mouse"),

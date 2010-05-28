@@ -370,7 +370,7 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Display lyrics pane", lyrics_pane);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
 
-  BOOLEANENTRY("Display rhythm pattern toolbar", rhythm_palette);
+  BOOLEANENTRY("Display Music Snippets", rhythm_palette);
   BOOLEANENTRY("Display menu of objects toolbar", object_palette);
   INTENTRY_LIMITS(_("% Zoom"), zoom, 1, 100);
   INTENTRY_LIMITS(_("% of display height per system"), system_height, 1, 100);
