@@ -5,11 +5,9 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertMeasure</after>
         <action>SplitMeasure</action>
         <scheme> ;;;SplitMeasure
 (d-PushClipboard) 
-(d-PushPosition) 
 (d-SetMark)
 (if (d-MeasureRight)  
    (begin
@@ -26,13 +24,13 @@
       )
  ) 
 (d-Paste)
-(d-PopPosition)
-(d-MoveCursorLeft) ; Cursor Position after Pop is still on the old note which is now in a new measure, go one step left to return to the editing position.
+(d-MoveToMeasureLeft)
+(d-GoToMeasureEnd)
 (d-PopClipboard) ; Restore old Clipboard
 
 </scheme>
-        <label>Split Measure</label>
-        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+        <label>Split Measure (insert barline)</label>
+        <tooltip>Insert a barline before cursor.</tooltip>
       </row>
     </map>
   </merge>
