@@ -2194,8 +2194,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>Paste</action>
         <after>Copy</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <scheme>(d-Paste)</scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
         <bind>Control+v</bind>
@@ -3636,8 +3635,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>GoToMeasureEnd</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <scheme>(d-GoToMeasureEnd)</scheme>
         <label>Go To Measure End</label>
         <tooltip>Move the Cursor to the end of the measure</tooltip>
       </row>
