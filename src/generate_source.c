@@ -333,8 +333,8 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("ChangePitch"), "change_pitch", N_("Change Pitch")},
 
-  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Rhythm")},
-  {CMD_CATEGORY_OTHER, NULL, "Make next rhythm pattern\\nthe prevailing rhythm.\\nNotes entered will follow this pattern",	N_("NextRhythm"), "nextrhythm", N_("Next Rhythm")},
+  {CMD_CATEGORY_NOTE_ENTRY, NULL, "No Tooltip yet",	N_("InsertRhythm"), "insert_rhythm_pattern", N_("Insert Snippet")},
+  {CMD_CATEGORY_OTHER, NULL, "Make next snippet\\nthe current snippet.\\nNotes entered will follow the rhythmic pattern of this snippet",	N_("NextRhythm"), "nextrhythm", N_("Next Snippet")},
   {CMD_CATEGORY_MEASURE, NULL, "Appends a blank measure to every staff in this movement",	N_("AppendMeasureAllStaffs"), "append_measure_score", N_("Append Measure All Staffs")},
   
 
@@ -504,8 +504,8 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Toggle between note entry and rest entry", N_("ToggleRest"),  "toggle_rest_mode", N_("Toggle Rest Mode")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Toggle audible feedback on/off", N_("ToggleRhythm"),  "toggle_rhythm_mode", N_("Toggle Audible Feedback")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Clear the list of pitches that overlay the notes", N_("ClearOverlay"),  "clear_overlay", N_("Clear Overlay")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Copy selection as music sample or rhythm pattern for notes to follow as they are entered", N_("CreateRhythm"), "create_rhythm_cb", N_("Create Sample")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Delete the selected music sample/rhythm pattern", N_("DeleteRhythm"), "delete_rhythm_cb", N_("Delete Sample")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Copy selection as music snippet or rhythm pattern for notes to follow as they are entered", N_("CreateRhythm"), "create_rhythm_cb", N_("Create Snippet")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Delete the selected music snippet/rhythm pattern", N_("DeleteRhythm"), "delete_rhythm_cb", N_("Delete Snippet")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor and inserting notes or rests there", N_("ClassicModeNote"), NULL, N_("Classic Mode")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor to the nearest ...", N_("SelectNote"), NULL, N_("Select Note")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Actions for notes: inserting, deleting, etc.", N_("InsertModeNote"), NULL, N_("Insert")}, 
