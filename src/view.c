@@ -528,7 +528,7 @@ void toggle_to_drawing_area(gboolean show) {
     ACCUM, activate_action(menu);
 
   TOG("/ToolBar", toolbar, "/MainMenu/ViewMenu/"ToggleToolbar_STRING);
-  TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
+  //TOG("/RhythmToolBar", rtoolbar, "/MainMenu/ViewMenu/"ToggleRhythmToolbar_STRING);
   TOG("/ObjectMenu", objectmenu, "/MainMenu/ViewMenu/"ToggleObjectMenu_STRING);
 
   TOG2("/EntryToolBar", entrymenu);
