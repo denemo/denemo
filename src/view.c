@@ -4181,11 +4181,8 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   }
   highlight_rhythm(CURRP);
 
-  if((MODE&INPUTRHYTHM))
+  if((MODE&INPUTEDIT))
      insert_clipboard(r->clipboard);
-  else   if((MODE&INPUTEDIT))
-    insert_rhythm_pattern(gui);
-
 
 #undef CURRP
 #undef g
