@@ -1511,6 +1511,7 @@ static void Dur0  (GtkAction *action, gpointer param) {
    ChangeDur0 (action, param);
 else {
  insert_chord_0key(gui);
+   highlight_duration(gui, 0);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1577,6 +1578,7 @@ static void Dur1  (GtkAction *action, gpointer param) {
    ChangeDur1 (action, param);
 else {
  insert_chord_1key(gui);
+   highlight_duration(gui, 1);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1643,6 +1645,7 @@ static void Dur2  (GtkAction *action, gpointer param) {
    ChangeDur2 (action, param);
 else {
  insert_chord_2key(gui);
+   highlight_duration(gui, 2);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1709,6 +1712,7 @@ static void Dur3  (GtkAction *action, gpointer param) {
    ChangeDur3 (action, param);
 else {
  insert_chord_3key(gui);
+   highlight_duration(gui, 3);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1775,6 +1779,7 @@ static void Dur4  (GtkAction *action, gpointer param) {
    ChangeDur4 (action, param);
 else {
  insert_chord_4key(gui);
+   highlight_duration(gui, 4);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1841,6 +1846,7 @@ static void Dur5  (GtkAction *action, gpointer param) {
    ChangeDur5 (action, param);
 else {
  insert_chord_5key(gui);
+   highlight_duration(gui, 5);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1907,6 +1913,7 @@ static void Dur6  (GtkAction *action, gpointer param) {
    ChangeDur6 (action, param);
 else {
  insert_chord_6key(gui);
+   highlight_duration(gui, 6);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -1973,6 +1980,7 @@ static void Dur7  (GtkAction *action, gpointer param) {
    ChangeDur7 (action, param);
 else {
  insert_chord_7key(gui);
+   highlight_duration(gui, 7);
   score_status(gui, TRUE);
  displayhelper(gui);
  }
@@ -2039,6 +2047,7 @@ static void Dur8  (GtkAction *action, gpointer param) {
    ChangeDur8 (action, param);
 else {
  insert_chord_8key(gui);
+   highlight_duration(gui, 8);
   score_status(gui, TRUE);
  displayhelper(gui);
  }

@@ -731,10 +731,11 @@ int main() {
 	    "   ChangeDur%d (action, param);\n"
 	    "else {\n"
 	    " insert_chord_%dkey(gui);\n"
+	    "   highlight_duration(gui, %d);\n"
 	    "  score_status(gui, TRUE);\n"
 	    " displayhelper(gui);\n"
 	    " }\n"
-	    "}\n", i , i, i, i);
+	    "}\n", i , i, i, i,i);
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,

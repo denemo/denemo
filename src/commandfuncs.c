@@ -946,7 +946,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   int mid_c_offset = gui->si->cursor_y;
      
   /* in edit mode edit the current note name */
-  if((gui->mode & INPUTEDIT) && gui->si->currentobject) {
+  if((gui->mode & INPUTEDIT) && !gui->si->cursor_appending) {
     DenemoObject *theobj =  (DenemoObject *)(gui->si->currentobject->data);
     chord *thechord;
     if(theobj->type == CHORD && (thechord = (chord*)theobj->object)->notes) {
@@ -965,7 +965,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       score_status(gui, TRUE);
     }  
   } else
-    /* in INSERT (or EDIT with no currentobject) we insert a note using the next step of the rhythm pattern */
+    /* in INSERT (or EDIT and appending) we insert a note using the next step of the rhythm pattern */
 #define g  (gui->rstep)
   if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
       GList *start = g;
