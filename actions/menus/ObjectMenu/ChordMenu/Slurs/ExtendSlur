@@ -21,7 +21,11 @@
 			(d-MoveCursorRight)
 			(d-ToggleEndSlur))
 		(begin
-			(d-MoveCursorRight))))))
+		       (d-MoveCursorRight)	
+	        	(d-ToggleBeginSlur)
+			(d-MoveCursorRight)
+			(d-ToggleEndSlur)
+				)))))
 
 	</scheme>
         <label>Extend Slur</label>
