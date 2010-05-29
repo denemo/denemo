@@ -1478,9 +1478,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		  if (chordval.notes)
 		    {
 
-		      gint tmp_volume = cur_volume;
+		      gint tmp_channel = midi_channel;
 		      if (curobj->isinvisible)
-			cur_volume = 0;
+			midi_channel = 9;
 
 	    /**************************
 	     * prepare for note output
@@ -1659,7 +1659,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    }
 			}
 		      /* end of second chord output loop */
-		      cur_volume = tmp_volume;
+		      midi_channel = tmp_channel;
 		    }//end of for notes in chord. Note that rests have no MIDI representation, of course.
 		  width = 0;
 #if slurdebug
