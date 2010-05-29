@@ -2269,3 +2269,73 @@ static void InsertG(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
+static void AddA(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_A_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddB(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_B_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddC(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_C_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddD(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_D_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddE(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_E_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddF(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_F_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddG(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  gint mode = gui->mode;
+  gui->mode = INPUTCLASSIC|INPUTNORMAL;
+  go_to_G_key(gui);
+  add_tone_key(gui);
+  gui->mode = mode;
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}

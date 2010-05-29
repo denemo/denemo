@@ -782,12 +782,16 @@ int main() {
     fprintf(entries,
 " {\"Insert%c\", NULL, N_(\"Insert %c\"), NULL, N_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
 "  G_CALLBACK (Insert%c)},\n"
+
+" {\"Add%c\", NULL, N_(\"Add %c to Chord\"), NULL, N_(\"Adds note %c to chord at cursor\\nCursor determines which octave\"),\n"
+"  G_CALLBACK (Add%c)},\n"
+
 "  {\"ChangeTo%c\", NULL, N_(\"Change current note to %c\"), NULL, N_(\"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
 "   G_CALLBACK (ChangeTo%c)},\n"
 "  {\"MoveTo%c\", NULL, N_(\"Move cursor to step %c\"), NULL, N_(\"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\"),\n"
 "   G_CALLBACK (MoveTo%c)},\n"
 
-	    ,i ,i ,i ,i ,i ,i ,i ,i ,i, i, i, i, i);
+	    ,i,i,i,i	    ,i ,i ,i ,i ,i ,i ,i ,i ,i, i, i, i, i);
 
   }
 
@@ -838,11 +842,33 @@ int main() {
   }
 
   for(i='A';i<='G';i++) {
+
+    fprintf(callbacks,
+"static void Add%c(GtkAction *action, gpointer param){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
+"  gint mode = gui->mode;\n"
+"  gui->mode = INPUTCLASSIC|INPUTNORMAL;\n"
+"  go_to_%c_key(gui);\n"
+"  add_tone_key(gui);\n"
+"  gui->mode = mode;\n"
+"  score_status(gui, TRUE);\n"
+"  displayhelper(gui);\n"
+	    "}\n", i, i);
+  }
+
+  for(i='A';i<='G';i++) {
     fprintf(register_commands,
 	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Insert%c\"), \"Insert%c\", \"Insert %c\",\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",  Insert%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Insert%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (\"d-Insert%c\", scheme_Insert%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+
+
+    fprintf(register_commands,
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", \"Insert %c\",\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",  Add%c);\n", i,i,i,i,i);
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Add%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+      fprintf(scheme, "SCM scheme_Add%c(SCM optional);\ninstall_scm_function (\"d-Add%c\", scheme_Add%c);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_Add%c (SCM optional) {\nAdd%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
 
 

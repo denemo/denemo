@@ -5561,6 +5561,10 @@ SCM scheme_InsertA (SCM optional) {
 InsertA (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_AddA (SCM optional) {
+AddA (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_ChangeToA (SCM optional) {
 ChangeToA (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5571,6 +5575,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertB (SCM optional) {
 InsertB (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_AddB (SCM optional) {
+AddB (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeToB (SCM optional) {
@@ -5585,6 +5593,10 @@ SCM scheme_InsertC (SCM optional) {
 InsertC (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_AddC (SCM optional) {
+AddC (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_ChangeToC (SCM optional) {
 ChangeToC (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5595,6 +5607,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertD (SCM optional) {
 InsertD (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_AddD (SCM optional) {
+AddD (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeToD (SCM optional) {
@@ -5609,6 +5625,10 @@ SCM scheme_InsertE (SCM optional) {
 InsertE (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_AddE (SCM optional) {
+AddE (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_ChangeToE (SCM optional) {
 ChangeToE (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5621,6 +5641,10 @@ SCM scheme_InsertF (SCM optional) {
 InsertF (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
+SCM scheme_AddF (SCM optional) {
+AddF (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
 SCM scheme_ChangeToF (SCM optional) {
 ChangeToF (NULL, NULL);
 return SCM_BOOL(TRUE);
@@ -5631,6 +5655,10 @@ return SCM_BOOL(TRUE);
 }
 SCM scheme_InsertG (SCM optional) {
 InsertG (NULL, NULL);
+return SCM_BOOL(TRUE);
+}
+SCM scheme_AddG (SCM optional) {
+AddG (NULL, NULL);
 return SCM_BOOL(TRUE);
 }
 SCM scheme_ChangeToG (SCM optional) {
