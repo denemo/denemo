@@ -80,6 +80,7 @@ guint
 dnm_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
+#if 0
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
@@ -91,8 +92,10 @@ dnm_sanitize_key_state(GdkEventKey *event)
     ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK
 
  | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK    /*    these make numlock required to be off for example */);
+#endif
     return ret;
 }
+
 /* Returns the state of the event after removing the modifiers consumed by the
  * system and even more unwanted modifiers. Use this if sanitize is insufficient.
  */
@@ -100,6 +103,7 @@ guint
 dnm_hyper_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
+#if 0
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
@@ -109,6 +113,7 @@ dnm_hyper_sanitize_key_state(GdkEventKey *event)
     ret &= ~consumed;
     /* removing other unwanted modifiers from event->state */
     ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
+#endif
     return ret;
 }
 
@@ -122,6 +127,7 @@ guint
 dnm_meta_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
+#if 0
     if(ret&GDK_LOCK_MASK) {
       if(!(ret&GDK_SHIFT_MASK))
 	event->keyval += ('a'-'A');
@@ -129,6 +135,7 @@ dnm_meta_sanitize_key_state(GdkEventKey *event)
       
     /* removing everything other than control shift and alt modifiers from event->state */
     ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
+#endif
     return ret;
 }
 
@@ -827,8 +834,10 @@ lookup_command_for_keybinding (keymap * the_keymap, gint keyval, GdkModifierType
 gint lookup_command_for_keyevent(GdkEventKey * event) {
   keymap *the_keymap = Denemo.map;
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
-						    dnm_sanitize_key_state(event));
+						     dnm_sanitize_key_state(event));
   if(!Denemo.prefs.strictshortcuts){
+    lookup_command_for_keybinding (the_keymap, event->keyval,
+				   dnm_sanitize_key_state(event));
     if(command_idx==-1)
       command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 						   dnm_hyper_sanitize_key_state(event)); 
