@@ -378,6 +378,7 @@
         <label>Add note</label>
         <tooltip>Add a note to the current chord
 The cursor position determines which note to add</tooltip>
+        <bind>Insert</bind>
         <bind>Return</bind>
       </row>
       <row>
@@ -1159,15 +1160,15 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>InsertRhythm</action>
-        <label>Insert Rhythm</label>
+        <label>Insert Snippet</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>NextRhythm</action>
-        <label>Next Rhythm</label>
-        <tooltip>Make next rhythm pattern
-the prevailing rhythm.
-Notes entered will follow this pattern</tooltip>
+        <label>Next Snippet</label>
+        <tooltip>Make next snippet
+the current snippet.
+Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>AppendMeasureAllStaffs</action>
@@ -1716,7 +1717,6 @@ Use More Commands after this has finished</tooltip>
         <action>ToggleEdit</action>
         <label>Toggle Edit Mode</label>
         <tooltip>Toggle between current mode and edit mode</tooltip>
-        <bind>Insert</bind>
       </row>
       <row>
         <action>ToggleRest</action>
@@ -1735,16 +1735,23 @@ Use More Commands after this has finished</tooltip>
       </row>
       <row>
         <action>CreateRhythm</action>
-        <label>Create Rhythm</label>
-        <tooltip>Copy selection as a rhythm pattern for notes to follow as they are entered</tooltip>
+        <label>Create Snippet</label>
+        <tooltip>Copy selection as music snippet or rhythm pattern for notes to follow as they are entered</tooltip>
       </row>
       <row>
         <action>DeleteRhythm</action>
-        <label>Delete Rhythm</label>
-        <tooltip>Delete the selected rhythm pattern</tooltip>
+        <label>Delete Snippet</label>
+        <tooltip>Delete the selected music snippet/rhythm pattern</tooltip>
       </row>
       <row>
         <action>InsertA</action>
+        <label>Insert A</label>
+        <tooltip>Inserts note A before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddA</action>
         <label>Insert A</label>
         <tooltip>Inserts note A before note at cursor
 Cursor determines which octave
@@ -1769,6 +1776,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddB</action>
+        <label>Insert B</label>
+        <tooltip>Inserts note B before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>ChangeToB</action>
         <label>Change to B</label>
         <tooltip>Changes note at cursor to nearest note B
@@ -1781,6 +1795,13 @@ Rhythm is unchanged</tooltip>
       </row>
       <row>
         <action>InsertC</action>
+        <label>Insert C</label>
+        <tooltip>Inserts note C before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddC</action>
         <label>Insert C</label>
         <tooltip>Inserts note C before note at cursor
 Cursor determines which octave
@@ -1805,6 +1826,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddD</action>
+        <label>Insert D</label>
+        <tooltip>Inserts note D before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>ChangeToD</action>
         <label>Change to D</label>
         <tooltip>Changes note at cursor to nearest note D
@@ -1817,6 +1845,13 @@ Rhythm is unchanged</tooltip>
       </row>
       <row>
         <action>InsertE</action>
+        <label>Insert E</label>
+        <tooltip>Inserts note E before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddE</action>
         <label>Insert E</label>
         <tooltip>Inserts note E before note at cursor
 Cursor determines which octave
@@ -1841,6 +1876,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddF</action>
+        <label>Insert F</label>
+        <tooltip>Inserts note F before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>ChangeToF</action>
         <label>Change to F</label>
         <tooltip>Changes note at cursor to nearest note F
@@ -1853,6 +1895,13 @@ Rhythm is unchanged</tooltip>
       </row>
       <row>
         <action>InsertG</action>
+        <label>Insert G</label>
+        <tooltip>Inserts note G before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddG</action>
         <label>Insert G</label>
         <tooltip>Inserts note G before note at cursor
 Cursor determines which octave
@@ -2194,7 +2243,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>Paste</action>
         <after>Copy</after>
-        <scheme>(d-Paste)</scheme>
+        <scheme></scheme>
         <label>Paste</label>
         <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
         <bind>Control+v</bind>
@@ -3635,7 +3684,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>GoToMeasureEnd</action>
-        <scheme>(d-GoToMeasureEnd)</scheme>
+        <scheme></scheme>
         <label>Go To Measure End</label>
         <tooltip>Move the Cursor to the end of the measure</tooltip>
       </row>

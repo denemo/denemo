@@ -102,13 +102,13 @@ struct name_and_function denemo_commands[] = {
 
 
 
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note A (Insert, Edit or Move Cursor, depending on Mode)",	N_("A"), "go_to_A_key", N_("A")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note B (Insert, Edit or Move Cursor, depending on Mode)",	N_("B"), "go_to_B_key", N_("B")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note C (Insert, Edit or Move Cursor, depending on Mode)",	N_("C"), "go_to_C_key", N_("C")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note D (Insert, Edit or Move Cursor, depending on Mode)",	N_("D"), "go_to_D_key", N_("D")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note E (Insert, Edit or Move Cursor, depending on Mode)",	N_("E"), "go_to_E_key", N_("E")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note F (Insert, Edit or Move Cursor, depending on Mode)",	N_("F"), "go_to_F_key", N_("F")},
-  {CMD_CATEGORY_NAVIGATION, NULL, "Action for note G (Insert, Edit or Move Cursor, depending on Mode)",	N_("G"), "go_to_G_key", N_("G")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  A",	N_("A"), "go_to_A_key", N_("A")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  B",	N_("B"), "go_to_B_key", N_("B")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  C",	N_("C"), "go_to_C_key", N_("C")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  D",	N_("D"), "go_to_D_key", N_("D")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  E",	N_("E"), "go_to_E_key", N_("E")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  F",	N_("F"), "go_to_F_key", N_("F")},
+  {CMD_CATEGORY_NAVIGATION, NULL, "Append/Edit  G",	N_("G"), "go_to_G_key", N_("G")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Up",	N_("OctaveUp"), "octave_up_key", N_("Octave Up")},
   {CMD_CATEGORY_NAVIGATION, NULL, "Octave Down",	N_("OctaveDown"), "octave_down_key", N_("Octave Down")},
 
@@ -527,7 +527,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Lyrics", N_("Lyrics"), NULL, N_("Lyrics")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Standalone Directives", N_("Directives"), NULL, N_("Directives")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL, N_("Navigation")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Entering notes", N_("NoteEntry"), NULL, N_("Note Entry")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Entering notes", N_("NoteEntry"), NULL, N_("Insert Note")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Various expressive marks", N_("Articulation"), NULL, N_("Articulation")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Editing", N_("Edit"), NULL, N_("Edit")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Manipulating measures", N_("Measure"), NULL, N_("Measure")}, 
@@ -535,9 +535,9 @@ struct name_and_function denemo_commands[] = {
 
   {CMD_CATEGORY_DIRECT, NULL, "Playing the music through midi file", N_("Playback"), NULL, N_("Playback")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changing the prevailing duration or rhythm pattern", N_("SelectDuration"), NULL, N_("Select Duration")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Appending, Changing, and deleting notes", N_("EditModeNote"), NULL, N_("Edit")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("EditNote"), NULL, N_("Edit Note")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Changing the duration of note at the cursor or appending a note of the given duration", N_("EditDuration"), NULL, N_("Edit Duration")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Appending, Changing, and deleting notes", N_("EditModeNote"), NULL, N_("Append/Edit")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Appending or Editing notes", N_("EditNote"), NULL, N_("Append/Edit Note")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Appending or Editing durations", N_("EditDuration"), NULL, N_("Append/Edit Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor", N_("Cursor"), NULL, N_("Cursor")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor to note positions", N_("CursorToNote"), NULL, N_("Cursor to Note")}, 
 
@@ -739,12 +739,12 @@ int main() {
 
     /* menu_entries for the mode sensitive duration actions, Dur0,1,2 ... */
     fprintf(entries,
-  "{\"%d\", \"NULL\", N_(MUSIC_FONT(\"%d\")), NULL, N_(\"In insert mode, changes prevailing rhythm to \"MUSIC_FONT(\"%d\")\"\\nIn edit mode changes the current note to \"MUSIC_FONT(\"%d\")\"\\n or appends a \"MUSIC_FONT(\"%d\")\" if no current note\\nIn classic mode inserts a \"MUSIC_FONT(\"%d\")\" at the cursor\"),\n"
+  "{\"%d\", \"NULL\", N_(MUSIC_FONT(\"%d\")), NULL, N_(\"Edits the note at the cursor to have the duration 1/2^%d, or \\n(if appending) appends such a duration -  to be completed with a note name. Changes prevailing duration\"),\n"
 	    "G_CALLBACK (Dur%d)},\n"
 
   "{\"Change%d\", \"NULL\", N_(MUSIC_FONT(\"%d\")), NULL, N_(\"Change current note to a \"MUSIC_FONT(\"%d\")),\n"
 	    "G_CALLBACK (ChangeDur%d)},\n"
-  "{\"ChangeRest%d\", NULL, N_(\"Change duration\"), NULL, N_(\"Change durtion of current rest\"),\n"
+  "{\"ChangeRest%d\", NULL, N_(\"Change duration\"), NULL, N_(\"Change duration of current rest\"),\n"
     "G_CALLBACK (ChangeRest%d)},\n"
  "{\"Insert%d\", NULL, N_(\"Insert a \"MUSIC_FONT(\"%d\")\"\"), NULL, N_(\"Inserts a \"MUSIC_FONT(\"%d\")\" at cursor position\\nSets prevailing rhythm to \"MUSIC_FONT(\"%d\")),\n"
   "G_CALLBACK (InsertDur%d)},\n"
@@ -754,7 +754,9 @@ int main() {
   "G_CALLBACK (SetDur%d)},\n"
 
 
-     ,i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i,i,i  , i,i,i,i );
+	    /* ,i, i, i*/, i
+
+, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i,i,i  , i,i,i,i );
   }
 
 

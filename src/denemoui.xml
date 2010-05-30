@@ -339,6 +339,7 @@
 
 
     <menu action="NotesRests">
+
       <menu action="ModelessNote"> <!-- modeless note object menu -->
 	
         <menu action="InsertNote">
@@ -413,7 +414,7 @@
       
       
       
-      <menu action="EditModeNote"> <!-- edit mode note object menu -->
+      <menu action="EditModeNote"> <!-- universal mode note object menu -->
         <menu action="EditNote">
 	  
 	  <menuitem action="A"/>
@@ -444,9 +445,8 @@
 	  <menuitem action="RemoveDot"/>
 	  <menuitem action="InsertRhythm"/>	
 	</menu>
-	
-	
-      </menu> <!-- end edit mode note object menu -->
+
+      </menu> <!-- end universal note object menu -->
       
       <menu action="ClassicModeNote"> <!-- classic mode note object menu -->
         <menu action="SelectNote">
@@ -518,7 +518,27 @@
 	<menuitem action="InsertThirtysecondRest"/>
 	<menuitem action="InsertSixtyfourthRest"/>
       </menu>	  	  
-      
+      	
+	<menu action="InsertNote">
+	  <menuitem action="InsertA"/>
+	  <menuitem action="InsertB"/>
+	  <menuitem action="InsertC"/>
+	  <menuitem action="InsertD"/>
+	  <menuitem action="InsertE"/>
+	  <menuitem action="InsertF"/>
+	  <menuitem action="InsertG"/>
+        </menu>
+	<menu action="SelectDuration">
+	  <menuitem action="Set0"/>
+	  <menuitem action="Set1"/>
+	  <menuitem action="Set2"/>
+	  <menuitem action="Set3"/>
+	  <menuitem action="Set4"/>
+	  <menuitem action="Set5"/>
+	  <menuitem action="Set6"/>	  
+	</menu>
+
+
       <menu action="Delete">
 	<menuitem action="Cut"/>
 	<menuitem action="DeleteObject"/>
