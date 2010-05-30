@@ -73,6 +73,9 @@ initprefs ()
 
   /* Reasonable default values */
 
+  ret->mode = INPUTEDIT|INPUTRHYTHM;
+
+
   ret->csoundcommand = g_string_new ("csound -dm6");
 
   ret->csoundorcfile = g_string_new ("");
@@ -446,6 +449,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       READBOOLXMLENTRY(createclones)
       READBOOLXMLENTRY(immediateplayback) 
+      READBOOLXMLENTRY(modal) 
       READBOOLXMLENTRY(cursor_highlight) 
       READBOOLXMLENTRY(applytoselection) 
       READBOOLXMLENTRY(startmidiin) 
@@ -792,6 +796,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(createclones)
   WRITEBOOLXMLENTRY(lilyentrystyle)
   WRITEBOOLXMLENTRY(immediateplayback)
+  WRITEBOOLXMLENTRY(modal)
   WRITEBOOLXMLENTRY(cursor_highlight)
   WRITEBOOLXMLENTRY(applytoselection)
   WRITEBOOLXMLENTRY(startmidiin)

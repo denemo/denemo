@@ -28,6 +28,7 @@ struct callbackdata
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
+  GtkWidget *modal;
   GtkWidget *cursor_highlight;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
@@ -176,6 +177,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNCOMBO2(midi_audio_output); 
   
   ASSIGNBOOLEAN(immediateplayback)
+  ASSIGNBOOLEAN(modal)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
@@ -412,7 +414,7 @@ preferences_change (GtkAction *action, gpointer param)
    * Misc Menu 
    */
   NEWPAGE("Misc");
-
+  BOOLEANENTRY("Use Denemo modally", modal);   
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 

@@ -2668,11 +2668,14 @@ SCM scheme_prev_note (SCM optional) {
 
 
 /******** advances the cursor to the next note,  stopping
- at empty measures. The cursor is left on the last object */
+ at empty measures. The cursor is left after last note if no more notes */
 gboolean next_editable_note(void) {
   gboolean  ret = to_note_direction(TRUE);
-  if((!ret) && Denemo.gui->si->currentobject==NULL)
+  if((!ret) && Denemo.gui->si->currentobject==NULL) {
     to_note_direction(FALSE);
+  }
+  if(!ret)
+    movecursorright(NULL);
   return ret;
 }
 
@@ -2838,6 +2841,9 @@ void  show_preferred_view(void) {
   if (Denemo.prefs.visible_directive_buttons)
    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
 
+
+  if(!Denemo.prefs.modal)
+    gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ModeMenu"));
 
   if (Denemo.prefs.playback_controls)
     toggle_playback_controls(NULL, NULL);

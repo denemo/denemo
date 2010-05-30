@@ -350,7 +350,7 @@ typedef struct DenemoPrefs
   gboolean lilyentrystyle;  
   gboolean createclones;
   gint mode; /**< mode to start in */
-
+  gboolean modal;/**< whether mode-switching menu is desired */
   gint zoom; /**< percent zoom  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
   gboolean cursor_highlight; /** Should the cursor be highlighted */

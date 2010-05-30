@@ -928,6 +928,12 @@ cursordown (DenemoScriptParam *param)
   //g_print ("Cursor Y Position %d\n", gui->si->cursor_y);
 }
 
+static gboolean prev_object_is_rhythm (DenemoGUI *gui) {
+  if(gui->si->currentobject==NULL)
+    return FALSE;
+  return  ((DenemoObject *)(gui->si->currentobject->data))->isinvisible;
+}
+
 /**
  * shiftcursor: FIXME change the name of this function!
  * Mode sensitive note actions:
@@ -946,7 +952,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   int mid_c_offset = gui->si->cursor_y;
      
   /* in edit mode edit the current note name */
-  if((gui->mode & INPUTEDIT) && !gui->si->cursor_appending) {
+  if((gui->mode & INPUTEDIT) &&
+     ( (!gui->si->cursor_appending) ||
+       prev_object_is_rhythm(gui))) {
     DenemoObject *theobj =  (DenemoObject *)(gui->si->currentobject->data);
     chord *thechord;
     if(theobj->type == CHORD && (thechord = (chord*)theobj->object)->notes) {
@@ -970,6 +978,11 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
   if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
       GList *start = g;
       GList *h;
+
+
+  gint mode = gui->mode;
+  gui->mode = mode & ~INPUTRHYTHM;
+
       do {
 	if(g) {
 	  for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
@@ -988,6 +1001,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
 	//g_print("Markup is %s\n", ((RhythmElement*)g->data)->icon);
 	gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
       }
+      gui->mode = mode;
       score_status(gui, TRUE);
     }
 #undef CURRP
@@ -1097,7 +1111,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   int prognum;
   
 
-  if((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM)) {
+  if((mode & INPUTEDIT) && !si->cursor_appending/* && !(mode & INPUTRHYTHM) */) {
     changeduration(si, duration);
     return;
   }
