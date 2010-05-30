@@ -279,7 +279,20 @@
     </menu>
     
     <menu action="ChordMenu">
+      <menu action="ChordNoteMenu">
+	<menuitem action="AddA"/>
+	<menuitem action="AddB"/>
+	<menuitem action="AddC"/>
+	<menuitem action="AddD"/>
+	<menuitem action="AddE"/>
+	<menuitem action="AddF"/>
+	<menuitem action="AddG"/>
+      </menu>
+
+
+
       <menuitem action="AddNoteToChord"/>
+
       <menuitem action="RemoveNoteFromChord"/>
       <menu action="Directives">
 	<menuitem action="AttachLilyToChord"/>
