@@ -1007,6 +1007,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Copy")), "scm", (gpointer
 SCM scheme_Cut(SCM optional);
 install_scm_function ("d-Cut", scheme_Cut);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Cut")), "scm", (gpointer)1);
+/*Paste pastewrapper*/
+SCM scheme_Paste(SCM optional);
+install_scm_function ("d-Paste", scheme_Paste);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Paste")), "scm", (gpointer)1);
 /*PasteClipboard paste_clipboard*/
 SCM scheme_PasteClipboard(SCM optional);
 install_scm_function ("d-PasteClipboard", scheme_PasteClipboard);

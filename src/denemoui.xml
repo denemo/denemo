@@ -102,6 +102,7 @@
       </menu>
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
+      <menuitem action="Paste"/>
 
       
      <menuitem action="PasteClipboard"/>
@@ -288,9 +289,6 @@
 	<menuitem action="AddF"/>
 	<menuitem action="AddG"/>
       </menu>
-
-
-
       <menuitem action="AddNoteToChord"/>
 
       <menuitem action="RemoveNoteFromChord"/>

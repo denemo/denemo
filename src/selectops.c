@@ -957,20 +957,7 @@ delete_selection(void) {
 void
 pastewrapper (GtkAction *action, DenemoScriptParam *param)
 {  
-  DenemoGUI *gui = Denemo.gui;
-  gboolean pasted = pastefrombuffer ();
-  if(pasted) {
-  score_status(gui, TRUE);
-  displayhelper (gui);
-  } else {
-    if(!action && param)
-      param->status = FALSE;
-    else
-      if(copybuffer)
-	warningdialog("Cannot paste multiple measures into middle of a measure");
-      else
-	warningdialog("Nothing to paste");
-  }
+  call_out_to_guile("(DenemoPaste)");
 }
 
 

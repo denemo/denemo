@@ -938,7 +938,7 @@
 ;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
 ; Singlestaff-Pasting happens at the cursor position. If there are still notes in the current measure, after the cursor position, those will be shoved to the right and placed after the pasted section, no matter if the result produce underful or overful measures. No other measure gets modified other than the current one. Singlestaff-Pasting will fill any empty measure on its way, until a non-empty one is encountered. For snippet pasting (< one full measure) it will automatically create new measures if needed. 
-(define (d-Paste)
+(define (DenemoPaste)
 (let pasteblock ((paste::break? (Paste::MeasureBreakInClipboard?)))
 
 (d-UnsetMark)
