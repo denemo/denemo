@@ -156,7 +156,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     gui->si->currentobject = gui->si->currentobject->next;
     gui->si->cursor_x++;
   }
-  g_print("objnum %d\n",objnum);
+  // g_print("objnum %d\n",objnum);
   gui->si->cursor_x+=objnum;
   if(!gui->si->currentobject)
     return FALSE;
