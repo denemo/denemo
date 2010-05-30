@@ -542,7 +542,9 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor to note positions", N_("CursorToNote"), NULL, N_("Cursor to Note")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Insert/change clef Set initial clef", N_("ClefMenu"), NULL, N_("Clefs")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordMenu"), NULL, "Chords", N_("Chords")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Adding stuff for chords", N_("ChordMenu"), NULL, "Chords", N_("Chords")},
+  {CMD_CATEGORY_DIRECT, NULL, "Adding notes to make chords", N_("ChordNoteMenu"), NULL, "Add Note", N_("Add Note")},
+ 
   {CMD_CATEGORY_DIRECT, NULL, "Adding Chord Symbols over music", N_("ChordSymbols"), NULL, "Chords Symbols", N_("Chord Symbols")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Adding Figured Bass Figures", N_("FiguredBass"), NULL, "Figured Bass", N_("Figured Bass")}, 
 
@@ -867,7 +869,7 @@ int main() {
 
 
     fprintf(register_commands,
-	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", \"Insert %c\",\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",  Add%c);\n", i,i,i,i,i);
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"Add%c\"), \"Add%c\", \"Add %c\",\"Adds note %c to the chord at cursor\\nCursor height determines which octave\",  Add%c);\n", i,i,i,i,i);
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Add%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Add%c(SCM optional);\ninstall_scm_function (\"d-Add%c\", scheme_Add%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Add%c (SCM optional) {\nAdd%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
