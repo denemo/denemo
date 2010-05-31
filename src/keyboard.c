@@ -609,7 +609,10 @@ load_xml_keybindings (gchar * filename)
       xmlNodePtr cur;
       for (cur = rootElem->xmlChildrenNode; cur != NULL;  cur = cur->next) {
 	if (0 == xmlStrcmp (cur->name, (const xmlChar *) "map")) {
-	  parseBindings (doc, cur->xmlChildrenNode, Denemo.map);
+	  xmlNodePtr ncur;
+	  for(ncur=cur->xmlChildrenNode;ncur != NULL; ncur = ncur->next) {
+	    parseBindings (doc, ncur, Denemo.map);
+	  }
 	  ret = 0;
 	}
       }
@@ -736,6 +739,68 @@ save_xml_keymap (gchar * filename)
       if(tooltip)
 	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
 			 (xmlChar *) tooltip);
+      
+      keymap_foreach_command_binding (the_keymap, i,
+				      (GFunc) write_xml_keybinding_info, child);
+      
+    }
+
+  xmlSaveFormatFile (filename, doc, 1);
+
+  xmlFreeDoc (doc);
+  return ret;
+}
+
+gint
+save_xml_keybindings (gchar * filename)
+{
+  keymap *the_keymap = Denemo.map;
+  gint i, ret = -1;
+  xmlDocPtr doc;
+  //xmlNsPtr ns;
+  xmlNodePtr parent, child, command;
+
+  doc = xmlNewDoc ((xmlChar *) "1.0");
+  doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo",
+					     NULL);
+  child = xmlNewChild (parent, NULL, (xmlChar *) "merge", NULL);
+
+  xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Command Set");
+  xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");
+
+  parent = xmlNewChild (child, NULL, (xmlChar *) "map", NULL);
+
+  child = xmlNewChild (parent, NULL, (xmlChar *) "cursors", NULL);
+
+  g_hash_table_foreach(Denemo.map->cursors, (GHFunc)output_pointer_shortcut, child);
+
+
+  for (i = 0; i < keymap_size(the_keymap); i++)
+    {
+
+     
+      gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
+      gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
+      gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
+      gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
+      if(deleted && scheme)
+	continue;
+      child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
+
+			
+      gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
+#ifdef DEBUG
+      g_print ("%s \n", name);
+#endif	
+      xmlNewTextChild (child, NULL, (xmlChar *) "action",
+		       (xmlChar *) name); 
+      
+      
+      
+           gchar *tooltip = (gchar*)lookup_tooltip_from_idx (the_keymap, i);
+         if(tooltip)
+      	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
+      			 (xmlChar *) tooltip);
       
       keymap_foreach_command_binding (the_keymap, i,
 				      (GFunc) write_xml_keybinding_info, child);
