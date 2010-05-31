@@ -2739,7 +2739,7 @@ static gint   parseMovement(xmlNodePtr childElem, xmlNsPtr ns, DenemoGUI *gui, I
   si->currentmeasurenum = current_measure?current_measure:1;
   si->currentstaff = g_list_nth(si->thescore, current_staff-1);
   setcurrents(si);
-  si->cursor_x = current_position + 1;
+  si->cursor_x = current_position;
   si->currentobject = (objnode *)g_list_nth(si->currentmeasure->data, si->cursor_x);
   
   if (!si->currentobject)
