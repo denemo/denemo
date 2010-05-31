@@ -496,8 +496,7 @@ main (int argc, char *argv[])
 
   register_stock_items ();
   if(first_time_user())
-    ;
-    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this does not always appear on top of the main window so leave it out for now.
+    infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more");// this  should always appear on top of the main window.
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
   
