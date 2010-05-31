@@ -1111,7 +1111,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   int prognum;
   
 
-  if((mode & INPUTEDIT) && !si->cursor_appending/* && !(mode & INPUTRHYTHM) */) {
+  if((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM) ) {
     changeduration(si, duration);
     return;
   }
@@ -1129,7 +1129,7 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
      added a measure above, object_insert will invoke nudgerightward,
      which will in turn invoke update_hscrollbar, so we
      don't need to invoke that here.  */
-
+  gboolean was_appending = si->cursor_appending;
   object_insert (gui, mudela_obj_new);
  
   if (gui->mode&(INPUTRHYTHM)) {
@@ -1142,7 +1142,8 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
       else
 	playpitch(64.0*(1+duration), 60.0/(gui->si->tempo*(1<<duration)), 0.2, 1);
 #endif
-
+    if(!was_appending)
+      movecursorleft(NULL);
 
   } else {
     if(Denemo.gui->last_source==INPUTKEYBOARD) {

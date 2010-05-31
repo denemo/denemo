@@ -140,43 +140,43 @@
       <row>
         <action>A</action>
         <label>A</label>
-        <tooltip>Action for note A (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  A</tooltip>
         <bind>a</bind>
       </row>
       <row>
         <action>B</action>
         <label>B</label>
-        <tooltip>Action for note B (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  B</tooltip>
         <bind>b</bind>
       </row>
       <row>
         <action>C</action>
         <label>C</label>
-        <tooltip>Action for note C (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  C</tooltip>
         <bind>c</bind>
       </row>
       <row>
         <action>D</action>
         <label>D</label>
-        <tooltip>Action for note D (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  D</tooltip>
         <bind>d</bind>
       </row>
       <row>
         <action>E</action>
         <label>E</label>
-        <tooltip>Action for note E (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  E</tooltip>
         <bind>e</bind>
       </row>
       <row>
         <action>F</action>
         <label>F</label>
-        <tooltip>Action for note F (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  F</tooltip>
         <bind>f</bind>
       </row>
       <row>
         <action>G</action>
         <label>G</label>
-        <tooltip>Action for note G (Insert, Edit or Move Cursor, depending on Mode)</tooltip>
+        <tooltip>Append/Edit  G</tooltip>
         <bind>g</bind>
       </row>
       <row>
@@ -1353,6 +1353,13 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <bind>Control+x</bind>
       </row>
       <row>
+        <action>Paste</action>
+        <scheme></scheme>
+        <label>Paste</label>
+        <tooltip>Paste the selected music</tooltip>
+        <bind>Control+v</bind>
+      </row>
+      <row>
         <action>PasteClipboard</action>
         <label>Paste LilyPond notes</label>
         <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
@@ -1752,10 +1759,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddA</action>
-        <label>Insert A</label>
-        <tooltip>Inserts note A before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add A</label>
+        <tooltip>Adds note A to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToA</action>
@@ -1777,10 +1783,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddB</action>
-        <label>Insert B</label>
-        <tooltip>Inserts note B before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add B</label>
+        <tooltip>Adds note B to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToB</action>
@@ -1802,10 +1807,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddC</action>
-        <label>Insert C</label>
-        <tooltip>Inserts note C before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add C</label>
+        <tooltip>Adds note C to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToC</action>
@@ -1827,10 +1831,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddD</action>
-        <label>Insert D</label>
-        <tooltip>Inserts note D before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add D</label>
+        <tooltip>Adds note D to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToD</action>
@@ -1852,10 +1855,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddE</action>
-        <label>Insert E</label>
-        <tooltip>Inserts note E before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add E</label>
+        <tooltip>Adds note E to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToE</action>
@@ -1877,10 +1879,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddF</action>
-        <label>Insert F</label>
-        <tooltip>Inserts note F before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add F</label>
+        <tooltip>Adds note F to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToF</action>
@@ -1902,10 +1903,9 @@ Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
         <action>AddG</action>
-        <label>Insert G</label>
-        <tooltip>Inserts note G before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
+        <label>Add G</label>
+        <tooltip>Adds note G to the chord at cursor
+Cursor height determines which octave</tooltip>
       </row>
       <row>
         <action>ChangeToG</action>
@@ -1931,6 +1931,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;
         <action>Change0</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;0&lt;/span&gt;</tooltip>
+        <bind>Control+0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1967,6 +1968,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;
         <action>Change1</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;1&lt;/span&gt;</tooltip>
+        <bind>Control+1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -2003,6 +2005,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;
         <action>Change2</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;2&lt;/span&gt;</tooltip>
+        <bind>Control+2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -2039,6 +2042,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;
         <action>Change3</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;3&lt;/span&gt;</tooltip>
+        <bind>Control+3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -2075,6 +2079,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;
         <action>Change4</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;4&lt;/span&gt;</tooltip>
+        <bind>Control+4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -2111,6 +2116,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;
         <action>Change5</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;5&lt;/span&gt;</tooltip>
+        <bind>Control+5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -2147,6 +2153,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;
         <action>Change6</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;6&lt;/span&gt;</tooltip>
+        <bind>Control+6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -2182,6 +2189,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;
         <action>Change7</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;7&lt;/span&gt;</tooltip>
+        <bind>Control+7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -2217,6 +2225,7 @@ In classic mode inserts a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>Change8</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
         <tooltip>Change the current note to a &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+        <bind>Control+8</bind>
       </row>
       <row>
         <action>Insert8</action>
@@ -2239,14 +2248,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>Set8</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
-      </row>
-      <row>
-        <action>Paste</action>
-        <after>Copy</after>
-        <scheme></scheme>
-        <label>Paste</label>
-        <tooltip>Pastes copied/cut music. Include measure boundaries if needed.</tooltip>
-        <bind>Control+v</bind>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
