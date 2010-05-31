@@ -625,6 +625,16 @@ static SCM scheme_load_keybindings (SCM name) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_save_keybindings (SCM name) {
+  gchar * filename;
+  if(scm_is_string(name)) {
+    filename = scm_to_locale_string(name);
+    if(save_xml_keybindings (filename) == 0)
+      return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
+}
+
 static SCM scheme_load_commandset (SCM name) {
   gchar * filename;
   if(scm_is_string(name)) {
@@ -3613,6 +3623,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
 
   INSTALL_SCM_FUNCTION ("Takes a file name, loads keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadKeybindings", scheme_load_keybindings);
+
+  INSTALL_SCM_FUNCTION ("Takes a file name, saves keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"SaveKeybindings", scheme_save_keybindings);
 
   INSTALL_SCM_FUNCTION ("Takes a file name for xml format commandset, loads commands, returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadCommandset", scheme_load_commandset);
 
