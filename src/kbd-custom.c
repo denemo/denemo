@@ -80,7 +80,7 @@ guint
 dnm_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
-#if 0
+#if 1
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
@@ -103,7 +103,7 @@ guint
 dnm_hyper_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
-#if 0
+#if 1
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
 
@@ -127,7 +127,7 @@ guint
 dnm_meta_sanitize_key_state(GdkEventKey *event)
 {
     guint ret = event->state;
-#if 0
+#if 1
     if(ret&GDK_LOCK_MASK) {
       if(!(ret&GDK_SHIFT_MASK))
 	event->keyval += ('a'-'A');
@@ -836,8 +836,8 @@ gint lookup_command_for_keyevent(GdkEventKey * event) {
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 						     dnm_sanitize_key_state(event));
   if(!Denemo.prefs.strictshortcuts){
-    lookup_command_for_keybinding (the_keymap, event->keyval,
-				   dnm_sanitize_key_state(event));
+    //    lookup_command_for_keybinding (the_keymap, event->keyval,
+    //				   dnm_sanitize_key_state(event));
     if(command_idx==-1)
       command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 						   dnm_hyper_sanitize_key_state(event)); 
