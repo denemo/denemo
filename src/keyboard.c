@@ -565,6 +565,17 @@ load_xml_keymap (gchar * filename, gboolean interactive)
     }
 
   xmlFreeDoc (doc);
+
+  { //if this is a new-style .commands file, we need to load the keybindings separately
+    gchar *name = g_strdup(filename);
+    gchar *ext = remove_extension(name); 
+    if(ext && !strcmp(ext, "commands")) {
+      gchar *newname = g_strdup_printf("%s%s", name, ".shortcuts");
+      load_xml_keybindings(newname);
+      g_free(newname);
+    }
+    g_free(name);
+  }
   return ret;
 }
 
@@ -740,8 +751,8 @@ save_xml_keymap (gchar * filename)
 	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
 			 (xmlChar *) tooltip);
       
-      keymap_foreach_command_binding (the_keymap, i,
-				      (GFunc) write_xml_keybinding_info, child);
+      //  keymap_foreach_command_binding (the_keymap, i,
+      //				      (GFunc) write_xml_keybinding_info, child);
       
     }
 
@@ -797,10 +808,10 @@ save_xml_keybindings (gchar * filename)
       
       
       
-           gchar *tooltip = (gchar*)lookup_tooltip_from_idx (the_keymap, i);
-         if(tooltip)
-      	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
-      			 (xmlChar *) tooltip);
+      //  gchar *tooltip = (gchar*)lookup_tooltip_from_idx (the_keymap, i);
+      // if(tooltip)
+      //	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
+      //	 (xmlChar *) tooltip);
       
       keymap_foreach_command_binding (the_keymap, i,
 				      (GFunc) write_xml_keybinding_info, child);

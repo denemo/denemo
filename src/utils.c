@@ -1172,3 +1172,26 @@ gint get_override(GList *g) {
   return ret;
 }
 
+//modfies name to truncate at the extension (a dot at end before any directory separators), returning a pointer to the extension chopped off
+// returns NULL if no extension, with name unchanged
+
+gchar *remove_extension(gchar *name) {
+ gchar *c;
+ if(name)
+   for(c=name+strlen(name);c!=name;c--) {
+     if(*c=='.') {
+       *c = '\0';
+       return c+1;
+     }
+     if(*c==G_DIR_SEPARATOR)
+       break;
+   }
+ return NULL;
+}
+
+//modifies name, removing the extension and returns a newly allocated string
+//with the passed extension
+gchar *substitute_extension(gchar *name, gchar *extension) {
+  (void)remove_extension(name);
+  return g_strdup_printf("%s.%s", name, extension);
+}

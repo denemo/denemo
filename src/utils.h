@@ -273,4 +273,7 @@ gint get_override(GList *g);
 void add_font_directory(gchar *fontpath);
 
 gboolean run_file_association(gchar *filenam);
+
+gchar *remove_extension(gchar *name);
+gchar *substitute_extension(gchar *name, gchar *extension);
 #endif /* UTILS_H */

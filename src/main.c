@@ -495,8 +495,22 @@ main (int argc, char *argv[])
   textdomain (PACKAGE);
 
   register_stock_items ();
-  if(first_time_user())
+
+#define choice1 "Simple Use"
+#define choice2 "Composer"
+#define choice3 "Arranger"
+
+  if(first_time_user()) {
     infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more");// this  should always appear on top of the main window.
+
+    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1);
+    if(choice==NULL)
+      choice = choice1;
+    Denemo.prefs.shortcut_filename = g_build_filename(get_data_dir(), "actions", choice, NULL);
+#undef choice1
+#undef choice2
+#undef choice3
+  }
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
   

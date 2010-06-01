@@ -37,11 +37,11 @@
 #endif
 
 
-#ifdef G_OS_WIN32
-#define DEFAULT_KEYMAP "Windows.cmdset"
-#else
-#define DEFAULT_KEYMAP "Default.cmdset"
-#endif
+
+#define DEFAULT_KEYMAP "Default.commands"
+
+#define DEFAULT_COMMANDS "Default.commands"
+#define DEFAULT_KEYBINDINGS "Default.shortcuts"
 
 //index of columns in the keymap command list store FIXME if you add columns you must add them in keymap_get_command_row and allocate_keymap !!!!
 enum {
@@ -1558,10 +1558,17 @@ static GScannerConfig scanner_config_template = {
 void
 save_keymap_from_dialog (GtkWidget * widget, GtkWidget * filesel)
 {
-  save_xml_keymap ((gchar *)
-		   gtk_file_selection_get_filename (GTK_FILE_SELECTION
-						    (filesel)));
 
+gchar *name = (gchar *)
+		   gtk_file_selection_get_filename (GTK_FILE_SELECTION
+						    (filesel));
+ gchar *extendedname = substitute_extension(name, "commands");
+ save_xml_keymap (extendedname);//no longer save keybindings here
+ 
+ gchar *filename = substitute_extension(extendedname, "shortcuts");
+ save_xml_keybindings(filename);
+ g_free(filename);
+ g_free(extendedname);
 }
 
 /**
@@ -1614,10 +1621,15 @@ save_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
-  if(keymapdir)
-    localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  save_xml_keymap (localrc);
-  g_free(localrc);
+  if(keymapdir) {
+    localrc = g_build_filename (keymapdir, DEFAULT_COMMANDS, NULL);
+    save_xml_keymap (localrc);//no longer saves keybindings
+    g_free(localrc);
+    localrc = g_build_filename (keymapdir, DEFAULT_KEYBINDINGS, NULL);
+    save_xml_keybindings (localrc);
+    g_free(localrc);
+  }
+
 }
 
 /**
