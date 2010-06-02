@@ -1203,6 +1203,7 @@
       </row>
       <row>
         <action>Change0</action>
+        <bind>KP_0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1222,6 +1223,7 @@
       </row>
       <row>
         <action>Change1</action>
+        <bind>KP_1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -1241,6 +1243,7 @@
       </row>
       <row>
         <action>Change2</action>
+        <bind>KP_2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -1260,6 +1263,7 @@
       </row>
       <row>
         <action>Change3</action>
+        <bind>KP_3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -1279,6 +1283,7 @@
       </row>
       <row>
         <action>Change4</action>
+        <bind>KP_4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -1298,6 +1303,7 @@
       </row>
       <row>
         <action>Change5</action>
+        <bind>KP_5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -1317,6 +1323,7 @@
       </row>
       <row>
         <action>Change6</action>
+        <bind>KP_6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -1335,6 +1342,7 @@
       </row>
       <row>
         <action>Change7</action>
+        <bind>KP_7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -1353,6 +1361,7 @@
       </row>
       <row>
         <action>Change8</action>
+        <bind>KP_8</bind>
       </row>
       <row>
         <action>Insert8</action>

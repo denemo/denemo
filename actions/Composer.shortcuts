@@ -1200,6 +1200,7 @@
       <row>
         <action>Change0</action>
         <bind>Control+0</bind>
+        <bind>KP_0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1220,6 +1221,7 @@
       <row>
         <action>Change1</action>
         <bind>Control+1</bind>
+        <bind>KP_1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -1240,6 +1242,7 @@
       <row>
         <action>Change2</action>
         <bind>Control+2</bind>
+        <bind>KP_2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -1260,6 +1263,7 @@
       <row>
         <action>Change3</action>
         <bind>Control+3</bind>
+        <bind>KP_3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -1280,6 +1284,7 @@
       <row>
         <action>Change4</action>
         <bind>Control+4</bind>
+        <bind>KP_4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -1300,6 +1305,7 @@
       <row>
         <action>Change5</action>
         <bind>Control+5</bind>
+        <bind>KP_5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -1320,6 +1326,7 @@
       <row>
         <action>Change6</action>
         <bind>Control+6</bind>
+        <bind>KP_6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -1339,6 +1346,7 @@
       <row>
         <action>Change7</action>
         <bind>Control+7</bind>
+        <bind>KP_7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -1358,6 +1366,7 @@
       <row>
         <action>Change8</action>
         <bind>Control+8</bind>
+        <bind>KP_8</bind>
       </row>
       <row>
         <action>Insert8</action>
