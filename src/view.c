@@ -4014,52 +4014,57 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
 #undef g
 #undef MODE
 }
-void playback_control_first (GtkWidget *button) {
+static void pb_first (GtkWidget *button) {
   call_out_to_guile("(DenemoFirst)");
 }
-void playback_control_go_back (GtkWidget *button) {
+static void pb_go_back (GtkWidget *button) {
   call_out_to_guile("(DenemoGoBack)");
 }
-void playback_control_previous (GtkWidget *button) {
+static void pb_previous (GtkWidget *button) {
   call_out_to_guile("(DenemoPrevious)");
 }
-void playback_control_rewind (GtkWidget *button) {
+static void pb_rewind (GtkWidget *button) {
   call_out_to_guile("(DenemoRewind)");
 }
-void playback_control_stop (GtkWidget *button) {
+static void pb_stop (GtkWidget *button) {
   call_out_to_guile("(DenemoStop)");
 
 }
-void playback_control_play (GtkWidget *button) {
+static void pb_play (GtkWidget *button) {
 
   call_out_to_guile("(DenemoPlay)");
 }
-void playback_control_pause (GtkWidget *button) {
+static void pb_pause (GtkWidget *button) {
   call_out_to_guile("(DenemoPause)");
 }
-void playback_control_forward (GtkWidget *button) {
+static void pb_forward (GtkWidget *button) {
   call_out_to_guile("(DenemoForward)");
 }
-void playback_control_next (GtkWidget *button) {
+static void pb_next (GtkWidget *button) {
   call_out_to_guile("(DenemoNext)");
 }
-void playback_control_go_forward (GtkWidget *button) {
+static void pb_go_forward (GtkWidget *button) {
   call_out_to_guile("(DenemoGoForward)");
 }
-void playback_control_last (GtkWidget *button) {
+static void pb_last (GtkWidget *button) {
   call_out_to_guile("(DenemoLast)");
 }
 
-void playback_control_to_cursor (GtkWidget *button) {
+static void pb_start_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackStart)");
   gtk_widget_draw(Denemo.gui->scorearea, NULL);
 }
 
-void playback_control_loop (GtkWidget *button) {
+static void pb_end_to_cursor (GtkWidget *button) {
+  call_out_to_guile("(DenemoSetPlaybackEnd)");
+  gtk_widget_draw(Denemo.gui->scorearea, NULL);
+}
+
+static void pb_loop (GtkWidget *button) {
   call_out_to_guile("(DenemoLoop)");
 }
 
-void playback_control_tempo (GtkAdjustment *adjustment) {
+static void pb_tempo (GtkAdjustment *adjustment) {
   gdouble tempo;
   gdouble bpm =  gtk_adjustment_get_value(adjustment);
   tempo = (Denemo.gui->si->tempo>0)?
@@ -4068,18 +4073,18 @@ void playback_control_tempo (GtkAdjustment *adjustment) {
   call_out_to_guile("(DenemoTempo)");
  
 }
-void playback_control_volume (GtkAdjustment *adjustment) {
+static void pb_volume (GtkAdjustment *adjustment) {
   gdouble volume = gtk_adjustment_get_value(adjustment);
   scm_c_define("DenemoVolume::Value", scm_double2num(volume));
   call_out_to_guile("(DenemoVolume)");
 }
-void playback_set_range (GtkWidget *button) {
+static void pb_set_range (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackIntervalToSelection)");
 }
-void playback_control_range (GtkWidget *button) {
+static void pb_range (GtkWidget *button) {
   PlaybackRangeDialog();
 }
-void playback_control_panic (GtkWidget *button) {
+static void pb_panic (GtkWidget *button) {
   playback_panic();
 }
 static track_delete(smf_track_t *track) {
@@ -4102,7 +4107,7 @@ void finish_recording(void) {
   }
 }
 
-static void playback_midi_thru (GtkWidget *button) {
+static void pb_midi_thru (GtkWidget *button) {
  Denemo.gui->midi_destination ^= MIDITHRU;
  if(Denemo.gui->midi_destination & MIDITHRU)
    gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Recorder"));
@@ -4110,30 +4115,30 @@ static void playback_midi_thru (GtkWidget *button) {
    gtk_button_set_label (GTK_BUTTON(button), _("MIDI In -> Score"));
 }
 
-static void playback_control_record (GtkWidget *button) {
+static void pb_record (GtkWidget *button) {
  if( Denemo.gui->si->recorded_midi_track && !confirm("MIDI Recording", "Delete last recording?")) {
     return;
   }
  if(!(Denemo.gui->midi_destination & MIDITHRU))
-   playback_midi_thru(midithrubutton);
+   pb_midi_thru(midithrubutton);
  Denemo.gui->midi_destination |= MIDIRECORD;
  track_delete(Denemo.gui->si->recorded_midi_track);
  Denemo.gui->si->recorded_midi_track = smf_track_new();
  gtk_widget_hide(deletebutton);
  gtk_widget_hide(convertbutton);
- playback_control_play(playbutton);
+ pb_play(playbutton);
  return;
 }
 
 
-void playback_midi_delete (GtkWidget *button) {
+static void pb_midi_delete (GtkWidget *button) {
   track_delete(Denemo.gui->si->recorded_midi_track);
   Denemo.gui->si->recorded_midi_track = NULL; 
   gtk_widget_hide (convertbutton);  
   gtk_widget_hide (button);
 }
 
-void playback_midi_convert (GtkWidget *button) {
+static void pb_midi_convert (GtkWidget *button) {
 #if 0
   if(Denemo.gui->si->recorded_midi_track){
     DenemoGUI *gui = Denemo.gui;
@@ -4164,7 +4169,7 @@ void playback_midi_convert (GtkWidget *button) {
 }
 
 
-void playback_set_tempo (GtkWidget *button) {
+static void pb_set_tempo (GtkWidget *button) {
   Denemo.gui->si->tempo *= Denemo.gui->si->master_tempo;
   Denemo.gui->si->master_tempo = 1.0;
   score_status (Denemo.gui, TRUE); 
@@ -6898,25 +6903,26 @@ get_data_dir (),
     GtkWidget *label;
 
 
-    //create_playbutton(inner, NULL, playback_control_first, GTK_STOCK_GOTO_FIRST);
+    //create_playbutton(inner, NULL, pb_first, GTK_STOCK_GOTO_FIRST);
    
 
     
-    //create_playbutton(inner,NULL, playback_control_rewind, GTK_STOCK_MEDIA_REWIND);
+    //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    create_playbutton(inner,NULL, playback_control_go_back, GTK_STOCK_GO_BACK);
-    create_playbutton(inner,NULL, playback_control_next, GTK_STOCK_GO_FORWARD );
-    create_playbutton(inner,NULL, playback_control_stop, GTK_STOCK_MEDIA_STOP);
-    playbutton = create_playbutton(inner,NULL, playback_control_play, GTK_STOCK_MEDIA_PLAY);
-    recordbutton = create_playbutton(inner,NULL, playback_control_record,  GTK_STOCK_MEDIA_RECORD);
-    create_playbutton(inner,NULL, playback_control_previous, GTK_STOCK_GO_BACK);
-    create_playbutton(inner,NULL, playback_control_go_forward, GTK_STOCK_GO_FORWARD);
-    create_playbutton(inner,NULL, playback_control_to_cursor, GTK_STOCK_GO_DOWN);
-    
+    create_playbutton(inner,NULL, pb_go_back, GTK_STOCK_GO_BACK);
+    create_playbutton(inner,NULL, pb_start_to_cursor, GTK_STOCK_GO_DOWN);
+    create_playbutton(inner,NULL, pb_next, GTK_STOCK_GO_FORWARD );
+    create_playbutton(inner,NULL, pb_stop, GTK_STOCK_MEDIA_STOP);
+    playbutton = create_playbutton(inner,NULL, pb_play, GTK_STOCK_MEDIA_PLAY);
+    recordbutton = create_playbutton(inner,NULL, pb_record,  GTK_STOCK_MEDIA_RECORD);
+    create_playbutton(inner,NULL, pb_previous, GTK_STOCK_GO_BACK);
+    create_playbutton(inner,NULL, pb_end_to_cursor, GTK_STOCK_GO_UP);
+   
+    create_playbutton(inner,NULL, pb_go_forward, GTK_STOCK_GO_FORWARD);
 
-    //create_playbutton(inner,NULL, playback_control_forward, GTK_STOCK_MEDIA_FORWARD);
+    //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
  
-    create_playbutton(inner,"Loop", playback_control_loop, NULL);
+    create_playbutton(inner,"Loop", pb_loop, NULL);
     
    
     create_playbutton(inner,
@@ -6925,11 +6931,11 @@ get_data_dir (),
 #else
 "Reset"
 #endif
-, playback_control_panic, NULL);
+, pb_panic, NULL);
 
 
-      create_playbutton(inner, "Set From Selection", playback_set_range, NULL);
-      create_playbutton(inner, "Playback Range", playback_control_range, NULL);
+      create_playbutton(inner, "Set From Selection", pb_set_range, NULL);
+      create_playbutton(inner, "Playback Range", pb_range, NULL);
 
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
@@ -6943,10 +6949,10 @@ get_data_dir (),
       gtk_scale_set_digits (hscale, 0);
       GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
 
-      g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_tempo), NULL);
+      g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      create_playbutton(hbox, "Set Tempo", playback_set_tempo, NULL);
+      create_playbutton(hbox, "Set Tempo", pb_set_tempo, NULL);
 
       /* Volume */
       label = gtk_label_new (_("Volume"));
@@ -6958,7 +6964,7 @@ get_data_dir (),
       hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
       gtk_scale_set_digits (hscale, 2);
       GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-      g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(playback_control_volume), NULL);
+      g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
     }
@@ -6980,9 +6986,9 @@ get_data_dir (),
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
-      midithrubutton = create_playbutton(hbox, _("MIDI in -> Score"), playback_midi_thru, NULL);
-      deletebutton = create_playbutton(hbox, "Delete", playback_midi_delete, NULL);
-      convertbutton = create_playbutton(hbox, "Convert", playback_midi_convert, NULL);
+      midithrubutton = create_playbutton(hbox, _("MIDI in -> Score"), pb_midi_thru, NULL);
+      deletebutton = create_playbutton(hbox, "Delete", pb_midi_delete, NULL);
+      convertbutton = create_playbutton(hbox, "Convert", pb_midi_convert, NULL);
       gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide(deletebutton);
