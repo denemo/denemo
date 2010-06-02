@@ -2882,7 +2882,8 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* Initialize preferences */
   initprefs();
-
+ if(!Denemo.prefs.modal)
+   Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
   readHistory();
   populate_opened_recent ();
   //  g_print("init prefs run");
