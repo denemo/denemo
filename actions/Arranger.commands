@@ -3344,6 +3344,13 @@ for second and subsequent systems</tooltip>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>
       </row>
+      <row>
+        <action>ArbitraryTextAbove</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
+        <label>Arbitrary Text Above</label>
+        <tooltip>Prints the text you give above the chord.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
