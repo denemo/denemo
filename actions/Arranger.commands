@@ -1078,7 +1078,6 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>SetGrace</action>
-        <hidden>true</hidden>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1282,6 +1281,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>Paste</action>
         <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
         <label>Paste</label>
         <tooltip>Paste the selected music</tooltip>
       </row>
@@ -2222,37 +2222,30 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
       </row>
       <row>
-        <action>FiguredBassFilterOn</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
-        <label>Figured Bass Filter On</label>
-        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
-      </row>
-      <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Filter Off</label>
         <tooltip>Turn off any MIDI filter script currently active.</tooltip>
       </row>
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/Educational/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
       <row>
         <action>MidiAdvanceOnEdit</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
       </row>
       <row>
         <action>AngryDelete</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Angry Delete</label>
         <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
       </row>
@@ -2402,7 +2395,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu/Markings/Metronome Markings</menupath>
         <label>Add Metronome Marking to Chord</label>
-        <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
+        <tooltip>Adds a metronome marking to chord. Give the duration in LilyPond notation.</tooltip>
       </row>
       <row>
         <action>Anacrusis</action>
@@ -2473,20 +2466,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>Glissando</label>
         <tooltip>Inserts a glissando</tooltip>
-      </row>
-      <row>
-        <action>SmallerStaff</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Smaller Staff</label>
-        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
-      </row>
-      <row>
-        <action>TmbalesStyle</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/MIDI</menupath>
-        <label>Tmbales Style Staff</label>
-        <tooltip>Changes to a drum staff</tooltip>
       </row>
       <row>
         <action>Fortissimo</action>
@@ -2563,14 +2542,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Poet</label>
-        <tooltip>Name of the poet, flush-left below the subsubtitle.</tooltip>
+        <tooltip>Prints Poet-name given to left above first movement of the score.</tooltip>
       </row>
       <row>
         <action>ScoreTagline</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Tagline</label>
-        <tooltip> Centered at the bottom of the last page.</tooltip>
+        <tooltip>Prints a line of text at the end of the score.</tooltip>
       </row>
       <row>
         <action>MovementTitle</action>
@@ -2598,7 +2577,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Titles Etc</menupath>
         <label>Copyright</label>
-        <tooltip>Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding.</tooltip>
+        <tooltip>Prints a line of text at the end of the score, above the tagline.</tooltip>
       </row>
       <row>
         <action>Indent</action>
@@ -2685,29 +2664,36 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Recalculates the timing of each note.</tooltip>
       </row>
       <row>
+        <action>SplitMeasure</action>
+        <after>InsertMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Split Measure</label>
+        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+        <after>InsertMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Delete Barline</label>
+        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+      </row>
+      <row>
+        <action>ForceBarline</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Barline</label>
+        <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
+      </row>
+      <row>
         <action>HideEmptyStaffs</action>
         <after>ScoreIndent</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Score/Print Layout</menupath>
         <label>Hide Empty Staffs (Off/On)</label>
         <tooltip>Controls whether staffs containing only rests are printed.</tooltip>
-      </row>
-      <row>
-        <action>InstrumentName</action>
-        <after>SmallerStaff</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Instrument Name</label>
-        <tooltip>Print Instrument name before staff at start of score,</tooltip>
-      </row>
-      <row>
-        <action>ShortInstrumentName</action>
-        <after>InstrumentName</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <label>Short Instrument Name</label>
-        <tooltip>Prints shortened form of instrument name before this staff
-for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>LineBreak</action>
@@ -2816,22 +2802,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Hides the staff in LilyPond print out.</tooltip>
       </row>
       <row>
-        <action>Largo</action>
-        <after>Andante</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
-        <label>Largo</label>
-        <tooltip>Attaches Largo to chord</tooltip>
-      </row>
-      <row>
-        <action>Adagio</action>
-        <after>Largo</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
-        <label>Adagio</label>
-        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
-      </row>
-      <row>
         <action>DrumGM2Custom</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/MIDI</menupath>
@@ -2871,6 +2841,34 @@ for second and subsequent systems</tooltip>
         <tooltip>Attach a textual comment to the chord at the cursor</tooltip>
       </row>
       <row>
+        <action>ReadingNoteNames</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Note Name Recognition</label>
+        <tooltip>%tests your ability to name the notes of the scale</tooltip>
+      </row>
+      <row>
+        <action>StepSkipOrSame</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Beginner Interval Detection</label>
+        <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
+      </row>
+      <row>
+        <action>CountSteps</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Step Counting Exercise</label>
+        <tooltip>%tests your ability to find the number of diatonic notes between two notes</tooltip>
+      </row>
+      <row>
+        <action>BassClefNoteNameSpeedTest</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational</menupath>
+        <label>Bass Clef Note Name Speed Recognition</label>
+        <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
+      </row>
+      <row>
         <action>TransposeStaffPrint</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu</menupath>
@@ -2878,14 +2876,14 @@ for second and subsequent systems</tooltip>
         <tooltip>Prints this staff (only) transposed. This is in addtion to any score-wide transposition</tooltip>
       </row>
       <row>
-        <action>NextBookmark</action>
+        <action>NextBookmarkR</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Next Bookmark</label>
         <tooltip>Seach forward for bookmarks in the current staff.</tooltip>
       </row>
       <row>
-        <action>PrevBookmark</action>
+        <action>PrevBookmarkR</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Prev Bookmark</label>
@@ -2899,21 +2897,21 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds a Denemo bookmark combined with a default Rehearsal Mark</tooltip>
       </row>
       <row>
-        <action>BookmarkNamed</action>
+        <action>BookmarkRNamed</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add named Bookmark</label>
-        <tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
+        <tooltip>Adds a named Denemo bookmark combined with a custom Lilypond Rehearsal Mark</tooltip>
       </row>
       <row>
-        <action>BookmarkNonPrinting</action>
+        <action>BookmarkRNonPrinting</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Add non-printing Bookmark</label>
         <tooltip>Adds a custom Denemo bookmark without Lilypond output.</tooltip>
       </row>
       <row>
-        <action>SearchBookmark</action>
+        <action>SearchBookmarkR</action>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
         <label>Search Bookmark</label>
@@ -2940,22 +2938,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Whole Measure Rest</label>
         <tooltip>Inserts a whole measure rest at the cursor</tooltip>
-      </row>
-      <row>
-        <action>InsertWholeMeasureRest</action>
-        <after>WholeMeasureRest</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <label>Insert Whole Measure Rest</label>
-        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
-      </row>
-      <row>
-        <action>MultiMeasureRests</action>
-        <after>InsertWholeMeasureRest</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <label>Multi-Measure Rests</label>
-        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
       </row>
       <row>
         <action>OpenRepeat</action>
@@ -3037,19 +3019,35 @@ for second and subsequent systems</tooltip>
         <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
       </row>
       <row>
+        <action>SmallerStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Smaller Staff (On/Off)</label>
+        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+      </row>
+      <row>
+        <action>InstrumentName</action>
+        <after>SmallerStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Instrument Name</label>
+        <tooltip>Print Instrument name before staff at start of score,</tooltip>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+        <after>InstrumentName</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Short Instrument Name</label>
+        <tooltip>Prints shortened form of instrument name before this staff
+for second and subsequent systems</tooltip>
+      </row>
+      <row>
         <action>ShortMeasure</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Short Measure</label>
         <tooltip>Allow too few notes/rests in this measure. LilyPond will engrave this measure (in all staffs) with the short duration given by notes already present when this command was issued.</tooltip>
-      </row>
-      <row>
-        <action>OpenOctaveDown</action>
-        <after>OpenOctaveUp</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
-        <label>(Print) Open { Octave Down</label>
-        <tooltip>Opens a block printing an octave lower: must be terminated with CloseLilyBlock</tooltip>
       </row>
       <row>
         <action>FindNextLowerNote</action>
@@ -3059,12 +3057,59 @@ for second and subsequent systems</tooltip>
         <tooltip>Moves cursor to next note that is lower than the cursor.</tooltip>
       </row>
       <row>
+        <action>Largo</action>
+        <after>Andante</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Largo</label>
+        <tooltip>Attaches Largo to chord</tooltip>
+      </row>
+      <row>
+        <action>InsertWholeMeasureRest</action>
+        <after>WholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Insert Whole Measure Rest</label>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+      </row>
+      <row>
+        <action>FiguredBassFilterOn</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <label>Figured Bass Filter On</label>
+        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
+      </row>
+      <row>
+        <action>Adagio</action>
+        <after>Largo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks/Tempo Indications</menupath>
+        <label>Adagio</label>
+        <tooltip>Attaches tempo marking to chord at cursor</tooltip>
+      </row>
+      <row>
         <action>NextHigher</action>
         <after>FindNextLowerNote</after>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Seek</menupath>
         <label>Next Higher</label>
         <tooltip>Move cursor to next note higher than cursor posiiton</tooltip>
+      </row>
+      <row>
+        <action>OpenOctaveDown</action>
+        <after>OpenOctaveUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
+        <label>(Print) Open { Octave Down</label>
+        <tooltip>Opens a block printing an octave lower</tooltip>
+      </row>
+      <row>
+        <action>MultiMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <label>Multi-Measure Rests</label>
+        <tooltip>Creates a multi-measure rest from the whole measure rests after the cursor. You must create the whole measure rests first.</tooltip>
       </row>
       <row>
         <action>FindEditPoint</action>
@@ -3106,11 +3151,51 @@ for second and subsequent systems</tooltip>
         <tooltip>Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc.</tooltip>
       </row>
       <row>
+        <action>SlurDown</action>
+        <after>ToggleEndSlur</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
+        <label>Slur Down</label>
+        <tooltip>Prints slur below</tooltip>
+      </row>
+      <row>
+        <action>SlurUp</action>
+        <after>SlurDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
+        <label>Slur Up</label>
+        <tooltip>Prints slurs up</tooltip>
+      </row>
+      <row>
+        <action>SlurNeutral</action>
+        <after>SlurUp</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/ChordMenu/Markings/Slurs</menupath>
+        <label>Auto Slur Directions</label>
+        <tooltip>Prints slurs as normal</tooltip>
+      </row>
+      <row>
+        <action>PaperSize</action>
+        <after>ScoreIndent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score/Print Layout</menupath>
+        <label>Paper Size and Orientation</label>
+        <tooltip>Specifies how the printed page should be.</tooltip>
+      </row>
+      <row>
         <action>BarNumbers</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Numbering</menupath>
         <label>Bar Numbers On/Off</label>
         <tooltip>Turns bar numbering on/off in print out.</tooltip>
+      </row>
+      <row>
+        <action>AddDuplicateMeasure</action>
+        <after>AddMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Duplicate Measure After</label>
+        <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
       </row>
       <row>
         <action>MidiTempo</action>
@@ -3143,25 +3228,18 @@ for second and subsequent systems</tooltip>
         <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
       </row>
       <row>
+        <action>SlurTwo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Slur with Next Note</label>
+        <tooltip>Creates a slur from current note to next note.</tooltip>
+      </row>
+      <row>
         <action>DynamicsDialog</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Dynamics</label>
         <tooltip>Choose dynamics and midi volume level.</tooltip>
-      </row>
-      <row>
-        <action>CursorToLowestNote</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor to lowest note</label>
-        <tooltip>Moves the cursor to the lowest note on current horizontal position (in a chord or on a single note)</tooltip>
-      </row>
-      <row>
-        <action>CursorToHighestNote</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor to highest note</label>
-        <tooltip>Moves the cursor to the highest note on current horizontal position (in a chord or on a single note)</tooltip>
       </row>
       <row>
         <action>ZoomDialog</action>
@@ -3171,321 +3249,12 @@ for second and subsequent systems</tooltip>
         <tooltip>Scales the display by value given by user.</tooltip>
       </row>
       <row>
-        <action>ChangeChannel</action>
-        <after>MidiTempo</after>
+        <action>Zoom70</action>
+        <after>ZoomDialog</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>Channel</label>
-        <tooltip>Change the Channel of a staff</tooltip>
-      </row>
-      <row>
-        <action>ChangeProgram</action>
-        <after>ChangeChannel</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>Program</label>
-        <tooltip>Change the Program of the current channel/staff</tooltip>
-      </row>
-      <row>
-        <action>ChangeVolume</action>
-        <after>ChangeProgram</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>Volume</label>
-        <tooltip>Change the Volume of a channel/staff</tooltip>
-      </row>
-      <row>
-        <action>ChangeGeneric</action>
-        <after>ChangeChannel</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>Generic Control Change</label>
-        <tooltip>Generic 0xB Control Change - User can give the midi bytes, too. </tooltip>
-      </row>
-      <row>
-        <action>ChangeModwheel</action>
-        <after>ChangeVolume</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>1 Modwheel</label>
-        <tooltip>Change the Modwheel value of a channel/staff</tooltip>
-      </row>
-      <row>
-        <action>ChangeBalance</action>
-        <after>ChangeModwheel</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>8 Balance</label>
-        <tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </tooltip>
-      </row>
-      <row>
-        <action>ChangePan</action>
-        <after>ChangeBalance</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>10 Pan</label>
-        <tooltip>Where in the stereo field the channel sound will be placed.</tooltip>
-      </row>
-      <row>
-        <action>ChangeExpression</action>
-        <after>ChangePan</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>11 Expression</label>
-        <tooltip>Aka "Sub Volume" or "Percent Volume". The "real" volume. Use Volume as initial value for each staff/channel and change further cresc/desc with expression. </tooltip>
-      </row>
-      <row>
-        <action>ChangeHoldPedal</action>
-        <after>ChangeExpression</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>64 Hold Pedal (Right Piano Pedal)</label>
-        <tooltip>Hold Pedal On/Off (Right Piano Pedal). Deactivates Note-Off until set to "Off"</tooltip>
-      </row>
-      <row>
-        <action>ChangePortamento</action>
-        <after>ChangeHoldPedal</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>65 Portamento On/Off</label>
-        <tooltip>Slides between 2 notes. Can be adjusted with 5 - Portamento Time</tooltip>
-      </row>
-      <row>
-        <action>ChangeSustenutoPedal</action>
-        <after>ChangePortamento</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>66 Sustenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
-        <tooltip>Middle Grand Piano Pedal. All Notes currently active (without a note off) will not have a note-off until Sustenuto Off.</tooltip>
-      </row>
-      <row>
-        <action>ChangeSoftPedal</action>
-        <after>ChangeSustenutoPedal</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>67 Soft Pedal On/Off (Left Piano Pedal)</label>
-        <tooltip>Left Piano Pedal. Lowers the volume of any notes played.</tooltip>
-      </row>
-      <row>
-        <action>ChangeLegatoPedal</action>
-        <after>ChangeSoftPedal</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>68 Legato Pedal On/Off</label>
-        <tooltip>Skips the attack portion of the VCA's envelope. For phrasing like wind or brass or guitar hammer-on.</tooltip>
-      </row>
-      <row>
-        <action>ChangeHold2Pedal</action>
-        <after>ChangeLegatoPedal</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives/MIDI</menupath>
-        <label>69 Hold Pedal #2 On/Off</label>
-        <tooltip>Longer release time but notes will fade out eventually.</tooltip>
-      </row>
-      <row>
-        <action>C-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>C Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>F-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>F Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>Bb-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>Bb Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>Eb-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>Eb Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>Ab-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>Ab Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>Db-Pentascale</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>Db Pentascale</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>C-Major</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>C Major</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>F-Major</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Identify-Scale-Note</menupath>
-        <label>F Major</label>
-        <tooltip>Identify Scale Notes that are sounded</tooltip>
-      </row>
-      <row>
-        <action>MajorOrMinor</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>MajorMinor</label>
-        <tooltip>Determine if the chord played is major or minor</tooltip>
-      </row>
-      <row>
-        <action>LineOrSpace</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Line and space recognition</label>
-        <tooltip>%tests your ability to recognize the difference between line and space</tooltip>
-      </row>
-      <row>
-        <action>UpDownOrSame</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Trace Note Direction</label>
-        <tooltip>%tests your note tracking ability</tooltip>
-      </row>
-      <row>
-        <action>StepSkipOrSame</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Step, Skip, or Same?</label>
-        <tooltip>%tests your ability to determine if note is moving by a step or skip</tooltip>
-      </row>
-      <row>
-        <action>CountSteps</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Step Counting Exercise</label>
-        <tooltip>%tests your ability to find the number of diatonic notes between two notes</tooltip>
-      </row>
-      <row>
-        <action>DiatonicInterval</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Diatonic Interval Detection</label>
-        <tooltip>%tests your ability to find the diatonic interval name between two notes</tooltip>
-      </row>
-      <row>
-        <action>ReadingNoteNames</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Note Name Recognition</label>
-        <tooltip>%tests your ability to name the notes of the scale</tooltip>
-      </row>
-      <row>
-        <action>ReadingNoteNamesSolfege</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Solfege Note Name Recognition</label>
-        <tooltip>%tests your ability to name the notes of the scale</tooltip>
-      </row>
-      <row>
-        <action>NoteNameSpeedTest</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Note Name Speed Recognition</label>
-        <tooltip>%tests your ability to name the notes of the scale</tooltip>
-      </row>
-      <row>
-        <action>BassClefNoteNameSpeedTest</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Bass Clef Note Name Speed Recognition</label>
-        <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
-      </row>
-      <row>
-        <action>MajorOrAugmented</action>
-        <after>DiminishedOrMinor</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>MajorAugmented</label>
-        <tooltip>Determine if chord sounded is Major or Augmented</tooltip>
-      </row>
-      <row>
-        <action>DiminishedOrMinor</action>
-        <after>DiminishedOrAugmented</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>DiminishedMinor</label>
-        <tooltip>Determine if the chord sounded is Diminished or Minor</tooltip>
-      </row>
-      <row>
-        <action>MajorMinorAugmentedOrDiminished</action>
-        <after>MajorOrAugmented</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>MajorMinorAugmentedDiminished</label>
-        <tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</tooltip>
-      </row>
-      <row>
-        <action>DiminishedOrAugmented</action>
-        <after>MajorOrMinor</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>DiminishedAugmented</label>
-        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
-      </row>
-      <row>
-        <action>HalfDiminished7OrDiminshed7</action>
-        <after>Major7Minor7OrDominant7</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>HalfDiminshed7Diminished7</label>
-        <tooltip>Determine if the type of diminshed chord sounded</tooltip>
-      </row>
-      <row>
-        <action>Major7Minor7OrDominant7</action>
-        <after>MajorMinorAugmentedOrDiminished</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>Major7Minor7Dominant7</label>
-        <tooltip>Determine which seventh chord is sounded</tooltip>
-      </row>
-      <row>
-        <action>ReloadDrumHash</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Reload the "Drum GM to User" map</label>
-        <tooltip>Reloads the drum map which is needed for DrumGm2User</tooltip>
-      </row>
-      <row>
-        <action>ConvertDrum2GmSingleSelection</action>
-        <after>ReloadDrumHash</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Convert GM-Drum to User-Drum</label>
-        <tooltip>Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers avaible.</tooltip>
-      </row>
-      <row>
-        <action>SelectStaff</action>
-        <after>UnsetMark</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Select</menupath>
-        <label>Select Staff</label>
-        <tooltip>Selects the whole staff</tooltip>
-      </row>
-      <row>
-        <action>SelectAllStaffs</action>
-        <after>SelectStaff</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Select</menupath>
-        <label>Select All Staffs</label>
-        <tooltip>Selects the whole movement / All staffs</tooltip>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>70%</label>
+        <tooltip>Zoom to 70%</tooltip>
       </row>
       <row>
         <action>SetMovementTempo</action>
@@ -3496,37 +3265,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Sets the (initial) tempo in quarter notes per minute.</tooltip>
       </row>
       <row>
-        <action>LineNumber</action>
-        <after>LineOrSpace</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Identify line number</label>
-        <tooltip>Identify the line number in which the note is displayed</tooltip>
-      </row>
-      <row>
-        <action>SpaceNumber</action>
-        <after>LineNumber</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Note-Reading</menupath>
-        <label>Identify space number</label>
-        <tooltip>Identify the space number in which the note is display on</tooltip>
-      </row>
-      <row>
-        <action>ShiftUp</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Up</label>
-        <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
-      </row>
-      <row>
-        <action>ShiftDown</action>
-        <after>ShiftUp</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu/Shift</menupath>
-        <label>Shift Down</label>
-        <tooltip>Shifts the selected Notes and Chords down a diatonic step</tooltip>
-      </row>
-      <row>
         <action>CloseReopenRepeat</action>
         <after>CloseRepeat</after>
         <scheme></scheme>
@@ -3535,32 +3273,36 @@ for second and subsequent systems</tooltip>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
       </row>
       <row>
-        <action>ToggleCursorHighlight</action>
-        <after>OctaveDown</after>
+        <action>CadenzaOn</action>
+        <after>Tempo</after>
         <scheme></scheme>
-        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
-        <label>Cursor Highlighting Off/On</label>
-        <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Start Cadenza</label>
+        <tooltip>Turns off barlines etc for cadenza</tooltip>
       </row>
       <row>
-        <action>IntelligentDelete</action>
+        <action>FinishCadenza</action>
+        <after>CadenzaOn</after>
         <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Delete</label>
-        <tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</tooltip>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>End Cadenza</label>
+        <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
       </row>
       <row>
-        <action>SplitMeasure</action>
+        <action>DiminishedOrAugmented</action>
+        <after>MajorOrMinor</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Split Measure (insert barline)</label>
-        <tooltip>Insert a barline before cursor.</tooltip>
+        <menupath>/MainMenu/Educational/Aural Training</menupath>
+        <label>DiminishedAugmented</label>
+        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
       <row>
-        <action>GoToMeasureEnd</action>
+        <action>ToggleTupletBrackets</action>
+        <after>ToggleTupletNumbering</after>
         <scheme></scheme>
-        <label>Go To Measure End</label>
-        <tooltip>Move the Cursor to the end of the measure</tooltip>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
+        <label>Tuplet Brackets On/Off</label>
+        <tooltip>Turns tuplet brackets off or on.</tooltip>
       </row>
       <row>
         <action>ExtendSlur</action>
@@ -3577,6 +3319,30 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <label>Shorten Slur from End</label>
         <tooltip>Shorten a slur that ends at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>ToggleCursorHighlight</action>
+        <after>OctaveDown</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Cursor Highlighting Off/On</label>
+        <tooltip>Shows up the position of the cursor more clearly (off/on)</tooltip>
+      </row>
+      <row>
+        <action>SmallFontStart</action>
+        <after>FinishCadenza</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Small Size</label>
+        <tooltip>Music after this is printed in a small size.</tooltip>
+      </row>
+      <row>
+        <action>SmallFontEnd</action>
+        <after>SmallFontStart</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>End Small Size</label>
+        <tooltip>Printing resumes normal size music.</tooltip>
       </row>
     </map>
   </commands>

@@ -24,16 +24,13 @@
       <row>
         <action>CursorDown</action>
         <bind>Down</bind>
-        <bind>Shift+Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
         <bind>Up</bind>
-        <bind>Shift+Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
-        <bind>Shift+Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
@@ -63,33 +60,31 @@
       </row>
       <row>
         <action>StaffUp</action>
-        <bind>Shift+Control+Up</bind>
-      </row>
-      <row>
-        <action>StaffDown</action>
-        <bind>Shift+Control+Down</bind>
-      </row>
-      <row>
-        <action>MoveToStaffUp</action>
         <bind>Control+Up</bind>
       </row>
       <row>
-        <action>MoveToStaffDown</action>
+        <action>StaffDown</action>
         <bind>Control+Down</bind>
       </row>
       <row>
+        <action>MoveToStaffUp</action>
+      </row>
+      <row>
+        <action>MoveToStaffDown</action>
+      </row>
+      <row>
         <action>MeasureLeft</action>
-      </row>
-      <row>
-        <action>MeasureRight</action>
-      </row>
-      <row>
-        <action>MoveToMeasureLeft</action>
         <bind>Control+Left</bind>
       </row>
       <row>
-        <action>MoveToMeasureRight</action>
+        <action>MeasureRight</action>
         <bind>Control+Right</bind>
+      </row>
+      <row>
+        <action>MoveToMeasureLeft</action>
+      </row>
+      <row>
+        <action>MoveToMeasureRight</action>
       </row>
       <row>
         <action>A</action>
@@ -189,31 +184,31 @@
       </row>
       <row>
         <action>InsertWholeRest</action>
-        <bind>Alt+0</bind>
+        <bind>Alt+KP_Insert</bind>
       </row>
       <row>
         <action>InsertHalfRest</action>
-        <bind>Alt+1</bind>
+        <bind>Alt+KP_End</bind>
       </row>
       <row>
         <action>InsertQuarterRest</action>
-        <bind>Alt+2</bind>
+        <bind>Alt+KP_Down</bind>
       </row>
       <row>
         <action>InsertEighthRest</action>
-        <bind>Alt+3</bind>
+        <bind>Alt+KP_Page_Down</bind>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
-        <bind>Alt+4</bind>
+        <bind>Alt+KP_Left</bind>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
-        <bind>Alt+5</bind>
+        <bind>Alt+KP_Begin</bind>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
-        <bind>Alt+6</bind>
+        <bind>Alt+KP_Right</bind>
       </row>
       <row>
         <action>InsertDuplet</action>
@@ -241,7 +236,6 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <bind>Insert</bind>
         <bind>Return</bind>
       </row>
       <row>
@@ -251,13 +245,10 @@
       <row>
         <action>Sharpen</action>
         <bind>KP_Add</bind>
-        <bind>equal</bind>
-        <bind>plus</bind>
       </row>
       <row>
         <action>Flatten</action>
         <bind>KP_Subtract</bind>
-        <bind>minus</bind>
       </row>
       <row>
         <action>StemUp</action>
@@ -267,10 +258,12 @@
       </row>
       <row>
         <action>AddDot</action>
+        <bind>KP_Delete</bind>
         <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
+        <bind>Control+KP_Delete</bind>
         <bind>Control+period</bind>
       </row>
       <row>
@@ -281,6 +274,7 @@
       </row>
       <row>
         <action>DeleteObject</action>
+        <bind>Delete</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
@@ -296,11 +290,9 @@
       </row>
       <row>
         <action>InsertMeasureBefore</action>
-        <bind>M</bind>
       </row>
       <row>
         <action>InsertMeasureAfter</action>
-        <bind>N</bind>
       </row>
       <row>
         <action>AppendMeasure</action>
@@ -612,7 +604,6 @@
       </row>
       <row>
         <action>UnsetMark</action>
-        <bind>space</bind>
       </row>
       <row>
         <action>SetPoint</action>
@@ -620,25 +611,32 @@
       <row>
         <action>ToggleBeginSlur</action>
         <bind>parenleft</bind>
+        <bind>PrsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
         <bind>parenright</bind>
+        <bind>RlsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
+        <bind>PrsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndCrescendo</action>
+        <bind>RlsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartDiminuendo</action>
+        <bind>PrsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleEndDiminuendo</action>
+        <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleAccent</action>
+        <bind>greater</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
@@ -650,6 +648,7 @@
       </row>
       <row>
         <action>ToggleTenuto</action>
+        <bind>underscore</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
@@ -729,15 +728,14 @@
       </row>
       <row>
         <action>ExecuteScheme</action>
-        <bind>Control+Tab</bind>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>Shift+KP_Add</bind>
+        <bind>equal</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>Shift+KP_Subtract</bind>
+        <bind>minus</bind>
       </row>
       <row>
         <action>New</action>
@@ -828,9 +826,11 @@
       </row>
       <row>
         <action>Undo</action>
+        <bind>Control+z</bind>
       </row>
       <row>
         <action>Redo</action>
+        <bind>Control+Z</bind>
       </row>
       <row>
         <action>Copy</action>
@@ -1013,27 +1013,25 @@
       </row>
       <row>
         <action>GoToBeginning</action>
-        <bind>Shift+Home</bind>
-      </row>
-      <row>
-        <action>GoToEnd</action>
-        <bind>Shift+End</bind>
-      </row>
-      <row>
-        <action>MoveToBeginning</action>
         <bind>Home</bind>
       </row>
       <row>
-        <action>MoveToEnd</action>
+        <action>GoToEnd</action>
         <bind>End</bind>
       </row>
       <row>
+        <action>MoveToBeginning</action>
+      </row>
+      <row>
+        <action>MoveToEnd</action>
+      </row>
+      <row>
         <action>NextMovement</action>
-        <bind>Shift+Control+Right</bind>
+        <bind>Shift+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Shift+Control+Left</bind>
+        <bind>Shift+Left</bind>
       </row>
       <row>
         <action>DeleteMovement</action>
@@ -1070,6 +1068,7 @@
       </row>
       <row>
         <action>ToggleEdit</action>
+        <bind>Insert</bind>
       </row>
       <row>
         <action>ToggleRest</action>
@@ -1201,12 +1200,9 @@
       <row>
         <action>0</action>
         <bind>KP_Insert</bind>
-        <bind>0</bind>
       </row>
       <row>
         <action>Change0</action>
-        <bind>KP_0</bind>
-        <bind>Control+0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1223,12 +1219,9 @@
       <row>
         <action>1</action>
         <bind>KP_End</bind>
-        <bind>1</bind>
       </row>
       <row>
         <action>Change1</action>
-        <bind>KP_1</bind>
-        <bind>Control+1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -1245,12 +1238,9 @@
       <row>
         <action>2</action>
         <bind>KP_Down</bind>
-        <bind>2</bind>
       </row>
       <row>
         <action>Change2</action>
-        <bind>KP_2</bind>
-        <bind>Control+2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -1267,12 +1257,9 @@
       <row>
         <action>3</action>
         <bind>KP_Page_Down</bind>
-        <bind>3</bind>
       </row>
       <row>
         <action>Change3</action>
-        <bind>KP_3</bind>
-        <bind>Control+3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -1289,12 +1276,9 @@
       <row>
         <action>4</action>
         <bind>KP_Left</bind>
-        <bind>4</bind>
       </row>
       <row>
         <action>Change4</action>
-        <bind>KP_4</bind>
-        <bind>Control+4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -1311,12 +1295,9 @@
       <row>
         <action>5</action>
         <bind>KP_Begin</bind>
-        <bind>5</bind>
       </row>
       <row>
         <action>Change5</action>
-        <bind>KP_5</bind>
-        <bind>Control+5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -1333,12 +1314,9 @@
       <row>
         <action>6</action>
         <bind>KP_Right</bind>
-        <bind>6</bind>
       </row>
       <row>
         <action>Change6</action>
-        <bind>KP_6</bind>
-        <bind>Control+6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -1354,12 +1332,9 @@
       </row>
       <row>
         <action>7</action>
-        <bind>7</bind>
       </row>
       <row>
         <action>Change7</action>
-        <bind>KP_7</bind>
-        <bind>Control+7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -1375,12 +1350,9 @@
       </row>
       <row>
         <action>8</action>
-        <bind>8</bind>
       </row>
       <row>
         <action>Change8</action>
-        <bind>KP_8</bind>
-        <bind>Control+8</bind>
       </row>
       <row>
         <action>Insert8</action>
@@ -1407,9 +1379,6 @@
       <row>
         <action>InsertTiedNoteDuration</action>
         <bind>t</bind>
-      </row>
-      <row>
-        <action>FiguredBassFilterOn</action>
       </row>
       <row>
         <action>MidiFilterOff</action>
@@ -1455,9 +1424,11 @@
       </row>
       <row>
         <action>Finger0</action>
+        <bind>0</bind>
       </row>
       <row>
         <action>Finger1</action>
+        <bind>1</bind>
       </row>
       <row>
         <action>Finger2</action>
@@ -1467,15 +1438,19 @@
       </row>
       <row>
         <action>Finger4</action>
+        <bind>4</bind>
       </row>
       <row>
         <action>Finger5</action>
+        <bind>5</bind>
       </row>
       <row>
         <action>StartBeam</action>
+        <bind>bracketleft</bind>
       </row>
       <row>
         <action>EndBeam</action>
+        <bind>bracketright</bind>
       </row>
       <row>
         <action>DeleteLilyPondOnNote</action>
@@ -1517,16 +1492,11 @@
         <action>Glissando</action>
       </row>
       <row>
-        <action>SmallerStaff</action>
-      </row>
-      <row>
-        <action>TmbalesStyle</action>
-      </row>
-      <row>
         <action>Fortissimo</action>
       </row>
       <row>
         <action>CautionaryAccidental</action>
+        <bind>exclam</bind>
       </row>
       <row>
         <action>ReminderAccidental</action>
@@ -1607,13 +1577,16 @@
         <action>RecreateTimebase</action>
       </row>
       <row>
+        <action>SplitMeasure</action>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+      </row>
+      <row>
+        <action>ForceBarline</action>
+      </row>
+      <row>
         <action>HideEmptyStaffs</action>
-      </row>
-      <row>
-        <action>InstrumentName</action>
-      </row>
-      <row>
-        <action>ShortInstrumentName</action>
       </row>
       <row>
         <action>LineBreak</action>
@@ -1653,15 +1626,10 @@
       </row>
       <row>
         <action>ToggleTripleting</action>
+        <bind>3</bind>
       </row>
       <row>
         <action>NonPrintingStaff</action>
-      </row>
-      <row>
-        <action>Largo</action>
-      </row>
-      <row>
-        <action>Adagio</action>
       </row>
       <row>
         <action>DrumGM2Custom</action>
@@ -1679,14 +1647,26 @@
         <action>ChordComment</action>
       </row>
       <row>
+        <action>ReadingNoteNames</action>
+      </row>
+      <row>
+        <action>StepSkipOrSame</action>
+      </row>
+      <row>
+        <action>CountSteps</action>
+      </row>
+      <row>
+        <action>BassClefNoteNameSpeedTest</action>
+      </row>
+      <row>
         <action>TransposeStaffPrint</action>
       </row>
       <row>
-        <action>NextBookmark</action>
+        <action>NextBookmarkR</action>
         <bind>F12</bind>
       </row>
       <row>
-        <action>PrevBookmark</action>
+        <action>PrevBookmarkR</action>
         <bind>F11</bind>
       </row>
       <row>
@@ -1694,15 +1674,15 @@
         <bind>F9</bind>
       </row>
       <row>
-        <action>BookmarkNamed</action>
+        <action>BookmarkRNamed</action>
         <bind>Shift+F9</bind>
       </row>
       <row>
-        <action>BookmarkNonPrinting</action>
+        <action>BookmarkRNonPrinting</action>
         <bind>Shift+Control+F9</bind>
       </row>
       <row>
-        <action>SearchBookmark</action>
+        <action>SearchBookmarkR</action>
         <bind>F10</bind>
       </row>
       <row>
@@ -1713,12 +1693,6 @@
       </row>
       <row>
         <action>WholeMeasureRest</action>
-      </row>
-      <row>
-        <action>InsertWholeMeasureRest</action>
-      </row>
-      <row>
-        <action>MultiMeasureRests</action>
       </row>
       <row>
         <action>OpenRepeat</action>
@@ -1751,16 +1725,42 @@
         <action>SetImmediatePlayback</action>
       </row>
       <row>
+        <action>SmallerStaff</action>
+      </row>
+      <row>
+        <action>InstrumentName</action>
+      </row>
+      <row>
+        <action>ShortInstrumentName</action>
+      </row>
+      <row>
         <action>ShortMeasure</action>
+      </row>
+      <row>
+        <action>FindNextLowerNote</action>
+        <bind>Control+f</bind>
+      </row>
+      <row>
+        <action>Largo</action>
+      </row>
+      <row>
+        <action>InsertWholeMeasureRest</action>
+        <bind>space</bind>
+      </row>
+      <row>
+        <action>FiguredBassFilterOn</action>
+      </row>
+      <row>
+        <action>Adagio</action>
+      </row>
+      <row>
+        <action>NextHigher</action>
       </row>
       <row>
         <action>OpenOctaveDown</action>
       </row>
       <row>
-        <action>FindNextLowerNote</action>
-      </row>
-      <row>
-        <action>NextHigher</action>
+        <action>MultiMeasureRests</action>
       </row>
       <row>
         <action>FindEditPoint</action>
@@ -1779,7 +1779,23 @@
         <action>StartTuplet</action>
       </row>
       <row>
+        <action>SlurDown</action>
+      </row>
+      <row>
+        <action>SlurUp</action>
+      </row>
+      <row>
+        <action>SlurNeutral</action>
+      </row>
+      <row>
+        <action>PaperSize</action>
+      </row>
+      <row>
         <action>BarNumbers</action>
+      </row>
+      <row>
+        <action>AddDuplicateMeasure</action>
+        <bind>KP_Enter</bind>
       </row>
       <row>
         <action>MidiTempo</action>
@@ -1794,178 +1810,35 @@
         <action>DesignateVoice</action>
       </row>
       <row>
+        <action>SlurTwo</action>
+        <bind>2</bind>
+      </row>
+      <row>
         <action>DynamicsDialog</action>
-      </row>
-      <row>
-        <action>CursorToLowestNote</action>
-      </row>
-      <row>
-        <action>CursorToHighestNote</action>
       </row>
       <row>
         <action>ZoomDialog</action>
       </row>
       <row>
-        <action>ChangeChannel</action>
-      </row>
-      <row>
-        <action>ChangeProgram</action>
-      </row>
-      <row>
-        <action>ChangeVolume</action>
-      </row>
-      <row>
-        <action>ChangeGeneric</action>
-      </row>
-      <row>
-        <action>ChangeModwheel</action>
-      </row>
-      <row>
-        <action>ChangeBalance</action>
-      </row>
-      <row>
-        <action>ChangePan</action>
-      </row>
-      <row>
-        <action>ChangeExpression</action>
-      </row>
-      <row>
-        <action>ChangeHoldPedal</action>
-      </row>
-      <row>
-        <action>ChangePortamento</action>
-      </row>
-      <row>
-        <action>ChangeSustenutoPedal</action>
-      </row>
-      <row>
-        <action>ChangeSoftPedal</action>
-      </row>
-      <row>
-        <action>ChangeLegatoPedal</action>
-      </row>
-      <row>
-        <action>ChangeHold2Pedal</action>
-      </row>
-      <row>
-        <action>C-Pentascale</action>
-      </row>
-      <row>
-        <action>F-Pentascale</action>
-      </row>
-      <row>
-        <action>Bb-Pentascale</action>
-      </row>
-      <row>
-        <action>Eb-Pentascale</action>
-      </row>
-      <row>
-        <action>Ab-Pentascale</action>
-      </row>
-      <row>
-        <action>Db-Pentascale</action>
-      </row>
-      <row>
-        <action>C-Major</action>
-      </row>
-      <row>
-        <action>F-Major</action>
-      </row>
-      <row>
-        <action>MajorOrMinor</action>
-      </row>
-      <row>
-        <action>LineOrSpace</action>
-      </row>
-      <row>
-        <action>UpDownOrSame</action>
-      </row>
-      <row>
-        <action>StepSkipOrSame</action>
-      </row>
-      <row>
-        <action>CountSteps</action>
-      </row>
-      <row>
-        <action>DiatonicInterval</action>
-      </row>
-      <row>
-        <action>ReadingNoteNames</action>
-      </row>
-      <row>
-        <action>ReadingNoteNamesSolfege</action>
-      </row>
-      <row>
-        <action>NoteNameSpeedTest</action>
-      </row>
-      <row>
-        <action>BassClefNoteNameSpeedTest</action>
-      </row>
-      <row>
-        <action>MajorOrAugmented</action>
-      </row>
-      <row>
-        <action>DiminishedOrMinor</action>
-      </row>
-      <row>
-        <action>MajorMinorAugmentedOrDiminished</action>
-      </row>
-      <row>
-        <action>DiminishedOrAugmented</action>
-      </row>
-      <row>
-        <action>HalfDiminished7OrDiminshed7</action>
-      </row>
-      <row>
-        <action>Major7Minor7OrDominant7</action>
-      </row>
-      <row>
-        <action>ReloadDrumHash</action>
-      </row>
-      <row>
-        <action>ConvertDrum2GmSingleSelection</action>
-      </row>
-      <row>
-        <action>SelectStaff</action>
-        <bind>Control+a</bind>
-      </row>
-      <row>
-        <action>SelectAllStaffs</action>
-        <bind>Control+A</bind>
+        <action>Zoom70</action>
       </row>
       <row>
         <action>SetMovementTempo</action>
       </row>
       <row>
-        <action>LineNumber</action>
-      </row>
-      <row>
-        <action>SpaceNumber</action>
-      </row>
-      <row>
-        <action>ShiftUp</action>
-        <bind>Alt+Up</bind>
-      </row>
-      <row>
-        <action>ShiftDown</action>
-        <bind>Alt+Down</bind>
-      </row>
-      <row>
         <action>CloseReopenRepeat</action>
       </row>
       <row>
-        <action>ToggleCursorHighlight</action>
-        <bind>grave</bind>
+        <action>CadenzaOn</action>
       </row>
       <row>
-        <action>IntelligentDelete</action>
-        <bind>Delete</bind>
+        <action>FinishCadenza</action>
       </row>
       <row>
-        <action>SplitMeasure</action>
+        <action>DiminishedOrAugmented</action>
       </row>
       <row>
-        <action>GoToMeasureEnd</action>
+        <action>ToggleTupletBrackets</action>
       </row>
       <row>
         <action>ExtendSlur</action>
@@ -1974,6 +1847,16 @@
       <row>
         <action>ReduceSlur</action>
         <bind>KP_Home</bind>
+      </row>
+      <row>
+        <action>ToggleCursorHighlight</action>
+        <bind>grave</bind>
+      </row>
+      <row>
+        <action>SmallFontStart</action>
+      </row>
+      <row>
+        <action>SmallFontEnd</action>
       </row>
     </map>
   </merge>

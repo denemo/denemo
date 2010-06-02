@@ -341,7 +341,7 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files created from csound or other */
   gboolean playbackoutput; /**< This is a switch to turn on playing the csound output 
 			     wav file after rendering or not */
-  gchar *shortcut_filename; /**< file containing shortcuts for actions */
+  GString *shortcut_filename; /**< file containing shortcuts for actions */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gboolean startmidiin; /**< try to start midi in on startup */

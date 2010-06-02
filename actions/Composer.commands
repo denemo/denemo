@@ -1675,6 +1675,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddNoteA</action>
+        <label>Insert A After</label>
+        <tooltip>Inserts note A after note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>AddA</action>
         <label>Add A</label>
         <tooltip>Adds note A to the chord at cursor
@@ -1695,6 +1702,13 @@ Rhythm is unchanged</tooltip>
         <action>InsertB</action>
         <label>Insert B</label>
         <tooltip>Inserts note B before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddNoteB</action>
+        <label>Insert B After</label>
+        <tooltip>Inserts note B after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -1723,6 +1737,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddNoteC</action>
+        <label>Insert C After</label>
+        <tooltip>Inserts note C after note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>AddC</action>
         <label>Add C</label>
         <tooltip>Adds note C to the chord at cursor
@@ -1743,6 +1764,13 @@ Rhythm is unchanged</tooltip>
         <action>InsertD</action>
         <label>Insert D</label>
         <tooltip>Inserts note D before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddNoteD</action>
+        <label>Insert D After</label>
+        <tooltip>Inserts note D after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -1771,6 +1799,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddNoteE</action>
+        <label>Insert E After</label>
+        <tooltip>Inserts note E after note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>AddE</action>
         <label>Add E</label>
         <tooltip>Adds note E to the chord at cursor
@@ -1795,6 +1830,13 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
+        <action>AddNoteF</action>
+        <label>Insert F After</label>
+        <tooltip>Inserts note F after note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
         <action>AddF</action>
         <label>Add F</label>
         <tooltip>Adds note F to the chord at cursor
@@ -1815,6 +1857,13 @@ Rhythm is unchanged</tooltip>
         <action>InsertG</action>
         <label>Insert G</label>
         <tooltip>Inserts note G before note at cursor
+Cursor determines which octave
+Note is inserted in the prevailing rhythm</tooltip>
+      </row>
+      <row>
+        <action>AddNoteG</action>
+        <label>Insert G After</label>
+        <tooltip>Inserts note G after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -2153,7 +2202,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>To Cursor</label>
         <tooltip>Moves the nearest note to join the cursor</tooltip>
       </row>
@@ -2455,14 +2504,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CautionaryAccidental</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>Cautionary Accidental</label>
         <tooltip>Forces the accidental on the note to be printed.</tooltip>
       </row>
       <row>
         <action>ReminderAccidental</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>Reminder Accidental</label>
         <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
       </row>
@@ -3417,7 +3466,7 @@ for second and subsequent systems</tooltip>
         <action>AddDotSelectionSwitcher</action>
         <after>AddDot</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/InsertModeNote/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <label>Add Dot</label>
         <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
       </row>

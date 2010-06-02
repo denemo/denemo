@@ -1085,6 +1085,10 @@
         <action>InsertA</action>
       </row>
       <row>
+        <action>AddNoteA</action>
+        <bind>A</bind>
+      </row>
+      <row>
         <action>AddA</action>
       </row>
       <row>
@@ -1095,6 +1099,10 @@
       </row>
       <row>
         <action>InsertB</action>
+      </row>
+      <row>
+        <action>AddNoteB</action>
+        <bind>B</bind>
       </row>
       <row>
         <action>AddB</action>
@@ -1109,6 +1117,10 @@
         <action>InsertC</action>
       </row>
       <row>
+        <action>AddNoteC</action>
+        <bind>C</bind>
+      </row>
+      <row>
         <action>AddC</action>
       </row>
       <row>
@@ -1119,6 +1131,10 @@
       </row>
       <row>
         <action>InsertD</action>
+      </row>
+      <row>
+        <action>AddNoteD</action>
+        <bind>D</bind>
       </row>
       <row>
         <action>AddD</action>
@@ -1133,6 +1149,10 @@
         <action>InsertE</action>
       </row>
       <row>
+        <action>AddNoteE</action>
+        <bind>E</bind>
+      </row>
+      <row>
         <action>AddE</action>
       </row>
       <row>
@@ -1145,6 +1165,10 @@
         <action>InsertF</action>
       </row>
       <row>
+        <action>AddNoteF</action>
+        <bind>F</bind>
+      </row>
+      <row>
         <action>AddF</action>
       </row>
       <row>
@@ -1155,6 +1179,10 @@
       </row>
       <row>
         <action>InsertG</action>
+      </row>
+      <row>
+        <action>AddNoteG</action>
+        <bind>G</bind>
       </row>
       <row>
         <action>AddG</action>
@@ -1171,6 +1199,7 @@
       </row>
       <row>
         <action>Change0</action>
+        <bind>Control+0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1190,6 +1219,7 @@
       </row>
       <row>
         <action>Change1</action>
+        <bind>Control+1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -1209,6 +1239,7 @@
       </row>
       <row>
         <action>Change2</action>
+        <bind>Control+2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -1228,6 +1259,7 @@
       </row>
       <row>
         <action>Change3</action>
+        <bind>Control+3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -1247,6 +1279,7 @@
       </row>
       <row>
         <action>Change4</action>
+        <bind>Control+4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -1266,6 +1299,7 @@
       </row>
       <row>
         <action>Change5</action>
+        <bind>Control+5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -1285,6 +1319,7 @@
       </row>
       <row>
         <action>Change6</action>
+        <bind>Control+6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -1303,6 +1338,7 @@
       </row>
       <row>
         <action>Change7</action>
+        <bind>Control+7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -1321,6 +1357,7 @@
       </row>
       <row>
         <action>Change8</action>
+        <bind>Control+8</bind>
       </row>
       <row>
         <action>Insert8</action>

@@ -25,6 +25,7 @@
 struct callbackdata
 {
   DenemoPrefs *prefs;
+  GtkWidget *shortcut_filename;
   GtkWidget *lilypath;
   GtkWidget *midi_audio_output;
   GtkWidget *immediateplayback;
@@ -131,7 +132,7 @@ set_preferences (struct callbackdata *cbdata)
 #define ASSIGNCOMBO2(field) \
   prefs->field = get_midi_audio_pointer(\
     (gchar *) gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (cbdata->field)->entry)));
-
+  ASSIGNTEXT(shortcut_filename)
   ASSIGNTEXT(lilypath)
   ASSIGNTEXT(browser) 
   ASSIGNTEXT(pdfviewer)
@@ -394,7 +395,7 @@ preferences_change (GtkAction *action, gpointer param)
   //  TEXTENTRY("Strict", strictshortcuts)
   BOOLEANENTRY("Apply commands to selection if present", applytoselection);  
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
-
+  TEXTENTRY("Shortcut File", shortcut_filename);
   /*
    * External (Helper) Programs 
    */

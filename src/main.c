@@ -496,17 +496,17 @@ main (int argc, char *argv[])
 
   register_stock_items ();
 
-#define choice1 "Simple Use"
+#define choice1 "Default"
 #define choice2 "Composer"
 #define choice3 "Arranger"
 
   if(first_time_user()) {
-    infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more");// this  should always appear on top of the main window.
+    // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
 
     gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1);
     if(choice==NULL)
       choice = choice1;
-    Denemo.prefs.shortcut_filename = g_build_filename(get_data_dir(), "actions", choice, NULL);
+    Denemo.prefs.shortcut_filename = g_string_new( g_build_filename(get_data_dir(), "actions", g_strconcat(choice, ".commands", NULL), NULL));
 #undef choice1
 #undef choice2
 #undef choice3
@@ -712,7 +712,9 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   if (dir)
     g_dir_close (dir);
 
-
+  if(commandsetfile==NULL)
+    if(Denemo.prefs.shortcut_filename!=NULL && (Denemo.prefs.shortcut_filename->len))
+      commandsetfile = Denemo.prefs.shortcut_filename->str;
 
   if(commandsetfile && (0==load_xml_keymap(commandsetfile, TRUE)))
     ;
