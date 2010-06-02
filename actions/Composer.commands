@@ -36,6 +36,7 @@
       </row>
       <row>
         <action>CursorRight</action>
+        <hidden>true</hidden>
         <label>Cursor Right</label>
         <tooltip>Moves the cursor one object right, altering the selection if any</tooltip>
       </row>
@@ -973,6 +974,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleAccent</action>
+        <hidden>true</hidden>
         <label>Accent (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -983,11 +985,13 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleStaccato</action>
+        <hidden>true</hidden>
         <label>Staccato (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
         <action>ToggleTenuto</action>
+        <hidden>true</hidden>
         <label>Tenuto (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1008,6 +1012,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
+        <hidden>true</hidden>
         <label>Staccatissimo  (Off/On)</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -1084,6 +1089,7 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>ToggleGrace</action>
+        <hidden>true</hidden>
         <label>Grace Note Off/On</label>
         <tooltip>Makes the note at the cursor a grace note, if it is one, makes it normal</tooltip>
       </row>
@@ -1669,13 +1675,6 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
-        <action>AddNoteA</action>
-        <label>Insert A After</label>
-        <tooltip>Inserts note A after note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
         <action>AddA</action>
         <label>Add A</label>
         <tooltip>Adds note A to the chord at cursor
@@ -1696,13 +1695,6 @@ Rhythm is unchanged</tooltip>
         <action>InsertB</action>
         <label>Insert B</label>
         <tooltip>Inserts note B before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
-        <action>AddNoteB</action>
-        <label>Insert B After</label>
-        <tooltip>Inserts note B after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -1731,13 +1723,6 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
-        <action>AddNoteC</action>
-        <label>Insert C After</label>
-        <tooltip>Inserts note C after note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
         <action>AddC</action>
         <label>Add C</label>
         <tooltip>Adds note C to the chord at cursor
@@ -1758,13 +1743,6 @@ Rhythm is unchanged</tooltip>
         <action>InsertD</action>
         <label>Insert D</label>
         <tooltip>Inserts note D before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
-        <action>AddNoteD</action>
-        <label>Insert D After</label>
-        <tooltip>Inserts note D after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -1793,13 +1771,6 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
-        <action>AddNoteE</action>
-        <label>Insert E After</label>
-        <tooltip>Inserts note E after note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
         <action>AddE</action>
         <label>Add E</label>
         <tooltip>Adds note E to the chord at cursor
@@ -1824,13 +1795,6 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
       <row>
-        <action>AddNoteF</action>
-        <label>Insert F After</label>
-        <tooltip>Inserts note F after note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
         <action>AddF</action>
         <label>Add F</label>
         <tooltip>Adds note F to the chord at cursor
@@ -1851,13 +1815,6 @@ Rhythm is unchanged</tooltip>
         <action>InsertG</action>
         <label>Insert G</label>
         <tooltip>Inserts note G before note at cursor
-Cursor determines which octave
-Note is inserted in the prevailing rhythm</tooltip>
-      </row>
-      <row>
-        <action>AddNoteG</action>
-        <label>Insert G After</label>
-        <tooltip>Inserts note G after note at cursor
 Cursor determines which octave
 Note is inserted in the prevailing rhythm</tooltip>
       </row>
@@ -2196,7 +2153,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>MoveNoteToCursor</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>To Cursor</label>
         <tooltip>Moves the nearest note to join the cursor</tooltip>
       </row>
@@ -2224,35 +2181,35 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>FiguredBassFilterOn</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>
       <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Filter Off</label>
         <tooltip>Turn off any MIDI filter script currently active.</tooltip>
       </row>
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
       <row>
         <action>MidiAdvanceOnEdit</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
       </row>
       <row>
         <action>AngryDelete</action>
         <scheme></scheme>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
         <label>Angry Delete</label>
         <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
       </row>
@@ -2498,14 +2455,14 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>CautionaryAccidental</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>Cautionary Accidental</label>
         <tooltip>Forces the accidental on the note to be printed.</tooltip>
       </row>
       <row>
         <action>ReminderAccidental</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditModeNote/EditNote</menupath>
         <label>Reminder Accidental</label>
         <tooltip>Shows the accidental in the print out inside (). Display shows accidental but plain.</tooltip>
       </row>
@@ -3457,6 +3414,46 @@ for second and subsequent systems</tooltip>
         <tooltip>Determine which seventh chord is sounded</tooltip>
       </row>
       <row>
+        <action>AddDotSelectionSwitcher</action>
+        <after>AddDot</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/InsertModeNote/SelectDuration</menupath>
+        <label>Add Dot</label>
+        <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccato (On/Off)</label>
+        <tooltip>Adds the staccato dot or removes it</tooltip>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <after>ToggleStaccatissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccatissimo (On/Off)</label>
+        <tooltip>Toggles Staccatissimo</tooltip>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <after>ToggleTenuto</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Tenuto (On/Off)</label>
+        <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Accent (On/Off)</label>
+        <tooltip>Adds the &gt; accent</tooltip>
+      </row>
+      <row>
         <action>ReloadDrumHash</action>
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
@@ -3535,6 +3532,13 @@ for second and subsequent systems</tooltip>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
       </row>
       <row>
+        <action>GraceNoteSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Grace Note (On/Off)</label>
+        <tooltip>Transforms the current selected notes into grace notes.</tooltip>
+      </row>
+      <row>
         <action>ToggleCursorHighlight</action>
         <after>OctaveDown</after>
         <scheme></scheme>
@@ -3561,22 +3565,6 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <label>Go To Measure End</label>
         <tooltip>Move the Cursor to the end of the measure</tooltip>
-      </row>
-      <row>
-        <action>ExtendSlur</action>
-        <after>SlurTwo</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
-        <label>Extend Slur</label>
-        <tooltip>Extends the slur finishing at the cursor.</tooltip>
-      </row>
-      <row>
-        <action>ReduceSlur</action>
-        <after>ExtendSlur</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
-        <label>Shorten Slur from End</label>
-        <tooltip>Shorten a slur that ends at the cursor.</tooltip>
       </row>
     </map>
   </commands>

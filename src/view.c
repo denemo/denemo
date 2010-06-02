@@ -2889,10 +2889,10 @@ void inner_main(void*closure, int argc, char **argv){
   if(Denemo.prefs.autoupdate)
     fetchcommands(NULL, NULL);
   gchar *initial_file = process_command_line(argc, argv);
-  gtk_widget_hide (Denemo.InsertModeMenu);
-  gtk_widget_hide (Denemo.EditModeMenu);
-  gtk_widget_hide (Denemo.ClassicModeMenu);
-  gtk_widget_hide (Denemo.ModelessMenu);
+  //  gtk_widget_hide (Denemo.InsertModeMenu);
+  //  gtk_widget_hide (Denemo.EditModeMenu);
+  //  gtk_widget_hide (Denemo.ClassicModeMenu);
+  //  gtk_widget_hide (Denemo.ModelessMenu);
 
   //insert mode on startup - should be a pref FIXME
   //FIXME same code in switch page
@@ -5855,6 +5855,7 @@ GtkActionEntry menu_entries[] = {
 
 static
 GtkWidget *get_edit_menu_for_mode(gint mode) {
+  return NULL;
   if(mode&INPUTEDIT)
     return Denemo.EditModeMenu;
   if(mode&INPUTINSERT)

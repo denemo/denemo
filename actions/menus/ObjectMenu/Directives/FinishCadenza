@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>CadenzaOn</after>
+        <action>FinishCadenza</action>
+        <scheme>;;; FinishCadenza
+(d-Directive-standalone "Cadenza")
+(d-DirectivePut-standalone-postfix "Cadenza" "\\cadenzaOff")
+(d-DirectivePut-chord-display "Cadenza"  "Finish Cadenza")
+(d-DirectivePut-standalone-minpixels "Cadenza"  30)
+(d-RefreshDisplay)
+</scheme>
+        <label>End Cadenza</label>
+        <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -16,6 +16,7 @@
       </cursors>
       <row>
         <action>CursorLeft</action>
+        <bind>Shift+Left</bind>
       </row>
       <row>
         <action>MoveCursorLeft</action>
@@ -79,9 +80,11 @@
       </row>
       <row>
         <action>MeasureLeft</action>
+        <bind>Shift+Control+Left</bind>
       </row>
       <row>
         <action>MeasureRight</action>
+        <bind>Shift+Control+Right</bind>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
@@ -250,13 +253,10 @@
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>KP_Add</bind>
-        <bind>equal</bind>
         <bind>plus</bind>
       </row>
       <row>
         <action>Flatten</action>
-        <bind>KP_Subtract</bind>
         <bind>minus</bind>
       </row>
       <row>
@@ -292,15 +292,12 @@
       </row>
       <row>
         <action>AddMeasure</action>
-        <bind>n</bind>
       </row>
       <row>
         <action>InsertMeasureBefore</action>
-        <bind>M</bind>
       </row>
       <row>
         <action>InsertMeasureAfter</action>
-        <bind>N</bind>
       </row>
       <row>
         <action>AppendMeasure</action>
@@ -620,22 +617,28 @@
       <row>
         <action>ToggleBeginSlur</action>
         <bind>parenleft</bind>
+        <bind>PrsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
         <bind>parenright</bind>
+        <bind>RlsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
+        <bind>PrsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndCrescendo</action>
+        <bind>RlsL-Shift-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartDiminuendo</action>
+        <bind>PrsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleEndDiminuendo</action>
+        <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
         <action>ToggleAccent</action>
@@ -646,14 +649,12 @@
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <bind>backslash</bind>
       </row>
       <row>
         <action>ToggleTurn</action>
@@ -663,7 +664,6 @@
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>colon</bind>
       </row>
       <row>
         <action>ToggleCoda</action>
@@ -710,7 +710,6 @@
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>slash</bind>
       </row>
       <row>
         <action>ForceCaution</action>
@@ -733,11 +732,9 @@
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>Shift+KP_Add</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>Shift+KP_Subtract</bind>
       </row>
       <row>
         <action>New</action>
@@ -1029,11 +1026,9 @@
       </row>
       <row>
         <action>NextMovement</action>
-        <bind>Shift+Control+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Shift+Control+Left</bind>
       </row>
       <row>
         <action>DeleteMovement</action>
@@ -1090,10 +1085,6 @@
         <action>InsertA</action>
       </row>
       <row>
-        <action>AddNoteA</action>
-        <bind>A</bind>
-      </row>
-      <row>
         <action>AddA</action>
       </row>
       <row>
@@ -1104,10 +1095,6 @@
       </row>
       <row>
         <action>InsertB</action>
-      </row>
-      <row>
-        <action>AddNoteB</action>
-        <bind>B</bind>
       </row>
       <row>
         <action>AddB</action>
@@ -1122,10 +1109,6 @@
         <action>InsertC</action>
       </row>
       <row>
-        <action>AddNoteC</action>
-        <bind>C</bind>
-      </row>
-      <row>
         <action>AddC</action>
       </row>
       <row>
@@ -1136,10 +1119,6 @@
       </row>
       <row>
         <action>InsertD</action>
-      </row>
-      <row>
-        <action>AddNoteD</action>
-        <bind>D</bind>
       </row>
       <row>
         <action>AddD</action>
@@ -1154,10 +1133,6 @@
         <action>InsertE</action>
       </row>
       <row>
-        <action>AddNoteE</action>
-        <bind>E</bind>
-      </row>
-      <row>
         <action>AddE</action>
       </row>
       <row>
@@ -1168,10 +1143,6 @@
       </row>
       <row>
         <action>InsertF</action>
-      </row>
-      <row>
-        <action>AddNoteF</action>
-        <bind>F</bind>
       </row>
       <row>
         <action>AddF</action>
@@ -1186,10 +1157,6 @@
         <action>InsertG</action>
       </row>
       <row>
-        <action>AddNoteG</action>
-        <bind>G</bind>
-      </row>
-      <row>
         <action>AddG</action>
       </row>
       <row>
@@ -1200,13 +1167,10 @@
       </row>
       <row>
         <action>0</action>
-        <bind>KP_Insert</bind>
         <bind>0</bind>
       </row>
       <row>
         <action>Change0</action>
-        <bind>KP_0</bind>
-        <bind>Control+0</bind>
       </row>
       <row>
         <action>Insert0</action>
@@ -1222,13 +1186,10 @@
       </row>
       <row>
         <action>1</action>
-        <bind>KP_End</bind>
         <bind>1</bind>
       </row>
       <row>
         <action>Change1</action>
-        <bind>KP_1</bind>
-        <bind>Control+1</bind>
       </row>
       <row>
         <action>Insert1</action>
@@ -1244,13 +1205,10 @@
       </row>
       <row>
         <action>2</action>
-        <bind>KP_Down</bind>
         <bind>2</bind>
       </row>
       <row>
         <action>Change2</action>
-        <bind>KP_2</bind>
-        <bind>Control+2</bind>
       </row>
       <row>
         <action>Insert2</action>
@@ -1266,13 +1224,10 @@
       </row>
       <row>
         <action>3</action>
-        <bind>KP_Page_Down</bind>
         <bind>3</bind>
       </row>
       <row>
         <action>Change3</action>
-        <bind>KP_3</bind>
-        <bind>Control+3</bind>
       </row>
       <row>
         <action>Insert3</action>
@@ -1288,13 +1243,10 @@
       </row>
       <row>
         <action>4</action>
-        <bind>KP_Left</bind>
         <bind>4</bind>
       </row>
       <row>
         <action>Change4</action>
-        <bind>KP_4</bind>
-        <bind>Control+4</bind>
       </row>
       <row>
         <action>Insert4</action>
@@ -1310,13 +1262,10 @@
       </row>
       <row>
         <action>5</action>
-        <bind>KP_Begin</bind>
         <bind>5</bind>
       </row>
       <row>
         <action>Change5</action>
-        <bind>KP_5</bind>
-        <bind>Control+5</bind>
       </row>
       <row>
         <action>Insert5</action>
@@ -1332,13 +1281,10 @@
       </row>
       <row>
         <action>6</action>
-        <bind>KP_Right</bind>
         <bind>6</bind>
       </row>
       <row>
         <action>Change6</action>
-        <bind>KP_6</bind>
-        <bind>Control+6</bind>
       </row>
       <row>
         <action>Insert6</action>
@@ -1354,12 +1300,9 @@
       </row>
       <row>
         <action>7</action>
-        <bind>7</bind>
       </row>
       <row>
         <action>Change7</action>
-        <bind>KP_7</bind>
-        <bind>Control+7</bind>
       </row>
       <row>
         <action>Insert7</action>
@@ -1375,12 +1318,9 @@
       </row>
       <row>
         <action>8</action>
-        <bind>8</bind>
       </row>
       <row>
         <action>Change8</action>
-        <bind>KP_8</bind>
-        <bind>Control+8</bind>
       </row>
       <row>
         <action>Insert8</action>
@@ -1707,9 +1647,11 @@
       </row>
       <row>
         <action>Diminish</action>
+        <bind>KP_Subtract</bind>
       </row>
       <row>
         <action>Augment</action>
+        <bind>KP_Add</bind>
       </row>
       <row>
         <action>WholeMeasureRest</action>
@@ -1920,6 +1862,26 @@
         <action>Major7Minor7OrDominant7</action>
       </row>
       <row>
+        <action>AddDotSelectionSwitcher</action>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <bind>semicolon</bind>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <bind>colon</bind>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <bind>underscore</bind>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <bind>greater</bind>
+        <bind>exclam</bind>
+      </row>
+      <row>
         <action>ReloadDrumHash</action>
       </row>
       <row>
@@ -1954,6 +1916,10 @@
         <action>CloseReopenRepeat</action>
       </row>
       <row>
+        <action>GraceNoteSwitcher</action>
+        <bind>slash</bind>
+      </row>
+      <row>
         <action>ToggleCursorHighlight</action>
         <bind>grave</bind>
       </row>
@@ -1963,17 +1929,10 @@
       </row>
       <row>
         <action>SplitMeasure</action>
+        <bind>n</bind>
       </row>
       <row>
         <action>GoToMeasureEnd</action>
-      </row>
-      <row>
-        <action>ExtendSlur</action>
-        <bind>KP_Up</bind>
-      </row>
-      <row>
-        <action>ReduceSlur</action>
-        <bind>KP_Home</bind>
       </row>
     </map>
   </merge>

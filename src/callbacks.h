@@ -2269,6 +2269,83 @@ static void InsertG(GtkAction *action, gpointer param){
   score_status(gui, TRUE);
   displayhelper(gui);
 }
+static void AddNoteA(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_A_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteB(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_B_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteC(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_C_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteD(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_D_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteE(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_E_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteF(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_F_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
+static void AddNoteG(GtkAction *action, gpointer param){
+  DenemoGUI *gui = Denemo.gui;
+  movecursorright(NULL);
+  gint mode = gui->mode;
+  gui->mode = INPUTINSERT|INPUTNORMAL;
+  go_to_G_key(gui);
+  gui->mode = mode;
+  movecursorleft(NULL);
+  score_status(gui, TRUE);
+  displayhelper(gui);
+}
 static void AddA(GtkAction *action, gpointer param){
   DenemoGUI *gui = Denemo.gui;
   gint mode = gui->mode;

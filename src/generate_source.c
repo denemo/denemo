@@ -523,7 +523,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Text and symbol Markings", N_("TextMarks"), NULL, N_("Text/Symbol")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Commands for Stringed Instruments", "Strings", NULL, N_("Strings")}, 
 
-  {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Entry" , N_("Note Entry")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Inserting the note ...", N_("InsertNote"), NULL, "Note Insertion" , N_("Note Insertion")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Lyrics", N_("Lyrics"), NULL, N_("Lyrics")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Standalone Directives", N_("Directives"), NULL, N_("Directives")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving around the piece", N_("Navigation"), NULL, N_("Navigation")}, 
@@ -537,7 +537,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Changing the prevailing duration or rhythm pattern", N_("SelectDuration"), NULL, N_("Select Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Appending, Changing, and deleting notes", N_("EditModeNote"), NULL, N_("Append/Edit")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Appending or Editing notes", N_("EditNote"), NULL, N_("Append/Edit Note")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Appending or Editing durations", N_("EditDuration"), NULL, N_("Append/Edit Duration")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Appending or Editing durations", N_("EditDuration"), NULL, N_("Append/Insert Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor", N_("Cursor"), NULL, N_("Cursor")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Moving the cursor to note positions", N_("CursorToNote"), NULL, N_("Cursor to Note")}, 
 
@@ -557,11 +557,11 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Changing properties of notes, measures, staffs, keysigs etc", N_("Change"), NULL, N_("Change")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("ModelessNote"), NULL, N_("Notes/Durations")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Actions for notes/rests", N_("NotesRests"), NULL, N_("Notes/Rests")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Modeless entry of rests", N_("RestEntry"), NULL, N_("Rest Entry")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Modeless entry of rests", N_("RestEntry"), NULL, N_("Rest Insertion")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Editing directives", N_("EditDirectivesMenu"), NULL, N_("Edit Directive(s)")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changing the note at the cursor to the nearest ...", N_("ChangeNote"), NULL, N_("Change Note")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL, N_("Change Duration")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current note", N_("ChangeDuration"), NULL, N_("Edit Duration")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changes the duration of the current rest", N_("ChangeRest"), NULL, N_("Change Rest")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Dynamics, staccato, slurs, ties and other expressive marks", N_("ExpressionMarks"), NULL, "Expression Marks", N_("Expression Marks")},
   //  {CMD_CATEGORY_DIRECT, NULL, "Markings above and below the music", N_("Markings"), NULL, "Markings", N_("Markings")},
@@ -786,6 +786,9 @@ int main() {
     fprintf(entries,
 " {\"Insert%c\", NULL, N_(\"Insert %c\"), NULL, N_(\"Inserts note %c before note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
 "  G_CALLBACK (Insert%c)},\n"
+" {\"AddNote%c\", NULL, N_(\"Insert %c After\"), NULL, N_(\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\"),\n"
+"  G_CALLBACK (AddNote%c)},\n"
+
 
 " {\"Add%c\", NULL, N_(\"Add %c to Chord\"), NULL, N_(\"Adds note %c to chord at cursor\\nCursor determines which octave\"),\n"
 "  G_CALLBACK (Add%c)},\n"
@@ -795,7 +798,7 @@ int main() {
 "  {\"MoveTo%c\", NULL, N_(\"Move cursor to step %c\"), NULL, N_(\"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\"),\n"
 "   G_CALLBACK (MoveTo%c)},\n"
 
-	    ,i,i,i,i	    ,i ,i ,i ,i ,i ,i ,i ,i ,i, i, i, i, i);
+     ,i,i,i,i	    ,i,i,i,i	    ,i ,i ,i ,i ,i ,i ,i ,i ,i, i, i, i, i);
 
   }
 
@@ -844,6 +847,20 @@ int main() {
 "  displayhelper(gui);\n"
 	    "}\n", i, i);
   }
+ for(i='A';i<='G';i++) {
+    fprintf(callbacks,
+"static void AddNote%c(GtkAction *action, gpointer param){\n"
+"  DenemoGUI *gui = Denemo.gui;\n"
+"  movecursorright(NULL);\n"
+"  gint mode = gui->mode;\n"
+"  gui->mode = INPUTINSERT|INPUTNORMAL;\n"
+"  go_to_%c_key(gui);\n"
+"  gui->mode = mode;\n"
+"  movecursorleft(NULL);\n"
+"  score_status(gui, TRUE);\n"
+"  displayhelper(gui);\n"
+	    "}\n", i, i);
+  }
 
   for(i='A';i<='G';i++) {
 
@@ -866,6 +883,11 @@ int main() {
       fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"Insert%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
       fprintf(scheme, "SCM scheme_Insert%c(SCM optional);\ninstall_scm_function (\"d-Insert%c\", scheme_Insert%c);\n", i, i, i);// for direct callback via (scheme_xxx)
       fprintf(scheme_cb, "SCM scheme_Insert%c (SCM optional) {\nInsert%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
+    fprintf(register_commands,
+	    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"AddNote%c\"), \"AddNote%c\", \"Insert %c After\",\"Inserts note %c after note at cursor\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",  AddNote%c);\n", i,i,i,i,i);
+      fprintf(scheme, "g_object_set_data(G_OBJECT(action_of_name(Denemo.map, \"AddNote%c\")), \"scm\", (gpointer)1);\n", i); //define a property "scm" on the action to mean scheme can call the action.
+      fprintf(scheme, "SCM scheme_AddNote%c(SCM optional);\ninstall_scm_function (\"d-AddNote%c\", scheme_AddNote%c);\n", i, i, i);// for direct callback via (scheme_xxx)
+      fprintf(scheme_cb, "SCM scheme_AddNote%c (SCM optional) {\nAddNote%c (NULL, NULL);\nreturn SCM_BOOL(TRUE);\n}\n", i,  i);
 
 
     fprintf(register_commands,
