@@ -5142,7 +5142,7 @@ static void saveMenuItem (GtkWidget *widget, GtkAction *action) {
   gchar *filename = g_build_filename (locatedotdenemo (), "actions","menus", menupath, name,
 				      NULL);
   gchar *scheme = getSchemeText();
-  if(scheme && *scheme && confirm("Save Script", "Over-write previous version of this script?")) {
+  if(scheme && *scheme && confirm("Save Script", g_strconcat("Over-write previous version of the script for ", name, " ?", NULL))) {
     gchar *dirpath = g_path_get_dirname(filename);
     g_mkdir_with_parents(dirpath, 0770);
     g_free(dirpath);
