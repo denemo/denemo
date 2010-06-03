@@ -763,123 +763,6 @@ The menus in Denemo are unusual: they not only let you do some particular action
 
 
 
-    <sect2>
-      <title>Mode</title>
-
-      <para>Use the<guimenu> Mode</guimenu> menu to switch modes or choose to use modelessly. The different modes are useful for different ways or phases of work.</para>
-    <para>  With the standard keyboard shortcuts the modes work like this:</para>
-
-        <itemizedlist>
-
-
-	  <listitem>
-	         <para>No Mode. No standard keypresses are defined – you will need to assign keys yourself. You will need to define separate keypresses to insert the notes, change the notes, move the cursor to a note, change the prevailing duration, etc. This mode is for those who want to set up the keys to have single functions. The cursor is green in this mode. This mode gives easy access via the menus for the actions that do not change with modes.
-		 </para>
-          </listitem>
-
-	  <listitem>
-	         <para>Insert Mode. In this mode the keys 0,1,2... select the prevailing duration (whole-note, half-note ...) while the Note name keys A,B,C ... insert a note of that name in the prevailing duration. The octave is the one nearest the cursor. The cursor is green in this mode. This mode is good for entering single line music.
-		 </para>
-          </listitem>
-
-	  <listitem>
-	         <para>Edit Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the current cursor position, while the Note name keys A,B,C ... change the note at the cursor to A,B,C.... The cursor is purple. This mode is good for editing music already entered and for entering pure rhythms (all notes on the same pitch, for overlaying pitches via microphone input later). You can also enter music in this mode - you type the duration key (which inserts a note) and then the Note name key, which edits it to the one you want.
-		 </para>
-          </listitem>
-
-	  <listitem>
-	         <para>Classic Mode. In this mode the keys 0,1,2... insert a note (whole-note, half-note ...) at the cursor position, while the Note name keys A,B,C ... move the cursor. The cursor is green. This mode is good for entering music with chords (Enter is the standard keybinding for this).
-		 </para>
-          </listitem>
-       	  <listitem>
-	         <para> Entry types: Note, Rest, Non-Printing Rests, Audible Feedback. These are used with the above modes to control what is entered. The unusual one here is Audible Feedback, which gives audio feedback when entering note durations, enabling you to enter rhythms without looking at the screen to check that you have entered the correct duration. Non-Printing rests allows you to make a part vanish and return when writing several parts to a staff.
-		 </para>
-          </listitem>
-       
-       </itemizedlist>
-
-      
-
-      <informaltable>
-        <tgroup cols="2">
-          <thead>
-            <row>
-              <entry>Menu Item</entry>
-
-              <entry>Description</entry>
-            </row>
-          </thead>
-
-          <tbody>
-            <row>
-              <entry>No Mode</entry>
-
-              <entry>Switch Note/Rest menu to actions that are the same regardless of mode.</entry>
-            </row>
-            <row>
-              <entry>Insert</entry>
-
-              <entry>Switch to insert mode.</entry>
-            </row>
-            <row>
-              <entry>Edit</entry>
-
-              <entry>Switch to Edit mode.</entry>
-            </row>
-
-            <row>
-              <entry>Classic</entry>
-
-              <entry>Switch to the original denemo mode.</entry>
-            </row>
-
-            <row>
-              <entry>Note</entry>
-
-              <entry>Switch to entering notes.</entry>
-            </row>
-
-            <row>
-              <entry>Non Printing Rests</entry>
-
-              <entry>Switch to entering rests which just occupy space and time but will not appear in the score.</entry>
-            </row>
-
-
-            <row>
-              <entry>Rest</entry>
-
-              <entry>Switch to entering rests.</entry>
-            </row>
-           <row>
-              <entry>Audible Feedback</entry>
-
-              <entry>Switch to Audible Feedback for entry via keyboard. Each duration has its own audio feedback. During pitch entry via Audio or MIDI the cursor advances automatically</entry>
-            </row>
-
-            <row>
-              <entry>Toggle Edit</entry>
-
-              <entry>Toggle between current mode and Edit mode.</entry>
-            </row>
-
-            <row>
-              <entry>Toggle Rest</entry>
-
-              <entry>Toggle between entering notes and entering rests.</entry>
-            </row>
-
-            <row>
-              <entry>Toggle Audible Feedback</entry>
-
-              <entry>Toggle Audible Feedback off/on.</entry>
-            </row>
-
-          </tbody>
-        </tgroup>
-      </informaltable>
-    </sect2>
-
      <sect2>
       <title>Input</title>
        <para>Choose whether to use external sources (Audio from the Mic input or MIDI) for Denemo. To use these you may need to review the settings in Edit->Prefs first.</para>
@@ -1120,10 +1003,13 @@ Update Commands from the Internet allows you to get the latest versions of comma
   </sect1>
 
 
-
     <sect1>
       <title>Playback Controls</title>
-
+<mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/playbackcontrols.png" />
+                  </imageobject>
+                </mediaobject>
       <para>Use this frame to control MIDI playback of the current movement. It has  the following controls:</para>
 
       <informaltable>
@@ -1164,18 +1050,28 @@ Update Commands from the Internet allows you to get the latest versions of comma
                   </imageobject>
                 </mediaobject></entry>
 
-              <entry>Runs DenemoGoBack script.</entry>
+              <entry>Moves the start playback position backwards. Runs DenemoGoBack script.</entry>
+            </row>
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/goup.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Sets start playback position to cursor. Runs DenemoStartToCursor script.</entry>
             </row>
 
 
 	    <row>
               <entry><mediaobject>
                   <imageobject>
-                    <imagedata fileref="images/prev.png" />
+                    <imagedata fileref="images/next.png" />
                   </imageobject>
                 </mediaobject></entry>
 
-              <entry>Runs DenemoPrevious script.</entry>
+              <entry>Moves the start playback position forwards. Runs DenemoNext script.</entry>
             </row>
 
 	    <row>
@@ -1207,6 +1103,18 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
               <entry>Runs DenemoPlay script.</entry>
             </row>
+
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/record.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Starts playing back while recording from MIDI-in.(Runs DenemoRecord scriptto do this).</entry>
+            </row>
+
+
 	    <row>
               <entry><mediaobject>
                   <imageobject>
@@ -1214,7 +1122,16 @@ Update Commands from the Internet allows you to get the latest versions of comma
                   </imageobject>
                 </mediaobject></entry>
 
-              <entry>Runs DenemoGoForward script.</entry>
+              <entry>Moves the end playback position backwards.Runs DenemoGoForward script.</entry>
+            </row>
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/down.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Sets the end playback position to the cursor.Runs DenemoEndToCursor script.</entry>
             </row>
 	    <row>
               <entry><mediaobject>
@@ -1223,16 +1140,34 @@ Update Commands from the Internet allows you to get the latest versions of comma
                   </imageobject>
                 </mediaobject></entry>
 
-              <entry>Runs DenemoLast script.</entry>
+              <entry>Moves the end playback position forwards. Runs DenemoLast script.</entry>
             </row>
 	    <row>
               <entry>Loop</entry>
               <entry>Runs DenemoLoop script.</entry>
             </row>
+
+	    <row>
+              <entry>Reset</entry>
+              <entry>Internal Synth only. Performs a reset on the synth.</entry>
+            </row>
+	    <row>
+              <entry>Panic</entry>
+              <entry>Jack only. Emits jack panic.</entry>
+            </row>
+
+	    <row>
+              <entry>Set from Selection</entry>
+              <entry>Sets the selection to be the start/end. Note first use in a session is buggy.</entry>
+            </row>
 	    
 	    <row>
               <entry>Tempo</entry>
-              <entry>For movements with a single tempo this tempo is changed for rest of the playback. If the movement has an embedded MIDI tempo change, the change will be altered proportionally. The movement tempo setting itself is not altered - you are just altering the playback.(See Movements->MIDI Tempo for setting that)</entry>
+              <entry>For movements with a single tempo this tempo is changed for rest of the playback. If the movement has an embedded MIDI tempo change, the change will be altered proportionally. The movement tempo setting itself is not altered - you are just altering the playback.(See next button or Movements->MIDI Tempo for setting that)</entry>
+            </row>
+	    <row>
+              <entry>Set Tempo</entry>
+              <entry>Sets the overall tempo of the movement to the value fixed by the Tempo slider</entry>
             </row>
 	    
 	    <row>
@@ -1243,19 +1178,63 @@ Update Commands from the Internet allows you to get the latest versions of comma
               <entry>Set</entry>
               <entry>Calls the DenemoSetPlaybackIntervalToSelection script.</entry>
             </row>
-	    <row>
-              <entry>Playback Range</entry>
-              <entry>Runs a dialog to get start and end times for playback.</entry>
-            </row>
-	    <row>
-              <entry>Reset</entry>
-              <entry>Internal Synth only. Performs a reset on the synth.</entry>
-            </row>
-	    <row>
-              <entry>Panic</entry>
-              <entry>Jack only. Emits jack panic.</entry>
-            </row>
+	   
+	   
+          </tbody>
+        </tgroup>
+      </informaltable>
+  </sect1>
 
+
+    <sect1>
+      <title>Midi In Controls</title>
+<mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/midiincontrols.png" />
+                  </imageobject>
+                </mediaobject>
+      <para>Use this frame to control MIDI input to the current movement. It has  the following controls:</para>
+
+      <informaltable>
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>Icon</entry>
+
+              <entry>Description</entry>
+            </row>
+          </thead>
+
+          <tbody>
+	    
+	    <row>
+              <entry><mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/enharmonicselection.png" />
+                  </imageobject>
+                </mediaobject></entry>
+
+              <entry>Sets the end sharps and flats to use.</entry>
+            </row>
+	   
+	      <row>
+		<entry>MIDI-&gt;Score</entry>
+              <entry>Directs the MIDI in to the score or to a MIDI recorder. The MIDI recorder is active when Record button is pressed. When you wish to return to score editing, this button re-directs MIDI-in to the score.</entry>
+            </row>
+	   
+            <row>
+		<entry>Delete</entry>
+              <entry>Deletes your MIDI recording.</entry>
+            </row>
+	   
+           <row>
+		<entry>Convert</entry>
+              <entry>Converts your MIDI recording to Notation. Not yet at all practical!</entry>
+            </row>
+	   
+	      
+	      
+	   
 	   
           </tbody>
         </tgroup>
