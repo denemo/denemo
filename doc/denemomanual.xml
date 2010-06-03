@@ -1363,8 +1363,8 @@ Update Commands from the Internet allows you to get the latest versions of comma
 
 
  <sect1>
-    <title>Rhythm Patterns</title>
-    <para>The Rhythm Pattern toolbar lets you enter music following a rhythmic pattern. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Pattern you install that pattern on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several custom patterns like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the Mode->Audible Feedback option for this, so that you get a bell to confirm when you have completed a measure.</para>
+    <title>Music Snippets</title>
+    <para>The Music Snippet toolbar lets you keep a number of snippets of music for pasting into your score. You can enter notes following a rhythmic pattern of a snippet. If you have a pattern in your music that appears many times you only need to type it once. By selecting it and clicking Create Snippet you install that snippet on the toolbar. Then as you enter notes (in Insert Mode) the notes follow the rhythmic pattern chosen. Pressing a duration key goes back to adding notes of the prevailing duration. You can have several snippets like this and switch between them using the space bar (or other keybinding of your choice). Another (more musical) way of entering rhythms is to "drum" them in using the keys on the computer keyboard for quarter-note, eighth-note etc, a curious sort of "musical instrument" where you change key for different durations. Use the numeric keypad for this. Drumming in is quickly learnt and, by playing in the notes rhythmically you can keep your place in the music. Use the immediate feedback option for this, so that you get a bell to confirm when you have completed a measure.</para>
  <para>Using Input->Midi or Audio allows you to enter pitches directly. If you have entered your piece of music as pure rhythm you can overlay with the pitches using a MIDI controller or musical instrument with mic, headphones out or pickup attached to your soundcard.
 </para>
 
@@ -1398,17 +1398,6 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
  <para>Most of the other settings would require study of the Aubio documentation to understand, but the one marked threshold may be useful to make the detection less sensitive to ambient noises if using a microphone with an acoustic instrument.</para>
 <para> The best set-up is to plug the headphones-out socket of an electronic keyboard into the mic input, and choose a piano setting on the electronic keyboard.</para>
 <para> If you don't have any musical instrument that you can plug directly into the mic in, then you can use an acoustic instrument with a microphone, in which case move your microphone closer or further from your instrument to get reliable detection. Too close and you get double detections, too far and you get missed ones. To check for good detection open a piece of music, set Overlay mode and put the cursor in the first measure and play the piece in – the notes should all turn blue if you have perfect detection. It is worth while getting perfect detection – more than one or two miss-detects per piece of music and you may want to use the Insert rather than the Overlay method.</para>
-  </sect1>
-
-  <sect1>
-    <title>Understanding Modes</title>
-
-    <para>Modes in Denemo are optional. Denemo has a large number of actions (functions) that it can execute for you, and these are to be found in the View-\>Objects Menu (grouped by objects such as note, measure, clef etc. Some of these functions do different things in different modes. For example the key A is usually bound to a function that moves the cursor to the nearest note A, or inserts a note A, or changes the current note to an A, all depending on which mode is chosen. (There are also entry modes, in rest entry mode instead of a note a rest would be inserted). </para>
- <para>If you dislike modal programs, you will set your shortcuts to the non-modal functions (these are found in the View-\>Objects Menu when Mode-\>No Mode is selected, or in the View-\>Actions Menu.)</para>
-<para>
-When using a MIDI controller to enter pitches, you can just check Audible Feedback, and never have to switch modes, as the cursor automatically moves on for you with this setting. You select rhythms via the keyboard and edit their pitch with the MIDI in.
-</para>
-<para>In addition to the basic Insert and Edit modes there are four entry modes for specialized use. Rest entry is useful for entering a large number of rests. (For single rests it is easier to use a keypress - e.g. Alt-3 for an eighth note). Non-printing rests are used for parts which enter during the course of a measure. Note entry is the default, and if you check the Audible Feedback checkbox the different durations have varied audio feedback and a beep is sounded when Denemo moves to the next measure – this is to help when entering the rhythm of a piece for later overlaying with pitches.</para>
   </sect1>
 
   <sect1>
@@ -9323,85 +9312,23 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
 
 
  <sect1>
-<title>Using the Denemo Classic Mode</title>
+<title>Using the Denemo From the PC keyboard</title>
 
-<sect2 revision="0.75" id="thedriverseat"><para>This section describes how to use the original note entry mode to enter music from the keyboard.</para>
-<para>Lets look at <xref linkend="accidentals"></xref>. We see a c major scale and an arpeggio spread over two octaves. Type the letter 'c', the cursor jumps to the nearest c, (if it is in the wrong octave, type a comma [to go down] , or an apostrophe [to go up]) .  We have reached middle c, we could start moving the cursor up note by note using the k key and then down note by note using the k key. A faster method however is to type the letter name of each note and  moves the cursor to the exact pitch. This holds true for the notes of a chord or arpeggio, we jump to the note by typing the note name and adjust the octave with the command and apostrophe. This works if within an octave. <note><para>Often you will want to enter notes that jump a large interval. To speed up note entry in such circumstances help Denemo determine the direction by moving one step in that direction using the left or right keys. If you have entered a note on middle c and want to enter a b one octave higher, hit the k key before entering the note. Another solution to big leaps would be to first type an apostrophe or comma  to get into the intended octave and only then type the note name.</para></note></para></sect2>
-
-<sect2 revision="0.75"><title>Rhythm Entry in Classic Mode</title><para>Now that we have an idea how to move around the staff we are ready to add note values. Note values are entered using the right hand.   shows the rhythm entry keys as <acronym>0,1,2,3,4,5,6  </acronym>. This yields the following: <emphasis>0</emphasis>= a whole note, <emphasis>1</emphasis> = a half note, <emphasis>2</emphasis> = an quarter note,<emphasis>3</emphasis>= a eigth note,<emphasis>4</emphasis> = a 16th note,  <emphasis>5</emphasis> = a 32nd note, and <emphasis>6</emphasis> = a sixty fourth.  
+    <sect2>
+      <title>Note Entry</title>
+      
+      <para>Basic Note entry is to type a number key 0-8 for the duration of the note followed by a letter key a-g for the note name. If the duration is the same as the last entered note then just the note name is needed. The duration can be dotted with the period key, and the octave adjusted with comma (for down) or apostrophe (for up).
+      </para>
+      <para>When you append music by pressing a duration key you get a pale yellow note, indicating a duration which has not been given a pitch. Once you have pressed a note-name it becomes that note. Prior to that it is a pure rhythm and will play back as a drum beat.
+      </para>
+      <para>
+	When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Control-0,1, etc to do insertion of a duration).
 </para>
-
-</sect2>
-
-<sect2 revision="0.70"><title>Accidentals in Classic Mode</title><figure id="accidentals"><title>Accidentals</title><mediaobject><imageobject><imagedata fileref="images/accidentals.png" align="center" scale="70%" ></imagedata></imageobject></mediaobject></figure><para>Accidentals are added using the plus and minus keys on the keyboard. Double sharps and flats are added with additional pluses and  minuses as needed in any particular key signature.</para><para><xref linkend="accidentals"></xref> shows a chromatic scale starting on middle C and ending on middle C. To add accidentals while typing new notes do the following:</para>
-<procedure>
-
-  <step><para>Enter a middle C eighth note (type c and then the keybinding of the rhythmic value, if you need to adjust the octave use the command and apostrophe)</para></step>
-  <step><para>Enter another middle C eighth note, this time type the plus sign<command> (+)</command> immediately afterwards, a C sharp appears</para></step>
-  <step><para>Enter a D eighth note (type d followed by its rhythmic keybinding)</para></step>
-  <step><para>Enter a D sharp eighth note (type d and its rhythmic keybinding and then +)</para></step>
-  <step><para>Continue adding notes until you have an exact copy of the first two measures of <xref linkend="accidentals"></xref>.</para></step>
-  <step><para>To add flats enter the b eighth note in measure 3 then type a dash <command>(-)</command> a b flat appears.</para></step>
-  <step><para>Continue adding flats until you have and exact copy of measures three and four.</para></step>
-
-
-
-</procedure>
-<para>To add accidentals to existing notation do the following:</para>
-
-<procedure>
-
-  <step><para>Navigate to the note you want to alter using the arrow keys (or your custom keybindings). <note><para>You don't have to be on the exact pitch to add an accidental but make sure to be on the note you want to alter.</para></note></para></step>
-  <step><para>Type a <command>+</command> to alter the pitch up a half step and a <command>-</command> to alter the pitch down a half step.
-
-  <note><para>This will produce alterations based on the pitch of the original note. So that a f sharp will become a f double sharp and an e flat will become an e.</para></note></para></step>
-  
-</procedure>
-
-<note><para>For those familiar with LilyPond, Denemo handles accidentals in a more intuitive fashion. LilyPond requires you to explicitly name each note with an accidental even if it is part of the key signature, Denemo only requires an alteration if the accidental is part of the key signature, and it keeps the alteration for the entire measure. </para></note></sect2>
-
-<sect2 revision="0.75" id="chordsenter"><title>Chord Entry in Classic Mode</title><para>To enter a chord choose a pitch and a rhythm for your base note. 
-Next move the cursor to the next chord tone using the letter name for each note or the up and down keys, hit enter to add the note. To make chord entry easier there is a key binding also for the left hand (Ctrl t)as well. Type Enter to toggle chord tones on and off. This add tones or converts rests to a chord tones. Shift Enter removes tones and switches them to rests.</para>
-
-
-
-<figure id="chords"><title>Chords</title><mediaobject><imageobject><imagedata fileref="images/fig3.png" align="center" scale="70%"></imagedata></imageobject></mediaobject></figure>
-
-<para><xref linkend="chords"></xref> three contains a series of chords. To enter chords:</para> <procedure>
-
-<step><para> Create a new file and save it to a convient location.</para></step>
-
-
-
-
-<step><para> Navigate to the E above middle C.  (type the alphabetical note names or the arrow keys).</para></step>
-
-<step><para>Type an<command> a </command> and <command>1</command>, a half note g appears.</para></step>
-<step><para> Move the cursor to the<command> g</command> one line above and type <command>Enter</command>.</para></step> 
-
-</procedure>
-
-<note><para>To alter  chord tones chromatically, type the plus sign to sharpen the note at the cursor by one half-step and the minus sign to flatten the current note by a half step in the same manner you sharpen or flatten any pitch in Denemo</para></note>
-
-
-<note><para> Entering a chord when you are already at the end of the measure
-(the cursor turns red when this happens) may cause your next note
-to be added to the beginning of the next measure, or even 
-create a next measure if one didn't already exist.</para></note>
-</sect2>
-
-
-
-    <sect2 revision="0.76">
-      <title>Note and Rest Entry Toolbar</title>
-
-      <para>This toolbar can be used to enter notes using the mouse. It also shows what the prevailing duration is, that is what duration of note will be inserted when you press a note name key.</para>
     </sect2>
-
     <sect2>
       <title>Chord Entry</title>
 
-      <para>The standard keybinding for entering notes in a chord is the Enter (aka Return) key. This enters the note at the cursor position making a chord out of the current note/chord. This works in Edit and Insert mode. In Classic mode it works on preceding note as you are appending notes.</para>
+      <para>The standard keybinding for entering notes in a chord is the Insert key. This enters the note at the cursor position making a chord out of the current note/chord. There are also commands to enter a named note which can be given shortcuts if you do a lot of chordal work.</para>
     </sect2>
 
     <sect2>
@@ -9434,6 +9361,11 @@ When you have inserted a LilyPond directive a green bar is printed at that point
     </sect2>
   </sect1>
 
+    <sect2 revision="0.76">
+      <title>Note and Rest Entry Toolbar</title>
+
+      <para>This toolbar can be used to enter notes using the mouse. It also shows what the prevailing duration is, that is what duration of note will be inserted when you press a note name key.</para>
+    </sect2>
 
 
   <sect1 revision="0.75">
