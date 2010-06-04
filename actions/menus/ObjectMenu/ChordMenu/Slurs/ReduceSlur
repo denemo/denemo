@@ -9,10 +9,12 @@
         <action>ReduceSlur</action>
         <scheme>  ;;;ReduceSlur
   (if (d-IsSlurEnd)
-  (begin 
-(d-ToggleEndSlur)
-(d-MoveCursorLeft)
-(d-ToggleEndSlur)))
+  (begin 	
+	(d-ToggleEndSlur)
+	(d-MoveCursorLeft)
+	(if (d-IsSlurStart)
+		(d-ToggleBeginSlur)
+	(d-ToggleEndSlur))))
 
 
 
