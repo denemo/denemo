@@ -2230,35 +2230,35 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>FiguredBassFilterOn</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>
       <row>
         <action>MidiFilterOff</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>MIDI Filter Off</label>
         <tooltip>Turn off any MIDI filter script currently active.</tooltip>
       </row>
       <row>
         <action>CheckPitches</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Check Note Pitches</label>
         <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
       </row>
       <row>
         <action>MidiAdvanceOnEdit</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>MIDI Advance on Edit</label>
         <tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</tooltip>
       </row>
       <row>
         <action>AngryDelete</action>
         <scheme></scheme>
-        <menupath>/MainMenu/ModeMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Angry Delete</label>
         <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>
       </row>
