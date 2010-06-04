@@ -1090,6 +1090,7 @@
       </row>
       <row>
         <action>AddA</action>
+        <bind>Alt+a</bind>
       </row>
       <row>
         <action>ChangeToA</action>
@@ -1106,6 +1107,7 @@
       </row>
       <row>
         <action>AddB</action>
+        <bind>Alt+b</bind>
       </row>
       <row>
         <action>ChangeToB</action>
@@ -1122,6 +1124,7 @@
       </row>
       <row>
         <action>AddC</action>
+        <bind>Alt+c</bind>
       </row>
       <row>
         <action>ChangeToC</action>
@@ -1138,6 +1141,7 @@
       </row>
       <row>
         <action>AddD</action>
+        <bind>Alt+d</bind>
       </row>
       <row>
         <action>ChangeToD</action>
@@ -1154,6 +1158,7 @@
       </row>
       <row>
         <action>AddE</action>
+        <bind>Alt+e</bind>
       </row>
       <row>
         <action>ChangeToE</action>
@@ -1170,6 +1175,7 @@
       </row>
       <row>
         <action>AddF</action>
+        <bind>Alt+f</bind>
       </row>
       <row>
         <action>ChangeToF</action>
@@ -1186,6 +1192,7 @@
       </row>
       <row>
         <action>AddG</action>
+        <bind>Alt+g</bind>
       </row>
       <row>
         <action>ChangeToG</action>
