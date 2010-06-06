@@ -3289,10 +3289,17 @@ for second and subsequent systems</tooltip>
         <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
       </row>
       <row>
+        <action>MajorOrMinor</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
+        <label>MajorMinor</label>
+        <tooltip>Determine if the chord played is major or minor</tooltip>
+      </row>
+      <row>
         <action>DiminishedOrAugmented</action>
         <after>MajorOrMinor</after>
         <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training</menupath>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>DiminishedAugmented</label>
         <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
@@ -3350,6 +3357,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/ChordMenu/Markings/TextMarks</menupath>
         <label>Arbitrary Text Above</label>
         <tooltip>Prints the text you give above the chord.</tooltip>
+      </row>
+      <row>
+        <action>StagedDelete</action>
+        <after>DeletePreviousObject</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Delete</label>
+        <tooltip>Deletes the object at the cursor. For Chords it deletes the chord stage by stage.</tooltip>
       </row>
     </map>
   </commands>

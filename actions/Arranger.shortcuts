@@ -236,7 +236,7 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <bind>Return</bind>
+        <bind>Insert</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
@@ -274,7 +274,6 @@
       </row>
       <row>
         <action>DeleteObject</action>
-        <bind>Delete</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
@@ -604,6 +603,7 @@
       </row>
       <row>
         <action>UnsetMark</action>
+        <bind>Return</bind>
       </row>
       <row>
         <action>SetPoint</action>
@@ -611,12 +611,10 @@
       <row>
         <action>ToggleBeginSlur</action>
         <bind>parenleft</bind>
-        <bind>PrsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
         <bind>parenright</bind>
-        <bind>RlsL-CapsLock</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
@@ -719,9 +717,11 @@
       </row>
       <row>
         <action>InsertRhythm</action>
+        <bind>Control+space</bind>
       </row>
       <row>
         <action>NextRhythm</action>
+        <bind>space</bind>
       </row>
       <row>
         <action>AppendMeasureAllStaffs</action>
@@ -1068,7 +1068,6 @@
       </row>
       <row>
         <action>ToggleEdit</action>
-        <bind>Insert</bind>
       </row>
       <row>
         <action>ToggleRest</action>
@@ -1761,7 +1760,6 @@
       </row>
       <row>
         <action>InsertWholeMeasureRest</action>
-        <bind>space</bind>
       </row>
       <row>
         <action>FiguredBassFilterOn</action>
@@ -1851,6 +1849,9 @@
         <action>FinishCadenza</action>
       </row>
       <row>
+        <action>MajorOrMinor</action>
+      </row>
+      <row>
         <action>DiminishedOrAugmented</action>
       </row>
       <row>
@@ -1876,6 +1877,10 @@
       </row>
       <row>
         <action>ArbitraryTextAbove</action>
+      </row>
+      <row>
+        <action>StagedDelete</action>
+        <bind>Delete</bind>
       </row>
     </map>
   </merge>

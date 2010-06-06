@@ -107,6 +107,8 @@
       
      <menuitem action="PasteClipboard"/>
       <separator/>
+      <menuitem action="DeletePreviousObject"/>
+      <separator/>
       <menuitem action="EditObject"/>
 	   <separator/>
       <menuitem action="Preferences"/>

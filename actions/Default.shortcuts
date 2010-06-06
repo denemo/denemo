@@ -242,11 +242,9 @@
       <row>
         <action>AddNoteToChord</action>
         <bind>Insert</bind>
-        <bind>Return</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
-        <bind>Control+Return</bind>
       </row>
       <row>
         <action>Sharpen</action>
@@ -612,7 +610,7 @@
       </row>
       <row>
         <action>UnsetMark</action>
-        <bind>space</bind>
+        <bind>Return</bind>
       </row>
       <row>
         <action>SetPoint</action>
@@ -720,9 +718,11 @@
       </row>
       <row>
         <action>InsertRhythm</action>
+        <bind>Control+space</bind>
       </row>
       <row>
         <action>NextRhythm</action>
+        <bind>space</bind>
       </row>
       <row>
         <action>AppendMeasureAllStaffs</action>
@@ -1981,6 +1981,10 @@
       <row>
         <action>ReduceSlur</action>
         <bind>KP_Home</bind>
+      </row>
+      <row>
+        <action>StagedDelete</action>
+        <bind>Delete</bind>
       </row>
     </map>
   </merge>

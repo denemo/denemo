@@ -3346,6 +3346,15 @@ for second and subsequent systems</tooltip>
         <tooltip>Determine if the chord played is major or minor</tooltip>
       </row>
       <row>
+        <action>DiminishedOrAugmented</action>
+        <after>MajorOrMinor</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
+        <label>DiminishedAugmented</label>
+        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
+      </row>
+
+      <row>
         <action>LineOrSpace</action>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Note-Reading</menupath>
@@ -3431,14 +3440,6 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>MajorMinorAugmentedDiminished</label>
         <tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</tooltip>
-      </row>
-      <row>
-        <action>DiminishedOrAugmented</action>
-        <after>MajorOrMinor</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>DiminishedAugmented</label>
-        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
       <row>
         <action>HalfDiminished7OrDiminshed7</action>
@@ -3577,6 +3578,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <label>Shorten Slur from End</label>
         <tooltip>Shorten a slur that ends at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>StagedDelete</action>
+        <after>DeletePreviousObject</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Delete</label>
+        <tooltip>Deletes the object at the cursor. For Chords it deletes the chord stage by stage.</tooltip>
       </row>
     </map>
   </commands>
