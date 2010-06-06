@@ -4008,8 +4008,13 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
   unhighlight_rhythm(gui->prevailing_rhythm);
   gui->prevailing_rhythm = r;
   highlight_rhythm(r);
-  /*   if((MODE&INPUTEDIT)) */
-  ((GtkFunction)(((RhythmElement*)g->data)->functions->data))(gui), displayhelper(gui); 
+  if((MODE &(INPUTEDIT|INPUTRHYTHM))) {
+    gint save = MODE;
+    MODE = INPUTINSERT|INPUTNORMAL;
+    ((GtkFunction)(((RhythmElement*)g->data)->functions->data))(gui);
+    displayhelper(gui); 
+    MODE = save;
+  }
 #undef CURRP
 #undef g
 #undef MODE
