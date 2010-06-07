@@ -400,7 +400,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  parseDevices(doc, cur, &Denemo.prefs);
 
 	}
-	READXMLENTRY(shortcut_filename)      
+      // see below - do not read READXMLENTRY(shortcut_filename)      
 	READXMLENTRY(midiplayer)      
 	READXMLENTRY(audioplayer)        
 	READXMLENTRY(browser)
@@ -745,7 +745,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
    
 
   WRITEXMLENTRY(lilypath)
-  WRITEXMLENTRY(shortcut_filename)
+    // do not store WRITEXMLENTRY(shortcut_filename) it is for internal use. .denemo/Default.xxx is used for the customized shortcuts.
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
   WRITEXMLENTRY(csoundcommand)
