@@ -161,6 +161,8 @@ initprefs ()
   ret->maxhistory = 20;
   ret->notation_palette = TRUE;
   ret->articulation_palette = FALSE;
+  ret->midi_in_controls = FALSE;
+  ret->playback_controls = FALSE;
   ret->console_pane = TRUE;
   ret->lyrics_pane = TRUE;
   ret->visible_directive_buttons = TRUE;
@@ -468,6 +470,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READBOOLXMLENTRY(lilyentrystyle)
       READBOOLXMLENTRY(notation_palette)
       READBOOLXMLENTRY(articulation_palette)
+	READBOOLXMLENTRY(midi_in_controls)
+	READBOOLXMLENTRY(playback_controls)
       READBOOLXMLENTRY(console_pane)
       READBOOLXMLENTRY(lyrics_pane)
       READBOOLXMLENTRY(visible_directive_buttons)
@@ -815,6 +819,8 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEBOOLXMLENTRY(jacktransport_start_stopped)
   WRITEINTXMLENTRY(rtcs)
   WRITEBOOLXMLENTRY(notation_palette)
+    WRITEBOOLXMLENTRY(midi_in_controls)
+    WRITEBOOLXMLENTRY(playback_controls)
   WRITEBOOLXMLENTRY(articulation_palette)
   WRITEBOOLXMLENTRY(console_pane)
   WRITEBOOLXMLENTRY(lyrics_pane)

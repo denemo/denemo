@@ -2826,9 +2826,9 @@ static void load_scheme_init(void)  {
 
 /* show the user's preferred view. Assumes all hidden on entry */
 void  show_preferred_view(void) {
-  if (Denemo.prefs.playback_controls)
+  if (!Denemo.prefs.playback_controls)
     activate_action("/MainMenu/ViewMenu/"TogglePlaybackControls_STRING);
-  if (Denemo.prefs.midi_in_controls)
+  if (!Denemo.prefs.midi_in_controls)
     activate_action("/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
   if (!Denemo.prefs.notation_palette)
@@ -2855,10 +2855,10 @@ void  show_preferred_view(void) {
   if(!Denemo.prefs.modal)
     gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ModeMenu"));
 
-  if (Denemo.prefs.playback_controls)
+  if (!Denemo.prefs.playback_controls)
     toggle_playback_controls(NULL, NULL);
 
-  if (Denemo.prefs.midi_in_controls)
+  if (!Denemo.prefs.midi_in_controls)
     toggle_midi_in_controls(NULL, NULL);
 }
 

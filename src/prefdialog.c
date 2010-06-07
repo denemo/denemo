@@ -39,6 +39,9 @@ struct callbackdata
   GtkWidget *rhythm_palette;
   GtkWidget *object_palette;
   GtkWidget *articulation_palette;
+  GtkWidget *midi_in_controls;
+  GtkWidget *playback_controls;
+
   GtkWidget *console_pane;
   GtkWidget *lyrics_pane;
   GtkWidget *visible_directive_buttons;
@@ -185,6 +188,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(autosave)
   ASSIGNINT(autosave_timeout)
   ASSIGNBOOLEAN(articulation_palette)
+  ASSIGNBOOLEAN(midi_in_controls)
+  ASSIGNBOOLEAN(playback_controls)
   ASSIGNBOOLEAN(console_pane)
   ASSIGNBOOLEAN(lyrics_pane)
   ASSIGNBOOLEAN(visible_directive_buttons)
@@ -369,6 +374,9 @@ preferences_change (GtkAction *action, gpointer param)
 
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
+  BOOLEANENTRY("Display Controls for Incoming MIDI signals", midi_in_controls);
+  BOOLEANENTRY("Display Controls for Playback", playback_controls);
+
   BOOLEANENTRY("Display console pane", console_pane);
   BOOLEANENTRY("Display lyrics pane", lyrics_pane);
   BOOLEANENTRY("Display Titles. Controls etc", visible_directive_buttons);
