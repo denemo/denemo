@@ -65,6 +65,15 @@ gboolean first_time_user(void) {
   return ret;
 }
 
+gboolean uses_default_commandset(void) {
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", "Default.commands", NULL);
+  gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
+  g_free(filename);
+  return ret;
+}
+
+
+
 static const GtkStockItem denemo_stock_items[] = {
   {"denemo-staccato", N_("Staccato"), (GdkModifierType) 0, 0, NULL},
   {"denemo-staccatissimo", N_("Staccatissimo"), (GdkModifierType) 0, 0, NULL},
@@ -496,20 +505,27 @@ main (int argc, char *argv[])
 
   register_stock_items ();
 
-#define choice1 "Default"
-#define choice2 "Composer"
-#define choice3 "Arranger"
+#define choice1  "Default\nUse this until you have read the manual\n"
+#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections etc"
+#define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
 
-  if(first_time_user()) {
+  if(uses_default_commandset()) {
     // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
-
+    // get_option returns a pointer into the string passed in
     gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1);
     if(choice==NULL)
       choice = choice1;
-    Denemo.prefs.shortcut_filename = g_string_new( g_build_filename(get_data_dir(), "actions", g_strconcat(choice, ".commands", NULL), NULL));
-#undef choice1
-#undef choice2
-#undef choice3
+    if(choice!=choice1) {
+      choice = g_strdup(choice);
+      gchar *c;
+      for(c=choice;*c;c++)
+	if(*c=='\n')
+	  *c='\0';
+      choice =  g_strconcat(choice, ".commands", NULL);
+      choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
+      g_print("Choice is %s length %d\n", choice, strlen(choice));
+      Denemo.prefs.shortcut_filename = g_string_new(choice);
+    }
   }
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
   scm_boot_guile (argc, argv, inner_main, NULL);
