@@ -902,6 +902,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   gint y=0;
   struct infotopass itp;
   gboolean repeat = FALSE;
+  gdouble leftmost = 10000000.0;
   DenemoScore *si = gui->si;
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
   static gint flip_count;//passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
@@ -1058,6 +1059,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       system_num++;
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
+      leftmost = MIN(leftmost, itp.leftmosttime);
       if(cr) draw_playback_markers(cr, &itp, yy, line_height);   
       yy += line_height;
       itp.left++;
@@ -1069,7 +1071,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     
     si->rightmost_time = itp.rightmosttime;
     
-     if(cr && (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>itp.leftmosttime) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
+     if(cr && (system_num>2) && Denemo.gui->si->playingnow && (si->playhead>leftmost) && itp.measurenum <= g_list_length (((DenemoStaff*)curstaff->data)->measures)/*(itp.measurenum > (si->rightmeasurenum+1))*/) {
       //put the next line of music at the top with a break marker
       itp.left = &gui->lefts[0];
       itp.right = &gui->rights[0];     
