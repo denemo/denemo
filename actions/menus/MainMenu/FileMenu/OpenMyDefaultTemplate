@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OpenMyTemplate</after>
+        <action>OpenMyDefaultTemplate</action>
+        <scheme>(d-OpenMyTemplate "Default.denemo")</scheme>
+        <label>Open Default Template</label>
+        <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

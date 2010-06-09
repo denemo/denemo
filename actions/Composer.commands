@@ -3415,12 +3415,12 @@ for second and subsequent systems</tooltip>
         <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
       </row>
       <row>
-        <action>MajorOrAugmented</action>
-        <after>DiminishedOrMinor</after>
+        <action>DiminishedOrAugmented</action>
+        <after>MajorOrMinor</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>MajorAugmented</label>
-        <tooltip>Determine if chord sounded is Major or Augmented</tooltip>
+        <label>DiminishedAugmented</label>
+        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
       <row>
         <action>DiminishedOrMinor</action>
@@ -3431,20 +3431,20 @@ for second and subsequent systems</tooltip>
         <tooltip>Determine if the chord sounded is Diminished or Minor</tooltip>
       </row>
       <row>
+        <action>MajorOrAugmented</action>
+        <after>DiminishedOrMinor</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
+        <label>MajorAugmented</label>
+        <tooltip>Determine if chord sounded is Major or Augmented</tooltip>
+      </row>
+       <row>
         <action>MajorMinorAugmentedOrDiminished</action>
         <after>MajorOrAugmented</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>MajorMinorAugmentedDiminished</label>
         <tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</tooltip>
-      </row>
-      <row>
-        <action>DiminishedOrAugmented</action>
-        <after>MajorOrMinor</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>DiminishedAugmented</label>
-        <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
       <row>
         <action>HalfDiminished7OrDiminshed7</action>
@@ -3614,6 +3614,14 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <label>Go To Measure End</label>
         <tooltip>Move the Cursor to the end of the measure</tooltip>
+      </row>
+      <row>
+        <action>OpenMyDefaultTemplate</action>
+        <after>OpenMyTemplate</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <label>Open Default Template</label>
+        <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>
       </row>
     </map>
   </commands>

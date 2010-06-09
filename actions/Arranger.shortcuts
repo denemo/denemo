@@ -755,7 +755,6 @@
       </row>
       <row>
         <action>OpenNewWindow</action>
-        <bind>Control+o</bind>
       </row>
       <row>
         <action>Save</action>
@@ -1881,6 +1880,10 @@
       <row>
         <action>StagedDelete</action>
         <bind>Delete</bind>
+      </row>
+      <row>
+        <action>OpenMyDefaultTemplate</action>
+        <bind>Control+o</bind>
       </row>
     </map>
   </merge>

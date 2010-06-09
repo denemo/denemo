@@ -3418,20 +3418,20 @@ for second and subsequent systems</tooltip>
         <tooltip>%tests your ability to read the notes of the bass clef staff</tooltip>
       </row>
       <row>
-        <action>MajorOrAugmented</action>
-        <after>DiminishedOrMinor</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>MajorAugmented</label>
-        <tooltip>Determine if chord sounded is Major or Augmented</tooltip>
-      </row>
-      <row>
         <action>DiminishedOrMinor</action>
         <after>DiminishedOrAugmented</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>DiminishedMinor</label>
         <tooltip>Determine if the chord sounded is Diminished or Minor</tooltip>
+      </row>
+      <row>
+        <action>MajorOrAugmented</action>
+        <after>DiminishedOrMinor</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
+        <label>MajorAugmented</label>
+        <tooltip>Determine if chord sounded is Major or Augmented</tooltip>
       </row>
       <row>
         <action>MajorMinorAugmentedOrDiminished</action>
@@ -3442,20 +3442,20 @@ for second and subsequent systems</tooltip>
         <tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</tooltip>
       </row>
       <row>
-        <action>HalfDiminished7OrDiminshed7</action>
-        <after>Major7Minor7OrDominant7</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>HalfDiminshed7Diminished7</label>
-        <tooltip>Determine if the type of diminshed chord sounded</tooltip>
-      </row>
-      <row>
         <action>Major7Minor7OrDominant7</action>
         <after>MajorMinorAugmentedOrDiminished</after>
         <scheme></scheme>
         <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
         <label>Major7Minor7Dominant7</label>
         <tooltip>Determine which seventh chord is sounded</tooltip>
+      </row>
+      <row>
+        <action>HalfDiminished7OrDiminshed7</action>
+        <after>Major7Minor7OrDominant7</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
+        <label>HalfDiminshed7Diminished7</label>
+        <tooltip>Determine if the type of diminshed chord sounded</tooltip>
       </row>
       <row>
         <action>ReloadDrumHash</action>
@@ -3564,6 +3564,13 @@ for second and subsequent systems</tooltip>
         <tooltip>Move the Cursor to the end of the measure</tooltip>
       </row>
       <row>
+        <action>SlurTwo</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <label>Slur with Next Note</label>
+        <tooltip>Creates a slur from current note to next note.</tooltip>
+      </row>
+      <row>
         <action>ExtendSlur</action>
         <after>SlurTwo</after>
         <scheme></scheme>
@@ -3586,6 +3593,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Delete</label>
         <tooltip>Deletes the object at the cursor. For Chords it deletes the chord stage by stage.</tooltip>
+      </row>
+      <row>
+        <action>OpenMyDefaultTemplate</action>
+        <after>OpenMyTemplate</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <label>Open Default Template</label>
+        <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>
       </row>
     </map>
   </commands>
