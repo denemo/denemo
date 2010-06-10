@@ -1059,7 +1059,8 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       system_num++;
       if(draw_staff (cr, curstaff, yy, gui, &itp))
 	repeat = TRUE;
-      leftmost = MIN(leftmost, itp.leftmosttime);
+      if(itp.staffnum==si->top_staff)//single criterion for all staffs on whether to draw next page
+	leftmost = MIN(leftmost, itp.leftmosttime);
       if(cr) draw_playback_markers(cr, &itp, yy, line_height);   
       yy += line_height;
       itp.left++;
