@@ -259,6 +259,8 @@ gint midientry(void) {
 	    chord *thechord = (chord *)  curObj->object;
 	    is_tied = thechord->is_tied;
 	    enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+	    if(Denemo.gui->si->cursor_appending)
+	      break;
 	  } while(next_editable_note() && is_tied);
 	} else 
 	  gdk_beep();
