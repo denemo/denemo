@@ -2431,8 +2431,9 @@ SCM scheme_diatonic_shift (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+// moves the cursor in the direction indicated, observing within_measure and if stopping stopping at empty measures
 
-static gboolean to_object_direction(gboolean within_measure, gboolean right) {
+static gboolean to_object_direction(gboolean within_measure, gboolean right, gboolean stopping) {
   DenemoGUI *gui = Denemo.gui;
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
@@ -2450,15 +2451,19 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
 	if(Denemo.gui->si->currentobject)
 	  return TRUE;
 	else
-	  return to_object_direction(within_measure, right);
+	  if(stopping) return FALSE;
+	  else
+	    return to_object_direction(within_measure, right, stopping);
       } else
 	return FALSE;
     }
-    // start object is NULL, not restricted to current measure, going previous
+    // going left, start object is NULL, not restricted to current measure, going previous
     if(start_measure->prev) {
       movecursorleft(NULL);
-      if(Denemo.gui->si->currentobject==NULL)
-	return to_object_direction(within_measure, right);
+      if(Denemo.gui->si->currentobject==NULL) 
+	if(stopping) return FALSE;
+	else
+	  return to_object_direction(within_measure, right, stopping);
       movecursorleft(NULL);
       return TRUE;
     }
@@ -2485,7 +2490,9 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
     if(start_measure->next) {
       movetomeasureright(NULL);
       if(Denemo.gui->si->currentobject==NULL)
-	return to_object_direction(within_measure, right);
+	if(stopping) return FALSE;
+	else
+	  return to_object_direction(within_measure, right, stopping);
       return TRUE;
     }
     return FALSE;
@@ -2498,27 +2505,29 @@ static gboolean to_object_direction(gboolean within_measure, gboolean right) {
   if(start_measure->prev) {
     movecursorleft(NULL);
     if(Denemo.gui->si->currentobject==NULL)
-      return to_object_direction(within_measure, right);
+      if(stopping) return FALSE;
+      else
+	return to_object_direction(within_measure, right, stopping);
     movecursorleft(NULL);
     return TRUE;
   }
   return FALSE;
 }
 
-static gboolean to_next_object(gboolean within_measure) {
+static gboolean to_next_object(gboolean within_measure, gboolean stopping) {
  
-  return to_object_direction(within_measure, TRUE);  
+  return to_object_direction(within_measure, TRUE, stopping);  
 }
-static gboolean to_prev_object(gboolean within_measure) {
+static gboolean to_prev_object(gboolean within_measure, gboolean stopping) {
  
-  return to_object_direction(within_measure, FALSE);  
+  return to_object_direction(within_measure, FALSE, stopping);  
 }
 /* moves currentobject to next object by calling cursorright.
    Steps over barlines (i.e. cursor_appending).
    returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_next_object (void) {
-return SCM_BOOL(to_next_object(FALSE));
+  return SCM_BOOL(to_next_object(FALSE, FALSE));
 }
 
 /* moves currentobject to prev object by calling cursorleft.
@@ -2526,7 +2535,7 @@ return SCM_BOOL(to_next_object(FALSE));
    returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_prev_object (void) {
-return SCM_BOOL(to_prev_object(FALSE));
+return SCM_BOOL(to_prev_object(FALSE, FALSE));
 }
 
 
@@ -2534,14 +2543,14 @@ return SCM_BOOL(to_prev_object(FALSE));
    returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_next_object_in_measure (void) {
-return SCM_BOOL(to_next_object(TRUE));
+return SCM_BOOL(to_next_object(TRUE, FALSE));
 }
 
 /* moves currentobject to previous object in measure, if any
    returns TRUE if currentobject is different after than before doing the call
 */
 SCM scheme_prev_object_in_measure (void) {
-return SCM_BOOL(to_prev_object(TRUE));
+return SCM_BOOL(to_prev_object(TRUE, FALSE));
 }
 
 
@@ -2571,15 +2580,15 @@ static gboolean to_selected_object_direction (gboolean right) {
   if(!Denemo.gui || !(Denemo.gui->si))
     return FALSE;
   // save_selection(Denemo.gui->si);
-  gboolean success = to_object_direction(FALSE, right);
+  gboolean success = to_object_direction(FALSE, right, FALSE);
   if(!success)
-    success = to_object_direction(FALSE, right);
+    success = to_object_direction(FALSE, right, FALSE);
   // restore_selection(Denemo.gui->si);
   //g_print("success %d\n", success);
   if((success) && in_selection(Denemo.gui->si))
     return TRUE;
  if(success)
-   to_object_direction(FALSE, !right);
+   to_object_direction(FALSE, !right, FALSE);
   return FALSE;  
 }
 
@@ -2605,7 +2614,7 @@ SCM scheme_prev_selected_object (SCM optional) {
 
 
 static gboolean to_standalone_directive_direction (gboolean right) {
-  gboolean ret = to_object_direction(FALSE, right);
+  gboolean ret = to_object_direction(FALSE, right, FALSE);
   if(!ret)
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -2625,8 +2634,8 @@ SCM scheme_prev_standalone_directive (SCM optional) {
   return SCM_BOOL(to_standalone_directive_direction(FALSE));
 }
 
-static gboolean to_chord_direction (gboolean right) {
-  gboolean ret = to_object_direction(FALSE, right);
+static gboolean to_chord_direction (gboolean right, gboolean stopping) {
+  gboolean ret = to_object_direction(FALSE, right, stopping);
   if(!ret)
     return ret;
   if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -2634,7 +2643,7 @@ static gboolean to_chord_direction (gboolean right) {
     return TRUE;
   else
     return 
-      to_chord_direction (right);
+      to_chord_direction (right, stopping);
 }
 
 
@@ -2643,19 +2652,19 @@ static gboolean to_chord_direction (gboolean right) {
 
 
 SCM scheme_next_chord (SCM optional) {
-  return SCM_BOOL(to_chord_direction(TRUE));
+  return SCM_BOOL(to_chord_direction(TRUE, FALSE));
 }
 
 SCM scheme_prev_chord (SCM optional) {
-  return SCM_BOOL(to_chord_direction(FALSE));
+  return SCM_BOOL(to_chord_direction(FALSE, FALSE));
 }
 
 
   // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
 //This next note is next chord that is not a rest in the given direction.
-static gboolean to_note_direction(gboolean right) {
-  gboolean ret = to_chord_direction(right);
+static gboolean to_note_direction(gboolean right, gboolean stopping) {
+  gboolean ret = to_chord_direction(right, stopping);
  if(!ret)
     return ret;
  if(Denemo.gui->si->currentobject && Denemo.gui->si->currentobject->data &&
@@ -2664,25 +2673,25 @@ static gboolean to_note_direction(gboolean right) {
     && (!Denemo.gui->si->cursor_appending))
    return TRUE;
   else
-    return to_note_direction (right);
+    return to_note_direction (right, stopping);
 }
 
 
 SCM scheme_next_note (SCM optional) {
-  return SCM_BOOL(to_note_direction(TRUE));
+  return SCM_BOOL(to_note_direction(TRUE, FALSE));
 }
 
 SCM scheme_prev_note (SCM optional) {
-  return SCM_BOOL(to_note_direction(FALSE));
+  return SCM_BOOL(to_note_direction(FALSE, FALSE));
 }
 
 
 /******** advances the cursor to the next note,  stopping
  at empty measures. The cursor is left after last note if no more notes */
 gboolean next_editable_note(void) {
-  gboolean  ret = to_note_direction(TRUE);
+  gboolean  ret = to_note_direction(TRUE, TRUE);
   if((!ret) && Denemo.gui->si->currentobject==NULL) {
-    to_note_direction(FALSE);
+    to_note_direction(FALSE, TRUE);
   }
   if(!ret)
     movecursorright(NULL);
