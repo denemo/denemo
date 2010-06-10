@@ -11,7 +11,7 @@
 (d-SetMark)
 (if (d-MeasureRight)  
    (begin
-		(d-CursorLeft)  
+	(d-CursorLeft)  
         (d-Cut)
         (d-CursorRight)
         (d-InsertMeasureBefore)       
@@ -25,7 +25,7 @@
  ) 
 (d-Paste)
 (d-MoveToMeasureLeft)
-(d-GoToMeasureEnd)
+(GoToMeasureEnd)
 (d-PopClipboard) ; Restore old Clipboard
 
 </scheme>

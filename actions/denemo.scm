@@ -762,10 +762,10 @@
 
 
 ;;;;;;;;;;;;;;;;;
-(define (d-MeasureEmpty?) (equal? "None" (d-GetType)))
+(define (MeasureEmpty?) (equal? "None" (d-GetType)))
 
 ;;;;;;;;;;;;;;;;;;
-(define* (d-GetTimeSignature #:optional (numberorstring #f) ) 
+(define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
 	(if numberorstring
 		(string->number (d-InsertTimeSig "query=timesigname"))
 		(d-InsertTimeSig "query=timesigname")
@@ -774,11 +774,11 @@
 
 
 ;;;;;;;Get Measure Filling Status
-(define (d-MeasureFull?)
+(define (MeasureFillStatus)
 (let script ((MaxTicks 0) (return #f))
 (d-PushPosition)
-(d-GoToMeasureEnd)
-(set! MaxTicks (* 1536 (d-GetTimeSignature #t) )) ; How many ticks are in a 100% filled measure?
+(GoToMeasureEnd)
+(set! MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
 
 (set! return (cond 
  	((not(d-GetEndTick)) #f) ; empty
@@ -790,7 +790,26 @@
   (d-PopPosition)
   return
 ))
- 
+
+(define (EmptyMeasure?)
+  (not (d-GetEndTick)))
+
+(define (UnderfullMeasure?)
+  (or (EmptyMeasure?)
+     (not (MeasureFillStatus))))
+
+(define (FullDurationMeasure?)
+  (and (not (UnderfullMeasure?))
+       (= 1 (MeasureFillStatus))))
+
+(define (OverfullMeasure?)
+  (= 2 (MeasureFillStatus)))
+  ;;(and (not (EmptyMeasure?)) 
+ ;; (> (d-GetEndTick) (* 1536 (GetPrevailingTimeSig #t)))))
+
+(define (MeasureComplete?) (or (FullDurationMeasure?) 
+			       (d-Directive-standalone? "Anacrusis")
+			       (d-Directive-standalone? "ShortMeasure")))
 
 (define (Paste::MeasureBreakInClipboard?)
 (let searchformeasurebreak ((counter 1))  ;start at the second position to avoid leading measurebreaks, which do not count. 
@@ -925,7 +944,7 @@
 
 
 ;;;; Move right until "appending" or "none" which is the Measure End
-(define (d-GoToMeasureEnd)
+(define (GoToMeasureEnd)
 
 (let loop ()
     (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
@@ -952,9 +971,9 @@
 
  ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
 
-(if (and paste::break? (string-ci=? (d-GetType) "Appending")  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (d-MeasureFull?)   )
+(if (and paste::break? (string-ci=? (d-GetType) "Appending")  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
         (if (d-MoveToMeasureRight) ; End of Staff?
-			(if (d-MeasureEmpty?) 
+			(if (MeasureEmpty?) 
 				#t
 				(d-InsertMeasureBefore) ) 
 			(d-InsertMeasureAfter)))
@@ -1014,7 +1033,7 @@
         (if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
 		(nextplease)
 		(if (d-MoveToMeasureRight) ; End of Staff?
-			(if (d-MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
+			(if (MeasureEmpty?) (nextplease) (begin (d-InsertMeasureBefore) (nextplease))) ;
 			(begin (d-InsertMeasureAfter) (nextplease))))
 )) 
 
@@ -1031,9 +1050,9 @@
   
   
  ; For clipboards smaller than one full measure Denemo will automatically add barlines if needed 
- (if (and (d-GetClipObjType staff count) (string-ci=?  (d-GetType) "Appending")  (not paste::break?) (d-MeasureFull?))
+ (if (and (d-GetClipObjType staff count) (string-ci=?  (d-GetType) "Appending")  (not paste::break?) (MeasureFillStatus))
             (if (d-MoveToMeasureRight) ; End of Staff?
-			(if (d-MeasureEmpty?) 
+			(if (MeasureEmpty?) 
 				#t
 				(d-InsertMeasureBefore) ) 
 			(d-InsertMeasureAfter)))

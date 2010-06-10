@@ -10,7 +10,7 @@
 (SingleAndSelectionSwitcher
 "(begin
 (d-DeleteObject)
-	(if (d-MeasureEmpty?)
+	(if (MeasureEmpty?)
 		(d-DeleteMeasure))
 )"
  "(d-DeleteSelection)")</scheme>
