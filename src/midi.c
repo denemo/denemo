@@ -267,7 +267,8 @@ gint midientry(void) {
 	    beep=TRUE;
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
-      }
+      } else
+	enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
     } else
     enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
   return TRUE;
