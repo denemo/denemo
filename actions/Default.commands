@@ -3602,6 +3602,14 @@ for second and subsequent systems</tooltip>
         <label>Open Default Template</label>
         <tooltip>Opens the template Default.denemo in the user's custom template folder.</tooltip>
       </row>
+      <row>
+        <action>CheckForIncompleteMeasures</action>
+        <after>GoToEmptyMeasure</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <label>Check for Irregular Measures</label>
+        <tooltip>Checks each measure for complete number of beats, ignoring Anacrusis and ShortMeasure ones. Stops at anything bad.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

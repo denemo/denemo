@@ -1885,6 +1885,12 @@
         <action>OpenMyDefaultTemplate</action>
         <bind>Control+o</bind>
       </row>
+      <row>
+        <action>IntelligentDelete</action>
+      </row>
+      <row>
+        <action>CheckForIncompleteMeasures</action>
+      </row>
     </map>
   </merge>
 </Denemo>
