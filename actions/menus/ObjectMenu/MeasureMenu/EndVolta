@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>OpenFirstTimeBar</after>
+        <action>EndVolta</action>
+        <scheme>;;;EndVolta
+(d-Directive-standalone "EndVolta")
+(d-DirectivePut-standalone-minpixels  "EndVolta" 30)
+(d-DirectivePut-standalone-postfix "EndVolta" "
+\\set Score.repeatCommands = #'((volta #f))
+")
+(d-DirectivePut-standalone-gy  "EndVolta" -33)
+(d-DirectivePut-standalone-graphic "EndVolta" "EndSecondTimeBar")
+(d-RefreshDisplay)
+ </scheme>
+        <label>End 1st/2nd time bar</label>
+        <tooltip>Ends a volta, that is a n'th time bar</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

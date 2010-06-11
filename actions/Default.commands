@@ -3661,11 +3661,19 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Start a First Time Bar</label>
-        <tooltip>(Print) start a first time bar, must be followed by CloseVolta.</tooltip>
+        <tooltip>(Print) start a first time bar, must be followed by EndVolta.</tooltip>
+      </row>
+      <row>
+        <action>OpenSecondTimeBar</action>
+        <after>OpenFirstTimeBar</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Start a Second Time Bar</label>
+        <tooltip>(Print) start a second time bar, must be followed by EndVolta</tooltip>
       </row>
       <row>
         <action>EndVolta</action>
-        <after>OpenFirstTimeBar</after>
+        <after>OpenSecondTimeBar</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>End 1st/2nd time bar</label>
@@ -3679,6 +3687,6 @@ for second and subsequent systems</tooltip>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>
       </row>
-    </map>
+   </map>
   </commands>
 </Denemo>
