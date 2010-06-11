@@ -635,6 +635,12 @@ static SCM scheme_save_keybindings (SCM name) {
   return SCM_BOOL_F;
 }
 
+static SCM scheme_clear_keybindings (SCM optional) {
+  keymap_clear_bindings(Denemo.map);
+  return SCM_BOOL_T;
+}
+
+
 static SCM scheme_load_commandset (SCM name) {
   gchar * filename;
   if(scm_is_string(name)) {
@@ -3635,6 +3641,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Takes a file name, loads keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadKeybindings", scheme_load_keybindings);
 
   INSTALL_SCM_FUNCTION ("Takes a file name, saves keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"SaveKeybindings", scheme_save_keybindings);
+
+  INSTALL_SCM_FUNCTION ("Clears all keybindings returns #t",DENEMO_SCHEME_PREFIX"ClearKeybindings", scheme_clear_keybindings);
 
   INSTALL_SCM_FUNCTION ("Takes a file name for xml format commandset, loads commands, returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadCommandset", scheme_load_commandset);
 
