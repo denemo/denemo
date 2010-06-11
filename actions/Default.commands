@@ -1078,7 +1078,6 @@ the end point of the selection is unaltered</tooltip>
       </row>
       <row>
         <action>SetGrace</action>
-        <hidden>true</hidden>
         <label>Set Grace</label>
         <tooltip>No Tooltip yet</tooltip>
       </row>
@@ -3353,7 +3352,6 @@ for second and subsequent systems</tooltip>
         <label>DiminishedAugmented</label>
         <tooltip>Determine if the chord sounded is Diminished or Augmented</tooltip>
       </row>
-
       <row>
         <action>LineOrSpace</action>
         <scheme></scheme>
@@ -3450,12 +3448,44 @@ for second and subsequent systems</tooltip>
         <tooltip>Determine which seventh chord is sounded</tooltip>
       </row>
       <row>
-        <action>HalfDiminished7OrDiminshed7</action>
-        <after>Major7Minor7OrDominant7</after>
+        <action>AddDotSelectionSwitcher</action>
+        <after>AddDot</after>
         <scheme></scheme>
-        <menupath>/MainMenu/Educational/Aural Training/Chord-Comparison</menupath>
-        <label>HalfDiminshed7Diminished7</label>
-        <tooltip>Determine if the type of diminshed chord sounded</tooltip>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <label>Add Dot</label>
+        <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <after>ToggleStaccato</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccato (On/Off)</label>
+        <tooltip>Adds the staccato dot or removes it</tooltip>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <after>ToggleStaccatissimo</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Staccatissimo (On/Off)</label>
+        <tooltip>Toggles Staccatissimo</tooltip>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <after>ToggleTenuto</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Tenuto (On/Off)</label>
+        <tooltip>Toggles the Tenuto Line _ On/Off</tooltip>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <after>ToggleAccent</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
+        <label>Accent (On/Off)</label>
+        <tooltip>Adds the &gt; accent</tooltip>
       </row>
       <row>
         <action>ReloadDrumHash</action>
@@ -3534,6 +3564,13 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close and Reopen Repeat</label>
         <tooltip>Closes and open repeat block and opens a new one.</tooltip>
+      </row>
+      <row>
+        <action>GraceNoteSwitcher</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Grace Note (On/Off)</label>
+        <tooltip>Transforms the current selected notes into grace notes.</tooltip>
       </row>
       <row>
         <action>ToggleCursorHighlight</action>
