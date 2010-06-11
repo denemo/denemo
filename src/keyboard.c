@@ -316,7 +316,6 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
     {
       //keyval variables
       xmlChar *name, *menupath, *label, *tooltip, *scheme;
-
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "action"))
 	{
 	  if (cur->xmlChildrenNode == NULL)
@@ -331,6 +330,10 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	      g_print ("Action %s\n", (gchar *) name);
 #endif /*DEBUG*/
 	    }
+	}else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden"))
+	{
+	    hide_action_of_name(name);
+
 	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "bind"))
 	{
 	  command_number = lookup_command_from_name (the_keymap, (gchar *) name);
@@ -729,8 +732,8 @@ save_xml_keymap (gchar * filename)
       if(after)
 	xmlNewTextChild (child, NULL, (xmlChar *) "after",
 			 (xmlChar *) after);  
-      if(hidden)
-	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
+      //   if(hidden) store with shortcuts instead
+      //	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
       if(scheme) 	
 	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
 			 /* (xmlChar *) scheme*/ (xmlChar*)"");
@@ -788,34 +791,27 @@ save_xml_keybindings (gchar * filename)
 
   for (i = 0; i < keymap_size(the_keymap); i++)
     {
-
-     
       gpointer action = (gpointer)lookup_action_from_idx(the_keymap, i);
       gchar *scheme = action?g_object_get_data(action, "scheme"):NULL;
       gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
       gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
       if(deleted && scheme)
 	continue;
-      child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
-
-			
-      gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
+      if(hidden || command_has_binding(i)) {
+	child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
+		
+	gchar *name = (gchar*)lookup_name_from_idx(the_keymap, i);
 #ifdef DEBUG
-      g_print ("%s \n", name);
+	g_print ("%s %s binding(s) \n", name, command_has_binding(i)?"has":"does not have" );
 #endif	
-      xmlNewTextChild (child, NULL, (xmlChar *) "action",
-		       (xmlChar *) name); 
-      
-      
-      
-      //  gchar *tooltip = (gchar*)lookup_tooltip_from_idx (the_keymap, i);
-      // if(tooltip)
-      //	xmlNewTextChild (child, NULL, (xmlChar *) "tooltip",
-      //	 (xmlChar *) tooltip);
-      
-      keymap_foreach_command_binding (the_keymap, i,
-				      (GFunc) write_xml_keybinding_info, child);
-      
+	xmlNewTextChild (child, NULL, (xmlChar *) "action",
+			 (xmlChar *) name); 
+	if(hidden)
+	  xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
+	
+	keymap_foreach_command_binding (the_keymap, i,
+					(GFunc) write_xml_keybinding_info, child);
+      }
     }
 
   xmlSaveFormatFile (filename, doc, 1);

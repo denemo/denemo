@@ -202,4 +202,8 @@ keymap_change_binding_view_on_command_selection(GtkTreeSelection *selection,
 
 void
 update_accel_labels(keymap *the_keymap, guint command_idx);
+
+gboolean
+command_has_binding (guint command_idx);
+
 #endif

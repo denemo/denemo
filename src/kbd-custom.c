@@ -784,6 +784,21 @@ keymap_size (keymap *the_keymap)
             NULL);
 }
 
+/* returns TRUE if command has at least one binding */
+gboolean
+command_has_binding (guint command_idx)
+{
+    command_row row;
+    GtkTreeIter iter;
+    if( keymap_get_command_row(Denemo.map, &row, command_idx)) {
+      GtkTreeModel *model_bind = GTK_TREE_MODEL(row.bindings);
+      if (!gtk_tree_model_get_iter_first(model_bind, &iter))
+	return FALSE;
+      else
+	return TRUE;
+    }
+    return FALSE;
+}
 /*
  * executes function fun on all bindings attached to a command. The arguments
  * passed to the function are the value of the current binding and the
