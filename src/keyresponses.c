@@ -107,6 +107,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     gtk_main_quit();
     return TRUE;
   }
+  g_print("Key event keyval %x (gdk calls this \"%s\"), modifiers %x (implies %s %s)\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->state&GDK_CONTROL_MASK?"Control":"<not ctrl>", event->state&GDK_SHIFT_MASK?"Shift":"<not shift>");
   gint state;
   state = (lock_mask(event->keyval)^event->state);
   if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))
