@@ -443,10 +443,10 @@ dnm_accelerator_name (guint           accelerator_key,
     else
       name = g_string_new(gtk_accelerator_get_label(accelerator_key, 0));
     //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
-    if(*name->str>='A' && *name->str<='Z')
+    if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
       *name->str += ('a'-'A');
     if(((accelerator_mods&GDK_LOCK_MASK)!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0)) {
-        if(*name->str>='a' && *name->str<='z')
+      if((name->len==1) && (*name->str>='a') && (*name->str<='z'))
 	  *name->str -= ('a'-'A');
 	else
 	  g_string_prepend(name, "Shft+");
