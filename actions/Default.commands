@@ -3687,6 +3687,6 @@ for second and subsequent systems</tooltip>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>
       </row>
-   </map>
+    </map>
   </commands>
 </Denemo>

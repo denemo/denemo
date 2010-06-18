@@ -107,14 +107,20 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     gtk_main_quit();
     return TRUE;
   }
-  g_print("Key event keyval %x (gdk calls this \"%s\"), modifiers %x (implies %s %s)\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->state&GDK_CONTROL_MASK?"Control":"<not ctrl>", event->state&GDK_SHIFT_MASK?"Shift":"<not shift>");
+  // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,	  event->state&GDK_SHIFT_MASK	  );
   gint state;
   state = (lock_mask(event->keyval)^event->state);
   if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))
     set_cursor_for(state); // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
+
+  dnm_clean_event (event);
+
+
+
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
   gint command_idx = lookup_command_for_keyevent(event);
+  // g_print("Key event keyval %x (gdk calls this \"%s\"), modifiers %x (implies %s %s)\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->state&GDK_CONTROL_MASK?"Control":"<not ctrl>", event->state&GDK_SHIFT_MASK?"Shift":"<not shift>");
   if (command_idx != -1) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);

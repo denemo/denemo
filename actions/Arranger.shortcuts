@@ -20,15 +20,15 @@
       </row>
       <row>
         <action>MoveCursorLeft</action>
-        <bind>Left</bind>
+        <bind>left</bind>
       </row>
       <row>
         <action>CursorDown</action>
-        <bind>Down</bind>
+        <bind>down</bind>
       </row>
       <row>
         <action>CursorUp</action>
-        <bind>Up</bind>
+        <bind>up</bind>
       </row>
       <row>
         <action>CursorRight</action>
@@ -36,7 +36,7 @@
       </row>
       <row>
         <action>MoveCursorRight</action>
-        <bind>Right</bind>
+        <bind>right</bind>
       </row>
       <row>
         <action>SwapPointAndMark</action>
@@ -56,7 +56,7 @@
       </row>
       <row>
         <action>ToggleReduceToDrawingArea</action>
-        <bind>Escape</bind>
+        <bind>escape</bind>
       </row>
       <row>
         <action>StaffUp</action>
@@ -120,69 +120,67 @@
       </row>
       <row>
         <action>OctaveUp</action>
-        <bind>apostrophe</bind>
+        <bind>'</bind>
       </row>
       <row>
         <action>OctaveDown</action>
-        <bind>comma</bind>
+        <bind>,</bind>
       </row>
       <row>
         <action>InsertWholeRest</action>
-        <bind>Alt+KP_Insert</bind>
+        <bind>Alt+0</bind>
       </row>
       <row>
         <action>InsertHalfRest</action>
-        <bind>Alt+KP_End</bind>
+        <bind>Alt+1</bind>
       </row>
       <row>
         <action>InsertQuarterRest</action>
-        <bind>Alt+KP_Down</bind>
+        <bind>Alt+2</bind>
       </row>
       <row>
         <action>InsertEighthRest</action>
-        <bind>Alt+KP_Page_Down</bind>
+        <bind>Alt+3</bind>
       </row>
       <row>
         <action>InsertSixteenthRest</action>
-        <bind>Alt+KP_Left</bind>
+        <bind>Alt+4</bind>
       </row>
       <row>
         <action>InsertThirtysecondRest</action>
-        <bind>Alt+KP_Begin</bind>
+        <bind>Alt+5</bind>
       </row>
       <row>
         <action>InsertSixtyfourthRest</action>
-        <bind>Alt+KP_Right</bind>
+        <bind>Alt+6</bind>
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <bind>Insert</bind>
+        <bind>insert</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
-        <bind>Control+Return</bind>
+        <bind>Ctrl+Insert</bind>
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>KP_Add</bind>
-      </row>
-      <row>
-        <action>Flatten</action>
-        <bind>KP_Subtract</bind>
+        <bind>Shift+equal</bind>
       </row>
       <row>
         <action>AddDot</action>
-        <bind>KP_Delete</bind>
-        <bind>period</bind>
+        <bind>.</bind>
       </row>
       <row>
         <action>RemoveDot</action>
-        <bind>Control+KP_Delete</bind>
-        <bind>Control+period</bind>
+        <bind>Ctrl+.</bind>
+      </row>
+      <row>
+        <action>DeleteObject</action>
+        <bind>Ctrl+delete</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
-        <bind>BackSpace</bind>
+        <bind>backSpace</bind>
       </row>
       <row>
         <action>InsertMeasure</action>
@@ -202,15 +200,15 @@
       </row>
       <row>
         <action>UnsetMark</action>
-        <bind>Return</bind>
+        <bind>return</bind>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
-        <bind>parenleft</bind>
+        <bind>(</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
-        <bind>parenright</bind>
+        <bind>)</bind>
       </row>
       <row>
         <action>ToggleStartCrescendo</action>
@@ -230,31 +228,31 @@
       </row>
       <row>
         <action>ToggleAccent</action>
-        <bind>greater</bind>
+        <bind>&gt;</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
-        <bind>quotedbl</bind>
+        <bind>"</bind>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <bind>semicolon</bind>
+        <bind>;</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <bind>underscore</bind>
+        <bind>_</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
-        <bind>backslash</bind>
+        <bind>Backslash</bind>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>colon</bind>
+        <bind>:</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
-        <bind>percent</bind>
+        <bind>%</bind>
       </row>
       <row>
         <action>SetGrace</action>
@@ -262,23 +260,23 @@
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>slash</bind>
+        <bind>/</bind>
       </row>
       <row>
         <action>InsertRhythm</action>
-        <bind>Control+space</bind>
+        <bind>Ctrl+Space</bind>
       </row>
       <row>
         <action>NextRhythm</action>
-        <bind>space</bind>
+        <bind>Space</bind>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>equal</bind>
+        <bind>=</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>minus</bind>
+        <bind>-</bind>
       </row>
       <row>
         <action>New</action>
@@ -310,7 +308,7 @@
       </row>
       <row>
         <action>Quit</action>
-        <bind>Control+q</bind>
+        <bind>Ctrl+Q</bind>
       </row>
       <row>
         <action>Undo</action>
@@ -334,11 +332,11 @@
       </row>
       <row>
         <action>VoiceUp</action>
-        <bind>Page_Up</bind>
+        <bind>page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
-        <bind>Page_Down</bind>
+        <bind>page_Down</bind>
       </row>
       <row>
         <action>StaffProperties</action>
@@ -354,7 +352,7 @@
       </row>
       <row>
         <action>EditObject</action>
-        <bind>Tab</bind>
+        <bind>tab</bind>
         <bind>PrsR</bind>
       </row>
       <row>
@@ -363,11 +361,11 @@
       </row>
       <row>
         <action>GoToBeginning</action>
-        <bind>Home</bind>
+        <bind>home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
-        <bind>End</bind>
+        <bind>end</bind>
       </row>
       <row>
         <action>NextMovement</action>
@@ -379,15 +377,15 @@
       </row>
       <row>
         <action>Play</action>
-        <bind>F5</bind>
+        <bind>f5</bind>
       </row>
       <row>
         <action>Stop</action>
-        <bind>F6</bind>
+        <bind>f6</bind>
       </row>
       <row>
         <action>Help</action>
-        <bind>F1</bind>
+        <bind>f1</bind>
       </row>
       <row>
         <action>AddNoteA</action>
@@ -447,67 +445,63 @@
       </row>
       <row>
         <action>0</action>
-        <bind>KP_Insert</bind>
+        <bind>0</bind>
       </row>
       <row>
         <action>Change0</action>
-        <bind>KP_0</bind>
+        <bind>Shft+0</bind>
       </row>
       <row>
         <action>1</action>
-        <bind>KP_End</bind>
+        <bind>1</bind>
       </row>
       <row>
         <action>Change1</action>
-        <bind>KP_1</bind>
+        <bind>Shft+1</bind>
       </row>
       <row>
         <action>2</action>
-        <bind>KP_Down</bind>
+        <bind>2</bind>
       </row>
       <row>
         <action>Change2</action>
-        <bind>KP_2</bind>
+        <bind>Shft+2</bind>
       </row>
       <row>
         <action>3</action>
-        <bind>KP_Page_Down</bind>
+        <bind>3</bind>
       </row>
       <row>
         <action>Change3</action>
-        <bind>KP_3</bind>
+        <bind>Shft+3</bind>
       </row>
       <row>
         <action>4</action>
-        <bind>KP_Left</bind>
+        <bind>4</bind>
       </row>
       <row>
         <action>Change4</action>
-        <bind>KP_4</bind>
+        <bind>Shft+4</bind>
       </row>
       <row>
         <action>5</action>
-        <bind>KP_Begin</bind>
+        <bind>5</bind>
       </row>
       <row>
         <action>Change5</action>
-        <bind>KP_5</bind>
+        <bind>Shft+5</bind>
       </row>
       <row>
         <action>6</action>
-        <bind>KP_Right</bind>
+        <bind>6</bind>
       </row>
       <row>
         <action>Change6</action>
-        <bind>KP_6</bind>
-      </row>
-      <row>
-        <action>Change7</action>
-        <bind>KP_7</bind>
+        <bind>Shft+6</bind>
       </row>
       <row>
         <action>Change8</action>
-        <bind>KP_8</bind>
+        <bind>8</bind>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
@@ -518,44 +512,24 @@
         <bind>t</bind>
       </row>
       <row>
-        <action>Finger0</action>
-        <bind>0</bind>
-      </row>
-      <row>
-        <action>Finger1</action>
-        <bind>1</bind>
-      </row>
-      <row>
-        <action>Finger4</action>
-        <bind>4</bind>
-      </row>
-      <row>
-        <action>Finger5</action>
-        <bind>5</bind>
-      </row>
-      <row>
         <action>StartBeam</action>
-        <bind>bracketleft</bind>
+        <bind>[</bind>
       </row>
       <row>
         <action>EndBeam</action>
-        <bind>bracketright</bind>
+        <bind>]</bind>
       </row>
       <row>
         <action>Anacrusis</action>
         <bind>u</bind>
       </row>
       <row>
+        <action>RepeatStart</action>
+        <bind>&lt;Control&gt;z-r</bind>
+      </row>
+      <row>
         <action>TmbalesStyle</action>
         <hidden>true</hidden>
-      </row>
-      <row>
-        <action>CautionaryAccidental</action>
-        <bind>exclam</bind>
-      </row>
-      <row>
-        <action>ToggleTripleting</action>
-        <bind>3</bind>
       </row>
       <row>
         <action>DrumGM2Custom</action>
@@ -563,7 +537,7 @@
       </row>
       <row>
         <action>RehearsalMark</action>
-        <bind>F9</bind>
+        <bind>f9</bind>
       </row>
       <row>
         <action>FindNextLowerNote</action>
@@ -611,27 +585,23 @@
       </row>
       <row>
         <action>ToggleCursorHighlight</action>
-        <bind>grave</bind>
+        <bind>`</bind>
       </row>
       <row>
         <action>IntelligentDelete</action>
         <hidden>true</hidden>
       </row>
       <row>
-        <action>SlurTwo</action>
-        <bind>2</bind>
-      </row>
-      <row>
         <action>ExtendSlur</action>
-        <bind>KP_Up</bind>
+        <bind>kP_Up</bind>
       </row>
       <row>
         <action>ReduceSlur</action>
-        <bind>KP_Home</bind>
+        <bind>kP_Home</bind>
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>Delete</bind>
+        <bind>delete</bind>
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>

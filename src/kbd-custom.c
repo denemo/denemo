@@ -72,6 +72,22 @@ typedef struct command_row {
 static void
 load_keymap_file_named (gchar *keymapfile, gchar *fallback);
 
+
+void    dnm_clean_event (GdkEventKey *event) {
+  if(!Denemo.prefs.strictshortcuts){
+    guint ret;
+    g_print("Called %s\n", gdk_keyval_name(event->keyval));
+    gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
+					 GDK_MOD2_MASK/*NumLock forcing numeric keypad to give numbers */, 0/*group 0 */,  &ret, NULL, NULL, NULL);
+    if(ret>='A' && ret <='G')
+      ret += ('a'-'A');
+    event->keyval = ret;
+    
+    g_print("Changed to %s\n", gdk_keyval_name(event->keyval));
+  }}
+
+
+
 /* Returns the state of the event after removing the modifiers consumed by the
  * system and unwanted modifiers. Use this before doing anything based on the
  * (keyval, state) pair in an event handler.
@@ -79,7 +95,11 @@ load_keymap_file_named (gchar *keymapfile, gchar *fallback);
 guint
 dnm_sanitize_key_state(GdkEventKey *event)
 {
-    guint ret = event->state;
+  guint ret = event->state;
+  if(!Denemo.prefs.strictshortcuts){
+    return ret;
+  }
+
 #if 1
     GdkModifierType consumed;
     /* We want to ignore irrelevant modifiers like ScrollLock */
@@ -404,11 +424,48 @@ dnm_accelerator_parse (const gchar     *accelerator,
   if (accelerator_mods)
     *accelerator_mods = mods;
 }
+//#include "gdkdisplay-x11.h"
+//gboolean gdk_keymap_get_caps_lock_state (GdkKeymapX11 *keymap_x11) {
+//return keymap_x11->caps_lock_state;
+//}
+// if((gdk_keymap_get_caps_lock_state (gdk_keymap_get_default())!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0))
+
 
 gchar*
 dnm_accelerator_name (guint           accelerator_key,
 		      GdkModifierType accelerator_mods)
 {
+ 
+  if(!Denemo.prefs.strictshortcuts){
+    GString *name;
+    if(Denemo.prefs.verboseshortcuts) 
+      name = g_string_new(gdk_keyval_name(accelerator_key));
+    else
+      name = g_string_new(gtk_accelerator_get_label(accelerator_key, 0));
+    //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
+    if(*name->str>='A' && *name->str<='Z')
+      *name->str += ('a'-'A');
+    if(((accelerator_mods&GDK_LOCK_MASK)!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0)) {
+        if(*name->str>='a' && *name->str<='z')
+	  *name->str -= ('a'-'A');
+	else
+	  g_string_prepend(name, "Shft+");
+    }
+    if((accelerator_mods&GDK_CONTROL_MASK))
+      g_string_prepend(name, "Ctrl+");
+
+    if((accelerator_mods&GDK_MOD1_MASK))
+      g_string_prepend(name, "Alt+");
+    if((accelerator_mods&GDK_HYPER_MASK))
+      g_string_prepend(name, "Hypr+");
+    if((accelerator_mods&GDK_MOD4_MASK))
+      g_string_prepend(name, "Mod4+");
+    if((accelerator_mods&GDK_MOD5_MASK))
+      g_string_prepend(name, "Mod5+");
+    return g_string_free(name, FALSE);
+  }
+
+
   static const gchar text_release[] = "<Release>";
   static const gchar text_shift[] = "<Shift>";
   static const gchar text_control[] = "<Control>";
@@ -850,6 +907,7 @@ gint lookup_command_for_keyevent(GdkEventKey * event) {
   keymap *the_keymap = Denemo.map;
   gint command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 						     dnm_sanitize_key_state(event));
+#if 0
   if(!Denemo.prefs.strictshortcuts){
     //    lookup_command_for_keybinding (the_keymap, event->keyval,
     //				   dnm_sanitize_key_state(event));
@@ -859,7 +917,8 @@ gint lookup_command_for_keyevent(GdkEventKey * event) {
     if(command_idx==-1)
       command_idx = lookup_command_for_keybinding (the_keymap, event->keyval,
 						   dnm_meta_sanitize_key_state(event));
-  }  
+  }
+#endif  
   return command_idx;
 }
 
@@ -1181,7 +1240,7 @@ add_named_binding_to_idx (keymap * the_keymap, gchar *kb_name,  guint command_id
   gchar *title = NULL;
   gchar *prompt = NULL;
   if(old_command_idx >= 0) {
-    title = g_strdup_printf("The Command %s Responds to this Shortcut", lookup_name_from_idx(Denemo.map, old_command_idx));
+    title = g_strdup_printf("The Command %s Responds to the Shortcut %s", lookup_name_from_idx(Denemo.map, old_command_idx), kb_name);
     prompt = g_strdup_printf("Lose the shortcut %s for this?", kb_name);
   }
   

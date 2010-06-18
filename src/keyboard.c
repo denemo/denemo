@@ -16,6 +16,12 @@ static 	void show_type(GtkWidget *widget, gchar *message);
 static gchar *
 translate_binding_dnm_to_gtk (const gchar *dnm_binding)
 {
+
+  if(!Denemo.prefs.strictshortcuts) {
+    return g_strdup(dnm_binding);
+  }
+
+
   /* hold is now "modifiers+keyname" or just "keyname" */
   guint len, i;
   gchar **tokens = g_strsplit (dnm_binding, "+", 0);
@@ -49,6 +55,11 @@ translate_binding_dnm_to_gtk (const gchar *dnm_binding)
 static gchar *
 translate_binding_gtk_to_dnm (const gchar *gtk_binding)
 {
+  if(!Denemo.prefs.strictshortcuts) {
+    return g_strdup(gtk_binding);
+  }
+
+
   gchar *res = "", *save, *next, *mod;
   const gchar *cur = gtk_binding;
   while (cur[0] == '<') {

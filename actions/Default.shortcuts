@@ -15,20 +15,17 @@
         </cursor-binding>
       </cursors>
       <row>
-        <action>CursorLeft</action>
-      </row>
-      <row>
         <action>MoveCursorLeft</action>
-        <bind>Left</bind>
+        <bind>left</bind>
       </row>
       <row>
         <action>CursorDown</action>
-        <bind>Down</bind>
+        <bind>down</bind>
         <bind>Shift+Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
-        <bind>Up</bind>
+        <bind>up</bind>
         <bind>Shift+Up</bind>
       </row>
       <row>
@@ -37,29 +34,11 @@
       </row>
       <row>
         <action>MoveCursorRight</action>
-        <bind>Right</bind>
-      </row>
-      <row>
-        <action>GoToMark</action>
-      </row>
-      <row>
-        <action>SwapPointAndMark</action>
-      </row>
-      <row>
-        <action>GoToSelectionStart</action>
-      </row>
-      <row>
-        <action>PushPosition</action>
-      </row>
-      <row>
-        <action>PopPosition</action>
-      </row>
-      <row>
-        <action>PopPushPosition</action>
+        <bind>right</bind>
       </row>
       <row>
         <action>ToggleReduceToDrawingArea</action>
-        <bind>Escape</bind>
+        <bind>escape</bind>
       </row>
       <row>
         <action>StaffUp</action>
@@ -76,12 +55,6 @@
       <row>
         <action>MoveToStaffDown</action>
         <bind>Control+Down</bind>
-      </row>
-      <row>
-        <action>MeasureLeft</action>
-      </row>
-      <row>
-        <action>MeasureRight</action>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
@@ -121,71 +94,11 @@
       </row>
       <row>
         <action>OctaveUp</action>
-        <bind>apostrophe</bind>
+        <bind>'</bind>
       </row>
       <row>
         <action>OctaveDown</action>
-        <bind>comma</bind>
-      </row>
-      <row>
-        <action>WholeNote</action>
-      </row>
-      <row>
-        <action>HalfNote</action>
-      </row>
-      <row>
-        <action>QuarterNote</action>
-      </row>
-      <row>
-        <action>EighthNote</action>
-      </row>
-      <row>
-        <action>SixteenthNote</action>
-      </row>
-      <row>
-        <action>ThirtysecondNote</action>
-      </row>
-      <row>
-        <action>SixtyfourthNote</action>
-      </row>
-      <row>
-        <action>OneHundredTwentyEighthNote</action>
-      </row>
-      <row>
-        <action>TwoHundredFiftySixthNote</action>
-      </row>
-      <row>
-        <action>InsertBlankWholeNote</action>
-      </row>
-      <row>
-        <action>InsertBlankHalfNote</action>
-      </row>
-      <row>
-        <action>InsertBlankQuarterNote</action>
-      </row>
-      <row>
-        <action>InsertBlankEighthNote</action>
-      </row>
-      <row>
-        <action>InsertBlankSixteenthNote</action>
-      </row>
-      <row>
-        <action>InsertBlankThirtysecondNote</action>
-      </row>
-      <row>
-        <action>InsertBlankSixtyfourthNote</action>
-      </row>
-      <row>
-        <action>InsertBlankOneHundredTwentyEighthNote</action>
-      </row>
-      <row>
-        <action>InsertBlankTwoHundredFiftySixthNote</action>
-      </row>
-      <row>
-        <action>ToggleRestMode</action>
-      </row>
-      <row>
-        <action>ToggleBlankMode</action>
+        <bind>,</bind>
       </row>
       <row>
         <action>InsertWholeRest</action>
@@ -216,92 +129,37 @@
         <bind>Alt+6</bind>
       </row>
       <row>
-        <action>InsertDuplet</action>
-      </row>
-      <row>
-        <action>InsertTriplet</action>
-      </row>
-      <row>
-        <action>StartTriplet</action>
-      </row>
-      <row>
-        <action>EndTuplet</action>
-      </row>
-      <row>
-        <action>InsertQuadtuplet</action>
-      </row>
-      <row>
-        <action>InsertQuintuplet</action>
-      </row>
-      <row>
-        <action>InsertSextuplet</action>
-      </row>
-      <row>
-        <action>InsertSeptuplet</action>
-      </row>
-      <row>
         <action>AddNoteToChord</action>
-        <bind>Insert</bind>
-      </row>
-      <row>
-        <action>RemoveNoteFromChord</action>
+        <bind>insert</bind>
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>KP_Add</bind>
-        <bind>equal</bind>
-        <bind>plus</bind>
+        <bind>=</bind>
+        <bind>+</bind>
       </row>
       <row>
         <action>Flatten</action>
-        <bind>KP_Subtract</bind>
-        <bind>minus</bind>
-      </row>
-      <row>
-        <action>StemUp</action>
-      </row>
-      <row>
-        <action>StemDown</action>
+        <bind>-</bind>
       </row>
       <row>
         <action>AddDot</action>
-        <bind>period</bind>
+        <bind>.</bind>
       </row>
       <row>
         <action>RemoveDot</action>
-        <bind>Control+period</bind>
-      </row>
-      <row>
-        <action>InsertTiedNote</action>
-      </row>
-      <row>
-        <action>ToggleTie</action>
-      </row>
-      <row>
-        <action>DeleteObject</action>
+        <bind>Ctrl+.</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
-        <bind>BackSpace</bind>
-      </row>
-      <row>
-        <action>InsertMeasure</action>
-        <bind>m</bind>
-      </row>
-      <row>
-        <action>AddMeasure</action>
-        <bind>n</bind>
+        <bind>backSpace</bind>
       </row>
       <row>
         <action>InsertMeasureBefore</action>
-        <bind>M</bind>
+        <bind>m</bind>
       </row>
       <row>
         <action>InsertMeasureAfter</action>
-        <bind>N</bind>
-      </row>
-      <row>
-        <action>AppendMeasure</action>
+        <bind>n</bind>
       </row>
       <row>
         <action>DeleteMeasure</action>
@@ -312,420 +170,48 @@
         <bind>Control+M</bind>
       </row>
       <row>
-        <action>ShrinkMeasures</action>
-      </row>
-      <row>
-        <action>WidenMeasures</action>
-      </row>
-      <row>
-        <action>ShorterStaffs</action>
-      </row>
-      <row>
-        <action>TallerStaffs</action>
-      </row>
-      <row>
-        <action>InsertTrebleClef</action>
-      </row>
-      <row>
-        <action>InsertBassClef</action>
-      </row>
-      <row>
-        <action>Insertg8clef</action>
-      </row>
-      <row>
-        <action>InsertAltoClef</action>
-      </row>
-      <row>
-        <action>InsertTenorClef</action>
-      </row>
-      <row>
-        <action>InsertSopranoClef</action>
-      </row>
-      <row>
-        <action>SetInitialTrebleClef</action>
-      </row>
-      <row>
-        <action>SetInitialBassClef</action>
-      </row>
-      <row>
-        <action>SetInitialg8clef</action>
-      </row>
-      <row>
-        <action>SetInitialAltoClef</action>
-      </row>
-      <row>
-        <action>SetInitialTenorClef</action>
-      </row>
-      <row>
-        <action>SetInitialSopranoClef</action>
-      </row>
-      <row>
-        <action>Insert22Time</action>
-      </row>
-      <row>
-        <action>Insert32Time</action>
-      </row>
-      <row>
-        <action>Insert42Time</action>
-      </row>
-      <row>
-        <action>Insert44Time</action>
-      </row>
-      <row>
-        <action>Insert34Time</action>
-      </row>
-      <row>
-        <action>Insert24Time</action>
-      </row>
-      <row>
-        <action>Insert64Time</action>
-      </row>
-      <row>
-        <action>Insert38Time</action>
-      </row>
-      <row>
-        <action>Insert68Time</action>
-      </row>
-      <row>
-        <action>Insert128Time</action>
-      </row>
-      <row>
-        <action>Insert98Time</action>
-      </row>
-      <row>
-        <action>Set22Time</action>
-      </row>
-      <row>
-        <action>Set32Time</action>
-      </row>
-      <row>
-        <action>Set42Time</action>
-      </row>
-      <row>
-        <action>Set44Time</action>
-      </row>
-      <row>
-        <action>Set34Time</action>
-      </row>
-      <row>
-        <action>Set24Time</action>
-      </row>
-      <row>
-        <action>Set64Time</action>
-      </row>
-      <row>
-        <action>Set38Time</action>
-      </row>
-      <row>
-        <action>Set68Time</action>
-      </row>
-      <row>
-        <action>Set128Time</action>
-      </row>
-      <row>
-        <action>Set98Time</action>
-      </row>
-      <row>
-        <action>InsertCmaj</action>
-      </row>
-      <row>
-        <action>InsertGmaj</action>
-      </row>
-      <row>
-        <action>InsertDmaj</action>
-      </row>
-      <row>
-        <action>InsertAmaj</action>
-      </row>
-      <row>
-        <action>InsertEmaj</action>
-      </row>
-      <row>
-        <action>InsertBmaj</action>
-      </row>
-      <row>
-        <action>InsertFSharpmaj</action>
-      </row>
-      <row>
-        <action>InsertCSharpmaj</action>
-      </row>
-      <row>
-        <action>InsertFmaj</action>
-      </row>
-      <row>
-        <action>InsertBflatmaj</action>
-      </row>
-      <row>
-        <action>InsertEflatmaj</action>
-      </row>
-      <row>
-        <action>InsertAflatmaj</action>
-      </row>
-      <row>
-        <action>InsertDflatmaj</action>
-      </row>
-      <row>
-        <action>InsertGflatmaj</action>
-      </row>
-      <row>
-        <action>InsertCflatmaj</action>
-      </row>
-      <row>
-        <action>InsertAmin</action>
-      </row>
-      <row>
-        <action>InsertEmin</action>
-      </row>
-      <row>
-        <action>InsertBmin</action>
-      </row>
-      <row>
-        <action>InsertFSharpmin</action>
-      </row>
-      <row>
-        <action>InsertCSharpmin</action>
-      </row>
-      <row>
-        <action>InsertGSharpmin</action>
-      </row>
-      <row>
-        <action>InsertDSharpmin</action>
-      </row>
-      <row>
-        <action>InsertASharpmin</action>
-      </row>
-      <row>
-        <action>InsertDmin</action>
-      </row>
-      <row>
-        <action>InsertGmin</action>
-      </row>
-      <row>
-        <action>InsertCmin</action>
-      </row>
-      <row>
-        <action>InsertFmin</action>
-      </row>
-      <row>
-        <action>InsertBflatmin</action>
-      </row>
-      <row>
-        <action>InsertEflatmin</action>
-      </row>
-      <row>
-        <action>InsertAflatmin</action>
-      </row>
-      <row>
-        <action>SetInitialCmaj</action>
-      </row>
-      <row>
-        <action>SetInitialGmaj</action>
-      </row>
-      <row>
-        <action>SetInitialDmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAmaj</action>
-      </row>
-      <row>
-        <action>SetInitialEmaj</action>
-      </row>
-      <row>
-        <action>SetInitialBmaj</action>
-      </row>
-      <row>
-        <action>SetInitialFSharpmaj</action>
-      </row>
-      <row>
-        <action>SetInitialCSharpmaj</action>
-      </row>
-      <row>
-        <action>SetInitialFmaj</action>
-      </row>
-      <row>
-        <action>SetInitialBflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialEflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialDflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialGflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialCflatmaj</action>
-      </row>
-      <row>
-        <action>SetInitialAmin</action>
-      </row>
-      <row>
-        <action>SetInitialEmin</action>
-      </row>
-      <row>
-        <action>SetInitialBmin</action>
-      </row>
-      <row>
-        <action>SetInitialFSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialCSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialGSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialDSharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialASharpmin</action>
-      </row>
-      <row>
-        <action>SetInitialDmin</action>
-      </row>
-      <row>
-        <action>SetInitialGmin</action>
-      </row>
-      <row>
-        <action>SetInitialCmin</action>
-      </row>
-      <row>
-        <action>SetInitialFmin</action>
-      </row>
-      <row>
-        <action>SetInitialBflatmin</action>
-      </row>
-      <row>
-        <action>SetInitialEflatmin</action>
-      </row>
-      <row>
-        <action>SetInitialAflatmin</action>
-      </row>
-      <row>
-        <action>SetMark</action>
-      </row>
-      <row>
         <action>UnsetMark</action>
-        <bind>Return</bind>
-      </row>
-      <row>
-        <action>SetPoint</action>
+        <bind>return</bind>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
-        <bind>parenleft</bind>
+        <bind>(</bind>
       </row>
       <row>
         <action>ToggleEndSlur</action>
-        <bind>parenright</bind>
-      </row>
-      <row>
-        <action>ToggleStartCrescendo</action>
-      </row>
-      <row>
-        <action>ToggleEndCrescendo</action>
-      </row>
-      <row>
-        <action>ToggleStartDiminuendo</action>
-      </row>
-      <row>
-        <action>ToggleEndDiminuendo</action>
-      </row>
-      <row>
-        <action>ToggleAccent</action>
+        <bind>)</bind>
       </row>
       <row>
         <action>ToggleFermata</action>
-        <bind>quotedbl</bind>
+        <bind>"</bind>
       </row>
       <row>
         <action>ToggleStaccato</action>
-        <bind>semicolon</bind>
-      </row>
-      <row>
-        <action>ToggleTenuto</action>
+        <bind>;</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
         <bind>backslash</bind>
       </row>
       <row>
-        <action>ToggleTurn</action>
-      </row>
-      <row>
-        <action>ToggleMordent</action>
-      </row>
-      <row>
         <action>ToggleStaccatissimo</action>
-        <bind>colon</bind>
-      </row>
-      <row>
-        <action>ToggleCoda</action>
-      </row>
-      <row>
-        <action>ToggleFlageolet</action>
-      </row>
-      <row>
-        <action>ToggleOpen</action>
-      </row>
-      <row>
-        <action>TogglePrallMordent</action>
-      </row>
-      <row>
-        <action>TogglePrallPrall</action>
-      </row>
-      <row>
-        <action>TogglePrall</action>
-      </row>
-      <row>
-        <action>ToggleReverseTurn</action>
-      </row>
-      <row>
-        <action>ToggleSegno</action>
-      </row>
-      <row>
-        <action>ToggleSforzato</action>
-      </row>
-      <row>
-        <action>ToggleStopped</action>
-      </row>
-      <row>
-        <action>ToggleThumb</action>
-      </row>
-      <row>
-        <action>ToggleUpprall</action>
+        <bind>:</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
-        <bind>percent</bind>
-      </row>
-      <row>
-        <action>SetGrace</action>
+        <bind>%</bind>
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>slash</bind>
-      </row>
-      <row>
-        <action>ForceCaution</action>
-      </row>
-      <row>
-        <action>ChangePitch</action>
+        <bind>/</bind>
       </row>
       <row>
         <action>InsertRhythm</action>
-        <bind>Control+space</bind>
+        <bind>Ctrl+space</bind>
       </row>
       <row>
         <action>NextRhythm</action>
         <bind>space</bind>
-      </row>
-      <row>
-        <action>AppendMeasureAllStaffs</action>
       </row>
       <row>
         <action>ExecuteScheme</action>
@@ -744,18 +230,6 @@
         <bind>Control+n</bind>
       </row>
       <row>
-        <action>Open</action>
-      </row>
-      <row>
-        <action>AddStaffs</action>
-      </row>
-      <row>
-        <action>AddMovements</action>
-      </row>
-      <row>
-        <action>MovementProps</action>
-      </row>
-      <row>
         <action>OpenNewWindow</action>
         <bind>Control+o</bind>
       </row>
@@ -768,55 +242,16 @@
         <bind>Control+S</bind>
       </row>
       <row>
-        <action>OpenTemplate</action>
-      </row>
-      <row>
-        <action>OpenExample</action>
-      </row>
-      <row>
-        <action>OpenMyTemplate</action>
-      </row>
-      <row>
-        <action>SaveTemplate</action>
-      </row>
-      <row>
         <action>NewWindow</action>
         <bind>Control+t</bind>
-      </row>
-      <row>
-        <action>InsertMovementBefore</action>
-      </row>
-      <row>
-        <action>InsertMovementAfter</action>
-      </row>
-      <row>
-        <action>NewMovement</action>
-      </row>
-      <row>
-        <action>SaveParts</action>
-      </row>
-      <row>
-        <action>ExportPDF</action>
-      </row>
-      <row>
-        <action>ConfigureScore</action>
       </row>
       <row>
         <action>PrintPreview</action>
         <bind>Control+P</bind>
       </row>
       <row>
-        <action>PrintSelection</action>
-      </row>
-      <row>
-        <action>PrintExcerptPreview</action>
-      </row>
-      <row>
         <action>Print</action>
         <bind>Control+p</bind>
-      </row>
-      <row>
-        <action>PrintPart</action>
       </row>
       <row>
         <action>Close</action>
@@ -825,12 +260,6 @@
       <row>
         <action>Quit</action>
         <bind>Control+q</bind>
-      </row>
-      <row>
-        <action>Undo</action>
-      </row>
-      <row>
-        <action>Redo</action>
       </row>
       <row>
         <action>Copy</action>
@@ -845,118 +274,16 @@
         <bind>Control+v</bind>
       </row>
       <row>
-        <action>PasteClipboard</action>
-      </row>
-      <row>
-        <action>ScoreProperties</action>
-      </row>
-      <row>
-        <action>SaveSelection</action>
-      </row>
-      <row>
-        <action>Preferences</action>
-      </row>
-      <row>
-        <action>SaveAccels</action>
-      </row>
-      <row>
-        <action>CommandManagement</action>
-      </row>
-      <row>
-        <action>SwapStaffs</action>
-      </row>
-      <row>
-        <action>SplitVoices</action>
-      </row>
-      <row>
-        <action>JoinVoices</action>
-      </row>
-      <row>
-        <action>SwapMovements</action>
-      </row>
-      <row>
         <action>VoiceUp</action>
-        <bind>Page_Up</bind>
+        <bind>page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
-        <bind>Page_Down</bind>
-      </row>
-      <row>
-        <action>MoveToVoiceUp</action>
-      </row>
-      <row>
-        <action>MoveToVoiceDown</action>
-      </row>
-      <row>
-        <action>AddBefore</action>
-      </row>
-      <row>
-        <action>AddAfter</action>
-      </row>
-      <row>
-        <action>AddInitial</action>
-      </row>
-      <row>
-        <action>AddLast</action>
-      </row>
-      <row>
-        <action>DeleteBefore</action>
-      </row>
-      <row>
-        <action>DeleteStaff</action>
-      </row>
-      <row>
-        <action>DeleteAfter</action>
-      </row>
-      <row>
-        <action>AddVoice</action>
+        <bind>page_Down</bind>
       </row>
       <row>
         <action>StaffProperties</action>
         <bind>Alt+Return</bind>
-      </row>
-      <row>
-        <action>InitialClef</action>
-      </row>
-      <row>
-        <action>InsertClef</action>
-      </row>
-      <row>
-        <action>InitialKey</action>
-      </row>
-      <row>
-        <action>InsertKey</action>
-      </row>
-      <row>
-        <action>InitialTimeSig</action>
-      </row>
-      <row>
-        <action>InsertTimeSig</action>
-      </row>
-      <row>
-        <action>ChangeNotehead</action>
-      </row>
-      <row>
-        <action>InsertStem</action>
-      </row>
-      <row>
-        <action>AddVerse</action>
-      </row>
-      <row>
-        <action>DeleteVerse</action>
-      </row>
-      <row>
-        <action>EditFiguredBass</action>
-      </row>
-      <row>
-        <action>DeleteFiguredBass</action>
-      </row>
-      <row>
-        <action>HideFiguredBass</action>
-      </row>
-      <row>
-        <action>EditChords</action>
       </row>
       <row>
         <action>InsertDynamic</action>
@@ -968,44 +295,8 @@
       </row>
       <row>
         <action>EditObject</action>
-        <bind>Tab</bind>
+        <bind>tab</bind>
         <bind>PrsR</bind>
-      </row>
-      <row>
-        <action>EditDirective</action>
-      </row>
-      <row>
-        <action>EditStaffDirective</action>
-      </row>
-      <row>
-        <action>EditVoiceDirective</action>
-      </row>
-      <row>
-        <action>EditScoreDirective</action>
-      </row>
-      <row>
-        <action>EditMovementDirective</action>
-      </row>
-      <row>
-        <action>EditClefDirective</action>
-      </row>
-      <row>
-        <action>EditTimesigDirective</action>
-      </row>
-      <row>
-        <action>EditKeysigDirective</action>
-      </row>
-      <row>
-        <action>DeleteDirective</action>
-      </row>
-      <row>
-        <action>AttachLilyToNote</action>
-      </row>
-      <row>
-        <action>AttachLilyToChord</action>
-      </row>
-      <row>
-        <action>InsertBarline</action>
       </row>
       <row>
         <action>GoToMeasure</action>
@@ -1021,11 +312,11 @@
       </row>
       <row>
         <action>MoveToBeginning</action>
-        <bind>Home</bind>
+        <bind>home</bind>
       </row>
       <row>
         <action>MoveToEnd</action>
-        <bind>End</bind>
+        <bind>end</bind>
       </row>
       <row>
         <action>NextMovement</action>
@@ -1036,58 +327,16 @@
         <bind>Shift+Control+Left</bind>
       </row>
       <row>
-        <action>DeleteMovement</action>
-      </row>
-      <row>
         <action>Play</action>
-        <bind>F5</bind>
+        <bind>f5</bind>
       </row>
       <row>
         <action>Stop</action>
-        <bind>F6</bind>
-      </row>
-      <row>
-        <action>PlayCSound</action>
-      </row>
-      <row>
-        <action>PlaybackProperties</action>
+        <bind>f6</bind>
       </row>
       <row>
         <action>Help</action>
-        <bind>F1</bind>
-      </row>
-      <row>
-        <action>About</action>
-      </row>
-      <row>
-        <action>MoreCommands</action>
-      </row>
-      <row>
-        <action>MyCommands</action>
-      </row>
-      <row>
-        <action>FetchCommands</action>
-      </row>
-      <row>
-        <action>ToggleEdit</action>
-      </row>
-      <row>
-        <action>ToggleRest</action>
-      </row>
-      <row>
-        <action>ToggleRhythm</action>
-      </row>
-      <row>
-        <action>ClearOverlay</action>
-      </row>
-      <row>
-        <action>CreateRhythm</action>
-      </row>
-      <row>
-        <action>DeleteRhythm</action>
-      </row>
-      <row>
-        <action>InsertA</action>
+        <bind>f1</bind>
       </row>
       <row>
         <action>AddNoteA</action>
@@ -1098,30 +347,12 @@
         <bind>Alt+a</bind>
       </row>
       <row>
-        <action>ChangeToA</action>
-      </row>
-      <row>
-        <action>MoveToA</action>
-      </row>
-      <row>
-        <action>InsertB</action>
-      </row>
-      <row>
         <action>AddNoteB</action>
         <bind>B</bind>
       </row>
       <row>
         <action>AddB</action>
         <bind>Alt+b</bind>
-      </row>
-      <row>
-        <action>ChangeToB</action>
-      </row>
-      <row>
-        <action>MoveToB</action>
-      </row>
-      <row>
-        <action>InsertC</action>
       </row>
       <row>
         <action>AddNoteC</action>
@@ -1132,30 +363,12 @@
         <bind>Alt+c</bind>
       </row>
       <row>
-        <action>ChangeToC</action>
-      </row>
-      <row>
-        <action>MoveToC</action>
-      </row>
-      <row>
-        <action>InsertD</action>
-      </row>
-      <row>
         <action>AddNoteD</action>
         <bind>D</bind>
       </row>
       <row>
         <action>AddD</action>
         <bind>Alt+d</bind>
-      </row>
-      <row>
-        <action>ChangeToD</action>
-      </row>
-      <row>
-        <action>MoveToD</action>
-      </row>
-      <row>
-        <action>InsertE</action>
       </row>
       <row>
         <action>AddNoteE</action>
@@ -1166,30 +379,12 @@
         <bind>Alt+e</bind>
       </row>
       <row>
-        <action>ChangeToE</action>
-      </row>
-      <row>
-        <action>MoveToE</action>
-      </row>
-      <row>
-        <action>InsertF</action>
-      </row>
-      <row>
         <action>AddNoteF</action>
         <bind>F</bind>
       </row>
       <row>
         <action>AddF</action>
         <bind>Alt+f</bind>
-      </row>
-      <row>
-        <action>ChangeToF</action>
-      </row>
-      <row>
-        <action>MoveToF</action>
-      </row>
-      <row>
-        <action>InsertG</action>
       </row>
       <row>
         <action>AddNoteG</action>
@@ -1200,505 +395,90 @@
         <bind>Alt+g</bind>
       </row>
       <row>
-        <action>ChangeToG</action>
-      </row>
-      <row>
-        <action>MoveToG</action>
-      </row>
-      <row>
         <action>0</action>
-        <bind>KP_Insert</bind>
         <bind>0</bind>
       </row>
       <row>
         <action>Change0</action>
-        <bind>KP_0</bind>
-        <bind>Control+0</bind>
-      </row>
-      <row>
-        <action>Insert0</action>
-      </row>
-      <row>
-        <action>InsertRest0</action>
-      </row>
-      <row>
-        <action>ChangeRest0</action>
-      </row>
-      <row>
-        <action>Set0</action>
+        <bind>Shft+0</bind>
       </row>
       <row>
         <action>1</action>
-        <bind>KP_End</bind>
         <bind>1</bind>
       </row>
       <row>
         <action>Change1</action>
-        <bind>KP_1</bind>
-        <bind>Control+1</bind>
-      </row>
-      <row>
-        <action>Insert1</action>
-      </row>
-      <row>
-        <action>InsertRest1</action>
-      </row>
-      <row>
-        <action>ChangeRest1</action>
-      </row>
-      <row>
-        <action>Set1</action>
+        <bind>Shft+1</bind>
       </row>
       <row>
         <action>2</action>
-        <bind>KP_Down</bind>
         <bind>2</bind>
       </row>
       <row>
         <action>Change2</action>
-        <bind>KP_2</bind>
-        <bind>Control+2</bind>
-      </row>
-      <row>
-        <action>Insert2</action>
-      </row>
-      <row>
-        <action>InsertRest2</action>
-      </row>
-      <row>
-        <action>ChangeRest2</action>
-      </row>
-      <row>
-        <action>Set2</action>
+        <bind>Shft+2</bind>
       </row>
       <row>
         <action>3</action>
-        <bind>KP_Page_Down</bind>
         <bind>3</bind>
       </row>
       <row>
         <action>Change3</action>
-        <bind>KP_3</bind>
-        <bind>Control+3</bind>
-      </row>
-      <row>
-        <action>Insert3</action>
-      </row>
-      <row>
-        <action>InsertRest3</action>
-      </row>
-      <row>
-        <action>ChangeRest3</action>
-      </row>
-      <row>
-        <action>Set3</action>
+        <bind>Shft+3</bind>
       </row>
       <row>
         <action>4</action>
-        <bind>KP_Left</bind>
         <bind>4</bind>
       </row>
       <row>
         <action>Change4</action>
-        <bind>KP_4</bind>
-        <bind>Control+4</bind>
-      </row>
-      <row>
-        <action>Insert4</action>
-      </row>
-      <row>
-        <action>InsertRest4</action>
-      </row>
-      <row>
-        <action>ChangeRest4</action>
-      </row>
-      <row>
-        <action>Set4</action>
+        <bind>Shft+4</bind>
       </row>
       <row>
         <action>5</action>
-        <bind>KP_Begin</bind>
         <bind>5</bind>
       </row>
       <row>
         <action>Change5</action>
-        <bind>KP_5</bind>
-        <bind>Control+5</bind>
-      </row>
-      <row>
-        <action>Insert5</action>
-      </row>
-      <row>
-        <action>InsertRest5</action>
-      </row>
-      <row>
-        <action>ChangeRest5</action>
-      </row>
-      <row>
-        <action>Set5</action>
+        <bind>Shft+5</bind>
       </row>
       <row>
         <action>6</action>
-        <bind>KP_Right</bind>
         <bind>6</bind>
       </row>
       <row>
         <action>Change6</action>
-        <bind>KP_6</bind>
-        <bind>Control+6</bind>
-      </row>
-      <row>
-        <action>Insert6</action>
-      </row>
-      <row>
-        <action>InsertRest6</action>
-      </row>
-      <row>
-        <action>ChangeRest6</action>
-      </row>
-      <row>
-        <action>Set6</action>
-      </row>
-      <row>
-        <action>7</action>
-        <bind>7</bind>
+        <bind>Shft+6</bind>
       </row>
       <row>
         <action>Change7</action>
-        <bind>KP_7</bind>
+        <bind>7</bind>
         <bind>Control+7</bind>
       </row>
       <row>
-        <action>Insert7</action>
-      </row>
-      <row>
-        <action>InsertRest7</action>
-      </row>
-      <row>
-        <action>ChangeRest7</action>
-      </row>
-      <row>
-        <action>Set7</action>
-      </row>
-      <row>
-        <action>8</action>
-        <bind>8</bind>
-      </row>
-      <row>
         <action>Change8</action>
-        <bind>KP_8</bind>
+        <bind>8</bind>
         <bind>Control+8</bind>
-      </row>
-      <row>
-        <action>Insert8</action>
-      </row>
-      <row>
-        <action>InsertRest8</action>
-      </row>
-      <row>
-        <action>ChangeRest8</action>
-      </row>
-      <row>
-        <action>Set8</action>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
         <bind>MveL-Shift</bind>
       </row>
       <row>
-        <action>StartDownStems</action>
-      </row>
-      <row>
-        <action>StartUpStems</action>
-      </row>
-      <row>
         <action>InsertTiedNoteDuration</action>
         <bind>t</bind>
       </row>
       <row>
-        <action>FiguredBassFilterOn</action>
-      </row>
-      <row>
-        <action>MidiFilterOff</action>
-      </row>
-      <row>
-        <action>CheckPitches</action>
-      </row>
-      <row>
-        <action>MidiAdvanceOnEdit</action>
-      </row>
-      <row>
-        <action>AngryDelete</action>
-      </row>
-      <row>
-        <action>OpenOctaveUp</action>
-      </row>
-      <row>
-        <action>CloseLilyBlock</action>
-      </row>
-      <row>
-        <action>TransposeOctaveUp</action>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromSelection</action>
-      </row>
-      <row>
-        <action>TransposeNote</action>
-      </row>
-      <row>
-        <action>TransposeSelection</action>
-      </row>
-      <row>
-        <action>D.C.AlFine</action>
-      </row>
-      <row>
-        <action>Allegro</action>
-      </row>
-      <row>
-        <action>Andante</action>
-      </row>
-      <row>
-        <action>Presto</action>
-      </row>
-      <row>
-        <action>Finger0</action>
-      </row>
-      <row>
-        <action>Finger1</action>
-      </row>
-      <row>
-        <action>Finger2</action>
-      </row>
-      <row>
-        <action>Finger3</action>
-      </row>
-      <row>
-        <action>Finger4</action>
-      </row>
-      <row>
-        <action>Finger5</action>
-      </row>
-      <row>
-        <action>StartBeam</action>
-      </row>
-      <row>
-        <action>EndBeam</action>
-      </row>
-      <row>
-        <action>DeleteLilyPondOnNote</action>
-      </row>
-      <row>
-        <action>DeleteLilyPondOnChord</action>
-      </row>
-      <row>
-        <action>MetronomeMarking</action>
-      </row>
-      <row>
-        <action>Anacrusis</action>
-      </row>
-      <row>
-        <action>RepeatStart</action>
-      </row>
-      <row>
-        <action>RepeatEnd</action>
-      </row>
-      <row>
-        <action>RepeatEndStart</action>
-      </row>
-      <row>
-        <action>ApplyToSelection</action>
-      </row>
-      <row>
-        <action>SetFontSize</action>
-      </row>
-      <row>
-        <action>LHFinger</action>
-      </row>
-      <row>
-        <action>StringNum</action>
-      </row>
-      <row>
-        <action>DoubleBarline</action>
-      </row>
-      <row>
-        <action>Glissando</action>
-      </row>
-      <row>
-        <action>SmallerStaff</action>
-      </row>
-      <row>
-        <action>TmbalesStyle</action>
-      </row>
-      <row>
-        <action>Fortissimo</action>
-      </row>
-      <row>
-        <action>CautionaryAccidental</action>
-      </row>
-      <row>
-        <action>ReminderAccidental</action>
-      </row>
-      <row>
-        <action>ScoreTitle</action>
-      </row>
-      <row>
-        <action>ScoreArranger</action>
-      </row>
-      <row>
-        <action>ScoreComposer</action>
-      </row>
-      <row>
-        <action>ScoreDedication</action>
-      </row>
-      <row>
-        <action>ScoreInstrument</action>
-      </row>
-      <row>
-        <action>ScoreMeter</action>
-      </row>
-      <row>
-        <action>ScoreOpus</action>
-      </row>
-      <row>
-        <action>ScorePoet</action>
-      </row>
-      <row>
-        <action>ScoreTagline</action>
-      </row>
-      <row>
-        <action>MovementTitle</action>
-      </row>
-      <row>
-        <action>MovementSubtitle</action>
-      </row>
-      <row>
-        <action>MovementPiece</action>
-      </row>
-      <row>
-        <action>ScoreCopyright</action>
-      </row>
-      <row>
-        <action>Indent</action>
-      </row>
-      <row>
-        <action>ScoreIndent</action>
-      </row>
-      <row>
-        <action>ToggleTupletNumbering</action>
-      </row>
-      <row>
-        <action>NoBeam</action>
-      </row>
-      <row>
-        <action>MovementPageBreak</action>
-      </row>
-      <row>
-        <action>HideMovement</action>
-      </row>
-      <row>
-        <action>Beam1234</action>
-      </row>
-      <row>
-        <action>ClosingBarline</action>
-      </row>
-      <row>
-        <action>EnterRest</action>
-      </row>
-      <row>
-        <action>AllegroAssai</action>
-      </row>
-      <row>
-        <action>Ambitus</action>
-      </row>
-      <row>
-        <action>RecreateTimebase</action>
-      </row>
-      <row>
-        <action>HideEmptyStaffs</action>
-      </row>
-      <row>
-        <action>InstrumentName</action>
-      </row>
-      <row>
-        <action>ShortInstrumentName</action>
-      </row>
-      <row>
-        <action>LineBreak</action>
-      </row>
-      <row>
-        <action>PageBreak</action>
-      </row>
-      <row>
-        <action>TransposeScorePrint</action>
-      </row>
-      <row>
-        <action>SetTransposeIntervalFromNote</action>
-      </row>
-      <row>
-        <action>MezzoForte</action>
-      </row>
-      <row>
-        <action>DeleteDynamic</action>
-      </row>
-      <row>
-        <action>TitlePage</action>
-      </row>
-      <row>
-        <action>ParenthesizeChord</action>
-      </row>
-      <row>
-        <action>ParenthesizeNote</action>
-      </row>
-      <row>
-        <action>GoToEmptyMeasure</action>
-      </row>
-      <row>
-        <action>IRC</action>
-      </row>
-      <row>
-        <action>ReBar</action>
-      </row>
-      <row>
-        <action>ToggleTripleting</action>
-      </row>
-      <row>
-        <action>NonPrintingStaff</action>
-      </row>
-      <row>
-        <action>Largo</action>
-      </row>
-      <row>
-        <action>Adagio</action>
-      </row>
-      <row>
-        <action>DrumGM2Custom</action>
-      </row>
-      <row>
-        <action>ScoreComment</action>
-      </row>
-      <row>
-        <action>MvntComment</action>
-      </row>
-      <row>
-        <action>StaffComment</action>
-      </row>
-      <row>
-        <action>ChordComment</action>
-      </row>
-      <row>
-        <action>TransposeStaffPrint</action>
-      </row>
-      <row>
         <action>NextBookmark</action>
-        <bind>F12</bind>
+        <bind>f12</bind>
       </row>
       <row>
         <action>PrevBookmark</action>
-        <bind>F11</bind>
+        <bind>f11</bind>
       </row>
       <row>
         <action>RehearsalMark</action>
-        <bind>F9</bind>
+        <bind>f9</bind>
       </row>
       <row>
         <action>BookmarkNamed</action>
@@ -1710,227 +490,11 @@
       </row>
       <row>
         <action>SearchBookmark</action>
-        <bind>F10</bind>
-      </row>
-      <row>
-        <action>Diminish</action>
-      </row>
-      <row>
-        <action>Augment</action>
-      </row>
-      <row>
-        <action>WholeMeasureRest</action>
-      </row>
-      <row>
-        <action>InsertWholeMeasureRest</action>
-      </row>
-      <row>
-        <action>MultiMeasureRests</action>
-      </row>
-      <row>
-        <action>OpenRepeat</action>
-      </row>
-      <row>
-        <action>CloseRepeat</action>
-      </row>
-      <row>
-        <action>FirstTimeBar</action>
-      </row>
-      <row>
-        <action>SecondTimeBar</action>
-      </row>
-      <row>
-        <action>EndSecondTimeBar</action>
-      </row>
-      <row>
-        <action>ClefChooser</action>
-      </row>
-      <row>
-        <action>HideLilyPond</action>
-      </row>
-      <row>
-        <action>MezzoPiano</action>
-      </row>
-      <row>
-        <action>Forte</action>
-      </row>
-      <row>
-        <action>SetImmediatePlayback</action>
-      </row>
-      <row>
-        <action>ShortMeasure</action>
-      </row>
-      <row>
-        <action>OpenOctaveDown</action>
-      </row>
-      <row>
-        <action>FindNextLowerNote</action>
-      </row>
-      <row>
-        <action>NextHigher</action>
+        <bind>f10</bind>
       </row>
       <row>
         <action>FindEditPoint</action>
         <bind>Alt+Left</bind>
-      </row>
-      <row>
-        <action>CreateOssiaStaff</action>
-      </row>
-      <row>
-        <action>ShowOssia</action>
-      </row>
-      <row>
-        <action>HideOssia</action>
-      </row>
-      <row>
-        <action>StartTuplet</action>
-      </row>
-      <row>
-        <action>BarNumbers</action>
-      </row>
-      <row>
-        <action>MidiTempo</action>
-      </row>
-      <row>
-        <action>Tempo</action>
-      </row>
-      <row>
-        <action>MM</action>
-      </row>
-      <row>
-        <action>DesignateVoice</action>
-      </row>
-      <row>
-        <action>DynamicsDialog</action>
-      </row>
-      <row>
-        <action>CursorToLowestNote</action>
-      </row>
-      <row>
-        <action>CursorToHighestNote</action>
-      </row>
-      <row>
-        <action>ZoomDialog</action>
-      </row>
-      <row>
-        <action>ChangeChannel</action>
-      </row>
-      <row>
-        <action>ChangeProgram</action>
-      </row>
-      <row>
-        <action>ChangeVolume</action>
-      </row>
-      <row>
-        <action>ChangeGeneric</action>
-      </row>
-      <row>
-        <action>ChangeModwheel</action>
-      </row>
-      <row>
-        <action>ChangeBalance</action>
-      </row>
-      <row>
-        <action>ChangePan</action>
-      </row>
-      <row>
-        <action>ChangeExpression</action>
-      </row>
-      <row>
-        <action>ChangeHoldPedal</action>
-      </row>
-      <row>
-        <action>ChangePortamento</action>
-      </row>
-      <row>
-        <action>ChangeSustenutoPedal</action>
-      </row>
-      <row>
-        <action>ChangeSoftPedal</action>
-      </row>
-      <row>
-        <action>ChangeLegatoPedal</action>
-      </row>
-      <row>
-        <action>ChangeHold2Pedal</action>
-      </row>
-      <row>
-        <action>C-Pentascale</action>
-      </row>
-      <row>
-        <action>F-Pentascale</action>
-      </row>
-      <row>
-        <action>Bb-Pentascale</action>
-      </row>
-      <row>
-        <action>Eb-Pentascale</action>
-      </row>
-      <row>
-        <action>Ab-Pentascale</action>
-      </row>
-      <row>
-        <action>Db-Pentascale</action>
-      </row>
-      <row>
-        <action>C-Major</action>
-      </row>
-      <row>
-        <action>F-Major</action>
-      </row>
-      <row>
-        <action>MajorOrMinor</action>
-      </row>
-      <row>
-        <action>LineOrSpace</action>
-      </row>
-      <row>
-        <action>UpDownOrSame</action>
-      </row>
-      <row>
-        <action>StepSkipOrSame</action>
-      </row>
-      <row>
-        <action>CountSteps</action>
-      </row>
-      <row>
-        <action>DiatonicInterval</action>
-      </row>
-      <row>
-        <action>ReadingNoteNames</action>
-      </row>
-      <row>
-        <action>ReadingNoteNamesSolfege</action>
-      </row>
-      <row>
-        <action>NoteNameSpeedTest</action>
-      </row>
-      <row>
-        <action>BassClefNoteNameSpeedTest</action>
-      </row>
-      <row>
-        <action>MajorOrAugmented</action>
-      </row>
-      <row>
-        <action>DiminishedOrMinor</action>
-      </row>
-      <row>
-        <action>MajorMinorAugmentedOrDiminished</action>
-      </row>
-      <row>
-        <action>DiminishedOrAugmented</action>
-      </row>
-      <row>
-        <action>HalfDiminished7OrDiminshed7</action>
-      </row>
-      <row>
-        <action>Major7Minor7OrDominant7</action>
-      </row>
-      <row>
-        <action>ReloadDrumHash</action>
-      </row>
-      <row>
-        <action>ConvertDrum2GmSingleSelection</action>
       </row>
       <row>
         <action>SelectStaff</action>
@@ -1941,15 +505,6 @@
         <bind>Control+A</bind>
       </row>
       <row>
-        <action>SetMovementTempo</action>
-      </row>
-      <row>
-        <action>LineNumber</action>
-      </row>
-      <row>
-        <action>SpaceNumber</action>
-      </row>
-      <row>
         <action>ShiftUp</action>
         <bind>Alt+Up</bind>
       </row>
@@ -1958,33 +513,20 @@
         <bind>Alt+Down</bind>
       </row>
       <row>
-        <action>CloseReopenRepeat</action>
-      </row>
-      <row>
         <action>ToggleCursorHighlight</action>
-        <bind>grave</bind>
-      </row>
-      <row>
-        <action>IntelligentDelete</action>
-        <bind>Delete</bind>
-      </row>
-      <row>
-        <action>SplitMeasure</action>
-      </row>
-      <row>
-        <action>GoToMeasureEnd</action>
+        <bind>`</bind>
       </row>
       <row>
         <action>ExtendSlur</action>
-        <bind>KP_Up</bind>
+        <bind>kP_Up</bind>
       </row>
       <row>
         <action>ReduceSlur</action>
-        <bind>KP_Home</bind>
+        <bind>kP_Home</bind>
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>Delete</bind>
+        <bind>delete</bind>
       </row>
     </map>
   </merge>

@@ -4674,6 +4674,7 @@ typedef struct set_accels_cb_data {
 static gint
 capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
         set_accels_cb_data * cb_data) {
+  dnm_clean_event(event);
   cb_data->modifiers = dnm_sanitize_key_state(event);
   cb_data->keyval = event->keyval;
   gchar *accel_label = dnm_accelerator_name (event->keyval, cb_data->modifiers);

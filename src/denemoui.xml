@@ -404,7 +404,7 @@
 	  <menuitem action="Change6"/>
        	  <menuitem action="AddDot"/>
 	  <menuitem action="RemoveDot"/>
-          <menuitem action="NextRhythm"/> 
+          
         </menu>
       <menu action="RestEntry">
         <menuitem action="InsertWholeRest"/>
@@ -424,7 +424,8 @@
 	  <menuitem action="Set3"/>
 	  <menuitem action="Set4"/>
 	  <menuitem action="Set5"/>
-	  <menuitem action="Set6"/>	  
+	  <menuitem action="Set6"/>
+	  <menuitem action="NextRhythm"/> 	  
       </menu>
 
 
