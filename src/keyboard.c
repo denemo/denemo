@@ -362,7 +362,9 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 		  gchar *gtk_binding = translate_binding_dnm_to_gtk((gchar *) tmp);
 		  //g_print("gtk_binding is %s\n", gtk_binding);
 		  if (gtk_binding) {
-		    dnm_accelerator_parse(gtk_binding, &keyval, &state);
+		    keyval = 0;
+		    if(Denemo.prefs.strictshortcuts)
+		      dnm_accelerator_parse(gtk_binding, &keyval, &state);
 #ifdef DEBUG
 		    g_print ("binding %s, keyval %d, state %d, Command Number %d\n",
 			     gtk_binding, keyval, state, command_number);

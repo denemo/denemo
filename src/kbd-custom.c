@@ -438,10 +438,11 @@ dnm_accelerator_name (guint           accelerator_key,
  
   if(!Denemo.prefs.strictshortcuts){
     GString *name;
-    if(Denemo.prefs.verboseshortcuts) 
-      name = g_string_new(gdk_keyval_name(accelerator_key));
-    else
-      name = g_string_new(gtk_accelerator_get_label(accelerator_key, 0));
+  
+    name = g_string_new(gdk_keyval_name(accelerator_key));
+    if(name->len>3 && (*name->str=='K') && (*(name->str+1)=='P') && (*(name->str+2)=='_'))
+      g_string_erase(name, 0, 3);//force numeric keypad KP_ names to normal
+
     //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
     if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
       *name->str += ('a'-'A');
@@ -1102,12 +1103,15 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   const gchar *base;
   //FIXME use translate_dnm_to_gtk
   base = lookup_label_from_idx(the_keymap, command_idx);
+#if 0
+  // we have to store an invariant gdk name, so we should look it up here to get the keyval  and from that derive a locale specific name to use on the label. In any case the following transformation is redundant
+
   gchar *c;
   for(c=str->str;*c;c++) {
       if(*c=='<') *c = ' ';
       if(*c=='>') *c = '-';
   }
-
+#endif
   gchar *markup = g_strdup_printf("%s <span style=\"italic\" stretch=\"condensed\" weight=\"bold\" foreground=\"blue\">%s</span>", base, str->str);
 
 

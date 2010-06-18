@@ -67,12 +67,40 @@
         <bind>Ctrl+Right</bind>
       </row>
       <row>
+        <action>A</action>
+        <bind>A</bind>
+      </row>
+      <row>
+        <action>B</action>
+        <bind>B</bind>
+      </row>
+      <row>
+        <action>C</action>
+        <bind>C</bind>
+      </row>
+      <row>
+        <action>D</action>
+        <bind>D</bind>
+      </row>
+      <row>
+        <action>E</action>
+        <bind>E</bind>
+      </row>
+      <row>
+        <action>F</action>
+        <bind>F</bind>
+      </row>
+      <row>
+        <action>G</action>
+        <bind>G</bind>
+      </row>
+      <row>
         <action>OctaveUp</action>
-        <bind>'</bind>
+        <bind>apostrophe</bind>
       </row>
       <row>
         <action>OctaveDown</action>
-        <bind>,</bind>
+        <bind>comma</bind>
       </row>
       <row>
         <action>InsertWholeRest</action>
@@ -104,16 +132,15 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <bind>insert</bind>
+        <bind>Insert</bind>
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>=</bind>
-        <bind>+</bind>
+        <bind>Shft+equal</bind>
       </row>
       <row>
         <action>Flatten</action>
-        <bind>-</bind>
+        <bind>minus</bind>
       </row>
       <row>
         <action>AddDot</action>
@@ -137,11 +164,11 @@
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <bind>Control+m</bind>
+        <bind>Ctrl+m</bind>
       </row>
       <row>
         <action>DeleteMeasureAllStaffs</action>
-        <bind>Control+M</bind>
+        <bind>Ctrl+M</bind>
       </row>
       <row>
         <action>UnsetMark</action>
@@ -189,11 +216,11 @@
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>Shft++</bind>
+        <bind>Add</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>Shft+-</bind>
+        <bind>Subtract</bind>
       </row>
       <row>
         <action>New</action>
@@ -433,6 +460,10 @@
       <row>
         <action>InsertTiedNoteDuration</action>
         <bind>t</bind>
+      </row>
+      <row>
+        <action>Anacrusis</action>
+        <bind>u</bind>
       </row>
       <row>
         <action>NextBookmark</action>
