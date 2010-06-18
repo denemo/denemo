@@ -15,82 +15,56 @@
         </cursor-binding>
       </cursors>
       <row>
+        <action>CursorLeft</action>
+        <bind>Shft+Left</bind>
+      </row>
+      <row>
         <action>MoveCursorLeft</action>
-        <bind>left</bind>
+        <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
-        <bind>down</bind>
-        <bind>Shift+Down</bind>
+        <bind>Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
-        <bind>up</bind>
-        <bind>Shift+Up</bind>
+        <bind>Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
-        <bind>Shift+Right</bind>
+        <bind>Shft+Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
-        <bind>right</bind>
+        <bind>Right</bind>
       </row>
       <row>
         <action>ToggleReduceToDrawingArea</action>
-        <bind>escape</bind>
+        <bind>Escape</bind>
       </row>
       <row>
         <action>StaffUp</action>
-        <bind>Shift+Control+Up</bind>
+        <bind>Ctrl+Shft+Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
-        <bind>Shift+Control+Down</bind>
+        <bind>Ctrl+Shft+Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
-        <bind>Control+Up</bind>
+        <bind>Ctrl+Up</bind>
       </row>
       <row>
         <action>MoveToStaffDown</action>
-        <bind>Control+Down</bind>
+        <bind>Ctrl+Down</bind>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
-        <bind>Control+Left</bind>
+        <bind>Ctrl+Left</bind>
       </row>
       <row>
         <action>MoveToMeasureRight</action>
-        <bind>Control+Right</bind>
-      </row>
-      <row>
-        <action>A</action>
-        <bind>a</bind>
-      </row>
-      <row>
-        <action>B</action>
-        <bind>b</bind>
-      </row>
-      <row>
-        <action>C</action>
-        <bind>c</bind>
-      </row>
-      <row>
-        <action>D</action>
-        <bind>d</bind>
-      </row>
-      <row>
-        <action>E</action>
-        <bind>e</bind>
-      </row>
-      <row>
-        <action>F</action>
-        <bind>f</bind>
-      </row>
-      <row>
-        <action>G</action>
-        <bind>g</bind>
+        <bind>Ctrl+Right</bind>
       </row>
       <row>
         <action>OctaveUp</action>
@@ -151,7 +125,7 @@
       </row>
       <row>
         <action>DeletePreviousObject</action>
-        <bind>backSpace</bind>
+        <bind>BackSpace</bind>
       </row>
       <row>
         <action>InsertMeasureBefore</action>
@@ -191,7 +165,7 @@
       </row>
       <row>
         <action>ToggleTrill</action>
-        <bind>backslash</bind>
+        <bind>Backslash</bind>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
@@ -211,75 +185,67 @@
       </row>
       <row>
         <action>NextRhythm</action>
-        <bind>space</bind>
-      </row>
-      <row>
-        <action>ExecuteScheme</action>
-        <bind>Control+Tab</bind>
+        <bind>Space</bind>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>Shift+KP_Add</bind>
+        <bind>Shft++</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>Shift+KP_Subtract</bind>
+        <bind>Shft+-</bind>
       </row>
       <row>
         <action>New</action>
-        <bind>Control+n</bind>
+        <bind>Ctrl+n</bind>
       </row>
       <row>
         <action>OpenNewWindow</action>
-        <bind>Control+o</bind>
+        <bind>Ctrl+o</bind>
       </row>
       <row>
         <action>Save</action>
-        <bind>Control+s</bind>
+        <bind>Ctrl+s</bind>
       </row>
       <row>
         <action>SaveAs</action>
-        <bind>Control+S</bind>
+        <bind>Ctrl+S</bind>
       </row>
       <row>
         <action>NewWindow</action>
-        <bind>Control+t</bind>
+        <bind>Ctrl+t</bind>
       </row>
       <row>
         <action>PrintPreview</action>
-        <bind>Control+P</bind>
-      </row>
-      <row>
-        <action>Print</action>
-        <bind>Control+p</bind>
+        <bind>Ctrl+p</bind>
       </row>
       <row>
         <action>Close</action>
-        <bind>Control+w</bind>
+        <bind>Ctrl+w</bind>
       </row>
       <row>
         <action>Quit</action>
-        <bind>Control+q</bind>
+        <bind>Ctrl+q</bind>
       </row>
       <row>
         <action>Copy</action>
-        <bind>Control+c</bind>
+        <bind>Ctrl+c</bind>
       </row>
       <row>
         <action>Cut</action>
-        <bind>Control+x</bind>
+        <bind>Ctrl+x</bind>
       </row>
       <row>
         <action>Paste</action>
-        <bind>Control+v</bind>
+        <bind>Ctrl+v</bind>
       </row>
       <row>
         <action>VoiceUp</action>
-        <bind>page_Up</bind>
+        <bind>Page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
-        <bind>page_Down</bind>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>StaffProperties</action>
@@ -295,7 +261,7 @@
       </row>
       <row>
         <action>EditObject</action>
-        <bind>tab</bind>
+        <bind>Tab</bind>
         <bind>PrsR</bind>
       </row>
       <row>
@@ -304,43 +270,43 @@
       </row>
       <row>
         <action>GoToBeginning</action>
-        <bind>Shift+Home</bind>
+        <bind>Shft+Home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
-        <bind>Shift+End</bind>
+        <bind>Shft+End</bind>
       </row>
       <row>
         <action>MoveToBeginning</action>
-        <bind>home</bind>
+        <bind>Home</bind>
       </row>
       <row>
         <action>MoveToEnd</action>
-        <bind>end</bind>
+        <bind>End</bind>
       </row>
       <row>
         <action>NextMovement</action>
-        <bind>Shift+Control+Right</bind>
+        <bind>Ctrl+Shft+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Shift+Control+Left</bind>
+        <bind>Ctrl+Shft+Left</bind>
       </row>
       <row>
         <action>Play</action>
-        <bind>f5</bind>
+        <bind>F5</bind>
       </row>
       <row>
         <action>Stop</action>
-        <bind>f6</bind>
+        <bind>F6</bind>
       </row>
       <row>
         <action>Help</action>
-        <bind>f1</bind>
+        <bind>F1</bind>
       </row>
       <row>
         <action>AddNoteA</action>
-        <bind>A</bind>
+        <bind>a</bind>
       </row>
       <row>
         <action>AddA</action>
@@ -348,7 +314,7 @@
       </row>
       <row>
         <action>AddNoteB</action>
-        <bind>B</bind>
+        <bind>b</bind>
       </row>
       <row>
         <action>AddB</action>
@@ -356,7 +322,7 @@
       </row>
       <row>
         <action>AddNoteC</action>
-        <bind>C</bind>
+        <bind>c</bind>
       </row>
       <row>
         <action>AddC</action>
@@ -364,7 +330,7 @@
       </row>
       <row>
         <action>AddNoteD</action>
-        <bind>D</bind>
+        <bind>d</bind>
       </row>
       <row>
         <action>AddD</action>
@@ -372,7 +338,7 @@
       </row>
       <row>
         <action>AddNoteE</action>
-        <bind>E</bind>
+        <bind>e</bind>
       </row>
       <row>
         <action>AddE</action>
@@ -380,7 +346,7 @@
       </row>
       <row>
         <action>AddNoteF</action>
-        <bind>F</bind>
+        <bind>f</bind>
       </row>
       <row>
         <action>AddF</action>
@@ -388,7 +354,7 @@
       </row>
       <row>
         <action>AddNoteG</action>
-        <bind>G</bind>
+        <bind>g</bind>
       </row>
       <row>
         <action>AddG</action>
@@ -470,27 +436,27 @@
       </row>
       <row>
         <action>NextBookmark</action>
-        <bind>f12</bind>
+        <bind>F12</bind>
       </row>
       <row>
         <action>PrevBookmark</action>
-        <bind>f11</bind>
+        <bind>F11</bind>
       </row>
       <row>
         <action>RehearsalMark</action>
-        <bind>f9</bind>
+        <bind>F9</bind>
       </row>
       <row>
         <action>BookmarkNamed</action>
-        <bind>Shift+F9</bind>
+        <bind>Shft+F9</bind>
       </row>
       <row>
         <action>BookmarkNonPrinting</action>
-        <bind>Shift+Control+F9</bind>
+        <bind>Ctrl+Shft+F9</bind>
       </row>
       <row>
         <action>SearchBookmark</action>
-        <bind>f10</bind>
+        <bind>F10</bind>
       </row>
       <row>
         <action>FindEditPoint</action>
@@ -526,7 +492,7 @@
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>delete</bind>
+        <bind>Delete</bind>
       </row>
     </map>
   </merge>
