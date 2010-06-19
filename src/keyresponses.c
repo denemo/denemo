@@ -108,11 +108,12 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     return TRUE;
   }
   // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,	  event->state&GDK_SHIFT_MASK	  );
-  gint state;
-  state = (lock_mask(event->keyval)^event->state);
-  if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))
-    set_cursor_for(state); // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
-
+  {
+    gint state;
+    state = (lock_mask(event->keyval)^event->state);
+    if(state || ((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock)))
+      set_cursor_for(state); // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
+  }
   dnm_clean_event (event);
 
 
