@@ -370,13 +370,13 @@
 	  <menuitem action="Flatten"/>
         </menu>
       <menu action="InsertNote">
-	<menuitem action="AddNoteA"/>
-	<menuitem action="AddNoteB"/>
-	<menuitem action="AddNoteC"/>
-	<menuitem action="AddNoteD"/>
-	<menuitem action="AddNoteE"/>
-	<menuitem action="AddNoteF"/>
-	<menuitem action="AddNoteG"/>
+	<menuitem action="InsertA"/>
+	<menuitem action="InsertB"/>
+	<menuitem action="InsertC"/>
+	<menuitem action="InsertD"/>
+	<menuitem action="InsertE"/>
+	<menuitem action="InsertF"/>
+	<menuitem action="InsertG"/>
       </menu>
 
 	<menu action="EditDuration">

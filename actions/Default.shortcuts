@@ -332,7 +332,7 @@
         <bind>F1</bind>
       </row>
       <row>
-        <action>AddNoteA</action>
+        <action>InsertA</action>
         <bind>A</bind>
       </row>
       <row>
@@ -340,7 +340,7 @@
         <bind>Alt+a</bind>
       </row>
       <row>
-        <action>AddNoteB</action>
+        <action>InsertB</action>
         <bind>B</bind>
       </row>
       <row>
@@ -348,7 +348,7 @@
         <bind>Alt+b</bind>
       </row>
       <row>
-        <action>AddNoteC</action>
+        <action>InsertC</action>
         <bind>C</bind>
       </row>
       <row>
@@ -356,7 +356,7 @@
         <bind>Alt+c</bind>
       </row>
       <row>
-        <action>AddNoteD</action>
+        <action>InsertD</action>
         <bind>D</bind>
       </row>
       <row>
@@ -364,7 +364,7 @@
         <bind>Alt+d</bind>
       </row>
       <row>
-        <action>AddNoteE</action>
+        <action>InsertE</action>
         <bind>E</bind>
       </row>
       <row>
@@ -372,7 +372,7 @@
         <bind>Alt+e</bind>
       </row>
       <row>
-        <action>AddNoteF</action>
+        <action>InsertF</action>
         <bind>F</bind>
       </row>
       <row>
@@ -380,7 +380,7 @@
         <bind>Alt+f</bind>
       </row>
       <row>
-        <action>AddNoteG</action>
+        <action>InsertG</action>
         <bind>G</bind>
       </row>
       <row>
