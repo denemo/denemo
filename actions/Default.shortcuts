@@ -68,31 +68,31 @@
       </row>
       <row>
         <action>A</action>
-        <bind>A</bind>
+        <bind>a</bind>
       </row>
       <row>
         <action>B</action>
-        <bind>B</bind>
+        <bind>b</bind>
       </row>
       <row>
         <action>C</action>
-        <bind>C</bind>
+        <bind>c</bind>
       </row>
       <row>
         <action>D</action>
-        <bind>D</bind>
+        <bind>d</bind>
       </row>
       <row>
         <action>E</action>
-        <bind>E</bind>
+        <bind>e</bind>
       </row>
       <row>
         <action>F</action>
-        <bind>F</bind>
+        <bind>f</bind>
       </row>
       <row>
         <action>G</action>
-        <bind>G</bind>
+        <bind>g</bind>
       </row>
       <row>
         <action>OctaveUp</action>
@@ -333,7 +333,7 @@
       </row>
       <row>
         <action>AddNoteA</action>
-        <bind>a</bind>
+        <bind>A</bind>
       </row>
       <row>
         <action>AddA</action>
@@ -341,7 +341,7 @@
       </row>
       <row>
         <action>AddNoteB</action>
-        <bind>b</bind>
+        <bind>B</bind>
       </row>
       <row>
         <action>AddB</action>
@@ -349,7 +349,7 @@
       </row>
       <row>
         <action>AddNoteC</action>
-        <bind>c</bind>
+        <bind>C</bind>
       </row>
       <row>
         <action>AddC</action>
@@ -357,7 +357,7 @@
       </row>
       <row>
         <action>AddNoteD</action>
-        <bind>d</bind>
+        <bind>D</bind>
       </row>
       <row>
         <action>AddD</action>
@@ -365,7 +365,7 @@
       </row>
       <row>
         <action>AddNoteE</action>
-        <bind>e</bind>
+        <bind>E</bind>
       </row>
       <row>
         <action>AddE</action>
@@ -373,7 +373,7 @@
       </row>
       <row>
         <action>AddNoteF</action>
-        <bind>f</bind>
+        <bind>F</bind>
       </row>
       <row>
         <action>AddF</action>
@@ -381,7 +381,7 @@
       </row>
       <row>
         <action>AddNoteG</action>
-        <bind>g</bind>
+        <bind>G</bind>
       </row>
       <row>
         <action>AddG</action>
