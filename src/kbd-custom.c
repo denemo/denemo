@@ -444,14 +444,20 @@ dnm_accelerator_name (guint           accelerator_key,
       g_string_erase(name, 0, 3);//force numeric keypad KP_ names to normal
 
     //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
+
+    //do not let caps lock affect shift of backspace etc, only alphanumeric
+    if (accelerator_mods&GDK_SHIFT_MASK) 
+      if((name->len>1) ||
+	 ((name->len==1) && (*name->str>='0') && (*name->str<='9')))
+	g_string_prepend(name, "Shft+");
+    
     if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
       *name->str += ('a'-'A');
     if(((accelerator_mods&GDK_LOCK_MASK)!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0)) {
       if((name->len==1) && (*name->str>='a') && (*name->str<='z'))
 	  *name->str -= ('a'-'A');
-	else
-	  g_string_prepend(name, "Shft+");
     }
+
     if((accelerator_mods&GDK_CONTROL_MASK))
       g_string_prepend(name, "Ctrl+");
 
