@@ -76,14 +76,14 @@ load_keymap_file_named (gchar *keymapfile, gchar *fallback);
 void    dnm_clean_event (GdkEventKey *event) {
   if(!Denemo.prefs.strictshortcuts){
     guint ret;
-    g_print("Called %s\n", gdk_keyval_name(event->keyval));
+    //g_print("Called %s\n", gdk_keyval_name(event->keyval));
     gdk_keymap_translate_keyboard_state (NULL, event->hardware_keycode,
 					 GDK_MOD2_MASK/*NumLock forcing numeric keypad to give numbers */, 0/*group 0 */,  &ret, NULL, NULL, NULL);
     if(ret>='A' && ret <='G')
       ret += ('a'-'A');
     event->keyval = ret;
     
-    g_print("Changed to %s\n", gdk_keyval_name(event->keyval));
+    //g_print("Changed to %s\n", gdk_keyval_name(event->keyval));
   }}
 
 
@@ -1110,6 +1110,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx)
   //FIXME use translate_dnm_to_gtk
   base = lookup_label_from_idx(the_keymap, command_idx);
 #if 0
+  //FIXME here generate a locale dependent name using gtk_accelerator_get_label after back-tracking to find the keyval from the binding (stripping off the prefixes we have added etc). This will be needed for language translation (i.e. _N() should be applied to the gdk_keyval_name() but the label we are writing here should be better with a translated indication of the keybinding (Left becomes Links in German etc).
   // we have to store an invariant gdk name, so we should look it up here to get the keyval  and from that derive a locale specific name to use on the label. In any case the following transformation is redundant
 
   gchar *c;
