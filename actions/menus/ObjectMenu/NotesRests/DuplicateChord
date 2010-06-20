@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>Duplicate</action>
+        <action>DuplicateChord</action>
         <scheme> ;;;Duplicate Note or Chord, not for rests
 (if (d-GetNotes) 
 	(begin

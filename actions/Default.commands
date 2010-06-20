@@ -3696,10 +3696,10 @@ for second and subsequent systems</tooltip>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
       </row>
       <row>
-        <action>Duplicate</action>             
+        <action>DuplicateChord</action>             
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
-        <label>Duplicate</label>
+        <label>Duplicate Note/Chord</label>
         <tooltip>Duplicate a note or chord. Not for rests.</tooltip>
       </row>
     </map>
