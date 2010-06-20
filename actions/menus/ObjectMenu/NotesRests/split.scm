@@ -8,7 +8,10 @@
 (begin
 
 (if (not howmany)
-	(set! howmany (string->number (d-GetUserInput "Split in how many notes?" "Enter the amount of fraction of equal duration in their sum:" "5" ) ))
+	(begin
+		 (set! howmany (d-GetUserInput "Split in how many notes?" "Enter the amount of fraction of equal duration in their sum:" "5" ) )
+		 (if howmany (set! howmany (string->number howmany)) #f) ; If the user pressed "Abort" or Esc howmany will be #f which must be catched here
+	)
 )
 
 (case howmany
