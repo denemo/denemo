@@ -2,6 +2,8 @@
 (use-modules (ice-9 regex))
 (use-modules (ice-9 optargs))
 (load "ans-7.scm")
+(load "menus/ObjectMenu/NotesRests/split.scm") 
+(load "menus/ObjectMenu/NotesRests/changedurationbyfactortwo.scm") 
 
 ;;;;;;;;;; create documentation for a command - this version just prints out basic info
 ;;;;;;;;;;;;;DocumentCommand

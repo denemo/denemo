@@ -3702,6 +3702,14 @@ for second and subsequent systems</tooltip>
         <label>Duplicate Note/Chord</label>
         <tooltip>Duplicate a note or chord. Not for rests.</tooltip>
       </row>
+      <row>
+        <action>SplitChord</action>             
+        <scheme>(SplitChord)</scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Split Note/Chord</label>
+        <tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</tooltip>
+      </row>
+      
     </map>
   </commands>
 </Denemo>
