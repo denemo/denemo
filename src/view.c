@@ -4653,38 +4653,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     }
 }
 
-typedef enum shortcut_mod {
-  SHORTCUT_NOCHANGE,
-  SHORTCUT_ADD,
-  SHORTCUT_DELETE
-} shortcut_mod;
 
-typedef struct set_accels_cb_data {
-  GtkAccelKey *key;
-  GtkButton *prop_button;
-  shortcut_mod changed;
-  gint keyval;
-  gint modifiers;
-  gint idx;
-  gchar *path;
-} set_accels_cb_data;
-
-/* define accelerator
- */
-static gint
-capture_accel_for_action (GtkWidget * widget, GdkEventKey *event,
-        set_accels_cb_data * cb_data) {
-  dnm_clean_event(event);
-  cb_data->modifiers = dnm_sanitize_key_state(event);
-  cb_data->keyval = event->keyval;
-  gchar *accel_label = dnm_accelerator_name (event->keyval, cb_data->modifiers);
-  gtk_button_set_label(GTK_BUTTON(widget), g_strdup_printf("%s [%s] %d %d",
-              N_("shortcut"), accel_label, event->keyval, cb_data->modifiers));
-  //FIXME memory leak
-  //g_free(accel_label); what is the free for g_new???
-
-  return TRUE;/* stop other handlers being processed */
-}
 
 static void
 save_accels (void) {
@@ -4692,28 +4661,6 @@ save_accels (void) {
   Denemo.accelerator_status = FALSE;
 }
 
-static gboolean
-accept_keypress(GtkButton *button, set_accels_cb_data *cb_data){
-  gtk_button_set_label(button, N_("Press the key combination desired"));
-  cb_data->changed = SHORTCUT_ADD;
-  // set cb_data->sigid =  and kill the signal when activated.
-  g_signal_connect (GTK_OBJECT (button), "key_press_event",
-		    G_CALLBACK (capture_accel_for_action), cb_data);
-  return TRUE;
-}
-
-static gboolean
-delete_accel(GtkButton *button, set_accels_cb_data *cb_data) {
-  gtk_button_set_label(button, N_("Press the shortcut key that you wish to delete"));
-  cb_data->changed = SHORTCUT_DELETE;
-  g_signal_connect (GTK_OBJECT (button), "key_press_event",
-		    G_CALLBACK (capture_accel_for_action), cb_data);
-  //GtkButton *prop_button = cb_data->prop_button;
-  //g_free(accel_label); what is the free for g_new???
-  //gtk_button_set_label(prop_button, N_("An accel will be deleted"));
-  return TRUE;/* stop other handlers being processed */
-
-}
 
 static 	void show_type(GtkWidget *widget, gchar *message);
 
