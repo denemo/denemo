@@ -102,6 +102,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
   if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
+    dnm_clean_event (event);
     *divert_key_event = event;
     //g_object_ref(event); FIXME do we need to keep it around?
     gtk_main_quit();
