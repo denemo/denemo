@@ -20,15 +20,15 @@
       </row>
       <row>
         <action>MoveCursorLeft</action>
-        <bind>left</bind>
+        <bind>Left</bind>
       </row>
       <row>
         <action>CursorDown</action>
-        <bind>down</bind>
+        <bind>Down</bind>
       </row>
       <row>
         <action>CursorUp</action>
-        <bind>up</bind>
+        <bind>Up</bind>
       </row>
       <row>
         <action>CursorRight</action>
@@ -36,7 +36,7 @@
       </row>
       <row>
         <action>MoveCursorRight</action>
-        <bind>right</bind>
+        <bind>Right</bind>
       </row>
       <row>
         <action>SwapPointAndMark</action>
@@ -56,7 +56,7 @@
       </row>
       <row>
         <action>ToggleReduceToDrawingArea</action>
-        <bind>escape</bind>
+        <bind>Escape</bind>
       </row>
       <row>
         <action>StaffUp</action>
@@ -68,11 +68,11 @@
       </row>
       <row>
         <action>MoveToStaffUp</action>
-        <bind>Control+Up</bind>
+        <bind>Ctrl+Up</bind>
       </row>
       <row>
         <action>MoveToStaffDown</action>
-        <bind>Control+Down</bind>
+        <bind>Ctrl+Down</bind>
       </row>
       <row>
         <action>MeasureLeft</action>
@@ -84,11 +84,11 @@
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
-        <bind>Control+Left</bind>
+        <bind>Ctrl+Left</bind>
       </row>
       <row>
         <action>MoveToMeasureRight</action>
-        <bind>Control+Right</bind>
+        <bind>Ctrl+Right</bind>
       </row>
       <row>
         <action>A</action>
@@ -120,11 +120,11 @@
       </row>
       <row>
         <action>OctaveUp</action>
-        <bind>'</bind>
+        <bind>apostrophe</bind>
       </row>
       <row>
         <action>OctaveDown</action>
-        <bind>,</bind>
+        <bind>comma</bind>
       </row>
       <row>
         <action>InsertWholeRest</action>
@@ -156,7 +156,7 @@
       </row>
       <row>
         <action>AddNoteToChord</action>
-        <bind>insert</bind>
+        <bind>Insert</bind>
       </row>
       <row>
         <action>RemoveNoteFromChord</action>
@@ -164,15 +164,23 @@
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>Shift+equal</bind>
+        <bind>Add</bind>
+        <bind>Shft+equal</bind>
+      </row>
+      <row>
+        <action>Flatten</action>
+        <bind>Subtract</bind>
+        <bind>minus</bind>
       </row>
       <row>
         <action>AddDot</action>
-        <bind>.</bind>
+        <bind>Decimal</bind>
+        <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
-        <bind>Ctrl+.</bind>
+        <bind>Ctrl+Decimal</bind>
+        <bind>Ctrl+period</bind>
       </row>
       <row>
         <action>DeleteObject</action>
@@ -180,7 +188,7 @@
       </row>
       <row>
         <action>DeletePreviousObject</action>
-        <bind>backSpace</bind>
+        <bind>BackSpace</bind>
       </row>
       <row>
         <action>InsertMeasure</action>
@@ -192,11 +200,11 @@
       </row>
       <row>
         <action>DeleteMeasure</action>
-        <bind>Control+m</bind>
+        <bind>Ctrl+m</bind>
       </row>
       <row>
         <action>DeleteMeasureAllStaffs</action>
-        <bind>Control+M</bind>
+        <bind>Ctrl+M</bind>
       </row>
       <row>
         <action>UnsetMark</action>
@@ -227,16 +235,8 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
-        <action>ToggleAccent</action>
-        <bind>&gt;</bind>
-      </row>
-      <row>
-        <action>ToggleFermata</action>
-        <bind>"</bind>
-      </row>
-      <row>
         <action>ToggleStaccato</action>
-        <bind>;</bind>
+        <bind>semicolon</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
@@ -260,7 +260,7 @@
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>/</bind>
+        <bind>slash</bind>
       </row>
       <row>
         <action>InsertRhythm</action>
@@ -280,35 +280,31 @@
       </row>
       <row>
         <action>New</action>
-        <bind>Control+n</bind>
+        <bind>Ctrl+n</bind>
       </row>
       <row>
         <action>Save</action>
-        <bind>Control+s</bind>
+        <bind>Ctrl+s</bind>
       </row>
       <row>
         <action>SaveAs</action>
-        <bind>Control+S</bind>
+        <bind>Ctrl+S</bind>
       </row>
       <row>
         <action>NewWindow</action>
-        <bind>Control+t</bind>
+        <bind>Ctrl+t</bind>
       </row>
       <row>
         <action>PrintPreview</action>
-        <bind>Control+P</bind>
-      </row>
-      <row>
-        <action>Print</action>
-        <bind>Control+p</bind>
+        <bind>Ctrl+p</bind>
       </row>
       <row>
         <action>Close</action>
-        <bind>Control+w</bind>
+        <bind>Ctrl+w</bind>
       </row>
       <row>
         <action>Quit</action>
-        <bind>Ctrl+Q</bind>
+        <bind>Ctrl+q</bind>
       </row>
       <row>
         <action>Undo</action>
@@ -320,23 +316,23 @@
       </row>
       <row>
         <action>Copy</action>
-        <bind>Control+c</bind>
+        <bind>Ctrl+c</bind>
       </row>
       <row>
         <action>Cut</action>
-        <bind>Control+x</bind>
+        <bind>Ctrl+x</bind>
       </row>
       <row>
         <action>Paste</action>
-        <bind>Control+v</bind>
+        <bind>Ctrl+v</bind>
       </row>
       <row>
-        <action>VoiceUp</action>
-        <bind>page_Up</bind>
+        <action>MoveToVoiceUp</action>
+        <bind>Page_Up</bind>
       </row>
       <row>
-        <action>VoiceDown</action>
-        <bind>page_Down</bind>
+        <action>MoveToVoiceDown</action>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>StaffProperties</action>
@@ -345,10 +341,6 @@
       <row>
         <action>InsertDynamic</action>
         <bind>Control+d</bind>
-      </row>
-      <row>
-        <action>InsertLilyDirective</action>
-        <bind>l</bind>
       </row>
       <row>
         <action>EditObject</action>
@@ -368,27 +360,35 @@
         <bind>end</bind>
       </row>
       <row>
+        <action>MoveToBeginning</action>
+        <bind>Home</bind>
+      </row>
+      <row>
+        <action>MoveToEnd</action>
+        <bind>End</bind>
+      </row>
+      <row>
         <action>NextMovement</action>
-        <bind>Shift+Right</bind>
+        <bind>Shft+Right</bind>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Shift+Left</bind>
+        <bind>Shft+Left</bind>
       </row>
       <row>
         <action>Play</action>
-        <bind>f5</bind>
+        <bind>F5</bind>
       </row>
       <row>
         <action>Stop</action>
-        <bind>f6</bind>
+        <bind>F6</bind>
       </row>
       <row>
         <action>Help</action>
         <bind>f1</bind>
       </row>
       <row>
-        <action>AddNoteA</action>
+        <action>InsertA</action>
         <bind>A</bind>
       </row>
       <row>
@@ -396,7 +396,7 @@
         <bind>Alt+a</bind>
       </row>
       <row>
-        <action>AddNoteB</action>
+        <action>InsertB</action>
         <bind>B</bind>
       </row>
       <row>
@@ -404,7 +404,7 @@
         <bind>Alt+b</bind>
       </row>
       <row>
-        <action>AddNoteC</action>
+        <action>InsertC</action>
         <bind>C</bind>
       </row>
       <row>
@@ -412,7 +412,7 @@
         <bind>Alt+c</bind>
       </row>
       <row>
-        <action>AddNoteD</action>
+        <action>InsertD</action>
         <bind>D</bind>
       </row>
       <row>
@@ -420,7 +420,7 @@
         <bind>Alt+d</bind>
       </row>
       <row>
-        <action>AddNoteE</action>
+        <action>InsertE</action>
         <bind>E</bind>
       </row>
       <row>
@@ -428,7 +428,7 @@
         <bind>Alt+e</bind>
       </row>
       <row>
-        <action>AddNoteF</action>
+        <action>InsertF</action>
         <bind>F</bind>
       </row>
       <row>
@@ -436,7 +436,7 @@
         <bind>Alt+f</bind>
       </row>
       <row>
-        <action>AddNoteG</action>
+        <action>InsertG</action>
         <bind>G</bind>
       </row>
       <row>
@@ -537,11 +537,11 @@
       </row>
       <row>
         <action>RehearsalMark</action>
-        <bind>f9</bind>
+        <bind>F9</bind>
       </row>
       <row>
         <action>FindNextLowerNote</action>
-        <bind>Control+f</bind>
+        <bind>Ctrl+f</bind>
       </row>
       <row>
         <action>FindEditPoint</action>
@@ -584,6 +584,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>GraceNoteSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleCursorHighlight</action>
         <bind>`</bind>
       </row>
@@ -601,7 +605,7 @@
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>delete</bind>
+        <bind>Delete</bind>
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>
