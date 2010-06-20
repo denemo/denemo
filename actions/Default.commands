@@ -3689,8 +3689,9 @@ for second and subsequent systems</tooltip>
       </row>
      <row>
         <action>Duplicate</action>             
+        <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
-        <label>Duplicate a note or chord. Not for rests.</label>
+        <label>Duplicate</label>
         <tooltip>Duplicate a note or chord. Not for rests.</tooltip>
       </row>
     </map>
