@@ -3694,6 +3694,12 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Insert Duplicate Measure After</label>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
+     <row>
+        <action>Duplicate</action>             
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Duplicate</label>
+        <tooltip>Duplicate a note or chord. Not for rests.</tooltip>
       </row>
     </map>
   </commands>
