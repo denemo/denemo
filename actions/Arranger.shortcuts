@@ -244,7 +244,7 @@
       </row>
       <row>
         <action>ToggleTrill</action>
-        <bind>Backslash</bind>
+        <bind>backslash</bind>
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
@@ -610,6 +610,10 @@
       <row>
         <action>OpenMyDefaultTemplate</action>
         <bind>Control+o</bind>
+      </row>
+      <row>
+        <action>AddDuplicateMeasure</action>
+        <bind>Enter</bind>
       </row>
     </map>
   </merge>

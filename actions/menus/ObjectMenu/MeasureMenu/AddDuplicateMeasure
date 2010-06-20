@@ -8,18 +8,16 @@
         <after>AddMeasure</after>
         <action>AddDuplicateMeasure</action>
         <scheme>;;;AddDuplicateMeasure
-(d-PushClipboard)
 (while (d-PrevObjectInMeasure)
        #t)
  (d-SetMark)
 (while (d-NextObjectInMeasure)
        #t)
- (d-SetPoint)
+(d-SetPoint)
 (d-Copy)
 (d-InsertMeasureAfter)
 (d-Paste)
-(d-PopClipboard)
-</scheme>
+(d-MoveCursorRight)</scheme>
         <label>Insert Duplicate Measure After</label>
         <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
       </row>

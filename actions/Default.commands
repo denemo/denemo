@@ -3687,6 +3687,14 @@ for second and subsequent systems</tooltip>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>
       </row>
+      <row>
+        <action>AddDuplicateMeasure</action>
+        <after>AddMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Duplicate Measure After</label>
+        <tooltip>Inserts a copy of the current measure after the present measure.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
