@@ -3687,6 +3687,12 @@ for second and subsequent systems</tooltip>
         <label>End Small Size</label>
         <tooltip>Printing resumes normal size music.</tooltip>
       </row>
+     <row>
+        <action>Duplicate</action>             
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Duplicate a note or chord. Not for rests.</label>
+        <tooltip>Duplicate a note or chord. Not for rests.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
