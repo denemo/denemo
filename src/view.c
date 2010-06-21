@@ -2573,6 +2573,10 @@ SCM scheme_set_saved (SCM optional) {
   return SCM_BOOL(TRUE);
 }
 
+SCM scheme_get_saved (SCM optional) {
+  return SCM_BOOL(!Denemo.gui->notsaved);
+}
+
 
 /* moves currentobject to object in the selection in the direction indicated by right.
    Steps over barlines (i.e. cursor_appending).
@@ -3636,6 +3640,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
   INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+  INSTALL_SCM_FUNCTION ("Gets the saved status of the current musical",DENEMO_SCHEME_PREFIX"GetSaved", scheme_get_saved);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
 
   INSTALL_SCM_FUNCTION ("Takes a file name, loads keybindings from actions/menus returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadKeybindings", scheme_load_keybindings);
