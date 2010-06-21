@@ -254,7 +254,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 <title>What Happens at Startup</title>
     <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
 </para>
-    <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. If you have a Numeric Keypad you may wish to start with an alternative set (Edit-&gt;Customize Commands Shortcuts...-&gt;Manage Command Set and click on "Load a Standard Command Set" to get this. Save it for next time using "Save as Default Command Set").
+    <para>In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. You are offered a choice on startup. Once you have settled on the set you wish to use, and perhaps started to customise it you can save it for next time using "Save as Default Command Set" in the command set manager.
 <note>
 You should exit and re-start Denemo after creating a new command set to be sure of getting your keybindings to work.
 </note>
@@ -265,7 +265,7 @@ The menu items you need are under Score->Titles etc
 and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
 </note>
 <note>
-The Playback Controls are undocumented, unfortunately.
+The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the arrows move the start and end playback point forwards and backwards.
 See the links from the features list "To-do List" on the website.
 </note>
 
@@ -276,10 +276,10 @@ See the links from the features list "To-do List" on the website.
 <para>Here are a few of the keyboard shortcuts that are commonly used in Denemo.
     <itemizedlist>
       <listitem>
-      Letters A-G are used to refer to the notes A-G, either moving the cursor, inserting or editing depending on mode.
+      Letters a-g edit the note at the cursor to be A-G, if the cursor is in the appending position then notes are added. Letters A-G (either caps lock or shift) insert a note at the cursor. 
       </listitem>
       <listitem>
-      Numbers 0-6 are used to refer to the note durations Whole Note ... 64th note, inserting, changing the prevailing duration or editing depending on mode. The corresponding Numeric Keypad keys are used if you choose that command set.
+      Numbers 0-6 are used to refer to the note durations Whole Note ... 64th Note. They insert a duration at the cursor, which you then give a pitch to with a note name. With the shift key held (or the CapsLock on) 0-6 edits the duration of the note at the cursor. The corresponding Numeric Keypad keys can be used instead.
       </listitem>
       <listitem>
       "." dots a note, Ctrl-"." undots it.
@@ -288,13 +288,13 @@ See the links from the features list "To-do List" on the website.
       Alt-0-6 inserts a rest.
       </listitem>
       <listitem>
-      Enter adds notes to a chord, Ctrl-Enter removes them.
+      Alt-a-g Add notes to a chord. Or position the cursor and use Insert to add a note, Ctrl-Insert to remove it. 
       </listitem>
       <listitem>
-      "(" begins a slur ")" ends it
+      7 starts a slur, 8 extends it, while 9 reduces it.
       </listitem>
       <listitem>
-      "!" inserts a cautionary accidental
+      Shift-/ inserts a cautionary accidental
       </listitem>
 
     </itemizedlist>
@@ -316,12 +316,7 @@ See the links from the features list "To-do List" on the website.
       <listitem>
       Shift Key and Left mouse button drags notes up and down.
       </listitem>
-      <listitem>
-      CapsLock with Left mouse drag inserts a slur
-      </listitem>
-      <listitem>
-      CapsLock with Left mouse drag inserts a slur
-      </listitem>
+     
       <listitem>
       CapsLock AND Shift key with Left mouse drag inserts a crescendo
       </listitem>
@@ -350,13 +345,8 @@ See the links from the features list "To-do List" on the website.
     The command Edit Object gives access to editing Denemo Directives, which generally have their own edit methods. You can use the Print View to indicate the padding that you wish to apply to some item, or to show where you want to drag it to.
     </para>
     <para>
-    The titles of the current movement can be set. These titles should be left blank for movements after the first if they apply to the whole score (a LilyPond peculiarity). In the movement properties dialog you can set a LilyPond directive to cause a page break before the movement (see LilyPond docs, but briefly #f is no page break and #t (true) is page break). You can include any other directives here to apply to the movement as a whole.
+    The titles of the current movement can be set in the movement menu, and for the whole score in the score menu. In the movement menu you can cause a page break before the movement.
     </para>
-
-    <para>
-Each Denemo file represents a piece of music which may consist of several “movements”, interspersed with headings. These might be different songs in a song book, or literally the movements in a classical sonata, or any other pieces of music that you want to print out in a book form with titles, page numbering and so on.
-    </para>
-
 
 
          <note>
