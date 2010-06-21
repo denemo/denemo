@@ -300,11 +300,11 @@
       </row>
       <row>
         <action>Undo</action>
-        <bind>Control+z</bind>
+        <bind>Ctrl+z</bind>
       </row>
       <row>
         <action>Redo</action>
-        <bind>Control+Z</bind>
+        <bind>Ctrl+Z</bind>
       </row>
       <row>
         <action>Copy</action>
@@ -332,7 +332,7 @@
       </row>
       <row>
         <action>InsertDynamic</action>
-        <bind>Control+d</bind>
+        <bind>Ctrl+d</bind>
       </row>
       <row>
         <action>EditObject</action>
@@ -513,7 +513,7 @@
       </row>
       <row>
         <action>RepeatStart</action>
-        <bind>&lt;Control&gt;z-r</bind>
+        <bind></bind>
       </row>
       <row>
         <action>TmbalesStyle</action>
@@ -605,7 +605,7 @@
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>
-        <bind>Control+o</bind>
+        <bind>Ctrl+o</bind>
       </row>
       <row>
         <action>AddDuplicateMeasure</action>
