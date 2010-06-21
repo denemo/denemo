@@ -13,13 +13,15 @@
  	(begin
  		(d-WholeMeasureRest))
  	(begin	
-           (d-InsertMeasureAfter)
-	   
-	    (d-WholeMeasureRest)))
+ 		(if (d-MoveToMeasureRight)
+ 			(d-WholeMeasureRest)
+ 			(begin
+          			 (d-InsertMeasureAfter)	
+	  			  (d-WholeMeasureRest)))))
 (d-MoveCursorRight)
 (d-Set2)</scheme>
         <label>Insert Whole Measure Rest</label>
-        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it. Do not invoke in a populated measure preceding an empty measure.</tooltip>
+        <tooltip>Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it.</tooltip>
       </row>
     </map>
   </merge>

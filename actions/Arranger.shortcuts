@@ -512,16 +512,16 @@
         <bind>u</bind>
       </row>
       <row>
-        <action>RepeatStart</action>
-        <bind></bind>
-      </row>
-      <row>
         <action>TmbalesStyle</action>
         <hidden>true</hidden>
       </row>
       <row>
         <action>CautionaryAccidental</action>
         <bind>Shft+slash</bind>
+      </row>
+      <row>
+        <action>ToggleTripleting</action>
+        <bind>Tab</bind>
       </row>
       <row>
         <action>DrumGM2Custom</action>
