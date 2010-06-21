@@ -478,12 +478,12 @@ static gint rhythm_sounds[] = {41,48,64,60,62,70, 81, 69, 79};
 void
 fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
   if(dot)
-    fluid_playpitch(67, 100, 9, 60);
+    fluid_playpitch(67, 100, 9, 60*Denemo.gui->si->master_volume);
   else
-    fluid_playpitch(rhythm_sounds[duration], rest?100:200, 9, 60);
+    fluid_playpitch(rhythm_sounds[duration], rest?100:200, 9, 60*Denemo.gui->si->master_volume);
   //add extra sound effect for rests
   if(rest)
-    fluid_playpitch(46, 300, 9, 30);
+    fluid_playpitch(46, 300, 9, 30*Denemo.gui->si->master_volume);
   
   //  g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
 
