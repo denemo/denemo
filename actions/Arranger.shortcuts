@@ -272,11 +272,11 @@
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>=</bind>
+        <bind>Shft+Add</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>-</bind>
+        <bind>Shft+Subtract</bind>
       </row>
       <row>
         <action>New</action>
