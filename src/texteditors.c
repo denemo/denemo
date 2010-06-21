@@ -43,6 +43,16 @@ void executeScript(void) {
   g_free(text);
 }
 
+
+/* execute the line of scheme script that is in the Scheme CLI */
+void executeCLI(GtkWidget *button, GtkEntry *entry) {
+  
+  (void)call_out_to_guile(gtk_entry_get_text(entry));
+}
+
+
+
+
 /* Return number of characters in Scheme script */
 gint getNumCharsSchemeText(void) {
   GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Denemo.ScriptView));
@@ -242,17 +252,35 @@ static GtkWidget * create_editor_window(void) {
   gtk_source_view_set_indent_on_tab(GTK_SOURCE_VIEW(TextView), TRUE);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(TextView), GTK_WRAP_CHAR);
 
-
-  GtkWidget *w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+   GtkWidget *w = window;
   gtk_window_set_title (GTK_WINDOW (w), "Denemo Scheme Script");
   //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
   g_signal_connect(G_OBJECT(w), "delete-event", G_CALLBACK(hide_scheme/*gtk_widget_hide_on_delete*/), w);
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (w), main_vbox);
   
+  GtkWidget *hbox =  gtk_hbox_new (FALSE, 1);
+  w = gtk_button_new_with_label("CLI: ");
+  GtkWidget *button = w;
+  //gtk_widget_set_can_default(w, TRUE);
+  GTK_WIDGET_SET_FLAGS(window, GTK_CAN_DEFAULT);
+  gtk_window_set_default (window, w);  
+  gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
+  w = gtk_entry_new();
+  GtkWidget* entry = w;
+  gtk_entry_set_activates_default (w,TRUE);
+  gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0); 
+  g_signal_connect(G_OBJECT(button), "clicked",  G_CALLBACK(executeCLI), entry);
+
   w = gtk_button_new_with_label("Execute Script");
   g_signal_connect(G_OBJECT(w), "clicked",  G_CALLBACK(executeScript), NULL);
   gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
+
+
+
+
 
   menu = gtk_menu_new();
 
