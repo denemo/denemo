@@ -511,15 +511,19 @@
       </row>
       <row>
         <action>ToggleCursorHighlight</action>
-        <bind>`</bind>
+        <bind>grave</bind>
+      </row>
+      <row>
+        <action>SlurTwo</action>
+        <bind>7</bind>
       </row>
       <row>
         <action>ExtendSlur</action>
-        <bind>kP_Up</bind>
+        <bind>8</bind>
       </row>
       <row>
         <action>ReduceSlur</action>
-        <bind>kP_Home</bind>
+        <bind>9</bind>
       </row>
       <row>
         <action>StagedDelete</action>
