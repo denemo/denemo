@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SplitChord</action>
+        <scheme>;;;
+(SplitChord)
+</scheme>
+        <label>Split Note/Chord</label>
+        <tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
