@@ -223,6 +223,13 @@ void clear_scheme_window(GtkWidget *widget, GtkWidget *textview) {
   gtk_text_buffer_set_modified(GTK_TEXT_BUFFER(buffer), FALSE);
 }
 
+
+static gboolean keypress(GtkEntry *w, GdkEventKey *event) {
+  if(event->keyval==GDK_Return)
+    executeCLI(NULL, w);
+ return FALSE;//let the normal handler have the keypress
+}
+
 /*
  create_editor_window()
  create a text window for editing
@@ -264,16 +271,17 @@ static GtkWidget * create_editor_window(void) {
   w = gtk_button_new_with_label("CLI: ");
   GtkWidget *button = w;
   //gtk_widget_set_can_default(w, TRUE);
-  GTK_WIDGET_SET_FLAGS(window, GTK_CAN_DEFAULT);
-  gtk_window_set_default (window, w);  
+  //GTK_WIDGET_SET_FLAGS(window, GTK_CAN_DEFAULT);
+  //gtk_window_set_default (window, w);  
   gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
   w = gtk_entry_new();
   GtkWidget* entry = w;
-  gtk_entry_set_activates_default (w,TRUE);
+  //gtk_entry_set_activates_default (w,TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox,FALSE, TRUE, 0); 
   g_signal_connect(G_OBJECT(button), "clicked",  G_CALLBACK(executeCLI), entry);
-
+  g_signal_connect (G_OBJECT (entry), "key-press-event",
+		  G_CALLBACK (keypress), NULL);
   w = gtk_button_new_with_label("Execute Script");
   g_signal_connect(G_OBJECT(w), "clicked",  G_CALLBACK(executeScript), NULL);
   gtk_box_pack_start (GTK_BOX (main_vbox), w, FALSE, TRUE, 0);
