@@ -55,6 +55,7 @@ draw_key (cairo_t *cr, gint xx, gint y,
 	  break;
 	case DENEMO_BASS_CLEF:
 	case DENEMO_F_8_CLEF:
+	case DENEMO_FRENCH_CLEF:
 	  theprevys = (prevnumber < 0) ? bass_flat_ys : bass_sharp_ys;
 	  theys = (number < 0) ? bass_flat_ys : bass_sharp_ys;
 	  break;

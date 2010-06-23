@@ -1069,6 +1069,15 @@ newclefsoprano (DenemoGUI * gui)
 }
 
 /**
+ * Wrapper function to create new french clef and insert into the score
+ */
+void
+newcleffrench (DenemoGUI * gui)
+{
+  object_insert (gui, dnm_newclefobj (DENEMO_FRENCH_CLEF));
+}
+
+/**
  * Wrapper function to create new 4/4 time sig and insert into the score
  */
 void
@@ -1722,5 +1731,13 @@ setclefsoprano (DenemoGUI * gui)
   DenemoStaff *curstaff = (DenemoStaff *) gui->si->currentstaff->data;
   if (curstaff)
     dnm_setinitialclef (gui->si, curstaff, DENEMO_SOPRANO_CLEF);
+}
+
+void
+setcleffrench (DenemoGUI * gui)
+{
+  DenemoStaff *curstaff = (DenemoStaff *) gui->si->currentstaff->data;
+  if (curstaff)
+    dnm_setinitialclef (gui->si, curstaff, DENEMO_FRENCH_CLEF);
 }
 

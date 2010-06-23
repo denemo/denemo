@@ -479,6 +479,8 @@ parseClef (xmlNodePtr clefElem, xmlNsPtr ns, clef * clef)
     clef->type = DENEMO_TENOR_CLEF;
   else if (strcmp (clefTypeName, "soprano") == 0)
     clef->type = DENEMO_SOPRANO_CLEF;
+  else if (strcmp (clefTypeName, "french") == 0)
+    clef->type = DENEMO_FRENCH_CLEF;
   else
     {
       g_warning ("Unknown clef type \"%s\"; defaulting to treble",

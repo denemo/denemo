@@ -53,6 +53,10 @@ offset_from_height (gdouble height, enum clefs clef)
     case DENEMO_SOPRANO_CLEF:
       R (8);
       break;
+    case DENEMO_FRENCH_CLEF:
+      R (12);
+      break;
+      //when adding clefs get utils.c calculateheight() function correct first, then do this
     default:
       R (0);
       break;

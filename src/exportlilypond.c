@@ -289,6 +289,9 @@ determineclef (gint type, gchar ** clefname)
     case DENEMO_SOPRANO_CLEF:
       *clefname = "soprano";
       break;
+    case DENEMO_FRENCH_CLEF:
+      *clefname = "french";
+      break;
     default:
       *clefname = _("%{error. defaulting to%}treble");
       break;
