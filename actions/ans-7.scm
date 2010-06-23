@@ -599,13 +599,45 @@
 ;;;; Basic functions
 ;;;; Important: All these work with strings because there is no native number base7 system in Scheme.
 
-
 (define (ANS-7::Ly2Ans lilynote) ;wants string, returns string
 	(hashq-ref ANS-7::Base7NoteTableR (string->symbol lilynote))
 )
 
+;TODO: Chordtranslation is missing. But keep the single note functions, will be faster.
+
 (define (ANS-7::Ans2Ly ansNote) ;wants string, returns strings
 	(hashq-ref ANS-7::Base7NoteTable (string->number ansNote))
+)
+
+(define (ANS-7::GetChordNotes); For singles and chords. Returns string of ANS-7 notes as pseudo-list divided by space: : "3500 4030 4200". 
+	(define newList #f)
+	(set! newList (string-tokenize (d-GetNotes)) )
+
+	(let transformChordList ((i 0) )
+	(if (<= i (-(length newList )1)) 
+		(begin
+			(set! newList (replace-nth newList i (ANS-7::Ly2Ans (list-ref newList i) )))
+			(transformChordList (+ i 1)))))
+
+	(string-join newList)
+)
+
+(define* (ANS-7::InsertNotes ansNotes #:optional (duration #f)); wants string of ANS-7 notes string, can be a pseudo-list divided by space: "3500 4030 4200". Optional duration. returns #t or #f
+	(if (string? ansNotes)
+		(begin (d-InsertA) (ANS-7::ChangeChordNotes ansNotes)))
+)
+
+(define (ANS-7::ChangeChordNotes ansNotes); wants string of ANS-7 notes, can be a pseudo-list divided by space: "c' e'' gis,". 
+	(define newList #f)
+	(set! newList (string-tokenize ansNotes) )
+
+	(let transformChordList ((i 0) )
+	(if (<= i (-(length newList )1)) 
+		(begin
+			(set! newList (replace-nth newList i (ANS-7::Ans2Ly (list-ref newList i) )))
+			(transformChordList (+ i 1)))))
+
+	(d-ChangeChordNotes (string-join newList))
 )
 
 (define (ANS-7::MakeWhiteKey ansNote) ; wants string, returns string
@@ -645,6 +677,6 @@
 		   ((-1)		(set! nextNumber (ANS-7::+ nextNumber  "20"))) ;flat
 		   (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
 		  )
-		   (ANS-7::Ans2Ly nextNumber) ; Return note as Lilypond-sytanx
+		   (ANS-7::Ans2Ly nextNumber) ; Return note as Lilypond-syntax
        )    
 )
