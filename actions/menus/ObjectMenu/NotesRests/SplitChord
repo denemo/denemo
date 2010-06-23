@@ -6,8 +6,18 @@
     <map>
       <row>
         <action>SplitChord</action>
-        <scheme>;;;
-(SplitChord)
+        <scheme> (doublestroke "(SplitChord)"
+"(SplitChord 1)"  ;1
+"(SplitChord 2)"  ;2
+"(SplitChord 3)"  ;3
+"(SplitChord 4)"  ;4
+"(SplitChord 5)"  ;5
+"(SplitChord 6)"  ;6
+"(SplitChord 7)"  ;7
+"(SplitChord 8)"  ;8
+"(SplitChord 9)"  ;9
+)
+
 </scheme>
         <label>Split Note/Chord</label>
         <tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</tooltip>
