@@ -271,10 +271,6 @@
         <bind>Shft+Subtract</bind>
       </row>
       <row>
-        <action>New</action>
-        <bind>Ctrl+n</bind>
-      </row>
-      <row>
         <action>Save</action>
         <bind>Ctrl+s</bind>
       </row>
@@ -532,6 +528,10 @@
         <bind>F9</bind>
       </row>
       <row>
+        <action>InsertWholeMeasureRest</action>
+        <bind>space</bind>
+      </row>
+      <row>
         <action>FindNextLowerNote</action>
         <bind>Ctrl+f</bind>
       </row>
@@ -605,7 +605,7 @@
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>
-        <bind>Ctrl+o</bind>
+        <bind>Ctrl+n</bind>
       </row>
       <row>
         <action>AddDuplicateMeasure</action>
