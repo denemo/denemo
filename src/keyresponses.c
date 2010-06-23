@@ -129,8 +129,10 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
     if (command_name) {
       Denemo.last_keyval = event->keyval;
       Denemo.last_keystate =  dnm_sanitize_key_state(event);
+      call_out_to_guile("(define DenemoKeypressActivatedCommand #t)");
       execute_callback_from_name(the_keymap, command_name);
-      gui = Denemo.gui;
+      call_out_to_guile("(define DenemoKeypressActivatedCommand #f)");
+      gui = Denemo.gui;//may have changed as a result of executing the command
       displayhelper (gui);
       //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
       return TRUE;
