@@ -152,6 +152,34 @@
 ;(define cue- "")
 
 
+;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
+;One parameter for the help message, later help window
+;Ten optional parameters given as strings which can be any scheme command, but in "" and with escaped \" in them. They return #f if not defined
+;Help can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
+;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were wrapped-commands for numbers (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress)
+
+(define* (doublestroke help #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (nineth "#f") (tenth "#f"))
+(case (string->symbol (d-GetKeypress))
+	((#{1}#)  (eval-string first))
+	((#{2}#)  (eval-string second))
+	((#{3}#)  (eval-string third))
+	((#{4}#)  (eval-string fourth))
+	((#{5}#)  (eval-string fifth))
+	((#{6}#)  (eval-string sixth))
+	((#{7}#)  (eval-string seventh))
+	((#{8}#)  (eval-string eighth))
+	((#{9}#)  (eval-string nineth))
+	((#{0}#)  (eval-string tenth))
+	((space)  (eval-string help))
+	(else #f)
+))
+
+	;Example:
+	; (doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
+	;  "(display \"1\")"  "(display \"2\")"  "(display \"3\")"  "(display \"4\")"  "(display \"5\")"  "(display \"6\")"  "(display \"7\")"  "(display \"8\")"  "(display \"9\")" "(display \"0\")")
+
+
+
 
 
 ;;;;;;;;;;;;;;;;; ExtraOffset
