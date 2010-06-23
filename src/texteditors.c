@@ -46,8 +46,8 @@ void executeScript(void) {
 
 /* execute the line of scheme script that is in the Scheme CLI */
 void executeCLI(GtkWidget *button, GtkEntry *entry) {
-  
-  (void)call_out_to_guile(gtk_entry_get_text(entry));
+  gchar *display = g_strdup_printf("(format #t \"~%=> ~A~%\" %s)\n", gtk_entry_get_text(entry));
+  (void)call_out_to_guile(display);
 }
 
 
