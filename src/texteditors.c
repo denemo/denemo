@@ -48,6 +48,7 @@ void executeScript(void) {
 void executeCLI(GtkWidget *button, GtkEntry *entry) {
   gchar *display = g_strdup_printf("(format #t \"~%=> ~A~%\" %s)\n", gtk_entry_get_text(entry));
   (void)call_out_to_guile(display);
+  g_free(display);
 }
 
 
