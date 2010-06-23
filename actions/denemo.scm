@@ -3,6 +3,8 @@
 (use-modules (ice-9 optargs))
 (load "ans-7.scm")
 
+(define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
+
 ;;;;;;;;;; create documentation for a command - this version just prints out basic info
 ;;;;;;;;;;;;;DocumentCommand
 (define (DocumentCommand name)
