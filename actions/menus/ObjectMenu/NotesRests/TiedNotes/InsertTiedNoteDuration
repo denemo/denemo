@@ -5,11 +5,13 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after/>
         <action>InsertTiedNoteDuration</action>
         <scheme> ;;;;;;;;;;;TiedNoteDuration  Insert tuplet into the score
+ (if (not DenemoKeypressActivatedCommand)
+ 	(d-WarningDialog "Press a duration key to insert a tied note"))
+ 	(display "going on")
 (let ()
-(define (command) (d-WarningDialog "To use this function correctly you need to give a duration."))
+(define (command) (d-WarningDialog "To use this function correctly you need to give a duration.\nThis will insert a tied note of equal duration"))
 (define duration (d-GetCommand))
 (cond
  ((equal? duration "d-0") (set! command d-Change0))
@@ -37,7 +39,7 @@
 (command)
 (d-DeletePreviousObject))
 
-;;;;;;;;;;;;;;;;;;</scheme>
+</scheme>
         <label>Attach Tied Note</label>
         <tooltip>Attaches a tied note: you must give the duration after invoking this function.</tooltip>
       </row>
