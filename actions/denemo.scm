@@ -155,26 +155,31 @@
 
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
-;One parameter for the help message, later help window
+;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
 ;Ten optional parameters given as strings which can be any scheme command, but in "" and with escaped \" in them. They return #f if not defined
-;Help can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
-;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were wrapped-commands for numbers (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress)
+;gui-version can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
+;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were wrapped-commands for numbers (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
 
-(define* (doublestroke help #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (nineth "#f") (tenth "#f"))
-(case (string->symbol (d-GetKeypress))
-	((#{1}#)  (eval-string first))
-	((#{2}#)  (eval-string second))
-	((#{3}#)  (eval-string third))
-	((#{4}#)  (eval-string fourth))
-	((#{5}#)  (eval-string fifth))
-	((#{6}#)  (eval-string sixth))
-	((#{7}#)  (eval-string seventh))
-	((#{8}#)  (eval-string eighth))
-	((#{9}#)  (eval-string nineth))
-	((#{0}#)  (eval-string tenth))
-	((space)  (eval-string help))
-	(else #f)
-))
+(define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (nineth "#f") (tenth "#f"))
+(if DenemoKeypressActivatedCommand
+	(begin (case (string->symbol (d-GetKeypress))
+		((#{1}#)  (eval-string first))
+		((#{2}#)  (eval-string second))
+		((#{3}#)  (eval-string third))
+		((#{4}#)  (eval-string fourth))
+		((#{5}#)  (eval-string fifth))
+		((#{6}#)  (eval-string sixth))
+		((#{7}#)  (eval-string seventh))
+		((#{8}#)  (eval-string eighth))
+		((#{9}#)  (eval-string nineth))
+		((#{0}#)  (eval-string tenth))
+		((space)  (eval-string gui-version))
+		(else #f))
+	  (set! DenemoKeypressActivatedCommand #f))
+	  
+	  (eval-string gui-version)) ; else
+	 
+)
 
 	;Example:
 	; (doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
