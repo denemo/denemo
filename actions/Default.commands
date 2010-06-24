@@ -3714,7 +3714,6 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>NoOp</label>
-        <hidden>true</hidden>
         <tooltip>Does absolutly nothing. Use to "blank" a key.</tooltip>
       </row>
     </map>
