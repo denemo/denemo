@@ -206,4 +206,7 @@ update_accel_labels(keymap *the_keymap, guint command_idx);
 gboolean
 command_has_binding (guint command_idx);
 
+gint add_keybinding_for_name(gchar *name, gchar *binding);
+gint add_keybinding_for_command(gint idx,  gchar *binding);
+
 #endif

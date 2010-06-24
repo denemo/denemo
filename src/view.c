@@ -855,6 +855,40 @@ static SCM scheme_check_lily_version(SCM check_version) {
     return SCM_BOOL_F;
 }
 
+static SCM scheme_get_id(SCM command) {
+  gchar *name;
+  if(scm_is_string(command)) {
+    gint id;
+    name = scm_to_locale_string(command);
+    id = lookup_command_from_name(Denemo.map, name);
+    if(id!=-1)
+      return scm_int2num (id);
+  }
+  return SCM_BOOL_F;
+}
+static SCM scheme_add_binding (SCM command, SCM binding) {
+  gchar * shortcut;
+  
+  gint id;
+  gint old_id = -1;
+  if(scm_is_string(binding)) {
+    shortcut = scm_to_locale_string(binding);
+    if(scm_is_string(command)) {
+      gchar *name = scm_to_locale_string(command);
+      old_id = add_keybinding_for_name(name, shortcut);
+    }
+    
+    if(scm_integer_p(command)) {
+      id = scm_to_int(command);
+      if(id>=0)
+	old_id = add_keybinding_for_command(id, shortcut);	
+    }
+  }
+  if(old_id>=0)
+    return scm_int2num(old_id);
+  else
+    return SCM_BOOL_F;
+}
 
 static SCM scheme_get_label(SCM command) {
   gchar *name;
@@ -3678,6 +3712,12 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX"DeleteSelection", scheme_delete_selection);
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
+
+
+  INSTALL_SCM_FUNCTION ("Takes a command name and returns and id for it or #f if no command of that name exists",DENEMO_SCHEME_PREFIX"GetId", scheme_get_id);
+
+  INSTALL_SCM_FUNCTION2 ("Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none",DENEMO_SCHEME_PREFIX"AddBinding", scheme_add_binding);
+
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none",DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);
 
 

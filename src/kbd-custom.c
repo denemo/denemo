@@ -1307,6 +1307,23 @@ add_keybinding_to_idx (keymap * the_keymap, gint keyval,
   return old_command_idx;
 }
 
+/* force keybinding on action of name, returning old command id */
+gint add_keybinding_for_name(gchar *name, gchar *binding) {
+ guint idx = lookup_command_from_name(Denemo.map, name);
+ if(idx!=-1) {
+   return add_named_binding_to_idx(Denemo.map, binding, idx, POS_LAST);
+ }
+ return -1;
+}
+/* force keybinding on action of id, returning old command id */
+gint add_keybinding_for_command(gint idx,  gchar *binding) {
+ 
+ if(idx!=-1) {
+   return add_named_binding_to_idx(Denemo.map, binding, idx, POS_LAST);
+ }
+ return -1;
+}
+
 
 //we have to reproduce this function here since it is static in gtkmenu.c
 static void
