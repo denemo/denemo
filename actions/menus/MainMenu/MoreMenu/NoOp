@@ -5,9 +5,9 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>blank</action>
+        <action>NoOp</action>
         <scheme>#f</scheme>
-        <label>blank</label>
+        <label>NoOp</label>
         <tooltip>Does absolutly nothing. Use to "blank" a key.</tooltip>
       </row>
     </map>

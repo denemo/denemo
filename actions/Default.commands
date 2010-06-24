@@ -3725,6 +3725,13 @@ for second and subsequent systems</tooltip>
         <label>End Cadenza</label>
         <tooltip>Returns to normal barlines etc after a cadenza</tooltip>
       </row>
+      <row>
+        <action>NoOp</action>
+	<scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>Null Operation</label>
+        <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
