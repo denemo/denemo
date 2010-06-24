@@ -866,7 +866,7 @@ static SCM scheme_get_id(SCM command) {
   }
   return SCM_BOOL_F;
 }
-static SCM scheme_add_binding (SCM command, SCM binding) {
+static SCM scheme_add_keybinding (SCM command, SCM binding) {
   gchar * shortcut;
   
   gint id;
@@ -876,9 +876,7 @@ static SCM scheme_add_binding (SCM command, SCM binding) {
     if(scm_is_string(command)) {
       gchar *name = scm_to_locale_string(command);
       old_id = add_keybinding_for_name(name, shortcut);
-    }
-    
-    if(scm_integer_p(command)) {
+    } else if(scm_integer_p(command)) {
       id = scm_to_int(command);
       if(id>=0)
 	old_id = add_keybinding_for_command(id, shortcut);	
@@ -3716,7 +3714,7 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns and id for it or #f if no command of that name exists",DENEMO_SCHEME_PREFIX"GetId", scheme_get_id);
 
-  INSTALL_SCM_FUNCTION2 ("Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none",DENEMO_SCHEME_PREFIX"AddBinding", scheme_add_binding);
+  INSTALL_SCM_FUNCTION2 ("Takes a command name or command id and binding name and sets that binding on that command returns the command id that previously had the binding or #f if none",DENEMO_SCHEME_PREFIX"AddKeybinding", scheme_add_keybinding);
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the label for the menu item that executes the command or #f if none",DENEMO_SCHEME_PREFIX"GetLabel", scheme_get_label);
 
