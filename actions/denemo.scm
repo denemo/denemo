@@ -156,13 +156,19 @@
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
-;Ten optional parameters given as strings which can be any scheme command, but in "" and with escaped \" in them. They return #f if not defined
+;Ten optional parameters given as strings which can be only MENU commands: complete scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
 ;gui-version can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
-;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were wrapped-commands for numbers (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
+;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were modal or wrapper commands for numberkeys (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
 
-(define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (nineth "#f") (tenth "#f"))
+(define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
+
+(define (doublestroke::bind action numberasstring) 
+		(if (not (string=? action "#f" ))(d-AddKeybinding  (substring action 3 (- (string-length action) 1) )  numberasstring)	(d-AddKeybinding (d-GetId "NoOp") numberasstring))
+)
+
 (if DenemoKeypressActivatedCommand
-	(begin (case (string->symbol (d-GetKeypress))
+	(begin 
+	(case (string->symbol (d-GetKeypress))
 		((#{1}#)  (eval-string first))
 		((#{2}#)  (eval-string second))
 		((#{3}#)  (eval-string third))
@@ -171,23 +177,30 @@
 		((#{6}#)  (eval-string sixth))
 		((#{7}#)  (eval-string seventh))
 		((#{8}#)  (eval-string eighth))
-		((#{9}#)  (eval-string nineth))
+		((#{9}#)  (eval-string ninth))
 		((#{0}#)  (eval-string tenth))
 		((space)  (eval-string gui-version))
+		((Return) (begin
+				(doublestroke::bind first "1")
+				(doublestroke::bind second "2")
+				(doublestroke::bind third "3")
+				(doublestroke::bind fourth "4")
+				(doublestroke::bind fifth "5")
+				(doublestroke::bind sixth "6")
+				(doublestroke::bind seventh "7")
+				(doublestroke::bind eighth "8")
+				(doublestroke::bind ninth "9")								
+				(doublestroke::bind tenth "0")
+				))
 		(else #f))
 	  (set! DenemoKeypressActivatedCommand #f))
 	  
-	  (eval-string gui-version)) ; else
-	 
-)
+	  (eval-string gui-version))) ; if not DenemoKeypressActivated
 
-	;Example:
+	; Example, where key 6 to 9 are not defined. The WarningDialog shows if you press [space] or invoke the command through the menu. 
 	; (doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
-	;  "(display \"1\")"  "(display \"2\")"  "(display \"3\")"  "(display \"4\")"  "(display \"5\")"  "(display \"6\")"  "(display \"7\")"  "(display \"8\")"  "(display \"9\")" "(display \"0\")")
-
-
-
-
+	; "(d-Finger1)"  "(d-Finger2)" "(d-Finger3)"  "(d-Finger4)"  "(d-Finger5)" "#f" "#f" "#f" "#f" "(d-Finger0)")
+	
 
 ;;;;;;;;;;;;;;;;; ExtraOffset
 ;;; the parameter "what" is the LilyPond grob that is being tweaked - it may not be the tag of the DenemoDirective that is being edited
