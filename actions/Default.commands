@@ -3710,10 +3710,10 @@ for second and subsequent systems</tooltip>
         <tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</tooltip>
       </row>
       <row>
-        <action>blank</action>
+        <action>NoOp</action>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
-        <label>blank</label>
+        <label>NoOp</label>
         <hidden>true</hidden>
         <tooltip>Does absolutly nothing. Use to "blank" a key.</tooltip>
       </row>
