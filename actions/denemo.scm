@@ -162,10 +162,33 @@
 
 (define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
+;Create a keybinding for a non-"#f" command, trimming (d- ... ) first.  Used for the [Return] variant.
 (define (doublestroke::bind action numberasstring) 
-		(if (not (string=? action "#f" ))(d-AddKeybinding  (substring action 3 (- (string-length action) 1) )  numberasstring)	(d-AddKeybinding (d-GetId "NoOp") numberasstring))
-)
+		(if (not (string=? action "#f" ))
+			(d-AddKeybinding  (substring action 3 (- (string-length action) 1) )  numberasstring)
+			(d-AddKeybinding (d-GetId "NoOp") numberasstring)))
 
+; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
+(define (doublestroke::fallbackgui)
+	(define doublestroke::result #f)
+	
+	(define (bo action) ; BuildOption
+		(if (not (string=? action "#f" ))
+			(string-append action stop)
+			""))
+
+	(if (not gui-version) ;just a small performance-tweak
+		(begin
+			(set! doublestroke::result (d-GetOption  (string-append (bo first)  (bo second)  (bo third)  (bo fourth)  (bo fifth)  (bo sixth)  (bo seventh)  (bo eighth)  (bo ninth)  (bo tenth)) ))
+			(if doublestroke::result (eval-string doublestroke::result)))))
+
+
+; Short command to invoke the gui which tests if the author specified his own first.
+(define (doublestroke::invokegui)
+	(if gui-version (eval-string gui-version)
+			 	 (doublestroke::fallbackgui)))
+
+; The real action. Wait for a keypress and decide what do with it afterwards, Space triggers the GUI, Return locks-in the commands and makes them permanent keybindings.
 (if DenemoKeypressActivatedCommand
 	(begin 
 	(case (string->symbol (d-GetKeypress))
@@ -179,7 +202,7 @@
 		((#{8}#)  (eval-string eighth))
 		((#{9}#)  (eval-string ninth))
 		((#{0}#)  (eval-string tenth))
-		((space)  (eval-string gui-version))
+		((space)  (doublestroke::invokegui))
 		((Return) (begin
 				(doublestroke::bind first "1")
 				(doublestroke::bind second "2")
@@ -195,7 +218,7 @@
 		(else #f))
 	  (set! DenemoKeypressActivatedCommand #f))
 	  
-	  (eval-string gui-version))) ; if not DenemoKeypressActivated
+	 (doublestroke::invokegui) )) ; if not DenemoKeypressActivated
 
 	; Example, where key 6 to 9 are not defined. The WarningDialog shows if you press [space] or invoke the command through the menu. 
 	; (doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
