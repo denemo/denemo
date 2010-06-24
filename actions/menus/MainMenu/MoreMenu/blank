@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>blank</action>
+        <scheme>#f</scheme>
+        <label>blank</label>
+        <tooltip>Does absolutly nothing. Use to "blank" a key.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
