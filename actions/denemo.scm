@@ -121,8 +121,10 @@
 			   (begin
 			     (if (eval-string positioning_command)
 				 (begin
-				    (eval-string  command)
-				    (ApplyToSelection command "(d-NextSelectedObject)"))))))
+				   (d-PushPosition)
+				   (eval-string  command)
+				   (d-PopPosition)
+				   (ApplyToSelection command "(d-NextSelectedObject)"))))))
 (define (PrevDirectiveOfTag tag)
   (let loop ()
     (if (d-PrevStandaloneDirective)

@@ -6,7 +6,9 @@
     <map>
       <row>
         <action>ApplyToSelection</action>
-        <scheme>
+        <scheme>;;;ApplyToSelection
+(if (not DenemoKeypressActivatedCommand)
+ 	(d-WarningDialog "Now press a shortcut key to apply the command to every object in the selection"))
 (let ((command 0))
 	(begin
 (set! command (d-GetCommand))
