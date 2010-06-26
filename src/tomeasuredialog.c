@@ -26,16 +26,17 @@ tomeasurenum (GtkAction *action, gpointer param)
   gint max_mesure =
     g_list_length (((DenemoStaff *) (gui->si->thescore->data))->measures);
   
-  if(!action) 
+  if(!action) {
     if( ((DenemoScriptParam *)param)->string != NULL) {
        measnum = atoi(((DenemoScriptParam *)param)->string->str);
        if (measnum > max_mesure)
-         set_currentmeasurenum (gui, max_mesure);
+         moveto_currentmeasurenum (gui, max_mesure);
        if (measnum <= 0)
-	 set_currentmeasurenum (gui, 1);
+	 moveto_currentmeasurenum (gui, 1);
        else
-         set_currentmeasurenum (gui, measnum);       
+         moveto_currentmeasurenum (gui, measnum);       
     }
+  }
   else {
     GtkWidget *dialog;
     GtkWidget *label;
@@ -73,7 +74,7 @@ tomeasurenum (GtkAction *action, gpointer param)
       {
 	last_measure =
 	  gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (measure));
-	set_currentmeasurenum (gui, last_measure);
+	moveto_currentmeasurenum (gui, last_measure);
       }
     gtk_widget_destroy (dialog);
   }
