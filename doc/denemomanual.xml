@@ -12,7 +12,7 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
 </legalnotice>
 
     <copyright>
-      <year>2009</year>
+      <year>2009. 2010</year>
 
       <holder>Denemo Project</holder>
     </copyright><author>
@@ -34,17 +34,17 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     
     <productname>Denemo <productnumber>1</productnumber></productname>
 
-    <releaseinfo>0.8.11</releaseinfo>
+    <releaseinfo>0.8.17</releaseinfo>
   </articleinfo>
 
   <sect1>
     <title>Introduction</title>
 
     <para>Denemo lets you create musical scores. You can type music in using the keyboard 
-    or play it in using a MIDI contoller or the microphone input. You can edit your music - the display shows you the measures you
-    are working on - and you can playback selected bits to check how it sounds. 
+    or play it in using a MIDI contoller or the microphone input. You can edit your music - the display shows you what you
+    are working on in music notation - and you can playback to check how it sounds. 
     You can preview and print the score or parts to the highest standards used in the music publishing industry 
-    - thanks to the Lilypond typesetting program.</para>
+    - thanks to the Lilypond music typesetting program.</para>
     <para>Denemo does not attempt to show the appearance of the finished score, it just shows you enough to enable you to enter the music efficiently. To see the finished score you press Print Preview.</para>
 
   <sect1>
@@ -246,9 +246,9 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
     <title>Getting Started</title>
      <para>Most people will start with playing around with Denemo via the pc keyboard. The default setup means that keys a-g represent the note names and 0-6 the different durations (whole note, half note etc). When the cursor is on blank space pressing key "0" then key "a" will append a whole-note A, pressing "1 b" will append a half-note B etc. If the duration is not changing you can simply type the note name, it will use the last entered duration. If you do type a duration it appears as a pale yellow note at the cursor until you have given it a note name. 
 </para>
-<para>When the cursor is moved on to a note (with the arrow key right or mouse) then a-g edits the note name. To insert a note before a note at the cursor use A-G. When the cursor is on a note the keys 0-6 change the duration of the note, while Control-0 6 insert a note before the cursor. (If you use the numeric keypad you can use Shift-KP 0-6 for this).  The arrow keys move the cursor around, the period key adds a dot while Alt-a-g add notes to the chord at the cursor.
+<para>When the cursor is moved on to a note (with the arrow key right or mouse) then a-g edits the note name. To insert a note before a note at the cursor use A-G. When the cursor is on a note the keys 0-6 change the duration of the note, while Shift-0 6 insert a note before the cursor. (If you use the numeric keypad you can use Shift-KP 0-6 for this).  The arrow keys move the cursor around, the period key adds a dot while Alt-a-g add notes to the chord at the cursor.
  </para>
-     <para>You can find more shortcuts by exploring the menu system - e.g. under the Note menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
+     <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
  </para>
  <sect2>
 <title>What Happens at Startup</title>
@@ -265,7 +265,7 @@ The menu items you need are under Score->Titles etc
 and Movement->Titles etc. When you set a title, composer, etc the Titles etc button bar will become populated.
 </note>
 <note>
-The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the arrows move the start and end playback point forwards and backwards.
+The Playback Controls are undocumented, unfortunately. Mostly obvious commands, the lerft/right arrows move the start and end playback point forwards and backwards, while the up/down arrows set the start and end playback points to the current cursor position.
 See the links from the features list "To-do List" on the website.
 </note>
 
@@ -1409,16 +1409,18 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
       </para>
 
       <para role="persom">For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method. </para>
-      <para>One way to do this is to check the Audible Feedback checkbox and enter the music as pure rhythm, ignoring the note names. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
-      <para>Once you have entered the rhythms you choose an external source from the Input menu, placing the cursor in the first measure, play the notes via MIDI or a microphone plugged into the mic input of your soundcard. The Audio Input button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
+      <para>One way to do this is enter the music as pure rhythms, ignoring the note names. The durations show as pale yellow notes. Each duration sounds its own pitch and length as you enter the durations. As you start each measure the bell will sound so that you can keep your eyes on the score you are copying without needing to look up and check that you haven't miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. </para>
+      <para>Once you have entered the rhythms you choose an external source from the Input menu, placing the cursor in the first measure, play the notes via MIDI or a microphone plugged into the mic input of your soundcard. When you play notes in via MIDI they give their pitches to the rhythm you have notated. By this means you can enter a piece of music in the time taken to play it twice - once to give the rhythm and once to give the pitches. If the piece modulates strongly you may need to shift the set of accidentals used to match the score.
+</para>
+ <para>
+The Audio Input button introduces a special entry mode where the pitches you play in will overlay the rhythm, appearing as blue notes. You can delete any wrong pitches using the usual delete keys, without deleting the rhythm. In fact if you have an "interloper" (an extra spurious note) you can delete it and the other pitches will all move along to their correct places.</para>
 
 
 
       <para>Another method of playing music in acoustically doesn't involve entering the rhythm separately. For this select Input->Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI, only you just need to select Insert mode to enter the notes in that case. So by choosing a rhythm (e.g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.</para>
-      <para> For MIDI input there are special modes (MIDI filters), such as Advance On Edit, which means you can simply play the pitches in and they are applied to the notes. If you are entering notes and durations at the same time using MIDI then the "AngryDelete" finger can be useful. With this filter on notes are entered normally until, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Mode-&gt;MIDI</para>
+      <para> For MIDI input there are special modes (MIDI filters), such the "AngryDelete" filter. With this filter on notes are entered normally until, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input-&gt;MIDI</para>
       <para>The oldest Denemo keymaps are no longer supported. (see <xref linkend="customizingDenemo" />). (Input via
-      MIDI keyboard and Mic in is now available). Denemo also
-      provides shortcuts for use with Numeric Keypad.</para>
+      MIDI keyboard and Mic in is now available). Denemo shortcuts also work on Numeric Keypad.</para>
 
       <sect3 id="scoresetup">
         <title>Score Setup</title>
@@ -9765,7 +9767,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
       <para>When you append music by pressing a duration key you get a pale yellow note, indicating a duration which has not been given a pitch. Once you have pressed a note-name it becomes that note. Prior to that it is a pure rhythm and will play back as a drum beat.
       </para>
       <para>
-	When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Control-0,1, etc to do insertion of a duration).
+	When not appending music, you need to use the shift key to insert a new note, or set the caps lock. So Shift-a inserts the note A etc. Plain "a" edits the note at the cursor to be an A.  Likewise with the numeric keypad the Shift key can be used to insert a note duration, while the plain number keys edit the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use Shift-0,1, etc to do insertion of a duration).
 </para>
     </sect2>
     <sect2>
@@ -9825,12 +9827,6 @@ When you have inserted a LilyPond directive a green bar is printed at that point
 
   <sect1>
     <title>Advanced Features</title>
-
-
-  <sect2 revision="0.75" id="editing"><title>Editing</title><para>Denemo has a variety of features to speed editing. To ease correction of notes use Edit Mode. You can position the cursor on any note in a chord and change its pitch, accidental, octave using the keypresses assigned to the standard actions.
-</para>
-</sect2>
-
 
 
    <sect2 revision="0.70">
