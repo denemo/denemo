@@ -1262,7 +1262,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	  thenote = thechord->notes->data;
 	  g = g_list_append(g, thenote->directives);	 
 	  thenote->directives = NULL;
-	  delete_chordnote (gui->si);
+	  delete_chordnote (gui);
 	}
 	/* add changed tones */
 	dclef =  find_prevailing_clef(Denemo.gui->si);
