@@ -105,10 +105,10 @@ void
 changeduration (DenemoScore  *si, gint duration);
 
 gboolean                           
-delete_chordnote (DenemoScore * si);
+delete_chordnote (DenemoGUI * gui);
 
 gboolean                           
-insert_chordnote (DenemoScore * si);
+insert_chordnote (DenemoGUI *gui);
 
 void
 incrementenshift (DenemoGUI  *gui, gint direction);

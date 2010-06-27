@@ -934,6 +934,45 @@ static gboolean prev_object_is_rhythm (DenemoGUI *gui) {
   return  ((DenemoObject *)(gui->si->currentobject->data))->isinvisible;
 }
 
+
+/* insert a note into the score at the current cursor position following the current rhythm step */
+
+void insert_note(DenemoGUI *gui)  {
+#define g  (gui->rstep)
+  if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
+    GList *start = g;
+    GList *h;
+
+
+    gint mode = gui->mode;
+    gui->mode = mode & ~INPUTRHYTHM;
+
+    do {
+      if(g) {
+	for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
+	  insertion_point (gui->si);	
+	  gui->si->cursoroffend = FALSE;
+	  ((GtkFunction)h->data)(gui);
+	  displayhelper(gui);
+	}
+	h = ((RhythmElement*)g->data)->functions;
+	g = g->next;/* list is circular */
+      }
+    } while(g!=start && modifier_code(h->data));
+#define CURRP ((RhythmPattern *)gui->currhythm->data)    
+    if(((RhythmElement*)g->data)->icon) {/* singletons do not have icon */
+      GtkWidget *label = LABEL(CURRP->button);
+      //g_print("Markup is %s\n", ((RhythmElement*)g->data)->icon);
+      gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
+    }
+    gui->mode = mode;
+    score_status(gui, TRUE);
+  }
+#undef CURRP
+#undef g
+}
+
+
 /**
  * shiftcursor: FIXME change the name of this function!
  * Mode sensitive note actions:
@@ -961,9 +1000,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       theobj->isinvisible=FALSE;
       if(g_list_length(thechord->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
-	delete_chordnote(gui->si);
+	delete_chordnote(gui);
 	gui->si->cursor_y = mid_c_offset;
-	insert_chordnote (gui->si);
+	insert_chordnote (gui);
       } else {/* single-note chord - change the note */
       gint dclef = find_prevailing_clef(gui->si);	    
       modify_note(thechord, mid_c_offset, gui->si->curmeasureaccs[note_value], dclef);
@@ -974,38 +1013,8 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     }  
   } else
     /* in INSERT (or EDIT and appending) we insert a note using the next step of the rhythm pattern */
-#define g  (gui->rstep)
-  if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
-      GList *start = g;
-      GList *h;
+    insert_note(gui);
 
-
-  gint mode = gui->mode;
-  gui->mode = mode & ~INPUTRHYTHM;
-
-      do {
-	if(g) {
-	  for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	    insertion_point (gui->si);	
-	    gui->si->cursoroffend = FALSE;
-	    ((GtkFunction)h->data)(gui);
-	    displayhelper(gui);
-	  }
-	  h = ((RhythmElement*)g->data)->functions;
-	  g = g->next;/* list is circular */
-	}
-      } while(g!=start && modifier_code(h->data));
-#define CURRP ((RhythmPattern *)gui->currhythm->data)    
-      if(((RhythmElement*)g->data)->icon) {/* singletons do not have icon */
-	GtkWidget *label = LABEL(CURRP->button);
-	//g_print("Markup is %s\n", ((RhythmElement*)g->data)->icon);
-	gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
-      }
-      gui->mode = mode;
-      score_status(gui, TRUE);
-    }
-#undef CURRP
-#undef g
 }
 
 
@@ -1289,16 +1298,19 @@ notechange (DenemoScore * si, gboolean remove)
  * Delete chord note closest to y cursor
  */
 gboolean
-delete_chordnote (DenemoScore * si){
-  notechange(si, TRUE);
+delete_chordnote (DenemoGUI * gui){
+  notechange(gui->si, TRUE);
   return TRUE;
 }
 /**
  * Insert chord note at y cursor position 
  */
 gboolean
-insert_chordnote (DenemoScore *si){
-  notechange(si, FALSE);
+insert_chordnote (DenemoGUI *gui){
+  if(gui->si->currentobject)
+    notechange(gui->si, FALSE);
+  else
+    insert_note(gui);
   return TRUE;
 }
 
