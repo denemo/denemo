@@ -1307,7 +1307,8 @@ delete_chordnote (DenemoGUI * gui){
  */
 gboolean
 insert_chordnote (DenemoGUI *gui){
-  if(gui->si->currentobject)
+ DenemoObject *curObj;
+  if(gui->si->currentobject && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==CHORD) )
     notechange(gui->si, FALSE);
   else
     insert_note(gui);
