@@ -765,10 +765,10 @@ gboolean delete_score_directive(gchar *tagname) {
 gchar *\
 what##_directive_get_tag(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
-  if(directive)\
+  if(directive && directive->tag)\
     return directive->tag->str;\
   else directive = get_##what##_directive(NULL);\
-  if(directive)\
+  if(directive && directive->tag)\
     return directive->tag->str;\
   return NULL;\
 }
