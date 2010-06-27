@@ -1393,13 +1393,13 @@ Music is entered into the measure which holds the cursor. If you are overlaying 
   </sect1>
 
   <sect1>
-      <title>Basic Use</title>
+      <title>A Survey of the Input Methods</title>
     <sect2>
 
 
       <subtitle>Introduction</subtitle>
       <para>
-      Denemo allows you to explore all the actions  (insert/delete/edit/navigate...) using the Objects menu. So inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
+      Denemo allows you to explore all the actions (insert/delete/edit/navigate...) using the menus. So, for example, inserting notes can be found under Notes/Rests while inserting a Staff comes under Staffs/Voices.
 <note> When you have found the action you need you can right click on the menu item to get an explanation of the action and to view/set a key press- a keyboard shortcut - to activate the action. If you are setting a lot of keyboard shortcuts for menu items you can check the Edit->Keyboard Setup->Allow Quick Shortcut Edits button, whereupon you can set the keyboard shortcut just by pressing the desired key while the menu item is selected. In addition you can customize the mouse actions to initiate commands, and set the cursor that will show while certain mouse conditions apply.
 </note>
       </para>
@@ -9773,7 +9773,7 @@ LilyPond inserts at notes can only be completely deleted in the Denemo window - 
     <sect2>
       <title>Chord Entry</title>
 
-      <para>The standard keybinding for entering notes in a chord is the Insert key. This enters the note at the cursor position making a chord out of the current note/chord. There are also commands to enter a named note which can be given shortcuts if you do a lot of chordal work.</para>
+      <para>The standard keybinding for entering a note in a chord is the Insert key. This enters the note at the cursor position. There are also commands to enter a named note Alt-a, Alt-b... are the standard shortcuts for this.</para>
     </sect2>
 
     <sect2>
