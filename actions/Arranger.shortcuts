@@ -332,7 +332,6 @@
       </row>
       <row>
         <action>EditObject</action>
-        <bind>tab</bind>
         <bind>PrsR</bind>
       </row>
       <row>

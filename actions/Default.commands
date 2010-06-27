@@ -3727,7 +3727,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NoOp</action>
-	<scheme></scheme>
+        <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Null Operation</label>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
