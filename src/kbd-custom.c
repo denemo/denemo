@@ -445,14 +445,40 @@ dnm_accelerator_name (guint           accelerator_key,
 
     //g_print("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), 	    gdk_keyval_name(accelerator_key));
 
-    //do not let caps lock affect shift of backspace etc, only alphanumeric
-    if (accelerator_mods&GDK_SHIFT_MASK) 
-      if((name->len>1) ||
-	 ((name->len==1) && (*name->str>='0') && (*name->str<='9')))
-	g_string_prepend(name, "Shft+");
+
+
+    // g_print("mods were %x\n", accelerator_mods);
+#if 0
+    //do not let caps lock affect shift of backspace etc
+    if( (accelerator_key == GDK_BackSpace) ||
+ (accelerator_key == GDK_Left) ||
+ (accelerator_key == GDK_Right) ||
+ (accelerator_key == GDK_Up) ||
+ (accelerator_key == GDK_Down) ||
+ (accelerator_key == GDK_Page_Up) ||
+ (accelerator_key == GDK_Page_Down) ||
+ (accelerator_key == GDK_Home) ||
+ (accelerator_key == GDK_End) ||
+ (accelerator_key == GDK_Insert) ||
+	(accelerator_key == GDK_Delete) ||
+	(accelerator_key == GDK_KP_Decimal) ||
+	(accelerator_key == GDK_period))
+      accelerator_mods &= ~GDK_LOCK_MASK;
+#else
     
-    if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
-      *name->str += ('a'-'A');
+ if(!((name->len==1) && (*name->str>='a') && (*name->str<='z')))
+   if(!((name->len==1) && (*name->str>='0') && (*name->str<='9')))
+     accelerator_mods &= ~GDK_LOCK_MASK;
+#endif    
+    // g_print("mods %x\n", accelerator_mods);
+    // if (accelerator_mods&GDK_SHIFT_MASK)
+    
+    //    if((name->len==1) && (*name->str>='A') && (*name->str<='Z'))
+    //      *name->str += ('a'-'A');
+    if(!((name->len==1) && (*name->str>='a') && (*name->str<='z')))
+     if(((accelerator_mods&GDK_LOCK_MASK)!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0))
+      g_string_prepend(name, "Shft+");
+
     if(((accelerator_mods&GDK_LOCK_MASK)!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0)) {
       if((name->len==1) && (*name->str>='a') && (*name->str<='z'))
 	  *name->str -= ('a'-'A');

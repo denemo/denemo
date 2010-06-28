@@ -620,7 +620,19 @@ static SCM scheme_load_keybindings (SCM name) {
   if(scm_is_string(name)) {
     filename = scm_to_locale_string(name);
     if(load_xml_keybindings (filename) == 0)
+      return SCM_BOOL_T; //FIXME memory leaks on success?
+    gchar *name = g_build_filename (locatedotdenemo (), "actions", filename, NULL);
+    if(load_xml_keybindings (name) == 0)
       return SCM_BOOL_T;
+    g_free(name);
+    name = g_build_filename (locatedotdenemo (), "download", "actions", filename, NULL);
+    if(load_xml_keybindings (name) == 0)
+      return SCM_BOOL_T;
+    g_free(name);
+    name = g_build_filename (get_data_dir (), "actions", filename, NULL);
+    if(load_xml_keybindings (name) == 0)
+      return SCM_BOOL_T;
+    g_free(name);
   }
   return SCM_BOOL_F;
 }
