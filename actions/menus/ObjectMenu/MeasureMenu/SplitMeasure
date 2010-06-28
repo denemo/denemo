@@ -5,32 +5,30 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
+        <after>InsertMeasure</after>
         <action>SplitMeasure</action>
-        <scheme> ;;;SplitMeasure
-(d-PushClipboard) 
+        <scheme>;SplitMeasure:splits a measure by inserting a barline
+;leave cursor at the beginning of the new measure (after the barline)
 (d-SetMark)
-(if (d-MeasureRight)  
+(if   (d-MeasureRight)
+   (begin  (d-CursorLeft)  
+                (d-Cut)
+                (d-CursorRight)
+                (d-InsertMeasureBefore)
+    )
    (begin
-	(d-CursorLeft)  
-        (d-Cut)
-        (d-CursorRight)
-        (d-InsertMeasureBefore)       
+           (d-GoToEnd)
+           (d-Cut)
+        (d-AppendMeasure)
+        (d-MoveToMeasureRight)
         )
-   (begin
-        (d-GoToEnd)
-        (d-Cut)
-        (d-InsertMeasureAfter)
-        (d-MeasureRight)
-      )
- ) 
-(d-Paste)
-(d-MoveToMeasureLeft)
-(GoToMeasureEnd)
-(d-PopClipboard) ; Restore old Clipboard
-
-</scheme>
-        <label>Split Measure (insert barline)</label>
-        <tooltip>Insert a barline before cursor.</tooltip>
+ )
+(d-Paste)	;now, position the cursor at begin of new bar:
+(d-MoveToMeasureLeft)  
+(d-MoveToMeasureRight)
+(d-UnsetMark)</scheme>
+        <label>Split Measure</label>
+        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
       </row>
     </map>
   </merge>

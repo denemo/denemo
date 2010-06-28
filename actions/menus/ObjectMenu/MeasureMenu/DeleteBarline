@@ -10,14 +10,15 @@
         <scheme>;;;DeleteBarline
 (let  ((type (d-GetType)) );don't try it if not at the end of bar
   (if (or (equal? type "Appending" ) (equal? type "None" ) )
-      (begin (d-SetMark)
-	     (if (d-MoveToMeasureRight) ;;we don't want to delete next bar if there isn't one!
-		 (begin (d-MoveToMeasureLeft) ;; Now we're at the beginning of that measure
-			(d-Cut)
-			(d-DeleteMeasure)
-			(d-Paste) )
-		 (d-UnsetMark) ;this is to clear the mark if we set it, but were at end of staff
-		 ))))</scheme>
+    (begin (d-SetMark)
+	(if (d-MoveToMeasureRight) ;;we don't want to delete next bar if there isn't one!
+	(begin (d-MeasureLeft) ;; Now we're at the beginning of that measure
+		(d-Cut)
+		(d-DeleteMeasure)
+		(d-Paste) )
+	(d-UnsetMark) ;this is to clear the mark if we set it, but were at end of staff
+		 )))
+)</scheme>
         <label>Delete Barline</label>
         <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
       </row>
