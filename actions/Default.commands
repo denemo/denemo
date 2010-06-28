@@ -3740,6 +3740,14 @@ for second and subsequent systems</tooltip>
         <label>Delete Barline</label>
         <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
       </row>
+      <row>
+        <action>LoadDefaultComposerNumberkeys</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>Load default composer number keys</label>
+        <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
+        <hidden>true</hidden>
+      </row>
     </map>
   </commands>
 </Denemo>
