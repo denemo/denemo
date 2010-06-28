@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>LoadDefaultComposerNumberkeys</action>
+        <scheme>(d-LoadKeybindings "composer_notesrests.shortcuts")</scheme>
+        <label>Load default composer number keys</label>
+        <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

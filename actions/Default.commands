@@ -3732,6 +3732,14 @@ for second and subsequent systems</tooltip>
         <label>Null Operation</label>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
       </row>
+      <row>
+        <action>LoadDefaultComposerNumberkeys</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>Load default composer number keys</label>
+        <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
+        <hidden>true</hidden>
+      </row>
     </map>
   </commands>
 </Denemo>
