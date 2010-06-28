@@ -52,8 +52,7 @@
 	  <menuitem action="MoveToF"/>
 	  <menuitem action="MoveToG"/>
 	</menu>
-	<menuitem action="OctaveUp"/>
-	<menuitem action="OctaveDown"/>
+	
 	<separator/>
 	<menuitem action="MoveToStaffUp"/>
 	<menuitem action="MoveToStaffDown"/>
