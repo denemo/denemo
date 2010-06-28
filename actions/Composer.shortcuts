@@ -507,7 +507,7 @@
       	
 	 <row>
 	 <action>LoadDefaultComposerNumberkeys</action>
-	 <bind>Esc</bind>
+	 <bind>Escape</bind>
 	</row>
 	
     </map>
