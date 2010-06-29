@@ -3734,7 +3734,7 @@ for second and subsequent systems</tooltip>
         <action>ReBar</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Adjust the Barlines</label>
+        <label>Adjust the Measure Lengths</label>
         <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
       </row>
       <row>
