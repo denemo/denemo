@@ -8,7 +8,14 @@
         <after>InsertMeasure</after>
         <action>DeleteBarline</action>
         <scheme>;;;DeleteBarline
-(let  ((type (d-GetType)) );don't try it if not at the end of bar
+(let  ((type (d-GetType)) )
+;get to appending of previous bar
+ (if (not (and (equal? type "Appending" ) (equal? type "None" ) ))
+ 	(begin
+	(while (d-PrevObjectInMeasure))
+	(d-MoveCursorLeft)))
+(set! type (d-GetType))
+
   (if (or (equal? type "Appending" ) (equal? type "None" ) )
     (begin (d-SetMark)
 	(if (d-MoveToMeasureRight) ;;we don't want to delete next bar if there isn't one!
@@ -17,7 +24,9 @@
 		(d-DeleteMeasure)
 		(d-Paste) )
 	(d-UnsetMark) ;this is to clear the mark if we set it, but were at end of staff
-		 )))
+		 ))
+		 	(d-WarningDialog "Could not find measure before cursor to merge with")
+		 	)
 )</scheme>
         <label>Delete Barline</label>
         <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>

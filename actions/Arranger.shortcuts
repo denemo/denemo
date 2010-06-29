@@ -610,6 +610,10 @@
         <action>AddDuplicateMeasure</action>
         <bind>Enter</bind>
       </row>
+      <row>
+        <action>LoadDefaultComposerNumberkeys</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>

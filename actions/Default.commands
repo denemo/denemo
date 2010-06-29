@@ -3733,20 +3733,19 @@ for second and subsequent systems</tooltip>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
       </row>
       <row>
-        <action>DeleteBarline</action>
-        <after>InsertMeasure</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Delete Barline</label>
-        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
-      </row>
-      <row>
         <action>LoadDefaultComposerNumberkeys</action>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Load default composer number keys</label>
         <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
-        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+        <after>InsertMeasure</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Merge Measure with Previous</label>
+        <tooltip>Joins two measures together</tooltip>
       </row>
     </map>
   </commands>
