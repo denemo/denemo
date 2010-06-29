@@ -17,7 +17,8 @@
     	Bookmarks
     	Modification and Alteration
     	Delete
-    	Function-keys F1 - F4
+    	Function-Keys F1 - F4 General Purpose
+    	Function-Keys F5 - F8 Playback
     	Numberkeys
     	Hidden Commands
     -->
@@ -377,6 +378,25 @@
         <bind>F4</bind>        
       </row>      
 
+<!-- Function-Keys F5 - F8 Playback -->
+      <row>
+        <action>DenemoPlayCursorToEnd</action>
+        <bind>F5</bind>        
+      </row>      
+      <row>
+        <action>Play</action>
+        <bind>Shift+F5</bind>
+      </row>      
+      <row>
+        <action>Stop</action>
+        <bind>F6</bind>
+      </row>
+      <!--
+      <row>
+        <action>Loop</action>
+        <bind>F7</bind>
+      </row> -->
+      
 
 <!-- Number-Keys -->
 
