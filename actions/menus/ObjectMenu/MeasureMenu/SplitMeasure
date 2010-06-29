@@ -5,9 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertMeasure</after>
         <action>SplitMeasure</action>
-        <scheme>;SplitMeasure:splits a measure by inserting a barline
+        <scheme>;SplitMeasure:splits a measure 
 ;leave cursor at the beginning of the new measure (after the barline)
 (d-SetMark)
 (if   (d-MeasureRight)
@@ -28,7 +27,7 @@
 (d-MoveToMeasureRight)
 (d-UnsetMark)</scheme>
         <label>Split Measure</label>
-        <tooltip>Insert a barline before cursor. Do not use for inserting empty measure.</tooltip>
+        <tooltip>Redistribute the notes into two Denemo measures splitting at the cursor position.</tooltip>
       </row>
     </map>
   </merge>

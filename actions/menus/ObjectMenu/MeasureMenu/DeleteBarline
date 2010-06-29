@@ -5,12 +5,11 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertMeasure</after>
         <action>DeleteBarline</action>
-        <scheme>;;;DeleteBarline
+        <scheme>;;;DeleteBarline actually it merges two measures
 (let  ((type (d-GetType)) )
 ;get to appending of previous bar
- (if (not (and (equal? type "Appending" ) (equal? type "None" ) ))
+ (if (not (or (equal? type "Appending" ) (equal? type "None" ) ))
  	(begin
 	(while (d-PrevObjectInMeasure))
 	(d-MoveCursorLeft)))
@@ -28,8 +27,8 @@
 		 	(d-WarningDialog "Could not find measure before cursor to merge with")
 		 	)
 )</scheme>
-        <label>Delete Barline</label>
-        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+        <label>Merge with Previous Measure</label>
+        <tooltip>Joins two measures together</tooltip>
       </row>
     </map>
   </merge>

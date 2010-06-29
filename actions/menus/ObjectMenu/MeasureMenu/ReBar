@@ -5,10 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>ForceNewMeasure</after>
         <action>ReBar</action>
-        <scheme>;Rebar-repartitions the measures, by DW
-;FIXME- search for PASTE BUG and delete all lines containing it once the bug is fixed
+        <scheme>;Rebar-repartitions the measures, by DW, trivial mods by RTS
 ;FIXME-currently no support for nested tuplets
 ;notes: (d-GetType) returns CHORD TIMESIG LILYDIRECTIVE TUPOPEN TUPCLOSE (tuplets) Appending
 
@@ -279,8 +277,8 @@
 	)
 
 )	;let</scheme>
-        <label>Adjust the Barlines</label>
-        <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
+        <label>Adjust the Measure Lengths</label>
+        <tooltip>Removes gaps in measures. Redistributes the notes in accordance with the time signature.</tooltip>
       </row>
     </map>
   </merge>

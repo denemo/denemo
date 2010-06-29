@@ -2793,13 +2793,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Runs your browser on a page giving access to denemo's internet relay chat</tooltip>
       </row>
       <row>
-        <action>ReBar</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Adjust the Barlines</label>
-        <tooltip>Removes gaps. redistributes the notes following the time signature.</tooltip>
-      </row>
-      <row>
         <action>ToggleTripleting</action>
         <after>ToggleTupletNumbering</after>
         <scheme></scheme>
@@ -3574,7 +3567,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ToggleCursorHighlight</action>
-        <after>OctaveDown</after>
         <scheme></scheme>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <label>Cursor Highlighting Off/On</label>
@@ -3586,13 +3578,6 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Delete</label>
         <tooltip>Deletes a single object at the cursor, an empty measure or the complete selection.</tooltip>
-      </row>
-      <row>
-        <action>SplitMeasure</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Split Measure (insert barline)</label>
-        <tooltip>Insert a barline before cursor.</tooltip>
       </row>
       <row>
         <action>GoToMeasureEnd</action>
@@ -3649,7 +3634,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>SmallFontStart</action>
-        <after>FinishCadenza</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Small Size</label>
@@ -3741,11 +3725,32 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>DeleteBarline</action>
-        <after>InsertMeasure</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <label>Merge Measure with Previous</label>
-        <tooltip>Joins two measures together</tooltip>
+        <label>Merge with Previous Measure</label>
+        <tooltip>Joins two measures together. Always start with cursor on barline to be deleted. Does not work in all cases!</tooltip>
+      </row>
+      <row>
+        <action>ReBar</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Adjust the Barlines</label>
+        <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Split Measure at Cursor</label>
+        <tooltip>Split the current measure into two at the cursor.</tooltip>
+      </row>
+      <row>
+        <action>ForceBarline</action>
+        <after>Anacrusis</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Insert Barline</label>
+        <tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</tooltip>
       </row>
     </map>
   </commands>
