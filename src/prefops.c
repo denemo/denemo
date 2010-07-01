@@ -21,6 +21,14 @@
 #include "prefops.h"
 #include "playback.h"
 
+#ifdef G_OS_WIN32
+#define PREFS_FILE "denemorcV2"
+#else
+#define PREFS_FILE "denemorc"
+#endif
+
+
+
 static gint
 readxmlprefsFile (gchar * filename);
 
@@ -69,7 +77,7 @@ initprefs ()
   gchar *systemwide = g_build_filename (get_conf_dir (), "denemo.conf", NULL);
   #define ret (&Denemo.prefs)
   gchar * dotdenemo = (gchar*)locatedotdenemo ();
-  gchar *localrc = dotdenemo?g_build_filename (dotdenemo, "denemorc", NULL):NULL;
+  gchar *localrc = dotdenemo?g_build_filename (dotdenemo, PREFS_FILE, NULL):NULL;
 
   /* Reasonable default values */
 
@@ -716,8 +724,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   static GString *localrc = NULL;
   if (!localrc)
     {
-      localrc = g_string_new (locatedotdenemo ());
-      g_string_append (localrc, "/denemorc");
+      localrc = g_string_new (g_build_filename(locatedotdenemo (), PREFS_FILE, NULL));
     }
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
