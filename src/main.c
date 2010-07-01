@@ -59,7 +59,7 @@ const gchar *Fluidsynth = "InternalSynth";
 /* just a simple check, if the user has never run denemo before
    better, keep this for whole first session? */
 gboolean first_time_user(void) {
-  gchar *filename = g_build_filename(locatedotdenemo(), "denemorc", NULL);
+  gchar *filename = g_build_filename(locatedotdenemo(), "actions", NULL);
   gboolean ret = !g_file_test (filename, G_FILE_TEST_EXISTS);
   g_free(filename);
   return ret;
@@ -506,13 +506,14 @@ main (int argc, char *argv[])
   register_stock_items ();
 
 #define choice1  "Default\nUse this until you have read the manual\n"
-#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections etc"
+#define choice4 "Classic\nOld Denemo pc-keyboard interface."
 #define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
+#define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
 
   if(uses_default_commandset()) {
     // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
     // get_option returns a pointer into the string passed in
-    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1);
+    gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0"choice4"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1);
     if(choice==NULL)
       choice = choice1;
     if(choice!=choice1) {
@@ -523,7 +524,7 @@ main (int argc, char *argv[])
 	  *c='\0';
       choice =  g_strconcat(choice, ".commands", NULL);
       choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
-      g_print("Choice is %s length %d\n", choice, strlen(choice));
+      //g_print("Choice is %s length %d\n", choice, strlen(choice));
       Denemo.prefs.shortcut_filename = g_string_new(choice);
     }
   }
