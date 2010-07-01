@@ -3717,13 +3717,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Does absolutely nothing. Use to "blank" a shortcut.</tooltip>
       </row>
       <row>
-        <action>LoadDefaultComposerNumberkeys</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/MoreMenu</menupath>
-        <label>Load default composer number keys</label>
-        <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
-      </row>
-      <row>
         <action>DeleteBarline</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -3758,7 +3751,7 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Play from Cursor to End</label>
         <tooltip>Playback all staffs from the current cursor position to the end of the movement.</tooltip>
-      </row>      
+      </row>
     </map>
   </commands>
 </Denemo>
