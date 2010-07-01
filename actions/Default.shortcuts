@@ -498,8 +498,12 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>GraceNoteSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>SelectAllStaffs</action>
-        <bind>Control+A</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ShiftUp</action>
