@@ -478,6 +478,26 @@
         <bind>Alt+Left</bind>
       </row>
       <row>
+        <action>AddDotSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>SelectStaff</action>
         <bind>Control+a</bind>
       </row>

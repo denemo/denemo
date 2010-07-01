@@ -135,6 +135,10 @@
         <bind>Insert</bind>
       </row>
       <row>
+        <action>RemoveNoteFromChord</action>
+        <bind>Ctrl+Insert</bind>
+      </row>
+      <row>
         <action>Sharpen</action>
         <bind>Shft+equal</bind>
       </row>
@@ -144,11 +148,13 @@
       </row>
       <row>
         <action>AddDot</action>
-        <bind>.</bind>
+        <bind>Decimal</bind>
+        <bind>period</bind>
       </row>
       <row>
         <action>RemoveDot</action>
-        <bind>Ctrl+.</bind>
+        <bind>Ctrl+Decimal</bind>
+        <bind>Ctrl+period</bind>
       </row>
       <row>
         <action>DeletePreviousObject</action>
@@ -175,18 +181,6 @@
         <bind>return</bind>
       </row>
       <row>
-        <action>ToggleBeginSlur</action>
-        <bind>(</bind>
-      </row>
-      <row>
-        <action>ToggleEndSlur</action>
-        <bind>)</bind>
-      </row>
-      <row>
-        <action>ToggleFermata</action>
-        <bind>"</bind>
-      </row>
-      <row>
         <action>ToggleStaccato</action>
         <bind>;</bind>
       </row>
@@ -195,16 +189,12 @@
         <bind>Backslash</bind>
       </row>
       <row>
-        <action>ToggleStaccatissimo</action>
-        <bind>:</bind>
-      </row>
-      <row>
         <action>ToggleArpeggio</action>
         <bind>%</bind>
       </row>
       <row>
         <action>ToggleGrace</action>
-        <bind>/</bind>
+        <bind>slash</bind>
       </row>
       <row>
         <action>InsertRhythm</action>
@@ -281,10 +271,6 @@
       <row>
         <action>InsertDynamic</action>
         <bind>Control+d</bind>
-      </row>
-      <row>
-        <action>InsertLilyDirective</action>
-        <bind>l</bind>
       </row>
       <row>
         <action>EditObject</action>
@@ -445,12 +431,10 @@
       </row>
       <row>
         <action>Change7</action>
-        <bind>7</bind>
         <bind>Control+7</bind>
       </row>
       <row>
         <action>Change8</action>
-        <bind>8</bind>
         <bind>Control+8</bind>
       </row>
       <row>
@@ -494,8 +478,24 @@
         <bind>Alt+Left</bind>
       </row>
       <row>
-        <action>SelectStaff</action>
-        <bind>Control+a</bind>
+        <action>AddDotSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StaccatissimoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TenutoSelectionSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AccentSelectionSwitcher</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>SelectAllStaffs</action>

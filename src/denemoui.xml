@@ -361,7 +361,6 @@
 	  <menuitem action="E"/>
 	  <menuitem action="F"/>
 	  <menuitem action="G"/>
-          <menuitem action="ToggleTie"/>
           <menuitem action="InsertTiedNote"/>
 	  <menuitem action="OctaveUp"/>
           <menuitem action="OctaveDown"/>
