@@ -6,7 +6,7 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (C) 2001, 2002 Per Andersson, 2009 Richard Shann
  * 
- * License: this file may be used under the FSF GPL version 2
+ * License: this file may be used under the FSF GPL version 3 or later
  */
 
 #define EXPORTMIDI_VERSION	"1.2"

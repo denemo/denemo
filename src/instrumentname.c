@@ -6,7 +6,7 @@
  *
  * (c) 2001-2005 Per Andersson
  *
- * License: GPL version 2
+ * License: GPL version 3 or later
  * 
  */
 
