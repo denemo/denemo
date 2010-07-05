@@ -1,3 +1,63 @@
+2010-07-05 Release 0.8.18:
+    * Maximize the space for the score (with/without user's choice of menus).
+          o Standard View - window size, zoom, number of systems etc
+          o No-Menu version of this view
+          o Page View - user chooses a window size, zoom and number of systems, which is stored with the movement for instant recall.
+          o Single keyboard shortcut for toggling between these views (Esc by default). 
+    * Musical Snippets - store musical riffs/motifs to be pasted at will or as rhythmic templates for playing over.
+    * MIDI transport work for JACK users.
+    * Bug fixes:
+          o Fix Chord Symbols for music starting with triplets, grace notes etc.
+          o Fix display of dotted rests 
+    * Arbitrary Tuplets built in: correct MIDI output as well as engraving, of course.
+    * Diatonic Transposition: Shift notes and chords up and down respecting the current key signature.
+    * Support for figured bass extenders, including those with no starting figure.
+    * Better Paste command.
+    * Cursor can be highlighted, making it easier to locate
+    * Page turning is animated: as the last line starts to play, the page visibly turns at the top.
+    * Default behavior is now non-modal
+          o an easy to understand and very slick interface via keyboard
+          o seamless integration with MIDI controllers 
+    * Purely rhythmic notes playback using percussion - click tracks more easily generated.
+    * Separate shortcut loading command
+    * Split Notes and Chords to smaller notes while preserving the original duration (make a quarter note two 8th or tuplet of 8th or 7-tuplet)
+    * Duplicate a Note or Chord as command
+    * Command line interface for interactive scheme use
+    * Support for the "French" clef (G on bottom line) 	
+
+
+2010-04-01 Release 0.8.16:
+      * Automatic page turning on playback. When playback reaches the
+        last line in the display the page turns at the top so that you
+        can read the music continuously
+      * Recording Midi: while playing a Denemo score you can record a
+        new MIDI part, and then playback the combined performance. Save
+        the combined performance as midi. Simple convert-to-notation.
+      * Playback controls - set the start position to the cursor
+      * Grace Notes - Now as On/Off command, correct display in Denemo
+        and works with selections
+
+2010-03-01 Release 0.8.14:
+    * Zoom for the Denemo display
+    * Mulit-line display of music.
+    * MIDI player controls
+          o Independent playhead
+          o Loop control - edit your music while it loops.
+          o Master Tempo command
+          o Master Volume command
+          o Control the play interval, set to selection etc 
+    * Typical Midi Control Changes (Program Change, Hold Pedals etc.)
+          o A Generic Control Change directive for any Midi CC Message. 
+    * Convert GM Drum Staffs to users' drum notation. The mapping can be edited visually by using a normal .denemo template.
+    * Apply To Selection for script authors
+          o Upgrade of some scripts to work with selections.
+          o New user preference that turns "Apply to Selection" on/off 
+    * New cursor movement commands: Standard shortcuts now don't alter the selection
+          o Conventional mouse + keyboard selection (shift+left/right), in multiple staffs at once 
+    * Improvements to MIDI import.
+    * Hide certain menus / toolbars. 
+
+
 2010-01-01 Release 0.8.12:    
 	* MIDI playback by internal synth (Fluidsynth)
 	* MIDI input available from all platforms (using Fluidsynth)
