@@ -813,7 +813,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
 
-	//	if(!curobj->isinvisible) {
+	if(!curobj->isinvisible) {
 	    if((!*pgrace_status) && pchord->is_grace) {
 	      *pgrace_status = TRUE;
 	      g_string_append_printf (ret,"\\grace {  ");
@@ -830,7 +830,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (fakechords, "}");
 
 	      }
-	    //	  }
+	  }
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
