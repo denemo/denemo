@@ -32,7 +32,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   static GdkGC *bluegc;
   static GdkGC *purplegc;
   GdkGC *paintgc;
-
+  xx -=5;
   if (!blackgc)
     {
       blackgc = gcs_blackgc ();
@@ -63,9 +63,8 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
 #else
     cairo_arc(cr, xx + CURSOR_WIDTH/2, height + y, length, 0, 2 * M_PI);
 #endif
-
-
     cairo_stroke( cr );
+   
   }
   cairo_restore( cr );
 
