@@ -1239,7 +1239,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	g_warning("volume set to zero but not muted\nResetting volume\n");
 	cur_volume = 65;
       }
-	
+      if(tuplet>0)
+	g_print("Unterminated tuplet at end of voice %d\n", tracknumber-1);
       //Reset to  tuplets nesting level 0, in case unbalanced tuplet start end in last staff
       tuplet = 0;
       //Now that we have the channel and volume we can interpret any score and staff-wide directives for midi
