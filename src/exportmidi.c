@@ -1127,7 +1127,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   int pref_staccatissimo = 10;
 
   /* tuplets */
-  int tuplet = 0;
+  int tuplet = 0;//level of tuplet nesting only 0 and 1 are supported
   tupopen tupletnums;
   tupopen savedtuplet;
 
@@ -1240,7 +1240,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	cur_volume = 65;
       }
 	
-
+      //Reset to  tuplets nesting level 0, in case unbalanced tuplet start end in last staff
+      tuplet = 0;
       //Now that we have the channel and volume we can interpret any score and staff-wide directives for midi
       if(curstaffstruct->staff_directives) {
 	GList *g=curstaffstruct->staff_directives;
