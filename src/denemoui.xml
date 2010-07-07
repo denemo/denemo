@@ -228,6 +228,7 @@
  	<menuitem action="AddLast"/>	
         <menuitem action="AddStaffs"/> 
       </menu>
+      <menuitem action="AddVoice"/>
       <menu action="Delete">
         <menuitem action="DeleteBefore"/>
 	<menuitem action="DeleteStaff"/>
@@ -238,7 +239,6 @@
           <menuitem action="JoinVoices"/>
           <menuitem action="MoveToStaffUp"/>
           <menuitem action="MoveToStaffDown"/> 
-          <menuitem action="AddVoice"/>
           <menuitem action="MoveToVoiceUp"/>
 	  <menuitem action="MoveToVoiceDown"/> 
     </menu>

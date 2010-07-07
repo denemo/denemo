@@ -385,7 +385,7 @@
 {"FiguredBass", NULL, N_("Figured Bass"), NULL,N_("Adding Figured Bass Figures")},
 {"MeasureMenu", NULL, N_("Measures"), NULL,N_("Measures: adding, deleting, navigating etc")},
 {"Insert", NULL, N_("Insert"), NULL,N_("Inserting notes, measures, staffs, keysigs etc")},
-{"InsertStaff", NULL, N_("Insert Staff"), NULL,N_("Insert a Staff relative to current staff")},
+{"InsertStaff", NULL, N_("Add Staff"), NULL,N_("Insert a Staff relative to current staff")},
 {"InsertMovement", NULL, N_("Insert Movement"), NULL,N_("Insert a Movement relative to current movement")},
 {"InsertDuration", NULL, N_("Insert Duration"), NULL,N_("Inserting notes of a given duration")},
 {"Change", NULL, N_("Change"), NULL,N_("Changing properties of notes, measures, staffs, keysigs etc")},
