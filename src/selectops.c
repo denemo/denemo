@@ -418,6 +418,8 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
   isoffleftside(Denemo.gui);
   isoffrightside(Denemo.gui);
 
+  score_status(Denemo.gui, TRUE);
+
   /*   isoffleftside;  */
   /*find_xes_in_all_measures (si);
     nudgerightward (Denemo.gui);
@@ -958,6 +960,7 @@ void
 pastewrapper (GtkAction *action, DenemoScriptParam *param)
 {  
   call_out_to_guile("(DenemoPaste)");
+  score_status(Denemo.gui, TRUE);
 }
 
 
