@@ -229,9 +229,13 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
     itp->playposition = x + mudelaitem->x;
 
   if(mudelaitem == itp->startobj)
-    itp->startposition = x + mudelaitem->x +  mudelaitem->minpixelsalloted;
+    itp->startposition = x + mudelaitem->x + mudelaitem->minpixelsalloted; 
+#if 0
+ if(itp->startobj==NULL && itp->startposition<=0)
+   itp->startposition = x;
+#endif
   if(mudelaitem == itp->endobj)
-    itp->endposition = x + mudelaitem->x;
+    itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
 
   //g_print("item %p draw at %d\n", mudelaitem, itp->playposition);
   // if (!greengc)
@@ -724,6 +728,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
   cairo_save(cr);
   }//if cr
+
+  if((gui->si->smf) && (itp->startobj==NULL) && (itp->startposition<=0))
+      itp->startposition = x;
+
+
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
   itp->curmeasure =
@@ -923,9 +932,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   if(gui->si->smf) {
     itp.startobj =
-      get_obj_for_start_time(gui->si->smf, gui->si->start_time);
+      get_obj_for_end_time(gui->si->smf, gui->si->start_time - 0.001);
+    // g_print("start %p\n", itp.startobj);
+
     itp.endobj =
-      get_obj_for_end_time(gui->si->smf, gui->si->end_time);
+      get_obj_for_start_time(gui->si->smf, gui->si->end_time - 0.001);
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
   cairo_t *cr = widget?gdk_cairo_create( gui->pixmap ): NULL;
