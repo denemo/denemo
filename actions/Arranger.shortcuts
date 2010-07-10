@@ -611,8 +611,8 @@
         <bind>Enter</bind>
       </row>
       <row>
-        <action>LoadDefaultComposerNumberkeys</action>
-        <hidden>true</hidden>
+        <action>Tremolo</action>
+        <bind>Alt+t</bind>
       </row>
     </map>
   </merge>
