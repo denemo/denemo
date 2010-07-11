@@ -56,24 +56,25 @@
 				    	  	 (set! bassnote 0)
 				    	  	 (d-PlayMidiKey #xF06001))
 				    	  )	    
-					     )
-			     ;;; not bass note on 
+					     );;; end of  noteon while we have no bass note
+			     ;;; not attempted bass note on 
 					   (begin
 					     (if (and (= command #x80)(= note bassnote))
 						 (begin 
 						   (set! bassnote 0)
 						   (d-EditFiguredBass (GetFigures))
-  (if (boolean? (d-GetNoteName))
-		   (d-NextNote))
-
-						   ;;(d-PutMidi midi)
-									)
+  						   (if (boolean? (d-GetNoteName))
+		 					  (d-NextNote))
+									);;; end of received bassnote off
 				 ;;; not bass note off
 						 (begin
 						   (if  (= command #x90)
 							(begin
 							  (AddFigure note bassnote)
-							  (d-PlayMidiKey midi)))))))));; end of if noteon
+							  (d-PlayMidiKey midi)))))))));; end of if noteon or noteoff
+							  
+							  
+		;;;;;;;;;; Pedal Down					  
 				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
 				     (begin
 				       	(display "Pedal down")
@@ -86,6 +87,9 @@
 						(begin
 				       (d-PlayMidiKey #xF01A01)
 				       (set! Figures (cons " | "  Figures))))))
+		;;;;;;;;;;; End of Pedal Down		       
+				       
+				       
 				 ;;(d-PutMidi midi)
 				 (if (not (= command 0))
 				     (loop bassnote))
@@ -95,8 +99,8 @@
 	   ));;; end of not active block
     );;; end of if active/not active if
 </scheme>
-        <label>Figured Bass Filter On</label>
-        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
+        <label>Figured Bass Filter On/Off</label>
+        <tooltip>Start/stop filtering MIDI events as figured bass input, First note is bass, hold this down while entering notes for figures. A note lower than bass note introduces a blank figure, 0. Pedal followed by notes changes harmony on same bass note. Pedal without previous harmony note makes an extender.</tooltip>
       </row>
     </map>
   </merge>
