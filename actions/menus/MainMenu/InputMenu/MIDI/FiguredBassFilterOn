@@ -6,22 +6,20 @@
     <map>
       <row>
         <action>FiguredBassFilterOn</action>
-        <scheme>;;;;;;;;;;;;;;;;;;
-;;;Advanced MIDI FIGURE BASS filter
-;;; Figured Bass filter
-(d-Note)
-(d-EditMode)
+        <scheme>;;; Figured Bass filter
+
 (if (not (defined? 'ToggleFiguredBassMode::Active))
     (define ToggleFiguredBassMode::Active #f))
 (if ToggleFiguredBassMode::Active
     (begin
-      (d-PutMidi 0)
+      (d-MidiFilterOff)
       (set! ToggleFiguredBassMode::Active #f)
       ) ;;; end of active if
     (let 
 	((Figures 0) (AddFigure 0) (GetFigures 0) (loop 0))
 	 (begin
-
+	   (d-InputFilterNames "Figured Bass MIDI Filter")
+    	   (set! ToggleFiguredBassMode::Active #t)
 	   (set! AddFigure (lambda (note bassnote)
 			     (begin
 			       (set! Figures (cons  (d-BassFigure bassnote note) Figures)))))
@@ -96,8 +94,7 @@
 	   (loop 0)
 	   ));;; end of not active block
     );;; end of if active/not active if
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</scheme>
+</scheme>
         <label>Figured Bass Filter On</label>
         <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>
