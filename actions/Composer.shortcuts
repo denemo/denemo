@@ -16,6 +16,7 @@
     	Seek
     	Bookmarks
     	Modification and Alteration
+    	Ties and Slurs
     	Delete
     	Function-Keys F1 - F4 General Purpose
     	Function-Keys F5 - F8 Playback
@@ -352,6 +353,13 @@
         <action>GraceNoteSwitcher</action> <!-- TODO: binding -->
       </row>     
       
+<!-- Ties and Slurs -->
+	
+	<row>
+		<action>ToggleTie</action>
+		<bind>t</bind>
+	</row>
+      
 <!-- Delete -->
       <row>
         <action>DeletePreviousObject</action>
@@ -498,7 +506,16 @@
         <hidden>true</hidden>
         <action>DeleteObject</action> 
       </row>
+      
+      <row>
+		<hidden>true</hidden>
+		<action>InsertTiedNote</action>
+      </row>
     
+      <row>
+		<hidden>true</hidden>
+		<action>InsertTiedNoteDuration</action>
+      </row>
 	<!-- Hide Fingerings because there is a double-stroke command to use them. -->
        <row>
         <action>Finger0</action>
