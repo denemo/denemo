@@ -350,7 +350,8 @@
       </row>
       
       <row>
-        <action>GraceNoteSwitcher</action> <!-- TODO: binding -->
+        <action>GraceNoteSwitcher</action>
+        <bind>g</bind>
       </row>     
       
 <!-- Ties and Slurs -->
