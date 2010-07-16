@@ -1249,6 +1249,13 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Displays the final finished score for the current part (that is current staff</tooltip>
       </row>
       <row>
+        <action>Preview4Bars</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <label>Preview Four Measures</label>
+        <tooltip>Print preview of current bar and the next three.</tooltip>
+      </row>
+      <row>
         <action>Close</action>
         <label>Close Score</label>
         <tooltip>Close the current score. Other windows will stay open</tooltip>
@@ -3758,6 +3765,21 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Tremolo</label>
         <tooltip>Inserts LilyPond directive to make preceding note tremolo.\nGive the duration of the subdivisions required using a duration key.</tooltip>
+      </row>
+      <row>
+        <action>TypesettingOff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>TypesettingOff</label>
+        <tooltip>Turns off typesetting from that point until turned on.</tooltip>
+      </row>
+      <row>
+        <action>TypesettingOn</action>
+        <after>TypesettingOff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>TypesettingOn</label>
+        <tooltip>Turns on typesetting from this point forward in all staffs.</tooltip>
       </row>
     </map>
   </commands>

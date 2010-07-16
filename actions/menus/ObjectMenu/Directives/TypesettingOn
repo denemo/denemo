@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TypesettingOff</after>
+        <action>TypesettingOn</action>
+        <scheme>(d-DirectivePut-standalone-postfix "Typesetting Control" "\\set Score.skipTypesetting = ##f")
+(d-MoveCursorLeft)
+(d-DirectivePut-standalone-display "Typesetting Control" "TypesetOn")
+</scheme>
+        <label>TypesettingOn</label>
+        <tooltip>Turns on typesetting from this point forward in all staffs.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
