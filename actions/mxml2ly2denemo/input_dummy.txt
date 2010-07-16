@@ -1,4 +1,1 @@
-note c d2 e
-note g a 2s 5
-%jaja das ist ein kommentar e3
-sdf2
+1 2 

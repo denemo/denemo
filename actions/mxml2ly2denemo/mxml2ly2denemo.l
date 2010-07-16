@@ -6,10 +6,9 @@ newline \n
 
 %%
 
-%.*{newline}				(cons 'comment yytext)
-note						(cons 'string yytext)	
-{digit}						(cons 'integer yytext)	
-{letter}					(cons 'letter yytext)	
-{letter}{digit}				(cons 'note yytext)
+;%.*{newline}				(cons 'COMMENT yytext)
+{digit}						(cons 'INTEGER yytext)	
+;{letter}					(cons 'LETTER yytext)	
+;{letter}{digit}			(cons 'NOTE yytext)
 ({whitespace}|{newline})
-<<EOF>>						'*eof*
+<<EOF>>						'*eoi*
