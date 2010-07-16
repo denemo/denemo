@@ -40,9 +40,10 @@
 	(commands (commands command) : #t
 			  (command) 	     : #t)
 	(command 
-			(INTEGER)	: (display "no_te\n")
-			(LETTER)	: (display "re_st\n")
-			(TAB)		: (display "Tab\n"))
+			(INTEGER)	: (begin (display $1) (display "no_te\n"))
+			(LETTER)	: (begin (display $1) (display "re_st\n"))
+			(TAB)		: (begin (display $1) (display "Tab\n")))
+			
 
   )
 )
