@@ -6,9 +6,9 @@ newline \n
 
 %%
 
-;%.*{newline}				(cons 'COMMENT yytext)
-{digit}						(make-lexical-token 'INTEGER (make-source-location "*stdin*" 0 0 -1 -1) yytext)	
-;{letter}					(cons 'LETTER yytext)	
-;{letter}{digit}			(cons 'NOTE yytext)
+%.*{newline}				(mtoken 'COMMENT yytext)
+{digit}						(mtoken 'INTEGER yytext)
+{letter}					(mtoken 'LETTER yytext)
+{letter}{digit}				(mtoken 'NOTE yytext)
 ({whitespace}|{newline})
 <<EOF>>						'*eoi*

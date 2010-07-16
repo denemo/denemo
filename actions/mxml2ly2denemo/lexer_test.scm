@@ -21,7 +21,11 @@
 (set-current-input-port (open-input-file "input_dummy.txt"))
 
 ;; Lexer
-(lex "mxml2ly2denemo.l" "mxml2ly2denemo.l.scm") ; Oh no!! The generated scm file has comments in the language of the devil!
+(define (mtoken symbol value) 
+	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
+)
+
+(lex "mxml2ly2denemo.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
 (load "mxml2ly2denemo.l.scm")
 (lexer-init 'port (current-input-port)) 
 
@@ -30,25 +34,22 @@
 ;; Parser Definition
 (define mxml2ly2denemo-parser
   (lalr-parser
-
    ;; --- token definitions
-   (INTEGER )
-
+   (INTEGER LETTER NOTE)
    
    (e (number)	 : $1)
    (number (INTEGER) : #t)	
-
-))
+  )
+)
 
 ; Just to get this out of my way... I don't wanted to make errors anyway! (real function later)
 (define (displayerror arg1 arg2)
 		(display arg1)
-		;(display two)
 		(display arg2)(newline)
 )
-(display
+
 (mxml2ly2denemo-parser lexer displayerror)
-)
+
 
 ;; Close input port
-(close 0) 
+(close (current-input-port)) 
