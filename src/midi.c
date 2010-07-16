@@ -224,7 +224,7 @@ void record_midi(gchar *buf, gdouble time) {
 }
 
 /* look for a new note played into midi input, if
-   present insert it into the score */
+   present insert it into the score/edit the score following the mode */
 gint midientry(void) {
   
   DenemoGUI *gui = Denemo.gui;
@@ -299,6 +299,13 @@ void start_midi_input(void) {
 static gint *divert_midi_event;
 static gint divert_midi_id=0;//id of the DenemoGUI which wants to intercept midi events
 
+static gboolean midi_capture_on = FALSE;//any midi events not caught by midi_divert will be dropped if this is true
+
+gboolean set_midi_capture(gboolean set) {
+  gboolean ret = midi_capture_on;
+  midi_capture_on = set;
+  return ret;
+}
 
 #define command ((*buf)&0xFF)
 #define notenumber ((*(buf+1))&0xFF)
@@ -312,12 +319,17 @@ void process_midi_event(gchar *buf) {
     gtk_main_quit();
     return;// not reached
   }
-  if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-    buf[0]=MIDI_NOTEOFF;
-    buf[2]=128;
+  if(midi_capture_on) {
+    gdk_beep();
+    g_warning("MIDI event dropped");
+  } else {
+    if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+      buf[0]=MIDI_NOTEOFF;
+      buf[2]=128;
+    }
+    if(command==MIDI_NOTEON)
+      store_midi_note(notenumber);
   }
-  if(command==MIDI_NOTEON)
-    store_midi_note(notenumber);
 }
 
 gboolean intercept_midi_event(gint *midi) {

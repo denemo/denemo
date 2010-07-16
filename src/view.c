@@ -2161,6 +2161,13 @@ SCM scheme_get_password(void) {
   return scm_makfrom0str(Denemo.prefs.password->str);
 }
 
+static
+SCM scheme_set_midi_capture(SCM setting) {
+  gboolean prev;
+  prev = set_midi_capture((setting != SCM_BOOL_F));
+  return prev?SCM_BOOL_T:SCM_BOOL_F;
+}
+
 
 static
 SCM scheme_get_midi(void) {
@@ -2173,7 +2180,7 @@ SCM scheme_get_midi(void) {
 }
 
 
-
+//Simulates a midi event, with no capture by any calling scheme script
 SCM scheme_put_midi (SCM scm) {
   gchar buf[3];
   gint midi = scm_num2int(scm, 0, 0);
@@ -2182,12 +2189,17 @@ SCM scheme_put_midi (SCM scm) {
   buf[1] = (midi>>8)&0xFF;
   buf[2] = (midi>>16)&0xFF;
   //g_print("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
+  if(midi) {
+  gboolean capture = set_midi_capture(FALSE);//Turn off any capturing
   process_midi_event(buf);
+  set_midi_capture(capture);//Restore any capturing that might be on
 #if 0
   pitchentry(Denemo.gui);// this ensures any note is acted on before returning
 #else
-  midientry();
+  midientry();//check for more midi in, and action it if available
 #endif
+  } else
+    process_midi_event(buf);
  return SCM_BOOL(TRUE);
 }
 
@@ -2937,6 +2949,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   //create window system
   create_window();
+
   
   Denemo.prefs.cursor_highlight = TRUE;
 
@@ -3675,6 +3688,10 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
 
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
+
+  INSTALL_SCM_FUNCTION ("Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.",DENEMO_SCHEME_PREFIX"SetMidiCapture", scheme_set_midi_capture);
+
+
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
@@ -4480,10 +4497,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
       button = (GtkToolButton *)gtk_tool_button_new(NULL, NULL);
       label = gtk_label_new(NULL);
       gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-      GtkWidget *ev = gtk_event_box_new();
-      gtk_container_add (GTK_CONTAINER(ev), label);
-      gtk_tool_button_set_label_widget (button, ev);
-      //gtk_event_box_set_above_child (ev, TRUE);
+      gtk_tool_button_set_label_widget (button, label);
       r->button = button;
     }
   if(!singleton) {
@@ -4639,7 +4653,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     else
       return;  //FIXME memory leak of r - well pattern is never NULL
     //g_print("rsteps is %p entry is %s, %s\n", r->rsteps, pattern, labelstr);
-    label = LABEL(r->button);
+    label = gtk_tool_button_get_label_widget(r->button);
     gtk_label_set_markup(GTK_LABEL(label), labelstr);
     g_free(labelstr);
   }
@@ -6539,7 +6553,9 @@ static 	void show_type(GtkWidget *widget, gchar *message) {
 /* set all labels in the hierarchy below widget to use markup */
 static void use_markup(GtkWidget *widget)
 {
-  // show_type(widget, "Widget Type: ");
+  if (!widget)
+	return;
+  //show_type(widget, "Widget Type: ");
 
  
   //g_print("container type %x\n", GTK_IS_CONTAINER(widget));
@@ -6552,7 +6568,7 @@ static void use_markup(GtkWidget *widget)
    // gtk_label_set_use_underline (GTK_LABEL (widget), FALSE); font_desc gets interpreted in GtkLabel but not GtkAccelLabel hmmm...
     //g_print("Before we have %d\n", gtk_label_get_use_markup        (widget));
     //gchar * label = gtk_label_get_label(widget);
-     //g_print("label before is %s\n", label);
+     //g_print("label before is \"%s\"\n", label);
     
     gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
     //g_print("after we have %d\n", gtk_label_get_use_markup        (widget));
@@ -6874,6 +6890,13 @@ create_window(void) {
     {"LilyDelete", NULL, N_("Delete Block"),NULL, N_("Delete this block"),G_CALLBACK (delete_lily_cb)}
   };
 
+  {
+  GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
+  gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
+  gtk_action_group_add_actions (lilyaction_group, lily_menus,
+				G_N_ELEMENTS (lily_menus), Denemo.gui);
+  gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);
+  }
   data_file = g_build_filename (
 #ifndef USE_LOCAL_DENEMOUI
 get_data_dir (),
@@ -7084,13 +7107,6 @@ get_data_dir (),
   use_markup(Denemo.window);/* set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
 FIXME labels in toolitems are not correct until you do NewWindow.
 Really we should change the default for the class.*/
-  {
-  GtkActionGroup *lilyaction_group = gtk_action_group_new ("LilyActions");
-  gtk_action_group_set_translation_domain (lilyaction_group, NULL); 
-  gtk_action_group_add_actions (lilyaction_group, lily_menus,
-				G_N_ELEMENTS (lily_menus), Denemo.gui);
-  gtk_ui_manager_insert_action_group (ui_manager, lilyaction_group, 1);
-  }
  //  g_print("Turning on the modes\n");
 
 
