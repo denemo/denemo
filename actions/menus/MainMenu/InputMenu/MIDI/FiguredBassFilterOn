@@ -10,16 +10,12 @@
 
 (if (not (defined? 'ToggleFiguredBassMode::Active))
     (define ToggleFiguredBassMode::Active #f))
-(if ToggleFiguredBassMode::Active
-    (begin
-      (d-MidiFilterOff)
-      (set! ToggleFiguredBassMode::Active #f)
-      ) ;;; end of active if
+
+    
+(if (not ToggleFiguredBassMode::Active)
     (let 
 	((Figures 0) (AddFigure 0) (GetFigures 0) (loop 0))
 	 (begin
-	   (d-InputFilterNames "Figured Bass MIDI Filter")
-    	   (set! ToggleFiguredBassMode::Active #t)
 	   (set! AddFigure (lambda (note bassnote)
 			     (begin
 			       (set! Figures (cons  (d-BassFigure bassnote note) Figures)))))
@@ -34,10 +30,8 @@
 				(command (bit-extract midi 0 8)))
 			   ;; body of the let*
 			       (begin
- 
 				 (if (boolean? (d-GetNoteName))
 				     (d-NextNote))
-				 
 				 (if (or (= command #x90) (= command #x80))
 				     (begin
 				       (if (and (= command #x90)(= bassnote 0))
@@ -71,9 +65,7 @@
 						   (if  (= command #x90)
 							(begin
 							  (AddFigure note bassnote)
-							  (d-PlayMidiKey midi)))))))));; end of if noteon or noteoff
-							  
-							  
+							  (d-PlayMidiKey midi)))))))));; end of if noteon or noteoff				  
 		;;;;;;;;;; Pedal Down					  
 				 (if (and (= command #xB0) (= note #x40) (= velocity #x7F))	   
 				     (begin
@@ -87,20 +79,32 @@
 						(begin
 				       (d-PlayMidiKey #xF01A01)
 				       (set! Figures (cons " | "  Figures))))))
-		;;;;;;;;;;; End of Pedal Down		       
-				       
-				       
+		;;;;;;;;;;; End of Pedal Down		       	       
 				 ;;(d-PutMidi midi)
-				 (if (not (= command 0))
+				 
+				 (if (= midi 0)
+				 	(set! ToggleFiguredBassMode::Active #f))
+				 
+				 (if ToggleFiguredBassMode::Active 
 				     (loop bassnote))
 				 ));; end of let, the body of the loop proc
 			   )) ;;; loop definition
+			   
+	    (d-InputFilterNames "Figured Bass MIDI Filter")
+    	   (set! ToggleFiguredBassMode::Active #t)
+	   (d-SetMidiCapture #t)	   
 	   (loop 0)
-	   ));;; end of not active block
-    );;; end of if active/not active if
-</scheme>
-        <label>Figured Bass Filter On/Off</label>
-        <tooltip>Start/stop filtering MIDI events as figured bass input, First note is bass, hold this down while entering notes for figures. A note lower than bass note introduces a blank figure, 0. Pedal followed by notes changes harmony on same bass note. Pedal without previous harmony note makes an extender.</tooltip>
+	   
+	  ;; (d-SetMidiCapture #f)
+					   ));;; end of not active block
+						    );;; end of if active/not active if
+	   (d-InputFilterNames "No active MIDI Filter")
+    	   (set! ToggleFiguredBassMode::Active #f)
+    	   (d-PutMidi 0);;; to swallow up the last d-GetMidi??
+    	   (d-SetMidiCapture #f)	
+	   </scheme>
+        <label>Figured Bass Filter On</label>
+        <tooltip>Start filtering MIDI events, First note is bass, hold this down while entering notes for figures. Pedal changes harmony on same bass.</tooltip>
       </row>
     </map>
   </merge>
