@@ -35,10 +35,15 @@
 (define mxml2ly2denemo-parser
   (lalr-parser
    ;; --- token definitions
-   (INTEGER LETTER NOTE)
-   
-   (e (number)	 : $1)
-   (number (INTEGER) : #t)	
+   (INTEGER LETTER TAB)
+	
+	(commands (commands command) : #t
+			  (command) 	     : #t)
+	(command 
+			(INTEGER)	: (display "no_te\n")
+			(LETTER)	: (display "re_st\n")
+			(TAB)		: (display "Tab\n"))
+
   )
 )
 
