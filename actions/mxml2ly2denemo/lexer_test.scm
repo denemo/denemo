@@ -41,13 +41,14 @@
 ))
 
 ; Just to get this out of my way... I don't wanted to make errors anyway! (real function later)
-(define (displayerror one two)
-		(display one)
-		(display two)(newline)
+(define (displayerror arg1 arg2)
+		(display arg1)
+		;(display two)
+		(display arg2)(newline)
 )
-(display (lexer))(newline)
+(display
 (mxml2ly2denemo-parser lexer displayerror)
-
+)
 
 ;; Close input port
 (close 0) 

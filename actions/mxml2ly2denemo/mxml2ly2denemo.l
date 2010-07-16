@@ -7,7 +7,7 @@ newline \n
 %%
 
 ;%.*{newline}				(cons 'COMMENT yytext)
-{digit}						(cons 'INTEGER yytext)	
+{digit}						(make-lexical-token 'INTEGER (make-source-location "*stdin*" 0 0 -1 -1) yytext)	
 ;{letter}					(cons 'LETTER yytext)	
 ;{letter}{digit}			(cons 'NOTE yytext)
 ({whitespace}|{newline})
