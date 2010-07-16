@@ -1,4 +1,0 @@
-hallo eins zwei
-drei vier
-%comment
-d'2. c'4%|
