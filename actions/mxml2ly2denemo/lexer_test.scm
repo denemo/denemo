@@ -31,18 +31,60 @@
 
 
 
+
 ;; Parser Definition
+
+;Helper to print out a value with a custom description, for console output
+
+(define (display-combo string value)
+	(display string)
+	(display ": ")
+	(display value)
+	(newline)
+) 
+
 (define mxml2ly2denemo-parser
+
   (lalr-parser
    ;; --- token definitions
-   (INTEGER LETTER TAB)
+   (INTEGER LETTER NOTE QUOTEDSTRING DBLQUOTE COMMENT MULTILINECOMMENT OCTAVESIGN WHITESPACE DOT)
 	
 	(commands (commands command) : #t
 			  (command) 	     : #t)
 	(command 
-			(INTEGER)	: (begin (display $1) (display "no_te\n"))
-			(LETTER)	: (begin (display $1) (display "re_st\n"))
-			(TAB)		: (begin (display $1) (display "Tab\n")))
+			(note)			: (display-combo "Note" $1)
+			(comment)		: (display-combo "Comment" $1)
+			(directive)		: (display-combo "Directive" $1)
+			(DBLQUOTE)		: $1
+			(INTEGER)		: $1
+			(LETTER)		: $1
+			(WHITESPACE)	: #f			
+	)
+	
+	(note ;maybe there is already a "insert lilypond" command, then notes can be defined as regular expression in one piece. But what about \relative or not?
+			(dottednote)					: $1
+			(NOTE)							: $1
+			(NOTE INTEGER)					: (string-append $1 $2)
+			(NOTE OCTAVESIGN)				: (string-append $1 $2)
+			(NOTE OCTAVESIGN INTEGER)		: (string-append $1 $2 $3)
+			;(NOTE DOT)						: (string-append $1 $2)
+			;(NOTE INTEGER DOT)				: (string-append $1 $2 $3)
+			;(NOTE OCTAVESIGN DOT)			: (string-append $1 $2 $3)
+			;(NOTE OCTAVESIGN INTEGER DOT)	: (string-append $1 $2 $3 $4)
+
+	)
+	
+	(dottednote
+			(note DOT) : (string-append $1 $2) 
+	) 
+	
+	(directive
+			(QUOTEDSTRING) : $1
+	)
+	
+	(comment
+			(COMMENT)	: $1
+	)
 			
 
   )
