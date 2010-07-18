@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Preview4Bars</action>
+        <scheme>(let ((N 4)) ;set N to be number of bars to preview
+(define (MoveRightNBars NumBars)
+	(if (&gt; NumBars 0)
+		(begin 	
+			(d-MoveToMeasureRight)
+			(MoveRightNBars (- NumBars 1)))
+))
+(d-TypesettingOn) ;shows this bar and the next 2-by DRW
+(d-PushPosition)
+(MoveRightNBars N)
+(d-TypesettingOff)
+(d-PushPosition)
+(d-MoveToBeginning)
+(d-TypesettingOff)
+(d-PrintPreview)
+(d-DeleteObject)
+(d-PopPosition)
+(d-DeleteObject)
+(d-PopPosition)
+(d-DeleteObject)
+) ;let</scheme>
+        <label>Preview Four Measures</label>
+        <tooltip>Print preview of current bar and the next three.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
