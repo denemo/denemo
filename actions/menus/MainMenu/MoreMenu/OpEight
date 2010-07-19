@@ -8,6 +8,7 @@
         <action>OpEight</action>
         <scheme>(wrap:Op8)</scheme>
         <label>OpEight</label>
+        <tooltip>Wrapper/Dummy for Keypress</tooltip>
       </row>
     </map>
   </merge>

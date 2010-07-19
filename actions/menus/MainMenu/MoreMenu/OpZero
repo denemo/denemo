@@ -8,6 +8,7 @@
         <action>OpZero</action>
         <scheme>(wrap:Op0)</scheme>
         <label>OpZero</label>
+        <tooltip>Wrapper/Dummy for Keypress</tooltip>
       </row>
     </map>
   </merge>

@@ -8,6 +8,7 @@
         <action>OpThree</action>
         <scheme>(wrap:Op3)</scheme>
         <label>OpThree</label>
+        <tooltip>Wrapper/Dummy for Keypress</tooltip>
       </row>
     </map>
   </merge>
