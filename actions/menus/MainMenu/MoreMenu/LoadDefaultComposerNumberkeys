@@ -6,7 +6,18 @@
     <map>
       <row>
         <action>LoadDefaultComposerNumberkeys</action>
-        <scheme>(d-LoadKeybindings "composer_notesrests.shortcuts")</scheme>
+        <scheme>
+   	(set! wrap:Op0 "(d-Insert0)")
+	(set! wrap:Op1 "(d-Insert1)")
+	(set! wrap:Op2 "(d-Insert2)")
+	(set! wrap:Op3 "(d-Insert3)")
+	(set! wrap:Op4 "(d-Insert4)")
+	(set! wrap:Op5 "(d-Insert5)")
+	(set! wrap:Op6 "(d-Insert6)")
+	(set! wrap:Op7 "(d-Insert7)")
+	(set! wrap:Op8 "(d-Insert8)")
+	(set! wrap:Op9 "#f")
+        </scheme>
         <label>Load default composer number keys</label>
         <tooltip>Loads the default composer numberkeys (Notes and Rests)</tooltip>
       </row>
