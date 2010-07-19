@@ -17,6 +17,7 @@
     	Bookmarks
     	Modification and Alteration
     	Ties and Slurs
+    	Embellishments and Markings
     	Delete
     	Function-Keys F1 - F4 General Purpose
     	Function-Keys F5 - F8 Playback
@@ -360,6 +361,13 @@
 		<action>ToggleTie</action>
 		<bind>t</bind>
 	</row>
+      
+ <!-- Embellishments and Markings -->
+ 
+	<row>
+		<action>FingeringsDoublestroke</action>
+		<bind>Alt+f</bind>
+	</row> 
       
 <!-- Delete -->
       <row>

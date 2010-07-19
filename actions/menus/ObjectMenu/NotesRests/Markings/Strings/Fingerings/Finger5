@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>Finger5</action>
+        <scheme>(d-AttachLilyToNote "postfix=-5\0display=5")
+(d-Chordize #t)
+</scheme>
+        <label>Finger 5</label>
+        <tooltip>Inserts fingering for finger 5</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

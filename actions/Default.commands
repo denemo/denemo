@@ -1249,13 +1249,6 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Displays the final finished score for the current part (that is current staff</tooltip>
       </row>
       <row>
-        <action>Preview4Bars</action>
-        <scheme></scheme>
-        <menupath>/MainMenu/FileMenu</menupath>
-        <label>Preview Four Measures</label>
-        <tooltip>Print preview of current bar and the next three.</tooltip>
-      </row>
-      <row>
         <action>Close</action>
         <label>Close Score</label>
         <tooltip>Close the current score. Other windows will stay open</tooltip>
@@ -2198,6 +2191,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <action>Set8</action>
         <label>&lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</label>
         <tooltip>Set the prevailing duration to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;</tooltip>
+      </row>
+      <row>
+        <action>Preview4Bars</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <label>Preview Four Measures</label>
+        <tooltip>Print preview of current bar and the next three.</tooltip>
       </row>
       <row>
         <action>MoveNoteToCursor</action>
@@ -3787,14 +3787,14 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpOne</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
-      </row>      
-       <row>
+      </row>
+      <row>
         <action>OpTwo</action>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpTwo</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
-      </row>     
+      </row>
       <row>
         <action>OpThree</action>
         <scheme></scheme>
@@ -3851,15 +3851,20 @@ for second and subsequent systems</tooltip>
         <label>OpZero</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
       </row>
-       <row>
+      <row>
         <action>LoadDefaultComposerNumberkeys</action>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Reset Keys in Composer Mode</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
-      </row>     
-      
-
+      </row>
+      <row>
+        <action>FingeringsDoublestroke</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <label>Fingerings</label>
+        <tooltip>Place a fingerin instruction on a note</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

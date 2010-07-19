@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>FingeringsDoublestroke</action>
+        <scheme> (doublestroke #f
+"(d-Finger1)"  ;1
+"(d-Finger2)"  ;2
+"(d-Finger3)"  ;3
+"(d-Finger4)"  ;4
+"(d-Finger5)"  ;5
+"#f" ;
+"#f" ;
+"#f" ;
+"#f" ;
+"(d-Finger0)"  ; 0 - Open String
+)
+
+</scheme>
+        <label>Fingerings</label>
+        <tooltip>Place a fingerin instruction on a note</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
