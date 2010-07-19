@@ -3781,6 +3781,27 @@ for second and subsequent systems</tooltip>
         <label>TypesettingOn</label>
         <tooltip>Turns on typesetting from this point forward in all staffs.</tooltip>
       </row>
+      <row>
+        <action>OpOne</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpOne</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>      
+       <row>
+        <action>OpTwo</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpTwo</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>     
+      <row>
+        <action>OpThree</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpThree</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>      
     </map>
   </commands>
 </Denemo>

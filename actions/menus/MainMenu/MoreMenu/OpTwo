@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>OpTwo</action>
+        <scheme>(wrap:Op2)</scheme>
+        <label>OpTwo</label>
+      </row>
+    </map>
+  </merge>
+</Denemo>

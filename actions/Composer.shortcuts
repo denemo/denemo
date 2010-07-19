@@ -419,15 +419,15 @@
         <bind>dead_circumflex</bind>
       </row>
       <row>
-        <action>Insert1</action>
+        <action>OpOne</action>
 		<bind>1</bind>
       </row>
        <row>
-        <action>Insert2</action>
+        <action>OpTwo</action>
 		<bind>2</bind>
       </row>
       <row>
-        <action>Insert3</action>
+        <action>OpThree</action>
 		<bind>3</bind>
       </row>                 
       <row>
@@ -482,7 +482,6 @@
       
       <row>
       <action>NoOp</action>
-      <bind>9</bind>
       <bind>Shift+7</bind>
       <bind>Shift+8</bind>
       <bind>Shift+9</bind>

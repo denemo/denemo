@@ -156,12 +156,16 @@
 ;(define cue- "")
 
 
+;;;;;;;;;;;;;;;;hardcode default number keys to Insert Note in Composer Mode
+	(define (wrap:Op1) (d-Insert1))
+	(define (wrap:Op2) (d-Insert2))
+	(define (wrap:Op3) (d-Insert3))
+
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
 ;Ten optional parameters given as strings which can be only MENU commands: complete scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
 ;gui-version can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
 ;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were modal or wrapper commands for numberkeys (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
-
 (define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
 ;Create a keybinding for a non-"#f" command, trimming (d- ... ) first.  Used for the [Return] variant.
@@ -206,9 +210,9 @@
 		((#{0}#)  (eval-string tenth))
 		((space)  (doublestroke::invokegui))
 		((Return) (begin
-				(doublestroke::bind first "1")
-				(doublestroke::bind second "2")
-				(doublestroke::bind third "3")
+				(define (wrap:Op1) (eval-string first))
+				(define (wrap:Op2) (eval-string second))
+				(define (wrap:Op3) (eval-string third))
 				(doublestroke::bind fourth "4")
 				(doublestroke::bind fifth "5")
 				(doublestroke::bind sixth "6")
