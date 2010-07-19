@@ -178,7 +178,6 @@
 
 (define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
-
 ; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
 (define (doublestroke::fallbackgui)
 	(define doublestroke::result #f)

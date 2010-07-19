@@ -408,6 +408,10 @@
       
 
 <!-- Number-Keys -->
+	<row>
+	 <action>LoadDefaultComposerNumberkeys</action>
+	 <bind>Escape</bind>
+	</row>
 
       <row>
         <action>AddNoteToChord</action>
@@ -451,7 +455,7 @@
       </row>
       <row>
         <action>OpNine</action>
-		<bind>8</bind>
+		<bind>9</bind>
       </row> 
        <row>
         <action>InsertWholeRest</action>
@@ -545,10 +549,7 @@
         <hidden>true</hidden>
       </row>
       	
-	 <row>
-	 <action>LoadDefaultComposerNumberkeys</action>
-	 <bind>Escape</bind>
-	</row>
+
 	
     </map>
   </merge>
