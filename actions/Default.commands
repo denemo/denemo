@@ -3801,7 +3801,56 @@ for second and subsequent systems</tooltip>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpThree</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
-      </row>      
+      </row>
+      <row>
+        <action>OpFour</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpFour</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpFive</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpFive</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpSix</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpSix</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpSeven</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpSeven</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpEight</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpEight</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpNine</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpNine</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
+      <row>
+        <action>OpZero</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <label>OpZero</label>
+        <tooltip>Wrapper/Dummy for Keypresses</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

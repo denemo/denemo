@@ -414,9 +414,8 @@
         <bind>Return</bind>
       </row>
       <row>
-        <action>Insert0</action>
-		<bind>0</bind>
-        <bind>dead_circumflex</bind>
+        <action>OpZero</action>
+		<bind>0</bind>        
       </row>
       <row>
         <action>OpOne</action>
@@ -431,23 +430,27 @@
 		<bind>3</bind>
       </row>                 
       <row>
-        <action>Insert4</action>
+        <action>OpFour</action>
 		<bind>4</bind>
       </row>
       <row>
-        <action>Insert5</action>
+        <action>OpFive</action>
 		<bind>5</bind>
       </row>
       <row>
-        <action>Insert6</action>
+        <action>OpSix</action>
 		<bind>6</bind>
       </row>
       <row>
-        <action>Insert7</action>
+        <action>OpSeven</action>
 		<bind>7</bind>
       </row>
       <row>
-        <action>Insert8</action>
+        <action>OpEight</action>
+		<bind>8</bind>
+      </row>
+      <row>
+        <action>OpNine</action>
 		<bind>8</bind>
       </row> 
        <row>

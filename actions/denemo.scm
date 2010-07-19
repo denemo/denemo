@@ -160,26 +160,24 @@
 	(define wrap:Op0 "#f")(set! wrap:Op0 "(d-Insert0)")
 	(define wrap:Op1 "#f")(set! wrap:Op1 "(d-Insert1)")
 	(define wrap:Op2 "#f")(set! wrap:Op2 "(d-Insert2)")
-	;(define (wrap:Op3) (d-Insert3))
-	;(define (wrap:Op4) (d-Insert4))
-	;(define (wrap:Op5) (d-Insert5))
-	;(define (wrap:Op6) (d-Insert6))
-	;(define (wrap:Op7) (d-Insert7))
-	;(define (wrap:Op8) (d-Insert8))
-	(define (wrap:Op9) "#f"))
+	(define wrap:Op3 "#f")(set! wrap:Op3 "(d-Insert3)")
+	(define wrap:Op4 "#f")(set! wrap:Op4 "(d-Insert4)")
+	(define wrap:Op5 "#f")(set! wrap:Op5 "(d-Insert5)")
+	(define wrap:Op6 "#f")(set! wrap:Op6 "(d-Insert6)")
+	(define wrap:Op7 "#f")(set! wrap:Op7 "(d-Insert7)")
+	(define wrap:Op8 "#f")(set! wrap:Op8 "(d-Insert8)")
+	(define wrap:Op9 "#f")(set! wrap:Op9 "(d-Insert9)")
+
+	
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
 ;Ten optional parameters given as strings which can be only MENU commands: complete scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
 ;gui-version can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
 ;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were modal or wrapper commands for numberkeys (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
+
 (define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
-;Create a keybinding for a non-"#f" command, trimming (d- ... ) first.  Used for the [Return] variant.
-(define (doublestroke::bind action numberasstring) 
-		(if (not (string=? action "#f" ))
-			(d-AddKeybinding  (substring action 3 (- (string-length action) 1) )  numberasstring)
-			(d-AddKeybinding (d-GetId "NoOp") numberasstring)))
 
 ; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
 (define (doublestroke::fallbackgui)
@@ -217,17 +215,16 @@
 		((#{0}#)  (eval-string tenth))
 		((space)  (doublestroke::invokegui))
 		((Return) (begin
-				(set! wrap:Op1 first))
-				(set! wrap:Op2 second))
-				;(define (wrap:Op3) (eval-string third))
-				;(define (wrap:Op4) (eval-string third))
-				;(define (wrap:Op5) (eval-string fourth))
-				;(define (wrap:Op6) (eval-string fifth))
-				;(define (wrap:Op7) (eval-string sixth))
-				;(define (wrap:Op8) (eval-string seventh))
-				;(define (wrap:Op9) (eval-string eighth))
-				;(define (wrap:Op9) (eval-string ninth))								
-				;(define (wrap:Op0) (eval-string tenth))	
+				(set! wrap:Op1 first)
+				(set! wrap:Op2 second)
+				(set! wrap:Op3 third)
+				(set! wrap:Op4 fourth)
+				(set! wrap:Op5 fifth)
+				(set! wrap:Op6 sixth)
+				(set! wrap:Op7 seventh)
+				(set! wrap:Op8 eighth)
+				(set! wrap:Op9 ninth)
+				(set! wrap:Op0 tenth)
 				))
 		(else #f))
 	  (set! DenemoKeypressActivatedCommand #f))
