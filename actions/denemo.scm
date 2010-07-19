@@ -157,9 +157,9 @@
 
 
 ;;;;;;;;;;;;;;;;hardcode default number keys to Insert Note in Composer Mode
-	(define (wrap:Op0) "#f")(set! (wrap:Op0) "(d-Insert0)")
-	(define (wrap:Op1) "#f")(set! (wrap:Op1) "(d-Insert1)")
-	(define (wrap:Op2) "#f")(set! (wrap:Op2) "(d-Insert2)")
+	(define wrap:Op0 "#f")(set! wrap:Op0 "(d-Insert0)")
+	(define wrap:Op1 "#f")(set! wrap:Op1 "(d-Insert1)")
+	(define wrap:Op2 "#f")(set! wrap:Op2 "(d-Insert2)")
 	;(define (wrap:Op3) (d-Insert3))
 	;(define (wrap:Op4) (d-Insert4))
 	;(define (wrap:Op5) (d-Insert5))
@@ -217,8 +217,8 @@
 		((#{0}#)  (eval-string tenth))
 		((space)  (doublestroke::invokegui))
 		((Return) (begin
-				(set! (wrap:Op1) first))
-				(set! (wrap:Op2) second))
+				(set! wrap:Op1 first))
+				(set! wrap:Op2 second))
 				;(define (wrap:Op3) (eval-string third))
 				;(define (wrap:Op4) (eval-string third))
 				;(define (wrap:Op5) (eval-string fourth))

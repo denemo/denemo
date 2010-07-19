@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>OpEight</action>
-        <scheme>(eval-string (wrap:Op8))</scheme>
+        <scheme>(eval-string wrap:Op8)</scheme>
         <label>OpEight</label>
         <tooltip>Wrapper/Dummy for Keypress</tooltip>
       </row>
