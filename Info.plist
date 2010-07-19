@@ -22,7 +22,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>denemo</string>
+	<string>../Resources/bin/denemo</string>
 	<key>CFBundleIconFile</key>
 	<string>lilypond.icns</string>
 	<key>CFBundleIdentifier</key>

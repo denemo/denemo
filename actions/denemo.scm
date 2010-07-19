@@ -157,16 +157,16 @@
 
 
 ;;;;;;;;;;;;;;;;hardcode default number keys to Insert Note in Composer Mode
-	(set! (wrap:Op0) (d-Insert0))
-	(set! (wrap:Op1) (d-Insert1))
-	(set! (wrap:Op2) (d-Insert2))
-	(define (wrap:Op3) (d-Insert3))
-	(define (wrap:Op4) (d-Insert4))
-	(define (wrap:Op5) (d-Insert5))
-	(define (wrap:Op6) (d-Insert6))
-	(define (wrap:Op7) (d-Insert7))
-	(define (wrap:Op8) (d-Insert8))
-	(define (wrap:Op9) (d-NoOp))
+	(define (wrap:Op0) "#f")(set! (wrap:Op0) "(d-Insert0)")
+	(define (wrap:Op1) "#f")(set! (wrap:Op1) "(d-Insert1)")
+	(define (wrap:Op2) "#f")(set! (wrap:Op2) "(d-Insert2)")
+	;(define (wrap:Op3) (d-Insert3))
+	;(define (wrap:Op4) (d-Insert4))
+	;(define (wrap:Op5) (d-Insert5))
+	;(define (wrap:Op6) (d-Insert6))
+	;(define (wrap:Op7) (d-Insert7))
+	;(define (wrap:Op8) (d-Insert8))
+	(define (wrap:Op9) "#f"))
 
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
@@ -217,8 +217,8 @@
 		((#{0}#)  (eval-string tenth))
 		((space)  (doublestroke::invokegui))
 		((Return) (begin
-				(define (wrap:Op1) (eval-string first))
-				(define (wrap:Op2) (eval-string second))
+				(set! (wrap:Op1) first))
+				(set! (wrap:Op2) second))
 				;(define (wrap:Op3) (eval-string third))
 				;(define (wrap:Op4) (eval-string third))
 				;(define (wrap:Op5) (eval-string fourth))
@@ -227,7 +227,7 @@
 				;(define (wrap:Op8) (eval-string seventh))
 				;(define (wrap:Op9) (eval-string eighth))
 				;(define (wrap:Op9) (eval-string ninth))								
-				(define (wrap:Op0) (eval-string tenth))	
+				;(define (wrap:Op0) (eval-string tenth))	
 				))
 		(else #f))
 	  (set! DenemoKeypressActivatedCommand #f))
