@@ -611,8 +611,52 @@
         <bind>Enter</bind>
       </row>
       <row>
+        <action>NoOp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>Tremolo</action>
         <bind>Alt+t</bind>
+      </row>
+      <row>
+        <action>OpOne</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpTwo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpThree</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpFour</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpFive</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpSix</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpSeven</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpEight</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpNine</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpZero</action>
+        <hidden>true</hidden>
       </row>
     </map>
   </merge>
