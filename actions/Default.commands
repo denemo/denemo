@@ -3863,7 +3863,14 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Fingerings</label>
-        <tooltip>Place a fingerin instruction on a note</tooltip>
+        <tooltip>Place a fingering instruction on a note</tooltip>
+      </row>
+      <row>
+        <action>TextAbove</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/Markings</menupath>
+        <label>Arbitrary Text</label>
+        <tooltip>Prints your text above the music at this point</tooltip>
       </row>
     </map>
   </commands>

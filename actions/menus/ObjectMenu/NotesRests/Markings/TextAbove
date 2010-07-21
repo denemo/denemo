@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>DeleteLilyPondOnNote</after>
+        <action>TextAbove</action>
+        <scheme>;;TextAbove
+(let ((text #f))
+	(set! text (d-GetUserInput "Text" "Give text to appear above music: " "\\italic \"1st and 3rd time\""))
+	(if text (begin
+		(d-DirectivePut-chord-display "Text"  text )
+		(d-DirectivePut-chord-ty "Text"  -100 )
+		(d-DirectivePut-chord-postfix "Text"  (string-append "^\\markup " text  " "))
+		(d-DirectivePut-chord-minpixels  "Text" 20)))
+		(d-RefreshDisplay))</scheme>
+        <label>Arbitrary Text</label>
+        <tooltip>Prints your text above the music at this point</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
