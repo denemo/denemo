@@ -386,7 +386,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 			     THINBEAM_HEIGHT);
 	    cairo_fill( cr );
 
-	    if (mudelaitem->isstart_beamgroup)
+	    if (mudelaitem->isstart_beamgroup || !prevmuditem)
 	      prevbaseduration = 0;
 	    else
 	      prevbaseduration =
@@ -417,13 +417,13 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	else
 	  {			/* We're at the end of a beamgroup */
 	    if(prevmuditem)//sanity check
-	    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1,
+	    for (i = MAX (((chord *) prevmuditem->object)->baseduration,
 			  4),
-		   beampainty = thechord.stemy - FIRSTBEAMSPACE -
+		   beampainty = thechord.stemy - FIRSTBEAMSPACE - 
 		   THICKBEAM_HEIGHT + 1 -
 		   (SUBSQBEAMSPACE * (i - 4));
 		 i <= thechord.baseduration;
-		 i++, beampainty += SUBSQBEAMSPACE)
+		 i++, beampainty -= SUBSQBEAMSPACE)
 	      {
 		/* Draw a stub to the left of the staff */
 		cairo_rectangle (cr, xx - STUB_WIDTH,
