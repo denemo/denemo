@@ -10,20 +10,22 @@
 (if (d-DirectiveGetForTag-staff "StaffSize")
 	(begin
  	(d-DirectiveDelete-staff "StaffSize")
-  	(d-ShowFiguredBass))
+ 		(if (defined? 'd-ShowFiguredBass)
+  			(d-ShowFiguredBass)))
         (begin
   		(d-DirectivePut-staff-prefix "StaffSize" "\\new Staff \\with {\n
      		   fontSize = #-3\n
      		   \\override StaffSymbol #'staff-space = #(magstep -3)\n}\n &lt;&lt; {")
 	(d-DirectivePut-staff-override "StaffSize" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))
 	(d-DirectivePut-staff-display "StaffSize" "Smaller Staff")
-	(d-HideFiguredBass)))
+	(if (defined? 'd-HideFiguredBass)
+		(d-HideFiguredBass))))
 (d-RefreshDisplay)
 
 
  </scheme>
-        <label>Smaller Staff (On/Off)</label>
-        <tooltip>Turns printing a smaller staff on/off. When on the staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
+        <label>Smaller Staff</label>
+        <tooltip>The current staff will print in a smaller size. Use this for the solo part above a piano accompaniment</tooltip>
       </row>
     </map>
   </merge>
