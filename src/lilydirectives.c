@@ -767,7 +767,7 @@ what##_directive_get_tag(gchar *tag) {\
   DenemoDirective *directive = get_##what##_directive(tag);\
   if(directive && directive->tag)\
     return directive->tag->str;\
-  else directive = get_##what##_directive(NULL);\
+  else directive = NULL;/* get_##what##_directive(NULL)*/;	\
   if(directive && directive->tag)\
     return directive->tag->str;\
   return NULL;\
