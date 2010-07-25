@@ -13,11 +13,12 @@
     	Voice Navigation
     	Jumps (Home, End etc. )
     	Movement Controls 
+    	Measures
     	Seek
     	Bookmarks
     	Modification and Alteration
     	Ties and Slurs
-    	Embellishments and Markings
+    	Embelishments and Markings
     	Delete
     	Function-Keys F1 - F4 General Purpose
     	Function-Keys F5 - F8 Playback
@@ -233,6 +234,21 @@
         <action>PreviousMovement</action>
       </row> -->
       
+    <!-- Measures -->
+      <row>
+        <action>DeleteBarline</action>
+        <bind>Shft+Tab</bind>
+      </row>
+      <row>
+        <action>ReBar</action>
+        <bind>Alt+Shft+Tab</bind>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <bind>Tab</bind>
+      </row>	
+    
+          
 	<!-- Seek 
       <row>
         <action>CursorToLowestNote</action>
