@@ -46,9 +46,18 @@ void executeScript(void) {
 
 /* execute the line of scheme script that is in the Scheme CLI */
 void executeCLI(GtkWidget *button, GtkEntry *entry) {
-  gchar *display = g_strdup_printf("(format #t \"~%=> ~A~%\" %s)\n", gtk_entry_get_text(entry));
-  (void)call_out_to_guile(display);
-  g_free(display);
+ 
+  gchar *display = NULL;
+  if(entry) {
+#ifdef G_OS_WIN32
+    g_print("Testing entry %p\ ......n", entry);
+    g_print("Is entry %d == 1?????????\n", GTK_IS_ENTRY(entry));
+#endif
+    display = g_strdup_printf("(format #t \"~%=> ~A~%\" %s)\n", gtk_entry_get_text(entry));
+    (void)call_out_to_guile(display);
+    g_free(display);
+  } else
+    g_critical("entry is NULL!!!!");
 }
 
 
