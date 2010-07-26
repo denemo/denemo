@@ -649,6 +649,7 @@ process_track(smf_track_t *track)
     smf_track_remove_from_smf(track);
     smf_delete(smf);
   }
+  return 1;
 }
 
 void AddStaff(){

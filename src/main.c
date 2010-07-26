@@ -516,7 +516,7 @@ main (int argc, char *argv[])
     gchar *choice = get_option(choice1"\0"choice2"\0"choice3"\0"choice4"\0", strlen(choice1)+1+strlen(choice2)+1+strlen(choice3)+1+strlen(choice4)+1);
     if(choice==NULL)
       choice = choice1;
-    if(choice!=choice1) {
+    if(strcmp(choice, choice1)) {
       choice = g_strdup(choice);
       gchar *c;
       for(c=choice;*c;c++)
