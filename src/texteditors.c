@@ -49,16 +49,7 @@ void executeCLI(GtkWidget *button, GtkEntry *entry) {
  
   gchar *display = NULL;
   if(entry) {
-#ifdef G_OS_WIN32
-    g_print("Testing entry %p\ ......n", entry);
-    g_print("Is entry %d == 1?????????\n", GTK_IS_ENTRY(entry));
-    if(gtk_entry_get_text(entry)==NULL) {
-      g_warning("Null string\n");
-      return;
-    } else
-      g_print("Trying to use %s as scheme\n", gtk_entry_get_text(entry));
-#endif
-    display = g_strdup_printf("(format #t \"~%=> ~A~%\" %s)\n", gtk_entry_get_text(entry));
+    display = g_strdup_printf("(format #t \"~\%=> ~A~\%\" %s)\n", gtk_entry_get_text(entry));
     (void)call_out_to_guile(display);
     g_free(display);
   } else
