@@ -10,7 +10,10 @@
  (d-Directive-standalone "OpenPrintTransposed")
 (d-DirectivePut-standalone-postfix "OpenPrintTransposed" "\\transpose c c' {")
 (d-DirectivePut-standalone-display "OpenPrintTransposed" "Up8va")
-(d-RefreshDisplay) </scheme>
+(d-DirectivePut-standalone-minpixels "OpenPrintTransposed" 20)
+(d-RefreshDisplay)  
+
+</scheme>
         <label>(Print) Open { Octave Up</label>
         <tooltip>Opens a block to be transposed up one octave
 	This must be followed by a CloseBlock "}" to end the transposed section.</tooltip>
