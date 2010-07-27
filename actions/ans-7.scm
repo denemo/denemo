@@ -622,12 +622,25 @@
 	(string-join newList)
 )
 
-(define* (ANS-7::InsertNotes ansNotes #:optional (duration #f)); wants string of ANS-7 notes string, can be a pseudo-list divided by space: "3500 4030 4200". Optional duration. returns #t or #f
+(define* (ANS-7::InsertNotes ansNotes #:optional (duration #f) (dots #f)); wants string of ANS-7 notes string, can be a pseudo-list divided by space: "3500 4030 4200". Optional duration and number of dots. returns #t or #f
 	(if (string? ansNotes)
-		(begin (d-InsertA) (ANS-7::ChangeChordNotes ansNotes)))
+		(begin 
+			(d-InsertA)
+			(d-MoveCursorLeft)
+			(ANS-7::ChangeChordNotes ansNotes)
+			(if duration ;If user gave duration parameter
+				(eval-string (string-append "(d-Change" (number->string duration) ")")))
+			(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
+				(let loop ((count 0)) 
+					(d-AddDot)
+					(if (< count (- dots 1))
+					(loop (+ 1 count)))))
+		(d-MoveCursorRight)
+		)
+	)
 )
 
-(define (ANS-7::ChangeChordNotes ansNotes); wants string of ANS-7 notes, can be a pseudo-list divided by space: "c' e'' gis,". 
+(define (ANS-7::ChangeChordNotes ansNotes); wants string of ANS-7 notes, can be a pseudo-list divided by space: "3500 4030 4200". 
 	(define newList #f)
 	(set! newList (string-tokenize ansNotes) )
 
