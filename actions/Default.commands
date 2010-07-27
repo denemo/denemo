@@ -3872,6 +3872,22 @@ for second and subsequent systems</tooltip>
         <label>Arbitrary Text</label>
         <tooltip>Prints your text above the music at this point</tooltip>
       </row>
+      <row>
+        <action>JumpUpOctave</action>
+        <after>MoveCursorRight</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Octave Up</label>
+        <tooltip>Moves cursor up one octave.</tooltip>
+      </row>
+      <row>
+        <action>JumpDownOctave</action>
+        <after>JumpUpOctave</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Octave Down</label>
+        <tooltip>Moves cursor down an octave.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

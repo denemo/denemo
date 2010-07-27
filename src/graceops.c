@@ -8,6 +8,7 @@
  */
 #include "graceops.h"
 #include <denemo/denemo.h>
+#include <string.h>
 #include "utils.h"
 
 

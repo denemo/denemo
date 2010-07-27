@@ -4181,7 +4181,7 @@ static void pb_range (GtkWidget *button) {
 static void pb_panic (GtkWidget *button) {
   playback_panic();
 }
-static track_delete(smf_track_t *track) {
+static void track_delete(smf_track_t *track) {
   if(track==NULL)
     return;
   if(track->smf==NULL ) {
