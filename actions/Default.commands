@@ -3888,6 +3888,14 @@ for second and subsequent systems</tooltip>
         <label>Octave Down</label>
         <tooltip>Moves cursor down an octave.</tooltip>
       </row>
+      <row>
+        <action>DenemoBar</action>
+        <after>Ambitus</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>Typeset Barlines Literally</label>
+        <tooltip>Typesets the Denemo barlines, regardless of the timing.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
