@@ -1642,7 +1642,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	    if((curobjnode!=NULL) && ((curobj == NULL) || curobj->type!=LILYDIRECTIVE)) /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
 	    {
 	      if (curmeasure->next)
-		g_string_append_printf(endstr,"%s", "%|\n");
+		g_string_append_printf(endstr,"%s", "\\Barline\n");
 	      else
 		g_string_append_printf(endstr, "%s"," \\bar \"|.\"\n");
 	    }
@@ -2083,7 +2083,9 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
     }
   }//end of standard prolog
 
-  {
+    {//Score prefix
+      //Default value for barline = barline check
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
