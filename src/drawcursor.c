@@ -32,7 +32,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   static GdkGC *bluegc;
   static GdkGC *purplegc;
   GdkGC *paintgc;
-  xx -=5;
+  //xx -=5;
   if (!blackgc)
     {
       blackgc = gcs_blackgc ();
@@ -52,6 +52,9 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   cairo_fill( cr );
   if(Denemo.prefs.cursor_highlight) {
     gdouble length = 20/si->zoom;
+    cairo_move_to( cr, xx, y);
+    cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
+    cairo_stroke( cr );
     cairo_set_line_width (cr, 6.0/si->zoom);
     cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
 
