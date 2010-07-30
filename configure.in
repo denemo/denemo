@@ -206,5 +206,4 @@ AC_OUTPUT(
   fonts/Makefile
   soundfonts/Makefile
   libsmf/Makefile
-  bin/Makefile
 ])
