@@ -356,7 +356,8 @@ typedef struct DenemoPrefs
   gint zoom; /**< percent zoom  1-100 */
   gint system_height; /**< percent of display height per system  1-100 */
   gboolean cursor_highlight; /** Should the cursor be highlighted */
-
+  
+  gboolean toolbar; /**< makes the toolbar visible */
   gboolean playback_controls; /**< makes the playback controls visible */
   gboolean midi_in_controls; /**< makes the midi in controls visible */
   gboolean articulation_palette; /**< makes the articulation pallete visible */

@@ -6168,6 +6168,8 @@ toggle_rhythm_toolbar (GtkAction * action, gpointer param)
       // activate_action( "/MainMenu/ModeMenu/Note");
       //activate_action( "/MainMenu/ModeMenu/InsertMode");
     }
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.rhythm_palette = GTK_WIDGET_VISIBLE (widget);
 }
 
 /**
@@ -6183,6 +6185,8 @@ toggle_toolbar (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.toolbar = GTK_WIDGET_VISIBLE (widget);
 }
 
 /**
@@ -6198,8 +6202,8 @@ toggle_playback_controls (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
-  //  if(Denemo.prefs.persistence)
-  //    Denemo.prefs.playback_controls = GTK_WIDGET_VISIBLE (widget);
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.playback_controls = GTK_WIDGET_VISIBLE (widget);
 }
 /**
  *  Function to toggle whether playback toolbar is visible 
@@ -6303,16 +6307,19 @@ toggle_print_view (GtkAction *action, gpointer param)
 void
 toggle_lyrics_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = Denemo.gui->si->lyricsbox;
-  if(!w)
+  GtkWidget *widget = Denemo.gui->si->lyricsbox;
+  if(!widget)
     g_warning("No lyrics");
   else {
-    if((!action) || GTK_WIDGET_VISIBLE(w))
-      gtk_widget_hide(w);
+    if((!action) || GTK_WIDGET_VISIBLE(widget))
+      gtk_widget_hide(widget);
     else {
-      gtk_widget_show(w);
+      gtk_widget_show(widget);
     }
   }
+  
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.lyrics_pane = GTK_WIDGET_VISIBLE (widget);
   return;
 }
 
@@ -6324,14 +6331,14 @@ toggle_lyrics_view (GtkAction *action, gpointer param)
 static void
 toggle_console_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = gtk_widget_get_parent(Denemo.console);
-  if(!w)
+  GtkWidget *widget = gtk_widget_get_parent(Denemo.console);
+  if(!widget)
     g_warning("Internal Error");
   else {
-    if((!action) || GTK_WIDGET_VISIBLE(w))
-      gtk_widget_hide(w);
+    if((!action) || GTK_WIDGET_VISIBLE(widget))
+      gtk_widget_hide(widget);
     else {
-      gtk_widget_show(w);
+      gtk_widget_show(widget);
       GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.console));
       GtkTextIter iter;
       /* get end iter */
@@ -6341,6 +6348,8 @@ toggle_console_view (GtkAction *action, gpointer param)
                                       &iter, 0.0, FALSE, 0, 0); 
     }
   }
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.console_pane = GTK_WIDGET_VISIBLE (widget);
   return;
 }
 
@@ -6370,11 +6379,14 @@ toggle_score_view (GtkAction *action, gpointer param)
 static void
 toggle_scoretitles (GtkAction *action, gpointer param)
 {
-  //  Denemo.prefs.visible_directive_buttons = !Denemo.prefs.visible_directive_buttons;
-  if((!action) || GTK_WIDGET_VISIBLE(Denemo.gui->buttonboxes))
-    gtk_widget_hide(Denemo.gui->buttonboxes);
+  GtkWidget *widget = Denemo.gui->buttonboxes;
+  if((!action) || GTK_WIDGET_VISIBLE(widget))
+    gtk_widget_hide(widget);
   else
-    gtk_widget_show(Denemo.gui->buttonboxes);
+    gtk_widget_show(widget);
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.visible_directive_buttons = GTK_WIDGET_VISIBLE (widget);
+
   return;
 }
 /**

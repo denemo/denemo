@@ -36,6 +36,7 @@ struct callbackdata
   GtkWidget *applytoselection;
   GtkWidget *saveparts;
   GtkWidget *autosave;
+  GtkWidget *toolbar;
   GtkWidget *notation_palette;
   GtkWidget *rhythm_palette;
   GtkWidget *object_palette;
@@ -196,6 +197,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNBOOLEAN(lyrics_pane)
   ASSIGNBOOLEAN(visible_directive_buttons)
   ASSIGNBOOLEAN(autoupdate)
+  ASSIGNBOOLEAN(toolbar)
   ASSIGNBOOLEAN(notation_palette)
   ASSIGNBOOLEAN(rhythm_palette)
   ASSIGNBOOLEAN(object_palette)
@@ -373,7 +375,7 @@ preferences_change (GtkAction *action, gpointer param)
   gtk_widget_show (field);\
   cbdata.field = field;
 
-
+  BOOLEANENTRY("Display general toolbar", toolbar);
   BOOLEANENTRY("Display Note/Rest entry toolbar", notation_palette);
   BOOLEANENTRY("Display articulation palette", articulation_palette);
   BOOLEANENTRY("Display Controls for Incoming MIDI signals", midi_in_controls);
