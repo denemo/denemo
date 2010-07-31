@@ -345,8 +345,10 @@ DenemoDirective *get_standalone_directive(gchar *tag){
       DenemoDirective *ret = (DenemoDirective *)curObj->object;
       if(tag==NULL)
 	return ret;
-      if(ret && ret->tag && strcmp(tag, ret->tag->str))
-	 ret = NULL;	
+      if(*tag==0)
+	return ret;
+      if( ret && ret->tag && strcmp(tag, ret->tag->str))
+	ret = NULL;	
       return ret;
     }
     return NULL;
