@@ -31,6 +31,7 @@ struct callbackdata
   GtkWidget *immediateplayback;
   GtkWidget *modal;
   GtkWidget *cursor_highlight;
+  GtkWidget *persistence;
   GtkWidget *startmidiin;
   GtkWidget *applytoselection;
   GtkWidget *saveparts;
@@ -182,6 +183,7 @@ set_preferences (struct callbackdata *cbdata)
   
   ASSIGNBOOLEAN(immediateplayback)
   ASSIGNBOOLEAN(modal)
+  ASSIGNBOOLEAN(persistence)
   ASSIGNBOOLEAN(cursor_highlight)
   ASSIGNBOOLEAN(startmidiin)
   ASSIGNBOOLEAN(applytoselection)
@@ -424,6 +426,7 @@ preferences_change (GtkAction *action, gpointer param)
    */
   NEWPAGE("Misc");
   BOOLEANENTRY("Use Denemo modally", modal);   
+  BOOLEANENTRY("Re-use last settings on startup", persistence);   
   DOUBLEENTRY_LIMITS(_("Playback Display Refresh"), display_refresh, 0.001, 0.5, 0.002);
   INTENTRY_LIMITS(_("Page Turn Steps"), animation_steps, 1, 200);
 

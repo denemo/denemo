@@ -6198,6 +6198,8 @@ toggle_playback_controls (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
+  //  if(Denemo.prefs.persistence)
+  //    Denemo.prefs.playback_controls = GTK_WIDGET_VISIBLE (widget);
 }
 /**
  *  Function to toggle whether playback toolbar is visible 
@@ -6212,6 +6214,8 @@ toggle_midi_in_controls (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
+  if(Denemo.prefs.persistence)
+    Denemo.prefs.midi_in_controls = GTK_WIDGET_VISIBLE (widget);
 }
 /**
  *  Function to toggle whether entry toolbar is visible 
