@@ -51,7 +51,7 @@ static gint errors=-1;
 static   GError *lily_err = NULL;
 
 #ifdef G_OS_WIN32
-#define MINUS_D_GUI -dgui,
+#define MINUS_D_GUI "-dgui",
 #else
 #define MINUS_D_GUI
 #endif
