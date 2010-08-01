@@ -2906,6 +2906,9 @@ void  show_preferred_view(void) {
   if (!Denemo.prefs.midi_in_controls)
     activate_action("/MainMenu/ViewMenu/"ToggleMidiInControls_STRING);
 
+  if (!Denemo.prefs.toolbar)
+    activate_action("/MainMenu/ViewMenu/"ToggleToolbar_STRING);
+
   if (!Denemo.prefs.notation_palette)
     activate_action("/MainMenu/ViewMenu/"ToggleEntryToolbar_STRING);
 
@@ -2930,11 +2933,15 @@ void  show_preferred_view(void) {
   if(!Denemo.prefs.modal)
     gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/ModeMenu"));
 
+  //these menu ones are visible on entry - FIXME is this the array of toolbars below, ending in TRUE?
   if (!Denemo.prefs.playback_controls)
     toggle_playback_controls(NULL, NULL);
 
   if (!Denemo.prefs.midi_in_controls)
     toggle_midi_in_controls(NULL, NULL);
+
+  if (!Denemo.prefs.toolbar)
+    toggle_toolbar(NULL, NULL);
 }
 
 
@@ -6947,7 +6954,7 @@ get_data_dir (),
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (main_vbox), toolbar, FALSE, TRUE, 0);
   GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
-  gtk_widget_show (toolbar);
+
 
   {
     Denemo.playback_control = gtk_vbox_new(FALSE, 1);
