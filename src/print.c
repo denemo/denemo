@@ -50,11 +50,7 @@ static gint output=-1;
 static gint errors=-1;
 static   GError *lily_err = NULL;
 
-#ifdef G_OS_WIN32
-#define MINUS_D_GUI "-dgui",
-#else
-#define MINUS_D_GUI
-#endif
+
 /*** 
  * make sure lilypond is in the path defined in the preferences
  */
@@ -394,7 +390,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   gchar **arguments; 
   gchar *png_arguments1[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--png",
     "-dbackend=eps",
     resolution,
@@ -405,7 +400,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   };
   gchar *png_arguments2[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
    "--png",
     "-b",
     "eps",
@@ -423,7 +417,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 #else
   gchar *png_arguments[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--png",
     "-b",
     "eps",
@@ -437,7 +430,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 
   gchar *pdf[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--pdf",
     "-o",
     filename,
@@ -1084,7 +1076,6 @@ void refresh_print_view (gboolean preview_only) {
   gchar **arguments;
   gchar *arguments1[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--png",
     "-dbackend=eps",
     resolution,
@@ -1095,7 +1086,6 @@ void refresh_print_view (gboolean preview_only) {
   };
   gchar *arguments2[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--png",
     "-b",
     "eps",
@@ -1112,7 +1102,6 @@ void refresh_print_view (gboolean preview_only) {
 #else
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
-    MINUS_D_GUI
     "--png",
     "-b",
     "eps",

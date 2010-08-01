@@ -106,7 +106,7 @@ initprefs ()
   ret->browser = g_string_new ("");//use file association
   ret->midiplayer = g_string_new ("");
   ret->audioplayer = g_string_new ("");
-  ret->lilypath = g_string_new ("lilypond-windows.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  -dgui is now added for windows in print.c
+  ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
   ret->midiplayer = g_string_new("");
