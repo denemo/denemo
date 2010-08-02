@@ -36,6 +36,8 @@ void
 delete_selection(void);
 
 
+gboolean
+mark_status (void);
 
 void
 set_mark (DenemoGUI *gui);

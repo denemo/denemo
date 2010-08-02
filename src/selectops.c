@@ -754,7 +754,10 @@ set_point (DenemoGUI * gui)
   }
 }
 
-
+gboolean
+mark_status (void) {
+  return Denemo.gui->si->markstaffnum!=0;
+}
 
 /**
  * unset_mark
