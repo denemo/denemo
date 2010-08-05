@@ -67,7 +67,7 @@
 	(d-PopPosition)
 )</scheme>
         <label>Insert Anacrusis</label>
-        <tooltip>Turn the current measure into an Anacrusis (upbeat, pickup...). The notes/rests to form the upbeat should already be present in the measure. Re-run the command if you change the length of upbeat.</tooltip>
+        <tooltip>Turn the first measure into an Anacrusis (upbeat, pickup...). The notes/rests to form the upbeat should already be present in the measure. Re-run the command if you change the length of upbeat.</tooltip>
       </row>
     </map>
   </merge>
