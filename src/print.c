@@ -454,7 +454,11 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		&printpid,
 	        NULL,
 		NULL,		/* stdout */
+#ifdef G_OS_WIN32
+			    NULL,
+#else
 		&errors,		/* stderr */
+#endif
 		&lily_err);
   if(lily_err) {
     g_warning("Error launching lilypond message is %s\n", lily_err->message);
@@ -1140,7 +1144,11 @@ void refresh_print_view (gboolean preview_only) {
 		 &printviewpid,
 		 NULL,
 		 NULL,		/* stdout */
+#ifdef G_OS_WIN32
+			    NULL,
+#else
 	         &printpreview_errors,		/* stderr */
+#endif
 		 &error);
   g_free(lilyfile);
   g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, (gpointer)preview_only);
