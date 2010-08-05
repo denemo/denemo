@@ -139,10 +139,13 @@ regex_parse_version_number (const gchar *string)
   g_regex_unref (regex);
   return g_string_free(lilyversion, FALSE); 	  
 }
-
+#define INSTALLED_LILYPOND_VERSION "2.13" /* FIXME set via gub */
 gchar *
 get_lily_version_string (void)
 {
+#ifdef G_OS_WIN32
+  return INSTALLED_LILYPOND_VERSION;
+#else
   GError *error = NULL;
   gchar *version_string;
   double d;
@@ -168,7 +171,7 @@ get_lily_version_string (void)
 
   read(standard_output, buf, sizeof(buf));
   return regex_parse_version_number(buf);
-
+#endif
 }
 int
 check_lily_version (gchar *version)
@@ -438,7 +441,12 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   };
   if (!gui->lilycontrol.excerpt)	  
 	  arguments = pdf;
-  
+  if(lily_err) {
+    g_warning("Old error message from launching lilypond still present - message was %s\nDiscarding...\n", lily_err->message);
+    g_error_free(lily_err);
+    lily_err = NULL;
+
+  }
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
@@ -448,10 +456,16 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
 		NULL,		/* stdout */
 		&errors,		/* stderr */
 		&lily_err);
-  if (gui->lilycontrol.excerpt == TRUE)
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
-  else
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
+  if(lily_err) {
+    g_warning("Error launching lilypond message is %s\n", lily_err->message);
+    g_error_free(lily_err);
+    lily_err = NULL;
+  } else {
+    if (gui->lilycontrol.excerpt == TRUE)
+      g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
+    else
+      g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
+  }
 }
 
 /* Run the LilyPond interpreter on the file (filename).ly
@@ -924,6 +938,7 @@ printall(void) {
 				     GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 				     "%s", error->message);
     g_error_free (error);
+    error = NULL;
     gtk_dialog_run (GTK_DIALOG (dialog));
     gtk_widget_destroy (dialog);
   }
@@ -1024,6 +1039,7 @@ printview_finished(GPid pid, gint status, gboolean preview_only) {
      g_warning (_("Could not load the print preview:\n%s\n"),
                  error->message);
      g_error_free (error);
+     error = NULL;
      gui->pixbuf = NULL;
    } else {
      gboolean ret;
