@@ -53,15 +53,12 @@
 	
  (toplevel_expression
 			(composite_music)			: (display-combo "Note" $1)		
-			;(NOTENAME_PITCH)			: (display-combo "Note" $1)		
 			(WHITESPACE)				: #f
-			;({)						: (display "{")
-			;(})						: (display "}")
 			(ERROR)						: (display-combo "errorr" $1)
  
  )
  
- (composite_music
+ (composite_music	
 	(grouped_music_list)			: $1
  )
  
@@ -70,12 +67,13 @@
  )	
  
  (sequential_music
-	({ music_list })				: $1
+	( { music_list } )				: $1
  )
  
  (music_list
 	(music_list music)				: $1
- )
+	(music)							: $1
+ ) 
  
  (music
 	(simple_music)					: $1
