@@ -36,6 +36,6 @@ BOM_UTF8			\357\273\277
 {WORD}						(mtoken 'NOTENAME_PITCH yytext)
 \{							(mtoken '{ yytext)
 \}							(mtoken '} yytext)
-({WHITE}|{NEWLINE})			(mtoken 'WHITESPACE yytext)
+({WHITE}|{NEWLINE})			(yycontinue);(mtoken 'WHITESPACE yytext)
 <<ERROR>>					(mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)

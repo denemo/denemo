@@ -32,6 +32,9 @@
 
 ;; Parser Definition
 
+; Create a list to store notes
+(define notelist '())
+
 ;Helper to print out a value with a custom description, for console output
 
 (define (display-combo string value)
@@ -53,55 +56,54 @@
 	
  (toplevel_expression
 			(composite_music)			: (display-combo "Note" $1)		
-			(WHITESPACE)				: #f
-			(ERROR)						: (display-combo "errorr" $1)
- 
+			;(WHITESPACE)				: #f
+			(ERROR)						: (display-combo "errorr" $1) 
  )
  
  (composite_music	
-	(grouped_music_list)			: (begin (display $1)  (newline) $1)
+	(grouped_music_list)			: (begin (display "	composite music: grouped music list") (display ": ") (display $1) (newline) $1)
  )
  
  (grouped_music_list
-	(sequential_music)				: (begin (display $1)  (newline) $1)
+	(sequential_music)				: (begin (display "	grouped music list: seq music") (display ": ") (display $1) (newline) $1)
  )	
  
  (sequential_music
-	( { music_list } )				: (begin (display $2)  (newline) $2)
+	(  { music_list }  )			: (begin (display "seq music: music list ") (display ": ") (display $2) (newline) $2)
  )
  
  (music_list
-	(music_list music)				: (begin (display $1)  (newline) $1)
-	(music)							: (begin (display $1)  (newline) $1)
+	(music_list music)				: (begin (display "music list: recursive") (display ": ") (display $1) (newline) $1) ;(append notelist (list $1)) ;
+	(music)							: (begin (display "music list: music") (display ": ") (display $1) (newline) $1)
  ) 
  
  (music
-	(simple_music)					: (begin (display $1)  (newline) $1)
-	;(composite_music)				: (begin (display $1) (newline) $1)
+	(simple_music)					: (begin (display "	music: simple music") (display ": ") (display $1) (newline) $1)
+	(composite_music)				: (begin (display "music: composite music") (display ": ") (display $1) (newline) $1) ; for {c { d e } } constructions
  )
  
  (simple_music
-	(event_chord)					: (begin (display $1) (newline) $1)
+	(event_chord)					: (begin (display "	simple music: event chord") (display ": ") (display $1) (newline) $1)		
  )
  
  (event_chord
-	(simple_chord_element)			: (begin (display $1)  (newline) $1)
+	(simple_chord_element)			:  (begin (display "	event chord: simple chord element") (display ": ") (display $1) (newline) $1)	
  )
  
  (simple_chord_element
-	(simple_element)				: (begin (display $1)  (newline) $1)
+	(simple_element)				: (begin (display "	simple chord element: simple element") (display ": ") (display $1) (newline) $1)
  )
  
  (simple_element
-	(pitch)							: (begin (display $1)  (newline) $1)
+	(pitch)							: (begin (display "	simple element: pitch") (display ": ") (display $1) (newline) $1)
  )
  
  (pitch
-	(steno_pitch)					: (begin (display $1)  (newline) $1)
+	(steno_pitch)					: (begin (display "	pitch: steno pitch") (display ": ") (display $1) (newline) $1)
  )
  
  (steno_pitch
-	(NOTENAME_PITCH)				: (begin (display $1)  (newline) $1 )
+	(NOTENAME_PITCH)				: (begin (display "steno_spitch: NOTENAME PITCH") (display ": ") (display $1) (newline) $1)
  )
  
   )
