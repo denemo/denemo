@@ -21,7 +21,7 @@
 (load "silex.scm")
 
 ;; Input Port
-(set-current-input-port (open-input-file "test.ly"))
+(set-current-input-port (open-input-file "input_dummy.txt"))
 
 
 ;; Lexer

@@ -46,23 +46,66 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { })
+   (NOTENAME_PITCH WHITESPACE { } ERROR)
 
  (lilypond (lilypond toplevel_expression) : #t
 		   (toplevel_expression) : #t)
 	
  (toplevel_expression
-			(NOTENAME_PITCH)			: (display-combo "Note" $1)		
+			(composite_music)			: (display-combo "Note" $1)		
+			;(NOTENAME_PITCH)			: (display-combo "Note" $1)		
 			(WHITESPACE)				: #f
-			({)							: (display "{")
-			(})							: (display "}")
+			;({)						: (display "{")
+			;(})						: (display "}")
+			(ERROR)						: (display-combo "errorr" $1)
  
  )
  
- ;Music_list:  Music_list Music  Music: Composite_music:  Grouped_music_list Sequential_music: '{' Music_list '}'
+ (composite_music
+	(grouped_music_list)			: $1
+ )
  
- ;Composite_music
-
+ (grouped_music_list
+	(sequential_music)				: $1
+ )	
+ 
+ (sequential_music
+	({ music_list })				: $1
+ )
+ 
+ (music_list
+	(music_list music)				: $1
+ )
+ 
+ (music
+	(simple_music)					: $1
+	(composite_music)				: $1
+ )
+ 
+ (simple_music
+	(event_chord)					: $1
+ )
+ 
+ (event_chord
+	(simple_chord_element)			: $1
+ )
+ 
+ (simple_chord_element
+	(simple_element)				: $1
+ )
+ 
+ (simple_element
+	(pitch)							: $1
+ )
+ 
+ (pitch
+	(steno_pitch)					: $1
+ )
+ 
+ (steno_pitch
+	(NOTENAME_PITCH)				: $1
+ )
+ 
   )
 )
 

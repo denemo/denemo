@@ -22,7 +22,7 @@ KEYWORD				\\{WORD}
 NEWLINE				[^.] ; windows and linux/unix
 WHITE				[ 	] ;space and tab!
 HORIZONTALWHITE		[ 	]
-BLACK				[^ \n\t\f\r]
+BLACK				[^ \n\t\f\r] ;TODO: needs fix
 RESTNAME			[rs]
 NOTECOMMAND			\\{A}+
 MARKUPCOMMAND		\\({A}|[-_])+
@@ -37,4 +37,5 @@ BOM_UTF8			\357\273\277
 \{							(mtoken '{ yytext)
 \}							(mtoken '} yytext)
 ({WHITE}|{NEWLINE})			(mtoken 'WHITESPACE yytext)
+<<ERROR>>					(mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
