@@ -59,49 +59,49 @@
  )
  
  (composite_music	
-	(grouped_music_list)			: $1
+	(grouped_music_list)			: (begin (display $1)  (newline) $1)
  )
  
  (grouped_music_list
-	(sequential_music)				: $1
+	(sequential_music)				: (begin (display $1)  (newline) $1)
  )	
  
  (sequential_music
-	( { music_list } )				: $1
+	( { music_list } )				: (begin (display $2)  (newline) $2)
  )
  
  (music_list
-	(music_list music)				: $1
-	(music)							: $1
+	(music_list music)				: (begin (display $1)  (newline) $1)
+	(music)							: (begin (display $1)  (newline) $1)
  ) 
  
  (music
-	(simple_music)					: $1
-	(composite_music)				: $1
+	(simple_music)					: (begin (display $1)  (newline) $1)
+	;(composite_music)				: (begin (display $1) (newline) $1)
  )
  
  (simple_music
-	(event_chord)					: $1
+	(event_chord)					: (begin (display $1) (newline) $1)
  )
  
  (event_chord
-	(simple_chord_element)			: $1
+	(simple_chord_element)			: (begin (display $1)  (newline) $1)
  )
  
  (simple_chord_element
-	(simple_element)				: $1
+	(simple_element)				: (begin (display $1)  (newline) $1)
  )
  
  (simple_element
-	(pitch)							: $1
+	(pitch)							: (begin (display $1)  (newline) $1)
  )
  
  (pitch
-	(steno_pitch)					: $1
+	(steno_pitch)					: (begin (display $1)  (newline) $1)
  )
  
  (steno_pitch
-	(NOTENAME_PITCH)				: $1
+	(NOTENAME_PITCH)				: (begin (display $1)  (newline) $1 )
  )
  
   )
