@@ -54,6 +54,8 @@
    ( ACCEPTS
 ;;;many more omitted here!!!
      TONICNAME_PITCH
+
+NOTENAME_PITCH BRACE
   )
 	
 ;;;;;;;;;;;; rules
@@ -601,7 +603,7 @@
 ;; 	SEQUENTIAL '{' music_list '}'		{
 ;; 		$$ = MAKE_SYNTAX ("sequential-music", @$, scm_car ($3));
 ;; 	}
- ({ music_list } : ()) ;;		{
+ (BRACE music_list BRACE) : () ;;		{
 ;; 		$$ = MAKE_SYNTAX ("sequential-music", @$, scm_car ($2));
 ;; 	}
 ;; 	;
@@ -1445,7 +1447,7 @@
 ;; 	}
 ;; 	;
 
-(steno_pitch:
+(steno_pitch
  (NOTENAME_PITCH) : ()
 ;; 		$$ = $1;
 ;; 	}

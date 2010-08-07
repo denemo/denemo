@@ -562,7 +562,7 @@ BOM_UTF8	\357\273\277
 ;; }
 
 
-[{}]            ;; default rule just return the char	{
+[{}]       	(mtoken 'BRACE yytext)     ;;	{
 
 ;; 	return YYText ()[0];
 ;; }
