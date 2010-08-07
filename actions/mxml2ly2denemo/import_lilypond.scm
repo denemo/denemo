@@ -576,7 +576,7 @@ toplevel_expression:
 ;; 	;
 )
 (music
-;; 	simple_music
+ (simple_music) : ()
  (composite_music) :  ()
 ;; 	;
 )
@@ -616,13 +616,13 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; simple_music:
-;; 	event_chord
+(simple_music
+ (event_chord) : ()
 ;; 	| MUSIC_IDENTIFIER
 ;; 	| music_property_def
 ;; 	| context_change
 ;; 	;
-
+)
 ;; context_modification:
 ;;         WITH { PARSER->lexer_->push_initial_state (); } '{' context_mod_list '}'
 ;;         {
@@ -1063,11 +1063,12 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; event_chord:
+(event_chord
 ;; 	/* TODO: Create a special case that avoids the creation of
 ;; 	   EventChords around simple_elements that have no post_events?
 ;; 	 */
-;; 	simple_chord_elements post_events	{
+ (simple_chord_elements ;;;later do these: post_events
+			) : () ;;;	{
 ;; 		SCM elts = ly_append2 ($1, scm_reverse_x ($2, SCM_EOL));
 
 ;; 		Input i;
@@ -1099,7 +1100,7 @@ toplevel_expression:
 ;; 		PARSER->lexer_->chord_repetition_.last_chord_ = $$;
 ;; 	}
 ;; 	;
-
+)
 
 ;; note_chord_element:
 ;; 	chord_body optional_notemode_duration post_events
@@ -1444,8 +1445,8 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; steno_pitch:
-;; 	NOTENAME_PITCH	{
+(steno_pitch:
+ NOTENAME_PITCH : ()
 ;; 		$$ = $1;
 ;; 	}
 ;; 	| NOTENAME_PITCH sup_quotes 	{
@@ -1459,7 +1460,7 @@ toplevel_expression:
 ;; 		$$ = p.smobbed_copy ();
 ;; 	}
 ;; 	;
-
+)
 ;; /*
 ;; ugh. duplication
 ;; */
@@ -1481,12 +1482,12 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; pitch:
-;; 	steno_pitch {
+(pitch
+ (steno_pitch) : ()
 ;; 		$$ = $1;
 ;; 	}
 ;; 	;
-
+)
 ;; pitch_also_in_chords:
 ;; 	pitch
 ;; 	| steno_tonic_pitch
@@ -1741,8 +1742,9 @@ toplevel_expression:
 ;; 	| REST { $$ = 1; }
 ;; 	;
 
-;; simple_element:
-;; 	pitch exclamations questions octave_check optional_notemode_duration optional_rest {
+(simple_element)
+ (pitch ;;;later do these: exclamations questions octave_check optional_notemode_duration optional_rest
+) : () ;;; {
 ;; 		if (!PARSER->lexer_->is_note_state ())
 ;; 			PARSER->parser_error (@1, _ ("have to be in Note mode for notes"));
 
@@ -1799,8 +1801,8 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; simple_chord_elements:
-;; 	simple_element	{
+(simple_chord_elements
+ (simple_element) : () ;;;	{
 ;; 		$$ = scm_list_1 ($1);
 ;; 	}
 ;; 	| new_chord {
@@ -1816,7 +1818,7 @@ toplevel_expression:
 ;; 		$$ = $1;
 ;; 	}
 ;; 	;
-
+)
 ;; lyric_element:
 ;; 	lyric_markup {
 ;; 		$$ = $1;
