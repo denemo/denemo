@@ -73,8 +73,8 @@
  )
  
  (music_list
-	(music_list music)				: (begin (display "music list: recursive") (display ": ") (display $1) (newline) $1) ;(append notelist (list $1)) ;
-	(music)							: (begin (display "music list: music") (display ": ") (display $1) (newline) $1)
+	(music_list music)				: (begin (append! notelist (list $2)) (display "music list: recursive") (display ": ") (display $2) (newline) $2) ;(append notelist (list $1)) ;
+	(music)							: (begin (set! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) $1)
  ) 
  
  (music
@@ -117,6 +117,8 @@
 
 (mxml2ly2denemo-parser lexer displayerror)
 
+(newline)
+(display notelist)
 
 ;; Close input port
 (close (current-input-port)) 
