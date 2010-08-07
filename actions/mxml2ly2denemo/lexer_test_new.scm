@@ -30,8 +30,6 @@
 (lexer-init 'port (current-input-port)) 
 
 
-
-
 ;; Parser Definition
 
 ;Helper to print out a value with a custom description, for console output
