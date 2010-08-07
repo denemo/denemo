@@ -29,7 +29,7 @@
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
 )
 
-(lex "lilypondlexer.l" "/home/nils/git-denemo/actions/mxml2ly2denemo/nwctext.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
+(lex "lilypondlexer.l" "lilypondlexer.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
 (load "lilypondlexer.l.scm")
 (lexer-init 'port (current-input-port)) 
 
@@ -61,9 +61,9 @@
 
 
 
-lilypond:	/* empty */
-	| lilypond toplevel_expression {
-	}
+(lilypond           ;;;;:	/* empty */
+ (lilypond toplevel_expression) : () ;;; {
+;;	}
 ;; 	| lilypond assignment {
 ;; 	}
 ;; 	| lilypond error {
@@ -73,9 +73,9 @@ lilypond:	/* empty */
 ;; 		PARSER->error_level_ = 1;
 ;; 	}
 ;; 	;
+)
 
-
-toplevel_expression:
+(toplevel_expression
 ;; 	lilypond_header {
 ;; 		PARSER->lexer_->set_identifier (ly_symbol2scm ("$defaultheader"), $1);
 ;; 	}
@@ -98,9 +98,7 @@ toplevel_expression:
 ;; 		scm_call_2 (proc, PARSER->self_scm (), score->self_scm ());
 ;; 		score->unprotect ();
 ;; 	}
-
-
- 	(composite_music ()) ;; {
+ (composite_music) : () ;;; {
 ;; 		Music *music = unsmob_music ($1);
 ;; 		SCM proc = PARSER->lexer_->lookup_identifier ("toplevel-music-handler");
 ;; 		scm_call_2 (proc, PARSER->self_scm (), music->self_scm ());
@@ -128,7 +126,7 @@ toplevel_expression:
 ;; 		od->unprotect();
 ;; 	}
 ;; 	;
-
+)
 ;; embedded_scm:
 ;; 	SCM_TOKEN
 ;; 	| SCM_IDENTIFIER
@@ -575,9 +573,11 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 )
+
+
 (music
  (simple_music) : ()
- (composite_music) :  ()
+;; (composite_music) :  ()
 ;; 	;
 )
 ;; alternative_music:
@@ -601,7 +601,7 @@ toplevel_expression:
 ;; 	SEQUENTIAL '{' music_list '}'		{
 ;; 		$$ = MAKE_SYNTAX ("sequential-music", @$, scm_car ($3));
 ;; 	}
- ('{' music_list '}' : ()) ;;		{
+ ({ music_list } : ()) ;;		{
 ;; 		$$ = MAKE_SYNTAX ("sequential-music", @$, scm_car ($2));
 ;; 	}
 ;; 	;
@@ -1043,32 +1043,32 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 
-;; scalar: string {
-;; 		$$ = $1;
-;; 	}
-;; 	| LYRICS_STRING {
-;; 		$$ = $1;
-;; 	}
-;; 	| bare_number {
-;; 		$$ = $1;
-;; 	}
-;;         | embedded_scm {
-;; 		$$ = $1;
-;; 	}
-;; 	| full_markup {
-;; 		$$ = $1;
-;; 	}
-;; 	| DIGIT {
-;; 		$$ = scm_from_int ($1);
-;; 	}
-;; 	;
+;; ;; scalar: string {
+;; ;; 		$$ = $1;
+;; ;; 	}
+;; ;; 	| LYRICS_STRING {
+;; ;; 		$$ = $1;
+;; ;; 	}
+;; ;; 	| bare_number {
+;; ;; 		$$ = $1;
+;; ;; 	} 
+;; ;;         | embedded_scm {
+;; ;; 		$$ = $1;
+;; ;; 	}
+;; ;; 	| full_markup {
+;; ;; 		$$ = $1;
+;; ;; 	}
+;; ;; 	| DIGIT {
+;; ;; 		$$ = scm_from_int ($1);
+;; ;; 	}
+;; ;; 	;
 
 (event_chord
 ;; 	/* TODO: Create a special case that avoids the creation of
 ;; 	   EventChords around simple_elements that have no post_events?
 ;; 	 */
- (simple_chord_elements ;;;later do these: post_events
-			) : () ;;;	{
+ (simple_chord_elements ;;;later do these: post_events			
+  ) : () ;;;	{
 ;; 		SCM elts = ly_append2 ($1, scm_reverse_x ($2, SCM_EOL));
 
 ;; 		Input i;
@@ -1446,7 +1446,7 @@ toplevel_expression:
 ;; 	;
 
 (steno_pitch:
- NOTENAME_PITCH : ()
+ (NOTENAME_PITCH) : ()
 ;; 		$$ = $1;
 ;; 	}
 ;; 	| NOTENAME_PITCH sup_quotes 	{
@@ -1742,7 +1742,7 @@ toplevel_expression:
 ;; 	| REST { $$ = 1; }
 ;; 	;
 
-(simple_element)
+(simple_element
  (pitch ;;;later do these: exclamations questions octave_check optional_notemode_duration optional_rest
 ) : () ;;; {
 ;; 		if (!PARSER->lexer_->is_note_state ())
@@ -1800,7 +1800,7 @@ toplevel_expression:
 ;; 		$$= levent->unprotect ();
 ;; 	}
 ;; 	;
-
+)
 (simple_chord_elements
  (simple_element) : () ;;;	{
 ;; 		$$ = scm_list_1 ($1);
@@ -1819,6 +1819,7 @@ toplevel_expression:
 ;; 	}
 ;; 	;
 )
+
 ;; lyric_element:
 ;; 	lyric_markup {
 ;; 		$$ = $1;
@@ -2149,7 +2150,7 @@ toplevel_expression:
 		(display arg2)(newline)
 )
 
-
+(display "starting")
 (lilypond-parser lexer displayerror)
 
 
