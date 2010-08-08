@@ -1,3 +1,4 @@
+notename			c|cis|ces|cisis|ceses|d|dis|des|disis|deses|e|eis|es|ees|eisis|eses|eeses|f|fis|fes|fisis|feses|g|gis|ges|gisis|geses|a|ais|as|aes|aisis|aeses|ases|b|bis|bes|bisis|beses|h|his|hes|hisis|heses
 A					[a-zA-Z\200-\377]
 AA					{A}|_
 N					[0-9]
@@ -33,7 +34,9 @@ HYPHEN				--
 BOM_UTF8			\357\273\277
 
 %%
-{WORD}						(mtoken 'NOTENAME_PITCH yytext)
+;{WORD}						(mtoken 'NOTENAME_PITCH yytext)
+\\score						(mtoken 'SCORE yytext)
+{notename}					(mtoken 'NOTENAME_PITCH yytext)
 \{							(mtoken '{ yytext)
 \}							(mtoken '} yytext)
 ({WHITE}|{NEWLINE})			(yycontinue);(mtoken 'WHITESPACE yytext)
