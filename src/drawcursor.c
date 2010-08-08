@@ -47,7 +47,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
     (mode & INPUTBLANK) ? bluegc : si->cursoroffend ? redgc : greengc;
 
   if(si->cursor_appending)
-    paintgc = bluegc;
+    paintgc = si->cursoroffend ? redgc :bluegc;
 
   cairo_save( cr );
   setcairocolor( cr, paintgc );
