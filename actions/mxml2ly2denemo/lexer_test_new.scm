@@ -21,8 +21,20 @@
 (set-current-input-port (open-input-file "input_dummy.txt"))
 
 ;; Lexer
-(define (mtoken symbol value) 
+;"Magical Token". Wrapper to make returning a token easier, without all the positions and input ports
+(define (lyimport::mtoken symbol value) 
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
+)
+
+
+(define (lyimport::keywordtoken yytext)
+	(cond
+		((string-ci=? "\\score" yytext) (lyimport::mtoken 'SCORE yytext))
+		((string-ci=? "\\nils" yytext) (lyimport::mtoken 'NILS yytext))
+		
+		(else (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")))
+		
+	)
 )
 
 (lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
@@ -92,7 +104,7 @@
  )
  
  (score_block
-		(SCORE { score_body }) 		: (begin (display "score_block: SCORE { score body }") (display ": ") (display $3) (newline) $3)
+		(SCORE { score_body }) 		: (begin (display "score_block: SCORE { score body }") (display ": ") (display $3) (newline) $3)		
  )
  
  (score_body

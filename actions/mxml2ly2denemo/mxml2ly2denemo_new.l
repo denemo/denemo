@@ -34,11 +34,11 @@ HYPHEN				--
 BOM_UTF8			\357\273\277
 
 %%
-;{WORD}						(mtoken 'NOTENAME_PITCH yytext)
-\\score						(mtoken 'SCORE yytext)
-{notename}					(mtoken 'NOTENAME_PITCH yytext)
-\{							(mtoken '{ yytext)
-\}							(mtoken '} yytext)
-({WHITE}|{NEWLINE})			(yycontinue);(mtoken 'WHITESPACE yytext)
-<<ERROR>>					(mtoken 'ERROR	yytext)
+;{WORD}						(lyimport::mtoken 'NOTENAME_PITCH yytext)
+{KEYWORD}					(lyimport::keywordtoken yytext)
+{notename}					(lyimport::mtoken 'NOTENAME_PITCH yytext)
+\{							(lyimport::mtoken '{ yytext)
+\}							(lyimport::mtoken '} yytext)
+({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
+<<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
