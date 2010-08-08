@@ -46,26 +46,32 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   paintgc = (mode & INPUTREST) ? graygc :
     (mode & INPUTBLANK) ? bluegc : si->cursoroffend ? redgc : greengc;
 
+  if(si->cursor_appending)
+    paintgc = bluegc;
+
   cairo_save( cr );
   setcairocolor( cr, paintgc );
-  cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
+  if(si->cursor_appending)
+    cairo_rectangle( cr, xx, height + y, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
+  else
+    cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
   cairo_fill( cr );
+
   if(Denemo.prefs.cursor_highlight) {
     gdouble length = 20/si->zoom;
-    cairo_move_to( cr, xx, y);
-    cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
-    cairo_stroke( cr );
+    if(!si->cursor_appending) {
+      setcairocolor( cr, bluegc );
+      cairo_move_to( cr, xx-2, y);
+      cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
+      cairo_stroke( cr );
+      setcairocolor( cr, paintgc );
+    }
     cairo_set_line_width (cr, 6.0/si->zoom);
     cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
 
-#if 0
-    cairo_move_to( cr, xx+ CURSOR_WIDTH/2 - length/2, height + y - length/2);
-    cairo_rel_line_to( cr, length, length);
-    cairo_rel_move_to( cr, 0, -length);
-    cairo_rel_line_to( cr, -length, length);
-#else
+
     cairo_arc(cr, xx + CURSOR_WIDTH/2, height + y, length, 0, 2 * M_PI);
-#endif
+
     cairo_stroke( cr );
    
   }
