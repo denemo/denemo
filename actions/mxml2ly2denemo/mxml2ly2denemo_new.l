@@ -39,6 +39,8 @@ BOM_UTF8			\357\273\277
 {notename}					(lyimport::mtoken 'NOTENAME_PITCH yytext)
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
+,							(lyimport::mtoken 'SUB_QUOTE yytext)
+'							(lyimport::mtoken 'SUP_QUOTE yytext)	
 ({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
 <<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)

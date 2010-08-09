@@ -61,7 +61,7 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE)
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE)
 
  (lilypond (lilypond toplevel_expression) : #t
 		   (toplevel_expression) : #t)
@@ -121,6 +121,18 @@
  
  (pitch
 	(steno_pitch)					: (begin (display "	pitch: steno pitch") (display ": ") (display $1) (newline) $1)
+	(steno_pitch sup_quotes)		: (begin (display "	pitch: steno pitch up") (display ": ") (display (string-append $1 $2)) (newline) (string-append $1 $2))
+	(steno_pitch sub_quotes)		: (begin (display "	pitch: steno pitch down") (display ": ") (display (string-append $1 $2)) (newline) (string-append $1 $2))
+ )
+ 
+ (sup_quotes
+	(SUP_QUOTE)								: $1
+	(sup_quotes SUP_QUOTE)					: (string-append $1 $2)
+ )
+ 
+ (sub_quotes
+	(SUB_QUOTE)								: $1
+	(sub_quotes SUB_QUOTE)					: (string-append $1 $2)
  )
  
  (steno_pitch

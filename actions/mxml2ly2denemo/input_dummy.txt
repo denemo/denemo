@@ -1,8 +1,8 @@
 \score {
-	{c lol d g h i j  }
+	{c, lol d' g,, h'' i j  }
  
 }
 
-\es
+\score
 { {c es g} }
 
