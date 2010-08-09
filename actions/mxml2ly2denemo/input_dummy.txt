@@ -1,3 +1,8 @@
-{
-c d e}
+\score {
+	{c lol d g h i j  }
+ 
+}
+
+\es
+{ {c es g} }
 

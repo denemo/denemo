@@ -21,8 +21,20 @@
 (set-current-input-port (open-input-file "input_dummy.txt"))
 
 ;; Lexer
-(define (mtoken symbol value) 
+;"Magical Token". Wrapper to make returning a token easier, without all the positions and input ports
+(define (lyimport::mtoken symbol value) 
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
+)
+
+
+(define (lyimport::keywordtoken yytext)
+	(cond
+		((string-ci=? "\\score" yytext) (lyimport::mtoken 'SCORE yytext))
+		((string-ci=? "\\nils" yytext) (lyimport::mtoken 'NILS yytext))
+		
+		(else (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")))
+		
+	)
 )
 
 (lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
@@ -33,7 +45,7 @@
 ;; Parser Definition
 
 ; Create a list to store notes
-(define notelist '())
+(define notelist '(#f))
 
 ;Helper to print out a value with a custom description, for console output
 
@@ -49,16 +61,17 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR)
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE)
 
  (lilypond (lilypond toplevel_expression) : #t
 		   (toplevel_expression) : #t)
 	
  (toplevel_expression
+			(score_block)				: (display-combo "Score" $1)
 			(composite_music)			: (display-combo "Note" $1)		
 			;(WHITESPACE)				: #f
 			(ERROR)						: (display-combo "errorr" $1) 
- )
+ )	
  
  (composite_music	
 	(grouped_music_list)			: (begin (display "	composite music: grouped music list") (display ": ") (display $1) (newline) $1)
@@ -74,7 +87,7 @@
  
  (music_list
 	(music_list music)				: (begin (append! notelist (list $2)) (display "music list: recursive") (display ": ") (display $2) (newline) $2) ;(append notelist (list $1)) ;
-	(music)							: (begin (set! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) $1)
+	(music)							: (begin (append! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) $1)
  ) 
  
  (music
@@ -88,6 +101,14 @@
  
  (event_chord
 	(simple_chord_element)			:  (begin (display "	event chord: simple chord element") (display ": ") (display $1) (newline) $1)	
+ )
+ 
+ (score_block
+		(SCORE { score_body }) 		: (begin (display "score_block: SCORE { score body }") (display ": ") (display $3) (newline) $3)		
+ )
+ 
+ (score_body
+		(music)						: (begin (display "score_body: music") (display ": ") (display $1) (newline) $1)
  )
  
  (simple_chord_element

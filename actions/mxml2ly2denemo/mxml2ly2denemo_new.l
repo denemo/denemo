@@ -1,3 +1,4 @@
+notename			c|cis|ces|cisis|ceses|d|dis|des|disis|deses|e|eis|es|ees|eisis|eses|eeses|f|fis|fes|fisis|feses|g|gis|ges|gisis|geses|a|ais|as|aes|aisis|aeses|ases|b|bis|bes|bisis|beses|h|his|hes|hisis|heses
 A					[a-zA-Z\200-\377]
 AA					{A}|_
 N					[0-9]
@@ -33,9 +34,11 @@ HYPHEN				--
 BOM_UTF8			\357\273\277
 
 %%
-{WORD}						(mtoken 'NOTENAME_PITCH yytext)
-\{							(mtoken '{ yytext)
-\}							(mtoken '} yytext)
-({WHITE}|{NEWLINE})			(yycontinue);(mtoken 'WHITESPACE yytext)
-<<ERROR>>					(mtoken 'ERROR	yytext)
+;{WORD}						(lyimport::mtoken 'NOTENAME_PITCH yytext)
+{KEYWORD}					(lyimport::keywordtoken yytext)
+{notename}					(lyimport::mtoken 'NOTENAME_PITCH yytext)
+\{							(lyimport::mtoken '{ yytext)
+\}							(lyimport::mtoken '} yytext)
+({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
+<<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
