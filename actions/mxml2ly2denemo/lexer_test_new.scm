@@ -69,7 +69,7 @@
 ;; Parser Definition
 
 ; Create a list to store notes
-(define notelist '(#f))
+(define notelist (list #t))
 
 ;Helper to print out a value with a custom description, for console output
 
@@ -94,8 +94,8 @@
 			(score_block)				: (display-combo "Score" notelist)
 			(composite_music)			: (display-combo "Note" $1)		
 			;(WHITESPACE)				: #f
-			(ERROR)						: (display-combo "errorr" $1) 
-			(STRING)					: (display-combo "string:" $1)
+			(assignment)				: (display-combo "assignment" $1)
+			(ERROR)						: (display-combo "errorr" $1) 			
  )	
  
  (assignment_id
@@ -103,7 +103,7 @@
 	;(LYRICS_STRING)				: $1
  )
  
- (assignment:
+ (assignment
 	(assignment_id EQUAL identifier_init)  : (list $1 $3) ;maybe a hashtable? ;PARSER->lexer_->set_identifier ($1, $3);
 	;(assignment_id property_path EQUAL identifier_init) : #t ; see next two lines for original actions
 		;SCM path = scm_cons (scm_string_to_symbol ($1), $2);
@@ -167,11 +167,11 @@
  )
  
  (event_chord
-	(simple_chord_element)			:  $1
+	(simple_chord_element)			: $1
  )
  
  (score_block
-		(SCORE { score_body }) 		:  $3		
+		(SCORE { score_body }) 		: $3		
  )
  
  (score_body
@@ -216,8 +216,6 @@
 )
 
 (mxml2ly2denemo-parser lexer displayerror)
-
-(newline)
 
 ;; Close input port
 (close (current-input-port)) 

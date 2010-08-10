@@ -1,6 +1,7 @@
 \score {
-	{c, d' g,, h''    }
+	{c, d' g,, h''}   
  
 }
-loles
 
+test = assign
+more = { g a b, }
