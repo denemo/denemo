@@ -649,7 +649,7 @@ deletepreviousobject(DenemoGUI * gui)
   if (gui->si->cursor_x)
     {
       /* Then move the cursor back */
-      cursorleft (NULL);
+      movecursorleft (NULL);
       /* And delete */
       deleteobject (gui);
       /* if you are following a rhythmic pattern then backup the pattern */
@@ -673,7 +673,7 @@ deletepreviousobject(DenemoGUI * gui)
 	DenemoScriptParam param;
 	
 	do {
-	  measureleft(&param);
+	  movetomeasureleft(&param);
 	//go to end
 	while (gui->si->currentobject && (gui->si->currentobject->next))  {
 	    gui->si->currentobject = gui->si->currentobject->next;
@@ -683,7 +683,7 @@ deletepreviousobject(DenemoGUI * gui)
 	
 
 	if(gui->si->currentobject) {
-	  cursorright(NULL);
+	  movecursorright(NULL);
 	  deletepreviousobject(gui);
 	}
       }
