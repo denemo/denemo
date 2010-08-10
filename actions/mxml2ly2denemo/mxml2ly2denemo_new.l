@@ -34,13 +34,15 @@ HYPHEN				--
 BOM_UTF8			\357\273\277
 
 %%
-;{WORD}						(lyimport::mtoken 'NOTENAME_PITCH yytext)
-{KEYWORD}					(lyimport::keywordtoken yytext)
-{notename}					(lyimport::mtoken 'NOTENAME_PITCH yytext)
+{WORD}						(lyimport::scan_bare_word yytext)
+{DIGIT}						(lyimport::mtoken 'DIGIT yytext)
+{KEYWORD}					(lyimport::scan_escaped_word yytext)
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
 ,							(lyimport::mtoken 'SUB_QUOTE yytext)
 '							(lyimport::mtoken 'SUP_QUOTE yytext)	
+=							(lyimport::mtoken 'EQUAL yytext)
+\+							(lyimport::mtoken 'PLUS yytext)4
 ({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
 <<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
