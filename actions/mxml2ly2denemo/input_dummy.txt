@@ -1,6 +1,4 @@
-\score {
-	{c, d' g,, h''}   
- 
-}
+
+	{c, b2 d' g,, h''}    
 
 test = assign

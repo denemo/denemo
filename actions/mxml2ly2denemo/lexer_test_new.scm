@@ -89,7 +89,9 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT)
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED )
+		;Problems:
+		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
 
  (lilypond (lilypond toplevel_expression) : #t
 		   (toplevel_expression) : #t)
@@ -187,76 +189,38 @@
  )
  
  (simple_element
-	(pitch optional_notemode_duration) : $1
+	(pitch optional_notemode_duration) : (string-append $1 $2)  ; pitch exclamations questions octave_check optional_notemode_duration optional_rest {	
  )
  
- optional_notemode_duration:
-	{
-		Duration dd = PARSER->default_duration_;
-		$$ = dd.smobbed_copy ();
-	}
-	| multiplied_duration	{
-		$$ = $1;
-		PARSER->default_duration_ = *unsmob_duration ($$);
-	}
-	;
+ (optional_notemode_duration
+	() 								: ""
+	(multiplied_duration) 			: $1
+ )
 	
-duration_length:
-	multiplied_duration {
-		$$ = $1;
-	}
-	;
+ (duration_length
+	(multiplied_duration) 			: $1		
+  )
 	
-multiplied_duration:
-	steno_duration {
-		$$ = $1;
-	}
-	| multiplied_duration '*' bare_unsigned {
-		$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
-	}
-	| multiplied_duration '*' FRACTION {
-		Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3)));
-
-		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
-	}
-	;
+ (multiplied_duration
+	(steno_duration) : $1
+	(multiplied_duration STAR bare_unsigned)  	: $3 ;	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
+	(multiplied_duration STAR FRACTION) 		: $3 ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
+ )
 	
-steno_duration:
-	bare_unsigned dots		{
-		int len = 0;
-		if (!is_duration ($1))
-			PARSER->parser_error (@1, _f ("not a duration: %d", $1));
-		else
-			len = intlog2 ($1);
-
-		$$ = Duration (len, $2).smobbed_copy ();
-	}
-	| DURATION_IDENTIFIER dots	{
-		Duration *d = unsmob_duration ($1);
-		Duration k (d->duration_log (), d->dot_count () + $2);
-		k = k.compressed (d->factor ());
-		*d = k;
-		$$ = $1;
-	}
-	;
+ (steno_duration
+	(bare_unsigned dots) : $2 ; original lilypond had a check here if there is really a duration before the dots		
+	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
+ )
 	
-bare_unsign ed:
-	UNSIGNED {
-			$$ = $1;
-	}
-	| DIGIT {
-		$$ = $1;
-	}
-	;
+ (bare_unsigned
+ 	(UNSIGNED) : $1
+	(DIGIT) : $1		
+  )
 	
-dots:
-	/* empty */ 	{
-		$$ = 0;
-	}
-	| dots '.' {
-		$$ ++;
-	}
-	;
+ (dots
+	() : ""
+	(dots DOT) : (string-append $1 $2)	
+  ) 
  
  (pitch
 	(steno_pitch)					: $1

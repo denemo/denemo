@@ -35,7 +35,7 @@ BOM_UTF8			\357\273\277
 
 %%
 
-{BOM_UTF8}/.* 		(yycontinue) 
+{BOM_UTF8}/.* 		(yycontinue)
 ;original bom_utf8/.*
 ;  if (this->lexloc_->line_number () != 1 || this->lexloc_->column_number () != 0)
 ;    {
@@ -46,11 +46,11 @@ BOM_UTF8			\357\273\277
 ;     message (_ ("Skipping UTF-8 BOM"));
 
 
-\\version{WHITE}*			(yycontinue) ; skip version, originally its a state switch yy_push_state (version)
-\\sourcefilename{WHITE}*	(yycontinue) ; yy_push_state (sourcefilename)
-\\sourcefileline{WHITE}*	(yycontinue) ; yy_push_state (sourcefileline)
-\\maininput         		(yycontinue) ; if (!is_main_input_) (block: start_main_input (); is_main_input_ = true; ) ELSE	error (_ ("\\maininput not allowed outside init files"));
-\\include           		(yycontinue) ; yy_push_state (incl)
+\\version{WHITE}*			(lyimport::mtoken 'ERROR	yytext) ; skip version, originally its a state switch yy_push_state (version)
+\\sourcefilename{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefilename)
+\\sourcefileline{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefileline)
+\\maininput         		(lyimport::mtoken 'ERROR	yytext) ; if (!is_main_input_) (block: start_main_input (); is_main_input_ = true; ) ELSE	error (_ ("\\maininput not allowed outside init files"));
+\\include           		(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (incl)
 
 {RESTNAME}					(lyimport::mtoken 'RESTNAME yytext)
 R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)	
@@ -59,7 +59,7 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 <							(lyimport::mtoken 'ANGLE_OPEN yytext)	
 >							(lyimport::mtoken 'ANGLE_CLOSE yytext)	
 {ALPHAWORD}					(lyimport::scan_bare_word yytext)	
-{NOTECOMMAND}				(lyimport::scan_escaped_word yytext)	
+{NOTECOMMAND}				(lyimport::scan_escaped_word (string-trim yytext #\\))	
 {FRACTION}					(lyimport::scan_fraction yytext)	;		yylval.scm =  scan_fraction (YYText ()); return FRACTION;
 {DIGIT}						(lyimport::mtoken 'DIGIT yytext)
 {UNSIGNED}					(lyimport::mtoken 'UNSIGNED yytext)	
@@ -76,11 +76,12 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
 
-*							(lyimport::mtoken '* yytext)
+\*							(lyimport::mtoken 'STAR yytext)
 :							(lyimport::mtoken ': yytext)
 =							(lyimport::mtoken 'EQUAL yytext)
+\.							(lyimport::mtoken 'DOT yytext)
+						
 
-.							(lyimport::mtoken 'ANYTHING yytext) ; in lilypond there is no token name
 \\.							(case (string->char yytext)
 								((#\>) (lyimport::mtoken 'E_ANGLE_CLOSE yytext))
 								((#\<) (lyimport::mtoken 'E_ANGLE_OPEN yytext))
@@ -90,19 +91,14 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 								((#\[) (lyimport::mtoken 'E_BRACKET_OPEN yytext))
 								((#\+) (lyimport::mtoken 'E_PLUS yytext))
 								((#\]) (lyimport::mtoken 'E_TILDE yytext))
-								((#\\\) (lyimport::mtoken 'E_BACKSLASH yytext))
+								((#\\) (lyimport::mtoken 'E_BACKSLASH yytext))
 								(else  (lyimport::mtoken 'E_CHAR yytext)))
-
-;This looks important
-;<*>.		
-;	string msg = _f ("invalid character: `%c'", YYText ()[0]);
-;	LexerError (msg.c_str ());
-;	return YYText ()[0];
 
 
 ,							(lyimport::mtoken 'SUB_QUOTE yytext)
 '							(lyimport::mtoken 'SUP_QUOTE yytext)	
 \+							(lyimport::mtoken 'PLUS yytext)
 ({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
+.							(lyimport::mtoken 'ANYTHING yytext) ; in lilypond there is no token name
 <<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
