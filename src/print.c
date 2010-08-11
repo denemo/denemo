@@ -168,9 +168,13 @@ get_lily_version_string (void)
   &standard_output,	/*standard output*/
   NULL,	/*standard error*/
   &error);
-
-  read(standard_output, buf, sizeof(buf));
-  return regex_parse_version_number(buf);
+  if(error==NULL) {
+    read(standard_output, buf, sizeof(buf));
+    return regex_parse_version_number(buf);
+  } else {
+    g_warning ("%s", error->message);
+    g_error_free (error);
+  }
 #endif
 }
 int
@@ -1151,7 +1155,10 @@ void refresh_print_view (gboolean preview_only) {
 #endif
 		 &error);
   g_free(lilyfile);
-  g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, (gpointer)preview_only);
+  if(error==NULL)
+    g_child_watch_add (printviewpid, (GChildWatchFunc)printview_finished  /*  GChildWatchFunc function */, (gpointer)preview_only);
+  else
+    g_warning ("%s", error->message);
 }
 
 /* callback to print whole of score */
