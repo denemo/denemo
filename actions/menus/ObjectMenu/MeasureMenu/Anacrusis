@@ -43,7 +43,7 @@
 			)
 		)
 	)
-	(d-PushPosition)
+
 	(d-MoveToBeginning)
 	(set! duration (GetNoteBeat))
 	(LoopThroughBar)	;run through bar adding up all durations.
@@ -64,10 +64,13 @@
 			(d-WarningDialog "This measure's duration is too complex for this script.\nSimplify or insert the required lilypond manually.")
 		)
 	)
-	(d-PopPosition)
-)</scheme>
+	(if (not (d-MoveToMeasureRight))
+	         (begin
+	        (d-AppendMeasure)
+	
+	    (d-MoveToMeasureRight))))</scheme>
         <label>Insert Anacrusis</label>
-        <tooltip>Turn the first measure into an Anacrusis (upbeat, pickup...). The notes/rests to form the upbeat should already be present in the measure. Re-run the command if you change the length of upbeat.</tooltip>
+        <tooltip>Insert a LilyPond Directive to give an eighth note upbeat</tooltip>
       </row>
     </map>
   </merge>
