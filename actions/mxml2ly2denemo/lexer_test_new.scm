@@ -208,7 +208,7 @@
  )
 	
  (steno_duration
-	(bare_unsigned dots) : $2 ; original lilypond had a check here if there is really a duration before the dots		
+	(bare_unsigned dots) : (string-append $1 $2) ; original lilypond had a check here if there is really a duration before the dots		
 	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
  )
 	
