@@ -34,8 +34,8 @@ HYPHEN				--
 BOM_UTF8			\357\273\277
 
 %%
-{WORD}						(lyimport::scan_bare_word yytext)
 {DIGIT}						(lyimport::mtoken 'DIGIT yytext)
+{WORD}						(lyimport::scan_bare_word yytext)
 {KEYWORD}					(lyimport::scan_escaped_word yytext)
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)

@@ -55,18 +55,22 @@
 		)
 	)
 
-	(if (notename_pitch? yytext)  
-		(lyimport::mtoken 'NOTENAME_PITCH yytext)
-		(lyimport::mtoken 'STRING yytext)
+	(cond 
+	    ((notename_pitch? yytext) (lyimport::mtoken 'NOTENAME_PITCH yytext))
+		(else (lyimport::mtoken 'STRING yytext))
 	)
 )
 
+;Generate a loadable, standalone lexer file from the .l syntax file.
 (lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
 (load "mxml2ly2denemo.l.scm")
+
 (lexer-init 'port (current-input-port)) 
 
 
-;; Parser Definition
+;;;;;;; Parser Definition
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 ; Create a list to store notes
 (define notelist (list #t))
@@ -91,7 +95,7 @@
 		   (toplevel_expression) : #t)
 	
  (toplevel_expression
-			(score_block)				: (display-combo "Score" notelist)
+			(score_block)				: (display-combo "Score" $1)
 			(composite_music)			: (display-combo "Note" $1)		
 			;(WHITESPACE)				: #f
 			(assignment)				: (display-combo "assignment" $1)
@@ -153,8 +157,8 @@
  )
  
  (music_list
-	(music_list music)				: (begin (append! notelist (list $2)) (display "music list: recursive") (display ": ") (display $2) (newline) $2) ;(append notelist (list $1)) ;
-	(music)							: (begin (append! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) $1)
+	(music_list music)				: (begin (append! notelist (list $2)) (display "music list: recursive") (display ": ") (display $2) (newline) notelist) ;(append notelist (list $1)) ;
+	(music)							: (begin (append! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) notelist)
  ) 
  
  (music
@@ -183,13 +187,79 @@
  )
  
  (simple_element
-	(pitch)							: $1
+	(pitch optional_notemode_duration) : $1
  )
+ 
+ optional_notemode_duration:
+	{
+		Duration dd = PARSER->default_duration_;
+		$$ = dd.smobbed_copy ();
+	}
+	| multiplied_duration	{
+		$$ = $1;
+		PARSER->default_duration_ = *unsmob_duration ($$);
+	}
+	;
+	
+duration_length:
+	multiplied_duration {
+		$$ = $1;
+	}
+	;
+	
+multiplied_duration:
+	steno_duration {
+		$$ = $1;
+	}
+	| multiplied_duration '*' bare_unsigned {
+		$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
+	}
+	| multiplied_duration '*' FRACTION {
+		Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3)));
+
+		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
+	}
+	;
+	
+steno_duration:
+	bare_unsigned dots		{
+		int len = 0;
+		if (!is_duration ($1))
+			PARSER->parser_error (@1, _f ("not a duration: %d", $1));
+		else
+			len = intlog2 ($1);
+
+		$$ = Duration (len, $2).smobbed_copy ();
+	}
+	| DURATION_IDENTIFIER dots	{
+		Duration *d = unsmob_duration ($1);
+		Duration k (d->duration_log (), d->dot_count () + $2);
+		k = k.compressed (d->factor ());
+		*d = k;
+		$$ = $1;
+	}
+	;
+	
+bare_unsign ed:
+	UNSIGNED {
+			$$ = $1;
+	}
+	| DIGIT {
+		$$ = $1;
+	}
+	;
+	
+dots:
+	/* empty */ 	{
+		$$ = 0;
+	}
+	| dots '.' {
+		$$ ++;
+	}
+	;
  
  (pitch
 	(steno_pitch)					: $1
-	(steno_pitch sup_quotes)		: (string-append $1 $2)
-	(steno_pitch sub_quotes)		: (string-append $1 $2)
 )
  
  (sup_quotes
@@ -204,6 +274,8 @@
  
  (steno_pitch
 	(NOTENAME_PITCH)				: $1
+ 	(NOTENAME_PITCH sup_quotes)		: (string-append $1 $2)
+	(NOTENAME_PITCH sub_quotes)		: (string-append $1 $2)
  )
  
   )

@@ -4,4 +4,3 @@
 }
 
 test = assign
-more = { g a b, }
