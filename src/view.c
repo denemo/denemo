@@ -455,6 +455,8 @@ toggle_page_view(void) {
   if(si->page_width==0) {
     si->page_width = gdk_screen_get_width(gtk_window_get_screen( GTK_WINDOW (Denemo.window)));
     si->page_height = gdk_screen_get_height(gtk_window_get_screen( GTK_WINDOW (Denemo.window)));
+    if(si->page_height/(double)si->page_width < 1.4)
+      si->page_width = si->page_height /1.4;
     si->page_zoom = 0.5;
     si->page_system_height = 0.25;
   }
