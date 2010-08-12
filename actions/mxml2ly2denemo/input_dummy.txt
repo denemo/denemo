@@ -1,4 +1,4 @@
 
-	{c, b2 d' g,, h''}    
+	{c,!!? b2.. d' g,,= h''=2.}    
 
 test = assign

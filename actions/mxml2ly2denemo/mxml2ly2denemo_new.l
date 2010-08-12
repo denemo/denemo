@@ -65,13 +65,13 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 {UNSIGNED}					(lyimport::mtoken 'UNSIGNED yytext)	
 {E_UNSIGNED}				(lyimport::mtoken 'E_UNSIGNED yytext)	
 
-{DASHED_WORD}				(lyimport::scan_bare_word yytext)
-{DASHED_KEY_WORD}			(lyimport::scan_escaped_word yytext)	
+;{DASHED_WORD}				(lyimport::scan_bare_word yytext)
+;{DASHED_KEY_WORD}			(lyimport::scan_escaped_word yytext)	
 
-{WORD}						(lyimport::scan_bare_word yytext)
-{KEYWORD}					(lyimport::scan_escaped_word yytext)
+;{WORD}						(lyimport::scan_bare_word yytext)
+;{KEYWORD}					(lyimport::scan_escaped_word yytext)
 
-{REAL}						(lyimport::mtoken 'REAL yytext)
+;{REAL}						(lyimport::mtoken 'REAL yytext)
 
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
@@ -80,6 +80,8 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 :							(lyimport::mtoken ': yytext)
 =							(lyimport::mtoken 'EQUAL yytext)
 \.							(lyimport::mtoken 'DOT yytext)
+!							(lyimport::mtoken 'EXCLAMATIONMARK yytext)
+\?							(lyimport::mtoken 'QUESTIONMARK yytext)
 						
 
 \\.							(case (string->char yytext)

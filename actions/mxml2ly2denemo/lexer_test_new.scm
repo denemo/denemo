@@ -89,7 +89,7 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED )
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST)
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
 
@@ -188,8 +188,13 @@
 	(simple_element)				: $1
  )
  
+ (optional_rest
+	() : ""
+	(REST) : $1
+ )
+ 
  (simple_element
-	(pitch optional_notemode_duration) : (string-append $1 $2)  ; pitch exclamations questions octave_check optional_notemode_duration optional_rest {	
+	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append $1 $2 $3 $4 $5 $6)  
  )
  
  (optional_notemode_duration
@@ -199,7 +204,7 @@
 	
  (duration_length
 	(multiplied_duration) 			: $1		
-  )
+ )
 	
  (multiplied_duration
 	(steno_duration) : $1
@@ -216,6 +221,22 @@
  	(UNSIGNED) : $1
 	(DIGIT) : $1		
   )
+
+ (unsigned_number
+	(bare_unsigned)     : $1 
+	;(NUMBER_IDENTIFIER) : $1
+ )
+
+ (exclamations
+	() : ""
+	(exclamations EXCLAMATIONMARK) : (string-append $1 $2)
+ )
+
+ (questions
+	() : ""
+	(questions QUESTIONMARK) : (string-append $1 $2)
+ )
+
 	
  (dots
 	() : ""
@@ -225,6 +246,13 @@
  (pitch
 	(steno_pitch)					: $1
 )
+ 
+ (octave_check
+	() : "" 
+	(EQUAL) : "" ; { $$ = scm_from_int (0); )
+	(EQUAL sub_quotes) : $2 ;{ $$ = scm_from_int (-$2); )
+	(EQUAL sup_quotes) : $2
+  )
  
  (sup_quotes
 	(SUP_QUOTE)						: $1
