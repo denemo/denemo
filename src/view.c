@@ -126,7 +126,7 @@ static FILE *DEV_fp;
   if(!DEV_fp) DEV_fp = fopen("functions.xml", "w");
 #endif
 
-
+static gint scm_eval_status = 0;
 
 static SCM
 standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
@@ -138,26 +138,29 @@ standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
   scm_display (tag, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   scm_newline (scm_current_output_port ());
+  scm_eval_status = -1;
   return SCM_BOOL_F;
 }
 
 gint eval_file_with_catch(gchar *filename) {
   // scm_c_primitive_load(filename);
   SCM name = scm_from_locale_string(filename);
+  scm_eval_status = 0;
   scm_internal_catch (SCM_BOOL_T,
 		      (scm_t_catch_body)  scm_primitive_load, (void *) name,
 		      (scm_t_catch_handler) standard_handler, (void *) filename);
-  return 0;
+  return scm_eval_status;
 }
 
 
 gint
 call_out_to_guile (const char *script)
 {
+  scm_eval_status = 0;
   scm_internal_catch (SCM_BOOL_T,
                       (scm_t_catch_body)  scm_c_eval_string, (void *) script,
                       (scm_t_catch_handler) standard_handler, (void *) script);
-  return 0;
+  return scm_eval_status;
 }
 
 
@@ -195,7 +198,7 @@ GError *execute_script_file(gchar *filename) {
   GError *error = NULL;
   gchar *script;
   if(g_file_get_contents (filename, &script, NULL, &error)) {
-    call_out_to_guile(script);
+    call_out_to_guile(script);//FIXME setup error here if non null return
     g_free(script);
   }
   return error;
@@ -584,7 +587,7 @@ static SCM scheme_script_callback(SCM script) {
        if(action){
 	 gchar *text = g_object_get_data(G_OBJECT(action), "scheme");
 	 if(text && *text)
-	   return SCM_BOOL(call_out_to_guile(text));
+	   return SCM_BOOL(!call_out_to_guile(text));
 	 return SCM_BOOL(activate_script(action, NULL));
        }
      }
@@ -4852,7 +4855,7 @@ activate_script (GtkAction *action, gpointer param)
     if(*text==0)
       text = instantiate_script(action);
     if(text)
-      return (gboolean)call_out_to_guile(text);
+      return (gboolean)!call_out_to_guile(text);
   }
   else
     warningdialog("Have no way of getting the script, sorry");
@@ -4923,7 +4926,7 @@ static void placeOnButtonBar(GtkWidget *widget,  GtkAction *action) {
 
   gchar *scheme = g_strdup_printf(";To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, label, name, name, name);
   g_print("the scheme is \n%s\n", scheme);
-  if(call_out_to_guile(scheme))//actually there seems to be no boolean returned here
+  if(!call_out_to_guile(scheme))
     append_to_local_scheme_init(scheme);
   else
     warningdialog("Could not create button");
