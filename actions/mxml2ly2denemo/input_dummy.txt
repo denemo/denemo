@@ -1,4 +1,4 @@
 \score {
 	{c,!!? b2.. r d' r2 g,,= h''=2.}    
 }
-test = assign
+test = {c d e f=4 g2} 
