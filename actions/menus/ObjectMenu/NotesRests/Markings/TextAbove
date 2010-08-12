@@ -5,11 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>DeleteLilyPondOnNote</after>
         <action>TextAbove</action>
         <scheme>;;TextAbove
 (let ((text #f))
-	(set! text (d-GetUserInput "Text" "Give text to appear above music: " "\\italic \"1st and 3rd time\""))
+	(set! text (d-GetUserInput "Text" "Give text to appear above music: " "\\bold \\italic \"Tutti\""))
 	(if text (begin
 		(d-DirectivePut-chord-display "Text"  text )
 		(d-DirectivePut-chord-ty "Text"  -100 )
