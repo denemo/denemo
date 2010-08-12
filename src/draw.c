@@ -729,8 +729,8 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   cairo_save(cr);
   }//if cr
 
-  if((gui->si->smf) && (itp->startobj==NULL) && (itp->startposition<=0))
-      itp->startposition = x;
+  if((gui->si->smf) && (itp->startobj==NULL) && (itp->startposition<=0) && (si->leftmeasurenum==1))
+    itp->startposition = x;
 
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
