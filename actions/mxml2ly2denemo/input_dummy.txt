@@ -1,4 +1,4 @@
-
-	{c,!!? b2.. d' g,,= h''=2.}    
-
+\score {
+	{c,!!? b2.. r d' r2 g,,= h''=2.}    
+}
 test = assign

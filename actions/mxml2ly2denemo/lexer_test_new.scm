@@ -38,7 +38,8 @@
 		((string-ci=? "\\score" yytext) (lyimport::mtoken 'SCORE yytext))
 		((string-ci=? "\\nils" yytext) (lyimport::mtoken 'NILS yytext))
 		
-		(else (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")))
+		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
+		)
 		
 	)
 )
@@ -89,19 +90,24 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST)
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME
+   )
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
 
- (lilypond (lilypond toplevel_expression) : #t
-		   (toplevel_expression) : #t)
+ (lilypond 
+		   ()								 : ""
+		   (lilypond toplevel_expression)	 : (display-combo "toplevel_expression" $2)
+		   (lilypond assignment)			 : (display-combo "assignment" $2)
+		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
+		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
+ )
 	
  (toplevel_expression
-			(score_block)				: (display-combo "Score" $1)
-			(composite_music)			: (display-combo "Note" $1)		
-			;(WHITESPACE)				: #f
-			(assignment)				: (display-combo "assignment" $1)
-			(ERROR)						: (display-combo "errorr" $1) 			
+			(score_block)				: $1
+			(composite_music)			: $1
+			;(WHITESPACE)				: #f			
+			(ERROR)						: (display-combo "toplevel error" $1) 			
  )	
  
  (assignment_id
@@ -143,7 +149,7 @@
  (string
 	(STRING)				: $1
 	;(STRING_IDENTIFIER) 	: $1
-	(string PLUS string) 	: (string-append $1 $3)
+	;(string PLUS string) 	: (string-append $1 $3)
  )
  
  (composite_music	
@@ -173,7 +179,7 @@
  )
  
  (event_chord
-	(simple_chord_element)			: $1
+	(simple_chord_elements)			: $1
  )
  
  (score_block
@@ -184,9 +190,7 @@
 		(music)						: $1
  )
  
- (simple_chord_element
-	(simple_element)				: $1
- )
+
  
  (optional_rest
 	() : ""
@@ -195,7 +199,13 @@
  
  (simple_element
 	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append $1 $2 $3 $4 $5 $6)  
+	(RESTNAME optional_notemode_duration) : (string-append $1 $2)		
  )
+ 
+ (simple_chord_elements
+	(simple_element)				: $1
+ )
+ 
  
  (optional_notemode_duration
 	() 								: ""
