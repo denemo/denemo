@@ -35,9 +35,8 @@
 
 (define (lyimport::scan_escaped_word yytext)
 	(cond
-		((string-ci=? "\\score" yytext) (lyimport::mtoken 'SCORE yytext))
-		((string-ci=? "\\nils" yytext) (lyimport::mtoken 'NILS yytext))
-		
+		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
+				
 		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
 		)
 		
@@ -165,13 +164,13 @@
  )
  
  (music_list
-	(music_list music)				: (begin (append! notelist (list $2)) (display "music list: recursive") (display ": ") (display $2) (newline) notelist) ;(append notelist (list $1)) ;
-	(music)							: (begin (append! notelist (list $1))(display "music list: music") (display ": ") (display $1) (newline) notelist)
+	(music_list music)				: (begin (append! notelist (list $2)) notelist) 
+	(music)							: (begin (append! notelist (list $1)) notelist)
  ) 
  
  (music
-	(simple_music)					: (begin (display "	music: simple music") (display ": ") (display $1) (newline) $1)
-	(composite_music)				: (begin (display "music: composite music") (display ": ") (display $1) (newline) $1) ; for {c { d e } } constructions
+	(simple_music)					: $1
+	(composite_music)				: $1 ; for {c { d e } } constructions
  )
  
  (simple_music
