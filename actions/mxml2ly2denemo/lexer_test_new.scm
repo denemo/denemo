@@ -18,7 +18,7 @@
 (load "silex.scm")
 
 ;; Input Port
-(set-current-input-port (open-input-file "input_dummy.txt"))
+(set-current-input-port (open-input-file "mytest.ly"))
 
 ;; Lexer and helper-functions that return TOKEN indirectly
 
@@ -36,6 +36,57 @@
 (define (lyimport::scan_escaped_word yytext)
 	(cond
 		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
+				
+		; Converted from Denemo
+		((string-ci=? "alias" yytext) (lyimport::mtoken 'ALIAS yytext))
+		((string-ci=? "apply" yytext) (lyimport::mtoken 'APPLY yytext))
+		((string-ci=? "arpeggio" yytext) (lyimport::mtoken 'ARPEGGIO yytext))
+		((string-ci=? "autochange" yytext) (lyimport::mtoken 'AUTOCHANGE yytext))
+		((string-ci=? "spanrequest" yytext) (lyimport::mtoken 'SPANREQUEST yytext))
+		((string-ci=? "commandspanrequest" yytext) (lyimport::mtoken 'COMMANDSPANREQUEST yytext))
+		((string-ci=? "simultaneous" yytext) (lyimport::mtoken 'SIMULTANEOUS yytext))
+		((string-ci=? "sequential" yytext) (lyimport::mtoken 'SEQUENTIAL yytext))
+		((string-ci=? "accepts" yytext) (lyimport::mtoken 'ACCEPTS}, yytext))
+		((string-ci=? "alternative" yytext) (lyimport::mtoken 'ALTERNATIVE yytext))
+		((string-ci=? "bar" yytext) (lyimport::mtoken 'BAR yytext))
+		((string-ci=? "breathe" yytext) (lyimport::mtoken 'BREATHE yytext))
+		((string-ci=? "break" yytext) (lyimport::mtoken 'BREAK yytext))
+		((string-ci=? "char" yytext) (lyimport::mtoken 'CHAR_T yytext))
+		((string-ci=? "chordmodifiers" yytext) (lyimport::mtoken 'CHORDMODIFIERS yytext))
+		((string-ci=? "chords" yytext) (lyimport::mtoken 'CHORDS yytext))
+		((string-ci=? "clef" yytext) (lyimport::mtoken 'CLEF yytext))
+		((string-ci=? "cm" yytext) (lyimport::mtoken 'CM_T yytext))
+		((string-ci=? "consists" yytext) (lyimport::mtoken 'CONSISTS yytext))
+		((string-ci=? "consistsend" yytext) (lyimport::mtoken 'CONSISTSEND yytext))
+		((string-ci=? "context" yytext) (lyimport::mtoken 'CONTEXT yytext))
+		((string-ci=? "default" yytext) (lyimport::mtoken 'DEFAULT yytext))
+		((string-ci=? "denies" yytext) (lyimport::mtoken 'DENIES yytext))
+		((string-ci=? "duration" yytext) (lyimport::mtoken 'DURATION yytext))
+		((string-ci=? "dynamicscript" yytext) (lyimport::mtoken 'DYNAMICSCRIPT yytext))
+		((string-ci=? "grobdescriptions" yytext) (lyimport::mtoken 'GROBDESCRIPTIONS yytext))
+		((string-ci=? "figures" yytext) (lyimport::mtoken 'FIGURES yytext))
+		((string-ci=? "grace" yytext) (lyimport::mtoken 'GRACE yytext))
+		((string-ci=? "glissando" yytext) (lyimport::mtoken 'GLISSANDO yytext))
+		((string-ci=? "header" yytext) (lyimport::mtoken 'HEADER yytext))
+		((string-ci=? "in" yytext) (lyimport::mtoken 'IN_T yytext))
+		((string-ci=? "key" yytext) (lyimport::mtoken 'KEY yytext))
+		((string-ci=? "mark" yytext) (lyimport::mtoken 'MARK yytext))
+
+		; New ones
+		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
+		
+		;From parser.yy %token TOKEN "\\keyword"
+		((string-ci=? "change" yytext) (lyimport::mtoken 'CHANGE yytext))
+		((string-ci=? "sequential" yytext) (lyimport::mtoken 'SEQUENTIAL yytext))
+		((string-ci=? "simultaneous" yytext) (lyimport::mtoken 'SIMULTANEOUS yytext))		
+		((string-ci=? "repeat" yytext) (lyimport::mtoken 'REPEAT yytext))
+		((string-ci=? "alternative" yytext) (lyimport::mtoken 'ALTERNATIVE yytext))		
+		((string-ci=? "with" yytext) (lyimport::mtoken 'WITH yytext))		
+		  ;/* Keyword token exceptions.  */
+			((string-ci=? "time" yytext) (lyimport::mtoken 'TIME_T yytext))
+			((string-ci=? "new" yytext) (lyimport::mtoken 'NEWCONTEXT yytext))
+
+
 				
 		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
 		)
@@ -57,12 +108,31 @@
 
 	(cond 
 	    ((notename_pitch? yytext) (lyimport::mtoken 'NOTENAME_PITCH yytext))
+
+;		((string-ci=? "" yytext) (lyimport::mtoken ' yytext))				
 		(else (lyimport::mtoken 'STRING yytext))
+		
 	)
 )
 
+(define (lyimport::scan_fraction yytext)
+	(lyimport::mtoken 'FRACTION yytext)
+	
+	
+	;{
+	;ssize i = frac.find ('/');
+	;string left = frac.substr (0, i);
+	;string right = frac.substr (i + 1, (frac.length () - i + 1));
+
+	;int n = String_convert::dec2int (left);
+	;int d = String_convert::dec2int (right);
+	;return scm_cons (scm_from_int (n), scm_from_int (d));
+    ;}
+
+)
+
 ;Generate a loadable, standalone lexer file from the .l syntax file.
-(lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; Oh no!! The generated scm file has comments in the language of the devil!
+(lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) 
 (load "mxml2ly2denemo.l.scm")
 
 (lexer-init 'port (current-input-port)) 
@@ -89,10 +159,11 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT
    )
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
+		;CONTEXT_MOD_IDENTIFIER   too
 
  (lilypond 
 		   ()								 : ""
@@ -100,12 +171,12 @@
 		   (lilypond assignment)			 : (display-combo "assignment" $2)
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
+		   
  )
 	
  (toplevel_expression
 			(score_block)				: $1
 			(composite_music)			: $1
-			;(WHITESPACE)				: #f			
 			(ERROR)						: (display-combo "toplevel error" $1) 			
  )	
  
@@ -135,33 +206,120 @@
 		;else
 		;	$$ = MAKE_SYNTAX ("event-chord", @$, scm_list_1 ($1));
 	
-	;| post_event {
-	;	$$ = $1;
-	;}
+	(post_event) : $1
+	
 	;| number_expression {
  	;	$$ = $1;
 	;}
 	(string) : $1
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
 	)
- 
- (string
-	(STRING)				: $1
-	;(STRING_IDENTIFIER) 	: $1
-	;(string PLUS string) 	: (string-append $1 $3)
+
+ (simple_music
+	(event_chord)					: $1	
+    ;(MUSIC_IDENTIFIER)				: $1
+	;(music_property_def)			: $1
+	(context_change)				: $1
+		
  )
+	
+ (context_modification
+        ;WITH { PARSER->lexer_->push_initial_state (); } '{' context_mod_list '}'
+        ;{
+        ;        PARSER->lexer_->pop_state ();
+        ;        $$ = $4;
+        ;}        
+        ( WITH CONTEXT_MOD_IDENTIFIER ) : $2       
+        ( CONTEXT_MOD_IDENTIFIER ) 		: $1
+        
+  )
+        
+	
+ (optional_context_mod
+        () : ""
+        (context_modification) : $1      
+  )
+       
  
  (composite_music	
-	(grouped_music_list)			: $1
+	(prefix_composite_music) 	: $1
+	(grouped_music_list)		: $1
  )
  
  (grouped_music_list
+	(simultaneous_music)			: $1
 	(sequential_music)				: $1
  )	
  
- (sequential_music
-	(  { music_list }  )			: $2
- )
+ (optional_id
+	() : ""
+	(EQUAL simple_string) : $2
+  )
+	
+
+ 
+ (prefix_composite_music
+;	generic_prefix_music_scm {
+;		$$ = run_music_function (PARSER, $1);
+;	}
+	(CONTEXT simple_string optional_id optional_context_mod music) : (string-append $1 $2 $3 $4 $5)
+;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
+;                SCM mods = SCM_EOL;
+;                if (ctxmod)
+;                        mods = ctxmod->get_mods ();
+;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
+;	}
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (string-append $1 $2 $3 $4 $5)
+;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
+;                SCM mods = SCM_EOL;
+;                if (ctxmod)
+;                        mods = ctxmod->get_mods ();
+;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_T);
+;	}
+;
+;	| TIMES fraction music {
+;                $$ = MAKE_SYNTAX ("time-scaled-music", @$, $2, $3);
+;	}
+;	| repeated_music		{ $$ = $1; }
+;	| TRANSPOSE pitch_also_in_chords pitch_also_in_chords music {
+;		Pitch from = *unsmob_pitch ($2);
+;		Pitch to = *unsmob_pitch ($3);
+;		SCM pitch = pitch_interval (from, to).smobbed_copy ();
+;		$$ = MAKE_SYNTAX ("transpose-music", @$, pitch, $4);
+;	}
+;	| mode_changing_head grouped_music_list {
+;		if ($1 == ly_symbol2scm ("chords"))
+;		{
+;		  $$ = MAKE_SYNTAX ("unrelativable-music", @$, $2);
+;		}
+;		else
+;		{
+;		  $$ = $2;
+;		}
+;		PARSER->lexer_->pop_state ();
+;	}
+;	| mode_changing_head_with_context optional_context_mod grouped_music_list {
+;                Context_mod *ctxmod = unsmob_context_mod ($2);
+;                SCM mods = SCM_EOL;
+;                if (ctxmod)
+;                        mods = ctxmod->get_mods ();
+;		$$ = MAKE_SYNTAX ("context-specification", @$, $1, SCM_EOL, $3, mods, SCM_BOOL_T);
+;		if ($1 == ly_symbol2scm ("ChordNames"))
+;		{
+;		  $$ = MAKE_SYNTAX ("unrelativable-music", @$, $$);
+;		}
+;		PARSER->lexer_->pop_state ();
+;	}
+;	| relative_music	{ $$ = $1; }
+;	| re_rhythmed_music	{ $$ = $1; }
+;	;
+  )
+ 
+  (context_change
+	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)   ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
+  )
+	
+
  
  (music_list
 	(music_list music)				: (begin (append! notelist (list $2)) notelist) 
@@ -173,12 +331,42 @@
 	(composite_music)				: $1 ; for {c { d e } } constructions
  )
  
- (simple_music
-	(event_chord)					: $1		
+ (alternative_music
+	() : ""
+	(ALTERNATIVE { music_list }) : $3
+  )
+
+ (repeated_music
+	(REPEAT simple_string unsigned_number music alternative_music) : (string-append $1 $2 $3 $4 $5)	;	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
+	
  )
+	
+ (sequential_music
+	( SEQUENTIAL { music_list } )   : $3
+	(  { music_list }  )			: $2
+ )
+
+  (simultaneous_music
+	(SIMULTANEOUS { music_list }): $3 ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
+	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : $2 ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
+  )
+ 
+ 
+ (string
+	(STRING)				: $1
+	;(STRING_IDENTIFIER) 	: $1
+	;(string PLUS string) 	: (string-append $1 $3)
+ )
+ 
+ (simple_string
+   (STRING) 			 : $1
+	;(LYRICS_STRING)	 : $1	
+	;(STRING_IDENTIFIER) : $1
+  ) 
  
  (event_chord
 	(simple_chord_elements)			: $1
+	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (string-append $1 $2 $3) 		
  )
  
  (score_block
@@ -198,7 +386,7 @@
  
  (simple_element
 	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append $1 $2 $3 $4 $5 $6)  
-	(RESTNAME optional_notemode_duration) : (string-append $1 $2)		
+	(RESTNAME optional_notemode_duration) : (string-append $1 $2)	
  )
  
  (simple_chord_elements
@@ -217,8 +405,8 @@
 	
  (multiplied_duration
 	(steno_duration) : $1
-	(multiplied_duration STAR bare_unsigned)  	: $3 ;	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
-	(multiplied_duration STAR FRACTION) 		: $3 ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
+	(multiplied_duration STAR bare_unsigned)  	: (string-append $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
+	(multiplied_duration STAR FRACTION) 		: (string-append $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
  )
 	
  (steno_duration
@@ -254,7 +442,23 @@
  
  (pitch
 	(steno_pitch)					: $1
-)
+ )
+
+ (post_events
+	() : ""
+	(post_events post_event) : (string-append $1 $2)
+ )
+
+ (post_event
+  ;many things are missing here
+  (string_number_event) : $1 
+ )
+  
+ (string_number_event
+	(E_UNSIGNED) : $1
+ )
+	
+
  
  (octave_check
 	() : "" 

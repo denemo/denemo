@@ -46,7 +46,8 @@ BOM_UTF8			\357\273\277
 ;     message (_ ("Skipping UTF-8 BOM"));
 
 
-\\version{WHITE}*			(lyimport::mtoken 'ERROR	yytext) ; skip version, originally its a state switch yy_push_state (version)
+\\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'ERROR	yytext) ; skip version, originally its a state switch yy_push_state (version)
+%.*{NEWLINE}				(yycontinue)
 \\sourcefilename{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefilename)
 \\sourcefileline{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefileline)
 \\maininput         		(lyimport::mtoken 'ERROR	yytext) ; if (!is_main_input_) (block: start_main_input (); is_main_input_ = true; ) ELSE	error (_ ("\\maininput not allowed outside init files"));
