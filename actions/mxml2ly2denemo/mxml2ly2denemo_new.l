@@ -1,4 +1,3 @@
-notename			c|cis|ces|cisis|ceses|d|dis|des|disis|deses|e|eis|es|ees|eisis|eses|eeses|f|fis|fes|fisis|feses|g|gis|ges|gisis|geses|a|ais|as|aes|aisis|aeses|ases|b|bis|bes|bisis|beses|h|his|hes|hisis|heses
 A					[a-zA-Z\200-\377]
 AA					{A}|_
 N					[0-9]

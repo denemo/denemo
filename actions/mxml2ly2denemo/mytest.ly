@@ -3,6 +3,8 @@
 % converted from mytest.xml
 %\include "mytest-defs.ly" 
 
+%NilsAssign = { b b b b }
+
 PartPOneVoiceOne =  {
     |  % 1
     % \clef "G" \key f \major \time 3/4 | % 1

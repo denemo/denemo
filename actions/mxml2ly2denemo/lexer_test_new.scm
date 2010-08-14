@@ -27,13 +27,41 @@
 	(list "c" "cis" "ces" "cisis" "ceses" "d" "dis" "des" "disis" "deses" "e" "eis" "es" "ees" "eisis" "eses" "eeses" "f" "fis" "fes" "fisis" "feses" "g" "gis" "ges" "gisis" "geses" "a" "ais" "as" "aes" "aisis" "aeses" "ases" "b" "bis" "bes" "bisis" "beses" "h" "his" "hes" "hisis" "heses")
 )
 
+;Blank Table of Assignments
+(define lyimport::AssignmentTable (make-hash-table 50))
+	;(hashq-set! lyimport::AssignmentTable 'name_of_assignment_var_as_symbol value_of_assignment) ; Template
+
+	
+
+
 ;"Magical Token". Wrapper to make returning a token easier, without all the positions and input ports
 (define (lyimport::mtoken symbol value) 
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
 )
 
 
+(define (lyimport::eval_assignment yytext)
+	(display yytext)
+)
+
+
 (define (lyimport::scan_escaped_word yytext)
+
+	;Helper to check if the escaped word is a user assignment. 
+	(define (assignment? yytext)
+		
+		(if (hashq-ref lyimport::AssignmentTable (string->symbol yytext))
+			#t
+			#f
+		)
+	)
+	
+	;Helper to process the value of an assignment
+	(define (lyimport::eval_assignment yytext)	
+		(lyimport::mtoken 'STOREDASSIGNMENT (hashq-ref lyimport::AssignmentTable (string->symbol yytext)))
+	)
+	
+
 	(cond
 		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
 				
@@ -71,23 +99,69 @@
 		((string-ci=? "in" yytext) (lyimport::mtoken 'IN_T yytext))
 		((string-ci=? "key" yytext) (lyimport::mtoken 'KEY yytext))
 		((string-ci=? "mark" yytext) (lyimport::mtoken 'MARK yytext))
+		((string-ci=? "new" yytext) (lyimport::mtoken 'NEWCONTEXT yytext))
+		((string-ci=? "pitch" yytext) (lyimport::mtoken 'PITCH yytext))
+		((string-ci=? "time" yytext) (lyimport::mtoken 'TIME_T yytext))
+		((string-ci=? "times" yytext) (lyimport::mtoken 'TIMES yytext))
+		((string-ci=? "layout" yytext) (lyimport::mtoken 'LAYOUT yytext))
+		((string-ci=? "lyricmode" yytext) (lyimport::mtoken 'LYRICMODE yytext))
+		((string-ci=? "lyrics" yytext) (lyimport::mtoken 'LYRICS yytext))
+		((string-ci=? "lyricsto" yytext) (lyimport::mtoken 'LYRICSTO yytext))
+		((string-ci=? "midi" yytext) (lyimport::mtoken 'MIDI yytext))
+		((string-ci=? "mm" yytext) (lyimport::mtoken 'MM_T yytext))
+		((string-ci=? "name" yytext) (lyimport::mtoken 'NAME yytext))
+		((string-ci=? "pitchnames" yytext) (lyimport::mtoken 'PITCHNAMES yytext))
+		((string-ci=? "notes" yytext) (lyimport::mtoken 'NOTES yytext))
+		((string-ci=? "outputproperty" yytext) (lyimport::mtoken 'OUTPUTPROPERTY yytext))
+		((string-ci=? "override" yytext) (lyimport::mtoken 'OVERRIDE yytext))
+		((string-ci=? "set" yytext) (lyimport::mtoken 'SET yytext))
+		((string-ci=? "rest" yytext) (lyimport::mtoken 'REST yytext))
+		((string-ci=? "revert" yytext) (lyimport::mtoken 'REVERT yytext))
+		((string-ci=? "partial" yytext) (lyimport::mtoken 'PARTIAL yytext))
+		((string-ci=? "paper" yytext) (lyimport::mtoken 'PAPER yytext))
+		((string-ci=? "penalty" yytext) (lyimport::mtoken 'PENALTY yytext))
+		((string-ci=? "property" yytext) (lyimport::mtoken 'PROPERTY yytext))
+		((string-ci=? "pt" yytext) (lyimport::mtoken 'PT_T yytext))
+		((string-ci=? "relative" yytext) (lyimport::mtoken 'RELATIVE yytext))
+		((string-ci=? "remove" yytext) (lyimport::mtoken 'REMOVE yytext))
+		((string-ci=? "repeat" yytext) (lyimport::mtoken 'REPEAT yytext))
+		((string-ci=? "addlyrics" yytext) (lyimport::mtoken 'ADDLYRICS yytext))
+		((string-ci=? "partcombine" yytext) (lyimport::mtoken 'PARTCOMBINE yytext))
+		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
+		((string-ci=? "script" yytext) (lyimport::mtoken 'SCRIPT yytext))
+		((string-ci=? "stylesheet" yytext) (lyimport::mtoken 'STYLESHEET yytext))
+		((string-ci=? "skip" yytext) (lyimport::mtoken 'SKIP yytext))
+		((string-ci=? "tempo" yytext) (lyimport::mtoken 'TEMPO yytext))
+		((string-ci=? "translator" yytext) (lyimport::mtoken 'TRANSLATOR yytext))
+		((string-ci=? "transpose" yytext) (lyimport::mtoken 'TRANSPOSE yytext))
+		((string-ci=? "type" yytext) (lyimport::mtoken 'TYPE yytext))
+		((string-ci=? "unset" yytext) (lyimport::mtoken 'UNSET yytext))
+		((string-ci=? "version" yytext) (lyimport::mtoken 'LILYVERSION yytext))
 
-		; New ones
-		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
-		
 		;From parser.yy %token TOKEN "\\keyword"
 		((string-ci=? "change" yytext) (lyimport::mtoken 'CHANGE yytext))
-		((string-ci=? "sequential" yytext) (lyimport::mtoken 'SEQUENTIAL yytext))
-		((string-ci=? "simultaneous" yytext) (lyimport::mtoken 'SIMULTANEOUS yytext))		
-		((string-ci=? "repeat" yytext) (lyimport::mtoken 'REPEAT yytext))
-		((string-ci=? "alternative" yytext) (lyimport::mtoken 'ALTERNATIVE yytext))		
 		((string-ci=? "with" yytext) (lyimport::mtoken 'WITH yytext))		
-		  ;/* Keyword token exceptions.  */
-			((string-ci=? "time" yytext) (lyimport::mtoken 'TIME_T yytext))
-			((string-ci=? "new" yytext) (lyimport::mtoken 'NEWCONTEXT yytext))
-
-
-				
+		((string-ci=? "book" yytext) (lyimport::mtoken 'BOOK yytext))
+		((string-ci=? "bookpart" yytext) (lyimport::mtoken 'BOOKPART yytext))
+		((string-ci=? "chordmode" yytext) (lyimport::mtoken 'CHORDMODE yytext))
+		((string-ci=? "defaultchild" yytext) (lyimport::mtoken 'DEFAULTCHILD yytext))
+		((string-ci=? "description" yytext) (lyimport::mtoken 'DESCRIPTION yytext))
+		((string-ci=? "drummode" yytext) (lyimport::mtoken 'DRUMMODE yytext))
+		((string-ci=? "drums" yytext) (lyimport::mtoken 'DRUMS yytext))
+		((string-ci=? "figuremode" yytext) (lyimport::mtoken 'FIGUREMODE yytext))
+		((string-ci=? "invalid" yytext) (lyimport::mtoken 'INVALID yytext))
+		((string-ci=? "markup" yytext) (lyimport::mtoken 'MARKUP yytext))
+		((string-ci=? "markuplines" yytext) (lyimport::mtoken 'MARKUPLINES yytext))
+		((string-ci=? "notemode" yytext) (lyimport::mtoken 'NOTEMODE yytext))
+		((string-ci=? "octave" yytext) (lyimport::mtoken 'OCTAVE yytext))
+		
+		; Denemo specific
+		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
+		
+        ;If its not a known keyword its probably a user assignment:
+        ((assignment? yytext) (lyimport::eval_assignment yytext) )
+        
+        ;If its not a keyword or an assignment its wrong				
 		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
 		)
 		
@@ -159,7 +233,7 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT STOREDASSIGNMENT
    )
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
@@ -168,7 +242,7 @@
  (lilypond 
 		   ()								 : ""
 		   (lilypond toplevel_expression)	 : (display-combo "toplevel_expression" $2)
-		   (lilypond assignment)			 : (display-combo "assignment" $2)
+		   (lilypond assignment)			 : (hashq-set! lyimport::AssignmentTable (string->symbol (car $2)) (cdr $2))
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
 		   
@@ -176,7 +250,7 @@
 	
  (toplevel_expression
 			(score_block)				: $1
-			(composite_music)			: $1
+			(composite_music)			: $1			
 			(ERROR)						: (display-combo "toplevel error" $1) 			
  )	
  
@@ -186,7 +260,7 @@
  )
  
  (assignment
-	(assignment_id EQUAL identifier_init)  : (list $1 $3) ;maybe a hashtable? ;PARSER->lexer_->set_identifier ($1, $3);
+	(assignment_id EQUAL identifier_init)  : (cons $1 $3) ;(list $1 $3) ;PARSER->lexer_->set_identifier ($1, $3);
 	;(assignment_id property_path EQUAL identifier_init) : #t ; see next two lines for original actions
 		;SCM path = scm_cons (scm_string_to_symbol ($1), $2);
 		;PARSER->lexer_->set_identifier (path, $4);	
@@ -242,8 +316,9 @@
        
  
  (composite_music	
-	(prefix_composite_music) 	: $1
-	(grouped_music_list)		: $1
+	(prefix_composite_music) 	: (begin (display "prefix!!\n") $1)
+	(grouped_music_list)		: (begin (display "grouped!!\n") $1)
+	
  )
  
  (grouped_music_list
