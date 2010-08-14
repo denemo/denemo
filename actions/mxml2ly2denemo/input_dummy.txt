@@ -1,5 +1,0 @@
-\score {
-	{c,!!? b2.. r { b b b } d' r2 g,,= h''=2.}    
-}
-
-test = {c d e f=4 g2} 
