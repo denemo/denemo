@@ -1,12 +1,31 @@
 ;; MusicXML to Lilypond to Denemo
-;; A Lexer / Parser to import ly-converted mxml files into Denemo
+;; A Lexer / Parser to import ly-converted mxml files into Denemo or other formats by modifying the lyimport:: functions
 ;; By Richard Shann and Nils Gey, July / August 2010
 ;; Usage of SILex and LALR-scm 
-;;;;;;;;;;;;;;;;;;;;;;;;
-
+; This file is part of Denemo, http://www.denemo.org
+;
+;  Its based on Lilyponds parser.yy: 
+;		Copyright (C) 1997--2010 Han-Wen Nienhuys <hanwen@xs4all.nl>
+;								 Jan Nieuwenhuizen <janneke@gnu.org>
+;								 
+; Denemo is free software: you can redistribute it and/or modify
+;  it under the terms of the GNU General Public License as published by
+;  the Free Software Foundation, either version 3 of the License, or
+;  (at your option) any later version.
+;
+;  Denemo is distributed in the hope that it will be useful,
+;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;  GNU General Public License for more details.
+;
+;  You should have received a copy of the GNU General Public License
+;  along with Denemo.  If not, see <http://www.gnu.org/licenses/>.
+;;
 ;;TOC
-;; Libs
+;; Libs, 
 ;; init input port
+;; Initialize lists and tables
+;; Prepare lyimport:: functions
 ;; load and init lexer
 ;; lalr-parser definition
 ;; execute the parser
@@ -31,7 +50,27 @@
 (define lyimport::AssignmentTable (make-hash-table 50))
 	;(hashq-set! lyimport::AssignmentTable 'name_of_assignment_var_as_symbol value_of_assignment) ; Template
 
-	
+
+
+; Assignment functions. Wants two symbols and something of your own choice
+
+(define (lyimport::as-create key pair-type-and-value)
+	(hashq-set! lyimport::AssignmentTable key pair-type-and-value)
+)
+
+(define (lyimport::as-type key)
+		'MUSIC_IDENTIFIER
+		;(hashq-ref lyimport::AssignmentTable key)
+)
+
+(define (lyimport::as-value key)
+    	(hashq-ref lyimport::AssignmentTable key)
+)	
+
+
+(define (lyimport::as-eval key)
+	    (lyimport::mtoken (lyimport::as-type key) (lyimport::as-value key)) 
+)
 
 
 ;"Magical Token". Wrapper to make returning a token easier, without all the positions and input ports
@@ -40,27 +79,9 @@
 )
 
 
-(define (lyimport::eval_assignment yytext)
-	(display yytext)
-)
 
 
 (define (lyimport::scan_escaped_word yytext)
-
-	;Helper to check if the escaped word is a user assignment. 
-	(define (assignment? yytext)
-		
-		(if (hashq-ref lyimport::AssignmentTable (string->symbol yytext))
-			#t
-			#f
-		)
-	)
-	
-	;Helper to process the value of an assignment
-	(define (lyimport::eval_assignment yytext)	
-		(lyimport::mtoken 'STOREDASSIGNMENT (hashq-ref lyimport::AssignmentTable (string->symbol yytext)))
-	)
-	
 
 	(cond
 		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
@@ -159,7 +180,7 @@
 		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
 		
         ;If its not a known keyword its probably a user assignment:
-        ((assignment? yytext) (lyimport::eval_assignment yytext) )
+        ((lyimport::as-type yytext) (lyimport::as-eval yytext))
         
         ;If its not a keyword or an assignment its wrong				
 		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
@@ -233,7 +254,7 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT STOREDASSIGNMENT
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER
    )
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
@@ -242,7 +263,7 @@
  (lilypond 
 		   ()								 : ""
 		   (lilypond toplevel_expression)	 : (display-combo "toplevel_expression" $2)
-		   (lilypond assignment)			 : (hashq-set! lyimport::AssignmentTable (string->symbol (car $2)) (cdr $2))
+		   (lilypond assignment)			 : (lyimport::as-create (car $2) (cdr $2)) 
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
 		   
@@ -260,7 +281,7 @@
  )
  
  (assignment
-	(assignment_id EQUAL identifier_init)  : (cons $1 $3) ;(list $1 $3) ;PARSER->lexer_->set_identifier ($1, $3);
+	(assignment_id EQUAL identifier_init)  : (cons $1 $3) 
 	;(assignment_id property_path EQUAL identifier_init) : #t ; see next two lines for original actions
 		;SCM path = scm_cons (scm_string_to_symbol ($1), $2);
 		;PARSER->lexer_->set_identifier (path, $4);	
@@ -268,7 +289,7 @@
  
  (identifier_init
 	(score_block) : $1	
-	(music) : $1
+	(music) : (cons 'MUSIC_IDENTIFIER $1)
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -291,7 +312,7 @@
 
  (simple_music
 	(event_chord)					: $1	
-    ;(MUSIC_IDENTIFIER)				: $1
+    (MUSIC_IDENTIFIER)				: $1
 	;(music_property_def)			: $1
 	(context_change)				: $1
 		
@@ -337,14 +358,14 @@
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
-	(CONTEXT simple_string optional_id optional_context_mod music) : (string-append $1 $2 $3 $4 $5)
+	(CONTEXT simple_string optional_id optional_context_mod music) : (list $1 $2 $3 $4 $5)
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (string-append $1 $2 $3 $4 $5)
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (list $1 $2 $3 $4 $5)
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -412,7 +433,7 @@
   )
 
  (repeated_music
-	(REPEAT simple_string unsigned_number music alternative_music) : (string-append $1 $2 $3 $4 $5)	;	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
+	(REPEAT simple_string unsigned_number music alternative_music) : (list $1 $2 $3 $4 $5)	;	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
 	
  )
 	
@@ -567,7 +588,13 @@
 		(display arg2)(newline)
 )
 
+
 (mxml2ly2denemo-parser lexer displayerror)
 
+;(display lyimport::AssignmentTable)(newline)
+;(display (hash-map->list cons lyimport::AssignmentTable))(newline)
+
+
+(newline)
 ;; Close input port
 (close (current-input-port)) 

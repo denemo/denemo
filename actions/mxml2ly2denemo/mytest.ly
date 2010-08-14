@@ -3,7 +3,7 @@
 % converted from mytest.xml
 %\include "mytest-defs.ly" 
 
-%NilsAssign = { b b b b }
+NilsAssign = { b b b b }
 
 PartPOneVoiceOne =  {
     |  % 1
@@ -45,6 +45,10 @@ PartPOneVoiceOne =  {
 		<<
         \new Staff <<
                 \context Voice = "PartPOneVoiceOne"  \PartPOneVoiceOne
+                >>
+                
+        \new Staff <<
+                \context Voice = "NilsAssign"  \NilsAssign
                 >>
         >>
 
