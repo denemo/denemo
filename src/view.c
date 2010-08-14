@@ -4093,6 +4093,10 @@ close_gui_with_check (GtkAction *action, gpointer param)
     storeWindowState ();
     writeHistory ();
     writeXMLPrefs(&Denemo.prefs);
+#ifdef G_OS_WIN32
+    CoUninitialize();
+#endif
+
     /* ext_quit ();  clean players pidfiles (see external.c) DISUSED */
     exit(0);//do not use gtk_main_quit, as there may be inner loops active.
   }
