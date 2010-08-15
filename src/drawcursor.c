@@ -20,7 +20,7 @@
  */
 void
 draw_cursor (cairo_t *cr, DenemoScore * si,
-	     gint xx, gint y, input_mode mode, gint dclef)
+	     gint xx, gint y, gint last_gap, input_mode mode, gint dclef)
 {
   if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
@@ -61,7 +61,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
     gdouble length = 20/si->zoom;
     if(!si->cursor_appending) {
       setcairocolor( cr, bluegc );
-      cairo_move_to( cr, xx-2, y);
+      cairo_move_to( cr, xx-last_gap/4, y);
       cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
       cairo_stroke( cr );
       setcairocolor( cr, paintgc );

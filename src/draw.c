@@ -104,7 +104,7 @@ struct infotopass
   gint measurenum;//would need measurenum_adj to allow control of numbering after pickup etc...
   gint staffnum;
   gint top_y;
-  //gint y;
+  gint last_gap;//horizontal gap from last object
   gint markx1, markx2;
   gint marky1, marky2;
   gboolean line_end;//set true when an object is drawn off the right hand edge
@@ -224,7 +224,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
 
   /* The current note, rest, etc. being painted */
-  gint extra;
+ 
   if(mudelaitem == Denemo.gui->si->playingnow)
     itp->playposition = x + mudelaitem->x;
 
@@ -415,6 +415,10 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       /* Nothing */
       break;
     }
+
+  gint extra = MAX (mudelaitem->minpixelsalloted,
+		    space_after (mudelaitem->durinticks,
+				 itp->wholenotewidth));
   if (si->currentobject == curobj)
     {				/* Draw the cursor */
       /* Determine if it needs to be red or not */
@@ -426,22 +430,20 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 	  (mudelaitem->starttickofnextnote > itp->tickspermeasure);
       if (si->cursor_appending)
 	{
-	  extra = MAX (mudelaitem->minpixelsalloted,
-		       space_after (mudelaitem->durinticks,
-				    itp->wholenotewidth));
-	  draw_cursor (cr, si, x + mudelaitem->x + extra, y,
+
+	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, itp->last_gap,
 		       gui->mode, si->cursorclef);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
 	}
       else
 	{
-	  draw_cursor (cr, si, x + mudelaitem->x, y, gui->mode,
+	  draw_cursor (cr, si, x + mudelaitem->x, y, itp->last_gap, gui->mode,
 		       si->cursorclef);
 	}
     }
       /* End cursor drawing */
 
-
+  itp->last_gap = extra;
   /* Now quite possibly update the mark */
 
   if (si->firststaffmarked == itp->staffnum
@@ -518,7 +520,7 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
     {
       /* That is, the cursor's at the beginning of this blank measure */
       si->cursoroffend = FALSE; 
-      draw_cursor (cr, si, x, y, gui->mode, itp->clef->type);
+      draw_cursor (cr, si, x, y, 0, gui->mode, itp->clef->type);
       memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
       si->cursorclef = itp->clef->type;     
     }
@@ -771,7 +773,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  // if(Denemo.gui->si->playingnow)
 	  //	continue;//don't show grayed out measures while playing.
 	}
-      
+      itp->last_gap = 0;
       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
@@ -923,6 +925,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 
   itp.highy = 0;//in case there are no objects...
   itp.lowy = 0;
+  itp.last_gap = 0;
   itp.last_midi = NULL;
   itp.playposition = -1;
   itp.startposition = -1;
