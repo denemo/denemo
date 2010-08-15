@@ -1,18 +1,18 @@
-/* drawcursor.cpp
+/* drawcursor.c
  * functions for drawing the cursor
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005  Matthew Hiller, Adam Tee
+ * (c) 1999-2005  Matthew Hiller, Adam Tee, 2010 Richard Shann
  */
 #include <math.h>
 #include "drawingprims.h"
 #include "gcs.h"
 #include "utils.h"
 
-#define CURSOR_MINUS 2
-#define CURSOR_WIDTH 10
-#define CURSOR_HEIGHT 5
 
+#define CURSOR_WIDTH 10
+#define CURSOR_HEIGHT 6
+#define CURSOR_MINUS (CURSOR_HEIGHT/2)
 
 /**
  * Draw the cursor on the canvas at the given position
@@ -52,7 +52,7 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
   cairo_save( cr );
   setcairocolor( cr, paintgc );
   if(si->cursor_appending)
-    cairo_rectangle( cr, xx, height + y, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
+    cairo_rectangle( cr, xx, height + y - CURSOR_HEIGHT, 2*CURSOR_WIDTH, 2*CURSOR_HEIGHT );
   else
     cairo_rectangle( cr, xx, height + y - CURSOR_MINUS, CURSOR_WIDTH, CURSOR_HEIGHT );
   cairo_fill( cr );
