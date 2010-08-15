@@ -46,7 +46,7 @@ gboolean run_file_association(gchar *filename) {
     g_print("coinit returned %d\n", value);
   }
   g_print("Running ShellExecute %s \n", filename);
-  return ShellExecute(NULL, "open", filename, NULL, NULL, 0) > 32/* value above 32 indicating success */;
+  return ShellExecute(NULL, NULL, filename, NULL, NULL, 0) > 32/* value above 32 indicating success */;
 #else
   g_warning("No file assoc code - set pref in externals tab of prefs dialog");
   return 0;
