@@ -59,21 +59,21 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
 
   if(Denemo.prefs.cursor_highlight) {
     gdouble length = 20/si->zoom;
+    gdouble insert_pos = CURSOR_WIDTH*0.8;
     if(!si->cursor_appending) {
-      setcairocolor( cr, bluegc );
-      cairo_move_to( cr, xx-last_gap/4, y);
-      cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
-      cairo_stroke( cr );
-      setcairocolor( cr, paintgc );
+      insert_pos = -last_gap/4;
     }
+    setcairocolor( cr, bluegc );
+    cairo_move_to( cr, xx+insert_pos, y);
+    cairo_rel_line_to( cr, 0, STAFF_HEIGHT);
+    cairo_stroke( cr );
+    setcairocolor( cr, paintgc );
+
     cairo_set_line_width (cr, 6.0/si->zoom);
     cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
 
-
     cairo_arc(cr, xx + CURSOR_WIDTH/2, height + y, length, 0, 2 * M_PI);
-
     cairo_stroke( cr );
-   
   }
   cairo_restore( cr );
 

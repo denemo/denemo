@@ -763,9 +763,6 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   while ( (!itp->line_end)  //       itp->measurenum <= si->rightmeasurenum+1
 	 && itp->measurenum <= g_list_length (thestaff->measures))
     {
-      
-
-
       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
 	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
 	if(itp->curmeasure->next) {
