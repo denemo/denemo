@@ -41,42 +41,45 @@
 
 ;; Lexer and helper-functions that return TOKEN indirectly
 
+;; Lists to save music and create the final output
+(define current_notelist '())
+(define final_list (list #t ))
+
+
 ; List of Notenames
 (define lyimport::list_of_notenames
 	(list "c" "cis" "ces" "cisis" "ceses" "d" "dis" "des" "disis" "deses" "e" "eis" "es" "ees" "eisis" "eses" "eeses" "f" "fis" "fes" "fisis" "feses" "g" "gis" "ges" "gisis" "geses" "a" "ais" "as" "aes" "aisis" "aeses" "ases" "b" "bis" "bes" "bisis" "beses" "h" "his" "hes" "hisis" "heses")
 )
 
 ;Blank Table of Assignments
-(define lyimport::AssignmentTable (make-hash-table 50))
+(define lyimport::AssignmentTable (make-hash-table))
 	;(hashq-set! lyimport::AssignmentTable 'name_of_assignment_var_as_symbol value_of_assignment) ; Template
 
 
 
-; Assignment functions. Wants two symbols and something of your own choice
-
+; Assignment functions. Wants a string as type and something of your own choice (for example a music list)
 (define (lyimport::as-create key pair-type-and-value)
-	(hashq-set! lyimport::AssignmentTable key pair-type-and-value)
+		(hashq-set! lyimport::AssignmentTable (string->symbol key) pair-type-and-value)
 )
 
 (define (lyimport::as-type key)
-		'MUSIC_IDENTIFIER
-		;(hashq-ref lyimport::AssignmentTable key)
+		(car (hashq-ref lyimport::AssignmentTable (string->symbol key)))
 )
 
 (define (lyimport::as-value key)
-    	(hashq-ref lyimport::AssignmentTable key)
+    	(cdr (hashq-ref lyimport::AssignmentTable (string->symbol key)))
 )	
 
 
-(define (lyimport::as-eval key)
-	    (lyimport::mtoken (lyimport::as-type key) (lyimport::as-value key)) 
+(define (lyimport::as-eval key)		
+	    (lyimport::mtoken 'MUSIC_IDENTIFIER (lyimport::as-value key)) 
 )
 
 
 ;"Magical Token". Wrapper to make returning a token easier, without all the positions and input ports
 (define (lyimport::mtoken symbol value) 
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
-)
+)	
 
 
 
@@ -261,9 +264,9 @@
 		;CONTEXT_MOD_IDENTIFIER   too
 
  (lilypond 
-		   ()								 : ""
-		   (lilypond toplevel_expression)	 : (display-combo "toplevel_expression" $2)
-		   (lilypond assignment)			 : (lyimport::as-create (car $2) (cdr $2)) 
+		   ()								 : ""  
+		   (lilypond toplevel_expression)	 : (append! final_list $2) ; (display-combo "toplevel_expression" $2)
+		   (lilypond assignment)			 : (cons 'MUSIC_ASSIGNMENT #t) 
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
 		   
@@ -281,15 +284,15 @@
  )
  
  (assignment
-	(assignment_id EQUAL identifier_init)  : (cons $1 $3) 
+	(assignment_id EQUAL identifier_init)  : (lyimport::as-create $1 $3)  
 	;(assignment_id property_path EQUAL identifier_init) : #t ; see next two lines for original actions
 		;SCM path = scm_cons (scm_string_to_symbol ($1), $2);
 		;PARSER->lexer_->set_identifier (path, $4);	
  )
  
  (identifier_init
-	(score_block) : $1	
-	(music) : (cons 'MUSIC_IDENTIFIER $1)
+	(score_block) : (begin (display "Found scoreblock as ident while creating assignment: ") (display $1)(newline)  (cons 'SCORE_IDENTIFIER $1)	)
+	(music) : (begin (display "Found music as ident while creating assignment: ") (display $1)(newline) (cons 'MUSIC_IDENTIFIER $1))
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -312,8 +315,9 @@
 
  (simple_music
 	(event_chord)					: $1	
-    (MUSIC_IDENTIFIER)				: $1
-	;(music_property_def)			: $1
+    		
+    (MUSIC_IDENTIFIER)				: (begin (display "Music_Ident was called by a keyword: ")(display $1)(newline) $1) ; (append! final_list $1))
+    ;(music_property_def)			: $1
 	(context_change)				: $1
 		
  )
@@ -337,8 +341,8 @@
        
  
  (composite_music	
-	(prefix_composite_music) 	: (begin (display "prefix!!\n") $1)
-	(grouped_music_list)		: (begin (display "grouped!!\n") $1)
+	(prefix_composite_music) 	: (begin (display "prefix: ") (display $1)(newline) $1)
+	(grouped_music_list)		: $1
 	
  )
  
@@ -358,14 +362,14 @@
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
-	(CONTEXT simple_string optional_id optional_context_mod music) : (list $1 $2 $3 $4 $5)
+	(CONTEXT simple_string optional_id optional_context_mod music) : (begin (display "Create list CONTEXT: ")(display (list $1 $2 $3 $4 $5))(newline) $5) 
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (list $1 $2 $3 $4 $5)
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (begin (display "Create list NEWCONTEXT: ")(display (list $1 $2 $3 $4 $5))(newline) $5)
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -412,19 +416,20 @@
   )
  
   (context_change
-	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)   ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
+	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
 	
 
  
  (music_list
-	(music_list music)				: (begin (append! notelist (list $2)) notelist) 
-	(music)							: (begin (append! notelist (list $1)) notelist)
+	(music_list music)				: (begin (append! current_notelist (list $2)) current_notelist) 
+	(music)							: (begin (set! current_notelist (list $1)) current_notelist)
  ) 
  
  (music
 	(simple_music)					: $1
 	(composite_music)				: $1 ; for {c { d e } } constructions
+	
  )
  
  (alternative_music
@@ -591,9 +596,19 @@
 
 (mxml2ly2denemo-parser lexer displayerror)
 
-;(display lyimport::AssignmentTable)(newline)
-;(display (hash-map->list cons lyimport::AssignmentTable))(newline)
+(newline)
+(display ":::::::: Parser Finished ::::::::::")(newline)
+(newline)
 
+(display "Hash tables / assignments found: ")(newline)
+(display lyimport::AssignmentTable)(newline)
+;(pretty-print (hash-map->list cons lyimport::AssignmentTable))(newline)
+
+(newline)
+(display "============= Here is the final list =============")(newline)
+(display "============= ====================== =============")(newline)
+(display final_list)(newline)
+(display "============= ====================== =============")(newline)
 
 (newline)
 ;; Close input port

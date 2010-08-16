@@ -3,7 +3,17 @@
 % converted from mytest.xml
 %\include "mytest-defs.ly" 
 
+
+
 NilsAssign = { b b b b }
+
+\score { { d d d \NilsAssign f f }   }
+
+% TODO: string-with-number2 = { c d e } returns DIGIT TOKEN error
+AssignA = { c2 c2 c2 c2 }
+AssignB = { g4 \AssignA g4 }
+AssignC = { \AssignA \AssignB }
+
 
 PartPOneVoiceOne =  {
     |  % 1
@@ -42,13 +52,12 @@ PartPOneVoiceOne =  {
     f'2. ~ | % 33
     f'2 r4 R1*3/4 }
 
+
+
 		<<
         \new Staff <<
-                \context Voice = "PartPOneVoiceOne"  \PartPOneVoiceOne
-                >>
-                
-        \new Staff <<
-                \context Voice = "NilsAssign"  \NilsAssign
-                >>
+               \context Voice = "PartPOneVoiceOne"  \PartPOneVoiceOne
+               \context Voice = "PartPOneVoiceTwo"  \AssignC 
+               >>   
         >>
 
