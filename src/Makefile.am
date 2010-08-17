@@ -7,7 +7,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawlyric.c dynamic.c drawfigure.c exportabc.c exportlilypond.c \
 	exportxml.c file.c gcs.c \
 	headerdialog.c hairpin.c \
-	help.c importxml.c importmidi.c kbd-custom.c kbd-interface.c \
+	help.c importxml.c importmusicxml.c importmidi.c kbd-custom.c kbd-interface.c \
 	keyresponses.c keysigdialog.c figure.c 	main.c \
 	measureops.c midi.c moveviewport.c mousing.c barline.c 	view.c http.c \
 	mwidthdialog.c objops.c exportmidi.c 	instrumentname.c external.c \
@@ -29,7 +29,7 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawingprims.h lyparser.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
 	gcs.h \
-	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h importmidi.h \
+	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
 	keyresponses.h lyparserfuncs.h \
 	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \

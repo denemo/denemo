@@ -1,9 +1,11 @@
-/*	file.cpp
+/*	file.c
+ * License: this file may be used under the FSF GPL version 3 or later
  * 	Denemo File IO 
  *
  * 	for Denemo, a gtk+ frontend to GNU Lilypond
  * 	(c) Adam Tee, Matthew Hiller 2000-2005
  * 	(c) University of Leeds 2000-2005
+ *      (c) Richard Shann 2010
  */
 
 #include "calculatepositions.h"
@@ -21,6 +23,7 @@
 #include "exportxml.h"
 #include "exportmidi.h"
 #include "importxml.h"
+#include "importmusicxml.h"
 #include "exportcsound.h"
 #include "importmidi.h"
 #include "lyparserfuncs.h"
@@ -71,7 +74,8 @@ static struct FileFormatData supported_import_file_formats[] = {
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
   {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
-  {"*.midi", N_("Midi (*.midi)"), ".midi"}
+  {"*.midi", N_("Midi (*.midi)"), ".midi"},
+  {"*.mxml", N_("Music XML (*.mxml)"), ".mxml"}
 };
 
 
@@ -233,16 +237,19 @@ open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType 
   gint result;
   gboolean xml = FALSE;
   result = 1;//FAILURE
+#define EXISTS(extension) (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0)
   if(g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    if (strcmp (filename + strlen (filename) - 7, ".denemo") == 0)
+    if(EXISTS(".denemo"))
       xml=TRUE, result = importXML (filename, gui, type);
-    else if (strcmp (filename + strlen (filename) - 4, ".dnm") == 0)
+    else if(EXISTS(".dnm"))
       xml=TRUE, result = importXML (filename, gui, type);
-    else if (strcmp (filename + strlen (filename) - 3, ".ly") == 0)
+    else if(EXISTS(".ly"))
       result = lyinput (filename, gui);
-    else if (strcmp (filename + strlen (filename) - 4, ".mid") == 0 ||
-	     strcmp (filename + strlen (filename) - 5, ".midi") == 0)
+    else if(EXISTS(".mxml"))
+      result = mxmlinput (filename, gui);
+    else if(EXISTS(".mid") || EXISTS(".midi"))
       result = importMidi (filename, gui);
+#undef EXISTS
   }
   if (result == 0)
     {
