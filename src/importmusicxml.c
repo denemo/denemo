@@ -9,7 +9,7 @@
  * License: this file may be used under the FSF GPL version 3 or later
  */
 #include <denemo/denemo.h>
-
+#include "prefops.h" //for locatedotdenemo()
 gint mxmlinput (gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
 #ifdef G_OS_WIN32
@@ -45,7 +45,8 @@ gint mxmlinput (gchar *filename, DenemoGUI *gui) {
     output = g_build_filename(locatedotdenemo(), "denemoconvert.ly", NULL);
   else
     output = g_build_filename(locatedotdenemo(), "denemoconvert-defs.ly", NULL);
-  g_print("Try for file %s\n", output);
+  //g_print("Try for file %s\n", output);
+  define_scheme_variable("DenemoConvertFilename", output, "Name of file containing LilyPond for input");
   gboolean ret = lyinput(output, gui);
   g_free(output);
   return ret;
