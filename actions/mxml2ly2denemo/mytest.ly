@@ -17,7 +17,9 @@ AssignC = { \AssignA \AssignB }
 
 PartPOneVoiceOne =  {
     |  % 1
-    % \clef "G" \key f \major \time 3/4 | % 1
+   \clef "G"
+    \key f \major
+    \time 3/4 | % 1
     r4 c'4 r4 | % 2
     c''2 a'4 | % 3
     g'2 f'4 | % 4
@@ -30,6 +32,7 @@ PartPOneVoiceOne =  {
     d''2 a'4 | % 11
     c''2 b'4 | % 12
     c''2 g'4 | % 13
+    \key \default 
     bes'2 a'4 | % 14
     a'4 g'4 f'4 | % 15
     d'4 e'4 f'4 | % 16

@@ -51,6 +51,11 @@
 	(list "c" "cis" "ces" "cisis" "ceses" "d" "dis" "des" "disis" "deses" "e" "eis" "es" "ees" "eisis" "eses" "eeses" "f" "fis" "fes" "fisis" "feses" "g" "gis" "ges" "gisis" "geses" "a" "ais" "as" "aes" "aisis" "aeses" "ases" "b" "bis" "bes" "bisis" "beses" "h" "his" "hes" "hisis" "heses")
 )
 
+; List of Special Identifiers
+ (define lyimport::list_of_special_scm_identifiers
+	(list "major" "minor" "dorian" "phrygian" "lydian" "mixolydian")
+ )  
+
 ;Blank Table of Assignments
 (define lyimport::AssignmentTable (make-hash-table))
 	;(hashq-set! lyimport::AssignmentTable 'name_of_assignment_var_as_symbol value_of_assignment) ; Template
@@ -64,6 +69,7 @@
 
 (define (lyimport::as-type key)
 		(car (hashq-ref lyimport::AssignmentTable (string->symbol key)))
+		
 )
 
 (define (lyimport::as-value key)
@@ -72,7 +78,25 @@
 
 
 (define (lyimport::as-eval key)		
-	    (lyimport::mtoken 'MUSIC_IDENTIFIER (lyimport::as-value key)) 
+	    (lyimport::mtoken 'MUSIC_IDENTIFIER (lyimport::as-value key))
+)
+
+
+;Lilyponds "try_special_identifiers" is a part of scan_escaped_words in Denemo and needs this function:
+ (define (lyimport::try_special_identifiers_scm? yytext)
+ 	
+ 	;Helper function to test if the string matches any string of a list of strings, the scm identifiers.
+	(define (scm_identifier?)
+		(let loop ((counter 0))			
+			(cond 
+			  ((> (+ counter 1) (length lyimport::list_of_special_scm_identifiers)) #f)
+			  ((and (<= counter (length lyimport::list_of_special_scm_identifiers)) (string-ci=? yytext (list-ref lyimport::list_of_special_scm_identifiers counter))) #t)
+			  (else (loop (+ counter 1)))
+			)
+		)
+	)
+
+	(scm_identifier?)
 )
 
 
@@ -80,7 +104,6 @@
 (define (lyimport::mtoken symbol value) 
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
 )	
-
 
 
 
@@ -183,9 +206,12 @@
 		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
 		
         ;If its not a known keyword its probably a user assignment:
-        ((lyimport::as-type yytext) (lyimport::as-eval yytext))
+        ((hashq-ref lyimport::AssignmentTable (string->symbol yytext)) (lyimport::as-eval yytext))
         
-        ;If its not a keyword or an assignment its wrong				
+        ;Next test for an try_special_identifiers
+		((lyimport::try_special_identifiers_scm? yytext) (lyimport::mtoken 'SCM_IDENTIFIER yytext))
+        
+        ;If its not a keyword, assignment or special identifier then its wrong				
 		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
 		)
 		
@@ -257,7 +283,8 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER
+   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER SKIP E_BRACKET_OPEN E_BRACKET_CLOSE E_BACKSLASH PIPE PARTIAL SLASH MARK  E_TILDE DEFAULT TEMPO KEY
+    SCM_IDENTIFIER SCM_TOKEN REAL NUMBER_IDENTIFIER COTEXT_MOD_IDENTIFIER
    )
 		;Problems:
 		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
@@ -277,6 +304,11 @@
 			(composite_music)			: $1			
 			(ERROR)						: (display-combo "toplevel error" $1) 			
  )	
+ 
+ (embedded_scm
+	(SCM_TOKEN) : $1 
+	(SCM_IDENTIFIER) : $1
+ )
  
  (assignment_id
 	(STRING)						: $1
@@ -315,8 +347,7 @@
 
  (simple_music
 	(event_chord)					: $1	
-    		
-    (MUSIC_IDENTIFIER)				: (begin (display "Music_Ident was called by a keyword: ")(display $1)(newline) $1) ; (append! final_list $1))
+    (MUSIC_IDENTIFIER)				: (begin (display "Music_Ident was called by a keyword: ")(display $1)(newline) $1) 
     ;(music_property_def)			: $1
 	(context_change)				: $1
 		
@@ -362,14 +393,14 @@
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
-	(CONTEXT simple_string optional_id optional_context_mod music) : (begin (display "Create list CONTEXT: ")(display (list $1 $2 $3 $4 $5))(newline) $5) 
+	(CONTEXT simple_string optional_id optional_context_mod music) : $5 
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) : (begin (display "Create list NEWCONTEXT: ")(display (list $1 $2 $3 $4 $5))(newline) $5)
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) :  $5
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -418,9 +449,7 @@
   (context_change
 	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
-	
-
- 
+	 
  (music_list
 	(music_list music)				: (begin (append! current_notelist (list $2)) current_notelist) 
 	(music)							: (begin (set! current_notelist (list $1)) current_notelist)
@@ -461,13 +490,37 @@
  
  (simple_string
    (STRING) 			 : $1
-	;(LYRICS_STRING)	 : $1	
+   ;(LYRICS_STRING)	 : $1	
 	;(STRING_IDENTIFIER) : $1
   ) 
  
+ (scalar
+   (string) : $1
+   ;(LYRICS_STRING) : $1 
+    (bare_number) : $1  
+    (embedded_scm) : $1 
+	;(full_markup) : $1 
+	(DIGIT) : $1 
+  )
+ 
  (event_chord
-	(simple_chord_elements)			: $1
-	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (string-append $1 $2 $3) 		
+	(simple_chord_elements post_events)			: (string-append $1 $2)
+	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (string-append $1 $2 $3)
+	
+	;| CHORD_REPETITION optional_notemode_duration post_events {
+	;	Input i;
+	;	i.set_location (@1, @3);
+	;	$$ = MAKE_SYNTAX ("repetition-chord", i,
+	;			  PARSER->lexer_->chord_repetition_.last_chord_,
+	;			  PARSER->lexer_->chord_repetition_.repetition_function_,
+	;			  $2, scm_reverse_x ($3, SCM_EOL));
+	
+	(command_element) : $1
+	
+	; note chord elements are memorized into
+	;   PARSER->lexer_->chord_repetition_ so that the chord repetition
+	;   mechanism copy them when a chord repetition symbol is found
+	;(note_chord_element) : $1	;	PARSER->lexer_->chord_repetition_.last_chord_ = $$;
  )
  
  (score_block
@@ -478,6 +531,13 @@
 		(music)						: $1
  )
  
+ (tempo_event
+	(TEMPO steno_duration EQUAL bare_unsigned) : ""  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
+	(TEMPO string steno_duration EQUAL bare_unsigned) : "" ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
+	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
+	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
+	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
+  ) 
 
  
  (optional_rest
@@ -515,6 +575,14 @@
 	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
  )
 	
+ (bare_number
+	(UNSIGNED) : $1
+	(REAL) : $1
+	(NUMBER_IDENTIFIER) : $1
+	(REAL NUMBER_IDENTIFIER) :  "" ;	$$ = scm_from_double (scm_to_double ($1) *scm_to_double ($2));
+	(UNSIGNED NUMBER_IDENTIFIER) : ""  ;	$$ = scm_from_double ($1 *scm_to_double ($2));
+  )
+	
  (bare_unsigned
  	(UNSIGNED) : $1
 	(DIGIT) : $1		
@@ -535,6 +603,10 @@
 	(questions QUESTIONMARK) : (string-append $1 $2)
  )
 
+ (fraction
+	(FRACTION) : $1 
+	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
+  )
 	
  (dots
 	() : ""
@@ -543,6 +615,40 @@
  
  (pitch
 	(steno_pitch)					: $1
+ )
+ 
+ (command_element
+	(command_event) : $1
+	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
+	(E_BRACKET_OPEN) : "" ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
+	(E_BRACKET_CLOSE) : "" ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
+	(E_BACKSLASH) : "" ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
+	(PIPE)		: "" ; look in parser.yy 
+	(PARTIAL duration_length): "" ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
+	(TIME_T fraction) : (string-append $1 $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
+	(MARK scalar) : "" ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+ )
+
+ (command_event
+	(E_TILDE) : "" ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
+	(MARK DEFAULT) : "" ; 	  {
+						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
+						;$$ = m->unprotect ();
+	(tempo_event) :  $1
+	(KEY DEFAULT) : (string-append $1 " " $2) ;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
+					   ;$$ = key->unprotect ();
+	(KEY NOTENAME_PITCH SCM_IDENTIFIER)	: (string-append $1 " " $2 " " $3) 
+		;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
+		;if (scm_ilength ($3) > 0)
+		;{
+		;	key->set_property ("pitch-alist", $3);
+		;	key->set_property ("tonic", Pitch (0, 0, 0).smobbed_copy ());
+		;	key->transpose (* unsmob_pitch ($2));
+		;} else {
+		;	PARSER->parser_error (@3, _ ("second argument must be pitch list"));
+		;}
+
+		;$$ = key->unprotect ();
  )
 
  (post_events
@@ -559,7 +665,6 @@
 	(E_UNSIGNED) : $1
  )
 	
-
  
  (octave_check
 	() : "" 
