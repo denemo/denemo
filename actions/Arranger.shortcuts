@@ -92,31 +92,31 @@
       </row>
       <row>
         <action>A</action>
-        <bind>a</bind>
+        <bind>a,a</bind>
       </row>
       <row>
         <action>B</action>
-        <bind>b</bind>
+        <bind>b,b</bind>
       </row>
       <row>
         <action>C</action>
-        <bind>c</bind>
+        <bind>c,c</bind>
       </row>
       <row>
         <action>D</action>
-        <bind>d</bind>
+        <bind>d,d</bind>
       </row>
       <row>
         <action>E</action>
-        <bind>e</bind>
+        <bind>e,e</bind>
       </row>
       <row>
         <action>F</action>
-        <bind>f</bind>
+        <bind>f,f</bind>
       </row>
       <row>
         <action>G</action>
-        <bind>g</bind>
+        <bind>g,g</bind>
       </row>
       <row>
         <action>OctaveUp</action>
