@@ -43,7 +43,7 @@
 
 ;; Lists to save music and create the final output
 (define current_notelist '())
-(define final_list (list #t ))
+(define final_list (list 'x_LIST ))
 
 
 ; List of Notenames
@@ -105,6 +105,10 @@
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
 )	
 
+(define (lyimport::error yytext)
+	(display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
+	(exit)
+)
 
 
 (define (lyimport::scan_escaped_word yytext)
@@ -266,8 +270,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-; Create a list to store notes
-(define notelist (list #t))
 
 ;Helper to print out a value with a custom description, for console output
 
@@ -284,11 +286,8 @@
   (lalr-parser
    ;; --- token definitions
    (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER SKIP E_BRACKET_OPEN E_BRACKET_CLOSE E_BACKSLASH PIPE PARTIAL SLASH MARK  E_TILDE DEFAULT TEMPO KEY
-    SCM_IDENTIFIER SCM_TOKEN REAL NUMBER_IDENTIFIER COTEXT_MOD_IDENTIFIER
+    SCM_IDENTIFIER SCM_TOKEN REAL NUMBER_IDENTIFIER COTEXT_MOD_IDENTIFIER QUOTED_CHAR CLEF
    )
-		;Problems:
-		;DURATION_IDENTIFIER is returned in Lily_lexer::try_special_identifiers (SCM *destination, SCM sid)
-		;CONTEXT_MOD_IDENTIFIER   too
 
  (lilypond 
 		   ()								 : ""  
@@ -323,8 +322,8 @@
  )
  
  (identifier_init
-	(score_block) : (begin (display "Found scoreblock as ident while creating assignment: ") (display $1)(newline)  (cons 'SCORE_IDENTIFIER $1)	)
-	(music) : (begin (display "Found music as ident while creating assignment: ") (display $1)(newline) (cons 'MUSIC_IDENTIFIER $1))
+	(score_block) : (begin (display "Found scoreblock as ident while creating assignment: ") (display $1)(newline)  (cons 'SCORE_IDENTIFIER (cons 'x_LIST $1))	)
+	(music) : (begin (display "Found music as ident while creating assignment: ") (display $1)(newline) (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1)))
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -504,8 +503,8 @@
   )
  
  (event_chord
-	(simple_chord_elements post_events)			: (string-append $1 $2)
-	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (string-append $1 $2 $3)
+	(simple_chord_elements post_events)			: (cons 'x_CHORD (string-append $1 $2))
+	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (string-append $2 $3))
 	
 	;| CHORD_REPETITION optional_notemode_duration post_events {
 	;	Input i;
@@ -532,8 +531,8 @@
  )
  
  (tempo_event
-	(TEMPO steno_duration EQUAL bare_unsigned) : ""  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
-	(TEMPO string steno_duration EQUAL bare_unsigned) : "" ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
+	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
+	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
 	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
 	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
 	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
@@ -546,7 +545,7 @@
  )
  
  (simple_element
-	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append $1 $2 $3 $4 $5 $6)  
+	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append  $1 $2 $3 $4 $5 $6)
 	(RESTNAME optional_notemode_duration) : (string-append $1 $2)	
  )
  
@@ -620,24 +619,24 @@
  (command_element
 	(command_event) : $1
 	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
-	(E_BRACKET_OPEN) : "" ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
-	(E_BRACKET_CLOSE) : "" ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
-	(E_BACKSLASH) : "" ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
-	(PIPE)		: "" ; look in parser.yy 
-	(PARTIAL duration_length): "" ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
-	(TIME_T fraction) : (string-append $1 $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
-	(MARK scalar) : "" ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+	(E_BRACKET_OPEN) : (lyimport::error "E_BRACKET_OPEN") ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
+	(E_BRACKET_CLOSE) : (lyimport::error "E_BRACKET_CLOSE") ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
+	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
+	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
+	(PARTIAL duration_length): (lyimport::error "PARTIAL") ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
+	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
+	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
  )
 
  (command_event
-	(E_TILDE) : "" ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
-	(MARK DEFAULT) : "" ; 	  {
+	(E_TILDE) : (lyimport::error "E_TILDE") ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
+	(MARK DEFAULT) : (lyimport::error "MARK DEFAULT") ; 	  {
 						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
 						;$$ = m->unprotect ();
 	(tempo_event) :  $1
-	(KEY DEFAULT) : (string-append $1 " " $2) ;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
+	(KEY DEFAULT) : (cons 'x_KEY (cons $2 #f)) ;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
 					   ;$$ = key->unprotect ();
-	(KEY NOTENAME_PITCH SCM_IDENTIFIER)	: (string-append $1 " " $2 " " $3) 
+	(KEY NOTENAME_PITCH SCM_IDENTIFIER)	: (cons 'x_KEY  (cons $2 $3))
 		;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
 		;if (scm_ilength ($3) > 0)
 		;{
@@ -649,6 +648,11 @@
 		;}
 
 		;$$ = key->unprotect ();
+		
+	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
+	;;;;;;;;;;
+	(CLEF QUOTED_CHAR) : (cons 'x_CLEF $2)
+	
  )
 
  (post_events
@@ -712,9 +716,13 @@
 (newline)
 (display "============= Here is the final list =============")(newline)
 (display "============= ====================== =============")(newline)
-(display final_list)(newline)
+(pretty-print final_list)(newline)
 (display "============= ====================== =============")(newline)
 
 (newline)
 ;; Close input port
 (close (current-input-port)) 
+
+
+;Notes
+;Clef (cons 'x_CLEF (cons pitch keyword) where pitch can be a pitch or default and keyword is optional

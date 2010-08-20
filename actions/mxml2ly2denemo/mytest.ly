@@ -17,7 +17,7 @@ AssignC = { \AssignA \AssignB }
 
 PartPOneVoiceOne =  {
     |  % 1
-   \clef "G"
+    \clef "G"
     \key f \major
     \time 3/4 | % 1
     r4 c'4 r4 | % 2

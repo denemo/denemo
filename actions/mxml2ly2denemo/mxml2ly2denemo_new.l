@@ -73,6 +73,8 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 
 ;{REAL}						(lyimport::mtoken 'REAL yytext)
 
+\"{A}\"						(lyimport::mtoken 'QUOTED_CHAR yytext)
+
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
 
@@ -98,10 +100,14 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 								(else  (lyimport::mtoken 'E_CHAR yytext)))
 
 
+
 ,							(lyimport::mtoken 'SUB_QUOTE yytext)
 '							(lyimport::mtoken 'SUP_QUOTE yytext)	
 \+							(lyimport::mtoken 'PLUS yytext)
+
 ({WHITE}|{NEWLINE})			(yycontinue);(lyimport::mtoken 'WHITESPACE yytext)
 .							(lyimport::mtoken 'ANYTHING yytext) ; in lilypond there is no token name
+;\"							(lyimport::mtoken 'DBLQUOTE yytext) ;; This is a custom Denemo token
+
 <<ERROR>>					(lyimport::mtoken 'ERROR	yytext)
 <<EOF>>						(make-lexical-token '*eoi* #f #f)
