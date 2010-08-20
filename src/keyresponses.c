@@ -91,6 +91,22 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
   set_cursor_for(state);
   return TRUE;
 }
+
+/* perform the command of the given name and store the event that triggered it */
+static
+gboolean perform_command(const gchar *command_name, GdkEventKey *event) {
+  Denemo.last_keyval = event->keyval;
+  Denemo.last_keystate =  dnm_sanitize_key_state(event);
+  call_out_to_guile("(define DenemoKeypressActivatedCommand #t)");
+  execute_callback_from_name(Denemo.map, command_name);
+  call_out_to_guile("(define DenemoKeypressActivatedCommand #f)");
+  // note gui = Denemo.gui; may have changed as a result of executing the command
+  displayhelper (Denemo.gui);
+  //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
+  return TRUE;
+}
+
+
 /**
  * keypress event callback 
  * looks up the key press and executes the correct function
@@ -118,30 +134,59 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   dnm_clean_event (event);
 
 
+  if (isModifier(event))
+    return TRUE;
+
 
   /* Look up the keystroke in the keymap and execute the appropriate
    * function */
+  static GString *prefix_store = NULL;
+  if(!prefix_store)
+    prefix_store = g_string_new("");
+
   gint command_idx = lookup_command_for_keyevent(event);
-  // g_print("Key event keyval %x (gdk calls this \"%s\"), modifiers %x (implies %s %s)\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->state&GDK_CONTROL_MASK?"Control":"<not ctrl>", event->state&GDK_SHIFT_MASK?"Shift":"<not shift>");
-  if (command_idx != -1) {
+  if((prefix_store->len == 0) && (command_idx != -1)) {
     const gchar *command_name =
       lookup_name_from_idx (the_keymap, command_idx);
     if (command_name) {
-      Denemo.last_keyval = event->keyval;
-      Denemo.last_keystate =  dnm_sanitize_key_state(event);
-      call_out_to_guile("(define DenemoKeypressActivatedCommand #t)");
-      execute_callback_from_name(the_keymap, command_name);
-      call_out_to_guile("(define DenemoKeypressActivatedCommand #f)");
-      gui = Denemo.gui;//may have changed as a result of executing the command
-      displayhelper (gui);
-      //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
-      return TRUE;
+      return perform_command(command_name, event);
     } else {
-      
-      g_warning("No action %i has no name", command_idx);
+      g_warning("Error: action %i has no name", command_idx);
+      return FALSE;
     }
-  } else if (!isModifier(event))
-    toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
+  }
+
+    /*  we create a store for the prefix char and look to see if it is populated when a keystroke is received. If it is populated, we try for the two-key combination, {???else we try for the single key, and if that fails populate the store. OR if it fails clear store}. If the two-key combination works we clear the store. If the two-key combination fails we try for the single key, if that succeeds we clear the store if it fails we set the store to the unresolved keystroke.  */
+
+  gboolean ret = FALSE;
+  if(prefix_store->len) {
+    gchar *name = dnm_accelerator_name(event->keyval, event->state);
+    g_print("second key %s\n", name);
+    g_string_append_printf(prefix_store, "%c%s", ',', name);
+    command_idx = lookup_command_for_keybinding_name(Denemo.map, prefix_store->str);
+    g_print("we get %d for %s\n", command_idx, prefix_store->str);
+    if(command_idx != -1) {
+      const gchar *command_name =
+	lookup_name_from_idx (the_keymap, command_idx);
+      if (command_name) {
+	ret = perform_command(command_name, event);
+      }
+    } else { //Two key name was not a binding
+      ret = FALSE;
+      write_status(Denemo.gui);
+      toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
+    }
+    g_string_assign(prefix_store, "");
+    return ret;
+  } else { //no prefix stored
+    gchar *name = dnm_accelerator_name(event->keyval, event->state);
+    g_string_printf(prefix_store, "Prefix Key %s, waiting for second keypress, or type Esc to abort", name);
+    gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+    gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
+		     prefix_store->str);
+    g_string_assign(prefix_store, name);
+    return TRUE;
+  }
   return TRUE;
 }
 
