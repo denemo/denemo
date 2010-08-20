@@ -1332,6 +1332,21 @@ add_keybinding_to_idx (keymap * the_keymap, gint keyval,
   //Denemo.accelerator_status = TRUE;
   return old_command_idx;
 }
+gint
+add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval,
+        GdkModifierType state, guint command_idx, ListPosition pos)
+{
+  gint old_command_idx;
+  gpointer value;
+  gchar *kb_name;
+  gboolean flag_update_accel;
+  kb_name = g_strdup_printf("%s,%s", dnm_accelerator_name(first_keyval, first_state),
+			    dnm_accelerator_name(keyval, state));
+  old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
+  g_free(kb_name);
+  //Denemo.accelerator_status = TRUE;
+  return old_command_idx;
+}
 
 /* force keybinding on action of name, returning old command id */
 gint add_keybinding_for_name(gchar *name, gchar *binding) {

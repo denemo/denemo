@@ -45,7 +45,12 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
       return TRUE;
   dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
-  
+  if(cbdata->two_key==1) {
+    cbdata->first_keyval = event->keyval;
+    cbdata->first_modifiers = modifiers;
+    cbdata->two_key = 2;
+    return TRUE;
+  }
   //get the command_index
   selection = gtk_tree_view_get_selection(cbdata->command_view);
   gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -54,8 +59,12 @@ capture_add_binding(GtkWidget *widget, GdkEventKey *event, gpointer user_data)
   command_idx = array[0];
   gtk_tree_path_free(path);
   //set the new binding
-  add_keybinding_to_idx(Denemo.map, event->keyval, modifiers,
+  if(cbdata->two_key==2)
+    add_twokeybinding_to_idx(Denemo.map, cbdata->first_keyval, cbdata->first_modifiers, event->keyval, modifiers,
           command_idx, POS_FIRST);
+  else
+    add_keybinding_to_idx(Denemo.map, event->keyval, modifiers,
+			  command_idx, POS_FIRST);
   gtk_statusbar_pop(cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_key_press);
   g_signal_handler_disconnect(GTK_WIDGET(widget), cbdata->handler_focus_out);
@@ -130,7 +139,13 @@ kbd_interface_add_binding(GtkButton *button, gpointer user_data)
           "focus-out-event", G_CALLBACK(stop_capture_binding), user_data);
   Denemo.accelerator_status = TRUE;
 }
-
+static void
+kbd_interface_add_2binding(GtkButton *button, gpointer user_data)
+{
+  keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  cbdata->two_key = 1;
+  kbd_interface_add_binding(button, user_data);
+}
 static void
 kbd_interface_look_binding(GtkButton *button, gpointer user_data)
 {
@@ -233,6 +248,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   GtkWidget *command;
   GtkWidget *button;
   GtkWidget *addbutton;
+  GtkWidget *add2button;
   GtkWidget *delbutton;
   GtkWidget *lookbutton;
   GtkWidget *statusbar;
@@ -350,12 +366,20 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
+
+
+  add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+  gtk_button_set_label(add2button, "Add Two Key Shortcut");
+  gtk_box_pack_end (GTK_BOX (vbox), add2button, FALSE, TRUE, 0);
+
+
   statusbar = gtk_statusbar_new();
   context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(statusbar), "");
   gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
   gtk_box_pack_end (GTK_BOX (vbox), statusbar, FALSE, TRUE, 0);
   
   cbdata.addbutton = GTK_BUTTON(addbutton);
+  cbdata.add2button = GTK_BUTTON(add2button);
   cbdata.delbutton = GTK_BUTTON(delbutton);
   cbdata.lookbutton = GTK_BUTTON(lookbutton);
   cbdata.statusbar = GTK_STATUSBAR(statusbar);
@@ -364,6 +388,7 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   cbdata.binding_view = GTK_TREE_VIEW(binding_tree_view);
   cbdata.text_view = GTK_TEXT_VIEW(text_view);
   cbdata.command_idx = -1;
+  cbdata.two_key = 0;
   //setup the link between command_view and binding_view
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(command_tree_view));
   gtk_tree_selection_set_select_function(selection,
@@ -424,6 +449,9 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   //Connecting signals
   g_signal_connect (addbutton, "clicked",
           G_CALLBACK(kbd_interface_add_binding), &cbdata);
+  g_signal_connect (add2button, "clicked",
+          G_CALLBACK(kbd_interface_add_2binding), &cbdata);
+
   g_signal_connect (lookbutton, "clicked",
           G_CALLBACK(kbd_interface_look_binding), &cbdata);
   g_signal_connect (delbutton, "clicked",

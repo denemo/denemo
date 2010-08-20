@@ -17,17 +17,21 @@
 
 typedef struct _keyboard_dialog_data
 {
-	GtkButton *addbutton;
-	GtkButton *delbutton;
-	GtkButton *lookbutton;
-	GtkStatusbar *statusbar;
-	guint context_id;
-	GtkTreeView *command_view;
-	GtkTreeView *binding_view;
-	GtkTextView *text_view;
-	gulong handler_key_press;
-	gulong handler_focus_out;
-	gint command_idx;
+  GtkButton *addbutton;
+  GtkButton *add2button;
+  GtkButton *delbutton;
+  GtkButton *lookbutton;
+  GtkStatusbar *statusbar;
+  guint context_id;
+  GtkTreeView *command_view;
+  GtkTreeView *binding_view;
+  GtkTextView *text_view;
+  gulong handler_key_press;
+  gulong handler_focus_out;
+  gint command_idx;
+  gint two_key;// 0 means not two key, 1 means first key, 2 second.
+  gint first_keyval;
+  gint first_modifiers;
 } keyboard_dialog_data;
 
 guint
