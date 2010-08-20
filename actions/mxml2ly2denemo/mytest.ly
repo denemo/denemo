@@ -9,7 +9,6 @@ NilsAssign = { b b b b }
 
 \score { { d d d \NilsAssign f f }   }
 
-% TODO: string-with-number2 = { c d e } returns DIGIT TOKEN error
 AssignA = { c2 c2 c2 c2 }
 AssignB = { g4 \AssignA g4 }
 AssignC = { \AssignA \AssignB }
