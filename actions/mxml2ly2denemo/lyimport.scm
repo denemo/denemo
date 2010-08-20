@@ -114,8 +114,7 @@
 (define (lyimport::scan_escaped_word yytext)
 
 	(cond
-		((string-ci=? "score" yytext) (lyimport::mtoken 'SCORE yytext))
-				
+	
 		; Converted from Denemo
 		((string-ci=? "alias" yytext) (lyimport::mtoken 'ALIAS yytext))
 		((string-ci=? "apply" yytext) (lyimport::mtoken 'APPLY yytext))
@@ -322,8 +321,8 @@
  )
  
  (identifier_init
-	(score_block) : (begin (display "Found scoreblock as ident while creating assignment: ") (display $1)(newline)  (cons 'SCORE_IDENTIFIER (cons 'x_LIST $1))	)
-	(music) : (begin (display "Found music as ident while creating assignment: ") (display $1)(newline) (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1)))
+	(score_block) :  (cons 'SCORE_IDENTIFIER (cons 'x_LIST $1))	
+	(music) : (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1))
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -346,7 +345,7 @@
 
  (simple_music
 	(event_chord)					: $1	
-    (MUSIC_IDENTIFIER)				: (begin (display "Music_Ident was called by a keyword: ")(display $1)(newline) $1) 
+    (MUSIC_IDENTIFIER)				: $1 
     ;(music_property_def)			: $1
 	(context_change)				: $1
 		
@@ -371,7 +370,7 @@
        
  
  (composite_music	
-	(prefix_composite_music) 	: (begin (display "prefix: ") (display $1)(newline) $1)
+	(prefix_composite_music) 	: $1
 	(grouped_music_list)		: $1
 	
  )
