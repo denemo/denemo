@@ -298,8 +298,8 @@
  )
 	
  (toplevel_expression
-			(score_block)				: (cons 'x_MOVEMENT $1)
-			(composite_music)			: (cons 'x_MOVEMENT $1)	
+			(score_block)				: (list (cons 'x_MOVEMENT $1) )
+			(composite_music)			: (list (cons 'x_MOVEMENT $1) )
 			(ERROR)						: (display-combo "toplevel error" $1) 			
  )	
  
