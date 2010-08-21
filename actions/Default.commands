@@ -3896,6 +3896,14 @@ for second and subsequent systems</tooltip>
         <label>Typeset Barlines Literally</label>
         <tooltip>Typesets the Denemo barlines, regardless of the timing.</tooltip>
       </row>
+      <row>
+        <action>AutoAccidentals</action>
+        <after>TransposeScorePrint</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>(Print) Accidental Printing</label>
+        <tooltip>Prints accidentals according to a chosen style. Affects following notes only.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

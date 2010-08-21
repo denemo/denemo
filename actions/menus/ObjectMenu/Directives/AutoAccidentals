@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TransposeScorePrint</after>
+        <action>AutoAccidentals</action>
+        <scheme>;;AutomaticAccidentals
+(if (d-DirectiveGetForTag-standalone "AutomaticAccidentals")
+	(begin
+ 	(d-DeleteObject))
+ 		
+        (begin
+	(d-Directive-standalone "AutomaticAccidentals")
+	(d-DirectivePut-standalone-postfix "AutomaticAccidentals" "
+	#(set-accidental-style 'modern 'Score)
+	")
+	(d-DirectivePut-standalone-display "AutomaticAccidentals" "modern accs")
+	(d-DirectivePut-standalone-minpixels  "AutomaticAccidentals" 80)))
+
+(d-RefreshDisplay)
+</scheme>
+        <label>(Print) Accidental Printing</label>
+        <tooltip>Prints accidentals accoring to a chosen style</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
