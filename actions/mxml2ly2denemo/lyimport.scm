@@ -28,7 +28,7 @@
 (load "silex.scm")
 (load "lyimport-lexer.scm") ; Helper functions for the lexer
 (load "lyimport-parser.scm") ; Helper functions and parser rules
-;(load "lyimport-to_denemo.scm") ; Bindings to convert to Denemo
+(load "lyimport-todenemo.scm") ; Bindings to convert to Denemo
 
 ;; Input Port
 (set-current-input-port (open-input-file "mytest.ly"))
@@ -80,20 +80,21 @@
 
 (newline)
 (display ":::::::: Parser Finished ::::::::::")(newline)
-(newline)
+;(newline)
 
-(display "Hash tables / assignments found: ")(newline)
-(display lyimport::AssignmentTable)(newline)
+;(display "Hash tables / assignments found: ")(newline)
+;(display lyimport::AssignmentTable)(newline)
 ;(pretty-print (hash-map->list cons lyimport::AssignmentTable))(newline)
 
-(newline)
-(display "============= Here is the final list =============")(newline)
-(display "============= ====================== =============")(newline)
-(pretty-print final_list)(newline)
+;(newline)
+;(display "============= Here is the final list =============")(newline)
+;(display "============= ====================== =============")(newline)
+;(pretty-print final_list)(newline)
 ;(display (list-ref final_list 3))(newline)
-(display "============= ====================== =============")(newline)
-(newline)
-
+;(display "============= ====================== =============")(newline)
+;(newline)
 
 ;; Close input port
 (close (current-input-port))
+
+(lyimport::convert_to_denemo final_list)
