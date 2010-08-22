@@ -60,7 +60,7 @@
  
  (identifier_init
 	(score_block) :  (cons 'SCORE_IDENTIFIER (cons 'x_LIST $1))	
-	(music) : (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1))
+	(music) :  (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1)) 
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -83,7 +83,7 @@
 
  (simple_music
 	(event_chord)					: $1	
-    (MUSIC_IDENTIFIER)				: $1 
+    (MUSIC_IDENTIFIER)				: $1
     ;(music_property_def)			: $1
 	(context_change)				: $1
 		
@@ -108,8 +108,8 @@
        
  
  (composite_music	
-	(prefix_composite_music) 	: $1
-	(grouped_music_list)		: $1
+	(prefix_composite_music) 	: (cons 'x_PREFIX $1)
+	(grouped_music_list)		: (cons 'x_GROUPED $1)
 	
  )
  
@@ -129,14 +129,14 @@
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
-	(CONTEXT simple_string optional_id optional_context_mod music) : $5 
+	(CONTEXT simple_string optional_id optional_context_mod music) : $5
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) :  $5
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) : $5
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -187,8 +187,8 @@
   )
 	 
  (music_list
-	(music_list music)				: (begin (append! current_notelist (list $2)) current_notelist) 
-	(music)							: (begin (set! current_notelist (list $1)) current_notelist)
+	(music_list music)	: (begin (append! current_notelist (list $2)) current_notelist)
+	(music)				: (begin (set! current_notelist (list $1)) current_notelist) 	
  ) 
  
  (music
@@ -315,8 +315,8 @@
 	(UNSIGNED) : $1
 	(REAL) : $1
 	(NUMBER_IDENTIFIER) : $1
-	(REAL NUMBER_IDENTIFIER) :  "" ;	$$ = scm_from_double (scm_to_double ($1) *scm_to_double ($2));
-	(UNSIGNED NUMBER_IDENTIFIER) : ""  ;	$$ = scm_from_double ($1 *scm_to_double ($2));
+	(REAL NUMBER_IDENTIFIER) :  (lyimport::error "REAL NUMBER_IDENTIFIER") ;	$$ = scm_from_double (scm_to_double ($1) *scm_to_double ($2));
+	(UNSIGNED NUMBER_IDENTIFIER) : (lyimport::error "UNSIGNED NUMBER_IDENTIFIER")  ;	$$ = scm_from_double ($1 *scm_to_double ($2));
   )
 	
  (bare_unsigned
