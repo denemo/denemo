@@ -191,10 +191,6 @@
         <bind>BackSpace</bind>
       </row>
       <row>
-        <action>InsertMeasure</action>
-        <bind>m</bind>
-      </row>
-      <row>
         <action>AddMeasure</action>
         <bind>n</bind>
       </row>
@@ -227,12 +223,16 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
+        <action>ToggleFermata</action>
+        <bind>a,f</bind>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
-        <bind>semicolon</bind>
+        <bind>a,period</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <bind>_</bind>
+        <bind>a,minus</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
@@ -240,7 +240,7 @@
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>Shft+semicolon</bind>
+        <bind>a,apostrophe</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
