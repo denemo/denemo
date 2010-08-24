@@ -821,15 +821,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		g_string_append_printf (figures, "\\grace {");
 	      if(fakechords->len)
 		g_string_append_printf (fakechords, "\\grace {");
-	    } else  
-	      if ((!pchord->is_grace) && *pgrace_status) {
-		*pgrace_status = FALSE, g_string_append_printf (ret,"} ");
-		if(figures->len)
-		  g_string_append_printf (figures, "}");
-		if(fakechords->len)
-		  g_string_append_printf (fakechords, "}");
-
-	      }
+	    } 
 	    //	  }
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
@@ -1072,9 +1064,6 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      g_string_append_printf (ret, "(");
 	    if (pchord->is_tied)
 	      g_string_append_printf (ret, " ~");
-
-
-	
 	  
 	    outputret;
 
@@ -1090,6 +1079,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
 	  }
 	}
+
+
+	if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
+	  *pgrace_status = FALSE, g_string_append_printf (ret,"} ");
+	  if(figures->len)
+	    g_string_append_printf (figures, "}");
+	  if(fakechords->len)
+	    g_string_append_printf (fakechords, "}");
+	}
+	
+
+
 	break;
       case CLEF:
 	{gboolean override = get_lily_override(((clef *) curobj->object)->directives);
