@@ -229,6 +229,7 @@ removemeasures (DenemoScore * si, guint pos, guint nummeasures, gboolean all)
     return g_list_nth (firstmeasure, pos);
 }
 
+
 /**
  * This function calculates the number of ticks per beat in a given
  * time signature 
@@ -248,10 +249,28 @@ calcticksperbeat (gint time1, gint time2)
   return ret;
 }
 
+
+/* looks at succeeding objects to see if the current object is the last chord in a grace
+ returns ENDGRACE if it is */
+static gint is_end_grace(objnode *curobjnode) {
+  for(;curobjnode->next;curobjnode = curobjnode->next) {
+    DenemoObject *obj = (DenemoObject*)curobjnode->next->data;
+    if(obj->type==CHORD){
+      if(((chord *)obj->object)->is_grace)
+	return 0;
+      else
+	return ENDGRACE;
+    }
+  }
+  return ENDGRACE;
+}
+
+
 /**
  * This function goes through a measure and properly sets
  * durinticks and starttickofnextnote values for everything in
  * that measure, tuplets or no.
+ * It also marks the end of grace groups
  *
  * It works out that this function can be called wherever
  * calculatebeamsandstemdirs is invoked, and would share code besides, so
@@ -265,7 +284,6 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
   DenemoObject *theobj;
   gint ticks_so_far = 0;
   gint basic_ticks_in_tuplet_group = 0;
-  gint basic_ticks_in_grace_group = 0;
   gboolean in_tuplet = FALSE;
   gboolean in_grace = FALSE;
 
@@ -274,7 +292,7 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 		theobj = (DenemoObject *) curobjnode->data;
 		theobj->starttick =
 		ticks_so_far + (basic_ticks_in_tuplet_group * numerator
-						/ denominator) + basic_ticks_in_grace_group;
+				/ denominator);
 		
 		if (theobj->type == CHORD)
 		{
@@ -285,7 +303,7 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 			basic_ticks_in_tuplet_group += theobj->basic_durinticks;
 		      }
 		    }
-		  else if (in_grace)
+		  else if (in_grace) //For backward compatibility with old grace object types
 		    {
 
 		      ((chord *)theobj->object)->is_grace |= GRACE_SECTION;//  means grace inside bracketed start/end markers
@@ -297,8 +315,11 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 
 		      ((chord *)theobj->object)->is_grace &= GRACED_NOTE;//leave any fixed grace, changed by toggle.
 		 
-		      if(((chord *)theobj->object)->is_grace)
+		      if(((chord *)theobj->object)->is_grace) {
+			((chord *)theobj->object)->is_grace = GRACED_NOTE;//clear any old ENDGRACE marker
+			((chord *)theobj->object)->is_grace |= is_end_grace(curobjnode);//and re-instate if needed
 			theobj->durinticks = 0;
+		      }
 		      else
 			theobj->durinticks =  theobj->basic_durinticks;
 		      ticks_so_far += theobj->durinticks;
@@ -320,24 +341,19 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 			denominator = 1;
 			basic_ticks_in_tuplet_group = 0;
 		}
-		else if (theobj->type == GRACE_START)
+		else if (theobj->type == GRACE_START)//For backward compatibility, old grace object types
 		{
 			in_grace = TRUE;
-			basic_ticks_in_grace_group = 0;
 		}
-		else if (theobj->type == GRACE_END)
+		else if (theobj->type == GRACE_END)//For backward compatibility, old grace object types
 		{
 			in_grace = FALSE;
-			// anything here makes next note back up over grace end ... ticks_so_far -= 8;
-			//basic_ticks_in_grace_group accumulates the basic_ticks of the notes
-			// after grace start
-			//ticks_so_far += basic_ticks_in_grace_group;//???? this affects furthest
-			basic_ticks_in_grace_group = 0;
+
 		}
 		
 		theobj->starttickofnextnote =
 		ticks_so_far + (basic_ticks_in_tuplet_group * numerator
-						/ denominator) + basic_ticks_in_grace_group;
+				/ denominator);
 
 		//this goes up too fast for grace notes...
 

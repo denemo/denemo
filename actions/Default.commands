@@ -3904,6 +3904,14 @@ for second and subsequent systems</tooltip>
         <label>(Print) Accidental Printing</label>
         <tooltip>Prints accidentals according to a chosen style. Affects following notes only.</tooltip>
       </row>
+      <row>
+        <action>InsertTwoGraceNotesBeamed</action>
+        <after>ToggleGrace</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Insert Two</label>
+        <tooltip>Inserts two grace notes at the cursor beaming them together. Follow with a duration key.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

@@ -191,10 +191,6 @@
         <bind>BackSpace</bind>
       </row>
       <row>
-        <action>InsertMeasure</action>
-        <bind>m</bind>
-      </row>
-      <row>
         <action>AddMeasure</action>
         <bind>n</bind>
       </row>
@@ -227,12 +223,16 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
+        <action>ToggleFermata</action>
+        <bind>a,f</bind>
+      </row>
+      <row>
         <action>ToggleStaccato</action>
-        <bind>semicolon</bind>
+        <bind>a,period</bind>
       </row>
       <row>
         <action>ToggleTenuto</action>
-        <bind>_</bind>
+        <bind>a,minus</bind>
       </row>
       <row>
         <action>ToggleTrill</action>
@@ -240,7 +240,7 @@
       </row>
       <row>
         <action>ToggleStaccatissimo</action>
-        <bind>Shft+semicolon</bind>
+        <bind>a,apostrophe</bind>
       </row>
       <row>
         <action>ToggleArpeggio</action>
@@ -281,6 +281,10 @@
       <row>
         <action>NewWindow</action>
         <bind>Ctrl+t</bind>
+      </row>
+      <row>
+        <action>NewMovement</action>
+        <bind>M,n</bind>
       </row>
       <row>
         <action>PrintPreview</action>
@@ -507,12 +511,36 @@
         <bind>u</bind>
       </row>
       <row>
+        <action>RepeatStart</action>
+        <bind>b,s</bind>
+      </row>
+      <row>
+        <action>RepeatEnd</action>
+        <bind>b,e</bind>
+      </row>
+      <row>
+        <action>RepeatEndStart</action>
+        <bind>b,2</bind>
+      </row>
+      <row>
         <action>TmbalesStyle</action>
         <hidden>true</hidden>
       </row>
       <row>
         <action>CautionaryAccidental</action>
         <bind>Shft+slash</bind>
+      </row>
+      <row>
+        <action>ScoreTitle</action>
+        <bind>S,t</bind>
+      </row>
+      <row>
+        <action>ScoreComposer</action>
+        <bind>S,c</bind>
+      </row>
+      <row>
+        <action>MovementTitle</action>
+        <bind>M,t</bind>
       </row>
       <row>
         <action>ToggleTripleting</action>
@@ -657,6 +685,10 @@
       <row>
         <action>OpZero</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertTwoGraceNotesBeamed</action>
+        <bind>g,2</bind>
       </row>
     </map>
   </merge>
