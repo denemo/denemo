@@ -1129,11 +1129,9 @@
  )
   
   
- ; For clipboards smaller than one full measure Denemo will automatically add barlines if needed 
+; For clipboards smaller than one full measure Denemo will automatically add a barline before an object if needed 
 ;;; The inline (or ...) is for the case that a non-note is at the start or end of clipboard. If its at the start the measure is allowed to break if pasting to a full measure. If its not the first item (e.g. the last) the measure is not allowed to break before. But not if the first one is the only one!
- 
- (display "Current count is: ")(display count)(newline)
-(display "Second obkect is: ")(display  (d-GetClipObjType staff 1)) (newline)
+
  
  (if (and  
 	(d-GetClipObjType staff count) ; valid paste?
@@ -1141,11 +1139,9 @@
 	 	  (not (d-GetClipObjType staff 1))
 	 	  (= count 0)
  	))    
- 	
  	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
  	      (= count 0)
- 	)
- 	 		       
+ 	) 	 		       
  	(string-ci=?  (d-GetType) "Appending") 
  	(not paste::break?) 
  	(MeasureFillStatus)) ; if conditions end
@@ -1155,13 +1151,10 @@
 				#t
 				(d-InsertMeasureBefore) ) 
 			(d-InsertMeasureAfter))
-	
-	(display "no measure break before: ")
-			)
- 
+	)
   
 ; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
-(display (d-GetClipObjType staff count))(newline)  
+ 
  (case (d-GetClipObjType staff count) 
 	((#f) (endthis) ) ; No object left. Means "no clipboard", too.
 	((-1) (display "No object")); should not happen anymore
