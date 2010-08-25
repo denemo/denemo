@@ -686,6 +686,10 @@
         <action>OpZero</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>InsertTwoGraceNotesBeamed</action>
+        <bind>g,2</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
