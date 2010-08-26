@@ -937,7 +937,7 @@ static gboolean prev_object_is_rhythm (DenemoGUI *gui) {
 
 /* insert a note into the score at the current cursor position following the current rhythm step */
 
-void insert_note(DenemoGUI *gui)  {
+static void insert_note_following_pattern(DenemoGUI *gui)  {
 #define g  (gui->rstep)
   if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
     GList *start = g;
@@ -1013,7 +1013,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     }  
   } else
     /* in INSERT (or EDIT and appending) we insert a note using the next step of the rhythm pattern */
-    insert_note(gui);
+    insert_note_following_pattern(gui);
 
 }
 
@@ -1311,7 +1311,7 @@ insert_chordnote (DenemoGUI *gui){
   if(gui->si->currentobject && (curObj = Denemo.gui->si->currentobject->data) && (curObj->type==CHORD) )
     notechange(gui->si, FALSE);
   else
-    insert_note(gui);
+    insert_note_following_pattern(gui);
   return TRUE;
 }
 
