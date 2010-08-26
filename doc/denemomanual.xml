@@ -247,9 +247,13 @@ Attribution-Share Alike 3.0 Unported</ulink> license.</para>
      <para>Most people will start with playing around with Denemo via the pc keyboard. The default setup means that keys a-g represent the note names and 0-6 the different durations (whole note, half note etc). When the cursor is on blank space pressing key "0" then key "a" will append a whole-note A, pressing "1 b" will append a half-note B etc. If the duration is not changing you can simply type the note name, it will use the last entered duration. If you do type a duration it appears as a pale yellow note at the cursor until you have given it a note name. 
 </para>
 <para>When the cursor is moved on to a note (with the arrow key right or mouse) then a-g edits the note name. To insert a note before a note at the cursor use A-G. When the cursor is on a note the keys 0-6 change the duration of the note, while Shift-0 6 insert a note before the cursor. (If you use the numeric keypad you can use Shift-KP 0-6 for this).  The arrow keys move the cursor around, the period key adds a dot while Alt-a-g add notes to the chord at the cursor.
+<note>
+  When in the appending position the cursor shows as a large blue or red rectangle on a note-position. Blue indicates a note can be appended at that point without overflowing the measure. Red indicates that the measure is already full. When the cursor is a smaller green rectangle it indicates that you are not in the appending position: you can edit the note/object at the cursor or insert before it. The vertical blue line indicates the insertion point.
+</note>
  </para>
      <para>You can find more shortcuts by exploring the menu system - e.g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown next to the command.
  </para>
+
  <sect2>
 <title>What Happens at Startup</title>
     <para>On starting a Denemo up to two music scores (called init.denemo) are loaded, and any actions associated with them are run. The first of these is provided with the system and does essential initialization, the second you can provide yourself in the file ~/.denemo/actions/init.denemo (where ~ means your home directory).
@@ -325,6 +329,8 @@ See the links from the features list "To-do List" on the website.
       </listitem>
     </itemizedlist>
 </para>
+     <para>For more serious use of Denemo, for transcribing hundreds of measures of music, for example, you should explore other key shortcut schemes. These are offered when you start Denemo, until you decide to save one of them as your default scheme. The Arranger scheme uses two-key bindings such as "b,s" for start repeat barline and "b,e" for end repeat barline. For shortcuts like these to work the notenames are denoted by a double keypress, e.g. "b,b" for the note b. This works because the Arranger scheme is mainly for use with MIDI keyboard for inserting notes. Composer shortcuts is another scheme concentrating on rapid entry from the pc-keyboard. The LilyPond shortcuts scheme will be familiar to those who know the LilyPond music typesetting language, as well as including commands which generate easier-to-read LilyPond output.
+ </para>
  </sect2>
     <para>Denemo is used via the computer keyboard, MIDI controller or playing in via a musical instrument. Quite a few mouse operations are also included by default. Clicking on the score will select items, and the status bar at the bottom will describe the item clicked. Right-clicking on items in the score allows you to edit any special attributes, (called Directives, see <xref linkend="DenemoDirectives" />), that they may have. Clicking on the initial clef, key or timesignature lets you edit these, clicking to the right or left of the measures visible moves you forwards and backwards in the score.  Selections can be made by dragging with the mouse from one note to another. And right-clicking any menu item gets help and the opportunity to set a shortcuts for the menu item. Furthermore, scripts are available in the menu system that give the mouse further uses.</para>
  </sect1>
