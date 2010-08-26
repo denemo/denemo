@@ -7,7 +7,7 @@
       <row>
         <action>RepeatEnd</action>
         <scheme>;;;RepeatEnd
-(d-DirectivePut-standalone-minpixels "RepeatEnd" 20)
+(d-DirectivePut-standalone-minpixels "RepeatEnd" 50)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatEnd" " \\bar \":|\"")
 (d-DirectivePut-standalone-gx  "RepeatEnd"  0)

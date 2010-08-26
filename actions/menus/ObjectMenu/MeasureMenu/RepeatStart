@@ -7,7 +7,7 @@
       <row>
         <action>RepeatStart</action>
         <scheme>;;;RepeatStart
-(d-DirectivePut-standalone-minpixels "RepeatStart" 30)
+(d-DirectivePut-standalone-minpixels "RepeatStart" 50)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
 (d-DirectivePut-standalone-gx  "RepeatStart"  -15)
