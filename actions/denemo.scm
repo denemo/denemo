@@ -1107,8 +1107,7 @@
   )
   
  (define (measurebreak)
- 
-   (if (d-GetClipObjType 1 0) ;Multistaff?
+    (if (d-GetClipObjType 1 0) ;Multistaff?
 	(begin (d-InsertMeasureAfter) (nextplease))  ;Yes it is, just go on and paste
       
         (if  (and (not (d-GetClipObjType 1 0)) (= 8 (d-GetClipObjType 0 0)) (= 0 count)) ; User might have copied a leading measurebreak by accident. Ignore this. Else go on and try to detect empty measures or add measures.
@@ -1130,16 +1129,32 @@
  )
   
   
- ; For clipboards smaller than one full measure Denemo will automatically add barlines if needed 
- (if (and (d-GetClipObjType staff count) (string-ci=?  (d-GetType) "Appending")  (not paste::break?) (MeasureFillStatus))
+; For clipboards smaller than one full measure Denemo will automatically add a barline before an object if needed 
+;;; The inline (or ...) is for the case that a non-note is at the start or end of clipboard. If its at the start the measure is allowed to break if pasting to a full measure. If its not the first item (e.g. the last) the measure is not allowed to break before. But not if the first one is the only one!
+
+ 
+ (if (and  
+	(d-GetClipObjType staff count) ; valid paste?
+	(not (and ; Only breaks for more than one object in the clipboard
+	 	  (not (d-GetClipObjType staff 1))
+	 	  (= count 0)
+ 	))    
+ 	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
+ 	      (= count 0)
+ 	) 	 		       
+ 	(string-ci=?  (d-GetType) "Appending") 
+ 	(not paste::break?) 
+ 	(MeasureFillStatus)) ; if conditions end
+ 	
             (if (d-MoveToMeasureRight) ; End of Staff?
 			(if (MeasureEmpty?) 
 				#t
 				(d-InsertMeasureBefore) ) 
-			(d-InsertMeasureAfter)))
- 
+			(d-InsertMeasureAfter))
+	)
   
 ; The real action: Get the type of clipboard-object and decide what to do. In most cases it will be just pasting but someties special behaviour is needed. Because pasting a staffbreak does not actually moves the cursor to the new staff so this has to be done manually.
+ 
  (case (d-GetClipObjType staff count) 
 	((#f) (endthis) ) ; No object left. Means "no clipboard", too.
 	((-1) (display "No object")); should not happen anymore
