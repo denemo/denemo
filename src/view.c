@@ -2322,6 +2322,7 @@ gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
   return *mid_c_offset;
 }
 
+//badly named:
 static SCM scheme_put_note_name (SCM optional) {
 
  DenemoGUI *gui = Denemo.gui;
@@ -2347,6 +2348,10 @@ static SCM scheme_put_note_name (SCM optional) {
  }
  return SCM_BOOL(FALSE);  
 }
+
+
+//create a putnote here that takes a duration and numdots and note name, inserts a chord and calls the scheme_put_note_name above - this can be done via script at present, e.g. (d-C) (d-Change3) (d-AddDot) (d-PutNoteName "eis''")
+
 
 //Puts a note into the chord at the cursor PARAM lily is a string representation of the note
 static SCM scheme_insert_note_in_chord (SCM lily) {
