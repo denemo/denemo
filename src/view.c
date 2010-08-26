@@ -2347,6 +2347,32 @@ static SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+//Puts a note into the chord at the cursor PARAM lily is a string representation of the note
+static SCM scheme_insert_note_in_chord (SCM lily) {
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD)) 
+   return SCM_BOOL(FALSE);
+ 
+ //FIXME scm_dynwind_begin (0); etc
+ char *str=NULL;
+ if(scm_is_string(lily)){
+   str = scm_to_locale_string(lily);
+   gint mid_c_offset;
+   gint enshift;
+   name2mid_c_offset(str, &mid_c_offset, &enshift);
+   
+   //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+   addtone(curObj, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
+   displayhelper(Denemo.gui);
+   return SCM_BOOL_T;
+ } 
+ return SCM_BOOL(FALSE);
+}
+
+
 //return the number of objects in the copybuffer at staff m
 static SCM scheme_get_clip_objects(SCM m) {
  gint staff = scm_num2int(m, 0, 0);
@@ -3126,6 +3152,10 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
   INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
+
+  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and adds that note to the chord",DENEMO_SCHEME_PREFIX"InsertNoteInChord",  scheme_insert_note_in_chord);
+
+
   INSTALL_SCM_FUNCTION ("Moves the note at the cursor by the number of diatonic steps passed in",DENEMO_SCHEME_PREFIX"DiatonicShift", scheme_diatonic_shift);
   INSTALL_SCM_FUNCTION ("Moves the cursor to the right returning #t if this was possible",DENEMO_SCHEME_PREFIX"NextObject", scheme_next_object);
   INSTALL_SCM_FUNCTION ("Moves the cursor to the left returning #t if the cursor moved",DENEMO_SCHEME_PREFIX"PrevObject", scheme_prev_object);
