@@ -1299,6 +1299,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
 	    thenote->directives = directives;
 	  
 	}
+	score_status(gui, TRUE);
 	displayhelper (gui);
 	return  SCM_BOOL(TRUE);
    }  
@@ -2366,6 +2367,7 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
    
    //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
    addtone(curObj, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
+   score_status(gui, TRUE);
    displayhelper(Denemo.gui);
    return SCM_BOOL_T;
  } 
