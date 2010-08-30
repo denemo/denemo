@@ -66,7 +66,7 @@
 
 # The project as known to CIA. You can also hardwire this or set it with a
 # -p option.
-project=$(git config --get ciabot.project)
+project="denemo"
 
 # Name of the repo for gitweb/cgit purposes
 repo=$(git config --get ciabot.repo)
