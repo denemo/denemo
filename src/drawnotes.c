@@ -254,7 +254,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
     if (selected)
       cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
     else
-      cairo_set_source_rgb( cr, 231.0/255, 215.0/255, 39.0/255 );// yellow for non printing
+      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
   }
 
 
