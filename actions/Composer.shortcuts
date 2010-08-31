@@ -117,21 +117,26 @@
 
       <row>
         <action>CursorDown</action>
-        <bind>Down</bind>
-        <bind>Shft+Down</bind>
+        <bind>Down</bind>        
       </row>
+      
       <row>
         <action>CursorUp</action>
         <bind>Up</bind>
-        <bind>Shft+Up</bind>
       </row>
      
       <row>
         <action>CursorLeft</action>
         <hidden>true</hidden>
-        <bind>Shft+Left</bind>
+        <bind>Shft+Left</bind> 
       </row>
 
+	  <row>
+	   <action>SetMark</action> 
+	   <bind>Shft+Up</bind>
+	   <bind>Shft+Down</bind>
+	  </row>
+      
       <row>
         <action>CursorRight</action>
         <hidden>true</hidden>
@@ -224,6 +229,10 @@
       <row>
         <action>GoToEmptyMeasure</action>
 		<bind>Alt+End</bind>
+      </row>
+      <row>
+		<action>SelectionToEmptyMeasure</action>
+		<bind>Alt+Shft+End</bind>
       </row>	
 	
 	<!-- Movement Ctrls 
@@ -246,8 +255,11 @@
       <row>
         <action>SplitMeasure</action>
         <bind>Tab</bind>
-      </row>	
-    
+      </row>
+       <row>
+        <action>WholeMeasureRest</action>
+        <bind>Shft+r</bind>        
+      </row>    
           
 	<!-- Seek 
       <row>
@@ -510,6 +522,7 @@
         <action>InsertSixtyfourthRest</action>
         <bind>Shft+6</bind>
       </row>   
+      
       
       <row>
       <action>NoOp</action>
