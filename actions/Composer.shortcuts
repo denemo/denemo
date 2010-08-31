@@ -137,16 +137,6 @@
         <bind>Shft+Right</bind>
       </row>
       
-      <row>
-        <action>JumpUpOctave</action>   
-        <bind>Shft+Up</bind>
-      </row>
-      
-      <row>
-        <action>JumpDownOctave</action>
-        <bind>Shft+Down</bind>
-      </row>       
-
 
 	<!-- Ctrl Mods to extend the range of cursors -->      
 
@@ -169,24 +159,40 @@
         <bind>Ctrl+Right</bind>
       </row>      
       
+      <row>
+        <action>JumpUpOctave</action>   
+        <bind>Ctrl+Up</bind>
+        <bind>Ctrl+Shft+Up</bind>
+      </row>
+      
+      <row>
+        <action>JumpDownOctave</action>
+        <bind>Ctrl+Down</bind>
+        <bind>Ctrl+Shft+Down</bind>
+      </row>      
+      
 	<!-- Staff Navigation -->
-       <row>
+      <row>
         <action>StaffUp</action>
         <hidden>true</hidden>
-        <bind>Ctrl+Shft+Up</bind>
+        <bind>Ctrl+Shft+Page_Up</bind>
+        <bind>Shft+Page_Up</bind>
       </row>
       <row>
         <action>StaffDown</action>
         <hidden>true</hidden>
-        <bind>Ctrl+Shft+Down</bind>
+        <bind>Ctrl+Shft+Page_Down</bind>
+        <bind>Shft+Page_Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
-        <bind>Ctrl+Up</bind>
+        <bind>Ctrl+Page_Up</bind>
+        <bind>Page_Up</bind>
       </row>
       <row>
         <action>MoveToStaffDown</action>
-        <bind>Ctrl+Down</bind>
+        <bind>Ctrl+Page_Down</bind>
+        <bind>Page_Down</bind>
       </row>
       
      <!-- Voice Navigation -->
