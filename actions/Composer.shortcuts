@@ -130,19 +130,24 @@
         <hidden>true</hidden>
         <bind>Shft+Left</bind> 
       </row>
-
-	  <row>
-	   <action>SetMark</action> 
-	   <bind>Shft+Up</bind>
-	   <bind>Shft+Down</bind>
-	  </row>
-      
+      	       
       <row>
         <action>CursorRight</action>
         <hidden>true</hidden>
         <bind>Shft+Right</bind>
       </row>
-       
+      
+      <row>
+        <action>JumpUpOctave</action>   
+        <bind>Shft+Up</bind>
+      </row>
+      
+      <row>
+        <action>JumpDownOctave</action>
+        <bind>Shft+Down</bind>
+      </row>       
+
+
 	<!-- Ctrl Mods to extend the range of cursors -->      
 
       <row>
