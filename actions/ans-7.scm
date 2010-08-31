@@ -665,6 +665,14 @@
 	(number->string (-	(string->number one 7) (string->number two 7)) 7)
 )
 
+(define (ANS-7::CalculateRealOctaveUp sourceANS) ; Works with one string
+	(ANS-7::+ sourceANS "1000")
+)
+
+(define (ANS-7::CalculateRealOctaveDown sourceANS) ; Works with one string
+	(ANS-7::- sourceANS "1000")
+)
+
 ;Calculate the a diatonic step up or down and keep it in scale / according to the prevailing keysignature
 ;wants lilypond and returns the next diatonic step in lilypond. Defaults to upward step. There is an optional bool parameter, if set to #t  the step goes down.
 (define* (ANS-7::CalculateDiatonicStep sourceLilypond #:optional (down #f)) ;
@@ -693,3 +701,5 @@
 		   (ANS-7::Ans2Ly nextNumber) ; Return note as Lilypond-syntax
        )    
 )
+
+
