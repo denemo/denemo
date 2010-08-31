@@ -86,7 +86,10 @@
 ;Return values are the return values the script itself gives.
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
 
-(define (SingleAndSelectionSwitcher commandsingle commandselection)
+(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle)) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
+(if (not commandselection)
+	(define commandselection commandsingle)
+)
 (d-PushPosition)
 (if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
