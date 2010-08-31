@@ -135,8 +135,7 @@
         <action>CursorRight</action>
         <hidden>true</hidden>
         <bind>Shft+Right</bind>
-      </row>
-      
+      </row>      
 
 	<!-- Ctrl Mods to extend the range of cursors -->      
 
@@ -269,7 +268,7 @@
       </row>
        <row>
         <action>WholeMeasureRest</action>
-        <bind>Shft+r</bind>        
+        <bind>r</bind>        
       </row>    
           
 	<!-- Seek 
