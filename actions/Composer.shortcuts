@@ -313,7 +313,7 @@
       </row>
       <row>
         <action>BookmarkNonPrinting</action>
-        <bind>Shft+Alt+F9</bind>
+        <bind>Alt+Shft+F9</bind>
       </row>
       <row>
         <action>SearchBookmark</action>
