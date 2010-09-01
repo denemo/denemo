@@ -1,17 +1,26 @@
-(define (ShiftUp)
-  (if (d-GetNotes)
-    (ANS-7::ChangeChordNotes 
-  	(map ANS-7::CalculateDiatonicStepUp (ANS-7::GetChordNotes)) ; Get all notes on cursor position and create a list with shifted-up values
+(define (ShiftProto method)
+ ; Get all notes on cursor position and create a list with new values which then exchanges the current notes on cursor position
+
+(if (d-GetNotes)
+    (ANS-7::ChangeChordNotes  
+  	(map method (ANS-7::GetChordNotes))
   	)
     #f ; not a note/chord
   )
 )
 
+(define (ShiftUp)
+ (ShiftProto ANS-7::CalculateDiatonicStepUp)
+)
+
 (define (ShiftDown)
-(if (d-GetNotes)
-    (ANS-7::ChangeChordNotes 
-  	(map ANS-7::CalculateDiatonicStepDown (ANS-7::GetChordNotes)) ; Get all notes on cursor position and create a list with shifted-up values
-  	)
-    #f ; not a note/chord
-  )
+ (ShiftProto ANS-7::CalculateDiatonicStepDown)
+)
+
+(define (ShiftRealOctaveUp) ;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
+ (ShiftProto ANS-7::CalculateRealOctaveUp)
+)
+
+(define (ShiftRealOctaveDown) ;in reality this is not shift but transpose. But there are too many functions with the name transpose already...
+ (ShiftProto ANS-7::CalculateRealOctaveDown)
 )
