@@ -28,7 +28,7 @@
 
  (lilypond 
 		   ()								 : ""  
-		   (lilypond toplevel_expression)	 : (append! final_list $2) 
+		   (lilypond toplevel_expression)	 : (set! final_list $2) 
 		   (lilypond assignment)			 : (cons 'MUSIC_ASSIGNMENT #t) 
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
@@ -37,7 +37,7 @@
 	
  (toplevel_expression
 			(score_block)				: (list (cons 'x_MOVEMENT $1) )
-			(composite_music)			: (list (cons 'x_MOVEMENT $1) )
+			(composite_music)			:  (begin (format #t "reached composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
 			(ERROR)						: (display (string-append "toplevel error: " $1)) 			
  )	
  
@@ -59,8 +59,8 @@
  )
  
  (identifier_init
-	(score_block) :  (cons 'SCORE_IDENTIFIER (cons 'x_LIST $1))	
-	(music) :  (cons 'MUSIC_IDENTIFIER (cons 'x_LIST $1)) 
+	(score_block) :  (cons 'SCORE_IDENTIFIER (list $1))	
+	(music) :  (cons 'MUSIC_IDENTIFIER  (list $1))
 		; Hack: Create event-chord around standalone events.
 		;   Prevents the identifier from being interpreted as a post-event. */
 		;Music *mus = unsmob_music ($1);
@@ -82,7 +82,7 @@
 	)
 
  (simple_music
-	(event_chord)					: $1	
+	(event_chord)					: (begin (format #t "now simple_music ~a~%" $1) $1)	
     (MUSIC_IDENTIFIER)				: $1
     ;(music_property_def)			: $1
 	(context_change)				: $1
@@ -109,13 +109,13 @@
  
  (composite_music	
 	(prefix_composite_music) 	: (cons 'x_PREFIX $1)
-	(grouped_music_list)		: (cons 'x_GROUPED $1)
+	(grouped_music_list)		: (begin (format #t "reached composite music  ~a~%" $1) $1)
 	
  )
  
  (grouped_music_list
-	(simultaneous_music)			: $1
-	(sequential_music)				: $1
+	(simultaneous_music)			: (begin (format #t "reached simultaneous rule of grouped music list  ~a is pair?~a ~%" $1 (pair? $1)) $1 )
+	(sequential_music)				: (begin (format #t "reached sequential rule of grouped music list  ~a~%" $1) $1)
  )	
  
  (optional_id
@@ -187,8 +187,8 @@
   )
 	 
  (music_list
-	(music_list music)	: (begin (append! current_notelist (list $2)) current_notelist)
-	(music)				: (begin (set! current_notelist (list $1)) current_notelist) 	
+	(music music_list)	: (cons* $1 $2)
+	(music)				: (list $1)
  ) 
  
  (music
@@ -209,12 +209,14 @@
 	
  (sequential_music
 	( SEQUENTIAL { music_list } )   : $3
-	(  { music_list }  )			: $2
+	(  { music_list }  )			: (begin (format #t "Sequential this is a ~a~%" (list? $2)) 
+    (pretty-print $2)
+ (cons 'x_SEQUENTIAL $2))
  )
 
   (simultaneous_music
-	(SIMULTANEOUS { music_list }): $3 ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
-	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : $2 ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
+	(SIMULTANEOUS { music_list }):  (cons 'x_SIMULTANEOUS $3) ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
+	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin (format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2)) (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
   )
  
  
@@ -240,8 +242,8 @@
   )
  
  (event_chord
-	(simple_chord_elements post_events)			: (cons 'x_CHORD (string-append $1 $2))
-	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (string-append $2 $3))
+	(simple_chord_elements post_events)			: (begin (format #t "Parser reached ~a~%" $1) (cons 'x_CHORD (cons $1 $2)))
+	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
 	;| CHORD_REPETITION optional_notemode_duration post_events {
 	;	Input i;
@@ -282,8 +284,8 @@
  )
  
  (simple_element
-	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (string-append  $1 $2 $3 $4 $5 $6)
-	(RESTNAME optional_notemode_duration) : (string-append $1 $2)	
+	(pitch exclamations questions octave_check optional_notemode_duration optional_rest) : (cons 'x_NOTE (list  $1 $2 $3 $4 $5 $6))
+	(RESTNAME optional_notemode_duration) : (cons 'x_REST (list $1 $2))	
  )
  
  (simple_chord_elements
