@@ -39,7 +39,7 @@
 
 ;; Lists to save music and create the final output
 (define current_notelist '())
-(define final_list (list 'x_LIST ))
+(define final_list #f)
   
 
 ;Blank Table of Assignments. Every assignment (block of notes and other events) is stored as one entry in the hash table.
@@ -90,11 +90,11 @@
 (display "============= Here is the final list =============")(newline)
 (display "============= ====================== =============")(newline)
 (pretty-print final_list)(newline)
-;(display (list-ref final_list 3))(newline)
+;;(display (list-ref final_list 3))(newline)
 (display "============= ====================== =============")(newline)
 (newline)
 
 ;; Close input port
 (close (current-input-port))
 
-;(lyimport::convert_to_denemo final_list)
+(lyimport::convert_to_denemo final_list)
