@@ -7,7 +7,7 @@
       <row>
         <action>ShiftUp</action>
         <scheme>
-(SingleAndSelectionSwitcher "(ShiftUp)" "(ShiftUp)")
+(SingleAndSelectionSwitcher "(ShiftUp)")
 (d-RefreshDisplay)</scheme>
         <label>Shift Up</label>
         <tooltip>Shifts the selected Notes and Chords up a diatonic step</tooltip>
