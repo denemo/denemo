@@ -3919,6 +3919,20 @@ for second and subsequent systems</tooltip>
         <label>Selection to next empty measure</label>
         <tooltip>Creates a selection to the next empty measure in the current staff</tooltip>
       </row>
+      <row>
+        <action>ShiftRealOctaveUp</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Shift Octave Up</label>
+        <tooltip>Shifts current notes/selection up one octave while preserving accidental status. This means real transposition</tooltip>
+      </row>
+      <row>
+        <action>ShiftRealOctaveDown</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <label>Shift Octave Down</label>
+        <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

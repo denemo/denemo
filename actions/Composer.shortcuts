@@ -345,11 +345,11 @@
       </row>
       
       <row>
-        <action>OctaveUp</action>
+        <action>ShiftRealOctaveUp</action>
         <bind>W</bind>
       </row>
       <row>
-        <action>OctaveDown</action>
+        <action>ShiftRealOctaveDown</action>
         <bind>S</bind>
       </row> 
       <row>
