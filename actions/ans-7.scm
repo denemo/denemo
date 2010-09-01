@@ -603,53 +603,31 @@
 	(hashq-ref ANS-7::Base7NoteTableR (string->symbol lilynote))
 )
 
-;TODO: Chordtranslation is missing. But keep the single note functions, will be faster.
-
 (define (ANS-7::Ans2Ly ansNote) ;wants string, returns strings
 	(hashq-ref ANS-7::Base7NoteTable (string->number ansNote))
 )
 
-(define (ANS-7::GetChordNotes); For singles and chords. Returns string of ANS-7 notes as pseudo-list divided by space: : "3500 4030 4200". 
-	(define newList #f)
-	(set! newList (string-tokenize (d-GetNotes)) )
-
-	(let transformChordList ((i 0) )
-	(if (<= i (-(length newList )1)) 
-		(begin
-			(set! newList (replace-nth newList i (ANS-7::Ly2Ans (list-ref newList i) )))
-			(transformChordList (+ i 1)))))
-
-	(string-join newList)
+(define (ANS-7::GetChordNotes); For singles and chords. Returns a list of ANS-7 string-numbers : ("3500" "4030" "4200") 
+	(define lilylist (string-tokenize (d-GetNotes)))
+	(map ANS-7::Ly2Ans lilylist)
 )
 
-(define* (ANS-7::InsertNotes ansNotes #:optional (duration #f) (dots #f)); wants string of ANS-7 notes string, can be a pseudo-list divided by space: "3500 4030 4200". Optional duration and number of dots. returns #t or #f
-	(if (string? ansNotes)
-		(begin 
-			(d-InsertA)
-			(d-MoveCursorLeft)
-			(ANS-7::ChangeChordNotes ansNotes)
-			(if duration ;If user gave duration parameter
-				(eval-string (string-append "(d-Change" (number->string duration) ")")))
-			(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
-				(let loop ((count 0)) 
-					(d-AddDot)
-					(if (< count (- dots 1))
-					(loop (+ 1 count)))))
-		(d-MoveCursorRight)
-		)
-	)
+(define* (ANS-7::InsertNotes ansNotes #:optional (dots #f) (duration #f) ); wants a list of ANS-7 note-strings ("3500" "4030" "4200"). Optional duration and number of dots. returns #t or #f
+	(d-InsertA)
+	(d-MoveCursorLeft)
+	(ANS-7::ChangeChordNotes ansNotes)
+	(if duration  ;If user gave duration parameter. Does not test if the duration is a valid number
+			(eval-string (string-append "(d-Change" (number->string duration) ")"))) ; FIXME eval string should be gone
+	(if (and dots (not (= dots 0))) ;If the user gave 0 as durations ignore that as well
+			(let loop ((count 0)) 
+				(d-AddDot)
+				(if (< count (- dots 1))
+				(loop (+ 1 count)))))
+	(d-MoveCursorRight)
 )
 
-(define (ANS-7::ChangeChordNotes ansNotes); wants string of ANS-7 notes, can be a pseudo-list divided by space: "3500 4030 4200". 
-	(define newList #f)
-	(set! newList (string-tokenize ansNotes) )
-
-	(let transformChordList ((i 0) )
-	(if (<= i (-(length newList )1)) 
-		(begin
-			(set! newList (replace-nth newList i (ANS-7::Ans2Ly (list-ref newList i) )))
-			(transformChordList (+ i 1)))))
-
+(define (ANS-7::ChangeChordNotes ansNotes); wants a list of ANS-7 note-strings ("3500" "4030" "4200") 
+	(define newList (map ANS-7::Ans2Ly ansNotes))
 	(d-ChangeChordNotes (string-join newList))
 )
 
@@ -673,33 +651,24 @@
 	(ANS-7::- sourceANS "1000")
 )
 
-;Calculate the a diatonic step up or down and keep it in scale / according to the prevailing keysignature
-;wants lilypond and returns the next diatonic step in lilypond. Defaults to upward step. There is an optional bool parameter, if set to #t  the step goes down.
-(define* (ANS-7::CalculateDiatonicStep sourceLilypond #:optional (down #f)) ;
-       (define listi (string-tokenize(d-GetPrevailingKeysig)))
-       
-       (let calc ((sourceNumber 0)(nextNumber 0) (thirdDigit 0) )
-		(set! sourceNumber (ANS-7::Ly2Ans sourceLilypond))
-		(set! nextNumber (ANS-7::MakeWhiteKey sourceNumber))
-		(if down
-			(set! nextNumber (ANS-7::- nextNumber  "100"))
-			(set! nextNumber (ANS-7::+ nextNumber  "100"))
-		)
 
-		(set! thirdDigit
-		; always take the third-last digit which shows the note as "white key" and regardless of the octave.  This is done for the target-note, not for the origin.
-			(string-ref nextNumber (- (string-length nextNumber) 3) )) ; string-ref returns char, not string.
-
-		(set! thirdDigit (string->number (string thirdDigit))) ; transfer the char to a real number
-			
-		 (case (string->number (list-ref listi thirdDigit))
-		   ((0)		(set! nextNumber (ANS-7::+ nextNumber  "0"))) ; natural
-		   ((1)		(set! nextNumber (ANS-7::+ nextNumber  "30"))) ;sharp
-		   ((-1)		(set! nextNumber (ANS-7::+ nextNumber  "20"))) ;flat
-		   (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
-		  )
-		   (ANS-7::Ans2Ly nextNumber) ; Return note as Lilypond-syntax
-       )    
+;Calculate the a diatonic step up or down and keep it in scale / according to the prevailing keysignature. Wants an ANS-7 string-number, returns a new string-number
+(define (ANS-7::CalculateDiatonicStepPrototype sourceANS calcfunction)
+	(define keysiglist (string-tokenize (d-GetPrevailingKeysig)))
+	(define nextnumber (calcfunction (ANS-7::MakeWhiteKey sourceANS)  "100")) ; transpose just a step up
+	(define (calcThirdDigit nextnumber)  ; check which pitch of note we got after just transposing (no keysig so far) the sourceANS. The third digit, right-to-left, indicates the pitch without sharp/flat or octave. 
+		(string->number (string (string-ref nextnumber (- (string-length nextnumber) 3) ))) ; conversion chain to get a number
+	)	
+		
+	;At last compare our target-pitch with the current keysignature. If the target "slot" is altered by a keysig we need to change our target-pitch according to the keysig.	
+	(case (string->number (list-ref keysiglist (calcThirdDigit nextnumber)))
+	  ((0)		nextnumber) ; natural, no change
+	  ((1)		(ANS-7::+ nextnumber  "30")) ;sharp
+	  ((-1)		(ANS-7::+ nextnumber  "20")) ;flat
+	  (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
+	 )
 )
 
+(define (ANS-7::CalculateDiatonicStepUp sourceANS) (ANS-7::CalculateDiatonicStepPrototype sourceANS ANS-7::+))
+(define (ANS-7::CalculateDiatonicStepDown sourceANS ) (ANS-7::CalculateDiatonicStepPrototype sourceANS ANS-7::-))
 
