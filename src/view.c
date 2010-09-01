@@ -1058,20 +1058,20 @@ SCM scheme_put_whole_measure_rests (void) {
     scm = SCM_MAKINUM(1);
     switch(length){
     case 1: // e.g.  2/8 timesig
-      str = g_strdup_printf("(d-InsertRest2)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      str = g_strdup_printf("(d-InsertRest2)(d-MoveCursorLeft)%s", dot?"(d-AddDot)":"");
       break;
     case 2:
-      str = g_strdup_printf("(d-InsertRest1)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      str = g_strdup_printf("(d-InsertRest1)(d-MoveCursorLeft)%s", dot?"(d-AddDot)":"");
       break;
     case 3:// e.g. 9/8 timesig
-      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest3)(d-CursorLeft)(d-CursorLeft)");
+      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest3)(d-MoveCursorLeft)(d-MoveCursorLeft)");
       scm = SCM_MAKINUM(2);
       break;
     case 4:
-      str = g_strdup_printf("(d-InsertRest0)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      str = g_strdup_printf("(d-InsertRest0)(d-MoveCursorLeft)%s", dot?"(d-AddDot)":"");
       break;
     case 8:
-      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest0)(d-CursorLeft)%s", dot?"(d-AddDot)":"");
+      str = g_strdup_printf("(d-InsertRest0)(d-InsertRest0)(d-MoveCursorLeft)%s", dot?"(d-AddDot)":"");
       scm = SCM_MAKINUM(2);
       break;   
     default:
