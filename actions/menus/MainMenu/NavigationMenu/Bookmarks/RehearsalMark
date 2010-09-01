@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>RehearsalMark</action>
-        <scheme>;;; BookmarkR
+        <scheme>
 ;;; Bookmark + RehearsalMark
 ;;; by Nils Gey Modified RTS
 (d-DirectivePut-standalone-display "RehearsalMark" "")

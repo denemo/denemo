@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BookmarkRNonPrinting</action>
+        <action>BookmarkNonPrinting</action>
         <scheme>;;;RehearsalMarkNonPrinting 
  ;;;Non Printing Bookmark 
 ;;;by Nils Gey RTS Modified to avoid poluting the global namespace with the variable user-input

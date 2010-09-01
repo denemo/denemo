@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>PrevBookmarkR</action>
+        <action>PrevBookmark</action>
         <scheme>;;;PrevBookMarkR by Nils Gey RTS
 (if (d-DirectiveGet-standalone-display "RehearsalMark")
 (d-MoveCursorLeft) )

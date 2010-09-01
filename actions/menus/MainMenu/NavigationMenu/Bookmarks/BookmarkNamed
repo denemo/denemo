@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>BookmarkRNamed</action>
+        <action>BookmarkNamed</action>
         <scheme> ;;; BookMarkRNamed
 ;;; Named RehearsalMark searchable as bookmark.
 ;;; by Nils Gey. RTS Modified to avoid poluting the global namespace with the variable user-input

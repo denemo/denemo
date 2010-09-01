@@ -5,8 +5,8 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>SearchBookmarkR</action>
-        <scheme>;;;SearchBookMarkR
+        <action>SearchBookmark</action>
+        <scheme>;;;SearchBookMark
 ;;;Find RehearsalMark by Nils Gey, RTS avoid global
 (let ((user-input #f))
 (set! user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
