@@ -5,23 +5,25 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>SearchBookmark</action>
-        <scheme>;;;Find Bookmark by Nils Gey
-(define user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
+        <action>SearchBookmarkR</action>
+        <scheme>;;;SearchBookMarkR
+;;;Find RehearsalMark by Nils Gey, RTS avoid global
+(let ((user-input #f))
+(set! user-input (string-downcase (d-GetUserInput "Find Bookmark" "What are you after? Case insensitive" "X")))
 (if user-input   ;in case the user pressed Escape do nothing
  (begin
-  (let searchBookmarkWithStringReturn((EndOfStaffSwitch #f))
+  (let searchRehearsalMarkWithStringReturn((EndOfStaffSwitch #f))
   (if (d-MoveCursorRight)
-	(if (and (string? (d-DirectiveGet-standalone-display "Bookmark" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "Bookmark" user-input) user-input))
+	(if (and (string? (d-DirectiveGet-standalone-display "RehearsalMark" user-input)) (string-ci=? (d-DirectiveGet-standalone-display "RehearsalMark" user-input) user-input))
 	 #t
-	 (searchBookmarkWithStringReturn EndOfStaffSwitch)
+	 (searchRehearsalMarkWithStringReturn EndOfStaffSwitch)
 	)
 
   ;CursorRight #f:
    (if EndOfStaffSwitch
     #f
-    (begin (d-MoveToBeginning)(searchBookmarkWithStringReturn #t))
-)))))
+    (begin (d-MoveToBeginning)(searchRehearsalMarkWithStringReturn #t))
+))))))
 </scheme>
         <label>Search Bookmark</label>
         <tooltip>Searches for a named Bookmark in the current staff.</tooltip>
