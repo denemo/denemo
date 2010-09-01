@@ -327,7 +327,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   si->has_figures = FALSE;
   si->has_fakechords = FALSE;
   /*playback purposes */
-  si->tempo = 60;
+  si->tempo = 120;
   si->start = 0;
   si->end = 0;
   si->stafftoplay = 0;

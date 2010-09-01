@@ -22,20 +22,20 @@ about (GtkAction * action, gpointer callback_data)
 {
   GtkWidget *dialog;
   DenemoGUI *gui = (DenemoGUI *)callback_data;
-  const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", NULL };
+  const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };
 
   dialog = gtk_about_dialog_new ();
-  gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (dialog), _("Denemo"));
+  gtk_about_dialog_set_name (GTK_ABOUT_DIALOG (dialog), _("GNU Denemo"));
   gtk_about_dialog_set_comments (GTK_ABOUT_DIALOG (dialog),
-				 _("The GNU graphical score editor"));
+				 _("Free and Open Music Notation Editor"));
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (dialog), VERSION);
   gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (dialog),
-				"http://denemo.org");
+				"http://www.denemo.org");
   gtk_about_dialog_set_website_label (GTK_ABOUT_DIALOG (dialog),
-				      _("Denemo website"));
+				      _("Denemo Website"));
   gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog),
 				_
-				("(c) 1999 - 2008 Matthew Hiller, Adam Tee, and others.\n\n\
+				("(c) 1999 - 2010 Matthew Hiller, Adam Tee, and others.\n\n\
 http://www.denemo.org\n\n\
 This program is licensed under the terms of the GNU\n\
 General Public License and is provided with absolutely\n\

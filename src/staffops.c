@@ -111,7 +111,7 @@ copy_staff_bits (DenemoStaff * src, DenemoStaff * dest)
   memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);
   dest->timesig.time1 = src->timesig.time1;
   dest->timesig.time2 = src->timesig.time2;
-  dest->volume = 65;
+  dest->volume = 127;
   dest->no_of_lines = 5;
   dest->transposition = 0;
 
