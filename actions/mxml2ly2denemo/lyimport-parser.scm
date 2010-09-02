@@ -187,7 +187,7 @@
   )
 	 
  (music_list
-	(music music_list)	: (cons* $1 $2)
+	(music music_list)	: (cons* $1 $2) ;;;;Denemo Special: I have reversed the order in the rule, which is harmless I think.
 	(music)				: (list $1)
  ) 
  
