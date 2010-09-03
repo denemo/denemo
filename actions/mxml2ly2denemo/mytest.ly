@@ -1,6 +1,6 @@
 
-%mine = {a b c}
+mine = {a b c}
 
 
-mine = {ais << c bis >> cis}
-\score { \mine  }
+mine = {ais' << c'' bis ees >> cis,}
+\score { \mine }
