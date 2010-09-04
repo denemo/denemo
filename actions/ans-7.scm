@@ -635,13 +635,28 @@
 	(string-append (string-drop-right ansNote  2  ) "00") 
 )
 
-(define (ANS-7::+ one two); wants two strings 
-	(number->string (+	(string->number one 7) (string->number two 7)) 7)
+;Alteration adds a sharp, flat or nothing to an ans-7 note. Returns an ans-7 number-string note. Wants an ans-7 number-string and a procedure that will return either 0, 1 or -1. 
+(define (ANS-7::Alteration inputstring caserator)
+	(case caserator
+	  ((0)		inputstring) ; natural, no change
+	  ((1)		(ANS-7::+ inputstring  "30")) ;sharp
+	  ((-1)		(ANS-7::+ inputstring  "20")) ;flat
+	  (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
+	 )
 )
 
-(define (ANS-7::- one two); wants two strings 
-	(number->string (-	(string->number one 7) (string->number two 7)) 7)
+; For calculations convert all base 7 to decimal first and before returning return them back to base7.
+; (string->number "str" 7) converts a string which is supposed to be a base7 value to a decial integer
+; (number->string n 7) converts a decimal number to a string-"number" which is base7. 
+
+(define (ANS-7::math op one two) ; wants two string
+	(number->string (op	(string->number one 7) (string->number two 7)) 7)
 )
+(define (ANS-7::+ one two)	(ANS-7::math + one two))
+(define (ANS-7::- one two)	(ANS-7::math - one two))
+(define (ANS-7::* one two)	(ANS-7::math * one two))
+(define (ANS-7::/ one two)	(ANS-7::math / one two))
+
 
 (define (ANS-7::CalculateRealOctaveUp sourceANS) ; Works with one string
 	(ANS-7::+ sourceANS "1000")
@@ -651,24 +666,67 @@
 	(ANS-7::- sourceANS "1000")
 )
 
-
-;Calculate the a diatonic step up or down and keep it in scale / according to the prevailing keysignature. Wants an ANS-7 string-number, returns a new string-number
-(define (ANS-7::CalculateDiatonicStepPrototype sourceANS calcfunction)
+;Make diatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
+(define (ANS-7::MakeDiatonic sourceANS)
 	(define keysiglist (string-tokenize (d-GetPrevailingKeysig)))
-	(define nextnumber (calcfunction (ANS-7::MakeWhiteKey sourceANS)  "100")) ; transpose just a step up
+	(define nextnumber (ANS-7::MakeWhiteKey sourceANS))
 	(define (calcThirdDigit nextnumber)  ; check which pitch of note we got after just transposing (no keysig so far) the sourceANS. The third digit, right-to-left, indicates the pitch without sharp/flat or octave. 
 		(string->number (string (string-ref nextnumber (- (string-length nextnumber) 3) ))) ; conversion chain to get a number
 	)	
 		
 	;At last compare our target-pitch with the current keysignature. If the target "slot" is altered by a keysig we need to change our target-pitch according to the keysig.	
-	(case (string->number (list-ref keysiglist (calcThirdDigit nextnumber)))
-	  ((0)		nextnumber) ; natural, no change
-	  ((1)		(ANS-7::+ nextnumber  "30")) ;sharp
-	  ((-1)		(ANS-7::+ nextnumber  "20")) ;flat
-	  (else   #f ) ; someone might introduce some insane feature in the future where you can add doublecrosses or similar to a keysig. Or maybe there is even a real usage for micotonals like turkish maqam.
-	 )
+	(ANS-7::Alteration nextnumber (string->number (list-ref keysiglist (calcThirdDigit nextnumber))))
 )
 
-(define (ANS-7::CalculateDiatonicStepUp sourceANS) (ANS-7::CalculateDiatonicStepPrototype sourceANS ANS-7::+))
-(define (ANS-7::CalculateDiatonicStepDown sourceANS ) (ANS-7::CalculateDiatonicStepPrototype sourceANS ANS-7::-))
+(define (ANS-7::CalculateDiatonicStepUp sourceANS) (ANS-7::MakeDiatonic (ANS-7::+ sourceANS "100")))
+(define (ANS-7::CalculateDiatonicStepDown sourceANS ) (ANS-7::MakeDiatonic (ANS-7::- sourceANS "100")))
 
+;;;;Random note generation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; create the seed one time the program starts. The seed is altered by random itself afterwards.
+(let ((time (gettimeofday)))
+    (set! *random-state*
+        (seed->random-state (+ (car time)
+                 (cdr time)))))
+                 
+; Generates a random note within a given range. The range includes both values.
+(define (ANS-7::random from to)
+	(let (
+		 (from (string->number (ANS-7::/ from "100") 7))
+		 (to (string->number (ANS-7::/ to "100") 7))
+		 (rand "0")
+		 )
+	(set! to (+ 1 (- to from))) ;+1 to include the last, given value.
+	(set! rand (number->string (+ from (random to)) 7)) ; Convert back to base7
+	(ANS-7::* rand "100")
+	)
+)
+
+;Random note generator, respects the keysignature. Insert an optional range, default is all 56 diatonic notes.
+(define* (ANS-7::random-diatonic #:optional (from "0") (to "10600"))
+	(ANS-7::MakeDiatonic (ANS-7::random from to))	
+)
+
+;Random note generator, one of each possible chromatic notes or optional range. Same probability for natural, flat or sharp.
+(define* (ANS-7::random-chromatic #:optional (from "0") (to "10600"))
+	(define rand (- (random 3) 1))	; -1, 0 or 1
+	(ANS-7::Alteration (ANS-7::random from to) rand) 
+)  
+
+
+;;;; Converter and Wrapper
+;;;;;;;;;;;;;;;;;;;;;;
+;Random Diatonic: Converter for Lilypond syntax users 
+(define*  (ANS-7::rand-ly-diatonic #:optional (from "c,,,") (to "b''''"))
+	(set! from (ANS-7::Ly2Ans from))
+	(set! to (ANS-7::Ly2Ans to))
+	(ANS-7::random-diatonic from to)
+)
+
+;Random Chromatic: Converter for Lilypond syntax users 
+(define*  (ANS-7::rand-ly-chromatic #:optional (from "c,,,") (to "b''''"))
+	(set! from (ANS-7::Ly2Ans from))
+	(set! to (ANS-7::Ly2Ans to))
+	(ANS-7::random-chromatic from to)
+)
