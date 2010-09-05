@@ -3934,11 +3934,18 @@ for second and subsequent systems</tooltip>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
       <row>
-        <action>TwelveToneRow</action>
+        <action>NotationMagick-TwelveToneRow</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick</menupath>
         <label>Twelve Tone Row</label>
         <tooltip>Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. </tooltip>
+      </row>
+      <row>
+        <action>NotationMagick-InsertNoteFromPool</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Note from pool</label>
+        <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
     </map>
   </commands>

@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <action>TwelveToneRow</action>
+        <action>NotationMagick-TwelveToneRow</action>
         <scheme> 
 		(ANS-7::InsertListRandomlyLy (list "c'" "des'" "d'" "ees'" "e'" "f'" "fis'" "g'" "aes'" "a'" "bes'" "b'"))		
 		</scheme>

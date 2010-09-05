@@ -599,6 +599,11 @@
 ;;;; Basic functions
 ;;;; Important: All these work with strings because there is no native number base7 system in Scheme.
 
+;Checks if a string is a lilypond note compatible with (d-ChangeChordNotes)
+;(define (ANS-7::IsLily?)
+;	
+;)
+
 (define (ANS-7::Ly2Ans lilynote) ;wants string, returns string
 	(hashq-ref ANS-7::Base7NoteTableR (string->symbol lilynote))
 )
@@ -612,7 +617,9 @@
 	(map ANS-7::Ly2Ans lilylist)
 )
 
+
 (define* (ANS-7::InsertNotes ansNotes #:optional (dots #f) (duration #f) ); wants a string or  a list of ANS-7 note-strings as chord ("3500" "4030" "4200"). Optional duration and number of dots. returns #t or #f
+	;TODO: Check if these are valid notes.
 	(d-InsertA)
 	(d-MoveCursorLeft)
 	(ANS-7::ChangeChordNotes ansNotes)
@@ -721,8 +728,14 @@
 	(for-each ANS-7::InsertNotes shuffledlist)
 )
 
+;Takes a list of ans-7 notes and randomly pick one to insert. The member remains in the list
+(define (ANS-7::InsertMemberRandomly ans7list)
+	(define rnd (random (length ans7list) ))
+	(ANS-7::InsertNotes (list (list-ref ans7list rnd) ))
+)
 
-;;;; Converter and Wrapper
+
+;;;; Lilypond versions of the functions above
 ;;;;;;;;;;;;;;;;;;;;;;
 ;Random Diatonic: Converter for Lilypond syntax  
 (define*  (ANS-7::RandomDiatonicLy #:optional (from "c,,,") (to "b''''"))
@@ -737,4 +750,9 @@
 ;Shuffled List Insert for Lilypond syntax
 (define (ANS-7::InsertListRandomlyLy lylist)
 	(ANS-7::InsertListRandomly (map ANS-7::Ly2Ans lylist))
+)
+
+;Insert a random member of a list for Lilypond syntax
+(define (ANS-7::InsertMemberRandomlyLy lylist)
+	(ANS-7::InsertMemberRandomly (map ANS-7::Ly2Ans lylist))
 )

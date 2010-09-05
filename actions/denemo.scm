@@ -4,6 +4,7 @@
 (use-modules (ice-9 regex))
 (use-modules (ice-9 optargs))
 (load "ans-7.scm")
+(load "notationmagick.scm")
 
 ; Create a seed for (random int) one time Denemo starts. The seed is altered by random itself afterwards.
 (let ((time (gettimeofday)))
