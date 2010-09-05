@@ -627,10 +627,11 @@
 )
 
 (define (ANS-7::ChangeChordNotes ansNotes); wants a string or list of ANS-7 note-strings ("3500" "4030" "4200") 
+	(define newList '())
 	(if (list? ansNotes)
 		#t
 		(set! ansNotes (list ansNotes)))
-	(define newList (map ANS-7::Ans2Ly ansNotes))
+	(set! newList (map ANS-7::Ans2Ly ansNotes))
 	(d-ChangeChordNotes (string-join newList))
 )
 
@@ -723,14 +724,17 @@
 
 ;;;; Converter and Wrapper
 ;;;;;;;;;;;;;;;;;;;;;;
-;Random Diatonic: Converter for Lilypond syntax users 
-(define*  (ANS-7::RandLyDiatonic #:optional (from "c,,,") (to "b''''"))
+;Random Diatonic: Converter for Lilypond syntax  
+(define*  (ANS-7::RandomDiatonicLy #:optional (from "c,,,") (to "b''''"))
 	(ANS-7::RandomDiatonic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
 
-;Random Chromatic: Converter for Lilypond syntax users 
-(define*  (ANS-7::RandLyChromatic #:optional (from "c,,,") (to "b''''"))
+;Random Chromatic: Converter for Lilypond syntax  
+(define*  (ANS-7::RandomChromaticLy #:optional (from "c,,,") (to "b''''"))
 	(ANS-7::RandomChromatic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
 
-
+;Shuffled List Insert for Lilypond syntax
+(define (ANS-7::InsertListRandomlyLy lylist)
+	(ANS-7::InsertListRandomly (map ANS-7::Ly2Ans lylist))
+)
