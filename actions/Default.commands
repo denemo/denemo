@@ -3933,6 +3933,13 @@ for second and subsequent systems</tooltip>
         <label>Shift Octave Down</label>
         <tooltip>Shifts current notes/selection down one octave while preserving accidental status. This means real transposition</tooltip>
       </row>
+      <row>
+        <action>TwelveToneRow</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Twelve Tone Row</label>
+        <tooltip>Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. </tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
