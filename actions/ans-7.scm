@@ -684,12 +684,7 @@
 ;;;;Random note generation
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; create the seed one time the program starts. The seed is altered by random itself afterwards.
-(let ((time (gettimeofday)))
-    (set! *random-state*
-        (seed->random-state (+ (car time)
-                 (cdr time)))))
-                 
+               
 ; Generates a random note within a given range. The range includes both values.
 (define (ANS-7::random from to)
 	(let (
@@ -714,19 +709,21 @@
 	(ANS-7::Alteration (ANS-7::random from to) rand) 
 )  
 
+;Smart note generator, looks at the clef and returns only notes in a reasonable range
+
+;
+
 
 ;;;; Converter and Wrapper
 ;;;;;;;;;;;;;;;;;;;;;;
 ;Random Diatonic: Converter for Lilypond syntax users 
 (define*  (ANS-7::rand-ly-diatonic #:optional (from "c,,,") (to "b''''"))
-	(set! from (ANS-7::Ly2Ans from))
-	(set! to (ANS-7::Ly2Ans to))
-	(ANS-7::random-diatonic from to)
+	(ANS-7::random-diatonic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
 
 ;Random Chromatic: Converter for Lilypond syntax users 
 (define*  (ANS-7::rand-ly-chromatic #:optional (from "c,,,") (to "b''''"))
-	(set! from (ANS-7::Ly2Ans from))
-	(set! to (ANS-7::Ly2Ans to))
-	(ANS-7::random-chromatic from to)
+	(ANS-7::random-chromatic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
+
+
