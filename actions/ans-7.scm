@@ -607,12 +607,12 @@
 	(hashq-ref ANS-7::Base7NoteTable (string->number ansNote))
 )
 
-(define (ANS-7::GetChordNotes); For singles and chords. Returns a list of ANS-7 string-numbers : ("3500" "4030" "4200") 
+(define (ANS-7::GetChordNotes); For singles and chords. Returns a list of ANS-7 string-numbers as chord: ("3500" "4030" "4200") 
 	(define lilylist (string-tokenize (d-GetNotes)))
 	(map ANS-7::Ly2Ans lilylist)
 )
 
-(define* (ANS-7::InsertNotes ansNotes #:optional (dots #f) (duration #f) ); wants a list of ANS-7 note-strings ("3500" "4030" "4200"). Optional duration and number of dots. returns #t or #f
+(define* (ANS-7::InsertNotes ansNotes #:optional (dots #f) (duration #f) ); wants a string or  a list of ANS-7 note-strings as chord ("3500" "4030" "4200"). Optional duration and number of dots. returns #t or #f
 	(d-InsertA)
 	(d-MoveCursorLeft)
 	(ANS-7::ChangeChordNotes ansNotes)
@@ -626,7 +626,10 @@
 	(d-MoveCursorRight)
 )
 
-(define (ANS-7::ChangeChordNotes ansNotes); wants a list of ANS-7 note-strings ("3500" "4030" "4200") 
+(define (ANS-7::ChangeChordNotes ansNotes); wants a string or list of ANS-7 note-strings ("3500" "4030" "4200") 
+	(if (list? ansNotes)
+		#t
+		(set! ansNotes (list ansNotes)))
 	(define newList (map ANS-7::Ans2Ly ansNotes))
 	(d-ChangeChordNotes (string-join newList))
 )
@@ -699,31 +702,35 @@
 )
 
 ;Random note generator, respects the keysignature. Insert an optional range, default is all 56 diatonic notes.
-(define* (ANS-7::random-diatonic #:optional (from "0") (to "10600"))
+(define* (ANS-7::RandomDiatonic #:optional (from "0") (to "10600"))
 	(ANS-7::MakeDiatonic (ANS-7::random from to))	
 )
 
 ;Random note generator, one of each possible chromatic notes or optional range. Same probability for natural, flat or sharp.
-(define* (ANS-7::random-chromatic #:optional (from "0") (to "10600"))
+(define* (ANS-7::RandomChromatic #:optional (from "0") (to "10600"))
 	(define rand (- (random 3) 1))	; -1, 0 or 1
 	(ANS-7::Alteration (ANS-7::random from to) rand) 
 )  
 
 ;Smart note generator, looks at the clef and returns only notes in a reasonable range
 
-;
+;Takes a list of ans-7 notes, shuffles the members and inserts them as new notes. no chords possible
+(define (ANS-7::InsertListRandomly ans7list)
+	(define shuffledlist (merge-shuffle-list ans7list))
+	(for-each ANS-7::InsertNotes shuffledlist)
+)
 
 
 ;;;; Converter and Wrapper
 ;;;;;;;;;;;;;;;;;;;;;;
 ;Random Diatonic: Converter for Lilypond syntax users 
-(define*  (ANS-7::rand-ly-diatonic #:optional (from "c,,,") (to "b''''"))
-	(ANS-7::random-diatonic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
+(define*  (ANS-7::RandLyDiatonic #:optional (from "c,,,") (to "b''''"))
+	(ANS-7::RandomDiatonic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
 
 ;Random Chromatic: Converter for Lilypond syntax users 
-(define*  (ANS-7::rand-ly-chromatic #:optional (from "c,,,") (to "b''''"))
-	(ANS-7::random-chromatic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
+(define*  (ANS-7::RandLyChromatic #:optional (from "c,,,") (to "b''''"))
+	(ANS-7::RandomChromatic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
 )
 
 
