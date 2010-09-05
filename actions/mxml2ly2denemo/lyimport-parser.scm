@@ -37,7 +37,7 @@
 	
  (toplevel_expression
 			(score_block)				: (list (cons 'x_MOVEMENT $1) )
-			(composite_music)			:  (begin (format #t "reached composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
+			(composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
 			(ERROR)						: (display (string-append "toplevel error: " $1)) 			
  )	
  
@@ -81,7 +81,7 @@
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
 	)
 
- (simple_music
+ (simple_music ;; a pair
 	(event_chord)					: (begin (format #t "now simple_music ~a~%" $1) $1)	
     (MUSIC_IDENTIFIER)				: $1
     ;(music_property_def)			: $1
@@ -107,16 +107,16 @@
   )
        
  
- (composite_music	
-	(prefix_composite_music) 	: (cons 'x_PREFIX $1)
+ (composite_music	;;; a list
+	(prefix_composite_music) 	: $1
 	(grouped_music_list)		: (begin (format #t "reached composite music  ~a~%" $1) $1)
 	
  )
  
- (grouped_music_list
-	(simultaneous_music)			: (begin (format #t "reached simultaneous rule of grouped music list  ~a is pair?~a ~%" $1 (pair? $1)) $1 )
-	(sequential_music)				: (begin (format #t "reached sequential rule of grouped music list  ~a~%" $1) $1)
- )	
+ (grouped_music_list ;;; a list
+	(simultaneous_music)			: (begin (format #t "reached simultaneous rule of grouped music list  ~a is pair?~a ~%" $1 (pair? $1)) (list $1) )
+	(sequential_music)			: (begin (format #t "reached sequential rule of grouped music list  ~a~%" $1) (list $1))
+ )
  
  (optional_id
 	() : ""
@@ -125,18 +125,18 @@
 	
 
  
- (prefix_composite_music
+ (prefix_composite_music    ;;; a list
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
-	(CONTEXT simple_string optional_id optional_context_mod music) : $5
+	(CONTEXT simple_string optional_id optional_context_mod music) :  (cons (cons 'CONTEXT (list $2 $3 $4)) $5)
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) : $5
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) :(begin (format #t "newcontext is ~a~%" $2)   (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -186,14 +186,26 @@
 	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
 	 
- (music_list
-	(music music_list)	: (cons* $1 $2) ;;;;Denemo Special: I have reversed the order in the rule, which is harmless I think.
-	(music)				: (list $1)
+ (music_list ;; a list
+	(music_list music)	: (append $1 $2) ;;;
+	(music)				: $1
  ) 
  
- (music
-	(simple_music)					: $1
-	(composite_music)				: $1 ; for {c { d e } } constructions
+ (music ;; a list
+	(simple_music)					: (list $1)
+	(composite_music)				: (begin (format #t "~%music as composite_music with value ~a~%" (car (list-ref $1 0)))
+             
+;;this comes in as either this
+;;music as composite_music with value (NEWCONTEXT Staff  )
+
+;;or this...
+;;.........with value (x_SEQUENTIAL (x_CHORD
+
+;;output 
+                                                   ;;(if (eqv? 'NEWCONTEXT (car (list-ref $1 0)))
+;;						       (cons 'x_NEWCONTEXT  $1)
+;;						       (cons 'x_COMPOSITE_MUSIC $1))) ; for {c { d e } } constructions
+$1)
 	
  )
  
@@ -207,14 +219,14 @@
 	
  )
 	
- (sequential_music
-	( SEQUENTIAL { music_list } )   : $3
+ (sequential_music ;;; a pair
+	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
 	(  { music_list }  )			: (begin (format #t "Sequential this is a ~a~%" (list? $2)) 
     (pretty-print $2)
  (cons 'x_SEQUENTIAL $2))
  )
 
-  (simultaneous_music
+  (simultaneous_music  ;;; a pair
 	(SIMULTANEOUS { music_list }):  (cons 'x_SIMULTANEOUS $3) ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
 	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin (format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2)) (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
   )
@@ -241,7 +253,7 @@
 	(DIGIT) : $1 
   )
  
- (event_chord
+ (event_chord ;; a pair
 	(simple_chord_elements post_events)			: (begin (format #t "Parser reached ~a~%" $1) (cons 'x_CHORD (cons $1 $2)))
 	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
