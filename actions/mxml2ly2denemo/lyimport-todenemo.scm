@@ -45,12 +45,9 @@
 							 (string-join (map loop-through (cdr current_object)))))
 
 	   ((eqv? (car current_object) 'x_SIMULTANEOUS)		(begin
-								  (format #t "the parallel list has ~a~% which has list-ref cadr ~a~%" (cdr current_object)   (list-ref   (cdr current_object) 0) )
-								  (pretty-print  (list-tail (cdr current_object) 1))
-
-
-;;;!!!!!!!!!! the test not null?... is not good to detect chords, it allows two staffs to be chords as well....
-
+								  ;; (format #t "the parallel list has ~a~% which has list-ref cadr ~a~%" (cdr current_object)   (list-ref   (cdr current_object) 0) )
+								  ;;(pretty-print  (list-tail (cdr current_object) 1))
+;;;FIXME the NEWCONTEXT can also appear at the top level, leading to repeated code. Also we are not looking to see what the new context is - just assuming Staff.
 								  (if (eqv? 'NEWCONTEXT  (car (list-ref   (cdr current_object) 0)))
 								      (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1))))
 								      (string-append (start-chord current_object)  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))
@@ -60,7 +57,8 @@
 	   
 	   
 	   (else
-	    (begin (format #t "Not handled ~a~%" current_object) "unhandllled")   ;(string-join (map loop-through current_object))
+	    (begin (format #t "Not handled ~a~%" current_object) "recursive")   
+	    (string-join (map loop-through current_object))
 	   )
 	   ))
 	 (begin
