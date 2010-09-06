@@ -159,8 +159,16 @@ timesig_change_insert (GtkAction *action, DenemoScriptParam * param)
   }
   if(timesigname==NULL)
     timesig_change (gui, INSERT);
-  else
-    g_warning("not implemented yet");
+  else {
+    DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+    gint time1, time2;
+    sscanf(timesigname, "%d/%d", &time1, &time2);
+    if( time1 && time2) {
+      insert_timesig (gui->si, curstaffstruct, time1, time2);
+      param->status = TRUE;
+      displayhelper (gui);
+    }
+  }   
 }
 
 /**
@@ -184,8 +192,17 @@ timesig_change_initial (GtkAction *action, DenemoScriptParam * param)
 
   if(timesigname==NULL)
     timesig_change (gui, CHANGEINITIAL);
-  else
-    g_warning("not implemented yet");
+  else {
+    DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
+    gint time1, time2;
+    sscanf(timesigname, "%d/%d", &time1, &time2);
+    if( time1 && time2) {
+      dnm_setinitialtimesig (gui->si, curstaffstruct, time1, 
+			     time2, TRUE);
+      param->status = TRUE;
+      displayhelper (gui);
+    }
+  }
 }
 
 /**
