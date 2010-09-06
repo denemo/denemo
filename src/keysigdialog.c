@@ -26,9 +26,20 @@ static gchar *majorkeys[15] =
   "C", "G", "D", "A", "E", "B", "F sharp", "C sharp"
 };
 
+
 static gchar *minorkeys[15] =
   { "A flat", "E flat", "B flat", "F", "C", "G", "D",
   "A", "E", "B", "F sharp", "C sharp", "G sharp", "D sharp", "A sharp"
+};
+
+static gchar *uminorkeys[15] =
+  { "A FLAT", "E FLAT", "B FLAT", "F", "C", "G", "D",
+  "A", "E", "B", "F SHARP", "C SHARP", "G SHARP", "D SHARP", "A SHARP"
+};
+
+static gchar *umajorkeys[15] =
+  { "C FLAT", "G FLAT", "D FLAT", "A FLAT", "E FLAT", "B FLAT", "F",
+  "C", "G", "D", "A", "E", "B", "F SHARP", "C SHARP"
 };
 
 static gchar *modes[7] =
@@ -290,18 +301,18 @@ key_from_string(GString *scheme_string, gint *tokey, gint *isminor) {
   gint length=0;
   *isminor =  (g_strstr_len(upper, scheme_string->len, "MINOR"))?1:0;
   g_print("upper %s, scheme %s\n", upper, scheme_string->str);
-  g_free(upper);
-  gchar **keystosearch = (*isminor?minorkeys:majorkeys);
+  
+  gchar **keystosearch = (*isminor?uminorkeys:umajorkeys);
   gint i;
   for(*tokey=UNSET, i=0;i<15;i++)
-    if(g_str_has_prefix( scheme_string->str, keystosearch[i])) {
+    if(g_str_has_prefix( upper, keystosearch[i])) {
       if(strlen(keystosearch[i])>length){
 	*tokey = i - KEYNAME_ARRAY_OFFSET;
 	length = strlen(keystosearch[i]);
       }
     }
 
-
+  g_free(upper);
   if(*tokey!=UNSET)
     return TRUE;
   return FALSE;
