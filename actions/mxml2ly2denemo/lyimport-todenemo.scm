@@ -78,6 +78,7 @@
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin (format #t "hoping to process a note next for ~a~%" (list (cadr current_object)))   (string-join (map create-note (list (cadr current_object))))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin (format #t "clef is ~a~%~%" (cdr current_object)) (string-append "(d-InsertClef \"" (cdr current_object) "\")")))
+	   ((eqv? (car current_object) 'x_TIME) (begin (format #t "time is ~a~%~%" (cdr current_object)) (string-append "(d-InsertTimeSig \"" (cdr current_object) "\")")))
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
 	   ))))

@@ -14,7 +14,7 @@ mine = \new Staff  { ais' << c'' bis ees >> g g g}
 
 \score {
 <<
- \new Staff  {\clef bass {a b << e g b >> c c c} }
+ \new Staff  {\clef bass \time 3/16 {a b << e g b >> c c c} }
  \new Staff  {d e f << c e g >> a a a}
 \mine
 >>
