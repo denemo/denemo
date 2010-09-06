@@ -3947,6 +3947,13 @@ for second and subsequent systems</tooltip>
         <label>Note from pool</label>
         <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
+      <row>
+        <action>NotationMagick-InsertPoolShuffled</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <label>Insert shuffled pool</label>
+        <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
