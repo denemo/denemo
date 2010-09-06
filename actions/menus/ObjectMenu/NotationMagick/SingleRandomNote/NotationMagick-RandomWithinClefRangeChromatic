@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeChromatic</action>
+        <scheme>;Part of NotationMagick
+(NotationMagick::RandomWithinClefRangeChromatic)</scheme>
+        <label>Chromatic within clef range</label>
+       <tooltip>Insert a random note within clef range. Full chromatic spectrum.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

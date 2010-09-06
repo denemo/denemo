@@ -36,5 +36,27 @@
 NotationMagick::NOTATIONSTRING
 )
 
+;; Insert a random note which is in a reasonable range according to the prevailing clef. Up to one step above/under the first Ledger line. 
+;; First the prototype, then one derived version for chromatic, one for diatonic. 
 
+;; Insert a random note which is in a reasonable range according to the prevailing clef. Up to one step above/under the first Ledger line. 
+;; First the prototype, then one derived version for chromatic, one for diatonic. 
+
+(define (NotationMagick::RandomWithinClefRange proc) 
+	(define currentclef (d-GetPrevailingClef))
+	(ANS-7::InsertNotes
+		(cond 
+		((string-ci=? currentclef "Treble") (proc "b" "b''"))
+		((string-ci=? currentclef "Bass") (proc "d," "d'"))
+		((string-ci=? currentclef "Alt") (proc "c" "c''"))
+		((string-ci=? currentclef "Treble Octava bassa") (proc "b," "b'"))
+		((string-ci=? currentclef "Bass Octava bassa") (proc "d,," "d"))
+		((string-ci=? currentclef "Tenor") (proc "a," "a'"))
+		((string-ci=? currentclef "Soprano") (proc "g" "g''"))
+		((string-ci=? currentclef "French") (proc "d'" "d'''"))		
+		))
+)
+;; Usable versions for diatonic and chromatic
+(define (NotationMagick::RandomWithinClefRangeDiatonic) (NotationMagick::RandomWithinClefRange NotationMagick::RandomDiatonicLy))
+(define (NotationMagick::RandomWithinClefRangeChromatic) (NotationMagick::RandomWithinClefRange NotationMagick::RandomChromaticLy))
 

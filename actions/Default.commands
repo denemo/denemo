@@ -3943,7 +3943,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>NotationMagick-InsertNoteFromPool</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotationMagick</menupath>
+        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
         <label>Note from pool</label>
         <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
@@ -3953,6 +3953,20 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/NotationMagick</menupath>
         <label>Insert shuffled pool</label>
         <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
+      </row>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeChromatic</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
+        <label>Chromatic within clef range</label>
+        <tooltip>Insert a random note within clef range. Full chromatic spectrum.</tooltip>
+      </row>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
+        <label>Diatonic within clef range</label>
+        <tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</tooltip>
       </row>
     </map>
   </commands>
