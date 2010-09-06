@@ -523,6 +523,10 @@
         <bind>b,2</bind>
       </row>
       <row>
+        <action>DoubleBarline</action>
+        <bind>b,d</bind>
+      </row>
+      <row>
         <action>TmbalesStyle</action>
         <hidden>true</hidden>
       </row>
