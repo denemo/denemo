@@ -27,9 +27,9 @@
    )
 
  (lilypond 
-		   ()								 : ""  
-		   (lilypond toplevel_expression)	 : (set! final_list $2) 
-		   (lilypond assignment)			 : (cons 'MUSIC_ASSIGNMENT #t) 
+		   ()								 : '()  
+		   (lilypond toplevel_expression)	 : (append $1 $2) 
+		   (lilypond assignment)			 : '() ;(cons 'MUSIC_ASSIGNMENT #t) 
 		   ;(lilypond error)				 : #f ;PARSER->error_level_ = 1;
 		   ;(lilypond INVALID)				 : #f ;PARSER->error_level_ = 1;
 		   

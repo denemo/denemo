@@ -76,7 +76,7 @@
 ; Run the parser. It wants the lexer and a function to display the uncatched errors. Automatically runs on the current input port.
 (newline)
 (display ":::::::: Parser Start ::::::::::")(newline)
-(mxml2ly2denemo-parser lexer displayerror)
+(set! final_list (mxml2ly2denemo-parser lexer displayerror))
 
 (newline)
 (display ":::::::: Parser Finished ::::::::::")(newline)
