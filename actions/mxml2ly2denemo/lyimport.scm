@@ -37,10 +37,7 @@
 (define lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t
 (define lyimport::halt_on_error #t) ; Switch to decide if a catched error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t
 
-;; Lists to save music and create the final output
-(define current_notelist '())
-(define final_list #f)
-  
+ 
 
 ;Blank Table of Assignments. Every assignment (block of notes and other events) is stored as one entry in the hash table.
 (define lyimport::AssignmentTable (make-hash-table))
@@ -76,7 +73,7 @@
 ; Run the parser. It wants the lexer and a function to display the uncatched errors. Automatically runs on the current input port.
 (newline)
 (display ":::::::: Parser Start ::::::::::")(newline)
-(set! final_list (mxml2ly2denemo-parser lexer displayerror))
+(define final_list (mxml2ly2denemo-parser lexer displayerror))
 
 (newline)
 (display ":::::::: Parser Finished ::::::::::")(newline)

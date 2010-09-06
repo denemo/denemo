@@ -402,7 +402,7 @@ $1)
 		
 	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
 	;;;;;;;;;;
-	(CLEF QUOTED_CHAR) : (cons 'x_CLEF $2)
+	(CLEF STRING) : (cons 'x_CLEF $2)
 	
  )
 
