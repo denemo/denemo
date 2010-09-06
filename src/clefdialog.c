@@ -42,6 +42,11 @@ static ClefInfo clef_info[] = {
   {DENEMO_FRENCH_CLEF, N_("French")},
 };
 
+const gchar *get_clef_name(gint type) {
+  if(type>=0 && (type<G_N_ELEMENTS(clef_info)))
+    return  clef_info[type].name;
+  return NULL;
+}
 
 static enum clefs get_clef_from_name(gchar *name) {
   gint i;

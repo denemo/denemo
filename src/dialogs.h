@@ -70,4 +70,6 @@ score_properties_dialog(GtkAction *action, DenemoScriptParam *param);
 
 void export_pdf_action (GtkAction *action, gpointer param);
 
+const gchar *get_clef_name(gint type);
+
 #endif /* __DIALOGS_H__ */

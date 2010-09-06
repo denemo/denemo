@@ -1209,6 +1209,16 @@ SCM scheme_get_notes (SCM optional) {
  } 
 }
 
+SCM scheme_get_prevailing_clef(SCM optional) {
+  gint theclef = find_prevailing_clef(Denemo.gui->si);
+  //FIXME look at directives to see if it is overridden, e.g. drum clef
+  const gchar *clefname = get_clef_name(theclef);
+  if(clefname)
+    return scm_from_locale_string(clefname);
+  else return SCM_BOOL_F;
+}
+
+
 
 SCM scheme_get_prevailing_keysig(SCM optional) {
  GString *str = g_string_new(" ");
@@ -3152,6 +3162,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Takes LilyPond note name string. Moves the cursor to the line or space",DENEMO_SCHEME_PREFIX"CursorToNote", scheme_cursor_to_note);
 
   INSTALL_SCM_FUNCTION ("Returns the prevailing keysignature at the cursor",DENEMO_SCHEME_PREFIX"GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  INSTALL_SCM_FUNCTION ("Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.",DENEMO_SCHEME_PREFIX"GetPrevailingClef", scheme_get_prevailing_clef);
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
 
