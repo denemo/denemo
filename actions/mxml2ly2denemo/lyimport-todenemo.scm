@@ -26,57 +26,58 @@
     ))
 
   (define (loop-through current_object)
-(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
-
-     (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
-	 " "
+    (format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
+    ;; (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
+    ;;	 " "
 ;;;;;;; First pairs that are lists
-     (if (list? current_object)
-	 (begin
-	   (cond
+    (if (list? current_object)
+	(begin
+	  (cond
 	   ((eqv? (car current_object) 'x_MOVEMENT)	(begin
-						       (format #t "the movement has ~a~% which is list? ~a~%" (cdr current_object) (list? (cdr current_object)))
-						       (string-append  "(d-NewMovement)" (string-join (map loop-through (list-tail current_object 1))))))
-
+							  (format #t "the movement has ~a~% which is list? ~a~%" (cdr current_object) (list? (cdr current_object)))
+							  
+							  (format #t "~%~%LOOoKING at ~a ~a~%~%"  (list-tail current_object 1) (car (list-tail current_object 1)))
+							  
+							  
+							  (string-append  "(d-NewMovement)" (string-join (map loop-through (list-tail current_object 1))))))
+	   
 	   ((eqv? (car current_object) 'NEWCONTEXT)             "(d-AddLast)")
-
+	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
-							 (format #t "the sequential list has ~a~% which HAS cadr ~a~%" (cdr current_object) (cadr current_object))
-							 (string-join (map loop-through (cdr current_object)))))
-
+								  (format #t "the sequential list has ~a~% which HAS cadr ~a~%" (cdr current_object) (cadr current_object))
+								  (string-join (map loop-through (cdr current_object)))))
+	   
 	   ((eqv? (car current_object) 'x_SIMULTANEOUS)		(begin
-								  ;; (format #t "the parallel list has ~a~% which has list-ref cadr ~a~%" (cdr current_object)   (list-ref   (cdr current_object) 0) )
-								  ;;(pretty-print  (list-tail (cdr current_object) 1))
-;;;FIXME the NEWCONTEXT can also appear at the top level, leading to repeated code. Also we are not looking to see what the new context is - just assuming Staff.
-								  (if (eqv? 'NEWCONTEXT  (car (list-ref   (cdr current_object) 0)))
-								      (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1))))
-								      (string-append (start-chord current_object)  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))
-								      )))
+								  (format #t "the parallel list has ~a~% which has list-ref cadr ~a~%" (cdr current_object)   (list-ref   (cdr current_object) 0))
+								  (pretty-print  (list-tail (cdr current_object) 1))
+;;;FIXME the NEWCONTEXT can also appear at the top level, leading to repeated code. Also we are not looking to see what the new context is - just assuming Staff. and additional x_SEQUENTIAL etc
+								  (cond 
+								   ((eqv? 'x_SEQUENTIAL  (car (list-ref (cdr current_object) 0)))
+								    (begin
+								      (format #t "Seq:About to process ~a~%"  (cdr current_object))
+								      (string-append ";;;ignoring the {}\n" (string-join (map loop-through (cdr current_object))))
+								      ))
+								   
+								   
+								   
+								   ((eqv? 'NEWCONTEXT  (car (list-ref   (cdr current_object) 0)))
+								    (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1)))))
+								   ((eqv? 'x_CHORD  (car (list-ref   (cdr current_object) 0)))	    
+								    (string-append (start-chord current_object)  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1)))))
+								  (else (begin (format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref (cdr current_object) 0)) (list-ref (cdr current_object) 0))  (string-join (map loop-through (cdr current_object)))))
+								  )))
 	   
 	   ((eqv? (car current_object) 'x_COMPOSITE_MUSIC)       (begin (format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))   (string-join (map loop-through (list-tail (cdr current_object) 0)))))
 	   
-	   
 	   (else
-	    (begin (format #t "Not handled ~a~%" current_object) "recursive")   
-	    (string-join (map loop-through current_object))
-	   )
-	   ))
-	 (begin
-    (cond
-
+	    (begin (format #t "handled by recursion through list~%")   
+		   (string-join (map loop-through current_object))))
+	   ))  ;;;;; end of current_object is a list
+	(begin
+	  (format #t "treating the case ~a~%~%" (car current_object))
+	  (cond
+	   ((eqv? (car current_object) 'x_CHORD) (begin (format #t "hoping to process a note next for ~a~%" (list (cadr current_object)))   (string-join (map create-note (list (cadr current_object))))))
+	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
+	   ))))
   
-
-
-
-
-      ((eqv? (car current_object) 'x_CHORD)		(begin (format #t "hoping to process a note next for ~a~%" (list (cadr current_object)))   (string-join (map create-note (list (cadr current_object))))))
-
-
-
-
-       (else (pretty-print current_object))      
-						  
-      )))))
-  
-(format #t "~%Final result ~a~%" (string-join (map loop-through list_from_parser)))
-  )
+  (format #t "~%Final result ~a~%" (string-join (map loop-through list_from_parser))))
