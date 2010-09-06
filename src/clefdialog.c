@@ -46,7 +46,7 @@ static ClefInfo clef_info[] = {
 static enum clefs get_clef_from_name(gchar *name) {
   gint i;
   for(i=0;i<G_N_ELEMENTS(clef_info);i++) {
-    if(!strcmp(name, clef_info[i].name))
+    if(!g_ascii_strcasecmp(name, clef_info[i].name))
       return clef_info[i].clef;
   }
   return DENEMO_INVALID_CLEF;
