@@ -502,6 +502,8 @@ $1)
  
  (score_body
                 (music)						: $1
+		(score_body output_def)        : $1
+		(score_body lilypond_header)   : $1
   )
  (output_def
                 (output_def_body } ) : '()

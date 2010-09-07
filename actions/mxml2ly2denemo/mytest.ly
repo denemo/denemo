@@ -14,11 +14,11 @@ mine = \new Staff  { ais' << c'' bis ees >> g g g}
 
 \score {
 <<
- \new Staff  {\clef bass \time 3/16  \key d \major {a b << e g b >> c c c} }
- \new Staff  {d e f << c e g >> a a a}
+ %\new Staff  {\clef bass \time 3/16  \key d \major {a b << e g b >> c c c} }
+% \new Staff  {d e f << c e g >> a a a}
 \mine
 >>
-}
+
 
 \layout{
         }
@@ -26,4 +26,4 @@ mine = \new Staff  { ais' << c'' bis ees >> g g g}
         }
 
 
-
+}
