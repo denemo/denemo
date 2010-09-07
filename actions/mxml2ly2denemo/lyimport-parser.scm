@@ -3,7 +3,7 @@
 	(if lyimport::halt_on_error
 		(begin (display (string-append "error: Not implemented yet: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))
 			   (exit))
-		#t
+		yytext
 	)
 )
 
@@ -22,8 +22,229 @@
 
   (lalr-parser
    ;; --- token definitions
-   (NOTENAME_PITCH WHITESPACE { } ERROR SCORE SUP_QUOTE SUB_QUOTE PLUS EQUAL STRING DIGIT STAR DURATION_IDENTIFIER CONTEXT CONTEXT_MOD_IDENTIFIER DOT FRACTION UNSIGNED EXCLAMATIONMARK QUESTIONMARK REST RESTNAME DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER SKIP E_BRACKET_OPEN E_BRACKET_CLOSE E_BACKSLASH PIPE PARTIAL SLASH MARK  E_TILDE DEFAULT TEMPO KEY
-    SCM_IDENTIFIER SCM_TOKEN REAL NUMBER_IDENTIFIER COTEXT_MOD_IDENTIFIER QUOTED_CHAR CLEF
+   (
+;NOTENAME_PITCH 
+WHITESPACE { } ERROR 
+;SCORE 
+SUP_QUOTE SUB_QUOTE PLUS EQUAL 
+;STRING 
+DIGIT STAR 
+;DURATION_IDENTIFIER 
+;CONTEXT 
+;CONTEXT_MOD_IDENTIFIER 
+DOT 
+;FRACTION 
+UNSIGNED EXCLAMATIONMARK QUESTIONMARK 
+;REST 
+;RESTNAME 
+DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED 
+;DOUBLE_ANGLE_CLOSE DOUBLE_ANGLE_OPEN 
+
+;ALTERNATIVE SEQUENTIAL SIMULTANEOUS TIME_T NEWCONTEXT WITH CHANGE REPEAT MUSIC_IDENTIFIER SKIP E_BRACKET_OPEN E_BRACKET_CLOSE E_BACKSLASH 
+PIPE 
+;PARTIAL 
+SLASH 
+;MARK  E_TILDE 
+;;DEFAULT TEMPO KEY
+
+
+ ACCEPTS 
+
+ ADDLYRICS 
+
+ ALIAS 
+
+ ALTERNATIVE 
+
+ BOOK 
+
+ BOOKPART 
+
+ CHANGE 
+
+ CHORDMODE 
+
+ CHORDS 
+
+ CONSISTS 
+
+ CONTEXT 
+
+ DEFAULT 
+
+ DEFAULTCHILD 
+
+ DENIES 
+
+ DESCRIPTION 
+
+ DRUMMODE 
+
+ DRUMS 
+
+ FIGUREMODE 
+
+ FIGURES 
+
+ GROBDESCRIPTIONS 
+
+ HEADER 
+
+ INVALID 
+
+ KEY 
+
+ LAYOUT 
+
+ LYRICMODE 
+
+ LYRICS 
+
+ LYRICSTO 
+
+ MARK 
+
+ MARKUP 
+
+ MARKUPLINES 
+
+ MIDI 
+
+ NAME 
+
+ NOTEMODE 
+
+ OCTAVE 
+
+ ONCE 
+
+ OVERRIDE 
+
+ PAPER 
+
+ PARTIAL 
+
+ RELATIVE 
+
+ REMOVE 
+
+ REPEAT 
+
+ REST 
+
+ REVERT 
+
+ SCORE 
+
+ SEQUENTIAL 
+
+ SET 
+
+ SIMULTANEOUS 
+
+ SKIP 
+
+ TEMPO 
+
+ TIMES 
+
+ TRANSPOSE 
+
+ TYPE 
+
+ UNSET 
+
+ WITH 
+
+
+BOOK_IDENTIFIER
+
+CHORDMODIFIER_PITCH
+
+CHORD_MODIFIER
+
+CHORD_REPETITION
+
+CONTEXT_DEF_IDENTIFIER
+
+CONTEXT_MOD_IDENTIFIER
+
+DRUM_PITCH
+
+DURATION_IDENTIFIER
+
+EVENT_IDENTIFIER
+
+FRACTION
+
+LYRICS_STRING
+
+LYRIC_MARKUP_IDENTIFIER
+
+MARKUP_FUNCTION
+
+MARKUP_LIST_FUNCTION
+
+MARKUP_IDENTIFIER
+
+MUSIC_FUNCTION
+
+MUSIC_IDENTIFIER
+
+NOTENAME_PITCH
+
+NUMBER_IDENTIFIER
+
+OUTPUT_DEF_IDENTIFIER
+
+REAL
+
+RESTNAME
+
+SCM_IDENTIFIER
+
+SCM_TOKEN
+
+SCORE_IDENTIFIER
+
+STRING
+
+STRING_IDENTIFIER
+
+TONICNAME_PITCH
+
+
+;/* Keyword token exceptions.  */
+TIME_T
+NEWCONTEXT
+
+;/* Other string tokens.  */
+CHORD_BASS
+CHORD_CARET
+CHORD_COLON
+CHORD_MINUS
+CHORD_SLASH
+ANGLE_OPEN
+ANGLE_CLOSE
+DOUBLE_ANGLE_OPEN
+DOUBLE_ANGLE_CLOSE
+E_BACKSLASH
+E_ANGLE_CLOSE
+E_CHAR
+E_CLOSE
+E_EXCLAMATION
+E_BRACKET_OPEN
+E_OPEN
+E_BRACKET_CLOSE
+E_ANGLE_OPEN
+E_PLUS
+E_TILDE
+EXTENDER
+
+
+
+    ;SCM_IDENTIFIER SCM_TOKEN REAL NUMBER_IDENTIFIER COTEXT_MOD_IDENTIFIER QUOTED_CHAR 
+CLEF
    )
 
  (lilypond 
@@ -36,16 +257,23 @@
  )
 	
  (toplevel_expression
-			(score_block)				: (list (cons 'x_MOVEMENT $1) )
-			(composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
-			(ERROR)						: (display (string-append "toplevel error: " $1)) 			
- )	
+  (lilypond_header)                     : '()
+  (score_block)				: (list (cons 'x_MOVEMENT $1) )
+  (composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
+  (ERROR)				: (display (string-append "toplevel error: " $1)) 			
+  )	
  
  (embedded_scm
 	(SCM_TOKEN) : $1 
 	(SCM_IDENTIFIER) : $1
  )
+ (lilypond_header_body  
+  ()                                    : '() )
+
+ (lilypond_header
+  (HEADER { lilypond_header_body })   : '() ) 
  
+
  (assignment_id
 	(STRING)						: $1
 	;(LYRICS_STRING)				: $1
@@ -401,7 +629,7 @@ $1)
 		;$$ = key->unprotect ();
 		
 	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
-	;;;;;;;;;;
+	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
 	(CLEF STRING) : (cons 'x_CLEF $2)
 	
  )
