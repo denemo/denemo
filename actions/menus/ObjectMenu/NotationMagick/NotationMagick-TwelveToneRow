@@ -7,7 +7,7 @@
       <row>
         <action>NotationMagick-TwelveToneRow</action>
         <scheme> 
-		(ANS-7::InsertListRandomlyLy (list "c'" "des'" "d'" "ees'" "e'" "f'" "fis'" "g'" "aes'" "a'" "bes'" "b'"))		
+		(NotationMagick::InsertListRandomlyLy (list "c'" "des'" "d'" "ees'" "e'" "f'" "fis'" "g'" "aes'" "a'" "bes'" "b'"))		
 		</scheme>
         <label>Twelve Tone Row</label>
         <tooltip>Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner. </tooltip>

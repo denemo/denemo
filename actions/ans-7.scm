@@ -733,26 +733,3 @@
 	(define rnd (random (length ans7list) ))
 	(ANS-7::InsertNotes (list (list-ref ans7list rnd) ))
 )
-
-
-;;;; Lilypond versions of the functions above
-;;;;;;;;;;;;;;;;;;;;;;
-;Random Diatonic: Converter for Lilypond syntax  
-(define*  (ANS-7::RandomDiatonicLy #:optional (from "c,,,") (to "b''''"))
-	(ANS-7::RandomDiatonic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
-)
-
-;Random Chromatic: Converter for Lilypond syntax  
-(define*  (ANS-7::RandomChromaticLy #:optional (from "c,,,") (to "b''''"))
-	(ANS-7::RandomChromatic (ANS-7::Ly2Ans from) (ANS-7::Ly2Ans to))
-)
-
-;Shuffled List Insert for Lilypond syntax
-(define (ANS-7::InsertListRandomlyLy lylist)
-	(ANS-7::InsertListRandomly (map ANS-7::Ly2Ans lylist))
-)
-
-;Insert a random member of a list for Lilypond syntax
-(define (ANS-7::InsertMemberRandomlyLy lylist)
-	(ANS-7::InsertMemberRandomly (map ANS-7::Ly2Ans lylist))
-)

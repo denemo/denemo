@@ -7,7 +7,7 @@
       <row>
         <action>NotationMagick-InsertPoolShuffled</action>
         <scheme>;;; Part of NotationMagick 
-				(ANS-7::InsertListRandomlyLy  (string-tokenize (NotationMagick::AskNewNotationstring)) )</scheme>
+				(NotationMagick::InsertListRandomlyLy  (string-tokenize (NotationMagick::AskNewNotationstring)) )</scheme>
         <label>Insert shuffled pool</label>
         <tooltip>Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>
