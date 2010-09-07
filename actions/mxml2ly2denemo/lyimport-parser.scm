@@ -254,6 +254,7 @@ CLEF
   (lilypond_header)                     : '()
   (score_block)				: (list (cons 'x_MOVEMENT $1) )
   (composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
+  (output_def)                          : '()
   (ERROR)				: (display (string-append "toplevel error: " $1)) 			
   )	
  
@@ -500,9 +501,23 @@ $1)
  )
  
  (score_body
-		(music)						: $1
- )
- 
+                (music)						: $1
+  )
+ (output_def
+                (output_def_body } ) : '()
+)
+(output_def_head
+                (LAYOUT ) : '()  ;;; see get_layout (PARSER);
+)
+
+(output_def_head_with_mode_switch
+	(output_def_head) : '()
+)
+(output_def_body
+	(output_def_head_with_mode_switch { ) : '()
+)
+
+
  (tempo_event
 	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
 	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
