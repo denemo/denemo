@@ -26,12 +26,13 @@
 ;; Libs
 (load "lalr.scm")
 (load "silex.scm")
+(load "multilex.scm")
 (load "lyimport-lexer.scm") ; Helper functions for the lexer
 (load "lyimport-parser.scm") ; Helper functions and parser rules
 (load "lyimport-todenemo.scm") ; Bindings to convert to Denemo
 
-;; Input Port
-(set-current-input-port (open-input-file "mytest.ly"))
+
+(define lyimport::state (list 'notes))
 
 ;; Options
 (define lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t
@@ -53,19 +54,40 @@
 ;;;;;;;;;;;;;;;;;;;SILEX LEXER;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+(define lexer-get-line #f)
+(define lexer-get-column #f)
+(define lexer-get-offset #f)
+(define lexer-getc #f)
+(define lexer-ungetc #f)
+(define lyimport::noteslexer #f)
+
 ;If needed: Generate a loadable, standalone lexer file from the .l syntax file 
-(if (and (file-exists? "mxml2ly2denemo.l.scm") (not lyimport::create_lexer_each_time))
+(if (and (file-exists? "notes.l.scm") (not lyimport::create_lexer_each_time))
 	(display "Using existing lexer file\n")
-	(begin (lex "mxml2ly2denemo_new.l" "mxml2ly2denemo.l.scm" 'counters 'all) ; The user wants a new generation or the file does not exist yet.
+	(begin 
+ ; The user wants a new generation or the file does not exist yet.
+(lex-tables "notes.l" "notes-table"  "notes.l.scm"  'counters 'all)
+(define lexer-port (open-input-file "mytest.ly"))
+(define IS (lexer-make-IS 'port lexer-port  'all))
+(format #t "!!!!!!!the column fn is ~a ~%~%~a ~%~%~a~%~%~%" lexer-get-column IS (lexer-get-func-column IS))
+(set! lexer-get-line (lexer-get-func-line IS))
+(set! lexer-get-column (lexer-get-func-column IS))
+(set! lexer-get-offset (lexer-get-func-offset IS))
+(set! lexer-getc (lexer-get-func-getc IS))
+(set! lexer-ungetc (lexer-get-func-ungetc IS))
+(load "notes.l.scm")
+(set! lyimport::noteslexer (lexer-make-lexer notes-table IS))
 		   (display "New lexer file generated\n"))
 )
 
-;Load generated file
-(load "mxml2ly2denemo.l.scm")
-
-;Start the lexer on the current input port which is the file to convert. Generates a lexer as var "lexer"
-(lexer-init 'port (current-input-port)) 
-
+(define (multilexer)
+  (cond
+   ((eqv? (car lyimport::state) 'notes)
+   (lyimport::noteslexer)
+   )
+   (else
+    (display "no lexer"))))
 
 ;;;;;;;;;;;;;;;;;;;LALR-SCM PARSER;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -73,7 +95,7 @@
 ; Run the parser. It wants the lexer and a function to display the uncatched errors. Automatically runs on the current input port.
 (newline)
 (display ":::::::: Parser Start ::::::::::")(newline)
-(define final_list (mxml2ly2denemo-parser lexer displayerror))
+(define final_list (mxml2ly2denemo-parser multilexer displayerror))
 
 (newline)
 (display ":::::::: Parser Finished ::::::::::")(newline)
