@@ -65,21 +65,26 @@
 ;If needed: Generate a loadable, standalone lexer file from the .l syntax file 
 (if (and (file-exists? "notes.l.scm") (not lyimport::create_lexer_each_time))
 	(display "Using existing lexer file\n")
-	(begin 
- ; The user wants a new generation or the file does not exist yet.
-(lex-tables "notes.l" "notes-table"  "notes.l.scm"  'counters 'all)
+	(begin ; The user wants a new generation or the file does not exist yet.
+	  (lex-tables "notes.l" "notes-table"  "notes.l.scm"  'counters 'all)))
+;;;FIXME further lexers here e.g. for quoted strings, lilypond blocks we don't need to examine etc.
+
+
+
 (define lexer-port (open-input-file "mytest.ly"))
 (define IS (lexer-make-IS 'port lexer-port  'all))
-(format #t "!!!!!!!the column fn is ~a ~%~%~a ~%~%~a~%~%~%" lexer-get-column IS (lexer-get-func-column IS))
 (set! lexer-get-line (lexer-get-func-line IS))
 (set! lexer-get-column (lexer-get-func-column IS))
 (set! lexer-get-offset (lexer-get-func-offset IS))
 (set! lexer-getc (lexer-get-func-getc IS))
 (set! lexer-ungetc (lexer-get-func-ungetc IS))
+
+
+;;;FIXME load any further lexers created above.
 (load "notes.l.scm")
 (set! lyimport::noteslexer (lexer-make-lexer notes-table IS))
-		   (display "New lexer file generated\n"))
-)
+		   (display "New lexer file generated\n")
+
 
 (define (multilexer)
   (cond
