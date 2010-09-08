@@ -236,9 +236,10 @@ E_PLUS
 E_TILDE
 EXTENDER
 
-;;;;;;; Denemo Special
+;;;;;;; Denemo Specials
 CLEF
-
+BAR
+DBLQUOTE
    )
 
  (lilypond 
@@ -410,6 +411,7 @@ CLEF
   )
 	 
  (music_list ;; a list
+        ()                      : '()
 	(music_list music)	: (append $1 $2) ;;;
 	(music)				: $1
  ) 
@@ -493,9 +495,27 @@ $1)
 	; note chord elements are memorized into
 	;   PARSER->lexer_->chord_repetition_ so that the chord repetition
 	;   mechanism copy them when a chord repetition symbol is found
-	;(note_chord_element) : $1	;	PARSER->lexer_->chord_repetition_.last_chord_ = $$;
+	(note_chord_element) : $1	;	PARSER->lexer_->chord_repetition_.last_chord_ = $$;
  )
- 
+
+(note_chord_element
+	(chord_body optional_notemode_duration post_events) : (cons 'x_REALCHORD (cons (cons $1 $2) $3))
+ )
+
+(chord_body
+	(ANGLE_OPEN chord_body_elements ANGLE_CLOSE) :  $2
+)
+
+(chord_body_elements
+	() : '()
+	(chord_body_element chord_body_elements) : (cons $1 $2) ;;;(list (cons 'x_CHORD $1) $2)
+)
+
+(chord_body_element
+	(pitch exclamations questions octave_check post_events) : (cons 'x_CHORD (cons (cons 'x_NOTE (list $1 $2 $3 $4)) $5))
+)
+
+
  (score_block
 		(SCORE { score_body }) 		: $3
  )
@@ -642,7 +662,7 @@ $1)
 	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
 	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
 	(CLEF STRING) : (cons 'x_CLEF $2)
-	
+	(BAR STRING )    : (begin (format #t "got bar ~a~%~%" $2) (cons 'x_BARLINE $2)) ;;;;;;;FIXME this will only allow alpha strings for \bar "abc" need to have a quotes state which is pushed when " is found and popped at the other end. This is in the ly parser anyway.
  )
 
  (post_events
