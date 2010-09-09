@@ -34,6 +34,17 @@
 
 (define lyimport::state (list 'notes))
 
+(define (lyimport::multilexer)
+  (format #t "lexer state ~a ~a~%" lyimport::state (car lyimport::state))
+  (cond
+   ((eqv? (car lyimport::state) 'notes)
+    (lyimport::noteslexer))
+   ((eqv? (car lyimport::state) 'quote)
+    (lyimport::quotelexer))
+   (else
+    (display "no lexer"))))
+
+
 ;; Options
 (define lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t
 (define lyimport::halt_on_error #t) ; Switch to decide if a catched error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t
@@ -61,6 +72,7 @@
 (define lexer-getc #f)
 (define lexer-ungetc #f)
 (define lyimport::noteslexer #f)
+(define lyimport::quotelexer #f)
 
 ;If needed: Generate a loadable, standalone lexer file from the .l syntax file 
 (if (and (file-exists? "notes.l.scm") (not lyimport::create_lexer_each_time))
@@ -68,6 +80,11 @@
 	(begin ; The user wants a new generation or the file does not exist yet.
 	  (lex-tables "notes.l" "notes-table"  "notes.l.scm"  'counters 'all)))
 ;;;FIXME further lexers here e.g. for quoted strings, lilypond blocks we don't need to examine etc.
+(if (and (file-exists? "quote.l.scm") (not lyimport::create_lexer_each_time))
+	(display "Using existing lexer file\n")
+	(begin ; The user wants a new generation or the file does not exist yet.
+	  (lex-tables "quote.l" "quote-table"  "quote.l.scm"  'counters 'all)))
+
 
 
 
@@ -83,16 +100,15 @@
 ;;;FIXME load any further lexers created above.
 (load "notes.l.scm")
 (set! lyimport::noteslexer (lexer-make-lexer notes-table IS))
-		   (display "New lexer file generated\n")
+		   
+
+(load "quote.l.scm")
+(set! lyimport::quotelexer (lexer-make-lexer quote-table IS))
+		   
 
 
-(define (multilexer)
-  (cond
-   ((eqv? (car lyimport::state) 'notes)
-   (lyimport::noteslexer)
-   )
-   (else
-    (display "no lexer"))))
+
+
 
 ;;;;;;;;;;;;;;;;;;;LALR-SCM PARSER;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -100,7 +116,7 @@
 ; Run the parser. It wants the lexer and a function to display the uncatched errors. Automatically runs on the current input port.
 (newline)
 (display ":::::::: Parser Start ::::::::::")(newline)
-(define final_list (mxml2ly2denemo-parser multilexer displayerror))
+(define final_list (mxml2ly2denemo-parser lyimport::multilexer displayerror))
 
 (newline)
 (display ":::::::: Parser Finished ::::::::::")(newline)

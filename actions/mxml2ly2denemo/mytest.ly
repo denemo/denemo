@@ -8,17 +8,17 @@
 \header{
 }
 
-Barline = |
+
 
 % The music follows
 
 MvmntIVoiceI =  {
-          c'4 <g c' e'> g' a' \bar "aa"
+          c'4 <g c' e'> g' a' \bar "||"
 }
 
 
 MvmntIVoiceII =  {
-          e4 g <g c' g'> e \bar "aa"
+          e4 g <g c' g'> e \bar ":|"
 }
 
 

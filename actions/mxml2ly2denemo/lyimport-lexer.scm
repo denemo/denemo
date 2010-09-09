@@ -3,6 +3,21 @@
 	(make-lexical-token symbol (make-source-location (current-input-port) (lexer-get-line) (lexer-get-column) (lexer-get-offset) -1) value)
 )	
 
+(define (lyimport::pop_state)
+(format #t "Now popping the state ~a becomes ~a~%~%" lyimport::state (cdr lyimport::state))
+  (set! lyimport::state (cdr lyimport::state)))
+;Accumulator for a string in double quotes (used by quote state of lexer)
+(define lyimport::quoted_string "")
+(define (lyimport::start_quote)
+  (set! lyimport::quoted_string "")
+(format #t "Now pudhing the state ~a becomes ~a~%~%" lyimport::state  (cons 'quote lyimport::state))
+  (set! lyimport::state (cons 'quote lyimport::state)))
+
+  
+(define (lyimport::quote-append str)
+      (set! lyimport::quoted_string (string-append lyimport::quoted_string str)))
+      
+
 ; List of Notenames
 (define lyimport::list_of_notenames
 	(list "c" "cis" "ces" "cisis" "ceses" "d" "dis" "des" "disis" "deses" "e" "eis" "es" "ees" "eisis" "eses" "eeses" "f" "fis" "fes" "fisis" "feses" "g" "gis" "ges" "gisis" "geses" "a" "ais" "as" "aes" "aisis" "aeses" "ases" "b" "bis" "bes" "bisis" "beses" "h" "his" "hes" "hisis" "heses")

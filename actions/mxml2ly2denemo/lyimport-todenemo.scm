@@ -106,7 +106,7 @@
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
  (string-append (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
 ;;;;(string-join (map loop-through (caadr current_object)))
-	   ((eqv? (car current_object) 'x_BARLINE) (begin (format #t "barline dropped ~a~%" (cdr current_object))   ";barline omitted\n"))
+	   ((eqv? (car current_object) 'x_BARLINE) (begin (format #t "barline dropped ~a~%" (cdr current_object))   (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
