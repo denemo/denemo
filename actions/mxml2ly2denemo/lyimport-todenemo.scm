@@ -39,9 +39,22 @@
 
 (define (do-movement)
   (set! lyimport::notes #t)
+  (set! lyimport::staff #f)
+  (set! lyimport::voice #f)
   (if lyimport::movement
       "\n(d-AddMovement)\n"
       "\n;;new movement not needed here\n"))
+
+(define (do-context thecontext)
+  (format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+  (cond
+   ((equal? "Staff" (car thecontext)) (if lyimport::staff
+						 (begin (set! lyimport::voice #f) "(d-AddLast)")
+						 (begin (set! lyimport::staff #t) "")))
+   ((equal? "Voice" (car thecontext)) (if lyimport::voice
+						 "(d-AddVoice)"
+						 (begin (set! lyimport::voice #t) "")))
+   ))
 
 
 
@@ -72,7 +85,7 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))            "(d-AddLast)")
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-context (cdr current_object)));        "(d-AddLast)")
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
 								  ;(format #t "the sequential list has ~a~% ~%" (cdr current_object))
