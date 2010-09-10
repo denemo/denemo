@@ -40,7 +40,7 @@
 (define (do-movement)
   (set! lyimport::notes #t)
   (if lyimport::movement
-      "\n(d-NewMovement)\n"
+      "\n(d-AddMovement)\n"
       "\n;;new movement not needed here\n"))
 
 
