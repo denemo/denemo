@@ -16,7 +16,7 @@
     )
 
   (define (start-chord chord-note)
-    ;(format #t "entered start chord with list ref cadr chord-list ~a~%" (cadr chord-note))
+    ;(format #t "entered start chord with list chord-list ~a~%" chord-note)
     (set! lyimport::notes #f)
       (string-append "(d-Insert" (notename (cadr chord-note)) ")"))
 
@@ -46,7 +46,7 @@
       "\n;;new movement not needed here\n"))
 
 (define (do-context thecontext)
-  (format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+  ;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
   (cond
    ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
 						 (begin (set! lyimport::voice #f) "(d-AddLast)")
@@ -57,13 +57,27 @@
    ))
 
 
+(define (do-duration thedur)
+  (cond ((equal? "1" thedur) "(d-Set0)")
+	((equal? "2" thedur) "(d-Set1)")
+ ((equal? "4" thedur) "(d-Set2)")
+ ((equal? "8" thedur) "(d-Set3)")
+ ((equal? "16" thedur) "(d-Set4)")
+ ((equal? "32" thedur) "(d-Set5)")
+ ((equal? "64" thedur) "(d-Set6)")
+ ((equal? "128" thedur) "(d-Set7)")
+ (else "")
+ ))
+
 
   (define (create-note current_object)
     (set! lyimport::notes #f)
    (cond 
      ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))))
        )
-     ((eqv? (car current_object) 'x_NOTE)          (begin (string-append "(d-Insert" (notename current_object) ")")))
+     ((eqv? (car current_object) 'x_NOTE)          (begin 
+						     ;(format #t "note is ~a~%" (cdr current_object))
+						     (string-append "(d-Insert" (notename current_object) ")")))
      ((eqv? (car current_object) 'x_REST)          (begin (string-append ";(d-Insert" (notename current_object) ") rest omitted\n")))
 
      (else "(d-WarningDialog \"%unhandled note type\n\")")   
@@ -110,6 +124,7 @@
 								    (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1)))))
 								   ((eqv? 'x_CHORD (caadr current_object))
 								    (begin 
+								      	      
 								      (string-append (start-chord (cadr current_object))  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))))
 								   (else (begin 
 					;(format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref (cdr current_object) 0)) (list-ref (cdr current_object) 0))
@@ -133,7 +148,7 @@
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
 						   ;(format #t "hoping to process a note next for ~a~%" (list (cadr current_object))) 
-						   (string-join (map create-note (list (cadr current_object))))))
+						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
@@ -141,7 +156,8 @@
 
 	   ((eqv? (car current_object) 'x_REALCHORD) (begin 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
- (string-append (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
+ 
+ (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 
