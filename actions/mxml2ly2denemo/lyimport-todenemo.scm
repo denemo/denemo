@@ -48,10 +48,10 @@
 (define (do-context thecontext)
   (format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
   (cond
-   ((equal? "Staff" (car thecontext)) (if lyimport::staff
+   ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
 						 (begin (set! lyimport::voice #f) "(d-AddLast)")
 						 (begin (set! lyimport::staff #t) "")))
-   ((equal? "Voice" (car thecontext)) (if lyimport::voice
+   ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
 						 "(d-AddVoice)"
 						 (begin (set! lyimport::voice #t) "")))
    ))

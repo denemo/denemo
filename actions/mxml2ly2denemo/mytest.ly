@@ -18,7 +18,7 @@ MvmntIVoiceI =  {
 
 
 MvmntIVoiceII =  {
-          e4 \clef tenor g \time 6/8 <g c' g'> e \bar ":|"
+          e4 \clef tenor g a a a a a \time 6/8 <g c' g'> e \bar ":|"
 }
 
 
