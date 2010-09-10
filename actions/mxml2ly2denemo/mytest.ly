@@ -13,7 +13,7 @@
 % The music follows
 
 MvmntIVoiceI =  {
-          c'16 <g c' e'>32 \key d \minor g' \clef french a' \bar "||"
+          cisis'''16 <g c' e'>32 \key d \minor geses,, \clef french a' \bar "||"
 }
 
 

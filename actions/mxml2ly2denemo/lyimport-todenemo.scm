@@ -5,83 +5,89 @@
 
 
 (define (lyimport::convert_to_denemo list_from_parser)
+  
   (define (notename note)
-    (string (char-upcase (string-ref (list-ref note 1) 0))))
+    ;(string (char-upcase (string-ref (list-ref note 1) 0))))
+  (list-ref note 1))
 
 
   (define (add-notes-to-chord extra-chordnote)
- ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
+					;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
     (set! lyimport::notes #f)
-    (string-append "(d-Add" (notename (cadr extra-chordnote)) ")")
-    )
+    (string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") )
 
   (define (start-chord chord-note)
     ;(format #t "entered start chord with list chord-list ~a~%" chord-note)
     (set! lyimport::notes #f)
-      (string-append "(d-Insert" (notename (cadr chord-note)) ")"))
+      (do-note (cadr chord-note)))
 
-(define (do-clef theclef)
-  (if lyimport::notes 
-       (string-append "(d-InitialClef \"" theclef "\")")
-       (string-append "(d-InsertClef \"" theclef "\")")))
-      
-
-(define (do-time thetime)
-  (if lyimport::notes        
-      (string-append "(d-InitialTimeSig \"" thetime "\")")
-      (string-append "(d-InsertTimeSig \"" thetime "\")")))
-
-(define (do-key thekey type)
-  (if lyimport::notes        
-      (string-append "(d-InitialKey \"" thekey " " type  "\")")
-      (string-append "(d-InsertKey \"" thekey " " type  "\")")))
-      
-
-(define (do-movement)
-  (set! lyimport::notes #t)
-  (set! lyimport::staff #f)
-  (set! lyimport::voice #f)
-  (if lyimport::movement
-      "\n(d-AddMovement)\n"
-      "\n;;new movement not needed here\n"))
-
-(define (do-context thecontext)
-  ;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
-  (cond
-   ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
-						 (begin (set! lyimport::voice #f) "(d-AddLast)")
-						 (begin (set! lyimport::staff #t) "")))
-   ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
-						 "(d-AddVoice)"
-						 (begin (set! lyimport::voice #t) "")))
-   ))
-
-
-(define (do-duration thedur)
-  (cond ((equal? "1" thedur) "(d-Set0)")
-	((equal? "2" thedur) "(d-Set1)")
- ((equal? "4" thedur) "(d-Set2)")
- ((equal? "8" thedur) "(d-Set3)")
- ((equal? "16" thedur) "(d-Set4)")
- ((equal? "32" thedur) "(d-Set5)")
- ((equal? "64" thedur) "(d-Set6)")
- ((equal? "128" thedur) "(d-Set7)")
- (else "")
- ))
-
-
+  (define (do-clef theclef)
+    (if lyimport::notes 
+	(string-append "(d-InitialClef \"" theclef "\")")
+	(string-append "(d-InsertClef \"" theclef "\")")))
+  
+  
+  (define (do-time thetime)
+    (if lyimport::notes        
+	(string-append "(d-InitialTimeSig \"" thetime "\")")
+	(string-append "(d-InsertTimeSig \"" thetime "\")")))
+  
+  (define (do-key thekey type)
+    (if lyimport::notes        
+	(string-append "(d-InitialKey \"" thekey " " type  "\")")
+	(string-append "(d-InsertKey \"" thekey " " type  "\")")))
+  
+  
+  (define (do-movement)
+    (set! lyimport::notes #t)
+    (set! lyimport::staff #f)
+    (set! lyimport::voice #f)
+    (if lyimport::movement
+	"\n(d-AddMovement)\n"
+	"\n;;new movement not needed here\n"))
+  
+  (define (do-context thecontext)
+					;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+    (cond
+     ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
+								      (begin (set! lyimport::voice #f) "(d-AddLast)")
+								      (begin (set! lyimport::staff #t) "")))
+     ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
+								      "(d-AddVoice)"
+								      (begin (set! lyimport::voice #t) "")))
+     ))
+  
+  
+  (define (do-duration thedur)
+    (cond ((equal? "1" thedur) "(d-Set0)")
+	  ((equal? "2" thedur) "(d-Set1)")
+	  ((equal? "4" thedur) "(d-Set2)")
+	  ((equal? "8" thedur) "(d-Set3)")
+	  ((equal? "16" thedur) "(d-Set4)")
+	  ((equal? "32" thedur) "(d-Set5)")
+	  ((equal? "64" thedur) "(d-Set6)")
+	  ((equal? "128" thedur) "(d-Set7)")
+	  (else "")
+	  ))
+  
+  
+  (define (do-note thenote)
+    (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"))
+  
+  
   (define (create-note current_object)
     (set! lyimport::notes #f)
-   (cond 
+    (cond 
      ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))))
-       )
+      )
      ((eqv? (car current_object) 'x_NOTE)          (begin 
-						     ;(format #t "note is ~a~%" (cdr current_object))
-						     (string-append "(d-Insert" (notename current_object) ")")))
+					;(format #t "note is ~a~%" (cdr current_object))
+						     (do-note current_object))
+      )
      ((eqv? (car current_object) 'x_REST)          (begin (string-append ";(d-Insert" (notename current_object) ") rest omitted\n")))
-
+     
      (else "(d-WarningDialog \"%unhandled note type\n\")")   
-    ))
+     ))
 
   (define (loop-through current_object)
     ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
