@@ -55,8 +55,8 @@ new_movement(GtkAction *action, DenemoScriptParam *param, gboolean before) {
 }
 
 
-void
-append_new_movement(GtkAction *action, gpointer param) {
+static void
+append_movement(GtkAction *action, gpointer param,  gboolean populate) {
   DenemoGUI *gui = Denemo.gui;
   DenemoScore *source_movement = gui->si;
   GList *g;
@@ -64,6 +64,8 @@ append_new_movement(GtkAction *action, gpointer param) {
   for(g=source_movement->thescore;g;g=g->next) {
     DenemoStaff *source_staff = g->data;
     newstaff (gui, LAST, DENEMO_NONE);
+    if(!populate)
+      break;
     GList *dest = g_list_last(gui->si->thescore);
     DenemoStaff *dest_staff = dest->data;
     copy_staff(source_staff, dest_staff);
@@ -83,6 +85,20 @@ append_new_movement(GtkAction *action, gpointer param) {
   displayhelper(gui);
   score_status(gui, TRUE); 
 }
+
+//copies staff structure to new movement
+void
+append_new_movement(GtkAction *action, gpointer param) {
+  append_movement(action, param, TRUE);
+}
+
+//does not copy staff structure to new movement
+void
+append_blank_movement(void) {
+  append_movement(NULL, NULL, FALSE);
+}
+
+
 
 
 void

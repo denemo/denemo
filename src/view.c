@@ -1209,6 +1209,11 @@ SCM scheme_get_notes (SCM optional) {
  } 
 }
 
+SCM scheme_add_movement(SCM optional) {
+  append_blank_movement();
+  return SCM_BOOL_T;
+}
+
 SCM scheme_get_prevailing_clef(SCM optional) {
   gint theclef = find_prevailing_clef(Denemo.gui->si);
   //FIXME look at directives to see if it is overridden, e.g. drum clef
@@ -3165,6 +3170,9 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.",DENEMO_SCHEME_PREFIX"GetPrevailingClef", scheme_get_prevailing_clef);
  
  //more work needed, see above INSTALL_SCM_FUNCTION ("Sets the prevailing keysignature at the cursor to the string of 7 steps passed. Each step can be -1, 0 or 1",DENEMO_SCHEME_PREFIX"SetPrevailingKeysig", scheme_set_prevailing_keysig);
+
+  INSTALL_SCM_FUNCTION ("Appends a new movement without copying staff structure.",DENEMO_SCHEME_PREFIX"AddMovement", scheme_add_movement);
+ 
 
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
