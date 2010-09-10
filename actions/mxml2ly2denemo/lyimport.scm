@@ -41,6 +41,8 @@
     (lyimport::noteslexer))
    ((eqv? (car lyimport::state) 'quote)
     (lyimport::quotelexer))
+   ((eqv? (car lyimport::state) 'block)
+    (lyimport::blocklexer))
    (else
     (display "no lexer"))))
 
@@ -73,6 +75,7 @@
 (define lexer-ungetc #f)
 (define lyimport::noteslexer #f)
 (define lyimport::quotelexer #f)
+(define lyimport::blocklexer #f)
 
 ;If needed: Generate a loadable, standalone lexer file from the .l syntax file 
 (if (and (file-exists? "notes.l.scm") (not lyimport::create_lexer_each_time))
@@ -85,6 +88,10 @@
 	(begin ; The user wants a new generation or the file does not exist yet.
 	  (lex-tables "quote.l" "quote-table"  "quote.l.scm"  'counters 'all)))
 
+(if (and (file-exists? "block.l.scm") (not lyimport::create_lexer_each_time))
+	(display "Using existing lexer file\n")
+	(begin ; The user wants a new generation or the file does not exist yet.
+	  (lex-tables "block.l" "block-table"  "block.l.scm"  'counters 'all)))
 
 
 
@@ -104,6 +111,9 @@
 
 (load "quote.l.scm")
 (set! lyimport::quotelexer (lexer-make-lexer quote-table IS))
+		   
+(load "block.l.scm")
+(set! lyimport::blocklexer (lexer-make-lexer block-table IS))
 		   
 
 

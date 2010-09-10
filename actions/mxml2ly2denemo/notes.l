@@ -47,10 +47,12 @@ BOM_UTF8			\357\273\277
 
 
 
-\"		(lyimport::start_quote) (lyimport::multilexer)  ;
+\"		(lyimport::start_quote) (lyimport::multilexer)  ;cannot use yycontinue as that calls this lexer
 
 
-
+\\paper{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
+\\layout{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
+\\header{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 
 
 \\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'ERROR	yytext) ; skip version, originally its a state switch yy_push_state (version)

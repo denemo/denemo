@@ -237,6 +237,7 @@ E_TILDE
 EXTENDER
 
 ;;;;;;; Denemo Specials
+BLOCK
 CLEF
 BAR
 DBLQUOTE
@@ -526,7 +527,8 @@ $1)
 		(score_body lilypond_header)   : $1
   )
  (output_def
-                (output_def_body } ) : '()
+                (BLOCK)                : '()
+                ;;(output_def_body } ) : '()
 )
 (output_def_head
                 (LAYOUT ) : '()  ;;; see get_layout (PARSER);
@@ -662,7 +664,7 @@ $1)
 	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
 	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
 	(CLEF STRING) : (cons 'x_CLEF $2)
-	(BAR STRING )    : (begin (format #t "got bar ~a~%~%" $2) (cons 'x_BARLINE $2)) ;;;;;;;FIXME this will only allow alpha strings for \bar "abc" need to have a quotes state which is pushed when " is found and popped at the other end. This is in the ly parser anyway.
+	(BAR STRING )    : (begin (format #t "got bar ~a~%~%" $2) (cons 'x_BARLINE $2)) 
  )
 
  (post_events

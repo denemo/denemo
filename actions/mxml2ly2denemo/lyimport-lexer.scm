@@ -10,13 +10,22 @@
 (define lyimport::quoted_string "")
 (define (lyimport::start_quote)
   (set! lyimport::quoted_string "")
-(format #t "Now pudhing the state ~a becomes ~a~%~%" lyimport::state  (cons 'quote lyimport::state))
+;;(format #t "Now pushing the state ~a becomes ~a~%~%" lyimport::state  (cons 'quote lyimport::state))
   (set! lyimport::state (cons 'quote lyimport::state)))
-
-  
 (define (lyimport::quote-append str)
       (set! lyimport::quoted_string (string-append lyimport::quoted_string str)))
-      
+
+
+(define lyimport::block_string "")
+(define lyimport::brace_count 0)
+(define (lyimport::start_block)
+  (set! lyimport::block_string "")
+  (set! lyimport::brace_count 1)
+;;(format #t "Now pushing the state ~a becomes ~a~%~%" lyimport::state  (cons 'block lyimport::state))
+  (set! lyimport::state (cons 'block lyimport::state)))
+(define (lyimport::block-append str)
+      (set! lyimport::block_string (string-append lyimport::block_string str)))
+     
 
 ; List of Notenames
 (define lyimport::list_of_notenames
