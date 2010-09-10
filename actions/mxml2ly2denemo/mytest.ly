@@ -13,12 +13,12 @@
 % The music follows
 
 MvmntIVoiceI =  {
-          c'4 <g c' e'> g' a' \bar "||"
+          c'4 <g c' e'> \key d \minor g' \clef french a' \bar "||"
 }
 
 
 MvmntIVoiceII =  {
-          e4 g <g c' g'> e \bar ":|"
+          e4 \clef tenor g \time 6/8 <g c' g'> e \bar ":|"
 }
 
 
@@ -30,7 +30,7 @@ MvmntIVoiceIProlog = { \MvmntIVoiceITimeSig \MvmntIVoiceIKeySig \MvmntIVoiceICle
 MvmntIVoiceIMusic =  {\MvmntIVoiceIProlog \MvmntIVoiceI}
 MvmntIVoiceIContext = \context Voice = VoiceIMvmntI  {\MvmntIVoiceIMusic}
 
-        MvmntIVoiceIITimeSig = \time 4/4 
+        MvmntIVoiceIITimeSig = \time 2/4 
 MvmntIVoiceIIKeySig = \key c \major
  MvmntIVoiceIIClef = \clef bass 
 MvmntIVoiceIIProlog = { \MvmntIVoiceIITimeSig \MvmntIVoiceIIKeySig \MvmntIVoiceIIClef}
@@ -53,6 +53,18 @@ MvmntIStaffII = \new Staff  << {
 \MvmntIStaffII
 >>
 >>
+
+}
+
+\score {
+<< <<
+
+\MvmntIStaffII
+>>
+>>
+
+
+
 \layout{
         }
 \header{

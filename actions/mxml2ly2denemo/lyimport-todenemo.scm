@@ -1,4 +1,7 @@
-
+(define lyimport::movement #f)
+(define lyimport::staff #f)
+(define lyimport::voice #f)
+(define lyimport::notes #f)
 
 
 (define (lyimport::convert_to_denemo list_from_parser)
@@ -8,15 +11,42 @@
 
   (define (add-notes-to-chord extra-chordnote)
  ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
+    (set! lyimport::notes #f)
     (string-append "(d-Add" (notename (cadr extra-chordnote)) ")")
     )
 
   (define (start-chord chord-note)
     ;(format #t "entered start chord with list ref cadr chord-list ~a~%" (cadr chord-note))
+    (set! lyimport::notes #f)
       (string-append "(d-Insert" (notename (cadr chord-note)) ")"))
+
+(define (do-clef theclef)
+  (if lyimport::notes 
+       (string-append "(d-InitialClef \"" theclef "\")")
+       (string-append "(d-InsertClef \"" theclef "\")")))
+      
+
+(define (do-time thetime)
+  (if lyimport::notes        
+      (string-append "(d-InitialTimeSig \"" thetime "\")")
+      (string-append "(d-InsertTimeSig \"" thetime "\")")))
+
+(define (do-key thekey type)
+  (if lyimport::notes        
+      (string-append "(d-InitialKey \"" thekey " " type  "\")")
+      (string-append "(d-InsertKey \"" thekey " " type  "\")")))
+      
+
+(define (do-movement)
+  (set! lyimport::notes #t)
+  (if lyimport::movement
+      "\n(d-NewMovement)\n"
+      "\n;;new movement not needed here\n"))
+
 
 
   (define (create-note current_object)
+    (set! lyimport::notes #f)
    (cond 
      ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))))
        )
@@ -34,9 +64,13 @@
     (if (list? current_object)
 	(begin
 	  (cond
-	   ((eqv? (car current_object) 'x_MOVEMENT)	(begin
-							  ;(format #t "the movement has ~a~% which is list? ~a~%" (cdr current_object) (list? (cdr current_object)))
-							  (string-append  "(d-NewMovement)" (string-join (map loop-through (list-tail current_object 1))))))
+	   ((eqv? (car current_object) 'x_MOVEMENT)	  (let ()
+;;; (format #t "the movement has ~a~%~%" (cdr current_object) )
+							    (define temp 
+							      (string-append  (do-movement)  (string-join (map loop-through (list-tail current_object 1)))))
+							    (set! lyimport::movement #t)
+							    temp
+							    ))
 	   
 	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))            "(d-AddLast)")
 	   
@@ -61,18 +95,13 @@
 								   
 								   ((eqv? 'NEWCONTEXT  (car (list-ref   (cdr current_object) 0)))
 								    (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1)))))
-								   ((eqv? 'x_CHORD (caadr current_object))	(begin 
-								    (string-append (start-chord (cadr current_object))  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))))
-
-							;;it seems to go wrong here... not quite the same things for << >> as < > ...
-
-	  
-
-
-								  (else (begin 
-									  ;(format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref (cdr current_object) 0)) (list-ref (cdr current_object) 0))
-									  (string-join (map loop-through (cdr current_object)))))
-								  )))
+								   ((eqv? 'x_CHORD (caadr current_object))
+								    (begin 
+								      (string-append (start-chord (cadr current_object))  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))))
+								   (else (begin 
+					;(format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref (cdr current_object) 0)) (list-ref (cdr current_object) 0))
+									   (string-join (map loop-through (cdr current_object)))))
+								   )))
 	   
 	   ((eqv? (car current_object) 'x_COMPOSITE_MUSIC)       (begin 
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
@@ -92,24 +121,22 @@
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
 						   ;(format #t "hoping to process a note next for ~a~%" (list (cadr current_object))) 
 						   (string-join (map create-note (list (cadr current_object))))))
-	   ((eqv? (car current_object) 'x_CLEF) (begin 
-						  ;(format #t "clef is ~a~%~%" (cdr current_object))
-						  (string-append "(d-InsertClef \"" (cdr current_object) "\")")))
-	   ((eqv? (car current_object) 'x_TIME) (begin 
-						  ;(format #t "time is ~a~%~%" (cdr current_object))
-						  (string-append "(d-InsertTimeSig \"" (cdr current_object) "\")")))
-	   ((eqv? (car current_object) 'x_KEY) (begin 
-						 ;(format #t "time is ~a~%~%" (cdr current_object)) 
-						 (string-append "(d-InsertKey \"" (cadr current_object) " " (cddr current_object)  "\")")))
+	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
+	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
+	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
+						
 
 	   ((eqv? (car current_object) 'x_REALCHORD) (begin 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
  (string-append (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
 ;;;;(string-join (map loop-through (caadr current_object)))
-	   ((eqv? (car current_object) 'x_BARLINE) (begin (format #t "barline dropped ~a~%" (cdr current_object))   (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
+	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
 	   ))))
   
-  (format #t "~%Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%++++++++++++++++++++++++++++~%" (string-join (map loop-through list_from_parser))))
+
+  (format #t "~%;;;Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%;;;End of Denemo Script++++++++++++++++++++++++++++~%" 
+
+(string-join (map loop-through list_from_parser))))
