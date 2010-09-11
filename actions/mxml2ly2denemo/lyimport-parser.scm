@@ -280,7 +280,8 @@ DBLQUOTE
 	(assignment_id EQUAL identifier_init)  : (lyimport::as-create $1 $3)  
 	;(assignment_id property_path EQUAL identifier_init) : #t ; see next two lines for original actions
 		;SCM path = scm_cons (scm_string_to_symbol ($1), $2);
-		;PARSER->lexer_->set_identifier (path, $4);	
+		;PARSER->lexer_->set_identifier (path, $4);
+	(embedded_scm) : '()
  )
  
  (identifier_init
@@ -303,6 +304,7 @@ DBLQUOTE
  	;	$$ = $1;
 	;}
 	(string) : $1
+	(embedded_scm) : $1
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
 	)
 
@@ -414,7 +416,8 @@ DBLQUOTE
  (music_list ;; a list
         ()                      : '()
 	(music_list music)	: (append $1 $2) ;;;
-	(music)				: $1
+	(music)				: $1  ;;;where does this come from?
+	(music_list embedded_scm) : $1 ;;;ignore embedded scheme for now
  ) 
  
  (music ;; a list
