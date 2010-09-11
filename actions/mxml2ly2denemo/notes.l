@@ -63,6 +63,13 @@ BOM_UTF8			\357\273\277
 \\include           		(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (incl)
 
 {RESTNAME}					(lyimport::mtoken 'RESTNAME yytext)
+#                                               (begin  
+                                                   (lyimport::mtoken 'SCM_TOKEN (read (make-soft-port
+                                                             (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))))
+
+
+
+                                                 
 R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)	
 <<							(lyimport::mtoken 'DOUBLE_ANGLE_OPEN yytext)	
 >>							(lyimport::mtoken 'DOUBLE_ANGLE_CLOSE yytext)	
