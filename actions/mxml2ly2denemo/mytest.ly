@@ -21,7 +21,7 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          b'8 c'4 f'8 g' a'2 \bar "|."
+          b'2. c'4 f'8 g' a'2.. \bar "|."
 }
 
 

@@ -585,7 +585,7 @@ $1)
  )
 	
  (steno_duration
-	(bare_unsigned dots) : (string-append $1 $2) ; original lilypond had a check here if there is really a duration before the dots		
+	(bare_unsigned dots) : (list (string->number $1) $2) ; original lilypond had a check here if there is really a duration before the dots		
 	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
  )
 	
@@ -623,8 +623,8 @@ $1)
   )
 	
  (dots
-	() : ""
-	(dots DOT) : (string-append $1 $2)	
+	() : 0
+	(dots DOT) : (+ $1 1)	
   ) 
  
  (pitch

@@ -59,17 +59,30 @@
   
   
   (define (do-duration thedur)
-    (cond ((equal? "1" thedur) "(d-Set0)")
-	  ((equal? "2" thedur) "(d-Set1)")
-	  ((equal? "4" thedur) "(d-Set2)")
-	  ((equal? "8" thedur) "(d-Set3)")
-	  ((equal? "16" thedur) "(d-Set4)")
-	  ((equal? "32" thedur) "(d-Set5)")
-	  ((equal? "64" thedur) "(d-Set6)")
-	  ((equal? "128" thedur) "(d-Set7)")
-	  (else "")
-	  ))
-  
+    (if (equal? thedur "")
+	""
+	(let ((adot "(d-AddDot)"))
+	  (string-append
+	   (cond ((equal? 1 (list-ref thedur 0)) "(d-Set0)")
+		 ((equal? 2  (list-ref thedur 0)) "(d-Set1)")
+		 ((equal? 4  (list-ref thedur 0)) "(d-Set2)")
+		 ((equal? 8  (list-ref thedur 0)) "(d-Set3)")
+		 ((equal? 16  (list-ref thedur 0)) "(d-Set4)")
+		 ((equal? 32  (list-ref thedur 0)) "(d-Set5)")
+		 ((equal? 64  (list-ref thedur 0)) "(d-Set6)")
+		 ((equal? 128  (list-ref thedur 0)) "(d-Set7)")
+		 (else ""))
+	  
+	   ))))
+  (define (do-dots thedur)
+    (if (equal? thedur "")
+	""
+	(let ((adot "(d-AddDot)") (numdots (list-ref thedur 1)))
+	   (if (> numdots 0)
+	       (xsubstring adot (string-length adot) (* (+ numdots 1) (string-length adot)))
+	       "")
+	   )))
+
   
   (define (do-note thenote)
     (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"))
@@ -154,7 +167,7 @@
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
 						   ;(format #t "hoping to process a note next for ~a~%" (list (cadr current_object))) 
-						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))))))
+						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "   (do-dots (list-ref (cadr current_object) 5)))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
