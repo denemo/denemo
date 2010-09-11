@@ -35,7 +35,7 @@
 (define lyimport::state (list 'notes))
 
 (define (lyimport::multilexer)
-  (format #t "lexer state ~a ~a~%" lyimport::state (car lyimport::state))
+  ;(format #t "lexer state ~a ~a~%" lyimport::state (car lyimport::state))
   (cond
    ((eqv? (car lyimport::state) 'notes)
     (lyimport::noteslexer))
@@ -49,7 +49,7 @@
 
 ;; Options
 (define lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t
-(define lyimport::halt_on_error #t) ; Switch to decide if a catched error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t
+(define lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t
 
  
 

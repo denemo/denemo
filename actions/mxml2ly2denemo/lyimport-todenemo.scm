@@ -61,7 +61,7 @@
   (define (do-duration thedur)
     (if (equal? thedur "")
 	""
-	(let ((adot "(d-AddDot)"))
+	(begin
 	  (string-append
 	   (cond ((equal? 1 (list-ref thedur 0)) "(d-Set0)")
 		 ((equal? 2  (list-ref thedur 0)) "(d-Set1)")
@@ -154,20 +154,30 @@
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
 								   (string-join (map loop-through (list-tail (cdr current_object) 0)))))
 	   
-
+	   ((eqv? (car current_object) 'TIMES)                 (begin
+								 ;(format #t "Tuplet ~a~%"  (list-tail current_object 2))
+								 (string-append "(d-StartTriplet)(d-SetTuplet \"" (list-ref current_object 1) "\") " (string-join (map loop-through (list-tail current_object 2))) " (d-EndTuplet)")))
 	  
 
 	   (else
 	    (begin 
-	      ;(format #t "handled by recursion through list~%")   
+	      (format #t "handled ~a by recursion through list~%" current_object)   
 		   (string-join (map loop-through current_object))))
 	   ))  ;;;;; end of current_object is a list
 	(begin
 	  ;(format #t "treating the pair case ~a~%~%" (car current_object))
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
-						   ;(format #t "hoping to process a note next for ~a~%" (list (cadr current_object))) 
-						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "   (do-dots (list-ref (cadr current_object) 5)))))
+						   (format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
+						   (if (eqv? (caadr current_object) 'x_REST) 
+						       (begin
+							 (if (list? (list-ref (cadr current_object) 2))
+							     "(d-InsertWholeMeasureRest)"
+							     (string-append (do-duration (list-ref (cadr current_object) 2)) " (d-EnterRest) "   (do-dots (list-ref (cadr current_object) 2)))))
+
+
+
+						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "   (do-dots (list-ref (cadr current_object) 5))))))
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
@@ -179,7 +189,7 @@
  (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
-
+	   ((eqv? (car current_object) 'x_MMREST) "\n\n;Multi measure rest omitted here\n\n")
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
 	   ))))

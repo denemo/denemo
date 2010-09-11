@@ -55,7 +55,7 @@ BOM_UTF8			\357\273\277
 \\header{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 
 
-\\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'ERROR	yytext) ; skip version, originally its a state switch yy_push_state (version)
+\\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'VERSION	yytext) ; in lilypond it is a state switch yy_push_state (version)
 %.*{NEWLINE}				(yycontinue)
 \\sourcefilename{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefilename)
 \\sourcefileline{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefileline)

@@ -25,7 +25,7 @@
    (
 
 ;;;;;;; Nils tokens for Denemo
-WHITESPACE { } ERROR 
+WHITESPACE { } ERROR VERSION
 
 SUP_QUOTE SUB_QUOTE PLUS EQUAL 
 
@@ -257,7 +257,8 @@ DBLQUOTE
   (score_block)				: (list (cons 'x_MOVEMENT $1) )
   (composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
   (output_def)                          : '()
-  (ERROR)				: (display (string-append "toplevel error: " $1)) 			
+  (VERSION)                             : '()
+  (ERROR)				: (begin (display (string-append "toplevel error: " $1)) '()) 			
   )	
  
  (embedded_scm
@@ -371,9 +372,7 @@ DBLQUOTE
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_T);
 ;	}
 ;
-;	| TIMES fraction music {
-;                $$ = MAKE_SYNTAX ("time-scaled-music", @$, $2, $3);
-;	}
+	(TIMES fraction music) : (list (cons 'TIMES (list $2 $3)))
 ;	| repeated_music		{ $$ = $1; }
 ;	| TRANSPOSE pitch_also_in_chords pitch_also_in_chords music {
 ;		Pitch from = *unsmob_pitch ($2);
@@ -422,7 +421,7 @@ DBLQUOTE
  
  (music ;; a list
 	(simple_music)					: (list $1)
-	(composite_music)				: (begin (format #t "~%music as composite_music with value ~a~%" (car (list-ref $1 0)))
+	(composite_music)				: (begin (format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
              
 ;;this comes in as either this
 ;;music as composite_music with value (NEWCONTEXT Staff  )
@@ -430,6 +429,7 @@ DBLQUOTE
 ;;or this...
 ;;.........with value (x_SEQUENTIAL (x_CHORD
 
+;;;and ('TIMES fraction )
 ;;output 
                                                    ;;(if (eqv? 'NEWCONTEXT (car (list-ref $1 0)))
 ;;						       (cons 'x_NEWCONTEXT  $1)
@@ -580,8 +580,8 @@ $1)
 	
  (multiplied_duration
 	(steno_duration) : $1
-	(multiplied_duration STAR bare_unsigned)  	: (string-append $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
-	(multiplied_duration STAR FRACTION) 		: (string-append $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
+	(multiplied_duration STAR bare_unsigned)  	: (list $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
+	(multiplied_duration STAR FRACTION) 		: (list $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
  )
 	
  (steno_duration
