@@ -2882,7 +2882,8 @@ static void define_scheme_constants(void) {
   DEF_SCHEME_CONST("VERSION_MICRO", micro);
 
   DEF_SCHEME_STR("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
-
+  DEF_SCHEME_STR("DENEMO_ACTIONS_DIR", g_strdup_printf("%s%c", g_build_filename(get_data_dir(), "actions", NULL), G_DIR_SEPARATOR), "Holds location of system-wide Denemo actions directory");
+  DEF_SCHEME_STR("DENEMO_LOCAL_ACTIONS_DIR", g_strdup_printf("%s%c", g_build_filename(locatedotdenemo(), "actions", NULL), G_DIR_SEPARATOR), "Holds location of Denemo actions directory beneath your home directory");
   {
     gint i;
     for(i=0;i<G_N_ELEMENTS(DenemoObjTypeNames);i++) 

@@ -191,12 +191,12 @@
  (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
-	   ((eqv? (car current_object) 'x_MMREST) "\n\n(d-InsertWholeMeasureRest)\n\n")
+	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
 	   ))))
   
-
+(if (not (defined? 'Denemo))
   (format #t "~%;;;Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%;;;End of Denemo Script++++++++++++++++++++++++++++~%" 
-
+(string-join (map loop-through list_from_parser)))
 (string-join (map loop-through list_from_parser))))

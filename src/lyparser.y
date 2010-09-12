@@ -2956,7 +2956,7 @@ DenemoScore *si	= gui->si;
    structure: see denemo.h	
  */
 int
-lyinput (gchar * filename, DenemoGUI *gui)
+obsoletelyinput (gchar * filename, DenemoGUI *gui)
 {
   FILE *lyin;
   GList *score_block_list = NULL;

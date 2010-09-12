@@ -221,7 +221,10 @@ static void      update_file_selection_path (gchar *file) {
   file_selection_path = g_path_get_dirname(file);
 }
 
-
+gint lyinput(gchar *filename, DenemoGUI *gui) {
+  call_out_to_guile(g_strdup_printf("%s%s%s", "(lyimport::load-file \"",filename,"\")" ));
+  return 0;
+}
 
 
 /**

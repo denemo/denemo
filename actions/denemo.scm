@@ -1,3 +1,6 @@
+
+(define Denemo #t)
+
 (use-modules (srfi srfi-1))
 (use-modules (srfi srfi-8))
 (use-modules (srfi srfi-13))
@@ -1273,3 +1276,10 @@
             (receive (a b) (partition! list '() '())
               (merge! (shuffle! a) (shuffle! b)))))))
 ;;;;;;;;;;;;;;; End Shuffle
+
+
+
+(define (lyimport::load-file filename)
+  (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
+  (set! lyimport::filename filename)
+  (eval-string (lyimport::import)))
