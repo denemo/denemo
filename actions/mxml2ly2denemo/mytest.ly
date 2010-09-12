@@ -8,7 +8,7 @@
 }
 #(set-default-paper-size "a4"
 )
-#(set-global-staff-size 20)
+#(set-global-staff-size 18)
 
 \header{
 }
@@ -18,75 +18,21 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          R1*4/4 %{r1%} \Barline
-         a'1\Barline
-         a' \bar "|."
-}
-
-
-MvmntIVoiceII =  {
-          R1*4/4 %{r1%} \Barline
+          r4 cis'' r8. r16 r8 r\Barline
          R1*4/4 %{r1%} \Barline
-         c'4 c'8 g' g'16 a' b'8. a'16 a' g' \bar "|."
-}
-
-
-MvmntIVoiceIII =  {
-          R1*4/4 %{r1%} \Barline
-         R1*4/4 %{r1%} \Barline
-         g'16 f' g'8 d' f'4 a,16 a, a, b, d e \bar "|."
-}
-
-
-MvmntIVoiceIV =  {
-          R1*4/4 %{r1%} \Barline
-         g8 e'16 d' c'8 r g4. g,8\Barline
-         R1*4/4 %{r1%}  \bar "|."
+         a'4 bes'8. c''16 d''2 \bar "|."
 }
 
 
 
         MvmntIVoiceITimeSig = \time 4/4 
-MvmntIVoiceIKeySig = \key c \major
+MvmntIVoiceIKeySig = \key aes \minor
  MvmntIVoiceIClef = \clef treble 
 MvmntIVoiceIProlog = { \MvmntIVoiceITimeSig \MvmntIVoiceIKeySig \MvmntIVoiceIClef}
 MvmntIVoiceIMusic =  {\MvmntIVoiceIProlog \MvmntIVoiceI}
 MvmntIVoiceIContext = \context Voice = VoiceIMvmntI  {\MvmntIVoiceIMusic}
-
-        MvmntIVoiceIITimeSig = \time 4/4 
-MvmntIVoiceIIKeySig = \key c \major
- MvmntIVoiceIIClef = \clef treble 
-MvmntIVoiceIIProlog = { \MvmntIVoiceIITimeSig \MvmntIVoiceIIKeySig \MvmntIVoiceIIClef}
-MvmntIVoiceIIMusic =  {\MvmntIVoiceIIProlog \MvmntIVoiceII}
-MvmntIVoiceIIContext = \context Voice = VoiceIIMvmntI  {\MvmntIVoiceIIMusic}
-
-        MvmntIVoiceIIITimeSig = \time 4/4 
-MvmntIVoiceIIIKeySig = \key c \major
- MvmntIVoiceIIIClef = \clef bass 
-MvmntIVoiceIIIProlog = { \MvmntIVoiceIIITimeSig \MvmntIVoiceIIIKeySig \MvmntIVoiceIIIClef}
-MvmntIVoiceIIIMusic =  {\MvmntIVoiceIIIProlog \MvmntIVoiceIII}
-MvmntIVoiceIIIContext = \context Voice = VoiceIIIMvmntI  {\MvmntIVoiceIIIMusic}
-
-        MvmntIVoiceIVTimeSig = \time 4/4 
-MvmntIVoiceIVKeySig = \key c \major
- MvmntIVoiceIVClef = \clef bass 
-MvmntIVoiceIVProlog = { \MvmntIVoiceIVTimeSig \MvmntIVoiceIVKeySig \MvmntIVoiceIVClef}
-MvmntIVoiceIVMusic =  {\MvmntIVoiceIVProlog \MvmntIVoiceIV}
-MvmntIVoiceIVContext = \context Voice = VoiceIVMvmntI  {\MvmntIVoiceIVMusic}
 MvmntIStaffI = \new Staff  << {
                 \MvmntIVoiceIContext
-                }
-                
-\new Voice {
-                \MvmntIVoiceII
-                }
-                >>
-MvmntIStaffII = \new Staff  << {
-                \MvmntIVoiceIIIContext
-                }
-                
-\new Voice {
-                \MvmntIVoiceIV
                 }
                 >>
 
@@ -95,7 +41,6 @@ MvmntIStaffII = \new Staff  << {
 \score {
 << <<
 \MvmntIStaffI
-\MvmntIStaffII
 >>
 >>
 \layout{
