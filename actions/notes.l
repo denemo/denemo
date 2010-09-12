@@ -90,7 +90,7 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 
 ;{REAL}						(lyimport::mtoken 'REAL yytext)
 
-\"{A}\"						(lyimport::mtoken 'QUOTED_CHAR yytext)
+;\"{A}\"						(lyimport::mtoken 'QUOTED_CHAR yytext)
 
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)
