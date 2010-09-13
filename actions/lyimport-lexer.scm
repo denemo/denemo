@@ -172,7 +172,7 @@
 		((lyimport::try_special_identifiers_scm? yytext) (lyimport::mtoken 'SCM_IDENTIFIER yytext))
         
         ;If its not a keyword, assignment or special identifier then its wrong				
-		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
+		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))(if lyimport::halt_on_error (exit)(lyimport::multilexer)))
 		)
 		
 	)
