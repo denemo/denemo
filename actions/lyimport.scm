@@ -62,12 +62,12 @@
 (if (defined? 'Denemo)
     (begin
       (set! lyimport::create_lexer_each_time #f) ;
-      (set! lyimport::halt_on_error #t) ; on  error do not stop
+      (set! lyimport::halt_on_error #f) ; on  error do not stop
       )
     (begin
       ;; Options
-      (set! lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t if interactive
-      (set! lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t if interactive
+      (set! lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuilt everytime or the existing file gets used. Default #t if interactive
+      (set! lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, potentially creating a wrong output. Default #t if interactive
       )
     )
 
