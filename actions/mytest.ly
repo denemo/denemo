@@ -8,7 +8,7 @@
 }
 #(set-default-paper-size "a4"
 )
-#(set-global-staff-size 18)
+#(set-global-staff-size 20)
 
 \header{
 }
@@ -18,17 +18,15 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          r4 cis'' r8. r16 r8 r \barNumberCheck #(+ 1 1)
-         R1*4/4 %{r1%}
-\unknownCommand
-         a'4 bes'8. c''16 d''2 \bar "|."
-}
+          r4 cis'' r8. r16 r8 r \bar "|"         R1*4/4 %{r1%} \Barline
+         a'4 bes'8.( c''16 d''2) \bar "|."}
 
 
+\include "testinclude.ly"
 
         MvmntIVoiceITimeSig = \time 4/4 
-MvmntIVoiceIKeySig = \key aes \minor
- MvmntIVoiceIClef = \clef "G"
+MvmntIVoiceIKeySig = \key a \minor
+ MvmntIVoiceIClef = \clef treble 
 MvmntIVoiceIProlog = { \MvmntIVoiceITimeSig \MvmntIVoiceIKeySig \MvmntIVoiceIClef}
 MvmntIVoiceIMusic =  {\MvmntIVoiceIProlog \MvmntIVoiceI}
 MvmntIVoiceIContext = \context Voice = VoiceIMvmntI  {\MvmntIVoiceIMusic}

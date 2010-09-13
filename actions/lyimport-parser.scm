@@ -310,7 +310,8 @@ DBLQUOTE
 	)
 
  (simple_music ;; a pair
-	(event_chord)					: (begin (format #t "now simple_music ~a~%" $1) $1)	
+	(event_chord)					: (begin ;(format #t "now simple_music ~a~%" $1)
+								 $1)	
     (MUSIC_IDENTIFIER)				: $1
     ;(music_property_def)			: $1
 	(context_change)				: $1
@@ -337,13 +338,16 @@ DBLQUOTE
  
  (composite_music	;;; a list
 	(prefix_composite_music) 	: $1
-	(grouped_music_list)		: (begin (format #t "reached composite music  ~a~%" $1) $1)
+	(grouped_music_list)		: (begin ;(format #t "reached composite music  ~a~%" $1) 
+						 $1)
 	
  )
  
  (grouped_music_list ;;; a list
-	(simultaneous_music)			: (begin (format #t "reached simultaneous rule of grouped music list  ~a is pair?~a ~%" $1 (pair? $1)) (list $1) )
-	(sequential_music)			: (begin (format #t "reached sequential rule of grouped music list  ~a~%" $1) (list $1))
+	(simultaneous_music)			: (begin ;(format #t "reached simultaneous rule of grouped music list  ~a is pair?~a ~%" $1 (pair? $1))
+							 (list $1) )
+	(sequential_music)			: (begin ;(format #t "reached sequential rule of grouped music list  ~a~%" $1)
+							 (list $1))
  )
  
  (optional_id
@@ -364,7 +368,8 @@ DBLQUOTE
 ;                        mods = ctxmod->get_mods ();
 ;		$$ = MAKE_SYNTAX ("context-specification", @$, $2, $3, $5, mods, SCM_BOOL_F);
 ;	}
-	(NEWCONTEXT simple_string optional_id optional_context_mod music) :(begin (format #t "newcontext is ~a~%" $2)   (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
+	(NEWCONTEXT simple_string optional_id optional_context_mod music) :(begin ;(format #t "newcontext is ~a~%" $2)
+										  (cons (cons 'NEWCONTEXT (list $2  $3 $4)) $5))
 ;   {            Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
 ;                if (ctxmod)
@@ -421,20 +426,8 @@ DBLQUOTE
  
  (music ;; a list
 	(simple_music)					: (list $1)
-	(composite_music)				: (begin (format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
-             
-;;this comes in as either this
-;;music as composite_music with value (NEWCONTEXT Staff  )
-
-;;or this...
-;;.........with value (x_SEQUENTIAL (x_CHORD
-
-;;;and ('TIMES fraction )
-;;output 
-                                                   ;;(if (eqv? 'NEWCONTEXT (car (list-ref $1 0)))
-;;						       (cons 'x_NEWCONTEXT  $1)
-;;						       (cons 'x_COMPOSITE_MUSIC $1))) ; for {c { d e } } constructions
-$1)
+	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
+							    $1)
 	
  )
  
@@ -450,14 +443,16 @@ $1)
 	
  (sequential_music ;;; a pair
 	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
-	(  { music_list }  )			: (begin (format #t "Sequential this is a ~a~%" (list? $2)) 
-    (pretty-print $2)
- (cons 'x_SEQUENTIAL $2))
- )
+	(  { music_list }  )			: (begin ;(format #t "Sequential this is a ~a~%" (list? $2)) 
+						    ;(pretty-print $2)
+						    (cons 'x_SEQUENTIAL $2))
+	)
 
   (simultaneous_music  ;;; a pair
 	(SIMULTANEOUS { music_list }):  (cons 'x_SIMULTANEOUS $3) ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
-	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin (format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2)) (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
+	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin 
+							      ;(format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2))
+							      (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
   )
  
  
@@ -483,7 +478,8 @@ $1)
   )
  
  (event_chord ;; a pair
-	(simple_chord_elements post_events)			: (begin (format #t "Parser reached ~a~%" $1) (cons 'x_CHORD (cons $1 $2)))
+	(simple_chord_elements post_events)			: (begin ;(format #t "Parser reached ~a~%" $1)
+									 (cons 'x_CHORD (cons $1 $2)))
 	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
 	;| CHORD_REPETITION optional_notemode_duration post_events {
@@ -667,7 +663,8 @@ $1)
 	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
 	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
 	(CLEF STRING) : (cons 'x_CLEF $2)
-	(BAR STRING )    : (begin (format #t "got bar ~a~%~%" $2) (cons 'x_BARLINE $2)) 
+	(BAR STRING )    : (begin ;(format #t "got bar ~a~%~%" $2) 
+				  (cons 'x_BARLINE $2)) 
  )
 
  (post_events

@@ -161,14 +161,14 @@
 
 	   (else
 	    (begin 
-	      (format #t "handled ~a by recursion through list~%" current_object)   
+	      ;(format #t "handled ~a by recursion through list~%" current_object)   
 		   (string-join (map loop-through current_object))))
 	   ))  ;;;;; end of current_object is a list
 	(begin
 	  ;(format #t "treating the pair case ~a~%~%" (car current_object))
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
-						   (format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
+						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (begin
 							     (string-append (do-duration (list-ref (cadr current_object) 2)) " (d-EnterRest) "   (do-dots (list-ref (cadr current_object) 2))))

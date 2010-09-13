@@ -4,7 +4,7 @@
 )	
 
 (define (lyimport::pop_state)
-(format #t "Now popping the state ~a becomes ~a~%~%" lyimport::state (cdr lyimport::state))
+					;(format #t "Now popping the state ~a becomes ~a~%~%" lyimport::state (cdr lyimport::state))
   (set! lyimport::state (cdr lyimport::state)))
 ;Accumulator for a string in double quotes (used by quote state of lexer)
 (define lyimport::quoted_string "")
@@ -26,6 +26,10 @@
 (define (lyimport::block-append str)
       (set! lyimport::block_string (string-append lyimport::block_string str)))
      
+
+
+(define (lyimport::start_incl)
+  (set! lyimport::state (cons 'incl lyimport::state)))
 
 ; List of Notenames
 (define lyimport::list_of_notenames

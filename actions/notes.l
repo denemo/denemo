@@ -60,7 +60,7 @@ BOM_UTF8			\357\273\277
 \\sourcefilename{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefilename)
 \\sourcefileline{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefileline)
 \\maininput         		(lyimport::mtoken 'ERROR	yytext) ; if (!is_main_input_) (block: start_main_input (); is_main_input_ = true; ) ELSE	error (_ ("\\maininput not allowed outside init files"));
-\\include           		(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (incl)
+\\include           	  (lyimport::start_incl) (lyimport::multilexer)
 
 {RESTNAME}					(lyimport::mtoken 'RESTNAME yytext)
 #                                               (begin  
