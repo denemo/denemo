@@ -163,7 +163,7 @@
 		
 		; Denemo specific
 		;; we have to swallow # and an embedded scheme integer following barNumberCheck 
-		((string-ci=? "barNumberCheck" yytext) (begin (let loop ((c (lexer-getc))) (if (or (char=? #\# c)(char-whitespace? c)) (loop (lexer-getc)))))  (read (make-soft-port (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))(lyimport::multilexer))
+		((string-ci=? "barNumberCheck" yytext) (begin (let loop ((c #f)) (set! c (lexer-getc)) (if (char-whitespace? c) (loop c)))   (read (make-soft-port (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))(lyimport::multilexer)))
 		
         ;If its not a known keyword its probably a user assignment:
         ((hashq-ref lyimport::AssignmentTable (string->symbol yytext)) (lyimport::as-eval yytext))

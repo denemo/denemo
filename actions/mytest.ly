@@ -18,7 +18,7 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          r4 cis'' r8. r16 r8 r \barNumberCheck #10
+          r4 cis'' r8. r16 r8 r \barNumberCheck #(+ 1 1)
          R1*4/4 %{r1%} \Barline
          a'4 bes'8. c''16 d''2 \bar "|."
 }
