@@ -18,7 +18,7 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          r4 cis'' r8. r16 r8 r\Barline
+          r4 cis'' r8. r16 r8 r \barNumberCheck #10
          R1*4/4 %{r1%} \Barline
          a'4 bes'8. c''16 d''2 \bar "|."
 }
@@ -27,7 +27,7 @@ MvmntIVoiceI =  {
 
         MvmntIVoiceITimeSig = \time 4/4 
 MvmntIVoiceIKeySig = \key aes \minor
- MvmntIVoiceIClef = \clef treble 
+ MvmntIVoiceIClef = \clef "G"
 MvmntIVoiceIProlog = { \MvmntIVoiceITimeSig \MvmntIVoiceIKeySig \MvmntIVoiceIClef}
 MvmntIVoiceIMusic =  {\MvmntIVoiceIProlog \MvmntIVoiceI}
 MvmntIVoiceIContext = \context Voice = VoiceIMvmntI  {\MvmntIVoiceIMusic}
