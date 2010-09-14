@@ -126,6 +126,7 @@
     (if (char? c)
 	c
 	(begin
+	  (close-port (car lyimport::input-ports))
 	  (set! lyimport::input-ports (cdr lyimport::input-ports))
 	  (if (null? lyimport::input-ports)
 	      c
