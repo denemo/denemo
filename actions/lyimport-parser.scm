@@ -237,6 +237,7 @@ E_TILDE
 EXTENDER
 
 ;;;;;;; Denemo Specials
+GRACE
 BLOCK
 CLEF
 BAR
@@ -361,6 +362,12 @@ DBLQUOTE
 ;	generic_prefix_music_scm {
 ;		$$ = run_music_function (PARSER, $1);
 ;	}
+; I think things like \grace have become music functions, and so handled by the generic_prefix_music_scm rule above as we are not doing them...
+
+        (GRACE music) : (list (cons 'x_GRACE  $2)) ;;;Denemo substitute for music function.
+
+
+
 	(CONTEXT simple_string optional_id optional_context_mod music) :  (cons (cons 'CONTEXT (list $2 $3 $4)) $5)
 ;         {       Context_mod *ctxmod = unsmob_context_mod ($4);
 ;                SCM mods = SCM_EOL;
