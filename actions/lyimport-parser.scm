@@ -258,7 +258,7 @@ DBLQUOTE
   (composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
   (output_def)                          : '()
   (VERSION)                             : '()
-  (ERROR)				: (begin (display (string-append "toplevel error: " $1)) '()) 			
+  (ERROR)				: (begin (display (string-append "FIXME should not happen:toplevel error: " $1)) '()) 			
   )	
  
  (embedded_scm
