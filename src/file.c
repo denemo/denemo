@@ -222,7 +222,14 @@ static void      update_file_selection_path (gchar *file) {
 }
 
 gint lyinput(gchar *filename, DenemoGUI *gui) {
-  call_out_to_guile(g_strdup_printf("%s%s%s", "(lyimport::load-file \"",filename,"\")" ));
+  gchar *path = g_path_get_dirname(filename);
+  gchar *base = g_path_get_basename(filename);
+  gchar *call = g_strdup_printf("%s%s%c%s%s%s", "(lyimport::load-file \"", path, G_DIR_SEPARATOR,"\" \"", base,"\")" );
+  // g_print("Calling %s\n", call);
+  call_out_to_guile(call);
+  g_free(path);
+  g_free(base);
+  g_free(call);
   return 0;
 }
 

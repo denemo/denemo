@@ -23,6 +23,8 @@
 ;;
 
 (define lyimport::filename #f)
+(define lyimport::pathname #f)
+
 (define lyimport::state #f) ;;;;; stack of lexer states
 (define lyimport::AssignmentTable #f)
 (define lyimport::create_lexer_each_time #f) 
@@ -118,7 +120,7 @@
 (define lyimport::input-ports #f);; a stack of include files
 
 (define (lyimport::push-port includefile)
-  (set! lyimport::input-ports (cons  (open-input-file includefile) lyimport::input-ports)))
+  (set! lyimport::input-ports (cons  (open-input-file (string-append lyimport::pathname includefile)) lyimport::input-ports)))
   
 (define (lyimport::lexer-proc)
   (let ((c (read-char (car lyimport::input-ports))))
@@ -134,12 +136,9 @@
 		
 
 (define (lyimport::import)
-(format #t "Starting lyimport now ~%~%~%")
-;  (if (defined? 'Denemo)
-;      (set! lexer-port (open-input-file lyimport::filename))
-;      (set! lexer-port (open-input-file "mytest.ly")))
+					;(format #t "Starting lyimport now ~%~%~%")
   (if (defined? 'Denemo)
-      (set! lyimport::input-ports (list (open-input-file lyimport::filename)))
+      (set! lyimport::input-ports (list (open-input-file (string-append lyimport::pathname lyimport::filename))))
       (set! lyimport::input-ports (list (open-input-file  "mytest.ly"))))
 
 
