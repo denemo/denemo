@@ -22,8 +22,8 @@
 ;  along with Denemo.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 
-(define lyimport::filename #f)
-(define lyimport::pathname #f)
+(define lyimport::filename "mytest.ly")
+(define lyimport::pathname "./")
 
 (define lyimport::state #f) ;;;;; stack of lexer states
 (define lyimport::AssignmentTable #f)
