@@ -386,7 +386,7 @@ DBLQUOTE
 ;
 	(TIMES fraction music) : (list (cons 'TIMES (list $2 $3)))
 ;	| repeated_music		{ $$ = $1; }
-;	| TRANSPOSE pitch_also_in_chords pitch_also_in_chords music {
+	(TRANSPOSE pitch_also_in_chords pitch_also_in_chords music) : $4 ;; ignore for now
 ;		Pitch from = *unsmob_pitch ($2);
 ;		Pitch to = *unsmob_pitch ($3);
 ;		SCM pitch = pitch_interval (from, to).smobbed_copy ();
@@ -630,9 +630,22 @@ DBLQUOTE
 	(dots DOT) : (+ $1 1)	
   ) 
  
+(steno_tonic_pitch
+	(TONICNAME_PITCH) : $1
+	(TONICNAME_PITCH sup_quotes) : (string-append $1 $2)
+	(TONICNAME_PITCH sub_quotes) : (string-append $1 $2)
+)
+
+
  (pitch
 	(steno_pitch)					: $1
  )
+
+ (pitch_also_in_chords
+	(pitch) : $1
+	(steno_tonic_pitch) : $1
+ )
+
  
  (command_element
 	(command_event) : $1
