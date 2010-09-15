@@ -456,7 +456,7 @@
 <!-- Number-Keys -->
 	<row>
 	 <action>LoadDefaultComposerNumberkeys</action>
-	 <bind>Escape</bind>
+	 <bind>Escape</bind>	 
 	</row>
 
       <row>
@@ -465,43 +465,53 @@
       </row>
       <row>
         <action>OpZero</action>
-		<bind>0</bind>        
+		<bind>0</bind>       
+		<hidden>true</hidden> 
       </row>
       <row>
         <action>OpOne</action>
 		<bind>1</bind>
+		<hidden>true</hidden>
       </row>
        <row>
         <action>OpTwo</action>
 		<bind>2</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpThree</action>
 		<bind>3</bind>
+		<hidden>true</hidden>
       </row>                 
       <row>
         <action>OpFour</action>
 		<bind>4</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpFive</action>
 		<bind>5</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpSix</action>
 		<bind>6</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpSeven</action>
 		<bind>7</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpEight</action>
 		<bind>8</bind>
+		<hidden>true</hidden>
       </row>
       <row>
         <action>OpNine</action>
 		<bind>9</bind>
+		<hidden>true</hidden>
       </row> 
        <row>
         <action>InsertWholeRest</action>
@@ -536,6 +546,7 @@
       
       <row>
       <action>NoOp</action>
+      <hidden>true</hidden>
       <bind>Shift+7</bind>
       <bind>Shift+8</bind>
       <bind>Shift+9</bind>

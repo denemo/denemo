@@ -6,6 +6,7 @@
     <map>
       <row>
         <action>OpNine</action>
+        <hidden>true</hidden>
         <scheme>(eval-string wrap:Op9)</scheme>
         <label>OpNine</label>
         <tooltip>Wrapper/Dummy for Keypress</tooltip>
