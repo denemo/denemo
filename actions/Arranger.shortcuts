@@ -647,6 +647,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DenemoPlayCursorToEnd</action>
+        <bind>Ctrl+F5</bind>
+      </row>
+      <row>
         <action>Tremolo</action>
         <bind>Alt+t</bind>
       </row>

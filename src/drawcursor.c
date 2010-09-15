@@ -73,8 +73,10 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
     cairo_rel_line_to( cr, 0, STAFF_HEIGHT - 8);
     cairo_stroke( cr );
     setcairocolor( cr, paintgc );
-
-    if(Denemo.prefs.cursor_highlight) {
+    static gboolean on;
+    on = !on;
+    // g_print("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);
+    if(on && Denemo.prefs.cursor_highlight) {
       cairo_set_line_width (cr, 6.0/si->zoom);
       cairo_set_source_rgba (cr, 0, 1, 0, 0.40);    
       cairo_arc(cr, xx + CURSOR_WIDTH/2, height + y, length, 0, 2 * M_PI);

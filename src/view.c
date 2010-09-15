@@ -2429,9 +2429,20 @@ static SCM scheme_adjust_xes (SCM optional) {
   return SCM_BOOL_T;
 }
 
+static gint flash_cursor(void) {
+  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return TRUE;
+}
 static SCM scheme_highlight_cursor (SCM optional) {
+  static gint id;
   Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
-  displayhelper(Denemo.gui);
+  if(id) {
+    g_source_remove(id);
+    id = 0;
+  } else
+    if( Denemo.prefs.cursor_highlight)
+      id = g_timeout_add(300, flash_cursor, NULL);
+  //g_print("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
   return SCM_BOOL_T;
 }
 
@@ -3087,7 +3098,10 @@ void inner_main(void*closure, int argc, char **argv){
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
   show_preferred_view();
-
+  if(Denemo.prefs.cursor_highlight) {
+    Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
+    //g_print("Cursor highlight is %d\n",Denemo.prefs.cursor_highlight);
+  }
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
 
