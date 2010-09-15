@@ -32,7 +32,7 @@ Barline = |
 % The music follows
 
 MvmntIVoiceI =  {
-          d''2 fis''4 d''8 d''\Barline
+          d''2 \mark \default fis''4 d''8 d''\Barline
 %55
          g'' fis''8 e'' \grace {  e''}  d''4 cis''8 b'\Barline
          ais'4. b'16 cis'' b'8 d'' fis'' b''\Barline

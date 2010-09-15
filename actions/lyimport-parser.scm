@@ -6,6 +6,15 @@
 		yytext
 	)
 )
+(define (lyimport::warning yytext)
+	(format #t "Not fully implemented yet: ~a Line: ~a Column: ~a~%~%"
+			   
+		yytext  (lexer-get-line)  (lexer-get-column)
+	)
+)
+
+
+
 
 ; If the parser throws an uncatched error it needs this function.
 (define (displayerror arg1 arg2)
@@ -661,7 +670,7 @@ DBLQUOTE
 
  (command_event
 	(E_TILDE) : (lyimport::error "E_TILDE") ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
-	(MARK DEFAULT) : (lyimport::error "MARK DEFAULT") ; 	  {
+	(MARK DEFAULT) : (begin (lyimport::warning "MARK DEFAULT") '()); 	  {
 						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
 						;$$ = m->unprotect ();
 	(tempo_event) :  $1
