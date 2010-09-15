@@ -2441,7 +2441,7 @@ static SCM scheme_highlight_cursor (SCM optional) {
     id = 0;
   } else
     if( Denemo.prefs.cursor_highlight)
-      id = g_timeout_add(300, flash_cursor, NULL);
+      id = g_timeout_add(333, flash_cursor, NULL);
   //g_print("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
   return SCM_BOOL_T;
 }
