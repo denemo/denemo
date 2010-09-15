@@ -3898,7 +3898,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>AutoAccidentals</action>
-        <after>TransposeScorePrint</after>
+        <after>TypesettingOff</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>(Print) Accidental Printing</label>
