@@ -33,7 +33,7 @@ draw_lily_dir (cairo_t *cr,
     if(selected)
       cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );
     else
-      cairo_set_source_rgb( cr, 0.0, 1.0, 0.0 );
+      cairo_set_source_rgb( cr, 0.4, 0.5, 0.4 );
 
     cairo_rectangle (cr, xx/*-2*/, y, 10, STAFF_HEIGHT);
     cairo_fill( cr );
