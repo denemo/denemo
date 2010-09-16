@@ -200,9 +200,11 @@ static temperament WerckmeisterIV = {
   }
 };
 
+
 static temperament *PR_temperament=&Equal; /* the currently used temperament */
 
 static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehman, &Rameau};
+
 
 static void switch_back_to_main_window(void) {
 
@@ -257,7 +259,6 @@ static gchar *alteration_name(gint alteration) {
 
 
 
-
 /* returns the note names currently set for the given temperament
  caller must free the string */
 static gchar * notenames(gpointer p) {
@@ -278,6 +279,8 @@ static gchar * notenames(gpointer p) {
   }
   return str;
 }
+
+#ifdef _HAVE_PORTAUDIO_
 
 static gchar *nameof(gint notenumber) {
  return g_strdup_printf("%c%s", step_name(PR_temperament->notepitches[notenumber].spec.step), alteration_name(PR_temperament->notepitches[notenumber].spec.alteration));
@@ -386,6 +389,7 @@ void set_sharper(GtkAction *action, gpointer param) {
 void set_flatter(GtkAction *action, gpointer param) {
   enharmonic_step (FALSE);
 }
+#endif
 
 void
 signal_measure_end(void) {
@@ -395,7 +399,7 @@ if (Denemo.prefs.midi_audio_output == Fluidsynth)
    gdk_beep();
 }
 
-
+#ifdef _HAVE_PORTAUDIO_
 static void sound_click(void) {
   if(PR_click)
     signal_measure_end();
@@ -774,6 +778,7 @@ gint pitchentry(DenemoGUI *gui) {
 	}
 	else
 	  enter_tone_in_store(gui, found, octave);
+        printf("\nfound freq = %d\n", found->pitch); 
       }
 
     }//note found
@@ -983,6 +988,7 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
   g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
 }
 
+#endif
 GtkWidget *get_enharmonic_frame(void) {
   static GtkWidget *frame;
   if(frame==NULL) {
@@ -1015,7 +1021,7 @@ GtkWidget *get_enharmonic_frame(void) {
   return frame;
 }
 
-
+#ifdef _HAVE_PORTAUDIO_
 
 static void create_pitch_recognition_window(DenemoGUI *gui) {
   GtkWidget *hbox, *hbox2;
@@ -1406,6 +1412,8 @@ gboolean pitch_entry_active(DenemoGUI *gui) {
   return (PR_gui == gui) && PR_enable;
 }
 
+#else
+
 gchar *determine_interval(gint bass, gint harmony){
   gint bass_octave, harmony_octave;
   gdouble deviation;
@@ -1434,3 +1442,16 @@ gchar *determine_interval(gint bass, gint harmony){
  else
    return g_strdup_printf("%d%s", interval, modifier);
 }
+
+gboolean pitch_entry_active(DenemoGUI *gui){ return 0; }
+void
+notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {}
+void set_sharper(GtkAction *action, gpointer param) {}
+void set_flatter(GtkAction *action, gpointer param) {}
+gint setup_pitch_input(void){ return 0; }
+void start_pitch_input(void) {}
+int stop_pitch_input(void) { return 0; }
+void clear_overlay(GtkAction *action, gpointer param) {}
+
+
+#endif

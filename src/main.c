@@ -651,8 +651,9 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 				 string then the open fails and direct audio out is used for 
 				immediate playback */
       //g_print("Initializing audio out\n");
+#ifdef _HAVE_PORTAUDIO_
       init_audio_out();
-
+#endif
     }
   }
 }

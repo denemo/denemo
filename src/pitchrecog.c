@@ -295,8 +295,9 @@ int pitchrecog(float **input, float **output, int nframes) {
   return Stop;
 }
 
-
+#ifdef _HAVE_PORTAUDIO_
 extern int pa_main(aubio_process_func_t process_func);
+
 
 #define START  init_aubio();return pa_main(pitchrecog);
 #define STOP   (void)pa_main(NULL);aubio_finish();
@@ -332,6 +333,7 @@ int initialize_pitch_recognition(void ) {
   return pa_main(pitchrecog);
 }
 
+
 int terminate_pitch_recognition(void ) {
   g_print("Terminating portaudio and aubio\n");
   (void)pa_main(NULL);
@@ -353,3 +355,4 @@ void store_pitch(double pitch) {
   send_noteon(pitch, 1);
   // return count<MAX_PITCHES; no point in returning the status, look at it outside of interrupts.
 }
+#endif
