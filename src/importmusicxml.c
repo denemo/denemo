@@ -14,7 +14,7 @@ gint mxmlinput (gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
 #ifdef G_OS_WIN32
   gchar *argv[] = {
-    "python"
+    "python.exe"
     "musicxml2ly.py",
     "-o", "denemoconvert", 
     filename,
