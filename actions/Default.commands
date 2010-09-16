@@ -3888,7 +3888,7 @@ for second and subsequent systems</tooltip>
         <action>OpZero</action>
         <hidden>true</hidden>
         <scheme></scheme>
-        <menupath>/MainMenu/MoreMenu</menupath>
+        <menupath>/MainMenu/MoreMenu</menupath>        
         <label>OpZero</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
       </row>
