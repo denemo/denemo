@@ -2630,13 +2630,6 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
         <tooltip>Control whether tuplet numbers will be printed over tuplets.</tooltip>
       </row>
       <row>
-        <action>NoBeam</action>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
-        <label>No Beam Here</label>
-        <tooltip>Prints note without any beam attached.</tooltip>
-      </row>
-      <row>
         <action>MovementPageBreak</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MovementMenu</menupath>
@@ -3888,7 +3881,7 @@ for second and subsequent systems</tooltip>
         <action>OpZero</action>
         <hidden>true</hidden>
         <scheme></scheme>
-        <menupath>/MainMenu/MoreMenu</menupath>        
+        <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpZero</label>
         <tooltip>Wrapper/Dummy for Keypresses</tooltip>
       </row>
