@@ -304,6 +304,9 @@ typedef struct DenemoKeymap
                                   //The keystring is the output of
   				  //dnm_accelerator_name()
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
+ 
+  GHashTable *continuations;//hashtable giving possible continuations for two-keybindings
+
 }keymap;
 
 typedef struct MidiBuffer
@@ -920,6 +923,7 @@ struct DenemoRoot
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
 		  simultaneously open */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
+  
   gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */

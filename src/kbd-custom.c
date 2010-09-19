@@ -29,6 +29,8 @@
 #include "playback.h"
 #include "keyboard.h"
 
+
+#define DENEMO_TWO_KEY_SEPARATOR ","
 #if GTK_MINOR_VERSION < 10
 //Hmm, should we define these as 0, so that they don't mask anything in gtk 2.8
 #define  GDK_SUPER_MASK ( 1 << 26)
@@ -678,6 +680,9 @@ keymap *allocate_keymap(void)
   the_keymap->idx_from_keystring =
       g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
+  the_keymap->continuations =
+      g_hash_table_new (g_str_hash, g_str_equal);
+
   the_keymap->cursors = g_hash_table_new(g_int_hash, g_int_equal);
   //  g_print("Created hash table %p\n", the_keymap->cursors);
   return the_keymap;
@@ -690,6 +695,7 @@ free_keymap(keymap *the_keymap)
     g_object_unref(the_keymap->commands);
     g_hash_table_destroy(the_keymap->idx_from_name);
     g_hash_table_destroy(the_keymap->idx_from_keystring);
+    g_hash_table_destroy(the_keymap->continuations);
 }
 
 void
@@ -1173,6 +1179,37 @@ void update_all_labels(keymap *the_keymap) {
   for(command_idx=0;command_idx<num;command_idx++)
     update_accel_labels(the_keymap, command_idx);
 }
+
+//if binding is a two-key binding, update a table of such bindings, adding is add is true else removing
+static void update_continuations_table(keymap *the_keymap, const gchar *binding, gboolean add) {
+  gchar *second = g_strrstr(binding, DENEMO_TWO_KEY_SEPARATOR);
+  if(second) {
+    gchar *shortcut = g_strdup(binding);
+    *(shortcut+(second-binding)) = 0;// split into two strings at the separator
+    gchar *value = shortcut+(second-binding)+1;
+    g_print("Two key shortcuts %s %s\n", shortcut, value);
+    if(add) {
+      GList *thelist = g_hash_table_lookup (the_keymap->continuations, shortcut);
+      thelist = g_list_append (thelist, value);
+      g_hash_table_insert (the_keymap->continuations, shortcut, thelist);
+    } else {
+      GList *thelist = g_hash_table_lookup (the_keymap->continuations, shortcut);
+      if(thelist == NULL)
+	g_warning("Missing shortcut in table");
+      else {
+	GList *g;
+	for (g = thelist;g;g=g->next) {
+	  if(!strcmp(value, (gchar *)g->data)) {
+	    thelist = g_list_delete_link (thelist, g);
+	    g_hash_table_insert (the_keymap->continuations, shortcut, thelist);
+	    //unlikely you can get the memory back... g_free(shortcut);
+	  }
+	}
+      }
+    }
+  }
+}
+
 static void
 remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
         const gchar *binding)
@@ -1199,6 +1236,7 @@ remove_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
  
   if (found) {
       gtk_list_store_remove(row.bindings, &iter);
+      update_continuations_table(the_keymap, binding, FALSE);
   }
 
   g_object_unref(row.bindings);
@@ -1251,6 +1289,8 @@ add_keybinding_bindings_helper(keymap *the_keymap, guint command_idx,
   gtk_list_store_set(row.bindings, &iter, 0, binding, -1);
   
   g_object_unref(row.bindings);
+
+  update_continuations_table(the_keymap, binding, TRUE);
 }
 
 gint
@@ -1340,7 +1380,7 @@ add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierTyp
   gpointer value;
   gchar *kb_name;
   gboolean flag_update_accel;
-  kb_name = g_strdup_printf("%s,%s", dnm_accelerator_name(first_keyval, first_state),
+  kb_name = g_strdup_printf("%s"DENEMO_TWO_KEY_SEPARATOR"%s", dnm_accelerator_name(first_keyval, first_state),
 			    dnm_accelerator_name(keyval, state));
   old_command_idx = add_named_binding_to_idx (the_keymap, kb_name, command_idx, pos);
   g_free(kb_name);

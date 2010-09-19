@@ -172,19 +172,24 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 	ret = perform_command(command_name, event);
       }
     } else { //Two key name was not a binding
-      ret = FALSE;
+      ret = FALSE; //WHY??? FIXME
       write_status(Denemo.gui);
       toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
     }
     g_string_assign(prefix_store, "");
     return ret;
-  } else { //no prefix stored
+  } else { //no prefix stored 
     gchar *name = dnm_accelerator_name(event->keyval, event->state);
-    g_string_printf(prefix_store, "Prefix Key %s, waiting for second keypress, or type Esc to abort", name);
-    gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
-    gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
-		     prefix_store->str);
-    g_string_assign(prefix_store, name);
+    if(g_hash_table_lookup(Denemo.map->continuations, name)) {
+      g_string_printf(prefix_store, "Prefix Key %s, waiting for second keypress, or type Esc to abort", name);
+      gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
+      gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
+			 prefix_store->str);
+      g_string_assign(prefix_store, name);
+    } else {
+      write_status(Denemo.gui);//WHY FIXME
+     toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
+    }
     return TRUE;
   }
   return TRUE;
