@@ -505,7 +505,7 @@ main (int argc, char *argv[])
 
   register_stock_items ();
 
-#define choice1 "Default\nQuick start users: use this until you have read the manual\n"
+#define choice1 "Simple\nQuick start users: use this until you have read the manual\n"
 #define choice2 "Arranger\nExperienced Users: transcribing music, playing music in, transposing etc"
 #define choice3 "Composer\nExperienced Users: entering and modifying music, working with selections WASD use etc"
 #define choice4 "Classic\nOld Denemo pc-keyboard interface."

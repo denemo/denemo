@@ -39,6 +39,18 @@
         <bind>Right</bind>
       </row>
       <row>
+        <action>PushPosition</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PopPosition</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PopPushPosition</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleReduceToDrawingArea</action>
         <bind>Escape</bind>
       </row>
@@ -131,6 +143,30 @@
         <bind>Alt+6</bind>
       </row>
       <row>
+        <action>InsertDuplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertTriplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertQuadtuplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertQuintuplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertSextuplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertSeptuplet</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>AddNoteToChord</action>
         <bind>Insert</bind>
       </row>
@@ -147,6 +183,14 @@
         <bind>minus</bind>
       </row>
       <row>
+        <action>StemUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StemDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>AddDot</action>
         <bind>Decimal</bind>
         <bind>period</bind>
@@ -155,6 +199,10 @@
         <action>RemoveDot</action>
         <bind>Ctrl+Decimal</bind>
         <bind>Ctrl+period</bind>
+      </row>
+      <row>
+        <action>InsertTiedNote</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>DeletePreviousObject</action>
@@ -177,8 +225,24 @@
         <bind>Ctrl+M</bind>
       </row>
       <row>
+        <action>ShrinkMeasures</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>WidenMeasures</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>UnsetMark</action>
         <bind>return</bind>
+      </row>
+      <row>
+        <action>ToggleBeginSlur</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleEndSlur</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleStaccato</action>
@@ -205,11 +269,17 @@
         <bind>Space</bind>
       </row>
       <row>
+        <action>ExecuteScheme</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>SharpenEnharmonicSet</action>
+        <hidden>true</hidden>
         <bind>Add</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
+        <hidden>true</hidden>
         <bind>Subtract</bind>
       </row>
       <row>
@@ -217,8 +287,16 @@
         <bind>Ctrl+n</bind>
       </row>
       <row>
+        <action>AddStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddMovements</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>OpenNewWindow</action>
-        <bind>Ctrl+o</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Save</action>
@@ -229,15 +307,64 @@
         <bind>Ctrl+S</bind>
       </row>
       <row>
+        <action>OpenTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpenExample</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpenMyTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SaveTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>NewWindow</action>
         <bind>Ctrl+t</bind>
+      </row>
+      <row>
+        <action>InsertMovementBefore</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertMovementAfter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SaveParts</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ExportPDF</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ConfigureScore</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>PrintPreview</action>
         <bind>Ctrl+p</bind>
       </row>
       <row>
+        <action>PrintSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PrintExcerptPreview</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Print</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>Close</action>
+        <hidden>true</hidden>
         <bind>Ctrl+w</bind>
       </row>
       <row>
@@ -249,33 +376,124 @@
         <bind>Ctrl+c</bind>
       </row>
       <row>
-        <action>Cut</action>
-        <bind>Ctrl+x</bind>
-      </row>
-      <row>
         <action>Paste</action>
         <bind>Ctrl+v</bind>
       </row>
       <row>
+        <action>PasteClipboard</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SplitVoices</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>JoinVoices</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>VoiceUp</action>
+        <hidden>true</hidden>
         <bind>Page_Up</bind>
       </row>
       <row>
         <action>VoiceDown</action>
+        <hidden>true</hidden>
         <bind>Page_Down</bind>
+      </row>
+      <row>
+        <action>MoveToVoiceUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MoveToVoiceDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddVoice</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>StaffProperties</action>
         <bind>Alt+Return</bind>
       </row>
       <row>
+        <action>InitialClef</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertClef</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChangeNotehead</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertStem</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditFiguredBass</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteFiguredBass</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HideFiguredBass</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>InsertDynamic</action>
         <bind>Control+d</bind>
       </row>
       <row>
+        <action>InsertLilyDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>EditObject</action>
+        <hidden>true</hidden>
         <bind>Tab</bind>
         <bind>PrsR</bind>
+      </row>
+      <row>
+        <action>EditDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditStaffDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditVoiceDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditScoreDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditMovementDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditClefDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditTimesigDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EditKeysigDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AttachLilyToChord</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>GoToMeasure</action>
@@ -314,8 +532,16 @@
         <bind>F6</bind>
       </row>
       <row>
+        <action>PlayCSound</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>Help</action>
         <bind>F1</bind>
+      </row>
+      <row>
+        <action>ClearOverlay</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>InsertA</action>
@@ -438,16 +664,113 @@
         <bind>Control+8</bind>
       </row>
       <row>
+        <action>Preview4Bars</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>MoveNoteToCursor</action>
-        <bind>MveL-Shift</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StartDownStems</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StartUpStems</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>InsertTiedNoteDuration</action>
+        <hidden>true</hidden>
         <bind>t</bind>
+      </row>
+      <row>
+        <action>OpenOctaveUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CloseLilyBlock</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TransposeOctaveUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetTransposeIntervalFromSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TransposeNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TransposeSelection</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Anacrusis</action>
         <bind>u</bind>
+      </row>
+      <row>
+        <action>Indent</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreIndent</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleTupletNumbering</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HideMovement</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Beam1234</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Ambitus</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HideEmptyStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ParenthesizeNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ToggleTripleting</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NonPrintingStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreComment</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MvntComment</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>StaffComment</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ChordComment</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TransposeStaffPrint</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>NextBookmark</action>
@@ -474,8 +797,28 @@
         <bind>F10</bind>
       </row>
       <row>
+        <action>Diminish</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Augment</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>FindEditPoint</action>
         <bind>Alt+Left</bind>
+      </row>
+      <row>
+        <action>CreateOssiaStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ShowOssia</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>HideOssia</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>AddDotSelectionSwitcher</action>
@@ -498,7 +841,15 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>GraceNoteSwitcher</action>
+        <action>ReloadDrumHash</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ConvertDrum2GmSingleSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SelectStaff</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -506,16 +857,16 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ShiftUp</action>
-        <bind>Alt+Up</bind>
-      </row>
-      <row>
-        <action>ShiftDown</action>
-        <bind>Alt+Down</bind>
+        <action>SetMovementTempo</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleCursorHighlight</action>
         <bind>grave</bind>
+      </row>
+      <row>
+        <action>IntelligentDelete</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>SlurTwo</action>
@@ -531,7 +882,71 @@
       </row>
       <row>
         <action>StagedDelete</action>
-        <bind>Delete</bind>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpenMyDefaultTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DuplicateChord</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SplitChord</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CadenzaOn</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FinishCadenza</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteBarline</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SplitMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ForceBarline</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Tremolo</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TypesettingOff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TypesettingOn</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DenemoBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AutoAccidentals</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertTwoGraceNotesBeamed</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SelectionToEmptyMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-TwelveToneRow</action>
+        <hidden>true</hidden>
       </row>
     </map>
   </merge>
