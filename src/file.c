@@ -226,7 +226,7 @@ gint lyinput(gchar *filename, DenemoGUI *gui) {
   gchar *base = g_path_get_basename(filename);
 #ifdef G_OS_WIN32
   gchar *call = g_strescape(path, "");
-  call = g_strdup_printf("%s%s%s%s%s", "(lyimport::load-file \"", call, "\\\\\" \"", base,"\")" );
+  call = g_strdup_printf("%s%s%s%s%s", "(debug-set! stack 200000) (lyimport::load-file \"", call, "\\\\\" \"", base,"\")" );
   g_print("Calling %s\n", call);
 #else
   gchar *call = g_strdup_printf("%s%s%c%s%s%s", "(lyimport::load-file \"", path, G_DIR_SEPARATOR,"\" \"", base,"\")" );
