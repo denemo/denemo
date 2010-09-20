@@ -37,6 +37,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
+#ifdef _HAVE_PORTAUDIO_
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -967,4 +968,4 @@ static float bestPeak2(float *mProcessed,  // IN
    float max = leftbin + Parabole(&mProcessed[leftbin],nb,&thispeak_y);
    return max;
 }
-
+#endif
