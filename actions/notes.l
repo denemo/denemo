@@ -60,7 +60,7 @@ BOM_UTF8			\357\273\277
 \\sourcefilename{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefilename)
 \\sourcefileline{WHITE}*	(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (sourcefileline)
 \\maininput         		(lyimport::mtoken 'ERROR	yytext) ; if (!is_main_input_) (block: start_main_input (); is_main_input_ = true; ) ELSE	error (_ ("\\maininput not allowed outside init files"));
-\\include           		(lyimport::mtoken 'ERROR	yytext) ; yy_push_state (incl)
+\\include           	  (lyimport::start_incl) (display "include state started")(lyimport::multilexer)
 
 {RESTNAME}					(lyimport::mtoken 'RESTNAME yytext)
 #                                               (begin  
@@ -81,16 +81,6 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 {DIGIT}						(lyimport::mtoken 'DIGIT yytext)
 {UNSIGNED}					(lyimport::mtoken 'UNSIGNED yytext)	
 {E_UNSIGNED}				(lyimport::mtoken 'E_UNSIGNED yytext)	
-
-;{DASHED_WORD}				(lyimport::scan_bare_word yytext)
-;{DASHED_KEY_WORD}			(lyimport::scan_escaped_word yytext)	
-
-;{WORD}						(lyimport::scan_bare_word yytext)
-;{KEYWORD}					(lyimport::scan_escaped_word yytext)
-
-;{REAL}						(lyimport::mtoken 'REAL yytext)
-
-;\"{A}\"						(lyimport::mtoken 'QUOTED_CHAR yytext)
 
 \{							(lyimport::mtoken '{ yytext)
 \}							(lyimport::mtoken '} yytext)

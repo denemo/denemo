@@ -2,6 +2,7 @@
 (define lyimport::staff #f)
 (define lyimport::voice #f)
 (define lyimport::notes #f)
+(define lyimport::in-grace #f)
 
 
 (define (lyimport::convert_to_denemo list_from_parser)
@@ -85,7 +86,7 @@
 
   
   (define (do-note thenote)
-    (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"))
+    (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")" (if lyimport::in-grace "(d-ToggleGrace)" "")))
   
   
   (define (create-note current_object)
@@ -153,7 +154,9 @@
 	   ((eqv? (car current_object) 'x_COMPOSITE_MUSIC)       (begin 
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
 								   (string-join (map loop-through (list-tail (cdr current_object) 0)))))
-	   
+	    ((eqv? (car current_object) 'x_GRACE)                 (let ((temp #f))
+								    (format #t "grace ~a~%"  (list-tail current_object 1))
+								  (set! lyimport::in-grace #t) (set! temp (string-join (map loop-through (list-tail current_object 1)))) (set! lyimport::in-grace #f) temp))
 	   ((eqv? (car current_object) 'TIMES)                 (begin
 								 ;(format #t "Tuplet ~a~%"  (list-tail current_object 2))
 								 (string-append "(d-StartTriplet)(d-SetTuplet \"" (list-ref current_object 1) "\") " (string-join (map loop-through (list-tail current_object 2))) " (d-EndTuplet)")))
@@ -161,14 +164,14 @@
 
 	   (else
 	    (begin 
-	      (format #t "handled ~a by recursion through list~%" current_object)   
+	      ;(format #t "handled ~a by recursion through list~%" current_object)   
 		   (string-join (map loop-through current_object))))
 	   ))  ;;;;; end of current_object is a list
 	(begin
 	  ;(format #t "treating the pair case ~a~%~%" (car current_object))
 	  (cond
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
-						   (format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
+						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (begin
 							     (string-append (do-duration (list-ref (cadr current_object) 2)) " (d-EnterRest) "   (do-dots (list-ref (cadr current_object) 2))))

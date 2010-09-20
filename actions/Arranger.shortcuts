@@ -551,10 +551,6 @@
         <bind>Tab</bind>
       </row>
       <row>
-        <action>DrumGM2Custom</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>RehearsalMark</action>
         <bind>F9</bind>
       </row>
@@ -607,10 +603,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>GraceNoteSwitcher</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ToggleCursorHighlight</action>
         <bind>grave</bind>
       </row>
@@ -643,56 +635,20 @@
         <bind>Enter</bind>
       </row>
       <row>
-        <action>NoOp</action>
-        <hidden>true</hidden>
+        <action>DenemoPlayCursorToEnd</action>
+        <bind>Ctrl+F5</bind>
       </row>
       <row>
         <action>Tremolo</action>
         <bind>Alt+t</bind>
       </row>
       <row>
-        <action>OpOne</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpTwo</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpThree</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpFour</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpFive</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpSix</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpSeven</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpEight</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpNine</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>OpZero</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>InsertTwoGraceNotesBeamed</action>
         <bind>g,2</bind>
+      </row>
+      <row>
+        <action>NotationMagick-TwelveToneRow</action>
+        <hidden>true</hidden>
       </row>
     </map>
   </merge>

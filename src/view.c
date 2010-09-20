@@ -2310,7 +2310,7 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
 
 
 gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
-  g_print("Mid c offset of %d\n", *x-'c');
+  // g_print("Mid c offset of %d\n", *x-'c');
   gchar *c;
   gint octave = -1;/* middle c is c' */
   gint accs = 0;
@@ -2429,9 +2429,20 @@ static SCM scheme_adjust_xes (SCM optional) {
   return SCM_BOOL_T;
 }
 
+static gint flash_cursor(void) {
+  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  return TRUE;
+}
 static SCM scheme_highlight_cursor (SCM optional) {
+  static gint id;
   Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
-  displayhelper(Denemo.gui);
+  if(id) {
+    g_source_remove(id);
+    id = 0;
+  } else
+    if( Denemo.prefs.cursor_highlight)
+      id = g_timeout_add(500, (GSourceFunc)flash_cursor, NULL);
+  //g_print("Cursor highlighting %d id %d", Denemo.prefs.cursor_highlight, id);
   return SCM_BOOL_T;
 }
 
@@ -3087,7 +3098,10 @@ void inner_main(void*closure, int argc, char **argv){
   if (Denemo.prefs.startmidiin)
     activate_action("/MainMenu/InputMenu/JackMidi");
   show_preferred_view();
-
+  if(Denemo.prefs.cursor_highlight) {
+    Denemo.prefs.cursor_highlight = FALSE;scheme_highlight_cursor(SCM_BOOL_T);
+    //g_print("Cursor highlight is %d\n",Denemo.prefs.cursor_highlight);
+  }
   gtk_key_snooper_install( (GtkKeySnoopFunc)dnm_key_snooper, NULL);
   Denemo.accelerator_status = FALSE;
 
@@ -7088,7 +7102,7 @@ get_data_dir (),
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       master_tempo_adj = (GtkAdjustment*)gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
       GtkWidget *hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_tempo_adj));
-      gtk_scale_set_digits (hscale, 0);
+      gtk_scale_set_digits (GTK_SCALE(hscale), 0);
       GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
 
       g_signal_connect(GTK_OBJECT(master_tempo_adj), "value_changed", GTK_SIGNAL_FUNC(pb_tempo), NULL);
@@ -7101,10 +7115,10 @@ get_data_dir (),
       GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 
-      master_vol_adj = gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
+      master_vol_adj = (GtkAdjustment *)gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
       hscale = gtk_hscale_new(GTK_ADJUSTMENT( master_vol_adj));
-      gtk_scale_set_digits (hscale, 2);
+      gtk_scale_set_digits (GTK_SCALE(hscale), 2);
       GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
       g_signal_connect(G_OBJECT( master_vol_adj), "value_changed", GTK_SIGNAL_FUNC(pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);

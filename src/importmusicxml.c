@@ -13,9 +13,11 @@
 gint mxmlinput (gchar *filename, DenemoGUI *gui) {
   GError *err = NULL;
 #ifdef G_OS_WIN32
+ gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
+ gchar *script =  g_build_filename (rootdir, "bin", "musicxml2ly.py", NULL);
   gchar *argv[] = {
-    "python"
-    "musicxml2ly.py",
+    "python.exe",
+    script,
     "-o", "denemoconvert", 
     filename,
     NULL
@@ -41,12 +43,7 @@ gint mxmlinput (gchar *filename, DenemoGUI *gui) {
     return -1;
   }
   gchar *output;
-  if(check_lily_version("2.12.0"))
-    output = g_build_filename(locatedotdenemo(), "denemoconvert.ly", NULL);
-  else
-    output = g_build_filename(locatedotdenemo(), "denemoconvert-defs.ly", NULL);
-  //g_print("Try for file %s\n", output);
-  define_scheme_variable("DenemoConvertFilename", output, "Name of file containing LilyPond for input");
+  output = g_build_filename(locatedotdenemo(), "denemoconvert.ly", NULL);
   gboolean ret = lyinput(output, gui);
   g_free(output);
   return ret;

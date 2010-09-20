@@ -4,7 +4,7 @@
 )	
 
 (define (lyimport::pop_state)
-(format #t "Now popping the state ~a becomes ~a~%~%" lyimport::state (cdr lyimport::state))
+					;(format #t "Now popping the state ~a becomes ~a~%~%" lyimport::state (cdr lyimport::state))
   (set! lyimport::state (cdr lyimport::state)))
 ;Accumulator for a string in double quotes (used by quote state of lexer)
 (define lyimport::quoted_string "")
@@ -26,6 +26,10 @@
 (define (lyimport::block-append str)
       (set! lyimport::block_string (string-append lyimport::block_string str)))
      
+
+
+(define (lyimport::start_incl)
+  (set! lyimport::state (cons 'incl lyimport::state)))
 
 ; List of Notenames
 (define lyimport::list_of_notenames
@@ -162,7 +166,8 @@
 		((string-ci=? "octave" yytext) (lyimport::mtoken 'OCTAVE yytext))
 		
 		; Denemo specific
-		((string-ci=? "barNumberCheck" yytext) (lyimport::mtoken 'DENEMODIRECTIVE yytext))
+		;; we have to swallow # and an embedded scheme integer following barNumberCheck 
+		((string-ci=? "barNumberCheck" yytext) (begin (let loop ((c #f)) (set! c (lexer-getc)) (if (char-whitespace? c) (loop c)))   (read (make-soft-port (vector #f #f #f  (lambda () (lexer-getc)) #f) "r"))(lyimport::multilexer)))
 		
         ;If its not a known keyword its probably a user assignment:
         ((hashq-ref lyimport::AssignmentTable (string->symbol yytext)) (lyimport::as-eval yytext))
@@ -171,7 +176,7 @@
 		((lyimport::try_special_identifiers_scm? yytext) (lyimport::mtoken 'SCM_IDENTIFIER yytext))
         
         ;If its not a keyword, assignment or special identifier then its wrong				
-		(else (begin (display (string-append "error: Unknown Keyword: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n")) 'ERROR)
+		(else (begin (display (string-append "error: Unknown word: " yytext " (Line: "(number->string (lexer-get-line)) " Column: " (number->string (lexer-get-column)) ")\n"))(lyimport::multilexer))
 		)
 		
 	)

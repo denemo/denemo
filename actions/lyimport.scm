@@ -22,7 +22,9 @@
 ;  along with Denemo.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 
-(define lyimport::filename #f)
+(define lyimport::filename "mytest.ly")
+(define lyimport::pathname "./")
+
 (define lyimport::state #f) ;;;;; stack of lexer states
 (define lyimport::AssignmentTable #f)
 (define lyimport::create_lexer_each_time #f) 
@@ -37,6 +39,7 @@
 (define lyimport::noteslexer #f)
 (define lyimport::quotelexer #f)
 (define lyimport::blocklexer #f)
+(define lyimport::incllexer #f)
 
 ;; Libs
 (load "lalr.scm")
@@ -56,18 +59,20 @@
     (lyimport::quotelexer))
    ((eqv? (car lyimport::state) 'block)
     (lyimport::blocklexer))
+   ((eqv? (car lyimport::state) 'incl)
+    (lyimport::incllexer))
    (else
     (display "no lexer"))))
 
 (if (defined? 'Denemo)
     (begin
       (set! lyimport::create_lexer_each_time #f) ;
-      (set! lyimport::halt_on_error #t) ; on  error do not stop
+      (set! lyimport::halt_on_error #f) ; on  error do not stop
       )
     (begin
       ;; Options
-      (set! lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuild everytime or the existing file gets used. Default #t if interactive
-      (set! lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, creating a wrong output. Default #t if interactive
+      (set! lyimport::create_lexer_each_time #t) ; Switch to decide if the lexer gets rebuilt everytime or the existing file gets used. Default #t if interactive
+      (set! lyimport::halt_on_error #t) ; Switch to decide if a caught error stops the program and gives a reminder or silently goes on, potentially creating a wrong output. Default #t if interactive
       )
     )
 
@@ -107,14 +112,37 @@
     (begin ; The user wants a new generation or the file does not exist yet.
       (lex-tables (lyimport::sysdirectory "block.l") "block-table"  (lyimport::localdirectory "block.l.scm")  'counters 'all)))
 
+(if (and (file-exists? (lyimport::localdirectory "incl.l.scm")) (not lyimport::create_lexer_each_time))
+    (display "Using existing lexer file\n")
+    (begin ; The user wants a new generation or the file does not exist yet.
+      (lex-tables (lyimport::sysdirectory "incl.l") "incl-table"  (lyimport::localdirectory "incl.l.scm")  'counters 'all)))
+
+(define lyimport::input-ports #f);; a stack of include files
+
+(define (lyimport::push-port includefile)
+  (set! lyimport::input-ports (cons  (open-input-file (string-append lyimport::pathname includefile)) lyimport::input-ports)))
+  
+(define (lyimport::lexer-proc)
+  (let ((c (read-char (car lyimport::input-ports))))
+;(format #t "The lexer has gotten ~a from ~a~%~%~%" c (car lyimport::input-ports))
+    (if (char? c)
+	c
+	(begin
+	  (close-port (car lyimport::input-ports))
+	  (set! lyimport::input-ports (cdr lyimport::input-ports))
+	  (if (null? lyimport::input-ports)
+	      c
+	      (lyimport::lexer-proc))))))
+		
 
 (define (lyimport::import)
-(format #t "Starting lyimport now ~%~%~%")
+					;(format #t "Starting lyimport now ~%~%~%")
   (if (defined? 'Denemo)
-      (set! lexer-port (open-input-file lyimport::filename))
-      (set! lexer-port (open-input-file "mytest.ly")))
+      (set! lyimport::input-ports (list (open-input-file (string-append lyimport::pathname lyimport::filename))))
+      (set! lyimport::input-ports (list (open-input-file  "mytest.ly"))))
 
-  (let ((IS (lexer-make-IS 'port lexer-port  'all)))
+
+  (let ((IS (lexer-make-IS 'procedure lyimport::lexer-proc  'all)))
     (set! lexer-get-line (lexer-get-func-line IS))
     (set! lexer-get-column (lexer-get-func-column IS))
     (set! lexer-get-offset (lexer-get-func-offset IS))
@@ -132,6 +160,9 @@
     
     (load (lyimport::localdirectory "block.l.scm"))
     (set! lyimport::blocklexer (lexer-make-lexer block-table IS))
+
+    (load (lyimport::localdirectory "incl.l.scm"))
+    (set! lyimport::incllexer (lexer-make-lexer incl-table IS))
     )
 
 

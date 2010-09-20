@@ -163,6 +163,10 @@ static void hide_action_of_name(gchar *name){
   GtkAction *action = lookup_action_from_name (name);
   set_visibility_for_action(action, FALSE);
 }
+static void show_action_of_name(gchar *name){
+  GtkAction *action = lookup_action_from_name (name);
+  set_visibility_for_action(action, TRUE);
+}
 static void
 add_ui(gchar *menupath, gchar *after, gchar *name) {
   GtkWidget *widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
@@ -294,16 +298,20 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  g_signal_connect (G_OBJECT (action), "activate",
 			    G_CALLBACK (activate_script), gui);
 	  //g_print("Signal activate is set on action %p %s scheme is %s\n", action, name, scheme);
-	  }// else
+	  }
+
 	  //g_print("scheme now %s", scheme);
 	  // Note the script should *not* be in Default.cmdset
 	  // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
 	  // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
 
+	  if(hidden)
+	    g_object_set_data(G_OBJECT(action), "deleted", TRUE);//Mark hidden items as deleted on loading them
 	} // is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
 #if 1
 	else if(hidden) {
+
 	  hide_action_of_name(name); hidden = FALSE;
 	  g_print("Hiding Builtin %s\n", name);
 	}
@@ -337,11 +345,12 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 	    {
 	      name = 
 		xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+	      show_action_of_name(name);
 #ifdef DEBUG
 	      g_print ("Action %s\n", (gchar *) name);
 #endif /*DEBUG*/
 	    }
-	}else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden"))
+	} else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "hidden"))
 	{
 	    hide_action_of_name(name);
 
@@ -730,8 +739,8 @@ save_xml_keymap (gchar * filename)
       gchar *after = action?g_object_get_data(action, "after"):NULL;
       gboolean deleted = (gboolean) (action?g_object_get_data(action, "deleted"):NULL);
       gboolean hidden = (gboolean) (action?g_object_get_data(action, "hidden"):NULL);
-      if(deleted && scheme)
-	continue;
+      //  if(deleted && scheme)
+      //	continue;
 
       child = xmlNewChild (parent, NULL, (xmlChar *) "row", NULL);
 
@@ -745,8 +754,9 @@ save_xml_keymap (gchar * filename)
       if(after)
 	xmlNewTextChild (child, NULL, (xmlChar *) "after",
 			 (xmlChar *) after);  
-      //   if(hidden) store with shortcuts instead
-      //	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
+      if(deleted) //store as hidden in commands file
+      	xmlNewTextChild (child, NULL, (xmlChar *) "hidden", "true");
+
       if(scheme) 	
 	xmlNewTextChild (child, NULL, (xmlChar *) "scheme",
 			 /* (xmlChar *) scheme*/ (xmlChar*)"");
