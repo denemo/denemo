@@ -680,7 +680,7 @@ keymap *allocate_keymap(void)
   the_keymap->idx_from_keystring =
       g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-  the_keymap->continuations =
+  the_keymap->continuations_table =
       g_hash_table_new (g_str_hash, g_str_equal);
 
   the_keymap->cursors = g_hash_table_new(g_int_hash, g_int_equal);
@@ -695,7 +695,7 @@ free_keymap(keymap *the_keymap)
     g_object_unref(the_keymap->commands);
     g_hash_table_destroy(the_keymap->idx_from_name);
     g_hash_table_destroy(the_keymap->idx_from_keystring);
-    g_hash_table_destroy(the_keymap->continuations);
+    g_hash_table_destroy(the_keymap->continuations_table);
 }
 
 void
@@ -1189,11 +1189,11 @@ static void update_continuations_table(keymap *the_keymap, const gchar *binding,
     gchar *value = shortcut+(second-binding)+1;
     g_print("Two key shortcuts %s %s\n", shortcut, value);
     if(add) {
-      GList *thelist = g_hash_table_lookup (the_keymap->continuations, shortcut);
+      GList *thelist = g_hash_table_lookup (the_keymap->continuations_table, shortcut);
       thelist = g_list_append (thelist, value);
-      g_hash_table_insert (the_keymap->continuations, shortcut, thelist);
+      g_hash_table_insert (the_keymap->continuations_table, shortcut, thelist);
     } else {
-      GList *thelist = g_hash_table_lookup (the_keymap->continuations, shortcut);
+      GList *thelist = g_hash_table_lookup (the_keymap->continuations_table, shortcut);
       if(thelist == NULL)
 	g_warning("Missing shortcut in table");
       else {
@@ -1201,7 +1201,7 @@ static void update_continuations_table(keymap *the_keymap, const gchar *binding,
 	for (g = thelist;g;g=g->next) {
 	  if(!strcmp(value, (gchar *)g->data)) {
 	    thelist = g_list_delete_link (thelist, g);
-	    g_hash_table_insert (the_keymap->continuations, shortcut, thelist);
+	    g_hash_table_insert (the_keymap->continuations_table, shortcut, thelist);
 	    //unlikely you can get the memory back... g_free(shortcut);
 	  }
 	}

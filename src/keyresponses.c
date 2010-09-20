@@ -177,11 +177,17 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
     }
     g_string_assign(prefix_store, "");
+    Denemo.continuations = NULL;
     return ret;
   } else { //no prefix stored 
     gchar *name = dnm_accelerator_name(event->keyval, event->state);
-    if(g_hash_table_lookup(Denemo.map->continuations, name)) {
-      g_string_printf(prefix_store, "Prefix Key %s, waiting for second keypress, or type Esc to abort", name);
+    if((Denemo.continuations=(GList *)g_hash_table_lookup(Denemo.map->continuations_table, name))) {
+      GList *g;
+      GString *continuations = g_string_new("");
+      for(g=Denemo.continuations;g;g=g->next) 
+	g_string_append_printf(continuations, "%s%s", g->data, ", or ");
+      g_string_printf(prefix_store, "Prefix Key %s, waiting for key %stype Esc to abort", name, continuations->str);
+      g_string_free(continuations, TRUE);
       gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
       gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 			 prefix_store->str);
