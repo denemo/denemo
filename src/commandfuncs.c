@@ -1779,7 +1779,7 @@ dnm_deleteobject (DenemoScore * si)
   if(curmudelaobj==NULL)
     return;
   /* when tone_store is active, act on that, not the staff itself */
-
+#ifdef _HAVE_PORTAUDIO_
   if (((DenemoStaff*)si->currentstaff->data)->tone_store) {
     if(si->currentobject &&
        ((DenemoObject*)(si->currentobject->data))->type==CHORD){
@@ -1787,7 +1787,7 @@ dnm_deleteobject (DenemoScore * si)
 	return;
     }
   }
-
+#endif
   if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
     if(!confirm("This LilyPond insert is locked","Really delete it?"))
       return;

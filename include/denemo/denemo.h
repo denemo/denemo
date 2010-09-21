@@ -57,6 +57,7 @@ extern "C" {
 #define g_string_free
 #endif
 
+extern const gchar *None;
 extern const gchar *Jack;
 extern const gchar *Portaudio;
 extern const gchar *Fluidsynth;

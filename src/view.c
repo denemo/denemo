@@ -6077,6 +6077,8 @@ gint val = gtk_radio_action_get_current_value (current);
    gui->input_source=INPUTMIDI;
   if (Denemo.prefs.midi_audio_output == Portaudio)
    start_midi_input();
+  else if  (Denemo.prefs.midi_audio_output == None)
+   fail = TRUE;
   else if (Denemo.prefs.midi_audio_output == Jack)
    fail = init_midi_input();
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)

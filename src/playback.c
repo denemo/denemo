@@ -43,11 +43,13 @@ get_midi_audio_pointer(gchar *audio_device)
     return Jack;
   else if (!strcmp(audio_device, Portaudio))
     return Portaudio;
+  else if (!strcmp(audio_device, None))
+    return None;
 
 #ifdef _HAVE_FLUIDSYNTH_
   return Fluidsynth;
 #else 
-  return Portaudio;
+  return None;
 #endif
 }
 

@@ -231,6 +231,12 @@ midi_audio_tab_update(GtkWidget *box, gpointer data)
       gtk_widget_hide(cbdata->DM);
     gtk_widget_show(cbdata->pas);
   }
+  else if (output == None){
+    gtk_widget_hide(cbdata->fs);
+    if(cbdata->DM)
+      gtk_widget_hide(cbdata->DM);
+  }
+
 }
 
 void
@@ -350,7 +356,10 @@ preferences_change (GtkAction *action, gpointer param)
   BOOLEANENTRY("Highlight the cursor", cursor_highlight); 
   //Doesnt GList need to be freed
   GList *output_option_list = NULL;
+  output_option_list = g_list_append (output_option_list, (gpointer) None);
+#ifdef _HAVE_PORTAUDIO_
   output_option_list = g_list_append (output_option_list, (gpointer) Portaudio);
+#endif
 #ifdef _HAVE_JACK_
   output_option_list = g_list_append (output_option_list, (gpointer) Jack);
 #endif 
@@ -568,6 +577,12 @@ preferences_change (GtkAction *action, gpointer param)
     if(DM)
       gtk_widget_hide(DM);
     gtk_widget_show(pas);
+  }
+  else if (Denemo.prefs.midi_audio_output == None){
+    gtk_widget_hide(fs);
+    gtk_widget_hide(pas);
+    if(DM)
+      gtk_widget_hide(DM);
   }
 
   audio_cbdata.main_vbox = main_vbox;

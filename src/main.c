@@ -51,6 +51,7 @@
 struct DenemoRoot Denemo;
 
 /* set strings for midi_audio_output */
+const gchar *None = "None";
 const gchar *Jack = "Jack";
 const gchar *Portaudio = "Portaudio";
 const gchar *Fluidsynth = "InternalSynth";
@@ -645,6 +646,7 @@ if (Denemo.prefs.midi_audio_output == Jack)
 if (Denemo.prefs.midi_audio_output == Fluidsynth)
   fluidsynth_init(); 
 #endif
+#ifdef _HAVE_PORTAUDIO_
 if (Denemo.prefs.midi_audio_output == Portaudio){
   /* Immediate Playback */
   if(Denemo.prefs.immediateplayback) {
@@ -653,10 +655,11 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 				immediate playback */
       //g_print("Initializing audio out\n");
       init_audio_out();
-
     }
   }
 }
+#endif    
+
 
 
   /* Set up the signal handler */
