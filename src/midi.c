@@ -321,14 +321,18 @@ void process_midi_event(gchar *buf) {
     gtk_main_quit();
     return;// not reached
   }
+
+  if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+    buf[0]=MIDI_NOTEOFF;
+    buf[2]=128;
+  }
+  
   if(midi_capture_on) {
-    gdk_beep();
-    g_warning("MIDI event dropped");
-  } else {
-    if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-      buf[0]=MIDI_NOTEOFF;
-      buf[2]=128;
+    if(command!=MIDI_NOTEOFF) {
+      gdk_beep();
+      g_warning("MIDI event dropped");
     }
+  } else {
     if(command==MIDI_NOTEON)
       store_midi_note(notenumber);
   }
