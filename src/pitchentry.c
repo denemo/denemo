@@ -280,6 +280,34 @@ static gchar * notenames(gpointer p) {
   return str;
 }
 
+gchar *determine_interval(gint bass, gint harmony){
+  gint bass_octave, harmony_octave;
+  gdouble deviation;
+  gint semitones = harmony - bass;
+  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->keysig.accs;
+ notepitch bassnote = PR_temperament->notepitches[bass%12];
+ notepitch harmonynote = PR_temperament->notepitches[harmony%12];
+ gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;
+ if(interval<2)interval += 7;
+ if(interval==2 && semitones>12) interval=9;
+ gint inflection = harmonynote.spec.alteration - accs[harmonynote.spec.step];
+
+
+// g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
+ gchar *modifier="";
+ if(interval==5 && semitones==6)
+   modifier = "/";
+     else 
+       if(inflection<0) modifier = "-";
+       else
+	 if(inflection>0) modifier = "+";
+ if(harmony<bass)
+   return g_strdup_printf("%s", "0");//A non printing figure
+ if(interval==3 && inflection)
+   return g_strdup_printf("%c%s", '_', modifier);
+ else
+   return g_strdup_printf("%d%s", interval, modifier);
+}
 #ifdef _HAVE_PORTAUDIO_
 
 static gchar *nameof(gint notenumber) {
@@ -778,7 +806,6 @@ gint pitchentry(DenemoGUI *gui) {
 	}
 	else
 	  enter_tone_in_store(gui, found, octave);
-        printf("\nfound freq = %d\n", found->pitch); 
       }
 
     }//note found
@@ -1413,45 +1440,13 @@ gboolean pitch_entry_active(DenemoGUI *gui) {
 }
 
 #else
-
-gchar *determine_interval(gint bass, gint harmony){
-  gint bass_octave, harmony_octave;
-  gdouble deviation;
-  gint semitones = harmony - bass;
-  gint *accs = ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->keysig.accs;
- notepitch bassnote = PR_temperament->notepitches[bass%12];
- notepitch harmonynote = PR_temperament->notepitches[harmony%12];
- gint interval =  harmonynote.spec.step - bassnote.spec.step + 1;
- if(interval<2)interval += 7;
- if(interval==2 && semitones>12) interval=9;
- gint inflection = harmonynote.spec.alteration - accs[harmonynote.spec.step];
-
-
-// g_print("Bass %d harmony %d\nInterval is %d, semitones is %d cf (%d, %d)  \n keyaccs of bass note %d of harmony %d\ninflection %d\n", bass, harmony, interval, semitones, bassnote.spec.alteration, harmonynote.spec.alteration, accs[bassnote.spec.step], accs[harmonynote.spec.step], inflection);
- gchar *modifier="";
- if(interval==5 && semitones==6)
-   modifier = "/";
-     else 
-       if(inflection<0) modifier = "-";
-       else
-	 if(inflection>0) modifier = "+";
- if(harmony<bass)
-   return g_strdup_printf("%s", "0");//A non printing figure
- if(interval==3 && inflection)
-   return g_strdup_printf("%c%s", '_', modifier);
- else
-   return g_strdup_printf("%d%s", interval, modifier);
-}
-
 gboolean pitch_entry_active(DenemoGUI *gui){ return 0; }
 void
 notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {}
 void set_sharper(GtkAction *action, gpointer param) {}
 void set_flatter(GtkAction *action, gpointer param) {}
-gint setup_pitch_input(void){ return 0; }
+gint setup_pitch_input(void){ return -1; }
 void start_pitch_input(void) {}
 int stop_pitch_input(void) { return 0; }
 void clear_overlay(GtkAction *action, gpointer param) {}
-
-
 #endif

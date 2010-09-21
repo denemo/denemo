@@ -90,9 +90,11 @@ initprefs ()
   const gchar *name = g_get_user_name();
   ret->username = g_string_new (name?name:"DenemoUser");
   ret->password = g_string_new ("");
-//#ifdef _HAVE_PORTAUDIO_
+  ret->midi_audio_output = None;
+
+#ifdef _HAVE_PORTAUDIO_
   ret->midi_audio_output = Portaudio;
-//#endif
+#endif
 
 #ifdef _HAVE_JACK_
   ret->midi_audio_output = Jack;

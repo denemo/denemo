@@ -19,7 +19,7 @@
 */
 
 
-
+#ifdef _HAVE_PORTAUDIO_
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -295,7 +295,6 @@ int pitchrecog(float **input, float **output, int nframes) {
   return Stop;
 }
 
-#ifdef _HAVE_PORTAUDIO_
 extern int pa_main(aubio_process_func_t process_func);
 
 

@@ -103,7 +103,9 @@ midi_init ()
 void playpitch(double pitch, double duration, double volume, int channel) {
   if(!Denemo.prefs.immediateplayback)
     return;
+#ifdef _HAVE_PORTAUDIO_ 
   play_pitch(pitch, duration, volume, channel);
+#endif
 }
 
 void play_midikey(gint key, double duration, double volume, gint channel){
