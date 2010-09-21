@@ -1187,7 +1187,7 @@ static void update_continuations_table(keymap *the_keymap, const gchar *binding,
     gchar *shortcut = g_strdup(binding);
     *(shortcut+(second-binding)) = 0;// split into two strings at the separator
     gchar *value = shortcut+(second-binding)+1;
-    g_print("Two key shortcuts %s %s\n", shortcut, value);
+    //g_print("Two key shortcuts %s %s\n", shortcut, value);
     if(add) {
       GList *thelist = g_hash_table_lookup (the_keymap->continuations_table, shortcut);
       thelist = g_list_append (thelist, value);
