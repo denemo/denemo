@@ -425,8 +425,16 @@ DBLQUOTE
 ;		PARSER->lexer_->pop_state ();
 ;	}
 ;	| relative_music	{ $$ = $1; }
+	(relative_music) : $1
 ;	| re_rhythmed_music	{ $$ = $1; }
 ;	;
+  )
+ 
+ (relative_music
+  (RELATIVE absolute_pitch music) : $3
+  (RELATIVE composite_music) : '()
+  ;;	Pitch middle_c (0, 0, 0);
+  ;;	$$ = make_music_relative (middle_c, $2, @$);
   )
  
   (context_change
@@ -648,6 +656,10 @@ DBLQUOTE
 
  (pitch
 	(steno_pitch)					: $1
+ )
+
+(absolute_pitch
+ (steno_pitch) :  $1;
  )
 
  (pitch_also_in_chords
