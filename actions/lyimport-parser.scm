@@ -658,16 +658,16 @@ DBLQUOTE
 	(steno_pitch)					: $1
  )
 
-(absolute_pitch
- (steno_pitch) :  $1;
- )
 
  (pitch_also_in_chords
 	(pitch) : $1
 	(steno_tonic_pitch) : $1
  )
 
- 
+ (absolute_pitch
+ (steno_pitch) :  $1;
+ )
+
  (command_element
 	(command_event) : $1
 	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
