@@ -7,7 +7,7 @@
      ((boolean? choice)
       (d-WarningDialog "Operation cancelled"))
      ((equal? choice  cue-Advanced)
-      (d-DirectiveTextEdit-note "StringNum"))
+      (d-DirectiveTextEdit-staff "StaffSize"))
      ((equal? choice  cue-Delete)
       (d-DirectiveDelete-staff "StaffSize")))))
 (d-RefreshDisplay)
