@@ -3049,7 +3049,6 @@ for second and subsequent systems</tooltip>
       <row>
         <action>OpenOctaveDown</action>
         <after>OpenOctaveUp</after>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/Print Transpositions</menupath>
         <label>(Print) Open { Octave Down</label>
