@@ -33,21 +33,6 @@
    ;; --- token definitions
    (
 
-;;;;;;; Nils tokens for Denemo
-WHITESPACE { } ERROR VERSION
-
-SUP_QUOTE SUB_QUOTE PLUS EQUAL 
-
-DIGIT STAR 
-DOT 
-
-UNSIGNED EXCLAMATIONMARK QUESTIONMARK 
-
-DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED 
-
-PIPE 
-
-SLASH 
 
 
 ;;;;;from parser.yy
@@ -251,6 +236,32 @@ BLOCK
 CLEF
 BAR
 DBLQUOTE
+
+
+;;;;;;; Nils tokens for Denemo
+WHITESPACE { } ERROR VERSION
+
+SUP_QUOTE SUB_QUOTE PLUS EQUAL 
+
+DIGIT STAR 
+DOT 
+
+UNSIGNED EXCLAMATIONMARK QUESTIONMARK 
+
+DENEMODIRECTIVE MULTI_MEASURE_REST E_UNSIGNED 
+
+PIPE 
+
+SLASH 
+
+;;; continuing - substituting literal chars for token names
+CARET
+UNDERSCORE
+HYPHEN
+
+
+
+
    )
 
  (lilypond 
@@ -497,8 +508,9 @@ DBLQUOTE
    ;(LYRICS_STRING) : $1 
     (bare_number) : $1  
     (embedded_scm) : $1 
-	;(full_markup) : $1 
-	(DIGIT) : $1 
+    (full_markup) : $1 
+    (DIGIT) : $1 
+
   )
  
  (event_chord ;; a pair
@@ -637,6 +649,38 @@ DBLQUOTE
 	(questions QUESTIONMARK) : (string-append $1 $2)
  )
 
+;; lyric_markup:
+;; 	LYRIC_MARKUP_IDENTIFIER {
+;; 		$$ = $1;
+;; 	}
+;; 	| LYRIC_MARKUP
+;; 		{ PARSER->lexer_->push_markup_state (); }
+;; 	markup_top {
+;; 		$$ = $3;
+;; 		PARSER->lexer_->pop_state ();
+;; 	}
+
+
+;; full_markup_list:
+;; 	MARKUPLINES
+;; 		{ PARSER->lexer_->push_markup_state (); }
+;; 	markup_list {
+;; 		$$ = $3;
+;; 		PARSER->lexer_->pop_state ();
+;; 	}
+
+(full_markup
+;; 	MARKUP_IDENTIFIER {
+;; 		$$ = $1;
+;; 	}
+	(MARKUP) : "" ;;; will need a markup lexer...
+;; 		{ PARSER->lexer_->push_markup_state (); }
+;; 	markup_top {
+;; 		$$ = $3;
+;; 		PARSER->lexer_->pop_state ();
+;; 	}
+)
+
  (fraction
 	(FRACTION) : $1 
 	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
@@ -663,7 +707,28 @@ DBLQUOTE
 	(pitch) : $1
 	(steno_tonic_pitch) : $1
  )
+ (gen_text_def
+	(full_markup) : $1
+;; 	| string {
+;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
+;; 		t->set_property ("text",
+;; 			make_simple_markup ($1));
+;; 		$$ = t->unprotect ();
+;; 	}
+;; 	| DIGIT {
+;; 		Music *t = MY_MAKE_MUSIC ("FingeringEvent", @$);
+;; 		t->set_property ("digit", scm_from_int ($1));
+;; 		$$ = t->unprotect ();
+;; 	}
+)
+	
 
+ (script_dir     
+	(UNDERSCORE) :   'DOWN
+	(CARET) : 'UP; 
+	(HYPHEN) : 'CENTER
+ )
+ 
  (absolute_pitch
  (steno_pitch) :  $1;
  )
@@ -715,14 +780,85 @@ DBLQUOTE
 
  (post_event
   ;many things are missing here
+  (script_dir direction_reqd_event) : (cons $1 $2)
   (string_number_event) : $1 
  )
   
  (string_number_event
 	(E_UNSIGNED) : $1
  )
+;; direction_less_char:
+;; 	'['  {
+;; 		$$ = ly_symbol2scm ("bracketOpenSymbol");
+;; 	}
+;; 	| ']'  {
+;; 		$$ = ly_symbol2scm ("bracketCloseSymbol");
+;; 	}
+;; 	| '~'  {
+;; 		$$ = ly_symbol2scm ("tildeSymbol");
+;; 	}
+;; 	| '('  {
+;; 		$$ = ly_symbol2scm ("parenthesisOpenSymbol");
+;; 	}
+;; 	| ')'  {
+;; 		$$ = ly_symbol2scm ("parenthesisCloseSymbol");
+;; 	}
+;; 	| E_EXCLAMATION  {
+;; 		$$ = ly_symbol2scm ("escapedExclamationSymbol");
+;; 	}
+;; 	| E_OPEN  {
+;; 		$$ = ly_symbol2scm ("escapedParenthesisOpenSymbol");
+;; 	}
+;; 	| E_CLOSE  {
+;; 		$$ = ly_symbol2scm ("escapedParenthesisCloseSymbol");
+;; 	}
+;; 	| E_ANGLE_CLOSE  {
+;; 		$$ = ly_symbol2scm ("escapedBiggerSymbol");
+;; 	}
+;; 	| E_ANGLE_OPEN  {
+;; 		$$ = ly_symbol2scm ("escapedSmallerSymbol");
+;; 	}
+
+
+
+;; direction_less_event:
+;; 	direction_less_char {
+;; 		SCM predefd = PARSER->lexer_->lookup_identifier_symbol ($1);
+;; 		Music *m = 0;
+;; 		if (unsmob_music (predefd))
+;; 		{
+;; 			m = unsmob_music (predefd)->clone ();
+;; 			m->set_spot (@$);
+;; 		}
+;; 		else
+;; 		{
+;; 			m = MY_MAKE_MUSIC ("Music", @$);
+;; 		}
+;; 		$$ = m->unprotect ();
+;; 	}
+;; 	| EVENT_IDENTIFIER	{
+;; 		$$ = $1;
+;; 	}
+;; 	| tremolo_type  {
+;;                Music *a = MY_MAKE_MUSIC ("TremoloEvent", @$);
+;;                a->set_property ("tremolo-type", scm_from_int ($1));
+;;                $$ = a->unprotect ();
+;;         }
 	
  
+  (direction_reqd_event
+	(gen_text_def) :     $1;
+;; 	}
+;; 	| script_abbreviation {
+;; 		SCM s = PARSER->lexer_->lookup_identifier ("dash" + ly_scm2string ($1));
+;; 		Music *a = MY_MAKE_MUSIC ("ArticulationEvent", @$);
+;; 		if (scm_is_string (s))
+;; 			a->set_property ("articulation-type", s);
+;; 		else PARSER->parser_error (@1, _ ("expecting string as script definition"));
+;; 		$$ = a->unprotect ();
+;; 	}
+)
+
  (octave_check
 	() : "" 
 	(EQUAL) : "" ; { $$ = scm_from_int (0); )

@@ -92,7 +92,13 @@ R							(lyimport::mtoken 'MULTI_MEASURE_REST yytext)
 !							(lyimport::mtoken 'EXCLAMATIONMARK yytext)
 \?							(lyimport::mtoken 'QUESTIONMARK yytext)
 \|							(lyimport::mtoken 'PIPE yytext)
-/							(lyimport::mtoken 'SLASH yytext)						
+/							(lyimport::mtoken 'SLASH yytext)
+^							(lyimport::mtoken 'CARET yytext)
+_							(lyimport::mtoken 'UNDERSCORE yytext)
+-							(lyimport::mtoken 'HYPHEN yytext)
+
+
+						
 
 \\.							(case (string->char yytext)
 								((#\>) (lyimport::mtoken 'E_ANGLE_CLOSE yytext))
