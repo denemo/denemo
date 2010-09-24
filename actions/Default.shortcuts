@@ -17,6 +17,7 @@
       <row>
         <action>CursorLeft</action>
         <bind>Shft+Left</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MoveCursorLeft</action>
@@ -33,6 +34,7 @@
       <row>
         <action>CursorRight</action>
         <bind>Shft+Right</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MoveCursorRight</action>
@@ -56,19 +58,21 @@
       </row>
       <row>
         <action>StaffUp</action>
-        <bind>Ctrl+Shft+Up</bind>
+        <bind>Shft+Page_Up</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>StaffDown</action>
-        <bind>Ctrl+Shft+Down</bind>
+         <bind>Shft+Page_Down</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MoveToStaffUp</action>
-        <bind>Ctrl+Up</bind>
+        <bind>Page_Up</bind>
       </row>
       <row>
         <action>MoveToStaffDown</action>
-        <bind>Ctrl+Down</bind>
+        <bind>Page_Down</bind>
       </row>
       <row>
         <action>MoveToMeasureLeft</action>
