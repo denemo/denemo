@@ -368,11 +368,8 @@
         <action>ReminderAccidental</action>
        <bind>Alt+plus</bind>
       </row>
-   
-      <row>
-        <action>AddDot</action>
-        <bind>period</bind>
-      </row>
+  
+
       <row>
         <action>RemoveDot</action>
         <bind>Alt+period</bind>
@@ -406,6 +403,14 @@
 		<action>FingeringsDoublestroke</action>
 		<bind>Alt+f</bind>
 	</row> 
+	<row>
+        <action>AddDotSelectionSwitcher</action>
+        <bind>period</bind>
+    </row>
+    <row>
+        <action>StaccatoSelectionSwitcher</action>
+        <bind>comma</bind>
+    </row>
       
 <!-- Delete -->
       <row>
