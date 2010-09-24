@@ -2,7 +2,7 @@
 <Denemo>
   <commands>
     <title>A Denemo Command Set</title>
-    <author>AT, JRR, RTS</author>
+    <author>NG, JRR, RTS</author>
     <map>
       <cursors>
         <cursor-binding>
@@ -2391,15 +2391,13 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       </row>
       <row>
         <action>DeleteLilyPondOnNote</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/Directives</menupath>
         <label>Delete LilyPond on Note</label>
         <tooltip>Deletes the LilyPond attached to the note where the cursor is.</tooltip>
       </row>
       <row>
-        <action>DeleteLilyPondOnChord</action>
-        <hidden>true</hidden>
+        <action>DeleteLilyPondOnChord</action>       
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu/Directives</menupath>
         <label>Delete LilyPond on Chord</label>
@@ -2827,7 +2825,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>DrumGM2Custom</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/MIDI</menupath>
         <label>Drum GM2 Custom </label>
@@ -2954,7 +2952,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpenRepeat</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Open Repeat Section</label>
@@ -2963,7 +2961,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>CloseRepeat</action>
         <after>OpenRepeat</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close a Repeat Section</label>
@@ -2972,7 +2970,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>FirstTimeBar</action>
         <after>CloseRepeat</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>First Time Bar</label>
@@ -2981,7 +2979,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SecondTimeBar</action>
         <after>FirstTimeBar</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Second Time Bar</label>
@@ -2990,7 +2988,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>EndSecondTimeBar</action>
         <after>SecondTimeBar</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close Second Time Bar</label>
@@ -3007,7 +3005,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>HideLilyPond</action>
         <after>ParenthesizeChord</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/ChordMenu</menupath>
         <label>Hide on Printing</label>
@@ -3032,7 +3030,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>SetImmediatePlayback</action>
         <after>Preferences</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu</menupath>
         <label>Turn On Immediate Playback</label>
@@ -3040,7 +3038,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ShortMeasure</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>Short Measure</label>
@@ -3176,7 +3174,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeChannel</action>
         <after>MidiTempo</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Channel</label>
@@ -3185,7 +3183,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeProgram</action>
         <after>ChangeChannel</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Program</label>
@@ -3194,7 +3192,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeVolume</action>
         <after>ChangeProgram</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Volume</label>
@@ -3203,7 +3201,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeGeneric</action>
         <after>ChangeChannel</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>Generic Control Change</label>
@@ -3212,7 +3210,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeModwheel</action>
         <after>ChangeVolume</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>1 Modwheel</label>
@@ -3221,7 +3219,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeBalance</action>
         <after>ChangeModwheel</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>8 Balance</label>
@@ -3230,7 +3228,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangePan</action>
         <after>ChangeBalance</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>10 Pan</label>
@@ -3239,7 +3237,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeExpression</action>
         <after>ChangePan</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>11 Expression</label>
@@ -3248,7 +3246,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeHoldPedal</action>
         <after>ChangeExpression</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>64 Hold Pedal (Right Piano Pedal)</label>
@@ -3257,7 +3255,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangePortamento</action>
         <after>ChangeHoldPedal</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>65 Portamento On/Off</label>
@@ -3266,7 +3264,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeSustenutoPedal</action>
         <after>ChangePortamento</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>66 Sustenuto Pedal On/Off (Middle Grand Piano Pedal)</label>
@@ -3275,7 +3273,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeSoftPedal</action>
         <after>ChangeSustenutoPedal</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>67 Soft Pedal On/Off (Left Piano Pedal)</label>
@@ -3284,7 +3282,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeLegatoPedal</action>
         <after>ChangeSoftPedal</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>68 Legato Pedal On/Off</label>
@@ -3293,7 +3291,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ChangeHold2Pedal</action>
         <after>ChangeLegatoPedal</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives/MIDI</menupath>
         <label>69 Hold Pedal #2 On/Off</label>
@@ -3562,7 +3560,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>ShiftUp</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Shift</menupath>
         <label>Shift Up</label>
@@ -3571,7 +3569,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>ShiftDown</action>
         <after>ShiftUp</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/EditMenu/Shift</menupath>
         <label>Shift Down</label>
@@ -3580,7 +3578,7 @@ for second and subsequent systems</tooltip>
       <row>
         <action>CloseReopenRepeat</action>
         <after>CloseRepeat</after>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <label>Close and Reopen Repeat</label>
@@ -3588,7 +3586,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>GraceNoteSwitcher</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
         <label>Grace Note (On/Off)</label>
@@ -3740,7 +3738,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NoOp</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Null Operation</label>
@@ -3806,7 +3804,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpOne</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpOne</label>
@@ -3814,7 +3812,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpTwo</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpTwo</label>
@@ -3822,7 +3820,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpThree</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpThree</label>
@@ -3830,7 +3828,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpFour</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFour</label>
@@ -3838,7 +3836,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpFive</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFive</label>
@@ -3846,7 +3844,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpSix</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSix</label>
@@ -3854,7 +3852,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpSeven</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSeven</label>
@@ -3862,7 +3860,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpEight</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpEight</label>
@@ -3870,7 +3868,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpNine</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpNine</label>
@@ -3878,7 +3876,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpZero</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpZero</label>
@@ -3886,7 +3884,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>LoadDefaultComposerNumberkeys</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Reset Keys in Composer Mode</label>
@@ -3894,7 +3892,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>FingeringsDoublestroke</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests</menupath>
         <label>Fingerings</label>
@@ -3977,7 +3975,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NotationMagick-InsertNoteFromPool</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
         <label>Note from pool</label>
@@ -3985,7 +3983,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NotationMagick-InsertPoolShuffled</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick</menupath>
         <label>Insert shuffled pool</label>
@@ -3993,7 +3991,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
         <label>Chromatic within clef range</label>
@@ -4001,7 +3999,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
-        <hidden>true</hidden>
+        
         <scheme></scheme>
         <menupath>/ObjectMenu/NotationMagick/SingleRandomNote</menupath>
         <label>Diatonic within clef range</label>
