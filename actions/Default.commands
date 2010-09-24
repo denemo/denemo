@@ -3738,7 +3738,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>NoOp</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Null Operation</label>
@@ -3804,7 +3804,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpOne</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpOne</label>
@@ -3812,7 +3812,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpTwo</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpTwo</label>
@@ -3820,7 +3820,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpThree</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpThree</label>
@@ -3828,7 +3828,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpFour</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFour</label>
@@ -3836,7 +3836,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpFive</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFive</label>
@@ -3844,7 +3844,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpSix</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSix</label>
@@ -3852,7 +3852,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpSeven</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSeven</label>
@@ -3860,7 +3860,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpEight</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpEight</label>
@@ -3868,7 +3868,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpNine</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpNine</label>
@@ -3876,7 +3876,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>OpZero</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpZero</label>
@@ -3884,7 +3884,7 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>LoadDefaultComposerNumberkeys</action>
-        
+        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Reset Keys in Composer Mode</label>

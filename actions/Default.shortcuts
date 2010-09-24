@@ -15,6 +15,10 @@
         </cursor-binding>
       </cursors>
       <row>
+		<action>DeleteObject</action>
+		<bind>Delete</bind>
+      </row>
+      <row>
         <action>CursorLeft</action>
         <bind>Shft+Left</bind>
         <hidden>true</hidden>
@@ -59,10 +63,12 @@
       <row>
         <action>StaffUp</action>
         <bind>Shft+Page_Up</bind>
+        <bind>Ctrl+Shft+Page_Up</bind>
         <hidden>true</hidden>
       </row>
       <row>
         <action>StaffDown</action>
+         <bind>Ctrl+Shft+Page_Down</bind>
          <bind>Shft+Page_Down</bind>
         <hidden>true</hidden>
       </row>
@@ -77,10 +83,20 @@
       <row>
         <action>MoveToMeasureLeft</action>
         <bind>Ctrl+Left</bind>
-      </row>
+      </row>      
       <row>
         <action>MoveToMeasureRight</action>
         <bind>Ctrl+Right</bind>
+      </row>
+      <row>
+        <action>MeasureLeft</action>
+        <hidden>true</hidden>
+        <bind>Ctrl+Shft+Left</bind>
+      </row>
+      <row>
+        <action>MeasureRight</action>
+        <hidden>true</hidden>
+        <bind>Ctrl+Shft+Right</bind>
       </row>
       <row>
         <action>A</action>
@@ -180,7 +196,7 @@
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>Shft+equal</bind>
+        <bind>plus</bind>
       </row>
       <row>
         <action>Flatten</action>
@@ -217,8 +233,12 @@
         <bind>m</bind>
       </row>
       <row>
+        <action>InsertMeasure</action>
+        <bind>M</bind>
+      </row>
+      <row>
         <action>InsertMeasureAfter</action>
-        <bind>n</bind>
+        <hidden>true</hidden>        
       </row>
       <row>
         <action>DeleteMeasure</action>
@@ -239,6 +259,7 @@
       <row>
         <action>UnsetMark</action>
         <bind>return</bind>
+        <bind>space</bind>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
@@ -266,11 +287,11 @@
       </row>
       <row>
         <action>InsertRhythm</action>
-        <bind>Ctrl+space</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>NextRhythm</action>
-        <bind>Space</bind>
+        <bind>Return</bind>
       </row>
       <row>
         <action>ExecuteScheme</action>
@@ -278,13 +299,11 @@
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <hidden>true</hidden>
-        <bind>Add</bind>
+        <hidden>true</hidden>        
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <hidden>true</hidden>
-        <bind>Subtract</bind>
+        <hidden>true</hidden>        
       </row>
       <row>
         <action>New</action>
@@ -315,8 +334,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>OpenExample</action>
-        <hidden>true</hidden>
+        <action>OpenExample</action>        
       </row>
       <row>
         <action>OpenMyTemplate</action>
@@ -397,13 +415,11 @@
       </row>
       <row>
         <action>VoiceUp</action>
-        <hidden>true</hidden>
-        <bind>Page_Up</bind>
+        <hidden>true</hidden>  
       </row>
       <row>
         <action>VoiceDown</action>
         <hidden>true</hidden>
-        <bind>Page_Down</bind>
       </row>
       <row>
         <action>MoveToVoiceUp</action>
@@ -451,7 +467,7 @@
       </row>
       <row>
         <action>InsertDynamic</action>
-        <bind>Control+d</bind>
+        <bind>Ctrl+d</bind>
       </row>
       <row>
         <action>InsertLilyDirective</action>
@@ -506,10 +522,12 @@
       <row>
         <action>GoToBeginning</action>
         <bind>Shft+Home</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>GoToEnd</action>
         <bind>Shft+End</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>MoveToBeginning</action>
@@ -521,11 +539,11 @@
       </row>
       <row>
         <action>NextMovement</action>
-        <bind>Ctrl+Shft+Right</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>PreviousMovement</action>
-        <bind>Ctrl+Shft+Left</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Play</action>
@@ -661,11 +679,11 @@
       </row>
       <row>
         <action>Change7</action>
-        <bind>Control+7</bind>
+        <bind>Ctrl+7</bind>
       </row>
       <row>
         <action>Change8</action>
-        <bind>Control+8</bind>
+        <bind>Ctrl+8</bind>
       </row>
       <row>
         <action>Preview4Bars</action>
@@ -685,7 +703,10 @@
       </row>
       <row>
         <action>InsertTiedNoteDuration</action>
-        <hidden>true</hidden>
+        <hidden>true</hidden>        
+      </row>
+      <row>
+        <action>ToggleTie</action>
         <bind>t</bind>
       </row>
       <row>
@@ -952,6 +973,214 @@
         <action>NotationMagick-TwelveToneRow</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>NotationMagick-InsertNoteFromPool</action>
+		<hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-InsertPoolShuffled</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeChromatic</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
+		<hidden>true</hidden>
+       </row>
+     <row>
+       <action>AppendMeasure</action>
+       <hidden>true</hidden>
+     </row>
+     <row>
+       <action>AppendMeasureAllStaffs</action>
+       <hidden>true</hidden>
+     </row>
+     <row>		   
+        <action>InsertMovementAfter</action>
+        <hidden>true</hidden>
+     </row>
+     <row>	
+	   <action>InsertMovementBefore</action>	   
+	   <hidden>true</hidden>
+     </row>
+     <row> 
+		<action>NewMovement</action>	   
+		<hidden>true</hidden>
+     </row>     
+     <row>		   
+		   <action>SwapMovements</action>
+		   <hidden>true</hidden>
+     </row>
+     <row>	
+		<action>MovementPageBreak</action>
+		<hidden>true</hidden>
+     </row>
+     <row>	
+		   <action>MovementSubtitle</action>	   
+		   <hidden>true</hidden>
+     </row>
+     <row>
+		   <action>MovementTitle</action>   
+		   <hidden>true</hidden>
+     </row>
+     <row>
+		    <action>MovementPiece</action>	   
+		   <hidden>true</hidden>
+     </row>
+     <row>		   
+			<action>DeleteMovement</action>
+		   <hidden>true</hidden>
+     </row>
+     <row>	
+		   <action>AddInitial</action>	   
+		   <hidden>true</hidden>
+     </row>
+     <row>
+			<action>AddBefore</action>
+		   <hidden>true</hidden>
+     </row>
+     <row>		   
+		<action>AddLast</action>
+		   <hidden>true</hidden>
+     </row> 
+     <row>	
+		<action>AddDuplicateMeasure</action>
+		<hidden>true</hidden>
+     </row>
+     <row>	
+		<action>DeleteBefore</action>
+		<hidden>true</hidden>
+     </row>
+     <row>	
+		<action>DeleteAfter</action>
+		<hidden>true</hidden>
+     </row>
+     <row>	
+		<action>AddMeasure</action>
+		<hidden>true</hidden>
+     </row> 
+     <row>
+		<action>OpenOctaveDown</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SmallFontStart</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SmallFontEnd</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>ParenthesizeChord</action>
+		<hidden>true</hidden>
+     </row>               
+     <row>
+		<action>HideLilypond</action>
+		<hidden>true</hidden>
+     </row>                                       
+     <row>
+		<action>DeleteLilypondOnChord</action>
+		<hidden>true</hidden>
+     </row>              
+     <row>
+		<action>RepeatStart</action>
+		<hidden>true</hidden>
+     </row>               
+     <row>
+		<action>RepeatEnd</action>
+		<hidden>true</hidden>
+     </row>               
+     <row>
+		<action>RepeatEndStart</action>
+		<hidden>true</hidden>
+     </row>               
+     <row>
+		<action>ShortMeasure</action>
+		<hidden>true</hidden>		
+     </row>
+     <row>
+		<action>OpenFirstTimeBar</action>
+		<hidden>true</hidden>
+     </row>     
+     <row>
+		<action>OpenSecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>       
+     <row>
+		<action>EndVolta</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>DesignateVoice</action>
+		<hidden>true</hidden>
+     </row>                                   
+     <row>
+		<action>GraceNoteSwitcher</action>
+		<hidden>true</hidden>
+     </row>
+      <row>
+		<action>GoToMark</action>
+		<hidden>true</hidden>
+     </row> 
+     <row>
+		<action>CursorToHighestNote</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CursorToLowestNote</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>FindNextLowerNote</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>NextHigher</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CheckForIncompleteMeasures</action>
+		<hidden>true</hidden>
+     </row>  
+     <row>
+		<action>GoToEmptyMeasure</action>
+		<hidden>true</hidden>
+     </row>  
+     <row>
+		<action>SetMark</action>
+		<hidden>true</hidden>
+     </row>  
+     <row>
+		<action>SetPoint</action>
+		<hidden>true</hidden>
+     </row>  
+     <row>
+		<action>SwapPointAndMark</action>
+		<hidden>true</hidden>
+     </row>       
+     <row>
+		<action>ApplyToSelection</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SetImmediatePlayback</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SetTransposeIntervalFromNote</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>DrumGM2Custom</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>TmbalesStyle</action>
+		<hidden>true</hidden>
+     </row>    
     </map>
   </merge>
 </Denemo>
