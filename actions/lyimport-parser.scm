@@ -405,7 +405,7 @@ HYPHEN
 ;	}
 ;
 	(TIMES fraction music) : (list (cons 'TIMES (list $2 $3)))
-;	| repeated_music		{ $$ = $1; }
+	(repeated_music) : $1 ;		{ $$ = $1; }
 	(TRANSPOSE pitch_also_in_chords pitch_also_in_chords music) : $4 ;; ignore for now
 ;		Pitch from = *unsmob_pitch ($2);
 ;		Pitch to = *unsmob_pitch ($3);
@@ -448,8 +448,8 @@ HYPHEN
   ;;	$$ = make_music_relative (middle_c, $2, @$);
   )
  
-  (context_change
-	(CHANGE STRING EQUAL STRING) : (string-append $1 $2 $3 $4)  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
+  (context_change             
+	(CHANGE STRING EQUAL STRING) : (cons 'x_CHANGE (string-append $2 $3 $4))  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
 	 
  (music_list ;; a list
@@ -467,12 +467,12 @@ HYPHEN
  )
  
  (alternative_music
-	() : ""
+	() : '()
 	(ALTERNATIVE { music_list }) : $3
   )
 
  (repeated_music
-	(REPEAT simple_string unsigned_number music alternative_music) : (list $1 $2 $3 $4 $5)	;	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
+	(REPEAT simple_string unsigned_number music alternative_music) : (append  $4 $5)	;ignoring repeats	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
 	
  )
 	
@@ -514,8 +514,15 @@ HYPHEN
   )
  
  (event_chord ;; a pair
-	(simple_chord_elements post_events)			: (begin ;(format #t "Parser reached ~a~%" $1)
+	(simple_chord_elements post_events)			: (begin ;(format #t "Post event ~a~%" $2)
 									 (cons 'x_CHORD (cons $1 $2)))
+
+
+;; 	(simple_chord_elements MARKUP)			: (begin (format #t "Parser reached ~a~%" $1)
+;; 									 (cons 'x_CHORD (cons $1 $2)))
+
+
+
 	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
 	;| CHORD_REPETITION optional_notemode_duration post_events {
@@ -605,6 +612,16 @@ HYPHEN
 	() 								: ""
 	(multiplied_duration) 			: $1
  )
+
+
+
+
+	
+ (steno_duration
+	(bare_unsigned dots) : (list (string->number $1) $2) ; original lilypond had a check here if there is really a duration before the dots		
+	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
+ )
+
 	
  (duration_length
 	(multiplied_duration) 			: $1		
@@ -615,11 +632,21 @@ HYPHEN
 	(multiplied_duration STAR bare_unsigned)  	: (list $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
 	(multiplied_duration STAR FRACTION) 		: (list $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
  )
+
+
+
+
+ (fraction
+	(FRACTION) : $1 
+	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
+  )
 	
- (steno_duration
-	(bare_unsigned dots) : (list (string->number $1) $2) ; original lilypond had a check here if there is really a duration before the dots		
-	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
- )
+ (dots
+	() : 0
+	(dots DOT) : (+ $1 1)	
+  ) 
+ 
+
 	
  (bare_number
 	(UNSIGNED) : $1
@@ -669,11 +696,17 @@ HYPHEN
 ;; 		PARSER->lexer_->pop_state ();
 ;; 	}
 
+
+
 (full_markup
+        (MARKUP) : $1
+
 ;; 	MARKUP_IDENTIFIER {
 ;; 		$$ = $1;
 ;; 	}
-	(MARKUP) : "" ;;; will need a markup lexer...
+	(MARKUP markup_top) : $3
+
+;;; will need a markup lexer... AND it has a mid rule action!!!!!!!!!!! FIXME
 ;; 		{ PARSER->lexer_->push_markup_state (); }
 ;; 	markup_top {
 ;; 		$$ = $3;
@@ -681,16 +714,118 @@ HYPHEN
 ;; 	}
 )
 
- (fraction
-	(FRACTION) : $1 
-	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
+ (markup_top
+ 	(markup_list) : $1; {
+;; 		$$ = scm_list_2 (ly_lily_module_constant ("line-markup"),  $1);
+;; 	}
+;; 	| markup_head_1_list simple_markup	{
+;; 		$$ = scm_car (scm_call_2 (ly_lily_module_constant ("map-markup-command-list"), $1, scm_list_1 ($2)));
+;; 	}
+	(simple_markup) : $1
   )
-	
- (dots
-	() : 0
-	(dots DOT) : (+ $1 1)	
-  ) 
- 
+  (markup_list
+	;(markup_composed_list) : $1
+	(markup_braced_list) : $1 ; {
+)
+;; 		$$ = $1;
+;; 	}
+;; 	| markup_command_list {
+;; 		$$ = scm_list_1 ($1);
+;; 	}
+;; 	;
+
+;; markup_composed_list:
+;; 	markup_head_1_list markup_braced_list {
+;; 		$$ = scm_call_2 (ly_lily_module_constant ("map-markup-command-list"), $1, $2);
+
+;; 	}
+;; 	;
+ (markup_braced_list
+	( { markup_braced_list_body }) : $2
+)
+
+ (markup_braced_list_body
+	() : '() ;/* empty */	{  $$ = SCM_EOL; }
+	(markup_braced_list_body markup) : (list $1 $2)
+	(markup_braced_list_body markup_list) : (append $1 $2)
+)
+;; markup_command_list:
+;; 	MARKUP_LIST_FUNCTION markup_command_list_arguments {
+;; 	  $$ = scm_cons ($1, scm_reverse_x($2, SCM_EOL));
+;; 	}
+;; 	;
+
+;; markup_command_basic_arguments:
+;; 	EXPECT_MARKUP_LIST markup_command_list_arguments markup_list {
+;; 	  $$ = scm_cons ($3, $2);
+;; 	}
+;; 	| EXPECT_SCM markup_command_list_arguments embedded_scm {
+;; 	  $$ = scm_cons ($3, $2);
+;; 	}
+;; 	| EXPECT_NO_MORE_ARGS {
+;; 	  $$ = SCM_EOL;
+;; 	}
+;; 	;
+;; markup_command_list_arguments:
+;; 	markup_command_basic_arguments { $$ = $1; }
+;; 	| EXPECT_MARKUP markup_command_list_arguments markup {
+;; 	  $$ = scm_cons ($3, $2);
+;; 	}
+;; 	;
+
+;; markup_head_1_item:
+;; 	MARKUP_FUNCTION EXPECT_MARKUP markup_command_list_arguments {
+;; 	  $$ = scm_cons ($1, scm_reverse_x ($3, SCM_EOL));
+;; 	}
+;; 	;
+
+;; markup_head_1_list:
+;; 	markup_head_1_item	{
+;; 		$$ = scm_list_1 ($1);
+;; 	}
+;; 	| markup_head_1_list markup_head_1_item	{
+;; 		$$ = scm_cons ($2, $1);
+;; 	}
+;; 	;
+
+
+(simple_markup
+	(STRING) : $1 
+;;{
+;; 		$$ = make_simple_markup ($1);
+;; 	}
+;; 	| MARKUP_IDENTIFIER {
+;; 		$$ = $1;
+;; 	}
+;; 	| LYRIC_MARKUP_IDENTIFIER {
+;; 		$$ = $1;
+;; 	}
+;; 	| STRING_IDENTIFIER {
+;; 		$$ = $1;
+;; 	}
+;; 	| SCORE {
+;; 		SCM nn = PARSER->lexer_->lookup_identifier ("pitchnames");
+;; 		PARSER->lexer_->push_note_state (alist_to_hashq (nn));
+;; 	} '{' score_body '}' {
+;; 		Score * sc = $4;
+;; 		$$ = scm_list_2 (ly_lily_module_constant ("score-markup"), sc->self_scm ());
+;; 		sc->unprotect ();
+;; 		PARSER->lexer_->pop_state ();
+;; 	}
+;; 	| MARKUP_FUNCTION markup_command_basic_arguments {
+;; 		$$ = scm_cons ($1, scm_reverse_x ($2, SCM_EOL));
+;; 	}
+)
+ (markup
+;; 	markup_head_1_list simple_markup	{
+;; 		SCM mapper = ly_lily_module_constant ("map-markup-command-list");
+;; 		$$ = scm_car (scm_call_2 (mapper, $1, scm_list_1 ($2)));
+;; 	}
+	(simple_markup) :  $1;
+)
+
+
+
 (steno_tonic_pitch
 	(TONICNAME_PITCH) : $1
 	(TONICNAME_PITCH sup_quotes) : (string-append $1 $2)
@@ -708,6 +843,7 @@ HYPHEN
 	(steno_tonic_pitch) : $1
  )
  (gen_text_def
+;        (MARKUP) : $1
 	(full_markup) : $1
 ;; 	| string {
 ;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
@@ -725,7 +861,7 @@ HYPHEN
 
  (script_dir     
 	(UNDERSCORE) :   'DOWN
-	(CARET) : 'UP; 
+	(CARET) :  (begin (display "!!!!!!!!!!!!!!!!!!!!!!") 'UP); 
 	(HYPHEN) : 'CENTER
  )
  
@@ -780,7 +916,8 @@ HYPHEN
 
  (post_event
   ;many things are missing here
-  (script_dir direction_reqd_event) : (cons $1 $2)
+  (MARKUP) : $1
+  (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
   (string_number_event) : $1 
  )
   

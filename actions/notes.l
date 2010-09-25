@@ -54,6 +54,7 @@ BOM_UTF8			\357\273\277
 \\layout{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 \\header{WHITE}*\{         (lyimport::start_block) (lyimport::multilexer)
 
+\\markup{WHITE}*\{         (lyimport::start_block)  (lyimport::mtoken 'MARKUP ((record-accessor lexical-token 'value)(lyimport::multilexer)))
 
 \\version{WHITE}*.*{NEWLINE} (lyimport::mtoken 'VERSION	yytext) ; in lilypond it is a state switch yy_push_state (version)
 %.*{NEWLINE}				(yycontinue)

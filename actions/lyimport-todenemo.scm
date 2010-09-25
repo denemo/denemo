@@ -76,6 +76,7 @@
 	  
 	   ))))
   (define (do-dots thedur)
+(format #t "do-dots gets a duration of form ~a~%" thedur)
     (if (equal? thedur "")
 	""
 	(let ((adot "(d-AddDot)") (numdots (list-ref thedur 1)))

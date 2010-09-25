@@ -22,11 +22,10 @@
     page-top-space = 1.81\cm
     }
 \layout {
-    \context { \Score
-        autoBeaming = ##f
+    \context { \Scoreh        autoBeaming = ##f
         }
     }
-PartPOneVoiceOne =  \relative c''' {
+PartPOneVoiceOne =  \relative c''' { 
     \clef "treble" \key f \major \time 2/4 | % 1
     c16 ^\markup{ \bold {Not fast.} } [ a16 g16 f16 ~ ] f16 [ a16 g16 f16
     ] | % 2
@@ -372,7 +371,7 @@ PartPOneVoiceFour =  \relative bes {
 
 % The score definition
 \new PianoStaff <<
-    \set PianoStaff.instrumentName = "Piano"
+    %\set PianoStaff.instrumentName = "Piano"
     \context Staff = "1" << 
         \context Voice = "PartPOneVoiceOne" { \voiceOne \PartPOneVoiceOne }
         \context Voice = "PartPOneVoiceTwo" { \voiceTwo \PartPOneVoiceTwo }

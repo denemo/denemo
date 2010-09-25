@@ -31,6 +31,7 @@
 (define (lyimport::start_incl)
   (set! lyimport::state (cons 'incl lyimport::state)))
 
+
 ; List of Notenames
 (define lyimport::list_of_notenames
 	(list "c" "cis" "ces" "cisis" "ceses" "d" "dis" "des" "disis" "deses" "e" "eis" "es" "ees" "eisis" "eses" "eeses" "f" "fis" "fes" "fisis" "feses" "g" "gis" "ges" "gisis" "geses" "a" "ais" "as" "aes" "aisis" "aeses" "ases" "b" "bis" "bes" "bisis" "beses" "h" "his" "hes" "hisis" "heses")
@@ -88,7 +89,9 @@
 		((string-ci=? "alternative" yytext) (lyimport::mtoken 'ALTERNATIVE yytext))
 		((string-ci=? "bar" yytext) (lyimport::mtoken 'BAR yytext))
 		((string-ci=? "breathe" yytext) (lyimport::mtoken 'BREATHE yytext))
-		((string-ci=? "break" yytext) (lyimport::mtoken 'BREAK yytext))
+	;;;	((string-ci=? "break" yytext) (lyimport::mtoken 'BREAK yytext))
+		((string-ci=? "break" yytext) (lyimport::multilexer));;denemo special ignore break
+
 		((string-ci=? "char" yytext) (lyimport::mtoken 'CHAR_T yytext))
 		((string-ci=? "chordmodifiers" yytext) (lyimport::mtoken 'CHORDMODIFIERS yytext))
 		((string-ci=? "chords" yytext) (lyimport::mtoken 'CHORDS yytext))

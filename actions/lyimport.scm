@@ -51,7 +51,9 @@
 
 (define (lyimport::multilexer)
 ;;; the lexing procedure itself
+(let ((token #f))
 					;(format #t "lexer state ~a ~a~%" lyimport::state (car lyimport::state))
+  (set! token
   (cond
    ((eqv? (car lyimport::state) 'notes)
     (lyimport::noteslexer))
@@ -63,6 +65,8 @@
     (lyimport::incllexer))
    (else
     (display "no lexer"))))
+  ;(format #t "Got token ~a~%" token)
+  token))
 
 (if (defined? 'Denemo)
     (begin
