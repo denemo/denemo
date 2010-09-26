@@ -48,7 +48,7 @@
 	"\n;;new movement not needed here\n"))
   
   (define (do-context thecontext)
-					;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+    (format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
     (cond
      ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
 								      (begin (set! lyimport::voice #f) "(d-AddLast)")
@@ -56,6 +56,8 @@
      ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
 								      "(d-AddVoice)"
 								      (begin (set! lyimport::voice #t) "")))
+     ((equal? "PianoStaff" (car thecontext)) "%ignoring PianoStaff\n")
+     (else "%context not handled\n")
      ))
   
   
@@ -112,9 +114,9 @@
     (if (list? current_object)
 	(begin
 	  (cond
-	   ((eqv? (car current_object) 'x_MOVEMENT)	  (let ()
-;;; (format #t "the movement has ~a~%~%" (cdr current_object) )
-							    (define temp 
+	   ((eqv? (car current_object) 'x_MOVEMENT)	  (let ((temp #f))
+;(format #t "the movement has tail ~a~%~%" (list-tail current_object 1) )
+							    (set! temp 
 							      (string-append  (do-movement)  (string-join (map loop-through (list-tail current_object 1)))))
 							    (set! lyimport::movement #t)
 							    temp
@@ -156,7 +158,7 @@
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
 								   (string-join (map loop-through (list-tail (cdr current_object) 0)))))
 	    ((eqv? (car current_object) 'x_GRACE)                 (let ((temp #f))
-								    (format #t "grace ~a~%"  (list-tail current_object 1))
+								    ;(format #t "grace ~a~%"  (list-tail current_object 1))
 								  (set! lyimport::in-grace #t) (set! temp (string-join (map loop-through (list-tail current_object 1)))) (set! lyimport::in-grace #f) temp))
 	   ((eqv? (car current_object) 'TIMES)                 (begin
 								 ;(format #t "Tuplet ~a~%"  (list-tail current_object 2))
@@ -174,8 +176,14 @@
 	   ((eqv? (car current_object) 'x_CHORD) (begin 
 						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
 						   (if (eqv? (caadr current_object) 'x_REST) 
-						       (begin
-							     (string-append (do-duration (list-ref (cadr current_object) 2)) " (d-EnterRest) "   (do-dots (list-ref (cadr current_object) 2))))
+						       (let ((thedur #f))
+							 (set! thedur  (list-ref (cadr current_object) 2))
+							 (format #t "dur is ~a~%" (number? (car thedur)))
+							 (if (number? (car thedur))
+							     (string-append (do-duration thedur) " (d-EnterRest) " (do-dots thedur))
+
+							     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) "%Missed out the repetition of the rest\n")
+))
 							 
 
 

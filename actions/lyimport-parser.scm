@@ -276,7 +276,8 @@ HYPHEN
  (toplevel_expression
   (lilypond_header)                     : '()
   (score_block)				: (list (cons 'x_MOVEMENT $1) )
-  (composite_music)			:  (begin (format #t "reached toplevel as composite music  ~a~%" $1) (list (cons 'x_MOVEMENT $1) ))
+  (composite_music)			:  (begin ;(format #t "reached toplevel as composite music  ~a~%" $1) 
+                                                   (list (cons 'x_MOVEMENT $1) ))
   (output_def)                          : '()
   (VERSION)                             : '()
   (ERROR)				: (begin (display (string-append "FIXME should not happen:toplevel error: " $1)) '()) 			
@@ -330,14 +331,29 @@ HYPHEN
 	(DIGIT): $1 	;$$ = scm_from_int ($1);
 	)
 
- (simple_music ;; a pair
-	(event_chord)					: (begin ;(format #t "now simple_music ~a~%" $1)
-								 $1)	
-    (MUSIC_IDENTIFIER)				: $1
-    ;(music_property_def)			: $1
-	(context_change)				: $1
-		
+ (score_block
+		(SCORE { score_body }) 		: $3
  )
+ 
+ (score_body
+                (music)						: $1
+		(score_body output_def)        : $1
+		(score_body lilypond_header)   : $1
+  )
+ (output_def
+                (BLOCK)                : '()
+                ;;(output_def_body } ) : '()
+)
+(output_def_head
+                (LAYOUT ) : '()  ;;; see get_layout (PARSER);
+)
+
+(output_def_head_with_mode_switch
+	(output_def_head) : '()
+)
+(output_def_body
+	(output_def_head_with_mode_switch { ) : '()
+)
 	
  (context_modification
         ;WITH { PARSER->lexer_->push_initial_state (); } '{' context_mod_list '}'
@@ -451,6 +467,14 @@ HYPHEN
   (context_change             
 	(CHANGE STRING EQUAL STRING) : (cons 'x_CHANGE (string-append $2 $3 $4))  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
+
+ (tempo_event
+	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
+	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
+	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
+	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
+	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
+  ) 
 	 
  (music_list ;; a list
         ()                      : '()
@@ -491,6 +515,15 @@ HYPHEN
   )
  
  
+ (simple_music ;; a pair
+	(event_chord)					: (begin ;(format #t "now simple_music ~a~%" $1)
+								 $1)	
+    (MUSIC_IDENTIFIER)				: $1
+    ;(music_property_def)			: $1
+	(context_change)				: $1
+		
+ )
+
  (string
 	(STRING)				: $1
 	;(STRING_IDENTIFIER) 	: $1
@@ -517,13 +550,6 @@ HYPHEN
 	(simple_chord_elements post_events)			: (begin ;(format #t "Post event ~a~%" $2)
 									 (cons 'x_CHORD (cons $1 $2)))
 
-
-;; 	(simple_chord_elements MARKUP)			: (begin (format #t "Parser reached ~a~%" $1)
-;; 									 (cons 'x_CHORD (cons $1 $2)))
-
-
-
-	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
 	;| CHORD_REPETITION optional_notemode_duration post_events {
 	;	Input i;
@@ -532,6 +558,7 @@ HYPHEN
 	;			  PARSER->lexer_->chord_repetition_.last_chord_,
 	;			  PARSER->lexer_->chord_repetition_.repetition_function_,
 	;			  $2, scm_reverse_x ($3, SCM_EOL));
+	(MULTI_MEASURE_REST optional_notemode_duration post_events)  : (cons 'x_MMREST (cons $2 $3))
 	
 	(command_element) : $1
 	
@@ -559,40 +586,7 @@ HYPHEN
 )
 
 
- (score_block
-		(SCORE { score_body }) 		: $3
- )
- 
- (score_body
-                (music)						: $1
-		(score_body output_def)        : $1
-		(score_body lilypond_header)   : $1
-  )
- (output_def
-                (BLOCK)                : '()
-                ;;(output_def_body } ) : '()
-)
-(output_def_head
-                (LAYOUT ) : '()  ;;; see get_layout (PARSER);
-)
 
-(output_def_head_with_mode_switch
-	(output_def_head) : '()
-)
-(output_def_body
-	(output_def_head_with_mode_switch { ) : '()
-)
-
-
- (tempo_event
-	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
-	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
-	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
-	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
-	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
-  ) 
-
- 
  (optional_rest
 	() : ""
 	(REST) : $1
