@@ -354,6 +354,64 @@ HYPHEN
 (output_def_body
 	(output_def_head_with_mode_switch { ) : '()
 )
+
+ (tempo_event
+	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
+	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
+	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
+	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
+	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
+  ) 
+
+
+ (music_list ;; a list
+        ()                      : '()
+	(music_list music)	: (append $1 $2) ;;;
+	(music)				: $1  ;;;where does this come from?
+	(music_list embedded_scm) : $1 ;;;ignore embedded scheme for now
+ ) 
+ 
+ (music ;; a list
+	(simple_music)					: (list $1)
+	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
+							    $1)
+	
+ )
+ 
+ (alternative_music
+	() : '()
+	(ALTERNATIVE { music_list }) : $3
+  )
+
+ (repeated_music
+	(REPEAT simple_string unsigned_number music alternative_music) : (append  $4 $5)	;ignoring repeats	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
+	
+ )
+	
+ (sequential_music ;;; a pair
+	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
+	(  { music_list }  )			: (begin ;(format #t "Sequential this is a ~a~%" (list? $2)) 
+						    ;(pretty-print $2)
+						    (cons 'x_SEQUENTIAL $2))
+	)
+
+  (simultaneous_music  ;;; a pair
+	(SIMULTANEOUS { music_list }):  (cons 'x_SIMULTANEOUS $3) ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
+	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin 
+							      ;(format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2))
+							      (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
+  )
+ 
+ 
+ (simple_music ;; a pair
+	(event_chord)					: (begin ;(format #t "now simple_music ~a~%" $1)
+								 $1)	
+    (MUSIC_IDENTIFIER)				: $1
+    (music_property_def)			: $1
+	(context_change)				: $1
+		
+ )
+
 	
  (context_modification
         ;WITH { PARSER->lexer_->push_initial_state (); } '{' context_mod_list '}'
@@ -457,72 +515,50 @@ HYPHEN
 ;	;
   )
  
+
+
+;; mode_changing_head:
+;; mode_changing_head_with_context:
+
+
+
  (relative_music
   (RELATIVE absolute_pitch music) : $3
   (RELATIVE composite_music) : '()
   ;;	Pitch middle_c (0, 0, 0);
   ;;	$$ = make_music_relative (middle_c, $2, @$);
   )
- 
+
+
+;; new_lyrics:
+;; re_rhythmed_music:
+
   (context_change             
 	(CHANGE STRING EQUAL STRING) : (cons 'x_CHANGE (string-append $2 $3 $4))  ;		$$ = MAKE_SYNTAX ("context-change", @$, scm_string_to_symbol ($2), $4);
   )
 
- (tempo_event
-	(TEMPO steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO dur = number")  ;	$$ = MAKE_SYNTAX ("tempo", @$, SCM_BOOL_F, $2, scm_int2num ($4));
-	(TEMPO string steno_duration EQUAL bare_unsigned) : (lyimport::error "TEMPO strin dur = number") ; $$ = MAKE_SYNTAX ("tempo", @$, make_simple_markup($2), $3, scm_int2num ($5));
-	;(TEMPO full_markup steno_duration EQUAL bare_unsigned) : "" ;	$$ = MAKE_SYNTAX ("tempo", @$, $2, $3, scm_int2num ($5));
-	(TEMPO string) : "" ;	$$ = MAKE_SYNTAX ("tempoText", @$, make_simple_markup($2) );
-	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
-  ) 
+;; property_path:
+;; property_operation:
+;; context_def_mod:
+;; context_mod:
+;; context_prop_spec:
+ (context_prop_spec
+	(simple_string) : "FIXME"
+	(simple_string DOT simple_string) : "FIXME"
+ )
+
+ (simple_music_property_def
+	;(OVERRIDE context_prop_spec property_path EQUAL scalar) : (cons 'x_OVERRIDE "FIXME")
+	(REVERT context_prop_spec embedded_scm) :  (cons 'x_REVERT "FIXME")
+	(SET context_prop_spec EQUAL scalar) :  (cons 'x_SET "FIXME")
+	(UNSET context_prop_spec) :  (cons 'x_UNSET "FIXME")
+)
+
+(music_property_def
+       (simple_music_property_def) : $1
+       (ONCE simple_music_property_def) : $2
+)
 	 
- (music_list ;; a list
-        ()                      : '()
-	(music_list music)	: (append $1 $2) ;;;
-	(music)				: $1  ;;;where does this come from?
-	(music_list embedded_scm) : $1 ;;;ignore embedded scheme for now
- ) 
- 
- (music ;; a list
-	(simple_music)					: (list $1)
-	(composite_music)				: (begin ;(format #t "~%music as composite_music with value ~a~%"  (list-ref $1 0))
-							    $1)
-	
- )
- 
- (alternative_music
-	() : '()
-	(ALTERNATIVE { music_list }) : $3
-  )
-
- (repeated_music
-	(REPEAT simple_string unsigned_number music alternative_music) : (append  $4 $5)	;ignoring repeats	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
-	
- )
-	
- (sequential_music ;;; a pair
-	( SEQUENTIAL { music_list } )   : (cons 'x_SEQUENTIAL $3)
-	(  { music_list }  )			: (begin ;(format #t "Sequential this is a ~a~%" (list? $2)) 
-						    ;(pretty-print $2)
-						    (cons 'x_SEQUENTIAL $2))
-	)
-
-  (simultaneous_music  ;;; a pair
-	(SIMULTANEOUS { music_list }):  (cons 'x_SIMULTANEOUS $3) ;	$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($3));
-	(DOUBLE_ANGLE_OPEN music_list DOUBLE_ANGLE_CLOSE) : (begin 
-							      ;(format #t "PARALLEL this is a ~a~%" (list? $2)) (pretty-print $2) (display "finished\n\n")  (pretty-print (cons 'x_Display $2))
-							      (cons 'x_SIMULTANEOUS $2)) ;		$$ = MAKE_SYNTAX ("simultaneous-music", @$, scm_car ($2));	
-  )
- 
- 
- (simple_music ;; a pair
-	(event_chord)					: (begin ;(format #t "now simple_music ~a~%" $1)
-								 $1)	
-    (MUSIC_IDENTIFIER)				: $1
-    ;(music_property_def)			: $1
-	(context_change)				: $1
-		
- )
 
  (string
 	(STRING)				: $1
@@ -546,6 +582,14 @@ HYPHEN
 
   )
  
+
+
+;; string:
+;; simple_string:
+;; scalar:
+
+
+
  (event_chord ;; a pair
 	(simple_chord_elements post_events)			: (begin ;(format #t "Post event ~a~%" $2)
 									 (cons 'x_CHORD (cons $1 $2)))
@@ -568,6 +612,11 @@ HYPHEN
 	(note_chord_element) : $1	;	PARSER->lexer_->chord_repetition_.last_chord_ = $$;
  )
 
+
+
+
+
+
 (note_chord_element
 	(chord_body optional_notemode_duration post_events) : (cons 'x_REALCHORD (cons (cons $1 $2) $3))
  )
@@ -585,7 +634,210 @@ HYPHEN
 	(pitch exclamations questions octave_check post_events) : (cons 'x_CHORD (cons (cons 'x_NOTE (list $1 $2 $3 $4)) $5))
 )
 
+;; music_function_identifier_musicless_prefix:
+;; music_function_chord_body:
+;; music_function_event:
 
+
+ (command_element
+	(command_event) : $1
+	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
+	(E_BRACKET_OPEN) : (lyimport::error "E_BRACKET_OPEN") ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
+	(E_BRACKET_CLOSE) : (lyimport::error "E_BRACKET_CLOSE") ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
+	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
+	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
+	(PARTIAL duration_length): (lyimport::error "PARTIAL") ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
+	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
+	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+ )
+
+(command_event
+	(E_TILDE) : (lyimport::error "E_TILDE") ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
+	(MARK DEFAULT) : (begin (lyimport::warning "MARK DEFAULT") '()); 	  {
+						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
+						;$$ = m->unprotect ();
+	(tempo_event) :  $1
+	(KEY DEFAULT) : (cons 'x_KEY (cons $2 #f)) ;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
+					   ;$$ = key->unprotect ();
+	(KEY NOTENAME_PITCH SCM_IDENTIFIER)	: (cons 'x_KEY  (cons $2 $3))
+		;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
+		;if (scm_ilength ($3) > 0)
+		;{
+		;	key->set_property ("pitch-alist", $3);
+		;	key->set_property ("tonic", Pitch (0, 0, 0).smobbed_copy ());
+		;	key->transpose (* unsmob_pitch ($2));
+		;} else {
+		;	PARSER->parser_error (@3, _ ("second argument must be pitch list"));
+		;}
+
+		;$$ = key->unprotect ();
+		
+	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
+	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
+	(CLEF STRING) : (cons 'x_CLEF $2)
+	(BAR STRING )    : (begin ;(format #t "got bar ~a~%~%" $2) 
+				  (cons 'x_BARLINE $2)) 
+ )
+
+
+ (post_events
+	() : ""
+	(post_events post_event) : (string-append $1 $2)
+ )
+
+ (post_event
+  ;many things are missing here
+  (MARKUP) : $1
+  (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
+  (string_number_event) : $1 
+ )
+  
+
+ (string_number_event
+	(E_UNSIGNED) : $1
+ )
+
+
+;; direction_less_char:
+;; direction_less_event:
+
+ (direction_reqd_event
+	(gen_text_def) :     $1;
+;; 	}
+;; 	| script_abbreviation {
+;; 		SCM s = PARSER->lexer_->lookup_identifier ("dash" + ly_scm2string ($1));
+;; 		Music *a = MY_MAKE_MUSIC ("ArticulationEvent", @$);
+;; 		if (scm_is_string (s))
+;; 			a->set_property ("articulation-type", s);
+;; 		else PARSER->parser_error (@1, _ ("expecting string as script definition"));
+;; 		$$ = a->unprotect ();
+;; 	}
+)
+
+ (octave_check
+	() : "" 
+	(EQUAL) : "" ; { $$ = scm_from_int (0); )
+	(EQUAL sub_quotes) : $2 ;{ $$ = scm_from_int (-$2); )
+	(EQUAL sup_quotes) : $2
+  )
+ 
+
+ (sup_quotes
+	(SUP_QUOTE)						: $1
+	(sup_quotes SUP_QUOTE)			: (string-append $1 $2)
+ )
+ 
+ (sub_quotes
+	(SUB_QUOTE)						: $1
+	(sub_quotes SUB_QUOTE)			: (string-append $1 $2)
+ )
+ 
+ (steno_pitch
+	(NOTENAME_PITCH)				: $1
+ 	(NOTENAME_PITCH sup_quotes)		: (string-append $1 $2)
+	(NOTENAME_PITCH sub_quotes)		: (string-append $1 $2)
+ )
+
+
+(steno_tonic_pitch
+	(TONICNAME_PITCH) : $1
+	(TONICNAME_PITCH sup_quotes) : (string-append $1 $2)
+	(TONICNAME_PITCH sub_quotes) : (string-append $1 $2)
+)
+
+
+
+
+(pitch
+	(steno_pitch)					: $1
+ )
+
+
+ (pitch_also_in_chords
+	(pitch) : $1
+	(steno_tonic_pitch) : $1
+ )
+ (gen_text_def
+;        (MARKUP) : $1
+	(full_markup) : $1
+;; 	| string {
+;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
+;; 		t->set_property ("text",
+;; 			make_simple_markup ($1));
+;; 		$$ = t->unprotect ();
+;; 	}
+;; 	| DIGIT {
+;; 		Music *t = MY_MAKE_MUSIC ("FingeringEvent", @$);
+;; 		t->set_property ("digit", scm_from_int ($1));
+;; 		$$ = t->unprotect ();
+;; 	}
+)
+
+;script_abbreviation:
+
+ (script_dir     
+	(UNDERSCORE) :   'DOWN
+	(CARET) :  (begin (display "!!!!!!!!!!!!!!!!!!!!!!") 'UP); 
+	(HYPHEN) : 'CENTER
+ )
+ 
+ (absolute_pitch
+ (steno_pitch) :  $1;
+ )
+
+	
+ (duration_length
+	(multiplied_duration) 			: $1		
+ )
+	
+(optional_notemode_duration
+	() 								: ""
+	(multiplied_duration) 			: $1
+ )
+
+
+
+	
+ (steno_duration
+	(bare_unsigned dots) : (list (string->number $1) $2) ; original lilypond had a check here if there is really a duration before the dots		
+	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
+ )
+
+
+
+ (multiplied_duration
+	(steno_duration) : $1
+	(multiplied_duration STAR bare_unsigned)  	: (list $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
+	(multiplied_duration STAR FRACTION) 		: (list $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
+ )
+
+
+
+
+
+
+
+
+ (fraction
+	(FRACTION) : $1 
+	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
+  )
+	
+ (dots
+	() : 0
+	(dots DOT) : (+ $1 1)	
+  ) 
+ 
+
+
+;; tremolo_type:
+;; bass_number:
+;; figured_bass_alteration:
+;; bass_figure:
+;; figured_bass_modification:
+;; br_bass_figure:
+;; figure_list:
+;; figure_spec:
 
  (optional_rest
 	() : ""
@@ -602,44 +854,12 @@ HYPHEN
  )
  
  
- (optional_notemode_duration
-	() 								: ""
-	(multiplied_duration) 			: $1
- )
-
-
-
-
-	
- (steno_duration
-	(bare_unsigned dots) : (list (string->number $1) $2) ; original lilypond had a check here if there is really a duration before the dots		
-	;(DURATION_IDENTIFIER dots) : (string-append $1 $2) 
- )
-
-	
- (duration_length
-	(multiplied_duration) 			: $1		
- )
-	
- (multiplied_duration
-	(steno_duration) : $1
-	(multiplied_duration STAR bare_unsigned)  	: (list $1 $2 $3);	$$ = unsmob_duration ($$)->compressed ( $3) .smobbed_copy ();
-	(multiplied_duration STAR FRACTION) 		: (list $1 $2 $3) ;	Rational  m (scm_to_int (scm_car ($3)), scm_to_int (scm_cdr ($3))); 		$$ = unsmob_duration ($$)->compressed (m).smobbed_copy ();
- )
-
-
-
-
- (fraction
-	(FRACTION) : $1 
-	(UNSIGNED SLASH UNSIGNED) : (cons $1 $3) ; $$ = scm_cons (scm_from_int ($1), scm_from_int ($3));
-  )
-	
- (dots
-	() : 0
-	(dots DOT) : (+ $1 1)	
-  ) 
  
+
+
+
+ 
+
 
 	
  (bare_number
@@ -819,199 +1039,14 @@ HYPHEN
 )
 
 
-
-(steno_tonic_pitch
-	(TONICNAME_PITCH) : $1
-	(TONICNAME_PITCH sup_quotes) : (string-append $1 $2)
-	(TONICNAME_PITCH sub_quotes) : (string-append $1 $2)
-)
+ 	
 
 
- (pitch
-	(steno_pitch)					: $1
- )
 
-
- (pitch_also_in_chords
-	(pitch) : $1
-	(steno_tonic_pitch) : $1
- )
- (gen_text_def
-;        (MARKUP) : $1
-	(full_markup) : $1
-;; 	| string {
-;; 		Music *t = MY_MAKE_MUSIC ("TextScriptEvent", @$);
-;; 		t->set_property ("text",
-;; 			make_simple_markup ($1));
-;; 		$$ = t->unprotect ();
-;; 	}
-;; 	| DIGIT {
-;; 		Music *t = MY_MAKE_MUSIC ("FingeringEvent", @$);
-;; 		t->set_property ("digit", scm_from_int ($1));
-;; 		$$ = t->unprotect ();
-;; 	}
-)
-	
-
- (script_dir     
-	(UNDERSCORE) :   'DOWN
-	(CARET) :  (begin (display "!!!!!!!!!!!!!!!!!!!!!!") 'UP); 
-	(HYPHEN) : 'CENTER
- )
  
- (absolute_pitch
- (steno_pitch) :  $1;
- )
 
- (command_element
-	(command_event) : $1
-	(SKIP duration_length) : (string-append $1 $2)    ;	$$ = MAKE_SYNTAX ("skip-music", @$, $2);
-	(E_BRACKET_OPEN) : (lyimport::error "E_BRACKET_OPEN") ;	Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (START)); 	$$ = m->unprotect();
-	(E_BRACKET_CLOSE) : (lyimport::error "E_BRACKET_CLOSE") ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
-	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
-	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
-	(PARTIAL duration_length): (lyimport::error "PARTIAL") ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
-	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
-	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
- )
-
- (command_event
-	(E_TILDE) : (lyimport::error "E_TILDE") ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
-	(MARK DEFAULT) : (begin (lyimport::warning "MARK DEFAULT") '()); 	  {
-						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
-						;$$ = m->unprotect ();
-	(tempo_event) :  $1
-	(KEY DEFAULT) : (cons 'x_KEY (cons $2 #f)) ;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
-					   ;$$ = key->unprotect ();
-	(KEY NOTENAME_PITCH SCM_IDENTIFIER)	: (cons 'x_KEY  (cons $2 $3))
-		;Music *key = MY_MAKE_MUSIC ("KeyChangeEvent", @$);
-		;if (scm_ilength ($3) > 0)
-		;{
-		;	key->set_property ("pitch-alist", $3);
-		;	key->set_property ("tonic", Pitch (0, 0, 0).smobbed_copy ());
-		;	key->transpose (* unsmob_pitch ($2));
-		;} else {
-		;	PARSER->parser_error (@3, _ ("second argument must be pitch list"));
-		;}
-
-		;$$ = key->unprotect ();
-		
-	;;;;;;;THESE ARE CUSTOM EVENTS DONE BY DENEMO AND NOT ORIGINAL LILYPOND;;;;;;;;;;
-	;;;;;;;;;; in LilyPond these are music-functions which scan_escaped_word looks up the number and type of parameters for, and then pushes these onto the lexer input
-	(CLEF STRING) : (cons 'x_CLEF $2)
-	(BAR STRING )    : (begin ;(format #t "got bar ~a~%~%" $2) 
-				  (cons 'x_BARLINE $2)) 
- )
-
- (post_events
-	() : ""
-	(post_events post_event) : (string-append $1 $2)
- )
-
- (post_event
-  ;many things are missing here
-  (MARKUP) : $1
-  (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
-  (string_number_event) : $1 
- )
-  
- (string_number_event
-	(E_UNSIGNED) : $1
- )
-;; direction_less_char:
-;; 	'['  {
-;; 		$$ = ly_symbol2scm ("bracketOpenSymbol");
-;; 	}
-;; 	| ']'  {
-;; 		$$ = ly_symbol2scm ("bracketCloseSymbol");
-;; 	}
-;; 	| '~'  {
-;; 		$$ = ly_symbol2scm ("tildeSymbol");
-;; 	}
-;; 	| '('  {
-;; 		$$ = ly_symbol2scm ("parenthesisOpenSymbol");
-;; 	}
-;; 	| ')'  {
-;; 		$$ = ly_symbol2scm ("parenthesisCloseSymbol");
-;; 	}
-;; 	| E_EXCLAMATION  {
-;; 		$$ = ly_symbol2scm ("escapedExclamationSymbol");
-;; 	}
-;; 	| E_OPEN  {
-;; 		$$ = ly_symbol2scm ("escapedParenthesisOpenSymbol");
-;; 	}
-;; 	| E_CLOSE  {
-;; 		$$ = ly_symbol2scm ("escapedParenthesisCloseSymbol");
-;; 	}
-;; 	| E_ANGLE_CLOSE  {
-;; 		$$ = ly_symbol2scm ("escapedBiggerSymbol");
-;; 	}
-;; 	| E_ANGLE_OPEN  {
-;; 		$$ = ly_symbol2scm ("escapedSmallerSymbol");
-;; 	}
-
-
-
-;; direction_less_event:
-;; 	direction_less_char {
-;; 		SCM predefd = PARSER->lexer_->lookup_identifier_symbol ($1);
-;; 		Music *m = 0;
-;; 		if (unsmob_music (predefd))
-;; 		{
-;; 			m = unsmob_music (predefd)->clone ();
-;; 			m->set_spot (@$);
-;; 		}
-;; 		else
-;; 		{
-;; 			m = MY_MAKE_MUSIC ("Music", @$);
-;; 		}
-;; 		$$ = m->unprotect ();
-;; 	}
-;; 	| EVENT_IDENTIFIER	{
-;; 		$$ = $1;
-;; 	}
-;; 	| tremolo_type  {
-;;                Music *a = MY_MAKE_MUSIC ("TremoloEvent", @$);
-;;                a->set_property ("tremolo-type", scm_from_int ($1));
-;;                $$ = a->unprotect ();
-;;         }
 	
  
-  (direction_reqd_event
-	(gen_text_def) :     $1;
-;; 	}
-;; 	| script_abbreviation {
-;; 		SCM s = PARSER->lexer_->lookup_identifier ("dash" + ly_scm2string ($1));
-;; 		Music *a = MY_MAKE_MUSIC ("ArticulationEvent", @$);
-;; 		if (scm_is_string (s))
-;; 			a->set_property ("articulation-type", s);
-;; 		else PARSER->parser_error (@1, _ ("expecting string as script definition"));
-;; 		$$ = a->unprotect ();
-;; 	}
-)
-
- (octave_check
-	() : "" 
-	(EQUAL) : "" ; { $$ = scm_from_int (0); )
-	(EQUAL sub_quotes) : $2 ;{ $$ = scm_from_int (-$2); )
-	(EQUAL sup_quotes) : $2
-  )
- 
- (sup_quotes
-	(SUP_QUOTE)						: $1
-	(sup_quotes SUP_QUOTE)			: (string-append $1 $2)
- )
- 
- (sub_quotes
-	(SUB_QUOTE)						: $1
-	(sub_quotes SUB_QUOTE)			: (string-append $1 $2)
- )
- 
- (steno_pitch
-	(NOTENAME_PITCH)				: $1
- 	(NOTENAME_PITCH sup_quotes)		: (string-append $1 $2)
-	(NOTENAME_PITCH sub_quotes)		: (string-append $1 $2)
- )
  
   )
 )
