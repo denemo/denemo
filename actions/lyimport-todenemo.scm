@@ -56,7 +56,7 @@
      ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
 								      "(d-AddVoice)"
 								      (begin (set! lyimport::voice #t) "")))
-     ((equal? "PianoStaff" (car thecontext)) "%ignoring PianoStaff\n")
+     ((equal? "PianoStaff" (car thecontext)) ";ignoring PianoStaff\n")
      (else "%context not handled\n")
      ))
   
@@ -182,7 +182,7 @@
 							 (if (number? (car thedur))
 							     (string-append (do-duration thedur) " (d-EnterRest) " (do-dots thedur))
 
-							     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) "%Missed out the repetition of the rest\n")
+							     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) ";Missed out the repetition of the rest\n")
 ))
 							 
 
