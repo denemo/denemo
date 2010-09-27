@@ -181,8 +181,12 @@
 							 (format #t "dur is ~a~%" (number? (car thedur)))
 							 (if (number? (car thedur))
 							     (string-append (do-duration thedur) " (d-EnterRest) " (do-dots thedur))
-
-							     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) ";Missed out the repetition of the rest\n")
+							     
+							       (let loop ((count  (string->number (list-ref thedur 2))))
+								 (format #t "Looping ~a~%" count)
+								 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
+								 (if (zero? count) ""
+								     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) (loop (- count 1)) ))))
 ))
 							 
 
@@ -204,8 +208,9 @@
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
+	   ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
 
-	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) "NO HOPE"))					  
+	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) ";Syntax Ignored\n"))					  
 	   ))))
   
 (if (not (defined? 'Denemo))
