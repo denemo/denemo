@@ -371,7 +371,7 @@ PartPOneVoiceFour =  \relative bes {
 
 % The score definition
 \new PianoStaff <<
-    %\set PianoStaff.instrumentName = "Piano"
+    \set PianoStaff.instrumentName = "Piano"
     \context Staff = "1" << 
         \context Voice = "PartPOneVoiceOne" { \voiceOne \PartPOneVoiceOne }
         \context Voice = "PartPOneVoiceTwo" { \voiceTwo \PartPOneVoiceTwo }
