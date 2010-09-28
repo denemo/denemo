@@ -660,13 +660,20 @@
 ; (string->number "str" 7) converts a string which is supposed to be a base7 value to a decial integer
 ; (number->string n 7) converts a decimal number to a string-"number" which is base7. 
 
-(define (ANS-7::math op one two) ; wants two string
-	(number->string (op	(string->number one 7) (string->number two 7)) 7)
+(define (ANS-7::number->string n)
+(number->string n 7))
+
+(define (ANS-7::string->number n)
+(string->number n 7))
+
+(define (ANS-7::math op nums) wants  strings
+ (ANS-7::number->string (apply op (map ANS-7::string->number nums)))
 )
-(define (ANS-7::+ one two)	(ANS-7::math + one two))
-(define (ANS-7::- one two)	(ANS-7::math - one two))
-(define (ANS-7::* one two)	(ANS-7::math * one two))
-(define (ANS-7::/ one two)	(ANS-7::math / one two))
+
+(define (ANS-7::+ . nums )  (ANS-7::math + nums))
+(define (ANS-7::- . nums )  (ANS-7::math - nums))
+(define (ANS-7::* . nums )  (ANS-7::math * nums))
+(define (ANS-7::/ . nums )  (ANS-7::math / nums))
 
 
 (define (ANS-7::CalculateRealOctaveUp sourceANS) ; Works with one string
