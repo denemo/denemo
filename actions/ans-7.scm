@@ -740,3 +740,44 @@
 	(define rnd (random (length ans7list) ))
 	(ANS-7::InsertNotes (list (list-ref ans7list rnd) ))
 )
+
+;;;; The pillar of filth
+;;;; To calculate real and correct intervals you need the pillar of fifth with 35 steps for each realistic notename (and 4 unrealistic ones)
+;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define ANS-7::PillarOfFifth (list "feses" "ceses" "geses" "deses" "asas" "eses" "bes" "fes" "ces" "ges" "des" "as" "es" "b" "f" "c" "g" "d" "a" "e" "h" "fis" "cis" "gis" "dis" "ais" "eis" "his" "fisis" "cisis" "gisis" "disis" "aisis" "eisis" "hisis"))
+
+; Tell the number of steps up or down 
+(define (ANS-7::IntervalGetSteps target)
+	(cond
+		((or (eq? target 'p1) (eq? target 'P1)) 0)			
+		((eq? target 'm2) -5)			
+		((eq? target 'M2) 2)			
+		((eq? target 'm3) -3)
+		((eq? target 'M3) 4)	
+		((or (eq? target 'p4) (eq? target 'P4)) -1)	
+		((or (eq? target 't) (eq? target 'T)) 6)
+		((or (eq? target 'p5) (eq? target 'P5)) 1)
+		((eq? target 'm6) -4)			
+		((eq? target 'M6) 3)		
+		((eq? target 'm7) -2)	
+		((eq? target 'M7) 5)		
+		(else (display "Error or Interval not supported yet."))
+	)		
+)
+
+(define (ANS-7::IntervalCalcUp root target)
+ (let( (targ (ANS-7::IntervalGetSteps target)) )	
+  (list-ref ANS-7::PillarOfFifth (+ root targ))   
+ )
+)
+	
+(define (ANS-7::IntervalCalcDown root target)
+ (let( (targ (ANS-7::IntervalGetSteps target)) )
+  (list-ref ANS-7::PillarOfFifth (+ root (* -1 targ)))   
+ )
+)
+
+
+;(display (ANS-7::IntervalCalcUp 17 'm2) )(newline)
+;(display (ANS-7::IntervalCalcDown 15 'm2) )(newline)
