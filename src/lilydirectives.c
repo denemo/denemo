@@ -354,6 +354,7 @@ DenemoDirective *get_standalone_directive(gchar *tag){
     return NULL;
 }
 /**
+ * DEPRECATED - only called from InsertLilyDirective action, not the general Get/Put directive functions
  * Denemo directive insert/Edit.  Allows user to insert a Denemo directive 
  * before the current cursor position
  * or edit the current Denemo directive
@@ -385,6 +386,8 @@ standalone_directive (GtkAction *action, DenemoScriptParam * param)
       insert_lily_directive(postfix, display, locked, 8);
   } else {
     insert_lily_directive(postfix, display, locked, minpixels?atoi(minpixels):8);
+    g_print("display helper for %s\n", postfix);
+    displayhelper(gui);
   }
 }
 /**
@@ -1561,6 +1564,7 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
         directive = (DenemoDirective*)obj->object;
         directive->tag = g_string_new(tag);
 	object_insert(Denemo.gui, obj);
+	displayhelper(Denemo.gui);
   }
   if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height)) {
     if(directive->graphic_name)
@@ -1591,6 +1595,7 @@ standalone_directive_put_##field(gchar *tag, gchar *value) {\
         directive->tag = g_string_new(tag);\
         directive->field = g_string_new(value);\
 	object_insert(Denemo.gui, obj);\
+	displayhelper(Denemo.gui);\
    }\
   return TRUE;\
 }
