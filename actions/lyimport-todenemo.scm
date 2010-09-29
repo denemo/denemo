@@ -177,6 +177,7 @@
 						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (let ((thedur #f))
+							 (set! lyimport::notes #f)
 							 (set! thedur  (list-ref (cadr current_object) 2))
 							 (format #t "dur is ~a~%" (number? (car thedur)))
 							 (if (number? (car thedur))
