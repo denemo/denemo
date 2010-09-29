@@ -2682,7 +2682,7 @@ return SCM_BOOL(to_prev_object(TRUE, FALSE));
 
 SCM scheme_refresh_display (SCM optional) {
   displayhelper(Denemo.gui);
-  write_status(Denemo.gui);
+  //done in displayhelper write_status(Denemo.gui);
   return SCM_BOOL(TRUE);
 }
 
