@@ -963,7 +963,13 @@ static SCM scheme_input_filter_names(SCM filtername) {
    Denemo.input_filters = NULL;
    return  SCM_BOOL(FALSE);
 }
-
+SCM scheme_shift_cursor (SCM value) {
+  if(!scm_integer_p(value))
+    return SCM_BOOL_F;
+  gint shift = scm_num2int(value, 0, 0);
+  Denemo.gui->si->cursor_y += shift;
+  return SCM_BOOL_T;
+}
 
 SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
@@ -3163,6 +3169,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurEnd",  scheme_is_slur_end);
 
 
+
+  INSTALL_SCM_FUNCTION ("Shifts the cursor up or down by the integer amount passed in",DENEMO_SCHEME_PREFIX"ShiftCursor",  scheme_shift_cursor);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
