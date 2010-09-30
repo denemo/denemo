@@ -523,8 +523,8 @@ HYPHEN
 
 
  (relative_music
-  (RELATIVE absolute_pitch music) : $3
-  (RELATIVE composite_music) : '()
+  (RELATIVE absolute_pitch music) : (list (cons 'x_RELATIVE $2) $3)
+  (RELATIVE composite_music) :  (list 'x_RELATIVE $2) ; not sure about this FIXME
   ;;	Pitch middle_c (0, 0, 0);
   ;;	$$ = make_music_relative (middle_c, $2, @$);
   )
@@ -722,20 +722,20 @@ HYPHEN
   )
  
 
- (sup_quotes
-	(SUP_QUOTE)						: $1
-	(sup_quotes SUP_QUOTE)			: (string-append $1 $2)
+ (sup_quotes ;;;; a integer
+	(SUP_QUOTE)						: 1
+	(sup_quotes SUP_QUOTE)			: (+ 1 $1)
  )
  
- (sub_quotes
-	(SUB_QUOTE)						: $1
-	(sub_quotes SUB_QUOTE)			: (string-append $1 $2)
+ (sub_quotes ;;;; a integer
+	(SUB_QUOTE)						: -1
+	(sub_quotes SUB_QUOTE)			: (- $1 1)
  )
  
- (steno_pitch
-	(NOTENAME_PITCH)				: $1
- 	(NOTENAME_PITCH sup_quotes)		: (string-append $1 $2)
-	(NOTENAME_PITCH sub_quotes)		: (string-append $1 $2)
+ (steno_pitch ;;; a pair
+	(NOTENAME_PITCH)				: (cons $1 0)
+ 	(NOTENAME_PITCH sup_quotes)		: (cons $1 $2)
+	(NOTENAME_PITCH sub_quotes)		: (cons $1 $2)
  )
 
 

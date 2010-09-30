@@ -3,19 +3,49 @@
 (define lyimport::voice #f)
 (define lyimport::notes #f)
 (define lyimport::in-grace #f)
+(define lyimport::relative #f)
 
 
 (define (lyimport::convert_to_denemo list_from_parser)
   
-  (define (notename note)
-    ;(string (char-upcase (string-ref (list-ref note 1) 0))))
-  (list-ref note 1))
 
+(define (octave blips)
+  (cond ((zero? blips) "")
+	((> blips 0) (string-append "'" (octave (- blips 1))))
+	(else (string-append "," (octave (+ blips 1))))))
+
+(define (octave-shifts blips)
+  (if (zero? blips)
+      ""
+  (string-append "(Navigation::CursorUpN " (number->string (* blips 7)) ")")))
+
+
+
+
+  (define (notename2 note)
+    ;(string (char-upcase (string-ref (list-ref note 1) 0))))
+ ; (list-ref note 1)
+    ;(format #t "the note2 ~a~%"  note)
+    (string-append (car note) (octave (cdr note)))
+    )
+
+  (define (notename note)
+    ;(format #t "the note ~a~%"  (cadr note))
+   ; (caadr note)
+    (notename2 (cadr note))
+    )
+
+  (define (relative-add-note-to-chord note)
+    ;(format #t "Chord note ~a \n~a\nThe end\n" note (car (cadadr note)))
+    (string-append "(d-MoveTo" (string (char-upcase (string-ref (car (cadadr note))  0))) ")" (octave-shifts (cdr (cadadr note)))  "(d-AddNoteToChord)")
+    )
 
   (define (add-notes-to-chord extra-chordnote)
-					;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
+    ;(format #t "entered addnotes to chord with  ~a list ~a~%" extra-chordnote (cadr extra-chordnote))
     (set! lyimport::notes #f)
-    (string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") )
+    (if lyimport::relative
+	(relative-add-note-to-chord extra-chordnote)
+	(string-append "(d-InsertNoteInChord \"" (notename (cadr extra-chordnote)) "\")") ))
 
   (define (start-chord chord-note)
     ;(format #t "entered start chord with list chord-list ~a~%" chord-note)
@@ -48,7 +78,8 @@
 	"\n;;new movement not needed here\n"))
   
   (define (do-context thecontext)
-    (format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+    ;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+
     (cond
      ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
 								      (begin (set! lyimport::voice #f) "(d-AddLast)")
@@ -59,6 +90,7 @@
      ((equal? "PianoStaff" (car thecontext)) ";ignoring PianoStaff\n")
      (else "%context not handled\n")
      ))
+
   
   
   (define (do-duration thedur)
@@ -78,7 +110,7 @@
 	  
 	   ))))
   (define (do-dots thedur)
-(format #t "do-dots gets a duration of form ~a~%" thedur)
+;(format #t "do-dots gets a duration of form ~a~%" thedur)
     (if (equal? thedur "")
 	""
 	(let ((adot "(d-AddDot)") (numdots (list-ref thedur 1)))
@@ -87,9 +119,20 @@
 	       "")
 	   )))
 
+
+ (define (do-relative-note anote)
+   ;(format #t "relative note ~a" anote)
+   (let ((out (string-append "(d-" (string (char-upcase (string-ref (car anote) 0))) ")")))
+     (string-append (octave-shifts (cdr anote)) out)
+   ))
   
-  (define (do-note thenote)
-    (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")" (if lyimport::in-grace "(d-ToggleGrace)" "")))
+(define (do-note thenote)
+  (if lyimport::relative
+      (do-relative-note (cadr thenote))
+      (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")" (if lyimport::in-grace "(d-ToggleGrace)" ""))
+
+      
+      ))
   
   
   (define (create-note current_object)
@@ -125,7 +168,7 @@
 	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-context (cdr current_object)));        "(d-AddLast)")
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
-								  ;(format #t "the sequential list has ~a~% ~%" (cdr current_object))
+								  ;(format #t "the sequential list has ~a~% ~%" (list? (cdr current_object)))
 								  (string-join (map loop-through (cdr current_object)))))
 	   
 	   ;;((eqv? (car current_object) 'x_REALCHORD)	(exit))
@@ -163,7 +206,10 @@
 	   ((eqv? (car current_object) 'TIMES)                 (begin
 								 ;(format #t "Tuplet ~a~%"  (list-tail current_object 2))
 								 (string-append "(d-StartTriplet)(d-SetTuplet \"" (list-ref current_object 1) "\") " (string-join (map loop-through (list-tail current_object 2))) " (d-EndTuplet)")))
-	  
+	   ((eqv? (car current_object) 'x_RELATIVE)      (begin (
+								 format #t "\n\nhandling relative ~a FIXME what pitch???\n\n" current_object)
+								(set! lyimport::relative #t)
+								(string-join (map loop-through (list-tail current_object 1)))))
 
 	   (else
 	    (begin 
@@ -210,6 +256,12 @@
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
 	   ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
+	   ((eqv? (car current_object) 'x_RELATIVE) (begin
+						      (format #t "Working with Relative music  ~a~%"  current_object)						      
+						      (set! lyimport::relative (cdr current_object))
+
+						       (string-append "(d-CursorToNote \"" (notename2 (cdr current_object)) "\");Translated from relative music\n")))
+	                                            
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) ";Syntax Ignored\n"))					  
 	   ))))
