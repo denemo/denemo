@@ -17,7 +17,7 @@
 (define (octave-shifts blips)
   (if (zero? blips)
       ""
-  (string-append "(Navigation::CursorUpN " (number->string (* blips 7)) ")")))
+  (string-append "(d-ShiftCursor " (number->string (* blips 7)) ")")))
 
 
 
@@ -225,7 +225,7 @@
 						       (let ((thedur #f))
 							 (set! lyimport::notes #f)
 							 (set! thedur  (list-ref (cadr current_object) 2))
-							 (format #t "dur is ~a~%" (number? (car thedur)))
+							 (format #t "dur is ~a~%" (car thedur))
 							 (if (number? (car thedur))
 							     (string-append (do-duration thedur) " (d-EnterRest) " (do-dots thedur))
 							     
@@ -251,7 +251,8 @@
 	   ((eqv? (car current_object) 'x_REALCHORD) (begin 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
  
- (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1))))))
+ (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
+ "(d-CursorToNote (d-GetLowestNote))")))
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
