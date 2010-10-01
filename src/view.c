@@ -968,7 +968,11 @@ SCM scheme_shift_cursor (SCM value) {
     return SCM_BOOL_F;
   gint shift = scm_num2int(value, 0, 0);
   Denemo.gui->si->cursor_y += shift;
+  Denemo.gui->si->staffletter_y = offsettonumber(Denemo.gui->si->staffletter_y + shift);
   return SCM_BOOL_T;
+
+
+
 }
 
 SCM scheme_get_cursor_note (SCM optional) {
@@ -1267,7 +1271,8 @@ SCM scheme_cursor_to_note (SCM lilyname) {
    notename = scm_to_locale_string(lilyname);
    name2mid_c_offset(notename, &mid_c_offset, &enshift);
    dclef =  find_prevailing_clef(gui->si);
-   gui->si->cursor_y = mid_c_offset; 
+   gui->si->cursor_y = mid_c_offset;
+   gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
    displayhelper (gui);
    return  SCM_BOOL(TRUE);
  }
