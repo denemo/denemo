@@ -109,6 +109,28 @@
 		 (else ""))
 	  
 	   ))))
+
+
+  (define (do-duration-relative thedur)
+    (if (equal? thedur "")
+	";unknown rest\n\n"
+	(begin
+	  (string-append
+	   (cond ((equal? 1 (list-ref thedur 0)) "(d-PutRest 0)")
+		 ((equal? 2  (list-ref thedur 0)) "(d-PutRest 1)")
+		 ((equal? 4  (list-ref thedur 0)) "(d-PutRest 2)")
+		 ((equal? 8  (list-ref thedur 0)) "(d-PutRest 3)")
+		 ((equal? 16  (list-ref thedur 0)) "(d-PutRest 4)")
+		 ((equal? 32  (list-ref thedur 0)) "(d-PutRest 5)")
+		 ((equal? 64  (list-ref thedur 0)) "(d-PutRest 6)")
+		 ((equal? 128  (list-ref thedur 0)) "(d-PutRest 7)")
+		 (else ""))
+	  
+	   ))))
+
+
+
+
   (define (do-dots thedur)
 ;(format #t "do-dots gets a duration of form ~a~%" thedur)
     (if (equal? thedur "")
@@ -227,14 +249,14 @@
 							 (set! thedur  (list-ref (cadr current_object) 2))
 							 (format #t "dur is ~a~%" (car thedur))
 							 (if (number? (car thedur))
-							     (string-append (do-duration thedur) " (d-EnterRest) " (do-dots thedur))
+							     (string-append (do-duration-relative thedur) (do-dots thedur))
 							     
 							       (let loop ((count  (string->number (list-ref thedur 2))))
 								 (format #t "Looping ~a~%" count)
 								 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
 								 (if (zero? count) ""
-								     (string-append (do-duration (car thedur)) " (d-EnterRest) " (do-dots (car thedur)) (loop (- count 1)) ))))
-))
+								     (string-append ;(do-duration (car thedur)) 
+								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) ))))))
 							 
 
 
