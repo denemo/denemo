@@ -2210,7 +2210,23 @@ SCM scheme_get_midi(void) {
  SCM scm = scm_int2num (midi);
  return  scm;
 }
+SCM scheme_put_rest (SCM optional_duration) {
+  gint duration;
+  if(scm_integer_p(optional_duration)) {
+    duration = scm_num2int(optional_duration, 0, 0);
+  } else {
+    for(duration=0;duration<7;duration++)
+      if(Denemo.gui->prevailing_rhythm == Denemo.singleton_rhythms['r'+duration])
+	break;
+    g_print("using duration %d\n", duration);
+  }
+  if( (duration<0) || (duration>7))
+    return SCM_BOOL_F;
 
+  dnm_insertchord (Denemo.gui, duration, 0, TRUE);
+  displayhelper(Denemo.gui);//without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+  return SCM_BOOL_T;
+}
 
 //Simulates a midi event, with no capture by any calling scheme script
 SCM scheme_put_midi (SCM scm) {
@@ -3205,7 +3221,9 @@ void inner_main(void*closure, int argc, char **argv){
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
 
-  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
+  INSTALL_SCM_FUNCTION ("Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).",DENEMO_SCHEME_PREFIX"PutRest",  scheme_put_rest);
+
+
 
   INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and adds that note to the chord",DENEMO_SCHEME_PREFIX"InsertNoteInChord",  scheme_insert_note_in_chord);
 
