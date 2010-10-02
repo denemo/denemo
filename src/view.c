@@ -2391,6 +2391,40 @@ static SCM scheme_put_note_name (SCM optional) {
  return SCM_BOOL(FALSE);  
 }
 
+static SCM scheme_set_accidental (SCM optional) {
+
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+   return SCM_BOOL(FALSE);
+ else {
+ //FIXME scm_dynwind_begin (0); etc
+   DenemoScore *si = Denemo.gui->si;
+   char *str=NULL;
+   if(scm_is_string(optional)){
+     str = scm_to_locale_string(optional);
+     gint mid_c_offset;
+     gint enshift;
+     name2mid_c_offset(str, &mid_c_offset, &enshift);
+     //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
+     thenote->enshift = enshift;
+     showwhichaccidentals ((objnode *) si->currentmeasure->data,
+			    si->curmeasurekey, si->curmeasureaccs);
+     find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
+			   si->cursortime2);
+     //thenote->mid_c_offset = name2mid_c_offset(str);
+     displayhelper(Denemo.gui);
+   return SCM_BOOL(TRUE);
+  }
+ }
+ return SCM_BOOL(FALSE);  
+}
+
+
+
+
 
 //create a putnote here that takes a duration and numdots and note name, inserts a chord and calls the scheme_put_note_name above - this can be done via script at present, e.g. (d-C) (d-Change3) (d-AddDot) (d-PutNoteName "eis''")
 
@@ -3220,6 +3254,8 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
+  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
+  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, changes the note at the cursor to have the accidental of the given name",DENEMO_SCHEME_PREFIX"SetAccidental",  scheme_set_accidental);
 
   INSTALL_SCM_FUNCTION ("Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).",DENEMO_SCHEME_PREFIX"PutRest",  scheme_put_rest);
 
