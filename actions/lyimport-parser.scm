@@ -653,7 +653,7 @@ HYPHEN
 
 (command_event
 	(E_TILDE) : (lyimport::error "E_TILDE") ; $$ = MY_MAKE_MUSIC ("PesOrFlexaEvent", @$)->unprotect ();
-	(MARK DEFAULT) : (begin (lyimport::warning "MARK DEFAULT") '()); 	  {
+	(MARK DEFAULT) : (begin (cons 'x_LILYPOND "\\mark \\default")); 	  {
 						;Music *m = MY_MAKE_MUSIC ("MarkEvent", @$);
 						;$$ = m->unprotect ();
 	(tempo_event) :  $1

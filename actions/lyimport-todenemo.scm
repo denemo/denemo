@@ -189,7 +189,7 @@
      ))
 
   (define (loop-through current_object)
-    ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
+    (format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
     ;; (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
     ;;	 " "
 ;;;;;;; First pairs that are lists
@@ -245,6 +245,10 @@
 	   ((eqv? (car current_object) 'TIMES)                 (begin
 								 ;(format #t "Tuplet ~a~%"  (list-tail current_object 2))
 								 (string-append "(d-StartTriplet)(d-SetTuplet \"" (list-ref current_object 1) "\") " (string-join (map loop-through (list-tail current_object 2))) " (d-EndTuplet)")))
+
+
+
+
 	   ((eqv? (car current_object) 'x_RELATIVE)      (begin (
 								 format #t "\n\nhandling relative ~a FIXME what pitch???\n\n" current_object)
 								(set! lyimport::relative #t)
@@ -301,12 +305,12 @@
 						      (set! lyimport::relative (cdr current_object))
 
 						       (string-append "(d-CursorToNote \"" (notename2 (cdr current_object)) "\");Translated from relative music\n")))
-	                                            
+	   ((eqv? (car current_object) 'x_LILYPOND)     (string-append "(d-PutDirective-standalone \"" (scheme-escape (cdr current_object)) "\" \"" (scheme-escape (cdr current_object)) "\")\n"))                                        
 
 	   (else (begin (format #t "Not handled~%~%") (pretty-print current_object) ";Syntax Ignored\n"))					  
 	   ))))
   
 (if (not (defined? 'Denemo))
-  (format #t "~%;;;Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%;;;End of Denemo Script++++++++++++++++++++++++++++~%" 
-(string-join (map loop-through list_from_parser)))
+  (begin (load "denemo.scm")(format #t "~%;;;Final Denemo Script~%+++++++++++++++++++++++++++~% ~a~%;;;End of Denemo Script++++++++++++++++++++++++++++~%" 
+(string-join (map loop-through list_from_parser))))
 (string-join (map loop-through list_from_parser))))
