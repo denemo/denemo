@@ -35,6 +35,7 @@
 #include "fluid.h"
 #endif
 #include "commandfuncs.h"
+#include "calculatepositions.h"
 #include "http.h"
 #include "texteditors.h"
 #include "prefops.h"
@@ -359,7 +360,49 @@ static SCM scheme_http(SCM hname, SCM page, SCM other, SCM poststr) {
   return SCM_BOOL(FALSE);
 }
 
+//FIXME inelegant!
+static gint interpret_lilypond_notename(gchar *x, gint *mid_c_offset, gint *enshift) {
+  // g_print("Mid c offset of %d\n", *x-'c');
+  gchar *c;
+  gint octave = -1;/* middle c is c' */
+  gint accs = 0;
 
+  for(c = x+1;*c;c++){
+    if(*c=='i'&& *(c+1)=='s') {
+      accs++;
+      c++; ;
+    } else if(*c=='e'&& *(c+1)=='s') {
+      accs--;
+      c++;
+    } else if (
+      *c==',') {
+      octave--;
+    } else if (*c=='\'') {
+	octave++;
+    }
+  }
+  if (*x =='a' || *x=='b')
+    octave++;
+
+  *mid_c_offset = *x-'c' + 7*octave;
+  *enshift = accs;
+  return *mid_c_offset;
+}
+
+static gint lilypond_to_enshift(gchar *enshift_name) {
+  gint enshift=0;
+  gchar *c;
+ for(c = enshift_name;*c;c++){
+    if(*c=='i'&& *(c+1)=='s') {
+      enshift++;
+      c++;
+    } else if(*c=='e'&& *(c+1)=='s') {
+      enshift--;
+      c++;
+    }
+ }
+ return enshift;
+}
 
 /*
   execute init scripts in system and local directories for menupath
@@ -1269,7 +1312,7 @@ SCM scheme_cursor_to_note (SCM lilyname) {
 
  if(scm_is_string(lilyname)){ 
    notename = scm_to_locale_string(lilyname);
-   name2mid_c_offset(notename, &mid_c_offset, &enshift);
+   interpret_lilypond_notename(notename, &mid_c_offset, &enshift);
    dclef =  find_prevailing_clef(gui->si);
    gui->si->cursor_y = mid_c_offset;
    gui->si->staffletter_y = offsettonumber (gui->si->cursor_y);
@@ -1312,7 +1355,7 @@ SCM scheme_change_chord_notes (SCM lilynotes) {
         notename = scm_to_locale_string(lilynotes);	
 	chordnote = strtok(notename, " ");
 	while (chordnote){
-	  name2mid_c_offset(chordnote, &mid_c_offset, &enshift);
+	  interpret_lilypond_notename(chordnote, &mid_c_offset, &enshift);
 	  dnm_addtone (curObj, mid_c_offset, enshift, dclef);
 	  chordnote = strtok( NULL, " " );
 	}
@@ -2336,33 +2379,6 @@ static SCM scheme_bass_figure(SCM bass, SCM harmony) {
 }
 
 
-gint name2mid_c_offset(gchar *x, gint *mid_c_offset, gint *enshift) {
-  // g_print("Mid c offset of %d\n", *x-'c');
-  gchar *c;
-  gint octave = -1;/* middle c is c' */
-  gint accs = 0;
-
-  for(c = x+1;*c;c++){
-    if(*c=='i'&& *(c+1)=='s') {
-      accs++;
-      c++; ;
-    } else if(*c=='e'&& *(c+1)=='s') {
-      accs--;
-      c++;
-    } else if (
-      *c==',') {
-      octave--;
-    } else if (*c=='\'') {
-	octave++;
-    }
-  }
-  if (*x =='a' || *x=='b')
-    octave++;
-
-  *mid_c_offset = *x-'c' + 7*octave;
-  *enshift = accs;
-  return *mid_c_offset;
-}
 
 //badly named:
 static SCM scheme_put_note_name (SCM optional) {
@@ -2380,10 +2396,10 @@ static SCM scheme_put_note_name (SCM optional) {
      str = scm_to_locale_string(optional);
      gint mid_c_offset;
      gint enshift;
-     name2mid_c_offset(str, &mid_c_offset, &enshift);
+     interpret_lilypond_notename(str, &mid_c_offset, &enshift);
      //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
      modify_note(thechord, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = name2mid_c_offset(str);
+     //thenote->mid_c_offset = interpret_lilypond_notename(str);
      displayhelper(Denemo.gui);
    return SCM_BOOL(TRUE);
   }
@@ -2401,25 +2417,34 @@ static SCM scheme_set_accidental (SCM optional) {
    return SCM_BOOL(FALSE);
  else {
  //FIXME scm_dynwind_begin (0); etc
+   GList *g;
+   for(g=thechord->notes;g;g=g->next) {
+     thenote = (note*)g->data;
+     if(thenote->mid_c_offset == Denemo.gui->si->cursor_y)
+       break;
+   }
+   if(g==NULL)
+     return SCM_BOOL_F;
    DenemoScore *si = Denemo.gui->si;
    char *str=NULL;
-   if(scm_is_string(optional)){
-     str = scm_to_locale_string(optional);
-     gint mid_c_offset;
-     gint enshift;
-     name2mid_c_offset(str, &mid_c_offset, &enshift);
-     //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
-     thenote->enshift = enshift;
-     showwhichaccidentals ((objnode *) si->currentmeasure->data,
-			    si->curmeasurekey, si->curmeasureaccs);
-     find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
-			   si->cursortime2);
-     //thenote->mid_c_offset = name2mid_c_offset(str);
-     displayhelper(Denemo.gui);
+   
+   if(scm_is_string(optional)) {
+     str = scm_to_locale_string(optional);     
+     thenote->enshift = lilypond_to_enshift(str);
+   } else if(scm_is_integer(optional))
+     thenote->enshift = scm_to_int(optional);
+   else
+     thenote->enshift = 0;
+   if((thenote->enshift<-2)||(thenote->enshift>2)) 
+      thenote->enshift = 0;
+   showwhichaccidentals ((objnode *) si->currentmeasure->data,
+			 si->curmeasurekey, si->curmeasureaccs);
+   //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
+   //			   si->cursortime2); causes a crash, si is not passed correctly, why???
+   //thenote->mid_c_offset = interpret_lilypond_notename(str);
+   displayhelper(Denemo.gui);
    return SCM_BOOL(TRUE);
-  }
  }
- return SCM_BOOL(FALSE);  
 }
 
 
@@ -2444,7 +2469,7 @@ static SCM scheme_insert_note_in_chord (SCM lily) {
    str = scm_to_locale_string(lily);
    gint mid_c_offset;
    gint enshift;
-   name2mid_c_offset(str, &mid_c_offset, &enshift);
+   interpret_lilypond_notename(str, &mid_c_offset, &enshift);
    
    //g_print("note %s gives %d and %d\n", str, mid_c_offset, enshift);
    addtone(curObj, mid_c_offset, enshift,  find_prevailing_clef(Denemo.gui->si));
@@ -2611,7 +2636,7 @@ SCM scheme_diatonic_shift (SCM optional) {
      
      g_print("note shift %s ie %d\n", str, shift);
      modify_note(thechord, thenote->mid_c_offset+shift, gui->si->curmeasureaccs[offsettonumber(thenote->mid_c_offset+shift)],  find_prevailing_clef(Denemo.gui->si));
-     //thenote->mid_c_offset = name2mid_c_offset(str);
+     //thenote->mid_c_offset = interpret_lilypond_notename(str);
      displayhelper(Denemo.gui);
    }
  }
@@ -3255,7 +3280,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   INSTALL_SCM_FUNCTION ("Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes",DENEMO_SCHEME_PREFIX"ChangeChordNotes",  scheme_change_chord_notes);
   INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, and changes the note at the cursor to that note",DENEMO_SCHEME_PREFIX"PutNoteName",  scheme_put_note_name);
-  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, changes the note at the cursor to have the accidental of the given name",DENEMO_SCHEME_PREFIX"SetAccidental",  scheme_set_accidental);
+  INSTALL_SCM_FUNCTION ("Takes a LilyPond note name, changes the note at the cursor to have the accidental passed in either LilyPond string or integer -2..+2. Returns #f if cursor is not on a note position.  ",DENEMO_SCHEME_PREFIX"SetAccidental",  scheme_set_accidental);
 
   INSTALL_SCM_FUNCTION ("Inserts a rest at the cursor; either passed in duration (note  prevailing duration not supported properly).",DENEMO_SCHEME_PREFIX"PutRest",  scheme_put_rest);
 
