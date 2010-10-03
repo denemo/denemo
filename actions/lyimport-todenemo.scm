@@ -37,7 +37,8 @@
 
   (define (relative-add-note-to-chord note)
     ;(format #t "Chord note ~a \n~a\nThe end\n" note (car (cadadr note)))
-    (string-append "(d-MoveTo" (string (char-upcase (string-ref (car (cadadr note))  0))) ")" (octave-shifts (cdr (cadadr note)))  "(d-AddNoteToChord)")
+    (string-append "(d-MoveTo" (string (char-upcase (string-ref (car (cadadr note))  0))) ")" (octave-shifts (cdr (cadadr note)))  "(d-AddNoteToChord)" (do-accidental (cadr note))
+     )
     )
 
   (define (add-notes-to-chord extra-chordnote)
@@ -63,7 +64,17 @@
 	(string-append "(d-InitialTimeSig \"" thetime "\")")
 	(string-append "(d-InsertTimeSig \"" thetime "\")")))
   
+
+(define (translate-key keyname)
+  (if (= 1 (string-length keyname))
+      keyname
+      (if (equal? (string-ref keyname 1) #\e)
+	  (string-append (string (string-ref keyname 0)) " flat")
+	  (string-append (string (string-ref keyname 0)) " sharp"))))
+      
+
   (define (do-key thekey type)
+    (set! thekey (translate-key thekey))
     (if lyimport::notes        
 	(string-append "(d-InitialKey \"" thekey " " type  "\")")
 	(string-append "(d-InsertKey \"" thekey " " type  "\")")))
@@ -82,10 +93,10 @@
 
     (cond
      ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
-								      (begin (set! lyimport::voice #f) "(d-AddLast)")
+								      (begin (set! lyimport::voice #f) "(d-AddLast)(d-MoveToBeginning)")
 								      (begin (set! lyimport::staff #t) "")))
      ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
-								      "(d-AddVoice)"
+								      "(d-AddVoice)(d-MoveToBeginning)"
 								      (begin (set! lyimport::voice #t) "")))
      ((equal? "PianoStaff" (car thecontext)) ";ignoring PianoStaff\n")
      (else "%context not handled\n")
@@ -141,6 +152,12 @@
 	       "")
 	   )))
 
+(define (do-accidental thenote)
+;(format #t "using ~a\n\n" (notename thenote))
+  (if lyimport::relative
+       (string-append "(d-SetAccidental \"" (substring/shared (notename thenote) 1) "\")")
+       ""))
+
 
  (define (do-relative-note anote)
    ;(format #t "relative note ~a" anote)
@@ -150,12 +167,12 @@
   
 (define (do-note thenote)
   (if lyimport::relative
-      (do-relative-note (cadr thenote))
-      (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")" (if lyimport::in-grace "(d-ToggleGrace)" ""))
-
-      
+      (string-append (do-relative-note (cadr thenote)) (do-accidental thenote))
+      (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"  (if lyimport::in-grace "(d-ToggleGrace)" "")) 
       ))
-  
+
+
+
   
   (define (create-note current_object)
     (set! lyimport::notes #f)
@@ -247,21 +264,21 @@
 						       (let ((thedur #f))
 							 (set! lyimport::notes #f)
 							 (set! thedur  (list-ref (cadr current_object) 2))
-							 (format #t "dur is ~a~%" (car thedur))
+							 ;(format #t "dur is ~a~%" (car thedur))
 							 (if (number? (car thedur))
 							     (string-append (do-duration-relative thedur) (do-dots thedur))
 							     
 							       (let loop ((count  (string->number (list-ref thedur 2))))
-								 (format #t "Looping ~a~%" count)
+								 ;(format #t "Looping ~a~%" count)
 								 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
 								 (if (zero? count) ""
 								     (string-append ;(do-duration (car thedur)) 
-								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) ))))))
+								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) ))))));;;; end of if a rest
 							 
 
 
 
-						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "   (do-dots (list-ref (cadr current_object) 5)))
+						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)))
 						  )))
 
 
