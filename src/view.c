@@ -6502,10 +6502,9 @@ toggle_lyrics_view (GtkAction *action, gpointer param)
     else {
       gtk_widget_show(widget);
     }
+    if(Denemo.prefs.persistence)
+      Denemo.prefs.lyrics_pane = GTK_WIDGET_VISIBLE (widget);
   }
-  
-  if(Denemo.prefs.persistence)
-    Denemo.prefs.lyrics_pane = GTK_WIDGET_VISIBLE (widget);
   return;
 }
 
