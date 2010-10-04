@@ -363,12 +363,13 @@ HYPHEN
 	;(TEMPO full_markup) : "" ; $$ = MAKE_SYNTAX ("tempoText", @$, $2 );
   ) 
 
-
+;;; note in LilyPond's parser the music_list is built in reverse for efficiency
+;;; hence the complex rule for building the list with $$ appearing on the lhs of an assignment
  (music_list ;; a list
         ()                      : '()
 	(music_list music)	: (append $1 $2) ;;;
-	(music)				: $1  ;;;where does this come from?
-	(music_list embedded_scm) : $1 ;;;ignore embedded scheme for now
+	;(music)				: $1  ;;;where does this come from?
+	(music_list embedded_scm) : $1 ;;;ignore embedded scheme for now, indeed it appears to be ignored by the LilyPond parser as there is no explicit setting of $$, which defaults to $1
  ) 
  
  (music ;; a list
@@ -524,7 +525,7 @@ HYPHEN
 
  (relative_music
   (RELATIVE absolute_pitch music) : (list (cons 'x_RELATIVE $2) $3)
-  (RELATIVE composite_music) :  (list 'x_RELATIVE $2) ; not sure about this FIXME
+  (RELATIVE composite_music) :  (list (cons 'x_RELATIVE "c'") $2) ; not sure about this FIXME
   ;;	Pitch middle_c (0, 0, 0);
   ;;	$$ = make_music_relative (middle_c, $2, @$);
   )

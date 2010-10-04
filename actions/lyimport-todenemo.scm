@@ -189,7 +189,7 @@
      ))
 
   (define (loop-through current_object)
-    (format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
+    ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
     ;; (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
     ;;	 " "
 ;;;;;;; First pairs that are lists
