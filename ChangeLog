@@ -1,3 +1,17 @@
+2010-10-04 Release 0.8.20:
+	*  Improved cursor, showing insert position and clearly distinguishing appending from editing/inserting
+	* Two key keyboard shortcuts Two Key Shortcuts
+	* MusicXML import
+	* Improved LilyPond import
+	* "NotationMagick": Scripts to generate, twist, randomize and shuffle music.
+          o Twelve-Tone-Row (Schoenberg) Generator
+          o Random Note insert. Variants: All diatonic, all chromatic, from a given pool, a complete pool at once (shuffled) 
+	* Bug Fixes
+          o Grace notes on tuplets fixed.
+          o Paste places non-note objects correctly. 
+	* Build options:
+          o configure --disable-portaudio is now available, removes dependencies of portaudio, libsamplerate, fftw3 and aubio 
+
 2010-07-05 Release 0.8.18:
     * Maximize the space for the score (with/without user's choice of menus).
           o Standard View - window size, zoom, number of systems etc
