@@ -4005,6 +4005,13 @@ for second and subsequent systems</tooltip>
         <label>Diatonic within clef range</label>
         <tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</tooltip>
       </row>
+      <row>
+        <action>GraceAfter</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
+        <label>Grace After Current</label>
+        <tooltip>Print note following this note as grace note. Beware! Denemo display does not show the grace note properly, but typesetter will understand. Multiple grace notes to follow will need separate start { and end } block directives to group them.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

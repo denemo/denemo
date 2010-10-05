@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InsertTwoGraceNotesBeamed</after>
+        <action>GraceAfter</action>
+        <scheme>;;GraceAfter
+		(d-DirectivePut-chord-display "GraceAfter"  "Grace After" )
+		(d-DirectivePut-chord-ty "GraceAfter"  -100 )
+		(d-DirectivePut-chord-prefix "GraceAfter"  "\\afterGrace ")
+		(d-DirectivePut-chord-minpixels  "GraceAfter" 20)))
+		(d-RefreshDisplay)</scheme>
+        <label>Grace After Current</label>
+        <tooltip>Print note following this note as grace note. Beware! Denemo display does not show the grace note properly, but typesetter will understand. Multiple grace notes to follow will need separate start { and end } block directives to group them.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
