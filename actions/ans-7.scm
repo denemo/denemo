@@ -666,7 +666,7 @@
 (define (ANS-7::string->number n)
 (string->number n 7))
 
-(define (ANS-7::math op nums) wants  strings
+(define (ANS-7::math op nums); wants  strings
  (ANS-7::number->string (apply op (map ANS-7::string->number nums)))
 )
 
