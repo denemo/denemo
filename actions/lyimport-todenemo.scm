@@ -1,7 +1,7 @@
 (define lyimport::movement #f)
-(define lyimport::staff #f)
-(define lyimport::voice #f)
-(define lyimport::notes #f)
+(define lyimport::staff #t) ;;;;;; no staff context so far
+(define lyimport::voice #t)
+(define lyimport::notes #t) ;;; #f once notes have been inserted in the current context
 (define lyimport::in-grace #f)
 (define lyimport::relative #f)
 
@@ -92,13 +92,13 @@
     ;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
 
     (cond
-     ((equal? "Staff" (car thecontext)) (set! lyimport::notes #t) (if lyimport::staff
-								      (begin (set! lyimport::voice #f) "(d-AddLast)(d-MoveToBeginning)")
-								      (begin (set! lyimport::staff #t) "")))
-     ((equal? "Voice" (car thecontext)) (set! lyimport::notes #t) (if lyimport::voice
-								      "(d-AddVoice)(d-MoveToBeginning)"
-								      (begin (set! lyimport::voice #t) "")))
-     ((equal? "PianoStaff" (car thecontext)) ";ignoring PianoStaff\n")
+     ((equal? "Staff" thecontext)  (if lyimport::staff
+								(begin (set! lyimport::notes #t) (set! lyimport::staff #f) (set! lyimport::voice #f) "(d-AddLast)(d-MoveToBeginning)")
+								(begin "")))
+     ((equal? "Voice" thecontext)  (if lyimport::voice
+								(begin (set! lyimport::notes #t) "(d-AddVoice)(d-MoveToBeginning)")
+								(begin "")))
+     ((equal? "PianoStaff" thecontext) ";ignoring PianoStaff\n")
      (else "%context not handled\n")
      ))
 
@@ -166,33 +166,76 @@
    ))
   
 (define (do-note thenote)
+;(format #t "Doing note with ~a\n\n" lyimport::staff)
+(let ((context ""))
+ (set! context (string-append (do-context "Staff") (do-context "Voice")))
+   ;(format #t "And so context ~a\n\n" context)
   (if lyimport::relative
-      (string-append (do-relative-note (cadr thenote)) (do-accidental thenote))
-      (string-append "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"  (if lyimport::in-grace "(d-ToggleGrace)" "")) 
-      ))
+      (string-append context (do-relative-note (cadr thenote)) (do-accidental thenote))
+      (string-append context "(d-InsertC)(d-PutNoteName \"" (notename thenote) "\")"  (if lyimport::in-grace "(d-ToggleGrace)" "")) 
+      )))
 
 
-
-  
-  (define (create-note current_object)
+ (define (create-note current_object)
+  ;  (let ((context (if lyimport::staff "" (string-append (do-context "Staff") (do-context "Voice")))))
     (set! lyimport::notes #f)
     (cond 
-     ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))))
+     ((eqv? (car  current_object) 'x_CHORD)		(begin   (string-join (map create-note (list (cadr current_object)))   )   )
       )
      ((eqv? (car current_object) 'x_NOTE)          (begin 
 					;(format #t "note is ~a~%" (cdr current_object))
-						     (do-note current_object))
+						     (string-append (do-note current_object)))
       )
      ((eqv? (car current_object) 'x_REST)          (begin (string-append ";(d-Insert" (notename current_object) ") rest omitted\n")))
      
      (else "(d-WarningDialog \"%unhandled note type\n\")")   
-     ))
+     )
+;)
+)
+
+(define (loop-through-simult current_object)
+;;   (set! lyimport::staff 'init)
+;;   (set! lyimport::voice 'init)
+;;   (set! lyimport::notes #t)
+;; (format #t "New context for ~a\n\n" current_object)
+(let ((temp (loop-through current_object)))
+  (set! lyimport::staff #t)
+  (set! lyimport::voice #t)
+  (set! lyimport::notes #t)
+  temp))
+
+  (define (process-simultaneous theobject)
+;(pretty-print theobject)
+    (cond 
+     ((eqv? 'x_SEQUENTIAL  (car (list-ref theobject 0)))
+      (string-append ";;;implementing the {}\n" (string-join (map loop-through-simult theobject))))
+   
+     
+     
+     
+     ((eqv? 'NEWCONTEXT  (car (list-ref   theobject 0)))
+      (string-append ";;;FIXME A new context?\n"  "(d-AddLast)(d-MoveToBeginning)\n" (string-join (map loop-through (list-tail theobject 1)))))
+     ((eqv? 'x_CHORD (caar theobject))
+      (begin 
+	
+	(string-append (start-chord (car theobject))  (string-join (map add-notes-to-chord (list-tail   theobject 1))))))
+     (else (begin 
+					;(format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref theobject 0)) (list-ref theobject 0))
+	     (string-join (map loop-through theobject))))))
+
 
   (define (loop-through current_object)
     ;(format #t "~% ------------ ~% current object ~a which is list?~a~%pair?~a~%" current_object (list? current_object)  (pair? current_object))
     ;; (if (eqv?  current_object 'x_COMPOSITE_MUSIC)  
     ;;	 " "
-;;;;;;; First pairs that are lists
+
+;;;;;; first tokens
+    
+
+;;;;;;; Next pairs that are lists
+
+
+
     (if (list? current_object)
 	(begin
 	  (cond
@@ -204,37 +247,21 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-context (cdr current_object)));        "(d-AddLast)")
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-context (cadr current_object)));        "(d-AddLast)")
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
-								  ;(format #t "the sequential list has ~a~% ~%" (list? (cdr current_object)))
+								  ;(format #t "the sequential list has ~a~% ~%"  (cdr current_object))
 								  (string-join (map loop-through (cdr current_object)))))
 	   
-	   ;;((eqv? (car current_object) 'x_REALCHORD)	(exit))
+
+	   ((eqv? (car current_object) 'x_REPEAT)	(string-append "(d-OpenRepeat)" (string-join (map loop-through (list-ref current_object 3))) "(d-CloseRepeat)"         )
+
+)
 
 
-	   ((eqv? (car current_object) 'x_SIMULTANEOUS)		(begin
-								  ;(format #t "the parallel list has ~a~% which has list-ref cadr ~a~%" (cdr current_object)   (list-ref   (cdr current_object) 0))
-								  ;(pretty-print  (list-tail (cdr current_object) 1))
-								  (cond 
-								   ((eqv? 'x_SEQUENTIAL  (car (list-ref (cdr current_object) 0)))
-								    (begin
-								      ;(format #t "Seq:About to process ~a~%"  (cdr current_object))
-									  (string-append ";;;ignoring the {}\n" (string-join (map loop-through (cdr current_object))))							  
-								      ))
-								   
-								   
-								   
-								   ((eqv? 'NEWCONTEXT  (car (list-ref   (cdr current_object) 0)))
-								    (string-append ";;;A new context?\n"  "(d-AddLast)\n" (string-join (map loop-through (list-tail (cdr current_object) 1)))))
-								   ((eqv? 'x_CHORD (caadr current_object))
-								    (begin 
-								      	      
-								      (string-append (start-chord (cadr current_object))  (string-join (map add-notes-to-chord (list-tail   (cdr current_object) 1))))))
-								   (else (begin 
-					;(format #t "~%~%recursive handle ~a items  ~a~%~%~%~%" (length  (list-ref (cdr current_object) 0)) (list-ref (cdr current_object) 0))
-									   (string-join (map loop-through (cdr current_object)))))
-								   )))
+
+
+	   ((eqv? (car current_object) 'x_SIMULTANEOUS)	         (process-simultaneous (cdr current_object)))
 	   
 	   ((eqv? (car current_object) 'x_COMPOSITE_MUSIC)       (begin 
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
@@ -301,7 +328,7 @@
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
 	   ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
 	   ((eqv? (car current_object) 'x_RELATIVE) (begin
-						      (format #t "Working with Relative music  ~a~%"  current_object)						      
+						      ;(format #t "Working with Relative music  ~a~%"  current_object)						      
 						      (set! lyimport::relative (cdr current_object))
 
 						       (string-append "(d-CursorToNote \"" (notename2 (cdr current_object)) "\");Translated from relative music\n")))

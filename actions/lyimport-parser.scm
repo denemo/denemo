@@ -385,7 +385,7 @@ HYPHEN
   )
 
  (repeated_music
-	(REPEAT simple_string unsigned_number music alternative_music) : (append  $4 $5)	;ignoring repeats	$$ = MAKE_SYNTAX ("repeat", @$, $2, $3, $4, $5);
+	(REPEAT simple_string unsigned_number music alternative_music) : (cons (list 'x_REPEAT $2 $3 $4) $5)	;represent a repeat as a pair the second element holding any alternative music endings
 	
  )
 	
