@@ -1085,34 +1085,11 @@
 		<action>DeleteLilypondOnChord</action>
 		<hidden>true</hidden>
      </row>              
-     <row>
-		<action>RepeatStart</action>
-		<hidden>true</hidden>
-     </row>               
-     <row>
-		<action>RepeatEnd</action>
-		<hidden>true</hidden>
-     </row>               
-     <row>
-		<action>RepeatEndStart</action>
-		<hidden>true</hidden>
-     </row>               
-     <row>
+       <row>
 		<action>ShortMeasure</action>
 		<hidden>true</hidden>		
      </row>
-     <row>
-		<action>OpenFirstTimeBar</action>
-		<hidden>true</hidden>
-     </row>     
-     <row>
-		<action>OpenSecondTimeBar</action>
-		<hidden>true</hidden>
-     </row>       
-     <row>
-		<action>EndVolta</action>
-		<hidden>true</hidden>
-     </row>
+
      <row>
 		<action>DesignateVoice</action>
 		<hidden>true</hidden>
@@ -1181,6 +1158,31 @@
 		<action>TmbalesStyle</action>
 		<hidden>true</hidden>
      </row>    
+     <row>
+		<action>OpenRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CloseRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CloseReopenRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>FirstTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>EndSecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     
     </map>
   </merge>
 </Denemo>

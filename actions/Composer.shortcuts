@@ -612,7 +612,32 @@
         <hidden>true</hidden>
       </row>
       	
-
+	<!-- Hide deprecated Repeats -->
+	<row>
+		<action>OpenRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CloseRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>CloseReopenRepeat</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>FirstTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>SecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>EndSecondTimeBar</action>
+		<hidden>true</hidden>
+     </row>
+	
 	
     </map>
   </merge>
