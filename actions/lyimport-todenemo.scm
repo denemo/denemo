@@ -192,6 +192,11 @@
      )
 ;)
 )
+(define (do-repeat theobject);;drops \alternative
+  (format #t "Repeat with alternative ~a\n\n"  theobject )
+  (string-append "(d-OpenRepeat)" (string-join (map loop-through (list-ref theobject 3))) "(d-CloseRepeat)"))
+
+
 
 (define (loop-through-simult current_object)
 ;;   (set! lyimport::staff 'init)
@@ -204,7 +209,7 @@
   (set! lyimport::notes #t)
   temp))
 
-  (define (process-simultaneous theobject)
+  (define (do-simultaneous theobject)
 ;(pretty-print theobject)
     (cond 
      ((eqv? 'x_SEQUENTIAL  (car (list-ref theobject 0)))
@@ -254,14 +259,10 @@
 								  (string-join (map loop-through (cdr current_object)))))
 	   
 
-	   ((eqv? (car current_object) 'x_REPEAT)	(string-append "(d-OpenRepeat)" (string-join (map loop-through (list-ref current_object 3))) "(d-CloseRepeat)"         )
-
-)
+	   ((eqv? (car current_object) 'x_REPEAT)	(do-repeat current_object))
 
 
-
-
-	   ((eqv? (car current_object) 'x_SIMULTANEOUS)	         (process-simultaneous (cdr current_object)))
+	   ((eqv? (car current_object) 'x_SIMULTANEOUS)	         (do-simultaneous (cdr current_object)))
 	   
 	   ((eqv? (car current_object) 'x_COMPOSITE_MUSIC)       (begin 
 								   ;(format #t "hoping to process composite for ~a~%" (list-tail (cdr current_object) 0))
