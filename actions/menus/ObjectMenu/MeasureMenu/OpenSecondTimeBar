@@ -7,7 +7,7 @@
       <row>
         <after>OpenFirstTimeBar</after>
         <action>OpenSecondTimeBar</action>
-        <scheme>;;;InsertSecondTimeBarStart
+        <scheme> ;;;OpenSecondTimeBar
 (d-Directive-standalone "Volta")
 (d-DirectivePut-standalone-minpixels  "Volta" 30)
 (d-DirectivePut-standalone-postfix "Volta" "
@@ -15,6 +15,7 @@
 ")
 (d-DirectivePut-standalone-gy  "Volta" -33)
 (d-DirectivePut-standalone-graphic "Volta" "SecondTimeBar")
+(d-MoveCursorRight)
 (d-RefreshDisplay)
  </scheme>
         <label>Start a Second Time Bar</label>

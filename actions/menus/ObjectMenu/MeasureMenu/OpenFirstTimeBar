@@ -7,7 +7,7 @@
       <row>
         <after>ClosingBarline</after>
         <action>OpenFirstTimeBar</action>
-        <scheme>;;;InsertFirstTimeBarStart
+        <scheme>;;;OpenFirstTimeBar
 (d-Directive-standalone "Volta")
 (d-DirectivePut-standalone-minpixels  "Volta" 30)
 (d-DirectivePut-standalone-postfix "Volta" "
@@ -15,10 +15,11 @@
 ")
 (d-DirectivePut-standalone-gy  "Volta" -33)
 (d-DirectivePut-standalone-graphic "Volta" "FirstTimeBar")
+(d-MoveCursorRight)
 (d-RefreshDisplay)
  </scheme>
         <label>Start a First Time Bar</label>
-        <tooltip>(Print) start a first time bar, must be followed by CloseVolta.</tooltip>
+        <tooltip>(Print) start a first time bar, must be followed by EndVolta.</tooltip>
       </row>
     </map>
   </merge>

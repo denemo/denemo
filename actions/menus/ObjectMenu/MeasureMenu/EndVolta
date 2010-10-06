@@ -5,7 +5,7 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>OpenFirstTimeBar</after>
+        <after>OpenSecondTimeBar</after>
         <action>EndVolta</action>
         <scheme>;;;EndVolta
 (d-Directive-standalone "EndVolta")
@@ -15,6 +15,7 @@
 ")
 (d-DirectivePut-standalone-gy  "EndVolta" -33)
 (d-DirectivePut-standalone-graphic "EndVolta" "EndSecondTimeBar")
+(d-MoveCursorRight)
 (d-RefreshDisplay)
  </scheme>
         <label>End 1st/2nd time bar</label>
