@@ -161,10 +161,10 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   gboolean ret = FALSE;
   if(prefix_store->len) {
     gchar *name = dnm_accelerator_name(event->keyval, event->state);
-    g_print("second key %s\n", name);
+    //g_print("second key %s\n", name);
     g_string_append_printf(prefix_store, "%c%s", ',', name);
     command_idx = lookup_command_for_keybinding_name(Denemo.map, prefix_store->str);
-    g_print("we get %d for %s\n", command_idx, prefix_store->str);
+    //g_print("we get %d for %s\n", command_idx, prefix_store->str);
     if(command_idx != -1) {
       const gchar *command_name =
 	lookup_name_from_idx (the_keymap, command_idx);
