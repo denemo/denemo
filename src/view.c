@@ -5941,14 +5941,16 @@ static void	  color_rhythm_button(RhythmPattern *r, const gchar *color) {
   if(r==NULL) return;
   GdkColor thecolor;
   gdk_color_parse (color, &thecolor);
-  gtk_widget_modify_bg (gtk_tool_button_get_label_widget(GTK_TOOL_BUTTON(r->button)), GTK_STATE_NORMAL, &thecolor);
-  
+  gtk_widget_modify_fg (gtk_tool_button_get_label_widget(GTK_TOOL_BUTTON(r->button)), GTK_STATE_NORMAL, &thecolor);
+  //bg does not work, and setting the label in a GtkEvent box gave a problem on some build - R.Rankin patched for this and so we have to use fg
 }
 void	  highlight_rhythm(RhythmPattern *r) {
-  color_rhythm_button(r, "green");
+  //g_print("highlight\n");
+  color_rhythm_button(r, "black");
 }
 
 void	  unhighlight_rhythm(RhythmPattern *r) {
+  //g_print("Unhighlight\n");
   color_rhythm_button(r, "gray");
 }
 

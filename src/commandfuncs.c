@@ -54,16 +54,7 @@ void nextrhythm(DenemoGUI *gui) {
     return;
   if(gui->currhythm==NULL)
     gui->currhythm = g_list_last(gui->rhythms);
-#if 0
-  gtk_widget_set_state(((RhythmPattern *)gui->currhythm->data)->button, GTK_STATE_NORMAL);
-#else
-
-  {GdkColor thecolor;
-    gdk_color_parse ("gray", &thecolor);
-    gtk_widget_modify_bg (gtk_tool_button_get_label_widget(GTK_TOOL_BUTTON(((RhythmPattern *)gui->currhythm->data)->button)), GTK_STATE_NORMAL, &thecolor);
-  }
-
-#endif
+  unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);
   if(gui->currhythm->next)
     gui->currhythm = gui->currhythm->next;
   else

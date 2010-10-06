@@ -50,8 +50,9 @@ void addhistorymenuitem(gchar *filename);
 //TODO Fix for automatic updating during operation
 //
 
-/* tool_buttons cannot be visually separated from the toolbar, which is ok for icons but not so good for pure text; to separate them we put the label of the tool_button into an event box and decorate that. This macro gets the label out. */
-#define LABEL(a) (gtk_bin_get_child(GTK_BIN(gtk_tool_button_get_label_widget((a)))))
+/* tool_buttons cannot be visually separated from the toolbar, which is ok for icons but not so good for pure text; to separate them we put the label of the tool_button into an event box and decorate that. This macro gets the label out.
+ Unfortunately, this lead to problems on some builds, so it has been dropped and the macro re-defined.*/
+#define LABEL(a) (gtk_tool_button_get_label_widget((a)))
 
 void	  highlight_rhythm(RhythmPattern *r);
 
