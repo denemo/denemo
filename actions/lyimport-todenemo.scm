@@ -1,6 +1,6 @@
 (define lyimport::movement #f)
-(define lyimport::staff #t) ;;;;;; no staff context so far
-(define lyimport::voice #t)
+(define lyimport::staff 'init) ;;;;;; no staff context so far, because denemo always creates a staff and voice by default, the 'init state indicates that we have these, but we have not yet seen an instruction to create them.
+(define lyimport::voice 'init)
 (define lyimport::notes #t) ;;; #f once notes have been inserted in the current context
 (define lyimport::in-grace #f)
 (define lyimport::relative #f)
@@ -82,8 +82,8 @@
   
   (define (do-movement)
     (set! lyimport::notes #t)
-    (set! lyimport::staff #f)
-    (set! lyimport::voice #f)
+    (set! lyimport::staff 'init)
+    (set! lyimport::voice 'init)
     (if lyimport::movement
 	"\n(d-AddMovement)\n"
 	"\n;;new movement not needed here\n"))
@@ -93,16 +93,34 @@
 
     (cond
      ((equal? "Staff" thecontext)  (if lyimport::staff
-								(begin (set! lyimport::notes #t) (set! lyimport::staff #f) (set! lyimport::voice #f) "(d-AddLast)(d-MoveToBeginning)")
+								(begin (set! lyimport::notes #t) (set! lyimport::staff #f) (set! lyimport::voice 'init) "(d-AddLast)(d-MoveToBeginning)")
 								(begin "")))
      ((equal? "Voice" thecontext)  (if lyimport::voice
-								(begin (set! lyimport::notes #t) "(d-AddVoice)(d-MoveToBeginning)")
+								(begin (set! lyimport::notes #t) (set! lyimport::voice #f) "(d-AddVoice)(d-MoveToBeginning)")
 								(begin "")))
      ((equal? "PianoStaff" thecontext) ";ignoring PianoStaff\n")
      (else "%context not handled\n")
      ))
 
   
+  (define (do-newcontext thecontext)
+    ;(format #t "the context is ~a and ~a~%" thecontext lyimport::staff)
+    (cond
+     ((equal? "Staff" thecontext) 
+      (if (eq? lyimport::staff 'init)
+	  (set! lyimport::staff #f)
+	  (set! lyimport::staff #t)) 
+      (do-context thecontext))
+							
+     ((equal? "Voice" thecontext)
+      (if (eq? lyimport::voice 'init)
+	  (set! lyimport::voice #f)
+	  (set! lyimport::voice #t))
+      (do-context thecontext))							
+     ((equal? "PianoStaff" thecontext) ";ignoring PianoStaff\n")
+     (else ";context not handled\n")
+     ))
+
   
   (define (do-duration thedur)
     (if (equal? thedur "")
@@ -192,9 +210,18 @@
      )
 ;)
 )
-(define (do-repeat theobject);;drops \alternative
-  (format #t "Repeat with alternative ~a\n\n"  theobject )
-  (string-append "(d-OpenRepeat)" (string-join (map loop-through (list-ref theobject 3))) "(d-CloseRepeat)"))
+(define (do-repeat theobject)
+  ;(format #t "Repeat with alternative ~a\n\n"  theobject )
+  (string-append (if lyimport::notes "" "(d-RepeatStart)") (string-join (map loop-through (list-ref theobject 3)))   (do-alternative (car (list-tail theobject 4)))))
+
+(define (do-alternative theobject)
+;(format #t "alternative ~a\n\n"  (length theobject) )
+;;; Note treatment of alternative with just one is here by repeating the music - this could fail in relative, it should issue a 1-2 time bar
+(cond ((= (length theobject) 1) 
+       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"  (string-join (map loop-through (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)"  ))
+      ((= (length theobject) 2)
+       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"    (string-join (map loop-through (list-tail (list-ref theobject 1) 1))) "(d-EndVolta)"  ))
+      (else "%Repeats over two not handled\n")))
 
 
 
@@ -252,7 +279,7 @@
 							    temp
 							    ))
 	   
-	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-context (cadr current_object)));        "(d-AddLast)")
+	   ((or (eqv? (car current_object) 'NEWCONTEXT)  (eqv? (car current_object) 'CONTEXT))    (do-newcontext (cadr current_object)));        "(d-AddLast)")
 	   
 	   ((eqv? (car current_object) 'x_SEQUENTIAL)		(begin
 								  ;(format #t "the sequential list has ~a~% ~%"  (cdr current_object))
@@ -260,6 +287,8 @@
 	   
 
 	   ((eqv? (car current_object) 'x_REPEAT)	(do-repeat current_object))
+
+	  ;; ((eqv? (car current_object) 'x_ALTERNATIVE)	(do-alternative current_object))
 
 
 	   ((eqv? (car current_object) 'x_SIMULTANEOUS)	         (do-simultaneous (cdr current_object)))

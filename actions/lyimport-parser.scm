@@ -385,7 +385,9 @@ HYPHEN
   )
 
  (repeated_music
-	(REPEAT simple_string unsigned_number music alternative_music) : (cons (list 'x_REPEAT $2 $3 $4) $5)	;represent a repeat as a pair the second element holding any alternative music endings
+	(REPEAT simple_string unsigned_number music alternative_music) : (begin
+									   ;(format #t "repeat ~a ~a\n\n" (list? (cons (list 'x_REPEAT $2 $3 $4)  $5)) (cons (list 'x_REPEAT $2 $3 $4)  $5))
+									   (list (list 'x_REPEAT $2 $3 $4  $5)))	;represent a repeat as a pair the second element holding any alternative music endings
 	
  )
 	
