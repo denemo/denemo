@@ -22,7 +22,7 @@
 #else
 #include "binreloc.h"
 #endif
-
+#include "pitchentry.h"
 
 
 void add_font_directory(gchar *fontpath) {
@@ -977,20 +977,28 @@ void write_status(DenemoGUI *gui) {
   } else
     selection = g_strdup_printf("Cursor not on any object");
 
-  gchar *status;
+  GString  *status = g_string_new(_("Movement"));
 
-  status = "Movement";
   gint index = g_list_index(gui->movements, gui->si);
-  if((gui->si->smfsync == gui->si->changecount) && (GTK_WIDGET_VISIBLE (Denemo.playback_control)))
-    status = g_strdup_printf("%s %d: %s: %d min %.2f sec %.2f %.2f", status, index+1, selection, minutes, seconds, early, late);
+  g_string_printf(status, " %d: %s: ", index+1, selection);
+  if(gui->si->smf && (gui->si->smfsync == gui->si->changecount) && Denemo.prefs.playback_controls)
+    g_string_append_printf(status, "%d min %.2f sec %.2f %.2f", minutes, seconds, early, late);
   else
-    status = g_strdup_printf("%s %d: %s: Staff %d Measure %d Object %d %s", status, index+1, selection, gui->si->currentstaffnum, gui->si->currentmeasurenum, gui->si->cursor_x, gui->si->cursor_appending?"Appending":"Not Appending"/*not understood this one... , gui->si->cursoroffend?"Off End":"Not Off End" */);
+    g_string_append_printf(status, " %s: Staff %d Measure %d Object %d %s", selection, gui->si->currentstaffnum, gui->si->currentmeasurenum, gui->si->cursor_x, gui->si->cursor_appending?"Appending":"Not Appending"/*not understood this one... , gui->si->cursoroffend?"Off End":"Not Off End" */);
   
+  if(Denemo.prefs.midi_in_controls) {
+      gchar *thesharp = sharpest();
+      gchar *theflat = flattest();
+      g_string_append_printf(status, " |%s - %s|", theflat, thesharp);
+      g_free(theflat);
+      g_free(thesharp);
+  }
+      
   g_free(selection);
   gtk_statusbar_pop(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id);
   gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
-		     status);
-  g_free(status);
+		     status->str);
+  g_string_free(status, TRUE);
 }
 
 void

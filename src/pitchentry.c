@@ -314,7 +314,13 @@ static gchar *nameof(gint notenumber) {
  return g_strdup_printf("%c%s", step_name(PR_temperament->notepitches[notenumber].spec.step), alteration_name(PR_temperament->notepitches[notenumber].spec.alteration));
 }
 
-
+//Caller must free
+gchar *sharpest(void) {
+  return nameof(PR_temperament->sharp);
+}
+gchar *flattest(void) {
+  return nameof(PR_temperament->flat);
+}
 
 /* returns an opaque id for the user's default temperament
  FIXME user prefs */
