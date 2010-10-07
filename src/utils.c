@@ -984,7 +984,7 @@ void write_status(DenemoGUI *gui) {
   if(gui->si->smf && (gui->si->smfsync == gui->si->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf(status, "%d min %.2f sec %.2f %.2f", minutes, seconds, early, late);
   else
-    g_string_append_printf(status, " %s: Staff %d Measure %d Object %d %s", selection, gui->si->currentstaffnum, gui->si->currentmeasurenum, gui->si->cursor_x, gui->si->cursor_appending?"Appending":"Not Appending"/*not understood this one... , gui->si->cursoroffend?"Off End":"Not Off End" */);
+    g_string_append_printf(status, " Staff %d Measure %d Object %d %s", gui->si->currentstaffnum, gui->si->currentmeasurenum, gui->si->cursor_x, gui->si->cursor_appending?"Appending":"Not Appending"/*not understood this one... , gui->si->cursoroffend?"Off End":"Not Off End" */);
   
   if(Denemo.prefs.midi_in_controls) {
       gchar *thesharp = sharpest();
