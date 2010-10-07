@@ -15,13 +15,9 @@
         </cursor-binding>
       </cursors>
       <row>
-		<action>DeleteObject</action>
-		<bind>Delete</bind>
-      </row>
-      <row>
         <action>CursorLeft</action>
-        <bind>Shft+Left</bind>
         <hidden>true</hidden>
+        <bind>Shft+Left</bind>
       </row>
       <row>
         <action>MoveCursorLeft</action>
@@ -37,12 +33,20 @@
       </row>
       <row>
         <action>CursorRight</action>
-        <bind>Shft+Right</bind>
         <hidden>true</hidden>
+        <bind>Shft+Right</bind>
       </row>
       <row>
         <action>MoveCursorRight</action>
         <bind>Right</bind>
+      </row>
+      <row>
+        <action>GoToMark</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SwapPointAndMark</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>PushPosition</action>
@@ -62,15 +66,15 @@
       </row>
       <row>
         <action>StaffUp</action>
+        <hidden>true</hidden>
         <bind>Shft+Page_Up</bind>
         <bind>Ctrl+Shft+Page_Up</bind>
-        <hidden>true</hidden>
       </row>
       <row>
         <action>StaffDown</action>
-         <bind>Ctrl+Shft+Page_Down</bind>
-         <bind>Shft+Page_Down</bind>
         <hidden>true</hidden>
+        <bind>Ctrl+Shft+Page_Down</bind>
+        <bind>Shft+Page_Down</bind>
       </row>
       <row>
         <action>MoveToStaffUp</action>
@@ -81,14 +85,6 @@
         <bind>Page_Down</bind>
       </row>
       <row>
-        <action>MoveToMeasureLeft</action>
-        <bind>Ctrl+Left</bind>
-      </row>      
-      <row>
-        <action>MoveToMeasureRight</action>
-        <bind>Ctrl+Right</bind>
-      </row>
-      <row>
         <action>MeasureLeft</action>
         <hidden>true</hidden>
         <bind>Ctrl+Shft+Left</bind>
@@ -97,6 +93,14 @@
         <action>MeasureRight</action>
         <hidden>true</hidden>
         <bind>Ctrl+Shft+Right</bind>
+      </row>
+      <row>
+        <action>MoveToMeasureLeft</action>
+        <bind>Ctrl+Left</bind>
+      </row>
+      <row>
+        <action>MoveToMeasureRight</action>
+        <bind>Ctrl+Right</bind>
       </row>
       <row>
         <action>A</action>
@@ -225,20 +229,36 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>DeletePreviousObject</action>
-        <bind>BackSpace</bind>
+        <action>ToggleTie</action>
+        <bind>t</bind>
       </row>
       <row>
-        <action>InsertMeasureBefore</action>
-        <bind>m</bind>
+        <action>DeleteObject</action>
+        <bind>Delete</bind>
+      </row>
+      <row>
+        <action>DeletePreviousObject</action>
+        <bind>BackSpace</bind>
       </row>
       <row>
         <action>InsertMeasure</action>
         <bind>M</bind>
       </row>
       <row>
+        <action>AddMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>InsertMeasureBefore</action>
+        <bind>m</bind>
+      </row>
+      <row>
         <action>InsertMeasureAfter</action>
-        <hidden>true</hidden>        
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AppendMeasure</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>DeleteMeasure</action>
@@ -257,9 +277,17 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SetMark</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>UnsetMark</action>
         <bind>return</bind>
         <bind>space</bind>
+      </row>
+      <row>
+        <action>SetPoint</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleBeginSlur</action>
@@ -294,16 +322,20 @@
         <bind>Return</bind>
       </row>
       <row>
+        <action>AppendMeasureAllStaffs</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ExecuteScheme</action>
         <hidden>true</hidden>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <hidden>true</hidden>        
+        <hidden>true</hidden>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <hidden>true</hidden>        
+        <hidden>true</hidden>
       </row>
       <row>
         <action>New</action>
@@ -334,9 +366,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>OpenExample</action>        
-      </row>
-      <row>
         <action>OpenMyTemplate</action>
         <hidden>true</hidden>
       </row>
@@ -354,6 +383,10 @@
       </row>
       <row>
         <action>InsertMovementAfter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NewMovement</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -414,8 +447,12 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SwapMovements</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>VoiceUp</action>
-        <hidden>true</hidden>  
+        <hidden>true</hidden>
       </row>
       <row>
         <action>VoiceDown</action>
@@ -427,6 +464,26 @@
       </row>
       <row>
         <action>MoveToVoiceDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddBefore</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddInitial</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddLast</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteBefore</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteAfter</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -512,6 +569,14 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DeleteDirective</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AttachLilyToNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>AttachLilyToChord</action>
         <hidden>true</hidden>
       </row>
@@ -521,13 +586,13 @@
       </row>
       <row>
         <action>GoToBeginning</action>
-        <bind>Shft+Home</bind>
         <hidden>true</hidden>
+        <bind>Shft+Home</bind>
       </row>
       <row>
         <action>GoToEnd</action>
-        <bind>Shft+End</bind>
         <hidden>true</hidden>
+        <bind>Shft+End</bind>
       </row>
       <row>
         <action>MoveToBeginning</action>
@@ -543,6 +608,10 @@
       </row>
       <row>
         <action>PreviousMovement</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteMovement</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -703,11 +772,27 @@
       </row>
       <row>
         <action>InsertTiedNoteDuration</action>
-        <hidden>true</hidden>        
+        <hidden>true</hidden>
       </row>
       <row>
-        <action>ToggleTie</action>
-        <bind>t</bind>
+        <action>FiguredBassFilterOn</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MidiFilterOff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CheckPitches</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MidiAdvanceOnEdit</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AngryDelete</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>OpenOctaveUp</action>
@@ -734,8 +819,36 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DeleteLilyPondOnNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DeleteLilyPondOnChord</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>Anacrusis</action>
         <bind>u</bind>
+      </row>
+      <row>
+        <action>ApplyToSelection</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TmbalesStyle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementTitle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementSubtitle</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementPiece</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>Indent</action>
@@ -747,6 +860,10 @@
       </row>
       <row>
         <action>ToggleTupletNumbering</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementPageBreak</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -766,7 +883,19 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SetTransposeIntervalFromNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ParenthesizeChord</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ParenthesizeNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GoToEmptyMeasure</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -775,6 +904,10 @@
       </row>
       <row>
         <action>NonPrintingStaff</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DrumGM2Custom</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -830,6 +963,46 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>OpenRepeat</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CloseRepeat</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FirstTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SecondTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>EndSecondTimeBar</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SetImmediatePlayback</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ShortMeasure</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>OpenOctaveDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>FindNextLowerNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>NextHigher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>FindEditPoint</action>
         <bind>Alt+Left</bind>
       </row>
@@ -843,6 +1016,18 @@
       </row>
       <row>
         <action>HideOssia</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>DesignateVoice</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CursorToLowestNote</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CursorToHighestNote</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -886,6 +1071,22 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ShiftUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ShiftDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CloseReopenRepeat</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>GraceNoteSwitcher</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleCursorHighlight</action>
         <bind>grave</bind>
       </row>
@@ -911,6 +1112,22 @@
       </row>
       <row>
         <action>OpenMyDefaultTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>CheckForIncompleteMeasures</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SmallFontStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SmallFontEnd</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>AddDuplicateMeasure</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -970,12 +1187,20 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>ShiftRealOctaveUp</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ShiftRealOctaveDown</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>NotationMagick-TwelveToneRow</action>
         <hidden>true</hidden>
       </row>
       <row>
         <action>NotationMagick-InsertNoteFromPool</action>
-		<hidden>true</hidden>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>NotationMagick-InsertPoolShuffled</action>
@@ -987,202 +1212,12 @@
       </row>
       <row>
         <action>NotationMagick-RandomWithinClefRangeDiatonic</action>
-		<hidden>true</hidden>
-       </row>
-     <row>
-       <action>AppendMeasure</action>
-       <hidden>true</hidden>
-     </row>
-     <row>
-       <action>AppendMeasureAllStaffs</action>
-       <hidden>true</hidden>
-     </row>
-     <row>		   
-        <action>InsertMovementAfter</action>
         <hidden>true</hidden>
-     </row>
-     <row>	
-	   <action>InsertMovementBefore</action>	   
-	   <hidden>true</hidden>
-     </row>
-     <row> 
-		<action>NewMovement</action>	   
-		<hidden>true</hidden>
-     </row>     
-     <row>		   
-		   <action>SwapMovements</action>
-		   <hidden>true</hidden>
-     </row>
-     <row>	
-		<action>MovementPageBreak</action>
-		<hidden>true</hidden>
-     </row>
-     <row>	
-		   <action>MovementSubtitle</action>	   
-		   <hidden>true</hidden>
-     </row>
-     <row>
-		   <action>MovementTitle</action>   
-		   <hidden>true</hidden>
-     </row>
-     <row>
-		    <action>MovementPiece</action>	   
-		   <hidden>true</hidden>
-     </row>
-     <row>		   
-			<action>DeleteMovement</action>
-		   <hidden>true</hidden>
-     </row>
-     <row>	
-		   <action>AddInitial</action>	   
-		   <hidden>true</hidden>
-     </row>
-     <row>
-			<action>AddBefore</action>
-		   <hidden>true</hidden>
-     </row>
-     <row>		   
-		<action>AddLast</action>
-		   <hidden>true</hidden>
-     </row> 
-     <row>	
-		<action>AddDuplicateMeasure</action>
-		<hidden>true</hidden>
-     </row>
-     <row>	
-		<action>DeleteBefore</action>
-		<hidden>true</hidden>
-     </row>
-     <row>	
-		<action>DeleteAfter</action>
-		<hidden>true</hidden>
-     </row>
-     <row>	
-		<action>AddMeasure</action>
-		<hidden>true</hidden>
-     </row> 
-     <row>
-		<action>OpenOctaveDown</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>SmallFontStart</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>SmallFontEnd</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>ParenthesizeChord</action>
-		<hidden>true</hidden>
-     </row>               
-     <row>
-		<action>HideLilypond</action>
-		<hidden>true</hidden>
-     </row>                                       
-     <row>
-		<action>DeleteLilypondOnChord</action>
-		<hidden>true</hidden>
-     </row>              
-       <row>
-		<action>ShortMeasure</action>
-		<hidden>true</hidden>		
-     </row>
-
-     <row>
-		<action>DesignateVoice</action>
-		<hidden>true</hidden>
-     </row>                                   
-     <row>
-		<action>GraceNoteSwitcher</action>
-		<hidden>true</hidden>
-     </row>
+      </row>
       <row>
-		<action>GoToMark</action>
-		<hidden>true</hidden>
-     </row> 
-     <row>
-		<action>CursorToHighestNote</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>CursorToLowestNote</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>FindNextLowerNote</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>NextHigher</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>CheckForIncompleteMeasures</action>
-		<hidden>true</hidden>
-     </row>  
-     <row>
-		<action>GoToEmptyMeasure</action>
-		<hidden>true</hidden>
-     </row>  
-     <row>
-		<action>SetMark</action>
-		<hidden>true</hidden>
-     </row>  
-     <row>
-		<action>SetPoint</action>
-		<hidden>true</hidden>
-     </row>  
-     <row>
-		<action>SwapPointAndMark</action>
-		<hidden>true</hidden>
-     </row>       
-     <row>
-		<action>ApplyToSelection</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>SetImmediatePlayback</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>SetTransposeIntervalFromNote</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>DrumGM2Custom</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>TmbalesStyle</action>
-		<hidden>true</hidden>
-     </row>    
-     <row>
-		<action>OpenRepeat</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>CloseRepeat</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>CloseReopenRepeat</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>FirstTimeBar</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>SecondTimeBar</action>
-		<hidden>true</hidden>
-     </row>
-     <row>
-		<action>EndSecondTimeBar</action>
-		<hidden>true</hidden>
-     </row>
-     
+        <action>GraceAfter</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>

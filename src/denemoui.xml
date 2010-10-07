@@ -401,8 +401,7 @@
 	  <menuitem action="Change5"/>
 	  <menuitem action="Change6"/>
        	  <menuitem action="AddDot"/>
-	  <menuitem action="RemoveDot"/>
-          
+	  <menuitem action="RemoveDot"/>          
         </menu>
       <menu action="RestEntry">
         <menuitem action="InsertWholeRest"/>
@@ -412,6 +411,17 @@
 	<menuitem action="InsertSixteenthRest"/>
 	<menuitem action="InsertThirtysecondRest"/>
 	<menuitem action="InsertSixtyfourthRest"/>
+	
+	<separator/>
+	<menuitem action="InsertBlankWholeNote"/>
+	<menuitem action="InsertBlankHalfNote"/>
+	<menuitem action="InsertBlankQuarterNote"/>
+	<menuitem action="InsertBlankEighthNote"/>
+	<menuitem action="InsertBlankSixteenthNote"/>
+	<menuitem action="InsertBlankThirtysecondNote"/>
+	<menuitem action="InsertBlankSixtyfourthNote"/>
+	<menuitem action="InsertBlankOneHundredTwentyEighthNote"/>
+
       </menu>	  	  
 
 
