@@ -16,11 +16,11 @@
 
 /**
  * Draw the cursor on the canvas at the given position
- *
+ * insert_control is the last gap from the previous note except when the cursor is on a measure boundary in which case it is +1 or -1 to indicate where next inserted note will go.
  */
 void
 draw_cursor (cairo_t *cr, DenemoScore * si,
-	     gint xx, gint y, gint last_gap, input_mode mode, gint dclef)
+	     gint xx, gint y, gint insert_control, input_mode mode, gint dclef)
 {
   if(!cr) return;
   gint height = calculateheight (si->cursor_y, dclef);
@@ -61,11 +61,11 @@ draw_cursor (cairo_t *cr, DenemoScore * si,
     gdouble length = 20/si->zoom;
     gdouble insert_pos = CURSOR_WIDTH*0.8;
     if(!si->cursor_appending) {
-      insert_pos = -last_gap/4;
+      insert_pos = -insert_control/4;
     }
     else
       if(si->cursoroffend)
-	insert_pos = -CURSOR_WIDTH;
+	insert_pos = insert_control * CURSOR_WIDTH;
     static gboolean on;
     on = !on;
     // g_print("on is %d %d\n", on,  Denemo.prefs.cursor_highlight);

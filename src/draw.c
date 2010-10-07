@@ -431,7 +431,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
       if (si->cursor_appending)
 	{
 
-	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, itp->last_gap,
+	  draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next!=NULL) && (objnode *) itp->curmeasure->next->data)?-1:1 /*itp->last_gap */,
 		       gui->mode, si->cursorclef);
 	  memcpy (si->cursoraccs, itp->curaccs, SEVENGINTS);
 	}
