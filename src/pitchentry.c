@@ -308,7 +308,7 @@ gchar *determine_interval(gint bass, gint harmony){
  else
    return g_strdup_printf("%d%s", interval, modifier);
 }
-#ifdef _HAVE_PORTAUDIO_
+
 
 static gchar *nameof(gint notenumber) {
  return g_strdup_printf("%c%s", step_name(PR_temperament->notepitches[notenumber].spec.step), alteration_name(PR_temperament->notepitches[notenumber].spec.alteration));
@@ -321,7 +321,7 @@ gchar *sharpest(void) {
 gchar *flattest(void) {
   return nameof(PR_temperament->flat);
 }
-
+#ifdef _HAVE_PORTAUDIO_
 /* returns an opaque id for the user's default temperament
  FIXME user prefs */
 static gpointer default_temperament() {
