@@ -6356,7 +6356,7 @@ toggle_rhythm_toolbar (GtkAction * action, gpointer param)
       // activate_action( "/MainMenu/ModeMenu/Note");
       //activate_action( "/MainMenu/ModeMenu/InsertMode");
     }
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.rhythm_palette = GTK_WIDGET_VISIBLE (widget);
 }
 
@@ -6373,7 +6373,7 @@ toggle_toolbar (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.toolbar = GTK_WIDGET_VISIBLE (widget);
 }
 
@@ -6390,7 +6390,7 @@ toggle_playback_controls (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.playback_controls = GTK_WIDGET_VISIBLE (widget);
 }
 /**
@@ -6406,7 +6406,7 @@ toggle_midi_in_controls (GtkAction * action, gpointer param) {
       gtk_widget_hide (widget);
   else
       gtk_widget_show (widget);
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.midi_in_controls = GTK_WIDGET_VISIBLE (widget);
 }
 /**
@@ -6504,7 +6504,7 @@ toggle_lyrics_view (GtkAction *action, gpointer param)
     else {
       gtk_widget_show(widget);
     }
-    if(Denemo.prefs.persistence)
+    if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
       Denemo.prefs.lyrics_pane = GTK_WIDGET_VISIBLE (widget);
   }
   return;
@@ -6535,7 +6535,7 @@ toggle_console_view (GtkAction *action, gpointer param)
                                       &iter, 0.0, FALSE, 0, 0); 
     }
   }
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.console_pane = GTK_WIDGET_VISIBLE (widget);
   return;
 }
@@ -6571,7 +6571,7 @@ toggle_scoretitles (GtkAction *action, gpointer param)
     gtk_widget_hide(widget);
   else
     gtk_widget_show(widget);
-  if(Denemo.prefs.persistence)
+  if(Denemo.prefs.persistence && (Denemo.gui->view==DENEMO_MENU_VIEW))
     Denemo.prefs.visible_directive_buttons = GTK_WIDGET_VISIBLE (widget);
 
   return;
