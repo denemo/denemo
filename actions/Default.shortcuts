@@ -328,15 +328,7 @@
       <row>
         <action>ExecuteScheme</action>
         <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SharpenEnharmonicSet</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>FlattenEnharmonicSet</action>
-        <hidden>true</hidden>
-      </row>
+      </row>     
       <row>
         <action>New</action>
         <bind>Ctrl+n</bind>
