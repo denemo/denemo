@@ -221,7 +221,7 @@
        (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"  (string-join (map loop-through (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)"  ))
       ((= (length theobject) 2)
        (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"    (string-join (map loop-through (list-tail (list-ref theobject 1) 1))) "(d-EndVolta)"  ))
-      (else "%Repeats over two not handled\n")))
+      (else ";Repeats over two not handled\n")))
 
 
 
