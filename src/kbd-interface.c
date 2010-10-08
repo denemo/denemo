@@ -351,10 +351,10 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (GTK_FILL), 0, 0);
   
-  addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_table_attach (GTK_TABLE (table), addbutton, 3, 4, 5, 6,
-		    (GtkAttachOptions) (GTK_FILL),
-		    (GtkAttachOptions) (0), 0, 0);
+/*   addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD); */
+/*   gtk_table_attach (GTK_TABLE (table), addbutton, 3, 4, 5, 6, */
+/* 		    (GtkAttachOptions) (GTK_FILL), */
+/* 		    (GtkAttachOptions) (0), 0, 0); */
   
   delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
   //gtk_widget_set_sensitive (delbutton, FALSE);
@@ -366,6 +366,11 @@ configure_keyboard_dialog_init_idx (GtkAction * action, DenemoGUI * gui,
   gtk_table_attach (GTK_TABLE (table), lookbutton, 5, 6, 5, 6,
 		    (GtkAttachOptions) (GTK_FILL),
 		    (GtkAttachOptions) (0), 0, 0);
+
+  addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
+  gtk_button_set_label(addbutton, "Add One Key Shortcut");
+  gtk_box_pack_end (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
+
 
 
   add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
