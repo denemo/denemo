@@ -174,7 +174,7 @@ initprefs ()
   ret->midi_in_controls = FALSE;
   ret->playback_controls = FALSE;
   ret->toolbar = TRUE;
-  ret->console_pane = TRUE;
+  ret->console_pane = FALSE;
   ret->lyrics_pane = TRUE;
   ret->visible_directive_buttons = TRUE;
   ret->autoupdate = FALSE;
