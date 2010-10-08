@@ -21,17 +21,17 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	staffpropdialog.c drawbarline.c slurs.c \
 	timedialog.c tomeasuredialog.c \
 	tupletops.c utils.c graceops.c runsilent.c drawgrace.c	print.c \
-	exportcsound.c lyparser.c  lylexer.c lyparserfuncs.c \
+	exportcsound.c  \
 	accwidths.h \
 	articulations.h calculatepositions.h changenotehead.h \
 	 chordops.h commandfuncs.h \
 	csoundplayback.h contexts.h  dynamic.h dialogs.h draw.h \
-	drawingprims.h lyparser.h \
+	drawingprims.h \
 	exportabc.h exportlilypond.h  exportxml.h file.h \
 	gcs.h \
 	figure.h barline.h view.h http.h hairpin.h  help.h importxml.h  importmusicxml.h importmidi.h \
 	kbd-custom.h kbd-interface.h graceops.h \
-	keyresponses.h lyparserfuncs.h \
+	keyresponses.h  \
 	measureops.h midi.h mousing.h  moveviewport.h notewidths.h \
 	objops.h \
 	playbackprops.h prefops.h processstaffname.h \
@@ -48,7 +48,6 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
 	scheme_cb.h scheme.h register_commands.h 
-EXTRA_DIST = lylexer.l lyparser.y
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
@@ -66,14 +65,7 @@ AM_CPPFLAGS = $(BINRELOC_CFLAGS)
 
 
 
-lyparser.c lyparser.h: lyparser.y
-	bison -d -ply $(srcdir)/lyparser.y 
-	mv lyparser.tab.c lyparser.c
-	mv lyparser.tab.h lyparser.h
+ 
 
-lylexer.c: lylexer.l
-	flex -Ply  -o$(srcdir)/lylexer.c $(srcdir)/lylexer.l  
-
-MAINTAINERCLEANFILES = lylexer.c lyparser.c lyparser.h 
 
 noinst_HEADERS = parseinstruments.h keyboard.h 

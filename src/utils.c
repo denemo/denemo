@@ -1214,3 +1214,24 @@ gchar *substitute_extension(gchar *name, gchar *extension) {
   (void)remove_extension(name);
   return g_strdup_printf("%s.%s", name, extension);
 }
+
+enum clefs
+cleftypefromname (gchar * str)
+{
+  enum clefs ret = DENEMO_TREBLE_CLEF;
+
+  if (g_strcasecmp (str, "treble") == 0)
+    ret = DENEMO_TREBLE_CLEF;
+  else if (g_strcasecmp (str, "bass") == 0)
+    ret = DENEMO_BASS_CLEF;
+  else if (g_strcasecmp (str, "alto") == 0)
+    ret = DENEMO_ALTO_CLEF;
+  else if (g_strcasecmp (str, "\"g_8\"") == 0)
+    ret = DENEMO_G_8_CLEF;
+  else if (g_strcasecmp (str, "tenor") == 0)
+    ret = DENEMO_TENOR_CLEF;
+  else if (g_strcasecmp (str, "soprano") == 0)
+    ret = DENEMO_SOPRANO_CLEF;
+  g_free (str);
+  return ret;
+}
