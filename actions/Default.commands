@@ -3444,7 +3444,7 @@ for second and subsequent systems</tooltip>
         <action>AddDotSelectionSwitcher</action>
         <after>AddDot</after>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>Add Dot</label>
         <tooltip>Adds an Augmentation Dot to current note/chord/rest.</tooltip>
       </row>
