@@ -200,10 +200,14 @@
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>plus</bind>
+        <bind>Add</bind>
+	<bind>plus</bind>
+        <bind>Shft+equal</bind>
+        <bind>equal</bind>
       </row>
       <row>
         <action>Flatten</action>
+        <bind>Subtract</bind>
         <bind>minus</bind>
       </row>
       <row>
