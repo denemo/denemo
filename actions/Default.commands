@@ -3442,7 +3442,6 @@ for second and subsequent systems</tooltip>
       </row>
       <row>
         <action>AddDotSelectionSwitcher</action>
-        <after>AddDot</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <label>Add Dot</label>
