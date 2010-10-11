@@ -7,6 +7,7 @@
       <row>
         <action>DeleteBarline</action>
         <scheme>;;;DeleteBarline actually it merges two measures
+(d-PushClipboard)
 (let  ((type (d-GetType)) )
 ;get to appending of previous bar
  (if (not (or (equal? type "Appending" ) (equal? type "None" ) ))
@@ -19,6 +20,7 @@
     (begin (d-SetMark)
 	(if (d-MoveToMeasureRight) ;;we don't want to delete next bar if there isn't one!
 	(begin (d-MeasureLeft) ;; Now we're at the beginning of that measure
+		
 		(d-Cut)
 		(d-DeleteMeasure)
 		(d-Paste) )
@@ -26,7 +28,9 @@
 		 ))
 		 	(d-WarningDialog "Could not find measure before cursor to merge with")
 		 	)
-)</scheme>
+)
+(d-PopClipboard)
+</scheme>
         <label>Merge with Previous Measure</label>
         <tooltip>Joins two measures together</tooltip>
       </row>
