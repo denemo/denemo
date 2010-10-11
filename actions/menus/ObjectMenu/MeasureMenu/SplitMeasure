@@ -8,6 +8,7 @@
         <action>SplitMeasure</action>
         <scheme>;SplitMeasure:splits a measure 
 ;leave cursor at the beginning of the new measure (after the barline)
+(d-PushClipboard)
 (d-SetMark)
 (if   (d-MeasureRight)
    (begin  (d-CursorLeft)  
@@ -25,7 +26,8 @@
 (d-Paste)	;now, position the cursor at begin of new bar:
 (d-MoveToMeasureLeft)  
 (d-MoveToMeasureRight)
-(d-UnsetMark)</scheme>
+(d-UnsetMark)
+(d-PopClipboard)</scheme>
         <label>Split Measure</label>
         <tooltip>Redistribute the notes into two Denemo measures splitting at the cursor position.</tooltip>
       </row>
