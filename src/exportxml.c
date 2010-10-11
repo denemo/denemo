@@ -225,6 +225,9 @@ determineDuration (gint duration, gchar ** durationName)
     case 6:
       *durationName = "sixty-fourth";
       break;
+    case 7:
+      *durationName = "one-hundred-twenty-eighth";
+      break;
     default:
       g_warning ("Unknown note duration 1/%d, using quarter", 1 << duration);
       *durationName = "quarter";

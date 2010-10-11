@@ -928,6 +928,8 @@ parseBaseChord (xmlNodePtr chordElem, xmlNsPtr ns, DenemoScore * si)
 	    baseDuration = 5;
 	  else if (strcmp (durationType, "sixty-fourth") == 0)
 	    baseDuration = 6;
+	  else if (strcmp (durationType, "one-hundred-twenty-eighth") == 0)
+	    baseDuration = 7;
 	  else
 	    {
 	      g_warning ("Unknown base duration type \"%s\"; defaulting to "
