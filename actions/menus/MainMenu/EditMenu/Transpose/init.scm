@@ -163,7 +163,7 @@
 	    (Transpose::transpose Transpose::original-pitch 
 			      Transpose::original-delta ))))
 
-      ;This is definately obsolete
+      ;This is in use by the Edit->Transpose->Transpose Selection script.
       (define Transpose::TransposeNote 
         (lambda ()
 	  (let ( (numofnotes 0) 
@@ -180,12 +180,14 @@
 		        (string-append transposed_notelist (Transpose::pitch->lilyname(Transpose::transposed))))
 			(set! transposed_notelist (string-append transposed_notelist " "))
 		      ))
-
-	      (set! notelist (string-split (d-GetNotes) #\space))
+	      (set! notelist (d-GetNotes))
+	      (if (string? notelist)
+		  (set! notelist (string-split (d-GetNotes) #\space))
+		  (set! notelist '()))
 	      (set! numofnotes (length notelist))
-	      (display "numofnotes = ")
-	      (display numofnotes)
-	      (newline)
+	      ;(display "numofnotes = ")
+	      ;(display numofnotes)
+	      ;(newline)
 	      (if (= numofnotes 1)
 	        (begin
 	    	  (set! Transpose::original-pitch (Transpose::lilyname->pitch (d-GetNotes)))
