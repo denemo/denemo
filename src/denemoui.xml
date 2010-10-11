@@ -386,6 +386,7 @@
 	  <menuitem action="4"/>
 	  <menuitem action="5"/>
 	  <menuitem action="6"/>
+	  <menuitem action="7"/>
 	  
 	  <menuitem action="AddDot"/>
 	  <menuitem action="RemoveDot"/>
@@ -400,6 +401,7 @@
 	  <menuitem action="Change4"/>
 	  <menuitem action="Change5"/>
 	  <menuitem action="Change6"/>
+	  <menuitem action="Change7"/>
        	  <menuitem action="AddDot"/>
 	  <menuitem action="RemoveDot"/>          
         </menu>
@@ -433,6 +435,7 @@
 	  <menuitem action="Set4"/>
 	  <menuitem action="Set5"/>
 	  <menuitem action="Set6"/>
+	  <menuitem action="Set7"/>
 	  <menuitem action="NextRhythm"/> 	  
       </menu>
 
@@ -638,6 +641,7 @@
 	      <menuitem action="Change4"/>
 	      <menuitem action="Change5"/>
 	      <menuitem action="Change6"/>
+	      <menuitem action="Change7"/>
        	      <menuitem action="AddDot"/>
 	      <menuitem action="RemoveDot"/>
            </menu>
