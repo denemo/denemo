@@ -562,6 +562,10 @@
       
     <!-- Hidden Commands -->
       <row>
+        <action>AddVoice</action>
+        <hidden>true</hidden>
+      </row>  
+      <row>
         <action>SetGrace</action>
         <hidden>true</hidden>
       </row>  
