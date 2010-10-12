@@ -31,7 +31,7 @@
 
 ;; Ask for a new NOTATIONSTRING with an input-window, return that and remember the value. 
 (define (NotationMagick::AskNewNotationstring)
-(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by comma." NotationMagick::NOTATIONSTRING))
+(define new (d-GetUserInput "Enter Lilypond notes" "Please insert a list of lilypond notes, separated by Space." NotationMagick::NOTATIONSTRING))
 (set! NotationMagick::NOTATIONSTRING new)
 NotationMagick::NOTATIONSTRING
 )
