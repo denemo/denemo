@@ -447,7 +447,7 @@
       </row>      
       <row>
         <action>Play</action>
-        <bind>Shift+F5</bind>
+        <hidden>true</hidden>
       </row>      
       <row>
         <action>Stop</action>
