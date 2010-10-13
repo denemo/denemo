@@ -355,6 +355,7 @@
       <row>
         <action>Sharpen</action>
         <bind>plus</bind>
+        <bind>Add</bind>
       </row>
       <row>
         <action>Flatten</action>
@@ -367,6 +368,7 @@
       <row>
         <action>ReminderAccidental</action>
        <bind>Alt+plus</bind>
+       <bind>Alt+Add</bind>
       </row>
   
 
@@ -445,7 +447,7 @@
       </row>      
       <row>
         <action>Play</action>
-        <bind>Shift+F5</bind>
+        <hidden>true</hidden>
       </row>      
       <row>
         <action>Stop</action>
@@ -559,6 +561,10 @@
       
       
     <!-- Hidden Commands -->
+      <row>
+        <action>AddVoice</action>
+        <hidden>true</hidden>
+      </row>  
       <row>
         <action>SetGrace</action>
         <hidden>true</hidden>
