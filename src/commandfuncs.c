@@ -461,9 +461,14 @@ swapstaffs (GtkAction *action, gpointer param)
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
       DenemoStaff *temp;
-      temp = gui->si->currentstaff->data;
-      if(temp->context==DENEMO_NONE ||
-	confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
+      //if this is a staff with no voices extra voices on it then swap
+      if( ((DenemoStaff *)gui->si->currentstaff->data)->voicenumber==1 &&
+	  ( (gui->si->currentstaff->next==NULL) || 
+	    ((DenemoStaff *)gui->si->currentstaff->next->data)->voicenumber<2)) {
+
+	temp = gui->si->currentstaff->data;
+	if(temp->context==DENEMO_NONE ||
+	   confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
 	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
 	  gui->si->currentstaff->prev->data = temp;
 	  gui->si->currentstaffnum--;
@@ -475,6 +480,9 @@ swapstaffs (GtkAction *action, gpointer param)
 	  displayhelper(gui);
 	  return TRUE;
 	}
+      }
+      else
+	warningdialog("Split off voices from this staff first");
     }
   else
     warningdialog("There is no previous staff to swap with");
@@ -507,7 +515,7 @@ splitstaffs (GtkAction *action, gpointer param)
       return TRUE;
     }
   else
-    warningdialog("There is no voice to split from");
+    warningdialog("There is no voice below this one to split from");
   return FALSE;
 }
 
