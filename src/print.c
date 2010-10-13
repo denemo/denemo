@@ -103,20 +103,22 @@ version_check(lilyversion base, lilyversion installed)
 lilyversion
 string_to_lilyversion(char *string)
 {
-  lilyversion version;
+  lilyversion version = { 2, 0};
   char **token;
   const char delimiters[] = ".";
-
+  if(string==NULL)
+    return version;
   /* split string */
   token = g_strsplit(string, delimiters, 2);
 
   /* get major version number */
-  version.major = atoi(token[0]);
-
+  if(token[0])
+    version.major = atoi(token[0]);
   /* get minor version number */
-  version.minor = atoi(token[1]);
-
-  printf("\nstring_to_lilyversion() major = %d minor = %d\n",version.major, version.minor);
+  if(token[1])
+    version.minor = atoi(token[1]);
+  g_strfreev(token);
+  //intf("\nstring_to_lilyversion() major = %d minor = %d\n",version.major, version.minor);
   return version;
 }
 
