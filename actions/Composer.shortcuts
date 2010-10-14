@@ -360,10 +360,12 @@
       <row>
         <action>Flatten</action>
         <bind>minus</bind>
+        <bind>Substract</bind>
       </row>
 	  <row>
         <action>CautionaryAccidental</action>
         <bind>Alt+minus</bind> 
+        <bind>Alt+Substract</bind>
       </row>
       <row>
         <action>ReminderAccidental</action>
