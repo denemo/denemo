@@ -159,8 +159,8 @@ typedef struct
   DenemoObjType type; /**< The type of object pointed to by the gpointer object field below */
   gchar *user_string;/**< Holds user's original text parsed to generated this 
 			object */
-  gint basic_durinticks;
-  gint durinticks; /**< Duration of object */
+  gint basic_durinticks; /**< Duration of object including dotting but not tuplet/grace note effects. */
+  gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
   gint starttick; /**< When the object occurs */ 
   gint starttickofnextnote; /**< When the next object occurs */
   GList* midi_events;/**< data are the smf_event_ts that this object gives rise to */
