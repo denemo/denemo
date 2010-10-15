@@ -7,7 +7,7 @@
       <row>
         <action>ParenthesizeChord</action>
         <scheme> ;;; ParenthesizeChord
-(d-DirectivePut-chord-prefix "Parenthesize" "\\parenthesize ")
+(d-DirectivePut-chord-postfix "Parenthesize" "\\parenthesize ")
 (d-DirectivePut-chord-display "Parenthesize" "()")
 (d-RefreshDisplay)</scheme>
         <label>Parenthesize Chord</label>
