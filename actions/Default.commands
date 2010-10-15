@@ -2406,7 +2406,7 @@ Sets prevailing rhythm to &lt;span  size="10000" face="Denemo"&gt;8&lt;/span&gt;
       <row>
         <action>MetronomeMarking</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/ChordMenu/Markings/Metronome Markings</menupath>
+        <menupath>/ObjectMenu/Directives</menupath>
         <label>Add Metronome Marking to Chord</label>
         <tooltip>Adds a metronome marking to chord. Edit the attached LilyPond for the value and position.</tooltip>
       </row>
@@ -3117,14 +3117,6 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Tempo</label>
         <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
-      </row>
-      <row>
-        <action>MM</action>
-        <after>Tempo</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/Directives</menupath>
-        <label>Metronome Mark</label>
-        <tooltip>Prints a metronome mark.</tooltip>
       </row>
       <row>
         <action>DesignateVoice</action>

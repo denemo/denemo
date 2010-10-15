@@ -24,16 +24,18 @@
 (if (equal? dotted #t) (set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration)) 6 ) ) ) )
 (set! midiBpm (number-&gt;string (floor (* (/ (string-&gt;number bpm) (string-&gt;number duration) ) 4)) ) )
 )
-(d-DirectivePut-chord-prefix "MM" (string-append "\\override Score.MetronomeMark #'padding = #3
+(d-Directive-standalone "MM")
+(d-DirectivePut-standalone-prefix "MM" (string-append "\\override Score.MetronomeMark #'padding = #3
 \\tempo " input " = " bpm))
-(d-DirectivePut-chord-override "MM" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
-(d-DirectivePut-chord-midibytes "MM" midiBpm)
-(d-DirectivePut-chord-display "MM" (string-append input "=" bpm))
+(d-DirectivePut-standalone-override "MM" (logior DENEMO_OVERRIDE_TEMPO DENEMO_OVERRIDE_STEP))
+(d-DirectivePut-standalone-midibytes "MM" midiBpm)
+(d-DirectivePut-standalone-display "MM" (string-append input "=" bpm))
+(d-DirectivePut-standalone-ty "MM" -5)
 )
 (d-WarningDialog "Incorrect syntax.")
-))</scheme>
-        <label>Add Metronome Marking to Mote/Chord</label>
-        <tooltip>Adds a metronome marking to note/chord. Cursor must be on a note/chord Give the duration in LilyPond syntax.</tooltip>
+))</scheme>       
+        <label>Insert Metronome Marking</label>
+        <tooltip>Adds a metronome marking at the cursor position. Give the duration in LilyPond syntax.</tooltip>
       </row>
     </map>
   </merge>
