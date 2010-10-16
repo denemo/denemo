@@ -359,11 +359,11 @@
       </row>
       <row>
         <action>Flatten</action>
-        <bind>minus</bind>
+        <bind>minus</bind>        
       </row>
 	  <row>
         <action>CautionaryAccidental</action>
-        <bind>Alt+minus</bind> 
+        <bind>Alt+minus</bind>         
       </row>
       <row>
         <action>ReminderAccidental</action>
