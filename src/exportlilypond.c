@@ -306,6 +306,8 @@ determineclef (gint type, gchar ** clefname)
 static gint
 internaltomuduration (gint internalduration)
 {
+  if(internalduration<)
+    return internalduration;
   return 1 << internalduration;
 }
 
@@ -325,56 +327,6 @@ append_duration (GString * figures, gint duration, gint numdots)
     figures = g_string_append (figures, ".");
 }
 
-#if 0
-static void output_lyric(GString *lyrics, chord *pchord, gboolean *pis_syllable, gboolean *pcenter_lyric) {
-  /*Lyrics */
-		 
-  gint duration = internaltomuduration (pchord->baseduration);
-  if (pchord->lyric)
-    {	 
-      if (*pis_syllable && !pchord->is_syllable)
-	lyrics = g_string_append (lyrics, " ");
-      lyrics = g_string_append (lyrics, pchord->lyric->str);
-		  
-      if (pchord->center_lyric)
-	{
-	  lyrics = g_string_append (lyrics, "-- ");
-	  *pcenter_lyric = TRUE;// FIXME unused
-	}
-      else
-	*pcenter_lyric = FALSE;
-		  
-      if (pchord->is_syllable)
-	{
-	  *pis_syllable = TRUE;
-	  lyrics = g_string_append (lyrics, "__ ");
-	}
-      else
-	{
-	  *pis_syllable = FALSE;
-	  lyrics = g_string_append (lyrics, " ");
-	}
-    }
-  else if (*pis_syllable)
-    {
-      gint extend;
-      //g_print ("duration %d\t mod %d\n", duration, duration % 4);
-      if (duration < 4)
-	{
-	  for (extend = 0; extend < duration % 4; extend++)
-	    lyrics = g_string_append (lyrics, "__ ");
-	}
-      else if (duration > 4)
-	{
-	  for (extend = 0; extend < 4 % duration; extend++)
-	    lyrics = g_string_append (lyrics, "_");
-	}
-      else
-	lyrics = g_string_append (lyrics, "__ ");
-    } else
-      lyrics = g_string_append (lyrics, " _ ");//FIXME is this right?
-}
-#endif
 
 
 /**
@@ -751,7 +703,18 @@ return g_string_free(ret, FALSE);
 }
 
 
-
+/* insert editable prefix string from passed directives, updating duration and open brace count */
+static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkIter *iter, gchar* invisibility, DenemoGUI *gui) {
+  GList *g = directives;
+  for(;g;g=g->next) {
+    DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(directive->prefix && directive->prefix->len) {
+      *pprevduration = -1;
+      *popen_braces += brace_count(directive->prefix->str); 
+      insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
+    }
+  }
+}
 
 
 
@@ -809,6 +772,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
       case CHORD:
 
 	pchord = (chord *) curobj->object;
+	gchar *chord_prefix = get_prefix(pchord->directives);
 	duration = internaltomuduration (pchord->baseduration);
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
@@ -823,26 +787,38 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		g_string_append_printf (fakechords, "\\grace {");
 	    } 
 	    //	  }
-	GList *g = pchord->directives;
-	for(;g;g=g->next) {
-	  DenemoDirective *directive = (DenemoDirective *)g->data;
-	  if(directive->prefix && directive->prefix->len) {
-	    prevduration = -1;
-	    open_braces += brace_count(directive->prefix->str); 
-	    insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
-	  }
-	}
-	    
+
+#if 0
+	    //now before duration
+
+	    static void directives_insert_prefx_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkIter *iter, gchar* invisibility, DenemoGUI *gui) {
+	      GList *g = directives;
+	      for(;g;g=g->next) {
+		DenemoDirective *directive = (DenemoDirective *)g->data;
+		if(directive->prefix && directive->prefix->len) {
+		  *pprevduration = -1;
+		  *popen_braces += brace_count(directive->prefix->str); 
+		  insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
+		}
+	      }
+	    }
+#endif	    
+
+   if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
 	if (!pchord->notes)
 	  {			/* A rest */
 	    if (!curobj->isinvisible)
 	      {
 		g_string_append_printf (ret, "r");
 		/* Duplicated code follows. I ought to fix that */
-		if (duration != prevduration || numdots != prevnumdots)
+		if (duration != prevduration || numdots != prevnumdots || duration<0)
 		  {
 		    /* only in this case do we explicitly note the duration */
-		    g_string_append_printf (ret, "%d", duration);
+		    !!g_string_append_printf (ret, "%s",chord_prefix);
+		    directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
+
+		    if(duration>0)
+		      g_string_append_printf (ret, "%d", duration);
 		    prevduration = duration;
 		    prevnumdots = numdots;
 		    for (j = 0; j < numdots; j++)
@@ -852,8 +828,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    else
 	      {
 		g_string_append_printf (ret, "\\skip ");
-	
-		g_string_append_printf (ret, "%d", duration);
+		g_string_append_printf (ret, "%s",chord_prefix);
+		  if(duration>0)
+		    g_string_append_printf (ret, "%d", duration);
 		prevduration = -1;
 		prevnumdots = -1;
 		for (j = 0; j < numdots; j++)
@@ -878,6 +855,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  {
 		    note *curnote = (note *) notenode->data;
 		    noteheadtype = curnote->noteheadtype;
+
+		    //As with chord-prefix, this is perhaps not a useful position, but until some other use is found for this field it is here...
 		    GList *g = curnote->directives;
 		    for(;g;g=g->next) {
 		      DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -886,6 +865,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
 		      }
 		    }
+
+	if(!get_lily_override (curnote->directives)) { //skip all LilyPond output for this note
 		    switch (noteheadtype)
 		      {
 		      case DENEMO_NORMAL_NOTEHEAD:
@@ -953,6 +934,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 			output(" ");
 		   
 		    }
+	} /* End of LilyPond output for note, skipped if override set */
 		  }		/* End notes in chord loop */
 		
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
@@ -964,15 +946,20 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		g_string_append_printf (ret, "s");
 		
 	      }
-	    if (duration != prevduration || numdots != prevnumdots)
+	    if (duration != prevduration || numdots != prevnumdots || duration<0)
 	      {
 		/* only in this case do we explicitly note the duration */
-		g_string_append_printf (ret, "%d", duration);
+		g_string_append_printf (ret, "%s",chord_prefix);
+		  if(duration>0)
+		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;
 		prevnumdots = numdots;
 		for (j = 0; j < numdots; j++)
 		  g_string_append_printf (ret, ".");
 	      }
+
+
+
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
 		dynamic_string = (GString *) pchord->dynamics->data;
@@ -1069,8 +1056,9 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
+   } /* End of skipping LilyPond for this chord because of LILYPOND_OVERRIDE set */
 
-	g = pchord->directives;
+	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
 	  if(directive->postfix && directive->postfix->len) {
@@ -1089,6 +1077,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    g_string_append_printf (fakechords, "}");
 	}
 	
+	g_free(chord_prefix);
 
 
 	break;

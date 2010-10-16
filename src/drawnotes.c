@@ -112,7 +112,7 @@ draw_notehead (cairo_t *cr,
     {
       noteheadtype = 3;
     }
-
+  if(duration<0) noteheadtype = 0;
 
   /* Draw the accidental, if necessary.  Note that this has to be
      done before xx is modified, as the the value in
@@ -131,11 +131,14 @@ draw_notehead (cairo_t *cr,
     else
       xx -= headwidths[noteheadtype];
   }
+  //OVERRIDE_GRAPHIC just affects the head, everything else -  accidentals dots stems beams ...are controlled by baseduration
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
     if (is_stemup)
       drawfetachar_cr ( cr, head_char[noteheadtype], xx, y + height);
     else
       drawfetachar_cr ( cr, head_char[noteheadtype], xx-0.5, y + height);
+  }
+  
     /* Now draw any trailing dots */
     if ((height % LINE_SPACE) == 0)
       draw_dots (cr, xx + headwidths[noteheadtype],
@@ -143,7 +146,7 @@ draw_notehead (cairo_t *cr,
     else
       draw_dots (cr, xx + headwidths[noteheadtype],
 		 y + height, numdots);
-  }
+
   
   /* any display for attached LilyPond */
  { GList *g = thenote->directives;
@@ -152,10 +155,10 @@ draw_notehead (cairo_t *cr,
   for(;g;g=g->next, count+=10) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
     if(directive->graphic) {
-      gint width, height;
-      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+      gint gwidth, gheight;
+      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &gwidth, &gheight);
       drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
-			 xx+directive->gx+count,  y+thenote->y+directive->gy/*thechord.highesty*/, width, height);
+			 xx+directive->gx+count,  y+height+directive->gy-gheight/2, gwidth, gheight);
 
     }
     if(directive->display) {
@@ -233,6 +236,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   gint noteheadtype = MIN (duration, 2);
 
   /* Change those two so that they're cached instead */
+  if(duration<0) noteheadtype = 0;
+
   gint i;
   gint beampainty, arcwidth;
 
@@ -257,22 +262,19 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
       cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
   }
 
-
+ 
   if (!thechord.notes/* a rest */) {
-     if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC))
-       draw_rest (cr, duration, thechord.numdots, xx, y);  
-  }  else {
+    if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC)) 
+      draw_rest (cr, duration, thechord.numdots, xx, y);}  else {
     /* Draw the noteheads and accidentals */
-    
     for (curnode = thechord.notes; curnode; curnode = curnode->next){
       note *thenote = (note *)curnode->data;
-
       draw_notehead (cr, thenote, duration,
-		     thechord.numdots, xx, y, accs, thechord.is_stemup);
-
+		     thechord.numdots, xx, y, accs, thechord.is_stemup); 
     }
-    /* Now the stem and beams. This is complicated. */
-    
+  }
+  /* Now the stem and beams. This is complicated. */
+  if (thechord.notes/* not a rest */) {
     if (thechord.is_stemup)
       {
 	if (mudelaitem->isstart_beamgroup && mudelaitem->isend_beamgroup)
@@ -280,19 +282,19 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    if (duration >= 3)
 	      /* Up-pointing stem pixmap */
 	      drawfetachar_cr (cr, upstem_char[duration],
-				 xx + NOTEHEAD_WIDTH,
-				 thechord.highesty + y + 3
-				 - (duration == 6 ? EXTRA_STEM_HEIGHT
-				    : STEM_HEIGHT));
+			       xx + NOTEHEAD_WIDTH,
+			       thechord.highesty + y + 3
+			       - (duration == 6 ? EXTRA_STEM_HEIGHT
+				  : STEM_HEIGHT));
 	  }
 	else if (nextmuditem && !mudelaitem->isend_beamgroup)
 	  {
 	    /* Draw the thin beam across the gap */
 	    cairo_rectangle (cr,
-				xx + headwidths[noteheadtype] - 1,
-				y + thechord.stemy,
-				nextmuditem->x - mudelaitem->x,
-				THINBEAM_HEIGHT);
+			     xx + headwidths[noteheadtype] - 1,
+			     y + thechord.stemy,
+			     nextmuditem->x - mudelaitem->x,
+			     THINBEAM_HEIGHT);
 	    cairo_fill(cr);
 	    if (mudelaitem->isstart_beamgroup || !prevmuditem)
 	      prevbaseduration = 0;
@@ -308,18 +310,18 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 		if (nextbaseduration >= i) {
 		  /* Draw a thick beam across the gap */
 		  cairo_rectangle (cr,
-				      xx + headwidths[noteheadtype] - 1,
-				      y + beampainty,
-				      nextmuditem->x - mudelaitem->x,
-				      THICKBEAM_HEIGHT);
+				   xx + headwidths[noteheadtype] - 1,
+				   y + beampainty,
+				   nextmuditem->x - mudelaitem->x,
+				   THICKBEAM_HEIGHT);
 		  cairo_fill(cr);
-
+		  
 		} else if (prevbaseduration < i) {
 		  /* Draw a stub to the right of the staff */
 		  cairo_rectangle (cr,
-				      xx + headwidths[noteheadtype] - 1,
-				      y + beampainty, STUB_WIDTH,
-				      THICKBEAM_HEIGHT);
+				   xx + headwidths[noteheadtype] - 1,
+				   y + beampainty, STUB_WIDTH,
+				   THICKBEAM_HEIGHT);
 		  cairo_fill( cr );
 		}
 	      }		/* end for loop */
@@ -336,9 +338,9 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 		{
 		  /* Draw a stub to the left of the staff */
 		  cairo_rectangle (cr,
-				      xx + headwidths[noteheadtype] - 1 -
-				      STUB_WIDTH, y + beampainty, STUB_WIDTH,
-				      THICKBEAM_HEIGHT);
+				   xx + headwidths[noteheadtype] - 1 -
+				   STUB_WIDTH, y + beampainty, STUB_WIDTH,
+				   THICKBEAM_HEIGHT);
 		  cairo_fill(cr);
 		}
 	  }
@@ -349,7 +351,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	  cairo_line_to( cr, xx + headwidths[noteheadtype], thechord.lowesty + y - 2 );
 	  cairo_stroke( cr );
 	}
-
+	
 	
 	/* Now draw the tie, if appropriate */
 	if (thechord.is_tied)
@@ -358,7 +360,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	      arcwidth = nextmuditem->x - mudelaitem->x;
 	    else
 	      arcwidth = mwidth - mudelaitem->x + SPACE_FOR_BARLINE;
-
+	    
 	    cairo_set_line_width( cr, 1.0 );
 	    cairo_move_to( cr, xx + headwidths[noteheadtype] / 2, y + thechord.highesty - 13 );
 	    cairo_rel_curve_to( cr, arcwidth/3, -8, arcwidth*2/3, -8, arcwidth, 0 );
@@ -372,11 +374,11 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    if (duration >= 3)
 	      /* Down-pointing stem */
 	      drawfetachar_cr (cr, downstem_char[duration],
-				 xx,
-				 thechord.lowesty + y 
-				 + (duration == 6 ? EXTRA_STEM_HEIGHT
-				    : STEM_HEIGHT)
-				 );
+			       xx,
+			       thechord.lowesty + y 
+			       + (duration == 6 ? EXTRA_STEM_HEIGHT
+				  : STEM_HEIGHT)
+			       );
 	  }
 	else if ((nextmuditem) && !mudelaitem->isend_beamgroup)
 	  {
@@ -385,7 +387,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 			     nextmuditem->x - mudelaitem->x,
 			     THINBEAM_HEIGHT);
 	    cairo_fill( cr );
-
+	    
 	    if (mudelaitem->isstart_beamgroup || !prevmuditem)
 	      prevbaseduration = 0;
 	    else
@@ -402,14 +404,14 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 		if (nextbaseduration >= i) {
 		  /* Draw a thick beam across the gap */
 		  cairo_rectangle( cr, xx, y + beampainty,
-		      nextmuditem->x - mudelaitem->x,
-		      THICKBEAM_HEIGHT);
+				   nextmuditem->x - mudelaitem->x,
+				   THICKBEAM_HEIGHT);
 		  cairo_fill( cr );
-
+		  
 		} else if (prevbaseduration < i) {
 		  /* Draw a stub to the right of the staff */
 		  cairo_rectangle (cr, xx, y + beampainty,
-				      STUB_WIDTH, THICKBEAM_HEIGHT);
+				   STUB_WIDTH, THICKBEAM_HEIGHT);
 		  cairo_fill(cr);
 		}
 	      }		/* End for loop */
@@ -417,20 +419,20 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	else
 	  {			/* We're at the end of a beamgroup */
 	    if(prevmuditem)//sanity check
-	    for (i = MAX (((chord *) prevmuditem->object)->baseduration,
-			  4),
-		   beampainty = thechord.stemy - FIRSTBEAMSPACE - 
-		   THICKBEAM_HEIGHT + 1 -
-		   (SUBSQBEAMSPACE * (i - 4));
-		 i <= thechord.baseduration;
-		 i++, beampainty -= SUBSQBEAMSPACE)
-	      {
-		/* Draw a stub to the left of the staff */
-		cairo_rectangle (cr, xx - STUB_WIDTH,
-				    y + beampainty, STUB_WIDTH,
-				    THICKBEAM_HEIGHT);
-		cairo_fill(cr);
-	      }
+	      for (i = MAX (((chord *) prevmuditem->object)->baseduration,
+			    4),
+		     beampainty = thechord.stemy - FIRSTBEAMSPACE - 
+		     THICKBEAM_HEIGHT + 1 -
+		     (SUBSQBEAMSPACE * (i - 4));
+		   i <= thechord.baseduration;
+		   i++, beampainty -= SUBSQBEAMSPACE)
+		{
+		  /* Draw a stub to the left of the staff */
+		  cairo_rectangle (cr, xx - STUB_WIDTH,
+				   y + beampainty, STUB_WIDTH,
+				   THICKBEAM_HEIGHT);
+		  cairo_fill(cr);
+		}
 	  }
 	
 	if (duration > 0) {
@@ -452,32 +454,32 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	    cairo_stroke( cr );
 	  }
       }
-    /* End stemdown stuff */
-    
-    draw_articulations (cr, thechord, xx, y); 
-    if(is_grace) cairo_restore(cr);
-    draw_ledgers (cr, thechord.highesty, thechord.lowesty, xx, y,
-		  headwidths[noteheadtype]);
-    if(is_grace) cairo_save(cr);
-    
-  }				/* end else if there are notes in the chord*/
-  { GList *g = thechord.directives;
-  gint count = 0;
-  for(;g;g=g->next) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive->graphic) {
-      gint width, height;
-      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-      drawbitmapinverse_cr (cr, (GdkBitmap*)directive->graphic,
-			 xx+directive->gx, y+directive->gy, width, height);
-    }
-    if(directive->display) {
-      drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
-      count += 16;
-    }
-  } //for each chord directive
-  }//block displaying chord directives
-  cairo_restore (cr);
+  /* End stemdown stuff */
+  
+  draw_articulations (cr, thechord, xx, y); 
+  if(is_grace) cairo_restore(cr);
+  draw_ledgers (cr, thechord.highesty, thechord.lowesty, xx, y,
+		headwidths[noteheadtype]);
+  if(is_grace) cairo_save(cr);
+  
+  }				/* end if not a rest draw stems etc */
+    { GList *g = thechord.directives;
+      gint count = 0;
+      for(;g;g=g->next) {
+	DenemoDirective *directive = (DenemoDirective *)g->data;
+	if(directive->graphic) {
+	  gint width, height;
+	  gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+	  drawbitmapinverse_cr (cr, (GdkBitmap*)directive->graphic,
+				xx+directive->gx, y+directive->gy, width, height);
+	}
+	if(directive->display) {
+	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
+	  count += 16;
+	}
+      } //for each chord directive
+    }//block displaying chord directives
+cairo_restore (cr);
 }
 
 

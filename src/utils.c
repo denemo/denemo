@@ -255,13 +255,18 @@ set_basic_numticks (DenemoObject * theobj)
   switch (theobj->type)
     {
     case CHORD:
-      power = 1 << ((chord *) theobj->object)->baseduration;
-      withoutdots = WHOLE_NUMTICKS / power;
+      if( ((chord *) theobj->object)->baseduration <0) {
+	withoutdots = -((chord *) theobj->object)->baseduration;
+      } else {
+	power = 1 << ((chord *) theobj->object)->baseduration;
+	withoutdots = WHOLE_NUMTICKS / power;
+      }
       addperdot = withoutdots / 2;
       theobj->basic_durinticks = withoutdots;
       for (i = 0; i < ((chord *) theobj->object)->numdots;
 	   addperdot /= 2, i++)
 	theobj->basic_durinticks += addperdot;
+      
       break;
     default:
       theobj->basic_durinticks = 0;
@@ -312,6 +317,8 @@ setpixelmin (DenemoObject * theobj)
       chordval = *(chord *) theobj->object;
       baseduration = chordval.baseduration;
       headtype = MIN (baseduration, 2);
+      if(headtype<0)
+	headtype = 0;//-ve values of baseduration are for specials
       gint directive_pixels = 0;// the largest amount of extra space asked for by any directive
       GList *g = chordval.directives;
       for(;g;g=g->next)
