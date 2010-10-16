@@ -321,7 +321,7 @@ gchar *sharpest(void) {
 gchar *flattest(void) {
   return nameof(PR_temperament->flat);
 }
-#ifdef _HAVE_PORTAUDIO_
+
 /* returns an opaque id for the user's default temperament
  FIXME user prefs */
 static gpointer default_temperament() {
@@ -423,7 +423,6 @@ void set_sharper(GtkAction *action, gpointer param) {
 void set_flatter(GtkAction *action, gpointer param) {
   enharmonic_step (FALSE);
 }
-#endif
 
 void
 signal_measure_end(void) {
@@ -432,6 +431,21 @@ if (Denemo.prefs.midi_audio_output == Fluidsynth)
  else
    gdk_beep();
 }
+
+
+//Computes the mid_c_offset and enshift for the MIDI notenum passed in
+void
+notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {
+
+  *penshift = notenum % 12;  
+  temperament *t = PR_temperament;
+  
+  *poffset = t->notepitches[*penshift].spec.step;
+  *penshift =  t->notepitches[*penshift].spec.alteration;
+  return;
+}
+
+
 
 #ifdef _HAVE_PORTAUDIO_
 static void sound_click(void) {
@@ -678,19 +692,6 @@ static notepitch * determine_note(gdouble pitch, temperament *t, gint* which_oct
   }
 
   return NULL;
-}
-
-
-//Computes the mid_c_offset and enshift for the MIDI notenum passed in
-void
-notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {
-
-  *penshift = notenum % 12;  
-  temperament *t = PR_temperament;
-  
-  *poffset = t->notepitches[*penshift].spec.step;
-  *penshift =  t->notepitches[*penshift].spec.alteration;
-  return;
 }
 
 
@@ -1447,10 +1448,7 @@ gboolean pitch_entry_active(DenemoGUI *gui) {
 
 #else
 gboolean pitch_entry_active(DenemoGUI *gui){ return 0; }
-void
-notenum2enharmonic (gint notenum, gint *poffset, gint *penshift) {}
-void set_sharper(GtkAction *action, gpointer param) {}
-void set_flatter(GtkAction *action, gpointer param) {}
+
 gint setup_pitch_input(void){ return -1; }
 void start_pitch_input(void) {}
 int stop_pitch_input(void) { return 0; }
