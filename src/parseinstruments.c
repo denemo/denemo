@@ -7,7 +7,7 @@
  */
 
 #include "parseinstruments.h"
-#include "lyparserfuncs.h"
+
 #include <string.h>
 #include "utils.h"
 

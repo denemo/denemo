@@ -26,8 +26,7 @@
 #include "importmusicxml.h"
 #include "exportcsound.h"
 #include "importmidi.h"
-#include "lyparserfuncs.h"
-/*#include "lyparser.h"*/
+
 #include "prefops.h"
 #include "binreloc.h"
 #include "view.h"
