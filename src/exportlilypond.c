@@ -306,7 +306,7 @@ determineclef (gint type, gchar ** clefname)
 static gint
 internaltomuduration (gint internalduration)
 {
-  if(internalduration<)
+  if(internalduration < 0)
     return internalduration;
   return 1 << internalduration;
 }
@@ -704,7 +704,7 @@ return g_string_free(ret, FALSE);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count */
-static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkIter *iter, gchar* invisibility, DenemoGUI *gui) {
+static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, DenemoGUI *gui) {
   GList *g = directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -807,18 +807,18 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
    if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
 	if (!pchord->notes)
 	  {			/* A rest */
+
 	    if (!curobj->isinvisible)
 	      {
 		g_string_append_printf (ret, "r");
 		/* Duplicated code follows. I ought to fix that */
+
+		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		if (duration != prevduration || numdots != prevnumdots || duration<0)
 		  {
 		    /* only in this case do we explicitly note the duration */
-		    !!g_string_append_printf (ret, "%s",chord_prefix);
-		    directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
-
 		    if(duration>0)
-		      g_string_append_printf (ret, "%d", duration);
+		      g_string_append_printf (ret, "%d", duration);  
 		    prevduration = duration;
 		    prevnumdots = numdots;
 		    for (j = 0; j < numdots; j++)
@@ -828,7 +828,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    else
 	      {
 		g_string_append_printf (ret, "\\skip ");
-		g_string_append_printf (ret, "%s",chord_prefix);
+		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = -1;
@@ -949,7 +949,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    if (duration != prevduration || numdots != prevnumdots || duration<0)
 	      {
 		/* only in this case do we explicitly note the duration */
-		g_string_append_printf (ret, "%s",chord_prefix);
+		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;
