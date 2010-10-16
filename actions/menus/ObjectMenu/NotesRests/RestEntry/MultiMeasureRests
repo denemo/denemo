@@ -20,8 +20,10 @@
 	     (if (d-Directive-chord? "WholeMeasureRest")
 		 (begin
 		   (set! count (1+ count))
-		   (d-DirectivePut-chord-prefix "WholeMeasureRest" "%{")
-		   (d-DirectivePut-chord-postfix "WholeMeasureRest" "%}")
+
+	  (d-DirectivePut-chord-override "WholeMeasureRest" (logior DENEMO_OVERRIDE_LILYPOND (d-DirectiveGet-chord-override "WholeMeasureRest")))
+	 (d-DirectivePut-chord-prefix "WholeMeasureRest" "")
+	  (d-DirectivePut-chord-postfix "WholeMeasureRest" "%Whole measure rest\n")
 		   (d-DirectivePut-chord-graphic "WholeMeasureRest" "BracketedWholeMeasureRest")
 		   
 		   (d-DirectivePut-chord-display "WholeMeasureRest" "grouped\nas mm rest")
