@@ -47,7 +47,8 @@ denemo_SOURCES = articulations.c calculatepositions.c changenotehead.c \
 	pitchentry.c pitchrecog.c audiocapture.c pitchentry.h audio.h \
 	drawlilydir.c lilydirectives.h lilydirectives.c keysigdialog.h \
 	callbacks.h entries.h \
-	scheme_cb.h scheme.h register_commands.h 
+	scheme_cb.h scheme.h register_commands.h \
+	lyparserfuncs.h
 
 localedir = $(datadir)/locale
 INCLUDES = -I../intl -I$(top_srcdir)/intl -I$(top_srcdir)/include \
