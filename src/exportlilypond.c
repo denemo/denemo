@@ -16,9 +16,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
-
-#include "lyparserfuncs.h"
-/*#include "lyparser.h"*/
 #include "exportlilypond.h"
 #include "print.h"
 #include "scoreops.h"

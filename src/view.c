@@ -11,7 +11,7 @@
 #include <math.h>
 #include "view.h"
 #include "bookmarks.h"
-#include "lyparserfuncs.h"
+
 #include "lilydirectives.h"
 #include "dialogs.h"
 #include "utils.h"

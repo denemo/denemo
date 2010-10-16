@@ -20,7 +20,6 @@
 #include "staffops.h"
 #include "utils.h"
 #include "exportlilypond.h"	/* to generate lily text for display */
-#include "lyparserfuncs.h"	/* to generate lily text for display */
 #include "pitchentry.h"
 #include "lyric.h"
 #include "midi.h"
