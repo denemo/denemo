@@ -812,7 +812,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      {
 		g_string_append_printf (ret, "r");
 		/* Duplicated code follows. I ought to fix that */
-
+		outputret;
 		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		if (duration != prevduration || numdots != prevnumdots || duration<0)
 		  {
@@ -828,6 +828,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    else
 	      {
 		g_string_append_printf (ret, "\\skip ");
+		outputret;
 		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
@@ -949,6 +950,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    if (duration != prevduration || numdots != prevnumdots || duration<0)
 	      {
 		/* only in this case do we explicitly note the duration */
+		outputret;
 		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
