@@ -139,14 +139,7 @@ draw_notehead (cairo_t *cr,
       drawfetachar_cr ( cr, head_char[noteheadtype], xx-0.5, y + height);
   }
   
-    /* Now draw any trailing dots */
-    if ((height % LINE_SPACE) == 0)
-      draw_dots (cr, xx + headwidths[noteheadtype],
-		 y + height - HALF_LINE_SPACE, numdots);
-    else
-      draw_dots (cr, xx + headwidths[noteheadtype],
-		 y + height, numdots);
-
+  gint maxwidth = headwidths[noteheadtype];
   
   /* any display for attached LilyPond */
  { GList *g = thenote->directives;
@@ -157,8 +150,9 @@ draw_notehead (cairo_t *cr,
     if(directive->graphic) {
       gint gwidth, gheight;
       gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &gwidth, &gheight);
+      maxwidth = MAX(gwidth, maxwidth);
       drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
-			 xx+directive->gx+count,  y+height+directive->gy-gheight/2, gwidth, gheight);
+			 xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight);
 
     }
     if(directive->display) {
@@ -166,6 +160,13 @@ draw_notehead (cairo_t *cr,
     }
   }
  }
+ /* Now draw any trailing dots */
+ if ((height % LINE_SPACE) == 0)
+   draw_dots (cr, xx + maxwidth,
+	      y + height - HALF_LINE_SPACE, numdots);
+ else
+   draw_dots (cr, xx + maxwidth,
+	      y + height, numdots);
 }
 
 /**
