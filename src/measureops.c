@@ -350,7 +350,8 @@ settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
 			in_grace = FALSE;
 
 		}
-		
+		else if (theobj->type == LILYDIRECTIVE)
+		   ticks_so_far += theobj->durinticks;
 		theobj->starttickofnextnote =
 		ticks_so_far + (basic_ticks_in_tuplet_group * numerator
 				/ denominator);

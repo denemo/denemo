@@ -1162,8 +1162,28 @@ SCM scheme_get_note_duration(void){
  g_free(str);
  return  scm;
 }
+static SCM scheme_set_duration_in_ticks(SCM duration){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ gint thedur=0;
+ if(scm_is_integer(duration)) {
+     thedur =  scm_to_int(duration);
+   }
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+   return SCM_BOOL_F;
+ if(thedur>0) {
+   curObj->basic_durinticks = curObj->durinticks = thedur;  
+   if(curObj->type==CHORD) {
+     ((chord *)curObj->object)->baseduration = -thedur;
+     ((chord *)curObj->object)->numdots = 0;
+   }
+   return SCM_BOOL_T;
+ }
+ return SCM_BOOL_F;
+}
 
-SCM scheme_get_duration_in_ticks(void){
+static SCM scheme_get_duration_in_ticks(void){
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
  chord *thechord;
@@ -3260,7 +3280,9 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("returns LilyPond representation of the (highest) note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
-  INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
+  INSTALL_SCM_FUNCTION1 ("Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted",DENEMO_SCHEME_PREFIX"SetDurationInTicks", scheme_set_duration_in_ticks);
+
+  INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the object at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the end of the object at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetEndTick", scheme_get_end_tick);
 
@@ -4758,6 +4780,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		    case 8:
 		      fn = insert_chord_8key;
 		      break;
+		    default:
+		      g_warning("Handling unknown type of chord");
+		      fn = insert_chord_0key;
+		      break;
 		    }
 		    add_to_pattern(&pattern, duration_code(fn));
 		    append_rhythm(r, fn);
@@ -4788,6 +4814,10 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		      fn = insert_rest_7key;
 		      break;
 		      fn = insert_rest_8key;
+		      break;
+		    default:
+		      g_warning("Handling unknown type of rest");
+		      fn = insert_chord_0key;
 		      break;
 		    }
 		    add_to_pattern(&pattern, modifier_code(fn));

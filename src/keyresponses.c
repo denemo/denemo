@@ -342,10 +342,14 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	  objnode *thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
 	  if(thenote) {
 	    note copy = *((note *) thenote->data);
-	    delete_chordnote(gui);
+	    GList *direcs = ((note *)thenote->data)->directives;
+	    delete_chordnote(gui);//does not delete the directives.
 	    gui->si->cursor_y = copy.mid_c_offset + amount;
 	    insert_chordnote(gui);
 	    changeenshift(gui->si->currentobject->data, gui->si->cursor_y, copy.enshift);
+	    thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
+	    if(thenote)
+	      ((note *)thenote->data)->directives = direcs;
 	    score_status(gui, TRUE);
 	  }
 	}
