@@ -20,6 +20,22 @@ gint restwidths[SMALLESTDURATION + 1] =
 gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 };
 
+//FIXME yellow is defined in more than one place & see also utils.h
+static void
+drawbitmapinverse_cr_yellow (cairo_t * cr, GdkBitmap * mask, gint x,
+		   gint y, gint width, gint height)
+{
+  cairo_save(cr);
+  gdk_cairo_set_source_pixmap( cr, mask, x,y );//??? bitmap???? asks torbenh
+  cairo_pattern_t *pattern =   cairo_get_source (cr);
+  cairo_pattern_reference(pattern); 
+  cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
+  cairo_rectangle( cr, x,y, width, height );
+  cairo_mask(cr, pattern);
+  cairo_pattern_destroy (pattern);
+  cairo_restore( cr );
+}
+
 /**
  * draw_dots
  * This draws dots after rests or notes 
@@ -74,10 +90,10 @@ draw_rest (cairo_t *cr,
  *  This function actually draws the note onto the backing pixmap 
  *
  */
-void
+static void
 draw_notehead (cairo_t *cr,
 	       note * thenote, gint duration, gint numdots,
-	       gint xx, gint y, gint * accs, gint is_stemup)
+	       gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible)
 {
   /* Adam's changed this code; it used to be that these arrays only had
      three elements.  The change has defeated what had been semi-elegance;
@@ -151,9 +167,12 @@ draw_notehead (cairo_t *cr,
       gint gwidth, gheight;
       gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &gwidth, &gheight);
       maxwidth = MAX(gwidth, maxwidth);
-      drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
-			 xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight);
-
+      if(invisible)
+	drawbitmapinverse_cr_yellow ( cr, (GdkBitmap *)directive->graphic,
+				     xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight); else
+	drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
+			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight);
+      
     }
     if(directive->display) {
       drawnormaltext_cr (cr, directive->display->str, xx+directive->tx+count, y+thenote->y+directive->ty ); 
@@ -255,7 +274,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
     cairo_scale( cr, 0.8, 0.8);
     cairo_translate( cr, -xx, -(y+thenote->y));
   }
-
+  //  g_print("Invisble is %d\n", mudelaitem->isinvisible); 
   if (mudelaitem->isinvisible) {
     if (selected)
       cairo_set_source_rgb( cr, 231.0/255 , 1, 39.0/255 ); 
@@ -266,12 +285,13 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
  
   if (!thechord.notes/* a rest */) {
     if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC)) 
-      draw_rest (cr, duration, thechord.numdots, xx, y);}  else {
+      draw_rest (cr, MAX(duration, 0), thechord.numdots, xx, y);
+  }  else {
     /* Draw the noteheads and accidentals */
     for (curnode = thechord.notes; curnode; curnode = curnode->next){
       note *thenote = (note *)curnode->data;
       draw_notehead (cr, thenote, duration,
-		     thechord.numdots, xx, y, accs, thechord.is_stemup); 
+		     thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible); 
     }
   }
   /* Now the stem and beams. This is complicated. */

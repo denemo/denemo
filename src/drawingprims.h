@@ -14,10 +14,6 @@ void
 draw_rest (cairo_t *cr, gint baseduration, gint numdots,
 	   gint xx, gint y);
 
-void
-draw_notehead (cairo_t *cr,
-	       note *thenote, gint baseduration,
-	       gint numdots, gint xx, gint y, gint *accs, gint is_stemup);
 
 void
 draw_ledgers (cairo_t *cr,
