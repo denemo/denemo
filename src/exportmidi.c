@@ -1412,31 +1412,37 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 
 		  numdots = chordval.numdots;
 		  duration = 0;
-		  for (d = 0; d <= numdots; d++)
-		    {
-		      duration +=
-			internaltoticks (chordval.baseduration) >> d;
-		    }
-		  if (tuplet >= 1)
-		    {
-		      duration *= tupletnums.numerator;
-		      duration /= tupletnums.denominator;
-		      if (MIDI_RESOLUTION % tupletnums.denominator)
-			{
-			  measure_has_odd_tuplet = 1;
-			}
-		    }
+		  if(chordval.baseduration>=0) {
+		    for (d = 0; d <= numdots; d++)
+		      {
 
-		  if (tuplet >= 2)
-		    {
-		      if (MIDI_RESOLUTION % tupletnums.denominator *
-			  savedtuplet.denominator)
-			{
-			  measure_has_odd_tuplet = 1;
-			}
-		      duration *= savedtuplet.numerator;
-		      duration /= savedtuplet.denominator;
-		    }
+			
+			duration +=
+			  internaltoticks (chordval.baseduration) >> d;
+		      }
+		    if (tuplet >= 1)
+		      {
+			duration *= tupletnums.numerator;
+			duration /= tupletnums.denominator;
+			if (MIDI_RESOLUTION % tupletnums.denominator)
+			  {
+			    measure_has_odd_tuplet = 1;
+			  }
+		      }
+
+		    if (tuplet >= 2)
+		      {
+			if (MIDI_RESOLUTION % tupletnums.denominator *
+			    savedtuplet.denominator)
+			  {
+			    measure_has_odd_tuplet = 1;
+			  }
+			duration *= savedtuplet.numerator;
+			duration /= savedtuplet.denominator;
+		      }
+		  }
+		  else 
+		    duration = curobj->durinticks;
 
 	  /********************************
 	   * compute real duration of note
