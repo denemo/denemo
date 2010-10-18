@@ -1150,17 +1150,19 @@ SCM scheme_get_note_duration(void){
  gchar *str;
   
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
-   return  SCM_BOOL(FALSE);
-
- duration = 1 << thechord->baseduration;
- str = g_strdup_printf("%d", duration);
- if (thechord->numdots)
-   while (numdots++ < thechord->numdots)
-     str = g_strdup_printf("%s""%c", str, '.');
-
- SCM scm = scm_makfrom0str (str);
- g_free(str);
- return  scm;
+   return  SCM_BOOL_F;
+ if(thechord->baseduration>=0) {
+   duration = 1 << thechord->baseduration;
+   str = g_strdup_printf("%d", duration);
+   if (thechord->numdots)
+     while (numdots++ < thechord->numdots)
+       str = g_strdup_printf("%s""%c", str, '.');
+   
+   SCM scm = scm_makfrom0str (str);
+   g_free(str);
+   return  scm;
+ }
+ return  SCM_BOOL_F; 
 }
 static SCM scheme_set_duration_in_ticks(SCM duration){
  DenemoGUI *gui = Denemo.gui;
