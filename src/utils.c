@@ -316,6 +316,7 @@ setpixelmin (DenemoObject * theobj)
     case CHORD:
       chordval = *(chord *) theobj->object;
       baseduration = chordval.baseduration;
+      baseduration = MAX(baseduration, 0);
       headtype = MIN (baseduration, 2);
       if(headtype<0)
 	headtype = 0;//-ve values of baseduration are for specials

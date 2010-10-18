@@ -421,7 +421,7 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum,
       theobj = (DenemoObject *) curobjnode->data;
       if (theobj->type == CHORD)
 	{
-	  if ( (((chord *) theobj->object)->baseduration == 0))
+	  if ( (((chord *) theobj->object)->baseduration <= 0))
 	    /* Whole notes are always laid out stemup */
 	    ((chord *) theobj->object)->is_stemup = TRUE;
 	  else
@@ -610,9 +610,11 @@ set_accidental_positions (DenemoObject * the_chord)
   gint column_positions[ACCS_TOO_CLOSE];
   gint i;
   chord chordval = *(chord *) the_chord->object;
+  gint baseduration = chordval.baseduration;
+  baseduration = MAX(baseduration, 0);
   gint additional_space
     = ((!chordval.is_stemup && chordval.is_reversealigned)
-       ? headwidths[MIN (chordval.baseduration, 2)] : 0);
+       ? headwidths[MIN (baseduration, 2)] : 0);
 
 
   for (i = 0; i < ACCS_TOO_CLOSE; i++)
