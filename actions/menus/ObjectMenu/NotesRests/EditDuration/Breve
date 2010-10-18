@@ -11,7 +11,8 @@
 (d-SetDurationInTicks (* 2 1536))
 (d-DirectivePut-note-graphic "breve" "Breve")
 (d-DirectivePut-note-override "breve" DENEMO_OVERRIDE_GRAPHIC)
-(d-DirectivePut-chord-prefix "breve" "\\breve ")</scheme>
+(d-DirectivePut-chord-prefix "breve" "\\breve ")
+(d-RefreshDisplay)</scheme>
         <label>Breve</label>
         <tooltip>Inserts a Breve into the music</tooltip>
       </row>
