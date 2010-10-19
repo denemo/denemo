@@ -4783,7 +4783,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		      fn = insert_chord_8key;
 		      break;
 		    default:
-		      g_warning("Handling unknown type of chord");
+		      g_warning("Handling unknown type of chord as whole note");
 		      fn = insert_chord_0key;
 		      break;
 		    }
@@ -4818,8 +4818,8 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 		      fn = insert_rest_8key;
 		      break;
 		    default:
-		      g_warning("Handling unknown type of rest");
-		      fn = insert_chord_0key;
+		      g_warning("Handling unknown type of rest as whole note rest");
+		      fn = insert_rest_0key;
 		      break;
 		    }
 		    add_to_pattern(&pattern, modifier_code(fn));
