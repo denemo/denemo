@@ -18,6 +18,7 @@
    (d-DirectivePut-standalone-minpixels "WholeMeasureRest" 300)
    (d-DirectivePut-standalone-override "WholeMeasureRest" DENEMO_OVERRIDE_GRAPHIC)
    (d-DirectivePut-standalone-postfix "WholeMeasureRest" (string-append "R1*" timesig))
+   (d-MoveCursorRight)
    (d-RefreshDisplay))
    </scheme>
         <label>Whole Measure Rest</label>
