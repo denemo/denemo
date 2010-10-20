@@ -27,6 +27,9 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
+static gint version_number;
+
+
 static gint current_movement = 0, current_staff=0, current_measure=0, current_position = 0;
 
 /* Defines for making traversing XML trees easier */
@@ -325,6 +328,17 @@ parseVerses (DenemoScore *si, DenemoStaff *staff, xmlNodePtr parentElem, xmlNsPt
   return verses;
 }
 
+/* Fix for semantic change to prefix field in the directives */
+static fix_prefix_use(GList *directives) {
+  GList *g;
+  for(g=directives;g;g=g->next) {
+    DenemoDirective *directive = g->data;
+    if(directive->prefix) {
+      directive->prefix = g_string_new(g_strdup_printf("%%{Disabled form \n%s\n use newer command %%}\n", directive->prefix->str));
+      directive->display = g_string_new(g_strdup_printf("Warning - re-run the %s command here!\nold version", directive->tag->str));
+    }
+  }
+}
 static GList *
 parseDirectives (xmlNodePtr parentElem, xmlNsPtr ns)
 {
@@ -965,7 +979,8 @@ DenemoObject *chordObj =
   FOREACH_CHILD_ELEM (childElem, chordElem)  {
     if (childElem->ns == ns) {
       if (ELEM_NAME_EQ (childElem, "directives"))  {
-	((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);	  
+	((chord *) chordObj->object)->directives = parseDirectives(childElem, ns);
+	if(version_number<3) fix_prefix_use(((chord *) chordObj->object)->directives);
       }
       else if (ELEM_NAME_EQ (childElem, "figure"))
 	{
@@ -2821,17 +2836,16 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       ret = -1;
       goto cleanup;
     }
-  gint version_number = 2;
-  if (strcmp (version, "2.0") != 0)
-    {
-      if(strcmp (version, "1.0") != 0) {
-      g_warning ("Denemo XML file version %s found, but we can only handle "
-		 "versions 1.0 and 2.0", version);
+
+
+  sscanf(version, "%d", &version_number);
+  if(version_number > CURRENT_XML_VERSION)
+     {
+      g_warning ("Denemo XML file version %d found, but we can only handle %d and lower"
+		 , version_number, CURRENT_XML_VERSION);
       ret = -1;
       goto cleanup;
-      } else
-	version_number = 1;
-    }
+      }
 
   /*
    * Okay, we've got a bona fide, 100% genuine Denemo XML file (hopefully).
@@ -2841,7 +2855,7 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 
   buildXMLIDToElemMap (doc);
   /* Then, parse the score. */
-  if(version_number==2) {
+  if(version_number>=2) {
     xmlNodePtr childElem;
     switch(type) {
     case ADD_STAFFS:
