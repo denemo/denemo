@@ -1231,6 +1231,11 @@ parseChord (xmlNodePtr chordElem, xmlNsPtr ns,
 	  {
 	    /* This was already parsed during parseBaseChord(). */
 	  }
+	else if (ELEM_NAME_EQ (childElem, "ticks"))
+	  {
+	    chordObj->basic_durinticks = getXMLIntChild (childElem);
+	    ((chord *)chordObj->object)->baseduration = -chordObj->basic_durinticks;
+	  }
 	else if (ELEM_NAME_EQ (childElem, "dynamic"))
 	  {
 	    parseDynamic (childElem, chordObj);
@@ -1540,6 +1545,10 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
   GET_INT_FIELD(minpixels);
   // curobj->minpixelsalloted = thedirective->minpixels?thedirective->minpixels:16;//FIXME setpixelmin
   setpixelmin(curobj);
+  gchar *ticks = (gchar *)xmlGetProp (LilyDirectiveElem, (xmlChar *)"ticks");
+  if(ticks)
+    curobj->durinticks = atoi(ticks);
+  //curobj->baseduration = - curobj->durinticks;
   return curobj;
 }
 

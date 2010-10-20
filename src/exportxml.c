@@ -624,7 +624,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   /* Create the XML document and output the root element. */
   
   doc = xmlNewDoc ((xmlChar *) "1.0");
-  xmlSetDocCompressMode (doc, XML_COMPRESSION_RATIO);
+  //xmlSetDocCompressMode (doc, XML_COMPRESSION_RATIO);
   doc->xmlRootNode = scoreElem =
     xmlNewDocNode (doc, NULL, (xmlChar *) "score", NULL);
   ns = xmlNewNs (doc->xmlRootNode, (xmlChar *) DENEMO_XML_NAMESPACE, NULL);
@@ -1062,6 +1062,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			    newXMLDecoration (parentElem, ns, "arpeggio");
 			}
 		    }
+		  if(thechord->baseduration<0)
+		    newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
+
 
 		  /*
 		   *  Output Dynamic which is now part of note 
@@ -1405,7 +1408,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		    SETINT_PROP (gy);
 		    SETINT_PROP (minpixels);
 		    SETINT_PROP (override);
-#undef SETINT_PROP		  
+#undef SETINT_PROP
+		    if(curObj->durinticks)
+		      newXMLIntProp (objElem, "ticks", curObj->durinticks);
 		  break;
 		case BARLINE:
 		case MEASUREBREAK:
