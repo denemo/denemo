@@ -229,8 +229,12 @@ determineDuration (gint duration, gchar ** durationName)
       *durationName = "one-hundred-twenty-eighth";
       break;
     default:
-      g_warning ("Unknown note duration 1/%d, using quarter", 1 << duration);
-      *durationName = "quarter";
+      if(duration<0)
+	*durationName = "whole";
+      else {
+	g_warning ("Unknown note duration 1/%d, using quarter", 1 << duration);
+	*durationName = "quarter";
+      }
       break;
     }
 }
@@ -1437,10 +1441,13 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
     }				/* end for each voice in score */
   }// for each movement
   /* Save the file. */
-
+#if 0
   if (xmlSaveFile (filename->str, doc) < 0)
     g_warning ("Could not save file %s", filename->str);
-
+#else
+  if (xmlSaveFormatFile (filename->str, doc, 1) < 0)
+    g_warning ("Could not save file %s", filename->str);
+#endif
   /* Clean up all the memory we've allocated. */
 
   xmlFreeDoc (doc);
