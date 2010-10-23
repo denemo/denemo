@@ -6,7 +6,6 @@
 (use-modules (srfi srfi-13))
 (use-modules (ice-9 regex))
 (use-modules (ice-9 optargs))
-(load "ans-7.scm")
 (load "ans.scm")
 (load "notationmagick.scm")
 
