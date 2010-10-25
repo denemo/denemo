@@ -145,9 +145,7 @@ regex_parse_version_number (const gchar *string)
 gchar *
 get_lily_version_string (void)
 {
-#ifdef G_OS_WIN32
-  return INSTALLED_LILYPOND_VERSION;
-#else
+#ifndef G_OS_WIN32
   GError *error = NULL;
   gchar *version_string;
   double d;
@@ -178,6 +176,7 @@ get_lily_version_string (void)
     g_error_free (error);
   }
 #endif
+return INSTALLED_LILYPOND_VERSION;
 }
 int
 check_lily_version (gchar *version)
