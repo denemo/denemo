@@ -306,7 +306,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar *fallbac
 	  // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
 
 	  if(hidden)
-	    g_object_set_data(G_OBJECT(action), "deleted", TRUE);//Mark hidden items as deleted on loading them
+	    g_object_set_data(G_OBJECT(action), "deleted", (gpointer)TRUE);//Mark hidden items as deleted on loading them
 	} // is_script
 	// we are not as yet re-writing tooltips etc on builtin commands
 #if 1
