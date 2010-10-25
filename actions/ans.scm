@@ -1091,9 +1091,8 @@
 )
 
 
-;Make diatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
-(define (ANS::GetDiatonic ansNote)
 ;GetDiatonic. Looks ups the prevailing keysignature and returns the correct diatonic value for a given note.
+(define (ANS::GetDiatonic ansNote)
 	(define keysiglist (string-tokenize (d-GetPrevailingKeysig))) ; A list of strings! We need numbers, later
 	(define whitekey (ANS::GetWhiteKey ansNote))
 	(define getkeysigfor "0")
@@ -1143,7 +1142,7 @@
 ;Random note generator, one of each possible chromatic notes or optional range. Same probability for natural, flat or sharp.
 (define* (ANS::RandomChromatic #:optional (from "0") (to "8y0"))
 	(define rand (- (random 3) 1))	; -1, 0 or 1
-	(ANS::Alteration (ANS::GetDiatonic from to) rand) 
+	(ANS::Alteration (ANS::RandomDiatonic from to) rand) 
 )  
 
 
