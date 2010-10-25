@@ -24,8 +24,8 @@ draw_lily_dir (cairo_t *cr,
   if(lily->graphic){
     gint width = lily->width;
     gint  height = lily->height;  
-    drawbitmapinverse_cr (cr, (GdkBitmap *)lily->graphic,
-		     xx + lily->gx, y + lily->gy, width, height);
+    drawbitmapinverse_cr (cr, (DenemoGraphic *)lily->graphic,
+		     xx + lily->gx, y + lily->gy);
   }
   else
   {

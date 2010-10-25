@@ -48,8 +48,8 @@ drawbitmapinverse (GdkPixmap *pixmap, GdkGC *gc, GdkBitmap *mask,
 		   gint x, gint y, gint width, gint height);
 
 void
-drawbitmapinverse_cr (cairo_t * cr, GdkBitmap * mask, gint x,
-		   gint y, gint width, gint height);
+drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
+		   gint y);
 
 void
 drawfetachar (GdkPixmap * pixmap, GdkGC * gc, gunichar uc, gint x, gint y);

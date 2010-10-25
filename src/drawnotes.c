@@ -12,7 +12,6 @@
 #include "gcs.h"
 #include <math.h>
 
-
 gint restwidths[SMALLESTDURATION + 1] =
   { WHOLEREST_WIDTH, HALFREST_WIDTH, QUARTERREST_WIDTH, EIGHTHREST_WIDTH,
   SIXTEENTHREST_WIDTH, THIRTYSECONDREST_WIDTH, SIXTYFOURTHREST_WIDTH, HUNDREDTWENTYEIGHTHREST_WIDTH, TWOHUNDREDFIFTYSIXTHREST_WIDTH
@@ -22,17 +21,29 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 
 //FIXME yellow is defined in more than one place & see also utils.h
 static void
-drawbitmapinverse_cr_yellow (cairo_t * cr, GdkBitmap * mask, gint x,
-		   gint y, gint width, gint height)
+drawbitmapinverse_cr_yellow (cairo_t * cr, DenemoGraphic * mask, gint x,
+		   gint y)
 {
   cairo_save(cr);
-  gdk_cairo_set_source_pixmap( cr, mask, x,y );//??? bitmap???? asks torbenh
-  cairo_pattern_t *pattern =   cairo_get_source (cr);
-  cairo_pattern_reference(pattern); 
-  cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
-  cairo_rectangle( cr, x,y, width, height );
-  cairo_mask(cr, pattern);
-  cairo_pattern_destroy (pattern);
+  GError *err = NULL;
+  static init = FALSE;
+  if(!init)
+    rsvg_init(), init=TRUE;
+  if(mask->type==DENEMO_BITMAP) {
+      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh  
+      cairo_pattern_t *pattern =   cairo_get_source (cr);
+      cairo_pattern_reference(pattern); 
+      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
+      cairo_rectangle( cr, x,y, mask->width, mask->height );
+      cairo_mask(cr, pattern);
+      cairo_pattern_destroy (pattern);
+    } else {
+      cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
+      cairo_translate(cr, x, y);
+      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
+      cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
+      cairo_mask(cr, pattern);
+    }
   cairo_restore( cr );
 }
 
@@ -165,13 +176,19 @@ draw_notehead (cairo_t *cr,
     DenemoDirective *directive = (DenemoDirective *)g->data;
     if(directive->graphic) {
       gint gwidth, gheight;
+#if 0
+      //just a mistake???
       gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &gwidth, &gheight);
+#else
+      gwidth = directive->width;
+      gheight = directive->height;
+#endif
       maxwidth = MAX(gwidth, maxwidth);
       if(invisible)
-	drawbitmapinverse_cr_yellow ( cr, (GdkBitmap *)directive->graphic,
-				     xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight); else
-	drawbitmapinverse_cr ( cr, (GdkBitmap *)directive->graphic,
-			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2, gwidth, gheight);
+	drawbitmapinverse_cr_yellow ( cr, directive->graphic,
+				     xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2); else
+	drawbitmapinverse_cr ( cr, directive->graphic,
+			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
       
     }
     if(directive->display) {
@@ -491,8 +508,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
 	if(directive->graphic) {
 	  gint width, height;
 	  gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
-	  drawbitmapinverse_cr (cr, (GdkBitmap*)directive->graphic,
-				xx+directive->gx, y+directive->gy, width, height);
+	  drawbitmapinverse_cr (cr, directive->graphic,
+				xx+directive->gx, y+directive->gy);
 	}
 	if(directive->display) {
 	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );

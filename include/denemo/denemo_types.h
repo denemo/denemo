@@ -52,6 +52,23 @@ typedef enum
     REDO
   }unre_mode;
 
+
+
+typedef enum DenemoGraphicType
+  {
+    DENEMO_BITMAP,
+    DENEMO_PATTERN
+  } DenemoGraphicType;
+
+typedef struct DenemoGraphic
+{
+  DenemoGraphicType type;
+  gpointer graphic; /**< either a GdkBitmap or a cairo_pattern_t */
+  gint width, height;
+}
+DenemoGraphic;
+
+
 /* The idea here is to make everything recursive.  The dominant
    paradigm is a linked list.  Handy that there's such a nice
    precooked implementation of them in glib, eh?  Note, however, that

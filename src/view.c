@@ -17,6 +17,9 @@
 #include "utils.h"
 #include <stdlib.h>
 #include <glib/gstdio.h>
+#include <rsvg.h>
+#include <rsvg-cairo.h>
+
 #include "scorewizard.h"
 #include "playback.h"
 #include "pitchentry.h"
@@ -5587,25 +5590,55 @@ static gboolean
 loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
 
   GError *error = NULL;
-  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (name, &error);
+  gchar *filename = g_strconcat(name, ".png", NULL);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file (filename, &error);
+  g_free(filename);
   if(error) {
-    //warningdialog(error->message);
-    g_warning("creating pixbuf from file %s gave %s\n", name, error->message);
-    return FALSE;
+    g_error_free(error);
+    error = NULL;
+    gchar *filename = g_strconcat(name, ".svg", NULL);
+    RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
+    g_free(filename);
+    if(handle==NULL) {
+      if(error)
+	g_warning("Could not open %s error %s\n", basename, error->message);
+      else
+	g_warning("Opening %s, Bug in librsvg:rsvg handle null but no error message", basename);
+      return FALSE;
+    }
+    RsvgDimensionData thesize;
+    rsvg_handle_get_dimensions(handle, &thesize); 
+    *width = thesize.width;
+    *height = thesize.height;
+    cairo_surface_t *surface =   cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
+    cairo_t *cr2 = cairo_create(surface);
+    rsvg_handle_render_cairo(handle, cr2);
+    cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
+    cairo_pattern_reference(pattern); 
+    cairo_destroy(cr2);
+    DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
+    graphic->type = DENEMO_PATTERN;
+    graphic->width = thesize.width;
+    graphic->height = thesize.height;
+    graphic->graphic = pattern;
+    bitmap_table_insert(basename, graphic);
+    *xbm = graphic;
+    return TRUE;
   }
   GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
   *width = gdk_pixbuf_get_width(pixbufa);
   *height = gdk_pixbuf_get_height(pixbufa);
   gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
-
-
-
   
   *xbm = create_bitmap_from_data(data, *width, *height);
-
-
-  bitmap_table_insert(basename, *xbm);
+  DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
+  graphic->type = DENEMO_BITMAP;
+  graphic->width = *width;
+  graphic->height = *height;
+  graphic->graphic = *xbm;
+  bitmap_table_insert(basename, graphic);
   g_free(data);
+  *xbm = graphic;
   return TRUE;
 }
 
@@ -5613,19 +5646,30 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
 static gboolean
 loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
   GError *error = NULL;
-  gchar *filename = g_strconcat(name, ".png", NULL);
-  return loadGraphicFromFormat(basename, filename, xbm, width, height);//FIXME free filename
+  
+  return loadGraphicFromFormat(basename, name, xbm, width, height);
   //others .jpg .svg ....		 
     return FALSE;
 }
 
+static void pattern_get_size (cairo_pattern_t *pattern, gint *width, gint *height) {
+  cairo_surface_t *surface;
+  cairo_pattern_get_surface(pattern, &surface);
+  *width = cairo_image_surface_get_width(surface);
+  *height = cairo_image_surface_get_height(surface);
+}
 
 gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
 
   if (!name || !*name)
     return FALSE;
   if(bitmaps && (*xbm = (GdkBitmap *) g_hash_table_lookup(bitmaps, name))) {
-    gdk_drawable_get_size(*xbm, width, height);
+    if(GDK_IS_DRAWABLE(*xbm))
+      gdk_drawable_get_size(*xbm, width, height);
+    else {
+      pattern_get_size(*xbm, width, height);
+    }
+      
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
