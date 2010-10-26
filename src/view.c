@@ -5663,13 +5663,9 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
 
   if (!name || !*name)
     return FALSE;
-  if(bitmaps && (*xbm = (GdkBitmap *) g_hash_table_lookup(bitmaps, name))) {
-    if(GDK_IS_DRAWABLE(*xbm))
-      gdk_drawable_get_size(*xbm, width, height);
-    else {
-      pattern_get_size(*xbm, width, height);
-    }
-      
+  if(bitmaps && (*xbm = (DenemoGraphic *) g_hash_table_lookup(bitmaps, name))) {
+    width = ( (DenemoGraphic *) (*xbm))->width;
+    height =  ( (DenemoGraphic *) (*xbm))->height;
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
