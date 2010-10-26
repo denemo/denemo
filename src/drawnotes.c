@@ -26,9 +26,7 @@ drawbitmapinverse_cr_yellow (cairo_t * cr, DenemoGraphic * mask, gint x,
 {
   cairo_save(cr);
   GError *err = NULL;
-  static init = FALSE;
-  if(!init)
-    rsvg_init(), init=TRUE;
+
   if(mask->type==DENEMO_BITMAP) {
       gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh  
       cairo_pattern_t *pattern =   cairo_get_source (cr);

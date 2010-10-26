@@ -3133,7 +3133,8 @@ void inner_main(void*closure, int argc, char **argv){
   
   gint i;
   GError *error = NULL;
-
+  
+  rsvg_init();
   //create window system
   create_window();
 
@@ -5613,6 +5614,8 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
     cairo_surface_t *surface =   cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
     cairo_t *cr2 = cairo_create(surface);
     rsvg_handle_render_cairo(handle, cr2);
+    rsvg_handle_close(handle, NULL);
+    g_object_unref(handle);
     cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
     cairo_pattern_reference(pattern); 
     cairo_destroy(cr2);
