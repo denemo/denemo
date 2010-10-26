@@ -5646,15 +5646,6 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
 }
 
 
-static gboolean
-loadGraphicFromFormats(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
-  GError *error = NULL;
-  
-  return loadGraphicFromFormat(basename, name, xbm, width, height);
-  //others .jpg .svg ....		 
-    return FALSE;
-}
-
 static void pattern_get_size (cairo_pattern_t *pattern, gint *width, gint *height) {
   cairo_surface_t *surface;
   cairo_pattern_get_surface(pattern, &surface);
@@ -5674,64 +5665,23 @@ gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
 				      NULL);
   
-  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+  if(1) {
+    if(loadGraphicFromFormat(name, filename, xbm, width, height))
       return TRUE;
     g_free(filename);
     filename = g_build_filename (locatedownloadbitmapsdir(), name,
 				      NULL);
   }
-  if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
-    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+  if(1) {
+    if(loadGraphicFromFormat(name, filename, xbm, width, height))
       return TRUE;
     g_free(filename);
     filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
 				      NULL);
-    if(loadGraphicFromFormats(name, filename, xbm, width, height))
+    if(loadGraphicFromFormat(name, filename, xbm, width, height))
       return TRUE;
-  } 
-  FILE *fp = fopen(filename,"rb");
-  if(fp) {
-    guchar wlo, whi, hlo, hhi;
-    gint w, h;
-    int n;
-    n = fread(&wlo, 1, 1, fp);
-    n = fread(&whi, 1, 1, fp);
-
-    n = fread(&hlo, 1, 1, fp);
-    n = fread(&hhi, 1, 1, fp);
-    w = wlo+255*whi;
-    h = hlo+255*hhi;
-    gint numbytes = h*((w+7)/8)*8;
-    gchar *data = g_malloc(numbytes);    
-    //g_print("Hope to read %d bytes for %d x %d\n", numbytes, w, h);
-    if(numbytes == fread(data, 1, numbytes, fp)){
-      *xbm = create_bitmap_from_data(data, w, h);
-
-#if 0
-gdk_bitmap_create_from_data(NULL, data, w, h);
-
-
-    static GdkColor white, black;gboolean init = FALSE;
-    if(!init) {
-      gdk_color_parse ("white", &white);
-      gdk_colormap_alloc_color (gdk_colormap_get_system (), &white, TRUE, TRUE);
-      gdk_color_parse ("black", &black);
-      gdk_colormap_alloc_color (gdk_colormap_get_system (), &black, TRUE, TRUE);
-    }
-    *xbm = gdk_pixmap_create_from_data(NULL,data, w, h, 1, &black, &white);
-
-    g_print("data pixmap create");
-#endif
-
-
-      bitmap_table_insert(name, *xbm);
-      *width = w; *height = h;
-      fclose(fp);
-      return TRUE;
-    }
-    fclose(fp);  
-  } else {
+  }
+ {
     g_warning("Could not load graphic");
     //warningdialog("Could not load graphic");
   }
