@@ -8,24 +8,46 @@
         <after>StartUpStems</after>
         <action>DesignateVoice</action>
         <scheme>;;;DesignateVoice
-(let ((choice #f)(label #f))
-(set! choice (d-GetOption (string-append "OneVoice" stop "VoiceOne" stop "VoiceTwo" stop "VoiceThree" stop "VoiceFour" stop) ) )
+(let ((choice #f)(label #f)
+        (OneVoice "OneVoice:  Default-For a single voice on a staff") (VoiceOne
+"VoiceOne:  Designate as upper voice")
+        (VoiceTwo "VoiceTwo:  Designate as lower voice")(VoiceThree "VoiceThree: 
+Horizontally offset upper voice")
+        (VoiceFour "VoiceFour:  Horizontally offset lower voice") 
+        )
+(set! choice (d-GetOption (string-append OneVoice stop VoiceOne stop VoiceTwo
+stop VoiceThree stop VoiceFour stop) ) )
 (cond
-( (equal? choice "VoiceOne" ) (begin (set! choice "voiceOne") (set! label "Voice1") ))
-( (equal? choice "VoiceTwo" ) (begin (set! choice "voiceTwo") (set! label "Voice2") ))
-( (equal? choice "VoiceThree" ) (begin (set! choice "voiceThree") (set! label "Voice3") ))
-( (equal? choice "VoiceFour" ) (begin (set! choice "voiceFour") (set! label "Voice4") ))
-( (equal? choice "OneVoice" ) (begin (set! choice "oneVoice") (set! label "1Voice") ) )
-
+        ( (equal? choice VoiceOne ) (begin (set! choice "voiceOne") (set! label
+"Voice1") ))
+        ( (equal? choice VoiceTwo ) (begin (set! choice "voiceTwo") (set! label
+"Voice2") ))
+        ( (equal? choice VoiceThree ) (begin (set! choice "voiceThree") (set! label
+"Voice3") ))
+        ( (equal? choice VoiceFour ) (begin (set! choice "voiceFour") (set! label
+"Voice4") ))
+        ( (equal? choice OneVoice ) (begin (set! choice "oneVoice") (set! label
+"1Voice") ) )
 )
-(d-DirectivePut-standalone "Voice" )
-(d-DirectivePut-standalone-display "Voice" label )
-(d-DirectivePut-standalone-ty "Voice" 60 )
-(d-DirectivePut-standalone-postfix "Voice" (string-append "\\" choice ) )
-(d-DirectivePut-standalone-minpixels "Voice" 10 )
+(if  choice
+        (begin
+                (d-DirectivePut-standalone "Voice" )
+                (d-DirectivePut-standalone-display "Voice" label )
+                (d-DirectivePut-standalone-ty "Voice" 60 )
+                (d-DirectivePut-standalone-postfix "Voice" (string-append "\" choice ) )
+                (d-DirectivePut-standalone-minpixels "Voice" 10 )
+        )
+)
 )</scheme>
         <label>Designate Voice</label>
-        <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
+        <tooltip>
+These commands are used when entering several voices per staff.
+        VoiceOne is for the upper voice-it sets the direction of slurs,
+beams, etc. up to avoid clashes.
+        VoiceTwo is for the lower voice, and it sets the directions down.
+        Additional voices beyond two are offset slightly to the
+right.
+ </tooltip>
       </row>
     </map>
   </merge>

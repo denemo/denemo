@@ -3124,7 +3124,12 @@ for second and subsequent systems</tooltip>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
         <label>Designate Voice</label>
-        <tooltip>This script is used when entering several voices per staff--it enters a lilypond command to set all of the various gadgets to the proper directions to avoid clashes and make it all look nice. </tooltip>
+        <tooltip>These commands are used when entering several voices per staff.
+        VoiceOne is for the upper voice-it sets the direction of slurs,
+beams, etc. up to avoid clashes.
+        VoiceTwo is for the lower voice, and it sets the directions down.
+        Additional voices beyond two are offset slightly to the
+right. </tooltip>
       </row>
       <row>
         <action>DynamicsDialog</action>
