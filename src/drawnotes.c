@@ -504,8 +504,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
       for(;g;g=g->next) {
 	DenemoDirective *directive = (DenemoDirective *)g->data;
 	if(directive->graphic) {
-	  gint width, height;
-	  gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &width, &height);
+	  
 	  drawbitmapinverse_cr (cr, directive->graphic,
 				xx+directive->gx, y+directive->gy);
 	}
