@@ -131,8 +131,8 @@ void
 drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
 		   gint y)
 {
-  if(mask->type==DENEMO_BITMAP) {
   cairo_save(cr);
+  if(mask->type==DENEMO_BITMAP) {
   gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh
   cairo_rectangle( cr, x,y, mask->width, mask->height );
   cairo_fill( cr );
@@ -140,7 +140,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x,
   } else {
     cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
     cairo_translate(cr, x, y);
-    cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
+    // cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
     cairo_mask(cr, pattern);
   }
   cairo_restore( cr );
