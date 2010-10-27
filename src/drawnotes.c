@@ -19,31 +19,6 @@ gint restwidths[SMALLESTDURATION + 1] =
 gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 };
 
-//FIXME yellow is defined in more than one place & see also utils.h
-static void
-drawbitmapinverse_cr_yellow (cairo_t * cr, DenemoGraphic * mask, gint x,
-		   gint y)
-{
-  cairo_save(cr);
-  GError *err = NULL;
-
-  if(mask->type==DENEMO_BITMAP) {
-      gdk_cairo_set_source_pixmap( cr, mask->graphic, x,y );//??? bitmap???? asks torbenh  
-      cairo_pattern_t *pattern =   cairo_get_source (cr);
-      cairo_pattern_reference(pattern); 
-      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
-      cairo_rectangle( cr, x,y, mask->width, mask->height );
-      cairo_mask(cr, pattern);
-      cairo_pattern_destroy (pattern);
-    } else {
-      cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
-      cairo_translate(cr, x, y);
-      cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
-      //cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
-      cairo_mask(cr, pattern);
-    }
-  cairo_restore( cr );
-}
 
 /**
  * draw_dots
@@ -179,7 +154,7 @@ draw_notehead (cairo_t *cr,
 
       maxwidth = MAX(gwidth, maxwidth);
       if(invisible)
-	drawbitmapinverse_cr_yellow ( cr, directive->graphic,
+	drawbitmapinverse_cr ( cr, directive->graphic,
 				     xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2); else
 	drawbitmapinverse_cr ( cr, directive->graphic,
 			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
