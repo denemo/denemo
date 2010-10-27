@@ -1535,7 +1535,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	  if(curobjnode) {
 	  curobj = (DenemoObject *) curobjnode->data;
-	  if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
+	  // if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
+	  if(curobj->durinticks)
 	    empty_measure=FALSE; 
 
 
