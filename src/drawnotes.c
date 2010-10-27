@@ -39,7 +39,7 @@ drawbitmapinverse_cr_yellow (cairo_t * cr, DenemoGraphic * mask, gint x,
       cairo_pattern_t *pattern = (cairo_pattern_t *)mask->graphic;
       cairo_translate(cr, x, y);
       cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );
-      cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
+      //cairo_rectangle( cr, 0, 0,  mask->width, mask->height );
       cairo_mask(cr, pattern);
     }
   cairo_restore( cr );
@@ -174,13 +174,9 @@ draw_notehead (cairo_t *cr,
     DenemoDirective *directive = (DenemoDirective *)g->data;
     if(directive->graphic) {
       gint gwidth, gheight;
-#if 0
-      //just a mistake???
-      gdk_drawable_get_size(GDK_DRAWABLE(directive->graphic), &gwidth, &gheight);
-#else
-      gwidth = directive->width;
-      gheight = directive->height;
-#endif
+      gwidth = directive->graphic->width;
+      gheight = directive->graphic->height;
+
       maxwidth = MAX(gwidth, maxwidth);
       if(invisible)
 	drawbitmapinverse_cr_yellow ( cr, directive->graphic,
