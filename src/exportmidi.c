@@ -1838,7 +1838,13 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			break;
 		      }
 		  }
-		  curobj->earliest_time = curobj->latest_time  = event->time_seconds;// can be the last event
+
+		 
+
+		  curobj->earliest_time   = event->time_seconds;// taking the last one...
+		  curobj->latest_time = curobj->earliest_time + curobj->durinticks*60.0/(cur_tempo*MIDI_RESOLUTION);
+		  ticks_read += curobj->durinticks;
+
 		  break;
 		default:
 #if DEBUG
