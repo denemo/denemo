@@ -538,7 +538,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
        (gint) (g_list_length ((objnode *) gui->si->currentmeasure->data)));
     set_cursor_y_from_click (gui, event->y);
     if(pi.nextmeasure)
-      measureright(NULL);
+      movetomeasureright(NULL); //!!!!!!!!!!! measureleft - are these extending the selection??????
 
     write_status(gui);
 
