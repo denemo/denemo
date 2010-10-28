@@ -120,7 +120,7 @@ struct infotopass
   gint in_highy; // FIXME these are passed in so that highy, lowy do not need to be passed back
   gint in_lowy;
   gboolean mark;//whether the region is selected
-  gint *left, *right;//location of right and left measurenum for current system(line)
+  gint *left, *right;//pointer into array, pointing to leftmost/rightmost measurenum for current system(line)
   GList *last_midi;//last list of midi events for object at right of window
   DenemoObject *startobj;//pointer values - if drawing such an object mark as playback start
   DenemoObject *endobj;//pointer values - if drawing such an object mark as playback end
@@ -666,7 +666,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       if(curstaff->next)
 	{
 	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
-	  cairo_save(cr);
+	  //cairo_save(cr);
 	  cairo_set_source_rgb( cr, 0, 0, 0);
 	  cairo_rectangle (cr, LEFT_MARGIN, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
 	  cairo_fill(cr);	 
@@ -727,7 +727,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
  cairo_restore(cr);
   }
 
-  cairo_save(cr);
+  // cairo_save(cr);
   }//if cr
 
   if((gui->si->smf) && (itp->startobj==NULL) && (itp->startposition<=0) && (si->leftmeasurenum==1))
@@ -759,20 +759,27 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
 
   itp->line_end = FALSE;
-  while ( (!itp->line_end)  //       itp->measurenum <= si->rightmeasurenum+1
-	 && itp->measurenum <= g_list_length (thestaff->measures))
+  gint nummeasures = g_list_length (thestaff->measures);
+  
+  while ( (!itp->line_end) 
+	 && itp->measurenum <= nummeasures)
     {
       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
 	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
-	if(itp->curmeasure->next) {
 	  itp->line_end=TRUE;
-	  // if(Denemo.gui->si->playingnow)
-	  //	continue;//don't show grayed out measures while playing.
-	}
+	 
       itp->last_gap = 0;
       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
+
+#if 0
+      if(itp->line_end && (x >
+			   (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))))
+	g_print("Case %d to %d\n", x,
+		(int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
+#endif
+
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
       itp->measurenum++;
@@ -801,7 +808,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       if(cr) if(curstaff->next)
 	{
 	  DenemoStaff *next = (DenemoStaff *)(curstaff->next->data);
-	  cairo_save(cr);
+	  //cairo_save(cr);
 	  cairo_set_source_rgb( cr, 0, 0, 0);
 	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
 	  cairo_fill(cr);	 
@@ -830,7 +837,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-  if(cr) cairo_restore(cr);
+  //if(cr) cairo_restore(cr);
   return repeat;
 }
 static void
