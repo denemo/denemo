@@ -170,7 +170,7 @@ static gint staff_at (gint y, DenemoScore *si) {
  */
 static void
 get_placement_from_coordinates (struct placement_info *pi,
-				gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum )
+				gdouble x, gdouble y, gint leftmeasurenum, gint rightmeasurenum, gint scale )
 {
   DenemoScore *si = Denemo.gui->si;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
@@ -184,7 +184,10 @@ get_placement_from_coordinates (struct placement_info *pi,
   pi->staff_number = staff_at((gint)y, si);
   //g_print("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number); 
   pi->measure_number = leftmeasurenum;
+  if(scale)
+    x_to_explain = (x_to_explain*scale)/100;
   x_to_explain -= (KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME);
+
   //g_print("Explaining %d\n", x_to_explain);
   while (x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)
 	 && pi->measure_number < rightmeasurenum)
@@ -411,7 +414,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
   if(event->x<LEFT_MARGIN) {
     struct placement_info pi; //FIXME duplicate code
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
     if(pi.staff_number==gui->si->currentstaffnum) {
       gint offset = (gint)get_click_height(gui, event->y);
       if(offset<STAFF_HEIGHT/2) {
@@ -424,9 +427,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     if (lh_down || (selecting && gui->si->markstaffnum)){
       struct placement_info pi; 
       if (event->y < 0)
-	get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
+	get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
       else
-	get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
+	get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
       if (pi.the_measure != NULL){ /*don't place cursor in a place that is not there*/
 	change_staff(gui->si, pi.staff_number, pi.the_staff);
 	gui->si->currentmeasurenum = pi.measure_number;
@@ -493,9 +496,9 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
 
   if (event->y < 0)
-    get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num]);
+    get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
   else
-    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num]);
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num],gui->rights[line_num],gui->scales[line_num]);
   change_staff(gui->si, pi.staff_number, pi.the_staff);
 
   if(event->x<LEFT_MARGIN) {

@@ -121,6 +121,7 @@ struct infotopass
   gint in_lowy;
   gboolean mark;//whether the region is selected
   gint *left, *right;//pointer into array, pointing to leftmost/rightmost measurenum for current system(line)
+  gint *scale;//pointer into an array of scales - this entry is the percent horizontal scale applied to the current system
   GList *last_midi;//last list of midi events for object at right of window
   DenemoObject *startobj;//pointer values - if drawing such an object mark as playback start
   DenemoObject *endobj;//pointer values - if drawing such an object mark as playback end
@@ -655,6 +656,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
   if(cr) {
 	  cairo_save(cr);
+	 
   //Draw vertical lines to bind the staffs of the system together
       if(curstaff->prev)
 	{
@@ -757,6 +759,13 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     //g_print("Drawing staff %d leftmost time %f, measurenum %d\n",itp->staffnum, itp->leftmosttime, itp->measurenum);
   }
 
+  if(!*itp->scale)
+    *itp->scale=100;
+ if(cr) {
+   cairo_scale(cr, 100.0/(*itp->scale),1.0);
+	    //cairo_scale(cr,(*itp->scale)/100.0,1.0);
+ }
+
 
   itp->line_end = FALSE;
   gint nummeasures = g_list_length (thestaff->measures);
@@ -773,12 +782,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 
-#if 0
-      if(itp->line_end && (x >
-			   (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))))
-	g_print("Case %d to %d\n", x,
-		(int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
-#endif
+
+      if(itp->line_end) {
+      *itp->scale = itp->curmeasure->next?
+	(int)(100*x/(gui->scorearea->allocation.width/gui->si->zoom)):100;
+      }
 
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
@@ -823,7 +831,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   if(cr) for (i = 0; i < thestaff->no_of_lines; i++, y += LINE_SPACE) {
     cairo_set_line_width( cr, 1.0 );
     cairo_move_to( cr, LEFT_MARGIN, y );
-    cairo_line_to( cr, x - HALF_BARLINE_SPACE, y );
+    cairo_line_to( cr, (x*100/(*itp->scale)) - HALF_BARLINE_SPACE, y );
     cairo_stroke( cr );
   }
 
@@ -1044,6 +1052,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     itp.line_end = FALSE;
     itp.left = &gui->lefts[0];
     itp.right = &gui->rights[0];
+    itp.scale = &gui->scales[0];
 
 
 
@@ -1067,6 +1076,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     yy = y + line_height;
     itp.left++;
     itp.right++;
+    itp.scale++;
     if(Denemo.gui->si->playingnow && itp.measurenum >= si->rightmeasurenum)
       itp.line_end = FALSE;//don't print whole lines of grayed out music during playback
 
@@ -1082,6 +1092,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       yy += line_height;
       itp.left++;
       itp.right++;
+      itp.scale++;
 
     } //end while printing out all the systems for this staff
 
@@ -1093,6 +1104,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       //put the next line of music at the top with a break marker
       itp.left = &gui->lefts[0];
       itp.right = &gui->rights[0];     
+      itp.scale = &gui->scales[0];     
 
 	cairo_save(cr);
 	if(0)   {

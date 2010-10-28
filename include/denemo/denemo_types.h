@@ -831,6 +831,7 @@ typedef struct DenemoGUI
 #define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
   gint lefts[DENEMO_MAX_SYSTEMS];/**< an array to hold the leftmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
   gint rights[DENEMO_MAX_SYSTEMS];/**< an array to hold the rightmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
+  gint scales[DENEMO_MAX_SYSTEMS];/**< an array to hold the percent horizontal scaling of each system in the last-drawn score, used for determining the mouse position on the music */
 
   GtkWidget *printarea;/**< area holding a print preview */
   GtkWidget *printvscrollbar;/**< scrollbar widget for printarea */
