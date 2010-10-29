@@ -828,15 +828,16 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   //  itp->highy = title_highy;
 
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
-  cairo_set_line_width( cr, 1.0 );
-  if(cr) for (i = 1; i <= thestaff->no_of_lines; i++) {
+  if(cr) {
+    cairo_set_line_width( cr, 1.0 );
+    for (i = 1; i <= thestaff->no_of_lines; i++) {
       gint yy = y+2*LINE_SPACE+((i%2)?(1):(-1))*(i/2)*LINE_SPACE;
       cairo_move_to( cr, LEFT_MARGIN, yy );
-      cairo_line_to( cr, (x*100/(*itp->scale)) - HALF_BARLINE_SPACE, yy );
-
+      cairo_line_to( cr, (x*100/(*itp->scale)) - HALF_BARLINE_SPACE, yy );    
     }
-  cairo_stroke( cr );
-
+    cairo_stroke( cr );
+  }
+  
   /* Initialize the slur_stack for this staff. For the time being,
      slurs that begin and/or end after the portion of the music
      that is shown are not drawn. */
