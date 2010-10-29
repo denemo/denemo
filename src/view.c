@@ -5569,7 +5569,7 @@ create_xbm_data_from_pixbuf (GdkPixbuf *pixbuf, int lox, int loy, int hix, int h
 }
 
 static GHashTable *bitmaps;
-static void bitmap_table_insert(gchar *name, GdkBitmap *xbm) {
+static void bitmap_table_insert(gchar *name, DenemoGraphic *xbm) {
   if(!bitmaps)
     bitmaps = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);//FIXME is this right for GdkBitmap data?
   g_hash_table_insert(bitmaps, g_strdup(name), xbm);
@@ -5588,7 +5588,7 @@ static  GdkBitmap * create_bitmap_from_data(gchar *data, gint width, gint height
 }
 
 static gboolean
-loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width, gint *height) {
+loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm, gint *width, gint *height) {
 
   GError *error = NULL;
   gchar *filename = g_strconcat(name, ".png", NULL);
@@ -5611,14 +5611,14 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
     rsvg_handle_get_dimensions(handle, &thesize); 
     *width = thesize.width;
     *height = thesize.height;
-    cairo_surface_t *surface =   cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
-    cairo_t *cr2 = cairo_create(surface);
-    rsvg_handle_render_cairo(handle, cr2);
+    cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
+    cairo_t *cr = cairo_create(surface);
+    rsvg_handle_render_cairo(handle, cr);
     rsvg_handle_close(handle, NULL);
     g_object_unref(handle);
     cairo_pattern_t *pattern = cairo_pattern_create_for_surface (surface);
     cairo_pattern_reference(pattern); 
-    cairo_destroy(cr2);
+    cairo_destroy(cr);
     DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
     graphic->type = DENEMO_PATTERN;
     graphic->width = thesize.width;
@@ -5633,12 +5633,12 @@ loadGraphicFromFormat(gchar *basename, gchar *name, GdkBitmap **xbm, gint *width
   *height = gdk_pixbuf_get_height(pixbufa);
   gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
   
-  *xbm = create_bitmap_from_data(data, *width, *height);
+  gpointer thedata = (gpointer)create_bitmap_from_data(data, *width, *height);
   DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
   graphic->type = DENEMO_BITMAP;
   graphic->width = *width;
   graphic->height = *height;
-  graphic->graphic = *xbm;
+  graphic->graphic = thedata;
   bitmap_table_insert(basename, graphic);
   g_free(data);
   *xbm = graphic;
@@ -5653,13 +5653,13 @@ static void pattern_get_size (cairo_pattern_t *pattern, gint *width, gint *heigh
   *height = cairo_image_surface_get_height(surface);
 }
 
-gboolean loadGraphicItem(gchar *name, GdkBitmap **xbm, gint *width, gint *height ) {
+gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm, gint *width, gint *height ) {
 
   if (!name || !*name)
     return FALSE;
   if(bitmaps && (*xbm = (DenemoGraphic *) g_hash_table_lookup(bitmaps, name))) {
-    width = ( (DenemoGraphic *) (*xbm))->width;
-    height =  ( (DenemoGraphic *) (*xbm))->height;
+    *width = (*xbm)->width;
+    *height = (*xbm)->height;
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
