@@ -2007,8 +2007,6 @@ INT_PUTFUNC_DEF(score, tx)
 INT_PUTFUNC_DEF(score, ty)
 INT_PUTFUNC_DEF(score, gx)
 INT_PUTFUNC_DEF(score, gy)
-INT_PUTFUNC_DEF(score, width)
-INT_PUTFUNC_DEF(score, height)
 
 
 
@@ -3532,8 +3530,6 @@ void inner_main(void*closure, int argc, char **argv){
 
 INSTALL_GET(score, width);
 INSTALL_GET(score, height);
-INSTALL_PUT(score, width);
-INSTALL_PUT(score, height);
 
 
 
@@ -5588,7 +5584,7 @@ static  GdkBitmap * create_bitmap_from_data(gchar *data, gint width, gint height
 }
 
 static gboolean
-loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm, gint *width, gint *height) {
+loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
 
   GError *error = NULL;
   gchar *filename = g_strconcat(name, ".png", NULL);
@@ -5609,8 +5605,7 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm, gint *w
     }
     RsvgDimensionData thesize;
     rsvg_handle_get_dimensions(handle, &thesize); 
-    *width = thesize.width;
-    *height = thesize.height;
+    
     cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
     cairo_t *cr = cairo_create(surface);
     rsvg_handle_render_cairo(handle, cr);
@@ -5628,16 +5623,13 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm, gint *w
     *xbm = graphic;
     return TRUE;
   }
-  GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
-  *width = gdk_pixbuf_get_width(pixbufa);
-  *height = gdk_pixbuf_get_height(pixbufa);
-  gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,*width, *height);
-  
-  gpointer thedata = (gpointer)create_bitmap_from_data(data, *width, *height);
   DenemoGraphic *graphic = g_malloc(sizeof(DenemoGraphic));
   graphic->type = DENEMO_BITMAP;
-  graphic->width = *width;
-  graphic->height = *height;
+  GdkPixbuf *pixbufa = gdk_pixbuf_add_alpha (pixbuf, TRUE, 255, 255, 255);
+  graphic->width = gdk_pixbuf_get_width(pixbufa);
+  graphic->height = gdk_pixbuf_get_height(pixbufa);
+  gchar *data = create_xbm_data_from_pixbuf(pixbufa, 0,0,graphic->width, graphic->height); 
+  gpointer thedata = (gpointer)create_bitmap_from_data(data, graphic->width, graphic->height);
   graphic->graphic = thedata;
   bitmap_table_insert(basename, graphic);
   g_free(data);
@@ -5646,39 +5638,31 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm, gint *w
 }
 
 
-static void pattern_get_size (cairo_pattern_t *pattern, gint *width, gint *height) {
-  cairo_surface_t *surface;
-  cairo_pattern_get_surface(pattern, &surface);
-  *width = cairo_image_surface_get_width(surface);
-  *height = cairo_image_surface_get_height(surface);
-}
-
-gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm, gint *width, gint *height ) {
+gboolean loadGraphicItem(gchar *name, DenemoGraphic **xbm ) {
 
   if (!name || !*name)
     return FALSE;
   if(bitmaps && (*xbm = (DenemoGraphic *) g_hash_table_lookup(bitmaps, name))) {
-    *width = (*xbm)->width;
-    *height = (*xbm)->height;
+    
     return TRUE;
   }  
   gchar *filename = g_build_filename (locatebitmapsdir (), name,
 				      NULL);
   
   if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm, width, height))
+    if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
     g_free(filename);
     filename = g_build_filename (locatedownloadbitmapsdir(), name,
 				      NULL);
   }
   if(1) {
-    if(loadGraphicFromFormat(name, filename, xbm, width, height))
+    if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
     g_free(filename);
     filename = g_build_filename (get_data_dir (), "actions",  "bitmaps", name,
 				      NULL);
-    if(loadGraphicFromFormat(name, filename, xbm, width, height))
+    if(loadGraphicFromFormat(name, filename, xbm))
       return TRUE;
   }
  {

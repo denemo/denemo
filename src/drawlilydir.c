@@ -22,8 +22,8 @@ draw_lily_dir (cairo_t *cr,
   gchar *first = (lily->postfix && lily->postfix->len)? lily->postfix->str:" ";
 
   if(lily->graphic){
-    gint width = lily->width;
-    gint  height = lily->height;  
+    gint width = lily->graphic->width;
+    gint  height = lily->graphic->height;  
     drawbitmapinverse_cr (cr, (DenemoGraphic *)lily->graphic,
 		     xx + lily->gx, y + lily->gy);
   }

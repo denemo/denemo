@@ -265,7 +265,7 @@ parseDirective (xmlNodePtr parentElem, xmlNsPtr ns,
     if(ELEM_NAME_EQ (childElem, "graphic_name")) {
       directive->graphic_name =  g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
 						  childElem->xmlChildrenNode, 1));
-      loadGraphicItem(directive->graphic_name->str, (GdkBitmap**)&directive->graphic,  &directive->width, &directive->height);
+      loadGraphicItem(directive->graphic_name->str, (DenemoGraphic**)&directive->graphic);
       /* FIXME,handle not loaded */
     }      
   }
@@ -1528,7 +1528,7 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
   GET_STR_FIELD(graphic_name);
   GET_STR_FIELD(prefix);
   if(thedirective->graphic_name && thedirective->graphic_name->len)
-    loadGraphicItem(thedirective->graphic_name->str ,(GdkBitmap**) &thedirective->graphic, &thedirective->width, &thedirective->height);
+    loadGraphicItem(thedirective->graphic_name->str ,(DenemoGraphic**) &thedirective->graphic);
 #define GET_INT_FIELD(x)\
   gchar *x = (gchar *) xmlGetProp (LilyDirectiveElem, (xmlChar *) #x);\
   if(x)\

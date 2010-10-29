@@ -61,7 +61,7 @@ void	  unhighlight_rhythm(RhythmPattern *r);
 void	  highlight_duration(DenemoGUI *gui, gint dur);
 void	  highlight_rest(DenemoGUI *gui, gint dur);
 
-gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic, gint *width, gint *height );
+gboolean loadGraphicItem(gchar *name, DenemoGraphic **pgraphic);
 
 void denemo_scheme_init(gchar *initscheme);
 

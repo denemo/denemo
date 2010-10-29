@@ -447,8 +447,8 @@ typedef struct DenemoDirective
   DenemoGraphic *graphic; /**< what to draw for this directive */
   GtkWidget *widget;  /**<  a button or menu item for accessing the directive for editing or actioning */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
-  GString *graphic_name; /**< name of the graphic to be drawn */
-  gint width, height; /**< width and height of the bitmap */
+  GString *graphic_name; /**< name of the graphic to be drawn the suffixes .svg or .png will be searched for */
+
   /* warning these values cannot be changed without bumping the denemo file format version */
 #define DENEMO_OVERRIDE_LILYPOND (1<<0)
 #define DENEMO_OVERRIDE_UNUSED (1<<1)

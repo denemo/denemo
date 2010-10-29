@@ -807,7 +807,7 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
     directive=new_directive(tag);\
     current->directives = g_list_append(current->directives, directive);\
     }\
-  loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height);\
+  loadGraphicItem(value, (DenemoGraphic **)&directive->graphic);\
   if(directive->graphic_name)\
      g_string_assign(directive->graphic_name, value);\
   else\
@@ -956,6 +956,15 @@ what##_directive_get_##field(gchar *tag) {\
   return 0;\
 }
 
+#define GET_INT_GRAPHIC_FIELD_FUNC(what, field)\
+gint \
+what##_directive_get_##field(gchar *tag) {\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive)\
+    return directive->graphic->field;\
+  return 0;\
+}
+
 
 
 
@@ -1088,18 +1097,18 @@ GET_INT_FIELD_FUNC(score, gy)
 
 
      /* width and height of graphic (if any), read only */
-GET_INT_FIELD_FUNC(note, width)
-GET_INT_FIELD_FUNC(chord, width)
-GET_INT_FIELD_FUNC(staff, width)
-GET_INT_FIELD_FUNC(voice, width)
-GET_INT_FIELD_FUNC(standalone, width)
-GET_INT_FIELD_FUNC(score, width)
-GET_INT_FIELD_FUNC(note, height)
-GET_INT_FIELD_FUNC(chord, height)
-GET_INT_FIELD_FUNC(staff, height)
-GET_INT_FIELD_FUNC(voice, height)
-GET_INT_FIELD_FUNC(standalone, height)
-GET_INT_FIELD_FUNC(score, height)
+GET_INT_GRAPHIC_FIELD_FUNC(note, width)
+GET_INT_GRAPHIC_FIELD_FUNC(chord, width)
+GET_INT_GRAPHIC_FIELD_FUNC(staff, width)
+GET_INT_GRAPHIC_FIELD_FUNC(voice, width)
+GET_INT_GRAPHIC_FIELD_FUNC(standalone, width)
+GET_INT_GRAPHIC_FIELD_FUNC(score, width)
+GET_INT_GRAPHIC_FIELD_FUNC(note, height)
+GET_INT_GRAPHIC_FIELD_FUNC(chord, height)
+GET_INT_GRAPHIC_FIELD_FUNC(staff, height)
+GET_INT_GRAPHIC_FIELD_FUNC(voice, height)
+GET_INT_GRAPHIC_FIELD_FUNC(standalone, height)
+GET_INT_GRAPHIC_FIELD_FUNC(score, height)
 
 
 /* return a full path to an editscript for directive or NULL if there is none */
@@ -1525,24 +1534,6 @@ PUT_GRAPHIC_WIDGET_INT(override, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT(override, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT(override, voice, voice_directives)
 
-PUT_GRAPHIC_WIDGET_INT(width, score, directives)
-PUT_GRAPHIC_WIDGET_INT(width, scoreheader, directives)
-PUT_GRAPHIC_WIDGET_INT(width, header, directives)
-PUT_GRAPHIC_WIDGET_INT(width, paper, directives)
-PUT_GRAPHIC_WIDGET_INT(width, layout, directives)
-PUT_GRAPHIC_WIDGET_INT(width, movementcontrol, directives)
-PUT_GRAPHIC_WIDGET_INT(width, staff, staff_directives)
-PUT_GRAPHIC_WIDGET_INT(width, voice, voice_directives)
-
-PUT_GRAPHIC_WIDGET_INT(height, score, directives)
-PUT_GRAPHIC_WIDGET_INT(height, scoreheader, directives)
-PUT_GRAPHIC_WIDGET_INT(height, header, directives)
-PUT_GRAPHIC_WIDGET_INT(height, paper, directives)
-PUT_GRAPHIC_WIDGET_INT(height, layout, directives)
-PUT_GRAPHIC_WIDGET_INT(height, movementcontrol, directives)
-PUT_GRAPHIC_WIDGET_INT(height, staff, staff_directives)
-PUT_GRAPHIC_WIDGET_INT(height, voice, voice_directives)
-
 #undef PUT_GRAPHIC_WIDGET_STR
 #undef PUT_GRAPHIC_WIDGET_INT
 
@@ -1566,7 +1557,7 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
 	object_insert(Denemo.gui, obj);
 	displayhelper(Denemo.gui);
   }
-  if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic, &directive->width, &directive->height)) {
+  if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic)) {
     if(directive->graphic_name)
       g_string_assign(directive->graphic_name, value);
     else
@@ -1574,7 +1565,7 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
     return TRUE;
   } else  {
     directive->graphic = directive->graphic_name = NULL;
-    directive->width = directive->height = 0;
+    directive->graphic->width = directive->graphic->height = 0;
     return FALSE;
   }
 }
@@ -2119,7 +2110,7 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
       widget_for_directive(directive, NULL/* no need to pass fn in as it is only needed if there is not widget, g_object_get_data(directive->widget, "fn") */);
   }
   if(directive->graphic_name && directive->graphic){
-      loadGraphicItem (directive->graphic_name->str,  (GdkBitmap **)&directive->graphic,  &directive->width, &directive->height);
+      loadGraphicItem (directive->graphic_name->str,  (DenemoGraphic **)&directive->graphic);
   }
   gtk_widget_destroy (dialog);
   if(response==CREATE_SCRIPT)
@@ -2536,8 +2527,8 @@ GET_INT_FIELD_FUNC(clef, ty)
 GET_INT_FIELD_FUNC(clef, gx)
 GET_INT_FIELD_FUNC(clef, gy)
 GET_INT_FIELD_FUNC(clef, override)
-GET_INT_FIELD_FUNC(clef, width)
-GET_INT_FIELD_FUNC(clef, height)
+GET_INT_GRAPHIC_FIELD_FUNC(clef, width)
+GET_INT_GRAPHIC_FIELD_FUNC(clef, height)
 
 PUT_GRAPHIC(clef)
 
@@ -2567,8 +2558,8 @@ GET_INT_FIELD_FUNC(keysig, ty)
 GET_INT_FIELD_FUNC(keysig, gx)
 GET_INT_FIELD_FUNC(keysig, gy)
 GET_INT_FIELD_FUNC(keysig, override)
-GET_INT_FIELD_FUNC(keysig, width)
-GET_INT_FIELD_FUNC(keysig, height)
+GET_INT_GRAPHIC_FIELD_FUNC(keysig, width)
+GET_INT_GRAPHIC_FIELD_FUNC(keysig, height)
 
 
 
@@ -2594,8 +2585,8 @@ GET_INT_FIELD_FUNC(timesig, ty)
 GET_INT_FIELD_FUNC(timesig, gx)
 GET_INT_FIELD_FUNC(timesig, gy)
 GET_INT_FIELD_FUNC(timesig, override)
-GET_INT_FIELD_FUNC(timesig, width)
-GET_INT_FIELD_FUNC(timesig, height)
+GET_INT_GRAPHIC_FIELD_FUNC(timesig, width)
+GET_INT_GRAPHIC_FIELD_FUNC(timesig, height)
 
 PUT_STR_FIELD_FUNC(timesig, prefix)
 PUT_STR_FIELD_FUNC(timesig, postfix)
@@ -2615,8 +2606,8 @@ GET_INT_FIELD_FUNC(scoreheader, ty)
 GET_INT_FIELD_FUNC(scoreheader, gx)
 GET_INT_FIELD_FUNC(scoreheader, gy)
 GET_INT_FIELD_FUNC(scoreheader, override)
-GET_INT_FIELD_FUNC(scoreheader, width)
-GET_INT_FIELD_FUNC(scoreheader, height)
+GET_INT_GRAPHIC_FIELD_FUNC(scoreheader, width)
+GET_INT_GRAPHIC_FIELD_FUNC(scoreheader, height)
 
 
 
@@ -2633,8 +2624,8 @@ GET_INT_FIELD_FUNC(header, ty)
 GET_INT_FIELD_FUNC(header, gx)
 GET_INT_FIELD_FUNC(header, gy)
 GET_INT_FIELD_FUNC(header, override)
-GET_INT_FIELD_FUNC(header, width)
-GET_INT_FIELD_FUNC(header, height)
+GET_INT_GRAPHIC_FIELD_FUNC(header, width)
+GET_INT_GRAPHIC_FIELD_FUNC(header, height)
 
 
 
@@ -2651,8 +2642,8 @@ GET_INT_FIELD_FUNC(paper, ty)
 GET_INT_FIELD_FUNC(paper, gx)
 GET_INT_FIELD_FUNC(paper, gy)
 GET_INT_FIELD_FUNC(paper, override)
-GET_INT_FIELD_FUNC(paper, width)
-GET_INT_FIELD_FUNC(paper, height)
+GET_INT_GRAPHIC_FIELD_FUNC(paper, width)
+GET_INT_GRAPHIC_FIELD_FUNC(paper, height)
 
 
 
@@ -2668,8 +2659,8 @@ GET_INT_FIELD_FUNC(layout, ty)
 GET_INT_FIELD_FUNC(layout, gx)
 GET_INT_FIELD_FUNC(layout, gy)
 GET_INT_FIELD_FUNC(layout, override)
-GET_INT_FIELD_FUNC(layout, width)
-GET_INT_FIELD_FUNC(layout, height)
+GET_INT_GRAPHIC_FIELD_FUNC(layout, width)
+GET_INT_GRAPHIC_FIELD_FUNC(layout, height)
 
 
 GET_STR_FIELD_FUNC(layout, prefix)
@@ -2682,8 +2673,8 @@ GET_INT_FIELD_FUNC(movementcontrol, ty)
 GET_INT_FIELD_FUNC(movementcontrol, gx)
 GET_INT_FIELD_FUNC(movementcontrol, gy)
 GET_INT_FIELD_FUNC(movementcontrol, override)
-GET_INT_FIELD_FUNC(movementcontrol, width)
-GET_INT_FIELD_FUNC(movementcontrol, height)
+GET_INT_GRAPHIC_FIELD_FUNC(movementcontrol, width)
+GET_INT_GRAPHIC_FIELD_FUNC(movementcontrol, height)
 
 
 
