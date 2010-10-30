@@ -333,7 +333,7 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
   } 
   // g_print("rightmost %f event %f\n", si->rightmost_time, event->time_seconds);
   if(si->rightmost_time>0.0 && event->time_seconds>si->rightmost_time)
-     page_viewport();
+    page_viewport(), si->rightmost_time=-1;
   gdouble thetime = get_time() - si->start_player;
   pause_time = thetime;
   //g_print("thetime %f\n", thetime);

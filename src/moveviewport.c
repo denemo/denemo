@@ -197,6 +197,7 @@ static void center_viewport(void) {
 
 void page_viewport(void) {
   GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  // g_print("%d %d\n", Denemo.gui->si->leftmeasurenum, Denemo.gui->si->rightmeasurenum);
   gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum + 1);
   if(adj->value + amount < adj->upper) {    
       gtk_adjustment_set_value(adj, adj->value + amount);
