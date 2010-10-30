@@ -1197,6 +1197,17 @@ static SCM scheme_get_duration_in_ticks(void){
  return scm_int2num(curObj->durinticks);
 }
 
+static SCM scheme_get_base_duration_in_ticks(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
+   return SCM_BOOL(FALSE);
+ if(curObj->type==CHORD)
+  return scm_int2num(((chord *)curObj->object)->baseduration);
+ return SCM_BOOL(FALSE);
+}
+
 
 SCM scheme_get_end_tick(void){
  DenemoGUI *gui = Denemo.gui;
@@ -3287,6 +3298,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION1 ("Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted",DENEMO_SCHEME_PREFIX"SetDurationInTicks", scheme_set_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the object at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);
+  INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)",DENEMO_SCHEME_PREFIX"GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Returns the tick count (PPQN) for the end of the object at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetEndTick", scheme_get_end_tick);
 
