@@ -66,6 +66,7 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
   //if(si->currentstaff && si->currentstaff->data == staff)
   //  gtk_widget_show(staff->currentverse->data);
   textview = new_lyric_editor();
+  gtk_text_view_set_wrap_mode (textview, GTK_WRAP_WORD_CHAR);
   gtk_widget_show(textview);
   staff->verses = g_list_append(staff->verses, textview);
   staff->currentverse = g_list_last(staff->verses);
