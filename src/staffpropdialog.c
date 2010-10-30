@@ -470,7 +470,6 @@ staff_properties_change (void)
   INTENTRY_LIMITS("Space above:", space_above, 0, MAXEXTRASPACE);
   INTENTRY_LIMITS("Space below:", space_below, 0, MAXEXTRASPACE); 
   INTENTRY_LIMITS("Number of Lines:", no_of_lines, 1, 5);
-  INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
 
   
   /*print appearance tab */
@@ -486,6 +485,7 @@ staff_properties_change (void)
   /* MIDI tab */
   NEWPAGE("MIDI");
   COMBOBOXENTRY("MIDI Instrument:", midi_instrument, instrument_list, staffstruct->midi_instrument);
+  INTENTRY_LIMITS("Transposition:", transposition, -30, 30);
   BOOLEANENTRY("Mute", mute_volume);
   INTENTRY_LIMITS("Volume:", volume, 0, 127);
   // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
