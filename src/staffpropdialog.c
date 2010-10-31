@@ -543,6 +543,10 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
      g_string_assign(param->string, staff->denemo_name->str);
      param->status = TRUE;
    }
+   if(*query) if(!strcmp("transposition", query)) {
+       g_string_printf(param->string, "%d", staff->transposition);
+     param->status = TRUE;
+   }
    return;
  }
  if(denemo_name) {
