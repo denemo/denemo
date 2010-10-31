@@ -1098,6 +1098,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   int cur_volume;
   gboolean mute_volume;
 
+  int cur_transposition;
+
   int midi_channel = (-1);
   int tracknumber = 0;
   int timesigupper = 4;
@@ -1239,6 +1241,9 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 	g_warning("volume set to zero but not muted\nResetting volume\n");
 	cur_volume = 65;
       }
+      cur_transposition = curstaffstruct->transposition;
+
+
       if(tuplet>0)
 	g_print("Unterminated tuplet at end of voice %d\n", tracknumber-1);
       //Reset to  tuplets nesting level 0, in case unbalanced tuplet start end in last staff
@@ -1381,6 +1386,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    case DENEMO_OVERRIDE_VOLUME:
 				change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
 			      break;
+			    case DENEMO_OVERRIDE_TRANSPOSITION:
+				cur_transposition = midi_val;
+			      break;
+
 			    case DENEMO_OVERRIDE_CHANNEL:
 				change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
 			      break;
@@ -1534,7 +1543,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 			    dia_to_midinote (mid_c_offset) + enshift;
 			  //printf ("transposition = %i\n",
 			  //	  curstaffstruct->transposition);
-			  notenumber += curstaffstruct->transposition;
+			  notenumber += cur_transposition;
 			  //printf ("notenumber = %i\n", notenumber);
 			  if(notenumber>127) {
 			    g_warning("Note out of range\n", notenumber = 60);
@@ -1815,6 +1824,10 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
 		      case  DENEMO_OVERRIDE_VOLUME:
 			change_volume(&cur_volume, midi_val, midi_interpretation, midi_action);
 			break;
+		      case DENEMO_OVERRIDE_TRANSPOSITION:
+			cur_transposition = midi_val;
+			break;
+
 		      case  DENEMO_OVERRIDE_CHANNEL:
 			change_channel(&midi_channel, midi_val, midi_interpretation, midi_action);
 			break;
