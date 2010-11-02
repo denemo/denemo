@@ -406,8 +406,10 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
 	 break;
 
       case SYS_EXCLUSIVE_MESSAGE1:
-	if(FLUIDSYNTH_VERSION_MAJOR>=1 && FLUIDSYNTH_VERSION_MINOR>=1)
-	  fluid_synth_sysex(synth, event->midi_buffer+1, 6+12, NULL, 0, NULL, FALSE);
+	if(FLUIDSYNTH_VERSION_MAJOR>=1 && FLUIDSYNTH_VERSION_MINOR>=1) {
+	 gint ret = fluid_synth_sysex(synth, event->midi_buffer+1, 19, NULL, 0, NULL, FALSE);
+	 g_print("Got ret %d\n", ret);
+	}
 	else
 	  g_warning("Not supported by this fluidsynth version use >=1.1");
 	//char *response, int *response_len, int *handled, int dryrun)
