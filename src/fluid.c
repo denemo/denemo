@@ -247,6 +247,17 @@ void fluid_output_midi_event(unsigned char *buffer)
        case MIDI_SYSTEM_RESET:
          fluid_synth_system_reset(synth);
 	 break;
+
+      case SYS_EXCLUSIVE_MESSAGE1:
+	if(FLUIDSYNTH_VERSION_MAJOR>=1 && FLUIDSYNTH_VERSION_MINOR>=1)
+	  fluid_synth_sysex(synth, buffer[1], 6+12, NULL, 0, NULL, FALSE);
+	else
+	  g_warning("Not supported by this fluidsynth version use >=1.1");
+	//char *response, int *response_len, int *handled, int dryrun)
+	break;
+	//FIXME - duplicate code below 
+      default:
+	g_warning("MIDI message Not handled");
       }
   }
 }
@@ -393,6 +404,15 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
        case MIDI_SYSTEM_RESET:
          fluid_synth_system_reset(synth);
 	 break;
+
+      case SYS_EXCLUSIVE_MESSAGE1:
+	if(FLUIDSYNTH_VERSION_MAJOR>=1 && FLUIDSYNTH_VERSION_MINOR>=1)
+	  fluid_synth_sysex(synth, event->midi_buffer[1], 6+12, NULL, 0, NULL, FALSE);
+	else
+	  g_warning("Not supported by this fluidsynth version use >=1.1");
+	//char *response, int *response_len, int *handled, int dryrun)
+	break;
+
       }
   }
   return TRUE;
