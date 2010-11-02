@@ -3976,6 +3976,13 @@ right. </tooltip>
         <label>Grace After Current</label>
         <tooltip>Print note following this note as grace note. Beware! Denemo display does not show the grace note properly, but typesetter will understand. Multiple grace notes to follow will need separate start { and end } block directives to group them.</tooltip>
       </row>
+       <row>
+        <action>SetBarNumber</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>(Print) Set bar number</label>
+        <tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
