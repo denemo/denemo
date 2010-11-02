@@ -36,18 +36,17 @@ stop VoiceThree stop VoiceFour stop) ) )
                 (d-DirectivePut-standalone-ty "Voice" 60 )
                 (d-DirectivePut-standalone-postfix "Voice" (string-append "\" choice ) )
                 (d-DirectivePut-standalone-minpixels "Voice" 10 )
+                (d-MoveCursorRight) 
         )
 )
 )</scheme>
         <label>Designate Voice</label>
-        <tooltip>
-These commands are used when entering several voices per staff.
+        <tooltip>These commands are used when entering several voices per staff.
         VoiceOne is for the upper voice-it sets the direction of slurs,
 beams, etc. up to avoid clashes.
         VoiceTwo is for the lower voice, and it sets the directions down.
         Additional voices beyond two are offset slightly to the
-right.
- </tooltip>
+right. </tooltip>
       </row>
     </map>
   </merge>
