@@ -13,7 +13,7 @@
 #include <math.h>
 #include <string.h>
 #include "smf.h"
-
+#include "pitchentry.h"
 
 #define MIDI_NOTEOFF		0x80
 #define MIDI_NOTEON		0x90
@@ -98,6 +98,42 @@ midi_init ()
 {
 
   return 0;
+}
+
+/* change the MIDI output tuning */
+void change_tuning(gdouble *cents) {
+  gchar buffer[] = {
+    0xF0, 0x7F,// 		Universal Real-Time SysEx header
+
+    0x7F, //<device ID> 	ID of target device (7F = all devices)
+
+    0x08,// 		sub-ID#1 = "MIDI Tuning Standard"
+	
+    0x08,// 		sub-ID#2 = "scale/octave tuning 1-byte form (Real-Time)"
+
+    0x03, /*		channel/options byte 1
+			bits 0 to 1 = channel 15 to 16
+			bit 2 to 6 = reserved for future expansion*/
+
+    0x7F, // 		channel byte 2 - bits 0 to 6 = channel 8 to 14
+
+    0x7F, //		channel byte 3 - bits 0 to 6 = channel 1 to 7
+    0,0,0,0,0,0,0,0,0,0,0,0,
+    /*	[ss]		12 byte tuning offset of 12 semitones from C to B
+				00H means -64 cents
+				40H means 0 cents (equal temperament)
+				7FH means +63 cents */
+
+    0xF7	//	EOX
+
+  };
+  gint i;
+  for(i=0;i<12;i++)
+    buffer[i+8] = 64 + (cents[i]+0.5);
+  if (Denemo.prefs.midi_audio_output == Jack)
+    jack_output_midi_event(buffer, 0, 0);
+  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+    fluid_output_midi_event(buffer);
 }
 
 void playpitch(double pitch, double duration, double volume, int channel) {

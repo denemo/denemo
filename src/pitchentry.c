@@ -47,6 +47,7 @@ static gdouble transposition_required = 1.0;
 typedef struct notespec {
   guint step;  /* 0=C 1=D ... 6=B */
   gint alteration; /* -2 = bb, -1=b, 0=natural, 1=#, 2=x */
+  gint cents;//deviation from Equal
 } notespec;
 
 typedef struct notepitch {
@@ -333,11 +334,6 @@ static gpointer default_temperament() {
   return (gpointer) &Equal;
 }
 
-static void set_temperament(GtkMenuItem *item, temperament *t) {
-  PR_temperament = t;
-  g_string_assign(Denemo.prefs.temperament, t->name);
-  //g_print("Temperament set to %p (cf %p %p)\n", PR_temperament, &Equal, &Meantone);
-}
 
 static void sharpen(GtkButton *button, GtkWidget *label) {
 #define f  (PR_temperament->notepitches[PR_temperament->flat].spec)
@@ -1011,6 +1007,18 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
       id = 0;
     }
 }
+
+/* return an array of values representing deviations from equal temperament for 12 notes from C for the passed temperament. Returned value is read only */
+gdouble *get_cents(temperament *t) {
+  static gdouble array[12];
+  int i;
+  for(i=0;i<12;i++) {
+    //g_print("we have %d %f %f %f\n", i, t->notepitches[i].pitch/Equal.notepitches[i].pitch, log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch));
+    array[i] = 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch);
+  }
+  return array;
+}
+
 #define COLUMN_NAME (0)
 #define COLUMN_PTR (1)
 
@@ -1019,9 +1027,14 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
   gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter);
   gtk_tree_model_get (GTK_TREE_MODEL (list_store), &iter,
 		      COLUMN_PTR, &PR_temperament, -1);
+  change_tuning(get_cents(PR_temperament));
   g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
 }
 
+void
+reset_temperament(void) {
+change_tuning(get_cents(PR_temperament));
+}
 #endif
 GtkWidget *get_enharmonic_frame(void) {
   static GtkWidget *frame;
@@ -1053,6 +1066,42 @@ GtkWidget *get_enharmonic_frame(void) {
   if(cont)
     gtk_container_remove(cont, frame);
   return frame;
+}
+
+GtkWidget *get_temperament_combo(void) {
+  static GtkWidget *combobox;
+  if(combobox==NULL) {
+   
+    
+  GtkListStore *list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+  GtkCellRenderer *renderer;
+  combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
+  g_object_ref(combobox);
+   
+  int i;
+  for (i = 0; i < (gint) G_N_ELEMENTS (temperaments); i++)
+    {GtkTreeIter iter;
+      gtk_list_store_append (list_store, &iter);
+      gtk_list_store_set (list_store, &iter,
+			  COLUMN_NAME, temperaments[i]->name,
+			  COLUMN_PTR, temperaments[i], -1);
+
+      if((i==0) || (Denemo.prefs.temperament && !strcmp(Denemo.prefs.temperament->str, temperaments[i]->name)))
+	 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter); 
+    }
+  renderer = gtk_cell_renderer_text_new ();
+  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
+  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox),
+				 renderer, "text", COLUMN_NAME);
+  g_signal_connect(G_OBJECT (combobox),  "changed",
+		    G_CALLBACK (temperament_changed_callback), list_store);
+
+
+  }
+  GtkContainer *cont = gtk_widget_get_parent(combobox);
+  if(cont)
+    gtk_container_remove(cont, combobox);
+  return combobox;
 }
 
 #ifdef _HAVE_PORTAUDIO_
@@ -1341,31 +1390,10 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
 		    G_CALLBACK (frequency_smoothing), NULL);
  
 
-  GtkListStore *list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-  GtkCellRenderer *renderer;
-  GtkWidget *combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (list_store));
-  int i;
-  for (i = 0; i < (gint) G_N_ELEMENTS (temperaments); i++)
-    {GtkTreeIter iter;
-      gtk_list_store_append (list_store, &iter);
-      gtk_list_store_set (list_store, &iter,
-			  COLUMN_NAME, temperaments[i]->name,
-			  COLUMN_PTR, temperaments[i], -1);
-
-      if(!strcmp(Denemo.prefs.temperament->str, temperaments[i]->name))
-	 gtk_combo_box_set_active_iter (GTK_COMBO_BOX (combobox), &iter); 
-    }
-  renderer = gtk_cell_renderer_text_new ();
-  gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-  gtk_cell_layout_add_attribute (GTK_CELL_LAYOUT (combobox),
-				 renderer, "text", COLUMN_NAME);
-  g_signal_connect(G_OBJECT (combobox),  "changed",
-		    G_CALLBACK (temperament_changed_callback), list_store);
-  gtk_box_pack_start (GTK_BOX (hbox ),
-		      combobox, TRUE, TRUE, 0);
-
+  frame = get_temperament_combo();
+  if(!gtk_widget_get_parent(frame))
+    gtk_container_add (GTK_CONTAINER (hbox), frame);
   }
-
 /* now show the window, but leave the main window with the focus */
   gtk_window_set_focus_on_map((GtkWindow *)PR_window, FALSE);
   gtk_widget_show_all(PR_window);
@@ -1376,7 +1404,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   // sort out the size of the drawing area
   // sort out how to pass the deviation from in-tune to the draw_indicator function
   
-}
+  }
 
 
 gint setup_pitch_input(void){

@@ -4401,6 +4401,7 @@ static void pb_range (GtkWidget *button) {
 }
 static void pb_panic (GtkWidget *button) {
   playback_panic();
+  reset_temperament();
 }
 static void track_delete(smf_track_t *track) {
   if(track==NULL)
@@ -7168,6 +7169,8 @@ get_data_dir (),
 
     GtkWidget *inner1 = gtk_vbox_new(FALSE, 1);
     gtk_container_add (GTK_CONTAINER (frame), inner1);
+
+
     GtkWidget *inner = gtk_hbox_new(FALSE, 1);
     gtk_box_pack_start (GTK_BOX (inner1), inner, FALSE, TRUE, 0);
 
@@ -7210,7 +7213,10 @@ get_data_dir (),
 
       create_playbutton(inner, "Set From Selection", pb_set_range, NULL);
       create_playbutton(inner, "Playback Range", pb_range, NULL);
-
+    GtkWidget *temperament_control = get_temperament_combo();
+    if(!gtk_widget_get_parent(temperament_control))
+      //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
+      gtk_box_pack_start (GTK_BOX (inner), temperament_control, TRUE, TRUE, 0);
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);

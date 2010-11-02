@@ -34,4 +34,8 @@ gchar *flattest(void);
 void signal_measure_end(void);
 gboolean pitch_entry_active(DenemoGUI *gui);
 GtkWidget *get_enharmonic_frame(void);
+GtkWidget *get_temperament_combo(void);
+void change_tuning(gdouble *cents);
+void
+reset_temperament(void);
 #endif //PITCHENTRY_H
