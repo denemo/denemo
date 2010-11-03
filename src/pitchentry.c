@@ -1009,6 +1009,7 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
       id = 0;
     }
 }
+#endif
 
 /* return an array of values representing deviations from equal temperament for 12 notes from C for the passed temperament. Returned value is read only */
 gdouble *get_cents(temperament *t) {
@@ -1038,7 +1039,7 @@ void
 reset_temperament(void) {
 change_tuning(get_cents(PR_temperament));
 }
-#endif
+
 GtkWidget *get_enharmonic_frame(void) {
   static GtkWidget *frame;
   if(frame==NULL) {
