@@ -2869,14 +2869,10 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
     switch(type) {
     case ADD_STAFFS:
       FOREACH_CHILD_ELEM(childElem, rootElem){
-	if (ELEM_NAME_EQ (childElem, "lilycontrol") 
-	    || ELEM_NAME_EQ (childElem, "custom_scoreblock")
-	    || ELEM_NAME_EQ (childElem, "visible_scoreblock")
-	    || ELEM_NAME_EQ (childElem, "scoreheader-directives")
-	    || ELEM_NAME_EQ (childElem, "paper-directives")){
+	if (ELEM_NAME_EQ (childElem, "movement")) 
+	  ret |=  parseMovement(childElem, ns, gui, type);
+	else
 	  continue;
-	} else
-	ret |=  parseMovement(childElem, ns, gui, type);
 	//g_print("parsed more staffs breaking now\n");
 	break;//Note: we only adds staffs from first movement
       }
