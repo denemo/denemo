@@ -223,6 +223,7 @@ DenemoDirective *clone_directive(DenemoDirective *directive) {
   CLONE(postfix);
   CLONE(display);
   CLONE(graphic_name);
+  CLONE(midibytes);
 #undef CLONE
   if(directive->graphic) {
     ret->graphic = directive->graphic;//alternatively could load it via loadGraphicItem, is the same
