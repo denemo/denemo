@@ -59,11 +59,14 @@ typedef struct notepitch {
 
 typedef struct temperament {
   gchar *name;
-  gint sharp;/* which notepitch is the sharpest in circle of 5ths - initially G# */
-  gint flat;/* which notepitch is the flattest in circle of 5ths - initially Eb */
+  gint unusedsharp;/* which notepitch is the sharpest in circle of 5ths - initially G# */
+  gint unusedflat;/* which notepitch is the flattest in circle of 5ths - initially Eb */
   notepitch notepitches[12]; /* pitches of C-natural, C#, ... A#, B-natural */
 } temperament;
 
+static gint flat_degree=3, sharp_degree=8;/* which notepitch is the sharpest in circle of 5ths - initially G#
+                                     flattest in circle of 5ths - initially Eb */
+static gint temperament_offset=0;/* shift in temperament around circle of 5ths */
 #if 0
 Pythagorean
 261.6	279.4	294.3 	310.1	331.1	348.8 	372.5	392.4	419.1 	441.5	465.1	496.7
@@ -268,10 +271,10 @@ static gchar * notenames(gpointer p) {
   gint i;
   oldstr = g_strdup("");
   for(i=0;i<12;i++) {
-    if(i==t->flat)
+    if(i==flat_degree)
       str = g_strdup_printf("%s<span size=\"large\" foreground=\"red\">%c%s</span> ", oldstr, step_name(t->notepitches[i].spec.step), alteration_name(t->notepitches[i].spec.alteration));
     else
-    if(i==t->sharp)
+    if(i==sharp_degree)
        str = g_strdup_printf("%s<span size=\"large\" foreground=\"blue\">%c%s</span> ", oldstr, step_name(t->notepitches[i].spec.step), alteration_name(t->notepitches[i].spec.alteration));
     else
       str = g_strdup_printf("%s%c%s ", oldstr, step_name(t->notepitches[i].spec.step), alteration_name(t->notepitches[i].spec.alteration));
@@ -317,10 +320,10 @@ static gchar *nameof(gint notenumber) {
 
 //Caller must free
 gchar *sharpest(void) {
-  return nameof(PR_temperament->sharp);
+  return nameof(sharp_degree);
 }
 gchar *flattest(void) {
-  return nameof(PR_temperament->flat);
+  return nameof(flat_degree);
 }
 
 /* returns an opaque id for the user's default temperament
@@ -336,8 +339,8 @@ static gpointer default_temperament() {
 
 
 static void sharpen(GtkButton *button, GtkWidget *label) {
-#define f  (PR_temperament->notepitches[PR_temperament->flat].spec)
-  gint next = (PR_temperament->flat+11)%12;
+#define f  (PR_temperament->notepitches[flat_degree].spec)
+  gint next = (flat_degree+11)%12;
 #define g (PR_temperament->notepitches[next].spec)
  if(g.alteration+1>2) 
   return;
@@ -349,8 +352,9 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
   }
 #undef f
 #undef g
-  PR_temperament->sharp = PR_temperament->flat;
-  PR_temperament->flat = (PR_temperament->flat+7)%12;
+  sharp_degree = flat_degree;
+  flat_degree = (flat_degree+7)%12;
+  temperament_offset = (temperament_offset+5)%12;
   if(1 /*PR_window*/) {
     gchar *names = notenames(PR_temperament);
     gtk_label_set_markup((GtkLabel*)label, names);
@@ -367,8 +371,8 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
 
 static void flatten(GtkButton *button, GtkWidget *label) {
 
-#define s (PR_temperament->notepitches[PR_temperament->sharp].spec)
-  gint next = (PR_temperament->sharp+1)%12;
+#define s (PR_temperament->notepitches[sharp_degree].spec)
+  gint next = (sharp_degree+1)%12;
 #define t (PR_temperament->notepitches[next].spec)
 if(t.alteration-1<-2) 
   return;
@@ -378,8 +382,9 @@ if(t.alteration-1<-2)
  }
 #undef s
 #undef t
-  PR_temperament->flat = PR_temperament->sharp;
-  PR_temperament->sharp = (PR_temperament->sharp+5)%12;
+  flat_degree = sharp_degree;
+  sharp_degree = (sharp_degree+5)%12;
+  temperament_offset = (temperament_offset+7)%12;
   if(1/*PR_window*/) {
   gchar *names = notenames(PR_temperament);
   gtk_label_set_markup((GtkLabel*)label, names);
@@ -399,8 +404,8 @@ static void enharmonic_step (gboolean sharp) {
   GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/SharpenEnharmonicSet");
   GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/FlattenEnharmonicSet");
 
-  sharpestname = nameof(PR_temperament->sharp);
-  flattestname = nameof(PR_temperament->flat);
+  sharpestname = nameof(sharp_degree);
+  flattestname = nameof(flat_degree);
   gchar *label = g_strdup_printf("(%s) Step Sharper", sharpestname);
   GValue a = {0};
   g_value_init (&a, G_TYPE_STRING);
@@ -1016,8 +1021,8 @@ gdouble *get_cents(temperament *t) {
   static gdouble array[12];
   int i, j;
   for(i=0;i<12;i++) {
-    j = (i+t->sharp+4)%12;
-    // g_print("we have %d %d %f %f\n", i, j, 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch));
+    j = (i+temperament_offset)%12;
+    //g_print("cents tempered %d to %d unshifted %f shifted %f\n", i, j, 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch));
     array[i] = 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch);
   }
   return array;
