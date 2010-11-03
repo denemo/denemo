@@ -357,6 +357,7 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
     g_free(names);
     switch_back_to_main_window();
   }
+  reset_temperament();
   return;
 }
 
@@ -385,6 +386,7 @@ if(t.alteration-1<-2)
   g_free(names);
   switch_back_to_main_window();
   }
+  reset_temperament();
   return;
 }
 
@@ -1011,10 +1013,11 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
 /* return an array of values representing deviations from equal temperament for 12 notes from C for the passed temperament. Returned value is read only */
 gdouble *get_cents(temperament *t) {
   static gdouble array[12];
-  int i;
+  int i, j;
   for(i=0;i<12;i++) {
-    //g_print("we have %d %f %f %f\n", i, t->notepitches[i].pitch/Equal.notepitches[i].pitch, log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch));
-    array[i] = 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch);
+    j = (i+t->sharp+4)%12;
+    // g_print("we have %d %d %f %f\n", i, j, 1200 * log2(t->notepitches[i].pitch/Equal.notepitches[i].pitch), 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch));
+    array[i] = 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch);
   }
   return array;
 }
