@@ -211,8 +211,8 @@ static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehma
 
 
 static void switch_back_to_main_window(void) {
-
-    gtk_window_present(GTK_WINDOW(Denemo.window));
+  gtk_window_present(GTK_WINDOW(Denemo.window));
+  gtk_widget_grab_focus (Denemo.gui->scorearea);
 }
 
 
@@ -1038,6 +1038,7 @@ static void  temperament_changed_callback (GtkComboBox *combobox,  GtkListStore 
 		      COLUMN_PTR, &PR_temperament, -1);
   change_tuning(get_cents(PR_temperament));
   g_string_assign(Denemo.prefs.temperament, PR_temperament->name);
+  switch_back_to_main_window();
 }
 
 void
