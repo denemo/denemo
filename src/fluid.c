@@ -548,6 +548,7 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
 	buf[0]=NOTE_OFF;
 	buf[2]=128;
       }
+      buf[0] |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
       //g_print("key is %d\n", key);
       handle_midi_event(buf);
     }
