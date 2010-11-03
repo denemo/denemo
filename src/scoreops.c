@@ -254,7 +254,11 @@ next_movement (GtkAction *action, DenemoScriptParam *param)
     return;
   }
   gtk_widget_hide(gui->si->buttonbox);
+  if(gui->si->lyricsbox)
+    gtk_widget_hide(gui->si->lyricsbox);
   gui->si = this->data;
+  if(gui->si->lyricsbox)
+    gtk_widget_show(gui->si->lyricsbox);//toggle_lyrics_view(NULL, NULL);
   gtk_widget_show(gui->si->buttonbox);
   set_master_tempo(gui->si, 1.0);
   //!!!!!!!!updatescoreinfo (gui);
@@ -292,7 +296,11 @@ prev_movement (GtkAction *action, DenemoScriptParam *param)
     return;
   }
   gtk_widget_hide(gui->si->buttonbox);
+  if(gui->si->lyricsbox)
+    gtk_widget_hide(gui->si->lyricsbox);
   gui->si = this->data; 
+  if(gui->si->lyricsbox)
+    gtk_widget_show(gui->si->lyricsbox);//toggle_lyrics_view(NULL, NULL);
   gtk_widget_show(gui->si->buttonbox);
   set_master_tempo(gui->si, 1.0);
   //!!!!!!!!!!!!!updatescoreinfo (gui);
