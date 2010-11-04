@@ -801,6 +801,31 @@ static SCM scheme_master_volume (SCM factor) {
   return scm_double2num(si->master_volume);
 }
 
+static SCM scheme_get_midi_tuning(void) {
+  gchar *cents = get_cents_string();
+  SCM ret = scm_makfrom0str (cents);
+  g_free(cents);
+  return ret;
+}
+static SCM scheme_get_sharpest(void) {
+  gchar *name = get_sharpest();
+  SCM ret = scm_makfrom0str (name);
+  g_free(name);
+  return ret;
+}
+static SCM scheme_get_flattest(void) {
+  gchar *name = get_flattest();
+  SCM ret = scm_makfrom0str (name);
+  g_free(name);
+  return ret;
+}
+static SCM scheme_get_temperament(void) {
+  gchar *name = get_temperament_name();
+  SCM ret = scm_makfrom0str (name);
+  g_free(name);
+  return ret;
+}
+
 
 static SCM scheme_get_midi_on_time(void) {
   if(!(Denemo.gui->si->currentobject))
@@ -3937,6 +3962,15 @@ INSTALL_EDIT(movementcontrol);
 
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
+
+  INSTALL_SCM_FUNCTION ("Return a string of tuning bytes (offsets from 64) for MIDI tuning message", DENEMO_SCHEME_PREFIX"GetMidiTuning", scheme_get_midi_tuning);
+  INSTALL_SCM_FUNCTION ("Return name of flattest degree of current temperament", DENEMO_SCHEME_PREFIX"GetFlattest", scheme_get_flattest);
+
+  INSTALL_SCM_FUNCTION ("Return name of sharpest degree of current temperament", DENEMO_SCHEME_PREFIX"GetSharpest", scheme_get_sharpest);
+   INSTALL_SCM_FUNCTION ("Return name of current temperament", DENEMO_SCHEME_PREFIX"GetTemperament", scheme_get_temperament);
+ 
+
+
 
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOnTime", scheme_get_midi_on_time);
   INSTALL_SCM_FUNCTION ("Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX"GetMidiOffTime", scheme_get_midi_off_time);

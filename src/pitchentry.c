@@ -1017,7 +1017,7 @@ static void toggle_tuning(GtkToggleButton *button, DenemoGUI *gui) {
 #endif
 
 /* return an array of values representing deviations from equal temperament for 12 notes from C for the passed temperament. Returned value is read only */
-gdouble *get_cents(temperament *t) {
+static gdouble *get_cents(temperament *t) {
   static gdouble array[12];
   int i, j;
   for(i=0;i<12;i++) {
@@ -1026,6 +1026,24 @@ gdouble *get_cents(temperament *t) {
     array[i] = 1200 * log2(t->notepitches[j].pitch/Equal.notepitches[j].pitch);
   }
   return array;
+}
+
+/* return a string off offsets from 64 representing cents deviation for current temperment
+ caller must free*/
+gchar *get_cents_string(void) {
+  gdouble *values = get_cents(PR_temperament);
+  return  g_strdup_printf(" %d %d %d %d %d %d %d %d %d %d %d %d ", (gint)(64+values[0])&0x7f,
+		  (gint)(64+values[1])&0x7f,(gint)(64+values[2])&0x7f,(gint)(64+values[3])&0x7f,(gint)(64+values[4])&0x7f,(gint)(64+values[5])&0x7f,(gint)(64+values[6])&0x7f,(gint)(64+values[7])&0x7f,(gint)(64+values[8])&0x7f,(gint)(64+values[9])&0x7f,(gint)(64+values[10])&0x7f,(gint)(64+values[11])&0x7f);
+}
+
+gchar *get_sharpest(void) {
+  return nameof(sharp_degree);
+}
+gchar *get_flattest(void) {
+  return nameof(flat_degree);
+}
+gchar *get_temperament_name(void) {
+  return g_strdup(PR_temperament->name);
 }
 
 #define COLUMN_NAME (0)
