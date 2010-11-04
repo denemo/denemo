@@ -576,10 +576,12 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 
 
     if(cr) {
+      //      if(itp->measurenum > si->rightmeasurenum+1)
+      //	g_critical("Please advise the circumstance in which this happened");
       if(itp->measurenum == si->rightmeasurenum+1)
 	cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that will be repeated at the start of the next page.
-    else 
-      cairo_set_source_rgb( cr, 0, 0, 0 );//black;
+      else 
+	cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     }// if cr
 
     extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
@@ -704,7 +706,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     x += SPACE_FOR_TIME;// to allow the same margin ??
   }
 
-  *itp->left = itp->measurenum;
+  *itp->left = itp->measurenum>gui->si->rightmeasurenum?gui->si->rightmeasurenum:itp->measurenum;
   memcpy (itp->keyaccs, thestaff->leftmost_keysig->accs, SEVENGINTS);
 
 
