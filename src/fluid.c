@@ -409,7 +409,7 @@ static gboolean fluidsynth_play_smf_event(gchar *callback)
       case SYS_EXCLUSIVE_MESSAGE1:
 	if(FLUIDSYNTH_VERSION_MAJOR>=1 && FLUIDSYNTH_VERSION_MINOR>=1) {
 	 gint ret = fluid_synth_sysex(synth, event->midi_buffer+1, 19, NULL, 0, NULL, FALSE);
-	 g_print("Got ret %d\n", ret);
+	 //g_print("Got ret %d bytes sent are %x %x %x %x %x\n", ret, event->midi_buffer[1], event->midi_buffer[2], event->midi_buffer[3], event->midi_buffer[4], event->midi_buffer[5]);
 	}
 	else
 	  g_warning("Not supported by this fluidsynth version use >=1.1");
