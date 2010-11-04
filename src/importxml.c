@@ -2959,6 +2959,8 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
 			  point_to_empty_movement(gui);
 			  ret |=  parseMovement(childElem, ns, gui, type);
 			}
+  if(gui->si && gui->si->lyricsbox)
+    gtk_widget_hide(gui->si->lyricsbox);
       }
 	
 	if(getNumCharsSchemeText())
@@ -2991,9 +2993,18 @@ importXML (gchar * filename, DenemoGUI *gui, ImportType type)
       goto cleanup;
     }
   }
-
-  while(--current_movement>0)
+  if(gui->si->lyricsbox)
+    gtk_widget_hide(gui->si->lyricsbox);
+  while(--current_movement>0) {
+    if(gui->si->lyricsbox)
+       gtk_widget_hide(gui->si->lyricsbox);
     next_movement(NULL, NULL);
+  }
+  if(gui->si->lyricsbox)
+    if(!Denemo.prefs.lyrics_pane)
+      gtk_widget_hide(gui->si->lyricsbox);
+    else
+      gtk_widget_show(gui->si->lyricsbox);
   score_status(gui, FALSE);
 
  cleanup:
