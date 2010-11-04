@@ -576,8 +576,8 @@ draw_measure (cairo_t *cr, measurenode * curmeasure, gint x, gint y,
 
 
     if(cr) {
-    if(itp->measurenum >= si->rightmeasurenum+1)
-	cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that may be only partially visible.
+      if(itp->measurenum == si->rightmeasurenum+1)
+	cairo_set_source_rgb( cr, 0.5,0.5,0.5 );//This draws light gray anything that will be repeated at the start of the next page.
     else 
       cairo_set_source_rgb( cr, 0, 0, 0 );//black;
     }// if cr
@@ -790,6 +790,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
+
       itp->measurenum++;
       //g_print("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
       if(!itp->line_end) {
