@@ -3983,6 +3983,22 @@ right. </tooltip>
         <label>(Print) Set bar number</label>
         <tooltip>Enter a number to change the lilypond bar number. The printout will continue to count up from there.</tooltip>
       </row>
+      <row>
+        <action>SetTuningStaff</action>
+        <after>TypesettingOn</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Tuning</menupath>
+        <label>Set Tuning for Current Staff</label>
+        <tooltip>At this time in playback the current staff's tuning will switch to the temperament selected when this command is invoked.</tooltip>
+      </row>
+      <row>
+        <action>SetTuningAllStaffs</action>
+        <after>SetTuningStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives/Tuning</menupath>
+        <label>Set Tuning Across All Staffs</label>
+        <tooltip>At this time during playback switch to the temperament set when this command was invoked.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
