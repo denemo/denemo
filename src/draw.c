@@ -706,7 +706,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
     x += SPACE_FOR_TIME;// to allow the same margin ??
   }
 
-  *itp->left = itp->measurenum>gui->si->rightmeasurenum?gui->si->rightmeasurenum:itp->measurenum;
+  *itp->left = itp->measurenum>gui->si->rightmeasurenum?gui->si->rightmeasurenum:itp->measurenum; 
   memcpy (itp->keyaccs, thestaff->leftmost_keysig->accs, SEVENGINTS);
 
 
