@@ -656,6 +656,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
   DenemoScore *si = gui->si;
   gint x  = KEY_MARGIN, i;
   //g_print("drawing staff %d at %d\n", itp->staffnum, y);
+  gint nummeasures = g_list_length (thestaff->measures);
+
+  // g_print("Of %d current %d\n", nummeasures, itp->measurenum);
+  if(itp->measurenum>nummeasures)
+    cr=NULL;//no more drawing on this staff
   if(cr) {
 	  cairo_save(cr);
 	 
@@ -770,7 +775,6 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
 
   itp->line_end = FALSE;
-  gint nummeasures = g_list_length (thestaff->measures);
   
   while ( (!itp->line_end) 
 	 && itp->measurenum <= nummeasures)
