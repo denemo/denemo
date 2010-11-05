@@ -7250,7 +7250,7 @@ get_data_dir (),
     GtkWidget *temperament_control = get_temperament_combo();
     if(!gtk_widget_get_parent(temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
-      gtk_box_pack_start (GTK_BOX (inner), temperament_control, TRUE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (inner), temperament_control, FALSE, FALSE, 0);
     {GtkWidget *hbox;
       hbox = gtk_hbox_new(FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
