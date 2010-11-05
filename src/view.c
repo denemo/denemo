@@ -2399,7 +2399,7 @@ static SCM scheme_play_midikey(SCM scm) {
     double volume = ((midi>>16)&0xFF)/255.0;
     //g_print("Playing %x at %f volume, %d channel\n", key, (double)volume, channel);
     play_midikey(key, 0.2, volume, channel);
-    g_usleep(200000);
+    //g_usleep(200000);
  return SCM_BOOL(TRUE);
 }
 
