@@ -1385,9 +1385,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		      xmlNewChild (measureElem, ns, (xmlChar *) "lily-directive",
 				   (xmlChar *)" ");
 
-		  
-		  xmlSetProp (objElem, (xmlChar *) "locked",
-			      (xmlChar *) (((lilydirective *) curObj->object)->locked?"true":"false"));
+		  if(((lilydirective *) curObj->object)->locked)
+		    xmlSetProp (objElem, (xmlChar *) "locked",
+				(xmlChar *) "true");
 
 #define SETSTRING_PROP(field)\
 		  if(((lilydirective *) curObj->object)->field && ((lilydirective *) curObj->object)->field->len)\
@@ -1402,7 +1402,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 #undef SETSTRING_PROP
 
 #define SETINT_PROP(x)\
-		    newXMLIntProp (objElem, (xmlChar *) #x,\
+		    if(((lilydirective *) curObj->object)->x) newXMLIntProp (objElem, (xmlChar *) #x, \
 				   (((lilydirective *) curObj->object)->x));
 		    SETINT_PROP (x);
 		    SETINT_PROP (y);
