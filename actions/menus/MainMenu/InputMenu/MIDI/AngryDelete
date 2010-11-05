@@ -13,6 +13,7 @@
       (velocity 0)
       (loop 0))
      (d-InputFilterNames "Angry Delete MIDI Filter")
+     (d-SetMidiCapture #t)
      (set! loop  (lambda ()
 		(begin		  
 		  (set! midi (d-GetMidi))
@@ -27,6 +28,7 @@
 		      (display "Filter stopping")
 		      (loop)))))
      (loop))
+(d-SetMidiCapture #f)
 </scheme>
         <label>Angry Delete</label>
         <tooltip>MIDI notes struck loudly delete the previous note before taking effect.</tooltip>

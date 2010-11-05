@@ -28,7 +28,8 @@
 	(d-PlayMidiKey #x202001)
 	(d-PlayMidiKey #x202601)
 	(d-PlayMidiKey #x202201)
-        (d-InputFilterNames "Check Pitches Filter")	
+        (d-InputFilterNames "Check Pitches Filter")
+	(d-SetMidiCapture #t)	
 	(set! loop  (lambda ()
 			(begin
 			  (set! midi (d-GetMidi))
@@ -47,7 +48,7 @@
 				       )
 				       (loop))))))
 	(loop))))
-
+(d-SetMidiCapture #f)
 (display "End of script")
 </scheme>
         <label>Check Note Pitches</label>
