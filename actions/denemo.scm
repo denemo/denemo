@@ -1,6 +1,3 @@
-
-(define Denemo #t)
-
 (use-modules (srfi srfi-1))
 (use-modules (srfi srfi-8))
 (use-modules (srfi srfi-13))
@@ -9,6 +6,9 @@
 (load "ans.scm")
 (load "notationmagick.scm")
 
+;Needed to see if lyimport / mxml import is called from inside or outside Denemo
+(define Denemo #t)
+
 ; Create a seed for (random int) one time Denemo starts. The seed is altered by random itself afterwards.
 (let ((time (gettimeofday)))
     (set! *random-state*
@@ -16,6 +16,7 @@
                  (cdr time)))))
 
 (define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
+
 
 ;;;;;;;;;; create documentation for a command - this version just prints out basic info
 ;;;;;;;;;;;;;DocumentCommand
