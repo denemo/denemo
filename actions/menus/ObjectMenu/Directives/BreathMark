@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>BreathMark</action>
+        <scheme>;;;BreathMark
+		(StandAloneDirectiveProto (cons "BreathMark" "\\breathe"))
+		</scheme>
+        <label>Breath Mark</label>
+        <tooltip>Insert a Breath Mark</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
