@@ -17,6 +17,22 @@
 
 (define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
+;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
+(define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
+"Staff"
+)
+
+(define (GetTypeAsLilypond)   ; You will likely need (GetContextAsLilypond) also. TODO: Replace with real information, derived from Lilypond
+(define type (string->symbol (d-GetType)))
+	(case type  ; Convert Denemo type to lilypond type
+		((TIMESIG) "TimeSignature")	
+		((CHORD) "NoteHead") ; Rests will be detected as CHORD but it will not work
+		((KEYSIG) "KeySignature")
+		((CLEF) "Clef")
+		(else #f) 
+	)
+)
+
 
 ;;;;;;;;;; Prototype to insert Lilypond Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
 (define (StandAloneDirectiveProto pair)
