@@ -773,7 +773,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	    //cairo_scale(cr,(*itp->scale)/100.0,1.0);
  }
 
-
+ gint scale_before=*itp->scale;
   itp->line_end = FALSE;
   
   while ( (!itp->line_end) 
@@ -806,13 +806,14 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	}
 	if(itp->lowy>itp->in_lowy && itp->lowy<MAXEXTRASPACE){
 	  thestaff->space_below = itp->lowy;
-	  repeat=TRUE;
+	  repeat = TRUE;
 	}
       }			      
-    }
-
+    } // end of loop drawing each measure
+  if(scale_before!=*itp->scale)
+    repeat = TRUE;/* the first system is already drawn, so it is too late to discover that we needed to scale it */
   *itp->right = itp->measurenum-1;
-  
+  /* draw lines connecting the staves in this system at the left and right hand ends */
   if(cr) if(curstaff->prev)
 	{
 	  DenemoStaff *prev = (DenemoStaff *)(curstaff->prev->data);	  
@@ -828,7 +829,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	  cairo_rectangle (cr, x - SPACE_FOR_BARLINE, y, 2, 2*STAFF_HEIGHT + next->space_above + thestaff->space_below);
 	  cairo_fill(cr);	 
 	}
-
+  /* end of draw lines connecting the staves in this system at the left and right hand ends */
 
   if(cr) cairo_restore(cr);
   // if(itp->highy > title_highy)
@@ -1223,7 +1224,7 @@ DenemoGUI *gui = Denemo.gui;
   }
 
   /* Draw the score */
-  } while(draw_score (widget, gui));
+  } while(draw_score (widget, gui) && !Denemo.gui->si->playingnow);
 
   /* Now actually draw the backing pixmap onto the drawing area */
 
