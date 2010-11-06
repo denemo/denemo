@@ -7,9 +7,10 @@
       <row>
         <after>TypesettingOff</after>
         <action>TypesettingOn</action>
-        <scheme>(d-DirectivePut-standalone-postfix "Typesetting Control" "\\set Score.skipTypesetting = ##f")
-(d-MoveCursorLeft)
-(d-DirectivePut-standalone-display "Typesetting Control" "TypesetOn")
+        <scheme>
+  (StandAloneDirectiveProto (cons "TypesetOn" "
+        	\\set Score.skipTypesetting =  ##f       	
+"))
 </scheme>
         <label>TypesettingOn</label>
         <tooltip>Turns on typesetting from this point forward in all staffs.</tooltip>
