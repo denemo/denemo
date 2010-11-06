@@ -18,6 +18,17 @@
 (define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
 
+;;;;;;;;;; Prototype to insert Lilypond Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
+(define (StandAloneDirectiveProto pair)
+	(d-Directive-standalone (car pair))
+	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
+	(d-DirectivePut-standalone-display(car pair) (car pair))
+	(d-DirectivePut-standalone-minpixels (car pair) 30)
+	(d-MoveCursorRight)
+	(d-RefreshDisplay)
+)
+
+
 ;;;;;;;;;; create documentation for a command - this version just prints out basic info
 ;;;;;;;;;;;;;DocumentCommand
 (define (DocumentCommand name)
