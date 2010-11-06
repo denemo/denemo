@@ -3999,6 +3999,13 @@ right. </tooltip>
         <label>Set Tuning Across All Staffs</label>
         <tooltip>At this time during playback switch to the temperament set when this command was invoked.</tooltip>
       </row>
+      <row>
+        <action>Hide</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>(Print) Hide object</label>
+        <tooltip>Hides the object at cursor position with a lilypond directive. Currently only Notes and the three Signatures. No rests!</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
