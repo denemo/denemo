@@ -260,7 +260,7 @@ goto_currentmeasurenum (DenemoGUI * gui, gint dest, gboolean extend_selection)
 gboolean
 set_currentmeasurenum (DenemoGUI * gui, gint dest)
 {
-  return goto_currentmeasurenum (gui, dest, TRUE);
+  return goto_currentmeasurenum (gui, dest, FALSE);
 }
 
 /**
