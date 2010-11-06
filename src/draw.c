@@ -788,11 +788,17 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 
-
+#if 0
       if(itp->line_end) {
       *itp->scale = itp->curmeasure->next?
 	(int)(100*x/(gui->scorearea->allocation.width/gui->si->zoom)):100;
       }
+#else
+      if(itp->line_end && itp->curmeasure->next)
+	*itp->scale = (int)(100*x/(gui->scorearea->allocation.width/gui->si->zoom));
+      if( (Denemo.gui->view!=DENEMO_PAGE_VIEW) && *itp->scale < 100)
+	*itp->scale = 100;
+#endif
 
       itp->curmeasure = itp->curmeasure->next;
       itp->mwidthiterator = itp->mwidthiterator->next;
