@@ -5643,6 +5643,15 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
     g_error_free(error);
     error = NULL;
     gchar *filename = g_strconcat(name, ".svg", NULL);
+
+    gchar *thename = g_malloc0(1000);
+    // g_printf("Give name");
+    //scanf("%s", thename);
+    // filename = thename;
+    //g_printf("Give scales x y");
+    gfloat thescale=0.04, offx=500.0, offy=500.0;
+    //scanf("%f%f", &offx, &offy);
+    g_print("Got %f %f %f\n", thescale, offx, offy);
     RsvgHandle *handle = rsvg_handle_new_from_file(filename, &error);
     g_free(filename);
     if(handle==NULL) {
@@ -5655,8 +5664,18 @@ loadGraphicFromFormat(gchar *basename, gchar *name, DenemoGraphic **xbm) {
     RsvgDimensionData thesize;
     rsvg_handle_get_dimensions(handle, &thesize); 
     
+    g_print("size %d x %d", thesize.width, thesize.height);
+
+
+
     cairo_surface_t *surface =   (cairo_surface_t *)cairo_svg_surface_create_for_stream (NULL, NULL, (gdouble)thesize.width,  (gdouble)thesize.height); 
     cairo_t *cr = cairo_create(surface);
+    cairo_translate(cr, offx, offy);
+    cairo_scale(cr, thescale, -thescale);
+    g_print("scaled %f %f %f\n", thescale, offx, offy);
+
+    //cairo_translate(cr, 0.0, 0.0);
+    //cairo_scale(cr, 1.0, 1.0);
     rsvg_handle_render_cairo(handle, cr);
     rsvg_handle_close(handle, NULL);
     g_object_unref(handle);
