@@ -4013,6 +4013,13 @@ right. </tooltip>
         <label>Breath Mark</label>
         <tooltip>Inserts a Breath Mark</tooltip>
       </row>
+      <row>
+        <action>DeactivateTimeSignatureStencil</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Don't engrave Time Signatures</label>
+        <tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
