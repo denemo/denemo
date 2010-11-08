@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+ 
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+     version="1.1" baseProfile="full"
+height="1000.0"
+width="1000.0"
+> 
+     
+<path glyph-name="rests.M2"
+d="M2 248l3 2h70h70l3 -2l2 -3v-245v-244l-2 -3l-3 -2h-70h-70l-3 2l-2 3v244v245z"
+ />
+</svg>
+ 
