@@ -4020,6 +4020,36 @@ right. </tooltip>
         <label>(Print) Don't engrave Time Signatures</label>
         <tooltip>Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active.</tooltip>
       </row>
+      <row>
+        <action>StopStaff</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Stop drawing staff</label>
+        <tooltip>Stop drawing the staff and barlines in Lilypond. Notes are still drawn.</tooltip>
+      </row>
+      <row>
+        <action>StartStaff</action>
+        <after>StopStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Start drawing staff (again)</label>
+        <tooltip>Reverts the "Stop Drawing Staff" command</tooltip>
+      </row>
+      <row>
+        <action>HideNotes</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Stop drawing notes</label>
+        <tooltip>Stops the Lilypond engraving of notes</tooltip>
+      </row>
+      <row>
+        <action>UnHideNotes</action>
+        <after>HideNotes</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>(Print) Start drawing notes (again)</label>
+        <tooltip>Reverts the "Stop drawing notes" command</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
