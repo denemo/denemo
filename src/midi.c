@@ -345,7 +345,7 @@ gboolean set_midi_capture(gboolean set) {
   return ret;
 }
 
-#define command ((*buf)&0xFF)
+#define command ((*buf)&0xF0)
 #define notenumber ((*(buf+1))&0xFF)
 #define velocity ((*(buf+2))&0xFF)
 void process_midi_event(gchar *buf) {
