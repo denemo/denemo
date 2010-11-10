@@ -20,6 +20,11 @@
 (d-DirectivePut-scoreheader-prefix "test" "%{scoreheader prefix%}\n")
 (d-DirectivePut-scoreheader-postfix "test" "%{scoreheader postfix%}\n")
 
+(d-DirectivePut-movementcontrol-prefix "test" "%{movementcontrol prefix%}\n")
+(d-DirectivePut-movementcontrol-postfix "test" "%{movementcontrol postfix%}\n")
+
+
+;;(d-DirectivePut-movementcontrol-override "test" DENEMO_OVERRIDE_LILYPOND)
 
 (d-DirectivePut-header-prefix "test" "%{header prefix%}\n")
 (d-DirectivePut-header-postfix "test" "%{header postfix%}\n")
