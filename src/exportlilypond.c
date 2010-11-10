@@ -1634,7 +1634,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	      if (curmeasure->next)
 		g_string_append_printf(endstr,"%s", "\\Barline\n");
 	      else
-		g_string_append_printf(endstr, "%s"," \\bar \"|.\"\n");
+		g_string_append_printf(endstr, "%s"," \\EndMovementBarline\n");
 	    }
 	    
 	    gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
@@ -2075,7 +2075,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
     {//Score prefix
       //Default value for barline = barline check
-      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\n", -1, INEDITABLE, NULL, NULL);
+      gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,  "\nBarline = |\nEndMovementBarline = \\bar \"|.\"\n", -1, INEDITABLE, NULL, NULL);
   GList *g = gui->lilycontrol.directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = g->data;
