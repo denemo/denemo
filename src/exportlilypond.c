@@ -2283,27 +2283,24 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
       g_string_append_printf(scoreblock, "%s", ">>\n>>\n");
      
+
       { gchar *layout_string = get_postfix(si->layout.directives);
-      g_string_append_printf(scoreblock, "%s", "\\layout{\n");
-      if(layout_string) {
-	g_string_append(scoreblock, layout_string);
+	if( get_lily_override(si->layout.directives))
+	  g_string_append_printf(scoreblock, "%s%s%s", "", layout_string?layout_string:"", "");
+	else
+	  g_string_append_printf(scoreblock, "%s%s%s", "\\layout {\n", layout_string?layout_string:"", ""TAB"}\n");
 	g_free(layout_string);
       }
-      g_string_append_printf(scoreblock, "%s", ""TAB"}\n");   
-      }
-
-
 
 
       { gchar *header_string = get_postfix(si->header.directives);
-      //g_print("Now output %s for %p\n", header_string, si);
-      g_string_append_printf(scoreblock, "%s", "\\header{\n");
-      if(header_string) {
-	g_string_append(scoreblock, header_string);
+	if( get_lily_override(si->header.directives))
+	  g_string_append_printf(scoreblock, "%s%s%s", "", header_string?header_string:"", "");
+	else
+	  g_string_append_printf(scoreblock, "%s%s%s", "\\header {\n", header_string?header_string:"", ""TAB"}\n");
 	g_free(header_string);
-      }  
-      g_string_append_printf(scoreblock, "%s", ""TAB"}\n\n"); /*end of  \header block */
       }
+
 
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
