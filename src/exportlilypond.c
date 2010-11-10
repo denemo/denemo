@@ -2133,10 +2133,10 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 	}  
       }
       /* the score prefix field is at the start of the whole score, the postfix field is placed as
-	 a prolog before the music in the scoreblock, unless the DENEMO_OVERRIDE_LILYPOND flag is set, in which case
-	 the postfix field replaces the scoreblock altogether */
+	 a prolog before the music in each movements scoreblock */
       gchar *score_prolog = get_postfix(gui->lilycontrol.directives);
-      g_string_append_printf (scoreblock, "%s", "\\score {\n");
+      gchar *movement_prolog = get_postfix(si->movementcontrol.directives);
+      g_string_append_printf (scoreblock, "%s", get_lily_override(si->movementcontrol.directives)? movement_prolog:"\\score {\n");
       g_string_append_printf (scoreblock, "<<%s <<\n", score_prolog);
       g_free(score_prolog);
     }
@@ -2307,38 +2307,13 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 
      
       g_string_append_printf(scoreblock, "%s", "}\n"); /*end of \score block */
-      /* any markup after score block*/
-      { 
-	gchar *mvmnt_string = get_postfix(si->movementcontrol.directives);
-	if(mvmnt_string) {
-	  g_string_append(scoreblock, mvmnt_string);
-	  g_free(mvmnt_string);
-	}
-      }
-      
+     
 
       // Put this standard scoreblock in the textbuffer
 
       gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, STANDARD_SCOREBLOCK));
 
-#if 0
-      if(get_lily_override(gui->lilycontrol.directives)) {
-	//FIXME this is being emitted for each movement, rather than just once
-	gchar *score_substitute = get_postfix(gui->lilycontrol.directives);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, score_substitute, -1, INEDITABLE, NULL);
-	g_free(score_substitute);
-      }
-#else
-      if(get_lily_override(si->movementcontrol.directives)) {
-	gchar *scoreblock_substitute = get_postfix(si->movementcontrol.directives);
-	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, scoreblock_substitute, -1, INEDITABLE, NULL);
-	g_free(scoreblock_substitute);
-      }
-
-#endif
-
-
-      else    
+    
 	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter,scoreblock->str, -1, INEDITABLE,
 						  (partname==NULL && gui->custom_scoreblocks)?"invisible":NULL, NULL);
       
