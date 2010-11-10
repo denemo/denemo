@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>SwitchMensuralBarlines</action>
+        <scheme>; Mensural Barlines // "Mensurstriche" layout for one movement
+
+; TODO: Staff Groups
+
+(if (and (d-DirectiveGet-layout-postfix "MensuralBarlines")  (d-DirectiveGet-score-prefix "MensuralBarlines"))
+	(begin ;If there is a directive, delete it
+		(d-DirectiveDelete-layout "MensuralBarlines")
+		(d-DirectiveDelete-score "MensuralBarlines")
+	)
+	(begin   ;If there is no directive present, create one
+		; Make barlines transparent only within the staff-lines range
+		(d-DirectivePut-layout-postfix "MensuralBarlines" " 
+		\\context {
+		    \\Score
+		    \\override BarLine #'transparent = ##t
+		  }
+		")
+
+		; Override the automatically placed \EndMovementBarline with a explicitly drawn end-barline.
+		; This will enable the final Mensural Barline, but will not disturb other movements.
+		(d-DirectivePut-score-prefix "MensuralBarlines" "
+		EndMovementBarline = { \\once \\override Score.BarLine #'transparent = ##f \\bar \"|.\" }
+		")	
+	)
+)</scheme>
+        <label>(Print) Mensural Barlines (On/Off)</label>
+        <tooltip>Draw the barlines only between the staves but not inside.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

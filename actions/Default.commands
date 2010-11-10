@@ -4050,6 +4050,13 @@ right. </tooltip>
         <label>(Print) Start drawing notes (again)</label>
         <tooltip>Reverts the "Stop drawing notes" command</tooltip>
       </row>
+      <row>
+        <action>SwitchMensuralBarlines</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <label>(Print) Mensural Barlines (On/Off)</label>
+        <tooltip>Draw the barlines only between the staves but not inside.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
