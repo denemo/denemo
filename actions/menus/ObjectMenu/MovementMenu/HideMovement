@@ -8,7 +8,10 @@
         <action>HideMovement</action>
         <scheme>;;;HideMovement
 (if (d-DirectiveGet-movementcontrol-display "HideMovement" )
- (d-DirectiveDelete-movementcontrol "HideMovement")	
+(begin
+ (d-DirectiveDelete-movementcontrol "HideMovement")
+      (d-DirectivePut-layout-override "HideMovement" 0)
+      (d-DirectivePut-header-override "HideMovement" 0))
  (begin
       (d-DirectivePut-movementcontrol-display "HideMovement" "NO PRINT")
       (d-DirectivePut-movementcontrol-override "HideMovement" DENEMO_OVERRIDE_LILYPOND)
