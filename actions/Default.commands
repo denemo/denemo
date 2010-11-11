@@ -4057,6 +4057,35 @@ right. </tooltip>
         <label>(Print) Mensural Barlines (On/Off)</label>
         <tooltip>Draw the barlines only between the staves but not inside.</tooltip>
       </row>
+      <row>
+        <action>InsertBreve</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <label>Breve</label>
+        <tooltip>Insert a Breve</tooltip>
+      </row>
+      <row>
+        <action>ChangeBreve</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <label>Breve</label>
+        <tooltip>Change current note duration to Breve</tooltip>
+      </row>
+      <row>
+        <action>InsertLonga</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <label>Longa</label>
+        <tooltip>Insert a Longa</tooltip>
+      </row>
+      <row>
+        <action>ChangeLonga</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <label>Longa</label>
+        <tooltip>Change current note duration to Longa</tooltip>
+      </row>
+      
     </map>
   </commands>
 </Denemo>
