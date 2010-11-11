@@ -5,16 +5,15 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>7</after>
-        <action>Breve</action>
-        <scheme>(d-0)
+        <action>ChangeBreve</action>
+        <scheme>(d-Change0)
 (d-SetDurationInTicks (* 2 1536))
-(d-DirectivePut-note-graphic "breve" "Breve")
+(d-DirectivePut-note-graphic "breve" "noteheads_sM1neomensural")
 (d-DirectivePut-note-override "breve" DENEMO_OVERRIDE_GRAPHIC)
 (d-DirectivePut-chord-prefix "breve" "\\breve ")
 (d-RefreshDisplay)</scheme>
         <label>Breve</label>
-        <tooltip>Inserts a Breve into the music</tooltip>
+        <tooltip>Change current notes duration to Breve</tooltip>
       </row>
     </map>
   </merge>
