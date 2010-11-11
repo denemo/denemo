@@ -7,15 +7,18 @@
       <row>
         <action>HideMovement</action>
         <scheme>;;;HideMovement
-(if (boolean? (d-DirectiveGet-movementcontrol-display "HideMovement" ))  
-    (begin
+(if (d-DirectiveGet-movementcontrol-display "HideMovement" )
+ (d-DirectiveDelete-movementcontrol "HideMovement")	
+ (begin
       (d-DirectivePut-movementcontrol-display "HideMovement" "NO PRINT")
-      (d-DirectivePut-movementcontrol-prefix "HideMovement" "%{ \n")
-      (d-DirectivePut-movementcontrol-postfix "HideMovement" "%} \n"))
-    (d-DirectiveDelete-movementcontrol "HideMovement"))
-(d-RefreshDisplay)</scheme>
-        <label>(Print) Hide/Show Movement</label>
-        <tooltip>Hides the current movement on printing.</tooltip>
+      (d-DirectivePut-movementcontrol-override "HideMovement" DENEMO_OVERRIDE_LILYPOND)
+      (d-DirectivePut-movementcontrol-postfix "HideMovement" "HiddenMovement = { ")
+      (d-DirectivePut-layout-override "HideMovement" DENEMO_OVERRIDE_LILYPOND)
+      (d-DirectivePut-header-override "HideMovement" DENEMO_OVERRIDE_LILYPOND)))
+(d-RefreshDisplay)
+</scheme>
+        <label>(Print) Hide Movement</label>
+        <tooltip>Hides the movement on printing.</tooltip>
       </row>
     </map>
   </merge>
