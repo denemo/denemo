@@ -6,12 +6,28 @@
     <map>
       <row>
         <action>ChangeLonga</action>
-        <scheme>(d-Change0)
-(d-SetDurationInTicks (* 4 1536))
-(d-DirectivePut-note-graphic "longa" "noteheads_sM2neomensural")
-(d-DirectivePut-note-override "longa" DENEMO_OVERRIDE_GRAPHIC)
-(d-DirectivePut-chord-prefix "longa" "\\longa ")
-(d-RefreshDisplay)</scheme>
+        <scheme>(if (string=? "CHORD" (d-GetType))
+  (begin ; its a chord, means note or rest!
+	(if (d-GetNote) ; Test if its a note with a name or not, then its a rest
+		(begin ;note
+			(d-Change0) ; Change to a full note first to get rid of note-stems 
+			(d-DirectivePut-note-graphic "longa" "noteheads_sM2neomensural")
+			(d-DirectivePut-note-override "longa" DENEMO_OVERRIDE_GRAPHIC)
+			(d-DirectivePut-chord-prefix "longa" "\\longa ")
+		)
+		(begin ;rest
+			(d-DeleteObject)
+			(d-DirectivePut-standalone "longa")
+			(d-DirectivePut-standalone-prefix "longa" "r \\longa ")
+			(d-DirectivePut-standalone-graphic "longa" "rests_M2neomensural")
+			(d-DirectivePut-standalone-override "longa" DENEMO_OVERRIDE_GRAPHIC)
+		)		
+	)
+	(d-SetDurationInTicks (* 4 1536))
+	(d-RefreshDisplay)
+  )
+  #f ; not a chord
+)</scheme>
         <label>Longa</label>
         <tooltip>Change current note duration to Longa</tooltip>
       </row>
