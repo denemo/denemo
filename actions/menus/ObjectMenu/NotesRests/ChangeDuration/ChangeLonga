@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <action>ChangeLonga</action>
+        <scheme>(d-Change0)
+(d-SetDurationInTicks (* 4 1536))
+(d-DirectivePut-note-graphic "longa" "noteheads_sM2neomensural")
+(d-DirectivePut-note-override "longa" DENEMO_OVERRIDE_GRAPHIC)
+(d-DirectivePut-chord-prefix "longa" "\\longa ")
+(d-RefreshDisplay)</scheme>
+        <label>Longa</label>
+        <tooltip>Change current note duration to Longa</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
