@@ -42,9 +42,9 @@
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>91</measureno>
+      <measureno>1</measureno>
       <cursorposition>-1</cursorposition>
-      <zoom>68</zoom>
+      <zoom>99</zoom>
       <system-height>100</system-height>
       <page-zoom>50</page-zoom>
       <page-system-height>25</page-system-height>
@@ -132,8 +132,8 @@
         </initial-voice-params>
         <measures>
           <measure>
-            <lily-directive locked="false" tag="Anacrusis" display="Upbeat" x="0" y="0" tx="0" ty="0" gx="0" gy="0" minpixels="60" override="268435456">\partial 128*16 </lily-directive>
-            <lily-directive locked="false" tag="Tuning" display="All Staffs: Quarter comma meantone F-A#" midibytes="0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f  71 44 64 36 55 75 48 67 40 60 32 52 0xf7" x="0" y="0" tx="0" ty="-25" gx="0" gy="0" minpixels="15" override="0"> </lily-directive>
+            <lily-directive tag="Anacrusis" display="Upbeat" minpixels="60" override="268435456">\partial 128*16 </lily-directive>
+            <lily-directive tag="Tuning" display="All Staffs: Quarter comma meantone F-A#" midibytes="0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f  71 44 64 36 55 75 48 67 40 60 32 52 0xf7" ty="-25" minpixels="15"> </lily-directive>
             <chord show="true" id="id3">
               <duration base="eighth"/>
               <notes>
@@ -957,7 +957,7 @@
             <rest show="true" id="id194">
               <duration base="quarter"/>
             </rest>
-            <lily-directive locked="false" tag="DoubleBarline" graphic_name="DoubleBarline" x="0" y="0" tx="0" ty="0" gx="0" gy="-8" minpixels="30" override="0"> \bar "||"</lily-directive>
+            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" gy="-8" minpixels="30"> \bar "||"</lily-directive>
             <chord show="true" id="id195">
               <duration base="eighth"/>
               <notes>
@@ -3175,7 +3175,7 @@
             </chord>
           </measure>
           <measure>
-            <lily-directive locked="false" tag="Volta" graphic_name="FirstTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="Volta" graphic_name="FirstTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta "1"))
 </lily-directive>
             <chord show="true" id="id695">
@@ -3225,14 +3225,14 @@
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="false" tag="RepeatEnd" graphic_name="RepeatEnd" x="0" y="0" tx="0" ty="0" gx="0" gy="-10" minpixels="50" override="0"> \bar ":|"</lily-directive>
-            <lily-directive locked="false" tag="EndVolta" graphic_name="EndSecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" gy="-10" minpixels="50"> \bar ":|"</lily-directive>
+            <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
           </measure>
           <measure>
-            <lily-directive locked="false" tag="Tuning" display="All Staffs: Quarter comma meantone Ab-C#" midibytes="0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f  60 32 52 71 44 64 36 55 75 48 67 40 0xf7" x="0" y="0" tx="0" ty="-25" gx="0" gy="0" minpixels="15" override="0"> </lily-directive>
-            <lily-directive locked="false" tag="Volta" graphic_name="SecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="Tuning" display="All Staffs: Quarter comma meantone Ab-C#" midibytes="0xf0 0x7f 0x7f 0x08 0x08   0x03 0x7f 0x7f  71 44 64 84 55 75 48 67 88 60 80 52 0xf7" ty="-25" minpixels="15"> </lily-directive>
+            <lily-directive tag="Volta" graphic_name="SecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta "2"))
 </lily-directive>
             <chord show="true" id="id703">
@@ -3261,7 +3261,6 @@
               <notes>
                 <note id="id708">
                   <middle-c-offset>9</middle-c-offset>
-                  <accidental name="natural" show="true"/>
                 </note>
               </notes>
             </chord>
@@ -3273,7 +3272,7 @@
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="false" tag="EndVolta" graphic_name="EndSecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
             <key-signature>
@@ -4764,7 +4763,7 @@
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="false" tag="RepeatEnd" graphic_name="RepeatEnd" x="0" y="0" tx="0" ty="0" gx="0" gy="-10" minpixels="50" override="0"> \bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" gy="-10" minpixels="50"> \bar ":|"</lily-directive>
             <key-signature>
               <modal-key-signature note-name="G" mode="major"/>
             </key-signature>
@@ -4791,7 +4790,7 @@
         </initial-voice-params>
         <measures>
           <measure>
-            <lily-directive locked="false" tag="Anacrusis" display="Upbeat" x="0" y="0" tx="0" ty="0" gx="0" gy="0" minpixels="60" override="268435456">\partial 128*16 </lily-directive>
+            <lily-directive tag="Anacrusis" display="Upbeat" minpixels="60" override="268435456">\partial 128*16 </lily-directive>
             <rest show="true" id="id1041">
               <duration base="eighth"/>
             </rest>
@@ -5262,7 +5261,7 @@
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="false" tag="DoubleBarline" graphic_name="DoubleBarline" x="0" y="0" tx="0" ty="0" gx="0" gy="-8" minpixels="30" override="0"> \bar "||"</lily-directive>
+            <lily-directive tag="DoubleBarline" graphic_name="DoubleBarline" gy="-8" minpixels="30"> \bar "||"</lily-directive>
             <rest show="true" id="id1131">
               <duration base="eighth"/>
             </rest>
@@ -5595,7 +5594,7 @@
             </rest>
           </measure>
           <measure>
-            <lily-directive locked="false" tag="WholeMeasureRest" graphic_name="WholeMeasureRest" x="0" y="0" tx="0" ty="0" gx="0" gy="-7" minpixels="0" override="4" ticks="1152">R1*6/8</lily-directive>
+            <lily-directive tag="WholeMeasureRest" graphic_name="WholeMeasureRest" gy="-7" override="4" ticks="1152">R1*6/8</lily-directive>
           </measure>
           <measure>
             <rest show="true" id="id1198">
@@ -6494,7 +6493,7 @@
             </chord>
           </measure>
           <measure>
-            <lily-directive locked="false" tag="Volta" graphic_name="FirstTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="Volta" graphic_name="FirstTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta "1"))
 </lily-directive>
             <chord show="true" id="id1376">
@@ -6516,13 +6515,13 @@
             <rest show="true" id="id1379">
               <duration base="eighth"/>
             </rest>
-            <lily-directive locked="false" tag="RepeatEnd" graphic_name="RepeatEnd" x="0" y="0" tx="0" ty="0" gx="0" gy="-10" minpixels="50" override="0"> \bar ":|"</lily-directive>
-            <lily-directive locked="false" tag="EndVolta" graphic_name="EndSecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" gy="-10" minpixels="50"> \bar ":|"</lily-directive>
+            <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
           </measure>
           <measure>
-            <lily-directive locked="false" tag="Volta" graphic_name="SecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="Volta" graphic_name="SecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta "2"))
 </lily-directive>
             <chord show="true" id="id1380">
@@ -6541,7 +6540,7 @@
             <rest show="true" id="id1383">
               <duration base="eighth"/>
             </rest>
-            <lily-directive locked="false" tag="EndVolta" graphic_name="EndSecondTimeBar" x="0" y="0" tx="0" ty="0" gx="0" gy="-33" minpixels="30" override="0">
+            <lily-directive tag="EndVolta" graphic_name="EndSecondTimeBar" gy="-33" minpixels="30">
 \set Score.repeatCommands = #'((volta #f))
 </lily-directive>
             <key-signature>
@@ -7924,7 +7923,7 @@
             <key-signature>
               <modal-key-signature note-name="G" mode="major"/>
             </key-signature>
-            <lily-directive locked="false" tag="RepeatEnd" graphic_name="RepeatEnd" x="0" y="0" tx="0" ty="0" gx="0" gy="-10" minpixels="50" override="0"> \bar ":|"</lily-directive>
+            <lily-directive tag="RepeatEnd" graphic_name="RepeatEnd" gy="-10" minpixels="50"> \bar ":|"</lily-directive>
           </measure>
         </measures>
       </voice>
