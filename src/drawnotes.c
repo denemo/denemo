@@ -137,7 +137,7 @@ draw_notehead (cairo_t *cr,
   //OVERRIDE_GRAPHIC just affects the head, everything else -  accidentals dots stems beams ...are controlled by baseduration
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
     if(override_notehead) {
-      g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+      //g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
       drawbitmapinverse_cr ( cr, override_notehead,
 			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
     }
