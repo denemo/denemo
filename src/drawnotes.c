@@ -44,9 +44,9 @@ draw_dots (cairo_t *cr,
  * This function actually draws a rest onto the backing pixmap 
  *
  */
-void
+static void
 draw_rest (cairo_t *cr,
-	   gint duration, gint numdots, gint xx, gint y)
+	   gint duration, gint numdots, gint xx, gint y, DenemoGraphic *override_rest, gint gx, gint gy)
 {
   static gint restoffsets[SMALLESTDURATION + 1] =
     { WHOLEREST_OFFSETFROMTOP, HALFREST_OFFSETFROMTOP,
@@ -60,8 +60,11 @@ draw_rest (cairo_t *cr,
   static gunichar rest_char[SMALLESTDURATION + 1] =
     { 0x20, 0x21, 0x27, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2d/*note no glyph for this one! */ 
   };
-
-  drawfetachar_cr (cr, rest_char[duration],
+  if(override_rest)
+    drawbitmapinverse_cr ( cr, override_rest,
+			       xx+gx+ restwidths[0]-override_rest->width/2,  y+restoffsets[0]+gy-override_rest->height/2);
+  else
+    drawfetachar_cr (cr, rest_char[duration],
 		     xx, y + restoffsets[duration]);
   /* Now draw any trailing dots and we're done */
 
@@ -77,7 +80,7 @@ draw_rest (cairo_t *cr,
 static void
 draw_notehead (cairo_t *cr,
 	       note * thenote, gint duration, gint numdots,
-	       gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible)
+	       gint xx, gint y, gint * accs, gint is_stemup, gboolean invisible, DenemoGraphic *override_notehead, gint gx, gint gy)
 {
   /* Adam's changed this code; it used to be that these arrays only had
      three elements.  The change has defeated what had been semi-elegance;
@@ -133,17 +136,23 @@ draw_notehead (cairo_t *cr,
   }
   //OVERRIDE_GRAPHIC just affects the head, everything else -  accidentals dots stems beams ...are controlled by baseduration
   if(!(get_override(thenote->directives)&DENEMO_OVERRIDE_GRAPHIC)) {
+    if(override_notehead) {
+      g_print("drawing a chord override graphic at %d %d\n",  xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+      drawbitmapinverse_cr ( cr, override_notehead,
+			       xx+gx-override_notehead->width/2,  y+height+gy-override_notehead->height/2);
+    }
+    else {
     if (is_stemup)
       drawfetachar_cr ( cr, head_char[noteheadtype], xx, y + height);
     else
       drawfetachar_cr ( cr, head_char[noteheadtype], xx-0.5, y + height);
+    }
   }
   
   gint maxwidth = headwidths[noteheadtype];
   
-  /* any display for attached LilyPond */
+  /* any display for note directives */
  { GList *g = thenote->directives;
- GString *gstr=g_string_new("");
  gint count=10;
   for(;g;g=g->next, count+=10) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -153,10 +162,8 @@ draw_notehead (cairo_t *cr,
       gheight = directive->graphic->height;
 
       maxwidth = MAX(gwidth, maxwidth);
-      if(invisible)
-	drawbitmapinverse_cr ( cr, directive->graphic,
-				     xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2); else
-	drawbitmapinverse_cr ( cr, directive->graphic,
+      //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
+      drawbitmapinverse_cr ( cr, directive->graphic,
 			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
       
     }
@@ -250,7 +257,8 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   gint prevbaseduration, nextbaseduration;
   GList *curnode;
   gboolean is_grace = thechord.is_grace && thechord.notes;
-
+  DenemoGraphic *override_notehead = NULL;//overriding notehead to be used for all notes of chord unless built-in or overriden
+  gint gx=0, gy=0;//positioning for overriding notehead
   cairo_save(cr);
   cairo_set_line_width( cr, 1.0 );
 
@@ -268,16 +276,31 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
       cairo_set_source_rgb( cr, 180.0/255, 160.0/255, 32.0/255 );// yellow for non printing
   }
 
- 
+  { GList *g = thechord.directives;
+      gint count = 0;
+      for(;g;g=g->next) {
+	DenemoDirective *directive = (DenemoDirective *)g->data;
+	if(directive->graphic) {
+	  if(directive->override&DENEMO_OVERRIDE_GRAPHIC)
+	    gx=directive->gx, gy=directive->gy, override_notehead = directive->graphic;//will be used to draw all the notes/the rest
+	  else
+	    drawbitmapinverse_cr (cr, directive->graphic,
+				  xx+directive->gx, y+directive->gy);
+	}
+	if(directive->display) {
+	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
+	  count += 16;
+	}
+      } //for each chord directive
+  }//block displaying chord directives
   if (!thechord.notes/* a rest */) {
-    if( !(get_override(thechord.directives)&DENEMO_OVERRIDE_GRAPHIC)) 
-      draw_rest (cr, MAX(duration, 0), thechord.numdots, xx, y);
+    draw_rest (cr, MAX(duration, 0), thechord.numdots, xx, y, override_notehead, gx, gy);
   }  else {
     /* Draw the noteheads and accidentals */
     for (curnode = thechord.notes; curnode; curnode = curnode->next){
       note *thenote = (note *)curnode->data;
       draw_notehead (cr, thenote, duration,
-		     thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible); 
+		     thechord.numdots, xx, y, accs, thechord.is_stemup, mudelaitem->isinvisible, override_notehead, gx, gy); 
     }
   }
   /* Now the stem and beams. This is complicated. */
@@ -470,21 +493,7 @@ draw_chord ( cairo_t *cr, objnode * curobj, gint xx, gint y,
   if(is_grace) cairo_save(cr);
   
   }				/* end if not a rest draw stems etc */
-    { GList *g = thechord.directives;
-      gint count = 0;
-      for(;g;g=g->next) {
-	DenemoDirective *directive = (DenemoDirective *)g->data;
-	if(directive->graphic) {
-	  
-	  drawbitmapinverse_cr (cr, directive->graphic,
-				xx+directive->gx, y+directive->gy);
-	}
-	if(directive->display) {
-	  drawnormaltext_cr (cr, directive->display->str, xx+directive->tx, y+STAFF_HEIGHT+40+count+directive->ty );
-	  count += 16;
-	}
-      } //for each chord directive
-    }//block displaying chord directives
+
 cairo_restore (cr);
 }
 

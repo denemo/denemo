@@ -8,13 +8,6 @@
 
 #include <denemo/denemo.h> 
 
-
-
-void
-draw_rest (cairo_t *cr, gint baseduration, gint numdots,
-	   gint xx, gint y);
-
-
 void
 draw_ledgers (cairo_t *cr,
 	      gint greaterheight, gint lesserheight,

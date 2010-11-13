@@ -6,13 +6,14 @@
     <map>
       <row>
         <action>ChangeBreve</action>
-        <scheme>(if (string=? "CHORD" (d-GetType))
+        <scheme>;;;ChangeBreve
+(if (string=? "CHORD" (d-GetType))
   (begin ; its a chord, means note or rest!
 	(if (d-GetNote) ; Test if its a note with a name or not, then its a rest
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
-			(d-DirectivePut-note-graphic "breve" "noteheads_sM1neomensural")
-			(d-DirectivePut-note-override "breve" DENEMO_OVERRIDE_GRAPHIC)
+			(d-DirectivePut-chord-graphic "breve" "noteheads_sM1neomensural")
+			(d-DirectivePut-chord-override "breve" DENEMO_OVERRIDE_GRAPHIC)
 			(d-DirectivePut-chord-prefix "breve" "\\breve ")
 		)
 		(begin ;rest
