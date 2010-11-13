@@ -4060,7 +4060,7 @@ right. </tooltip>
       <row>
         <action>InsertBreve</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertDuration</menupath>
         <label>Breve</label>
         <tooltip>Insert a Breve</tooltip>
       </row>
@@ -4074,7 +4074,7 @@ right. </tooltip>
       <row>
         <action>InsertLonga</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertDuration</menupath>
         <label>Longa</label>
         <tooltip>Insert a Longa</tooltip>
       </row>
@@ -4098,6 +4098,22 @@ right. </tooltip>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <label>Longa Rest</label>
         <tooltip>Insert a rest with longa duration</tooltip>
+      </row>
+      <row>
+        <action>Breve</action>
+        <after>InsertRhythm</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <label>Breve</label>
+        <tooltip>Append/Insert Breve</tooltip>
+      </row>
+      <row>
+        <action>Longa</action>
+        <after>Breve</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <label>Longa</label>
+        <tooltip>Append/Insert Longa duration</tooltip>
       </row>
     </map>
   </commands>
