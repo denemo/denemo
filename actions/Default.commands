@@ -4060,7 +4060,7 @@ right. </tooltip>
       <row>
         <action>InsertBreve</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <label>Breve</label>
         <tooltip>Insert a Breve</tooltip>
       </row>
@@ -4074,7 +4074,7 @@ right. </tooltip>
       <row>
         <action>InsertLonga</action>
         <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <label>Longa</label>
         <tooltip>Insert a Longa</tooltip>
       </row>
