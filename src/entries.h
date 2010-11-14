@@ -387,7 +387,7 @@
 {"Insert", NULL, N_("Insert"), NULL,N_("Inserting notes, measures, staffs, keysigs etc")},
 {"InsertStaff", NULL, N_("Add Staff"), NULL,N_("Insert a Staff relative to current staff")},
 {"InsertMovement", NULL, N_("Insert Movement"), NULL,N_("Insert a Movement relative to current movement")},
-{"InsertDuration", NULL, N_("Insert Duration"), NULL,N_("Inserting notes of a given duration")},
+{"InsertDuration", NULL, N_("Insert at Cursor"), NULL,N_("Inserting notes of a given duration at cursor note height")},
 {"Change", NULL, N_("Change"), NULL,N_("Changing properties of notes, measures, staffs, keysigs etc")},
 {"ModelessNote", NULL, N_("Notes/Durations"), NULL,N_("Modeless actions on notes/rests")},
 {"NotesRests", NULL, N_("Notes/Rests"), NULL,N_("Actions for notes/rests")},

@@ -553,7 +553,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Inserting notes, measures, staffs, keysigs etc", N_("Insert"), NULL, N_("Insert")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert a Staff relative to current staff", N_("InsertStaff"), NULL, N_("Add Staff")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Insert a Movement relative to current movement", N_("InsertMovement"), NULL, N_("Insert Movement")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Inserting notes of a given duration", N_("InsertDuration"), NULL, N_("Insert Duration")}, 
+  {CMD_CATEGORY_DIRECT, NULL, "Inserting notes of a given duration at cursor note height", N_("InsertDuration"), NULL, N_("Insert at Cursor")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Changing properties of notes, measures, staffs, keysigs etc", N_("Change"), NULL, N_("Change")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Modeless actions on notes/rests", N_("ModelessNote"), NULL, N_("Notes/Durations")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Actions for notes/rests", N_("NotesRests"), NULL, N_("Notes/Rests")}, 
