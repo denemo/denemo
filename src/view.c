@@ -4349,6 +4349,8 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
   gui->currhythm = NULL;
 
   gui->rstep = r->rsteps;
+  gui->cstep = NULL;
+
 #define g (gui->rstep)
 #define MODE (gui->mode)
   unhighlight_rhythm(gui->prevailing_rhythm);
@@ -4545,6 +4547,7 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
 
   gui->currhythm = g_list_find(gui->rhythms, r);
   gui->rstep = r->rsteps;
+  gui->cstep = r->clipboard->data;
 #define g (gui->rstep)
 #define MODE (gui->mode)
   if(((RhythmElement*)g->data)->icon) {
@@ -4969,6 +4972,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 	if(default_rhythm){
 	  gui->prevailing_rhythm = r;
 	  gui->rstep = r->rsteps;
+	  gui->cstep = NULL;
 	  highlight_rhythm(r);
 	  //g_print("prevailing rhythm is %p\n",r);
 	}	
@@ -4977,6 +4981,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
 	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
 	gtk_widget_show_all(GTK_WIDGET(button));
 	gui->rstep = r->rsteps;
+	gui->cstep = r->clipboard->data;
 	gui->rhythms = g_list_append(gui->rhythms , r);
 	
 	if(gui->currhythm)
@@ -6046,6 +6051,7 @@ void	highlight_rest(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
+      gui->cstep = NULL;
       gui->rstep = Denemo.singleton_rhythms['r'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
       gui->prevailing_rhythm = Denemo.singleton_rhythms['r'+dur];
@@ -6060,6 +6066,7 @@ void	highlight_duration(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
+      gui->cstep = NULL;
       gui->rstep =  Denemo.singleton_rhythms['0'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
       gui->prevailing_rhythm = Denemo.singleton_rhythms['0'+dur];
@@ -6098,11 +6105,14 @@ delete_rhythm_cb (GtkAction * action, gpointer param)
   //g_print("length %d %p\n", g_list_length(gui->rhythms), gui->rhythms);
   gui->currhythm = g_list_last(gui->rhythms);
 
-  if(gui->currhythm == NULL)
+  if(gui->currhythm == NULL) {
    gui->rstep = NULL;
+   gui->cstep = NULL;
+  }
   else {
     highlight_rhythm(gui->currhythm->data);
     gui->rstep = ((RhythmPattern *)gui->currhythm->data)->rsteps;
+    gui->cstep = ((RhythmPattern *)gui->currhythm->data)->clipboard->data;
   }
 }
 

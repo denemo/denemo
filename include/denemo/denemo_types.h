@@ -883,7 +883,8 @@ typedef struct DenemoGUI
   /* support for rhythm patterns */
   GList *rhythms;/**< list of RhythmPattern s */
   GList *currhythm; /**< currently in use element of rhythms */
-  GList *rstep; /**< step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
+  GList *cstep; /**< step within RhythmPattern->clipboard, the current element of the current rhythm pattern represented by the clipboard */
+  GList *rstep; /**< OBSOLETE step within RhythmPattern->rsteps, the current element of the current rhythm pattern */
 
   struct RhythmPattern *prevailing_rhythm; /**< one of singleton_rhythms used for entering notes */
 }DenemoGUI;

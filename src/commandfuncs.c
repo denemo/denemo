@@ -64,7 +64,9 @@ void nextrhythm(DenemoGUI *gui) {
   g = ((RhythmPattern*)gui->currhythm->data)->rsteps;
 
 
-#define CURRP ((RhythmPattern *)gui->currhythm->data)  
+#define CURRP ((RhythmPattern *)gui->currhythm->data)
+
+  gui->cstep = (CURRP->clipboard)->data;
   if(((RhythmElement*)g->data)->icon) {
     GtkWidget *label = LABEL(CURRP->button);
     //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
@@ -941,23 +943,50 @@ static void insert_note_following_pattern(DenemoGUI *gui)  {
   if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
     GList *start = g;
     GList *h;
-
-
     gint mode = gui->mode;
     gui->mode = mode & ~INPUTRHYTHM;
 
-    do {
-      if(g) {
-	for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	  insertion_point (gui->si);	
-	  gui->si->cursoroffend = FALSE;
-	  ((GtkFunction)h->data)(gui);
-	  displayhelper(gui);
+    // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard) 
+    if(gui->currhythm && gui->cstep)
+      {
+	//	g_print("Have a clip\n");
+	GList *objs;
+	gboolean note_inserted = FALSE;
+	for(objs = gui->cstep; objs; objs=objs->next) {
+	  if(((DenemoObject*)objs->data)->type == CHORD && (note_inserted))
+	    break;
+	  DenemoObject *clipobj =  dnm_clone_object (objs->data);
+	  if(((DenemoObject*)objs->data)->type == CHORD) {
+	    chord *thechord = (chord*)clipobj->object;
+	    note *thenote = (note*)(thechord->notes->data);
+	    thenote->mid_c_offset = gui->si->cursor_y;
+	    thechord->lowesty = thechord->highesty = thenote->y = calculateheight (thenote->mid_c_offset, gui->si->cursorclef);
+	    thechord->lowestpitch = thechord->highestpitch = thechord->sum_mid_c_offset = thenote->mid_c_offset;
+	    clipobj->isinvisible = FALSE;
+	    note_inserted = TRUE;
+	  }
+	  g=g->next;
+	  insertion_point_for_type(gui->si, ((DenemoObject*)objs->data)->type);
+	  insert_object(clipobj);
 	}
-	h = ((RhythmElement*)g->data)->functions;
-	g = g->next;/* list is circular */
+	gui->cstep = (objs?objs:(((RhythmPattern*)gui->currhythm->data)->clipboard)->data);
       }
-    } while(g!=start && modifier_code(h->data));
+    else {
+
+      do {
+	if(g) {
+	  for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
+	    insertion_point (gui->si);	
+	    gui->si->cursoroffend = FALSE;
+	    ((GtkFunction)h->data)(gui);
+	    displayhelper(gui);
+	  }
+	  h = ((RhythmElement*)g->data)->functions;
+	  g = g->next;/* list is circular */
+	}
+      } while(g!=start && modifier_code(h->data));
+    }
+    
 #define CURRP ((RhythmPattern *)gui->currhythm->data)    
     if(((RhythmElement*)g->data)->icon) {/* singletons do not have icon */
       GtkWidget *label = LABEL(CURRP->button);
@@ -1019,36 +1048,21 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
 
 void
 insert_rhythm_pattern(DenemoGUI  *gui) {
-#if 0
-#define g  (gui->rstep)
-  if((gui->mode&(INPUTEDIT)) && g) {
-    GList *start = g;
-    GList *h;
-    do {
-      if(g) {
-	for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	  insertion_point (gui->si);
-	  gui->si->cursoroffend = FALSE;
-	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorleft(NULL);
-	  ((GtkFunction)h->data)(gui);
-	  if(!code_is_a_duration(modifier_code(h->data)))
-	    cursorright(NULL);
-	  displayhelper(gui);
-	}
-	h = ((RhythmElement*)g->data)->functions;
-	g = g->next;/* list is circular */
-      }
-    } while(g!=start);
-  }
-#undef g
-#else
-
   if(gui->currhythm==NULL)
     return;
   insert_clipboard(((RhythmPattern *)gui->currhythm->data)->clipboard);
-#endif
+
 }
+
+void
+insertion_point_for_type (DenemoScore * si, DenemoObjType type) {
+  switch(type) {
+  case TUPCLOSE:
+    return;
+  }
+  insertion_point(si);
+}
+
 
 /**
  * insertion_point()
