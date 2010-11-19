@@ -956,7 +956,7 @@ static void insert_note_following_pattern(DenemoGUI *gui)  {
 	  if(((DenemoObject*)objs->data)->type == CHORD && (note_inserted))
 	    break;
 	  DenemoObject *clipobj =  dnm_clone_object (objs->data);
-	  if(((DenemoObject*)objs->data)->type == CHORD) {
+	  if((((DenemoObject*)objs->data)->type == CHORD) && ((chord*)clipobj->object)->notes) {
 	    chord *thechord = (chord*)clipobj->object;
 	    note *thenote = (note*)(thechord->notes->data);
 	    thenote->mid_c_offset = gui->si->cursor_y;
@@ -965,26 +965,22 @@ static void insert_note_following_pattern(DenemoGUI *gui)  {
 	    clipobj->isinvisible = FALSE;
 	    note_inserted = TRUE;
 	  }
-	  g=g->next;
-	  insertion_point_for_type(gui->si, ((DenemoObject*)objs->data)->type);
+	 
+	    g=g->next;
+	    insertion_point_for_type(gui->si, ((DenemoObject*)objs->data)->type);
+	
 	  insert_object(clipobj);
 	}
-	gui->cstep = (objs?objs:(((RhythmPattern*)gui->currhythm->data)->clipboard)->data);
+	
+	  gui->cstep = (objs?objs:(((RhythmPattern*)gui->currhythm->data)->clipboard)->data);
       }
     else {
-
-      do {
-	if(g) {
-	  for(h = ((RhythmElement*)g->data)->functions;h;h=h->next) {
-	    insertion_point (gui->si);	
-	    gui->si->cursoroffend = FALSE;
-	    ((GtkFunction)h->data)(gui);
-	    displayhelper(gui);
-	  }
-	  h = ((RhythmElement*)g->data)->functions;
-	  g = g->next;/* list is circular */
-	}
-      } while(g!=start && modifier_code(h->data));
+     
+	insertion_point (gui->si);	
+      // gui->si->cursoroffend = FALSE;
+      h = ((RhythmElement*)g->data)->functions;
+      ((GtkFunction)h->data)(gui);
+      //displayhelper(gui);
     }
     
 #define CURRP ((RhythmPattern *)gui->currhythm->data)    

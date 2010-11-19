@@ -6,12 +6,14 @@
     <map>
       <row>
         <action>InsertBreve</action>
-        <scheme>(d-Insert0)
+        <scheme>;;;InsertBreve
+(d-SetBreve)
+(d-Insert0)
 (d-MoveCursorLeft)
 (d-ChangeBreve)
 (d-MoveCursorRight)</scheme>
         <label>Breve</label>
-        <tooltip>Insert Breve</tooltip>
+        <tooltip>Insert a Breve</tooltip>
       </row>
     </map>
   </merge>

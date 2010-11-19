@@ -6,14 +6,16 @@
     <map>
       <row>
         <action>ChangeBreve</action>
-        <scheme>(d-Change0)
+        <scheme>;;;ChangeBreve
+(d-SetBreve)
+(d-Change0)
 (d-SetDurationInTicks (* 2 1536))
 (d-DirectivePut-note-graphic "breve" "noteheads_sM1neomensural")
 (d-DirectivePut-note-override "breve" DENEMO_OVERRIDE_GRAPHIC)
 (d-DirectivePut-chord-prefix "breve" "\\breve ")
 (d-RefreshDisplay)</scheme>
         <label>Breve</label>
-        <tooltip>Change current notes duration to Breve</tooltip>
+        <tooltip>Change current note duration to Breve</tooltip>
       </row>
     </map>
   </merge>

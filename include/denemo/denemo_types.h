@@ -899,6 +899,7 @@ typedef struct RhythmPattern
   GList *rsteps; /**< the data are RhythmElements */
   GtkToolButton *button; /**< the button on the rhythm toolbar which invokes this rhythm */
   GList *clipboard;/**< a Denemo clipboard, used to create this patttern. */
+  gchar *name;/**< a user-facing name for this pattern */
 } RhythmPattern;
 
 
