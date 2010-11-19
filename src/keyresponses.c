@@ -718,6 +718,9 @@ deletepreviousobject(DenemoGUI * gui)
 	{
 #define CURRP ((RhythmPattern *)gui->currhythm->data) 
 	  g = g->prev; /* list is circular - should we stop at beginning? */
+	  if(gui->cstep) {
+	    gui->cstep = gui->cstep->prev?gui->cstep->prev:g_list_last(CURRP->clipboard)->data;	    
+	  }
 	  if(((RhythmElement*)g->data)->icon) {
 	    GtkWidget *label = LABEL(CURRP->button);
 	    gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);

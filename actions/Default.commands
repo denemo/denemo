@@ -4115,6 +4115,14 @@ right. </tooltip>
         <label>Longa</label>
         <tooltip>Append/Insert Longa duration</tooltip>
       </row>
+      <row>
+        <action>SetBreve</action>
+        <after>Set7</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
+        <label>Breve</label>
+        <tooltip>Sets Prevailing Duration to Breve</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

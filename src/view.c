@@ -54,7 +54,14 @@ static GtkWidget *convertbutton;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *master_tempo_adj;
 
-
+static
+void select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r);
+static 
+gint insert_pattern_in_toolbar(RhythmPattern *r);
+static 
+gboolean append_rhythm(RhythmPattern *r,  gpointer fn);
+static    
+void install_button_for_pattern(RhythmPattern *r, gchar *thelabel);
 
 static void
 newtab (GtkAction *action, gpointer param);
@@ -2966,6 +2973,79 @@ SCM scheme_prev_note (SCM optional) {
   return SCM_BOOL(to_note_direction(FALSE, FALSE));
 }
 
+static void   update_scheme_snippet_ids(void) {
+ DenemoGUI *gui = Denemo.gui;
+ GList *g;
+ gint i;
+ for(g = gui->rhythms, i=1;g;g=g->next, i++) {
+   RhythmPattern *r =(RhythmPattern *)g->data;
+   if(r->name) {
+     gchar *command = g_strdup_printf("(define Snippet::%s %d)", r->name, i);
+     call_out_to_guile(command);
+     g_free(command);
+   }
+ }
+}
+
+static SCM scheme_create_snippet_from_object (SCM name) {
+  if(scm_is_string(name)){
+     gchar *str = scm_to_locale_string(name);
+  if(Denemo.gui->si->currentobject) {
+    DenemoObject*clonedobj = dnm_clone_object( Denemo.gui->si->currentobject->data);
+    RhythmPattern *r = (RhythmPattern*)g_malloc0(sizeof(RhythmPattern));
+    install_button_for_pattern(r, str);
+    r->clipboard = g_list_append(NULL, g_list_append(NULL, clonedobj));
+    append_rhythm(r, NULL);
+    RhythmElement * relement = (RhythmElement*)g_malloc0(sizeof(RhythmElement));
+    relement->icon = str;
+    r->name = str;
+    r->rsteps = g_list_append(NULL, relement);
+    r->rsteps->prev=r->rsteps->next = r->rsteps;//make list circular
+    int ret = scm_int2num( insert_pattern_in_toolbar(r));
+    update_scheme_snippet_ids();
+    return ret;
+  }
+  }
+  return SCM_BOOL_F;  
+}
+
+static SCM scheme_select_snippet (SCM number) {
+  if(scm_is_integer(number)) {
+     gint position = scm_num2int(number, 0, 0);
+     GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
+     if(g) {
+       RhythmPattern *r = g->data;
+       if(r) {
+	 gint mode = Denemo.gui->mode;
+	 Denemo.gui->mode =  mode & ~INPUTEDIT;
+	 select_rhythm_pattern(NULL, r);
+	 Denemo.gui->mode = mode;
+	 return SCM_BOOL_T;
+       }
+     }
+  }
+  
+  return SCM_BOOL_F;
+}
+
+static SCM scheme_insert_snippet (SCM number) {
+  if(scm_is_integer(number)) {
+     gint position = scm_num2int(number, 0, 0);
+     GList *g = g_list_nth(Denemo.gui->rhythms, position-1);
+     if(g) {
+       RhythmPattern *r = g->data;
+       if(r) {
+	 gint mode = Denemo.gui->mode;
+	 Denemo.gui->mode =  mode | INPUTEDIT;
+	 select_rhythm_pattern(NULL, r);
+	 Denemo.gui->mode = mode;
+	 return SCM_BOOL_T;
+       }
+     }
+  }
+  return SCM_BOOL_F;
+}
+
 
 /******** advances the cursor to the next note,  stopping
  at empty measures. The cursor is left after last note if no more notes */
@@ -3366,6 +3446,14 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Moves the cursor the the previous object of type CHORD in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevChord", scheme_prev_chord);
   INSTALL_SCM_FUNCTION ("Moves the cursor the next object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextNote", scheme_next_note);
   INSTALL_SCM_FUNCTION ("Moves the cursor the previous object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevNote", scheme_prev_note);
+  INSTALL_SCM_FUNCTION ("Creates a music Snippet comprising the object at the cursor Returns #f if not possible, otherwise an identifier for that snippet",DENEMO_SCHEME_PREFIX"CreateSnippetFromObject", scheme_create_snippet_from_object);
+
+  INSTALL_SCM_FUNCTION ("Selects music Snippet from passed id Returns #f if not possible",DENEMO_SCHEME_PREFIX"SelectSnippet", scheme_select_snippet);
+
+  INSTALL_SCM_FUNCTION ("Inserts music Snippet from passed id Returns #f if not possible",DENEMO_SCHEME_PREFIX"InsertSnippet", scheme_insert_snippet);
+
+
+
   INSTALL_SCM_FUNCTION ("Moves the cursor the next object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"NextStandaloneDirective", scheme_next_standalone_directive);
   INSTALL_SCM_FUNCTION ("Moves the cursor the previous object that is a Denemo Directive in the current staff. Returns #f if the cursor did not move",DENEMO_SCHEME_PREFIX"PrevStandaloneDirective", scheme_prev_standalone_directive);
   INSTALL_SCM_FUNCTION ("Enforces the treatment of the note at the cursor as a chord in LilyPond",DENEMO_SCHEME_PREFIX"Chordize",  scheme_chordize);
@@ -4349,6 +4437,8 @@ singleton_callback (GtkToolButton *toolbutton, RhythmPattern *r) {
   gui->currhythm = NULL;
 
   gui->rstep = r->rsteps;
+  gui->cstep = NULL;
+
 #define g (gui->rstep)
 #define MODE (gui->mode)
   unhighlight_rhythm(gui->prevailing_rhythm);
@@ -4533,7 +4623,7 @@ static void pb_set_tempo (GtkWidget *button) {
  * Rhythm callback select rhythm
  * inserts the rhythm if pitchless
  */
-void
+static void
 select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   DenemoGUI *gui = Denemo.gui;
 #define CURRP ((RhythmPattern *)gui->currhythm->data)
@@ -4545,6 +4635,7 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
 
   gui->currhythm = g_list_find(gui->rhythms, r);
   gui->rstep = r->rsteps;
+  gui->cstep = r->clipboard->data;
 #define g (gui->rstep)
 #define MODE (gui->mode)
   if(((RhythmElement*)g->data)->icon) {
@@ -4559,7 +4650,7 @@ select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
   highlight_rhythm(CURRP);
 
   if((MODE&INPUTEDIT))
-     insert_clipboard(r->clipboard);
+    g_print("inserting %x %x\n", MODE, INPUTEDIT), insert_clipboard(r->clipboard);
 
 #undef CURRP
 #undef g
@@ -4670,6 +4761,37 @@ attach_clipboard(RhythmPattern *r) {
  }
 }
 
+static 
+gint insert_pattern_in_toolbar(RhythmPattern *r) {
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(r->button), -1);
+  gtk_widget_show_all(GTK_WIDGET(r->button));
+  gui->rstep = r->rsteps;
+  gui->cstep = r->clipboard->data;
+  gui->rhythms = g_list_append(gui->rhythms, r);
+	
+  if(gui->currhythm)
+    unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);
+  gui->currhythm = g_list_last(gui->rhythms);
+  highlight_rhythm((RhythmPattern *)gui->currhythm->data);
+  g_signal_connect (G_OBJECT (r->button), "clicked",
+		    G_CALLBACK (select_rhythm_pattern), (gpointer)r);
+  return g_list_length(gui->rhythms);//the index of the newly added snippet
+}
+
+static    void install_button_for_pattern(RhythmPattern *r, gchar *thelabel)
+    {
+      GtkToolButton *button;
+      GtkWidget *label;
+      button = (GtkToolButton *)gtk_tool_button_new(NULL, NULL);
+      label = gtk_label_new(thelabel);
+      gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+      gtk_tool_button_set_label_widget (button, label);
+      r->button = button;
+    }
+
+
 /* create_rhythm_cb
    This is overloaded for use as a callback (ACTION is a GtkAction) and
    as a call to set up the "singleton rhythms", 
@@ -4750,15 +4872,9 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     }
   else
     pattern = g_strdup_printf("");
-    GtkToolButton *button;
-    GtkWidget *label;
-    if(!already_done){
-      button = (GtkToolButton *)gtk_tool_button_new(NULL, NULL);
-      label = gtk_label_new(NULL);
-      gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-      gtk_tool_button_set_label_widget (button, label);
-      r->button = button;
-    }
+    if(!already_done)
+      install_button_for_pattern(r, NULL);
+
   if(!singleton) {
     staffnode *curstaff;
     measurenode *curmeasure;
@@ -4920,7 +5036,7 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     else
       return;  //FIXME memory leak of r - well pattern is never NULL
     //g_print("rsteps is %p entry is %s, %s\n", r->rsteps, pattern, labelstr);
-    label = gtk_tool_button_get_label_widget(r->button);
+    GtkWidget *label = gtk_tool_button_get_label_widget(r->button);
     gtk_label_set_markup(GTK_LABEL(label), labelstr);
     g_free(labelstr);
   }
@@ -4952,39 +5068,30 @@ create_rhythm_cb (GtkAction* action, gpointer param)     {
     }
   if(r->rsteps==NULL)
     {
-      gtk_widget_destroy(GTK_WIDGET(button));
+      gtk_widget_destroy(GTK_WIDGET(r->button));
       g_free(r);
       r = NULL;
     } else 	{
       if(singleton) {
 	if(!already_done) {//When creating first gui only
 	  GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/EntryToolBar");
-	  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
-	  gtk_widget_show_all(GTK_WIDGET(button));
+	  gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(r->button), -1);
+	  gtk_widget_show_all(GTK_WIDGET(r->button));
 	  /* gui->rstep = r->rsteps; */
-	  g_signal_connect (G_OBJECT (button), "clicked",
+	  g_signal_connect (G_OBJECT (r->button), "clicked",
 			  G_CALLBACK (singleton_callback), (gpointer)r);
 	  unhighlight_rhythm(r);
 	}
 	if(default_rhythm){
 	  gui->prevailing_rhythm = r;
 	  gui->rstep = r->rsteps;
+	  gui->cstep = NULL;
 	  highlight_rhythm(r);
 	  //g_print("prevailing rhythm is %p\n",r);
 	}	
       } else {//not singleton
-	GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar), GTK_TOOL_ITEM(button), -1);
-	gtk_widget_show_all(GTK_WIDGET(button));
-	gui->rstep = r->rsteps;
-	gui->rhythms = g_list_append(gui->rhythms , r);
-	
-	if(gui->currhythm)
-	  unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);
-	gui->currhythm = g_list_last(gui->rhythms);
-	highlight_rhythm((RhythmPattern *)gui->currhythm->data);
-	g_signal_connect (G_OBJECT (button), "clicked",
-			  G_CALLBACK (select_rhythm_pattern), (gpointer)r);
+	insert_pattern_in_toolbar(r);
+
       }      
     }
 }
@@ -6046,6 +6153,7 @@ void	highlight_rest(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
+      gui->cstep = NULL;
       gui->rstep = Denemo.singleton_rhythms['r'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
       gui->prevailing_rhythm = Denemo.singleton_rhythms['r'+dur];
@@ -6060,11 +6168,14 @@ void	highlight_duration(DenemoGUI *gui, gint dur) {
 	unhighlight_rhythm((RhythmPattern *)gui->currhythm->data);	
       }
       gui->currhythm = NULL;
+      gui->cstep = NULL;
       gui->rstep =  Denemo.singleton_rhythms['0'+dur]->rsteps;
       unhighlight_rhythm(gui->prevailing_rhythm);
       gui->prevailing_rhythm = Denemo.singleton_rhythms['0'+dur];
       highlight_rhythm(gui->prevailing_rhythm);
 }
+
+
 
 
 /*
@@ -6083,7 +6194,12 @@ delete_rhythm_cb (GtkAction * action, gpointer param)
   
   free_clipboard(r->clipboard);
   r->clipboard = NULL;
-
+  if(r->name) {
+    gchar *command = g_strdup_printf("(define Snippet::%s 0)", r->name);
+    call_out_to_guile(command);
+    g_free(command);
+  }
+    
   gtk_widget_destroy(GTK_WIDGET(r->button));
   /* list is circular, so before we free it we have to break it */
   r->rsteps->prev->next = NULL;
@@ -6098,12 +6214,16 @@ delete_rhythm_cb (GtkAction * action, gpointer param)
   //g_print("length %d %p\n", g_list_length(gui->rhythms), gui->rhythms);
   gui->currhythm = g_list_last(gui->rhythms);
 
-  if(gui->currhythm == NULL)
+  if(gui->currhythm == NULL) {
    gui->rstep = NULL;
+   gui->cstep = NULL;
+  }
   else {
     highlight_rhythm(gui->currhythm->data);
     gui->rstep = ((RhythmPattern *)gui->currhythm->data)->rsteps;
+    gui->cstep = ((RhythmPattern *)gui->currhythm->data)->clipboard->data;
   }
+  update_scheme_snippet_ids();
 }
 
 

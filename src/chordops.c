@@ -227,6 +227,7 @@ insertcomparefunc (gconstpointer a, gconstpointer b)
 
 /* modify the pitch of the note of a one note chord.
    (for multi-note chords delete and add a note, do not use this).
+FIXME repeated calls to calculateheight
 */
 void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
   note *thenote = (note*)(thechord->notes->data);

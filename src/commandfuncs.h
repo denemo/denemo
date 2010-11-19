@@ -163,6 +163,7 @@ void
 toggle_end_diminuendo (DenemoGUI *gui);
 
 void insertion_point (DenemoScore  *si);
+void insertion_point_for_type (DenemoScore * si, DenemoObjType type);
 
 void
 caution (DenemoScore  *si);
