@@ -189,6 +189,9 @@ void deletemeasure(DenemoGUI * gui);
 void deletemeasureallstaffs(DenemoGUI * gui);
 void deleteobject(DenemoGUI *gui);
 
+
+void insert_note_following_pattern(DenemoGUI *gui);
+
 void
 beamandstemdirhelper (DenemoScore * si);
 

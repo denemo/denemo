@@ -55,7 +55,7 @@ static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *master_tempo_adj;
 
 static
-void select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r);
+void select_rhythm_pattern(RhythmPattern *r);
 static 
 gint insert_pattern_in_toolbar(RhythmPattern *r);
 static 
@@ -3016,10 +3016,9 @@ static SCM scheme_select_snippet (SCM number) {
      if(g) {
        RhythmPattern *r = g->data;
        if(r) {
-	 gint mode = Denemo.gui->mode;
-	 Denemo.gui->mode =  mode & ~INPUTEDIT;
-	 select_rhythm_pattern(NULL, r);
-	 Denemo.gui->mode = mode;
+	 
+	 select_rhythm_pattern(r);
+	 
 	 return SCM_BOOL_T;
        }
      }
@@ -3035,10 +3034,10 @@ static SCM scheme_insert_snippet (SCM number) {
      if(g) {
        RhythmPattern *r = g->data;
        if(r) {
-	 gint mode = Denemo.gui->mode;
-	 Denemo.gui->mode =  mode | INPUTEDIT;
-	 select_rhythm_pattern(NULL, r);
-	 Denemo.gui->mode = mode;
+	
+	 select_rhythm_pattern( r); 
+	 insert_note_following_pattern(Denemo.gui);
+ 
 	 return SCM_BOOL_T;
        }
      }
@@ -4624,38 +4623,39 @@ static void pb_set_tempo (GtkWidget *button) {
  * inserts the rhythm if pitchless
  */
 static void
-select_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
+select_rhythm_pattern(RhythmPattern *r) {
   DenemoGUI *gui = Denemo.gui;
 #define CURRP ((RhythmPattern *)gui->currhythm->data)
-  if(gui->currhythm && CURRP)
-    unhighlight_rhythm(CURRP);
-  else
-    if(gui->rstep)
-      unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
 
+  if(gui->currhythm && (CURRP != r)) {//Change the highlighting
+    if(CURRP)
+      unhighlight_rhythm(CURRP);
+    else
+      if(gui->rstep)
+	unhighlight_rhythm(((RhythmElement*)gui->rstep->data)->rhythm_pattern);
+  }
+  
   gui->currhythm = g_list_find(gui->rhythms, r);
   gui->rstep = r->rsteps;
   gui->cstep = r->clipboard->data;
-#define g (gui->rstep)
-#define MODE (gui->mode)
-  if(((RhythmElement*)g->data)->icon) {
+  
+  gchar *text = ((RhythmElement*)gui->rstep->data)->icon;
+  if(text) {
     GtkWidget *label = LABEL(CURRP->button);
     //g_print("markup is %s\n", ((RhythmElement*)g->data)->icon);
-    gtk_label_set_markup(GTK_LABEL(label),((RhythmElement*)g->data)->icon);
-/* #define a CURRP->button */
-/*     g_print("Visible is %d %d \n", gtk_event_box_get_visible_window(gtk_tool_button_get_label_widget((a))), */
-/* 	    gtk_event_box_get_above_child(gtk_tool_button_get_label_widget((a))));  */
-/* #undef a */
+    gtk_label_set_markup(GTK_LABEL(label), text);
   }
   highlight_rhythm(CURRP);
-
-  if((MODE&INPUTEDIT))
-    g_print("inserting %x %x\n", MODE, INPUTEDIT), insert_clipboard(r->clipboard);
-
 #undef CURRP
-#undef g
-#undef MODE
 }
+
+static void
+activate_rhythm_pattern(GtkToolButton *toolbutton, RhythmPattern *r) {
+  select_rhythm_pattern(r);
+ if((Denemo.gui->mode & INPUTEDIT))
+   insert_note_following_pattern(Denemo.gui);//insert_clipboard(r->clipboard);
+}
+
 
 /* duration_code(gpointer function)
  * return an ascii code to indicate what duration (if any) function gives.
@@ -4776,7 +4776,7 @@ gint insert_pattern_in_toolbar(RhythmPattern *r) {
   gui->currhythm = g_list_last(gui->rhythms);
   highlight_rhythm((RhythmPattern *)gui->currhythm->data);
   g_signal_connect (G_OBJECT (r->button), "clicked",
-		    G_CALLBACK (select_rhythm_pattern), (gpointer)r);
+		    G_CALLBACK (activate_rhythm_pattern), (gpointer)r);
   return g_list_length(gui->rhythms);//the index of the newly added snippet
 }
 

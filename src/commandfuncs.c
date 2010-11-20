@@ -938,7 +938,7 @@ static gboolean prev_object_is_rhythm (DenemoGUI *gui) {
 
 /* insert a note into the score at the current cursor position following the current rhythm step */
 
-static void insert_note_following_pattern(DenemoGUI *gui)  {
+void insert_note_following_pattern(DenemoGUI *gui)  {
 #define g  (gui->rstep)
   if((gui->mode&(INPUTEDIT|INPUTINSERT)) && g) {
     GList *start = g;

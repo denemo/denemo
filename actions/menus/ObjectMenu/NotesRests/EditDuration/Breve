@@ -11,7 +11,12 @@
 (d-0)
 (d-MoveCursorLeft)
 (d-ChangeBreve)
-(d-MoveCursorRight)</scheme>
+(d-MoveCursorRight)
+(if (and (defined? 'Snippet::Breve) (&gt; Snippet::Breve 0))
+    (d-SelectSnippet Snippet::Breve)
+    (d-CreateSnippetFromObject "Breve"))
+
+</scheme>
         <label>Breve</label>
         <tooltip>Append/Insert Breve</tooltip>
       </row>
