@@ -1333,12 +1333,12 @@
 ;1536 = 1 = 0
 ;3072 = 0.5  = -1  ; Breve. 0.5 and -1 are not existend.  Lilypond and Denemo use the string breve instead.
 
-(define (duration::denemo->lily number)
+(define (duration::denemo->lilypond number)
 	(define return (expt 2 number))
 	return
 )
 
-(define (duration::lily->denemo number)
+(define (duration::lilypond->denemo number)
 	(define return (/ (log number) (log 2))	)
 	(inexact->exact return)
 )
@@ -1348,7 +1348,7 @@
 	return
 )
 
-(define (duration::lily->ticks number) ; increases with 0.5, 0.25 etc.
+(define (duration::lilypond->ticks number) ; increases with 0.5, 0.25 etc.
 	(define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
 	(inexact->exact return)
 
@@ -1361,7 +1361,7 @@
   (inexact->exact (string->number (number->string return)))
 )
 
-(define (duration::ticks->lily number)
+(define (duration::ticks->lilypond number)
  ;Equation in readable form: http://www.numberempire.com/equationsolver.php?function=y+%3D+6*2^%288-n%29&var=n&answers=
  (define return  (expt 2 (- (/ (- (log (/ number 3)) (* 9 (log 2))) (log 2)))))
 ; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
