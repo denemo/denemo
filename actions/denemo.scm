@@ -1344,12 +1344,12 @@
 )
 
 (define (duration::denemo->ticks number) ; increases with negative integers
-	(set! return (* (expt 2 (- 8 number)) 6))
+	(define return (* (expt 2 (- 8 number)) 6))
 	return
 )
 
 (define (duration::lily->ticks number) ; increases with 0.5, 0.25 etc.
-	(set! return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
+	(define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
 	(inexact->exact return)
 
 )
