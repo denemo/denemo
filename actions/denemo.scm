@@ -35,12 +35,14 @@
 
 
 ;;;;;;;;;; Prototype to insert Lilypond Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
-(define (StandAloneDirectiveProto pair)
+(define* (StandAloneDirectiveProto pair #:optional (step? #t))
 	(d-Directive-standalone (car pair))
 	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
 	(d-DirectivePut-standalone-display(car pair) (car pair))
 	(d-DirectivePut-standalone-minpixels (car pair) 30)
-	(d-MoveCursorRight)
+	(if step?
+		(d-MoveCursorRight)
+	)
 	(d-RefreshDisplay)
 )
 
@@ -1067,16 +1069,21 @@
 
 
 
-;;;; Move right until "appending" or "none" which is the Measure End
+;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
-
-(let loop ()
+  (let loop ()
     (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
 	#t
-	(begin (d-MoveCursorRight) (loop))))
-		
+	(begin (d-MoveCursorRight) (loop))))	
 )
 
+;;;; GoToMeasureBeginning
+(define (GoToMeasureBeginning)
+  (if (d-MoveToMeasureLeft)
+	(d-MoveToMeasureRight)  
+	(d-MoveToBeginning) 
+  )
+)
 
 ;;;;;;;;;;;;;;;;;;;; Paste by Nils Gey // 2010
 ; Multistaff-Pasting always adds the complete part AFTER the current measure. It will never paste into an existing measure, not even in empty ones. 
@@ -1312,3 +1319,52 @@
   (set! lyimport::pathname pathname) 
   (set! lyimport::filename filename)
   (eval-string (lyimport::import)))
+
+;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
+;; A table of common values
+; 6 = 256 = 8
+;12 = 128 = 7
+;24 = 64 = 6
+;48 = 32 = 5
+;96 = 16 = 4
+;192 = 8 = 3
+;384 =4 = 2
+;768 = 2 = 1
+;1536 = 1 = 0
+;3072 = 0.5  = -1  ; Breve. 0.5 and -1 are not existend.  Lilypond and Denemo use the string breve instead.
+
+(define (duration::denemo->lily number)
+	(define return (expt 2 number))
+	return
+)
+
+(define (duration::lily->denemo number)
+	(define return (/ (log number) (log 2))	)
+	(inexact->exact return)
+)
+
+(define (duration::denemo->ticks number) ; increases with negative integers
+	(set! return (* (expt 2 (- 8 number)) 6))
+	return
+)
+
+(define (duration::lily->ticks number) ; increases with 0.5, 0.25 etc.
+	(set! return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
+	(inexact->exact return)
+
+)
+
+(define (duration::ticks->denemo number)
+;n = -(log(y/3)-9*log(2))/log(2) 
+ (define return (- (/ (- (log (/ number 3)) (* 9 (log 2))) (log 2))))
+; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
+  (inexact->exact (string->number (number->string return)))
+)
+
+(define (duration::ticks->lily number)
+ ;Equation in readable form: http://www.numberempire.com/equationsolver.php?function=y+%3D+6*2^%288-n%29&var=n&answers=
+ (define return  (expt 2 (- (/ (- (log (/ number 3)) (* 9 (log 2))) (log 2)))))
+; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
+  (inexact->exact (string->number (number->string return)))
+)
+;;;;;;;;;; End of duration-conversion
