@@ -1333,6 +1333,37 @@
 ;1536 = 1 = 0
 ;3072 = 0.5  = -1  ; Breve. 0.5 and -1 are not existend.  Lilypond and Denemo use the string breve instead.
 
+; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
+(define (duration::inexact->exact return)
+  (inexact->exact (string->number (number->string return)))
+)
+
+; Calculate a new Duration in Ticks with a basic note value and a number of augmentation-dots
+(define (duration::CalculateTicksWithDots baseTicks numberOfDots)
+	; x = basic note value
+	; n = number of dots
+	; 2x - x/2^n 
+	(-  (* 2 baseTicks) (/ baseTicks (expt 2 numberOfDots)))
+)
+
+; Calculate how many notes a tick value has. Needs base duration, too.
+(define (duration::CalculateDotsFromTicks ticks base)
+; x = base , y = ticks. result is the number of dots
+; log(x/(2*x-y))  / log(2)
+ (define return (/  (log (/ base (- (* base 2) ticks)))   (log 2) ))
+ (duration::inexact->exact return)
+)
+
+; Get Number of Dots from a Lilypond string like "2.". Its so basic it will work on Denemo notes, too.
+(define (duration::GetNumberOfDotsInLilypond input)
+ (length (cdr (string-split input #\.)))
+)
+
+; For the sake of completenes. Denemo and Lilypond dot-syntax is just the same, only the number itself is different.
+(define (duration::GetNumberOfDotsInDenemo input)
+	(duration::GetNumberOfDotsInLilypond input)
+)
+
 (define (duration::denemo->lilypond number)
 	(define return (expt 2 number))
 	return
@@ -1340,7 +1371,7 @@
 
 (define (duration::lilypond->denemo number)
 	(define return (/ (log number) (log 2))	)
-	(inexact->exact return)
+	 (duration::inexact->exact return)
 )
 
 (define (duration::denemo->ticks number) ; increases with negative integers
@@ -1350,21 +1381,24 @@
 
 (define (duration::lilypond->ticks number) ; increases with 0.5, 0.25 etc.
 	(define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
-	(inexact->exact return)
-
+	 (duration::inexact->exact return)
 )
 
-(define (duration::ticks->denemo number)
+; Ticks->Denemo wants a number but returns a string because of dots
+(define* (duration::ticks->denemo number #:optional (basenumber number))
+ (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
 ;n = -(log(y/3)-9*log(2))/log(2) 
- (define return (- (/ (- (log (/ number 3)) (* 9 (log 2))) (log 2))))
-; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
-  (inexact->exact (string->number (number->string return)))
+ (define return (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2))))
+ (set! return (duration::inexact->exact return))
+ (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
 )
 
-(define (duration::ticks->lilypond number)
+;Ticks->Lilypond wants a number but returns a string because of dots
+(define* (duration::ticks->lilypond number #:optional (basenumber number))
  ;Equation in readable form: http://www.numberempire.com/equationsolver.php?function=y+%3D+6*2^%288-n%29&var=n&answers=
- (define return  (expt 2 (- (/ (- (log (/ number 3)) (* 9 (log 2))) (log 2)))))
-; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
-  (inexact->exact (string->number (number->string return)))
+ (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
+ (define return  (expt 2 (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2)))))
+ (set! return (duration::inexact->exact return))
+ (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
 )
 ;;;;;;;;;; End of duration-conversion
