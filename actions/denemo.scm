@@ -1338,6 +1338,25 @@
   (inexact->exact (string->number (number->string return)))
 )
 
+;Some functions, like Upbeat, know only a single tick-value. They need to guess the baseNote.
+(define (duration::GuessBaseNoteInTicks ticks)
+; first guess the basic note duration.  2*x > ticks < 1*x  is always true in our circumstance 
+  (cond
+	 ( (and (>= ticks 6) (< ticks 12)) 6 )       ;1/256
+ 	 ( (and (>= ticks 12) (< ticks 24))  12 )   ;1/128
+ 	 ( (and (>= ticks 24) (< ticks 48)) 24)   ;1/64
+ 	 ( (and (>= ticks 48) (< ticks 96)) 48 )   ;1/32
+ 	 ( (and (>= ticks 96) (< ticks 192))  96)   ;sixteen 1/16
+ 	 ( (and (>= ticks 192) (< ticks 384)) 192 ) ; eight 1/8
+ 	 ( (and (>= ticks 384) (< ticks 768))  384 ) ; quarter 1/4
+ 	 ( (and (>= ticks 768) (< ticks 1536))  768) ; half 1/2
+ 	 ( (and (>= ticks 1536) (< ticks 3072))  1536 ) ; whole 1
+ 	 ( (and (>= ticks 3072) (< ticks 6144))  3072 ) ; breve 2*1
+ 	 ( (and (>= ticks 6144) (< ticks 12288))  6144) ; longa 4*1
+ 	 ( (and (>= ticks 12288) (< ticks 24576))  12288 )  ; maxima 8*1
+	(else #f)
+))
+
 ; Calculate a new Duration in Ticks with a basic note value and a number of augmentation-dots
 (define (duration::CalculateTicksWithDots baseTicks numberOfDots)
 	; x = basic note value
