@@ -4131,6 +4131,13 @@ right. </tooltip>
         <label>LilyPond Score Prolog</label>
         <tooltip>Inserts LilyPond syntax for include files etc at head of score.</tooltip>
       </row>
+      <row>
+        <action>Upbeat</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Upbeat (convert current measure)</label>
+        <tooltip>Convert the current measure to a partial measure. Also known as upbeat or anacrusis.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
