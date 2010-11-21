@@ -1236,7 +1236,9 @@ static SCM scheme_get_base_duration_in_ticks(void){
  if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data))
    return SCM_BOOL(FALSE);
  if(curObj->type==CHORD)
-  return scm_int2num(((chord *)curObj->object)->baseduration);
+   return scm_int2num(  ((chord *)curObj->object)->baseduration>=0? /* (* (expt 2 (- 8 number)) 6) */
+			(int)pow(2.0, (8.0-((chord *)curObj->object)->baseduration))*6: ((chord *)curObj->object)->baseduration
+ );
  return SCM_BOOL(FALSE);
 }
 

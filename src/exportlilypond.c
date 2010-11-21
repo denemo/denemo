@@ -49,7 +49,7 @@
 
 
 #define TAB "        "
-
+static gchar *get_postfix(GList *g);
 static void 
 create_lilywindow(DenemoGUI *gui);
 static void
@@ -330,7 +330,7 @@ append_duration (GString * figures, gint duration, gint numdots)
  * add figures to *pfigures for *pchord  
  */
 static void
-output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
+output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint time1, gint time2)
 {
   static gboolean continuation = FALSE;
   gboolean continuation_finishing = FALSE;
@@ -340,6 +340,25 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
   GString *fig_str;		/*working copy of figures string stored in pchord */
   char *str;			/* pointer into the figure string fig_str */
   gint num_groups = 1;		/* number of groups of figures */
+  gchar *duration_string=NULL;//whole measure rests etc
+  if(duration<0) {
+      gchar *lily = get_postfix(pchord->directives);
+      if(lily) {
+	duration_string = g_strrstr(lily, "R1*");
+	if(!duration_string) {
+	  g_warning("duration is special but cannot find R1* - output in figured bass");
+	  duration_string = g_strdup("R1*4/4");
+	}
+      }
+      else {
+	g_warning("duration is special but no directives to account for it - output in figured bass");
+	duration_string = g_strdup("R1*4/4");
+      }
+      duration_string++;//the duration, after the  R
+  }
+#define APPEND_DUR(a, b, c) duration<0?g_string_append(figures, duration_string):append_duration(a,b,c)
+
+
   if(!last_figure)
     last_figure = g_string_new("");
 
@@ -389,7 +408,7 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
 	g_string_assign(last_figure, fig_str->str);
       }
       figures = g_string_append (figures, ">");
-      append_duration (figures, duration, numdots);
+      APPEND_DUR (figures, duration, numdots);
       if(continuation_finishing) {
 	figures = g_string_append (figures, "\\set useBassFigureExtenders = ##f ");
 	continuation = FALSE;
@@ -412,12 +431,12 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
 	str = strtok (fig_str->str, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, first_duration, 0);
+	APPEND_DUR (figures, first_duration, 0);
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, second_duration, 0);
+	APPEND_DUR (figures, second_duration, 0);
       }
       break;
     case 3:
@@ -441,17 +460,17 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
 	str = strtok (fig_str->str, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, first_duration, 0);
+	APPEND_DUR (figures, first_duration, 0);
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, second_duration, 0);
+	APPEND_DUR (figures, second_duration, 0);
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, third_duration, 0);
+	APPEND_DUR (figures, third_duration, 0);
       }
       break;
     case 4:
@@ -477,25 +496,26 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord)
 	str = strtok (fig_str->str, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, first_duration, 0);
+	APPEND_DUR (figures, first_duration, 0);
 	figures = g_string_append (figures, "<");
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, second_duration, 0);
+	APPEND_DUR (figures, second_duration, 0);
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, third_duration, 0);
+	APPEND_DUR (figures, third_duration, 0);
 	str = strtok (NULL, FIGURES_SEP);
 	figures = g_string_append (figures, "<");
 	figures = g_string_append (figures, str);
 	figures = g_string_append (figures, ">");
-	append_duration (figures, fourth_duration, 0);
+	APPEND_DUR (figures, fourth_duration, 0);
       }
       break;
     }
+  // if(duration_string) g_free(--duration_string);
 }
 
 /**
@@ -1536,7 +1556,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 	  if(curobjnode) {
 	  curobj = (DenemoObject *) curobjnode->data;
 	  // if (curobj->type==CHORD||curobj->type==PARTIAL||curobj->type==LILYDIRECTIVE)
-	  if(curobj->durinticks)
+	  if(curobj->durinticks||curobj->type==LILYDIRECTIVE)
 	    empty_measure=FALSE; 
 
 
@@ -1650,7 +1670,7 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
 	       
 	      if(curstaffstruct->hasfigures)
-		output_figured_bass (si, figures, pchord);
+		output_figured_bass (si, figures, pchord, cur_stime1, cur_stime2);
 	      
 	      if (curstaffstruct->hasfakechords)
 		output_fakechord(si, fakechords, pchord);
