@@ -2843,7 +2843,11 @@ SCM scheme_refresh_display (SCM optional) {
 
 
 SCM scheme_set_saved (SCM optional) {
-  score_status(Denemo.gui, FALSE);
+  //scm_is_bool(optional) &&
+  if(optional == SCM_BOOL_F)
+    score_status(Denemo.gui, TRUE);
+  else
+    score_status(Denemo.gui, FALSE);
   return SCM_BOOL(TRUE);
 }
 
@@ -4030,7 +4034,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
   INSTALL_SCM_FUNCTION ("Re-draws the Denemo display, which can have side effects on the data",DENEMO_SCHEME_PREFIX"RefreshDisplay", scheme_refresh_display);
-  INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
+  INSTALL_SCM_FUNCTION ("Sets the status of the current musical score to saved, or unsaved if passed #f",DENEMO_SCHEME_PREFIX"SetSaved", scheme_set_saved);
   INSTALL_SCM_FUNCTION ("Gets the saved status of the current musical score",DENEMO_SCHEME_PREFIX"GetSaved", scheme_get_saved);
   INSTALL_SCM_FUNCTION ("Returns #f if mark is not set",DENEMO_SCHEME_PREFIX"MarkStatus", scheme_mark_status);
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the tooltip or #f if none",DENEMO_SCHEME_PREFIX"GetHelp", scheme_get_help);
