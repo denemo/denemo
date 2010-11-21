@@ -977,10 +977,10 @@ void insert_note_following_pattern(DenemoGUI *gui)  {
     else {
      
 	insertion_point (gui->si);	
-      // gui->si->cursoroffend = FALSE;
+      gui->si->cursoroffend = FALSE;
       h = ((RhythmElement*)g->data)->functions;
       ((GtkFunction)h->data)(gui);
-      //displayhelper(gui);
+      displayhelper(gui);
     }
     
 #define CURRP ((RhythmPattern *)gui->currhythm->data)    
