@@ -266,10 +266,14 @@
         <action>SplitMeasure</action>
         <bind>Tab</bind>
       </row>
-       <row>
+      <row>
         <action>WholeMeasureRest</action>
         <bind>r</bind>        
-      </row>    
+      </row> 
+      <row>
+        <action>Upbeat</action>
+        <bind>u</bind>        
+      </row> 
           
 	<!-- Seek 
       <row>
