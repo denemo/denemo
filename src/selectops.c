@@ -486,7 +486,8 @@ gboolean insert_clip_obj(gint m, gint n) {
   DenemoObject *curobj = (DenemoObject*)curbufferobj->data; 
   clonedobj = dnm_clone_object (curobj);
   insert_object(clonedobj);
-
+  octave_up_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
+  octave_down_key(Denemo.gui);//FIXME up and down to fix clef change bug !!!!!!!!
   return TRUE;
 }
 /**
