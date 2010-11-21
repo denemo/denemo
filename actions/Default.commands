@@ -3707,7 +3707,6 @@ right. </tooltip>
       </row>
       <row>
         <action>NoOp</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Null Operation</label>
@@ -3773,7 +3772,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpOne</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpOne</label>
@@ -3781,7 +3779,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpTwo</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpTwo</label>
@@ -3789,7 +3786,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpThree</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpThree</label>
@@ -3797,7 +3793,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpFour</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFour</label>
@@ -3805,7 +3800,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpFive</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpFive</label>
@@ -3813,7 +3807,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpSix</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSix</label>
@@ -3821,7 +3814,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpSeven</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpSeven</label>
@@ -3829,7 +3821,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpEight</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpEight</label>
@@ -3837,7 +3828,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpNine</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpNine</label>
@@ -3845,7 +3835,6 @@ right. </tooltip>
       </row>
       <row>
         <action>OpZero</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>OpZero</label>
@@ -3853,7 +3842,6 @@ right. </tooltip>
       </row>
       <row>
         <action>LoadDefaultComposerNumberkeys</action>
-        <hidden>true</hidden>
         <scheme></scheme>
         <menupath>/MainMenu/MoreMenu</menupath>
         <label>Reset Keys in Composer Mode</label>

@@ -471,52 +471,42 @@
       </row>
       <row>
         <action>OpZero</action>
-		<hidden>true</hidden> 
 		<bind>0</bind>       
       </row>
       <row>
         <action>OpOne</action>
-        <hidden>true</hidden>
 		<bind>1</bind>
       </row>
        <row>
         <action>OpTwo</action>
-        <hidden>true</hidden>
 		<bind>2</bind>
       </row>
       <row>
         <action>OpThree</action>
-		<hidden>true</hidden>
 		<bind>3</bind>
       </row>                 
       <row>
         <action>OpFour</action>
-		<hidden>true</hidden>
 		<bind>4</bind>
       </row>
       <row>
         <action>OpFive</action>
-		<hidden>true</hidden>
 		<bind>5</bind>
       </row>
       <row>
         <action>OpSix</action>
-		<hidden>true</hidden>
 		<bind>6</bind>
       </row>
       <row>
         <action>OpSeven</action>
-		<hidden>true</hidden>
 		<bind>7</bind>
       </row>
       <row>
         <action>OpEight</action>
-		<hidden>true</hidden>
 		<bind>8</bind>
       </row>
       <row>
         <action>OpNine</action>
-		<hidden>true</hidden>
 		<bind>9</bind>
       </row> 
        <row>
@@ -550,7 +540,6 @@
       </row>       
       <row>
       <action>NoOp</action>
-      <hidden>true</hidden>
       <bind>Shift+7</bind>
       <bind>Shift+8</bind>
       <bind>Shift+9</bind>

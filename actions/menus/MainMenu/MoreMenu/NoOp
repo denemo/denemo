@@ -6,7 +6,6 @@
     <map>
       <row>
         <action>NoOp</action>
-        <hidden>true</hidden>
         <scheme>#f</scheme>
         <label>NoOp</label>
         <tooltip>Does absolutly nothing. Use to "blank" a key.</tooltip>
