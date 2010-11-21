@@ -465,60 +465,59 @@
 	 <action>LoadDefaultComposerNumberkeys</action>
 	 <bind>Escape</bind>	 
 	</row>
-
-      <row>
+    <row>
         <action>AddNoteToChord</action>
         <bind>Return</bind>
       </row>
       <row>
         <action>OpZero</action>
-		<bind>0</bind>       
 		<hidden>true</hidden> 
+		<bind>0</bind>       
       </row>
       <row>
         <action>OpOne</action>
+        <hidden>true</hidden>
 		<bind>1</bind>
-		<hidden>true</hidden>
       </row>
        <row>
         <action>OpTwo</action>
+        <hidden>true</hidden>
 		<bind>2</bind>
-		<hidden>true</hidden>
       </row>
       <row>
         <action>OpThree</action>
-		<bind>3</bind>
 		<hidden>true</hidden>
+		<bind>3</bind>
       </row>                 
       <row>
         <action>OpFour</action>
-		<bind>4</bind>
 		<hidden>true</hidden>
+		<bind>4</bind>
       </row>
       <row>
         <action>OpFive</action>
-		<bind>5</bind>
 		<hidden>true</hidden>
+		<bind>5</bind>
       </row>
       <row>
         <action>OpSix</action>
-		<bind>6</bind>
 		<hidden>true</hidden>
+		<bind>6</bind>
       </row>
       <row>
         <action>OpSeven</action>
-		<bind>7</bind>
 		<hidden>true</hidden>
+		<bind>7</bind>
       </row>
       <row>
         <action>OpEight</action>
-		<bind>8</bind>
 		<hidden>true</hidden>
+		<bind>8</bind>
       </row>
       <row>
         <action>OpNine</action>
-		<bind>9</bind>
 		<hidden>true</hidden>
+		<bind>9</bind>
       </row> 
        <row>
         <action>InsertWholeRest</action>
@@ -548,9 +547,7 @@
       <row>
         <action>InsertSixtyfourthRest</action>
         <bind>Shft+6</bind>
-      </row>   
-      
-      
+      </row>       
       <row>
       <action>NoOp</action>
       <hidden>true</hidden>
@@ -558,7 +555,6 @@
       <bind>Shift+8</bind>
       <bind>Shift+9</bind>
       </row>
-      
       
     <!-- Hidden Commands -->
       <row>
