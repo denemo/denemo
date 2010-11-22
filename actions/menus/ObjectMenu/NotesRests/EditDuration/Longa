@@ -11,7 +11,11 @@
 (d-0)
 (d-MoveCursorLeft)
 (d-ChangeLonga)
-(d-MoveCursorRight)</scheme>
+(d-MoveCursorRight)
+(if (and (defined? 'Snippet::Longa) (&gt; Snippet::Longa 0))
+    (d-SelectSnippet Snippet::Longa)
+    (d-CreateSnippetFromObject "Longa"))
+</scheme>
         <label>Longa</label>
         <tooltip>Append/Insert Longa duration</tooltip>
       </row>
