@@ -507,7 +507,7 @@
         <bind>bracketright</bind>
       </row>
       <row>
-        <action>Upbeat</action>
+        <action>Anacrusis</action>
         <bind>u</bind>
       </row>
       <row>
