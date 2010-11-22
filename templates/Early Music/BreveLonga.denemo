@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="3">
+  <scheme>;;;;;;;;;;;;;;; SetBreve
+(if (and (defined? 'Snippet::Breve) (&gt; Snippet::Breve 0))
+    (d-SelectSnippet Snippet::Breve)
+(begin
+(d-PushPosition)
+(d-InsertMeasureBefore)
+(d-Insert0)
+(d-DirectivePut-chord-graphic "Breve" "noteheads_sM1neomensural")
+(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
+(d-DirectivePut-chord-prefix "Breve" "\\breve ")
+(d-SetDurationInTicks (* 2 1536))
+(d-CreateSnippetFromObject "Breve")
+(d-DeleteMeasure)
+(d-PopPosition)))
+;;;;;;;;;;;;;;; SetLonga
+(if (and (defined? 'Snippet::Longa) (&gt; Snippet::Longa 0))
+    (d-SelectSnippet Snippet::Longa)
+(begin
+(d-PushPosition)
+(d-InsertMeasureBefore)
+(d-Insert0)
+(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
+(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
+(d-DirectivePut-chord-prefix "Longa" "\\longa ")
+(d-SetDurationInTicks (* 2 1536))
+(d-CreateSnippetFromObject "Longa")
+(d-DeleteMeasure)
+(d-PopPosition)))
+
+</scheme>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>20</fontsize>
+    <orientation>1</orientation>
+    <score-directives/>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>-1</cursorposition>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0">
+        <staff-info>
+          <number-of-lines>5</number-of-lines>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>65</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </staff-info>
+      </staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>voice 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"/>
+          <clef name="treble"/>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"/>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <measures>
+          <measure/>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
