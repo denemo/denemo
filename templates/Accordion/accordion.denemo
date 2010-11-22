@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="3">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTagline</tag>
+      <postfix>tagline=""
+</postfix>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>print-all-headers = ##t
+</postfix>
+    </directive>
+  </paper-directives>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>20</fontsize>
+    <orientation>1</orientation>
+    <score-directives>
+      <directive>
+        <tag>Prolog</tag>
+        <prefix>Diskant = \markup {
+  \musicglyph #"accordion.accDiscant"
+}
+punkt = \markup {
+  \musicglyph #"accordion.accDot"
+}
+
+\layout { ragged-right = ##t }
+
+% 16 voets Register
+accBasson = ^\markup {
+  \combine
+  \Diskant
+  \raise #0.5 \punkt
+}
+
+% een&#xB7;korig&#xB7;8&#xB7;en&#xB7;16&#xB7;voets&#xB7;register
+accBandon = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \raise #1.5 \punkt
+}
+
+accVCello = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \raise #1.5 \punkt
+        \translate #'(1 . 0) \raise #1.5 \punkt
+}
+
+% 4-8-16&#xB7;voets&#xB7;register
+accHarmon = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \raise #1.5 \punkt
+        \raise #2.5 \punkt
+}
+
+accPosaune = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \raise #1.5 \punkt
+        \combine
+          \translate #'(1 . 0) \raise #1.5 \punkt
+          \translate #'(-1 . 0) \raise #1.5 \punkt
+}
+
+% eenkorig&#xB7;4&#xB7;en&#xB7;16&#xB7;voets&#xB7;register
+accOrgel = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \raise #2.5 \punkt
+}
+
+accHaupt = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #0.5 \punkt
+      \combine
+        \raise #1.5 \punkt
+        \combine
+          \translate #'(1 . 0) \raise #1.5 \punkt
+          \combine
+            \translate #'(-1 . 0) \raise #1.5 \punkt
+            \raise #2.5 \punkt
+}
+
+accAkkord = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #1.5 \punkt
+      \combine
+        \translate #'(1 . 0) \raise #1.5 \punkt
+        \combine
+          \translate #'(-1 . 0) \raise #1.5 \punkt
+          \raise #2.5 \punkt
+}
+
+accMusette = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #1.5 \punkt
+      \combine
+        \translate #'(1 . 0) \raise #1.5 \punkt
+        \translate #'(-1 . 0) \raise #1.5 \punkt
+}
+
+accCelesta = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #1.5 \punkt
+      \translate #'(-1 . 0) \raise #1.5 \punkt
+}
+
+accOboe = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #1.5 \punkt
+      \raise #2.5 \punkt
+}
+
+accClarin = ^\markup {
+  \combine
+    \Diskant
+    \raise #1.5 \punkt
+}
+
+accPiccolo = ^\markup {
+    \combine
+       \Diskant
+       \raise #2.5 \punkt
+}
+
+accGeige = ^\markup {
+  \combine
+    \Diskant
+    \combine
+      \raise #1.5 \punkt
+      \combine
+        \translate #'(1 . 0) \raise #1.5 \punkt
+        \raise #2.5 \punkt
+}
+
+
+</prefix>
+        <display>%{Insert LilyPond syntax here %}
+</display>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>-1</cursorposition>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0">
+        <staff-info>
+          <number-of-lines>5</number-of-lines>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </staff-info>
+      </staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>voice 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"/>
+          <clef name="treble"/>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"/>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <measures>
+          <measure>
+            <chord show="true" id="id2">
+              <duration base="quarter"/>
+              <directives>
+                <directive>
+                  <postfix>\accBasson</postfix>
+                  <display>Basson</display>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id3">
+                  <middle-c-offset>5</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
