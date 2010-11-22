@@ -4138,6 +4138,14 @@ right. </tooltip>
         <label>Upbeat (convert current measure)</label>
         <tooltip>Convert the current measure to a partial measure. Also known as upbeat or anacrusis.</tooltip>
       </row>
+      <row>
+        <action>SetLonga</action>
+        <after>SetBreve</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
+        <label>Longa</label>
+        <tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
