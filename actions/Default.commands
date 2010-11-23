@@ -4134,6 +4134,14 @@ right. </tooltip>
         <label>Longa</label>
         <tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</tooltip>
       </row>
+      <row>
+        <action>PlaybackMute</action>
+        <after>MoveToVoiceDown</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <label>Mute</label>
+        <tooltip>Mutes playback on this staff</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MoveToVoiceDown</after>
+        <action>PlaybackMute</action>
+        <scheme>;;;PlaybackMute
+(d-PushPosition)
+(d-MoveToBeginning)
+(if (d-Directive-standalone? "Mute")
+	(d-DeleteObject)
+	(begin
+	(d-DirectivePut-standalone "Mute")
+	(d-DirectivePut-standalone-graphic "Mute" "mute")
+	(d-DirectivePut-standalone-midibytes "Mute" "0")
+	(d-DirectivePut-standalone-minpixels "Mute" 50)
+	(d-DirectivePut-standalone-gy "Mute" -11)
+	(d-DirectivePut-standalone-override "Mute" (logior DENEMO_OVERRIDE_VOLUME DENEMO_OVERRIDE_STEP))
+	(d-RefreshDisplay)
+	))
+(d-PopPosition)
+</scheme>
+        <label>Mute</label>
+        <tooltip>Mutes playback on this staff</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
