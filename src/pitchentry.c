@@ -430,7 +430,7 @@ void set_flatter(GtkAction *action, gpointer param) {
 void
 signal_measure_end(void) {
 if (Denemo.prefs.midi_audio_output == Fluidsynth)
-  fluid_playpitch(74, 300, 9, (gint)(40*Denemo.gui->si->master_volume));
+  fluid_playpitch(74, 300, 9, (gint)(100*Denemo.gui->si->master_volume));
  else
    gdk_beep();
 }

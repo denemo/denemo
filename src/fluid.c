@@ -219,7 +219,7 @@ void fluid_output_midi_event(unsigned char *buffer)
 	gint velocity =  ((gint)(Denemo.gui->si->master_volume * buffer[2]));
 	if(velocity>0x7F) velocity = 0x7F;
 	fluid_synth_noteon(synth, chan,  buffer[1], velocity);
-	//g_print("play %d on %f\n", chan, event->time_seconds);
+	//g_print("play %d on %d\n", chan, velocity);
       }
 	break;
        case NOTE_OFF:
@@ -503,12 +503,12 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
   if(dot)
     fluid_playpitch(67, 100, 9, 60*Denemo.gui->si->master_volume);
   else
-    fluid_playpitch(rhythm_sounds[duration], rest?100:200, 9, 60*Denemo.gui->si->master_volume);
+    fluid_playpitch(rhythm_sounds[duration], rest?100:200, 9, 127*Denemo.gui->si->master_volume);
   //add extra sound effect for rests
   if(rest)
-    fluid_playpitch(46, 300, 9, 30*Denemo.gui->si->master_volume);
-  
-  //  g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
+    fluid_playpitch(46, 300, 9, 127*Denemo.gui->si->master_volume);
+ 
+  //g_print("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.gui->si->tempo*(1<<duration)))*1000);
 
 }
 
