@@ -3,6 +3,9 @@
 ; TODO: What about if someone tries to divide too small? The score will get broken.
 
 (define* (SplitChord #:optional (howmany #f))
+(define  (split-divide)
+	(duration::ChangeNoteDurationInTicks (/ (abs (d-GetBaseDurationInTicks)) 2) (duration::GetNumberOfDotsInTicks)))
+
 (if (and (d-GetNotes) (not (string-ci=?  (d-GetType) "Appending"))) ; DuplicateChord only works ON notes, not in the appending position. 
 
 (begin
@@ -17,21 +20,21 @@
 (case howmany
 	((1) #t) ; Already original duration in one note.
 	((2) (begin  ;8th
-		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide) 
 		 (d-DuplicateChord)
 		 (d-MoveCursorRight)
 		 #t))
 	((3) 	(begin ;8th-triplet
 		(d-StartTriplet)
-		(d-ChangeDurationByFactorTwo *)
+		(split-divide)
 		(d-DuplicateChord)
 		(d-DuplicateChord)
 		(d-MoveCursorRight)
 		(d-EndTuplet)
 		#t))
 	((4) (begin  ;16th
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide)
 		 (d-DuplicateChord)
 		 (d-DuplicateChord)
 		 (d-DuplicateChord)
@@ -39,8 +42,8 @@
 		 #t))
  
 	((5) (begin  ;16-fifthlet
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide)
 	 	 (d-StartTriplet)
 		 (d-MoveCursorLeft)
 		 (d-SetTuplet "4/5")	
@@ -54,8 +57,8 @@
 		 #t))
 	 
 	((6) (begin  ;16th-sextlet,
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide) 
 	 	 (d-StartTriplet)
 		 (d-DuplicateChord)
 		 (d-DuplicateChord)
@@ -67,8 +70,8 @@
 		 #t))
 		 
 	((7) (begin  ;16-Seventhlet
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide)
 	 	 (d-StartTriplet)
 		 (d-MoveCursorLeft)
 		 (d-SetTuplet "4/7")	
@@ -84,9 +87,9 @@
 		 #t))
 
 	((8) (begin  ;32th
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
- 		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide)
+ 		 (split-divide) 
 		 (d-DuplicateChord)
  		 (d-DuplicateChord)
  		 (d-DuplicateChord)
@@ -98,9 +101,9 @@
 		 #t))
 		 
 	((9) (begin  ;32th-ninthlet
-		 (d-ChangeDurationByFactorTwo *) 
-		 (d-ChangeDurationByFactorTwo *) 
- 		 (d-ChangeDurationByFactorTwo *) 
+		 (split-divide)
+		 (split-divide)
+ 		 (split-divide)
 	 	 (d-StartTriplet)
 		 (d-MoveCursorLeft)
 		 (d-SetTuplet "8/9")	
