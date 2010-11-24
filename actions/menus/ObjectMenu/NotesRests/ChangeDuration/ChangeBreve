@@ -14,15 +14,12 @@
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
 			(d-DirectivePut-chord-graphic "Breve" "noteheads_sM1neomensural")
-			(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
-			(d-DirectivePut-chord-prefix "Breve" "\\breve ")
+
 		)
-		(begin ;rest
-			(d-DirectivePut-chord-prefix "Breve" " \\breve ")
-			(d-DirectivePut-chord-graphic "Breve" "rests_M1neomensural")
-			(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
-		)	
+		(d-DirectivePut-chord-graphic "Breve" "rests_M1neomensural")  ;rest	
 	)
+	(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-chord-prefix "Breve" "\\breve ")
 	(d-SetDurationInTicks (* 2 1536))
 	(d-RefreshDisplay)
   )

@@ -17,7 +17,7 @@
 (d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
 (d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
 (d-DirectivePut-chord-prefix "Longa" "\\Longa ")
-(d-SetDurationInTicks (* 2 1536))
+(d-SetDurationInTicks (* 4 1536))
 (d-CreateSnippetFromObject "Longa")
 (d-DeleteMeasure)
 (d-PopPosition)))

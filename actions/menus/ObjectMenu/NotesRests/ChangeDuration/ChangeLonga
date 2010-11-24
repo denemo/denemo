@@ -14,16 +14,14 @@
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
 			(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
-			(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
-			(d-DirectivePut-chord-prefix "Longa" "\\Longa ")
+	
 		)
-		(begin ;rest
-			(d-DirectivePut-chord-prefix "Longa" " \\longa ")
-			(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural")
-			(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
-		)	
+		(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural") ;rest
+	
 	)
-	(d-SetDurationInTicks (* 2 1536))
+	(d-DirectivePut-chord-prefix "Longa" "\\Longa ")
+	(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
+	(d-SetDurationInTicks (* 4 1536))
 	(d-RefreshDisplay)
   )
   #f ; not a chord
