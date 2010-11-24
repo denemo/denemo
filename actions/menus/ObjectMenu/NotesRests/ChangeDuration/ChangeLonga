@@ -19,7 +19,7 @@
 		(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural") ;rest
 	
 	)
-	(d-DirectivePut-chord-prefix "Longa" "\\Longa ")
+	(d-DirectivePut-chord-prefix "Longa" "\\longa ")
 	(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
 	(d-SetDurationInTicks (* 4 1536))
 	(d-RefreshDisplay)

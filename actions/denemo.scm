@@ -1444,6 +1444,21 @@
 (define (duration::GetNumberOfDotsInTicks)
 	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (d-GetBaseDurationInTicks)))
 
+(define (duration::GetSelectionDurationInTicks) 
+  (d-PushPosition)
+  (if (d-GoToSelectionStart)
+	(let loop ((ticks 0))
+		(set! ticks (+ ticks (d-GetDurationInTicks)))
+		(if (d-NextSelectedObject)
+			(loop ticks)
+			(begin  (d-PopPosition) ticks)
+		)
+	)
+	#f ; no selection
+    )
+
+)
+
 (define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
 ; First change the base-duration. The d-Change commands also delete any dots.
   (define (changeBase) (case ticks
@@ -1474,3 +1489,5 @@
 	)
   ))
 )
+
+
