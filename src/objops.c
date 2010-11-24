@@ -335,6 +335,9 @@ dnm_clone_object (DenemoObject * orig)
 	    case LILYDIRECTIVE: {
 	      lilydirective *curlily = (lilydirective*)orig->object;
 	      ret = directive_object_new(clone_directive(curlily));
+	      ret->durinticks = orig->durinticks;
+	      ret->basic_durinticks = orig->basic_durinticks;
+	      
 	    }
 	      break;
 	    default:
