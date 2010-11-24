@@ -460,8 +460,23 @@ shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
 void
 changedur (DenemoObject * thechord, gint baseduration, gint numdots)
 {
+  gint current =  ((chord *) thechord->object)->baseduration;
+  if(current<0) {
+    if(((chord*)thechord->object)->directives) {
+      GList *g;
+      for(g=((chord*)thechord->object)->directives;g;g=g->next) {
+	DenemoDirective *directive = g->data;
+	if(directive->prefix) {
+	  free_directive(directive);
+	  ((chord*)thechord->object)->directives = g_list_remove(((chord*)thechord->object)->directives, directive);
+	  break;//there can only be one prefix replacing the duration, it would be tricky to remove more than one anyway as continuing the loop would be trick...
+	}	
+      }	
+    }  
+  } 
   ((chord *) thechord->object)->baseduration = baseduration;
   ((chord *) thechord->object)->numdots = numdots;
+  
   set_basic_numticks (thechord);
 }
 
