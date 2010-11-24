@@ -1437,6 +1437,40 @@
  (set! return (duration::inexact->exact return))
  (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
 )
-
-
 ;;;;;;;;;; End of duration-conversion
+
+
+;;;;;;;; Applied duration scripts
+(define (duration::GetNumberOfDotsInTicks)
+	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (d-GetBaseDurationInTicks)))
+
+(define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
+; First change the base-duration. The d-Change commands also delete any dots.
+  (define (changeBase) (case ticks
+   ;((12288) (d-ChangeMaxima))  ;Maxima
+   ((6144)	(d-ChangeLonga)) ; Longa
+   ((3072)	(d-ChangeBreve)) ; Breve
+   ((1536)	(d-Change0)) ; Whole
+   ((768)	(d-Change1)) ; Half
+   ((384)	(d-Change2)) ; Quarter
+   ((192)	(d-Change3)) ; Eighth
+   ((96)	(d-Change4)) ; Sixteenth
+   ((48)	(d-Change5)) ; 1/32
+   ((24)	(d-Change6)) ; 1/64
+   ((12)	(d-Change7)) ; 1/128
+   ((6)		(d-Change8)) ; 1/256
+   (else   #f )
+ ))
+ 
+; Second add dots
+  ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
+  (if (and (string-ci=? (d-GetType) "CHORD") (integer? dots)(changeBase))
+  (let loop ((i 0))
+	(if (= dots i)
+	#t
+	(begin
+	   (d-AddDot)  
+	   (loop (+ i 1)))
+	)
+  ))
+)
