@@ -158,11 +158,11 @@ void play_midikey(gint key, double duration, double volume, gint channel){
  *  (a g_list_foreach function)
  */
 static void
-playnote (gpointer tone, gpointer chord, int channel)
+playnote (note * tone, /*GList * chord, */int channel)
 {
   gint offset;
   gchar key;
-  gint voice;
+  //gint voice;
   /* Because mid_c_offset is a measure of notes and we need a measure of
    * half-steps, this array will help */
   const gint key_offset[] = { -10, -8, -7, -5, -3, -1, 0, 2, 4, 5, 7, 9, 11 };
@@ -172,25 +172,24 @@ playnote (gpointer tone, gpointer chord, int channel)
   /* 60 is middle-C in MIDI keys */
   key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
   key += ((note *) tone)->enshift;
-  voice = g_list_index ((GList *) chord, tone);
+  //voice = g_list_index ((GList *) chord, tone);
 
   play_midikey(key, 0.3, 0.5/*Denemo.prefs.pcmvolume*/, channel);
 
 }
 
 /** 
- * This version of the function opens and closes /dev/sequencer w/ each
- * write, as a separate process for performance-type reasons 
+
  */
 void
-playnotes (gboolean doit, chord chord_to_play, int channel)
+playnotes (gboolean doit, chord *chord_to_play, int channel)
 {
   //g_print("playnotes called for channel %d\n", channel);
-  if (doit && (sequencer_absent) && chord_to_play.notes) {
-    playnote( chord_to_play.notes->data, chord_to_play.notes, channel);
-    return;
+  if (doit && (sequencer_absent) && chord_to_play->notes) {
+    GList *g;
+    for(g=chord_to_play->notes;g;g=g->next)
+      playnote( g->data, /*chord_to_play->notes,*/ channel);
   }
-
 }
 
 // MIDI input

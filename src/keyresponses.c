@@ -263,6 +263,7 @@ insert_chord_key (DenemoGUI * gui)
 void
 go_to_A_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 5);
 }
 
@@ -273,6 +274,7 @@ go_to_A_key (DenemoGUI * gui)
 void
 go_to_B_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 6);
 }
 
@@ -283,6 +285,7 @@ go_to_B_key (DenemoGUI * gui)
 void
 go_to_C_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 0);
 }
 
@@ -303,6 +306,7 @@ go_to_D_key (DenemoGUI * gui)
 void
 go_to_E_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 2);
 }
 
@@ -313,6 +317,7 @@ go_to_E_key (DenemoGUI * gui)
 void
 go_to_F_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 3);
 }
 
@@ -323,6 +328,7 @@ go_to_F_key (DenemoGUI * gui)
 void
 go_to_G_key (DenemoGUI * gui)
 {
+ Denemo.gui->last_source = INPUTKEYBOARD;
   shiftcursor (gui, 4);
 }
 

@@ -240,7 +240,11 @@ void modify_note(chord *thechord, gint mid_c_offset, gint enshift, gint dclef) {
     calculateheight (mid_c_offset, dclef);
   thechord->lowestpitch = mid_c_offset;
   thechord->lowesty =
-    calculateheight (mid_c_offset, dclef); 
+    calculateheight (mid_c_offset, dclef);
+  if(Denemo.gui->last_source==INPUTKEYBOARD) 
+     {DenemoStaff *curstaffstruct = (DenemoStaff *)  Denemo.gui->si->currentstaff->data;
+    playnotes (Denemo.prefs.immediateplayback, thechord, curstaffstruct->midi_channel);
+  }
 }
 
 /* Allocate a new note structure initializing the fields
