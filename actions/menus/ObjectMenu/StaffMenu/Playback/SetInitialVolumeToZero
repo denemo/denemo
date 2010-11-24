@@ -6,8 +6,8 @@
     <map>
       <row>
         <after>MoveToVoiceDown</after>
-        <action>PlaybackMute</action>
-        <scheme>;;;PlaybackMute
+        <action>SetInitialVolumeToZero</action>
+        <scheme>;;;SetInitialVolumeToZero
 (d-PushPosition)
 (d-MoveToBeginning)
 (if (and (d-Directive-standalone? "Mute") (&gt; (d-DirectiveGet-standalone-override "Mute") 0))
@@ -28,7 +28,7 @@
 (d-RefreshDisplay)
 </scheme>
         <label>Mute</label>
-        <tooltip>Mutes playback on this staff</tooltip>
+        <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
       </row>
     </map>
   </merge>

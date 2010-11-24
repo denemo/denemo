@@ -1,1 +1,1 @@
-(d-PlaybackMute)
+(d-SetInitialVolumeToZero)

@@ -4135,12 +4135,12 @@ right. </tooltip>
         <tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</tooltip>
       </row>
       <row>
-        <action>PlaybackMute</action>
+        <action>SetInitialVolumeToZero</action>
         <after>MoveToVoiceDown</after>
         <scheme></scheme>
         <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
         <label>Mute</label>
-        <tooltip>Mutes playback on this staff</tooltip>
+        <tooltip>Mutes playback on this staff by placing a volume=zero directive at the start.</tooltip>
       </row>
     </map>
   </commands>
