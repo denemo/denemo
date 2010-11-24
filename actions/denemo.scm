@@ -1445,19 +1445,18 @@
 	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (d-GetBaseDurationInTicks)))
 
 (define (duration::GetSelectionDurationInTicks) 
- (define ticks 0)
   (d-PushPosition)
   (if (d-GoToSelectionStart)
-	(set! ticks (let loop ((ticks 0))
+	(let loop ((ticks 0))
 		(set! ticks (+ ticks (d-GetDurationInTicks)))
 		(if (d-NextSelectedObject)
 			(loop ticks)
-			ticks
+			(begin  (d-PopPosition) ticks)
 		)
-	))
+	)
+	#f ; no selection
     )
-    (d-PopPosition)
-    ticks
+
 )
 
 (define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
