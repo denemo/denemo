@@ -1,3 +1,29 @@
+2010-11-24 Release 0.8.22:
+	    *  Playback Improvements
+          o playback in historic tunings, microtonal music playback.
+          o mute selected voices during playback 
+    * Denemo Display improvements
+          o Whole Measure Rests fills measure for all timesignatures
+          o Upbeat (Anacrusis, pickup) command now fills measure
+          o Vector graphics for Directives Graphics Fonts
+          o Fully justified page display.
+          o Better display for 1-line staffs (e.g. Drum staff) 
+    * Breve, Longa notes and rests
+          o Prevailing duration applies to Breve, Longa, Plain chant etc Prevailing Duration 
+    * Template for Accordion Shifts
+    * Improved Handling of Voices
+    * More Printing Controls
+          o Change/override the printed measure numbering
+          o Hide single printed objects (notes/chords, timesignatures, keysignatures, clefs)
+          o Hide linear section of notes or the stafflines (or both).
+          o Breath mark
+          o "Mensurstriche" / Mensural Barlines switchable (printing) 
+    * Human-readable file format for Denemo files.
+    * Bugfixes
+          o Playback paging made reliable
+          o Check note pitches fixed
+          o Lyrics panes word wrap 
+
 2010-10-04 Release 0.8.20:
 	*  Improved cursor, showing insert position and clearly distinguishing appending from editing/inserting
 	* Two key keyboard shortcuts Two Key Shortcuts
