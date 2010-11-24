@@ -17,6 +17,23 @@
 
 (define DenemoKeypressActivatedCommand #f);;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
 
+
+;;;;;; Helper functions for scripters
+(define (blank)
+	(system "clear"))
+
+(define disp (lambda args
+   (letrec ((disp-in (lambda (arg) 
+              (if (null? arg) 
+                  #f 
+                  (begin 
+                     (display (car arg)) 
+                     (disp-in (cdr arg))))))) 
+		     (disp-in args)
+		     (newline))))
+
+
+
 ;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
 "Staff"
@@ -1365,7 +1382,7 @@
 	(-  (* 2 baseTicks) (/ baseTicks (expt 2 numberOfDots)))
 )
 
-; Calculate how many notes a tick value has. Needs base duration, too.
+; Calculate how many dots a tick value has. Needs base duration, too.
 (define (duration::CalculateDotsFromTicks ticks base)
 ; x = base , y = ticks. result is the number of dots
 ; log(x/(2*x-y))  / log(2)
@@ -1420,4 +1437,6 @@
  (set! return (duration::inexact->exact return))
  (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))) 
 )
+
+
 ;;;;;;;;;; End of duration-conversion
