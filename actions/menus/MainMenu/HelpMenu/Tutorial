@@ -8,7 +8,7 @@
         <after>IRC</after>
         <action>Tutorial</action>
         <scheme>(d-New)
-(d-InfoDialog "Tutorial:  Dismiss this box and hit a Duration key 0, 1, 2, 3,4,5,6\nOr choose New from the File menu to get on with creating a score")
+(d-InfoDialog "Tutorial:  Dismiss this box and hit a Duration key 0, 1, 2, 3,4,5,6\nOr hit some other key to get on with creating a score")
 (define thechar (d-GetChar))
 (define thenumber (string-&gt;number thechar))
 (if  thenumber
