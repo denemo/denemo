@@ -6,26 +6,34 @@
     <map>
       <row>
         <action>Preview4Bars</action>
-        <scheme>(let ((N 4)) ;set N to be number of bars to preview
+        <scheme>
+(let ((N 4)(Extra? #t)) ;set N to be number of bars to preview
 (define (MoveRightNBars NumBars)
 	(if (&gt; NumBars 0)
 		(begin 	
 			(d-MoveToMeasureRight)
 			(MoveRightNBars (- NumBars 1)))
 ))
-(d-TypesettingOn) ;shows this bar and the next 2-by DRW
+(d-PushPosition)
+(while (d-MoveToStaffUp))	
+(while (d-PrevObjectInMeasure))	;make sure we get to start o' bar.
+(d-TypesettingOn)
+ (d-MoveCursorLeft)	;get on the typesetting directive
 (d-PushPosition)
 (MoveRightNBars N)
 (d-TypesettingOff)
+(d-MoveCursorLeft)
 (d-PushPosition)
 (d-MoveToBeginning)
-(d-TypesettingOff)
+(if (d-DirectiveGet-standalone-postfix "TypesetOn") (set! Extra? #f)) ;if going to the beginning, we ended up on top of the TypesettingOn, we don't do this TypeOff:
+(if Extra? (begin (d-TypesettingOff) (d-MoveCursorLeft)))
 (d-PrintPreview)
-(d-DeleteObject)
+(d-DirectiveDelete-standalone "TypesetOff")	
 (d-PopPosition)
-(d-DeleteObject)
+(d-DirectiveDelete-standalone "TypesetOff")	
 (d-PopPosition)
-(d-DeleteObject)
+(d-DirectiveDelete-standalone "TypesetOn")	
+(d-PopPosition)
 ) ;let</scheme>
         <label>Preview Four Measures</label>
         <tooltip>Print preview of current bar and the next three.</tooltip>
