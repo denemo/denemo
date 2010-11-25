@@ -173,6 +173,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     gui->si->cursor_x++;
   }
   // g_print("objnum %d\n",objnum);
+  if(objnum>0)
   gui->si->cursor_x+=objnum;
   if(!gui->si->currentobject)
     return FALSE;
