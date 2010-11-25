@@ -386,7 +386,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_PRINT", "Displays the final finished score for the current part (that is current staff", N_("PrintPart"), "printpart_cb", N_("Print Part")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_CLOSE", "Close the current score. Other windows will stay open", N_("Close"), "close_gui_with_check", N_("Close Score")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_QUIT", "Quit the Denemo program", N_("Quit"), "closewrapper", N_("Quit")}, 
-  {CMD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undo", N_("Undo"), "undowrapper", N_("Undo")}, 
+  {CMD_CATEGORY_DIRECT, "GTK_STOCK_UNDO", "Undoes the insert/delete of last note", N_("Undo"), "undowrapper", N_("Undo/Redo Last Note")}, 
   {CMD_CATEGORY_DIRECT, "GTK_STOCK_REDO", "Redo", N_("Redo"), "redowrapper", N_("Redo")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Selecting stretches of notes", N_("Select"), NULL, N_("Select")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Extend the selection", N_("ExtendSelect"), NULL, N_("Extend Selection")}, 

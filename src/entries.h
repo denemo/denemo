@@ -257,7 +257,7 @@
 {"PrintPart", GTK_STOCK_PRINT, N_("Print Part"), NULL,N_("Displays the final finished score for the current part (that is current staff"),G_CALLBACK (printpart_cb)},
 {"Close", GTK_STOCK_CLOSE, N_("Close Score"), NULL,N_("Close the current score. Other windows will stay open"),G_CALLBACK (close_gui_with_check)},
 {"Quit", GTK_STOCK_QUIT, N_("Quit"), NULL,N_("Quit the Denemo program"),G_CALLBACK (closewrapper)},
-{"Undo", GTK_STOCK_UNDO, N_("Undo"), NULL,N_("Undo"),G_CALLBACK (undowrapper)},
+{"Undo", GTK_STOCK_UNDO, N_("Undo/Redo Last Note"), NULL,N_("Undoes the insert/delete of last note"),G_CALLBACK (undowrapper)},
 {"Redo", GTK_STOCK_REDO, N_("Redo"), NULL,N_("Redo"),G_CALLBACK (redowrapper)},
 {"Select", NULL, N_("Select"), NULL,N_("Selecting stretches of notes")},
 {"ExtendSelect", NULL, N_("Extend Selection"), NULL,N_("Extend the selection")},

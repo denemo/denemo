@@ -102,6 +102,7 @@
       <menuitem action="Cut"/>
       <menuitem action="Copy"/>
       <menuitem action="Paste"/>
+      <menuitem action="Undo"/>
 
       
      <menuitem action="PasteClipboard"/>
