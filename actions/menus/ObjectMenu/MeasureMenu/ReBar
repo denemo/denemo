@@ -6,18 +6,60 @@
     <map>
       <row>
         <action>ReBar</action>
-        <scheme>;Rebar-repartitions the measures, by DW, trivial mods by RTS
+        <scheme>;RebarAmalgam2
+;Rebar-repartitions the measures, searches for under/overfull, pad with rests, by DW, trivial mods by RTS
 ;FIXME-currently no support for nested tuplets
-;EV2
-;fixed:cancel didn't cancel, removed unused variables
 ;notes: (d-GetType) returns CHORD TIMESIG LILYDIRECTIVE TUPOPEN TUPCLOSE (tuplets) Appending
 ;Variable descriptions:
 ;SplitAll set to #f allows user to decide whether to split across barlines; set to #t, splits always.
 ;TupletScaleFactor: e.g. if we're inside a triplet, scale durations by 2/3
-;TupletList: lists tuplet scale factors currently active; eventually use for nested tuplets.
-;NumTuplets: number of nestings of tuplets. 0 when no tuplets, 1 when inside a triplet, etc...
 
-(let ( (Input #f) (InitialTimeSig 1) (RebarAll #f)(SplitAll #f) (TupletScaleFactor 1)  (TupletList #f) (NumTuplets 0) )
+(let ( (Input1 #f) (Input2 #f) (InitialTimeSig 1) (ScanAllStaffs #f) (TupletScaleFactor 1)  
+(SplitAll #f))
+ 	
+;MakeBlankRestDuration: makes a tied rest conglomerate of total duration Duration.
+;IsConsecutive is set to #t when it recurses in order to make it add a dot instead of adding the next TryDuration.  Externally, call it always set to #f
+;externally, call with TryDuration=0 to start with trying out whole notes.  Internally it will crank this up as it recurses.
+
+(define (MakeRest Duration TryDuration Type)  ;set Type to "Blank" to get blanks.
+	(begin
+		(if (not (equal? TupletScaleFactor 1)) 
+			(begin
+				(d-InfoDialog "There are unclosed tuplets in this bar.\n Please fix.")
+				#f	;terminate
+			)
+		)
+		(if (and (&gt; Duration 0) (equal? (remainder 256 (denominator Duration)) 0)  ) ;check for valid Duration
+			(begin	;when Duration is a valid duration...			
+
+				(if  (&lt;= (expt 1/2 TryDuration) Duration)	;see if we should add note of length TryDuration 
+					(begin
+						(InsertRest TryDuration Type)	
+						(set! Duration (- Duration (* (expt 1/2 TryDuration) TupletScaleFactor)));now modify true Duration by what we just added.
+						
+					)
+				)
+				(if (&lt;= TryDuration 8) 
+					(MakeRest Duration (+ 1 TryDuration) Type)
+				)			
+			)
+			#f				
+		)
+	);let
+)
+
+(define (InsertRest  Duration Type) ;inserts a rest of duration TryDuration, and makes it tied. denom of Duration must be power of 2.
+
+	(if (equal? Type "Blank") (d-InsertBlankWholeNote)  (d-InsertWholeRest) )	;Insert correct type
+	(if (equal? (d-GetType) "Appending")  (d-MoveCursorLeft))  ;now we're on it. (Don't need to go left if we're not appending)
+	(while (&gt; Duration 0) ;we keep diminishing until we got it.
+		(begin
+			(d-Diminish)
+			(set! Duration (- Duration 1))
+		)
+	)
+	;(d-MoveCursorRight)
+)
 
 ;SplitIntoNext:splits a measure by inserting a barline, ending in next bar
 (define (SplitIntoNext) ;custom version of SplitIntoNext used here
@@ -116,18 +158,21 @@
 	(if (equal? Side "Right") (d-MoveCursorRight) )
 )
 
-;Now here's the rebarring function:
 
-(define (RebarThisStaff TimeSig) 
+;Now here's the function:
+
+(define (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;;set Pad? to #t if we should add blanks to underfull bars. 
 (let ( (Counter 0) (Excess 0) (LeftOver 0)(Inquiry #f))
 	;Counter keeps track of the duration of the notes of the bar as we proceed chord by chord.	
-
+	
 	;Debugger can be useful for bug-fixing
 	(define (Debugger)
+		(begin (d-RefreshDisplay)
 		(if (not (d-GetUserInput "Debug Message" 
-			(string-append "Counter:" (number-&gt;string Counter) "\nTupletScaleFactor:" (number-&gt;string TupletScaleFactor)
+			(string-append "Counter:" (number-&gt;string Counter) "\nTupletScaleFactor:" (number-&gt;string TupletScaleFactor) "\nTimeSig:" (number-&gt;string
+				TimeSig)
 			 ) "Hit OK when ready" ) ) (#f) ) 
-	)
+	))
 	
 	(define (GetTimeSigChange)
 		(set! TimeSig (string-&gt;number (d-InsertTimeSig "query=timesigname") ))
@@ -145,23 +190,21 @@
 			 (- TimeSig AnacrusisSize)	;return this:it's how much space the Anacrusis accounts for.
 		)
 	)
-	
-	(define (NextBreakInMeasure) ;move to next object in measure, skipping TUPCLOSEs, return #t if there is one.
-		(let ((Moved #f))
-			(while (and 
-				(d-NextObjectInMeasure) 
-				(set! Moved #t)
-				(if (equal? (d-GetType) "TUPCLOSE")
-					(begin
-						(CloseTuplet)
-						#t	;return true so will loop again.
-					)
-					#f
+		
+	(define (NextBreakInMeasure) ;move to next object in measure, skipping objects of no duration, return #t if we found something with nonzero duration
+		(let ((GNB 0)(Moved #f))
+			(while 
+				(and 
+					(d-NextObjectInMeasure) 
+					(set! Moved #t)	;make sure we know we moved
+					(equal? (GetNoteBeat) 0)	;do this so we don't run GetNoteBeat twice on same object (it could mess up counts?)
+
 				)
-			))
-			(and Moved (not (equal? (d-GetType) "TUPCLOSE")))	;return true if we moved and reached a non TUPCLOSE.
+			)
+			(and Moved (not (equal? (GetNoteBeat) 0))) 	;return #t if we Moved and found something with nonzero duration
 		)
 	)
+	
 	(define (GetNoteBeat )	;get duration of a note as a fraction of a whole note, e.g. dotted quarter = 3/8
 		(let ((note 0) (len 0 ) (DotIndex 0) (NumDots 0) (NoteBeat 0))
 			(begin
@@ -178,7 +221,7 @@
 			(if (equal? (d-GetType) "TUPOPEN") ;FIXME-no support for nested tuplets.
 				(begin
 					(set! TupletScaleFactor (string-&gt;number (d-GetTuplet))) ;FIXME-allow nested tuplets.
-					(set! NumTuplets (+ 1 NumTuplets))
+					
 				)
 			)
 			(if (and 	(equal? (d-GetType) "LILYDIRECTIVE") 
@@ -219,7 +262,6 @@
 	(define (CloseTuplet)
 		(begin 
 			(set! TupletScaleFactor 1) ;FIXME-doesn't allow nested tuplets.
-			(set! NumTuplets (+ -1 NumTuplets))
 		)
 	)
 	(define (LoopThroughBar)   ;stops once we've met or surpassed the measure size, or run out of new notes.
@@ -231,118 +273,167 @@
 			)
 		)
 	)
-	;here's the actual rebarring algorithm
+	;here's the actual algorithm
 	(while (d-PrevObjectInMeasure))	;go to beginning of measure
 	(set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
 	(LoopThroughBar)	;then loop through the rest of the bar until counter equals or overshoots the measure size in TimeSig,
 					; or the measure's done being processed
-	(if (&lt; Counter TimeSig) ;if measure too small, 		
-		(if (d-MoveToMeasureRight)  ;we see if there is a next measure; if so we want to merge the two and redo this measure.
-			(begin
-				(d-MoveCursorLeft) ;move onto the barline 
-				(CustomDeleteBarline) ;delete it
-				(RebarThisStaff TimeSig) ;now do the measure again 
-			)
-			#t	;return true if there's no more, we're done with staff.
-		) 
-		;if it wasn't too small...
-		(if  (= Counter TimeSig) ; and if measure is exactly full now...
-			(if (NextBreakInMeasure) ;if there's extra stuff that can be removed,
+
+	
+		  (if (&lt; Counter TimeSig) ;if measure too small, (going back first)
+			(if Pad? 	; and the user wants us to pad,
 				(begin
-					(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
-					(SplitIntoNext) ;cut off extra stuff (ending up in next bar)
-					(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
-					(RebarThisStaff TimeSig) 	; rebar from that point onward.						
-				)
-				(begin	;if there's not extra stuff in this measure...
-					(d-MoveCursorRight)
-					(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
-					(if (d-MoveToMeasureRight) ;if there's another measure...
-						(begin 
-							(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
-							(RebarThisStaff TimeSig) ;having gone on to next measure, rebar again.
-						)
+					(if (not (or (equal? (d-GetType) "None") (equal? (d-GetType) "Appending"))) 
+						(d-MoveCursorRight) )	;Get to end of bar, past last object.
+					(if Blank?
+						(MakeRest (- TimeSig Counter) 0 "Blank")	;fill 'er up
+						(MakeRest (- TimeSig Counter) 0 "" )
+					)
+					(if (d-MoveToMeasureRight)
+						(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;if not done, move on and go from there.
+						#t		;otherwise return true
+					)
+				)	
+				(if MergeAndSplit?	;if user wants to merge/split,
+					(if (d-MoveToMeasureRight)  ;we see if there is a next measure; if so we want to merge the two and redo this measure.
 						(begin
-							(d-MoveCursorLeft)
-							(d-DeleteObject)	;if we were in final measure, delete the EndTuplet we just put in.
-							#t	;make sure we return true-done with staff.
+							(d-MoveCursorLeft) ;move onto the barline 
+							(CustomDeleteBarline) ;delete it
+							(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);now do the measure again 
+						)
+						#t	;return true if there's no more, we're done with staff.
+					)
+					;if NOT supposed to merge/split...
+					(if (d-MoveToMeasureRight)	;see if at end of staff.
+						(begin				;if not at end of staff...
+							(d-MoveToMeasureLeft)
+							#f	;if we're not supposed to pad or merge/split, stop here.  This measure had prob's
+						)
+						#t		;otherwise, staff is good.
+					)
+					
+				)
+			
+			)
+			;if it wasn't too small...
+
+			(if  (equal? Counter TimeSig) ; and if measure is exactly full now...
+				(if (NextBreakInMeasure) ;see if there's extra stuff that has duration,
+					(if MergeAndSplit?	;if there IS and we're supposed to merge/split...
+						(begin
+							(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
+							(SplitIntoNext) ;cut off extra stuff (ending up in next bar)
+							(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
+							(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) 	; rebar from that point onward.						
+						)
+						#f	;if user doesn't want us to split,return false.
+							; this bar is over-full, user will fix.
+					)
+					(begin	;if there's NOT extra stuff in this measure...
+
+						(d-MoveCursorRight)
+						(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
+		
+						(if (d-MoveToMeasureRight) ;if there's another measure...
+							(begin 
+
+								(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
+								(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);having gone on to next measure, rebar again.
+							)
+							#t	;make sure we return true-done with staff.							
 						)
 					)
 				)
-			)			
-			(if (&gt; Counter TimeSig) ; if the measure break should fall in middle of a note... we've gotta split the note we're on.
-				(begin
-					(set! Excess (- Counter TimeSig)) ;this is how much of that note to put in next measure,						
-					(if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
-						(begin
-							;query the user: should we split the note, or let him/her do it?				
-							(if (not SplitAll) (set! Inquiry (d-GetOption (string-append "Split This Note" stop "Split All" stop "Stop Here" stop))) )
-							;need to stop if we hit cancel
-							(if (equal? Inquiry "Split All") (set! SplitAll #t))
-							(if (or SplitAll (equal? Inquiry "Split This Note") (equal? Inquiry "Split All")) 
-								(begin	;we're going to split across the barline and march on.
-									(set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.		
-									(if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
-										(begin
-											(SplitIntoNext)
-											;now go back onto the note that should be split by barline.
-											(d-MoveToMeasureLeft)
-											(d-MoveToMeasureRight)
-											(d-MoveCursorLeft)	;now on barline.
-											(d-MoveCursorLeft) ;now we're back on the last note of that bar.
+
+				(if (and MergeAndSplit? (&gt; Counter TimeSig)) ; if the measure is overfull, see if want to split.
+					(begin
+						(set! Excess (- Counter TimeSig)) ;this is how much of that note to put in next measure,						
+						(if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
+							(begin
+								;query the user: should we split the note, or let him/her do it?				
+								(if (not SplitAll) (set! Inquiry (d-GetOption (string-append "Split This Note" stop "Split All" stop "Stop Here" stop))) )
+								;need to stop if we hit cancel
+								(if (equal? Inquiry "Split All") (set! SplitAll #t))
+								(if (or SplitAll (equal? Inquiry "Split This Note") (equal? Inquiry "Split All")) 
+									(begin	;we're going to split across the barline and march on.
+										(set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.		
+										(if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
+											(begin
+												(SplitIntoNext)
+												;now go back onto the note that should be split by barline.
+												(d-MoveToMeasureLeft)
+												(d-MoveToMeasureRight)
+												(d-MoveCursorLeft)	;now on barline.
+												(d-MoveCursorLeft) ;now we're back on the last note of that bar.
+											)
 										)
+										;now we gotta get a copy of the note to split.
+										(d-SetMark)
+										(d-Cut) ;now the right note's cut onto the clipboard...
+										(MakeDuration LeftOver "Left" 0 #f)	;syntax to add custom duration to each measure, shortest durations to left.
+										(if (not (= TupletScaleFactor 1))  ;end the tuplets in this bar if need be, restart in next...
+											(begin (d-MoveCursorRight) (d-EndTuplet)) )							
+										(if (not (d-MoveToMeasureRight)) (d-InsertMeasureAfter))	;need to add a new measure if it ain't there.
+										(if (not (= TupletScaleFactor 1)) ;start the tuplets in next bar if need be.
+											(R-StartTuplet TupletScaleFactor) )
+										(MakeDuration Excess "Right" 0 #f)	;add with shortest durations on right
+										(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;continue 							
 									)
-									;now we gotta get a copy of the note to split.
-									(d-SetMark)
-									(d-Cut) ;now the right note's cut onto the clipboard...
-									(MakeDuration LeftOver "Left" 0 #f)	;syntax to add custom duration to each measure, shortest durations to left.
-									(if (not (= TupletScaleFactor 1))  ;end the tuplets in this bar if need be, restart in next...
-										(begin (d-MoveCursorRight) (d-EndTuplet)) )							
-									(if (not (d-MoveToMeasureRight)) (d-InsertMeasureAfter))	;need to add a new measure if it ain't there.
-									(if (not (= TupletScaleFactor 1)) ;start the tuplets in next bar if need be.
-										(R-StartTuplet TupletScaleFactor) )
-									(MakeDuration Excess "Right" 0 #f)	;add with shortest durations on right
-									(RebarThisStaff TimeSig)	;continue 							
+									#f ;if user cancelled or Stopped Here, return false
 								)
-								#f ;if user cancelled or Stopped Here, return false
 							)
-						)
-						(begin
-							(d-InfoDialog "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again.")
-							#f	;return false
-						)
-					)					
+							(begin
+								(d-InfoDialog "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again.")
+								#f	;return false
+							)
+						)					
+					)
+					
+					#f	;just return false if they don't want to Merge/Split.
 				)
+			)
+			
+		)
+	)
+) ;define AuditThisStaff
+
+;now actually do it:
+(let ((Pad #f) (Blank #f)(MergeAndSplit #f))
+	(set! Input1 (d-GetOption (string-append "Search for under/overfull bars" stop 
+				"Pad underfull bars with rests" stop "Pad underfull bars with blank rests"  stop
+				"Rebar-Merge underfull, split overfull bars" stop)))
+	(set! Blank (equal? Input1 "Pad underfull bars with blank rests"))
+	(set! Pad (or (equal? Input1 "Pad underfull bars with rests")(equal? Input1 "Pad underfull bars with blank rests" )))
+	(set! MergeAndSplit (equal? Input1 "Rebar-Merge underfull, split overfull bars"))
+	(if Input1 (set! Input2  (d-GetOption (string-append  "Entire Staff" stop "This Point Onwards"  stop "Entire Score" stop ))) )
+	(if (and Input1 Input2)  ;don't go if user cancelled
+		(begin
+			(if (equal? Input2 "Entire Score") (set! ScanAllStaffs #t))
+			(d-PushPosition)	;let's try to return cursor to here when done.
+			(if ScanAllStaffs (while (d-MoveToStaffUp)))	;Start at top staff, top voice
+			(if (not (equal? Input2 "This Point Onwards")) (d-MoveToBeginning))
+			(set! InitialTimeSig (d-InsertTimeSig "query=timesigname"))
+			(set! InitialTimeSig (string-&gt;number InitialTimeSig))
+			(let ((AllOK #t))
+				(if (not (AuditThisStaff InitialTimeSig Pad Blank MergeAndSplit)) (set! AllOK #f))
+				(while (and ScanAllStaffs AllOK (or (d-MoveToVoiceDown) (d-MoveToStaffDown))) ;RebarAll if appropriate.
+					(begin
+						(d-MoveToBeginning)
+						(if (not (AuditThisStaff  InitialTimeSig Pad Blank MergeAndSplit) ) (set! AllOK #f))	;if AuditThisStaff returns #f, need to stop.
+						)
+					)
+				(if AllOK 
+					(d-PopPosition)	;end where we began, unless there were problems.
+					)
 			)
 		)
 	)
 )
-) ;define RebarThisStaff
-;now actually do it:
-	(set! Input (d-GetOption (string-append "Entire Staff" stop "From This Point Onwards" stop "All Staves" stop)))
-	(if Input ;don't go if user cancelled
-	(begin
-		(if (equal? Input "All Staves") (set! RebarAll #t))
-		(d-PushPosition)	;let's try to return cursor to here when done.
-		(if RebarAll (while (d-MoveToStaffUp)))	;Start at top staff, top voice
-		(if (not (equal? Input "From This Point Onwards")) (d-MoveToBeginning))
-		(set! InitialTimeSig (d-InsertTimeSig "query=timesigname"))
-		(set! InitialTimeSig (string-&gt;number InitialTimeSig))
-		(let ((AllOK #t))
-			(if (not (RebarThisStaff InitialTimeSig)) (set! AllOK #f))
-			(while (and RebarAll AllOK (or (d-MoveToVoiceDown) (d-MoveToStaffDown))) ;RebarAll if appropriate.
-				(begin
-					(d-MoveToBeginning)
-					(if (not (RebarThisStaff  InitialTimeSig) ) (set! AllOK #f))	;if RebarThisStaff returns #f, need to stop.
-				)
-			)
-			(if AllOK (d-PopPosition))	;end where we began, unless there were problems.
-		)
-	)
-	)
 )	;let</scheme>
-        <label>Adjust the Measure Lengths</label>
-        <tooltip>Removes gaps in duration of measures, redistributes the notes according to the time signature.</tooltip>
+        <label>Audit Measures</label>
+        <tooltip>Search for over/underfull bars, pad with rests if desired, or \n
+        redistributes the notes into measures\naccording to the time signature (rebar).
+        </tooltip>
       </row>
     </map>
   </merge>
