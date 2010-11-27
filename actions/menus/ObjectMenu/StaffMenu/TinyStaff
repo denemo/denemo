@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>SmallerStaff</after>
+        <action>TinyStaff</action>
+        <scheme>;;;;;;;;;;;;;;;;TinyStaff
+(if (d-DirectiveGetForTag-staff "StaffSize")
+	(begin
+ 	(d-DirectiveDelete-staff "StaffSize")
+ 		(if (defined? 'd-ShowFiguredBass)
+  			(d-ShowFiguredBass)))
+        (begin
+  		(d-DirectivePut-staff-prefix "StaffSize" "\\new Staff \\with {\n
+     		   fontSize = #-7\n
+     		   \\override StaffSymbol #'staff-space = #(magstep -7)\n}\n &lt;&lt; {")
+	(d-DirectivePut-staff-override "StaffSize" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))
+	(d-DirectivePut-staff-display "StaffSize" "Smaller Staff")
+	(if (defined? 'd-HideFiguredBass)
+		(d-HideFiguredBass))))
+(d-RefreshDisplay)
+
+</scheme>
+        <label>Tiny Staff</label>
+        <tooltip>Prints current staff in a tiny font.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
