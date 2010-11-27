@@ -1491,3 +1491,42 @@
 )
 
 
+;;;;;;;;;;;;;;
+
+
+(define MIDI-shortcuts::alist '(("" . "")))
+(define (SetMidiShortcut shortcut command)
+	(set! MIDI-shortcuts::alist (assoc-set! MIDI-shortcuts::alist shortcut command)))
+
+(SetMidiShortcut "FootpedalUp" #f)
+(SetMidiShortcut "FootpedalDown" #f)
+
+(define (MIDI-shortcut::controller type value)
+;;(format #t "controller type ~a value ~a\n" type value)
+  (cond ((and (equal? type 64) (equal? value 127))
+    	  (assoc-ref MIDI-shortcuts::alist "FootpedalUp"))
+        ((and (equal? type 64) (equal? value 0))
+    	  (assoc-ref MIDI-shortcuts::alist "FootpedalDown"))
+
+        ((equal? type 1)
+	 (let ((thestep  (round(/ (- value 64) 16))))
+	 (PlayNote  
+	  (number->string  (+ 60 (* 4 thestep) ))
+	  100)
+	     
+	 (eval-string (string-append "(d-SetEnharmonicPosition " (number->string  thestep) ")"))
+         #f)
+        )
+
+
+      (else #f)))
+
+
+(define (MIDI-shortcut::pitchbend value)
+(format #t "pitch bend value ~a\n" value)
+  (cond ((> value 8192)
+    	  (assoc-ref MIDI-shortcuts::alist "PitchUp"))
+         ((< value 8192)
+    	  (assoc-ref MIDI-shortcuts::alist "PitchDown"))
+      (else #f)))
+

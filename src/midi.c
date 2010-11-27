@@ -345,8 +345,8 @@ gboolean set_midi_capture(gboolean set) {
 }
 
 #define command ((*buf)&0xF0)
-#define notenumber ((*(buf+1))&0xFF)
-#define velocity ((*(buf+2))&0xFF)
+#define notenumber ((*(buf+1))&0x7F)
+#define velocity ((*(buf+2))&0x7F)
 void process_midi_event(gchar *buf) {
   //g_print("process midi (%s) %x %x %x\n",divert_midi_event?"diverted":"straight", command, notenumber, velocity);
   if(divert_midi_event &&  divert_midi_id==Denemo.gui->id){
@@ -359,7 +359,7 @@ void process_midi_event(gchar *buf) {
 
   if(command==MIDI_NOTEON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
     buf[0]=MIDI_NOTEOFF;
-    buf[2]=128;
+    buf[2]=128;//FIXME 127
   }
   
   if(midi_capture_on) {
@@ -370,6 +370,20 @@ void process_midi_event(gchar *buf) {
   } else {
     if(command==MIDI_NOTEON)
       store_midi_note(notenumber);
+    else if(command==MIDI_CTL_CHANGE) {
+      gchar *command_name = get_midi_control_command(notenumber, velocity);
+      if(command_name)
+      //FIXME what sort of free? g_free(command_name);
+	execute_callback_from_name(Denemo.map, command_name);
+
+    } else if(command==MIDI_PITCH_BEND) {
+      gchar *command_name = get_midi_pitch_bend_command((notenumber<<7) + velocity);
+      if(command_name)
+      //FIXME what sort of free? g_free(command_name);
+	execute_callback_from_name(Denemo.map, command_name);
+
+      ;//the same
+    }
   }
 }
 

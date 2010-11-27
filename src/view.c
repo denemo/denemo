@@ -833,6 +833,15 @@ static SCM scheme_get_temperament(void) {
   return ret;
 }
 
+static SCM scheme_set_enharmonic_position(SCM position) {
+  if(scm_integer_p(position)) {
+     gint pos = scm_num2int(position, 0, 0);
+     set_enharmonic_position(pos);
+     return SCM_BOOL_T;
+    }
+    return SCM_BOOL_F;		      
+}
+
 
 static SCM scheme_get_midi_on_time(void) {
   if(!(Denemo.gui->si->currentobject))
@@ -3072,6 +3081,26 @@ SCM scheme_locate_dotdenemo (SCM optional) {
   return scm;
 }
 
+gchar *get_midi_control_command(guchar type, guchar value) {
+  gchar *command = g_strdup_printf("(MIDI-shortcut::controller %d %d)", type, value);
+  SCM scm = scm_c_eval_string(command);
+  g_free(command);
+  if(scm_is_string(scm)) {
+    return scm_to_locale_string(scm);
+  }
+  return NULL;
+}
+gchar *get_midi_pitch_bend_command(gint value) {
+  gchar *command = g_strdup_printf("(MIDI-shortcut::pitchbend %d)", value);
+  SCM scm = scm_c_eval_string(command);
+  g_free(command);
+  if(scm_is_string(scm)) {
+    return scm_to_locale_string(scm);
+  }
+  return NULL;
+}
+
+
 gchar* process_command_line(int argc, char**argv);//back in main
 
 static void define_scheme_constants(void) {
@@ -4057,6 +4086,9 @@ INSTALL_EDIT(movementcontrol);
 
 
   INSTALL_SCM_FUNCTION ("Takes a double or string and scales the volume; returns the volume set ", DENEMO_SCHEME_PREFIX"MasterVolume", scheme_master_volume);
+
+  INSTALL_SCM_FUNCTION ("Takes a integer sets the enharmonic range to use 0 = E-flat to G-sharp ", DENEMO_SCHEME_PREFIX"SetEnharmonicPosition", scheme_set_enharmonic_position);
+
 
   INSTALL_SCM_FUNCTION ("Return a string of tuning bytes (offsets from 64) for MIDI tuning message", DENEMO_SCHEME_PREFIX"GetMidiTuning", scheme_get_midi_tuning);
   INSTALL_SCM_FUNCTION ("Return name of flattest degree of current temperament", DENEMO_SCHEME_PREFIX"GetFlattest", scheme_get_flattest);
