@@ -1330,7 +1330,6 @@
 ;;;;;;;;;;;;;;; End Shuffle
 
 
-
 (define (lyimport::load-file pathname filename)
   (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
@@ -1442,7 +1441,7 @@
 
 ;;;;;;;; Applied duration scripts
 (define (duration::GetNumberOfDotsInTicks)
-	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (d-GetBaseDurationInTicks)))
+	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (abs (d-GetBaseDurationInTicks))))
 
 (define (duration::GetSelectionDurationInTicks) 
   (d-PushPosition)
@@ -1461,7 +1460,7 @@
 
 (define* (duration::ChangeNoteDurationInTicks ticks #:optional (dots 0))
 ; First change the base-duration. The d-Change commands also delete any dots.
-  (define (changeBase) (case ticks
+  (define (changeBase number) (case number
    ;((12288) (d-ChangeMaxima))  ;Maxima
    ((6144)	(d-ChangeLonga)) ; Longa
    ((3072)	(d-ChangeBreve)) ; Breve
@@ -1479,7 +1478,7 @@
  
 ; Second add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (string-ci=? (d-GetType) "CHORD") (integer? dots)(changeBase))
+  (if (and (string-ci=? (d-GetType) "CHORD") (integer? dots)(changeBase ticks))
   (let loop ((i 0))
 	(if (= dots i)
 	#t
@@ -1529,4 +1528,3 @@
          ((< value 8192)
     	  (assoc-ref MIDI-shortcuts::alist "PitchDown"))
       (else #f)))
-
