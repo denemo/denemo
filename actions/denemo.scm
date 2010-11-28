@@ -124,15 +124,11 @@
 
 (define (NextSelectedObjectAllStaffs)
 	(if  (not (d-NextSelectedObject)) 
-		(if  (and (d-MoveToStaffDown) (d-NextSelectedObject) (d-PrevSelectedObject))
-		(begin 
-		 (let loop ()
-			(if (d-PrevSelectedObject)
-				(loop)))
-		#t); block end. 
-		#f ; if !StaffDown
-		); fi StaffDown
-	#t ;NextSelecetedObject was succesful
+	  (if  (and (d-MoveToStaffDown) (d-IsInSelection))
+		 (selection::MoveToStaffBeginning) ; there is a selection a staff down, loop to the beginning
+		#f ; there is no staff down or the selection is single staff.
+		)
+	  #t ;NextSelecetedObject was succesful
 	)
 )
 
