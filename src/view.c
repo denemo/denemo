@@ -1184,6 +1184,19 @@ SCM scheme_put_whole_measure_rests (void) {
   }
 }
 
+SCM scheme_get_dots(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ note *thenote;
+ gint duration;
+ gint numdots = 0;
+ gchar *str;
+ if(!Denemo.gui || !(Denemo.gui->si) || !(Denemo.gui->si->currentobject) || !(curObj = Denemo.gui->si->currentobject->data) || (curObj->type!=CHORD) || !(thechord = (chord *)  curObj->object))
+   return  SCM_BOOL_F;
+ return scm_int2num(thechord->numdots);
+}
+
 SCM scheme_get_note_duration(void){
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -3442,6 +3455,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX"PutWholeMeasureRests",  scheme_put_whole_measure_rests);
   INSTALL_SCM_FUNCTION ("returns LilyPond representation of the (highest) note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNote",  scheme_get_note);
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
+  INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note",DENEMO_SCHEME_PREFIX"GetDots", scheme_get_dots);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
   INSTALL_SCM_FUNCTION1 ("Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted",DENEMO_SCHEME_PREFIX"SetDurationInTicks", scheme_set_duration_in_ticks);
 
