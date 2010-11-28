@@ -1446,7 +1446,7 @@
 	   
 
 (define (duration::GetBaseDurationInTicks)
-	(define ticks (d-GetBaseDuration))
+	(define ticks (d-GetBaseDurationInTicks))
 	(if ticks
 		(abs ticks)
 		#f)
