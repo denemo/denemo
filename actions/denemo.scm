@@ -133,6 +133,24 @@
 )
 
 
+(define (selection::MoveToStaffBeginning)
+(d-PushPosition)
+ (if (d-GoToSelectionStart) ; Test if there is a selection at all
+	(begin
+		(d-PopPosition); return to the initial position to go to the correct staff
+		(d-PushPosition); save it again in case that there is no selection in this staff.
+		(d-MoveToBeginning)
+		(let loop ()  ; Real work begins here. Loop through until you found it or end of staff.
+		  (if (d-IsInSelection) 
+		  	#t ; found the first note
+			(if (d-NextObject) (loop) ; prevent endless loop if reaching the end of a staff without selection present
+				(begin  (d-PopPosition) #f ))))  ; if end of staff and no selection return to initial position and return #f
+	)
+	(begin  (d-PopPosition) #f )   ; no selection at all. 
+	) ; fi GoToSelectionStart
+)
+
+
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
