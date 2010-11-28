@@ -2686,6 +2686,10 @@ static SCM scheme_is_slur_end (SCM optional) {
   return SCM_BOOL_T;
 }
 
+SCM scheme_is_in_selection (void) {
+  return SCM_BOOL(in_selection(Denemo.gui->si));
+}
+
 
 
 
@@ -2870,6 +2874,7 @@ SCM scheme_mark_status (SCM optional) {
   return SCM_BOOL(mark_status());
 
 }
+
 
 /* moves currentobject to object in the selection in the direction indicated by right.
    Steps over barlines (i.e. cursor_appending).
@@ -3425,6 +3430,7 @@ void inner_main(void*closure, int argc, char **argv){
 
   INSTALL_SCM_FUNCTION ("Returns #t if there is a chord with slur ending at cursor, else #f",DENEMO_SCHEME_PREFIX"IsSlurEnd",  scheme_is_slur_end);
 
+  INSTALL_SCM_FUNCTION ("Returns #t if the cursor is in the selection area, else #f",DENEMO_SCHEME_PREFIX"IsInSelection",  scheme_is_in_selection);
 
 
   INSTALL_SCM_FUNCTION ("Shifts the cursor up or down by the integer amount passed in",DENEMO_SCHEME_PREFIX"ShiftCursor",  scheme_shift_cursor);
