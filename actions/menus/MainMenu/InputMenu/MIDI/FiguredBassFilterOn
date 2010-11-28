@@ -41,10 +41,11 @@
 					   ;;  (d-PutMidi midi)
 					     (if (or (d-GetNonprinting) (= bassnote (d-GetNoteAsMidi)))
 					      (begin                  ;; note ok
-						(d-PushPosition)
-					     (d-PutMidi midi);;; (d-PlayMidiKey midi)
+						;(d-PushPosition)
+					     (d-PlayMidiKey midi)
+					     ;;;(d-PutMidi midi) ;; this will alter the enharmonic...
 					     ;;this will have advanced so go back
-					     (d-PopPosition)
+					    ;(d-PopPosition)
 					     )				   
 				    	      (begin                    ;; note wrong
 				    	  	 (set! bassnote 0)
@@ -78,7 +79,19 @@
 							(set! bassnote 0))
 						(begin
 				       (d-PlayMidiKey #xF01A01)
-				       (set! Figures (cons " | "  Figures))))))
+				       (set! Figures (cons " | "  Figures)))))
+				       
+				        (begin
+				     (if (and (= command #xB0)   (= note 1))
+				     	 (let ((thestep  (round(/ (- velocity 64) 16))))
+					   (PlayNote  
+					    (number-&gt;string  (+ 60 (* 4 thestep) ))
+					    100)
+	     
+					   (eval-string (string-append "(d-SetEnharmonicPosition " (number-&gt;string  thestep) ")"))))))
+				       
+				       
+				       
 		;;;;;;;;;;; End of Pedal Down		       	       
 				 ;;(d-PutMidi midi)
 				 
