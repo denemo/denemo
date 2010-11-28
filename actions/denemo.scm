@@ -1440,8 +1440,18 @@
 
 
 ;;;;;;;; Applied duration scripts
-(define (duration::GetNumberOfDotsInTicks)
-	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (abs (d-GetBaseDurationInTicks))))
+(define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
+	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks))
+)
+	   
+
+(define (duration::GetBaseDurationInTicks)
+	(define ticks (d-GetBaseDuration))
+	(if ticks
+		(abs ticks)
+		#f)
+)
+	   
 
 (define (duration::GetSelectionDurationInTicks) 
   (d-PushPosition)
@@ -1478,15 +1488,15 @@
  
 ; Second add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (string-ci=? (d-GetType) "CHORD") (integer? dots)(changeBase ticks))
+  (if (and (string-ci=? (d-GetType) "CHORD") (integer? ticks) (integer? dots))
+  (begin  (changeBase ticks)
   (let loop ((i 0))
 	(if (= dots i)
 	#t
 	(begin
 	   (d-AddDot)  
-	   (loop (+ i 1)))
-	)
-  ))
+	   (loop (+ i 1))))))
+  #f)
 )
 
 
