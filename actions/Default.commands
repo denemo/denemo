@@ -4158,6 +4158,13 @@ right. </tooltip>
         <label>Tiny Staff</label>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>
+      <row>
+        <action>FreeFermata</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>(Print) Standalone Fermata (for barlines)</label>
+        <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
