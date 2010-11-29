@@ -18,7 +18,7 @@
    ;(d-DirectivePut-chord-minpixels "WholeMeasureRest" 0)
    (d-DirectivePut-chord-override "WholeMeasureRest" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))
    (d-DirectivePut-chord-postfix "WholeMeasureRest" (string-append "R1*" timesig))
-   (d-MoveCursorRight)
+   ;(d-MoveCursorRight)
    (d-SetSaved #f))
    </scheme>
         <label>Whole Measure Rest</label>
