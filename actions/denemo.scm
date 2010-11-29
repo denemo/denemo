@@ -124,16 +124,30 @@
 
 (define (NextSelectedObjectAllStaffs)
 	(if  (not (d-NextSelectedObject)) 
-		(if  (and (d-MoveToStaffDown) (d-NextSelectedObject) (d-PrevSelectedObject))
-		(begin 
-		 (let loop ()
-			(if (d-PrevSelectedObject)
-				(loop)))
-		#t); block end. 
-		#f ; if !StaffDown
-		); fi StaffDown
-	#t ;NextSelecetedObject was succesful
+	  (if  (and (d-MoveToStaffDown) (d-IsInSelection))
+		 (selection::MoveToStaffBeginning) ; there is a selection a staff down, loop to the beginning
+		#f ; there is no staff down or the selection is single staff.
+		)
+	  #t ;NextSelecetedObject was succesful
 	)
+)
+
+
+(define (selection::MoveToStaffBeginning)
+(d-PushPosition)
+ (if (d-GoToSelectionStart) ; Test if there is a selection at all
+	(begin
+		(d-PopPosition); return to the initial position to go to the correct staff
+		(d-PushPosition); save it again in case that there is no selection in this staff.
+		(d-MoveToBeginning)
+		(let loop ()  ; Real work begins here. Loop through until you found it or end of staff.
+		  (if (d-IsInSelection) 
+		  	#t ; found the first note
+			(if (d-NextObject) (loop) ; prevent endless loop if reaching the end of a staff without selection present
+				(begin  (d-PopPosition) #f ))))  ; if end of staff and no selection return to initial position and return #f
+	)
+	(begin  (d-PopPosition) #f )   ; no selection at all. 
+	) ; fi GoToSelectionStart
 )
 
 
@@ -1330,7 +1344,6 @@
 ;;;;;;;;;;;;;;; End Shuffle
 
 
-
 (define (lyimport::load-file pathname filename)
   (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
@@ -1441,8 +1454,18 @@
 
 
 ;;;;;;;; Applied duration scripts
-(define (duration::GetNumberOfDotsInTicks)
-	(duration::CalculateDotsFromTicks (d-GetDurationInTicks) (abs (d-GetBaseDurationInTicks))))
+(define (duration::GetNumberOfDotsInTicks) ; Fails for tuplets
+	 (duration::CalculateDotsFromTicks (d-GetDurationInTicks) (duration::GetBaseDurationInTicks))
+)
+	   
+
+(define (duration::GetBaseDurationInTicks)
+	(define ticks (d-GetBaseDurationInTicks))
+	(if ticks
+		(abs ticks)
+		#f)
+)
+	   
 
 (define (duration::GetSelectionDurationInTicks) 
   (d-PushPosition)
@@ -1477,20 +1500,16 @@
    (else   #f )
  ))
  
-; Second add dots
+ 
+; Second step: add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (string-ci=? (d-GetType) "CHORD") (integer? dots)(changeBase ticks))
+  (if (and (string-ci=? (d-GetType) "CHORD") (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
   (let loop ((i 0))
 	(if (= dots i)
 	#t
 	(begin
 	   (d-AddDot)  
-	   (loop (+ i 1)))
-	)
-  ))
+	   (loop (+ i 1)))))
+  #f)
 )
-
-
-;;;;;;;;;;;;;;
-
 
