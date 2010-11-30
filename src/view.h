@@ -113,4 +113,8 @@ void
 toggle_to_drawing_area(gboolean show);
 
 void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam *param);
+
+gchar *get_midi_control_command(guchar type, guchar value);
+gchar *get_midi_pitch_bend_command(gint value);
+
 #endif

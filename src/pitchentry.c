@@ -44,6 +44,9 @@ static gdouble lowest_pitch = DEFAULT_LOW;
 static gdouble highest_pitch = DEFAULT_HIGH;
 static gboolean repeated_notes_allowed;
 static gdouble transposition_required = 1.0;
+
+static enharmonic_position = 0;
+
 typedef struct notespec {
   guint step;  /* 0=C 1=D ... 6=B */
   gint alteration; /* -2 = bb, -1=b, 0=natural, 1=#, 2=x */
@@ -339,6 +342,7 @@ static gpointer default_temperament() {
 
 
 static void sharpen(GtkButton *button, GtkWidget *label) {
+  enharmonic_position++;
 #define f  (PR_temperament->notepitches[flat_degree].spec)
   gint next = (flat_degree+11)%12;
 #define g (PR_temperament->notepitches[next].spec)
@@ -370,7 +374,7 @@ static void sharpen(GtkButton *button, GtkWidget *label) {
 
 
 static void flatten(GtkButton *button, GtkWidget *label) {
-
+  enharmonic_position--;
 #define s (PR_temperament->notepitches[sharp_degree].spec)
   gint next = (sharp_degree+1)%12;
 #define t (PR_temperament->notepitches[next].spec)
@@ -395,6 +399,15 @@ if(t.alteration-1<-2)
   return;
 }
 
+void
+set_enharmonic_position(gint position) {
+  while (position<enharmonic_position) {
+    set_flatter(NULL, NULL);
+  }
+  while (position>enharmonic_position) {
+    set_sharper(NULL, NULL);
+  }
+}
 static void enharmonic_step (gboolean sharp) {
   gchar *sharpestname, *flattestname;
   if(sharp)

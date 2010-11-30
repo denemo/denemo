@@ -514,7 +514,7 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 
 
 static fluid_midi_driver_t* midi_in;
-
+//Under Interrupt
 static void handle_midi_event(gchar *buf) {
   if(Denemo.gui->midi_destination & MIDIRECORD)
     record_midi(buf,  get_time() - Denemo.gui->si->start_player);
@@ -525,9 +525,20 @@ static void handle_midi_event(gchar *buf) {
 }
 
 
+
+static gchar midi_in_buf[3]; 
+static volatile gboolean midi_in_ready = FALSE;
+static midi_in_timer_id = 0;
+static gboolean midi_in_timer_callback(void) {
+  if(midi_in_ready)
+    handle_midi_event(midi_in_buf);
+  midi_in_ready = FALSE;
+  return TRUE;//timer keeps going
+}
+
+//Under Interrupt
 static void handle_midi_in(void* data, fluid_midi_event_t* event)
 {
-  gchar buf[3];
   int type = 
     fluid_midi_event_get_type(event);
   //g_print("event type: %x\n", type);
@@ -536,34 +547,43 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
   case NOTE_OFF:
   case KEY_PRESSURE:
   case CONTROL_CHANGE:
-  case PITCH_BEND:
   case 0xF2:    
     {
       int key = fluid_midi_event_get_key(event);
       int velocity = fluid_midi_event_get_velocity(event);
-      buf[0] = type;
-      buf[1] = key;
-      buf[2] = velocity;
+      midi_in_buf[0] = type;
+      midi_in_buf[1] = key;
+      midi_in_buf[2] = velocity;
       if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
-	buf[0]=NOTE_OFF;
-	buf[2]=127;
+	midi_in_buf[0]=NOTE_OFF;
+	midi_in_buf[2]=127;
       }
-      buf[0] |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
+      midi_in_buf[0] |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
       //g_print("key is %d\n", key);
-      handle_midi_event(buf);
+      //handle_midi_event(midi_in_buf);
+      midi_in_ready = TRUE;
+    }
+    break;
+  case PITCH_BEND:
+  
+    {
+      short key = fluid_midi_event_get_pitch(event);
+      midi_in_buf[0] = type;
+      midi_in_buf[1] = key>>7;
+      midi_in_buf[2] = key&0x7F;
+      midi_in_ready = TRUE;
     }
     break;
 
-  
-    
   case PROGRAM_CHANGE:
   case CHANNEL_PRESSURE:
   case 0xF3: 
     {
       int key = fluid_midi_event_get_key(event);
-      buf[0] = type;
-      buf[1] = key;
-      handle_midi_event(buf);
+      midi_in_buf[0] = type;
+      midi_in_buf[1] = key;
+      //handle_midi_event(midi_in_buf);
+      midi_in_ready = TRUE;
     }
     break;
   default:
@@ -586,17 +606,23 @@ fluid_start_midi_in(void)
 #endif
   //g_print("success %d\n", success);
   midi_in = new_fluid_midi_driver(settings, handle_midi_in, NULL);
+
+
   //g_print("midi in on %p\n", midi_in);
-  if(midi_in)
+  if(midi_in) {
+    midi_in_timer_id = g_timeout_add (20, (GSourceFunc) midi_in_timer_callback, NULL);
     return 0;
+  }
   else
     return -1;
 }
 int
 fluid_stop_midi_in(void)
 {
-  if(midi_in)
+  if(midi_in) {
+    g_source_remove(midi_in_timer_id);
     delete_fluid_midi_driver(midi_in);
+  }
   else
     return -1;
   midi_in = NULL;
