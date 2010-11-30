@@ -4159,6 +4159,15 @@ right. </tooltip>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>
       <row>
+
+        <action>TabStaff</action>
+        <after>TinyStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Tablature</label>
+        <tooltip>Converts to tablature notation (print only)</tooltip>
+      </row>
+      <row>
         <action>FreeFermata</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>

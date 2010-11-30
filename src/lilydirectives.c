@@ -1219,17 +1219,20 @@ assign_text(GtkWidget *w, gchar *text) {
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 
-/* create a label. FIXME escape markup
+/* create a label. 
 Use the display string up to the first newline, if it is long enough
 eles use tag
 */
 static void
 set_directive_graphic_label(DenemoDirective *directive) {
-  gchar *value;
+  gchar *ivalue;
   if(directive->display && directive->display->len>1)
-    value = g_strdup_printf("%s", directive->display->str);
+    ivalue = g_strdup_printf("%s", directive->display->str);
   else
-    value = g_strdup(directive->tag->str);
+    ivalue = g_strdup(directive->tag->str);
+  gchar *value = 
+    g_markup_escape_text (ivalue, strlen(ivalue));
+  g_free(ivalue);
   gchar *c;
   for(c=value;*c;c++)
     if(*c=='\n') {
