@@ -1219,7 +1219,7 @@ assign_text(GtkWidget *w, gchar *text) {
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 
-/* create a label. FIXME escape markup
+/* create a label. Warning: parameter value must be valid markup
 Use the display string up to the first newline, if it is long enough
 eles use tag
 */
