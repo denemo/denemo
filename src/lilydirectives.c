@@ -1219,20 +1219,17 @@ assign_text(GtkWidget *w, gchar *text) {
     gtk_text_buffer_set_text(textbuffer, text, -1);
 }
 
-/* create a label. 
+/* create a label. Warning: parameter value must be valid markup
 Use the display string up to the first newline, if it is long enough
 eles use tag
 */
 static void
 set_directive_graphic_label(DenemoDirective *directive) {
-  gchar *ivalue;
+  gchar *value;
   if(directive->display && directive->display->len>1)
-    ivalue = g_strdup_printf("%s", directive->display->str);
+    value = g_strdup_printf("%s", directive->display->str);
   else
-    ivalue = g_strdup(directive->tag->str);
-  gchar *value = 
-    g_markup_escape_text (ivalue, strlen(ivalue));
-  g_free(ivalue);
+    value = g_strdup(directive->tag->str);
   gchar *c;
   for(c=value;*c;c++)
     if(*c=='\n') {

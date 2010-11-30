@@ -505,7 +505,7 @@
 	(set! title (scheme-escape (d-GetUserInput (string-append type " " fieldname)
 				    (string-append "Give a name for the " fieldname " of the " type) current))))
     (d-DirectivePut-header-override tag DENEMO_OVERRIDE_GRAPHIC)
-    (d-DirectivePut-header-display tag (string-append type " " fieldname ": " title))
+    (d-DirectivePut-header-display tag (string-append type " " fieldname ": " (html-escape title)))
     
     (d-DirectivePut-header-postfix tag (string-append field " = \"" title "\"\n"))))
 
