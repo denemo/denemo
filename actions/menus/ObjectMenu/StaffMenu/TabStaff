@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>TinyStaff</after>
+        <action>TabStaff</action>
+        <scheme>(d-DirectivePut-staff-postfix "TabStaff" "&lt;&lt; { \\new TabStaff\n")
+(d-DirectivePut-staff-override "TabStaff" DENEMO_OVERRIDE_LILYPOND)
+(d-DirectivePut-voice-postfix "TabStaff" " \n")
+(d-DirectivePut-voice-override "TabStaff" DENEMO_OVERRIDE_LILYPOND)
+(d-DirectivePut-clef-postfix "TabStaff" "{} \n")
+(d-DirectivePut-clef-override "TabStaff" DENEMO_OVERRIDE_LILYPOND)
+</scheme>
+        <label>Tablature</label>
+        <tooltip>Converts to tablature notation (print only)</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -4158,6 +4158,14 @@ right. </tooltip>
         <label>Tiny Staff</label>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>
+      <row>
+        <action>TabStaff</action>
+        <after>TinyStaff</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <label>Tablature</label>
+        <tooltip>Converts to tablature notation (print only)</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
