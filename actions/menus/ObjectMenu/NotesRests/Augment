@@ -6,8 +6,11 @@
     <map>
       <row>
         <action>Augment</action>
-        <scheme> (SingleAndSelectionSwitcher  "(duration::ChangeNoteDurationInTicks (* 2 (abs (d-GetBaseDurationInTicks))) (duration::GetNumberOfDotsInTicks))"  )
- (d-RefreshDisplay) </scheme>
+        <scheme>(SingleAndSelectionSwitcher  "
+(if (duration::GetBaseDurationInTicks)
+ (duration::ChangeNoteDurationInTicks (* (duration::GetBaseDurationInTicks) 2) (d-GetDots))
+)" )
+(d-RefreshDisplay)</scheme>
         <label>Augment</label>
         <tooltip>Augments the current Note/Chord/Rest. Quarter Note becomes Half Note.</tooltip>
       </row>

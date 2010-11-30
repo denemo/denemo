@@ -4,7 +4,7 @@
 
 (define* (SplitChord #:optional (howmany #f))
 (define  (split-divide)
-	(duration::ChangeNoteDurationInTicks (/ (abs (d-GetBaseDurationInTicks)) 2) (duration::GetNumberOfDotsInTicks)))
+	(duration::ChangeNoteDurationInTicks (/ (duration::GetBaseDurationInTicks) 2) (d-GetDots)))
 
 (if (and (d-GetNotes) (not (string-ci=?  (d-GetType) "Appending"))) ; DuplicateChord only works ON notes, not in the appending position. 
 
