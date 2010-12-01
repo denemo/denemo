@@ -317,6 +317,38 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
   return TRUE;
 }
 
+static void handle_midi_event(gchar *buf) {
+  if(Denemo.gui->midi_destination & MIDIRECORD)
+    record_midi(buf,  get_time() - Denemo.gui->si->start_player);
+    process_midi_event(buf);
+}
+
+#define MAX_MIDI (10)
+static gchar midi_in_buf[MAX_MIDI][3]; 
+static volatile gboolean midi_in_count = 0;
+static midi_in_timer_id = 0;
+static gboolean midi_in_timer_callback(void) {
+  if(midi_in_count) {
+    gint i;
+    for(i=0;i<midi_in_count;i++)
+      handle_midi_event(midi_in_buf[i+1]);
+  }
+  midi_in_count = 0;//if an event has arrived during the last note entry we will lose it here - it is not critical, if it were we would have to turn off interrupts while working on the counter...
+  return TRUE;//timer keeps going
+}
+
+//Under Interrupt
+static void load_midi_buf(gint type, gint key, gint vel) {
+  midi_in_count++;
+  if(midi_in_count<MAX_MIDI) {
+  midi_in_buf[midi_in_count][0] = type;
+  midi_in_buf[midi_in_count][1] = key;
+  midi_in_buf[midi_in_count][2] = vel;
+  } 
+  else midi_in_count--;//over flow
+}
+
+
 static void
 process_midi_input(jack_nframes_t nframes)
 {
@@ -331,7 +363,8 @@ process_midi_input(jack_nframes_t nframes)
   events = jack_midi_get_event_count(port_buffer);
   for (i = 0; i < events; i++) {
     read = jack_midi_event_get(&event, port_buffer, i);
-    process_midi_event(event.buffer);
+    //process_midi_event(event.buffer);
+    load_midi_buf (event.buffer[0], event.buffer[1], event.buffer[2]);
   }
 }
 
@@ -633,7 +666,7 @@ init_jack(void){
       if (i==0 && MD[0].jack_client && input_port==NULL)
         input_port = jack_port_register(MD[0].jack_client, INPUT_PORT_NAME, JACK_DEFAULT_MIDI_TYPE,
 				      JackPortIsInput, 0);
-  
+      midi_in_timer_id = g_timeout_add (20, (GSourceFunc) midi_in_timer_callback, NULL);
       /* activate client */
       jack_activate(MD[i].jack_client);
     }

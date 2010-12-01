@@ -514,7 +514,7 @@ fluid_rhythm_feedback(gint duration, gboolean rest, gboolean dot) {
 
 
 static fluid_midi_driver_t* midi_in;
-//Under Interrupt
+
 static void handle_midi_event(gchar *buf) {
   if(Denemo.gui->midi_destination & MIDIRECORD)
     record_midi(buf,  get_time() - Denemo.gui->si->start_player);
@@ -525,15 +525,29 @@ static void handle_midi_event(gchar *buf) {
 }
 
 
-
-static gchar midi_in_buf[3]; 
-static volatile gboolean midi_in_ready = FALSE;
+#define MAX_MIDI (10)
+static gchar midi_in_buf[MAX_MIDI][3]; 
+static volatile gboolean midi_in_count = 0;
 static midi_in_timer_id = 0;
 static gboolean midi_in_timer_callback(void) {
-  if(midi_in_ready)
-    handle_midi_event(midi_in_buf);
-  midi_in_ready = FALSE;
+  if(midi_in_count) {
+    gint i;
+    for(i=0;i<midi_in_count;i++)
+      handle_midi_event(midi_in_buf[i+1]);
+  }
+  midi_in_count = 0;//if an event has arrived during the last note entry we will lose it here - it is not critical, if it were we would have to turn off interrupts while working on the counter...
   return TRUE;//timer keeps going
+}
+
+//Under Interrupt
+static void load_midi_buf(gint type, gint key, gint vel) {
+  midi_in_count++;
+  if(midi_in_count<MAX_MIDI) {
+  midi_in_buf[midi_in_count][0] = type;
+  midi_in_buf[midi_in_count][1] = key;
+  midi_in_buf[midi_in_count][2] = vel;
+  } 
+  else midi_in_count--;//over flow
 }
 
 //Under Interrupt
@@ -551,6 +565,7 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
     {
       int key = fluid_midi_event_get_key(event);
       int velocity = fluid_midi_event_get_velocity(event);
+#if 0
       midi_in_buf[0] = type;
       midi_in_buf[1] = key;
       midi_in_buf[2] = velocity;
@@ -562,16 +577,29 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
       //g_print("key is %d\n", key);
       //handle_midi_event(midi_in_buf);
       midi_in_ready = TRUE;
+#else
+      if(type==NOTE_ON && velocity==0) {//Zero velocity NOTEON is used as NOTEOFF by some MIDI controllers
+	type=NOTE_OFF;
+	velocity=127;
+      }
+      type  |= ((DenemoStaff *)Denemo.gui->si->currentstaff->data)->midi_channel;
+      load_midi_buf(type, key, velocity);
+#endif
+
     }
     break;
   case PITCH_BEND:
   
     {
       short key = fluid_midi_event_get_pitch(event);
+#if 0
       midi_in_buf[0] = type;
       midi_in_buf[1] = key>>7;
       midi_in_buf[2] = key&0x7F;
       midi_in_ready = TRUE;
+#else
+      load_midi_buf(type, key>>7, key&0x7F);
+#endif
     }
     break;
 
@@ -580,10 +608,15 @@ static void handle_midi_in(void* data, fluid_midi_event_t* event)
   case 0xF3: 
     {
       int key = fluid_midi_event_get_key(event);
+#if 0
       midi_in_buf[0] = type;
       midi_in_buf[1] = key;
       //handle_midi_event(midi_in_buf);
       midi_in_ready = TRUE;
+#else
+      load_midi_buf(type, key, 0);
+
+#endif
     }
     break;
   default:

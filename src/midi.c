@@ -198,24 +198,6 @@ playnotes (gboolean doit, chord *chord_to_play, int channel)
 #include <glib.h>
 static  GIOChannel* channel;/* a channel to access /dev/midi by */
 
-#define MAX_MIDI_NOTES (20)
-static gint midi_notes[MAX_MIDI_NOTES];
-static volatile int count;
-
-static void store_midi_note(gint pitch)
-{ 
-  if( ++count < MAX_MIDI_NOTES)
-    midi_notes[count] = pitch;
-}
-
-gint get_midi_note(void) {
-  gint ret=-1;
-  if(count) {
-    ret=midi_notes[count];
-    count = 0;
-  }
-  return ret;
-}
 
 void safely_add_track(smf_t *smf, smf_track_t *track) {
   if(track->smf==NULL)
@@ -260,20 +242,19 @@ void record_midi(gchar *buf, gdouble time) {
   }
 }
 
-/* look for a new note played into midi input, if
-   present insert it into the score/edit the score following the mode */
-gint midientry(void) {
+/*  insert the passed note into the score/edit the score following the mode */
+gint midientry(gint notenum) {
   
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL)
     return TRUE;
   if(gui->si==NULL)
     return TRUE;
-  gint notenum;
+  //gint notenum;
   DenemoStaff *curstaffstruct = (DenemoStaff *) gui->si->currentstaff->data;
-  notenum = get_midi_note();
-  if(notenum < 0) 
-    return TRUE;
+  // notenum = get_midi_note();
+  // if(notenum < 0) 
+  //  return TRUE;
   enharmonic enote;
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift);
   if (Denemo.prefs.midi_audio_output == Portaudio)
@@ -313,18 +294,10 @@ gint midientry(void) {
   return TRUE;
 }
 
-static guint midi_timer;// timer id
-#define DEFAULT_TIMER_RATE (5)
+
 
 void start_midi_input(void) {
-  
-  if(midi_timer)
-    g_source_remove(midi_timer);
 
-  midi_timer = g_timeout_add (DEFAULT_TIMER_RATE, (GSourceFunc)midientry, NULL);
-
-  if(midi_timer==0)
-    g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
 }
 
 
@@ -369,7 +342,7 @@ void process_midi_event(gchar *buf) {
     }
   } else {
     if(command==MIDI_NOTEON)
-      store_midi_note(notenumber);
+      midientry(notenumber);
     else if(command==MIDI_CTL_CHANGE) {
       gchar *command_name = get_midi_control_command(notenumber, velocity);
       if(command_name)
