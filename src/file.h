@@ -51,7 +51,7 @@ void
 file_save (GtkWidget * widget, DenemoGUI *gui);
 
 void
-file_saveas (DenemoGUI *gui, gboolean as_template);
+file_saveas (DenemoGUI *gui,  DenemoSaveType as_template);
 
 void
 template_save (GtkAction * action, gpointer param);

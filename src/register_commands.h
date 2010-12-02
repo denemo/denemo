@@ -228,10 +228,10 @@ register_command(Denemo.map, gtk_action_group_get_action(action_group, "Movement
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenNewWindow"), "OpenNewWindow", "Open In New", "Open a file containing a music score for editing in a separate working area (tab", openinnew);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "Save"), "Save", "Save", "Save the score", file_savewrapper);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveAs"), "SaveAs", "Save As", "Save the score under a new name", file_saveaswrapper);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveCopy"), "SaveCopy", "Save Copy", "Save a copy of the score", file_copy_save);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveCopy"), "SaveCopy", "Save Copy/Export", "Save a copy of the score or Export to a different format", file_copy_save);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenTemplate"), "OpenTemplate", "Open Template", "Start a new score from a built-in template file", system_template_open_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenExample"), "OpenExample", "Open Example", "Start a new score from a built-in example", system_example_open_with_check);
-register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenMyTemplate"), "OpenMyTemplate", "Open custom template", "Start a new score from one of your own template files", local_template_open_with_check);
+register_command(Denemo.map, gtk_action_group_get_action(action_group, "OpenMyTemplate"), "OpenMyTemplate", "Open Custom Template", "Start a new score from one of your own template files", local_template_open_with_check);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "SaveTemplate"), "SaveTemplate", "Save Template", "Save the score as a template for re-use as a starting point for new scores", template_save);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "NewWindow"), "NewWindow", "New Tab", "Create working area (tab with an empty score in it)", newview);
 register_command(Denemo.map, gtk_action_group_get_action(action_group, "InsertMovementBefore"), "InsertMovementBefore", "Insert Movement Before", "Insert a new movement before the current one", insert_movement_before);

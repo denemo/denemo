@@ -455,7 +455,8 @@ filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSa
     }
   g_free(basename);
   g_free(file);
-  denemo_warning (gui, format_id);
+  if(template==SAVE_NORMAL)
+    denemo_warning (gui, format_id);
 }
 
 /* set local_template_path up */
@@ -835,7 +836,7 @@ file_save (GtkWidget * widget, DenemoGUI * gui)
  *
  */
 void
-file_saveas (DenemoGUI * gui, gboolean template)
+file_saveas (DenemoGUI * gui, DenemoSaveType  template)
 {
   GtkWidget *file_selection;
   GtkWidget *label;
@@ -887,6 +888,8 @@ file_saveas (DenemoGUI * gui, gboolean template)
 			      COLUMN_NAME,
 			      _(supported_export_file_formats[i].description),
 			      COLUMN_ID, i, -1);
+	  if(template==SAVE_NORMAL)
+	    break;//only save normal in default format
 	}
 
   gtk_tree_model_get_iter_first (GTK_TREE_MODEL (list_store), &iter);
