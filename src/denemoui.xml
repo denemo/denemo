@@ -18,6 +18,7 @@
 		<separator/>
       <menuitem action="Save"/>
       <menuitem action="SaveAs"/>
+      <menuitem action="SaveCopy"/>
       <menuitem action="SaveParts"/>
 		<!-- <menuitem action="SaveSelection"/> -->
       <menuitem action="SaveTemplate"/>

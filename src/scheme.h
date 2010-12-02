@@ -919,6 +919,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "Save")), "scm", (gpointer
 SCM scheme_SaveAs(SCM optional);
 install_scm_function ("d-SaveAs", scheme_SaveAs);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SaveAs")), "scm", (gpointer)1);
+/*SaveCopy file_copy_save*/
+SCM scheme_SaveCopy(SCM optional);
+install_scm_function ("d-SaveCopy", scheme_SaveCopy);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SaveCopy")), "scm", (gpointer)1);
 /*OpenTemplate system_template_open_with_check*/
 SCM scheme_OpenTemplate(SCM optional);
 install_scm_function ("d-OpenTemplate", scheme_OpenTemplate);

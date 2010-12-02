@@ -41,7 +41,7 @@
 
 
 static gint
-file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename);
+file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename);
 
 
 
@@ -247,7 +247,7 @@ gint lyinput(gchar *filename, DenemoGUI *gui) {
  * @return 0 for success non zero for failure
  */
 gint
-open_for_real (gchar * filename, DenemoGUI * gui, gboolean template, ImportType type)
+open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
   g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint result;
@@ -422,7 +422,7 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
  * param file_name is full path to file possibly with extension
  */
 static void
-filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, gboolean template)
+filesel_save (DenemoGUI * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
 {
   g_assert (gui != NULL);
   g_assert (file_name != NULL);
@@ -636,9 +636,9 @@ file_add_staffs(GtkAction * action,  DenemoScriptParam * param){
   score_status(gui, TRUE);
 }
 
-static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, gboolean template) {
+static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, DenemoSaveType template) {
   gchar *path, *fallback;
-  if(template) {
+  if(template==SAVE_TEMPLATE) {
     fallback = path = default_template_path;
   } else {
     fallback = path = file_selection_path;
@@ -665,7 +665,7 @@ static void  set_current_folder(GtkWidget *file_selection, DenemoGUI *gui, gbool
  * filename must be full path or NULL for dialog
  */
 static gint
-file_open (DenemoGUI * gui, gboolean template, ImportType type, gchar *filename)
+file_open (DenemoGUI * gui, DenemoSaveType template, ImportType type, gchar *filename)
 {
   gboolean ret = -1;
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
@@ -739,7 +739,19 @@ template_save (GtkAction * action, gpointer param)
   DenemoGUI *gui = Denemo.gui;
   init_local_path();
   default_template_path = local_template_path;
-  file_saveas (gui, TRUE);
+  file_saveas (gui, SAVE_TEMPLATE);
+}
+
+
+/**
+ * Wrapper function to save the current file as a copy
+ */
+void
+file_copy_save (GtkAction * action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  init_local_path();
+  file_saveas (gui, SAVE_COPY);
 }
 
 

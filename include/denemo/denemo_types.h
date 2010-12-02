@@ -52,6 +52,13 @@ typedef enum
     REDO
   }unre_mode;
 
+typedef enum 
+  {
+    SAVE_NORMAL=0,
+    SAVE_TEMPLATE,
+    SAVE_COPY
+  } DenemoSaveType;
+
 
 
 typedef enum DenemoGraphicType
