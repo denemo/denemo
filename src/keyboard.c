@@ -177,7 +177,7 @@ add_ui(gchar *menupath, gchar *after, gchar *name) {
   //installed, in which case we just append to the menu
   gchar *menupath_item = g_build_filename(menupath,after,NULL);
   GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
-#if 0
+#ifdef DEBUG
   if( (after!=NULL) & (sibling==NULL)) {
     static gboolean once=TRUE;
     if(once) {
