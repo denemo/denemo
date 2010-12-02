@@ -33,15 +33,12 @@ freeobject (DenemoObject * mudobj)
       freechord (mudobj);	/* Which also frees mudobj itself */
       break;
     case CLEF:
-      free_directives(((clef*)mudobj->object)->directives);
-      g_free (mudobj);
-      break;
     case KEYSIG:
-      free_directives(((keysig*)mudobj->object)->directives);
-      g_free (mudobj);
-      break;
     case TIMESIG:
+    case TUPOPEN:
+    case TUPCLOSE:
       free_directives(((timesig*)mudobj->object)->directives);
+      g_free (mudobj->object);
       g_free (mudobj);
       break; 
     default:
