@@ -246,7 +246,7 @@ parsePorts (xmlDocPtr doc, xmlNodePtr cur, gint i)
 	  xmlChar *tmp = xmlNodeListGetString (doc, child->xmlChildrenNode, 1);
 	  if(tmp)
 	    {
-	      g_print("storing port %s into client\n", tmp);
+	      //g_print("storing port %s into client\n", tmp);
 	      Denemo.prefs.midi_device[i].ports[j].midi_buffer = g_malloc0(DENEMO_BUFFER_MAX_INDEX*sizeof(MidiBuffer));
 	      Denemo.prefs.midi_device[i].ports[j].port_name = g_string_new(tmp);
 	      j++;
@@ -292,7 +292,7 @@ parseDevices (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       if (xmlStrcmp (child->name, (const xmlChar *) "device") == 0)
 	{
 	  gchar *tmp = (gchar *) xmlGetProp (child, (xmlChar *) "client");
-g_print("storing client name %s\n", tmp);
+	  //g_print("storing client name %s\n", tmp);
 	  if(tmp)
 	    {
 	      if(prefs->midi_device[i].client_name)
@@ -303,7 +303,7 @@ g_print("storing client name %s\n", tmp);
 	    }
 	}
       xmlNodePtr ports = child->xmlChildrenNode;
-      g_print("for client ports is %p\n", ports);   
+      // g_print("for client ports is %p\n", ports);   
       if (ports && xmlStrcmp (ports->name, (const xmlChar *) "ports") == 0)
 	{
 	  parsePorts(doc, ports, i);
