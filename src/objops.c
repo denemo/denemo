@@ -18,6 +18,7 @@ initkeyaccs (gint * accs, gint number);
 /**
  * Free the given object
  * @param mudobj the DenemoObject to free
+FIXME is this failing to free the object field???
  */
 void
 freeobject (DenemoObject * mudobj)

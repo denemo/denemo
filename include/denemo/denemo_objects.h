@@ -175,9 +175,11 @@ typedef struct tupopen
 {
   gint numerator;
   gint denominator;
+  GList *directives;/**< list of DenemoDirective to apply to the tuplet */
 }
 tupopen;
 
+typedef tupopen tuplet; //used for tupclose or tupopen
 /**
  * Enum defining clef values
  * 

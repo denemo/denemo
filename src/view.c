@@ -1789,6 +1789,7 @@ GET_TAG_FN_DEF(voice);
 GET_TAG_FN_DEF(score);
 GET_TAG_FN_DEF(clef);
 GET_TAG_FN_DEF(timesig);
+GET_TAG_FN_DEF(tuplet);
 GET_TAG_FN_DEF(keysig);
 GET_TAG_FN_DEF(scoreheader);
 GET_TAG_FN_DEF(header);
@@ -1964,6 +1965,7 @@ INT_PUTFUNC_DEF(voice, minpixels)
 INT_PUTFUNC_DEF(score, minpixels)
 INT_PUTFUNC_DEF(clef, minpixels)
 INT_PUTFUNC_DEF(timesig, minpixels)
+INT_PUTFUNC_DEF(tuplet, minpixels)
 INT_PUTFUNC_DEF(keysig, minpixels)
 
 INT_PUTFUNC_DEF(scoreheader, minpixels)
@@ -1980,6 +1982,7 @@ INT_GETFUNC_DEF(voice, minpixels)
 INT_GETFUNC_DEF(score, minpixels)
 INT_GETFUNC_DEF(clef, minpixels)
 INT_GETFUNC_DEF(timesig, minpixels)
+INT_GETFUNC_DEF(tuplet, minpixels)
 INT_GETFUNC_DEF(keysig, minpixels)
 
 INT_GETFUNC_DEF(scoreheader, minpixels)
@@ -2130,6 +2133,32 @@ INT_GETFUNC_DEF(timesig, override)
 INT_GETFUNC_DEF(timesig, width)
 INT_GETFUNC_DEF(timesig, height)
 EDIT_DELETE_FN_DEF(timesig)
+
+GETFUNC_DEF(tuplet, prefix)
+GETFUNC_DEF(tuplet, postfix)
+GETFUNC_DEF(tuplet, display)
+PUTFUNC_DEF(tuplet, prefix)
+PUTFUNC_DEF(tuplet, postfix)
+PUTFUNC_DEF(tuplet, display)
+PUTGRAPHICFUNC_DEF(tuplet);
+
+INT_PUTFUNC_DEF(tuplet, x)
+INT_PUTFUNC_DEF(tuplet, y)
+INT_PUTFUNC_DEF(tuplet, tx)
+INT_PUTFUNC_DEF(tuplet, ty)
+INT_PUTFUNC_DEF(tuplet, gx)
+INT_PUTFUNC_DEF(tuplet, gy)
+INT_PUTFUNC_DEF(tuplet, override)
+INT_GETFUNC_DEF(tuplet, x)
+INT_GETFUNC_DEF(tuplet, y)
+INT_GETFUNC_DEF(tuplet, tx)
+INT_GETFUNC_DEF(tuplet, ty)
+INT_GETFUNC_DEF(tuplet, gx)
+INT_GETFUNC_DEF(tuplet, gy)
+INT_GETFUNC_DEF(tuplet, override)
+INT_GETFUNC_DEF(tuplet, width)
+INT_GETFUNC_DEF(tuplet, height)
+EDIT_DELETE_FN_DEF(tuplet)
 
 GETFUNC_DEF(keysig, prefix)
 GETFUNC_DEF(keysig, postfix)
@@ -3540,6 +3569,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_GET_TAG(score);
   INSTALL_GET_TAG(clef);
   INSTALL_GET_TAG(timesig);
+  INSTALL_GET_TAG(tuplet);
   INSTALL_GET_TAG(keysig);
   INSTALL_GET_TAG(scoreheader);
   INSTALL_GET_TAG(header);
@@ -3578,6 +3608,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_GET(score, minpixels);
   INSTALL_GET(clef, minpixels);
   INSTALL_GET(timesig, minpixels);
+  INSTALL_GET(tuplet, minpixels);
   INSTALL_GET(keysig, minpixels);
 
   INSTALL_GET(scoreheader, minpixels);
@@ -3594,6 +3625,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_PUT(score, minpixels);
   INSTALL_PUT(clef, minpixels);
   INSTALL_PUT(timesig, minpixels);
+  INSTALL_PUT(tuplet, minpixels);
   INSTALL_PUT(keysig, minpixels);
 
 
@@ -3852,6 +3884,37 @@ INSTALL_GET(timesig, width)
 INSTALL_GET(timesig, height)
 
 INSTALL_EDIT(timesig);
+
+INSTALL_PUT(tuplet, display);
+INSTALL_PUT(tuplet, prefix);
+INSTALL_PUT(tuplet, postfix);
+INSTALL_PUT(tuplet, graphic);
+
+
+INSTALL_GET(tuplet, display);
+INSTALL_GET(tuplet, prefix);
+INSTALL_GET(tuplet, postfix);
+
+INSTALL_PUT(tuplet, x)
+INSTALL_PUT(tuplet, y)
+INSTALL_PUT(tuplet, tx)
+INSTALL_PUT(tuplet, ty)
+INSTALL_PUT(tuplet, gx)
+INSTALL_PUT(tuplet, gy)
+INSTALL_PUT(tuplet, override)
+
+
+INSTALL_GET(tuplet, x)
+INSTALL_GET(tuplet, y)
+INSTALL_GET(tuplet, tx)
+INSTALL_GET(tuplet, ty)
+INSTALL_GET(tuplet, gx)
+INSTALL_GET(tuplet, gy)
+INSTALL_GET(tuplet, override)
+INSTALL_GET(tuplet, width)
+INSTALL_GET(tuplet, height)
+
+INSTALL_EDIT(tuplet);
 
 INSTALL_PUT(keysig, display);
 INSTALL_PUT(keysig, prefix);

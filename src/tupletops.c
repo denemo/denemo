@@ -40,9 +40,10 @@ DenemoObject *
 newtupclose ()
 {
   DenemoObject *tuplet;
-
+  tupopen *newtup = (tupopen *) g_malloc (sizeof (tupopen));//avoids a null object
   tuplet = (DenemoObject *) g_malloc (sizeof (DenemoObject));
   tuplet->type = TUPCLOSE;
+  tuplet->object = newtup;//avoids a null object
   set_basic_numticks (tuplet);
   setpixelmin (tuplet);
   return tuplet;

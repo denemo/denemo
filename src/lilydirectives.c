@@ -1,8 +1,8 @@
-/* lilydirectives.cpp 
+/* lilydirectives.c 
  * Implements lilydirectives which are not notes 
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * Richard Shann 2009
+ * Richard Shann 2009, 2010
  * A Tee  (c) 2000-2005
  */
 #include <stdio.h>
@@ -554,6 +554,30 @@ gboolean delete_timesig_directive(gchar *tag) {
   return delete_directive(&curtimesig->directives, tag);
 }
 
+static  tuplet *get_tuplet(void) {
+  tuplet *ret = NULL;
+  DenemoObject *curObj = findobj();  
+  if(curObj && (curObj->type==TUPOPEN || curObj->type==TUPCLOSE)){
+    ret = ((tuplet*)curObj->object);
+  }
+  return ret;
+}
+static
+DenemoDirective *get_tuplet_directive(gchar *tag) {
+  tuplet *curtuplet = get_tuplet();
+  if(curtuplet==NULL || (curtuplet->directives==NULL))
+    return NULL;
+  return find_directive(curtuplet->directives, tag);
+}
+gboolean delete_tuplet_directive(gchar *tag) {
+  tuplet *curtuplet = get_tuplet();
+  if(curtuplet==NULL || (curtuplet->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_tuplet_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curtuplet->directives, tag);
+}
 
 static  scoreheader *get_scoreheader(void) {
   return &Denemo.gui->scoreheader;
@@ -820,6 +844,7 @@ PUT_GRAPHIC(note);
 
 PUT_GRAPHIC(keysig)
 PUT_GRAPHIC(timesig)
+PUT_GRAPHIC(tuplet)
 
 
 
@@ -859,6 +884,7 @@ GET_TAG_FUNC(voice);
 GET_TAG_FUNC(score);
 GET_TAG_FUNC(clef);
 GET_TAG_FUNC(timesig);
+GET_TAG_FUNC(tuplet);
 GET_TAG_FUNC(keysig);
 GET_TAG_FUNC(scoreheader);
 GET_TAG_FUNC(header);
@@ -976,6 +1002,7 @@ PUT_INT_FIELD_FUNC(chord, minpixels)
      //PUT_INT_FIELD_FUNC(score, minpixels)
 PUT_INT_FIELD_FUNC(clef, minpixels)
 PUT_INT_FIELD_FUNC(timesig, minpixels)
+PUT_INT_FIELD_FUNC(tuplet, minpixels)
 PUT_INT_FIELD_FUNC(keysig, minpixels)
 
      //PUT_INT_FIELD_FUNC(scoreheader, minpixels)
@@ -993,6 +1020,7 @@ GET_INT_FIELD_FUNC(score, minpixels)
 GET_INT_FIELD_FUNC(clef, minpixels)
 GET_INT_FIELD_FUNC(keysig, minpixels)
 GET_INT_FIELD_FUNC(timesig, minpixels)
+GET_INT_FIELD_FUNC(tuplet, minpixels)
 
 GET_INT_FIELD_FUNC(scoreheader, minpixels)
 GET_INT_FIELD_FUNC(header, minpixels)
@@ -2129,6 +2157,7 @@ TEXT_EDIT_IF(voice);
 TEXT_EDIT_IF(score);
 TEXT_EDIT_IF(clef);
 TEXT_EDIT_IF(timesig);
+TEXT_EDIT_IF(tuplet);
 TEXT_EDIT_IF(keysig);
 TEXT_EDIT_IF(scoreheader);
 TEXT_EDIT_IF(header);
@@ -2303,6 +2332,14 @@ DenemoDirective *select_timesig_directive(void) {
 }
 
 static
+DenemoDirective *select_tuplet_directive(void) {
+  tuplet *curtuplet = get_tuplet();
+  if(curtuplet==NULL || curtuplet->directives==NULL)
+    return NULL;
+  return select_directive("Select a time signature directive", curtuplet->directives);
+}
+
+static
 DenemoDirective *select_staff_directive(void) {
   if(Denemo.gui->si->currentstaff==NULL)
     return NULL;
@@ -2400,6 +2437,22 @@ void edit_timesig_directive(GtkAction *action,  DenemoScriptParam *param) {
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive, "timesig"))
     delete_timesig_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
+}
+
+/**
+ * callback for EditTupletDirective 
+ */
+void edit_tuplet_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_tuplet_directive();
+  //g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(!edit_directive(directive, "tuplet"))
+    delete_tuplet_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
 
@@ -2595,6 +2648,31 @@ GET_STR_FIELD_FUNC(timesig, prefix)
 GET_STR_FIELD_FUNC(timesig, postfix)
 GET_STR_FIELD_FUNC(timesig, display)
 
+PUT_INT_FIELD_FUNC(tuplet, x)
+PUT_INT_FIELD_FUNC(tuplet, y)
+PUT_INT_FIELD_FUNC(tuplet, tx)
+PUT_INT_FIELD_FUNC(tuplet, ty)
+PUT_INT_FIELD_FUNC(tuplet, gx)
+PUT_INT_FIELD_FUNC(tuplet, gy)
+PUT_INT_FIELD_FUNC(tuplet, override)
+GET_INT_FIELD_FUNC(tuplet, x)
+GET_INT_FIELD_FUNC(tuplet, y)
+GET_INT_FIELD_FUNC(tuplet, tx)
+GET_INT_FIELD_FUNC(tuplet, ty)
+GET_INT_FIELD_FUNC(tuplet, gx)
+GET_INT_FIELD_FUNC(tuplet, gy)
+GET_INT_FIELD_FUNC(tuplet, override)
+GET_INT_GRAPHIC_FIELD_FUNC(tuplet, width)
+GET_INT_GRAPHIC_FIELD_FUNC(tuplet, height)
+
+PUT_STR_FIELD_FUNC(tuplet, prefix)
+PUT_STR_FIELD_FUNC(tuplet, postfix)
+PUT_STR_FIELD_FUNC(tuplet, display)
+
+GET_STR_FIELD_FUNC(tuplet, prefix)
+GET_STR_FIELD_FUNC(tuplet, postfix)
+GET_STR_FIELD_FUNC(tuplet, display)
+
 
 
 
@@ -2722,6 +2800,7 @@ TEXT_EDIT_DIRECTIVE(voice);
 TEXT_EDIT_DIRECTIVE(score);
 TEXT_EDIT_DIRECTIVE(clef);
 TEXT_EDIT_DIRECTIVE(timesig);
+TEXT_EDIT_DIRECTIVE(tuplet);
 TEXT_EDIT_DIRECTIVE(keysig);
 TEXT_EDIT_DIRECTIVE(scoreheader);
 TEXT_EDIT_DIRECTIVE(header);
