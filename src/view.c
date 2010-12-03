@@ -2513,11 +2513,14 @@ static SCM scheme_timer(SCM duration_amount, SCM callback) {
 
 static SCM scheme_kill_timer(SCM id) {
   cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
-  g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
-  //g_print("Freeing %s\n", scheme->scheme_code);
-  g_free(scheme->scheme_code);
-  g_free(scheme);
-  return SCM_BOOL_T;
+  if(scheme) {
+    g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
+    g_print("Freeing %s\n", scheme->scheme_code);
+    g_free(scheme->scheme_code);
+    g_free(scheme);
+    return SCM_BOOL_T;
+  }
+  return SCM_BOOL_F;
 }
 
 
