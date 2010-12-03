@@ -2465,15 +2465,18 @@ static SCM scheme_play_midikey(SCM scm) {
  return SCM_BOOL(TRUE);
 }
 
+
+
 typedef struct cb_scheme_and_id { gchar *scheme_code; gint id;} cb_scheme_and_id;
 
-static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
+static gboolean scheme_callback_one_shot_timer(cb_scheme_and_id *scheme){
     char *scheme_code = scheme->scheme_code;
     if(scheme->id == Denemo.gui->id)
       scm_c_eval_string(scheme_code);
     else
      g_warning("Timer missed for gui %d\n", scheme->id);
     g_free(scheme);
+    g_free(scheme_code);
     return FALSE; 
 }
 
@@ -2483,8 +2486,38 @@ static SCM scheme_one_shot_timer(SCM duration_amount, SCM callback) {
   cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
   scheme->scheme_code = scheme_code;
   scheme->id = Denemo.gui->id;
-  g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme); 
+  g_timeout_add(duration, (GSourceFunc)scheme_callback_one_shot_timer, (gpointer) scheme); 
   return SCM_BOOL(TRUE);
+}
+
+static gboolean scheme_callback_timer(cb_scheme_and_id *scheme){
+    char *scheme_code = scheme->scheme_code;
+    if(scheme->id == Denemo.gui->id)
+      scm_c_eval_string(scheme_code);
+    else
+     g_warning("Timer missed for gui %d\n", scheme->id);
+   
+    return TRUE; //continue to call
+}
+
+
+static SCM scheme_timer(SCM duration_amount, SCM callback) {
+  char *scheme_code = scm_to_locale_string(callback);	
+  gint duration = scm_num2int(duration_amount, 0, 0);
+  cb_scheme_and_id *scheme = g_malloc(sizeof(cb_scheme_and_id));
+  scheme->scheme_code = scheme_code;
+  scheme->id = Denemo.gui->id;
+  g_timeout_add(duration, (GSourceFunc)scheme_callback_timer, (gpointer) scheme); 
+  return scm_int2num((gint)scheme);
+}
+
+static SCM scheme_kill_timer(SCM id) {
+  cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
+  g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
+  //g_print("Freeing %s\n", scheme->scheme_code);
+  g_free(scheme->scheme_code);
+  g_free(scheme);
+  return SCM_BOOL_T;
 }
 
 
@@ -4143,7 +4176,10 @@ INSTALL_EDIT(movementcontrol);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PutMidi", scheme_put_midi);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"OutputMidiBytes", scheme_output_midi_bytes);
   install_scm_function1 (DENEMO_SCHEME_PREFIX"PlayMidiKey", scheme_play_midikey);
-  install_scm_function1 (DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
+
+  INSTALL_SCM_FUNCTION1 ("Takes duration and executable scheme script. Executes the passed scheme code after the passed duration milliseconds", DENEMO_SCHEME_PREFIX"OneShotTimer", scheme_one_shot_timer);
+  INSTALL_SCM_FUNCTION1 ("Takes a duration and scheme script, starts a timer that tries to execute the script after every duration ms. It returns a timer id which must be passed back to destroy the timer", DENEMO_SCHEME_PREFIX"Timer", scheme_timer);
+  INSTALL_SCM_FUNCTION ("Takes a timer id and destroys the timer",DENEMO_SCHEME_PREFIX"KillTimer", scheme_kill_timer);
   INSTALL_SCM_FUNCTION2 ("Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX"BassFigure", scheme_bass_figure);
   INSTALL_SCM_FUNCTION ("Gets the MIDI key number for the note-position where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   INSTALL_SCM_FUNCTION ("Returns the MIDI key number for the note at the cursor, or 0 if none",DENEMO_SCHEME_PREFIX"GetNoteAsMidi", scheme_get_note_as_midi);
