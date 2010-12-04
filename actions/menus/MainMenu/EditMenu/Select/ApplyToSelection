@@ -8,14 +8,13 @@
         <action>ApplyToSelection</action>
         <scheme>;;;ApplyToSelection
 (if (not DenemoKeypressActivatedCommand)
- 	(d-WarningDialog "Now press a shortcut key to apply the command to every object in the selection"))
+ 	(d-WarningDialog "Now press a shortcut key/shortcut keys to apply the command to every object in the selection"))
 (let ((command 0))
 	(begin
-(set! command (d-GetCommand))
-(if (string=? command "d-")
-    (d-WarningDialog "This keypress is not a shortcut")	
+(set! command (d-GetCommandFromUser))
+(if command
     (begin
-      (set! command (string-append "(" command ")"))	
+      (set! command (string-append "(d-" command ")"))	
       (ApplyToSelection command "(d-GoToSelectionStart)")))))
 </scheme>
         <label>Apply Shortcut to Notes in Selection</label>
