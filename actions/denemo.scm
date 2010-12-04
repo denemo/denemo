@@ -1546,19 +1546,20 @@
       (else #f)))
 
 
-
+(define Pitchbend::commandUp "(d-CursorRight)")
+(define Pitchbend::commandDown "(d-CursorLeft)")
 (define  Pitchbend::timer 0)
 (define (MIDI-shortcut::pitchbend value)
 (format #t "pitch bend value ~a\n" value)
   (cond ((> value (+ 50 8192))
 	 (d-KillTimer Pitchbend::timer)
-	 (d-CursorRight)
-	 (set! Pitchbend::timer (d-Timer 100 "(d-CursorRight)"))
+	 (eval-string Pitchbend::commandUp)
+	 (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandUp))
 	 #f)
 
          ((< value (- 8192 50))
 	  (d-KillTimer Pitchbend::timer)
-	  (d-CursorLeft)
-	  (set! Pitchbend::timer (d-Timer 100 "(d-CursorLeft)"))
+	  (eval-string Pitchbend::commandDown)
+	  (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandDown))
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
