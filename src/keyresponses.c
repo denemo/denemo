@@ -94,7 +94,7 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 
 /* perform the command of the given name and store the event that triggered it */
 static
-gboolean perform_command(const gchar *command_name, GdkEventKey *event) {
+gchar* perform_command(const gchar *command_name, GdkEventKey *event) {
   Denemo.last_keyval = event->keyval;
   Denemo.last_keystate =  dnm_sanitize_key_state(event);
   call_out_to_guile("(define DenemoKeypressActivatedCommand #t)");
@@ -102,28 +102,13 @@ gboolean perform_command(const gchar *command_name, GdkEventKey *event) {
   call_out_to_guile("(define DenemoKeypressActivatedCommand #f)");
   // note gui = Denemo.gui; may have changed as a result of executing the command
   displayhelper (Denemo.gui);
-  //gtk_widget_draw (gui->scorearea, NULL);//FIXME what is this doing here?   
-  return TRUE;
+  return NULL;
 }
 
-
-/**
- * keypress event callback 
- * looks up the key press and executes the correct function
- */
-
-gint
-scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
+//return the value of perform_command if executed or "" if keypress is part of a two-key shortcut, or NULL toherwise
+gchar *  process_key_event(GdkEventKey * event, gboolean perform_command()) {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
-  if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
-    dnm_clean_event (event);
-    *divert_key_event = event;
-    //g_object_ref(event); FIXME do we need to keep it around?
-    gtk_main_quit();
-    return TRUE;
-  }
   // g_print("\n********\nCaps Lock %x?\n\n********\nShifted %x?\n", event->state&GDK_LOCK_MASK,	  event->state&GDK_SHIFT_MASK	  );
   {
     gint state;
@@ -135,7 +120,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 
 
   if (isModifier(event))
-    return TRUE;
+    return NULL;
 
 
   /* Look up the keystroke in the keymap and execute the appropriate
@@ -152,13 +137,13 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       return perform_command(command_name, event);
     } else {
       g_warning("Error: action %i has no name", command_idx);
-      return FALSE;
+      return NULL;
     }
   }
 
     /*  we create a store for the prefix char and look to see if it is populated when a keystroke is received. If it is populated, we try for the two-key combination, {???else we try for the single key, and if that fails populate the store. OR if it fails clear store}. If the two-key combination works we clear the store. If the two-key combination fails we try for the single key, if that succeeds we clear the store if it fails we set the store to the unresolved keystroke.  */
 
-  gboolean ret = FALSE;
+  gboolean ret = NULL;
   if(prefix_store->len) {
     gchar *name = dnm_accelerator_name(event->keyval, event->state);
     //g_print("second key %s\n", name);
@@ -172,7 +157,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 	ret = perform_command(command_name, event);
       }
     } else { //Two key name was not a binding
-      ret = FALSE; //WHY??? FIXME
+      ret = NULL;
       write_status(Denemo.gui);
       toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
     }
@@ -192,13 +177,37 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       gtk_statusbar_push(GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id,
 			 prefix_store->str);
       g_string_assign(prefix_store, name);
+      return ""; //continuation available
     } else {
       write_status(Denemo.gui);//WHY FIXME
      toggle_to_drawing_area(TRUE);//restore menus, in case the user is lost and needs to look up a keypress
     }
-    return TRUE;
+    return NULL;
   }
-  return TRUE;
+  return NULL;
+}
+
+
+/**
+ * keypress event callback 
+ * looks up the key press and executes the correct function
+ */
+
+gint
+scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
+{
+  DenemoGUI *gui = Denemo.gui;
+  keymap *the_keymap = Denemo.map;
+  if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
+    dnm_clean_event (event);
+    *divert_key_event = event;
+    //g_object_ref(event); FIXME do we need to keep it around?
+    gtk_main_quit();
+    return TRUE;//not reached
+  }
+
+  (void)process_key_event(event, perform_command);
+  return TRUE;//I think this means do not run any other handlers after this.
 }
 
 /**

@@ -1581,6 +1581,36 @@ SCM scheme_get_command(void) {
  return  scm;
 }
 
+
+gchar *return_command(gchar *name, GdkEvent *event) {
+  return name;
+}
+/* listens for a shortcut and returns a command, or if keypresses are not shortcut returns #f */
+SCM scheme_get_command_from_user(void) {
+  
+  GdkEventKey event;
+  
+  if(intercept_scorearea_keypress(&event) ) {
+    gchar *command = process_key_event(&event, &return_command);
+    if(command==NULL)
+      return SCM_BOOL_F;
+    if(*command==0) {//can be two-key shortcut
+      if(intercept_scorearea_keypress(&event)) {
+	command = process_key_event(&event, &return_command);
+	if(command==NULL)
+	  return SCM_BOOL_F;
+      } else
+	return SCM_BOOL_F;
+    }
+    write_status(Denemo.gui);
+    SCM scm =  scm_makfrom0str (command);//command is from lookup_name_from... functions, do not free.
+    return scm;
+  }
+  return SCM_BOOL_F;
+}
+
+
+
 static void get_drag_offset(GtkWidget *dialog, gint response_id, GtkLabel *label) {
   g_object_set_data(G_OBJECT(dialog), "offset-response", (gpointer)(intptr_t)response_id);
   if(response_id < 0)
@@ -2515,7 +2545,7 @@ static SCM scheme_kill_timer(SCM id) {
   cb_scheme_and_id *scheme = (cb_scheme_and_id *)scm_num2int(id, 0, 0);
   if(scheme) {
     g_source_remove_by_user_data(scheme);//FIXME this timer leaks the memory of the scheme code and id
-    g_print("Freeing %s\n", scheme->scheme_code);
+    //g_print("Freeing %s\n", scheme->scheme_code);
     g_free(scheme->scheme_code);
     g_free(scheme);
     return SCM_BOOL_T;
@@ -3591,6 +3621,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the last keypress that successfully invoked a command ",DENEMO_SCHEME_PREFIX"GetCommandKeypress", scheme_get_command_keypress);
 
   INSTALL_SCM_FUNCTION ("Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommand", scheme_get_command);
+  INSTALL_SCM_FUNCTION ("Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command",DENEMO_SCHEME_PREFIX"GetCommandFromUser", scheme_get_command_from_user);
 
   INSTALL_SCM_FUNCTION2("Sets an \"action script\" on the directive of the given tag", DENEMO_SCHEME_PREFIX"SetDirectiveTagActionScript", (gpointer) scheme_set_action_script_for_tag);
 

@@ -1169,6 +1169,11 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Save the score under a new name</tooltip>
       </row>
       <row>
+        <action>SaveCopy</action>
+        <label>Export/Create Copy</label>
+        <tooltip>Save a copy of the score or Export to a different format</tooltip>
+      </row>
+      <row>
         <action>OpenTemplate</action>
         <label>Open Template</label>
         <tooltip>Start a new score from a built-in template file</tooltip>
@@ -1180,7 +1185,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       </row>
       <row>
         <action>OpenMyTemplate</action>
-        <label>Open custom template</label>
+        <label>Open Custom Template</label>
         <tooltip>Start a new score from one of your own template files</tooltip>
       </row>
       <row>
@@ -4159,7 +4164,6 @@ right. </tooltip>
         <tooltip>Prints current staff in a tiny font.</tooltip>
       </row>
       <row>
-
         <action>TabStaff</action>
         <after>TinyStaff</after>
         <scheme></scheme>
@@ -4173,6 +4177,14 @@ right. </tooltip>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <label>(Print) Standalone Fermata (for barlines)</label>
         <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
+      </row>
+      <row>
+        <action>SetPitcheBendActions</action>
+        <after>AngryDelete</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <label>Set Pitch Bend Controller</label>
+        <tooltip>Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down"</tooltip>
       </row>
     </map>
   </commands>
