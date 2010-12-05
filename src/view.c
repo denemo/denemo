@@ -4412,12 +4412,18 @@ close_gui ()
 
   DenemoGUI *oldgui = Denemo.gui;
   gtk_widget_destroy (Denemo.gui->page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  gint index = g_list_index(Denemo.guis, oldgui);
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
   if(Denemo.guis) {
-    Denemo.gui = Denemo.guis->data;
-    g_print("Setting the first piece as your score\n");
-    gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
+    if(index>g_list_length(Denemo.guis)-1)
+      index=g_list_length(Denemo.guis)-1;
+    if(index<0)
+      index = 0;
+
+    Denemo.gui = g_list_nth_data(Denemo.guis, index);
+    //g_print("Setting the first piece as your score\n");
+    gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), index);
   } else
     Denemo.gui = NULL; 
   return TRUE;
