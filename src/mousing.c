@@ -378,7 +378,7 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
-  if(gui==NULL)
+  if(gui==NULL || gui->si==NULL)
     return FALSE;
   if(gui->scorearea==NULL)
     return FALSE;
@@ -466,6 +466,8 @@ gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoGUI *gui = Denemo.gui;
+  if(gui==NULL || gui->si==NULL)
+    return FALSE;
   //if the cursor is at a system separator start dragging it
   gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
   gint line_num = ((int)event->y)/line_height;
@@ -572,6 +574,8 @@ gint
 scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
 {
 DenemoGUI *gui = Denemo.gui;
+ if(gui==NULL || gui->si==NULL)
+   return FALSE;
  gboolean left = (event->button != 3);
 
   if(dragging_separator) {
@@ -592,6 +596,8 @@ DenemoGUI *gui = Denemo.gui;
 gint
 scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   DenemoGUI *gui = Denemo.gui;
+  if(gui==NULL || gui->si==NULL)
+    return FALSE;
   switch(event->direction) {
     DenemoScriptParam param;
   case GDK_SCROLL_UP:
