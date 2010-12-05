@@ -7234,6 +7234,12 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
   unhighlight_rhythm(Denemo.gui->prevailing_rhythm);
   Denemo.gui = gui = (DenemoGUI*)(g->data);
      g_print("switch page\n");
+
+
+  if(Denemo.prefs.visible_directive_buttons) {
+    gtk_widget_hide(Denemo.gui->buttonboxes);
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+  }
   switch(gui->mode & ~MODE_MASK ) {
     case INPUTINSERT:
       activate_action( "/MainMenu/ModeMenu/InsertMode");
