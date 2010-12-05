@@ -7777,10 +7777,11 @@ newtab (GtkAction *action, gpointer param) {
   gui->buttonbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (gui->buttonboxes), gui->buttonbox, FALSE, TRUE,
 		      0);
-  //  if(Denemo.prefs.visible_directive_buttons)
-  //   gtk_widget_show (gui->buttonboxes);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonboxes, GTK_CAN_FOCUS);
   GTK_WIDGET_UNSET_FLAGS(gui->buttonbox, GTK_CAN_FOCUS);
+
+
+
 
  
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
@@ -7932,6 +7933,11 @@ newtab (GtkAction *action, gpointer param) {
  }
 
 
-}
+  if(Denemo.prefs.visible_directive_buttons) {
+    gtk_widget_hide(Denemo.gui->buttonboxes);
+    activate_action("/MainMenu/ViewMenu/"ToggleScoreTitles_STRING);
+  }
+
+} /* end of newtab creating a new DenemoGUI holding one musical score */
 
 
