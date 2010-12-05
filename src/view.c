@@ -4415,9 +4415,9 @@ close_gui ()
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
   if(Denemo.guis) {
-    //  Denemo.gui = Denemo.guis->data;
-    //  g_print("Setting the first piece as your score\n");
-    // gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
+    Denemo.gui = Denemo.guis->data;
+    g_print("Setting the first piece as your score\n");
+    gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), 0);
   } else
     Denemo.gui = NULL; 
   return TRUE;
