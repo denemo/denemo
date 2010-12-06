@@ -650,20 +650,6 @@
         <action>NotationMagick-TwelveToneRow</action>
         <hidden>true</hidden>
       </row>
-      <row>
-        <action>ZoomIn</action>
-        <bind>Ctrl+plus</bind>
-        <bind>Ctrl+Add</bind>
-      </row>
-      <row>
-        <action>ZoomOut</action>
-        <bind>Ctrl+minus</bind>
-        <bind>Ctrl+Subtract</bind>
-      </row>
-      <row>
-        <action>ZoomReset</action>
-        <bind>Ctrl+0</bind>
-      </row>
     </map>
   </merge>
 </Denemo>
