@@ -4186,6 +4186,27 @@ right. </tooltip>
         <label>Set Pitch Bend Controller</label>
         <tooltip>Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down"</tooltip>
       </row>
+      <row>
+        <action>ZoomIn</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>Zoom In</label>
+        <tooltip>Zoom In</tooltip>
+      </row>
+      <row>
+        <action>ZoomOut</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>Zoom Out</label>
+        <tooltip>Zoom Out</tooltip>
+      </row>
+      <row>
+        <action>ZoomReset</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/ViewMenu/Zoom</menupath>
+        <label>Zoom to 100%</label>
+        <tooltip>Zoom to 100%, restore the original size</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
