@@ -2,6 +2,7 @@
 <score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="3">
   <scheme>(d-DirectivePut-scoreheader-postfix "ScoreTagline" "tagline=\"\"\n")
 (d-ScoreProperties "fontsize=20")
+(d-DirectivePut-score-prefix "MensuralNoteHeads" "neohead = \\once \\override Voice.NoteHead #'style = #'neomensural\n")
 </scheme>
   <scoreheader-directives>
     <directive>
@@ -21,7 +22,12 @@
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
-    <score-directives/>
+    <score-directives>
+      <directive>
+        <tag>MensuralNoteHeads</tag>
+        <prefix>neohead = \once \override Voice.NoteHead #'style = #'neomensural</prefix>
+      </directive>
+    </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
