@@ -746,15 +746,17 @@ static SCM scheme_delete_selection(SCM optional) {
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
-  if(scm_is_string(factor)) {
+  else if(scm_is_string(factor)) {
     gchar *name = scm_to_locale_string(factor);
     if(name)
       Denemo.gui->si->zoom = atof(name);
+  } else {
+    return scm_double2num(Denemo.gui->si->zoom);
   }
      
   scorearea_configure_event(Denemo.gui->scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01)
-    return SCM_BOOL_T;
+    return  scm_int2num(Denemo.gui->si->zoom);
     Denemo.gui->si->zoom =  1.0;
     return SCM_BOOL_F;
 }
@@ -767,14 +769,15 @@ static SCM scheme_master_tempo (SCM factor) {
 
   if(scm_is_real(factor))
     si->master_tempo = scm_to_double(factor);
-  if(scm_is_string(factor)) {
+  else if(scm_is_string(factor)) {
     gchar *name = scm_to_locale_string(factor);
     if(name)
      si->master_tempo = atof(name);
-  }
- 
+  } else 
+  return scm_double2num(si->master_tempo);
   if(si->master_tempo < 0.0)
     si->master_tempo =  1.0;
+  
   si->tempo_change_time = request_time;
   return scm_double2num(si->master_tempo);
 }
@@ -4231,9 +4234,9 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Takes a file name for xml format commandset, loads commands, returns #f if it fails",DENEMO_SCHEME_PREFIX"LoadCommandset", scheme_load_commandset);
 
-  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else #t ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
+  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the display; return #f for invalid value else the value set. With no parameter returns the current value. ", DENEMO_SCHEME_PREFIX"Zoom", scheme_zoom);
 
-  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the tempo; returns the tempo set ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
+  INSTALL_SCM_FUNCTION ("Takes a double or string and scales the tempo; returns the tempo set. With no parameter returns the current master tempo ", DENEMO_SCHEME_PREFIX"MasterTempo", scheme_master_tempo);
 
   INSTALL_SCM_FUNCTION ("Takes an integer or string number of beats (quarter notes) per minute as the tempo for the current movement; returns the tempo set ", DENEMO_SCHEME_PREFIX"MovementTempo", scheme_movement_tempo);
 
