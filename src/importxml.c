@@ -1011,8 +1011,14 @@ parseRest (xmlNodePtr restElem, xmlNsPtr ns, DenemoScore * si)
   xmlNodePtr childElem;
 
   chordObj = parseBaseChord (restElem, ns, si);
-
-
+  FOREACH_CHILD_ELEM (childElem, restElem)
+    {
+      if (ELEM_NAME_EQ (childElem, "ticks"))
+	{
+	  chordObj->basic_durinticks = getXMLIntChild (childElem);
+	  ((chord *)chordObj->object)->baseduration = -chordObj->basic_durinticks;
+	}
+    }
   return chordObj;
 }
 
