@@ -1159,6 +1159,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "DeleteFiguredBass")), "sc
 SCM scheme_HideFiguredBass(SCM optional);
 install_scm_function ("d-HideFiguredBass", scheme_HideFiguredBass);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "HideFiguredBass")), "scm", (gpointer)1);
+/*ShowFiguredBass show_figured_bass*/
+SCM scheme_ShowFiguredBass(SCM optional);
+install_scm_function ("d-ShowFiguredBass", scheme_ShowFiguredBass);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ShowFiguredBass")), "scm", (gpointer)1);
 /*EditChords fakechord_insert*/
 SCM scheme_EditChords(SCM optional);
 install_scm_function ("d-EditChords", scheme_EditChords);

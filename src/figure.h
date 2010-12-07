@@ -16,4 +16,5 @@ DenemoObject *
 newfigure (gint baseduration, gint numdots, gchar *figs);
 void delete_figured_bass  (GtkAction *action, gpointer param);
 void hide_figured_bass  (GtkAction *action, gpointer param);
+void show_figured_bass  (GtkAction *action, gpointer param);
 #endif
