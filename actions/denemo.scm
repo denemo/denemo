@@ -1565,3 +1565,14 @@
 	  (set! Pitchbend::timer (d-Timer 100 Pitchbend::commandDown)))
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
+;;;;;;;;;;;;;;;;;;
+;;;;;;;
+(define (ForAllMovements script)
+(d-PushPosition)
+  (while (d-PreviousMovement)
+	 #t)
+  (eval-string script) 	
+  (while (d-NextMovement)
+	(eval-string script))
+(d-PopPosition))
+;;;;;;;

@@ -1470,6 +1470,11 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <tooltip>Hide the figured bass on the current staff on printing</tooltip>
       </row>
       <row>
+        <action>ShowFiguredBass</action>
+        <label>Show Figures (Print)</label>
+        <tooltip>Show the figured bass on the current staff on printing</tooltip>
+      </row>
+      <row>
         <action>EditChords</action>
         <label>Edit Chord Symbols</label>
         <tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</tooltip>
@@ -4206,6 +4211,14 @@ right. </tooltip>
         <menupath>/MainMenu/ViewMenu/Zoom</menupath>
         <label>Zoom to 100%</label>
         <tooltip>Zoom to 100%, restore the original size</tooltip>
+      </row>
+      <row>
+        <action>AccompanistsScore</action>
+        <after>DeactivateTimeSignatureStencil</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Score</menupath>
+        <label>(Print) Accompanist's Score</label>
+        <tooltip>Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only.</tooltip>
       </row>
     </map>
   </commands>

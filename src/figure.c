@@ -129,6 +129,11 @@ void hide_figured_bass  (GtkAction *action, gpointer param) {
   DenemoStaff* thestaff = (DenemoStaff*)gui->si->currentstaff->data;
    thestaff->hasfigures=FALSE;
 }
+void show_figured_bass  (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  DenemoStaff* thestaff = (DenemoStaff*)gui->si->currentstaff->data;
+   thestaff->hasfigures=TRUE;
+}
 /**
  * Creates figured bass entry dialog
  *
