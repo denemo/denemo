@@ -157,19 +157,22 @@
 ;But attention! SingleAndSelectionSwitcher will still try to apply the given script to each of the single items alone. If you need a script which differs completly in beaviour for single/selection you have to write your own. You have to take out the (let loop () section for this and write your own selection part there.
 ;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
 ;Return values are the return values the script itself gives.
+;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
+
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
 
-(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle)) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
-(if (not commandselection)
-	(define commandselection commandsingle)
-)
+(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 (d-PushPosition)
 (if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
-	(eval-string  commandselection)
+	(if (eval-string onlyFor)
+		(eval-string  commandselection))
 	(let loop ()
 	(if (NextSelectedObjectAllStaffs)
-	 	(begin (eval-string  commandselection) (loop))
+	 	(if (eval-string onlyFor)
+	 		(begin (eval-string  commandselection) (loop))
+	 		(loop) ; don't process this object, next please.
+	 	)
 	))
 	(d-GoToSelectionStart)
 	(d-PopPosition)
