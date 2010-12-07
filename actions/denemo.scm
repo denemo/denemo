@@ -241,8 +241,8 @@
 	(define wrap:Op5 "#f")(set! wrap:Op5 "(d-Insert5)")
 	(define wrap:Op6 "#f")(set! wrap:Op6 "(d-Insert6)")
 	(define wrap:Op7 "#f")(set! wrap:Op7 "(d-Insert7)")
-	(define wrap:Op8 "#f")(set! wrap:Op8 "(d-Insert8)")
-	(define wrap:Op9 "#f")(set! wrap:Op9 "#f")
+	(define wrap:Op8 "#f")(set! wrap:Op8 "(d-InsertBreve)")
+	(define wrap:Op9 "#f")(set! wrap:Op9 "(d-InsertLonga)")
 
 	
 
