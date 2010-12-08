@@ -631,6 +631,18 @@
         <bind>Ctrl+n</bind>
       </row>
       <row>
+        <action>OpenFirstTimeBar</action>
+        <bind>r,1</bind>
+      </row>
+      <row>
+        <action>OpenSecondTimeBar</action>
+        <bind>r,2</bind>
+      </row>
+      <row>
+        <action>EndVolta</action>
+        <bind>r,e</bind>
+      </row>
+      <row>
         <action>AddDuplicateMeasure</action>
         <bind>Enter</bind>
       </row>
