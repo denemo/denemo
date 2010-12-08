@@ -182,8 +182,65 @@
 ))
 ;; End of SingleAndSelectionSwitcher
 
-(define Chord? (lambda ()
-		  (string=? (d-GetType) "CHORD")))
+
+;;; A set of simple tests / questions for score objects. 
+
+(define (music?) 
+  (if (string=? (d-GetType) "CHORD") #t #f))
+	
+(define (note?) 
+  (if (and (string=? (d-GetType) "CHORD") (d-GetNoteName)) #t #f))
+
+(define (rest?)
+  (if (and (not (d-GetNoteName)) (string=? (d-GetType) "CHORD")) #t #f))
+
+(define (chord?) 
+  (if (note?)
+	(if (string-contains (d-GetNotes) " ")
+		#t
+		#f
+	)
+  #f ; no note
+))
+
+(define (singlenote?) 
+  (if (note?)
+	(if (string-contains (d-GetNotes) " ")
+		#f
+		#t
+	)
+  #f ; no note
+))
+	
+(define (directive?) 
+  (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
+
+(define (timesignature?) 
+  (if (string=? (d-GetType) "KEYSIG") #t #f))
+  
+(define (keysignature?) 
+  (if (string=? (d-GetType) "TIMESIG") #t #f))
+  
+(define (clef?) 
+  (if (string=? (d-GetType) "CLEF") #t #f))
+  
+(define (tupletmarker?) 
+  (if (or (tupletopen?) (tupletclose?))  #t #f))
+  
+(define (tupletopen?) 
+  (if (string=? (d-GetType) "TUPOPEN") #t #f))
+  
+(define (tupletclose?) 
+  (if (string=? (d-GetType) "TUPCLOSE") #t #f))
+ 
+(define (none?)
+ (if (string=? (d-GetType) "None") #t #f))
+	
+(define (appending?)
+ (if (string=? (d-GetType) "Appending") #t #f))	 
+ 
+;;;;; End set of questions
+		  
 
 (define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
 					    (if (Chord?)
