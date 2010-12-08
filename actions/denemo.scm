@@ -157,19 +157,22 @@
 ;But attention! SingleAndSelectionSwitcher will still try to apply the given script to each of the single items alone. If you need a script which differs completly in beaviour for single/selection you have to write your own. You have to take out the (let loop () section for this and write your own selection part there.
 ;The applied script itself has to take care if the command can be applied to each potential item. If you want only notes/chords/rests you have to make sure the script does not abort on other objects. Its the same as giving proper return values for a single item, just return #f if a command is not possible for an item. While a single item just returns an error if you don't do it correctly, but does no harm otherwise, a script applied to a selection will stop on that item and leaves you on half on the way.
 ;Return values are the return values the script itself gives.
+;The third, optional, parameter can prevent an object from be processed. By default this parameter is #t so the command will be will be applied to any object in the selection and let the command itself decide what to do (or just do nothing). By giving the third optional argument you can specify additional conditions, for example with GetType. In general: Insert test conditions here, if #t the current object will be processed, otherwise it will be skipped.
+
 ;Example: (SingleAndSelectionSwitcher  "(d-ChangeDurationByFactorTwo *)" "(d-ChangeDurationByFactorTwo *)")
 
-(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle)) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
-(if (not commandselection)
-	(define commandselection commandsingle)
-)
+(define* (SingleAndSelectionSwitcher commandsingle #:optional (commandselection commandsingle) (onlyFor "#t")) ; Amazingly commandsingle is already defined on spot so that it can be used again in the same line to define commandselection 
 (d-PushPosition)
 (if (and DenemoPref_applytoselection (d-GoToSelectionStart))
 (begin
-	(eval-string  commandselection)
+	(if (eval-string onlyFor)
+		(eval-string  commandselection))
 	(let loop ()
 	(if (NextSelectedObjectAllStaffs)
-	 	(begin (eval-string  commandselection) (loop))
+	 	(if (eval-string onlyFor)
+	 		(begin (eval-string  commandselection) (loop))
+	 		(loop) ; don't process this object, next please.
+	 	)
 	))
 	(d-GoToSelectionStart)
 	(d-PopPosition)
@@ -179,20 +182,78 @@
 ))
 ;; End of SingleAndSelectionSwitcher
 
-(define Chord? (lambda ()
-		  (string=? (d-GetType) "CHORD")))
+
+;;; A set of simple tests / questions for score objects. 
+
+(define (music?) 
+  (if (string=? (d-GetType) "CHORD") #t #f))
+	
+(define (note?) 
+  (if (and (string=? (d-GetType) "CHORD") (d-GetNoteName)) #t #f))
+
+(define (rest?)
+  (if (and (not (d-GetNoteName)) (string=? (d-GetType) "CHORD")) #t #f))
+
+(define (chord?) 
+  (if (note?)
+	(if (string-contains (d-GetNotes) " ")
+		#t
+		#f
+	)
+  #f ; no note
+))
+
+(define (singlenote?) 
+  (if (note?)
+	(if (string-contains (d-GetNotes) " ")
+		#f
+		#t
+	)
+  #f ; no note
+))
+	
+(define (directive?) 
+  (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
+
+(define (timesignature?) 
+  (if (string=? (d-GetType) "KEYSIG") #t #f))
+  
+(define (keysignature?) 
+  (if (string=? (d-GetType) "TIMESIG") #t #f))
+  
+(define (clef?) 
+  (if (string=? (d-GetType) "CLEF") #t #f))
+  
+(define (tupletmarker?) 
+  (if (or (tupletopen?) (tupletclose?))  #t #f))
+  
+(define (tupletopen?) 
+  (if (string=? (d-GetType) "TUPOPEN") #t #f))
+  
+(define (tupletclose?) 
+  (if (string=? (d-GetType) "TUPCLOSE") #t #f))
+ 
+(define (none?)
+ (if (string=? (d-GetType) "None") #t #f))
+	
+(define (appending?)
+ (if (string=? (d-GetType) "Appending") #t #f))	 
+ 
+;;;;; End set of questions
+		  
 
 (define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
-					    (if (Chord?)
+					    (if (music?)
 			                	 #t
 			                	 (NextChordInSelection))
 					    #f
 					    )))
 (define FirstChordInSelection (lambda () (if (d-GoToMark)
-						  (if (Chord?)
+						  (if (music?)
 			                	 #t)
 						  #f)))
 				    
+
 (define ApplyToSelection (lambda (command positioning_command)
 			   (begin
 			     (if (eval-string positioning_command)
@@ -233,16 +294,16 @@
 
 
 ;;;;;;;;;;;;;;;;hardcode default number keys to Insert Note in Composer Mode
-	(define wrap:Op0 "#f")(set! wrap:Op0 "(d-Insert0)")
-	(define wrap:Op1 "#f")(set! wrap:Op1 "(d-Insert1)")
-	(define wrap:Op2 "#f")(set! wrap:Op2 "(d-Insert2)")
-	(define wrap:Op3 "#f")(set! wrap:Op3 "(d-Insert3)")
-	(define wrap:Op4 "#f")(set! wrap:Op4 "(d-Insert4)")
-	(define wrap:Op5 "#f")(set! wrap:Op5 "(d-Insert5)")
-	(define wrap:Op6 "#f")(set! wrap:Op6 "(d-Insert6)")
-	(define wrap:Op7 "#f")(set! wrap:Op7 "(d-Insert7)")
-	(define wrap:Op8 "#f")(set! wrap:Op8 "(d-Insert8)")
-	(define wrap:Op9 "#f")(set! wrap:Op9 "#f")
+	(define wrap:Op0 (cons "(d-Insert0)" "(d-Insert0)" ))
+	(define wrap:Op1 (cons "(d-Insert1)" "(d-Insert1)" ))
+	(define wrap:Op2 (cons "(d-Insert2)" "(d-Insert2)" ))
+	(define wrap:Op3 (cons "(d-Insert3)" "(d-Insert3)" ))
+	(define wrap:Op4 (cons "(d-Insert4)" "(d-Insert4)" ))
+	(define wrap:Op5 (cons "(d-Insert5)" "(d-Insert5)" ))
+	(define wrap:Op6 (cons "(d-Insert6)" "(d-Insert6)" ))
+	(define wrap:Op7 (cons "(d-Insert7)" "(d-Insert7)" ))
+	(define wrap:Op8 (cons "(d-InsertBreve)" "(d-InsertBreve)"))
+	(define wrap:Op9 (cons "(d-InsertLonga)" "(d-InsertLonga)"))
 
 	
 
@@ -290,16 +351,16 @@
 		((#{0}#)  (eval-string tenth))
 		((space)  (doublestroke::invokegui))
 		((Return) (begin
-				(set! wrap:Op1 first)
-				(set! wrap:Op2 second)
-				(set! wrap:Op3 third)
-				(set! wrap:Op4 fourth)
-				(set! wrap:Op5 fifth)
-				(set! wrap:Op6 sixth)
-				(set! wrap:Op7 seventh)
-				(set! wrap:Op8 eighth)
-				(set! wrap:Op9 ninth)
-				(set! wrap:Op0 tenth)
+				(set-cdr! wrap:Op1 first)
+				(set-cdr! wrap:Op2 second)
+				(set-cdr! wrap:Op3 third)
+				(set-cdr! wrap:Op4 fourth)
+				(set-cdr! wrap:Op5 fifth)
+				(set-cdr! wrap:Op6 sixth)
+				(set-cdr! wrap:Op7 seventh)
+				(set-cdr! wrap:Op8 eighth)
+				(set-cdr! wrap:Op9 ninth)
+				(set-cdr! wrap:Op0 tenth)
 				))
 		(else #f))
 	  (set! DenemoKeypressActivatedCommand #f))
@@ -1103,7 +1164,7 @@
 ;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
   (let loop ()
-    (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
+    (if  (or (none?) (appending?))
 	#t
 	(begin (d-MoveCursorRight) (loop))))	
 )
@@ -1133,7 +1194,7 @@
 
  ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
 
-(if (and paste::break? (string-ci=? (d-GetType) "Appending")  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
+(if (and paste::break? (appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
         (if (d-MoveToMeasureRight) ; End of Staff?
 			(if (MeasureEmpty?) 
 				#t
@@ -1146,7 +1207,7 @@
 	(if (and 
 	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
 	(not (d-GetClipObjType 1 0)) ; Only for single-staff
-	(not (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "Appending"))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
+	(not (or (none?) (appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
        paste::break?  ; If there is no measurebreak there is no need to split
 	) 
 		(d-SplitMeasure)
@@ -1223,7 +1284,7 @@
  	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
  	      (= count 0)
  	) 	 		       
- 	(string-ci=?  (d-GetType) "Appending") 
+ 	(appending?)
  	(not paste::break?) 
  	(MeasureFillStatus)) ; if conditions end
  	
@@ -1503,7 +1564,7 @@
  
 ; Second step: add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (string-ci=? (d-GetType) "CHORD") (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
+  (if (and (music?)) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
   (let loop ((i 0))
 	(if (= dots i)
 	#t

@@ -8,22 +8,21 @@
         <action>ChangeBreve</action>
         <scheme>;;;ChangeBreve
 (d-SetBreve)
-(if (string=? "CHORD" (d-GetType))
-  (begin ; its a chord, means note or rest!
-	(if (d-GetNote) ; Test if its a note with a name or not, then its a rest
+(if (music?)
+  (begin
+	(if (rest?) ; Test if its a note with a name or not, then its a rest
+		(d-DirectivePut-chord-graphic "Breve" "rests_M1neomensural")  ;rest	
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
 			(d-DirectivePut-chord-graphic "Breve" "noteheads_sM1neomensural")
-
-		)
-		(d-DirectivePut-chord-graphic "Breve" "rests_M1neomensural")  ;rest	
+		)	
 	)
 	(d-DirectivePut-chord-override "Breve" DENEMO_OVERRIDE_GRAPHIC)
 	(d-DirectivePut-chord-prefix "Breve" "\\breve ")
 	(d-SetDurationInTicks (* 2 1536))
 	(d-RefreshDisplay)
   )
-  #f ; not a chord
+  #f ; not music
 )</scheme>
         <label>Breve</label>
         <tooltip>Change current note duration to Breve</tooltip>

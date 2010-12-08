@@ -8,14 +8,11 @@
         <action>ApplyToSelection</action>
         <scheme>;;;ApplyToSelection
 (if (not DenemoKeypressActivatedCommand)
- 	(d-WarningDialog "Now press a shortcut key/shortcut keys to apply the command to every object in the selection"))
-(let ((command 0))
-	(begin
-(set! command (d-GetCommandFromUser))
-(if command
-    (begin
-      (set! command (string-append "(d-" command ")"))	
-      (ApplyToSelection command "(d-GoToSelectionStart)")))))
+	(d-WarningDialog "Close this dialog, then press a shortcut key/shortcut keys to apply the command to every object in the selection\n\nWarning: This command will just execute the command you give once for each note. if you select 8 notes and do ZoomIn it will zoom 8 times.\n\nWarning 2: If you choose a command which already supports selections, the command you've given will be applied as often as you've selected notes to the whole selection.\n\nAbort the process by pressing using the command to unset the selection.\n\nHave fun."))
+(let ()
+	(define var (d-GetCommandFromUser))
+	(if var (SingleAndSelectionSwitcher (string-append "(d-" var ")")))
+)
 </scheme>
         <label>Apply Shortcut to Notes in Selection</label>
         <tooltip>Followed by a shortcut: applies the shortcut to each note in the selection.</tooltip>

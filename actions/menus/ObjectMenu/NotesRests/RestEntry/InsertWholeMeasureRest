@@ -9,7 +9,7 @@
         <action>InsertWholeMeasureRest</action>
         <scheme>;;;;InsertWholeMeasureRest
  ;;; note that it works in edit mode properly
- (if (equal? (d-GetType) "None")
+ (if (none?)
  	(begin
  		(d-WholeMeasureRest))
  	(begin	

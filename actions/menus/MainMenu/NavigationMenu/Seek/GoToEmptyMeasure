@@ -8,11 +8,11 @@
         <after>GoToMeasure</after>
         <action>GoToEmptyMeasure</action>
         <scheme>;;;GoToEmptyMeasure
-(if (not (equal? "None" (d-GetType)))
+(if (not (none?))
 (begin
 	(d-MoveCursorRight)
 	(let gotoEnd ()
- 	(if  (and (d-MoveCursorRight) (not (equal? "None" (d-GetType))))
+ 	(if  (and (d-MoveCursorRight) (not (none?)))
 		(gotoEnd)))
 	(d-RefreshDisplay)))</scheme>
         <label>Go To Next Empty Measure</label>
