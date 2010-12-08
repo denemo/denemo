@@ -1164,7 +1164,7 @@
 ;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
   (let loop ()
-    (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
+    (if  (or (none?) (appending?))
 	#t
 	(begin (d-MoveCursorRight) (loop))))	
 )
@@ -1194,7 +1194,7 @@
 
  ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
 
-(if (and paste::break? (string-ci=? (d-GetType) "Appending")  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
+(if (and paste::break? (appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
         (if (d-MoveToMeasureRight) ; End of Staff?
 			(if (MeasureEmpty?) 
 				#t
@@ -1207,7 +1207,7 @@
 	(if (and 
 	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
 	(not (d-GetClipObjType 1 0)) ; Only for single-staff
-	(not (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "Appending"))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
+	(not (or (none?) (appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
        paste::break?  ; If there is no measurebreak there is no need to split
 	) 
 		(d-SplitMeasure)
@@ -1284,7 +1284,7 @@
  	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
  	      (= count 0)
  	) 	 		       
- 	(string-ci=?  (d-GetType) "Appending") 
+ 	(appending?)
  	(not paste::break?) 
  	(MeasureFillStatus)) ; if conditions end
  	
@@ -1564,7 +1564,7 @@
  
 ; Second step: add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (string-ci=? (d-GetType) "CHORD") (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
+  (if (and (music?)) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
   (let loop ((i 0))
 	(if (= dots i)
 	#t

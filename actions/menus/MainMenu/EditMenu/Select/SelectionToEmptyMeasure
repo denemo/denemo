@@ -7,11 +7,11 @@
       <row>
         <action>SelectionToEmptyMeasure</action>
         <scheme>;;;SelectionToEmptyMeasure
-(if (not (equal? "None" (d-GetType)))
+(if (not (none?))
 (begin
 	(d-CursorRight)
 	(let gotoEnd ()
- 	(if  (and (d-CursorRight) (not (equal? "None" (d-GetType))))
+ 	(if  (and (d-CursorRight) (not (none?)))
 		(gotoEnd)))
 	(d-RefreshDisplay)))</scheme>
         <label>Selection to next empty measure</label>

@@ -11,13 +11,13 @@
 	(define (GetNoteBeat )	;get duration of a note as a fraction of a whole note, e.g. dotted quarter = 3/8
 		(let ((note 0) (len 0 ) (DotIndex 0) (NumDots 0) (NoteBeat 0))
 			(begin		
-			(if (equal? (d-GetType) "TUPOPEN") ;FIXME-no support for nested tuplets.
+			(if (tupletopen?) ;FIXME-no support for nested tuplets.
 				(set! TupletScaleFactor (string-&gt;number (d-GetTuplet))))
 
 	                ;(d-DirectiveDelete-standalone "ShortMeasure")	;delete the old ShortMeasure
 			
-			(if (equal? (d-GetType) "TUPCLOSE") (set! TupletScaleFactor 1))
-			(if (equal? (d-GetType) "CHORD" ) 
+			(if (tupletclose?) (set! TupletScaleFactor 1))
+			(if (music?)
 				(if (not (d-ToggleGrace "query="))	;if it's not a grace, continue; otherwise, leave it as 0.
 					(begin
 						(set! note (d-GetNoteDuration))

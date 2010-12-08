@@ -7,7 +7,7 @@
       <row>
         <action>InsertBreveRest</action>
         <scheme>(d-InsertWholeRest)
-(if (string-ci=? (d-GetType) "appending")
+(if (appending?)
 	(d-MoveCursorLeft))
 (d-ChangeBreve)
 (d-MoveCursorRight)</scheme>

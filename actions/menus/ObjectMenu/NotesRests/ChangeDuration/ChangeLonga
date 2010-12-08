@@ -8,16 +8,14 @@
         <action>ChangeLonga</action>
         <scheme>;;;ChangeLonga
 (d-SetLonga)
-(if (string=? "CHORD" (d-GetType))
+(if (music?)
   (begin ; its a chord, means note or rest!
-	(if (d-GetNote) ; Test if its a note with a name or not, then its a rest
+	(if (rest?) ; Test if its a note with a name or not, then its a rest
+		(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural") ;rest
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
-			(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")
-	
-		)
-		(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural") ;rest
-	
+			(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")	
+		)	
 	)
 	(d-DirectivePut-chord-prefix "Longa" "\\longa ")
 	(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)

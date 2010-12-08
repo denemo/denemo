@@ -8,7 +8,7 @@
         <action>GoToMeasureEnd</action>
         <scheme>
 (let loop ()
-    (if  (or (string-ci=?  (d-GetType) "none") (string-ci=?  (d-GetType) "appending"))
+    (if  (or (none?) (appending?))
 	#t
 	(begin (d-MoveCursorRight) (loop))))
 		</scheme>
