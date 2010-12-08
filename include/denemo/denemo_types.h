@@ -48,6 +48,7 @@ typedef GList objnode;
 
 typedef enum 
   {
+    NOT_UNDO_REDO = 0,
     UNDO,
     REDO
   }unre_mode;
@@ -590,16 +591,24 @@ typedef struct
 	GList *instruments;  // List to contain a list of Instruments of given type
 }InstrumentList;
 
+typedef struct DenemoPosition { /**<Represents a position in a Score */
+  gint movement;
+  gint staff;
+  gint measure;
+  gint object;/**< 0 means no object */
+  gboolean appending;/**< if cursor is in appending position */
+  gboolean offend;/**< cursor is shown red in this case, obscure connection with appending */
+} DenemoPosition;
+
+
 /**
  * Contains data required for undo/redo operation 
  * Borrowed idea from GScore
  */
 typedef struct unre_data
 {
-  gpointer object;    /* pointer to object to be undone/redone */
-  gint staffnum;      /* staff number */     
-  gint measurenum;    /* measure number */
-  gint position;      /* position in bar */
+  DenemoObject* object;    /* pointer to object to be undone/redone */
+  DenemoPosition position; /* position where delete/insert took place */
   enum action_type action; /*action type */
 
 }unre_data;
@@ -640,15 +649,6 @@ typedef struct DenemoScriptParam { /**< commands called by scripts use one of th
 } DenemoScriptParam;
 
 
-
-typedef struct DenemoPosition { /**<Represents a position in a Score */
-  gint movement;
-  gint staff;
-  gint measure;
-  gint object;/**< 0 means no object */
-  gboolean appending;/**< if cursor is in appending position */
-  gboolean offend;/**< cursor is shown red in this case, obscure connection with appending */
-} DenemoPosition;
 
 
 

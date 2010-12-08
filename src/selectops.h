@@ -72,7 +72,7 @@ void goto_selection_start (GtkAction *action,  DenemoScriptParam *param);
 
 DenemoPosition *pop_position(void);
 void push_position(void);
-
+void get_position(DenemoScore *si, DenemoPosition *pos);
 
 DenemoObject *get_mark_object(void);
 DenemoObject *get_point_object(void);

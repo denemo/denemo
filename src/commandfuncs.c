@@ -278,24 +278,18 @@ void
 object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 {
   DenemoScore *si = gui->si;
-  unre_data *undo = (unre_data *) g_malloc (sizeof (unre_data));
 
   declarecurmudelaobj;
 
-#if 0
-  //this makes writing scripts difficult, and anyway assumes Denemo knows where the barlines are
-  /* First, check to see if the operation would add something before an
-   * indicator of a time signature change. This would be bad, so don't
-   * allow it to happen */
-  if (curmudelaobj && curmudelaobj->type == TIMESIG && !si->cursor_appending)
+  /* update undo information */
+  unre_data *undo;
+  if (!si->undo_redo_mode)
     {
-      si->cursor_x++;
-      if (si->currentobject->next)
-	si->currentobject = si->currentobject->next;
-      else
-	si->cursor_appending = TRUE;
+      undo = (unre_data *) g_malloc (sizeof (unre_data));
+      undo->object = dnm_clone_object (mudela_obj_new);
+      //do position after inserting, so we can go back to it to delete
     }
-#endif
+
   si->currentmeasure->data =
     g_list_insert ((objnode *) si->currentmeasure->data,
 		   mudela_obj_new, si->cursor_x);
@@ -307,13 +301,14 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 	  find_xes_in_all_measures (si);
   }
 
-  /* update undo information */
-  undo->position = si->cursor_x;
-  undo->measurenum = si->currentmeasurenum;
-  undo->staffnum = si->currentstaffnum;
-  undo->object = dnm_clone_object (mudela_obj_new);
-  undo->action = ACTION_INSERT;
 
+ if (!si->undo_redo_mode)
+    {
+      get_position(si,&undo->position);
+      undo->position.appending = 0;
+      undo->action = ACTION_INSERT;
+      update_undo_info (si, undo);
+    }
 
   si->cursor_x++;
   if (si->cursor_appending)
@@ -322,8 +317,7 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
     si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				    si->cursor_x);
   // g_print("object %p cursorx %d length %d\n", si->currentobject, si->cursor_x, g_list_length(si->currentmeasure->data));
-  update_undo_info (si, undo);
-
+ 
   score_status(gui, TRUE);
   si->markstaffnum = 0;
 }
@@ -1384,13 +1378,14 @@ incrementenshift (DenemoGUI * gui, gint direction)
       } else {
 	Denemo.gui->last_source = INPUTKEYBOARD;
       }
-      unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
-      data->object = curmudelaobj;
-      data->position = si->cursor_x;
-      data->measurenum = si->currentmeasurenum;
-      data->staffnum = si->currentstaffnum;
-      data->action = ACTION_CHANGE;
-      update_undo_info (si, data);
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object =dnm_clone_object ( curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
       score_status(gui, TRUE);
     }
 }
@@ -1424,13 +1419,14 @@ setenshift (DenemoScore * si, gint enshift)
 		   (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
 
       }
+  if (!si->undo_redo_mode)
+    {
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
-      data->object = curmudelaobj;
-      data->position = si->cursor_x;
-      data->measurenum = si->currentmeasurenum;
-      data->staffnum = si->currentstaffnum;
+      data->object = dnm_clone_object (curmudelaobj);
+      get_position(si, &data->position);
       data->action = ACTION_CHANGE;
       update_undo_info (si, data);
+    }
     }
 }
 
@@ -1800,17 +1796,13 @@ dnm_deleteobject (DenemoScore * si)
   if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
     if(!confirm("This LilyPond insert is locked","Really delete it?"))
       return;
+  unre_data *undo;
 
-
-  if (si->undo_redo_mode == UNDO)
+  if (!si->undo_redo_mode)
     {
-      unre_data *undo = (unre_data *) g_malloc (sizeof (unre_data));
-      undo->staffnum = si->currentstaffnum;
-      undo->measurenum = si->currentmeasurenum;
-      undo->position = si->cursor_x;
+      undo = (unre_data *) g_malloc (sizeof (unre_data));      
       undo->object = dnm_clone_object (curmudelaobj);
-      undo->action = ACTION_DELETE;
-      update_undo_info (si, undo);
+      //get position after delete
     }
 
 
@@ -1903,6 +1895,13 @@ dnm_deleteobject (DenemoScore * si)
 	}
       si->markstaffnum = 0;
     }
+  if (!si->undo_redo_mode)
+    {
+      get_position(si, &undo->position);
+      undo->action = ACTION_DELETE;
+      update_undo_info (si, undo);
+    }
+
 }
 
 /**

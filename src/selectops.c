@@ -1,3 +1,4 @@
+#define DEBUG 1
 /**
  * selectops.c
  * operations for selecting, cutting, copying, and pasting music
@@ -908,15 +909,18 @@ DenemoPosition *pop_position(void) {
   return NULL;
 }
 
-void push_position(void) {
-  DenemoScore *si = Denemo.gui->si;
-  DenemoPosition *pos = ( DenemoPosition *)g_malloc(sizeof(DenemoPosition));
+void get_position(DenemoScore *si, DenemoPosition *pos) {
   pos->movement =  g_list_index(Denemo.gui->movements, si)+1;
   pos->staff =  si->currentstaffnum;
   pos->measure = si->currentmeasurenum;
   pos->object =  si->currentobject?si->cursor_x+1:0;
   pos->appending = si->cursor_appending;
   pos->offend = si->cursoroffend;
+}
+void push_position(void) {
+  DenemoScore *si = Denemo.gui->si;
+  DenemoPosition *pos = ( DenemoPosition *)g_malloc(sizeof(DenemoPosition));
+  get_position(si, pos);
   if(pos->movement)
      positions = g_slist_prepend(positions, pos);
   else
@@ -924,7 +928,11 @@ void push_position(void) {
   //g_print("%d %d %d %d \n", pos->movement, pos->staff, pos->measure, pos->object);
 }
 
-
+static void push_given_position(DenemoPosition *pos) {
+  DenemoPosition *position = (DenemoPosition*)g_malloc(sizeof(DenemoPosition));
+  memcpy(position, pos, sizeof(DenemoPosition));
+  positions = g_slist_prepend(positions, position);
+}
 /**
  *  copywrapper
  *  Wrapper function for the copy command
@@ -1062,42 +1070,38 @@ redowrapper (GtkAction *action, gpointer param)
 
 /**
  * undo
- * Self explantory - undo's the previous command
+ * Undoes an insert, delete (change not implemented) of a DenemoObject, transferring the undo object to the redo queue and switching it between delete/insert
  *
- * Input
- * scoreinfo - score data
+ * Input the movement
  */
 static void
 undo (DenemoGUI * gui)
 {
   unre_data *undo=NULL;
-  unre_data *redo = (unre_data *) g_malloc (sizeof (unre_data));//FIXME memory leak
-
+  gui->si->undo_redo_mode = UNDO;
   if (gui->notsaved /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
     {
-      gui->si->undo_redo_mode = UNDO;
+      
       undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
-      memcpy (redo, undo, sizeof (*undo));
-
-      gui->si->currentstaffnum = undo->staffnum;
-      gui->si->currentmeasurenum = undo->measurenum;
-      setcurrents (gui->si);
-calcmarkboundaries (gui->si);
-      gui->si->cursor_x = undo->position;
-      if (undo->action == ACTION_INSERT)
+      push_given_position(&undo->position);
+      PopPosition(NULL, NULL);
+      switch(undo->action) {
+      case ACTION_INSERT:
 	{
 	  g_debug ("Undo Action Insert:  Remove Object from score\n");
-	  g_debug ("staffnum %d, measurenum %d, position %d\n",
-		   undo->staffnum, undo->measurenum, undo->position);
+	  //g_debug ("staffnum %d, measurenum %d, position %d\n",
+	  //	   undo->staffnum, undo->measurenum, undo->position);
 
-	  setcurrentobject (gui->si, gui->si->cursor_x);
+
 
 	  g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
-
+	  
 	  dnm_deleteobject (gui->si);
-	  /*  redo->action = ACTION_DELETE;*/
+	 
+	  undo->action = ACTION_DELETE;
 	}
-      else if (undo->action == ACTION_DELETE)
+	break;
+      case  ACTION_DELETE:
 	{
 
 	  object_insert (gui, undo->object);
@@ -1107,24 +1111,27 @@ calcmarkboundaries (gui->si);
 	  g_debug ("Cursor position before UNDO %d\n", gui->si->cursor_x);
 	  g_debug ("Cursor Position %d\n", gui->si->cursor_x);
 
-	  setcurrents (gui->si);
-calcmarkboundaries (gui->si);
+	  undo->action = ACTION_INSERT;
+
 	}
-      else if (undo->action == ACTION_CHANGE)
+	break;
+      case ACTION_CHANGE:
 	{
+	  g_warning("Undo change not implemented\n");
 	  displayhelper (gui);
 	}
+	break;
+      default:
+	g_warning("Undxpected undo case ");
+      }
+      update_redo_info (gui->si, undo);
     }
-
-  /* update_redo_info (gui->si, redo);*/
-
-  if (undo)
-    g_free (undo);
+  gui->si->undo_redo_mode = NOT_UNDO_REDO;
 }
 
 /**
  * redo
- * Self explanitary - redoes the previous undo command
+ * Self explanatory - redoes the previous undo command
  *
  * Input
  * scoreinfo - score data
@@ -1146,9 +1153,9 @@ redo (DenemoGUI * gui)
 
       if (redo->action == ACTION_INSERT)
 	{
-	  si->currentstaffnum = redo->staffnum;
-	  si->currentmeasurenum = redo->measurenum;
-	  si->cursor_x = redo->position;
+	  si->currentstaffnum = redo->position.staff;
+	  si->currentmeasurenum = redo->position.measure;
+	  si->cursor_x = (redo->position.object>0?redo->position.object-1:0);
 	  setcurrents (si);
 calcmarkboundaries (si);
 
@@ -1160,12 +1167,12 @@ calcmarkboundaries (si);
 	{
 
 	  g_debug ("Redo Action Insert:  Remove Object from score\n");
-	  g_debug ("staffnum %d, measurenum %d, position %d\n",
-		   redo->staffnum, redo->measurenum, redo->position);
+	  //g_debug ("staffnum %d, measurenum %d, position %d\n",
+	  //	   redo->staffnum, redo->measurenum, redo->position);
 
-	  si->currentstaffnum = redo->staffnum;
-	  si->currentmeasurenum = redo->measurenum;
-	  si->cursor_x = redo->position;
+	  si->currentstaffnum = redo->position.staff;
+	  si->currentmeasurenum = redo->position.measure;
+	  si->cursor_x = (redo->position.object>0?redo->position.object-1:0);
 	  setcurrents (si);
 calcmarkboundaries (si);
 	  object_insert (gui, (DenemoObject *) redo->object);
@@ -1191,8 +1198,8 @@ update_undo_info (DenemoScore * si, unre_data * undo)
 {
   unre_data *tmp = NULL;
 
-  g_debug ("Undo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
-	   undo->action, undo->position, undo->staffnum, undo->measurenum); 
+  // g_debug ("Undo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
+  //	   undo->action, undo->position, undo->staffnum, undo->measurenum); 
 
   if (g_queue_get_length (si->undodata) == MAX_UNDOS)
     {
@@ -1218,8 +1225,8 @@ update_redo_info (DenemoScore * si, unre_data * redo)
 {
   unre_data *tmp = NULL;
 
-  g_debug ("Redo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
-	   redo->action, redo->position, redo->staffnum, redo->measurenum);
+  //  g_debug ("Redo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
+  //	   redo->action, redo->position, redo->staffnum, redo->measurenum);
 
 
   if (g_queue_get_length (si->redodata) == MAX_UNDOS)
