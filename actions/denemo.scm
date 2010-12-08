@@ -243,16 +243,17 @@
 		  
 
 (define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
-					    (if (Chord?)
+					    (if (music?)
 			                	 #t
 			                	 (NextChordInSelection))
 					    #f
 					    )))
 (define FirstChordInSelection (lambda () (if (d-GoToMark)
-						  (if (Chord?)
+						  (if (music?)
 			                	 #t)
 						  #f)))
 				    
+
 (define ApplyToSelection (lambda (command positioning_command)
 			   (begin
 			     (if (eval-string positioning_command)
