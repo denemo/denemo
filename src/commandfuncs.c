@@ -1360,6 +1360,14 @@ incrementenshift (DenemoGUI * gui, gint direction)
   
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object =dnm_clone_object ( curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
       shiftpitch (curmudelaobj, si->cursor_y, direction>0);
       showwhichaccidentals ((objnode *) si->currentmeasure->data,
 			    si->curmeasurekey, si->curmeasureaccs);
@@ -1378,14 +1386,7 @@ incrementenshift (DenemoGUI * gui, gint direction)
       } else {
 	Denemo.gui->last_source = INPUTKEYBOARD;
       }
-      if (!si->undo_redo_mode)
-	{
-	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
-	  data->object =dnm_clone_object ( curmudelaobj);
-	  get_position(si, &data->position);
-	  data->action = ACTION_CHANGE;
-	  update_undo_info (si, data);
-	}
+
       score_status(gui, TRUE);
     }
 }
@@ -1402,6 +1403,14 @@ setenshift (DenemoScore * si, gint enshift)
   int prognum;
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
       changeenshift (curmudelaobj, si->cursor_y, enshift);
       showwhichaccidentals ((objnode *) si->currentmeasure->data,
 			    si->curmeasurekey, si->curmeasureaccs);
@@ -1419,14 +1428,7 @@ setenshift (DenemoScore * si, gint enshift)
 		   (chord *) curmudelaobj->object, curstaffstruct->midi_channel);
 
       }
-  if (!si->undo_redo_mode)
-    {
-      unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
-      data->object = dnm_clone_object (curmudelaobj);
-      get_position(si, &data->position);
-      data->action = ACTION_CHANGE;
-      update_undo_info (si, data);
-    }
+
     }
 }
 
@@ -1443,6 +1445,14 @@ change_stem_directive (DenemoScore * si, enum stemdirections amount)
 
   if (curmudelaobj && curmudelaobj->type == STEMDIRECTIVE)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
       switch (amount)
 	{
 	case DENEMO_STEMDOWN:
@@ -1478,6 +1488,16 @@ changedots (DenemoScore * si, gint amount)
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
+
+
       if (Denemo.gui->mode&(INPUTRHYTHM))
 #ifdef _HAVE_FLUIDSYNTH_
 	{
@@ -1936,11 +1956,20 @@ void
 toggle_tie (GtkAction *action, gpointer param)
 {
   DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
   DenemoObject *curmudelaobj = (DenemoObject *)
     (gui->si->currentobject ? gui->si->currentobject->data : NULL);
   if (curmudelaobj && curmudelaobj->type == CHORD &&
       ((chord *) curmudelaobj->object)->notes)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
 
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
     }
@@ -2087,6 +2116,15 @@ toggle_begin_slur (DenemoGUI *gui)
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
+
       ((chord *) curmudelaobj->object)->slur_begin_p
 	= !((chord *) curmudelaobj->object)->slur_begin_p;
       if (curmudelaobj->user_string)
@@ -2132,6 +2170,15 @@ toggle_end_slur (DenemoGUI *gui)
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
+
       ((chord *) curmudelaobj->object)->slur_end_p
 	= !((chord *) curmudelaobj->object)->slur_end_p;
       if (curmudelaobj->user_string)

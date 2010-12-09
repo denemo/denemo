@@ -56,14 +56,25 @@ void
 toggle_grace (GtkAction *action, DenemoScriptParam * param)
 {
   DenemoGUI *gui = Denemo.gui;
+  DenemoScore *si = gui->si;
   GET_1PARAM(action, param, grace);
  DenemoObject *curmudelaobj = (DenemoObject *)
     (gui->si->currentobject ? gui->si->currentobject->data : NULL);
  if(curmudelaobj && (curmudelaobj->type==CHORD)) {
    if(query)
      param->status =  ((chord *)curmudelaobj->object)->is_grace, g_string_assign(param->string, "gracenote");
-   else
+   else {
+      if (!si->undo_redo_mode)
+	{
+	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
+	  data->object = dnm_clone_object (curmudelaobj);
+	  get_position(si, &data->position);
+	  data->action = ACTION_CHANGE;
+	  update_undo_info (si, data);
+	}
+
      ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
+   }
    //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
  }
 }

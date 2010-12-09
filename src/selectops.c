@@ -1117,7 +1117,10 @@ undo (DenemoGUI * gui)
 	break;
       case ACTION_CHANGE:
 	{
-	  g_warning("Undo change not implemented\n");
+	  DenemoObject temp;
+	  memcpy(&temp, gui->si->currentobject->data, sizeof(DenemoObject));
+	  memcpy(gui->si->currentobject->data, undo->object, sizeof(DenemoObject));
+	  memcpy(undo->object, &temp, sizeof(DenemoObject));
 	  displayhelper (gui);
 	}
 	break;
