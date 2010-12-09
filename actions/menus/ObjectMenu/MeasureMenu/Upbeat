@@ -6,15 +6,15 @@
     <map>
       <row>
         <action>Upbeat</action>
-        <scheme>(let script ()
+        <scheme>;;;Upbeat
+(let script ()
   ; How many ticks are in a 100% filled measure?
   (define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) 
   (define EndTick #f)
   ;Upbeat is only for underful measures
   (define (warning)
    (d-WarningDialog "Upbeat can only be used in underful, non-empty measures")
-   #f
- )
+   #f )
  
  ; Create Upbeat-Directive Subprogram
  (define (createUpbeat)
@@ -23,15 +23,14 @@
    (GoToMeasureBeginning)
    (StandAloneDirectiveProto (cons "Upbeat" (string-append "\\partial 256*" partialDuartion 	" "))  #f)
    (d-SetDurationInTicks remainingTicks)
- )
+   (GoToMeasureEnd)
+   (if  (not (d-MoveToMeasureRight))
+	(d-AddMeasure)))
  
-
-
 ; First action: delete any old Upbeat directive in this measure
    (GoToMeasureBeginning)
    (if (d-DirectiveGet-standalone-display "Upbeat")
- 	(d-DeleteObject)
-   )
+ 	(d-DeleteObject))
 
 ; Save how many ticks are in this measure
 	(GoToMeasureEnd)
@@ -44,13 +43,9 @@
  		((= MaxTicks EndTick) (warning))  ; 100% filled
  		((&lt; MaxTicks EndTick) (warning)) ; &gt;100% filled
 		(else  (warning)) ; ?
-	)
+		))
 
-(GoToMeasureEnd)
-(if  (not (d-MoveToMeasureRight))
-	(d-SplitMeasure)
-)
-)</scheme>
+</scheme>
         <label>Upbeat (convert current measure)</label>
         <tooltip>Convert the current measure to a partial measure. Also known as upbeat or anacrusis.</tooltip>
       </row>
