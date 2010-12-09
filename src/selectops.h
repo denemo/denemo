@@ -67,6 +67,7 @@ void undowrapper(GtkAction *action, gpointer param);
 void redowrapper(GtkAction *action, gpointer param);
 void update_undo_info(DenemoScore *si, unre_data *undo);
 void update_redo_info(DenemoScore *si, unre_data *redo);
+void store_for_undo_change (DenemoScore *si, DenemoObject *obj);
 void goto_mark (GtkAction *action,  DenemoScriptParam *param);
 void goto_selection_start (GtkAction *action,  DenemoScriptParam *param);
 
