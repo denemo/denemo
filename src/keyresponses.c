@@ -813,9 +813,14 @@ tie_notes_key (DenemoGUI * gui)
   if (curmudelaobj && curmudelaobj->type == CHORD &&
       ((chord *) curmudelaobj->object)->notes)
     {
+    
       insertion_point (gui->si);
       object_insert (gui, dnm_clone_object (curmudelaobj));
-      ((chord *) curmudelaobj->object)->is_tied = TRUE;
+      movecursorleft(NULL);
+      movecursorleft(NULL);
+      toggle_tie(NULL, NULL);
+      movecursorright(NULL);
+      movecursorright(NULL);
     }
 }
 
