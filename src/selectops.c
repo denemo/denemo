@@ -1097,7 +1097,9 @@ undo (DenemoGUI * gui)
       
       undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
       push_given_position(&undo->position);
-      PopPosition(NULL, NULL);
+      DenemoScriptParam param;
+      PopPosition(NULL, &param);
+      if(param.status)
       switch(undo->action) {
       case ACTION_INSERT:
 	{
@@ -1139,7 +1141,8 @@ undo (DenemoGUI * gui)
 	break;
       default:
 	g_warning("Undxpected undo case ");
-      }
+      } else
+	g_warning("Could not undo");
       update_redo_info (gui->si, undo);
     }
   gui->si->undo_redo_mode = NOT_UNDO_REDO;
