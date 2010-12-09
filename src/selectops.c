@@ -457,9 +457,30 @@ void insert_object(DenemoObject *clonedobj) {
   staffnode *curstaff = si->currentstaff;
   clonedobj->starttick = (si->currentobject?
 			  ((DenemoObject *)si->currentobject->data)->starttickofnextnote: 0);
+  /* update undo information */
+  unre_data *undo;
+  if (!si->undo_redo_mode)
+    {
+      undo = (unre_data *) g_malloc (sizeof (unre_data));
+      undo->object = clonedobj;
+      //do position after inserting, so we can go back to it to delete
+    }
+
   Denemo.gui->si->currentmeasure->data =
     g_list_insert ((objnode *)si->currentmeasure->data,
 		   clonedobj, si->cursor_x);
+
+
+ if (!si->undo_redo_mode)
+    {
+      get_position(si, &undo->position);
+      undo->position.appending = 0;
+      undo->action = ACTION_INSERT;
+      update_undo_info (si, undo);
+    }
+
+
+
   si->cursor_x++;
   if (si->cursor_appending)
     si->currentobject = g_list_last ((objnode *) si->currentmeasure->data);

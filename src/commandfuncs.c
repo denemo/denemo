@@ -1016,6 +1016,9 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     chord *thechord;
     if(theobj->type == CHORD && (thechord = (chord*)theobj->object)->notes) {
       store_for_undo_change(gui->si, theobj);
+      //turn off further storage of UNDO info while this takes place
+      gint temp = gui->si->undo_redo_mode;
+      gui->si->undo_redo_mode = UNDO;
       theobj->isinvisible=FALSE;
       if(g_list_length(thechord->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
@@ -1028,6 +1031,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
 			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
       }
+      gui->si->undo_redo_mode = temp;
       score_status(gui, TRUE);
     }  
   } else
@@ -1254,6 +1258,7 @@ changeduration (DenemoScore * si, gint duration)
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      store_for_undo_change (si, curmudelaobj);
       changedur (curmudelaobj, duration, 0);
     }
 }
