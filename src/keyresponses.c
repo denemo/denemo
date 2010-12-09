@@ -344,7 +344,7 @@ go_to_G_key (DenemoGUI * gui)
 
 
 /**
- * Move cursor by amount or in EDIT mode change the note by one octave
+ * Move cursor by amount or in EDIT mode change the note by the amount
  */
 static void
 octave_shift_key (DenemoGUI * gui, gint amount)
@@ -359,6 +359,7 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	  if(thenote) {
 	    note copy = *((note *) thenote->data);
 	    GList *direcs = ((note *)thenote->data)->directives;
+	    store_for_undo_change (gui->si, gui->si->currentobject->data);
 	    delete_chordnote(gui);//does not delete the directives.
 	    gui->si->cursor_y = copy.mid_c_offset + amount;
 	    insert_chordnote(gui);
