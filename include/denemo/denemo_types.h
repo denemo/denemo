@@ -807,7 +807,7 @@ typedef struct DenemoScore
   /*list of undo data */
   GQueue *undodata;
   GQueue *redodata;
-  gint undo_redo_mode;
+  gint undo_guard;
 
   
 

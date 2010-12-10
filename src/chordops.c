@@ -271,7 +271,6 @@ note *
 addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift, gint dclef)
 {
   note *newnote  = new_note(mid_c_offset, enshift, dclef);
-  store_for_undo_change(Denemo.gui->si, thechord); 
   ((chord *) thechord->object)->notes =
     g_list_insert_sorted (((chord *) thechord->object)->notes, newnote,
 			  insertcomparefunc);

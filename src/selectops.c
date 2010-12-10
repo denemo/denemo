@@ -459,7 +459,7 @@ void insert_object(DenemoObject *clonedobj) {
 			  ((DenemoObject *)si->currentobject->data)->starttickofnextnote: 0);
   /* update undo information */
   unre_data *undo;
-  if (!si->undo_redo_mode)
+  if (!si->undo_guard)
     {
       undo = (unre_data *) g_malloc (sizeof (unre_data));
       undo->object = clonedobj;
@@ -471,7 +471,7 @@ void insert_object(DenemoObject *clonedobj) {
 		   clonedobj, si->cursor_x);
 
 
- if (!si->undo_redo_mode)
+ if (!si->undo_guard)
     {
       get_position(si, &undo->position);
       undo->position.appending = 0;
@@ -1090,7 +1090,7 @@ redowrapper (GtkAction *action, gpointer param)
 
 /* store the passed object as ACTION_CHANGE undo information */
 void store_for_undo_change (DenemoScore *si, DenemoObject *curobj) {
-  if (!si->undo_redo_mode)
+  if (!si->undo_guard)
     {
       unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
       data->object = dnm_clone_object (curobj);
@@ -1112,61 +1112,69 @@ static void
 undo (DenemoGUI * gui)
 {
   unre_data *undo=NULL;
-  gui->si->undo_redo_mode = UNDO;
+  gui->si->undo_guard++;
   if (gui->notsaved /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
     {
-      
       undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
       push_given_position(&undo->position);
       DenemoScriptParam param;
       PopPosition(NULL, &param);
-      if(param.status)
-      switch(undo->action) {
-      case ACTION_INSERT:
-	{
-	  g_debug ("Undo Action Insert:  Remove Object from score\n");
-	  //g_debug ("staffnum %d, measurenum %d, position %d\n",
-	  //	   undo->staffnum, undo->measurenum, undo->position);
-
-
-
-	  g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
-	  
-	  dnm_deleteobject (gui->si);
-	 
-	  undo->action = ACTION_DELETE;
-	}
-	break;
-      case  ACTION_DELETE:
-	{
-
-	  object_insert (gui, undo->object);
-
-	  g_debug ("UNDO Delete Object %d\n",
-		   ((DenemoObject *) undo->object)->type);
-	  g_debug ("Cursor position before UNDO %d\n", gui->si->cursor_x);
-	  g_debug ("Cursor Position %d\n", gui->si->cursor_x);
-
-	  undo->action = ACTION_INSERT;
-
-	}
-	break;
-      case ACTION_CHANGE:
-	{
-	  DenemoObject temp;
-	  memcpy(&temp, gui->si->currentobject->data, sizeof(DenemoObject));
-	  memcpy(gui->si->currentobject->data, undo->object, sizeof(DenemoObject));
-	  memcpy(undo->object, &temp, sizeof(DenemoObject));
-	  displayhelper (gui);
-	}
-	break;
-      default:
-	g_warning("Undxpected undo case ");
-      } else
-	g_warning("Could not undo");
-      update_redo_info (gui->si, undo);
+      if(param.status) {
+	switch(undo->action) {
+	case ACTION_INSERT:
+	  {
+	    g_debug ("Undo Action Insert:  Remove Object from score\n");
+	    //g_debug ("staffnum %d, measurenum %d, position %d\n",
+	    //	   undo->staffnum, undo->measurenum, undo->position);
+	    
+	    
+	    
+	    g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
+	    
+	    dnm_deleteobject (gui->si);
+	    
+	    undo->action = ACTION_DELETE;
+	  }
+	  break;
+	case  ACTION_DELETE:
+	  {
+	    
+	    object_insert (gui, undo->object);
+	    
+	    g_debug ("UNDO Delete Object %d\n",
+		     ((DenemoObject *) undo->object)->type);
+	    g_debug ("Cursor position before UNDO %d\n", gui->si->cursor_x);
+	    g_debug ("Cursor Position %d\n", gui->si->cursor_x);
+	    
+	    undo->action = ACTION_INSERT;
+	    
+	  }
+	  break;
+	case ACTION_CHANGE:
+	  {
+	    DenemoObject temp;
+	    memcpy(&temp, gui->si->currentobject->data, sizeof(DenemoObject));
+	    memcpy(gui->si->currentobject->data, undo->object, sizeof(DenemoObject));
+	    memcpy(undo->object, &temp, sizeof(DenemoObject));
+	    displayhelper (gui);
+	  }
+	  break;
+	default:
+	  g_warning("Undxpected undo case ");
+	} 
+      } else {
+	g_warning("Could not undotype %d  movement %d staff %d measure %d object %d appending %d offend %d\n",
+		  undo->action,
+		  undo->position.movement,
+		  undo->position.staff,
+		  undo->position.measure,
+		  undo->position.object,
+		  undo->position.appending,
+		  undo->position.offend);
+      }
+      update_redo_info (gui->si, undo);	  
     }
-  gui->si->undo_redo_mode = NOT_UNDO_REDO;
+  gui->si->undo_guard--;
 }
 
 /**
@@ -1185,7 +1193,7 @@ redo (DenemoGUI * gui)
   DenemoScore *si = gui->si;
   if (gui->notsaved && g_queue_get_length (si->redodata) > 0)
     {
-      si->undo_redo_mode = REDO;
+      si->undo_guard++;
       redo = (unre_data *) g_queue_pop_head (si->redodata);
 
       g_debug ("List length %d\n", g_queue_get_length (si->undodata));
@@ -1224,6 +1232,7 @@ calcmarkboundaries (si);
 	  g_debug ("Do something useful\n");
 	}
     }
+  si->undo_guard--;
 }
 
 /**

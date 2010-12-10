@@ -283,7 +283,7 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
 
   /* update undo information */
   unre_data *undo;
-  if (!si->undo_redo_mode)
+  if (!si->undo_guard)
     {
       undo = (unre_data *) g_malloc (sizeof (unre_data));
       undo->object = dnm_clone_object (mudela_obj_new);
@@ -302,7 +302,7 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
   }
 
 
- if (!si->undo_redo_mode)
+ if (!si->undo_guard)
     {
       get_position(si,&undo->position);
       undo->position.appending = 0;
@@ -1017,8 +1017,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
     if(theobj->type == CHORD && (thechord = (chord*)theobj->object)->notes) {
       store_for_undo_change(gui->si, theobj);
       //turn off further storage of UNDO info while this takes place
-      gint temp = gui->si->undo_redo_mode;
-      gui->si->undo_redo_mode = UNDO;
+      gui->si->undo_guard++;      
       theobj->isinvisible=FALSE;
       if(g_list_length(thechord->notes)>1) {/* multi-note chord - remove and add a note */
 	gui->si->cursor_y = oldcursor_y;
@@ -1031,7 +1030,7 @@ shiftcursor (DenemoGUI  *gui, gint note_value)
       showwhichaccidentals ((objnode *) gui->si->currentmeasure->data,
 			    gui->si->curmeasurekey, gui->si->curmeasureaccs);
       }
-      gui->si->undo_redo_mode = temp;
+      gui->si->undo_guard--;
       score_status(gui, TRUE);
     }  
   } else
@@ -1126,15 +1125,15 @@ dnm_insertchord (DenemoGUI * gui, gint duration, input_mode mode,
   DenemoScore *si = gui->si;
   DenemoObject *mudela_obj_new;
   int prognum;
-  
 
   if((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM) ) {
     changeduration(si, duration);
     return;
   }
+
   insertion_point (si);
 
-  /* Now actually create the chord */
+  /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     addtone (mudela_obj_new, si->cursor_y, si->cursoraccs[si->staffletter_y],
@@ -1801,7 +1800,7 @@ dnm_deleteobject (DenemoScore * si)
       return;
   unre_data *undo;
 
-  if (!si->undo_redo_mode)
+  if (!si->undo_guard)
     {
       undo = (unre_data *) g_malloc (sizeof (unre_data));      
       undo->object = dnm_clone_object (curmudelaobj);
@@ -1898,7 +1897,7 @@ dnm_deleteobject (DenemoScore * si)
 	}
       si->markstaffnum = 0;
     }
-  if (!si->undo_redo_mode)
+  if (!si->undo_guard)
     {
       get_position(si, &undo->position);
       undo->action = ACTION_DELETE;

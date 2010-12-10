@@ -381,7 +381,7 @@ init_score (DenemoScore * si, DenemoGUI *gui)
   /* Undo/redo initialisation */
   si->undodata = g_queue_new ();
   si->redodata = g_queue_new ();
-  si->undo_redo_mode = NOT_UNDO_REDO;
+  si->undo_guard = 1;//do not collect undo information until file is loaded
   
   si->buttonbox = gtk_hbox_new(FALSE, 1);
   gtk_box_pack_end (GTK_BOX (gui->buttonboxes), si->buttonbox, FALSE, TRUE,

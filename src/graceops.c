@@ -64,15 +64,7 @@ toggle_grace (GtkAction *action, DenemoScriptParam * param)
    if(query)
      param->status =  ((chord *)curmudelaobj->object)->is_grace, g_string_assign(param->string, "gracenote");
    else {
-      if (!si->undo_redo_mode)
-	{
-	  unre_data *data = (unre_data *) g_malloc (sizeof (unre_data));
-	  data->object = dnm_clone_object (curmudelaobj);
-	  get_position(si, &data->position);
-	  data->action = ACTION_CHANGE;
-	  update_undo_info (si, data);
-	}
-
+     store_for_undo_change (si, curmudelaobj);
      ((chord *)curmudelaobj->object)->is_grace ^= GRACED_NOTE;
    }
    //g_print("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
