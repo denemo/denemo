@@ -1279,6 +1279,7 @@ notechange (DenemoScore * si, gboolean remove)
   
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
+      store_for_undo_change (si, curmudelaobj);
       if (remove == TRUE)
 	ret = removetone (curmudelaobj, si->cursor_y/*mid_c_offset*/, si->cursorclef/*dclef*/);
       else
