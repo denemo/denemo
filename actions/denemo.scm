@@ -52,11 +52,15 @@
 
 
 ;;;;;;;;;; Prototype to insert Lilypond Directives. Wants a pair with car Tag and cdr lilypond: (cons "BreathMark" "\\breathe")
-(define* (StandAloneDirectiveProto pair #:optional (step? #t))
+(define* (StandAloneDirectiveProto pair #:optional (step? #t) (graphic #f))
 	(d-Directive-standalone (car pair))
 	(d-DirectivePut-standalone-postfix (car pair) (cdr pair))
-	(d-DirectivePut-standalone-display(car pair) (car pair))
 	(d-DirectivePut-standalone-minpixels (car pair) 30)
+	(if graphic ;If the user specified a graphic use this, else greate a display text
+		(begin (d-DirectivePut-standalone-graphic (car pair) graphic)
+			   (d-DirectivePut-standalone-override (car pair) DENEMO_OVERRIDE_GRAPHIC))
+		(d-DirectivePut-standalone-display (car pair) (car pair))
+	)
 	(if step?
 		(d-MoveCursorRight)
 	)
@@ -148,6 +152,24 @@
 	)
 	(begin  (d-PopPosition) #f )   ; no selection at all. 
 	) ; fi GoToSelectionStart
+)
+
+
+;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
+(define (FindNextObjectAllStaffs test?) 
+	(let loopy ()
+	(if (d-NextObject)
+		(if (test?)
+			#t ; object found. Stop
+			(loopy)) ; not the droids you're looking for, move on
+		(if (d-MoveToStaffDown); no next object possible
+			(begin (d-MoveToBeginning) ; lower staff found
+				(if (test?)
+					#t; object found. Stop
+					(loopy))) ; first object of lower staff is not a member, start search again.
+			#f) ; no staff left, final end.
+	); if end
+	);loopy end
 )
 
 
