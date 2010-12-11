@@ -172,7 +172,8 @@ typedef enum input_mode {
 typedef enum  action_type {
   ACTION_INSERT,
   ACTION_DELETE,
-  ACTION_CHANGE
+  ACTION_CHANGE,
+  ACTION_SNAPSHOT
 }action_type;
 
 /**

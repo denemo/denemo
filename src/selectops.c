@@ -1111,43 +1111,30 @@ void store_for_undo_change (DenemoScore *si, DenemoObject *curobj) {
 static void
 undo (DenemoGUI * gui)
 {
-  unre_data *undo=NULL;
-  gui->si->undo_guard++;
-  if (gui->notsaved /* consider has the changed been to this movement?? */&& g_queue_get_length (gui->si->undodata) > 0)
+  unre_data *undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
+
+  if (undo)
     {
-      undo = (unre_data *) g_queue_pop_head (gui->si->undodata);
-      push_given_position(&undo->position);
       DenemoScriptParam param;
-      PopPosition(NULL, &param);
+      param.status=TRUE;
+      gui->si->undo_guard++;
+      if(undo->action!=ACTION_SNAPSHOT) { 
+	push_given_position(&undo->position);
+	
+	PopPosition(NULL, &param);
+      }
       if(param.status) {
 	switch(undo->action) {
 	case ACTION_INSERT:
 	  {
-	    g_debug ("Undo Action Insert:  Remove Object from score\n");
-	    //g_debug ("staffnum %d, measurenum %d, position %d\n",
-	    //	   undo->staffnum, undo->measurenum, undo->position);
-	    
-	    
-	    
-	    g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
-	    
-	    dnm_deleteobject (gui->si);
-	    
+	    dnm_deleteobject (gui->si);	    
 	    undo->action = ACTION_DELETE;
 	  }
 	  break;
 	case  ACTION_DELETE:
-	  {
-	    
+	  {	    
 	    object_insert (gui, undo->object);
-	    
-	    g_debug ("UNDO Delete Object %d\n",
-		     ((DenemoObject *) undo->object)->type);
-	    g_debug ("Cursor position before UNDO %d\n", gui->si->cursor_x);
-	    g_debug ("Cursor Position %d\n", gui->si->cursor_x);
-	    
-	    undo->action = ACTION_INSERT;
-	    
+	    undo->action = ACTION_INSERT;	    
 	  }
 	  break;
 	case ACTION_CHANGE:
@@ -1159,8 +1146,27 @@ undo (DenemoGUI * gui)
 	    displayhelper (gui);
 	  }
 	  break;
+	case ACTION_SNAPSHOT:
+	  {
+	   
+	    DenemoScore *si = undo->object;
+	    // replace gui->si in gui->movements with si
+	    GList *find = g_list_find(gui->movements, gui->si);
+	    if(find)
+	      find->data = si;
+	   else 
+	    g_warning("Movement does not exist");
+	    undo->object = gui->si;
+	    //FIXME fix up values in stored object si??????
+	    gui->si = si;
+	    
+	    displayhelper (gui);
+	  }
+	  break;
+
+
 	default:
-	  g_warning("Undxpected undo case ");
+	  g_warning("Unexpected undo case ");
 	} 
       } else {
 	g_warning("Could not undotype %d  movement %d staff %d measure %d object %d appending %d offend %d\n",
@@ -1173,8 +1179,8 @@ undo (DenemoGUI * gui)
 		  undo->position.offend);
       }
       update_redo_info (gui->si, undo);	  
+      gui->si->undo_guard--;
     }
-  gui->si->undo_guard--;
 }
 
 /**
