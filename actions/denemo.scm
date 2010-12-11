@@ -151,6 +151,21 @@
 )
 
 
+;Find the next object that returns #t from the given test function. Don't write the function in parentheses, just give the name (except you give a function that returns a name :))
+(define (FindNextObjectAllStaffs test?) 
+	(let loopy ()
+	(if (d-NextObject)
+		(if (test?)
+			#t ; object found. Stop
+			(loopy)) ; not the droids you're looking for, move on
+		(if (d-MoveToStaffDown); no next object possible
+			(begin (d-MoveToBeginning) (loopy)) ; staff found, begin searching from the beginning
+			#f) ; no staff left, final end.
+	)
+	);loopy end
+)
+
+
 ;SingleAndSelectionSwitcher by Nils Gey Jan/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Automatically applies a script to a whole selection. You can give different commands or command blocks with (begin) for single items or whole selections. You can enter a complete scheme script with (),  arguments and everything you would want to run standalone. Don't forget to escape chars like  \" . You can even use a complete (begin ) block.
