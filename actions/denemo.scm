@@ -159,9 +159,12 @@
 			#t ; object found. Stop
 			(loopy)) ; not the droids you're looking for, move on
 		(if (d-MoveToStaffDown); no next object possible
-			(begin (d-MoveToBeginning) (loopy)) ; staff found, begin searching from the beginning
+			(begin (d-MoveToBeginning) ; lower staff found
+				(if (test?)
+					#t; object found. Stop
+					(loopy))) ; first object of lower staff is not a member, start search again.
 			#f) ; no staff left, final end.
-	)
+	); if end
 	);loopy end
 )
 
