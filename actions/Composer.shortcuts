@@ -399,7 +399,10 @@
 		<action>DuplicateChord</action>
 		<bind>e</bind>
       </row>
-      
+       <row>
+		<action>AddDuplicateMeasure</action>
+		<bind>E</bind>
+      </row>     
       <row>
 		<action>SplitChord</action>
 		<bind>Alt+s</bind>
@@ -441,6 +444,10 @@
         <action>IntelligentDelete</action>
         <bind>Delete</bind>
       </row>
+      <row>
+        <action>DeleteMeasure</action>
+        <bind>Ctrl+Delete</bind>
+      </row>     
       <row>    
         <action>RemoveNoteFromChord</action>
         <bind>Alt+Return</bind>
@@ -689,8 +696,44 @@
 		<action>EndSecondTimeBar</action>
 		<hidden>true</hidden>
      </row>
-	
-	
+     
+     <!-- Hide redundant commands -->
+     <row>
+		<action>DeleteBefore</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>DeleteAfter</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>AddInitial</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>AddLast</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>AppendMeasureAllStaffs</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>AppendMeasure</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>InsertMeasureBefore</action>
+		<hidden>true</hidden>
+     </row>
+     <row>
+		<action>InsertMeasureAfter</action>
+		<hidden>true</hidden>
+     </row>	
+     <row>
+		<action>Anacrusis</action>
+		<hidden>true</hidden>
+     </row>	
     </map>
   </merge>
 </Denemo>
