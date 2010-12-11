@@ -6,11 +6,13 @@
 
 #include <denemo/denemo.h>
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "staffops.h"
 #include "scoreops.h"
 #include "prefops.h"
 #include "selectops.h"
+#include "objops.h"
 #define INITIAL_WHOLEWIDTH 160
 #define INITIAL_STAFFHEIGHT 100
 
@@ -427,3 +429,56 @@ free_score (DenemoGUI * gui)
   g_queue_free (gui->si->redodata);
 }
 
+DenemoScore * clone_movement(DenemoScore *si) {
+  DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
+  memcpy(newscore, si, sizeof(DenemoScore));
+
+  GList *g;
+  newscore->measurewidths = NULL;
+  for(g=si->measurewidths;g;g=g->next)
+    newscore->measurewidths = g_list_append(newscore->measurewidths, g->data);
+  newscore->playingnow = NULL;
+
+  for(newscore->thescore=NULL, g=si->thescore;g;g=g->next) {
+    DenemoStaff *thestaff = (DenemoStaff*)g_malloc(sizeof(DenemoStaff));
+    DenemoStaff *srcStaff = (DenemoStaff*)g->data;
+    copy_staff(srcStaff, thestaff);
+    newscore->thescore = g_list_append(newscore->thescore, thestaff);
+    if(g==si->currentprimarystaff)
+      newscore->currentprimarystaff = newscore->thescore;
+    if(g==si->currentstaff)
+      newscore->currentstaff = newscore->thescore;
+    thestaff->measures = NULL;
+    GList *h;
+    for(h=srcStaff->measures;h;h=h->next) {
+      objnode *theobjs = h->data;     
+      GList *newmeasure=NULL;
+      GList *i;
+      for(i=theobjs;i;i=i->next) {
+	DenemoObject *theobj = (DenemoObject *)i->data;
+	DenemoObject *newobj = dnm_clone_object (theobj);
+	newmeasure = g_list_append(newmeasure, newobj);
+	if(i==si->currentobject)
+	  newscore->currentobject = newmeasure;//???
+      }
+      thestaff->measures = g_list_append(thestaff->measures, newmeasure);
+      if(h==si->currentmeasure)
+	newscore->currentmeasure = newmeasure;//???
+    }
+  }
+
+
+  newscore->movementcontrol.directives = clone_directives(si->movementcontrol.directives);
+  newscore->layout.directives = clone_directives(si->layout.directives);
+  newscore->header.directives = clone_directives(si->header.directives);
+  /*
+    midi_events
+    changecount
+    smfsync
+    savebuffer
+    bookmarks
+    Instruments
+    buttonbox
+    lyricsbox
+  */
+}
