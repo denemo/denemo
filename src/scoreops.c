@@ -448,7 +448,7 @@ DenemoScore * clone_movement(DenemoScore *si) {
       newscore->currentprimarystaff = newscore->thescore;
     if(g==si->currentstaff)
       newscore->currentstaff = newscore->thescore;
-    thestaff->measures = NULL;
+    newscore->currentmeasure = newscore->currentobject = thestaff->measures = NULL;
     GList *h;
     for(h=srcStaff->measures;h;h=h->next) {
       objnode *theobjs = h->data;     
@@ -459,11 +459,11 @@ DenemoScore * clone_movement(DenemoScore *si) {
 	DenemoObject *newobj = dnm_clone_object (theobj);
 	newmeasure = g_list_append(newmeasure, newobj);
 	if(i==si->currentobject)
-	  newscore->currentobject = newmeasure;//???
+	  g_print("current object %x\n", g_list_last(newmeasure)), newscore->currentobject = g_list_last(newmeasure);//???
       }
       thestaff->measures = g_list_append(thestaff->measures, newmeasure);
       if(h==si->currentmeasure)
-	newscore->currentmeasure = newmeasure;//???
+	g_print("current measure %x\n", g_list_last(thestaff->measures)),newscore->currentmeasure = g_list_last(thestaff->measures);//???
     }
   }
 

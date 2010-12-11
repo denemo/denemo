@@ -1115,11 +1115,14 @@ undo (DenemoGUI * gui)
 
   if (undo)
     {
-
-      gui->si->undo_guard++; 
-      push_given_position(&undo->position);
       DenemoScriptParam param;
-      PopPosition(NULL, &param);
+      param.status=TRUE;
+      gui->si->undo_guard++;
+      if(undo->action!=ACTION_SNAPSHOT) { 
+	push_given_position(&undo->position);
+	
+	PopPosition(NULL, &param);
+      }
       if(param.status) {
 	switch(undo->action) {
 	case ACTION_INSERT:
@@ -1143,6 +1146,25 @@ undo (DenemoGUI * gui)
 	    displayhelper (gui);
 	  }
 	  break;
+	case ACTION_SNAPSHOT:
+	  {
+	   
+	    DenemoScore *si = undo->object;
+	    // replace gui->si in gui->movements with si
+	    GList *find = g_list_find(gui->movements, gui->si);
+	    if(find)
+	      find->data = si;
+	   else 
+	    g_warning("Movement does not exist");
+	    undo->object = gui->si;
+	    //FIXME fix up values in stored object si??????
+	    gui->si = si;
+	    
+	    displayhelper (gui);
+	  }
+	  break;
+
+
 	default:
 	  g_warning("Unexpected undo case ");
 	} 
