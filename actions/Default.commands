@@ -4227,6 +4227,13 @@ right. </tooltip>
         <label>Delete selected objects</label>
         <tooltip>Delete all selected objects and leave empty measures behind</tooltip>
       </row>
+      <row>
+        <action>HalfBarline</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <label>Half Barline</label>
+        <tooltip>Insert a barline with only half of its original size</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
