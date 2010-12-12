@@ -754,12 +754,19 @@ static SCM scheme_take_snapshot (SCM optional) {
       undo->position.appending = 0;
       undo->action = ACTION_SNAPSHOT;
       update_undo_info (Denemo.gui->si, undo);
-      Denemo.gui->si->undo_guard++;
-    }
-return SCM_BOOL_T;
+      
+      return SCM_BOOL_T;
+    } else
+return SCM_BOOL_F;
 }
 
-
+static SCM scheme_increase_guard (SCM optional) {
+  return SCM_BOOL(Denemo.gui->si->undo_guard++);
+}
+static SCM scheme_decrease_guard (SCM optional) {
+  
+  return SCM_BOOL(!--Denemo.gui->si->undo_guard);
+}
 
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
@@ -4291,6 +4298,10 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Deletes all objects in the selection Returns #f if no selection else #t.", DENEMO_SCHEME_PREFIX"DeleteSelection", scheme_delete_selection);
 
   INSTALL_SCM_FUNCTION ("Snapshots the current movement putting it in the undo queue and guarding against further undo storage", DENEMO_SCHEME_PREFIX"TakeSnapshot", scheme_take_snapshot);
+
+  INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
+
+  INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
