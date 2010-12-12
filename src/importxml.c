@@ -329,7 +329,8 @@ parseVerses (DenemoScore *si, DenemoStaff *staff, xmlNodePtr parentElem, xmlNsPt
 }
 
 /* Fix for semantic change to prefix field in the directives */
-static fix_prefix_use(GList *directives) {
+static void
+fix_prefix_use(GList *directives) {
   GList *g;
   for(g=directives;g;g=g->next) {
     DenemoDirective *directive = g->data;
@@ -2126,13 +2127,13 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	      g_warning("Ignoring the old-style string %s\nAdd this in LilyPond window if required\n", temp);
 	    g_free(temp);
 	  }
-	else if (ELEM_NAME_EQ (childElem, "staff-prolog"))
-	  {
-	    gchar *temp = 
-	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->staff_prolog = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
-	  }
+/* 	else if (ELEM_NAME_EQ (childElem, "staff-prolog")) */
+/* 	  { */
+/* 	    gchar *temp =  */
+/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/* 	    curStaff->staff_prolog = (temp?g_string_new(temp):NULL); */
+/* 	    g_free (temp); */
+/* 	  } */
 	else if (ELEM_NAME_EQ (childElem, "staff-prolog-insert"))//backward compatibility only
 	  {
 	    gchar *temp = 
@@ -2169,27 +2170,27 @@ parseStaff (xmlNodePtr staffElem, xmlNsPtr ns, DenemoScore * si)
 	  }
 
 
-	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog"))
-	  {
-	    gchar *temp = 
-	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
-	  }
-	else if (ELEM_NAME_EQ (childElem, "figures-prolog"))
-	  {
-	    gchar *temp = 
-	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->figures_prolog = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
-	  }
-	else if (ELEM_NAME_EQ (childElem, "fakechords-prolog"))
-	  {
-	    gchar *temp = 
-	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-	    curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL);
-	    g_free (temp);
-	  }
+/* 	else if (ELEM_NAME_EQ (childElem, "lyrics-prolog")) */
+/* 	  { */
+/* 	    gchar *temp =  */
+/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/* 	    curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL); */
+/* 	    g_free (temp); */
+/* 	  } */
+/* 	else if (ELEM_NAME_EQ (childElem, "figures-prolog")) */
+/* 	  { */
+/* 	    gchar *temp =  */
+/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/* 	    curStaff->figures_prolog = (temp?g_string_new(temp):NULL); */
+/* 	    g_free (temp); */
+/* 	  } */
+/* 	else if (ELEM_NAME_EQ (childElem, "fakechords-prolog")) */
+/* 	  { */
+/* 	    gchar *temp =  */
+/* 	      (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/* 	    curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL); */
+/* 	    g_free (temp); */
+/* 	  } */
 	else
 	  {
 	    ILLEGAL_ELEM ("staff-info", childElem);

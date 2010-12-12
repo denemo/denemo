@@ -258,11 +258,8 @@ typedef struct
   gint volume;	/**< Volume used for midi/csound playback */
   gboolean mute_volume; /**< mute Volume of voices playback */
   /* Back to Hiller stuff */
-  GString *staff_name;
-  /* RTS: I've introduced the staff name here, the other two are versions
-     of the voice name; however I'm still sticking to the unwritten convention
-     that each staff's voices are contiguous in si->thescore. Without this you
-     can't have same named voices in different staffs. */
+  //  GString *staff_name;
+
   GString *denemo_name; /**< denemo_name gets copied into lily_name */
   GString *lily_name; /**< this is the name of the staff that is export to lilypond */
   GString *midi_instrument; /**< midi instrument name used for the staff when exported via midi */
@@ -286,15 +283,13 @@ typedef struct
   GList *tone_store; /**< list of pitches and durations used a source for
 			the notes in this staff
 			the data are tone* */
-  GString *staff_prolog;/**< Customised version of the LilyPond prolog defining the music of this staff */
+
   GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
   GList *voice_directives;/**< List of DenemoDirective for the voice context */
-  GString *lyrics_prolog;/**< (Unused)Customised version of the LilyPond prolog defining the lyrics of this staff */
-  GList *midi_events;/*< midi_events to be output at start of the track, after scorewide and movementwide ones */
 
-  GString *figures_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the figured bass of this staff */
-  GString *fakechords_prolog;/**<  (Unused)Customised version of the LilyPond prolog defining the chord symbols of this staff */
-}DenemoStaff;
+  GList *midi_events;/*< cache of midi events to be output at start of the track, after scorewide and movementwide ones created from staff_directives*/
+
+} DenemoStaff;
 
 /* The ->data part of each staffnode points to a staff structure */
 

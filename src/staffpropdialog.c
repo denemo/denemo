@@ -208,8 +208,7 @@ struct callbackdata
   GtkWidget *mute_volume;
  
   GtkWidget *context;
-  GtkWidget *staff_prolog_insert;
-  GtkWidget *voice_prolog_insert;
+
 };
 
 /**
@@ -372,11 +371,11 @@ staff_properties_change (void)
       gui = Denemo.gui;
       si = gui->si;
       staffstruct = (DenemoStaff *) si->currentstaff->data;
-      if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) {
-	warningdialog("This staff has a custom prolog for the staff.\n"
-		      "You will need to make your edits in the LilyPond window\n"
-		      "to see them in the print-out.");
-      }
+     /*  if(staffstruct->staff_prolog && staffstruct->staff_prolog->len) { */
+/* 	warningdialog("This staff has a custom prolog for the staff.\n" */
+/* 		      "You will need to make your edits in the LilyPond window\n" */
+/* 		      "to see them in the print-out."); */
+/*       } */
     }
  
 
@@ -474,8 +473,7 @@ staff_properties_change (void)
   
   /*print appearance tab */
   NEWPAGE("Printout Appearance");
-  //TEXTENTRY("Staff prolog:", staff_prolog_insert); 
-  //TEXTENTRY("Voice prolog:", voice_prolog_insert);
+
   
   GString *s = context_string(staffstruct->context);
   g_print("\ncontext string = %s\n",s->str);

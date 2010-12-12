@@ -779,9 +779,9 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	  if(curStaffStruct->verses)
 	    newVersesElem(curElem, ns, curStaffStruct->verses, "verses"); 
 	  
-	  if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
-	     xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
-		       (xmlChar *) curStaffStruct->staff_prolog->str);
+	  //if(curStaffStruct->staff_prolog && curStaffStruct->staff_prolog->len)
+	  // xmlNewChild (curElem, ns, (xmlChar *) "staff-prolog",
+	  //	       (xmlChar *) curStaffStruct->staff_prolog->str);
 	  
 	  if(curStaffStruct->staff_directives) 
 	    newDirectivesElem(curElem, ns,curStaffStruct->staff_directives, "staff-directives");
@@ -792,15 +792,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 	    newDirectivesElem(curElem, ns,curStaffStruct->voice_directives, "clef-directives");
 	    
 
-	  if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)
-	     xmlNewChild (curElem, ns, (xmlChar *) "lyrics-prolog",
-		       (xmlChar *) curStaffStruct->lyrics_prolog->str);
-	  if(curStaffStruct->figures_prolog && curStaffStruct->figures_prolog->len)
-	     xmlNewChild (curElem, ns, (xmlChar *) "figures-prolog",
-		       (xmlChar *) curStaffStruct->figures_prolog->str);
-	  if(curStaffStruct->fakechords_prolog && curStaffStruct->fakechords_prolog->len)
-	     xmlNewChild (curElem, ns, (xmlChar *) "fakechords-prolog",
-		       (xmlChar *) curStaffStruct->fakechords_prolog->str);
+	  //if(curStaffStruct->lyrics_prolog && curStaffStruct->lyrics_prolog->len)
+	  //  xmlNewChild (curElem, ns, (xmlChar *) "lyrics-prolog",
+	  //	       (xmlChar *) curStaffStruct->lyrics_prolog->str);
+	  // if(curStaffStruct->figures_prolog && curStaffStruct->figures_prolog->len)
+	  //  xmlNewChild (curElem, ns, (xmlChar *) "figures-prolog",
+	  //       (xmlChar *) curStaffStruct->figures_prolog->str);
+	  //if(curStaffStruct->fakechords_prolog && curStaffStruct->fakechords_prolog->len)
+	  //  xmlNewChild (curElem, ns, (xmlChar *) "fakechords-prolog",
+	  //	       (xmlChar *) curStaffStruct->fakechords_prolog->str);
 	}
     }
 

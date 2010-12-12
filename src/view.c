@@ -3150,7 +3150,7 @@ static SCM scheme_create_snippet_from_object (SCM name) {
     r->name = str;
     r->rsteps = g_list_append(NULL, relement);
     r->rsteps->prev=r->rsteps->next = r->rsteps;//make list circular
-    int ret = scm_int2num( insert_pattern_in_toolbar(r));
+    SCM ret = scm_int2num( insert_pattern_in_toolbar(r));
     update_scheme_snippet_ids();
     return ret;
   }

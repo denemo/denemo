@@ -37,6 +37,7 @@
 #include "audio.h"
 #include "jackmidi.h"
 #include "instrumentname.h"
+#include "view.h"
 
 static double
 midi2hz(int midinum)

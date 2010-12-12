@@ -1450,10 +1450,10 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 
   gtk_text_buffer_get_iter_at_mark(gui->textbuffer, &iter, curmark);
 
-  /* output staff prolog */
-  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {/* custom staff-prolog */
+  /* output staff prolog
+  if(curstaffstruct->staff_prolog && curstaffstruct->staff_prolog->len) {
     insert_editable(&curstaffstruct->staff_prolog, curstaffstruct->staff_prolog->str, &iter, invisibility, gui);
-  } else {
+  } else */ {
     
     /* The midi instrument */
     //  g_string_append_printf(definitions, "\n%s%sMidiInst = \\set Staff.midiInstrument = \"%s\"\n", movement, voice, curstaffstruct->midi_instrument->str);
@@ -1507,7 +1507,8 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
 			   movement, voice, voice_prefix);    
     g_free(voice_prefix);
     gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, curmark);
-    insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
+    //insert_editable(&curstaffstruct->staff_prolog, str->str, &iter,  invisibility, gui);
+    gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, str->str, -1, INEDITABLE, invisibility, NULL);
   } /* standard staff-prolog */
 
   /* end of output staff-prolog */
@@ -1737,16 +1738,17 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       GString *temp = g_string_new("");
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, figures_name->str));
       /* output figures prolog */
-      if(curstaffstruct->figures_prolog && curstaffstruct->figures_prolog->len) {
-	insert_editable(&curstaffstruct->figures_prolog, curstaffstruct->figures_prolog->str, &iter, invisibility, gui);
-      } else {
+      //      if(curstaffstruct->figures_prolog && curstaffstruct->figures_prolog->len) {
+      //	insert_editable(&curstaffstruct->figures_prolog, curstaffstruct->figures_prolog->str, &iter, invisibility, gui);
+      //} else {
 	g_string_printf(temp,  "%s%sBassFiguresLine = \\figuremode {\n"
 			"\\set figuredBassAlterationDirection = #1\n"
 			"\\set figuredBassPlusDirection = #1\n"
 			"\\override FiguredBass.BassFigure "
 			"#'font-size = #-1\n",movement, voice);
-	insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
-      }
+	//insert_editable(&curstaffstruct->figures_prolog, temp->str, &iter,  invisibility, gui);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility, NULL);
+	//}
       g_string_printf(temp, "%s \n}\n", figures->str);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);
@@ -1758,12 +1760,13 @@ outputStaff (DenemoGUI *gui, DenemoScore * si, DenemoStaff * curstaffstruct,
       GString *temp = g_string_new("");
       gtk_text_buffer_get_iter_at_mark (gui->textbuffer, &iter, gtk_text_buffer_get_mark(gui->textbuffer, fakechords_name->str));
       /* output fakechords prolog */
-      if(curstaffstruct->fakechords_prolog && curstaffstruct->fakechords_prolog->len) {
-	insert_editable(&curstaffstruct->fakechords_prolog, curstaffstruct->fakechords_prolog->str, &iter, invisibility, gui);
-      } else {
+      // if(curstaffstruct->fakechords_prolog && curstaffstruct->fakechords_prolog->len) {
+      //insert_editable(&curstaffstruct->fakechords_prolog, curstaffstruct->fakechords_prolog->str, &iter, invisibility, gui);
+      // } else {
 	g_string_append_printf(temp, "%s%sChords = \\new ChordNames \\chordmode {\n", movement, voice);
-	insert_editable(&curstaffstruct->fakechords_prolog, temp->str, &iter,  invisibility, gui);
-      }
+	//insert_editable(&curstaffstruct->fakechords_prolog, temp->str, &iter,  invisibility, gui);
+	gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility, NULL);
+	// }
       g_string_printf(temp, "%s \n}\n"/* another definition here */, fakechords->str);
       gtk_text_buffer_insert_with_tags_by_name (gui->textbuffer, &iter, temp->str, -1, INEDITABLE, invisibility,NULL);
       g_string_free(temp, TRUE);

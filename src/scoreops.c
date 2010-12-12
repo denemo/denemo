@@ -404,6 +404,11 @@ static delete_all_staffs(DenemoGUI * gui) {
   return TRUE;
 }
 
+
+clone_verses(){
+  g_warning("clone_verses not implemented");
+  return NULL;
+}
 /**
  * frees the data in the passed scoreinfo stucture 
  *
@@ -442,7 +447,55 @@ DenemoScore * clone_movement(DenemoScore *si) {
   for(newscore->thescore=NULL, g=si->thescore;g;g=g->next) {
     DenemoStaff *thestaff = (DenemoStaff*)g_malloc(sizeof(DenemoStaff));
     DenemoStaff *srcStaff = (DenemoStaff*)g->data;
-    copy_staff(srcStaff, thestaff);
+    // copy_staff(srcStaff, thestaff);!!!!!! does not copy e.g. no of lines ... need proper clone code.
+    memcpy(thestaff, srcStaff, sizeof(DenemoStaff));
+    
+
+    thestaff->clef.directives = clone_directives(srcStaff->clef.directives);
+    thestaff->keysig.directives = clone_directives(srcStaff->keysig.directives);
+    thestaff->timesig.directives = clone_directives(srcStaff->timesig.directives);
+
+    if(srcStaff->leftmost_clefcontext==&srcStaff->clef)
+       thestaff->leftmost_clefcontext = &thestaff->clef;
+     else
+       // has to be fixed up after the measures are done..., so do the whole thing after???
+       //							  likewise keysig timesig
+       g_warning("Not doing clef context yet..."), thestaff->leftmost_clefcontext = &thestaff->clef;
+
+    if(srcStaff->leftmost_timesig==&srcStaff->timesig)
+       thestaff->leftmost_timesig = &thestaff->timesig;
+     else
+       // has to be fixed up after the measures are done..., so do the whole thing after???
+       //							  likewise keysig timesig
+       g_warning("Not doing timesig context yet..."), thestaff->leftmost_timesig = &thestaff->timesig;
+
+    if(srcStaff->leftmost_keysig==&srcStaff->keysig)
+       thestaff->leftmost_keysig = &thestaff->keysig;
+     else
+       // has to be fixed up after the measures are done..., so do the whole thing after???
+       //							  likewise keysig timesig
+       g_warning("Not doing keysig context yet..."), thestaff->leftmost_keysig = &thestaff->keysig;
+
+
+
+    thestaff->denemo_name = g_string_new(srcStaff->denemo_name->str);
+    thestaff->lily_name = g_string_new(srcStaff->lily_name->str);
+    thestaff->midi_events = NULL;//cached data
+    thestaff->voice_directives = clone_directives(srcStaff->voice_directives);
+    thestaff->staff_directives = clone_directives(srcStaff->staff_directives);
+
+    if(srcStaff->staffmenu) thestaff->staffmenu = create_menu(thestaff->staff_directives);//where create_menu does code at staffops:241 and lilydirectives.c:1373
+
+    if(srcStaff->voicemenu) thestaff->voicemenu = create_menu(thestaff->voice_directives);
+  
+ 
+ 
+
+
+    thestaff->verses = clone_verses(srcStaff->verses);
+    if(srcStaff->currentverse)
+      thestaff->currentverse = g_list_nth(thestaff->verses, g_list_position(srcStaff->verses, srcStaff->currentverse));
+    
     newscore->thescore = g_list_append(newscore->thescore, thestaff);
     if(g==si->currentprimarystaff)
       newscore->currentprimarystaff = newscore->thescore;
