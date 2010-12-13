@@ -761,11 +761,14 @@ return SCM_BOOL_F;
 }
 
 static SCM scheme_increase_guard (SCM optional) {
-  return SCM_BOOL(Denemo.gui->si->undo_guard++);
+ if(Denemo.gui->si->undo_guard++)
+  return SCM_BOOL_T;
+ return SCM_BOOL_F;
 }
 static SCM scheme_decrease_guard (SCM optional) {
-  
-  return SCM_BOOL(!--Denemo.gui->si->undo_guard);
+  if(Denemo.gui->si->undo_guard)
+    return SCM_BOOL(!--Denemo.gui->si->undo_guard);
+  return SCM_BOOL_T;
 }
 
 static SCM scheme_zoom (SCM factor) {
