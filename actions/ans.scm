@@ -900,41 +900,41 @@
 ;The list is the actual pillar of fifth. Stepping left and right can be done by calculating a list-ref index value.	
 (define ANS::PillarOfFifth 
  (list 
-	"f" ;feses
-	"0" ;ceses
-	"k" ;geses	
-	"5" ;deses
-	"p" ;aeses
-	"a" ;eeses
-	"u" ;beses 
-	"g" ;fes
-	"1" ;ces
-	"l" ;ges
-	"6" ;des
-	"q" ;aes
-	"b" ;ees
-	"v" ;bes
-	"h" ;f
-	"2" ;c
-	"m" ;g
-	"7" ;d
-	"r" ;a
-	"c" ;e
-	"w" ;b
-	"i" ;fis
-	"3" ;cis
-	"n" ;gis
-	"8" ;dis
-	"s" ;ais
-	"d" ;eis
-	"x" ;bis
-	"j" ;fisis
-	"4" ;cisis
-	"o" ;gisis
-	"9" ;disis
-	"t" ;aisis
-	"e" ;eisis	
-	"y" ;bisis
+	"f" ;feses	0
+	"0" ;ceses	1
+	"k" ;geses	2
+	"5" ;deses	3
+	"p" ;aeses	4
+	"a" ;eeses	5
+	"u" ;beses 	6
+	"g" ;fes	7
+	"1" ;ces	8
+	"l" ;ges	9
+	"6" ;des	10
+	"q" ;aes	11
+	"b" ;ees	12
+	"v" ;bes	13
+	"h" ;f		14
+	"2" ;c		15
+	"m" ;g		16
+	"7" ;d		17
+	"r" ;a		19
+	"c" ;e		20
+	"w" ;b		21
+	"i" ;fis	22
+	"3" ;cis	23
+	"n" ;gis	24
+	"8" ;dis	25
+	"s" ;ais	26
+	"d" ;eis	27
+	"x" ;bis	28
+	"j" ;fisis	29
+	"4" ;cisis	30
+	"o" ;gisis	31
+	"9" ;disis	32
+	"t" ;aisis	33
+	"e" ;eisis	34
+	"y" ;bisis	35
  )
 )
 
@@ -949,7 +949,7 @@
 		((eq? target 'm3) -3)
 		((eq? target 'M3) 4)	
 		((or (eq? target 'p4) (eq? target 'P4)) -1)	
-		((or (eq? target 't) (eq? target 'T)) 6)
+		((or (eq? target 't) (eq? target 'T)) 6)		
 		((or (eq? target 'p5) (eq? target 'P5)) 1)
 		((eq? target 'm6) -4)			
 		((eq? target 'M6) 3)		
@@ -958,6 +958,8 @@
 		(else #f)
 	)		
 )
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;Functions;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1113,6 +1115,23 @@
 
 (define (ANS::CalculateDiatonicStepUp ansNote) (ANS::GetDiatonic (ANS::+ ansNote "50")))
 (define (ANS::CalculateDiatonicStepDown ansNote ) (ANS::GetDiatonic (ANS::- ansNote "50")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Analaysis;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define	(ANS::GetIntervall ansNoteOne ansNoteTwo)
+(define higher ansNoteOne)
+(define lower ansNoteTwo)
+(if (ANS::<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
+	(begin 	(set! lower ansNoteOne)
+			(set! higher ansNoteTwo)))		
+
+;Extract the tone, without octave, convert it to a symbol and feed it to the hash to get the notes position in the pillar of 5th.
+(- (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote higher))) (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote lower))))
+)
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Random Note Generation;;;;;;;;;;;;;;;;;;;;;;;;;
