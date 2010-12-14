@@ -33,6 +33,26 @@
 		     (newline))))
 
 
+;;; GetUniquePairs is a function that takes a list and combines each value with any other, but without duplicates and in order.
+;;; (a b c d) -> ab ac ad, bc bd, cd
+(define (GetUniquePairs listy)
+ (define returnList (list #f)) ; we need a non-empty list to append! to
+ (define maxsteps (- (length listy) 1))
+ (define (subMap memberA counter)
+	(define subList '())
+	(define (appendPair memberB)
+		(append subList (cons memberA memberB)))
+	(map appendPair (list-tail listy (+ 1 counter)))
+ );subMap 
+
+ (let loop ((counter 0))
+  (if (= counter maxsteps)
+	(list-tail returnList 1) ; get rid of the initial #f for the final return value
+	(begin (append! returnList (subMap (list-ref listy counter) counter))   (loop (+ counter 1)))
+  )
+ )
+); GetUniquePairs
+
 
 ;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
