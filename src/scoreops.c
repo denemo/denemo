@@ -13,6 +13,7 @@
 #include "prefops.h"
 #include "selectops.h"
 #include "objops.h"
+#include "lyric.h"
 #define INITIAL_WHOLEWIDTH 160
 #define INITIAL_STAFFHEIGHT 100
 
@@ -405,9 +406,16 @@ static delete_all_staffs(DenemoGUI * gui) {
 }
 
 
-clone_verses(){
-  g_warning("clone_verses not implemented");
-  return NULL;
+static
+GList *extract_verses(GList *verses){
+  g_warning("extract_verses not tested!!!!!!!");
+  GList *ret = NULL;
+  GList *g;
+  for(g=verses;g;g=g->next) {
+    GtkTextView *srcVerse = g->data;
+    ret = g_list_append(ret, get_text_from_view(srcVerse));
+  }
+  return ret;
 }
 /**
  * frees the data in the passed scoreinfo stucture 
@@ -491,8 +499,9 @@ DenemoScore * clone_movement(DenemoScore *si) {
  
  
 
+    newscore->lyricsbox = NULL;
+    thestaff->verses = extract_verses( srcStaff->verses);
 
-    thestaff->verses = clone_verses(srcStaff->verses);
     if(srcStaff->currentverse)
       thestaff->currentverse = g_list_nth(thestaff->verses, g_list_position(srcStaff->verses, srcStaff->currentverse));
     

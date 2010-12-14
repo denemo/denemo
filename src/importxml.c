@@ -316,16 +316,14 @@ parseVerse (xmlNodePtr parentElem, xmlNsPtr ns,
   g_free (text);
 }
 
-static GList *
+static void
 parseVerses (DenemoScore *si, DenemoStaff *staff, xmlNodePtr parentElem, xmlNsPtr ns)
 {
-  GList *verses = NULL;
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem) {
     GtkWidget *verse = add_verse_to_staff(si, staff);
     parseVerse(childElem, ns, verse);
   }
-  return verses;
 }
 
 /* Fix for semantic change to prefix field in the directives */

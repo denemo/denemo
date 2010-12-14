@@ -19,6 +19,7 @@
 #include "selectops.h"
 #include "staffops.h"
 #include "prefops.h"
+#include "lyric.h"
 /*For save selection function*/
 #include "utils.h"
 #define DEBUG 1
@@ -1149,19 +1150,54 @@ undo (DenemoGUI * gui)
 	case ACTION_SNAPSHOT:
 	  {
 	   
-	    DenemoScore *si = undo->object;
+	    DenemoScore *si = (DenemoScore*)undo->object;
+	    gint initial_guard = si->undo_guard;
+	    gint initial_changecount = si->changecount;
 	    // replace gui->si in gui->movements with si
 	    GList *find = g_list_find(gui->movements, gui->si);
-	    if(find)
+	    if(find) {
 	      find->data = si;
-	   else 
-	    g_warning("Movement does not exist");
-	    undo->object = gui->si;
-	    //FIXME fix up values in stored object si??????
-	    gui->si = si;
+	      GList *g, *gorig, *curstaff;
+	      for(curstaff = gui->si->thescore;curstaff;curstaff=curstaff->next) {
+		DenemoStaff *thestaff = curstaff->data;
+		gorig =	g = thestaff->verses;
+		thestaff->verses = NULL;
+		for(;g;g=g->next) {
+		  gchar *text = get_text_from_view (g->data);
+		    gtk_widget_destroy(g->data);//what about its parent??? FIXME
+		  thestaff->verses = g_list_append(thestaff->verses, text);
+		  if(thestaff->currentverse==g)
+		    thestaff->currentverse = g_list_last(thestaff->verses);
+		}		
+	      }
+	      g_list_free(gorig);
+	      undo->object = (DenemoObject*)gui->si;
+	      //FIXME fix up other values in stored object si?????? voice/staff directive widgets
+	      gui->si = si;
+	      for(curstaff = si->thescore;curstaff;curstaff=curstaff->next) {
+		DenemoStaff *thestaff = curstaff->data;
+		gorig = g = thestaff->verses;
+		gint curversenum = g_list_position(g, thestaff->currentverse);
+		thestaff->verses = NULL;
+		
+		for(;g;g=g->next) {
+		  add_verse_to_staff(si, thestaff);
+		  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) thestaff->currentverse->data), g->data, -1);
+		  gtk_widget_show(thestaff->currentverse->data);
+		  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
+		  
+		  thestaff->currentverse = g_list_nth(thestaff->verses, curversenum);
+		}
+		g_list_free(gorig);
+	      }
+	      gui->si->undo_guard = initial_guard;
+	      gui->si->changecount = initial_changecount;
+	    }
+	    else 
+	      g_warning("Movement does not exist");
 	    
 	    displayhelper (gui);
-	  }
+	      }
 	  break;
 
 
@@ -1180,6 +1216,7 @@ undo (DenemoGUI * gui)
       }
       update_redo_info (gui->si, undo);	  
       gui->si->undo_guard--;
+      //FIXME update status - changecount
     }
 }
 
