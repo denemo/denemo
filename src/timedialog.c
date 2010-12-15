@@ -62,7 +62,7 @@ dnm_setinitialtimesig (DenemoScore * si, DenemoStaff * curstaffstruct,
 		       gint time1, gint time2, gboolean all_staves)
 {
   staffnode *curstaff;
-
+  take_snapshot();
   if (time1 && time2 && ispow2 (time2))
     {
       if (all_staves)

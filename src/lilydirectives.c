@@ -824,6 +824,8 @@ typedef DenemoLilyControl score;
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
+  if(Denemo.gui->si->currentobject)\
+  store_for_undo_change (Denemo.gui->si, Denemo.gui->si->currentobject->data);\
   if(current->directives==NULL)\
        create_directives (&current->directives, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -853,6 +855,8 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
+  if(Denemo.gui->si->currentobject)\
+  store_for_undo_change (Denemo.gui->si, Denemo.gui->si->currentobject->data);\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -870,8 +874,8 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
 }
 
 #define PUT_STR_FIELD_FUNC(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, directives)
-#define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
-#define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
+//#define PUT_STR_FIELD_FUNCS(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, staff_directives)
+//#define PUT_STR_FIELD_FUNCV(what, field) PUT_STR_FIELD_FUNC_NAME(what, field, voice_directives)
 
 
 
@@ -956,6 +960,8 @@ gboolean \
 what##_directive_put_##field(gchar *tag, gint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
+  if(Denemo.gui->si->currentobject)\
+  store_for_undo_change (Denemo.gui->si, Denemo.gui->si->currentobject->data);\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\
@@ -969,8 +975,8 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   return TRUE;\
 }
 #define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
-#define PUT_INT_FIELD_FUNCS(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, staff_directives)
-#define PUT_INT_FIELD_FUNCV(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, voice_directives)
+//#define PUT_INT_FIELD_FUNCS(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, staff_directives)
+//#define PUT_INT_FIELD_FUNCV(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, voice_directives)
 
 
 #define GET_INT_FIELD_FUNC(what, field)\
@@ -1443,8 +1449,47 @@ widget_for_header_directive(DenemoDirective *directive) {
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive
 // Compare this with the macros above which create the what##_directive_put_##field() without calling widget_for_directive() and so do not create a widget in the graphic field, except via the user setting graphic_name.
 
-#define PUT_GRAPHIC_WIDGET_STR(field, what, directives_name) PUT_STR_FIELD_FUNC_NAME(what, field, directives_name)
-#define PUT_GRAPHIC_WIDGET_INT(field, what, directives_name) PUT_INT_FIELD_FUNC_NAME(what, field, directives_name)
+#define PUT_GRAPHIC_WIDGET_STR(field, what, name) \
+gboolean \
+what##_directive_put_##field(gchar *tag, gchar *value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  take_snapshot();		 \
+  if(current->name==NULL)\
+       create_directives (&current->name, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->name = g_list_append(current->name, directive);\
+    }\
+  if(directive->field)\
+    g_string_assign(directive->field, value);\
+  else\
+    directive->field = g_string_new(value);\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  return TRUE;\
+}
+
+
+#define PUT_GRAPHIC_WIDGET_INT(field, what, name)\
+gboolean \
+what##_directive_put_##field(gchar *tag, gint value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  take_snapshot();		 \
+  if(current->name==NULL)\
+       create_directives (&current->name, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->name = g_list_append(current->name, directive);\
+    }\
+  directive->field = value;\
+  widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  return TRUE;\
+}
 
 
 //As the above (for string and int) but for the graphic name field
@@ -1453,6 +1498,7 @@ widget_for_header_directive(DenemoDirective *directive) {
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
   if(current==NULL) return NULL;\
+  take_snapshot();		\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
   DenemoDirective *directive = get_##what##_directive(tag);\

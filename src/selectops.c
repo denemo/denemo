@@ -254,6 +254,7 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
     max;
   if (!si->markstaffnum)
     return;
+  take_snapshot();
   if(copyfirst)
     copytobuffer (si);
   gint staffs_removed_measures = 0;// a count of removed measures in the case where multiple staffs are involved
@@ -1100,6 +1101,24 @@ void store_for_undo_change (DenemoScore *si, DenemoObject *curobj) {
       data->action = ACTION_CHANGE;
       update_undo_info (si, data);
     }
+}
+
+// snapshot the current movement for undo
+gboolean take_snapshot(void) {
+  if (!Denemo.gui->si->undo_guard)
+    {
+      unre_data *undo;
+      undo = (unre_data *) g_malloc (sizeof (unre_data));
+      undo->object = clone_movement(Denemo.gui->si);
+      //fix up somethings...
+      get_position(Denemo.gui->si,&undo->position);
+      undo->position.appending = 0;
+      undo->action = ACTION_SNAPSHOT;
+      update_undo_info (Denemo.gui->si, undo);
+      
+      return TRUE;
+    } else
+    return FALSE;
 }
 
 

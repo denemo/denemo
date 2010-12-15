@@ -743,21 +743,9 @@ static SCM scheme_delete_selection(SCM optional) {
   return SCM_BOOL_T;
 }
 
-static SCM scheme_take_snapshot (SCM optional) {
-  if (!Denemo.gui->si->undo_guard)
-    {
-      unre_data *undo;
-      undo = (unre_data *) g_malloc (sizeof (unre_data));
-      undo->object = clone_movement(Denemo.gui->si);
-      //fix up somethings...
-      get_position(Denemo.gui->si,&undo->position);
-      undo->position.appending = 0;
-      undo->action = ACTION_SNAPSHOT;
-      update_undo_info (Denemo.gui->si, undo);
-      
-      return SCM_BOOL_T;
-    } else
-return SCM_BOOL_F;
+
+static SCM scheme_take_snapshot (SCM optional) {   
+  return SCM_BOOL(take_snapshot());
 }
 
 static SCM scheme_increase_guard (SCM optional) {

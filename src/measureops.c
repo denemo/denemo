@@ -133,6 +133,7 @@ void
 staffremovemeasures (staffnode * curstaff, guint pos)
 {
   //g_print ("In Staffremovemeasures\n");
+  take_snapshot();
   measurenode *firstmeasure;
   measurenode *delmeasure;
   if (((DenemoStaff *) curstaff->data)->is_parasite)

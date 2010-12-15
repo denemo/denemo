@@ -1,4 +1,4 @@
-/* staffpropdialog.cpp
+/* staffpropdialog.c
  * callback that creates a "Staff Properties" dialog box asking
  * the user to change the properties of the current staff
  
@@ -547,6 +547,8 @@ void staff_properties_change_cb (GtkAction *action, DenemoScriptParam * param) {
    }
    return;
  }
+ take_snapshot();
+
  if(denemo_name) {
    g_string_assign(staff->denemo_name, denemo_name);
     param->status = TRUE;

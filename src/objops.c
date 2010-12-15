@@ -489,7 +489,7 @@ dnm_newobj (DenemoObjType type)
 void
 dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
 {
-
+  take_snapshot();
   curstaff->keysig.number = tokey;
   curstaff->keysig.isminor = type;
 

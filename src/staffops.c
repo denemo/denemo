@@ -238,6 +238,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
   g_assert (si != NULL);
   /* What gets added */
   gint ret = -1, err;
+  take_snapshot();
   DenemoStaff *thestaffstruct =
     (DenemoStaff *) g_malloc (sizeof (DenemoStaff));
 
@@ -474,7 +475,7 @@ deletestaff (DenemoGUI * gui, gboolean interactive)
     return;
   if(interactive &&  (curstaffstruct->context!=DENEMO_NONE))
     give_info = TRUE;
-    
+  take_snapshot();
   gboolean isprimary = ((int) curstaffstruct->voicenumber == 1);
   //FIXME free_staff()
 

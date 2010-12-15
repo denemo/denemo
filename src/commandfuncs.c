@@ -465,6 +465,7 @@ swapstaffs (GtkAction *action, gpointer param)
 	temp = gui->si->currentstaff->data;
 	if(temp->context==DENEMO_NONE ||
 	   confirm("A context is set on this staff", "You will need to alter the staff->properties->context of this and the previous staff; Proceed?")) {
+	  take_snapshot();
 	  gui->si->currentstaff->data = gui->si->currentstaff->prev->data;
 	  gui->si->currentstaff->prev->data = temp;
 	  gui->si->currentstaffnum--;
@@ -497,6 +498,7 @@ splitstaffs (GtkAction *action, gpointer param)
     return FALSE;
   if (gui->si->currentstaff && gui->si->currentstaff->next)
     {
+      take_snapshot();
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
       DenemoStaff *nextstaff = (DenemoStaff *)gui->si->currentstaff->next->data;
       if((thestaff->voicenumber==1) && (nextstaff->voicenumber!=1))
@@ -528,6 +530,7 @@ joinstaffs (GtkAction *action, gpointer param)
     return FALSE;
   if (gui->si->currentstaff && gui->si->currentstaff->prev)
     {
+      take_snapshot();
       DenemoStaff *thestaff = (DenemoStaff *)gui->si->currentstaff->data;
       DenemoStaff *prevstaff = (DenemoStaff *)gui->si->currentstaff->prev->data;
       thestaff->voicenumber=2;

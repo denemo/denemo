@@ -548,7 +548,7 @@ DenemoScore * clone_movement(DenemoScore *si) {
     savebuffer
     bookmarks
     Instruments
-    buttonbox
-    lyricsbox
+   
+   
   */
 }
