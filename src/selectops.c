@@ -20,6 +20,7 @@
 #include "staffops.h"
 #include "prefops.h"
 #include "lyric.h"
+#include "lilydirectives.h"
 /*For save selection function*/
 #include "utils.h"
 #define DEBUG 1
@@ -1118,10 +1119,11 @@ undo (DenemoGUI * gui)
     {
       DenemoScriptParam param;
       param.status=TRUE;
-      gui->si->undo_guard++;
+      // g_print("undo guard before %d\n",  gui->si->undo_guard);
+
       if(undo->action!=ACTION_SNAPSHOT) { 
-	push_given_position(&undo->position);
-	
+	gui->si->undo_guard++;
+	push_given_position(&undo->position);	
 	PopPosition(NULL, &param);
       }
       if(param.status) {
@@ -1152,6 +1154,7 @@ undo (DenemoGUI * gui)
 	   
 	    DenemoScore *si = (DenemoScore*)undo->object;
 	    gint initial_guard = si->undo_guard;
+	    // complex ??? or is it just simple - must be zero guard else snapshot would not have occurred FIXME;
 	    gint initial_changecount = si->changecount;
 	    // replace gui->si in gui->movements with si
 	    GList *find = g_list_find(gui->movements, gui->si);
@@ -1183,9 +1186,9 @@ undo (DenemoGUI * gui)
 		{GList *direc;
 		  for(direc=thestaff->voice_directives;direc;direc=direc->next) {
 		    DenemoDirective *directive = direc->data;
-		    if(directive->widget) {
-		    directive->widget = NULL;
+		    if(directive->widget) {		    
 		    gtk_widget_destroy(directive->widget);
+		    directive->widget = NULL;
 		    }
 		    //widget_for_voice_directive(directive);
 		  }
@@ -1206,36 +1209,35 @@ undo (DenemoGUI * gui)
 		  gtk_text_buffer_set_text (gtk_text_view_get_buffer ((GtkTextView *) thestaff->currentverse->data), g->data, -1);
 		  gtk_widget_show(thestaff->currentverse->data);
 		  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
-		  
-		  thestaff->currentverse = g_list_nth(thestaff->verses, curversenum);
+		}
+		thestaff->currentverse = g_list_nth(thestaff->verses, curversenum);
 
 
 		{GList *direc;
 		  for(direc=thestaff->staff_directives;direc;direc=direc->next) {
 		    DenemoDirective *directive = direc->data;	    
 		    directive->widget = NULL;   
-		    widget_for_staff_directive(directive);
+		    widget_for_staff_directive(directive, thestaff->staffmenu);
 		  }
 		}
 		{GList *direc;
 		  for(direc=thestaff->voice_directives;direc;direc=direc->next) {
 		    DenemoDirective *directive = direc->data;
 		    directive->widget = NULL;
-		    widget_for_voice_directive(directive);
+		    widget_for_voice_directive(directive, thestaff->voicemenu);
 		  }
-		}
-
 		}
 		g_list_free(gorig);
 	      }
-	      gui->si->undo_guard = initial_guard;
-	      gui->si->changecount = initial_changecount;
 	    }
-	    else 
+	    else {
 	      g_warning("Movement does not exist");
-	    
-	    displayhelper (gui);
-	      }
+	    }
+	      
+	    gui->si->undo_guard = 1;//so this should just be 1 so it decreases to zero after...initial_guard;
+	  gui->si->changecount = initial_changecount;
+	  displayhelper (gui);//???FIXME
+	  }
 	  break;
 
 
@@ -1254,6 +1256,7 @@ undo (DenemoGUI * gui)
       }
       update_redo_info (gui->si, undo);	  
       gui->si->undo_guard--;
+      // g_print("undo guard after %d\n",  gui->si->undo_guard);
       //FIXME update status - changecount
     }
 }
