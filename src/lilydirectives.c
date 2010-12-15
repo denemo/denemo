@@ -1334,7 +1334,7 @@ if directive is non-DenemoObject directive it  places the widget in the appropri
 */
      
 void 
-widget_for_directive(DenemoDirective *directive,  void fn()) {
+widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staffmenu, GtkMenu *voicemenu) {
   GtkWidget *box;
   gchar *value = "";
   //FIXME we don't need value now...
@@ -1362,7 +1362,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
       //g_print("Doing the staff case");
       /* g_print("directive-type %s.....", thetype);	*/
       GtkWidget *menu;
-      menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
+      menu = staffmenu;
       directive->widget = gtk_menu_item_new_with_label(value);
       attach_textedit_widget(directive);
       g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
@@ -1373,7 +1373,7 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
 	directive->widget = GTK_WIDGET(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
 	attach_textedit_widget(directive);
 	GtkWidget *menu;
-	menu = (GtkWidget *)((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;  
+	menu = voicemenu;  
 	g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
@@ -1410,7 +1410,24 @@ widget_for_directive(DenemoDirective *directive,  void fn()) {
   }
   set_directive_graphic_label(directive);
 }
-
+void 
+widget_for_directive(DenemoDirective *directive,  void fn()) {
+GtkMenu *staffmenu=NULL, *voicemenu=NULL;
+ if(Denemo.gui->si){
+   staffmenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
+   voicemenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;
+ }
+   
+  widget_for_directive_menu(directive, fn, staffmenu, voicemenu);
+}
+void
+widget_for_staff_directive(DenemoDirective *directive, GtkMenu *menu) {
+  return widget_for_directive_menu(directive, staff_directive_put_graphic, menu, NULL);
+}
+void
+widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu) {
+  return widget_for_directive_menu(directive, voice_directive_put_graphic, NULL, menu);
+}
 
 // create a directive for non-DenemoObject directive #what
 // assigning the string VALUE to the field ##field

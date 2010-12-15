@@ -489,16 +489,23 @@ DenemoScore * clone_movement(DenemoScore *si) {
     thestaff->denemo_name = g_string_new(srcStaff->denemo_name->str);
     thestaff->lily_name = g_string_new(srcStaff->lily_name->str);
     thestaff->midi_events = NULL;//cached data
-    thestaff->voice_directives = clone_directives(srcStaff->voice_directives);
+   
     thestaff->staff_directives = clone_directives(srcStaff->staff_directives);
-
-    if(srcStaff->staffmenu) thestaff->staffmenu = create_menu(thestaff->staff_directives);//where create_menu does code at staffops:241 and lilydirectives.c:1373
-
-    if(srcStaff->voicemenu) thestaff->voicemenu = create_menu(thestaff->voice_directives);
+    {GList *direc;
+      for(direc=thestaff->staff_directives;direc;direc=direc->next) {
+	DenemoDirective *directive = direc->data;
+	directive->widget = NULL;
+	//	widget_for_staff_directive(directive);
+      }
+    }
+    {GList *direc;
+      for(direc=thestaff->voice_directives;direc;direc=direc->next) {
+	DenemoDirective *directive = direc->data;
+	directive->widget = NULL;
+	//	widget_for_voice_directive(directive);
+      }
+    }
   
- 
- 
-
     newscore->lyricsbox = NULL;
     thestaff->verses = extract_verses( srcStaff->verses);
 
@@ -528,6 +535,7 @@ DenemoScore * clone_movement(DenemoScore *si) {
 	g_print("current measure %x\n", g_list_last(thestaff->measures)),newscore->currentmeasure = g_list_last(thestaff->measures);//???
     }
   }
+
 
 
   newscore->movementcontrol.directives = clone_directives(si->movementcontrol.directives);

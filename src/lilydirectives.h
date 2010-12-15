@@ -19,6 +19,10 @@ gchar *
 get_scoretitle(void);
 void 
 widget_for_directive(DenemoDirective *directive,  void fn());
+void 
+widget_for_staff_directive(DenemoDirective *directive, GtkMenu *menu);
+void 
+widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu);
 gboolean 
 text_edit_note_directive(gchar *tag);
 void 

@@ -1164,11 +1164,32 @@ undo (DenemoGUI * gui)
 		thestaff->verses = NULL;
 		for(;g;g=g->next) {
 		  gchar *text = get_text_from_view (g->data);
-		    gtk_widget_destroy(g->data);//what about its parent??? FIXME
+		  gtk_widget_destroy(g->data);//what about its parent??? FIXME
 		  thestaff->verses = g_list_append(thestaff->verses, text);
 		  if(thestaff->currentverse==g)
 		    thestaff->currentverse = g_list_last(thestaff->verses);
-		}		
+		}
+
+		{GList *direc;
+		  for(direc=thestaff->staff_directives;direc;direc=direc->next) {
+		    DenemoDirective *directive = direc->data;
+		    if(directive->widget) {
+		    gtk_widget_destroy(directive->widget);
+		    directive->widget = NULL;
+		    }
+		    //widget_for_staff_directive(directive);
+		  }
+		}
+		{GList *direc;
+		  for(direc=thestaff->voice_directives;direc;direc=direc->next) {
+		    DenemoDirective *directive = direc->data;
+		    if(directive->widget) {
+		    directive->widget = NULL;
+		    gtk_widget_destroy(directive->widget);
+		    }
+		    //widget_for_voice_directive(directive);
+		  }
+		}
 	      }
 	      g_list_free(gorig);
 	      undo->object = (DenemoObject*)gui->si;
@@ -1187,6 +1208,23 @@ undo (DenemoGUI * gui)
 		  g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (thestaff->currentverse->data)), "changed", G_CALLBACK (lyric_change), NULL);
 		  
 		  thestaff->currentverse = g_list_nth(thestaff->verses, curversenum);
+
+
+		{GList *direc;
+		  for(direc=thestaff->staff_directives;direc;direc=direc->next) {
+		    DenemoDirective *directive = direc->data;	    
+		    directive->widget = NULL;   
+		    widget_for_staff_directive(directive);
+		  }
+		}
+		{GList *direc;
+		  for(direc=thestaff->voice_directives;direc;direc=direc->next) {
+		    DenemoDirective *directive = direc->data;
+		    directive->widget = NULL;
+		    widget_for_voice_directive(directive);
+		  }
+		}
+
 		}
 		g_list_free(gorig);
 	      }
