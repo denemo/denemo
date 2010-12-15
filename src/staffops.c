@@ -245,7 +245,7 @@ newstaff (DenemoGUI * gui, enum newstaffcallbackaction action,
 
  
   thestaffstruct->staffmenu = create_menu(NULL);
-  thestaffstruct->staffmenu = create_menu(NULL);
+  thestaffstruct->voicemenu = create_menu(NULL);
 
 
   struct newstaffinfotopass itp;
