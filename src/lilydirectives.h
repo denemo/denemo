@@ -23,6 +23,11 @@ void
 widget_for_staff_directive(DenemoDirective *directive, GtkMenu *menu);
 void 
 widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu);
+void
+widget_for_movementcontrol_directive(DenemoDirective *directive);
+void
+widget_for_header_directive(DenemoDirective *directive);
+
 gboolean 
 text_edit_note_directive(gchar *tag);
 void 

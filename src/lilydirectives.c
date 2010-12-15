@@ -1429,6 +1429,15 @@ widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu) {
   return widget_for_directive_menu(directive, voice_directive_put_graphic, NULL, menu);
 }
 
+void
+widget_for_movementcontrol_directive(DenemoDirective *directive) {
+  return widget_for_directive_menu(directive, movementcontrol_directive_put_graphic, NULL, NULL);
+}
+void
+widget_for_header_directive(DenemoDirective *directive) {
+  return widget_for_directive_menu(directive, header_directive_put_graphic, NULL, NULL);
+}
+
 // create a directive for non-DenemoObject directive #what
 // assigning the string VALUE to the field ##field
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive

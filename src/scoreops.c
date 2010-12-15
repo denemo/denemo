@@ -542,8 +542,8 @@ DenemoScore * clone_movement(DenemoScore *si) {
   newscore->layout.directives = clone_directives(si->layout.directives);
   newscore->header.directives = clone_directives(si->header.directives);
   /*
-    midi_events
-    changecount
+ 
+    
     smfsync
     savebuffer
     bookmarks
