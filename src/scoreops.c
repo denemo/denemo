@@ -148,19 +148,23 @@ delete_movement(GtkAction *action, gpointer param) {
   score_status(gui, TRUE);
 }
 
-/* go to the movement voice measure staff and object numbers (starting from 1) */
+/* go to the movement voice measure staff and object numbers (starting from 1)
+ movementnum<=0 means current movement */
 gboolean
 goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint measurenum, gint objnum)
 {
-  GList *this = g_list_nth(gui->movements, movementnum-1);
-
-  if(this==NULL){
-    warningdialog(_("No such movement"));
-    return FALSE;
+  if(movementnum>0) {
+    GList *this = g_list_nth(gui->movements, movementnum-1);  
+    if(this==NULL){
+      warningdialog(_("No such movement"));
+      return FALSE;
+    }
+    gtk_widget_hide(gui->si->buttonbox);
+    gui->si = this->data;
+    gtk_widget_show(gui->si->buttonbox);
   }
-  gtk_widget_hide(gui->si->buttonbox);
-  gui->si = this->data;
-  gtk_widget_show(gui->si->buttonbox);
+
+
   if(!moveto_currentstaffnum (gui, staffnum))
     {
       warningdialog(_("No such voice"));
@@ -176,10 +180,11 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     gui->si->cursor_x++;
   }
   // g_print("objnum %d\n",objnum);
-  if(objnum>0)
-  gui->si->cursor_x+=objnum;
-  if(!gui->si->currentobject)
-    return FALSE;
+  if(objnum>0) {
+    gui->si->cursor_x+=objnum;
+    if(!gui->si->currentobject)
+      return FALSE;
+  }
   write_status(gui);
 #if 0
   //something bad here re-sets the staff to 1

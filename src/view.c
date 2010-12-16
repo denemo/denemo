@@ -142,14 +142,16 @@ static gint scm_eval_status = 0;
 static SCM
 standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 {
-  printf ("\nA script error for file/script %s; the throw arguments are\n", data);
+  g_warning ("\nA script error for file/script %s; the throw arguments are\n", data);
   scm_display (throw_args, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
-  printf ("\nThe tag is\n");
+  g_warning ("\nThe tag is\n");
   scm_display (tag, scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   scm_newline (scm_current_output_port ());
   scm_eval_status = -1;
+  g_warning ("Undo will be affected\n");
+  stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR);
   return SCM_BOOL_F;
 }
 
@@ -5435,8 +5437,13 @@ activate_script (GtkAction *action, gpointer param)
 
     if(*text==0)
       text = instantiate_script(action);
-    if(text)
-      return (gboolean)!call_out_to_guile(text);
+    if(text) {
+      gboolean ret;
+      stage_undo(gui->si, ACTION_SCRIPT_END);//undo is a queue so this is the end :)
+      ret = (gboolean)!call_out_to_guile(text);
+      stage_undo(gui->si, ACTION_SCRIPT_START);
+      return ret; 
+    }
   }
   else
     warningdialog("Have no way of getting the script, sorry");

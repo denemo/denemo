@@ -41,15 +41,10 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
     {
       if (all)
 	{
-	  for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
+	  gint j;
+	  for (j=1, curstaff = si->thescore; curstaff; j++, curstaff = curstaff->next)
 	    {
-	      if (((DenemoStaff *) curstaff->data)->is_parasite)
-		{
-		  ((DenemoStaff *) curstaff->data)->measures =
-		    *(((DenemoStaff *) curstaff->data)->is_parasite);
-		  continue;
-		  /*assumes parasite staff always come before their hosts */
-		}
+	      store_for_undo_measure_insert(si, j, pos);
 	      ((DenemoStaff *) curstaff->data)->measures =
 		g_list_insert (firstmeasurenode (curstaff), barlinenode, pos);
 	      ((DenemoStaff *) curstaff->data)->nummeasures++;
@@ -57,11 +52,11 @@ addmeasures (DenemoScore * si, gint pos, guint nummeasures, gint all)
 	}
       else
 	{
+	  store_for_undo_measure_insert(si, si->currentstaffnum, pos);
 	  ((DenemoStaff *) si->currentstaff->data)->measures =
 	    g_list_insert (firstmeasurenode (si->currentstaff),
 			   barlinenode, pos);
 	  ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
-
 	}
 
       gint maxmeasures=0;

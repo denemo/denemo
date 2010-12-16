@@ -1,8 +1,8 @@
 /* selectops.h
- * selecting, cutting, copying, and pasting music
+ * Undoing, selecting, cutting, copying, and pasting music
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005 Matthew Hiller */
+ * (c) 1999-2005 Matthew Hiller 2010 Richard Shann */
 
 #include <denemo/denemo.h>
 
@@ -65,8 +65,8 @@ void
 saveselwrapper(GtkAction *action, DenemoScriptParam *param);
 void undowrapper(GtkAction *action, gpointer param);
 void redowrapper(GtkAction *action, gpointer param);
-void update_undo_info(DenemoScore *si, unre_data *undo);
-void update_redo_info(DenemoScore *si, unre_data *redo);
+void update_undo_info(DenemoScore *si, DenemoUndoData *undo);
+void update_redo_info(DenemoScore *si, DenemoUndoData *redo);
 void store_for_undo_change (DenemoScore *si, DenemoObject *obj);
 gboolean take_snapshot(void);
 void goto_mark (GtkAction *action,  DenemoScriptParam *param);

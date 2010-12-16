@@ -173,7 +173,12 @@ typedef enum  action_type {
   ACTION_INSERT,
   ACTION_DELETE,
   ACTION_CHANGE,
-  ACTION_SNAPSHOT
+  ACTION_SNAPSHOT,
+  ACTION_SCRIPT_START,
+  ACTION_SCRIPT_END,
+  ACTION_SCRIPT_ERROR,
+  ACTION_MEASURE_DELETE,
+  ACTION_MEASURE_INSERT
 }action_type;
 
 /**
@@ -394,6 +399,7 @@ typedef struct DenemoPrefs
 
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
 
+  gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< Auto save data */
   gint autosave_timeout;
@@ -601,13 +607,14 @@ typedef struct DenemoPosition { /**<Represents a position in a Score */
  * Contains data required for undo/redo operation 
  * Borrowed idea from GScore
  */
-typedef struct unre_data
+typedef struct DenemoUndoData
 {
+  enum action_type action; /*action type must come first*/
+  
   DenemoObject* object;    /* pointer to object to be undone/redone */
   DenemoPosition position; /* position where delete/insert took place */
-  enum action_type action; /*action type */
-
-}unre_data;
+ 
+} DenemoUndoData;
  
 
 /**
@@ -878,6 +885,7 @@ typedef struct DenemoGUI
   GString *filename;/**< the filename to save to */
   GString *autosavename;/**< the filename to autosave to, full path */
 
+  gint undo_level;/**< level of script nesting 0 = staging point for undo to return to */
   gboolean notsaved;/**< edited since last save */
   guint changecount;/**< number of edits since score loaded */
   guint lilysync;/**< value of changecount when the Lily text was last refreshed */

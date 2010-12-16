@@ -282,10 +282,10 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
   declarecurmudelaobj;
 
   /* update undo information */
-  unre_data *undo;
+  DenemoUndoData *undo;
   if (!si->undo_guard)
     {
-      undo = (unre_data *) g_malloc (sizeof (unre_data));
+      undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
       undo->object = dnm_clone_object (mudela_obj_new);
       //do position after inserting, so we can go back to it to delete
     }
@@ -1802,11 +1802,11 @@ dnm_deleteobject (DenemoScore * si)
   if(curmudelaobj->type==LILYDIRECTIVE && ((lilydirective *)curmudelaobj->object)->locked)
     if(!confirm("This LilyPond insert is locked","Really delete it?"))
       return;
-  unre_data *undo;
+  DenemoUndoData *undo;
 
   if (!si->undo_guard)
     {
-      undo = (unre_data *) g_malloc (sizeof (unre_data));      
+      undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));      
       undo->object = dnm_clone_object (curmudelaobj);
       //get position after delete
     }
