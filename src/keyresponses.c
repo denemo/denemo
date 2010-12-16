@@ -360,6 +360,7 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	    note copy = *((note *) thenote->data);
 	    GList *direcs = ((note *)thenote->data)->directives;
 	    store_for_undo_change (gui->si, gui->si->currentobject->data);
+	    gui->si->undo_guard++;
 	    delete_chordnote(gui);//does not delete the directives.
 	    gui->si->cursor_y = copy.mid_c_offset + amount;
 	    insert_chordnote(gui);
@@ -367,6 +368,7 @@ octave_shift_key (DenemoGUI * gui, gint amount)
 	    thenote = nearestnote (gui->si->currentobject->data, gui->si->cursor_y);
 	    if(thenote)
 	      ((note *)thenote->data)->directives = direcs;
+	    gui->si->undo_guard--;
 	    score_status(gui, TRUE);
 	  }
 	}
