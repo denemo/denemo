@@ -24,12 +24,14 @@ draw_lily_dir (cairo_t *cr,
   if(lily->graphic){
     gint width = lily->graphic->width;
     gint  height = lily->graphic->height;  
+#if 0
     drawbitmapinverse_cr (cr, (DenemoGraphic *)lily->graphic,
 		     xx + lily->gx, y + lily->gy);
-
+#else
+    //it seems this is what we should be doing - it means altering all the scripts...
     drawbitmapinverse_cr (cr, (DenemoGraphic *)lily->graphic,
-			  xx + lily->gx - (((DenemoGraphic *)lily->graphic)->width)/2, y + lily->gy -  (((DenemoGraphic *)lily->graphic)->height)/2);
-
+			  xx + lily->gx - (((DenemoGraphic *)lily->graphic)->width)/2, y + MID_STAFF_HEIGHT + lily->gy -  (((DenemoGraphic *)lily->graphic)->height)/2);
+#endif
 
 
   }
