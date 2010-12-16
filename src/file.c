@@ -250,7 +250,6 @@ gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
   g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
-  gui->si->undo_guard++;
   gint result;
   gboolean xml = FALSE;
   result = 1;//FAILURE
@@ -294,9 +293,9 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       refresh_lily_cb(NULL, gui);
     }
   g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
-
-  gui->si->undo_guard=0;//allow undo information to be collected 
+  gui->si->undo_guard=1;
   load_local_scheme_init();//to re-instate any user defined directives for whole score
+  gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
   return result;
 }
 

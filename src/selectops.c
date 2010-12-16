@@ -1113,13 +1113,13 @@ void store_for_undo_measure_insert(DenemoScore *si, gint staffnum, gint measuren
     }
 }
 
-static DenemoUndoData ActionScriptStart={ACTION_SCRIPT_START}, ActionScriptEnd = {ACTION_SCRIPT_END}, ActionScriptError = {ACTION_SCRIPT_ERROR};
+static DenemoUndoData ActionScriptStart={ACTION_STAGE_START}, ActionScriptEnd = {ACTION_STAGE_END}, ActionScriptError = {ACTION_SCRIPT_ERROR};
 void stage_undo(DenemoScore *si, action_type type) {
   switch(type) {
-  case ACTION_SCRIPT_START:
+  case ACTION_STAGE_START:
     update_undo_info (si, &ActionScriptStart);
     break;
-  case ACTION_SCRIPT_END:
+  case ACTION_STAGE_END:
     update_undo_info (si, &ActionScriptEnd);
     break;
   case ACTION_SCRIPT_ERROR:
@@ -1194,13 +1194,13 @@ undo (DenemoGUI * gui)
 
 	}
 	  break;
-	case ACTION_SCRIPT_START:
+	case ACTION_STAGE_START:
 	  gui->undo_level++;
-	  chunk->action = ACTION_SCRIPT_END;
+	  chunk->action = ACTION_STAGE_END;
 	  break;
-	case ACTION_SCRIPT_END:
+	case ACTION_STAGE_END:
 	  gui->undo_level--;
-	  chunk->action = ACTION_SCRIPT_START;
+	  chunk->action = ACTION_STAGE_START;
 	  break;
 	case ACTION_SCRIPT_ERROR:
 	  gui->undo_level = 0;
@@ -1453,8 +1453,8 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
 
-  // g_debug ("Undo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
-  //	   undo->action, undo->position, undo->staffnum, undo->measurenum); 
+  g_print ("Adding: Action %d\n",
+  	   undo->action); 
 
   if (g_queue_get_length (si->undodata) == MAX_UNDOS)
     {

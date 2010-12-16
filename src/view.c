@@ -5439,9 +5439,9 @@ activate_script (GtkAction *action, gpointer param)
       text = instantiate_script(action);
     if(text) {
       gboolean ret;
-      stage_undo(gui->si, ACTION_SCRIPT_END);//undo is a queue so this is the end :)
+      stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
       ret = (gboolean)!call_out_to_guile(text);
-      stage_undo(gui->si, ACTION_SCRIPT_START);
+      stage_undo(gui->si, ACTION_STAGE_START);
       return ret; 
     }
   }
@@ -6191,6 +6191,8 @@ static gchar * get_system_menupath( gchar *menupath) {
   }
   return filepath;   
 }
+
+
 /*
   menu_click:
   intercepter for the callback when clicking on menu items for the set of Actions the Denemo offers.
@@ -6221,7 +6223,7 @@ static gboolean menu_click (GtkWidget      *widget,
 
   if (event->button != 3)
     return FALSE;
-
+ 
 
 #if 0
   /* This idx is -1 for the toggles and radio entries because they share a callback function. If we want to allow setting keybindings, getting help etc. for these then we would need to re-work all the radio action entries code using generate_source.c. Instead at the moment we have just defined scheme callback functions d-EditMode etc. using a hand-created array activatable_commands earlier in this file.
@@ -6468,22 +6470,13 @@ void  attach_action_to_widget (GtkWidget *widget, GtkAction *action, DenemoGUI *
 static void  attach_right_click_callback (GtkWidget *widget, GtkAction *action) {
 
 
-#if 0
-  //gtk_widget_add_events (widget, (GDK_BUTTON_RELEASE_MASK));
-  if(GTK_IS_CHECK_MENU_ITEM(widget))
-    g_signal_connect(G_OBJECT(widget), "toggled", G_CALLBACK (menu_toggle), info);
-  //g_print("Action of check menu item is %p\n", action);
 
-  g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK (menu_click), info);
-  
-  //if(!strcmp("ToggleRhythm", gtk_action_get_name(action)))
-  //  g_print("Action %s has widget %p\n", gtk_action_get_name(action), widget);
-#else
   gtk_widget_add_events (widget, (GDK_BUTTON_PRESS_MASK)); //will not work because label are NO_WINDOW
   g_signal_connect(G_OBJECT(widget), "button-release-event", G_CALLBACK (menu_click), action);
+
   //g_print("menu click set on %s GTK_WIDGET_FLAGS %x\n", gtk_action_get_name(action), GTK_WIDGET_FLAGS(widget));
   //show_type(widget, "Type is ");
-#endif
+
   g_object_set_data(G_OBJECT(action), "signal_attached", action);//Non NULL to indicate the signal is attached
 }
 
@@ -7768,9 +7761,9 @@ void
 newview (GtkAction *action, gpointer param)
 {
   newtab(NULL, NULL);
+  Denemo.gui->si->undo_guard = 1;//do not collect undo for initialization of score
   load_scheme_init();
-  //should we load init.denemo here as well???
-  //open_user_default_template(REPLACE_SCORE);
+  Denemo.gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
 /**
