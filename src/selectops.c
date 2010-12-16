@@ -1186,7 +1186,10 @@ undo (DenemoGUI * gui)
 	case ACTION_MEASURE_DELETE: {
 	  //delete the empty measure in the chunk->position.staff at measure number chunk->position->object
 	  dnm_deletemeasure(gui->si);
-
+	  if(!gui->si->currentmeasure) {
+	    g_warning("Bug in selectops.c");
+	    movetoend(NULL, NULL);
+	  }
 
 
 	}
@@ -1338,6 +1341,12 @@ undo (DenemoGUI * gui)
 	   
 	    gui->si->undo_guard = initial_guard;//we keep all the guards we had on entry which will be removed when
 	    gui->si->changecount = initial_changecount;
+
+	  if(!gui->si->currentmeasure) {
+	    g_warning("Bug in selectops.c");
+	    movetoend(NULL, NULL);
+	  }
+
 	    displayhelper (gui);//???FIXME
 	    }
 	    else {

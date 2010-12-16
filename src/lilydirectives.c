@@ -1420,8 +1420,10 @@ void
 widget_for_directive(DenemoDirective *directive,  void fn()) {
 GtkMenu *staffmenu=NULL, *voicemenu=NULL;
  if(Denemo.gui->si){
+   if( (fn == (void(*)())staff_directive_put_graphic) || (fn==(void(*)())voice_directive_put_graphic)) {
    staffmenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->staffmenu;
    voicemenu =  ((DenemoStaff*)Denemo.gui->si->currentstaff->data)->voicemenu;
+   }
  }
    
   widget_for_directive_menu(directive, fn, staffmenu, voicemenu);
