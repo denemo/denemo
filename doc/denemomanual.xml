@@ -11139,7 +11139,7 @@ It is possible to set silly combinations – some will not print anything. Check
     <sect2>
       <title>Entering Chord Symbols</title>
 
-      <para>To enter chord symbols choose Other->Insert/Enter chord symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
+      <para>To enter chord symbols choose Chords->Markings->Chord Symbols. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.</para>
     </sect2>
 
 
