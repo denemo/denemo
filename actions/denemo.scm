@@ -1679,3 +1679,6 @@
 	(eval-string script))
 (d-PopPosition))
 ;;;;;;;
+
+(define (d-GetStartTick)
+	(- (d-GetEndTick) (d-GetDurationInTicks)))	
