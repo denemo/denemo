@@ -4234,6 +4234,14 @@ right. </tooltip>
         <label>Half Barline</label>
         <tooltip>Insert a barline with only half of its original size</tooltip>
       </row>
+      <row>
+        <action>MoveToMovementBeginning</action>
+        <after>MoveToBeginning</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <label>Move To Movement Beginning</label>
+        <tooltip>Moves the cursor to the beginning of the movement without altering the selection</tooltip>
+      </row>
     </map>
   </commands>
 </Denemo>
