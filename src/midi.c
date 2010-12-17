@@ -264,7 +264,7 @@ gint midientry(gint notenum) {
     jack_playpitch(notenum, 300 /*duration*/);
   else if (Denemo.prefs.midi_audio_output == Fluidsynth)
     fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
- 
+  stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
   if(gui->mode & INPUTEDIT)
     {
       static gboolean beep = FALSE;
@@ -292,6 +292,7 @@ gint midientry(gint notenum) {
 	enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
     } else
     enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+  stage_undo(gui->si, ACTION_STAGE_START);
   return TRUE;
 }
 
