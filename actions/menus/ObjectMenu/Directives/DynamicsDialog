@@ -51,7 +51,7 @@
 	   (begin
 	   	(d-DirectivePut-standalone-graphic "Dynamic" Graphic)
 	   	(d-DirectivePut-standalone-gy "Dynamic" 70 )
-	   	(d-DirectivePut-standalone-gx "Dynamic" 5 )
+	   	(d-DirectivePut-standalone-gx "Dynamic" 12 )
 		(d-DirectivePut-standalone-display  "Dynamic" "&#x25C6;")
 		(d-DirectivePut-standalone-ty "Dynamic" 60 )
 	   )

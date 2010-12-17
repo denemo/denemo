@@ -11,8 +11,8 @@
  (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-postfix "Repeat" "}\n")
 (d-DirectivePut-standalone-minpixels "Repeat" 50)
-(d-DirectivePut-standalone-gx  "Repeat"  0)
-(d-DirectivePut-standalone-gy  "Repeat"  -9)
+(d-DirectivePut-standalone-gx  "Repeat"  45)
+(d-DirectivePut-standalone-gy  "Repeat"  -2
 (d-DirectivePut-standalone-graphic "Repeat" "RepeatClose")
 (d-MoveCursorRight)
 (d-RefreshDisplay)

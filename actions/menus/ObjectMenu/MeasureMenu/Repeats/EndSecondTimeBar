@@ -14,7 +14,8 @@
 }}
 	")
  (d-DirectivePut-standalone-graphic "Repeat" "EndSecondTimeBar")
- (d-DirectivePut-standalone-gy  "Repeat" -32)
+ (d-DirectivePut-standalone-gy  "Repeat" -15)
+ (d-DirectivePut-standalone-gy  "Repeat" -36)
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>Close Second Time Bar</label>

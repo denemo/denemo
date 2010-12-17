@@ -14,7 +14,8 @@
 } \\alternative{{
 	")
 (d-DirectivePut-standalone-graphic "Repeat" "FirstTimeBar")
-(d-DirectivePut-standalone-gy  "Repeat" -33)
+(d-DirectivePut-standalone-gx  "Repeat" 3)
+(d-DirectivePut-standalone-gy  "Repeat" -34)
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
         <label>First Time Bar</label>

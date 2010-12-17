@@ -11,8 +11,8 @@
 (d-Directive-standalone "Repeat")
 (d-DirectivePut-standalone-postfix "Repeat" " \\repeat volta 2 {\n") 
 (d-DirectivePut-standalone-minpixels "Repeat" 50)
-(d-DirectivePut-standalone-gx  "Repeat"  0)
-(d-DirectivePut-standalone-gy  "Repeat"  -8)
+(d-DirectivePut-standalone-gx  "Repeat"  -3)
+(d-DirectivePut-standalone-gy  "Repeat"  -1)
 (d-DirectivePut-standalone-graphic "Repeat" "RepeatOpen")
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>

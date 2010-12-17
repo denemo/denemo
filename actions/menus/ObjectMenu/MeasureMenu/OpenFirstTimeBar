@@ -13,7 +13,8 @@
 (d-DirectivePut-standalone-postfix "Volta" "
 \\set Score.repeatCommands = #'((volta \"1\"))
 ")
-(d-DirectivePut-standalone-gy  "Volta" -33)
+(d-DirectivePut-standalone-gx  "Volta" 3)
+(d-DirectivePut-standalone-gy  "Volta" -34)
 (d-DirectivePut-standalone-graphic "Volta" "FirstTimeBar")
 (d-MoveCursorRight)
 (d-RefreshDisplay)

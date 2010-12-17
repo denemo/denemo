@@ -13,7 +13,8 @@
 (d-DirectivePut-standalone-postfix "EndVolta" "
 \\set Score.repeatCommands = #'((volta #f))
 ")
-(d-DirectivePut-standalone-gy  "EndVolta" -33)
+(d-DirectivePut-standalone-gx  "EndVolta" 25)
+(d-DirectivePut-standalone-gy  "EndVolta" -36)
 (d-DirectivePut-standalone-graphic "EndVolta" "EndSecondTimeBar")
 (d-MoveCursorRight)
 (d-RefreshDisplay)

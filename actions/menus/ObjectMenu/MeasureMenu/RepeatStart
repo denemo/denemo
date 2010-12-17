@@ -10,8 +10,8 @@
 (d-DirectivePut-standalone-minpixels "RepeatStart" 50)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatStart" " \\bar \"|:\"")
-(d-DirectivePut-standalone-gx  "RepeatStart"  -15)
-(d-DirectivePut-standalone-gy  "RepeatStart"  -7)
+(d-DirectivePut-standalone-gx  "RepeatStart"  -3)
+(d-DirectivePut-standalone-gy  "RepeatStart"  -1)
 (d-DirectivePut-standalone-graphic "RepeatStart" "RepeatStart")
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>

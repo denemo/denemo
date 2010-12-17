@@ -10,8 +10,8 @@
 (d-DirectivePut-standalone-minpixels "RepeatEnd" 50)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "RepeatEnd" " \\bar \":|\"")
-(d-DirectivePut-standalone-gx  "RepeatEnd"  0)
-(d-DirectivePut-standalone-gy  "RepeatEnd"  -10)
+(d-DirectivePut-standalone-gx  "RepeatEnd"  46)
+(d-DirectivePut-standalone-gy  "RepeatEnd"  -2)
 (d-DirectivePut-standalone-graphic "RepeatEnd" "RepeatEnd")
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>

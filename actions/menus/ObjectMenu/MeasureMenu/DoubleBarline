@@ -10,8 +10,8 @@
 (d-DirectivePut-standalone-minpixels "DoubleBarline" 30)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "DoubleBarline" " \\bar \"||\"")
-(d-DirectivePut-standalone-gx  "DoubleBarline"  0)
-(d-DirectivePut-standalone-gy  "DoubleBarline"  -8)
+(d-DirectivePut-standalone-gx  "DoubleBarline"  27)
+(d-DirectivePut-standalone-gy  "DoubleBarline"  -1)
 (d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>

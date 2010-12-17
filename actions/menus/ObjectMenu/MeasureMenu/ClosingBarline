@@ -10,8 +10,8 @@
 (d-DirectivePut-standalone-minpixels "ClosingBarline" 30)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "ClosingBarline" " \\bar \"|.\"")
-(d-DirectivePut-standalone-gx  "ClosingBarline"  0)
-(d-DirectivePut-standalone-gy  "ClosingBarline"  -18)
+(d-DirectivePut-standalone-gx  "ClosingBarline"  29)
+(d-DirectivePut-standalone-gy  "ClosingBarline"  -3)
 (d-DirectivePut-standalone-graphic "ClosingBarline" "ClosingBarline")
 (d-MoveCursorRight)
 (d-RefreshDisplay)</scheme>
