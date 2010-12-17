@@ -69,6 +69,8 @@ void update_undo_info(DenemoScore *si, DenemoUndoData *undo);
 void update_redo_info(DenemoScore *si, DenemoUndoData *redo);
 void store_for_undo_change (DenemoScore *si, DenemoObject *obj);
 gboolean take_snapshot(void);
+void stage_undo(DenemoScore *si, action_type type);
+
 void goto_mark (GtkAction *action,  DenemoScriptParam *param);
 void goto_selection_start (GtkAction *action,  DenemoScriptParam *param);
 

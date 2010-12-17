@@ -1003,7 +1003,12 @@ delete_selection(void) {
 void
 pastewrapper (GtkAction *action, DenemoScriptParam *param)
 {  
-  call_out_to_guile("(DenemoPaste)");
+  gboolean success;
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue (ie stack) so we push the end first
+  success = !call_out_to_guile("(DenemoPaste)");
+  //FIXME if not success a ACTION_SCRIPT_ERROR will have been put in the undo queue...
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+
   score_status(Denemo.gui, TRUE);
 }
 
@@ -1113,14 +1118,16 @@ void store_for_undo_measure_insert(DenemoScore *si, gint staffnum, gint measuren
     }
 }
 
-static DenemoUndoData ActionScriptStart={ACTION_STAGE_START}, ActionScriptEnd = {ACTION_STAGE_END}, ActionScriptError = {ACTION_SCRIPT_ERROR};
+static DenemoUndoData ActionStageStart={ACTION_STAGE_START};
+static DenemoUndoData  ActionStageEnd = {ACTION_STAGE_END};
+static DenemoUndoData  ActionScriptError = {ACTION_SCRIPT_ERROR};
 void stage_undo(DenemoScore *si, action_type type) {
   switch(type) {
   case ACTION_STAGE_START:
-    update_undo_info (si, &ActionScriptStart);
+    update_undo_info (si, &ActionStageStart);
     break;
   case ACTION_STAGE_END:
-    update_undo_info (si, &ActionScriptEnd);
+    update_undo_info (si, &ActionStageEnd);
     break;
   case ACTION_SCRIPT_ERROR:
     update_undo_info (si, &ActionScriptError);
@@ -1196,11 +1203,11 @@ undo (DenemoGUI * gui)
 	  break;
 	case ACTION_STAGE_START:
 	  gui->undo_level++;
-	  chunk->action = ACTION_STAGE_END;
+	  chunk = &ActionStageEnd;
 	  break;
 	case ACTION_STAGE_END:
 	  gui->undo_level--;
-	  chunk->action = ACTION_STAGE_START;
+	  chunk = &ActionStageStart;
 	  break;
 	case ACTION_SCRIPT_ERROR:
 	  gui->undo_level = 0;
@@ -1456,11 +1463,11 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
   g_print ("Adding: Action %d\n",
   	   undo->action); 
 
-  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
-    {
-      tmp = g_queue_pop_tail (si->undodata);//FIXME freeing undo info, especially the object
-      g_warning("Lost undo of %p %p\n", tmp, tmp->object);
-    }
+  //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
+  //    {
+  //      tmp = g_queue_pop_tail (si->undodata);//FIXME freeing undo info, especially the object
+  //      g_warning("Lost undo of %p %p\n", tmp, tmp->object);
+  //   }
 
   g_queue_push_head (si->undodata, undo);
   
@@ -1485,11 +1492,11 @@ update_redo_info (DenemoScore * si, DenemoUndoData * redo)
   //	   redo->action, redo->position, redo->staffnum, redo->measurenum);
 
 
-  if (g_queue_get_length (si->redodata) == MAX_UNDOS)
-    {
-      tmp = g_queue_pop_tail (si->redodata);
-      if (tmp)
-	g_free (tmp);
-    }
+  //  if (g_queue_get_length (si->redodata) == MAX_UNDOS)
+  //   {
+  //      tmp = g_queue_pop_tail (si->redodata);
+  //     if (tmp)
+  //	g_free (tmp);//FIXME wrong free
+  //    }
   g_queue_push_head (si->redodata, redo);
 }
