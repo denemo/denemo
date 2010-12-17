@@ -1228,6 +1228,10 @@
         <action>ZoomReset</action>
         <bind>Ctrl+0</bind>
       </row>
+      <row>
+        <action>MoveToMovementBeginning</action>
+        <bind>Ctrl+Home</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

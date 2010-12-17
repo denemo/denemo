@@ -258,6 +258,10 @@
 		<action>SelectionToEmptyMeasure</action>
 		<bind>Alt+Shft+End</bind>
       </row>	
+      <row>
+        <action>MoveToMovementBeginning</action>
+        <bind>Ctrl+Home</bind>
+      </row>
 	
 	<!-- Movement Ctrls 
       <row>
