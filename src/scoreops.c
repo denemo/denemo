@@ -542,10 +542,17 @@ DenemoScore * clone_movement(DenemoScore *si) {
   }
 
 
-
+#if 1
   newscore->movementcontrol.directives = clone_directives(si->movementcontrol.directives);
   newscore->layout.directives = clone_directives(si->layout.directives);
   newscore->header.directives = clone_directives(si->header.directives);
+#else
+  newscore->movementcontrol.directives =(si->movementcontrol.directives);
+  newscore->layout.directives = (si->layout.directives);
+  newscore->header.directives = (si->header.directives);
+#endif
+
+
   /*
  
     

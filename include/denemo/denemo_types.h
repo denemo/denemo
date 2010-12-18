@@ -811,7 +811,7 @@ typedef struct DenemoScore
   GQueue *undodata;
   GQueue *redodata;
   gint undo_guard;
-
+  gboolean redo_invalid;/*< the re-do queue is awaiting freeing and should not be used */
   
 
  

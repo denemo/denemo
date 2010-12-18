@@ -1162,7 +1162,7 @@ gboolean take_snapshot(void) {
  * Undoes an insert, delete change of a DenemoObject, transferring the undo object to the redo queue and switching it between delete/insert
  * Undoes other changes to movement by returning to a snapshot.
  *
- * Input the score (why??? FIXME)
+ * PARAM gui  the score (why??? this is per movement undo FIXME)
  */
 static void
 undo (DenemoGUI * gui)
@@ -1173,7 +1173,7 @@ undo (DenemoGUI * gui)
     {
       DenemoScriptParam param;
       param.status=TRUE;
-      g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
+      // g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
       gui->si->undo_guard++;
       switch(chunk->action) {
       case ACTION_INSERT:
@@ -1279,6 +1279,8 @@ undo (DenemoGUI * gui)
 		  }
 		}
 	      }
+
+#if 1
 	      {GList *direc;
 	      for(direc=gui->si->movementcontrol.directives;direc;direc=direc->next) {
 		DenemoDirective *directive = direc->data;
@@ -1294,6 +1296,17 @@ undo (DenemoGUI * gui)
 		directive->widget = NULL;
 	      }
 	    }
+	    {GList *direc;
+	      for(direc=gui->si->layout.directives;direc;direc=direc->next) {
+		DenemoDirective *directive = direc->data;
+		gtk_widget_destroy(directive->widget);
+		directive->widget = NULL;
+	      }
+	    }
+
+#endif
+
+
 	    g_list_free(gorig);
 	    chunk->object = (DenemoObject*)gui->si;
 	    //FIXME fix up other values in stored object si?????? voice/staff directive widgets
@@ -1330,7 +1343,7 @@ undo (DenemoGUI * gui)
 	      g_list_free(gorig);
 	    }
 	    
-	   
+#if 1	   
 	    {GList *direc;
 	      for(direc=gui->si->movementcontrol.directives;direc;direc=direc->next) {
 		DenemoDirective *directive = direc->data;
@@ -1345,7 +1358,14 @@ undo (DenemoGUI * gui)
 		widget_for_header_directive(directive);
 	      }
 	    }
-	   
+	    {GList *direc;
+	      for(direc=gui->si->layout.directives;direc;direc=direc->next) {
+		DenemoDirective *directive = direc->data;
+		directive->widget = NULL;
+		widget_for_layout_directive(directive);
+	      }
+	    }
+#endif	   
 	    gui->si->undo_guard = initial_guard;//we keep all the guards we had on entry which will be removed when
 	    gui->si->changecount = initial_changecount;
 
@@ -1448,6 +1468,41 @@ calcmarkboundaries (si);
   si->undo_guard--;
 }
 
+
+static free_chunk(DenemoUndoData *chunk) {
+  return;
+  switch (chunk->action) {
+  case ACTION_STAGE_START:
+  case ACTION_STAGE_END:
+  case ACTION_SCRIPT_ERROR:
+    return;//statically allocated
+   
+  case ACTION_INSERT:
+  case ACTION_DELETE:
+  case ACTION_CHANGE:
+    freeobject(chunk->object);
+    g_free(chunk);
+    break;
+    
+  case ACTION_MEASURE_DELETE:
+    g_free(chunk);
+    break;
+  case ACTION_SNAPSHOT:
+    g_warning("Snapshot free is not implemented");
+    g_free(chunk);
+    break;
+  default:
+    g_warning("Uknown type of undo data %d", chunk->action);
+  }
+}
+
+static free_queue( GQueue *queue) {
+  DenemoUndoData *chunk;
+  //g_print("old queue %p\n", queue);
+  while((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
+    ;//free_chunk(chunk);
+ 
+}
 /**
  *  update_undo_info
  *  
@@ -1460,8 +1515,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
 
-  g_print ("Adding: Action %d\n",
-  	   undo->action); 
+  // g_print ("Adding: Action %d\n",  undo->action); 
 
   //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
   //    {
@@ -1470,7 +1524,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
   //   }
 
   g_queue_push_head (si->undodata, undo);
-  
+  si->redo_invalid = TRUE;
 }
 
 
@@ -1498,5 +1552,12 @@ update_redo_info (DenemoScore * si, DenemoUndoData * redo)
   //     if (tmp)
   //	g_free (tmp);//FIXME wrong free
   //    }
+
+  if(si->redo_invalid)
+    {
+      free_queue(si->redodata);
+      
+      //g_print("queue = %p\n", si->redodata);
+    }
   g_queue_push_head (si->redodata, redo);
 }

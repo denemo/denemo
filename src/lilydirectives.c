@@ -1384,7 +1384,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staff
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
 	if(box)  {
-	  //g_print("Doing the score and movement cases");
+	  //g_print("Doing the score and movement cases starting from %p", directive->widget);
 	  directive->widget = GTK_WIDGET(gtk_button_new_with_label(value));
 	  {
 	    GtkWidget *label = gtk_bin_get_child(GTK_BIN(directive->widget));
@@ -1444,6 +1444,10 @@ widget_for_movementcontrol_directive(DenemoDirective *directive) {
 void
 widget_for_header_directive(DenemoDirective *directive) {
   return widget_for_directive_menu(directive, header_directive_put_graphic, NULL, NULL);
+}
+void
+widget_for_layout_directive(DenemoDirective *directive) {
+  return widget_for_directive_menu(directive, layout_directive_put_graphic, NULL, NULL);
 }
 
 // create a directive for non-DenemoObject directive #what

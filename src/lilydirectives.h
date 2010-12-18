@@ -27,7 +27,8 @@ void
 widget_for_movementcontrol_directive(DenemoDirective *directive);
 void
 widget_for_header_directive(DenemoDirective *directive);
-
+void
+widget_for_layout_directive(DenemoDirective *directive);
 gboolean 
 text_edit_note_directive(gchar *tag);
 void 
