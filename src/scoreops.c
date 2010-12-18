@@ -463,6 +463,9 @@ DenemoScore * clone_movement(DenemoScore *si) {
     // copy_staff(srcStaff, thestaff);!!!!!! does not copy e.g. no of lines ... need proper clone code.
     memcpy(thestaff, srcStaff, sizeof(DenemoStaff));
     
+    thestaff->denemo_name = g_string_new(srcStaff->denemo_name->str);
+    thestaff->lily_name = g_string_new(srcStaff->lily_name->str);
+    thestaff->midi_instrument = g_string_new(srcStaff->midi_instrument->str);
 
     thestaff->clef.directives = clone_directives(srcStaff->clef.directives);
     thestaff->keysig.directives = clone_directives(srcStaff->keysig.directives);
