@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>MoveToBeginning</after>
+        <action>MoveToMovementBeginning</action>
+        <scheme>;d-MoveToMovementBeginning
+(let loop ()
+	(if (d-MoveToStaffUp)
+		(loop)
+		(d-MoveToBeginning)))</scheme>
+        <label>Move To Movement Beginning</label>
+        <tooltip>Moves the cursor to the beginning of the movement without altering the selection</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
