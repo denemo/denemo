@@ -12,7 +12,7 @@
 void point_to_empty_movement/*new_empty_score*/(DenemoGUI * gui);
 void point_to_new_movement/*new_score*/(DenemoGUI * gui);
 void init_score (DenemoScore *si, DenemoGUI * gui);
-
+DenemoScore * clone_movement(DenemoScore *si);
 void free_score (DenemoGUI *gui);
 void next_movement (GtkAction *action, DenemoScriptParam *param);
 void prev_movement (GtkAction *action, DenemoScriptParam *param);

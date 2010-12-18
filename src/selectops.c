@@ -21,6 +21,7 @@
 #include "prefops.h"
 #include "lyric.h"
 #include "lilydirectives.h"
+#include "scoreops.h"
 /*For save selection function*/
 #include "utils.h"
 #define DEBUG 1
@@ -1155,6 +1156,14 @@ gboolean take_snapshot(void) {
     return FALSE;
 }
 
+static print_queue(gchar *msg, GQueue *q) {
+  return;
+  GList*g;
+  g_print(msg);
+  for(g=q->head;g;g=g->next)
+    g_print("%p action %d object %p\n", g->data, ((DenemoUndoData*)g->data)->action, ((DenemoUndoData*)g->data)->object);
+  g_print("\nend\n");
+}
 
 
 /**
@@ -1167,13 +1176,16 @@ gboolean take_snapshot(void) {
 static void
 undo (DenemoGUI * gui)
 {
+  print_queue("Undo&&&&&&&&&&&&&&&&\nUndo queue:\n", gui->si->undodata);
+  print_queue("Redo queue:\n", gui->si->redodata);
+
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
 
   if (chunk)
     {
       DenemoScriptParam param;
       param.status=TRUE;
-      // g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
+      //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
       gui->si->undo_guard++;
       switch(chunk->action) {
       case ACTION_INSERT:
@@ -1197,8 +1209,6 @@ undo (DenemoGUI * gui)
 	    g_warning("Bug in selectops.c");
 	    movetoend(NULL, NULL);
 	  }
-
-
 	}
 	  break;
 	case ACTION_STAGE_START:
@@ -1210,11 +1220,13 @@ undo (DenemoGUI * gui)
 	  chunk = &ActionStageStart;
 	  break;
 	case ACTION_SCRIPT_ERROR:
+	  //chunk = &ActionScriptError;
 	  gui->undo_level = 0;
 	  break;
 
 	case ACTION_INSERT:
 	  {
+	    chunk->object = dnm_clone_object(gui->si->currentobject->data);
 	    dnm_deleteobject (gui->si);	    
 	    chunk->action = ACTION_DELETE;
 	  }
@@ -1222,15 +1234,23 @@ undo (DenemoGUI * gui)
 	case  ACTION_DELETE:
 	  {	    
 	    object_insert (gui, chunk->object);
-	    chunk->action = ACTION_INSERT;	    
+	    chunk->action = ACTION_INSERT;
+	    chunk->object = NULL;	    
 	  }
 	  break;
 	case ACTION_CHANGE:
 	  {
+#if 0
 	    DenemoObject temp;
 	    memcpy(&temp, gui->si->currentobject->data, sizeof(DenemoObject));
 	    memcpy(gui->si->currentobject->data, chunk->object, sizeof(DenemoObject));
 	    memcpy(chunk->object, &temp, sizeof(DenemoObject));
+#else
+DenemoObject *temp = gui->si->currentobject->data;
+ gui->si->currentobject->data =  chunk->object;
+ chunk->object = temp;
+#endif
+
 	    displayhelper (gui);
 	  }
 	  break;
@@ -1398,7 +1418,7 @@ undo (DenemoGUI * gui)
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      g_print("undo guard after %d\n",  gui->si->undo_guard);
+      //g_print("undo guard after %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
@@ -1409,6 +1429,8 @@ undo (DenemoGUI * gui)
       gui->si->undo_guard = Denemo.prefs.disable_undo;
     }
 }
+
+
 
 /**
  * redo
@@ -1470,7 +1492,6 @@ calcmarkboundaries (si);
 
 
 static free_chunk(DenemoUndoData *chunk) {
-  return;
   switch (chunk->action) {
   case ACTION_STAGE_START:
   case ACTION_STAGE_END:
@@ -1498,10 +1519,10 @@ static free_chunk(DenemoUndoData *chunk) {
 
 static free_queue( GQueue *queue) {
   DenemoUndoData *chunk;
-  //g_print("old queue %p\n", queue);
+  //g_print("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
   while((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
-    ;//free_chunk(chunk);
- 
+    free_chunk(chunk);
+  //g_print("after redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
 }
 /**
  *  update_undo_info
@@ -1541,7 +1562,8 @@ void
 update_redo_info (DenemoScore * si, DenemoUndoData * redo)
 {
   DenemoUndoData *tmp = NULL;
-
+  print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
+  print_queue("Redo queue:\n", si->redodata);
   //  g_debug ("Redo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
   //	   redo->action, redo->position, redo->staffnum, redo->measurenum);
 
@@ -1556,7 +1578,7 @@ update_redo_info (DenemoScore * si, DenemoUndoData * redo)
   if(si->redo_invalid)
     {
       free_queue(si->redodata);
-      
+      si->redo_invalid = FALSE;
       //g_print("queue = %p\n", si->redodata);
     }
   g_queue_push_head (si->redodata, redo);
