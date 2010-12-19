@@ -1439,7 +1439,7 @@ undo (DenemoGUI * gui)
 
   if (chunk)
     {
-
+      g_print("undo %d\n", chunk->action);
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
       } else {
@@ -1490,6 +1490,7 @@ redo (DenemoGUI * gui)
 
 
 static free_chunk(DenemoUndoData *chunk) {
+g_print("free %d\n", chunk->action);
   switch (chunk->action) {
   case ACTION_STAGE_START:
   case ACTION_STAGE_END:

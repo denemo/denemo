@@ -29,7 +29,6 @@ point_to_empty_movement (DenemoGUI *gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
-  newscore->undo_guard = Denemo.prefs.disable_undo;
   if(gui->si && gui->si->buttonbox)
      gtk_widget_hide(gui->si->buttonbox);
   gui->si = newscore;
@@ -44,6 +43,7 @@ point_to_new_movement (DenemoGUI *gui)
 {
   point_to_empty_movement(gui);
   newstaff (gui, INITIAL, DENEMO_NONE);
+  gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
 static void
@@ -75,7 +75,7 @@ append_movement(GtkAction *action, gpointer param,  gboolean populate) {
     copy_staff(source_staff, dest_staff);
   }
   gui->movements = g_list_append(gui->movements, gui->si);
-
+  gui->si->undo_guard = Denemo.prefs.disable_undo;
   set_width_to_work_with(gui);
   //FIXME duplicate code
   set_rightmeasurenum (gui->si);
