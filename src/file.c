@@ -981,7 +981,7 @@ open_user_default_template(ImportType type) {
 /**
  * Delete the movements of the given score and create a new one
  * with one movement and empty music data, no title
- *
+ * This is the action for the d-New command
  */
 void
 deletescore (GtkWidget * widget, DenemoGUI * gui)
