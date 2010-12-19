@@ -1114,7 +1114,7 @@ void store_for_undo_measure_insert(DenemoScore *si, gint staffnum, gint measuren
       DenemoUndoData *data = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));     
       data->position.staff = staffnum;
       data->position.measure = measurenum+1;
-      data->action = ACTION_MEASURE_DELETE;
+      data->action = ACTION_MEASURE_CREATE;
       update_undo_info (si, data);
     }
 }
@@ -1144,7 +1144,7 @@ gboolean take_snapshot(void) {
     {
       DenemoUndoData *chunk;
       chunk = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
-      chunk->object = clone_movement(Denemo.gui->si);
+      chunk->object = (DenemoObject*)clone_movement(Denemo.gui->si);
       //fix up somethings...
       get_position(Denemo.gui->si,&chunk->position);
       chunk->position.appending = 0;
@@ -1166,51 +1166,60 @@ static print_queue(gchar *msg, GQueue *q) {
 }
 
 
-/**
- * undo
- * Undoes an insert, delete change of a DenemoObject, transferring the undo object to the redo queue and switching it between delete/insert
- * Undoes other changes to movement by returning to a snapshot.
- *
- * PARAM gui  the score (why??? this is per movement undo FIXME)
- */
-static void
-undo (DenemoGUI * gui)
-{
-  print_queue("Undo&&&&&&&&&&&&&&&&\nUndo queue:\n", gui->si->undodata);
-  print_queue("Redo queue:\n", gui->si->redodata);
+static gboolean position_for_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
+  DenemoScriptParam param;
+  param.status=TRUE;
+  //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
+  gui->si->undo_guard++;
+  switch(chunk->action) {
+  case ACTION_INSERT:
+  case ACTION_DELETE:
+  case ACTION_CHANGE:
+  case ACTION_MEASURE_CREATE://this creates an (blank)measure
+  case ACTION_MEASURE_REMOVE://this is the action that removes a blank measure at pos
+    { 	
+      push_given_position(&chunk->position);	
+      PopPosition(NULL, &param);
+    }
+    break;
+  default:
+    break;
+  }
+  return param.status;
+}
 
-  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
+//Takes the action needed for one chunk of undo/redo data
 
-  if (chunk)
-    {
-      DenemoScriptParam param;
-      param.status=TRUE;
-      //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
-      gui->si->undo_guard++;
-      switch(chunk->action) {
-      case ACTION_INSERT:
-      case ACTION_DELETE:
-      case ACTION_CHANGE:
-      case ACTION_MEASURE_DELETE:
-	{ 	
-	  push_given_position(&chunk->position);	
-	  PopPosition(NULL, &param);
-	}
-	break;
-      default:
-	break;
-      }
-      if(param.status) {
+static void	action_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
 	switch(chunk->action) {
-	case ACTION_MEASURE_DELETE: {
+	case ACTION_MEASURE_CREATE: {
 	  //delete the empty measure in the chunk->position.staff at measure number chunk->position->object
 	  dnm_deletemeasure(gui->si);
+	  chunk->action = ACTION_MEASURE_REMOVE;
+	  chunk->position.measure--;
 	  if(!gui->si->currentmeasure) {
-	    g_warning("Bug in selectops.c");
-	    movetoend(NULL, NULL);
+	    g_warning("position after undo insert Bug in selectops.c");
+	    position_for_chunk(gui, chunk);
+	      //movetoend(NULL, NULL);
 	  }
 	}
 	  break;
+
+	case ACTION_MEASURE_REMOVE: {
+	  //create empty measure in the chunk->position.staff at measure number chunk->position->object
+	  insertmeasureafter(gui);
+	  chunk->action = ACTION_MEASURE_CREATE;
+	  chunk->position.measure++;
+	  if(!gui->si->currentmeasure) {
+	    g_warning("position after undo insert Bug in selectops.c");
+	    position_for_chunk(gui, chunk);//????
+	      //movetoend(NULL, NULL);
+	  }
+	}
+	  break;
+
+
+
 	case ACTION_STAGE_START:
 	  gui->undo_level++;
 	  chunk = &ActionStageEnd;
@@ -1240,18 +1249,10 @@ undo (DenemoGUI * gui)
 	  break;
 	case ACTION_CHANGE:
 	  {
-#if 0
-	    DenemoObject temp;
-	    memcpy(&temp, gui->si->currentobject->data, sizeof(DenemoObject));
-	    memcpy(gui->si->currentobject->data, chunk->object, sizeof(DenemoObject));
-	    memcpy(chunk->object, &temp, sizeof(DenemoObject));
-#else
-DenemoObject *temp = gui->si->currentobject->data;
- gui->si->currentobject->data =  chunk->object;
- chunk->object = temp;
-#endif
-
-	    displayhelper (gui);
+	    DenemoObject *temp = gui->si->currentobject->data;
+	    gui->si->currentobject->data =  chunk->object;
+	    chunk->object = temp;
+	    //displayhelper (gui);
 	  }
 	  break;
 	case ACTION_SNAPSHOT:
@@ -1259,7 +1260,6 @@ DenemoObject *temp = gui->si->currentobject->data;
 	   
 	    DenemoScore *si = (DenemoScore*)chunk->object;
 	    gint initial_guard = gui->si->undo_guard;
-	    // complex ??? or is it just simple - must be zero guard else snapshot would not have occurred FIXME;
 	    gint initial_changecount = gui->si->changecount;
 	    // replace gui->si in gui->movements with si
 	    GList *find = g_list_find(gui->movements, gui->si);
@@ -1300,7 +1300,7 @@ DenemoObject *temp = gui->si->currentobject->data;
 		}
 	      }
 
-#if 1
+
 	      {GList *direc;
 	      for(direc=gui->si->movementcontrol.directives;direc;direc=direc->next) {
 		DenemoDirective *directive = direc->data;
@@ -1323,9 +1323,6 @@ DenemoObject *temp = gui->si->currentobject->data;
 		directive->widget = NULL;
 	      }
 	    }
-
-#endif
-
 
 	    g_list_free(gorig);
 	    chunk->object = (DenemoObject*)gui->si;
@@ -1363,7 +1360,7 @@ DenemoObject *temp = gui->si->currentobject->data;
 	      g_list_free(gorig);
 	    }
 	    
-#if 1	   
+
 	    {GList *direc;
 	      for(direc=gui->si->movementcontrol.directives;direc;direc=direc->next) {
 		DenemoDirective *directive = direc->data;
@@ -1385,12 +1382,12 @@ DenemoObject *temp = gui->si->currentobject->data;
 		widget_for_layout_directive(directive);
 	      }
 	    }
-#endif	   
+	   
 	    gui->si->undo_guard = initial_guard;//we keep all the guards we had on entry which will be removed when
 	    gui->si->changecount = initial_changecount;
-
+	    position_for_chunk(gui, chunk);
 	  if(!gui->si->currentmeasure) {
-	    g_warning("Bug in selectops.c");
+	    g_warning("positioning after snapshot Bug in selectops.c");
 	    movetoend(NULL, NULL);
 	  }
 
@@ -1405,16 +1402,49 @@ DenemoObject *temp = gui->si->currentobject->data;
 
 	default:
 	  g_warning("Unexpected undo case ");
-	} 
+	}
+}
+
+
+
+
+static void position_warning(DenemoUndoData *chunk) {
+  g_warning("Could not find position for undotype %d  movement %d staff %d measure %d object %d appending %d offend %d\n",
+	    chunk->action,
+	    chunk->position.movement,
+	    chunk->position.staff,
+	    chunk->position.measure,
+	    chunk->position.object,
+	    chunk->position.appending,
+	    chunk->position.offend);
+}
+static void
+warn_no_more_undo(DenemoGUI *gui) 
+{
+  g_warning("No more undo information at level %d guard %d ... resetting", gui->undo_level, gui->si->undo_guard );
+  gui->undo_level = 0;
+  gui->si->undo_guard = Denemo.prefs.disable_undo;
+}
+/**
+ * undo
+ * Undoes an insert, delete change of a DenemoObject, transferring the undo object to the redo queue and switching it between delete/insert
+ * Undoes other changes to movement by returning to a snapshot.
+ *
+ * PARAM gui  the score (why??? this is per movement undo FIXME)
+ */
+static void
+undo (DenemoGUI * gui)
+{
+  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
+
+  if (chunk)
+    {
+
+      if(position_for_chunk(gui, chunk)) {
+	action_chunk(gui, chunk);
       } else {
-	g_warning("Could not undotype %d  movement %d staff %d measure %d object %d appending %d offend %d\n",
-		  chunk->action,
-		  chunk->position.movement,
-		  chunk->position.staff,
-		  chunk->position.measure,
-		  chunk->position.object,
-		  chunk->position.appending,
-		  chunk->position.offend);
+	position_warning(chunk);
+
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
@@ -1423,71 +1453,39 @@ DenemoObject *temp = gui->si->currentobject->data;
 	undo(gui);
       score_status(gui, TRUE);
     } else
-    {
-      g_warning("No more undo information at level %d guard %d ... resetting", gui->undo_level, gui->si->undo_guard );
-      gui->undo_level = 0;
-      gui->si->undo_guard = Denemo.prefs.disable_undo;
-    }
+    warn_no_more_undo(gui);
 }
 
 
 
 /**
  * redo
- * Self explanatory - redoes the previous undo command
+ * Takes objects from the redo queue and actions them, staged by ACTION_STAGE_START/END
+ * Once actioned they are transferred back to the undo queue, with inverse transformation
  *
  * Input
  * scoreinfo - score data
  */
 void
 redo (DenemoGUI * gui)
-{
-  DenemoUndoData *undo = NULL;
-  DenemoUndoData *redo = NULL;
-  
-  DenemoScore *si = gui->si;
-  if (gui->notsaved && g_queue_get_length (si->redodata) > 0)
+{  
+  DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
+  if (chunk)
     {
-      si->undo_guard++;
-      redo = (DenemoUndoData *) g_queue_pop_head (si->redodata);
+      if(position_for_chunk(gui, chunk)) {
+	action_chunk(gui, chunk);
+      } else {
+	position_warning(chunk);
 
-      g_debug ("List length %d\n", g_queue_get_length (si->undodata));
-      g_debug ("ACtion %d\n", redo->action);
-
-      if (redo->action == ACTION_INSERT)
-	{
-	  si->currentstaffnum = redo->position.staff;
-	  si->currentmeasurenum = redo->position.measure;
-	  si->cursor_x = (redo->position.object>0?redo->position.object-1:0);
-	  setcurrents (si);
-calcmarkboundaries (si);
-
-	  g_debug ("Position after set_currents %d\n", gui->si->cursor_x);
-
-	  dnm_deleteobject (gui->si);
-	}
-      else if (redo->action == ACTION_DELETE)
-	{
-
-	  g_debug ("Redo Action Insert:  Remove Object from score\n");
-	  //g_debug ("staffnum %d, measurenum %d, position %d\n",
-	  //	   redo->staffnum, redo->measurenum, redo->position);
-
-	  si->currentstaffnum = redo->position.staff;
-	  si->currentmeasurenum = redo->position.measure;
-	  si->cursor_x = (redo->position.object>0?redo->position.object-1:0);
-	  setcurrents (si);
-calcmarkboundaries (si);
-	  object_insert (gui, (DenemoObject *) redo->object);
-
-	  redo->action = ACTION_DELETE;
-	}
-      else if (redo->action == ACTION_CHANGE)
-	{
-	  g_debug ("Do something useful\n");
-	}
-    }
-  si->undo_guard--;
+      }
+      update_undo_info (gui->si, chunk);	  
+      gui->si->undo_guard--;
+      //g_print("undo guard after %d\n",  gui->si->undo_guard);
+      if(gui->undo_level>0)
+	redo(gui);
+      score_status(gui, TRUE);
+    } else
+    warn_no_more_undo(gui);
 }
 
 
@@ -1505,7 +1503,8 @@ static free_chunk(DenemoUndoData *chunk) {
     g_free(chunk);
     break;
     
-  case ACTION_MEASURE_DELETE:
+  case ACTION_MEASURE_CREATE:
+  case ACTION_MEASURE_REMOVE:
     g_free(chunk);
     break;
   case ACTION_SNAPSHOT:

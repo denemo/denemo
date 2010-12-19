@@ -151,7 +151,7 @@ standard_handler (gchar *data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
   scm_newline (scm_current_output_port ());
   scm_eval_status = -1;
   g_warning ("Undo will be affected\n");
-  //stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR);
+  stage_undo(Denemo.gui->si, ACTION_SCRIPT_ERROR);
   return SCM_BOOL_F;
 }
 

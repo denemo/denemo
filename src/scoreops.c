@@ -29,6 +29,7 @@ point_to_empty_movement (DenemoGUI *gui)
 {
   DenemoScore *newscore = (DenemoScore *) g_malloc0 (sizeof (DenemoScore));
   init_score (newscore, gui);
+  newscore->undo_guard = Denemo.prefs.disable_undo;
   if(gui->si && gui->si->buttonbox)
      gtk_widget_hide(gui->si->buttonbox);
   gui->si = newscore;
