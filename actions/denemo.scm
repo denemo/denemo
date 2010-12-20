@@ -321,6 +321,10 @@
 	   )
        #f)))
 
+(define (d-DirectiveDelete-standalone Tag)
+(if (equal? (d-DirectiveGetTag-standalone) Tag)
+(begin (d-DeleteObject) #t)
+#f))
 
 (define stop "\0")
 (define cue-Advanced "Advanced")
