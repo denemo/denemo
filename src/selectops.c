@@ -24,7 +24,6 @@
 #include "scoreops.h"
 /*For save selection function*/
 #include "utils.h"
-#define DEBUG 1
 /**
  * The copy buffer is a GList of objnode *s -- at first, I was going
  * to use staffnode *s, measurenode *s, and then objnode *s, but I
@@ -1157,7 +1156,6 @@ gboolean take_snapshot(void) {
 }
 
 static print_queue(gchar *msg, GQueue *q) {
-  return;
   GList*g;
   g_print(msg);
   for(g=q->head;g;g=g->next)
@@ -1391,7 +1389,18 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
 	    movetoend(NULL, NULL);
 	  }
 
-	    displayhelper (gui);//???FIXME
+
+#if 0
+	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+	  showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->
+					  data);
+	  find_xes_in_all_measures (si);
+	  displayhelper (gui);//???FIXME
+#else
+	    g_print("How to get the stem dir right???");
+#endif
+
+
 	    }
 	    else {
 	      g_critical("Movement does not exist in list of movements");
@@ -1436,7 +1445,6 @@ static void
 undo (DenemoGUI * gui)
 {
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
-
   if (chunk)
     {
       g_print("undo %d\n", chunk->action);
@@ -1535,6 +1543,7 @@ void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
+  print_queue("Update undo --------------\nUndo queue:\n", si->undodata);
 
   // g_print ("Adding: Action %d\n",  undo->action); 
 
@@ -1563,7 +1572,7 @@ update_redo_info (DenemoScore * si, DenemoUndoData * redo)
 {
   DenemoUndoData *tmp = NULL;
   print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
-  print_queue("Redo queue:\n", si->redodata);
+
   //  g_debug ("Redo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
   //	   redo->action, redo->position, redo->staffnum, redo->measurenum);
 
