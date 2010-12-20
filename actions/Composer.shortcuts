@@ -82,18 +82,17 @@
 
 <!-- Copy, Paste, Undo, Selections -->
 
-<!--
+
       <row>
         <action>Undo</action>
+        <bind>Ctrl+z</bind>
       </row>
+
       <row>
         <action>Redo</action>
+        <bind>Ctrl+Z</bind>
       </row>
-      <row>
-        <action>PasteClipboard</action>
-        <tooltip>Paste LilyPond notes from the text clipboard</tooltip>
-      </row>
-    -->
+
       <row>
         <action>Copy</action>
         <bind>Ctrl+c</bind>
@@ -438,6 +437,28 @@
         <action>StaccatoSelectionSwitcher</action>
         <bind>comma</bind>
     </row>
+    <row>
+        <action>ToggleFermata</action>
+        <bind>f</bind>
+    </row>
+    <row>
+        <action>EditChords</action>
+        <bind>c</bind>
+    </row>
+    <row>
+        <action>ToggleBeginSlur</action>
+        <bind>b</bind>
+    </row>
+    <row>
+        <action>SlurTwo</action>
+        <bind>n</bind>
+    </row>
+     <row>
+        <action>ToggleEndSlur</action>
+        <bind>m</bind>
+    </row>      
+    
+    
       
 <!-- Delete -->
       <row>
@@ -595,6 +616,10 @@
       </row> 
       <row>
         <action>Set3</action>
+		<bind>Alt+3</bind>
+      </row> 
+      <row>
+        <action>Set4</action>
 		<bind>Alt+4</bind>
       </row> 
       <row>
