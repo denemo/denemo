@@ -567,4 +567,5 @@ DenemoScore * clone_movement(DenemoScore *si) {
    
    
   */
+  return newscore;
 }
