@@ -356,8 +356,8 @@
 ;;;;;;;;;;;;;;;; Double-Stroke for sequencing keypresses. By Nils Gey June 2010
 ;One parameter for the GUI-version or help window. This is the version that appears if someone clicks on the menu version.
 ;Ten optional parameters given as strings which can be only MENU commands: complete scheme syntax with (d-), but as string "" and with escaped \" in them. They return #f if not defined
-;gui-version can be any command to aid the user. Most likely it will we a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
-;Right now its hardwired to the number keys and space for help. The reason is because the keybindings for number keys can change. If there were modal or wrapper commands for numberkeys (which they were some time ago) this script could be done better with (d-GetCommand) instead of (d-GetKeypress). Its also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
+;gui-version can be any command to aid the user. Most likely it will be a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
+;It is also possible to create an even more insane version with 20 optional parameters, 10 for the actions, 10 for the keys.
 
 (define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
@@ -384,19 +384,19 @@
 ; The real action. Wait for a keypress and decide what do with it afterwards, Space triggers the GUI, Return locks-in the commands and makes them permanent keybindings.
 (if DenemoKeypressActivatedCommand
 	(begin 
-	(case (string->symbol (d-GetKeypress))
-		((#{1}#)  (eval-string first))
-		((#{2}#)  (eval-string second))
-		((#{3}#)  (eval-string third))
-		((#{4}#)  (eval-string fourth))
-		((#{5}#)  (eval-string fifth))
-		((#{6}#)  (eval-string sixth))
-		((#{7}#)  (eval-string seventh))
-		((#{8}#)  (eval-string eighth))
-		((#{9}#)  (eval-string ninth))
-		((#{0}#)  (eval-string tenth))
-		((space)  (doublestroke::invokegui))
-		((Return) (begin
+	(case (string->symbol (d-GetCommand))
+		((d-OpOne)  (eval-string first))
+		((d-OpTwo)  (eval-string second))
+		((d-OpThree)  (eval-string third))
+		((d-OpFour)  (eval-string fourth))
+		((d-OpFive)  (eval-string fifth))
+		((d-OpSix)  (eval-string sixth))
+		((d-OpSeven)  (eval-string seventh))
+		((d-OpEight)  (eval-string eighth))
+		((d-OpNine)  (eval-string ninth))
+		((d-OpZero)  (eval-string tenth))
+		((d-UnsetMark)  (doublestroke::invokegui))
+		((d-AddNoteToChord) (begin
 				(set-cdr! wrap:Op1 first)
 				(set-cdr! wrap:Op2 second)
 				(set-cdr! wrap:Op3 third)
