@@ -632,9 +632,9 @@ Report bugs to bug-denemo@gnu.org\n"), NULL) ;
 
   g_free (helptext);
 
-
+  Denemo.gui->si->undo_guard++;
   denemo_scheme_init(initschemefile);
-
+  Denemo.gui->si->undo_guard--;
 #ifdef _HAVE_JACK_
 if (Denemo.prefs.midi_audio_output == Jack)
   init_jack();

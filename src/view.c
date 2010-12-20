@@ -3305,32 +3305,16 @@ static void define_scheme_constants(void) {
 
 
 void denemo_scheme_init(gchar *initscheme){
+  Denemo.gui->si->undo_guard++;
   define_scheme_constants();
   if(initscheme) {
-     Denemo.gui->si->undo_guard++;
-     //FIXME ??????
+
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
       eval_file_with_catch(initscheme);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
-    Denemo.gui->si->undo_guard--;
-
-  } else {
-#if 0
-    gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
-    
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      eval_file_with_catch(filename);//scm_c_primitive_load(filename);
-    else
-      g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
-    g_free(filename);
-
-    filename = g_build_filename(locatedotdenemo(), "actions", "denemo.scm", NULL);
-    if(g_file_test(filename, G_FILE_TEST_EXISTS))
-      eval_file_with_catch(filename);//scm_c_primitive_load(filename);
-    g_free(filename);
-#endif
   }
+  Denemo.gui->si->undo_guard--;
 }
 
 /*
@@ -3359,6 +3343,7 @@ void load_local_scheme_init(void)  {
 
 */
 static void load_scheme_init(void)  {
+  Denemo.gui->si->undo_guard++;
   gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
   g_debug("System wide denemo.scm %s\n", filename);
   if(g_file_test(filename, G_FILE_TEST_EXISTS))
@@ -3367,6 +3352,7 @@ static void load_scheme_init(void)  {
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
   load_local_scheme_init();
+  Denemo.gui->si->undo_guard--;
 }
 
 /* show the user's preferred view. Assumes all hidden on entry */

@@ -1158,9 +1158,35 @@ gboolean take_snapshot(void) {
 static print_queue(gchar *msg, GQueue *q) {
   GList*g;
   g_print(msg);
-  for(g=q->head;g;g=g->next)
-    g_print("%p action %d object %p\n", g->data, ((DenemoUndoData*)g->data)->action, ((DenemoUndoData*)g->data)->object);
-  g_print("\nend\n");
+  for(g=q->head;g;g=g->next) {
+    DenemoUndoData *chunk = g->data;
+    switch(chunk->action) {
+    case ACTION_STAGE_START:
+      g_print("[");
+      break;
+    case ACTION_STAGE_END:
+      g_print("]\n");
+      break;
+    case ACTION_SNAPSHOT:
+      g_print("Snapshot ");
+      break;
+    case ACTION_INSERT:
+      g_print("Ins %d; ", ((DenemoObject*) chunk->object)->type);
+      break;
+    case ACTION_DELETE:
+      g_print("Ins %d; ", ((DenemoObject*) chunk->object)->type);
+      break;
+    case ACTION_MEASURE_CREATE:
+      g_print("Create ");
+      break;
+    case ACTION_MEASURE_REMOVE:
+      g_print("Remove ");
+      break;
+    default:
+      g_print("Unknown action %d\n", chunk->action);
+
+    }
+  }
 }
 
 
@@ -1453,6 +1479,7 @@ warn_no_more_undo(DenemoGUI *gui)
 static void
 undo (DenemoGUI * gui)
 {
+  print_queue("Undo: ", gui->si->undodata);
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
   if (chunk)
     {
@@ -1552,7 +1579,7 @@ void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
-  print_queue("Update undo --------------\nUndo queue:\n", si->undodata);
+  print_queue("Update Undo queue:", si->undodata);
 
   // g_print ("Adding: Action %d\n",  undo->action); 
 
@@ -1580,7 +1607,7 @@ void
 update_redo_info (DenemoScore * si, DenemoUndoData * redo)
 {
   DenemoUndoData *tmp = NULL;
-  print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
+  //print_queue("Update redo ******************\nUndo queue:\n", si->undodata);
 
   //  g_debug ("Redo structure: Action %d, Position %d,  Staff %d, Measure %d\n",
   //	   redo->action, redo->position, redo->staffnum, redo->measurenum);
