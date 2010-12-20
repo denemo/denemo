@@ -3307,10 +3307,14 @@ static void define_scheme_constants(void) {
 void denemo_scheme_init(gchar *initscheme){
   define_scheme_constants();
   if(initscheme) {
+     Denemo.gui->si->undo_guard++;
+     //FIXME ??????
     if(g_file_test(initscheme, G_FILE_TEST_EXISTS))
       eval_file_with_catch(initscheme);//scm_c_primitive_load(initscheme);
     else
       g_warning("Cannot find your scheme initialization file %s", initscheme);
+    Denemo.gui->si->undo_guard--;
+
   } else {
 #if 0
     gchar *filename = g_build_filename(get_data_dir(), "actions", "denemo.scm", NULL);
