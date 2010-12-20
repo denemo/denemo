@@ -387,10 +387,10 @@
 		(eval-string parameter)))
 		
 ;Rebind a wrapper key, check if pair or string
-(define (doublestroke::bind parameter command)
+(define (doublestroke::bind command parameter)
    (if (pair? parameter)
-		(set-cdr! command (car parameter)))
-		(set-cdr! command parameter))
+		(set-cdr! command (car parameter))
+		(set-cdr! command parameter)))
 
 		
 ; Short command to invoke the gui which tests if the author specified his own first.
