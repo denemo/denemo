@@ -1390,14 +1390,23 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
 	  }
 
 
+
+
+	  gui->si->currentstaffnum = 1+g_list_position(gui->si->thescore, gui->si->currentstaff);
 #if 0
-	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
+	  setcurrents(si);
+  	  beamsandstemdirswholestaff ((DenemoStaff *) si->currentstaff->data);
 	  showwhichaccidentalswholestaff ((DenemoStaff *) si->currentstaff->
 					  data);
 	  find_xes_in_all_measures (si);
+	  find_leftmost_allcontexts (si);
+  
+	  set_rightmeasurenum (gui->si);
+	  set_bottom_staff (gui);
+	  set_width_to_work_with(gui);
+
 	  displayhelper (gui);//???FIXME
-#else
-	    g_print("How to get the stem dir right???");
+
 #endif
 
 
