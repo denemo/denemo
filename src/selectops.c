@@ -1479,7 +1479,7 @@ warn_no_more_undo(DenemoGUI *gui)
 static void
 undo (DenemoGUI * gui)
 {
-  print_queue("Undo: ", gui->si->undodata);
+  print_queue("Undo, queue: ", gui->si->undodata);
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
   if (chunk)
     {
@@ -1579,7 +1579,7 @@ void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
-  print_queue("Update Undo queue:", si->undodata);
+  print_queue("Update Undo, queue:", si->undodata);
 
   // g_print ("Adding: Action %d\n",  undo->action); 
 
