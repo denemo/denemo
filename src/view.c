@@ -5502,7 +5502,7 @@ static void placeOnButtonBar(GtkWidget *widget,  GtkAction *action) {
   gint idx = lookup_command_from_name(Denemo.map, name);
   gchar *label = (gchar*)lookup_label_from_idx(Denemo.map, idx);
 
-  gchar *scheme = g_strdup_printf(";To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, label, name, name, name);
+  gchar *scheme = g_strdup_printf(";To remove the %s button delete from here\n(CreateButton \"Button%s\" \"%s\")\n(d-SetDirectiveTagActionScript  \"Button%s\" \"("DENEMO_SCHEME_PREFIX"%s)\")\n;;End of delete %s button",name, name, g_strescape(label, NULL), name, name, name);
   g_print("the scheme is \n%s\n", scheme);
   if(!call_out_to_guile(scheme))
     append_to_local_scheme_init(scheme);
