@@ -465,7 +465,7 @@ void insert_object(DenemoObject *clonedobj) {
   if (!si->undo_guard)
     {
       undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
-      undo->object = clonedobj;
+      //undo->object = clonedobj;
       //do position after inserting, so we can go back to it to delete
     }
 
@@ -1171,10 +1171,13 @@ static print_queue(gchar *msg, GQueue *q) {
       g_print("Snapshot ");
       break;
     case ACTION_INSERT:
-      g_print("Ins %d; ", ((DenemoObject*) chunk->object)->type);
+      g_print("Ins; ");
       break;
     case ACTION_DELETE:
-      g_print("Ins %d; ", ((DenemoObject*) chunk->object)->type);
+      g_print("Del %s; ", DenemoObjTypeNames[((DenemoObject*) chunk->object)->type]);
+      break;
+    case ACTION_CHANGE:
+      g_print("Chn %s; ", DenemoObjTypeNames[((DenemoObject*) chunk->object)->type]);
       break;
     case ACTION_MEASURE_CREATE:
       g_print("Create ");
@@ -1469,6 +1472,44 @@ warn_no_more_undo(DenemoGUI *gui)
   gui->undo_level = 0;
   gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
+
+
+static free_chunk(DenemoUndoData *chunk) {
+g_print("free %d\n", chunk->action);
+  switch (chunk->action) {
+  case ACTION_STAGE_START:
+  case ACTION_STAGE_END:
+  case ACTION_SCRIPT_ERROR:
+    return;//statically allocated
+   
+  case ACTION_INSERT:
+  case ACTION_DELETE:
+  case ACTION_CHANGE:
+    freeobject(chunk->object);
+    g_free(chunk);
+    break;
+    
+  case ACTION_MEASURE_CREATE:
+  case ACTION_MEASURE_REMOVE:
+    g_free(chunk);
+    break;
+  case ACTION_SNAPSHOT:
+    g_warning("Snapshot free is not implemented");
+    g_free(chunk);
+    break;
+  default:
+    g_warning("Uknown type of undo data %d", chunk->action);
+  }
+}
+
+static free_queue( GQueue *queue) {
+  DenemoUndoData *chunk;
+  //g_print("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
+  while((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
+    free_chunk(chunk);
+  //g_print("after redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
+}
+
 /**
  * undo
  * Undoes an insert, delete change of a DenemoObject, transferring the undo object to the redo queue and switching it between delete/insert
@@ -1488,7 +1529,9 @@ undo (DenemoGUI * gui)
 	action_chunk(gui, chunk);
       } else {
 	position_warning(chunk);
-
+	free_queue(gui->si->redodata);
+	free_queue(gui->si->undodata);
+	return;
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
@@ -1533,41 +1576,8 @@ redo (DenemoGUI * gui)
 }
 
 
-static free_chunk(DenemoUndoData *chunk) {
-g_print("free %d\n", chunk->action);
-  switch (chunk->action) {
-  case ACTION_STAGE_START:
-  case ACTION_STAGE_END:
-  case ACTION_SCRIPT_ERROR:
-    return;//statically allocated
-   
-  case ACTION_INSERT:
-  case ACTION_DELETE:
-  case ACTION_CHANGE:
-    freeobject(chunk->object);
-    g_free(chunk);
-    break;
-    
-  case ACTION_MEASURE_CREATE:
-  case ACTION_MEASURE_REMOVE:
-    g_free(chunk);
-    break;
-  case ACTION_SNAPSHOT:
-    g_warning("Snapshot free is not implemented");
-    g_free(chunk);
-    break;
-  default:
-    g_warning("Uknown type of undo data %d", chunk->action);
-  }
-}
 
-static free_queue( GQueue *queue) {
-  DenemoUndoData *chunk;
-  //g_print("before redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
-  while((chunk = (DenemoUndoData *) g_queue_pop_head (queue)))
-    free_chunk(chunk);
-  //g_print("after redo queue %p is %d empty\n", queue, g_queue_is_empty(queue));
-}
+
 /**
  *  update_undo_info
  *  
@@ -1579,7 +1589,7 @@ void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
-  print_queue("Update Undo, queue:", si->undodata);
+  print_queue("\nUpdate Undo, queue:", si->undodata);
 
   // g_print ("Adding: Action %d\n",  undo->action); 
 
