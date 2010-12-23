@@ -286,7 +286,7 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
   if (!si->undo_guard)
     {
       undo = (DenemoUndoData *) g_malloc (sizeof (DenemoUndoData));
-      undo->object = dnm_clone_object (mudela_obj_new);
+      // should not be needed, we are inserting the object undo->object = dnm_clone_object (mudela_obj_new);
       //do position after inserting, so we can go back to it to delete
     }
 
