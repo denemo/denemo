@@ -4417,7 +4417,6 @@ static gboolean action_callbacks(DenemoGUI* gui) {
 static gboolean
 close_gui ()
 {
-
   stop_midi_playback (NULL, NULL);// if you do not do this, there is a timer moving the score on which will hang
   activate_action("/MainMenu/InputMenu/KeyboardOnly");
   if(Denemo.autosaveid) {
@@ -4455,6 +4454,7 @@ void free_movements(DenemoGUI *gui)
 
   for(g=gui->movements;g;g=g->next) {
     gui->si = g->data;
+    gui->si->undo_guard = 1;//no undo as that is per movement
     free_score(gui);
   }
   gui->si = NULL;
