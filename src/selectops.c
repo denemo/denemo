@@ -1118,13 +1118,50 @@ void store_for_undo_measure_insert(DenemoScore *si, gint staffnum, gint measuren
     }
 }
 
+static free_chunk(DenemoUndoData *chunk) {
+g_print("free %d\n", chunk->action);
+  switch (chunk->action) {
+  case ACTION_STAGE_START:
+  case ACTION_STAGE_END:
+  case ACTION_SCRIPT_ERROR:
+    return;//statically allocated
+   
+  case ACTION_INSERT:
+  case ACTION_DELETE:
+  case ACTION_CHANGE:
+    freeobject(chunk->object);
+    g_free(chunk);
+    break;
+    
+  case ACTION_MEASURE_CREATE:
+  case ACTION_MEASURE_REMOVE:
+    g_free(chunk);
+    break;
+  case ACTION_SNAPSHOT:
+    g_warning("Snapshot free is not implemented");
+    g_free(chunk);
+    break;
+  default:
+    g_warning("Uknown type of undo data %d", chunk->action);
+  }
+}
+
+
+
 static DenemoUndoData ActionStageStart={ACTION_STAGE_START};
 static DenemoUndoData  ActionStageEnd = {ACTION_STAGE_END};
 static DenemoUndoData  ActionScriptError = {ACTION_SCRIPT_ERROR};
 void stage_undo(DenemoScore *si, action_type type) {
   switch(type) {
-  case ACTION_STAGE_START:
-    update_undo_info (si, &ActionStageStart);
+  case ACTION_STAGE_START: {
+    DenemoUndoData *chunk = g_queue_peek_head(si->undodata);
+    if(chunk->action==ACTION_STAGE_END) {
+      chunk = g_queue_pop_head(si->undodata);
+      // free_chunk(chunk); not needed, is static anyway
+      g_print("Script did not need undoing");
+    } else
+      update_undo_info (si, &ActionStageStart);
+  }
     break;
   case ACTION_STAGE_END:
     update_undo_info (si, &ActionStageEnd);
@@ -1199,9 +1236,13 @@ static gboolean position_for_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
   //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
   gui->si->undo_guard++;
   switch(chunk->action) {
-  case ACTION_INSERT:
   case ACTION_DELETE:
   case ACTION_CHANGE:
+    if(chunk->position.object==0)
+      return FALSE;//Cannot change or delete in an empty measure=>undo queue is corrupt
+    //FALL THRU
+  case ACTION_INSERT:
+
   case ACTION_MEASURE_CREATE://this creates an (blank)measure
   case ACTION_MEASURE_REMOVE://this is the action that removes a blank measure at pos
     { 	
@@ -1412,7 +1453,7 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
 	   
 	    gui->si->undo_guard = initial_guard;//we keep all the guards we had on entry which will be removed when
 	    gui->si->changecount = initial_changecount;
-	    position_for_chunk(gui, chunk);
+	    position_for_chunk(gui, chunk);//FIXME check return val
 	  if(!gui->si->currentmeasure) {
 	    g_warning("positioning after snapshot Bug in selectops.c");
 	    movetoend(NULL, NULL);
@@ -1474,33 +1515,6 @@ warn_no_more_undo(DenemoGUI *gui)
 }
 
 
-static free_chunk(DenemoUndoData *chunk) {
-g_print("free %d\n", chunk->action);
-  switch (chunk->action) {
-  case ACTION_STAGE_START:
-  case ACTION_STAGE_END:
-  case ACTION_SCRIPT_ERROR:
-    return;//statically allocated
-   
-  case ACTION_INSERT:
-  case ACTION_DELETE:
-  case ACTION_CHANGE:
-    freeobject(chunk->object);
-    g_free(chunk);
-    break;
-    
-  case ACTION_MEASURE_CREATE:
-  case ACTION_MEASURE_REMOVE:
-    g_free(chunk);
-    break;
-  case ACTION_SNAPSHOT:
-    g_warning("Snapshot free is not implemented");
-    g_free(chunk);
-    break;
-  default:
-    g_warning("Uknown type of undo data %d", chunk->action);
-  }
-}
 
 static free_queue( GQueue *queue) {
   DenemoUndoData *chunk;
@@ -1520,7 +1534,7 @@ static free_queue( GQueue *queue) {
 static void
 undo (DenemoGUI * gui)
 {
-  print_queue("Undo, queue: ", gui->si->undodata);
+
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
   if (chunk)
     {
@@ -1539,6 +1553,7 @@ undo (DenemoGUI * gui)
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
+      print_queue("Undo, queue: ", gui->si->undodata);
     } else
     warn_no_more_undo(gui);
 }
@@ -1589,7 +1604,7 @@ void
 update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 {
   DenemoUndoData *tmp = NULL;
-  print_queue("\nUpdate Undo, queue:", si->undodata);
+
 
   // g_print ("Adding: Action %d\n",  undo->action); 
 
@@ -1601,6 +1616,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 
   g_queue_push_head (si->undodata, undo);
   si->redo_invalid = TRUE;
+  print_queue("\nUpdate Undo, queue:", si->undodata);
 }
 
 
