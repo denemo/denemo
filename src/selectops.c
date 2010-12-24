@@ -1205,7 +1205,7 @@ static print_queue(gchar *msg, GQueue *q) {
       g_print("]\n");
       break;
     case ACTION_SNAPSHOT:
-      g_print("Snapshot ");
+      g_print("Snapshot; ");
       break;
     case ACTION_INSERT:
       g_print("Ins; ");
@@ -1217,10 +1217,10 @@ static print_queue(gchar *msg, GQueue *q) {
       g_print("Chn %s; ", DenemoObjTypeNames[((DenemoObject*) chunk->object)->type]);
       break;
     case ACTION_MEASURE_CREATE:
-      g_print("Create ");
+      g_print("Create; ");
       break;
     case ACTION_MEASURE_REMOVE:
-      g_print("Remove ");
+      g_print("Remove; ");
       break;
     default:
       g_print("Unknown action %d\n", chunk->action);
