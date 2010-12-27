@@ -770,6 +770,15 @@ static SCM scheme_undo  (SCM optional) {
   return SCM_BOOL_T;
 }
 
+//Break the script up for undo purposes
+scheme_stage_for_undo (SCM optional) {
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);
+  return SCM_BOOL_T;
+}
+
+
+
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
@@ -4296,6 +4305,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
 
   INSTALL_SCM_FUNCTION ("Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"Undo"/*sic*/, scheme_undo);
+  
+INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX"StageCorUndo", scheme_stage_for_undo);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
