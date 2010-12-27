@@ -176,6 +176,10 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
     warningdialog(_("No such measure"));
     return FALSE;
   }
+  //cursor_x is zero and we are on the first, if any, object
+  if(gui->si->currentobject==NULL && objnum)
+    return FALSE;//asking for an object in an empty measure
+
   while(--objnum>0  && gui->si->currentobject && gui->si->currentobject->next) {
     gui->si->currentobject = gui->si->currentobject->next;
     gui->si->cursor_x++;
