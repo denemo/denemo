@@ -1152,6 +1152,8 @@ static DenemoUndoData ActionStageStart={ACTION_STAGE_START};
 static DenemoUndoData  ActionStageEnd = {ACTION_STAGE_END};
 static DenemoUndoData  ActionScriptError = {ACTION_SCRIPT_ERROR};
 void stage_undo(DenemoScore *si, action_type type) {
+  if(g_queue_is_empty(si->undodata))
+     return;
   switch(type) {
   case ACTION_STAGE_START: {
     DenemoUndoData *chunk = g_queue_peek_head(si->undodata);

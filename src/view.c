@@ -762,6 +762,14 @@ static SCM scheme_decrease_guard (SCM optional) {
   return SCM_BOOL_T;
 }
 
+//From a script undo must undo only the modifications to the start of the script, and push another STAGE_END for the end of the actions that it will do after the invocation of undo. This function overrides the built-in undo called directly by the user.
+static SCM scheme_undo  (SCM optional) {
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+  undowrapper(NULL, NULL);
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);
+  return SCM_BOOL_T;
+}
+
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
@@ -4286,6 +4294,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
 
   INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
+
+  INSTALL_SCM_FUNCTION ("Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"Undo"/*sic*/, scheme_undo);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);
