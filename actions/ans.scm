@@ -191,12 +191,13 @@
 ;420 - "Middle" c'
 ;620 - Soprano-Singers high C
 ;820 - Goes beyond the range of a modern piano
+;900 - A rest
 
 ;+10 One accidental up jumps over to the next note after cisis 
 ;+50 One diatonic step, preserve accidentals
 ;+100 One Octave
 
-(define ANS::NoteTable (make-hash-table 315))
+(define ANS::NoteTable (make-hash-table 316))
 
 (hashq-set! ANS::NoteTable (string->symbol "00") "ceses,,,")
 	(hashq-set! ANS::NoteTable (string->symbol "10") "ces,,,")
@@ -522,13 +523,13 @@
 	(hashq-set! ANS::NoteTable (string->symbol "8w0") "b'''''")
 	(hashq-set! ANS::NoteTable (string->symbol "8x0") "bis'''''")
 	(hashq-set! ANS::NoteTable (string->symbol "8y0") "bisis'''''")
-
+(hashq-set! ANS::NoteTable (string->symbol "900") "r")
 
 ;;;; Reverse Assignments
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define ANS::NoteTableR (make-hash-table 315))
+(define ANS::NoteTableR (make-hash-table 316))
 (hashq-set! ANS::NoteTableR 'ceses,,, "00")
 	(hashq-set! ANS::NoteTableR 'ces,,, "10")
 	(hashq-set! ANS::NoteTableR 'c,,, "20")
@@ -853,7 +854,7 @@
 	(hashq-set! ANS::NoteTableR 'b''''' "8w0")
 	(hashq-set! ANS::NoteTableR 'bis''''' "8x0")
 	(hashq-set! ANS::NoteTableR 'bisis''''' "8y0")
-
+(hashq-set! ANS::NoteTableR 'r "900")
 
 ;;;; The pillar of filth
 ;;;; To calculate real and correct intervals you need the pillar of fifth with 35 steps for each realistic notename (and 4 unrealistic ones)
@@ -983,11 +984,13 @@
 
 ; The main function to get notes from Denemo
 ; Opposite is ANS::ChangeChordNotes
-; For singles and chords. Returns a list of ANS string-numbers as chord.
+; For singles and chords and rests. Returns a list of ANS string-numbers as chord.
 (define (ANS::GetChordNotes)
-	(define lilylist (string-tokenize (d-GetNotes)))
-	(map ANS::Ly2Ans lilylist)
-)
+	(if (note?)
+		(map ANS::Ly2Ans (string-tokenize (d-GetNotes)))
+		(if (rest?) ; not a note
+			(list "900")
+			#f)))
 
 ; Extract the note from an ANS-string, without any octave or the tailing zero. Return as string.
 (define (ANS::GetNote ansNote) 
