@@ -3032,14 +3032,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Attaches Forte to chord and MIDI volume</tooltip>
       </row>
       <row>
-        <action>SetImmediatePlayback</action>
-        <after>Preferences</after>
-        <scheme></scheme>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <label>Turn On Immediate Playback</label>
-        <tooltip>Turns on the playing back of notes as you enter them.</tooltip>
-      </row>
-      <row>
         <action>ShortMeasure</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -4250,6 +4242,13 @@ right. </tooltip>
         <menupath>/ObjectMenu/Directives</menupath>
         <label>Insert Lilypond</label>
         <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
+      </row>
+      <row>
+        <action>ToggleImmediatePlayback</action>
+        <scheme></scheme>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <label>Toggle Immediate Playback</label>
+        <tooltip>Toggle on/off if you want to hear the note directly after inserting/changing.</tooltip>
       </row>
     </map>
   </commands>
