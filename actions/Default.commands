@@ -1487,6 +1487,7 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>InsertLilyDirective</action>
         <label>Insert Lilypond</label>
+        <hidden>true</hidden>
         <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
       </row>
       <row>
@@ -4241,6 +4242,14 @@ right. </tooltip>
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <label>Move To Movement Beginning</label>
         <tooltip>Moves the cursor to the beginning of the movement without altering the selection</tooltip>
+      </row>
+      <row>
+        <action>InsertStandaloneDirective</action>
+        <after>InsertLilyDirective</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/Directives</menupath>
+        <label>Insert Lilypond</label>
+        <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
       </row>
     </map>
   </commands>

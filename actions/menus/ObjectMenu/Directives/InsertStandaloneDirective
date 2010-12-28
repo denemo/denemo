@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>InsertLilyDirective</after>
+        <action>InsertStandaloneDirective</action>
+        <scheme>(let script ((answer (d-GetUserInput "Insert Lilypond" "Give Lilypond text to insert" "")))
+	(if (and answer (not (string=? answer "")))
+		(StandAloneDirectiveProto (cons answer answer))		
+		#f
+))
+
+</scheme>
+        <label>Insert Lilypond</label>
+        <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
