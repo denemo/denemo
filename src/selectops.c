@@ -1509,7 +1509,7 @@ static void position_warning(DenemoUndoData *chunk) {
 	    chunk->position.appending,
 	    chunk->position.offend);
   print_queue("The undo queue was:", Denemo.gui->si->undodata);
-print_queue("The redo queue was:", Denemo.gui->si->redodata);
+  print_queue("The redo queue was:", Denemo.gui->si->redodata);
 }
 static void
 warn_no_more_undo(DenemoGUI *gui) 
@@ -1560,7 +1560,7 @@ undo (DenemoGUI * gui)
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
-      print_queue("Undo, queue: ", gui->si->undodata);
+      //print_queue("Undo, queue: ", gui->si->undodata);
     } else
     warn_no_more_undo(gui);
 }
@@ -1624,7 +1624,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 
   g_queue_push_head (si->undodata, undo);
   si->redo_invalid = TRUE;
-  print_queue("\nUpdate Undo, queue:", si->undodata);
+  // print_queue("\nUpdate Undo, queue:", si->undodata);
 }
 
 
