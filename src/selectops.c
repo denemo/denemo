@@ -1238,12 +1238,13 @@ static gboolean position_for_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
   //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
   //gui->si->undo_guard++;
   switch(chunk->action) {
-  case ACTION_DELETE:
+
   case ACTION_CHANGE:
     if(chunk->position.object==0)
-      return FALSE;//Cannot change or delete in an empty measure=>undo queue is corrupt
+      return FALSE;//Cannot undo a change in an empty measure=>undo queue is corrupt
     //FALL THRU
   case ACTION_INSERT:
+  case ACTION_DELETE:
 
   case ACTION_MEASURE_CREATE://this creates an (blank)measure
   case ACTION_MEASURE_REMOVE://this is the action that removes a blank measure at pos
