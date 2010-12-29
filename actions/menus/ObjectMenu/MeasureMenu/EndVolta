@@ -9,11 +9,11 @@
         <action>EndVolta</action>
         <scheme>;;;EndVolta
 (d-Directive-standalone "EndVolta")
-(d-DirectivePut-standalone-minpixels  "EndVolta" 30)
+(d-DirectivePut-standalone-minpixels  "EndVolta" 20)
 (d-DirectivePut-standalone-postfix "EndVolta" "
 \\set Score.repeatCommands = #'((volta #f))
 ")
-(d-DirectivePut-standalone-gx  "EndVolta" 25)
+(d-DirectivePut-standalone-gx  "EndVolta" 18)
 (d-DirectivePut-standalone-gy  "EndVolta" -36)
 (d-DirectivePut-standalone-graphic "EndVolta" "EndSecondTimeBar")
 (d-MoveCursorRight)

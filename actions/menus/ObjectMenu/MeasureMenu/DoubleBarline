@@ -7,10 +7,10 @@
       <row>
         <action>DoubleBarline</action>
         <scheme>;;;DoubleBarline
-(d-DirectivePut-standalone-minpixels "DoubleBarline" 30)
+(d-DirectivePut-standalone-minpixels "DoubleBarline" 15)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "DoubleBarline" " \\bar \"||\"")
-(d-DirectivePut-standalone-gx  "DoubleBarline"  27)
+(d-DirectivePut-standalone-gx  "DoubleBarline"  16)	
 (d-DirectivePut-standalone-gy  "DoubleBarline"  -1)
 (d-DirectivePut-standalone-graphic "DoubleBarline" "DoubleBarline")
 (d-MoveCursorRight)

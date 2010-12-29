@@ -89,7 +89,7 @@
 (define (IdentifyScaleNote::PlaceAnswerStatus gfx)
   (begin
     (d-DirectivePut-note-minpixels "IdentifyScaleNote::tick" 30)
-    (d-DirectivePut-note-gx "IdentifyScaleNote::tick" -15)
+    (d-DirectivePut-note-gx "IdentifyScaleNote::tick" -10)
     (d-DirectivePut-note-gy "IdentifyScaleNote::tick" 40)
     (d-DirectivePut-note-graphic "IdentifyScaleNote::tick" gfx)))
 
