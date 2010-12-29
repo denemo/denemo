@@ -13,7 +13,7 @@
   (d-InsertWholeRest)
    (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
    (d-DirectivePut-chord-graphic "WholeMeasureRest" "WholeMeasureRest" )
-  (d-DirectivePut-chord-gx "WholeMeasureRest" 50)
+  (d-DirectivePut-chord-gx "WholeMeasureRest" 60)
    (d-DirectivePut-chord-gy "WholeMeasureRest" 8)
    ;(d-DirectivePut-chord-minpixels "WholeMeasureRest" 0)
    (d-DirectivePut-chord-override "WholeMeasureRest" (logior DENEMO_OVERRIDE_LILYPOND DENEMO_OVERRIDE_GRAPHIC))

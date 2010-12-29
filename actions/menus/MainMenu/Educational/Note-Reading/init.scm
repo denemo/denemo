@@ -33,7 +33,7 @@
 (define (EducationGames::PlaceAnswerStatus gfx)
   (begin
     (d-DirectivePut-note-minpixels "EducationGames::tick" 30)
-    (d-DirectivePut-note-gx "EducationGames::tick" -15)
+    (d-DirectivePut-note-gx "EducationGames::tick" -10)
     (d-DirectivePut-note-gy "EducationGames::tick" 40)
     (d-DirectivePut-note-graphic "EducationGames::tick" gfx)))
 

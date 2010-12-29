@@ -42,7 +42,7 @@
 (define (SpaceNumber::PlaceAnswerStatus gfx)
   (begin
     (d-DirectivePut-note-minpixels "SpaceNumber::tick" 30)
-    (d-DirectivePut-note-gx "SpaceNumber::tick" -15)
+    (d-DirectivePut-note-gx "SpaceNumber::tick" -10)
     (d-DirectivePut-note-gy "SpaceNumber::tick" 40)
     (d-DirectivePut-note-graphic "SpaceNumber::tick" gfx)))
 

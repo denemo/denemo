@@ -42,7 +42,7 @@
 (define (LineNumber::PlaceAnswerStatus gfx)
   (begin
     (d-DirectivePut-note-minpixels "LineNumber::tick" 30)
-    (d-DirectivePut-note-gx "LineNumber::tick" -15)
+    (d-DirectivePut-note-gx "LineNumber::tick" -10)
     (d-DirectivePut-note-gy "LineNumber::tick" 40)
     (d-DirectivePut-note-graphic "LineNumber::tick" gfx)))
 
