@@ -1556,7 +1556,7 @@ undo (DenemoGUI * gui)
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      //g_print("undo guard after %d\n",  gui->si->undo_guard);
+      g_print("***undo guard after undo %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
@@ -1581,6 +1581,7 @@ redo (DenemoGUI * gui)
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
   if (chunk)
     {
+     gui->si->undo_guard++;
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
       } else {
@@ -1589,7 +1590,7 @@ redo (DenemoGUI * gui)
       }
       update_undo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      //g_print("undo guard after %d\n",  gui->si->undo_guard);
+      g_print("<=<=<=undo guard after redo %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	redo(gui);
       score_status(gui, TRUE);
