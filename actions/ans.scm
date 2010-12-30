@@ -1149,11 +1149,11 @@
 ; forbidden compares two list (of intervals. ANS syntax) and checks if a sequence of intervals is the same and if this sequcence is forbidden
 ;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
 ;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
-;; Repetitions and Octave shifts return as #f.
+;; Repetitions and Octave shifts return as #f. (not (equal?...)) tests for repeats, ANS::GetNote equalizes octaves
 ;; Expects pair in pair: (intervall (lower . higher)) from ANS::GetIntervall
 (define (ANS::Forbidden? list1 list2 forbidden)
      (define (test? one two) 
-		(and (equal? (car one) (car two)) (not (equal? (car (cdr one)) (car (cdr two)) )) (if (member (car one) forbidden) #t #f)))
+		(and (equal? (car one) (car two)) (not (equal? (ANS::GetNote (car (cdr one))) (ANS::GetNote (car (cdr two))) )) (if (member (car one) forbidden) #t #f)))
       (if (member #t (map test? list1 list2))
 		  #t
 		  #f))
