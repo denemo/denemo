@@ -18,7 +18,7 @@
 
 (define (createAbstractionMovement)
 
-;TODO: Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
+;Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
 ;Very slow version of insert-into-list
 (define (insert-into-list listy position what )
 	(append
@@ -43,7 +43,7 @@
 	(map extend lists)
 )						
 								
-;TODO: Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
+;Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
 ;A slow version to change one list in the list of lists. Replaces the whole inner list with a new one instead of modifying the original one. 
 (define (insert-deep movement staffnumber position what)    
 	(list-set!
@@ -151,17 +151,13 @@
 )); fill-with-redundancy! end
 	
 
-
-							
-;TODO: chords in one voice.
-;TODO: Multimeasures, d-GetStartTick for musobj must be absolute or the min check must be modified with barnumbers.
-
-; Create the abstraction movement in multiple steps 
+; Create the abstraction movement in multiple steps. They are all desctructive.
 ;;1 parse everything, save the music as musobj. Notes, Chords, Rests
 ;;2 make all length equal by adding rests in the infinity to the ends.
 ;;3 one final #f to all staffs. The end is reached when all position return #f instead of a musobj
 ;;4 check if all start-ticks are the same, if not duplicate notes to fill the gaps
-	(define movement (createFinalList))
+	(define movement #f)
+	(set! movement (createFinalList))
 	(apply list-equalizer! (make-musobj 'pitch (list "900") 'measure #f 'start +inf.0 'end #f 'duration #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
