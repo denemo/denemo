@@ -16,6 +16,7 @@
 ;;(fill-with-redundancy! movement)
 ;;(createAbstractionMovement)
 
+(define (createAbstractionMovement)
 
 ;TODO: Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
 ;Very slow version of insert-into-list
@@ -154,7 +155,7 @@
 							
 ;TODO: chords in one voice.
 ;TODO: Multimeasures, d-GetStartTick for musobj must be absolute or the min check must be modified with barnumbers.
-(define (createAbstractionMovement)
+
 ; Create the abstraction movement in multiple steps 
 ;;1 parse everything, save the music as musobj. Notes, Chords, Rests
 ;;2 make all length equal by adding rests in the infinity to the ends.
