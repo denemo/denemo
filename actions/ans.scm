@@ -1140,6 +1140,15 @@
 		(ANS::GetIntervall (car pair) (cdr pair)))
 	(map GetIntv listy))
 
+; forbidden compares two list (of intervals. ANS syntax) and checks if a sequence of intervals is the same and if this sequcence is forbidden
+;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
+;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
+;; TODO: Repetition and Octave shifting should be a special case. Most of the time these are allowed.
+(define (ANS::Forbidden? list1 list2 forbidden)
+     (define (test? one two) 
+		(and (equal? one two) (if (member one forbidden) #t #f)))
+      ;body
+      (member #t (map test? list1 list2))) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Random Note Generation;;;;;;;;;;;;;;;;;;;;;;;;;
