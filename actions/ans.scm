@@ -1123,17 +1123,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;Analaysis;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;Convert two ANS notes to one ANS interval
+;Return pair in pair: (intervall (lower . higher))
 (define	(ANS::GetIntervall ansNoteOne ansNoteTwo)
-(define higher ansNoteOne)
-(define lower ansNoteTwo)
-(if (ANS::<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
-	(begin 	(set! lower ansNoteOne)
-			(set! higher ansNoteTwo)))		
+	(define higher ansNoteOne)
+	(define lower ansNoteTwo)
+	(if (ANS::<= ansNoteOne ansNoteTwo) ; bring the notes in right order. We want to calculate from top to bottom.
+		(begin 	(set! lower ansNoteOne)
+				(set! higher ansNoteTwo)))		
 
-;Extract the tone, without octave, convert it to a symbol and feed it to the hash to get the notes position in the pillar of 5th.
-(- (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote higher))) (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote lower))))
+	;Extract the tone, without octave, convert it to a symbol and feed it to the hash to get the notes position in the pillar of 5th.
+	
+	(cons
+		(- (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote higher))) (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote lower))))
+		(cons lower higher))
 )
 
+;GetIntervall for lists. 
 ;Converts a list of pairs(lower note and higher ANS note) to a list of interval numbers (ans syntax. steps in the pillar of 5th)
 (define (ANS::CreateIntervalsFromPairs listy) ;Wants a list of pairs.
 	(define (GetIntv pair)
@@ -1143,12 +1149,15 @@
 ; forbidden compares two list (of intervals. ANS syntax) and checks if a sequence of intervals is the same and if this sequcence is forbidden
 ;; Used to detect often forbidden parallels of 5th or 8th or 1th etc. 
 ;; Lists should be the same length (means the same amount of intervals, which is the case when both lists are generated from chords with the same number of notes)
-;; TODO: Repetition and Octave shifting should be a special case. Most of the time these are allowed.
+;; Repetitions and Octave shifts return as #f.
+;; Expects pair in pair: (intervall (lower . higher)) from ANS::GetIntervall
 (define (ANS::Forbidden? list1 list2 forbidden)
      (define (test? one two) 
-		(and (equal? one two) (if (member one forbidden) #t #f)))
-      ;body
-      (member #t (map test? list1 list2))) 
+		(and (equal? (car one) (car two)) (not (equal? (car (cdr one)) (car (cdr two)) )) (if (member (car one) forbidden) #t #f)))
+      (if (member #t (map test? list1 list2))
+		  #t
+		  #f))
+       
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Random Note Generation;;;;;;;;;;;;;;;;;;;;;;;;;
