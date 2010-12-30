@@ -1134,6 +1134,11 @@
 (- (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote higher))) (hashq-ref ANS::PillarOfFifthIndex (string->symbol (ANS::GetNote lower))))
 )
 
+;Converts a list of pairs(lower note and higher ANS note) to a list of interval numbers (ans syntax. steps in the pillar of 5th)
+(define (ANS::CreateIntervalsFromPairs listy) ;Wants a list of pairs.
+	(define (GetIntv pair)
+		(ANS::GetIntervall (car pair) (cdr pair)))
+	(map GetIntv listy))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
