@@ -284,7 +284,8 @@ gint midientry(gint notenum) {
 	} else 
 	  gdk_beep();
 	if(gui->mode & INPUTRHYTHM) {
-	  if(measure != gui->si->currentmeasurenum)
+	  //g_print("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
+	  if(!beep && (measure != gui->si->currentmeasurenum) && !gui->si->cursor_appending)
 	    beep=TRUE;
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
