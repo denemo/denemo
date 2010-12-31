@@ -1,6 +1,6 @@
-(use-modules (srfi srfi-1))
-(use-modules (srfi srfi-8))
-(use-modules (srfi srfi-13))
+(use-modules (srfi srfi-1)) ; List library
+(use-modules (srfi srfi-8)) ; Returning and Accepting Multiple Values
+(use-modules (srfi srfi-13)) ; String library
 (use-modules (ice-9 regex))
 (use-modules (ice-9 optargs))
 ;Denemo subsystems and extra functions in additional files. 
