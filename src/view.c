@@ -1089,6 +1089,30 @@ static SCM scheme_input_filter_names(SCM filtername) {
    Denemo.input_filters = NULL;
    return  SCM_BOOL(FALSE);
 }
+
+SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
+  gint  movementnum=0, staffnum, measurenum, objectnum;
+  if(scm_is_integer(movement))
+    movementnum = scm_to_int(movement);
+
+  if(scm_is_integer(staff))
+    staffnum = scm_to_int(staff);
+  else
+    staffnum = Denemo.gui->si->currentstaffnum;
+
+  if(scm_is_integer(measure))
+    measurenum = scm_to_int(measure);
+  else
+    measurenum = Denemo.gui->si->currentmeasurenum;
+
+  if(scm_is_integer(object))
+    objectnum = scm_to_int(object);
+  else
+    objectnum = Denemo.gui->si->cursor_x;
+
+  return SCM_BOOL(goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, objectnum));
+}
+
 SCM scheme_shift_cursor (SCM value) {
   if(!scm_integer_p(value))
     return SCM_BOOL_F;
@@ -3645,6 +3669,9 @@ void inner_main(void*closure, int argc, char **argv){
   
   INSTALL_SCM_FUNCTION4 ("Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX"HTTP", scheme_http);
   
+  INSTALL_SCM_FUNCTION4 ("Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX"GoToPosition", scheme_goto_position);
+
+
   INSTALL_SCM_FUNCTION3 ("Takes three strings, title, prompt and initial value. Shows these to the user and returns the user's string.", DENEMO_SCHEME_PREFIX"GetUserInput", scheme_get_user_input);
 
   INSTALL_SCM_FUNCTION ("Takes a message as a string. Pops up the message for the user to take note of as a warning",DENEMO_SCHEME_PREFIX"WarningDialog", scheme_warningdialog);
