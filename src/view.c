@@ -771,7 +771,7 @@ static SCM scheme_undo  (SCM optional) {
 }
 
 //Break the script up for undo purposes
-scheme_stage_for_undo (SCM optional) {
+static SCM scheme_stage_for_undo (SCM optional) {
   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
   stage_undo(Denemo.gui->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
@@ -2431,6 +2431,10 @@ SCM scheme_set_midi_capture(SCM setting) {
   return prev?SCM_BOOL_T:SCM_BOOL_F;
 }
 
+static
+SCM scheme_get_keyboard_state(void) {
+ return scm_int2num (Denemo.keyboard_state);
+}
 
 static
 SCM scheme_get_midi(void) {
@@ -4230,6 +4234,8 @@ INSTALL_EDIT(movementcontrol);
 
   INSTALL_SCM_FUNCTION ("Asks the user for a user name which is returned",DENEMO_SCHEME_PREFIX"GetUserName", scheme_get_username);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
+
+  INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
 
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
 
