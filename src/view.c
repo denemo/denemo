@@ -762,6 +762,23 @@ static SCM scheme_decrease_guard (SCM optional) {
   return SCM_BOOL_T;
 }
 
+//From a script undo must undo only the modifications to the start of the script, and push another STAGE_END for the end of the actions that it will do after the invocation of undo. This function overrides the built-in undo called directly by the user.
+static SCM scheme_undo  (SCM optional) {
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+  undowrapper(NULL, NULL);
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);
+  return SCM_BOOL_T;
+}
+
+//Break the script up for undo purposes
+static SCM scheme_stage_for_undo (SCM optional) {
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);
+  return SCM_BOOL_T;
+}
+
+
+
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
     Denemo.gui->si->zoom = scm_to_double(factor);
@@ -2414,6 +2431,10 @@ SCM scheme_set_midi_capture(SCM setting) {
   return prev?SCM_BOOL_T:SCM_BOOL_F;
 }
 
+static
+SCM scheme_get_keyboard_state(void) {
+ return scm_int2num (Denemo.keyboard_state);
+}
 
 static
 SCM scheme_get_midi(void) {
@@ -4214,6 +4235,8 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Asks the user for a user name which is returned",DENEMO_SCHEME_PREFIX"GetUserName", scheme_get_username);
   INSTALL_SCM_FUNCTION ("Asks the user for a password which is returned",DENEMO_SCHEME_PREFIX"GetPassword", scheme_get_password);
 
+  INSTALL_SCM_FUNCTION ("Returns an integer value, a set of bitfields representing the keyboard state, e.g. GDK_SHIFT_MASK etc",DENEMO_SCHEME_PREFIX"GetKeyboardState", scheme_get_keyboard_state);
+
   INSTALL_SCM_FUNCTION ("Intercepts a MIDI event and returns it as a 4 byte number",DENEMO_SCHEME_PREFIX"GetMidi", scheme_get_midi);
 
   INSTALL_SCM_FUNCTION ("Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.",DENEMO_SCHEME_PREFIX"SetMidiCapture", scheme_set_midi_capture);
@@ -4286,6 +4309,10 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Stop collecting undo information. Call DecreaseGuard when finished. Returns #f if already guarded, #t if this call is stopping the undo collection", DENEMO_SCHEME_PREFIX"IncreaseGuard", scheme_increase_guard);
 
   INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
+
+  INSTALL_SCM_FUNCTION ("Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"Undo"/*sic*/, scheme_undo);
+  
+INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX"StageForUndo", scheme_stage_for_undo);
 
 
   INSTALL_SCM_FUNCTION ("Takes a command name and returns the menu path to that command or #f if none",DENEMO_SCHEME_PREFIX"GetMenuPath", scheme_get_menu_path);

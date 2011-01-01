@@ -258,13 +258,15 @@ gint midientry(gint notenum) {
   //  return TRUE;
   enharmonic enote;
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift);
-  if (Denemo.prefs.midi_audio_output == Portaudio)
-    playpitch(midi2hz(notenum), 0.3, 0.5, 0);
-  if (Denemo.prefs.midi_audio_output == Jack)
-    jack_playpitch(notenum, 300 /*duration*/);
-  else if (Denemo.prefs.midi_audio_output == Fluidsynth)
-    fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
-  stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+  if( !(Denemo.keyboard_state&GDK_SHIFT_MASK)) {
+    if (Denemo.prefs.midi_audio_output == Portaudio)
+      playpitch(midi2hz(notenum), 0.3, 0.5, 0);
+    if (Denemo.prefs.midi_audio_output == Jack)
+      jack_playpitch(notenum, 300 /*duration*/);
+    else if (Denemo.prefs.midi_audio_output == Fluidsynth)
+      fluid_playpitch(notenum, 300 /*duration*/,  curstaffstruct->midi_channel, 0);
+    stage_undo(gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
+  }
   if(gui->mode & INPUTEDIT)
     {
       static gboolean beep = FALSE;
@@ -277,14 +279,35 @@ gint midientry(gint notenum) {
 	    curObj = Denemo.gui->si->currentobject->data;
 	    chord *thechord = (chord *)  curObj->object;
 	    is_tied = thechord->is_tied;
-	    enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
+
+	    
+#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
+
+
+
+	    //g_print("check %d %d %d %d %d\n", a->mid_c_offset, a->enshift, b, c, d);
+	    if( (Denemo.keyboard_state&GDK_SHIFT_MASK) && thechord->notes) {
+	      //later - find note nearest cursor and
+	      note *thenote = (note*)thechord->notes->data;
+	      check_midi_note(thenote, enote.mid_c_offset + 7 *( notenum/12 - 5), enote.enshift, notenum/12 - 5);
+	      if((!curObj->isinvisible)&&(thenote->mid_c_offset== (enote.mid_c_offset + 7 *( notenum/12 - 5)))&&(thenote->enshift==enote.enshift))
+		playnote(thenote,curstaffstruct->midi_channel);
+	      else {
+		gdk_beep();
+		break;//do not move on to next note
+	      }
+
+	    }
+	    else
+	      enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
 	    if(Denemo.gui->si->cursor_appending)
 	      break;
 	  } while(next_editable_note() && is_tied);
 	} else 
 	  gdk_beep();
 	if(gui->mode & INPUTRHYTHM) {
-	  if(measure != gui->si->currentmeasurenum)
+	  //g_print("measure was %d now %d with appending %d\n", measure, gui->si->currentmeasurenum, gui->si->cursor_appending);
+	  if(!beep && (measure != gui->si->currentmeasurenum) && !gui->si->cursor_appending)
 	    beep=TRUE;
 	  else if(beep) signal_measure_end(), beep=FALSE;
 	}
@@ -292,7 +315,9 @@ gint midientry(gint notenum) {
 	enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
     } else
     enter_midi_note_in_score(gui, enote.mid_c_offset, enote.enshift, notenum/12 - 5);
-  stage_undo(gui->si, ACTION_STAGE_START);
+  if( !(Denemo.keyboard_state&GDK_SHIFT_MASK)) {
+    stage_undo(gui->si, ACTION_STAGE_START);
+  }
   return TRUE;
 }
 

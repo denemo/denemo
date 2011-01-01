@@ -83,6 +83,8 @@ static guint lock_mask(gint keyval) {
 gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
+  Denemo.keyboard_state ^= (0xf & lock_mask(event->keyval));
+  // g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if((event->keyval==GDK_Caps_Lock) || (event->keyval==GDK_Num_Lock))
@@ -199,6 +201,9 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   DenemoGUI *gui = Denemo.gui;
   keymap *the_keymap = Denemo.map;
+
+  Denemo.keyboard_state |= (0xf & lock_mask(event->keyval));
+  //g_print("press %x state %x\n", Denemo.keyboard_state, event->state);
   if(divert_key_event && !isModifier(event) && divert_key_id==Denemo.gui->id) {
     dnm_clean_event (event);
     *divert_key_event = event;

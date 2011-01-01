@@ -7,10 +7,10 @@
       <row>
         <action>ClosingBarline</action>
         <scheme>;;;ClosingBarline
-(d-DirectivePut-standalone-minpixels "ClosingBarline" 30)
+(d-DirectivePut-standalone-minpixels "ClosingBarline" 15)
 (d-MoveCursorLeft)
 (d-DirectivePut-standalone-postfix "ClosingBarline" " \\bar \"|.\"")
-(d-DirectivePut-standalone-gx  "ClosingBarline"  29)
+(d-DirectivePut-standalone-gx  "ClosingBarline"  15)
 (d-DirectivePut-standalone-gy  "ClosingBarline"  -3)
 (d-DirectivePut-standalone-graphic "ClosingBarline" "ClosingBarline")
 (d-MoveCursorRight)

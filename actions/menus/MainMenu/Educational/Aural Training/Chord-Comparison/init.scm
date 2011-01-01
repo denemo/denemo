@@ -185,7 +185,7 @@
 (define (ChordComparison::PlaceAnswerStatus gfx)
   (begin
     (d-DirectivePut-note-minpixels "ChordComparison::tick" 30)
-    (d-DirectivePut-note-gx "ChordComparison::tick" -15)
+    (d-DirectivePut-note-gx "ChordComparison::tick" -10)
     (d-DirectivePut-note-gy "ChordComparison::tick" 40)
     (d-DirectivePut-note-graphic "ChordComparison::tick" gfx)))
 

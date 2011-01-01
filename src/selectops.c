@@ -1154,6 +1154,8 @@ static DenemoUndoData  ActionScriptError = {ACTION_SCRIPT_ERROR};
 void stage_undo(DenemoScore *si, action_type type) {
   switch(type) {
   case ACTION_STAGE_START: {
+    if(g_queue_is_empty(si->undodata))
+      return;
     DenemoUndoData *chunk = g_queue_peek_head(si->undodata);
     if(chunk->action==ACTION_STAGE_END) {
       chunk = g_queue_pop_head(si->undodata);
@@ -1234,14 +1236,15 @@ static gboolean position_for_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
   DenemoScriptParam param;
   param.status=TRUE;
   //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
-  gui->si->undo_guard++;
+  //gui->si->undo_guard++;
   switch(chunk->action) {
-  case ACTION_DELETE:
+
   case ACTION_CHANGE:
     if(chunk->position.object==0)
-      return FALSE;//Cannot change or delete in an empty measure=>undo queue is corrupt
+      return FALSE;//Cannot undo a change in an empty measure=>undo queue is corrupt
     //FALL THRU
   case ACTION_INSERT:
+  case ACTION_DELETE:
 
   case ACTION_MEASURE_CREATE://this creates an (blank)measure
   case ACTION_MEASURE_REMOVE://this is the action that removes a blank measure at pos
@@ -1505,6 +1508,8 @@ static void position_warning(DenemoUndoData *chunk) {
 	    chunk->position.object,
 	    chunk->position.appending,
 	    chunk->position.offend);
+  print_queue("The undo queue was:", Denemo.gui->si->undodata);
+  print_queue("The redo queue was:", Denemo.gui->si->redodata);
 }
 static void
 warn_no_more_undo(DenemoGUI *gui) 
@@ -1538,6 +1543,7 @@ undo (DenemoGUI * gui)
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->undodata);
   if (chunk)
     {
+      gui->si->undo_guard++;
       g_print("undo %d\n", chunk->action);
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
@@ -1545,15 +1551,16 @@ undo (DenemoGUI * gui)
 	position_warning(chunk);
 	free_queue(gui->si->redodata);
 	free_queue(gui->si->undodata);
+	warn_no_more_undo(gui);//returns guard to user preference and sets level 0
 	return;
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      //g_print("undo guard after %d\n",  gui->si->undo_guard);
+      g_print("***undo guard after undo %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
-      print_queue("Undo, queue: ", gui->si->undodata);
+      //print_queue("Undo, queue: ", gui->si->undodata);
     } else
     warn_no_more_undo(gui);
 }
@@ -1574,6 +1581,7 @@ redo (DenemoGUI * gui)
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
   if (chunk)
     {
+     gui->si->undo_guard++;
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
       } else {
@@ -1582,7 +1590,7 @@ redo (DenemoGUI * gui)
       }
       update_undo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      //g_print("undo guard after %d\n",  gui->si->undo_guard);
+      g_print("<=<=<=undo guard after redo %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	redo(gui);
       score_status(gui, TRUE);
@@ -1616,7 +1624,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
 
   g_queue_push_head (si->undodata, undo);
   si->redo_invalid = TRUE;
-  print_queue("\nUpdate Undo, queue:", si->undodata);
+  // print_queue("\nUpdate Undo, queue:", si->undodata);
 }
 
 
