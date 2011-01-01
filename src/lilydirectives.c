@@ -1192,8 +1192,11 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
       }
     } else {
     gchar *script = get_action_script(directive->tag->str);
-    if(script)
+    if(script) {
+      stage_undo(Denemo.gui->si, ACTION_STAGE_END);//undo is a queue so this is the end :)
       call_out_to_guile(script);
+      stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+    }
     else {
       if(left)
 	script = get_editscript_filename(directive->tag->str);
@@ -1213,9 +1216,9 @@ button_callback  (GtkWidget *w, GdkEventButton *event, DenemoDirective *directiv
 	  if(fn) {
 	    gboolean delete = !text_edit_directive_by_fn(directive, fn);
 	    if(delete) {
-	      GList *directives = (GList*)g_object_get_data(w, "directives-pointer");
+	      GList **directives = (GList**)g_object_get_data(G_OBJECT(w), "directives-pointer");
 	      if(directives)
-		delete_directive(directives, directive->tag->str);
+	        delete_directive(directives, directive->tag->str);
 	      else
 		g_warning("Could not get directives list to delete from");
 	    }
@@ -1368,7 +1371,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staff
       //g_print("Doing the staff case");
       /* g_print("directive-type %s.....", thetype);	*/
       GtkWidget *menu;
-      menu = staffmenu;
+      menu = GTK_WIDGET(staffmenu);
       directive->widget = gtk_menu_item_new_with_label(value);
       attach_textedit_widget(directive);
       g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
@@ -1379,7 +1382,7 @@ widget_for_directive_menu(DenemoDirective *directive,  void fn(), GtkMenu *staff
 	directive->widget = GTK_WIDGET(gtk_menu_item_new_with_label(value));//WARNING _with_label is important
 	attach_textedit_widget(directive);
 	GtkWidget *menu;
-	menu = voicemenu;  
+	menu = GTK_WIDGET(voicemenu);  
 	g_signal_connect(G_OBJECT(directive->widget), "button-release-event",  G_CALLBACK(button_callback), directive);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), GTK_WIDGET(directive->widget));
       }  else 
@@ -1430,24 +1433,24 @@ GtkMenu *staffmenu=NULL, *voicemenu=NULL;
 }
 void
 widget_for_staff_directive(DenemoDirective *directive, GtkMenu *menu) {
-  return widget_for_directive_menu(directive, staff_directive_put_graphic, menu, NULL);
+  return widget_for_directive_menu(directive, (void(*)())staff_directive_put_graphic, menu, NULL);
 }
 void
 widget_for_voice_directive(DenemoDirective *directive, GtkMenu *menu) {
-  return widget_for_directive_menu(directive, voice_directive_put_graphic, NULL, menu);
+  return widget_for_directive_menu(directive, (void(*)())voice_directive_put_graphic, NULL, menu);
 }
 
 void
 widget_for_movementcontrol_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, movementcontrol_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())movementcontrol_directive_put_graphic, NULL, NULL);
 }
 void
 widget_for_header_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, header_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())header_directive_put_graphic, NULL, NULL);
 }
 void
 widget_for_layout_directive(DenemoDirective *directive) {
-  return widget_for_directive_menu(directive, layout_directive_put_graphic, NULL, NULL);
+  return widget_for_directive_menu(directive, (void(*)())layout_directive_put_graphic, NULL, NULL);
 }
 
 // create a directive for non-DenemoObject directive #what
@@ -1473,7 +1476,7 @@ what##_directive_put_##field(gchar *tag, gchar *value) {\
   else\
     directive->field = g_string_new(value);\
   widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
-  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->name);\
+  g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", (gpointer)&current->name); \
   return TRUE;\
 }
 
@@ -1503,7 +1506,7 @@ what##_directive_put_##field(gchar *tag, gint value) {\
 #define PUT_GRAPHIC_WIDGET_GRAPHIC(what, name) gboolean \
 what##_directive_put_graphic(gchar *tag, gchar *value) {\
   what *current = get_##what();\
-  if(current==NULL) return NULL;\
+  if(current==NULL) return FALSE;\
   take_snapshot();		\
   if(current->name==NULL)\
        create_directives (&current->name, tag);\
@@ -1663,14 +1666,15 @@ standalone_directive_put_graphic(gchar *tag, gchar *value) {
 	object_insert(Denemo.gui, obj);
 	displayhelper(Denemo.gui);
   }
-  if( loadGraphicItem(value, (GdkBitmap **)&directive->graphic)) {
+  if( loadGraphicItem(value, &directive->graphic)) {
     if(directive->graphic_name)
       g_string_assign(directive->graphic_name, value);
     else
       directive->graphic_name = g_string_new(value);
     return TRUE;
   } else  {
-    directive->graphic = directive->graphic_name = NULL;
+    directive->graphic = NULL;
+    directive->graphic_name = NULL;
     return FALSE;
   }
 }
