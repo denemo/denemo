@@ -1125,13 +1125,33 @@ SCM scheme_shift_cursor (SCM value) {
 
 }
 
-SCM scheme_get_cursor_note (SCM optional) {
+
+static SCM scheme_get_cursor_x(void) {
+return  scm_int2num(Denemo.gui->si->cursor_x);
+}
+
+static SCM scheme_get_movement(void) {
+  gint num = g_list_index(Denemo.gui->movements, Denemo.gui->si)+1;
+  return  scm_int2num(num);
+}
+
+static SCM scheme_get_staff(void) {
+  gint num = Denemo.gui->si->currentstaffnum;
+  return  scm_int2num(num);
+}
+
+static SCM scheme_get_measure(void) {
+  gint num = Denemo.gui->si->currentmeasurenum;
+  return  scm_int2num(num);
+}
+
+static SCM scheme_get_cursor_note (SCM optional) {
  DenemoGUI *gui = Denemo.gui;
  SCM scm = scm_makfrom0str (g_strdup_printf("%c", mid_c_offsettoname (gui->si->cursor_y)));//FIXME a dedicated function avoiding memory leak.
    return scm;
 }
 
-SCM scheme_set_prefs (SCM xml) {
+static SCM scheme_set_prefs (SCM xml) {
   DenemoGUI *gui = Denemo.gui;
   if(scm_is_string(xml)){ 
     gchar *xmlprefs = scm_to_locale_string(xml);
@@ -3599,6 +3619,12 @@ void inner_main(void*closure, int argc, char **argv){
 
 
   INSTALL_SCM_FUNCTION ("Shifts the cursor up or down by the integer amount passed in",DENEMO_SCHEME_PREFIX"ShiftCursor",  scheme_shift_cursor);
+
+
+  INSTALL_SCM_FUNCTION ("Returns the movement number counting from 1",DENEMO_SCHEME_PREFIX"GetMovement",  scheme_get_movement);
+  INSTALL_SCM_FUNCTION ("Returns the staff/voice number counting from 1",DENEMO_SCHEME_PREFIX"GetStaff",  scheme_get_staff);
+  INSTALL_SCM_FUNCTION ("Returns the measure number counting from 1",DENEMO_SCHEME_PREFIX"GetMeasure",  scheme_get_measure);
+  INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position",DENEMO_SCHEME_PREFIX"GetCursorX",  scheme_get_cursor_x);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
