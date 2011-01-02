@@ -1109,7 +1109,9 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
     objectnum = scm_to_int(object);
   else
     objectnum = Denemo.gui->si->cursor_x;
-
+  objectnum += 1;
+  if(Denemo.gui->si->currentmeasure->data==NULL && objectnum==1)
+    objectnum=0;
   return SCM_BOOL(goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, objectnum));
 }
 
