@@ -1773,14 +1773,14 @@
                       (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure position start duration end)
+(defstruct musobj pitch movement staff measure cursorx start duration end)
 
 (define (createMusObj) 
 	(make-musobj 'pitch (ANS::GetChordNotes)
 				 'movement (d-GetMovement)
 				 'staff (d-GetStaff)
 				 'measure (d-GetMeasure)
-				 'position (d-GetCursorX)
+				 'cursorx (d-GetCursorX)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
 				 'end (d-GetEndTick)				 
