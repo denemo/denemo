@@ -1097,6 +1097,7 @@ redowrapper (GtkAction *action, gpointer param)
 }
 
 /* store the passed object as ACTION_CHANGE undo information */
+/* potentially we could optimize the storage of undo information by telescoping changes to the same object when the undo is staged, it would mean keeping a global note of whether the undo is currently staged. We would peek at the head of the queue and if it was an ACTION_CHANGE at the same position we could free the stored object and replace it with the clone created here */
 void store_for_undo_change (DenemoScore *si, DenemoObject *curobj) {
   if (!si->undo_guard)
     {
@@ -1320,10 +1321,10 @@ static void	action_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
 	  break;
 	case ACTION_CHANGE:
 	  {
+	    //FIXME guard against a corrupt undo queue here by checking  if(gui->si->currentobject) {
 	    DenemoObject *temp = gui->si->currentobject->data;
 	    gui->si->currentobject->data =  chunk->object;
 	    chunk->object = temp;
-	    //displayhelper (gui);
 	  }
 	  break;
 	case ACTION_SNAPSHOT:
