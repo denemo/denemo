@@ -364,11 +364,13 @@ The cursor position determines which note to add</tooltip>
         <action>StemUp</action>
         <label>StemUp</label>
         <tooltip>Alters a StemNeutral object to stem up.</tooltip>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>StemDown</action>
         <label>StemDown</label>
         <tooltip>Alters a StemNeutral object to stem down.</tooltip>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>AddDot</action>
