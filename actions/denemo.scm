@@ -56,6 +56,15 @@
 ); GetUniquePairs
 
 
+;repeat executes a proc n times
+(define (repeat proc n)
+	(let loop ((counter 0))
+		(if (= n counter)
+			#t
+			(begin
+				(proc)
+				(loop (1+ counter))))))
+
 ;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
 "Staff"
