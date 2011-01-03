@@ -56,6 +56,15 @@
 ); GetUniquePairs
 
 
+;repeat executes a proc n times
+(define (repeat proc n)
+	(let loop ((counter 0))
+		(if (= n counter)
+			#t
+			(begin
+				(proc)
+				(loop (1+ counter))))))
+
 ;;;;;;;;;;;Get Lilypond Objects as strings. Currently just manual converting for single cases.
 (define (GetContextAsLilypond) ; You will likely need (GetTypeAsLilypond) also. TODO: Create a real function!
 "Staff"
@@ -1773,14 +1782,14 @@
                       (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure cursorx start duration end)
+(defstruct musobj pitch movement staff measure horizontal start duration end)
 
 (define (createMusObj) 
 	(make-musobj 'pitch (ANS::GetChordNotes)
 				 'movement (d-GetMovement)
 				 'staff (d-GetStaff)
 				 'measure (d-GetMeasure)
-				 'cursorx (d-GetCursorX)
+				 'horizontal (d-GetHorizontalPosition)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
 				 'end (d-GetEndTick)				 
@@ -1789,7 +1798,3 @@
 ;(define testob (createMusObj))							
 ;(set!musobj.duration testob 256)
 ;(display (musobj.start testob))
-
-(define (d-GetCursorX)
-  (display "deprecated procedure, use d-GetHorizontalPosition instead")
-  (- (d-GetHorizontalPosition) 1))
