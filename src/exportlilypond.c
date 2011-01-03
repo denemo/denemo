@@ -180,6 +180,7 @@ static GtkTextChildAnchor * insert_section(GString **str, gchar *markname, gchar
   return objanc;
 }
 
+#define FAKECHORD_SEP " |" /* allow space or | to separate chord symbols */
 
 #define FIGURES_SEP "|"
 /* a separator for groups of figured bass figures on one note
@@ -544,7 +545,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
       ||
       (((GString
 	 *) ((chord *) pchord->fakechord))->len) == 0)
-    fig_str = g_string_new (" s");	/* the no-fakechord figure */
+    fig_str = g_string_new ("s");	/* the no-fakechord figure */
   else {
     fig_str =
        g_string_ascii_down (
@@ -556,14 +557,14 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
   
 		      
 
-  str = strchr (fig_str->str, *(char *) FIGURES_SEP);
+  str = strchr (fig_str->str, *(char *) FAKECHORD_SEP); 
   if (str != NULL)
     {
       /* we have more than one group of figures to be output
          for one bass note. Count the number of groups */
       num_groups = 2;
-      /* one on either side of the FIGURES_SEP found */
-      while ((str = strchr (++str, *(char *) FIGURES_SEP)) != NULL)
+      /* one on either side of the FAKECHORD_SEP found */
+      while ((str = strchr (++str, *(char *) FAKECHORD_SEP)) != NULL)
 	num_groups++;
     }
 
@@ -593,7 +594,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	  {
 	    first_duration = second_duration = duration * 2;
 	  }
-	str = strtok (fig_str->str, FIGURES_SEP);
+	str = strtok (fig_str->str, FAKECHORD_SEP);
 	gint length = strlen(str);
 	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
@@ -603,7 +604,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	  g_string_append_printf (fakechord, "%c%s", ':', extension);
 
 	fakechord = g_string_append (fakechord, " ");
-	str = strtok (fig_str->str+length+1, FIGURES_SEP);
+	str = strtok (fig_str->str+length+1, FAKECHORD_SEP);
 	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
@@ -630,7 +631,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	    first_duration = duration * 2;
 	    second_duration = third_duration = duration * 4;
 	  }
-	str = strtok (fig_str->str, FIGURES_SEP);
+	str = strtok (fig_str->str, FAKECHORD_SEP);
 	gint length = strlen(str);
 	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
@@ -639,7 +640,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	if(extension)
 	  g_string_append_printf (fakechord, "%c%s", ':', extension);
 	fakechord = g_string_append (fakechord, " ");
-	str = strtok (fig_str->str+length+1, FIGURES_SEP);
+	str = strtok (fig_str->str+length+1, FAKECHORD_SEP);
 	length += strlen(str);
 	extension =  parse_extension(str);
 
@@ -649,7 +650,7 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	if(extension)
 	  g_string_append_printf (fakechord, "%c%s", ':', extension);
 	fakechord = g_string_append (fakechord, " ");
-	str = strtok (fig_str->str+length+2, FIGURES_SEP);
+	str = strtok (fig_str->str+length+2, FAKECHORD_SEP);
 	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
