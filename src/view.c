@@ -1108,12 +1108,18 @@ SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object) {
   if(scm_is_integer(object))
     objectnum = scm_to_int(object);
   else
-    objectnum = Denemo.gui->si->cursor_x;
-  objectnum += 1;
+    objectnum = 1 + Denemo.gui->si->cursor_x;
+  
   // 1 is ambiguous, either empty measure or object 1
   gboolean result = goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, objectnum);
   if(Denemo.gui->si->currentmeasure->data==NULL && objectnum==1)
     return SCM_BOOL(goto_movement_staff_obj (Denemo.gui, movementnum, staffnum, measurenum, 0));
+  gint numobjs = (Denemo.gui->si->currentmeasure->data)?g_list_length(Denemo.gui->si->currentmeasure->data):0;
+  if(objectnum==1+numobjs)
+    Denemo.gui->si->cursor_appending = TRUE;
+  write_status(Denemo.gui);
+  if(objectnum>1+numobjs)
+    return SCM_BOOL_F;
   return SCM_BOOL (result);
 }
 
@@ -1130,8 +1136,8 @@ SCM scheme_shift_cursor (SCM value) {
 }
 
 
-static SCM scheme_get_cursor_x(void) {
-return  scm_int2num(Denemo.gui->si->cursor_x);
+static SCM scheme_get_horizontal_position(void) {
+return  scm_int2num(1 + Denemo.gui->si->cursor_x);
 }
 
 static SCM scheme_get_movement(void) {
@@ -3628,7 +3634,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns the movement number counting from 1",DENEMO_SCHEME_PREFIX"GetMovement",  scheme_get_movement);
   INSTALL_SCM_FUNCTION ("Returns the staff/voice number counting from 1",DENEMO_SCHEME_PREFIX"GetStaff",  scheme_get_staff);
   INSTALL_SCM_FUNCTION ("Returns the measure number counting from 1",DENEMO_SCHEME_PREFIX"GetMeasure",  scheme_get_measure);
-  INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position",DENEMO_SCHEME_PREFIX"GetCursorX",  scheme_get_cursor_x);
+  INSTALL_SCM_FUNCTION ("Returns the cursor horizontal position in current measure.\n 1 = first position in measure, n+1 is appending position where n is the number of objects in current measure",DENEMO_SCHEME_PREFIX"GetHorizontalPosition",  scheme_get_horizontal_position);
 
   INSTALL_SCM_FUNCTION ("Returns the note name for the line or space where the cursor is",DENEMO_SCHEME_PREFIX"GetCursorNote",  scheme_get_cursor_note);
   INSTALL_SCM_FUNCTION ("Prints out information about the object at the cursor",DENEMO_SCHEME_PREFIX"DebugObject",  scheme_debug_object);
