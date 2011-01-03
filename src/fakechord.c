@@ -138,10 +138,13 @@ insertfakechord (GtkWidget * widget, gpointer data)
   if(cbdata->string==NULL)
     return FALSE;
   if (si->currentobject != NULL) {
-	  DenemoObject *curObj = (DenemoObject *) si->currentobject ?
-	    (DenemoObject *) si->currentobject->data : NULL;
-	  gchar *fakechord = cbdata->string;
-	  separate_fakechord_elements(fakechord, curObj);
+	  DenemoObject *curObj =  (DenemoObject *) si->currentobject->data;
+	  //gchar *fakechord = cbdata->string;
+	  //separate_fakechord_elements(fakechord, curObj);
+	  if(((chord *) curObj->object)->fakechord)
+	    g_string_assign(((chord *) curObj->object)->fakechord, cbdata->string);
+	  else
+	    ((chord *) curObj->object)->fakechord = g_string_new(cbdata->string);
 	  do
 	    {
 	      if (si->currentobject->next)
@@ -184,10 +187,9 @@ fakechord_insert (GtkAction *action, gpointer param)
  
   if (curObj && curObj->type == CHORD && ((chord *) curObj->object)->fakechord)
 	{
-		temp = g_string_append(temp, (((GString *) ((chord *) curObj->object)->fakechord)->str));
-		if (((chord *) curObj->object)->fakechord_extension != NULL)
-			temp = g_string_append(temp, (((GString *) ((chord *) curObj->object)->fakechord_extension)->str));
-		PreValue = temp->str;
+		
+		PreValue = (((GString *) ((chord *) curObj->object)->fakechord)->str);
+
 	}
 	
 

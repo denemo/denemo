@@ -518,6 +518,15 @@ output_figured_bass (DenemoScore * si, GString *figures, chord * pchord, gint ti
   // if(duration_string) g_free(--duration_string);
 }
 
+static gchar *
+parse_extension (gchar *input) {
+  gchar * colon = strtok(input, ":");
+  if(colon)
+    colon = strtok(NULL, ":");
+
+  return colon; 
+}
+
 /**
  * add figures to *pfigures for *pchord  
  */
@@ -526,15 +535,15 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 {
   gint duration = internaltomuduration (pchord->baseduration);
   gint numdots = pchord->numdots;
-  GString *fig_str, *extension;		/*working copy of figures string */
+  GString *fig_str;		/*working copy of figures string */
   char *str;			/* pointer into the figure string fig_str */
   gint num_groups = 1;		/* number of groups of figures */
-
+  gchar *extension;
   fakechord = g_string_append (fakechord, " ");
   if (pchord->fakechord == NULL
       ||
       (((GString
-	 *) ((chord *) pchord->fakechord))->str) == NULL)
+	 *) ((chord *) pchord->fakechord))->len) == 0)
     fig_str = g_string_new (" s");	/* the no-fakechord figure */
   else {
     fig_str =
@@ -542,13 +551,9 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
           g_string_new (((GString
  		         *) ((chord *) pchord->fakechord))->str));
   }
-  if (pchord->fakechord_extension == NULL)
-    extension = NULL;
-  else {
-    extension =
-      g_string_new (((GString
-		      *) ((chord *) pchord->fakechord_extension))->str);
-  }      
+
+
+  
 		      
 
   str = strchr (fig_str->str, *(char *) FIGURES_SEP);
@@ -566,13 +571,14 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
     {
     default:
     case 1:
-      fakechord = g_string_append (fakechord, fig_str->str);
-      //fakechord = g_string_append (fakechord, " ");
-      append_duration (fakechord, duration, numdots);
-      if (extension != NULL)
-      	//printf("\nhas extenion in export mudela\n");
-	fakechord = g_string_append (fakechord, extension->str);
-      break;
+      {
+	extension =  parse_extension(fig_str->str);
+	fakechord = g_string_append (fakechord, fig_str->str);
+	append_duration (fakechord, duration, numdots);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
+	break;
+      }
       /* Each group of fakechord is assigned a duration to
          achieve a normal looking output */
     case 2:
@@ -588,14 +594,22 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	    first_duration = second_duration = duration * 2;
 	  }
 	str = strtok (fig_str->str, FIGURES_SEP);
+	gint length = strlen(str);
+	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
 	append_duration (fakechord, first_duration, 0);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
+
 	fakechord = g_string_append (fakechord, " ");
-	str = strtok (NULL, FIGURES_SEP);
+	str = strtok (fig_str->str+length+1, FIGURES_SEP);
+	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
 	append_duration (fakechord, second_duration, 0);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
       }
       break;
     case 3:
@@ -617,19 +631,32 @@ output_fakechord (DenemoScore * si, GString *fakechord, chord * pchord)
 	    second_duration = third_duration = duration * 4;
 	  }
 	str = strtok (fig_str->str, FIGURES_SEP);
+	gint length = strlen(str);
+	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
 	append_duration (fakechord, first_duration, 0);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
 	fakechord = g_string_append (fakechord, " ");
-	str = strtok (NULL, FIGURES_SEP);
+	str = strtok (fig_str->str+length+1, FIGURES_SEP);
+	length += strlen(str);
+	extension =  parse_extension(str);
+
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
 	append_duration (fakechord, second_duration, 0);
-	str = strtok (NULL, FIGURES_SEP);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
 	fakechord = g_string_append (fakechord, " ");
+	str = strtok (fig_str->str+length+2, FIGURES_SEP);
+	extension =  parse_extension(str);
 	fakechord = g_string_append (fakechord, str);
 	fakechord = g_string_append (fakechord, " ");
 	append_duration (fakechord, third_duration, 0);
+	if(extension)
+	  g_string_append_printf (fakechord, "%c%s", ':', extension);
+	fakechord = g_string_append (fakechord, " ");
       }
       break;
     }

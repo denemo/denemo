@@ -21,32 +21,8 @@ draw_fakechord (cairo_t *cr,
   else if (theobj->type == CHORD)
     {
       ch = (chord *) theobj->object;
-      if (ch->is_fakechord)
-	{
-	  temp = g_string_append(temp, ((GString *) ch->fakechord)->str);
-	  if (ch->fakechord_extension != NULL)
-	  	temp = g_string_append(temp, ((GString *) ch->fakechord_extension)->str);
-	  text = ((GString *) (temp))->str;
-	  //printf("\ntext in draw_fakechod == %s\n",text);
-	  length = ((GString *) (temp))->len;
-	}
-      else
-	{
-	  DenemoObject *mud = (DenemoObject *) ((GList *) (ch->fakechord))->data;
-	  chord *mych = (chord *) mud->object;
-	  GString *mygstr = (GString *) mych->fakechord;
-	  text = mygstr->str;
-	  length = mygstr->len;
-	}
-
+      drawnormaltext_cr( cr,  ((GString *) ch->fakechord)->str, xx, y + STAFF_HEIGHT - 10 );
     }
-#ifdef DEBUG
-  g_print ("%s, %d\n", text, length);
-#endif
-
-  drawnormaltext_cr( cr, text, xx, y + STAFF_HEIGHT - 10 );
-
-
 }
 
 
