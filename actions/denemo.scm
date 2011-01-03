@@ -1789,3 +1789,7 @@
 ;(define testob (createMusObj))							
 ;(set!musobj.duration testob 256)
 ;(display (musobj.start testob))
+
+(define (d-GetCursorX)
+  (display "deprecated procedure, use d-GetHorizontalPosition instead")
+  (- (d-GetHorizontalPosition) 1))
