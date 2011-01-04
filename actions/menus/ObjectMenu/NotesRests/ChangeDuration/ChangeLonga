@@ -11,14 +11,16 @@
 (if (music?)
   (begin ; its a chord, means note or rest!
 	(if (rest?) ; Test if its a note with a name or not, then its a rest
-		(d-DirectivePut-chord-graphic "Longa" "rests_M2neomensural") ;rest
+		(d-DirectivePut-chord-graphic "Note" "rests_M2neomensural") ;rest
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 
-			(d-DirectivePut-chord-graphic "Longa" "noteheads_sM2neomensural")	
+			(d-DirectivePut-chord-graphic "Note" "noteheads_sM2neomensural")	
 		)	
 	)
-	(d-DirectivePut-chord-prefix "Longa" "\\longa ")
-	(d-DirectivePut-chord-override "Longa" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-chord-postfix "Note" "\\longa ")
+	(d-DirectivePut-chord-override "Note" DENEMO_OVERRIDE_GRAPHIC)
+	(d-DirectivePut-chord-prefix "NoteHead" "\\neohead ")
+	(d-DirectivePut-chord-override "NoteHead" DENEMO_OVERRIDE_AFFIX)	
 	(d-SetDurationInTicks (* 4 1536))
 	(d-RefreshDisplay)
   )
