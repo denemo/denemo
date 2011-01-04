@@ -81,18 +81,18 @@
  (define (*x+d returnn nextdigit)  ; helper function to do the math: first multiply the current sum with baseX then add the next digit.
 	(+ nextdigit (* returnn radix)))
  
- (set! length (- (string-length istring) 1)) ; because string-ref (see below) counts from 0 we need counter to count from 0, too. but string-length counts from 1 so we need to reduce length to match the counter.
-
- (let loop ((counter 0) (returnn 0))
-	(if (> counter length)
-		returnn 
-		(loop 
-		    (+ counter 1) 
-			(*x+d returnn (ANS::char->number (char-downcase (string-ref istring counter)))) ; get the digits from left to right with a counter and string-ref which returns a char, make sure the char is downcase.
-		)		
-	)	  
-  ) 
-)
+ (cond 
+ 	((equal? istring "+inf.0") +inf.0) ; special numbers +inf.0 and -inf.0
+	((equal? istring "-inf.0") -inf.0)
+	(else (begin
+		(set! length (- (string-length istring) 1)) ; because string-ref (see below) counts from 0 we need counter to count from 0, too. but string-length counts from 1 so we need to reduce length to match the counter.
+		(let loop ((counter 0) (returnn 0))
+			(if (> counter length)
+				returnn 
+				(loop 
+					(+ counter 1) 
+ 					(*x+d returnn (ANS::char->number (char-downcase (string-ref istring counter)))) ; get the digits from left to right with a counter and string-ref which returns a char, make sure the char is downcase.
+		)))))))
 
 ;; ANS::remainder is a remainder variant that outputs a string instead of number and can also handle A-Z as numbers for radix > 10, which means if you do 32 / 11 it will return remainder A
 (define (ANS::remainder number radix)
@@ -145,6 +145,10 @@
 	; 2 / 11 = 0 rest 2
 	; => 2A6
 
+	(cond 
+ 	((equal? inumber +inf.0) +inf.0) ; special numbers +inf.0 and -inf.0
+	((equal? inumber -inf.0) -inf.0)
+	(else (begin
 	(let loop ((returnstring "") (worknumber inumber))
 		
 		(if (= (quotient worknumber radix) 0)
@@ -152,33 +156,28 @@
 			(loop 
 				(string-append returnstring (ANS::remainder worknumber radix)) ; parameter 1
 				(quotient worknumber radix)	; parameter 2
-			)
-		)		
-	)
-)
+			)))))))
 
 ; For calculations convert all base 35 to decimal first and before returning return them back to base35.
 (define (ANS::to35 n) ;n is a number base10
-	(ANS::dec->basex n 35)
-)
+	(ANS::dec->basex n 35))
 
 (define (ANS::to10 n) ; n is a string which represents a number base35
-	(ANS::basex->dec n 35) 
-)
+	(ANS::basex->dec n 35))
 
-(define (ANS::math op nums) ;wants  strings
- (ANS::to35 (apply op (map ANS::to10 nums)))
-)
+(define (ANS::math op nums) ;wants a list of strings
+	(ANS::to35 (apply op (map ANS::to10 nums))))
 
-(define (ANS::compare op one two) ;wants strings
-  (op (ANS::to10 one) (ANS::to10 two))
-)
+
+(define (ANS::compare op one two) ;wants two strings
+  (op (ANS::to10 one) (ANS::to10 two)))
 
 (define (ANS::+ . nums )  (ANS::math + nums))
 (define (ANS::- . nums )  (ANS::math - nums))
 (define (ANS::* . nums )  (ANS::math * nums))
 (define (ANS::/ . nums )  (ANS::math / nums))
 (define (ANS::> one two)  (ANS::compare > one two))
+(define (ANS::< one two)  (ANS::compare < one two))
 (define (ANS::>= one two)  (ANS::compare >= one two))
 (define (ANS::<= one two)  (ANS::compare <= one two))
 
