@@ -1171,27 +1171,54 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	cur_stime2 = ((timesig *) curobj->object)->time2;
 	break;
       case TUPOPEN:
-	/* added by Yu CHeung "toby" Ho 3 Jun 00, adapted by Hiller
-	 * 8 Jun 00 (happy birthday to me...) :) */
-	g_string_append_printf (ret, "\\times %d/%d {",
-				((tupopen *) curobj->object)->numerator,
-				((tupopen *) curobj->object)->denominator);
-	if(figures->len)
-	  g_string_append_printf (figures, "\\times %d/%d {",
-				((tupopen *) curobj->object)->numerator,
-				((tupopen *) curobj->object)->denominator);
-	if(fakechords->len)
-	  g_string_append_printf (fakechords, "\\times %d/%d {",
-				((tupopen *) curobj->object)->numerator,
-				((tupopen *) curobj->object)->denominator);
-
+	{
+	  gboolean override = FALSE;
+	  gchar *prestem_string = "";
+	  gchar *poststem_string = "";
+	  GList *directives =  ((tuplet *) curobj->object)->directives;
+	  if(directives) {
+	    override = get_lily_override(directives);
+	    poststem_string = get_postfix(directives);
+	    prestem_string = get_prefix(directives);	 
+	  }
+	  if(override) 
+	    g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
+	  else {
+	    g_string_append_printf (ret, "%s\\times %d/%d %s{", prestem_string,
+				    ((tupopen *) curobj->object)->numerator,
+				    ((tupopen *) curobj->object)->denominator, poststem_string);
+	    if(figures->len)
+	      g_string_append_printf (figures, "\\times %d/%d {",
+				      ((tupopen *) curobj->object)->numerator,
+				      ((tupopen *) curobj->object)->denominator);
+	    if(fakechords->len)
+	      g_string_append_printf (fakechords, "\\times %d/%d {",
+				      ((tupopen *) curobj->object)->numerator,
+				      ((tupopen *) curobj->object)->denominator);
+	  }
+	}
 	break;
       case TUPCLOSE:
-	g_string_append_printf (ret, "}");
-	if(figures->len)
-	  g_string_append_printf (figures, "}");
-	if(fakechords->len)
-	  g_string_append_printf (fakechords, "}");
+	{
+	  gboolean override = FALSE;
+	  gchar *prestem_string = "";
+	  gchar *poststem_string = "";
+	  GList *directives =  ((tuplet *) curobj->object)->directives;
+	  if(directives) {
+	    override = get_lily_override(directives);
+	    poststem_string = get_postfix(directives);
+	    prestem_string = get_prefix(directives);	 
+	  }
+	  if(override) 
+	    g_string_append_printf (ret,"%s%s", prestem_string, poststem_string);
+	  else {
+	    g_string_append_printf (ret, "%s}%s", prestem_string, poststem_string);
+	    if(figures->len)
+	      g_string_append_printf (figures, "}");
+	    if(fakechords->len)
+	      g_string_append_printf (fakechords, "}");
+	  }
+	}
 	break;
       case GRACE_START:
 	//	g_string_append_printf (ret, "\\grace {");
