@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>VoicePreset1</after>
+        <action>VoicePreset2</action>
+        <scheme>(d-StartDownStems)
+(d-MoveCursorLeft)
+(d-DirectivePut-stemdirective-display "Voice" "Voice-Preset 2")
+(d-DirectivePut-stemdirective-postfix "Voice" "\\voiceTwo")
+(d-DirectivePut-stemdirective-override "Voice" DENEMO_OVERRIDE_LILYPOND)
+(d-MoveCursorRight)
+(d-RefreshDisplay)
+</scheme>
+        <label>Voice Preset 2 (Stems Down)</label>
+        <tooltip>Preset for second voice. Stems down.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

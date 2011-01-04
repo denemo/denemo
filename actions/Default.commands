@@ -361,18 +361,6 @@ The cursor position determines which note to add</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
-        <action>StemUp</action>
-        <label>StemUp</label>
-        <tooltip>Alters a StemNeutral object to stem up.</tooltip>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>StemDown</action>
-        <label>StemDown</label>
-        <tooltip>Alters a StemNeutral object to stem down.</tooltip>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -1489,7 +1477,6 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
       <row>
         <action>InsertLilyDirective</action>
         <label>Insert Lilypond</label>
-        <hidden>true</hidden>
         <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
       </row>
       <row>
@@ -3124,19 +3111,6 @@ for second and subsequent systems</tooltip>
         <tooltip>Insert tempi and/or metronome marks, printed or not</tooltip>
       </row>
       <row>
-        <action>DesignateVoice</action>
-        <after>StartUpStems</after>
-        <scheme></scheme>
-        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
-        <label>Designate Voice</label>
-        <tooltip>These commands are used when entering several voices per staff.
-        VoiceOne is for the upper voice-it sets the direction of slurs,
-beams, etc. up to avoid clashes.
-        VoiceTwo is for the lower voice, and it sets the directions down.
-        Additional voices beyond two are offset slightly to the
-right. </tooltip>
-      </row>
-      <row>
         <action>DynamicsDialog</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/Directives</menupath>
@@ -4251,6 +4225,45 @@ right. </tooltip>
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <label>Toggle Immediate Playback</label>
         <tooltip>Toggle on/off if you want to hear the note directly after inserting/changing.</tooltip>
+      </row>
+      <row>
+        <action>VoicePresetAutomatic</action>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Preset Automatic</label>
+        <tooltip>Automatic voice preset. Resets to normal behaviour.</tooltip>
+      </row>
+      <row>
+        <action>VoicePreset1</action>
+        <after>VoicePresetAutomatic</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Preset 1 (Stems Up)</label>
+        <tooltip>Preset for first voice. Stems up</tooltip>
+      </row>
+      <row>
+        <action>VoicePreset2</action>
+        <after>VoicePreset1</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Preset 2 (Stems Down)</label>
+        <tooltip>Preset for second voice. Stems down.</tooltip>
+      </row>
+      <row>
+        <action>VoicePreset3</action>
+        <after>VoicePreset2</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Preset 3 (Stems Up)</label>
+        <tooltip>Preset for third voice. Stems up.</tooltip>
+      </row>
+      <row>
+        <action>VoicePreset4</action>
+        <after>VoicePreset3</after>
+        <scheme></scheme>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <label>Voice Preset 4 (Stems Down)</label>
+        <tooltip>Preset for voice four. Stems down.</tooltip>
       </row>
     </map>
   </commands>
