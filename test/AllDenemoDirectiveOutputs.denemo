@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <score xmlns="http://denemo.sourceforge.net/xmlns/Denemo" version="3"><scheme>(d-DirectivePut-chord-prefix "test" "%{chord prefix%}")
 (d-DirectivePut-chord-postfix "test" "%{chord postfix%}")
+(d-DirectivePut-chord-prefix "testprefix" "%{chord prefix%}")
+(d-DirectivePut-chord-prefix "testprefixwithaffix" "%{chord prefix with affix override set%}")
+(d-DirectivePut-chord-override "testprefixwithaffix" DENEMO_OVERRIDE_AFFIX)
 
 (d-DirectivePut-note-prefix "test" "%{note prefix%}")
 (d-DirectivePut-note-postfix "test" "%{note postfix%}")

@@ -749,10 +749,14 @@ return g_string_free(ret, FALSE);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count */
-static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, DenemoGUI *gui) {
+
+static void directives_insert_prefix_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkTextIter *iter, gchar* invisibility, gboolean override) {
+  DenemoGUI *gui = Denemo.gui;
   GList *g = directives;
   for(;g;g=g->next) {
     DenemoDirective *directive = (DenemoDirective *)g->data;
+    if(override == ((directive->override&DENEMO_OVERRIDE_AFFIX)==0))
+      continue;
     if(directive->prefix && directive->prefix->len) {
       *pprevduration = -1;
       *popen_braces += brace_count(directive->prefix->str); 
@@ -821,171 +825,158 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	duration = internaltomuduration (pchord->baseduration);
 	numdots = pchord->numdots;
 	is_chordmode = FALSE;
-
-	//	if(!curobj->isinvisible) {
-	    if((!*pgrace_status) && pchord->is_grace) {
-	      *pgrace_status = TRUE;
-	      g_string_append_printf (ret,"\\grace {  ");
-	      if(figures->len)
-		g_string_append_printf (figures, "\\grace {");
-	      if(fakechords->len)
-		g_string_append_printf (fakechords, "\\grace {");
-	    } 
-	    //	  }
-
-#if 0
-	    //now before duration
-
-	    static void directives_insert_prefx_editable(GList *directives, gint *popen_braces, gint *pprevduration, GtkIter *iter, gchar* invisibility, DenemoGUI *gui) {
-	      GList *g = directives;
-	      for(;g;g=g->next) {
-		DenemoDirective *directive = (DenemoDirective *)g->data;
-		if(directive->prefix && directive->prefix->len) {
-		  *pprevduration = -1;
-		  *popen_braces += brace_count(directive->prefix->str); 
-		  insert_editable(&directive->prefix, directive->prefix->str, iter, invisibility, gui);
+	
+	
+	if((!*pgrace_status) && pchord->is_grace) {
+	  *pgrace_status = TRUE;
+	  g_string_append_printf (ret,"\\grace {  ");
+	  if(figures->len)
+	    g_string_append_printf (figures, "\\grace {");
+	  if(fakechords->len)
+	    g_string_append_printf (fakechords, "\\grace {");
+	} 
+	
+	
+	/* prefix is before duration unless AFFIX override is set */
+	directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, TRUE);
+	
+	if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
+	  if (!pchord->notes)
+	    {			/* A rest */
+	      
+	      if (!curobj->isinvisible)
+		{
+		  g_string_append_printf (ret, "r");
+		  /* Duplicated code follows. I ought to fix that */
+		  outputret;
+		  directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
+		  if (duration != prevduration || numdots != prevnumdots || duration<0)
+		    {
+		      /* only in this case do we explicitly note the duration */
+		      if(duration>0)
+			g_string_append_printf (ret, "%d", duration);  
+		      prevduration = duration;
+		      prevnumdots = numdots;
+		      for (j = 0; j < numdots; j++)
+			g_string_append_printf (ret, ".");
+		    }
 		}
-	      }
-	    }
-#endif	    
-
-   if(!get_lily_override (pchord->directives)) { //skip all LilyPond output for this chord
-	if (!pchord->notes)
-	  {			/* A rest */
-
-	    if (!curobj->isinvisible)
-	      {
-		g_string_append_printf (ret, "r");
-		/* Duplicated code follows. I ought to fix that */
-		outputret;
-		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
-		if (duration != prevduration || numdots != prevnumdots || duration<0)
-		  {
-		    /* only in this case do we explicitly note the duration */
-		    if(duration>0)
-		      g_string_append_printf (ret, "%d", duration);  
-		    prevduration = duration;
-		    prevnumdots = numdots;
-		    for (j = 0; j < numdots; j++)
-		      g_string_append_printf (ret, ".");
-		  }
-	      }
-	    else
-	      {
-		g_string_append_printf (ret, "\\skip ");
-		outputret;
-		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
+	      else
+		{	/* non printing rest */
+		  g_string_append_printf (ret, "\\skip ");
+		  outputret;
+		  directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
-		prevduration = -1;
-		prevnumdots = -1;
-		for (j = 0; j < numdots; j++)
-		  g_string_append_printf (ret, ".");
-	      }
-	    outputret;
-	  } 
-	else /* there are notes */
-	  {
-	    GList *tmpornament;
-	    if (!curobj->isinvisible)
-	      {
-		
-		if (pchord->notes->next || pchord->chordize )//multinote chord
-		  {
-		    is_chordmode = TRUE;
-		    g_string_append_printf (ret, "<");
-		  }
-		GList *notenode;
-		outputret;
-		for (notenode = pchord->notes; notenode; notenode = notenode->next)
-		  {
-		    note *curnote = (note *) notenode->data;
-		    noteheadtype = curnote->noteheadtype;
-
-		    //As with chord-prefix, this is perhaps not a useful position, but until some other use is found for this field it is here...
-		    GList *g = curnote->directives;
-		    for(;g;g=g->next) {
-		      DenemoDirective *directive = (DenemoDirective *)g->data;
-		      if(directive->prefix ) {
-			prevduration = -1;
-			insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
-		      }
+		  prevduration = -1;
+		  prevnumdots = -1;
+		  for (j = 0; j < numdots; j++)
+		    g_string_append_printf (ret, ".");
+		}
+	      outputret;
+	    } 
+	  else /* there are notes */
+	    {
+	      GList *tmpornament;
+	      if (!curobj->isinvisible)
+		{
+		  
+		  if (pchord->notes->next || pchord->chordize )//multinote chord
+		    {
+		      is_chordmode = TRUE;
+		      g_string_append_printf (ret, "<");
 		    }
-
-	if(!get_lily_override (curnote->directives)) { //skip all LilyPond output for this note
-		    switch (noteheadtype)
-		      {
-		      case DENEMO_NORMAL_NOTEHEAD:
-			if (!is_normalnotehead)
+		  GList *notenode;
+		  outputret;
+		  for (notenode = pchord->notes; notenode; notenode = notenode->next)
+		    {
+		      note *curnote = (note *) notenode->data;
+		      noteheadtype = curnote->noteheadtype;
+		      
+		      //As with chord-prefix, this is perhaps not a useful position, but until some other use is found for this field it is here...
+		      GList *g = curnote->directives;
+		      for(;g;g=g->next) {
+			DenemoDirective *directive = (DenemoDirective *)g->data;
+			if(directive->prefix ) {
+			  prevduration = -1;
+			  insert_editable(&directive->prefix, directive->prefix->len?directive->prefix->str:" ", iter, invisibility, gui);
+			}
+		      }
+		      
+		      if(!get_lily_override (curnote->directives)) { //skip all LilyPond output for this note
+			switch (noteheadtype)
 			  {
+			  case DENEMO_NORMAL_NOTEHEAD:
+			    if (!is_normalnotehead)
+			      {
+				g_string_append_printf
+				  (ret, "\n"TAB"\\revert NoteHead #'style ");
+				is_normalnotehead = !is_normalnotehead;
+			      }
+			    break;
+			  case DENEMO_CROSS_NOTEHEAD:
 			    g_string_append_printf
-			      (ret, "\n"TAB"\\revert NoteHead #'style ");
-			    is_normalnotehead = !is_normalnotehead;
+			      (ret,
+			       "\n"TAB"\\once \\override NoteHead #'style = #'cross ");
+			    is_normalnotehead = FALSE;
+			    break;
+			  case DENEMO_HARMONIC_NOTEHEAD:
+			    g_string_append_printf
+			      (ret,
+			       "\n"TAB"\\once \\override NoteHead #'style = #'harmonic ");
+			    is_normalnotehead = FALSE;
+			    break;
+			  case DENEMO_DIAMOND_NOTEHEAD:
+			    g_string_append_printf
+			      (ret,
+			       "\n"TAB"\\once \\override Voice.NoteHead #'style = #'diamond ");
+			    is_normalnotehead = FALSE;
+			    break;
+			  default:
+			    g_string_append_printf
+			      (ret, "\n"TAB"\\revert Voice.NoteHead #'style ");
+			    break;
 			  }
-			break;
-		      case DENEMO_CROSS_NOTEHEAD:
-			g_string_append_printf
-			  (ret,
-			   "\n"TAB"\\once \\override NoteHead #'style = #'cross ");
-			is_normalnotehead = FALSE;
-			break;
-		      case DENEMO_HARMONIC_NOTEHEAD:
-			g_string_append_printf
-			  (ret,
-			   "\n"TAB"\\once \\override NoteHead #'style = #'harmonic ");
-			is_normalnotehead = FALSE;
-			break;
-		      case DENEMO_DIAMOND_NOTEHEAD:
-			g_string_append_printf
-			  (ret,
-			   "\n"TAB"\\once \\override Voice.NoteHead #'style = #'diamond ");
-			is_normalnotehead = FALSE;
-			break;
-		      default:
-			g_string_append_printf
-			  (ret, "\n"TAB"\\revert Voice.NoteHead #'style ");
-			break;
-		      }
-
-		    mid_c_offset = curnote->mid_c_offset;
-		    g_string_append_printf (ret, "%c",
-					    mid_c_offsettoname (mid_c_offset));
-		    enshift = curnote->enshift;
-		    if (enshift < 0)
-		      for (k = enshift; k; k++)
-			g_string_append_printf (ret, "es");
-		    else
-		      for (k = enshift; k; k--)
-			g_string_append_printf (ret, "is");
-		    octave = mid_c_offsettooctave (mid_c_offset);
-		    if (octave < 0)
-		      for (; octave; octave++)
-			g_string_append_printf (ret, ",");
-		    else
-		      for (; octave; octave--)
-			g_string_append_printf (ret, "\'");
-
-
-		    outputret;
-		    g = curnote->directives;
-		    if (!g && notenode->next)
-		      output(" ");
-		    for(;g;g=g->next) {
-		      DenemoDirective *directive = (DenemoDirective *)g->data;
-		      if(directive->postfix ) {
-			insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
-			prevduration = -1;
-		      }	else
-		      if (notenode->next)
-			output(" ");
-		   
-		    }
-	} /* End of LilyPond output for note, skipped if override set */
-		  }		/* End notes in chord loop */
+		      
+			mid_c_offset = curnote->mid_c_offset;
+			g_string_append_printf (ret, "%c",
+						mid_c_offsettoname (mid_c_offset));
+			enshift = curnote->enshift;
+			if (enshift < 0)
+			  for (k = enshift; k; k++)
+			    g_string_append_printf (ret, "es");
+			else
+			  for (k = enshift; k; k--)
+			    g_string_append_printf (ret, "is");
+			octave = mid_c_offsettooctave (mid_c_offset);
+			if (octave < 0)
+			  for (; octave; octave++)
+			    g_string_append_printf (ret, ",");
+			else
+			  for (; octave; octave--)
+			    g_string_append_printf (ret, "\'");
+		      
+		      
+			outputret;
+			g = curnote->directives;
+			if (!g && notenode->next)
+			  output(" ");
+			for(;g;g=g->next) {
+			  DenemoDirective *directive = (DenemoDirective *)g->data;
+			  if(directive->postfix ) {
+			    insert_editable(&directive->postfix, directive->postfix->len?directive->postfix->str:" ", iter, invisibility, gui);
+			    prevduration = -1;
+			  }	else
+			    if (notenode->next)
+			      output(" ");
+			
+			}
+		      } /* End of LilyPond output for note, skipped if override set */
+		    }		/* End notes in chord loop */
 		
 		if (pchord->notes->next  || pchord->chordize) //multi-note chord
 		  g_string_append_printf (ret, ">");
-	
+		
 	      } //end of note(s) that is(are) not invisible
 	    else //invisible note - rhythm only
 	      {
@@ -996,7 +987,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	      {
 		/* only in this case do we explicitly note the duration */
 		outputret;
-		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, gui);
+		directives_insert_prefix_editable(pchord->directives, &open_braces, &prevduration, iter, invisibility, FALSE);
 		  if(duration>0)
 		    g_string_append_printf (ret, "%d", duration);
 		prevduration = duration;

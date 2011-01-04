@@ -464,6 +464,7 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_UNUSED (1<<1)
 #define DENEMO_OVERRIDE_GRAPHIC (1<<2)
 #define DENEMO_OVERRIDE_EDITOR (1<<3)
+#define DENEMO_OVERRIDE_AFFIX (1<<4)
 
 
 
