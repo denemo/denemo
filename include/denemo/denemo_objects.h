@@ -180,6 +180,7 @@ typedef struct tupopen
 tupopen;
 
 typedef tupopen tuplet; //used for tupclose or tupopen
+
 /**
  * Enum defining clef values
  * 
@@ -313,6 +314,7 @@ typedef enum stemdirections
 typedef struct stemdirective
 {
   enum stemdirections type;
+  GList *directives;/**< list of DenemoDirective to apply to the stemdirective */
 }
 stemdirective;
 

@@ -1913,6 +1913,7 @@ GET_TAG_FN_DEF(score);
 GET_TAG_FN_DEF(clef);
 GET_TAG_FN_DEF(timesig);
 GET_TAG_FN_DEF(tuplet);
+GET_TAG_FN_DEF(stemdirective);
 GET_TAG_FN_DEF(keysig);
 GET_TAG_FN_DEF(scoreheader);
 GET_TAG_FN_DEF(header);
@@ -2089,6 +2090,7 @@ INT_PUTFUNC_DEF(score, minpixels)
 INT_PUTFUNC_DEF(clef, minpixels)
 INT_PUTFUNC_DEF(timesig, minpixels)
 INT_PUTFUNC_DEF(tuplet, minpixels)
+INT_PUTFUNC_DEF(stemdirective, minpixels)
 INT_PUTFUNC_DEF(keysig, minpixels)
 
 INT_PUTFUNC_DEF(scoreheader, minpixels)
@@ -2106,6 +2108,7 @@ INT_GETFUNC_DEF(score, minpixels)
 INT_GETFUNC_DEF(clef, minpixels)
 INT_GETFUNC_DEF(timesig, minpixels)
 INT_GETFUNC_DEF(tuplet, minpixels)
+INT_GETFUNC_DEF(stemdirective, minpixels)
 INT_GETFUNC_DEF(keysig, minpixels)
 
 INT_GETFUNC_DEF(scoreheader, minpixels)
@@ -2282,6 +2285,33 @@ INT_GETFUNC_DEF(tuplet, override)
 INT_GETFUNC_DEF(tuplet, width)
 INT_GETFUNC_DEF(tuplet, height)
 EDIT_DELETE_FN_DEF(tuplet)
+
+GETFUNC_DEF(stemdirective, prefix)
+GETFUNC_DEF(stemdirective, postfix)
+GETFUNC_DEF(stemdirective, display)
+PUTFUNC_DEF(stemdirective, prefix)
+PUTFUNC_DEF(stemdirective, postfix)
+PUTFUNC_DEF(stemdirective, display)
+PUTGRAPHICFUNC_DEF(stemdirective);
+
+INT_PUTFUNC_DEF(stemdirective, x)
+INT_PUTFUNC_DEF(stemdirective, y)
+INT_PUTFUNC_DEF(stemdirective, tx)
+INT_PUTFUNC_DEF(stemdirective, ty)
+INT_PUTFUNC_DEF(stemdirective, gx)
+INT_PUTFUNC_DEF(stemdirective, gy)
+INT_PUTFUNC_DEF(stemdirective, override)
+INT_GETFUNC_DEF(stemdirective, x)
+INT_GETFUNC_DEF(stemdirective, y)
+INT_GETFUNC_DEF(stemdirective, tx)
+INT_GETFUNC_DEF(stemdirective, ty)
+INT_GETFUNC_DEF(stemdirective, gx)
+INT_GETFUNC_DEF(stemdirective, gy)
+INT_GETFUNC_DEF(stemdirective, override)
+INT_GETFUNC_DEF(stemdirective, width)
+INT_GETFUNC_DEF(stemdirective, height)
+EDIT_DELETE_FN_DEF(stemdirective)
+
 
 GETFUNC_DEF(keysig, prefix)
 GETFUNC_DEF(keysig, postfix)
@@ -3734,6 +3764,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_GET_TAG(clef);
   INSTALL_GET_TAG(timesig);
   INSTALL_GET_TAG(tuplet);
+  INSTALL_GET_TAG(stemdirective);
   INSTALL_GET_TAG(keysig);
   INSTALL_GET_TAG(scoreheader);
   INSTALL_GET_TAG(header);
@@ -3773,6 +3804,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_GET(clef, minpixels);
   INSTALL_GET(timesig, minpixels);
   INSTALL_GET(tuplet, minpixels);
+  INSTALL_GET(stemdirective, minpixels);
   INSTALL_GET(keysig, minpixels);
 
   INSTALL_GET(scoreheader, minpixels);
@@ -3790,6 +3822,7 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_PUT(clef, minpixels);
   INSTALL_PUT(timesig, minpixels);
   INSTALL_PUT(tuplet, minpixels);
+  INSTALL_PUT(stemdirective, minpixels);
   INSTALL_PUT(keysig, minpixels);
 
 
@@ -4079,6 +4112,37 @@ INSTALL_GET(tuplet, width)
 INSTALL_GET(tuplet, height)
 
 INSTALL_EDIT(tuplet);
+
+INSTALL_PUT(stemdirective, display);
+INSTALL_PUT(stemdirective, prefix);
+INSTALL_PUT(stemdirective, postfix);
+INSTALL_PUT(stemdirective, graphic);
+
+
+INSTALL_GET(stemdirective, display);
+INSTALL_GET(stemdirective, prefix);
+INSTALL_GET(stemdirective, postfix);
+
+INSTALL_PUT(stemdirective, x)
+INSTALL_PUT(stemdirective, y)
+INSTALL_PUT(stemdirective, tx)
+INSTALL_PUT(stemdirective, ty)
+INSTALL_PUT(stemdirective, gx)
+INSTALL_PUT(stemdirective, gy)
+INSTALL_PUT(stemdirective, override)
+
+
+INSTALL_GET(stemdirective, x)
+INSTALL_GET(stemdirective, y)
+INSTALL_GET(stemdirective, tx)
+INSTALL_GET(stemdirective, ty)
+INSTALL_GET(stemdirective, gx)
+INSTALL_GET(stemdirective, gy)
+INSTALL_GET(stemdirective, override)
+INSTALL_GET(stemdirective, width)
+INSTALL_GET(stemdirective, height)
+
+INSTALL_EDIT(stemdirective);
 
 INSTALL_PUT(keysig, display);
 INSTALL_PUT(keysig, prefix);

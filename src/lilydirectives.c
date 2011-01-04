@@ -579,6 +579,31 @@ gboolean delete_tuplet_directive(gchar *tag) {
   return delete_directive(&curtuplet->directives, tag);
 }
 
+static  stemdirective *get_stemdirective(void) {
+  stemdirective *ret = NULL;
+  DenemoObject *curObj = findobj();  
+  if(curObj && (curObj->type==STEMDIRECTIVE)){
+    ret = ((stemdirective*)curObj->object);
+  }
+  return ret;
+}
+static
+DenemoDirective *get_stemdirective_directive(gchar *tag) {
+  stemdirective *curstemdirective = get_stemdirective();
+  if(curstemdirective==NULL || (curstemdirective->directives==NULL))
+    return NULL;
+  return find_directive(curstemdirective->directives, tag);
+}
+gboolean delete_stemdirective_directive(gchar *tag) {
+  stemdirective *curstemdirective = get_stemdirective();
+  if(curstemdirective==NULL || (curstemdirective->directives==NULL))
+    return FALSE;
+  DenemoDirective *directive = get_stemdirective_directive(tag);
+  if(directive==NULL)
+    return FALSE;
+  return delete_directive(&curstemdirective->directives, tag);
+}
+
 static  scoreheader *get_scoreheader(void) {
   return &Denemo.gui->scoreheader;
 }
@@ -847,6 +872,7 @@ PUT_GRAPHIC(note);
 PUT_GRAPHIC(keysig)
 PUT_GRAPHIC(timesig)
 PUT_GRAPHIC(tuplet)
+PUT_GRAPHIC(stemdirective)
 
 
 
@@ -889,6 +915,7 @@ GET_TAG_FUNC(score);
 GET_TAG_FUNC(clef);
 GET_TAG_FUNC(timesig);
 GET_TAG_FUNC(tuplet);
+GET_TAG_FUNC(stemdirective);
 GET_TAG_FUNC(keysig);
 GET_TAG_FUNC(scoreheader);
 GET_TAG_FUNC(header);
@@ -1009,6 +1036,7 @@ PUT_INT_FIELD_FUNC(chord, minpixels)
 PUT_INT_FIELD_FUNC(clef, minpixels)
 PUT_INT_FIELD_FUNC(timesig, minpixels)
 PUT_INT_FIELD_FUNC(tuplet, minpixels)
+PUT_INT_FIELD_FUNC(stemdirective, minpixels)
 PUT_INT_FIELD_FUNC(keysig, minpixels)
 
      //PUT_INT_FIELD_FUNC(scoreheader, minpixels)
@@ -1027,6 +1055,7 @@ GET_INT_FIELD_FUNC(clef, minpixels)
 GET_INT_FIELD_FUNC(keysig, minpixels)
 GET_INT_FIELD_FUNC(timesig, minpixels)
 GET_INT_FIELD_FUNC(tuplet, minpixels)
+GET_INT_FIELD_FUNC(stemdirective, minpixels)
 
 GET_INT_FIELD_FUNC(scoreheader, minpixels)
 GET_INT_FIELD_FUNC(header, minpixels)
@@ -2240,6 +2269,7 @@ TEXT_EDIT_IF(score);
 TEXT_EDIT_IF(clef);
 TEXT_EDIT_IF(timesig);
 TEXT_EDIT_IF(tuplet);
+TEXT_EDIT_IF(stemdirective);
 TEXT_EDIT_IF(keysig);
 TEXT_EDIT_IF(scoreheader);
 TEXT_EDIT_IF(header);
@@ -2422,6 +2452,14 @@ DenemoDirective *select_tuplet_directive(void) {
 }
 
 static
+DenemoDirective *select_stemdirective_directive(void) {
+  stemdirective *curstemdirective = get_stemdirective();
+  if(curstemdirective==NULL || curstemdirective->directives==NULL)
+    return NULL;
+  return select_directive("Select a time signature directive", curstemdirective->directives);
+}
+
+static
 DenemoDirective *select_staff_directive(void) {
   if(Denemo.gui->si->currentstaff==NULL)
     return NULL;
@@ -2535,6 +2573,22 @@ void edit_tuplet_directive(GtkAction *action,  DenemoScriptParam *param) {
     directive->tag = g_string_new(UNKNOWN_TAG);
   if(!edit_directive(directive, "tuplet"))
     delete_tuplet_directive(directive->tag->str);
+  score_status (Denemo.gui, TRUE);
+}
+
+/**
+ * callback for EditStemdirectiveDirective 
+ */
+void edit_stemdirective_directive(GtkAction *action,  DenemoScriptParam *param) {
+  //g_print("Edit directive called\n");
+  DenemoDirective *directive = select_stemdirective_directive();
+  //g_print("Got directive %p\n", directive);
+  if(directive==NULL)
+    return;
+  if(directive->tag == NULL)
+    directive->tag = g_string_new(UNKNOWN_TAG);
+  if(!edit_directive(directive, "stemdirective"))
+    delete_stemdirective_directive(directive->tag->str);
   score_status (Denemo.gui, TRUE);
 }
 
@@ -2755,6 +2809,31 @@ GET_STR_FIELD_FUNC(tuplet, prefix)
 GET_STR_FIELD_FUNC(tuplet, postfix)
 GET_STR_FIELD_FUNC(tuplet, display)
 
+PUT_INT_FIELD_FUNC(stemdirective, x)
+PUT_INT_FIELD_FUNC(stemdirective, y)
+PUT_INT_FIELD_FUNC(stemdirective, tx)
+PUT_INT_FIELD_FUNC(stemdirective, ty)
+PUT_INT_FIELD_FUNC(stemdirective, gx)
+PUT_INT_FIELD_FUNC(stemdirective, gy)
+PUT_INT_FIELD_FUNC(stemdirective, override)
+GET_INT_FIELD_FUNC(stemdirective, x)
+GET_INT_FIELD_FUNC(stemdirective, y)
+GET_INT_FIELD_FUNC(stemdirective, tx)
+GET_INT_FIELD_FUNC(stemdirective, ty)
+GET_INT_FIELD_FUNC(stemdirective, gx)
+GET_INT_FIELD_FUNC(stemdirective, gy)
+GET_INT_FIELD_FUNC(stemdirective, override)
+GET_INT_GRAPHIC_FIELD_FUNC(stemdirective, width)
+GET_INT_GRAPHIC_FIELD_FUNC(stemdirective, height)
+
+PUT_STR_FIELD_FUNC(stemdirective, prefix)
+PUT_STR_FIELD_FUNC(stemdirective, postfix)
+PUT_STR_FIELD_FUNC(stemdirective, display)
+
+GET_STR_FIELD_FUNC(stemdirective, prefix)
+GET_STR_FIELD_FUNC(stemdirective, postfix)
+GET_STR_FIELD_FUNC(stemdirective, display)
+
 
 
 
@@ -2883,6 +2962,7 @@ TEXT_EDIT_DIRECTIVE(score);
 TEXT_EDIT_DIRECTIVE(clef);
 TEXT_EDIT_DIRECTIVE(timesig);
 TEXT_EDIT_DIRECTIVE(tuplet);
+TEXT_EDIT_DIRECTIVE(stemdirective);
 TEXT_EDIT_DIRECTIVE(keysig);
 TEXT_EDIT_DIRECTIVE(scoreheader);
 TEXT_EDIT_DIRECTIVE(header);
