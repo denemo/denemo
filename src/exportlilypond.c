@@ -1203,19 +1203,31 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	//	if(figures->len)
 	//	  g_string_append_printf (figures, "}");
 	break;
-      case STEMDIRECTIVE:
+      case STEMDIRECTIVE: {
+	gboolean override = FALSE;
+	gchar *stem_string = "";
+	GList *directives =  ((stemdirective *) curobj->object)->directives;
+	if(directives) {
+	  override = get_lily_override(directives);
+	  stem_string = get_postfix(directives);	 
+	}
+	if(override) 
+	  g_string_append_printf (ret,"%s", stem_string);
+	else 
+
 	switch (((stemdirective *) curobj->object)->type)
 	  {
 	  case DENEMO_STEMDOWN:
-	    g_string_append_printf (ret, "\\stemDown");
+	    g_string_append_printf (ret, "\\stemDown""%s", stem_string);
 	    break;
 	  case DENEMO_STEMBOTH:
-	    g_string_append_printf (ret, "\\stemNeutral");
+	    g_string_append_printf (ret, "\\stemNeutral""%s", stem_string);
 	    break;
 	  case DENEMO_STEMUP:
-	    g_string_append_printf (ret, "\\stemUp");
+	    g_string_append_printf (ret, "\\stemUp""%s", stem_string);
 	    break;
 	  }
+      }
 	break;
       case DYNAMIC:
 	/*if (is_chordmode)
