@@ -21,11 +21,16 @@ draw_tupbracket (cairo_t *cr,
   static GString *tupopentext=NULL;
   if (!tupopentext)
     tupopentext = g_string_new (NULL);
-  if (theobj->type == TUPOPEN) {
-    g_string_sprintf (tupopentext,
-		      "~%d", 	((tupopen *) theobj->object)->denominator);
-    drawnormaltext_cr( cr, tupopentext->str, xx-4, y - 4);
+  if(((tuplet *) theobj->object)->directives)
+    draw_for_directives(cr, ((tuplet *) theobj->object)->directives, xx, y-4);
+  else {
+
+    if (theobj->type == TUPOPEN) {
+      g_string_sprintf (tupopentext,
+			"~%d", 	((tupopen *) theobj->object)->denominator);
+      drawnormaltext_cr( cr, tupopentext->str, xx-4, y - 4);
+    }
+    else
+      drawnormaltext_cr( cr, "|", xx+4, y - 4);
   }
-  else
-    drawnormaltext_cr( cr, "|", xx+4, y - 4);
 }

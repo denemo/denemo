@@ -33,6 +33,8 @@ draw_stem_directive (cairo_t *cr,
       text = _("stem\ndown");
       break;
     }
-
-  drawnormaltext_cr( cr, text, xx, y - 4);
+  if(((stemdirective *) theobj->object)->directives)
+    draw_for_directives(cr, ((stemdirective *) theobj->object)->directives, xx, y-4);
+  else
+    drawnormaltext_cr( cr, text, xx, y - 4);
 }

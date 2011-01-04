@@ -152,26 +152,8 @@ draw_notehead (cairo_t *cr,
   gint maxwidth = headwidths[noteheadtype];
   
   /* any display for note directives */
- { GList *g = thenote->directives;
- gint count=10;
-  for(;g;g=g->next, count+=10) {
-    DenemoDirective *directive = (DenemoDirective *)g->data;
-    if(directive->graphic) {
-      gint gwidth, gheight;
-      gwidth = directive->graphic->width;
-      gheight = directive->graphic->height;
+  maxwidth = MAX(draw_for_directives(cr, thenote->directives, xx, y+thenote->y), maxwidth);
 
-      maxwidth = MAX(gwidth, maxwidth);
-      //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
-      drawbitmapinverse_cr ( cr, directive->graphic,
-			       xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
-      
-    }
-    if(directive->display) {
-      drawnormaltext_cr (cr, directive->display->str, xx+directive->tx+count, y+thenote->y+directive->ty ); 
-    }
-  }
- }
  /* Now draw any trailing dots */
  if ((height % LINE_SPACE) == 0)
    draw_dots (cr, xx + maxwidth,

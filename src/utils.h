@@ -69,6 +69,8 @@ drawlargetext_cr (cairo_t *cr, const char *text, double x, double y);
 void 
 drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size);
 
+gint draw_for_directives(cairo_t *cr, GList *directives, gint x, gint y);
+
 /* Gives space after a note or rest */
 
 gint

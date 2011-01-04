@@ -210,6 +210,32 @@ setcairocolor (cairo_t * cr, GdkGC * gc)
   gdk_cairo_set_source_color( cr, &col );
 }
 
+/* draw display text and or graphics for directives
+ return the widest graphic width*/
+gint   draw_for_directives(cairo_t * cr, GList *directives, gint x, gint y) {
+ gint count=10;
+ gint maxwidth=0;
+  for(;directives;directives=directives->next, count+=10) {
+    DenemoDirective *directive = (DenemoDirective *)directives->data;
+    if(directive->graphic) {
+      gint gwidth, gheight;
+      gwidth = directive->graphic->width;
+      gheight = directive->graphic->height;
+
+      maxwidth = MAX(gwidth, maxwidth);
+      //g_print("drawing a graphic at %d %d\n", xx+directive->gx+count-gwidth/2,  y+height+directive->gy-gheight/2);
+      drawbitmapinverse_cr ( cr, directive->graphic,
+			       x+directive->gx+count-gwidth/2,  y+directive->gy-gheight/2);
+      
+    }
+    if(directive->display) {
+      drawnormaltext_cr (cr, directive->display->str, x+directive->tx+count, y+directive->ty ); 
+    }
+  }
+
+  return maxwidth;
+}
+
 /**
  * Utility function to set the number of ticks used by the given object
  * if it is within a given tuplet
