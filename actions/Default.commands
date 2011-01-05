@@ -4153,12 +4153,12 @@ for second and subsequent systems</tooltip>
         <tooltip>Adds a standalone fermata which has no playback effect. Can be used to place a Fermata on a barline.</tooltip>
       </row>
       <row>
-        <action>SetPitcheBendActions</action>
+        <action>SetPitchBendActions</action>
         <after>AngryDelete</after>
         <scheme></scheme>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <label>Set Pitch Bend Controller</label>
-        <tooltip>Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down"</tooltip>
+        <tooltip>Takes two keyboard shortcuts and sets the commands as the actions for Pitch Bend controller wheel up/down</tooltip>
       </row>
       <row>
         <action>ZoomIn</action>
@@ -4264,6 +4264,14 @@ for second and subsequent systems</tooltip>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <label>Voice Preset 4 (Stems Down)</label>
         <tooltip>Preset for voice four. Stems down.</tooltip>
+      </row>
+      <row>
+        <action>PrintAccompanistsScore</action>
+        <after>PrintSelection</after>
+        <scheme></scheme>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <label>Print Accompanist's Score</label>
+        <tooltip>Prints out the score with the topmost staff in tiny size and puts page breaks before each movement.</tooltip>
       </row>
     </map>
   </commands>
