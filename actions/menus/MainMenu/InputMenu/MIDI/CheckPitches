@@ -52,7 +52,7 @@
 (display "End of script")
 </scheme>
         <label>Check Note Pitches</label>
-        <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps.</tooltip>
+        <tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps. Note: holding down the shift key on the pc keyboard while playing notes on the MIDI in achieves the same effect instantly, so this filter is largely obsolete.</tooltip>
       </row>
     </map>
   </merge>
