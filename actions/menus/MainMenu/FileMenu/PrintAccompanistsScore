@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row>
+        <after>PrintSelection</after>
+        <action>PrintAccompanistsScore</action>
+        <scheme>;;;PrintAccompanistsScore
+(ForAllMovements "(d-GoToPosition #f 1 1 1)(d-MovementPageBreak)(d-TinyStaff)")
+(d-PrintPreview)
+(ForAllMovements "(d-GoToPosition #f 1 1 1)(d-TinyStaff)")
+
+</scheme>
+        <label>Print Accompanist's Score</label>
+        <tooltip>Prints out the score with the topmost staff in tiny size and puts page breaks before each movement.</tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
