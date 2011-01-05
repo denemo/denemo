@@ -1798,3 +1798,15 @@
 ;(define testob (createMusObj))							
 ;(set!musobj.duration testob 256)
 ;(display (musobj.start testob))
+
+(define (InitializePrint) (display "starting to print"))
+(define (FinalizePrint) (display "finished print"))
+
+(define (InitializePlayback) (display "starting to playback"))
+(define (FinalizePlayback) (display "finished playback"))
+
+(define (InitializeMidiGeneration) (display "starting to generate MIDI"))
+(define (FinalizeMidiGeneration) (display "finished MIDI generation"))
+
+(define (InitializeTypesetting) (display "starting to generate LilyPond"))
+(define (FinalizeTypesetting) (display "finished generating LilyPond"))
