@@ -1799,14 +1799,40 @@
 ;(set!musobj.duration testob 256)
 ;(display (musobj.start testob))
 
-(define (InitializePrint) (display "starting to print"))
-(define (FinalizePrint) (display "finished print"))
+(define (DefaultInitializePrint) (display "starting to print"))
+(define (DefaultFinalizePrint) (display "finished print"))
 
-(define (InitializePlayback) (display "starting to playback"))
-(define (FinalizePlayback) (display "finished playback"))
+(define (DefaultInitializePlayback) (display "starting to playback"))
+(define (DefaultFinalizePlayback) (display "finished playback"))
 
-(define (InitializeMidiGeneration) (display "starting to generate MIDI"))
-(define (FinalizeMidiGeneration) (display "finished MIDI generation"))
+(define (DefaultInitializeMidiGeneration) (display "starting to generate MIDI"))
+(define (DefaultFinalizeMidiGeneration) (display "finished MIDI generation"))
 
-(define (InitializeTypesetting) (display "starting to generate LilyPond"))
-(define (FinalizeTypesetting) (display "finished generating LilyPond"))
+(define (DefaultInitializeTypesetting) (display "starting to generate LilyPond"))
+(define (DefaultFinalizeTypesetting) (display "finished generating LilyPond"))
+
+
+(define (InitializePrint) (DefaultInitializePrint))
+(define (FinalizePrint) (DefaultFinalizePrint))
+
+(define (InitializePlayback) (DefaultInitializePlayback))
+(define (FinalizePlayback) (DefaultFinalizePlayback))
+
+(define (InitializeMidiGeneration) (DefaultInitializeMidiGeneration))
+(define (FinalizeMidiGeneration) (DefaultFinalizeMidiGeneration))
+
+(define (InitializeTypesetting) (DefaultInitializeTypesetting))
+(define (FinalizeTypesetting) (DefaultFinalizeTypesetting))
+
+;;;;;;Apply the passed script to each movement of a score
+(define (ForAllMovements script)
+  (d-PushPosition)
+  (d-GoToPosition 1 1 1 1)
+  (let loop ()
+    (begin
+      (eval-string script)
+      (if (d-NextMovement)
+	  (loop))))
+  (d-PopPosition))
+
+
