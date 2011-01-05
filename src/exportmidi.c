@@ -1141,6 +1141,8 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
   time_t starttime;
   time_t endtime;
 
+  call_out_to_guile("(InitializeMidiGeneration)");
+
   /* get user preferences, if any */
   envp = getenv ("EXP_MIDI_VEL");
   if (envp)
@@ -1962,6 +1964,7 @@ exportmidi (gchar * thefilename, DenemoScore * si, gint start, gint end)
       si->end_time = smf_get_length_seconds(smf);
     g_print("Start time %f end time %f\n", si->start_time, si->end_time);
   }
+  call_out_to_guile("(FinalizeMidiGeneration)");
   return smf_get_length_seconds(smf);
 }
 

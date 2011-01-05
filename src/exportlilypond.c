@@ -2049,6 +2049,7 @@ gtk_text_view_scroll_to_mark (GTK_TEXT_VIEW(gui->textview),
 static void
 output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname)
 {
+  call_out_to_guile("(InitializeTypesetting)");
   GString *definitions = g_string_new("");
   GString *staffdefinitions = g_string_new("");
 
@@ -2431,6 +2432,7 @@ output_score_to_buffer (DenemoGUI *gui, gboolean all_movements, gchar * partname
 }
 
   gtk_text_buffer_set_modified (gui->textbuffer, FALSE);
+  call_out_to_guile("(FinalizeTypesetting)");
 } /* output_score_to_buffer */
 
 
