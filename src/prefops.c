@@ -126,8 +126,6 @@ initprefs ()
   ret->denemopath = g_string_new (g_get_home_dir());
   ret->lilyversion = g_string_new ("");//meaning use installed LilyPond version
   ret->temperament = g_string_new("Equal");
-  if(ret->shortcut_filename==NULL)
-    ret->shortcut_filename = g_string_new("");
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
   ret->display_refresh = 0.01;
@@ -413,7 +411,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 	  parseDevices(doc, cur, &Denemo.prefs);
 
 	}
-      // see below - do not read READXMLENTRY(shortcut_filename)      
+
 	READXMLENTRY(midiplayer)      
 	READXMLENTRY(audioplayer)        
 	READXMLENTRY(browser)
@@ -761,7 +759,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
    
 
   WRITEXMLENTRY(lilypath)
-    // do not store WRITEXMLENTRY(shortcut_filename) it is for internal use. .denemo/Default.xxx is used for the customized shortcuts.
+
   WRITEXMLENTRY(midiplayer)
   WRITEXMLENTRY(audioplayer)
   WRITEXMLENTRY(csoundcommand)

@@ -525,10 +525,10 @@ main (int argc, char *argv[])
       for(c=choice;*c;c++)
 	if(*c=='\n')
 	  *c='\0';
-      choice =  g_strconcat(choice, ".commands", NULL);
+      
       choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
       //g_print("Choice is %s length %d\n", choice, strlen(choice));
-      Denemo.prefs.shortcut_filename = g_string_new(choice);
+      Denemo.profile = choice;
     }
   }
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
@@ -735,8 +735,8 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
     g_dir_close (dir);
 
   if(commandsetfile==NULL)
-    if(Denemo.prefs.shortcut_filename!=NULL && (Denemo.prefs.shortcut_filename->len))
-      commandsetfile = Denemo.prefs.shortcut_filename->str;
+    if(Denemo.profile!=NULL)
+      commandsetfile = g_strconcat(Denemo.profile, ".commands", NULL);
 
   if(commandsetfile && (0==load_xml_keymap(commandsetfile, TRUE)))
     ;

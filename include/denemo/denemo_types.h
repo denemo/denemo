@@ -371,7 +371,6 @@ typedef struct DenemoPrefs
   GString *audioplayer; /**< This is used for playing audio files created from csound or other */
   gboolean playbackoutput; /**< This is a switch to turn on playing the csound output 
 			     wav file after rendering or not */
-  GString *shortcut_filename; /**< file containing shortcuts for actions */
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes 
 				are being entered */
   gboolean startmidiin; /**< try to start midi in on startup */
@@ -956,7 +955,7 @@ struct DenemoRoot
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
 		  simultaneously open */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
-  
+  gchar *profile; /**< Name of user's profile, if any */
   gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */

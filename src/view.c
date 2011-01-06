@@ -3457,6 +3457,12 @@ static void load_scheme_init(void)  {
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
+  if(Denemo.profile){
+    gchar *filename = g_strconcat(Denemo.profile, ".scm", NULL);
+    if(g_file_test(filename, G_FILE_TEST_EXISTS))
+      eval_file_with_catch(filename);
+    g_free(filename);
+  }
   load_local_scheme_init();
   Denemo.gui->si->undo_guard--;
 }
