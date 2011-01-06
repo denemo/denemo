@@ -507,10 +507,6 @@
         <bind>bracketright</bind>
       </row>
       <row>
-        <action>Upbeat</action>
-        <bind>u</bind>
-      </row>
-      <row>
         <action>RepeatStart</action>
         <bind>b,s</bind>
       </row>
@@ -661,6 +657,10 @@
       <row>
         <action>NotationMagick-TwelveToneRow</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Upbeat</action>
+        <bind>u</bind>
       </row>
     </map>
   </merge>

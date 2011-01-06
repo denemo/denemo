@@ -361,6 +361,16 @@ The cursor position determines which note to add</tooltip>
         <tooltip>No Tooltip yet</tooltip>
       </row>
       <row>
+        <action>StemUp</action>
+        <label>StemUp</label>
+        <tooltip>Alters a StemNeutral object to stem up.</tooltip>
+      </row>
+      <row>
+        <action>StemDown</action>
+        <label>StemDown</label>
+        <tooltip>Alters a StemNeutral object to stem down.</tooltip>
+      </row>
+      <row>
         <action>AddDot</action>
         <label>Add Dot</label>
         <tooltip>No Tooltip yet</tooltip>
@@ -1473,11 +1483,6 @@ Notes entered will follow the rhythmic pattern of this snippet</tooltip>
         <action>InsertDynamic</action>
         <label>Insert Dynamics</label>
         <tooltip>Inserts a dynamic marking at the cursor position</tooltip>
-      </row>
-      <row>
-        <action>InsertLilyDirective</action>
-        <label>Insert Lilypond</label>
-        <tooltip>Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.</tooltip>
       </row>
       <row>
         <action>EditObject</action>
