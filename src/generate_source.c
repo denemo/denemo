@@ -350,6 +350,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Control which tools are to be shown", N_("ViewMenu"), NULL, "View", N_("View Menu")}, 
 
   {CMD_CATEGORY_DIRECT, NULL, "Staffs and voices", N_("StaffMenu"), NULL,"Staffs/Voices", N_("Staff Menu")},
+  {CMD_CATEGORY_DIRECT, NULL, "Voices", N_("Voices"), NULL,"Voices", N_("Voices")},
   {CMD_CATEGORY_DIRECT, NULL, "Movements in a score", N_("MovementMenu"), NULL,"Movements", N_("Movement Menu")},
   {CMD_CATEGORY_DIRECT, NULL, "Help with denemo", N_("HelpMenu"), NULL, "Help", N_("Help Menu")}, 
   {CMD_CATEGORY_DIRECT, NULL, "input audio or midi", N_("InputMenu"), NULL, "Input", N_("Input Menu")},
@@ -445,7 +446,7 @@ struct name_and_function denemo_commands[] = {
   {CMD_CATEGORY_DIRECT, NULL, "Show the figured bass on the current staff on printing", N_("ShowFiguredBass"), "show_figured_bass", "Show Figures (Print)", N_("Show Figures")},
   {CMD_CATEGORY_DIRECT, NULL, "Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation", N_("EditChords"), "fakechord_insert", N_("Edit Chord Symbols")}, 
   {CMD_CATEGORY_DIRECT, NULL, "Inserts a dynamic marking at the cursor position", N_("InsertDynamic"), "insert_dynamic", N_("Insert Dynamics")}, 
-  {CMD_CATEGORY_DIRECT, NULL, "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas.", N_("InsertLilyDirective"), "standalone_directive", N_("Insert Lilypond")}, 
+
   {CMD_CATEGORY_DIRECT, NULL, "Edit the object at the cursor.", N_("EditObject"), "edit_object", N_("Edit Object")},
 
   {CMD_CATEGORY_DIRECT, NULL, "Edit any directives attached to chord/note at cursor.", N_("EditDirective"), "edit_object_directive", N_("Edit Directives")},

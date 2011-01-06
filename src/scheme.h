@@ -1171,10 +1171,6 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "EditChords")), "scm", (gp
 SCM scheme_InsertDynamic(SCM optional);
 install_scm_function ("d-InsertDynamic", scheme_InsertDynamic);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertDynamic")), "scm", (gpointer)1);
-/*InsertLilyDirective standalone_directive*/
-SCM scheme_InsertLilyDirective(SCM optional);
-install_scm_function ("d-InsertLilyDirective", scheme_InsertLilyDirective);
-g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "InsertLilyDirective")), "scm", (gpointer)1);
 /*EditObject edit_object*/
 SCM scheme_EditObject(SCM optional);
 install_scm_function ("d-EditObject", scheme_EditObject);

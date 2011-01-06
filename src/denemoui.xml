@@ -221,7 +221,6 @@
     <menu action="StaffMenu">
       <menuitem action="StaffProperties"/>
       <menuitem action="EditStaffDirective"/>
-      <menuitem action="EditVoiceDirective"/>
       
       <menu action="InsertStaff">
         <menuitem action="AddBefore"/>
@@ -230,19 +229,25 @@
  	<menuitem action="AddLast"/>	
         <menuitem action="AddStaffs"/> 
       </menu>
-      <menuitem action="AddVoice"/>
+
       <menu action="Delete">
         <menuitem action="DeleteBefore"/>
 	<menuitem action="DeleteStaff"/>
 	<menuitem action="DeleteAfter"/>
       </menu> 
           <menuitem action="SwapStaffs"/>
-          <menuitem action="SplitVoices"/>
-          <menuitem action="JoinVoices"/>
           <menuitem action="MoveToStaffUp"/>
           <menuitem action="MoveToStaffDown"/> 
+	  <menu action="Voices">
+	  <menuitem action="AddVoice"/>
+	  <menuitem action="EditVoiceDirective"/>
           <menuitem action="MoveToVoiceUp"/>
 	  <menuitem action="MoveToVoiceDown"/> 
+          <menuitem action="SplitVoices"/>
+          <menuitem action="JoinVoices"/>
+
+	  </menu>
+
     </menu>
 
     <menu action="ClefMenu">
@@ -534,7 +539,7 @@
 
 
     <menu action="Directives">
-      <menuitem action="InsertLilyDirective"/>	  
+      	  
     </menu>
 
     <menu action="Lyrics">
