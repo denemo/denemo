@@ -523,7 +523,7 @@
         <bind>Ctrl+d</bind>
       </row>
       <row>
-        <action>InsertLilyDirective</action>
+        <action>InsertStandaloneDirective</action>
         <hidden>true</hidden>
       </row>
       <row>
