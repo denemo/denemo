@@ -1,4 +1,3 @@
-#define DEBUG 1
 /**
  * selectops.c
  * operations for selecting, cutting, copying, and pasting music
@@ -261,8 +260,10 @@ cuttobuffer (DenemoScore * si, gboolean copyfirst)
   gint lmeasurebreaksinbuffer = si->lastmeasuremarked - si->firstmeasuremarked;
   gint lstaffsinbuffer = si->laststaffmarked - si->firststaffmarked + 1;
   if(copyfirst) {
-    g_assert( lmeasurebreaksinbuffer == measurebreaksinbuffer);
-    g_assert(lstaffsinbuffer == staffsinbuffer);
+    if(!( lmeasurebreaksinbuffer == measurebreaksinbuffer))
+      g_warning("logic of copy to buffer seems wrong about measure breaks");
+    if(!(lstaffsinbuffer == staffsinbuffer))
+      g_warning("logic of copy to buffer seems wrong about staff breaks");
   }
   if (lstaffsinbuffer == 1)
     {
