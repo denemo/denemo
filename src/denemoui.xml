@@ -238,7 +238,8 @@
           <menuitem action="SwapStaffs"/>
           <menuitem action="MoveToStaffUp"/>
           <menuitem action="MoveToStaffDown"/> 
-	  <menu action="Voices">
+<separator/>	  
+        <menu action="Voices">
 	  <menuitem action="AddVoice"/>
 	  <menuitem action="EditVoiceDirective"/>
           <menuitem action="MoveToVoiceUp"/>
@@ -246,8 +247,8 @@
           <menuitem action="SplitVoices"/>
           <menuitem action="JoinVoices"/>
 
-	  </menu>
-
+	 </menu>
+<separator/>
     </menu>
 
     <menu action="ClefMenu">
