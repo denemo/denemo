@@ -491,6 +491,15 @@ void insert_object(DenemoObject *clonedobj) {
   else
     si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				    si->cursor_x);
+
+  if(si->currentobject==NULL) {
+    g_warning("problematic parameters on insert %d out of %d objects", si->cursor_x+1, g_list_length((objnode *) si->currentmeasure->data));
+    si->cursor_x--;
+    si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
+				    si->cursor_x);
+  }
+
+
   beamsandstemdirswholestaff ((DenemoStaff *) curstaff->data);
   find_xes_in_all_measures (si);
 }
@@ -1238,16 +1247,14 @@ static gboolean position_for_chunk(DenemoGUI * gui, DenemoUndoData *chunk) {
   DenemoScriptParam param;
   param.status=TRUE;
   //g_print("undo guard before %d level is %d\n undo action is %d\n",  gui->si->undo_guard, gui->undo_level, chunk->action);
-  //gui->si->undo_guard++;
-  switch(chunk->action) {
 
+  switch(chunk->action) {
   case ACTION_CHANGE:
     if(chunk->position.object==0)
       return FALSE;//Cannot undo a change in an empty measure=>undo queue is corrupt
     //FALL THRU
   case ACTION_INSERT:
   case ACTION_DELETE:
-
   case ACTION_MEASURE_CREATE://this creates an (blank)measure
   case ACTION_MEASURE_REMOVE://this is the action that removes a blank measure at pos
     { 	
@@ -1546,7 +1553,7 @@ undo (DenemoGUI * gui)
   if (chunk)
     {
       gui->si->undo_guard++;
-      g_print("undo %d\n", chunk->action);
+      // g_print("undo %d\n", chunk->action);
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
       } else {
@@ -1558,7 +1565,7 @@ undo (DenemoGUI * gui)
       }
       update_redo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      g_print("***undo guard after undo %d\n",  gui->si->undo_guard);
+      //g_print("***undo guard after undo %d\n",  gui->si->undo_guard);
       if(gui->undo_level>0)
 	undo(gui);
       score_status(gui, TRUE);
@@ -1583,6 +1590,7 @@ redo (DenemoGUI * gui)
   DenemoUndoData *chunk = (DenemoUndoData *) g_queue_pop_head (gui->si->redodata);
   if (chunk)
     {
+      //g_print("Before %s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
      gui->si->undo_guard++;
       if(position_for_chunk(gui, chunk)) {
 	action_chunk(gui, chunk);
@@ -1592,7 +1600,7 @@ redo (DenemoGUI * gui)
       }
       update_undo_info (gui->si, chunk);	  
       gui->si->undo_guard--;
-      g_print("<=<=<=undo guard after redo %d\n",  gui->si->undo_guard);
+      //g_print("After %s and %d\n", gui->si->currentobject?"Obj":"noObj!!", gui->si->cursor_x);
       if(gui->undo_level>0)
 	redo(gui);
       score_status(gui, TRUE);
@@ -1616,7 +1624,7 @@ update_undo_info (DenemoScore * si, DenemoUndoData * undo)
   DenemoUndoData *tmp = NULL;
 
 
-  // g_print ("Adding: Action %d\n",  undo->action); 
+  //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
 
   //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
   //    {
