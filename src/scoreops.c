@@ -191,6 +191,7 @@ goto_movement_staff_obj (DenemoGUI * gui, gint movementnum, gint staffnum, gint 
       return FALSE;
   }
   write_status(gui);
+  //g_print("%s and %d\n", gui->si->currentobject?"Obj":"noObj", gui->si->cursor_x);
 #if 0
   //something bad here re-sets the staff to 1
   updatescoreinfo (gui);
