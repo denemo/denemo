@@ -273,6 +273,9 @@ reset_cursor_stats (DenemoScore * si)
 /**
  *  General function for inserting a DenemoObject
  *  into the score
+ * the object is inserted at position gui->si->cursor_x in the list of objects (counting from 0)
+ * gui->si->cursor_x is incremented
+ * gui->si->currentobject is set to the object at the new cursor_x position, unless this is too large, or we have cursor_appending in which case it is set to the last object.
  */
 void
 object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
@@ -316,7 +319,15 @@ object_insert (DenemoGUI * gui, DenemoObject * mudela_obj_new)
   else
     si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
 				    si->cursor_x);
-  // g_print("object %p cursorx %d length %d\n", si->currentobject, si->cursor_x, g_list_length(si->currentmeasure->data));
+
+  if(si->currentobject==NULL) {
+    g_warning("problematic parameters on insert %d out of %d objects", si->cursor_x+1, g_list_length((objnode *) si->currentmeasure->data));
+    si->cursor_x--;
+    si->currentobject = g_list_nth ((objnode *) si->currentmeasure->data,
+				    si->cursor_x);
+  }
+
+  //g_print("object insert appending %d cursor_x %d length %d\n", si->cursor_appending, si->cursor_x, g_list_length(si->currentmeasure->data));
  
   score_status(gui, TRUE);
   si->markstaffnum = 0;
