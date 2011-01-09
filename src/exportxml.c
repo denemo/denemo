@@ -1286,40 +1286,54 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  break;
 
 		case TUPOPEN:
-		  objElem =
-		    xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-start",
-				 NULL);
-		  /*
-		   * FIXME: This code does not yet handle nested tuplets.  For
-		   *        that, we'd need a stack of "tuplet-start" IDs
-		   *        instead of just a single "last ID."
-		   */
-
-		  lastTupletStartXMLID = getXMLID (curObj);
-		  xmlSetProp (objElem, (xmlChar *) "id",
-			      (xmlChar *) lastTupletStartXMLID);
-		  newXMLFraction (xmlNewChild
-				  (objElem, ns, (xmlChar *) "multiplier",
-				   NULL), ns,
-				  ((tupopen *) curObj->object)->numerator,
-				  ((tupopen *) curObj->object)->denominator);
+		  {
+		    tuplet *theob = (tuplet *) curObj->object;
+		    objElem =
+		      xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-start",
+				   NULL);
+		    /*
+		     * not true? FIXME: This code does not yet handle nested tuplets.  For
+		     *        that, we'd need a stack of "tuplet-start" IDs
+		     *        instead of just a single "last ID."
+		     */
+		    
+		    lastTupletStartXMLID = getXMLID (curObj);
+		    xmlSetProp (objElem, (xmlChar *) "id",
+				(xmlChar *) lastTupletStartXMLID);
+		    newXMLFraction (xmlNewChild
+				    (objElem, ns, (xmlChar *) "multiplier",
+				     NULL), ns,
+				    ((tupopen *) curObj->object)->numerator,
+				    ((tupopen *) curObj->object)->denominator);
+		    if(theob->directives) {
+		      newDirectivesElem(curElem, ns, theob->directives, "directives");
+		      
+		    }
+		  }
 		  break;
-
+		  
 		case TUPCLOSE:
-		  objElem =
-		    xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-end",
-				 NULL);
-		  if (lastTupletStartXMLID == NULL)
-		    {
-		      g_warning ("Encountered nested tuplets or tuplet end "
-				 "without start");
+		  {
+		    tuplet *theob = (tuplet *) curObj->object;
+		    objElem =
+		      xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-end",
+				   NULL);
+		    if (lastTupletStartXMLID == NULL)
+		      {
+			g_warning ("Encountered nested tuplets or tuplet end "
+				   "without start");
+		      }
+		    else
+		      {
+			xmlSetProp (objElem, (xmlChar *) "tuplet",
+				    (xmlChar *) lastTupletStartXMLID);
+			lastTupletStartXMLID = NULL;
+		      }
+		    if(theob->directives) {
+		      newDirectivesElem(curElem, ns, theob->directives, "directives");
+		      
 		    }
-		  else
-		    {
-		      xmlSetProp (objElem, (xmlChar *) "tuplet",
-				  (xmlChar *) lastTupletStartXMLID);
-		      lastTupletStartXMLID = NULL;
-		    }
+		  }
 		  break;
 
 		case CLEF:
@@ -1339,9 +1353,15 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		  break;
 
 		case STEMDIRECTIVE:
-		  objElem = newXMLStemDirective (measureElem, ns,
-						 ((stemdirective *)
-						  curObj->object)->type);
+		  {
+		    stemdirective *theob = (stemdirective *) curObj->object;
+		    objElem = newXMLStemDirective (measureElem, ns,
+						   ((stemdirective *)
+						    curObj->object)->type);
+		    if(theob->directives) {
+		      newDirectivesElem(curElem, ns, theob->directives, "directives");
+		    }
+		  }
 		  break;
 
 		case GRACE_START:
