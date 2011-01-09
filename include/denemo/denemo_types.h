@@ -178,7 +178,8 @@ typedef enum  action_type {
   ACTION_STAGE_END,//5
   ACTION_SCRIPT_ERROR,//6
   ACTION_MEASURE_REMOVE,//7
-  ACTION_MEASURE_CREATE//8
+  ACTION_MEASURE_CREATE,//8
+  ACTION_NOOP = -1//
 }action_type;
 
 /**

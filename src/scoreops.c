@@ -419,7 +419,7 @@ static delete_all_staffs(DenemoGUI * gui) {
 
 static
 GList *extract_verses(GList *verses){
-  g_warning("extract_verses not tested!!!!!!!");
+  //g_warning("extract_verses not tested!!!!!!!");
   GList *ret = NULL;
   GList *g;
   for(g=verses;g;g=g->next) {
@@ -542,11 +542,11 @@ DenemoScore * clone_movement(DenemoScore *si) {
 	DenemoObject *newobj = dnm_clone_object (theobj);
 	newmeasure = g_list_append(newmeasure, newobj);
 	if(i==si->currentobject)
-	  g_print("current object %x\n", g_list_last(newmeasure)), newscore->currentobject = g_list_last(newmeasure);//???
+	  /*g_print("current object %x\n", g_list_last(newmeasure)), */newscore->currentobject = g_list_last(newmeasure);//???
       }
       thestaff->measures = g_list_append(thestaff->measures, newmeasure);
       if(h==si->currentmeasure)
-	g_print("current measure %x\n", g_list_last(thestaff->measures)),newscore->currentmeasure = g_list_last(thestaff->measures);//???
+	/*g_print("current measure %x\n", g_list_last(thestaff->measures)),*/newscore->currentmeasure = g_list_last(thestaff->measures);//???
     }
   }
 
