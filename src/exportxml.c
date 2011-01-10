@@ -519,12 +519,12 @@ newXMLAccidental (xmlNodePtr parent, xmlNsPtr ns, gint enshift, gboolean show)
  * as a child of the given node.
  */
 static xmlNodePtr
-newXMLStemDirective (xmlNodePtr parent, xmlNsPtr ns, enum stemdirections type)
+newXMLStemDirective (xmlNodePtr parent, xmlNsPtr ns, stemdirective *stem)
 {
   xmlNodePtr stemElem =
     xmlNewChild (parent, ns, (xmlChar *) "stem-directive", NULL);
   gchar *stemName = NULL;
-  switch (type)
+  switch (stem->type)
     {
     case DENEMO_STEMDOWN:
       stemName = "down";
@@ -536,11 +536,13 @@ newXMLStemDirective (xmlNodePtr parent, xmlNsPtr ns, enum stemdirections type)
       stemName = "up";
       break;
     default:
-      g_warning ("Unknown stem directive type %d, using auto", type);
+      g_warning ("Unknown stem directive type %d, using auto", stem->type);
       stemName = "auto";
       break;
     }
   xmlSetProp (stemElem, (xmlChar *) "type", (xmlChar *) stemName);
+ if(stem->directives)
+   newDirectivesElem(stemElem, ns, stem->directives, "directives");
   return stemElem;
 }
 
@@ -1306,7 +1308,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 				    ((tupopen *) curObj->object)->numerator,
 				    ((tupopen *) curObj->object)->denominator);
 		    if(theob->directives) {
-		      newDirectivesElem(curElem, ns, theob->directives, "directives");
+		      newDirectivesElem(objElem, ns, theob->directives, "directives");
 		      
 		    }
 		  }
@@ -1330,7 +1332,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 			lastTupletStartXMLID = NULL;
 		      }
 		    if(theob->directives) {
-		      newDirectivesElem(curElem, ns, theob->directives, "directives");
+		      newDirectivesElem(objElem, ns, theob->directives, "directives");
 		      
 		    }
 		  }
@@ -1355,12 +1357,8 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
 		case STEMDIRECTIVE:
 		  {
 		    stemdirective *theob = (stemdirective *) curObj->object;
-		    objElem = newXMLStemDirective (measureElem, ns,
-						   ((stemdirective *)
-						    curObj->object)->type);
-		    if(theob->directives) {
-		      newDirectivesElem(curElem, ns, theob->directives, "directives");
-		    }
+		    objElem = newXMLStemDirective (measureElem, ns, theob);
+		    
 		  }
 		  break;
 
