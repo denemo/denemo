@@ -1864,8 +1864,31 @@ static
 void user_select_directive_at_cursor(gchar **what, GList ***pdirectives, DenemoDirective **pdirective) {
   *pdirectives = NULL;
   *pdirective = get_standalone_directive(NULL);
+
   if(*pdirective)
-    return;
+    return;//FIXME is this needed???? a return will be done anyway
+
+  {
+    gchar *instr = "Select a directive attached to the tuplet marker";
+    tuplet *curtuplet = get_tuplet();
+    if(curtuplet && curtuplet->directives) {
+      *pdirectives = &curtuplet->directives;
+      *what = "tuplet";
+      *pdirective = select_directive(instr, **pdirectives);
+    } 
+
+  }
+  {
+    gchar *instr = "Select a directive attached to the stemdir marker";
+    stemdirective *curstemdir = get_stemdirective();
+    if(curstemdir && curstemdir->directives) {
+      *pdirectives = &curstemdir->directives;
+      *what = "stemdir";
+      *pdirective = select_directive(instr, **pdirectives);
+    } 
+
+  }
+
   gchar *name=NULL;
   note *curnote = get_note();
   if(curnote!=NULL) {
@@ -1991,6 +2014,9 @@ void edit_object(GtkAction *action,  DenemoScriptParam *param) {
 
   case STEMDIRECTIVE:
      {
+       GList *directives =  ((stemdirective *)obj->object)->directives;
+      GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/StemControlPopup"); 
+      populate_menu_for_directives(menu, directives);
       popup_menu( "/StemControlPopup");
     }  
      return;
@@ -2297,28 +2323,6 @@ edit_directive(DenemoDirective *directive, gchar *what) {
     g_warning("%s", error->message);
   g_free(filename);
   return ret;
-}
-
-
-static void edit_directive_callback(GtkWidget *w, gpointer what) {
-  DenemoDirective *directive = g_object_get_data(G_OBJECT(w), "directive");
-#define DO_TYPE(score)\
-    if(what == score##_directive_put_graphic){\
-      if(!edit_directive(directive, #score))\
-	delete_##score##_directive(directive->tag->str);\
-    }
-
-    DO_TYPE(score);
-    DO_TYPE(staff);
-    DO_TYPE(voice);
-    DO_TYPE(scoreheader);
-    DO_TYPE(header);
-    DO_TYPE(paper);
-    DO_TYPE(layout);
-    DO_TYPE(movementcontrol);
-    DO_TYPE(chord);
-    DO_TYPE(note);
-#undef DO_TYPE 
 }
 
 
