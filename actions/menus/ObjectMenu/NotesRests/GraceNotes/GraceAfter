@@ -5,12 +5,12 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row>
-        <after>InsertTwoGraceNotesBeamed</after>
         <action>GraceAfter</action>
         <scheme>;;GraceAfter
 		(d-DirectivePut-chord-display "GraceAfter"  "Grace After" )
 		(d-DirectivePut-chord-ty "GraceAfter"  -100 )
 		(d-DirectivePut-chord-prefix "GraceAfter"  "\\afterGrace ")
+		(d-DirectivePut-chord-override "GraceAfter"  DENEMO_OVERRIDE_AFFIX)	
 		(d-DirectivePut-chord-minpixels  "GraceAfter" 20)))
 		(d-RefreshDisplay)</scheme>
         <label>Grace After Current</label>
