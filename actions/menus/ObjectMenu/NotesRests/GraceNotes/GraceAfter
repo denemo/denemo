@@ -7,14 +7,38 @@
       <row>
         <action>GraceAfter</action>
         <scheme>;;GraceAfter
-		(d-DirectivePut-chord-display "GraceAfter"  "Grace After" )
-		(d-DirectivePut-chord-ty "GraceAfter"  -100 )
-		(d-DirectivePut-chord-prefix "GraceAfter"  "\\afterGrace ")
-		(d-DirectivePut-chord-override "GraceAfter"  DENEMO_OVERRIDE_AFFIX)	
-		(d-DirectivePut-chord-minpixels  "GraceAfter" 20)))
-		(d-RefreshDisplay)</scheme>
-        <label>Grace After Current</label>
-        <tooltip>Print note following this note as grace note. Beware! Denemo display does not show the grace note properly, but typesetter will understand. Multiple grace notes to follow will need separate start { and end } block directives to group them.</tooltip>
+(if (and (note?) (d-MoveCursorLeft) (note?))
+    (begin
+      (d-MoveCursorRight)
+;;there are two notes main note and gracenote, we are on the gracenote-to-be
+  (if (d-Directive-chord? "AfterGrace")
+      (begin ;;; already is a grace after delete
+	(d-DirectiveDelete-chord "AfterGrace")
+	(d-ToggleGrace)
+	
+	(d-MoveCursorLeft)
+	;;(display (d-GetNote))
+	(d-DirectiveDelete-chord "MainGraceAfter")
+	(d-MoveCursorRight)
+	)
+      (begin;;;make current note a grace note without the \grace output
+       (d-ToggleGrace)
+      (display "whoops")
+       (d-DirectivePut-chord-postfix "AfterGrace" (string-append (d-GetNote) (d-GetNoteDuration)))
+       (d-DirectivePut-chord-override "AfterGrace" DENEMO_OVERRIDE_LILYPOND)
+
+       (d-MoveCursorLeft);; now on main note
+       (d-DirectivePut-chord-display "MainGraceAfter"  "Grace After" )
+       (d-DirectivePut-chord-ty "MainGraceAfter"  -100 )
+       (d-DirectivePut-chord-prefix "MainGraceAfter"  "\\afterGrace ")
+       (d-DirectivePut-chord-override "MainGraceAfter"  DENEMO_OVERRIDE_AFFIX)	
+       (d-DirectivePut-chord-minpixels  "MainGraceAfter" 20)
+       (d-MoveCursorRight);; move back onto the grace note
+       )))
+    (begin
+      (d-WarningDialog  "The cursor is not on a potential grace note after a main note or chord\nFirst create the main note, then then follow it with the note that will be the grace note and then invoke this command")))</scheme>
+        <label>Grace After (Off/On)</label>
+        <tooltip>Print this note as grace note attached to the previous note. Beware! You must repeat this command if you change the note in any way, only the pitch and duration when this command was issued will be printed. Multiple grace notes to follow will need separate start { and end } block directives to group them - this requires extra LilyPond inserts.</tooltip>
       </row>
     </map>
   </merge>
