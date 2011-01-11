@@ -393,7 +393,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   /* Check if Lilypond Version is set for this file, if so it may need conversion */
   if(gui->lilycontrol.lilyversion->len)
     convert_ly(lilyfile);
-
+  printf("\nprintfile=%s lilyfile=%s\n",printfile, lilyfile);
 #if GLIB_MINOR_VERSION >= 14
   gchar **arguments; 
   gchar *png_arguments1[] = {
@@ -469,13 +469,19 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     g_warning("Error launching lilypond message is %s\n", lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
-  } else {
+  } 
+}
+
+/*** Viewer Code ***/
+#if 0
+else {
     if (gui->lilycontrol.excerpt == TRUE)
       g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
     else
       g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
   }
 }
+#endif
 
 /* Run the LilyPond interpreter on the file (filename).ly
  * putting the PDF output in (filename).pdf
