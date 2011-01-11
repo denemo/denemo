@@ -1740,7 +1740,7 @@ dnm_deletemeasure (DenemoScore * si)
   if(si->markstaffnum)
     calcmarkboundaries (si);
   si->markstaffnum = 0;
-  g_print("Removed current measure now %p number %d\n", si->currentmeasure, si->currentmeasurenum);
+  // g_print("Removed current measure now %p number %d\n", si->currentmeasure, si->currentmeasurenum);
 
 }
 

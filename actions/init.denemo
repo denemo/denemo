@@ -24,7 +24,8 @@
     <score-directives>
       <directive>
         <tag>MensuralNoteHeads</tag>
-        <prefix>neohead = \once \override Voice.NoteHead #'style = #'neomensural</prefix>
+        <prefix>neohead = \once \override Voice.NoteHead #'style = #'neomensural
+        </prefix>
       </directive>
     </score-directives>
   </lilycontrol>

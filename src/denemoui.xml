@@ -679,8 +679,7 @@
   </popup>
 
   <popup name="StemControlPopup">
- 	          <menuitem action="StemDown"/>
-	          <menuitem action="StemUp"/>
+
   </popup>
 
 </ui>

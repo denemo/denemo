@@ -3945,8 +3945,8 @@ for second and subsequent systems</tooltip>
         <action>GraceAfter</action>
         <scheme></scheme>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
-        <label>Grace After Current</label>
-        <tooltip>Print note following this note as grace note. Beware! Denemo display does not show the grace note properly, but typesetter will understand. Multiple grace notes to follow will need separate start { and end } block directives to group them.</tooltip>
+        <label>Grace After (Off/On)</label>
+        <tooltip>Print this note as grace note attached to the previous note. Beware! You must repeat this command if you change the note in any way, only the pitch and duration when this command was issued will be printed. Multiple grace notes to follow will need separate start { and end } block directives to group them - this requires extra LilyPond inserts.</tooltip>
       </row>
       <row>
         <action>SetBarNumber</action>

@@ -1567,10 +1567,11 @@ parseLilyDir (xmlNodePtr LilyDirectiveElem, xmlNsPtr ns, DenemoScore *si)
  * @return the new DenemoObject
  * 
  */
-static DenemoObject *
+static void
 parseStemDirective (xmlNodePtr stemDirectiveElem,
-		    xmlNsPtr ns, DenemoScore * si)
+		    xmlNsPtr ns, stemdirective *stem)
 {
+  xmlNodePtr childElem;
   gchar *stemDirName =
     (gchar *) xmlGetProp (stemDirectiveElem, (xmlChar *) "type");
   enum stemdirections stemDir = DENEMO_STEMBOTH;
@@ -1588,7 +1589,16 @@ parseStemDirective (xmlNodePtr stemDirectiveElem,
     g_warning ("Invalid stem directive type \"%s\"; defaulting to auto",
 	       stemDirName);
 
-  return dnm_stem_directive_new (stemDir);
+  FOREACH_CHILD_ELEM (childElem, stemDirectiveElem)
+  {
+
+    if (ELEM_NAME_EQ (childElem, "directives"))
+      {
+	stem->directives = parseDirectives(childElem, ns);
+      }
+  }
+  stem->type = stemDir;
+  return;
 }
 
 
@@ -1601,9 +1611,10 @@ parseStemDirective (xmlNodePtr stemDirectiveElem,
  * 
  * @return the new DenemoObject
  */
-static DenemoObject *
-parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, DenemoScore * si)
+static void
+parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet *tup)
 {
+  xmlNodePtr childElem;
   xmlNodePtr multiplierElem = getXMLChild (tupletStartElem, "multiplier", ns);
   gboolean successful = FALSE;
   gint numerator, denominator;
@@ -1625,16 +1636,44 @@ parseTupletStart (xmlNodePtr tupletStartElem, xmlNsPtr ns, DenemoScore * si)
 		     "defaulting to 1/1");
 	}
     }
+  //FIXME get mult elem in this loop
+ FOREACH_CHILD_ELEM (childElem, tupletStartElem)
+  {
 
+    if (ELEM_NAME_EQ (childElem, "directives"))
+      {
+	tup->directives = parseDirectives(childElem, ns);
+      }
+  }
   if (!successful)
     {
       numerator = 1;
       denominator = 1;
     }
 
-  return newtupopen (numerator, denominator);
+
+  tup->numerator = numerator;
+  tup->denominator = denominator;
+  return;
 }
 
+/* tupet end  */
+static void
+parseTupletEnd (xmlNodePtr tupletStartElem, xmlNsPtr ns, tuplet *tup)
+{
+  xmlNodePtr childElem;
+
+ FOREACH_CHILD_ELEM (childElem, tupletStartElem)
+  {
+
+    if (ELEM_NAME_EQ (childElem, "directives"))
+      {
+	tup->directives = parseDirectives(childElem, ns);
+      }
+  }
+
+  return;
+}
 
 
 
@@ -2523,7 +2562,8 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 		}
 	      else if (ELEM_NAME_EQ (objElem, "stem-directive"))
 		{
-		  curObj = parseStemDirective (objElem, ns, si);
+		  curObj = dnm_stem_directive_new (DENEMO_STEMBOTH);
+		  parseStemDirective (objElem, ns, curObj->object);
 		}
 	      else if (ELEM_NAME_EQ (objElem, "time-signature"))
 		{
@@ -2533,10 +2573,12 @@ parseMeasures (xmlNodePtr measuresElem, xmlNsPtr ns, DenemoScore * si)
 	      else if (ELEM_NAME_EQ (objElem, "tuplet-end"))
 		{
 		  curObj = newtupclose ();
+		  parseTupletEnd (objElem, ns, curObj->object);
 		}
 	      else if (ELEM_NAME_EQ (objElem, "tuplet-start"))
 		{
-		  curObj = parseTupletStart (objElem, ns, si);
+		  curObj = newtupopen (4, 4);
+		  parseTupletStart (objElem, ns, curObj->object);
 		}
 	      else
 		{
