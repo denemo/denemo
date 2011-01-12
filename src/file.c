@@ -959,6 +959,7 @@ file_newwrapper (GtkAction * action, gpointer param)
       deletescore(NULL, gui);
     }
   //open_user_default_template(REPLACE_SCORE);
+  load_initdotdenemo();
   if(gui->printarea) 
     g_object_set_data(G_OBJECT(gui->printarea), "printviewupdate", (gpointer)G_MAXUINT);
 }
