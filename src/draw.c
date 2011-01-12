@@ -201,7 +201,7 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
   //this is the selection being given a blue background I guess
   //FIXME too much save and restore for trifling reasons...
-  if(cr) if(Denemo.gui->si->playingnow==NULL && itp->mark) {
+  if(cr) if(/* Denemo.gui->si->playingnow==NULL && show selection during playback*/ itp->mark) {
     cairo_save(cr);
     cairo_set_source_rgb( cr, 0.5, 0.5, 1.0 );
     cairo_rectangle (cr, x+mudelaitem->x, y, 20, 80 );

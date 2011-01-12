@@ -996,7 +996,16 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 		  g_string_append_printf (ret, ".");
 	      }
 
-
+	    {GList *g = pchord->directives;
+	      for(;g;g=g->next) {
+		DenemoDirective *directive = (DenemoDirective *)g->data;
+		if(directive->postfix && directive->postfix->len) {
+		  prevduration = -1;
+		  open_braces += brace_count(directive->postfix->str);
+		  insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
+		}
+	      }
+	    }
 
 	    if (pchord->dynamics && (pchord->notes->next==NULL))
 	      {
@@ -1094,8 +1103,8 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 
 	    /* do this in caller                    g_string_append_printf (ret, " "); */
 	  } /* End of else chord with note(s) */
-   } /* End of skipping LilyPond for this chord because of LILYPOND_OVERRIDE set */
-
+   } /* End of skipping LilyPond for this chord because of LILYPOND_OVERRIDE set get_lily_overr*/
+	else {
 	GList *g = pchord->directives;
 	for(;g;g=g->next) {
 	  DenemoDirective *directive = (DenemoDirective *)g->data;
@@ -1105,7 +1114,7 @@ generate_lily_for_obj (DenemoGUI *gui, GtkTextIter *iter, gchar *invisibility, D
 	    insert_editable(&directive->postfix, directive->postfix->str, iter, invisibility, gui);
 	  }
 	}
-
+	}
 
 	if ((pchord->is_grace & ENDGRACE) && *pgrace_status) {
 	  *pgrace_status = FALSE, g_string_append_printf (ret,"} ");

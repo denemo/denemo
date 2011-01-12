@@ -3513,6 +3513,20 @@ void  show_preferred_view(void) {
 }
 
 
+/* load system wide template file init.denemo and then any local version */
+void load_initdotdenemo(void) { 
+   gchar *init_file;
+   init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
+   if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
+     g_warning("Denemo initialization file %s not found", init_file);
+   init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
+   (void)open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE);
+   deleteSchemeText();
+   g_free(init_file);
+}  
+
+
+
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
@@ -4466,15 +4480,9 @@ INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a scrip
 
   INSTALL_SCM_FUNCTION ("Takes a string putting it on the status bar listing active filters",DENEMO_SCHEME_PREFIX"InputFilterNames", scheme_input_filter_names);
  load_scheme_init();
- if(!initial_file){    
-   gchar *init_file;
-   init_file = g_build_filename(get_data_dir (), "actions", "init.denemo", NULL);
-   if (open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE) == -1)
-     g_warning("Denemo initialization file %s not found", init_file);
-   init_file = g_build_filename(locatedotdenemo (), "actions", "init.denemo", NULL);
-   (void)open_for_real (init_file, Denemo.gui, TRUE, REPLACE_SCORE);
-   deleteSchemeText();
-   g_free(init_file);  
+ if(!initial_file){   
+   load_initdotdenemo();
+
  } else
    if (open_for_real (initial_file, Denemo.gui, FALSE, REPLACE_SCORE) == -1)
      ;// open_user_default_template(REPLACE_SCORE);
@@ -7914,6 +7922,7 @@ newview (GtkAction *action, gpointer param)
   newtab(NULL, NULL);
   Denemo.gui->si->undo_guard = 1;//do not collect undo for initialization of score
   load_scheme_init();
+  load_initdotdenemo();
   Denemo.gui->si->undo_guard = Denemo.prefs.disable_undo;
 }
 
