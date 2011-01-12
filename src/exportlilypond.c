@@ -1949,7 +1949,8 @@ static void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
     gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
     fprintf(fp, "%s", lily);
     fclose(fp);
-    run_lilypond_and_viewer(filename, gui);
+    run_lilypond(filename, gui);
+    viewer(gui);
   }
 }
 

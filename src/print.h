@@ -15,8 +15,7 @@ void
 printpart_cb(GtkAction *action, gpointer param);
 gchar *
 get_printfile_pathbasename(void);
-void
-run_lilypond_and_viewer(gchar *basename, DenemoGUI *gui);
+void viewer(DenemoGUI *gui);
 void export_pdf_action (GtkAction *action, gpointer param);
 
 void install_printpreview(DenemoGUI *gui, GtkWidget *vbox);

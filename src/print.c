@@ -309,18 +309,17 @@ open_viewer(GPid pid, gint status, gchar *filename, gboolean is_png){
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   //normal_cursor();
-
+  printf("\nOpening filename = %s\n",filename);
   process_lilypond_errors(filename); 
 
   if (is_png)
-	printfile = g_strconcat (filename, "_.png", NULL);
+	printfile = g_strconcat (filename, ".png", NULL);
   else
   	printfile = g_strconcat (filename, ".pdf", NULL);
   
  
   if(!g_file_test (printfile, G_FILE_TEST_EXISTS)) {
     //FIXME use filename in message
-    //warningdialog("Could not open ~/.denemo/denemoprint.pdf, check permissions");
     g_warning ("Failed to find %s, check permissions", (gchar *) printfile);
     g_free(printfile);
     return;
@@ -386,10 +385,23 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 
 void
 run_lilypond(gchar *filename, DenemoGUI *gui){
-
+#if 0
+  if(printpid!=GPID_NONE) {
+    if(confirm("Already doing a print", "Kill that one off and re-start?")) {
+      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
+	 kill_process(printpid);
+      printpid = GPID_NONE;
+    }
+    else {
+      warningdialog ("Cancelled");
+      return;
+    }
+  }
+#endif
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-  gchar *printfile = g_strconcat (filename, "_", NULL);
+  gchar *printfile = filename;
+  //gchar *printfile = g_strconcat (filename, "_", NULL);
   /* Check if Lilypond Version is set for this file, if so it may need conversion */
   if(gui->lilycontrol.lilyversion->len)
     convert_ly(lilyfile);
@@ -472,51 +484,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
   } 
 }
 
-/*** Viewer Code ***/
-#if 0
-else {
-    if (gui->lilycontrol.excerpt == TRUE)
-      g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, filename);
-    else
-      g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, filename);
-  }
-}
-#endif
-
-/* Run the LilyPond interpreter on the file (filename).ly
- * putting the PDF output in (filename).pdf
- * start an external PDF viewer on that file.
- * parse first LilyPond error and position the cursor in gui->textview on it
- */
-void
-run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
-  if(printpid!=GPID_NONE) {
-    if(confirm("Already doing a print", "Kill that one off and re-start?")) {
-      if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
-	 kill_process(printpid);
-      printpid = GPID_NONE;
-    }
-    else {
-      warningdialog ("Cancelled");
-      return;
-    }
-  }
-
-  /* remove old output files to avoid confusion */
-  gchar *printfile;
-  if (gui->lilycontrol.excerpt == TRUE)
-    printfile = g_strconcat (filename, "_.png", NULL);
-  else
-    printfile = g_strconcat (filename, ".pdf", NULL);
-  FILE *fp = fopen(printfile, "w");
-  if(fp)
-    fclose(fp);
-  g_free(printfile);
-  run_lilypond(filename, gui);
-  //  g_print("print pid is %d\n", printpid);
-
-}
-
 /* returns the base name (~/.denemo/denemoprint usually) used as a base
    filepath for printing. On windows there is some filelocking trouble.
    The returned string should not be freed.
@@ -524,6 +491,16 @@ run_lilypond_and_viewer(gchar *filename, DenemoGUI *gui) {
    
 gchar *get_printfile_pathbasename(void) {
   return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
+}
+
+void viewer(DenemoGUI *gui) {
+  printf("\ncalling viewer for filename\n");
+  if (gui->lilycontrol.excerpt == TRUE)
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
+  else
+    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 /*  Print function 
@@ -541,7 +518,7 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
     export_lilypond_part (lilyfile, gui, all_movements);
   else
     exportlilypond (lilyfile, gui,  all_movements);
-  run_lilypond_and_viewer(filename, gui);
+  run_lilypond(filename, gui);
   gui->lilycontrol.excerpt = FALSE;//The default value
   gui->lilysync = G_MAXUINT;// in certain cases this may not be needed
   g_free(lilyfile);
@@ -740,6 +717,7 @@ printpreview_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, TRUE);
   else
     print(gui, FALSE, FALSE);
+  viewer(gui);
 }
 
 void
@@ -1098,7 +1076,6 @@ void refresh_print_view (gboolean preview_only) {
   exportlilypond (lilyfile, gui,  TRUE);
   convert_ly(lilyfile);
 
-  // run_lilypond_and_viewer(filename, gui);
   gchar *printfile = g_strconcat (filename, "_", NULL);
   gchar *resolution = "-dresolution=180";
 
