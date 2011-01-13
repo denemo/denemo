@@ -1429,6 +1429,8 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   GtkAction *action;
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
+
+#if 0 //instead turn off navigation when quick shortcuts are active.
   GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
   GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
   //check if this a quick edit
@@ -1442,16 +1444,14 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
       //performed, no need to process further
       return TRUE;
   }
+#endif
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier(event))
       return TRUE;
-  //TODO here could be added some check to see if we allow the quick edit
-  //for exemple, one could suppress quick edits if the new accel is
-  //already the keybind of another function.
-  keyval = event->keyval;
+  dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
-  //TODO this may be evil since active_menu_item is not available in the
-  //doc of GTK. It is accessible all the same, and we NEED it
+  keyval = event->keyval;
+
   action = 
 #if GTK_MINOR_VERSION <10
     g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
