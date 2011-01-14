@@ -97,7 +97,7 @@
 ; prepare variables-
 (define (ansrest? musobject) 
 	(and
-	(equal? (list "900") (musobj.pitch musobject))
+	(equal? (list "+inf.0") (musobj.pitch musobject))
 	(not (inf? (musobj.start musobject))) 		
 	))	
 							
@@ -108,7 +108,7 @@
 ; Two sub-procs
 (define (insertRestBeforeFalse musobject)
  (if (not musobject) ; if the object is a #f fill in a infinity rest before/to the current position
-  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list "900") 'measure #f 'start +inf.0 'end #f 'duration #f)))	
+  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list "+inf.0") 'measure #f 'start +inf.0 'end #f 'duration #f)))	
 	(set!musobj.pitch (list-ref (list-ref movement staffcounter) positioncounter) (musobj.pitch (list-ref (list-ref movement staffcounter) (- positioncounter 1))))
   	(set! staffcounter (+ staffcounter 1))) ; the next for-each iteration needs another staff
   	 
@@ -158,7 +158,7 @@
 ;;4 check if all start-ticks are the same, if not duplicate notes to fill the gaps
 	(define movement #f)
 	(set! movement (createFinalList))
-	(apply list-equalizer! (make-musobj 'pitch (list "900") 'measure #f 'start +inf.0 'end #f 'duration #f) movement)
+	(apply list-equalizer! (make-musobj 'pitch (list "+inf.0") 'measure #f 'start +inf.0 'end #f 'duration #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
 	movement
