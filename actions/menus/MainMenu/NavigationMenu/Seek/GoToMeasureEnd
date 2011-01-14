@@ -8,7 +8,7 @@
         <action>GoToMeasureEnd</action>
         <scheme>
 (let loop ()
-    (if  (or (none?) (appending?))
+    (if  (or (None?) (Appending?))
 	#t
 	(begin (d-MoveCursorRight) (loop))))
 		</scheme>

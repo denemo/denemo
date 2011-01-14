@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>SplitChord</action>
-        <scheme> (doublestroke "(SplitChord)"
+        <scheme> (Doublestroke "(SplitChord)"
 "(SplitChord 1)"  ;1
 "(SplitChord 2)"  ;2
 "(SplitChord 3)"  ;3

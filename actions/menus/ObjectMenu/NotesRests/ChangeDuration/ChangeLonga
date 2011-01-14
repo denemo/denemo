@@ -8,9 +8,9 @@
         <action>ChangeLonga</action>
         <scheme>;;;ChangeLonga
 (d-SetLonga)
-(if (music?)
+(if (Music?)
   (begin ; its a chord, means note or rest!
-	(if (rest?) ; Test if its a note with a name or not, then its a rest
+	(if (Rest?) ; Test if its a note with a name or not, then its a rest
 		(d-DirectivePut-chord-graphic "Note" "rests_M2neomensural") ;rest
 		(begin ;note
 			(d-Change0) ; Change to a full note first to get rid of note-stems 

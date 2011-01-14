@@ -352,7 +352,7 @@
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
  
  (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
- "(d-CursorToNote (d-GetLowestNote))")))
+ "(d-CursorToNote (GetLowestNote))")))
 ;;;;(string-join (map loop-through (caadr current_object)))
 	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")

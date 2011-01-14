@@ -6,7 +6,7 @@
     <map>
       <row>
         <action>FingeringsDoublestroke</action>
-        <scheme> (doublestroke #f
+        <scheme> (Doublestroke #f
 "(d-Finger1)"  ;1
 "(d-Finger2)"  ;2
 "(d-Finger3)"  ;3

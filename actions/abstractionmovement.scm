@@ -14,9 +14,9 @@
 ;;(GetStartTickMinimum listy)
 ;;(createFinalList)
 ;;(fill-with-redundancy! movement)
-;;(createAbstractionMovement)
+;;(CreateAbstractionMovement)
 
-(define (createAbstractionMovement)
+(define (CreateAbstractionMovement)
 
 ;Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
 ;Very slow version of insert-into-list
@@ -71,12 +71,12 @@
 (define (createFinalList)
     (define (staffLoop)  ;; Subproc to gather the information for one staff and return a list.
     (define stafflist (list #f))
-    (if (music?) ; if the first object is already a music item start right now. This prevents also a crash if the staff starts with a directive or else.
-	  (append! stafflist (list (createMusObj))))
+    (if (Music?) ; if the first object is already a music item start right now. This prevents also a crash if the staff starts with a directive or else.
+	  (append! stafflist (list (CreateMusObj))))
 	  (let loop ()
 	  	(if (d-NextChord)
 			(begin
-				(append! stafflist (list (createMusObj)))
+				(append! stafflist (list (CreateMusObj)))
 				(loop))
 	  	 (list-tail stafflist 1) ; Return list minus initial #f
 	  	)

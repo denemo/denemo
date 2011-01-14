@@ -985,9 +985,9 @@
 ; Opposite is ANS::ChangeChordNotes
 ; For singles and chords and rests. Returns a list of ANS string-numbers as chord.
 (define (ANS::GetChordNotes)
-	(if (note?)
+	(if (Note?)
 		(map ANS::Ly2Ans (string-tokenize (d-GetNotes)))
-		(if (rest?) ; not a note
+		(if (Rest?) ; not a note
 			(list "+inf.0")
 			#f)))
 
@@ -1192,7 +1192,7 @@
 
 ;Takes a list of notes, shuffles the members and inserts them as new notes.
 (define (ANS::InsertListRandomly ansList)
-	(define shuffledlist (merge-shuffle-list ansList))
+	(define shuffledlist (Merge-shuffle-list ansList))
 	(for-each ANS::InsertNotes shuffledlist)
 )
 

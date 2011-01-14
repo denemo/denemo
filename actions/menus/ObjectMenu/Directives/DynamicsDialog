@@ -8,7 +8,7 @@
         <action>DynamicsDialog</action>
         <scheme>;;;;DynamicsDialog Standalone Dynamics - by Dan Wilckens. Tweaked by RTS
 (let ((choice #f)(X 0)  (replace #f) (level "63")(LilyString "")(Graphic "")  (DynamicList "") )
-(if (directive?)
+(if (Directive?)
 	(if (equal? (d-DirectiveGetTag-standalone) "Dynamic" )
 		(set! replace #t )
 	)

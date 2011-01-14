@@ -7,7 +7,7 @@
       <row>
         <action>GraceAfter</action>
         <scheme>;;GraceAfter
-(if (and (note?) (d-MoveCursorLeft) (note?))
+(if (and (Note?) (d-MoveCursorLeft) (Note?))
     (begin
       (d-MoveCursorRight)
 ;;there are two notes main note and gracenote, we are on the gracenote-to-be
