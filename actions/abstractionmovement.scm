@@ -85,6 +85,7 @@
 
 ;;; Body
   (d-MoveToMovementBeginning)
+  (d-RecreateTimebase)
   (let loop ((final_list (list #f )) )
 	(append! final_list (list (staffLoop))) ; First Staff is guaranteed to work, after first staff test for more staffs:
 	(if (and (d-MoveToStaffDown) (not (d-MoveToBeginning))) ; TODO!!! MoveToBeginning is wrong and returns #f
