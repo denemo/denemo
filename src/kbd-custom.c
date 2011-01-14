@@ -1661,31 +1661,18 @@ load_system_keymap_dialog (GtkWidget * widget)
  */
 static void
 load_keymap_file_named (gchar *localrc, gchar *systemwide) {
-  if(localrc) {
-    g_debug ("Trying local file %s as xml...", localrc);
-    if (load_xml_keymap (localrc, TRUE) == -1)
-      {
-	g_debug ("..no.\nTrying systemwide file %s as xml...", systemwide);
-	if (load_xml_keymap (systemwide, TRUE) == -1)
-	  {
-	    g_debug ("..no.\nNo useful keymaps found.\n");
-	    no_map_dialog ();
-	  }
-	else
-	  g_debug ("..ok.\n");
-      }
-    else
-      g_debug ("..ok.\n");
-  }
-  else {
-    if (load_xml_keymap (systemwide, TRUE) == -1)
-      warningdialog("Could not load command set file");
-  }
+
+ if (load_xml_keymap (systemwide, TRUE) == -1)
+      g_warning("Could not load command set file");
+ if(localrc)
+   load_xml_keymap (localrc, TRUE);
+ return;
+
 }
 
 /**
- * Load the either the local default keymap 
- * or (if that doesn't load) the global default keymap
+ * Load the  the global default keymap
+ and the local default keymap 
  */
 void
 load_default_keymap_file (void)
@@ -1982,7 +1969,7 @@ keymap_get_command_view(keymap *the_keymap)
 					  command_hidden_data_function, NULL, NULL);
   g_signal_connect(renderer, "toggled", (GCallback)toggle_hidden_on_action, NULL);
 
-
+#if 0
   col = gtk_tree_view_column_new();
   gtk_tree_view_column_set_title(col, _("Deleted"));
   gtk_tree_view_append_column(res, col);
@@ -1993,7 +1980,7 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_set_cell_data_func(col, renderer,
 					  command_deleted_data_function, NULL, NULL);
   g_signal_connect(renderer, "toggled", (GCallback)toggle_deleted_on_action, NULL);
-
+#endif
 
 
 

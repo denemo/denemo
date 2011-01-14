@@ -380,7 +380,16 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
 		    g_print ("binding %s, keyval %d, state %d, Command Number %d\n",
 			     gtk_binding, keyval, state, command_number);
 #endif
-		    
+		    {
+		      gchar *comma;
+		      comma = strtok (gtk_binding, ",");
+		      if(comma)//two key binding, remove any single keybinding
+			{
+			  if(-1 != lookup_command_for_keybinding_name(the_keymap, comma))
+			    remove_keybinding_from_name (the_keymap, comma);
+			  *(comma+strlen(comma))=',';
+			}
+		    }
 		    if (command_number != -1){
 		      if(keyval) 
 			add_keybinding_to_idx (the_keymap, keyval, state,
@@ -523,7 +532,6 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 {
   keymap *the_keymap = Denemo.map; 
   gint ret = -1;
-  gint merge = interactive?DENEMO_INTERACTIVE:0;//merge&DENEMO_MERGING is true if merging, merge&DENEMO_INTERACTIVE is true if not scripted
   xmlDocPtr doc;
   //xmlNsPtr ns;
   xmlNodePtr rootElem;
@@ -562,32 +570,22 @@ load_xml_keymap (gchar * filename, gboolean interactive)
 
   while (rootElem != NULL)
     {
-#ifdef DEBUG
+#ifndef DEBUG
       g_print ("RootElem %s\n", rootElem->name);
 #endif
 
-      if ( (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "commands")) ||
-	   (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "keymap"))/* backward compatibility */ ||
-	   ((merge |= DENEMO_MERGING*(0 == xmlStrcmp (rootElem->name, (const xmlChar *) "merge"))), merge&DENEMO_MERGING))
-	{
-	  if(!(merge&DENEMO_MERGING)) {
-	    //g_print("Losing command set %p\n", Denemo.map);
-	    init_keymap(); 
-	    // g_print("Starting with a clean command set %p\n", Denemo.map);
-	  }
-	  parseKeymap (doc, rootElem, Denemo.map, menupath, merge);
-	  if(merge&DENEMO_MERGING) {
+
+	  parseKeymap (doc, rootElem, Denemo.map, menupath, interactive);
+
 	    if(Denemo.last_merged_command)
 	      g_free(Denemo.last_merged_command);
 	    Denemo.last_merged_command = g_strdup(filename);
-	    execute_init_scripts(menupath);
-	    //Denemo.accelerator_status = TRUE;
-	  }
-	  //if(!merge)
-	  //  alphabeticalize_commands(Denemo.map);
+	    if(menupath)
+	      execute_init_scripts(menupath);
+
 	  update_all_labels(Denemo.map);
 	  ret = 0;
-	}
+	
       rootElem = rootElem->next;
     }
 
@@ -720,7 +718,7 @@ save_xml_keymap (gchar * filename)
 					     NULL);
 
 
-  child = xmlNewChild (parent, NULL, (xmlChar *) "commands", NULL);
+  child = xmlNewChild (parent, NULL, (xmlChar *) "merge", NULL);
 
   xmlNewTextChild (child, NULL, (xmlChar *) "title", (xmlChar *) "A Denemo Command Set");
   xmlNewTextChild (child, NULL, (xmlChar *) "author", (xmlChar *) "AT, JRR, RTS");

@@ -733,7 +733,7 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
 
   if (dir)
     g_dir_close (dir);
-
+  init_keymap();
   if(commandsetfile==NULL)
     if(Denemo.profile!=NULL)
       commandsetfile = g_strconcat(Denemo.profile, ".commands", NULL);
