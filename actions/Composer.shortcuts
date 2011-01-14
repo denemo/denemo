@@ -473,6 +473,10 @@
         <action>DeleteMeasure</action>
         <bind>Ctrl+Delete</bind>
       </row>     
+      <row>
+        <action>DeleteMeasureAllStaffs</action>
+        <bind>Ctrl+Shft+Delete</bind>
+      </row>   
       <row>    
         <action>RemoveNoteFromChord</action>
         <bind>Alt+Return</bind>
@@ -598,9 +602,9 @@
       </row> 
       <row>
       <action>NoOp</action>
-      <bind>Shift+7</bind>
-      <bind>Shift+8</bind>
-      <bind>Shift+9</bind>
+      <bind>Shft+7</bind>
+      <bind>Shft+8</bind>
+      <bind>Shft+9</bind>
       </row>
       <row>
         <action>Set0</action>

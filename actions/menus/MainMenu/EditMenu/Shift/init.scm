@@ -1,7 +1,7 @@
 (define (ShiftProto method)
  ; Get all notes on cursor position and create a list with new values which then exchanges the current notes on cursor position
 
-(if (d-GetNotes)
+(if (note?) 
     (ANS::ChangeChordNotes  
   	(map method (ANS::GetChordNotes))
   	)
