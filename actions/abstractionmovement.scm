@@ -124,9 +124,13 @@
 			(if  (not (inf? (musobj.start (list-ref listy positioncounter)))) ; if infinity-rest just change the tick
 				(begin 
 					(duplicate-deep movement staffcounter (- positioncounter 1)) ; else copy a new musobj
-					(set!musobj.start (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-tick	
+					(set!musobj.start (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-tick
 				(begin
-					(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1))))
+					(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))) ; copy pitch
+					(set!musobj.movement (list-ref listy positioncounter) (musobj.movement (list-ref listy (- positioncounter 1))))
+					(set!musobj.staff (list-ref listy positioncounter) (musobj.staff (list-ref listy (- positioncounter 1))))
+					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
+					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
 					(set!musobj.start (list-ref listy  positioncounter) minimum))
 			); if end
 			
