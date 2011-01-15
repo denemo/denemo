@@ -107,7 +107,7 @@ return)
 
 ;; Find the minimum value in a list of numbers. No check if only numbers!
 (define (GetStartOnsetMinimum listy)
-	(reduce min 0 (map musobj.tick listy)))							
+	(reduce min 0 (map musobj.start listy)))							
 								
 ;; creates a list of list of musob-j(ects). Each first level list is one staff.
 ;; All append! need an additional (list) because append merges only with lists.
@@ -142,7 +142,7 @@ return)
 (define (ansrest? musobject) 
 	(and
 	(equal? (list "+inf.0") (musobj.pitch musobject))
-	(not (inf? (musobj.tick musobject))) 		
+	(not (inf? (musobj.start musobject))) 		
 	))	
 							
 (define positioncounter 0)
@@ -162,21 +162,19 @@ return)
 			(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (+ positioncounter 1))))  ;or next object, for a leading rest in a staff
 			(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))))) ;should take the pitch of the item before it 
 
-	(if (= (musobj.tick (list-ref listy positioncounter)) minimum) ; starts on minimum tick? 
+	(if (= (musobj.start (list-ref listy positioncounter)) minimum) ; starts on minimum tick? 
 		(set! staffcounter (+ staffcounter 1))  ;Current musobj starts at minimum tick, good.
 		(begin notMinimum
-			(if  (not (inf? (musobj.tick (list-ref listy positioncounter)))) ; if infinity-rest just change the tick
+			(if  (not (inf? (musobj.start (list-ref listy positioncounter)))) ; if infinity-rest just change the tick
 				(begin 
 					(duplicate-deep movement staffcounter (- positioncounter 1)) ; else copy a new musobj
-					(set!musobj.tick (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-tick
+					(set!musobj.start (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-tick
 				(begin
 					(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))) ; copy pitch
 					(set!musobj.movement (list-ref listy positioncounter) (musobj.movement (list-ref listy (- positioncounter 1))))
-					(set!musobj.staff (list-ref listy positioncounter) (musobj.staff (list-ref listy (- positioncounter 1))))
 					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
 					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
-					(set!musobj.start (list-ref listy positioncounter) (musobj.start (list-ref listy (- positioncounter 1))))
-					(set!musobj.tick (list-ref listy  positioncounter) minimum))
+					(set!musobj.start (list-ref listy  positioncounter) minimum))
 			); if end
 			
 			(set! staffcounter (+ staffcounter 1))
