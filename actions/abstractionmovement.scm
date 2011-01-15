@@ -182,6 +182,7 @@ return)
 				(begin
 					(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))) ; copy pitch
 					(set!musobj.movement (list-ref listy positioncounter) (musobj.movement (list-ref listy (- positioncounter 1))))
+					(set!musobj.staff (list-ref listy positioncounter) (musobj.staff (list-ref listy (- positioncounter 1))))
 					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
 					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
 					(set!musobj.start (list-ref listy  positioncounter) minimum))
