@@ -1,9 +1,9 @@
 ; This is the prototype of a system that creates an abstraction of the movement. 
 ; In the end there is a list of list of musobj-objects which are vertically aligned. Different durations are equalized out by inserting repeated notes.
-; Only notes, chords and rests are saved currently. Duration is ignored. The start-time value is used to check if notes need repetition.
+; Only notes, chords and rests are saved currently. Duration is ignored. The start-tick value is used to check if notes need repetition.
 ; Uses ANS (Abstract Note System, defined in actions/ans.scm) 
 ; Uses musobj (A structure for musical objects, defined in actions/denemo.scm)
-; Currently all functions are wrapped in a single big program. This way they do not pollute the global namespace, but they are called each time an Abstraction-Movement gets created, which is only needed after a score-change.
+; Currently all functions are wrapped in a single big program. This way they do not pollute the global namespace, but they are called each tick an Abstraction-Movement gets created, which is only needed after a score-change.
 
 ; Functions in this file. 
 ;;(CreateListStaffTicksInMeasures)
@@ -94,9 +94,9 @@ return)
 
 ;; Find the minimum value in a list of numbers. No check if only numbers!
 (define (GetStartOnsetMinimum listy)
-	(reduce min 0 (map musobj.time listy)))							
+	(reduce min 0 (map musobj.tick listy)))							
 								
-;; creates a list of list of musobj(ects). Each first level list is one staff.
+;; creates a list of list of musob-j(ects). Each first level list is one staff.
 ;; All append! need an additional (list) because append merges only with lists.
 
 (define (createFinalList)
@@ -116,7 +116,6 @@ return)
 
 ;;; Body
   (d-MoveToMovementBeginning)
-  (d-RecreateTimebase)
   (let loop ((final_list (list #f )) )
 	(append! final_list (list (staffLoop))) ; First Staff is guaranteed to work, after first staff test for more staffs:
 	(if (and (d-MoveToStaffDown) (not (d-MoveToBeginning))) ; TODO!!! MoveToBeginning is wrong and returns #f
@@ -130,17 +129,17 @@ return)
 (define (ansrest? musobject) 
 	(and
 	(equal? (list "+inf.0") (musobj.pitch musobject))
-	(not (inf? (musobj.time musobject))) 		
+	(not (inf? (musobj.tick musobject))) 		
 	))	
 							
 (define positioncounter 0)
 (define staffcounter 0)
 (define MusObjectsOfCurrentPosition #f) ; All musobj of list-ref positioncounter 
-(define minimum #f) ;The current lowest start-time 
+(define minimum #f) ;The current lowest start-tick 
 ; Two sub-procs
 (define (insertRestBeforeFalse musobject)
  (if (not musobject) ; if the object is a #f fill in a infinity rest before/to the current position
-  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start #f 'end #f 'duration #f 'time +inf.0)))	
+  	(insert-deep movement staffcounter positioncounter (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f)))	
 	(set!musobj.pitch (list-ref (list-ref movement staffcounter) positioncounter) (musobj.pitch (list-ref (list-ref movement staffcounter) (- positioncounter 1))))
   	(set! staffcounter (+ staffcounter 1))) ; the next for-each iteration needs another staff
   	 
@@ -150,13 +149,13 @@ return)
 			(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (+ positioncounter 1))))  ;or next object, for a leading rest in a staff
 			(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))))) ;should take the pitch of the item before it 
 
-	(if (= (musobj.time (list-ref listy positioncounter)) minimum) ; starts on minimum time? 
-		(set! staffcounter (+ staffcounter 1))  ;Current musobj starts at minimum time, good.
+	(if (= (musobj.tick (list-ref listy positioncounter)) minimum) ; starts on minimum tick? 
+		(set! staffcounter (+ staffcounter 1))  ;Current musobj starts at minimum tick, good.
 		(begin notMinimum
-			(if  (not (inf? (musobj.time (list-ref listy positioncounter)))) ; if infinity-rest just change the time
+			(if  (not (inf? (musobj.tick (list-ref listy positioncounter)))) ; if infinity-rest just change the tick
 				(begin 
 					(duplicate-deep movement staffcounter (- positioncounter 1)) ; else copy a new musobj
-					(set!musobj.time (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-time
+					(set!musobj.tick (list-ref listy (- positioncounter 1)) minimum)) ; change the created item to min start-tick
 				(begin
 					(set!musobj.pitch (list-ref listy positioncounter) (musobj.pitch (list-ref listy (- positioncounter 1)))) ; copy pitch
 					(set!musobj.movement (list-ref listy positioncounter) (musobj.movement (list-ref listy (- positioncounter 1))))
@@ -164,7 +163,7 @@ return)
 					(set!musobj.measure (list-ref listy positioncounter) (musobj.measure (list-ref listy (- positioncounter 1))))
 					(set!musobj.horizontal (list-ref listy positioncounter) (musobj.horizontal (list-ref listy (- positioncounter 1))))
 					(set!musobj.start (list-ref listy positioncounter) (musobj.start (list-ref listy (- positioncounter 1))))
-					(set!musobj.time (list-ref listy  positioncounter) minimum))
+					(set!musobj.tick (list-ref listy  positioncounter) minimum))
 			); if end
 			
 			(set! staffcounter (+ staffcounter 1))
@@ -193,10 +192,10 @@ return)
 ;;1 parse everything, save the music as musobj. Notes, Chords, Rests
 ;;2 make all length equal by adding rests in the infinity to the ends.
 ;;3 one final #f to all staffs. The end is reached when all position return #f instead of a musobj
-;;4 check if all start-times are the same, if not duplicate notes to fill the gaps
+;;4 check if all start-ticks are the same, if not duplicate notes to fill the gaps
 	(define movement #f)
 	(set! movement (createFinalList))
-	(apply list-equalizer! (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start #f 'end #f 'duration #f 'time +inf.0 ) movement)
+	(apply list-equalizer! (make-musobj 'pitch (list "+inf.0") 'movement #f 'staff #f 'measure #f 'horizontal #f 'start +inf.0 'end #f 'duration #f 'time #f) movement)
 	(map (lambda (lst) (append! lst (list #f))) movement)
 	(fill-with-redundancy! movement)
 	movement
