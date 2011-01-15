@@ -111,6 +111,7 @@ initprefs ()
   ret->lilypath = g_string_new ("lilypond.exe");//We don't assume the file assoc works - we are installing this anyway to a known place,the option  neither lilypond-windows.exe nor the -dgui option are used
   ret->pdfviewer = g_string_new ("");
   ret->imageviewer = g_string_new ("");
+
   ret->midiplayer = g_string_new("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
@@ -133,6 +134,7 @@ initprefs ()
   ret->overlays = FALSE;
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;
+
 #ifdef _HAVE_JACK_
   ret->immediateplayback = FALSE;
 #else
@@ -199,6 +201,7 @@ initprefs ()
   g_free (systemwide);
   g_free (localrc);
 #undef ret
+
 }
 
 
@@ -452,6 +455,8 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       READXMLENTRY(pdfviewer)
       READXMLENTRY(imageviewer)    
+      READXMLENTRY(profile) 
+	
       READXMLENTRY(username)    
       READXMLENTRY(password)           
       READXMLENTRY(denemopath)          
@@ -505,6 +510,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       
       cur = cur->next;
     }
+
   return;
 }
 
@@ -766,6 +772,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
   WRITEXMLENTRY(csoundorcfile)  
   WRITEXMLENTRY(pdfviewer)
   WRITEXMLENTRY(imageviewer)
+  WRITEXMLENTRY(profile)
   WRITEXMLENTRY(username)
   WRITEXMLENTRY(password)
   WRITEXMLENTRY(denemopath)

@@ -77,6 +77,7 @@ struct callbackdata
 #endif
   GtkWidget *display_refresh;
   GtkWidget *animation_steps;
+  GtkWidget *profile;
   GtkWidget *midiplayer;
   GtkWidget *audioplayer;
   GtkWidget *denemopath;
@@ -142,7 +143,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT(imageviewer)
   ASSIGNTEXT(username)
   ASSIGNTEXT(password)
-    //ASSIGNTEXT(midiplayer)
+  ASSIGNTEXT(profile)
   ASSIGNTEXT(audioplayer)
   ASSIGNTEXT(denemopath)
     // ASSIGNTEXT(sequencer)
@@ -410,7 +411,7 @@ preferences_change (GtkAction *action, gpointer param)
    * Preferences to do with commands
    */
   NEWPAGE("Command Behavior");
-
+  TEXTENTRY("Profile", profile)
   //  TEXTENTRY("Strict", strictshortcuts)
   BOOLEANENTRY("Apply commands to selection if present", applytoselection);  
   BOOLEANENTRY("Strict Shortcuts", strictshortcuts);
@@ -425,7 +426,7 @@ preferences_change (GtkAction *action, gpointer param)
   TEXTENTRY("File/Internet Browser", browser)
 
   TEXTENTRY("Image Viewer", imageviewer)
-    //TEXTENTRY("Midi Player", midiplayer)
+
   TEXTENTRY("Audio Player", audioplayer)
 
   TEXTENTRY("Default Save Path", denemopath)

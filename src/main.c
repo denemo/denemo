@@ -512,7 +512,7 @@ main (int argc, char *argv[])
 #define choice4 "Classic\nOld Denemo pc-keyboard interface."
 #define choice5 "LilyPond\nExperienced Users with LilyPond knowledge"
 #define choice6 "AllCommands\nUsers wanting to see the complete command set. No pre-defined shortcuts"
-
+  Denemo.prefs.profile = g_string_new("Default");
   if(uses_default_commandset()) {
     // infodialog("Nearly every menu item can be right-clicked, for help, setting keyboard shortcuts and more"); this  should always appear on top of the main window, but it is unresponsive to dismissal at first.
     // get_option returns a pointer into the string passed in
@@ -526,9 +526,9 @@ main (int argc, char *argv[])
 	if(*c=='\n')
 	  *c='\0';
       
-      choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
+      // choice =  g_build_filename(get_data_dir(), "actions", choice, NULL);
       //g_print("Choice is %s length %d\n", choice, strlen(choice));
-      Denemo.profile = choice;
+      g_string_assign(Denemo.prefs.profile, choice);
     }
   }
   //g_print("Calling scm boot guile with %d and %p\n", argc, argv);
@@ -734,14 +734,8 @@ if (Denemo.prefs.midi_audio_output == Portaudio){
   if (dir)
     g_dir_close (dir);
   init_keymap();
-  if(commandsetfile==NULL)
-    if(Denemo.profile!=NULL)
-      commandsetfile = g_strconcat(Denemo.profile, ".commands", NULL);
-
-  if(commandsetfile && (0==load_xml_keymap(commandsetfile, TRUE)))
-    ;
-  else
-    load_default_keymap_file();
+  
+  load_default_keymap_file();
 
 
     if (optind < argc)

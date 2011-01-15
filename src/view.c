@@ -3475,10 +3475,12 @@ static void load_scheme_init(void)  {
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
-  if(Denemo.profile){
-    gchar *filename = g_strconcat(Denemo.profile, ".scm", NULL);
+  if(Denemo.prefs.profile->len){
+    gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
+    gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
       eval_file_with_catch(filename);
+    g_free(name);
     g_free(filename);
   }
   load_local_scheme_init();
@@ -3563,9 +3565,18 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* create the first tab */
   newtab (NULL, NULL);
+  {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
+    if(uses_default_commandset())
+      profile_this_time = g_strdup(Denemo.prefs.profile->str);
 
-  /* Initialize preferences */
-  initprefs();
+    /* Initialize preferences */
+    initprefs();
+    
+    //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
+    if(profile_this_time)
+      Denemo.prefs.profile = g_string_new(profile_this_time);
+  }
+
  if(!Denemo.prefs.modal)
    Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
   readHistory();
