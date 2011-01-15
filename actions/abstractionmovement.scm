@@ -48,6 +48,19 @@ return)
 			(if (= counter (1+ lstlength))
 				return
 				(loop (1+ counter) (append! return (list (apply + 0 (list-head listy counter)))))))) ; list-head excludes the given position. This means if you give a measure number this measure will be included. Same counting as (lenght list)
+
+;Create a list of OffsetTickLists. Each list is a staff, which is a staff of measure.
+;All countings from 1. Positions 0 are #f for both the outer and all inner lists.
+(define (CreateOffsetTickListMovement)
+	(define return (list #f))
+	(d-PushPosition)
+	(d-MoveToMovementBeginning)
+	(let loop ()
+		(append! return (list (ListStaffTicksInMeasures->StaffOffsetTickList (CreateListStaffTicksInMeasures))))
+		(if (d-MoveToStaffDown)
+			(loop)))
+	(d-PopPosition)
+	return)
 				
 
 ;Very slow version of insert-into-list
