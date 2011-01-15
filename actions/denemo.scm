@@ -870,7 +870,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; This is Denemos interface to access the MediaWiki API (http://www.mediawiki.org/wiki/API), which is used for the current Denemo-Website
-;;;; Send any question to Nils "Steele" Gey list@nilsgey.de
+;;;; Send any question to Nils Gey denemo@nilsgey.de
 ;;;; Currently its only used to create/overwrite a page with a new script.
 ;;;; It uses the User-Rights System so its very secure. Vandalism in only possible in the same degree as allowed on the website itself.
 ;;;; All API access is done via (d-HTTP). The C function behind it sends HTTP-POST data to the given Server/Website and returns the HTTP-header and MediaWiki Data. 
@@ -1053,22 +1053,28 @@
 
 
 ;;;;;;;Get Measure Filling Status
-(define (MeasureFillStatus)
-(let script ((MaxTicks 0) (return #f))
+(define (GetMeasureTicks)
+(let script ((return 0))
 (d-PushPosition)
 (GoToMeasureEnd)
-(set! MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
+(set! return (d-GetEndTick))
 
-(set! return (cond 
- 	((not(d-GetEndTick)) #f) ; empty
- 	((< (d-GetEndTick) MaxTicks) #f) ; underful
- 	((= MaxTicks (d-GetEndTick)) 1)  ; 100% filled
- 	((< MaxTicks (d-GetEndTick)) 2) ; >100% filled
-	(else  (display "strange!")) ; ?
- 	))
   (d-PopPosition)
   return
 ))
+
+(define (MeasureFillStatus)
+(define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
+(define ActualTicks (GetMeasureTicks))
+(cond 
+ 	((not ActualTicks) #f) ; empty
+ 	((< ActualTicks MaxTicks) #f) ; underful
+ 	((= MaxTicks ActualTicks) 1)  ; 100% filled
+ 	((< MaxTicks ActualTicks) 2) ; >100% filled
+	(else  (display "strange!")) ; ?
+ 	)
+)
+
 
 (define (EmptyMeasure?)
   (not (d-GetEndTick)))
