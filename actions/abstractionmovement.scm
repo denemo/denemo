@@ -6,6 +6,8 @@
 ; Currently all functions are wrapped in a single big program. This way they do not pollute the global namespace, but they are called each time an Abstraction-Movement gets created, which is only needed after a score-change.
 
 ; Functions in this file. 
+;;(CreateListStaffTicksInMeasures)
+;;(ListStaffTicksInMeasures->StaffOffsetTickList listy)
 ;;(insert-into-list listy position what )
 ;;(duplicate-item-in-list listy position)
 ;;(list-equalizer! what . lists)
@@ -19,6 +21,35 @@
 (define (CreateAbstractionMovement)
 
 ;Nearly any of the following functions are just crude prototypes. They are crude because they work with lists instead of a good data type like an red/black-tree. We need a data type here that is a list of list or allows simultanious items, allows refering to a single item and allows inserting. The result here is that all is done with list, appending, splitting, copying complete lists around instead of micro-changes.
+
+;Create a list which holds a tick-sum for each measure. It counts the actual length, even if the measure is overful or underful. It assumes 100% fill for an empty measure.
+(define (CreateListStaffTicksInMeasures)
+(define return #f)
+(d-PushPosition)
+(d-MoveToBeginning)
+(set! return
+	(let loop ((listy (list #f)) )
+		(if (EmptyMeasure?)
+			(append! listy (list (* 1536 (GetPrevailingTimeSig #t))))
+			(append! listy (list (GetMeasureTicks))))
+		(if (d-MoveToMeasureRight)
+			(loop listy)
+			(list-tail listy 1))))
+(d-PopPosition)
+return)	
+
+
+;Wants a list created by (CreateListStaffTicksInMeasures). 
+;returns the tick offset for each measure. Each list position is equal to a measure number. There is no measure 0, so its #f
+;The offset is each measure, added to all measure before it.
+(define (ListStaffTicksInMeasures->StaffOffsetTickList listy)
+	(define lstlength (length listy))
+	(let loop ((counter 0)(return (list #f)))
+			(if (= counter (1+ lstlength))
+				return
+				(loop (1+ counter) (append! return (list (apply + 0 (list-head listy counter)))))))) ; list-head excludes the given position. This means if you give a measure number this measure will be included. Same counting as (lenght list)
+				
+
 ;Very slow version of insert-into-list
 (define (insert-into-list listy position what )
 	(append
@@ -158,6 +189,7 @@
 	
 
 ; Create the abstraction movement in multiple steps. They are all desctructive.
+;;0 Create a helper list to with the tick offset for each measure.
 ;;1 parse everything, save the music as musobj. Notes, Chords, Rests
 ;;2 make all length equal by adding rests in the infinity to the ends.
 ;;3 one final #f to all staffs. The end is reached when all position return #f instead of a musobj
