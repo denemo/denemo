@@ -40,7 +40,7 @@
 
 
 
-#define DEFAULT_KEYMAP "Default.commands"
+#define DEFAULT_KEYMAP Denemo.prefs.profile->str
 
 #define DEFAULT_COMMANDS "Default.commands"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
@@ -72,7 +72,7 @@ typedef struct command_row {
 }command_row;
 
 static void
-load_keymap_file_named (gchar *keymapfile, gchar *fallback);
+load_keymap_files (gchar *keymapfile, gchar *fallback);
 
 
 void    dnm_clean_event (GdkEventKey *event) {
@@ -1586,7 +1586,7 @@ load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
   gchar *name = (gchar *)
     gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
   if(g_file_test (name, G_FILE_TEST_EXISTS))
-     load_keymap_file_named(NULL, name);
+     load_keymap_files(NULL, name);
   Denemo.accelerator_status = TRUE;
 }
 
@@ -1643,7 +1643,7 @@ load_keymap_dialog (GtkWidget * widget)
 void
 load_system_keymap_dialog (GtkWidget * widget)
 {
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP, ".commands",
                                         NULL);
   if(systemwide)
     load_keymap_dialog_location (widget, systemwide);
@@ -1656,14 +1656,14 @@ load_system_keymap_dialog (GtkWidget * widget)
 
 
 /*
- * load_keymap_file_named: load a keymap file localrc, or if it fails, systemwide
+ * load_keymap_files: load a keymap file systemwide followed by localrc if it exists
 
  */
 static void
-load_keymap_file_named (gchar *localrc, gchar *systemwide) {
+load_keymap_files (gchar *localrc, gchar *systemwide) {
 
  if (load_xml_keymap (systemwide, TRUE) == -1)
-      g_warning("Could not load command set file");
+   g_warning("Could not load command set file %s, next %s", systemwide, localrc);
  if(localrc)
    load_xml_keymap (localrc, TRUE);
  return;
@@ -1672,19 +1672,18 @@ load_keymap_file_named (gchar *localrc, gchar *systemwide) {
 
 /**
  * Load the  the global default keymap
- and the local default keymap 
+ and merge the user's version keymap 
  */
 void
 load_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
-                                        NULL);
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", g_strconcat(DEFAULT_KEYMAP,".commands", NULL), NULL);
   //g_print ("systemwide = %s\n", systemwide);
   if(keymapdir)
-    localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  load_keymap_file_named (localrc, systemwide);
+    localrc = g_build_filename (keymapdir, "Default.commands", NULL);
+  load_keymap_files (localrc, systemwide);
   g_free(localrc);
   g_free(systemwide);
 }
