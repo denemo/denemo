@@ -40,7 +40,7 @@
 
 
 
-#define DEFAULT_KEYMAP "Default.commands"
+#define DEFAULT_KEYMAP Denemo.prefs.profile->str
 
 #define DEFAULT_COMMANDS "Default.commands"
 #define DEFAULT_KEYBINDINGS "Default.shortcuts"
@@ -72,7 +72,7 @@ typedef struct command_row {
 }command_row;
 
 static void
-load_keymap_file_named (gchar *keymapfile, gchar *fallback);
+load_keymap_files (gchar *keymapfile, gchar *fallback);
 
 
 void    dnm_clean_event (GdkEventKey *event) {
@@ -1429,6 +1429,8 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
   GtkAction *action;
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU(grab_widget);
+
+#if 0 //instead turn off navigation when quick shortcuts are active.
   GtkMenuClass *menu_class = GTK_MENU_GET_CLASS(menu);
   GtkMenuShellClass *parent_class = g_type_class_peek_parent(menu_class);
   //check if this a quick edit
@@ -1442,16 +1444,14 @@ keymap_accel_quick_edit_snooper(GtkWidget *grab_widget, GdkEventKey *event)
       //performed, no need to process further
       return TRUE;
   }
+#endif
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier(event))
       return TRUE;
-  //TODO here could be added some check to see if we allow the quick edit
-  //for exemple, one could suppress quick edits if the new accel is
-  //already the keybind of another function.
-  keyval = event->keyval;
+  dnm_clean_event(event);
   modifiers = dnm_sanitize_key_state(event);
-  //TODO this may be evil since active_menu_item is not available in the
-  //doc of GTK. It is accessible all the same, and we NEED it
+  keyval = event->keyval;
+
   action = 
 #if GTK_MINOR_VERSION <10
     g_object_get_data(G_OBJECT(GTK_MENU_SHELL(menu)->active_menu_item), "action");
@@ -1586,7 +1586,7 @@ load_keymap_from_dialog (GtkWidget * widget, GtkWidget *filesel)
   gchar *name = (gchar *)
     gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
   if(g_file_test (name, G_FILE_TEST_EXISTS))
-     load_keymap_file_named(NULL, name);
+     load_keymap_files(NULL, name);
   Denemo.accelerator_status = TRUE;
 }
 
@@ -1643,7 +1643,7 @@ load_keymap_dialog (GtkWidget * widget)
 void
 load_system_keymap_dialog (GtkWidget * widget)
 {
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP, ".commands",
                                         NULL);
   if(systemwide)
     load_keymap_dialog_location (widget, systemwide);
@@ -1656,48 +1656,34 @@ load_system_keymap_dialog (GtkWidget * widget)
 
 
 /*
- * load_keymap_file_named: load a keymap file localrc, or if it fails, systemwide
+ * load_keymap_files: load a keymap file systemwide followed by localrc if it exists
 
  */
 static void
-load_keymap_file_named (gchar *localrc, gchar *systemwide) {
-  if(localrc) {
-    g_debug ("Trying local file %s as xml...", localrc);
-    if (load_xml_keymap (localrc, TRUE) == -1)
-      {
-	g_debug ("..no.\nTrying systemwide file %s as xml...", systemwide);
-	if (load_xml_keymap (systemwide, TRUE) == -1)
-	  {
-	    g_debug ("..no.\nNo useful keymaps found.\n");
-	    no_map_dialog ();
-	  }
-	else
-	  g_debug ("..ok.\n");
-      }
-    else
-      g_debug ("..ok.\n");
-  }
-  else {
-    if (load_xml_keymap (systemwide, TRUE) == -1)
-      warningdialog("Could not load command set file");
-  }
+load_keymap_files (gchar *localrc, gchar *systemwide) {
+
+ if (load_xml_keymap (systemwide, TRUE) == -1)
+   g_warning("Could not load command set file %s, next %s", systemwide, localrc);
+ if(localrc)
+   load_xml_keymap (localrc, TRUE);
+ return;
+
 }
 
 /**
- * Load the either the local default keymap 
- * or (if that doesn't load) the global default keymap
+ * Load the  the global default keymap
+ and merge the user's version keymap 
  */
 void
 load_default_keymap_file (void)
 {
   gchar *localrc = NULL;
   const gchar *keymapdir = locatekeymapdir ();
-  gchar *systemwide = g_build_filename (get_data_dir (), "actions", DEFAULT_KEYMAP,
-                                        NULL);
+  gchar *systemwide = g_build_filename (get_data_dir (), "actions", g_strconcat(DEFAULT_KEYMAP,".commands", NULL), NULL);
   //g_print ("systemwide = %s\n", systemwide);
   if(keymapdir)
-    localrc = g_build_filename (keymapdir, DEFAULT_KEYMAP, NULL);
-  load_keymap_file_named (localrc, systemwide);
+    localrc = g_build_filename (keymapdir, "Default.commands", NULL);
+  load_keymap_files (localrc, systemwide);
   g_free(localrc);
   g_free(systemwide);
 }
@@ -1982,7 +1968,7 @@ keymap_get_command_view(keymap *the_keymap)
 					  command_hidden_data_function, NULL, NULL);
   g_signal_connect(renderer, "toggled", (GCallback)toggle_hidden_on_action, NULL);
 
-
+#if 0
   col = gtk_tree_view_column_new();
   gtk_tree_view_column_set_title(col, _("Deleted"));
   gtk_tree_view_append_column(res, col);
@@ -1993,7 +1979,7 @@ keymap_get_command_view(keymap *the_keymap)
   gtk_tree_view_column_set_cell_data_func(col, renderer,
 					  command_deleted_data_function, NULL, NULL);
   g_signal_connect(renderer, "toggled", (GCallback)toggle_deleted_on_action, NULL);
-
+#endif
 
 
 

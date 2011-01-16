@@ -367,6 +367,7 @@ typedef struct DeviceManagerDevice
  */
 typedef struct DenemoPrefs
 {
+  GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *midiplayer; /**< This is the external midifile player */ 
   GString *audioplayer; /**< This is used for playing audio files created from csound or other */
@@ -956,7 +957,6 @@ struct DenemoRoot
   GList *guis; /**< the list of DenemoGUI objects, representing pieces of music
 		  simultaneously open */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
-  gchar *profile; /**< Name of user's profile, if any */
   gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */

@@ -14,14 +14,14 @@
   
 
 (define (ConvertDrumGm2UserSingleNote)
-(if (and (d-GetNotes) (hashq-ref DrumHash (string-&gt;symbol (d-GetHighestNote))) (hashq-ref DrumHash (string-&gt;symbol (d-GetLowestNote))))
+(if (and (d-GetNotes) (hashq-ref DrumHash (string-&gt;symbol (GetHighestNote))) (hashq-ref DrumHash (string-&gt;symbol (GetLowestNote))))
  
 (let  ((newDrumList (string-tokenize(d-GetNotes)) ))
 
  (let transformChordList ((i 0))
     (if (&lt;= i (-(length newDrumList )1)) 
        (begin
-         (set! newDrumList (replace-nth newDrumList i (hashq-ref DrumHash (string-&gt;symbol (list-ref newDrumList i)))))
+         (set! newDrumList (Replace-nth newDrumList i (hashq-ref DrumHash (string-&gt;symbol (list-ref newDrumList i)))))
           (transformChordList (+ i 1) )
         )
       )

@@ -7,7 +7,7 @@
       <row>
         <action>InsertLongaRest</action>
         <scheme>(d-InsertWholeRest)
-(if (appending?)
+(if (Appending?)
 	(d-MoveCursorLeft))
 (d-ChangeLonga)
 (d-MoveCursorRight)</scheme>

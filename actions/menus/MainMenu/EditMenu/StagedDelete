@@ -8,7 +8,7 @@
         <after>DeletePreviousObject</after>
         <action>StagedDelete</action>
         <scheme>;;;;StagedDelete Deletes a chord one note at a time, finally ending at non-printing rest and then deleting that
-(if (music?)
+(if (Music?)
     (if (d-GetNonprinting)
 	;;; non-printing
 	(if (d-GetNotes)

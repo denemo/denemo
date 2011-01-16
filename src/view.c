@@ -1335,6 +1335,24 @@ static SCM scheme_set_duration_in_ticks(SCM duration){
  return SCM_BOOL_F;
 }
 
+static SCM scheme_get_onset_time(void){
+ DenemoGUI *gui = Denemo.gui;
+ DenemoObject *curObj;
+ chord *thechord;
+ if((Denemo.gui->si->currentobject) && (curObj = Denemo.gui->si->currentobject->data))
+   if((gui->si->smfsync == gui->si->changecount)) {
+     if(curObj->midi_events) {
+       smf_event_t *event = (smf_event_t*)curObj->midi_events->data;
+       gdouble time = event->time_seconds;
+       return scm_double2num(time);
+     }
+   }
+ return SCM_BOOL_F;
+}
+
+
+
+
 static SCM scheme_get_duration_in_ticks(void){
  DenemoGUI *gui = Denemo.gui;
  DenemoObject *curObj;
@@ -3457,10 +3475,12 @@ static void load_scheme_init(void)  {
   else
     g_warning("Cannot find Denemo's scheme initialization file denemo.scm");
   g_free(filename);
-  if(Denemo.profile){
-    gchar *filename = g_strconcat(Denemo.profile, ".scm", NULL);
+  if(Denemo.prefs.profile->len){
+    gchar *name = g_strconcat(Denemo.prefs.profile->str, ".scm", NULL);
+    gchar *filename = g_build_filename(get_data_dir (), "actions", name, NULL);
     if(g_file_test(filename, G_FILE_TEST_EXISTS))
       eval_file_with_catch(filename);
+    g_free(name);
     g_free(filename);
   }
   load_local_scheme_init();
@@ -3545,9 +3565,18 @@ void inner_main(void*closure, int argc, char **argv){
 
   /* create the first tab */
   newtab (NULL, NULL);
+  {gchar *profile_this_time=NULL;//profile that user has chosen for this run of denemo
+    if(uses_default_commandset())
+      profile_this_time = g_strdup(Denemo.prefs.profile->str);
 
-  /* Initialize preferences */
-  initprefs();
+    /* Initialize preferences */
+    initprefs();
+    
+    //Do not setup the user's base profile until they have saved their own command set, so that user's can try out the different command sets => ignore what was saved as a preference last run
+    if(profile_this_time)
+      Denemo.prefs.profile = g_string_new(profile_this_time);
+  }
+
  if(!Denemo.prefs.modal)
    Denemo.prefs.mode = INPUTEDIT|INPUTRHYTHM;
   readHistory();
@@ -3696,6 +3725,8 @@ void inner_main(void*closure, int argc, char **argv){
   INSTALL_SCM_FUNCTION ("Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none",DENEMO_SCHEME_PREFIX"GetNotes",  scheme_get_notes);
   INSTALL_SCM_FUNCTION ("Returns the number of dots on the note at the cursor, or #f if no note",DENEMO_SCHEME_PREFIX"GetDots", scheme_get_dots);
   INSTALL_SCM_FUNCTION ("Returns the duration in LilyPond syntax of the note at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetNoteDuration", scheme_get_note_duration);
+  INSTALL_SCM_FUNCTION ("Returns start time for the object at the cursor, or #f if it has not been calculated",DENEMO_SCHEME_PREFIX"GetOnsetTime", scheme_get_onset_time);
+
   INSTALL_SCM_FUNCTION1 ("Takes an integer, Sets the number of ticks (PPQN) for the object at the cursor, returns #f if none; if the object is a chord it is set undotted",DENEMO_SCHEME_PREFIX"SetDurationInTicks", scheme_set_duration_in_ticks);
 
   INSTALL_SCM_FUNCTION ("Returns the number of ticks (PPQN) for the object at the cursor, or #f if none",DENEMO_SCHEME_PREFIX"GetDurationInTicks", scheme_get_duration_in_ticks);

@@ -71,7 +71,7 @@
 );define GetBPM
 
 ;see if there's already one there:
-(if (directive?)
+(if (Directive?)
 	(if (equal? (d-DirectiveGetTag-standalone) "TempoMark" ) (set! replace #t ))
 )
 ;read in the text:

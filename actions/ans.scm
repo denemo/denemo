@@ -146,8 +146,8 @@
 	; => 2A6
 
 	(cond 
- 	((equal? inumber +inf.0) +inf.0) ; special numbers +inf.0 and -inf.0
-	((equal? inumber -inf.0) -inf.0)
+ 	((equal? inumber +inf.0) "+inf.0") ; special numbers +inf.0 and -inf.0
+	((equal? inumber -inf.0) "-inf.0")
 	(else (begin
 	(let loop ((returnstring "") (worknumber inumber))
 		
@@ -190,7 +190,7 @@
 ;420 - "Middle" c'
 ;620 - Soprano-Singers high C
 ;820 - Goes beyond the range of a modern piano
-;900 - A rest
+;+inf.0 - A rest
 
 ;+10 One accidental up jumps over to the next note after cisis 
 ;+50 One diatonic step, preserve accidentals
@@ -522,7 +522,7 @@
 	(hashq-set! ANS::NoteTable (string->symbol "8w0") "b'''''")
 	(hashq-set! ANS::NoteTable (string->symbol "8x0") "bis'''''")
 	(hashq-set! ANS::NoteTable (string->symbol "8y0") "bisis'''''")
-(hashq-set! ANS::NoteTable (string->symbol "900") "r")
+(hashq-set! ANS::NoteTable (string->symbol "+inf.0") "r")
 
 ;;;; Reverse Assignments
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -853,7 +853,7 @@
 	(hashq-set! ANS::NoteTableR 'b''''' "8w0")
 	(hashq-set! ANS::NoteTableR 'bis''''' "8x0")
 	(hashq-set! ANS::NoteTableR 'bisis''''' "8y0")
-(hashq-set! ANS::NoteTableR 'r "900")
+(hashq-set! ANS::NoteTableR 'r "+inf.0")
 
 ;;;; The pillar of filth
 ;;;; To calculate real and correct intervals you need the pillar of fifth with 35 steps for each realistic notename (and 4 unrealistic ones)
@@ -985,10 +985,10 @@
 ; Opposite is ANS::ChangeChordNotes
 ; For singles and chords and rests. Returns a list of ANS string-numbers as chord.
 (define (ANS::GetChordNotes)
-	(if (note?)
+	(if (Note?)
 		(map ANS::Ly2Ans (string-tokenize (d-GetNotes)))
-		(if (rest?) ; not a note
-			(list "900")
+		(if (Rest?) ; not a note
+			(list "+inf.0")
 			#f)))
 
 ; Extract the note from an ANS-string, without any octave or the tailing zero. Return as string.
@@ -1192,7 +1192,7 @@
 
 ;Takes a list of notes, shuffles the members and inserts them as new notes.
 (define (ANS::InsertListRandomly ansList)
-	(define shuffledlist (merge-shuffle-list ansList))
+	(define shuffledlist (Merge-shuffle-list ansList))
 	(for-each ANS::InsertNotes shuffledlist)
 )
 

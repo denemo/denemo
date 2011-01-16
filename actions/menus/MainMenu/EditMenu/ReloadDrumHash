@@ -22,8 +22,8 @@
 
 (let createDrumHashTable ()
 	(d-MoveToBeginning)
-	(hashq-set! DrumHash (string-&gt;symbol (d-GetLowestNote)) (begin (d-NextNote) (d-GetLowestNote) ))
-	(if (and (d-MoveToStaffDown) (d-GetLowestNote) )
+	(hashq-set! DrumHash (string-&gt;symbol (GetLowestNote)) (begin (d-NextNote) (GetLowestNote) ))
+	(if (and (d-MoveToStaffDown) (GetLowestNote) )
 		(createDrumHashTable))
 		)
 ))

@@ -21,7 +21,7 @@
 
 
 ;;;;;; Helper functions for scripters
-(define (blank)
+(define (Blank)
 	(system "clear"))
 
 (define disp (lambda args
@@ -57,7 +57,7 @@
 
 
 ;repeat executes a proc n times
-(define (repeat proc n)
+(define (Repeat proc n)
 	(let loop ((counter 0))
 		(if (= n counter)
 			#t
@@ -116,7 +116,7 @@
 
 ;;;;;;;;;;;;Replace a part of a string
 
-(define (replace-nth list n elem)
+(define (Replace-nth list n elem)
   (cond 
     ((null? list) ())
     ((eq? n 0) (cons elem (cdr list)))
@@ -127,30 +127,17 @@
 ;;;;;;;;;;;;;; GetNotes returns a string of lily-notes from low to high. Make a list out of them and refer to the first (0) element or last (length -1) one.
 ;;;;;;;;;;;;;; Returns #f if not a chord
 
-(define (d-GetLowestNote)
-(if (d-GetNotes)
+(define (GetLowestNote)
+(if (Note?)
  (list-ref (string-tokenize(d-GetNotes)) 0 )
  #f
  ))
 
-(define (d-GetHighestNote)
- (if (d-GetNotes)
- (list-ref (string-tokenize(d-GetNotes)) (- (length (string-tokenize(d-GetNotes)) ) 1 ))
+(define (GetHighestNote)
+(if (Note?)
+ (list-ref (reverse (string-tokenize(d-GetNotes))) 0)
  #f
  ))
-
-
-(define (d-CursorGoUp x x-max dx) ;Cursor goes up a specific amount
-   (if (<= x x-max)
-      (begin
-      	(d-CursorUp)
-        (d-CursorGoUp (+ x dx) x-max dx))))
-
-(define (d-CursorGoDown x x-max dx)  ;Cursor goes down a specific amount
-   (if (<= x x-max)
-      (begin
-         (d-CursorDown)
-         (d-CursorGoDown (+ x dx) x-max dx))))
 
 ;Next Selected Object for all Staffs by Nils Gey Feb/2010
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -238,17 +225,17 @@
 
 ;;; A set of simple tests / questions for score objects. 
 
-(define (music?) 
+(define (Music?) 
   (if (string=? (d-GetType) "CHORD") #t #f))
 	
-(define (note?) 
+(define (Note?) 
   (if (and (string=? (d-GetType) "CHORD") (d-GetNoteName)) #t #f))
 
-(define (rest?)
+(define (Rest?)
   (if (and (not (d-GetNoteName)) (string=? (d-GetType) "CHORD")) #t #f))
 
-(define (chord?) 
-  (if (note?)
+(define (Chord?) 
+  (if (Note?)
 	(if (string-contains (d-GetNotes) " ")
 		#t
 		#f
@@ -256,8 +243,8 @@
   #f ; no note
 ))
 
-(define (singlenote?) 
-  (if (note?)
+(define (Singlenote?) 
+  (if (Note?)
 	(if (string-contains (d-GetNotes) " ")
 		#f
 		#t
@@ -265,44 +252,44 @@
   #f ; no note
 ))
 	
-(define (directive?) 
+(define (Directive?) 
   (if (string=? (d-GetType) "LILYDIRECTIVE") #t #f))
 
-(define (timesignature?) 
+(define (Timesignature?) 
   (if (string=? (d-GetType) "KEYSIG") #t #f))
   
-(define (keysignature?) 
+(define (Keysignature?) 
   (if (string=? (d-GetType) "TIMESIG") #t #f))
   
-(define (clef?) 
+(define (Clef?) 
   (if (string=? (d-GetType) "CLEF") #t #f))
   
-(define (tupletmarker?) 
-  (if (or (tupletopen?) (tupletclose?))  #t #f))
+(define (Tupletmarker?) 
+  (if (or (Tupletopen?) (Tupletclose?))  #t #f))
   
-(define (tupletopen?) 
+(define (Tupletopen?) 
   (if (string=? (d-GetType) "TUPOPEN") #t #f))
   
-(define (tupletclose?) 
+(define (Tupletclose?) 
   (if (string=? (d-GetType) "TUPCLOSE") #t #f))
  
-(define (none?)
+(define (None?)
  (if (string=? (d-GetType) "None") #t #f))
 	
-(define (appending?)
+(define (Appending?)
  (if (string=? (d-GetType) "Appending") #t #f))	 
  
 ;;;;; End set of questions
 		  
 
 (define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
-					    (if (music?)
+					    (if (Music?)
 			                	 #t
 			                	 (NextChordInSelection))
 					    #f
 					    )))
 (define FirstChordInSelection (lambda () (if (d-GoToMark)
-						  (if (music?)
+						  (if (Music?)
 			                	 #t)
 						  #f)))
 				    
@@ -370,7 +357,7 @@
 ;gui-version can be any command to aid the user. Most likely it will be a tooltip or better a GUI with radio buttons with all commands (if (not #f) ...) and help texts and maybe additional parameters.
 ;This script is ready to get paris as parameter. car is the command as string, cdr is a pretty name. However this is not compatible with d-GetOption, we need a better GUI for this.
 
-(define* (doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
+(define* (Doublestroke gui-version #:optional (first "#f") (second "#f") (third "#f") (fourth "#f") (fifth "#f") (sixth "#f") (seventh "#f") (eighth "#f") (ninth "#f") (tenth "#f"))
 
 ; Create a fallback-GUI which just lists all commands as radio-buttons. Used for the [space] variant.
 (define (doublestroke::fallbackgui)
@@ -442,7 +429,7 @@
 	 (doublestroke::invokegui) )) ; if not DenemoKeypressActivated
 
 	; Example, where key 6 to 9 are not defined. The WarningDialog shows if you press [space] or invoke the command through the menu. 
-	; (doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
+	; (Doublestroke "(d-WarningDialog \"After invoking the command, what you already have done right now, press a number key to specify number to print to the console or any other key to abort.\n\")" 
 	; "(d-Finger1)"  "(d-Finger2)" "(d-Finger3)"  "(d-Finger4)"  "(d-Finger5)" "#f" "#f" "#f" "#f" "(d-Finger0)")
 	
 
@@ -883,7 +870,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; This is Denemos interface to access the MediaWiki API (http://www.mediawiki.org/wiki/API), which is used for the current Denemo-Website
-;;;; Send any question to Nils "Steele" Gey list@nilsgey.de
+;;;; Send any question to Nils Gey denemo@nilsgey.de
 ;;;; Currently its only used to create/overwrite a page with a new script.
 ;;;; It uses the User-Rights System so its very secure. Vandalism in only possible in the same degree as allowed on the website itself.
 ;;;; All API access is done via (d-HTTP). The C function behind it sends HTTP-POST data to the given Server/Website and returns the HTTP-header and MediaWiki Data. 
@@ -1066,22 +1053,28 @@
 
 
 ;;;;;;;Get Measure Filling Status
-(define (MeasureFillStatus)
-(let script ((MaxTicks 0) (return #f))
+(define (GetMeasureTicks)
+(let script ((return 0))
 (d-PushPosition)
 (GoToMeasureEnd)
-(set! MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
+(set! return (d-GetEndTick))
 
-(set! return (cond 
- 	((not(d-GetEndTick)) #f) ; empty
- 	((< (d-GetEndTick) MaxTicks) #f) ; underful
- 	((= MaxTicks (d-GetEndTick)) 1)  ; 100% filled
- 	((< MaxTicks (d-GetEndTick)) 2) ; >100% filled
-	(else  (display "strange!")) ; ?
- 	))
   (d-PopPosition)
   return
 ))
+
+(define (MeasureFillStatus)
+(define MaxTicks (* 1536 (GetPrevailingTimeSig #t) )) ; How many ticks are in a 100% filled measure?
+(define ActualTicks (GetMeasureTicks))
+(cond 
+ 	((not ActualTicks) #f) ; empty
+ 	((< ActualTicks MaxTicks) #f) ; underful
+ 	((= MaxTicks ActualTicks) 1)  ; 100% filled
+ 	((< MaxTicks ActualTicks) 2) ; >100% filled
+	(else  (display "strange!")) ; ?
+ 	)
+)
+
 
 (define (EmptyMeasure?)
   (not (d-GetEndTick)))
@@ -1238,7 +1231,7 @@
 ;;;; GoToMeasureEnd: Move right until "appending" or "none" which is the Measure End
 (define (GoToMeasureEnd)
   (let loop ()
-    (if  (or (none?) (appending?))
+    (if  (or (None?) (Appending?))
 	#t
 	(begin (d-MoveCursorRight) (loop))))	
 )
@@ -1268,7 +1261,7 @@
 
  ; Add an initial empty measure if pasting single-staff multi-measure and the current measure is already full
 
-(if (and paste::break? (appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
+(if (and paste::break? (Appending?)  (d-GetClipObjType 0 0) (not (d-GetClipObjType 1 0)) (MeasureFillStatus)   )
         (if (d-MoveToMeasureRight) ; End of Staff?
 			(if (MeasureEmpty?) 
 				#t
@@ -1281,7 +1274,7 @@
 	(if (and 
 	(d-GetClipObjType 0 0) ; Check if there is a clipboard at all. 
 	(not (d-GetClipObjType 1 0)) ; Only for single-staff
-	(not (or (none?) (appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
+	(not (or (None?) (Appending?))) ; Check if its the right position to split. There must be notes left in the measure. GetType returns "none" if its an empty measure  or "Appending" if there are no objects left until the next measure.
        paste::break?  ; If there is no measurebreak there is no need to split
 	) 
 		(d-SplitMeasure)
@@ -1358,7 +1351,7 @@
  	(or (= 0 (d-GetClipObjType staff count))   ; Only break before notes except its the first item in list
  	      (= count 0)
  	) 	 		       
- 	(appending?)
+ 	(Appending?)
  	(not paste::break?) 
  	(MeasureFillStatus)) ; if conditions end
  	
@@ -1410,19 +1403,19 @@
 ;;; and then merge them by randomly choosing which half to select the
 ;;; next element from.
 
-(define (flip-coin) 
+(define (Flip-coin) 
 	(if (= 1 (random 2))
 		#t
 		#f))
 
 
-(define (merge-shuffle-list list)
+(define (Merge-shuffle-list list)
 
   (define (merge a b)
     (cond ((not (pair? a)) b)
           ((not (pair? b)) a)
           (else
-           (if (flip-coin)
+           (if (Flip-coin)
                (cons (car a) (merge (cdr a) b))
                (cons (car b) (merge a (cdr b)))))))
 
@@ -1444,18 +1437,18 @@
 
 ;;; This has *far* too many SET-CDR!s.
 
-(define (merge-shuffle-list! list)
+(define (Merge-shuffle-list! list)
 
   (define (merge! a b)
     (cond ((null-list? a)       b)
           ((null-list? b)       a)
-          ((flip-coin)          (%merge! a b) a)
+          ((Flip-coin)          (%merge! a b) a)
           (else                 (%merge! b a) b)))
 
   (define (%merge! a b)
     (cond ((null-list? (cdr a))
            (set-cdr! a b))
-          ((flip-coin)
+          ((Flip-coin)
            (%merge! (cdr a) b))
           (else
            (%merge! b (let ((next (cdr a)))
@@ -1638,7 +1631,7 @@
  
 ; Second step: add dots
   ; d-ChangeN work on appending position, but Breve and Longa not. But d-AddDot works on appending, too. So we must rule Appending out, else it will add dots without changing the duration for breve and longa.
-  (if (and (music?) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
+  (if (and (Music?) (integer? ticks) (integer? dots) (changeBase ticks)) ; <-- the action changeBase itself needs to be a test, too. 
   (let loop ((i 0))
 	(if (= dots i)
 	#t
@@ -1701,16 +1694,6 @@
 	  #f)
 	 (else  (d-KillTimer Pitchbend::timer) (set! Pitchbend::timer 0) #f )))
 ;;;;;;;;;;;;;;;;;;
-;;;;;;;
-(define (ForAllMovements script)
-(d-PushPosition)
-  (while (d-PreviousMovement)
-	 #t)
-  (eval-string script) 	
-  (while (d-NextMovement)
-	(eval-string script))
-(d-PopPosition))
-;;;;;;;
 
 (define (d-GetStartTick)
 	(- (d-GetEndTick) (d-GetDurationInTicks)))
@@ -1782,9 +1765,9 @@
                       (eqv? (vector-ref x 0) ',s))))))))))
                       
 ; Create a music-object that holds various information. This is the smallest, single object 
-(defstruct musobj pitch movement staff measure horizontal start duration end)
+(defstruct musobj pitch movement staff measure horizontal start duration end time)
 
-(define (createMusObj) 
+(define (CreateMusObj) 
 	(make-musobj 'pitch (ANS::GetChordNotes)
 				 'movement (d-GetMovement)
 				 'staff (d-GetStaff)
@@ -1792,10 +1775,11 @@
 				 'horizontal (d-GetHorizontalPosition)
 				 'start (d-GetStartTick)
 				 'duration (d-GetDurationInTicks)
-				 'end (d-GetEndTick)				 
-							))							
+				 'end (d-GetEndTick)
+				 'time (d-GetOnsetTime)				 
+							))					
 ;Examples:
-;(define testob (createMusObj))							
+;(define testob (CreateMusObj))							
 ;(set!musobj.duration testob 256)
 ;(display (musobj.start testob))
 
@@ -1834,5 +1818,3 @@
       (if (d-NextMovement)
 	  (loop))))
   (d-PopPosition))
-
-
