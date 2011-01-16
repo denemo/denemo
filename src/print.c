@@ -187,7 +187,15 @@ check_lily_version (gchar *version)
   return version_check(check_version, installed_version);
 }
 #endif
-        
+ 
+/* returns the base name (~/.denemo/denemoprint usually) used as a base
+   filepath for printing. On windows there is some filelocking trouble.
+   The returned string should not be freed.
+*/
+   
+gchar *get_printfile_pathbasename(void) {
+  return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
+}       
 /* truncate epoint after 20 lines replacing the last three chars in that case with dots */
 static void truncate_lines(gchar *epoint) {
   gint i;
@@ -384,7 +392,7 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 }
 
 void
-run_lilypond(gchar *filename, DenemoGUI *gui){
+run_lilypond(gchar *printfile, DenemoGUI *gui){
 #if 0
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
@@ -398,10 +406,9 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     }
   }
 #endif
+  gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-  gchar *printfile = filename;
-  //gchar *printfile = g_strconcat (filename, "_", NULL);
   /* Check if Lilypond Version is set for this file, if so it may need conversion */
   if(gui->lilycontrol.lilyversion->len)
     convert_ly(lilyfile);
@@ -452,7 +459,7 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     Denemo.prefs.lilypath->str,
     "--pdf",
     "-o",
-    filename,
+    printfile,
     lilyfile,
     NULL
   };
@@ -482,15 +489,6 @@ run_lilypond(gchar *filename, DenemoGUI *gui){
     g_error_free(lily_err);
     lily_err = NULL;
   } 
-}
-
-/* returns the base name (~/.denemo/denemoprint usually) used as a base
-   filepath for printing. On windows there is some filelocking trouble.
-   The returned string should not be freed.
-*/
-   
-gchar *get_printfile_pathbasename(void) {
-  return g_build_filename ( locatedotdenemo (), "denemoprint", NULL);
 }
 
 void viewer(DenemoGUI *gui) {
@@ -741,99 +739,166 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, FALSE);
 }
 
+void printpng_finished() {
+  g_spawn_close_pid (printpid);
+  printpid = GPID_NONE;
+  infodialog("Your pdf file has now been created");
+}
 
 void printpdf_finished() {
   g_spawn_close_pid (printpid);
   printpid = GPID_NONE;
   infodialog("Your pdf file has now been created");
 }
+
+void rm_temp_files(GPid pid, gint status, GList *filelist) {
+  while (filelist){
+    g_remove((gchar *)filelist->data);
+    filelist = filelist->next; 
+  }
+  g_list_free(filelist);
+  printpng_finished();
+}
+
+
 /**
  * Does all the export pdf work.
  * calls exportmudela and then  
- * runs lilypond to a create a temporary pdf file and 
- * renames to filename.pdf
+ * runs lilypond to a create a filename.pdf
  *
  *	@param filename filename to save score to
  *  @param gui pointer to the DenemoGUI structure
  */
 static void
-export_pdf (const gchar * filename, DenemoGUI * gui)
+export_png (gchar * filename, DenemoGUI * gui)
 {
-  const gchar *tmpdir = locatedotdenemo ();
-  gchar *tmpfile;
-  gchar *mudelafile;
-  gchar *midifile;
-  gchar *dvifile;
-  gchar *psfile;
-  gchar *pdffile;
-  GError *err = NULL;
-  gint exit_status;
-  gboolean ok;
+  gchar *basename;
+  gchar *mudelafile;  
+  gchar *epsfile;
+  gchar *epsfile2;
+  gchar *texfile;
+  gchar *texifile;
+  gchar *countfile;
+  GList *filelist;
+   
+  /* create temp file names */
+  basename =  get_printfile_pathbasename();
+  mudelafile = g_strconcat (basename, ".ly", NULL);
+  epsfile = g_strconcat (filename, ".eps", NULL);
+  epsfile2 = g_strconcat (filename, "-1.eps", NULL);
+  texfile = g_strconcat (filename, "-systems.tex", NULL);
+  texifile = g_strconcat (filename, "-systems.texi", NULL);
+  countfile = g_strconcat (filename, "-systems.count", NULL);
+ 
+  /* create a list of files that need to be deleted */ 
+  filelist = g_list_append(filelist, mudelafile);
+  filelist = g_list_append(filelist, epsfile);
+  filelist = g_list_append(filelist, epsfile2);
+  filelist = g_list_append(filelist, texfile);
+  filelist = g_list_append(filelist, texifile);
+  filelist = g_list_append(filelist, countfile);
 
-  /* look for lilypond may cause file locking problems on windows */
-  check_lilypond_path(gui);
+  /* generate the lilypond file */
+  exportlilypond (mudelafile, gui, TRUE);
+  /* This needs to be changed to a better name */
+  gui->lilycontrol.excerpt = TRUE; 
+  /* generate the pdf file */
+  run_lilypond(filename, gui);
+  if(printpid!=GPID_NONE) {
+    g_child_watch_add (printpid, (GChildWatchFunc)rm_temp_files, (GList *)filelist);
+    while(printpid!=GPID_NONE) {
+      gtk_main_iteration_do(FALSE);
+    }
+  }
+  g_free (basename);
+}
 
-  /* create a temp (and not existing WHY???) filepath in .denemo folder */
 
+/**
+ * Export pdf callback prompts for filename
+ *
+ */
+
+void
+export_png_action (GtkAction *action, gpointer param)
+{
+  DenemoGUI *gui = Denemo.gui;
+  GtkWidget *file_selection;
+
+  file_selection = gtk_file_chooser_dialog_new (_("Export PNG"),
+						GTK_WINDOW (Denemo.window),
+						GTK_FILE_CHOOSER_ACTION_SAVE,
+						GTK_STOCK_CANCEL,
+						GTK_RESPONSE_REJECT,
+						GTK_STOCK_SAVE,
+						GTK_RESPONSE_ACCEPT, NULL);
+
+  gtk_widget_show_all (file_selection);
+  gboolean close = FALSE;
   do
     {
-      tmpfile = get_temp_filename (NULL);
-      mudelafile = g_strconcat (tmpfile, ".ly", NULL);
-      midifile = g_strconcat (tmpfile, ".midi", NULL);
-      dvifile = g_strconcat (tmpfile, ".dvi", NULL);
-      psfile = g_strconcat (tmpfile, ".ps", NULL);
-      pdffile = g_strconcat (tmpfile, ".pdf", NULL);
 
-      if (g_file_test (mudelafile, G_FILE_TEST_EXISTS) ||
-          g_file_test (midifile, G_FILE_TEST_EXISTS) ||
-          g_file_test (dvifile, G_FILE_TEST_EXISTS) ||
-          g_file_test (psfile, G_FILE_TEST_EXISTS) ||
-          g_file_test (pdffile, G_FILE_TEST_EXISTS))
-        ok = FALSE;
+      if (gtk_dialog_run (GTK_DIALOG (file_selection)) == GTK_RESPONSE_ACCEPT)
+	{
+	  gchar *filename =
+	    gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
+
+	  if (replace_existing_file_dialog
+	      (filename, GTK_WINDOW (Denemo.window), -1))
+	    {
+	      gtk_widget_destroy (file_selection);
+	      export_png (filename, gui);
+	      close = TRUE;
+	    }
+	  g_free (filename);
+	}
       else
-        ok = TRUE;
+	{
+	  gtk_widget_destroy (file_selection);
+	  close = TRUE;
+	}
 
-      if (!ok)
-        {
-          g_free (tmpfile);
-          g_free (mudelafile);
-          g_free (midifile);
-          g_free (dvifile);
-          g_free (psfile);
-          g_free (pdffile);
-        }
     }
-  while(!ok);
+  while (!close);
+}
+
+/**
+ * Does all the export pdf work.
+ * calls exportmudela and then  
+ * runs lilypond to a create a filename.pdf
+ *
+ *	@param filename filename to save score to
+ *  @param gui pointer to the DenemoGUI structure
+ */
+static void
+export_pdf (gchar * filename, DenemoGUI * gui)
+{
+  gchar *basename;
+  gchar *mudelafile;  
+  gchar *psfile;
+   
+  basename =  get_printfile_pathbasename();
+  mudelafile = g_strconcat (basename, ".ly", NULL);
+  psfile = g_strconcat (filename, ".ps", NULL);
 
   /* generate the lilypond file */
   exportlilypond (mudelafile, gui, TRUE);
 
   /* generate the pdf file */
-  run_lilypond(tmpfile, gui);
+  run_lilypond(filename, gui);
 
-  gint status;
   if(printpid!=GPID_NONE) {
-    //    g_print("print pid is %d\n", printpid);
     g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, NULL);
     while(printpid!=GPID_NONE) {
       gtk_main_iteration_do(FALSE);
     }
-    /* move the pdf file to its destination */
-    if (rename (pdffile, filename) != 0)
-      warningdialog (g_strdup_printf("Failed to rename %s to %s\n", pdffile, filename));
   }
-  /* remove unnecessary files and free the memory */
-  remove (mudelafile);
-  remove (midifile);
-  remove (dvifile);
-  remove (psfile);
-
+  /* remove the unwanted .ps file */
+  g_remove (psfile); 
+  
+  g_free (psfile);
   g_free (tmpfile);
   g_free (mudelafile);
-  g_free (midifile);
-  g_free (dvifile);
-  g_free (psfile);
-  g_free (pdffile);
 }
 
 

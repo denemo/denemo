@@ -963,6 +963,10 @@ g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "SaveParts")), "scm", (gpo
 SCM scheme_ExportPDF(SCM optional);
 install_scm_function ("d-ExportPDF", scheme_ExportPDF);
 g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPDF")), "scm", (gpointer)1);
+/*ExportPNG export_png_action*/
+SCM scheme_ExportPNG(SCM optional);
+install_scm_function ("d-ExportPNG", scheme_ExportPNG);
+g_object_set_data(G_OBJECT(action_of_name(Denemo.map, "ExportPNG")), "scm", (gpointer)1);
 /*ConfigureScore scorewizard*/
 SCM scheme_ConfigureScore(SCM optional);
 install_scm_function ("d-ConfigureScore", scheme_ConfigureScore);

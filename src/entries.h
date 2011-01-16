@@ -251,6 +251,7 @@
 {"NewMovement", NULL, N_("New Movement"), NULL,N_("Create a new movement, usign any default template"),G_CALLBACK (append_new_movement)},
 {"SaveParts", GTK_STOCK_SAVE_AS, N_("Save Parts"), NULL,N_("Save Parts: each staff becomes a file in lilypond format"),G_CALLBACK (file_savepartswrapper)},
 {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), NULL,N_("Export the score as a PDF document file"),G_CALLBACK (export_pdf_action)},
+{"ExportPNG", GTK_STOCK_SAVE_AS, N_("Export PNG"), NULL,N_("Export the score as a PNG image file"),G_CALLBACK (export_png_action)},
 {"ConfigureScore", GTK_STOCK_PROPERTIES, N_("Score Wizard"), NULL,N_("Start up a wizard to create a new score. This allows you to set various properties of the score"),G_CALLBACK (scorewizard)},
 {"PrintPreview", GTK_STOCK_PRINT_PREVIEW, N_("Print Preview"), NULL,N_("Displays the final finished score in your pdf viewer"),G_CALLBACK (printpreview_cb)},
 {"PrintSelection", GTK_STOCK_PRINT, N_("Print Selection"), NULL,N_("Displays selected music from score in your pdf viewer"),G_CALLBACK (printselection_cb)},
