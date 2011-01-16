@@ -739,25 +739,24 @@ printexcerptpreview_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, FALSE);
 }
 
-void printpng_finished() {
-  g_spawn_close_pid (printpid);
-  printpid = GPID_NONE;
-  infodialog("Your pdf file has now been created");
+void rm_temp_files(gchar *file,gpointer unused) {
+  g_remove(file);
 }
 
-void printpdf_finished() {
-  g_spawn_close_pid (printpid);
-  printpid = GPID_NONE;
-  infodialog("Your pdf file has now been created");
-}
-
-void rm_temp_files(GPid pid, gint status, GList *filelist) {
-  while (filelist){
-    g_remove((gchar *)filelist->data);
-    filelist = filelist->next; 
-  }
+void printpng_finished(GPid pid, gint status, GList *filelist) {
+  g_list_foreach(filelist, rm_temp_files, NULL);
   g_list_free(filelist);
-  printpng_finished();
+  g_spawn_close_pid (printpid);
+  printpid = GPID_NONE;
+  infodialog("Your png file has now been created");
+}
+
+void printpdf_finished(GPid pid, gint status, GList *filelist) {
+  g_list_foreach(filelist, rm_temp_files, NULL);
+  g_list_free(filelist);
+  g_spawn_close_pid (printpid);
+  printpid = GPID_NONE;
+  infodialog("Your pdf file has now been created");
 }
 
 
@@ -805,7 +804,7 @@ export_png (gchar * filename, DenemoGUI * gui)
   /* generate the pdf file */
   run_lilypond(filename, gui);
   if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)rm_temp_files, (GList *)filelist);
+    g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
     while(printpid!=GPID_NONE) {
       gtk_main_iteration_do(FALSE);
     }
@@ -876,10 +875,15 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   gchar *basename;
   gchar *mudelafile;  
   gchar *psfile;
-   
+  GList *filelist;
+ 
   basename =  get_printfile_pathbasename();
   mudelafile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);
+
+  /* create list of files that will need to be deleted */
+  filelist = g_list_append(filelist, mudelafile);
+  filelist = g_list_append(filelist, psfile);
 
   /* generate the lilypond file */
   exportlilypond (mudelafile, gui, TRUE);
@@ -888,17 +892,13 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   run_lilypond(filename, gui);
 
   if(printpid!=GPID_NONE) {
-    g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, NULL);
+    g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
     while(printpid!=GPID_NONE) {
       gtk_main_iteration_do(FALSE);
     }
   }
-  /* remove the unwanted .ps file */
-  g_remove (psfile); 
   
-  g_free (psfile);
-  g_free (tmpfile);
-  g_free (mudelafile);
+  g_free (basename);
 }
 
 
