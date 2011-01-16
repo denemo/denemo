@@ -224,3 +224,57 @@ return)
 	(fill-with-redundancy! movement)
 	movement
 )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;Functions that use the abstractionmovement;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;PasteAbstractionMovement creates a new window and visualises the contents of an abstractionmovement there.
+(define (PasteAbstractionMovement abstractionmovement)
+ ; For each staff (primary list in abstractionmovement)
+ ; do inserting the pitch for every (for-each) object 
+	(d-NewWindow) ; creates a new movement with the same number of staffs
+	(d-MoveToMovementBeginning)
+	(for-each (lambda (staff) 
+		(d-AddAfter)
+		(d-MoveToBeginning)
+		(for-each (lambda (object)
+			(if (not object)
+				(d-MoveToStaffDown)  ; move one down for the next iteration
+				(ANS::InsertNotes (musobj.pitch object) 0 2)))
+			 staff))
+	abstractionmovement))	
+
+
+;SearchForDirectIntervalProgression wants an abstract movement followed by any number of interval-symbols like 'p5 or 'm3
+;Returns a list of positions where forbidden intervals live.
+;Example: (SearchForDirectIntervalProgression movement 'p5 'p1)
+(define (SearchForDirectIntervalProgression abstractmovement . forbiddenintervals)
+  (define now #f) ;prepare
+  (define next #f) ;prepare
+  (define returnlist (list #f))
+  (define (getVerticalPosition positioncounter)
+	(map (lambda (lst) (list-ref lst positioncounter)) abstractmovement))
+  (define (extractPitchesFromVerticalPosition musobj-list)
+	(map (lambda (object) (list-ref (musobj.pitch object) 0)) musobj-list))
+  (define (extractPosition musobj-list)
+	(define object (list-ref musobj-list 0))
+	;just take staff 0, they have the same position anyway. Return the whole position.
+	(list (musobj.movement object)  (musobj.staff object)  (musobj.measure object)  (musobj.horizontal object)))
+  (define maxcounter (- (length (list-ref abstractmovement 0)) 3)) ; just take staff 0, they all have the same length. -3 because the counter goes from 0 (-1) and the last item is #f so we want to stop when on the last real pair (-2)
+;Body
+;(for-each (lambda (staff)  (disp (length staff) " " staff)(newline)) abstractmovement) ; display all  
+    (set! forbiddenintervals (map ANS::IntervalGetSteps forbiddenintervals))
+ 
+  (let search ((positioncounter 0))
+    (set! now  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition positioncounter)))))	
+    (set! next  (ANS::CreateIntervalsFromPairs (GetUniquePairs (extractPitchesFromVerticalPosition (getVerticalPosition (1+ positioncounter))))))
+     (if (ANS::Forbidden? now next forbiddenintervals) ; Quinten und Primen
+	(append! returnlist (list (extractPosition (getVerticalPosition positioncounter)))))	
+
+    (if (= positioncounter maxcounter) 
+   	 (list-tail returnlist 1)  ; The End.  get rid of the initial #f for the final return value
+   	 (search (1+ positioncounter)))  ; Run again 
+     ))
+
+
+
