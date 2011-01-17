@@ -236,6 +236,7 @@ BLOCK
 CLEF
 BAR
 DBLQUOTE
+FERMATA
 
 
 ;;;;;;; Nils tokens for Denemo
