@@ -79,6 +79,19 @@
 	(string-append "(d-InitialKey \"" thekey " " type  "\")")
 	(string-append "(d-InsertKey \"" thekey " " type  "\")")))
   
+  (define (do-partial current_object)
+	(define lilyticks (number->string (duration::CalculateTicksWithDots (duration::lilypond->ticks (car current_object)) (cdr current_object))))
+	(define lilypondstring (string-append (number->string (car current_object)) (string-concatenate (make-list (cdr current_object) "."))))
+	(string-append "
+		(define MaxTicks (* 1536 (GetPrevailingTimeSig #t)))
+		(StandAloneDirectiveProto (cons \"Upbeat\" \"\\\\partial " lilypondstring "\")  #f)
+		(d-SetDurationInTicks (- MaxTicks "lilyticks"))
+		(d-MoveCursorRight)		
+	")) ; string-append end
+ 
+   
+ 
+ 
   
   (define (do-movement)
     (set! lyimport::notes #t)
@@ -319,8 +332,13 @@
 	(begin
 	  ;(format #t "treating the pair case ~a~%~%" (car current_object))
 	  (cond
-	   ((eqv? (car current_object) 'x_CHORD) (begin 
-						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object))) 
+	   ((eqv? (car current_object) 'x_CHORD) (let () 
+						   	;postfix section
+						   (define postfix " ") ; build a chain of postfixes
+						   (if (string-contains (cdr (cdr current_object)) "fermata")
+								(set! postfix (string-append postfix "(d-ToggleFermata) ")))
+						   ;(format #t "~%~%~%hoping to process a note next for ~a~%" (list (cadr current_object)))
+						   
 						   (if (eqv? (caadr current_object) 'x_REST) 
 						       (let ((thedur #f))
 							 (set! lyimport::notes #f)
@@ -334,27 +352,41 @@
 								 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
 								 (if (zero? count) ""
 								     (string-append ;(do-duration (car thedur)) 
-								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) ))))));;;; end of if a rest
+								       (do-duration-relative (car thedur)) (do-dots (car thedur)) (loop (- count 1)) postfix ))))));;;; end of if a rest
 							 
 
 
 
-						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)))
+						  (string-append (do-duration (list-ref (cadr current_object) 5)) " "  (string-join (map create-note (list (cadr current_object)))) " "  (do-dots (list-ref (cadr current_object) 5)) postfix)
 						  )))
 
 
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
-						
+	   ((eqv? (car current_object) 'x_PARTIAL) (begin (do-partial (cdr current_object))))				
 
-	   ((eqv? (car current_object) 'x_REALCHORD) (begin 
+	   ((eqv? (car current_object) 'x_REALCHORD) (let () 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
+   ;postfix section
+	  (define postfix " ") ; build a chain of postfixes
+	  (if (string-contains (cdr (cdr current_object)) "fermata")
+		(set! postfix (string-append postfix "(d-ToggleFermata) ")))
+  (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
+ "(d-CursorToNote (GetLowestNote))" postfix)))
  
- (string-append (do-duration (cdadr current_object)) " "   (start-chord (caaadr current_object))  (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
- "(d-CursorToNote (GetLowestNote))")))
 ;;;;(string-join (map loop-through (caadr current_object)))
-	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
+	   ((eqv? (car current_object) 'x_BARLINE) (begin 
+			(cond 
+				((equal? (cdr current_object) "|") "#t") ; do nothing
+				((equal? (cdr current_object) "||") "(d-DoubleBarline)")
+				((equal? (cdr current_object) "|.") "(d-ClosingBarline)")
+				((equal? (cdr current_object) ":|:") "(d-RepeatEndStart)")
+				((equal? (cdr current_object) "|:") "(d-RepeatStart)")
+				((equal? (cdr current_object) ":|") "(d-RepeatEnd)")
+				(else (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")"))
+				)))
+			
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
 	   ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
 	   ((eqv? (car current_object) 'x_RELATIVE) (begin
