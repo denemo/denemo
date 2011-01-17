@@ -393,7 +393,7 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 
 void
 run_lilypond(gchar *printfile, DenemoGUI *gui){
-#if 0
+#if 1
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
       if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
@@ -489,16 +489,6 @@ run_lilypond(gchar *printfile, DenemoGUI *gui){
     g_error_free(lily_err);
     lily_err = NULL;
   } 
-}
-
-void viewer(DenemoGUI *gui) {
-  printf("\ncalling viewer for filename\n");
-  if (gui->lilycontrol.excerpt == TRUE)
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
-  else
-    g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
 }
 
 /*  Print function 
@@ -715,7 +705,8 @@ printpreview_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, TRUE);
   else
     print(gui, FALSE, FALSE);
-  viewer(gui);
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 void
@@ -726,17 +717,20 @@ printselection_cb (GtkAction *action, gpointer param) {
     print(gui, FALSE, FALSE);
   else
     warningdialog(_("No selection to print"));
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 
 void
 printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = TRUE;
   if(!gui->si->markstaffnum) //If no selection has been made 
     printrangedialog(gui);  //Launch a dialog to get selection
   if(gui->si->firstmeasuremarked)
     print(gui, FALSE, FALSE);
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
 }
 
 void rm_temp_files(gchar *file,gpointer unused) {
