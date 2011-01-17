@@ -778,6 +778,17 @@ static SCM scheme_stage_for_undo (SCM optional) {
 }
 
 
+static SCM scheme_new_window  (SCM optional) {
+  stage_undo(Denemo.gui->si, ACTION_STAGE_START);
+
+  gint current =  Denemo.gui->scorearea->allocation.width;
+  newtab(NULL, NULL);
+  Denemo.gui->scorearea->allocation.width = current;
+
+  stage_undo(Denemo.gui->si, ACTION_STAGE_END);
+  return SCM_BOOL_T;
+}
+
 
 static SCM scheme_zoom (SCM factor) {
   if(scm_is_real(factor))
@@ -4490,6 +4501,7 @@ INSTALL_EDIT(movementcontrol);
   INSTALL_SCM_FUNCTION ("Drop one guard against collecting undo information. Returns #t if there are no more guards \n(undo information will be collected) \nor #f if there are still guards in place.", DENEMO_SCHEME_PREFIX"DecreaseGuard", scheme_decrease_guard);
 
   INSTALL_SCM_FUNCTION ("Undoes the actions performed by the script so far, starts another undo stage for the subsequent actions of the script. Note this command has the same name as the built-in Undo command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"Undo"/*sic*/, scheme_undo);
+   INSTALL_SCM_FUNCTION ("Creates a new tab. Note this command has the same name as the built-in NewWindow command, to override it when called from a script. Returns #t", DENEMO_SCHEME_PREFIX"NewWindow"/*sic*/, scheme_new_window);
   
 INSTALL_SCM_FUNCTION ("Undo normally undoes all the actions performed by a script. This puts a stage at the point in a script where it is called, so that a user-invoked undo will stop at this point, continuing when a further undo is invoked. Returns #t", DENEMO_SCHEME_PREFIX"StageForUndo", scheme_stage_for_undo);
 
