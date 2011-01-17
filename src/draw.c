@@ -69,6 +69,7 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
   static gboolean init = FALSE;
   if(!init) {
     create_tool_pixbuf();
+    init = TRUE;
   }
   /* Create a new backing pixmap of the appropriate size */
   if (gui->pixmap)
