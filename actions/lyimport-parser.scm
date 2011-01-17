@@ -694,7 +694,7 @@ HYPHEN
   (MARKUP) : $1
   (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
   (string_number_event) : $1 
-  (FERMATA) : $1
+  (FERMATA) : (cons 'x_FERMATA $1)
  )
   
 
