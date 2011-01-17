@@ -79,6 +79,19 @@
 	(string-append "(d-InitialKey \"" thekey " " type  "\")")
 	(string-append "(d-InsertKey \"" thekey " " type  "\")")))
   
+  (define (do-partial current_object)
+	(define lilyticks (number->string (duration::CalculateTicksWithDots (duration::lilypond->ticks (car current_object)) (cdr current_object))))
+	(define lilypondstring (string-append (number->string (car current_object)) (string-concatenate (make-list (cdr current_object) "."))))
+	(string-append "
+		(define MaxTicks (* 1536 (GetPrevailingTimeSig #t)))
+		(StandAloneDirectiveProto (cons \"Upbeat\" \"\\\\partial " lilypondstring "\")  #f)
+		(d-SetDurationInTicks (- MaxTicks "lilyticks"))
+		(d-MoveCursorRight)		
+	")) ; string-append end
+ 
+   
+ 
+ 
   
   (define (do-movement)
     (set! lyimport::notes #t)
@@ -351,7 +364,7 @@
 	   ((eqv? (car current_object) 'x_CLEF) (begin  (do-clef (cdr current_object))))
 	   ((eqv? (car current_object) 'x_TIME) (begin (do-time (cdr current_object))))
 	   ((eqv? (car current_object) 'x_KEY) (begin (do-key  (cadr current_object) (cddr current_object))))
-						
+	   ((eqv? (car current_object) 'x_PARTIAL) (begin (do-partial (cdr current_object))))				
 
 	   ((eqv? (car current_object) 'x_REALCHORD) (let () 
 ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
