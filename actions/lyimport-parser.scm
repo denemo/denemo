@@ -236,6 +236,7 @@ BLOCK
 CLEF
 BAR
 DBLQUOTE
+FERMATA
 
 
 ;;;;;;; Nils tokens for Denemo
@@ -649,7 +650,7 @@ HYPHEN
 	(E_BRACKET_CLOSE) : (lyimport::error "E_BRACKET_CLOSE") ; Music *m = MY_MAKE_MUSIC ("LigatureEvent", @$); m->set_property ("span-direction", scm_from_int (STOP));	$$ = m->unprotect ();
 	(E_BACKSLASH) : (lyimport::error "E_BACKSLASH") ; $$ = MAKE_SYNTAX ("voice-separator", @$, SCM_UNDEFINED);
 	(PIPE)		: (cons 'x_BARLINE $1) ; look in parser.yy 
-	(PARTIAL duration_length): (lyimport::error "PARTIAL") ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
+	(PARTIAL duration_length): (cons 'x_PARTIAL (cons (list-ref $2 0) (list-ref $2 1))) ; we get a list here: (duration numberofdots) Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
 	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
 	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
  )
@@ -693,6 +694,7 @@ HYPHEN
   (MARKUP) : $1
   (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
   (string_number_event) : $1 
+  (FERMATA) : $1
  )
   
 
