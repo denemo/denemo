@@ -236,7 +236,7 @@ BLOCK
 CLEF
 BAR
 DBLQUOTE
-
+FERMATA
 
 ;;;;;;; Nils tokens for Denemo
 WHITESPACE { } ERROR VERSION
@@ -652,6 +652,7 @@ HYPHEN
 	(PARTIAL duration_length): (lyimport::error "PARTIAL") ;		Moment m = - unsmob_duration ($2)->get_length (); 		$$ = MAKE_SYNTAX ("property-operation", @$, SCM_BOOL_F, ly_symbol2scm ("Timing"), ly_symbol2scm ("PropertySet"), ly_symbol2scm ("measurePosition"), m.smobbed_copy ()); 	$$ = MAKE_SYNTAX ("context-specification", @$, ly_symbol2scm ("Score"), SCM_BOOL_F, $$, SCM_EOL, SCM_BOOL_F);
 	(TIME_T fraction) : (cons 'x_TIME $2) ; SCM proc = ly_lily_module_constant ("make-time-signature-set"); $$ = scm_apply_2   (proc, scm_car ($2), scm_cdr ($2), SCM_EOL);
 	(MARK scalar) : (lyimport::error "MARK scalar") ; SCM proc = ly_lily_module_constant ("make-mark-set"); 	$$ = scm_call_1 (proc, $2);
+	
  )
 
 (command_event
@@ -693,6 +694,7 @@ HYPHEN
   (MARKUP) : $1
   (script_dir direction_reqd_event) : $2;ignoring the up/down/center attribute (cons $1 $2)
   (string_number_event) : $1 
+  (FERMATA) : $1
  )
   
 

@@ -105,6 +105,7 @@
 		((string-ci=? "duration" yytext) (lyimport::mtoken 'DURATION yytext))
 		((string-ci=? "dynamicscript" yytext) (lyimport::mtoken 'DYNAMICSCRIPT yytext))
 		((string-ci=? "grobdescriptions" yytext) (lyimport::mtoken 'GROBDESCRIPTIONS yytext))
+		((string-ci=? "fermata" yytext) (lyimport::mtoken 'FERMATA yytext)) ;; Fermata is not part of the lilypond lexer and parser system. It is done as scheme code in lilypond/lilypond/scm/script.scm
 		((string-ci=? "figures" yytext) (lyimport::mtoken 'FIGURES yytext))
 		((string-ci=? "grace" yytext) (lyimport::mtoken 'GRACE yytext))
 		((string-ci=? "glissando" yytext) (lyimport::mtoken 'GLISSANDO yytext))
