@@ -1476,6 +1476,7 @@
   (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
   (set! lyimport::filename filename)
+  (d-NewWindow)
   (eval-string (lyimport::import)))
 
 ;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
