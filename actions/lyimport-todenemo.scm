@@ -363,7 +363,17 @@
  "(d-CursorToNote (GetLowestNote))" postfix)))
  
 ;;;;(string-join (map loop-through (caadr current_object)))
-	   ((eqv? (car current_object) 'x_BARLINE) (begin (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")")))
+	   ((eqv? (car current_object) 'x_BARLINE) (begin 
+			(cond 
+				((equal? (cdr current_object) "|") "#t") ; do nothing
+				((equal? (cdr current_object) "||") "(d-DoubleBarline)")
+				((equal? (cdr current_object) "|.") "(d-ClosingBarline)")
+				((equal? (cdr current_object) ":|:") "(d-RepeatEndStart)")
+				((equal? (cdr current_object) "|:") "(d-RepeatStart)")
+				((equal? (cdr current_object) ":|") "(d-RepeatEnd)")
+				(else (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")"))
+				)))
+			
 	   ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
 	   ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
 	   ((eqv? (car current_object) 'x_RELATIVE) (begin
