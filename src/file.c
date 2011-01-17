@@ -82,7 +82,6 @@ static struct FileFormatData supported_export_file_formats[] = {
   {"*.denemo", N_("Denemo XML format (*.denemo)"), ".denemo"},
   {"*.dnm", N_("Denemo XML format (*.dnm)"), ".dnm"},
   {"*.ly", N_("Lilypond (*.ly)"), ".ly"},
-  {"*.png", N_("png image format (*.png)"), ".png"},
   {"*.abc", N_("ABC (*.abc)"), ".abc"},
   {"*.mid", N_("Midi (*.mid)"), ".mid"},
   {"*.sco", N_("CSound Score File (*.sco)"), ".sco"}
@@ -389,15 +388,6 @@ static void save_in_format(gint format_id, DenemoGUI * gui, gchar *filename) {
 	exportlilypond (file, gui, TRUE);
 	break;
       };
-    case PNG_FORMAT:
-      {
-	gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-	gui->lilycontrol.excerpt = TRUE;
-	exportlilypond (lilyfile, gui,  TRUE);
-	run_lilypond(file, Denemo.gui);
-	gui->lilycontrol.excerpt = FALSE;
-	break;
-      }
     case ABC_FORMAT:
       {
 	exportabc (file, gui, 0, 0);

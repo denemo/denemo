@@ -1958,7 +1958,16 @@ static void print_lily_cb (GtkWidget *item, DenemoGUI *gui){
     gchar *lily = gtk_text_buffer_get_text (gui->textbuffer, &startiter, &enditer, FALSE);
     fprintf(fp, "%s", lily);
     fclose(fp);
-    run_lilypond(filename, gui);
+    /* create arguments to pass to lilypond to create a pdf for printing */
+    gchar *arguments[] = {
+      Denemo.prefs.lilypath->str,
+      "--pdf",
+      "-o",
+      filename,
+      lilyfile,
+      NULL
+    };
+    run_lilypond(arguments, gui);
   }
 }
 

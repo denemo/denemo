@@ -392,8 +392,7 @@ open_pdfviewer(GPid pid, gint status, gchar *filename){
 }
 
 void
-run_lilypond(gchar *printfile, DenemoGUI *gui){
-#if 1
+run_lilypond(gchar **arguments, DenemoGUI *gui){
   if(printpid!=GPID_NONE) {
     if(confirm("Already doing a print", "Kill that one off and re-start?")) {
       if(printviewpid!=GPID_NONE) //It could have died while the user was making up their mind...
@@ -405,72 +404,14 @@ run_lilypond(gchar *printfile, DenemoGUI *gui){
       return;
     }
   }
-#endif
-  gchar *filename = get_printfile_pathbasename();
-  gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-  gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
-  /* Check if Lilypond Version is set for this file, if so it may need conversion */
-  if(gui->lilycontrol.lilyversion->len)
-    convert_ly(lilyfile);
-  printf("\nprintfile=%s lilyfile=%s\n",printfile, lilyfile);
-#if GLIB_MINOR_VERSION >= 14
-  gchar **arguments; 
-  gchar *png_arguments1[] = {
-    Denemo.prefs.lilypath->str,
-    "--png",
-    "-dbackend=eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-  gchar *png_arguments2[] = {
-    Denemo.prefs.lilypath->str,
-   "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-  
-  if (check_lily_version("2.12") >= 1)
-     arguments = png_arguments1;
-  else
-     arguments = png_arguments2;
-#else
-  gchar *png_arguments[] = {
-    Denemo.prefs.lilypath->str,
-    "--png",
-    "-b",
-    "eps",
-    resolution,
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-#endif
-
-  gchar *pdf[] = {
-    Denemo.prefs.lilypath->str,
-    "--pdf",
-    "-o",
-    printfile,
-    lilyfile,
-    NULL
-  };
-  if (!gui->lilycontrol.excerpt)	  
-	  arguments = pdf;
   if(lily_err) {
-    g_warning("Old error message from launching lilypond still present - message was %s\nDiscarding...\n", lily_err->message);
+    g_warning("Old error message from launching lilypond still present - message was %s\nDiscarding...\n", 
+	lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
 
   }
+
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
 		arguments, NULL,	/* env */
 		G_SPAWN_SEARCH_PATH  | G_SPAWN_DO_NOT_REAP_CHILD, NULL,	/* child setup func */
@@ -501,13 +442,23 @@ print (DenemoGUI * gui, gboolean part_only, gboolean all_movements)
 {
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, ".ly", NULL);
-  remove (lilyfile);
+
+  g_remove (lilyfile);
   if(part_only)
     export_lilypond_part (lilyfile, gui, all_movements);
   else
     exportlilypond (lilyfile, gui,  all_movements);
-  run_lilypond(filename, gui);
-  gui->lilycontrol.excerpt = FALSE;//The default value
+  /* create arguments to pass to lilypond to create a pdf for printing */
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--pdf",
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+
+  run_lilypond(arguments, gui);
   gui->lilysync = G_MAXUINT;// in certain cases this may not be needed
   g_free(lilyfile);
 }
@@ -678,61 +629,6 @@ draw_page (GtkPrintOperation *operation,
     g_print("returning from drawing page %d\n", page_nr+1);
 }
 
-
-/* callback to print current part (staff) of score */
-void
-printpart_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = FALSE;
-  if(gui->si->markstaffnum)
-    if(confirm("A range of music is selected","Print whole file?")){
-      gui->si->markstaffnum=0;
-    }
-  if((gui->movements && g_list_length(gui->movements)>1) && 
-     (confirm("This piece has several movements", "Print this part from all of them?")))
-    print(gui, TRUE, TRUE);
-  else
-   print(gui, TRUE, FALSE);
- 
-}
-void
-printpreview_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = FALSE;
-  gui->si->markstaffnum=0;//FIXME save and restore selection?    
-  if((gui->movements && g_list_length(gui->movements)>1) && 
-     (confirm("This piece has several movements", "Print all of them?")))
-    print(gui, FALSE, TRUE);
-  else
-    print(gui, FALSE, FALSE);
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
-}
-
-void
-printselection_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = FALSE;
-  if(gui->si->markstaffnum)
-    print(gui, FALSE, FALSE);
-  else
-    warningdialog(_("No selection to print"));
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
-}
-
-
-void
-printexcerptpreview_cb (GtkAction *action, gpointer param) {
-  DenemoGUI *gui = Denemo.gui;
-  if(!gui->si->markstaffnum) //If no selection has been made 
-    printrangedialog(gui);  //Launch a dialog to get selection
-  if(gui->si->firstmeasuremarked)
-    print(gui, FALSE, FALSE);
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
-}
-
 void rm_temp_files(gchar *file,gpointer unused) {
   g_remove(file);
 }
@@ -766,17 +662,21 @@ static void
 export_png (gchar * filename, DenemoGUI * gui)
 {
   gchar *basename;
-  gchar *mudelafile;  
+  gchar *lilyfile;  
   gchar *epsfile;
   gchar *epsfile2;
   gchar *texfile;
   gchar *texifile;
   gchar *countfile;
+  gchar **arguments;
   GList *filelist;
-   
+  
+  /* get the intended rosolution of the png */
+  gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
+ 
   /* create temp file names */
   basename =  get_printfile_pathbasename();
-  mudelafile = g_strconcat (basename, ".ly", NULL);
+  lilyfile = g_strconcat (basename, ".ly", NULL);
   epsfile = g_strconcat (filename, ".eps", NULL);
   epsfile2 = g_strconcat (filename, "-1.eps", NULL);
   texfile = g_strconcat (filename, "-systems.tex", NULL);
@@ -784,7 +684,7 @@ export_png (gchar * filename, DenemoGUI * gui)
   countfile = g_strconcat (filename, "-systems.count", NULL);
  
   /* create a list of files that need to be deleted */ 
-  filelist = g_list_append(filelist, mudelafile);
+  filelist = g_list_append(filelist, lilyfile);
   filelist = g_list_append(filelist, epsfile);
   filelist = g_list_append(filelist, epsfile2);
   filelist = g_list_append(filelist, texfile);
@@ -792,11 +692,51 @@ export_png (gchar * filename, DenemoGUI * gui)
   filelist = g_list_append(filelist, countfile);
 
   /* generate the lilypond file */
-  exportlilypond (mudelafile, gui, TRUE);
-  /* This needs to be changed to a better name */
-  gui->lilycontrol.excerpt = TRUE; 
-  /* generate the pdf file */
-  run_lilypond(filename, gui);
+  exportlilypond (lilyfile, gui, TRUE);
+  /* create arguments needed to pass to lilypond to create a png */
+#if GLIB_MINOR_VERSION >= 14
+  gchar *png_arguments1[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-dbackend=eps",
+    resolution,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  gchar *png_arguments2[] = {
+    Denemo.prefs.lilypath->str,
+   "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+  
+  if (check_lily_version("2.12") >= 1)
+     arguments = png_arguments1;
+  else
+     arguments = png_arguments2;
+#else
+  gchar *png_arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--png",
+    "-b",
+    "eps",
+    resolution,
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
+#endif
+
+  /* generate the png file */
+  run_lilypond(arguments, gui);
   if(printpid!=GPID_NONE) {
     g_child_watch_add (printpid, (GChildWatchFunc)printpng_finished, (GList *)filelist);
     while(printpid!=GPID_NONE) {
@@ -867,23 +807,30 @@ static void
 export_pdf (gchar * filename, DenemoGUI * gui)
 {
   gchar *basename;
-  gchar *mudelafile;  
+  gchar *lilyfile;  
   gchar *psfile;
   GList *filelist;
  
   basename =  get_printfile_pathbasename();
-  mudelafile = g_strconcat (basename, ".ly", NULL);
+  lilyfile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);
 
   /* create list of files that will need to be deleted */
-  filelist = g_list_append(filelist, mudelafile);
+  filelist = g_list_append(filelist, lilyfile);
   filelist = g_list_append(filelist, psfile);
-
   /* generate the lilypond file */
-  exportlilypond (mudelafile, gui, TRUE);
-
+  exportlilypond (lilyfile, gui, TRUE);
+  /* create arguments to pass to lilypond to create a pdf */
+  gchar *arguments[] = {
+    Denemo.prefs.lilypath->str,
+    "--pdf",
+    "-o",
+    filename,
+    lilyfile,
+    NULL
+  };
   /* generate the pdf file */
-  run_lilypond(filename, gui);
+  run_lilypond(arguments, gui);
 
   if(printpid!=GPID_NONE) {
     g_child_watch_add (printpid, (GChildWatchFunc)printpdf_finished, filelist);
@@ -1128,9 +1075,9 @@ void refresh_print_view (gboolean preview_only) {
   }
   gchar *filename = get_printfile_pathbasename();
   gchar *lilyfile = g_strconcat (filename, "_.ly", NULL);
-  remove (lilyfile);
+  g_remove (lilyfile);
   gchar *path = g_strconcat (filename, "_.png", NULL);
-  remove (path);
+  g_remove (path);
   gui->si->markstaffnum=0;//remove selection, as exportlilypond respects it - FIXME??
   exportlilypond (lilyfile, gui,  TRUE);
   convert_ly(lilyfile);
@@ -1204,12 +1151,62 @@ void refresh_print_view (gboolean preview_only) {
     g_warning ("%s", error->message);
 }
 
-/* callback to print whole of score */
+/* callback to print current part (staff) of score */
+void
+printpart_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  if(gui->si->markstaffnum)
+    if(confirm("A range of music is selected","Print whole file?")){
+      gui->si->markstaffnum=0;
+    }
+  if((gui->movements && g_list_length(gui->movements)>1) && 
+     (confirm("This piece has several movements", "Print this part from all of them?")))
+    print(gui, TRUE, TRUE);
+  else
+   print(gui, TRUE, FALSE); 
+}
 
+void
+printpreview_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  gui->si->markstaffnum=0;//FIXME save and restore selection?    
+  if((gui->movements && g_list_length(gui->movements)>1) && 
+     (confirm("This piece has several movements", "Print all of them?")))
+    print(gui, FALSE, TRUE);
+  else
+    print(gui, FALSE, FALSE);
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
+}
+
+void
+printselection_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  if(gui->si->markstaffnum)
+    print(gui, FALSE, FALSE);
+  else
+    warningdialog(_("No selection to print"));
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pdfviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
+}
+
+void
+printexcerptpreview_cb (GtkAction *action, gpointer param) {
+  DenemoGUI *gui = Denemo.gui;
+  gui->lilycontrol.excerpt = TRUE;
+  if(!gui->si->markstaffnum) //If no selection has been made 
+    printrangedialog(gui);  //Launch a dialog to get selection
+  if(gui->si->firstmeasuremarked)
+    export_png((gchar *) get_printfile_pathbasename(), gui);  
+  g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
+	(gchar *) get_printfile_pathbasename());
+  gui->lilycontrol.excerpt = FALSE;
+}
+
+/* callback to print whole of score */
 void
 printall_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = FALSE;
   gchar *str = g_strdup_printf("Direct printing is experimental - use print preview otherwise after setting pdf viewer in prefs (currently %s).", Denemo.prefs.pdfviewer->str);
   warningdialog(str);
   g_free(str);
