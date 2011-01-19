@@ -409,7 +409,6 @@ run_lilypond(gchar **arguments, DenemoGUI *gui){
 	lily_err->message);
     g_error_free(lily_err);
     lily_err = NULL;
-
   }
 
   g_spawn_async_with_pipes (locatedotdenemo (),		/* dir */
@@ -631,6 +630,7 @@ draw_page (GtkPrintOperation *operation,
 
 void rm_temp_files(gchar *file,gpointer unused) {
   g_remove(file);
+  g_free(file);
 }
 
 void printpng_finished(GPid pid, gint status, GList *filelist) {
@@ -734,7 +734,7 @@ export_png (gchar * filename, DenemoGUI * gui)
     NULL
   };
 #endif
-
+ 
   /* generate the png file */
   run_lilypond(arguments, gui);
   if(printpid!=GPID_NONE) {
@@ -780,6 +780,7 @@ export_png_action (GtkAction *action, gpointer param)
 	      (filename, GTK_WINDOW (Denemo.window), -1))
 	    {
 	      gtk_widget_destroy (file_selection);
+	      gui->lilycontrol.excerpt = FALSE; 
 	      export_png (filename, gui);
 	      close = TRUE;
 	    }
@@ -876,6 +877,7 @@ export_pdf_action (GtkAction *action, gpointer param)
 	      (filename, GTK_WINDOW (Denemo.window), -1))
 	    {
 	      gtk_widget_destroy (file_selection);
+	      gui->lilycontrol.excerpt = FALSE;
 	      export_pdf (filename, gui);
 	      close = TRUE;
 	    }
@@ -1170,6 +1172,7 @@ void
 printpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
   gui->si->markstaffnum=0;//FIXME save and restore selection?    
+  gui->lilycontrol.excerpt = FALSE;
   if((gui->movements && g_list_length(gui->movements)>1) && 
      (confirm("This piece has several movements", "Print all of them?")))
     print(gui, FALSE, TRUE);
@@ -1193,14 +1196,12 @@ printselection_cb (GtkAction *action, gpointer param) {
 void
 printexcerptpreview_cb (GtkAction *action, gpointer param) {
   DenemoGUI *gui = Denemo.gui;
-  gui->lilycontrol.excerpt = TRUE;
   if(!gui->si->markstaffnum) //If no selection has been made 
     printrangedialog(gui);  //Launch a dialog to get selection
-  if(gui->si->firstmeasuremarked)
-    export_png((gchar *) get_printfile_pathbasename(), gui);  
-  g_child_watch_add (printpid, (GChildWatchFunc)open_pngviewer  /*  GChildWatchFunc function */, 
-	(gchar *) get_printfile_pathbasename());
-  gui->lilycontrol.excerpt = FALSE;
+  if(gui->si->firstmeasuremarked){
+    gui->lilycontrol.excerpt = TRUE;
+    export_png((gchar *) get_printfile_pathbasename(), gui); 
+  }
 }
 
 /* callback to print whole of score */
