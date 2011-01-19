@@ -781,9 +781,9 @@ static SCM scheme_stage_for_undo (SCM optional) {
 static SCM scheme_new_window  (SCM optional) {
   stage_undo(Denemo.gui->si, ACTION_STAGE_START);
 
-  gint current =  Denemo.gui->scorearea->allocation.width;
-  newtab(NULL, NULL);
-  Denemo.gui->scorearea->allocation.width = current;
+  //gint current =  Denemo.gui->scorearea->allocation.width;
+  newview(NULL, NULL);
+  // Denemo.gui->scorearea->allocation.width = current;
 
   stage_undo(Denemo.gui->si, ACTION_STAGE_END);
   return SCM_BOOL_T;
@@ -801,7 +801,7 @@ static SCM scheme_zoom (SCM factor) {
     return scm_double2num(Denemo.gui->si->zoom);
   }
      
-  scorearea_configure_event(Denemo.gui->scorearea, NULL);
+  scorearea_configure_event(Denemo.scorearea, NULL);
   if(Denemo.gui->si->zoom > 0.01)
     return  scm_int2num(Denemo.gui->si->zoom);
     Denemo.gui->si->zoom =  1.0;
@@ -2859,7 +2859,7 @@ static SCM scheme_adjust_xes (SCM optional) {
 }
 
 static gint flash_cursor(void) {
-  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   return TRUE;
 }
 static SCM scheme_highlight_cursor (SCM optional) {
@@ -4641,7 +4641,7 @@ close_gui ()
   free_movements(Denemo.gui);
 
   DenemoGUI *oldgui = Denemo.gui;
-  gtk_widget_destroy (Denemo.gui->page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index(Denemo.guis, oldgui);
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
@@ -4920,12 +4920,12 @@ static void pb_last (GtkWidget *button) {
 
 static void pb_start_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackStart)");
-  gtk_widget_draw(Denemo.gui->scorearea, NULL);
+  gtk_widget_draw(Denemo.scorearea, NULL);
 }
 
 static void pb_end_to_cursor (GtkWidget *button) {
   call_out_to_guile("(DenemoSetPlaybackEnd)");
-  gtk_widget_draw(Denemo.gui->scorearea, NULL);
+  gtk_widget_draw(Denemo.scorearea, NULL);
 }
 
 static void pb_loop (GtkWidget *button) {
@@ -5025,7 +5025,7 @@ static void pb_midi_convert (GtkWidget *button) {
     gchar *file = g_build_filename(locatedotdenemo (), "denemomidi.mid", NULL);
     exportmidi (file, Denemo.gui->si, 0, 0);
     newview(NULL, NULL);
-    scorearea_configure_event(Denemo.gui->scorearea, NULL);
+    scorearea_configure_event(Denemo.scorearea, NULL);
     //extern gint smallestgrain; 
     // smallestgrain = atoi(string_dialog_entry(Denemo.gui, "Quantization Control", "Give granularity", "48"));
     //need to check it is a multiple of what?????
@@ -7170,12 +7170,12 @@ toggle_console_view (GtkAction *action, gpointer param)
 void
 toggle_score_view (GtkAction *action, gpointer param)
 {
-  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->scorearea));
+  GtkWidget *w = gtk_widget_get_parent(gtk_widget_get_parent(Denemo.scorearea));
   if((!action) || GTK_WIDGET_VISIBLE(w))
     gtk_widget_hide(w);
   else {
     gtk_widget_show(w);
-    gtk_widget_grab_focus(Denemo.gui->scorearea);
+    gtk_widget_grab_focus(Denemo.scorearea);
   }
   return;
 }
@@ -7907,7 +7907,64 @@ get_data_dir (),
   gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), FALSE);//only show when more than one
   //gtk_notebook_popup_enable (Denemo.notebook);?? doesn't work...
   gtk_widget_show (Denemo.notebook);
-  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, TRUE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.notebook, FALSE, FALSE, 0);
+
+ {
+  Denemo.scorearea = gtk_drawing_area_new ();
+  GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
+  gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
+		      0);
+  gtk_widget_show (score_and_scroll_hbox);
+
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE,
+		      TRUE, 0);// with this, the scorearea_expose_event is called
+  gtk_widget_show (Denemo.scorearea);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "expose_event",
+		      G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "configure_event",
+		      G_CALLBACK (scorearea_configure_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "button_release_event",
+		      G_CALLBACK (scorearea_button_release), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "motion_notify_event",
+		      G_CALLBACK (scorearea_motion_notify), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event",
+			       G_CALLBACK (scorearea_leave_event), NULL);
+  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "scroll_event",
+		      (GtkSignalFunc) scorearea_scroll_event, NULL);
+  //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), NULL);
+  g_signal_connect (G_OBJECT (Denemo.scorearea), "button_press_event",
+		      G_CALLBACK (scorearea_button_press), NULL);
+  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "key_press_event",
+		      (GtkSignalFunc) scorearea_keypress_event, NULL);
+  gtk_signal_connect (GTK_OBJECT (Denemo.scorearea), "key_release_event",
+		      (GtkSignalFunc) scorearea_keyrelease_event, NULL);
+
+
+
+  gtk_widget_add_events/*gtk_widget_set_events*/ (Denemo.scorearea, (GDK_EXPOSURE_MASK
+					  | GDK_POINTER_MOTION_MASK
+					  | GDK_LEAVE_NOTIFY_MASK
+					  | GDK_BUTTON_PRESS_MASK
+					  | GDK_BUTTON_RELEASE_MASK));
+
+  Denemo.vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+  gtk_signal_connect (GTK_OBJECT (Denemo.vadjustment), "value_changed",
+		      GTK_SIGNAL_FUNC (vertical_scroll), NULL);
+  Denemo.vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (Denemo.vadjustment));
+  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.vscrollbar, FALSE,
+		      TRUE, 0);
+  gtk_widget_show (Denemo.vscrollbar);
+
+  Denemo.hadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
+
+  gtk_signal_connect (GTK_OBJECT (Denemo.hadjustment), "value_changed",
+		      GTK_SIGNAL_FUNC (horizontal_scroll), NULL);
+  Denemo.hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (Denemo.hadjustment));
+  gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.hscrollbar, FALSE, TRUE, 0);
+  gtk_widget_show (Denemo.hscrollbar);
+  }
+
+
 
   create_console(GTK_BOX(main_vbox));
   Denemo.statusbar = gtk_statusbar_new ();
@@ -7995,7 +8052,7 @@ newtab (GtkAction *action, gpointer param) {
 
 
 
-  gui->pixmap = NULL;
+  //gui->pixmap = NULL;
 
   /* Initialize the GUI */
 
@@ -8018,7 +8075,7 @@ newtab (GtkAction *action, gpointer param) {
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
-  gui->page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   
   Denemo.gui = gui;
@@ -8028,36 +8085,8 @@ newtab (GtkAction *action, gpointer param) {
   set_title_bar(gui);
   gtk_widget_show (top_vbox);
   gtk_widget_show (main_vbox);
-  GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
-  gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_hbox, TRUE, TRUE,
-		      0);
-  gtk_widget_show (score_and_scroll_hbox);
+
   //gtk_grab_remove(toolbar);  ?????????
-  gui->scorearea = gtk_drawing_area_new ();
-
-
-  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->scorearea, TRUE,
-		      TRUE, 0);// with this, the scorearea_expose_event is called
-  gtk_widget_show (gui->scorearea);
-
-  gui->vadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
-  gtk_signal_connect (GTK_OBJECT (gui->vadjustment), "value_changed",
-		      GTK_SIGNAL_FUNC (vertical_scroll), gui);
-  gui->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (gui->vadjustment));
-  gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), gui->vscrollbar, FALSE,
-		      TRUE, 0);
-  gtk_widget_show (gui->vscrollbar);
-
-  gui->hadjustment = gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
-
-  gtk_signal_connect (GTK_OBJECT (gui->hadjustment), "value_changed",
-		      GTK_SIGNAL_FUNC (horizontal_scroll), gui);
-  gui->hscrollbar = gtk_hscrollbar_new (GTK_ADJUSTMENT (gui->hadjustment));
-  gtk_box_pack_start (GTK_BOX (main_vbox), gui->hscrollbar, FALSE, TRUE, 0);
-
-
-
-  gtk_widget_show (gui->hscrollbar);
 
 #if 0
   GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
@@ -8077,8 +8106,8 @@ newtab (GtkAction *action, gpointer param) {
  
   install_lyrics_preview(gui->si, top_vbox);
 
-  gtk_widget_show (gui->page);
-  gtk_widget_grab_focus (gui->scorearea);
+  gtk_widget_show (Denemo.page);
+  gtk_widget_grab_focus (Denemo.scorearea);
 
 
 
@@ -8112,45 +8141,8 @@ newtab (GtkAction *action, gpointer param) {
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//if this is not done Gdk-CRITICAL **: gdk_draw_drawable: assertion `GDK_IS_DRAWABLE (drawable)' failed message results. Presumably because we have failed to block the (expose_event) drawing while we set up the new page. FIXME.
 
 
-  GTK_WIDGET_SET_FLAGS(gui->scorearea, GTK_CAN_FOCUS);
-  gtk_widget_grab_focus (GTK_WIDGET(gui->scorearea));
-  g_signal_connect (G_OBJECT (gui->scorearea), "expose_event",
-		      G_CALLBACK (scorearea_expose_event), NULL);
-  g_signal_connect (G_OBJECT (gui->scorearea), "configure_event",
-		      G_CALLBACK (scorearea_configure_event), gui);
-
-
-  g_signal_connect (G_OBJECT (gui->scorearea), "button_release_event",
-		      G_CALLBACK (scorearea_button_release), NULL);
-
-  g_signal_connect (G_OBJECT (gui->scorearea), "motion_notify_event",
-		      G_CALLBACK (scorearea_motion_notify), NULL);
-
-  g_signal_connect (G_OBJECT (gui->scorearea), "leave-notify-event",
-			       G_CALLBACK (scorearea_leave_event), NULL);
-
-
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "scroll_event",
-		      (GtkSignalFunc) scorearea_scroll_event, NULL);
-
-  //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui);
-  g_signal_connect (G_OBJECT (gui->scorearea), "button_press_event",
-		      G_CALLBACK (scorearea_button_press), NULL);
-  //  gtk_signal_connect (GTK_OBJECT (gui->page), "delete_event",
-  //		      (GtkSignalFunc) delete_callback, gui);
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_press_event",
-		      (GtkSignalFunc) scorearea_keypress_event, gui);
-
-  gtk_signal_connect (GTK_OBJECT (gui->scorearea), "key_release_event",
-		      (GtkSignalFunc) scorearea_keyrelease_event, gui);
-
-
-
-  gtk_widget_add_events/*gtk_widget_set_events*/ (gui->scorearea, (GDK_EXPOSURE_MASK
-					  | GDK_POINTER_MOTION_MASK
-					  | GDK_LEAVE_NOTIFY_MASK
-					  | GDK_BUTTON_PRESS_MASK
-					  | GDK_BUTTON_RELEASE_MASK));
+  GTK_WIDGET_SET_FLAGS(Denemo.scorearea, GTK_CAN_FOCUS);
+  gtk_widget_grab_focus (GTK_WIDGET(Denemo.scorearea));
 
  if (Denemo.prefs.autosave) {
    if(Denemo.autosaveid) {

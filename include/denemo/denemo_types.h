@@ -832,14 +832,7 @@ typedef struct DenemoScore
 typedef struct DenemoGUI
 {
   gint id; /* A unique id, not repeated for this run of the Denemo program */
-  /* Fields used fairly directly for drawing */
-  GtkWidget *page;
-  GtkWidget *scorearea;
-  GdkPixmap *pixmap;
-  GtkObject *vadjustment;
-  GtkWidget *vscrollbar;
-  GtkObject *hadjustment;
-  GtkWidget *hscrollbar;
+
   DenemoViewType view;/**< The current view */
 #define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
   gint lefts[DENEMO_MAX_SYSTEMS];/**< an array to hold the leftmeasurenum of each system in the last-drawn score, used for determining the mouse position on the music */
@@ -947,6 +940,14 @@ struct cs_callback
  */
 struct DenemoRoot
 {
+  /* Fields used fairly directly for drawing */
+  GtkWidget *page;
+  GtkWidget *scorearea;
+  GdkPixmap *pixmap;
+  GtkObject *vadjustment;
+  GtkWidget *vscrollbar;
+  GtkObject *hadjustment;
+  GtkWidget *hscrollbar;
   /* window state */
   gint width;
   gint height;

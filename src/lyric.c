@@ -17,7 +17,7 @@ static gboolean lyric_keypress(GtkWidget *w, GdkEventKey *event) {
 DenemoGUI *gui = Denemo.gui;
  if(gtk_text_buffer_get_modified(gtk_text_view_get_buffer(GTK_TEXT_VIEW(w)))) {
    score_status(Denemo.gui, TRUE);
-   gtk_widget_queue_draw (gui->scorearea);
+   gtk_widget_queue_draw (Denemo.scorearea);
    gtk_text_buffer_set_modified(gtk_text_view_get_buffer(GTK_TEXT_VIEW(w)), FALSE);
  }
  return FALSE;
@@ -25,7 +25,7 @@ DenemoGUI *gui = Denemo.gui;
 gboolean lyric_change(GtkTextBuffer *buffer) {
   DenemoGUI *gui = Denemo.gui;
   score_status(gui, TRUE);
-  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   return FALSE;
 }
 
@@ -45,7 +45,7 @@ newlyric (gint baseduration, gint numdots, gchar *lys) {
 
 static void
 switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum, DenemoStaff *staff) {
-    gtk_widget_queue_draw (Denemo.gui->scorearea);
+    gtk_widget_queue_draw (Denemo.scorearea);
     staff->currentverse = g_list_nth(staff->verses, pagenum);
 }
 GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
@@ -55,7 +55,7 @@ GtkWidget * add_verse_to_staff(DenemoScore *si, DenemoStaff *staff) {
     gtk_widget_show(notebook);
     g_signal_connect (G_OBJECT(notebook), "switch_page", G_CALLBACK(switch_page), staff);
     if(si->lyricsbox==NULL)
-      install_lyrics_preview(si, gtk_widget_get_parent(gtk_widget_get_parent(Denemo.gui->scorearea)));//FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
+      install_lyrics_preview(si, gtk_widget_get_parent(gtk_widget_get_parent(Denemo.scorearea)));//FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
     gtk_box_pack_start(GTK_BOX(si->lyricsbox), notebook, TRUE, TRUE, 0);
   } else {
     GtkWidget *w = staff->verses->data;
@@ -102,7 +102,7 @@ DenemoScore *si = gui->si;
      gtk_widget_destroy(staff->currentverse->data);
      staff->currentverse = staff->verses;
      score_status(gui, TRUE);
-     gtk_widget_queue_draw (gui->scorearea);
+     gtk_widget_queue_draw (Denemo.scorearea);
    }
  }
 

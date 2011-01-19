@@ -72,10 +72,10 @@ scorearea_configure_event (GtkWidget * widget, GdkEventConfigure * event)
     init = TRUE;
   }
   /* Create a new backing pixmap of the appropriate size */
-  if (gui->pixmap)
-    gdk_pixmap_unref (gui->pixmap);
+  if (Denemo.pixmap)
+    gdk_pixmap_unref (Denemo.pixmap);
 
-  gui->pixmap = gdk_pixmap_new (widget->window,
+  Denemo.pixmap = gdk_pixmap_new (widget->window,
 				widget->allocation.width,
 				widget->allocation.height, -1);
 
@@ -460,8 +460,8 @@ draw_object (cairo_t *cr, objnode * curobj, gint x, gint y,
 
   //gdk_gc_set_foreground (blackgc, &black);
 
-  //  g_print("obj at %d %d\n",  x + mudelaitem->x + mudelaitem->minpixelsalloted, (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
-  //  itp->line_end = itp->markx2 > (int)(gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
+  //  g_print("obj at %d %d\n",  x + mudelaitem->x + mudelaitem->minpixelsalloted, (int)(Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)));
+  //  itp->line_end = itp->markx2 > (int)(Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
 
 
   itp->rightmosttime = mudelaitem->latest_time;
@@ -781,7 +781,7 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 	 && itp->measurenum <= nummeasures)
     {
       if( x + GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE >
-	  (int) (gui->scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
+	  (int) (Denemo.scorearea->allocation.width/gui->si->zoom - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME)))
 	  itp->line_end=TRUE;
 	 
       itp->last_gap = 0;
@@ -792,11 +792,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 #if 0
       if(itp->line_end) {
       *itp->scale = itp->curmeasure->next?
-	(int)(100*x/(gui->scorearea->allocation.width/gui->si->zoom)):100;
+	(int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom)):100;
       }
 #else
       if(itp->line_end && itp->curmeasure->next)
-	*itp->scale = (int)(100*x/(gui->scorearea->allocation.width/gui->si->zoom));
+	*itp->scale = (int)(100*x/(Denemo.scorearea->allocation.width/gui->si->zoom));
       if( (Denemo.gui->view!=DENEMO_PAGE_VIEW) && *itp->scale < 100)
 	*itp->scale = 100;
 #endif
@@ -866,11 +866,11 @@ draw_staff (cairo_t *cr, staffnode * curstaff, gint y,
 }
 static void
 print_system_separator (cairo_t *cr, gdouble position){
-  //g_print("At %f for %d\n", position, Denemo.gui->scorearea->allocation.height);
+  //g_print("At %f for %d\n", position, Denemo.scorearea->allocation.height);
 #define SYSTEM_SEP (6)
   cairo_save(cr);
   cairo_set_source_rgb( cr, 0.5, 0.0, 0.0 );
-  cairo_rectangle (cr, 0, position-SYSTEM_SEP/2, Denemo.gui->scorearea->allocation.width/Denemo.gui->si->zoom, SYSTEM_SEP);
+  cairo_rectangle (cr, 0, position-SYSTEM_SEP/2, Denemo.scorearea->allocation.width/Denemo.gui->si->zoom, SYSTEM_SEP);
   cairo_set_source_rgb( cr, 0.7, 0.0, 0.0 );
   cairo_fill(cr);
 #undef SYSTEM_SEP
@@ -924,7 +924,7 @@ static gboolean schedule_draw(gint *flip_count) {
   if(*flip_count>MAX_FLIP_STAGES) {
     return FALSE;
   }
-  gtk_widget_queue_draw (Denemo.gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   return TRUE;
 }
 /**
@@ -942,7 +942,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
   gboolean repeat = FALSE;
   gdouble leftmost = 10000000.0;
   DenemoScore *si = gui->si;
-  gint line_height = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
+  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
   static gint flip_count;//passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
   /* Initialize some fields in itp */
 
@@ -969,7 +969,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       get_obj_for_start_time(gui->si->smf, gui->si->end_time - 0.001);
     //g_print("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
   }
-  cairo_t *cr = widget?gdk_cairo_create( gui->pixmap ): NULL;
+  cairo_t *cr = widget?gdk_cairo_create( Denemo.pixmap ): NULL;
 
   if(cr) cairo_scale( cr, gui->si->zoom, gui->si->zoom );
   if(cr) cairo_translate( cr, 0.5, 0.5 );
@@ -1017,7 +1017,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_rectangle( cr,0,y, width, height );
 	cairo_fill( cr );
 	cairo_restore( cr );
-	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	//gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
       if(staff->voice_directives) {
 
@@ -1028,7 +1028,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	cairo_rectangle( cr,0,y+STAFF_HEIGHT/2, width, height );
 	cairo_fill( cr );
 	cairo_restore( cr );
-	//gdk_draw_pixbuf(gui->pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
+	//gdk_draw_pixbuf(Denemo.pixmap, NULL, StaffDirectivesPixbuf,  0,0, 0,y + STAFF_HEIGHT/2, width, height, GDK_RGB_DITHER_NONE,0,0/*staff edit*/);
       }
     
     
@@ -1096,7 +1096,7 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
     if(Denemo.gui->si->playingnow && itp.measurenum >= si->rightmeasurenum)
       itp.line_end = FALSE;//don't print whole lines of grayed out music during playback
 
-    while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(gui->scorearea->allocation.height/gui->si->zoom))) {
+    while(((itp.left-gui->lefts)<DENEMO_MAX_SYSTEMS-1) && itp.line_end && (yy<(Denemo.scorearea->allocation.height/gui->si->zoom))) {
       if(cr) if (itp.staffnum==si->top_staff)
 	print_system_separator (cr, line_height*system_num);
       system_num++;
@@ -1126,11 +1126,11 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
 	if(0)   {
 	  //clear the previously drawn version FIXME? do not draw in first place, will that be faster?
 	  cairo_set_source_rgb( cr, 1.0, 1.0, 1.0 );
-	  cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, gui->scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
+	  cairo_rectangle (cr, 0, y - (si->staffspace / 2) - ((DenemoStaff*)curstaff->data)->space_above, Denemo.scorearea->allocation.width/Denemo.gui->si->zoom, STAFF_HEIGHT+((DenemoStaff*)curstaff->data)->space_above + ((DenemoStaff*)curstaff->data)->space_below  + (si->staffspace));
 	  cairo_fill(cr);
       }
 	cairo_set_source_rgb( cr, 0.0, 0.0, 1.0 );//Strong Blue Line to break pages
-	cairo_rectangle (cr, 0, line_height-10, gui->scorearea->allocation.width/Denemo.gui->si->zoom, 10);
+	cairo_rectangle (cr, 0, line_height-10, Denemo.scorearea->allocation.width/Denemo.gui->si->zoom, 10);
 	cairo_fill(cr);
 	cairo_restore(cr);
      
@@ -1149,12 +1149,12 @@ draw_score (GtkWidget * widget, DenemoGUI * gui)
       // g_print("drawing %d\n", flip_count);
       if(flip_count>0 && flip_count<MAX_FLIP_STAGES)
 	flip = flip_count/(gdouble)MAX_FLIP_STAGES;
-      cairo_translate( cr, gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
+      cairo_translate( cr, Denemo.scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);	
       cairo_scale( cr, flip, 1.0);
       if(draw_staff (flip_count>0?cr:NULL, curstaff, y, gui, &itp))
 	repeat = TRUE; 
       cairo_scale( cr, 1/flip, 1.0);
-      cairo_translate( cr, -gui->scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);
+      cairo_translate( cr, -Denemo.scorearea->allocation.width*(1-flip)*0.5/Denemo.gui->si->zoom, 0.0);
       //draw_break_marker();
      } else {
         if(flip_count!=-1)
@@ -1209,21 +1209,21 @@ DenemoGUI *gui = Denemo.gui;
    if(Denemo.gui->input_source!=INPUTKEYBOARD && Denemo.gui->input_source!=INPUTMIDI &&
       (Denemo.prefs.overlays || (Denemo.gui->input_source==INPUTAUDIO))
       && pitch_entry_active(gui)) {
-     gdk_draw_rectangle (gui->pixmap,
+     gdk_draw_rectangle (Denemo.pixmap,
 			 gcs_lightbluegc(),
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);
 
   } else {
-  if (GTK_WIDGET_IS_SENSITIVE (gui->scorearea) )
-    gdk_draw_rectangle (gui->pixmap,
+  if (GTK_WIDGET_IS_SENSITIVE (Denemo.scorearea) )
+    gdk_draw_rectangle (Denemo.pixmap,
 			widget->style->white_gc,
 			TRUE,
 			0, 0,
 			widget->allocation.width, widget->allocation.height);
   else
-    gdk_draw_rectangle (gui->pixmap,
+    gdk_draw_rectangle (Denemo.pixmap,
 			widget->style->bg_gc[0],
 			TRUE,
 			0, 0,
@@ -1235,12 +1235,12 @@ DenemoGUI *gui = Denemo.gui;
 
   /* Now actually draw the backing pixmap onto the drawing area */
 
-  gdk_draw_pixmap (gui->scorearea->window,
-		   gui->scorearea->style->black_gc,
-		   gui->pixmap,
+  gdk_draw_pixmap (Denemo.scorearea->window,
+		   Denemo.scorearea->style->black_gc,
+		   Denemo.pixmap,
 		   0, 0, 0, 0,
-		   gui->scorearea->allocation.width,
-		   gui->scorearea->allocation.height);
+		   Denemo.scorearea->allocation.width,
+		   Denemo.scorearea->allocation.height);
 
   return TRUE;
 }

@@ -224,7 +224,7 @@ insert_artic_cb (GtkWidget * widget, DenemoGUI * gui)
       set_articulation (articulation, mudelaobj);
     }
 
-  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   gtk_widget_grab_focus (Denemo.window);
   g_free (tmp);
 }

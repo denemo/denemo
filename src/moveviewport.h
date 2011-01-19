@@ -47,10 +47,10 @@ gboolean
 moveto_currentmeasurenum(DenemoGUI *si, gint dest);
 
 void
-vertical_scroll (GtkAdjustment *adjust, DenemoGUI *si);
+vertical_scroll (GtkAdjustment *adjust, gpointer dummy);
 
 void
-horizontal_scroll (GtkAdjustment *adjust, DenemoGUI *si);
+horizontal_scroll (GtkAdjustment *adjust, gpointer dummy);
 
 void scroll_left(void);
 void scroll_right (void);
