@@ -248,7 +248,7 @@ gint lyinput(gchar *filename, DenemoGUI *gui) {
 gint
 open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, ImportType type)
 {
-  g_signal_handlers_block_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_handlers_block_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gint result;
   gboolean xml = FALSE;
   result = 1;//FAILURE
@@ -285,13 +285,13 @@ open_for_real (gchar * filename, DenemoGUI * gui, DenemoSaveType template, Impor
       set_bottom_staff (gui);
       update_hscrollbar (gui);
       update_vscrollbar (gui);
-      gtk_widget_queue_draw (gui->scorearea);
-      gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
-      gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
+      gtk_widget_queue_draw (Denemo.scorearea);
+      gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
+      gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
       gui->lilysync = G_MAXUINT;//FIXME move these two lines into a function, they force refresh of lily text
       refresh_lily_cb(NULL, gui);
     }
-  g_signal_handlers_unblock_by_func(G_OBJECT (gui->scorearea), G_CALLBACK (scorearea_expose_event), NULL);
+  g_signal_handlers_unblock_by_func(G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_expose_event), NULL);
   gui->si->undo_guard=1;
   load_local_scheme_init();//to re-instate any user defined directives for whole score
   gui->si->undo_guard=Denemo.prefs.disable_undo;//user pref to (dis)allow undo information to be collected
@@ -992,9 +992,9 @@ deletescore (GtkWidget * widget, DenemoGUI * gui)
   set_rightmeasurenum (gui->si);
   update_hscrollbar (gui);
   update_vscrollbar (gui);
-  gtk_widget_queue_draw (gui->scorearea);
-  gtk_signal_emit_by_name (GTK_OBJECT (gui->hadjustment), "changed");
-  gtk_signal_emit_by_name (GTK_OBJECT (gui->vadjustment), "changed");
+  gtk_widget_queue_draw (Denemo.scorearea);
+  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.hadjustment), "changed");
+  gtk_signal_emit_by_name (GTK_OBJECT (Denemo.vadjustment), "changed");
   gui->lilysync = G_MAXUINT;
   refresh_lily_cb(NULL, gui);
 }
@@ -1117,7 +1117,7 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
       DenemoGUI *gui = Denemo.gui;
       //FIXME repeated code
       free_movements(gui);  
-      gtk_widget_destroy (gui->page);
+      gtk_widget_destroy (Denemo.page);
       Denemo.guis = g_list_remove (Denemo.guis, gui);
       g_free (gui);
       warningdialog("Could not interpret selection as LilyPond notes");
@@ -1131,7 +1131,7 @@ static void selection_received (GtkClipboard *clipboard, const gchar *text, gpoi
       toend(NULL, NULL);
       copywrapper(NULL, NULL);
       free_movements(gui);  
-      gtk_widget_destroy (gui->page);
+      gtk_widget_destroy (Denemo.page);
       Denemo.guis = g_list_remove (Denemo.guis, gui);
       g_free (gui);
       pastewrapper(NULL, NULL);

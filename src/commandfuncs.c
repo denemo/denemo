@@ -205,14 +205,14 @@ set_width_to_work_with (DenemoGUI * gui)
 
 #if 0
       si->widthtoworkwith
-	= (double)(gui->scorearea->allocation.width*((int)(1/si->system_height ))/si->zoom
+	= (double)(Denemo.scorearea->allocation.width*((int)(1/si->system_height ))/si->zoom
 		   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME));
 #else
       //the total line length for drawing DenemoObjects onto the screen
       // this length will be divided amongst the systems (line).
       // This length is in "pixels", the Denemo unit of display, which corresponds to a screen pixel when zoom ==1.0
       si->widthtoworkwith
-	= (gint)((gui->scorearea->allocation.width/si->zoom
+	= (gint)((Denemo.scorearea->allocation.width/si->zoom
 	   - (RIGHT_MARGIN + KEY_MARGIN + si->maxkeywidth + SPACE_FOR_TIME))*((int)(1/si->system_height )));
 
 #endif
@@ -619,7 +619,7 @@ gostaffup (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set I think it just needs si->cursorclef = si->curmeasureclef (? after beamandstemdirhelper(si)??)
+      gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME gets cursorclef set I think it just needs si->cursorclef = si->curmeasureclef (? after beamandstemdirhelper(si)??)
       move_viewport_up (gui);
       return param->status = TRUE;
     } else
@@ -722,7 +722,7 @@ gostaffdown (DenemoScriptParam *param, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       show_lyrics();
       find_leftmost_allcontexts (si);
-      gtk_widget_draw (gui->scorearea, NULL);//KLUDGE FIXME gets cursorclef set
+      gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME gets cursorclef set
       move_viewport_down (gui);
       return param->status = TRUE;
     } else
@@ -1084,7 +1084,7 @@ insertion_point_for_type (DenemoScore * si, DenemoObjType type) {
 void
 insertion_point (DenemoScore * si)
 {
-  //gtk_widget_draw(Denemo.gui->scorearea, NULL);//FIXME efficiency????
+  //gtk_widget_draw(Denemo.Denemo.scorearea, NULL);//FIXME efficiency????
 
   scorearea_expose_event(NULL, NULL);
 
@@ -1361,8 +1361,8 @@ displayhelper (DenemoGUI * gui)
   if ((gui->mode&(INPUTRHYTHM)) && si->currentobject && (((DenemoObject*)(si->currentobject->data))->type==CHORD)&& ((DenemoObject*)(si->currentobject->data))->starttickofnextnote>= WHOLE_NUMTICKS * si->cursortime1/si->cursortime2)
     gdk_beep(); //Signal new measures in Edit mode to catch out of step entry
 #endif
-  /*gtk_widget_draw (gui->scorearea, NULL);*/
-  gtk_widget_queue_draw (gui->scorearea);
+  /*gtk_widget_draw (Denemo.scorearea, NULL);*/
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 
@@ -2012,9 +2012,9 @@ gotohome (gpointer param, gboolean extend_selection)
     calcmarkboundaries (gui->si);
   find_leftmost_allcontexts (gui->si);
   update_hscrollbar (gui);
-  /*gtk_widget_draw (gui->scorearea, NULL);*/
+  /*gtk_widget_draw (Denemo.scorearea, NULL);*/
   scorearea_expose_event(NULL, NULL);//refresh cached values, eg current timesig
-  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 

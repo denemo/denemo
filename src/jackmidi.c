@@ -291,7 +291,7 @@ static gboolean jackmidi_play_smf_event(gchar *callback)
        //       g_print("drawing because %f %f\n", event->time_seconds, last_draw_time);
        last_draw_time = event->time_seconds;
        
-       gtk_widget_queue_draw (Denemo.gui->scorearea);
+       gtk_widget_queue_draw (Denemo.scorearea);
      }
     gint chan = (event->midi_buffer[0] & 0x0f);
     //g_print("message %x %x\n", event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1, PROGRAM_CHANGE);
