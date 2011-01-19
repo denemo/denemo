@@ -215,7 +215,7 @@ static temperament *temperaments[] = {&Equal, &Meantone, &WerckmeisterIV, &Lehma
 
 static void switch_back_to_main_window(void) {
   gtk_window_present(GTK_WINDOW(Denemo.window));
-  gtk_widget_grab_focus (Denemo.gui->scorearea);
+  gtk_widget_grab_focus (Denemo.scorearea);
 }
 
 
@@ -906,9 +906,9 @@ int stop_pitch_input(void) {
     g_source_remove(PR_timer);
 
   if(PR_enter) 
-    g_signal_handler_disconnect (Denemo.gui->scorearea, PR_enter);
+    g_signal_handler_disconnect (Denemo.scorearea, PR_enter);
   if(PR_leave) 
-    g_signal_handler_disconnect (Denemo.gui->scorearea, PR_leave);
+    g_signal_handler_disconnect (Denemo.scorearea, PR_leave);
    PR_timer = PR_enter = PR_leave = 0;
 
    if(gui->input_source==INPUTAUDIO)
@@ -1439,7 +1439,7 @@ static void create_pitch_recognition_window(DenemoGUI *gui) {
   gtk_window_set_focus_on_map((GtkWindow *)PR_window, FALSE);
   gtk_widget_show_all(PR_window);
   gtk_window_set_focus((GtkWindow*)PR_window, NULL);
-  gtk_widget_grab_focus(gui->scorearea);
+  gtk_widget_grab_focus(Denemo.scorearea);
 
   // FIXME make the visibility of the Frequency Measurement frame depend of the tuning toggle
   // sort out the size of the drawing area
@@ -1480,12 +1480,12 @@ gint setup_pitch_input(void){
 static void 
 scorearea_set_active(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = TRUE; 
-  gtk_widget_draw(gui->scorearea, NULL);
+  gtk_widget_draw(Denemo.scorearea, NULL);
 }
 static void 
 scorearea_set_inactive(GtkWidget *widget, GdkEventCrossing *event, DenemoGUI *gui) {
   PR_enable = FALSE; 
-  gtk_widget_draw(gui->scorearea, NULL);
+  gtk_widget_draw(Denemo.scorearea, NULL);
 }
 void start_pitch_input(void) { 
   DenemoGUI *gui = Denemo.gui;
@@ -1497,10 +1497,10 @@ void start_pitch_input(void) {
   if(PR_timer==0)
     g_error("Timer id 0 - if valid the code needs re-writing (documentation not clear)");
   if(gui->input_source==INPUTAUDIO) {/* for input from microphone avoid accidental activation by insisting on pointer being in the score drawing area */
-    gtk_widget_add_events (gui->scorearea, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
-    PR_enter = g_signal_connect (G_OBJECT (gui->scorearea), "enter-notify-event",
+    gtk_widget_add_events (Denemo.scorearea, GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK);
+    PR_enter = g_signal_connect (G_OBJECT (Denemo.scorearea), "enter-notify-event",
 			       G_CALLBACK (scorearea_set_active), (gpointer)gui);
-    PR_leave = g_signal_connect (G_OBJECT (gui->scorearea), "leave-notify-event",
+    PR_leave = g_signal_connect (G_OBJECT (Denemo.scorearea), "leave-notify-event",
 			       G_CALLBACK (scorearea_set_inactive), (gpointer)gui);
   } else
     PR_enable = TRUE;/* for midi input you are unlikely to enter notes by accident */

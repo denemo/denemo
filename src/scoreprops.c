@@ -159,7 +159,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
 	{
 	  si->measurewidth = width;
 	  adjustmeasurewidth (si, 0);
-	  gtk_widget_queue_draw (gui->scorearea);
+	  gtk_widget_queue_draw (Denemo.scorearea);
 	}
 
       gint spacing =
@@ -167,7 +167,7 @@ score_properties_dialog (GtkAction *action, DenemoScriptParam *param)
       if (spacing != si->staffspace)
 	{
 	  si->staffspace = spacing;
-	  gtk_widget_queue_draw (gui->scorearea);
+	  gtk_widget_queue_draw (Denemo.scorearea);
 	}
       setpaperconfig (cbdata, gui);
 

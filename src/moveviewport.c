@@ -21,7 +21,7 @@
 void
 update_hscrollbar (DenemoGUI * gui)
 {
-  GtkAdjustment *adj = GTK_ADJUSTMENT (gui->hadjustment);
+  GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.hadjustment);
 
   adj->upper = g_list_length (gui->si->measurewidths) + 1.0;
   adj->page_size = adj->page_increment
@@ -31,7 +31,7 @@ update_hscrollbar (DenemoGUI * gui)
   gtk_adjustment_changed(adj);
   //gtk_adjustment_value_changed(adj);
 #else
-  gtk_range_slider_update (GTK_RANGE (gui->hscrollbar));
+  gtk_range_slider_update (GTK_RANGE (Denemo.hscrollbar));
 #endif
 }
 
@@ -49,7 +49,7 @@ update_hscrollbar (DenemoGUI * gui)
 void
 update_vscrollbar (DenemoGUI * gui)
 {
-  GtkAdjustment *adj = GTK_ADJUSTMENT (gui->vadjustment);
+  GtkAdjustment *adj = GTK_ADJUSTMENT (Denemo.vadjustment);
   adj->upper = g_list_length (gui->si->thescore) + 1.0;
   adj->page_size = adj->page_increment
     = gui->si->bottom_staff - gui->si->top_staff + 1.0;
@@ -58,7 +58,7 @@ update_vscrollbar (DenemoGUI * gui)
   gtk_adjustment_changed(adj);
   //gtk_adjustment_value_changed(adj);
 #else
-  gtk_range_slider_update (GTK_RANGE (gui->vscrollbar));
+  gtk_range_slider_update (GTK_RANGE (Denemo.vscrollbar));
 #endif
 }
 
@@ -119,7 +119,7 @@ set_bottom_staff (DenemoGUI * gui)
   /* With that settled, now determine how many additional (primary)
      staves will fit into the window.  */
   staff_number = gui->si->top_staff;
-  space_left = gui->scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
+  space_left = Denemo.scorearea->allocation.height*gui->si->system_height/gui->si->zoom;
   do
     {
       space_left -= gui->si->staffspace;
@@ -196,7 +196,7 @@ static void center_viewport(void) {
 }
 
 void page_viewport(void) {
-  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.gui->hadjustment);
+  GtkAdjustment *adj = GTK_ADJUSTMENT(Denemo.hadjustment);
   // g_print("%d %d\n", Denemo.gui->si->leftmeasurenum, Denemo.gui->si->rightmeasurenum);
   gint amount = (Denemo.gui->si->rightmeasurenum-Denemo.gui->si->leftmeasurenum + 1);
   if(adj->value + amount < adj->upper) {    
@@ -246,7 +246,7 @@ goto_currentmeasurenum (DenemoGUI * gui, gint dest, gboolean extend_selection)
       set_rightmeasurenum (gui->si);
       find_leftmost_allcontexts (gui->si);
       update_hscrollbar (gui);
-      gtk_widget_queue_draw (gui->scorearea);
+      gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
     }
   return FALSE;
@@ -296,7 +296,7 @@ goto_currentstaffnum (DenemoGUI * gui, gint dest, gboolean extend_selection)
 	calcmarkboundaries (gui->si);
       find_leftmost_allcontexts (gui->si);
       update_vscrollbar (gui);
-      gtk_widget_queue_draw (gui->scorearea);
+      gtk_widget_queue_draw (Denemo.scorearea);
       return TRUE;
     }
   return FALSE;
@@ -324,8 +324,9 @@ moveto_currentstaffnum (DenemoGUI * gui, gint dest)
  *
  */
 void
-vertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+vertical_scroll (GtkAdjustment * adjust, gpointer dummy)
 {
+  DenemoGUI *gui = Denemo.gui;
   gint dest;
   if ((dest = (gint) (adjust->value + 0.5)) != gui->si->top_staff)
     {
@@ -353,7 +354,7 @@ vertical_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
 	  if(gui->si->markstaffnum)
 	    calcmarkboundaries (gui->si);
 	}
-      gtk_widget_queue_draw (gui->scorearea);
+      gtk_widget_queue_draw (Denemo.scorearea);
     }
   update_vscrollbar (gui);
 }
@@ -384,14 +385,16 @@ h_scroll (gdouble value, DenemoGUI * gui)
       find_leftmost_allcontexts (gui->si);
       setcurrents (gui->si);
       //calcmarkboundaries (gui->si);
-      gtk_widget_queue_draw (gui->scorearea);
+      gtk_widget_queue_draw (Denemo.scorearea);
     }
   update_hscrollbar (gui);
 }
 
 void
-horizontal_scroll (GtkAdjustment * adjust, DenemoGUI * gui)
+horizontal_scroll (GtkAdjustment * adjust, gpointer dummy)
 {
+  DenemoGUI *gui = Denemo.gui;
+
   h_scroll (adjust->value, gui);
 }
 void scroll_left(void) {

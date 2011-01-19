@@ -80,7 +80,7 @@ static void create_staff_instruments(wizarddata *wdata, gchar *instrument_name,
   //DenemoStaff *curstaffstruct  = g_list_last(wdata->gui->si->currentstaff);
 
   //g_printf("clef # in create_staff_instrument = %i\n", inst->clef);
-  gtk_widget_queue_draw (wdata->gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   /* printf("\nlocation before switch currentstaffnum = %i\n",  */
 /* 	 wdata->gui->si->currentstaffnum); */
   switch((gint) inst->numstaffs)
@@ -940,7 +940,7 @@ void scorewizard(GtkAction *action, gpointer param)
 			   G_CALLBACK (gtk_widget_destroy), G_OBJECT(dialog));
 
  
-  gtk_widget_queue_draw (gui->scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
   gtk_widget_show_all(dialog);
      
   g_list_free(wdata->instruments);

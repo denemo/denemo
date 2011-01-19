@@ -355,7 +355,7 @@ static gboolean change_staff(DenemoScore *si, gint num, GList *staff) {
 static void
 transform_coords(double* x, double* y) {
   DenemoGUI *gui = Denemo.gui;
-  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
   gint line_num = ((int)*y)/line_height;
   *y -= line_num * line_height;
   *x /= gui->si->zoom;
@@ -380,9 +380,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   DenemoGUI *gui = Denemo.gui;
   if(gui==NULL || gui->si==NULL)
     return FALSE;
-  if(gui->scorearea==NULL)
+  if(Denemo.scorearea==NULL)
     return FALSE;
-  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
   if (event->y < 0)
     event->y = 0.0;
   gint line_num = ((int)event->y)/line_height;
@@ -391,13 +391,13 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
 
   if(dragging_separator) {
-    gui->si->system_height =  event->y/gui->scorearea->allocation.height;
+    gui->si->system_height =  event->y/Denemo.scorearea->allocation.height;
     if(gui->si->system_height<DENEMO_MINIMUM_SYSTEM_HEIGHT)
       gui->si->system_height = DENEMO_MINIMUM_SYSTEM_HEIGHT;
     if(gui->si->system_height>1.0)
       gui->si->system_height = 1.0;
-    scorearea_configure_event(gui->scorearea, NULL);
-    gtk_widget_queue_draw (gui->scorearea);
+    scorearea_configure_event(Denemo.scorearea, NULL);
+    gtk_widget_queue_draw (Denemo.scorearea);
     return TRUE;
   }
 
@@ -451,7 +451,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	   perform_command(event->state, GESTURE_MOVE, event->state&GDK_BUTTON1_MASK);
 
 	/* redraw to show new cursor position  */
-	gtk_widget_queue_draw (gui->scorearea);
+	gtk_widget_queue_draw (Denemo.scorearea);
       }
     }
   return TRUE;
@@ -469,7 +469,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(gui==NULL || gui->si==NULL)
     return FALSE;
   //if the cursor is at a system separator start dragging it
-  gint line_height = gui->scorearea->allocation.height*gui->si->system_height;
+  gint line_height = Denemo.scorearea->allocation.height*gui->si->system_height;
   gint line_num = ((int)event->y)/line_height;
   //g_print("diff %d\n", line_height - ((int)event->y)%line_height);
   if(dragging_separator == FALSE)
@@ -489,7 +489,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   gint cmajor = key?0:5;//allow some area for keysig in C-major
   if(left && (gui->si->leftmeasurenum>1) && (event->x<KEY_MARGIN+SPACE_FOR_TIME+key)  && (event->x>LEFT_MARGIN)){
     set_currentmeasurenum (gui, gui->si->leftmeasurenum-1);
-    gtk_widget_queue_draw (gui->scorearea);
+    gtk_widget_queue_draw (Denemo.scorearea);
     return TRUE;
   } 
 
@@ -557,7 +557,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
  
   }
   /* Redraw to show new cursor position, note a real draw is needed because of side effects on display*/
-  gtk_widget_draw (gui->scorearea, NULL);
+  gtk_widget_draw (Denemo.scorearea, NULL);
     
   set_cursor_for(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK));
   perform_command(event->state | (left?GDK_BUTTON1_MASK:GDK_BUTTON3_MASK), GESTURE_PRESS, left);
@@ -583,7 +583,7 @@ DenemoGUI *gui = Denemo.gui;
     return TRUE;
   }
 
- //g_signal_handlers_block_by_func(gui->scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
+ //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), gui); 
  if(left)
    lh_down = FALSE;
  selecting = FALSE;
@@ -603,7 +603,7 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
   case GDK_SCROLL_UP:
     if(event->state&GDK_CONTROL_MASK) {
       Denemo.gui->si->zoom *= 1.1;
-      scorearea_configure_event(Denemo.gui->scorearea, NULL);
+      scorearea_configure_event(Denemo.scorearea, NULL);
       // displayhelper(gui);
       //update_vscrollbar (gui); these do not seem to work ...
       //update_hscrollbar (gui);
@@ -622,7 +622,7 @@ scorearea_scroll_event (GtkWidget *widget, GdkEventScroll *event) {
       Denemo.gui->si->zoom /= 1.1;
       if(Denemo.gui->si->zoom <0.01)
 	Denemo.gui->si->zoom = 0.01;
-      scorearea_configure_event(Denemo.gui->scorearea, NULL);
+      scorearea_configure_event(Denemo.scorearea, NULL);
       //displayhelper(gui);
     } else
     if(event->state&GDK_SHIFT_MASK) {
