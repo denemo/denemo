@@ -4820,6 +4820,7 @@ openinnew (GtkAction *action, DenemoScriptParam *param)
   file_open_with_check (NULL, param);
   if(param && (param->status == FALSE))
      close_gui();
+  set_title_bar(Denemo.gui);
 }
 
 
@@ -7512,7 +7513,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     default:
       ;
     }
-
+  set_title_bar(Denemo.gui);
   highlight_rhythm(Denemo.gui->prevailing_rhythm);
   gtk_widget_queue_draw(Denemo.scorearea);
 }
@@ -8076,12 +8077,20 @@ newtab (GtkAction *action, gpointer param) {
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
-  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
+  gint pagenum = //gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
+  gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1);    
+  /*(GtkNotebook *notebook,
+                                                         GtkWidget *child,
+                                                         GtkWidget *tab_label,
+                                                         GtkWidget *menu_label,
+                                                         gint position);*/
+  gtk_notebook_popup_enable (GTK_NOTEBOOK (Denemo.notebook));
+
   Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//note Denemo.page is redundant, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   
   Denemo.gui = gui;
-
+  set_title_bar(gui);
  if(pagenum)
    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);
