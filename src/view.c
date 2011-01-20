@@ -4641,8 +4641,10 @@ close_gui ()
   free_movements(Denemo.gui);
 
   DenemoGUI *oldgui = Denemo.gui;
-  gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index(Denemo.guis, oldgui);
+  gtk_notebook_remove_page(Denemo.notebook, index);
+  g_print("Removed %d\n", index);
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
   if(Denemo.guis) {
@@ -7512,7 +7514,7 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     }
 
   highlight_rhythm(Denemo.gui->prevailing_rhythm);
-
+  gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 
@@ -8075,7 +8077,7 @@ newtab (GtkAction *action, gpointer param) {
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
-  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//note Denemo.page is redundant, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   
   Denemo.gui = gui;
