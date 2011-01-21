@@ -4902,7 +4902,6 @@ static void pb_stop (GtkWidget *button) {
 
 }
 static void pb_play (GtkWidget *button) {
-
   call_out_to_guile("(DenemoPlay)");
 }
 static void pb_pause (GtkWidget *button) {
@@ -5042,10 +5041,12 @@ static void pb_midi_convert (GtkWidget *button) {
 
 
 static void pb_set_tempo (GtkWidget *button) {
+  if( Denemo.gui->si->master_tempo < 1.0) {
   stop_midi_playback(NULL, NULL);
   Denemo.gui->si->tempo *= Denemo.gui->si->master_tempo;
   Denemo.gui->si->master_tempo = 1.0;
   score_status (Denemo.gui, TRUE); 
+  }
 }
 
 
