@@ -1341,6 +1341,10 @@ static SCM scheme_set_duration_in_ticks(SCM duration){
      ((chord *)curObj->object)->baseduration = -thedur;
      ((chord *)curObj->object)->numdots = 0;
    }
+   objnode *prev = Denemo.gui->si->currentobject->prev;
+   DenemoObject *prevObj = prev?(DenemoObject *)prev->data:NULL;
+   gint starttick = (prevObj?prevObj->starttickofnextnote:0);
+   curObj->starttickofnextnote = starttick + thedur;
    return SCM_BOOL_T;
  }
  return SCM_BOOL_F;
@@ -4641,8 +4645,10 @@ close_gui ()
   free_movements(Denemo.gui);
 
   DenemoGUI *oldgui = Denemo.gui;
-  gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+  //gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
   gint index = g_list_index(Denemo.guis, oldgui);
+  gtk_notebook_remove_page(Denemo.notebook, index);
+  g_print("Removed %d\n", index);
   Denemo.guis = g_list_remove (Denemo.guis, oldgui);//FIXME ?? or in the destroy callback??
   g_free (oldgui);
   if(Denemo.guis) {
@@ -4818,6 +4824,7 @@ openinnew (GtkAction *action, DenemoScriptParam *param)
   file_open_with_check (NULL, param);
   if(param && (param->status == FALSE))
      close_gui();
+  set_title_bar(Denemo.gui);
 }
 
 
@@ -4899,7 +4906,6 @@ static void pb_stop (GtkWidget *button) {
 
 }
 static void pb_play (GtkWidget *button) {
-
   call_out_to_guile("(DenemoPlay)");
 }
 static void pb_pause (GtkWidget *button) {
@@ -5039,10 +5045,12 @@ static void pb_midi_convert (GtkWidget *button) {
 
 
 static void pb_set_tempo (GtkWidget *button) {
+  if( Denemo.gui->si->master_tempo < 1.0) {
   stop_midi_playback(NULL, NULL);
   Denemo.gui->si->tempo *= Denemo.gui->si->master_tempo;
   Denemo.gui->si->master_tempo = 1.0;
   score_status (Denemo.gui, TRUE); 
+  }
 }
 
 
@@ -7510,9 +7518,9 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,  guint pagenum) {
     default:
       ;
     }
-
+  set_title_bar(Denemo.gui);
   highlight_rhythm(Denemo.gui->prevailing_rhythm);
-
+  gtk_widget_queue_draw(Denemo.scorearea);
 }
 
 
@@ -8074,12 +8082,20 @@ newtab (GtkAction *action, gpointer param) {
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE,
 		      0);
-  gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
-  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
+  gint pagenum = //gtk_notebook_append_page (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL);
+  gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1);    
+  /*(GtkNotebook *notebook,
+                                                         GtkWidget *child,
+                                                         GtkWidget *tab_label,
+                                                         GtkWidget *menu_label,
+                                                         gint position);*/
+  gtk_notebook_popup_enable (GTK_NOTEBOOK (Denemo.notebook));
+
+  Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);//note Denemo.page is redundant, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
   gtk_notebook_set_current_page (GTK_NOTEBOOK(Denemo.notebook), pagenum);
   
   Denemo.gui = gui;
-
+  set_title_bar(gui);
  if(pagenum)
    gtk_notebook_set_show_tabs (GTK_NOTEBOOK(Denemo.notebook), TRUE);
   set_title_bar(gui);

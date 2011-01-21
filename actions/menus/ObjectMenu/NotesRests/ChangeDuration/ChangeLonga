@@ -17,7 +17,7 @@
 			(d-DirectivePut-chord-graphic "Note" "noteheads_sM2neomensural")	
 		)	
 	)
-	(d-DirectivePut-chord-postfix "Note" "\\longa ")
+	(d-DirectivePut-chord-prefix "Note" "\\longa ")
 	(d-DirectivePut-chord-override "Note" DENEMO_OVERRIDE_GRAPHIC)
 	(d-DirectivePut-chord-prefix "NoteHead" "\\neohead ")
 	(d-DirectivePut-chord-override "NoteHead" DENEMO_OVERRIDE_AFFIX)	

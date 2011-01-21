@@ -871,7 +871,13 @@ void  set_title_bar(DenemoGUI *gui) {
   title = g_strdup_printf("Denemo - %s%c", title, gui->notsaved?'*':' ');
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title); 
   gchar *base = g_path_get_basename (title);
-  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK(Denemo.notebook), Denemo.page, base); 
+  gint index = g_list_index(Denemo.guis, gui);
+  GtkWidget *page = gtk_notebook_get_nth_page(GTK_NOTEBOOK(Denemo.notebook), index);
+  gtk_notebook_set_tab_label_text (GTK_NOTEBOOK(Denemo.notebook), page, base); 
+
+  gtk_notebook_set_menu_label_text(GTK_NOTEBOOK(Denemo.notebook),page, base);
+  
+                                                       
   g_free(title);
   g_free(base);
 }

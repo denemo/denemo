@@ -273,7 +273,7 @@ static gint is_end_grace(objnode *curobjnode) {
  * that's precisely where it is invoked 
  */
 static void
-settickvalsinmeasure (objnode * theobjs, gint ticksperbeat)
+settickvalsinmeasure (objnode * theobjs)
 {
   gint numerator = 1, denominator = 1;
   objnode *curobjnode;
@@ -481,7 +481,7 @@ calculatebeamsandstemdirs (objnode * theobjs, gint * pclef, gint * time1,
     }
 
   ticksperbeat = calcticksperbeat (*time1, *time2);
-  settickvalsinmeasure (theobjs, ticksperbeat);
+  settickvalsinmeasure (theobjs);
   beatendsat = ticksperbeat;
 
   for (curobjnode = theobjs; curobjnode; prevobj = theobj, curobjnode = curobjnode->next)

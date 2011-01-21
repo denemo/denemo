@@ -465,7 +465,7 @@ changedur (DenemoObject * thechord, gint baseduration, gint numdots)
       GList *g;
       for(g=((chord*)thechord->object)->directives;g;g=g->next) {
 	DenemoDirective *directive = g->data;
-	if(directive->prefix) {
+	if(directive->prefix && (0==(directive->override&DENEMO_OVERRIDE_AFFIX))) {
 	  free_directive(directive);
 	  ((chord*)thechord->object)->directives = g_list_remove(((chord*)thechord->object)->directives, directive);
 	  break;//there can only be one prefix replacing the duration, it would be tricky to remove more than one anyway as continuing the loop would be trick...
