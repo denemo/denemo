@@ -1341,6 +1341,10 @@ static SCM scheme_set_duration_in_ticks(SCM duration){
      ((chord *)curObj->object)->baseduration = -thedur;
      ((chord *)curObj->object)->numdots = 0;
    }
+   objnode *prev = Denemo.gui->si->currentobject->prev;
+   DenemoObject *prevObj = prev?(DenemoObject *)prev->data:NULL;
+   gint starttick = (prevObj?prevObj->starttickofnextnote:0);
+   curObj->starttickofnextnote = starttick + thedur;
    return SCM_BOOL_T;
  }
  return SCM_BOOL_F;
