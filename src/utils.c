@@ -193,12 +193,12 @@ void drawtext_cr (cairo_t *cr, const char *text, double x, double y, double size
 }
 void drawnormaltext_cr (cairo_t *cr, const char *text, double x, double y)
 {
-  drawtext_cr(cr, text, x, y, 9.0);
+  drawtext_cr(cr, text, x, y, 14.0);
 
 }
 void drawlargetext_cr (cairo_t *cr, const char *text, double x, double y)
 {
- drawtext_cr(cr, text, x, y, 18.0);
+ drawtext_cr(cr, text, x, y, 24.0);
 }
 void
 setcairocolor (cairo_t * cr, GdkGC * gc)
