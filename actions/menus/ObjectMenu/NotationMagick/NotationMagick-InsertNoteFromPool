@@ -7,7 +7,7 @@
       <row>
         <action>NotationMagick-InsertNoteFromPool</action>
         <scheme>;;; Part of NotationMagick 
-				(NotationMagick::InsertMemberRandomlyLy  (string-tokenize (NotationMagick::AskNewNotationstring)) )</scheme>
+				(NotationMagick::InsertMemberRandomlyLy (NotationMagick::AskNewNotationstring))</scheme>
         <label>Note from pool</label>
         <tooltip>Inserts one note from a user-specified pool of notes in Lilypond syntax</tooltip>
       </row>

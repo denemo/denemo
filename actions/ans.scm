@@ -800,7 +800,7 @@
 ; For singles and chords and rests. Returns a list of ANS-numbers as chord.
 (define (ANS::GetChordNotes)
 	(if (Note?)
-		(map ANS::Ly2Ans (string-tokenize (d-GetNotes)))
+		(map (lambda (value) (ANS::Ly2Ans (string->symbol value))) (string-tokenize (d-GetNotes)))
 		(if (Rest?) ; not a note
 			(list +inf.0)
 			#f)))
@@ -814,13 +814,13 @@
 	(if (list? ansNotes) ; check if it was a single note, in this case make a list.
 		#t
 		(set! ansNotes (list ansNotes)))
-	(set! newList (map ANS::Ans2Ly ansNotes))
+	(set! newList (map (lambda (value) (symbol->string (ANS::Ans2Ly value))) ansNotes))
 	(d-ChangeChordNotes (string-join newList))) ; d-ChangeChordNotes wants a long string of notes with space between.
 
 
 ;Insert A note/chord on Denemos cursor position 
 ; wants a single or a list of ANS numbers (chord).
-; Optional duration and number of dots. returns #t or #f
+; Optional duration and number of dots. Denemo Syntax. returns #t or #f. 
 (define* (ANS::InsertNotes ansNotes #:optional (dots #f) (duration #f) )
 	;TODO: Check if these are valid notes.
 	(d-InsertA) ; TODO: This is a hack. There is no way to directly insert notes with lilypond syntax
@@ -844,7 +844,7 @@
 
 ;Extract the octave as integer, where c,,, is in the 0 octave. 
 (define (ANS::GetOctave ansNote) 
-	(quotient ansNote))
+	(quotient ansNote 350))
 
 ; Return the natural, "white key" version of an ansNote.
 (define (ANS::GetWhiteKey ansNote) 
@@ -869,7 +869,7 @@
 (define (ANS::IntervalCalcPrototype op ansNote interval)
  (define targ (ANS::IntervalGetSteps interval))
  (define root (hashq-ref ANS::PillarOfFifthIndex (ANS::GetNote ansNote)))
- (list-ref ANS::PillarOfFifth (+ root (* op targ)))))  
+ (list-ref ANS::PillarOfFifth (+ root (* op targ))))  
 
 
 ;Since IntervalCalcPrototype just returns a note name without octave we must check if the new note with the old octave is really above the old, if not shift it.
@@ -884,7 +884,7 @@
 (define (ANS::IntervalCalcDown ansNote interval)
 	(define result (ANS::IntervalCalcPrototype -1 ansNote interval))
 	(define octave (* 350 (ANS::GetOctave ansNote)))	
-	(if (ANS::<= result (ANS::GetNote ansNote)) 
+	(if (<= result (ANS::GetNote ansNote)) 
 		 (+ octave result) 
 		 (+ octave -350 result))) ;-350 to go one octave down
 
