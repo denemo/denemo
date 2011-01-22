@@ -686,7 +686,7 @@ export_png (gchar * filename, gboolean show_preview, DenemoGUI * gui)
   gchar *texifile;
   gchar *countfile;
   gchar **arguments;
-  GList *filelist;
+  GList *filelist=NULL;
   
   /* get the intended rosolution of the png */
   gchar *resolution = g_strdup_printf("-dresolution=%d",(int) Denemo.prefs.resolution);
@@ -827,7 +827,7 @@ export_pdf (gchar * filename, DenemoGUI * gui)
   gchar *basename;
   gchar *lilyfile;  
   gchar *psfile;
-  GList *filelist;
+  GList *filelist=NULL;
  
   basename =  get_printfile_pathbasename();
   lilyfile = g_strconcat (basename, ".ly", NULL);
