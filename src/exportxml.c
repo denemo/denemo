@@ -719,7 +719,7 @@ exportXML (gchar * thefilename, DenemoGUI *gui, gint start, gint end)
   curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
   newXMLFraction (xmlNewChild (curElem, ns, (xmlChar *) "duration", NULL), ns,
 		  1, 4);
-  newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo);
+  newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo*si->master_tempo);
   
 
 
