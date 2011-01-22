@@ -4918,7 +4918,7 @@ static void pb_rewind (GtkWidget *button) {
 }
 static void pb_stop (GtkWidget *button) {
   call_out_to_guile("(DenemoStop)");
-
+  set_tempo();
 }
 static void pb_play (GtkWidget *button) {
   set_tempo();
